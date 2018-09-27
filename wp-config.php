@@ -146,6 +146,8 @@ switch( WP_ENV )
 
 define( 'DISABLE_WP_CRON', true );
 
+define( 'CF7_MAILCHIMP_API_KEY', '97915031f990d58d79191ac983402b40-us10' );
+
 define( 'EDD_KLICKTIPP_USERNAME', 'bokobat' );
 define( 'EDD_KLICKTIPP_PASSWORD', 'HerrArntz' );
 define( 'EDD_KLICKTIPP_LIST_ID', 94806 );
