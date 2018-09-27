@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: EDD Klick-Tipp Integration
- * Plugin URI: https://wordpress.org/plugins/edd-klicktipp-integration
- * Description: Add new Easy Digital Downloads customers to your Klick-Tipp user list automatically.
+ * Plugin Name: CF7 MailChimp Integration
+ * Plugin URI: https://wordpress.org/plugins/cf7-mailchimp-integration
+ * Description: Add Contact Form 7 submission creators to your MailChimp list automatically.
  * Author: Felix Arntz
  * Author URI: https://leaves-and-love.net
  * Version: 1.0.0
- * Text Domain: edd-klicktipp-integration
+ * Text Domain: cf7-mailchimp-integration
  */
 
 function cf7mci_init() {
@@ -14,7 +14,7 @@ function cf7mci_init() {
 		return;
 	}
 
-	add_action( 'wpcf7_mail_sent', 'cf7mci_process_form_submission', 10, 1 );
+	add_action( 'wpcf7_before_send_mail', 'cf7mci_process_form_submission', 1000, 3 );
 }
 add_action( 'plugins_loaded', 'cf7mci_init' );
 
@@ -24,7 +24,11 @@ function cf7mci_get_api_key() {
 	return apply_filters( 'cf7_mailchimp_api_key', $api_key );
 }
 
-function cf7mci_process_form_submission( $contact_form ) {
+function cf7mci_process_form_submission( $contact_form, $abort, $submission ) {
+	if ( $abort ) {
+		return;
+	}
+
 	$list_id = $contact_form->additional_setting( 'mailchimp_list_id', 1 );
 	if ( empty( $list_id ) ) {
 		return;
@@ -38,11 +42,6 @@ function cf7mci_process_form_submission( $contact_form ) {
 	}
 
 	$email_field = array_pop( $email_field );
-
-	$submission = WPCF7_Submission::get_instance( $contact_form );
-	if ( ! $submission ) {
-		return;
-	}
 
 	$email = $submission->get_posted_data( $email_field );
 	if ( empty( $email ) ) {
@@ -61,11 +60,11 @@ function cf7mci_process_form_submission( $contact_form ) {
 }
 
 function cf7mci_subscribe_to_list( $list_id, $email, $name = '' ) {
-	return cf7mci_subscribe_api_call( $list_id, 'subscribed', $email, $name );
+	return cf7mci_set_member_list_status( $list_id, 'subscribed', $email, $name );
 }
 
 function cf7mci_unsubscribe_from_list( $list_id, $email, $name = '' ) {
-	return cf7mci_subscribe_api_call( $list_id, 'unsubscribed', $email, $name );
+	return cf7mci_set_member_list_status( $list_id, 'unsubscribed', $email, $name );
 }
 
 function cf7mci_set_member_list_status( $list_id, $status, $email, $name = '' ) {
@@ -97,7 +96,7 @@ function cf7mci_set_member_list_status( $list_id, $status, $email, $name = '' ) 
 
 	$request_uri = 'https://' . $data_center . '.api.mailchimp.com/3.0/lists/' . $list_id . '/members/';
 	$args        = array(
-		'headers' => array( 'Authorization' => 'Basic ' . base64_encode( 'x' . ':' . $api_key ) ),
+		'headers' => array( 'Authorization' => 'apikey ' . $api_key ),
 		'body'    => json_encode( $user_data ),
 	);
 
