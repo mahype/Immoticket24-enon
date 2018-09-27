@@ -28,3 +28,10 @@ You can then access the API-API console via `https://energieausweis-online-erste
     * `optimizePressPlusPack`
     * `wordpress-seo-premium`
 * Easy Digital Downloads requires one minor change in order to work correctly with WP Energieausweis Online. This change is automatically applied on `composer update` through a patch file, but when updating the plugin on the website, it needs to be put there manually.
+* The following snippet must be part of `.htaccess`:
+```
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^edd-listener/([^/]+)/?$ /index.php?edd-listener=$1 [QSA,L]
+</IfModule>
+```
