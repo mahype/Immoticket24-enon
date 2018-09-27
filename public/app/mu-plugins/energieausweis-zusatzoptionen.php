@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Energieausweis-Zusatzoptionen
-Plugin URI: http://leaves-webdesign.com
+Plugin URI: https://energieausweis-online-erstellen.de
 Description: Zusatzoptionen beim Bestellen von Energieausweisen
 Version: 1.0.0
 Author: Felix Arntz
-Author URI: http://leaves-webdesign.com
+Author URI: https://felix-arntz.me
 */
 
 function energieausweis_zusatzoptionen_headline( $headline ) {
