@@ -1,0 +1,18 @@
+diff --git a/includes/payments/class-edd-payment.php b/includes/payments/class-edd-payment.php
+index fef522e..4e0c37c 100644
+--- a/includes/payments/class-edd-payment.php
++++ b/includes/payments/class-edd-payment.php
+@@ -1659,7 +1659,12 @@ class EDD_Payment {
+ 	 * @return void
+ 	 */
+ 	private function recalculate_total() {
+-		$this->total = $this->subtotal + $this->tax + $this->fees_total;
++		$total = 0.0;
++		foreach ( $this->cart_details as $item ) {
++			$total += $item['price'];
++		}
++		$total += $this->fees_total;
++		$this->total = $total;
+ 	}
+
+ 	/**

@@ -1,0 +1,4383 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:n1="https://energieausweis.dibt.de/schema/Kontrollsystem_Versionsstand_2014-06-02.xsd" targetNamespace="https://energieausweis.dibt.de/schema/Kontrollsystem_Versionsstand_2014-06-02.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation xml:lang="DE">Die Verwendung des speziellen Namespace ermöglicht die eindeutige Versionszuordnung. </xs:documentation>
+	</xs:annotation>
+	<xs:element name="EnEV-Energieausweis" type="n1:EnEV-Daten"/>
+	<xs:complexType name="EnEV-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block besteht aus drei Komponenten: Dem Block mit den gebäudebezogenen Daten (nur relevant zwischen Energieausweis-Berechnungssoftware und Druckapplikation), dem Block mit den anonymen Energieausweis-Daten sowie dem Block mit der Prüfsumme, die nach Erhalt und Eintragung der Registriernummer über den Block der anonymen Daten (ohne die gebäudebezogenen Daten!) gebildet wird.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Gebaeudebezogene-Daten" type="n1:Gebaeudebez-Daten" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Energieausweis-Daten" type="n1:anonyme-EnEV-Daten" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Pruefsumme" type="n1:Signature" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Gebaeudebez-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Block, der alle Daten für die Ausstellung des Energieausweises entsprechend EnEV enthält, die dem Datenschutz unterliegen oder freiwillig sind, und daher für das Kontrollsystem nicht relevant sind.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Gebaeudeadresse-Strasse-Nr" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Straße und Hausnummer der Gebäudeadresse zur Angabe im Energieausweis.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{1,60}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Gebaeudeadresse-Postleitzahl" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">vollständige Postleitzahl der Gebäudeadresse zur Angabe im Energieausweis.		</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="()|(\d{5})"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Gebaeudeadresse-Ort" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Ortsangabe der Gebäudeadresse zur Angabe im Energieausweis.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{1,60}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Ausstellervorname" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Vorname des Energieausweis-Ausstellers wie bei der Ausstelleranmeldung hinterlegt
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Ausstellername" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Familienname des Energieausweis-Ausstellers wie bei der Ausstelleranmeldung hinterlegt
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Aussteller-Bezeichnung" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Firmierung und/oder Berufsbezeichnung des Energieausweis-Ausstellers
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,60}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Aussteller-Strasse-Nr" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Straße und Hausnummer des Energieausweis-Ausstellers		</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Aussteller-PLZ" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Postleitzahl des Energieausweis-Ausstellers (ggfs. bei Ausstellern aus dem Ausland mit Landeszennzeichnung usw.)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,12}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Aussteller-Ort" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Ort des Energieausweis-Ausstellers
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Zusatzinfos-beigefuegt" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Kreuzchen, ob dem Energieausweis (freiwillige) zusätzliche Informationen zur energetischen Qualität beigefügt sind.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CO2-Emissionen" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Ergänzende Angabe der CO2-Emissionen in kg/m²a (freiwillig, nur für Bedarfsausweise)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\-?\d{0,4}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Angaben-erhaeltlich" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Hinweis, wo genauere Angaben zu den Empfehlungen ggfs. erhältlich sind. Pflichtangabe, Default-Wert ist (wenn Modernisierungsempfehlungen möglich sind) die EnEV-Infoseite des BBSR bzw. (wenn keine Modernisierungsempfehlungen möglich sind, z.B. nach Modernisierung oder bei Neubau) "Angabe hier nicht relevant", weitere / alternative Hinweise sind dem Energieausweis-Aussteller überlassen.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{5,200}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Ergaenzdende-Erlaeuterungen" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Freitext-Platz für zusätzliche Erläuterungen zum gesamten Energieausweis</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1500"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="NWG-Diagramm-Daten" type="n1:NWG-Aushang-Daten" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="anonyme-EnEV-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Block, der alle Daten für die Ausstellung des Energieausweises entsprechend EnEV enthält, außer den dem Datenschutz unterliegenden und den freiwilligen Angaben. Nach Erhalt und Eintragung der Registriernummer muss über diesen Block die Prüfsumme gebildet und im entsprechend anschließenden Block eingetragen werden. Dieser Block und der Prüfsummenblock müssen für die Kontrolle bereitgehalten werden.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Registriernummer" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Offizielle Registriernummer des Energieausweises; solange sie noch nicht beantragt ist, bleibt der Inhalt leer, wenn sie beantragt ist aber noch nicht übermittelt wurde, wird zwar das Datum des Antrags ggfs. im vorläufigen Energieausweis eingedruckt, das Feld bleibt hier aber trotzdem leer.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[A-Z]{2}\-20\d{2}\-\d{9}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Ausstellungsdatum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Ausstellungsdatum des Energieausweises
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2}\.\d{2}\.20\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Bundesland" type="n1:Bundesland-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Bundesland, in dem das Gebäude des Energieausweises steht
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Postleitzahl" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Postleitzahl des Gebäudestandortes, aus Datenschutzgründen eingekürzt
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{3}XX"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Projektbezeichnung-Aussteller" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Interne Bezeichnung oder Nummer beim Aussteller, anhand derer er die Daten/Unterlagen zu diesem Energieausweis wiederfinden kann, die Bezeichnung darf keine Rückschlüsse auf Eigentümer oder genaue Gebäudeadresse zulassen.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Gebaeudeteil" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Ergänzende Angabe bei Wohnteilen oder Nichtwohnteilen von gemischt genutzten Gebäuden, um welchen Teil es sich handelt, z.B. "Wohnteil gemischt genutztes Gebäude, Loftwohnungen 4. und 5. OG" oder ähnliches, bei Einzelgebäude Angabe "Ganzes Gebäude"</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{5,60}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Baujahr-Gebaeude" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Baujahr des Gebäudes und ggfs. Hinweise auf nachträgliche Umbauten, Erweiterungen, Modernisierungen usw.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{1,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Altersklasse-Gebaeude" type="n1:Altersklasse-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Altersklasse der ursprünglichen Errichtung des Gebäudes
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Baujahr-Waermeerzeuger" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Baujahr des/der Wärmeerzeuger(s) und ggfs. Hinweise auf nachträgliche bauliche Veränderung des/der Wärmeerzeuger(s)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{1,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Altersklasse-Waermeerzeuger" type="n1:Altersklasse-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Altersklasse der ältesten der energetisch wesentlichsten Komponenten der Wärmeerzeugung
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="wesentliche-Energietraeger" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Wesentliche Energieträger für Heizung und Warmwasserbereitung</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{2,100}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Erneuerbare-Art" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Art(en) der erneuerbaren Energie(n), die eingesetzt wird/werden; wenn nicht gegeben bitte "keine" eintragen.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Erneuerbare-Verwendung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Verwendung der erneuerbaren Energie(n), die eingesetzt wird/werden; wenn nicht gegeben bitte "keine" eintragen.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Lueftungsart-Fensterlueftung" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Art der Lüftung des Gebäudes: Fensterlüftung
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Lueftungsart-Schachtlueftung" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Art der Lüftung des Gebäudes: Schachtlüftung
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Lueftungsart-Anlage-o-WRG" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Art der Lüftung des Gebäudes: Lüftungsanlage ohne Wärmerückgewinnung
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Lueftungsart-Anlage-m-WRG" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Art der Lüftung des Gebäudes: Lüftungsanlage mit Wärmerückgewinnung
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Anlage-zur-Kuehlung" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Ist das Gebäude maschinell gekühlt oder nicht
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Ausstellungsanlass" type="n1:Anlass-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anlass der Ausstellung des Energieausweises. Treffen mehrere zu, so ist das Kreuz in der Rangfolge Neubau vor Modernisierung vor Vermietung/Verkauf  vor Aushangpflicht zu sezten.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Datenerhebung-Aussteller" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Die Datenerhebung erfolgte teilweise oder ganz durch den Aussteller</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Datenerhebung-Eigentuemer" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Die Datenerhebung erfolgte teilweise oder ganz durch den Eigentümer
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="Wohngebaeude" type="n1:Wohngebaeude-Daten"/>
+				<xs:element name="Nichtwohngebaeude" type="n1:Nichtwohngebaeude-Daten"/>
+			</xs:choice>
+			<xs:element name="Empfehlungen-moeglich" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Wenn Empfehlungen möglich sind, ist das Kreuz im Energieausweis entsprechend zu setzen, und es muss im Tag "Modernisierungsvorschlag" mindestens ein Modernisierungsvorschlag gegeben werden. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Modernisierungsvorschlag" type="n1:Modernisierungszeile" minOccurs="0" maxOccurs="30">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Die Modernisierungsvorschläge - wenn entsprechend dem Tag "Empfehlungen-moeglich" welche gegeben werden, sind hier nach Bauteilen aufgelistet anzugeben. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Extrablatt-Modernisierung" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Kreuzchen, falls weiter Modernisierungsempfehlungen auf gesondertem Blatt beigefügt sind
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Softwarehersteller-Programm-Version" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angabe, mit welcher Software die Berechnungen erfolgten (Herstellername, Programmbezeichnung, Programm-Version)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="EnEV-Version" type="xs:gYear" use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="DE">Bezeichnet die EnEV-Version, nach der der Nachweis geführt wurde; es sollten nur die Jahreszahlen des Inkrafttretens der jeweiligen EnEV-Version verwendet werden.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="Bundesland-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Baden-Württemberg"/>
+			<xs:enumeration value="Bayern"/>
+			<xs:enumeration value="Berlin"/>
+			<xs:enumeration value="Brandenburg"/>
+			<xs:enumeration value="Bremen"/>
+			<xs:enumeration value="Hamburg"/>
+			<xs:enumeration value="Hessen"/>
+			<xs:enumeration value="Mecklenburg-Vorpommern"/>
+			<xs:enumeration value="Niedersachsen"/>
+			<xs:enumeration value="Nordrhein-Westfalen"/>
+			<xs:enumeration value="Rheinland-Pfalz"/>
+			<xs:enumeration value="Saarland"/>
+			<xs:enumeration value="Sachsen"/>
+			<xs:enumeration value="Sachsen-Anhalt"/>
+			<xs:enumeration value="Schleswig-Holstein"/>
+			<xs:enumeration value="Thüringen"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Altersklasse-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="bis 1918"/>
+			<xs:enumeration value="1919...1948"/>
+			<xs:enumeration value="1949...1957"/>
+			<xs:enumeration value="1958...1968"/>
+			<xs:enumeration value="1969...1978"/>
+			<xs:enumeration value="1979...1982"/>
+			<xs:enumeration value="1983...1994"/>
+			<xs:enumeration value="1995...2002"/>
+			<xs:enumeration value="2003...2007"/>
+			<xs:enumeration value="2008...2015"/>
+			<xs:enumeration value="ab 2016"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Anlass-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Neubau"/>
+			<xs:enumeration value="Modernisierung-Erweiterung"/>
+			<xs:enumeration value="Vermietung-Verkauf"/>
+			<xs:enumeration value="Aushangpflicht"/>
+			<xs:enumeration value="sonstiges"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Wohngebaeude-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält im Falle eines Wohngebäudes alle weiteren energetisch relevanten Daten
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Gebaeudetyp" type="n1:Gebaeudetyp-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Grundsätzlicher Gebäudetypus des Gebäudes bzw. Gebäudeteils; die Angaben EFH mit ELW und Zweifamilienhaus sind gleichwertig und können je nach ortsüblichem Gebrauch oder Bauhistorie usw. verwendet werden.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Anzahl-Wohneinheiten" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anzahl der Wohneinheiten im Gebäude/Gebäudeteil
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Gebaeudenutzflaeche" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Energetische Nutzfläche AN des Gebäudes/Gebäudeteils (ganze Quadratmeter)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,5}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Dieser Block enthält entweder Verbrauchs- oder Bedarfsdaten; beim Bedarfsausweis können zusätzliche Verbrauchsangaben mit angeführt werden.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:element name="Verbrauchsdaten" type="n1:Wohngebaeude-Verbrauchs-Daten"/>
+				<xs:element name="Bedarfsdaten-easy" type="n1:Wohngebaeude-Bedarfs-Daten-easy"/>
+				<xs:element name="Bedarfsdaten-4108-4701" type="n1:Wohngebaeude-Bedarfs-Daten-4108-4701"/>
+				<xs:element name="Bedarfsdaten-18599" type="n1:Wohngebaeude-Bedarfs-Daten-18599"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Gebaeudetyp-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="freistehendes Einfamilienhaus"/>
+			<xs:enumeration value="einseitig angebautes Einfamilienhaus"/>
+			<xs:enumeration value="zweiseitig angebautes Einfamilienhaus"/>
+			<xs:enumeration value="freistehendes Zweifamilienhaus"/>
+			<xs:enumeration value="einseitig angebautes Zweifamilienhaus"/>
+			<xs:enumeration value="zweiseitig angebautes Zweifamilienhaus"/>
+			<xs:enumeration value="Mehrfamilienhaus"/>
+			<xs:enumeration value="Wohnteil gemischt genutztes Gebäude"/>
+			<xs:enumeration value="sonstiges Wohngebäude"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Wohngebaeude-Verbrauchs-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält im Falle eines Wohngebäude-Verbrauchsausweises die Verbrauchsdaten
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Flaechenermittlung-AN-aus-Wohnflaeche" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Ermittlung der energ. Nutzfläche aus der Wohnfläche mit amtlichem Umrechnungsfaktor nach § 19 EnEV
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Wohnflaeche" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Wohnfläche des Gebäudes/Gebäudeteils (ganze Quadratmeter), nur erforderlich bei Ermittlung der energ. Nutzfläche aus der Wohnfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,5}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Keller-beheizt" type="xs:boolean" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Wenn die energ. Nutzfläche aus der Wohnfläche mit amtlichem Umrechnungsfaktor ermittelt wurde, Angabe, ob Ein-/Zweifamilienhaus mit beheiztem Keller (und daher erhöhter Umrechnungsfaktor) oder nicht
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Energietraeger" type="n1:Energietraeger-Daten" minOccurs="1" maxOccurs="8">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Jeweiliger Energieträger mit zugehörigen Verbrauchsdaten
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="kein-Leerstand">
+					<xs:annotation>
+						<xs:documentation xml:lang="DE">Im dem Energieausweis zu Grunde liegenden Zeitraum ist keine Nutzungseinheit so lange leer gestanden, dass eine Leerstandskorrektur erforderlich ist.
+					</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:pattern value="Kein längerer Leerstand zu berücksichtigen."/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Leerstandskorrektur-nach-Bekanntmachung" type="n1:Leerstandskorrektur-Bekanntmachung-Daten">
+					<xs:annotation>
+						<xs:documentation xml:lang="DE">Im dem Energieausweis zu Grunde liegenden Zeitraum ist Leerstand aufgetreten, es wurde eine Leerstandskorrektur entsprechend der Bekanntmachung der Regeln für Energieverbrauchskennwerte vorgenommen.
+					</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Leerstandskorrektur-anders" type="n1:Leerstandskorrektur-anders-Daten">
+					<xs:annotation>
+						<xs:documentation xml:lang="DE">Im dem Energieausweis zu Grunde liegenden Zeitraum ist Leerstand aufgetreten, es wurde eine Leerstandskorrektur entsprechend eines anderen den Regeln der Technik entsprechenden Verfahrens vorgenommen.
+					</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="dezentrales-Warmwasser" type="n1:TWW-dezentral-Daten" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Im Falle dezentraler Warmwasserbereitung erforderliche Angaben für den Zuschlag zur Einfügung in die Verrbauchsliste des Energieausweises; in der Tabelle ist statt des Energieträgers das Wort "Warmwasserzuschlag" einzusetzen, die Felder Anteil Heizung und Klimafaktor bleiben in dieser Zeile leer.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Wohngebaeude-gekuehlt" type="n1:Wohngebaeude-gekuehlt-Daten" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Im Falle eines maschinell gekühlten Wohngebäudes erforderliche Angaben für den Zuschlag zur Einfügung in die Verrbauchsliste des Energieausweises; in der Tabelle ist statt des Energieträgers das Wort "Kühlungszuschlag" einzusetzen, die Felder Anteil Warmwasser, Anteil Heizung und Klimafaktor bleiben in dieser Zeile leer.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Endenergiekennwert-Verbrauch-AN" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiekennwert in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiekennwert-Verbrauch-AN" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergiekennwert in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Energieeffizienzklasse" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Energieeffizienzklasse des Gebäudes
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="(A\+)|[A-H]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Energietraeger-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Block, der einen Energieträger mit seinen einzelnen Verbrauchsperioden enthält
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="Energietraegerbezeichnung" type="n1:Energietraegerbezeichnung-Verbrauch-enum" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation xml:lang="DE">Bezeichnung und Verbrauchsmengen-Einheit des Energieträgers, zu dem die anschliessenden Verbrauchswerte gehören 
+					</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Sonstiger-Energietraeger-Verbrauch" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation xml:lang="DE">Bezeichnung und Verbrauchsmengen-Einheit des Energieträgers, zu dem die anschliessenden Verbrauchswerte gehören, wenn ein nicht aufgelisteter Energieträger vorliegt
+					</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:pattern value=".{1,40}"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="Umrechnungsfaktor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Umrechnungsfaktor der Mengeneinheit des Energieträgers in die kWh Heizwert, wenn schon in kWh Heizwert angegeben "1,0"
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="2"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiefaktor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Verwendeter Primärenergiefaktor des Energieträgers	</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d{1,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Verbrauchsperiode" type="n1:Verbrauchsperioden-Daten" minOccurs="1" maxOccurs="40"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Energietraegerbezeichnung-Verbrauch-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Heizöl in Liter"/>
+			<xs:enumeration value="Heizöl in kWh Heizwert"/>
+			<xs:enumeration value="Heizöl in kWh Brennwert"/>
+			<xs:enumeration value="Heizöl-Bioöl-Mischung in Liter"/>
+			<xs:enumeration value="Heizöl-Bioöl-Mischung in kWh Heizwert"/>
+			<xs:enumeration value="Heizöl-Bioöl-Mischung in kWh Brennwert"/>
+			<xs:enumeration value="Bioöl in Liter"/>
+			<xs:enumeration value="Bioöl in kWh Heizwert"/>
+			<xs:enumeration value="Bioöl in kWh Brennwert"/>
+			<xs:enumeration value="Erdgas in m³"/>
+			<xs:enumeration value="Erdgas in kWh Heizwert"/>
+			<xs:enumeration value="Erdgas in kWh Brennwert"/>
+			<xs:enumeration value="Erdgas-Biogas-Mischung in m³"/>
+			<xs:enumeration value="Erdgas-Biogas-Mischung in kWh Heizwert"/>
+			<xs:enumeration value="Erdgas-Biogas-Mischung in kWh Brennwert"/>
+			<xs:enumeration value="Biogas in m³"/>
+			<xs:enumeration value="Biogas in kWh Heizwert"/>
+			<xs:enumeration value="Biogas in kWh Brennwert"/>
+			<xs:enumeration value="Flüssiggas in m³ gasförmig"/>
+			<xs:enumeration value="Flüssiggas in Liter flüssig"/>
+			<xs:enumeration value="Flüssiggas in kg"/>
+			<xs:enumeration value="Flüssiggas in kWh Heizwert"/>
+			<xs:enumeration value="Flüssiggas in kWh Brennwert"/>
+			<xs:enumeration value="Steinkohle in kg"/>
+			<xs:enumeration value="Steinkohle in kWh Heizwert"/>
+			<xs:enumeration value="Koks in kg"/>
+			<xs:enumeration value="Koks in kWh Heizwert"/>
+			<xs:enumeration value="Braunkohle in kg"/>
+			<xs:enumeration value="Braunkohle in kWh Heizwert"/>
+			<xs:enumeration value="Stückholz in Raummeter"/>
+			<xs:enumeration value="Stückholz in kg"/>
+			<xs:enumeration value="Stückholz in kWh Heizwert"/>
+			<xs:enumeration value="Stückholz in kWh Brennwert"/>
+			<xs:enumeration value="Holzhackschnitzel in Schüttraummeter"/>
+			<xs:enumeration value="Holzhackschnitzel in kg"/>
+			<xs:enumeration value="Holzhackschnitzel in kWh Heizwert"/>
+			<xs:enumeration value="Holzhackschnitzel in kWh Brennwert"/>
+			<xs:enumeration value="Holzpellets in Schüttraummeter"/>
+			<xs:enumeration value="Holzpellets in kg"/>
+			<xs:enumeration value="Holzpellets in kWh Heizwert"/>
+			<xs:enumeration value="Holzpellets in kWh Brennwert"/>
+			<xs:enumeration value="Wärme aus lokalem BHKW in kWh"/>
+			<xs:enumeration value="Nah-/Fernwärme in kWh"/>
+			<xs:enumeration value="Strom in kWh"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Verbrauchsperioden-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Block, der eine einzelne Verbrauchsperiode enthält	</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Startdatum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anfangsdatum der Periode, angegeben als DD.MM.YYYY
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2}\.\d{2}\.20\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Enddatum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Enddatum der Periode, angegeben als DD.MM.YYYY
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2}\.\d{2}\.20\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Verbrauchswert" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Verbrauchswert in der zum ausgewählten Energieträger gehörigen Einheit, brutto einschliesslich eventuell enthaltenem Warmwasser
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Verbrauchswert-kWh-Heizwert" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Verbrauchswert in kWh Heizwert als Einheit, brutto einschliesslich eventuell enthaltenem Warmwasser		</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Warmwasserwert" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">im Verbrauchswert enthaltener Wert für Warmwasserbereitung (ggfs. 0 wenn keine Warmwasserbereitung über diesen Energieträger) in kWh
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Warmwasserwertermittlung" type="n1:Warmwasserwertermittlung-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Art, wie der Warmwasserwert ggfs. aus Messungen oder Berechnungen ermittelt wurde. Bei dezentraler Warmwasserbereitung in Wohngebäuden ist die Auswahl "Pauschale für dezentrale..." auszuwählen und das entsprechende Korrekturverfahren anzuwenden (siehe Element TWW-dezentral-Daten). Die Auswahl "keine Warmwasserbereitung enthalten" ist bei Wohngebäuden zu wählen, wenn ein anderer ebenfalls gelisteter Energieträger die zentrale Warmwasserbereitung versorgt. Bei Nichtwohngebäuden ist sie zu wählen, wenn die Warmwasserbereitung im Stromverbrauch erfasst ist oder generell kein Warmwasser mit gebäudetechnischen Anlagen im Gebäude erzeugt wird.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Witterungskorrekturfaktor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Witterungskorrekturfaktor für den Verbrauchswert dieser Periode entsprechend Gebäudestandort
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Verbrauchswert-kWh-Strom" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Verbrauchswert Strom in kWh, Angabe nur bei Nichtwohngebäuden, dort aber verpflichtend; brutto einschliesslich eventuell enthaltenem Warmwasser bei elektrischer Warmwasserbereitung
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TWW-dezentral-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Angaben für den Verbrauchs-Zuschlag für dezentrale Trinkwarmwasserbereitung in Wohngebäuden</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Startdatum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anfangsdatum des Zeitraums, in dem dezentrale Trinkwarmwasserbereitung bestand, angegeben als DD.MM.YYYY
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2}\.\d{2}\.20\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Enddatum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Enddatum des Zeitraums, in dem dezentrale Trinkwarmwasserbereitung bestand, angegeben als DD.MM.YYYY
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2}\.\d{2}\.20\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiefaktor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergiefaktor des wesentlichen Energieträgers	für die Beheizung, damit das dezentrale Warmwasser als virtueller Mehrverbrauch einer fiktiven zentralen Warmwasserbereitung verrechnet werden kann</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d{1,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Warmwasserzuschlag-kWh" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Zuschlagswert Warmwasser in kWh für den betroffenen Zeitraum, in der Tabelle einzusetzen in die Spalten "Energieverbrauch" und "Anteil Warmwasser"
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Wohngebaeude-gekuehlt-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Angaben für den Verbrauchs-Zuschlag für gekühlte Wohngebäude</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Startdatum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anfangsdatum des Zeitraums, in dem die Einrichtung zur Kühlung des Gebäudes bestand, angegeben als DD.MM.YYYY
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2}\.\d{2}\.20\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Enddatum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Enddatum des Zeitraums, in dem die Einrichtung zur Kühlung des Gebäudes bestand, angegeben als DD.MM.YYYY
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2}\.\d{2}\.20\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Gebaeudenutzflaeche-gekuehlt" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Energetische Nutzfläche AN des Gebäudes/Gebäudeteils, der maschinell gekühlt wird (ganze Quadratmeter); die Angabe erscheind nicht im Energieausweis, ist aber für die Zuschlagsberechnung relevant
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,5}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiefaktor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergiefaktor Strom für die Wohnungskühlung</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d{1,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Kuehlenergie-Zuschlag-kWh" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Zuschlagswert für Kühlenergie in kWh für den betroffenen Zeitraum, in der Tabelle einzusetzen in die Spalte "Energieverbrauch" 	</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Leerstandskorrektur-Bekanntmachung-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Daten für die Leerstandskorrektur entsprechend der Bekanntmachung der Regeln für Energieverbrauchskennwerte
+					</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Leerstandsfaktor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Leerstandsfaktor bezogen auf die anteilige Nutzfläche und den Zeitanteil innerhalb des gesamten aufgeführten Verbrauchszeitraums
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="0,\d{1,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Leerstandskorrektur" type="n1:Leerstandskorrektur-Daten" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Erforderliche Angaben zur Leerstandskorrektur für die Verbrauchsdatentabelle, in der Spalte Energieträger ist die Bezeichnung "Leerstandszuschlag" einzutragen.	</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Leerstandskorrektur-anders-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Daten für die Leerstandskorrektur entsprechend des verwendeten Verfahrens
+					</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Verfahrensbeschreibung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Bezeichnung / kurze Beschreibung des verwendeten Verfahrens; es wird empfohlen, auch in dem allgemeinen Erläuterungsfeld auf Seite 4 des Energieausweises einen entsprechenden Hinweis einzusetzen.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{10,200}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Leerstandskorrektur" type="n1:Leerstandskorrektur-Daten" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Erforderliche Angaben zur Leerstandskorrektur für die Verbrauchsdatentabelle, in der Spalte Energieträger ist die Bezeichnung "Leerstandszuschlag" einzutragen.	</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Leerstandskorrektur-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Für die Verbrauchstabelle erforderliche Angaben zur Leerstandskorrektur, egal nach welchem Verfahren.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Startdatum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anfangsdatum des Gesamt-Zeitraums, der dem Energieausweis zu Grunde liegt, angegeben als DD.MM.YYYY
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2}\.\d{2}\.20\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Enddatum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Enddatum des Gesamt-Zeitraums, der dem Energieausweis zu Grunde liegt, angegeben als DD.MM.YYYY
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2}\.\d{2}\.20\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiefaktor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergiefaktor des wesentlichen Energieträgers	für die Beheizung und Warmwasserbereitung</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d{1,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Leerstandszuschlag-kWh-gesamt" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Gesamter Wärme-Zuschlagswert für Leerstand in kWh für den Gesamt-Zeitraum, in der Tabelle einzusetzen in die Spalte "Energieverbrauch" bzw. bei NWG "Energieverbrauch Wärme" 	</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Leerstandszuschlag-kWh-TWW-Anteil" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Warmwasseranteil des Zuschlagswertes für Leerstand in kWh für den Gesamt-Zeitraum, in der Tabelle einzusetzen in die Spalte "Anteil Warmwasser" 	</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Leerstandszuschlag-kWh-Heizanteil" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Heizungsanteil des Zuschlagswertes für Leerstand in kWh für den Gesamt-Zeitraum, in der Tabelle einzusetzen in die Spalte "Anteil Heizung" 	</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Witterungskorrekturfaktor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Witterungskorrekturfaktor für den Verbrauchswert des gesamten Verbrauchszeitraumes des Energieausweises entsprechend Gebäudestandort
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Leerstandszuschlag-kWh-Strom" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Zuschlagswert Strom in kWh, Angabe nur bei Nichtwohngebäuden, dort aber verpflichtend; zum Eintrag in die Spalte "Energieverbrauch Strom"				</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Warmwasserwertermittlung-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="direkter Messwert Wärmemenge"/>
+			<xs:enumeration value="Pauschale für dezentrale Warmwasserbereitung (Wohngebäude)"/>
+			<xs:enumeration value="Rechenwert nach Heizkostenverordnung (Wohngebäude)"/>
+			<xs:enumeration value="Rechenwert nach EnEV / DIN V 18599 (Nichtwohngebäude)"/>
+			<xs:enumeration value="Rechenwert nach Heizkostenverordnung (Nichtwohngebäude)"/>
+			<xs:enumeration value="Pauschale 5 % Warmwasserbereitung (Nichtwohngebäude)"/>
+			<xs:enumeration value="Pauschale 50 % Warmwasserbereitung (Nichtwohngebäude)"/>
+			<xs:enumeration value="monatsweise Erfassung Wärmeverbrauch Sommer (Nichtwohngebäude)"/>
+			<xs:enumeration value="sonstige Ermittlung des Verbrauchsanteils der Warmwasserbereitung"/>
+			<xs:enumeration value="keine Warmwasserbereitung enthalten"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Wohngebaeude-Bedarfs-Daten-easy">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält im Falle eines Wohngebäudes mit Nachweis nach vereinfachtem Tabellenverfahren (EnEV easy) die Bedarfsdaten
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Wohngebaeude-Anbaugrad" type="n1:Wohngebaeude-Anbaugrad-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anbaugrad des Gebäudes bzw. Gebäudeteils an (beheizte) Nachbargebäude		</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Umfang-Normaletage" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">(Jeweiliger) Umfang der unteren Etage(n)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Gebaeudenutzflaeche-Normaletage" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">(Jeweilige) Gebäudenutzfläche der unteren Etage(n)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Umfang-oberste-Etage" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Umfang der obersten Etage (falls Umfang oder Gebäudenutzfläche abweichend von den unteren Etagen)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Gebaeudenutzflaeche-oberste-Etage" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Gebäudenutzfläche der obersten Etage (falls Umfang oder Gebäudenutzfläche abweichend von den unteren Etagen)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="durchschnittliche-Geschosshoehe" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">durchschnittliche Geschosshöhe hG des Gebäudes/Gebäudeteils in  m zur Prüfung der Zulässigkeit der Anwendung des Rechenverfahrens</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Fensterflaechenanteil-Waende" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Prozentualer Anteil der Fensterfläche an allen Wänden nach allen Himmelsrichtungen zusammen
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Fensterflaechenanteil_Daecher" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Prozentualer Anteil der Fläche der Dachfenster und Lichtkuppeln an allen geneigten und waagrechten Dachflächen</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Heizanlage-easy" type="n1:Waermeerzeuger-Typ-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Verwendeter Wärmeerzeuger</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Heizanlage-solar_Unterstuetzung" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Für die Anlagensysteme, die mit solarer Heizungsunterstützung im Nachweisverfahren arbeiten		</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Waermeschutzvariante" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">einzuhaltende Wärmeschutzvariante entsprechend zur Heizanlage gehörender Tabelle		</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[A-F]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spezifischer-Transmissionsverlust-Ist" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Spezifischer auf die wärmeübertragende Umfassungsfläche bezogener Transmissionswärmeverlust HT', Ist-Wert des Gebäudes, in W/m²K
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spezifischer-Transmissionsverlust-Anforderung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Spezifischer auf die wärmeübertragende Umfassungsfläche bezogener Transmissionswärmeverlust HT', Anforderungswert,
+in W/m²K</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiekennwert-easy" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiekennwert Wärme in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiekennwert-easy" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergiekennwert in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergieanforderungswert-easy" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergie-Anforderungswert (Kennwert des Referenzgebäudes, ab 2016 mit Berücksichtigung des entspr. Faktors) in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Energieeffizienzklasse" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Energieeffizienzklasse des Gebäudes
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="(A\+)|[A-H]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EEWaermeG-Nutzung-1" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Erste Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,30}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-1" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Deckungsanteil in % fuer erste Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EEWaermeG-Nutzung-2" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Zweite Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau		</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,30}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-2" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Deckungsanteil in % fuer zweite Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Sommerlicher-Waermeschutz" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Sind die Anforderungen an den sommerlichen Wärmeschutz eingehalten?					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Wohngebaeude-Bedarfs-Daten-4108-4701">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält im Falle eines Wohngebäudes mit Nachweis nach DIN V 4108 / DIN V 4701 die Bedarfsdaten
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Wohngebaeude-Anbaugrad" type="n1:Wohngebaeude-Anbaugrad-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anbaugrad des Gebäudes bzw. Gebäudeteils an (beheizte) Nachbargebäude		</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Gebaeudevolumen" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Beheiztes Gebäudevolumen des Gebäudes/Gebäudeteils (ganze Kubikmeter)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2,5}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="durchschnittliche-Geschosshoehe" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">durchschnittliche Geschosshöhe hG des Gebäudes/Gebäudeteils in  m zur Festlegung, über welche Formel (Anl. 1 Nr. 1.3.3 Satz 1 oder 2) die Nutzfläche AN bestimmt wurde</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Huellflaechendaten" type="n1:Huellflaechen-Daten"/>
+			<xs:element name="Transmissionswaermeverlust" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Transmissionswärmeverlust in kWh/a</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Luftdichtheit" type="n1:Luftdichtheit-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Luftdichtheit der Gebäudehülle
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Lueftungswaermeverlust" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Lüftungswärmeverlust in kWh/a</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="solare-Gewinne" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Summe der solaren Gewinne in kWh/a</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="innere-Gewinne" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Summe der inneren Gewinne in kWh/a</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Heizanlage" type="n1:Heizanlage-Daten" minOccurs="1" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angaben zum / zu den Wärmeerzeuger(n); ist ein Gebäude ausschließlich passiv solar beheizt (Fenstereinstrahlung), ist als Wärmeerzeuger "Sonstiges" anzugeben. Ein Hinweis im Erläuterungsfeld auf Seite 4 des Energieausweises ist für diesen Fall zu empfehlen.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Pufferspeicher-Volumen" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Volumen eines oder mehrerer ggfs. vorhandenen Heizungs-Pufferspeicher(s) (keiner =0) in Liter
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Heizverteilung-Temperatur" type="n1:Heiz-Temperaturniveau-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Temperaturniveau der Heizungsverteilung Vorlauf/Rücklauf, bzw. Angabe von Luftheizsystem oder ausschliesslicher Beheizung über Einzelraumheizgeräte; anzugeben ist die Temperatur des höchsten Kreises, bei krummen Werten ist die nach Vorlauftemperatur nächst höhere Auswahl anzugeben.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Heizanlage-innerhalb-Huelle" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">TRUE, wenn alle Wärmeerzeuger innerhalb der thermischen Gebäudehülle stehen.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Warmwasseranlage" type="n1:Warmwasseranlage-Daten" minOccurs="1" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angaben zu dem / den Warmwassererzeuger(n)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Warmwasserspeicher-Volumen" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Volumen eines ggfs. vorhandenen Warmwasserspeichers (kein Speicher =0), bzw. Summe der Volumina bei mehreren Speichern, in Liter
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Warmwasser-Zirkulation" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Ist zur Warmwasserverteilung eine Trinkwasser-seitige Zirkulation vorhanden?
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Vereinfachte-Datenaufnahme" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Wurden Regeln zur vereinfachten Datenaufnahme nach § 9 Abs. 2 EnEV und Bekanntmachungen angewendet?
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="spezifischer-Transmissionsverlust-Ist" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Spezifischer auf die wärmeübertragende Umfassungsfläche bezogener Transmissionswärmeverlust HT', Ist-Wert des Gebäudes, in W/m²K
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spezifischer-Transmissionsverlust-Anforderung" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Spezifischer auf die wärmeübertragende Umfassungsfläche bezogener Transmissionswärmeverlust HT', Anforderungswert,
+in W/m²K, nur bei Neubauten und wesentlichen Modernisierungen/Erweiterungen</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="()|\d,\d\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="angerechneter-lokaler-erneuerbarer-Strom" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Abzug für lokal erzeugten und vorrangig genutzten Strom aus erneuerbarer Erzeugung vom Endenergiebedarf in kWh/a, aufsummiert aus den Monatswerten, relevant nur bei Neubau</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiekennwert-Waerme-AN" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiekennwert Wärme in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,3},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiekennwert-Hilfsenergie-AN" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiekennwert Hilfsenergie in kWh/m²a bezogen auf die energetische Nutzfläche 
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,3},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiekennwert-Bedarf" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergiekennwert in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergieanforderungswert-Bedarf" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergie-Anforderungswert (Kennwert des Referenzgebäudes, ab 2016 mit Berücksichtigung des entspr. Faktors) in kWh/m²a bezogen auf die energetische Nutzfläche, nur bei Neubauten und wesentlichen Modernisierungen/Erweiterungen
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="()|(\d{1,4},\d)"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Energieeffizienzklasse" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Energieeffizienzklasse des Gebäudes
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="(A\+)|[A-H]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EEWaermeG-Nutzung-1" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Erste Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,30}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-1" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Deckungsanteil in % für erste Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EEWaermeG-Nutzung-2" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Zweite Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau		</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,30}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-2" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Deckungsanteil in % für zweite Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EEWaermeG-Nutzung-3" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Dritte Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,30}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-3" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Deckungsanteil in % für dritte Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="verschaerft-nach-EEWaermeG-7-1-2-eingehalten" type="xs:boolean" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Sind die nach § 7 Abs. 1 Nr. 2 EEWärmeG verschärften Anforderungswerte der EnEV eingehalten?
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="verschaerft-nach-EEWaermeG-8" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Die in Verbindung mit §8 EEWärmeG um diese Prozentzahl verschärften Anforderungswerte der EnEV sind eingehalten.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergieanforderungswert-verschaerft" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nach EEWärmeG verschärfter Primärenergie-Anforderungswert  in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="()|(\d{1,4},\d)"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spezifischer-Transmissionsverlust-verschaerft" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nach EEWärmeG verschärfter Anforderungswert für den spezifischen auf die wärmeübertragende Umfassungsfläche bezogenen Transmissionswärmeverlust HT'
+in W/m²K</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="()|(\d,\d\d)"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Sommerlicher-Waermeschutz" type="xs:boolean" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Sind die Anforderungen an den sommerlichen Wärmeschutz eingehalten? Relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zusaetzliche-Verbrauchsdaten" type="n1:Wohngebaeude-Verbrauchs-Daten" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Bei Energieausweisen auf Bedarfsbasis können neben den Bedarfsangaben zusätzlich Angaben zum Verbrauch im Energieausweis dargestellt werden, die dann hier entsprechend integriert werden. Die Ermittlung der Fläche AN aus der Wohnfläche darf in den Wohngebaeude-Verbrauchs-Daten dann nicht angekreuzt sein, da die Fläche nach einem für Bedarfsausweise zulässigen Verfahren ermittelt worden sein muss.	</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Wohngebaeude-Anbaugrad-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="freistehend"/>
+			<xs:enumeration value="einseitig angebaut"/>
+			<xs:enumeration value="zweiseitig angebaut"/>
+			<xs:enumeration value="Wohnteil gemischt genutztes Gebäude"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Luftdichtheit-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="undicht"/>
+			<xs:enumeration value="normal"/>
+			<xs:enumeration value="geprüft"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Heizanlage-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Angaben zum jeweiligen Wärmeerzeuger
+					</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Waermeerzeuger-Bauweise" type="n1:Waermeerzeuger-Typ-enum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Nennleistung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nennleistung des Wärmeerzeugers in kW, falls aus technischen Gründen keine Angabe der Nennleistung möglich, 0 angeben
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Waermeerzeuger-Baujahr" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Baujahr dieses Wärmeerzeugers oder Jahr der massgeblichen letzten baulichen Veränderung des Wärmeerzeugers
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{4}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Anzahl-baugleiche" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anzahl ggfs. baugleich vorhandener Geräte (Mehrfach-Kessel, Einzelraumheizer usw.), bei nur einem Gerät Angabe "1".
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Energietraeger" type="n1:Energietraeger-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">vom Wärmeerzeuger verwendeter Energieträger
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Primaerenergiefaktor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Verwendeter Primärenergiefaktor (nicht erneuerbarer Anteil) des Energieträgers	</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d{1,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Waermeerzeuger-Typ-enum">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Geräte-Grundtyp des Wärmeerzeugers
+					</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Standardkessel-fossil"/>
+			<xs:enumeration value="Niedertemperaturkessel-fossil"/>
+			<xs:enumeration value="Brennwertkessel-fossil"/>
+			<xs:enumeration value="Brennwertkessel-verbessert-fossil"/>
+			<xs:enumeration value="Festbrennstoff-Niedertemperaturkessel-nachwachsend"/>
+			<xs:enumeration value="Festbrennstoff-Brennwertkessel-nachwachsend"/>
+			<xs:enumeration value="Nah-/Fernwärme-Übergabestation"/>
+			<xs:enumeration value="Lokales BHKW"/>
+			<xs:enumeration value="Elektro-Wärmepumpe-Luft"/>
+			<xs:enumeration value="easy_Elektro-Wärmepumpe-Luft-TWW-dezentral">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Diese Auswahl darf nur für dieses Anlagensystem beim vereinfachten Tabellenverfahren für Wohngebäude-Neubauten (EnEV easy) verwendet werden.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Elektro-Wärmepumpe-Grundwasser"/>
+			<xs:enumeration value="Elektro-Wärmepumpe-Erdreich"/>
+			<xs:enumeration value="Klein-Therme-Niedertemperatur"/>
+			<xs:enumeration value="Klein-Therme-Brennwert"/>
+			<xs:enumeration value="Öl-Raumheizgerät"/>
+			<xs:enumeration value="Gas-Raumheizgerät"/>
+			<xs:enumeration value="Festbrennstoff-Einzelofen"/>
+			<xs:enumeration value="Elektronachtspeicherheizung"/>
+			<xs:enumeration value="Elektro-Direktheizung"/>
+			<xs:enumeration value="Solarthermische-Kollektoren"/>
+			<xs:enumeration value="Sonstiges"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Energietraeger-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Heizöl"/>
+			<xs:enumeration value="Heizöl-Bioöl-Gemisch"/>
+			<xs:enumeration value="Bioöl"/>
+			<xs:enumeration value="Erdgas"/>
+			<xs:enumeration value="Erdgas-Biogas-Gemisch"/>
+			<xs:enumeration value="Biogas"/>
+			<xs:enumeration value="Flüssiggas"/>
+			<xs:enumeration value="Steinkohle"/>
+			<xs:enumeration value="Koks"/>
+			<xs:enumeration value="Braunkohle"/>
+			<xs:enumeration value="Stückholz"/>
+			<xs:enumeration value="Holzhackschnitzel"/>
+			<xs:enumeration value="Holzpellets"/>
+			<xs:enumeration value="Nah-/Fernwärme"/>
+			<xs:enumeration value="Wärme aus lokalem BHKW"/>
+			<xs:enumeration value="Strom"/>
+			<xs:enumeration value="Sonneneinstrahlung"/>
+			<xs:enumeration value="Sonstiges"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Heiz-Temperaturniveau-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="90/70"/>
+			<xs:enumeration value="70/55"/>
+			<xs:enumeration value="55/45"/>
+			<xs:enumeration value="45/35"/>
+			<xs:enumeration value="35/25"/>
+			<xs:enumeration value="Luftheizung"/>
+			<xs:enumeration value="nur Einzelraum-Heizgeräte"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Warmwasseranlage-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Angaben zum jeweiligen Warmwassererzeuger
+					</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Warmwassererzeuger-Bauweise" type="n1:Warmwassererzeuger-Typ-enum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Warmwassererzeuger-Baujahr" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Baujahr dieses Warmwassererzeugers oder Jahr der massgeblichen letzten baulichen Veränderung des Warmwassererzeugers
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{4}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Anzahl-baugleiche" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anzahl ggfs. baugleich vorhandener Geräte (mehrfach vorhandene Untertischgeräte usw.), bei nur einem Gerät Angabe "1".
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Warmwassererzeuger-Typ-enum">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Geräte-Grundtyp des Warmwassererzeugers
+					</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="über Heizanlage beheizter Speicher"/>
+			<xs:enumeration value="zentraler Elektrospeicher"/>
+			<xs:enumeration value="direkt Gas-beheizter Speicher"/>
+			<xs:enumeration value="sonstiger zentraler Speicher"/>
+			<xs:enumeration value="über Heizanlage versorgte Frischwasserstation"/>
+			<xs:enumeration value="dezentraler elektrischer Kleinspeicher"/>
+			<xs:enumeration value="dezentraler elektrischer Durchlauferhitzer"/>
+			<xs:enumeration value="dezentraler Gas-Durchlauferhitzer"/>
+			<xs:enumeration value="solar unterstützte Warmwasserbereitung">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Diese Bauweise ist nur auszuwählen, wenn die Solaranlage nicht auch der Heizungsunterstützung dient, sondern ausschliesslich die Warmwasserbereitung versorgt
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Sonstiges"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Wohngebaeude-Bedarfs-Daten-18599">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält im Falle eines Wohngebäudes mit Nachweis nach DIN V 18599 die Bedarfsdaten
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Wohngebaeude-Anbaugrad" type="n1:Wohngebaeude-Anbaugrad-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anbaugrad des Gebäudes bzw. Gebäudeteils an (beheizte) Nachbargebäude		</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Gebaeudevolumen" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Beheiztes Gebäudevolumen des Gebäudes/Gebäudeteils (ganze Kubikmeter)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2,5}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="durchschnittliche-Geschosshoehe" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">durchschnittliche Geschosshöhe hG des Gebäudes/Gebäudeteils in  m zur Festlegung, über welche Formel (Anl. 1 Nr. 1.3.3 Satz 1 oder 2) die Nutzfläche AN bestimmt wurde</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Huellflaechendaten" type="n1:Huellflaechen-Daten" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Transmissionswaermeverlust" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Transmissionswärmeverlust in kWh/a</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Luftdichtheit" type="n1:Luftdichtheit-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Luftdichtheit der Gebäudehülle
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Lueftungswaermeverlust" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Lüftungswärmeverlust in kWh/a</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="solare-Gewinne" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Summe der solaren Gewinne in kWh/a</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="innere-Gewinne" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Summe der inneren Gewinne in kWh/a</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Heizanlage" type="n1:Heizanlage-Daten" minOccurs="1" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angaben zum / zu den Wärmeerzeuger(n); ist ein Gebäude ausschließlich passiv solar beheizt (Fenstereinstrahlung), ist als Wärmeerzeuger "Sonstiges" anzugeben. Ein Hinweis im Erläuterungsfeld auf Seite 4 des Energieausweises ist für diesen Fall zu empfehlen.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Pufferspeicher-Volumen" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Volumen eines ggfs. vorhandenen Heizungs-Pufferspeichers (keiner =0) in Liter
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Heizverteilung-Temperatur" type="n1:Heiz-Temperaturniveau-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Temperaturniveau der Heizungsverteilung Vorlauf/Rücklauf, bzw. Angabe von Luftheizsystem oder ausschliesslicher Beheizung über Einzelraumheizgeräte; anzugeben ist die Temperatur des höchsten Kreises, bei krummen Werten ist die nach Vorlauftemperatur nächst höhere Auswahl anzugeben.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Heizanlage-innerhalb-Huelle" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">TRUE, wenn alle Wärmeerzeuger innerhalb der thermischen Gebäudehülle stehen.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Warmwasseranlage" type="n1:Warmwasseranlage-Daten" minOccurs="1" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angaben zu dem / den Warmwassererzeuger(n)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Warmwasserspeicher-Volumen" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Volumen eines ggfs. vorhandenen Warmwasserspeichers (kein Speicher =0) ,bzw. Summer der Volumina bei mehreren Speichern, in Liter
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Warmwasser-Zirkulation" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Ist zur Warmwasserverteilung eine Trinkwasser-seitige Zirkulation vorhanden?
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Vereinfachte-Datenaufnahme" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Wurden Regeln zur vereinfachten Datenaufnahme nach §9 Abs. 2 EnEV und Bekanntmachungen angewendet?
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="spezifischer-Transmissionsverlust-Ist" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Spezifischer auf die wärmeübertragende Umfassungsfläche bezogener Transmissionswärmeverlust HT', Ist-Wert des Gebäudes, in W/m²K
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spezifischer-Transmissionsverlust-Anforderung" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Spezifischer auf die wärmeübertragende Umfassungsfläche bezogener Transmissionswärmeverlust HT', Anforderungswert,
+in W/m²K, nur bei Neubau und wesentlicher Modernisierung/Erweiterungen</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="()|(\d,\d\d)"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="angerechneter-lokaler-erneuerbarer-Strom" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Abzug für lokal erzeugten und vorrangig genutzten Strom aus erneuerbarer Erzeugung vom Endenergiebedarf in kWh/a, aufsummiert aus den Monatswerten, relevant nur bei Neubau</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiekennwert-Waerme-AN" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiekennwert Wärme in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,3},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiekennwert-Hilfsenergie-AN" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiekennwert Hilfsenergie in kWh/m²a bezogen auf die energetische Nutzfläche 
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,3},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiekennwert-Bedarf" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergiekennwert in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergieanforderungswert-Bedarf" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergie-Anforderungswert (Kennwert des Referenzgebäudes, ab 2016 mit Berücksichtigung des entspr. Faktors) in kWh/m²a bezogen auf die energetische Nutzfläche, nur bei Neubau und wesentlicher Modernisierung/Erweiterungen
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="()|(\d{1,4},\d)"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Energieeffizienzklasse" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Energieeffizienzklasse des Gebäudes
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="(A\+)|[A-H]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EEWaermeG-Nutzung-1" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Erste Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,30}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-1" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Deckungsanteil in % für erste Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EEWaermeG-Nutzung-2" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Zweite Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau		</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,30}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-2" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Deckungsanteil in % für zweite Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EEWaermeG-Nutzung-3" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Dritte Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,30}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-3" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Deckungsanteil in % für dritte Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="verschaerft-nach-EEWaermeG-7-1-2-eingehalten" type="xs:boolean" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Sind die nach § 7 Abs. 1 Nr. 2 EEWärmeG verschärften Anforderungswerte der EnEV eingehalten?
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="verschaerft-nach-EEWaermeG-8" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Die in Verbindung mit §8 EEWärmeG um diese Prozentzahl verschärften Anforderungswerte der EnEV sind eingehalten.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergieanforderungswert-verschaerft" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nach EEWärmeG verschärfter Primärenergie-Anforderungswert  in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="()|(\d{1,4},\d)"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spezifischer-Transmissionsverlust-verschaerft" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nach EEWärmeG verschärfter Anforderungswert für den spezifischen auf die wärmeübertragende Umfassungsfläche bezogenen Transmissionswärmeverlust HT'
+in W/m²K</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="()|(\d,\d\d)"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Sommerlicher-Waermeschutz" type="xs:boolean" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Sind die Anforderungen an den sommerlichen Wärmeschutz eingehalten? Relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zusaetzliche-Verbrauchsdaten" type="n1:Wohngebaeude-Verbrauchs-Daten" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Bei Energieausweisen auf Bedarfsbasis können neben den Bedarfsangaben zusätzlich Angaben zum Verbrauch im Energieausweis dargestellt werden, die dann hier entsprechend integriert werden. Die Ermittlung der Fläche AN aus der Wohnfläche darf in den Wohngebaeude-Verbrauchs-Daten dann nicht angekreuzt sein, da die Fläche nach einem für Bedarfsausweise zulässigen Verfahren ermittelt worden sein muss.	</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Nichtwohngebaeude-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält im Falle eines Nichtwohngebäudes alle weiteren energetisch relevanten Daten
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Hauptnutzung-Gebaeudekategorie" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angabe der Hauptnutzungsart des Gebäudes
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{1,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Nettogrundflaeche" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nettogrundfläche als energetische Nutzfläche AN des Gebäudes/Gebäudeteils (ganze Quadratmeter)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Dieser Block enthält entweder Verbrauchs- oder Bedarfsdaten; beim Bedarfsausweis können zusätzliche Verbrauchsangaben angeführt werden
+					</xs:documentation>
+				</xs:annotation>
+				<xs:element name="Verbrauchsdaten-NWG" type="n1:Nichtwohngebaeude-Verbrauchs-Daten"/>
+				<xs:element name="Bedarfsdaten-NWG" type="n1:Nichtwohngebaeude-Bedarfs-Daten"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Nichtwohngebaeude-Verbrauchs-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält im Falle eines Nichtwohngebäude-Verbrauchsausweises die Verbrauchsdaten
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Energietraeger" type="n1:Energietraeger-Daten" minOccurs="1" maxOccurs="8">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Jeweiliger Energieträger mit zugehörigen Verbrauchsdaten
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Warmwasser-enthalten" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Ist als TRUE anzugeben, wenn mindestens einer der (ggfs. mehreren) Heizenergieträger auch zur Warmwasserbereitung dient, die entspr. Mengen sind in der Verbrauchsliste anzugeben, entspricht dem Kreuzchenfeld im Energieausweis-Nichtwohngebäude, Verbrauchsseite, direkt links unter der Verbrauchsskala Endenergieverbrauch Wärme</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Strom-Daten">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angaben, was im Stromverbrauch alles enthalten ist, entsprechend der Kreuzchenfelder im Energieausweis.					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Stromverbrauch-enthaelt-Zusatzheizung" type="xs:boolean" minOccurs="1" maxOccurs="1">
+							<xs:annotation>
+								<xs:documentation xml:lang="DE">Angaben, was der Stromverbrauch für Funktionalitäten umfasst: Zusatzheizung</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Stromverbrauch-enthaelt-Warmwasser" type="xs:boolean" minOccurs="1" maxOccurs="1">
+							<xs:annotation>
+								<xs:documentation xml:lang="DE">Angaben, was der Stromverbrauch für Funktionalitäten umfasst: Warmwasserbereitung
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Stromverbrauch-enthaelt-Lueftung" type="xs:boolean" minOccurs="1" maxOccurs="1">
+							<xs:annotation>
+								<xs:documentation xml:lang="DE">Angaben, was der Stromverbrauch für Funktionalitäten umfasst: Lüftung</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Stromverbrauch-enthaelt-Beleuchtung" type="xs:boolean" minOccurs="1" maxOccurs="1">
+							<xs:annotation>
+								<xs:documentation xml:lang="DE">Angaben, was der Stromverbrauch für Funktionalitäten umfasst: eingebaute Beleuchtung	</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Stromverbrauch-enthaelt-Kuehlung" type="xs:boolean" minOccurs="1" maxOccurs="1">
+							<xs:annotation>
+								<xs:documentation xml:lang="DE">Angaben, was der Stromverbrauch für Funktionalitäten umfasst: Kühlung	</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Stromverbrauch-enthaelt-Sonstiges" type="xs:boolean" minOccurs="1" maxOccurs="1">
+							<xs:annotation>
+								<xs:documentation xml:lang="DE">Angaben, was der Stromverbrauch für Funktionalitäten umfasst: Sonstiges	</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="kein-Leerstand">
+					<xs:annotation>
+						<xs:documentation xml:lang="DE">Im dem Energieausweis zu Grunde liegenden Zeitraum ist keine Nutzungseinheit so lange leer gestanden, dass eine Leerstandskorrektur erforderlich ist.
+					</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:pattern value="Kein längerer Leerstand zu berücksichtigen."/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Leerstandskorrektur-nach-Bekanntmachung" type="n1:Leerstandskorrektur-Bekanntmachung-Daten">
+					<xs:annotation>
+						<xs:documentation xml:lang="DE">Im dem Energieausweis zu Grunde liegenden Zeitraum ist Leerstand aufgetreten, es wurde eine Leerstandskorrektur entsprechend der Bekanntmachung der Regeln für Energieverbrauchskennwerte vorgenommen.
+					</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Leerstandskorrektur-anders" type="n1:Leerstandskorrektur-anders-Daten">
+					<xs:annotation>
+						<xs:documentation xml:lang="DE">Im dem Energieausweis zu Grunde liegenden Zeitraum ist Leerstand aufgetreten, es wurde eine Leerstandskorrektur entsprechend eines anderen den Regeln der Technik entsprechenden Verfahrens vorgenommen.
+					</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="Gebaeudenutzungskategorie-1" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angabe der umfangreichsten Nutzungskategorie des Gebäudes					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{5,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Flaechenanteil-Nutzung-1" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Prozentualer Anteil dieser Gebäude-Nutzungs-Kategorie an der gesamten Nutzfläche des Gebäudes
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="(100)|(\d{1,2})"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Vergleichswert-Heizung-TWW-1" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angabe zum zugehörigen Vergleichswert Heizung und Warmwasserbereitung der umfangreichsten Nutzungskategorie des Gebäudes					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Vergleichswert-Strom-1" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angabe zum zugehörigen Vergleichswert Strom der umfangreichsten Nutzungskategorie des Gebäudes					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Gebaeudenutzungskategorie-2" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angabe der zweitumfangreichsten Nutzungskategorie des Gebäudes					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Flaechenanteil-Nutzung-2" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Prozentualer Anteil dieser Gebäude-Nutzungs-Kategorie an der gesamten Nutzfläche des Gebäudes
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Vergleichswert-Heizung-TWW-2" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angabe zum zugehörigen Vergleichswert Heizung und Warmwasserbereitung der zweitumfangreichsten Nutzungskategorie des Gebäudes					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Vergleichswert-Strom-2" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angabe zum zugehörigen Vergleichswert Strom der zweitumfangreichsten Nutzungskategorie des Gebäudes					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Gebaeudenutzungskategorie-3" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angabe der drittumfangreichsten Nutzungskategorie des Gebäudes					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Flaechenanteil-Nutzung-3" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Prozentualer Anteil dieser Gebäude-Nutzungs-Kategorie an der gesamten Nutzfläche des Gebäudes
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Vergleichswert-Heizung-TWW-3" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angabe zum zugehörigen Vergleichswert Heizung und Warmwasserbereitung der drittumfangreichsten Nutzungskategorie des Gebäudes					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Vergleichswert-Strom-3" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angabe zum zugehörigen Vergleichswert Strom der drittumfangreichsten Nutzungskategorie des Gebäudes					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiekennwert-Verbrauch-Heizung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiekennwert Heizung und zentrales Warmwasser in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiekennwert-Verbrauch-Strom" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiekennwert Strom in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergievergleichswert-Verbrauch-Heizung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergievergleichswert Heizung und zentrales Warmwasser in kWh/m²a bezogen auf die energetische Nutzfläche, entsprechend den anteiligen Nutzungen
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergievergleichswert-Verbrauch-Strom" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergievergleichswert Strom in kWh/m²a bezogen auf die energetische Nutzfläche, entsprechend den anteiligen Nutzungen
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiekennwert-Verbrauch" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergiekennwert in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Nichtwohngebaeude-Bedarfs-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält im Falle eines Nichtwohngebäudes die Bedarfsdaten
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Nichtwohngebaeude-Anbaugrad" type="n1:Nichtwohngebaeude-Anbaugrad-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anbaugrad des Gebäudes bzw. Gebäudeteils an (beheizte) Nachbargebäude		</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Gebaeudevolumen" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Konditioniertes brutto-Gebäudevolumen des Gebäudes/Gebäudeteils (ganze Kubikmeter)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Huellflaechendaten" type="n1:Huellflaechen-Daten" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="mittlere-Waermedurchgangskoeffizienten" type="xs:boolean" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Sind die Anforderungen an die mittleren Wärmedurchgangskoeffizienten der verschiedenen Hüllflächenbauteile (Anlage 2 Tabelle 2 EnEV) eingehalten? Relevant nur bei Neubau und umfassender Modernisierung
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Transmissionswaermeverlust" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Transmissionswärmeverlust in kWh/a</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,8}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Luftdichtheit-Gebaeudehuelle" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Volumenbezogene Luftdichtheit der Gebäudehülle in 1/h
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Nutzungszone" type="n1:Zonen-Daten" minOccurs="1" maxOccurs="40"/>
+			<xs:element name="Bilanztemperatur-Heizfall" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Bilanzinnentemperatur über alle beheizten Zonen in °C für den Heizfall</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,2},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Bilanztemperatur-Kuehlfall" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Bilanzinnentemperatur über alle gekühlten Zonen in °C für den Kühlfall</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,2},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Heizanlage" type="n1:Heizanlage-Daten" minOccurs="1" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angaben zum / zu den Wärmeerzeuger(n); ist ein Gebäude ausschließlich passiv solar beheizt (Fenstereinstrahlung), ist als Wärmeerzeuger "Sonstiges" anzugeben. Ein Hinweis im Erläuterungsfeld auf Seite 4 des Energieausweises ist für diesen Fall zu empfehlen.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Pufferspeicher-Volumen" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Volumen eines ggfs. vorhandenen Heizungs-Pufferspeichers (keiner =0) in Liter
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Heizverteilung-Temperatur" type="n1:Heiz-Temperaturniveau-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Temperaturniveau der Heizungsverteilung Vorlauf/Rücklauf, bzw. Angabe von Luftheizsystem oder ausschliesslicher Beheizung über Einzelraumheizgeräte; anzugeben ist die Temperatur des höchsten Kreises, bei krummen Werten ist die nach Vorlauftemperatur nächst höhere Auswahl anzugeben.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Heizanlage-innerhalb-Huelle" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">TRUE, wenn alle Wärmeerzeuger innerhalb der thermischen Gebäudehülle stehen.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Warmwasseranlage" type="n1:Warmwasseranlage-Daten" minOccurs="0" maxOccurs="50">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Warmwassererzeuger, bei mehreren sinnvollerweise nach abnehmender energetischer Relevanz</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Warmwasserspeicher-Volumen" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Volumen eines ggfs. vorhandenen Warmwasserspeichers (kein Speicher =0) ,bzw. Summer der Volumina bei mehreren Speichern, in Liter
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Warmwasser-Zirkulation" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Ist zur Warmwasserverteilung eine Trinkwasser-seitige Zirkulation vorhanden?
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Kaelteanlage" type="n1:Kaelteanlage-Daten" minOccurs="0" maxOccurs="30">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Kälteerzeuger, bei mehreren sinnvollerweise nach abnehmender energetischer Relevanz</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Deckungsanteil-RLT-Kuehlung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anteil der Kälte, die über RLT-Anlagen verteilt und übergeben wird, in %
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="(100)|(\d{1,2})"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-Umluft-Kuehlung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anteil der Kälte, die über reine/überwiegende Umluft-Anlagen verteilt und übergeben wird, in %
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="(100)|(\d{1,2})"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-Direkt-Kuehlung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anteil der Kälte, die über Direktkühlanlagen (Kühldecken, Kühlsegel usw.) verteilt und übergeben wird, in %
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="(100)|(\d{1,2})"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Lueftungsanlage" type="n1:Lueftungsanlage-Daten" minOccurs="0" maxOccurs="100">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angaben zu vorhandenen Lüftungsanlagen, bei mehreren sinnvollerweise nach abnehmender Relevanz</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Raumautomationsklasse" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Überwiegende Gebäueautomationsklasse für Heizen, Kühlen und mechanisches Belüften (soweit vorhanden) in den Nutzungsräumen nach DIN V 18599-11
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[A-D]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Gebaeudemanagementklasse" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Gebäudeautomationsklasse für das übergreifende Gebäudemanagement nach DIN V 18599-11, Tab. 3 Z. 94-96
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[A-C]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="angerechneter-lokaler-erneuerbarer-Strom" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Abzug für lokal erzeugten und vorrangig genutzten Strom aus erneuerbarer Erzeugung vom Endenergiebedarf in kWh/a, aufsummiert aus den Monatswerten, relevant nur bei Neubau</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Energietraeger-Liste" type="n1:Endenergie-Energietraeger-Daten" minOccurs="1" maxOccurs="10"/>
+			<xs:element name="Endenergie-Bedarf-Waerme" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiekennwert Wärme in kWh/m²a bezogen auf die Nettogrundfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergie-Bedarf-Strom" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiekennwert Strom in kWh/m²a bezogen auf die Nettogrundfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiekennwert-Bedarf" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergiekennwert in kWh/m²a bezogen auf die Nettogrundfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergieanforderungswert-Bedarf" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primärenergie-Anforderungswert Neubau (Kennwert des Referenzgebäudes, ab 2016 mit Berücksichtigung des entspr. Faktors) in kWh/m²a bezogen auf die Nettogrundfläche, bei Neubau im Energieausweis einzutragen, bei Nachweis einer wesentlichen Modernisierung ist der 140-%-Wert hiervon als Anforderungswert einzutragen. Außerdem richtet sich die Länge der grün-rot-Skala nach diesem Wert (Skalenendewert das Dreifache des 140%-Wertes), daher ist der Wert immer erforderlich.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="()|(\d{1,4},\d)"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Ein-Zonen-Modell" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Wurde das Verfahren nach Anlage 2 Nummer 3 EnEV (Ein-Zonen-Modell) angewendet?
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Vereinfachte-Datenaufnahme" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Wurden Regeln zur vereinfachten Datenaufnahme nach §9 Abs. 2 EnEV und Bekanntmachungen angewendet?
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Vereinfachungen-18599-1-D" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Wurden Vereinfachungen nach Anlage 2 Nummer 2.1.4 EnEV und DIN V 18599-1:2011-12 Anhang D angewendet? (Nach EnEV auch im Neubau zulässig)					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EEWaermeG-Nutzung-1" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Erste Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,30}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-1" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Deckungsanteil in % für erste Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EEWaermeG-Nutzung-2" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Zweite Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau		</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,30}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-2" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Deckungsanteil in % für zweite Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EEWaermeG-Nutzung-3" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Dritte Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,30}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Deckungsanteil-3" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Deckungsanteil in % für dritte Angabe zur Nutzung erneuerbarer Energien nach EEWärmeG, relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="verschaerft-nach-EEWaermeG-7-1-2-eingehalten" type="xs:boolean" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Sind die nach § 7 Abs. 1 Nr. 2 EEWärmeG verschärften Anforderungswerte der EnEV eingehalten?
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="verschaerft-nach-EEWaermeG-8" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Die in Verbindung mit §8 EEWärmeG um diese Prozentzahl verschärften Anforderungswerte der EnEV sind eingehalten.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{0,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergieanforderungswert-verschaerft" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nach EEWärmeG verschärfter Primärenergie-Anforderungswert  in kWh/m²a bezogen auf die energetische Nutzfläche
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="()|(\d{1,4},\d)"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Sommerlicher-Waermeschutz" type="xs:boolean" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Sind die Anforderungen an den sommerlichen Wärmeschutz eingehalten? Relevant nur bei Neubau
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zusaetzliche-Verbrauchsdaten" type="n1:Nichtwohngebaeude-Verbrauchs-Daten" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Bei Energieausweisen auf Bedarfsbasis können neben den Bedarfsangaben zusätzlich Angaben zum Verbrauch im Energieausweis dargestellt werden, die dann hier entsprechend integriert werden. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Nichtwohngebaeude-Anbaugrad-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="freistehend"/>
+			<xs:enumeration value="einseitig angebaut"/>
+			<xs:enumeration value="zweiseitig angebaut"/>
+			<xs:enumeration value="Nichtwohnteil gemischt genutztes Gebäude"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Huellflaechen-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält im Falle eines Bedarfsausweises die Hüllflächendaten. Die Summe aller Flächen muss der gesamten energetisch wirksamen Hüllfläche entsprechen. Wand- und Dachflächen gegen Aussenluft sind daher netto ohne transparente Bauteile usw. anzugeben. Gleichartige Flächen gleichen U-Wertes und gleicher Orientierung können aufsummiert angegeben werden. Türen (ausser Fenstertüren), Rollladenkästen u.ä. sind als Wandstücke einzugeben.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Dach-Aussenluft" minOccurs="0" maxOccurs="100">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile nach oben gegen Aussenluft
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Geschossdecke" minOccurs="0" maxOccurs="50">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile nach oben gegen Räume mit anderen Innentemperaturen
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Wand-Aussenluft-Nord" minOccurs="0" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile seitlich gegen Aussenluft nach Norden
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Wand-Aussenluft-Nordost" minOccurs="0" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile seitlich gegen Aussenluft nach Osten
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Wand-Aussenluft-Ost" minOccurs="0" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile seitlich gegen Aussenluft nach Süden
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Wand-Aussenluft-Suedost" minOccurs="0" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile seitlich gegen Aussenluft nach Norden
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Wand-Aussenluft-Sued" minOccurs="0" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile seitlich gegen Aussenluft nach Osten
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Wand-Aussenluft-Suedwest" minOccurs="0" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile seitlich gegen Aussenluft nach Süden
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Wand-Aussenluft-West" minOccurs="0" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile seitlich gegen Aussenluft nach Westen
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Wand-Aussenluft-Nordwest" minOccurs="0" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile seitlich gegen Aussenluft nach Westen
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Wand-andere-Temp" minOccurs="0" maxOccurs="200">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile seitlich gegen Räume mit anderen Innentemperaturen
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Wand-Erdreich" minOccurs="0" maxOccurs="100">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile seitlich gegen Erdreich
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Boden-Aussenluft" minOccurs="0" maxOccurs="50">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile nach unten gegen Aussenluft
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Boden-andere-Temp" minOccurs="0" maxOccurs="100">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile nach unten gegen Räume mit anderen Innentemperaturen
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Boden-Erdreich" minOccurs="0" maxOccurs="100">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K der Bauteile nach unten gegen Erdreich
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Fenster-Dach" minOccurs="0" maxOccurs="300">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K und g-Wert der transparenten Bauteile nach oben
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="g-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="0,\d{2}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Fenster-Nord" minOccurs="0" maxOccurs="300">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K und g-Wert der transparenten Bauteile nach Norden
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="g-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="0,\d{2}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Fenster-Nordost" minOccurs="0" maxOccurs="300">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K und g-Wert der transparenten Bauteile nach Norden
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="g-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="0,\d{2}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Fenster-Ost" minOccurs="0" maxOccurs="300">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K und g-Wert der transparenten Bauteile nach Osten	</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="g-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="0,\d{2}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Fenster-Suedost" minOccurs="0" maxOccurs="300">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K und g-Wert der transparenten Bauteile nach Osten	</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="g-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="0,\d{2}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Fenster-Sued" minOccurs="0" maxOccurs="300">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K und g-Wert der transparenten Bauteile nach Süden
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="g-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="0,\d{2}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Fenster-Suedwest" minOccurs="0" maxOccurs="300">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K und g-Wert der transparenten Bauteile nach Süden
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="g-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="0,\d{2}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Fenster-West" minOccurs="0" maxOccurs="300">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K und g-Wert der transparenten Bauteile nach Westen
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="g-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="0,\d{2}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Fenster-Nordwest" minOccurs="0" maxOccurs="300">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fläche bzw. Flächensumme in m² sowie U-Wert in W/m²K und g-Wert der transparenten Bauteile nach Westen
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flaechenbezeichnung" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value=".{0,40}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Flaeche" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{1,6}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="U-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d,\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="g-Wert" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="0,\d{2}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Waermebrueckenzuschlag" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Wert des Wärmebrückenzuschlags für die Gebäudehülle
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="0,\d{2,3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Kaelteanlage-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Angaben zur jeweiligen Kälteerzeugung und -verteilung sowie Rückkühlung
+					</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Kaelteerzeuger-Bauweise" type="n1:Kaelteerzeuger-Typ-enum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Kaelteerzeuger-Regelung" type="n1:Kaelteerzeuger-Regelung-enum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Rueckkuehlung-Bauweise" type="n1:Rueckkuehlung-enum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Kaelteverteilung-Temperatur" type="n1:Kaelte-Temperaturniveau-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Temperaturniveau der Kaelteverteilung Vorlauf/Rücklauf, bzw. Angabe von Direktkühlung mit Kältemittelkreis</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Nennkaelteleistung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nennkälteleistung des Kälteerzeugers in kW
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,5}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Kaelteerzeuger-Baujahr" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Baujahr dieses Kaelteerzeugers oder Jahr der massgeblichen letzten baulichen Veränderung des Kaelteerzeugers
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{4}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Anzahl-baugleiche" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anzahl ggfs. baugleich vorhandener Geräte (mehrfache zentrale Kälteerzeuger, Splittgeräte usw.), bei nur einem Gerät Angabe "1".
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Energietraeger" type="n1:Energietraeger-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">vom Kälteerzeuger verwendeter Energieträger				</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Primaerenergiefaktor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Verwendeter Primärenergiefaktor des Energieträgers	</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d,\d{1,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Kaelteerzeuger-Typ-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Kolben- oder Scroll-Kompressor"/>
+			<xs:enumeration value="Schraubenkompressor"/>
+			<xs:enumeration value="Turbokompressor"/>
+			<xs:enumeration value="Absorber direkt beheizt"/>
+			<xs:enumeration value="Absorber separate Wärmequelle"/>
+			<xs:enumeration value="Sonstiges"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Kaelteerzeuger-Regelung-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ein-aus"/>
+			<xs:enumeration value="Heißgasbypass oder ähnliches"/>
+			<xs:enumeration value="mehrstufig taktend"/>
+			<xs:enumeration value="stufenlos regelnd"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Rueckkuehlung-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="trocken direkt"/>
+			<xs:enumeration value="nass direkt"/>
+			<xs:enumeration value="trocken über Rückkühlkreis"/>
+			<xs:enumeration value="nass über Rückkühlkreis"/>
+			<xs:enumeration value="Sonstiges"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Kaelte-Temperaturniveau-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="direktkühlend"/>
+			<xs:enumeration value="6/12 oder kälter"/>
+			<xs:enumeration value="über 6/12 bis 10/14"/>
+			<xs:enumeration value="über 10/14"/>
+			<xs:enumeration value="bedarfsgeregelt"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Lueftungsanlage-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Angaben zur jeweiligen Lüftungsanlage
+					</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Funktion-Zuluft" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anlage führt den Räumen Zuluft aus (ggfs. aufbereiteter) Außenluft (evtl. zusammen mit Umluft) zu
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Funktion-Abluft" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anlage führt aus den Räumen Abluft ab
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Funktion-Umluft" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anlage führt den Räumen (ggfs. aufbereitete) Umluft wieder zu
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="WRG-Rueckwaermzahl" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Bei vorhandener Wärmerückgewinnung der Rückgewinnungsgrad in %
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Funktion-Heizregister" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anlage kann die Luft erwärmen
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Funktion-Kuehlregister" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anlage kann die Luft kühlen
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Funktion-Dampfbefeuchter" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anlage kann die Luft mittels Dampfbefeuchter befeuchten
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Funktion-Wasserbefeuchter" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anlage kann die Luft mittels Sprüh- oder Rieselbefeuchter befeuchten</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Energietraeger-Befeuchtung" type="n1:Energietraeger-enum" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">vom Befeuchter verwendeter Energieträger	(bei Wasserbefeuchter derjenige Energieträger, der das/die zugehörige Heizregister der Heizanlage versorgt), Angabe nur erforderlich, wenn Anlage befeuchten kann.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Nennvolumenstrom" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nennvolumenstrom der Lüftungsanlage	in m³/h		</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{2,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Lueftungsanlage-Baujahr" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Baujahr dieser Lüftungsanlage oder Jahr der massgeblichen letzten baulichen Veränderung
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{4}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Anzahl-baugleiche" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Anzahl ggfs. baugleich vorhandener Geräte, bei nur einem Gerät Angabe "1".
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Zonen-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält die Angaben zu einer einzelnen Nutzungszone bei Nichtwohngebäuden, die Zonen sollten sinnvollerweise in absteigender Flächengröße angeordnet werden, es ist eine vollständige Liste aller rechnerisch verwendeten Zonen anzugeben.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Zonenbezeichnung" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Nutzungsprofil" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nutzungsprofil nach DIN V 18599
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,2}(\.\d){0,1}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Zonenbesonderheiten" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Hinweise auf Anpassungen des Nutzungsprofils nach DIN V 18599, wenn Standard-Vorgaben nicht verwendbar; bei völlig neu definierten Profilen (weil in DIN V 18599 nicht aufgelistet) bitte eine dort nicht verwendete Nutzungsprofilnummer (z.B. ab 90) verwenden und hier alle relevanten Daten anführen.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{0,500}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Nettogrundflaeche-Zone" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nettogrundfläche der jeweiligen Zone in m²</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,6}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="mittlere-Raumhoehe" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Mittlere lichte Raumhöhe der jeweiligen Zone in m</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,2},\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Sonnenschutz-System" type="n1:Sonnenschutz-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Sonnenschutz der transparenten Flächen nach außen</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Beleuchtungs-System" type="n1:Kunstlicht-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">überwiegende Beleuchtungstechnik (Kunstlicht) der jeweiligen Zone</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Beleuchtungs-Verteilung" type="n1:Lichtverteilung-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Lichtverteilung (Kunstlicht) in der jeweiligen Zone</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Praesenzerfassung-Kunstlicht" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Wird das Kunstlicht über eine Präsenzerfassung automatisch geschaltet?		</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Tageslichtsteuerung" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Wird das Kunstlicht in Abhängigkeit vom Tageslicht automatisch geschaltet oder geregelt?
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Heizung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Heizung (statisch und RLT) in kWh/a ohne Hilfsenergie
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Kuehlung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Kühlung (statisch und RLT) in kWh/a ohne Hilfsenergie; 0 wenn nicht gekühlt (gilt sinngemäß auch für andere nicht vorhandene Konditionierungsarten der Zone)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Befeuchtung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Befeuchtung (direkt und RLT) in kWh/a ohne Hilfsenergie
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Trinkwarmwasser" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Trinkwasser-Erwärmung in kWh/a ohne Hilfsenergie
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Beleuchtung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Beleuchtung in kWh/a
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Luftfoerderung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Luftförderung einer mechanischen Belüftung in kWh/a
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Hilfsenergie" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Hilfsenergie in kWh/a ohne Luftförderung
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Sonnenschutz-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="nicht relevant">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Sonnenschutz nicht erforderlich, da keine transparenten Flächen nach außen in sonnenbeschienene Richtungen vorhanden</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="keiner"/>
+			<xs:enumeration value="manuell außenliegend"/>
+			<xs:enumeration value="manuell innenliegend"/>
+			<xs:enumeration value="automatisch außenliegend"/>
+			<xs:enumeration value="automatisch innenliegend"/>
+			<xs:enumeration value="manuell außenliegend lichtlenkend"/>
+			<xs:enumeration value="manuell innenliegend lichtlenkend"/>
+			<xs:enumeration value="automatisch außenliegend lichtlenkend"/>
+			<xs:enumeration value="automatisch innenliegend lichtlenkend"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Kunstlicht-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Glühlampen"/>
+			<xs:enumeration value="Leuchtstofflampen stabförmig KVG/VVG"/>
+			<xs:enumeration value="Leuchtstofflampen stabförmig EVG"/>
+			<xs:enumeration value="Leuchtstofflampen kompakt"/>
+			<xs:enumeration value="Hochdruckentladungslampen"/>
+			<xs:enumeration value="LED-Systeme"/>
+			<xs:enumeration value="Sonstiges"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Lichtverteilung-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="direkt"/>
+			<xs:enumeration value="indirekt"/>
+			<xs:enumeration value="direkt-indirekt"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Endenergie-Energietraeger-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält die Angaben zu den spezifischen Endenergiebedarfswerten nach Energieträger, bezogen auf die Nettogrundfläche, bei Nichtwohngebäuden, siehe Tabelle Endenergiebedarf im Energieausweis-Formular.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Energietraegerbezeichnung" type="n1:Energietraeger-enum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Endenergiebedarf-Heizung-spezifisch" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Heizung (statisch und RLT) in kWh/m²a mit Hilfsenergie
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Kühlung (statisch und RLT) und Befeuchtung in kWh/m²a mit Hilfsenergie; 0 wenn nicht gekühlt (gilt sinngemäß auch für andere nicht vorhandene Konditionierungsarten des gesamten Gebäudes)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Trinkwarmwasser-spezifisch" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Trinkwasser-Erwärmung in kWh/m²a mit Hilfsenergie
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Beleuchtung-spezifisch" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Beleuchtung in kWh/m²a
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Belueftung-spezifisch" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Luftförderung der mechanischen Belüftung in kWh/m²a
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf dieses Energieträgers für das gesamte Gebäude und alle Konditionierungsarten in kWh/m²a</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NWG-Aushang-Daten">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält die Angaben zu den Nutz-, End- und Primärenergiebedarfswerten für das Balkendiagramm im Aushangformular bei Nichtwohngebäuden, Anlage 8 zu § 16 EnEV.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Nutzenergiebedarf-Heizung-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nutzenergiebedarf Heizung (statisch und RLT) in kWh/m²a mit Hilfsenergie
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Nutzenergiebedarf-Trinkwarmwasser-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nutzenergiebedarf Trinkwasser-Erwärmung in kWh/m²a mit Hilfsenergie
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Nutzenergiebedarf-Beleuchtung-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nutzenergiebedarf Beleuchtung in kWh/m²a
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Nutzenergiebedarf-Belueftung-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nutzenergiebedarf Luftförderung der mechanischen Belüftung in kWh/m²a
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Nutzenergiebedarf-Kuehlung-Befeuchtung-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Nutzenergiebedarf Kühlung (statisch und RLT) und Befeuchtung in kWh/m²a mit Hilfsenergie; 0 wenn nicht gekühlt (gilt sinngemäß auch für andere nicht vorhandene Konditionierungsarten des gesamten Gebäudes)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Heizung-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Heizung (statisch und RLT) in kWh/m²a mit Hilfsenergie
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Trinkwarmwasser-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Trinkwasser-Erwärmung in kWh/m²a mit Hilfsenergie
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Beleuchtung-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Beleuchtung in kWh/m²a
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Belueftung-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Luftförderung der mechanischen Belüftung in kWh/m²a
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Endenergiebedarf-Kuehlung-Befeuchtung-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Endenergiebedarf Kühlung (statisch und RLT) und Befeuchtung in kWh/m²a mit Hilfsenergie; 0 wenn nicht gekühlt (gilt sinngemäß auch für andere nicht vorhandene Konditionierungsarten des gesamten Gebäudes)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiebedarf-Heizung-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primaerenergiebedarf Heizung (statisch und RLT) in kWh/m²a mit Hilfsenergie
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiebedarf-Trinkwarmwasser-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primaerenergiebedarf Trinkwasser-Erwärmung in kWh/m²a mit Hilfsenergie
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiebedarf-Beleuchtung-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primaerenergiebedarf Beleuchtung in kWh/m²a
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiebedarf-Belueftung-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primaerenergiebedarf Luftförderung der mechanischen Belüftung in kWh/m²a
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Primaerenergiebedarf-Kuehlung-Befeuchtung-Diagramm" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Primaerenergiebedarf Kühlung (statisch und RLT) und Befeuchtung in kWh/m²a mit Hilfsenergie; 0 wenn nicht gekühlt (gilt sinngemäß auch für andere nicht vorhandene Konditionierungsarten des gesamten Gebäudes)
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,4},\d"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Modernisierungszeile">
+		<xs:annotation>
+			<xs:documentation xml:lang="DE">Dieser Block enthält zeilenweise die Textangaben zu den Modernisierungsempfehlungen im Energieausweis. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Nummer" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Fortlaufende Nummer der Modernisierungsempfehlung	</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Bauteil-Anlagenteil" type="n1:Modernisierung-Teil-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Angabe des betroffenen Bauteils oder Anlagenteils; die Differenzierung ist dem Energieausweis-Aussteller überlassen, er kann also z.B. unter Heizung eine komplette neue Beheizung samt Regelung, hydr. Abgleich usw. in einer Empfehlung geben, oder einzelne Maßnahmen differenzierter auflisten.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Massnahmenbeschreibung" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Beschreibung der Maßnahme, ggfs. auch in mehreren Schritten</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{1,100}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Modernisierungskombination" type="n1:Modernisierung-Kombi-enum" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">Kreuzchen, ob die Maßnahme im Zusammenhang mit größeren Modernisierungsmaßnahmen oder sogar als Einzelmaßnahme sinnvoll ist</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Amortisation" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">geschätzte Amortisationszeit der Maßnahme</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{1,20}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spezifische-Kosten" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="DE">geschätzte Kosten pro eingesparter Kilowattstunde Endenergie</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value=".{1,40}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Modernisierung-Teil-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Dach"/>
+			<xs:enumeration value="oberste Geschossdecke"/>
+			<xs:enumeration value="Abseiten"/>
+			<xs:enumeration value="Gauben"/>
+			<xs:enumeration value="Dachfenster"/>
+			<xs:enumeration value="Außenwand gg. Außenluft"/>
+			<xs:enumeration value="Fenster"/>
+			<xs:enumeration value="Rollläden und -kästen"/>
+			<xs:enumeration value="Eingangstür"/>
+			<xs:enumeration value="Nebentür"/>
+			<xs:enumeration value="Kellerdecke"/>
+			<xs:enumeration value="Boden gg. Außenluft"/>
+			<xs:enumeration value="Außenwand gg. Erdreich"/>
+			<xs:enumeration value="Boden gegen Erdreich"/>
+			<xs:enumeration value="Luftundichtigkeiten"/>
+			<xs:enumeration value="Heizung"/>
+			<xs:enumeration value="Wärmeerzeuger"/>
+			<xs:enumeration value="Wärmeverteilung / -abgabe"/>
+			<xs:enumeration value="Warmwasserbereitung"/>
+			<xs:enumeration value="Lüftung"/>
+			<xs:enumeration value="Lüftungskonzept"/>
+			<xs:enumeration value="Lüftungsanlage"/>
+			<xs:enumeration value="Luftverteilung / -abgabe"/>
+			<xs:enumeration value="Kühlung"/>
+			<xs:enumeration value="Kälteerzeugung"/>
+			<xs:enumeration value="Kälteverteilung / -abgabe"/>
+			<xs:enumeration value="Be-/Entfeuchtung"/>
+			<xs:enumeration value="Beleuchtung"/>
+			<xs:enumeration value="Anlagenregelung"/>
+			<xs:enumeration value="Gebäudeautomation"/>
+			<xs:enumeration value="Sonstiges"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Modernisierung-Kombi-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="in Zusammenhang mit größerer Modernisierung"/>
+			<xs:enumeration value="als Einzelmaßnahme"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Signature">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation xml:lang="DE">Hier folgen entsprechend dem Standard alle nötigen weiteren Elemente (SignedInfo, SignatureValue, KeyInfo,...) der Signatur.</xs:documentation>
+			</xs:annotation>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

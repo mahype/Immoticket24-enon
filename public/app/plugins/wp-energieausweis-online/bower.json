@@ -1,0 +1,8 @@
+{
+  "name": "wp-energieausweis-online",
+  "version": "1.0.2",
+  "dependencies": {
+    "bootstrap": "~3.3.2",
+    "select2": "~3.5.2"
+  }
+}

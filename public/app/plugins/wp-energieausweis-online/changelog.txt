@@ -1,0 +1,13 @@
+== Changelog ==
+
+= 1.0.2 =
+* added a new filter 'wpenon_payment_active_statuses' to adjust when the user can still reorder the certificate
+* fixed hidden page title action on Discounts page
+* fixed missing space in receipt
+
+= 1.0.1 =
+* added support for GitHub Updater
+* added new `{inline_receipt}` email tag to conform with German law
+
+= 1.0.0 =
+* initial release

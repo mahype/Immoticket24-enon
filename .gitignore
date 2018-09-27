@@ -1,0 +1,79 @@
+# Application
+public/app/debug.log
+public/app/languages/*
+public/app/mu-plugins/*/
+public/app/plugins/*
+public/app/themes/*
+public/app/upgrade
+public/app/uploads/*
+
+# Ignore Exceptions
+!public/app/mu-plugins/energieausweis-*/
+!public/app/mu-plugins/energieausweis-*.php
+!public/app/plugins/affiliate-wp
+!public/app/plugins/affiliate-wp-lifetime-commissions
+!public/app/plugins/cf7-mailchimp-integration
+!public/app/plugins/edd-custom-fees
+!public/app/plugins/edd-discount-code-generator
+!public/app/plugins/edd-klicktipp-integration
+!public/app/plugins/optimizePressPlugin
+!public/app/plugins/optimizePressPlusPack
+!public/app/plugins/options-definitely
+!public/app/plugins/wordpress-seo-premium
+!public/app/plugins/wp-energieausweis-online
+!public/app/plugins/wp-postratings-migrate
+!public/app/themes/immoticket-energieausweis
+
+# WordPress
+public/core
+
+# Custom Config
+local-config.php
+
+# WP-CLI
+db-sync
+sql-dump-*.sql
+
+# Dotenv
+.env
+.env.*
+!.env.tmpl
+!.env.example
+
+# VVV
+vvv-nginx.conf
+log/*
+
+# Vendor (e.g. Composer)
+composer.lock
+vendor/*
+
+# Node Package Manager
+node_modules
+package-lock.json
+
+# Vagrant
+bin
+.vagrant
+
+# IDEs
+*.pydevproject
+.project
+.metadata
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+.externalToolBuilders/
+*.launch
+.cproject
+.buildpath
+nbproject/
+
+# OSes
+[Tt]humbs.db
+[Dd]esktop.ini
+*.DS_store
+.DS_store?

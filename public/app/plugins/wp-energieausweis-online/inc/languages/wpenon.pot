@@ -1,0 +1,2013 @@
+# Copyright (c) 2014-2015 Felix Arntz
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Energieausweis online 1.0.1\n"
+"Report-Msgid-Bugs-To: http://leaves-webdesign.com\n"
+"POT-Creation-Date: 2015-08-28 10:17:09+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: grunt-wp-i18n 0.4.5\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: uft-8\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2; "
+"_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__; esc_html__;esc_attr_e; "
+"esc_html_e;esc_attr_x:1,2c; esc_html_x:1,2c;\n"
+"X-Poedit-Bookmars: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes\n"
+
+#: config.php:76
+msgid "EnEV 2013"
+msgstr ""
+
+#: inc/WPENON/App.php:47
+msgid "Die Klasse darf nicht geklont werden."
+msgstr ""
+
+#: inc/WPENON/App.php:52
+msgid "Die Klasse darf nicht unserialisiert werden."
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:53
+msgid ""
+"Neue Energieausweise können ausschließlich über das Frontend der Website "
+"hinzugefügt werden."
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:53
+msgid "Unerlaubter Zugriff"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:186
+msgid "(vorläufiger Titel)"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:265
+msgid "Rechnungsnummer"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:266
+msgid "Kunde"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:267
+msgid "Details"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:268
+msgid "Amount"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:269 inc/WPENON/View/AdminBase.php:71
+msgid "Date"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:270
+msgid "Status"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:301
+msgid "Zahlungsbestätigungen erneut senden"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:302
+msgid "Rechnungen ansehen"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:308 templates/overview.php:128
+msgid "Rechnung ansehen"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:315 inc/WPENON/Util/Emails.php:127
+#: inc/WPENON/View/AdminBase.php:64
+msgid "Name"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:316 inc/WPENON/Model/ReceiptPDF.php:213
+msgid "Email"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:317
+msgid "Adresse"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:318
+msgid "Purchases"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:319
+msgid "Total Spent"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:320
+msgid "Date Created"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:339
+msgid "Energieausweis-Rechnungen"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:396
+msgid "Die Bestätigungs-Email für den Ausweis %s wurde erfolgreich gesendet."
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:398
+msgid "Die Bestätigungs-Email für den Ausweis %s konnte nicht gesendet werden."
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:403
+msgid "Der Ausweis %s wurde erfolgreich beim DIBT registriert."
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:405
+msgid "Der Ausweis %s konnte nicht beim DIBT registriert werden."
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:410
+msgid "Die Daten für den Ausweis %s wurden erfolgreich an das DIBT gesendet."
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:412
+msgid "Die Daten für den Ausweis %s konnten nicht an das DIBT gesendet werden."
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:435
+msgid "Warnung:"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:435
+msgid ""
+"Es sind nur noch %d Registriernummern verfügbar. Bitte erweitern Sie in "
+"Kürze das Kontingent beim %s."
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:435 inc/WPENON/Controller/Admin.php:441
+#: inc/WPENON/Controller/Admin.php:443
+msgid "DIBT"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:439 templates/create.php:13
+msgid "Achtung:"
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:441
+msgid ""
+"Es sind keine Registriernummern verfügbar. Aktuell können neu gekauften "
+"Energieausweisen der Kunden deshalb keine Registriernummern zugewiesen "
+"werden. Bitte erwerben Sie beim %s umgehend neue Registriernummern."
+msgstr ""
+
+#: inc/WPENON/Controller/Admin.php:443
+msgid ""
+"Es sind nur noch %d Registriernummern verfügbar. Bitte erwerben Sie "
+"umgehend beim %s neue Registriernummern, damit diese weiterhin "
+"ordnungsgemäß zugewiesen werden können."
+msgstr ""
+
+#: inc/WPENON/Controller/Frontend.php:69
+msgid ""
+"Der Zugriffsschlüssel für diesen Energieausweis wurde entweder nicht "
+"angegeben oder ist falsch."
+msgstr ""
+
+#: inc/WPENON/Controller/Frontend.php:69
+msgid "Zugriff verweigert"
+msgstr ""
+
+#: inc/WPENON/Controller/Frontend.php:71
+msgid "Zugriff verweigert."
+msgstr ""
+
+#: inc/WPENON/Controller/Frontend.php:109
+msgid "Die XML-Datei für den Energieausweis %s wurde bereits gesendet."
+msgstr ""
+
+#: inc/WPENON/Controller/Frontend.php:112
+msgid ""
+"Der Energieausweis %s ist entweder noch nicht vollständig ausgefüllt oder "
+"noch nicht bezahlt worden. Daher kann die XML-Datei noch nicht gesendet "
+"werden."
+msgstr ""
+
+#: inc/WPENON/Controller/Frontend.php:122
+msgid ""
+"Die eingegebenen Daten für den Energieausweis %s sind noch fehlerhaft oder "
+"nicht vollständig. Daher kann die XML-Datei noch nicht erzeugt werden."
+msgstr ""
+
+#: inc/WPENON/Controller/Frontend.php:143
+msgid ""
+"Die XML-Datei für den Energieausweis %s wurde noch nicht gesendet, daher "
+"ist momentan noch keine Antwort verfügbar."
+msgstr ""
+
+#: inc/WPENON/Controller/Frontend.php:155
+msgid ""
+"Die eingegebenen Daten für den Energieausweis %s sind noch fehlerhaft oder "
+"nicht vollständig. Daher kann der Energieausweis noch nicht angezeigt "
+"werden."
+msgstr ""
+
+#: inc/WPENON/Controller/Frontend.php:166
+msgid ""
+"Für den Energieausweis %s ist noch keine Bestellung erfolgt, daher ist "
+"keine Rechnung verfügbar."
+msgstr ""
+
+#: inc/WPENON/Controller/Frontend.php:180
+msgid "Ungültiger action-Parameter angegeben."
+msgstr ""
+
+#: inc/WPENON/Model/Energieausweis.php:196
+msgid "Energieausweis-%s"
+msgstr ""
+
+#: inc/WPENON/Model/Energieausweis.php:207
+msgid "Energieausweis-%1$s-%2$s"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisForm.php:199
+msgid ""
+"Es ist ein Systemfehler aufgetreten, wodurch der Energieausweis nicht "
+"erzeugt werden konnte."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisForm.php:199
+msgid "Bitte wenden Sie sich an den Administrator."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisForm.php:221
+#: inc/WPENON/Model/EnergieausweisForm.php:225 templates/overview.php:13
+msgid "Energieausweis-Basisdaten"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisForm.php:267
+msgid "Die Anfrage stammt aus einer unsicheren Quelle."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisForm.php:267
+msgid "Ungültige Anfrage"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:171
+msgid "Der Energieausweis konnte nicht erzeugt werden."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:176
+msgid "Ungültiger Standard für Energieausweis angegeben."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:181
+msgid "Ungültiger Typ für Energieausweis angegeben."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:191
+msgid "Bedarfsausweis für Wohngebäude"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:195
+msgid "Bedarfsausweis für Nichtwohngebäude"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:199
+msgid "Verbrauchsausweis für Wohngebäude"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:203
+msgid "Verbrauchsausweis für Nichtwohngebäude"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:249
+msgid "Email-Adresse des Eigentümers"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:250
+msgid ""
+"Geben Sie Ihre Email-Adresse ein. An diese wird der Energieausweis später "
+"gesendet, achten Sie also auf Korrektheit der Adresse!"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:256
+msgid "Zugriffsschlüssel"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:261
+msgid "Energieausweis-Typ"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:268
+msgid "EnEV: Standard"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:275
+#: inc/WPENON/View/AdminBase.php:69 templates/overview.php:33
+msgid "Ausstellungsdatum"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:280
+#: inc/WPENON/Model/ReceiptPDF.php:148 inc/WPENON/View/AdminBase.php:70
+#: templates/overview.php:29
+msgid "Registriernummer"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:285 templates/overview.php:37
+msgid "Adresse des Gebäudes"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:286
+msgid ""
+"Machen Sie hier Angaben zum Gebäude, für das Sie den Energieausweis "
+"erstellen möchten. Geben Sie hier <strong>nicht</strong> Ihre "
+"Kontaktadresse an."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:291
+msgid "Straße und Hausnummer"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:292
+msgid "Geben Sie die Straße und Hausnummer des Gebäudes ein."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:298
+#: inc/WPENON/Model/TableManager.php:93 inc/WPENON/Util/CustomerMeta.php:168
+#: inc/WPENON/Util/PaymentMeta.php:32 inc/WPENON/Util/Settings.php:68
+msgid "Postleitzahl"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:299
+msgid "Geben Sie die fünfstellige Postleitzahl des Gebäudes ein."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:305
+#: inc/WPENON/Model/TableManager.php:104 inc/WPENON/Util/PaymentMeta.php:33
+#: inc/WPENON/Util/Settings.php:75
+msgid "Ort"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:306
+msgid "Geben Sie die Stadt des Gebäudes ein."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:316
+#: inc/WPENON/Model/TableManager.php:120 inc/WPENON/Util/CustomerMeta.php:170
+msgid "Bundesland"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:371
+msgid "Die geforderte Schema-Datei %s existiert nicht."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:377
+#: inc/WPENON/Model/EnergieausweisManager.php:380
+msgid "Energieausweis-Metadaten"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:414
+msgid "Die geforderte Berechnungs-Datei %s existiert nicht."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:427
+msgid "Die geforderte Mapping-Methode %s konnte nicht gefunden werden."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:430
+msgid "Die geforderte Mapping-Datei %s existiert nicht."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisManager.php:442
+msgid "Die geforderte XSD-Datei %s existiert nicht."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisPDF.php:334
+#: inc/WPENON/Model/EnergieausweisPDF.php:547
+#: inc/WPENON/Model/EnergieausweisPDF.php:628
+msgid "Telefon:"
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisXML.php:42
+msgid "Der Modus %s ist kein gültiger XML-Modus."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisXML.php:322
+msgid "Fehler im Kontext %1$s: Der Wert %2$s ist kein gültiges XML-Datum."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisXML.php:328
+msgid ""
+"Fehler im Kontext %1$s: Der Wert %2$s ist nicht in der XML-Auswahl "
+"vorhanden."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisXML.php:335
+msgid ""
+"Fehler im Kontext %1$s: Der Wert %2$s ist kleiner als der minimal erlaubte "
+"XML-Wert."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisXML.php:338
+msgid ""
+"Fehler im Kontext %1$s: Der Wert %2$s ist größer als der maximal erlaubte "
+"XML-Wert."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisXML.php:350
+msgid "Fehler im Kontext %1$s: Der Wert %2$s ist kein gültiger XML-Boolean."
+msgstr ""
+
+#: inc/WPENON/Model/EnergieausweisXML.php:359
+msgid ""
+"Fehler im Kontext %1$s: Der Wert %2$s entspricht nicht dem nötigen "
+"XML-Pattern."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGateway.php:58
+msgid "Nonce verification has failed"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGateway.php:58
+msgid "Error"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGateway.php:84
+msgid "Payment Error"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayDeposit.php:16
+#: inc/WPENON/Model/PaymentGatewayDeposit.php:17
+msgid "Banküberweisung"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayDeposit.php:33
+msgid ""
+"Payment creation failed while processing a deposit purchase. Payment data: "
+"%s"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:16
+msgid "Lastschrift (Paymill)"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:17
+msgid "Lastschrift"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:40
+msgid ""
+"Payment creation failed while processing a Paymill purchase. Payment data: "
+"%s"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:45
+msgid "Paymill purchase could not be processed because of missing private key."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:49
+msgid ""
+"Paymill purchase could not be processed because no purchase token has been "
+"provided."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:101
+msgid "Paymill Error: %1$s: %2$s"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:103
+msgid "Paymill PHP Error: %1$s: %2$s"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:133
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:143
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:152
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:163
+msgid "Paymill Notification Error"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:133
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:143
+msgid "Missing transaction object. Resource data: %s"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:152
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:102
+msgid "Payment for the transaction ID %s could not be found."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:163
+msgid "Invalid event type provided."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:194
+msgid "Paymill Einstellungen"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:195
+msgid ""
+"Konfigurieren Sie die Einstellungen für das automatische "
+"Lastschriftverfahren mit Paymill."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:200
+msgid "Paymill Live Public Key"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:201
+msgid "Geben Sie den öffentlichen Schlüssel für Ihr Paymill-Konto (Live-Modus) ein."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:207
+msgid "Paymill Live Private Key"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:208
+msgid "Geben Sie den privaten Schlüssel für Ihr Paymill-Konto (Live-Modus) ein."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:214
+msgid "Paymill Test Public Key"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:215
+msgid "Geben Sie den öffentlichen Schlüssel für Ihr Paymill-Konto (Test-Modus) ein."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:221
+msgid "Paymill Test Private Key"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:222
+msgid "Geben Sie den privaten Schlüssel für Ihr Paymill-Konto (Test-Modus) ein."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:317
+msgid "Kontodaten"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:321
+#: inc/WPENON/Util/EDDAdjustments.php:435
+msgid "This is a secure SSL encrypted payment."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:326
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:330
+#: inc/WPENON/Model/ReceiptPDF.php:215 inc/WPENON/Util/PaymentMeta.php:38
+#: inc/WPENON/Util/Settings.php:109
+msgid "Kontoinhaber"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:329
+msgid "Der Name des Kontoinhabers."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:334
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:338
+msgid "Kontonummer / IBAN"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:337
+msgid "Die Kontonummer oder IBAN für das Bankkonto."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:342
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:346
+msgid "Bankleitzahl / BIC"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:345
+msgid "Die Bankleitzahl oder BIC für das Bankkonto."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:350
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:353
+msgid "Kreditinstitut"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:352
+msgid "Das Kreditinstitut für das Bankkonto."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewayPaymill.php:361
+msgid "Paymill Client ID"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:16
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:17
+msgid "Sofortüberweisung"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:37
+msgid ""
+"Payment creation failed while processing a Sofortueberweisung purchase. "
+"Payment data: %s"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:42
+msgid ""
+"Sofortueberweisung purchase could not be processed because of invalid or "
+"missing config key."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:71
+msgid "Sofortueberweisung %1$s. Request data: %2$s"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:95
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:102
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:114
+msgid "SOFORT Notification Error"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:95
+msgid "No transaction ID was submitted."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:114
+msgid "Invalid or missing status parameter in notification response URL."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:127
+msgid "Sofortüberweisung Einstellungen"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:128
+msgid "Konfigurieren Sie die Einstellungen für die Sofortüberweisung."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:133
+msgid "Sofortüberweisung Konfigurationsschlüssel"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:134
+msgid ""
+"Geben Sie den Konfigurationsschlüssel für Ihr Projekt bei Sofortüberweisung "
+"ein."
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:140
+msgid "Sofortüberweisung Käuferschutz"
+msgstr ""
+
+#: inc/WPENON/Model/PaymentGatewaySofortueberweisung.php:141
+msgid ""
+"Klicken Sie diese Checkbox an, um den Käuferschutz zu aktivieren. Achten "
+"Sie darauf, dass Sie in diesem Fall entsprechende Berechtigungen bei "
+"Sofortüberweisung haben müssen."
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:122
+msgid "Rechnungsdatum"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:126
+msgid "Leistung"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:127
+msgid "Preis"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:141 inc/WPENON/Util/EDDAdjustments.php:190
+msgid "Download"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:163
+msgid "Nettobetrag"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:173
+msgid "zzgl. %s %% USt"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:179
+msgid "Bruttobetrag"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:187
+msgid ""
+"Gemäß § 19 UStG wird wegen Kleinunternehmerstatus keine Mehrwertsteuer "
+"erhoben."
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:191
+msgid "Die Rechnung wurde noch nicht beglichen."
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:193
+msgid "Die Rechnung wurde am %1$s via %2$s beglichen."
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:206
+msgid "Kontakt"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:207 inc/WPENON/Util/Settings.php:103
+msgid "Bankdaten"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:208 inc/WPENON/Util/Settings.php:152
+msgid "Rechtliche Informationen"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:213
+msgid "Telefon"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:215 inc/WPENON/Util/PaymentMeta.php:39
+#: inc/WPENON/Util/Settings.php:115
+msgid "Kontonummer"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:215 inc/WPENON/Util/PaymentMeta.php:40
+#: inc/WPENON/Util/Settings.php:121
+msgid "Bankleitzahl"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:216 inc/WPENON/Util/PaymentMeta.php:42
+#: inc/WPENON/Util/Settings.php:133
+msgid "IBAN"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:216 inc/WPENON/Util/PaymentMeta.php:43
+#: inc/WPENON/Util/Settings.php:139
+msgid "BIC (SWIFT)"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:218
+msgid "Inhaber"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:218 inc/WPENON/Util/PaymentMeta.php:47
+#: inc/WPENON/Util/Settings.php:158
+msgid "Amtsgericht"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:220 inc/WPENON/Util/CustomerMeta.php:174
+#: inc/WPENON/Util/PaymentMeta.php:48 inc/WPENON/Util/Settings.php:164
+msgid "Steuernummer"
+msgstr ""
+
+#: inc/WPENON/Model/ReceiptPDF.php:223 inc/WPENON/Util/CustomerMeta.php:173
+#: inc/WPENON/Util/PaymentMeta.php:49 inc/WPENON/Util/Settings.php:170
+msgid "USt-Identifikationsnummer"
+msgstr ""
+
+#: inc/WPENON/Model/Schema.php:89 inc/WPENON/Model/Schema.php:266
+msgid ""
+"Die Callback-Funktion für das dynamische Feld %s existiert nicht oder gibt "
+"einen ungültigen Wert zurück."
+msgstr ""
+
+#: inc/WPENON/Model/Schema.php:259
+msgid ""
+"Es liegt eine wechselseitige Abhängigkeit im Feld %s vor, welche zu einer "
+"unendlichen Rekursion führt."
+msgstr ""
+
+#: inc/WPENON/Model/Table.php:45
+msgid "Tabellen"
+msgstr ""
+
+#: inc/WPENON/Model/Table.php:317
+msgid ""
+"Sie können den kompletten Tabelleninhalt ersetzen, indem Sie eine CSV-Datei "
+"importieren, welche zum Beispiel mit Excel erzeugt werden kann."
+msgstr ""
+
+#: inc/WPENON/Model/Table.php:318
+msgid ""
+"Bei der Tabelle müssen Sie darauf achten, dass sämtliche Spalten der oben "
+"angezeigten Tabelle in genau dieser Reihenfolge existieren. In der "
+"CSV-Datei selbst müssen die einzelnen Spalten durch Semekolons <em>;</em> "
+"voneinander getrennt werden, die verschiedenen Datensätze durch "
+"Zeilenumbrüche."
+msgstr ""
+
+#: inc/WPENON/Model/Table.php:319
+msgid ""
+"Am einfachsten ist es, wenn Sie sich die CSV-Datei aus der aktuellen "
+"Tabelle exportieren und diese entsprechend anpassen."
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:171
+msgid "Auswählen"
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:189
+msgid "Es konnten keine Ergebnisse für Ihre Suche gefunden werden."
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:191
+msgid "Diese Tabelle ist im Moment leer."
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:212
+msgid "Filtern"
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:213
+msgid "Suchen"
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:281
+msgid "Tabelleninhalt ersetzen"
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:286
+msgid "Export"
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:288
+#: inc/WPENON/Model/TableListTable.php:295
+msgid "CSV-Datei aus Tabelle exportieren"
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:289
+#: inc/WPENON/Model/TableListTable.php:302
+msgid "Zeichencodierung der Datei:"
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:298
+msgid "Import"
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:300
+#: inc/WPENON/Model/TableListTable.php:308
+msgid "CSV-Datei in Tabelle importieren"
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:510
+msgid "Der Tabelleninhalt wurde erfolgreich mit den Inhalten der CSV-Datei ersetzt."
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:512
+msgid ""
+"Entweder wurde keine Datei zum Hochladen ausgewählt, oder die Datei ist "
+"leer."
+msgstr ""
+
+#: inc/WPENON/Model/TableListTable.php:514
+msgid "Die Datei konnte nicht ins WordPress-Upload-Verzeichnis hochgeladen werden."
+msgstr ""
+
+#: inc/WPENON/Model/TableManager.php:90
+msgid "Regionen"
+msgstr ""
+
+#: inc/WPENON/Model/TableManager.php:91
+msgid ""
+"Diese Tabelle enthält Zuordnungen zwischen Postleitzahlen und den "
+"dazugehörigen Städten und Bundesländern."
+msgstr ""
+
+#: inc/WPENON/Model/TableManager.php:91
+msgid ""
+"Diese Daten werden sowohl für den Bedarfsausweis als auch für den "
+"Verbrauchsausweis benötigt."
+msgstr ""
+
+#: inc/WPENON/Model/TableManager.php:100
+msgid "PLZ<sup>1</sup>"
+msgstr ""
+
+#: inc/WPENON/Model/TableManager.php:108
+msgid "Kreisschlüssel"
+msgstr ""
+
+#: inc/WPENON/Model/TableManager.php:112
+msgid "Kreis"
+msgstr ""
+
+#: inc/WPENON/Model/TableManager.php:116
+msgid "Länderschlüssel"
+msgstr ""
+
+#: inc/WPENON/Util/CustomerMeta.php:166
+msgid "Adresszeile 1"
+msgstr ""
+
+#: inc/WPENON/Util/CustomerMeta.php:167
+msgid "Adresszeile 2"
+msgstr ""
+
+#: inc/WPENON/Util/CustomerMeta.php:169
+msgid "Stadt"
+msgstr ""
+
+#: inc/WPENON/Util/CustomerMeta.php:171
+msgid "Land"
+msgstr ""
+
+#: inc/WPENON/Util/CustomerMeta.php:172 inc/WPENON/Util/PaymentMeta.php:28
+#: inc/WPENON/Util/Settings.php:43
+msgid "Firmenname"
+msgstr ""
+
+#: inc/WPENON/Util/CustomerMeta.php:175 inc/WPENON/Util/PaymentMeta.php:34
+#: inc/WPENON/Util/Settings.php:82
+msgid "Telefonnummer"
+msgstr ""
+
+#: inc/WPENON/Util/DB.php:173
+msgid "In Zeile %d der CSV-Datei befindet sich eine ungültige Anzahl Spalten."
+msgstr ""
+
+#: inc/WPENON/Util/DB.php:204
+msgid "Beim Einfügen der Zeile %d in die Tabelle ist ein MySQL-Fehler aufgetreten."
+msgstr ""
+
+#: inc/WPENON/Util/DB.php:209
+msgid "Es wurden erfolgreich %d Zeilen in die Tabelle importiert."
+msgstr ""
+
+#: inc/WPENON/Util/DIBT.php:98
+msgid "DIBT API Fehler bei Ausweis %1$s: %2$s"
+msgstr ""
+
+#: inc/WPENON/Util/DIBT.php:119 inc/WPENON/Util/DIBT.php:124
+#: inc/WPENON/Util/DIBT.php:130 inc/WPENON/Util/DIBT.php:135
+msgid "Die geforderte Konstante %s ist nicht deklariert."
+msgstr ""
+
+#: inc/WPENON/Util/DIBTSoapRequest.php:29
+msgid "Die Aktion %s ist keine gültige DIBT-API-Funktion."
+msgstr ""
+
+#: inc/WPENON/Util/DIBTSoapRequest.php:59
+msgid "DIBT Soap Fehler: %s"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:81
+msgid "Energieausweis"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:82
+msgid "Energieausweise"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:140
+msgid "Energieausweis Statistiken"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:196 inc/WPENON/Util/PaymentMeta.php:143
+msgid "Sendung per Post"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:305
+msgid "(Zurück zum Energieausweis)"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:352
+msgid "Bitte geben Sie Ihren Nachnamen ein"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:356
+msgid "Bitte geben Sie Ihre Straße und Hausnummer ein"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:380
+msgid "Email Address"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:381
+msgid "First Name"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:382
+msgid "Last Name"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:383
+msgid "Firmenname (optional)"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:384
+msgid "USt-Identifikationsnummer (optional)"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:391
+msgid "Personal Info"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:431
+msgid "Credit Card Info"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:440
+msgid "Card Number"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:444
+msgid "The (typically) 16 digits on the front of your credit card."
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:445
+msgid "Card number"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:449
+msgid "CVC"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:452
+msgid "The 3 digit (back) or 4 digit (front) value on your card."
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:453
+msgid "Security code"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:457
+msgid "Name on the Card"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:460
+msgid "The name printed on the front of your credit card."
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:461
+msgid "Card name"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:466
+msgid "Expiration (MM/YY)"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:469
+msgid "The date your credit card expires, typically on the front of the card."
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:501
+msgid "Billing Details"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:505
+msgid "Billing Address"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:510
+msgid "The primary billing address for your credit card."
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:511
+msgid "Address line 1"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:515
+msgid "Billing Address Line 2 (optional)"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:520
+msgid "The suite, apt no, PO box, etc, associated with your billing address."
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:521
+msgid "Address line 2"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:525
+msgid "Billing City"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:530
+msgid "The city for your billing address."
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:531
+msgid "City"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:535
+msgid "Billing Zip / Postal Code"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:540
+msgid "The zip or postal code for your billing address."
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:541
+msgid "Zip / Postal code"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:545
+msgid "Billing Country"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:550
+msgid "The country for your billing address."
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:569
+msgid "Billing State / Province"
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:574
+msgid "The state or province for your billing address."
+msgstr ""
+
+#: inc/WPENON/Util/EDDAdjustments.php:592
+msgid "State / Province"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:40
+msgid "Ihre Bankdaten aufgelistet"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:41
+msgid ""
+"Fügt einen Link hinzu, damit Benutzer direkt auf die PDF-Rechnung zugreifen "
+"können"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:42
+msgid ""
+"Fügt eine Auflistung der Bestellung inklusive Preisen direkt in die Email "
+"ein"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:43
+msgid ""
+"Zeigt eine Mitteilung (für den Verkäufer) an, dass die Bestellung mit einer "
+"manuellen Zahlungsweise getätigt wurde (falls zutreffend)"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:45
+msgid ""
+"Zeigt eine Mitteilung (für den Kunden) an, dass als Sendung per Post "
+"bestellte Energieausweise in Kürze versendet werden (falls zutreffend)"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:46
+msgid ""
+"Zeigt eine Mitteilung (für den Verkäufer) an, dass bestimmte "
+"Energieausweise zusätzlich als Sendung per Post bestellt worden sind (falls "
+"zutreffend)"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:93 inc/WPENON/Util/Emails.php:129
+msgid "SKU"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:117 inc/WPENON/Util/Emails.php:190
+msgid "Subtotal"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:119 inc/WPENON/Util/Emails.php:201
+msgid "Tax"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:121 inc/WPENON/Util/Emails.php:212
+msgid "Total Price"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:132
+msgid "Quantity"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:134 inc/WPENON/View/AdminBase.php:68
+msgid "Price"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:237
+msgid ""
+"Die Bestellung wurde durch die manuelle Zahlungsweise %1$s getätigt. Achten "
+"Sie bitte daher auf einen entsprechenden Zahlungseingang mit dem "
+"Verwendungszweck %2$s. Anschließend können Sie die Bestellung unter "
+"folgender Seite als bezahlt markieren: %3$s"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:252
+msgid "Der Energieausweis %s wird Ihnen in Kürze per Post zugesendet."
+msgid_plural "Die Energieausweise %s werden Ihnen in Kürze per Post zugesendet."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/WPENON/Util/Emails.php:264
+msgid "Der Energieausweis %s wurde zusätzlich als Postversand bestellt."
+msgid_plural "Die Energieausweise %s wurden zusätzlich als Postversand bestellt."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/WPENON/Util/Emails.php:265
+msgid "Denken Sie nach Zahlungseingang bitte an den Versand."
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:280 templates/overview.php:112
+msgid "Energieausweis ansehen"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:306 inc/WPENON/Util/Emails.php:314
+msgid "Neuer Energieausweis"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:323
+msgid "Sehr geehrter Kunde,"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:324
+msgid "vielen Dank für die Erstellung Ihres neuen Energieausweises %s."
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:325
+msgid "Typ: %s"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:326
+msgid "Gebäudeadresse: %s"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:327
+msgid "Sie können den Energieausweis jederzeit unter folgendem Link aufrufen:"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:329
+msgid ""
+"Bitte gehen Sie vertraulich mit diesem Link um und geben Sie ihn unter "
+"keinen Umständen an Dritte weiter, da diese andernfalls Zugriff auf den "
+"Energieausweis bekommen würden."
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:330
+msgid ""
+"Über diesen Link können Sie die Daten für Ihren Energieausweis jederzeit "
+"bearbeiten."
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:332
+msgid "Wenn Sie soweit sind, können Sie den Energieausweis verbindlich bestellen."
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:335
+msgid ""
+"Erst nach Zahlungseingang wird der Energieausweis rechtsgültig ausgestellt "
+"und erhält eine Registrierungsnummer."
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:360 inc/WPENON/Util/Emails.php:371
+#: inc/WPENON/Util/Emails.php:432 inc/WPENON/Util/Emails.php:436
+msgid "Zahlungsaufforderung"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:384 inc/WPENON/Util/Emails.php:439
+msgid "Sehr geehrte/r"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:385 inc/WPENON/Util/Emails.php:439
+msgid ""
+"vielen Dank für Ihre Bestellung. Bitte begleichen Sie die Rechnung "
+"umgehend, um die Bestellung abzuschließen und Ihren Energieausweis zu "
+"erhalten."
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:386 inc/WPENON/Util/Emails.php:439
+msgid "Im Folgenden finden Sie die nötigen Daten für die Zahlung:"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:429
+msgid "Betreff der Zahlungsaufforderung"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:430
+msgid "Geben Sie die Betreffzeile der E-Mail für die Bestellbestätigung an"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:437
+msgid ""
+"Geben Sie hier den E-Mail-Text für die Zahlungsaufforderung ein, die "
+"Benutzer bzw. Kunden unmittelbar nach der Bestellung erhalten (betrifft nur "
+"Bestellungen bestimmter Zahlungsweisen). HTML-Formatierungen sind erlaubt. "
+"Verfügbare Template-Tags sind:"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:446
+msgid "Impressum Seite"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:447
+msgid "Ein Link zu dieser Seite wird mit sämtlichen Emails im Fußbereich gesendet."
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:451
+msgid "Select a page"
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:461
+msgid "Diese Email wurde automatisch von %s versendet."
+msgstr ""
+
+#: inc/WPENON/Util/Emails.php:464
+msgid "Impressum"
+msgstr ""
+
+#: inc/WPENON/Util/Error.php:21
+msgid "Die Funktion ist veraltet und sollte nicht mehr verwendet werden."
+msgstr ""
+
+#: inc/WPENON/Util/Error.php:44
+msgid "Schwerwiegender Fehler in Funktion <strong>%1$s</strong>"
+msgstr ""
+
+#: inc/WPENON/Util/Error.php:48
+msgid "Die Funktion <strong>%1$s</strong> wurde fehlerhaft aufgerufen"
+msgstr ""
+
+#: inc/WPENON/Util/Error.php:51
+msgid "Diese Fehlermeldung wurde in Version %2$s des Plugins %1$s hinzugefügt."
+msgstr ""
+
+#: inc/WPENON/Util/Files.php:17
+msgid "Der Stylesheet %s konnte nicht gefunden werden."
+msgstr ""
+
+#: inc/WPENON/Util/Files.php:28
+msgid "Das Script %s konnte nicht gefunden werden."
+msgstr ""
+
+#: inc/WPENON/Util/Format.php:78
+msgid "%1$s um %2$s"
+msgstr ""
+
+#: inc/WPENON/Util/PaymentMeta.php:29 inc/WPENON/Util/Settings.php:49
+msgid "Firmenlogo"
+msgstr ""
+
+#: inc/WPENON/Util/PaymentMeta.php:30 inc/WPENON/Util/Settings.php:55
+msgid "Name des Inhabers"
+msgstr ""
+
+#: inc/WPENON/Util/PaymentMeta.php:31 inc/WPENON/Util/Settings.php:61
+msgid "Straße und Nr."
+msgstr ""
+
+#: inc/WPENON/Util/PaymentMeta.php:35 inc/WPENON/Util/Settings.php:89
+msgid "Kontakt-Emailadresse"
+msgstr ""
+
+#: inc/WPENON/Util/PaymentMeta.php:41 inc/WPENON/Util/Settings.php:127
+msgid "Kreditinstitut / Bank"
+msgstr ""
+
+#: inc/WPENON/Util/PaymentMeta.php:44 inc/WPENON/Util/Settings.php:145
+msgid "Überweisungs-Präfix"
+msgstr ""
+
+#: inc/WPENON/Util/PaymentMeta.php:95
+msgid "Verwendungszweck"
+msgstr ""
+
+#: inc/WPENON/Util/PaymentMeta.php:168
+msgid "Verkäuferinformationen"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:50
+msgid "Ihr Firmenlogo erscheint in Rechnungen und automatisch generierten Emails."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:62
+msgid "Straße und Hausnummer Ihres Firmensitzes."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:69
+msgid "Postleitzahl Ihres Firmensitzes."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:76
+msgid "Ort Ihres Firmensitzes."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:83
+msgid "Die Festnetz-Telefonnummer, unter der Ihre Firma erreichbar ist."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:90
+msgid "Die Emailadresse, mit der Kunden sich an Ihre Firma wenden können."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:96
+msgid "Autoreply-Emailadresse"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:97
+msgid ""
+"Diese Emailadresse wird in automatisch generierten Emails als Absender "
+"verwendet. Kunden können keine Antworten dorthin senden."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:104
+msgid ""
+"Hier können Sie die Kontodaten Ihrer Firma bearbeiten, an die Kunden ihre "
+"Überweisungen richten sollen. Achten Sie darauf, dass alle Felder stets "
+"ausgefüllt sind."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:146
+msgid ""
+"Was Sie hier eingeben, müssen Kunden bei einer Überweisung an den Anfang "
+"des Verwendungszwecks setzen."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:153
+msgid "Die folgenden Informationen werden für Rechnungen benötigt."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:176
+msgid "Stil-Einstellungen"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:177
+msgid ""
+"Die folgenden Einstellungen betreffen das optische Erscheinungsbild der "
+"Benutzeroberfläche."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:182
+msgid "Eigene Bootstrap CSS-Datei"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:183
+msgid ""
+"Das Plugin WP Energieausweis Online verwendet das CSS-Framework Bootstrap "
+"für alle öffentlichen Formulare. Wenn Sie stattdessen eine eigene "
+"Bootstrap-Version verwenden möchten, geben Sie hier den Namen der "
+"entsprechenden CSS Handle ein."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:189
+msgid "Eigene Bootstrap JavaScript-Datei"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:190
+msgid ""
+"Das Plugin WP Energieausweis Online verwendet das CSS-Framework Bootstrap "
+"für alle öffentlichen Formulare. Wenn Sie stattdessen eine eigene "
+"Bootstrap-Version verwenden möchten, geben Sie hier den Namen der "
+"entsprechenden JavaScript Handle ein."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:201
+msgid "Seite für Bedarfsausweis für Wohngebäude"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:202
+msgid ""
+"Auf dieser Seite kann ein neuer Bedarfsausweis für Wohngebäude erstellt "
+"werden."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:208
+msgid "Bedarfsausweis für Wohngebäude: Download-Preis"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:209
+msgid "Der Preis für Downloads von Bedarfsausweisen für Wohngebäude."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:216
+msgid "Bedarfsausweis für Wohngebäude: Postversand-Preis"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:217
+msgid "Der Preis für den Postversand von Bedarfsausweisen für Wohngebäude."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:226
+msgid "Seite für Bedarfsausweis für Nichtwohngebäude"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:227
+msgid ""
+"Auf dieser Seite kann ein neuer Bedarfsausweis für Nichtwohngebäude "
+"erstellt werden."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:233
+msgid "Bedarfsausweis für Nichtwohngebäude: Download-Preis"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:234
+msgid "Der Preis für Downloads von Bedarfsausweisen für Nichtwohngebäude."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:241
+msgid "Bedarfsausweis für Nichtwohngebäude: Postversand-Preis"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:242
+msgid "Der Preis für den Postversand von Bedarfsausweisen für Nichtwohngebäude."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:251
+msgid "Seite für Verbrauchsausweis für Wohngebäude"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:252
+msgid ""
+"Auf dieser Seite kann ein neuer Verbrauchsausweis für Wohngebäude erstellt "
+"werden."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:258
+msgid "Verbrauchsausweis für Wohngebäude: Download-Preis"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:259
+msgid "Der Preis für Downloads von Verbrauchsausweisen für Wohngebäude."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:266
+msgid "Verbrauchsausweis für Wohngebäude: Postversand-Preis"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:267
+msgid "Der Preis für den Postversand von Verbrauchsausweisen für Wohngebäude."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:276
+msgid "Seite für Verbrauchsausweis für Nichtwohngebäude"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:277
+msgid ""
+"Auf dieser Seite kann ein neuer Verbrauchsausweis für Nichtwohngebäude "
+"erstellt werden."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:283 inc/WPENON/Util/Settings.php:291
+msgid "Verbrauchsausweis für Nichtwohngebäude: Postversand-Preis"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:284 inc/WPENON/Util/Settings.php:292
+msgid "Der Preis für den Postversand von Verbrauchsausweisen für Nichtwohngebäude."
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:358
+msgid "Kontaktdaten und Stile"
+msgstr ""
+
+#: inc/WPENON/Util/Settings.php:359
+msgid "Preise"
+msgstr ""
+
+#: inc/WPENON/Util/ThumbnailHandler.php:85
+msgid "Temporäres Energieausweis-Bild"
+msgstr ""
+
+#: inc/WPENON/Util/ThumbnailHandler.php:103
+msgid "Beim Upload ist folgender Fehler aufgetreten: %s"
+msgstr ""
+
+#: inc/WPENON/Util/ThumbnailHandler.php:105
+msgid "Beim Upload ist ein unbekannter Fehler aufgetreten."
+msgstr ""
+
+#: inc/WPENON/Util/ThumbnailHandler.php:109
+msgid "Es wurde keine Datei zum Upload angegeben."
+msgstr ""
+
+#: inc/WPENON/Util/ThumbnailHandler.php:118
+msgid "Energieausweis-Thumbnail"
+msgstr ""
+
+#: inc/WPENON/Util/ThumbnailHandler.php:123
+msgid "Energieausweis-Thumbnail (%s)"
+msgid_plural "Energieausweis-Thumbnails (%s)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/WPENON/Util/Validate.php:14
+msgid ""
+"Es wurde ein Wert abgesendet, welcher nicht in der Auswahlliste enthalten "
+"ist."
+msgstr ""
+
+#: inc/WPENON/Util/Validate.php:35
+msgid ""
+"Es wurden ein oder mehrere Werte abgesendet, welche nicht in der "
+"Auswahlliste enthalten sind."
+msgstr ""
+
+#: inc/WPENON/Util/Validate.php:57
+msgid "Der eingegebene Wert darf nicht kleiner als %d sein."
+msgstr ""
+
+#: inc/WPENON/Util/Validate.php:65
+msgid "Der eingegebene Wert darf nicht größer als %d sein."
+msgstr ""
+
+#: inc/WPENON/Util/Validate.php:81
+msgid "Der eingegebene Wert darf nicht kleiner als %s sein."
+msgstr ""
+
+#: inc/WPENON/Util/Validate.php:88
+msgid "Der eingegebene Wert darf nicht größer als %s sein."
+msgstr ""
+
+#: inc/WPENON/Util/Validate.php:99
+msgid "Der eingegebene Wert ist keine Postleitzahl."
+msgstr ""
+
+#: inc/WPENON/Util/Validate.php:103
+msgid "Die eingegebene Postleitzahl konnte nicht in der Datenbank gefunden werden."
+msgstr ""
+
+#: inc/WPENON/Util/Validate.php:115
+msgid "Der eingegebene Wert ist keine gültige Email-Adresse."
+msgstr ""
+
+#: inc/WPENON/Util/Validate.php:128
+msgid "Der eingegebene Text darf nicht länger als %s Zeichen sein."
+msgstr ""
+
+#: inc/WPENON/Util/Validate.php:140
+msgid "Das Feld darf nicht leer sein."
+msgstr ""
+
+#: inc/WPENON/Util/Validate.php:154
+msgid "Der Wert muss größer als 0 sein."
+msgstr ""
+
+#: inc/WPENON/Util/Validate.php:171
+msgid ""
+"Es liegt ein Fehler im System vor. Bitte wenden Sie sich an den "
+"Administrator."
+msgstr ""
+
+#: inc/WPENON/View/AdminBase.php:65 templates/overview.php:25
+msgid "Typ"
+msgstr ""
+
+#: inc/WPENON/View/AdminBase.php:66
+msgid "Standard"
+msgstr ""
+
+#: inc/WPENON/View/AdminBase.php:67
+msgid "Eigentümer"
+msgstr ""
+
+#: inc/WPENON/View/AdminBase.php:123
+msgid "Bestätiungs-Email erneut zusenden"
+msgstr ""
+
+#: inc/WPENON/View/AdminBase.php:127
+msgid "Registriernummer zuweisen"
+msgstr ""
+
+#: inc/WPENON/View/AdminBase.php:129
+msgid "Daten an DiBT senden"
+msgstr ""
+
+#: inc/WPENON/View/AdminBase.php:132
+msgid "Registrierungs-XML ansehen"
+msgstr ""
+
+#: inc/WPENON/View/AdminBase.php:133
+msgid "Daten-XML ansehen"
+msgstr ""
+
+#: inc/WPENON/View/AdminBase.php:134
+msgid "PDF ansehen"
+msgstr ""
+
+#: inc/WPENON/View/FrontendBase.php:19
+msgid "Es wurde kein Template-Feld im Datenfeld angegeben."
+msgstr ""
+
+#: inc/dynamic-functions.php:10
+msgid "Unauthorisierte Anfrage."
+msgstr ""
+
+#: inc/dynamic-functions.php:14
+msgid "Ungültige Anfrage: Callback nicht vollständig angegeben."
+msgstr ""
+
+#: inc/dynamic-functions.php:18
+msgid "Ungültige Anfrage: Die Callback-Funktion existiert nicht."
+msgstr ""
+
+#: inc/functions.php:158
+msgid "nicht installiert"
+msgstr ""
+
+#: inc/functions.php:184 inc/functions.php:222
+msgid "Schwerwiegender Fehler im Plugin %s:"
+msgstr ""
+
+#: inc/functions.php:184
+msgid ""
+"Ein oder mehrere erforderliche Ressourcen weisen nicht die nötige Version "
+"auf."
+msgstr ""
+
+#: inc/functions.php:193
+msgid "Bitte aktualisieren Sie die folgenden Ressourcen:"
+msgstr ""
+
+#: inc/functions.php:197
+msgid "Name der Ressource"
+msgstr ""
+
+#: inc/functions.php:198
+msgid "Ihre installierte Version"
+msgstr ""
+
+#: inc/functions.php:199
+msgid "Benötigte Version"
+msgstr ""
+
+#: inc/functions.php:222
+msgid "Ihr Server unterstützt die Mindestanforderung von %d MB Memory Limit nicht."
+msgstr ""
+
+#: templates/access-box.php:11
+msgid ""
+"Sie können Ihren Energieausweis jederzeit auch zu einem späteren Zeitpunkt "
+"aufrufen, um ihn anzusehen oder die Arbeit daran fortzusetzen. Speichern "
+"Sie sich dazu einfach den hier angezeigten Link ab und rufen Sie ihn später "
+"wieder auf."
+msgstr ""
+
+#: templates/access-box.php:13
+msgid ""
+"Gehen Sie bitte mit dem Link vertraulich um, damit nur Sie darauf Zugriff "
+"haben!"
+msgstr ""
+
+#: templates/admin/message-error.php:11 templates/message-error.php:15
+msgid "In den folgenden Feldern wurden ungültige Eingaben festgestellt:"
+msgstr ""
+
+#: templates/admin/message-warning.php:11 templates/message-warning.php:15
+msgid "Bitte überprüfen Sie Ihre Eingaben in den folgenden Feldern auf Korrektheit:"
+msgstr ""
+
+#: templates/back-button.php:10
+msgid "Zurück zur Übersicht"
+msgstr ""
+
+#: templates/calculations.php:9
+msgid "Endenergiekennwert: %s kWh/m&sup2;"
+msgstr ""
+
+#: templates/calculations.php:12
+msgid "Primärenergiekennwert: %s kWh/m&sup2;"
+msgstr ""
+
+#: templates/create.php:10
+msgid ""
+"Geben Sie allgemeine Informationen für den Energieausweis ein, den Sie "
+"erstellen möchten."
+msgstr ""
+
+#: templates/create.php:14
+msgid ""
+"Sie können die Angaben unten im Nachhinein nicht mehr ändern. Achten Sie "
+"also auf die Korrektheit Ihrer Eingaben."
+msgstr ""
+
+#: templates/create.php:27
+msgid "Energieausweis mit den oben angegebenen Daten erstellen"
+msgstr ""
+
+#: templates/edit.php:12 templates/overview.php:148
+msgid "Status:"
+msgstr ""
+
+#: templates/edit.php:15 templates/overview.php:151
+msgid "Angaben vollständig"
+msgstr ""
+
+#: templates/edit.php:17 templates/overview.php:153
+msgid "Angaben noch unvollständig"
+msgstr ""
+
+#: templates/edit.php:25
+msgid ""
+"Ihre Angaben für diesen Energieausweis sind vollständig, sodass dieser nun "
+"berechnet und bestellt werden kann."
+msgstr ""
+
+#: templates/edit.php:27
+msgid ""
+"Ihre Angaben für diesen Energieausweis sind noch unvollständig. Erst bei "
+"vollständigen Daten kann der Energieausweis berechnet und bestellt werden."
+msgstr ""
+
+#: templates/edit.php:35
+msgid ""
+"Sie haben für diesen Energieausweis eine Bestellung aufgegeben, welche noch "
+"nicht bezahlt ist."
+msgstr ""
+
+#: templates/edit.php:36
+msgid ""
+"Aus Sicherheitsgründen können Sie die Angaben im Energieausweis erst dann "
+"wieder bearbeiten, wenn die Bezahlung erfolgt ist."
+msgstr ""
+
+#: templates/edit.php:45
+msgid "Erforderliche Felder für die Dateneingabe sind durch %s markiert."
+msgstr ""
+
+#: templates/edit.php:52
+msgid "Änderungen speichern"
+msgstr ""
+
+#: templates/energy-bar.php:39
+msgid "Endenergiebedarf Strom:"
+msgstr ""
+
+#: templates/energy-bar.php:41
+msgid "Endenergieverbrauch Strom:"
+msgstr ""
+
+#: templates/energy-bar.php:43
+msgid "Endenergiebedarf dieses Gebäudes:"
+msgstr ""
+
+#: templates/energy-bar.php:45
+msgid "Endenergieverbrauch dieses Gebäudes:"
+msgstr ""
+
+#: templates/energy-bar.php:48 templates/energy-bar.php:75
+msgid "%s kWh/m&sup2;"
+msgstr ""
+
+#: templates/energy-bar.php:70
+msgid "Primärenergiebedarf dieses Gebäudes:"
+msgstr ""
+
+#: templates/energy-bar.php:72
+msgid "Primärenergieverbrauch dieses Gebäudes:"
+msgstr ""
+
+#: templates/message-error.php:12
+msgid "Fehlerhafte Eingaben!"
+msgstr ""
+
+#: templates/message-warning.php:12
+msgid "Überprüfung empfohlen!"
+msgstr ""
+
+#: templates/overview.php:17
+msgid ""
+"Dies sind allgemeine Daten zu Ihrem Energieausweis. Diese Informationen "
+"sind, einmal festgelegt, nicht mehr veränderlich. Beachten Sie, dass einige "
+"Daten erst nach Bezahlung festgelegt werden."
+msgstr ""
+
+#: templates/overview.php:43 templates/overview.php:44
+msgid "wird nach Bezahlung festgelegt"
+msgstr ""
+
+#: templates/overview.php:56
+msgid "Bild des Gebäudes"
+msgstr ""
+
+#: templates/overview.php:60
+msgid "Wenn Sie hier ein Bild hochladen, wird dieses im Energieausweis angezeigt."
+msgstr ""
+
+#: templates/overview.php:83
+msgid "Bild hochladen"
+msgstr ""
+
+#: templates/overview.php:85
+msgid "Bild löschen"
+msgstr ""
+
+#: templates/overview.php:99
+msgid "Bearbeiten"
+msgstr ""
+
+#: templates/overview.php:102
+msgid "(erst nach Bezahlung wieder möglich)"
+msgstr ""
+
+#: templates/overview.php:114
+msgid "Vorschau ansehen"
+msgstr ""
+
+#: templates/overview.php:118 templates/overview.php:133
+msgid "(erst nach vollständiger Dateneingabe möglich)"
+msgstr ""
+
+#: templates/overview.php:130
+msgid "Bestellen"
+msgstr ""
+
+#: templates/overview.php:144
+msgid "Ergebnisse der Berechnungen"
+msgstr ""
+
+#: templates/overview.php:161
+msgid "Hier sehen Sie die Ergebnisse der Energieausweis-Berechnungen."
+msgstr ""
+
+#: templates/overview.php:163
+msgid ""
+"Nach der korrekten Eingabe aller Daten werden Sie hier die Ergebnisse der "
+"Energieausweis-Berechnungen sehen."
+msgstr ""
+
+#: templates/overview.php:175
+msgid "Energieeffizienzklasse: %s"
+msgstr ""
+
+#: templates/overview.php:183
+msgid "Details zur Berechnung anzeigen"
+msgstr ""
+
+#: templates/overview.php:187
+msgid "Details zur Berechnung"
+msgstr ""
+
+#: templates/overview.php:188
+msgid ""
+"Die folgenden Informationen sind nur für den Shop-Betreiber sichtbar. Der "
+"Kunde hat keinen Zugriff darauf."
+msgstr ""
+
+#: templates/purchase.php:14
+msgid ""
+"Die Angaben für Ihren Energieausweis sind nun vollständig, sodass Sie "
+"diesen nun auf dieser Seite bestellen können."
+msgstr ""
+
+#: templates/purchase.php:15
+msgid ""
+"Beachten Sie bitte, dass Sie aus Sicherheitsgründen nach Aufgabe der "
+"Bestellung Ihre Eingaben bis zur Zahlung nicht mehr bearbeiten können. Nach "
+"Zahlungseingang können Sie dann bei Bedarf wieder Korrekturen vornehmen."
+msgstr ""
+
+#: templates/purchase.php:17
+msgid "Auf dieser Seite sehen Sie die Rechnungsübersicht für diesen Energieausweis."
+msgstr ""
+
+#: templates/purchase.php:19
+msgid ""
+"Die Angaben für Ihren Energieausweis sind noch nicht vollständig. Sie "
+"können den Ausweis erst dann bestellen, wenn Sie alle nötigen Eingaben "
+"getätigt haben."
+msgstr ""
+
+#: templates/purchase.php:31
+msgid "(Rechnung ansehen)"
+msgstr ""
+
+#: templates/purchase.php:36
+msgid "Zahlungsstatus: %s"
+msgstr ""
+
+#: templates/purchase.php:39
+msgid "Sie haben die Rechnung am %1$s via %2$s beglichen."
+msgstr ""
+
+#: templates/purchase.php:41
+msgid ""
+"Bitte begleichen Sie die Rechnung umgehend, um Ihren rechtsgültigen "
+"Energieausweis zu erhalten."
+msgstr ""
+
+#: templates/purchase.php:47
+msgid "PDF-Rechnung"
+msgstr ""
+
+#: templates/purchase.php:56
+msgid "Zahlungsdetails"
+msgstr ""
+
+#: templates/schematabs.php:40
+msgid "Zurück"
+msgstr ""
+
+#: templates/schematabs.php:45
+msgid "Weiter"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WP Energieausweis online"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://leaves-webdesign.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Dieses Plugin erlaubt Besuchern der Website, gültige Energieausweise gegen "
+"Bezahlung online zu erstellen."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Felix Arntz"
+msgstr ""
+
+#. Tags of the plugin/theme
+msgid "wordpress, plugin, app, energieausweis, online"
+msgstr ""

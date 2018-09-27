@@ -1,0 +1,40 @@
+{
+  "name": "felixarntz/wp-energieausweis-online",
+  "description": "Dieses Plugin erlaubt Besuchern der Website, gültige Energieausweise gegen Bezahlung online zu erstellen.",
+  "version": "1.0.2",
+  "type": "wordpress-plugin",
+  "keywords": [
+    "wordpress", "plugin", "app", "energieausweis", "online"
+  ],
+  "homepage": "http://leaves-webdesign.com",
+  "authors": [
+    {
+      "name": "Felix Arntz",
+      "email": "felix-arntz@leaves-webdesign.com",
+      "homepage": "http://leaves-webdesign.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "felix-arntz@leaves-webdesign.com",
+    "issues": "https://github.com/felixarntz/wp-energieausweis-online/issues"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/paymill/paymill-php"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "WPENON\\": "inc/"
+    }
+  },
+  "require": {
+    "php": ">=5.4.0",
+    "composer/installers": "1.0.21",
+    "setasign/fpdi-fpdf": "1.5.4",
+    "sofort/sofortlib-php": "3.0.2",
+    "paymill/paymill": "4.0.0"
+  }
+}

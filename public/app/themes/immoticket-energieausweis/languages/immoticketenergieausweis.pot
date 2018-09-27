@@ -1,0 +1,82 @@
+# Copyright (c) 2014-2014 Felix Arntz
+msgid ""
+msgstr ""
+"Project-Id-Version: Immoticket Energieausweis 1.0.0\n"
+"Report-Msgid-Bugs-To: http://www.energieausweis-online-erstellen.de\n"
+"POT-Creation-Date: 2014-11-08 19:15:22+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: grunt-wp-i18n 0.4.5\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: uft-8\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2; "
+"_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__; esc_html__;esc_attr_e; "
+"esc_html_e;esc_attr_x:1,2c; esc_html_x:1,2c;\n"
+"X-Poedit-Bookmars: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes\n"
+
+#: comments.php:26 comments.php:43
+msgid "Comment navigation"
+msgstr ""
+
+#: comments.php:27 comments.php:44
+msgid "&larr; Older Comments"
+msgstr ""
+
+#: comments.php:28 comments.php:45
+msgid "Newer Comments &rarr;"
+msgstr ""
+
+#: comments.php:55
+msgid "Comments are closed."
+msgstr ""
+
+#: inc/frontend.php:45
+msgid "Page %s"
+msgstr ""
+
+#: inc/theme-setup.php:21
+msgid "Primary Menu"
+msgstr ""
+
+#: inc/theme-setup.php:29
+msgid "Primary Sidebar"
+msgstr ""
+
+#: inc/theme-setup.php:31
+msgid "This sidebar is shown beside the main content."
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Immoticket Energieausweis"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://www.energieausweis-online-erstellen.de"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Das Theme für die Energieausweis-Website von Immoticket 24."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Felix Arntz"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://leaves-webdesign.com"
+msgstr ""
+
+#: comments.php:19
+msgctxt "comments title"
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""

@@ -1,0 +1,39 @@
+{
+  "name": "wp-postratings-migrate",
+  "version": "1.0.0",
+  "description": "This extension for WP-PostRatings allows to migrate ratings from one post to another.",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "extension",
+    "ratings",
+    "post ratings",
+    "migration"
+  ],
+  "author": {
+    "name": "Felix Arntz",
+    "email": "felix-arntz@leaves-and-love.net",
+    "url": "https://leaves-and-love.net"
+  },
+  "homepage": "https://wordpress.org/plugins/wp-postratings-migrate/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/felixarntz/wp-postratings-migrate.git"
+  },
+  "bugs": {
+    "url" : "https://github.com/felixarntz/wp-postratings-migrate/issues"
+  },
+  "license": {
+    "type": "GPL-3.0",
+    "name": "GNU General Public License v3",
+    "url": "http://www.gnu.org/licenses/gpl-3.0.html"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-replace": "^0.5.4"
+  }
+}
