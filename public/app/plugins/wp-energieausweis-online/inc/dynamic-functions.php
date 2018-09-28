@@ -14,6 +14,10 @@ function wpenon_ajax_dynamic_callback() {
     die( 'error::' . __( 'Ungültige Anfrage: Callback nicht vollständig angegeben.', 'wpenon' ) );
   }
 
+  if ( 0 !== strpos( $_POST['callback'], 'wpenon_' ) ) {
+	die( 'error::' . __( 'Ungültige Anfrage: Die Callback-Funktion muss mit wpenon_ beginnen.', 'wpenon' ) );
+  }
+
   if ( ! is_callable( $_POST['callback'] ) ) {
     die( 'error::' . __( 'Ungültige Anfrage: Die Callback-Funktion existiert nicht.', 'wpenon' ) );
   }
@@ -43,7 +47,7 @@ if ( ! function_exists( 'wpenon_show_on_bool_compare' ) ) {
   function wpenon_show_on_bool_compare( $value, $required_values, $relation = 'AND' ) {
     $value = \WPENON\Util\Parse::arr( $value );
     $required_values = \WPENON\Util\Parse::arr( $required_values );
-    
+
     $value = array_map( '\WPENON\Util\Parse::boolean', $value );
     $required_values = array_map( '\WPENON\Util\Parse::boolean', $required_values );
 
