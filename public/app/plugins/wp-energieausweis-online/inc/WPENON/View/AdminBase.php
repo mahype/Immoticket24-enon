@@ -216,50 +216,6 @@ class AdminBase extends TemplateBase {
 				);
 			}
 
-			// Match a type.
-			$types = \WPENON\Model\EnergieausweisManager::getAvailableTypes();
-			$types_found = array();
-			foreach ( $types as $key => $value ) {
-				$_value = strtolower( $value );
-				$_search = strtolower( $search );
-				if ( ! empty( $_search ) && strpos( $_value, $_search ) !== false ) {
-					$types_found[] = $key;
-				}
-			}
-			if ( count( $types_found ) > 0 ) {
-				return array(
-					'meta_query'      => array(
-						array(
-							'key'           => 'wpenon_type',
-							'value'         => $types_found,
-							'compare'       => 'IN',
-						),
-					),
-				);
-			}
-
-			// Match a standard.
-			$standards = \WPENON\Model\EnergieausweisManager::getAvailableStandards();
-			$standards_found = array();
-			foreach ( $standards as $key => $value ) {
-				$_value = strtolower( $value );
-				$_search = strtolower( $search );
-				if ( ! empty( $_search ) && strpos( $_value, $_search ) !== false ) {
-					$standards_found[] = $key;
-				}
-			}
-			if ( count( $standards_found ) > 0 ) {
-				return array(
-					'meta_query'      => array(
-						array(
-							'key'           => 'wpenon_standard',
-							'value'         => $standards_found,
-							'compare'       => 'IN',
-						),
-					),
-				);
-			}
-
 			// Match an email address or registry number.
 			return array(
 				'meta_query'      => array(
