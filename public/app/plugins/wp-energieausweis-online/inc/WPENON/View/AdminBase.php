@@ -216,22 +216,33 @@ class AdminBase extends TemplateBase {
 				);
 			}
 
-			// Match an email address or registry number.
-			return array(
-				'meta_query'      => array(
-					'relation'        => 'OR',
-					array(
-						'key'             => 'wpenon_email',
-						'value'           => $search,
-						'compare'         => 'LIKE',
+			// Match a registry number.
+			if ( preg_match( '/^([A-Z]{2})\-20([0-9]{2})\-([0-9]+)$/', $search ) ) {
+				return array(
+					'meta_query'      => array(
+						'relation' => 'AND',
+						array(
+							'key'     => 'registriernummer',
+							'value'   => $search,
+							'compare' => 'LIKE',
+						),
 					),
-					array(
-						'key'             => 'registriernummer',
-						'value'           => $search,
-						'compare'         => 'LIKE',
+				);
+			}
+
+			// Match an email address.
+			if ( false !== strpos( $search, '@' ) ) {
+				return array(
+					'meta_query'      => array(
+						'relation' => 'AND',
+						array(
+							'key'     => 'wpenon_email',
+							'value'   => $search,
+							'compare' => 'LIKE',
+						),
 					),
-				),
-			);
+				);
+			}
 		}
 
 		return array();
