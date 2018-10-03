@@ -172,75 +172,116 @@ class AdminBase extends TemplateBase {
     return array();
   }
 
-  public function getSearchQueryVars( $search ) {
-    if ( ! is_numeric( $search ) ) {
-      add_filter( 'posts_search', array( $this, '_overrideSearch' ), 10, 2 );
+	public function getSearchQueryVars( $search ) {
+		// Match a ZIP code.
+		if ( preg_match( '/^([0-9]{5})$/', (string) $search ) ) {
+			add_filter( 'posts_search', array( $this, '_overrideSearch' ), 10, 2 );
 
-      $types = \WPENON\Model\EnergieausweisManager::getAvailableTypes();
-      $types_found = array();
-      foreach ( $types as $key => $value ) {
-        $_value = strtolower( $value );
-        $_search = strtolower( $search );
-        if ( ! empty( $_search ) && strpos( $_value, $_search ) !== false ) {
-          $types_found[] = $key;
-        }
-      }
+			return array(
+				'meta_query'      => array(
+					'relation' => 'AND',
+					array(
+						'key'     => 'adresse_plz',
+						'value'   => (string) $search,
+						'compare' => '=',
+					),
+				),
+			);
+		}
 
-      if ( count( $types_found ) > 0 ) {
-        return array(
-          'meta_query'      => array(
-            array(
-              'key'           => 'wpenon_type',
-              'value'         => $types_found,
-              'compare'       => 'IN',
-            ),
-          ),
-        );
-      }
+		if ( ! is_numeric( $search ) ) {
+			add_filter( 'posts_search', array( $this, '_overrideSearch' ), 10, 2 );
 
-      $standards = \WPENON\Model\EnergieausweisManager::getAvailableStandards();
-      $standards_found = array();
-      foreach ( $standards as $key => $value ) {
-        $_value = strtolower( $value );
-        $_search = strtolower( $search );
-        if ( ! empty( $_search ) && strpos( $_value, $_search ) !== false ) {
-          $standards_found[] = $key;
-        }
-      }
+			// Match a full address.
+			if ( preg_match( '/^([^,]+), ([0-9]{5}) (.*)$/', $search, $matches ) ) {
+				return array(
+					'meta_query'      => array(
+						'relation' => 'AND',
+						array(
+							'key'     => 'adresse_strassenr',
+							'value'   => $matches[1],
+							'compare' => '=',
+						),
+						array(
+							'key'     => 'adresse_plz',
+							'value'   => $matches[2],
+							'compare' => '=',
+						),
+						array(
+							'key'     => 'adresse_ort',
+							'value'   => $matches[3],
+							'compare' => '=',
+						),
+					),
+				);
+			}
 
-      if ( count( $standards_found ) > 0 ) {
-        return array(
-          'meta_query'      => array(
-            array(
-              'key'           => 'wpenon_standard',
-              'value'         => $standards_found,
-              'compare'       => 'IN',
-            ),
-          ),
-        );
-      }
+			// Match a type.
+			$types = \WPENON\Model\EnergieausweisManager::getAvailableTypes();
+			$types_found = array();
+			foreach ( $types as $key => $value ) {
+				$_value = strtolower( $value );
+				$_search = strtolower( $search );
+				if ( ! empty( $_search ) && strpos( $_value, $_search ) !== false ) {
+					$types_found[] = $key;
+				}
+			}
+			if ( count( $types_found ) > 0 ) {
+				return array(
+					'meta_query'      => array(
+						array(
+							'key'           => 'wpenon_type',
+							'value'         => $types_found,
+							'compare'       => 'IN',
+						),
+					),
+				);
+			}
 
-      return array(
-        'meta_query'      => array(
-          'relation'        => 'OR',
-          array(
-            'key'             => 'wpenon_email',
-            'value'           => $search,
-            'compare'         => 'LIKE',
-          ),
-          array(
-            'key'             => 'registriernummer',
-            'value'           => $search,
-            'compare'         => 'LIKE',
-          ),
-        ),
-      );
-    }
+			// Match a standard.
+			$standards = \WPENON\Model\EnergieausweisManager::getAvailableStandards();
+			$standards_found = array();
+			foreach ( $standards as $key => $value ) {
+				$_value = strtolower( $value );
+				$_search = strtolower( $search );
+				if ( ! empty( $_search ) && strpos( $_value, $_search ) !== false ) {
+					$standards_found[] = $key;
+				}
+			}
+			if ( count( $standards_found ) > 0 ) {
+				return array(
+					'meta_query'      => array(
+						array(
+							'key'           => 'wpenon_standard',
+							'value'         => $standards_found,
+							'compare'       => 'IN',
+						),
+					),
+				);
+			}
 
-    return array();
-  }
+			// Match an email address or registry number.
+			return array(
+				'meta_query'      => array(
+					'relation'        => 'OR',
+					array(
+						'key'             => 'wpenon_email',
+						'value'           => $search,
+						'compare'         => 'LIKE',
+					),
+					array(
+						'key'             => 'registriernummer',
+						'value'           => $search,
+						'compare'         => 'LIKE',
+					),
+				),
+			);
+		}
 
-  public function _overrideSearch( $search, $query ) {
-    return '';
-  }
+		return array();
+	}
+
+	public function _overrideSearch( $search, $query ) {
+		return '';
+	}
 }
