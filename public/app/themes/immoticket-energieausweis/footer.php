@@ -45,7 +45,7 @@
           <p>&copy; <?php echo immoticketenergieausweis_get_option( 'it-business', 'founded' ) . '-' . date( 'Y' ); ?> <?php printf( __( 'Ein Service von %s', 'immoticketenergieausweis' ), '<a href="' . esc_url( immoticketenergieausweis_get_option( 'it-business', 'website' ) ) . '" title="' . esc_attr( immoticketenergieausweis_get_option( 'it-business', 'firmenname' ) ) . '" target="_blank">' . esc_html( immoticketenergieausweis_get_option( 'it-business', 'firmenname' ) ) . '</a>' ); ?></p>
         </div>
         <div class="credit col-md-6">
-          <p><?php printf( __( 'Entwickelt von %s', 'immoticketenergieausweis' ), '<a href="https://leaves-and-love.net" title="leaves-and-love.net" target="_blank">leaves-and-love.net</a>' ); ?></p>
+          <p><?php printf( __( 'Entwickelt von %s', 'immoticketenergieausweis' ), '<a href="https://felix-arntz.me" target="_blank">leaves-and-love.net</a>' ); ?></p>
         </div>
       </div>
     </footer>
