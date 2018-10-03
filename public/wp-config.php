@@ -78,13 +78,6 @@ define('SECURE_AUTH_SALT', 'Lm?]fm%:jxgaLu|p]N.0N+c7:OK-[a#uR1b0B[+jwDn;Pk6POqgr
 define('LOGGED_IN_SALT',   '+>@w8$v[9X|yg`MT0}wSV:@>jNY?|`bfw31-sArt5VRaJq=A4@fq>k<e|-nB09L,');
 define('NONCE_SALT',       '|J!no9A]Am#UQKCXQcR]y<2E4-;*zs9@~5KbsxFpn|=@161uD{]$f:UBw|=+Y)Gy');
 
-
-/**====================================================
- * WordPress language
- * If you leave that blank, it will be American English
- **====================================================*/
-define('WPLANG', 'de_DE');
-
 /**===================================================
  * Directory and URL configuration
  * These constants ensure a proper directory structure
