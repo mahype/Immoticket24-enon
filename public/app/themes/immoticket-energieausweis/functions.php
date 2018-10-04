@@ -653,7 +653,7 @@ function immoticketenergieausweis_set_terms_acceptance_flags( $payment_id ) {
   $special_affiliates = immoticketenergieausweis_get_special_affiliates();
   if ( ! empty( $_POST['it_is_special_affiliate'] ) && in_array( $_POST['it_is_special_affiliate'], $special_affiliates, true ) ) {
     $payment->update_meta( 'it24_is_special_affiliate', $_POST['it_is_special_affiliate'], '1' );
-    
+
     // Delete the cookie.
     $cookie_id = 'it24_special_affiliate';
     setcookie( $cookie_id, '', time() - HOUR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
@@ -791,7 +791,6 @@ function immoticketenergieausweis_filter_admin_notice_emails_for_special_affilia
   $email = array_search( $special_affiliate, $special_affiliates, true );
   if ( ! empty( $email ) ) {
     $emails[] = $email;
-    $emails[] = 'felix-arntz@leaves-and-love.net';
   }
 
   return $emails;
