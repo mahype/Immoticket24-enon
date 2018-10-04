@@ -10,8 +10,6 @@ License: Private
 Text Domain: wpenon
 Domain Path: /inc/languages/
 Tags: wordpress, plugin, app, energieausweis, online
-GitHub Plugin URI: felixarntz/wp-energieausweis-online
-GitHub Branch: master
 */
 /**
  * @package WPENON
