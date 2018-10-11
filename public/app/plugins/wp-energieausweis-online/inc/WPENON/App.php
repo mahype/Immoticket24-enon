@@ -37,9 +37,6 @@ class App
     }
 
     add_action( 'init', array( '\WPENON\Util\ThumbnailHandler', '_registerStatus' ) );
-
-    register_activation_hook( WPENON_MAINFILE, array( __CLASS__, 'install' ) );
-    register_uninstall_hook( WPENON_MAINFILE, array( __CLASS__, 'uninstall' ) );
   }
 
   public function __clone()

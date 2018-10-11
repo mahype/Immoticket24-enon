@@ -11,6 +11,8 @@ energieausweis-online-erstellen:
   repo: https://github.com/felixarntz/energieausweis-online-erstellen-network.git
   hosts:
     - energieausweis-online-erstellen.test
+  custom:
+    db_name: energieausweis_online_erstellen
 ```
 
 After setting this up, start your VVV instance and call `vagrant provision --provision-with site-energieausweis-online-erstellen`.

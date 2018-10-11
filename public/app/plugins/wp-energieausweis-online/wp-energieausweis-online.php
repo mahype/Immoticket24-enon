@@ -63,3 +63,6 @@ function wpenon_init()
   }
 }
 add_action( 'plugins_loaded', 'wpenon_init' );
+
+register_activation_hook( WPENON_MAINFILE, array( 'WPENON\App', 'install' ) );
+//register_uninstall_hook( WPENON_MAINFILE, array( 'WPENON\App', 'uninstall' ) );
