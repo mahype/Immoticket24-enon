@@ -1018,6 +1018,10 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
             if ( empty( $keller_daemmung ) ) {
               $keller_daemmung = 0;
             }
+          } elseif( 'unbeheizt' === $keller ) {
+	        $keller_groesse = $this->GetData( 'keller_groesse' );
+	        $keller_hoehe = '';
+	        $keller_daemmung = '';
           } else {
             $keller_groesse = '';
             $keller_hoehe = '';
