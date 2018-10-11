@@ -158,6 +158,8 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
           $this->CheckBox( 15, 214, true );
           $this->CheckBox( 111, 214, true );
           $this->CheckBox( 15, 223, true );
+          $gebaeudetyp = $this->GetData( 'gebaeudetyp' );
+
           switch ( $gebaeudetyp ) {
             case 'freistehend':
               $this->CheckBox( 15, 205 );
@@ -1750,7 +1752,7 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
   /**
    * UTILITY FUNCTIONS
    */
-  
+
   public function CheckBox( $x, $y, $print_empty = false ) {
     $orig_font = $this->wpenon_current_font;
     $orig_x    = $this->GetX();
