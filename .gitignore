@@ -40,6 +40,9 @@ sql-dump-*.sql
 !.env.tmpl
 !.env.example
 
+# IDE
+.idea
+
 # VVV
 vvv-nginx.conf
 log/*
