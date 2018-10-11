@@ -34,6 +34,7 @@
     "php": ">=5.4.0",
     "composer/installers": "1.0.21",
     "setasign/fpdi-fpdf": "1.5.4",
+    "setasign/fpdi": "1.5.4",
     "sofort/sofortlib-php": "3.0.2",
     "paymill/paymill": "4.0.0"
   }
