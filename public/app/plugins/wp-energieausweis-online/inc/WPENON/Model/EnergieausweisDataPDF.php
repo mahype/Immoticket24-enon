@@ -1630,11 +1630,11 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
           $this->CheckBox( 111, 228, true );
           switch ( $verteilung_versorgung ) {
             case 'mit':
-              $this->CheckBox( 111, 228 );
+              $this->CheckBox( 15, 228 );
               break;
             case 'ohne':
             default:
-              $this->CheckBox( 15, 228 );
+	          $this->CheckBox( 111, 228 );
               break;
           }
           $l_info = $this->GetData( 'l_info' );
