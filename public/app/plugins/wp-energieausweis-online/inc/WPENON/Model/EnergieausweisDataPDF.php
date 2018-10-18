@@ -512,58 +512,87 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 
           switch ( $h_energietraeger ) {
             case 'heizoelbiooel':
+            case 'heizoelbiooel_l':
+            case 'heizoelbiooel_kwh':
               $this->CheckBox( 52, 48 );
               break;
             case 'biooel':
+            case 'biooel_l':
+            case 'biooel_kwh':
               $this->CheckBox( 117, 48 );
               break;
             case 'erdgas':
+            case 'erdgas_m3':
+            case 'erdgas_kwh':
               $this->CheckBox( 153, 48 );
               break;
             case 'koks':
               $this->CheckBox( 15, 57 );
               break;
             case 'erdgasbiogas':
+            case 'erdgasbiogas_m3':
+            case 'erdgasbiogas_kwh':
               $this->CheckBox( 52, 57 );
               break;
             case 'biogas':
+            case 'biogas_m3':
+            case 'biogas_kwh':
               $this->CheckBox( 117, 57 );
               break;
             case 'fluessiggas':
+            case 'fluessiggas_l':
+            case 'fluessiggas_m3':
+            case 'fluessiggas_kg':
+            case 'fluessiggas_kwh':
               $this->CheckBox( 153, 57 );
               break;
             case 'steinkohle':
+            case 'steinkohle_kg':
+            case 'steinkohle_kwh':
               $this->CheckBox( 15, 66 );
               break;
             case 'braunkohle':
+            case 'braunkohle_kg':
+            case 'braunkohle_kwh':
               $this->CheckBox( 52, 66 );
               break;
             case 'stueckholz':
+            case 'stueckholz_m3':
+            case 'stueckholz_kg':
+            case 'stueckholz_kwh':
               $this->CheckBox( 117, 66 );
               break;
             case 'holzhackschnitzel':
               $this->CheckBox( 153, 66 );
               break;
             case 'holzpellets':
+            case 'holzpellets_kg':
+            case 'holzpellets_kwh':
               $this->CheckBox( 15, 75 );
               break;
             case 'strom':
+            case 'strom_kwh':
               $this->CheckBox( 52, 75 );
               break;
             case 'sonneneinstrahlung':
               $this->CheckBox( 117, 75 );
               break;
             case 'fernwaermehzwfossil':
+            case 'fernwaermehzwfossil_kwh':
               $this->CheckBox( 15, 84 );
               break;
             case 'fernwaermehzwregenerativ':
+            case 'fernwaermehzwregenerativ_kwh':
               $this->CheckBox( 15, 93 );
               break;
             case 'fernwaermekwkfossil':
+            case 'fernwaermekwkfossil_kwh':
             case 'fernwaermekwkfossilbio':
+            case 'fernwaermekwkfossilbio_kwh':
               $this->CheckBox( 15, 102 );
               break;
             case 'fernwaermekwkregenerativ':
+            case 'fernwaermekwkregenerativ_kwh':
               $this->CheckBox( 15, 111 );
               break;
             case 'heizoel':
@@ -1361,58 +1390,87 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
           $this->CheckBox( 15, 87, true );
           switch ( $h_energietraeger ) {
             case 'heizoelbiooel':
+            case 'heizoelbiooel_l':
+            case 'heizoelbiooel_kwh':
               $this->CheckBox( 52, 24 );
               break;
             case 'biooel':
+            case 'biooel_l':
+            case 'biooel_kwh':
               $this->CheckBox( 117, 24 );
               break;
             case 'erdgas':
+            case 'erdgas_m3':
+            case 'erdgas_kwh':
               $this->CheckBox( 153, 24 );
               break;
             case 'koks':
               $this->CheckBox( 15, 33 );
               break;
             case 'erdgasbiogas':
+            case 'erdgasbiogas_m3':
+            case 'erdgasbiogas_kwh':
               $this->CheckBox( 52, 33 );
               break;
             case 'biogas':
+            case 'biogas_m3':
+            case 'biogas_kwh':
               $this->CheckBox( 117, 33 );
               break;
             case 'fluessiggas':
+            case 'fluessiggas_l':
+            case 'fluessiggas_m3':
+            case 'fluessiggas_kg':
+            case 'fluessiggas_kwh':
               $this->CheckBox( 153, 33 );
               break;
             case 'steinkohle':
+            case 'steinkohle_kg':
+            case 'steinkohle_kwh':
               $this->CheckBox( 15, 42 );
               break;
             case 'braunkohle':
+            case 'braunkohle_kg':
+            case 'braunkohle_kwh':
               $this->CheckBox( 52, 42 );
               break;
             case 'stueckholz':
+            case 'stueckholz_m3':
+            case 'stueckholz_kg':
+            case 'stueckholz_kwh':
               $this->CheckBox( 117, 42 );
               break;
             case 'holzhackschnitzel':
               $this->CheckBox( 153, 42 );
               break;
             case 'holzpellets':
+            case 'holzpellets_kg':
+            case 'holzpellets_kwh':
               $this->CheckBox( 15, 51 );
               break;
             case 'strom':
+            case 'strom_kwh':
               $this->CheckBox( 52, 51 );
               break;
             case 'sonneneinstrahlung':
               $this->CheckBox( 117, 51 );
               break;
             case 'fernwaermehzwfossil':
+            case 'fernwaermehzwfossil_kwh':
               $this->CheckBox( 15, 60 );
               break;
             case 'fernwaermehzwregenerativ':
+            case 'fernwaermehzwregenerativ_kwh':
               $this->CheckBox( 15, 69 );
               break;
             case 'fernwaermekwkfossil':
+            case 'fernwaermekwkfossil_kwh':
             case 'fernwaermekwkfossilbio':
+            case 'fernwaermekwkfossilbio_kwh':
               $this->CheckBox( 15, 78 );
               break;
             case 'fernwaermekwkregenerativ':
+            case 'fernwaermekwkregenerativ_kwh':
               $this->CheckBox( 15, 87 );
               break;
             case 'heizoel':
