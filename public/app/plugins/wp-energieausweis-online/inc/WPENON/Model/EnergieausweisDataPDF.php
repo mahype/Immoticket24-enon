@@ -228,12 +228,22 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
               $this->CheckBox( 15, 207 );
               break;
           }
+
+          $this->SetXY( 47, 218.5 );
+
           $dachdaemmung = $this->GetData( 'dach_daemmung' );
+          $deckedaemmung = $this->GetData( 'decke_daemmung' );
+
           if ( empty( $dachdaemmung ) || 'beheizt' !== $dach ) {
             $dachdaemmung = 0;
           }
-          $this->SetXY( 47, 218.5 );
+
+          if( 0 === $dachdaemmung && ! empty( $deckedaemmung ) ) {
+	          $dachdaemmung = $deckedaemmung . ' ' . utf8_decode( ' (Deckendämmung)' );
+          }
+
           $this->WriteCell( $dachdaemmung, 'L', 2, 142.5 );
+
           $keller = $this->GetData( 'keller' );
           $this->CheckBox( 15, 270, true );
           $this->CheckBox( 79, 270, true );
