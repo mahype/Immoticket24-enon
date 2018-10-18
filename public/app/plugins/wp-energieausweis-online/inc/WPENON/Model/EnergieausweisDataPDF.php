@@ -331,6 +331,7 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
           $this->CheckBox( 15, 90, true );
           $this->CheckBox( 111, 90, true );
           $this->CheckBox( 15, 99, true );
+
           switch ( $fenster_bauart ) {
             case 'holzeinfach':
               $this->CheckBox( 15, 81 );
@@ -347,7 +348,7 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
             case 'waermedaemmglass':
               $this->CheckBox( 111, 90 );
               break;
-            case 'waermedaemmglass2fach':
+            case 'waermedaemmglas2fach':
               $this->CheckBox( 15, 99 );
               break;
             case 'aluminium':
@@ -508,6 +509,7 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
           $this->CheckBox( 15, 93, true );
           $this->CheckBox( 15, 102, true );
           $this->CheckBox( 15, 111, true );
+
           switch ( $h_energietraeger ) {
             case 'heizoelbiooel':
               $this->CheckBox( 52, 48 );
