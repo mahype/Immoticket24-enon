@@ -1419,9 +1419,15 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
               break;
           }
           $this->SetXY( 76, 93 );
-          $this->WriteCell( $this->GetData( 'h_baujahr' ), 'L', 2, 121.5 );
+		  $this->WriteCell( $this->GetData( 'h_baujahr' ), 'L', 2, 121.5 );
           $this->SetXY( 87, 109 );
-          $this->WriteCell( $this->GetData( 'verteilung_baujahr' ), 'L', 2, 110.5 );
+
+          if( $this->GetData( 'verteilung_gedaemmt' ) ) {
+	          $this->WriteCell( $this->GetData( 'verteilung_baujahr' ) . utf8_decode( ' (Rohrleitungssystem gedämmt)' ), 'L', 2, 110.5 );
+          } else {
+	          $this->WriteCell( $this->GetData( 'verteilung_baujahr' ), 'L', 2, 110.5 );
+          }
+
           if ( $this->GetData( 'h2_info' ) ) {
             $this->CheckBox( 15, 135 );
             $this->CheckBox( 111, 135, true );
