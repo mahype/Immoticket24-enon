@@ -1373,10 +1373,6 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
               $this->CheckBox( 15, 181.5 );
               break;
           }
-          $this->SetXY( 20, 222 );
-          $this->WriteCell( '', 'L', 2, 81.5 );
-          $this->SetXY( 106, 222 );
-          $this->WriteCell( '', 'L', 2, 81.5 );
         } else {
           $h_energietraeger = $this->GetData( 'h_energietraeger' );
           $this->CheckBox( 15, 24, true );
@@ -1756,10 +1752,6 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
               $this->CheckBox( 15, 34 );
               break;
           }
-          $this->SetXY( 20, 78 );
-          $this->WriteCell( '', 'L', 2, 81.5 );
-          $this->SetXY( 106, 78 );
-          $this->WriteCell( '', 'L', 2, 81.5 );
         }
         break;
       default:
