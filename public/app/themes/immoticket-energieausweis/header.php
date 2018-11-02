@@ -19,6 +19,14 @@ $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php immoticketenergieausweis_wp_title( '|' ); ?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11">
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-65411161-1"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-65411161-1');
+</script>
 <?php wp_head(); ?>
 </head>
 
