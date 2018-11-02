@@ -15,18 +15,17 @@ $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
 ?><!DOCTYPE html>
 <html <?php echo $html_attrs; ?> <?php language_attributes(); ?>>
 <head>
-<meta charset="<?php bloginfo( 'charset' ); ?>">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?php immoticketenergieausweis_wp_title( '|' ); ?></title>
-<link rel="profile" href="http://gmpg.org/xfn/11">
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-65411161-1"></script>
 <script>
 	window.dataLayer = window.dataLayer || [];
 	function gtag(){dataLayer.push(arguments);}
 	gtag('js', new Date());
-
-	gtag('config', 'UA-65411161-1');
+	gtag('config', 'UA-65411161-1', { 'anonymize_ip': true });
 </script>
+<meta charset="<?php bloginfo( 'charset' ); ?>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><?php immoticketenergieausweis_wp_title( '|' ); ?></title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
 <?php wp_head(); ?>
 </head>
 
@@ -91,7 +90,7 @@ $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
           </div>
         </div>
       </div>
-      
+
       <?php if ( ! immoticketenergieausweis_is_distraction_free() ) : ?>
         <?php if ( has_nav_menu( 'secondary' ) ) : ?>
         <div class="navigation-bar-wrapper">
