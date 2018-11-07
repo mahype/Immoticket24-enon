@@ -658,6 +658,20 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 				wp_nonce_field( 'affwp_woo_product_nonce', 'affwp_woo_product_nonce' );
 ?>
 			</div>
+
+			<?php
+
+				/**
+				 * Fires at the bottom of the AffiliateWP product tab in WooCommerce.
+				 *
+				 * Use this hook to register extra product based settings to AffiliateWP product tab in WooCommerce.
+				 *
+				 * @ since 2.2.9
+				 */
+				do_action( 'affwp_' . $this->context . '_product_settings' );
+
+			?>
+
 		</div>
 <?php
 
@@ -704,6 +718,23 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 			</p>
 
 		</div>
+
+		<?php
+
+			/**
+			 * Fires after the affiliate rates section in a WooCommerce product variation.
+			 *
+			 * Use this hook to register extra variation product based settings in WooCommerce.
+			 *
+			 * @since 2.2.9
+			 *
+			 * @param int     $loop
+			 * @param array   $variation_data
+			 * @param WP_Post $variation
+			 */
+			do_action( 'affwp_' . $this->context . '_variation_settings', $loop, $variation_data, $variation );
+
+		?>
 
 <?php
 
@@ -855,7 +886,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 			$rate = $this->get_product_rate( $product_id, $args = array( 'reference' => $reference, 'affiliate_id' => $affiliate_id ) );
 		}
 
-		if ( empty( $rate ) || ! is_numeric( $rate ) ) {
+		if ( ! is_numeric( $rate ) ) {
 			// Global referral rate setting, fallback to 20
 			$default_rate = affiliate_wp()->settings->get( 'referral_rate', 20 );
 			$rate = affwp_abs_number_round( $default_rate );

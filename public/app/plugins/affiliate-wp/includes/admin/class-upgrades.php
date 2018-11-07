@@ -155,6 +155,14 @@ class Affiliate_WP_Upgrades {
 			$this->v222_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.2.8', '<' ) ) {
+			$this->v228_upgrade();
+		}
+
+		if ( version_compare( $this->version, '2.2.9', '<' ) ) {
+			$this->v229_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -838,6 +846,30 @@ class Affiliate_WP_Upgrades {
 				restore_current_blog();
 			}
 		}
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Performs database upgrades for version 2.2.8.
+	 *
+	 * @since 2.2.8
+	 */
+	private function v228_upgrade() {
+		affiliate_wp()->referrals->create_table();
+		@affiliate_wp()->utils->log( 'Upgrade: The length of the campaign column in the Referrals table has been changed to 50 characters.' );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Performs database upgrades for version 2.2.9.
+	 *
+	 * @since 2.2.9
+	 */
+	private function v229_upgrade() {
+		affiliate_wp()->referrals->create_table();
+		@affiliate_wp()->utils->log( 'Upgrade: The parent_id column has been added to the Referrals table.' );
 
 		$this->upgraded = true;
 	}

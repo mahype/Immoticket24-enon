@@ -5,7 +5,7 @@
  * Description: Affiliate Plugin for WordPress
  * Author: AffiliateWP, LLC
  * Author URI: https://affiliatewp.com
- * Version: 2.2.5
+ * Version: 2.2.12
  * Text Domain: affiliate-wp
  * Domain Path: languages
  * GitHub Plugin URI: affiliatewp/affiliatewp
@@ -25,7 +25,7 @@
  * @package AffiliateWP
  * @category Core
  * @author Pippin Williamson
- * @version 2.2.5
+ * @version 2.2.12
  */
 
 // Exit if accessed directly
@@ -57,7 +57,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.2.5';
+	private $version = '2.2.12';
 
 	/**
 	 * The affiliates DB instance variable.
@@ -510,6 +510,7 @@ final class Affiliate_WP {
 		self::$instance->customer_meta  = new Affiliate_WP_Customer_Meta_DB;
 		self::$instance->campaigns      = new Affiliate_WP_Campaigns_DB;
 		self::$instance->settings       = new Affiliate_WP_Settings;
+		self::$instance->REST           = new Affiliate_WP_REST;
 		self::$instance->tracking       = new Affiliate_WP_Tracking;
 		self::$instance->templates      = new Affiliate_WP_Templates;
 		self::$instance->login          = new Affiliate_WP_Login;
@@ -519,7 +520,6 @@ final class Affiliate_WP {
 		self::$instance->creatives      = new Affiliate_WP_Creatives_DB;
 		self::$instance->creative       = new Affiliate_WP_Creatives;
 		self::$instance->rewrites       = new Affiliate_WP_Rewrites;
-		self::$instance->REST           = new Affiliate_WP_REST;
 		self::$instance->capabilities   = new Affiliate_WP_Capabilities;
 		self::$instance->utils          = new Affiliate_WP_Utilities;
 

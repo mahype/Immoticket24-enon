@@ -229,6 +229,9 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 			}
 		}
 
+		$join         = '';
+		$joined_users = false;
+
 		if ( ! empty( $args['search'] ) ) {
 			$search_value = $args['search'];
 
@@ -245,9 +248,10 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 
 				} else {
 
-					$users = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->users} WHERE display_name LIKE '%s' OR user_login LIKE '%s'", "%{$search_value}%", "%{$search_value}%" ) );
-					$users = ! empty( $users ) ? implode( ',', array_map( 'intval', $users ) ) : 0;
-					$search = "`user_id` IN( {$users} )";
+					$joined_users = true;
+
+					$join   .= "a INNER JOIN {$wpdb->users} u ON a.user_id = u.ID";
+					$search = "u.display_name LIKE '%%{$search_value}%%' OR u.user_login LIKE '%%{$search_value}%%' ";
 
 				}
 			}
@@ -280,8 +284,6 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 			$order = 'ASC';
 		}
 
-		$join = '';
-
 		// Orderby.
 		switch( $args['orderby'] ) {
 			case 'date':
@@ -292,13 +294,21 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 			case 'name':
 				// User display_name.
 				$orderby = 'u.display_name';
-				$join = "a INNER JOIN {$wpdb->users} u ON a.user_id = u.ID";
+
+				if ( ! $joined_users ) {
+					$join .= "a INNER JOIN {$wpdb->users} u ON a.user_id = u.ID";
+				}
+
 				break;
 
 			case 'username':
 				// Username.
 				$orderby = 'u.user_login';
-				$join = "a INNER JOIN {$wpdb->users} u ON a.user_id = u.ID";
+
+				if ( ! $joined_users ) {
+					$join .= "a INNER JOIN {$wpdb->users} u ON a.user_id = u.ID";
+				}
+
 				break;
 
 			case 'earnings':

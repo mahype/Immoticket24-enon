@@ -246,7 +246,7 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 
 				$this->log( 'Referral has status other than Pending during process_ipn()' );
 
-				die( 'Referral not pending' );
+				return;
 			}
 
 			$visit->set( 'referral_id', $referral->ID, true );
@@ -271,7 +271,7 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 
 					$this->log( 'Referral completed successfully during process_ipn()' );
 
-					die( 'Referral completed successfully' );
+					return;
 
 				} else {
 
@@ -279,13 +279,13 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 
 				}
 
-				die( 'Referral not completed successfully' );
+				return;
 
 			} else {
 
 				$this->log( 'Referral not updated successfully during process_ipn()' );
 
-				die( 'Referral not updated successfully' );
+				return;
 
 			}
 
@@ -298,7 +298,13 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 				return;
 			}
 
-			$this->reject_referral( $referral->reference );
+			$referral = affiliate_wp()->referrals->get_by( 'reference', $ipn_data['parent_txn_id'] );
+
+			if ( $referral ) {
+
+				$this->reject_referral( $referral->reference );
+
+			}
 
 		} else {
 

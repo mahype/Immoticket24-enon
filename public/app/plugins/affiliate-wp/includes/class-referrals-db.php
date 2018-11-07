@@ -93,6 +93,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			'visit_id'    => '%d',
 			'rest_id'     => '%s',
 			'customer_id' => '%d',
+			'parent_id'   => '%d',
 			'description' => '%s',
 			'status'      => '%s',
 			'amount'      => '%s',
@@ -118,6 +119,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 		return array(
 			'affiliate_id' => 0,
 			'customer_id'  => 0,
+			'parent_id'    => 0,
 			'date'         => gmdate( 'Y-m-d H:i:s' ),
 			'currency'     => affwp_get_currency(),
 			'type'         => 'sale',
@@ -266,6 +268,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 		$args['campaign']      = ! empty( $data['campaign'] )      ? sanitize_text_field( $data['campaign'] )    : '';
 		$args['reference']     = ! empty( $data['reference'] )     ? sanitize_text_field( $data['reference'] )   : '';
 		$args['type']          = ! empty( $data['type'] )          ? sanitize_text_field( $data['type'] )        : '';
+		$args['parent_id']     = ! empty( $data['parent_id'] )     ? absint( $data['parent_id'] )                : $referral->parent_id;
 
 		if( ! empty( $args['type'] ) && ! $this->types_registry->get_type( $args['type'] ) ) {
 			$args['type'] = 'sale';
@@ -374,6 +377,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	 *     @type int|array    $referral_id    Specific referral ID or array of IDs to query for. Default 0 (all).
 	 *     @type int|array    $affiliate_id   Affiliate ID or array of IDs to query referrals for. Default 0 (all).
 	 *     @type int|array    $customer_id    Customer ID or array of IDs to query referrals for. Default 0 (all).
+	 *     @type int|array    $parent_id      Parent ID or array of IDs to query referrals for. Default 0 (all).
 	 *     @type int|array    $payout_id      Payout ID or array of IDs to query referrals for. Default 0 (all).
 	 *     @type float|array  $amount {
 	 *         Specific amount to query for or min/max range. If float, can be used with `$amount_compare`.
@@ -421,6 +425,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			'payout_id'      => 0,
 			'affiliate_id'   => 0,
 			'customer_id'    => 0,
+			'parent_id'      => 0,
 			'amount'         => 0,
 			'amount_compare' => '=',
 			'description'    => '',
@@ -500,6 +505,21 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			}
 
 			$where .= "`payout_id` IN( {$payout_ids} ) ";
+
+		}
+
+		// Referrals for specific parent_ids
+		if( ! empty( $args['parent_id'] ) ) {
+
+			$where .= empty( $where ) ? "WHERE " : "AND ";
+
+			if( is_array( $args['parent_id'] ) ) {
+				$parent_ids = implode( ',', array_map( 'intval', $args['parent_id'] ) );
+			} else {
+				$parent_ids = intval( $args['parent_id'] );
+			}
+
+			$where .= "`parent_id` IN( {$parent_ids} ) ";
 
 		}
 
@@ -988,6 +1008,17 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			// Update the customer record
 			$args['customer_id'] = $customer_id;
 
+			if ( ! $customer->user_id ) {
+
+				$user = get_user_by( 'email', $customer->email );
+
+				if ( $user ) {
+
+					$args['user_id'] = $user->ID;
+
+				}
+			}
+
 			affwp_update_customer( $args );
 
 		} else {
@@ -1018,13 +1049,14 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 		visit_id bigint(20) NOT NULL,
 		rest_id mediumtext NOT NULL,
 		customer_id bigint(20) NOT NULL,
+		parent_id bigint(20) NOT NULL,
 		description longtext NOT NULL,
 		status tinytext NOT NULL,
 		amount mediumtext NOT NULL,
 		currency char(3) NOT NULL,
 		custom longtext NOT NULL,
 		context tinytext NOT NULL,
-		campaign varchar(30) NOT NULL,
+		campaign varchar(50) NOT NULL,
 		type varchar(30) NOT NULL,
 		reference mediumtext NOT NULL,
 		products mediumtext NOT NULL,

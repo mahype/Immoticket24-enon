@@ -67,6 +67,15 @@ final class Referral extends Base_Object {
 	public $customer_id = 0;
 
 	/**
+	 * Parent ID.
+	 *
+	 * @since 2.2.9
+	 * @access public
+	 * @var int
+	 */
+	public $parent_id = 0;
+
+	/**
 	 * Referral description.
 	 *
 	 * @since 1.9
@@ -212,7 +221,7 @@ final class Referral extends Base_Object {
 	 * @return mixed Sanitized field value.
 	 */
 	public static function sanitize_field( $field, $value ) {
-		if ( in_array( $field, array( 'referral_id', 'affiliate_id', 'visit_id', 'ID' ) ) ) {
+		if ( in_array( $field, array( 'referral_id', 'affiliate_id', 'visit_id', 'ID', 'parent_id' ) ) ) {
 			$value = (int) $value;
 		}
 
