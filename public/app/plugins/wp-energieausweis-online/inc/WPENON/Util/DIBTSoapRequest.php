@@ -47,7 +47,13 @@ class DIBTSoapRequest {
 		$xml .= '</' . $function . '>';
 
 		try {
-			$response = $soap->$function( $request_body );
+			$soap = new \SoapClient( $this->api_url . '?WSDL', array(
+				'cache_wsdl' => WSDL_CACHE_NONE,
+				'trace'      => 1,
+			) );
+
+			$request_body = new \SoapVar( $xml, XSD_ANYXML );
+			$response     = $soap->$function( $request_body );
 		} catch ( \SoapFault $exception ) {
 			new \WPENON\Util\Error( 'notice', __METHOD__, sprintf( __( 'DIBT Soap Fehler: %s', 'wpenon' ), $exception->getMessage() ), '1.0.0' );
 		}
