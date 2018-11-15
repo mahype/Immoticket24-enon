@@ -88,18 +88,18 @@ class Validate {
         $error = sprintf( __( 'Der eingegebene Wert darf nicht größer als %s sein.', 'wpenon' ), \WPENON\Util\Format::float( floatval( $field['max'] ) ) );
       }
     }
-    
+
     return self::formatResponse( $value, $field, $error );
   }
 
   public static function zip( $value, $field ) {
     $error = '';
 
-    if ( ! preg_match( '/^[0-9]{5}$/', $value ) ) {
+    if ( ! preg_match( '/^[0-9]{5}$/', $value ) || 1001 > (int) $value ) {
       $error = __( 'Der eingegebene Wert ist keine Postleitzahl.', 'wpenon' );
     } else {
       $regions = \WPENON\Model\TableManager::instance()->getTable( 'regionen' );
-      if ( ! $regions->getResults( array( 'postleitzahl' => array( 'value' => $value, 'compare' => '=' ) ), array(), true ) ) {
+      if ( ! $regions->getResults( array( 'postleitzahl' => array( 'value' => $value, 'compare' => '>=' ) ), array(), true ) ) {
         $error = __( 'Die eingegebene Postleitzahl konnte nicht in der Datenbank gefunden werden.', 'wpenon' );
       }
     }

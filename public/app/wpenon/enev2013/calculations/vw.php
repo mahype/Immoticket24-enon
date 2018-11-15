@@ -16,7 +16,7 @@ $calculations['nutzflaeche'] = $energieausweis->flaeche * $calculations['nutzfla
 
 $calculations['reference'] = 125;
 
-$klimafaktoren = wpenon_get_table_results( 'klimafaktoren', array( 'bezeichnung' => array( 'value' => $energieausweis->adresse_plz, 'compare' => '=' ) ), array(), true );
+$klimafaktoren = wpenon_get_table_results( 'klimafaktoren', array( 'bezeichnung' => array( 'value' => $energieausweis->adresse_plz, 'compare' => '>=' ) ), array(), true );
 $klimafaktoren_datum = $energieausweis->verbrauch_zeitraum;
 
 /*************************************************
@@ -207,7 +207,7 @@ for ( $i = 0; $i < 3; $i++ ) {
 if ( $energieausweis->ww_info == 'unbekannt' ) {
   $calculations['warmwasser_zuschlag'] = 20.0 * $calculations['nutzflaeche'] * 3;
   $calculations['warmwasser_zuschlag_b'] = $calculations['warmwasser_zuschlag'] / ( $calculations['nutzflaeche'] * 3 );
-  
+
   $calculations['verbrauchsdaten'][] = array(
     'start'           => $calculations['verbrauchsdaten'][0]['start'],
     'ende'            => $calculations['verbrauchsdaten'][2]['ende'],
@@ -230,10 +230,10 @@ if ( $energieausweis->ww_info == 'unbekannt' ) {
 if ( $energieausweis->k_info == 'vorhanden' ) {
   $kuehlung_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => 'strom', 'compare' => '=' ) ), array(), true );
   $kuehlung_flaeche = $energieausweis->k_flaeche ? floatval( $energieausweis->k_flaeche ) * $calculations['nutzflaeche_mpk'] : $calculations['nutzflaeche'];
-  
+
   $calculations['kuehlung_zuschlag'] = 6.0 * $kuehlung_flaeche * 3;
   $calculations['kuehlung_zuschlag_b'] = $calculations['kuehlung_zuschlag'] / ( $calculations['nutzflaeche'] * 3 );
-  
+
   $calculations['verbrauchsdaten'][] = array(
     'start'           => $calculations['verbrauchsdaten'][0]['start'],
     'ende'            => $calculations['verbrauchsdaten'][2]['ende'],
