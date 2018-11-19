@@ -60,7 +60,8 @@
     "wordpress-install-dir": "public/core",
     "patches": {
       "wpackagist-plugin/easy-digital-downloads": {
-        "Adjust EDD for WP-Energieausweis-Online plugin": "patches/edd-custom.diff"
+        "Hack: EDD Recalculating total, because of missing VAT in sercices": "patches/edd-recalculate-total.diff",
+        "Hack: EDD showing different value of entries on payment site": "patches/edd-payments-per-page.diff"
       }
     }
   },
