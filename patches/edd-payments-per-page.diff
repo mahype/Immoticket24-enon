@@ -1,0 +1,10 @@
+--- includes/admin/payments/class-payments-table.php
++++ includes/admin/payments/class-payments-table.php
+@@ -114,6 +114,7 @@
+ 	 * @see WP_List_Table::__construct()
+ 	 */
+ 	public function __construct() {
++		$this->per_page = apply_filters( 'edd_wpenon_payments_per_page', $this->per_page );
+
+ 		global $status, $page;
+
