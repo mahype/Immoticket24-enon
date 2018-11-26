@@ -95,6 +95,7 @@ function energieausweis_zusatzoptionen_custom_fees( $fees ) {
 			$settings['sendung_per_post_order']           => $sendung_per_post,
 			$settings['energieausweis_besprechung_order'] => $energieausweis_besprechung,
 			$settings['kostenlose_korrektur_order']       => $kostenlose_korrektur,
+			$settings['premium_bewertung_order']       => $premium_bewertung,
 		);
 		ksort( $order );
 		foreach ( $order as $item ) {
