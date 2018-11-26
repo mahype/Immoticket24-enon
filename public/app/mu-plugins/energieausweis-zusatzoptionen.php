@@ -318,8 +318,6 @@ function energieausweis_zusatzoptionen_settings( $wpod ) {
 											'title'							=> 'Preis',
 											'type'							=> 'number',
 											'default'						=> energieausweis_zusatzoptionen_get_default( 'premium_bewertung_price' ),
-											'required'						=> true,
-											'min'							=> 0.00,
 											'step'							=> 0.01,
 										),
 										'premium_bewertung_order'	=> array(
