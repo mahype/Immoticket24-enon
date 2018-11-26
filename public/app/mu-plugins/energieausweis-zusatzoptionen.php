@@ -462,16 +462,12 @@ function energieausweis_zusatzoptionen_require_phone_number_premium_bewertung_sc
 			var element = event.target;
 			var phoneLabel;
 
-			console.log( element );
-
 			if ( 'edd_custom_fee_premium_bewertung' !== element.getAttribute( 'id' ) && 'edd_custom_fee_premium_bewertung' !== element.getAttribute( 'for' ) ) {
-				console.log( '1' );
 				return;
 			}
 
 			phoneLabel = document.querySelector( 'label[for="wpenon-telefon"]' );
 			if ( ! phoneLabel ) {
-				console.log( '2' );
 				return;
 			}
 
