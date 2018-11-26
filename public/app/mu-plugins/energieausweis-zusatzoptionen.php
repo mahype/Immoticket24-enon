@@ -81,6 +81,14 @@ function energieausweis_zusatzoptionen_custom_fees( $fees ) {
 		$kostenlose_korrektur['amount'] = floatval( $settings['kostenlose_korrektur_price'] );
 	}
 
+	$premium_bewertung = array(
+		'id'              => 'premium_bewertung',
+		'label'           => energieausweis_zusatzoptionen_get_default( 'premium_bewertung_label' ),
+		'amount'          => energieausweis_zusatzoptionen_get_default( 'premium_bewertung_price' ),
+		'description_cb'  => 'energieausweis_zusatzoption_premium_bewertung_info',
+		'email_note'      => '',
+	);
+
 	if ( isset( $settings['experten_check_order'] ) && isset( $settings['sendung_per_post_order'] ) && isset( $settings['energieausweis_besprechung_order'] ) && isset( $settings['kostenlose_korrektur_order'] ) ) {
 		$order = array(
 			$settings['experten_check_order']             => $experten_check,
@@ -97,6 +105,7 @@ function energieausweis_zusatzoptionen_custom_fees( $fees ) {
 		$fees[] = $sendung_per_post;
 		$fees[] = $energieausweis_besprechung;
 		$fees[] = $kostenlose_korrektur;
+		$fees[] = $premium_bewertung;
 	}
 
 	return $fees;
@@ -254,7 +263,7 @@ function energieausweis_zusatzoptionen_settings( $wpod ) {
 									),
 								),
 								'kostenlose_korrektur'			=> array(
-									'title'							=> 'Premium-Bewertung',
+									'title'							=> 'Kostenlose Korrektur',
 									'fields'						=> array(
 										'kostenlose_korrektur_label'	=> array(
 											'title'							=> 'Name',
@@ -282,6 +291,41 @@ function energieausweis_zusatzoptionen_settings( $wpod ) {
 											'description'					=> 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
 											'type'							=> 'number',
 											'default'						=> energieausweis_zusatzoptionen_get_default( 'kostenlose_korrektur_order' ),
+											'required'						=> true,
+											'min'							=> 1,
+											'step'							=> 1,
+										),
+									),
+								),
+								'premium_bewertung'			=> array(
+									'title'							=> 'Premium-Bewertung',
+									'fields'						=> array(
+										'premium_bewertung_label'	=> array(
+											'title'							=> 'Name',
+											'type'							=> 'text',
+											'default'						=> energieausweis_zusatzoptionen_get_default( 'premium_bewertung_label' ),
+											'required'						=> true,
+										),
+										'premium_bewertung_description'=> array(
+											'title'							=> 'Beschreibung',
+											'type'							=> 'wysiwyg',
+											'default'						=> energieausweis_zusatzoptionen_get_default( 'premium_bewertung_description' ),
+											'required'						=> true,
+											'rows'							=> 8,
+										),
+										'premium_bewertung_price'	=> array(
+											'title'							=> 'Preis',
+											'type'							=> 'number',
+											'default'						=> energieausweis_zusatzoptionen_get_default( 'premium_bewertung_price' ),
+											'required'						=> true,
+											'min'							=> 0.00,
+											'step'							=> 0.01,
+										),
+										'premium_bewertung_order'	=> array(
+											'title'							=> 'Reihenfolge',
+											'description'					=> 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
+											'type'							=> 'number',
+											'default'						=> energieausweis_zusatzoptionen_get_default( 'premium_bewertung_order' ),
 											'required'						=> true,
 											'min'							=> 1,
 											'step'							=> 1,
@@ -338,6 +382,16 @@ function energieausweis_zusatzoption_kostenlose_korrektur_info() {
   }
 }
 
+function energieausweis_zusatzoption_premium_bewertung_info() {
+  $settings = get_option( 'energieausweis_zusatzoptionen', array() );
+
+  if ( isset( $settings['premium_bewertung_description'] ) ) {
+  	echo wpautop( $settings['premium_bewertung_description'] );
+  } else {
+  	echo energieausweis_zusatzoptionen_get_default( 'premium_bewertung_description' );
+  }
+}
+
 function energieausweis_zusatzoptionen_get_default( $field = '' ) {
 	switch ( $field ) {
 		case 'experten_check_label':
@@ -367,15 +421,23 @@ function energieausweis_zusatzoptionen_get_default( $field = '' ) {
 		case 'kostenlose_korrektur_label':
 			return 'NEU! Kostenlose Korrektur bei Feststellung falscher Angabe';
 		case 'kostenlose_korrektur_description':
-			return '<p>Bei Auswahl dieser Option können Sie innerhalb von maximal 6 Wochen nach Bestellabschluss den Energieausweis für das gleiche Gebäude korrigieren und kostenlos neu bestellen</p>';
+			return '<p>Bei Auswahl dieser Option können Sie innerhalb von maximal 6 Wochen nach Bestellabschluss den Energieausweis für das gleiche Gebäude korrigieren und kostenlos neu bestellen.</p>';
 		case 'kostenlose_korrektur_price':
 			return 9.95;
 		case 'kostenlose_korrektur_order':
 			return 4;
+		case 'premium_bewertung_label':
+			return 'Premium-Bewertung Ihrer Immobilie';
+		case 'premium_bewertung_description':
+			return '<p>Bei Auswahl dieser Option nehmen wir nach Abschluss Ihrer Bestellung mit Ihnen Kontakt auf, um den Wert Ihrer Immobilie zu ermitteln und Ihnen hierfür eine Verkaufsempfehlung zu geben. Die Bewertung Ihrer Immobilie ist kostenfrei.</p>';
+		case 'premium_bewertung_price':
+			return 0;
+		case 'premium_bewertung_order':
+			return 5;
 	}
 }
 
-/*function energieausweis_zusatzoptionen_require_phone_number_premium_bewertung( $fields ) {
+function energieausweis_zusatzoptionen_require_phone_number_premium_bewertung( $fields ) {
 	$fees = edd_get_cart_fees();
 
 	if ( isset( $fees['premium_bewertung'] ) ) {
@@ -387,9 +449,9 @@ function energieausweis_zusatzoptionen_get_default( $field = '' ) {
 
 	return $fields;
 }
-add_filter( 'edd_purchase_form_required_fields', 'energieausweis_zusatzoptionen_require_phone_number_premium_bewertung' );*/
+add_filter( 'edd_purchase_form_required_fields', 'energieausweis_zusatzoptionen_require_phone_number_premium_bewertung' );
 
-/*function energieausweis_zusatzoptionen_require_phone_number_premium_bewertung_script() {
+function energieausweis_zusatzoptionen_require_phone_number_premium_bewertung_script() {
 	if ( ! edd_is_checkout() ) {
 		return;
 	}
@@ -400,12 +462,16 @@ add_filter( 'edd_purchase_form_required_fields', 'energieausweis_zusatzoptionen_
 			var element = event.target;
 			var phoneLabel;
 
+			console.log( element );
+
 			if ( 'edd_custom_fee_premium_bewertung' !== element.getAttribute( 'id' ) && 'edd_custom_fee_premium_bewertung' !== element.getAttribute( 'for' ) ) {
+				console.log( '1' );
 				return;
 			}
 
 			phoneLabel = document.querySelector( 'label[for="wpenon-telefon"]' );
 			if ( ! phoneLabel ) {
+				console.log( '2' );
 				return;
 			}
 
@@ -418,7 +484,7 @@ add_filter( 'edd_purchase_form_required_fields', 'energieausweis_zusatzoptionen_
 	</script>
 	<?php
 }
-add_action( 'wp_footer', 'energieausweis_zusatzoptionen_require_phone_number_premium_bewertung_script' );*/
+add_action( 'wp_footer', 'energieausweis_zusatzoptionen_require_phone_number_premium_bewertung_script' );
 
 function energieausweis_zusatzoptionen_send_to_experten_check_email_address( $emails ) {
 	if ( ! in_array( 'angabencheck@energieausweis-online-erstellen.de', $emails, true ) ) {
@@ -471,7 +537,7 @@ function energieausweis_zusatzoptionen_maybe_remove_extra_sale_notices( $payment
 }
 add_action( 'edd_admin_sale_notice', 'energieausweis_zusatzoptionen_maybe_remove_extra_sale_notices', 9999 );
 
-/*function energieausweis_zusatzoptionen_render_premium_bewertung_list_table_filter() {
+function energieausweis_zusatzoptionen_render_premium_bewertung_list_table_filter() {
 	$enabled = ! empty( $_REQUEST['zusatzoption_premium_bewertung'] );
 	?>
 	<span>
@@ -522,4 +588,4 @@ function energieausweis_zusatzoptionen_apply_premium_bewertung_list_table_count_
 	$where .= " AND ez.meta_key = '_edd_payment_meta' AND ez.meta_value LIKE '%premium_bewertung%'";
 	return $where;
 }
-add_filter( 'edd_count_payments_where', 'energieausweis_zusatzoptionen_apply_premium_bewertung_list_table_count_where_filter' );*/
+add_filter( 'edd_count_payments_where', 'energieausweis_zusatzoptionen_apply_premium_bewertung_list_table_count_where_filter' );
