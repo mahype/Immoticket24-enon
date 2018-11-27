@@ -346,6 +346,8 @@ class EnergieausweisForm {
       ),
     );
 
+    $fields = apply_filters( 'wpenon_additional_fiels', $fields );
+
     return array_merge( $fields, $custom_fields );
   }
 
