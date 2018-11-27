@@ -249,9 +249,9 @@ class Frontend
     if( $this->view !== null && is_a( $this->view, '\WPENON\View\FrontendBase' ) )
     {
       ob_start();
-      do_action( 'wpenon_before_content', $this->energieausweis );
+      do_action( 'wpenon_before_content', $this->energieausweis, $this->view );
       $this->view->displayTemplate();
-      do_action( 'wpenon_after_content', $this->energieausweis );
+      do_action( 'wpenon_after_content', $this->energieausweis, $this->view );
       $output = ob_get_clean();
     }
     return $output;
