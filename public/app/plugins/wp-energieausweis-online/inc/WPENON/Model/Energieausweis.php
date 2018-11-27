@@ -7,491 +7,480 @@
 
 namespace WPENON\Model;
 
-class Energieausweis
-{
-  private $id = 0;
+class Energieausweis {
+	private $id = 0;
 
-  private $post = null;
+	private $post = null;
 
-  public $errors = array();
-  public $warnings = array();
+	public $errors = array();
+	public $warnings = array();
 
-  private $progress = array();
+	private $progress = array();
 
-  private $ordered = null;
+	private $ordered = null;
 
-  private $paid = null;
+	private $paid = null;
 
 	/**
 	 * @var \WPENON\Model\Schema|null
 	 */
-  private $schema = null;
+	private $schema = null;
 
-  private $calculations = array();
+	private $calculations = array();
 
-  private $owner_data = null;
+	private $owner_data = null;
 
-  public function __construct( $id )
-  {
-    $this->id = $id;
+	public function __construct( $id ) {
+		$this->id = $id;
 
-    $this->post = get_post( $this->id );
+		$this->post = get_post( $this->id );
 
-    $this->errors = \WPENON\Util\Storage::getErrors( $this->id );
-    $this->warnings = \WPENON\Util\Storage::getWarnings( $this->id );
-    $this->progress = get_post_meta( $this->id, '_wpenon_progress' );
+		$this->errors   = \WPENON\Util\Storage::getErrors( $this->id );
+		$this->warnings = \WPENON\Util\Storage::getWarnings( $this->id );
+		$this->progress = get_post_meta( $this->id, '_wpenon_progress' );
 
-    add_action( 'edd_update_payment_status', array( $this, '_checkOrderedPaidStatus' ) );
+		add_action( 'edd_update_payment_status', array( $this, '_checkOrderedPaidStatus' ) );
 
-    $this->_loadSchema();
-  }
+		$this->_loadSchema();
+	}
 
-  public function __set( $field, $value )
-  {
-    if( $field == 'thumbnail_id' )
-    {
-      \WPENON\Util\ThumbnailHandler::set( $this, $value );
-    }
-    elseif( in_array( $field, array( 'register_response', 'data_response' ) ) )
-    {
-      update_post_meta( $this->id, '_wpenon_' . $field, $value );
-    }
-    else
-    {
-      if( $this->schema->isField( 'wpenon_' . $field ) )
-      {
-        $field = 'wpenon_' . $field;
-      }
-      if( $this->schema->isField( $field ) )
-      {
-        $old_value = get_post_meta( $this->id, $field, true );
+	public function __set( $field, $value ) {
+		if ( $field == 'thumbnail_id' ) {
+			\WPENON\Util\ThumbnailHandler::set( $this, $value );
+		} elseif ( in_array( $field, array( 'register_response', 'data_response' ) ) ) {
+			update_post_meta( $this->id, '_wpenon_' . $field, $value );
+		} else {
+			if ( $this->schema->isField( 'wpenon_' . $field ) ) {
+				$field = 'wpenon_' . $field;
+			}
+			if ( $this->schema->isField( $field ) ) {
+				$old_value = get_post_meta( $this->id, $field, true );
 
-        if( $value !== $old_value )
-        {
-          update_post_meta( $this->id, $field, $value );
+				if ( $value !== $old_value ) {
+					update_post_meta( $this->id, $field, $value );
 
-          if( $field == 'wpenon_email' )
-          {
-            $this->_loadOwnerData();
-          }
-          elseif( in_array( $field, array( 'wpenon_type', 'wpenon_standard' ) ) )
-          {
-            if ( 'wpenon_type' === $field ) {
-              \WPENON\Util\EDDAdjustments::instance()->_setPriceDefaults( $this );
-            }
-            $this->_loadSchema();
-          }
-        }
-      }
-    }
+					if ( $field == 'wpenon_email' ) {
+						$this->_loadOwnerData();
+					} elseif ( in_array( $field, array( 'wpenon_type', 'wpenon_standard' ) ) ) {
+						if ( 'wpenon_type' === $field ) {
+							\WPENON\Util\EDDAdjustments::instance()->_setPriceDefaults( $this );
+						}
+						$this->_loadSchema();
+					}
+				}
+			}
+		}
 
-    $this->calculations           = array();
-  }
+		$this->calculations = array();
+	}
 
-  public function __get( $field )
-  {
-    if( strtolower( $field ) == 'id' )
-    {
-      return $this->id;
-    }
+	public function __get( $field ) {
+		if ( strtolower( $field ) == 'id' ) {
+			return $this->id;
+		}
 
-    if ( $field == 'thumbnail_id' ) {
-      return \WPENON\Util\ThumbnailHandler::get( $this );
-    }
+		if ( $field == 'thumbnail_id' ) {
+			return \WPENON\Util\ThumbnailHandler::get( $this );
+		}
 
-    if ( in_array( $field, array( 'register_response', 'data_response' ) ) ) {
-      return get_post_meta( $this->id, '_wpenon_' . $field, true );
-    }
+		if ( in_array( $field, array( 'register_response', 'data_response' ) ) ) {
+			return get_post_meta( $this->id, '_wpenon_' . $field, true );
+		}
 
-    if ( $field == 'verified_permalink' ) {
-      return \WPENON\Model\EnergieausweisManager::getVerifiedPermalink( $this->id );
-    }
+		if ( $field == 'verified_permalink' ) {
+			return \WPENON\Model\EnergieausweisManager::getVerifiedPermalink( $this->id );
+		}
 
-    if ( $field == 'permalink' ) {
-      return get_permalink( $this->id );
-    }
+		if ( $field == 'permalink' ) {
+			return get_permalink( $this->id );
+		}
 
-    if ( $field == 'mode' || $field == 'building' ) {
-      $type = get_post_meta( $this->id, 'wpenon_type', true );
-      if ( $field == 'building' ) {
-        return substr( $type, 1, 1 );
-      }
-      return substr( $type, 0, 1 );
-    }
+		if ( $field == 'mode' || $field == 'building' ) {
+			$type = get_post_meta( $this->id, 'wpenon_type', true );
+			if ( $field == 'building' ) {
+				return substr( $type, 1, 1 );
+			}
 
-    if ( $field == 'adresse' ) {
-      return get_post_meta( $this->id, 'adresse_strassenr', true ) . ', ' . get_post_meta( $this->id, 'adresse_plz', true ) . ' ' . get_post_meta( $this->id, 'adresse_ort', true );
-    }
+			return substr( $type, 0, 1 );
+		}
 
-    $formatted = false;
-    if ( strpos( $field, 'formatted_' ) === 0 ) {
-      $field = substr( $field, 10 );
-      $formatted = true;
-    }
+		if ( $field == 'adresse' ) {
+			return get_post_meta( $this->id, 'adresse_strassenr', true ) . ', ' . get_post_meta( $this->id, 'adresse_plz', true ) . ' ' . get_post_meta( $this->id, 'adresse_ort', true );
+		}
 
-    if ( $this->schema->isField( 'wpenon_' . $field ) ) {
-      $field = 'wpenon_' . $field;
-    }
-    if ( $this->schema->isField( $field ) ) {
-      $field_args = $this->schema->getField( $field );
+		$formatted = false;
+		if ( strpos( $field, 'formatted_' ) === 0 ) {
+			$field     = substr( $field, 10 );
+			$formatted = true;
+		}
 
-      $ret = get_post_meta( $this->id, $field, true );
-      if ( $ret === '' ) {
-        $ret = $field_args['default'];
-      } else {
-        switch ( $field_args['type'] ) {
-          case 'checkbox':
-            $ret = \WPENON\Util\Parse::boolean( $ret );
-            break;
-          case 'multiselect':
-          case 'multibox':
-            $ret = \WPENON\Util\Parse::arr( $ret );
-            break;
-          case 'float':
-            $ret = \WPENON\Util\Parse::float( $ret );
-            break;
-          case 'int':
-            $ret = \WPENON\Util\Parse::int( $ret );
-            break;
-          default:
-            // Compatibility with old entries
-            if ( 'ausstellungsdatum' === $field ) {
-              $ret = date( 'Y-m-d', strtotime( $ret ) );
-            }
-        }
-      }
+		if ( $this->schema->isField( 'wpenon_' . $field ) ) {
+			$field = 'wpenon_' . $field;
+		}
+		if ( $this->schema->isField( $field ) ) {
+			$field_args = $this->schema->getField( $field );
 
-      if ( $formatted ) {
-        $ret = $this->schema->getFormattedFieldValue( $field, $ret );
-      }
+			$ret = get_post_meta( $this->id, $field, true );
+			if ( $ret === '' ) {
+				$ret = $field_args['default'];
+			} else {
+				switch ( $field_args['type'] ) {
+					case 'checkbox':
+						$ret = \WPENON\Util\Parse::boolean( $ret );
+						break;
+					case 'multiselect':
+					case 'multibox':
+						$ret = \WPENON\Util\Parse::arr( $ret );
+						break;
+					case 'float':
+						$ret = \WPENON\Util\Parse::float( $ret );
+						break;
+					case 'int':
+						$ret = \WPENON\Util\Parse::int( $ret );
+						break;
+					default:
+						// Compatibility with old entries
+						if ( 'ausstellungsdatum' === $field ) {
+							$ret = date( 'Y-m-d', strtotime( $ret ) );
+						}
+				}
+			}
 
-      return $ret;
-    }
+			if ( $formatted ) {
+				$ret = $this->schema->getFormattedFieldValue( $field, $ret );
+			}
 
-    if( $formatted )
-    {
-      $field = 'formatted_' . $field;
-    }
+			return $ret;
+		}
 
-    if( isset( $this->post->$field ) )
-    {
-      return $this->post->$field;
-    }
-    $field = 'post_' . $field;
-    if( isset( $this->post->$field ) )
-    {
-      return $this->post->$field;
-    }
+		if ( $formatted ) {
+			$field = 'formatted_' . $field;
+		}
 
-    return null;
-  }
+		if ( isset( $this->post->$field ) ) {
+			return $this->post->$field;
+		}
+		$field = 'post_' . $field;
+		if ( isset( $this->post->$field ) ) {
+			return $this->post->$field;
+		}
 
-  public function __isset( $field ) {
-    return $this->__get( $field ) !== null;
-  }
+		return null;
+	}
 
-  public function get_progress() {
-    return $this->progress;
-  }
+	public function __isset( $field ) {
+		return $this->__get( $field ) !== null;
+	}
 
-  public function is_progressed( $field ) {
-    return in_array( $field, $this->progress, true );
-  }
+	public function get_progress() {
+		return $this->progress;
+	}
 
-  public function add_to_progress( $field ) {
-    if ( in_array( $field, $this->progress, true ) ) {
-      return;
-    }
+	public function is_progressed( $field ) {
+		return in_array( $field, $this->progress, true );
+	}
 
-    $this->progress[] = $field;
-    add_post_meta( $this->id, '_wpenon_progress', $field );
-  }
+	public function add_to_progress( $field ) {
+		if ( in_array( $field, $this->progress, true ) ) {
+			return;
+		}
 
-  public function remove_from_progress( $field ) {
-    $key = array_search( $field, $this->progress, true );
-    if ( false === $key ) {
-      return;
-    }
+		$this->progress[] = $field;
+		add_post_meta( $this->id, '_wpenon_progress', $field );
+	}
 
-    array_splice( $this->progress, $key, 1 );
-    delete_post_meta( $this->id, '_wpenon_progress', $field );
-  }
+	public function remove_from_progress( $field ) {
+		$key = array_search( $field, $this->progress, true );
+		if ( false === $key ) {
+			return;
+		}
 
-  public function calculate()
-  {
-    if( $this->isFinalized() )
-    {
-      if( count( $this->calculations ) < 1 )
-      {
-        $this->calculations = \WPENON\Model\EnergieausweisManager::loadCalculations( $this );
-      }
-      return $this->calculations;
-    }
-    return array();
-  }
+		array_splice( $this->progress, $key, 1 );
+		delete_post_meta( $this->id, '_wpenon_progress', $field );
+	}
 
-  public function getPDF( $output_mode = 'I', $preview = false ) {
-    $pdf = new \WPENON\Model\EnergieausweisPDF( sprintf( __( 'Energieausweis-%s', 'wpenon' ), $this->post->post_title ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ), $preview );
-    if ( $this->isFinalized() ) {
-      $this->calculate();
-      $pdf->create( $this );
-    } else {
-      $pdf->create( null );
-    }
-    return $pdf->finalize( $output_mode );
-  }
+	public function calculate() {
+		if ( $this->isFinalized() ) {
+			if ( count( $this->calculations ) < 1 ) {
+				$this->calculations = \WPENON\Model\EnergieausweisManager::loadCalculations( $this );
+			}
 
-  public function getDataPDF( $output_mode = 'I' ) {
-    $pdf = new \WPENON\Model\EnergieausweisDataPDF( sprintf( __( 'Energieausweis-Daten-%s', 'wpenon' ), $this->post->post_title ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ) );
-    $pdf->create( $this );
-    return $pdf->finalize( $output_mode );
-  }
+			return $this->calculations;
+		}
 
-  public function getXML( $mode, $output_mode = 'I', $raw = false ) {
-    $xml = new \WPENON\Model\EnergieausweisXML( $mode, sprintf( __( 'Energieausweis-%1$s-%2$s', 'wpenon' ), $this->post->post_title, ucfirst( $mode ) ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ) );
-    if ( $this->isFinalized() ) {
-      $this->calculate();
-      $xml->create( $this, $raw );
-    } else {
-      $xml->create( null, $raw );
-    }
-    return $xml->finalize( $output_mode );
-  }
+		return array();
+	}
 
-  public function getFieldOptionLabels( $field_slug ) {
-    $field = $this->schema->getField( $field_slug );
-    if ( isset( $field['options'] ) ) {
-      return $field['options'];
-    }
-    return array();
-  }
+	public function getPDF( $output_mode = 'I', $preview = false ) {
+		$pdf = new \WPENON\Model\EnergieausweisPDF( sprintf( __( 'Energieausweis-%s', 'wpenon' ), $this->post->post_title ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ), $preview );
+		if ( $this->isFinalized() ) {
+			$this->calculate();
+			$pdf->create( $this );
+		} else {
+			$pdf->create( null );
+		}
 
-  public function getFieldOptionLabel( $field_slug, $value = null ) {
-    $field = $this->schema->getField( $field_slug, $this );
-    $value = $value ? $value : ( isset( $field['value'] ) ? $field['value'] : '' );
-    if ( isset( $field['options'] ) && isset( $field['options'][ $value ] ) ) {
-      return $field['options'][ $value ];
-    }
-    return '';
-  }
+		return $pdf->finalize( $output_mode );
+	}
 
-  public function getOwnerData( $field = '' ) {
-    if ( $this->owner_data === null ) {
-      $this->_loadOwnerData();
-    }
-    if ( ! empty( $field ) ) {
-      if ( isset( $this->owner_data[ $field ] ) ) {
-        return $this->owner_data[ $field ];
-      } else {
-        return false;
-      }
-    }
-    return $this->owner_data;
-  }
+	public function getDataPDF( $output_mode = 'I' ) {
+		$pdf = new \WPENON\Model\EnergieausweisDataPDF( sprintf( __( 'Energieausweis-Daten-%s', 'wpenon' ), $this->post->post_title ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ) );
+		$pdf->create( $this );
+
+		return $pdf->finalize( $output_mode );
+	}
+
+	public function getXML( $mode, $output_mode = 'I', $raw = false ) {
+		$xml = new \WPENON\Model\EnergieausweisXML( $mode, sprintf( __( 'Energieausweis-%1$s-%2$s', 'wpenon' ), $this->post->post_title, ucfirst( $mode ) ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ) );
+		if ( $this->isFinalized() ) {
+			$this->calculate();
+			$xml->create( $this, $raw );
+		} else {
+			$xml->create( null, $raw );
+		}
+
+		return $xml->finalize( $output_mode );
+	}
+
+	public function getFieldOptionLabels( $field_slug ) {
+		$field = $this->schema->getField( $field_slug );
+		if ( isset( $field['options'] ) ) {
+			return $field['options'];
+		}
+
+		return array();
+	}
+
+	public function getFieldOptionLabel( $field_slug, $value = null ) {
+		$field = $this->schema->getField( $field_slug, $this );
+		$value = $value ? $value : ( isset( $field['value'] ) ? $field['value'] : '' );
+		if ( isset( $field['options'] ) && isset( $field['options'][ $value ] ) ) {
+			return $field['options'][ $value ];
+		}
+
+		return '';
+	}
+
+	public function getOwnerData( $field = '' ) {
+		if ( $this->owner_data === null ) {
+			$this->_loadOwnerData();
+		}
+		if ( ! empty( $field ) ) {
+			if ( isset( $this->owner_data[ $field ] ) ) {
+				return $this->owner_data[ $field ];
+			} else {
+				return false;
+			}
+		}
+
+		return $this->owner_data;
+	}
 
 	/**
 	 * Returns Schema.
 	 *
 	 * @return \WPENON\Model\Schema|null
 	 */
-  public function getSchema() {
-    return $this->schema;
-  }
+	public function getSchema() {
+		return $this->schema;
+	}
 
-  public function checkValidationErrors( $errors, $warnings = array() ) {
-    $this->errors = $errors;
-    $this->warnings = $warnings;
+	public function checkValidationErrors( $errors, $warnings = array() ) {
+		$this->errors   = $errors;
+		$this->warnings = $warnings;
 
-    $status = false;
-    if ( count( $errors ) == 0 ) {
-      $status = true;
-    }
+		$status = false;
+		if ( count( $errors ) == 0 ) {
+			$status = true;
+		}
 
-    if ( $status ) {
-      update_post_meta( $this->id, '_finalized', $status );
-    } else {
-      delete_post_meta( $this->id, '_finalized' );
-    }
-  }
+		if ( $status ) {
+			update_post_meta( $this->id, '_finalized', $status );
+		} else {
+			delete_post_meta( $this->id, '_finalized' );
+		}
+	}
 
-  public function isFinalized() {
-    return (bool) get_post_meta( $this->id, '_finalized', true );
-  }
+	public function isFinalized() {
+		return (bool) get_post_meta( $this->id, '_finalized', true );
+	}
 
-  public function isOrdered( $force = false ) {
-    if ( $this->ordered === null || $force ) {
-      $this->_checkOrderedPaidStatus();
-    }
-    return $this->ordered;
-  }
+	public function isOrdered( $force = false ) {
+		if ( $this->ordered === null || $force ) {
+			$this->_checkOrderedPaidStatus();
+		}
 
-  public function isPaid( $force = false ) {
-    if ( $this->paid === null || $force ) {
-      $this->_checkOrderedPaidStatus();
-    }
-    return $this->paid;
-  }
+		return $this->ordered;
+	}
 
-  public function isRegistered() {
-    return (bool) get_post_meta( $this->id, '_registered', true ) || ! empty( trim( get_post_meta( $this->id, 'registriernummer', true ) ) );
-  }
+	public function isPaid( $force = false ) {
+		if ( $this->paid === null || $force ) {
+			$this->_checkOrderedPaidStatus();
+		}
 
-  public function isDataSent() {
-    return (bool) get_post_meta( $this->id, '_datasent', true );
-  }
+		return $this->paid;
+	}
 
-  public function getPayment() {
-    $payments = array();
+	public function isRegistered() {
+		return (bool) get_post_meta( $this->id, '_registered', true ) || ! empty( trim( get_post_meta( $this->id, 'registriernummer', true ) ) );
+	}
 
-    $active_statuses = apply_filters( 'wpenon_payment_active_statuses', array( 'pending', 'publish' ) );
+	public function isDataSent() {
+		return (bool) get_post_meta( $this->id, '_datasent', true );
+	}
 
-    $payment_ids = get_post_meta( $this->id, '_wpenon_attached_payment_id' );
+	public function getPayment() {
+		$payments = array();
 
-    if ( count( $payment_ids ) > 0 ) {
-      $payments = edd_get_payments( array(
-        'output'      => 'payments',
-        'status'      => $active_statuses,
-        'post__in'    => array_map( 'absint', $payment_ids ),
-      ) );
-      if ( empty( $payments ) ) {
-        $payments = array();
-        foreach ( $payment_ids as $payment_id ) {
-          $payment = edd_get_payment( $payment_id );
-          if ( $payment ) {
-            $payments[] = $payment;
-          }
-        }
-      }
-    } else {
-      $payments = edd_get_payments( array(
-        'output'      => 'payments',
-        'status'      => $active_statuses,
-        'download'    => $this->id,
-      ) );
-      foreach ( $payments as $payment ) {
-        add_post_meta( $this->id, '_wpenon_attached_payment_id', $payment->ID );
-      }
-    }
+		$active_statuses = apply_filters( 'wpenon_payment_active_statuses', array( 'pending', 'publish' ) );
 
-    // preferably return a complete payment (in case multiple payments exist for an Energieausweis due to an error)
-    foreach ( $payments as $payment ) {
-      if ( edd_is_payment_complete( $payment->ID ) ) {
-        return $payment;
-      }
-    }
+		$payment_ids = get_post_meta( $this->id, '_wpenon_attached_payment_id' );
 
-    if ( isset( $payments[0] ) ) {
-      return $payments[0];
-    }
+		if ( count( $payment_ids ) > 0 ) {
+			$payments = edd_get_payments( array(
+				'output'   => 'payments',
+				'status'   => $active_statuses,
+				'post__in' => array_map( 'absint', $payment_ids ),
+			) );
+			if ( empty( $payments ) ) {
+				$payments = array();
+				foreach ( $payment_ids as $payment_id ) {
+					$payment = edd_get_payment( $payment_id );
+					if ( $payment ) {
+						$payments[] = $payment;
+					}
+				}
+			}
+		} else {
+			$payments = edd_get_payments( array(
+				'output'   => 'payments',
+				'status'   => $active_statuses,
+				'download' => $this->id,
+			) );
+			foreach ( $payments as $payment ) {
+				add_post_meta( $this->id, '_wpenon_attached_payment_id', $payment->ID );
+			}
+		}
 
-    return null;
-  }
+		// preferably return a complete payment (in case multiple payments exist for an Energieausweis due to an error)
+		foreach ( $payments as $payment ) {
+			if ( edd_is_payment_complete( $payment->ID ) ) {
+				return $payment;
+			}
+		}
 
-  public function _checkOrderedPaidStatus() {
-    $this->ordered = null;
-    $this->paid = null;
-    $payment = $this->getPayment();
-    if ( $payment !== null ) {
-      $this->ordered = true;
-      if ( edd_is_payment_complete( $payment->ID ) ) {
-        $this->paid = true;
-      }
-    }
-    if ( $this->ordered === null ) {
-      $this->ordered = false;
-    }
-    if ( $this->paid === null ) {
-      $this->paid = false;
-    }
-  }
+		if ( isset( $payments[0] ) ) {
+			return $payments[0];
+		}
 
-  public function duplicate() {
-    global $wpdb;
+		return null;
+	}
 
-    $post_id = wp_insert_post( array(
-      'post_type'    => 'download',
-      'post_status'  => 'publish',
-      'post_title'   => \WPENON\Model\EnergieausweisManager::_generateTitle( null, false ),
-      'post_content' => '',
-    ) );
-    if ( ! $post_id ) {
-      return false;
-    }
+	public function _checkOrderedPaidStatus() {
+		$this->ordered = null;
+		$this->paid    = null;
+		$payment       = $this->getPayment();
+		if ( $payment !== null ) {
+			$this->ordered = true;
+			if ( edd_is_payment_complete( $payment->ID ) ) {
+				$this->paid = true;
+			}
+		}
+		if ( $this->ordered === null ) {
+			$this->ordered = false;
+		}
+		if ( $this->paid === null ) {
+			$this->paid = false;
+		}
+	}
 
-    $post_id = (int) $post_id;
+	public function duplicate() {
+		global $wpdb;
 
-    $type     = get_post_meta( $this->id, 'wpenon_type', true );
-    $standard = get_post_meta( $this->id, 'wpenon_standard', true );
+		$post_id = wp_insert_post( array(
+			'post_type'    => 'download',
+			'post_status'  => 'publish',
+			'post_title'   => \WPENON\Model\EnergieausweisManager::_generateTitle( null, false ),
+			'post_content' => '',
+		) );
+		if ( ! $post_id ) {
+			return false;
+		}
 
-    update_post_meta( $post_id, 'wpenon_type', $type );
-    update_post_meta( $post_id, 'wpenon_standard', $standard );
+		$post_id = (int) $post_id;
 
-    $defaults = \WPENON\Util\EDDAdjustments::instance()->_getPriceDefaults( $type );
-    foreach ( $defaults as $key => $value ) {
-      update_post_meta( $post_id, $key, $value );
-    }
+		$type     = get_post_meta( $this->id, 'wpenon_type', true );
+		$standard = get_post_meta( $this->id, 'wpenon_standard', true );
 
-    $meta_insert = array(
-      $wpdb->prepare( '( %d, %s, %s )', $post_id, 'ausstellungsdatum', '' ),
-      $wpdb->prepare( '( %d, %s, %s )', $post_id, 'registriernummer', '' ),
-      $wpdb->prepare( '( %d, %s, %s )', $post_id, 'wpenon_secret', md5( microtime() ) ),
-    );
+		update_post_meta( $post_id, 'wpenon_type', $type );
+		update_post_meta( $post_id, 'wpenon_standard', $standard );
 
-    $whitelist = array( '_thumbnail_id', '_wpenon_progress', '_finalized' );
-    $blacklist = array( '_registered', '_datasent' );
+		$defaults = \WPENON\Util\EDDAdjustments::instance()->_getPriceDefaults( $type );
+		foreach ( $defaults as $key => $value ) {
+			update_post_meta( $post_id, $key, $value );
+		}
 
-    $private_fields = \WPENON\Model\EnergieausweisManager::getPrivateFields();
-    foreach ( $private_fields as $field_slug => $field_data ) {
-      if ( ! empty( $field_data['set_once'] ) ) {
-        $whitelist[] = $field_slug;
-      } else {
-        $blacklist[] = $field_slug;
-      }
-    }
+		$meta_insert = array(
+			$wpdb->prepare( '( %d, %s, %s )', $post_id, 'ausstellungsdatum', '' ),
+			$wpdb->prepare( '( %d, %s, %s )', $post_id, 'registriernummer', '' ),
+			$wpdb->prepare( '( %d, %s, %s )', $post_id, 'wpenon_secret', md5( microtime() ) ),
+		);
 
-    $metadata = get_post_meta( $this->id );
-    foreach ( $metadata as $meta_key => $meta_values ) {
-      if ( in_array( $meta_key, $blacklist, true ) ) {
-        continue;
-      }
+		$whitelist = array( '_thumbnail_id', '_wpenon_progress', '_finalized' );
+		$blacklist = array( '_registered', '_datasent' );
 
-      if ( ! $this->schema->isField( $meta_key ) && ! in_array( $meta_key, $whitelist, true ) ) {
-        continue;
-      }
+		$private_fields = \WPENON\Model\EnergieausweisManager::getPrivateFields();
+		foreach ( $private_fields as $field_slug => $field_data ) {
+			if ( ! empty( $field_data['set_once'] ) ) {
+				$whitelist[] = $field_slug;
+			} else {
+				$blacklist[] = $field_slug;
+			}
+		}
 
-      foreach ( $meta_values as $meta_value ) {
-        if ( is_array( $meta_value ) ) {
-          $meta_value = serialize( $meta_value );
-        }
+		$metadata = get_post_meta( $this->id );
+		foreach ( $metadata as $meta_key => $meta_values ) {
+			if ( in_array( $meta_key, $blacklist, true ) ) {
+				continue;
+			}
 
-        $meta_insert[] = $wpdb->prepare( '( %d, %s, %s )', $post_id, $meta_key, $meta_value );
-      }
-    }
+			if ( ! $this->schema->isField( $meta_key ) && ! in_array( $meta_key, $whitelist, true ) ) {
+				continue;
+			}
 
-    $meta_insert = implode( ', ', $meta_insert );
-    $wpdb->query( "INSERT INTO {$wpdb->postmeta} ( post_id, meta_key, meta_value ) VALUES {$meta_insert}" );
+			foreach ( $meta_values as $meta_value ) {
+				if ( is_array( $meta_value ) ) {
+					$meta_value = serialize( $meta_value );
+				}
 
-    return $post_id;
-  }
+				$meta_insert[] = $wpdb->prepare( '( %d, %s, %s )', $post_id, $meta_key, $meta_value );
+			}
+		}
 
-  private function _loadOwnerData() {
-    $this->owner_data = array( 'email' => get_post_meta( $this->id, 'wpenon_email', true ) );
-  
-    $customer = EDD()->customers->get_customer_by( 'email', $this->owner_data['email'] );
-    if ( is_object( $customer ) ) {
-      $this->owner_data = get_object_vars( $customer );
+		$meta_insert = implode( ', ', $meta_insert );
+		$wpdb->query( "INSERT INTO {$wpdb->postmeta} ( post_id, meta_key, meta_value ) VALUES {$meta_insert}" );
 
-      $name = explode( ' ', $this->owner_data['name'] );
-      $this->owner_data['first'] = $name[0];
-      $this->owner_data['last'] = isset( $name[1] ) ? $name[1] : '';
+		return $post_id;
+	}
 
-      $customer_meta = \WPENON\Util\CustomerMeta::instance()->getCustomerMeta( $this->owner_data['id'] );
-      
-      $this->owner_data = array_merge( $this->owner_data, $customer_meta );
-    }
-  }
+	private function _loadOwnerData() {
+		$this->owner_data = array( 'email' => get_post_meta( $this->id, 'wpenon_email', true ) );
 
-  private function _loadSchema() {
-    $this->schema = \WPENON\Model\EnergieausweisManager::loadSchema( get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ) );
-  }
+		$customer = EDD()->customers->get_customer_by( 'email', $this->owner_data['email'] );
+		if ( is_object( $customer ) ) {
+			$this->owner_data = get_object_vars( $customer );
+
+			$name                      = explode( ' ', $this->owner_data['name'] );
+			$this->owner_data['first'] = $name[0];
+			$this->owner_data['last']  = isset( $name[1] ) ? $name[1] : '';
+
+			$customer_meta = \WPENON\Util\CustomerMeta::instance()->getCustomerMeta( $this->owner_data['id'] );
+
+			$this->owner_data = array_merge( $this->owner_data, $customer_meta );
+		}
+	}
+
+	private function _loadSchema() {
+		$this->schema = \WPENON\Model\EnergieausweisManager::loadSchema( get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ) );
+	}
 }

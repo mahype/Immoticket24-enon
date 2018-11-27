@@ -6,6 +6,7 @@
  * @version 1.0.0
  * @author Sven Wagener <sven@awesome.ug>
  */
+
 namespace WPENON\Util;
 
 class ExpertenCheckPopup {
@@ -34,6 +35,7 @@ class ExpertenCheckPopup {
 		if ( self::$instance === null ) {
 			self::$instance = new self;
 		}
+
 		return self::$instance;
 	}
 
@@ -64,12 +66,12 @@ class ExpertenCheckPopup {
 	 * Print html after WPENON content.
 	 *
 	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis object.
-	 * @param \WPENON\View\FrontendBase    $view           Frontend base view.
+	 * @param \WPENON\View\FrontendBase $view Frontend base view.
 	 *
 	 * @since 1.0.0
 	 */
 	public function print_html( $energieausweis, $view ) {
-		if( $view->get_template_slug() !== 'create' ) {
+		if ( $view->get_template_slug() !== 'create' ) {
 			return;
 		}
 		?>
@@ -90,29 +92,29 @@ class ExpertenCheckPopup {
 	 */
 	public function additional_fields( $fields ) {
 		return array_merge( $fields, array(
-			'wpenon_expertencheck'      => array(
-				'type'              => 'hidden',
-				'default'           => 'false',
+			'wpenon_expertencheck' => array(
+				'type'    => 'hidden',
+				'default' => 'false',
 			),
-		));
+		) );
 	}
 
 	/**
 	 * Print scripts after WPENON content.
 	 *
 	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis object.
-	 * @param \WPENON\View\FrontendBase    $view           Frontend base view.
+	 * @param \WPENON\View\FrontendBase $view Frontend base view.
 	 *
 	 * @since 1.0.0
 	 */
 	public function print_scripts( $energieausweis, $view ) {
-		if( $view->get_template_slug() !== 'create' ) {
+		if ( $view->get_template_slug() !== 'create' ) {
 			return;
 		}
 
 		?>
 		<script>
-			jQuery(document).ready(function($) {
+			jQuery(document).ready(function ($) {
 
 				$('#wp-enon-experten-check-popup').dialog({
 					resizable: false,
@@ -120,12 +122,12 @@ class ExpertenCheckPopup {
 					width: 600,
 					modal: true,
 					buttons: {
-						"<?php _e( 'Expertencheck buchen', 'wp_enon' ); ?>": function() {
-							$( '#wpenon_expertencheck' ).val( 'true' );
-							$( this ).dialog( "close" );
+						"<?php _e( 'Expertencheck buchen', 'wp_enon' ); ?>": function () {
+							$('#wpenon_expertencheck').val('true');
+							$(this).dialog("close");
 						},
-						"<?php _e( 'Abbrechen', 'wp_enon' ); ?>": function() {
-							$( this ).dialog( "close" );
+						"<?php _e( 'Abbrechen', 'wp_enon' ); ?>": function () {
+							$(this).dialog("close");
 						}
 					}
 				});
@@ -140,7 +142,7 @@ class ExpertenCheckPopup {
 	 * @since 1.0.0
 	 */
 	public function enqueue_scripts() {
-		if( is_admin() ) {
+		if ( is_admin() ) {
 			return;
 		}
 

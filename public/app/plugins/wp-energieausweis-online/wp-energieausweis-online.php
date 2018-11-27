@@ -37,31 +37,28 @@ require_once WPENON_PATH . '/inc/functions.php';
 define( 'WPENON_VERSION_CHECK', wpenon_version_check() );
 
 if ( ! defined( 'EDD_SLUG' ) ) {
-  define( 'EDD_SLUG', 'energieausweise' );
+	define( 'EDD_SLUG', 'energieausweise' );
 }
 if ( ! defined( 'EDD_DISABLE_ARCHIVE' ) ) {
-  define( 'EDD_DISABLE_ARCHIVE', true );
+	define( 'EDD_DISABLE_ARCHIVE', true );
 }
 
-function wpenon_init()
-{
-  load_plugin_textdomain( 'wpenon', false, dirname( WPENON_BASENAME ) . '/inc/languages/' );
+function wpenon_init() {
+	load_plugin_textdomain( 'wpenon', false, dirname( WPENON_BASENAME ) . '/inc/languages/' );
 
-  if( WPENON_VERSION_CHECK === true )
-  {
-    if ( wpenon_memory_limit_check() ) {
-      require_once WPENON_PATH . '/inc/dynamic-functions.php';
-      require_once WPENON_PATH . '/vendor/autoload.php';
-      \WPENON\App::instance();
-    } else {
-      add_action( 'admin_notices', 'wpenon_display_memory_limit_error_notice' );
-    }
-  }
-  else
-  {
-    add_action( 'admin_notices', 'wpenon_display_version_error_notice' );
-  }
+	if ( WPENON_VERSION_CHECK === true ) {
+		if ( wpenon_memory_limit_check() ) {
+			require_once WPENON_PATH . '/inc/dynamic-functions.php';
+			require_once WPENON_PATH . '/vendor/autoload.php';
+			\WPENON\App::instance();
+		} else {
+			add_action( 'admin_notices', 'wpenon_display_memory_limit_error_notice' );
+		}
+	} else {
+		add_action( 'admin_notices', 'wpenon_display_version_error_notice' );
+	}
 }
+
 add_action( 'plugins_loaded', 'wpenon_init' );
 
 register_activation_hook( WPENON_MAINFILE, array( 'WPENON\App', 'install' ) );
