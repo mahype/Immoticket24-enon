@@ -73,6 +73,7 @@ class App
     \WPENON\Util\PaymentMeta::instance();
     \WPENON\Util\CustomerMeta::instance();
     \WPENON\Util\Emails::instance();
+    \WPENON\Util\ExpertenCheckPopup::instance();
   }
 
   public static function install()
