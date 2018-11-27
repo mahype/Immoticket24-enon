@@ -344,6 +344,14 @@ class EnergieausweisManager
     return $private_fields;
   }
 
+	/**
+	 * Load schema.
+	 *
+	 * @param $type
+	 * @param $standard
+	 *
+	 * @return \WPENON\Model\Schema Schema
+	 */
   public static function loadSchema( $type, $standard )
   {
     $schema = array();
