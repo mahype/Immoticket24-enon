@@ -36,4 +36,21 @@ class FrontendBase extends TemplateBase {
       echo '</div>';
     }
   }
+
+	/**
+	 * Returns Template Slug.
+	 *
+	 * @return mixed|string $template_slug Template slug
+	 */
+  public function get_template_slug() {
+  	return $this->template_slug;
+  }
+	/**
+	 * Returns Template suffix.
+	 *
+	 * @return mixed|string $template_slug Template slug
+	 */
+  public function get_template_suffix() {
+  	return $this->template_suffix;
+  }
 }
