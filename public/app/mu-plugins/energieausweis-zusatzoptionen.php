@@ -554,6 +554,14 @@ function energieausweis_zusatzoptionen_send_to_energieausweis_besprechung_email_
 	return $emails;
 }
 
+function energieausweis_zusatzoptionen_send_to_premium_bewertung_email_address( $emails ) {
+	if ( ! in_array( 'premiumbewerung@energieausweis-online-erstellen.de', $emails, true ) ) {
+		$emails[] = 'premiumbewerung@energieausweis-online-erstellen.de';
+	}
+
+	return $emails;
+}
+
 function energieausweis_zusatzoptionen_maybe_add_extra_sale_notices( $payment_id ) {
 	// Only send to extra email addresses for completed payments.
 	if ( ! edd_is_payment_complete( $payment_id ) ) {
