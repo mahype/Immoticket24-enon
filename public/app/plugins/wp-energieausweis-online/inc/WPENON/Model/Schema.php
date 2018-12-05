@@ -33,6 +33,16 @@ class Schema {
     }
   }
 
+	/**
+	 * Getting Schema
+	 *
+	 * @param null \WPENON\Model\Energieausweis
+	 * @param bool $active_tab
+	 * @param bool $formatted
+	 * @param bool $include_private
+	 *
+	 * @return array
+	 */
   public function get( $energieausweis = null, $active_tab = false, $formatted = false, $include_private = false ) {
     $processed_schema = $this->schema;
 
