@@ -33,6 +33,13 @@ class EnergieausweisManager {
 		return self::_postToEnergieausweis( $energieausweis );
 	}
 
+	/**
+	 * Get Energieausweis
+	 *
+	 * @param null $energieausweis
+	 *
+	 * @return \WPENON\Model|Energieausweis Energieausweis object.
+	 */
 	public static function getEnergieausweis( $energieausweis = null ) {
 		$energieausweis = self::_getPost( $energieausweis );
 
@@ -325,7 +332,7 @@ class EnergieausweisManager {
 	}
 
 	/**
-	 * Load schema.
+	 * Loading Schema
 	 *
 	 * @param $type
 	 * @param $standard

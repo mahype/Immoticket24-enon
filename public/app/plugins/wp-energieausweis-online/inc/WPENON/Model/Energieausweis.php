@@ -22,6 +22,8 @@ class Energieausweis {
 	private $paid = null;
 
 	/**
+	 * Energieausweis Schema
+	 *
 	 * @var \WPENON\Model\Schema|null
 	 */
 	private $schema = null;
@@ -277,9 +279,9 @@ class Energieausweis {
 	}
 
 	/**
-	 * Returns Schema.
+	 * Get Schema
 	 *
-	 * @return \WPENON\Model\Schema|null
+	 * @return \WPENON\Model\Schema
 	 */
 	public function getSchema() {
 		return $this->schema;
