@@ -129,6 +129,14 @@ function energieausweis_zusatzoptionen_custom_fees( $fees ) {
 		'email_note'      => '',
 	);
 
+	$professioneller_eingabesupport = array(
+		'id'              => 'professioneller_eingabesupport',
+		'label'           => energieausweis_zusatzoptionen_get_default( 'professioneller_eingabesupport_label' ),
+		'amount'          => energieausweis_zusatzoptionen_get_default( 'professioneller_eingabesupport_price' ),
+		'description_cb'  => 'energieausweis_zusatzoption_professioneller_eingabesupport_info',
+		'email_note'      => '',
+	);
+
 	$anlass = energieausweis_get_value( energieausweis_get_id(), 'anlass', 'vw' );
 
 	if ( isset( $settings['experten_check_order'] ) && isset( $settings['sendung_per_post_order'] ) && isset( $settings['energieausweis_besprechung_order'] ) && isset( $settings['kostenlose_korrektur_order'] ) ) {
@@ -380,6 +388,39 @@ function energieausweis_zusatzoptionen_settings( $wpod ) {
 										),
 									),
 								),
+								'professioneller_eingabesupport'			=> array(
+									'title'							=> 'Professioneller Eingabesupport',
+									'fields'						=> array(
+										'premium_bewertung_label'	=> array(
+											'title'							=> 'Name',
+											'type'							=> 'text',
+											'default'						=> energieausweis_zusatzoptionen_get_default( 'professioneller_eingabesupport_label' ),
+											'required'						=> true,
+										),
+										'premium_bewertung_description'=> array(
+											'title'							=> 'Beschreibung',
+											'type'							=> 'wysiwyg',
+											'default'						=> energieausweis_zusatzoptionen_get_default( 'professioneller_eingabesupport_description' ),
+											'required'						=> true,
+											'rows'							=> 8,
+										),
+										'premium_bewertung_price'	=> array(
+											'title'							=> 'Preis',
+											'type'							=> 'number',
+											'default'						=> energieausweis_zusatzoptionen_get_default( 'professioneller_eingabesupport_price' ),
+											'step'							=> 0.01,
+										),
+										'premium_bewertung_order'	=> array(
+											'title'							=> 'Reihenfolge',
+											'description'					=> 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
+											'type'							=> 'number',
+											'default'						=> energieausweis_zusatzoptionen_get_default( 'professioneller_eingabesupport_order' ),
+											'required'						=> true,
+											'min'							=> 1,
+											'step'							=> 1,
+										),
+									),
+								),
 							),
 						),
 					),
@@ -440,6 +481,16 @@ function energieausweis_zusatzoption_premium_bewertung_info() {
   }
 }
 
+function energieausweis_zusatzoption_professioneller_eingabesupport_info() {
+  $settings = get_option( 'energieausweis_zusatzoptionen', array() );
+
+  if ( isset( $settings['professioneller_eingabesupport_description'] ) ) {
+  	echo wpautop( $settings['professioneller_eingabesupport_description'] );
+  } else {
+  	echo energieausweis_zusatzoptionen_get_default( 'professioneller_eingabesupport_description' );
+  }
+}
+
 function energieausweis_zusatzoptionen_get_default( $field = '' ) {
 	switch ( $field ) {
 		case 'experten_check_label':
@@ -482,6 +533,14 @@ function energieausweis_zusatzoptionen_get_default( $field = '' ) {
 			return 0;
 		case 'premium_bewertung_order':
 			return 5;
+		case 'professioneller_eingabesupport_label':
+			return 'NEU: Professioneller Eingabesupport!';
+		case 'professioneller_eingabesupport_description':
+			return '<p>Bei Auswahl dieser Option nehmen wir nach Abschluss Ihrer Bestellung mit Ihnen Kontakt auf, um den Wert Ihrer Immobilie zu ermitteln und Ihnen hierfür eine Verkaufsempfehlung zu geben. Die Bewertung Ihrer Immobilie ist kostenfrei.</p>';
+		case 'professioneller_eingabesupport_price':
+			return 0;
+		case 'professioneller_eingabesupport_order':
+			return 6;
 	}
 }
 
