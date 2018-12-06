@@ -18,46 +18,6 @@ function energieausweis_zusatzoptionen_description( $description ) {
 }
 add_filter( 'eddcf_custom_fees_description', 'energieausweis_zusatzoptionen_description' );
 
-/**
- * Get current energieausweis ID.
- *
- * Only works in cart.
- *
- * @return bool|int Energieausweis ID if found, otherwise false.
- */
-function energieausweis_get_id() {
-	$content = edd_get_cart_contents();
-
-	if( count( $content ) === 0 ) {
-		return false;
-	}
-
-	return $content[0]['id'];
-}
-
-/**
- * Getting value of a field in Energieausweis.
- *
- * @param int    $energieausweis_id Energieausweis ID
- * @param string $field             Name of the field.
- * @param string $type              'vw' or 'bw'.
- *
- * @return mixed Value of field.
- */
-function energieausweis_get_value( $energieausweis_id, $field, $type = 'vw' ) {
-	$energieausweis = \WPENON\Model\EnergieausweisManager::getEnergieausweis( $energieausweis_id );
-	$schema = $energieausweis->getSchema();
-	$data = $schema->get( $energieausweis );
-
-	if( ! isset( $data[ $type . '_basisdaten']['groups']['energieausweis']['fields'][ $field ]['value'] ) ) {
-		return false;
-	}
-
-	$anlass = $data[ $type.'_basisdaten']['groups']['energieausweis']['fields']['anlass']['value'];
-
-	return $anlass;
-}
-
 function energieausweis_zusatzoptionen_custom_fees( $fees ) {
 	$settings = get_option( 'energieausweis_zusatzoptionen', array() );
 
@@ -129,19 +89,14 @@ function energieausweis_zusatzoptionen_custom_fees( $fees ) {
 		'email_note'      => '',
 	);
 
-	$anlass = energieausweis_get_value( energieausweis_get_id(), 'anlass', 'vw' );
-
 	if ( isset( $settings['experten_check_order'] ) && isset( $settings['sendung_per_post_order'] ) && isset( $settings['energieausweis_besprechung_order'] ) && isset( $settings['kostenlose_korrektur_order'] ) ) {
 		$order = array(
 			$settings['experten_check_order']             => $experten_check,
 			$settings['sendung_per_post_order']           => $sendung_per_post,
 			$settings['energieausweis_besprechung_order'] => $energieausweis_besprechung,
 			$settings['kostenlose_korrektur_order']       => $kostenlose_korrektur,
+			$settings['premium_bewertung_order']          => $premium_bewertung,
 		);
-
-		if( 'verkauf' === $anlass ) {
-			$order[ $settings['premium_bewertung_order'] ] = $premium_bewertung;
-		}
 
 		ksort( $order );
 		foreach ( $order as $item ) {
@@ -152,17 +107,14 @@ function energieausweis_zusatzoptionen_custom_fees( $fees ) {
 		$fees[] = $sendung_per_post;
 		$fees[] = $energieausweis_besprechung;
 		$fees[] = $kostenlose_korrektur;
-
-		if( 'verkauf' === $anlass ) {
-			$fees[] = $premium_bewertung;
-		}
+		$fees[] = $premium_bewertung;
 	}
 
 	return $fees;
 }
 add_filter( 'eddcf_custom_fees', 'energieausweis_zusatzoptionen_custom_fees' );
 
-/*function energieausweis_zusatzoptionen_filter_custom_fees( $fees, $cart ) {
+function energieausweis_zusatzoptionen_filter_custom_fees( $fees, $cart ) {
 	$has_verkauf = false;
 
 	foreach ( $cart->get_contents_details() as $item ) {
@@ -190,7 +142,7 @@ add_filter( 'eddcf_custom_fees', 'energieausweis_zusatzoptionen_custom_fees' );
 
 	return $fees;
 }
-add_filter( 'eddcf_filter_custom_fees', 'energieausweis_zusatzoptionen_filter_custom_fees', 10, 2 );*/
+add_filter( 'eddcf_filter_custom_fees', 'energieausweis_zusatzoptionen_filter_custom_fees', 10, 2 );
 
 function energieausweis_zusatzoptionen_settings( $wpod ) {
 	$wpod->add_components( array(
