@@ -109,6 +109,9 @@ class EnergieausweisForm {
 
 		$data['purchase_function'] = ( $data['finalized'] && ! $data['ordered'] ) ? 'edd_download_shortcode' : false;
 
+		echo '0';
+		print_r( $data );
+
 		return apply_filters( 'wpenon_overview_page_data', $data, $energieausweis );
 	}
 
@@ -167,6 +170,7 @@ class EnergieausweisForm {
 		$data['allow_changes_after_order'] = $this->allowChangesAfterOrder( $energieausweis );
 		$data['errors']                    = $errors;
 		$data['warnings']                  = $warnings;
+		$data['eingabesupport']            = $_POST['wpenon_eingabesupport'];
 		$data['schema']                    = ( ! $data['ordered'] || $data['paid'] ) ? $schema->get( $energieausweis, $this->_getActiveTab(), true ) : array();
 		$data['additional']                = ( ! $data['ordered'] || $data['paid'] ) ? \WPENON\Model\Schema::parseFields( $this->_mergeAdditionalFields( array(
 			'_wpenon_progress' => array(
@@ -174,6 +178,9 @@ class EnergieausweisForm {
 				'default' => implode( ',', $energieausweis->get_progress() ),
 			),
 		) ) ) : array();
+
+		echo '1';
+		print_r( $data );
 
 		return apply_filters( 'wpenon_edit_page_data', $data, $energieausweis );
 	}
@@ -204,6 +211,9 @@ class EnergieausweisForm {
 		$data['schema']                    = $schema->get( $energieausweis, $this->_getActiveTab(), true );
 
 		$data['purchase_function'] = ( $data['finalized'] && ! $data['ordered'] ) ? 'edd_download_shortcode' : false;
+
+		echo '2';
+		print_r( $data );
 
 		return apply_filters( 'wpenon_editoverview_page_data', $data, $energieausweis );
 	}

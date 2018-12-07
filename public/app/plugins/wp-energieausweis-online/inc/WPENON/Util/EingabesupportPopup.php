@@ -1,6 +1,6 @@
 <?php
 /**
- * Class ExpertenCheckPopup
+ * Class EingabehilfePopup
  *
  * @package WPENON
  * @version 1.0.0
@@ -9,12 +9,14 @@
 
 namespace WPENON\Util;
 
-class ExpertenCheckPopup {
+use WPENON\Model\Energieausweis;
+
+class EingabehilfePopup {
 
 	/**
 	 * Class instance.
 	 *
-	 * @var ExpertenCheckPopup
+	 * @var EingabehilfePopup
 	 *
 	 * @since 1.0.0
 	 *
@@ -25,7 +27,7 @@ class ExpertenCheckPopup {
 	/**
 	 * Instatiating Object.
 	 *
-	 * @return ExpertenCheckPopup
+	 * @return EingabehilfePopup
 	 *
 	 * @since 1.0.0
 	 *
@@ -40,7 +42,7 @@ class ExpertenCheckPopup {
 	}
 
 	/**
-	 * ExpertenCheckPopup constructor.
+	 * EingabehilfePopup constructor.
 	 *
 	 * @since 1.0.0
 	 *
@@ -57,6 +59,7 @@ class ExpertenCheckPopup {
 	 */
 	public function init_hooks() {
 		add_action( 'wpenon_additional_fiels', array( $this, 'additional_fields' ), 10, 2 );
+		add_action( 'wpenon_energieausweis_create', array( $this, 'update_fields' ), 10, 1 );
 		add_action( 'wpenon_after_content', array( $this, 'print_html' ), 10, 2 );
 		add_action( 'wpenon_after_content', array( $this, 'print_scripts' ), 10, 2 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -75,8 +78,8 @@ class ExpertenCheckPopup {
 			return;
 		}
 		?>
-		<div id="wp-enon-experten-check-popup" title="<?php _e( 'Expertencheck', 'wpenon' ); ?>">
-			<p><?php _e( 'Lassen Sie sich von einem Experten helfen! Wir bieten Ihnen für nur 19,95€ Hilfe von unseren Profis!', 'wp_enon' ); ?></p>
+		<div id="wp-enon-eingabehilfe-popup" title="<?php _e( 'Eingabesupport', 'wpenon' ); ?>">
+			<p><?php _e( 'Eingabe-Support von Anfang bis Ende! Damit werden alle Ihre Fragen geklärt. Wir unterstützen Sie telefonisch bei der Eingabe der Gebäudedaten von Anfang der Eingabe bis Bestellabschluss. Jetzt für 34,95 Euro buchen.', 'wp_enon' ); ?></p>
 		</div>
 		<?php
 	}
@@ -92,11 +95,52 @@ class ExpertenCheckPopup {
 	 */
 	public function additional_fields( $fields ) {
 		return array_merge( $fields, array(
-			'wpenon_expertencheck' => array(
+			'wpenon_eingabesupport' => array(
 				'type'    => 'hidden',
 				'default' => 'false',
 			),
 		) );
+	}
+
+	/**
+	 * Saving values
+	 *
+	 * @param int $energieausweis Energieausweis ID.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return int|bool Meta ID if the key didn't exist, true on successful update,
+	 *                  false on failure.
+	 */
+	public function update_fields( $energieausweis_id ) {
+		if( ! is_int( $energieausweis_id ) ) {
+			return false;
+		}
+
+		$eingabesupport = filter_var( $_POST['wpenon_eingabesupport'], FILTER_VALIDATE_BOOLEAN, array('flags' => FILTER_NULL_ON_FAILURE) );
+
+		if( NULL === $eingabesupport ) {
+			return false;
+		}
+
+		return update_post_meta( $energieausweis_id, 'eingabesupport', $eingabesupport );
+	}
+
+	/**
+	 * Checks if Eingabesupport was selected.
+	 *
+	 * @param int $energieausweis_id
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool
+	 */
+	public function is_selected( $energieausweis_id ) {
+		if( true === get_post_meta( $energieausweis_id, 'eingabesupport', true ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -116,13 +160,13 @@ class ExpertenCheckPopup {
 		<script>
 			jQuery(document).ready(function ($) {
 
-				$('#wp-enon-experten-check-popup').dialog({
+				$('#wp-enon-eingabehilfe-popup').dialog({
 					resizable: false,
 					height: "auto",
 					width: 600,
 					modal: true,
 					buttons: {
-						"<?php _e( 'Expertencheck buchen', 'wp_enon' ); ?>": function () {
+						"<?php _e( 'Eingabesupport Buchen', 'wp_enon' ); ?>": function () {
 							$('#wpenon_expertencheck').val('true');
 							$(this).dialog("close");
 						},
