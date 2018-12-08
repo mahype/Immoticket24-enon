@@ -60,6 +60,7 @@ class EingabehilfePopup {
 	public function init_hooks() {
 		add_action( 'wpenon_additional_fiels', array( $this, 'additional_fields' ), 10, 2 );
 		add_action( 'wpenon_energieausweis_create', array( $this, 'update_fields' ), 10, 1 );
+		add_filter( 'wpenon_zusatzoptionen_settings', array( $this, 'zusatzoptionen_settings' ), 10, 1 );
 		add_action( 'wpenon_after_content', array( $this, 'print_html' ), 10, 2 );
 		add_action( 'wpenon_after_content', array( $this, 'print_scripts' ), 10, 2 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -113,13 +114,13 @@ class EingabehilfePopup {
 	 *                  false on failure.
 	 */
 	public function update_fields( $energieausweis_id ) {
-		if( ! is_int( $energieausweis_id ) ) {
+		if ( ! is_int( $energieausweis_id ) ) {
 			return false;
 		}
 
-		$eingabesupport = filter_var( $_POST['wpenon_eingabesupport'], FILTER_VALIDATE_BOOLEAN, array('flags' => FILTER_NULL_ON_FAILURE) );
+		$eingabesupport = filter_var( $_POST['wpenon_eingabesupport'], FILTER_VALIDATE_BOOLEAN, array( 'flags' => FILTER_NULL_ON_FAILURE ) );
 
-		if( NULL === $eingabesupport ) {
+		if ( null === $eingabesupport ) {
 			return false;
 		}
 
@@ -136,12 +137,66 @@ class EingabehilfePopup {
 	 * @return bool
 	 */
 	public function is_selected( $energieausweis_id ) {
-		if( true === get_post_meta( $energieausweis_id, 'eingabesupport', true ) ) {
+		if ( true === get_post_meta( $energieausweis_id, 'eingabesupport', true ) ) {
 			return true;
 		}
 
 		return false;
 	}
+
+	/**
+	 * Adding Zusatzoptionen Settings
+	 *
+	 * @param $settings
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public function zusatzoptionen_settings( $settings ) {
+		$eingabesupport_settings = array(
+			'eingabesupport' => array(
+				'title'  => 'Eingabesupport',
+				'fields' => array(
+					'sendung_per_post_label'       => array(
+						'title'    => 'Name',
+						'type'     => 'text',
+						'default'  => energieausweis_zusatzoptionen_get_default( 'sendung_per_post_label' ),
+						'required' => true,
+					),
+					'sendung_per_post_description' => array(
+						'title'    => 'Beschreibung',
+						'type'     => 'wysiwyg',
+						'default'  => energieausweis_zusatzoptionen_get_default( 'sendung_per_post_description' ),
+						'required' => true,
+						'rows'     => 8,
+					),
+					'sendung_per_post_price'       => array(
+						'title'    => 'Preis',
+						'type'     => 'number',
+						'default'  => energieausweis_zusatzoptionen_get_default( 'sendung_per_post_price' ),
+						'required' => true,
+						'min'      => 0.01,
+						'step'     => 0.01,
+					),
+					'sendung_per_post_order'       => array(
+						'title'       => 'Reihenfolge',
+						'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
+						'type'        => 'number',
+						'default'     => energieausweis_zusatzoptionen_get_default( 'sendung_per_post_order' ),
+						'required'    => true,
+						'min'         => 1,
+						'step'        => 1,
+					),
+				),
+			),
+		);
+
+		$settings = array_merge( $settings, $eingabesupport_settings );
+
+		return $settings;
+	}
+
 
 	/**
 	 * Print scripts after WPENON content.
@@ -194,3 +249,14 @@ class EingabehilfePopup {
 		wp_enqueue_style( 'wp-jquery-ui-dialog' );
 	}
 }
+
+
+$professioneller_eingabesupport = array(
+	'id'             => 'professioneller_eingabesupport',
+	'label'          => energieausweis_zusatzoptionen_get_default( 'professioneller_eingabesupport_label' ),
+	'amount'         => energieausweis_zusatzoptionen_get_default( 'professioneller_eingabesupport_price' ),
+	'description_cb' => 'energieausweis_zusatzoption_professioneller_eingabesupport_info',
+	'email_note'     => '',
+);
+
+$anlass = energieausweis_get_value( energieausweis_get_id(), 'anlass', 'vw' );
