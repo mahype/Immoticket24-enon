@@ -61,7 +61,7 @@ class App {
 		\WPENON\Util\PaymentMeta::instance();
 		\WPENON\Util\CustomerMeta::instance();
 		\WPENON\Util\Emails::instance();
-		\WPENON\Util\EingabehilfePopup::instance();
+		\WPENON\Util\EingabesupportPopup::instance();
 	}
 
 	public static function install() {
