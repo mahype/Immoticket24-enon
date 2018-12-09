@@ -65,7 +65,8 @@ class EingabesupportPopup {
 		add_filter( 'wpenon_custom_fees', array( $this, 'add_custom_fees' ), 10, 1 );
 
 		add_action( 'wpenon_after_content', array( $this, 'print_html' ), 10, 2 );
-		add_action( 'wpenon_after_content', array( $this, 'print_scripts' ), 10, 2 );
+		add_action( 'wpenon_after_content', array( $this, 'print_dialog_scripts' ), 10, 2 );
+		add_action( 'edd_checkout_form_top', array( $this, 'print_checkout_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
@@ -117,26 +118,25 @@ class EingabesupportPopup {
 	 *                  false on failure.
 	 */
 	public function update_fields( $energieausweis ) {
-
 		$eingabesupport = filter_var( $_POST['wpenon_eingabesupport'], FILTER_VALIDATE_BOOLEAN, array( 'flags' => FILTER_NULL_ON_FAILURE ) );
 
 		if ( null === $eingabesupport ) {
 			return false;
 		}
 
-		$this->send_mail( $energieausweis->ID );
+		$this->send_mail( $energieausweis );
 
-		return update_post_meta( $energieausweis->ID, 'eingabesupport', $eingabesupport );
+		return update_post_meta( $energieausweis->id, 'eingabesupport', $eingabesupport );
 	}
 
 
-	private function send_mail( $energieausweis_id ) {
+	private function send_mail( $energieausweis ) {
 		$from_name   = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
 		$from_email  = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
 		$heading     = edd_get_option( 'eingabesupport_heading', __( 'Eingabesupport', 'easy-digital-downloads' ) );
 
 		$subject     = _( 'Eingabesupport', 'wpenon' );
-		$message     = $this->get_email_body( $energieausweis_id );
+		$message     = $this->get_email_body( $energieausweis );
 
 		$emails = EDD()->emails;
 		$emails->__set( 'from_name' , $from_name );
@@ -150,8 +150,20 @@ class EingabesupportPopup {
 		$emails->send( 'sven@awesome.ug', $subject, $message );
 	}
 
-	private function get_email_body( $energieausweis_id ) {
-		$body = 'Folgender Kunde hat den Eingabesupport gebucht:';
+	/**
+	 * Get Email Body.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WPENON\Model\Energieausweis $energieausweis
+	 *
+	 * @return string
+	 */
+	private function get_email_body( $energieausweis ) {
+		$body = 'Folgender Kunde hat den Eingabesupport gebucht:
+		
+Energieausweis: ' . $energieausweis->post_title . '
+URL:            ' . admin_url( 'edit-post.php?post=' . $energieausweis->id, 'https' );
 
 		return $body;
 	}
@@ -166,7 +178,7 @@ class EingabesupportPopup {
 	 * @return bool
 	 */
 	public function is_selected( $energieausweis_id ) {
-		if ( true === get_post_meta( $energieausweis_id, 'eingabesupport', true ) ) {
+		if ( true === (bool) get_post_meta( $energieausweis_id, 'eingabesupport', true ) ) {
 			return true;
 		}
 
@@ -191,7 +203,7 @@ class EingabesupportPopup {
 			'email_note'     => '',
 		);
 
-		$fees = array_merge( $fees, $eingabesupport );
+		$fees = array_merge( $fees, array( $eingabesupport  ) );
 
 		return $fees;
 	}
@@ -259,7 +271,7 @@ class EingabesupportPopup {
 	private function get_default( $type ) {
 		switch ( $type ) {
 			case 'label':
-				return __( 'NEU: Professioneller Eingabesupport!', 'wpenon' );
+				return __( 'Professioneller Eingabesupport', 'wpenon' );
 			case 'description':
 				return  __( '<p>Bei Auswahl dieser Option nehmen wir nach Abschluss Ihrer Bestellung mit Ihnen Kontakt auf, um den Wert Ihrer Immobilie zu ermitteln und Ihnen hierfür eine Verkaufsempfehlung zu geben. Die Bewertung Ihrer Immobilie ist kostenfrei.</p>', 'wpenon' );
 			case 'price':
@@ -279,7 +291,7 @@ class EingabesupportPopup {
 	 *
 	 * @since 1.0.0
 	 */
-	public function print_scripts( $energieausweis, $view ) {
+	public function print_dialog_scripts( $energieausweis, $view ) {
 		if ( $view->get_template_slug() !== 'create' ) {
 			return;
 		}
@@ -297,7 +309,7 @@ class EingabesupportPopup {
 						modal: true,
 						buttons: {
 							"<?php _e( 'Eingabesupport Buchen', 'wp_enon' ); ?>": function () {
-								$('#wpenon_expertencheck').val('true');
+								$('#wpenon_eingabesupport').val('true');
 								$(this).dialog("close");
 								$form.off( 'submit', onFormSubmitEingabesupport );
 								$form.submit();
@@ -315,6 +327,34 @@ class EingabesupportPopup {
 				}
 
 				$form.on( 'submit', onFormSubmitEingabesupport );
+			});
+		</script>
+		<?php
+	}
+
+	public function print_checkout_scripts() {
+		$found = false;
+
+		foreach ( EDD()->cart->get_contents_details() as $item ) {
+			$energieausweis = \WPENON\Model\EnergieausweisManager::getEnergieausweis( $item['id'] );
+			if ( ! $energieausweis ) {
+				continue;
+			}
+
+			if ( $this->is_selected( $energieausweis->id ) ) {
+				$found = true;
+			}
+		}
+
+		if( $found === false ) {
+			return;
+		}
+
+		?>
+		<script>
+			jQuery(document).ready(function ($) {
+				$( '#edd_custom_fee_eingabesupport' ).click().hide();
+				$( '.eddcf-custom-fee' ).change();
 			});
 		</script>
 		<?php

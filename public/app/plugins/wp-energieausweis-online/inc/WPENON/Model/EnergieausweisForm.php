@@ -109,9 +109,6 @@ class EnergieausweisForm {
 
 		$data['purchase_function'] = ( $data['finalized'] && ! $data['ordered'] ) ? 'edd_download_shortcode' : false;
 
-		echo '0';
-		print_r( $data );
-
 		return apply_filters( 'wpenon_overview_page_data', $data, $energieausweis );
 	}
 
@@ -179,9 +176,6 @@ class EnergieausweisForm {
 			),
 		) ) ) : array();
 
-		echo '1';
-		print_r( $data );
-
 		return apply_filters( 'wpenon_edit_page_data', $data, $energieausweis );
 	}
 
@@ -211,9 +205,6 @@ class EnergieausweisForm {
 		$data['schema']                    = $schema->get( $energieausweis, $this->_getActiveTab(), true );
 
 		$data['purchase_function'] = ( $data['finalized'] && ! $data['ordered'] ) ? 'edd_download_shortcode' : false;
-
-		echo '2';
-		print_r( $data );
 
 		return apply_filters( 'wpenon_editoverview_page_data', $data, $energieausweis );
 	}
