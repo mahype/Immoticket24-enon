@@ -507,8 +507,8 @@ function energieausweis_zusatzoptionen_send_to_energieausweis_besprechung_email_
 }
 
 function energieausweis_zusatzoptionen_send_to_premium_bewertung_email_address( $emails ) {
-	if ( ! in_array( 'premiumbewerung@energieausweis-online-erstellen.de', $emails, true ) ) {
-		$emails[] = 'premiumbewerung@energieausweis-online-erstellen.de';
+	if ( ! in_array( 'premiumbewertung@energieausweis-online-erstellen.de', $emails, true ) ) {
+		$emails[] = 'premiumbewertung@energieausweis-online-erstellen.de';
 	}
 
 	return $emails;
