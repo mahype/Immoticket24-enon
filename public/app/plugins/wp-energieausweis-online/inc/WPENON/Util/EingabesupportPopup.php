@@ -109,17 +109,14 @@ class EingabesupportPopup {
 	/**
 	 * Saving values
 	 *
-	 * @param int $energieausweis Energieausweis ID.
+	 * @param int \WPENON\Model\Energieausweis $energieausweis Energieausweis Object.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @return int|bool Meta ID if the key didn't exist, true on successful update,
 	 *                  false on failure.
 	 */
-	public function update_fields( $energieausweis_id ) {
-		if ( ! is_int( $energieausweis_id ) ) {
-			return false;
-		}
+	public function update_fields( $energieausweis ) {
 
 		$eingabesupport = filter_var( $_POST['wpenon_eingabesupport'], FILTER_VALIDATE_BOOLEAN, array( 'flags' => FILTER_NULL_ON_FAILURE ) );
 
@@ -127,9 +124,9 @@ class EingabesupportPopup {
 			return false;
 		}
 
-		$this->send_mail( $energieausweis_id );
+		$this->send_mail( $energieausweis->ID );
 
-		return update_post_meta( $energieausweis_id, 'eingabesupport', $eingabesupport );
+		return update_post_meta( $energieausweis->ID, 'eingabesupport', $eingabesupport );
 	}
 
 
@@ -154,7 +151,7 @@ class EingabesupportPopup {
 	}
 
 	private function get_email_body( $energieausweis_id ) {
-		$body = 'Folgender Kunde hat sich';
+		$body = 'Folgender Kunde hat den Eingabesupport gebucht:';
 
 		return $body;
 	}
@@ -290,22 +287,34 @@ class EingabesupportPopup {
 		?>
 		<script>
 			jQuery(document).ready(function ($) {
+				var $form = $( '#wpenon-generate-form' );
 
-				$('#wp-enon-eingabehilfe-popup').dialog({
-					resizable: false,
-					height: "auto",
-					width: 600,
-					modal: true,
-					buttons: {
-						"<?php _e( 'Eingabesupport Buchen', 'wp_enon' ); ?>": function () {
-							$('#wpenon_expertencheck').val('true');
-							$(this).dialog("close");
-						},
-						"<?php _e( 'Abbrechen', 'wp_enon' ); ?>": function () {
-							$(this).dialog("close");
+				function onFormSubmitEingabesupport( e ) {
+					$('#wp-enon-eingabehilfe-popup').dialog({
+						resizable: false,
+						height: "auto",
+						width: 600,
+						modal: true,
+						buttons: {
+							"<?php _e( 'Eingabesupport Buchen', 'wp_enon' ); ?>": function () {
+								$('#wpenon_expertencheck').val('true');
+								$(this).dialog("close");
+								$form.off( 'submit', onFormSubmitEingabesupport );
+								$form.submit();
+							},
+							"<?php _e( 'Abbrechen', 'wp_enon' ); ?>": function () {
+								$(this).dialog("close");
+								$form.off( 'submit', onFormSubmitEingabesupport );
+								$form.submit();
+							}
 						}
-					}
-				});
+					});
+
+					e.preventDefault();
+					return true;
+				}
+
+				$form.on( 'submit', onFormSubmitEingabesupport );
 			});
 		</script>
 		<?php
