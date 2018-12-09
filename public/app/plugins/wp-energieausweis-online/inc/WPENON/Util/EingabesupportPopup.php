@@ -60,7 +60,10 @@ class EingabesupportPopup {
 	public function init_hooks() {
 		add_action( 'wpenon_additional_fiels', array( $this, 'additional_fields' ), 10, 2 );
 		add_action( 'wpenon_energieausweis_create', array( $this, 'update_fields' ), 10, 1 );
+
 		add_filter( 'wpenon_zusatzoptionen_settings', array( $this, 'zusatzoptionen_settings' ), 10, 1 );
+		add_filter( 'wpenon_custom_fees', array( $this, 'add_custom_fees' ), 10, 1 );
+
 		add_action( 'wpenon_after_content', array( $this, 'print_html' ), 10, 2 );
 		add_action( 'wpenon_after_content', array( $this, 'print_scripts' ), 10, 2 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
