@@ -364,12 +364,15 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 			<div class="modal-dialog" style="margin-top:140px;">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title"><?php _e( 'Neu: Eingabe-Support von Anfang bis Ende!', 'wpenon' ); ?></h4>
+						<h4 class="modal-title"><?php _e( 'NEU: Telefonischer Eingabe-Support von Anfang bis Ende!', 'wpenon' ); ?></h4>
 					</div>
-					<div class="modal-body"><?php _e( 'Damit werden alle Ihre Fragen geklärt. Wir unterstützen Sie telefonisch bei der Eingabe der Gebäudedaten von Anfang der Eingabe bis Bestellabschluss. Jetzt für 34,95 Euro buchen.', 'wp_enon' ); ?></div>
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/banner/images/support.jpg" class="modal-banner" />
+					<div class="modal-body">
+						<?php _e( 'Damit werden alle Ihre Fragen geklärt. Wir unterstützen Sie telefonisch bei der Eingabe der Gebäudedaten von Anfang der Eingabe bis Bestellabschluss. Jetzt für 34,95 Euro buchen.', 'wp_enon' ); ?>
+					</div>
 					<div class="modal-footer">
-						<button id="wp-enon-eingabehilfe-no" type="button" class="btn btn-default"><?php _e( 'Ohne Eingabesupport weiter', 'wp_enon' ); ?></button>
-						<button id="wp-enon-eingabehilfe-yes" type="button" class="btn btn-primary"><?php _e( 'Eingabesupport buchen', 'wp_enon' ); ?></button>
+						<button id="wp-enon-eingabehilfe-no" type="button" class="btn btn-default"><?php _e( 'Ohne Eingabe-Support weiter', 'wp_enon' ); ?></button>
+						<button id="wp-enon-eingabehilfe-yes" type="button" class="btn btn-primary"><?php _e( 'Mit Eingabe-Support weiter', 'wp_enon' ); ?></button>
 					</div>
 				</div>
 			</div>
@@ -405,15 +408,14 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 					show: false
 				});
 
-				function onFormSubmitEingabesupport( e ) {
-					if ( $gdprAcceptance.prop( 'checked' ) ) {
-						return;
-					}
 
+
+				function onFormSubmitEingabesupport( e ) {
 					setTimeout( function() {
 						$modal.modal( 'show' );
 					}, 1000 );
 
+					$modal.css( 'z-index', 1050 );
 
 					e.preventDefault();
 					return false;

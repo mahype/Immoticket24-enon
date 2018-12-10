@@ -6572,3 +6572,9 @@ a img.aligncenter {
 #edd_checkout_cart #edd_cart_fee_eingabesupport td:nth-child(3) a {
 	display: none;
 }
+.modal-banner {
+	width:100%;
+}
+.modal-title {
+    font-weight: bold;
+}
