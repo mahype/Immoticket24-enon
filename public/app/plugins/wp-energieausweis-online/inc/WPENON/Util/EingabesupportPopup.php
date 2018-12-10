@@ -68,7 +68,7 @@ class EingabesupportPopup {
 
 		add_action( 'wpenon_after_content', array( $this, 'print_html' ), 10, 2 );
 		add_action( 'wpenon_after_content', array( $this, 'print_dialog_scripts' ), 10, 2 );
-		add_action( 'edd_checkout_form_top', array( $this, 'print_checkout_scripts' ) );
+		// add_action( 'edd_checkout_form_top', array( $this, 'print_checkout_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
@@ -361,8 +361,8 @@ URL:            ' . admin_url( 'edit-post.php?post=' . $energieausweis->id, 'htt
 		?>
 		<script>
 			jQuery(document).ready(function ($) {
-				// $( '#edd_custom_fee_eingabesupport' ).click();
-				// $( '.eddcf-custom-fee' ).change();
+				$( '#edd_custom_fee_eingabesupport' ).click();
+				$( '.eddcf-custom-fee' ).change();
 			});
 		</script>
 		<?php
