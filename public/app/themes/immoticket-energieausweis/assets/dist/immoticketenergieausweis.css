@@ -6564,3 +6564,11 @@ a img.aligncenter {
   margin-bottom: 15px;
   font-size: 14px;
 }
+
+#edd_custom_fees_selection #edd_custom_fee_eingabesupport,
+#edd_custom_fees_selection #edd_custom_fee_eingabesupport + label {
+	pointer-events:none;
+}
+#edd_checkout_cart #edd_cart_fee_eingabesupport td:nth-child(3) a {
+	display: none;
+}

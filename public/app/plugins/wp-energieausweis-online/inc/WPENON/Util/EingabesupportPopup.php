@@ -64,6 +64,8 @@ class EingabesupportPopup {
 		add_filter( 'wpenon_zusatzoptionen_settings', array( $this, 'zusatzoptionen_settings' ), 10, 1 );
 		add_filter( 'wpenon_custom_fees', array( $this, 'add_custom_fees' ), 10, 1 );
 
+		add_action( 'edd_before_checkout_cart', array( $this, 'add_fees_to_cart' ) );
+
 		add_action( 'wpenon_after_content', array( $this, 'print_html' ), 10, 2 );
 		add_action( 'wpenon_after_content', array( $this, 'print_dialog_scripts' ), 10, 2 );
 		add_action( 'edd_checkout_form_top', array( $this, 'print_checkout_scripts' ) );
@@ -127,6 +129,12 @@ class EingabesupportPopup {
 		$this->send_mail( $energieausweis );
 
 		return update_post_meta( $energieausweis->id, 'eingabesupport', $eingabesupport );
+	}
+
+	public function add_fees_to_cart(){
+		$fees = eddcf_get_custom_fees();
+		$fee = array_intersect_key( $fees[ 'eingabesupport' ], array_flip( array( 'id', 'amount', 'label', 'type' ) ) );
+		EDD()->fees->add_fee( $fee );
 	}
 
 
@@ -353,8 +361,8 @@ URL:            ' . admin_url( 'edit-post.php?post=' . $energieausweis->id, 'htt
 		?>
 		<script>
 			jQuery(document).ready(function ($) {
-				$( '#edd_custom_fee_eingabesupport' ).click().hide();
-				$( '.eddcf-custom-fee' ).change();
+				// $( '#edd_custom_fee_eingabesupport' ).click();
+				// $( '.eddcf-custom-fee' ).change();
 			});
 		</script>
 		<?php
