@@ -364,7 +364,7 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 			<div class="modal-dialog" style="margin-top:140px;">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title"><?php _e( 'Eingabe-Support von Anfang bis Ende!', 'wpenon' ); ?></h4>
+						<h4 class="modal-title"><?php _e( 'Neu: Eingabe-Support von Anfang bis Ende!', 'wpenon' ); ?></h4>
 					</div>
 					<div class="modal-body"><?php _e( 'Damit werden alle Ihre Fragen geklärt. Wir unterstützen Sie telefonisch bei der Eingabe der Gebäudedaten von Anfang der Eingabe bis Bestellabschluss. Jetzt für 34,95 Euro buchen.', 'wp_enon' ); ?></div>
 					<div class="modal-footer">
@@ -410,7 +410,11 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 						return;
 					}
 
-					$modal.modal( 'show' );
+					setTimeout( function() {
+						$modal.modal( 'show' );
+					}, 1000 );
+
+
 					e.preventDefault();
 					return false;
 				}
