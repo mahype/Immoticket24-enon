@@ -74,25 +74,6 @@ class EingabesupportPopup {
 	}
 
 	/**
-	 * Print html after WPENON content.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis object.
-	 * @param \WPENON\View\FrontendBase $view Frontend base view.
-	 */
-	public function print_html( $energieausweis, $view ) {
-		if ( $view->get_template_slug() !== 'create' ) {
-			return;
-		}
-		?>
-		<div id="wp-enon-eingabehilfe-popup" title="<?php _e( 'Eingabesupport', 'wpenon' ); ?>">
-			<p><?php _e( 'Eingabe-Support von Anfang bis Ende! Damit werden alle Ihre Fragen geklärt. Wir unterstützen Sie telefonisch bei der Eingabe der Gebäudedaten von Anfang der Eingabe bis Bestellabschluss. Jetzt für 34,95 Euro buchen.', 'wp_enon' ); ?></p>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Add own fields to form on Energeausweis creation.
 	 *
 	 * @since 1.0.0
@@ -170,8 +151,7 @@ class EingabesupportPopup {
 		$headers = apply_filters( 'edd_receipt_headers', $emails->get_headers(), 0, array() );
 		$emails->__set( 'headers', $headers );
 
-		// $emails->send( 'support@immoticket24.de', $subject, $message );
-		$emails->send( 'sven@awesome.ug', $subject, $message );
+		$emails->send( 'support@immoticket24.de', $subject, $message );
 	}
 
 	/**
@@ -187,7 +167,7 @@ class EingabesupportPopup {
 		$body = 'Folgender Kunde hat den Eingabesupport gebucht:
 		
 Energieausweis: ' . $energieausweis->post_title . '
-URL:            ' . admin_url( 'edit-post.php?post=' . $energieausweis->id, 'https' );
+URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action=edit', 'https' );
 
 		return $body;
 	}
@@ -365,6 +345,38 @@ URL:            ' . admin_url( 'edit-post.php?post=' . $energieausweis->id, 'htt
 		}
 	}
 
+
+
+	/**
+	 * Print html after WPENON content.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis object.
+	 * @param \WPENON\View\FrontendBase $view Frontend base view.
+	 */
+	public function print_html( $energieausweis, $view ) {
+		if ( $view->get_template_slug() !== 'create' ) {
+			return;
+		}
+		?>
+		<div id="wp-enon-eingabehilfe-popup" class="modal fade" role="dialog">
+			<div class="modal-dialog" style="margin-top:140px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title"><?php _e( 'Eingabe-Support von Anfang bis Ende!', 'wpenon' ); ?></h4>
+					</div>
+					<div class="modal-body"><?php _e( 'Damit werden alle Ihre Fragen geklärt. Wir unterstützen Sie telefonisch bei der Eingabe der Gebäudedaten von Anfang der Eingabe bis Bestellabschluss. Jetzt für 34,95 Euro buchen.', 'wp_enon' ); ?></div>
+					<div class="modal-footer">
+						<button id="wp-enon-eingabehilfe-no" type="button" class="btn btn-default"><?php _e( 'Ohne Eingabesupport weiter', 'wp_enon' ); ?></button>
+						<button id="wp-enon-eingabehilfe-yes" type="button" class="btn btn-primary"><?php _e( 'Eingabesupport buchen', 'wp_enon' ); ?></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+
 	/**
 	 * Print scripts after WPENON content.
 	 *
@@ -382,33 +394,40 @@ URL:            ' . admin_url( 'edit-post.php?post=' . $energieausweis->id, 'htt
 		<script>
 			jQuery(document).ready(function ($) {
 				var $form = $( '#wpenon-generate-form' );
+				var $modal = $( '#wp-enon-eingabehilfe-popup' );
+				var $gdprAcceptance = $( '#gdpr_acceptance' );
+
+				if ( ! $form.length || ! $modal.length || ! $gdprAcceptance.length ) {
+					return;
+				}
+
+				$modal.modal({
+					show: false
+				});
 
 				function onFormSubmitEingabesupport( e ) {
-					$('#wp-enon-eingabehilfe-popup').dialog({
-						resizable: false,
-						height: "auto",
-						width: 600,
-						modal: true,
-						buttons: {
-							"<?php _e( 'Eingabesupport buchen', 'wp_enon' ); ?>": function () {
-								$('#wpenon_eingabesupport').val('true');
-								$(this).dialog("close");
-								$form.off( 'submit', onFormSubmitEingabesupport );
-								$form.submit();
-							},
-							"<?php _e( 'Ohne Eingabesupport weiter', 'wp_enon' ); ?>": function () {
-								$(this).dialog("close");
-								$form.off( 'submit', onFormSubmitEingabesupport );
-								$form.submit();
-							}
-						}
-					});
+					if ( $gdprAcceptance.prop( 'checked' ) ) {
+						return;
+					}
 
+					$modal.modal( 'show' );
 					e.preventDefault();
-					return true;
+					return false;
 				}
 
 				$form.on( 'submit', onFormSubmitEingabesupport );
+
+				$( '#wp-enon-eingabehilfe-yes' ).on( 'click', function() {
+					$('#wpenon_eingabesupport').val('true');
+					$form.off( 'submit', onFormSubmitEingabesupport );
+					$form.submit();
+				});
+
+				$( '#wp-enon-eingabehilfe-no' ).on( 'click', function() {
+					$('#wpenon_eingabesupport').val('false');
+					$form.off( 'submit', onFormSubmitEingabesupport );
+					$form.submit();
+				});
 			});
 		</script>
 		<?php
