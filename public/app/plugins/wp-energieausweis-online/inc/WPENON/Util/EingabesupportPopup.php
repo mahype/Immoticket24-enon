@@ -424,12 +424,14 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 				$( '#wp-enon-eingabehilfe-yes' ).on( 'click', function() {
 					$('#wpenon_eingabesupport').val('true');
 					$form.off( 'submit', onFormSubmitEingabesupport );
+					$modal.modal( 'hide' );
 					$form.submit();
 				});
 
 				$( '#wp-enon-eingabehilfe-no' ).on( 'click', function() {
 					$('#wpenon_eingabesupport').val('false');
 					$form.off( 'submit', onFormSubmitEingabesupport );
+					$modal.modal( 'hide' );
 					$form.submit();
 				});
 			});
