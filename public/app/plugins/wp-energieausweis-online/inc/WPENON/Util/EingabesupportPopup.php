@@ -76,10 +76,10 @@ class EingabesupportPopup {
 	/**
 	 * Print html after WPENON content.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis object.
 	 * @param \WPENON\View\FrontendBase $view Frontend base view.
-	 *
-	 * @since 1.0.0
 	 */
 	public function print_html( $energieausweis, $view ) {
 		if ( $view->get_template_slug() !== 'create' ) {
@@ -93,13 +93,13 @@ class EingabesupportPopup {
 	}
 
 	/**
-	 * Adds own fields
-	 *
-	 * @param array $fields Given Fields
-	 *
-	 * @return array Merged Fields.
+	 * Add own fields to form on Energeausweis creation.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param  array $fields Fields.
+	 *
+	 * @return array $fields Merged Fields.
 	 */
 	public function additional_fields( $fields ) {
 		return array_merge( $fields, array(
@@ -111,11 +111,11 @@ class EingabesupportPopup {
 	}
 
 	/**
-	 * Saving values
-	 *
-	 * @param int \WPENON\Model\Energieausweis $energieausweis Energieausweis Object.
+	 * Saving values after creating Energieausweis.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis Object.
 	 *
 	 * @return int|bool Meta ID if the key didn't exist, true on successful update,
 	 *                  false on failure.
@@ -132,6 +132,11 @@ class EingabesupportPopup {
 		return update_post_meta( $energieausweis->id, 'eingabesupport', $eingabesupport );
 	}
 
+	/**
+	 * Adding fees to cart if selected before.
+	 *
+	 * @since 1.0.0
+	 */
 	public function add_fees_to_cart(){
 		if( ! $this->has_selected_eingabesupport() ) {
 			return;
@@ -142,6 +147,13 @@ class EingabesupportPopup {
 		EDD()->fees->add_fee( $fee );
 	}
 
+	/**
+	 * Sending Mail to support@immoticket24.de.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis Object.
+	 */
 	private function send_mail( $energieausweis ) {
 		$from_name   = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
 		$from_email  = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
@@ -167,9 +179,9 @@ class EingabesupportPopup {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param \WPENON\Model\Energieausweis $energieausweis
+	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis Object.
 	 *
-	 * @return string
+	 * @return string                      $body           Email body.
 	 */
 	private function get_email_body( $energieausweis ) {
 		$body = 'Folgender Kunde hat den Eingabesupport gebucht:
@@ -185,9 +197,9 @@ URL:            ' . admin_url( 'edit-post.php?post=' . $energieausweis->id, 'htt
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $energieausweis_id
+	 * @param int $energieausweis_id Energieausweis ID.
 	 *
-	 * @return bool
+	 * @return bool True if eingabesuppport was selected, false if not.
 	 */
 	public function has_selected_eingabesupport( $energieausweis_id = '' ) {
 		// Getting ID by cart content id no ID is given
@@ -223,9 +235,9 @@ URL:            ' . admin_url( 'edit-post.php?post=' . $energieausweis->id, 'htt
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $fees
+	 * @param array $fees EDD fees.
 	 *
-	 * @return array $fees
+	 * @return array $fees Filtered EDD fees.
 	 */
 	public function add_custom_fees( $fees ) {
 		$eingabesupport = array(
@@ -244,10 +256,12 @@ URL:            ' . admin_url( 'edit-post.php?post=' . $energieausweis->id, 'htt
 	/**
 	 * Filter Fees before showing.
 	 *
-	 * @param array $fees EDD fees in an array.
-	 * @param $cart
+	 * @since 1.0.0
 	 *
-	 * @return array
+	 * @param array     $fees EDD fees in an array.
+	 * @param \EDD_Cart $cart EDD Cart object.
+	 *
+	 * @return array    $fees EDD fees in an array.
 	 */
 	public function filter_custom_fees( $fees, $cart ) {
 		$found = false;
@@ -275,13 +289,13 @@ URL:            ' . admin_url( 'edit-post.php?post=' . $energieausweis->id, 'htt
 	}
 
 	/**
-	 * Adding Zusatzoptionen Settings
-	 *
-	 * @param $settings
-	 *
-	 * @return array
+	 * Adding Zusatzoptionen Settings.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param array $settings Settings Zusatzoptionen.
+	 *
+	 * @return array $settings Settings Zusatzoptionen.
 	 */
 	public function zusatzoptionen_settings( $settings ) {
 		$eingabesupport_settings = array(
@@ -328,11 +342,13 @@ URL:            ' . admin_url( 'edit-post.php?post=' . $energieausweis->id, 'htt
 	}
 
 	/**
-	 * Get default values
+	 * Get default values.
 	 *
-	 * @param string $type
+	 * @since 1.0.0
 	 *
-	 * @return bool|string|int
+	 * @param string           $type     Type label, description, price or order.
+	 *
+	 * @return bool|string|int           Value of default type.
 	 */
 	private function get_default( $type ) {
 		switch ( $type ) {
@@ -352,10 +368,10 @@ URL:            ' . admin_url( 'edit-post.php?post=' . $energieausweis->id, 'htt
 	/**
 	 * Print scripts after WPENON content.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis object.
 	 * @param \WPENON\View\FrontendBase $view Frontend base view.
-	 *
-	 * @since 1.0.0
 	 */
 	public function print_dialog_scripts( $energieausweis, $view ) {
 		if ( $view->get_template_slug() !== 'create' ) {
