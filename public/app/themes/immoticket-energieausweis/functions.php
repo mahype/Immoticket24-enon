@@ -418,13 +418,13 @@ function immoticketenergieausweis_show_certificate_gdpr_acceptance_popup() {
       $( '#wpit_gdpr_proceed_accept' ).on( 'click', function() {
         $gdprAcceptance.prop( 'checked', true );
         $form.off( 'submit', onFormSubmit );
-        $modal.hide();
+	    $modal.modal( 'hide' );
       });
 
       $( '#wpit_gdpr_proceed_noaccept' ).on( 'click', function() {
         $gdprAcceptance.prop( 'checked', false );
         $form.off( 'submit', onFormSubmit );
-        $modal.hide();
+	    $modal.modal( 'hide' );
       });
     } )( window.jQuery );
   </script>
