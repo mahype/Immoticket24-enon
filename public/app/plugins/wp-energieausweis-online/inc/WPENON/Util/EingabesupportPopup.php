@@ -159,7 +159,7 @@ class EingabesupportPopup {
 		$from_email  = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
 		$heading     = edd_get_option( 'eingabesupport_heading', __( 'Eingabesupport', 'easy-digital-downloads' ) );
 
-		$subject     = _( 'Eingabesupport', 'wpenon' );
+		$subject     = __( 'Eingabesupport', 'wpenon' );
 		$message     = $this->get_email_body( $energieausweis );
 
 		$emails = EDD()->emails;
