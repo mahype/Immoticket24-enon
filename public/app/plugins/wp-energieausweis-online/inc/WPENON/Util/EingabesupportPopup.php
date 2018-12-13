@@ -108,7 +108,9 @@ class EingabesupportPopup {
 			return false;
 		}
 
-		$this->send_mail( $energieausweis );
+		if( $eingabesupport ) {
+			$this->send_mail( $energieausweis );
+		}
 
 		return update_post_meta( $energieausweis->id, 'eingabesupport', $eingabesupport );
 	}
@@ -167,8 +169,11 @@ class EingabesupportPopup {
 		$body = 'Folgender Kunde hat den Eingabesupport gebucht:
 		
 Energieausweis: ' . $energieausweis->post_title . '
-URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action=edit', 'https' );
+Gebäudeanschrift: ' . $energieausweis->adresse . '
+Email-Adresse: ' . $energieausweis->getOwnerData( 'wpenon_email' ) . '
 
+URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action=edit', 'https' );
+		
 		return $body;
 	}
 
@@ -337,7 +342,7 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 			case 'description':
 				return  __( '<p>Mit Eingabe-Support von Anfang bis Ende! Damit werden alle Ihre Fragen geklärt. Wir unterstützen Sie telefonisch bei der Eingabe der Gebäudedaten von Anfang der Eingabe bis Bestellabschluss.</p>', 'wpenon' );
 			case 'price':
-				return 34.95;
+				return 9.95;
 			case 'order':
 				return 6;
 			default:
@@ -364,11 +369,11 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 			<div class="modal-dialog" style="margin-top:140px;">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title"><?php _e( 'NEU: Telefonischer Eingabe-Support von Anfang bis Ende!', 'wpenon' ); ?></h4>
+						<h4 class="modal-title"><?php _e( 'NEU: Telefonischer Eingabe-Support bis Bestellabschluss', 'wpenon' ); ?></h4>
 					</div>
 					<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/banner/images/support.jpg" class="modal-banner" />
 					<div class="modal-body">
-						<?php _e( 'Damit werden alle Ihre Fragen geklärt. Wir unterstützen Sie telefonisch bei der Eingabe der Gebäudedaten von Anfang der Eingabe bis Bestellabschluss. Jetzt für 34,95 Euro buchen.', 'wp_enon' ); ?>
+						<?php _e( 'Gerne unterstützen wir Sie telefonisch bei der Eingabe der Gebäudedaten von Anfang der Eingabe bis Bestellabschluss. Jetzt für 9,95 Euro buchen.', 'wp_enon' ); ?>
 					</div>
 					<div class="modal-footer">
 						<button id="wp-enon-eingabehilfe-no" type="button" class="btn btn-default"><?php _e( 'Ohne Eingabe-Support weiter', 'wp_enon' ); ?></button>
