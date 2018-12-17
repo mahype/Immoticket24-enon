@@ -13,7 +13,7 @@ function immoticketenergieausweis_enqueue_scripts()
 
   wp_enqueue_style( 'immoticketenergieausweis', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dist/immoticketenergieausweis.min.css', $dependencies, IMMOTICKETENERGIEAUSWEIS_THEME_VERSION );
   wp_add_inline_style( 'immoticketenergieausweis', $inline_style );
-  
+
   if( file_exists( IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/assets/dev/fancybox/source/jquery.fancybox.pack.js' ) )
   {
     wp_enqueue_style( 'jquery-fancybox', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dev/fancybox/source/jquery.fancybox.css', array(), '2.1.5' );
@@ -168,7 +168,7 @@ function immoticketenergieausweis_userlike_script() {
 
 function immoticketenergieausweis_ekomi_widget_script() {
   ?>
-  <script type="text/javascript"> 
+  <script type="text/javascript">
     (function(){
       eKomiIntegrationConfig = new Array(
         {certId:'0C5034E9BC8E6D1'}
@@ -234,9 +234,9 @@ add_action( 'wp_footer', 'immoticketenergieausweis_uptain_script', 100 );
 function immoticketenergieausweis_trusted_shops_badge_script() {
   ?>
   <script type="text/javascript">
-    (function () { 
-      var _tsid = 'X509FCF5891E8A90932F2A46F02AD28DE'; 
-      _tsConfig = { 
+    (function () {
+      var _tsid = 'X509FCF5891E8A90932F2A46F02AD28DE';
+      _tsConfig = {
         'yOffset': '0', /* offset from page bottom */
         'variant': 'custom_reviews', /* text, default, small, reviews, custom, custom_reviews */
         'customElementId': 'trusted-shops-badge', /* required for variants custom and custom_reviews */
@@ -249,10 +249,10 @@ function immoticketenergieausweis_trusted_shops_badge_script() {
         'trustCardTrigger': 'mouseenter' /* set to 'click' if you want the trustcard to be opened on click instead */
       };
       var _ts = document.createElement('script');
-      _ts.type = 'text/javascript'; 
-      _ts.charset = 'utf-8'; 
-      _ts.async = true; 
-      _ts.src = '//widgets.trustedshops.com/js/' + _tsid + '.js'; 
+      _ts.type = 'text/javascript';
+      _ts.charset = 'utf-8';
+      _ts.async = true;
+      _ts.src = '//widgets.trustedshops.com/js/' + _tsid + '.js';
       var __ts = document.getElementsByTagName('script')[0];
       __ts.parentNode.insertBefore(_ts, __ts);
     })();
@@ -353,7 +353,7 @@ function immoticketenergieausweis_google_conversion_script( $atts ) {
   <div style="display:inline;">
   <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/' . $conversion_id . '/?value=' . $conversion_value . '&currency_code=' . $conversion_currency . '&label=' . $conversion_label . '&guid=ON&script=0"/></div>
 </noscript>';
-  
+
   return $output;
 }
 add_shortcode( 'google_conversion_script', 'immoticketenergieausweis_google_conversion_script' );
@@ -370,18 +370,18 @@ function immoticketenergieausweis_trusted_badge_shortcode( $atts ) {
   <script type="text/javascript">
     _tsRatingConfig = {
       tsid: 'X509FCF5891E8A90932F2A46F02AD28DE',
-      variant: '<?php echo $atts['variant']; ?>', 
+      variant: '<?php echo $atts['variant']; ?>',
       // valid values: 'skyscraper_vertical', 'skyscraper_horizontal', vertical
       theme: '<?php echo $atts['theme']; ?>',
-      reviews: 10, 
+      reviews: 10,
       // default = 10
-      borderColor: '<?php echo $atts['border']; ?>', 
+      borderColor: '<?php echo $atts['border']; ?>',
       // optional - override the border
-      colorclassName: 'test', 
+      colorclassName: 'test',
       // optional - override the whole sticker style with your own css class
       introtext: 'What our customers say about us:',
       // optional, not used in skyscraper variants
-      richSnippets: 'off' 
+      richSnippets: 'off'
     };
     var scripts = document.getElementsByTagName('SCRIPT'),
     me = scripts[scripts.length - 1];
@@ -449,20 +449,20 @@ function immoticketenergieausweis_adcell_tracking_script() {
 
   $js_url  = add_query_arg( $args, '//www.adcell.de/js/track.js' );
   $php_url = add_query_arg( $args, '//www.adcell.de/event.php' );
-  
+
   $output = '
-<script type="text/javascript" src="' . esc_url( $js_url ) . '"></script>
+<script type="text/javascript" src="' . $js_url . '"></script>
 <noscript>
-  <img src="' . esc_url( $php_url ) . '" border="0" width="1" height="1">
+  <img src="' . $php_url . '" border="0" width="1" height="1">
 </noscript>
 ';
-  
+
   return $output;
 }
 add_shortcode( 'adcell_tracking_script', 'immoticketenergieausweis_adcell_tracking_script' );
 
 function immoticketenergieausweis_adcell_retargeting_script() {
-  $url = '//www.adcell.de/js/inlineretarget.js';
+  $url = 'https://www.adcell.de/js/inlineretarget.js';
   $args = array(
     'pid' => '408',
   );
@@ -567,7 +567,7 @@ function immoticketenergieausweis_adcell_retargeting_script() {
   }
 
   if ( ! empty( $args['method'] ) ) {
-    echo '<script type="text/javascript" src=' . esc_url( add_query_arg( $args, $url ) ) . '"></script>';
+    echo '<script type="text/javascript" src="' . add_query_arg( $args, $url ) . '"></script>';
   }
 }
 add_action( 'wp_footer', 'immoticketenergieausweis_adcell_retargeting_script' );
@@ -727,7 +727,7 @@ function immoticketenergieausweis_render_rating_stars( $rating, $max_rating = 5.
   $empty_count = $star_count - $full_count - $half_count;
 
   echo '<div class="stars">';
-  
+
   for ( $i = 0; $i < $full_count; $i++ ) {
     echo '<div class="star-full"></div>';
   }
