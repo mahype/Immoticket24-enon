@@ -373,7 +373,7 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 					</div>
 					<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/banner/images/support.jpg" class="modal-banner" />
 					<div class="modal-body">
-						<?php _e( 'Gerne unterstützen wir Sie telefonisch bei der Eingabe der Gebäudedaten von Anfang der Eingabe bis Bestellabschluss. Jetzt für 9,95 Euro buchen und bei Fragen einfach anrufen!', 'wp_enon' ); ?>
+						<?php _e( 'Gerne unterstützen wir Sie telefonisch bei der Eingabe der Gebäudedaten von Anfang der Eingabe bis Bestellabschluss. Jetzt für 9,95 Euro buchen und bei Fragen (auch nach Bestellabschluss) einfach anrufen!', 'wp_enon' ); ?>
 					</div>
 					<div class="modal-footer">
 						<button id="wp-enon-eingabehilfe-no" type="button" class="btn btn-default"><?php _e( 'Ohne Eingabe-Support weiter', 'wp_enon' ); ?></button>
