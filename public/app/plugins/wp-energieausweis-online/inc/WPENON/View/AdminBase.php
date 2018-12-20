@@ -8,10 +8,16 @@
 namespace WPENON\View;
 
 class AdminBase extends TemplateBase {
+	/**
+	 * Add meta boxes
+	 *
+	 * @param \WPENON\Model|Energieausweis $energieausweis
+	 */
 	public function addMetaBoxes( $energieausweis ) {
 		$schema = $energieausweis->getSchema();
 
 		$boxes = $schema->get( $energieausweis, false, true, true );
+
 		foreach ( $boxes as $box_slug => $box ) {
 			$context = 'normal';
 			if ( $box_slug == 'private' ) {

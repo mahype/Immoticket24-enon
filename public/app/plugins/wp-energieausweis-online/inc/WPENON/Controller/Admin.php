@@ -19,8 +19,19 @@ class Admin {
 	}
 
 	private $model = null;
+
+	/**
+	 * View
+	 *
+	 * @var \WPENON\View\AdminBase
+	 */
 	private $view = null;
 
+	/**
+	 * Energieausweis
+	 *
+	 * @var \WPENON\Model|Energieausweis
+	 */
 	private $energieausweis = null;
 
 	private $enqueue_scripts = false;
@@ -65,6 +76,7 @@ class Admin {
 					add_filter( 'publish_download', array( $this, '_assignTitle' ), 10, 2 );
 					add_filter( 'enter_title_here', array( $this, '_adjustTitlePlaceholder' ), 10, 2 );
 					add_filter( 'get_sample_permalink_html', array( $this, '_getSingleActions' ), 10, 4 );
+
 					$this->enqueue_scripts = true;
 					break;
 				case 'edit':
@@ -125,6 +137,11 @@ class Admin {
 		}
 	}
 
+	/**
+	 * Adding meta boxes.
+	 *
+	 * @param null|\WP_Post
+	 */
 	public function _addMetaBoxes( $post = null ) {
 		$this->energieausweis = \WPENON\Model\EnergieausweisManager::getEnergieausweis( $post );
 
