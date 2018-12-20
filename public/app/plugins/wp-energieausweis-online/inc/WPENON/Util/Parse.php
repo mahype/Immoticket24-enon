@@ -12,35 +12,24 @@ class Parse {
 		return absint( $value );
 	}
 
+	private static function to_float( $num ) {
+		$dotPos   = strrpos( $num, '.' );
+		$commaPos = strrpos( $num, ',' );
+		$sep      = ( ( $dotPos > $commaPos ) && $dotPos ) ? $dotPos :
+			( ( ( $commaPos > $dotPos ) && $commaPos ) ? $commaPos : false );
+
+		if ( ! $sep ) {
+			return floatval( preg_replace( "/[^0-9]/", "", $num ) );
+		}
+
+		return floatval(
+			preg_replace( "/[^0-9]/", "", substr( $num, 0, $sep ) ) . '.' .
+			preg_replace( "/[^0-9]/", "", substr( $num, $sep + 1, strlen( $num ) ) )
+		);
+	}
+
 	public static function float( $value ) {
-		if ( is_float( $value ) ) {
-			return $value;
-		}
-
-		$decimal_sep   = wpenon_get_option( 'decimal_separator' );
-		$thousands_sep = wpenon_get_option( 'thousands_separator' );
-
-		if ( $decimal_sep === ',' ) {
-			if ( preg_match( '/\d\.(\d{3})(\.|,|$)/', $value ) ) {
-				$value = str_replace( '.', '', $value );
-			}
-			if ( strpos( $value, $decimal_sep ) !== false ) {
-				if ( ( $thousands_sep == '.' || $thousands_sep == ' ' ) && strpos( $value, $thousands_sep ) !== false ) {
-					$value = str_replace( $thousands_sep, '', $value );
-				} elseif ( empty( $thousands_sep ) && strpos( $value, '.' ) !== false ) {
-					$value = str_replace( '.', '', $value );
-				}
-				$value = str_replace( $decimal_sep, '.', $value );
-			}
-		} elseif ( $thousands_sep == ',' ) {
-			if ( strpos( $value, $thousands_sep ) !== false ) {
-				$value = str_replace( $thousands_sep, '', $value );
-			}
-		}
-
-		$value = preg_replace( '/[^0-9\.]/', '', $value );
-
-		return floatval( $value );
+		return floatval( number_format( self::to_float( $value ), 2, '.', '' ) );
 	}
 
 	public static function boolean( $value ) {
