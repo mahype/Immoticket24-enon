@@ -34,6 +34,7 @@ class PaymentGatewayPaymill extends \WPENON\Model\PaymentGateway {
 
 		// Record the pending payment
 		$payment_id = edd_insert_payment( $payment_data );
+		$this->log( sprintf( 'Inserted payment data: %s', print_r( $payment_data, true ) ) );
 
 		if ( ! $payment_id ) {
 			$this->_handlePaymentError( $payment_id, sprintf( __( 'Payment creation failed while processing a Paymill purchase. Payment data: %s', 'wpenon' ), json_encode( $payment_data ) ), true );

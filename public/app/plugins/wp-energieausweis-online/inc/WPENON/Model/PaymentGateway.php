@@ -81,6 +81,9 @@ abstract class PaymentGateway {
 	}
 
 	protected function _handlePaymentError( $payment_id, $message, $sendback = false ) {
+		$log_message = sprintf( 'Payment error for payment id #%s: %s', $payment_id, $message );
+		$this->log( $log_message );
+
 		edd_record_gateway_error( __( 'Payment Error', 'wpenon' ), $message, $payment_id );
 		if ( $payment_id ) {
 			edd_update_payment_status( $payment_id, 'failed' );
@@ -96,6 +99,9 @@ abstract class PaymentGateway {
 			edd_set_payment_transaction_id( $payment_id, $transaction_id );
 		}
 
+		$log_message = sprintf( 'Payment successful for payment id #%s with transaction id %s', $payment_id, $transaction_id );
+		$this->log( $log_message );
+
 		edd_empty_cart();
 
 		if ( $redirect_to ) {
@@ -107,22 +113,30 @@ abstract class PaymentGateway {
 	}
 
 	protected function _handlePaymentProcessError( $payment_id, $message, $abort = false ) {
-		edd_record_gateway_error( sprintf( __( '%s Notification Error', 'wpenon' ), $this->listener_key ), $message, $payment_id );
+		$log_message = sprintf( 'Payment process error for payment id #%s: %s', $payment_id, $message );
+		$this->log( $log_message );
 
-		$logfile_name = dirname( ABSPATH ) . '/pamyent-errors-9868765456.log';
-		$file = fopen( $logfile_name, 'a' );
-		fwrite( $file, sprintf( '%s Payment Error for Payment %s: %s', $this->listener_key, $payment_id, $message ) );
-		fclose( $file );
+		edd_record_gateway_error( sprintf( __( '%s Notification Error', 'wpenon' ), $this->listener_key ), $message, $payment_id );
 
 		if ( $abort ) {
 			wp_send_json_error( array( 'message' => $message ), 400 );
 		}
 	}
 
+	protected function log( $log_message ) {
+		$logfile_name = dirname( ABSPATH ) . '/pamyents.log';
+		$file = fopen( $logfile_name, 'a' );
+		fwrite( $file, sprintf( '%s: %s', $this->listener_key, $log_message . chr(13 ) ) );
+		fclose( $file );
+	}
+
 	protected function _handlePaymentProcessSuccess( $payment_id, $payment_status = null ) {
 		if ( null !== $payment_status ) {
 			edd_update_payment_status( $payment_id, $payment_status );
 		}
+
+		$log_message = sprintf( 'Payment Process Successful for payment id #%s with payment status %s', $payment_id, $payment_status );
+		$this->log( $log_message );
 
 		wp_send_json_success( array( 'message' => __( 'Payment status successfully updated.', 'wpenon' ) ) );
 	}
