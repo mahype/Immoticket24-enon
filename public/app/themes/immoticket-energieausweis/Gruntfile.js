@@ -247,7 +247,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('scripts', [
     'clean:scripts',
-    //'jshint',
+    'jshint',
     'concat',
     'uglify'
   ]);

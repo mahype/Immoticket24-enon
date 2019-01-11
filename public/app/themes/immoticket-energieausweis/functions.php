@@ -110,7 +110,23 @@ add_filter( 'wpenon_email_signature', 'immoticketenergieausweis_email_signature'
 
 function immoticketenergieausweis_empty_cart_message( $message ) {
   $message .= '<br><br>';
-  $message .= __( 'Um Ihr Energieausweis-Projekt erneut aufzurufen, verwenden Sie bitte den Zugriffs-Link, den Sie bei Erstellung des Projekts per Email erhalten haben.', 'immoticketenergieausweis' );
+
+  $message .= __( '<p>Um Ihre Energieausweis-Bestellung abschließen zu können, müssen Sie hierfür Cookies akzeptieren, damit die eingegebenen Angaben für die Bestellung übernommen werden können.</p>
+
+<p>Dies können Sie in Ihrem Browser wie folgt erledigen:</p>
+
+<p><strong>Safari:</strong></p> 
+<p>Einstellungen => Datenschutz => "Alle Cookies blockieren" deaktivieren</p>
+
+<p><strong>Firefox:</strong></p> 
+<p>Einstellungen => Datenschutz & Sicherheit => "Annehmen von Cookies und Website-Daten" aktivieren</p>
+
+<p><strong>Chrome:</strong></p>
+<p>Einstellungen => Erweitert => Datenschutz & Sicherheit => "Bei Browserzugriffen eine Do not track-Anforderung mitsenden" deaktivieren</p>', 'immoticketenergieausweis' );
+
+  $message .= __( '<p>Um Ihr Energieausweis-Projekt erneut aufzurufen, verwenden Sie bitte den Zugriffs-Link, den Sie bei der Erstellung des Projekts per Email erhalten haben.</p>', 'immoticketenergieausweis' );
+  $message .= '<p><button onclick="javascript:history.back();" class="btn btn-primary">' . __( 'Zurück zum Energieausweis', 'immoticketenergieausweis' ) . '</button></p>';
+
   return $message;
 }
 add_filter( 'edd_empty_cart_message', 'immoticketenergieausweis_empty_cart_message' );
@@ -833,3 +849,10 @@ function immoticketenergieausweis_special_affiliate_email_notice( $payment_id = 
 }
 remove_action( 'edd_admin_sale_notice', 'edd_admin_email_notice', 10 );
 add_action( 'edd_admin_sale_notice', 'immoticketenergieausweis_special_affiliate_email_notice', 10, 2 );
+
+function immoticketenergieausweis_enable_extended_upload ( $mime_types = array() ) {
+	$mime_types['csv'] = 'text/plain';
+	return $mime_types;
+}
+
+add_filter( 'upload_mimes', 'immoticketenergieausweis_enable_extended_upload' );

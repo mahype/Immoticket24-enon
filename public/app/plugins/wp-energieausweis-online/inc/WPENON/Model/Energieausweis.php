@@ -58,7 +58,7 @@ class Energieausweis {
 			if ( $this->schema->isField( $field ) ) {
 				$old_value = get_post_meta( $this->id, $field, true );
 
-				if ( $value !== $old_value ) {
+				if ( (string) $value !== (string) $old_value ) {
 					update_post_meta( $this->id, $field, $value );
 
 					if ( $field == 'wpenon_email' ) {

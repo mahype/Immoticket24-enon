@@ -464,7 +464,7 @@ add_shortcode( 'adcell_tracking_script', 'immoticketenergieausweis_adcell_tracki
 function immoticketenergieausweis_adcell_retargeting_script() {
   $url = 'https://www.adcell.de/js/inlineretarget.js';
   $args = array(
-    'pid' => '408',
+    'pid' => '4408',
   );
 
   if ( ! class_exists( 'WPENON\Model\EnergieausweisManager' ) ) {

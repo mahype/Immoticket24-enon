@@ -95,7 +95,6 @@ class Endpoints extends Controller {
 		$args['order']        = isset( $request['order'] )        ? $request['order'] : 'ASC';
 		$args['search']       = isset( $request['search'] )       ? $request['search'] : false;
 		$args['date']         = isset( $request['date'] )         ? $request['date'] : '';
-		$args['parent_id']    = isset( $request['parent_id'] )    ? $request['parent_id'] : '';
 
 		if ( is_array( $request['filter'] ) ) {
 			$args = array_merge( $args, $request['filter'] );
@@ -241,14 +240,6 @@ class Endpoints extends Controller {
 			},
 		);
 
-		$params['parent_id'] = array(
-			'description'       => __( 'The parent referral ID or array of IDs to query for.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
-		);
-
 		/*
 		 * Pass any valid get_referrals() args via filter:
 		 * /referrals/?filter[status]=pending&filter[order]=desc
@@ -331,10 +322,6 @@ class Endpoints extends Controller {
 				'date'         => array(
 					'description' => __( 'The date the referral was generated.', 'affiliate-wp' ),
 					'type'        => 'string',
-				),
-				'parent_id' => array(
-					'description' => __( 'The ID for the parent referral.', 'affiliate-wp' ),
-					'type'        => 'integer',
 				),
 			),
 		);

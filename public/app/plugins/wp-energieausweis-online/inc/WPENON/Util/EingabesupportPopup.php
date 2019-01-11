@@ -170,7 +170,7 @@ class EingabesupportPopup {
 		
 Energieausweis: ' . $energieausweis->post_title . '
 Gebäudeanschrift: ' . $energieausweis->adresse . '
-Email-Adresse: ' . $energieausweis->getOwnerData( 'wpenon_email' ) . '
+Email-Adresse: ' . $energieausweis->getOwnerData( 'email' ) . '
 
 URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action=edit', 'https' );
 
@@ -350,8 +350,6 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 		}
 	}
 
-
-
 	/**
 	 * Print html after WPENON content.
 	 *
@@ -412,8 +410,6 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 				$modal.modal({
 					show: false
 				});
-
-
 
 				function onFormSubmitEingabesupport( e ) {
 					setTimeout( function() {

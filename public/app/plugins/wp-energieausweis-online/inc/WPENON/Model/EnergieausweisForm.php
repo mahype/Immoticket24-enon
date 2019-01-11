@@ -186,6 +186,9 @@ class EnergieausweisForm {
 		$this->type   = $energieausweis->type;
 		$this->action = 'editoverview';
 
+		$errors   = array();
+		$warnings = array();
+
 		$schema = $energieausweis->getSchema();
 
 		$base_url = $this->filterURL( $energieausweis->verified_permalink, $this->action, $this->type );

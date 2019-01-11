@@ -71,6 +71,7 @@ class PaymentGatewayPaymill extends \WPENON\Model\PaymentGateway {
 						$response  = $request->create( $client );
 						$client_id = $response->getId();
 					} catch ( \Exception $e ) {
+                        $this->_handlePaymentError( $payment_id, sprintf( 'Paymill Request error: %s', $e->getMessage() ), true );
 					}
 
 					if ( ! empty( $client_id ) ) {

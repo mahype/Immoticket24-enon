@@ -8,47 +8,58 @@ class Affiliate_WP_Lifetime_Commissions_Gravity_Forms extends Affiliate_WP_Lifet
 	 * @access  public
 	 * @since   1.0
 	*/
-	public function init() {
-		$this->context = 'gravityforms';
-	}
+    public function init() {
+        $this->context = 'gravityforms';
+    }
 
-	/**
-	 * Retrieve the email address of a customer from the from data
-	 *
-	 * @access  public
-	 * @since   2.0
-	 * @return  string
-	 */
-	public function get_email( $reference = 0 ) {
+    /**
+     * Retrieves the user's email or ID
+     *
+     * @param string $get what to retrieve
+     * @param int $reference Payment reference number
+     *
+     * @since 1.1
+     */
+    public function get( $get = '', $reference = 0, $context ) {
 
-		if( empty( $reference ) ) {
-			return false;
-		}
+        if ( ! $get ) {
+            return false;
+        }
 
-		$entry = GFFormsModel::get_lead( $reference );
+        if( empty( $reference ) ) {
+            return false;
+        }
 
-		if( empty( $entry ) ) {
-			return false;
-		}
+        $entry = GFFormsModel::get_lead( $reference );
 
-		$form = GFAPI::get_form( $entry['form_id'] );
+        if( empty( $entry ) ) {
+            return false;
+        }
 
-		// get email field
-		$email_fields = GFCommon::get_email_fields( $form );
+        $form  = GFAPI::get_form( $entry['form_id'] );
 
-		$field_id = '';
+        // get email field
+        $email_fields = GFCommon::get_email_fields( $form );
 
-		// get value of first email field. The form should only have 1 email field if it's a product form
-		if ( $email_fields ) {
-			foreach ( $email_fields as $email_field ) {
-				$field_id = $email_field['id'];
-				break;
-			}
-		}
+        $field_id = '';
 
-		return isset( $entry[$field_id] ) ? $entry[$field_id] : false;
-	
-	}
+        // get value of first email field. The form should only have 1 email field if it's a product form
+        if ( $email_fields ) {
+            foreach ( $email_fields as $email_field ) {
+                $field_id = $email_field['id'];
+                break;
+            }
+        }
+
+        if ( 'email' === $get ) {
+            return $entry[$field_id];
+        } elseif ( 'user_id' === $get ) {
+            return $entry['created_by'];
+        }
+
+        return false;
+
+    }
 
 }
 new Affiliate_WP_Lifetime_Commissions_Gravity_Forms;

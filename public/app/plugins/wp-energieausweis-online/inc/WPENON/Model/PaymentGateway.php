@@ -108,6 +108,12 @@ abstract class PaymentGateway {
 
 	protected function _handlePaymentProcessError( $payment_id, $message, $abort = false ) {
 		edd_record_gateway_error( sprintf( __( '%s Notification Error', 'wpenon' ), $this->listener_key ), $message, $payment_id );
+
+		$logfile_name = dirname( ABSPATH ) . '/pamyent-errors-9868765456.log';
+		$file = fopen( $logfile_name, 'a' );
+		fwrite( $file, sprintf( '%s Payment Error for Payment %s: %s', $this->listener_key, $payment_id, $message ) );
+		fclose( $file );
+
 		if ( $abort ) {
 			wp_send_json_error( array( 'message' => $message ), 400 );
 		}

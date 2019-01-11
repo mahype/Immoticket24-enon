@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Allows plugins to use their own update API.
  *
  * @author Easy Digital Downloads
- * @version 1.6.17
+ * @version 1.6.15
  */
 class AFFWP_Plugin_Updater {
 
@@ -18,8 +18,6 @@ class AFFWP_Plugin_Updater {
 	private $version     = '';
 	private $wp_override = false;
 	private $cache_key   = '';
-
-	private $health_check_timeout = 5;
 
 	/**
 	 * Class constructor.
@@ -45,15 +43,6 @@ class AFFWP_Plugin_Updater {
 		$this->cache_key   = 'edd_sl_' . md5( serialize( $this->slug . $this->api_data['license'] . $this->beta ) );
 
 		$edd_plugin_data[ $this->slug ] = $this->api_data;
-
-		/**
-		 * Fires after the $edd_plugin_data is setup.
-		 *
-		 * @since x.x.x
-		 *
-		 * @param array $edd_plugin_data Array of EDD SL plugin data.
-		 */
-		do_action( 'post_edd_sl_plugin_updater_setup', $edd_plugin_data );
 
 		// Set up hooks.
 		$this->init();
@@ -123,7 +112,7 @@ class AFFWP_Plugin_Updater {
 
 			}
 
-			$_transient_data->last_checked           = time();
+			$_transient_data->last_checked           = current_time( 'timestamp' );
 			$_transient_data->checked[ $this->name ] = $this->version;
 
 		}
@@ -169,19 +158,6 @@ class AFFWP_Plugin_Updater {
 			if ( false === $version_info ) {
 				$version_info = $this->api_request( 'plugin_latest_version', array( 'slug' => $this->slug, 'beta' => $this->beta ) );
 
-				// Since we disabled our filter for the transient, we aren't running our object conversion on banners, sections, or icons. Do this now:
-				if ( isset( $version_info->banners ) && ! is_array( $version_info->banners ) ) {
-					$version_info->banners = $this->convert_object_to_array( $version_info->banners );
-				}
-
-				if ( isset( $version_info->sections ) && ! is_array( $version_info->sections ) ) {
-					$version_info->sections = $this->convert_object_to_array( $version_info->sections );
-				}
-
-				if ( isset( $version_info->icons ) && ! is_array( $version_info->icons ) ) {
-					$version_info->icons = $this->convert_object_to_array( $version_info->icons );
-				}
-
 				$this->set_version_info_cache( $version_info );
 			}
 
@@ -195,7 +171,7 @@ class AFFWP_Plugin_Updater {
 
 			}
 
-			$update_cache->last_checked = time();
+			$update_cache->last_checked = current_time( 'timestamp' );
 			$update_cache->checked[ $this->name ] = $this->version;
 
 			set_site_transient( 'update_plugins', $update_cache );
@@ -275,8 +251,7 @@ class AFFWP_Plugin_Updater {
 			'is_ssl' => is_ssl(),
 			'fields' => array(
 				'banners' => array(),
-				'reviews' => false,
-				'icons'   => array(),
+				'reviews' => false
 			)
 		);
 
@@ -303,41 +278,25 @@ class AFFWP_Plugin_Updater {
 
 		// Convert sections into an associative array, since we're getting an object, but Core expects an array.
 		if ( isset( $_data->sections ) && ! is_array( $_data->sections ) ) {
-			$_data->sections = $this->convert_object_to_array( $_data->sections );
+			$new_sections = array();
+			foreach ( $_data->sections as $key => $value ) {
+				$new_sections[ $key ] = $value;
+			}
+
+			$_data->sections = $new_sections;
 		}
 
 		// Convert banners into an associative array, since we're getting an object, but Core expects an array.
 		if ( isset( $_data->banners ) && ! is_array( $_data->banners ) ) {
-			$_data->banners = $this->convert_object_to_array( $_data->banners );
-		}
+			$new_banners = array();
+			foreach ( $_data->banners as $key => $value ) {
+				$new_banners[ $key ] = $value;
+			}
 
-		// Convert icons into an associative array, since we're getting an object, but Core expects an array.
-		if ( isset( $_data->icons ) && ! is_array( $_data->icons ) ) {
-			$_data->icons = $this->convert_object_to_array( $_data->icons );
+			$_data->banners = $new_banners;
 		}
 
 		return $_data;
-	}
-
-	/**
-	 * Convert some objects to arrays when injecting data into the update API
-	 *
-	 * Some data like sections, banners, and icons are expected to be an associative array, however due to the JSON
-	 * decoding, they are objects. This method allows us to pass in the object and return an associative array.
-	 *
-	 * @since 3.6.5
-	 *
-	 * @param stdClass $data
-	 *
-	 * @return array
-	 */
-	private function convert_object_to_array( $data ) {
-		$new_data = array();
-		foreach ( $data as $key => $value ) {
-			$new_data[ $key ] = $value;
-		}
-
-		return $new_data;
 	}
 
 	/**
@@ -370,29 +329,7 @@ class AFFWP_Plugin_Updater {
 	 */
 	private function api_request( $_action, $_data ) {
 
-		global $wp_version, $edd_plugin_url_available;
-
-		// Do a quick status check on this domain if we haven't already checked it.
-		$store_hash = md5( $this->api_url );
-		if ( ! is_array( $edd_plugin_url_available ) || ! isset( $edd_plugin_url_available[ $store_hash ] ) ) {
-			$test_url_parts = parse_url( $this->api_url );
-
-			$scheme = ! empty( $test_url_parts['scheme'] ) ? $test_url_parts['scheme']     : 'http';
-			$host   = ! empty( $test_url_parts['host'] )   ? $test_url_parts['host']       : '';
-			$port   = ! empty( $test_url_parts['port'] )   ? ':' . $test_url_parts['port'] : '';
-
-			if ( empty( $host ) ) {
-				$edd_plugin_url_available[ $store_hash ] = false;
-			} else {
-				$test_url = $scheme . '://' . $host . $port;
-				$response = wp_remote_get( $test_url, array( 'timeout' => $this->health_check_timeout, 'sslverify' => true ) );
-				$edd_plugin_url_available[ $store_hash ] = is_wp_error( $response ) ? false : true;
-			}
-		}
-
-		if ( false === $edd_plugin_url_available[ $store_hash ] ) {
-			return;
-		}
+		global $wp_version;
 
 		$data = array_merge( $this->api_data, $_data );
 
@@ -400,7 +337,7 @@ class AFFWP_Plugin_Updater {
 			return;
 		}
 
-		if( $this->api_url == trailingslashit ( home_url() ) ) {
+		if( $this->api_url == trailingslashit (home_url() ) ) {
 			return false; // Don't allow a plugin to ping itself
 		}
 
@@ -431,10 +368,6 @@ class AFFWP_Plugin_Updater {
 
 		if ( $request && isset( $request->banners ) ) {
 			$request->banners = maybe_unserialize( $request->banners );
-		}
-
-		if ( $request && isset( $request->icons ) ) {
-			$request->icons = maybe_unserialize( $request->icons );
 		}
 
 		if( ! empty( $request->sections ) ) {
@@ -522,17 +455,11 @@ class AFFWP_Plugin_Updater {
 
 		$cache = get_option( $cache_key );
 
-		if( empty( $cache['timeout'] ) || time() > $cache['timeout'] ) {
+		if( empty( $cache['timeout'] ) || current_time( 'timestamp' ) > $cache['timeout'] ) {
 			return false; // Cache is expired
 		}
 
-		// We need to turn the icons into an array, thanks to WP Core forcing these into an object at some point.
-		$cache['value'] = json_decode( $cache['value'] );
-		if ( ! empty( $cache['value']->icons ) ) {
-			$cache['value']->icons = (array) $cache['value']->icons;
-		}
-
-		return $cache['value'];
+		return json_decode( $cache['value'] );
 
 	}
 
@@ -543,7 +470,7 @@ class AFFWP_Plugin_Updater {
 		}
 
 		$data = array(
-			'timeout' => strtotime( '+3 hours', time() ),
+			'timeout' => strtotime( '+3 hours', current_time( 'timestamp' ) ),
 			'value'   => json_encode( $value )
 		);
 

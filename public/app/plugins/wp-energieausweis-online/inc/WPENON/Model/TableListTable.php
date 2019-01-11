@@ -13,6 +13,10 @@ if ( ! class_exists( '\WP_List_Table' ) ) {
 
 class TableListTable extends \WP_List_Table {
 	protected $slug = '';
+
+	/**
+	 * @var Table
+	 */
 	protected $table = null;
 
 	public function __construct( $slug, $table ) {
@@ -398,7 +402,7 @@ class TableListTable extends \WP_List_Table {
 						$overrides = array(
 							'test_form' => false,
 							'test_type' => true,
-							'mimes'     => array( 'csv' => 'text/csv' ),
+							'mimes'     => array( 'csv' => 'text/plain' ),
 						);
 						$file      = wp_handle_upload( $_FILES['csv-import'], $overrides );
 						if ( isset( $file['error'] ) ) {
