@@ -31,7 +31,7 @@
     "composer/installers": "~1.0",
     "cweagans/composer-patches": "~1.0",
     "johnpbloch/wordpress-core-installer": "~1.0",
-    "johnpbloch/wordpress-core": "4.9.8",
+    "johnpbloch/wordpress-core": "5.0.3",
     "wpackagist-plugin/akismet": "4.1",
     "wpackagist-plugin/bootstrap-for-contact-form-7": "1.4.8",
     "wpackagist-plugin/classic-editor": "1.3",

@@ -22,6 +22,7 @@ public/app/uploads/*
 !public/app/plugins/wordpress-seo-premium
 !public/app/plugins/wp-energieausweis-online
 !public/app/plugins/wp-postratings-migrate
+!public/app/plugins/wp-rocket
 !public/app/themes/immoticket-energieausweis
 
 # WordPress
