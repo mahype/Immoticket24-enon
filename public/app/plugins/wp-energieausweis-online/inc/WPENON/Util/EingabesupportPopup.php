@@ -59,17 +59,16 @@ class EingabesupportPopup {
 	 */
 	public function init_hooks() {
 		add_action( 'wpenon_additional_fiels', array( $this, 'additional_fields' ), 10, 2 );
-		add_action( 'wpenon_energieausweis_create', array( $this, 'update_fields' ), 10, 1 );
+		add_action( 'wpenon_energieausweis_create', array( $this, 'energiesausweis_create' ), 10, 1 );
 
-		add_filter( 'wpenon_zusatzoptionen_settings', array( $this, 'zusatzoptionen_settings' ), 10, 1 );
 		add_filter( 'wpenon_custom_fees', array( $this, 'add_custom_fees' ), 10, 1 );
-		add_filter( 'eddcf_filter_custom_fees', array( $this, 'filter_custom_fees' ), 10, 2 );
+		add_filter( 'wpenon_zusatzoptionen_settings', array( $this, 'zusatzoptionen_settings' ), 10, 1 );
 
+		add_filter( 'eddcf_filter_custom_fees', array( $this, 'filter_custom_fees' ), 10, 2 );
 		add_action( 'edd_before_checkout_cart', array( $this, 'add_fees_to_cart' ) );
 
 		add_action( 'wpenon_after_content', array( $this, 'print_html' ), 10, 2 );
 		add_action( 'wpenon_after_content', array( $this, 'print_dialog_scripts' ), 10, 2 );
-		// add_action( 'edd_checkout_form_top', array( $this, 'print_checkout_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
@@ -92,7 +91,7 @@ class EingabesupportPopup {
 	}
 
 	/**
-	 * Saving values after creating Energieausweis.
+	 * Process on creating Energieausweis.
 	 *
 	 * @since 1.0.0
 	 *
@@ -101,18 +100,46 @@ class EingabesupportPopup {
 	 * @return int|bool Meta ID if the key didn't exist, true on successful update,
 	 *                  false on failure.
 	 */
-	public function update_fields( $energieausweis ) {
+	public function energiesausweis_create( $energieausweis ) {
 		$eingabesupport = filter_var( $_POST['wpenon_eingabesupport'], FILTER_VALIDATE_BOOLEAN, array( 'flags' => FILTER_NULL_ON_FAILURE ) );
 
 		if ( null === $eingabesupport ) {
 			return false;
 		}
 
-		if( $eingabesupport ) {
+		if ( $eingabesupport ) {
 			$this->send_mail( $energieausweis );
 		}
 
-		return update_post_meta( $energieausweis->id, 'eingabesupport', $eingabesupport );
+		if( $eingabesupport ) {
+			return $this->activate_eingabesupport( $energieausweis->id );
+		} else {
+			return $this->deactivate_eingabesupport( $energieausweis->id );
+		}
+	}
+
+	/**
+	 * Activating Eingabesupport.
+	 *
+	 * @param int $energieausweis_id ID of the Energieausweis
+	 *
+	 * @return bool|int Meta ID if the key didn't exist, true on successful update,
+	 *                  false on failure.
+	 */
+	private function activate_eingabesupport( $energieausweis_id ) {
+		return update_post_meta( $energieausweis_id, 'eingabesupport', true );
+	}
+
+	/**
+	 * Dectivating Eingabesupport.
+	 *
+	 * @param int $energieausweis_id ID of the Energieausweis
+	 *
+	 * @return bool|int Meta ID if the key didn't exist, true on successful update,
+	 *                  false on failure.
+	 */
+	private function deactivate_eingabesupport( $energieausweis_id ) {
+		return update_post_meta( $energieausweis_id, 'eingabesupport', false );
 	}
 
 	/**
@@ -120,13 +147,13 @@ class EingabesupportPopup {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_fees_to_cart(){
-		if( ! $this->has_selected_eingabesupport() ) {
+	public function add_fees_to_cart() {
+		if ( ! $this->has_selected_eingabesupport() ) {
 			return;
 		}
 
 		$fees = eddcf_get_custom_fees();
-		$fee = array_intersect_key( $fees[ 'eingabesupport' ], array_flip( array( 'id', 'amount', 'label', 'type' ) ) );
+		$fee  = array_intersect_key( $fees['eingabesupport'], array_flip( array( 'id', 'amount', 'label', 'type' ) ) );
 		EDD()->fees->add_fee( $fee );
 	}
 
@@ -216,7 +243,7 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 	}
 
 	/**
-	 * Adding fees
+	 * Adding fees to EDD in general.
 	 *
 	 * @since 1.0.0
 	 *
@@ -243,31 +270,23 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array     $fees EDD fees in an array.
+	 * @param array $fees EDD fees in an array.
 	 * @param \EDD_Cart $cart EDD Cart object.
 	 *
 	 * @return array    $fees EDD fees in an array.
 	 */
 	public function filter_custom_fees( $fees, $cart ) {
-		$found = false;
-
 		foreach ( $cart->get_contents_details() as $item ) {
 			$energieausweis = \WPENON\Model\EnergieausweisManager::getEnergieausweis( $item['id'] );
 			if ( ! $energieausweis ) {
 				continue;
 			}
-
-			if( $this->has_selected_eingabesupport( $item['id'] ) ) {
-				$found = true;
-			}
 		}
 
-		if( ! $found ) {
-			if( array_key_exists( 'eingabesupport', $fees ) ) {
-				unset( $fees['eingabesupport'] );
-			}
-
-			return $fees;
+		if( array_key_exists( 'eingabesupport',  $cart->fees ) ) {
+			$this->activate_eingabesupport( $energieausweis->id );
+		} else {
+			$this->deactivate_eingabesupport( $energieausweis->id );
 		}
 
 		return $fees;
