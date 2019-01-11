@@ -6564,9 +6564,6 @@ a img.aligncenter {
   margin-bottom: 15px;
   font-size: 14px;
 }
-#edd_checkout_cart #edd_cart_fee_eingabesupport td:nth-child(3) a {
-	display: none;
-}
 .modal-banner {
 	width:100%;
 }
