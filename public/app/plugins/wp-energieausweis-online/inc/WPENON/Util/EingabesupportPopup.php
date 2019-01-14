@@ -65,7 +65,7 @@ class EingabesupportPopup {
 		add_filter( 'wpenon_zusatzoptionen_settings', array( $this, 'zusatzoptionen_settings' ), 10, 1 );
 
 		add_filter( 'eddcf_filter_custom_fees', array( $this, 'filter_custom_fees' ), 10, 2 );
-		add_action( 'edd_before_checkout_cart', array( $this, 'add_fees_to_cart' ) );
+		add_action( 'edd_before_checkout_cart', array( $this, 'maybe_add_fees_to_cart' ) );
 
 		add_action( 'wpenon_after_content', array( $this, 'print_html' ), 10, 2 );
 		add_action( 'wpenon_after_content', array( $this, 'print_dialog_scripts' ), 10, 2 );
@@ -147,14 +147,41 @@ class EingabesupportPopup {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_fees_to_cart() {
-		if ( ! $this->has_selected_eingabesupport() ) {
-			return;
+	public function maybe_add_fees_to_cart() {
+		$items = edd_get_cart_content_details();
+		$add_fees = false;
+
+		foreach ( $items as $item ) {
+			$energieausweis = \WPENON\Model\EnergieausweisManager::getEnergieausweis( $item['id'] );
+			if ( ! $energieausweis ) {
+				continue;
+			}
+
+			if( $this->has_selected_eingabesupport( $item['id'] ) ) {
+				$add_fees = true;
+				break;
+			}
 		}
 
-		$fees = eddcf_get_custom_fees();
-		$fee  = array_intersect_key( $fees['eingabesupport'], array_flip( array( 'id', 'amount', 'label', 'type' ) ) );
-		EDD()->fees->add_fee( $fee );
+		$already_set = get_post_meta( $energieausweis->id, '_eingabesupport_set', true );
+
+		if( $already_set ) {
+			$add_fees = false;
+		}
+
+		if( $add_fees ) {
+			$fees = eddcf_get_custom_fees();
+			$fee  = array_intersect_key( $fees['eingabesupport'], array_flip( array(
+				'id',
+				'amount',
+				'label',
+				'type'
+			) ) );
+
+			EDD()->fees->add_fee( $fee );
+
+			update_post_meta( $energieausweis->id, '_eingabesupport_set', true );
+		}
 	}
 
 	/**
@@ -214,23 +241,6 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 	 * @return bool True if eingabesuppport was selected, false if not.
 	 */
 	public function has_selected_eingabesupport( $energieausweis_id = '' ) {
-		// Getting ID by cart content id no ID is given
-		if( empty( $energieausweis_id ) ) {
-			$items = edd_get_cart_content_details();
-
-			foreach ( $items as $item ) {
-				$energieausweis = \WPENON\Model\EnergieausweisManager::getEnergieausweis( $item['id'] );
-				if ( ! $energieausweis ) {
-					continue;
-				}
-
-				if( $this->has_selected_eingabesupport( $item['id'] ) ) {
-					$energieausweis_id = $item['id'];
-					break;
-				}
-			}
-		}
-
 		if( empty( $energieausweis_id ) ) {
 			return false;
 		}
