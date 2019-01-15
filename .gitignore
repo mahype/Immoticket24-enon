@@ -81,3 +81,6 @@ nbproject/
 [Dd]esktop.ini
 *.DS_store
 .DS_store?
+
+# Logs
+public/dibt.log
