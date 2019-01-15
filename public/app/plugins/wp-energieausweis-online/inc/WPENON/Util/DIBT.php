@@ -15,19 +15,26 @@ class DIBT {
 					'doc' => $energieausweis->getXML( 'datenerfassung', 'S', true ),
 				) );
 
+				self::log( sprintf( 'Energieausweis #%s: Assigning registration with response: %s', $energieausweis->ID, var_export( $response, true ) ) );
+
 				if ( $response ) {
 					update_post_meta( $energieausweis->ID, '_wpenon_register_response', $response );
 
 					$response = self::processResponse( $response, $energieausweis->post_title );
 					if ( $response ) {
 						if ( is_wp_error( $response ) ) {
+							self::log( sprintf( 'Energiesausweis #%s: Assigning registration resulted with WP Errror: %s', $energieausweis->ID, var_export( $response->get_error_messages(), true ) ), true );
 							return $response;
 						}
+
+						self::log( sprintf( 'Energiesausweis #%s: Assigning registration succesful!', $energieausweis->ID ), true );
 
 						update_post_meta( $energieausweis->ID, 'registriernummer', $response['Registriernummer'] );
 						update_post_meta( $energieausweis->ID, '_registered', true );
 
 						return true;
+					} else {
+						self::log( sprintf( 'Energiesausweis #%s: Assiging registration resulted with no response.', $energieausweis->ID ) );
 					}
 				}
 
@@ -55,16 +62,23 @@ class DIBT {
 				if ( $response ) {
 					update_post_meta( $energieausweis->ID, '_wpenon_data_response', $response );
 
+					self::log( sprintf( 'Energieausweis #%s: Sending data with response: %s', $energieausweis->ID, var_export( $response, true ) ) );
+
 					$response = self::processResponse( $response, $energieausweis->post_title );
 					if ( $response ) {
 						if ( is_wp_error( $response ) ) {
+							self::log( sprintf( 'Energiesausweis #%s: Sending data resulted with WP Errror: %s', $energieausweis->ID, var_export( $response->get_error_messages(), true ) ), true );
 							return $response;
 						}
+
+						self::log( sprintf( 'Energiesausweis #%s: Sending data successful!', $energieausweis->ID ), true );
 
 						update_post_meta( $energieausweis->ID, '_datasent', true );
 
 						return true;
 					}
+				} else {
+					self::log( sprintf( 'Energiesausweis #%s: Sending data with no response.', $energieausweis->ID ) );
 				}
 
 				return false;
@@ -105,6 +119,8 @@ class DIBT {
 	public static function request( $action, $args = array() ) {
 		$request = new \WPENON\Util\DIBTSoapRequest( $action, $args );
 		$request->send();
+
+		self::log( sprintf('Request action "%s" with Args: %s', $action,  var_export( $args, true ) ), true );
 
 		$response = $request->getResponse();
 
@@ -171,5 +187,25 @@ class DIBT {
 		}
 
 		return $data;
+	}
+
+	public static function log( $message, $backtrace = false ) {
+		if( $backtrace ) {
+			ob_start();
+			debug_print_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
+			$trace = ob_get_contents();
+			ob_end_clean();
+
+			$message.= chr(13 ) . $trace;
+		}
+
+		$url = $_SERVER['REQUEST_URI'];
+		$time = date('Y-m-d H:i:s' );
+
+		$line = $time . ' - ' . $url . chr(13) . $message . chr(13 );
+
+		$file = fopen( dirname( ABSPATH ) . '/dibt.log', 'a' );
+		fputs( $file, $line  );
+		fclose( $file );
 	}
 }
