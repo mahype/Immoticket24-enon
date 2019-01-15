@@ -7,6 +7,8 @@
 
 namespace WPENON\Controller;
 
+use WPENON\Model\Energieausweis;
+
 class Frontend {
 	private static $instance;
 
@@ -21,6 +23,9 @@ class Frontend {
 	private $model = null;
 	private $view = null;
 
+	/**
+	 * @var \WPENON\Model\Energieausweis
+	 */
 	private $energieausweis = null;
 	private $schema = null;
 
