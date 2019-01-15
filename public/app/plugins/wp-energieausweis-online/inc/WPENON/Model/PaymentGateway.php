@@ -126,7 +126,7 @@ abstract class PaymentGateway {
 	protected function log( $log_message ) {
 		$logfile_name = dirname( ABSPATH ) . '/pamyents.log';
 		$file = fopen( $logfile_name, 'a' );
-		fwrite( $file, sprintf( '%s: %s', $this->listener_key, $log_message . chr(13 ) ) );
+		fwrite( $file, sprintf( '%s: %s', $this->listener_key, $log_message ) . chr(13 ) );
 		fclose( $file );
 	}
 
