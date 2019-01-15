@@ -327,6 +327,9 @@ class Table {
 						case 'FLOAT':
 							$field['format'] = array( '\WPENON\Util\Format', 'float' );
 							break;
+						case 'FLOAT_LENGTH':
+							$field['format'] = array( '\WPENON\Util\Format', 'float_length' );
+							break;
 						case 'DATE':
 							$field['format'] = array( '\WPENON\Util\Format', 'date' );
 							break;

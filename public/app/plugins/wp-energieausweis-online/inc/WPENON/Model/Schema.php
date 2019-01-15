@@ -458,6 +458,8 @@ class Schema {
         return \WPENON\Util\Format::int( $value );
       case 'float':
         return \WPENON\Util\Format::float( $value );
+      case 'float_length':
+        return \WPENON\Util\Format::float_length( $value );
       case 'date':
         if ( $mode == 'output' ) {
           return \WPENON\Util\Format::date( $value );
@@ -526,6 +528,10 @@ class Schema {
             break;
           case 'float':
             $default_validate = '\WPENON\Util\Validate::float';
+            $default_default = $field['min'] ? $field['min'] : 0.0;
+            break;
+          case 'float_length':
+            $default_validate = '\WPENON\Util\Validate::float_length';
             $default_default = $field['min'] ? $field['min'] : 0.0;
             break;
           case 'zip':

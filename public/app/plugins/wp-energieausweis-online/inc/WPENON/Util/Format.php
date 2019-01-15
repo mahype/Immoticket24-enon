@@ -32,6 +32,10 @@ class Format {
 		return number_format( floatval( $value ), 2, wpenon_get_option( 'decimal_separator' ), wpenon_get_option( 'thousands_separator' ) );
 	}
 
+	public static function float_length( $value ) {
+		return number_format( floatval( $value ), 2, wpenon_get_option( 'decimal_separator' ), wpenon_get_option( 'thousands_separator' ) );
+	}
+
 	public static function boolean( $value ) {
 		if ( $value ) {
 			return 'true';
