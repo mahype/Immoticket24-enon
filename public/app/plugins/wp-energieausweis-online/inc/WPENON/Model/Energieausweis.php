@@ -327,7 +327,7 @@ class Energieausweis {
 	}
 
 	public function isRegistered() {
-		return (bool) get_post_meta( $this->id, '_registered', true ) || ! empty( trim( get_post_meta( $this->id, 'registriernummer', true ) ) );
+		return ! empty( trim( get_post_meta( $this->id, 'registriernummer', true ) ) );
 	}
 
 	public function isDataSent() {
