@@ -123,10 +123,25 @@ abstract class PaymentGateway {
 		}
 	}
 
-	protected function log( $log_message ) {
-		$logfile_name = dirname( ABSPATH ) . '/pamyents.log';
-		$file = fopen( $logfile_name, 'a' );
-		fwrite( $file, sprintf( '%s: %s', $this->listener_key, $log_message ) . chr(13 ) );
+	public function log( $message, $backtrace = false ) {
+		if( $backtrace ) {
+			ob_start();
+			debug_print_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
+			$trace = ob_get_contents();
+			ob_end_clean();
+
+			$message.= chr(13 ) . $trace;
+		}
+
+		$url = $_SERVER['REQUEST_URI'];
+		$time = date('Y-m-d H:i:s' );
+		$microtime = microtime();
+
+		$line = $this->listener_key . chr( 13 );
+		$line.= $time . ' - ' . $microtime .  ' - ' . $url . chr(13) . $message . chr(13 );
+
+		$file = fopen( dirname( ABSPATH ) . '/pamyents.log', 'a' );
+		fputs( $file, $line  );
 		fclose( $file );
 	}
 
