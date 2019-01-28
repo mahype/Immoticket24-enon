@@ -455,6 +455,8 @@ function immoticketenergieausweis_adcell_tracking_script() {
 <noscript>
   <img src="' . $php_url . '" border="0" width="1" height="1">
 </noscript>
+<script type="text/javascript" src="https://t.adcell.com/js/trad.js"></script>
+<script>Adcell.Tracking.track();</script>
 ';
 
   return $output;
