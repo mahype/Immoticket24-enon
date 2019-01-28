@@ -106,7 +106,6 @@ class Frontend {
 					case 'xml-datenerfassung-send':
 					case 'xml-zusatzdatenerfassung-send':
 						if ( $this->energieausweis->isFinalized() && $this->energieausweis->isPaid() ) {
-							$status = false;
 							if ( $action == 'xml-datenerfassung-send' ) {
 								$status = ! $this->energieausweis->isRegistered();
 							} else {
