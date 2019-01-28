@@ -11,31 +11,40 @@ class DIBT {
 	public static function assignRegistryID( $energieausweis ) {
 		if ( $energieausweis->isFinalized() ) {
 			if ( ! $energieausweis->isRegistered() ) {
+				$data = $energieausweis->getXML( 'datenerfassung', 'S', true );
+
 				$response = self::request( 'Datenregistratur', array(
-					'doc' => $energieausweis->getXML( 'datenerfassung', 'S', true ),
+					'doc' => $data,
 				) );
 
-				self::log( sprintf( 'Energieausweis #%s: Assigning registration with response: %s', $energieausweis->ID, var_export( $response, true ) ) );
+				self::log( sprintf( 'Energieausweis #%s: Trying assigning registration with sent data: %s Response: %s', $energieausweis->id, var_export( $data, true ), var_export( $response, true ) ) );
 
-				if ( $response ) {
-					update_post_meta( $energieausweis->ID, '_wpenon_register_response', $response );
-
+				if ( false !== $response ) {
+					update_post_meta( $energieausweis->id, '_wpenon_register_response', $response );
 					$response = self::processResponse( $response, $energieausweis->post_title );
-					if ( $response ) {
-						if ( is_wp_error( $response ) ) {
-							self::log( sprintf( 'Energiesausweis #%s: Assigning registration resulted with WP Errror: %s', $energieausweis->ID, var_export( $response->get_error_messages(), true ) ), true );
-							return $response;
+
+					self::log( sprintf( 'Energiesausweis #%s: Processed response: %s', $energieausweis->id, var_export( $response, true ) ) );
+
+					if ( false !== $response && ! is_wp_error( $response ) ) {
+						$old_value = trim( get_post_meta( $energieausweis->id, 'registriernummer', true ) );
+						if( ! empty( $old_value ) ) {
+							self::log( sprintf( 'Energiesausweis #%s: There was an old value: %s',$energieausweis->id,  $old_value ), true );
 						}
 
-						self::log( sprintf( 'Energiesausweis #%s: Assigning registration succesful!', $energieausweis->ID ), true );
+						self::log( sprintf( 'Energiesausweis #%s: Assigning registration succesful!', $energieausweis->id ), true );
 
-						update_post_meta( $energieausweis->ID, 'registriernummer', $response['Registriernummer'] );
-						update_post_meta( $energieausweis->ID, '_registered', true );
+						update_post_meta( $energieausweis->id, 'registriernummer', $response['Registriernummer'] );
+						update_post_meta( $energieausweis->id, '_registered', true );
 
 						return true;
+					} elseif ( is_wp_error( $response ) ) {
+						self::log( sprintf( 'Energiesausweis #%s: Processed response resulted with WP Errror: %s', $energieausweis->id, var_export( $response->get_error_messages(), true ) ), true );
+						return $response;
 					} else {
-						self::log( sprintf( 'Energiesausweis #%s: Assiging registration resulted with no response.', $energieausweis->ID ) );
+						self::log( sprintf( 'Energiesausweis #%s: Processed response resulted with no response.', $energieausweis->id ) );
 					}
+				} else {
+					self::log( sprintf( 'Energiesausweis #%s: Assiging registration resulted with false reponse.', $energieausweis->id ) );
 				}
 
 				return false;
@@ -60,25 +69,28 @@ class DIBT {
 				) );
 
 				if ( $response ) {
-					update_post_meta( $energieausweis->ID, '_wpenon_data_response', $response );
+					update_post_meta( $energieausweis->id, '_wpenon_data_response', $response );
 
-					self::log( sprintf( 'Energieausweis #%s: Sending data with response: %s', $energieausweis->ID, var_export( $response, true ) ) );
+					self::log( sprintf( 'Energieausweis #%s: Sending data with response: %s', $energieausweis->id, var_export( $response, true ) ) );
 
 					$response = self::processResponse( $response, $energieausweis->post_title );
+
+					self::log( sprintf( 'Energiesausweis #%s: Processed response: %s', $energieausweis->id, var_export( $response, true ) ) );
+
 					if ( $response ) {
 						if ( is_wp_error( $response ) ) {
-							self::log( sprintf( 'Energiesausweis #%s: Sending data resulted with WP Errror: %s', $energieausweis->ID, var_export( $response->get_error_messages(), true ) ), true );
+							self::log( sprintf( 'Energiesausweis #%s: Sending data resulted with WP Errror: %s', $energieausweis->id, var_export( $response->get_error_messages(), true ) ), true );
 							return $response;
 						}
 
-						self::log( sprintf( 'Energiesausweis #%s: Sending data successful!', $energieausweis->ID ), true );
+						self::log( sprintf( 'Energiesausweis #%s: Sending data successful!', $energieausweis->id ), true );
 
-						update_post_meta( $energieausweis->ID, '_datasent', true );
+						update_post_meta( $energieausweis->id, '_datasent', true );
 
 						return true;
 					}
 				} else {
-					self::log( sprintf( 'Energiesausweis #%s: Sending data with no response.', $energieausweis->ID ) );
+					self::log( sprintf( 'Energiesausweis #%s: Sending data with no response.', $energieausweis->id ) );
 				}
 
 				return false;
@@ -201,8 +213,9 @@ class DIBT {
 
 		$url = $_SERVER['REQUEST_URI'];
 		$time = date('Y-m-d H:i:s' );
+		$microtime = microtime();
 
-		$line = $time . ' - ' . $url . chr(13) . $message . chr(13 );
+		$line = $time . ' - ' . $microtime .  ' - ' . $url . chr(13) . $message . chr(13 );
 
 		$file = fopen( dirname( ABSPATH ) . '/dibt.log', 'a' );
 		fputs( $file, $line  );
