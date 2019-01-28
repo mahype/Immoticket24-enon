@@ -15,7 +15,7 @@ function energieausweis_roles_init() {
 
 	$role_slugs = array(
 		/* Core roles */
-		'subscriber', 'contributor', 'author', 'editor', 'administrator',
+		'subscriber', 'contributor', 'author', 'editor', 'administrator', 'wpenon_manager'
 	);
 
 	$wp_user_roles = array();
@@ -54,6 +54,8 @@ function energieausweis_roles_get_name( $role_slug ) {
 			return __( 'Redakteur', 'energieausweis-roles' );
 		case 'administrator':
 			return __( 'Administrator', 'energieausweis-roles' );
+		case 'wpenon_manager':
+			return __( 'Energieausweis Manager', 'energieausweis-roles' );
 	}
 
 	return '';
@@ -140,6 +142,20 @@ function energieausweis_roles_get_caps( $role_slug ) {
 				'delete_posts',
 				'level_1',
 			) );
+		case 'wpenon_manager':
+			$caps = array_merge( $caps, array(
+				'read_product',
+				'edit_product',
+				'delete_product',
+				'edit_products',
+				'edit_others_products',
+				'edit_published_products',
+				'read_shop_payment',
+				'edit_shop_payment',
+				'edit_shop_payments',
+				'edit_shop_customer',
+				'manage_shop_discounts',
+			) );
 		case 'subscriber':
 			$caps = array_merge( $caps, array(
 				'read',
@@ -149,6 +165,12 @@ function energieausweis_roles_get_caps( $role_slug ) {
 
 	return $caps;
 }
+
+function energieausweis_filter_edit_customer_role( $role ) {
+	return 'edit_shop_customer';
+}
+add_filter( 'edd_edit_customers_role', 'energieausweis_filter_edit_customer_role' );
+add_filter( 'edd_view_customers_role', 'energieausweis_filter_edit_customer_role' );
 
 function energieausweis_roles_grant_extra_plugin_caps() {
 	global $wp_user_roles;

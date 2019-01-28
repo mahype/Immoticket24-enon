@@ -16,8 +16,8 @@ class WPENON_Immoticket24_Customer_CSV_Generator {
   }
 
   public function add_menu_page() {
-    $hook_suffix = add_submenu_page( 'edit.php?post_type=download', __( 'CSV-Generator', 'wpenon' ), __( 'CSV-Generator', 'wpenon' ), 'edit_shop_payments', 'wpenon_immoticket24_csv_generator', array( $this, 'render_menu_page' ) );
-    
+    $hook_suffix = add_submenu_page( 'edit.php?post_type=download', __( 'CSV-Generator', 'wpenon' ), __( 'CSV-Generator', 'wpenon' ), 'export_shop_reports', 'wpenon_immoticket24_csv_generator', array( $this, 'render_menu_page' ) );
+
     add_action( 'load-' . $hook_suffix, array( $this, 'listen' ) );
   }
 
