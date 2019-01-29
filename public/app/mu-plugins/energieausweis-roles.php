@@ -100,6 +100,17 @@ function energieausweis_roles_get_caps( $role_slug ) {
 				'update_languages',
 				/* Custom caps */
 				'manage_ratings',
+				'backwpup',
+				'backwpup_jobs',
+				'backwpup_jobs_edit',
+				'backwpup_jobs_start',
+				'backwpup_backups',
+				'backwpup_backups_download',
+				'backwpup_backups_delete',
+				'backwpup_logs',
+				'backwpup_logs_delete',
+				'backwpup_settings',
+				'backwpup_restore',
 			) );
 		case 'editor':
 			$caps = array_merge( $caps, array(
