@@ -12,6 +12,8 @@ abstract class PaymentGateway {
 
 	private static $instances = array();
 
+	protected $instance_id;
+
 	public static function instance() {
 		if ( ! isset( self::$instances[ static::$gateway_name ] ) ) {
 			self::$instances[ static::$gateway_name ] = new static();
@@ -39,6 +41,8 @@ abstract class PaymentGateway {
 		if ( ! $this->show_cc_form ) {
 			add_action( 'edd_' . $gateway_name . '_cc_form', '__return_false' );
 		}
+
+		$this->instance_id = substr( md5( microtime() ), 0,5 );
 	}
 
 	public function _register( $gateways ) {
@@ -48,6 +52,8 @@ abstract class PaymentGateway {
 	}
 
 	public function _listenForNotification() {
+		// var_dump( 'DRIN' );
+
 		if ( isset( $_GET['edd-listener'] ) && $_GET['edd-listener'] == $this->listener_key ) {
 			$this->processPurchaseNotification( $_GET );
 		}
@@ -124,6 +130,10 @@ abstract class PaymentGateway {
 	}
 
 	public function log( $message, $backtrace = false ) {
+		if( $this->listener_key !== 'SOFORT' ) {
+			return;
+		}
+
 		if( $backtrace ) {
 			ob_start();
 			debug_print_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
@@ -137,7 +147,7 @@ abstract class PaymentGateway {
 		$time = date('Y-m-d H:i:s' );
 		$microtime = microtime();
 
-		$line = $this->listener_key . chr( 13 );
+		$line = $this->listener_key . ' Instance ID: #' . $this->instance_id . chr( 13 );
 		$line.= $time . ' - ' . $microtime .  ' - ' . $url . chr(13) . $message . chr(13 );
 
 		$file = fopen( dirname( ABSPATH ) . '/pamyents.log', 'a' );

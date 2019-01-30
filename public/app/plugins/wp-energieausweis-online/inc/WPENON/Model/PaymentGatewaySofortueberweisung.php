@@ -73,17 +73,59 @@ class PaymentGatewaySofortueberweisung extends \WPENON\Model\PaymentGateway {
 		$this->_handlePaymentSuccess( $payment_id, $sofortueberweisung->getTransactionId(), $sofortueberweisung->getPaymentUrl() );
 	}
 
+	private function add_active_transaction( $transaction_id ) {
+		$transactions = $this->load_transactions();
+		if( NULL === $transactions ) {
+			$transactions = array();
+		}
+		array_push( $transactions, $transaction_id );
+		$this->save_transactions( $transactions );
+	}
+
+	private function del_active_transaction( $transaction_id ) {
+		$transactions = $this->load_transactions();
+		$key = array_search( $transaction_id, $transactions );
+		unset( $transactions[ $key ] );
+		$this->save_transactions( $transactions );
+	}
+
+	private function is_transaction_active( $transaction_id ) {
+		$transactions = $this->load_transactions();
+		if ( in_array( $transaction_id, $transactions, true ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private function load_transactions() {
+		$transactions = get_option( 'edd_sofort_active_transactions' );
+		$transactions = json_decode( $transactions, true );
+		return $transactions;
+	}
+
+	private function save_transactions( $transactions ) {
+		$transactions = json_encode( $transactions );
+		update_option( 'edd_sofort_active_transactions', $transactions );
+	}
+
 	public function processPurchaseNotification( $data ) {
 		$input = file_get_contents( 'php://input' );
+
 		if ( empty( $input ) ) {
 			$this->_handlePaymentProcessError( null, __( 'Missing POST data.', 'wpenon' ), true );
 		}
 
-		$this->log( sprintf( 'Incoming process purchase notification. Data: %s Input: %s SERVER %s', var_export( $data, true ), var_export( $input, true ) , var_export( $_SERVER, true ) ) );
+		$this->log( sprintf( 'Incoming process purchase notification: %s', var_export( $input, true ) ) );
 
 		$notification = new \Sofort\SofortLib\Notification();
 
 		$transaction_id = $notification->getNotification( $input );
+
+		if( $this->is_transaction_active( $transaction_id ) ) {
+			$this->_handlePaymentProcessError( null, sprintf( 'Interrupting! Transaction is already in process: %s', $transaction_id ), true );
+		}
+		$this->add_active_transaction( $transaction_id );
 
 		if ( ! $transaction_id ) {
 			$this->_handlePaymentProcessError( null, __( 'No transaction ID was submitted.', 'wpenon' ), true );
@@ -92,7 +134,7 @@ class PaymentGatewaySofortueberweisung extends \WPENON\Model\PaymentGateway {
 		$payment_id = $this->_getPaymentIDByTransactionID( $transaction_id );
 
 		if ( $payment_id < 1 ) {
-			$this->_handlePaymentProcessError( null, sprintf( __( 'Payment for the transaction ID %s could not be found.', 'wpenon' ), $transaction_id ), true );
+			// $this->_handlePaymentProcessError( null, sprintf( __( 'Payment for the transaction ID %s could not be found.', 'wpenon' ), $transaction_id ), true );
 		}
 
 		$config_key = edd_get_option( 'sofortueberweisung_config_key', '' );
@@ -121,7 +163,8 @@ class PaymentGatewaySofortueberweisung extends \WPENON\Model\PaymentGateway {
 		if ( ! isset( $status_mappings[ $transaction_status ] ) ) {
 			$this->_handlePaymentProcessError( $payment_id, __( 'Invalid status parameter in transaction data.', 'wpenon' ), true );
 		}
-
+		sleep(5);
+		$this->del_active_transaction( $transaction_id );
 		$this->_handlePaymentProcessSuccess( $payment_id, $status_mappings[ $transaction_status ] );
 	}
 
