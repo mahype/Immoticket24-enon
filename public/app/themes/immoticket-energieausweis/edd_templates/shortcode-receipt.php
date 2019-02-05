@@ -78,13 +78,6 @@ $status    = edd_get_payment_status( $payment, true );
 		</tr>
 		<?php endif; ?>
 
-		<?php if ( filter_var( $edd_receipt_args['discount'], FILTER_VALIDATE_BOOLEAN ) && isset( $user['discount'] ) && $user['discount'] != 'none' ) : ?>
-			<tr>
-				<td><strong><?php _e( 'Discount(s)', 'easy-digital-downloads' ); ?>:</strong></td>
-				<td><?php echo $user['discount']; ?></td>
-			</tr>
-		<?php endif; ?>
-
 		<?php if( edd_use_taxes() ) : ?>
 			<tr>
 				<td><strong><?php _e( 'Tax', 'easy-digital-downloads' ); ?>:</strong></td>
@@ -101,9 +94,24 @@ $status    = edd_get_payment_status( $payment, true );
 				</td>
 			</tr>
 
+			<?php if ( filter_var( $edd_receipt_args['discount'], FILTER_VALIDATE_BOOLEAN ) && isset( $user['discount'] ) && $user['discount'] != 'none' ) : ?>
+				<tr>
+					<td><strong><?php _e( 'Discount(s)', 'easy-digital-downloads' ); ?>:</strong></td>
+					<td>
+						<?php
+						$discount = 0;
+						foreach ( $cart as $key => $item ) {
+							$discount+= $item['discount'];
+						}
+						echo  edd_currency_filter( edd_format_amount( $discount ), edd_get_payment_currency_code( $payment->ID ) );
+						?>
+					</td>
+				</tr>
+			<?php endif; ?>
+
 			<tr>
 				<td><strong><?php _e( 'Total Price', 'easy-digital-downloads' ); ?>:</strong></td>
-				<td><?php echo edd_payment_amount( $payment->ID ); ?></td>
+				<td><strong><?php echo edd_payment_amount( $payment->ID ); ?></strong></td>
 			</tr>
 
 		<?php endif; ?>
