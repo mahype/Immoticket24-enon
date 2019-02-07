@@ -32,7 +32,9 @@ class PaymentGatewayDeposit extends \WPENON\Model\PaymentGateway {
 			$this->_handlePaymentError( $payment_id, sprintf( __( 'Payment creation failed while processing a deposit purchase. Payment data: %s', 'wpenon' ), json_encode( $payment_data ) ), true );
 		}
 
-		$this->_handlePaymentSuccess( $payment_id );
+		$redirect_url = home_url('/vermarktungspaket-2/');
+
+		$this->_handlePaymentSuccess( $payment_id, null, $redirect_url );
 	}
 
 	public function processPurchaseNotification( $data ) {
