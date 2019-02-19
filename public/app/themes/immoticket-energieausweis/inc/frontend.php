@@ -476,7 +476,7 @@ function immoticketenergieausweis_adcell_retargeting_script() {
   $types    = WPENON\Model\EnergieausweisManager::getAvailableTypes();
   $type_ids = array_map( function( $id ) { return $id + 1; }, array_flip( array_keys( $types ) ) );
 
-  if ( is_front_page() ) {
+  if ( is_front_page() || ( is_page() && get_the_ID() === 29066 ) ) {
     $args['method'] = 'track';
     $args['type']   = 'startpage';
   } elseif ( is_singular() ) {
