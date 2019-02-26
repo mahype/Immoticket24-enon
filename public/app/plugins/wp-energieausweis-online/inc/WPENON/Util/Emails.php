@@ -421,7 +421,7 @@ class Emails {
 		$from_email = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
 		$from_email = apply_filters( 'wpenon_confirmation_from_address', $from_email, $energieausweis->ID, $energieausweis );
 
-		$to_email = $energieausweis->wpenon_email;
+		$to_email = apply_filters( 'wpenon_confirmation_to_address', $energieausweis->wpenon_email );
 
 		$subject = apply_filters( 'wpenon_confirmation_subject', __( 'Ihr Energieausweis', 'wpenon' ), $energieausweis->ID, $energieausweis );
 
@@ -475,7 +475,7 @@ class Emails {
 		$from_email = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
 		$from_email = apply_filters( 'wpenon_order_confirmation_from_address', $from_email, $payment_id, $payment_data );
 
-		$to_email = edd_get_payment_user_email( $payment_id );
+		$to_email = apply_filters( 'wpenon_order_confirmation_to_address', edd_get_payment_user_email( $payment_id ) );
 
 		$subject = edd_get_option( 'order_confirmation_subject', __( 'Zahlungsaufforderung', 'wpenon' ) );
 		$subject = apply_filters( 'wpenon_order_confirmation_subject', wp_strip_all_tags( $subject ), $payment_id );
@@ -588,7 +588,7 @@ class Emails {
 			$text .= '<a href="' . esc_url( get_permalink( $impressum_page ) ) . '">' . __( 'Impressum', 'wpenon' ) . '</a>';
 		}
 
-		return $text;
+		return apply_filters( 'wpenon_email_footer', $text );
 	}
 
 }
