@@ -51,6 +51,7 @@ class EA_Whitelabel{
 	private function init() {
 		if ( ! isset( $_REQUEST['iframe'] ) || 'true' !== $_REQUEST['iframe'] ) {
 			$this->iframe = false;
+			return;
 		}
 
 		if ( ! empty( $_REQUEST['iframe_token'] ) ) {
@@ -132,6 +133,7 @@ class EA_Whitelabel{
 		}
 
 		add_action( 'wp_head', 'wp_no_robots' );
+		remove_action( 'wp_footer', 'immoticketenergieausweis_adcell_retargeting_script', 10 );
 		remove_action( 'wp_footer', 'immoticketenergieausweis_userlike_script', 100 );
 		remove_action( 'wp_footer', 'immoticketenergieausweis_ekomi_widget_script', 100 );
 		remove_action( 'wp_footer', 'immoticketenergieausweis_google_remarketing_tag_script', 100 );
