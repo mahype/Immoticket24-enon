@@ -119,7 +119,7 @@ abstract class PaymentGateway {
 	}
 
 	protected function _handlePaymentProcessError( $payment_id, $message, $abort = false ) {
-		$log_message = sprintf( 'Payment process error for payment id #%s: %s', $payment_id, $message );
+		$log_message = sprintf( 'Payment process error for payment id #%s: %s', $payment_id, $message ) . chr(13);
 		$this->log( $log_message );
 
 		edd_record_gateway_error( sprintf( __( '%s Notification Error', 'wpenon' ), $this->listener_key ), $message, $payment_id );
@@ -130,10 +130,6 @@ abstract class PaymentGateway {
 	}
 
 	public function log( $message, $backtrace = false ) {
-		if( $this->listener_key !== 'SOFORT' ) {
-			return;
-		}
-
 		if( $backtrace ) {
 			ob_start();
 			debug_print_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );

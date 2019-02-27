@@ -113,6 +113,8 @@ class PaymentGatewayPaymill extends \WPENON\Model\PaymentGateway {
 			$this->_handlePaymentProcessError( null, __( 'Missing POST data.', 'wpenon' ), true );
 		}
 
+		$this->log( sprintf( 'Incoming Request: %s', var_export( $input, true ) ) );
+
 		try {
 			$data = json_decode( $input, true );
 		} catch ( \Exception $e ) {
