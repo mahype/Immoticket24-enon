@@ -257,6 +257,21 @@ class EA_Whitelabel{
 	}
 
 	/**
+	 * Getting redirect URL to customer site.
+	 *
+	 * @return string Redirect URL.
+	 */
+	public function get_verified_redirect_url( $energieausweis_id ) {
+		$query_args = array(
+			'iframe' => true,
+			'iframe_token' => $this->token,
+			'access_token' => md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true ),
+		);
+
+		return add_query_arg( $query_args, $this->get_redirect_url() );
+	}
+
+	/**
 	 * Get affilliate id.
 	 *
 	 * @return string Affilate id of current token.

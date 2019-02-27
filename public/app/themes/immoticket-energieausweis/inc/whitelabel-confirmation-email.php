@@ -12,6 +12,7 @@ class EA_Whitelabel_Confirmation_Email extends EA_Whitelabel_Email {
 
 		add_filter( 'wpenon_order_confirmation_from_address', array($this, 'set_from_address' ) );
 		add_filter( 'wpenon_order_confirmation_from_name', array($this, 'set_from_name' ) );
+		add_filter( 'wpenon_confirmation_link', array($this, 'set_link' ), 10, 2 );
 
 		add_filter( 'wpenon_email_signature', array( $this, 'set_signature' ) );
 		add_filter( 'wpenon_email_footer', array( $this, 'set_footer' ) );
@@ -37,6 +38,19 @@ class EA_Whitelabel_Confirmation_Email extends EA_Whitelabel_Email {
 	 */
 	public function set_from_name( $email = '' ) {
 		return $this->whitelabel->get_email_from_name();
+	}
+
+	/**
+	 * Set site name to signature.
+	 *
+	 * @param string $link Link to filter.
+	 * @param \WPENON\Model\Energieausweis Energieausweis
+	 *
+	 * @return string Filtered signature.
+	 */
+	public function set_link( $link, $energieausweis ) {
+		$redirect_url = $this->whitelabel->get_verified_redirect_url( $energieausweis->id);
+		return $redirect_url;
 	}
 
 	/**
