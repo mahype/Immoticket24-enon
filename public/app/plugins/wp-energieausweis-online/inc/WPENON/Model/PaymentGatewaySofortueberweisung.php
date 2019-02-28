@@ -64,7 +64,7 @@ class PaymentGatewaySofortueberweisung extends \WPENON\Model\PaymentGateway {
 
 		$sofortueberweisung->sendRequest();
 
-		$this->log( sprintf( 'Doing Request with purchase data: %s  Payment data: %s Sofort Object: %s', var_export( $purchase_data, true ), var_export( $payment_data, true ) , var_export( $sofortueberweisung, true ) ) );
+		// $this->log( sprintf( 'Doing Request with purchase data: %s  Payment data: %s Sofort Object: %s', var_export( $purchase_data, true ), var_export( $payment_data, true ) , var_export( $sofortueberweisung, true ) ) );
 
 		if ( $sofortueberweisung->isError() ) {
 			$this->_handlePaymentError( $payment_id, sprintf( __( 'Sofortueberweisung %1$s. Request data: %2$s', 'wpenon' ), $sofortueberweisung->getError(), json_encode( $sofortueberweisung->getData() ) ), true );
@@ -116,7 +116,7 @@ class PaymentGatewaySofortueberweisung extends \WPENON\Model\PaymentGateway {
 			$this->_handlePaymentProcessError( null, __( 'Missing POST data.', 'wpenon' ), true );
 		}
 
-		$this->log( sprintf( 'Incoming process purchase notification: %s', var_export( $input, true ) ) );
+		// $this->log( sprintf( 'Incoming process purchase notification: %s', var_export( $input, true ) ) );
 
 		$notification = new \Sofort\SofortLib\Notification();
 
