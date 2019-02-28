@@ -415,6 +415,8 @@ class Emails {
 			return false;
 		}
 
+		do_action('wpenon_confirmation_start', $energieausweis );
+
 		$from_name = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
 		$from_name = apply_filters( 'wpenon_confirmation_from_name', $from_name, $energieausweis->ID, $energieausweis );
 
@@ -440,10 +442,11 @@ class Emails {
 	}
 
 	public function getEmailConfirmationBodyContent( $energieausweis_id, $energieausweis ) {
+		$energieausweis_site = apply_filters( 'wpenon_confirmation_site',  home_url() );
 		$energieausweis_link = apply_filters( 'wpenon_confirmation_link',  $energieausweis->verified_permalink, $energieausweis );
 
 		$default_email_body = __( 'Sehr geehrter Kunde,', 'wpenon' ) . "\n\n";
-		$default_email_body .= sprintf( __( 'schön, dass Sie auf unserer Website %1$s mit der Erstellung eines Energieausweises (Kennung %2$s) begonnen haben.', 'wpenon' ), home_url(), $energieausweis->post_title ) . "\n\n";
+		$default_email_body .= sprintf( __( 'schön, dass Sie auf unserer Website %1$s mit der Erstellung eines Energieausweises (Kennung %2$s) begonnen haben.', 'wpenon' ), $energieausweis_site, $energieausweis->post_title ) . "\n\n";
 		$default_email_body .= sprintf( __( 'Typ: %s', 'wpenon' ), $energieausweis->formatted_wpenon_type ) . "\n";
 		$default_email_body .= sprintf( __( 'Gebäudeadresse: %s', 'wpenon' ), $energieausweis->adresse ) . "\n\n";
 		$default_email_body .= __( 'Sie haben jederzeit die Möglichkeit die Erstellung des Energieausweises unter folgendem Link fortzusetzen:', 'wpenon' ) . "\n\n";
@@ -579,7 +582,7 @@ class Emails {
 	}
 
 	public function _adjustEmailFooterText( $text ) {
-		$impressum_page = edd_get_option( 'legal_information_page', false );
+		$impressum_page = edd_get_option( 'legal_infor mation_page', false );
 
 		$text = sprintf( __( 'Diese Email wurde automatisch von %s versendet.', 'wpenon' ), '<a href="' . esc_url( home_url() ) . '">' . str_replace( array(
 				'http://',
@@ -590,7 +593,6 @@ class Emails {
 			$text .= '<a href="' . esc_url( get_permalink( $impressum_page ) ) . '">' . __( 'Impressum', 'wpenon' ) . '</a>';
 		}
 
-		return apply_filters( 'wpenon_email_footer', $text );
+		return apply_filters( 'wpenon_email_legal', $text );
 	}
-
 }

@@ -15,51 +15,56 @@ class EA_Whitelabel{
 	 *
 	 * @var string
 	 */
-	var $iframe = false;
+	private $iframe = false;
 
 	/**
 	 * Whitelabel customer token.
 	 *
 	 * @var string
 	 */
-	var $token = null;
+	private $token = null;
+
+	/**
+	 * Whitelabel customer token data.
+	 *
+	 * @var string
+	 */
+	private $token_data = null;
 
 	/**
 	 * Confirmationn Email Object.
 	 *
 	 * @var EA_Whitelabel_Confirmation_Email
 	 */
-	var $confirmation_email;
+	private $confirmation_email;
 
 	/**
 	 * Order Confirmationn Email Object.
 	 *
 	 * @var EA_Whitelabel_Confirmation_Email
 	 */
-	var $order_confirmation_email;
+	private $order_confirmation_email;
 
 	/**
 	 * EA_Whitelabel constructor.
 	 */
 	public function __construct() {
 		$this->init();
+		add_action( 'wpenon_confirmation_start', array( $this, 'init' ) );
 	}
 
 	/**
 	 * Initializing hooks and filters
+	 *
+	 * @param \WPENON\Model\Energieausweis Energieausweis object.
 	 */
-	private function init() {
-		if ( ! isset( $_REQUEST['iframe'] ) || 'true' !== $_REQUEST['iframe'] ) {
-			$this->iframe = false;
+	public function init( $energieausweis = null ) {
+		if ( ! $this->is_whitelabeled_request() && ! $this->get_whitelabel_token( $energieausweis ) ) {
 			return;
 		}
 
-		if ( ! empty( $_REQUEST['iframe_token'] ) ) {
-			if( ! $this->set_token( wp_unslash( $_REQUEST['iframe_token'] ) ) ) {
-				wp_die( __( 'Fehlerhaftes IFrame-Token.', 'immoticketenergieausweis' ) );
-			}
-		} else {
-			wp_die( __( 'Fehlerhaftes IFrame-Token.', 'immoticketenergieausweis' ) );
+		if( $energieausweis !== null && $token = $this->get_whitelabel_token( $energieausweis ) ) {
+			$this->set_current_token( $token );
 		}
 
 		$this->iframe = true;
@@ -67,8 +72,8 @@ class EA_Whitelabel{
 		$this->confirmation_email = new EA_Whitelabel_Confirmation_Email( $this );
 		$this->order_confirmation_email = new EA_Whitelabel_Order_Confirmation_Email( $this );
 
-
 		add_filter( 'template_include', array( $this, 'maybe_load_iframe'  ) );
+		add_action( 'wpenon_confirmation_start', array( $this, 'set_whitelabel_token' ) );
 		add_action( 'template_redirect', array( $this, 'adjust_fallback_track_referral' ), -10000, 0 );
 
 		add_filter( 'wpenon_filter_url', array( $this, 'maybe_filter_iframe_url'), 100 );
@@ -76,6 +81,28 @@ class EA_Whitelabel{
 		add_filter( 'edd_get_success_page_uri', array( $this, 'maybe_filter_iframe_url'), 100 );
 		add_filter( 'edd_get_failed_transaction_uri', array( $this, 'maybe_filter_iframe_url'), 100 );
 		add_filter( 'edd_remove_fee_url', array( $this, 'maybe_filter_iframe_url'), 100 );
+	}
+
+	/**
+	 * Checks if current request is whitelabeled.
+	 *
+	 * @return bool True if this is a whitelabel request
+	 */
+	public function is_whitelabeled_request() {
+		if ( ! isset( $_REQUEST['iframe'] ) || 'true' !== $_REQUEST['iframe'] ) {
+			$this->iframe = false;
+			return false;
+		}
+
+		if ( ! empty( $_REQUEST['iframe_token'] ) ) {
+			if( ! $this->set_current_token( wp_unslash( $_REQUEST['iframe_token'] ) ) ) {
+				wp_die( __( 'Fehlerhaftes IFrame-Token.', 'immoticketenergieausweis' ) );
+			}
+		} else {
+			wp_die( __( 'Fehlerhaftes IFrame-Token.', 'immoticketenergieausweis' ) );
+		}
+
+		return true;
 	}
 
 	/**
@@ -166,27 +193,72 @@ class EA_Whitelabel{
 		return add_query_arg( $args, $url );
 	}
 
+
+	/**
+	 * Setting information that Energieausweis was registered white labeled.
+	 *
+	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis object.
+	 */
+	public function set_whitelabel_token( $energieausweis ) {
+		if( $this->get_current_token() === null ) {
+			return;
+		}
+
+		update_post_meta( $energieausweis->id, 'whitelabel_token', $this->get_current_token() );
+	}
+
+	/**
+	 * Checks if Energieausweis was white labeled.
+	 *
+	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis object.
+	 *
+	 * @return bool True if Energieausweis was created white labeled.
+	 */
+	public function get_whitelabel_token( $energieausweis ) {
+		if( $energieausweis === null ) {
+			return false;
+		}
+
+		$token = get_post_meta( $energieausweis->id, 'whitelabel_token', true );
+
+		if( empty( $token ) ) {
+			return false;
+		}
+
+		return $token;
+	}
+
 	/**
 	 * Setting current token.
 	 *
-	 * @param string $iframe_token
+	 * @param string $token_string
 	 *
 	 * @return bool True if token could be loaded, false if not.
 	 */
-	private function set_token( $iframe_token ) {
+	private function set_current_token( $token_string ) {
 		$tokens = immoticketenergieausweis_get_option( 'it-iframe', 'tokens' );
 		if ( ! is_array( $tokens ) ) {
 			return false;
 		}
 
 		foreach ( $tokens as $token ) {
-			if ( $iframe_token === $token['token'] && 'yes' === $token['active'] ) {
-				$this->token = $token;
+			if ( $token_string === $token['token'] && 'yes' === $token['active'] ) {
+				$this->token = $token['token'];
+				$this->token_data = $token;
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get current token.
+	 *
+	 * @return string $token Current token.
+	 */
+	public function get_current_token() {
+		return $this->token;
 	}
 
 	/**
@@ -197,11 +269,20 @@ class EA_Whitelabel{
 	 * @return string Token value.
 	 */
 	private function get_token_value( $name ) {
-		if( $this->token === null || empty( $this->token[$name] ) ) {
+		if( $this->token_data === null || empty( $this->token_data[$name] ) ) {
 			return false;
 		}
 
-		return $this->token[$name];
+		return $this->token_data[$name];
+	}
+
+	/**
+	 * Get token
+	 *
+	 * @return string Token string of current token.
+	 */
+	public function get_token() {
+		return $this->get_token_value('token' );
 	}
 
 	/**
@@ -265,12 +346,12 @@ class EA_Whitelabel{
 	 */
 	public function get_verified_redirect_url( $energieausweis_id ) {
 		$query_args = array(
-			'iframe' => true,
-			'iframe_token' => $this->token,
+			'iframe' => 'true',
+			'iframe_token' => $this->get_current_token(),
 			'access_token' => md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true ),
 		);
 
-		return add_query_arg( $query_args, $this->get_redirect_url() );
+		return add_query_arg( $query_args, trailingslashit( $this->get_redirect_url() ) );
 	}
 
 	/**

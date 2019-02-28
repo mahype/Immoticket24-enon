@@ -23,7 +23,6 @@ abstract class EA_Whitelabel_Email {
 	/**
 	 * Initializinng hooks.
 	 */
-	public function init_hooks() {
+	public function init_hooks() {}
 
-	}
 }
