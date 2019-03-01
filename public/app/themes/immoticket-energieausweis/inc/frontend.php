@@ -20,6 +20,7 @@ function immoticketenergieausweis_enqueue_scripts()
     wp_enqueue_script( 'jquery-fancybox', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dev/fancybox/source/jquery.fancybox.pack.js', array( 'jquery' ), '2.1.5', true );
   }
 
+  wp_enqueue_script( 'jquery-are-you-sure', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dev/jquery/dist/jquery.are-you-sure.js', array( 'jquery' ), '1.9.0', true );
   wp_enqueue_script( 'immoticketenergieausweis', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dist/immoticketenergieausweis.min.js', array( 'jquery' ), IMMOTICKETENERGIEAUSWEIS_THEME_VERSION, true );
 }
 add_action( 'wp_enqueue_scripts', 'immoticketenergieausweis_enqueue_scripts' );
@@ -908,6 +909,22 @@ function immoticketenergieausweis_display_business_data( $data )
   }
   echo '</div>';
 }
+
+function wpenon_alert_leave( $data ) { ?>
+	<script language="JavaScript">
+		jQuery(function() {
+			jQuery('#wpenon-generate-form').areYouSure(
+				{
+					message: 'Wir bitten Sie zu bestätigen, dass Sie die Seite verlassen möchten.'
+				}
+			);
+		});
+	</script>
+<?php
+}
+
+add_action('wpenon_form_end', 'wpenon_alert_leave' );
+
 
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/navigation.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/carousel.php';
