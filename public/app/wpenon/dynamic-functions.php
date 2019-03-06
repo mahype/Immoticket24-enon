@@ -210,12 +210,17 @@ function wpenon_immoticket24_show_specific_anbaufenster( $fenster_manuell, $anba
 function wpenon_immoticket24_get_ww_info( $h2_info = false, $h3_info = false, $h_erzeuger = false, $h2_erzeuger = false, $h3_erzeuger = false, $show_unbekannt = false ) {
 	$info = array();
 
+	$h_erzeuger = \WPENON\Util\Parse::boolean( $h_erzeuger );
+
 	if ( ! $h_erzeuger || wpenon_immoticket24_is_h_erzeuger_ww( $h_erzeuger ) ) {
 		$info['h'] = __( 'pauschal in Heizungsanlage enthalten', 'wpenon' );
 	}
 
 	$h2_info = \WPENON\Util\Parse::boolean( $h2_info );
 	$h3_info = \WPENON\Util\Parse::boolean( $h3_info );
+
+	$h2_erzeuger = \WPENON\Util\Parse::boolean( $h2_erzeuger );
+	$h3_erzeuger = \WPENON\Util\Parse::boolean( $h3_erzeuger );
 
 	if ( $h2_info ) {
 		if ( ! $h2_erzeuger || wpenon_immoticket24_is_h_erzeuger_ww( $h2_erzeuger ) ) {
