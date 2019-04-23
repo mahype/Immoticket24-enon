@@ -1780,12 +1780,14 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 			case 'fluessiggas_l':
 				return 'L';
 				break;
+			case 'heizoel_m3':
 			case 'erdgas_m3':
 			case 'erdgasbiogas_m3':
 			case 'biogas_m3':
 			case 'stueckholz_m3':
 				return \WPENON\Util\Format::pdfEncode('m&sup2;');
 				break;
+			case 'heizoel_kwh':
 			case 'heizoelbiooel_kwh':
 			case 'biooel_kwh':
 			case 'erdgas_kwh':
@@ -1809,8 +1811,7 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 			case 'fernwaermekwkfossil':
 			case 'fernwaermekwkfossilbio':
 			case 'fernwaermekwkregenerativ':
-				return '';
-				return 'kwh';
+				return 'kWh';
 				break;
 			case 'fluessiggas_kg':
 			case 'steinkohle_kg':
