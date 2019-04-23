@@ -1124,6 +1124,9 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 				break;
 			case 6:
 				$this->SetPageFont( 'default' );
+				$h_energietraeger = $this->GetData( 'h_energietraeger' );
+				$h_energietraeger_unit = $this->getEnergietraegerUnit( $h_energietraeger );
+
 				if ( 'vw' === $this->wpenon_type ) {
 					$l_info = $this->GetData( 'l_info' );
 					$this->CheckBox( 15, 64, true );
@@ -1159,12 +1162,12 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					$this->WriteCell( $start1, 'L', 2, 56 );
 					$this->SetXY( 118, 149.5 );
 					$this->WriteCell( $end1, 'L', 2, 79.5 );
-					$verbrauch1_h = $this->GetData( 'verbrauch1_h', true ) . ' kWh';
+					$verbrauch1_h = $this->GetData( 'verbrauch1_h', true ) . $h_energietraeger_unit;
 					$this->SetXY( 72, 160 );
 					$this->WriteCell( $verbrauch1_h, 'L', 2, 125.5 );
 					$verbrauch1_ww = '-';
 					if ( 'ww' === $this->GetData( 'ww_info' ) ) {
-						$verbrauch1_ww = $this->GetData( 'verbrauch1_ww', true ) . ' kWh';
+						$verbrauch1_ww = $this->GetData( 'verbrauch1_ww', true ) . $h_energietraeger_unit;
 					}
 					$this->SetXY( 79, 171 );
 					$this->WriteCell( $verbrauch1_ww, 'L', 2, 118.5 );
@@ -1755,6 +1758,75 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 				}
 				break;
 			default:
+				break;
+		}
+	}
+
+	public function getEnergietraegerUnit( $energietraeger ) {
+		switch ( $energietraeger ) {
+			case 'heizoel':
+			case 'heizoel_l':
+			case 'heizoelbiooel':
+			case 'heizoelbiooel_l':
+			case 'biooel':
+			case 'biooel_l':
+			case 'erdgas':
+			case 'erdgasbiogas':
+			case 'biogas':
+			case 'fluessiggas':
+			case 'fluessiggas_l':
+				return 'L';
+				break;
+			case 'erdgas_m3':
+			case 'erdgasbiogas_m3':
+			case 'biogas_m3':
+			case 'stueckholz_m3':
+				return \WPENON\Util\Format::pdfEncode('m&sup2;');
+				break;
+			case 'heizoelbiooel_kwh':
+			case 'biooel_kwh':
+			case 'erdgas_kwh':
+			case 'erdgasbiogas_kwh':
+			case 'biogas_kwh':
+			case 'fluessiggas_kwh':
+			case 'steinkohle_kwh':
+			case 'braunkohle_kwh':
+			case 'stueckholz_kwh':
+			case 'holzpellets_kwh':
+			case 'strom_kwh':
+			case 'fernwaermehzwfossil_kwh':
+			case 'fernwaermehzwregenerativ_kwh':
+			case 'fernwaermekwkfossil_kwh':
+			case 'fernwaermekwkfossilbio_kwh':
+			case 'fernwaermekwkregenerativ_kwh':
+				return 'kwh';
+				break;
+			case 'fluessiggas_kg':
+			case 'steinkohle_kg':
+			case 'braunkohle_kg':
+			case 'stueckholz_kg':
+			case 'holzpellets_kg':
+				return 'kg';
+				break;
+			case 'koks':
+			case 'steinkohle':
+			case 'braunkohle':
+			case 'stueckholz':
+			case 'holzhackschnitzel':
+			case 'holzpellets':
+			case 'strom':
+			case 'sonneneinstrahlung':
+			case 'fernwaermehzwfossil':
+			case 'fernwaermehzwregenerativ':
+			case 'fernwaermekwkfossil':
+			case 'fernwaermekwkfossilbio':
+			case 'fernwaermekwkregenerativ':
+			case 'heizoel':
+				return '';
+				break;
+
+			default:
+				return '';
 				break;
 		}
 	}
