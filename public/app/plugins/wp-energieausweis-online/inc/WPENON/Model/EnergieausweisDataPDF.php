@@ -1803,6 +1803,13 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 			case 'fernwaermekwkfossil_kwh':
 			case 'fernwaermekwkfossilbio_kwh':
 			case 'fernwaermekwkregenerativ_kwh':
+			case 'sonneneinstrahlung':
+			case 'fernwaermehzwfossil':
+			case 'fernwaermehzwregenerativ':
+			case 'fernwaermekwkfossil':
+			case 'fernwaermekwkfossilbio':
+			case 'fernwaermekwkregenerativ':
+				return '';
 				return 'kwh';
 				break;
 			case 'fluessiggas_kg':
@@ -1818,13 +1825,6 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 			case 'stueckholz':
 			case 'holzhackschnitzel':
 			case 'holzpellets':
-			case 'sonneneinstrahlung':
-			case 'fernwaermehzwfossil':
-			case 'fernwaermehzwregenerativ':
-			case 'fernwaermekwkfossil':
-			case 'fernwaermekwkfossilbio':
-			case 'fernwaermekwkregenerativ':
-				return '';
 				break;
 
 			default:
