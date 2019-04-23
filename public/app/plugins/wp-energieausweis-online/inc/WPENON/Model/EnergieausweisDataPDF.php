@@ -1162,12 +1162,12 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					$this->WriteCell( $start1, 'L', 2, 56 );
 					$this->SetXY( 118, 149.5 );
 					$this->WriteCell( $end1, 'L', 2, 79.5 );
-					$verbrauch1_h = $this->GetData( 'verbrauch1_h', true ) . $h_energietraeger_unit;
+					$verbrauch1_h = $this->GetData( 'verbrauch1_h', true ) . ' ' . $h_energietraeger_unit;
 					$this->SetXY( 72, 160 );
 					$this->WriteCell( $verbrauch1_h, 'L', 2, 125.5 );
 					$verbrauch1_ww = '-';
 					if ( 'ww' === $this->GetData( 'ww_info' ) ) {
-						$verbrauch1_ww = $this->GetData( 'verbrauch1_ww', true ) . $h_energietraeger_unit;
+						$verbrauch1_ww = $this->GetData( 'verbrauch1_ww', true ) . ' ' . $h_energietraeger_unit;
 					}
 					$this->SetXY( 79, 171 );
 					$this->WriteCell( $verbrauch1_ww, 'L', 2, 118.5 );
@@ -1320,6 +1320,9 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 				break;
 			case 7:
 				$this->SetPageFont( 'default' );
+				$h_energietraeger = $this->GetData( 'h_energietraeger' );
+				$h_energietraeger_unit = $this->getEnergietraegerUnit( $h_energietraeger );
+
 				if ( 'vw' === $this->wpenon_type ) {
 					$klimafaktoren_datum = $this->GetData( 'verbrauch_zeitraum' );
 					$start2              = wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $klimafaktoren_datum, 1, false, 'data' );
@@ -1328,12 +1331,12 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					$this->WriteCell( $start2, 'L', 2, 56 );
 					$this->SetXY( 118, 44.5 );
 					$this->WriteCell( $end2, 'L', 2, 79.5 );
-					$verbrauch2_h = $this->GetData( 'verbrauch2_h', true ) . ' kWh';
+					$verbrauch2_h = $this->GetData( 'verbrauch2_h', true ) . ' ' . $h_energietraeger_unit;
 					$this->SetXY( 72, 55 );
 					$this->WriteCell( $verbrauch2_h, 'L', 2, 125.5 );
 					$verbrauch2_ww = '-';
 					if ( 'ww' === $this->GetData( 'ww_info' ) ) {
-						$verbrauch2_ww = $this->GetData( 'verbrauch2_ww', true ) . ' kWh';
+						$verbrauch2_ww = $this->GetData( 'verbrauch2_ww', true ) . ' ' . $h_energietraeger_unit;
 					}
 					$this->SetXY( 79, 66 );
 					$this->WriteCell( $verbrauch2_ww, 'L', 2, 118.5 );
@@ -1349,12 +1352,12 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					$this->WriteCell( $start3, 'L', 2, 56 );
 					$this->SetXY( 118, 107 );
 					$this->WriteCell( $end3, 'L', 2, 79.5 );
-					$verbrauch3_h = $this->GetData( 'verbrauch3_h', true ) . ' kWh';
+					$verbrauch3_h = $this->GetData( 'verbrauch3_h', true ) . ' ' . $h_energietraeger_unit;
 					$this->SetXY( 72, 117.5 );
 					$this->WriteCell( $verbrauch3_h, 'L', 2, 125.5 );
 					$verbrauch3_ww = '-';
 					if ( 'ww' === $this->GetData( 'ww_info' ) ) {
-						$verbrauch3_ww = $this->GetData( 'verbrauch3_ww', true ) . ' kWh';
+						$verbrauch3_ww = $this->GetData( 'verbrauch3_ww', true ) . ' ' . $h_energietraeger_unit;
 					}
 					$this->SetXY( 79, 128.5 );
 					$this->WriteCell( $verbrauch3_ww, 'L', 2, 118.5 );
@@ -1793,6 +1796,7 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 			case 'braunkohle_kwh':
 			case 'stueckholz_kwh':
 			case 'holzpellets_kwh':
+			case 'strom':
 			case 'strom_kwh':
 			case 'fernwaermehzwfossil_kwh':
 			case 'fernwaermehzwregenerativ_kwh':
@@ -1814,14 +1818,12 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 			case 'stueckholz':
 			case 'holzhackschnitzel':
 			case 'holzpellets':
-			case 'strom':
 			case 'sonneneinstrahlung':
 			case 'fernwaermehzwfossil':
 			case 'fernwaermehzwregenerativ':
 			case 'fernwaermekwkfossil':
 			case 'fernwaermekwkfossilbio':
 			case 'fernwaermekwkregenerativ':
-			case 'heizoel':
 				return '';
 				break;
 
