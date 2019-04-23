@@ -49,6 +49,7 @@ function wpenon_init() {
 	if ( WPENON_VERSION_CHECK === true ) {
 		if ( wpenon_memory_limit_check() ) {
 			require_once WPENON_PATH . '/inc/dynamic-functions.php';
+			require_once WPENON_PATH . '/inc/logger-trait.php';
 			require_once WPENON_PATH . '/vendor/autoload.php';
 			\WPENON\App::instance();
 		} else {

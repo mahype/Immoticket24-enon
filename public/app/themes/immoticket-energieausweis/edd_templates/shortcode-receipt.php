@@ -6,6 +6,11 @@ global $edd_receipt_args;
 
 $payment   = get_post( $edd_receipt_args['id'] );
 
+wp_enon_log( sprintf( 'Showing purchase summary with ID #%s', $edd_receipt_args['id'] ) );
+wp_enon_log( sprintf( 'Showing purchase summary with Payment data %s', print_r( $payment, true ) ) );
+wp_enon_log( sprintf( 'Showing purchase summary with Args data %s', print_r( $edd_receipt_args, true ) ) );
+wp_enon_log( sprintf( 'Showing purchase summary with Session data %s', $_SESSION['edd']['edd_cart']) );
+
 if( empty( $payment ) ) : ?>
 
 	<div class="edd_errors edd-alert edd-alert-error">
