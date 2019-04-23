@@ -912,12 +912,8 @@ function immoticketenergieausweis_display_business_data( $data )
 
 function wpenon_alert_leave( $data ) { ?>
 	<script language="JavaScript">
-		jQuery(function() {
-			jQuery('#wpenon-generate-form').areYouSure(
-				{
-					message: 'Wir bitten Sie zu bestätigen, dass Sie die Seite verlassen möchten.'
-				}
-			);
+		jQuery(document).ready(function($) {
+			$('#wpenon-generate-form').areYouSure({'message': 'Wir bitten Sie zu bestätigen, dass Sie die Seite verlassen möchten.'});
 		});
 	</script>
 <?php
