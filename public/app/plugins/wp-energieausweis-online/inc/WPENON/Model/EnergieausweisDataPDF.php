@@ -1856,7 +1856,7 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 			case 'erdgasbiogas_m3':
 			case 'biogas_m3':
 			case 'stueckholz_m3':
-				return \WPENON\Util\Format::pdfEncode('m&sup2;');
+				return \WPENON\Util\Format::pdfEncode('m&sup3;');
 				break;
 			case 'heizoel_kwh':
 			case 'heizoelbiooel_kwh':
