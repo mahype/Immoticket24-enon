@@ -1776,7 +1776,7 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 	 *
 	 * @param int $num Number of energy source.
 	 *
-	 * @return array $verbrauchsdaten all data of energy source in an array.
+	 * @return array|bool $verbrauchsdaten all data of energy source in an array false if there is no value.
 	 */
 	public function getVerbrauchsDaten( $num = 1 ) {
 		$name = 'h' . $num;
@@ -1788,22 +1788,19 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 		$verbrauchsdaten = array();
 
 		$verbrauchsdaten['energietraeger'] = $this->GetData( $name . '_energietraeger' );
+
 		$verbrauchsdaten['einheit'] = $this->getEnergietraegerUnit( $verbrauchsdaten['energietraeger'] );
 		$verbrauchsdaten['menge'][0] = $this->GetData( 'verbrauch1_' . $name , true );
 		$verbrauchsdaten['menge_mit_einheit'][0] = $verbrauchsdaten['menge'][0] . ' ' .$verbrauchsdaten['einheit'];
 		$verbrauchsdaten['leerstand'][0] = $this->GetData( 'verbrauch1_leerstand', true );
 
-		if( ! empty( $this->GetData( 'verbrauch1_' . $name , true ) ) ) {
-			$verbrauchsdaten['menge'][1] = $this->GetData( 'verbrauch2_' . $name , true );
-			$verbrauchsdaten['menge_mit_einheit'][1] = $verbrauchsdaten['menge'][1] . ' ' .$verbrauchsdaten['einheit'];
-			$verbrauchsdaten['leerstand'][1] = $this->GetData( 'verbrauch2_leerstand', true );
-		}
+		$verbrauchsdaten['menge'][1] = $this->GetData( 'verbrauch2_' . $name , true );
+		$verbrauchsdaten['menge_mit_einheit'][1] = $verbrauchsdaten['menge'][1] . ' ' .$verbrauchsdaten['einheit'];
+		$verbrauchsdaten['leerstand'][1] = $this->GetData( 'verbrauch2_leerstand', true );
 
-		if( ! empty( $this->GetData( 'verbrauch2_' . $name , true ) ) ) {
-			$verbrauchsdaten['menge'][2] = $this->GetData( 'verbrauch3_' . $name , true );
-			$verbrauchsdaten['menge_mit_einheit'][2] = $verbrauchsdaten['menge'][2] . ' ' .$verbrauchsdaten['einheit'];
-			$verbrauchsdaten['leerstand'][2] = $this->GetData( 'verbrauch3_leerstand', true );
-		}
+		$verbrauchsdaten['menge'][2] = $this->GetData( 'verbrauch3_' . $name , true );
+		$verbrauchsdaten['menge_mit_einheit'][2] = $verbrauchsdaten['menge'][2] . ' ' .$verbrauchsdaten['einheit'];
+		$verbrauchsdaten['leerstand'][2] = $this->GetData( 'verbrauch3_leerstand', true );
 
 		$verbrauchsdaten['verbrauch_warmwasser'] = '-';
 		if ( 'ww' === $this->GetData( 'ww_info' ) ) {
@@ -1826,11 +1823,13 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 		$verbrauch = $this->getVerbrauchsDaten(1);
 		$verbrauchmenge_text = $verbrauch['menge_mit_einheit'][$year];
 
-		if ( $verbrauch = $this->getVerbrauchsDaten(2) ) {
+		$verbrauch = $this->getVerbrauchsDaten(2);
+		if ( 0 !== intval( $verbrauch['menge'][$year] ) ) {
 			$verbrauchmenge_text .= ' + ' . $verbrauch['menge_mit_einheit'][$year];
 		}
 
-		if ( $verbrauch = $this->getVerbrauchsDaten(3) ) {
+		$verbrauch = $this->getVerbrauchsDaten(3);
+		if ( 0 !== intval( $verbrauch['menge'][$year] ) ) {
 			$verbrauchmenge_text .= ' + ' . $verbrauch['menge_mit_einheit'][$year];
 		}
 
