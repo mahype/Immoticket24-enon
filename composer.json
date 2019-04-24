@@ -44,7 +44,7 @@
     "wpackagist-plugin/login-lockdown": "v1.7.1",
     "wpackagist-plugin/really-simple-captcha": "2.0.1",
     "wpackagist-plugin/shariff": "4.6.2",
-    "wpackagist-plugin/vaultpress": "1.9.6",
+    "wpackagist-plugin/vaultpress": "1.9.7",
     "wpackagist-plugin/wp-maintenance-mode": "2.2.3",
     "wpackagist-plugin/wp-postratings": "1.86.2"
   },
