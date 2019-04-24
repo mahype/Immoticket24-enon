@@ -6553,6 +6553,9 @@ a img.aligncenter {
 .wpenon-not-finalized-message {
   color: #d9534f;
 }
+.edd_cart_actions {
+	display:none;
+}
 #edd_checkout_form_wrap span.edd-description {
   display: none !important;
 }
