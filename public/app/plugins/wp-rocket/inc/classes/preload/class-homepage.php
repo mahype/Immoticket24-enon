@@ -36,7 +36,7 @@ class Homepage extends Abstract_Preload {
 			}
 		}
 
-		set_transient( 'rocket_preload_running', 1 );
+		set_transient( 'rocket_preload_running', 0 );
 		$this->preload_process->save()->dispatch();
 	}
 
@@ -50,18 +50,67 @@ class Homepage extends Abstract_Preload {
 	 * @return bool|array
 	 */
 	private function get_urls( $url ) {
-		// This filter is documented in inc/classes/preload/class-partial-process.php.
+		/**
+		 * Filters the arguments for the partial preload request
+		 *
+		 * @since 3.2
+		 * @author Remy Perona
+		 *
+		 * @param array $args Request arguments.
+		 */
 		$args = apply_filters(
-			'rocket_partial_preload_url_request_args',
+			'rocket_homepage_preload_url_request_args',
 			[
-				'user-agent' => 'WP Rocket/Partial_Preload',
-				'sslverify'  => apply_filters( 'https_local_ssl_verify', true ), // WPCS: prefix ok.
+				'timeout'    => 10,
+				'user-agent' => 'WP Rocket/Homepage_Preload',
+				'sslverify'  => apply_filters( 'https_local_ssl_verify', false ), // WPCS: prefix ok.
 			]
 		);
 
-		$response = wp_remote_get( $url, $args );
+		$response         = wp_remote_get( $url, $args );
+		$errors           = get_transient( 'rocket_preload_errors' );
+		$errors           = is_array( $errors ) ? $errors : [];
+		$errors['errors'] = isset( $errors['errors'] ) && is_array( $errors['errors'] ) ? $errors['errors'] : [];
 
-		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+		if ( is_wp_error( $response ) ) {
+			// Translators: %1$s is an URL, %2$s is the error message, %3$s = opening link tag, %4$s = closing link tag.
+			$errors['errors'][] = sprintf( __( 'Preload encountered an error. Could not gather links on %1$s because of the following error: %2$s. %3$sLearn more%4$s.', 'rocket' ), $url, $response->get_error_message(), '<a href="https://docs.wp-rocket.me/article/1065-sitemap-preload-is-slow-or-some-pages-are-not-preloaded-at-all#failed-preload" rel="noopener noreferrer" target=_"blank">', '</a>' );
+
+			set_transient( 'rocket_preload_errors', $errors );
+			return false;
+		}
+
+		$response_code = wp_remote_retrieve_response_code( $response );
+
+		if ( 200 !== $response_code ) {
+			switch ( $response_code ) {
+				case 401:
+				case 403:
+					// Translators: %1$s is an URL, %2$s is the HTTP response code, %3$s = opening link tag, %4$s = closing link tag.
+					$errors['errors'][] = sprintf( __( 'Preload encountered an error. %1$s is not accessible to due to the following response code: %2$s. Security measures could be preventing access. %3$sLearn more%4$s.', 'rocket' ), $url, $response_code, '<a href="https://docs.wp-rocket.me/article/1065-sitemap-preload-is-slow-or-some-pages-are-not-preloaded-at-all#failed-preload" rel="noopener noreferrer" target=_"blank">', '</a>' );
+
+					set_transient( 'rocket_preload_errors', $errors );
+					break;
+				case 404:
+					// Translators: %1$s is an URL, %2$s = opening link tag, %3$s = closing link tag.
+					$errors['errors'][] = sprintf( __( 'Preload encountered an error. %1$s is not accessible to due to the following response code: 404. Please make sure your homepage is accessible in your browser. %2$sLearn more%3$s.', 'rocket' ), $url, '<a href="https://docs.wp-rocket.me/article/1065-sitemap-preload-is-slow-or-some-pages-are-not-preloaded-at-all#failed-preload" rel="noopener noreferrer" target=_"blank">', '</a>' );
+
+					set_transient( 'rocket_preload_errors', $errors );
+					break;
+				case 500:
+					// Translators: %1$s is an URL, %2$s = opening link tag, %3$s = closing link tag.
+					$errors['errors'][] = sprintf( __( 'Preload encountered an error. %1$s is not accessible to due to the following response code: 500. Please check with your web host about server access. %2$sLearn more%3$s.', 'rocket' ), $url, '<a href="https://docs.wp-rocket.me/article/1065-sitemap-preload-is-slow-or-some-pages-are-not-preloaded-at-all#failed-preload" rel="noopener noreferrer" target=_"blank">', '</a>' );
+
+					set_transient( 'rocket_preload_errors', $errors );
+					break;
+				default:
+					// Translators: %1$s is an URL, %2$s is the HTTP response code, %3$s = opening link tag, %4$s = closing link tag.
+					$errors['errors'][] = sprintf( __( 'Preload encountered an error. Could not gather links on %1$s because it returned the following response code: %2$s. %3$sLearn more%4$s.', 'rocket' ), $url, $response_code, '<a href="https://docs.wp-rocket.me/article/1065-sitemap-preload-is-slow-or-some-pages-are-not-preloaded-at-all#failed-preload" rel="noopener noreferrer" target=_"blank">', '</a>' );
+
+					set_transient( 'rocket_preload_errors', $errors );
+					break;
+			}
+
 			return false;
 		}
 
@@ -179,7 +228,7 @@ class Homepage extends Abstract_Preload {
 
 		$file_types = implode( '|', $file_types );
 
-		if ( preg_match( '#\.' . $file_types . '$#iU', $url ) ) {
+		if ( preg_match( '#\.(?:' . $file_types . ')$#iU', $url ) ) {
 			return true;
 		}
 

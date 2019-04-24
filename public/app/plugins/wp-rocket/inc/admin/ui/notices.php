@@ -100,6 +100,7 @@ function rocket_plugins_to_deactivate() {
 	$plugins = array(
 		'w3-total-cache'                             => 'w3-total-cache/w3-total-cache.php',
 		'wp-super-cache'                             => 'wp-super-cache/wp-cache.php',
+		'litespeed-cache'                            => 'litespeed-cache/litespeed-cache.php',
 		'quick-cache'                                => 'quick-cache/quick-cache.php',
 		'hyper-cache'                                => 'hyper-cache/plugin.php',
 		'hyper-cache-extended'                       => 'hyper-cache-extended/plugin.php',
@@ -131,6 +132,7 @@ function rocket_plugins_to_deactivate() {
 		$plugins['jquery-image-lazy-loading'] = 'jquery-image-lazy-loading/jq_img_lazy_load.php';
 		$plugins['advanced-lazy-load']        = 'advanced-lazy-load/advanced_lazyload.php';
 		$plugins['crazy-lazy']                = 'crazy-lazy/crazy-lazy.php';
+		$plugins['specify-image-dimensions']  = 'specify-image-dimensions/specify-image-dimensions.php';
 	}
 
 	if ( get_rocket_option( 'lazyload_iframes' ) ) {
@@ -144,6 +146,7 @@ function rocket_plugins_to_deactivate() {
 		$plugins['scripts-gzip']            = 'scripts-gzip/scripts_gzip.php';
 		$plugins['minqueue']                = 'minqueue/plugin.php';
 		$plugins['dependency-minification'] = 'dependency-minification/dependency-minification.php';
+		$plugins['fast-velocity-minify']    = 'fast-velocity-minify/fvm.php';
 	}
 
 	if ( get_rocket_option( 'minify_css' ) || get_rocket_option( 'minify_js' ) ) {
@@ -371,27 +374,32 @@ function rocket_warning_htaccess_permissions() {
 	$htaccess_file = get_home_path() . '.htaccess';
 
 	// This filter is documented in inc/admin-bar.php.
-	if ( current_user_can( apply_filters( 'rocket_capacity', 'manage_options' ) )
-		&& ( ! rocket_direct_filesystem()->is_writable( $htaccess_file ) )
-		&& $is_apache
-		&& rocket_valid_key() ) {
-
-		$boxes = get_user_meta( $GLOBALS['current_user']->ID, 'rocket_boxes', true );
-
-		if ( in_array( __FUNCTION__, (array) $boxes, true ) ) {
+	if ( ! current_user_can( apply_filters( 'rocket_capacity', 'manage_options' ) )
+		|| ( rocket_direct_filesystem()->is_writable( $htaccess_file ) )
+		|| ! $is_apache
+		// This filter is documented in inc/functions/htaccess.php.
+		|| apply_filters( 'rocket_disable_htaccess', false )
+		|| ! rocket_valid_key() ) {
 			return;
-		}
+	}
 
-		$message = rocket_notice_writing_permissions( '.htaccess' );
+	$boxes = get_user_meta( get_current_user_id(), 'rocket_boxes', true );
 
-		rocket_notice_html( array(
+	if ( in_array( __FUNCTION__, (array) $boxes, true ) ) {
+		return;
+	}
+
+	$message = rocket_notice_writing_permissions( '.htaccess' );
+
+	rocket_notice_html(
+		[
 			'status'           => 'error',
 			'dismissible'      => '',
 			'message'          => $message,
 			'dismiss_button'   => __FUNCTION__,
 			'readonly_content' => get_rocket_htaccess_marker(),
-		) );
-	}
+		]
+	);
 }
 add_action( 'admin_notices', 'rocket_warning_htaccess_permissions' );
 

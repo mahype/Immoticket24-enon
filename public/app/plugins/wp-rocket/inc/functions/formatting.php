@@ -319,13 +319,13 @@ function rocket_realpath( $file ) {
  */
 function rocket_url_to_path( $url, $hosts = '' ) {
 	$root_dir = trailingslashit( dirname( WP_CONTENT_DIR ) );
-	$root_url = str_replace( wp_basename( WP_CONTENT_DIR ), '', WP_CONTENT_URL );
+	$root_url = str_replace( wp_basename( WP_CONTENT_DIR ), '', content_url() );
 	$url_host = wp_parse_url( $url, PHP_URL_HOST );
 
 	// relative path.
 	if ( null === $url_host ) {
 		$subdir_levels = substr_count( preg_replace( '/https?:\/\//', '', site_url() ), '/' );
-		$url           = site_url() . str_repeat( '/..', $subdir_levels ) . $url;
+		$url           = trailingslashit( site_url() . str_repeat( '/..', $subdir_levels ) ) . ltrim( $url, '/' );
 	}
 
 	// CDN.
@@ -337,6 +337,16 @@ function rocket_url_to_path( $url, $hosts = '' ) {
 	$url      = preg_replace( '/^https?:/', '', $url );
 	$file     = str_replace( $root_url, $root_dir, $url );
 	$file     = rocket_realpath( $file );
+	/**
+	 * Filters the absolute path to the asset file
+	 *
+	 * @since 3.3
+	 * @author Remy Perona
+	 *
+	 * @param string $file Absolute path to the file.
+	 * @param string $url  URL of the asset.
+	 */
+	$file = apply_filters( 'rocket_url_to_path', $file, $url );
 
 	if ( ! rocket_direct_filesystem()->is_readable( $file ) ) {
 		return false;
