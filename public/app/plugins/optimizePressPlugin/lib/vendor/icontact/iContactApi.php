@@ -139,10 +139,11 @@ class OP_iContactApi {
      * @param string [$sPhone]
      * @param string [$sFax]
      * @param string [$sBusiness]
+     * @param array $customFields
      *
      * @return object
     **/
-    public function addContact($sEmail, $sStatus = 'normal', $sPrefix = null, $sFirstName = null, $sLastName = null, $sSuffix = null, $sStreet = null, $sStreet2 = null, $sCity = null, $sState = null, $sPostalCode = null, $sPhone = null, $sFax = null, $sBusiness = null) {
+    public function addContact($sEmail, $sStatus = 'normal', $sPrefix = null, $sFirstName = null, $sLastName = null, $sSuffix = null, $sStreet = null, $sStreet2 = null, $sCity = null, $sState = null, $sPostalCode = null, $sPhone = null, $sFax = null, $sBusiness = null, $customFields = null) {
         // Valid statuses
         $aValidStatuses = array('normal', 'bounced', 'donotcontact', 'pending', 'invitable', 'deleted');
         // Contact placeholder
@@ -215,6 +216,10 @@ class OP_iContactApi {
             $aContact['status'] = $sStatus;
         } else {
             $aContact['status'] = 'normal';
+        }
+
+        if ( ! is_null($customFields)) {
+            $aContact = array_merge($aContact, $customFields);
         }
 
         // Make the call
@@ -883,6 +888,16 @@ class OP_iContactApi {
         // Make the call and return the lists
         $this->setLimit(1000);
         return $this->makeCall("/a/{$this->setAccountId()}/c/{$this->setClientFolderId()}/lists", 'GET', null, 'lists');
+    }
+
+    /**
+     * Returns list of custom fields
+     * @return array
+     */
+    public function getCustomFields() {
+        // Make the call and return the custom fields
+        $this->setLimit(1000);
+        return $this->makeCall("/a/{$this->setAccountId()}/c/{$this->setClientFolderId()}/customfields", 'GET', null, 'customfields');
     }
 
     /**

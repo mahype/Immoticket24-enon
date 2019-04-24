@@ -64,6 +64,23 @@ opjq(document).ready(function ($) {
 
      OptimizePress._validationDeferreds.push(submitOptinStat);
 
+     /*
+      * GDPR stuff - removing hidden fields if checked
+      */
+    function clearHiddenFields(deferred) {
+        $forms.submit(function() {
+            var provider = $(this).find('input[name=provider]').val();
+
+            if (typeof provider !== 'undefined' && provider === 'infusionsoft') {
+                $(this).find('.op-form-privacy-gdpr-consent-checkbox:checked').prev().remove();
+            }
+
+            deferred.resolve(true);
+        });
+    }
+
+    OptimizePress._validationDeferreds.push(clearHiddenFields);
+
     /*
      * OPM integration submission
      */

@@ -159,11 +159,11 @@
                     type: 'checkbox',
                     showOn: {field:'step_2.type',value:'youtube'}
                 },
-                youtube_remove_logo: {
+                /*youtube_remove_logo: {
                     title: 'remove_youtube_logo',
                     type: 'checkbox',
                     showOn: {field:'step_2.type',value:'youtube'}
-                },
+                },*/
                 youtube_show_title_bar: {
                     title: 'show_title_bar',
                     type: 'checkbox',

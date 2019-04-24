@@ -90,6 +90,12 @@ class OptimizePress_Sections_Optimizeleads {
             $filters = op_get_var($op, 'optimizeleads_sitewide_filter');
             op_update_option('optimizeleads_sitewide_filter', $filters);
 
+            if (isset($_POST['opl_post_id']))
+                update_option('opl_post_id',
+                    $_POST['opl_post_id']);
+            else
+                delete_option('opl_post_id');
+
             // Save the category options
             $category_filters = op_get_var($op, 'optimizeleads_sitewide_filter_category');
             op_update_option('optimizeleads_sitewide_filter_category', $category_filters);

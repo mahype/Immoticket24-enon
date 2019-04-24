@@ -7,7 +7,77 @@ var op_asset_settings = (function($){
         cp_styles = ['18'],
         no_paragraph_styles = ['24'],
         lists = {},
-        form_id;
+        form_id,
+        providerTags = {'missing_integration_type': OP_AB.translate('select_integration_type_first')},
+        providersUsingInputFieldsInsteadOfTags = ['aweber', 'email', 'custom'],
+        providersUsingCustomFieldsInsteadOfTags = ['mailchimp', 'campaignmonitor', 'emma', 'icontact', 'infusionsoft', 'mailpoet'],
+        providersUsingCustomFieldsForNotes = ['campaignmonitor', 'egoi', 'emma', 'icontact', 'infusionsoft', 'mailpoet', 'getresponsev3'],
+        providersWithoutGdprSupport = ['email', 'custom'];
+
+    /**
+     * Return promise with lists from given providers.
+     * @param  {string} provider
+     * @return {Array}
+     */
+    var getProviderLists = function(provider) {
+        if (typeof lists[provider] == 'undefined') {
+            return $.ajax({
+                type: "POST",
+                url: OptimizePress.ajaxurl,
+                data: {
+                    'action': OptimizePress.SN+'-email-provider-items',
+                    'provider': provider
+                },
+                dataType: 'json'
+            }).then(function(response) {
+                return response.lists;
+            });
+        }
+
+        return $.Deferred().resolve(lists[provider]);
+    }
+
+    /**
+     * Fill GDPR dropdowns with custom fields (in case that provider does not support tags).
+     * @param  {string} provider
+     * @param  {string} fields
+     * @return {void}
+     */
+    var fillGdprDropdownsWithCustomFields = function(provider, fields) {
+        var dropdownSelector = [];
+
+        if (providersUsingCustomFieldsInsteadOfTags.indexOf(provider) >= 0) {
+            dropdownSelector.push('.op-gdpr-provider-tags-dropdown select');
+        }
+
+        if (providersUsingCustomFieldsForNotes.indexOf(provider) >= 0) {
+            dropdownSelector.push('.op-gdpr-provider-notes-dropdown select');
+        }
+
+        if (dropdownSelector.length > 0) {
+            var $tags = $(dropdownSelector.join(', '));
+
+            providerTags = jQuery.extend({}, fields, {'-': OP_AB.translate('no_tag')});
+
+            $tags.each(function(index) {
+                var $element = $(this);
+
+                var options = [];
+                $.each(providerTags, function (key, name) {
+                    options.push($('<option/>', {value: key, text: name}));
+                });
+
+                $element.empty().append(options);
+
+                /*
+                 * Selecting previously selected value (if editing)
+                 */
+                if (typeof $element.attr('data-default') != 'undefined') {
+                    $element.val($element.attr('data-default'));
+                }
+            });
+        }
+    }
 
     // Removing empty level
     var WithoutEmptyOPMLevels = $.extend({}, OPMLevels);
@@ -130,21 +200,18 @@ var op_asset_settings = (function($){
                                         options['email'] = 'Email data';
                                         options['custom'] = 'Custom form';
 
-                                        /*
-                                         * Fetching enabled email marketing service providers
-                                         */
-                                        $.ajax({
-                                            type: 'POST',
-                                            url: OptimizePress.ajaxurl,
-                                            data: {'action': OptimizePress.SN+'-email-provider-list'},
-                                            success: function(response){
-                                                $.each(response.providers, function (key, value) {
-                                                    options[key] = value;
-                                                });
-                                            },
-                                            dataType: 'json',
-                                            async: false
-                                        });
+                                        var count = 0,
+                                            i;
+
+                                        for (i in window.OptimizePress.ems_providers) {
+                                            if (window.OptimizePress.ems_providers.hasOwnProperty(i)) count++;
+                                        }
+
+                                        if (count) {
+                                            $.each(window.OptimizePress.ems_providers, function (key, value) {
+                                                options[key] = value;
+                                            });
+                                        }
 
                                         return options;
                                     }(),
@@ -195,6 +262,7 @@ var op_asset_settings = (function($){
                                                 case 'egoi':
                                                 case 'maropost':
                                                 case 'getresponse':
+                                                case 'getresponsev3':
                                                 case 'campaignmonitor':
                                                 case 'constantcontact':
                                                 case 'convertkit':
@@ -207,38 +275,33 @@ var op_asset_settings = (function($){
                                                      */
                                                     var $select = $('#op_assets_core_optin_box_tabs_form_html_list');
                                                     $select.empty().after('<img class="op-bsw-waiting" src="images/wpspin_light.gif" alt="loading" style="position:relative;display:block;top:4px">');
-                                                    $.post(OptimizePress.ajaxurl,
-                                                        {
-                                                            'action': OptimizePress.SN+'-email-provider-items',
-                                                            'provider': integrationType
-                                                        },
-                                                        function(response){
-                                                            lists = response.lists;
-                                                            var options = [];
-                                                            $.each(lists, function (id, list) {
-                                                                options.push($('<option/>', {value: id, text: list.name}));
-                                                            });
-                                                            options.sort(function(a,b) {return a.text().toLowerCase() > b.text().toLowerCase() ? 1 : -1;});
-                                                            $select.empty().append(options);
-                                                            /*
-                                                             * Removing loading graphics
-                                                             */
-                                                            $select.next().remove();
 
-                                                            /*
-                                                             * Selecting previously selected value (if editing)
-                                                             */
-                                                            if (typeof $select.attr('data-default') != 'undefined') {
-                                                                $select.val($select.attr('data-default'));
-                                                            }
+                                                    getProviderLists(integrationType).then(function(data) {
+                                                        lists[integrationType] = data;
+                                                        var options = [];
+                                                        $.each(lists[integrationType], function (id, list) {
+                                                            options.push($('<option/>', {value: id, text: list.name}));
+                                                        });
+                                                        options.sort(function(a,b) {return a.text().toLowerCase() > b.text().toLowerCase() ? 1 : -1;});
+                                                        $select.empty().append(options);
+                                                        /*
+                                                         * Removing loading graphics
+                                                         */
+                                                        $select.next().remove();
 
-                                                            $select.trigger('change');
+                                                        /*
+                                                         * Selecting previously selected value (if editing)
+                                                         */
+                                                        if (typeof $select.attr('data-default') != 'undefined') {
+                                                            $select.val($select.attr('data-default'));
+                                                        }
 
-                                                            if($('#op_assets_core_optin_box_tabs_form_html_double_optin').is(':checked') == true)
-                                                                $('.field-welcome_email').hide();
-                                                        },
-                                                        'json'
-                                                    );
+                                                        $select.trigger('change');
+
+                                                        if($('#op_assets_core_optin_box_tabs_form_html_double_optin').is(':checked') == true) {
+                                                            $('.field-welcome_email').hide();
+                                                        }
+                                                    });
                                                     break;
                                                 case 'arpreach':
                                                     $.post(OptimizePress.ajaxurl,
@@ -248,14 +311,28 @@ var op_asset_settings = (function($){
                                                             'list': 'arpreach'
                                                         },
                                                         function(response) {
-
-                                                            lists['arpreach'] = response;
+                                                            lists[integrationType] = {'arpreach': null};
+                                                            lists[integrationType]['arpreach'] = response;
                                                             fill_provider_fields('arpreach', integrationType);
                                                         },
                                                         'json'
                                                     );
                                                     break;
                                             }
+
+                                            if (providersWithoutGdprSupport.indexOf(integrationType) >= 0) {
+                                                $('#op_assets_core_optin_box_tabs_gdpr_consent_gdpr_consent').val('disabled').trigger('change');
+                                                $('.field-id-op_assets_core_optin_box_tabs_gdpr_consent_training, .field-id-op_assets_core_optin_box_tabs_gdpr_consent_gdpr_consent').hide();
+                                                $('.field-id-op_assets_core_optin_box_tabs_gdpr_consent_not_supported').show();
+
+
+                                            } else {
+                                                $('.field-id-op_assets_core_optin_box_tabs_gdpr_consent_training, .field-id-op_assets_core_optin_box_tabs_gdpr_consent_gdpr_consent').show();
+                                                $('.field-id-op_assets_core_optin_box_tabs_gdpr_consent_not_supported').hide();
+                                            }
+
+                                            // Force reload of provider tags used for GDPR consent
+                                            $('#op_assets_core_optin_box_tabs_gdpr_consent_gdpr_consent').trigger('change');
 
                                             /**
                                              * For some reason after this the repaint layout of the browser is not always triggered
@@ -275,19 +352,25 @@ var op_asset_settings = (function($){
                                 list: {
                                     title: 'provider_list',
                                     type: 'select',
-                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['mailchimp', 'mailpoet', 'emma', 'egoi', 'aweber', 'infusionsoft', 'icontact', 'getresponse', 'campaignmonitor', 'constantcontact', 'convertkit', 'officeautopilot', 'ontraport', 'activecampaign', 'maropost','sendlane']},
+                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['mailchimp', 'mailpoet', 'emma', 'egoi', 'aweber', 'infusionsoft', 'icontact', 'getresponse', 'getresponsev3', 'campaignmonitor', 'constantcontact', 'convertkit', 'officeautopilot', 'ontraport', 'activecampaign', 'maropost','sendlane']},
                                     events: {
                                         change: function(e) {
                                             /*
                                              * If element isn't visible we won't do our magic
                                              */
-                                            if (false === $(e.currentTarget).is(':visible')) {
+                                            // if (false === $(e.currentTarget).is(':visible')) {
+                                            //     return;
+                                            // }
+                                            // If list isn't selected don't bother trying to fill its fields
+                                            if (e.currentTarget.value.length === 0) {
                                                 return;
                                             }
+
+                                            var provider = $('#op_assets_core_optin_box_tabs_form_html_integration_type').val();
+
                                             input_elems = {};
-                                            if (typeof lists[e.currentTarget.value] != 'undefined') {
-                                                var provider = $('#op_assets_core_optin_box_tabs_form_html_integration_type').val();
-                                                if (typeof lists[e.currentTarget.value].fields == 'undefined') {
+                                            if (typeof lists[provider][e.currentTarget.value] != 'undefined') {
+                                                if (typeof lists[provider][e.currentTarget.value].fields == 'undefined') {
                                                     $.ajax({
                                                         type: 'POST',
                                                         url: OptimizePress.ajaxurl,
@@ -297,9 +380,9 @@ var op_asset_settings = (function($){
                                                             'list': e.currentTarget.value
                                                         },
                                                         success: function(response) {
-                                                            lists[e.currentTarget.value].fields = response.fields;
-                                                            lists[e.currentTarget.value].action = response.action;
-                                                            lists[e.currentTarget.value].hidden = response.hidden;
+                                                            lists[provider][e.currentTarget.value].fields = response.fields;
+                                                            lists[provider][e.currentTarget.value].action = response.action;
+                                                            lists[provider][e.currentTarget.value].hidden = response.hidden;
 
                                                             fill_provider_fields(e.currentTarget.value, provider);
                                                         },
@@ -314,7 +397,7 @@ var op_asset_settings = (function($){
                                 },
                                 loading_time: {
                                     type: 'paragraph',
-                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['mailchimp', 'mailpoet', 'mailpoet', 'emma', 'egoi', 'aweber', 'infusionsoft', 'icontact', 'getresponse', 'campaignmonitor', 'constantcontact', 'convertkit', 'officeautopilot', 'ontraport', 'activecampaign', 'maropost','sendlane']},
+                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['mailchimp', 'mailpoet', 'emma', 'egoi', 'aweber', 'infusionsoft', 'icontact', 'getresponse', 'getresponsev3', 'campaignmonitor', 'constantcontact', 'convertkit', 'officeautopilot', 'ontraport', 'activecampaign', 'maropost','sendlane']},
                                     text: OP_AB.translate('ems_loading_time'),
                                     addClass: 'field_note'
                                 },
@@ -348,11 +431,11 @@ var op_asset_settings = (function($){
                                 },
                                 thank_you_page: {
                                     title: 'thank_you_page_url',
-                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['mailchimp', 'mailpoet', 'emma', 'egoi', 'arpreach', 'aweber', 'icontact', 'getresponse', 'campaignmonitor', 'constantcontact', 'convertkit', 'officeautopilot', 'ontraport', 'activecampaign', 'maropost', 'sendlane']}
+                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['mailchimp', 'mailpoet', 'emma', 'egoi', 'arpreach', 'aweber', 'icontact', 'getresponse', 'getresponsev3', 'campaignmonitor', 'constantcontact', 'convertkit', 'officeautopilot', 'ontraport', 'activecampaign', 'maropost', 'sendlane']}
                                 },
                                 already_subscribed_url: {
                                     title: 'already_subscribed_url',
-                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['mailchimp', 'mailpoet', 'emma', 'egoi', 'arpreach', 'aweber', 'icontact', 'getresponse', 'campaignmonitor', 'constantcontact',/*'maropost',*/ /*'officeautopilot', 'ontraport', */'activecampaign']},
+                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['mailchimp', 'mailpoet', 'emma', 'egoi', 'arpreach', 'aweber', 'icontact', 'getresponse', 'getresponsev3', 'campaignmonitor', 'constantcontact',/*'maropost',*/ /*'officeautopilot', 'ontraport', */'activecampaign']},
                                     default_value: ''
                                 },
                                 action_page: {
@@ -404,7 +487,7 @@ var op_asset_settings = (function($){
                                             $('.field-id-op_assets_core_optin_box_tabs_form_html_name_required').css('display',func);
                                         }
                                     },
-                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['email', 'custom', 'oneshoppingcart', 'mailchimp', 'mailpoet', 'emma', 'egoi', 'arpreach', 'aweber', 'infusionsoft', 'icontact', 'getresponse', 'campaignmonitor', 'constantcontact', 'convertkit', 'officeautopilot', 'ontraport', 'activecampaign', 'maropost','sendlane']}
+                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['email', 'custom', 'oneshoppingcart', 'mailchimp', 'mailpoet', 'emma', 'egoi', 'arpreach', 'aweber', 'infusionsoft', 'icontact', 'getresponse', 'getresponsev3', 'campaignmonitor', 'constantcontact', 'convertkit', 'officeautopilot', 'ontraport', 'activecampaign', 'maropost','sendlane']}
                                 },
                                 name: {
                                     title: 'name',
@@ -441,7 +524,7 @@ var op_asset_settings = (function($){
                                     type: 'custom_html',
                                     addClass: 'form_html_field form_html_info_field cf',
                                     html: OP_AB.translate('email_ems_auto_required'),
-                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['email', 'arpreach', 'aweber', 'infusionsoft', 'icontact', 'mailchimp', 'mailpoet', 'emma', 'getresponse', 'campaignmonitor', 'constantcontact', 'convertkit', 'officeautopilot', 'ontraport', 'activecampaign', 'maropost']}
+                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['email', 'arpreach', 'aweber', 'infusionsoft', 'icontact', 'mailchimp', 'mailpoet', 'emma', 'getresponse', 'getresponsev3', 'campaignmonitor', 'constantcontact', 'convertkit', 'officeautopilot', 'ontraport', 'activecampaign', 'maropost']}
                                 },
                                 method: {
                                     title: 'method',
@@ -554,7 +637,7 @@ var op_asset_settings = (function($){
                                             multirow_dropdown(steps);
                                         }
                                     },
-                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['custom', 'oneshoppingcart', 'mailchimp', 'mailpoet', 'emma', 'egoi', 'arpreach', 'aweber', 'infusionsoft', 'icontact', 'getresponse', 'campaignmonitor', 'constantcontact', 'officeautopilot', 'ontraport', 'activecampaign', 'maropost','sendlane']}
+                                    showOn: {field:'step_2.tabs.tabs.form_html.fields.integration_type',value:['custom', 'oneshoppingcart', 'mailchimp', 'mailpoet', 'emma', 'egoi', 'arpreach', 'aweber', 'infusionsoft', 'icontact', 'getresponse', 'getresponsev3', 'campaignmonitor', 'constantcontact', 'officeautopilot', 'ontraport', 'activecampaign', 'maropost','sendlane']}
                                 },
                                 no_extras: {
                                     type: 'paragraph',
@@ -954,9 +1037,365 @@ var op_asset_settings = (function($){
                                 },
                                 text_below_button: {
                                     title: 'text_below_button',
-                                    type: 'checkbox',
+                                      type: 'checkbox',
                                     default_value: true,
                                     showOn: {field: 'step_1.style', value: text_button_styles, idprefix:'op_assets_core_optin_box_', type:'style-selector'}
+                                }
+                            }
+                        },
+                        gdpr_consent: {
+                            title: 'gdpr_consent',
+                            fields: {
+                                training: {
+                                    type: 'paragraph',
+                                    text: 'You can configure the GDPR privacy checkboxes for your opt-in form below. Please watch our training on how to integrate your provider on our <a href="http://www.optimizelink.com/gdpr-training" target="_blank">training hub here</a>.',
+                                    addClass: 'op-membership-login-description'
+                                },
+                                not_supported: {
+                                    text: 'Your selected integration does not currently have GDPR options available. Please see <a href="http://www.optimizelink.com/gdpr-unsupported" target="_blank">this article</a> for more information.',
+                                    type: 'microcopy',
+                                    addClass: 'warning field-id-op_assets_core_optin_box_tabs_gdpr_consent_not_supported'
+                                },
+                                gdpr_consent: {
+                                    title: OP_AB.translate('enable_gdpr_checkboxes'),
+                                    type: 'select',
+                                    default_value: 'disabled',
+                                    values: {
+                                        'disabled': OP_AB.translate('do_not_show_the_fields'),
+                                        'eu_only': OP_AB.translate('show_to_eu_only'),
+                                        'all_visitors': OP_AB.translate('show_to_all_visitors')
+                                    },
+                                    addClass: 'op-dialog-element-dropdown-fullwidth',
+                                    events: {
+                                        change: function(e) {
+                                            var integrationType = $('#op_assets_core_optin_box_tabs_form_html_integration_type').val();
+
+                                            // If GDPR is disabled or if we already fetched provider tags earlier
+                                            if (e.currentTarget.value === 'disabled') {
+                                                setTimeout(function() {
+                                                    $('.op-gdpr-provider-tags-dropdown, .field-consent_1_label, .field-consent_2_label, .op-gdpr-provider-tags-input').hide();
+                                                });
+
+                                                return;
+                                            }
+
+                                            // Controling visibility of notes field for providers that is using it
+                                            if (providersUsingCustomFieldsForNotes.indexOf(integrationType) >= 0) {
+                                                if (e.currentTarget.value === 'disabled') {
+                                                    setTimeout(function() {
+                                                        $('.op-gdpr-provider-notes-dropdown').hide();
+                                                    });
+                                                } else {
+                                                    setTimeout(function() {
+                                                        $('.op-gdpr-provider-notes-dropdown').show();
+                                                    });
+                                                }
+                                            } else {
+                                                setTimeout(function() {
+                                                    $('.op-gdpr-provider-notes-dropdown').hide();
+                                                });
+                                            }
+
+                                            if (providersWithoutGdprSupport.indexOf(integrationType) >= 0) {
+                                                // Not sure what to do here...
+                                                return;
+                                            } else if (providersUsingInputFieldsInsteadOfTags.indexOf(integrationType) >= 0) {
+                                                setTimeout(function() {
+                                                    $('.field-consent_1_tag_accepted, .field-consent_1_tag_declined, .field-consent_1_tag_not_shown, .field-consent_2_tag_accepted, .field-consent_2_tag_declined, .field-consent_2_tag_not_shown').hide();
+
+                                                    if ($('#op_assets_core_optin_box_tabs_gdpr_consent_consent_1_enabled').val() === 'yes') {
+                                                        if (e.currentTarget.value === 'all_visitors') {
+                                                            $('.field-consent_1_tag_accepted_text, .field-consent_1_tag_declined_text, .field-consent_1_label').show();
+                                                            $('.field-consent_1_tag_not_shown_text').hide();
+                                                        } else {
+                                                            $('.field-consent_1_tag_accepted_text, .field-consent_1_tag_declined_text, .field-consent_1_tag_not_shown_text, .field-consent_1_label').show();
+                                                        }
+                                                    }
+                                                    if ($('#op_assets_core_optin_box_tabs_gdpr_consent_consent_2_enabled').val() === 'yes') {
+                                                        if (e.currentTarget.value === 'all_visitors') {
+                                                            $('.field-consent_2_tag_accepted_text, .field-consent_2_tag_declined_text, .field-consent_2_label').show();
+                                                            $('.field-consent_2_tag_not_shown_text').hide();
+                                                        } else {
+                                                            $('.field-consent_2_tag_accepted_text, .field-consent_2_tag_declined_text, .field-consent_2_tag_not_shown_text, .field-consent_2_label').show();
+                                                        }
+                                                    }
+                                                });
+
+                                                return;
+                                            } else {
+                                                setTimeout(function() {
+                                                    $('.field-consent_1_tag_accepted_text, .field-consent_1_tag_declined_text, .field-consent_1_tag_not_shown_text, .field-consent_2_tag_accepted_text, .field-consent_2_tag_declined_text, .field-consent_2_tag_not_shown_text').hide();
+
+                                                    if ($('#op_assets_core_optin_box_tabs_gdpr_consent_consent_1_enabled').val() === 'yes') {
+                                                        if (integrationType === 'infusionsoft') {
+                                                            $('.field-consent_1_tag_accepted, .field-consent_1_label').show();
+                                                            $('.field-consent_1_tag_declined, .field-consent_1_tag_not_shown').hide();
+                                                        } else if (e.currentTarget.value === 'all_visitors') {
+                                                            $('.field-consent_1_tag_accepted, .field-consent_1_tag_declined, .field-consent_1_label').show();
+                                                            $('.field-consent_1_tag_not_shown').hide();
+                                                        } else {
+                                                            $('.field-consent_1_tag_accepted, .field-consent_1_tag_declined, .field-consent_1_tag_not_shown, .field-consent_1_label').show();
+                                                        }
+                                                    }
+                                                    if ($('#op_assets_core_optin_box_tabs_gdpr_consent_consent_2_enabled').val() === 'yes') {
+                                                        if (integrationType === 'infusionsoft') {
+                                                            $('.field-consent_2_tag_accepted, .field-consent_2_label').show();
+                                                            $('.field-consent_2_tag_declined, .field-consent_2_tag_not_shown').hide();
+                                                        } else if (e.currentTarget.value === 'all_visitors') {
+                                                            $('.field-consent_2_tag_accepted, .field-consent_2_tag_declined, .field-consent_2_label').show();
+                                                            $('.field-consent_2_tag_not_shown').hide();
+                                                        } else {
+                                                            $('.field-consent_2_tag_accepted, .field-consent_2_tag_declined, .field-consent_2_tag_not_shown, .field-consent_2_label').show();
+                                                        }
+                                                    }
+                                                });
+                                            }
+
+                                            // Providers with custom fields
+                                            if (providersUsingCustomFieldsInsteadOfTags.indexOf(integrationType) >= 0) {
+                                                return;
+                                            }
+
+                                            /*
+                                             * Showing loading graphics
+                                             */
+                                            var $tags = $('.op-gdpr-provider-tags-dropdown select');
+                                            $('.op-multirow-gdpr_consent .op-bsw-waiting').remove();
+                                            $tags.after('<img class="op-bsw-waiting" src="images/wpspin_light.gif" alt="loading" style="position:relative;display:block;top:4px">');
+
+                                            $.post(OptimizePress.ajaxurl, {
+                                                'action': OptimizePress.SN+'-email-provider-tags',
+                                                'provider': integrationType
+                                            }, function(response) {
+                                                providerTags = jQuery.extend(response.tags, {'-': OP_AB.translate('no_tag')});
+
+                                                $tags.each(function(index) {
+                                                    var $element = $(this);
+
+                                                    var options = [];
+                                                    $.each(providerTags, function (key, name) {
+                                                        options.push($('<option/>', {value: key, text: name}));
+                                                    });
+
+                                                    $element.empty().append(options);
+                                                    $element.next().remove();
+
+                                                    /*
+                                                     * Selecting previously selected value (if editing)
+                                                     */
+                                                    if (typeof $element.attr('data-default') != 'undefined') {
+                                                        $element.val($element.attr('data-default'));
+                                                    }
+                                                });
+                                            }, 'json');
+                                        }
+                                    }
+                                },
+                                consent_1_enabled: {
+                                    title: OP_AB.translate('enable_consent_1_checbox'),
+                                    type: 'select',
+                                    default_value: 'no',
+                                    values: {
+                                        'no': OP_AB.translate('no'),
+                                        'yes': OP_AB.translate('yes')
+                                    },
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.gdpr_consent', value:['eu_only', 'all_visitors']},
+                                    addClass: 'op-dialog-element-dropdown-fullwidth',
+                                    events: {
+                                        change: function(e) {
+                                            if (e.currentTarget.value === 'no') {
+                                                return;
+                                            }
+
+                                            var integrationType = $('#op_assets_core_optin_box_tabs_form_html_integration_type').val();
+                                            var gdprEnabled =  $('#op_assets_core_optin_box_tabs_gdpr_consent_gdpr_consent').val();
+
+                                            if (providersUsingInputFieldsInsteadOfTags.indexOf(integrationType) >= 0) {
+                                                setTimeout(function() {
+                                                    $('.field-consent_1_tag_accepted, .field-consent_1_tag_declined, .field-consent_1_tag_not_shown').hide();
+
+                                                    if (gdprEnabled === 'all_visitors') {
+                                                        $('.field-consent_1_tag_accepted_text, .field-consent_1_tag_declined_text').show();
+                                                        $('.field-consent_1_tag_not_shown_text').hide();
+                                                    } else {
+                                                        $('.field-consent_1_tag_accepted_text, .field-consent_1_tag_declined_text, .field-consent_1_tag_not_shown_text').show();
+                                                    }
+                                                });
+                                            } else {
+                                                setTimeout(function() {
+                                                    if (integrationType === 'infusionsoft') {
+                                                        $('.field-consent_1_tag_accepted').show();
+                                                        $('.field-consent_1_tag_declined, .field-consent_1_tag_not_shown').hide();
+                                                    } else if (gdprEnabled === 'all_visitors') {
+                                                        $('.field-consent_1_tag_accepted, .field-consent_1_tag_declined').show();
+                                                        $('.field-consent_1_tag_not_shown').hide();
+                                                    } else {
+                                                        $('.field-consent_1_tag_accepted, .field-consent_1_tag_declined, .field-consent_1_tag_not_shown').show();
+                                                    }
+
+                                                    $('.field-consent_1_tag_accepted_text, .field-consent_1_tag_declined_text, .field-consent_1_tag_not_shown_text').hide();
+                                                });
+                                            }
+                                        }
+                                    }
+                                },
+                                consent_1_label: {
+                                    title: OP_AB.translate('consent_1_label_message'),
+                                    type: 'input',
+                                    placeholder: OP_AB.translate('enter_privacy_notice'),
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_1_enabled', value:['yes']},
+                                },
+                                consent_1_tag_accepted: {
+                                    title: OP_AB.translate('consent_1_accept_tag'),
+                                    type: 'select',
+                                    default_value: 'missing_integration_type',
+                                    values: providerTags,
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_1_enabled', value:['yes']},
+                                    addClass: 'op-dialog-element-dropdown-fullwidth op-gdpr-provider-tags-dropdown'
+                                },
+                                consent_1_tag_accepted_text: {
+                                    title: OP_AB.translate('consent_1_accept_tag'),
+                                    type: 'input',
+                                    placeholder: OP_AB.translate('enter_tag_name'),
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_1_enabled', value:['yes']},
+                                    addClass: 'op-gdpr-provider-tags-input'
+                                },
+                                consent_1_tag_declined: {
+                                    title: OP_AB.translate('consent_1_decline_tag'),
+                                    type: 'select',
+                                    default_value: 'missing_integration_type',
+                                    values: providerTags,
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_1_enabled', value:['yes']},
+                                    addClass: 'op-dialog-element-dropdown-fullwidth op-gdpr-provider-tags-dropdown'
+                                },
+                                consent_1_tag_declined_text: {
+                                    title: 'consent_1_decline_tag',
+                                    type: 'input',
+                                    placeholder: OP_AB.translate('enter_tag_name'),
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_1_enabled', value:['yes']},
+                                    addClass: 'op-gdpr-provider-tags-input'
+                                },
+                                consent_1_tag_not_shown: {
+                                    title: OP_AB.translate('consent_1_not_shown_tag'),
+                                    type: 'select',
+                                    default_value: 'missing_integration_type',
+                                    values: providerTags,
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_1_enabled', value:['yes']},
+                                    addClass: 'op-dialog-element-dropdown-fullwidth op-gdpr-provider-tags-dropdown'
+                                },
+                                consent_1_tag_not_shown_text: {
+                                    title: OP_AB.translate('consent_1_not_shown_tag'),
+                                    type: 'input',
+                                    placeholder: OP_AB.translate('enter_tag_name'),
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_1_enabled', value:['yes']},
+                                    addClass: 'op-gdpr-provider-tags-input'
+                                },
+                                consent_2_enabled: {
+                                    title: OP_AB.translate('enable_consent_2_checbox'),
+                                    type: 'select',
+                                    default_value: 'no',
+                                    values: {
+                                        'no': OP_AB.translate('no'),
+                                        'yes': OP_AB.translate('yes')
+                                    },
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.gdpr_consent', value:['eu_only', 'all_visitors']},
+                                    addClass: 'op-dialog-element-dropdown-fullwidth',
+                                    events: {
+                                        change: function(e) {
+                                            if (e.currentTarget.value === 'no') {
+                                                return;
+                                            }
+
+                                            var integrationType = $('#op_assets_core_optin_box_tabs_form_html_integration_type').val();
+                                            var gdprEnabled =  $('#op_assets_core_optin_box_tabs_gdpr_consent_gdpr_consent').val();
+
+                                            if (providersUsingInputFieldsInsteadOfTags.indexOf(integrationType) >= 0) {
+                                                setTimeout(function() {
+                                                    $('.field-consent_2_tag_accepted, .field-consent_2_tag_declined, .field-consent_2_tag_not_shown').hide();
+
+                                                    if (gdprEnabled === 'all_visitors') {
+                                                        $('.field-consent_2_tag_accepted_text, .field-consent_2_tag_declined_text').show();
+                                                        $('.field-consent_2_tag_not_shown_text').hide();
+                                                    } else {
+                                                        $('.field-consent_2_tag_accepted_text, .field-consent_2_tag_declined_text, .field-consent_2_tag_not_shown_text').show();
+                                                    }
+                                                });
+                                            } else {
+                                                setTimeout(function() {
+                                                    if (integrationType === 'infusionsoft') {
+                                                        $('.field-consent_2_tag_accepted').show();
+                                                        $('.field-consent_2_tag_declined, .field-consent_2_tag_not_shown').hide();
+                                                    } else if (gdprEnabled === 'all_visitors') {
+                                                        $('.field-consent_2_tag_accepted, .field-consent_2_tag_declined').show();
+                                                        $('.field-consent_2_tag_not_shown').hide();
+                                                    } else {
+                                                        $('.field-consent_2_tag_accepted, .field-consent_2_tag_declined, .field-consent_2_tag_not_shown').show();
+                                                    }
+
+                                                    $('.field-consent_2_tag_accepted_text, .field-consent_2_tag_declined_text, .field-consent_2_tag_not_shown_text').hide();
+                                                });
+                                            }
+                                        }
+                                    }
+                                },
+                                consent_2_label: {
+                                    title: OP_AB.translate('consent_2_label_message'),
+                                    type: 'input',
+                                    placeholder: OP_AB.translate('enter_privacy_notice'),
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_2_enabled', value:['yes']},
+                                },
+                                consent_2_tag_accepted: {
+                                    title: OP_AB.translate('consent_2_accept_tag'),
+                                    type: 'select',
+                                    default_value: 'missing_integration_type',
+                                    values: providerTags,
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_2_enabled', value:['yes']},
+                                    addClass: 'op-dialog-element-dropdown-fullwidth op-gdpr-provider-tags-dropdown'
+                                },
+                                consent_2_tag_accepted_text: {
+                                    title: OP_AB.translate('consent_2_accept_tag'),
+                                    type: 'input',
+                                    placeholder: OP_AB.translate('enter_tag_name'),
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_2_enabled', value:['yes']},
+                                    addClass: 'op-gdpr-provider-tags-input'
+                                },
+                                consent_2_tag_declined: {
+                                    title: OP_AB.translate('consent_2_decline_tag'),
+                                    type: 'select',
+                                    default_value: 'missing_integration_type',
+                                    values: providerTags,
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_2_enabled', value:['yes']},
+                                    addClass: 'op-dialog-element-dropdown-fullwidth op-gdpr-provider-tags-dropdown'
+                                },
+                                consent_2_tag_declined_text: {
+                                    title: OP_AB.translate('consent_2_decline_tag'),
+                                    type: 'input',
+                                    placeholder: OP_AB.translate('enter_tag_name'),
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_2_enabled', value:['yes']},
+                                    addClass: 'op-gdpr-provider-tags-input'
+                                },
+                                consent_2_tag_not_shown: {
+                                    title: OP_AB.translate('consent_2_not_shown_tag'),
+                                    type: 'select',
+                                    default_value: 'missing_integration_type',
+                                    values: providerTags,
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_2_enabled', value:['yes']},
+                                    addClass: 'op-dialog-element-dropdown-fullwidth op-gdpr-provider-tags-dropdown'
+                                },
+                                consent_2_tag_not_shown_text: {
+                                    title: OP_AB.translate('consent_2_not_shown_tag'),
+                                    type: 'input',
+                                    placeholder: OP_AB.translate('enter_tag_name'),
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.consent_2_enabled', value:['yes']},
+                                    addClass: 'op-gdpr-provider-tags-input'
+                                },
+                                consent_notes_field: {
+                                    title: OP_AB.translate('consent_notes_custom_field'),
+                                    type: 'select',
+                                    default_value: 'missing_integration_type',
+                                    values: providerTags,
+                                    showOn: {field:'step_2.tabs.tabs.gdpr_consent.fields.gdpr_consent', value:['eu_only', 'all_visitors']},
+                                    addClass: 'op-dialog-element-dropdown-fullwidth op-gdpr-provider-notes-dropdown'
                                 }
                             }
                         }
@@ -1042,6 +1481,12 @@ var op_asset_settings = (function($){
                 opm_level: attrs.opm_level
             };
             attrs = attrs.tabs;
+
+            var useGdprDropdowns = true;
+            if (providersUsingInputFieldsInsteadOfTags.indexOf(attrs.form_html.integration_type) >= 0) {
+                useGdprDropdowns = false;
+            }
+
             $.extend(nattrs,{
                 action: encodeURI(attrs.form_html.action),
                 disable_name: attrs.form_html.disable_name,
@@ -1054,12 +1499,24 @@ var op_asset_settings = (function($){
                 integration_type: attrs.form_html.integration_type,
                 double_optin: attrs.form_html.double_optin,
                 welcome_email: attrs.form_html.welcome_email,
-                signup_form_id: attrs.form_html.signup_form_id
+                signup_form_id: attrs.form_html.signup_form_id,
+
+                gdpr_consent: attrs.gdpr_consent.gdpr_consent,
+                consent_1_enabled: attrs.gdpr_consent.consent_1_enabled,
+                consent_1_tag_accepted: useGdprDropdowns ? attrs.gdpr_consent.consent_1_tag_accepted : attrs.gdpr_consent.consent_1_tag_accepted_text,
+                consent_1_tag_declined: useGdprDropdowns ? attrs.gdpr_consent.consent_1_tag_declined : attrs.gdpr_consent.consent_1_tag_declined_text,
+                consent_1_tag_not_shown: useGdprDropdowns ? attrs.gdpr_consent.consent_1_tag_not_shown : attrs.gdpr_consent.consent_1_tag_not_shown_text,
+                consent_2_enabled: attrs.gdpr_consent.consent_2_enabled,
+                consent_2_tag_accepted: useGdprDropdowns ? attrs.gdpr_consent.consent_2_tag_accepted : attrs.gdpr_consent.consent_2_tag_accepted_text,
+                consent_2_tag_declined: useGdprDropdowns ? attrs.gdpr_consent.consent_2_tag_declined : attrs.gdpr_consent.consent_2_tag_declined_text,
+                consent_2_tag_not_shown: useGdprDropdowns ? attrs.gdpr_consent.consent_2_tag_not_shown : attrs.gdpr_consent.consent_2_tag_not_shown_text,
+                consent_notes_field: attrs.gdpr_consent.consent_notes_field,
             });
+
             if (attrs.form_html.gotowebinar == 'Y') {
                 nattrs = $.extend(nattrs, {gotowebinar:attrs.form_html.gotowebinar_list});
             }
-            var elems = ['headline','paragraph','privacy'],
+            var elems = ['headline', 'paragraph', 'privacy'],
                 str = '',
                 packages = [],
                 field_str = '',
@@ -1212,6 +1669,7 @@ var op_asset_settings = (function($){
                     break;
                 case 'aweber':
                 case 'getresponse':
+                case 'getresponsev3':
                     nattrs = $.extend(nattrs, {
                         thank_you_page: attrs.form_html.thank_you_page,
                         already_subscribed_url: attrs.form_html.already_subscribed_url,
@@ -1268,9 +1726,18 @@ var op_asset_settings = (function($){
 
             str = '[optin_box'+str+']'+field_str;
 
+            // Content elements
             $.each(elems,function(i,v){
                 if(v && v !== null){
                     var val = (v=='paragraph' ? (op_base64encode(attrs.content[v])) : (attrs.content[v] || ''));
+                    str += '[optin_box_field name="'+v+'"]'+val+'[/optin_box_field]';
+                }
+            });
+
+            // Consent elements
+            $.each(['consent_1_label', 'consent_2_label'], function (i, v) {
+                if(v && v !== null){
+                    var val = op_base64encode(attrs.gdpr_consent[v]);
                     str += '[optin_box_field name="'+v+'"]'+val+'[/optin_box_field]';
                 }
             });
@@ -1281,6 +1748,7 @@ var op_asset_settings = (function($){
             str += button_str(attrs.submit_button);
             str += '[/optin_box]';
             OP_AB.insert_content(str);
+
             $.fancybox.close();
         },
         customSettings: function(attrs,steps){
@@ -1289,8 +1757,8 @@ var op_asset_settings = (function($){
                 idprefix = boxprefix+'tabs_',
                 top_color = ((attrs.attrs.top_color=='undefined') ? '' : attrs.attrs.top_color);
             if (typeof val[0].attrs.content != 'undefined' &&  val[0].attrs.content.length > 0) {
-                /* 
-                 * When editing element in post page custom pasted form was not visible 
+                /*
+                 * When editing element in post page custom pasted form was not visible
                  * because $(val[0].attrs.content).html() return empty string
                  */
                 if (OptimizePress.op_live_editor === "1") {
@@ -1314,6 +1782,14 @@ var op_asset_settings = (function($){
                         }
                     } else {
                         OP_AB.set_wysiwyg_content(idprefix+'content_paragraph', '');
+                    }
+                } else if (v.attrs.name === 'consent_1_label') {
+                    if (typeof content != 'undefined') {
+                        $('#' + idprefix + 'gdpr_consent_consent_1_label').val(op_base64decode(content));
+                    }
+                } else if (v.attrs.name === 'consent_2_label') {
+                    if (typeof content != 'undefined') {
+                        $('#' + idprefix + 'gdpr_consent_consent_2_label').val(op_base64decode(content));
                     }
                 } else {
                     $('#'+idprefix+'content_'+v.attrs.name).val(content);
@@ -1409,6 +1885,7 @@ var op_asset_settings = (function($){
                 case 'mailpoet':
                 case 'infusionsoft':
                 case 'getresponse':
+                case 'getresponsev3':
                 case 'campaignmonitor':
                 case 'constantcontact':
                 case 'convertkit':
@@ -1537,6 +2014,24 @@ var op_asset_settings = (function($){
 
             disable_focus = false;
 
+            // GDPR consent
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_gdpr_consent').val(typeof attrs.gdpr_consent != 'undefined' ? attrs.gdpr_consent : 'disabled').trigger('change');
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_1_enabled').val(typeof attrs.consent_1_enabled != 'undefined' ? attrs.consent_1_enabled : 'no').trigger('change');
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_1_tag_accepted').val(attrs.consent_1_tag_accepted).attr('data-default', attrs.consent_1_tag_accepted);
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_1_tag_accepted_text').val(attrs.consent_1_tag_accepted);
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_1_tag_declined').val(attrs.consent_1_tag_declined).attr('data-default', attrs.consent_1_tag_declined);
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_1_tag_declined_text').val(attrs.consent_1_tag_declined);
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_1_tag_not_shown').val(attrs.consent_1_tag_not_shown).attr('data-default', attrs.consent_1_tag_not_shown);
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_1_tag_not_shown_text').val(attrs.consent_1_tag_not_shown);
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_2_enabled').val(typeof attrs.consent_2_enabled != 'undefined' ? attrs.consent_2_enabled : 'no').trigger('change');
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_2_tag_accepted').val(attrs.consent_2_tag_accepted).attr('data-default', attrs.consent_2_tag_accepted);
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_2_tag_accepted_text').val(attrs.consent_2_tag_accepted);
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_2_tag_declined').val(attrs.consent_2_tag_declined).attr('data-default', attrs.consent_2_tag_declined);
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_2_tag_declined_text').val(attrs.consent_2_tag_declined);
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_2_tag_not_shown').val(attrs.consent_2_tag_not_shown).attr('data-default', attrs.consent_2_tag_not_shown);
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_2_tag_not_shown_text').val(attrs.consent_2_tag_not_shown);
+            $('#op_assets_core_optin_box_tabs_gdpr_consent_consent_notes_field').val(attrs.consent_notes_field).attr('data-default', attrs.consent_notes_field);
+
             //Update advanced options
             $('#op_assets_core_optin_box_width').val(attrs.width);
             $('#op_assets_core_optin_box_margin_top').val(attrs.margin_top);
@@ -1556,23 +2051,25 @@ var op_asset_settings = (function($){
         }
     };
     function fill_provider_fields(list, provider) {
-        input_elems = lists[list].fields;
+        input_elems = lists[provider][list].fields;
 
         op_fill_provider_custom_fields(input_elems);
+        fillGdprDropdownsWithCustomFields(provider, input_elems);
 
         /*
          * Infusionsoft action page attribute
          */
-        if (typeof lists[list] != 'undefined'
-        && typeof lists[list].action != 'undefined') {
-            $('#op_assets_core_optin_box_tabs_form_html_action_page').val(lists[list].action);
+        if (typeof lists[provider] != 'undefined'
+        && typeof lists[provider][list] != 'undefined'
+        && typeof lists[provider][list].action != 'undefined') {
+            $('#op_assets_core_optin_box_tabs_form_html_action_page').val(lists[provider][list].action);
         }
         /*
          * Infusionsoft hidden form params
          */
-        if (typeof lists[list] != 'undefined'
-        && typeof lists[list].hidden != 'undefined') {
-            hdn_elems = lists[list].hidden;
+        if (typeof lists[provider][list] != 'undefined'
+        && typeof lists[provider][list].hidden != 'undefined') {
+            hdn_elems = lists[provider][list].hidden;
         }
         var options = [];
         if (typeof input_elems != 'undefined') {
@@ -1607,6 +2104,7 @@ var op_asset_settings = (function($){
                 case 'aweber':
                 case 'convertkit':
                 case 'getresponse':
+                case 'getresponsev3':
                 case 'icontact':
                     nameValue = 'name';
                     break;

@@ -20,7 +20,7 @@ opjq(document).ready(function($){
         var userCloseEffect = $popup.data('close-effect') || 'fade';
         var closeSpeed = $popup.data('close-speed') || 400;
 
-        var borderColor = $popup.data('border-color') || '#ffffff';
+        var borderColor = $popup.data('border-color') || '#fff';
         var borderSize = $popup.data('border-size');
         var autoSize;
         var width;
@@ -33,7 +33,7 @@ opjq(document).ready(function($){
 
         // Overlay pop options
         var exitIntent = $popup.data('exit-intent');
-        var triggerTime = $popup.data('trigger-time')
+        var triggerTime = $popup.data('trigger-time');
         var triggerDontshow = $popup.data('trigger-dontshow');
         var triggerTimeTimeout;
         var dontShowOnTablet = $popup.data('dont-show-on-tablet');
@@ -48,7 +48,7 @@ opjq(document).ready(function($){
 
         // Number of pixels from top of the page where popup is triggered.
         // When user moves the moust fast, pixels are skipped, that's why this is necessery.
-        var exitIntentSensitivity = 40;
+        var exitIntentSensitivity = 20;
 
         var exitIntentTriggered = false;
         var exitIntentTriggeredTimeout;
@@ -313,21 +313,15 @@ opjq(document).ready(function($){
             exitIntentTriggeredTimeout;
             clientYprev = -1;
 
-            $('body').on('mousemove', function (e) {
+            $(document).on('mouseleave', function (e) {
                 // Only open popup if
                 // - popup is not already opened
                 // - popup is not recently closed
                 // - dontshow cookie is not set
                 // - mouse doesn't enter the top of the page top-down (not exit intent)
                 // - popup should be shown on this screen size (dont-show-on-tablet & dont-show-on-mobile options)
-                if (exitIntentTriggered || isDontShowSet() || clientYprev <= e.clientY || !showOnThisScreen()) {
-                    clientYprev = e.clientY;
-                } else {
-                    clientYprev = e.clientY;
-
-                    if (e.clientY < exitIntentSensitivity) {
-                        openPopup();
-                    }
+                if (e.clientY < exitIntentSensitivity && !isDontShowSet() && showOnThisScreen() && !exitIntentTriggered) {
+                    openPopup();
                 }
             });
         }
@@ -342,7 +336,16 @@ opjq(document).ready(function($){
 
         // returns true if cookie is set and popup shouldn't be automatically opened
         var isDontShowSet = function () {
-            return !!OptimizePress.cookie.read(popupId);
+            if (triggerDontshow > 0) {
+                return !!OptimizePress.cookie.read(popupId);
+            } else {
+                // erase cookie if it was previously set as customer wants to show popup always
+                if (!!OptimizePress.cookie.read(popupId)) {
+                    OptimizePress.cookie.erase(popupId);
+                }
+            }
+
+            return false;
         }
 
     });

@@ -3314,7 +3314,7 @@ select {
 
 #TB_closeWindowButton .screen-reader-text,
 .media-modal-close .screen-reader-text { display: none; }
-.media-modal label { display: none; }
+/*.media-modal label { display: none; }*/
 .imgedit-settings .media-modal label { display: inline; }
 .media-toolbar-secondary #media-attachment-filters,
 .media-toolbar-secondary #media-attachment-date-filters {
@@ -3328,3 +3328,29 @@ select {
 .media-modal .media-embed input { margin-bottom: 0; }
 
 #toplevel_page_optimizepress .wp-submenu li:last-child { display: none; }
+
+.opl-postselect-item {
+    color: white;
+    background: #94a0b0;
+    height: 24px;
+    border-radius: 12px;
+    padding: 0px 10px;
+    line-height: 24px;
+    float: left;
+    max-width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 0px 5px 10px 0px;
+}
+
+.opl-postselect-item a {
+    color: white !important;
+    text-decoration: none;
+}
+
+#exclude_pages_select {
+    max-width: 170px;
+}
+.opl-select-exclude {
+    display: inline-grid;
+}

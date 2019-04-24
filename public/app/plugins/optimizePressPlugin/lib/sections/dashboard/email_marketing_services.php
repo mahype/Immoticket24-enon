@@ -54,6 +54,11 @@ class OptimizePress_Sections_Email_Marketing_Services {
                     'action'        => array($this,'getresponse'),
                     'save_action'   => array($this,'save_getresponse')
                 ),
+                'getresponsev3'       => array(
+                    'title'         => __('GetResponse new API (v3)', 'optimizepress'),
+                    'action'        => array($this,'getresponsev3'),
+                    'save_action'   => array($this,'save_getresponsev3')
+                ),
                 'gotowebinar'       => array(
                     'title'         => __('GoToWebinar', 'optimizepress'),
                     'action'        => array($this,'gotowebinar'),
@@ -113,6 +118,9 @@ class OptimizePress_Sections_Email_Marketing_Services {
     function save_gotowebinar($op){
         if ($gotowebinar = op_get_var($op['email_marketing_services'], 'gotowebinar_api_key')) {
             $this->op_update_trim_option('gotowebinar_api_key', $gotowebinar);
+        }
+        if ($gotowebinar = op_get_var($op['email_marketing_services'], 'gotowebinar_api_secret')) {
+            $this->op_update_trim_option('gotowebinar_api_secret', $gotowebinar);
         }
     }
 
@@ -274,6 +282,21 @@ class OptimizePress_Sections_Email_Marketing_Services {
             $this->op_update_trim_option('getresponse_api_url', $apiUrl);
         } else {
             op_delete_option('getresponse_api_url');
+        }
+    }
+
+    /* GetResponse v3 */
+    function getresponsev3(){
+        echo op_load_section('getresponsev3', array(), 'email_marketing_services');
+    }
+
+    function save_getresponsev3($op){
+        $apiKey = op_get_var($op['email_marketing_services'], 'getresponsev3_api_key');
+
+        if ($apiKey) {
+            $this->op_update_trim_option('getresponsev3_api_key', $apiKey);
+        } else {
+            op_delete_option('getresponsev3_api_key');
         }
     }
 
@@ -441,7 +464,10 @@ class OptimizePress_Sections_Email_Marketing_Services {
 
     function save_sendlane($op){
 
-        if ($url = op_get_var($op['email_marketing_services'], 'sendlane_api_url')){
+        if ($url = op_get_var($op['email_marketing_services'], 'sendlane_api_url')) {
+            if (strpos($url, 'http') === false) {
+                $url = 'https://' . $url;
+            }
             $this->op_update_trim_option('sendlane_api_url',$url);
         } else {
             op_delete_option('sendlane_api_url');

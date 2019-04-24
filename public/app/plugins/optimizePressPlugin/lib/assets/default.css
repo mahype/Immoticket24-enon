@@ -17508,6 +17508,41 @@ select[data-dkcacheid] {
     pointer-events: none;
 }
 
+/*
+ * GDPR
+ */
+.op-gdpr-consent-item {
+    clear: both;
+}
+.op-gdpr-consent-item label{text-align:left;line-height:22px;}
+.op-gdpr-consent-item label a{color:#222; text-decoration:underline;}
+.op-gdpr-consent-item{padding-top:15px;padding-bottom:2px;margin-bottom:0px;}
+.optin-box-1 .op-gdpr-consent-item{margin-bottom:0px !important}
+.optin-box-3 .op-gdpr-consent-item{margin-bottom:0px !important;padding-top:10px;}
+.optin-box-4 .op-gdpr-consent-item{margin-bottom:0px !important}
+.optin-box-7 .op-gdpr-consent-item{margin-bottom:0px !important}
+.optin-box-10 .op-gdpr-consent-item label{color:#fff;line-height:16px;width:100%;    margin-top: 0px;margin-bottom: 0px;}
+.optin-box-10 .op-gdpr-consent-item label span{color:#fff;line-height:16px}
+.optin-box-10 .op-gdpr-consent-item label span a{color:#fff;text-decoration:underline;}
+.optin-box-11 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: 18px;}
+.optin-box-12 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: auto;}
+.optin-box-13 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: auto;}
+.optin-box-14 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: auto;}
+.optin-box-15 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: auto !important;}
+.optin-box-21 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: auto !important;}
+.optin-box-22 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: auto !important;}
+.optin-box-23 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: auto !important;}
+.optin-box-23 .op-gdpr-consent-item label{padding-left:25px;padding-right:25px;}
+.optin-box-24 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: auto !important;}
+.optin-box-24 .op-gdpr-consent-item label{padding-left:25px;padding-right:25px;font-size:13px;}
+.optin-box-24 .op-gdpr-consent-item label .privacy-text{font-size:13px;font-weight:normal;color:#444;text-shadow:none;}
+.optin-box-25 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: auto !important;}
+.optin-box-25 .op-gdpr-consent-item label{padding-left:25px;padding-right:25px;}
+.optin-box-26 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: auto !important;}
+.optin-box-27 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: auto !important;}
+.optin-box-28 input[type=checkbox]{width:auto;display:inline-block;vertical-align:middle;    margin: 0 7px 0 0;height: auto !important;}
+.optin-box-28 .op-gdpr-consent-item label{text-transform: none;}
+
 /**
  * WebKit-based browsers have a bug that causes
  * fullscreen mode to not work properly if

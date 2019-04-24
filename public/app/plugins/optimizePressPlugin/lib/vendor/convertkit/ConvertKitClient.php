@@ -52,20 +52,41 @@ class OP_ConvertKitClient
     }
 
     /**
+     * Retrun all tags.
+     *
+     * @return array
+     */
+    public function getTags()
+    {
+        try {
+            $response = $this->request('get', $this->apiEndpoint . 'tags');
+        } catch (Exception $e) {
+            return array();
+        }
+
+        $tags = wp_remote_retrieve_body($response);
+
+        $this->logger->info("Retrieved tags: " . print_r($tags, true) . "\n");
+
+        return json_decode($tags);
+    }
+
+    /**
      * Add contact to the list.
      *
      * @param string $listId
      * @param string $email
      * @param array $fields
+     * @param array $tags
      *
      * @return bool
      */
-    public function addContact($listId, $email, $fields)
+    public function addContact($listId, $email, $fields, $tags = array())
     {
         $this->logger->info("Adding contact\n");
 
         try {
-            $data       = $this->prepareData($email, $fields);
+            $data       = $this->prepareData($email, $fields, $tags);
             $response   = $this->request('post', $this->apiEndpoint . 'forms/' . $listId . '/subscribe', json_encode($data));
         } catch (Exception $e) {
             return false;
@@ -79,9 +100,10 @@ class OP_ConvertKitClient
      *
      * @param  string $email
      * @param  array  $fields
+     * @param  array  $tags
      * @return array
      */
-    protected function prepareData($email, $fields)
+    protected function prepareData($email, $fields, $tags)
     {
         // Email field
         $data['email'] = $email;
@@ -91,6 +113,10 @@ class OP_ConvertKitClient
             foreach ($fields as $name => $value) {
                 $data[$name] = $value;
             }
+        }
+
+        if (is_array($tags) && count($tags) > 0) {
+            $data['tags'] = $tags;
         }
 
         return $data;

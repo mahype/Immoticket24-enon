@@ -161,3 +161,7 @@ a:active img[class*="wp-image-"],
 }
 .wp-dialog #wp-link .link-target { margin: 5px 0 0 5px; }
 .wp-dialog #wp-link input { height: auto; }
+
+.grecaptcha-badge {
+    display: none;
+}

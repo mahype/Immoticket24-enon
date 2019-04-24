@@ -123,6 +123,7 @@ if (!class_exists('OP_ActiveCampaign')){
     require_once("Message.class.php");
     require_once("Settings.class.php");
     require_once("Subscriber.class.php");
+    require_once("Tag.class.php");
     require_once("Tracking.class.php");
     require_once("User.class.php");
     require_once("Webhook.class.php");

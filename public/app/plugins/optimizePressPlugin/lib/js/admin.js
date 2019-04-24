@@ -414,21 +414,23 @@ opjq(document).ready(function($){
             // if there is no WP editor only
             if ($('#wp-content-editor-container').length === 0) {
                 var temp_permalink = $('#sample-permalink');
-                var permalink = '';
-                if (temp_permalink.is('span')) {
-                    permalink = temp_permalink.find('a').attr('href');
-                } else {
-                    permalink = temp_permalink.attr('href');
-                }
-                if (permalink.length > 0) {
-                    $.ajax({
-                        url: permalink,
-                        dataType: 'html',
-                        success: function (response) {
-                            var parsed = $('<html />').html(response);
-                            _self.custom_content = $(parsed).find('#content_area').html();
-                        }
-                    });
+                if (temp_permalink.length > 0) {
+                    var permalink = '';
+                    if (temp_permalink.is('span')) {
+                        permalink = temp_permalink.find('a').attr('href');
+                    } else {
+                        permalink = temp_permalink.attr('href');
+                    }
+                    if (permalink.length > 0) {
+                        $.ajax({
+                            url: permalink,
+                            dataType: 'html',
+                            success: function (response) {
+                                var parsed = $('<html />').html(response);
+                                _self.custom_content = $(parsed).find('#content_area').html();
+                            }
+                        });
+                    }
                 }
 
                 setTimeout(function () {

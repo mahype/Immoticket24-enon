@@ -414,21 +414,23 @@ opjq(document).ready(function($){
             // if there is no WP editor only
             if ($('#wp-content-editor-container').length === 0) {
                 var temp_permalink = $('#sample-permalink');
-                var permalink = '';
-                if (temp_permalink.is('span')) {
-                    permalink = temp_permalink.find('a').attr('href');
-                } else {
-                    permalink = temp_permalink.attr('href');
-                }
-                if (permalink.length > 0) {
-                    $.ajax({
-                        url: permalink,
-                        dataType: 'html',
-                        success: function (response) {
-                            var parsed = $('<html />').html(response);
-                            _self.custom_content = $(parsed).find('#content_area').html();
-                        }
-                    });
+                if (temp_permalink.length > 0) {
+                    var permalink = '';
+                    if (temp_permalink.is('span')) {
+                        permalink = temp_permalink.find('a').attr('href');
+                    } else {
+                        permalink = temp_permalink.attr('href');
+                    }
+                    if (permalink.length > 0) {
+                        $.ajax({
+                            url: permalink,
+                            dataType: 'html',
+                            success: function (response) {
+                                var parsed = $('<html />').html(response);
+                                _self.custom_content = $(parsed).find('#content_area').html();
+                            }
+                        });
+                    }
                 }
 
                 setTimeout(function () {
@@ -6250,7 +6252,9 @@ var cur = [];
                     .focus();
 
             if (get_active_slide() === 1) {
-                focusLastSelectedItem();
+                setTimeout(function () {
+                    focusLastSelectedItem();
+                }, 100);
             }
 
             /**
@@ -8313,7 +8317,7 @@ var cur = [];
         if(typeof op_assets[settingsAsset[0]] != 'undefined' && typeof op_assets[settingsAsset[0]][settingsAsset[1]] != 'undefined'){
             set_titles(slides[1].find('a[href$="#'+settingsAsset[0]+'/'+settingsAsset[1]+'"]'));
             container.find('.op_asset_browser_slide .settings-container').css('display','none');
-            load_config(settingsAsset, function(steps,config){
+            load_config(settingsAsset, function(steps, config){
                 set_settings(settings,steps,config);
                 disable_insert = false;
                 disable_slide = false;
@@ -8763,6 +8767,9 @@ var cur = [];
                 // Since fancybox is closed, no slide or element list item is active anymore
                 $('#op_asset_browser_slider .op_asset_browser_slide_active').removeClass('op_asset_browser_slide_active');
                 $('#op_asset_browser_slider').find('.op-last-selected-asset-list-item').removeClass('op-last-selected-asset-list-item');
+
+                // Select first tab if applicable. Last selected tab was opened on edit otherwise and its fields appended to the fields of the first tab.
+                $('#op_asset_browser_container .op-multirow-tabs li a').first().trigger('click');
 
                 // This is necessary in order to hide the parent fancybox scrollbars and close button
                 // $('html').css({

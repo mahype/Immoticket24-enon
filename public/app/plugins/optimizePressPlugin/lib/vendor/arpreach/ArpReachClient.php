@@ -178,10 +178,63 @@ class Op_ArpReachClient
     }
 
     /**
+     * Retrieve contact based on $email
+     * @return mixed
+     */
+    public function getTags()
+    {
+        $this->logger->info("Fetching tags ");
+
+        try {
+            $response = $this->request('list_tags', array());
+        } catch (Exception $e) {
+            $this->logger->error("Error: " . $e->getMessage());
+            return null;
+        }
+
+        $tags = wp_remote_retrieve_body($response);
+
+        $this->logger->info("Retrieved tags: " . print_r($tags, true) . "\n");
+
+        $tags = json_decode($tags);
+
+        return $tags;
+    }
+
+    /**
+     * Assigns tags to contact
+     * @param $tags string comma separated list of tag names
+     * @param $email string
+     * @return bool
+     */
+    public function assignTagsToContact($tags, $email)
+    {
+        try {
+            $response = $this->request("assign_tag_to_contact", array('email_address' => $email, 'tag_name' => $tags));
+        } catch (Exception $e) {
+            $this->logger->error("Error when adding tags to contact " . $e->getMessage());
+            return false;
+        }
+
+        $data = wp_remote_retrieve_body($response);
+
+        $this->logger->info("Assing tags to contact: " . print_r($data, true) . "\n");
+
+        $data = json_decode($data);
+
+        if ($data->status === "ok") {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * HTTP request wrapped with wp_remote_get
      * @param  string $action [description]
-     * @param  array  $params [description]
+     * @param  array $params [description]
      * @return mixed
+     * @throws Exception
      */
     protected function request($action, array $params)
     {

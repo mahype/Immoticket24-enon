@@ -9,6 +9,11 @@ class OptimizePress_Sections_Global_Settings {
                     'action' => array($this,'api_key'),
                     'save_action' => array($this,'save_api_key')
                 ),
+                'google_recaptcha' => array(
+                    'title' => __('Google ReCaptcha v3', 'optimizepress'),
+                    'action' => array($this,'google_recaptcha'),
+                    'save_action' => array($this,'save_google_recaptcha')
+                ),
                 'header_logo_setup' => array(
                     'title' => __('Header & Logo Setup', 'optimizepress'),
                     'action' => array($this,'header_logo_setup'),
@@ -119,6 +124,17 @@ class OptimizePress_Sections_Global_Settings {
         } else {
             op_sl_save_key($key);
         }
+    }
+
+    /* Google ReCaptcha Section */
+    function google_recaptcha(){
+        echo op_load_section('google_recaptcha');
+    }
+
+    function save_google_recaptcha($op) {
+        $section = op_get_var($op, 'google_recaptcha');
+        op_update_option('google_recaptcha_site_key', op_get_var($section,'google_recaptcha_site_key'));
+        op_update_option('google_recaptcha_secret_key', op_get_var($section,'google_recaptcha_secret_key'));
     }
 
     /* Header & Logo Setup Section */
