@@ -1124,8 +1124,7 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 				break;
 			case 6:
 				$this->SetPageFont( 'default' );
-				$h_energietraeger = $this->GetData( 'h_energietraeger' );
-				$h_energietraeger_unit = $this->getEnergietraegerUnit( $h_energietraeger );
+
 
 				if ( 'vw' === $this->wpenon_type ) {
 					$l_info = $this->GetData( 'l_info' );
@@ -1162,9 +1161,13 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					$this->WriteCell( $start1, 'L', 2, 56 );
 					$this->SetXY( 118, 149.5 );
 					$this->WriteCell( $end1, 'L', 2, 79.5 );
-					$verbrauch1_h = $this->GetData( 'verbrauch1_h', true ) . ' ' . $h_energietraeger_unit;
+
+					$h_energietraeger = $this->GetData( 'h_energietraeger' );
+					$h_energietraeger_unit = $this->getEnergietraegerUnit( $h_energietraeger );
+
 					$this->SetXY( 72, 160 );
-					$this->WriteCell( $verbrauch1_h, 'L', 2, 125.5 );
+					$this->WriteCell( $this->getVerbrauchMengeText( 1 ), 'L', 2, 125.5 );
+
 					$verbrauch1_ww = '-';
 					if ( 'ww' === $this->GetData( 'ww_info' ) ) {
 						$verbrauch1_ww = $this->GetData( 'verbrauch1_ww', true ) . ' ' . $h_energietraeger_unit;
@@ -1177,6 +1180,8 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					}
 					$this->SetXY( 59, 186 );
 					$this->WriteCell( $verbrauch1_leerstand, 'L', 2, 138.5 );
+
+
 				} else {
 					$fenster_bauart = $this->GetData( 'fenster_bauart' );
 					$this->CheckBox( 15, 43, true );
@@ -1331,9 +1336,10 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					$this->WriteCell( $start2, 'L', 2, 56 );
 					$this->SetXY( 118, 44.5 );
 					$this->WriteCell( $end2, 'L', 2, 79.5 );
-					$verbrauch2_h = $this->GetData( 'verbrauch2_h', true ) . ' ' . $h_energietraeger_unit;
+
+
 					$this->SetXY( 72, 55 );
-					$this->WriteCell( $verbrauch2_h, 'L', 2, 125.5 );
+					$this->WriteCell( $this->getVerbrauchMengeText( 2 ), 'L', 2, 125.5 );
 					$verbrauch2_ww = '-';
 					if ( 'ww' === $this->GetData( 'ww_info' ) ) {
 						$verbrauch2_ww = $this->GetData( 'verbrauch2_ww', true ) . ' ' . $h_energietraeger_unit;
@@ -1352,9 +1358,9 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					$this->WriteCell( $start3, 'L', 2, 56 );
 					$this->SetXY( 118, 107 );
 					$this->WriteCell( $end3, 'L', 2, 79.5 );
-					$verbrauch3_h = $this->GetData( 'verbrauch3_h', true ) . ' ' . $h_energietraeger_unit;
+
 					$this->SetXY( 72, 117.5 );
-					$this->WriteCell( $verbrauch3_h, 'L', 2, 125.5 );
+					$this->WriteCell( $this->getVerbrauchMengeText( 2 ), 'L', 2, 125.5 );
 					$verbrauch3_ww = '-';
 					if ( 'ww' === $this->GetData( 'ww_info' ) ) {
 						$verbrauch3_ww = $this->GetData( 'verbrauch3_ww', true ) . ' ' . $h_energietraeger_unit;
@@ -1763,6 +1769,72 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 			default:
 				break;
 		}
+	}
+
+	/**
+	 * Getting consumption data.
+	 *
+	 * @param int $num Number of energy source.
+	 *
+	 * @return array $verbrauchsdaten all data of energy source in an array.
+	 */
+	public function getVerbrauchsDaten( $num = 1 ) {
+		$name = 'h' . $num;
+
+		if( 1 === $num ) {
+			$name = 'h';
+		}
+
+		$verbrauchsdaten = array();
+
+		$verbrauchsdaten['energietraeger'] = $this->GetData( $name . '_energietraeger' );
+		$verbrauchsdaten['einheit'] = $this->getEnergietraegerUnit( $verbrauchsdaten['energietraeger'] );
+		$verbrauchsdaten['menge'][0] = $this->GetData( 'verbrauch1_' . $name , true );
+		$verbrauchsdaten['menge_mit_einheit'][0] = $verbrauchsdaten['menge'][0] . ' ' .$verbrauchsdaten['einheit'];
+		$verbrauchsdaten['leerstand'][0] = $this->GetData( 'verbrauch1_leerstand', true );
+
+		if( ! empty( $this->GetData( 'verbrauch1_' . $name , true ) ) ) {
+			$verbrauchsdaten['menge'][1] = $this->GetData( 'verbrauch2_' . $name , true );
+			$verbrauchsdaten['menge_mit_einheit'][1] = $verbrauchsdaten['menge'][1] . ' ' .$verbrauchsdaten['einheit'];
+			$verbrauchsdaten['leerstand'][1] = $this->GetData( 'verbrauch2_leerstand', true );
+		}
+
+		if( ! empty( $this->GetData( 'verbrauch2_' . $name , true ) ) ) {
+			$verbrauchsdaten['menge'][2] = $this->GetData( 'verbrauch3_' . $name , true );
+			$verbrauchsdaten['menge_mit_einheit'][2] = $verbrauchsdaten['menge'][2] . ' ' .$verbrauchsdaten['einheit'];
+			$verbrauchsdaten['leerstand'][2] = $this->GetData( 'verbrauch3_leerstand', true );
+		}
+
+		$verbrauchsdaten['verbrauch_warmwasser'] = '-';
+		if ( 'ww' === $this->GetData( 'ww_info' ) ) {
+			$verbrauchsdaten['verbrauch_warmwasser'] = $this->GetData( 'verbrauch' . $name . '_ww', true ) . ' ' . $verbrauchsdaten['einheit'];
+		}
+
+		return $verbrauchsdaten;
+	}
+
+	/**
+	 * Returns cunsumption quantity text.
+	 *
+	 * @param int $year Year of consumption (1,2 or 3)
+	 *
+	 * @return string $verbrauchmenge_text Text for consumtion field.
+	 */
+	public function getVerbrauchMengeText( $year ) {
+		$year = $year - 1;
+
+		$verbrauch = $this->getVerbrauchsDaten(1);
+		$verbrauchmenge_text = $verbrauch['menge_mit_einheit'][$year];
+
+		if ( $verbrauch = $this->getVerbrauchsDaten(2) ) {
+			$verbrauchmenge_text .= ' + ' . $verbrauch['menge_mit_einheit'][$year];
+		}
+
+		if ( $verbrauch = $this->getVerbrauchsDaten(3) ) {
+			$verbrauchmenge_text .= ' + ' . $verbrauch['menge_mit_einheit'][$year];
+		}
+
+		return $verbrauchmenge_text;
 	}
 
 	public function getEnergietraegerUnit( $energietraeger ) {
