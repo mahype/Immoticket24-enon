@@ -1020,7 +1020,7 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					$this->SetXY( 47, 36.5 );
 					$this->WriteCell( $dach_daemmung, 'L', 2, 141.5 );
 					$this->SetXY( 36, 49 );
-					$this->WriteCell( $dach_hoehe, 'L', 2, 161.5 );
+					$this->WriteCell( $dach_hoehe . ' m', 'L', 2, 161.5 ) ;
 					$anbau            = $this->GetData( 'anbau' );
 					$anbaudach_bauart = $this->GetData( 'anbaudach_bauart' );
 					$this->CheckBox( 20, 78, true );
