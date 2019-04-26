@@ -31,14 +31,14 @@ $status    = edd_get_payment_status( $payment, true );
 	<thead>
 		<?php do_action( 'edd_payment_receipt_before', $payment, $edd_receipt_args ); ?>
 
-		<?php if ( filter_var( $edd_receipt_args['payment_id'], FILTER_VALIDATE_BOOLEAN ) ) : ?>
+		<?php /* if ( filter_var( $edd_receipt_args['payment_id'], FILTER_VALIDATE_BOOLEAN ) ) : ?>
 		<tr>
 			<th><strong><?php _e( 'Payment', 'easy-digital-downloads' ); ?>:</strong></th>
 			<th><?php echo edd_get_payment_number( $payment->ID ); ?></th>
 		</tr>
-		<?php endif; ?>
+		<?php endif; */ ?>
 	</thead>
-
+<?php /*
 	<tbody>
 
 		<tr>
@@ -123,13 +123,15 @@ $status    = edd_get_payment_status( $payment, true );
 
 		<?php do_action( 'edd_payment_receipt_after', $payment, $edd_receipt_args ); ?>
 	</tbody>
+ <?php */ ?>
 </table>
 
 <?php do_action( 'edd_payment_receipt_after_table', $payment, $edd_receipt_args ); ?>
 
 <?php if ( filter_var( $edd_receipt_args['products'], FILTER_VALIDATE_BOOLEAN ) ) : ?>
-
+	<?php /*
 	<h3><?php echo apply_filters( 'edd_payment_receipt_products_title', __( 'Products', 'easy-digital-downloads' ) ); ?></h3>
+
 
 	<table id="edd_purchase_receipt_products" class="edd-table">
 		<thead>
@@ -256,4 +258,5 @@ $status    = edd_get_payment_status( $payment, true );
 		</tbody>
 
 	</table>
+ <?php */ ?>
 <?php endif; ?>
