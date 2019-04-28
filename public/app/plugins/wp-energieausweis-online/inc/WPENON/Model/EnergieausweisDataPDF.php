@@ -1360,7 +1360,7 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					$this->WriteCell( $end3, 'L', 2, 79.5 );
 
 					$this->SetXY( 72, 117.5 );
-					$this->WriteCell( $this->getVerbrauchMengeText( 2 ), 'L', 2, 125.5 );
+					$this->WriteCell( $this->getVerbrauchMengeText( 3 ), 'L', 2, 125.5 );
 					$verbrauch3_ww = '-';
 					if ( 'ww' === $this->GetData( 'ww_info' ) ) {
 						$verbrauch3_ww = $this->GetData( 'verbrauch3_ww', true ) . ' ' . $h_energietraeger_unit;
