@@ -17,7 +17,7 @@ class Branded_Login {
 		}
 
 		add_filter( 'login_headerurl', array( $this, 'get_url' ) );
-		add_filter( 'login_headertitle', array( $this, 'get_title' ) );
+		add_filter( 'login_headertext', array( $this, 'get_title' ) );
 		add_action( 'login_head', array( $this, 'print_styles' ) );
 	}
 
