@@ -456,8 +456,6 @@ function immoticketenergieausweis_adcell_tracking_script() {
 <noscript>
   <img src="' . $php_url . '" border="0" width="1" height="1">
 </noscript>
-<script type="text/javascript" src="https://t.adcell.com/js/trad.js"></script>
-<script>Adcell.Tracking.track();</script>
 ';
 
   return $output;
@@ -469,6 +467,8 @@ function immoticketenergieausweis_adcell_retargeting_script() {
   $args = array(
     'pid' => '4408',
   );
+
+  echo '<script type="text/javascript" src="https://t.adcell.com/js/trad.js"></script><script>Adcell.Tracking.track();</script>';
 
   if ( ! class_exists( 'WPENON\Model\EnergieausweisManager' ) ) {
     return;
