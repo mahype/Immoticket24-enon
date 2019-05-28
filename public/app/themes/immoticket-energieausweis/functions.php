@@ -444,6 +444,10 @@ function immoticketenergieausweis_show_certificate_gdpr_acceptance_popup() {
         $gdprAcceptance.prop( 'checked', true );
         $form.off( 'submit', onFormSubmit );
 	    $modal.modal( 'hide' );
+
+	      if( $('#eingabesupport').val() === 'false' ) {
+		      $form.submit();
+	      }
       });
 
       $( '#wpit_gdpr_proceed_noaccept' ).on( 'click', function() {
@@ -451,9 +455,14 @@ function immoticketenergieausweis_show_certificate_gdpr_acceptance_popup() {
         $gdprAcceptance.prop( 'checked', false );
         $form.off( 'submit', onFormSubmit );
 	    $modal.modal( 'hide' );
+
+	      if( $('#eingabesupport').val() === 'false' ) {
+		      $form.submit();
+	      }
       });
     } )( window.jQuery );
   </script>
+	<input type ="hidden" id="eingabesupport" value="false" />
   <?php
 }
 

@@ -413,9 +413,16 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 			return;
 		}
 
+		if( filter_input( INPUT_GET, 'iframe') === 'true' ) {
+			return;
+		}
+
 		?>
 		<script>
 			jQuery(document).ready(function ($) {
+				$('#eingabesupport').val( true );
+
+
 				var $form = $('#wpenon-generate-form');
 				var $modal = $('#wp-enon-eingabehilfe-popup');
 				var $gdprAcceptance = $('#gdpr_acceptance');
