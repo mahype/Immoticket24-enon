@@ -1007,16 +1007,13 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 								break;
 						}
 					}
-					if ( 'beheizt' === $dach ) {
-						$dach_daemmung = $this->GetData( 'dach_daemmung' );
-						if ( empty( $dach_daemmung ) ) {
-							$dach_daemmung = 0;
-						}
-						$dach_hoehe = $this->GetData( 'dach_hoehe', true );
-					} else {
-						$dach_daemmung = '';
-						$dach_hoehe    = '';
+
+					$dach_daemmung = $this->GetData( 'dach_daemmung' );
+					if ( empty( $dach_daemmung ) ) {
+						$dach_daemmung = 0;
 					}
+					$dach_hoehe = $this->GetData( 'dach_hoehe', true );
+
 					$this->SetXY( 47, 36.5 );
 					$this->WriteCell( $dach_daemmung, 'L', 2, 141.5 );
 					$this->SetXY( 36, 49 );
