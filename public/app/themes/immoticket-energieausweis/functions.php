@@ -43,6 +43,7 @@ require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/constants.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/theme-setup.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/backend.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/frontend.php';
+require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/iframe.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/whitelabel.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/whitelabel-email.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/whitelabel-confirmation-email.php';
@@ -540,7 +541,7 @@ function immoticketenergieausweis_show_terms_text( $purchase_button ) {
   $content = '';
 
   $privacy_page    = immoticketenergieausweis_get_option( 'it-theme', 'page_for_privacy' );
-  $terms_page      = immoticketenergieausweis_get_option( 'it-theme', 'page_for_terms' );
+  $terms_page      = immoticketenergieausweis_get_option( 'it-theme', 'paby_iframe_tokenge_for_terms' );
   $withdrawal_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_withdrawal' );
 
   $privacy_url    = add_query_arg( 'iframe', 'true', get_permalink( $privacy_page ) );
