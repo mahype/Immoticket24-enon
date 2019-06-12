@@ -209,6 +209,9 @@ class Frontend {
 					case 'data-pdf-view':
 						$this->energieausweis->getDataPDF( 'I' );
 						exit;
+					case 'data-pdf-view-anonymized':
+						$this->energieausweis->getDataAnonymizedPDF( 'I' );
+						exit;
 					case 'overview':
 					case 'edit':
 					case 'editoverview':

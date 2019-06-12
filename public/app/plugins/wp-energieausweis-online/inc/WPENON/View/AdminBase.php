@@ -139,6 +139,7 @@ class AdminBase extends TemplateBase {
 			$links['xml-datenerfassung']       = array( __( 'Registrierungs-XML ansehen', 'wpenon' ), true );
 			$links['xml-zusatzdatenerfassung'] = array( __( 'Daten-XML ansehen', 'wpenon' ), true );
 			$links['data-pdf-view']            = array( __( 'Daten-PDF ansehen', 'wpenon' ), true );
+			$links['data-pdf-view-anonymized'] = array( __( 'Anonymisierte Daten-PDF ansehen', 'wpenon' ), true );
 			$links['pdf-view']                 = array( __( 'PDF ansehen', 'wpenon' ), true );
 		}
 

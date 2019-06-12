@@ -235,6 +235,13 @@ class Energieausweis {
 		return $pdf->finalize( $output_mode );
 	}
 
+	public function getDataAnonymizedPDF( $output_mode = 'I' ) {
+		$pdf = new \WPENON\Model\EnergieausweisDataPDF( sprintf( __( 'Energieausweis-Daten-%s', 'wpenon' ), $this->post->post_title ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ), true );
+		$pdf->create( $this );
+
+		return $pdf->finalize( $output_mode );
+	}
+
 	public function getXML( $mode, $output_mode = 'I', $raw = false ) {
 		$xml = new \WPENON\Model\EnergieausweisXML( $mode, sprintf( __( 'Energieausweis-%1$s-%2$s', 'wpenon' ), $this->post->post_title, ucfirst( $mode ) ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ) );
 		if ( $this->isFinalized() ) {

@@ -8,6 +8,7 @@
 namespace WPENON\Model;
 
 class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
+	private $anonymized = '';
 	private $wpenon_title = '';
 	private $wpenon_type = 'bw';
 	private $wpenon_standard = 'enev2013';
@@ -23,13 +24,15 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 	private $wpenon_energieausweis = null;
 	private $wpenon_payment = null;
 
-	public function __construct( $title, $type, $standard ) {
+	public function __construct( $title, $type, $standard, $anonymized = false ) {
 		$this->wpenon_title    = $title;
 		$this->wpenon_type     = $type;
 		$this->wpenon_standard = $standard;
 
 		$this->wpenon_img_path = WPENON_PATH . '/assets/img/pdf/';
 		$this->wpenon_pdf_path = WPENON_PATH . '/assets/pdf/';
+
+		$this->anonymized = $anonymized;
 
 		$this->wpenon_colors = array(
 			'text'       => array( 0, 0, 0 ),
@@ -77,21 +80,26 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 	private function renderPage( $index ) {
 		switch ( $index ) {
 			case 1:
+
 				$this->SetPageFont( 'default' );
-				$this->SetXY( 39, 79 );
-				$this->WriteCell( $this->GetData( 'kontakt_name' ), 'L', 2, 63 );
-				$this->SetXY( 39, 89.25 );
-				$this->WriteCell( $this->GetData( 'kontakt_adresse_strassenr' ), 'L', 2, 63 );
-				$this->SetXY( 39, 99.5 );
-				$this->WriteCell( $this->GetData( 'kontakt_adresse_plz' ) . ' ' . $this->GetData( 'kontakt_adresse_ort' ), 'L', 2, 63 );
-				$this->SetXY( 39, 109.75 );
-				$this->WriteCell( $this->GetData( 'kontakt_telefon' ), 'L', 2, 63 );
-				$this->SetXY( 39, 120 );
-				$this->WriteCell( $this->GetData( 'wpenon_email' ), 'L', 2, 63 );
-				$this->SetXY( 134.5, 79 );
-				$this->WriteCell( $this->GetData( 'adresse_strassenr' ), 'L', 2, 63 );
-				$this->SetXY( 134.5, 89.25 );
-				$this->WriteCell( $this->GetData( 'adresse_plz' ) . ' ' . $this->GetData( 'adresse_ort' ), 'L', 2, 63 );
+
+				if( ! $this->anonymized ) {
+					$this->SetXY( 39, 79 );
+					$this->WriteCell( $this->GetData( 'kontakt_name' ), 'L', 2, 63 );
+					$this->SetXY( 39, 89.25 );
+					$this->WriteCell( $this->GetData( 'kontakt_adresse_strassenr' ), 'L', 2, 63 );
+					$this->SetXY( 39, 99.5 );
+					$this->WriteCell( $this->GetData( 'kontakt_adresse_plz' ) . ' ' . $this->GetData( 'kontakt_adresse_ort' ), 'L', 2, 63 );
+					$this->SetXY( 39, 109.75 );
+					$this->WriteCell( $this->GetData( 'kontakt_telefon' ), 'L', 2, 63 );
+					$this->SetXY( 39, 120 );
+					$this->WriteCell( $this->GetData( 'wpenon_email' ), 'L', 2, 63 );
+					$this->SetXY( 134.5, 79 );
+					$this->WriteCell( $this->GetData( 'adresse_strassenr' ), 'L', 2, 63 );
+					$this->SetXY( 134.5, 89.25 );
+					$this->WriteCell( $this->GetData( 'adresse_plz' ) . ' ' . $this->GetData( 'adresse_ort' ), 'L', 2, 63 );
+				}
+
 				$anlass = $this->GetData( 'anlass' );
 				$this->CheckBox( 15, 160, true );
 				$this->CheckBox( 101, 160, true );
