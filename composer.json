@@ -40,13 +40,15 @@
     "wpackagist-plugin/easy-digital-downloads": "2.9.3",
     "wpackagist-plugin/imagify": "1.9.2",
     "wpackagist-plugin/imsanity": "2.4.2",
+    "wpackagist-plugin/wordfence":"7.3.3",
     "wpackagist-plugin/lazy-load": "0.6.1",
     "wpackagist-plugin/login-lockdown": "v1.7.1",
     "wpackagist-plugin/really-simple-captcha": "2.0.1",
     "wpackagist-plugin/shariff": "4.6.2",
     "wpackagist-plugin/vaultpress": "1.9.10",
     "wpackagist-plugin/wp-maintenance-mode": "2.2.4",
-    "wpackagist-plugin/wp-postratings": "1.86.2"
+    "wpackagist-plugin/wp-postratings": "1.86.2",
+    "wpackagist-plugin/wp-security-audit-log":"3.4.1"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "3.*",
