@@ -8,7 +8,7 @@ Add the following to the `sites` section of your `vvv-custom.yml`. If you don't 
 
 ```
 energieausweis-online-erstellen:
-  repo: https://github.com/mahype/energieausweis-online-erstellen-network.git
+  repo: git@github.com:mahype/energieausweis-online-erstellen-network.git
   hosts:
     - energieausweis-online-erstellen.test
   custom:
