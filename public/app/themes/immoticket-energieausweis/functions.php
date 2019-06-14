@@ -44,8 +44,14 @@ require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/theme-setup.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/backend.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/frontend.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/iframe.php';
+require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/whitelabel.php';
+require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/whitelabel-email.php';
+require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/whitelabel-confirmation-email.php';
+require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/whitelabel-order-confirmation-email.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/optimizepress-compat.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/banner-widget.php';
+
+$whitelabel = new EA_Whitelabel();
 
 function immoticketenergieausweis_head_cleanup() {
   remove_action( 'wp_head', 'feed_links', 2 );
@@ -110,7 +116,23 @@ add_filter( 'wpenon_email_signature', 'immoticketenergieausweis_email_signature'
 
 function immoticketenergieausweis_empty_cart_message( $message ) {
   $message .= '<br><br>';
-  $message .= __( 'Um Ihr Energieausweis-Projekt erneut aufzurufen, verwenden Sie bitte den Zugriffs-Link, den Sie bei Erstellung des Projekts per Email erhalten haben.', 'immoticketenergieausweis' );
+
+  $message .= __( '<p>Um Ihre Energieausweis-Bestellung abschließen zu können, müssen Sie hierfür Cookies akzeptieren, damit die eingegebenen Angaben für die Bestellung übernommen werden können.</p>
+
+<p>Dies können Sie in Ihrem Browser wie folgt erledigen:</p>
+
+<p><strong>Safari:</strong></p> 
+<p>Einstellungen => Datenschutz => "Alle Cookies blockieren" deaktivieren</p>
+
+<p><strong>Firefox:</strong></p> 
+<p>Einstellungen => Datenschutz & Sicherheit => "Annehmen von Cookies und Website-Daten" aktivieren</p>
+
+<p><strong>Chrome:</strong></p>
+<p>Einstellungen => Erweitert => Datenschutz & Sicherheit => "Bei Browserzugriffen eine Do not track-Anforderung mitsenden" deaktivieren</p>', 'immoticketenergieausweis' );
+
+  $message .= __( '<p>Um Ihr Energieausweis-Projekt erneut aufzurufen, verwenden Sie bitte den Zugriffs-Link, den Sie bei der Erstellung des Projekts per Email erhalten haben.</p>', 'immoticketenergieausweis' );
+  $message .= '<p><button onclick="javascript:history.back();" class="btn btn-primary">' . __( 'Zurück zum Energieausweis', 'immoticketenergieausweis' ) . '</button></p>';
+
   return $message;
 }
 add_filter( 'edd_empty_cart_message', 'immoticketenergieausweis_empty_cart_message' );
@@ -350,8 +372,9 @@ function immoticketenergieausweis_show_certificate_gdpr_acceptance_field( $data 
 
   $privacy_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_privacy' );
   $privacy_url  = add_query_arg( 'iframe', 'true', get_permalink( $privacy_page ) );
+  $privacy_url  = add_query_arg( 'iframe_token', 'hazsudga7t6713r41f6178fcv', $privacy_url );
 
-  $onclick         = 'onclick="return !window.open( this.href, \'%s\', \'width=500,height=500,top=100,left=100\' )" target="_blank"';
+  $onclick         = 'onclick="return !; window.open( this.href, \'%s\', \'width=500,height=500,top=100,left=100\' )" target="_blank"';
   $privacy_onclick = sprintf( $onclick, get_the_title( $privacy_page ) );
 
   ?>
@@ -423,6 +446,10 @@ function immoticketenergieausweis_show_certificate_gdpr_acceptance_popup() {
         $gdprAcceptance.prop( 'checked', true );
         $form.off( 'submit', onFormSubmit );
 	    $modal.modal( 'hide' );
+
+	      if( $('#eingabesupport').val() === 'false' ) {
+		      $form.submit();
+	      }
       });
 
       $( '#wpit_gdpr_proceed_noaccept' ).on( 'click', function() {
@@ -430,9 +457,14 @@ function immoticketenergieausweis_show_certificate_gdpr_acceptance_popup() {
         $gdprAcceptance.prop( 'checked', false );
         $form.off( 'submit', onFormSubmit );
 	    $modal.modal( 'hide' );
+
+	      if( $('#eingabesupport').val() === 'false' ) {
+		      $form.submit();
+	      }
       });
     } )( window.jQuery );
   </script>
+	<input type ="hidden" id="eingabesupport" value="false" />
   <?php
 }
 
@@ -509,7 +541,7 @@ function immoticketenergieausweis_show_terms_text( $purchase_button ) {
   $content = '';
 
   $privacy_page    = immoticketenergieausweis_get_option( 'it-theme', 'page_for_privacy' );
-  $terms_page      = immoticketenergieausweis_get_option( 'it-theme', 'page_for_terms' );
+  $terms_page      = immoticketenergieausweis_get_option( 'it-theme', 'paby_iframe_tokenge_for_terms' );
   $withdrawal_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_withdrawal' );
 
   $privacy_url    = add_query_arg( 'iframe', 'true', get_permalink( $privacy_page ) );
@@ -833,3 +865,10 @@ function immoticketenergieausweis_special_affiliate_email_notice( $payment_id = 
 }
 remove_action( 'edd_admin_sale_notice', 'edd_admin_email_notice', 10 );
 add_action( 'edd_admin_sale_notice', 'immoticketenergieausweis_special_affiliate_email_notice', 10, 2 );
+
+function immoticketenergieausweis_enable_extended_upload ( $mime_types = array() ) {
+	$mime_types['csv'] = 'text/plain';
+	return $mime_types;
+}
+
+add_filter( 'upload_mimes', 'immoticketenergieausweis_enable_extended_upload' );

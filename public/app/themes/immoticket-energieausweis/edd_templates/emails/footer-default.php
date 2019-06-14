@@ -25,7 +25,8 @@ $credit = "
   text-align:center;
 ";
 
-$business_data = immoticketenergieausweis_get_option( 'it-business' );
+$business_data = apply_filters( 'wpenon_email_footer_businessdata', immoticketenergieausweis_get_option( 'it-business' ) );
+$alternative_footer = apply_filters( 'wpenon_alternative_email_footer', false );
 if ( ! empty( $business_data['firmenname'] ) ) {
   $firmenname = $business_data['firmenname'];
 } else {
@@ -46,6 +47,7 @@ if ( ! empty( $business_data['firmenname'] ) ) {
                             <tr>
                                 <td align="center" valign="top">
                                     <!-- Footer -->
+	                                <?php if( ! $alternative_footer ): ?>
                                     <table border="0" cellpadding="10" cellspacing="0" width="600" id="template_footer" style="<?php echo $template_footer; ?>">
                                         <tr>
                                             <td valign="top">
@@ -54,12 +56,14 @@ if ( ! empty( $business_data['firmenname'] ) ) {
                                                         <td colspan="2" valign="middle" id="credit" style="<?php echo $credit; ?>">
                                                           <p style="margin-top: 0 !important;">
                                                             <strong><?php echo $firmenname; ?></strong><br />
-                                                            <?php echo $business_data['strassenr']; ?><br />
-                                                            <?php echo $business_data['plz'] . ' ' . $business_data['ort']; ?><br />
-                                                            Telefon: <?php echo $business_data['telefon']; ?><br />
-                                                            Email: <?php echo str_replace( '@', '(at)', $business_data['email'] ); ?>
+                                                            <?php if( ! empty($business_data['strassenr']) ): ?><?php echo $business_data['strassenr']; ?><br /><?php endif; ?>
+	                                                        <?php if( ! empty($business_data['plz']) ): ?><?php echo $business_data['plz'] . ' ' . $business_data['ort']; ?><br /><?php endif; ?>
+	                                                        <?php if( ! empty($business_data['telefon']) ): ?>Telefon: <?php echo $business_data['telefon']; ?><br /><?php endif; ?>
+	                                                        <?php if( ! empty($business_data['email']) ): ?> Email: <?php echo str_replace( '@', '(at)', $business_data['email'] ); ?><?php endif; ?>
                                                           </p>
+
                                                           <p>
+	                                                        <?php if( ! empty($business_data['geschaeftsfuehrer']) ): ?>
                                                             Geschäftsführer: <?php
                                                             $first = true;
                                                             foreach ( $business_data['geschaeftsfuehrer'] as $person ) {
@@ -72,8 +76,9 @@ if ( ! empty( $business_data['firmenname'] ) ) {
                                                               }
                                                             }
                                                             ?><br />
-                                                            <?php echo $business_data['handelsregister']; ?><br />
-                                                            USt-Identifikationsnummer: <?php echo $business_data['ustidnr']; ?>
+	                                                        <?php endif; ?>
+	                                                        <?php if( ! empty($business_data['handelsregister']) ): ?><?php echo $business_data['handelsregister']; ?><br /><?php endif; ?>
+	                                                        <?php if( ! empty($business_data['ustidnr']) ): ?>USt-Identifikationsnummer: <?php echo $business_data['ustidnr']; ?><?php endif; ?>
                                                           </p>
                                                           <?php echo wpautop( wp_kses_post( wptexturize( apply_filters( 'edd_email_footer_text', '<a href="' . esc_url( home_url() ) . '">' . get_bloginfo( 'name' ) . '</a>' ) ) ) ); ?>
                                                         </td>
@@ -82,6 +87,9 @@ if ( ! empty( $business_data['firmenname'] ) ) {
                                             </td>
                                         </tr>
                                     </table>
+	                                <?php else: ?>
+	                                    <?php echo $alternative_footer; ?>
+	                                <?php endif; ?>
                                     <!-- End Footer -->
                                 </td>
                             </tr>

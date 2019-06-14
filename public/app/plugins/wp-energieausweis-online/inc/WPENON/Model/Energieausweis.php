@@ -58,7 +58,7 @@ class Energieausweis {
 			if ( $this->schema->isField( $field ) ) {
 				$old_value = get_post_meta( $this->id, $field, true );
 
-				if ( $value !== $old_value ) {
+				if ( (string) $value !== (string) $old_value ) {
 					update_post_meta( $this->id, $field, $value );
 
 					if ( $field == 'wpenon_email' ) {
@@ -136,6 +136,9 @@ class Energieausweis {
 						break;
 					case 'float':
 						$ret = \WPENON\Util\Parse::float( $ret );
+						break;
+					case 'float_length':
+						$ret = \WPENON\Util\Parse::float_length( $ret );
 						break;
 					case 'int':
 						$ret = \WPENON\Util\Parse::int( $ret );
@@ -227,6 +230,13 @@ class Energieausweis {
 
 	public function getDataPDF( $output_mode = 'I' ) {
 		$pdf = new \WPENON\Model\EnergieausweisDataPDF( sprintf( __( 'Energieausweis-Daten-%s', 'wpenon' ), $this->post->post_title ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ) );
+		$pdf->create( $this );
+
+		return $pdf->finalize( $output_mode );
+	}
+
+	public function getDataAnonymizedPDF( $output_mode = 'I' ) {
+		$pdf = new \WPENON\Model\EnergieausweisDataPDF( sprintf( __( 'Energieausweis-Daten-%s', 'wpenon' ), $this->post->post_title ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ), true );
 		$pdf->create( $this );
 
 		return $pdf->finalize( $output_mode );
@@ -324,7 +334,7 @@ class Energieausweis {
 	}
 
 	public function isRegistered() {
-		return (bool) get_post_meta( $this->id, '_registered', true ) || ! empty( trim( get_post_meta( $this->id, 'registriernummer', true ) ) );
+		return ! empty( trim( get_post_meta( $this->id, 'registriernummer', true ) ) );
 	}
 
 	public function isDataSent() {

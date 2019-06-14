@@ -70,7 +70,7 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 
 			}
 
-			$price = rcp_get_registration()->get_total( true, true );
+			$price = rcp_get_registration()->get_total( true, false );
 
 		} else {
 
@@ -159,11 +159,7 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 
 		}
 
-		$rate = apply_filters( 'affwp_get_product_rate', $rate, $level_id, $args, $this->affiliate_id, $this->context );
-
-		$rate = affwp_sanitize_referral_rate( $rate );
-
-		return $rate;
+		return apply_filters( 'affwp_get_product_rate', $rate, $level_id, $args, $this->affiliate_id, $this->context );
 
 	}
 
@@ -181,18 +177,16 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 
 		if( ! empty( $subscription_key ) ) {
 
-			$rcp_payments_db_name = rcp_get_payments_db_name();
-
-			$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM $rcp_payments_db_name WHERE subscription_key = '%s' LIMIT 1;", $subscription_key ) );
+			$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'rcp_subscription_key' AND meta_value = '%s' LIMIT 1;", $subscription_key ) );
 
 			if( $user_id ) {
 
 				$user = get_userdata( $user_id );
 
 				$customer = array(
-					'first_name'   => $user ? $user->first_name : '',
-					'last_name'    => $user ? $user->last_name : '',
-					'email'        => $user ? $user->user_email : '',
+					'first_name'   => is_user_logged_in() && $user ? $user->last_name : '',
+					'last_name'    => is_user_logged_in() && $user ? $user->first_name : '',
+					'email'        => is_user_logged_in() && $user ? $user->user_email : $this->email,
 					'user_id'      => $user_id,
 					'affiliate_id' => $this->affiliate_id
 				);
@@ -204,9 +198,9 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 		if( empty( $customer ) ) {
 
 			$customer = array(
-				'first_name'   => is_user_logged_in() ? wp_get_current_user()->first_name : '',
-				'last_name'    => is_user_logged_in() ? wp_get_current_user()->last_name : '',
-				'email'        => is_user_logged_in() ? wp_get_current_user()->user_email : '',
+				'first_name'   => is_user_logged_in() ? wp_get_current_user()->last_name : '',
+				'last_name'    => is_user_logged_in() ? wp_get_current_user()->first_name : '',
+				'email'        => is_user_logged_in() ? wp_get_current_user()->user_email : $this->email,
 				'user_id'      => get_current_user_id(),
 				'ip'           => affiliate_wp()->tracking->get_ip(),
 				'affiliate_id' => $this->affiliate_id

@@ -20,6 +20,7 @@ function immoticketenergieausweis_enqueue_scripts()
     wp_enqueue_script( 'jquery-fancybox', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dev/fancybox/source/jquery.fancybox.pack.js', array( 'jquery' ), '2.1.5', true );
   }
 
+  wp_enqueue_script( 'jquery-are-you-sure', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dev/jquery/dist/jquery.are-you-sure.js', array( 'jquery' ), '1.9.0', true );
   wp_enqueue_script( 'immoticketenergieausweis', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dist/immoticketenergieausweis.min.js', array( 'jquery' ), IMMOTICKETENERGIEAUSWEIS_THEME_VERSION, true );
 }
 add_action( 'wp_enqueue_scripts', 'immoticketenergieausweis_enqueue_scripts' );
@@ -464,8 +465,10 @@ add_shortcode( 'adcell_tracking_script', 'immoticketenergieausweis_adcell_tracki
 function immoticketenergieausweis_adcell_retargeting_script() {
   $url = 'https://www.adcell.de/js/inlineretarget.js';
   $args = array(
-    'pid' => '408',
+    'pid' => '4408',
   );
+
+  echo '<script type="text/javascript" src="https://t.adcell.com/js/trad.js"></script><script>Adcell.Tracking.track();</script>';
 
   if ( ! class_exists( 'WPENON\Model\EnergieausweisManager' ) ) {
     return;
@@ -474,7 +477,7 @@ function immoticketenergieausweis_adcell_retargeting_script() {
   $types    = WPENON\Model\EnergieausweisManager::getAvailableTypes();
   $type_ids = array_map( function( $id ) { return $id + 1; }, array_flip( array_keys( $types ) ) );
 
-  if ( is_front_page() ) {
+  if ( is_front_page() || ( is_page() && get_the_ID() === 29066 ) ) {
     $args['method'] = 'track';
     $args['type']   = 'startpage';
   } elseif ( is_singular() ) {
@@ -906,6 +909,18 @@ function immoticketenergieausweis_display_business_data( $data )
   }
   echo '</div>';
 }
+
+function wpenon_alert_leave( $data ) { ?>
+	<script language="JavaScript">
+		jQuery(document).ready(function($) {
+			$('#wpenon-generate-form').areYouSure({'message': 'Wir bitten Sie zu bestätigen, dass Sie die Seite verlassen möchten.'});
+		});
+	</script>
+<?php
+}
+
+add_action('wpenon_form_end', 'wpenon_alert_leave' );
+
 
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/navigation.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/carousel.php';

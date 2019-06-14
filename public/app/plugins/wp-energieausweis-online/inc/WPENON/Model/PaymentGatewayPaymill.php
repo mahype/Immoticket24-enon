@@ -34,6 +34,7 @@ class PaymentGatewayPaymill extends \WPENON\Model\PaymentGateway {
 
 		// Record the pending payment
 		$payment_id = edd_insert_payment( $payment_data );
+		$this->log( sprintf( 'Inserted payment data: %s', print_r( $payment_data, true ) ) );
 
 		if ( ! $payment_id ) {
 			$this->_handlePaymentError( $payment_id, sprintf( __( 'Payment creation failed while processing a Paymill purchase. Payment data: %s', 'wpenon' ), json_encode( $payment_data ) ), true );
@@ -71,6 +72,7 @@ class PaymentGatewayPaymill extends \WPENON\Model\PaymentGateway {
 						$response  = $request->create( $client );
 						$client_id = $response->getId();
 					} catch ( \Exception $e ) {
+                        $this->_handlePaymentError( $payment_id, sprintf( 'Paymill Request error: %s', $e->getMessage() ), true );
 					}
 
 					if ( ! empty( $client_id ) ) {
@@ -110,6 +112,8 @@ class PaymentGatewayPaymill extends \WPENON\Model\PaymentGateway {
 		if ( empty( $input ) ) {
 			$this->_handlePaymentProcessError( null, __( 'Missing POST data.', 'wpenon' ), true );
 		}
+
+		$this->log( sprintf( 'Incoming Request: %s', var_export( $input, true ) ) );
 
 		try {
 			$data = json_decode( $input, true );

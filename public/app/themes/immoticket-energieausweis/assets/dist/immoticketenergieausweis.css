@@ -6553,6 +6553,9 @@ a img.aligncenter {
 .wpenon-not-finalized-message {
   color: #d9534f;
 }
+.edd_cart_actions {
+	display:none;
+}
 #edd_checkout_form_wrap span.edd-description {
   display: none !important;
 }
@@ -6563,14 +6566,6 @@ a img.aligncenter {
 .it24-terms-acceptance {
   margin-bottom: 15px;
   font-size: 14px;
-}
-
-#edd_custom_fees_selection #edd_custom_fee_eingabesupport,
-#edd_custom_fees_selection #edd_custom_fee_eingabesupport + label {
-	pointer-events:none;
-}
-#edd_checkout_cart #edd_cart_fee_eingabesupport td:nth-child(3) a {
-	display: none;
 }
 .modal-banner {
 	width:100%;

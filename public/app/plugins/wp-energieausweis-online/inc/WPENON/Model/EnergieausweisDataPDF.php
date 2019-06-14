@@ -8,6 +8,7 @@
 namespace WPENON\Model;
 
 class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
+	private $anonymized = '';
 	private $wpenon_title = '';
 	private $wpenon_type = 'bw';
 	private $wpenon_standard = 'enev2013';
@@ -23,13 +24,15 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 	private $wpenon_energieausweis = null;
 	private $wpenon_payment = null;
 
-	public function __construct( $title, $type, $standard ) {
+	public function __construct( $title, $type, $standard, $anonymized = false ) {
 		$this->wpenon_title    = $title;
 		$this->wpenon_type     = $type;
 		$this->wpenon_standard = $standard;
 
 		$this->wpenon_img_path = WPENON_PATH . '/assets/img/pdf/';
 		$this->wpenon_pdf_path = WPENON_PATH . '/assets/pdf/';
+
+		$this->anonymized = $anonymized;
 
 		$this->wpenon_colors = array(
 			'text'       => array( 0, 0, 0 ),
@@ -77,21 +80,26 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 	private function renderPage( $index ) {
 		switch ( $index ) {
 			case 1:
+
 				$this->SetPageFont( 'default' );
-				$this->SetXY( 39, 79 );
-				$this->WriteCell( $this->GetData( 'kontakt_name' ), 'L', 2, 63 );
-				$this->SetXY( 39, 89.25 );
-				$this->WriteCell( $this->GetData( 'kontakt_adresse_strassenr' ), 'L', 2, 63 );
-				$this->SetXY( 39, 99.5 );
-				$this->WriteCell( $this->GetData( 'kontakt_adresse_plz' ) . ' ' . $this->GetData( 'kontakt_adresse_ort' ), 'L', 2, 63 );
-				$this->SetXY( 39, 109.75 );
-				$this->WriteCell( $this->GetData( 'kontakt_telefon' ), 'L', 2, 63 );
-				$this->SetXY( 39, 120 );
-				$this->WriteCell( $this->GetData( 'wpenon_email' ), 'L', 2, 63 );
-				$this->SetXY( 134.5, 79 );
-				$this->WriteCell( $this->GetData( 'adresse_strassenr' ), 'L', 2, 63 );
-				$this->SetXY( 134.5, 89.25 );
-				$this->WriteCell( $this->GetData( 'adresse_plz' ) . ' ' . $this->GetData( 'adresse_ort' ), 'L', 2, 63 );
+
+				if( ! $this->anonymized ) {
+					$this->SetXY( 39, 79 );
+					$this->WriteCell( $this->GetData( 'kontakt_name' ), 'L', 2, 63 );
+					$this->SetXY( 39, 89.25 );
+					$this->WriteCell( $this->GetData( 'kontakt_adresse_strassenr' ), 'L', 2, 63 );
+					$this->SetXY( 39, 99.5 );
+					$this->WriteCell( $this->GetData( 'kontakt_adresse_plz' ) . ' ' . $this->GetData( 'kontakt_adresse_ort' ), 'L', 2, 63 );
+					$this->SetXY( 39, 109.75 );
+					$this->WriteCell( $this->GetData( 'kontakt_telefon' ), 'L', 2, 63 );
+					$this->SetXY( 39, 120 );
+					$this->WriteCell( $this->GetData( 'wpenon_email' ), 'L', 2, 63 );
+					$this->SetXY( 134.5, 79 );
+					$this->WriteCell( $this->GetData( 'adresse_strassenr' ), 'L', 2, 63 );
+					$this->SetXY( 134.5, 89.25 );
+					$this->WriteCell( $this->GetData( 'adresse_plz' ) . ' ' . $this->GetData( 'adresse_ort' ), 'L', 2, 63 );
+				}
+
 				$anlass = $this->GetData( 'anlass' );
 				$this->CheckBox( 15, 160, true );
 				$this->CheckBox( 101, 160, true );
@@ -1007,20 +1015,17 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 								break;
 						}
 					}
-					if ( 'beheizt' === $dach ) {
-						$dach_daemmung = $this->GetData( 'dach_daemmung' );
-						if ( empty( $dach_daemmung ) ) {
-							$dach_daemmung = 0;
-						}
-						$dach_hoehe = $this->GetData( 'dach_hoehe', true );
-					} else {
-						$dach_daemmung = '';
-						$dach_hoehe    = '';
+
+					$dach_daemmung = $this->GetData( 'dach_daemmung' );
+					if ( empty( $dach_daemmung ) ) {
+						$dach_daemmung = 0;
 					}
+					$dach_hoehe = $this->GetData( 'dach_hoehe', true );
+
 					$this->SetXY( 47, 36.5 );
 					$this->WriteCell( $dach_daemmung, 'L', 2, 141.5 );
 					$this->SetXY( 36, 49 );
-					$this->WriteCell( $dach_hoehe, 'L', 2, 161.5 );
+					$this->WriteCell( $dach_hoehe . ' m', 'L', 2, 161.5 ) ;
 					$anbau            = $this->GetData( 'anbau' );
 					$anbaudach_bauart = $this->GetData( 'anbaudach_bauart' );
 					$this->CheckBox( 20, 78, true );
@@ -1124,6 +1129,8 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 				break;
 			case 6:
 				$this->SetPageFont( 'default' );
+
+
 				if ( 'vw' === $this->wpenon_type ) {
 					$l_info = $this->GetData( 'l_info' );
 					$this->CheckBox( 15, 64, true );
@@ -1159,12 +1166,16 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					$this->WriteCell( $start1, 'L', 2, 56 );
 					$this->SetXY( 118, 149.5 );
 					$this->WriteCell( $end1, 'L', 2, 79.5 );
-					$verbrauch1_h = $this->GetData( 'verbrauch1_h', true ) . ' kWh';
+
+					$h_energietraeger = $this->GetData( 'h_energietraeger' );
+					$h_energietraeger_unit = $this->getEnergietraegerUnit( $h_energietraeger );
+
 					$this->SetXY( 72, 160 );
-					$this->WriteCell( $verbrauch1_h, 'L', 2, 125.5 );
+					$this->WriteCell( $this->getVerbrauchMengeText( 1 ), 'L', 2, 125.5 );
+
 					$verbrauch1_ww = '-';
 					if ( 'ww' === $this->GetData( 'ww_info' ) ) {
-						$verbrauch1_ww = $this->GetData( 'verbrauch1_ww', true ) . ' kWh';
+						$verbrauch1_ww = $this->GetData( 'verbrauch1_ww', true ) . ' ' . $h_energietraeger_unit;
 					}
 					$this->SetXY( 79, 171 );
 					$this->WriteCell( $verbrauch1_ww, 'L', 2, 118.5 );
@@ -1174,6 +1185,8 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					}
 					$this->SetXY( 59, 186 );
 					$this->WriteCell( $verbrauch1_leerstand, 'L', 2, 138.5 );
+
+
 				} else {
 					$fenster_bauart = $this->GetData( 'fenster_bauart' );
 					$this->CheckBox( 15, 43, true );
@@ -1317,6 +1330,9 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 				break;
 			case 7:
 				$this->SetPageFont( 'default' );
+				$h_energietraeger = $this->GetData( 'h_energietraeger' );
+				$h_energietraeger_unit = $this->getEnergietraegerUnit( $h_energietraeger );
+
 				if ( 'vw' === $this->wpenon_type ) {
 					$klimafaktoren_datum = $this->GetData( 'verbrauch_zeitraum' );
 					$start2              = wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $klimafaktoren_datum, 1, false, 'data' );
@@ -1325,12 +1341,13 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					$this->WriteCell( $start2, 'L', 2, 56 );
 					$this->SetXY( 118, 44.5 );
 					$this->WriteCell( $end2, 'L', 2, 79.5 );
-					$verbrauch2_h = $this->GetData( 'verbrauch2_h', true ) . ' kWh';
+
+
 					$this->SetXY( 72, 55 );
-					$this->WriteCell( $verbrauch2_h, 'L', 2, 125.5 );
+					$this->WriteCell( $this->getVerbrauchMengeText( 2 ), 'L', 2, 125.5 );
 					$verbrauch2_ww = '-';
 					if ( 'ww' === $this->GetData( 'ww_info' ) ) {
-						$verbrauch2_ww = $this->GetData( 'verbrauch2_ww', true ) . ' kWh';
+						$verbrauch2_ww = $this->GetData( 'verbrauch2_ww', true ) . ' ' . $h_energietraeger_unit;
 					}
 					$this->SetXY( 79, 66 );
 					$this->WriteCell( $verbrauch2_ww, 'L', 2, 118.5 );
@@ -1346,12 +1363,12 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					$this->WriteCell( $start3, 'L', 2, 56 );
 					$this->SetXY( 118, 107 );
 					$this->WriteCell( $end3, 'L', 2, 79.5 );
-					$verbrauch3_h = $this->GetData( 'verbrauch3_h', true ) . ' kWh';
+
 					$this->SetXY( 72, 117.5 );
-					$this->WriteCell( $verbrauch3_h, 'L', 2, 125.5 );
+					$this->WriteCell( $this->getVerbrauchMengeText( 3 ), 'L', 2, 125.5 );
 					$verbrauch3_ww = '-';
 					if ( 'ww' === $this->GetData( 'ww_info' ) ) {
-						$verbrauch3_ww = $this->GetData( 'verbrauch3_ww', true ) . ' kWh';
+						$verbrauch3_ww = $this->GetData( 'verbrauch3_ww', true ) . ' ' . $h_energietraeger_unit;
 					}
 					$this->SetXY( 79, 128.5 );
 					$this->WriteCell( $verbrauch3_ww, 'L', 2, 118.5 );
@@ -1755,6 +1772,140 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 				}
 				break;
 			default:
+				break;
+		}
+	}
+
+	/**
+	 * Getting consumption data.
+	 *
+	 * @param int $num Number of energy source.
+	 *
+	 * @return array|bool $verbrauchsdaten all data of energy source in an array false if there is no value.
+	 */
+	public function getVerbrauchsDaten( $num = 1 ) {
+		$name = 'h' . $num;
+
+		if( 1 === $num ) {
+			$name = 'h';
+		}
+
+		$verbrauchsdaten = array();
+
+		$verbrauchsdaten['energietraeger'] = $this->GetData( $name . '_energietraeger' );
+
+		$verbrauchsdaten['einheit'] = $this->getEnergietraegerUnit( $verbrauchsdaten['energietraeger'] );
+		$verbrauchsdaten['menge'][0] = $this->GetData( 'verbrauch1_' . $name , true );
+		$verbrauchsdaten['menge_mit_einheit'][0] = $verbrauchsdaten['menge'][0] . ' ' .$verbrauchsdaten['einheit'];
+		$verbrauchsdaten['leerstand'][0] = $this->GetData( 'verbrauch1_leerstand', true );
+
+		$verbrauchsdaten['menge'][1] = $this->GetData( 'verbrauch2_' . $name , true );
+		$verbrauchsdaten['menge_mit_einheit'][1] = $verbrauchsdaten['menge'][1] . ' ' .$verbrauchsdaten['einheit'];
+		$verbrauchsdaten['leerstand'][1] = $this->GetData( 'verbrauch2_leerstand', true );
+
+		$verbrauchsdaten['menge'][2] = $this->GetData( 'verbrauch3_' . $name , true );
+		$verbrauchsdaten['menge_mit_einheit'][2] = $verbrauchsdaten['menge'][2] . ' ' .$verbrauchsdaten['einheit'];
+		$verbrauchsdaten['leerstand'][2] = $this->GetData( 'verbrauch3_leerstand', true );
+
+		$verbrauchsdaten['verbrauch_warmwasser'] = '-';
+		if ( 'ww' === $this->GetData( 'ww_info' ) ) {
+			$verbrauchsdaten['verbrauch_warmwasser'] = $this->GetData( 'verbrauch' . $name . '_ww', true ) . ' ' . $verbrauchsdaten['einheit'];
+		}
+
+		return $verbrauchsdaten;
+	}
+
+	/**
+	 * Returns cunsumption quantity text.
+	 *
+	 * @param int $year Year of consumption (1,2 or 3)
+	 *
+	 * @return string $verbrauchmenge_text Text for consumtion field.
+	 */
+	public function getVerbrauchMengeText( $year ) {
+		$year = $year - 1;
+
+		$verbrauch = $this->getVerbrauchsDaten(1);
+		$verbrauchmenge_text = $verbrauch['menge_mit_einheit'][$year];
+
+		$verbrauch = $this->getVerbrauchsDaten(2);
+		if ( 0 !== intval( $verbrauch['menge'][$year] ) ) {
+			$verbrauchmenge_text .= ' + ' . $verbrauch['menge_mit_einheit'][$year];
+		}
+
+		$verbrauch = $this->getVerbrauchsDaten(3);
+		if ( 0 !== intval( $verbrauch['menge'][$year] ) ) {
+			$verbrauchmenge_text .= ' + ' . $verbrauch['menge_mit_einheit'][$year];
+		}
+
+		return $verbrauchmenge_text;
+	}
+
+	public function getEnergietraegerUnit( $energietraeger ) {
+		switch ( $energietraeger ) {
+			case 'heizoel':
+			case 'heizoel_l':
+			case 'heizoelbiooel':
+			case 'heizoelbiooel_l':
+			case 'biooel':
+			case 'biooel_l':
+			case 'erdgas':
+			case 'erdgasbiogas':
+			case 'biogas':
+			case 'fluessiggas':
+			case 'fluessiggas_l':
+				return 'L';
+				break;
+			case 'heizoel_m3':
+			case 'erdgas_m3':
+			case 'erdgasbiogas_m3':
+			case 'biogas_m3':
+			case 'stueckholz_m3':
+				return \WPENON\Util\Format::pdfEncode('m&sup3;');
+				break;
+			case 'heizoel_kwh':
+			case 'heizoelbiooel_kwh':
+			case 'biooel_kwh':
+			case 'erdgas_kwh':
+			case 'erdgasbiogas_kwh':
+			case 'biogas_kwh':
+			case 'fluessiggas_kwh':
+			case 'steinkohle_kwh':
+			case 'braunkohle_kwh':
+			case 'stueckholz_kwh':
+			case 'holzpellets_kwh':
+			case 'strom':
+			case 'strom_kwh':
+			case 'fernwaermehzwfossil_kwh':
+			case 'fernwaermehzwregenerativ_kwh':
+			case 'fernwaermekwkfossil_kwh':
+			case 'fernwaermekwkfossilbio_kwh':
+			case 'fernwaermekwkregenerativ_kwh':
+			case 'sonneneinstrahlung':
+			case 'fernwaermehzwfossil':
+			case 'fernwaermehzwregenerativ':
+			case 'fernwaermekwkfossil':
+			case 'fernwaermekwkfossilbio':
+			case 'fernwaermekwkregenerativ':
+				return 'kWh';
+				break;
+			case 'fluessiggas_kg':
+			case 'steinkohle_kg':
+			case 'braunkohle_kg':
+			case 'stueckholz_kg':
+			case 'holzpellets_kg':
+				return 'kg';
+				break;
+			case 'koks':
+			case 'steinkohle':
+			case 'braunkohle':
+			case 'stueckholz':
+			case 'holzhackschnitzel':
+			case 'holzpellets':
+				break;
+
+			default:
+				return '';
 				break;
 		}
 	}

@@ -186,13 +186,13 @@ if ( function_exists( 'edd_get_download_price' ) ) {
       ?>
     </small>
   </p>
-  
+
   <div class="energy-bar-wrapper">
     <?php wpenon_get_view()->displaySubTemplate( 'energy-bar', '', $data['energy_bar'] ); ?>
   </div>
-  
+
   <?php if ( $data['efficiency_class'] ) :
-    $image = IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/media/klasse_' . strtolower( str_replace( '+', '', $data['efficiency_class'] ) ) . '.jpg';
+    $image = IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/media/klasse_' . strtolower( str_replace( '+', '_plus', $data['efficiency_class'] ) ) . '.jpg';
     ?>
     <p class="lead text-center">
       <?php printf( __( 'Energieeffizienzklasse: %s', 'wpenon' ), '<img src="' . $image . '" alt="' . sprintf( __( 'Energieeffizienzklasse: %s', 'wpenon' ), $data['efficiency_class'] ) . '">' ); ?>

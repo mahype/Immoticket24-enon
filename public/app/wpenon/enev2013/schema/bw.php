@@ -138,7 +138,7 @@ return array(
             'required'              => true,
           ),
           'geschoss_hoehe'        => array(
-            'type'                  => 'float',
+            'type'                  => 'float_length',
             'label'                 => __( 'Geschosshöhe', 'wpenon' ),
             'description'           => __( 'Geben Sie die lichte Höhe eines einzelnen Geschosses ein, also die Höhe vom Boden bis zur Decke.', 'wpenon' ),
             'default'               => 2.10,
@@ -173,7 +173,7 @@ return array(
             ),
           ),
           'wand_a_laenge'         => array(
-            'type'                  => 'float',
+            'type'                  => 'float_length',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
@@ -213,7 +213,7 @@ return array(
             ),
           ),
           'wand_b_laenge'         => array(
-            'type'                  => 'float',
+            'type'                  => 'float_length',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
@@ -253,7 +253,7 @@ return array(
             ),
           ),
           'wand_c_laenge'         => array(
-            'type'                  => 'float',
+            'type'                  => 'float_length',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
@@ -293,7 +293,7 @@ return array(
             ),
           ),
           'wand_d_laenge'         => array(
-            'type'                  => 'float',
+            'type'                  => 'float_length',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
@@ -333,7 +333,7 @@ return array(
             ),
           ),
           'wand_e_laenge'         => array(
-            'type'                  => 'float',
+            'type'                  => 'float_length',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
@@ -373,7 +373,7 @@ return array(
             ),
           ),
           'wand_f_laenge'         => array(
-            'type'                  => 'float',
+            'type'                  => 'float_length',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
@@ -413,7 +413,7 @@ return array(
             ),
           ),
           'wand_g_laenge'         => array(
-            'type'                  => 'float',
+            'type'                  => 'float_length',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
@@ -453,7 +453,7 @@ return array(
             ),
           ),
           'wand_h_laenge'         => array(
-            'type'                  => 'float',
+            'type'                  => 'float_length',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
@@ -525,7 +525,7 @@ return array(
             ),
           ),
           'dach_hoehe'            => array(
-            'type'                  => 'float',
+            'type'                  => 'float_length',
             'label'                 => __( 'Dachhöhe', 'wpenon' ),
             'description'           => __( 'Geben Sie die lichte Höhe des Daches, also die Höhe vom Boden des Dachgeschosses bis zum Dachgiebel, in Metern ein.', 'wpenon' ),
             'default'               => 3.0,
@@ -610,7 +610,7 @@ return array(
             ),
           ),
           'keller_hoehe'          => array(
-            'type'                  => 'float',
+            'type'                  => 'float_length',
             'label'                 => __( 'Kellerhöhe', 'wpenon' ),
             'description'           => __( 'Geben Sie die lichte Höhe des Kellers in Metern ein.', 'wpenon' ),
             'default'               => 2.1,
@@ -1359,7 +1359,7 @@ return array(
               'anlage'                => __( 'Lüftungsanlage', 'wpenon' ),
             ),
             'required'              => true,
-          ),      
+          ),
           'l_erzeugung'           => array(
             'type'                  => 'select',
             'label'                 => __( 'Typ der Lüftungsanlage', 'wpenon' ),

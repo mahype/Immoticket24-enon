@@ -12,6 +12,8 @@ abstract class PaymentGateway {
 
 	private static $instances = array();
 
+	protected $instance_id;
+
 	public static function instance() {
 		if ( ! isset( self::$instances[ static::$gateway_name ] ) ) {
 			self::$instances[ static::$gateway_name ] = new static();
@@ -39,6 +41,8 @@ abstract class PaymentGateway {
 		if ( ! $this->show_cc_form ) {
 			add_action( 'edd_' . $gateway_name . '_cc_form', '__return_false' );
 		}
+
+		$this->instance_id = substr( md5( microtime() ), 0,5 );
 	}
 
 	public function _register( $gateways ) {
@@ -48,6 +52,8 @@ abstract class PaymentGateway {
 	}
 
 	public function _listenForNotification() {
+		// var_dump( 'DRIN' );
+
 		if ( isset( $_GET['edd-listener'] ) && $_GET['edd-listener'] == $this->listener_key ) {
 			$this->processPurchaseNotification( $_GET );
 		}
@@ -81,6 +87,9 @@ abstract class PaymentGateway {
 	}
 
 	protected function _handlePaymentError( $payment_id, $message, $sendback = false ) {
+		$log_message = sprintf( 'Payment error for payment id #%s: %s', $payment_id, $message );
+		$this->log( $log_message );
+
 		edd_record_gateway_error( __( 'Payment Error', 'wpenon' ), $message, $payment_id );
 		if ( $payment_id ) {
 			edd_update_payment_status( $payment_id, 'failed' );
@@ -96,6 +105,9 @@ abstract class PaymentGateway {
 			edd_set_payment_transaction_id( $payment_id, $transaction_id );
 		}
 
+		$log_message = sprintf( 'Payment successful for payment id #%s with transaction id %s', $payment_id, $transaction_id );
+		$this->log( $log_message );
+
 		edd_empty_cart();
 
 		if ( $redirect_to ) {
@@ -107,16 +119,45 @@ abstract class PaymentGateway {
 	}
 
 	protected function _handlePaymentProcessError( $payment_id, $message, $abort = false ) {
+		$log_message = sprintf( 'Payment process error for payment id #%s: %s', $payment_id, $message ) . chr(13);
+		$this->log( $log_message );
+
 		edd_record_gateway_error( sprintf( __( '%s Notification Error', 'wpenon' ), $this->listener_key ), $message, $payment_id );
+
 		if ( $abort ) {
 			wp_send_json_error( array( 'message' => $message ), 400 );
 		}
+	}
+
+	public function log( $message, $backtrace = false ) {
+		if( $backtrace ) {
+			ob_start();
+			debug_print_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
+			$trace = ob_get_contents();
+			ob_end_clean();
+
+			$message.= chr(13 ) . $trace;
+		}
+
+		$url = $_SERVER['REQUEST_URI'];
+		$time = date('Y-m-d H:i:s' );
+		$microtime = microtime();
+
+		$line = $this->listener_key . ' Instance ID: #' . $this->instance_id . chr( 13 );
+		$line.= $time . ' - ' . $microtime .  ' - ' . $url . chr(13) . $message . chr(13 );
+
+		$file = fopen( dirname( ABSPATH ) . '/pamyents.log', 'a' );
+		fputs( $file, $line  );
+		fclose( $file );
 	}
 
 	protected function _handlePaymentProcessSuccess( $payment_id, $payment_status = null ) {
 		if ( null !== $payment_status ) {
 			edd_update_payment_status( $payment_id, $payment_status );
 		}
+
+		$log_message = sprintf( 'Payment Process Successful for payment id #%s with payment status %s', $payment_id, $payment_status );
+		$this->log( $log_message );
 
 		wp_send_json_success( array( 'message' => __( 'Payment status successfully updated.', 'wpenon' ) ) );
 	}

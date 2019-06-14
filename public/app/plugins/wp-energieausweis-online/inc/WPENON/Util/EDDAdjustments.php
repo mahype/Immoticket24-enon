@@ -694,6 +694,8 @@ class EDDAdjustments {
 		$bw_url = get_permalink( $settings->new_bw_page );
 		$vw_url = get_permalink( $settings->new_vw_page );
 
+		wp_enon_log( sprintf( 'Showing checkout page with Session data %s', $_SESSION['edd']['edd_cart']) );
+
 		?>
 		<p class="text-center">
 			<?php printf( __( 'Möchten Sie noch einen <a href="%1$s">Bedarfsausweis</a> oder <a href="%2$s">Verbrauchsausweis</a> erstellen?', 'wpenon' ), esc_url( $bw_url ), esc_url( $vw_url ) ); ?>

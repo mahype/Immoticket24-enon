@@ -9,7 +9,7 @@
 <?php if ( count( $data ) > 0 ): ?>
 
   <table class="form-table">
-    
+
     <tbody>
 
       <?php foreach( $data as $field_slug => $field ) : ?>
@@ -34,7 +34,7 @@
             <?php endif; ?>
 
             <td>
-              
+
               <?php do_action( 'wpenon_form_field_' . $field_slug . '_before', $field ); ?>
 
               <?php switch( $field['type'] ) :
@@ -109,6 +109,11 @@
 
                 <?php break; ?>
                 <?php case 'float': ?>
+
+                  <input type="text" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" class="float-control" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ); ?>>
+
+                <?php break; ?>
+                <?php case 'float_length': ?>
 
                   <input type="text" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" class="float-control" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ); ?>>
 

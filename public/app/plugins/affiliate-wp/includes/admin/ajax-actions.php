@@ -23,83 +23,65 @@ function affwp_search_users() {
 		'search_columns' => array( 'user_login', 'display_name', 'user_email' )
 	);
 
-	$found_users = false;
-
-	if ( mb_strlen( $search_query ) > 2 ) {
-
-		// Add search string to args.
-		$args['search'] = '*' . mb_strtolower( $search_query ) . '*';
-
-		// Get users matching search.
-		$found_users = get_users( $args );
-	}
+	$affiliate_users = array();
 
 	$status = isset( $_REQUEST['status'] ) ? mb_strtolower( htmlentities2( trim( $_REQUEST['status'] ) ) ) : 'bypass';
 
+	if ( 'bypass' !== $status ) {
+
+		switch ( $status ) {
+			case 'none':
+				$affiliate_users = affiliate_wp()->affiliates->get_affiliates(
+					array(
+						'number' => -1,
+						'fields' => 'user_id',
+					)
+				);
+				$args = array( 'exclude' => $affiliate_users );
+				break;
+			case 'any':
+				$affiliate_users = affiliate_wp()->affiliates->get_affiliates(
+					array(
+						'number' => -1,
+						'fields' => 'user_id',
+					)
+				);
+				$args = array( 'include' => $affiliate_users );
+				break;
+			default:
+				$affiliate_users = affiliate_wp()->affiliates->get_affiliates(
+					array(
+						'number' => -1,
+						'status' => $status,
+						'fields' => 'user_id',
+					)
+				);
+				$args = array( 'include' => $affiliate_users );
+		}
+	}
+
+	// Add search string to args.
+	$args['search'] = '*' . mb_strtolower( htmlentities2( trim( $_REQUEST['term'] ) ) ) . '*';
+
 	$user_list = array();
 
-	if ( $found_users ) {
+	if ( 'bypass' === $status || ! empty( $affiliate_users ) ) {
 
-		foreach ( $found_users as $user ) {
+		// Get users matching search.
+		$found_users = get_users( $args );
 
-			$label = empty( $user->user_email ) ? $user->user_login : "{$user->user_login} ({$user->user_email})";
-
-			if ( 'bypass' !== $status ) {
-
-				switch ( $status ) {
-
-					case 'none':
-
-						if ( ! affiliate_wp()->affiliates->get_by( 'user_id', $user->ID ) ) {
-
-							$user_list[] = array(
-								'label'   => $label,
-								'value'   => $user->user_login,
-								'user_id' => $user->ID
-							);
-
-						}
-
-						break;
-					case 'any':
-
-						if ( affiliate_wp()->affiliates->get_by( 'user_id', $user->ID ) ) {
-
-							$user_list[] = array(
-								'label'   => $label,
-								'value'   => $user->user_login,
-								'user_id' => $user->ID
-							);
-
-						}
-
-						break;
-					default:
-
-						$affiliate = affiliate_wp()->affiliates->get_by( 'user_id', $user->ID );
-
-						if ( $affiliate && $status == $affiliate->status ) {
-
-							$user_list[] = array(
-								'label'   => $label,
-								'value'   => $user->user_login,
-								'user_id' => $user->ID
-							);
-
-						}
-
-				}
-
-			} else {
+		if ( $found_users ) {
+			foreach( $found_users as $user ) {
+				$label = empty( $user->user_email ) ? $user->user_login : "{$user->user_login} ({$user->user_email})";
 
 				$user_list[] = array(
 					'label'   => $label,
 					'value'   => $user->user_login,
 					'user_id' => $user->ID
 				);
-
 			}
 		}
+
 	}
 
 	wp_die( json_encode( $user_list ) );

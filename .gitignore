@@ -1,4 +1,5 @@
 # Application
+*.log
 public/app/debug.log
 public/app/languages/*
 public/app/mu-plugins/*/
@@ -22,6 +23,7 @@ public/app/uploads/*
 !public/app/plugins/wordpress-seo-premium
 !public/app/plugins/wp-energieausweis-online
 !public/app/plugins/wp-postratings-migrate
+!public/app/plugins/wp-rocket
 !public/app/themes/immoticket-energieausweis
 
 # WordPress
@@ -80,3 +82,6 @@ nbproject/
 [Dd]esktop.ini
 *.DS_store
 .DS_store?
+
+# Logs
+public/dibt.log

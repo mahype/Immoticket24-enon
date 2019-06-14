@@ -30,8 +30,6 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 
 		if( $this->was_referred() ) {
 
-			global $simpay_form;
-
 			switch( $object->object ) {
 
 				case 'subscription' :
@@ -40,7 +38,7 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 
 					$stripe_amount = ! empty( $object->plan->trial_period_days ) ? 0 : $object->plan->amount;
 					$currency      = $object->plan->currency;
-					$description   = $object->plan->nickname;
+					$description   = $object->plan->name;
 					$mode          = $object->plan->livemode;
 
 					break;
@@ -64,12 +62,6 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 					$mode          = $object->livemode;
 
 					break;
-
-			}
-
-			if ( empty( $description ) && isset( $simpay_form->post->post_title ) ) {
-
-				$description = $simpay_form->post->post_title;
 
 			}
 

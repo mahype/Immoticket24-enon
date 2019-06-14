@@ -12,24 +12,59 @@ class Parse {
 		return absint( $value );
 	}
 
-	private static function to_float( $num ) {
-		$dotPos   = strrpos( $num, '.' );
-		$commaPos = strrpos( $num, ',' );
-		$sep      = ( ( $dotPos > $commaPos ) && $dotPos ) ? $dotPos :
-			( ( ( $commaPos > $dotPos ) && $commaPos ) ? $commaPos : false );
+	public static function float( $num ) {
+		$dot_pos   = strrpos( $num, '.' );
+		$comma_pos = strrpos( $num, ',' );
 
-		if ( ! $sep ) {
+		if ( ( $dot_pos > $comma_pos ) && $dot_pos ) {
+			$sep_pos = $dot_pos;
+		} elseif ( ( $comma_pos > $dot_pos ) && $comma_pos ) {
+			$sep_pos = $comma_pos;
+		} else {
+			$sep_pos = false;
+		}
+
+		if ( ! $sep_pos ) {
 			return floatval( preg_replace( "/[^0-9]/", "", $num ) );
 		}
 
+		$pre = substr( $num, 0, $sep_pos ) ;
+		$after = substr( $num, $sep_pos + 1, strlen( $num ) );
+
+		if( 3 === strlen( $after ) && ! $comma_pos ) {
+			$pre.=$after;
+			$after = 0;
+		}
+
 		return floatval(
-			preg_replace( "/[^0-9]/", "", substr( $num, 0, $sep ) ) . '.' .
-			preg_replace( "/[^0-9]/", "", substr( $num, $sep + 1, strlen( $num ) ) )
+			preg_replace( "/[^0-9]/", "", $pre ) . '.' . preg_replace( "/[^0-9]/", "", $after )
 		);
 	}
 
-	public static function float( $value ) {
-		return floatval( number_format( self::to_float( $value ), 2, '.', '' ) );
+	public static function float_length( $num ) {
+		$dot_pos   = strrpos( $num, '.' );
+		$comma_pos = strrpos( $num, ',' );
+
+		if ( ( $dot_pos > $comma_pos ) && $dot_pos ) {
+			$sep_pos = $dot_pos;
+		} elseif ( ( $comma_pos > $dot_pos ) && $comma_pos ) {
+			$sep_pos = $comma_pos;
+		} else {
+			$sep_pos = false;
+		}
+
+		if ( ! $sep_pos ) {
+			return floatval( preg_replace( "/[^0-9]/", "", $num ) );
+		}
+
+		$pre = substr( $num, 0, $sep_pos ) ;
+		$after = substr( $num, $sep_pos + 1, strlen( $num ) );
+
+
+
+		return floatval(
+			preg_replace( "/[^0-9]/", "", $pre ) . '.' . preg_replace( "/[^0-9]/", "", $after )
+		);
 	}
 
 	public static function boolean( $value ) {

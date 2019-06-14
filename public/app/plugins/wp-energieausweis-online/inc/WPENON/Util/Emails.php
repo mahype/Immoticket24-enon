@@ -415,13 +415,15 @@ class Emails {
 			return false;
 		}
 
+		do_action('wpenon_confirmation_start', $energieausweis );
+
 		$from_name = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
 		$from_name = apply_filters( 'wpenon_confirmation_from_name', $from_name, $energieausweis->ID, $energieausweis );
 
 		$from_email = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
 		$from_email = apply_filters( 'wpenon_confirmation_from_address', $from_email, $energieausweis->ID, $energieausweis );
 
-		$to_email = $energieausweis->wpenon_email;
+		$to_email = apply_filters( 'wpenon_confirmation_to_address', $energieausweis->wpenon_email );
 
 		$subject = apply_filters( 'wpenon_confirmation_subject', __( 'Ihr Energieausweis', 'wpenon' ), $energieausweis->ID, $energieausweis );
 
@@ -440,12 +442,15 @@ class Emails {
 	}
 
 	public function getEmailConfirmationBodyContent( $energieausweis_id, $energieausweis ) {
+		$energieausweis_site = apply_filters( 'wpenon_confirmation_site',  home_url() );
+		$energieausweis_link = apply_filters( 'wpenon_confirmation_link',  $energieausweis->verified_permalink, $energieausweis );
+
 		$default_email_body = __( 'Sehr geehrter Kunde,', 'wpenon' ) . "\n\n";
-		$default_email_body .= sprintf( __( 'schön, dass Sie auf unserer Website %1$s mit der Erstellung eines Energieausweises (Kennung %2$s) begonnen haben.', 'wpenon' ), home_url(), $energieausweis->post_title ) . "\n\n";
+		$default_email_body .= sprintf( __( 'schön, dass Sie auf unserer Website %1$s mit der Erstellung eines Energieausweises (Kennung %2$s) begonnen haben.', 'wpenon' ), $energieausweis_site, $energieausweis->post_title ) . "\n\n";
 		$default_email_body .= sprintf( __( 'Typ: %s', 'wpenon' ), $energieausweis->formatted_wpenon_type ) . "\n";
 		$default_email_body .= sprintf( __( 'Gebäudeadresse: %s', 'wpenon' ), $energieausweis->adresse ) . "\n\n";
 		$default_email_body .= __( 'Sie haben jederzeit die Möglichkeit die Erstellung des Energieausweises unter folgendem Link fortzusetzen:', 'wpenon' ) . "\n\n";
-		$default_email_body .= '<a href="' . $energieausweis->verified_permalink . '">' . $energieausweis->verified_permalink . '</a>' . "\n\n";
+		$default_email_body .= '<a href="' . $energieausweis_link . '">' . $energieausweis_link . '</a>' . "\n\n";
 		$default_email_body .= '<strong>' . __( 'Bitte gehen Sie vertraulich mit diesem Link um und geben Sie ihn unter keinen Umständen an Dritte weiter, da diese andernfalls Zugriff auf den Energieausweis bekommen würden.', 'wpenon' ) . '</strong>' . "\n\n";
 		$default_email_body .= __( 'Über diesen Link können Sie die Daten für Ihren Energieausweis jederzeit bearbeiten.', 'wpenon' );
 		if ( ! $energieausweis->isOrdered() ) {
@@ -475,7 +480,7 @@ class Emails {
 		$from_email = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
 		$from_email = apply_filters( 'wpenon_order_confirmation_from_address', $from_email, $payment_id, $payment_data );
 
-		$to_email = edd_get_payment_user_email( $payment_id );
+		$to_email = apply_filters( 'wpenon_order_confirmation_to_address', edd_get_payment_user_email( $payment_id ) );
 
 		$subject = edd_get_option( 'order_confirmation_subject', __( 'Zahlungsaufforderung', 'wpenon' ) );
 		$subject = apply_filters( 'wpenon_order_confirmation_subject', wp_strip_all_tags( $subject ), $payment_id );
@@ -577,7 +582,7 @@ class Emails {
 	}
 
 	public function _adjustEmailFooterText( $text ) {
-		$impressum_page = edd_get_option( 'legal_information_page', false );
+		$impressum_page = edd_get_option( 'legal_infor mation_page', false );
 
 		$text = sprintf( __( 'Diese Email wurde automatisch von %s versendet.', 'wpenon' ), '<a href="' . esc_url( home_url() ) . '">' . str_replace( array(
 				'http://',
@@ -588,7 +593,6 @@ class Emails {
 			$text .= '<a href="' . esc_url( get_permalink( $impressum_page ) ) . '">' . __( 'Impressum', 'wpenon' ) . '</a>';
 		}
 
-		return $text;
+		return apply_filters( 'wpenon_email_legal', $text );
 	}
-
 }

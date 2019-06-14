@@ -7,6 +7,8 @@
 
 namespace WPENON\Controller;
 
+use WPENON\Model\Energieausweis;
+
 class Frontend {
 	private static $instance;
 
@@ -21,6 +23,9 @@ class Frontend {
 	private $model = null;
 	private $view = null;
 
+	/**
+	 * @var \WPENON\Model\Energieausweis
+	 */
 	private $energieausweis = null;
 	private $schema = null;
 
@@ -101,7 +106,6 @@ class Frontend {
 					case 'xml-datenerfassung-send':
 					case 'xml-zusatzdatenerfassung-send':
 						if ( $this->energieausweis->isFinalized() && $this->energieausweis->isPaid() ) {
-							$status = false;
 							if ( $action == 'xml-datenerfassung-send' ) {
 								$status = ! $this->energieausweis->isRegistered();
 							} else {
@@ -204,6 +208,9 @@ class Frontend {
 						break;
 					case 'data-pdf-view':
 						$this->energieausweis->getDataPDF( 'I' );
+						exit;
+					case 'data-pdf-view-anonymized':
+						$this->energieausweis->getDataAnonymizedPDF( 'I' );
 						exit;
 					case 'overview':
 					case 'edit':

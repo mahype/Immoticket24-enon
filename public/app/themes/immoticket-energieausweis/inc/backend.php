@@ -157,13 +157,38 @@ function immoticketenergieausweis_add_options( $wpod ) {
                             'type'                  => 'text',
                             'default'               => md5( microtime() ),
                           ),
+                          'redirect_url'                 => array(
+	                          'title'                 => __( 'Weiterleitungs URL', 'immoticketenergieausweis' ),
+	                          'type'                  => 'text',
+	                          'default'               => '',
+                          ),
+                          'email_from_address'                 => array(
+	                          'title'                 => __( 'Email Absender Adresse', 'immoticketenergieausweis' ),
+	                          'type'                  => 'text',
+	                          'default'               => '',
+                          ),
+                          'email_from_name'                 => array(
+	                          'title'                 => __( 'Email Absender Name', 'immoticketenergieausweis' ),
+	                          'type'                  => 'text',
+	                          'default'               => '',
+                          ),
+                          'email_footer'                 => array(
+	                          'title'                 => __( 'Email Footer', 'immoticketenergieausweis' ),
+	                          'type'                  => 'textarea',
+	                          'default'               => '',
+                          ),
+                          'sitename'                 => array(
+	                          'title'                 => __( 'Seitennname', 'immoticketenergieausweis' ),
+	                          'type'                  => 'text',
+	                          'default'               => '',
+                          ),
                           'active'                => array(
-                            'title'                 => __( 'Aktiv?', 'immoticketenergieausweis' ),
-                            'type'                  => 'select',
-                            'options'               => array(
-                              'yes'                   => __( 'Ja', 'immoticketenergieausweis' ),
-                              'no'                    => __( 'Nein', 'immoticketenergieausweis' ),
-                            ),
+	                          'title'                 => __( 'Aktiv?', 'immoticketenergieausweis' ),
+	                          'type'                  => 'select',
+	                          'options'               => array(
+		                          'yes'                   => __( 'Ja', 'immoticketenergieausweis' ),
+		                          'no'                    => __( 'Nein', 'immoticketenergieausweis' ),
+	                          ),
                           ),
                         ),
                       ),
@@ -353,7 +378,7 @@ function immoticketenergieausweis_add_post_meta_box( $post_type ) {
   if ( 'post' !== $post_type ) {
     return;
   }
-  
+
   add_meta_box( 'immoticketenergieausweis', __( 'Erweitert', 'immoticketenergieausweis' ), 'immoticketenergieausweis_render_post_meta_box', null, 'normal', 'high' );
 }
 add_action( 'add_meta_boxes', 'immoticketenergieausweis_add_post_meta_box', 1, 1 );

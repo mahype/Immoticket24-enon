@@ -145,7 +145,7 @@ class DB {
 	public static function csvToTable( $table_slug, $file, $charset = WPENON_DEFAULT_CHARSET ) {
 		global $wpdb;
 
-		ini_set( 'auto_detect_line_endings', '1' );
+		// ini_set( 'auto_detect_line_endings', '1' );
 
 		$csv_settings = self::_getCSVSettings();
 
@@ -209,12 +209,18 @@ class DB {
 		}
 		fclose( $file_handle );
 
+		$wpdb->show_errors();
+
+		$i = 0;
+
 		if ( $status === true ) {
+			$message = '';
 			foreach ( $queries as $key => $data ) {
-				$sql_status = $wpdb->replace( $wpdb->$table_slug, $data, $data_format );
+				$sql_status = $wpdb->insert( $wpdb->$table_slug, $data, $data_format );
 				if ( $sql_status === false ) {
-					$message = sprintf( __( 'Beim Einfügen der Zeile %d in die Tabelle ist ein MySQL-Fehler aufgetreten.', 'wpenon' ), $key + 1 );
+					$message .= sprintf( __( 'Beim Einfügen der Zeile %d in die Tabelle ist ein MySQL-Fehler aufgetreten.', 'wpenon' ), $key + 1 );
 					$status  = false;
+					$i++;
 				}
 			}
 			if ( $status === true ) {

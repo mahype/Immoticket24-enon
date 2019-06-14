@@ -36,7 +36,7 @@ class EnergieausweisManager {
 	/**
 	 * Get Energieausweis
 	 *
-	 * @param mixed $energieausweis
+	 * @param null $energieausweis
 	 *
 	 * @return \WPENON\Model|Energieausweis Energieausweis object.
 	 */
@@ -450,13 +450,6 @@ class EnergieausweisManager {
 		return add_query_arg( $query_args, get_permalink( $post_id ) );
 	}
 
-	/**
-	 * Get post by ID
-	 *
-	 * @param int $post
-	 *
-	 * @return array|null|\WP_Post
-	 */
 	public static function _getPost( $post = null ) {
 		if ( $post === null && is_admin() ) {
 			if ( isset( $_GET['post'] ) ) {
@@ -467,13 +460,6 @@ class EnergieausweisManager {
 		return get_post( $post );
 	}
 
-	/**
-	 * Post to Energieausweis
-	 *
-	 * @param int|\WP_Post $post
-	 *
-	 * @return null|\WPENON\Model|Energieausweis
-	 */
 	public static function _postToEnergieausweis( $post ) {
 		if ( is_numeric( $post ) ) {
 			$post = get_post( $post );

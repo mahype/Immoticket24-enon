@@ -28,7 +28,7 @@
       <?php endif; ?>
 
       <div class="col-md-7 col-sm-7 col-xs-11<?php echo ( empty( $field['label'] ) || $field['type'] == 'checkbox' ) ? 'col-md-offset-4 col-sm-offset-4' : ''; ?>">
-        
+
         <?php do_action( 'wpenon_form_field_' . $field_slug . '_before', $field ); ?>
 
         <?php if ( isset( $GLOBALS['wpenon_readonly_fields'] ) && $GLOBALS['wpenon_readonly_fields'] ) : ?>
@@ -151,6 +151,11 @@
 
             <?php break; ?>
             <?php case 'float': ?>
+
+              <input type="text" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" class="form-control float-control" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ); ?>>
+
+            <?php break; ?>
+            <?php case 'float_length': ?>
 
               <input type="text" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" class="form-control float-control" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ); ?>>
 

@@ -79,9 +79,10 @@ if ( function_exists( 'edd_get_download_price' ) ) {
   <?php wpenon_get_view()->displaySubTemplate( 'message-warning', '', $data['warnings'] ); ?>
 
   <form id="wpenon-generate-form" class="form-horizontal" role="form" action="<?php echo $data['action_url']; ?>" method="post" enctype="multipart/form-data" novalidate>
-    
+	<?php do_action( 'wpenon_form_start', $data ); ?>
+
     <p><?php printf( __( 'Erforderliche Felder für die Dateneingabe sind durch %s markiert.', 'wpenon' ), '<span class="required">*</span>' ); ?></p>
-    
+
     <?php wpenon_get_view()->displaySubTemplate( 'schematabs', '', $data['schema'] ); ?>
 
     <?php wpenon_get_view()->displaySubTemplate( 'schemafields', '', $data['additional'] ); ?>
@@ -89,6 +90,7 @@ if ( function_exists( 'edd_get_download_price' ) ) {
     <p class="text-right">
       <button type="submit" id="wpenon-edit-submit" class="btn btn-primary"><?php _e( 'Änderungen speichern', 'wpenon' ); ?></button>
     </p>
-
+	<?php do_action( 'wpenon_form_end', $data ); ?>
   </form>
 <?php endif; ?>
+
