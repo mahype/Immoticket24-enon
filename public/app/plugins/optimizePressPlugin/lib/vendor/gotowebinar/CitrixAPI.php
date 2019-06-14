@@ -20,15 +20,22 @@ class OP_CitrixAPI {
         $this->logger = $logger;
     }
 
-    public function getOAuthToken ($_apiKey = null, $_callbackUrl = null) {
+    public function getOAuthToken ($_apiKey = null, $_apiSecret = null, $_callbackUrl = null) {
         if (isset($_GET['authorize']) && (int)$_GET['authorize'] == 1) {
-            header('location:https://api.getgo.com/oauth/authorize?client_id='. $_apiKey .'&redirect_uri=' . $_callbackUrl);
+            header('location:https://api.getgo.com/oauth/v2/authorize?response_type=code&client_id='. $_apiKey );
             exit();
         }
 
         if (isset($_GET['code'])) {
-            $url = 'https://api.getgo.com/oauth/access_token?grant_type=authorization_code&code='. $_GET['code'] .'&client_id='. $_apiKey;
-            return $this->makeApiRequest($url);
+            $url = 'https://api.getgo.com/oauth/v2/token?grant_type=authorization_code&code='. $_GET['code'] .'&client_id='. $_apiKey;
+
+            $headers = array(
+                'Authorization: Basic '. base64_encode($_apiKey . ':' . $_apiSecret),
+                'Content-Type: application/x-www-form-urlencoded'
+            );
+
+            $data = 'grant_type=authorization_code&code=' . sanitize_text_field($_GET['code']) . '&redirect_uri='.$_callbackUrl;
+            return $this->makeApiRequest($url, 'POST', $data, $headers);
         }
     }
 
@@ -38,7 +45,7 @@ class OP_CitrixAPI {
      */
 
     public function getAttendeesByOrganizer () {
-        $url  = 'https://api.getgo.com/G2M/rest/organizers/'. $this->_organizerKey .'/attendees';
+        $url  = 'https://api.getgo.com/G2M/rest/v2/organizers/'. $this->_organizerKey .'/attendees';
         $url .= '?startDate='. date('c');
         $url .= '?endDate='. date('c', strtotime("-7 Days"));
 
@@ -51,16 +58,26 @@ class OP_CitrixAPI {
      */
 
     public function getFutureMeetings () {
-        $url  = 'https://api.getgo.com/G2M/rest/meetings?scheduled=true';
+        $url  = 'https://api.getgo.com/G2M/rest/v2/meetings?scheduled=true';
         return $this->makeApiRequest($url, 'GET', array(), $this->getJsonHeaders());
     }
 
     /**
      * @name getUpcomingWebinars
      * @desc GoToWebinar API
+     * @return array|bool|mixed|object|string
+     * @throws Exception
      */
     public function getUpcomingWebinars () {
-        $url  = 'https://api.getgo.com/G2W/rest/organizers/'. $this->_organizerKey .'/upcomingWebinars';
+        $now = new DateTime();
+        $now->setTimezone(new DateTimeZone('UTC'));
+        $startTime = $now->format('Y-m-d\TH:i:s\Z');
+        $end = $now->add(new DateInterval("P1Y"));
+        $end->setTimezone(new DateTimeZone('UTC'));
+        $endTime = $end->format('Y-m-d\TH:i:s\Z');
+
+        $url  = 'https://api.getgo.com/G2W/rest/v2/organizers/'. $this->_organizerKey .'/webinars/?fromTime=' . $startTime . '&toTime=' . $endTime;
+
         return $this->makeApiRequest($url, 'GET', array(), $this->getJsonHeaders());
     }
 
@@ -69,7 +86,7 @@ class OP_CitrixAPI {
      * @desc GoToWebinar API
      */
     public function getPastWebinars () {
-        $url  = 'https://api.getgo.com/G2W/rest/organizers/'. $this->_organizerKey .'/historicalWebinars';
+        $url  = 'https://api.getgo.com/G2W/rest/v2/organizers/'. $this->_organizerKey .'/historicalWebinars';
         return $this->makeApiRequest($url, 'GET', array(), $this->getJsonHeaders());
     }
 
@@ -78,17 +95,17 @@ class OP_CitrixAPI {
      * @desc GoToWebinar API
      */
     public function getWebinarAttendees ($webinarKey) {
-        $url  = 'https://api.getgo.com/G2W/rest/organizers/'. $this->_organizerKey .'/webinars/'. $webinarKey .'/attendees';
+        $url  = 'https://api.getgo.com/G2W/rest/v2/organizers/'. $this->_organizerKey .'/webinars/'. $webinarKey .'/attendees';
         return $this->makeApiRequest($url, 'GET', array(), $this->getJsonHeaders());
     }
 
     public function getWebinarRegistrants ($webinarKey) {
-        $url  = 'https://api.getgo.com/G2W/rest/organizers/'. $this->_organizerKey .'/webinars/'. $webinarKey .'/registrants';
+        $url  = 'https://api.getgo.com/G2W/rest/v2/organizers/'. $this->_organizerKey .'/webinars/'. $webinarKey .'/registrants';
         return $this->makeApiRequest($url, 'GET', array(), $this->getJsonHeaders());
     }
 
     public function getWebinar ($webinarKey) {
-        $url  = 'https://api.getgo.com/G2W/rest/organizers/'. $this->_organizerKey .'/webinars/'. $webinarKey;
+        $url  = 'https://api.getgo.com/G2W/rest/v2/organizers/'. $this->_organizerKey .'/webinars/'. $webinarKey;
         return $this->makeApiRequest($url, 'GET', array(), $this->getJsonHeaders());
     }
 
@@ -99,7 +116,7 @@ class OP_CitrixAPI {
      * @return array
      */
     public function createRegistrant($webinarKey, $postData) {
-        $url  = 'https://api.getgo.com/G2W/rest/organizers/'. $this->_organizerKey .'/webinars/'. $webinarKey . '/registrants';
+        $url  = 'https://api.getgo.com/G2W/rest/v2/organizers/'. $this->_organizerKey .'/webinars/'. $webinarKey . '/registrants';
         return $this->makeApiRequest($url, 'POST', $postData, $this->getJsonHeaders());
     }
 
@@ -145,10 +162,8 @@ class OP_CitrixAPI {
 
     public function getJsonHeaders () {
         return array(
-            "HTTP/1.1",
-            "Content-type: application/json",
             "Accept: application/json",
-            "Authorization: OAuth oauth_token=". $this->_accessToken
+            "Authorization: Bearer ". $this->_accessToken
         );
     }
 

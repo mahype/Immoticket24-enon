@@ -70,30 +70,36 @@ class OP_OAPAPI {
 
     public function add_contact($contact=FALSE)
     {
-
         $data = '<contact>';
+        $tags = '';
 
         //FIELDS
         $data .= '<Group_Tag name="Contact Information">';
         foreach($contact['fields'] as $field_name => $field_data)
         {
-            $data .= '<field name="'.$field_name.'">'.$field_data.'</field>';
+            if ($field_name != 'tags') {
+                $data .= '<field name="'.$field_name.'">'.$field_data.'</field>';
+            } else {
+                $tags = '*/*' . implode('*/*', $field_data) . '*/*';
+            }
         }
         $data .= '</Group_Tag>';
 
         //TAGS / SEQUENCES
         $data .= '<Group_Tag name="Sequences and Tags">';
 
-            $data .= '<field name="Contact Tags">'.(!empty($contact['tags']) ? '*/*'.implode('*/*',$contact['tags']).'*/*' : '').'</field>';
+            $data .= '<field name="Contact Tags">'. $tags . '</field>';
             $data .= '<field name="Sequences">'.(!empty($contact['sequences']) ? '*/*'.implode('*/*',$contact['sequences']).'*/*' : '').'</field>';
 
         $data .= '</Group_Tag>';
 
         $data .= '</contact>';
 
-        if($service = $this->_service('contact'))
+        if ($service = $this->_service('contact'))
         {
-            return $this->_request($service,'add',$data);
+            // add GDPR note
+
+            return $this->_request($service, 'add', $data);
         }
 
         return FALSE;
@@ -246,6 +252,23 @@ class OP_OAPAPI {
     public function stop_sequences($contacts=array(),$sequences=array())
     {
         return $this->start_sequences($contacts,$sequences,TRUE);
+    }
+
+    /**
+     * Add notes to contact
+     *
+     * @param $contactId
+     * @param $note
+     * @return bool|SimpleXMLElement
+     */
+    public function add_note($contactId, $note)
+    {
+        $data = '';
+        $data .= '<contact id="' . $contactId . '">';
+        $data .= '<note time="' . time() . '">' . $note . '</note>';
+        $data .= '</contact>';
+
+        return $this->_request($this->contact, 'add_notes', $data);
     }
 
     /**

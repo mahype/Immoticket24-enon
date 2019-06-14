@@ -75,6 +75,30 @@ class OP_SendlaneApi
         return $json;
     }
 
+    public function getTags($url, $api, $hash)
+    {
+        $params =  array(
+            'method' => 'POST',
+            'timeout' => 45,
+            'redirection' => 5,
+            'httpversion' => '1.0',
+            'blocking' => true,
+            'headers' => array(),
+            'api' => $api,
+            'hash' => $hash,
+            'cookies' => array()
+        );
+        $response = wp_remote_post(add_query_arg($params, $url . '/api/v1/tags'));
+
+        if (is_wp_error($response) || $response['response']['code'] != 200) {
+            $this->logger->error('Response: ' . print_r($response, true));
+            return;
+        }
+
+        $json = json_decode($response['body'], true);
+        return $json;
+    }
+
     public function addSubscriber($url, $params){
 
         $data =  array(

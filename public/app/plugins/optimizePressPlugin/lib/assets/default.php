@@ -1291,7 +1291,7 @@ class OptimizePress_Default_Assets {
     *   $atts: Contains all the attributes for this asset
     *   $content: Contains what is inside the shortcode tags
     */
-    function button_0($atts,$content='')
+    static function button_0($atts,$content='')
     {
         /*
          * Cache busting
@@ -2609,29 +2609,44 @@ class OptimizePress_Default_Assets {
                 'opm_integration'           => 'N',
                 'opm_level'                 => 0,
                 'opm_packages'              => '',
+
+                'gdpr_consent'              => 'disabled',
+                'consent_1_enabled'         => 'no',
+                // 'consent_1_label'           => '',
+                'consent_1_tag_accepted'    => 'missing_integration_type',
+                'consent_1_tag_declined'    => 'missing_integration_type',
+                'consent_1_tag_not_shown'   => 'missing_integration_type',
+                'consent_2_enabled'         => 'no',
+                // 'consent_2_label'           => '',
+                'consent_2_tag_accepted'    => 'missing_integration_type',
+                'consent_2_tag_declined'    => 'missing_integration_type',
+                'consent_2_tag_not_shown'   => 'missing_integration_type',
+                'consent_notes_field'       => '',
             ), $atts);
             extract($atts);
 
             $redirect_url = str_replace("&#038;", "&", $redirect_url);
 
             $data = array(
-                'content'       => array(
-                    'headline'  => '',
-                    'paragraph' => '',
-                    'privacy'   => '',
+                'content'               => array(
+                    'headline'          => '',
+                    'paragraph'         => '',
+                    'privacy'           => '',
+                    'consent_1_label'   => '',
+                    'consent_2_label'   => '',
                 ),
-                'fields'        => array(),
-                'submit_button' => '',
-                'hidden_str'    => '',
-                'extra_fields'  => array(),
-                'top_color'     => $top_color,
-                'width'         => $width,
-                'margin_top'    => $margin_top,
-                'margin_right'  => $margin_right,
-                'margin_bottom' => $margin_bottom,
-                'margin_left'   => $margin_left,
-                'box_alignment' => $alignment,
-                'shortcodes'    => array(),
+                'fields'                => array(),
+                'submit_button'         => '',
+                'hidden_str'            => '',
+                'extra_fields'          => array(),
+                'top_color'             => $top_color,
+                'width'                 => $width,
+                'margin_top'            => $margin_top,
+                'margin_right'          => $margin_right,
+                'margin_bottom'         => $margin_bottom,
+                'margin_left'           => $margin_left,
+                'box_alignment'         => $alignment,
+                'shortcodes'            => array(),
             );
 
             $mc = preg_match_all('/' . op_shortcode_regex('optin_box_hidden|optin_box_field|optin_box_button') . '/s',$content,$matches);
@@ -2650,6 +2665,8 @@ class OptimizePress_Default_Assets {
                                 $data['content'][$field['name']] = op_clean_shortcode_content($matches[5][$i]);
                                 if ($field['name'] == 'paragraph') {
                                     $data['content'][$field['name']] = wpautop(op_texturize(base64_decode($data['content'][$field['name']])));
+                                } else if (in_array($field['name'], array('consent_1_label', 'consent_2_label'))) {
+                                    $atts[$field['name']] = base64_decode($matches[5][$i]);
                                 }
                             }
                             break;
@@ -2657,6 +2674,7 @@ class OptimizePress_Default_Assets {
                             $button_atts = shortcode_parse_atts($matches[3][$i]);
                             $button_atts['element_type'] = 'button';
                             $button_content = $matches[5][$i];
+                            $atts['button_label'] = $button_content;
                             $type = op_get_var($button_atts, 'type', 1);
                             if ($type == '0') {
                                 $uid = 'btn_0_' . md5($button_content);
@@ -2783,6 +2801,9 @@ class OptimizePress_Default_Assets {
                 $data['order'] = $order;
             }
 
+            // GDPR
+            $data['shortcodes']['op_gdpr_consent'] = op_gdpr_compile_shortcode($atts);
+
             _op_tpl('clear');
             $template = _op_tpl('_load_file', apply_filters('op_style_template_path_optin_form', OP_ASSETS . 'tpls/optin_box/style_' . $style . '.php', $style, $data), $data, true);
 
@@ -2798,6 +2819,7 @@ class OptimizePress_Default_Assets {
             if (function_exists('wp_using_ext_object_cache')) {
                 wp_using_ext_object_cache(false);
             }
+
             set_transient('el_' . $uidOpBox, $cached, OP_SL_ELEMENT_CACHE_LIFETIME);
         }
 
@@ -2822,6 +2844,13 @@ class OptimizePress_Default_Assets {
             }
         } else {
             $html = str_replace('%%redirect_url%%', op_current_url(), $cached);
+        }
+
+        /*
+         * Cache busting needed again because of nonce
+         */
+        if (function_exists('wp_using_ext_object_cache')) {
+            wp_using_ext_object_cache(false);
         }
 
         /*
@@ -3798,16 +3827,16 @@ class OptimizePress_Default_Assets {
         // Decode encoded chars
         $atts = op_urldecode($atts);
 
-        //Because of upper op_urldecode() method 
+        //Because of upper op_urldecode() method
         //spaces (%20) in url is replaced with ' '
-        //so we need to revert that to url be valid 
+        //so we need to revert that to url be valid
         //and image be displayed.
         if(isset($atts['placeholder']) && $atts['placeholder'] != '') {
             $atts['placeholder'] = str_replace(' ', '%20', $atts['placeholder']);
         }
 
         $default = array(
-            'style'=> '1', 
+            'style'=> '1',
             'type' => 'embed',
             'hide_controls' => 'N',
             'auto_play' => 'N',
@@ -3922,12 +3951,12 @@ class OptimizePress_Default_Assets {
                 $output = '<div class="video-plugin-new-syntax video-plugin-new" style="width:' . $vars['width'] . 'px; height:'.$vars['height'].'px; max-width:100%;' . $align . (' border: '.$vars['border_size'].'px solid ' .$vars['border_color']. ';') . ' padding-top:0; padding-bottom:0;">' . '<div style="' . $aspect_ratio_string . '"></div>' . '</div>';
             } else {
                 $output = '<div class="video-plugin-new-syntax video-plugin-new" style="width:' . $vars['width'] . 'px; height:'.$vars['height'].'px; max-width:100%;'.$align.(!empty($vars['margin_top']) ? ' margin-top: '.$vars['margin_top'].'px;' : '').(!empty($vars['margin_bottom']) ? ' margin-bottom: '.$vars['margin_bottom'].'px;' : 'margin-bottom: 20px;'). (' border: '.$vars['border_size'].'px solid ' .$vars['border_color']. ';') . ' padding-top:0; padding-bottom:0;">' . '<div style="' . $aspect_ratio_string . '"></div>' . '</div>';
-            }            
+            }
         } else {
             $output = '<div class="video-plugin" style="width:'.$vars['width'].'px;height:'.$vars['height'].'px;'.$align.(!empty($vars['margin_top']) ? ' margin-top: '.$vars['margin_top'].'px;' : '').(!empty($vars['margin_bottom']) ? ' margin-bottom: '.$vars['margin_bottom'].'px;' : 'margin-bottom: 20px;'). (' border: '.$vars['border_size'].'px solid ' .$vars['border_color']. ';') . '"></div>';
         }
 
-        if ($vars['style'] > '1') { 
+        if ($vars['style'] > '1') {
                 $frame_style = '';
                 $frame_type = '';
                 switch ($vars['style']) {
@@ -3961,7 +3990,7 @@ class OptimizePress_Default_Assets {
                     default:
                         break;
                 }
-                $output = '<div class="video-plugin-frame video-plugin-'. $frame_type .'-frame' .' '. $vars['ipad_color'].' '. $frame_style . '" 
+                $output = '<div class="video-plugin-frame video-plugin-'. $frame_type .'-frame' .' '. $vars['ipad_color'].' '. $frame_style . '"
                 style="' . $align . ' ' . (!empty($vars['margin_top']) ? ' margin-top: '.$vars['margin_top'].'px;' : '').(!empty($vars['margin_bottom']) ? ' margin-bottom: '.$vars['margin_bottom'].'px;' : 'margin-bottom: 20px;') . '">' . $output . '</div>';
         }
 
@@ -3973,7 +4002,7 @@ class OptimizePress_Default_Assets {
          $atts = op_urldecode($atts);
 
          $options = shortcode_atts(array(
-            'style' => '1', 
+            'style' => '1',
             'element_id' => 'sl_' . md5(serialize($atts) . $content),
             'icon' => '',
             'display_type' => '',
@@ -3984,21 +4013,21 @@ class OptimizePress_Default_Assets {
             'url2' => '',
             'align' => 'center',
             'text' => '',
-            'upload_icon' => '',    
-            'op_assets_url' => OP_ASSETS_URL        
+            'upload_icon' => '',
+            'op_assets_url' => OP_ASSETS_URL
         ),$atts);
 
-         
+
         switch ($options['type']) {
             case 'url':
                 $options['url']  = decodeBase64AndValidateUrlViaRegex($content);
                 $options['url1'] = decodeBase64AndValidateUrlViaRegex($options['url1']);
                 $options['url2'] = decodeBase64AndValidateUrlViaRegex($options['url2']);
-                
+
                 break;
 
             case 'youtube':
-                $options['youtube_url'] = decodeBase64AndValidateUrlViaRegex($content);  
+                $options['youtube_url'] = decodeBase64AndValidateUrlViaRegex($content);
                 break;
         }
 
@@ -4405,7 +4434,7 @@ class OptimizePress_Default_Assets {
             if (defined('WS_PLUGIN__OPTIMIZEMEMBER_VERSION')) { // is OPM element present and OPM activated?
                 $filesDir = $GLOBALS['WS_PLUGIN__']['optimizemember']['c']['files_dir'];
                 $hideFiles = false;
-                if (isset($GLOBALS['WS_PLUGIN__']['optimizemember']['o']['filter_wp_query']) && 'all' === $GLOBALS['WS_PLUGIN__']['optimizemember']['o']['filter_wp_query'][0]) {
+                if (isset($GLOBALS['WS_PLUGIN__']['optimizemember']['o']['filter_wp_query']) && (!empty($GLOBALS['WS_PLUGIN__']['optimizemember']['o']['filter_wp_query'])) && 'all' === $GLOBALS['WS_PLUGIN__']['optimizemember']['o']['filter_wp_query'][0]) {
                     $hideFiles = true;
                 }
                 $uploads = wp_upload_dir();

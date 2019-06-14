@@ -3,7 +3,7 @@
 if(!function_exists('op_define_vars')){
     function op_define_vars(){
         //Init constants
-        define('OP_VERSION', '2.5.12.4');
+        define('OP_VERSION', '2.5.19.1');
 
         define('OP_TYPE','plugin');
         define('OP_SN','optimizepress'); //Short/safe name
@@ -99,10 +99,10 @@ if(!function_exists('op_define_vars')){
         if (! defined('OP_LEADS_URL')) {
             define('OP_LEADS_URL', 'https://my.optimizeleads.com/');
             define('OP_LEADS_THEMES_URL', 'https://my.optimizeleads.com/build/themes/');
-	}
+    }
 
-	define('OP_LEADS_BOXES_CACHE_EXPIRATION_SEC', 300);
-	define('OP_LEADS_BOX_CACHE_EXPIRATION_SEC', 300);
+    define('OP_LEADS_BOXES_CACHE_EXPIRATION_SEC', 300);
+    define('OP_LEADS_BOX_CACHE_EXPIRATION_SEC', 300);
 
         //Globals
         $GLOBALS['OP_LIVEEDITOR_FONT_STR'] = array();
@@ -182,7 +182,7 @@ if(!function_exists('op_define_vars')){
             // wp_enqueue_script(OP_SN.'-loadScript', OP_JS.'jquery/jquery.loadScript'.OP_SCRIPT_DEBUG.'.js', array(OP_SN.'-noconflict-js'), OP_VERSION);
             wp_enqueue_script(OP_SN.'-fancybox', OP_JS.'fancybox/jquery.fancybox'.OP_SCRIPT_DEBUG.'.js', array(OP_SN.'-noconflict-js'), OP_VERSION);
             wp_enqueue_script(OP_SN.'-loading-indicator', OP_JS.'op-loading.js', array(OP_SN.'-noconflict-js'), OP_VERSION);
-	        wp_enqueue_script(OP_SN.'-stellar.js', OP_URL . 'lib/js/jquery/jquery.stellar.min.js', array(OP_SN.'-noconflict-js'), OP_VERSION);
+            wp_enqueue_script(OP_SN.'-stellar.js', OP_URL . 'lib/js/jquery/jquery.stellar.min.js', array(OP_SN.'-noconflict-js'), OP_VERSION);
         } else {
             wp_enqueue_script(OP_SN.'-op-jquery-base-all', OP_JS.'op-jquery-base-all.min.js', $jquery_dependency, OP_VERSION);
         }
@@ -342,14 +342,16 @@ if(!function_exists('op_define_vars')){
         require_once OP_FUNC.'widgets.php';
         require_once OP_FUNC.'options.php';
         require_once OP_FUNC.'page_options.php';
-	require_once OP_FUNC.'general.php';
-	require_once OP_FUNC.'shortcodes.php';
+        require_once OP_FUNC.'general.php';
+        require_once OP_FUNC.'shortcodes.php';
         require_once OP_FUNC.'scripts.php';
         require_once OP_FUNC.'assets.php';
         require_once OP_FUNC.'fonts.php';
         require_once OP_FUNC.'sl_api.php';
         require_once OP_FUNC.'optin_stats.php';
-	    require_once OP_FUNC.'social-count.php';
+        require_once OP_FUNC.'social-count.php';
+        require_once OP_FUNC.'gdpr.php';
+        require_once OP_FUNC.'google-recaptcha.php';
 
         // Loading DB upgrader
         require_once OP_ADMIN . 'upgrade.php';
@@ -741,6 +743,29 @@ if(!function_exists('op_define_vars')){
     }
 
     /*
+     * GoToWebinar deprecated old API,
+     * we are checking if user is suing it
+     */
+    add_action('admin_notices', 'goToWebinarNewAPI');
+
+    /**
+     * Checks that 'optimizepress_gotowebinar_access_token'
+     * is defined and if 'optimizepress_gotowebinar_api_secret'
+     * is not empty (API v2)
+     * @author OptimizePress <info@optimizepress.com>
+     * @return void
+     */
+    function goToWebinarNewAPI()
+    {
+        $accessToken = op_get_option('gotowebinar_access_token');
+        $apiSecret = op_get_option('gotowebinar_api_secret');
+
+        if (false !== $accessToken && false === $apiSecret) {
+            echo '<div class="update-nag">' . __('You are using a deprecated GoTowebinar API connection. Please <a href="'.admin_url() . 'admin.php?page=optimizepress-dashboard#email_marketing_services--gotowebinar'.'">re-connect</a>.', 'optimizepress') . '</div>';
+        }
+    }
+
+    /*
      * Checking if API key is valid and displaying admin notice if not
      */
     add_action('admin_notices', 'checkApiKeyValidity');
@@ -1003,7 +1028,7 @@ if(!function_exists('op_define_vars')){
             $obj->download_url      = isset($apiResponse->s3_package) ? $apiResponse->s3_package : $apiResponse->package;
             $obj->package           = isset($apiResponse->s3_package) ? $apiResponse->s3_package : $apiResponse->package;
             $obj->requires          = '3.5';
-            $obj->tested            = '4.8';
+            $obj->tested            = '5.0.1';
             $obj->sections          = array(
                                         'description' => $apiResponse->section->description,
                                         'changelog' => $apiResponse->section->changelog,
@@ -1093,7 +1118,7 @@ if(!function_exists('op_define_vars')){
         $obj->download_url      = $apiResponse->s3_package;
         $obj->package           = $apiResponse->s3_package;
         $obj->requires          = '3.5';
-        $obj->tested            = '4.8';
+        $obj->tested            = '5.0.3';
         $obj->sections          = array(
             'description' => $apiResponse->section->description,
             'changelog' => $apiResponse->section->changelog,
@@ -1417,6 +1442,25 @@ if(!function_exists('op_define_vars')){
         }
         add_action( 'icl_set_element_language', 'setElementLanguageOriginal', 10, 4);
     }
+
+    /**
+     * Disabling Gutenberg editor for Live Editor pages
+     *
+     * @return bool
+     */
+    function op2_disable_gutenberg()
+    {
+        global $post;
+        if (is_le_page($post->ID))
+            return false;
+
+        return true;
+    }
+
+    // core Gutenberg version filter
+    add_filter('use_block_editor_for_post_type', 'op2_disable_gutenberg', 100);
+    // Gutenberg plugin version filter
+    add_filter('gutenberg_can_edit_post', 'op2_disable_gutenberg');
 }
 
 if (!class_exists('Op_Arrow_Walker_Nav_Menu')) {
