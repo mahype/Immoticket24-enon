@@ -190,6 +190,10 @@ class Affiliate_WP_Shortcodes {
 			return;
 		}
 
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			return;
+		}
+
 		$atts = shortcode_atts(
 			array(
 				'amount'      => '',

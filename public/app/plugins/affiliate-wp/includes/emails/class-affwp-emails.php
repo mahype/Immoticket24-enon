@@ -360,10 +360,11 @@ class Affiliate_WP_Emails {
 	 * Converts text formatted HTML. This is primarily for turning line breaks into <p> and <br/> tags.
 	 *
 	 * @since 1.6
+	 * @since 2.2.17 Adjusted the `wpautop()` call to no longer convert line breaks
 	 */
 	public function text_to_html( $message ) {
 		if ( 'text/html' === $this->content_type || true === $this->html ) {
-			$message = wpautop( make_clickable( $message ) );
+			$message = wpautop( make_clickable( $message ), false );
 			$message = str_replace( '&#038;', '&amp;', $message );
 		}
 

@@ -70,7 +70,7 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 
 			}
 
-			$price = rcp_get_registration()->get_total( true, false );
+			$price = rcp_get_registration()->get_total( true, true );
 
 		} else {
 
@@ -87,7 +87,6 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 			$affiliate_id  = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->usermeta WHERE meta_key = %s", 'affwp_discount_rcp_' . $discount_obj->id ) );
 			$aff_user_id   = affwp_get_affiliate_user_id( $affiliate_id );
 			$discount_aff  = get_user_meta( $aff_user_id, 'affwp_discount_rcp_' . $discount_obj->id, true );
-			$visit_id      = affiliate_wp()->tracking->get_visit_id();
 
 			if( $discount_aff && affiliate_wp()->tracking->is_valid_affiliate( $affiliate_id ) ) {
 
@@ -95,24 +94,15 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 
 				$this->affiliate_id = $affiliate_id;
 
-				$amount = $this->calculate_referral_amount( $price, $key, absint( $_POST['rcp_level'] ) );
+				$subscription_level = $rcp_levels_db->get_level( $subscription_id );
 
-				if( 0 == $amount && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
-
-					$this->log( 'Referral not created due to 0.00 amount.' );
-
-					return false; // Ignore a zero amount referral
+				if ( ! empty( $subscription_level->trial_duration ) && ! $member->has_trialed() ) {
+					$total = 0;
+				} else {
+					$total = $this->calculate_referral_amount( $price, $key, absint( $subscription_level ) );
 				}
 
-				$referral_id = affiliate_wp()->referrals->add( apply_filters( 'affwp_insert_pending_referral', array(
-					'amount'       => $amount,
-					'reference'    => $key,
-					'description'  => $subscription,
-					'affiliate_id' => $this->affiliate_id,
-					'context'      => $this->context,
-					'customer'     => $this->get_customer(),
-					'campaign'     => affiliate_wp()->tracking->get_campaign(),
-				), $amount, $key, $subscription, $this->affiliate_id, $visit_id, array(), $this->context ) );
+				$this->insert_pending_referral( $total, $key, $subscription, array(), array( 'is_coupon_referral' => false !== $affiliate_discount ) );
 
 			}
 
@@ -137,7 +127,7 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 				$total = $this->calculate_referral_amount( $price, $key, $subscription_id );
 			}
 
-			$this->insert_pending_referral( $total, $key, $subscription );
+			$this->insert_pending_referral( $total, $key, $subscription, array(), array( 'is_coupon_referral' => false !== $affiliate_discount ) );
 
 		}
 	}
@@ -159,7 +149,11 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 
 		}
 
-		return apply_filters( 'affwp_get_product_rate', $rate, $level_id, $args, $this->affiliate_id, $this->context );
+		$rate = apply_filters( 'affwp_get_product_rate', $rate, $level_id, $args, $this->affiliate_id, $this->context );
+
+		$rate = affwp_sanitize_referral_rate( $rate );
+
+		return $rate;
 
 	}
 
@@ -177,16 +171,18 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 
 		if( ! empty( $subscription_key ) ) {
 
-			$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'rcp_subscription_key' AND meta_value = '%s' LIMIT 1;", $subscription_key ) );
+			$rcp_payments_db_name = rcp_get_payments_db_name();
+
+			$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM $rcp_payments_db_name WHERE subscription_key = '%s' LIMIT 1;", $subscription_key ) );
 
 			if( $user_id ) {
 
 				$user = get_userdata( $user_id );
 
 				$customer = array(
-					'first_name'   => is_user_logged_in() && $user ? $user->last_name : '',
-					'last_name'    => is_user_logged_in() && $user ? $user->first_name : '',
-					'email'        => is_user_logged_in() && $user ? $user->user_email : $this->email,
+					'first_name'   => $user ? $user->first_name : '',
+					'last_name'    => $user ? $user->last_name : '',
+					'email'        => $user ? $user->user_email : '',
 					'user_id'      => $user_id,
 					'affiliate_id' => $this->affiliate_id
 				);
@@ -198,9 +194,9 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 		if( empty( $customer ) ) {
 
 			$customer = array(
-				'first_name'   => is_user_logged_in() ? wp_get_current_user()->last_name : '',
-				'last_name'    => is_user_logged_in() ? wp_get_current_user()->first_name : '',
-				'email'        => is_user_logged_in() ? wp_get_current_user()->user_email : $this->email,
+				'first_name'   => is_user_logged_in() ? wp_get_current_user()->first_name : '',
+				'last_name'    => is_user_logged_in() ? wp_get_current_user()->last_name : '',
+				'email'        => is_user_logged_in() ? wp_get_current_user()->user_email : '',
 				'user_id'      => get_current_user_id(),
 				'ip'           => affiliate_wp()->tracking->get_ip(),
 				'affiliate_id' => $this->affiliate_id
@@ -525,6 +521,6 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 
 }
 
-if ( function_exists( 'rcp_options_install' ) ) {
+if ( function_exists( 'rcp_options_install' ) || class_exists( 'RCP_Requirements_Check' ) ) {
 	new Affiliate_WP_RCP;
 }

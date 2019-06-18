@@ -35,7 +35,7 @@ class Affiliate_WP_Templates {
 	/**
 	 * Retrieves a template part
 	 *
-	 * @since v1.1
+	 * @since 1.1
 	 *
 	 * Taken from bbPress
 	 *
@@ -51,24 +51,44 @@ class Affiliate_WP_Templates {
 	 */
 	public function get_template_part( $slug, $name = null, $load = true ) {
 
+		// Log a warning when the defunct 'get_template_part_{$slug}' hook has callbacks registered against it.
+		if ( has_action( 'get_template_part_' . $slug ) ) {
+			affiliate_wp()->utils->log( sprintf( 'Warning: As of AffiliateWP 2.2.17, the \'get_template_part_%1$s\' hook has been renamed to \'affwp_get_template_part_%1$s\' when used with AffiliateWP templates.', $slug ) );
+		}
+
 		/**
 		 * Fires when executing the requested template code for a given template part.
 		 *
 		 * The dynamic portion of the hook name, `$slug`, refers to the template part slug.
 		 *
+		 * @since 1.1    As 'get_template_part_$slug'
+		 * @since 2.2.17 Renamed to 'affwp_get_template_part_$slug' to avoid potential conflicts
+		 *
 		 * @param string $slug The slug of the template part.
 		 * @param string $name The name of the template part.
 		 */
-		do_action( 'get_template_part_' . $slug, $slug, $name );
+		do_action( 'affwp_get_template_part_' . $slug, $slug, $name );
 
 		// Setup possible parts
 		$templates = array();
-		if ( isset( $name ) )
+
+		if ( isset( $name ) ) {
 			$templates[] = $slug . '-' . $name . '.php';
+		}
+
 		$templates[] = $slug . '.php';
 
-		// Allow template parts to be filtered
-		$templates = apply_filters( 'get_template_part', $templates, $slug, $name );
+		/**
+		 * Filters the AffiliateWP templates for a given $slug and/or $name combination.
+		 *
+		 * @since 1.1    As 'get_template_part'
+		 * @since 2.2.17 Renamed to 'affwp_get_template_part' to avoid a core conflict
+		 *
+		 * @param string $templates The list of possible template parts.
+		 * @param string $slug      The slug of the template part.
+		 * @param string $name      The name of the template part.
+		 */
+		$templates = apply_filters( 'affwp_get_template_part', $templates, $slug, $name );
 
 		// Return the part that is found
 		return $this->locate_template( $templates, $load, false );

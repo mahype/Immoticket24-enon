@@ -91,7 +91,7 @@ class Affiliate_WP_Tracking {
 		) {
 			$this->print_header_script();
 		} else {
-			add_action( 'wp_footer', 'header_scripts' );
+			add_action( 'wp_footer', array( $this, 'header_scripts' ) );
 		}
 	}
 
@@ -405,6 +405,13 @@ class Affiliate_WP_Tracking {
 				die( '-3' ); // The args were modified
 			}
 
+			if ( ! affwp_validate_visit_id( $visit_id ) ) {
+
+				affiliate_wp()->utils->log( sprintf( 'Referral not created due to invalid visit ID value, %d.', $visit_id ) );
+
+				die( '-7' ); // Ignore a referral with an invalid visit ID
+			}
+
 			$referral = affiliate_wp()->referrals->get_by( 'visit_id', $visit_id );
 
 			if( $referral ) {
@@ -677,7 +684,7 @@ class Affiliate_WP_Tracking {
 	 * @return int|false Visit ID from the cookie or false.
 	 */
 	public function get_visit_id() {
-		return ! empty( $_COOKIE['affwp_ref_visit_id'] ) ? absint( $_COOKIE['affwp_ref_visit_id'] ) : false;
+		return ! empty( $_COOKIE['affwp_ref_visit_id'] ) ? intval( $_COOKIE['affwp_ref_visit_id'] ) : false;
 	}
 
 	/**

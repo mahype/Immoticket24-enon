@@ -146,7 +146,16 @@ class Affiliate_WP_Exchange extends Affiliate_WP_Base {
 				$amount += $this->calculate_referral_amount( $referral_product_price, $transaction_id, $product['product_id'], $affiliate_id );
 			}
 
-			$this->insert_pending_referral( $amount, $transaction_id, $this->transaction->description, $this->get_products( $transaction_id ), array( 'affiliate_id' => $affiliate_id ) );
+			$this->insert_pending_referral(
+					$amount,
+					$transaction_id,
+					$this->transaction->description,
+					$this->get_products( $transaction_id ),
+					array(
+							'affiliate_id'       => $affiliate_id,
+							'is_coupon_referral' => false !== $coupon_affiliate_id,
+					)
+			);
 
 			if ( it_exchange_transaction_is_cleared_for_delivery( $transaction_id ) ) {
 				$this->complete_referral( $transaction_id );

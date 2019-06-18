@@ -70,7 +70,7 @@ class Affiliate_WP_WPForms extends Affiliate_WP_Base {
 		}
 
 		// prevent referral creation unless referrals enabled for the form
-		if ( ! $form_data['settings']['affwp_allow_referrals'] ) {
+		if ( ! isset( $form_data['settings']['affwp_allow_referrals'] ) || ! $form_data['settings']['affwp_allow_referrals'] ) {
 
 			$this->log( 'Referral not created because referrals are not enabled onform.' );
 
@@ -111,11 +111,15 @@ class Affiliate_WP_WPForms extends Affiliate_WP_Base {
 			$description = $this->get_product_description( $fields );
 		}
 
+		if ( ! $entry_id ) {
+			$entry_id = strtolower( md5( uniqid() ) );
+		}
+
 		// insert a pending referral
 		$referral_id = $this->insert_pending_referral( $referral_total, $entry_id, $description );
 
 		// set the referral to "unpaid" if there's no total
-		if ( empty( $referral_total ) ) {
+		if ( empty( $referral_total ) || 0 == $total ) {
 			$this->complete_referral( $entry_id );
 		}
 
@@ -141,6 +145,10 @@ class Affiliate_WP_WPForms extends Affiliate_WP_Base {
 
 		if ( empty( $referral->context ) || 'wpforms' != $referral->context ) {
 			return $reference;
+		}
+
+		if ( ! $reference || 32 == strlen( $reference ) ) {
+			return '';
 		}
 
 		$url = admin_url( 'admin.php?page=wpforms-entries&view=details&entry_id=' . $reference );
@@ -179,6 +187,6 @@ class Affiliate_WP_WPForms extends Affiliate_WP_Base {
 
 }
 
-if ( class_exists( 'WPForms' ) ) {
+if ( function_exists( 'wpforms' ) ) {
 	new Affiliate_WP_WPForms;
 }

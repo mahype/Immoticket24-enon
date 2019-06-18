@@ -1474,6 +1474,8 @@ class Affiliate_WP_Settings {
 			'license_key'    => $license_key
 		) );
 
+		set_transient( 'affwp_license_check', $license_data->license, DAY_IN_SECONDS );
+
 		if( 'valid' !== $license_data->license || empty( $license_data->success ) ) {
 
 			wp_safe_redirect( affwp_admin_url( 'settings', array( 'affwp_notice' => 'license-' . $license_data->error, 'affwp_success' => 'no' ) ) );

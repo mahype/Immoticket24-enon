@@ -119,3 +119,29 @@ function affwp_remove_rcp_can_be_logged_in_check() {
 }
 add_action( 'affwp_pre_process_login_form', 'affwp_remove_rcp_can_be_logged_in_check' );
 add_action( 'affwp_pre_process_register_form', 'affwp_remove_rcp_can_be_logged_in_check' );
+
+/**
+ * Circumvents an incompatibility between WPS Hide Login and Signup Referrals during activation.
+ *
+ * During plugin activation, WPS Hide Login broadly searches for *wp-signup*
+ * in the URL and calls wp_die() if found. Unfortunately, this global strpos
+ * search does not take into account other things that might use 'wp-signup'
+ * in its filename, such as the plugin file name affiliatewp-signup-referrals.
+ *
+ * This filter circumvents that check.
+ *
+ * @since 2.2.16
+ *
+ * @param bool $enable Whether to "enable" circumventing the WPS Hide Login check. Default false.
+ * @return bool Whether to circumvent the check.
+ */
+function affwp_enable_signup_referrals_activation_with_wps_hide_login( $enable ) {
+	if ( isset( $_SERVER['REQUEST_URI'] )
+		&& false !== strpos( $_SERVER['REQUEST_URI'], 'affiliatewp-signup-referrals' )
+	) {
+		$enable = true;
+	}
+
+	return $enable;
+}
+add_filter( 'wps_hide_login_signup_enable', 'affwp_enable_signup_referrals_activation_with_wps_hide_login' );

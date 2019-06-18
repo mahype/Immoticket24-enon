@@ -51,7 +51,7 @@ class Affiliate_WP_Gravity_Forms extends Affiliate_WP_Base {
 		}
 
 		// Check if an affiliate coupon was included
-		$this->maybe_check_coupons( $form, $entry );
+		$is_coupon_referral = $this->check_coupons( $form, $entry );
 
 		// Block referral if not referred or affiliate ID is empty
 		if ( ! $this->was_referred() && empty( $this->affiliate_id ) ) {
@@ -118,7 +118,7 @@ class Affiliate_WP_Gravity_Forms extends Affiliate_WP_Base {
 
 		$referral_total = $this->calculate_referral_amount( $total, $entry['id'] );
 
-		$this->insert_pending_referral( $referral_total, $entry['id'], $desc );
+		$this->insert_pending_referral( $referral_total, $entry['id'], $desc, array(), array( 'is_coupon_referral' => $is_coupon_referral ) );
 
 		if( empty( $total ) ) {
 			$this->mark_referral_complete( $entry, array() );
@@ -196,38 +196,60 @@ class Affiliate_WP_Gravity_Forms extends Affiliate_WP_Base {
 		$url = admin_url( 'admin.php?page=gf_entries&view=entry&id=' . $entry['form_id'] . '&lid=' . $reference );
 
 		return '<a href="' . esc_url( $url ) . '">' . $reference . '</a>';
-
 	}
 
 	/**
-	 * Checks for submitted coupons and sets affiliate ID to the associated affiliate, if any
+	 * Checks for submitted coupons and sets affiliate ID to the associated affiliate, if any.
 	 *
-	 * @since 1.9
-	 * @access public
+	 * @since      1.9
+	 * @deprecated 2.2.16 Use check_coupons method instead.
+	 *
+	 * @param array $form  The Gravity Forms form to check against.
+	 * @param array $entry The Gravity Forms entry to check against.
+	 * @return bool|void
+	 */
+	public function maybe_check_coupons( $form, $entry ) {
+		_deprecated_function( __METHOD__, '2.2.16', 'Affiliate_WP_Gravity_Forms::check_coupons' );
+
+		$check_coupons = $this->check_coupons( $form, $entry );
+
+		if ( $check_coupons === false ) {
+			return;
+		}
+
+		return $check_coupons;
+	}
+
+	/**
+	 * Checks for submitted coupons and sets affiliate ID to the associated affiliate, if any.
+	 *
+	 * @since 2.2.16
+	 *
 	 * @uses GFCoupons::get_submitted_coupon_codes()
 	 * @uses GFCoupons::get_coupon_field()
 	 * @uses GFCoupons::get_config()
 	 *
-	 * @param  array  $form
-	 * @param  array  $entry
-	 * @return void
+	 * @param array $form  The Gravity Forms form to check against.
+	 * @param array $entry The Gravity Forms entry to check against.
+	 * @return bool
 	 */
-	public function maybe_check_coupons( $form, $entry ) {
+	public function check_coupons( $form, $entry ) {
 
 		if( ! class_exists( 'GFCoupons' ) ) {
-			return;
+			return false;
 		}
 
-		$gf_coupons   = new GFCoupons;
+		$gf_coupons   = new \GFCoupons;
 		$coupons      = $gf_coupons->get_submitted_coupon_codes( $form, $entry );
 		$coupon_field = $gf_coupons->get_coupon_field( $form );
+		$has_coupon   = false;
 
 		if( empty( $coupons ) ) {
-			return;
+			return false;
 		}
 
 		if ( ! is_object( $coupon_field ) ) {
-			return;
+			return false;
 		}
 
 		foreach( $coupons as $coupon ) {
@@ -240,6 +262,7 @@ class Affiliate_WP_Gravity_Forms extends Affiliate_WP_Base {
 				continue;
 			}
 
+			$has_coupon = true;
 			$username  = $config['meta']['affwp_affiliate'];
 			$affiliate = affwp_get_affiliate( $username );
 
@@ -251,6 +274,7 @@ class Affiliate_WP_Gravity_Forms extends Affiliate_WP_Base {
 
 		}
 
+		return $has_coupon;
 	}
 
 	/**

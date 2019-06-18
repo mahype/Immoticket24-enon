@@ -90,14 +90,19 @@ abstract class Affiliate_WP_Base {
 	/**
 	 * Inserts a pending referral. Used when orders are initially created
 	 *
-	 * @access  public
-	 * @since   1.0
-	 * @param   $amount The final referral commission amount
-	 * @param   $reference The reference column for the referral per the current context
-	 * @param   $description A plaintext description of the referral
-	 * @param   $products An array of product details
-	 * @param   $data Any custom data that can be passed to and stored with the referral
-	 * @return  bool
+	 * @since 1.0
+	 *
+	 * @param string $amount      Optional. The final referral commission amount. Default empty string.
+	 * @param mixed  $reference   Optional. The reference column for the referral per the current context. Default 0.
+	 * @param string $description Optional. A plaintext description of the referral. Default empty string.
+	 * @param array  $products    Optional. An array of product details. Default empty. Default empty array.
+	 * @param array  $data        {
+	 *     Optional. Any custom data that can be passed to and stored with the referral. Default empty.
+	 *
+	 *     @type int  $affiliate_id The affiliate ID to award this referral.
+	 *     @type bool $is_coupon_referral Set to true if this referral came from a coupon instead of a visit.
+	 * }
+	 * @return bool|int Returns the referral ID on success, false on failure.
 	 */
 	public function insert_pending_referral( $amount = '', $reference = 0, $description = '', $products = array(), $data = array() ) {
 
@@ -109,6 +114,12 @@ abstract class Affiliate_WP_Base {
 			affiliate_wp()->utils->log( 'Referral not created because integration is disabled via filter' );
 
 			return false; // Allow extensions to prevent referrals from being created
+		}
+
+		if ( ! affiliate_wp()->tracking->is_valid_affiliate( $this->affiliate_id ) ) {
+			affiliate_wp()->utils->log( sprintf( 'Pending referral not created. Affiliate ID %d is either referring themselves, or their status is not set to active.', $this->affiliate_id ) );
+
+			return false; // Referral is invalid
 		}
 
 		if ( affiliate_wp()->referrals->get_by( 'reference', $reference, $this->context ) ) {
@@ -125,7 +136,15 @@ abstract class Affiliate_WP_Base {
 			return false; // Ignore a zero amount referral
 		}
 
-		$visit_id = affiliate_wp()->tracking->get_visit_id();
+		// If this referral was generated from a coupon, ignore the visit ID.
+		$is_coupon_referral = isset( $data['is_coupon_referral'] ) && false !== $data['is_coupon_referral'];
+		$visit_id           = false === $is_coupon_referral ? affiliate_wp()->tracking->get_visit_id() : false;
+
+		if ( false !== $visit_id && ! affwp_validate_visit_id( $visit_id ) ) {
+			affiliate_wp()->utils->log( sprintf( 'Referral not created due to invalid visit ID value, %d.', $visit_id ) );
+
+			return false; // Ignore a referral with an invalid visit ID
+		}
 
 		$args = array(
 			'amount'       => $amount,
@@ -379,15 +398,27 @@ abstract class Affiliate_WP_Base {
 
 		$rate = '';
 
-		if ( ! empty( $category_id ) && $get_rate = $this->get_category_rate( $category_id, $args = array( 'reference' => $reference, 'affiliate_id' => $affiliate_id ) ) ) {
-			$rate = $get_rate;
+		if ( ! empty( $category_id ) ) {
+
+			$get_rate = $this->get_category_rate( $category_id, $args = array( 'reference' => $reference, 'affiliate_id' => $affiliate_id ) );
+
+			if ( is_numeric( $get_rate ) ) {
+				$rate = $get_rate;
+			}
+
 		}
 
-		if ( ! empty( $product_id ) && $get_rate = $this->get_product_rate( $product_id, $args = array( 'reference' => $reference, 'affiliate_id' => $affiliate_id ) ) ) {
-			$rate = $get_rate;
+		if ( ! empty( $product_id ) ) {
+
+			$get_rate = $this->get_product_rate( $product_id, $args = array( 'reference' => $reference, 'affiliate_id' => $affiliate_id ) );
+
+			if ( is_numeric( $get_rate ) ) {
+				$rate = $get_rate;
+			}
+
 		}
 
-		$amount = affwp_calc_referral_amount( $base_amount, $affiliate_id, $reference, $rate, $product_id );
+		$amount = affwp_calc_referral_amount( $base_amount, $affiliate_id, $reference, $rate, $product_id, $this->context );
 
 		return $amount;
 
@@ -416,13 +447,17 @@ abstract class Affiliate_WP_Base {
 		 *
 		 * @since 2.2
 		 *
-		 * @param float   $rate         Category-level referral rate.
+		 * @param float  $rate         Category-level referral rate.
 		 * @param int    $category_id  Category ID.
-		 * @param array  $args         Arguments for retrieving the product rate.
-		 * @param int    $affiliate_id  Affiliate ID.
+		 * @param array  $args         Arguments for retrieving the category rate.
+		 * @param int    $affiliate_id Affiliate ID.
 		 * @param string $context      Order context.
 		 */
-		return apply_filters( 'affwp_get_product_rate', $rate, $category_id, $args, $affiliate_id, $this->context );
+		$rate = apply_filters( 'affwp_get_category_rate', $rate, $category_id, $args, $affiliate_id, $this->context );
+
+		$rate = affwp_sanitize_referral_rate( $rate );
+
+		return $rate;
 	}
 
 	/**
@@ -451,10 +486,14 @@ abstract class Affiliate_WP_Base {
 		 * @param float  $rate         Product-level referral rate.
 		 * @param int    $product_id   Product ID.
 		 * @param array  $args         Arguments for retrieving the product rate.
-		 * @param int    $affiliate_id Affilaite ID.
+		 * @param int    $affiliate_id Affiliate ID.
 		 * @param string $context      Order context.
 		 */
-		return apply_filters( 'affwp_get_product_rate', $rate, $product_id, $args, $affiliate_id, $this->context );
+		$rate = apply_filters( 'affwp_get_product_rate', $rate, $product_id, $args, $affiliate_id, $this->context );
+
+		$rate = affwp_sanitize_referral_rate( $rate );
+
+		return $rate;
 	}
 
 	/**

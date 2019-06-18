@@ -212,4 +212,27 @@ final class Customer extends Base_Object {
 		$affiliate_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$table_name} WHERE meta_key = 'affiliate_id' AND affwp_customer_id = %d ORDER BY meta_id ASC LIMIT 1;", $this->customer_id ) );
 		return apply_filters( 'affwp_get_canonical_customer_affiliate_id', $affiliate_id, $this );
 	}
+
+	/**
+	 * Sanitizes a customer object field.
+	 *
+	 * @since 2.3
+	 * @static
+	 *
+	 * @param string $field Object field.
+	 * @param mixed  $value Field value.
+	 * @return mixed Sanitized field value.
+	 */
+	public static function sanitize_field( $field, $value ) {
+		if ( in_array( $field, array( 'customer_id', 'user_id', 'ID' ) ) ) {
+			$value = (int) $value;
+		}
+
+		if ( in_array( $field, array( 'first_name', 'last_name', 'email', 'ip', 'date_created' ) ) ) {
+			$value = sanitize_text_field( $value );
+		}
+
+		return $value;
+	}
+
 }

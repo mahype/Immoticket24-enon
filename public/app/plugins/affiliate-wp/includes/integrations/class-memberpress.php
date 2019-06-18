@@ -86,7 +86,16 @@ class Affiliate_WP_MemberPress extends Affiliate_WP_Base {
 			$referral_total = $this->calculate_referral_amount( $amount, $txn->id, $txn->product_id );
 
 			// insert a pending referral
-			$this->insert_pending_referral( $referral_total, $txn->id, get_the_title( $txn->product_id ), array(), $txn->subscription_id );
+			$this->insert_pending_referral(
+					$referral_total,
+					$txn->id,
+					get_the_title( $txn->product_id ),
+					array(),
+					array(
+							'subscription_id'    => $txn->subscription_id,
+							'is_coupon_referral' => false !== $this->get_coupon_affiliate_id( $txn ),
+					)
+			);
 
 		}
 	}

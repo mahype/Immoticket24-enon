@@ -106,3 +106,21 @@ function affwp_sanitize_visit_url( $url ) {
 
 	return $url;
 }
+
+/**
+ * Determines whether a visit ID is valid.
+ *
+ * @since 2.2.16
+ *
+ * @param int|mixed $visit_id Visit ID.
+ * @return bool True if the visit ID is considered valid, otherwise false.
+ */
+function affwp_validate_visit_id( $visit_id ) {
+	$valid = false;
+
+	if ( is_int( $visit_id ) && $visit_id >= 0 ) {
+		$valid = true;
+	}
+
+	return $valid;
+}
