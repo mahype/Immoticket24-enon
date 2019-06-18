@@ -98,8 +98,6 @@ class EA_Whitelabel{
 			if( ! $this->set_current_token( wp_unslash( $_REQUEST['iframe_token'] ) ) ) {
 				wp_die( __( 'Fehlerhaftes IFrame-Token.', 'immoticketenergieausweis' ) );
 			}
-		} else {
-			wp_die( __( 'Fehlerhaftes IFrame-Token.', 'immoticketenergieausweis' ) );
 		}
 
 		return true;
