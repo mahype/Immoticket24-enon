@@ -167,7 +167,7 @@ class EnergieausweisForm {
 		$data['allow_changes_after_order'] = $this->allowChangesAfterOrder( $energieausweis );
 		$data['errors']                    = $errors;
 		$data['warnings']                  = $warnings;
-		$data['eingabesupport']            = $_POST['wpenon_eingabesupport'];
+		$data['eingabesupport']            = isset( $_POST['wpenon_eingabesupport'] ) ? $_POST['wpenon_eingabesupport']: '';
 		$data['schema']                    = ( ! $data['ordered'] || $data['paid'] ) ? $schema->get( $energieausweis, $this->_getActiveTab(), true ) : array();
 		$data['additional']                = ( ! $data['ordered'] || $data['paid'] ) ? \WPENON\Model\Schema::parseFields( $this->_mergeAdditionalFields( array(
 			'_wpenon_progress' => array(
