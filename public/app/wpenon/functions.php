@@ -1248,7 +1248,7 @@ add_filter( 'wpenon_editoverview_page_data', 'wpenon_immoticket24_migrate_old_en
 add_filter( 'wpenon_purchase_page_data', 'wpenon_immoticket24_migrate_old_energietraeger_fields_on_demand_filter', 10, 2 );
 
 function wpenon_immoticket24_check_global_certificate_validation_results( $results, $energieausweis ) {
-  if ( 'bw' === $energieausweis->type ) {
+  if ( property_exists( $energieausweis, 'type' ) && 'bw' === $energieausweis->type ) {
     $grundriss_form = ! empty( $results['validated']['grundriss_form'] ) ? $results['validated']['grundriss_form'] : $energieausweis->grundriss_form;
 
     switch ( $grundriss_form ) {
