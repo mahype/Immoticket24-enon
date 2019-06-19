@@ -10,7 +10,7 @@
             "request": "launch",
             "port": 9000,
             "pathMappings": {
-				"/srv/www/energieausweis-online-erstellen/public": "${workspaceRoot}"
+				"/srv/www/energieausweis-online-erstellen/public": "${workspaceRoot}/public"
 			}
         },
         {
