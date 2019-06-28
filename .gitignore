@@ -6,6 +6,9 @@ public/app/mu-plugins/*/
 public/app/plugins/*
 public/app/themes/*
 public/app/upgrade
+public/app/advanced-cache.php
+public/app/wp-rocket-config/*
+public/app/cache/*
 public/app/uploads/*
 
 # Ignore Exceptions
