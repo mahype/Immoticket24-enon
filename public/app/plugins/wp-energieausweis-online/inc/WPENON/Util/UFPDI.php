@@ -56,9 +56,6 @@ class UFPDI extends \FPDI {
 		}
 		if ( $border === false ) {
 			$border = 0;
-			if ( WPENON_DEBUG ) {
-				$border = 1;
-			}
 		}
 		$this->Cell( $width, $height, $text, $border, $ln, $align, $fill );
 		if ( $changed ) {
@@ -80,9 +77,6 @@ class UFPDI extends \FPDI {
 		}
 		if ( $border === false ) {
 			$border = 0;
-			if ( WPENON_DEBUG ) {
-				$border = 1;
-			}
 		}
 		$this->MultiCell( $width, $height, $text, $border, $align, $fill );
 		if ( $changed ) {
