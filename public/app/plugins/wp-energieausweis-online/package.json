@@ -3,7 +3,11 @@
   "version": "1.0.2",
   "description": "Dieses Plugin erlaubt Besuchern der Website, gültige Energieausweise gegen Bezahlung online zu erstellen.",
   "keywords": [
-    "wordpress", "plugin", "app", "energieausweis", "online"
+    "wordpress",
+    "plugin",
+    "app",
+    "energieausweis",
+    "online"
   ],
   "author": {
     "name": "Felix Arntz",
@@ -13,10 +17,10 @@
   "homepage": "http://leaves-webdesign.com",
   "repository": {
     "type": "git",
-    "url": "git://github.com/felixarntz/wp-energieausweis-online.git"
+    "url": "git://github.com/mahype/wp-energieausweis-online.git"
   },
   "bugs": {
-    "url" : "https://github.com/felixarntz/wp-energieausweis-online/issues"
+    "url": "https://github.com/mahype/wp-energieausweis-online/issues"
   },
   "engines": {
     "node": ">= 0.10.0"
