@@ -12,7 +12,10 @@
     }
   ],
   "keywords": [
-    "energieausweis-online-erstellen", "wp", "multisite", "network"
+    "energieausweis-online-erstellen",
+    "wp",
+    "multisite",
+    "network"
   ],
   "support": {
     "issues": "https://github.com/felixarntz/energieausweis-online-erstellen-network/issues"
@@ -52,9 +55,15 @@
   },
   "extra": {
     "installer-paths": {
-      "public/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
-      "public/app/plugins/{$name}/": ["type:wordpress-plugin"],
-      "public/app/themes/{$name}/": ["type:wordpress-theme"]
+      "public/app/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin"
+      ],
+      "public/app/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "public/app/themes/{$name}/": [
+        "type:wordpress-theme"
+      ]
     },
     "wordpress-install-dir": "public/core",
     "patches": {
