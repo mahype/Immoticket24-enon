@@ -262,6 +262,7 @@ function immoticketenergieausweis_payment_icons() {
       }
 
       $( '#edd_checkout_form_wrap' ).on( 'change', 'input[type="text"], select', maybeAddDoneCheckmark );
+      $( '#edd_checkout_form_wrap' ).on( 'focusout', 'input[type="text"], select', maybeAddDoneCheckmark );
       $( '#edd_checkout_form_wrap' ).find( 'input[type="text"], select' ).each( maybeAddDoneCheckmark );
       $( 'body' ).on( 'edd_gateway_loaded', function() {
         $( '#edd_checkout_form_wrap' ).find( 'input[type="text"], select' ).each( maybeAddDoneCheckmark );
