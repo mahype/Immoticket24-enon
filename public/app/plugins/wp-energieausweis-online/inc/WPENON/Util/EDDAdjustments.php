@@ -84,6 +84,8 @@ class EDDAdjustments {
 		remove_action( 'edd_purchase_form_after_cc_form', 'edd_checkout_tax_fields', 999 );
 		add_action( 'edd_purchase_form_after_cc_form', array( $this, '_forceCheckoutAddressFields' ), 999 );
 
+		add_action( 'edd_payment_mode_after_gateways', array( $this, '_render_nonce_field' ) );
+
 		add_action( 'edd_add_discount_form_before_type', array( $this, '_adjustDiscountTypeFieldBefore' ), 100 );
 		add_action( 'edd_edit_discount_form_before_type', array( $this, '_adjustDiscountTypeFieldBefore' ), 100, 2 );
 		add_action( 'edd_add_discount_form_before_amount', array( $this, '_adjustDiscountTypeFieldAfter' ), 1 );
@@ -1018,10 +1020,14 @@ class EDDAdjustments {
 				<?php endif; ?>
 			</p>
 			<?php do_action( 'edd_cc_billing_bottom' ); ?>
-			<?php wp_nonce_field( 'edd-checkout-address-fields', 'edd-checkout-address-fields-nonce', false, true ); ?>
+			<?php //  wp_nonce_field( 'edd-checkout-address-fields', 'edd-checkout-address-fields-nonce', false, true ); ?>
 		</fieldset>
 		<?php
 		echo ob_get_clean();
+	}
+
+	public function _render_nonce_field() {
+		wp_nonce_field( 'edd-checkout-address-fields', 'edd-checkout-address-fields-nonce', false, true );
 	}
 
 	public function _forceCheckoutAddressFields() {
