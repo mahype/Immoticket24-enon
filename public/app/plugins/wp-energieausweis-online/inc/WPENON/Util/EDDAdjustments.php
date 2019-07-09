@@ -1018,6 +1018,7 @@ class EDDAdjustments {
 				<?php endif; ?>
 			</p>
 			<?php do_action( 'edd_cc_billing_bottom' ); ?>
+			<?php wp_nonce_field( 'edd-checkout-address-fields', 'edd-checkout-address-fields-nonce', false, true ); ?>
 		</fieldset>
 		<?php
 		echo ob_get_clean();
