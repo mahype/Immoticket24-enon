@@ -967,7 +967,7 @@ class EDDAdjustments {
 				</label>
 				<span
 					class="edd-description"><?php _e( 'The country for your billing address.', 'easy-digital-downloads' ); ?></span>
-				<select name="billing_country" id="billing_country"
+				<select name="billing_country" id="billing_country" data-nonce="<?php echo wp_create_nonce( 'edd-country-field-nonce' ); ?>"
 				        class="billing_country edd-select<?php if ( edd_field_is_required( 'billing_country' ) ) {
 					        echo ' required';
 				        } ?>">
