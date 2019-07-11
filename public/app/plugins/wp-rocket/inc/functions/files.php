@@ -329,6 +329,10 @@ function set_rocket_wp_cache_define( $turn_it_on ) {
 		return;
 	}
 
+	if ( defined( 'IS_PRESSABLE' ) && IS_PRESSABLE ) {
+		return;
+	}
+
 	// Get path of the config file.
 	$config_file_path = rocket_find_wpconfig_path();
 	if ( ! $config_file_path ) {
@@ -400,14 +404,14 @@ function rocket_clean_minify( $extensions = array( 'js', 'css' ) ) {
 
 	try {
 		$dir = new RecursiveDirectoryIterator( WP_ROCKET_MINIFY_CACHE_PATH . get_current_blog_id(), FilesystemIterator::SKIP_DOTS );
-	} catch ( Exception $e ) {
+	} catch ( \UnexpectedValueException $e ) {
 		// No logging yet.
 		return;
 	}
 
 	try {
 		$iterator = new RecursiveIteratorIterator( $dir, RecursiveIteratorIterator::CHILD_FIRST );
-	} catch ( Exception $e ) {
+	} catch ( \Exception $e ) {
 		// No logging yet.
 		return;
 	}
@@ -427,7 +431,7 @@ function rocket_clean_minify( $extensions = array( 'js', 'css' ) ) {
 			foreach ( $files as $file ) {
 				rocket_direct_filesystem()->delete( $file[0] );
 			}
-		} catch ( Exception $e ) {
+		} catch ( \InvalidArgumentException $e ) {
 			// No logging yet.
 			return;
 		}
@@ -458,7 +462,7 @@ function rocket_clean_minify( $extensions = array( 'js', 'css' ) ) {
 				rocket_direct_filesystem()->delete( $file );
 			}
 		}
-	} catch ( Exception $e ) {
+	} catch ( \UnexpectedValueException $e ) {
 		// No logging yet.
 		return;
 	}
@@ -478,34 +482,34 @@ function rocket_clean_cache_busting( $extensions = array( 'js', 'css' ) ) {
 
 	try {
 		$dir = new RecursiveDirectoryIterator( WP_ROCKET_CACHE_BUSTING_PATH . get_current_blog_id(), FilesystemIterator::SKIP_DOTS );
-	} catch ( Exception $e ) {
+	} catch ( \UnexpectedValueException $e ) {
 		// No logging yet.
 		return;
 	}
 
 	try {
 		$iterator = new RecursiveIteratorIterator( $dir, RecursiveIteratorIterator::CHILD_FIRST );
-	} catch ( Exception $e ) {
+	} catch ( \Exception $e ) {
 		// No logging yet.
 		return;
 	}
 
 	foreach ( $extensions as $ext ) {
 		/**
-		 * Fires before the minify cache files are deleted
+		 * Fires before the cache busting files are deleted
 		 *
-		 * @since 2.1
+		 * @since 2.9
 		 *
-		 * @param string $ext File extensions to minify.
+		 * @param string $ext File extensions to clean.
 		*/
-		do_action( 'before_rocket_clean_minify', $ext );
+		do_action( 'before_rocket_clean_busting', $ext );
 
 		try {
 			$files = new RegexIterator( $iterator, '#.*\.' . $ext . '#', RegexIterator::GET_MATCH );
 			foreach ( $files as $file ) {
 				rocket_direct_filesystem()->delete( $file[0] );
 			}
-		} catch ( Exception $e ) {
+		} catch ( \InvalidArgumentException $e ) {
 			// No logging yet.
 			return;
 		}
@@ -737,7 +741,7 @@ function rocket_clean_home_feeds() {
  * @return void
  */
 function rocket_clean_domain( $lang = '' ) {
-	$urls = ( ! $lang || is_object( $lang ) || is_array( $lang ) ) ? get_rocket_i18n_uri() : get_rocket_i18n_home_url( $lang );
+	$urls = ( ! $lang || is_object( $lang ) || is_array( $lang ) || is_int( $lang ) ) ? get_rocket_i18n_uri() : get_rocket_i18n_home_url( $lang );
 	$urls = (array) $urls;
 
 	/**

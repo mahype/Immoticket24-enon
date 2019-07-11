@@ -237,7 +237,7 @@ function rocket_clean_post( $post_id, $post = null ) {
 }
 add_action( 'wp_trash_post',           'rocket_clean_post' );
 add_action( 'delete_post',             'rocket_clean_post' );
-add_action( 'clean_post_cache',        'rocket_clean_post', 10, 2 );
+add_action( 'clean_post_cache',        'rocket_clean_post' );
 add_action( 'wp_update_comment_count', 'rocket_clean_post' );
 
 /**
@@ -481,6 +481,10 @@ function rocket_clean_cache_theme_update( $wp_upgrader, $hook_extra ) {
 		$current_theme->get_template(), // Parent theme.
 		$current_theme->get_stylesheet(), // Child theme.
 	];
+
+	if ( ! is_array( $hook_extra['themes'] ) ) {
+		return;
+	}
 
 	if ( ! array_intersect( $hook_extra['themes'], $themes ) ) {
 		return;

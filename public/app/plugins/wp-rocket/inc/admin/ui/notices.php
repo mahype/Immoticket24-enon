@@ -94,10 +94,10 @@ add_action( 'admin_notices', 'rocket_warning_plugin_modification' );
  * @since 1.3.0
  */
 function rocket_plugins_to_deactivate() {
-	$plugins = array();
+	$plugins = [];
 
 	// Deactivate all plugins who can cause conflicts with WP Rocket.
-	$plugins = array(
+	$plugins = [
 		'w3-total-cache'                             => 'w3-total-cache/w3-total-cache.php',
 		'wp-super-cache'                             => 'wp-super-cache/wp-cache.php',
 		'litespeed-cache'                            => 'litespeed-cache/litespeed-cache.php',
@@ -124,7 +124,9 @@ function rocket_plugins_to_deactivate() {
 		'check-and-enable-gzip-compression'          => 'check-and-enable-gzip-compression/richards-toolbox.php',
 		'leverage-browser-caching-ninjas'            => 'leverage-browser-caching-ninjas/leverage-browser-caching-ninja.php',
 		'force-gzip'                                 => 'force-gzip/force-gzip.php',
-	);
+		'enable-gzip-compression'                    => 'enable-gzip-compression/enable-gzip-compression.php',
+		'leverage-browser-caching'                   => 'leverage-browser-caching/leverage-browser-caching.php',
+	];
 
 	if ( get_rocket_option( 'lazyload' ) ) {
 		$plugins['bj-lazy-load']              = 'bj-lazy-load/bj-lazy-load.php';
@@ -202,11 +204,11 @@ function rocket_plugins_to_deactivate() {
 
 		$warning .= '</ul>';
 
-		rocket_notice_html( array(
+		rocket_notice_html( [
 			'status'      => 'error',
 			'dismissible' => '',
 			'message'     => $warning,
-		) );
+		] );
 	}
 }
 add_action( 'admin_notices', 'rocket_plugins_to_deactivate' );
@@ -383,21 +385,42 @@ function rocket_warning_htaccess_permissions() {
 			return;
 	}
 
+	if ( rocket_check_htaccess_rules() ) {
+		return;
+	}
+
 	$boxes = get_user_meta( get_current_user_id(), 'rocket_boxes', true );
 
 	if ( in_array( __FUNCTION__, (array) $boxes, true ) ) {
 		return;
 	}
 
-	$message = rocket_notice_writing_permissions( '.htaccess' );
+	$message = sprintf(
+		// translators: %s = plugin name.
+		__( '%s could not modify the .htaccess file due to missing writing permissions.', 'rocket' ),
+		'<strong>' . WP_ROCKET_PLUGIN_NAME . '</strong>'
+	);
+
+	$message .= '<br>' . sprintf(
+		/* translators: This is a doc title! %1$s = opening link; %2$s = closing link */
+		__( 'Troubleshoot: %1$sHow to make system files writeable%2$s', 'rocket' ),
+		/* translators: Documentation exists in EN, DE, FR, ES, IT; use loaclised URL if applicable */
+		'<a href="' . __( 'https://docs.wp-rocket.me/article/626-how-to-make-system-files-htaccess-wp-config-writeable/?utm_source=wp_plugin&utm_medium=wp_rocket', 'rocket' ) . '" target="_blank">',
+		'</a>'
+	);
+
+	add_filter( 'rocket_htaccess_mod_rewrite', '__return_false' );
+
+	$message .= '<p>' . __( 'Don’t worry, WP Rocket’s page caching and settings will still function correctly.', 'rocket' ) . '<br>' . __( 'For optimal performance, adding the following lines into your .htaccess is recommended (not required):', 'rocket' ) . '<br><textarea readonly="readonly" id="rocket_htaccess_rules" name="rocket_htaccess_rules" class="large-text readonly" rows="6">' . esc_textarea( get_rocket_htaccess_marker() ) . '</textarea></p>';
+
+	remove_filter( 'rocket_htaccess_mod_rewrite', '__return_false' );
 
 	rocket_notice_html(
 		[
-			'status'           => 'error',
-			'dismissible'      => '',
-			'message'          => $message,
-			'dismiss_button'   => __FUNCTION__,
-			'readonly_content' => get_rocket_htaccess_marker(),
+			'status'         => 'warning',
+			'dismissible'    => '',
+			'message'        => $message,
+			'dismiss_button' => __FUNCTION__,
 		]
 	);
 }
@@ -844,7 +867,7 @@ function rocket_notice_html( $args ) {
 			echo ( $tag ? '<p>' : '' ) . $args['message'] . ( $tag ? '</p>' : '' );
 		?>
 		<?php if ( ! empty( $args['readonly_content'] ) ) : ?>
-		<p><?php _e( 'The following code should have been written to this file:', 'rocket' ); ?>:
+		<p><?php _e( 'The following code should have been written to this file:', 'rocket' ); ?>
 			<br><textarea readonly="readonly" id="rules" name="rules" class="large-text readonly" rows="6"><?php echo esc_textarea( $args['readonly_content'] ); ?></textarea>
 		</p>
 		<?php

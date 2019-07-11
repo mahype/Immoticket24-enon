@@ -154,6 +154,7 @@ function rocket_deactivation() {
 	// Unschedule WP Cron events.
 	wp_clear_scheduled_hook( 'rocket_facebook_tracking_cache_update' );
 	wp_clear_scheduled_hook( 'rocket_google_tracking_cache_update' );
+	wp_clear_scheduled_hook( 'rocket_cache_dir_size_check' );
 }
 register_deactivation_hook( WP_ROCKET_FILE, 'rocket_deactivation' );
 
@@ -178,6 +179,7 @@ function rocket_activation() {
 	require WP_ROCKET_FUNCTIONS_PATH . 'htaccess.php';
 	require WP_ROCKET_3RD_PARTY_PATH . 'hosting/godaddy.php';
 	require WP_ROCKET_3RD_PARTY_PATH . 'hosting/o2switch.php';
+	require WP_ROCKET_3RD_PARTY_PATH . 'hosting/wpengine.php';
 
 	if ( rocket_valid_key() ) {
 		// Add All WP Rocket rules of the .htaccess file.

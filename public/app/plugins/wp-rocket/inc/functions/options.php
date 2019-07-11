@@ -169,6 +169,7 @@ function get_rocket_purge_cron_interval() {
 /**
  * Get all uri we don't cache.
  *
+ * @since 3.3.2 Exclude embedded URLs
  * @since 2.6   Using json_get_url_prefix() to auto-exclude the WordPress REST API.
  * @since 2.4.1 Auto-exclude WordPress REST API.
  * @since 2.0
@@ -208,6 +209,9 @@ function get_rocket_cache_reject_uri() {
 
 	// Exclude feeds.
 	$uris[] = '/(.+/)?' . $GLOBALS['wp_rewrite']->feed_base . '/?';
+
+	// Exlude embedded URLs.
+	$uris[] = '/(?:.+/)?embed/';
 
 	/**
 	 * Filter the rejected uri
@@ -452,8 +456,6 @@ function get_rocket_cache_query_string() {
  * @return array An array of URLs for the JS files to be excluded.
  */
 function get_rocket_exclude_defer_js() {
-	global $wp_scripts;
-
 	$exclude_defer_js = [
 		'gist.github.com',
 		'content.jwplatform.com',
@@ -464,9 +466,13 @@ function get_rocket_exclude_defer_js() {
 	];
 
 	if ( get_rocket_option( 'defer_all_js', 0 ) && get_rocket_option( 'defer_all_js_safe', 0 ) ) {
-		$jquery = site_url( $wp_scripts->registered['jquery-core']->src );
+		$jquery            = site_url( wp_scripts()->registered['jquery-core']->src );
+		$jetpack_jquery    = 'c0.wp.com/c/(?:.+)/wp-includes/js/jquery/jquery.js';
+		$googleapis_jquery = 'ajax.googleapis.com/ajax/libs/jquery/(?:.+)/jquery(?:\.min)?.js';
 
 		$exclude_defer_js[] = rocket_clean_exclude_file( $jquery );
+		$exclude_defer_js[] = $jetpack_jquery;
+		$exclude_defer_js[] = $googleapis_jquery;
 	}
 
 	/**
