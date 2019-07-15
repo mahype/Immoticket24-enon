@@ -334,7 +334,7 @@ class EA_Whitelabel{
 	 * @return string Redirect url of current token.
 	 */
 	public function get_redirect_url() {
-		return $this->get_token_value('redirect_url' );
+		return trim( $this->get_token_value('redirect_url' ) );
 	}
 
 	/**
@@ -343,10 +343,12 @@ class EA_Whitelabel{
 	 * @return string Redirect URL.
 	 */
 	public function get_verified_redirect_url( $energieausweis_id ) {
+		$post = get_post( $energieausweis_id );
+
 		$query_args = array(
-			'iframe' => 'true',
 			'iframe_token' => $this->get_current_token(),
 			'access_token' => md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true ),
+			'slug' => $post->post_name,
 		);
 
 		return add_query_arg( $query_args, trailingslashit( $this->get_redirect_url() ) );
