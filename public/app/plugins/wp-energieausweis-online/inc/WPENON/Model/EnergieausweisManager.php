@@ -235,6 +235,17 @@ class EnergieausweisManager {
 		return $classes;
 	}
 
+	public static function validate_email_2( $value, $field ) {
+		$result = array();
+		$result['value'] = $value;
+
+		if( $value !== $_POST['wpenon_email'] ) {
+			$result['error'] = 'Die Email-Adresse stimmt nicht überein.';
+		}
+
+		return $result;
+	}
+
 	public static function getPrivateFields( $type = '', $standard = '', $set_once = false ) {
 		$types     = self::getAvailableTypes();
 		$standards = self::getAvailableStandards();
@@ -245,6 +256,13 @@ class EnergieausweisManager {
 				'label'    => __( 'Ihre Email-Adresse', 'wpenon' ),
 				'required' => true,
 				'set_once' => true,
+			),
+			'wpenon_email2'       => array(
+				'type'     => 'email',
+				'label'    => __( 'Email wiederholen', 'wpenon' ),
+				'required' => true,
+				'set_once' => true,
+				'validate' => array( __CLASS__, 'validate_email_2' )
 			),
 			'wpenon_secret'      => array(
 				'type'     => 'text',
