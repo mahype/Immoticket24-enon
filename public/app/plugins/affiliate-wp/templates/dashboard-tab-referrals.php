@@ -10,6 +10,7 @@ $affiliate_id = affwp_get_affiliate_id();
 	$per_page  = 30;
 	$page      = affwp_get_current_page_number();
 	$pages     = absint( ceil( affwp_count_referrals( $affiliate_id ) / $per_page ) );
+	/** @var \AffWP\Referral[] $referrals */
 	$referrals = affiliate_wp()->referrals->get_referrals(
 		array(
 			'number'       => $per_page,
@@ -51,7 +52,7 @@ $affiliate_id = affwp_get_affiliate_id();
 
 				<?php foreach ( $referrals as $referral ) : ?>
 					<tr>
-						<td class="referral-reference" data-th="<?php _e( 'Reference', 'affiliate-wp' ); ?>"><?php echo $referral->reference; ?></td>
+						<td class="referral-reference" data-th="<?php _e( 'Reference', 'affiliate-wp' ); ?>"><?php echo esc_html( $referral->reference() ); ?></td>
 						<td class="referral-amount" data-th="<?php _e( 'Amount', 'affiliate-wp' ); ?>"><?php echo affwp_currency_filter( affwp_format_amount( $referral->amount ) ); ?></td>
 						<td class="referral-description" data-th="<?php _e( 'Description', 'affiliate-wp' ); ?>"><?php echo wp_kses_post( nl2br( $referral->description ) ); ?></td>
 						<td class="referral-status <?php echo $referral->status; ?>" data-th="<?php _e( 'Status', 'affiliate-wp' ); ?>"><?php echo affwp_get_referral_status_label( $referral ); ?></td>

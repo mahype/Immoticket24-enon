@@ -25,7 +25,8 @@ class Affiliate_WP_EasyCart extends Affiliate_WP_Base {
 	 *
 	 * @access  public
 	 * @since   1.6
-	*/
+	 * @since   2.3   Added support for per-order rates
+	 */
 	public function add_pending_referral( $order_id, $cart, $order_totals, $user, $payment_type ){
 
 		if( $this->was_referred() ) {
@@ -48,40 +49,43 @@ class Affiliate_WP_EasyCart extends Affiliate_WP_Base {
 			$items         = $cart->cart;
 
 			// Calculate the referral amount based on product prices
-			$amount = 0.00;
-			foreach( $items as $cart_item ) {
+			if ( affwp_is_per_order_rate( $this->affiliate_id ) ) {
+				$amount = $this->calculate_referral_amount();
+			} else {
+				$amount = 0.00;
+				foreach ( $items as $cart_item ) {
 
-				if( $cart_item->has_affiliate_rule ) {
-					continue; // Referrals are disabled on this product
+					if ( $cart_item->has_affiliate_rule ) {
+						continue; // Referrals are disabled on this product
+					}
+
+					// The order discount has to be divided across the items
+
+					$product_total = $cart_item->total_price;
+					$shipping      = 0;
+
+					if ( $cart_shipping > 0 && ! affiliate_wp()->settings->get( 'exclude_shipping' ) ) {
+
+						$shipping      = $cart_shipping / count( $items );
+						$product_total += $shipping;
+
+					}
+
+					if ( $cart_tax > 0 && ! affiliate_wp()->settings->get( 'exclude_tax' ) ) {
+
+						$tax           = $cart_tax / count( $items );
+						$product_total += $tax;
+
+					}
+
+					if ( $product_total <= 0 ) {
+						continue;
+					}
+
+					$amount += $this->calculate_referral_amount( $product_total, $order_id, $cart_item->product_id );
+
 				}
-
-				// The order discount has to be divided across the items
-
-				$product_total = $cart_item->total_price;
-				$shipping      = 0;
-
-				if( $cart_shipping > 0 && ! affiliate_wp()->settings->get( 'exclude_shipping' ) ) {
-
-					$shipping       = $cart_shipping / count( $items );
-					$product_total += $shipping;
-
-				}
-
-				if( $cart_tax > 0 && ! affiliate_wp()->settings->get( 'exclude_tax' ) ) {
-
-					$tax            = $cart_tax / count( $items );
-					$product_total += $tax;
-
-				}
-
-				if( $product_total <= 0 ) {
-					continue;
-				}
-
-				$amount += $this->calculate_referral_amount( $product_total, $order_id, $cart_item->product_id );
-
 			}
-
 			if( 0 == $amount && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
 			
 				$this->log( 'Referral not created due to 0.00 amount.' );
@@ -90,21 +94,17 @@ class Affiliate_WP_EasyCart extends Affiliate_WP_Base {
 			}
 
 			$description = $this->get_referral_description( $cart->cart );
-			$visit_id    = affiliate_wp()->tracking->get_visit_id();
 
-			$referral_id = affiliate_wp()->referrals->add( apply_filters( 'affwp_insert_pending_referral', array(
-				'amount'       => $amount,
-				'reference'    => $order_id,
-				'description'  => $description,
-				'affiliate_id' => $this->affiliate_id,
-				'visit_id'     => $visit_id,
-				'context'      => $this->context
-			), $amount, $order_id, $description, $this->affiliate_id, $visit_id, array(), $this->context ) );
-
-			$this->log( sprintf( 'Pending Referral #%d created successfully', $referral_id ) );
-
+			$this->insert_pending_referral(
+					$amount,
+					$order_id,
+					$description,
+					$items,
+					array(
+							'affiliate_id' => $this->affiliate_id,
+					)
+			);
 		}
-
 	}
 
 	/**

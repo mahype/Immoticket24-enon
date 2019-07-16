@@ -131,11 +131,15 @@
 				</th>
 
 				<td>
+					<?php $statuses = affwp_get_referral_statuses(); ?>
 					<select name="status" id="status">
-						<option value="unpaid"><?php _e( 'Unpaid', 'affiliate-wp' ); ?></option>
-						<option value="paid"><?php _e( 'Paid', 'affiliate-wp' ); ?></option>
-						<option value="pending"><?php _e( 'Pending', 'affiliate-wp' ); ?></option>
-						<option value="rejected"><?php _e( 'Rejected', 'affiliate-wp' ); ?></option>
+						<?php
+						foreach( $statuses as $status => $label ) :
+							// Ensure Unpaid is selected by default.
+							$selected = 'unpaid' === $status ? selected( 'unpaid', $status, false ) : '';
+							?>
+							<option value="<?php echo esc_attr( $status ); ?>"<?php echo $selected; ?>><?php echo esc_html( $label ); ?></option>
+						<?php endforeach; ?>
 					</select>
 					<p class="description"><?php _e( 'Select the status of the referral.', 'affiliate-wp' ); ?></p>
 				</td>

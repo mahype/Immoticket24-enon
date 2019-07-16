@@ -2,6 +2,7 @@
 $affiliate        = affwp_get_affiliate( absint( $_GET['affiliate_id'] ) );
 $user_info        = get_userdata( $affiliate->user_id );
 $rate_type        = ! empty( $affiliate->rate_type ) ? $affiliate->rate_type : '';
+$flat_rate_basis  = ! empty( $affiliate->flat_rate_basis ) ? $affiliate->flat_rate_basis : '';
 $rate             = isset( $affiliate->rate ) ? $affiliate->rate : null;
 $rate             = affwp_abs_number_round( $affiliate->rate );
 $default_rate     = affiliate_wp()->settings->get( 'referral_rate', 20 );
@@ -119,14 +120,23 @@ $notes            = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'notes',
 
 				<td>
 					<select name="status" id="status">
+						<?php
+						$statuses = affwp_get_affiliate_statuses();
 
-						<?php if ( 'rejected' === $affiliate->status ) : ?>
-							<option value="rejected" <?php selected( $affiliate->status, 'rejected' ); ?>><?php _e( 'Rejected', 'affiliate-wp' ); ?></option>
-						<?php endif; ?>
+						/*
+						 * Only include and display the Rejected status if that's the current
+						 * status, otherwise hide it as it's part of the approval process.
+						 */
+						if ( 'rejected' !== $affiliate->status ) {
+							unset( $statuses['rejected'] );
+						}
+						?>
 
-						<option value="active" <?php selected( $affiliate->status, 'active' ); ?>><?php _e( 'Active', 'affiliate-wp' ); ?></option>
-						<option value="inactive" <?php selected( $affiliate->status, 'inactive' ); ?>><?php _e( 'Inactive', 'affiliate-wp' ); ?></option>
-						<option value="pending" <?php selected( $affiliate->status, 'pending' ); ?>><?php _e( 'Pending', 'affiliate-wp' ); ?></option>
+						<?php foreach ( $statuses as $status => $label ) : ?>
+							<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $affiliate->status, $status ); ?>>
+								<?php echo esc_html( $label ); ?>
+							</option>
+						<?php endforeach; ?>
 					</select>
 					<p class="description"><?php _e( 'The status assigned to the affiliate&#8217;s account. Updating the status could trigger account related events, such as email notifications.', 'affiliate-wp' ); ?></p>
 				</td>
@@ -153,17 +163,47 @@ $notes            = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'notes',
 			<tr class="form-row">
 
 				<th scope="row">
-					<label for="rate_type"><?php _e( 'Referral Rate Type', 'affiliate-wp' ); ?></label>
+					<?php _e( 'Referral Rate Type', 'affiliate-wp' ); ?>
 				</th>
 
 				<td>
-					<select name="rate_type" id="rate_type">
-						<option value=""><?php _e( 'Site Default', 'affiliate-wp' ); ?></option>
-						<?php foreach( affwp_get_affiliate_rate_types() as $key => $type ) : ?>
-							<option value="<?php echo esc_attr( $key ); ?>"<?php selected( $rate_type, $key ); ?>><?php echo esc_html( $type ); ?></option>
+					<fieldset id="rate_type">
+						<legend class="screen-reader-text"><?php _e( 'Referral Rate Type', 'affiliate-wp' ); ?></legend>
+						<label for="rate_type_default">
+							<input type="radio" name="rate_type" id="rate_type_default" value="" <?php checked( $rate_type, '' ); ?>/><?php echo __( 'Site Default', 'affiliate-wp' ); ?>
+						</label>
+						<br/>
+						<?php foreach ( affwp_get_affiliate_rate_types() as $key => $type ) :
+							$value = esc_attr( $key ); ?>
+							<label for="rate_type_<?php echo $value; ?>">
+								<input type="radio" name="rate_type" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>"<?php checked( $rate_type, $key ); ?>><?php echo esc_html( $type ); ?>
+							</label>
+							<br/>
 						<?php endforeach; ?>
-					</select>
 					<p class="description"><?php _e( 'The affiliate&#8217;s referral rate type.', 'affiliate-wp' ); ?></p>
+					</fieldset>
+				</td>
+
+			</tr>
+
+			<tr class="<?php echo $affiliate->rate_type !== 'flat' ? 'form-row affwp-hidden' : 'form-row' ?>">
+
+				<th scope="row">
+					<?php _e( 'Flat Rate Referral Basis', 'affiliate-wp' ); ?>
+				</th>
+
+				<td>
+					<fieldset id="flat_rate_basis">
+						<legend class="screen-reader-text"><?php _e( 'Flat Rate Referral Basis', 'affiliate-wp' ); ?></legend>
+						<?php foreach ( affwp_get_affiliate_flat_rate_basis_types() as $key => $type ) :
+							$value = esc_attr( $key ); ?>
+							<label for="rate_type_<?php echo $value; ?>">
+								<input type="radio" name="flat_rate_basis" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>" <?php checked( $flat_rate_basis, $key ); ?>><?php echo esc_html( $type ); ?>
+							</label>
+							<br/>
+						<?php endforeach; ?>
+					<p class="description"><?php _e( 'The affiliate&#8217;s flat rate referral basis.', 'affiliate-wp' ); ?></p>
+					</fieldset>
 				</td>
 
 			</tr>

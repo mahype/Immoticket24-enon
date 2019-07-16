@@ -3,9 +3,9 @@
  * Plugin Name: AffiliateWP
  * Plugin URI: https://affiliatewp.com
  * Description: Affiliate Plugin for WordPress
- * Author: AffiliateWP, LLC
- * Author URI: https://affiliatewp.com
- * Version: 2.2.17
+ * Author: Sandhills Development, LLC
+ * Author URI: https://sandhillsdev.com
+ * Version: 2.3
  * Text Domain: affiliate-wp
  * Domain Path: languages
  * GitHub Plugin URI: affiliatewp/affiliatewp
@@ -25,7 +25,7 @@
  * @package AffiliateWP
  * @category Core
  * @author Pippin Williamson
- * @version 2.2.17
+ * @version 2.3
  */
 
 // Exit if accessed directly
@@ -57,7 +57,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.2.17';
+	private $version = '2.3';
 
 	/**
 	 * The affiliates DB instance variable.
@@ -401,6 +401,7 @@ final class Affiliate_WP {
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/class-menu.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/affiliates/affiliates.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/class-notices.php';
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/dashboard-widgets.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/creatives/actions.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/creatives/creatives.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/class-meta-box-base.php';
@@ -469,6 +470,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-rest-controller.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-affiliates-endpoints.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-creatives-endpoints.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-customers-endpoints.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-payouts-endpoints.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-referrals-endpoints.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-visits-endpoints.php';

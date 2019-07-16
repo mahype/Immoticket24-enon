@@ -34,12 +34,12 @@ $disabled     = disabled( (bool) $user, false, false );
 
 				<?php if ( $user ): ?>
 					<td>
-						<input type="text" name="user_name" id="user_name" value="<?php echo esc_attr( $user->user_login ); ?>" readonly="readonly" />
+						<input type="text" name="user_name" id="user_name" value="<?php echo esc_attr( $user->user_login ); ?>" readonly="readonly"/>
 					</td>
 				<?php else: ?>
 					<td>
 						<span class="affwp-ajax-search-wrap">
-							<input type="text" name="user_name" id="user_name" class="affwp-user-search affwp-enable-on-complete" data-affwp-status="bypass" autocomplete="off" />
+							<input type="text" name="user_name" id="user_name" class="affwp-user-search affwp-enable-on-complete" data-affwp-status="bypass" autocomplete="off"/>
 						</span>
 						<p class="search-description description"><?php _e( 'Begin typing the name of the affiliate to perform a search for their associated user account.', 'affiliate-wp' ); ?></p>
 					</td>
@@ -54,7 +54,7 @@ $disabled     = disabled( (bool) $user, false, false );
 				</th>
 
 				<td>
-					<input type="text" name="user_email" id="user_email" class="affwp-user-email" />
+					<input type="text" name="user_email" id="user_email" class="affwp-user-email"/>
 					<p class="description"><?php _e( 'Enter an email address for the new user.', 'affiliate-wp' ); ?></p>
 				</td>
 
@@ -80,9 +80,16 @@ $disabled     = disabled( (bool) $user, false, false );
 
 				<td>
 					<select name="status" id="status" <?php echo $disabled; ?>>
-						<option value="active"><?php _e( 'Active', 'affiliate-wp' ); ?></option>
-						<option value="inactive"><?php _e( 'Inactive', 'affiliate-wp' ); ?></option>
-						<option value="pending"><?php _e( 'Pending', 'affiliate-wp' ); ?></option>
+						<?php
+						$statuses = affwp_get_affiliate_statuses();
+
+						// Exclude rejected for new affiliates, as it's used exclusively in the approval process.
+						unset( $statuses['rejected'] );
+						?>
+
+						<?php foreach ( $statuses as $status => $label ) : ?>
+							<option value="<?php echo esc_attr( $status ); ?>"><?php echo esc_html( $label ); ?></option>
+						<?php endforeach; ?>
 					</select>
 					<p class="description"><?php _e( 'The status assigned to the affiliate&#8217;s account.', 'affiliate-wp' ); ?></p>
 				</td>
@@ -92,17 +99,48 @@ $disabled     = disabled( (bool) $user, false, false );
 			<tr class="form-row">
 
 				<th scope="row">
-					<label for="rate_type"><?php _e( 'Referral Rate Type', 'affiliate-wp' ); ?></label>
+					<?php _e( 'Referral Rate Type', 'affiliate-wp' ); ?>
 				</th>
 
 				<td>
-					<select name="rate_type" id="rate_type" <?php echo $disabled; ?>>
-						<option value=""><?php _e( 'Site Default', 'affiliate-wp' ); ?></option>
-						<?php foreach ( affwp_get_affiliate_rate_types() as $key => $type ) : ?>
-							<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $type ); ?></option>
+					<fieldset id="rate_type">
+						<legend class="screen-reader-text"><?php _e( 'Referral Rate Type', 'affiliate-wp' ); ?></legend>
+						<label for="rate_type_default">
+							<input type="radio" name="rate_type" id="rate_type_default" value="" checked="checked"  <?php echo $disabled; ?> />
+							<?php _e( 'Site Default', 'affiliate-wp' ); ?>
+						</label>
+						<br/>
+						<?php foreach ( affwp_get_affiliate_rate_types() as $key => $type ) :
+							$value = esc_attr( $key ); ?>
+							<label for="rate_type_<?php echo $value; ?>">
+								<input type="radio" name="rate_type" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>"  <?php echo $disabled; ?>><?php echo esc_html( $type ); ?>
+							</label>
+							<br/>
 						<?php endforeach; ?>
-					</select>
-					<p class="description"><?php _e( 'The affiliate&#8217;s referral rate type.', 'affiliate-wp' ); ?></p>
+						<p class="description"><?php _e( 'The affiliate&#8217;s referral rate type.', 'affiliate-wp' ); ?></p>
+					</fieldset>
+				</td>
+
+			</tr>
+
+			<tr class="form-row affwp-hidden">
+
+				<th scope="row">
+					<?php _e( 'Flat Rate Referral Basis', 'affiliate-wp' ); ?>
+				</th>
+
+				<td>
+					<fieldset id="flat_rate_basis">
+						<legend class="screen-reader-text"><?php _e( 'Flat Rate Referral Basis', 'affiliate-wp' ); ?></legend>
+						<?php foreach ( affwp_get_affiliate_flat_rate_basis_types() as $key => $type ) :
+							$value = esc_attr( $key ); ?>
+							<label for="rate_type_<?php echo $value; ?>">
+								<input type="radio" name="flat_rate_basis" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>" <?php echo $disabled; ?>><?php echo esc_html( $type ); ?>
+							</label>
+							<br/>
+						<?php endforeach; ?>
+						<p class="description"><?php _e( 'The affiliate&#8217;s flat rate referral basis.', 'affiliate-wp' ); ?></p>
+					</fieldset>
 				</td>
 
 			</tr>
@@ -186,7 +224,7 @@ $disabled     = disabled( (bool) $user, false, false );
 
 		<input type="hidden" name="affwp_action" value="add_affiliate" />
 
-		<?php submit_button( __( 'Add Affiliate', 'affiliate-wp' ) ); ?>
+		<?php submit_button( __( 'Add Affiliate', 'affiliate-wp' ), 'primary', 'submit', true, array( 'disabled' => 'true' ) ); ?>
 
 	</form>
 

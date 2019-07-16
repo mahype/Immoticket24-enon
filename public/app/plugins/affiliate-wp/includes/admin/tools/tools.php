@@ -185,14 +185,26 @@ function affwp_migration_tab() {
 	global $wp_version;
 	$tool_is_compatible = version_compare( $wp_version, '4.4', '>=' );
 
-	$user_counts = count_users();
+	$affiliate_user_ids = affiliate_wp()->affiliates->get_affiliates( array(
+		'number' => -1,
+		'fields' => 'user_id',
+	) );
 
 	$_roles = new WP_Roles();
 	$roles  = array();
 
 	foreach ( $_roles->get_names() as $role => $label ) {
+
 		$roles[ $role ]['label'] = translate_user_role( $label );
-		$roles[ $role ]['count'] = isset( $user_counts['avail_roles'][ $role ] ) ? $user_counts['avail_roles'][ $role ] : 0;
+
+		$user_query = new WP_User_Query( array(
+			'role'    => $role,
+			'fields'  => 'ID',
+			'exclude' => $affiliate_user_ids,
+		) );
+
+		$roles[ $role ]['count'] = (int) $user_query->get_total();
+
 	}
 ?>
 	<div id="affwp-dashboard-widgets-wrap">
@@ -208,7 +220,7 @@ function affwp_migration_tab() {
 				<div class="inside">
 					<?php if ( $tool_is_compatible ) : ?>
 						<p><?php esc_html_e( 'Use this tool to create affiliate accounts for each of your existing WordPress user accounts that belong to the selected roles below.', 'affiliate-wp' ); ?></p>
-						<p><?php esc_html_e( '<strong>NOTE:</strong> Users that already have affiliate accounts will be skipped. Duplicate accounts will not be created.', 'affiliate-wp' ); ?></p>
+						<strong><?php esc_html_e( 'NOTE: Users that already have affiliate accounts will be skipped. Duplicate accounts will not be created.', 'affiliate-wp' ); ?></strong>
 						<form method="post" id="affiliate-wp-migrate-user-accounts" class="affwp-batch-form" data-batch_id="migrate-users" data-nonce="<?php echo esc_attr( wp_create_nonce( 'migrate-users_step_nonce' ) ); ?>">
 							<h4><span><?php esc_html_e( 'Select User Roles', 'affiliate-wp' ); ?></span></h4>
 							<?php foreach ( $roles as $role => $data ) : ?>
@@ -237,7 +249,7 @@ function affwp_migration_tab() {
 				<h3><span>Affiliates Pro</span></h3>
 				<div class="inside">
 					<p><?php esc_html_e( 'Use this tool to migrate existing affiliate / referral data from Affiliates Pro to AffiliateWP.', 'affiliate-wp' ); ?></p>
-					<p><?php esc_html_e( '<strong>NOTE:</strong> This tool should only ever be used on a fresh install. If you have already collected affiliate or referral data, do not use this tool.', 'affiliate-wp' ); ?></p>
+					<strong><?php esc_html_e( 'NOTE: This tool should only ever be used on a fresh install. If you have already collected affiliate or referral data, do not use this tool.', 'affiliate-wp' ); ?></strong>
 					<form method="get">
 						<input type="hidden" name="type" value="affiliates-pro"/>
 						<input type="hidden" name="part" value="affiliates"/>
@@ -285,10 +297,12 @@ function affwp_export_import_tab() {
 					<form method="post" enctype="multipart/form-data" class="affwp-batch-form" data-batch_id="export-affiliates" data-nonce="<?php echo esc_attr( wp_create_nonce( 'export-affiliates_step_nonce' ) ); ?>">
 						<p>
 							<select name="status" id="status">
+								<?php $statuses = affwp_get_affiliate_statuses(); ?>
 								<option value="0"><?php esc_html_e( 'All Statuses', 'affiliate-wp' ); ?></option>
-								<option value="active"><?php esc_html_e( 'Active', 'affiliate-wp' ); ?></option>
-								<option value="pending"><?php esc_html_e( 'Pending', 'affiliate-wp' ); ?></option>
-								<option value="rejected"><?php esc_html_e( 'Rejected', 'affiliate-wp' ); ?></option>
+
+								<?php foreach ( $statuses as $status => $label ) : ?>
+									<option value="<?php echo esc_attr( $status ); ?>"><?php echo esc_html( $label ); ?></option>
+								<?php endforeach; ?>
 							</select>
 						</p>
 						<p>
@@ -310,11 +324,11 @@ function affwp_export_import_tab() {
 							<input type="text" class="affwp-datepicker" autocomplete="off" name="start_date" placeholder="<?php esc_html_e( 'From - mm/dd/yyyy', 'affiliate-wp' ); ?>"/>
 							<input type="text" class="affwp-datepicker" autocomplete="off" name="end_date" placeholder="<?php esc_html_e( 'To - mm/dd/yyyy', 'affiliate-wp' ); ?>"/>
 							<select name="status" id="status">
+								<?php $statuses = affwp_get_referral_statuses(); ?>
 								<option value="0"><?php esc_html_e( 'All Statuses', 'affiliate-wp' ); ?></option>
-								<option value="paid"><?php esc_html_e( 'Paid', 'affiliate-wp' ); ?></option>
-								<option value="unpaid"><?php esc_html_e( 'Unpaid', 'affiliate-wp' ); ?></option>
-								<option value="pending"><?php esc_html_e( 'Pending', 'affiliate-wp' ); ?></option>
-								<option value="rejected"><?php esc_html_e( 'Rejected', 'affiliate-wp' ); ?></option>
+								<?php foreach ( $statuses as $status => $label ) : ?>
+									<option value="<?php echo esc_attr( $status ); ?>"><?php echo esc_html( $label ); ?></option>
+								<?php endforeach; ?>
 							</select>
 							<div class="description"><?php esc_html_e( 'To search for an affiliate, enter the affiliate&#8217;s login name, first name, or last name. Leave blank to export referrals for all affiliates.', 'affiliate-wp' ); ?></div>
 						</p>

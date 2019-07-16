@@ -110,8 +110,8 @@ abstract class Tab {
 
 		$this->dates      = affwp_get_report_dates();
 		$this->date_query = array(
-			'start' => $this->dates['year'] . '-' . $this->dates['m_start'] . '-' . $this->dates['day'] . ' 00:00:00',
-			'end'   => $this->dates['year_end'] . '-' . $this->dates['m_end'] . '-' . $this->dates['day_end'] . ' 23:59:59',
+			'start' => $this->dates['year'] . '-' . $this->dates['m_start'] . '-' . $this->dates['day'],
+			'end'   => $this->dates['year_end'] . '-' . $this->dates['m_end'] . '-' . $this->dates['day_end'],
 		);
 
 		add_action( "affwp_reports_{$this->tab_id}_nav",        array( $this->graph, 'graph_controls' ), 0 );

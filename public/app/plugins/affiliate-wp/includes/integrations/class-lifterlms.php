@@ -227,16 +227,16 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 			} else { // No referral exists, so create a new one.
 
 				// Create a new referral.
-				$referral_id = affiliate_wp()->referrals->add( apply_filters( 'affwp_insert_pending_referral', array(
-					'amount'       => $amount,
-					'reference'    => $order->id,
-					'description'  => $description,
-					'campaign'     => affiliate_wp()->tracking->get_campaign(),
-					'affiliate_id' => $affiliate_id,
-					'visit_id'     => $visit_id,
-					'products'     => $this->get_products( $order->id ),
-					'context'      => $this->context
-				), $amount, $order_id, $description, $affiliate_id, $visit_id, array(), $this->context ) ); // what's this array for?
+				$referral_id = $this->insert_pending_referral(
+					$amount,
+					$order->id,
+					$description,
+					$this->get_products( $order->id ),
+					array(
+							'affiliate_id'       => $affiliate_id,
+							'is_coupon_referral' => $order->coupon_id && $order->coupon_affiliate_id,
+					)
+				);
 
 				if ( $referral_id ) {
 
@@ -348,16 +348,16 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 			} else { // No referral exists, so create a new one.
 
 				// Create a new referral.
-				$referral_id = affiliate_wp()->referrals->add( apply_filters( 'affwp_insert_pending_referral', array(
-					'amount'       => $amount,
-					'reference'    => $order_id,
-					'description'  => $description,
-					'campaign'     => affiliate_wp()->tracking->get_campaign(),
-					'affiliate_id' => $affiliate_id,
-					'visit_id'     => $visit_id,
-					'products'     => $this->get_products( $order->id ),
-					'context'      => $this->context
-				), $amount, $order_id, $description, $affiliate_id, $visit_id, array(), $this->context ) ); // what's this array for?
+				$referral_id = $this->insert_pending_referral(
+					$amount,
+					$order_id,
+					$description,
+					$this->get_products( $order->id ),
+					array(
+							'affiliate_id'       => $affiliate_id,
+							'is_coupon_referral' => $order->has_coupon(),
+					)
+				);
 
 				if ( $referral_id ) {
 

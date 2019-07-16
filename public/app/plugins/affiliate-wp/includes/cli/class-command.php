@@ -158,7 +158,7 @@ class Command extends \WP_CLI_Command {
 	 * @access public
 	 */
 	public function stats( $args, $assoc_args ) {
-		$affiliate_count = $referral_count = $visit_count = 0;
+		$affiliate_count = $creative_count = $customer_count = $payout_count = $referral_count = $visit_count = 0;
 
 		$global = \WP_CLI\Utils\get_flag_value( $assoc_args, 'global' );
 
@@ -179,8 +179,10 @@ class Command extends \WP_CLI_Command {
 			if ( $count > 1 && $global ) {
 				switch_to_blog( $site_id );
 			}
+
 			$affiliate_count = $affiliate_count + affiliate_wp()->affiliates->count();
 			$creative_count  = $creative_count  + affiliate_wp()->creatives->count();
+			$customer_count  = $customer_count  + affiliate_wp()->customers->count();
 			$payout_count    = $payout_count    + affiliate_wp()->affiliates->payouts->count();
 			$referral_count  = $referral_count  + affiliate_wp()->referrals->count();
 			$visit_count     = $visit_count     + affiliate_wp()->visits->count();
@@ -195,6 +197,9 @@ class Command extends \WP_CLI_Command {
 
 		// Creatives.
 		self::format_line( __( 'Total Creatives: %s', 'affiliate-wp' ), $creative_count, '%_' );
+
+		// Customers.
+		self::format_line( __( 'Total Customers: %s', 'affiliate-wp' ), $customer_count, '%_' );
 
 		// Payouts.
 		self::format_line( __( 'Total Payouts: %s', 'affiliate-wp' ), $payout_count, '%_' );

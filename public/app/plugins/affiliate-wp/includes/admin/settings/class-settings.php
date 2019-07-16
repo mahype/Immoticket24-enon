@@ -198,6 +198,7 @@ class Affiliate_WP_Settings {
 						'options'  => isset( $option['options'] ) ? $option['options'] : '',
 						'std'      => isset( $option['std'] ) ? $option['std'] : '',
 						'disabled' => isset( $option['disabled'] ) ? $option['disabled'] : '',
+						'class'    => isset( $option['class'] ) ? $option['class'] : ''
 					)
 				);
 			}
@@ -525,10 +526,19 @@ class Affiliate_WP_Settings {
 						'type' => 'checkbox'
 					),
 					'referral_rate_type' => array(
-						'name' => __( 'Referral Rate Type', 'affiliate-wp' ),
-						'desc' => __( 'Choose a referral rate type. Referrals can be based on either a percentage or a flat rate amount.', 'affiliate-wp' ),
-						'type' => 'select',
-						'options' => affwp_get_affiliate_rate_types()
+						'name'    => __( 'Referral Rate Type', 'affiliate-wp' ),
+						'desc'    => __( 'Choose a referral rate type. Referrals can be based on either a percentage or a flat rate amount.', 'affiliate-wp' ),
+						'type'    => 'radio',
+						'options' => affwp_get_affiliate_rate_types(),
+						'std'     => 'percentage'
+					),
+					'flat_rate_basis' => array(
+						'name'    => __( 'Flat Rate Referral Basis', 'affiliate-wp' ),
+						'desc'    => __( 'Flat rate referrals can be calculated on either a per product or per order basis.', 'affiliate-wp' ),
+						'type'    => 'radio',
+						'options' => affwp_get_affiliate_flat_rate_basis_types(),
+						'class'   => affwp_get_affiliate_rate_type() !== 'flat' ? 'affwp-referral-rate-type-field affwp-hidden' : 'affwp-referral-rate-type-field',
+						'std'     => 'per_product'
 					),
 					'referral_rate' => array(
 						'name' => __( 'Referral Rate', 'affiliate-wp' ),
@@ -536,7 +546,7 @@ class Affiliate_WP_Settings {
 						'type' => 'number',
 						'size' => 'small',
 						'step' => '0.01',
-						'std' => '20'
+						'std'  => '20'
 					),
 					'exclude_shipping' => array(
 						'name' => __( 'Exclude Shipping', 'affiliate-wp' ),
@@ -549,11 +559,11 @@ class Affiliate_WP_Settings {
 						'type' => 'checkbox'
 					),
 					'cookie_exp' => array(
-						'name' => __( 'Cookie Expiration', 'affiliate-wp' ),
-						'desc' => __( 'Enter how many days the referral tracking cookie should be valid for.', 'affiliate-wp' ),
-						'type' => 'number',
-						'size' => 'small',
-						'std' => '1'
+							'name' => __( 'Cookie Expiration', 'affiliate-wp' ),
+							'desc' => __( 'Enter how many days the referral tracking cookie should be valid for.', 'affiliate-wp' ),
+							'type' => 'number',
+							'size' => 'small',
+							'std'  => '1',
 					),
 					'cookie_sharing' => array(
 						'name' => __( 'Cookie Sharing', 'affiliate-wp' ),
@@ -566,10 +576,10 @@ class Affiliate_WP_Settings {
 						'type' => 'header'
 					),
 					'currency' => array(
-						'name' => __( 'Currency', 'affiliate-wp' ),
-						'desc' => __( 'Choose your currency. Note that some payment gateways have currency restrictions.', 'affiliate-wp' ),
-						'type' => 'select',
-						'options' => affwp_get_currencies()
+							'name'    => __( 'Currency', 'affiliate-wp' ),
+							'desc'    => __( 'Choose your currency. Note that some payment gateways have currency restrictions.', 'affiliate-wp' ),
+							'type'    => 'select',
+							'options' => affwp_get_currencies(),
 					),
 					'currency_position' => array(
 						'name' => __( 'Currency Symbol Position', 'affiliate-wp' ),
@@ -710,46 +720,52 @@ class Affiliate_WP_Settings {
 					),
 					'email_notifications' => array(
 						'name' => __( 'Email Notifications', 'affiliate-wp' ),
-						'desc' => __( 'The email notifications sent to the admin and affiliate.', 'affiliate-wp' ),
+						'desc' => __( 'The email notifications sent to the affiliate manager and affiliate.', 'affiliate-wp' ),
 						'type' => 'multicheck',
 						'options' => $this->email_notifications()
 					),
+					'affiliate_manager_email' => array(
+						'name' => __( 'Affiliate Manager Email', 'affiliate-wp' ),
+						'desc' => __( 'The email address(es) to receive affiliate manager notifications. Separate multiple email addresses with a comma (,). The admin email address will be used unless overridden.', 'affiliate-wp' ),
+						'type' => 'text',
+						'std'  => get_bloginfo( 'admin_email' ),
+					),
 					'registration_options_header' => array(
-						'name' => '<strong>' . __( 'Registration Email Admin Options', 'affiliate-wp' ) . '</strong>',
+						'name' => '<strong>' . __( 'Registration Email Options For Affiliate Manager', 'affiliate-wp' ) . '</strong>',
 						'desc' => '',
 						'type' => 'header'
 					),
 					'registration_subject' => array(
-						'name' => __( 'Registration Email Admin Subject', 'affiliate-wp' ),
-						'desc' => __( 'Enter the subject line for the registration email sent to admins when new affiliates register.', 'affiliate-wp' ),
+						'name' => __( 'Registration Email Subject', 'affiliate-wp' ),
+						'desc' => __( 'Enter the subject line for the registration email sent to affiliate managers when new affiliates register.', 'affiliate-wp' ),
 						'type' => 'text',
 						'std' => __( 'New Affiliate Registration', 'affiliate-wp' )
 					),
 					'registration_email' => array(
-						'name' => __( 'Registration Email Admin Content', 'affiliate-wp' ),
+						'name' => __( 'Registration Email Content', 'affiliate-wp' ),
 						'desc' => __( 'Enter the email to send when a new affiliate registers. HTML is accepted. Available template tags:', 'affiliate-wp' ) . '<br />' . $emails_tags_list,
 						'type' => 'rich_editor',
 						'std' => sprintf( __( 'A new affiliate has registered on your site, %s', 'affiliate-wp' ), home_url() ) . "\n\n" . __( 'Name: ', 'affiliate-wp' ) . "{name}\n\n{website}\n\n{promo_method}"
 					),
 					'new_admin_referral_options_header' => array(
-						'name' => '<strong>' . __( 'New Referral Admin Email Options', 'affiliate-wp' ) . '</strong>',
+						'name' => '<strong>' . __( 'New Referral Email Options for Affiliate Manager', 'affiliate-wp' ) . '</strong>',
 						'desc' => '',
 						'type' => 'header'
 					),
 					'new_admin_referral_subject' => array(
-						'name' => __( 'New Referral Admin Email Subject', 'affiliate-wp' ),
-						'desc' => __( 'Enter the subject line for the email sent to site the site administrator when affiliates earn referrals.', 'affiliate-wp' ),
+						'name' => __( 'New Referral Email Subject', 'affiliate-wp' ),
+						'desc' => __( 'Enter the subject line for the email sent to site the site affiliate manager when affiliates earn referrals.', 'affiliate-wp' ),
 						'type' => 'text',
 						'std' => __( 'Referral Earned!', 'affiliate-wp' )
 					),
 					'new_admin_referral_email' => array(
-						'name' => __( 'New Referral Admin Email Content', 'affiliate-wp' ),
-						'desc' => __( 'Enter the email to send to site administrators when new referrals are earned. HTML is accepted. Available template tags:', 'affiliate-wp' ) . '<br />' . $emails_tags_list,
+						'name' => __( 'New Referral Email Content', 'affiliate-wp' ),
+						'desc' => __( 'Enter the email to send to site affiliate managers when new referrals are earned. HTML is accepted. Available template tags:', 'affiliate-wp' ) . '<br />' . $emails_tags_list,
 						'type' => 'rich_editor',
 						'std' => __( '{name} has been awarded a new referral of {amount} on {site_name}.', 'affiliate-wp' )
 					),
 					'new_referral_options_header' => array(
-						'name' => '<strong>' . __( 'New Referral Email Options', 'affiliate-wp' ) . '</strong>',
+						'name' => '<strong>' . __( 'New Referral Email Options For Affiliate', 'affiliate-wp' ) . '</strong>',
 						'desc' => '',
 						'type' => 'header'
 					),
@@ -766,7 +782,7 @@ class Affiliate_WP_Settings {
 						'std' => __( 'Congratulations {name}!', 'affiliate-wp' ) . "\n\n" . __( 'You have been awarded a new referral of', 'affiliate-wp' ) . ' {amount} ' . sprintf( __( 'on %s!', 'affiliate-wp' ), home_url() ) . "\n\n" . __( 'Log into your affiliate area to view your earnings or disable these notifications:', 'affiliate-wp' ) . ' {login_url}'
 					),
 					'accepted_options_header' => array(
-						'name' => '<strong>' . __( 'Application Accepted Email Options', 'affiliate-wp' ) . '</strong>',
+						'name' => '<strong>' . __( 'Application Accepted Email Options For Affiliate', 'affiliate-wp' ) . '</strong>',
 						'desc' => '',
 						'type' => 'header'
 					),
@@ -855,7 +871,7 @@ class Affiliate_WP_Settings {
 					),
 					'debug_mode' => array(
 						'name' => __( 'Enable Debug Mode', 'affiliate-wp' ),
-						'desc' => __( 'Enable debug mode. This will turn on error logging for the referral process to help identify issues.', 'affiliate-wp' ),
+						'desc' => sprintf( __( 'Enable debug mode. This will turn on error logging for the referral process to help identify issues. Logs are kept in <a href="%s">Affiliates > Tools</a>.', 'affiliate-wp' ), affwp_admin_url( 'tools', array( 'tab' => 'system_info' ) ) ),
 						'type' => 'checkbox'
 					),
 					'referral_url_blacklist' => array(
@@ -929,8 +945,8 @@ class Affiliate_WP_Settings {
 	public function email_notifications( $install = false ) {
 
 		$emails = array(
-			'admin_affiliate_registration_email'   => __( 'Notify admin when a new affiliate has registered', 'affiliate-wp' ),
-			'admin_new_referral_email'             => __( 'Notify admin when a new referral has been created', 'affiliate-wp' ),
+			'admin_affiliate_registration_email'   => __( 'Notify affiliate manager when a new affiliate has registered', 'affiliate-wp' ),
+			'admin_new_referral_email'             => __( 'Notify affiliate manager when a new referral has been created', 'affiliate-wp' ),
 			'affiliate_new_referral_email'         => __( 'Notify affiliate when they earn a new referral', 'affiliate-wp' ),
 			'affiliate_application_accepted_email' => __( 'Notify affiliate when their affiliate application is accepted', 'affiliate-wp' ),
 		);
@@ -961,7 +977,7 @@ class Affiliate_WP_Settings {
 
 		$new_email_settings = array(
 			'pending_options_header' => array(
-				'name' => '<strong>' . __( 'Application Pending Email Options', 'affiliate-wp' ) . '</strong>',
+				'name' => '<strong>' . __( 'Application Pending Email Options For Affiliate', 'affiliate-wp' ) . '</strong>',
 				'desc' => '',
 				'type' => 'header'
 			),
@@ -978,7 +994,7 @@ class Affiliate_WP_Settings {
 				'std' => __( 'Hi {name}!', 'affiliate-wp' ) . "\n\n" . __( 'Thanks for your recent affiliate registration on {site_name}.', 'affiliate-wp' ) . "\n\n" . __( 'We&#8217;re currently reviewing your affiliate application and will be in touch soon!', 'affiliate-wp' ) . "\n\n"
 			),
 			'rejection_options_header' => array(
-				'name' => '<strong>' . __( 'Application Rejection Email Options', 'affiliate-wp' ) . '</strong>',
+				'name' => '<strong>' . __( 'Application Rejection Email Options For Affiliate', 'affiliate-wp' ) . '</strong>',
 				'desc' => '',
 				'type' => 'header'
 			),
@@ -1080,7 +1096,7 @@ class Affiliate_WP_Settings {
 				$checked = true;
 
 			echo '<label for="affwp_settings[' . $args['id'] . '][' . $key . ']">';
-			echo '<input name="affwp_settings[' . $args['id'] . ']"" id="affwp_settings[' . $args['id'] . '][' . $key . ']" type="radio" value="' . $key . '" ' . checked(true, $checked, false) . '/>&nbsp;';
+			echo '<input name="affwp_settings[' . $args['id'] . ']" id="affwp_settings[' . $args['id'] . '][' . $key . ']" type="radio" value="' . $key . '" ' . checked(true, $checked, false) . '/>&nbsp;';
 			echo $option . '</label><br/>';
 		endforeach;
 
@@ -1397,7 +1413,7 @@ class Affiliate_WP_Settings {
 			// Globally enabled.
 			add_filter( 'affwp_settings_misc', function( $misc_settings ) {
 				$misc_settings['debug_mode']['disabled'] = true;
-				$misc_settings['debug_mode']['desc']     = __( 'Debug mode is globally enabled via <code>AFFILIATE_WP_DEBUG</code> set in <code>wp-config.php</code>. This setting cannot be modified from this screen.', 'affiliate-wp' );
+				$misc_settings['debug_mode']['desc']     = sprintf( __( 'Debug mode is globally enabled via <code>AFFILIATE_WP_DEBUG</code> set in <code>wp-config.php</code>. This setting cannot be modified from this screen. Logs are kept in <a href="%s">Affiliates > Tools</a>.', 'affiliate-wp' ), affwp_admin_url( 'tools', array( 'tab' => 'system_info' ) ) );
 
 				return $misc_settings;
 			} );
@@ -1696,6 +1712,7 @@ class Affiliate_WP_Settings {
 		$data['consumers']        = affiliate_wp()->REST->consumers->count( array( 'number' => -1 ) );
 		$data['visits']           = affiliate_wp()->visits->count( array( 'number' => -1 ) );
 		$data['referral_rate']    = $this->get( 'referral_rate' );
+		$data['flat_rate_basis']  = $this->get( 'flat_rate_basis' );
 		$data['rate_type']        = $this->get( 'referral_rate_type' );
 
 		return $data;

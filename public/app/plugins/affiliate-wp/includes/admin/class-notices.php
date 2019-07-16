@@ -443,6 +443,10 @@ class Affiliate_WP_Admin_Notices {
 	 * @since  2.0
 	 */
 	public function upgrade_notices() {
+		// Don't display notices for users who can't manage affiliates.
+		if ( ! current_user_can( 'manage_affiliates' ) ) {
+			return;
+		}
 
 		if ( true === version_compare( AFFILIATEWP_VERSION, '2.0', '<' ) || false === affwp_has_upgrade_completed( 'upgrade_v20_recount_unpaid_earnings' ) ) :
 
@@ -484,6 +488,11 @@ class Affiliate_WP_Admin_Notices {
 	 * @return string|void Output if `$display_notices` is false, otherwise void.
 	 */
 	public function integration_notices() {
+		// Don't display notices for users who can't manage affiliates.
+		if ( ! current_user_can( 'manage_affiliates' ) ) {
+			return;
+		}
+
 		$message = $class = '';
 
 		$integrations = affiliate_wp()->integrations->get_enabled_integrations();
@@ -514,6 +523,11 @@ class Affiliate_WP_Admin_Notices {
 	 * @return string|void Output if `$display_notices` is false, otherwise void.
 	 */
 	public function license_notices() {
+		// Don't display notices for users who can't manage affiliates.
+		if ( ! current_user_can( 'manage_affiliates' ) ) {
+			return;
+		}
+
 		$license = affiliate_wp()->settings->check_license();
 
 		$message = $status = $class = $output = '';

@@ -67,6 +67,17 @@ $affiliate_id = affwp_get_affiliate_id();
 </div>
 
 <div id="affwp-affiliate-dashboard-campaign-stats" class="affwp-tab-content">
+	<?php
+	$per_page  = 10;
+	$page      = affwp_get_current_page_number();
+	$pages     = absint( ceil( affiliate_wp()->campaigns->count( array( 'affiliate_id' => $affiliate_id ) ) / $per_page ) );
+	$args      = array(
+		'number' => $per_page,
+		'offset' => $per_page * ( $page - 1 ),
+	);
+
+	$campaigns = affwp_get_affiliate_campaigns( $affiliate_id, $args );
+	?>
 	<table class="affwp-table affwp-table-responsive">
 		<thead>
 			<tr>
@@ -79,8 +90,8 @@ $affiliate_id = affwp_get_affiliate_id();
 		</thead>
 
 		<tbody>
-			<?php if( $campaigns = affwp_get_affiliate_campaigns( $affiliate_id ) ) : ?>
-				<?php foreach( $campaigns as $campaign ) : ?>
+			<?php if ( $campaigns ) :
+				foreach( $campaigns as $campaign ) : ?>
 					<tr>
 						<td data-th="<?php _e( 'Campaign', 'affiliate-wp' ); ?>"><?php echo ! empty( $campaign->campaign ) ? esc_html( $campaign->campaign ) : __( 'None set', 'affiliate-wp' ); ?></td>
 						<td data-th="<?php _e( 'Visits', 'affiliate-wp' ); ?>"><?php echo esc_html( $campaign->visits ); ?></td>
@@ -96,6 +107,22 @@ $affiliate_id = affwp_get_affiliate_id();
 			<?php endif; ?>
 		</tbody>
 	</table>
+
+	<?php if ( $pages > 1 ) : ?>
+
+		<p class="affwp-pagination">
+			<?php
+			echo paginate_links( array(
+				'current'  => $page,
+				'total'    => $pages,
+				'add_args' => array(
+					'tab' => 'stats',
+				),
+			) );
+			?>
+		</p>
+
+	<?php endif; ?>
 
 	<?php
 	/**

@@ -112,7 +112,10 @@ class Affiliate_WP_Exchange extends Affiliate_WP_Base {
 
 				return; // Customers cannot refer themselves
 			}
-
+		if ( affwp_is_per_order_rate( $affiliate_id ) ) {
+			$amount = $this->calculate_referral_amount();
+		} else {
+			$amount         = 0;
 			$sub_total      = 0;
 			$total          = floatval( $this->transaction->total );
 			$total_taxes    = floatval( $this->transaction->taxes_raw );
@@ -132,7 +135,6 @@ class Affiliate_WP_Exchange extends Affiliate_WP_Base {
 				$referral_total -= $shipping / 100;
 			}
 
-			$amount = 0;
 
 			foreach ( $this->transaction->products as $product ) {
 
@@ -145,6 +147,7 @@ class Affiliate_WP_Exchange extends Affiliate_WP_Base {
 
 				$amount += $this->calculate_referral_amount( $referral_product_price, $transaction_id, $product['product_id'], $affiliate_id );
 			}
+		}
 
 			$this->insert_pending_referral(
 					$amount,

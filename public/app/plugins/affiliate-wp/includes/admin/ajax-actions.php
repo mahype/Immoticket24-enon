@@ -10,7 +10,7 @@ function affwp_search_users() {
 		wp_die( -1 );
 	}
 
-	$search_query = htmlentities2( trim( $_REQUEST['term'] ) );
+	$search_query = htmlentities2( trim( sanitize_text_field( $_REQUEST['term'] ) ) );
 
 	/**
 	 * Fires immediately prior to an AffiliateWP user search query.
@@ -167,7 +167,7 @@ function affwp_process_batch_request() {
 	if ( isset( $_REQUEST['data']['upload']['file'] ) ) {
 
 		// If this is an import, instantiate with the file and step.
-		$file = sanitize_text_field( $_REQUEST['data']['upload']['file'] );
+		$file    = sanitize_text_field( $_REQUEST['data']['upload']['file'] );
 		$process = new $class( $file, $step );
 
 	} else {
@@ -210,7 +210,7 @@ function affwp_process_batch_request() {
 
 		// Finish and set the status flag if done.
 		if ( 'done' === $step ) {
-			$response_data['done'] = true;
+			$response_data['done']    = true;
 			$response_data['message'] = $process->get_message( 'done' );
 
 			// If this is an export class and not an empty export, send the download URL.
@@ -229,7 +229,7 @@ function affwp_process_batch_request() {
 			// Once all calculations have finished, run cleanup.
 			$process->finish( $batch_id );
 		} else {
-			$response_data['done'] = false;
+			$response_data['done']       = false;
 			$response_data['percentage'] = $process->get_percentage_complete();
 		}
 
@@ -358,18 +358,24 @@ add_action( 'wp_ajax_process_batch_import', 'affwp_process_batch_import' );
  * Handles Ajax for determining if a user log in name is valid
  *
  * @since 2.1.4
+ * @since 2.3   Added support for user_email parameter
  */
 function affwp_check_user_login() {
-
-	if ( empty( $_REQUEST['user'] ) ) {
-		wp_die( -1 );
-	}
 
 	if ( ! current_user_can( 'manage_affiliates' ) ) {
 		wp_die( -1 );
 	}
 
-	$user = sanitize_text_field( $_REQUEST['user'] );
+	if ( ! empty( $_REQUEST['user'] ) ) {
+		$user = sanitize_text_field( $_REQUEST['user'] );
+	} elseif ( ! empty( $_REQUEST['user_email'] ) ) {
+		$user = get_user_by( 'email', sanitize_text_field( $_REQUEST['user_email'] ) );
+		if ( false !== $user ) {
+			$user = $user->user_login;
+		}
+	} else {
+		wp_die( -1 );
+	}
 
 	/**
 	 * Fires immediately prior to an AffiliateWP user check.
@@ -382,14 +388,15 @@ function affwp_check_user_login() {
 
 	if ( $affiliate ) {
 		$response = array(
-			'affiliate' => true,
-			'url'       => esc_url( affwp_admin_url( 'affiliates', array(
-				'affiliate_id' => $affiliate->ID,
-				'action'       => 'edit_affiliate',
-			) ) ),
+				'affiliate' => true,
+				'user'      => $user,
+				'url'       => esc_url( affwp_admin_url( 'affiliates', array(
+						'affiliate_id' => $affiliate->ID,
+						'action'       => 'edit_affiliate',
+				) ) ),
 		);
 	} else {
-		$response = array( 'affiliate' => false );
+		$response = array( 'affiliate' => false, 'user' => $user );
 
 	}
 

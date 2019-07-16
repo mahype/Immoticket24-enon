@@ -257,4 +257,22 @@ final class Referral extends Base_Object {
 		return $value;
 	}
 
+	/**
+	 * Retrieves the reference based on the context (integration) of the current referral.
+	 *
+	 * @since 2.3
+	 *
+	 * @return int (Maybe) processed reference, otherwise 0.
+	 */
+	public function reference() {
+		$reference = $this->reference;
+
+		$class = affiliate_wp()->integrations->get_integration_class( $this->context );
+
+		if ( class_exists( $class ) ) {
+			$reference = ( new $class )->parse_reference( $this->reference );
+		}
+
+		return $reference;
+	}
 }

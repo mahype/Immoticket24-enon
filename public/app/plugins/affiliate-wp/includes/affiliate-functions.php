@@ -313,49 +313,58 @@ function affwp_set_affiliate_status( $affiliate, $status = '' ) {
  *
  * @since 1.8
  * @since 1.9 The `$affiliate` parameter can now accept an affiliate object and was made optional.
+ * @since 2.3 The `$affiliate` parameter was renamed to `$affiliate_or_status` and now also accepts
+ *            an affiliate status
  *
  * @param int|AffWP\Affiliate $affiliate Optional. Affiliate ID or object. Default current affiliate.
  * @return string $status_label A translatable, filterable label indicating affiliate status
  */
-function affwp_get_affiliate_status_label( $affiliate = 0 ) {
+function affwp_get_affiliate_status_label( $affiliate_or_status = 0 ) {
 
-	if ( ! $affiliate = affwp_get_affiliate( $affiliate ) ) {
-		return '';
+	if ( is_string( $affiliate_or_status ) ) {
+		$affiliate = null;
+		$status    = $affiliate_or_status;
+	} else {
+		$affiliate = affwp_get_affiliate( $affiliate_or_status );
+
+		if ( isset( $affiliate->status ) ) {
+			$status = $affiliate->status;
+		} else {
+			return '';
+		}
 	}
 
-	$status       = '';
-	$status_label = '';
-
-	// Get current affiliate status.
-	$status = $affiliate->status;
-
-	// Return translatable string.
-	switch( $status ) {
-
-		case 'active':
-			$status_label = __( 'Active','affiliate-wp' );
-			break;
-		case 'inactive':
-			$status_label = __( 'Inactive','affiliate-wp' );
-			break;
-		case 'pending':
-			$status_label = __( 'Pending','affiliate-wp' );
-			break;
-		case 'rejected':
-			$status_label = __( 'Rejected','affiliate-wp' );
-			break;
-	}
+	$statuses = affwp_get_affiliate_statuses();
+	$label    = array_key_exists( $status, $statuses ) ? $statuses[ $status ] : '';
 
 	/**
 	 * Filters the affiliate status label.
 	 *
 	 * @since 1.8
 	 * @since 1.9 The `$affiliate` parameter was added.
+	 * @since 2.3 The `$status` parameter was added.
 	 *
-	 * @param string          $status_label Localized status label string.
-	 * @param AffWP\Affiliate $affiliate    Affiliate object.
+	 * @param string               $label     Localized status label string.
+	 * @param AffWP\Affiliate|null $affiliate Affiliate object or null.
+	 * @param string               $status    Affiliate status.
 	 */
-	return apply_filters( 'affwp_get_affiliate_status_label', $status_label, $affiliate );
+	return apply_filters( 'affwp_get_affiliate_status_label', $label, $affiliate, $status );
+}
+
+/**
+ * Retrieves the list of affiliate statuses and corresponding labels.
+ *
+ * @since 2.3
+ *
+ * @return array Key/value pairs of statuses where key is the status and the value is the label.
+ */
+function affwp_get_affiliate_statuses() {
+	return array(
+		'active'   => __( 'Active', 'affiliate-wp' ),
+		'inactive' => __( 'Inactive', 'affiliate-wp' ),
+		'pending'  => __( 'Pending', 'affiliate-wp' ),
+		'rejected' => __( 'Rejected', 'affiliate-wp' ),
+	);
 }
 
 /**
@@ -503,6 +512,78 @@ function affwp_get_affiliate_rate_type( $affiliate = 0 ) {
 }
 
 /**
+ * Retrieves the referral flat rate basis for an affiliate.
+ *
+ * Either "per_product" or "per_order"
+ *
+ * @since 2.3
+ *
+ * @param int|AffWP\Affiliate $affiliate Optional. Affiliate ID or object. Default is the current affiliate.
+ * @return string Affiliate flat rate basis.
+ */
+function affwp_get_affiliate_flat_rate_basis( $affiliate = 0 ) {
+
+	// Default rate type.
+	$type = affiliate_wp()->settings->get( 'flat_rate_basis', 'per_product' );
+
+	$affiliate_id = 0;
+
+	if ( $affiliate = affwp_get_affiliate( $affiliate ) ) {
+		$affiliate_id = $affiliate->ID;
+
+		// Allowed types
+		$types = affwp_get_affiliate_flat_rate_basis_types();
+
+		$affiliate_flat_rate_basis_type = $affiliate->flat_rate_basis();
+
+		if ( $affiliate_flat_rate_basis_type !== $type ) {
+			$type = $affiliate_flat_rate_basis_type;
+		}
+
+		if ( ! array_key_exists( $type, $types ) ) {
+			$type = 'per_product';
+		}
+	}
+
+	/**
+	 * Filters the affiliate flat rate basis.
+	 *
+	 * @since 2.3
+	 *
+	 * @param string $type         Affiliate flat rate basis. Default values will be 'per_product' or 'per_order'.
+	 * @param int    $affiliate_id Affiliate ID.
+	 */
+	return apply_filters( 'affwp_get_affiliate_flat_rate_basis', $type, $affiliate_id );
+
+}
+
+/**
+ * Check to see if a referral rate should be per-order, or per-product.
+ *
+ * Since 2.3
+ *
+ * @param int $affiliate Optional. The affiliate or Affiliate ID. If left blank, this will use the current affiliate.
+ * @return bool True if the rate type is flat, and flat rate basis is set to per order. False otherwise.
+ */
+function affwp_is_per_order_rate( $affiliate = 0 ) {
+	$rate_type       = affwp_get_affiliate_rate_type( $affiliate );
+	$flat_rate_basis = affwp_get_affiliate_flat_rate_basis( $affiliate );
+	$is_order_rate   = 'flat' === $rate_type && 'per_order' === $flat_rate_basis;
+
+	/**
+	 * Filters the per order rate boolean.
+	 *
+	 * @since 2.3
+	 *
+	 * @param bool   $is_order_rate   True if the rate type is flat, and flat rate basis is set to per order. False otherwise.
+	 * @param string $rate_type       The rate type for the current affiliate.
+	 * @param string $flat_rate_basis The flat rate basis for the current affiliate.
+	 * @param int    $affiliate_id    Affiliate ID.
+	 */
+	return (bool) apply_filters( 'affwp_is_per_order_rate', $is_order_rate, $rate_type, $flat_rate_basis, $affiliate );
+}
+
+/**
  * Retrieves an array of allowed affiliate rate types.
  *
  * @since 1.1
@@ -525,6 +606,32 @@ function affwp_get_affiliate_rate_types() {
 	 * @param array $types Array of key/value pairs of rate types.
 	 */
 	return apply_filters( 'affwp_get_affiliate_rate_types', $types );
+
+}
+
+/**
+ * Retrieves an array of allowed flat rate basis types.
+ *
+ * @since 2.3
+ *
+ * @return array flat rate basis types.
+ */
+function affwp_get_affiliate_flat_rate_basis_types() {
+
+	// Allowed types
+	$types = array(
+		'per_product' => __( 'Flat Rate Commission Per Product Sold', 'affiliate-wp' ),
+		'per_order'   => __( 'Flat Rate Commission Per Order', 'affiliate-wp' ),
+	);
+
+	/**
+	 * Filters the available rate types.
+	 *
+	 * @since 1.1
+	 *
+	 * @param array $types Array of key/value pairs of rate types.
+	 */
+	return apply_filters( 'affwp_get_affiliate_flat_rate_basis_types', $types );
 
 }
 
@@ -599,9 +706,10 @@ function affwp_get_affiliate_login( $affiliate, $default = false ) {
  * Deletes an affiliate.
  *
  * @since 1.0
+ * @since 2.3 Deletion of all affiliate meta was added
  *
  * @param int|AffWP\Affiliate $affiliate   Affiliate ID or object.
- * @param bool                $delete_data Whether to also delete referral and visit data. Default false.
+ * @param bool                $delete_data Whether to also delete affiliate meta, referral and visit data. Default false.
  * @return bool True if the affiliate (and optionally data) was deleted, false otherwise.
  */
 function affwp_delete_affiliate( $affiliate, $delete_data = false ) {
@@ -612,34 +720,42 @@ function affwp_delete_affiliate( $affiliate, $delete_data = false ) {
 
 	$affiliate_id = $affiliate->ID;
 
-	if( $delete_data ) {
-
-		$referrals = affiliate_wp()->referrals->get_referrals( array(
-			'affiliate_id' => $affiliate_id,
-			'number'       => -1
-		) );
-
-		$visits = affiliate_wp()->visits->get_visits( array(
-			'affiliate_id' => $affiliate_id,
-			'number'       => -1
-		) );
-
-		foreach( $referrals as $referral ) {
-			affiliate_wp()->referrals->delete( $referral->referral_id );
-		}
-
-		foreach( $visits as $visit ) {
-			affiliate_wp()->visits->delete( $visit->visit_id );
-		}
-
-		delete_user_meta( $affiliate->user_id, 'affwp_referral_notifications' );
-		delete_user_meta( $affiliate->user_id, 'affwp_promotion_method' );
-
-	}
-
 	$deleted = affiliate_wp()->affiliates->delete( $affiliate_id, 'affiliate' );
 
-	if( $deleted ) {
+	if ( $deleted ) {
+
+		if ( $delete_data ) {
+
+			$affiliate_metas = affiliate_wp()->affiliate_meta->get_meta( $affiliate_id );
+
+			foreach ( $affiliate_metas as $meta_key => $meta_value ) {
+				affiliate_wp()->affiliate_meta->delete_meta( $affiliate_id, $meta_key );
+			}
+
+			$referrals = affiliate_wp()->referrals->get_referrals( array(
+				'affiliate_id' => $affiliate_id,
+				'number'       => -1,
+				'fields'       => 'ids',
+			) );
+
+			$visits = affiliate_wp()->visits->get_visits( array(
+				'affiliate_id' => $affiliate_id,
+				'number'       => -1,
+				'fields'       => 'ids',
+			) );
+
+			foreach ( $referrals as $referral_id ) {
+				affiliate_wp()->referrals->delete( $referral_id );
+			}
+
+			foreach ( $visits as $visit_id ) {
+				affiliate_wp()->visits->delete( $visit_id );
+			}
+
+			delete_user_meta( $affiliate->user_id, 'affwp_referral_notifications' );
+			delete_user_meta( $affiliate->user_id, 'affwp_promotion_method' );
+
+		}
 
 		/**
 		 * Fires immediately after an affiliate is deleted.
@@ -1091,20 +1207,28 @@ function affwp_get_affiliate_conversion_rate( $affiliate = 0 ) {
  * Retrieves the affiliate's tracked campaigns.
  *
  * @since 1.7
+ * @since 2.3 The `$args` parameter was added
  *
  * @param int|AffWP\Affiliate $affiliate Optional. Affiliate ID or object. Default is the current affiliate.
+ * @param array               $args      Optional. Arguments used to query an affiliate's campaigns.
+ *                                       Default empty array.
  * @return array|false The affiliate's campaigns, otherwise false.
  */
-function affwp_get_affiliate_campaigns( $affiliate = 0 ) {
+function affwp_get_affiliate_campaigns( $affiliate = 0, $args = array() ) {
 
 	if ( ! $affiliate = affwp_get_affiliate( $affiliate ) ) {
 		return false;
 	}
 
-	$campaigns = affiliate_wp()->campaigns->get_campaigns( array(
-		'affiliate_id' => $affiliate->ID,
-		'number'       => 100,
-	) );
+	$defaults = array(
+		'number' => 100,
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	$args['affiliate_id'] = $affiliate->ID;
+
+	$campaigns = affiliate_wp()->campaigns->get_campaigns( $args );
 
 	/**
 	 * Filters the list of campaigns associated with an affiliate.
@@ -1205,6 +1329,7 @@ function affwp_add_affiliate( $data = array() ) {
 		'status'          => $status,
 		'rate'            => ! empty( $data['rate'] ) ? sanitize_text_field( $data['rate'] ) : '',
 		'rate_type'       => ! empty( $data['rate_type' ] ) ? sanitize_text_field( $data['rate_type'] ) : '',
+		'flat_rate_basis' => ! empty( $data['flat_rate_basis' ] ) ? sanitize_text_field( $data['flat_rate_basis'] ) : '',
 		'payment_email'   => ! empty( $data['payment_email'] ) ? sanitize_text_field( $data['payment_email'] ) : '',
 		'notes'           => ! empty( $data['notes' ] ) ? wp_kses_post( $data['notes'] ) : '',
 		'website_url'     => ! empty( $data['website_url'] ) ? sanitize_text_field( $data['website_url'] ) : '',
@@ -1243,15 +1368,27 @@ function affwp_update_affiliate( $data = array() ) {
 	$args         = array();
 	$affiliate_id = absint( $data['affiliate_id'] );
 	$affiliate    = affwp_get_affiliate( $affiliate_id );
-	$user_id      = empty( $affiliate->user_id ) ? absint( $data['user_id'] ) : $affiliate->user_id;
+	$user_id      = $affiliate->user_id;
 
-	$args['account_email'] = ! empty( $data['account_email' ] ) && is_email( $data['account_email' ] ) ? sanitize_text_field( $data['account_email'] ) : '';
-	$args['payment_email'] = ! empty( $data['payment_email' ] ) && is_email( $data['payment_email' ] ) ? sanitize_text_field( $data['payment_email'] ) : '';
-	$args['rate']          = ( isset( $data['rate' ] ) && '' !== $data['rate' ] )                      ? sanitize_text_field( $data['rate'] )          : '';
-	$args['rate_type']     = ! empty( $data['rate_type' ] ) ? sanitize_text_field( $data['rate_type'] ) : '';
-	$args['status']        = ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : $affiliate->status;
-	$args['user_id']       = $user_id;
-	$args['notes']         = ! empty( $data['notes' ] ) ? wp_kses_post( $data['notes'] ) : '';
+	if ( ! empty( $data['user_id'] ) ) {
+		$new_user_id = absint( $data['user_id'] );
+
+		// If it's a new user ID and not already associated with an affiliate, replace it.
+		if ( $affiliate->user_id !== $new_user_id
+			&& ! affiliate_wp()->affiliates->get_by( 'user_id', $new_user_id )
+		) {
+			$user_id = $new_user_id;
+		}
+	}
+
+	$args['account_email']   = ! empty( $data['account_email'] ) && is_email( $data['account_email'] ) ? sanitize_text_field( $data['account_email'] ) : '';
+	$args['payment_email']   = ! empty( $data['payment_email'] ) && is_email( $data['payment_email'] ) ? sanitize_text_field( $data['payment_email'] ) : '';
+	$args['rate']            = ( isset( $data['rate'] ) && '' !== $data['rate'] ) ? sanitize_text_field( $data['rate'] ) : '';
+	$args['rate_type']       = ! empty( $data['rate_type'] ) ? sanitize_text_field( $data['rate_type'] ) : '';
+	$args['flat_rate_basis'] = ! empty( $data['flat_rate_basis'] ) && 'flat' === $args['rate_type'] ? sanitize_text_field( $data['flat_rate_basis'] ) : '';
+	$args['status']          = ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : $affiliate->status;
+	$args['user_id']         = $user_id;
+	$args['notes']           = ! empty( $data['notes'] ) ? wp_kses_post( $data['notes'] ) : '';
 
 	if ( ! empty( $data['date_registered'] ) && $data['date_registered'] !== $affiliate->date_registered ) {
 		$timestamp = strtotime( $data['date_registered'] ) - affiliate_wp()->utils->wp_offset;

@@ -89,7 +89,11 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 *
 	 * @access  public
 	 * @since   1.0
-	*/
+	 * @since   2.3   Added support for per-order rates
+	 * @param int $order_id The order ID to work from.
+   *
+	 * @return bool
+	 */
 	public function add_pending_referral( $order_id = 0 ) {
 
 		$this->order = apply_filters( 'affwp_get_woocommerce_order', new WC_Order( $order_id ) );
@@ -134,10 +138,13 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 				$cart_shipping += $this->order->get_shipping_tax();
 			}
 
+		if ( affwp_is_per_order_rate( $affiliate_id ) ) {
+			$amount = $this->calculate_referral_amount();
+		} else {
 			$items = $this->order->get_items();
 
-			// Calculate the referral amount based on product prices
-			$amount = 0.00;
+		  // Calculate the referral amount based on product prices
+		  $amount = 0.00;
 
 			foreach ( $items as $product ) {
 
@@ -145,7 +152,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 					continue; // Referrals are disabled on this product
 				}
 
-				if( ! empty( $product['variation_id'] ) && get_post_meta( $product['variation_id'], '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
+				if ( ! empty( $product['variation_id'] ) && get_post_meta( $product['variation_id'], '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
 					continue; // Referrals are disabled on this variation
 				}
 
@@ -160,7 +167,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 				$shipping      = 0;
 
 				if ( $cart_shipping > 0 && ! affiliate_wp()->settings->get( 'exclude_shipping' ) ) {
-					$shipping       = $cart_shipping / count( $items );
+					$shipping      = $cart_shipping / count( $items );
 					$product_total += $shipping;
 				}
 
@@ -173,13 +180,13 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 				}
 
 				$product_id_for_rate = $product['product_id'];
-				if( ! empty( $product['variation_id'] ) && $this->get_product_rate( $product['variation_id'] ) ) {
+				if ( ! empty( $product['variation_id'] ) && $this->get_product_rate( $product['variation_id'] ) ) {
 					$product_id_for_rate = $product['variation_id'];
 				}
 				$amount += $this->calculate_referral_amount( $product_total, $order_id, $product_id_for_rate, $affiliate_id, $category_id );
 
 			}
-
+		}
 			if ( 0 == $amount && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
 
 				$this->log( 'Referral not created due to 0.00 amount.' );
@@ -468,12 +475,26 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		}
 
-		$url   = get_edit_post_link( $reference );
+		$url       = get_edit_post_link( $reference );
+		$reference = $this->parse_reference( $reference );
+
+		return '<a href="' . esc_url( $url ) . '">' . $reference . '</a>';
+	}
+
+	/**
+	 * Parses the WooCommerce referral reference, as derived from get_order_number().
+	 *
+	 * @since 2.3
+	 *
+	 * @param int $reference Reference.
+	 * @return int Derived reference or 0.
+	 */
+	public function parse_reference( $reference ) {
 		$order = wc_get_order( $reference );
 
 		$reference = is_a( $order, 'WC_Order' ) ? $order->get_order_number() : $reference;
 
-		return '<a href="' . esc_url( $url ) . '">' . $reference . '</a>';
+		return $reference;
 	}
 
 	/**
@@ -643,21 +664,30 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		<div id="affwp_product_settings" class="panel woocommerce_options_panel">
 
 			<div class="options_group">
-				<p><?php _e( 'Configure affiliate rates for this product. These settings will be used to calculate affiliate earnings per-sale.', 'affiliate-wp' ); ?></p>
-<?php
-				woocommerce_wp_select( array(
-					'id'          => '_affwp_woocommerce_product_rate_type',
-					'label'       => __( 'Affiliate Rate Type', 'affiliate-wp' ),
-					'options'     => array_merge( array( '' => __( 'Site Default', 'affiliate-wp' ) ),affwp_get_affiliate_rate_types() ),
-					'desc_tip'    => true,
-					'description' => __( 'Earnings can be based on either a percentage or a flat rate amount.', 'affiliate-wp' ),
-				) );
-				woocommerce_wp_text_input( array(
-					'id'          => '_affwp_woocommerce_product_rate',
-					'label'       => __( 'Affiliate Rate', 'affiliate-wp' ),
-					'desc_tip'    => true,
-					'description' => __( 'Leave blank to use default affiliate rates.', 'affiliate-wp' )
-				) );
+				<?php if ( ! affwp_is_per_order_rate() ): ?>
+					<p><?php _e( 'Configure affiliate rates for this product. These settings will be used to calculate affiliate earnings per-sale.', 'affiliate-wp' ); ?></p>
+					<?php
+					woocommerce_wp_select( array(
+							'id'          => '_affwp_woocommerce_product_rate_type',
+							'label'       => __( 'Affiliate Rate Type', 'affiliate-wp' ),
+							'options'     => array_merge( array( '' => __( 'Site Default', 'affiliate-wp' ) ), affwp_get_affiliate_rate_types() ),
+							'desc_tip'    => true,
+							'description' => __( 'Earnings can be based on either a percentage or a flat rate amount.', 'affiliate-wp' ),
+					) );
+					woocommerce_wp_text_input( array(
+							'id'          => '_affwp_woocommerce_product_rate',
+							'label'       => __( 'Affiliate Rate', 'affiliate-wp' ),
+							'desc_tip'    => true,
+							'description' => __( 'Leave blank to use default affiliate rates.', 'affiliate-wp' ),
+					) );
+				else: ?>
+					<p>
+						<em>
+							<?php _e( sprintf( 'Per-product rates are disabled because the flat rate referral basis is set to per order. You can change that in <a href="%s">Affiliates > Settings</a>.', affwp_admin_url( 'settings' ) ), 'affiliate-wp' ); ?>
+						</em>
+					</p>
+				<?php
+				endif;
 				woocommerce_wp_checkbox( array(
 					'id'          => '_affwp_woocommerce_referrals_disabled',
 					'label'       => __( 'Disable referrals', 'affiliate-wp' ),

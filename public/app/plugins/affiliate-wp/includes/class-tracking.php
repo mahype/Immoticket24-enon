@@ -65,6 +65,8 @@ class Affiliate_WP_Tracking {
 		add_action( 'wp_ajax_nopriv_affwp_check_js', array( $this, 'check_js' ) );
 
 		add_filter( 'paginate_links', array( $this, 'strip_referral_from_paged_urls' ), 100 );
+
+		add_filter( 'wp_redirect', array( $this, 'redirect_with_referral_link' ), 10, 2 );
 	}
 
 	/**
@@ -966,6 +968,65 @@ class Affiliate_WP_Tracking {
 		}
 
 		return $link;
+	}
+
+	/**
+	 * Appends the referral variable and value after a redirect.
+	 *
+	 * @since 2.3
+	 *
+	 * @param string $location The redirect path.
+	 * @param int    $status   The status code.
+	 *
+	 * @return string The path to redirect to.
+	 */
+	public function redirect_with_referral_link( $location, $status ) {
+
+		if ( is_admin() ) {
+			return $location;
+		}
+
+		// Get the referral variable being used in AffiliateWP.
+		$referral_var = $this->get_referral_var();
+
+		// Check if pretty referral URLS is enabled in AffiliateWP.
+		$is_pretty_referral_urls = affwp_is_pretty_referral_urls();
+
+		if ( $is_pretty_referral_urls ) {
+
+			$path = ! empty( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '';
+
+			if ( false !== strpos( $path, $referral_var . '/' ) ) {
+
+				$pieces = explode( '/', str_replace( '?', '/', $path ) );
+				$key    = array_search( $referral_var, $pieces );
+
+				$pieces[ $key + 1 ] = strtolower( sanitize_user( $pieces[ $key + 1 ] ) );
+
+				if ( $key ) {
+
+					$key          += 1;
+					$affiliate_id = isset( $pieces[ $key ] ) ? $pieces[ $key ] : false;
+
+					// Append the referral variable and value to the URL after the redirect.
+					$location = trailingslashit( $location ) . trailingslashit( $referral_var ) . trailingslashit( $affiliate_id );
+
+				}
+
+			}
+
+		} else {
+
+			if ( isset( $_GET[ $referral_var ] ) ) {
+
+				// Append the referral variable and value to the URL after the redirect.
+				$location = add_query_arg( $referral_var, $_GET[ $referral_var ], $location );
+
+			}
+
+		}
+
+		return $location;
 	}
 
 	/**

@@ -9,7 +9,7 @@
 /**
  * Class Affiliate_WP_Customers_DB
  *
- * @property-read \AffWP\Affiliate\REST\v1\Endpoints $REST Customers REST endpoints.
+ * @property-read \AffWP\Customer\REST\v1\Endpoints $REST Customers REST endpoints.
  */
 class Affiliate_WP_Customers_DB extends Affiliate_WP_DB {
 
@@ -54,7 +54,7 @@ class Affiliate_WP_Customers_DB extends Affiliate_WP_DB {
 
 		// REST endpoints.
 		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
-			$this->REST = new \AffWP\Affiliate\REST\v1\Endpoints;
+			$this->REST = new \AffWP\Customer\REST\v1\Endpoints;
 		}
 	}
 

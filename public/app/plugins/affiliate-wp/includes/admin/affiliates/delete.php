@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	return;
+}
+
 if( ! empty( $_GET['affiliate_id'] ) && is_array( $_GET['affiliate_id'] ) ) {
 
 	$to_delete = array_map( 'absint', $_GET['affiliate_id'] );
@@ -18,16 +22,48 @@ $affiliates_to_delete = affiliate_wp()->affiliates->get_affiliates( array(
 	'affiliate_id' => $to_delete
 ) );
 
-// Is the current user's affiliate account flagged for deletion?
-$deleting_self = in_array( get_current_user_id(), wp_list_pluck( $affiliates_to_delete, 'user_id' ) );
+$current_user      = get_current_user_id();
+$user_affiliate_id = absint( affiliate_wp()->affiliates->get_column_by( 'affiliate_id', 'user_id', $current_user ) );
 
-// Is the current user's affiliate account the only one flagged for deletion?
-$deleting_only_self = ( 1 == $to_delete_count && $deleting_self ) ? true : false;
+$total_invalid_count     = 0;
+$invalid_affiliate_count = 0;
+$affiliate_names         = array();
+
+foreach ( $to_delete as $affiliate_id ) {
+	$affiliate_exists = false !== affwp_get_affiliate( $affiliate_id );
+
+	$deleting_self = $user_affiliate_id === $affiliate_id;
+	$name          = $affiliate_exists ? affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id ) : '';
+
+	if ( $deleting_self ) {
+		$name = __( sprintf( '%s (The current user will not be deleted)', $name ), 'affiliate-wp' );
+		$total_invalid_count++;
+		$invalid_affiliate_count++;
+	} elseif ( ! $affiliate_exists ) {
+		$name = __( '(Invalid Affiliate ID)', 'affiliate-wp' );
+		$total_invalid_count++;
+		$invalid_affiliate_count++;
+	} elseif ( ! $name ) {
+		$name = __( '(User Deleted)', 'affiliate-wp' );
+		$total_invalid_count++;
+	}
+
+	$affiliate_names[ $affiliate_id ] = $name;
+}
+
+$have_affiliates_to_delete = $to_delete_count > $invalid_affiliate_count;
+$have_users_to_delete      = $to_delete_count > $total_invalid_count;
 
 ?>
 <div class="wrap">
 
-	<h2><?php _e( 'Delete Affiliates', 'affiliate-wp' ); ?></h2>
+	<h2><?php echo _n(
+				'Delete Affiliate',
+				'Delete Affiliates',
+				$to_delete_count,
+				'affiliate-wp'
+		); ?>
+	</h2>
 
 	<form method="post" id="affwp_delete_affiliate">
 
@@ -38,53 +74,52 @@ $deleting_only_self = ( 1 == $to_delete_count && $deleting_self ) ? true : false
 		 * @param int $to_delete Affiliate ID to delete.
 		 */
 		do_action( 'affwp_delete_affiliate_top', $to_delete );
-		?>
 
-		<p><?php echo _n(
-			'You have specified the following affiliate for deletion:',
-			'You have specified the following affiliates for deletion:',
-			$to_delete_count,
-			'affiliate-wp'
-		); ?></p>
+		if ( $have_affiliates_to_delete ):?>
+
+			<p><?php echo _n(
+						'You have specified the following affiliate for deletion:',
+						'You have specified the following affiliates for deletion:',
+						$to_delete_count,
+						'affiliate-wp'
+				); ?></p>
+
+		<?php endif; ?>
 
 		<ul>
-		<?php foreach( $to_delete as $affiliate_id ) : ?>
+
+			<?php foreach ( $affiliate_names as $affiliate_id => $name ) : ?>
 
 			<li>
-				<?php printf( _x( 'ID #%d: %s', 'Affiliate ID, affiliate name', 'affiliate-wp' ), $affiliate_id, affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id ) ); ?>
+				<?php printf( _x( 'ID #%d: %s', 'Affiliate ID, affiliate name', 'affiliate-wp' ), $affiliate_id, $name ); ?>
 				<input type="hidden" name="affwp_affiliate_ids[]" value="<?php echo esc_attr( $affiliate_id ); ?>"/>
 			</li>
 
 		<?php endforeach; ?>
+
 		</ul>
 
-		<p>
-			<?php echo _n(
-				'Deleting this affiliate will also delete their referral and visit data.',
-				'Deleting these affiliates will also delete their referral and visit data.',
-				$to_delete_count,
-				'affiliate-wp'
-			); ?>
-		</p>
+		<?php if ( $have_affiliates_to_delete ): ?>
+			<p>
+				<?php echo _n(
+						'Deleting this affiliate will also delete their referral and visit data.',
+						'Deleting these affiliates will also delete their referral and visit data.',
+						$to_delete_count,
+						'affiliate-wp'
+				); ?>
+			</p>
+		<?php endif; ?>
 
-		<?php if ( current_user_can( 'delete_users' ) && false === $deleting_only_self ) : ?>
-			<?php
-			// If the current user's affiliate account is flagged for deletion with the group, show a reassuring message.
-			if ( $deleting_self ) :
-				$self_delete_notice = ' <strong>' . __( '(The current user will not be deleted)', 'affiliate-wp' ) . '</strong>';
-			else :
-				$self_delete_notice = '';
-			endif;
-			?>
+		<?php if ( current_user_can( 'remove_users' ) && $have_users_to_delete ) : ?>
 			<p>
 				<label for="affwp_delete_users_too">
 					<input type="checkbox" name="affwp_delete_users_too" id="affwp_delete_users_too" value="1" />
 					<?php
 					echo _n(
-						'Delete this affiliate&#8217;s user account as well?',
-						sprintf( 'Delete these affiliates&#8217; user accounts as well?%s', $self_delete_notice ),
-						$to_delete_count,
-						'affiliate-wp'
+							'Proceed to the user management page to remove the user account associated with this affiliate?',
+							'Proceed to the user management page to remove the user accounts associated with these affiliates?',
+							$to_delete_count,
+							'affiliate-wp'
 					); ?>
 				</label>
 			</p>
@@ -98,12 +133,21 @@ $deleting_only_self = ( 1 == $to_delete_count && $deleting_self ) ? true : false
 		 */
 		do_action( 'affwp_delete_affiliate_bottom', $to_delete );
 		?>
+		<?php if ( $have_affiliates_to_delete ): ?>
+			<input type="hidden" name="affwp_action" value="delete_affiliates"/>
+			<?php echo wp_nonce_field( 'affwp_delete_affiliates_nonce', 'affwp_delete_affiliates_nonce' ); ?>
 
-		<input type="hidden" name="affwp_action" value="delete_affiliates" />
-		<?php echo wp_nonce_field( 'affwp_delete_affiliates_nonce', 'affwp_delete_affiliates_nonce' ); ?>
-
-		<?php submit_button( __( 'Confirm Deletion', 'affiliate-wp' ) ); ?>
-
+			<?php submit_button( __( 'Confirm Deletion', 'affiliate-wp' ) ); ?>
+		<?php else: ?>
+			<p><?php
+				echo _n(
+						'The specified affiliate does not exist.',
+						'None of the specified affiliates exist.',
+						$to_delete_count,
+						'affiliate-wp'
+				); ?></p>
+			<a href="<?php echo affwp_admin_url( 'affiliates' ) ?>"><?php _e( 'Back to Affiliates', 'affiliate-wp' ) ?></a>
+		<?php endif; ?>
 	</form>
 
 </div>

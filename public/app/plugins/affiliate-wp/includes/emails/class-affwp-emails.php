@@ -421,7 +421,7 @@ class Affiliate_WP_Emails {
 		$email_tags = array(
 			array(
 				'tag'         => 'name',
-				'description' => __( 'The display name of the affiliate, as set on the affiliate\'s user profile.', 'affiliate-wp' ),
+				'description' => __( 'The display name of the affiliate, as set on the affiliate\'s user profile', 'affiliate-wp' ),
 				'function'    => 'affwp_email_tag_name'
 			),
 			array(
@@ -446,7 +446,7 @@ class Affiliate_WP_Emails {
 			),
 			array(
 				'tag'         => 'rejection_reason',
-				'description' => __( 'The reason an affiliate area was rejected', 'affiliate-wp' ),
+				'description' => __( 'The reason an affiliate was rejected', 'affiliate-wp' ),
 				'function'    => 'affwp_email_tag_rejection_reason'
 			),
 			array(
@@ -491,7 +491,7 @@ class Affiliate_WP_Emails {
 			),
 			array(
 				'tag'         => 'campaign_name',
-				'description' => __( 'The name of the campaign associated with the referral (if any).', 'affiliate-wp' ),
+				'description' => __( 'The name of the campaign associated with the referral (if any)', 'affiliate-wp' ),
 				'function'    => 'affwp_email_tag_campaign_name'
 			),
 		);
@@ -535,7 +535,7 @@ class Affiliate_WP_Emails {
 	 *
 	 * @since  1.7
 	 * @since  2.2 Modified to use affwp_get_enabled_email_notifications()
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function is_email_disabled() {

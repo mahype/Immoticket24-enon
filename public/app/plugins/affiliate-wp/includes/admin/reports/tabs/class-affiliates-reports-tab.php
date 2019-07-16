@@ -51,18 +51,25 @@ class Tab extends Reports\Tab {
 	 * @since  1.9
 	 */
 	public function top_earning_affiliates_tile() {
-		$affiliate_ids = affiliate_wp()->referrals->get_referrals( array(
-			'number' => -1,
-			'status' => 'paid',
-			'fields' => 'affiliate_id',
-			'date'   => $this->date_query
+		$referral_earnings = affiliate_wp()->referrals->get_referrals( array(
+			'groupby'    => 'affiliate_id',
+			'fields'     => array( 'affiliate_id', 'amount_sum' ),
+			'status'     => 'paid',
+			'date'       => $this->date_query,
+			'sum_fields' => array( 'amount' ),
+			'orderby'    => 'amount_sum',
+			'number'     => 1
 		) );
 
-		$affiliate_counts = array_count_values( $affiliate_ids );
+		if ( ! empty( $referral_earnings[0] ) ) {
+			$top_affiliate          = $referral_earnings[0]->affiliate_id;
+			$top_affiliate_earnings = $referral_earnings[0]->amount_sum;
+		} else {
+			$top_affiliate          = 0;
+			$top_affiliate_earnings = 0;
+		}
 
-		$top_affiliate = key( array_slice( $affiliate_counts, 0, 1, true ) );
-
-		if ( ! empty( $top_affiliate ) && $affiliate = affwp_get_affiliate( $top_affiliate ) ) {
+		if ( $affiliate = affwp_get_affiliate( $top_affiliate ) ) {
 			$name = affwp_get_affiliate_name( $affiliate->ID );
 
 			$data_link = sprintf( '<a href="%1$s">%2$s</a>',
@@ -74,11 +81,11 @@ class Tab extends Reports\Tab {
 			);
 
 			$this->register_tile( 'top_earning_affiliate', array(
-				'label' => __( 'Top Earning Affiliate', 'affiliate-wp' ),
-				'data'  => $data_link,
+				'label'           => __( 'Top Earning Affiliate', 'affiliate-wp' ),
+				'data'            => $data_link,
 				'comparison_data' => sprintf( '%1$s (%2$s)',
 					$this->get_date_comparison_label(),
-					affwp_currency_filter( affwp_format_amount( $affiliate->earnings ) )
+					affwp_currency_filter( affwp_format_amount( $top_affiliate_earnings ) )
 				),
 			) );
 		} else {
@@ -115,11 +122,10 @@ class Tab extends Reports\Tab {
 	 * @since  1.9
 	 */
 	public function highest_converting_affiliate_tile() {
-		$affiliate_ids = affiliate_wp()->visits->get_visits( array(
-			'number'          => -1,
-			'referral_status' => 'converted',
-			'fields'          => 'affiliate_id',
-			'date'            => $this->date_query,
+		$affiliate_ids = affiliate_wp()->referrals->get_referrals( array(
+				'fields'     => 'affiliate_id',
+				'date'       => $this->date_query,
+				'number'     => -1
 		) );
 
 		$affiliate_counts = array_count_values( $affiliate_ids );
@@ -137,8 +143,8 @@ class Tab extends Reports\Tab {
 				empty( $name ) ? sprintf( __( 'Affiliate #%d', 'affiliate-wp' ), $affiliate->ID ) : $name
 			);
 
-			$referrals_count = affwp_get_affiliate_referral_count( $affiliate->ID );
-			$referrals_data = sprintf( _n( '%d referral', '%d referrals', $referrals_count, 'affiliate-wp' ),
+			$referrals_count = affiliate_wp()->referrals->count_by_status( 'paid', $affiliate->ID, $this->date_query );
+			$referrals_data = sprintf( _n( '%s referral', '%s referrals', $referrals_count, 'affiliate-wp' ),
 				number_format_i18n( $referrals_count )
 			);
 

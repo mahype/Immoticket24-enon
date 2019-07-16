@@ -87,6 +87,7 @@ function affwp_tools_system_info_report() {
 	$return .= 'Affiliates:                       ' . affwp_format_amount( affiliate_wp()->affiliates->count(), false ) . "\n";
 	$return .= 'Campaigns:                        ' . affwp_format_amount( affiliate_wp()->campaigns->count(), false ) . "\n";
 	$return .= 'Creatives:                        ' . affwp_format_amount( affiliate_wp()->creatives->count(), false ) . "\n";
+	$return .= 'Customers:                        ' . affwp_format_amount( affiliate_wp()->customers->count(), false ) . "\n";
 	$return .= 'Payouts:                          ' . affwp_format_amount( affiliate_wp()->affiliates->payouts->count(), false ) . "\n";
 	$return .= 'Referrals:                        ' . affwp_format_amount( affiliate_wp()->referrals->count(), false ) . "\n";
 	$return .= 'REST Consumers:                   ' . affwp_format_amount( affiliate_wp()->REST->consumers->count(), false ) . "\n";
@@ -123,7 +124,7 @@ function affwp_tools_system_info_report() {
 	// Must-use plugins
 	// NOTE: MU plugins can't show updates!
 	$muplugins = get_mu_plugins();
-	if( count( $muplugins > 0 ) ) {
+	if( count( $muplugins ) > 0 ) {
 		$return .= "\n" . '-- Must-Use Plugins' . "\n\n";
 
 		foreach( $muplugins as $plugin => $plugin_data ) {

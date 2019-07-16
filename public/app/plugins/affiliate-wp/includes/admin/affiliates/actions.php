@@ -40,6 +40,12 @@ function affwp_process_add_affiliate( $data ) {
 
 	if ( empty( $errors ) ) {
 
+		// If an an email address was submitted instead of an existing user, set the data so that affwp will create the user.
+		if ( ! username_exists( $data['user_name'] ) && is_email( $data['user_name'] ) ) {
+			$data['user_email'] = $data['user_name'];
+			unset( $data['user_name'] );
+		}
+
 		$affiliate_id = affwp_add_affiliate( $data );
 
 		if ( $affiliate_id ) {
@@ -111,25 +117,42 @@ function affwp_process_affiliate_deletion( $data ) {
 		wp_die( __( 'No affiliate IDs specified for deletion', 'affiliate-wp' ), __( 'Error', 'affiliate-wp' ), array( 'response' => 400 ) );
 	}
 
-	$to_delete    = array_map( 'absint', $data['affwp_affiliate_ids'] );
-	$delete_users = isset( $data['affwp_delete_users_too'] ) && current_user_can( 'delete_users' );
+	$to_delete        = array_map( 'absint', $data['affwp_affiliate_ids'] );
+	$delete_users_too = isset( $data['affwp_delete_users_too'] ) && current_user_can( 'remove_users' );
 
-	foreach ( $to_delete as $affiliate_id ) {
-
-		if ( $delete_users ) {
-			require_once( ABSPATH . 'wp-admin/includes/user.php' );
-
-			$user_id = affwp_get_affiliate_user_id( $affiliate_id );
-
-			if( (int) $user_id !== (int) get_current_user_id() ) {
-				// Don't allow a user to delete themself
-				wp_delete_user( $user_id );
+	// Snag affiliate user IDs before deleting the affiliate records they correspond to and filter out invalid users.
+	// It is possible to have an affiliate with a deleted user. This filters out the users that do not exist.
+	$users_to_delete = array();
+	if ( true === $delete_users_too ) {
+		foreach ( $to_delete as $affiliate_id_to_delete ) {
+			$user_id = affwp_get_affiliate_user_id( $affiliate_id_to_delete );
+			if ( false !== get_userdata( $user_id ) ) {
+				$users_to_delete[] = $user_id;
 			}
+		}
+	}
 
+	// Loop through, and delete affiliates
+	foreach ( $to_delete as $affiliate_id ) {
+		affwp_delete_affiliate( $affiliate_id, true );
+	}
+
+	// Redirect to the core user delete interface to finalize user deletion.
+	if ( $delete_users_too && ! empty( $users_to_delete ) ) {
+		$url = wp_nonce_url( self_admin_url( 'users.php' ), 'bulk-users' );
+
+		$action = is_multisite() ? 'remove' : 'delete';
+
+		$url = add_query_arg( 'action', $action, $url );
+
+		if ( count( $to_delete ) === 1 ) {
+			$url = add_query_arg( 'user', $users_to_delete[0], $url );
+		} else {
+			$url = add_query_arg( 'users', $users_to_delete, $url );
 		}
 
-		affwp_delete_affiliate( $affiliate_id, true );
-
+		wp_safe_redirect( $url );
+		exit;
 	}
 
 	wp_safe_redirect( affwp_admin_url( 'affiliates', array( 'affwp_notice' => 'affiliate_deleted' ) ) );

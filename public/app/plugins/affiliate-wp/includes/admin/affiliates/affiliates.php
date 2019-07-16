@@ -45,7 +45,7 @@ function affwp_affiliates_admin() {
 
 		include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/affiliates/review.php';
 
-	} elseif ( 'delete' === $action && $affiliate  ) {
+	} elseif ( 'delete' === $action  ) {
 
 		include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/affiliates/delete.php';
 

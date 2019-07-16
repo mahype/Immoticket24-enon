@@ -49,12 +49,34 @@ class Affiliate_WP_Logging {
 	 * Log message to file
 	 *
 	 * @since 1.7.15
+	 * @since 2.3 An optional `$data` parameter was added.
+	 *
+	 * @param string      $message Message to write to the debug log.
+	 * @param array|mixed $data    Optional. Array of data or other output to send to the log.
+	 *                             Default empty array.
 	 * @return void
 	 */
-	public function log( $message = '' ) {
+	public function log( $message, $data = array() ) {
 		$message = date( 'Y-n-d H:i:s' ) . ' - ' . $message . "\r\n";
-		$this->write_to_log( $message );
 
+		if ( ! empty( $data ) ) {
+			if ( is_array( $data ) ) {
+				$data = var_export( $data, true );
+			} elseif ( is_wp_error( $data ) ) {
+				$data = $this->collate_errors( $data );
+			} else {
+				ob_start();
+
+				var_dump( $data );
+
+				$data = ob_get_clean();
+			}
+
+			$message .= $data;
+		}
+
+
+		$this->write_to_log( $message );
 	}
 
 	/**
@@ -89,11 +111,14 @@ class Affiliate_WP_Logging {
 	 * Write the log message
 	 *
 	 * @since 1.7.15
+	 *
+	 * @param string $message Message to write to the debug log.
 	 * @return void
 	 */
-	protected function write_to_log( $message = '' ) {
+	protected function write_to_log( $message ) {
 		$file = $this->get_file();
 		$file .= $message;
+
 		@file_put_contents( $this->file, $file );
 	}
 
@@ -107,4 +132,43 @@ class Affiliate_WP_Logging {
 		@unlink( $this->file );
 	}
 
+	/**
+	 * Collates errors stored in a WP_Error object for output to the debug log.
+	 *
+	 * @since 2.3
+	 *
+	 * @param \WP_Error $wp_error WP_Error object.
+	 * @return string Error log output. Empty if not a WP_Error object or if there are no errors to collate.
+	 */
+	public function collate_errors( $wp_error ) {
+		$output = '';
+
+		if ( ! is_wp_error( $wp_error ) ) {
+			return $output;
+		}
+
+		$has_errors = method_exists( $wp_error, 'has_errors' ) ? $wp_error->has_errors() : ! empty( $wp_error->errors );
+
+		if ( false === $has_errors ) {
+			return $output;
+		}
+
+		foreach ( $wp_error->errors as $code => $messages ) {
+			$message = implode( ' ', $messages );
+
+			if ( isset( $wp_error->error_data[ $code ] ) ) {
+				$data = $wp_error->error_data[ $code ];
+			} else {
+				$data = '';
+			}
+
+			$output .= sprintf( '- AffWP Error (%1$s): %2$s', $code, $message ) . "\r\n";
+
+			if ( ! empty( $data ) ) {
+				$output .= var_export( $data, true ) . "\r\n";
+			}
+		}
+
+		return $output;
+	}
 }

@@ -137,7 +137,7 @@ class Affiliate_WP_Payouts_DB extends Affiliate_WP_DB {
 
 		$args['affiliate_id'] = absint( $args['affiliate_id'] );
 
-		if ( ! affiliate_wp()->affiliates->affiliate_exists( $args['affiliate_id'] ) ) {
+		if ( false === affwp_get_affiliate( $args['affiliate_id'] ) ) {
 			return false;
 		}
 

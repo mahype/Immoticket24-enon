@@ -120,14 +120,16 @@ class Affiliate_WP_Utilities {
 	/**
 	 * Writes a debug log entry.
 	 *
-	 * @access public
-	 * @since  2.0.2
+	 * @since 2.0.2
+	 * @since 2.3 An optional `$data` parameter was added.
 	 *
-	 * @param string $message Message to write to the debug log.
+	 * @param string      $message Message to write to the debug log.
+	 * @param array|mixed $data    Optional. Array of data or other output to send to the log.
+	 *                             Default empty array.
 	 */
-	public function log( $message = '' ) {
+	public function log( $message, $data = array() ) {
 		if ( $this->debug_enabled ) {
-			$this->logs->log( $message );
+			$this->logs->log( $message, $data );
 		}
 	}
 

@@ -91,6 +91,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 			'rest_id'         => '%s',
 			'rate'            => '%s',
 			'rate_type'       => '%s',
+			'flat_rate_basis' => '%s',
 			'payment_email'   => '%s',
 			'status'          => '%s',
 			'earnings'        => '%s',
@@ -429,27 +430,6 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 	}
 
 	/**
-	 * Checks if an affiliate exists.
-	 *
-	 * @access public
-	 * @since  1.0
-	 *
-	 * @param int|\AffWP\Affiliate $affiliate Optional. Affiliate ID or object. Default is the current affiliate.
-	 * @return bool True if the affiliate exists, otherwise false.
-	*/
-	public function affiliate_exists( $affiliate = 0 ) {
-		global $wpdb;
-
-		if ( ! $affiliate = affwp_get_affiliate( $affiliate ) ) {
-			return false;
-		}
-
-		$exists = $wpdb->query( $wpdb->prepare( "SELECT 1 FROM {$this->table_name} WHERE {$this->primary_key} = %d;", $affiliate->ID ) );
-
-		return ! empty( $exists );
-	}
-
-	/**
 	 * Add a new affiliate
 	 *
 	 * @since 1.0
@@ -542,6 +522,21 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 	}
 
 	/**
+	 * Checks if an affiliate exists.
+	 *
+	 * @since 1.0
+	 * @deprecated 2.3 Use affwp_get_affiliate() directly
+	 *
+	 * @param int|\AffWP\Affiliate $affiliate Optional. Affiliate ID or object. Default is the current affiliate.
+	 * @return bool True if the affiliate exists, otherwise false.
+	 */
+	public function affiliate_exists( $affiliate = 0 ) {
+		_deprecated_function( __METHOD__, '2.3', 'affwp_get_affiliate' );
+
+		return false !== affwp_get_affiliate( $affiliate );
+	}
+
+	/**
 	 * Create the table
 	 *
 	 * @access public
@@ -556,6 +551,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 			user_id bigint(20) NOT NULL,
 			rate tinytext NOT NULL,
 			rate_type tinytext NOT NULL,
+  			flat_rate_basis tinytext NOT NULL,
 			payment_email mediumtext NOT NULL,
 			status tinytext NOT NULL,
 			earnings mediumtext NOT NULL,

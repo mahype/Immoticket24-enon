@@ -215,7 +215,9 @@ class Endpoints extends Controller {
 		$params['status'] = array(
 			'description'       => __( 'The referral status or array of statuses.', 'affiliate-wp' ),
 			'validate_callback' => function( $param, $request, $key ) {
-				return in_array( $param, array( 'paid', 'unpaid', 'pending', 'rejected' ) );
+				$statuses = array_keys( affwp_get_referral_statuses() );
+
+				return in_array( $param, $statuses );
 			},
 		);
 

@@ -46,37 +46,60 @@ function affwp_get_referral_status( $referral ) {
  * Retrieves the status label for a referral.
  *
  * @since 1.6
+ * @since 2.3 The `$referral` parameter was renamed to `$referral_or_status` and now also accepts
+ *               a referral status
  *
- * @param int|AffWP\Referral $referral Referral ID or object.
+ * @param int|AffWP\Referral|string $referral_or_status Referral ID, object, or referral status.
  * @return string|false $label The localized version of the referral status, otherwise false. If the status
  *                             isn't registered and the referral is valid, the default 'pending' status will
- *                             be returned
+ *                             be returned.
  */
-function affwp_get_referral_status_label( $referral ) {
+function affwp_get_referral_status_label( $referral_or_status ) {
 
-	if ( ! $referral = affwp_get_referral( $referral ) ) {
-		return false;
+	if ( is_string( $referral_or_status ) ) {
+		$referral = null;
+		$status   = $referral_or_status;
+	} else {
+		$referral = affwp_get_referral( $referral_or_status );
+
+		if ( isset( $referral->status ) ) {
+			$status = $referral->status;
+		} else {
+			return false;
+		}
 	}
 
-	$statuses = array(
-		'paid'     => __( 'Paid', 'affiliate-wp' ),
-		'unpaid'   => __( 'Unpaid', 'affiliate-wp' ),
-		'rejected' => __( 'Rejected', 'affiliate-wp' ),
-		'pending'  => __( 'Pending', 'affiliate-wp' ),
-	);
-
-	$label = array_key_exists( $referral->status, $statuses ) ? $statuses[ $referral->status ] : 'pending';
+	$statuses = affwp_get_referral_statuses();
+	$label    = array_key_exists( $status, $statuses ) ? $statuses[ $status ] : $statuses['pending'];
 
 	/**
 	 * Filters the referral status label.
 	 *
 	 * @since 1.6
+	 * @since 2.3 Added the `$status` parameter
 	 *
-	 * @param string         $label    A localized version of the referral status label.
-	 * @param AffWP\Referral $referral Referral object.
+	 * @param string              $label    A localized version of the referral status label.
+	 * @param AffWP\Referral|null $referral Referral object if an id or object was passed, otherwise null.
+	 * @param string              $status   Referral status.
 	 */
-	return apply_filters( 'affwp_referral_status_label', $label, $referral );
+	return apply_filters( 'affwp_referral_status_label', $label, $referral, $status );
 
+}
+
+/**
+ * Retrieves the list of referral statuses and corresponding labels.
+ *
+ * @since 2.3
+ *
+ * @return array Key/value pairs of statuses where key is the status and the value is the label.
+ */
+function affwp_get_referral_statuses() {
+	return array(
+		'paid'     => __( 'Paid', 'affiliate-wp' ),
+		'unpaid'   => __( 'Unpaid', 'affiliate-wp' ),
+		'rejected' => __( 'Rejected', 'affiliate-wp' ),
+		'pending'  => __( 'Pending', 'affiliate-wp' ),
+	);
 }
 
 /**
@@ -179,6 +202,10 @@ function affwp_set_referral_status( $referral, $new_status = '' ) {
  *     @type string       $user_name    User login. Used to retrieve the affiliate ID if `affiliate_id` not given.
  *     @type float        $amount       Referral amount. Default empty.
  *     @type string       $description  Description. Default empty.
+ *     @type string       $products     Referral products. Accepts an array or string, and will be
+ *                                      serialized when stored. Default empty.
+ *     @type string       $currency     Referral Currency. Default empty.
+ *     @type string       $campaign     Referral Campaign, if set. Default Empty
  *     @type string       $reference    Referral reference (usually product information). Default empty.
  *     @type string       $context      Referral context (usually the integration it was generated from).
  *                                      Default empty.
@@ -227,10 +254,13 @@ function affwp_add_referral( $data = array() ) {
 		'description'  => ! empty( $data['description'] ) ? sanitize_text_field( $data['description'] ) : '',
 		'reference'    => ! empty( $data['reference'] )   ? sanitize_text_field( $data['reference'] )   : '',
 		'parent_id'    => ! empty( $data['parent_id'] )   ? absint( $data['parent_id'] )                : '',
+		'currency'     => ! empty( $data['currency'] )    ? sanitize_text_field( $data['currency'] )    : '',
+		'campaign'     => ! empty( $data['campaign'] )    ? sanitize_text_field( $data['campaign'] )    : '',
 		'context'      => ! empty( $data['context'] )     ? sanitize_text_field( $data['context'] )     : '',
 		'custom'       => ! empty( $data['custom'] )      ? $data['custom']                             : '',
 		'date'         => ! empty( $data['date'] )        ? $data['date']                               : '',
 		'type'         => ! empty( $data['type'] )        ? $data['type']                               : '',
+		'products'     => ! empty( $data['products'] )    ? $data['products']                           : '',
 		'status'       => 'pending',
 	);
 
@@ -304,29 +334,59 @@ function affwp_delete_referral( $referral ) {
 }
 
 /**
- * Calculate the referral amount
+ * Calculates the referral amount.
  *
- * @param  string  $amount
- * @param  int     $affiliate_id
- * @param  int     $reference
- * @param  string  $rate
- * @param  int     $product_id
- * @param  string  $context
- * @return float
+ * @param  string $amount       Optional. Base amount to calculate the referral amount from. Usually the Order Total
+ * @param  int    $affiliate_id Optional. The Affiliate to calculate from. Default empty.
+ * @param  int    $reference    Optional. Referral reference (usually the order ID). Default empty.
+ * @param  string $rate         Optional. The Product or category rate.
+ * @param  int    $product_id   Optional. The product ID to to reference
+ * @param  string $context      Optional. The context for referrals. This refers to the integration that is being used.
+ * @return string
  */
 function affwp_calc_referral_amount( $amount = '', $affiliate_id = 0, $reference = 0, $rate = '', $product_id = 0, $context = '' ) {
+	$rate = affwp_get_affiliate_rate( $affiliate_id, false, $rate, $reference );
 
-	$rate     = affwp_get_affiliate_rate( $affiliate_id, false, $rate, $reference );
-	$type     = affwp_get_affiliate_rate_type( $affiliate_id );
-	$decimals = affwp_get_decimal_count();
+	if ( affwp_is_per_order_rate( $affiliate_id ) ) {
 
-	$referral_amount = ( 'percentage' === $type ) ? round( $amount * $rate, $decimals ) : $rate;
+		/**
+		 * Filters the referral amount for per-order referrals.
+		 *
+		 * @since 2.3
+		 *
+		 * @param string     $base_amount  Base amount to calculate the referral amount from.
+		 * @param string|int $reference    Referral reference (usually the order ID).
+		 * @param int        $product_id   Product ID.
+		 * @param int        $affiliate_id Affiliate ID.
+		 * @param  string    $context      The context for referrals. This refers to the integration that is being used.
+		 */
+		$referral_amount = apply_filters( 'affwp_calc_per_order_referral_amount', $rate, $affiliate_id, $reference, $product_id, $context );
+	} else {
+		$type     = affwp_get_affiliate_rate_type( $affiliate_id );
+		$decimals = affwp_get_decimal_count();
+
+		$referral_amount = ( 'percentage' === $type ) ? round( $amount * $rate, $decimals ) : $rate;
+
+		/**
+		 * Filters the referral calculation.
+		 *
+		 * @since 2.3
+		 *
+		 * @param string     $referral_amount Base amount to calculate the referral amount from.
+		 * @param int        $affiliate_id    Affiliate ID.
+		 * @param  string    $amount          Base amount to calculate the referral amount from. Usually the Order Total
+		 * @param string|int $reference       Referral reference (usually the order ID).
+		 * @param int        $product_id      Product ID. Default 0.
+		 * @param  string    $context         The context for referrals. This refers to the integration that is being used.
+		 */
+		$referral_amount = apply_filters( 'affwp_calc_referral_amount', $referral_amount, $affiliate_id, $amount, $reference, $product_id, $context );
+	}
 
 	if ( $referral_amount < 0 ) {
 		$referral_amount = 0;
 	}
 
-	return (string) apply_filters( 'affwp_calc_referral_amount', $referral_amount, $affiliate_id, $amount, $reference, $product_id, $context );
+	return (string) $referral_amount;
 
 }
 

@@ -15,7 +15,7 @@ final class Authentication {
 	 * @since  1.9
 	 */
 	public function __construct() {
-		add_filter( 'determine_current_user', array( $this, 'authenticate' ), 20 );
+		add_filter( 'determine_current_user', array( $this, 'authenticate' ) );
 	}
 
 	/**

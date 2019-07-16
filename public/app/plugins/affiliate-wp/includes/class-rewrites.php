@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Core class to handle setting up AffiliateWP rewrites logic.
+ *
+ * @since 1.7.8
+ */
 class Affiliate_WP_Rewrites {
 
 	/**
@@ -92,6 +96,8 @@ class Affiliate_WP_Rewrites {
 	 * This was in Affiliate_WP_Tracking until 1.7.8
 	 *
 	 * @since 1.3.1
+	 *
+	 * @param \WP_Query $query WP_Query instance.
 	 */
 	public function unset_query_arg( $query ) {
 
@@ -145,7 +151,10 @@ class Affiliate_WP_Rewrites {
 	 * This was in Affiliate_WP_Tracking until 1.7.8
 	 *
 	 * @since 1.4
-	 * @return string
+	 *
+	 * @param string $redirect_url  Redirect URL.
+	 * @param string $requested_url Requested URL.
+	 * @return string (Maybe) modified redirect URL.
 	 */
 	public function prevent_canonical_redirect( $redirect_url, $requested_url ) {
 

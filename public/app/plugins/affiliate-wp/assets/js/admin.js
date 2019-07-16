@@ -1,6 +1,7 @@
 /* global affwp_vars */
 jQuery(document).ready(function($) {
-    // Settings uploader
+
+		// Settings uploader
 	var file_frame;
 	window.formfield = '';
 
@@ -72,48 +73,71 @@ jQuery(document).ready(function($) {
 	}
 
 	// Ajax user search.
-	$( '.affwp-user-search' ).each( function() {
-		var	$this    = $( this ),
-			$action  = 'affwp_search_users',
-			$search  = $this.val(),
-			$status  = $this.data( 'affwp-status'),
-			$form    = $this.closest( 'form' );
+	$( '.affwp-user-search' ).each( function(){
+		var $all_input_fields,
+			$all_fields_excluding_search,
+			$this = $( this ),
+			$action = 'affwp_search_users',
+			$search = $this.val(),
+			$status = $this.data( 'affwp-status' ),
+			$form = $this.closest( 'form' ),
+			$submit = $form.find( ':submit' ),
+			$submit_default_value = $submit.val(),
+			$user_creation_fields = $( '.affwp-user-email-wrap, .affwp-user-pass-wrap' ),
+			$on_complete_enabled = $this.hasClass( 'affwp-enable-on-complete' );
+
+		if( $on_complete_enabled === true ){
+			$all_input_fields = $form.find( 'input, select' );
+			$all_fields_excluding_search = $all_input_fields.not( $this );
+		}
+
+		$this.on( 'input', function(){
+			$user_creation_fields.hide();
+		} );
 
 		$this.autocomplete( {
 			source: ajaxurl + '?action=' + $action + '&term=' + $search + '&status=' + $status,
+			messages: {
+				// This is specified as such because we want to force screen readers to read the message in the response callback
+				noResults: $on_complete_enabled ? '' : 'No users found'
+			},
 			delay: 500,
 			minLength: 2,
 			position: { offset: '0, -1' },
-			search: function() {
-				if ( $this.hasClass( 'affwp-enable-on-complete' ) ) {
-					$('div.notice').remove();
-					$('.affwp-user-email-wrap, .affwp-user-pass-wrap').hide();
-					$form.find('input, select').prop('disabled', true);
+			search: function(){
+				if( $this.hasClass( 'affwp-enable-on-complete' ) ){
+					$( 'div.notice' ).remove();
+					$user_creation_fields.hide();
 				}
 			},
-			open: function() {
+			open: function(){
 				$this.addClass( 'open' );
 			},
-			close: function() {
+			close: function(){
 				$this.removeClass( 'open' );
 			},
-			response: function( event, ui ) {
-				if( ui.content.length === 0 && $this.hasClass( 'affwp-enable-on-complete' ) ) {
+			response: function( event, ui ){
+				if( ui.content.length === 0 && $this.hasClass( 'affwp-enable-on-complete' ) ){
 					// This triggers when no results are found
 					$( '<div class="notice notice-error affwp-new-affiliate-error"><p>' + affwp_vars.no_user_found + '</p></div>' ).insertAfter( $this );
+					wp.a11y.speak( affwp_vars.no_user_found, 'polite' );
 
 					$form.find( 'input, select' ).prop( 'disabled', false );
 
 					$( '.affwp-user-email-wrap, .affwp-user-pass-wrap' ).show();
 					$( '.affwp-user-email' ).prop( 'required' );
 					$( '.search-description' ).hide();
+
+					$submit.val( affwp_vars.user_and_affiliate_input );
+				}else{
+					wp.a11y.speak( affwp_vars.valid_user_selected, 'polite' );
 				}
 			},
-			select: function() {
+			select: function(){
 
-				if( $this.hasClass( 'affwp-enable-on-complete' ) ) {
+				if( $this.hasClass( 'affwp-enable-on-complete' ) ){
 
-					$.ajax({
+					$.ajax( {
 						type: 'POST',
 						url: ajaxurl,
 						data: {
@@ -121,17 +145,15 @@ jQuery(document).ready(function($) {
 							user: $this.val()
 						},
 						dataType: "json",
-						success: function( response ) {
+						success: function( response ){
 
-							console.log( response );
+							if( response.success ){
 
-							if( response.success ) {
-
-								if ( false === response.data.affiliate ) {
+								if( false === response.data.affiliate ){
 
 									$form.find( 'input, select' ).prop( 'disabled', false );
 
-								} else {
+								}else{
 
 									var viewLink = '<a href="' + response.data.url + '">' + affwp_vars.view_affiliate + '</a>';
 
@@ -144,33 +166,41 @@ jQuery(document).ready(function($) {
 
 						}
 
-					}).fail( function( response ) {
-						if ( window.console && window.console.log ) {
+					} ).fail( function( response ){
+						if( window.console && window.console.log ){
 							console.log( response );
 						}
-					});
+					} );
 				}
 			}
 		} );
+
+		// Immediately disable all other fields when this input updates.
+		if( $on_complete_enabled === true ){
+			$this.on( 'input', function(){
+				$all_fields_excluding_search.prop( 'disabled', true );
+				$submit.val( $submit_default_value );
+			} );
+		}
 	} );
 
 	// select image for creative
 	var file_frame;
-	$('body').on('click', '.upload_image_button', function(e) {
+	$( 'body' ).on( 'click', '.upload_image_button', function( e ){
 
 		e.preventDefault();
 
-		var formfield = $(this).prev();
+		var formfield = $( this ).prev();
 
 		// If the media frame already exists, reopen it.
-		if ( file_frame ) {
+		if( file_frame ){
 			//file_frame.uploader.uploader.param( 'post_id', set_to_post_id );
 			file_frame.open();
 			return;
 		}
 
 		// Create the media frame.
-		file_frame = wp.media.frames.file_frame = wp.media({
+		file_frame = wp.media.frames.file_frame = wp.media( {
 			frame: 'select',
 			title: 'Choose Image',
 			multiple: false,
@@ -180,21 +210,21 @@ jQuery(document).ready(function($) {
 			button: {
 				text: 'Use Image'
 			}
-		});
+		} );
 
 		file_frame.on( 'menu:render:default', function(view) {
-	        // Store our views in an object.
-	        var views = {};
+			// Store our views in an object.
+			var views = {};
 
-	        // Unset default menu items
-	        view.unset('library-separator');
-	        view.unset('gallery');
-	        view.unset('featured-image');
-	        view.unset('embed');
+			// Unset default menu items
+			view.unset('library-separator');
+			view.unset('gallery');
+			view.unset('featured-image');
+			view.unset('embed');
 
-	        // Initialize the views in our view object.
-	        view.set(views);
-	    });
+			// Initialize the views in our view object.
+			view.set(views);
+		});
 
 		// When an image is selected, run a callback.
 		file_frame.on( 'select', function() {
@@ -229,7 +259,7 @@ jQuery(document).ready(function($) {
 
 	function maybe_activate_migrate_users_button() {
 		var checked = $('#affiliate-wp-migrate-user-accounts input:checkbox:checked' ).length,
-		    $button = $('#affiliate-wp-migrate-user-accounts input[type=submit]');
+				$button = $('#affiliate-wp-migrate-user-accounts input[type=submit]');
 
 		if ( checked > 0 ) {
 			$button.prop( 'disabled', false );
@@ -255,6 +285,33 @@ jQuery(document).ready(function($) {
 		}
 
 	});
+
+	/**
+	 * Support to show/hide the Referral basis based on the affiliate rate type.
+	 * Used in Affiliate WP Settings, edit affiliate admin page, and new affiliate admin page.
+	 *
+	 * @since 2.3
+	 */
+	if( $.inArray( pagenow, ['affiliates_page_affiliate-wp-affiliates', 'affiliates_page_affiliate-wp-settings'] ) > -1 ){
+		var flatRateBasisField;
+		var referralRateTypeField;
+
+		if( pagenow === 'affiliates_page_affiliate-wp-settings' ){
+			flatRateBasisField = $( '.affwp-referral-rate-type-field' );
+			referralRateTypeField = $( 'input[name="affwp_settings[referral_rate_type]"]' );
+		}else{
+			flatRateBasisField = $( '#flat_rate_basis' ).closest( 'tr' );
+			referralRateTypeField = $( '#rate_type' );
+		}
+
+		referralRateTypeField.on( 'change', function( e ){
+			if( 'flat' !== e.target.value ){
+				flatRateBasisField.hide();
+			}else{
+				flatRateBasisField.show();
+			}
+		} );
+	}
 
 	/**
 	 * Enable meta box toggle states

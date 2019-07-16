@@ -152,12 +152,16 @@ class Tab extends Reports\Tab {
 		$affiliate_id = $this->affiliate_id ? $this->affiliate_id : 0;
 
 		$referrals = affiliate_wp()->referrals->get_referrals( array(
-			'number'       => -1,
-			'fields'       => 'amount',
 			'date'         => $this->date_query,
 			'status'       => array( 'paid', 'unpaid', 'pending' ),
 			'affiliate_id' => $affiliate_id,
+			'fields'       => array( 'affiliate_id', 'amount_sum' ),
+			'sum_fields'   => array( 'amount' ),
+			'orderby'      => 'amount_sum',
+			'number'       => -1,
 		) );
+
+		$total_earnings = isset( $referrals[0]->amount_sum ) ? $referrals[0]->amount_sum : 0;
 
 		if ( $this->affiliate_id ) {
 
@@ -165,7 +169,7 @@ class Tab extends Reports\Tab {
 				'label'           => __( 'Total Earnings Generated', 'affiliate-wp' ),
 				'type'            => 'amount',
 				'context'         => 'tertiary',
-				'data'            => ! empty( $referrals ) ? array_sum( $referrals ) : 0,
+				'data'            => $total_earnings,
 				'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | %3$s', 'affiliate-wp' ),
 					esc_url( $this->affiliate_link ),
 					$this->affiliate_name,
@@ -176,10 +180,10 @@ class Tab extends Reports\Tab {
 		} else {
 
 			$this->register_tile( 'total_earnings_generated', array(
-				'label' => __( 'Total Earnings Generated', 'affiliate-wp' ),
-				'type'  => 'amount',
-				'context' => 'tertiary',
-				'data'    => ! empty( $referrals ) ? array_sum( $referrals ) : 0,
+				'label'           => __( 'Total Earnings Generated', 'affiliate-wp' ),
+				'type'            => 'amount',
+				'context'         => 'tertiary',
+				'data'            => $total_earnings,
 				'comparison_data' => $this->get_date_comparison_label(),
 			) );
 		}

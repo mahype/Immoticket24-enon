@@ -30,6 +30,8 @@ class Affiliate_WP_Shortcodes {
 			return;
 		}
 
+		affwp_enqueue_style( 'affwp-datatables-styles', 'affiliate_area' );
+		affwp_enqueue_script( 'affwp-datatables-js', 'affiliate_area' );
 		affwp_enqueue_script( 'affwp-frontend', 'affiliate_area' );
 
 		/**

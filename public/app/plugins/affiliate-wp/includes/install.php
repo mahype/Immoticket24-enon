@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Installs AffiliateWP.
+ *
+ * @since 0.1
+ */
 function affiliate_wp_install() {
 
 	// Create affiliate caps
@@ -121,9 +125,14 @@ function affiliate_wp_install() {
 }
 register_activation_hook( AFFILIATEWP_PLUGIN_FILE, 'affiliate_wp_install' );
 
+/**
+ * Checks if AffiliateWP is installed, and if not, runs the installer.
+ *
+ * @since 0.2
+ */
 function affiliate_wp_check_if_installed() {
 
-	// this is mainly for network activated installs
+	// This is mainly for network-activated installs.
 	if( ! get_option( 'affwp_is_installed' ) ) {
 		affiliate_wp_install();
 	}

@@ -1089,6 +1089,7 @@ function affwp_get_affiliate_import_fields() {
 		'payment_email'   => __( 'Payment Email', 'affiliate-wp' ),
 		'rate'            => __( 'Rate', 'affiliate-wp' ),
 		'rate_type'       => __( 'Rate Type', 'affiliate-wp' ),
+		'flat_rate_basis' => __( 'Flat Rate Basis', 'affiliate-wp' ),
 		'earnings'        => __( 'Earnings', 'afiliate-wp' ),
 		'unpaid_earnings' => __( 'Unpaid Earnings', 'affiliate-wp' ),
 		'referrals'       => __( 'Referral Count', 'affiliate-wp' ),

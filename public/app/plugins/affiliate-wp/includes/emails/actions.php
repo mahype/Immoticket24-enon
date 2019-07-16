@@ -33,7 +33,9 @@ function affwp_notify_on_registration( $affiliate_id = 0, $status = '', $args = 
 	$emails           = new Affiliate_WP_Emails;
 	$emails->__set( 'affiliate_id', $affiliate_id );
 
-	$email            = apply_filters( 'affwp_registration_admin_email', get_option( 'admin_email' ) );
+	$admin_email      = affiliate_wp()->settings->get( 'affiliate_manager_email', get_option( 'admin_email' ) );
+
+	$email            = apply_filters( 'affwp_registration_admin_email', $admin_email );
 	$user_info        = get_userdata( affwp_get_affiliate_user_id( $affiliate_id ) );
 	$user_url         = $user_info->user_url;
 	$promotion_method = get_user_meta( affwp_get_affiliate_user_id( $affiliate_id ), 'affwp_promotion_method', true );
@@ -389,11 +391,13 @@ function affwp_notify_admin_on_new_referral( $affiliate_id = 0, $referral ) {
 	 *
 	 * @since 2.1.7
 	 *
-	 * @param string          $email        Recipient email. Default is the value of the 'admin_email' option.
+	 * @param string          $admin_email  Recipient email. Default is the value of the 'admin_email' option.
 	 * @param int             $affiliate_id Affiliate ID.
 	 * @param \AffWP\Referral $referral     Referral object.
 	 */
-	$to_email = apply_filters( 'affwp_new_admin_referral_email_to', get_option( 'admin_email' ), $affiliate_id, $referral );
+	$admin_email = affiliate_wp()->settings->get( 'affiliate_manager_email', get_option( 'admin_email' ) );
+
+	$to_email    = apply_filters( 'affwp_new_admin_referral_email_to', $admin_email, $affiliate_id, $referral );
 
 	$emails->send( $to_email, $subject, $message );
 

@@ -142,12 +142,14 @@ class AffWP_Affiliates_Table extends List_Table {
 		$pending_count  = '&nbsp;<span class="count">(' . $this->pending_count  . ')</span>';
 		$rejected_count = '&nbsp;<span class="count">(' . $this->rejected_count  . ')</span>';
 
+		$labels = affwp_get_affiliate_statuses();
+
 		$views = array(
 			'all'		=> sprintf( '<a href="%s"%s>%s</a>', esc_url( remove_query_arg( 'status', $base ) ), $current === 'all' || $current == '' ? ' class="current"' : '', __('All', 'affiliate-wp') . $total_count ),
-			'active'	=> sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'active', $base ) ), $current === 'active' ? ' class="current"' : '', __('Active', 'affiliate-wp') . $active_count ),
-			'inactive'	=> sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'inactive', $base ) ), $current === 'inactive' ? ' class="current"' : '', __('Inactive', 'affiliate-wp') . $inactive_count ),
-			'pending'	=> sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'pending', $base ) ), $current === 'pending' ? ' class="current"' : '', __('Pending', 'affiliate-wp') . $pending_count ),
-			'rejected'	=> sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'rejected', $base ) ), $current === 'rejected' ? ' class="current"' : '', __('Rejected', 'affiliate-wp') . $rejected_count ),
+			'active'	=> sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'active', $base ) ), $current === 'active' ? ' class="current"' : '', $labels['active'] . $active_count ),
+			'inactive'	=> sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'inactive', $base ) ), $current === 'inactive' ? ' class="current"' : '', $labels['inactive'] . $inactive_count ),
+			'pending'	=> sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'pending', $base ) ), $current === 'pending' ? ' class="current"' : '', $labels['pending'] . $pending_count ),
+			'rejected'	=> sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'rejected', $base ) ), $current === 'rejected' ? ' class="current"' : '', $labels['rejected'] . $rejected_count ),
 		);
 
 		return $views;
@@ -634,6 +636,16 @@ class AffWP_Affiliates_Table extends List_Table {
 			return;
 		}
 
+		if ( 'delete' === $this->current_action() ) {
+			$redirect = affwp_admin_url( 'affiliates', array(
+				'action'                        => 'delete',
+				'affiliate_id'                  => $ids,
+				'affwp_delete_affiliates_nonce' => wp_create_nonce( 'affwp_delete_affiliates_nonce' ),
+			) );
+
+			wp_safe_redirect( $redirect );
+		}
+
 		foreach ( $ids as $id ) {
 
 			if ( 'accept' === $this->current_action() ) {
@@ -650,10 +662,6 @@ class AffWP_Affiliates_Table extends List_Table {
 
 			if ( 'deactivate' === $this->current_action() ) {
 				affwp_set_affiliate_status( $id, 'inactive' );
-			}
-
-			if ( 'delete' === $this->current_action() ) {
-				affwp_delete_affiliate( $id );
 			}
 
 			/**

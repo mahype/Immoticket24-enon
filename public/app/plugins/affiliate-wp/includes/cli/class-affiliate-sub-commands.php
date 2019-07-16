@@ -36,6 +36,7 @@ class Sub_Commands extends Base {
 		'referrals',
 		'visits',
 		'date_registered',
+		'flat_rate_basis'
 	);
 
 	/**
@@ -100,7 +101,12 @@ class Sub_Commands extends Base {
 	 * : Referral rate type. Accepts 'percentage', 'flat', or any custom rate type.
 	 *
 	 * If not specified, the default rate type will be used.
-	 * 
+	*
+	 * [--flat_rate_basis=<basis>]
+	 * : Referral rate type. Accepts 'per_product', or 'per_order'.
+	 *
+	 * If not specified, the default rate type will be used. This is only used when the rate_type is set to flat.
+	 *
 	 * [--status=<status>]
 	 * : Affiliate status. Accepts 'active', 'inactive', or 'pending'.
 	 *
@@ -177,14 +183,15 @@ class Sub_Commands extends Base {
 		}
 
 		// Grab flag values.
-		$data['payment_email'] = Utils\get_flag_value( $assoc_args, 'payment_email', '' );
-		$data['rate']          = Utils\get_flag_value( $assoc_args, 'rate'         , '' );
-		$data['rate_type']     = Utils\get_flag_value( $assoc_args, 'rate_type'    , '' );
-		$data['status']        = Utils\get_flag_value( $assoc_args, 'status'       , '' );
-		$data['earnings']      = Utils\get_flag_value( $assoc_args, 'earnings'     , 0  );
-		$data['referrals']     = Utils\get_flag_value( $assoc_args, 'referrals'    , 0  );
-		$data['visits']        = Utils\get_flag_value( $assoc_args, 'visits'       , 0  );
-		$data['user_id']       = $user->ID;
+		$data['payment_email']   = Utils\get_flag_value( $assoc_args, 'payment_email', '' );
+		$data['rate']            = Utils\get_flag_value( $assoc_args, 'rate', '' );
+		$data['rate_type']       = Utils\get_flag_value( $assoc_args, 'rate_type', '' );
+		$data['status']          = Utils\get_flag_value( $assoc_args, 'status', '' );
+		$data['earnings']        = Utils\get_flag_value( $assoc_args, 'earnings', 0 );
+		$data['referrals']       = Utils\get_flag_value( $assoc_args, 'referrals', 0 );
+		$data['visits']          = Utils\get_flag_value( $assoc_args, 'visits', 0 );
+		$data['flat_rate_basis'] = Utils\get_flag_value( $assoc_args, 'flat_rate_basis', '' );
+		$data['user_id']         = $user->ID;
 
 		// Add the affiliate.
 		$affiliate = affwp_add_affiliate( $data );
@@ -218,11 +225,19 @@ class Sub_Commands extends Base {
 	 * [--payment_email=<email>]
 	 * : Affiliate payment email.
 	 *
+	 * [--user_id=<user_id>]
+	 * : New user ID to associate with the affiliate.
+	 *
 	 * [--rate=<float>]
 	 * : Referral rate.
 	 *
 	 * [--rate_type=<type>]
 	 * : Referral rate type. Accepts 'percentage', 'flat', or any custom rate type.
+	 *
+	 * [--flat_rate_basis=<basis>]
+	 * : Referral rate type. Accepts 'per_product', or 'per_order'.
+	 *
+	 * If not specified, the default rate type will be used. This is only used when the rate_type is set to flat.
 	 *
 	 * [--status=<status>]
 	 * : Affiliate status. Accepts 'active', 'inactive', 'pending', or 'rejected'.
@@ -269,11 +284,13 @@ class Sub_Commands extends Base {
 			}
 		}
 
-		$data['affiliate_id']  = $affiliate->affiliate_id;
-		$data['payment_email'] = Utils\get_flag_value( $assoc_args, 'payment_email', $affiliate->payment_email );
-		$data['rate']          = Utils\get_flag_value( $assoc_args, 'rate',          $affiliate->rate          );
-		$data['rate_type']     = Utils\get_flag_value( $assoc_args, 'rate_type',     $affiliate->rate_type     );
-		$data['status']        = Utils\get_flag_value( $assoc_args, 'status',        $affiliate->status        );
+		$data['affiliate_id']    = $affiliate->affiliate_id;
+		$data['payment_email']   = Utils\get_flag_value( $assoc_args, 'payment_email',   $affiliate->payment_email );
+		$data['rate']            = Utils\get_flag_value( $assoc_args, 'rate',            $affiliate->rate          );
+		$data['user_id']         = Utils\get_flag_value( $assoc_args, 'user_id',         $affiliate->user_id       );
+		$data['rate_type']       = Utils\get_flag_value( $assoc_args, 'rate_type',       $affiliate->rate_type     );
+		$data['status']          = Utils\get_flag_value( $assoc_args, 'status',          $affiliate->status        );
+		$data['flat_rate_basis'] = Utils\get_flag_value( $assoc_args, 'flat_rate_basis', ''                        );
 
 		$update = affwp_update_affiliate( $data );
 
@@ -561,6 +578,21 @@ class Sub_Commands extends Base {
 			$item->rate_type = affwp_get_affiliate_rate_type( $item );
 		}
 	}
+
+	/**
+	 * Handler for the 'flat_rate_basis' field.
+	 *
+	 * @since 2.3
+	 * @access protected
+	 *
+	 * @param \AffWP\Affiliate &$item Affiliate object (passed by reference).
+	 */
+	protected function flat_rate_basis_field( &$item ) {
+		if ( empty( $item->flat_rate_basis ) ) {
+			$item->flat_rate_basis = affwp_get_affiliate_flat_rate_basis( $item );
+		}
+	}
+
 }
 
 try {

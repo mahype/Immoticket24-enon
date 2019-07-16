@@ -50,8 +50,8 @@ class Affiliate_WP_Visits_Graph extends Affiliate_WP_Graph {
 
 		$dates = affwp_get_report_dates();
 
-		$start = $dates['year'] . '-' . $dates['m_start'] . '-' . $dates['day'] . ' 00:00:00';
-		$end   = $dates['year_end'] . '-' . $dates['m_end'] . '-' . $dates['day_end'] . ' 23:59:59';
+		$start = $dates['year'] . '-' . $dates['m_start'] . '-' . $dates['day'];
+		$end   = $dates['year_end'] . '-' . $dates['m_end'] . '-' . $dates['day_end'];
 
 		$date  = array(
 			'start' => $start,

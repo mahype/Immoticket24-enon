@@ -163,6 +163,10 @@ class Affiliate_WP_Upgrades {
 			$this->v229_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.3', '<' ) ) {
+			$this->v23_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -870,6 +874,19 @@ class Affiliate_WP_Upgrades {
 	private function v229_upgrade() {
 		affiliate_wp()->referrals->create_table();
 		@affiliate_wp()->utils->log( 'Upgrade: The parent_id column has been added to the Referrals table.' );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Performs database upgrades for version 2.3.
+	 *
+	 * @since 2.3
+	 */
+	private function v23_upgrade() {
+		// Adds the flat rate basis column.
+		affiliate_wp()->affiliates->create_table();
+		@affiliate_wp()->utils->log( 'Upgrade: the flat_rate_basis column has been added to the Affiliates table.' );
 
 		$this->upgraded = true;
 	}

@@ -319,7 +319,7 @@ class AffWP_Visits_Table extends List_Table {
 			$date['start'] = $from;
 		}
 		if( ! empty( $to ) ) {
-			$date['end']   = $to . ' 23:59:59';
+			$date['end'] = $to;
 		}
 
 		if ( $user_id && ! $affiliate_id ) {

@@ -63,6 +63,19 @@ abstract class Affiliate_WP_DB {
 	}
 
 	/**
+	 * Retrieves the list of columns that are generated using sum fields for the database table.
+	 *
+	 * Sub-classes should define an array of columns here.
+	 *
+	 * @access public
+	 * @since 2.3
+	 * @return array List of valid sum columns.
+	 */
+	public function get_sum_columns() {
+		return array();
+	}
+
+	/**
 	 * Retrieves column defaults.
 	 *
 	 * Sub-classes can define default for any/all of columns defined in the get_columns() method.
@@ -92,9 +105,9 @@ abstract class Affiliate_WP_DB {
 	 *
 	 * @access public
 	 *
-	 * @param  string       $column Column name. See get_columns().
-	 * @param  int|string   $row_id Row ID.
-	 * @return object|false Database query result object or false on failure.
+	 * @param string     $column Column name. See get_columns().
+	 * @param int|string $row_id Row ID.
+	 * @return object|false|null Database query result object, null if nothing was found, or false on failure.
 	 */
 	public function get_by( $column, $row_id ) {
 		global $wpdb;
@@ -136,7 +149,7 @@ abstract class Affiliate_WP_DB {
 	 *
 	 * @param  string $column       Column name. See get_columns().
 	 * @param  string $column_where Column to match against in the WHERE clause.
-	 * @param  $column_value        Value to match to the column in the WHERE clause.
+	 * @param  $column_value        mixed Value to match to the column in the WHERE clause.
 	 * @return string|null          Database query result (as string), or null on failure
 	 */
 	public function get_column_by( $column, $column_where, $column_value ) {
@@ -178,11 +191,12 @@ abstract class Affiliate_WP_DB {
 		} else {
 
 			$fields = $clauses['fields'];
+			$group_by = isset( $clauses['groupby'] ) ? $clauses['groupby'] : '';
 
 			// Run the query.
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT {$fields} FROM {$this->table_name} {$clauses['join']} {$clauses['where']} ORDER BY {$clauses['orderby']} {$clauses['order']} LIMIT %d, %d;",
+					"SELECT {$fields} FROM {$this->table_name} {$clauses['join']} {$clauses['where']} {$group_by} ORDER BY {$clauses['orderby']} {$clauses['order']} LIMIT %d, %d;",
 					absint( $args['offset'] ),
 					absint( $args['number'] )
 				)
@@ -222,6 +236,8 @@ abstract class Affiliate_WP_DB {
 	public function insert( $data, $type = '' ) {
 		global $wpdb;
 
+		$errors = new \WP_Error();
+
 		// Set default values
 		$data = wp_parse_args( $data, $this->get_column_defaults() );
 
@@ -243,52 +259,67 @@ abstract class Affiliate_WP_DB {
 		$data = apply_filters( "affwp_pre_insert_{$type}_data", $data );
 
 		if ( empty( $data ) ) {
-			return false;
+
+			$errors->add( "missing_{$type}_data_to_insert", 'Insertion failed because no data was provided.' );
+
+		} else {
+
+			/**
+			 * Fires immediately before an item has been created in the database.
+			 *
+			 * The dynamic portion of the hook name, `$type`, refers to the object type.
+			 *
+			 * @param array $data Array of object data.
+			 */
+			do_action( 'affwp_pre_insert_' . $type, $data );
+
+			// Initialise column format array
+			$column_formats = $this->get_columns();
+
+			// Force fields to lower case
+			$data = array_change_key_case( $data );
+
+			// White list columns
+			$data = array_intersect_key( $data, $column_formats );
+
+			// Unslash data.
+			$data = wp_unslash( $data );
+
+			// Reorder $column_formats to match the order of columns given in $data
+			$data_keys = array_keys( $data );
+			$column_formats = array_merge( array_flip( $data_keys ), $column_formats );
+
+			$inserted = $wpdb->insert( $this->table_name, $data, $column_formats );
+
+			if ( ! $inserted ) {
+
+				$errors->add( 'wp_failed_to_insert', sprintf( 'WordPress failed to insert the %s record.', $type ) );
+
+			} else {
+
+				$object = $this->get_core_object( $wpdb->insert_id, $this->query_object_type );
+
+				// Prime the item cache, and invalidate related query caches.
+				affwp_clean_item_cache( $object );
+
+				/**
+				 * Fires immediately after an item has been created in the database.
+				 *
+				 * @param int   $object_id Object ID.
+				 * @param array $data      Array of object data.
+				 */
+				do_action( 'affwp_post_insert_' . $type, $object->{$this->primary_key}, $data );
+
+			}
 		}
 
-		/**
-		 * Fires immediately before an item has been created in the database.
-		 *
-		 * The dynamic portion of the hook name, `$type`, refers to the object type.
-		 *
-		 * @param array $data Array of object data.
-		 */
-		do_action( 'affwp_pre_insert_' . $type, $data );
+		$has_errors = method_exists( $errors, 'has_errors' ) ? $errors->has_errors() : ! empty( $errors->errors );
 
-		// Initialise column format array
-		$column_formats = $this->get_columns();
+		if ( true === $has_errors ) {
+			affiliate_wp()->utils->log( sprintf( 'There was a problem inserting the %s record into the database.', $type ), $errors );
 
-		// Force fields to lower case
-		$data = array_change_key_case( $data );
-
-		// White list columns
-		$data = array_intersect_key( $data, $column_formats );
-
-		// Unslash data.
-		$data = wp_unslash( $data );
-
-		// Reorder $column_formats to match the order of columns given in $data
-		$data_keys = array_keys( $data );
-		$column_formats = array_merge( array_flip( $data_keys ), $column_formats );
-
-		$inserted = $wpdb->insert( $this->table_name, $data, $column_formats );
-
-		if ( ! $inserted ) {
 			return false;
 		}
-
-		$object = $this->get_core_object( $wpdb->insert_id, $this->query_object_type );
-
-		// Prime the item cache, and invalidate related query caches.
-		affwp_clean_item_cache( $object );
-
-		/**
-		 * Fires immediately after an item has been created in the database.
-		 *
-		 * @param int   $object_id Object ID.
-		 * @param array $data      Array of object data.
-		 */
-		do_action( 'affwp_post_insert_' . $type, $object->{$this->primary_key}, $data );
 
 		return $object->{$this->primary_key};
 	}
@@ -489,6 +520,50 @@ abstract class Affiliate_WP_DB {
 	}
 
 	/**
+	 * Filters invalid sum columns from the provided array.
+	 *
+	 * @access public
+	 * @since 2.3
+	 *
+	 * @param array $sum_columns The sum columns provided in the query to filter out.
+	 * @return array List of valid filtered sum columns valid for the query.
+	 */
+	public function filter_sum_columns( $sum_columns ) {
+		$filtered_sum_columns = array();
+		$possible_sum_columns = $this->get_sum_columns();
+
+		if ( ! is_array( $sum_columns ) ) {
+			$sum_columns = array( $sum_columns );
+		}
+
+		foreach ( $sum_columns as $sum_column ) {
+			$sum_field_column_name = "{$sum_column}_sum";
+			if ( array_key_exists( $sum_field_column_name, $possible_sum_columns ) ) {
+				$filtered_sum_columns[ $sum_field_column_name ] = $possible_sum_columns[ $sum_field_column_name ];
+			}
+		}
+
+		return $filtered_sum_columns;
+	}
+
+	/**
+	 * Prepares the group by clause based on the specified column to group by.
+	 *
+	 * @since 2.3
+	 *
+	 * @param string $group_by The column to create the group by clause.
+	 * @return string A sanitized group by clause. Returns an empty string if the specified group by column is invalid.
+	 */
+	public function prepare_group_by( $group_by ) {
+		$result = '';
+		if ( is_string( $group_by ) && array_key_exists( $group_by, $this->get_columns() ) ) {
+			$result = "GROUP BY `{$group_by}`";
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Prepares the date query section of the WHERE clause if set.
 	 *
 	 * @since 2.1.9
@@ -520,13 +595,11 @@ abstract class Affiliate_WP_DB {
 
 				$where .= empty( $where ) ? "WHERE " : "AND ";
 
-				if ( false !== strpos( $date['start'], ':' ) ) {
-					$format = 'Y-m-d H:i:s';
-				} else {
-					$format = 'Y-m-d 00:00:00';
+				if ( false === strpos( $date['start'], ':' ) ) {
+					$date['start'] .= ' 00:00:00';
 				}
 
-				$start = esc_sql( gmdate( $format, strtotime( $date['start'] ) - $gmt_offset ) );
+				$start = esc_sql( gmdate( 'Y-m-d H:i:s', strtotime( $date['start'] ) - $gmt_offset ) );
 
 				$where .= "`{$field}` >= '{$start}' ";
 			}
@@ -535,13 +608,11 @@ abstract class Affiliate_WP_DB {
 
 				$where .= empty( $where ) ? "WHERE " : "AND ";
 
-				if ( false !== strpos( $date['end'], ':' ) ) {
-					$format = 'Y-m-d H:i:s';
-				} else {
-					$format = 'Y-m-d 23:59:59';
+				if ( false === strpos( $date['end'], ':' ) ) {
+					$date['end'] .= ' 23:59:59';
 				}
 
-				$end = esc_sql( gmdate( $format, strtotime( $date['end'] ) - $gmt_offset ) );
+				$end = esc_sql( gmdate( 'Y-m-d H:i:s', strtotime( $date['end'] ) - $gmt_offset ) );
 
 				$where .= "`{$field}` <= '{$end}' ";
 			}
@@ -557,5 +628,36 @@ abstract class Affiliate_WP_DB {
 		}
 
 		return $where;
+	}
+
+	/**
+	 * Prepares the SUM functions inside of the fields section of our query.
+	 *
+	 * @since 2.3
+	 *
+	 * @param string       $fields     Fields value for the query up to this point.
+	 * @param array|string $sum_fields A single database column, or an array of database columns to sum up in this query.
+	 * @return string fields string with specified sum columns.
+	 */
+	public function prepare_sum_fields( $fields, $sum_fields ) {
+		if ( ! is_array( $sum_fields ) ) {
+			$sum_fields = array( $sum_fields );
+		}
+		if( !is_string( $fields ) ){
+			$fields = '';
+		}
+
+		foreach ( $sum_fields as $sum_field ) {
+			$sum_field_column_name = "{$sum_field}_sum";
+			if ( array_key_exists( $sum_field_column_name, $this->get_sum_columns() ) ) {
+				$sum_values[] = "SUM({$sum_field}) as {$sum_field_column_name}";
+			}
+		}
+
+		if ( ! empty( $sum_values ) ) {
+			$fields .= empty( $fields ) ? implode( ', ', $sum_values ) : ', ' . implode( ', ', $sum_values );
+		}
+
+		return $fields;
 	}
 }

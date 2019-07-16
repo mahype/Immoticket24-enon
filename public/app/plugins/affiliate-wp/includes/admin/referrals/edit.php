@@ -278,13 +278,14 @@ $disabled = disabled( (bool) $payout, true, false );
 				</th>
 
 				<td>
+					<?php $labels = affwp_get_referral_statuses(); ?>
 					<select name="status" id="status" <?php echo $disabled; ?>>
-						<option value="unpaid"<?php selected( 'unpaid', $referral->status ); ?>><?php _e( 'Unpaid', 'affiliate-wp' ); ?></option>
+						<option value="unpaid"<?php selected( 'unpaid', $referral->status ); ?>><?php echo esc_html( $labels['unpaid'] ); ?></option>
 						<?php if ( current_user_can( 'manage_payouts' ) ) : ?>
-							<option value="paid"<?php selected( 'paid', $referral->status ); ?>><?php _e( 'Paid', 'affiliate-wp' ); ?></option>
+							<option value="paid"<?php selected( 'paid', $referral->status ); ?>><?php echo esc_html( $labels['paid'] ); ?></option>
 						<?php endif; ?>
-						<option value="pending"<?php selected( 'pending', $referral->status ); ?>><?php _e( 'Pending', 'affiliate-wp' ); ?></option>
-						<option value="rejected"<?php selected( 'rejected', $referral->status ); ?>><?php _e( 'Rejected', 'affiliate-wp' ); ?></option>
+						<option value="pending"<?php selected( 'pending', $referral->status ); ?>><?php echo esc_html( $labels['pending'] ); ?></option>
+						<option value="rejected"<?php selected( 'rejected', $referral->status ); ?>><?php echo esc_html( $labels['rejected'] ); ?></option>
 					</select>
 					<?php if ( $payout ) : ?>
 						<p class="description"><?php esc_html_e( 'The referral status cannot be changed once it has been included in a payout.', 'affiliate-wp' ); ?></p>

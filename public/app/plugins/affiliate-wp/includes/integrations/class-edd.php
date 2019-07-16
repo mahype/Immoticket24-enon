@@ -356,44 +356,53 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	 *
 	 * @access  public
 	 * @since   1.3.1
-	*/
+	 * @since   2.3   Added support for per-order rates
+	 *
+	 * @param int $payment_id   The payment ID.
+	 * @param int $affiliate_id The affiliate ID to get the rate from.
+	 * @return float|string
+	 */
 	public function get_referral_total( $payment_id = 0, $affiliate_id = 0 ) {
 
 		$downloads = apply_filters( 'affwp_get_edd_cart_details', edd_get_payment_meta_cart_details( $payment_id ) );
 
 		if ( is_array( $downloads ) ) {
+			if ( affwp_is_per_order_rate( $affiliate_id ) ) {
+				$referral_total = $this->calculate_referral_amount();
+			} else {
+				// Calculate the referral amount based on product prices
+				$referral_total = 0.00;
 
-			// Calculate the referral amount based on product prices
-			$referral_total = 0.00;
+				foreach ( $downloads as $key => $download ) {
 
-			foreach ( $downloads as $key => $download ) {
+					// Get the categories associated with the download.
+					$categories = get_the_terms( $download['id'], 'download_category' );
 
-				// Get the categories associated with the download.
-				$categories = get_the_terms( $download['id'], 'download_category' );
-				
-				// Get the first category ID for the download.
-				$category_id = $categories && ! is_wp_error( $categories ) ? $categories[0]->term_id : 0;
+					// Get the first category ID for the download.
+					$category_id = $categories && ! is_wp_error( $categories ) ? $categories[0]->term_id : 0;
 
-				if ( get_post_meta( $download['id'], '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
-					continue; // Referrals are disabled on this product
-				}
+					if ( get_post_meta( $download['id'], '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
+						continue; // Referrals are disabled on this product
+					}
 
-				if ( affiliate_wp()->settings->get( 'exclude_tax' ) ) {
-					$amount = $download['price'] - $download['tax'];
-				} else {
-					$amount = $download['price'];
-				}
+					if ( affiliate_wp()->settings->get( 'exclude_tax' ) ) {
+						$amount = $download['price'] - $download['tax'];
+					} else {
+						$amount = $download['price'];
+					}
 
-				if ( class_exists( 'EDD_Simple_Shipping' ) ) {
+					if ( class_exists( 'EDD_Simple_Shipping' ) ) {
 
-					if ( isset( $download['fees'] ) ) {
+						if ( isset( $download['fees'] ) ) {
 
-						foreach ( $download['fees'] as $fee_id => $fee ) {
+							foreach ( $download['fees'] as $fee_id => $fee ) {
 
-							if ( false !== strpos( $fee_id, 'shipping' ) ) {
+								if ( false !== strpos( $fee_id, 'shipping' ) ) {
 
-								if ( ! affiliate_wp()->settings->get( 'exclude_shipping' ) ) {
-									$amount += $fee['amount'];
+									if ( ! affiliate_wp()->settings->get( 'exclude_shipping' ) ) {
+										$amount += $fee['amount'];
+									}
+
 								}
 
 							}
@@ -402,24 +411,22 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 
 					}
 
-				}
+					if ( class_exists( 'edd_dp' ) ) {
 
-				if ( class_exists( 'edd_dp' ) ) {
+						if ( isset( $download['fees'][ 'dp_' . $download['id'] ] ) ) {
+							$amount += $download['fees'][ 'dp_' . $download['id'] ]['amount'];
+						}
 
-					if( isset( $download['fees']['dp_'.$download['id']] ) ) {
-						$amount += $download['fees']['dp_'.$download['id']]['amount'];
 					}
 
-				}
+					// Check for Recurring Payments signup fee
+					if ( ! empty( $download['item_number']['options']['recurring']['signup_fee'] ) ) {
+						$amount += $download['item_number']['options']['recurring']['signup_fee'];
+					}
 
-				// Check for Recurring Payments signup fee
-				if( ! empty( $download['item_number']['options']['recurring']['signup_fee'] ) ) {
-					$amount += $download['item_number']['options']['recurring']['signup_fee'];
+					$referral_total += $this->calculate_referral_amount( $amount, $payment_id, $download['id'], $affiliate_id, $category_id );
 				}
-
-				$referral_total += $this->calculate_referral_amount( $amount, $payment_id, $download['id'], $affiliate_id, $category_id );
 			}
-
 		} else {
 
 			if ( affiliate_wp()->settings->get( 'exclude_tax' ) ) {

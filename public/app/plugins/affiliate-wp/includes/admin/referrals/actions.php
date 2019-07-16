@@ -22,7 +22,7 @@ function affwp_process_add_referral( $data ) {
 		wp_die( __( 'Security check failed', 'affiliate-wp' ), array( 'response' => 403 ) );
 	}
 
-	if( ! affiliate_wp()->affiliates->affiliate_exists( $data['user_name'] ) ) {
+	if ( false === affwp_get_affiliate( $data['user_name'] ) ) {
 		$errors[ 'invalid_affiliate'] = __( 'Referral not created because affiliate is invalid.', 'affiliate-wp' );
 	}
 
@@ -162,7 +162,7 @@ function affwp_generate_referral_payout_file( $data ) {
 
 	$export->date = array(
 		'start' => $data['from'],
-		'end'   => $data['to'] . ' 23:59:59'
+		'end'   => $data['to']
 	);
 	$export->export();
 

@@ -18,10 +18,10 @@ namespace AffWP;
  * @see AffWP\Base_Object
  * @see affwp_get_affiliate()
  *
- * @property-read int      $ID   Alias for `$affiliate_id`.
- * @property      stdClass $user User object.
- * @property      array    $meta Meta array.
- * @property-read string   $date Alias for `$date_registered`.
+ * @property-read int             $ID   Alias for `$affiliate_id`.
+ * @property      \stdClass|false $user User object or false.
+ * @property      array           $meta Meta array.
+ * @property-read string          $date Alias for `$date_registered`.
  */
 final class Affiliate extends Base_Object {
 
@@ -72,6 +72,17 @@ final class Affiliate extends Base_Object {
 	 * @see Affiliate::rate_type()
 	 */
 	public $rate_type;
+
+	/**
+	 * Affiliate flat rate basis.
+	 *
+	 * @since 2.3
+	 * @access public
+	 * @var string
+	 *
+	 * @see Affiliate::$flat_rate_basis()
+	 */
+	public $flat_rate_basis;
 
 	/**
 	 * Affiliate payment email.
@@ -198,7 +209,7 @@ final class Affiliate extends Base_Object {
 	 * @since 1.9
 	 * @access public
 	 *
-	 * @return false|\WP_User Built user object or false if it doesn't exist.
+	 * @return \stdClass|false Built user object or false if it doesn't exist.
 	 */
 	public function get_user() {
 		$user = get_user_by( 'id', $this->user_id );
@@ -208,7 +219,7 @@ final class Affiliate extends Base_Object {
 				$user->data->{$field} = get_user_meta( $this->user_id, $field, true );
 			}
 			// Exclude user pass, activation key, and email from the response.
-			unset( $user->data->user_pass, $user->data->user_activation_key, $user->data->user_email );
+			unset( $user->data->user_pass, $user->data->user_activation_key );
 			return $user->data;
 		}
 		return $user;
@@ -269,6 +280,22 @@ final class Affiliate extends Base_Object {
 		}
 
 		return $this->rate_type;
+	}
+
+	/**
+	 * Retrieves the affiliate rate type.
+	 *
+	 * @since 2.3
+	 * @access public
+	 *
+	 * @return string Rate type. If empty, defaults to the global referral rate type.
+	 */
+	public function flat_rate_basis() {
+		if ( empty( $this->flat_rate_basis ) ) {
+			return affiliate_wp()->settings->get( 'flat_rate_basis', 'per_product' );
+		}
+
+		return $this->flat_rate_basis;
 	}
 
 	/**

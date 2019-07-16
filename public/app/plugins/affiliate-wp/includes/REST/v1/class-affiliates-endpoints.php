@@ -51,8 +51,8 @@ class Endpoints extends Controller {
 			'schema' => array( $this, 'get_public_item_schema' ),
 		) );
 
-		// /affiliates/ID
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>\d+)', array(
+		// /affiliates/ID || /affiliates/username
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/((?P<id>\d+)|(?P<username>\w+))', array(
 			array(
 				'methods'  => \WP_REST_Server::READABLE,
 				'callback' => array( $this, 'get_item' ),
@@ -155,10 +155,29 @@ class Endpoints extends Controller {
 	 * @return \WP_REST_Response|\WP_Error Affiliate object response or \WP_Error object if not found.
 	 */
 	public function get_item( $request ) {
-		if ( ! $affiliate = \affwp_get_affiliate( $request['id'] ) ) {
+
+		if ( isset( $request['username'] ) ) {
+			$affiliate_to_fetch = sanitize_text_field( $request['username'] );
+			$error_msg = 'Invalid affiliate username';
+		} else {
+			$affiliate_to_fetch = intval( $request['id'] );
+			$error_msg = 'Invalid affiliate ID';
+		}
+
+		/**
+		 * Filters the requested affiliate ID or login.
+		 *
+		 * @since 2.3
+		 *
+		 * @param int|string       $affiliate_to_fetch Affiliate ID or login to (attempt to) retrieve.
+		 * @param \WP_REST_Request $request            Request arguments.
+		 */
+		$affiliate_to_fetch = apply_filters( 'affwp_rest_get_affiliate', $affiliate_to_fetch, $request );
+
+		if ( ! $affiliate = \affwp_get_affiliate( $affiliate_to_fetch ) ) {
 			$affiliate = new \WP_Error(
-				'invalid_affiliate_id',
-				'Invalid affiliate ID',
+				'invalid_affiliate',
+				$error_msg,
 				array( 'status' => 404 )
 			);
 		} else {
@@ -249,7 +268,9 @@ class Endpoints extends Controller {
 		$params['status'] = array(
 			'description'       => __( "The affiliate status. Accepts 'active', 'inactive', 'pending', or 'rejected'.", 'affiliate-wp' ),
 			'validate_callback' => function( $param, $request, $key ) {
-				return in_array( $param, array( 'active', 'inactive', 'pending', 'rejected' ) );
+				$statuses = array_keys( affwp_get_affiliate_statuses() );
+
+				return in_array( $param, $statuses );
 			},
 		);
 
@@ -336,10 +357,20 @@ class Endpoints extends Controller {
 						),
 					),
 				),
-				'account_email'   => array(
-					'description' => __( 'The affiliate account email. Synced with the associated user account.', 'affiliatewp-rest-api' ),
-					'type'        => 'string',
-					'readonly'    => true,
+				'flat_rate_basis' => array(
+						'description'       => __( 'The affiliate flat rate basis.', 'affiliate-wp' ),
+						'type'              => 'object',
+						'sanitize_callback' => array( $this, 'sanitize_flat_rate_basis' ),
+						'properties'        => array(
+								'raw'       => array(
+										'description' => __( 'The affiliate flat rate basis, as it exists in the database', 'affiliate-wp' ),
+										'type'        => 'string',
+								),
+								'inherited' => array(
+										'description' => __( 'The affiliate flat rate basis, as inherited from global settings.', 'affiliate-wp' ),
+										'type'        => 'string',
+								),
+						),
 				),
 				'payment_email'   => array(
 					'description'       => __( 'The affiliate payment email address.', 'affiliate-wp' ),
@@ -412,6 +443,20 @@ class Endpoints extends Controller {
 		$default = affiliate_wp()->settings->get( 'referral_rate', 20 );
 
 		return $this->convert_param_to_object( $rate, array(), $default );
+	}
+
+	/**
+	 * Sanitizes a flat rate basis into an object if necessary.
+	 *
+	 * @since 2.3
+	 *
+	 * @param int|array|\stdClass $flat_rate_basis Flat Rate Basis value, array, or object.
+	 * @return \stdClass Flat Rate Basis object.
+	 */
+	public function sanitize_flat_rate_basis( $flat_rate_basis ) {
+		$default = affwp_get_affiliate_flat_rate_basis();
+
+		return $this->convert_param_to_object( $flat_rate_basis, array(), $default );
 	}
 
 	/**

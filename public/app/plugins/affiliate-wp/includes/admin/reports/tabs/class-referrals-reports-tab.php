@@ -65,7 +65,7 @@ class Tab extends Reports\Tab {
 			$total_unpaid_earnings = affwp_get_affiliate_unpaid_earnings( $this->affiliate_id );
 
 			$this->register_tile( 'affiliate_unpaid_earnings', array(
-				'label'           => __( 'Total Unpaid Earnings', 'affiliate-wp' ),
+				'label'           => __( 'Total Unpaid Earnings (All Time)', 'affiliate-wp' ),
 				'type'            => $total_unpaid_earnings ? 'amount' : '',
 				'context'         => 'secondary',
 				'data'            => $total_unpaid_earnings ? $total_unpaid_earnings : __( 'None', 'affiliate-wp' ),

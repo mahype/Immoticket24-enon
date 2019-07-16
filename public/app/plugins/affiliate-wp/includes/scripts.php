@@ -64,6 +64,10 @@ function affwp_is_admin_page( $page = '' ) {
  */
 function affwp_admin_scripts() {
 
+	if ( 'dashboard' === get_current_screen()->id ) {
+		wp_register_script( 'affwp-dashboard-ajax', AFFILIATEWP_PLUGIN_URL . 'assets/js/dashboard-ajax.js', array( 'jquery' ), AFFILIATEWP_VERSION );
+	}
+
 	if( ! affwp_is_admin_page() ) {
 		return;
 	}
@@ -128,14 +132,18 @@ function affwp_enqueue_admin_js() {
 
 	wp_enqueue_script( 'affwp-admin', AFFILIATEWP_PLUGIN_URL . 'assets/js/admin' . $suffix . '.js', $admin_deps, AFFILIATEWP_VERSION );
 	wp_localize_script( 'affwp-admin', 'affwp_vars', array(
-		'post_id'                 => isset( $post->ID ) ? $post->ID : null,
-		'affwp_version'           => AFFILIATEWP_VERSION,
-		'currency_sign'           => affwp_currency_filter(''),
-		'currency_pos'            => affiliate_wp()->settings->get( 'currency_position', 'before' ),
-		'confirm_delete_referral' => __( 'Are you sure you want to delete this referral?', 'affiliate-wp' ),
-		'no_user_found'           => __( 'The user you entered does not exist. Enter an email below to create a new user and affiliate at the same time.', 'affiliate-wp' ),
-		'existing_affiliate'      => __( 'An affiliate already exists for this username.', 'affiliate-wp' ),
-		'view_affiliate'          => __( 'View Affiliate', 'affiliate-wp' ),
+		'post_id'                  => isset( $post->ID ) ? $post->ID : null,
+		'affwp_version'            => AFFILIATEWP_VERSION,
+		'currency_sign'            => affwp_currency_filter(''),
+		'currency_pos'             => affiliate_wp()->settings->get( 'currency_position', 'before' ),
+		'confirm_delete_referral'  => __( 'Are you sure you want to delete this referral?', 'affiliate-wp' ),
+		'no_user_found'            => __( 'The user you entered does not exist. To create a new user and affiliate, continue filling out the form and click Add User & Affiliate.', 'affiliate-wp' ),
+		'no_user_email_found'      => __( 'No user account is associated with this email address. To create a new user and affiliate, continue filling out the form and click Add User & Affiliate.', 'affiliate-wp' ),
+		'user_and_affiliate_input' => __( 'Add User & Affiliate' ),
+		'valid_user_selected'      => __( 'You have selected a valid user account and may continue adding this user as an affiliate.', 'affiliate-wp' ),
+		'existing_affiliate'       => __( 'An affiliate already exists for this username.', 'affiliate-wp' ),
+		'user_email_exists'        => __( 'A user already exists for this email address, however they are not currently an affiliate. Their username is %s', 'affiliate-wp' ),
+		'view_affiliate'           => __( 'View Affiliate', 'affiliate-wp' ),
 	) );
 }
 

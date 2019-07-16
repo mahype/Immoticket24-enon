@@ -144,12 +144,14 @@ class AffWP_Referrals_Table extends List_Table {
 		$pending_count  = '&nbsp;<span class="count">(' . $this->pending_count . ')</span>';
 		$rejected_count = '&nbsp;<span class="count">(' . $this->rejected_count . ')</span>';
 
+		$labels = affwp_get_referral_statuses();
+
 		$views = array(
 			'all'      => sprintf( '<a href="%s"%s>%s</a>', esc_url( remove_query_arg( 'status', $base ) ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'affiliate-wp' ) . $total_count ),
-			'paid'     => sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'paid', $base ) ), $current === 'paid' ? ' class="current"' : '', __( 'Paid', 'affiliate-wp' ) . $paid_count ),
-			'unpaid'   => sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'unpaid', $base ) ), $current === 'unpaid' ? ' class="current"' : '', __( 'Unpaid', 'affiliate-wp' ) . $unpaid_count ),
-			'pending'  => sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'pending', $base ) ), $current === 'pending' ? ' class="current"' : '', __( 'Pending', 'affiliate-wp' ) . $pending_count ),
-			'rejected' => sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'rejected', $base ) ), $current === 'rejected' ? ' class="current"' : '', __( 'Rejected', 'affiliate-wp' ) . $rejected_count ),
+			'paid'     => sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'paid', $base ) ), $current === 'paid' ? ' class="current"' : '', $labels['paid'] . $paid_count ),
+			'unpaid'   => sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'unpaid', $base ) ), $current === 'unpaid' ? ' class="current"' : '', $labels['unpaid'] . $unpaid_count ),
+			'pending'  => sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'pending', $base ) ), $current === 'pending' ? ' class="current"' : '', $labels['pending'] . $pending_count ),
+			'rejected' => sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'rejected', $base ) ), $current === 'rejected' ? ' class="current"' : '', $labels['rejected'] . $rejected_count ),
 		);
 
 		return $views;
@@ -829,7 +831,7 @@ class AffWP_Referrals_Table extends List_Table {
 			$date['start'] = $from;
 		}
 		if( ! empty( $to ) ) {
-			$date['end']   = $to . ' 23:59:59';;
+			$date['end'] = $to;
 		}
 
 		if( ! empty( $_GET['s'] ) ) {
@@ -907,8 +909,6 @@ class AffWP_Referrals_Table extends List_Table {
 		$this->process_bulk_action();
 
 		$data = $this->referrals_data();
-
-		$current_page = $this->get_pagenum();
 
 		$status = isset( $_GET['status'] ) ? $_GET['status'] : 'any';
 

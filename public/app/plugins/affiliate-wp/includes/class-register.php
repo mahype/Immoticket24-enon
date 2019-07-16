@@ -301,8 +301,8 @@ class Affiliate_WP_Register {
 
 		if ( ! empty( $_POST['affwp_user_name'] ) ) {
 			$name       = explode( ' ', sanitize_text_field( $_POST['affwp_user_name'] ) );
-			$user_first = $name[0];
-			$user_last  = isset( $name[1] ) ? $name[1] : '';
+			$user_first = array_shift( $name );
+			$user_last = count( $name ) ? implode( ' ', $name ) : '';
 		} else {
 			$user_first = '';
 			$user_last  = '';

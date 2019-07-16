@@ -110,6 +110,18 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	}
 
 	/**
+	 * Get valid sum columns and formats
+	 *
+	 * @access  public
+	 * @since   2.3
+	 */
+	public function get_sum_columns() {
+		return array(
+				'amount_sum' => '%d'
+		);
+	}
+
+	/**
 	 * Get default column values
 	 *
 	 * @access  public
@@ -150,79 +162,99 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 
 		$args = wp_parse_args( $data, $defaults );
 
-		if( empty( $args['affiliate_id'] ) ) {
-			return false;
+		$result = false;
+		$errors = new \WP_Error();
+
+		if ( ! isset( $args['affiliate_id'] ) ) {
+			$errors->add( 'missing_affiliate_id', 'The affiliate ID is missing.' );
+
+			$args['affiliate_id'] = 0;
 		}
 
-		if( ! affiliate_wp()->affiliates->affiliate_exists( $args['affiliate_id'] ) ) {
-			return false;
-		}
+		if ( false === affwp_get_affiliate( $args['affiliate_id'] ) ) {
 
-		$args['amount'] = affwp_sanitize_amount( $args['amount'] );
+			$errors->add(
+				'invalid_affiliate_id',
+				sprintf( 'The #%d affiliate ID is invalid.',
+					$args['affiliate_id']
+				)
+			);
 
-		if( ! empty( $args['products'] ) ) {
-			$args['products'] = maybe_serialize( $args['products'] );
-		}
-
-		if( empty( $args['description'] ) ) {
-			$args['description'] = ''; // Force description to empty string. NULL values won't work. See https://github.com/AffiliateWP/AffiliateWP/issues/2672
-		}
-
-		if ( ! empty( $args['custom'] ) ) {
-			$args['custom']	 = maybe_serialize( $args['custom'] );
-		}
-
-		$rest_id_error = false;
-
-		if ( ! empty( $args['rest_id'] ) ) {
-			if ( ! affwp_validate_rest_id( $args['rest_id'] ) ) {
-				$rest_id_error = true;
-
-				unset( $args['rest_id'] );
-			} else {
-				$args['rest_id'] = sanitize_text_field( $args['rest_id'] );
-			}
-		}
-
-		if ( empty( $args['date'] ) ) {
-			unset( $args['date'] );
 		} else {
-			$time = strtotime( $args['date'] );
 
-			$args['date'] = gmdate( 'Y-m-d H:i:s', $time - affiliate_wp()->utils->wp_offset );
-		}
+			$args['amount'] = affwp_sanitize_amount( $args['amount'] );
 
-		if( ! empty( $args['type'] ) && ! $this->types_registry->get_type( $args['type'] ) ) {
-			$args['type'] = 'sale';
-		}
-
-		$args['customer_id'] = $this->setup_customer( $args );
-
-		$add = $this->insert( $args, 'referral' );
-
-		if ( $add ) {
-
-			/**
-			 * Fires once a new referral has successfully been inserted into the database.
-			 *
-			 * @since 1.6
-			 *
-			 * @param int $add Referral ID.
-			 */
-			do_action( 'affwp_insert_referral', $add );
-
-			if ( false !== $rest_id_error ) {
-				affiliate_wp()->utils->log( sprintf( 'REST ID %1$s for new referral #%2$d is invalid.',
-					$rest_id_error,
-					$add
-				) );
+			if( ! empty( $args['products'] ) ) {
+				$args['products'] = maybe_serialize( $args['products'] );
 			}
 
-			return $add;
+			if( empty( $args['description'] ) ) {
+				$args['description'] = ''; // Force description to empty string. NULL values won't work. See https://github.com/AffiliateWP/AffiliateWP/issues/2672
+			}
+
+			if ( ! empty( $args['custom'] ) ) {
+				$args['custom']	 = maybe_serialize( $args['custom'] );
+			}
+
+			$rest_id_error = false;
+
+			if ( ! empty( $args['rest_id'] ) ) {
+				if ( ! affwp_validate_rest_id( $args['rest_id'] ) ) {
+					$errors->add( 'invalid_rest_id', sprintf( 'REST ID \'%1$s\' is formatted incorrectly. Must contain a colon.',
+						$args['rest_id']
+					) );
+
+					unset( $args['rest_id'] );
+				} else {
+					$args['rest_id'] = sanitize_text_field( $args['rest_id'] );
+				}
+			}
+
+			if ( empty( $args['date'] ) ) {
+				unset( $args['date'] );
+			} else {
+				$time = strtotime( $args['date'] );
+
+				$args['date'] = gmdate( 'Y-m-d H:i:s', $time - affiliate_wp()->utils->wp_offset );
+			}
+
+			if( ! empty( $args['type'] ) && ! $this->types_registry->get_type( $args['type'] ) ) {
+				$args['type'] = 'sale';
+			}
+
+			$args['customer_id'] = $this->setup_customer( $args );
+
+			$add = $this->insert( $args, 'referral' );
+
+			if ( $add ) {
+
+				/**
+				 * Fires once a new referral has successfully been inserted into the database.
+				 *
+				 * @since 1.6
+				 *
+				 * @param int $add Referral ID.
+				 */
+				do_action( 'affwp_insert_referral', $add );
+
+				$result = $add;
+			}
+
 		}
 
-		return false;
+		$has_errors = method_exists( $errors, 'has_errors' ) ? $errors->has_errors() : ! empty( $errors->errors );
 
+		if ( true === $has_errors ) {
+			if ( false !== $result ) {
+				$message = sprintf( 'There was a problem while adding referral #%1$d.', $result );
+			} else {
+				$message = 'There was a problem while adding the referral.';
+			}
+
+			affiliate_wp()->utils->log( $message, $errors );
+		}
+
+		return $result;
 	}
 
 	/**
@@ -369,6 +401,8 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	 *
 	 * @access  public
 	 * @since   1.0
+	 * @since   2.3 Added the `$sum_fields` argument.
+	 *
 	 * @param array $args {
 	 *     Optional. Arguments to retrieve referrals from the database.
 	 *
@@ -410,6 +444,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	 *     @type bool         $search         Whether a search query is being performed. Default false.
 	 *     @type string|array $fields         Specific fields to retrieve. Accepts 'ids', a single referral field, or an
 	 *                                        array of fields. Default '*' (all).
+	 *     @type array        $sum_fields     A database column, or an array of database columns to add to the query as a sum. Default empty string.
 	 * }
 	 * @param   bool  $count  Optional. Whether to return only the total number of results found. Default false.
 	 * @return array|int Array of referral objects or field(s) (if found), int if `$count` is true.
@@ -435,9 +470,11 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			'type'           => '',
 			'status'         => '',
 			'orderby'        => 'referral_id',
+			'groupby'        => '',
 			'order'          => 'DESC',
 			'search'         => false,
 			'fields'         => '',
+			'sum_fields'     => ''
 		);
 
 		$args  = wp_parse_args( $args, $defaults );
@@ -661,12 +698,21 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 		$where .= empty( $where ) ? "WHERE " : "AND ";
 		$where .= "`$this->primary_key` > 0";
 
-		$orderby = array_key_exists( $args['orderby'], $this->get_columns() ) ? $args['orderby'] : $this->primary_key;
+		// Get whitelist of orderby columns before specifying orderby
+		if ( '' !== $args['sum_fields'] ) {
+			$valid_orderby_columns = array_merge( $this->get_columns(), $this->filter_sum_columns( $args['sum_fields'] ) );
+		} else {
+			$valid_orderby_columns = $this->get_columns();
+		}
+
+		$orderby = array_key_exists( $args['orderby'], $valid_orderby_columns ) ? $args['orderby'] : $this->primary_key;
 
 		// Non-column orderby exception;
 		if ( 'amount' === $args['orderby'] ) {
 			$orderby = 'amount+0';
 		}
+
+		$groupby = $this->prepare_group_by( $args['groupby'] );
 
 		// There can be only two orders.
 		if ( 'DESC' === strtoupper( $args['order'] ) ) {
@@ -693,6 +739,9 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			}
 		}
 
+		// Append sum fields, if specified.
+		$fields = $this->prepare_sum_fields( $fields, $args['sum_fields'] );
+
 		$key = ( true === $count ) ? md5( 'affwp_referrals_count' . serialize( $args ) ) : md5( 'affwp_referrals_' . serialize( $args ) );
 
 		$last_changed = wp_cache_get( 'last_changed', $this->cache_group );
@@ -707,7 +756,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 
 		if ( false === $results ) {
 
-			$clauses = compact( 'fields', 'join', 'where', 'orderby', 'order', 'count' );
+			$clauses = compact( 'fields', 'join', 'where', 'groupby', 'orderby', 'order', 'count' );
 
 			$results = $this->get_results( $clauses, $args, $callback );
 		}
@@ -729,22 +778,34 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	}
 
 	/**
-	 * Get the total paid earnings
+	 * Retrieves sum of all earnings filtered by the status, affiliate id, or date.
 	 *
-	 * @access  public
-	 * @since   1.0
-	*/
-	public function paid_earnings( $date = '', $affiliate_id = 0, $format = true ) {
+	 * @since 2.3
+	 *
+	 * @param array|string $status       The earning status to get. Can be a single status, or an array of multiple
+	 *                                   statuses.
+	 * @param int          $affiliate_id Optional. The affiliate ID to sum from. Default 0. This will get the total
+	 *                                   earnings for all affiliates if set to 0.
+	 * @param array|string $date         Optional. Date range in which to calculate sum from. Default empty.
+	 * @return int|float The total earnings from the provided parameters. Returns 0 if affiliate does not exist.
+	 */
+	public function get_earnings_by_status( $status, $affiliate_id = 0, $date = '' ) {
+
+		$affiliate_id = absint( $affiliate_id );
 
 		$args = array(
-			'status'       => 'paid',
+			'status'       => $status,
 			'affiliate_id' => $affiliate_id,
-			'number'       => -1,
+			'number'       => - 1,
 			'fields'       => 'amount',
+			'groupby'      => $affiliate_id > 0 ? 'affiliate_id' : '',
+			'sum_fields'   => 'amount',
 		);
 
-		if( 'alltime' == $date ) {
+		if ( 'alltime' == $date ) {
 			return $this->get_alltime_earnings();
+		} elseif ( 0 !== $args['affiliate_id'] && false === affwp_get_affiliate( $args['affiliate_id'] ) ) {
+			return 0;
 		}
 
 		if( ! empty( $date ) ) {
@@ -773,15 +834,38 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			$args['date'] = $date;
 		}
 
-		$referrals = $this->get_referrals( $args );
-		$earnings  = array_sum( $referrals );
+		$earnings = $this->get_referrals( $args );
 
-		if( $format ) {
+		if ( isset( $earnings[0] ) && isset( $earnings[0]->amount_sum ) ) {
+			$result = (float) $earnings[0]->amount_sum;
+		} else {
+			$result = 0.0;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Retrieves the total paid earnings.
+	 *
+	 * @access  public
+	 * @since   1.0
+	 * @since   2.3 Refactored to use get_earnings_by_status()
+	 *
+	 * @param string | array $date         Optional. The date, or date range, to retrieve the earnings from. Accepts an array containing a start
+	 *                                     and end date, a string containing a single date, or "alltime" for all dates. Default ''
+	 * @param int            $affiliate_id Optional. The affiliate ID to get the earnings from. Default 0. This will get the total paid earnings for all affiliates if 0.
+	 * @param bool           $format       Optional. Set to true to format the date as a currency string. Set to false to get the value as a float.
+	 * @return array|float|int
+	 */
+	public function paid_earnings( $date = '', $affiliate_id = 0, $format = true ) {
+		$earnings = $this->get_earnings_by_status( 'paid', $affiliate_id, $date );
+
+		if ( $format ) {
 			$earnings = affwp_currency_filter( affwp_format_amount( $earnings ) );
 		}
 
 		return $earnings;
-
 	}
 
 	/**
@@ -799,51 +883,22 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	 *
 	 * @access  public
 	 * @since   1.0
-	*/
+	 * @since   2.3 Refactored to use get_earnings_by_status()
+	 *
+	 * @param string | array $date         Optional. The date, or date range, to retrieve the earnings from. Accepts an array containing a start
+	 *                                     and end date, a string containing a single date, or "alltime" for all dates. Default ''
+	 * @param int            $affiliate_id Optional. The affiliate ID to get the earnings from. Default 0.  This will get the total unpaid earnings for all affiliates if 0.
+	 * @param bool           $format       Optional. Set to true to format the date as a currency string. Set to false to get the value as a float. Default false
+	 * @return array|float|int
+	 */
 	public function unpaid_earnings( $date = '', $affiliate_id = 0, $format = true ) {
+		$earnings = $this->get_earnings_by_status( 'unpaid', $affiliate_id, $date );
 
-		$args                 = array();
-		$args['status']       = 'unpaid';
-		$args['affiliate_id'] = $affiliate_id;
-		$args['number']       = '-1';
-
-		if( ! empty( $date ) ) {
-
-			if ( is_string( $date ) ) {
-				switch( $date ) {
-
-					case 'month' :
-
-						$date = array(
-							'start' => date( 'Y-m-01 00:00:00', current_time( 'timestamp' ) ),
-							'end'   => date( 'Y-m-' . cal_days_in_month( CAL_GREGORIAN, date( 'n' ), date( 'Y' ) ) . ' 23:59:59', current_time( 'timestamp' ) ),
-						);
-						break;
-
-					case 'last-month' :
-
-						$date = array(
-							'start' => date( 'Y-m-01 00:00:00', ( current_time( 'timestamp' ) - MONTH_IN_SECONDS ) ),
-							'end'   => date( 'Y-m-' . cal_days_in_month( CAL_GREGORIAN, date( 'n' ), date( 'Y' ) ) . ' 23:59:59', ( current_time( 'timestamp' ) - MONTH_IN_SECONDS ) ),
-						);
-						break;
-
-				}
-			}
-
-			$args['date'] = $date;
-		}
-
-		$referrals = $this->get_referrals( $args );
-
-		$earnings  = array_sum( wp_list_pluck( $referrals, 'amount' ) );
-
-		if( $format ) {
+		if ( $format ) {
 			$earnings = affwp_currency_filter( affwp_format_amount( $earnings ) );
 		}
 
 		return $earnings;
-
 	}
 
 	/**
@@ -852,9 +907,10 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	 * @access public
 	 * @since  1.8.6
 	 *
-	 * @param string $status       Referral status.
-	 * @param int    $affiliate_id Optional. Affiliate ID. Default 0.
-	 * @param string $date         Optional. Date range in which to search. Accepts 'month'. Default empty.
+	 * @param array|string $status       The status to get. Can be a single status, or an array of multiple
+	 *                                   statuses.
+	 * @param int          $affiliate_id Optional. Affiliate ID. Default 0. This will get total counts for all affiliates if 0.
+	 * @param string       $date         Optional. Date range in which to search. Accepts 'month'. Default empty.
 	 * @return int Number of referrals for the given status or 0 if the affiliate doesn't exist.
 	 */
 	public function count_by_status( $status, $affiliate_id = 0, $date = '' ) {
@@ -863,6 +919,10 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			'status'       => $status,
 			'affiliate_id' => absint( $affiliate_id ),
 		);
+
+		if ( 0 !== $args['affiliate_id'] && false === affwp_get_affiliate( $args['affiliate_id'] ) ) {
+			return 0;
+		}
 
 		if ( ! empty( $date ) ) {
 
@@ -903,7 +963,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	 * @see count_by_status()
 	 *
 	 * @param string $date         Optional. Date range in which to search. Accepts 'month'. Default empty.
-	 * @param int    $affiliate_id Optional. Affiliate ID. Default 0.
+	 * @param int    $affiliate_id Optional. Affiliate ID. Default 0. This will get the count for all affiliates if 0.
 	 * @return int Number of referrals for the given status or 0 if the affiliate doesn't exist.
 	*/
 	public function paid_count( $date = '', $affiliate_id = 0 ) {
@@ -920,7 +980,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	 * @see count_by_status()
 	 *
 	 * @param string $date         Optional. Date range in which to search. Accepts 'month'. Default empty.
-	 * @param int    $affiliate_id Optional. Affiliate ID. Default 0.
+	 * @param int    $affiliate_id Optional. Affiliate ID. Default 0. This will get the total unpaid count for all affiliates if 0.
 	 * @return int Number of referrals for the given status or 0 if the affiliate doesn't exist.
 	*/
 	public function unpaid_count( $date = '', $affiliate_id = 0 ) {

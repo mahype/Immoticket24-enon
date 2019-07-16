@@ -164,7 +164,7 @@ abstract class Affiliate_WP_Base {
 			$args['customer']['ip'] = '';
 		}
 
-		affiliate_wp()->utils->log( sprintf( 'Arguments being sent to DB: ' . var_export( $args, true ) ) );
+		affiliate_wp()->utils->log( 'Arguments being sent to DB:', $args );
 
 		$args = apply_filters( 'affwp_insert_pending_referral', $args, $amount, $reference, $description, $this->affiliate_id, $visit_id, $data, $this->context );
 
@@ -527,6 +527,21 @@ abstract class Affiliate_WP_Base {
 		);
 
 		return $customer;
+	}
+
+	/**
+	 * Parses a referral reference, potentially formatted per integration policy.
+	 *
+	 * Integrations can extend this method to manipulate the returned reference
+	 * value, such as in the case of sequential numbering, etc.
+	 *
+	 * @since 2.3
+	 *
+	 * @param int $reference Reference.
+	 * @return int Derived reference or 0.
+	 */
+	public function parse_reference( $reference ) {
+		return $reference;
 	}
 
 	/**

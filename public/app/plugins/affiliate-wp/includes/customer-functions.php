@@ -7,7 +7,7 @@
  */
 
 /**
- * Retrieves the customer object
+ * Retrieves the customer object.
  *
  * @since 2.2
  *
@@ -20,7 +20,7 @@ function affwp_get_customer( $customer = null ) {
 		$customer_id = $customer->customer_id;
 	} elseif( is_numeric( $customer ) ) {
 		$customer_id = absint( $customer );
-	} elseif( is_email( $customer ) ) {
+	} elseif( is_string( $customer ) && is_email( $customer ) ) {
 		$customer_id = affiliate_wp()->customers->get_column_by( 'customer_id', 'email', $customer );
 		if( ! $customer_id ) {
 			return false;
@@ -36,6 +36,7 @@ function affwp_get_customer( $customer = null ) {
  * Adds a new customer to the database.
  *
  * @since 2.2
+ *
  * @param array $data {
  *     Arguments for setting up the customer record.
  *
@@ -59,9 +60,10 @@ function affwp_add_customer( $data = array() ) {
 }
 
 /**
- * Updates a customer
+ * Updates a customer.
  *
  * @since 2.2
+ *
  * @return bool
  */
 function affwp_update_customer( $data = array() ) {
@@ -81,11 +83,12 @@ function affwp_update_customer( $data = array() ) {
 }
 
 /**
- * Deletes a customer
+ * Deletes a customer.
  *
  * @since 2.2
- * @param $delete_data bool
- * @return bool
+ *
+ * @param AffWP\Customer|int Customer ID or object.
+ * @return bool True if the customer was successfully deleted, otherwise false.
  */
 function affwp_delete_customer( $customer ) {
 
