@@ -163,14 +163,17 @@ abstract class PaymentGateway {
 	}
 
 	protected function _getSuccessURL( $payment_id ) {
-		return add_query_arg( array(
+		$url = add_query_arg( array(
 			'payment-confirmation' => static::$gateway_name,
 			'payment-id'           => $payment_id,
 		), get_permalink( edd_get_option( 'success_page', false ) ) );
+
+		return apply_filters( 'wpenon_payment_success_url', $url );
 	}
 
 	protected function _getFailureURL( $payment_id ) {
-		return edd_get_failed_transaction_uri( '?payment-id=' . $payment_id );
+		$url = edd_get_failed_transaction_uri( '?payment-id=' . $payment_id );
+		return apply_filters( 'wepenon_payment_failed_url', $url );
 	}
 
 	protected function _getListenerURL() {
