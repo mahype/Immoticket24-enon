@@ -70,7 +70,7 @@ function immoticketenergieausweis_add_options( $wpod ) {
                       ),
                     ),
                     'page_for_terms'      => array(
-                      'title'                 => __( 'Seite für AGB', 'immoticketenergieausweis' ),
+                      'title'                 => __( 'AGB', 'immoticketenergieausweis' ),
                       'description'           => __( 'Wählen Sie die Seite aus, welche die AGB enthält.', 'immoticketenergieausweis' ),
                       'type'                  => 'select',
                       'options'               => array(
@@ -78,12 +78,28 @@ function immoticketenergieausweis_add_options( $wpod ) {
                       ),
                     ),
                     'page_for_withdrawal'   => array(
-                      'title'                 => __( 'Seite für Widerrufsbelehrung', 'immoticketenergieausweis' ),
-                      'description'           => __( 'Wählen Sie die Seite aus, welche die Widerrufsbelehrung enthält.', 'immoticketenergieausweis' ),
-                      'type'                  => 'select',
-                      'options'               => array(
-                        'posts'                 => 'page',
-                      ),
+	                    'title'                 => __( 'Widerrufsbelehrung', 'immoticketenergieausweis' ),
+	                    'description'           => __( 'Wählen Sie die Seite aus, welche die Widerrufsbelehrung enthält.', 'immoticketenergieausweis' ),
+	                    'type'                  => 'select',
+	                    'options'               => array(
+		                    'posts'                 => 'page',
+	                    ),
+                    ),
+                    'page_for_successful_payment'   => array(
+	                    'title'                 => __( 'Erfolgreiche Zahlung', 'immoticketenergieausweis' ),
+	                    'description'           => __( 'Wählen Sie die Seite aus, die nach einer erfolgreichen Zahlung angezeigt werden soll.', 'immoticketenergieausweis' ),
+	                    'type'                  => 'select',
+	                    'options'               => array(
+		                    'posts'                 => 'page',
+	                    ),
+                    ),
+                    'page_for_failed_payment'   => array(
+	                    'title'                 => __( 'Fehlgeschlagene Zahlung', 'immoticketenergieausweis' ),
+	                    'description'           => __( 'Wählen Sie die Seite aus, die nach einer fehlgeschlagenen Zahlung angezeigt werden soll.', 'immoticketenergieausweis' ),
+	                    'type'                  => 'select',
+	                    'options'               => array(
+		                    'posts'                 => 'page',
+	                    ),
                     ),
                   ),
                 ),
@@ -157,8 +173,18 @@ function immoticketenergieausweis_add_options( $wpod ) {
                             'type'                  => 'text',
                             'default'               => md5( microtime() ),
                           ),
-                          'redirect_url'                 => array(
-	                          'title'                 => __( 'Weiterleitungs URL', 'immoticketenergieausweis' ),
+                          'customer_edit_url'                 => array(
+	                          'title'                 => __( 'Kunden Editierseite', 'immoticketenergieausweis' ),
+	                          'type'                  => 'text',
+	                          'default'               => '',
+                          ),
+                          'payment_successful_url'                 => array(
+	                          'title'                 => __( 'Zahlung Erfolgreich', 'immoticketenergieausweis' ),
+	                          'type'                  => 'text',
+	                          'default'               => '',
+                          ),
+                          'payment_failed_url'                 => array(
+	                          'title'                 => __( 'Zahlung Fehlgeschlagen', 'immoticketenergieausweis' ),
 	                          'type'                  => 'text',
 	                          'default'               => '',
                           ),
