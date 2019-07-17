@@ -64,7 +64,12 @@ class EA_Whitelabel_Confirmation_Email extends EA_Whitelabel_Email {
 	 * @return string Filtered signature.
 	 */
 	public function set_link( $link, $energieausweis ) {
-		$redirect_url = $this->whitelabel->get_verified_redirect_url( $energieausweis->id );
+		$redirect_url = $this->whitelabel->get_verfied_url( $this->whitelabel->get_customer_edit_url(), $energieausweis->id );
+
+		if( false === $redirect_url ) {
+			return $link;
+		}
+
 		return $redirect_url;
 	}
 
@@ -79,7 +84,7 @@ class EA_Whitelabel_Confirmation_Email extends EA_Whitelabel_Email {
 		$footer = '<div style="font-size:14px;">';
 		$footer.= wpautop( $this->whitelabel->get_email_footer() );
 		$footer.= '</div>';
-		$footer.= '<small>' . sprintf( __( 'Diese Email wurde automatisch von <a href="%s">%s</a> versendet.', 'wpenon' ), $this->whitelabel->get_redirect_url(), $this->whitelabel->get_sitename() ) . '</small>';
+		$footer.= '<small>' . sprintf( __( 'Diese Email wurde automatisch von <a href="%s">%s</a> versendet.', 'wpenon' ), $this->whitelabel->get_customer_edit_url(), $this->whitelabel->get_sitename() ) . '</small>';
 		return $footer;
 	}
 
@@ -91,7 +96,7 @@ class EA_Whitelabel_Confirmation_Email extends EA_Whitelabel_Email {
 	 * @return string Filtered footer.
 	 */
 	public function set_legal( $footer = '' ) {
-		$legal = sprintf( __( 'Diese Email wurde automatisch von <a href="%s">%s</a> versendet.', 'wpenon' ), $this->whitelabel->get_redirect_url(), $this->whitelabel->get_sitename() );
+		$legal = sprintf( __( 'Diese Email wurde automatisch von <a href="%s">%s</a> versendet.', 'wpenon' ), $this->whitelabel->get_customer_edit_url(), $this->whitelabel->get_sitename() );
 		return $this->whitelabel->get_email_footer($legal);
 	}
 

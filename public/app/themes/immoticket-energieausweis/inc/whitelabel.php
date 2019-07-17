@@ -77,10 +77,14 @@ class EA_Whitelabel{
 		add_action( 'template_redirect', array( $this, 'adjust_fallback_track_referral' ), -10000, 0 );
 
 		add_filter( 'wpenon_filter_url', array( $this, 'maybe_filter_iframe_url'), 100 );
+
 		add_filter( 'edd_get_checkout_uri', array( $this, 'maybe_filter_iframe_url'), 100 );
 		add_filter( 'edd_get_success_page_uri', array( $this, 'maybe_filter_iframe_url'), 100 );
 		add_filter( 'edd_get_failed_transaction_uri', array( $this, 'maybe_filter_iframe_url'), 100 );
 		add_filter( 'edd_remove_fee_url', array( $this, 'maybe_filter_iframe_url'), 100 );
+
+		add_filter( 'wpenon_payment_success_url', array( $this, 'filter_payment_success_url' ) );
+		add_filter( 'wpenon_payment_failed_url', array( $this, 'filter_payment_failed_url' ) );
 	}
 
 	/**
@@ -89,7 +93,7 @@ class EA_Whitelabel{
 	 * @return bool True if this is a whitelabel request
 	 */
 	public function is_whitelabeled_request() {
-		if ( ! isset( $_REQUEST['iframe'] ) || 'true' !== $_REQUEST['iframe'] ) {
+		if ( ! isset( $_REQUEST['iframe'] ) || true !== boolval( $_REQUEST['iframe'] ) ) {
 			$this->iframe = false;
 			return false;
 		}
@@ -115,18 +119,15 @@ class EA_Whitelabel{
 			return $template;
 		}
 
-		$privacy_page    = immoticketenergieausweis_get_option( 'it-theme', 'page_for_privacy' );
-		$terms_page      = immoticketenergieausweis_get_option( 'it-theme', 'page_for_terms' );
-		$withdrawal_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_withdrawal' );
+		$privacy_page            = immoticketenergieausweis_get_option( 'it-theme', 'page_for_privacy' );
+		$terms_page              = immoticketenergieausweis_get_option( 'it-theme', 'page_for_terms' );
+		$withdrawal_page         = immoticketenergieausweis_get_option( 'it-theme', 'page_for_withdrawal' );
+		$payment_successful_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_successful_payment' );
+		$payment_failed_page     = immoticketenergieausweis_get_option( 'it-theme', 'page_for_failed_payment' );
 
-		if ( is_page( array( $privacy_page, $terms_page, $withdrawal_page ) ) ) {
-			remove_action( 'wp_footer', 'immoticketenergieausweis_userlike_script', 100 );
-			remove_action( 'wp_footer', 'immoticketenergieausweis_ekomi_widget_script', 100 );
-			remove_action( 'wp_footer', 'immoticketenergieausweis_google_remarketing_tag_script', 100 );
-			remove_action( 'wp_footer', 'immoticketenergieausweis_bing_ads_uet_tag_script', 100 );
-			remove_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
-
-			return locate_template( array( 'energieausweis-iframe.php' ) );
+		if ( is_page( array( $privacy_page, $terms_page, $withdrawal_page, $payment_successful_page, $payment_failed_page ) ) ) {
+			$iframe_template = $this->load_iframe_template();
+			return $iframe_template;
 		}
 
 		if ( ! class_exists( 'WPENON\Controller\Frontend' ) ) {
@@ -157,15 +158,26 @@ class EA_Whitelabel{
 			}
 		}
 
+		$iframe_template = $this->load_iframe_template();
+
+		return $iframe_template;
+	}
+
+	/**
+	 * Cleaning up site to add iframe and returning new temoplate file.
+	 *
+	 * @return string $template Location of the template to load.
+	 */
+	private function load_iframe_template() {
 		add_action( 'wp_head', 'wp_no_robots' );
-		remove_action( 'wp_footer', 'immoticketenergieausweis_adcell_retargeting_script', 10 );
 		remove_action( 'wp_footer', 'immoticketenergieausweis_userlike_script', 100 );
 		remove_action( 'wp_footer', 'immoticketenergieausweis_ekomi_widget_script', 100 );
 		remove_action( 'wp_footer', 'immoticketenergieausweis_google_remarketing_tag_script', 100 );
 		remove_action( 'wp_footer', 'immoticketenergieausweis_bing_ads_uet_tag_script', 100 );
 		remove_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
 
-		return locate_template( array( 'energieausweis-iframe.php' ) );
+		$template = locate_template( array( 'energieausweis-iframe.php' ) );
+		return $template;
 	}
 
 	/**
@@ -280,7 +292,8 @@ class EA_Whitelabel{
 	 * @return string Token string of current token.
 	 */
 	public function get_token() {
-		return $this->get_token_value('token' );
+		$token = $this->get_token_value('token' );
+		return $token;
 	}
 
 	/**
@@ -289,7 +302,8 @@ class EA_Whitelabel{
 	 * @return string Email of current token.
 	 */
 	public function get_email() {
-		return $this->get_token_value('email' );
+		$email = $this->get_token_value('email' );
+		return $email;
 	}
 
 	/**
@@ -298,7 +312,8 @@ class EA_Whitelabel{
 	 * @return string Email from address of current token.
 	 */
 	public function get_email_from_address() {
-		return $this->get_token_value('email_from_address' );
+		$email_from_address = $this->get_token_value('email_from_address' );
+		return $email_from_address;
 	}
 
 	/**
@@ -307,7 +322,8 @@ class EA_Whitelabel{
 	 * @return string Email from name of current token.
 	 */
 	public function get_email_from_name() {
-		return $this->get_token_value('email_from_name' );
+		$email_from_name = $this->get_token_value('email_from_name' );
+		return $email_from_name;
 	}
 
 	/**
@@ -316,7 +332,8 @@ class EA_Whitelabel{
 	 * @return string Email from name of current token.
 	 */
 	public function get_email_footer() {
-		return $this->get_token_value('email_footer' );
+		$email_footer = $this->get_token_value('email_footer' );
+		return $email_footer;
 	}
 
 	/**
@@ -325,7 +342,8 @@ class EA_Whitelabel{
 	 * @return string Sitename of current token.
 	 */
 	public function get_sitename() {
-		return $this->get_token_value('sitename' );
+		$sitename = $this->get_token_value('sitename' );
+		return $sitename;
 	}
 
 	/**
@@ -333,26 +351,67 @@ class EA_Whitelabel{
 	 *
 	 * @return string Redirect url of current token.
 	 */
-	public function get_redirect_url() {
-		return trim( $this->get_token_value('redirect_url' ) );
+	public function get_customer_edit_url() {
+		$redirect_url = trim( $this->get_token_value('customer_edit_url' ) );
+		return $redirect_url;
 	}
 
 	/**
-	 * Getting redirect URL to customer site.
+	 * Get URL for site after successful payment.
 	 *
-	 * @return string Redirect URL.
+	 * @return string Redirect successful payment url.
 	 */
-	public function get_verified_redirect_url( $energieausweis_id ) {
-		$post = get_post( $energieausweis_id );
+	public function get_payment_succesful_url() {
+		return trim( $this->get_token_value('payment_successful_url' ) );
+	}
 
+	/**
+	 * Get URL for site after failed payment.
+	 *
+	 * @return string Redirect failed payment url.
+	 */
+	public function get_payment_failed_url() {
+		return trim( $this->get_token_value('payment_failed_url' ) );
+	}
+
+	/**
+	 * Adds iframe and energeausweis parameters to url.
+	 *
+	 * @param string  $url               URL where parameters have to be added.
+	 * @param int     $energieausweis_id ID of energieausweis.
+	 *
+	 * @return string $url               URL with needed parameters.
+	 */
+	public function get_verfied_url( $url, $energieausweis_id = null ) {
 		$query_args = array(
+			'iframe'       => true,
 			'iframe_token' => $this->get_current_token(),
 			'access_token' => md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true ),
 			'slug' => $post->post_name,
 		);
 
-		return add_query_arg( $query_args, trailingslashit( $this->get_redirect_url() ) );
+		if( ! empty( $energieausweis_id ) ) {
+			$post = get_post( $energieausweis_id );
+
+			$query_args['access_token'] = $this->get_access_token( $energieausweis_id );
+			$query_args['slug']         = $post->post_name;
+		}
+
+		return add_query_arg( $query_args, trailingslashit( $url ) );
 	}
+
+	/**
+	 * Get access token for editing page.
+	 *
+	 * @param int     $energieausweis_id ID of energieausweis.
+	 *
+	 * @return string $access_token      Token to use in URL.
+	 */
+	public function get_access_token( $energieausweis_id ) {
+		$access_token = md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true );
+		return $access_token;
+	}
+
 
 	/**
 	 * Get affilliate id.
@@ -376,6 +435,56 @@ class EA_Whitelabel{
 		}
 
 		return affwp_get_affiliate_id( $user->ID );
+	}
+
+	/**
+	 * Filtering payment success URL.
+	 *
+	 * @param $url
+	 *
+	 * @return string
+	 */
+	public function filter_payment_success_url( $old_url ) {
+		$url = $this->get_payment_succesful_url();
+
+		if( empty( $url ) ) {
+			$payment_successful_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_successful_payment' );
+
+			if( empty( $payment_successful_page ) ) {
+				return $old_url;
+			}
+
+			$url = get_permalink( $payment_successful_page );
+		}
+
+		$url = $this->get_verfied_url( $url );
+
+		return $url;
+	}
+
+	/**
+	 * Filtering payment success URL.
+	 *
+	 * @param string $old_url
+	 *
+	 * @return string
+	 */
+	public function filter_payment_failed_url( $old_url ) {
+		$url = $this->get_payment_failed_url();
+
+		if( empty( $url ) ) {
+			$payment_failed_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_failed_payment' );
+
+			if( empty( $payment_failed_page ) ) {
+				return $old_url;
+			}
+
+			$url = get_permalink( $payment_failed_page );
+		}
+
+		$url = $this->get_verfied_url( $url );
+
+		return $url;
 	}
 
 	/**
