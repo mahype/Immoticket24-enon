@@ -432,7 +432,7 @@ class Emails {
 		$emails = EDD()->emails;
 
 		$emails->__set( 'from_name', $from_name );
-		$emails->__set( 'from_email', $from_email );
+		$emails->__set( 'from_address', $from_email );
 		$emails->__set( 'heading', __( 'Ihr Energieausweis', 'wpenon' ) );
 
 		$headers = apply_filters( 'wpenon_confirmation_headers', $emails->get_headers(), $energieausweis->ID, $energieausweis );
