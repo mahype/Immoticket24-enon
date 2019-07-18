@@ -1,5 +1,6 @@
 jQuery(document).ready(function($) {
 	if (typeof _wpenon_data === "object") {
+		/*
 		$(_wpenon_data.select2_selector).select2({
 			containerCss: {
 				width: "100%"
@@ -9,6 +10,7 @@ jQuery(document).ready(function($) {
 				return m;
 			}
 		});
+		*/
 
 		_wpenon_data.active_requests = 0;
 
