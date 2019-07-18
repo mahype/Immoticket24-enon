@@ -350,7 +350,7 @@ function immoticketenergieausweis_edd_maybe_print_default_gateway_free_purchase_
           is_free = true;
 
           if ( window.edd_load_gateway ) {
-            window.edd_load_gateway( 'manual' );
+          	window.edd_load_gateway( 'deposit' );
           }
         } else if ( is_free ) {
           is_free = false;
