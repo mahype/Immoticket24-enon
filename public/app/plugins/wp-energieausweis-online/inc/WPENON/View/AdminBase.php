@@ -222,13 +222,13 @@ class AdminBase extends TemplateBase {
 			}
 
 			// Match a registry number.
-			if ( preg_match( '/^([A-Z]{2})\-20([0-9]{2})\-([0-9]+)$/', $search ) ) {
+			if ( preg_match( '/^([A-Za-z]{2})\-20([0-9]{2})\-([0-9]+)$/', $search ) ) {
 				return array(
 					'meta_query' => array(
 						'relation' => 'AND',
 						array(
 							'key'     => 'registriernummer',
-							'value'   => $search,
+							'value'   => strtoupper( $search ),
 							'compare' => 'LIKE',
 						),
 					),
