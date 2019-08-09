@@ -26,8 +26,33 @@ abstract class Service {
 	 */
 	private function load_hooks() {
 		add_action( 'wp_head', array( $this, 'base_script' ), 1 );
-		add_action( 'ea_finished_bedarfsausweis', array( $this, 'finished_bedarfsausweis' ) );
-		add_action( 'ea_finished_verbrauchsausweis', array( $this, 'finished_verbrauchsausweis' ) );
+		add_action( 'edd_payment_receipt_after_table', array( $this, 'load_conversions' ), 10, 2 );
+	}
+
+	/**
+	 * Loads the base script on every site to the header.
+	 *
+	 * @param $payment
+	 * @param $edd_receipt_args
+	 *
+	 * @since 1.0.0
+	 */
+	public function load_conversions() {
+		if ( ! isset( $_SESSION['edd']['edd_purchase'] ) ) {
+			return;
+		}
+
+		$purchase          = json_decode( $_SESSION['edd']['edd_purchase'] );
+		$energieausweis_id = $purchase->downloads[0]->id;
+		$type              = get_post_meta( $energieausweis_id, 'wpenon_type', true );
+
+		if ( 'bw' === $type ) {
+			$this->conversion_bedarfsausweis();
+		}
+
+		if ( 'vw' === $type ) {
+			$this->conversion_verbrauchsausweis();
+		}
 	}
 
 	/**
@@ -42,12 +67,12 @@ abstract class Service {
 	 *
 	 * @since 1.0.0
 	 */
-	abstract public function conversion_bedarfsausweis();
+	abstract protected function conversion_bedarfsausweis();
 
 	/**
 	 * Loads the scripts after a verbrauchsausweis had a conversion.
 	 *
 	 * @since 1.0.0
 	 */
-	abstract public function conversion_verbrauchsausweis();
+	abstract protected function conversion_verbrauchsausweis();
 }

@@ -24,8 +24,8 @@ class Bing extends Service {
 	 *
 	 * @since 1.0.0
 	 */
-	public function conversion_bedarfsausweis() {
-		echo self::custom_event_script( 'conversion', 'bedarfsausweis', 89.95 );
+	protected function conversion_bedarfsausweis() {
+		echo $this->custom_event_script( 'conversion', 'bedarfsausweis', 89.95 );
 	}
 
 	/**
@@ -33,8 +33,8 @@ class Bing extends Service {
 	 *
 	 * @since 1.0.0
 	 */
-	public function conversion_verbrauchsausweis() {
-		echo self::custom_event_script( 'conversion', 'verbrauchsausweis', 39.95 );
+	protected function conversion_verbrauchsausweis() {
+		echo $this->custom_event_script( 'conversion', 'verbrauchsausweis', 39.95 );
 	}
 
 	/**
@@ -42,7 +42,7 @@ class Bing extends Service {
 	 *
 	 * @since 1.0.0
 	 */
-	public function custom_event_script( $action, $category, $value ) {
+	private function custom_event_script( $action, $category, $value ) {
 		ob_start();
 		?>
 		<script>
