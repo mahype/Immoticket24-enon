@@ -47,7 +47,8 @@
     "wpackagist-plugin/vaultpress": "2.0.1",
     "wpackagist-plugin/wp-maintenance-mode": "2.2.4",
     "wpackagist-plugin/wp-postratings": "1.86.2",
-    "wpackagist-plugin/wp-security-audit-log": "3.4.2"
+    "wpackagist-plugin/wp-security-audit-log": "3.4.2",
+    "felixarntz/plugin-lib": "dev-master"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "3.*",
