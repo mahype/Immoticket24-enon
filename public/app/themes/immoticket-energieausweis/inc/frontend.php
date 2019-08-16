@@ -210,7 +210,7 @@ function immoticketenergieausweis_google_remarketing_tag_script() {
   </noscript>
   <?php
 }
-add_action( 'wp_footer', 'immoticketenergieausweis_google_remarketing_tag_script', 100 );
+// add_action( 'wp_footer', 'immoticketenergieausweis_google_remarketing_tag_script', 100 );
 
 function immoticketenergieausweis_uptain_script() {
   $email = apply_filters( 'immoticketenergieausweis_uptain_email', '' );
@@ -350,7 +350,7 @@ function immoticketenergieausweis_google_conversion_script( $atts ) {
 
   return $output;
 }
-add_shortcode( 'google_conversion_script', 'immoticketenergieausweis_google_conversion_script' );
+// add_shortcode( 'google_conversion_script', 'immoticketenergieausweis_google_conversion_script' );
 
 function immoticketenergieausweis_trusted_badge_shortcode( $atts ) {
   $atts = shortcode_atts( array(

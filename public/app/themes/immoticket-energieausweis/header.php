@@ -30,7 +30,7 @@ $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
 </head>
 
 <body <?php body_class(); ?>>
-
+  <?php wp_body_open(); ?>
   <div class="wrapper container">
 
     <div class="top-bar">

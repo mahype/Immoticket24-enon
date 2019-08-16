@@ -35,7 +35,6 @@ function enon() {
 	if ( ! class_exists( 'Enon' ) ) {
 		$main_file        = __FILE__;
 
-		$file          = wp_normalize_path( $main_file );
 		$mu_plugin_dir = wp_normalize_path( WPMU_PLUGIN_DIR );
 
 		require_once( $mu_plugin_dir . '/plugin-lib/plugin-loader.php' );
@@ -55,7 +54,7 @@ function enon() {
 
 		require_once plugin_dir_path( $main_file ) . 'src/enon.php';
 
-		Leaves_And_Love_Plugin_Loader::load( 'Enon', $main_file, $basedir_relative );
+		Leaves_And_Love_Plugin_Loader::load( 'Enon', $main_file, '' );
 	}
 
 	$enon = Leaves_And_Love_Plugin_Loader::get( 'Enon' );
