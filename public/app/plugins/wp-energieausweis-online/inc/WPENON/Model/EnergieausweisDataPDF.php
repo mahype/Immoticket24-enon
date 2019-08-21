@@ -1020,6 +1020,13 @@ class EnergieausweisDataPDF extends \WPENON\Util\UFPDI {
 					if ( empty( $dach_daemmung ) ) {
 						$dach_daemmung = 0;
 					}
+
+					$dach = $this->GetData( 'dach' );
+
+					if( $dach === 'nicht-vorhanden' && ( $dach_bauart === 'holz' ||  $dach_bauart === 'massiv' ) ) {
+						$dach_daemmung .= utf8_decode( ' (Deckendämmunng)' );
+					}
+
 					$dach_hoehe = $this->GetData( 'dach_hoehe', true );
 
 					$this->SetXY( 47, 36.5 );
