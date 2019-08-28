@@ -684,6 +684,14 @@ img.wp-post-image {
 // Fix modal being hidden behind fixed navbar
 .modal {
 	z-index: 10000;
+
+	.modal-banner {
+		width: 100%;
+	}
+
+	.modal-title {
+		font-weight: bold;
+	}
 }
 
 .post-13, // Über uns
@@ -692,4 +700,30 @@ img.wp-post-image {
 		border-top-left-radius: 80px;
 		border-top-right-radius: 80px;
 	}
+}
+
+// EDD
+#edd_checkout_cart {
+	th & td {
+		.edd_cart_item_price {
+			text-align: right;
+		}
+	}
+}
+
+.edd_cart_actions {
+	display: none;
+}
+
+#edd_checkout_form_wrap {
+	.edd-description {
+		display: none !important;
+	}
+}
+
+#edd_custom_fees_selection {
+	background-color: #f6f6f6;
+}
+#edd_checkout_user_info {
+	background-color: #f6f6f6;
 }
