@@ -5503,8 +5503,8 @@ body {
 }
 @media (min-width: 992px) {
   .primary.col-md-12 {
-    padding-right: 150px !important;
-    padding-left: 150px !important;
+    padding-right: 100px !important;
+    padding-left: 100px !important;
   }
 }
 @media (min-width: 1200px) {
@@ -5722,10 +5722,32 @@ img.wp-post-image {
 .modal {
   z-index: 10000;
 }
+.modal .modal-banner {
+  width: 100%;
+}
+.modal .modal-title {
+  font-weight: bold;
+}
 .post-13 figure.wp-caption,
 .post-15 figure.wp-caption {
   border-top-left-radius: 80px;
   border-top-right-radius: 80px;
+}
+#edd_checkout_cart th .edd_cart_item_price,
+#edd_checkout_cart td .edd_cart_item_price {
+  text-align: right;
+}
+.edd_cart_actions {
+  display: none;
+}
+#edd_checkout_form_wrap .edd-description {
+  display: none !important;
+}
+#edd_custom_fees_selection {
+  background-color: #f6f6f6;
+}
+#edd_checkout_user_info {
+  background-color: #f6f6f6;
 }
 .alignnone {
   margin: 5px 20px 20px 0;
