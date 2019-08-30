@@ -5537,6 +5537,12 @@ body {
 ul.mashsb-share-widget {
   padding-left: 0;
 }
+article:first-child ul {
+  list-style-image: url('../media/aufzaehlung-tickets.png');
+}
+article:first-child ul.checkmark {
+  list-style-image: url('../media/checkmark.png');
+}
 .blog article.type-post {
   margin-bottom: 30px;
   padding-bottom: 30px;
@@ -5748,6 +5754,14 @@ img.wp-post-image {
 }
 #edd_checkout_user_info {
   background-color: #f6f6f6;
+}
+.wp-block-group.full-width-grey,
+.wp-block-columns.full-width-grey {
+  background-image: url('../media/pattern-grey.gif');
+  background-repeat: repeat;
+  margin-left: -100px;
+  margin-right: -100px;
+  padding: 20px 100px;
 }
 .alignnone {
   margin: 5px 20px 20px 0;
