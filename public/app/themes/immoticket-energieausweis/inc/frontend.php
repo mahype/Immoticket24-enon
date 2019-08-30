@@ -191,7 +191,7 @@ function immoticketenergieausweis_ekomi_widget_script() {
   </script>
   <?php
 }
-add_action( 'wp_footer', 'immoticketenergieausweis_ekomi_widget_script', 100 );
+// add_action( 'wp_footer', 'immoticketenergieausweis_ekomi_widget_script', 100 );
 
 function immoticketenergieausweis_google_remarketing_tag_script() {
   ?>
@@ -253,7 +253,7 @@ function immoticketenergieausweis_trusted_shops_badge_script() {
   </script>
   <?php
 }
-add_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
+// add_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
 
 function immoticketenergieausweis_proof_pixel_script() {
   if ( ! is_singular() ) {
