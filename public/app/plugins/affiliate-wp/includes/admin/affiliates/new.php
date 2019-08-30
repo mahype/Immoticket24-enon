@@ -224,7 +224,15 @@ $disabled     = disabled( (bool) $user, false, false );
 
 		<input type="hidden" name="affwp_action" value="add_affiliate" />
 
-		<?php submit_button( __( 'Add Affiliate', 'affiliate-wp' ), 'primary', 'submit', true, array( 'disabled' => 'true' ) ); ?>
+		<?php
+		$atts = array();
+
+		if ( empty( $_REQUEST['user_id'] ) ) {
+			$atts['disabled'] = true;
+		}
+
+		submit_button( __( 'Add Affiliate', 'affiliate-wp' ), 'primary', 'submit', true, $atts );
+		?>
 
 	</form>
 

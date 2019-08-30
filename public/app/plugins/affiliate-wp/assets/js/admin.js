@@ -81,7 +81,7 @@ jQuery(document).ready(function($) {
 			$search = $this.val(),
 			$status = $this.data( 'affwp-status' ),
 			$form = $this.closest( 'form' ),
-			$submit = $form.find( ':submit' ),
+			$submit = $form.find( ':submit.button-primary' ),
 			$submit_default_value = $submit.val(),
 			$user_creation_fields = $( '.affwp-user-email-wrap, .affwp-user-pass-wrap' ),
 			$on_complete_enabled = $this.hasClass( 'affwp-enable-on-complete' );

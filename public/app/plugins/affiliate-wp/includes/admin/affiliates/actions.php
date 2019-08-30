@@ -242,3 +242,32 @@ function affwp_process_affiliate_moderation( $data ) {
 
 }
 add_action( 'affwp_moderate_affiliate', 'affwp_process_affiliate_moderation' );
+
+/**
+ * Handles a custom affwp_is_affiliate argument when passed to WP_User_Query
+ * to filter out affiliates.
+ *
+ * `$query` is passed from the core hook by reference.
+ *
+ * @since 2.3.1
+ *
+ * @param \WP_User_Query $query WP_User_Query instance.
+ */
+function affwp_handle_wp_user_query( $query ) {
+	// Bail if the argument isn't set.
+	if ( ! isset( $query->query_vars['affwp_is_affiliate'] ) ) {
+		return;
+	}
+	global $wpdb;
+
+	$affiliates_table = affiliate_wp()->affiliates->table_name;
+
+	if ( true === $query->query_vars['affwp_is_affiliate'] ) {
+		$where = ' AND ID IN (SELECT user_id FROM ' . $affiliates_table . ')';
+	} else {
+		$where = ' AND ID NOT IN (SELECT user_id FROM ' . $affiliates_table . ')';
+	}
+
+	$query->query_where .= $where;
+}
+add_action( 'pre_user_query', 'affwp_handle_wp_user_query' );

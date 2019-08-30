@@ -69,28 +69,22 @@ class Migrate_Users extends Utils\Batch_Process implements Batch\With_PreFetch {
 	 * @since  2.0
 	 */
 	public function pre_fetch() {
-		$affiliate_user_ids = affiliate_wp()->utils->data->get( "{$this->batch_id}_user_ids" );
+		$non_affiliate_users = affiliate_wp()->utils->data->get( "{$this->batch_id}_user_ids" );
 
-		if ( false === $affiliate_user_ids ) {
-			$affiliate_user_ids = affiliate_wp()->affiliates->get_affiliates( array(
-				'number' => -1,
-				'fields' => 'user_id',
+		if ( false === $non_affiliate_users ) {
+			$non_affiliate_users = get_users( array(
+				'fields'             => 'ids',
+				'roles'              => $this->roles,
+				'affwp_is_affiliate' => false,
 			) );
 
-			affiliate_wp()->utils->data->write( "{$this->batch_id}_user_ids", $affiliate_user_ids );
+			affiliate_wp()->utils->data->write( "{$this->batch_id}_user_ids", $non_affiliate_users );
 		}
 
 		$total_to_migrate = $this->get_total_count();
 
 		if ( false === $total_to_migrate ) {
-			$users = get_users( array(
-				'fields'   => 'ids',
-				'role__in' => $this->roles,
-				'number'   => -1,
-				'exclude'  => $affiliate_user_ids,
-			) );
-
-			$total_to_migrate = count( $users );
+			$total_to_migrate = count( $non_affiliate_users );
 
 			$this->set_total_count( $total_to_migrate );
 		}
@@ -111,21 +105,22 @@ class Migrate_Users extends Utils\Batch_Process implements Batch\With_PreFetch {
 
 		$current_count = $this->get_current_count();
 
+		$non_affiliate_users = affiliate_wp()->utils->data->get( "{$this->batch_id}_user_ids", array() );
+
+		$to_process = array_slice( $non_affiliate_users, $this->get_offset(), $this->per_step );
+
+		if ( empty( $to_process ) ) {
+			return 'done';
+		}
+
 		$args = array(
-			'number'     => $this->per_step,
-			'offset'     => $this->get_offset(),
-			'exclude'    => affiliate_wp()->utils->data->get( "{$this->batch_id}_user_ids", array() ),
-			'orderby'    => 'ID',
-			'order'      => 'ASC',
-			'role__in'   => $this->roles,
-			'fields'     => array( 'ID', 'user_email', 'user_registered' )
+			'include' => $to_process,
+			'orderby' => 'ID',
+			'order'   => 'ASC',
+			'fields'  => array( 'ID', 'user_email', 'user_registered' )
 		);
 
 		$users = get_users( $args );
-
-		if ( empty( $users ) ) {
-			return 'done';
-		}
 
 		$inserted = array();
 
