@@ -41,13 +41,14 @@
     "wpackagist-plugin/contact-form-7": "5.1.4",
     "wpackagist-plugin/easy-digital-downloads": "2.9.16",
     "wpackagist-plugin/imagify": "1.9.6",
+    "wpackagist-plugin/imsanity": "2.4.3",
     "wpackagist-plugin/login-lockdown": "v1.7.1",
     "wpackagist-plugin/really-simple-captcha": "2.0.2",
     "wpackagist-plugin/shariff": "4.6.3",
     "wpackagist-plugin/vaultpress": "2.0.1",
     "wpackagist-plugin/wp-maintenance-mode": "2.2.4",
     "wpackagist-plugin/wp-postratings": "1.86.2",
-    "wpackagist-plugin/wp-security-audit-log": "3.4.2",
+    "wpackagist-plugin/wp-security-audit-log": "3.4.3",
     "felixarntz/plugin-lib": "dev-master"
   },
   "require-dev": {
