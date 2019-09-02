@@ -5540,9 +5540,6 @@ ul.mashsb-share-widget {
 article:first-child ul {
   list-style-image: url('../media/aufzaehlung-tickets.png');
 }
-article:first-child ul.checkmark {
-  list-style-image: url('../media/checkmark.png');
-}
 .blog article.type-post {
   margin-bottom: 30px;
   padding-bottom: 30px;
@@ -5762,6 +5759,19 @@ img.wp-post-image {
   margin-left: -100px;
   margin-right: -100px;
   padding: 20px 100px;
+}
+.page-template-page-without-title h2 {
+  font-size: 28px;
+  font-weight: 300;
+  font-family: sans-serif, helvetica, arial;
+}
+.page-template-page-without-title ul {
+  padding: 0;
+}
+.page-template-page-without-title ul.checkmark {
+  list-style-image: url('../media/checkmark.png');
+  list-style-position: inside;
+  line-height: 28px;
 }
 .alignnone {
   margin: 5px 20px 20px 0;
