@@ -738,8 +738,13 @@ img.wp-post-image {
 }
 
 // Gutenberg
-.wp-block-group,
-.wp-block-columns {
+.wp-block-group {
+	padding: 20px 0;
+
+	h2 {
+		margin-top: 0;
+	}
+
 	&.full-width-grey {
 		background-image: url('../media/pattern-grey.gif');
 		background-repeat: repeat;
@@ -747,6 +752,83 @@ img.wp-post-image {
 		margin-right: -100px;
 		padding: 20px 100px;
 	}
+
+	.text-big {
+		font-size:40px;
+		font-weight:500;
+	}
+
+	.text-small {
+		font-size:14px;
+		color: #acb8b;
+	}
+
+	.cols-bg-grey {
+		background-color: #F5F9FA;
+
+		> div {
+			border: 1px solid #ecf2f2;
+			box-sizing: border-box;
+			margin: 0;
+			padding:20px;
+
+			&:first-child {
+				border: 1px solid #ecf2f2;
+				border-right: none;
+			}
+
+			&:last-child {
+				border: 1px solid #ecf2f2;
+				border-left: none;
+			}
+		}
+	}
+
+	.height-580 {
+		height:580px;
+	}
+
+	.cols-bg-white {
+		background-color: #FFFFFF;
+
+		> div {
+			border: 1px solid #ecf2f2;
+			box-sizing: border-box;
+			margin: 0;
+			padding:15px 25px;
+
+			height:100px;
+			border-top: none;
+			vertical-align: middle;
+
+			&:first-child {
+				border: 1px solid #ecf2f2;
+				border-right: none;
+				border-top: none;
+			}
+
+			&:last-child {
+				border: 1px solid #ecf2f2;
+				border-left: none;
+				border-top: none;
+			}
+		}
+	}
+
+	// Fixes
+	.aligncenter {
+		figcaption {
+			text-align: center;
+		}
+	}
+}
+
+.wp-block-columns {
+	margin: 0;
+}
+
+.separator-stars {
+	padding: 10px 0;
 }
 
 .page-template-page-without-title {
