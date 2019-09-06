@@ -881,7 +881,7 @@ function wpenon_immoticket24_needs_fenster_recommendations( $fenster_bauart, $fe
     return false;
   }
 
-  if ( in_array( $fenster_baurt, array( 'aluminium', 'kunststoff', 'stahl' ) ) && $fenster_baujahr >= 2005 ) {
+  if ( in_array( $fenster_bauart, array( 'aluminium', 'kunststoff', 'stahl' ) ) && $fenster_baujahr >= 2005 ) {
     return false;
   }
 
