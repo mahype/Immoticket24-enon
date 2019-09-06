@@ -386,9 +386,9 @@ abstract class Tab {
 						break;
 
 					case 'split-number':
-						printf( '<span class="tile-amount tile-value">%1$d / %2$d</span>',
-							affwp_format_amount( $tile['data']['first_value'] ),
-							affwp_format_amount( $tile['data']['second_value'] )
+						printf( '<span class="tile-amount tile-value">%1$s / %2$s</span>',
+							affwp_format_amount( $tile['data']['first_value'], false ),
+							affwp_format_amount( $tile['data']['second_value'], false )
 						);
 						break;
 

@@ -215,7 +215,7 @@ $notes            = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'notes',
 				</th>
 
 				<td>
-					<input class="small-text" type="number" name="rate" id="rate" step="0.01" min="0" max="999999" placeholder="<?php echo esc_attr( $default_rate ); ?>" value="<?php echo esc_attr( $rate ); ?>"/>
+					<input class="regular-text" type="number" name="rate" id="rate" step="0.01" min="0" max="999999999" placeholder="<?php echo esc_attr( $default_rate ); ?>" value="<?php echo esc_attr( $rate ); ?>"/>
 					<p class="description"><?php _e( 'The affiliate&#8217;s referral rate, such as 20 for 20%. If left blank, the site default will be used.', 'affiliate-wp' ); ?></p>
 				</td>
 

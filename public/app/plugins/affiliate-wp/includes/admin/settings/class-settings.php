@@ -871,7 +871,7 @@ class Affiliate_WP_Settings {
 					),
 					'debug_mode' => array(
 						'name' => __( 'Enable Debug Mode', 'affiliate-wp' ),
-						'desc' => sprintf( __( 'Enable debug mode. This will turn on error logging for the referral process to help identify issues. Logs are kept in <a href="%s">Affiliates > Tools</a>.', 'affiliate-wp' ), affwp_admin_url( 'tools', array( 'tab' => 'system_info' ) ) ),
+						'desc' => sprintf( __( 'Enable debug mode. This will turn on error logging for the referral process to help identify issues. Logs are kept in <a href="%s">Affiliates &rarr; Tools</a>.', 'affiliate-wp' ), affwp_admin_url( 'tools', array( 'tab' => 'system_info' ) ) ),
 						'type' => 'checkbox'
 					),
 					'referral_url_blacklist' => array(
@@ -1231,7 +1231,7 @@ class Affiliate_WP_Settings {
 		$value = affwp_abs_number_round( $value );
 
 		// Other attributes and their defaults
-		$max  = isset( $args['max'] )  ? $args['max']  : 999999;
+		$max  = isset( $args['max'] )  ? $args['max']  : 999999999;
 		$min  = isset( $args['min'] )  ? $args['min']  : 0;
 		$step = isset( $args['step'] ) ? $args['step'] : 1;
 		$size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';

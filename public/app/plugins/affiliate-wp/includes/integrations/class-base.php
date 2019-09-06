@@ -260,16 +260,18 @@ abstract class Affiliate_WP_Base {
 	}
 
 	/**
-	 * Rejects a referal. Used when orders are refunded, deleted, or voided
+	 * Rejects a referral. Used when orders are refunded, deleted, or voided
 	 *
-	 * @access  public
-	 * @since   1.0
+	 * @since 1.0
+	 * @since 2.3.2 Added an optional `$reject_pending` parameter
 	 *
 	 * @param string|\AffWP\Referral $reference_or_referral The reference column for the referral to complete
 	 *                                                      per the current context or a complete referral object.
+	 * @param bool                   $reject_pending        Optional. Whether to allow pending referrals to be rejected.
+	 *                                                      Default false.
 	 * @return bool Whether the referral was successfully rejected.
 	 */
-	public function reject_referral( $reference_or_referral = 0 ) {
+	public function reject_referral( $reference_or_referral = 0, $reject_pending = false ) {
 
 		if ( empty( $reference_or_referral ) ) {
 
@@ -297,13 +299,13 @@ abstract class Affiliate_WP_Base {
 
 		affiliate_wp()->utils->log( 'Referral retrieved successfully during reject_referral()' );
 
-		if ( is_object( $referral ) && 'paid' == $referral->status ) {
+		if ( is_object( $referral ) && 'paid' === $referral->status ) {
 			// This referral has already been paid so it cannot be rejected
 			affiliate_wp()->utils->log( sprintf( 'Referral #%d not Rejected because it is already paid', $referral->referral_id ) );
 			return false;
 		}
 
-		if ( is_object( $referral ) && 'pending' == $referral->status ) {
+		if ( is_object( $referral ) && 'pending' === $referral->status && false === $reject_pending ) {
 			// This referral is pending so it cannot be rejected
 			affiliate_wp()->utils->log( sprintf( 'Referral #%d not Rejected because it is pending', $referral->referral_id ) );
 			return false;

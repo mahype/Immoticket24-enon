@@ -428,8 +428,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	/**
 	 * Revoke the referral associated with the given order ID
 	 *
-	 * @access  public
-	 * @since   2.1
+	 * @since 2.1
 	*/
 	public function revoke_referral( $order_id = 0 ) {
 
@@ -441,7 +440,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 			return;
 		}
 
-		$this->reject_referral( $order_id );
+		$this->reject_referral( $order_id, true );
 
 	}
 
@@ -565,7 +564,11 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	*/
 	private function get_coupon_affiliate_id() {
 
-		$coupons = $this->order->get_used_coupons();
+		if ( version_compare( WC()->version, '3.7.0', '>=' ) ) {
+			$coupons = $this->order->get_coupon_codes();
+		} else {
+			$coupons = $this->order->get_used_coupons();
+		}
 
 		if ( empty( $coupons ) ) {
 			return false;

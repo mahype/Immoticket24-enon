@@ -101,11 +101,13 @@ function affwp_tools_system_info_report() {
 
 	// Misc Settings
 	$return .= "\n" . '-- AffiliateWP Misc Settings' . "\n\n";
-	$return .= 'Enable reCaptcha:                 ' . ( $settings->get( 'recaptcha_enabled' ) ? "True\n" : "False\n" );
-	$return .= 'reCaptcha Site Key:               ' . ( $settings->get( 'recaptcha_site_key' ) ? "Set\n" : "Unset\n" );
-	$return .= 'reCaptcha Secret Key:             ' . ( $settings->get( 'recaptcha_secret_key' ) ? "Set\n" : "Unset\n" );
-	$return .= 'Fallback Tracking Enabled:        ' . ( $settings->get( 'tracking_fallback' ) ? "True\n" : "False\n" );
-	$return .= 'Ignore Zero Referrals:            ' . ( $settings->get( 'ignore_zero_referrals' ) ? "True\n" : "False\n" );
+	$return .= 'Enable reCaptcha:                  ' . ( $settings->get( 'recaptcha_enabled' ) ? "True\n" : "False\n" );
+	$return .= 'reCaptcha Site Key:                ' . ( $settings->get( 'recaptcha_site_key' ) ? "Set\n" : "Unset\n" );
+	$return .= 'reCaptcha Secret Key:              ' . ( $settings->get( 'recaptcha_secret_key' ) ? "Set\n" : "Unset\n" );
+	$return .= 'Fallback Tracking Enabled:         ' . ( $settings->get( 'tracking_fallback' ) ? "True\n" : "False\n" );
+	$return .= 'Ignore Zero Referrals:             ' . ( $settings->get( 'ignore_zero_referrals' ) ? "True\n" : "False\n" );
+	$return .= 'Reject Unpaid Referrals on Refund: ' . ( $settings->get( 'revoke_on_refund' ) ? "True\n" : "False\n" );
+	$return .= 'Default Referral URL:              ' . ( $settings->get( 'default_referral_url' ) ? $settings->get( 'default_referral_url' ) : "Default (empty)\n" );
 
 	// AffiliateWP Templates
 	$dir = trailingslashit( get_stylesheet_directory() . affiliate_wp()->templates->get_theme_template_dir_name() );
