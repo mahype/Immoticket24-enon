@@ -198,6 +198,11 @@ if ( function_exists( 'edd_get_download_price' ) ) {
       <?php printf( __( 'Energieeffizienzklasse: %s', 'wpenon' ), '<img src="' . $image . '" alt="' . sprintf( __( 'Energieeffizienzklasse: %s', 'wpenon' ), $data['efficiency_class'] ) . '">' ); ?>
     </p>
   <?php endif; ?>
+	<?php if( $data['calculations']['co2_emissionen'] ) : ?>
+	<p>
+		<?php printf( __( 'CO2 Emissionen: %s kg/m²⋅a', 'wpenon' ), \WPENON\Util\Format::pdfEncode( $data['calculations']['co2_emissionen'] ) ) ?>
+	</p>
+	<?php endif; ?>
 </div>
 
 <?php if ( count( $data['calculations'] ) > 0 && is_user_logged_in() && current_user_can( WPENON_CERTIFICATE_CAP ) ) : ?>
