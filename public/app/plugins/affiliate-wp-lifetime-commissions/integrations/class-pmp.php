@@ -36,4 +36,7 @@ class Affiliate_WP_Lifetime_Commissions_PMP extends Affiliate_WP_Lifetime_Commis
 	}
 
 }
-new Affiliate_WP_Lifetime_Commissions_PMP;
+
+if ( class_exists( 'MemberOrder' ) ) {
+	new Affiliate_WP_Lifetime_Commissions_PMP;
+}

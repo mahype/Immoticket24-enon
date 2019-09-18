@@ -74,7 +74,7 @@ class Migrate_Users extends Utils\Batch_Process implements Batch\With_PreFetch {
 		if ( false === $non_affiliate_users ) {
 			$non_affiliate_users = get_users( array(
 				'fields'             => 'ids',
-				'roles'              => $this->roles,
+				'role__in'           => $this->roles,
 				'affwp_is_affiliate' => false,
 			) );
 

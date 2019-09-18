@@ -43,4 +43,6 @@ class Affiliate_WP_Lifetime_Commissions_RCP extends Affiliate_WP_Lifetime_Commis
 	}
 
 }
-new Affiliate_WP_Lifetime_Commissions_RCP;
+if ( function_exists( 'rcp_options_install' ) || class_exists( 'RCP_Requirements_Check' ) ) {
+	new Affiliate_WP_Lifetime_Commissions_RCP;
+}

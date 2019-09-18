@@ -3,6 +3,13 @@ Lifetime Commissions
 
 Allow your affiliates to receive a commission on all future purchases by the customer
 
+= Version 1.4, September 12, 2019 =
+* New: Added integration with MemberPress
+* New: Added an option to hide customers' email addresses from affiliates 
+* Tweak: Move the plugin settings from the Integrations screen to their own settings tab
+* Tweak: Make it clearer that per-affiliate settings can be configured in lieu of enabling global settings
+* Fix: Only load integration classes if the corresponding plugins are active
+
 = Version 1.3.1, July 23, 2018 =
 * Fix: PHP notice in PMP integration
 * Fix: Guest customer emails not linked to users when accounts are registered

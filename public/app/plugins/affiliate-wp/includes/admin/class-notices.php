@@ -565,14 +565,6 @@ class Affiliate_WP_Admin_Notices {
 
 			} elseif ( 'valid' !== $status ) {
 
-				$data = array(
-					'status'  => $status,
-					'license' => $license,
-					'check'   => get_transient( 'affwp_license_check' ),
-				);
-
-				affiliate_wp()->utils->log( 'Invalid license: The supplied license key does not have a \'valid\' status.', $data );
-
 				$notice_query_args['affwp_notice'] = 'invalid_license';
 
 				$class = 'notice notice-info';

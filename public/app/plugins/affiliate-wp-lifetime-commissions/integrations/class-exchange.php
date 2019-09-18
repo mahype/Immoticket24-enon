@@ -44,4 +44,7 @@ class Affiliate_WP_Lifetime_Commissions_Exchange extends Affiliate_WP_Lifetime_C
 	}
 
 }
-new Affiliate_WP_Lifetime_Commissions_Exchange;
+
+if ( class_exists( 'IT_Exchange' ) ) {
+	new Affiliate_WP_Lifetime_Commissions_Exchange;
+}

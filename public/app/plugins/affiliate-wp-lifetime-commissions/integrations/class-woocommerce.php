@@ -38,4 +38,7 @@ class Affiliate_WP_Lifetime_Commissions_WooCommerce extends Affiliate_WP_Lifetim
 	}
 
 }
-new Affiliate_WP_Lifetime_Commissions_WooCommerce;
+
+if ( class_exists( 'WooCommerce' ) ) {
+	new Affiliate_WP_Lifetime_Commissions_WooCommerce;
+}

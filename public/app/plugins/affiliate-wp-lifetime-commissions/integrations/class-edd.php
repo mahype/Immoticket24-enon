@@ -24,4 +24,7 @@ class Affiliate_WP_Lifetime_Commissions_EDD extends Affiliate_WP_Lifetime_Commis
 	}
 
 }
-new Affiliate_WP_Lifetime_Commissions_EDD;
+
+if ( class_exists( 'Easy_Digital_Downloads' ) ) {
+	new Affiliate_WP_Lifetime_Commissions_EDD;
+}

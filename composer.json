@@ -46,10 +46,10 @@
     "wpackagist-plugin/really-simple-captcha": "2.0.2",
     "wpackagist-plugin/shariff": "4.6.3",
     "wpackagist-plugin/vaultpress": "2.0.1",
-    "wpackagist-plugin/wordpress-seo": "12.0",
+    "wpackagist-plugin/wordpress-seo": "12.1",
     "wpackagist-plugin/wp-maintenance-mode": "2.2.4",
     "wpackagist-plugin/wp-postratings": "1.86.2",
-    "wpackagist-plugin/wp-security-audit-log": "3.4.3.1",
+    "wpackagist-plugin/wp-security-audit-log": "3.5",
     "felixarntz/plugin-lib": "dev-master"
   },
   "require-dev": {

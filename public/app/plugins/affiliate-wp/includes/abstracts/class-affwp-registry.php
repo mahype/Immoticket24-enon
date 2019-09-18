@@ -5,16 +5,16 @@ namespace AffWP\Utils;
  * Defines the construct for building an item registry.
  *
  * @since 2.0.5
+ * @since 2.3.3 Now extends ArrayObject
  * @abstract
  */
-abstract class Registry {
+abstract class Registry extends \ArrayObject {
 
 	/**
 	 * Array of registry items.
 	 *
-	 * @access private
-	 * @since  2.0.5
-	 * @var    array
+	 * @since 2.0.5
+	 * @var   array
 	 */
 	private $items = array();
 
@@ -23,16 +23,14 @@ abstract class Registry {
 	 *
 	 * Each sub-class will need to do various initialization operations in this method.
 	 *
-	 * @access public
-	 * @since  2.0.5
+	 * @since 2.0.5
 	 */
 	abstract public function init();
 
 	/**
 	 * Adds an item to the registry.
 	 *
-	 * @access public
-	 * @since  2.0.5
+	 * @since 2.0.5
 	 *
 	 * @param int    $item_id   Item ID.
 	 * @param array  $attributes {
@@ -54,8 +52,7 @@ abstract class Registry {
 	/**
 	 * Removes an item from the registry by ID.
 	 *
-	 * @access public
-	 * @since  2.0.5
+	 * @since 2.0.5
 	 *
 	 * @param string $item_id Item ID.
 	 */
@@ -66,24 +63,23 @@ abstract class Registry {
 	/**
 	 * Retrieves an item and its associated attributes.
 	 *
-	 * @access public
-	 * @since  2.0.5
+	 * @since 2.0.5
 	 *
 	 * @param string $item_id Item ID.
 	 * @return array|false Array of attributes for the item if registered, otherwise false.
 	 */
 	public function get( $item_id ) {
-		if ( array_key_exists( $item_id, $this->items ) ) {
+		if ( isset( $this->items[ $item_id ] ) ) {
 			return $this->items[ $item_id ];
 		}
+
 		return false;
 	}
 
 	/**
 	 * Retrieves registered items.
 	 *
-	 * @access public
-	 * @since  2.0.5
+	 * @since 2.0.5
 	 *
 	 * @return array The list of registered items.
 	 */
@@ -94,8 +90,7 @@ abstract class Registry {
 	/**
 	 * Only intended for use by tests.
 	 *
-	 * @access public
-	 * @since  2.0.5
+	 * @since 2.0.5
 	 */
 	public function _reset_items() {
 		if ( ! defined( 'WP_TESTS_DOMAIN' ) ) {
@@ -103,5 +98,62 @@ abstract class Registry {
 		} else {
 			$this->items = array();
 		}
+	}
+
+	/**
+	 * Determines whether an item exists.
+	 *
+	 * @since 2.3.3
+	 *
+	 * @param string $offset Item ID.
+	 * @return bool True if the item exists, false on failure.
+	 */
+	public function offsetExists( $offset ) {
+		if ( false !== $this->get( $offset ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Retrieves an item by its ID.
+	 *
+	 * Defined only for compatibility with ArrayAccess, use get() directly.
+	 *
+	 * @since 2.3.3
+	 *
+	 * @param string $offset Item ID.
+	 * @return mixed The registered item, if it exists.
+	 */
+	public function offsetGet( $offset ) {
+		return $this->get( $offset );
+	}
+
+	/**
+	 * Adds/overwrites an item in the registry.
+	 *
+	 * Defined only for compatibility with ArrayAccess, use add_item() directly.
+	 *
+	 * @since 2.3.3
+	 *
+	 * @param string $offset Item ID.
+	 * @param mixed  $value  Item attributes.
+	 */
+	public function offsetSet( $offset, $value ) {
+		$this->add_item( $offset, $value );
+	}
+
+	/**
+	 * Removes an item from the registry.
+	 *
+	 * Defined only for compatibility with ArrayAccess, use remove_item() directly.
+	 *
+	 * @since 2.3.3
+	 *
+	 * @param string $offset Item ID.
+	 */
+	public function offsetUnset( $offset ) {
+		$this->remove_item( $offset );
 	}
 }

@@ -89,4 +89,6 @@ class Affiliate_WP_Lifetime_Commissions_Ninja_Forms extends Affiliate_WP_Lifetim
 	}
 
 }
-new Affiliate_WP_Lifetime_Commissions_Ninja_Forms;
+if ( class_exists( 'Ninja_Forms' ) ) {
+	new Affiliate_WP_Lifetime_Commissions_Ninja_Forms;
+}

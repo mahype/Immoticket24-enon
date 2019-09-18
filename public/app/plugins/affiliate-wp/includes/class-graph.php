@@ -251,7 +251,7 @@ class Affiliate_WP_Graph {
 					},
 					xaxis: {
 						mode: "<?php echo $this->options['x_mode']; ?>",
-						timeFormat: "<?php echo $this->options['x_mode'] == 'time' ? $this->options['time_format'] : ''; ?>",
+						timeformat: "<?php echo $this->options['x_mode'] == 'time' ? $this->options['time_format'] : ''; ?>",
 						tickSize: "<?php echo $this->options['x_mode'] == 'time' ? '' : 1; ?>",
 						<?php if( $this->options['x_mode'] != 'time' ) : ?>
 						tickDecimals: <?php echo $this->options['x_decimals']; ?>
@@ -261,7 +261,7 @@ class Affiliate_WP_Graph {
 						position: 'right',
 						min: 0,
 						mode: "<?php echo $this->options['y_mode']; ?>",
-						timeFormat: "<?php echo $this->options['y_mode'] == 'time' ? $this->options['time_format'] : ''; ?>",
+						timeformat: "<?php echo $this->options['y_mode'] == 'time' ? $this->options['time_format'] : ''; ?>",
 						<?php if( $this->options['y_mode'] != 'time' ) : ?>
 						tickDecimals: <?php echo $this->options['y_decimals']; ?>
 						<?php endif; ?>

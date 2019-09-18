@@ -51,4 +51,7 @@ class Affiliate_WP_Lifetime_Commissions_Gravity_Forms extends Affiliate_WP_Lifet
 	}
 
 }
-new Affiliate_WP_Lifetime_Commissions_Gravity_Forms;
+
+if ( class_exists( 'GFCommon' ) ) {
+	new Affiliate_WP_Lifetime_Commissions_Gravity_Forms;
+}

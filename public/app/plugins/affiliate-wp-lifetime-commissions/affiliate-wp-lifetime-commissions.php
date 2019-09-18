@@ -3,9 +3,9 @@
  * Plugin Name: AffiliateWP - Lifetime Commissions
  * Plugin URI: http://affiliatewp.com/addons/lifetime-commissions/
  * Description: Allow your affiliates to receive a commission on all future purchases by the customer
- * Author: AffiliateWP
- * Author URI: http://affiliatewp.com
- * Version: 1.3.2
+ * Author: Sandhills Development, LLC
+ * Author URI: https://sandhillsdev.com
+ * Version: 1.4
  * Text Domain: affiliate-wp-lifetime-commissions
  * Domain Path: languages
  *
@@ -24,7 +24,7 @@
  * @package AffiliateWP Lifetime Commissions
  * @category Core
  * @author Andrew Munro
- * @version 1.3.2
+ * @version 1.4
  */
 
 // Exit if accessed directly
@@ -64,7 +64,7 @@ final class AffiliateWP_Lifetime_Commissions {
 	public static function instance() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof AffiliateWP_Lifetime_Commissions ) ) {
 			self::$instance = new AffiliateWP_Lifetime_Commissions;
-			self::$version  = '1.3.2';
+			self::$version  = '1.4';
 
 			self::$instance->setup_constants();
 			self::$instance->load_textdomain();

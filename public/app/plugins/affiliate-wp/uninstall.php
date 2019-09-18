@@ -69,6 +69,8 @@ function affiliate_wp_uninstall_tables() {
 		'affiliate_wp_affiliatemeta',
 		'affiliate_wp_campaigns',
 		'affiliate_wp_creatives',
+		'affiliate_wp_customers',
+		'affiliate_wp_customermeta',
 		'affiliate_wp_payouts',
 		'affiliate_wp_referrals',
 		'affiliate_wp_rest_consumers',

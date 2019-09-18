@@ -4,14 +4,15 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 
 	public function __construct() {
 
+		// Settings tab.
+		add_action( 'affwp_settings_tabs', array( $this, 'settings_tab' ) );
+		add_filter( 'affwp_settings', array( $this, 'register_settings' ) );
+
 		// Save lifetime commissions option in the affiliate's user meta table.
 		add_action( 'affwp_update_affiliate', array( $this, 'update_affiliate' ), 0 );
 
 		// Add checkbox to edit affiliate page.
 		add_action( 'affwp_edit_affiliate_bottom', array( $this, 'affiliate_admin_edit' ) );
-
-		// Add settings.
-		add_filter( 'affwp_settings_integrations', array( $this, 'settings_integrations' ) );
 
 		// Delink a linked customer from an affiliate.
 		add_action( 'affwp_lc_delink_customer', array( $this, 'delink_customer' ) );
@@ -24,6 +25,20 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 
 		// Add link icon to the referral id column to indicate a lifetime referral.
 		add_filter( 'affwp_referral_table_referral_id', array( $this, 'affwp_custom_referral_id_column' ), 10, 2 );
+	}
+
+	/**
+	 * Adds the settings tab.
+	 *
+	 * @since 1.4
+	 *
+	 * @param array $tabs Tabs array.
+	 * @return array Modified tabs array.
+	 */
+	public function settings_tab( $tabs ) {
+		$tabs['lifetime-commissions'] = __( 'Lifetime Commissions', 'affiliate-wp-lifetime-commissions' );
+
+		return $tabs;
 	}
 
 	/**
@@ -43,76 +58,97 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 	}
 
 	/**
-	 * Integration settings.
+	 * Legacy settings registration method.
 	 *
 	 * @since 1.0
-	*/
+	 * @deprecated 1.4 Use register_settings() instead
+	 *
+	 * @param array $settings Optional. Global integrations settings. Default empty array.
+	 * @return array Modified Integrations settings array.
+	 */
 	public function settings_integrations( $settings = array() ) {
+		_deprecated_function( __METHOD__, '1.4', 'Use register_settings() instead' );
 
-		$settings['lifetime_commissions_header'] = array(
+		$all_settings    = affiliate_wp()->settings->get_registered_settings();
+		$legacy_settings = $this->register_settings( $all_settings['integrations'] );
+
+		// Add the header.
+		$header = array(
 			'name' => __( 'Lifetime Commissions', 'affiliate-wp-lifetime-commissions' ),
-			'type' => 'header'
+			'type' => 'header',
 		);
 
-		$settings[ 'lifetime_commissions' ] = array(
-			'name' => __( 'Enable For All Affiliates?', 'affiliate-wp-lifetime-commissions' ),
-			'desc' => __( 'Check this box to enable lifetime commissions for all affiliates.', 'affiliate-wp-lifetime-commissions' ),
-			'type' => 'checkbox'
-		);
+		$legacy_settings = array_merge( array( 'lifetime_commissions_header' => $header ), $legacy_settings['lifetime-commissions'] );
 
-		$settings[ 'lifetime_commissions_customers_access' ] = array(
-			'name' => __( 'Lifetime Customers Access', 'affiliate-wp-lifetime-commissions' ),
-			'desc' => __( 'Check this box to allow all affiliates to see their lifetime customers.', 'affiliate-wp-lifetime-commissions' ),
-			'type' => 'checkbox',
-		);
+		return $legacy_settings;
+	}
 
-		$settings[ 'lifetime_commissions_enable_lifetime_referral_rates' ] = array(
-			'name' => __( 'Enable Lifetime Referral Rates', 'affiliate-wp-lifetime-commissions' ),
-			'desc' => __( 'Check this box to enable lifetime referral rates.', 'affiliate-wp-lifetime-commissions' ),
-			'type' => 'checkbox'
-		);
+	/**
+	 * Registers settings for the add-on.
+	 *
+	 * @since 1.4
+	 *
+	 * @param array $settings Optional. Global AffWP settings. Default empty array.
+	 * @return array Modified AffWP settings array.
+	*/
+	public function register_settings( $settings = array() ) {
 
-		$settings['lifetime_commissions_lifetime_referral_rate'] = array(
-			'name' => __( 'Lifetime Referral Rate', 'affiliate-wp-lifetime-commissions' ),
-			'desc' => __( 'Referral rate used for lifetime referrals, for all affiliates. The lifetime referral rate will take priority unless it is set to 0, or a per-affiliate lifetime referral rate is set.', 'affiliate-wp-lifetime-commissions' ),
-			'type' => 'number',
-			'size' => 'small',
-			'step' => '0.01',
-			'std' => affiliate_wp()->settings->get( 'referral_rate' )
-		);
-
-		$rate_type_options = array( __( 'Site Default', 'affiliate-wp-lifetime-commissions' ) );
-
-		$settings['lifetime_commissions_lifetime_referral_rate_type'] = array(
-			'name' => __( 'Lifetime Referral Rate Type', 'affiliate-wp-lifetime-commissions' ),
-			'desc' => __( 'Should lifetime referrals be based on a percentage or flat rate amounts?', 'affiliate-wp-lifetime-commissions' ),
-			'type' => 'select',
-			'options' => array_merge( $rate_type_options, affwp_get_affiliate_rate_types() )
-		);
-
-		$settings['lifetime_commissions_lifetime_length'] = array(
-			'name' => __( 'Lifetime Length', 'affiliate-wp-lifetime-commissions' ),
-			'desc' => __( 'The number of days lifetime commissions will be generated from a referral for all affiliates. The lifetime length will always be used unless a per-affiliate lifetime length is set. Set to 0 for infinite.', 'affiliate-wp-lifetime-commissions' ),
-			'type' => 'number',
-			'size' => 'small',
-			'step' => '1',
-			'std'  => 0
-		);
-
-		$settings[ 'lifetime_commissions_link_customers_on_registration' ] = array(
-			'name' => __( 'Link Customers To Affiliates On User Registration', 'affiliate-wp-lifetime-commissions' ),
-			'desc' => __( 'Check this box if you would like to automatically link customers to affiliates on user registration.', 'affiliate-wp-lifetime-commissions' ),
-			'type' => 'checkbox',
-		);
-
-		$settings[ 'lifetime_commissions_uninstall_on_delete' ] = array(
-			'name' => __( 'Remove Data When Deleted?', 'affiliate-wp-lifetime-commissions' ),
-			'desc' => __( 'Check this box if you would like Lifetime Commissions to completely remove all of its data when the plugin is deleted.', 'affiliate-wp-lifetime-commissions' ),
-			'type' => 'checkbox'
+		$settings['lifetime-commissions'] = array(
+			'lifetime_commissions' => array(
+				'name' => __( 'Enable For All Affiliates?', 'affiliate-wp-lifetime-commissions' ),
+				'desc' => __( 'Check this box to enable lifetime commissions for all affiliates.<br /><em>Leave unchecked to enable lifetime commissions on a per-affiliate basis only.</em>', 'affiliate-wp-lifetime-commissions' ),
+				'type' => 'checkbox'
+			),
+			'lifetime_commissions_customers_access' => array(
+				'name' => __( 'Lifetime Customers Access', 'affiliate-wp-lifetime-commissions' ),
+				'desc' => __( 'Check this box to allow all affiliates to see their lifetime customers.', 'affiliate-wp-lifetime-commissions' ),
+				'type' => 'checkbox',
+			),
+			'lifetime_commissions_hide_customer_emails' => array(
+				'name' => __( 'Lifetime Customers Hide Emails', 'affiliate-wp-lifetime-commissions' ),
+				'desc' => __( 'Hides lifetime customer emails from affiliates for compliance with GDPR or other privacy reasons.', 'affiliate-wp-lifetime-commisions' ),
+				'type' => 'checkbox',
+			),
+			'lifetime_commissions_enable_lifetime_referral_rates' => array(
+				'name' => __( 'Enable Lifetime Referral Rates', 'affiliate-wp-lifetime-commissions' ),
+				'desc' => __( 'Check this box to enable lifetime referral rates.', 'affiliate-wp-lifetime-commissions' ),
+				'type' => 'checkbox'
+			),
+			'lifetime_commissions_lifetime_referral_rate' => array(
+				'name' => __( 'Lifetime Referral Rate', 'affiliate-wp-lifetime-commissions' ),
+				'desc' => __( 'Referral rate used for lifetime referrals, for all affiliates. The lifetime referral rate will take priority unless it is set to 0, or a per-affiliate lifetime referral rate is set.', 'affiliate-wp-lifetime-commissions' ),
+				'type' => 'number',
+				'size' => 'small',
+				'step' => '0.01',
+				'std'  => affiliate_wp()->settings->get( 'referral_rate' )
+			),
+			'lifetime_commissions_lifetime_referral_rate_type' => array(
+				'name'    => __( 'Lifetime Referral Rate Type', 'affiliate-wp-lifetime-commissions' ),
+				'desc'    => __( 'Should lifetime referrals be based on a percentage or flat rate amounts?', 'affiliate-wp-lifetime-commissions' ),
+				'type'    => 'select',
+				'options' => array_merge( array( __( 'Site Default', 'affiliate-wp-lifetime-commissions' ) ), affwp_get_affiliate_rate_types() )
+			),
+			'lifetime_commissions_lifetime_length' => array(
+				'name' => __( 'Lifetime Length', 'affiliate-wp-lifetime-commissions' ),
+				'desc' => __( 'The number of days lifetime commissions will be generated from a referral for all affiliates. The lifetime length will always be used unless a per-affiliate lifetime length is set. Set to 0 for infinite.', 'affiliate-wp-lifetime-commissions' ),
+				'type' => 'number',
+				'size' => 'small',
+				'step' => '1',
+				'std'  => 0
+			),
+			'lifetime_commissions_link_customers_on_registration' => array(
+				'name' => __( 'Link Customers To Affiliates On User Registration', 'affiliate-wp-lifetime-commissions' ),
+				'desc' => __( 'Check this box if you would like to automatically link customers to affiliates on user registration.', 'affiliate-wp-lifetime-commissions' ),
+				'type' => 'checkbox',
+			),
+			'lifetime_commissions_uninstall_on_delete' => array(
+				'name' => __( 'Remove Data When Deleted?', 'affiliate-wp-lifetime-commissions' ),
+				'desc' => __( 'Check this box if you would like Lifetime Commissions to completely remove all of its data when the plugin is deleted.', 'affiliate-wp-lifetime-commissions' ),
+				'type' => 'checkbox'
+			),
 		);
 
 		return $settings;
-
 	}
 
 	/**
