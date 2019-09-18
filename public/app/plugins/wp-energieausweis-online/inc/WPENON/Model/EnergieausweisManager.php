@@ -288,6 +288,11 @@ class EnergieausweisManager {
 				'label'   => __( 'Ausstellungsdatum', 'wpenon' ),
 				'default' => '',
 			),
+			'ausstellungszeit'  => array(
+				'type'    => 'time',
+				'label'   => __( 'Ausstellungszeit', 'wpenon' ),
+				'default' => '',
+			),
 			'registriernummer'   => array(
 				'type'   => 'text',
 				'label'  => __( 'Registriernummer', 'wpenon' ),

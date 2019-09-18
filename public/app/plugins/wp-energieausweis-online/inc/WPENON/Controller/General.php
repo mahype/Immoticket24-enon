@@ -80,6 +80,10 @@ class General {
 			$energieausweis->ausstellungsdatum = current_time( 'Y-m-d' );
 		}
 
+		if ( ! trim( $energieausweis->ausstellungszeit ) ) {
+			$energieausweis->ausstellungszeit = current_time( 'H:i' );
+		}
+
 		$register_status = \WPENON\Util\DIBT::assignRegistryID( $energieausweis );
 		if ( $register_status && ! is_wp_error( $register_status ) ) {
 			$datasent_status = \WPENON\Util\DIBT::sendData( $energieausweis );

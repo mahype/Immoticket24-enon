@@ -75,6 +75,7 @@ class EnergieausweisForm {
 			'type'               => $energieausweis->formatted_wpenon_type,
 			'standard'           => $energieausweis->formatted_wpenon_standard,
 			'ausstellungsdatum'  => $data['paid'] ? $energieausweis->formatted_ausstellungsdatum : false,
+			'ausstellungszeit'  => $data['paid'] ? $energieausweis->formatted_ausstellungszeit : false,
 			'registriernummer'   => $data['paid'] ? $energieausweis->registriernummer : false,
 			'adresse_strassenr'  => $energieausweis->adresse_strassenr,
 			'adresse_plz'        => $energieausweis->adresse_plz,
