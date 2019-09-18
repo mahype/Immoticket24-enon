@@ -12,10 +12,12 @@ class Immoticketenergieausweis_Banner_Widget extends WP_Widget {
 			'description' => __( 'Ein Energieausweis Online Erstellen-Banner.', 'immoticketenergieausweis' ),
 		);
 		parent::__construct( 'energieausweis_banner', __( 'Energieausweis-Banner', 'immoticketenergieausweis' ), $widget_ops );
-	
-		if ( is_active_widget( false, false, $this->id_base ) || is_customize_preview() ) {
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		}
+
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+	}
+
+	private function is_blog () {
+		return ( is_archive() || is_author() || is_category() || is_home() || is_single() || is_tag()) && 'post' == get_post_type();
 	}
 
 	public function widget( $args, $instance ) {
@@ -52,13 +54,16 @@ class Immoticketenergieausweis_Banner_Widget extends WP_Widget {
 		?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e( 'Title:' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
-		
+
 		<p><label for="<?php echo $this->get_field_id('target'); ?>"><?php _e( 'Target URL:' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id('target'); ?>" name="<?php echo $this->get_field_name('target'); ?>" type="url" value="<?php echo esc_url( $target ); ?>" /></p>
 		<?php
 	}
 
 	public function enqueue_scripts() {
+		if( ! $this->is_blog() ) {
+			return;
+		}
 		wp_enqueue_script( 'energieausweis-banner-createjs', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/banner/createjs-2015.11.26.min.js', array(), IMMOTICKETENERGIEAUSWEIS_THEME_VERSION, true );
 		wp_enqueue_script( 'energieausweis-banner-main', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/banner/250_350.js', array( 'energieausweis-banner-createjs' ), IMMOTICKETENERGIEAUSWEIS_THEME_VERSION, true );
 		wp_enqueue_script( 'energieausweis-banner-init', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/banner/init.js', array( 'energieausweis-banner-createjs', 'energieausweis-banner-main', 'jquery' ), IMMOTICKETENERGIEAUSWEIS_THEME_VERSION, true );
