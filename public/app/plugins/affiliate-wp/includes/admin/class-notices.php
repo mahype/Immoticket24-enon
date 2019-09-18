@@ -549,6 +549,11 @@ class Affiliate_WP_Admin_Notices {
 
 			}
 
+			// Bail if there's no status.
+			if ( empty( $status ) ) {
+				return;
+			}
+
 			if ( 'expired' === $status ) {
 
 				$notice_query_args['affwp_notice'] = 'expired_license';
@@ -559,6 +564,14 @@ class Affiliate_WP_Admin_Notices {
 				$message .= '<p><a href="' . wp_nonce_url( add_query_arg( $notice_query_args ), 'affwp_dismiss_notice', 'affwp_dismiss_notice_nonce' ) . '">' . _x( 'Dismiss Notice', 'License', 'affiliate-wp' ) . '</a>';
 
 			} elseif ( 'valid' !== $status ) {
+
+				$data = array(
+					'status'  => $status,
+					'license' => $license,
+					'check'   => get_transient( 'affwp_license_check' ),
+				);
+
+				affiliate_wp()->utils->log( 'Invalid license: The supplied license key does not have a \'valid\' status.', $data );
 
 				$notice_query_args['affwp_notice'] = 'invalid_license';
 
