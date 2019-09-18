@@ -14,13 +14,11 @@ function immoticketenergieausweis_maybe_load_iframe_template( $template ) {
 	$terms_page      = immoticketenergieausweis_get_option( 'it-theme', 'page_for_terms' );
 	$withdrawal_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_withdrawal' );
 
-	if ( is_page( array( $privacy_page, $terms_page, $withdrawal_page ) ) ) {
-		remove_action( 'wp_footer', 'immoticketenergieausweis_userlike_script', 100 );
-		remove_action( 'wp_footer', 'immoticketenergieausweis_ekomi_widget_script', 100 );
-		remove_action( 'wp_footer', 'immoticketenergieausweis_google_remarketing_tag_script', 100 );
-		remove_action( 'wp_footer', 'immoticketenergieausweis_bing_ads_uet_tag_script', 100 );
-		remove_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
+	remove_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
+	remove_action( 'wp_footer', 'immoticketenergieausweis_adcell_retargeting_script', 10 );
+	remove_action( 'wp_footer', 'immoticketenergieausweis_uptain_script', 100 );
 
+	if ( is_page( array( $privacy_page, $terms_page, $withdrawal_page ) ) ) {
 		return locate_template( array( 'energieausweis-iframe.php' ) );
 	}
 
@@ -59,11 +57,6 @@ function immoticketenergieausweis_maybe_load_iframe_template( $template ) {
 	}
 
 	add_action( 'wp_head', 'wp_no_robots' );
-	remove_action( 'wp_footer', 'immoticketenergieausweis_userlike_script', 100 );
-	remove_action( 'wp_footer', 'immoticketenergieausweis_ekomi_widget_script', 100 );
-	remove_action( 'wp_footer', 'immoticketenergieausweis_google_remarketing_tag_script', 100 );
-	remove_action( 'wp_footer', 'immoticketenergieausweis_bing_ads_uet_tag_script', 100 );
-	remove_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
 
 	return locate_template( array( 'energieausweis-iframe.php' ) );
 }

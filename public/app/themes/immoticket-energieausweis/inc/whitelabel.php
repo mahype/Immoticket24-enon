@@ -170,10 +170,6 @@ class EA_Whitelabel{
 	 */
 	private function load_iframe_template() {
 		add_action( 'wp_head', 'wp_no_robots' );
-		remove_action( 'wp_footer', 'immoticketenergieausweis_userlike_script', 100 );
-		remove_action( 'wp_footer', 'immoticketenergieausweis_ekomi_widget_script', 100 );
-		remove_action( 'wp_footer', 'immoticketenergieausweis_google_remarketing_tag_script', 100 );
-		remove_action( 'wp_footer', 'immoticketenergieausweis_bing_ads_uet_tag_script', 100 );
 		remove_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
 
 		$template = locate_template( array( 'energieausweis-iframe.php' ) );
