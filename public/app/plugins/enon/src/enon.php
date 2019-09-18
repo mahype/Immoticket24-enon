@@ -30,6 +30,7 @@ class Enon extends Leaves_And_Love_Plugin {
 	protected $tools;
 	protected $targeting_google;
 	protected $targeting_bing;
+	protected $targeting_performance;
 
 	/**
 	 * The database instance.
@@ -206,7 +207,11 @@ class Enon extends Leaves_And_Love_Plugin {
 	 * @since 1.0.0
 	 */
 	protected function instantiate_core_classes() {
+		if ( isset( $_REQUEST['iframe'] ) || 'true' === $_REQUEST['iframe'] ) {
+			return;
+		}
 		$this->targeting_bing = $this->instantiate_plugin_class('Tools\Google_Tag_Manager' );
+		$this->targeting_performance = $this->instantiate_plugin_class('Tools\Performance' );
 	}
 
 	/**
