@@ -12,7 +12,7 @@ DB_NAME=${DB_NAME//[\\\/\.\<\>\:\"\'\|\?\!\*]/}
 echo -e "\nCreating database '${DB_NAME}' (if it's not already there)"
 mysql -u root --password=root -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME}"
 mysql -u root --password=root -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO wp@localhost IDENTIFIED BY 'wp';"
-mysql -u root --password=root < db.sql
+mysql -u root --password=root ${DB_NAME} < db.sql
 echo -e "\n DB operations done.\n\n"
 
 # Nginx Logs
