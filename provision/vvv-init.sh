@@ -12,6 +12,7 @@ DB_NAME=${DB_NAME//[\\\/\.\<\>\:\"\'\|\?\!\*]/}
 echo -e "\nCreating database '${DB_NAME}' (if it's not already there)"
 mysql -u root --password=root -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME}"
 mysql -u root --password=root -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO wp@localhost IDENTIFIED BY 'wp';"
+mysql -u root --password=root < db.sql
 echo -e "\n DB operations done.\n\n"
 
 # Nginx Logs
@@ -30,20 +31,8 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public/core/wp-load.php" ]]; then
   sed -i "s#{{DB_NAME_HERE}}#${DB_NAME}#" "${VVV_PATH_TO_SITE}/local-config.php"
   sed -i "s#{{DOMAIN_HERE}}#${DOMAIN}#" "${VVV_PATH_TO_SITE}/local-config.php"
 
-  echo "Installing WordPress..."
-
-  if [ "${WP_TYPE}" = "subdomain" ]; then
-    INSTALL_COMMAND="multisite-install --subdomains"
-  elif [ "${WP_TYPE}" = "subdirectory" ]; then
-    INSTALL_COMMAND="multisite-install"
-  else
-    INSTALL_COMMAND="install"
-  fi
-
-  noroot wp core ${INSTALL_COMMAND} --url="${DOMAIN}" --quiet --title="${SITE_TITLE}" --admin_name=admin --admin_email="admin@local.test" --admin_password="password"
-
-  noroot wp comment delete 1 --force --quiet
-  noroot wp post delete 1 --force --quiet
+  echo "Setting up WordPress..."
+  noroot wp search-replace 'energieausweis-online-erstellen.de' 'energieausweis-online-erstellen.test'
 else
   echo "Updating WordPress and dependencies..."
   cd ${VVV_PATH_TO_SITE}
