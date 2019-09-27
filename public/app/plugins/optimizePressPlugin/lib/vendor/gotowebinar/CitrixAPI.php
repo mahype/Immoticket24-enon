@@ -40,6 +40,28 @@ class OP_CitrixAPI {
     }
 
     /**
+     * @param $apiKey
+     * @param $apiSecret
+     * @param $refreshToken
+     * @return array|bool|mixed|object|string
+     */
+    public function refreshToken($apiKey, $apiSecret, $refreshToken)
+    {
+        $headers = array(
+            'Authorization: Basic '. base64_encode($apiKey . ':' . $apiSecret),
+            'Content-Type: application/x-www-form-urlencoded',
+            'Accept:application/json'
+        );
+
+        $data = array();
+        $data['grant_type'] = 'refresh_token';
+        $data['refresh_token'] = $refreshToken;
+
+        $url  = 'https://api.getgo.com/oauth/v2/token?grant_type=refresh_token&refresh_token=' . $refreshToken;
+        return $this->makeApiRequest($url, 'POST', $data, $headers);
+    }
+
+    /**
      * @name getAttendeesByOrganizer
      * @desc GoToMeeting API
      */

@@ -57,6 +57,7 @@ log/*
 composer.lock
 vendor
 !public/app/plugins/wp-rocket/vendor
+!public/app/plugins/optimizePressPlugin/lib/vendor
 
 # Node Package Manager
 node_modules
