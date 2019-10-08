@@ -9,7 +9,7 @@ namespace awsmug\Enon\Tools;
  *
  * @since 1.0.0
  */
-class Performance {
+class Optimize_Press {
 	/**
 	 * Loading nesesary properties and functions.
 	 *

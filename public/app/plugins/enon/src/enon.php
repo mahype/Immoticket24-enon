@@ -9,7 +9,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Main class for Torro Forms.
+ * Main class for Enon.
  *
  * Takes care of initializing the plugin.
  *
@@ -17,68 +17,44 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- * @method Enon\DB_Objects\Forms\Form_Manager                         forms()
+ * @method awsmug\Enon\Modules\Module_Manager modules()
+ * @method Leaves_And_Love\Plugin_Lib\Options options()
+ * @method Leaves_And_Love\Plugin_Lib\Meta    meta()
+ * @method awsmug\Enon\Assets                 assets()
  */
 class Enon extends Leaves_And_Love_Plugin {
-
-	/**
-	 * The Tools manager instance.
-	 *
-	 * @since 1.0.0
-	 * @var Enon\Tools
-	 */
-	protected $tools;
-	protected $targeting_google;
-	protected $targeting_bing;
-	protected $targeting_performance;
-
-	/**
-	 * The database instance.
-	 *
-	 * @since 1.0.0
-	 * @var Enon\DB
-	 */
-	protected $db;
-
-	/**
-	 * The Metadata API instance.
-	 *
-	 * @since 1.0.0
-	 * @var Leaves_And_Love\Plugin_Lib\Meta
-	 */
-	protected $meta;
 
 	/**
 	 * The Assets manager instance.
 	 *
 	 * @since 1.0.0
-	 * @var Enon\Assets
+	 * @var awsmug\Enon\Assets
 	 */
 	protected $assets;
-
-	/**
-	 * The Template instance.
-	 *
-	 * @since 1.0.0
-	 * @var Leaves_And_Love\Plugin_Lib\Template
-	 */
-	protected $template;
-
-	/**
-	 * The AJAX handler instance.
-	 *
-	 * @since 1.0.0
-	 * @var Leaves_And_Love\Plugin_Lib\AJAX
-	 */
-	protected $ajax;
 
 	/**
 	 * The error handler instance.
 	 *
 	 * @since 1.0.0
-	 * @var Enon\Error_Handler
+	 * @var awsmug\Enon\Error_Handler
 	 */
 	protected $error_handler;
+
+	/**
+	 * The Option API instance.
+	 *
+	 * @since 1.0.0
+	 * @var Leaves_And_Love\Plugin_Lib\Options
+	 */
+	protected $options;
+
+	/**
+	 * The module manager instance.
+	 *
+	 * @since 1.0.0
+	 * @var awsmug\Enon\Modules\Module_Manager
+	 */
+	protected $modules;
 
 	/**
 	 * The plugin's logger instance.
@@ -141,8 +117,8 @@ class Enon extends Leaves_And_Love_Plugin {
 		$this->prefix       = 'enon_';
 		$this->vendor_name  = 'awsmug';
 		$this->project_name = 'Enon';
-		$this->minimum_php  = '5.6';
-		$this->minimum_wp   = '4.8';
+		$this->minimum_php  = '7.1';
+		$this->minimum_wp   = '5.2';
 	}
 
 	/**
@@ -185,7 +161,7 @@ class Enon extends Leaves_And_Love_Plugin {
 	 * @return bool True if the dependencies are loaded, false otherwise.
 	 */
 	protected function dependencies_loaded() {
-		if ( ! interface_exists( 'Psr\Log\LoggerInterface' ) ) {
+		if ( ! class_exists( 'awsmug\Enon\Error_Handler' ) ) {
 			return false;
 		}
 
@@ -198,7 +174,20 @@ class Enon extends Leaves_And_Love_Plugin {
 	 * @since 1.0.0
 	 */
 	protected function instantiate_services() {
+		$this->instantiate_core_services();
 		$this->instantiate_core_classes();
+
+		$this->instantiate_modules();
+	}
+
+	/**
+	 * Instantiates the plugin core services.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function instantiate_core_services() {
+		$this->error_handler = $this->instantiate_plugin_service( 'Error_Handler', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Error_Handler' ) );
+		$this->options = $this->instantiate_library_service( 'Options', $this->prefix );
 	}
 
 	/**
@@ -207,11 +196,23 @@ class Enon extends Leaves_And_Love_Plugin {
 	 * @since 1.0.0
 	 */
 	protected function instantiate_core_classes() {
-		if ( isset( $_REQUEST['iframe'] ) || 'true' === $_REQUEST['iframe'] ) {
-			return;
-		}
-		$this->targeting_bing = $this->instantiate_plugin_class('Tools\Google_Tag_Manager' );
-		$this->targeting_performance = $this->instantiate_plugin_class('Tools\Performance' );
+	}
+
+	/**
+	 * Instantiates the module manager.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function instantiate_modules() {
+		$this->modules = $this->instantiate_plugin_service(
+			'Modules\Module_Manager',
+			$this->prefix,
+			array(
+				'options'               => $this->options,
+				'assets'                => $this->assets,
+				'error_handler'         => $this->error_handler,
+			)
+		);
 	}
 
 	/**

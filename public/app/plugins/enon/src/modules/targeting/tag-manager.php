@@ -1,43 +1,35 @@
 <?php
 
-namespace awsmug\Enon\Tools;
+namespace awsmug\Enon\Modules\Targeting;
+
+use awsmug\Enon\Modules\Hooks_Submodule_Interface;
+use awsmug\Enon\Modules\Hooks_Submodule_Trait;
 
 /**
- * Class Google_Tag_Manager
+ * Class Tag_Manager
  *
  * @package awsmug\Enon\Tools
  *
  * @since 1.0.0
  */
-class Google_Tag_Manager {
+class Tag_Manager extends Targeting implements Hooks_Submodule_Interface {
+	use Hooks_Submodule_Trait;
 
 	/**
 	 * Google Tag manager Company ID.
 	 *
 	 * @var null
 	 */
-	protected $company_id = null;
+	protected $company_id = 'GTM-N2M4CSV';
 
 	/**
-	 * Loading nesesary properties and functions.
+	 * Bootstraps the submodule by setting properties.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct() {
-		$this->load_hooks();
-		$this->company_id = 'GTM-N2M4CSV';
-	}
-
-	/**
-	 * Load targeting scripts into hooks.
-	 *
-	 * @since 1.0.0
-	 */
-	private function load_hooks() {
-		add_action( 'wp_head', array( $this, 'head_script' ), 1 );
-		add_action( 'wp_body_open', array( $this, 'body_script' ), 1 );
-
-		add_action( 'edd_payment_receipt_after_table', array( $this, 'edd_purchase_conversions' ), 10, 2 );
+	protected function bootstrap() {
+		$this->slug  = 'tag-manager';
+		$this->title = __( 'Tag Manager', 'enon' );
 	}
 
 	/**
@@ -109,5 +101,30 @@ class Google_Tag_Manager {
 		?>
 		<script>dataLayer.push({'event':'conversion-verbrauchsausweis'});</script>
 		<?php
+	}
+
+	/**
+	 * Sets up all action and filter hooks for the service.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function setup_hooks() {
+		parent::setup_hooks();
+		$this->actions[] = array(
+			'name'     => 'wp_head',
+			'callback' => array( $this, 'head_script' ),
+			'priority' => 1,
+		);
+		$this->actions[] = array(
+			'name'     => 'wp_body_open',
+			'callback' => array( $this, 'body_script' ),
+			'priority' => 1,
+		);
+		$this->actions[] = array(
+			'name'     => 'edd_payment_receipt_after_table',
+			'callback' => array( $this, 'edd_purchase_conversions' ),
+			'priority' => 10,
+			'num_args' => 2,
+		);
 	}
 }
