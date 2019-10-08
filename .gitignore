@@ -91,3 +91,6 @@ nbproject/
 
 # Logs
 public/dibt.log
+
+#DB
+provision/db.sql
