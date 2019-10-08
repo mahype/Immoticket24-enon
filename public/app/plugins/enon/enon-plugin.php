@@ -66,7 +66,7 @@ function enon() {
 }
 
 /**
- * Executes a callback after Torro Forms has been initialized.
+ * Executes a callback after Enon has been initialized.
  *
  * This function should be used by all Torro Forms extensions to initialize themselves.
  *
