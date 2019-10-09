@@ -8,10 +8,11 @@
 
 namespace awsmug\Enon\Modules\Actions;
 
+use awsmug\Enon\Modules\Legal\Cookie_Consent;
+use awsmug\Enon\Modules\Legal\Legal;
 use awsmug\Enon\Modules\Module as Module_Base;
 use awsmug\Enon\Modules\Submodule_Registry_Interface;
 use awsmug\Enon\Modules\Submodule_Registry_Trait;
-use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
 
 /**
  * Class for the Actions module.
@@ -27,56 +28,17 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * @since 1.0.0
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'actions';
-		$this->title       = __( 'Actions', 'torro-forms' );
-		$this->description = __( 'Actions are executed in the moment users submit their form data.', 'torro-forms' );
+		$this->slug        = 'legal';
+		$this->title       = __( 'Legal', 'torro-forms' );
+		$this->description = __( 'Legal Module.', 'torro-forms' );
 
-		$this->submodule_base_class = Action::class;
+		$this->submodule_base_class = Legal::class;
+
 		$this->default_submodules   = array(
-			'email_notifications' => Email_Notifications::class,
-			'redirection'         => Redirection::class,
-			'frontend_posting'         => Frontend_Posting::class,
+			'cookie_consent' => Cookie_Consent::class,
 		);
-
-		Field_Manager::register_field_type( 'routeselect', Route_Select_Field::class );
-		Field_Manager::register_field_type( 'fieldmappings', Field_Mappings_Field::class );
 	}
 
-	/**
-	 * Returns the plugin's API-API instance.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return APIAPI The API-API instance.
-	 */
-	public function apiapi() {
-		return $this->manager()->apiapi();
-	}
-
-	/**
-	 * Handles the action for a specific form submission.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param Submission $submission Submission to handle by the action.
-	 * @param Form       $form       Form the submission applies to.
-	 */
-	protected function handle( $submission, $form ) {
-		foreach ( $this->submodules as $slug => $action ) {
-			if ( ! $action->enabled( $form ) ) {
-				continue;
-			}
-
-			$action_result = $action->handle( $submission, $form );
-
-			if ( is_wp_error( $action_result ) ) {
-				foreach ( $action_result->get_error_messages() as $error_message ) {
-					/* translators: 1: form ID, 2: submission ID, 3: log message */
-					$this->manager()->logger()->warning( sprintf( _x( 'Form %1$s Submission %2$s: %3$s', 'submission process log', 'torro-forms' ), $form->id, $submission->id, $error_message ), $this->logging_context );
-				}
-			}
-		}
-	}
 
 	/**
 	 * Registers the default actions.
@@ -97,22 +59,9 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param Module $actions Action manager instance.
+		 * @param \awsmug\Enon\Modules\Targeting\Module $actions Action manager instance.
 		 */
-		do_action( "{$this->get_prefix()}register_actions", $this );
-	}
-
-	/**
-	 * Registers routes for API actions in the REST API.
-	 *
-	 * @since 1.1.0
-	 */
-	protected function register_rest_routes() {
-		$actions_controller = new API_Actions_Controller( $this );
-		$actions_controller->register_routes();
-
-		$action_connections_controller = new API_Action_Connections_Controller( $this );
-		$action_connections_controller->register_routes();
+		do_action( "{$this->get_prefix()}register_legal", $this );
 	}
 
 	/**
@@ -124,21 +73,9 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		parent::setup_hooks();
 
 		$this->actions[] = array(
-			'name'     => "{$this->get_prefix()}complete_submission",
-			'callback' => array( $this, 'handle' ),
-			'priority' => 10,
-			'num_args' => 2,
-		);
-		$this->actions[] = array(
 			'name'     => 'init',
 			'callback' => array( $this, 'register_defaults' ),
 			'priority' => 100,
-			'num_args' => 0,
-		);
-		$this->actions[] = array(
-			'name'     => 'rest_api_init',
-			'callback' => array( $this, 'register_rest_routes' ),
-			'priority' => 10,
 			'num_args' => 0,
 		);
 	}

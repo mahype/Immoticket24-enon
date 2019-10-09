@@ -28,10 +28,10 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	protected function bootstrap() {
 		$this->slug        = 'targeting';
 		$this->title       = __( 'Targeting', 'enon' );
-		$this->description = __( 'Actions are executed in the moment users submit their form data.', 'enon' );
+		$this->description = __( 'Targeting functionality module.', 'enon' );
 
 		$this->default_submodules   = array(
-			'email_notifications' => Tag_Manager::class,
+			'tag_manager' => Tag_Manager::class,
 		);
 	}
 

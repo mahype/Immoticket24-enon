@@ -1,12 +1,12 @@
 <?php
 /**
- * Targeting base class
+ * Legal base class
  *
  * @package Enon
  * @since 1.0.0
  */
 
-namespace awsmug\Enon\Modules\Targeting;
+namespace awsmug\Enon\Modules\Legal;
 
 use awsmug\Enon\Modules\Submodule;
 use awsmug\Enon\Modules\Settings_Submodule_Interface;
@@ -17,6 +17,6 @@ use awsmug\Enon\Modules\Settings_Submodule_Trait;
  *
  * @since 1.0.0
  */
-abstract class Targeting extends Submodule implements Settings_Submodule_Interface {
+abstract class Legal extends Submodule implements Settings_Submodule_Interface {
 	use Settings_Submodule_Trait;
 }
