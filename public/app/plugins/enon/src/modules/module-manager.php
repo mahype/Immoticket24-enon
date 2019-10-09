@@ -15,6 +15,8 @@ use Leaves_And_Love\Plugin_Lib\Assets;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
 
 use awsmug\Enon\Error;
+use awsmug\Enon\Modules\Legal\Module as Legal_Module;
+use awsmug\Enon\Modules\Performance\Module as Performance_Module;
 use awsmug\Enon\Modules\Targeting\Module as Targeting_Module;
 
 use Psr\Log\LoggerInterface;
@@ -76,8 +78,8 @@ class Module_Manager extends Service {
 		$this->set_services( $services );
 
 		$this->default_modules = array(
-			//'legal'            => Legal_Module::class,
-			//'performance'      => Performance_Module::class,
+			'legal'            => Legal_Module::class,
+			'performance'      => Performance_Module::class,
 			'targeting'        => Targeting_Module::class,
 		);
 

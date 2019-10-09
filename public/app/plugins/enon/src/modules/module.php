@@ -66,6 +66,14 @@ abstract class Module extends Service {
 	protected static $service_manager = Module_Manager::class;
 
 	/**
+	 * Default submodules.
+	 *
+	 * @since 1.0.0
+	 * @var array
+	 */
+	protected $default_submodules = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -138,6 +146,30 @@ abstract class Module extends Service {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Registers the default actions.
+	 *
+	 * The function also executes a hook that should be used by other developers to register their own actions.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function register_defaults() {
+		foreach ( $this->default_submodules as $slug => $class_name ) {
+			$this->register( $slug, $class_name );
+		}
+
+		/**
+		 * Fires when the default actions have been registered.
+		 *
+		 * This action should be used to register custom actions.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param \awsmug\Enon\Modules\Targeting\Module $actions Action manager instance.
+		 */
+		do_action( "{$this->get_prefix()}register_{$this->get_slug()}", $this );
 	}
 
 	/**
@@ -241,6 +273,12 @@ abstract class Module extends Service {
 	protected function setup_hooks() {
 		$this->actions = array(
 			array(
+				'name'     => 'init',
+				'callback' => array( $this, 'register_defaults' ),
+				'priority' => 100,
+				'num_args' => 1,
+			),
+			array(
 				'name'     => "{$this->get_prefix()}add_settings_content",
 				'callback' => array( $this, 'add_settings' ),
 				'priority' => 1,
@@ -267,24 +305,6 @@ abstract class Module extends Service {
 	 * @since 1.0.0
 	 */
 	abstract protected function bootstrap();
-
-	/**
-	 * Returns the available meta box tabs for the module.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array Associative array of `$tab_slug => $tab_args` pairs.
-	 */
-	abstract protected function get_meta_tabs();
-
-	/**
-	 * Returns the available meta box fields for the module.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array Associative array of `$field_slug => $field_args` pairs.
-	 */
-	abstract protected function get_meta_fields();
 
 	/**
 	 * Returns the available settings sub-tabs for the module.
