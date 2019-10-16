@@ -1,0 +1,11 @@
+--- ./src/class-plugin-notice-controller.php	2019-10-16 10:00:33.166323984 +0200
++++ ./src/class-plugin-notice-controller.php	2019-10-16 10:28:09.783214960 +0200
+@@ -70,7 +70,7 @@
+ 	 * @since 1.0.0
+ 	 */
+ 	public function load_notice() {
+-		add_action( 'wp_footer', [ $this->notice, 'render' ], 100, 0 );
++		add_action( 'wp_body_open', [ $this->notice, 'render' ], 100, 0 );
+ 		add_action( 'login_footer', [ $this->notice, 'render' ], 100, 0 );
+
+ 		if ( ! $this->notice instanceof Assets_Aware ) {

@@ -5864,6 +5864,12 @@ img.wp-post-image {
   list-style-position: inside;
   line-height: 28px;
 }
+body .wp-gdpr-cookie-notice-wrap {
+  position: relative;
+}
+body .wp-gdpr-cookie-notice-wrap .wp-gdpr-cookie-notice-inner {
+  max-width: none;
+}
 .alignnone {
   margin: 5px 20px 20px 0;
 }
