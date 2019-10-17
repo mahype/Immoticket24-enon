@@ -1,17 +1,17 @@
 [
     {
         "name": "composer/installers",
-        "version": "v1.6.0",
-        "version_normalized": "1.6.0.0",
+        "version": "v1.7.0",
+        "version_normalized": "1.7.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/composer/installers.git",
-            "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b"
+            "reference": "141b272484481432cda342727a427dc1e206bfa0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/composer/installers/zipball/cfcca6b1b60bc4974324efb5783c13dca6932b5b",
-            "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b",
+            "url": "https://api.github.com/repos/composer/installers/zipball/141b272484481432cda342727a427dc1e206bfa0",
+            "reference": "141b272484481432cda342727a427dc1e206bfa0",
             "shasum": ""
         },
         "require": {
@@ -25,7 +25,7 @@
             "composer/composer": "1.0.*@dev",
             "phpunit/phpunit": "^4.8.36"
         },
-        "time": "2018-08-27T06:10:37+00:00",
+        "time": "2019-08-12T15:00:31+00:00",
         "type": "composer-plugin",
         "extra": {
             "class": "Composer\\Installers\\Plugin",
@@ -69,6 +69,7 @@
             "RadPHP",
             "SMF",
             "Thelia",
+            "Whmcs",
             "WolfCMS",
             "agl",
             "aimeos",
@@ -91,6 +92,7 @@
             "installer",
             "itop",
             "joomla",
+            "known",
             "kohana",
             "laravel",
             "lavalite",
@@ -519,17 +521,17 @@
     },
     {
         "name": "monolog/monolog",
-        "version": "1.24.0",
-        "version_normalized": "1.24.0.0",
+        "version": "1.25.1",
+        "version_normalized": "1.25.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Seldaek/monolog.git",
-            "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266"
+            "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
-            "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
+            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
+            "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
             "shasum": ""
         },
         "require": {
@@ -565,7 +567,7 @@
             "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
             "sentry/sentry": "Allow sending log messages to a Sentry server"
         },
-        "time": "2018-11-05T09:00:11+00:00",
+        "time": "2019-09-06T13:49:17+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -599,17 +601,17 @@
     },
     {
         "name": "wp-media/rocket-lazyload-common",
-        "version": "v2.4",
-        "version_normalized": "2.4.0.0",
+        "version": "v2.5.3",
+        "version_normalized": "2.5.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/wp-media/rocket-lazyload-common.git",
-            "reference": "fcebb3db1687ce4f88854c6fbc67a36e8ae9e2bf"
+            "reference": "438cff5e29519bce9d2e6c964a906ff410ce6313"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/wp-media/rocket-lazyload-common/zipball/fcebb3db1687ce4f88854c6fbc67a36e8ae9e2bf",
-            "reference": "fcebb3db1687ce4f88854c6fbc67a36e8ae9e2bf",
+            "url": "https://api.github.com/repos/wp-media/rocket-lazyload-common/zipball/438cff5e29519bce9d2e6c964a906ff410ce6313",
+            "reference": "438cff5e29519bce9d2e6c964a906ff410ce6313",
             "shasum": ""
         },
         "require": {
@@ -627,7 +629,7 @@
             "symfony/yaml": "2.8.*",
             "wp-coding-standards/wpcs": "^2.0.0"
         },
-        "time": "2019-07-08T16:41:10+00:00",
+        "time": "2019-10-01T13:26:23+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

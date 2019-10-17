@@ -4,8 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
+class ComposerStaticInit8c5ef165aa4a860a54606de3c4931a83
 {
+    public static $files = array (
+        '7dd4ccccfce1b9c8f18c306a0bd93e85' => __DIR__ . '/../..' . '/inc/functions/api.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'R' => 
         array (
@@ -148,6 +152,7 @@ class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
         'Composer\\Installers\\CraftInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/CraftInstaller.php',
         'Composer\\Installers\\CroogoInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/CroogoInstaller.php',
         'Composer\\Installers\\DecibelInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/DecibelInstaller.php',
+        'Composer\\Installers\\DframeInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/DframeInstaller.php',
         'Composer\\Installers\\DokuWikiInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/DokuWikiInstaller.php',
         'Composer\\Installers\\DolibarrInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/DolibarrInstaller.php',
         'Composer\\Installers\\DrupalInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/DrupalInstaller.php',
@@ -165,6 +170,7 @@ class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
         'Composer\\Installers\\JoomlaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/JoomlaInstaller.php',
         'Composer\\Installers\\KanboardInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/KanboardInstaller.php',
         'Composer\\Installers\\KirbyInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/KirbyInstaller.php',
+        'Composer\\Installers\\KnownInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/KnownInstaller.php',
         'Composer\\Installers\\KodiCMSInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/KodiCMSInstaller.php',
         'Composer\\Installers\\KohanaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/KohanaInstaller.php',
         'Composer\\Installers\\LanManagementSystemInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/LanManagementSystemInstaller.php',
@@ -199,6 +205,7 @@ class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
         'Composer\\Installers\\PxcmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PxcmsInstaller.php',
         'Composer\\Installers\\RadPHPInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/RadPHPInstaller.php',
         'Composer\\Installers\\ReIndexInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ReIndexInstaller.php',
+        'Composer\\Installers\\Redaxo5Installer' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/Redaxo5Installer.php',
         'Composer\\Installers\\RedaxoInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/RedaxoInstaller.php',
         'Composer\\Installers\\RoundcubeInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/RoundcubeInstaller.php',
         'Composer\\Installers\\SMFInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SMFInstaller.php',
@@ -209,6 +216,7 @@ class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
         'Composer\\Installers\\Symfony1Installer' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/Symfony1Installer.php',
         'Composer\\Installers\\TYPO3CmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TYPO3CmsInstaller.php',
         'Composer\\Installers\\TYPO3FlowInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TYPO3FlowInstaller.php',
+        'Composer\\Installers\\TaoInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TaoInstaller.php',
         'Composer\\Installers\\TheliaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TheliaInstaller.php',
         'Composer\\Installers\\TuskInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TuskInstaller.php',
         'Composer\\Installers\\UserFrostingInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/UserFrostingInstaller.php',
@@ -305,6 +313,8 @@ class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
         'Monolog\\Handler\\FirePHPHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FirePHPHandler.php',
         'Monolog\\Handler\\FleepHookHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FleepHookHandler.php',
         'Monolog\\Handler\\FlowdockHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FlowdockHandler.php',
+        'Monolog\\Handler\\FormattableHandlerInterface' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FormattableHandlerInterface.php',
+        'Monolog\\Handler\\FormattableHandlerTrait' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FormattableHandlerTrait.php',
         'Monolog\\Handler\\GelfHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/GelfHandler.php',
         'Monolog\\Handler\\GroupHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/GroupHandler.php',
         'Monolog\\Handler\\HandlerInterface' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/HandlerInterface.php',
@@ -322,6 +332,8 @@ class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
         'Monolog\\Handler\\NewRelicHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/NewRelicHandler.php',
         'Monolog\\Handler\\NullHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/NullHandler.php',
         'Monolog\\Handler\\PHPConsoleHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/PHPConsoleHandler.php',
+        'Monolog\\Handler\\ProcessableHandlerInterface' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/ProcessableHandlerInterface.php',
+        'Monolog\\Handler\\ProcessableHandlerTrait' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/ProcessableHandlerTrait.php',
         'Monolog\\Handler\\PsrHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/PsrHandler.php',
         'Monolog\\Handler\\PushoverHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/PushoverHandler.php',
         'Monolog\\Handler\\RavenHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/RavenHandler.php',
@@ -402,6 +414,8 @@ class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
         'WP_Rocket\\Busting\\File_Busting' => __DIR__ . '/../..' . '/inc/classes/busting/trait-file-busting.php',
         'WP_Rocket\\Busting\\Google_Analytics' => __DIR__ . '/../..' . '/inc/classes/busting/class-google-analytics.php',
         'WP_Rocket\\Busting\\Google_Tag_Manager' => __DIR__ . '/../..' . '/inc/classes/busting/class-google-tag-manager.php',
+        'WP_Rocket\\CDN\\CDN' => __DIR__ . '/../..' . '/inc/classes/CDN/CDN.php',
+        'WP_Rocket\\Cache\\Expired_Cache_Purge' => __DIR__ . '/../..' . '/inc/classes/Cache/class-expired-cache-purge.php',
         'WP_Rocket\\Event_Management\\Event_Manager' => __DIR__ . '/../..' . '/inc/classes/event-management/class-event-manager.php',
         'WP_Rocket\\Event_Management\\Event_Manager_Aware_Subscriber_Interface' => __DIR__ . '/../..' . '/inc/classes/event-management/event-manager-aware-subscriber-interface.php',
         'WP_Rocket\\Event_Management\\Subscriber_Interface' => __DIR__ . '/../..' . '/inc/classes/event-management/subscriber-interface.php',
@@ -411,7 +425,6 @@ class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
         'WP_Rocket\\Logger\\Stream_Handler' => __DIR__ . '/../..' . '/inc/classes/logger/class-stream-handler.php',
         'WP_Rocket\\Optimization\\Abstract_Optimization' => __DIR__ . '/../..' . '/inc/classes/optimization/class-abstract-optimization.php',
         'WP_Rocket\\Optimization\\Assets_Local_Cache' => __DIR__ . '/../..' . '/inc/classes/optimization/class-assets-local-cache.php',
-        'WP_Rocket\\Optimization\\CDN_Favicons' => __DIR__ . '/../..' . '/inc/classes/optimization/class-cdn-favicons.php',
         'WP_Rocket\\Optimization\\CSS\\Abstract_CSS_Optimization' => __DIR__ . '/../..' . '/inc/classes/optimization/CSS/class-abstract-css-optimization.php',
         'WP_Rocket\\Optimization\\CSS\\Combine' => __DIR__ . '/../..' . '/inc/classes/optimization/CSS/class-combine.php',
         'WP_Rocket\\Optimization\\CSS\\Combine_Google_Fonts' => __DIR__ . '/../..' . '/inc/classes/optimization/CSS/class-combine-google-fonts.php',
@@ -447,11 +460,13 @@ class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
         'WP_Rocket\\Subscriber\\Admin\\Deactivation\\Deactivation_Intent_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/admin/Deactivation/class-deactivation-intent-subscriber.php',
         'WP_Rocket\\Subscriber\\Admin\\Settings\\Beacon_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/admin/Settings/class-beacon-subscriber.php',
         'WP_Rocket\\Subscriber\\Admin\\Settings\\Page_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/admin/Settings/class-page-subscriber.php',
+        'WP_Rocket\\Subscriber\\CDN\\CDNSubscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/CDN/CDNSubscriber.php',
+        'WP_Rocket\\Subscriber\\Cache\\Expired_Cache_Purge_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Cache/class-expired-cache-purge-subscriber.php',
         'WP_Rocket\\Subscriber\\Facebook_Tracking_Cache_Busting_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/class-facebook-tracking-cache-busting-subscriber.php',
         'WP_Rocket\\Subscriber\\Google_Tracking_Cache_Busting_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/class-google-tracking-cache-busting-subscriber.php',
         'WP_Rocket\\Subscriber\\Heartbeat_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/class-heartbeat-subscriber.php',
+        'WP_Rocket\\Subscriber\\Media\\Webp_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Media/class-webp-subscriber.php',
         'WP_Rocket\\Subscriber\\Optimization\\Buffer_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Optimization/class-buffer-subscriber.php',
-        'WP_Rocket\\Subscriber\\Optimization\\CDN_Favicons_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Optimization/class-cdn-favicons-subscriber.php',
         'WP_Rocket\\Subscriber\\Optimization\\Cache_Dynamic_Resource_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Optimization/class-cache-dynamic-resource-subscriber.php',
         'WP_Rocket\\Subscriber\\Optimization\\Combine_Google_Fonts_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Optimization/class-combine-google-fonts-subscriber.php',
         'WP_Rocket\\Subscriber\\Optimization\\Critical_CSS_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Optimization/class-critical-css-subscriber.php',
@@ -462,6 +477,7 @@ class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
         'WP_Rocket\\Subscriber\\Optimization\\Minify_JS_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Optimization/class-minify-js-subscriber.php',
         'WP_Rocket\\Subscriber\\Optimization\\Minify_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Optimization/class-abstract-minify-subscriber.php',
         'WP_Rocket\\Subscriber\\Optimization\\Remove_Query_String_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Optimization/class-remove-query-string-subscriber.php',
+        'WP_Rocket\\Subscriber\\Plugin\\Capabilities_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Plugin/class-capabilities-subscriber.php',
         'WP_Rocket\\Subscriber\\Plugin\\Information_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Plugin/class-information-subscriber.php',
         'WP_Rocket\\Subscriber\\Plugin\\Updater_Api_Common_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Plugin/class-updater-api-common-subscriber.php',
         'WP_Rocket\\Subscriber\\Plugin\\Updater_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Plugin/class-updater-subscriber.php',
@@ -471,6 +487,12 @@ class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
         'WP_Rocket\\Subscriber\\Third_Party\\Hostings\\Pressable_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/Hostings/class-pressable-subscriber.php',
         'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Ecommerce\\BigCommerce_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/ecommerce/class-bigcommerce-subscriber.php',
         'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Ecommerce\\WooCommerce_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/ecommerce/class-woocommerce-subscriber.php',
+        'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Images\\Webp\\EWWW_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/Images/Webp/class-ewww-subscriber.php',
+        'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Images\\Webp\\Imagify_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/Images/Webp/class-imagify-subscriber.php',
+        'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Images\\Webp\\Optimus_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/Images/Webp/class-optimus-subscriber.php',
+        'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Images\\Webp\\ShortPixel_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/Images/Webp/class-shortpixel-subscriber.php',
+        'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Images\\Webp\\Webp_Common' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/Images/Webp/trait-webp-common.php',
+        'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Images\\Webp\\Webp_Interface' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/Images/Webp/webp-interface.php',
         'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Mobile_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/class-mobile-subscriber.php',
         'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\NGG_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/class-ngg-subscriber.php',
         'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Optimization\\Hummingbird_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/Optimization/class-hummingbird-subscriber.php',
@@ -487,9 +509,9 @@ class ComposerStaticInit87a14b855975ef0bc59e898abc1c8842
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit87a14b855975ef0bc59e898abc1c8842::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit87a14b855975ef0bc59e898abc1c8842::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit87a14b855975ef0bc59e898abc1c8842::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8c5ef165aa4a860a54606de3c4931a83::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8c5ef165aa4a860a54606de3c4931a83::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit8c5ef165aa4a860a54606de3c4931a83::$classMap;
 
         }, null, ClassLoader::class);
     }

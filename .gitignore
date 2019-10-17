@@ -24,7 +24,6 @@ public/app/uploads/*
 !public/app/plugins/optimizePressPlugin
 !public/app/plugins/optimizePressPlusPack
 !public/app/plugins/options-definitely
-!public/app/plugins/wordpress-seo-premium
 !public/app/plugins/wp-energieausweis-online
 !public/app/plugins/wp-postratings-migrate
 !public/app/plugins/wp-rocket
@@ -91,4 +90,6 @@ nbproject/
 
 # Logs
 public/dibt.log
+
+#DB
 provision/db.sql

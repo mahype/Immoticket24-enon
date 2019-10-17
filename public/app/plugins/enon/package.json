@@ -1,0 +1,12 @@
+{
+  "name": "enon",
+  "version": "1.0.0",
+  "description": "Energieausweis online main plugin.",
+  "main": "index.js",
+  "dependencies": {
+    "cookieconsent": "^3.1.1"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
+}
