@@ -1,6 +1,11 @@
 <?php
 
-namespace awsmug\Enon\Tools;
+namespace Enon\Misc;
+
+use Awsm\WP_Plugin\Building_Plans\Hooks_Actions;
+use Awsm\WP_Plugin\Building_Plans\Hooks_Filters;
+use Awsm\WP_Plugin\Loaders\Hooks_Loader;
+use Awsm\WP_Plugin\Loaders\Loader;
 
 /**
  * Class Performance
@@ -9,31 +14,43 @@ namespace awsmug\Enon\Tools;
  *
  * @since 1.0.0
  */
-class Performance {
+class Remove_Optimizepress implements Hooks_Actions, Hooks_Filters {
+	use Loader, Hooks_Loader;
+
 	/**
-	 * Loading nesesary properties and functions.
+	 * Add actions.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct() {
-		$this->load_hooks();
-	}
-
-	public function load_hooks(){
+	public static function add_actions(){
 		if( is_admin() ) {
 			return;
 		}
-		add_action( 'wp_enqueue_scripts', array( $this, 'remove_scripts' ), 10000 );
-		add_action( 'wp_print_styles', array( $this, 'remove_scripts' ), 10000 );
 
-		add_filter( 'immoticketenergieausweis_stylesheet_dependencies', array( $this, 'remove_depencies' ), 1 );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'remove_scripts' ), 10000 );
+		add_action( 'wp_print_styles', array( __CLASS__, 'remove_scripts' ), 10000 );
 	}
 
-	public function remove_scripts() {
-		$this->remove_optmize_press();
+	/**
+	 * Add filtters.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function add_filters() {
+		if( is_admin() ) {
+			return;
+		}
+
+		add_filter( 'immoticketenergieausweis_stylesheet_dependencies', array( __CLASS__, 'remove_depencies' ), 1 );
 	}
 
-	public function remove_depencies( $depencies ) {
+
+	/**
+	 * Removing depencies from Scripts.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function remove_depencies( $depencies ) {
 		$page_id =  get_the_ID();
 		$ban_page_ids = array( 294865 );
 
@@ -44,7 +61,12 @@ class Performance {
 		return $depencies;
 	}
 
-	public function remove_optmize_press() {
+	/**
+	 * Removing Scripts.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function remove_scripts() {
 		global $wp_styles, $wp_scripts;
 
 		if( ! is_page() || ! defined( 'OP_SN' ) ) {
