@@ -10,6 +10,7 @@ public/app/advanced-cache.php
 public/app/wp-rocket-config/*
 public/app/cache/*
 public/app/uploads/*
+public/app/nfwlog/*
 
 # Ignore Exceptions
 !public/app/mu-plugins/energieausweis-*/
