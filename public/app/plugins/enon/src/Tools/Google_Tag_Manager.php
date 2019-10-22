@@ -22,7 +22,7 @@ class Google_Tag_Manager implements Hooks_Actions {
 	 *
 	 * @var string
 	 */
-	protected $company_id = 'GTM-N2M4CSV';
+	protected static $company_id = 'GTM-N2M4CSV';
 
 	/**
 	 * Load targeting scripts into hooks.
