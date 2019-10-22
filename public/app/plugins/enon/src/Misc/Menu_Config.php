@@ -36,7 +36,6 @@ class Menu_Config implements Hooks_Filters{
 	 * @return array    $sorted_menu_items The filtered menu items.
 	 */
 	public static function filter_main_menu( $sorted_menu_items, $args ) {
-		$page_id = get_the_ID();
 		// Only showing "Gewerbeschein senden" on "Für Makler" page.
 		if ( 'primary' === $args->theme_location && 23110 !== get_the_ID() ) {
 			$sorted_menu_items = self::remove_entry_by_title( $sorted_menu_items, 'Gewerbeschein senden' );
@@ -55,7 +54,7 @@ class Menu_Config implements Hooks_Filters{
 	 */
 	public static function remove_entry_by_title( $sorted_menu_items, $title ) {
 		foreach ( $sorted_menu_items as $key => $item ) {
-			if ( $item->post_title === $title ) {
+			if ( $item->title === $title ) {
 				unset( $sorted_menu_items[ $key ] );
 			}
 		}
