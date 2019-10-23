@@ -20,9 +20,9 @@ namespace Enon\Core;
 
 require dirname( __FILE__ ) . '/vendor/autoload.php';
 
-use Enon\Misc\Remove_Optimizepress;
 use Enon\Misc\Menu_Config;
-use Enon\Tools\Google_Tag_Manager;
+use Enon\Misc\Remove_Optimizepress;
+use Enon\Misc\Google_Tag_Manager;
 use Awsm\WP_Plugin\Building_Plans\Plugin;
 use Awsm\WP_Plugin\Loaders\Assets_Loader;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;

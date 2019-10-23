@@ -1,6 +1,6 @@
 <?php
 
-namespace Enon\Tools;
+namespace Enon\Misc;
 use Awsm\WP_Plugin\Building_Plans\Hooks_Actions;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
