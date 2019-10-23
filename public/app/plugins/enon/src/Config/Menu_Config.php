@@ -1,6 +1,6 @@
 <?php
 
-namespace Enon\Misc;
+namespace Enon\Config;
 
 use Awsm\WP_Plugin\Building_Plans\Hooks_Filters;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;

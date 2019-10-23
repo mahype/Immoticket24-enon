@@ -20,7 +20,8 @@ namespace Enon\Core;
 
 require dirname( __FILE__ ) . '/vendor/autoload.php';
 
-use Enon\Misc\Menu_Config;
+use Enon\Config\Gutenberg_Config;
+use Enon\Config\Menu_Config;
 use Enon\Misc\Remove_Optimizepress;
 use Enon\Misc\Google_Tag_Manager;
 use Awsm\WP_Plugin\Building_Plans\Plugin;
@@ -106,6 +107,7 @@ class Enon implements Plugin {
 	public function run() {
 		self::load();
 
+		Gutenberg_Config::Load();
 		Remove_Optimizepress::load();
 		Google_Tag_Manager::load();
 		Menu_Config::load();
