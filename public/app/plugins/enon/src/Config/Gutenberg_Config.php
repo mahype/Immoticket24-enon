@@ -17,12 +17,13 @@ class Gutenberg_Config implements Hooks_Actions {
 	use Loader, Hooks_Loader;
 
 	/**
-	 * Adding filters.
+	 * Adding actions.
 	 *
 	 * @since 1.0.0
 	 */
 	public static function add_actions() {
 		add_action( 'admin_head', array( __CLASS__, 'full_width' ) );
+		add_action( 'after_setup_theme', array( __CLASS__, 'color_palette' ) );
 	}
 
 	/**
@@ -39,5 +40,34 @@ class Gutenberg_Config implements Hooks_Actions {
 				max-width: 80% !important;
 			}
 		  </style>';
+	}
+
+	/**
+	 * Defining own colors in color palette.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function color_palette() {
+		add_theme_support(
+			'editor-color-palette',
+			array(
+				array(
+					'name'  => esc_html__( 'Black', 'enon' ),
+					'slug' => 'black',
+					'color' => '#000000',
+				),
+				array(
+					'name'  => esc_html__( 'White', 'enon' ),
+					'slug' => 'white',
+					'color' => '#FFFFFF',
+				),
+				array(
+					'name'  => esc_html__( 'Green', 'enon' ),
+					'slug' => 'green',
+					'color' => '#00af30',
+				),
+			)
+		);
+
 	}
 }
