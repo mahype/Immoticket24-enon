@@ -13,7 +13,7 @@ use Awsm\WP_Plugin\Loaders\Loader;
  *
  * @since 1.0.0
  */
-class Gutenberg_Config implements Hooks_Actions {
+class Gutenberg implements Hooks_Actions {
 	use Loader, Hooks_Loader;
 
 	/**

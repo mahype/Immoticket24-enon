@@ -13,7 +13,7 @@ use Awsm\WP_Plugin\Loaders\Loader;
  *
  * @since 1.0.0
  */
-class Menu_Config implements Hooks_Filters {
+class Menu implements Hooks_Filters {
 	use Loader, Hooks_Loader;
 
 	/**
