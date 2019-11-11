@@ -5851,18 +5851,53 @@ img.wp-post-image {
 .separator-stars {
   padding: 10px 0;
 }
-.page-template-page-without-title h2 {
+.page-template-page-without-title h2,
+.page-template-page-without-title-bg-grey-white h2,
+.page-template-page-without-title-bg-white-grey h2 {
   font-size: 28px;
   font-weight: 500;
   font-family: sans-serif, helvetica, arial;
 }
-.page-template-page-without-title ul {
+.page-template-page-without-title ul,
+.page-template-page-without-title-bg-grey-white ul,
+.page-template-page-without-title-bg-white-grey ul {
   padding: 0;
 }
-.page-template-page-without-title ul.checkmark {
+.page-template-page-without-title ul.checkmark,
+.page-template-page-without-title-bg-grey-white ul.checkmark,
+.page-template-page-without-title-bg-white-grey ul.checkmark {
   list-style-image: url('../media/checkmark.png');
   list-style-position: inside;
   line-height: 28px;
+}
+.page-template-page-without-title .bg-grey-white article > .wp-block-group:nth-child(2n+1),
+.page-template-page-without-title-bg-grey-white .bg-grey-white article > .wp-block-group:nth-child(2n+1),
+.page-template-page-without-title-bg-white-grey .bg-grey-white article > .wp-block-group:nth-child(2n+1) {
+  background-image: url(../media/pattern-grey.gif);
+  background-repeat: repeat;
+  margin-left: -100px;
+  margin-right: -100px;
+  padding: 20px 100px;
+}
+.page-template-page-without-title .bg-white-grey article > .wp-block-group:nth-child(2n),
+.page-template-page-without-title-bg-grey-white .bg-white-grey article > .wp-block-group:nth-child(2n),
+.page-template-page-without-title-bg-white-grey .bg-white-grey article > .wp-block-group:nth-child(2n) {
+  background-image: url(../media/pattern-grey.gif);
+  background-repeat: repeat;
+  margin-left: -100px;
+  margin-right: -100px;
+  padding: 20px 100px;
+}
+.page-template-page-without-title h3.question,
+.page-template-page-without-title-bg-grey-white h3.question,
+.page-template-page-without-title-bg-white-grey h3.question {
+  padding-left: 50px;
+  min-height: 50px;
+  background-image: url(../media/q-icon.png);
+  background-repeat: no-repeat;
+  font-size: 18px;
+  color: #676978;
+  font-weight: bold;
 }
 body .wp-gdpr-cookie-notice-wrap {
   position: relative;
@@ -6129,7 +6164,6 @@ a img.aligncenter {
   opacity: 1;
 }
 .main-navigation {
-  margin-bottom: 20px;
   background-color: #eeeae3;
 }
 .main-navigation .navigation-content {

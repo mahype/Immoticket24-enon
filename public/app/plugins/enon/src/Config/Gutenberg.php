@@ -21,7 +21,7 @@ class Gutenberg implements Hooks_Actions {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function add_actions() {
+	public function add_actions() {
 		add_action( 'admin_head', array( __CLASS__, 'full_width' ) );
 		add_action( 'after_setup_theme', array( __CLASS__, 'color_palette' ) );
 	}

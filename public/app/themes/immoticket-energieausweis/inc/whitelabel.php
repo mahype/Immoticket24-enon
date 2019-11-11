@@ -250,7 +250,7 @@ class EA_Whitelabel{
 		foreach ( $tokens as $token ) {
 			if ( $token_string === $token['token'] && 'yes' === $token['active'] ) {
 				$this->token = $token['token'];
-				$this->token_data = $token;
+				$this->data = $token;
 				return true;
 			}
 		}

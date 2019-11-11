@@ -21,7 +21,7 @@ class Menu implements Hooks_Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function add_filters() {
+	public function add_filters() {
 		add_filter( 'wp_nav_menu_objects', array( __CLASS__, 'filter_main_menu' ), 10, 2 );
 	}
 

@@ -29,7 +29,7 @@ class Google_Tag_Manager implements Hooks_Actions {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function add_actions() {
+	public function add_actions() {
 		add_action( 'wp_head', array( __CLASS__, 'head_script' ), 1 );
 		add_action( 'wp_body_open', array( __CLASS__, 'body_script' ), 1 );
 		add_action( 'edd_payment_receipt_after_table', array( __CLASS__, 'edd_purchase_conversions' ), 10, 2 );

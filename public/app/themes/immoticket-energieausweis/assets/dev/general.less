@@ -865,7 +865,9 @@ img.wp-post-image {
 	padding: 10px 0;
 }
 
-.page-template-page-without-title {
+.page-template-page-without-title,
+.page-template-page-without-title-bg-grey-white,
+.page-template-page-without-title-bg-white-grey {
 	h2 {
 		font-size: 28px;
 		font-weight: 500;
@@ -880,6 +882,43 @@ img.wp-post-image {
 			list-style-position: inside;
 			line-height: 28px;
 		}
+	}
+
+	.wp-block-group {
+	}
+
+	.bg-grey-white {
+		article{
+		 &> .wp-block-group:nth-child(2n+1) {
+			 background-image: url(../media/pattern-grey.gif);
+			 background-repeat: repeat;
+			 margin-left: -100px;
+			 margin-right: -100px;
+			 padding: 20px 100px;
+		 }
+		}
+	}
+
+	.bg-white-grey {
+		article{
+		 &> .wp-block-group:nth-child(2n) {
+			 background-image: url(../media/pattern-grey.gif);
+			 background-repeat: repeat;
+			 margin-left: -100px;
+			 margin-right: -100px;
+			 padding: 20px 100px;
+		 }
+		}
+	}
+
+	h3.question {
+		padding-left: 50px;
+		min-height: 50px;
+		background-image: url(../media/q-icon.png);
+		background-repeat: no-repeat;
+		font-size: 18px;
+		color: #676978;
+		font-weight: bold;
 	}
 }
 

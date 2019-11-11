@@ -22,7 +22,7 @@ class Remove_Optimizepress implements Hooks_Actions, Hooks_Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function add_actions() {
+	public function add_actions() {
 		if ( is_admin() ) {
 			return;
 		}

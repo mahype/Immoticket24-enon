@@ -28,6 +28,9 @@ use Awsm\WP_Plugin\Building_Plans\Plugin;
 use Awsm\WP_Plugin\Loaders\Assets_Loader;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
+use Enon\Whitelabel\WhitelabelLoader;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 /**
  * Class Enon.
@@ -65,6 +68,13 @@ class Enon implements Plugin {
 	private $version = '1.0.0';
 
 	/**
+	 * Logger.
+	 *
+	 * @var \Monolog\Logger
+	 */
+	private $logger;
+
+	/**
 	 * Get plugin name.
 	 *
 	 * @since 1.0.0
@@ -98,6 +108,15 @@ class Enon implements Plugin {
 	}
 
 	/**
+	 * Initializing Logger.
+	 *
+	 * @since 1.0.0
+	 */
+	private function setup_logger() {
+		$this->logger = new Logger('enon');
+	}
+
+	/**
 	 * Runnning plugin.
 	 *
 	 * @since 1.0.0
@@ -105,16 +124,18 @@ class Enon implements Plugin {
 	 * @return string Plugin name.
 	 */
 	public function run() {
-		self::load();
+		$this->setup_logger();
+		$this->load();
 
 		// Configuration
-		Gutenberg::Load();
-		Menu::load();
+		new Gutenberg();
+		new Menu();
 
 		// Misc
-		Remove_Optimizepress::load();
-		Google_Tag_Manager::load();
+		new Remove_Optimizepress();
+		new Google_Tag_Manager();
 
+		WhitelabelLoader::load( $this->logger );
 	}
 }
 
