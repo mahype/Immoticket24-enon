@@ -68,6 +68,8 @@ function energieausweis_roles_get_caps( $role_slug ) {
 		/* Core roles */
 		case 'administrator':
 			$caps = array_merge( $caps, array(
+				'rocket_manage_options',
+				'rocket_purge_cache',
 				'edit_dashboard',
 				'update_core',
 				'install_themes',
