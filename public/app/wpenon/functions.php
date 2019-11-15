@@ -757,6 +757,14 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 			'amortisation' => '',
 			'kosten' => '',
 		),
+		'rohrleitungssystem' => array(
+			'bauteil' => 'Rohrleitungssystem',
+			'beschreibung' => 'Dämmung freiliegender Heizungsrohre',
+			'gesamt' => true,
+			'einzeln' => true,
+			'amortisation' => '',
+			'kosten' => '',
+		),
 		'dach' => array(
 			'bauteil' => 'Dach',
 			'beschreibung' => 'Dämmstärken von mindestens 14 cm oder mehr',
@@ -830,14 +838,20 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 			'oelofenverdampfungsbrenner',
 		);
 
-		foreach ($heatings as $heating) {
+		foreach ( $heatings as $heating ) {
 			$type_field = $heating . '_erzeugung';
 			$year_field = $heating . '_baujahr';
 
-			if (in_array($energieausweis->$type_field, $kessel, true) && !empty($energieausweis->$year_field) && $energieausweis->$year_field <= $current_year - 30) {
+			if ( in_array( $energieausweis->$type_field, $kessel, true ) && ! empty( $energieausweis->$year_field ) && $energieausweis->$year_field <= $current_year - 30 ) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['heizung'];
-				break;
 			}
+
+		}
+
+		$keller = $energieausweis->keller;
+
+		if( $energieausweis->verteilung_baujahr <= 1978 && true !== $energieausweis->verteilung_gedaemmt &&  'unbeheizt' == $energieausweis->keller ) {
+			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['rohrleitungssystem'];
 		}
 	}
 
