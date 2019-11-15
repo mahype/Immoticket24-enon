@@ -102,6 +102,25 @@ class Validate {
 		return self::formatResponse( $value, $field, $error );
 	}
 
+	public static function float_length_wall( $value, $field ) {
+		$value = \WPENON\Util\Parse::float_length( $value );
+
+		$error = '';
+
+		if ( $field['min'] !== false ) {
+			if ( $value < floatval( $field['min'] ) ) {
+				$error = sprintf( __( 'Der eingegebene Wert darf nicht kleiner als %sm sein.', 'wpenon' ), \WPENON\Util\Format::float( floatval( $field['min'] ) ) );
+			}
+		}
+		if ( $field['max'] !== false ) {
+			if ( $value > floatval( $field['max'] ) ) {
+				$error = sprintf( __( 'Bitte bedenken Sie, dass die Wandlänge in Metern angegeben werden muss. Wenn die Wandlänge tatsächlich %sm übersteigt, kontaktieren Sie uns unter folgender Rufnummer: 02654 / 8801199. ', 'wpenon' ), \WPENON\Util\Format::float( floatval( $field['max'] ) ) );
+			}
+		}
+
+		return self::formatResponse( $value, $field, $error );
+	}
+
 	public static function zip( $value, $field ) {
 		$error = '';
 
@@ -166,7 +185,7 @@ class Validate {
 			case 'int':
 			case 'float':
 			case 'float_length':
-			case 'float_length':
+			case 'float_length_wall':
 				$empty = ( floatval( $value ) <= 0.0 );
 				$error = __( 'Der Wert muss größer als 0 sein.', 'wpenon' );
 				break;

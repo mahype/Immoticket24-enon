@@ -212,10 +212,11 @@ return array(
             ),
           ),
           'wand_a_laenge'         => array(
-            'type'                  => 'float_length',
+            'type'                  => 'float_length_wall',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
+			'max'                   => 50,
             'value'                 => array(
               'callback'              => 'wpenon_immoticket24_calculate_wand',
               'callback_args'         => array( 'field::grundriss_form', 'a', 0.0, 'field::wand_b_laenge', 'field::wand_c_laenge', 'field::wand_d_laenge', 'field::wand_e_laenge', 'field::wand_f_laenge', 'field::wand_g_laenge', 'field::wand_h_laenge' ),
@@ -253,10 +254,11 @@ return array(
             ),
           ),
           'wand_b_laenge'         => array(
-            'type'                  => 'float_length',
+            'type'                  => 'float_length_wall',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
+			'max'                   => 50,
             'value'                 => array(
               'callback'              => 'wpenon_immoticket24_calculate_wand',
               'callback_args'         => array( 'field::grundriss_form', 'b', 'field::wand_a_laenge', 0.0, 'field::wand_c_laenge', 'field::wand_d_laenge', 'field::wand_e_laenge', 'field::wand_f_laenge', 'field::wand_g_laenge', 'field::wand_h_laenge' ),
@@ -294,10 +296,11 @@ return array(
             ),
           ),
           'wand_c_laenge'         => array(
-            'type'                  => 'float_length',
+            'type'                  => 'float_length_wall',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
+			'max'                   => 50,
             'value'                 => array(
               'callback'              => 'wpenon_immoticket24_calculate_wand',
               'callback_args'         => array( 'field::grundriss_form', 'c', 'field::wand_a_laenge', 'field::wand_b_laenge', 0.0, 'field::wand_d_laenge', 'field::wand_e_laenge', 'field::wand_f_laenge', 'field::wand_g_laenge', 'field::wand_h_laenge' ),
@@ -335,10 +338,11 @@ return array(
             ),
           ),
           'wand_d_laenge'         => array(
-            'type'                  => 'float_length',
+            'type'                  => 'float_length_wall',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
+			'max'                   => 50,
             'value'                 => array(
               'callback'              => 'wpenon_immoticket24_calculate_wand',
               'callback_args'         => array( 'field::grundriss_form', 'd', 'field::wand_a_laenge', 'field::wand_b_laenge', 'field::wand_c_laenge', 0.0, 'field::wand_e_laenge', 'field::wand_f_laenge', 'field::wand_g_laenge', 'field::wand_h_laenge' ),
@@ -376,10 +380,11 @@ return array(
             ),
           ),
           'wand_e_laenge'         => array(
-            'type'                  => 'float_length',
+            'type'                  => 'float_length_wall',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
+			'max'                   => 50,
             'value'                 => array(
               'callback'              => 'wpenon_immoticket24_calculate_wand',
               'callback_args'         => array( 'field::grundriss_form', 'e', 'field::wand_a_laenge', 'field::wand_b_laenge', 'field::wand_c_laenge', 'field::wand_d_laenge', 0.0, 'field::wand_f_laenge', 'field::wand_g_laenge', 'field::wand_h_laenge' ),
@@ -417,10 +422,11 @@ return array(
             ),
           ),
           'wand_f_laenge'         => array(
-            'type'                  => 'float_length',
+            'type'                  => 'float_length_wall',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
+			'max'                   => 50,
             'value'                 => array(
               'callback'              => 'wpenon_immoticket24_calculate_wand',
               'callback_args'         => array( 'field::grundriss_form', 'f', 'field::wand_a_laenge', 'field::wand_b_laenge', 'field::wand_c_laenge', 'field::wand_d_laenge', 'field::wand_e_laenge', 0.0, 'field::wand_g_laenge', 'field::wand_h_laenge' ),
@@ -458,10 +464,11 @@ return array(
             ),
           ),
           'wand_g_laenge'         => array(
-            'type'                  => 'float_length',
+            'type'                  => 'float_length_wall',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',
+			'max'                   => 50,
             'value'                 => array(
               'callback'              => 'wpenon_immoticket24_calculate_wand',
               'callback_args'         => array( 'field::grundriss_form', 'g', 'field::wand_a_laenge', 'field::wand_b_laenge', 'field::wand_c_laenge', 'field::wand_d_laenge', 'field::wand_e_laenge', 'field::wand_f_laenge', 0.0, 'field::wand_h_laenge' ),
@@ -499,7 +506,7 @@ return array(
             ),
           ),
           'wand_h_laenge'         => array(
-            'type'                  => 'float_length',
+            'type'                  => 'float_length_wall',
             'label'                 => __( 'Länge', 'wpenon' ),
             'required'              => true,
             'unit'                  => 'm',

@@ -138,6 +138,7 @@ class Energieausweis {
 						$ret = \WPENON\Util\Parse::float( $ret );
 						break;
 					case 'float_length':
+					case 'float_length_wall':
 						$ret = \WPENON\Util\Parse::float_length( $ret );
 						break;
 					case 'int':

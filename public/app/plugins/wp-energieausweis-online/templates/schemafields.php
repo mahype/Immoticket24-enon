@@ -155,7 +155,8 @@
               <input type="text" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" class="form-control float-control" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ); ?>>
 
             <?php break; ?>
-            <?php case 'float_length': ?>
+            <?php case 'float_length':
+            	  case 'float_length_wall': ?>
 
               <input type="text" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" class="form-control float-control" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ); ?>>
 
