@@ -6,6 +6,8 @@ use Awsm\WP_Plugin\Building_Plans\Hooks_Actions;
 use Awsm\WP_Plugin\Building_Plans\Service;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
+use Awsm\WPWrapper\BuildingPlans\Actions;
+use Awsm\WPWrapper\BuildingPlans\Task;
 
 /**
  * Class Gutenberg Config.
@@ -14,17 +16,26 @@ use Awsm\WP_Plugin\Loaders\Loader;
  *
  * @since 1.0.0
  */
-class Gutenberg implements Hooks_Actions, Service {
-	use Loader, Hooks_Loader;
+class Gutenberg implements Actions, Task {
+	/**
+	 * Running tasks.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function run() {
+		$this->addActions();
+	}
 
 	/**
 	 * Adding actions.
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_actions() {
-		add_action( 'admin_head', array( __CLASS__, 'full_width' ) );
-		add_action( 'after_setup_theme', array( __CLASS__, 'color_palette' ) );
+	public function addActions() {
+		add_action( 'admin_head', array( __CLASS__, 'fullWidth' ) );
+		add_action( 'after_setup_theme', array( __CLASS__, 'colorPalette' ) );
 	}
 
 	/**
@@ -32,7 +43,7 @@ class Gutenberg implements Hooks_Actions, Service {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function full_width() {
+	public static function fullWidth() {
 		echo '<style>
 			body.gutenberg-editor-page .editor-post-title__block, body.gutenberg-editor-page .editor-default-block-appender, body.gutenberg-editor-page .editor-block-list__block {
 						max-width: 80% !important;
@@ -48,7 +59,7 @@ class Gutenberg implements Hooks_Actions, Service {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function color_palette() {
+	public static function colorPalette() {
 		add_theme_support(
 			'editor-color-palette',
 			array(

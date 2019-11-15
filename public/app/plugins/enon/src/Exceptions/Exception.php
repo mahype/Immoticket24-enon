@@ -14,6 +14,6 @@ namespace Enon\Exceptions;
  *
  * @package Enon\Exceptions
  */
-class Enon_Exception extends \Exception {
+class Exception extends \Exception {
 
 }

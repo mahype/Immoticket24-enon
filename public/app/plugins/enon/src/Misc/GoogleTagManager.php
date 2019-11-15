@@ -5,6 +5,8 @@ use Awsm\WP_Plugin\Building_Plans\Hooks_Actions;
 use Awsm\WP_Plugin\Building_Plans\Service;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
+use Awsm\WPWrapper\BuildingPlans\Actions;
+use Awsm\WPWrapper\BuildingPlans\Task;
 
 /**
  * Class Google_Tag_Manager
@@ -13,9 +15,7 @@ use Awsm\WP_Plugin\Loaders\Loader;
  *
  * @since 1.0.0
  */
-class Google_Tag_Manager implements Hooks_Actions, Service {
-	use Loader, Hooks_Loader;
-
+class GoogleTagManager implements Actions, Task {
 	/**
 	 * Google Tag manager Company ID.
 	 *
@@ -26,11 +26,22 @@ class Google_Tag_Manager implements Hooks_Actions, Service {
 	protected static $company_id = 'GTM-N2M4CSV';
 
 	/**
+	 * Running tasks.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function run() {
+		$this->addActions();
+	}
+
+	/**
 	 * Load targeting scripts into hooks.
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_actions() {
+	public function addActions() {
 		add_action( 'wp_head', array( __CLASS__, 'head_script' ), 1 );
 		add_action( 'wp_body_open', array( __CLASS__, 'body_script' ), 1 );
 		add_action( 'edd_payment_receipt_after_table', array( __CLASS__, 'edd_purchase_conversions' ), 10, 2 );

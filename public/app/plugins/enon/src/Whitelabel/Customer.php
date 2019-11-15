@@ -5,6 +5,8 @@ namespace Enon\Whitelabel;
 use Awsm\WP_Plugin\Building_Plans\Hooks_Filters;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
+use Awsm\WPWrapper\BuildingPlans\Filters;
+use Awsm\WPWrapper\BuildingPlans\Task;
 use Enon\Exception;
 use Enon\Exceptions\Enon_Exception;
 
@@ -15,11 +17,8 @@ use Enon\Exceptions\Enon_Exception;
  *
  * @package Enon\Whitelabel
  */
-class Customer implements Hooks_Filters {
-	use Loader {
-		load as load_definetly;
-	}
-	use Hooks_Loader;
+class Customer implements Filters, Task {
+
 
 	/**
 	 * Holds loaded customer data.

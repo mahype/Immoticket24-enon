@@ -13,6 +13,9 @@ use Awsm\WP_Plugin\Building_Plans\Service;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
 
+use Awsm\WPWrapper\BuildingPlans\Actions;
+use Awsm\WPWrapper\BuildingPlans\Filters;
+use Awsm\WPWrapper\BuildingPlans\Task;
 use WPENON\Model\Energieausweis;
 
 use Enon\Exceptions\Enon_Exception;
@@ -21,9 +24,16 @@ use Monolog\Logger;
 /**
  * Whitelabel solution.
  */
-class WhitelabelLoader implements Hooks_Actions, Hooks_Filters, Service {
-	use Hooks_Loader, Loader {
-		load as setup_wp;
+class WhitelabelLoader implements Actions, Filters, Task {
+	/**
+	 * Running tasks.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function run() {
+		$this->addFilters();
 	}
 
 	/**

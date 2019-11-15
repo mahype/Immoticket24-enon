@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "license": "GPL-2.0-or-later",
     "require": {
-        "awsm/wp-plugin": "dev-master",
+        "awsm/wp-wrapper": "dev-master",
         "monolog/monolog": "^2.0"
     },
     "autoload": {

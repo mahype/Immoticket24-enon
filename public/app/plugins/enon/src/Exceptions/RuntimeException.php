@@ -14,6 +14,6 @@ namespace Enon\Exceptions;
  *
  * @package Enon\Exceptions
  */
-class Runtime_Exception extends \RuntimeException {
+class RuntimeException extends \RuntimeException {
 
 }

@@ -18,6 +18,9 @@
 
 namespace Enon\Core;
 
+use Awsm\WPWrapper\Plugin\Plugin;
+use Enon\Exceptions\Exception;
+
 require dirname( __FILE__ ) . '/vendor/autoload.php';
 
 if ( ! defined( 'WPINC' ) ) {
@@ -34,24 +37,16 @@ require_once dirname( __FILE__ ) . '/vendor/autoload.php';
  * @since 1.0.0
  */
 function enon_boot() {
-	$logger = new \Monolog\Logger();
-
-	\Awsm\WP_Plugin\PluginFactory::create()
-		->add_service( \Enon\Config\Gutenberg::class )
-		->add_service( \Enon\Config\Menu::class )
-		->add_service( \Enon\Misc\Remove_Optimizepress::class )
-		->add_service( \Enon\Misc\Google_Tag_Manager::class )
-		->add_service( \Enon\Whitelabel\WhitelabelLoader::class, $logger )
-		->boot();
+	try {
+		( new Plugin() )
+			->addTask( \Enon\Config\Gutenberg::class )
+			->addTask( \Enon\Config\Menu::class )
+			->addTask( \Enon\Misc\RemoveOptimizepress::class )
+			->addTask( \Enon\Misc\GoogleTagManager::class )
+			->boot();
+	} catch ( \Exception $exception ) {
+		wp_die( $exception->getMessage() );
+	}
 }
 
 enon_boot();
-
-(new Plugin)
-	->set_name( 'Enon' )
-	->set_version( '1.0.0' )
-	->set_translation( new Translation( 'enon', dirname( __FILE__ ) . '/languages'  ) )
-	->set_activation( new Activation )
-	->set_deactivation( new Deactivation )
-	->add_service( new Servicename( $logger ) )
-	->boot();
