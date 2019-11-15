@@ -1,12 +1,12 @@
 <?php
 /**
- * Core class used to implement affiliate meta.
+ * Core class used to implement referral meta.
  *
- * @since 1.6
+ * @since 2.4
  *
  * @see Affiliate_WP_Meta_DB
  */
-class Affiliate_WP_Affiliate_Meta_DB extends Affiliate_WP_Meta_DB {
+class Affiliate_WP_Referral_Meta_DB extends Affiliate_WP_Meta_DB {
 
 	/**
 	 * Represents the meta table database version.
@@ -19,17 +19,16 @@ class Affiliate_WP_Affiliate_Meta_DB extends Affiliate_WP_Meta_DB {
 	/**
 	 * Retrieves the table columns and data types.
 	 *
-	 * @access public
-	 * @since  1.7.18
+	 * @since 2.4
 	 *
-	 * @return array List of affiliate meta table columns and their respective types.
+	 * @return array List of referral meta table columns and their respective types.
 	*/
 	public function get_columns() {
 		return array(
-			'meta_id'      => '%d',
-			'affiliate_id' => '%d',
-			'meta_key'     => '%s',
-			'meta_value'   => '%s',
+			'meta_id'     => '%d',
+			'referral_id' => '%d',
+			'meta_key'    => '%s',
+			'meta_value'  => '%s',
 		);
 	}
 
@@ -41,14 +40,13 @@ class Affiliate_WP_Affiliate_Meta_DB extends Affiliate_WP_Meta_DB {
 	 * @return string Meta type.
 	 */
 	public function get_meta_type() {
-		return 'affiliate';
+		return 'referral';
 	}
 
 	/**
 	 * Creates the table.
 	 *
-	 * @access public
-	 * @since  1.6
+	 * @since 2.4
 	 *
 	 * @see dbDelta()
 	*/
@@ -57,11 +55,11 @@ class Affiliate_WP_Affiliate_Meta_DB extends Affiliate_WP_Meta_DB {
 
 		$sql = "CREATE TABLE {$this->table_name} (
 			meta_id bigint(20) NOT NULL AUTO_INCREMENT,
-			affiliate_id bigint(20) NOT NULL DEFAULT '0',
+			referral_id bigint(20) NOT NULL DEFAULT '0',
 			meta_key varchar(255) DEFAULT NULL,
 			meta_value longtext,
 			PRIMARY KEY  (meta_id),
-			KEY affiliate_id (affiliate_id),
+			KEY referral_id (referral_id),
 			KEY meta_key (meta_key)
 			) CHARACTER SET utf8 COLLATE utf8_general_ci;";
 
