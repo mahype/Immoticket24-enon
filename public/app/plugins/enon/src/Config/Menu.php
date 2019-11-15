@@ -3,6 +3,7 @@
 namespace Enon\Config;
 
 use Awsm\WP_Plugin\Building_Plans\Hooks_Filters;
+use Awsm\WP_Plugin\Building_Plans\Service;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
 
@@ -13,7 +14,7 @@ use Awsm\WP_Plugin\Loaders\Loader;
  *
  * @since 1.0.0
  */
-class Menu implements Hooks_Filters {
+class Menu implements Hooks_Filters, Service {
 	use Loader, Hooks_Loader;
 
 	/**

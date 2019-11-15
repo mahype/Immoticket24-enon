@@ -9,22 +9,21 @@ namespace Enon\Whitelabel;
 
 use Awsm\WP_Plugin\Building_Plans\Hooks_Actions;
 use Awsm\WP_Plugin\Building_Plans\Hooks_Filters;
+use Awsm\WP_Plugin\Building_Plans\Service;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
 
 use WPENON\Model\Energieausweis;
 
-use Enon\Exception;
+use Enon\Exceptions\Enon_Exception;
 use Monolog\Logger;
-
-
 
 /**
  * Whitelabel solution.
  */
-class WhitelabelLoader implements Hooks_Actions, Hooks_Filters {
+class WhitelabelLoader implements Hooks_Actions, Hooks_Filters, Service {
 	use Hooks_Loader, Loader {
-		load as load_definetly;
+		load as setup_wp;
 	}
 
 	/**
@@ -34,16 +33,16 @@ class WhitelabelLoader implements Hooks_Actions, Hooks_Filters {
 	 *
 	 * @var Customer
 	 */
-	private static $customer;
+	private $customer;
 
 	/**
 	 * Customer Token.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var Customer
+	 * @var string
 	 */
-	private static $token;
+	private $token;
 
 	/**
 	 * Logger.
@@ -52,25 +51,42 @@ class WhitelabelLoader implements Hooks_Actions, Hooks_Filters {
 	 *
 	 * @var Logger
 	 */
-	private static $logger;
+	private $logger;
+
+	/**
+	 * WhitelabelLoader constructor.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Logger $logger Logger object.
+	 */
+	public function __construct( Logger $logger ) {
+		$this->logger = $logger;
+		$this->setup();
+	}
 
 	/**
 	 * Loading Scripts.
 	 *
 	 * @since 1.0.0
 	 */
-	public static function load( Logger $logger ) {
-		if( ! self::fetch_request() ) {
-			return;
-		}
+	public function setup() {
+		$this->setup_token();
+		$this->setup_customer();
+		$this->setup_affiliate();
+		$this->setup_shop();
+		$this->setup_wp();
+	}
 
-		self::$logger = $logger;
-
-		self::set_customer( self::$token );
-		self::setup_affilliate();
-		self::setup_shop();
-
-		self::load_definetly();
+	/**
+	 * Setting up token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @throws Enon_Exception
+	 */
+	public function setup_token() {
+		$this->token = $this->get_token_by_request();
 	}
 
 	/**
@@ -79,15 +95,28 @@ class WhitelabelLoader implements Hooks_Actions, Hooks_Filters {
 	 * @since 1.0.0
 	 *
 	 * @return bool True if this is a whitelabel request
+	 *
+	 * @throws Enon_Exception If there was no iframe token.
 	 */
-	public static function fetch_request() {
-		if ( empty( $_REQUEST['iframe_token'] ) ) {
-			return false;
+	public function get_token_by_request() {
+		if ( ! isset( $_REQUEST['iframe_token'] ) ) {
+			throw new Enon_Exception( 'Could not get token from request.' );
 		}
 
-		self::$token = htmlentities( wp_unslash( $_REQUEST['iframe_token'] ) );
+		$token = sanitize_text_field( wp_unslash( $_REQUEST['iframe_token'] ) );
 
-		return true;
+		return $token;
+	}
+
+	/**
+	 * Returns iframe token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Iframe token.
+	 */
+	public function get_token() {
+		return $this->token;
 	}
 
 	/**
@@ -95,13 +124,13 @@ class WhitelabelLoader implements Hooks_Actions, Hooks_Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param $customer_token
+	 * @param string $customer_token Customer token.
 	 */
-	private static function set_customer( $customer_token ) {
-		try{
-			self::$customer = new Customer( $customer_token );
-		} catch ( Exception $e ) {
-			self::$logger->error( 'Could not set Customer', array( 'exception' => $e ) );
+	private function setup_customer( $customer_token ) {
+		try {
+			$this->customer = new Customer( $customer_token );
+		} catch ( Enon_Exception $e ) {
+			$this->logger->error( 'Could not set Customer', array( 'exception' => $e ) );
 		}
 	}
 
@@ -110,8 +139,8 @@ class WhitelabelLoader implements Hooks_Actions, Hooks_Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	private static function setup_affilliate() {
-		PluginAffiliateWP::load( self::$customer );
+	private function setup_affiliate() {
+		PluginAffiliateWP::load( $this->customer );
 	}
 
 	/**
@@ -119,8 +148,8 @@ class WhitelabelLoader implements Hooks_Actions, Hooks_Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	private static function setup_shop() {
-		PluginEdd::load( self::$customer );
+	private function setup_shop() {
+		PluginEdd::load( $this->customer );
 	}
 
 	/**
@@ -128,8 +157,8 @@ class WhitelabelLoader implements Hooks_Actions, Hooks_Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function add_actions() {
-		add_action( 'wpenon_confirmation_start', array( __CLASS__, 'setup_emails' ) );
+	public function add_actions() {
+		add_action( 'wpenon_confirmation_start', array( $this, 'setup_emails' ) );
 	}
 
 	/**
@@ -137,14 +166,14 @@ class WhitelabelLoader implements Hooks_Actions, Hooks_Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function add_filters() {
-		add_filter( 'plugins_loaded', array( __CLASS__, 'cleanup_wp'  ) );
-		add_filter( 'template_include', array( __CLASS__, 'load_iframe_template'  ) );
-		add_filter( 'wpenon_filter_url', array( __CLASS__, 'filter_iframe_url'), 100 );
+	public function add_filters() {
+		add_filter( 'plugins_loaded', array( $this, 'cleanup_wp' ) );
+		add_filter( 'template_include', array( $this, 'filter_iframe_template' ) );
+		add_filter( 'wpenon_filter_url', array( $this, 'filter_iframe_url' ), 100 );
 
 
-		add_filter( 'wpenon_payment_success_url', array( __CLASS__, 'filter_payment_success_url' ) );
-		add_filter( 'wpenon_payment_failed_url', array( __CLASS__, 'filter_payment_failed_url' ) );
+		add_filter( 'wpenon_payment_success_url', array( $this, 'filter_payment_success_url' ) );
+		add_filter( 'wpenon_payment_failed_url', array( $this, 'filter_payment_failed_url' ) );
 	}
 
 	/**
@@ -154,10 +183,10 @@ class WhitelabelLoader implements Hooks_Actions, Hooks_Filters {
 	 *
 	 * @param Energieausweis $ea Energieausweis object.
 	 */
-	public static function setup_emails( Energieausweis $ea ) {
+	public function setup_emails( Energieausweis $ea ) {
 		$token = get_post_meta( $ea->id, 'whitelabel_token', true );
 
-		if( empty( $token ) ) {
+		if ( empty( $token ) ) {
 			return;
 		}
 
@@ -173,7 +202,7 @@ class WhitelabelLoader implements Hooks_Actions, Hooks_Filters {
 	 *
 	 * @return string $template The path of the template to include.
 	 */
-	public static function load_iframe_template() {
+	public function filter_iframe_template() {
 		return locate_template( array( 'energieausweis-iframe.php' ) );
 	}
 

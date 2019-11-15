@@ -2,6 +2,7 @@
 
 namespace Enon\Misc;
 use Awsm\WP_Plugin\Building_Plans\Hooks_Actions;
+use Awsm\WP_Plugin\Building_Plans\Service;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
 
@@ -12,7 +13,7 @@ use Awsm\WP_Plugin\Loaders\Loader;
  *
  * @since 1.0.0
  */
-class Google_Tag_Manager implements Hooks_Actions {
+class Google_Tag_Manager implements Hooks_Actions, Service {
 	use Loader, Hooks_Loader;
 
 	/**

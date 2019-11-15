@@ -3,11 +3,18 @@
 namespace Enon\Whitelabel;
 
 use Awsm\WP_Plugin\Building_Plans\Hooks_Actions;
-use Awsm\WP_Plugin\Building_Plans\Hooks_Filters;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
 use Enon\Exception;
+use Monolog\Logger;
 
+/**
+ * Class PluginAffiliateWP
+ *
+ * @since 1.0.0
+ *
+ * @package Enon\Whitelabel
+ */
 class PluginAffiliateWP implements Hooks_Actions {
 	use Loader {
 		load as load_definetly;
@@ -15,23 +22,33 @@ class PluginAffiliateWP implements Hooks_Actions {
 	use Hooks_Loader;
 
 	/**
-	 * Customer object
+	 * Customer object.
 	 *
 	 * @since 1.1.0
 	 *
 	 * @var Customer
 	 */
-	private static $customer;
+	private $customer;
+
+	/**
+	 * Logger object.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var Customer
+	 */
+	private $logger;
 
 	/**
 	 * Loading Plugin scripts.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Customer $customer
+	 * @param Customer $customer Customer object.
+	 * @param Logger   $logger Logger object.
 	 */
-	public static function load( $customer ) {
-		self::$customer = $customer;
+	public function load( Customer $customer, Logger $logger ) {
+		$this->customer = $customer;
 		self::load_definetly();
 	}
 
@@ -41,7 +58,7 @@ class PluginAffiliateWP implements Hooks_Actions {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'template_redirect', array( __CLASS__, 'set_afiilliatewp_referal' ), -10000, 0 );
+		add_action( 'template_redirect', array( $this, 'set_affiliatewp_referal' ), -10000, 0 );
 	}
 
 	/**
@@ -49,31 +66,38 @@ class PluginAffiliateWP implements Hooks_Actions {
 	 *
 	 * @since 1.0.0
 	 */
-	public function set_afiilliatewp_referal() {
+	public function set_affiliatewp_referal() {
 		if ( ! self::is_activated() ) {
 			return;
 		}
 
-		$email = self::$customer->get_email();
+		$email = $this->customer->get_email();
 
-		if( ! $email ) {
+		if ( ! $email ) {
 			wp_die( 'Referer can not be assigned.' );
 		}
 
 		try {
 			$affiliate_id = self::get_affiliate_id_by_email( $email );
 		} catch ( Exception $e ) {
-			wp_die( 'Ursprunng des Referals kann nicht zugeordnet werden.' );
+			wp_die( 'Could not get afilliate id.' );
 		}
 
-		if ( ! $affiliate_id ) {
+		if ( ! isset( $affiliate_id ) ) {
 			return;
 		}
 
 		affiliate_wp()->tracking->referral = $affiliate_id;
 	}
 
-	public function is_activated() {
+	/**
+	 * Is activated.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool Is Affiliate WP activated.
+	 */
+	public static function is_activated() {
 		if ( ! function_exists( 'affiliate_wp' ) ) {
 			return false;
 		}
@@ -88,7 +112,7 @@ class PluginAffiliateWP implements Hooks_Actions {
 	 *
 	 * @return string Affilate id of current token.
 	 *
-	 * @throws Exception
+	 * @throws Exception If function for getting affiliate id not exists.
 	 */
 	public static function get_affiliate_id_by_email( $email ) {
 		if ( ! function_exists( 'affwp_get_affiliate_id' ) ) {

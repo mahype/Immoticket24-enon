@@ -20,134 +20,38 @@ namespace Enon\Core;
 
 require dirname( __FILE__ ) . '/vendor/autoload.php';
 
-use Enon\Config\Gutenberg;
-use Enon\Config\Menu;
-use Enon\Misc\Remove_Optimizepress;
-use Enon\Misc\Google_Tag_Manager;
-use Awsm\WP_Plugin\Building_Plans\Plugin;
-use Awsm\WP_Plugin\Loaders\Assets_Loader;
-use Awsm\WP_Plugin\Loaders\Hooks_Loader;
-use Awsm\WP_Plugin\Loaders\Loader;
-use Enon\Whitelabel\WhitelabelLoader;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-
-/**
- * Class Enon.
- *
- * @package Enon\Core
- */
-class Enon implements Plugin {
-	use Loader, Assets_Loader, Hooks_Loader;
-
-	/**
-	 * Plugin slug.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var string
-	 */
-	private $slug = 'enon';
-
-	/**
-	 * Plugin name.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Plugin name.
-	 */
-	private $name = 'Enon';
-
-	/**
-	 * Plugin version.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Plugin name.
-	 */
-	private $version = '1.0.0';
-
-	/**
-	 * Logger.
-	 *
-	 * @var \Monolog\Logger
-	 */
-	private $logger;
-
-	/**
-	 * Get plugin name.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Plugin name.
-	 */
-	public function get_name() {
-		return $this->name;
-	}
-
-	/**
-	 * Get plugin slug.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Plugin slug.
-	 */
-	public function get_slug() {
-		return $this->slug;
-	}
-
-	/**
-	 * Get plugin version.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Plugin version.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
-	 * Initializing Logger.
-	 *
-	 * @since 1.0.0
-	 */
-	private function setup_logger() {
-		$this->logger = new Logger('enon');
-	}
-
-	/**
-	 * Runnning plugin.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Plugin name.
-	 */
-	public function run() {
-		$this->setup_logger();
-		$this->load();
-
-		// Configuration
-		new Gutenberg();
-		new Menu();
-
-		// Misc
-		new Remove_Optimizepress();
-		new Google_Tag_Manager();
-
-		WhitelabelLoader::load( $this->logger );
-	}
+if ( ! defined( 'WPINC' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
 
+require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 
 /**
- * Running plugin.
+ * Booting Enon Plugin.
  *
  * @since 1.0.0
  */
-function enon_start() {
-	$enon = new Enon();
-	$enon->run();
+function enon_boot() {
+	$logger = new \Monolog\Logger();
+
+	\Awsm\WP_Plugin\PluginFactory::create()
+		->add_service( \Enon\Config\Gutenberg::class )
+		->add_service( \Enon\Config\Menu::class )
+		->add_service( \Enon\Misc\Remove_Optimizepress::class )
+		->add_service( \Enon\Misc\Google_Tag_Manager::class )
+		->add_service( \Enon\Whitelabel\WhitelabelLoader::class, $logger )
+		->boot();
 }
 
-enon_start();
+enon_boot();
+
+(new Plugin)
+	->set_name( 'Enon' )
+	->set_version( '1.0.0' )
+	->set_translation( new Translation( 'enon', dirname( __FILE__ ) . '/languages'  ) )
+	->set_activation( new Activation )
+	->set_deactivation( new Deactivation )
+	->add_service( new Servicename( $logger ) )
+	->boot();

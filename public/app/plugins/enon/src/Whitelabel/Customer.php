@@ -6,9 +6,12 @@ use Awsm\WP_Plugin\Building_Plans\Hooks_Filters;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
 use Enon\Exception;
+use Enon\Exceptions\Enon_Exception;
 
 /**
  * Class Customer
+ *
+ * @since 1.0.0
  *
  * @package Enon\Whitelabel
  */
@@ -34,10 +37,10 @@ class Customer implements Hooks_Filters {
 	 *
 	 * @param string|int $identifier Customer Token.
 	 *
-	 * @throws Exception
+	 * @throws Enon_Exception No data found.
 	 */
 	public function __construct( $identifier ) {
-		if( ! is_int( $identifier ) ) {
+		if ( ! is_int( $identifier ) ) {
 			$this->set_customer_by_token( $identifier );
 		}
 
@@ -61,12 +64,12 @@ class Customer implements Hooks_Filters {
 	 * @param string $customer_token Customer Token.
 	 *
 	 * @return bool
-	 * @throws Exception
+	 * @throws Enon_Exception No data found.
 	 */
 	private function set_customer_by_token( $customer_token ) {
 		$tokens = immoticketenergieausweis_get_option( 'it-iframe', 'tokens' );
 		if ( ! is_array( $tokens ) ) {
-			throw new Exception( 'No token data found.' );
+			throw new Enon_Exception( 'No token data found.' );
 		}
 
 		foreach ( $tokens as $token ) {
@@ -76,7 +79,7 @@ class Customer implements Hooks_Filters {
 			}
 		}
 
-		throw new Exception( 'No customer data found.' );
+		throw new Enon_Exception( 'No customer data found.' );
 	}
 
 	/**
@@ -89,11 +92,11 @@ class Customer implements Hooks_Filters {
 	 * @return string Token value.
 	 */
 	private function get_value( $name ) {
-		if( $this->data === null || empty( $this->data[$name] ) ) {
+		if ( null === $this->data || empty( $this->data[ $name ] ) ) {
 			return false;
 		}
 
-		return $this->data[$name];
+		return $this->data[ $name ];
 	}
 
 	/**
@@ -104,7 +107,7 @@ class Customer implements Hooks_Filters {
 	 * @return string Token string of current token.
 	 */
 	public function get_token() {
-		$token = $this->get_value('token' );
+		$token = $this->get_value( 'token' );
 		return $token;
 	}
 
@@ -116,7 +119,7 @@ class Customer implements Hooks_Filters {
 	 * @return string Email of current token.
 	 */
 	public function get_email() {
-		$email = $this->get_value('email' );
+		$email = $this->get_value( 'email' );
 		return $email;
 	}
 
@@ -128,7 +131,7 @@ class Customer implements Hooks_Filters {
 	 * @return string Email from address of current token.
 	 */
 	public function get_email_from_address() {
-		$email_from_address = $this->get_value('email_from_address' );
+		$email_from_address = $this->get_value( 'email_from_address' );
 		return $email_from_address;
 	}
 
@@ -140,7 +143,7 @@ class Customer implements Hooks_Filters {
 	 * @return string Email from name of current token.
 	 */
 	public function get_email_from_name() {
-		$email_from_name = $this->get_value('email_from_name' );
+		$email_from_name = $this->get_value( 'email_from_name' );
 		return $email_from_name;
 	}
 
@@ -152,7 +155,7 @@ class Customer implements Hooks_Filters {
 	 * @return string Email from name of current token.
 	 */
 	public function get_email_footer() {
-		$email_footer = $this->get_value('email_footer' );
+		$email_footer = $this->get_value( 'email_footer' );
 		return $email_footer;
 	}
 
@@ -164,7 +167,7 @@ class Customer implements Hooks_Filters {
 	 * @return string Sitename of current token.
 	 */
 	public function get_sitename() {
-		$sitename = $this->get_value('sitename' );
+		$sitename = $this->get_value( 'sitename' );
 		return $sitename;
 	}
 
@@ -176,7 +179,7 @@ class Customer implements Hooks_Filters {
 	 * @return string Redirect url of current token.
 	 */
 	public function get_customer_edit_url() {
-		$redirect_url = trim( $this->get_value('customer_edit_url' ) );
+		$redirect_url = trim( $this->get_value( 'customer_edit_url' ) );
 		return $redirect_url;
 	}
 
@@ -188,7 +191,7 @@ class Customer implements Hooks_Filters {
 	 * @return string Redirect successful payment url.
 	 */
 	public function get_payment_succesful_url() {
-		return trim( $this->get_value('payment_successful_url' ) );
+		return trim( $this->get_value( 'payment_successful_url' ) );
 	}
 
 	/**
@@ -199,7 +202,7 @@ class Customer implements Hooks_Filters {
 	 * @return string Redirect failed payment url.
 	 */
 	public function get_payment_failed_url() {
-		return trim( $this->get_value('payment_failed_url' ) );
+		return trim( $this->get_value( 'payment_failed_url' ) );
 	}
 
 	/**
@@ -207,8 +210,8 @@ class Customer implements Hooks_Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $url               URL where parameters have to be added.
-	 * @param int     $energieausweis_id ID of energieausweis.
+	 * @param string $url               URL where parameters have to be added.
+	 * @param int    $energieausweis_id ID of energieausweis.
 	 *
 	 * @return string $url               URL with needed parameters.
 	 */
@@ -217,10 +220,10 @@ class Customer implements Hooks_Filters {
 			'iframe'       => true,
 			'iframe_token' => $this->get_current_token(),
 			'access_token' => md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true ),
-			'slug' => $post->post_name,
+			'slug' => '',
 		);
 
-		if( ! empty( $energieausweis_id ) ) {
+		if ( ! empty( $energieausweis_id ) ) {
 			$post = get_post( $energieausweis_id );
 
 			$query_args['access_token'] = $this->get_access_token( $energieausweis_id );
@@ -235,7 +238,7 @@ class Customer implements Hooks_Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int     $energieausweis_id ID of energieausweis.
+	 * @param int $energieausweis_id ID of energieausweis.
 	 *
 	 * @return string $access_token      Token to use in URL.
 	 */
@@ -246,7 +249,7 @@ class Customer implements Hooks_Filters {
 
 
 	/**
-	 * Get affilliate id.
+	 * Get affiliate id.
 	 *
 	 * @since 1.0.0
 	 *
@@ -255,7 +258,7 @@ class Customer implements Hooks_Filters {
 	public function get_affiliate_id() {
 		$email = $this->get_email();
 
-		if( ! $email ) {
+		if ( ! $email ) {
 			return false;
 		}
 
@@ -274,24 +277,24 @@ class Customer implements Hooks_Filters {
 	/**
 	 * Filtering payment success URL.
 	 *
-	 * @param $url
+	 * @param string $old_url Old url.
 	 *
 	 * @return string
 	 */
 	public static function filter_payment_success_url( $old_url ) {
 		$url = self::$customer->get_payment_succesful_url();
 
-		if( empty( $url ) ) {
+		if ( empty( $url ) ) {
 			$payment_successful_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_successful_payment' );
 
-			if( empty( $payment_successful_page ) ) {
+			if ( empty( $payment_successful_page ) ) {
 				return $old_url;
 			}
 
 			$url = get_permalink( $payment_successful_page );
 		}
 
-		$url =  self::$customer->get_verfied_url( $url );
+		$url = self::$customer->get_verfied_url( $url );
 
 		return $url;
 	}
@@ -299,24 +302,24 @@ class Customer implements Hooks_Filters {
 	/**
 	 * Filtering payment success URL.
 	 *
-	 * @param string $old_url
+	 * @param string $old_url Old url.
 	 *
 	 * @return string
 	 */
-	public static function filter_payment_failed_url( $old_url ) {
-		$url =  self::get_payment_failed_url();
+	public function filter_payment_failed_url( $old_url ) {
+		$url = $this->get_payment_failed_url();
 
-		if( empty( $url ) ) {
+		if ( empty( $url ) ) {
 			$payment_failed_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_failed_payment' );
 
-			if( empty( $payment_failed_page ) ) {
+			if ( empty( $payment_failed_page ) ) {
 				return $old_url;
 			}
 
 			$url = get_permalink( $payment_failed_page );
 		}
 
-		$url =  self::$customer->get_verfied_url( $url );
+		$url = self::$customer->get_verfied_url( $url );
 
 		return $url;
 	}

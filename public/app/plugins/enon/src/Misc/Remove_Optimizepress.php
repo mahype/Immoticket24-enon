@@ -4,6 +4,7 @@ namespace Enon\Misc;
 
 use Awsm\WP_Plugin\Building_Plans\Hooks_Actions;
 use Awsm\WP_Plugin\Building_Plans\Hooks_Filters;
+use Awsm\WP_Plugin\Building_Plans\Service;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
 
@@ -14,7 +15,7 @@ use Awsm\WP_Plugin\Loaders\Loader;
  *
  * @since 1.0.0
  */
-class Remove_Optimizepress implements Hooks_Actions, Hooks_Filters {
+class Remove_Optimizepress implements Hooks_Actions, Hooks_Filters, Service {
 	use Loader, Hooks_Loader;
 
 	/**
