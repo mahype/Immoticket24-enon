@@ -7,17 +7,17 @@ This project is for development of the Energieausweis-Online-Erstellen.de Networ
 Add the following to the `sites` section of your `vvv-custom.yml`. If you don't have this file, duplicate `vvv-config.yml` and rename it accordingly.
 
 ```
-energieausweis-online-erstellen:
-  repo: git@github.com:mahype/energieausweis-online-erstellen-network.git
-  hosts:
-    - energieausweis-online-erstellen.test
-  custom:
-    db_name: energieausweis_online_erstellen
+  energieausweis:
+    repo: git@github.com:mahype/energieausweis-online-erstellen-network.git
+    hosts:
+      - energieausweis.test
+    custom:
+      db_name: energieausweis
 ```
 
-After setting this up, start your VVV instance and call `vagrant provision --provision-with site-energieausweis-online-erstellen`.
+After setting this up, start your VVV instance and call `vagrant provision --provision-with site-energieausweis`.
 
-You can then access the API-API console via `https://energieausweis-online-erstellen.test` in your browser.
+You can then access the API-API console via `https://energieausweis.test` in your browser.
 
 ## Good to Know
 
