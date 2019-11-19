@@ -11,6 +11,7 @@ namespace Enon\Whitelabel;
 use Awsm\WPWrapper\BuildingPlans\Task;
 use Awsm\WPWrapper\Tasks\TaskRunner;
 
+use Enon\Exceptions\Exception;
 use Enon\Whitelabel\Plugins\Wpenon;
 use WPENON\Model\Energieausweis;
 
@@ -66,19 +67,23 @@ class Loader implements Task{
 	 * @since 1.0.0
 	 */
 	public function run() {
-		$token = ( new Token() )->getToken();
+		$token = new Token();
 
-		if( empty( $token ) ) {
+		// No token, no action
+		if( empty( $token->get() ) ) {
 			return;
 		}
 
-		$customer = new Customer( $token );
+		try {
+			$customer = new Customer( $token, $this->logger );
+		} catch ( Exception $exception ) {
+			$this->logger->error( sprintf( 'Interrupting: %s', $exception->getMessage() ) );
+		}
 
 		$this->addTask(WordPress::class, $this->logger );
 		$this->addTask(PluginAffiliateWP::class, $customer, $this->logger );
-		$this->addTask(PluginEdd::class, $this->logger );
+		$this->addTask(PluginEdd::class, $customer, $this->logger );
 		$this->addTask(Wpenon::class, $this->logger );
-
 	}
 
 	/**

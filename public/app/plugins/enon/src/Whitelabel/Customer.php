@@ -2,13 +2,9 @@
 
 namespace Enon\Whitelabel;
 
-use Awsm\WP_Plugin\Building_Plans\Hooks_Filters;
-use Awsm\WP_Plugin\Loaders\Hooks_Loader;
-use Awsm\WP_Plugin\Loaders\Loader;
-use Awsm\WPWrapper\BuildingPlans\Filters;
-use Awsm\WPWrapper\BuildingPlans\Task;
-use Enon\Exception;
-use Enon\Exceptions\Enon_Exception;
+use Enon\Exceptions\Exception;
+use Enon\Traits\Logger AS LoggerTrait;
+use Enon\Logger;
 
 /**
  * Class Customer
@@ -17,7 +13,8 @@ use Enon\Exceptions\Enon_Exception;
  *
  * @package Enon\Whitelabel
  */
-class Customer implements Filters, Task {
+class Customer {
+	use LoggerTrait;
 
 	/**
 	 * Holds loaded customer data.
@@ -29,29 +26,32 @@ class Customer implements Filters, Task {
 	private $data;
 
 	/**
+	 * Token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var Token
+	 */
+	private $token;
+
+	/**
 	 * Customer constructor.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string|int $identifier Customer Token.
+	 * @param Token  $token  Token object.
+	 * @param Logger $logger Logger object.
 	 *
-	 * @throws Enon_Exception No data found.
+	 * @throws Exception
 	 */
-	public function __construct( $identifier ) {
-		if ( ! is_int( $identifier ) ) {
-			$this->set_customer_by_token( $identifier );
+	public function __construct( Token $token, Logger $logger )
+	{
+		$this->logger = $logger;
+		$this->token = $token;
+
+		if( ! $this->setCustomerByToken( $token->get() ) ) {
+			throw new Exception( sprintf( 'Could not find any customer for token "%s".', $token->get() ) );
 		}
-
-		$this->load();
-	}
-
-	/**
-	 * Adding filters.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_filters() {
-		// TODO: Implement add_filters() method.
 	}
 
 	/**
@@ -59,25 +59,26 @@ class Customer implements Filters, Task {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $customer_token Customer Token.
+	 * @param string $token Token.
 	 *
 	 * @return bool
-	 * @throws Enon_Exception No data found.
 	 */
-	private function set_customer_by_token( $customer_token ) {
-		$tokens = immoticketenergieausweis_get_option( 'it-iframe', 'tokens' );
-		if ( ! is_array( $tokens ) ) {
-			throw new Enon_Exception( 'No token data found.' );
+	private function setCustomerByToken( $token )
+	{
+		$saved_tokens = immoticketenergieausweis_get_option( 'it-iframe', 'tokens' );
+
+		if ( ! is_array( $saved_tokens ) ) {
+			$this->logger()->alert( 'No token data found to set customer.' );
 		}
 
-		foreach ( $tokens as $token ) {
-			if ( $customer_token === $token['token'] && 'yes' === $token['active'] ) {
-				$this->data = $token;
+		foreach ( $saved_tokens as $saved_token ) {
+			if ( $token === $saved_token['token'] && 'yes' === $saved_token['active'] ) {
+				$this->data = $saved_token;
 				return true;
 			}
 		}
 
-		throw new Enon_Exception( 'No customer data found.' );
+		return false;
 	}
 
 	/**
@@ -89,7 +90,8 @@ class Customer implements Filters, Task {
 	 *
 	 * @return string Token value.
 	 */
-	private function get_value( $name ) {
+	private function getValue( $name )
+	{
 		if ( null === $this->data || empty( $this->data[ $name ] ) ) {
 			return false;
 		}
@@ -104,9 +106,8 @@ class Customer implements Filters, Task {
 	 *
 	 * @return string Token string of current token.
 	 */
-	public function get_token() {
-		$token = $this->get_value( 'token' );
-		return $token;
+	public function getToken() {
+		return $this->getValue( 'token' );
 	}
 
 	/**
@@ -116,9 +117,8 @@ class Customer implements Filters, Task {
 	 *
 	 * @return string Email of current token.
 	 */
-	public function get_email() {
-		$email = $this->get_value( 'email' );
-		return $email;
+	public function getEmail() {
+		return $this->getValue( 'email' );
 	}
 
 	/**
@@ -128,9 +128,8 @@ class Customer implements Filters, Task {
 	 *
 	 * @return string Email from address of current token.
 	 */
-	public function get_email_from_address() {
-		$email_from_address = $this->get_value( 'email_from_address' );
-		return $email_from_address;
+	public function getEmailFromAddress() {
+		return $this->getValue( 'email_from_address' );
 	}
 
 	/**
@@ -140,9 +139,8 @@ class Customer implements Filters, Task {
 	 *
 	 * @return string Email from name of current token.
 	 */
-	public function get_email_from_name() {
-		$email_from_name = $this->get_value( 'email_from_name' );
-		return $email_from_name;
+	public function getEmailFromName() {
+		return $this->getValue( 'email_from_name' );
 	}
 
 	/**
@@ -152,9 +150,8 @@ class Customer implements Filters, Task {
 	 *
 	 * @return string Email from name of current token.
 	 */
-	public function get_email_footer() {
-		$email_footer = $this->get_value( 'email_footer' );
-		return $email_footer;
+	public function getEmailFooter() {
+		return $this->getValue( 'email_footer' );
 	}
 
 	/**
@@ -164,9 +161,8 @@ class Customer implements Filters, Task {
 	 *
 	 * @return string Sitename of current token.
 	 */
-	public function get_sitename() {
-		$sitename = $this->get_value( 'sitename' );
-		return $sitename;
+	public function getSitename() {
+		return $this->getValue( 'sitename' );
 	}
 
 	/**
@@ -176,9 +172,8 @@ class Customer implements Filters, Task {
 	 *
 	 * @return string Redirect url of current token.
 	 */
-	public function get_customer_edit_url() {
-		$redirect_url = trim( $this->get_value( 'customer_edit_url' ) );
-		return $redirect_url;
+	public function getCustomerEditUrl() {
+		return trim( $this->getValue( 'customer_edit_url' ) );
 	}
 
 	/**
@@ -188,8 +183,8 @@ class Customer implements Filters, Task {
 	 *
 	 * @return string Redirect successful payment url.
 	 */
-	public function get_payment_succesful_url() {
-		return trim( $this->get_value( 'payment_successful_url' ) );
+	public function getPaymentSuccesfulUrl() {
+		return trim( $this->getValue( 'payment_successful_url' ) );
 	}
 
 	/**
@@ -199,8 +194,8 @@ class Customer implements Filters, Task {
 	 *
 	 * @return string Redirect failed payment url.
 	 */
-	public function get_payment_failed_url() {
-		return trim( $this->get_value( 'payment_failed_url' ) );
+	public function getPaymentFailedUrl() {
+		return trim( $this->getValue( 'payment_failed_url' ) );
 	}
 
 	/**
@@ -213,10 +208,10 @@ class Customer implements Filters, Task {
 	 *
 	 * @return string $url               URL with needed parameters.
 	 */
-	public function get_verfied_url( $url, $energieausweis_id = null ) {
+	public function getVerfiedUrl( $url, $energieausweis_id = null ) {
 		$query_args = array(
 			'iframe'       => true,
-			'iframe_token' => $this->get_current_token(),
+			'iframe_token' => $this->getToken(),
 			'access_token' => md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true ),
 			'slug' => '',
 		);
@@ -224,7 +219,7 @@ class Customer implements Filters, Task {
 		if ( ! empty( $energieausweis_id ) ) {
 			$post = get_post( $energieausweis_id );
 
-			$query_args['access_token'] = $this->get_access_token( $energieausweis_id );
+			$query_args['access_token'] = $this->getAccessToken( $energieausweis_id );
 			$query_args['slug']         = $post->post_name;
 		}
 
@@ -240,11 +235,9 @@ class Customer implements Filters, Task {
 	 *
 	 * @return string $access_token      Token to use in URL.
 	 */
-	public function get_access_token( $energieausweis_id ) {
-		$access_token = md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true );
-		return $access_token;
+	public function getAccessToken( $energieausweis_id ) {
+		return md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true );
 	}
-
 
 	/**
 	 * Get affiliate id.
@@ -252,73 +245,30 @@ class Customer implements Filters, Task {
 	 * @since 1.0.0
 	 *
 	 * @return string Affilate id of current token.
+	 *
+	 * @throws Exception
 	 */
-	public function get_affiliate_id() {
-		$email = $this->get_email();
+	public function getAffiliateId() {
+		if ( ! function_exists( 'affwp_get_affiliate_id' ) ) {
+			$this->logger()->alert( 'Function affwp_get_affiliate_id not found.' );
+			throw new Exception( 'Function affwp_get_affiliate_id not found.' );
+		}
 
-		if ( ! $email ) {
+		$email = $this->getEmail();
+
+		if ( ! isset( $email ) ) {
+			$this->logger()->alert( 'Could not get affiliate id, because email is not set.' );
 			return false;
 		}
 
 		$user = get_user_by( 'email', $email );
 		if ( ! $user ) {
-			return false;
-		}
-
-		if ( ! function_exists( 'affwp_get_affiliate_id' ) ) {
+			$this->logger()->alert( sprintf( 'Could not get user, because email address "%s" not found.', $email ) );
 			return false;
 		}
 
 		return affwp_get_affiliate_id( $user->ID );
 	}
 
-	/**
-	 * Filtering payment success URL.
-	 *
-	 * @param string $old_url Old url.
-	 *
-	 * @return string
-	 */
-	public static function filter_payment_success_url( $old_url ) {
-		$url = self::$customer->get_payment_succesful_url();
 
-		if ( empty( $url ) ) {
-			$payment_successful_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_successful_payment' );
-
-			if ( empty( $payment_successful_page ) ) {
-				return $old_url;
-			}
-
-			$url = get_permalink( $payment_successful_page );
-		}
-
-		$url = self::$customer->get_verfied_url( $url );
-
-		return $url;
-	}
-
-	/**
-	 * Filtering payment success URL.
-	 *
-	 * @param string $old_url Old url.
-	 *
-	 * @return string
-	 */
-	public function filter_payment_failed_url( $old_url ) {
-		$url = $this->get_payment_failed_url();
-
-		if ( empty( $url ) ) {
-			$payment_failed_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_failed_payment' );
-
-			if ( empty( $payment_failed_page ) ) {
-				return $old_url;
-			}
-
-			$url = get_permalink( $payment_failed_page );
-		}
-
-		$url = self::$customer->get_verfied_url( $url );
-
-		return $url;
-	}
 }

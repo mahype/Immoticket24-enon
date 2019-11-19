@@ -9,11 +9,15 @@ namespace Enon;
  *
  * @package Enon
  */
-class Logger extends \Monolog\Logger {
-
-	public function alert($message, array $context = []): void
+class Logger extends \Monolog\Logger
+{
+	/**
+	 * @param string $message
+	 * @param array $context
+	 */
+	public function error($message, array $context = []): void
 	{
-		parent::alert($message, $context);
+		parent::error($message, $context);
 		wp_die( $message );
 	}
 }

@@ -3,6 +3,7 @@
 namespace Enon\Whitelabel;
 
 use Awsm\WPWrapper\BuildingPlans\Task;
+use Enon\Traits\Logger as LoggerTrait;
 
 /**
  * Class WordPress.
@@ -12,6 +13,8 @@ use Awsm\WPWrapper\BuildingPlans\Task;
  * @package Enon\Whitelabel
  */
 class WordPress implements Task {
+	use LoggerTrait;
+
 	/**
 	 * Running scripts.
 	 *

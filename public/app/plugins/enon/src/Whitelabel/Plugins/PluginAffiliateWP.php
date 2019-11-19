@@ -5,6 +5,7 @@ namespace Enon\Whitelabel;
 use Awsm\WPWrapper\BuildingPlans\Task;
 
 use Enon\Exceptions\Exception;
+use Enon\Traits\Logger as LoggerTrait;
 use Enon\Logger;
 
 /**
@@ -15,6 +16,7 @@ use Enon\Logger;
  * @package Enon\Whitelabel
  */
 class PluginAffiliateWP implements Task {
+	use LoggerTrait;
 
 	/**
 	 * Customer object.
@@ -24,15 +26,6 @@ class PluginAffiliateWP implements Task {
 	 * @var Customer
 	 */
 	private $customer;
-
-	/**
-	 * Logger object.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @var Customer
-	 */
-	private $logger;
 
 	public function __construct( Customer $customer,  Logger $logger )
 	{

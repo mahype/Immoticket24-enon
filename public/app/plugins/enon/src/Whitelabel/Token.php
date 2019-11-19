@@ -26,7 +26,7 @@ class Token {
 	 *
 	 * @return string
 	 */
-	public function getToken() : string
+	public function get() : string
 	{
 		if ( empty( $this->token ) ) {
 			$this->token = $this->getByRequest();
@@ -42,7 +42,7 @@ class Token {
 	 *
 	 * @param $token
 	 */
-	public function setToken( $token )
+	public function set( $token )
 	{
 		$this->token = $token;
 	}
