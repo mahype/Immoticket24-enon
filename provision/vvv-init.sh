@@ -33,6 +33,7 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public/core/wp-load.php" ]]; then
 
   echo "Setting up WordPress..."
   noroot wp search-replace 'energieausweis-online-erstellen.de' 'energieausweis-online-erstellen.test'
+  noroot wp plugin deactivate wp-rocket
 else
   echo "Updating WordPress and dependencies..."
   cd ${VVV_PATH_TO_SITE}
