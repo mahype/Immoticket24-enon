@@ -85,7 +85,8 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "cd public/app/plugins/wp-energieausweis-online; composer install --no-dev; cd ../../../.."
+      "cd public/app/plugins/wp-energieausweis-online; composer install --no-dev; cd ../../../..",
+      "cd public/app/plugins/enon; composer install --no-dev; cd ../../../.."
     ],
     "config-phpcs": [
       "vendor/bin/phpcs --config-set installed_paths ../../wp-coding-standards/wpcs"
