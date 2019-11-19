@@ -850,7 +850,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 	}
 
 	if (wpenon_immoticket24_is_empfehlung_active('rohrleitungssystem', $energieausweis)) {
-		if( $energieausweis->verteilung_baujahr <= 1978 && true !== $energieausweis->verteilung_gedaemmt &&  'unbeheizt' == $energieausweis->keller ) {
+		if( 'bw' === $energieausweis->wpenon_type && $energieausweis->verteilung_baujahr <= 1978 && true !== $energieausweis->verteilung_gedaemmt && 'unbeheizt' == $energieausweis->keller ) {
 			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['rohrleitungssystem'];
 		}
 	}
