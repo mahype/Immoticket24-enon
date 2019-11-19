@@ -41,7 +41,7 @@ fi
 
 
 echo "Addong node packages"
-cd ${VVV_PATH_TO_SITE}/public/plugins/enon
+cd ${VVV_PATH_TO_SITE}/public/app/plugins/enon
 npm install
 
 cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf.tmpl" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
