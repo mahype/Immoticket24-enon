@@ -19,7 +19,6 @@ use Enon\Exceptions\Enon_Exception;
  */
 class Customer implements Filters, Task {
 
-
 	/**
 	 * Holds loaded customer data.
 	 *

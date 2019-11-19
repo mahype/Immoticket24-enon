@@ -41,6 +41,7 @@ function enon_boot() {
 		( new Plugin() )
 			->addTask( \Enon\Config\Gutenberg::class )
 			->addTask( \Enon\Config\Menu::class )
+			->addTask( \Enon\Whitelabel\Loader::class )
 			->addTask( \Enon\Misc\RemoveOptimizepress::class )
 			->addTask( \Enon\Misc\GoogleTagManager::class )
 			->boot();
