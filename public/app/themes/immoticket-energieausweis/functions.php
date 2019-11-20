@@ -43,7 +43,6 @@ require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/constants.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/theme-setup.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/backend.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/frontend.php';
-require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/iframe.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/whitelabel.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/whitelabel-email.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/whitelabel-confirmation-email.php';

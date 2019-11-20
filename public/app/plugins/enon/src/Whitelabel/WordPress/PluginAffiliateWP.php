@@ -1,35 +1,36 @@
 <?php
 
-namespace Enon\Whitelabel;
+namespace Enon\Whitelabel\WordPress;
 
 use Awsm\WPWrapper\BuildingPlans\Task;
 
 use Enon\Exceptions\Exception;
 use Enon\Traits\Logger as LoggerTrait;
 use Enon\Logger;
+use Enon\Whitelabel\Reseller;
 
 /**
  * Class PluginAffiliateWP
  *
  * @since 1.0.0
  *
- * @package Enon\Whitelabel
+ * @package Enon\Whitelabel\WordPress
  */
 class PluginAffiliateWP implements Task {
 	use LoggerTrait;
 
 	/**
-	 * Customer object.
+	 * Reseller object.
 	 *
 	 * @since 1.1.0
 	 *
-	 * @var Customer
+	 * @var Reseller
 	 */
-	private $customer;
+	private $reseller;
 
-	public function __construct( Customer $customer,  Logger $logger )
+	public function __construct( Reseller $reseller,  Logger $logger )
 	{
-		$this->customer = $customer;
+		$this->reseller = $reseller;
 		$this->logger = $logger;
 	}
 
@@ -38,7 +39,8 @@ class PluginAffiliateWP implements Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function run() {
+	public function run()
+	{
 		$this->add_actions();
 	}
 
@@ -47,7 +49,8 @@ class PluginAffiliateWP implements Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_actions() {
+	public function add_actions()
+	{
 		add_action( 'template_redirect', array( $this, 'setAffiliatewpReferal' ), -10000, 0 );
 	}
 
@@ -56,16 +59,17 @@ class PluginAffiliateWP implements Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function setAffiliatewpReferal() {
+	public function setAffiliatewpReferal()
+	{
 		if ( ! self::isActivated() ) {
 			$this->logger->alert('Affiliate WP seems not to be activated.');
 			return;
 		}
 
-		$email = $this->customer->get_email();
+		$email = $this->reseller->get_email();
 
 		if ( ! $email ) {
-			$this->logger->alert('Could not get customer email.');
+			$this->logger->alert('Could not get reseller email.');
 		}
 
 		try {
@@ -102,7 +106,7 @@ class PluginAffiliateWP implements Task {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $email Email address of customer.
+	 * @param string $email Email address of reseller.
 	 *
 	 * @return string Affilate id of current token.
 	 *

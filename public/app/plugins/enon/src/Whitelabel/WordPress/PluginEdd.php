@@ -1,42 +1,43 @@
 <?php
 
-namespace Enon\Whitelabel;
+namespace Enon\Whitelabel\WordPress;
 
 use Awsm\WPWrapper\BuildingPlans\Filters;
 use Awsm\WPWrapper\BuildingPlans\Task;
 
 use Enon\Traits\Logger as LoggerTrait;
 use Enon\Logger;
+use Enon\Whitelabel\Reseller;
 
 /**
  * Class PluginEdd.
  *
  * @since 1.0.0
  *
- * @package Enon\Whitelabel
+ * @package Enon\Whitelabel\WordPress
  */
 class PluginEdd implements Task, Filters {
 	use LoggerTrait;
 
 	/**
-	 * Customer object.
+	 * Reseller object.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var Customer Customer object.
+	 * @var Reseller Reseller object.
 	 */
-	private $customer;
+	private $reseller;
 
 	/**
 	 * Loading Plugin scripts.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Customer $customer Customer object.
+	 * @param Reseller $reseller Reseller object.
 	 * @param Logger   $logger   Logger object.
 	 */
-	public function __construct( Customer $customer, Logger $logger ) {
-		$this->customer = $customer;
+	public function __construct( Reseller $reseller, Logger $logger ) {
+		$this->reseller = $reseller;
 		$this->logger = $logger;
 	}
 
@@ -71,11 +72,6 @@ class PluginEdd implements Task, Filters {
 	 * @return string
 	 */
 	public function filterIframeUrl( $url ) {
-		$args = array(
-			'iframe'       => true,
-			'iframe_token' => $this->customer->getToken()
-		);
-
-		return add_query_arg( $args, $url );
+		return $this->reseller->createIframeUrl( $url );
 	}
 }

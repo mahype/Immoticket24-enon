@@ -6,10 +6,13 @@
 class EA_Whitelabel_Confirmation_Email extends EA_Whitelabel_Email {
 	/**
 	 * Initializing Hooks
+	 *
+	 *
 	 */
 	public function init_hooks() {
 		parent::init_hooks();
 
+		// Confirmation email
 		add_filter( 'wpenon_confirmation_from_address', array( $this, 'set_from_address' ) );
 		add_filter( 'wpenon_confirmation_from_name', array( $this, 'set_from_name' ) );
 		add_filter( 'wpenon_confirmation_link', array( $this, 'set_link' ), 10, 2 );
@@ -18,6 +21,9 @@ class EA_Whitelabel_Confirmation_Email extends EA_Whitelabel_Email {
 		add_filter( 'wpenon_email_legal', array( $this, 'set_legal' ) );
 		add_filter( 'wpenon_alternative_email_footer', array( $this, 'set_alternative_footer' ) );
 		add_filter( 'wpenon_email_signature', array( $this, 'set_signature' ), 20 );
+
+		// Order confirmation email
+		add_filter( 'wpenon_order_confirmation_to_address', array( $this, 'set_to_address' ) );
 	}
 
 	/**

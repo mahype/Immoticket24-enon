@@ -7,17 +7,17 @@ use Enon\Traits\Logger AS LoggerTrait;
 use Enon\Logger;
 
 /**
- * Class Customer
+ * Class Reseller
  *
  * @since 1.0.0
  *
  * @package Enon\Whitelabel
  */
-class Customer {
+class Reseller {
 	use LoggerTrait;
 
 	/**
-	 * Holds loaded customer data.
+	 * Holds loaded reseller data.
 	 *
 	 * @since 1.0.0
 	 *
@@ -35,7 +35,7 @@ class Customer {
 	private $token;
 
 	/**
-	 * Customer constructor.
+	 * Reseller constructor.
 	 *
 	 * @since 1.0.0
 	 *
@@ -49,13 +49,13 @@ class Customer {
 		$this->logger = $logger;
 		$this->token = $token;
 
-		if( ! $this->setCustomerByToken( $token->get() ) ) {
-			throw new Exception( sprintf( 'Could not find any customer for token "%s".', $token->get() ) );
+		if( ! $this->setResellerByToken( $token->get() ) ) {
+			throw new Exception( sprintf( 'Could not find any reseller for token "%s".', $token->get() ) );
 		}
 	}
 
 	/**
-	 * Setting customer by token.
+	 * Setting reseller by token.
 	 *
 	 * @since 1.0.0
 	 *
@@ -63,12 +63,12 @@ class Customer {
 	 *
 	 * @return bool
 	 */
-	private function setCustomerByToken( $token )
+	private function setResellerByToken( $token )
 	{
 		$saved_tokens = immoticketenergieausweis_get_option( 'it-iframe', 'tokens' );
 
 		if ( ! is_array( $saved_tokens ) ) {
-			$this->logger()->alert( 'No token data found to set customer.' );
+			$this->logger()->alert( 'No token data found to set reseller.' );
 		}
 
 		foreach ( $saved_tokens as $saved_token ) {
@@ -199,6 +199,21 @@ class Customer {
 	}
 
 	/**
+	 * Filtering iframe URL.
+	 *
+	 * @param mixed $url Extra query args to add to the URI.
+	 *
+	 * @return string
+	 */
+	public function createIframeUrl( $url ) {
+		$args = array(
+			'iframe_token' => $this->getToken()
+		);
+
+		return add_query_arg( $args, $url );
+	}
+
+	/**
 	 * Adds iframe and energeausweis parameters to url.
 	 *
 	 * @since 1.0.0
@@ -234,6 +249,8 @@ class Customer {
 	 * @param int $energieausweis_id ID of energieausweis.
 	 *
 	 * @return string $access_token      Token to use in URL.
+	 *
+	 * @todo This has to go into new energieausweis class.
 	 */
 	public function getAccessToken( $energieausweis_id ) {
 		return md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true );
@@ -247,6 +264,8 @@ class Customer {
 	 * @return string Affilate id of current token.
 	 *
 	 * @throws Exception
+	 *
+	 * @todo This has to go into AffiliateWP class.
 	 */
 	public function getAffiliateId() {
 		if ( ! function_exists( 'affwp_get_affiliate_id' ) ) {

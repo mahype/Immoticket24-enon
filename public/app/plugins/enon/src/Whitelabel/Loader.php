@@ -4,7 +4,12 @@ namespace Enon\Whitelabel;
 
 use Enon\Config\TaskLoader;
 use Enon\Exceptions\Exception;
-use Enon\Whitelabel\Plugins\Wpenon;
+use Enon\Whitelabel\WordPress\Core;
+use Enon\Whitelabel\WordPress\Enon;
+use Enon\Whitelabel\WordPress\EnonEmailConfirmation;
+use Enon\Whitelabel\WordPress\EnonEmailOrderConfirmation;
+use Enon\Whitelabel\WordPress\PluginAffiliateWP;
+use Enon\Whitelabel\WordPress\PluginEdd;
 use WPENON\Model\Energieausweis;
 
 /**
@@ -27,15 +32,17 @@ class Loader extends TaskLoader {
 		}
 
 		try {
-			$customer = new Customer( $token, $this->logger() );
+			$reseller = new Reseller( $token, $this->logger() );
 		} catch ( Exception $exception ) {
 			$this->logger()->error( sprintf( 'Interrupting: %s', $exception->getMessage() ) );
 		}
 
-		$this->addTask(WordPress::class, $this->logger() );
-		$this->addTask(PluginAffiliateWP::class, $customer, $this->logger() );
-		$this->addTask(PluginEdd::class, $customer, $this->logger() );
-		$this->addTask(Wpenon::class, $this->logger() );
+		$this->addTask( Core::class, $this->logger() );
+		$this->addTask( PluginAffiliateWP::class, $reseller, $this->logger() );
+		$this->addTask( PluginEdd::class, $reseller, $this->logger() );
+		$this->addTask( Enon::class, $this->logger() );
+		$this->addTask( EnonEmailConfirmation::class, $this->logger() );
+		$this->addTask( EnonEmailOrderConfirmation::class, $this->logger() );
 	}
 
 	/**
@@ -91,7 +98,7 @@ class Loader extends TaskLoader {
 	 *
 	 * @return bool True if Energieausweis was created white labeled.
 	 */
-	public function get_customer_token( Energieausweis $ea ) {
+	public function get_reseller_token( Energieausweis $ea ) {
 		$token = get_post_meta( $ea->id, 'whitelabel_token', true );
 
 		if( empty( $token ) ) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Enon\Whitelabel;
+namespace Enon\Whitelabel\WordPress;
 
 use Awsm\WPWrapper\BuildingPlans\Task;
 use Enon\Traits\Logger as LoggerTrait;
@@ -10,9 +10,9 @@ use Enon\Traits\Logger as LoggerTrait;
  *
  * Running WordPress scripts
  *
- * @package Enon\Whitelabel
+ * @package Enon\Whitelabel\WordPress
  */
-class WordPress implements Task {
+class Core implements Task {
 	use LoggerTrait;
 
 	/**
@@ -22,7 +22,6 @@ class WordPress implements Task {
 	 */
 	public function run() {
 		add_filter( 'template_include', array( $this, 'filter_iframe_template' ) );
-
 		add_action( 'wp_head', 'wp_no_robots' );
 
 		remove_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
