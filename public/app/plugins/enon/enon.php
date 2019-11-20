@@ -19,7 +19,10 @@
 namespace Enon\Core;
 
 use Awsm\WPWrapper\Plugin\Plugin;
-use Enon\Exceptions\Exception;
+use Enon\Config\Loader as ConfigLoader;
+use Enon\Misc\Loader as MiscLoader;
+use Enon\Whitelabel\Loader as WhitelabelLoader;
+use Enon\Logger;
 
 require dirname( __FILE__ ) . '/vendor/autoload.php';
 
@@ -38,12 +41,12 @@ require_once dirname( __FILE__ ) . '/vendor/autoload.php';
  */
 function enon_boot() {
 	try {
+		$logger = new Logger( 'Enon' );
+
 		( new Plugin() )
-			->addTask( \Enon\Config\Gutenberg::class )
-			->addTask( \Enon\Config\Menu::class )
-			->addTask( \Enon\Whitelabel\Loader::class )
-			->addTask( \Enon\Misc\RemoveOptimizepress::class )
-			->addTask( \Enon\Misc\GoogleTagManager::class )
+			->addTask( ConfigLoader::class, $logger )
+			->addTask( MiscLoader::class, $logger )
+			->addTask( WhitelabelLoader::class, $logger )
 			->boot();
 	} catch ( \Exception $exception ) {
 		wp_die( $exception->getMessage() );

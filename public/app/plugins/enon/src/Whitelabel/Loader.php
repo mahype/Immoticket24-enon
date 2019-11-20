@@ -1,66 +1,18 @@
 <?php
-/**
- * This file contains Energieausweis-IFrame functionality.
- *
- * @package immoticketenergieausweis
- */
 
 namespace Enon\Whitelabel;
 
-
-use Awsm\WPWrapper\BuildingPlans\Task;
-use Awsm\WPWrapper\Tasks\TaskRunner;
-
+use Enon\Config\TaskLoader;
 use Enon\Exceptions\Exception;
 use Enon\Whitelabel\Plugins\Wpenon;
 use WPENON\Model\Energieausweis;
 
-use Enon\Logger;
-
 /**
- * Whitelabel solution.
+ * Whitelabel loader.
+ *
+ * @package Enon\Config
  */
-class Loader implements Task{
-	use TaskRunner;
-
-	/**
-	 * Customer Object.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var Customer
-	 */
-	private $customer;
-
-	/**
-	 * Customer Token.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var string
-	 */
-	private $token;
-
-	/**
-	 * Logger.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var Logger
-	 */
-	private $logger;
-
-	/**
-	 * WhitelabelLoader constructor.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param Logger $logger Logger object.
-	 */
-	public function __construct( Logger $logger ) {
-		$this->logger = $logger;
-	}
-
+class Loader extends TaskLoader {
 	/**
 	 * Loading Scripts.
 	 *
@@ -75,15 +27,15 @@ class Loader implements Task{
 		}
 
 		try {
-			$customer = new Customer( $token, $this->logger );
+			$customer = new Customer( $token, $this->logger() );
 		} catch ( Exception $exception ) {
-			$this->logger->error( sprintf( 'Interrupting: %s', $exception->getMessage() ) );
+			$this->logger()->error( sprintf( 'Interrupting: %s', $exception->getMessage() ) );
 		}
 
-		$this->addTask(WordPress::class, $this->logger );
-		$this->addTask(PluginAffiliateWP::class, $customer, $this->logger );
-		$this->addTask(PluginEdd::class, $customer, $this->logger );
-		$this->addTask(Wpenon::class, $this->logger );
+		$this->addTask(WordPress::class, $this->logger() );
+		$this->addTask(PluginAffiliateWP::class, $customer, $this->logger() );
+		$this->addTask(PluginEdd::class, $customer, $this->logger() );
+		$this->addTask(Wpenon::class, $this->logger() );
 	}
 
 	/**
