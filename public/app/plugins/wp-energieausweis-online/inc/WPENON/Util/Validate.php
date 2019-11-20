@@ -103,6 +103,9 @@ class Validate {
 	}
 
 	public static function float_length_wall( $value, $field ) {
+		if( is_admin() ) {
+			return self::formatResponse( $value, $field, $error );
+		}
 		$value = \WPENON\Util\Parse::float_length( $value );
 
 		$error = '';
