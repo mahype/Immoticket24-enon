@@ -25,6 +25,14 @@ class CPTReseller implements Task, Actions
 	public function addActions()
 	{
 		add_action( 'init',  [ $this, 'add' ] );
+		add_action( 'add_meta_boxes', [ $this, 'removeMetaBoxes' ], 100 );
+	}
+
+	/**
+	 * Removing meta Boxes.
+	 */
+	public function removeMetaBoxes() {
+		remove_meta_box('wpseo_meta', 'reseller', 'normal');
 	}
 
 	public function add()
@@ -59,7 +67,7 @@ class CPTReseller implements Task, Actions
 			'has_archive'        => true,
 			'hierarchical'       => false,
 			'menu_position'      => null,
-			'supports'           => array( 'title' )
+			'supports'           => array( 'thumbnail' )
 		);
 
 		register_post_type( 'reseller', $args );
