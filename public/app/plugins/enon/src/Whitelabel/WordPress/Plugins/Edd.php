@@ -1,6 +1,6 @@
 <?php
 
-namespace Enon\Whitelabel\WordPress;
+namespace Enon\Whitelabel\WordPress\Plugins;
 
 use Awsm\WPWrapper\BuildingPlans\Filters;
 use Awsm\WPWrapper\BuildingPlans\Task;
@@ -16,7 +16,7 @@ use Enon\Whitelabel\Reseller;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class PluginEdd implements Task, Filters {
+class Edd implements Task, Filters {
 	use LoggerTrait;
 
 	/**

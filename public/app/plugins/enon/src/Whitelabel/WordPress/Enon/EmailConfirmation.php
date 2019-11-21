@@ -1,7 +1,8 @@
 <?php
 
-namespace Enon\Whitelabel\WordPress;
+namespace Enon\Whitelabel\WordPress\Enon;
 
+use Awsm\WPWrapper\BuildingPlans\Filters;
 use Awsm\WPWrapper\BuildingPlans\Task;
 use Enon\Logger;
 use Enon\Traits\Logger as LoggerTrait;
@@ -14,7 +15,7 @@ use Enon\Whitelabel\Reseller;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class EnonEmailConfirmation implements Task
+class EmailConfirmation implements Task, Filters
 {
 	use LoggerTrait;
 
@@ -46,6 +47,16 @@ class EnonEmailConfirmation implements Task
 	 * @since 1.0.0
 	 */
 	public function run() {
+		$this->addFilters();
+	}
+
+	/**
+	 * Adding filters.
+	 *
+	 * @since 1.0.0
+	 */
+	public function addFilters()
+	{
 		add_filter( 'wpenon_confirmation_from_address', [ $this, 'filterFromAddress' ] );
 		add_filter( 'wpenon_confirmation_from_name',    [ $this, 'filterFromName' ] );
 		add_filter( 'wpenon_confirmation_link',         [ $this, 'filterLink' ], 10, 2 );

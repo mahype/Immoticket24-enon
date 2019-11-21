@@ -12,12 +12,16 @@ namespace Enon;
 class Logger extends \Monolog\Logger
 {
 	/**
-	 * @param string $message
-	 * @param array $context
+	 * Logging error
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $message Message to log and display.
+	 * @param array $context The log context.
 	 */
-	public function error($message, array $context = []): void
+	public function error( $message, array $context = [] ): void
 	{
-		parent::error($message, $context);
+		parent::error( $message, $context );
 		wp_die( $message );
 	}
 }

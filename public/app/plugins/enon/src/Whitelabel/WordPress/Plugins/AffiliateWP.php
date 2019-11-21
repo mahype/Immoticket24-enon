@@ -1,7 +1,8 @@
 <?php
 
-namespace Enon\Whitelabel\WordPress;
+namespace Enon\Whitelabel\WordPress\Plugins;
 
+use Awsm\WPWrapper\BuildingPlans\Actions;
 use Awsm\WPWrapper\BuildingPlans\Task;
 
 use Enon\Exceptions\Exception;
@@ -16,7 +17,8 @@ use Enon\Whitelabel\Reseller;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class PluginAffiliateWP implements Task {
+class AffiliateWP implements Task, Actions
+{
 	use LoggerTrait;
 
 	/**
@@ -28,6 +30,14 @@ class PluginAffiliateWP implements Task {
 	 */
 	private $reseller;
 
+	/**
+	 * AffiliateWP constructor.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Reseller $reseller Reseller object.
+	 * @param Logger $logger Logger object.
+	 */
 	public function __construct( Reseller $reseller,  Logger $logger )
 	{
 		$this->reseller = $reseller;
@@ -41,7 +51,7 @@ class PluginAffiliateWP implements Task {
 	 */
 	public function run()
 	{
-		$this->add_actions();
+		$this->addActions();
 	}
 
 	/**
@@ -49,7 +59,7 @@ class PluginAffiliateWP implements Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_actions()
+	public function addActions()
 	{
 		add_action( 'template_redirect', array( $this, 'setAffiliatewpReferal' ), -10000, 0 );
 	}
@@ -61,14 +71,16 @@ class PluginAffiliateWP implements Task {
 	 */
 	public function setAffiliatewpReferal()
 	{
-		if ( ! self::isActivated() ) {
+		if ( ! self::isActivated() )
+		{
 			$this->logger->alert('Affiliate WP seems not to be activated.');
 			return;
 		}
 
 		$email = $this->reseller->get_email();
 
-		if ( ! $email ) {
+		if ( ! $email )
+		{
 			$this->logger->alert('Could not get reseller email.');
 		}
 
@@ -78,7 +90,8 @@ class PluginAffiliateWP implements Task {
 			$this->logger->alert( sprintf( 'Could not get afilliate id by email "%s" with message "%s".', $email, $exception->getMessage() ) );
 		}
 
-		if ( ! isset( $affiliate_id ) ) {
+		if ( ! isset( $affiliate_id ) )
+		{
 			$this->logger->alert( sprintf( 'Afilliate ins unset.' ) );
 			return;
 		}

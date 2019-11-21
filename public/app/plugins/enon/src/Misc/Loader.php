@@ -2,7 +2,7 @@
 
 namespace Enon\Misc;
 
-use Enon\Config\TaskLoader;
+use Enon\TaskLoader;
 
 /**
  * Mis Script loader.
@@ -22,5 +22,6 @@ class Loader extends TaskLoader
 	{
 		$this->addTask( GoogleTagManager::class );
 		$this->addTask( RemoveOptimizepress::class );
+		$this->runTasks();;
 	}
 }

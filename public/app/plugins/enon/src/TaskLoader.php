@@ -1,11 +1,9 @@
 <?php
 
-namespace Enon\Config;
+namespace Enon;
 
 use Awsm\WPWrapper\BuildingPlans\Task;
 use Awsm\WPWrapper\Tasks\TaskRunner;
-
-use Enon\Logger;
 
 /**
  * Config loader.

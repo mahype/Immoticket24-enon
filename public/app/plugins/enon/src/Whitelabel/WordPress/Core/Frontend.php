@@ -1,6 +1,6 @@
 <?php
 
-namespace Enon\Whitelabel\WordPress;
+namespace Enon\Whitelabel\WordPress\Core;
 
 use Awsm\WPWrapper\BuildingPlans\Task;
 use Enon\Traits\Logger as LoggerTrait;
@@ -12,7 +12,7 @@ use Enon\Traits\Logger as LoggerTrait;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class Core implements Task {
+class Frontend implements Task {
 	use LoggerTrait;
 
 	/**

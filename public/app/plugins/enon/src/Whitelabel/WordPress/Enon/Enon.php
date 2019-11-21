@@ -1,6 +1,6 @@
 <?php
 
-namespace Enon\Whitelabel\WordPress;
+namespace Enon\Whitelabel\WordPress\Enon;
 
 use Awsm\WPWrapper\BuildingPlans\Task;
 use Enon\Traits\Logger as LoggerTrait;
@@ -14,7 +14,8 @@ use Enon\Whitelabel\Reseller;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class Enon implements Task {
+class Enon implements Task
+{
 	use LoggerTrait;
 
 	/**

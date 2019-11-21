@@ -46,8 +46,6 @@ require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/frontend.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/optimizepress-compat.php';
 require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/banner-widget.php';
 
-$whitelabel = new EA_Whitelabel();
-
 function immoticketenergieausweis_head_cleanup() {
   remove_action( 'wp_head', 'feed_links', 2 );
   remove_action( 'wp_head', 'feed_links_extra', 3 );

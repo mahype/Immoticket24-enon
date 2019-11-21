@@ -2,7 +2,7 @@
 
 namespace Enon\Config;
 
-use Enon\Logger;
+use Enon\TaskLoader;
 
 /**
  * Config loader.
@@ -22,5 +22,6 @@ class Loader extends TaskLoader
 	{
 		$this->addTask( Gutenberg::class );
 		$this->addTask( Menu::class );
+		$this->runTasks();;
 	}
 }
