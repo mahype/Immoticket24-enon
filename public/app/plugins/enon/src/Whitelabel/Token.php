@@ -56,6 +56,10 @@ class Token {
 	 */
 	public function getByRequest() : string
 	{
+		if( ! isset ( $_REQUEST['iframe_token'] ) ) {
+			return false;
+		}
+
 		return sanitize_text_field( wp_unslash( $_REQUEST['iframe_token'] ) );
 	}
 }
