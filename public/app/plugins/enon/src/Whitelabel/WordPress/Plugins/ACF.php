@@ -24,7 +24,6 @@ class ACF implements Task, Actions
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Reseller $reseller Reseller object.
 	 * @param Logger $logger Logger object.
 	 */
 	public function __construct( Logger $logger )
@@ -62,34 +61,44 @@ class ACF implements Task, Actions
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFieldGroup() {
+	public function addFieldGroup()
+	{
 		acf_add_local_field_group(array(
 			'key' => 'reseller',
-			'title' => 'Reseller',
+			'title' => '1. Reseller',
 			'fields' => array (
 				array (
-					'key' => 'field_company',
-					'label' => __( 'Company', 'enon' ),
-					'name' => 'company',
+					'key' => 'field_companyName',
+					'label' => __( 'Company Name', 'enon' ),
+					'name' => 'companyName',
 					'type' => 'text',
+					'append' => __( 'Resellers company name.', 'enon' ),
+					'required' => 0,
 				),
 				array (
 					'key' => 'field_name',
 					'label' => __( 'Name', 'enon' ),
 					'name' => 'name',
 					'type' => 'text',
+					'append' => __( 'The name of the contact person on the company.', 'enon' ),
+					'required' => 0,
 				),
 				array (
 					'key' => 'field_email',
 					'label' => __( 'Email', 'enon' ),
 					'name' => 'email',
 					'type' => 'email',
+					'append' => __( 'The email of the contact person on the company.', 'enon' ),
+					'required' => 0,
 				),
 				array (
 					'key' => 'field_token',
 					'label' => __( 'Token', 'enon' ),
 					'name' => 'token',
 					'type' => 'text',
+					'default_value' => substr( md5( rand() ), 0, 14 ),
+					'append' => __( 'The token which have to be set by the reseller.', 'enon' ),
+				    'required' => 0,
 				)
 			),
 			'location' => array (
@@ -105,14 +114,14 @@ class ACF implements Task, Actions
 
 		acf_add_local_field_group(array(
 			'key' => 'site',
-			'title' => 'Site data',
+			'title' => '2. Site data',
 			'fields' => array (
 				array (
 					'key' => 'field_websiteName',
 					'label' => __( 'Website name', 'enon' ),
 					'name' => 'websiteName',
 					'type' => 'text',
-					'append' => 'This is the website name, which appears in emails.'
+					'append' => __( 'This is the website name, which appears in emails.', 'enon' ),
 				),
 				array (
 					'key' => 'field_customerEditURL',
@@ -150,7 +159,7 @@ class ACF implements Task, Actions
 
 		acf_add_local_field_group(array(
 			'key' => 'email',
-			'title' => 'Email data',
+			'title' => '3. Email data',
 			'fields' => array (
 				array (
 					'key' => 'field_emailSenderAdress',
