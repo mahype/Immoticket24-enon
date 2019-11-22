@@ -214,6 +214,9 @@ class DB {
 		$i = 0;
 
 		if ( $status === true ) {
+			$table_name = $wpdb->$table_slug;
+			$wpdb->query("TRUNCATE TABLE {$table_name}");
+
 			$message = '';
 			foreach ( $queries as $key => $data ) {
 				$sql_status = $wpdb->insert( $wpdb->$table_slug, $data, $data_format );
