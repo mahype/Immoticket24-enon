@@ -68,25 +68,25 @@ class ACF implements Task, Actions
 			'title' => 'Reseller',
 			'fields' => array (
 				array (
-					'key' => 'company',
+					'key' => 'field_company',
 					'label' => __( 'Company', 'enon' ),
 					'name' => 'company',
 					'type' => 'text',
 				),
 				array (
-					'key' => 'name',
+					'key' => 'field_name',
 					'label' => __( 'Name', 'enon' ),
 					'name' => 'name',
 					'type' => 'text',
 				),
 				array (
-					'key' => 'email',
+					'key' => 'field_email',
 					'label' => __( 'Email', 'enon' ),
 					'name' => 'email',
 					'type' => 'email',
 				),
 				array (
-					'key' => 'token',
+					'key' => 'field_token',
 					'label' => __( 'Token', 'enon' ),
 					'name' => 'token',
 					'type' => 'text',
@@ -108,13 +108,14 @@ class ACF implements Task, Actions
 			'title' => 'Site data',
 			'fields' => array (
 				array (
-					'key' => 'websiteName',
+					'key' => 'field_websiteName',
 					'label' => __( 'Website name', 'enon' ),
 					'name' => 'websiteName',
 					'type' => 'text',
+					'append' => 'This is the website name, which appears in emails.'
 				),
 				array (
-					'key' => 'customerEditURL',
+					'key' => 'field_customerEditURL',
 					'label' => __( 'Customer Edit URL', 'enon' ),
 					'append' => __( 'Customer Edit URL', 'enon' ),
 					'name' => 'customerEditURL',
@@ -122,14 +123,14 @@ class ACF implements Task, Actions
 					'placeholder' => 'https://'
 				),
 				array (
-					'key' => 'paymentSuccessfulURL',
+					'key' => 'field_paymentSuccessfulURL',
 					'label' => __( 'Payment successful URL', 'enon' ),
 					'name' => 'customerEditURL',
 					'type' => 'url',
 					'placeholder' => 'https://'
 				),
 				array (
-					'key' => 'paymentFailedURL',
+					'key' => 'field_paymentFailedURL',
 					'label' => __( 'Payment failed URL', 'enon' ),
 					'name' => 'customerEditURL',
 					'type' => 'url',
@@ -152,19 +153,19 @@ class ACF implements Task, Actions
 			'title' => 'Email data',
 			'fields' => array (
 				array (
-					'key' => 'emailSenderAdress',
+					'key' => 'field_emailSenderAdress',
 					'label' => __( 'E-Mail sender address', 'enon' ),
 					'name' => 'emailSenderAdress',
 					'type' => 'email',
 				),
 				array (
-					'key' => 'emailSenderName',
+					'key' => 'field_emailSenderName',
 					'label' => __( 'E-Mail sender name', 'enon' ),
 					'name' => 'emailSenderAdress',
 					'type' => 'text',
 				),
 				array (
-					'key' => 'emailFooter',
+					'key' => 'field_emailFooter',
 					'label' => __( 'E-Mail footer', 'enon' ),
 					'name' => 'emailFooter',
 					'type' => 'textarea',
