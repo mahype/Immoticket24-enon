@@ -20,15 +20,27 @@ class ACF implements Task, Actions
 	use LoggerTrait;
 
 	/**
+	 * Fieldsets which need to be registered.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var array
+	 */
+	private $fieldSets;
+
+	/**
 	 * AffiliateWP constructor.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param Logger $logger Logger object.
 	 */
-	public function __construct( Logger $logger )
+	public function __construct( Logger $logger, Reseller $reseller )
 	{
 		$this->logger = $logger;
+		$this->fieldSets = array (
+			'reseller' => new ACFResellerFields(),
+		);
 	}
 
 	/**
@@ -53,7 +65,7 @@ class ACF implements Task, Actions
 	 */
 	public function addActions()
 	{
-		add_action( 'acf/init', [ $this, 'addFieldGroup' ] );
+		add_action( 'acf/init', [ $this, 'registerFields' ] );
 	}
 
 	/**
@@ -61,135 +73,150 @@ class ACF implements Task, Actions
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFieldGroup()
+	public function registerFields()
 	{
-		acf_add_local_field_group(array(
-			'key' => 'reseller',
-			'title' => '1. Reseller',
-			'fields' => array (
-				array (
-					'key' => 'field_companyName',
-					'label' => __( 'Company Name', 'enon' ),
-					'name' => 'companyName',
-					'type' => 'text',
-					'append' => __( 'Resellers company name.', 'enon' ),
-					'required' => 0,
-				),
-				array (
-					'key' => 'field_name',
-					'label' => __( 'Name', 'enon' ),
-					'name' => 'name',
-					'type' => 'text',
-					'append' => __( 'The name of the contact person on the company.', 'enon' ),
-					'required' => 0,
-				),
-				array (
-					'key' => 'field_email',
-					'label' => __( 'Email', 'enon' ),
-					'name' => 'email',
-					'type' => 'email',
-					'append' => __( 'The email of the contact person on the company.', 'enon' ),
-					'required' => 0,
-				),
-				array (
-					'key' => 'field_token',
-					'label' => __( 'Token', 'enon' ),
-					'name' => 'token',
-					'type' => 'text',
-					'default_value' => substr( md5( rand() ), 0, 14 ),
-					'append' => __( 'The token which have to be set by the reseller.', 'enon' ),
-				    'required' => 0,
-				)
-			),
-			'location' => array (
-				array (
+		acf_add_local_field_group(
+			array(
+				'key' => 'reseller',
+				'title' => '1. Reseller',
+				'fields' => array (
 					array (
-						'param' => 'post_type',
-						'operator' => '==',
-						'value' => 'reseller',
+						'key' => 'field_company_name',
+						'label' => __( 'Company Name', 'enon' ),
+						'name' => 'company_name',
+						'type' => 'text',
+						'instructions' => __( 'Resellers company name.', 'enon' ),
+						'required' => 0,
+					),
+					array (
+						'key' => 'field_contact_name',
+						'label' => __( 'Contact Name', 'enon' ),
+						'name' => 'contact_name',
+						'type' => 'text',
+						'instructions' => __( 'The name of the contact person on the company.', 'enon' ),
+						'required' => 0,
+					),
+					array (
+						'key' => 'field_contact_email',
+						'label' => __( 'Contact Email', 'enon' ),
+						'name' => 'contact_email',
+						'type' => 'email',
+						'instructions' => __( 'The email of the contact person on the company.', 'enon' ),
+						'required' => 0,
+					),
+					array (
+						'key' => 'field_token',
+						'label' => __( 'Token', 'enon' ),
+						'name' => 'token',
+						'type' => 'text',
+						'default_value' => substr( md5( rand() ), 0, 14 ),
+						'instructions' => __( 'The token which have to be set by the reseller.', 'enon' ),
+						'required' => 0,
+					),
+					array (
+						'key' => 'field_affiliateId',
+						'label' => __( 'Affiliate ID', 'enon' ),
+						'name' => 'affiliate_id',
+						'type' => 'text',
+						'default_value' => substr( md5( rand() ), 0, 14 ),
+						'append' => __( 'The token which have to be set by the reseller.', 'enon' ),
+						'required' => 0,
+					)
+				),
+				'location' => array (
+					array (
+						array (
+							'param' => 'post_type',
+							'operator' => '==',
+							'value' => 'reseller',
+						),
 					),
 				),
-			),
-		));
+			)
+		);
 
-		acf_add_local_field_group(array(
-			'key' => 'site',
-			'title' => '2. Site data',
-			'fields' => array (
-				array (
-					'key' => 'field_websiteName',
-					'label' => __( 'Website name', 'enon' ),
-					'name' => 'websiteName',
-					'type' => 'text',
-					'append' => __( 'This is the website name, which appears in emails.', 'enon' ),
-				),
-				array (
-					'key' => 'field_customerEditURL',
-					'label' => __( 'Customer Edit URL', 'enon' ),
-					'append' => __( 'Customer Edit URL', 'enon' ),
-					'name' => 'customerEditURL',
-					'type' => 'url',
-					'placeholder' => 'https://'
-				),
-				array (
-					'key' => 'field_paymentSuccessfulURL',
-					'label' => __( 'Payment successful URL', 'enon' ),
-					'name' => 'customerEditURL',
-					'type' => 'url',
-					'placeholder' => 'https://'
-				),
-				array (
-					'key' => 'field_paymentFailedURL',
-					'label' => __( 'Payment failed URL', 'enon' ),
-					'name' => 'customerEditURL',
-					'type' => 'url',
-					'placeholder' => 'https://'
-				),
-			),
-			'location' => array (
-				array (
+		acf_add_local_field_group(
+			array(
+				'key' => 'site',
+				'title' => '2. Site data',
+				'fields' => array (
 					array (
-						'param' => 'post_type',
-						'operator' => '==',
-						'value' => 'reseller',
+						'key' => 'field_website_name',
+						'label' => __( 'Website name', 'enon' ),
+						'name' => 'website_name',
+						'type' => 'text',
+						'append' => __( 'This is the website name, which appears in emails.', 'enon' ),
+					),
+					array (
+						'key' => 'field_customerEditURL',
+						'label' => __( 'Customer Edit URL', 'enon' ),
+						'append' => __( 'Customer Edit URL', 'enon' ),
+						'name' => 'customer_edit_url',
+						'type' => 'url',
+						'placeholder' => 'https://'
+					),
+					array (
+						'key' => 'field_payment_successful_url',
+						'label' => __( 'Payment successful URL', 'enon' ),
+						'name' => 'payment_successful_url',
+						'type' => 'url',
+						'placeholder' => 'https://'
+					),
+					array (
+						'key' => 'field_payment_failed_url',
+						'label' => __( 'Payment failed URL', 'enon' ),
+						'name' => 'payment_failed_url',
+						'type' => 'url',
+						'placeholder' => 'https://'
 					),
 				),
-			),
-		));
+				'location' => array (
+					array (
+						array (
+							'param' => 'post_type',
+							'operator' => '==',
+							'value' => 'reseller',
+						),
+					),
+				),
+			)
+		);
 
-		acf_add_local_field_group(array(
-			'key' => 'email',
-			'title' => '3. Email data',
-			'fields' => array (
-				array (
-					'key' => 'field_emailSenderAdress',
-					'label' => __( 'E-Mail sender address', 'enon' ),
-					'name' => 'emailSenderAdress',
-					'type' => 'email',
-				),
-				array (
-					'key' => 'field_emailSenderName',
-					'label' => __( 'E-Mail sender name', 'enon' ),
-					'name' => 'emailSenderAdress',
-					'type' => 'text',
-				),
-				array (
-					'key' => 'field_emailFooter',
-					'label' => __( 'E-Mail footer', 'enon' ),
-					'name' => 'emailFooter',
-					'type' => 'textarea',
-				)
-			),
-			'location' => array (
-				array (
+		acf_add_local_field_group(
+			array(
+				'key' => 'email',
+				'title' => '3. Email data',
+				'fields' => array (
 					array (
-						'param' => 'post_type',
-						'operator' => '==',
-						'value' => 'reseller',
+						'key' => 'field_email_sender_address',
+						'label' => __( 'E-Mail sender address', 'enon' ),
+						'name' => 'email_sender_address',
+						'type' => 'email',
+					),
+					array (
+						'key' => 'field_email_sender_name',
+						'label' => __( 'E-Mail sender name', 'enon' ),
+						'name' => 'email_sender_name',
+						'type' => 'text',
+					),
+					array (
+						'key' => 'field_email_footer',
+						'label' => __( 'E-Mail footer', 'enon' ),
+						'name' => 'email_footer',
+						'type' => 'textarea',
+					)
+				),
+				'location' => array (
+					array (
+						array (
+							'param' => 'post_type',
+							'operator' => '==',
+							'value' => 'reseller',
+						),
 					),
 				),
-			),
-		));
+			)
+		);
 	}
 
 	/**

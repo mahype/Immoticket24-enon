@@ -70,7 +70,7 @@ class EmailOrderConfirmation implements Task, Filters
 	 */
 	public function filterToAddress()
 	{
-		$email = $this->reseller->getEmail();
+		$email = $this->reseller->data()->getContactEmail();
 		return $email;
 	}
 }

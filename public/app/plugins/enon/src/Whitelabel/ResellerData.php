@@ -1,0 +1,206 @@
+<?php
+
+namespace Enon\Whitelabel;
+
+use Enon\Exceptions\Exception;
+use Enon\Whitelabel\Token;
+use Enon\Whitelabel\WordPress\Plugins\ACFPostFields;
+
+/**
+ * Class ACFResellerFiels
+ *
+ * @since 1.0.0
+ *
+ * @package Enon\Whitelabel
+ */
+class ResellerData extends ACFPostFields {
+
+	/**
+	 * ResellerData constructor.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \Enon\Whitelabel\Token $token Token object.
+	 *
+	 * @throws Exception Token was not found.
+	 */
+	public function __construct( Token $token ) {
+		$this->setToken( $token );
+	}
+
+	/**
+	 * Set token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Token $token Token object.
+	 *
+	 * @throws Exception Token was not found.
+	 */
+	public function setToken( Token $token ) {
+		$postId = $this->getPostIdByToken( $token->get() );
+
+		if( empty( $postId ) ) {
+			throw new Exception( sprintf( 'Could not find any reseller for token "%s".', $token->get() ) );
+		}
+
+		$this->setPostId( $postId );
+	}
+
+	/**
+	 * Gett post id by token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Token $token Reseller token.
+	 *
+	 * @return int/bool Post id if found or false. Returns the first token which was found.
+	 */
+	private function getPostIdByToken( Token $token ) {
+		$posts = \get_posts(array(
+			'numberposts'	=> -1,
+			'post_type'		=> 'reseller',
+			'meta_key'		=> 'token',
+			'meta_value'	=> $token->get(),
+		));
+
+		foreach ( $posts AS $post ) {
+			return $post->ID; // There can only be one, the first is returned.
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get company name.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Token string of current token.
+	 */
+	public function getCompanyName() {
+		return $this->get( 'company_name' );
+	}
+
+	/**
+	 * Get contact name.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Token string of current token.
+	 */
+	public function getContactName() {
+		return $this->get( 'contact_name' );
+	}
+
+	/**
+	 * Get contact email.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Token string of current token.
+	 */
+	public function getContactEmail() {
+		return $this->get( 'contact_email' );
+	}
+
+	/**
+	 * Get afiliate id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return mixed
+	 */
+	public function getAffiliateId() {
+		return $this->get( 'affiliate_id' );
+	}
+
+	/**
+	 * Get token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Token string of current token.
+	 */
+	public function getToken() {
+		return $this->get( 'token' );
+	}
+
+	/**
+	 * Get Website Name.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Sitename of current token.
+	 */
+	public function getWebdsiteName() {
+		return $this->get( 'website_name' );
+	}
+
+	/**
+	 * Get customer edit url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Url where users are redirected for editing entry.
+	 */
+	public function getCustomerEditUrl() {
+		return trim( $this->get( 'customer_edit_url' ) );
+	}
+
+	/**
+	 * Get payment successful url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Url where users are redirected after succesful payment.
+	 */
+	public function getPaymentSuccesfulUrl() {
+		return trim( $this->get( 'payment_successful_url' ) );
+	}
+
+	/**
+	 * Get payment failed url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Url where users are redirected after failed payment.
+	 */
+	public function getPaymentFailedUrl()
+	{
+		return trim( $this->get( 'payment_failed_url' ) );
+	}
+
+	/**
+	 * Get Email From Address.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Email from address.
+	 */
+	public function getEmailSenderAddress() {
+		return $this->get( 'email_sender_address' );
+	}
+
+	/**
+	 * Get Email From Name.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Email from name.
+	 */
+	public function getEmailSenderName() {
+		return $this->get( 'email_sender_name' );
+	}
+
+	/**
+	 * Get Email Footer.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Email footer.
+	 */
+	public function getEmailFooter() {
+		return $this->get( 'email_footer' );
+	}
+}

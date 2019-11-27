@@ -59,7 +59,7 @@ class Enon implements Task
 	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis object.
 	 */
 	public function updateEnergieausweisToken( $energieausweis ) {
-		update_post_meta( $energieausweis->id, 'whitelabel_token', $this->reseller->getToken() );
+		update_post_meta( $energieausweis->id, 'whitelabel_token', $this->reseller->data()->getToken() );
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Enon implements Task
 	 * @return string
 	 */
 	public function filterPaymentSuccessUrl( $old_url ) {
-		$url = $this->reseller->getPaymentSuccesfulUrl();
+		$url = $this->reseller->data()->getPaymentSuccesfulUrl();
 
 		if ( empty( $url ) ) {
 			$payment_successful_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_successful_payment' );
@@ -93,7 +93,7 @@ class Enon implements Task
 			$url = get_permalink( $payment_successful_page );
 		}
 
-		$url = $this->reseller->getVerfiedUrl( $url );
+		$url = $this->reseller->createVerfiedUrl( $url );
 
 		return $url;
 	}
@@ -106,7 +106,7 @@ class Enon implements Task
 	 * @return string
 	 */
 	public function filter_payment_failed_url( $old_url ) {
-		$url = $this->reseller->getPaymentFailedUrl();
+		$url = $this->reseller->data()->getPaymentFailedUrl();
 
 		if ( empty( $url ) ) {
 			$payment_failed_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_failed_payment' );
@@ -118,7 +118,7 @@ class Enon implements Task
 			$url = get_permalink( $payment_failed_page );
 		}
 
-		$url = $this->reseller->getVerfiedUrl( $url );
+		$url = $this->reseller->createVerfiedUrl( $url );
 
 		return $url;
 	}

@@ -55,8 +55,7 @@ class EmailConfirmation implements Task, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFilters()
-	{
+	public function addFilters() {
 		add_filter( 'wpenon_confirmation_from_address', [ $this, 'filterFromAddress' ] );
 		add_filter( 'wpenon_confirmation_from_name',    [ $this, 'filterFromName' ] );
 		add_filter( 'wpenon_confirmation_link',         [ $this, 'filterLink' ], 10, 2 );
@@ -75,7 +74,7 @@ class EmailConfirmation implements Task, Filters
 	 * @return string Reseller from email address.
 	 */
 	public function filterFromAddress() {
-		return $this->reseller->getEmailFromAddress();
+		return $this->reseller->data()->getEmailSenderAddress();
 	}
 
 	/**
@@ -86,7 +85,7 @@ class EmailConfirmation implements Task, Filters
 	 * @return string Tokens from email name.
 	 */
 	public function filterFromName() {
-		return $this->reseller->getEmailFromName();
+		return $this->reseller->data()->getEmailSenderName();
 	}
 
 	/**
@@ -100,7 +99,7 @@ class EmailConfirmation implements Task, Filters
 	 * @return string Filtered signature.
 	 */
 	public function filterSite() {
-		return $this->reseller->getSitename();
+		return $this->reseller->data()->getWebdsiteName();
 	}
 
 	/**
@@ -111,7 +110,7 @@ class EmailConfirmation implements Task, Filters
 	 * @return string Filtered signature.
 	 */
 	public function filterLink( $link, $energieausweis ) {
-		$redirect_url = $this->reseller->getVerfiedUrl( $this->reseller->getCustomerEditUrl(), $energieausweis->id );
+		$redirect_url = $this->reseller->createVerfiedUrl( $this->reseller->data()->getCustomerEditUrl(), $energieausweis->id );
 
 		if( false === $redirect_url ) {
 			return $link;
@@ -129,9 +128,9 @@ class EmailConfirmation implements Task, Filters
 	 */
 	public function filterAlternativeFooter() {
 		$footer = '<div style="font-size:14px;">';
-		$footer.= wpautop( $this->reseller->getEmailFooter() );
+		$footer.= wpautop( $this->reseller->data()->getEmailFooter() );
 		$footer.= '</div>';
-		$footer.= '<small>' . sprintf( __( 'Diese Email wurde automatisch von <a href="%s">%s</a> versendet.', 'wpenon' ), $this->reseller->getCustomerEditUrl(), $this->reseller->getSitename() ) . '</small>';
+		$footer.= '<small>' . sprintf( __( 'Diese Email wurde automatisch von <a href="%s">%s</a> versendet.', 'wpenon' ), $this->reseller->data()->getCustomerEditUrl(), $this->reseller->data()->getWebdsiteName() ) . '</small>';
 		return $footer;
 	}
 
@@ -143,7 +142,7 @@ class EmailConfirmation implements Task, Filters
 	 * @return string Filtered footer.
 	 */
 	public function filterLegal() {
-		return sprintf( __( 'Diese Email wurde automatisch von <a href="%s">%s</a> versendet.', 'wpenon' ), $this->reseller->getCustomerEditUrl(), $this->reseller->getSitename() );
+		return sprintf( __( 'Diese Email wurde automatisch von <a href="%s">%s</a> versendet.', 'wpenon' ), $this->reseller->data()->getCustomerEditUrl(), $this->reseller->data()->getWebdsiteName() );
 	}
 
 	/**
@@ -156,7 +155,7 @@ class EmailConfirmation implements Task, Filters
 	public function filterSignature() {
 		$signature = sprintf( __( 'Mit freundlichen Grüßen,
 		
-		Ihr Team von %s.', 'wpenon' ), $this->reseller->getSitename() );
+		Ihr Team von %s.', 'wpenon' ), $this->reseller->data()->getWebdsiteName() );
 		return $signature;
 	}
 }
