@@ -3,9 +3,11 @@
 namespace Enon\Whitelabel\WordPress\Core;
 
 use Awsm\WPWrapper\BuildingPlans\Actions;
+use Awsm\WPWrapper\BuildingPlans\Filters;
 use Awsm\WPWrapper\BuildingPlans\Task;
+use Enon\Whitelabel\ResellerData;
 
-class CPTReseller implements Task, Actions
+class CPTReseller implements Task, Actions, Filters
 {
 	/**
 	 * Running scripts.
@@ -15,6 +17,7 @@ class CPTReseller implements Task, Actions
 	public function run()
 	{
 		$this->addActions();
+		$this->addFilters();
 	}
 
 	/**
@@ -26,6 +29,18 @@ class CPTReseller implements Task, Actions
 	{
 		add_action( 'init',  [ $this, 'add' ] );
 		add_action( 'add_meta_boxes', [ $this, 'removeMetaBoxes' ], 100 );
+
+		add_action( 'manage_reseller_posts_custom_column' , [ $this, 'reseller_custom_column_values' ], 10, 2 );
+	}
+
+	/**
+	 * Adding filters.
+	 *
+	 * @since 1.0.0
+	 */
+	public function addFilters()
+	{
+		add_filter( 'manage_reseller_posts_columns', [ $this, 'reseller_posts_columns' ], 1000, 1 );
 	}
 
 	/**
@@ -35,12 +50,17 @@ class CPTReseller implements Task, Actions
 		remove_meta_box('wpseo_meta', 'reseller', 'normal');
 	}
 
+	/**
+	 * Adding post type.
+	 *
+	 * @since 1.0.0
+	 */
 	public function add()
 	{
 		$labels = array(
 			'name'               => _x( 'Reseller', 'post type general name', 'enon' ),
 			'singular_name'      => _x( 'Reseller', 'post type singular name', 'enon' ),
-			'menu_name'          => _x( 'Reseller', 'admin menu', 'enon' ),
+			'menu_name'          => _x( 'Resellers', 'admin menu', 'enon' ),
 			'name_admin_bar'     => _x( 'Reseller', 'add new on admin bar', 'enon' ),
 			'add_new'            => _x( 'Add New', 'reseller', 'enon' ),
 			'add_new_item'       => __( 'Add New reseller', 'enon' ),
@@ -67,9 +87,42 @@ class CPTReseller implements Task, Actions
 			'has_archive'        => true,
 			'hierarchical'       => false,
 			'menu_position'      => null,
+			'menu_icon'          => 'dashicons-businessman',
 			'supports'           => array( 'thumbnail' )
 		);
 
 		register_post_type( 'reseller', $args );
+	}
+
+	public function reseller_posts_columns( $columns ) {
+		// unset( $columns['title']  );
+		unset( $columns['author'] );
+		unset( $columns['date']   );
+		unset( $columns['wpseo-links']   );
+		unset( $columns['ratings']   );
+
+		$columns['company_name']  = __( 'Company Name', 'enon' );
+		$columns['contact_name']  = __( 'Contact Name', 'enon' );
+		$columns['contact_email'] = __( 'Contact Email', 'enon' );
+		$columns['contact_email'] = __( 'Contact Email', 'enon' );
+
+		return $columns;
+	}
+
+	public function reseller_custom_column_values( $column, $postId ) {
+		$resellerData = new ResellerData();
+		$resellerData->setPostId( $postId );
+
+		switch ( $column ) {
+			case 'company_name':
+				echo $resellerData->getCompanyName();
+				break;
+			case 'contact_name':
+				echo $resellerData->getContactName();
+				break;
+			case 'contact_email':
+				echo $resellerData->getContactEmail();
+				break;
+		}
 	}
 }

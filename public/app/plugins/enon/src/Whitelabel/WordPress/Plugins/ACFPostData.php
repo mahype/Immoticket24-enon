@@ -9,7 +9,7 @@ namespace Enon\Whitelabel\WordPress\Plugins;
  *
  * @package Enon\Whitelabel\WordPress\Plugins
  */
-abstract class ACFPostFields {
+abstract class ACFPostData {
 	/**
 	 * Post Id.
 	 *

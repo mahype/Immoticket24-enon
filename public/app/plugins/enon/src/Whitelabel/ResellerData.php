@@ -4,7 +4,7 @@ namespace Enon\Whitelabel;
 
 use Enon\Exceptions\Exception;
 use Enon\Whitelabel\Token;
-use Enon\Whitelabel\WordPress\Plugins\ACFPostFields;
+use Enon\Whitelabel\WordPress\Plugins\ACFPostData;
 
 /**
  * Class ACFResellerFiels
@@ -13,7 +13,7 @@ use Enon\Whitelabel\WordPress\Plugins\ACFPostFields;
  *
  * @package Enon\Whitelabel
  */
-class ResellerData extends ACFPostFields {
+class ResellerData extends ACFPostData {
 
 	/**
 	 * ResellerData constructor.
@@ -24,8 +24,10 @@ class ResellerData extends ACFPostFields {
 	 *
 	 * @throws Exception Token was not found.
 	 */
-	public function __construct( Token $token ) {
-		$this->setToken( $token );
+	public function __construct( Token $token = null ) {
+		if ( ! empty( $token ) ) {
+			$this->setToken( $token );
+		}
 	}
 
 	/**

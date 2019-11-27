@@ -35,12 +35,9 @@ class ACF implements Task, Actions
 	 *
 	 * @param Logger $logger Logger object.
 	 */
-	public function __construct( Logger $logger, Reseller $reseller )
+	public function __construct( Logger $logger )
 	{
 		$this->logger = $logger;
-		$this->fieldSets = array (
-			'reseller' => new ACFResellerFields(),
-		);
 	}
 
 	/**
@@ -117,8 +114,7 @@ class ACF implements Task, Actions
 						'key' => 'field_affiliateId',
 						'label' => __( 'Affiliate ID', 'enon' ),
 						'name' => 'affiliate_id',
-						'type' => 'text',
-						'default_value' => substr( md5( rand() ), 0, 14 ),
+						'type' => 'number',
 						'append' => __( 'The token which have to be set by the reseller.', 'enon' ),
 						'required' => 0,
 					)
