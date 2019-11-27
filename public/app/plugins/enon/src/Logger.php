@@ -19,8 +19,7 @@ class Logger extends \Monolog\Logger
 	 * @param string $message Message to log and display.
 	 * @param array $context The log context.
 	 */
-	public function error( $message, array $context = [] ): void
-	{
+	public function error( $message, array $context = [] ): void {
 		parent::error( $message, $context );
 		wp_die( $message );
 	}

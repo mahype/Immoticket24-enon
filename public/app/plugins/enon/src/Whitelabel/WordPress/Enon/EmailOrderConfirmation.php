@@ -15,8 +15,7 @@ use Enon\Whitelabel\Reseller;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class EmailOrderConfirmation implements Task, Filters
-{
+class EmailOrderConfirmation implements Task, Filters {
 	use LoggerTrait;
 
 	/**
@@ -32,11 +31,10 @@ class EmailOrderConfirmation implements Task, Filters
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Reseller $reseller
-	 * @param Logger $logger
+	 * @param Reseller $reseller Reseller object.
+	 * @param Logger   $logger   Logger object.
 	 */
-	public function __construct( Reseller $reseller, Logger $logger )
-	{
+	public function __construct( Reseller $reseller, Logger $logger ) {
 		$this->reseller = $reseller;
 		$this->logger = $logger;
 	}
@@ -46,8 +44,7 @@ class EmailOrderConfirmation implements Task, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function run()
-	{
+	public function run() {
 		$this->addFilters();
 	}
 
@@ -56,21 +53,20 @@ class EmailOrderConfirmation implements Task, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFilters()
-	{
+	public function addFilters() {
 		add_filter( 'wpenon_order_confirmation_to_address', [ $this, 'filterToAddress' ] );
 	}
 
 	/**
 	 * Returning token from email address.
 	 *
-	 * @param string $email
+	 * @since 1.0.0
 	 *
-	 * @return string Tokens from email address.
+	 * @param string $email To email address.
+	 *
+	 * @return string Reseller contact email address.
 	 */
-	public function filterToAddress()
-	{
-		$email = $this->reseller->data()->getContactEmail();
-		return $email;
+	public function filterToAddress() {
+		return $this->reseller->data()->getContactEmail();
 	}
 }
