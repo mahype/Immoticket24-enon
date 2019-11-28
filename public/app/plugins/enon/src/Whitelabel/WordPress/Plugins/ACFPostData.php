@@ -45,6 +45,6 @@ abstract class ACFPostData {
 			return null;
 		}
 
-		get_field( $field_name, $this->postId );
+		return get_field( $field_name, $this->postId );
 	}
 }

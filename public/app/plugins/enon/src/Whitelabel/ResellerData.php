@@ -40,7 +40,7 @@ class ResellerData extends ACFPostData {
 	 * @throws Exception Token was not found.
 	 */
 	public function setToken( Token $token ) {
-		$postId = $this->getPostIdByToken( $token->get() );
+		$postId = $this->getPostIdByToken( $token );
 
 		if( empty( $postId ) ) {
 			throw new Exception( sprintf( 'Could not find any reseller for token "%s".', $token->get() ) );
@@ -204,5 +204,16 @@ class ResellerData extends ACFPostData {
 	 */
 	public function getEmailFooter() {
 		return $this->get( 'email_footer' );
+	}
+
+	/**
+	 * Get iframe url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string iframe url.
+	 */
+	public function getIframeUrl() {
+		return get_site_url() . '/?iframe_token=' . $this->getToken();
 	}
 }

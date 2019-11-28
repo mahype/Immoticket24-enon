@@ -52,7 +52,7 @@ class Loader extends TaskLoader {
 		$this->addTask( EmailConfirmation::class, $reseller, $this->logger() );
 		$this->addTask( EmailOrderConfirmation::class, $reseller, $this->logger() );
 		$this->addTask( AffiliateWP::class, $reseller, $this->logger() );
-		$this->addTask( ACF::class );
+		$this->addTask( ACF::class, $this->logger() );
 		$this->addTask( Edd::class, $reseller, $this->logger() );
 
 		$this->runTasks();;

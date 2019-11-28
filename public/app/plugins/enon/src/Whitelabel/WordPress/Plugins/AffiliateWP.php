@@ -77,7 +77,7 @@ class AffiliateWP implements Task, Actions
 			return;
 		}
 
-		$email = $this->reseller->get_email();
+		$email = $this->reseller->data()->getContactEmail();
 
 		if ( ! $email )
 		{

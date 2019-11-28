@@ -77,14 +77,14 @@ class CPTReseller implements Task, Actions, Filters
 		$args = array(
 			'labels'             => $labels,
 			'description'        => __( 'Description.', 'enon' ),
-			'public'             => true,
-			'publicly_queryable' => true,
+			'public'             => false,
+			'publicly_queryable' => false,
 			'show_ui'            => true,
 			'show_in_menu'       => true,
 			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'book' ),
+			'rewrite'            => array( 'slug' => 'reseller' ),
 			'capability_type'    => 'post',
-			'has_archive'        => true,
+			'has_archive'        => false,
 			'hierarchical'       => false,
 			'menu_position'      => null,
 			'menu_icon'          => 'dashicons-businessman',
@@ -95,7 +95,7 @@ class CPTReseller implements Task, Actions, Filters
 	}
 
 	public function reseller_posts_columns( $columns ) {
-		// unset( $columns['title']  );
+		unset( $columns['title']  );
 		unset( $columns['author'] );
 		unset( $columns['date']   );
 		unset( $columns['wpseo-links']   );
@@ -104,7 +104,7 @@ class CPTReseller implements Task, Actions, Filters
 		$columns['company_name']  = __( 'Company Name', 'enon' );
 		$columns['contact_name']  = __( 'Contact Name', 'enon' );
 		$columns['contact_email'] = __( 'Contact Email', 'enon' );
-		$columns['contact_email'] = __( 'Contact Email', 'enon' );
+		$columns['iframe_url']    = __( 'Iframe URL', 'enon' );
 
 		return $columns;
 	}
@@ -115,13 +115,16 @@ class CPTReseller implements Task, Actions, Filters
 
 		switch ( $column ) {
 			case 'company_name':
-				echo $resellerData->getCompanyName();
+				echo sprintf( '<a href="%s">%s</a>', get_edit_post_link( $postId ), $resellerData->getCompanyName() );
 				break;
 			case 'contact_name':
 				echo $resellerData->getContactName();
 				break;
 			case 'contact_email':
 				echo $resellerData->getContactEmail();
+				break;
+			case 'iframe_url':
+				echo $resellerData->getIframeUrl();
 				break;
 		}
 	}
