@@ -203,6 +203,28 @@ class ResellerData extends ACFPostData {
 	}
 
 	/**
+	 * Get Bedarsfausweis schema file.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Schema file.
+	 */
+	public function getBwSchemaFile() {
+		return $this->get( 'bw_schema_file' );
+	}
+
+	/**
+	 * Get Verbrauchsausweis schema file.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Schema file.
+	 */
+	public function getVwSchemaFile() {
+		return $this->get( 'vw_schema_file' );
+	}
+
+	/**
 	 * Get Email From Address.
 	 *
 	 * @since 1.0.0

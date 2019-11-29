@@ -2,6 +2,8 @@
 
 namespace Enon\Whitelabel\WordPress\Enon;
 
+use Awsm\WPWrapper\BuildingPlans\Actions;
+use Awsm\WPWrapper\BuildingPlans\Filters;
 use Awsm\WPWrapper\BuildingPlans\Task;
 use Enon\Traits\Logger as LoggerTrait;
 use Enon\Logger;
@@ -14,7 +16,7 @@ use Enon\Whitelabel\Reseller;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class Enon implements Task
+class Enon implements Task, Actions, Filters
 {
 	use LoggerTrait;
 
@@ -43,12 +45,33 @@ class Enon implements Task
 	 *
 	 * @since 1.0.0
 	 */
-	public function run() {
-		add_action( 'wpenon_confirmation_start', [ $this, 'setEnergieauseisToken' ] );
+	public function run()
+	{
+		$this->addActions();
+		$this->addFilters();
+	}
 
-		add_filter( 'wpenon_filter_url', [ $this, 'filterIframeUrl' ] );
+	/**
+	 * Adding actions.
+	 *
+	 * @since 1.0.0
+	 */
+	public function addActions()
+	{
+		add_action( 'wpenon_confirmation_start', [ $this, 'updateEnergieausweisToken' ] );
+	}
+
+	/**
+	 * Adding filters.
+	 *
+	 * @since 1.0.0
+	 */
+	public function addFilters()
+	{
+		add_filter( 'wpenon_schema_file',         [ $this, 'filterSchemafile' ], 10, 3 );
+		add_filter( 'wpenon_filter_url',          [ $this, 'filterIframeUrl' ] );
 		add_filter( 'wpenon_payment_success_url', [ $this, 'filterPaymentSuccessUrl' ] );
-		add_filter( 'wpenon_payment_failed_url', [ $this, 'filterPaymentFailedUrl' ] );
+		add_filter( 'wpenon_payment_failed_url',  [ $this, 'filterPaymentFailedUrl' ] );
 	}
 
 	/**
@@ -60,6 +83,35 @@ class Enon implements Task
 	 */
 	public function updateEnergieausweisToken( $energieausweis ) {
 		update_post_meta( $energieausweis->id, 'whitelabel_token', $this->reseller->data()->getToken() );
+	}
+
+	/**
+	 * Filtering schema file.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $file Path to file.
+	 * @param string $type Schema typ.
+	 *
+	 * @return string Filtered schema file.
+	 */
+	public function filterSchemafile( $file, $standard, $type ) {
+		switch ( $type ) {
+			case 'bw':
+				$schema_file = trim( $this->reseller->data()->getBwSchemaFile() );
+				break;
+			case 'vw':
+				$schema_file = trim( $this->reseller->data()->getVwSchemaFile() );
+				break;
+		}
+
+		if( empty( $schema_file ) ) {
+			return $file;
+		}
+
+		$schema_file = WPENON_DATA_PATH . '/' . $standard . '/schema/' . $schema_file;
+
+		return $schema_file;
 	}
 
 	/**

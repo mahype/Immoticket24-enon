@@ -136,7 +136,7 @@ class ACF implements Task, Actions
 
 		acf_add_local_field_group(
 			array(
-				'key' => 'site',
+				'key' => 'iframe_settings',
 				'title' => '2. Iframe Settings',
 				'fields' => array (
 					array (
@@ -177,8 +177,40 @@ class ACF implements Task, Actions
 
 		acf_add_local_field_group(
 			array(
-				'key' => 'site',
-				'title' => '3. Website data',
+				'key' => 'form_settings',
+				'title' => '3. Form settings',
+				'fields' => array (
+					array (
+						'key' => 'field_bw_schema_file',
+						'label' => __( 'Bedarfsausweis schema file', 'enon' ),
+						'name' => 'bw_schema_file',
+						'type' => 'text',
+						'instructions' => __( 'Leave blank for standard file (bw.php).', 'enon' ),
+					),
+					array (
+						'key' => 'field_vw_schema_file',
+						'label' => __( 'Verbrauchsausweis schema file', 'enon' ),
+						'name' => 'vw_schema_file',
+						'type' => 'text',
+						'instructions' => __( 'Leave blank for standard file (vw.php).', 'enon' ),
+					),
+				),
+				'location' => array (
+					array (
+						array (
+							'param' => 'post_type',
+							'operator' => '==',
+							'value' => 'reseller',
+						),
+					),
+				),
+			)
+		);
+
+		acf_add_local_field_group(
+			array(
+				'key' => 'website_data',
+				'title' => '4. Website data',
 				'fields' => array (
 					array (
 						'key' => 'field_website_name',
@@ -188,7 +220,7 @@ class ACF implements Task, Actions
 						'instructions' => __( 'This is the website name, which appears in emails.', 'enon' ),
 					),
 					array (
-						'key' => 'field_customerEditURL',
+						'key' => 'field_customer_edit_url',
 						'label' => __( 'Customer Edit URL', 'enon' ),
 						'instructions' => __( 'The edit url of the reseller website.', 'enon' ),
 						'name' => 'customer_edit_url',
@@ -227,7 +259,7 @@ class ACF implements Task, Actions
 		acf_add_local_field_group(
 			array(
 				'key' => 'email',
-				'title' => '4. Confirmation email',
+				'title' => '5. Confirmation email',
 				'fields' => array (
 					array (
 						'key' => 'field_email_sender_address',

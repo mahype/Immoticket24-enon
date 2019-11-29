@@ -378,11 +378,14 @@ class EnergieausweisManager {
 		}
 
 		foreach ( $types as $type ) {
-			if ( file_exists( WPENON_DATA_PATH . '/' . $standard . '/schema/' . $type . '.php' ) ) {
-				$data   = require WPENON_DATA_PATH . '/' . $standard . '/schema/' . $type . '.php';
+			$schema_file = WPENON_DATA_PATH . '/' . $standard . '/schema/' . $type . '.php';
+			$schema_file = apply_filters( 'wpenon_schema_file', $schema_file, $standard, $type );
+
+			if ( file_exists( $schema_file ) ) {
+				$data   = require $schema_file;
 				$schema = array_merge_recursive( $schema, $data );
 			} else {
-				new \WPENON\Util\Error( 'fatal', __METHOD__, sprintf( __( 'Die geforderte Schema-Datei %s existiert nicht.', 'wpenon' ), '<code>' . '/' . $standard . '/schema/' . $type . '.php' . '</code>' ), '1.0.0' );
+				new \WPENON\Util\Error( 'fatal', __METHOD__, sprintf( __( 'Die geforderte Schema-Datei %s existiert nicht.', 'wpenon' ), '<code>' . $schema_file . '</code>' ), '1.0.0' );
 			}
 		}
 
