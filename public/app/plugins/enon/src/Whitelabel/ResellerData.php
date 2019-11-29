@@ -43,7 +43,7 @@ class ResellerData extends ACFPostData {
 		$postId = $this->getPostIdByToken( $token );
 
 		if( empty( $postId ) ) {
-			throw new Exception( sprintf( 'Could not find any reseller for token "%s".', $token->get() ) );
+			throw new Exception( sprintf( 'Invalid token "%s".', $token->get() ) );
 		}
 
 		$this->setPostId( $postId );
@@ -59,12 +59,17 @@ class ResellerData extends ACFPostData {
 	 * @return int/bool Post id if found or false. Returns the first token which was found.
 	 */
 	private function getPostIdByToken( Token $token ) {
-		$posts = \get_posts(array(
-			'numberposts'	=> -1,
+		$args = array(
 			'post_type'		=> 'reseller',
-			'meta_key'		=> 'token',
-			'meta_value'	=> $token->get(),
-		));
+			'meta_query'        => array(
+				array(
+					'key'       => 'token',
+					'value'     => $token->get()
+				)
+			),
+		);
+
+		$posts = \get_posts( $args );
 
 		foreach ( $posts AS $post ) {
 			return $post->ID; // There can only be one, the first is returned.
@@ -174,6 +179,30 @@ class ResellerData extends ACFPostData {
 	}
 
 	/**
+	 * Get user interface values.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array User interface values.
+	 */
+	public function getUserInterfaceValues()
+	{
+		return trim( $this->get( 'user_interface' ) );
+	}
+
+	/**
+	 * Get technical values.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Technical values.
+	 */
+	public function getTechnicalValues()
+	{
+		return trim( $this->get( 'user_interface' ) );
+	}
+
+	/**
 	 * Get Email From Address.
 	 *
 	 * @since 1.0.0
@@ -213,7 +242,18 @@ class ResellerData extends ACFPostData {
 	 *
 	 * @return string iframe url.
 	 */
-	public function getIframeUrl() {
-		return get_site_url() . '/?iframe_token=' . $this->getToken();
+	public function getIframeBedarfsausweisUrl() {
+		return get_home_url() . '/energieausweis2/bedarfsausweis-wohngebaeude/?iframe_token=' . $this->getToken();
+	}
+
+	/**
+	 * Get iframe url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string iframe url.
+	 */
+	public function getIframeVerbrauchsausweisUrl() {
+		return get_home_url() . '/energieausweis2/verbrauchsausweis-wohngebaeude/?iframe_token=' . $this->getToken() ;
 	}
 }

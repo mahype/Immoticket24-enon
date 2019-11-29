@@ -113,6 +113,8 @@ class CPTReseller implements Task, Actions, Filters
 		$resellerData = new ResellerData();
 		$resellerData->setPostId( $postId );
 
+		$post_status = get_post_status( $postId );
+
 		switch ( $column ) {
 			case 'company_name':
 				echo sprintf( '<a href="%s">%s</a>', get_edit_post_link( $postId ), $resellerData->getCompanyName() );
@@ -124,7 +126,11 @@ class CPTReseller implements Task, Actions, Filters
 				echo $resellerData->getContactEmail();
 				break;
 			case 'iframe_url':
-				echo $resellerData->getIframeUrl();
+				if ( 'publish' ===  $post_status ) {
+					echo '<p>' . $resellerData->getIframeBedarfsausweisUrl() . '</p><p>' . $resellerData->getIframeVerbrauchsausweisUrl() . '</p>';
+				} else {
+					echo __( 'Reseller have to be published before getting URL.', 'enon' );
+				}
 				break;
 		}
 	}

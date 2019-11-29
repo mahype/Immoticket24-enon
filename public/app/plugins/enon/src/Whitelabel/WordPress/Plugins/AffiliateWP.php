@@ -77,26 +77,14 @@ class AffiliateWP implements Task, Actions
 			return;
 		}
 
-		$email = $this->reseller->data()->getContactEmail();
+		$affiliateId = $this->reseller->data()->getAffiliateId();
 
-		if ( ! $email )
-		{
-			$this->logger->alert('Could not get reseller email.');
-		}
-
-		try {
-			$affiliate_id = self::getAffiliateIdByEmail( $email );
-		} catch ( Exception $exception ) {
-			$this->logger->alert( sprintf( 'Could not get afilliate id by email "%s" with message "%s".', $email, $exception->getMessage() ) );
-		}
-
-		if ( ! isset( $affiliate_id ) )
-		{
-			$this->logger->alert( sprintf( 'Afilliate ins unset.' ) );
+		if( empty( $affiliateId ) ) {
+			$this->logger->error( 'Could not set affiliate id.' );
 			return;
 		}
 
-		affiliate_wp()->tracking->referral = $affiliate_id;
+		affiliate_wp()->tracking->referral = $affiliateId;
 	}
 
 	/**
@@ -112,29 +100,5 @@ class AffiliateWP implements Task, Actions
 		}
 
 		return true;
-	}
-
-	/**
-	 * Get affilliate id.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $email Email address of reseller.
-	 *
-	 * @return string Affilate id of current token.
-	 *
-	 * @throws Exception If function for getting affiliate id not exists.
-	 */
-	public static function getAffiliateIdByEmail( $email ) {
-		if ( ! function_exists( 'affwp_get_affiliate_id' ) ) {
-			throw new Exception( 'Function affwp_get_affiliate_id does not exist.' );
-		}
-
-		$user = get_user_by( 'email', $email );
-		if ( ! $user ) {
-			return false;
-		}
-
-		return affwp_get_affiliate_id( $user->ID );
 	}
 }

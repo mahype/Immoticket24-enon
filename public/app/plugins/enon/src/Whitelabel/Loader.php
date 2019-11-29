@@ -44,7 +44,7 @@ class Loader extends TaskLoader {
 			$resellerData = new ResellerData( $token );
 			$reseller = new Reseller( $resellerData,  $this->logger() );
 		} catch ( Exception $exception ) {
-			$this->logger()->error( sprintf( 'Interrupting: %s', $exception->getMessage() ) );
+			$this->logger()->error( sprintf( $exception->getMessage() ) );
 		}
 
 		$this->addTask( Frontend::class );

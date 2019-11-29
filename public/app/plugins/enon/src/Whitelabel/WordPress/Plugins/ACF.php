@@ -72,10 +72,13 @@ class ACF implements Task, Actions
 	 */
 	public function registerFields()
 	{
+		$confirmation_email_default_subject = '';
+		$confirmation_email_default_content = '';
+
 		acf_add_local_field_group(
 			array(
-				'key' => 'reseller',
-				'title' => '1. Reseller',
+				'key' => 'company',
+				'title' => '1. Company',
 				'fields' => array (
 					array (
 						'key' => 'field_company_name',
@@ -98,7 +101,7 @@ class ACF implements Task, Actions
 						'label' => __( 'Contact Email', 'enon' ),
 						'name' => 'contact_email',
 						'type' => 'email',
-						'instructions' => __( 'The email of the contact person on the company.', 'enon' ),
+						'instructions' => __( 'The email of the contact person on the company. All emails from the system will be sent to this address.', 'enon' ),
 						'required' => 0,
 					),
 					array (
@@ -115,7 +118,7 @@ class ACF implements Task, Actions
 						'label' => __( 'Affiliate ID', 'enon' ),
 						'name' => 'affiliate_id',
 						'type' => 'number',
-						'append' => __( 'The token which have to be set by the reseller.', 'enon' ),
+						'instructions' => __( 'Affiliate WP id.', 'enon' ),
 						'required' => 0,
 					)
 				),
@@ -134,19 +137,60 @@ class ACF implements Task, Actions
 		acf_add_local_field_group(
 			array(
 				'key' => 'site',
-				'title' => '2. Site data',
+				'title' => '2. Iframe Settings',
+				'fields' => array (
+					array (
+						'key' => 'field_user_interface',
+						'label' => __( 'User Interface', 'enon' ),
+						'name' => 'user_interface',
+						'type' => 'checkbox',
+						'choices' => array(
+							'show_headline' => __( 'Show headline', 'enon' ),
+						),
+						'default_value' => array(
+							0 => 'show_headline',
+						),
+						'return_format' => 'value',
+					),
+					array (
+						'key' => 'field_technical',
+						'label' => __( 'Technical', 'enon' ),
+						'name' => 'technical',
+						'type' => 'checkbox',
+						'choices' => array(
+							'submit_iframe_height' => __( 'Submit iframe height', 'enon' ),
+						),
+						'return_format' => 'value',
+					),
+				),
+				'location' => array (
+					array (
+						array (
+							'param' => 'post_type',
+							'operator' => '==',
+							'value' => 'reseller',
+						),
+					),
+				),
+			)
+		);
+
+		acf_add_local_field_group(
+			array(
+				'key' => 'site',
+				'title' => '3. Website data',
 				'fields' => array (
 					array (
 						'key' => 'field_website_name',
 						'label' => __( 'Website name', 'enon' ),
 						'name' => 'website_name',
 						'type' => 'text',
-						'append' => __( 'This is the website name, which appears in emails.', 'enon' ),
+						'instructions' => __( 'This is the website name, which appears in emails.', 'enon' ),
 					),
 					array (
 						'key' => 'field_customerEditURL',
 						'label' => __( 'Customer Edit URL', 'enon' ),
-						'append' => __( 'Customer Edit URL', 'enon' ),
+						'instructions' => __( 'The edit url of the reseller website.', 'enon' ),
 						'name' => 'customer_edit_url',
 						'type' => 'url',
 						'placeholder' => 'https://'
@@ -154,6 +198,7 @@ class ACF implements Task, Actions
 					array (
 						'key' => 'field_payment_successful_url',
 						'label' => __( 'Payment successful URL', 'enon' ),
+						'instructions' => __( 'This url will be shown after successful payment.', 'enon' ),
 						'name' => 'payment_successful_url',
 						'type' => 'url',
 						'placeholder' => 'https://'
@@ -161,6 +206,7 @@ class ACF implements Task, Actions
 					array (
 						'key' => 'field_payment_failed_url',
 						'label' => __( 'Payment failed URL', 'enon' ),
+						'instructions' => __( 'This url will be shown after failed payment.', 'enon' ),
 						'name' => 'payment_failed_url',
 						'type' => 'url',
 						'placeholder' => 'https://'
@@ -181,7 +227,7 @@ class ACF implements Task, Actions
 		acf_add_local_field_group(
 			array(
 				'key' => 'email',
-				'title' => '3. Email data',
+				'title' => '4. Confirmation email',
 				'fields' => array (
 					array (
 						'key' => 'field_email_sender_address',
@@ -197,10 +243,24 @@ class ACF implements Task, Actions
 					),
 					array (
 						'key' => 'field_email_footer',
-						'label' => __( 'E-Mail footer', 'enon' ),
+						'label' => __( 'E-Mail Footer', 'enon' ),
 						'name' => 'email_footer',
 						'type' => 'textarea',
+					),
+					/* New
+					array (
+						'key' => 'field_email_subject',
+						'label' => __( 'E-Mail Subject', 'enon' ),
+						'name' => 'email_text',
+						'type' => 'text',
+					),
+					array (
+						'key' => 'field_email_text',
+						'label' => __( 'E-Mail Text', 'enon' ),
+						'name' => 'email_text',
+						'type' => 'wysiwyg',
 					)
+					*/
 				),
 				'location' => array (
 					array (
