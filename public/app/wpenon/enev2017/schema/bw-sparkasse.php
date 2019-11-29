@@ -54,6 +54,14 @@ return array(
             ),
             'required'              => true,
           ),
+          'geschosse'             => array(
+            'type'                  => 'int',
+            'label'                 => __( 'Anzahl der Geschosse', 'wpenon' ),
+            'description'           => __( 'Geben Sie die Anzahl der Geschosse im Gebäude ein.', 'wpenon' ),
+            'default'               => 1,
+            'min'                   => 1,
+            'required'              => true,
+          ),
           'wohnungen'             => array(
             'type'                  => 'int',
             'label'                 => __( 'Wohnungen', 'wpenon' ),
