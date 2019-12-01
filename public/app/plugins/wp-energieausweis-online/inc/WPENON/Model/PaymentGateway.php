@@ -90,6 +90,8 @@ abstract class PaymentGateway {
 		$log_message = sprintf( 'Payment error for payment id #%s: %s', $payment_id, $message );
 		$this->log( $log_message );
 
+		do_action('wpenon_payment_error', $payment_id );
+
 		edd_record_gateway_error( __( 'Payment Error', 'wpenon' ), $message, $payment_id );
 		if ( $payment_id ) {
 			edd_update_payment_status( $payment_id, 'failed' );
@@ -107,6 +109,8 @@ abstract class PaymentGateway {
 
 		$log_message = sprintf( 'Payment successful for payment id #%s with transaction id %s', $payment_id, $transaction_id );
 		$this->log( $log_message );
+
+		do_action('wpenon_payment_successful', $payment_id );
 
 		edd_empty_cart();
 
