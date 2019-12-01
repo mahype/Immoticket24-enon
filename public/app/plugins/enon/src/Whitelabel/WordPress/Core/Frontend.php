@@ -21,7 +21,7 @@ class Frontend implements Task {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		add_filter( 'template_include', array( $this, 'filter_iframe_template' ) );
+		add_filter( 'template_include', [ $this, 'filter_iframe_template' ] );
 		add_action( 'wp_head', 'wp_no_robots' );
 
 		remove_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
