@@ -278,4 +278,32 @@ class ResellerData extends ACFPostData {
 	public function getIframeVerbrauchsausweisUrl() {
 		return get_home_url() . '/energieausweis2/verbrauchsausweis-wohngebaeude/?iframe_token=' . $this->getToken() ;
 	}
+
+	/**
+	 * Get Post endpoint.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string iframe url.
+	 */
+	public function getPostEndpoint() {
+		return $this->get( 'post_endpoint' );
+	}
+
+	/**
+	 * Get Post data config class.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string iframe url.
+	 */
+	public function getPostDataConfigClass() {
+		$configFile = $this->get( 'post_data_config_class' );
+
+		if( empty( $configFile ) ) {
+			return 'PostDataConfigClass';
+		}
+
+		return $configFile;
+	}
 }

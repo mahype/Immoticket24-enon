@@ -9,6 +9,7 @@ use Enon\Whitelabel\WordPress\Core\Frontend;
 use Enon\Whitelabel\WordPress\Enon\EmailConfirmation;
 use Enon\Whitelabel\WordPress\Enon\EmailOrderConfirmation;
 use Enon\Whitelabel\WordPress\Enon\Enon;
+use Enon\Whitelabel\WordPress\Enon\SendEnergieausweis;
 use Enon\Whitelabel\WordPress\Plugins\ACF;
 use Enon\Whitelabel\WordPress\Plugins\AffiliateWP;
 use Enon\Whitelabel\WordPress\Plugins\Edd;
@@ -51,6 +52,7 @@ class Loader extends TaskLoader {
 		$this->addTask( Enon::class, $reseller, $this->logger() );
 		$this->addTask( EmailConfirmation::class, $reseller, $this->logger() );
 		$this->addTask( EmailOrderConfirmation::class, $reseller, $this->logger() );
+		$this->addTask( SendEnergieausweis::class, $reseller, $this->logger() );
 		$this->addTask( AffiliateWP::class, $reseller, $this->logger() );
 		$this->addTask( ACF::class, $this->logger() );
 		$this->addTask( Edd::class, $reseller, $this->logger() );
