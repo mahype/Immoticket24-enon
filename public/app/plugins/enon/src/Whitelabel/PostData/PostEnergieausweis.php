@@ -94,7 +94,7 @@ abstract class PostEnergieausweis {
 	 *
 	 * @since 1.0.0
 	 */
-	public function setup()
+	public function send()
 	{
 		$this->setupArgs();
 		$response = wp_remote_post( $this->endpoint, $this->args );
