@@ -3,6 +3,7 @@
 namespace Enon\Whitelabel\WordPress\Enon;
 
 use Awsm\WPWrapper\BuildingPlans\Actions;
+use Awsm\WPWrapper\BuildingPlans\Task;
 use Enon\Logger;
 use Enon\Traits\Logger as LoggerTrait;
 use Enon\Whitelabel\Reseller;
@@ -13,7 +14,7 @@ use WPENON\Model\Energieausweis;
  *
  * @since 1.0.0
  */
-class SendEnergieausweis implements Actions {
+class SendEnergieausweis implements Actions, Task {
 	use LoggerTrait;
 
 	/**
@@ -36,7 +37,16 @@ class SendEnergieausweis implements Actions {
 	{
 		$this->reseller = $reseller;
 		$this->logger = $logger;
+	}
 
+	/**
+	 * Running task.
+	 *
+	 * @since 1.0.0
+	 * 
+	 * @return mixed|void
+	 */
+	public function run() {
 		// No endpoint, no data.
 		if( empty( $this->reseller->data()->getPostEndpoint() ) ) {
 			return;
