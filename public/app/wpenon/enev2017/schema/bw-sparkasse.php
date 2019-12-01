@@ -35,8 +35,8 @@ return array(
               'reihenhaus'            => __( 'Reihenhaus', 'wpenon' ),
               'reiheneckhaus'         => __( 'Reiheneckhaus', 'wpenon' ),
               'doppelhaushaelfte'     => __( 'Doppelhaushälfte', 'wpenon' ),
+			  'fertighausfachwerkhaus'=> __( 'Fertighaus/Fachwerkhaus', 'wpenon' ),
               'mehrfamilienhaus'      => __( 'Mehrfamilienhaus', 'wpenon' ),
-              'fertighausfachwerkhaus'=> __( 'Fertighaus/Fachwerkhaus', 'wpenon' ),
               'sonstiges'             => __( 'sonstiges Wohngebäude', 'wpenon' ),
             ),
             'disabled_options'      => array(
