@@ -43,15 +43,11 @@ class SendEnergieausweis implements Actions, Task {
 	 * Running task.
 	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @return mixed|void
 	 */
-	public function run() {
-		// No endpoint, no data.
-		if( empty( $this->reseller->data()->getPostEndpoint() ) ) {
-			return;
-		}
-
+	public function run()
+	{
 		$this->addActions();
 	}
 
@@ -62,7 +58,7 @@ class SendEnergieausweis implements Actions, Task {
 	 */
 	public function addActions()
 	{
-		add_action( 'wpenon_payment_successful', [ $this, 'sendData' ] );
+		add_action( 'edd_update_payment_status', [ $this, 'sendData' ], 10, 2 );
 	}
 
 	/**
@@ -79,6 +75,7 @@ class SendEnergieausweis implements Actions, Task {
 	{
 		$payment_meta = edd_get_payment_meta( $paymentId  );
 		$item = array_shift( $payment_meta['cart_details'] );
+
 		return $item[ 'id' ];
 	}
 
@@ -88,9 +85,17 @@ class SendEnergieausweis implements Actions, Task {
 	 * @since 1.0.0
 	 *
 	 * @param int $paymentId Payment id.
+	 * @param string $status Payment status.
 	 */
-	public function sendData( $paymentId )
+	public function sendData( $paymentId, $status )
 	{
+		$endpoint = $this->reseller->data()->getPostEndpoint();
+
+		// Do not anything if not payed.
+		if ( 'publish' !== $status || empty( $endpoint ) ) {
+			return;
+		}
+
 		$senderClassName = $this->reseller->data()->getPostDataConfigClass();
 		$senderClassName = 'Enon\\Whitelabel\\PostData\\' . $senderClassName;
 
@@ -99,10 +104,8 @@ class SendEnergieausweis implements Actions, Task {
 			return;
 		}
 
-		$energieausweis = new Energieausweis( $this->getEnergieausweisIdByPaymentId( $paymentId) );
-
-		$senderEndpoint = $this->reseller->data()->getPostEndpoint();
-		$postEnergieausweis = new $senderClassName( $senderEndpoint, $energieausweis, $this->logger() );
+		$energieausweis = new Energieausweis( $this->getEnergieausweisIdByPaymentId( $paymentId ) );
+		$postEnergieausweis = new $senderClassName( $endpoint, $energieausweis, $this->logger() );
 		$postEnergieausweis->send();
 	}
 }
