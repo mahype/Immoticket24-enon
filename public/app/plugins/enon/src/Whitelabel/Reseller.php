@@ -39,7 +39,7 @@ class Reseller {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param ResellerData  $data   Reseller object.
+	 * @param ResellerData  $data   Reseller data object.
 	 * @param Logger        $logger Logger object.
 	 */
 	public function __construct( ResellerData $data, Logger $logger )

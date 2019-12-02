@@ -27,6 +27,8 @@ class ResellerData extends ACFPostData {
 	public function __construct( Token $token = null ) {
 		if ( ! empty( $token ) ) {
 			$this->setToken( $token );
+		} elseif ( is_admin() ) {
+			$this->setPost();
 		}
 	}
 
@@ -76,6 +78,28 @@ class ResellerData extends ACFPostData {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get post id automatically.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function setPost() {
+		global $pagenow;
+
+		if ( 'edit.php' !== $pagenow ) {
+			return;
+		}
+
+		if( 'download' !== $_REQUEST['post_type'] || 'edd-payment-history' !== $_REQUEST['page'] || 'view-order-details' !== $_REQUEST['view'] || ! isset( $_REQUEST['id'] ) ) {
+			return;
+		}
+
+		$postId = $_REQUEST['id'];
+		$this->setPostId( $postId );
 	}
 
 	/**
@@ -301,7 +325,7 @@ class ResellerData extends ACFPostData {
 		$configFile = $this->get( 'post_data_config_class' );
 
 		if( empty( $configFile ) ) {
-			return 'PostDataConfigClass';
+			return 'PostEnergieausweisStandard';
 		}
 
 		return $configFile;
