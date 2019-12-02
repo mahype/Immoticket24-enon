@@ -32,6 +32,18 @@ abstract class ACFPostData {
 	}
 
 	/**
+	 * Get post id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return int $postId Post Id.
+	 */
+	public function getPostId()
+	{
+		return $this->postId;
+	}
+
+	/**
 	 * Get post field.
 	 *
 	 * @since 1.0.0
