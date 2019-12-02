@@ -8,6 +8,7 @@ use Awsm\WPWrapper\BuildingPlans\Task;
 use Enon\Traits\Logger as LoggerTrait;
 use Enon\Logger;
 use Enon\Whitelabel\Reseller;
+use WPENON\Model\Energieausweis;
 
 /**
  * Class Wpenon.
@@ -83,6 +84,17 @@ class Enon implements Task, Actions, Filters
 	 */
 	public function updateEnergieausweisToken( $energieausweis ) {
 		update_post_meta( $energieausweis->id, 'whitelabel_token', $this->reseller->data()->getToken() );
+	}
+
+	/**
+	 * Updating reseller id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Energieausweis $energieausweis Energieausweis object.
+	 */
+	public function updateRessellerId( $energieausweis ) {
+		update_post_meta( $energieausweis->id, 'reseller_id', $this->reseller->data()->getPostId() );
 	}
 
 	/**
