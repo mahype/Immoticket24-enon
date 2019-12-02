@@ -120,7 +120,7 @@ return array(
         'fields'                => array(
           'wand_daemmung'         => array(
             'type'                  => 'int',
-            'label'                 => __( 'Wanddämmung', 'wpenon' ),
+            'label'                 => __( 'Nachträgliche Wanddämmung', 'wpenon' ),
             'description'           => __( 'Falls die Außenwände zusätzlich gedämmt worden sind, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
             'unit'                  => 'cm',
             'max'                   => 23,
@@ -140,7 +140,7 @@ return array(
           ),
           'decke_daemmung'        => array(
             'type'                  => 'int',
-            'label'                 => __( 'Deckendämmung', 'wpenon' ),
+            'label'                 => __( 'Nachträgliche Deckendämmung', 'wpenon' ),
             'description'           => __( 'Falls die Oberste Geschossdecke zusätzlich gedämmt worden ist, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
             'unit'                  => 'cm',
             'max'                   => 30,
@@ -151,7 +151,7 @@ return array(
           ),
           'boden_daemmung'        => array(
             'type'                  => 'int',
-            'label'                 => __( 'Bodendämmung', 'wpenon' ),
+            'label'                 => __( 'Nachträgliche Bodendämmung', 'wpenon' ),
             'description'           => __( 'Falls die Bodenplatte / Kellerdecke zusätzlich gedämmt worden ist, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
             'unit'                  => 'cm',
             'max'                   => 25,
