@@ -35,7 +35,7 @@ public/app/nfwlog/*
 public/core
 
 # Custom Config
-local-config.php
+public/local-config.php
 
 # WP-CLI
 db-sync

@@ -12,8 +12,8 @@ if ( version_compare( phpversion(), '7.0', '<' ) ) {
  * Load local configuration if available
  * Create a local-config.php file to override any of the following constants
  **=========================================================================*/
-if (file_exists(dirname(__DIR__) . '/local-config.php')) {
-	include(dirname(__DIR__) . '/local-config.php');
+if ( file_exists(dirname( __FILE__ ) . '/local-config.php' ) ) {
+	include( dirname(__FILE__ ) . '/local-config.php' );
 }
 
 /**=================================================================================================
@@ -123,7 +123,7 @@ switch( WP_ENV )
 {
   case 'development':
     define( 'WP_DEBUG', true );
-    define( 'WP_DEBUG_LOG', true );
+    define( 'WP_DEBUG_LOG', dirname( dirname( __FILE__ ) ) . '/debug.log' );
     define( 'WP_DEBUG_DISPLAY', false );
     define( 'SAVEQUERIES', true );
     define( 'SCRIPT_DEBUG', true );
@@ -132,14 +132,14 @@ switch( WP_ENV )
     break;
   case 'staging':
     define( 'WP_DEBUG', true );
-    define( 'WP_DEBUG_LOG', true );
+	define( 'WP_DEBUG_LOG', dirname( dirname( __FILE__ ) ) . '/debug.log' );
     define( 'WP_DEBUG_DISPLAY', false );
     define( 'DISALLOW_FILE_EDIT', true );
     break;
   case 'production':
   default:
     define( 'WP_DEBUG', false );
-    define( 'WP_DEBUG_LOG', false );
+	define( 'WP_DEBUG_LOG', dirname( dirname( __FILE__ ) ) . '/debug.log' );
     define( 'WP_DEBUG_DISPLAY', false );
     define( 'DISALLOW_FILE_EDIT', true );
     break;
