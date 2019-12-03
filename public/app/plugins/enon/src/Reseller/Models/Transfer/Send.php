@@ -79,6 +79,7 @@ abstract class Send {
 	public function send()
 	{
 		$this->setupArgs();
+		// @todo Switch between request methods
 		$response = wp_remote_post( $this->endpoint, $this->args );
 		$status = wp_remote_retrieve_response_code( $response );
 
