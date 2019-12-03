@@ -21,7 +21,7 @@ namespace Enon\Core;
 use Awsm\WPWrapper\Plugin\Plugin;
 use Enon\Config\Loader as ConfigLoader;
 use Enon\Misc\Loader as MiscLoader;
-use Enon\Whitelabel\Loader as WhitelabelLoader;
+use Enon\Reseller\Loader as WhitelabelLoader;
 use Enon\Logger;
 
 require dirname( __FILE__ ) . '/vendor/autoload.php';

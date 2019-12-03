@@ -2,6 +2,8 @@
 
 namespace Enon\Misc;
 
+use Enon\Misc\Tasks\TaskGoogleTagManager;
+use Enon\Misc\Tasks\TaskRemoveOptimizepress;
 use Enon\TaskLoader;
 
 /**
@@ -20,8 +22,8 @@ class Loader extends TaskLoader
 	 */
 	public function run()
 	{
-		$this->addTask( GoogleTagManager::class );
-		$this->addTask( RemoveOptimizepress::class );
+		$this->addTask( TaskGoogleTagManager::class );
+		$this->addTask( TaskRemoveOptimizepress::class );
 		$this->runTasks();;
 	}
 }

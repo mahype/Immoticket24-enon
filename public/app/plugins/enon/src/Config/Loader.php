@@ -2,6 +2,9 @@
 
 namespace Enon\Config;
 
+use Enon\Config\Tasks\TaskGutenberg;
+use Enon\Config\Tasks\TaskMenu;
+
 use Enon\TaskLoader;
 
 /**
@@ -20,8 +23,8 @@ class Loader extends TaskLoader
 	 */
 	public function run()
 	{
-		$this->addTask( Gutenberg::class );
-		$this->addTask( Menu::class );
+		$this->addTask( TaskGutenberg::class );
+		$this->addTask( TaskMenu::class );
 		$this->runTasks();;
 	}
 }
