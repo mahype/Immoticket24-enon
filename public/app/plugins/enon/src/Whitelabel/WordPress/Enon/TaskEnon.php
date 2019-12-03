@@ -164,13 +164,13 @@ class TaskEnon implements Task, Actions, Filters
 	}
 
 	/**
-	 * Filtering payment success URL.
+	 * Filtering payment failed URL.
 	 *
 	 * @param string $old_url Old url.
 	 *
 	 * @return string
 	 */
-	public function filter_payment_failed_url( $old_url ) {
+	public function filterPaymentFailedUrl( $old_url ) {
 		$url = $this->reseller->data()->getPaymentFailedUrl();
 
 		if ( empty( $url ) ) {
