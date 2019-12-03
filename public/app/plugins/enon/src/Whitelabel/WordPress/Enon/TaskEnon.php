@@ -17,7 +17,7 @@ use WPENON\Model\Energieausweis;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class Enon implements Task, Actions, Filters
+class EnonTask implements Task, Actions, Filters
 {
 	use LoggerTrait;
 
@@ -60,6 +60,7 @@ class Enon implements Task, Actions, Filters
 	public function addActions()
 	{
 		add_action( 'wpenon_confirmation_start', [ $this, 'updateEnergieausweisToken' ] );
+		add_action( 'wpenon_confirmation_start', [ $this, 'updateRessellerId' ] );
 	}
 
 	/**

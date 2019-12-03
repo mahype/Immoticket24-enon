@@ -15,7 +15,7 @@ use Enon\Whitelabel\Reseller;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class ACF implements Task, Actions
+class ACFTask implements Task, Actions
 {
 	use LoggerTrait;
 

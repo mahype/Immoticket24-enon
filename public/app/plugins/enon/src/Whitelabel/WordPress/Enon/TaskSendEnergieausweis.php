@@ -7,6 +7,7 @@ use Awsm\WPWrapper\BuildingPlans\Task;
 use Enon\Logger;
 use Enon\Traits\Logger as LoggerTrait;
 use Enon\Whitelabel\Reseller;
+use Enon\Whitelabel\WordPress\Plugins\EddPayment;
 use WPENON\Model\Energieausweis;
 
 /**
@@ -14,7 +15,7 @@ use WPENON\Model\Energieausweis;
  *
  * @since 1.0.0
  */
-class SendEnergieausweis implements Actions, Task {
+class SendEnergieausweisTask implements Actions, Task {
 	use LoggerTrait;
 
 	/**
@@ -62,24 +63,6 @@ class SendEnergieausweis implements Actions, Task {
 	}
 
 	/**
-	 * Get energieausweis id by payment id.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param int $paymentId Payment id.
-	 * @return int Energieausweis id.
-	 *
-	 * @todo Move this to energieausweis section.
-	 */
-	private function getEnergieausweisIdByPaymentId( $paymentId )
-	{
-		$payment_meta = edd_get_payment_meta( $paymentId  );
-		$item = array_shift( $payment_meta['cart_details'] );
-
-		return $item[ 'id' ];
-	}
-
-	/**
 	 * Send data.
 	 *
 	 * @since 1.0.0
@@ -96,16 +79,16 @@ class SendEnergieausweis implements Actions, Task {
 			return;
 		}
 
-		$senderClassName = $this->reseller->data()->getPostDataConfigClass();
-		$senderClassName = 'Enon\\Whitelabel\\PostData\\' . $senderClassName;
+		$senderClassName = 'Enon\\Whitelabel\\PostData\\' . $this->reseller->data()->getPostDataConfigClass();
 
 		if( ! class_exists( $senderClassName ) ) {
 			$this->logger()->warning( sprintf( 'Sender Class %s does not exist, Do not send data.', $senderClassName ) );
 			return;
 		}
 
-		$energieausweis = new Energieausweis( $this->getEnergieausweisIdByPaymentId( $paymentId ) );
-		$postEnergieausweis = new $senderClassName( $endpoint, $energieausweis, $this->logger() );
-		$postEnergieausweis->send();
+		$energieausweisId = (new EddPayment( $paymentId))->getEnergieausweisId();
+		$energieausweis = new Energieausweis( $energieausweisId );
+
+		( new $senderClassName( $endpoint, $energieausweis, $this->logger() ) )->send();
 	}
 }

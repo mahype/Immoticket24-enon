@@ -17,7 +17,7 @@ use Enon\Whitelabel\Reseller;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class AffiliateWP implements Task, Actions
+class AffiliateWPTask implements Task, Actions
 {
 	use LoggerTrait;
 

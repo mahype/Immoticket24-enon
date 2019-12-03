@@ -15,7 +15,7 @@ use Enon\Whitelabel\Reseller;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class EmailConfirmation implements Task, Filters
+class EmailConfirmationTask implements Task, Filters
 {
 	use LoggerTrait;
 
@@ -154,7 +154,7 @@ class EmailConfirmation implements Task, Filters
 	 */
 	public function filterSignature() {
 		$signature = sprintf( __( 'Mit freundlichen Grüßen,
-		
+
 		Ihr Team von %s.', 'wpenon' ), $this->reseller->data()->getWebdsiteName() );
 		return $signature;
 	}

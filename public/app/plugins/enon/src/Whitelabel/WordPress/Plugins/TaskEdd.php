@@ -1,33 +1,35 @@
 <?php
 
-namespace Enon\Whitelabel\WordPress\Enon;
+namespace Enon\Whitelabel\WordPress\Plugins;
 
 use Awsm\WPWrapper\BuildingPlans\Filters;
 use Awsm\WPWrapper\BuildingPlans\Task;
-use Enon\Logger;
+
 use Enon\Traits\Logger as LoggerTrait;
+use Enon\Logger;
 use Enon\Whitelabel\Reseller;
 
 /**
- * Class EnonEmailOrderConfirmation.
+ * Class PluginEdd.
  *
  * @since 1.0.0
  *
  * @package Enon\Whitelabel\WordPress
  */
-class EmailOrderConfirmation implements Task, Filters {
+class EddTask implements Task, Filters {
 	use LoggerTrait;
 
 	/**
 	 * Reseller object.
 	 *
 	 * @since 1.0.0
-	 * @var Reseller;
+	 *
+	 * @var Reseller Reseller object.
 	 */
 	private $reseller;
 
 	/**
-	 * Wpenon constructor.
+	 * Loading Plugin scripts.
 	 *
 	 * @since 1.0.0
 	 *
@@ -43,30 +45,33 @@ class EmailOrderConfirmation implements Task, Filters {
 	 * Running scripts.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return mixed|void
 	 */
 	public function run() {
 		$this->addFilters();
 	}
 
 	/**
-	 * Adding filters.
+	 * Adding fiilters.
 	 *
 	 * @since 1.0.0
 	 */
 	public function addFilters() {
-		add_filter( 'wpenon_order_confirmation_to_address', [ $this, 'filterToAddress' ] );
+		add_filter( 'edd_get_checkout_uri', array( $this, 'filterIframeUrl' ), 100 );
+		add_filter( 'edd_get_success_page_uri', array( $this, 'filterIframeUrl' ), 100 );
+		add_filter( 'edd_get_failed_transaction_uri', array( $this, 'filterIframeUrl' ), 100 );
+		add_filter( 'edd_remove_fee_url', array( $this, 'filterIframeUrl' ), 100 );
 	}
 
 	/**
-	 * Returning token from email address.
+	 * Filtering iframe URL.
 	 *
-	 * @since 1.0.0
+	 * @param mixed $url Extra query args to add to the URI.
 	 *
-	 * @param string $email To email address.
-	 *
-	 * @return string Reseller contact email address.
+	 * @return string
 	 */
-	public function filterToAddress() {
-		return $this->reseller->data()->getContactEmail();
+	public function filterIframeUrl( $url ) {
+		return $this->reseller->createIframeUrl( $url );
 	}
 }
