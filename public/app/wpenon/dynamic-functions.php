@@ -74,12 +74,30 @@ function wpenon_immoticket24_show_wand_porenbeton_bedarf( $grundriss, $a = 0, $b
 	return true;
 }
 
-function wpenon_immoticket24_show_wand_porenbeton_verbrauch( $daemmung ) {
+function wpenon_immoticket24_show_wand_porenbeton_verbrauch( $daemmung  ) {
 	if ( absint( $daemmung ) === 0 ) {
 		return true;
 	}
 
 	return false;
+}
+
+
+function wpenon_immoticket24_show_jahr_daemmung( $daemmung, $dach = 'nicht-vorhanden' ) {
+	if ( absint( $daemmung ) === 0 || $dach === 'beheizt' ) {
+		return false;
+	}
+
+	return true;
+}
+
+
+function wpenon_immoticket24_show_unterkellerung( $keller ) {
+	if ( $keller === 'nicht-vorhanden' ) {
+		return false;
+	}
+
+	return true;
 }
 
 function wpenon_immoticket24_calculate_wand( $grundriss, $wand = '', $a = 0.0, $b = 0.0, $c = 0.0, $d = 0.0, $e = 0.0, $f = 0.0, $g = 0.0, $h = 0.0 ) {

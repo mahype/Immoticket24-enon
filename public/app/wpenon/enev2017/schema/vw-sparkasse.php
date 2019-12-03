@@ -125,6 +125,18 @@ return array(
 						'unit' => 'cm',
 						'max' => 23,
 					),
+					'jahr_wand_daemmung' => array(
+						'type' => 'int',
+						'label' => __('Jahr der Dämmung', 'wpenon'),
+						'description' => __('Geben Sie das Jahr der Dämmung an.', 'wpenon'),
+						'default' => '',
+						'min' => 1995,
+						'max' => wpenon_get_reference_date('Y'),
+						'display' => array(
+							'callback' => 'wpenon_immoticket24_show_jahr_daemmung',
+							'callback_args' => array('field::wand_daemmung'),
+						),
+					),
 					'wand_porenbeton' => array(
 						'type' => 'select',
 						'label' => __('Sind die Außenwände aus Porenbeton (z.B. Ytong)?', 'wpenon'),
@@ -149,12 +161,36 @@ return array(
 							'callback_args' => array('field::dach', 'beheizt'),
 						),
 					),
+					'jahr_decke_daemmung' => array(
+						'type' => 'int',
+						'label' => __('Jahr der Dämmung', 'wpenon'),
+						'description' => __('Geben Sie das Jahr der Dämmung an.', 'wpenon'),
+						'default' => '',
+						'min' => 1995,
+						'max' => wpenon_get_reference_date('Y'),
+						'display' => array(
+							'callback' => 'wpenon_immoticket24_show_jahr_daemmung',
+							'callback_args' => array('field::decke_daemmung', 'field::dach'),
+						),
+					),
 					'boden_daemmung' => array(
 						'type' => 'int',
 						'label' => __('Nachträgliche Bodendämmung', 'wpenon'),
 						'description' => __('Falls die Bodenplatte / Kellerdecke zusätzlich gedämmt worden ist, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 25,
+					),
+					'jahr_boden_daemmung' => array(
+						'type' => 'int',
+						'label' => __('Jahr der Dämmung', 'wpenon'),
+						'description' => __('Geben Sie das Jahr der Dämmung an.', 'wpenon'),
+						'default' => '',
+						'min' => 1995,
+						'max' => wpenon_get_reference_date('Y'),
+						'display' => array(
+							'callback' => 'wpenon_immoticket24_show_jahr_daemmung',
+							'callback_args' => array('field::boden_daemmung'),
+						),
 					),
 				),
 			),
@@ -183,6 +219,18 @@ return array(
 							'callback_args' => array('field::dach', 'beheizt'),
 						),
 					),
+					'jahr_dach_daemmung' => array(
+						'type' => 'int',
+						'label' => __('Jahr der Dämmung', 'wpenon'),
+						'description' => __('Geben Sie das Jahr der Dämmung an.', 'wpenon'),
+						'default' => '',
+						'min' => 1995,
+						'max' => wpenon_get_reference_date('Y'),
+						'display' => array(
+							'callback' => 'wpenon_immoticket24_show_jahr_daemmung',
+							'callback_args' => array('field::dach_daemmung'),
+						),
+					),
 				),
 			),
 			'bauteile_keller' => array(
@@ -196,8 +244,6 @@ return array(
 							'nicht-vorhanden' => __('Nicht vorhanden', 'wpenon'),
 							'unbeheizt' => __('Unbeheizt', 'wpenon'),
 							'beheizt' => __('Beheizt', 'wpenon'),
-							'teilunterkellert' => __('Teilunterkellert', 'wpenon'),
-							'vollunterkellert' => __('Voll unterkellert', 'wpenon'),
 						),
 						'required' => true,
 					),
@@ -211,6 +257,19 @@ return array(
 							'callback' => 'wpenon_show_on_array_whitelist',
 							'callback_args' => array('field::keller', 'beheizt'),
 						),
+					),
+					'unterkellerung' => array(
+						'type' => 'select',
+						'label' => __('Unterkellerung', 'wpenon'),
+						'options' => array(
+							'teilunterkellert' => __('Teilunterkellert', 'wpenon'),
+							'vollunterkellert' => __('Voll unterkellert', 'wpenon'),
+						),
+						'display' => array(
+							'callback' => 'wpenon_immoticket24_show_unterkellerung',
+							'callback_args' => array('field::keller'),
+						),
+						'required' => true,
 					),
 				),
 			),
@@ -265,6 +324,18 @@ return array(
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
 					),
+					'h_modernisierung' => array(
+						'type' => 'select',
+						'label' => __('Modernisierung der Leitungssysteme', 'wpenon'),
+						'options' => array(
+							'0-5' => __('Vor 0-5 Jahren', 'wpenon'),
+							'6-10' => __('Vor 6-10 Jahren', 'wpenon'),
+							'11-15' => __('Vor 11-15 Jahren', 'wpenon'),
+							'16-25' => __('Vor 16- 25 Jahren', 'wpenon'),
+							'25' => __('Vor über 25 Jahren', 'wpenon'),
+						),
+						'required' => true,
+					),
 					/*'h_custom'              => array(
 					  'type'                  => 'checkbox',
 					  'label'                 => __( 'Benutzerdefinierten Primärenergiefaktor verwenden?', 'wpenon' ),
@@ -315,6 +386,22 @@ return array(
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
+					),
+					'h2_modernisierung' => array(
+						'type' => 'select',
+						'label' => __('Modernisierung der Leitungssysteme', 'wpenon'),
+						'options' => array(
+							'0-5' => __('Vor 0-5 Jahren', 'wpenon'),
+							'6-10' => __('Vor 6-10 Jahren', 'wpenon'),
+							'11-15' => __('Vor 11-15 Jahren', 'wpenon'),
+							'16-25' => __('Vor 16- 25 Jahren', 'wpenon'),
+							'25' => __('Vor über 25 Jahren', 'wpenon'),
+						),
+						'display' => array(
+							'callback' => 'wpenon_show_on_bool_compare',
+							'callback_args' => array('field::h2_info', true),
+						),
+						'required' => true,
 					),
 					/*'h2_custom'             => array(
 					  'type'                  => 'checkbox',
@@ -374,6 +461,22 @@ return array(
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
+					),
+					'h3_modernisierung' => array(
+						'type' => 'select',
+						'label' => __('Modernisierung der Leitungssysteme', 'wpenon'),
+						'options' => array(
+							'0-5' => __('Vor 0-5 Jahren', 'wpenon'),
+							'6-10' => __('Vor 6-10 Jahren', 'wpenon'),
+							'11-15' => __('Vor 11-15 Jahren', 'wpenon'),
+							'16-25' => __('Vor 16- 25 Jahren', 'wpenon'),
+							'25' => __('Vor über 25 Jahren', 'wpenon'),
+						),
+						'required' => true,
+						'display' => array(
+							'callback' => 'wpenon_show_on_bool_compare',
+							'callback_args' => array(array('field::h2_info', 'field::h3_info'), array(true, true)),
+						),
 					),
 					/*'h3_custom'             => array(
 					  'type'                  => 'checkbox',
@@ -717,6 +820,67 @@ return array(
 						'default' => 0,
 						'max' => 50,
 						'unit' => '%',
+					),
+				),
+			),
+		),
+	),
+	'sonstiges' => array(
+		'title' => __('Sonstiges', 'wpenon'),
+		'groups' => array(
+			'modernisierung' => array(
+				'title' => __('Modernisierungen', 'wpenon'),
+				'fields' => array(
+					'modernisierung_baeder' => array(
+						'type' => 'select',
+						'label' => __('Modernisierung von Bädern', 'wpenon'),
+						'options' => array(
+							'nein'      => __('Keine Modernisierung', 'wpenon'),
+							'0-5' => __('Vor 0-5 Jahren', 'wpenon'),
+							'6-10' => __('Vor 6-10 Jahren', 'wpenon'),
+							'11-15' => __('Vor 11-15 Jahren', 'wpenon'),
+							'16-25' => __('Vor 16- 25 Jahren', 'wpenon'),
+							'25' => __('Vor über 25 Jahren', 'wpenon'),
+						),
+						'required' => true,
+					),
+					'modernisierung_innenausbau' => array(
+						'type' => 'select',
+						'label' => __('Modernisierung des Innenausbaus (z.B. Decken, Fußböden, Treppen)', 'wpenon'),
+						'options' => array(
+							'nein'      => __('Keine Modernisierung', 'wpenon'),
+							'0-5' => __('Vor 0-5 Jahren', 'wpenon'),
+							'6-10' => __('Vor 6-10 Jahren', 'wpenon'),
+							'11-15' => __('Vor 11-15 Jahren', 'wpenon'),
+							'16-25' => __('Vor 16- 25 Jahren', 'wpenon'),
+							'25' => __('Vor über 25 Jahren', 'wpenon'),
+						),
+						'required' => true,
+					),
+					'verbesserung_grundrissgestaltung' => array(
+						'type' => 'select',
+						'label' => __('Wesentliche Verbesserung der Grundrissgestaltung', 'wpenon'),
+						'description' => __('Wurden die Bäder modernisiert und wenn ja vor wie viel Jahren?', 'wpenon'),
+						'options' => array(
+							'nein'      => __('Keine Verbesserung', 'wpenon'),
+							'0-5' => __('Vor 0-5 Jahren', 'wpenon'),
+							'6-10' => __('Vor 6-10 Jahren', 'wpenon'),
+							'11-15' => __('Vor 11-15 Jahren', 'wpenon'),
+							'16-25' => __('Vor 16- 25 Jahren', 'wpenon'),
+							'25' => __('Vor über 25 Jahren', 'wpenon'),
+						),
+						'required' => true,
+					),
+				),
+			),
+			'grundstück' => array(
+				'title' => __('Grundstück und Lage', 'wpenon'),
+				'fields' => array(
+					'grundstuecksflaeche' => array(
+						'type' => 'int',
+						'label' => __('Grundstücksfläche', 'wpenon'),
+						'default' => 0,
+						'unit' => 'm²',
 					),
 				),
 			),
