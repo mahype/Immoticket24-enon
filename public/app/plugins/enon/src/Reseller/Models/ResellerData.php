@@ -330,7 +330,7 @@ class ResellerData extends PostData {
 		$configFile = $this->get( 'post_data_config_class' );
 
 		if( empty( $configFile ) ) {
-			return 'PostEnergieausweisStandard';
+			return 'SendEnergieausweisStandard';
 		}
 
 		return $configFile;
