@@ -42,6 +42,7 @@ abstract class Send {
 	public function __construct( $endpoint, Logger $logger )
 	{
 		$this->endpoint = $endpoint;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -87,7 +88,7 @@ abstract class Send {
 			case 200:
 				return true;
 			default:
-				$this->logger->warning( sprintf( 'Error %s on sending data.', $response ));
+				$this->logger()->warning( sprintf( 'Error %s on sending data.', $response ));
 				break;
 		}
 	}
