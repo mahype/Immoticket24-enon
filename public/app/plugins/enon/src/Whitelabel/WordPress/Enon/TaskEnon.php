@@ -17,7 +17,7 @@ use WPENON\Model\Energieausweis;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class EnonTask implements Task, Actions, Filters
+class TaskEnon implements Task, Actions, Filters
 {
 	use LoggerTrait;
 

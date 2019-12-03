@@ -5,15 +5,15 @@ namespace Enon\Whitelabel;
 use Awsm\WPWrapper\BuildingPlans\Actions;
 use Enon\TaskLoader;
 use Enon\Exceptions\Exception;
-use Enon\Whitelabel\WordPress\Core\CPTReseller;
-use Enon\Whitelabel\WordPress\Core\Frontend;
-use Enon\Whitelabel\WordPress\Enon\EmailConfirmation;
-use Enon\Whitelabel\WordPress\Enon\EmailOrderConfirmation;
-use Enon\Whitelabel\WordPress\Enon\Enon;
-use Enon\Whitelabel\WordPress\Enon\SendEnergieausweis;
-use Enon\Whitelabel\WordPress\Plugins\ACF;
-use Enon\Whitelabel\WordPress\Plugins\AffiliateWP;
-use Enon\Whitelabel\WordPress\Plugins\Edd;
+use Enon\Whitelabel\WordPress\Core\TaskCPTReseller;
+use Enon\Whitelabel\WordPress\Core\TaskFrontend;
+use Enon\Whitelabel\WordPress\Enon\TaskEmailConfirmation;
+use Enon\Whitelabel\WordPress\Enon\TaskEmailOrderConfirmation;
+use Enon\Whitelabel\WordPress\Enon\TaskEnon;
+use Enon\Whitelabel\WordPress\Enon\TaskSendEnergieausweis;
+use Enon\Whitelabel\WordPress\Plugins\TaskACF;
+use Enon\Whitelabel\WordPress\Plugins\TaskAffiliateWP;
+use Enon\Whitelabel\WordPress\Plugins\TaskEdd;
 
 /**
  * Whitelabel loader.
@@ -27,8 +27,8 @@ class Loader extends TaskLoader {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		$this->addTask( CPTReseller::class );
-		$this->addTask( ACF::class, $this->logger() );
+		$this->addTask( TaskCPTReseller::class );
+		$this->addTask( TaskACF::class, $this->logger() );
 
 		if( is_admin() ) {
 			$this->runAdminTasks();
@@ -51,7 +51,7 @@ class Loader extends TaskLoader {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );
 		}
 
-		$this->addTask( SendEnergieausweis::class, $reseller, $this->logger() );
+		$this->addTask( TaskSendEnergieausweis::class, $reseller, $this->logger() );
 		$this->runTasks();
 	}
 
@@ -75,13 +75,13 @@ class Loader extends TaskLoader {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );
 		}
 
-		$this->addTask( Frontend::class );
-		$this->addTask( Enon::class, $reseller, $this->logger() );
-		// $this->addTask( EmailConfirmation::class, $reseller, $this->logger() );
-		// $this->addTask( EmailOrderConfirmation::class, $reseller, $this->logger() );
-		// $this->addTask( SendEnergieausweis::class, $reseller, $this->logger() );
-		// $this->addTask( AffiliateWP::class, $reseller, $this->logger() );
-		// $this->addTask( Edd::class, $reseller, $this->logger() );
+		$this->addTask( TaskFrontend::class );
+		$this->addTask( TaskEnon::class, $reseller, $this->logger() );
+		$this->addTask( TaskEmailConfirmation::class, $reseller, $this->logger() );
+		$this->addTask( TaskEmailOrderConfirmation::class, $reseller, $this->logger() );
+		$this->addTask( TaskSendEnergieausweis::class, $reseller, $this->logger() );
+		$this->addTask( TaskAffiliateWP::class, $reseller, $this->logger() );
+		$this->addTask( TaskEdd::class, $reseller, $this->logger() );
 
 		$this->runTasks();;
 	}

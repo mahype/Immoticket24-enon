@@ -15,7 +15,7 @@ use WPENON\Model\Energieausweis;
  *
  * @since 1.0.0
  */
-class SendEnergieausweisTask implements Actions, Task {
+class TaskSendEnergieausweis implements Actions, Task {
 	use LoggerTrait;
 
 	/**

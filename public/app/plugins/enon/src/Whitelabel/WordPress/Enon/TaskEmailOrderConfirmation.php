@@ -15,7 +15,7 @@ use Enon\Whitelabel\Reseller;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class EmailOrderConfirmationTask implements Task, Filters {
+class TaskEmailOrderConfirmation implements Task, Filters {
 	use LoggerTrait;
 
 	/**

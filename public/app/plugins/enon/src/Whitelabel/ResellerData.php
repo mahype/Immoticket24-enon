@@ -5,6 +5,8 @@ namespace Enon\Whitelabel;
 use Enon\Exceptions\Exception;
 use Enon\Whitelabel\Token;
 use Enon\Whitelabel\WordPress\Plugins\ACFPostData;
+use Enon\Whitelabel\WordPress\Plugins\EddPayment;
+use WPENON\Model\Energieausweis;
 
 /**
  * Class ACFResellerFiels
@@ -98,8 +100,12 @@ class ResellerData extends ACFPostData {
 			return;
 		}
 
-		$postId = $_REQUEST['id'];
-		$this->setPostId( $postId );
+		$energieausweisId = (new EddPayment( $_REQUEST['id'] ) )->getEnergieausweisId();
+
+		// @todo Move to new energieausweis object getResellerId function
+		$resellerId = get_post_meta( $energieausweisId, 'reseller_id', true );
+
+		$this->setPostId( $resellerId );
 	}
 
 	/**
@@ -211,7 +217,7 @@ class ResellerData extends ACFPostData {
 	 */
 	public function getUserInterfaceValues()
 	{
-		return trim( $this->get( 'user_interface' ) );
+		return $this->get( 'user_interface' );
 	}
 
 	/**
@@ -223,7 +229,7 @@ class ResellerData extends ACFPostData {
 	 */
 	public function getTechnicalValues()
 	{
-		return trim( $this->get( 'user_interface' ) );
+		return $this->get( 'technical_values' );
 	}
 
 	/**

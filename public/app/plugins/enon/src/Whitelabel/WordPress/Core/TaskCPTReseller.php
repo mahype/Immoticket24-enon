@@ -7,7 +7,7 @@ use Awsm\WPWrapper\BuildingPlans\Filters;
 use Awsm\WPWrapper\BuildingPlans\Task;
 use Enon\Whitelabel\ResellerData;
 
-class CPTResellerTask implements Task, Actions, Filters
+class TaskCPTReseller implements Task, Actions, Filters
 {
 	/**
 	 * Running scripts.

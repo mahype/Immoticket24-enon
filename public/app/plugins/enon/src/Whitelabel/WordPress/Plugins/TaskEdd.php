@@ -16,7 +16,7 @@ use Enon\Whitelabel\Reseller;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class EddTask implements Task, Filters {
+class TaskEdd implements Task, Filters {
 	use LoggerTrait;
 
 	/**

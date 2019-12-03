@@ -12,7 +12,7 @@ use Enon\Traits\Logger as LoggerTrait;
  *
  * @package Enon\Whitelabel\WordPress
  */
-class FrontendTask implements Task {
+class TaskFrontend implements Task {
 	use LoggerTrait;
 
 	/**
