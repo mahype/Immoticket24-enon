@@ -60,7 +60,7 @@ class TaskEnon implements Task, Actions, Filters
 	public function addActions()
 	{
 		add_action( 'wpenon_confirmation_start', [ $this, 'updateEnergieausweisToken' ] );
-		add_action( 'wpenon_confirmation_start', [ $this, 'updateRessellerId' ] );
+		add_action( 'wpenon_energieausweis_create', [ $this, 'updateRessellerId' ] );
 	}
 
 	/**
