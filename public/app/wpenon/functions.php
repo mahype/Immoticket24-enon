@@ -120,73 +120,73 @@ function wpenon_immoticket24_print_no_consumption_modal()
 		</div>
 	</div>
 	<script type="text/javascript">
-        var _wpit_wand_touched = false;
-        var _wpit_climatefactors_target_year = <?php echo esc_js($klima_maximum_year); ?>;
+		var _wpit_wand_touched = false;
+		var _wpit_climatefactors_target_year = <?php echo esc_js($klima_maximum_year); ?>;
 
-        function wpenon_immoticket24_check_certificate_valid(e) {
-            // Strict check if no parameter given (when form is submitted).
-            var strict = 'undefined' === typeof e;
+		function wpenon_immoticket24_check_certificate_valid(e) {
+			// Strict check if no parameter given (when form is submitted).
+			var strict = 'undefined' === typeof e;
 
-            if (!jQuery('#wpit_transfer_certificate_input').length) {
-                var wohnungen = parseInt(jQuery('#wohnungen').val(), 10);
-                var baujahr = parseInt(jQuery('#baujahr').val(), 10);
-                var wand_daemmung = parseInt(jQuery('#wand_daemmung').val(), 10);
+			if (!jQuery('#wpit_transfer_certificate_input').length) {
+				var wohnungen = parseInt(jQuery('#wohnungen').val(), 10);
+				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
+				var wand_daemmung = parseInt(jQuery('#wand_daemmung').val(), 10);
 
-                if (strict || (wohnungen > 0 && baujahr > 0 && (wand_daemmung > 0 || _wpit_wand_touched))) {
-                    if (wohnungen < 5 && baujahr < 1978 && wand_daemmung < 1) {
-                        jQuery('#wpit_invalid_certificate_modal').modal('show');
+				if (strict || (wohnungen > 0 && baujahr > 0 && (wand_daemmung > 0 || _wpit_wand_touched))) {
+					if (wohnungen < 5 && baujahr < 1978 && wand_daemmung < 1) {
+						jQuery('#wpit_invalid_certificate_modal').modal('show');
 
-                        return false;
-                    }
-                }
-            }
+						return false;
+					}
+				}
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        function wpenon_immoticket24_check_certificate_climatefactors_valid(e) {
-            // Strict check if no parameter given (when form is submitted).
-            var strict = 'undefined' === typeof e;
+		function wpenon_immoticket24_check_certificate_climatefactors_valid(e) {
+			// Strict check if no parameter given (when form is submitted).
+			var strict = 'undefined' === typeof e;
 
-            if (!jQuery('#wpit_transfer_certificate_input').length) {
-                var baujahr = parseInt(jQuery('#baujahr').val(), 10);
+			if (!jQuery('#wpit_transfer_certificate_input').length) {
+				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
 
-                if (strict || baujahr > 0) {
-                    if (baujahr > _wpit_climatefactors_target_year) {
-                        jQuery('#wpit_invalid_certificate_modal_climatefactors').modal('show');
+				if (strict || baujahr > 0) {
+					if (baujahr > _wpit_climatefactors_target_year) {
+						jQuery('#wpit_invalid_certificate_modal_climatefactors').modal('show');
 
-                        return false;
-                    }
-                }
-            }
+						return false;
+					}
+				}
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        jQuery(document).on('change', '#wohnungen', wpenon_immoticket24_check_certificate_valid);
-        jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_valid);
-        jQuery(document).on('change', '#wand_daemmung', wpenon_immoticket24_check_certificate_valid);
+		jQuery(document).on('change', '#wohnungen', wpenon_immoticket24_check_certificate_valid);
+		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_valid);
+		jQuery(document).on('change', '#wand_daemmung', wpenon_immoticket24_check_certificate_valid);
 
-        jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_climatefactors_valid);
+		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_climatefactors_valid);
 
-        jQuery('#wpenon-generate-form').on('submit', function (e) {
-            if (!wpenon_immoticket24_check_certificate_valid() || !wpenon_immoticket24_check_certificate_climatefactors_valid()) {
-                e.preventDefault();
-            }
-        });
+		jQuery('#wpenon-generate-form').on('submit', function (e) {
+			if (!wpenon_immoticket24_check_certificate_valid() || !wpenon_immoticket24_check_certificate_climatefactors_valid()) {
+				e.preventDefault();
+			}
+		});
 
-        jQuery('.wpit_transfer_certificate').on('click', function (e) {
-            e.preventDefault();
+		jQuery('.wpit_transfer_certificate').on('click', function (e) {
+			e.preventDefault();
 
-            jQuery('#wpenon-generate-form').append('<input type="hidden" id="wpit_transfer_certificate_input" name="wpenon_type" value="bw" />');
-            jQuery('#wpenon-generate-form').trigger('submit');
-        });
+			jQuery('#wpenon-generate-form').append('<input type="hidden" id="wpit_transfer_certificate_input" name="wpenon_type" value="bw" />');
+			jQuery('#wpenon-generate-form').trigger('submit');
+		});
 
-        jQuery('#wand_daemmung').one('focus', function () {
-            _wpit_wand_touched = true;
+		jQuery('#wand_daemmung').one('focus', function () {
+			_wpit_wand_touched = true;
 
-            jQuery('#wand_daemmung').one('focusout', wpenon_immoticket24_check_certificate_valid);
-        });
+			jQuery('#wand_daemmung').one('focusout', wpenon_immoticket24_check_certificate_valid);
+		});
 	</script>
 	<?php
 }
@@ -838,67 +838,69 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 			'oelofenverdampfungsbrenner',
 		);
 
-		foreach ( $heatings as $heating ) {
+		foreach ($heatings as $heating) {
 			$type_field = $heating . '_erzeugung';
 			$year_field = $heating . '_baujahr';
 
-			if ( in_array( $energieausweis->$type_field, $kessel, true ) && ! empty( $energieausweis->$year_field ) && $energieausweis->$year_field <= $current_year - 30 ) {
+			if (in_array($energieausweis->$type_field, $kessel, true) && !empty($energieausweis->$year_field) && $energieausweis->$year_field <= $current_year - 30) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['heizung'];
 			}
 
 		}
 	}
 
-	$minimum_date = strtotime('2019-11-16 0:00' );
-	$energieausweis_date = strtotime( $energieausweis->date );
+	$minimum_date = strtotime('2019-11-16 0:00');
+	$energieausweis_date = strtotime($energieausweis->date);
 
-	if ( wpenon_immoticket24_is_empfehlung_active('rohrleitungssystem', $energieausweis) && $energieausweis_date > $minimum_date ) {
-		if( 'bw' === $energieausweis->wpenon_type && $energieausweis->verteilung_baujahr <= 1978 && true !== $energieausweis->verteilung_gedaemmt && 'unbeheizt' == $energieausweis->keller ) {
+	if (wpenon_immoticket24_is_empfehlung_active('rohrleitungssystem', $energieausweis) && $energieausweis_date > $minimum_date) {
+		if ('bw' === $energieausweis->wpenon_type && $energieausweis->verteilung_baujahr <= 1978 && true !== $energieausweis->verteilung_gedaemmt && 'unbeheizt' == $energieausweis->keller) {
 			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['rohrleitungssystem'];
 		}
 	}
 
-	if (wpenon_immoticket24_is_empfehlung_active('dach', $energieausweis)) {
-		if ('b' === $energieausweis->mode && ($energieausweis->dach === 'beheizt' || $energieausweis->dach === 'nicht-vorhanden') && $energieausweis->dach_daemmung < 14.0) {
-			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['dach'];
-		} elseif ('v' === $energieausweis->mode && $energieausweis->dach === 'beheizt' && $energieausweis->dach_daemmung < 14.0) {
-			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['dach'];
+	if( intval( $energieausweis->baujahr ) < 1995 ) {
+		if (wpenon_immoticket24_is_empfehlung_active('dach', $energieausweis)) {
+			if ('b' === $energieausweis->mode && ($energieausweis->dach === 'beheizt' || $energieausweis->dach === 'nicht-vorhanden') && $energieausweis->dach_daemmung < 14.0) {
+				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['dach'];
+			} elseif ('v' === $energieausweis->mode && $energieausweis->dach === 'beheizt' && $energieausweis->dach_daemmung < 14.0) {
+				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['dach'];
+			}
 		}
-	}
 
-	if (wpenon_immoticket24_is_empfehlung_active('decke', $energieausweis)) {
-		if ('b' === $energieausweis->mode && $energieausweis->dach === 'unbeheizt' && $energieausweis->decke_daemmung < 14.0) {
-			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['decke'];
-		} elseif ('v' === $energieausweis->mode && ($energieausweis->dach === 'unbeheizt' || $energieausweis->dach === 'nicht-vorhanden') && $energieausweis->decke_daemmung < 14.0) {
-			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['decke'];
+		if (wpenon_immoticket24_is_empfehlung_active('decke', $energieausweis)) {
+			if ('b' === $energieausweis->mode && $energieausweis->dach === 'unbeheizt' && $energieausweis->decke_daemmung < 14.0) {
+				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['decke'];
+			} elseif ('v' === $energieausweis->mode && ($energieausweis->dach === 'unbeheizt' || $energieausweis->dach === 'nicht-vorhanden') && $energieausweis->decke_daemmung < 14.0) {
+				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['decke'];
+			} elseif (76736 === (int)$energieausweis->id) { // Hacky fix for a weird bug.
+				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['decke'];
+			}
 		} elseif (76736 === (int)$energieausweis->id) { // Hacky fix for a weird bug.
 			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['decke'];
 		}
-	} elseif (76736 === (int)$energieausweis->id) { // Hacky fix for a weird bug.
-		$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['decke'];
-	}
 
-	if (wpenon_immoticket24_is_empfehlung_active('wand', $energieausweis)) {
-		if (!$energieausweis->wand_porenbeton || in_array($energieausweis->wand_porenbeton, array('nein', 'unbekannt'), true)) {
-			if ($energieausweis->mode == 'v' && $energieausweis->wand_daemmung < 4.0) {
-				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['wand'];
-			} elseif ($energieausweis->mode == 'b') {
-				foreach (array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h') as $wand) {
-					$laengenslug = 'wand_' . $wand . '_laenge';
-					$nachbarslug = 'wand_' . $wand . '_nachbar';
-					$daemmungsslug = 'wand_' . $wand . '_daemmung';
-					if ($energieausweis->$laengenslug > 0.0 && !$energieausweis->$nachbarslug && $energieausweis->$daemmungsslug < 4.0) {
-						$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['wand'];
-						break;
+		if (wpenon_immoticket24_is_empfehlung_active('wand', $energieausweis)) {
+			if (!$energieausweis->wand_porenbeton || in_array($energieausweis->wand_porenbeton, array('nein', 'unbekannt'), true)) {
+				if ($energieausweis->mode == 'v' && $energieausweis->wand_daemmung < 4.0) {
+					$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['wand'];
+				} elseif ($energieausweis->mode == 'b') {
+					foreach (array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h') as $wand) {
+						$laengenslug = 'wand_' . $wand . '_laenge';
+						$nachbarslug = 'wand_' . $wand . '_nachbar';
+						$daemmungsslug = 'wand_' . $wand . '_daemmung';
+						if ($energieausweis->$laengenslug > 0.0 && !$energieausweis->$nachbarslug && $energieausweis->$daemmungsslug < 4.0) {
+							$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['wand'];
+							break;
+						}
 					}
 				}
 			}
 		}
-	}
 
-	if (wpenon_immoticket24_is_empfehlung_active('boden', $energieausweis)) {
-		if ($energieausweis->keller === 'unbeheizt' && $energieausweis->boden_daemmung < 6.0) {
-			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['boden'];
+		if (wpenon_immoticket24_is_empfehlung_active('boden', $energieausweis)) {
+			if ($energieausweis->keller === 'unbeheizt' && $energieausweis->boden_daemmung < 6.0) {
+				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['boden'];
+			}
 		}
 	}
 
