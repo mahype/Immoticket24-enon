@@ -58,6 +58,8 @@ class DIBTSoapRequest {
 			new \WPENON\Util\Error( 'notice', __METHOD__, sprintf( __( 'DIBT Soap Fehler: %s', 'wpenon' ), $exception->getMessage() ), '1.0.0' );
 		}
 
+		$this->write_to_file( time() . '_dibt.xml', $xml );
+
 		if ( ! is_soap_fault( $response ) ) {
 			if ( isset( $response->$response_type ) ) {
 				$response = $response->$response_type;
@@ -67,6 +69,12 @@ class DIBTSoapRequest {
 			}
 			$this->response = $response;
 		}
+	}
+
+	public function write_to_file( $name, $data ) {
+		$file = fopen( dirname( ABSPATH ) . '/' . $name, 'w' );
+		fputs( $file, $data  );
+		fclose( $file );
 	}
 
 	public function getAction() {
