@@ -9,15 +9,16 @@ namespace Enon\Enon;
  *
  * @package Enon\Enon
  */
-class Standard {
+class Standard
+{
 	/**
-	 * Slug.
+	 * Key.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
-	private $slug;
+	private $key;
 
 	/**
 	 * Name.
@@ -49,39 +50,39 @@ class Standard {
 	/**
 	 * Standard constructor.
 	 *
+	 * @param string $key Key of standard.
+	 * @param Standards $standards Standards object.
 	 * @since 1.0.0
 	 *
-	 * @param string $slug         Slug of standard.
-	 * @param Standards $standards Standards object.
 	 */
-	public function __construct( $slug, Standards $standards )
+	public function __construct( $key, Standards $standards )
 	{
-		$standardValues = $standards->getStandardValues( $slug );
+		$standardValues = $standards->getStandardValues( $key );
 
-		$this->slug  = $slug;
-		$this->name  = $standardValues['name'];
-		$this->date  = $standardValues['date'];
-		$this->start = $standardValues['start'];
+		$this->key = $key;
+		$this->name = $standardValues[ 'name' ];
+		$this->date = $standardValues[ 'date' ];
+		$this->startDate = $standardValues[ 'startDate' ];
 	}
 
 	/**
-	 * Get slug.
-	 *
-	 * @since 1.0.0
+	 * Get key.
 	 *
 	 * @return string
+	 * @since 1.0.0
+	 *
 	 */
-	public function getSlug()
+	public function getKey()
 	{
-		return $this->slug;
+		return $this->key;
 	}
 
 	/**
 	 * Get name.
 	 *
+	 * @return string
 	 * @since 1.0.0
 	 *
-	 * @return string
 	 */
 	public function getName()
 	{
@@ -91,25 +92,25 @@ class Standard {
 	/**
 	 * Get date.
 	 *
+	 * @return string
 	 * @since 1.0.0
 	 *
-	 * @return string
 	 */
-	public function getDate()
+	public function getDate( $format = 'Y-m-D' )
 	{
-		return $this->date;
+		return date( $format, strtotime( $this->date ) );
 	}
 
 	/**
 	 * Get start date.
 	 *
+	 * @return string
 	 * @since 1.0.0
 	 *
-	 * @return string
 	 */
-	public function getStartDate()
+	public function getStartDate( $format = 'Y-m-D' )
 	{
-		return $this->startDate;
+		return date( $format, strtotime( $this->startDate ) );
 	}
 
 
@@ -118,10 +119,28 @@ class Standard {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param string $type Type of Energieausweis (vw/bw)
+	 *
 	 * @return string The location of the schema file.
 	 */
-	public function getSchemaFile()
+	public function getSchemaFile( $type )
 	{
+		$schema_file = $this->getStandardPath() . '/schema/' . $type . '.php';
 
+		return  apply_filters( 'wpenon_schema_file', $schema_file, $this->getKey(), $type );
+	}
+
+	/**
+	 * Get standard path.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Path of standard.
+	 *
+	 * @todo Get rid of statics
+	 */
+	public function getStandardPath()
+	{
+		return  WPENON_DATA_PATH . '/' . $this->getKey();
 	}
 }

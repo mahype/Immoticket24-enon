@@ -7,6 +7,9 @@
 
 namespace WPENON\Model;
 
+use Enon\Enon\Standard;
+use Enon\Enon\Standards;
+
 class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 	private $wpenon_title = '';
 	private $wpenon_type = 'bw';
@@ -123,13 +126,15 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 
 	private function renderPage( $index ) {
 		$override = apply_filters( 'wpenon_override_energieausweis_pdf_' . $index, false, $this );
+		$standard_date = (new Standard( $this->wpenon_standard, ( new Standards() ) ))->getDate('d.m.Y');
 
 		if ( ! $override ) {
 			switch ( $index ) {
 				case 1:
 					$this->SetXY( 121.5, 19.5 );
 					$this->SetPageFont( 'enev_datum' );
-					$this->WriteCell( \WPENON\Model\EnergieausweisManager::instance()->getStandardDate( 'd.m.Y', $this->wpenon_standard ), 'R', 0, 23 );
+					(new Standard( $this->wpenon_standard, ( new Standards() ) ))->getStartDate('d.m.Y');
+					$this->WriteCell( $standard_date, 'R', 0, 23 );
 					$this->SetPageFont( 'registrier' );
 					if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
 						$this->SetXY( 161, 29.5 );
@@ -357,7 +362,7 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 				case 2:
 					$this->SetXY( 121.5, 19.5 );
 					$this->SetPageFont( 'enev_datum' );
-					$this->WriteCell( \WPENON\Model\EnergieausweisManager::instance()->getStandardDate( 'd.m.Y', $this->wpenon_standard ), 'R', 0, 23 );
+					$this->WriteCell( $standard_date, 'R', 0, 23 );
 					$this->SetPageFont( 'registrier' );
 					$this->SetXY( 161, 29.5 );
 					$this->WriteCell( $this->GetData( 'registriernummer', 0, true ), 'C', 0, 24 );
@@ -408,7 +413,7 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 				case 3:
 					$this->SetXY( 121.5, 19.5 );
 					$this->SetPageFont( 'enev_datum' );
-					$this->WriteCell( \WPENON\Model\EnergieausweisManager::instance()->getStandardDate( 'd.m.Y', $this->wpenon_standard ), 'R', 0, 23 );
+					$this->WriteCell( $standard_date, 'R', 0, 23 );
 					$this->SetPageFont( 'registrier' );
 					$this->SetXY( 161, 29.5 );
 					$this->WriteCell( $this->GetData( 'registriernummer', 0, true ), 'C', 0, 24 );
@@ -493,7 +498,7 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 				case 4:
 					$this->SetXY( 121.5, 19.5 );
 					$this->SetPageFont( 'enev_datum' );
-					$this->WriteCell( \WPENON\Model\EnergieausweisManager::instance()->getStandardDate( 'd.m.Y', $this->wpenon_standard ), 'R', 0, 23 );
+					$this->WriteCell( $standard_date, 'R', 0, 23 );
 					$this->SetPageFont( 'registrier' );
 					$this->SetXY( 161, 29.5 );
 					$this->WriteCell( $this->GetData( 'registriernummer', 0, true ), 'C', 0, 24 );
@@ -558,14 +563,14 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 				case 5:
 					$this->SetXY( 121.5, 19.5 );
 					$this->SetPageFont( 'enev_datum' );
-					$this->WriteCell( \WPENON\Model\EnergieausweisManager::instance()->getStandardDate( 'd.m.Y', $this->wpenon_standard ), 'R', 0, 23 );
+					$this->WriteCell( $standard_date, 'R', 0, 23 );
 					break;
 				case 6:
 					if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
 						$this->CreatePage( 6 );
 						$this->SetXY( 122.5, 19.5 );
 						$this->SetPageFont( 'enev_datum' );
-						$this->WriteCell( \WPENON\Model\EnergieausweisManager::instance()->getStandardDate( 'd.m.Y', $this->wpenon_standard ), 'R', 0, 23 );
+						$this->WriteCell( $standard_date, 'R', 0, 23 );
 						$this->SetPageFont( 'registrier' );
 						$this->SetXY( 140, 29.5 );
 						$this->WriteCell( $this->GetData( 'registriernummer', 0, true ), 'C', 0, 24 );

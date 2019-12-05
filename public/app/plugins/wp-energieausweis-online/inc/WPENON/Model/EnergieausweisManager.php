@@ -90,37 +90,6 @@ class EnergieausweisManager
 		return date( $format, $date );
 	}
 
-	public function getStandardDate( $format = 'Y-m-d', $energieausweis = null )
-	{
-		$standard_dates = self::getAvailableStandards( 'dates' );
-		$standard = '';
-		if ( $energieausweis !== null ) {
-			if ( is_a( $energieausweis, '\WPENON\Model\Energieausweis' ) ) {
-				$standard = $energieausweis->wpenon_standard;
-			} elseif ( is_string( $energieausweis ) ) {
-				$standard = $energieausweis;
-			}
-		} else {
-			$post = self::_getPost();
-			if ( is_object( $post ) && in_array( $post->post_type, self::$post_types ) ) {
-				$standard = get_post_meta( $post->ID, 'wpenon_standard', true );
-			}
-		}
-
-		$date = '';
-		if ( isset( $standard_dates[ $standard ] ) ) {
-			$date = $standard_dates[ $standard ];
-		} else {
-			$date = array_shift( $standard_dates );
-		}
-
-		if ( $format == 'timestamp' ) {
-			return strtotime( $date );
-		}
-
-		return date( $format, strtotime( $date ) );
-	}
-
 	public function getCreatePage()
 	{
 		if ( is_singular( 'page' ) ) {
@@ -166,17 +135,17 @@ class EnergieausweisManager
 			'post_content' => '',
 		);
 
-		$energieausweis = wp_insert_post( $args );
+		$energieausweis_id = wp_insert_post( $args );
 
-		if ( !is_numeric( $energieausweis ) ) {
+		if ( !is_numeric( $energieausweis_id ) ) {
 			new \WPENON\Util\Error( 'notice', __METHOD__, __( 'Der Energieausweis konnte nicht erzeugt werden.', 'wpenon' ), '1.0.0' );
 			return null;
 		}
 
-		update_post_meta( $energieausweis, 'wpenon_type', $type );
-		update_post_meta( $energieausweis, 'wpenon_standard', $standard->getSlug() );
+		update_post_meta( $energieausweis_id, 'wpenon_type', $type );
+		update_post_meta( $energieausweis_id, 'wpenon_standard', $standard->getKey() );
 
-		$energieausweis = self::_postToEnergieausweis( $energieausweis );
+		$energieausweis = self::_postToEnergieausweis( $energieausweis_id );
 
 		$meta = array(
 			'ausstellungsdatum' => '',
@@ -212,19 +181,13 @@ class EnergieausweisManager
 		return $types;
 	}
 
-	public static function getAvailableStandards( $mode = 'names' )
+	public static function getAvailableStandards()
 	{
-		$_standards = unserialize( WPENON_STANDARDS );
+		$standardValues = (new Standards())->getStandards();
 
-		$index = 0;
-		if ( $mode == 'dates' ) {
-			$index = 1;
-		} elseif ( $mode === 'startdates' ) {
-			$index = 2;
-		}
 		$standards = array();
-		foreach ( $_standards as $key => $value ) {
-			$standards[ $key ] = $value[ $index ];
+		foreach( $standardValues AS $key => $standardValue ) {
+			$standards[$key] = $standardValue['name'];
 		}
 
 		return $standards;
@@ -382,30 +345,15 @@ class EnergieausweisManager
 	public static function loadSchema( $type, $standard )
 	{
 		$schema = array();
+		$schema_file = ( new Standard( $standard, ( new Standards() ) ) )->getSchemaFile( $type );
 
-		$types = self::getAvailableTypes();
-		if ( !empty( $type ) && isset( $types[ $type ] ) ) {
-			$type = array( $type );
-			$types = array_intersect_key( $types, array_flip( $type ) );
-		}
-		$types = array_keys( $types );
-
-		$standards = self::getAvailableStandards();
-		if ( empty( $standard ) || !isset( $standards[ $standard ] ) ) {
-			$standard = key( $standards );
+		if ( ! file_exists( $schema_file ) ) {
+			new \WPENON\Util\Error( 'fatal', __METHOD__, sprintf( __( 'Die geforderte Schema-Datei %s existiert nicht.', 'wpenon' ), '<code>' . $schema_file . '</code>' ), '1.0.0' );
 		}
 
-		foreach ( $types as $type ) {
-			$schema_file = WPENON_DATA_PATH . '/' . $standard . '/schema/' . $type . '.php';
-			$schema_file = apply_filters( 'wpenon_schema_file', $schema_file, $standard, $type );
+		$data = require $schema_file;
 
-			if ( file_exists( $schema_file ) ) {
-				$data = require $schema_file;
-				$schema = array_merge_recursive( $schema, $data );
-			} else {
-				new \WPENON\Util\Error( 'fatal', __METHOD__, sprintf( __( 'Die geforderte Schema-Datei %s existiert nicht.', 'wpenon' ), '<code>' . $schema_file . '</code>' ), '1.0.0' );
-			}
-		}
+		$schema = array_merge_recursive( $schema, $data );
 
 		$private_fields = array(
 			'private' => array(
