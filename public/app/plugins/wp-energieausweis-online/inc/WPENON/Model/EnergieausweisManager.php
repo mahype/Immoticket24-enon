@@ -7,6 +7,9 @@
 
 namespace WPENON\Model;
 
+use Enon\Enon\Standard;
+use Enon\Enon\Standards;
+
 class EnergieausweisManager
 {
 	private static $instance;
@@ -139,56 +142,55 @@ class EnergieausweisManager
 	public function create( $type, $standard = '', $custom_meta = array() )
 	{
 		$types = self::getAvailableTypes();
-		if ( isset($types[ $type ]) ) {
-			$standards = self::getAvailableStandards('startdates');
-			if ( $standard === '' ) {
-				foreach ( $standards as $standard_slug => $standard_startdate ) {
-					if ( strtotime($standard_startdate) > current_time('timestamp') ) {
-						break;
-					}
-					$standard = $standard_slug;
-				}
-			}
-			if ( isset($standards[ $standard ]) ) {
-				$args = array(
-					'post_type' => self::$post_types[ 0 ],
-					'post_status' => 'publish',
-					'post_title' => self::_generateTitle(null, false),
-					'post_content' => '',
-				);
 
-				$energieausweis = wp_insert_post($args);
-
-				if ( is_numeric($energieausweis) ) {
-					update_post_meta($energieausweis, 'wpenon_type', $type);
-					update_post_meta($energieausweis, 'wpenon_standard', $standard);
-
-					$energieausweis = self::_postToEnergieausweis($energieausweis);
-
-					$meta = array(
-						'ausstellungsdatum' => '',
-						'registriernummer' => '',
-						'wpenon_secret' => md5(microtime()),
-					);
-					$meta = array_merge($meta, $custom_meta);
-					foreach ( $meta as $key => $value ) {
-						$energieausweis->$key = $value;
-					}
-
-					do_action('wpenon_energieausweis_create', $energieausweis);
-
-					return $energieausweis;
-				} else {
-					new \WPENON\Util\Error('notice', __METHOD__, __('Der Energieausweis konnte nicht erzeugt werden.', 'wpenon'), '1.0.0');
-				}
-			} else {
-				new \WPENON\Util\Error('notice', __METHOD__, __('Ungültiger Standard für Energieausweis angegeben.', 'wpenon'), '1.0.0');
-			}
-		} else {
+		if ( !isset($types[ $type ]) ) {
 			new \WPENON\Util\Error('notice', __METHOD__, __('Ungültiger Typ für Energieausweis angegeben.', 'wpenon'), '1.0.0');
+			return null;
 		}
 
-		return null;
+		if ( empty($standard) ) {
+			$standard = ( new Standards() )->getCurrentStandard();
+		} else {
+			$standard = new Standard($standard, ( new Standards() ));
+		}
+
+		if ( empty($standard) ) {
+			new \WPENON\Util\Error('notice', __METHOD__, __('Ungültiger Standard für Energieausweis angegeben.', 'wpenon'), '1.0.0');
+			return null;
+		}
+
+		$args = array(
+			'post_type' => self::$post_types[ 0 ],
+			'post_status' => 'publish',
+			'post_title' => self::_generateTitle(null, false),
+			'post_content' => '',
+		);
+
+		$energieausweis = wp_insert_post($args);
+
+		if ( !is_numeric($energieausweis) ) {
+			new \WPENON\Util\Error('notice', __METHOD__, __('Der Energieausweis konnte nicht erzeugt werden.', 'wpenon'), '1.0.0');
+			return null;
+		}
+
+		update_post_meta($energieausweis, 'wpenon_type', $type);
+		update_post_meta($energieausweis, 'wpenon_standard', $standard);
+
+		$energieausweis = self::_postToEnergieausweis($energieausweis);
+
+		$meta = array(
+			'ausstellungsdatum' => '',
+			'registriernummer' => '',
+			'wpenon_secret' => md5(microtime()),
+		);
+		$meta = array_merge($meta, $custom_meta);
+		foreach ( $meta as $key => $value ) {
+			$energieausweis->$key = $value;
+		}
+
+		do_action('wpenon_energieausweis_create', $energieausweis);
+
+		return $energieausweis;
 	}
 
 	public static function getAvailableTypes()
