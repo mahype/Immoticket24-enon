@@ -54,6 +54,16 @@ return array(
 						),
 						'required' => true,
 					),
+					'gebaeudekonstruktion' => array(
+						'type' => 'radio',
+						'label' => __('Gebäudekonstruktion', 'wpenon'),
+						'options' => array(
+							'massiv'   => __('Massivhaus', 'wpenon'),
+							'holz'     => __('Holzhaus', 'wpenon'),
+							'fachwerk' => __('Fachwerkhaus', 'wpenon'),
+						),
+						'required' => true,
+					),
 					'geschosse' => array(
 						'type' => 'int',
 						'label' => __('Anzahl der Geschosse', 'wpenon'),
