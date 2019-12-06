@@ -7,6 +7,8 @@
 
 namespace WPENON\Model;
 
+use Enon\Enon\Standards\Standards;
+
 class Energieausweis {
 	private $id = 0;
 

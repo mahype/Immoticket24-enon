@@ -7,8 +7,12 @@
 
 namespace WPENON\Model;
 
-use Enon\Enon\Standard;
-use Enon\Enon\Standards;
+use Enon\Enon\StandardsConfig;
+use Enon\Enon\TypesConfig;
+use Enon\Enon\Standards\Calculation;
+use Enon\Enon\Standards\Schema;
+use Enon\Models\Exceptions\Exception;
+
 
 class EnergieausweisManager
 {
@@ -110,22 +114,26 @@ class EnergieausweisManager
 
 	public function create( $type, $standard = '', $custom_meta = array() )
 	{
-		$types = self::getAvailableTypes();
+		$standardsConfig = new StandardsConfig();
+		$typesConfig = new TypesConfig();
 
-		if ( !isset( $types[ $type ] ) ) {
+		if ( ! empty( $type ) ) {
+			new \WPENON\Util\Error( 'fatal', __METHOD__, __( 'Type must not be empty.', 'wpenon' ), '1.0.0' );
+			return null;
+		}
+
+		if ( ! $typesConfig->keyExists( $type ) ) {
 			new \WPENON\Util\Error( 'notice', __METHOD__, __( 'Ungültiger Typ für Energieausweis angegeben.', 'wpenon' ), '1.0.0' );
 			return null;
 		}
 
-		if ( empty( $standard ) ) {
-			$standard = ( new Standards() )->getCurrentStandard();
-		} else {
-			$standard = new Standard( $standard, ( new Standards() ) );
+		if ( ! empty( $standard ) && ! $standardsConfig->keyExists( $standard ) ) {
+			new \WPENON\Util\Error( 'notice', __METHOD__, __( 'Ungültiger Standard für Energieausweis angegeben.', 'wpenon' ), '1.0.0' );
+			return null;
 		}
 
 		if ( empty( $standard ) ) {
-			new \WPENON\Util\Error( 'notice', __METHOD__, __( 'Ungültiger Standard für Energieausweis angegeben.', 'wpenon' ), '1.0.0' );
-			return null;
+			$standard = $standardsConfig->getCurrent();
 		}
 
 		$args = array(
@@ -143,7 +151,7 @@ class EnergieausweisManager
 		}
 
 		update_post_meta( $energieausweis_id, 'wpenon_type', $type );
-		update_post_meta( $energieausweis_id, 'wpenon_standard', $standard->getKey() );
+		update_post_meta( $energieausweis_id, 'wpenon_standard', $standard );
 
 		$energieausweis = self::_postToEnergieausweis( $energieausweis_id );
 
@@ -157,33 +165,19 @@ class EnergieausweisManager
 			$energieausweis->$key = $value;
 		}
 
-		do_action( 'wpenon_energieausweis_create', $energieausweis );
+		do_action( 'wpenon_energieausweis_create', $energieausweis, $type, $standard );
 
 		return $energieausweis;
 	}
 
 	public static function getAvailableTypes()
 	{
-		$types = array();
-		if ( WPENON_BW ) {
-			$types[ 'bw' ] = __( 'Bedarfsausweis für Wohngebäude', 'wpenon' );
-		}
-		if ( WPENON_BN ) {
-			$types[ 'bn' ] = __( 'Bedarfsausweis für Nichtwohngebäude', 'wpenon' );
-		}
-		if ( WPENON_VW ) {
-			$types[ 'vw' ] = __( 'Verbrauchsausweis für Wohngebäude', 'wpenon' );
-		}
-		if ( WPENON_VN ) {
-			$types[ 'vn' ] = __( 'Verbrauchsausweis für Nichtwohngebäude', 'wpenon' );
-		}
-
-		return $types;
+		return (new TypesConfig())->get();
 	}
 
 	public static function getAvailableStandards()
 	{
-		$standardValues = (new Standards())->getStandards();
+		$standardValues = (new StandardsConfig())->get();
 
 		$standards = array();
 		foreach( $standardValues AS $key => $standardValue ) {
@@ -344,16 +338,11 @@ class EnergieausweisManager
 	 */
 	public static function loadSchema( $type, $standard )
 	{
-		$schema = array();
-		$schema_file = ( new Standard( $standard, ( new Standards() ) ) )->getSchemaFile( $type );
+		try {
+			$schema = (new Schema( $standard ))->load( $type );
+		} catch ( Exception $exception ) {
 
-		if ( ! file_exists( $schema_file ) ) {
-			new \WPENON\Util\Error( 'fatal', __METHOD__, sprintf( __( 'Die geforderte Schema-Datei %s existiert nicht.', 'wpenon' ), '<code>' . $schema_file . '</code>' ), '1.0.0' );
 		}
-
-		$data = require $schema_file;
-
-		$schema = array_merge_recursive( $schema, $data );
 
 		$private_fields = array(
 			'private' => array(
@@ -373,30 +362,7 @@ class EnergieausweisManager
 
 	public static function loadCalculations( $energieausweis )
 	{
-		$calculations = array();
-
-		$type = $energieausweis->wpenon_type;
-		$standard = $energieausweis->wpenon_standard;
-
-		$types = self::getAvailableTypes();
-		if ( empty( $type ) || !isset( $types[ $type ] ) ) {
-			$type = key( $types );
-		}
-		unset( $types );
-
-		$standards = self::getAvailableStandards();
-		if ( empty( $standard ) || !isset( $standards[ $standard ] ) ) {
-			$standard = key( $standards );
-		}
-		unset( $standards );
-
-		if ( file_exists( WPENON_DATA_PATH . '/' . $standard . '/calculations/' . $type . '.php' ) ) {
-			$calculations = require WPENON_DATA_PATH . '/' . $standard . '/calculations/' . $type . '.php';
-		} else {
-			new \WPENON\Util\Error( 'fatal', __METHOD__, sprintf( __( 'Die geforderte Berechnungs-Datei %s existiert nicht.', 'wpenon' ), '<code>' . '/' . $standard . '/schema/' . $type . '.php' . '</code>' ), '1.0.0' );
-		}
-
-		return $calculations;
+		return (new Calculation( $energieausweis->wpenon_standard ))->load( $energieausweis->wpenon_type);
 	}
 
 	public static function loadMappings( $mode, $standard )
