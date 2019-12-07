@@ -117,7 +117,7 @@ class EnergieausweisManager
 		$standardsConfig = new StandardsConfig();
 		$typesConfig = new TypesConfig();
 
-		if ( ! empty( $type ) ) {
+		if ( empty( $type ) ) {
 			new \WPENON\Util\Error( 'fatal', __METHOD__, __( 'Type must not be empty.', 'wpenon' ), '1.0.0' );
 			return null;
 		}
