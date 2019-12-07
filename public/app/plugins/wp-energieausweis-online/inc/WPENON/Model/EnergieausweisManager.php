@@ -101,10 +101,10 @@ class EnergieausweisManager
 			$settings = \WPENON\Util\Settings::instance();
 
 			$types = self::getAvailableTypes();
-			foreach ( $types as $slug => $title ) {
-				$setting_name = 'new_' . $slug . '_page';
+			foreach ( $types as $key => $title ) {
+				$setting_name = 'new_' . $key . '_page';
 				if ( $post->ID === absint( $settings->$setting_name ) ) {
-					return $slug;
+					return $key;
 				}
 			}
 		}
