@@ -35,7 +35,7 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 				if ( $this->mode == 'zusatzdatenerfassung' ) {
 					$target_namespace = 'n1';
 				}
-				parent::__construct( \WPENON\Model\EnergieausweisManager::findXSDFile( $this->mode, $this->standard ), $target_namespace, 'wpenon_xml_template_' . $this->mode . '_' . $this->standard );
+				parent::__construct( \WPENON\Model\EnergieausweisManager::getXSDFile( $this->mode, $this->standard ), $target_namespace, 'wpenon_xml_template_' . $this->mode . '_' . $this->standard );
 				$this->read();
 				break;
 			default:

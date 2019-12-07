@@ -8,6 +8,7 @@
 namespace WPENON\Model;
 
 use Enon\Enon\Standards\Mapping;
+use Enon\Enon\Standards\XSD;
 use Enon\Enon\StandardsConfig;
 use Enon\Enon\TypesConfig;
 use Enon\Enon\Standards\Calculation;
@@ -360,31 +361,17 @@ class EnergieausweisManager
 
 	public static function loadCalculations( $energieausweis )
 	{
-		$calculation = new Calculation( $energieausweis->wpenon_standard );
-		return $calculation->load( $energieausweis->wpenon_type, array( 'energieausweis' => $energieausweis ) );
+		(new Calculation( $energieausweis->wpenon_standard ))->load( $energieausweis->wpenon_type, array( 'energieausweis' => $energieausweis ) );
 	}
 
 	public static function loadMappings( $mode, $standard )
 	{
-		$funcmode = str_replace( array( '-', ' ' ), '_', $mode );
-
-		$mapping = new Mapping( $standard );
-		$mapping->load( $funcmode );
+		(new Mapping( $standard ))->load( $mode );
 	}
 
-	public static function findXSDFile( $mode, $standard )
+	public static function getXSDFile( $mode, $standard )
 	{
-		$mode = str_replace( array( 'xml-', 'xml_' ), '', $mode );
-
-		$file = WPENON_DATA_PATH . '/' . $standard . '/' . $mode . '.xsd';
-		if ( !file_exists( $file ) ) {
-			$file = str_replace( '/' . $standard, '', $file );
-			if ( !file_exists( $file ) ) {
-				new \WPENON\Util\Error( 'fatal', __METHOD__, sprintf( __( 'Die geforderte XSD-Datei %s existiert nicht.', 'wpenon' ), '<code>' . '/' . $standard . '/' . $mode . '.xsd' . '</code>' ), '1.0.0' );
-			}
-		}
-
-		return $file;
+		return (new XSD( $standard ))->getFile( $mode );
 	}
 
 	public static function getVerifiedPermalink( $post_id, $action = '' )
