@@ -19,7 +19,7 @@ class TypesConfig extends Config {
 	 */
 	protected function initiate()
 	{
-		$this->config = array(
+		$this->configData = array(
 			'vw' =>  __( 'Verbrauchsausweis für Wohngebäude', 'wpenon' ),
 			'bw' => __( 'Bedarfsausweis für Wohngebäude', 'wpenon' ),
 		);
