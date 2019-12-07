@@ -1,6 +1,6 @@
 <?php
 
-function wpenon_get_enev2017_xml_datenerfassung_data( $context, $index = 0, $energieausweis = null, $data = array() ) {
+function wpenon_get_enev_xml_datenerfassung_data( $context, $index = 0, $energieausweis = null, $data = array() ) {
   if ( isset( $data['mode'] ) ) {
     switch ( $data['mode'] ) {
       case 'occurrences':

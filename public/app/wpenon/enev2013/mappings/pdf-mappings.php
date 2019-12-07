@@ -1,6 +1,6 @@
 <?php
 
-function wpenon_get_enev2013_pdf_data( $context, $index = 0, $energieausweis = null, $data = array() ) {
+function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null, $data = array() ) {
   switch ( $context ) {
     case 'gebaeudetyp':
       return $energieausweis->formatted_gebaeudetyp;

@@ -1,6 +1,6 @@
 <?php
 
-function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0, $energieausweis = null, $data = array() ) {
+function wpenon_get_enev_xml_zusatzdatenerfassung_data( $context, $index = 0, $energieausweis = null, $data = array() ) {
   if ( isset( $data['mode'] ) ) {
     switch ( $data['mode'] ) {
       case 'occurrences':
@@ -63,7 +63,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Wand-Aussenluft-Suedwest':
           case 'Wand-Aussenluft-Nordwest':
             $calculations = $energieausweis->calculate();
-            $hr_mappings = wpenon_get_enev2013_himmelsrichtungen_mappings();
+            $hr_mappings = wpenon_get_enev_himmelsrichtungen_mappings();
             $key = str_replace( 'Wand-Aussenluft-', '', $context );
             if ( isset( $calculations['wandrichtungen'][ $hr_mappings[ $key ] ] ) ) {
               return count( $calculations['wandrichtungen'][ $hr_mappings[ $key ] ] );
@@ -102,7 +102,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Fenster-Suedwest':
           case 'Fenster-Nordwest':
             $calculations = $energieausweis->calculate();
-            $hr_mappings = wpenon_get_enev2013_himmelsrichtungen_mappings();
+            $hr_mappings = wpenon_get_enev_himmelsrichtungen_mappings();
             $key = str_replace( 'Fenster-', '', $context );
             if ( isset( $calculations['wandrichtungen'][ $hr_mappings[ $key ] ] ) ) {
               $count = 0;
@@ -163,7 +163,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
             return $choices[0];
           case 'Energietraeger':
             if ( in_array( 'Energietraegerbezeichnung', $choices ) ) {
-              $counts = wpenon_get_enev2013_anlagen_counts( $energieausweis );
+              $counts = wpenon_get_enev_anlagen_counts( $energieausweis );
               if ( isset( $counts[ $index ] ) ) {
                 $traeger_key = $counts[ $index ] . '_energietraeger';
 
@@ -176,7 +176,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
 
                 $traeger = $energieausweis->$traeger_key;
 
-                $mappings = wpenon_get_enev2013_energietraeger_unit_mappings();
+                $mappings = wpenon_get_enev_energietraeger_unit_mappings();
                 if ( ! isset( $mappings[ $traeger ] ) || is_int( $mappings[ $traeger ] ) && $mappings[ $traeger ] < 0 ) {
                   return $choices[1];
                 }
@@ -438,7 +438,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Energietraeger::2_Energietraegerbezeichnung':
           case 'Energietraeger::3_Energietraegerbezeichnung':
             $parent_index = absint( str_replace( array( 'Energietraeger::', '_Energietraegerbezeichnung' ), '', $context ) );
-            $counts = wpenon_get_enev2013_anlagen_counts( $energieausweis );
+            $counts = wpenon_get_enev_anlagen_counts( $energieausweis );
             if ( isset( $counts[ $parent_index ] ) ) {
               $traeger_key = $counts[ $parent_index ] . '_energietraeger';
 
@@ -451,7 +451,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
 
               $traeger = $energieausweis->$traeger_key;
 
-              $mappings = wpenon_get_enev2013_energietraeger_unit_mappings();
+              $mappings = wpenon_get_enev_energietraeger_unit_mappings();
               if ( isset( $mappings[ $traeger ] ) ) {
                 if ( is_array( $mappings[ $traeger ] ) ) {
                   $erzeugung_key = $counts[ $parent_index ] . '_erzeugung';
@@ -476,7 +476,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Energietraeger::2_Sonstiger-Energietraeger-Verbrauch':
           case 'Energietraeger::3_Sonstiger-Energietraeger-Verbrauch':
             $parent_index = absint( str_replace( array( 'Energietraeger::', '_Sonstiger-Energietraeger-Verbrauch' ), '', $context ) );
-            $counts = wpenon_get_enev2013_anlagen_counts( $energieausweis );
+            $counts = wpenon_get_enev_anlagen_counts( $energieausweis );
             if ( isset( $counts[ $parent_index ] ) ) {
               $calculations = $energieausweis->calculate();
               $traeger = $calculations['anlagendaten'][ $counts[ $parent_index ] ];
@@ -488,7 +488,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Energietraeger::2_Umrechnungsfaktor':
           case 'Energietraeger::3_Umrechnungsfaktor':
             $parent_index = absint( str_replace( array( 'Energietraeger::', '_Umrechnungsfaktor' ), '', $context ) );
-            $counts = wpenon_get_enev2013_anlagen_counts( $energieausweis );
+            $counts = wpenon_get_enev_anlagen_counts( $energieausweis );
             if ( isset( $counts[ $parent_index ] ) ) {
               $calculations = $energieausweis->calculate();
               $traeger = $calculations['anlagendaten'][ $counts[ $parent_index ] ];
@@ -500,7 +500,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Energietraeger::2_Primaerenergiefaktor':
           case 'Energietraeger::3_Primaerenergiefaktor':
             $parent_index = absint( str_replace( array( 'Energietraeger::', '_Primaerenergiefaktor' ), '', $context ) );
-            $counts = wpenon_get_enev2013_anlagen_counts( $energieausweis );
+            $counts = wpenon_get_enev_anlagen_counts( $energieausweis );
             if ( isset( $counts[ $parent_index ] ) ) {
               $calculations = $energieausweis->calculate();
               $traeger = $calculations['anlagendaten'][ $counts[ $parent_index ] ];
@@ -522,7 +522,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
             $parts = explode( '_', $context );
             $grandparent_index = absint( substr( $parts[0], -1 ) );
             $parent_index = absint( substr( $parts[1], -1 ) );
-            $counts = wpenon_get_enev2013_anlagen_counts( $energieausweis );
+            $counts = wpenon_get_enev_anlagen_counts( $energieausweis );
             if ( isset( $counts[ $grandparent_index ] ) ) {
               $calculations = $energieausweis->calculate();
               $traeger = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
@@ -546,7 +546,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
             $parts = explode( '_', $context );
             $grandparent_index = absint( substr( $parts[0], -1 ) );
             $parent_index = absint( substr( $parts[1], -1 ) );
-            $counts = wpenon_get_enev2013_anlagen_counts( $energieausweis );
+            $counts = wpenon_get_enev_anlagen_counts( $energieausweis );
             if ( isset( $counts[ $grandparent_index ] ) ) {
               $calculations = $energieausweis->calculate();
               $traeger = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
@@ -570,7 +570,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
             $parts = explode( '_', $context );
             $grandparent_index = absint( substr( $parts[0], -1 ) );
             $parent_index = absint( substr( $parts[1], -1 ) );
-            $counts = wpenon_get_enev2013_anlagen_counts( $energieausweis );
+            $counts = wpenon_get_enev_anlagen_counts( $energieausweis );
             if ( isset( $counts[ $grandparent_index ] ) ) {
               $calculations = $energieausweis->calculate();
               $traeger = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
@@ -594,7 +594,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
             $parts = explode( '_', $context );
             $grandparent_index = absint( substr( $parts[0], -1 ) );
             $parent_index = absint( substr( $parts[1], -1 ) );
-            $counts = wpenon_get_enev2013_anlagen_counts( $energieausweis );
+            $counts = wpenon_get_enev_anlagen_counts( $energieausweis );
             if ( isset( $counts[ $grandparent_index ] ) ) {
               $calculations = $energieausweis->calculate();
               $traeger = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
@@ -618,7 +618,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
             $parts = explode( '_', $context );
             $grandparent_index = absint( substr( $parts[0], -1 ) );
             $parent_index = absint( substr( $parts[1], -1 ) );
-            $counts = wpenon_get_enev2013_anlagen_counts( $energieausweis );
+            $counts = wpenon_get_enev_anlagen_counts( $energieausweis );
             if ( isset( $counts[ $grandparent_index ] ) ) {
               $calculations = $energieausweis->calculate();
               $traeger = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
@@ -658,7 +658,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
             $parts = explode( '_', $context );
             $grandparent_index = absint( substr( $parts[0], -1 ) );
             $parent_index = absint( substr( $parts[1], -1 ) );
-            $counts = wpenon_get_enev2013_anlagen_counts( $energieausweis );
+            $counts = wpenon_get_enev_anlagen_counts( $energieausweis );
             if ( isset( $counts[ $grandparent_index ] ) ) {
               $calculations = $energieausweis->calculate();
               $traeger = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
@@ -682,7 +682,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
             $parts = explode( '_', $context );
             $grandparent_index = absint( substr( $parts[0], -1 ) );
             $parent_index = absint( substr( $parts[1], -1 ) );
-            $counts = wpenon_get_enev2013_anlagen_counts( $energieausweis );
+            $counts = wpenon_get_enev_anlagen_counts( $energieausweis );
             if ( isset( $counts[ $grandparent_index ] ) ) {
               $calculations = $energieausweis->calculate();
               $traeger = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
@@ -873,7 +873,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Wand-Aussenluft-Nordwest::2_Flaechenbezeichnung':
           case 'Wand-Aussenluft-Nordwest::3_Flaechenbezeichnung':
             $calculations = $energieausweis->calculate();
-            $hr_mappings = wpenon_get_enev2013_himmelsrichtungen_mappings();
+            $hr_mappings = wpenon_get_enev_himmelsrichtungen_mappings();
             $key = str_replace( array( 'Wand-Aussenluft-', '_Flaechenbezeichnung' ), '', $context );
             $key = explode( '::', $key );
             $i = absint( $key[1] );
@@ -917,7 +917,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Wand-Aussenluft-Nordwest::2_Flaeche':
           case 'Wand-Aussenluft-Nordwest::3_Flaeche':
             $calculations = $energieausweis->calculate();
-            $hr_mappings = wpenon_get_enev2013_himmelsrichtungen_mappings();
+            $hr_mappings = wpenon_get_enev_himmelsrichtungen_mappings();
             $key = str_replace( array( 'Wand-Aussenluft-', '_Flaeche' ), '', $context );
             $key = explode( '::', $key );
             $i = absint( $key[1] );
@@ -961,7 +961,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Wand-Aussenluft-Nordwest::2_U-Wert':
           case 'Wand-Aussenluft-Nordwest::3_U-Wert':
             $calculations = $energieausweis->calculate();
-            $hr_mappings = wpenon_get_enev2013_himmelsrichtungen_mappings();
+            $hr_mappings = wpenon_get_enev_himmelsrichtungen_mappings();
             $key = str_replace( array( 'Wand-Aussenluft-', '_U-Wert' ), '', $context );
             $key = explode( '::', $key );
             $i = absint( $key[1] );
@@ -1084,7 +1084,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Fenster-Nordwest::2_Flaechenbezeichnung':
           case 'Fenster-Nordwest::3_Flaechenbezeichnung':
             $calculations = $energieausweis->calculate();
-            $hr_mappings = wpenon_get_enev2013_himmelsrichtungen_mappings();
+            $hr_mappings = wpenon_get_enev_himmelsrichtungen_mappings();
             $key = str_replace( array( 'Fenster-', '_Flaechenbezeichnung' ), '', $context );
             $key = explode( '::', $key );
             $i = absint( $key[1] );
@@ -1134,7 +1134,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Fenster-Nordwest::2_Flaeche':
           case 'Fenster-Nordwest::3_Flaeche':
             $calculations = $energieausweis->calculate();
-            $hr_mappings = wpenon_get_enev2013_himmelsrichtungen_mappings();
+            $hr_mappings = wpenon_get_enev_himmelsrichtungen_mappings();
             $key = str_replace( array( 'Fenster-', '_Flaeche' ), '', $context );
             $key = explode( '::', $key );
             $i = absint( $key[1] );
@@ -1184,7 +1184,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Fenster-Nordwest::2_U-Wert':
           case 'Fenster-Nordwest::3_U-Wert':
             $calculations = $energieausweis->calculate();
-            $hr_mappings = wpenon_get_enev2013_himmelsrichtungen_mappings();
+            $hr_mappings = wpenon_get_enev_himmelsrichtungen_mappings();
             $key = str_replace( array( 'Fenster-', '_U-Wert' ), '', $context );
             $key = explode( '::', $key );
             $i = absint( $key[1] );
@@ -1234,7 +1234,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
           case 'Fenster-Nordwest::2_g-Wert':
           case 'Fenster-Nordwest::3_g-Wert':
             $calculations = $energieausweis->calculate();
-            $hr_mappings = wpenon_get_enev2013_himmelsrichtungen_mappings();
+            $hr_mappings = wpenon_get_enev_himmelsrichtungen_mappings();
             $key = str_replace( array( 'Fenster-', '_g-Wert' ), '', $context );
             $key = explode( '::', $key );
             $i = absint( $key[1] );
@@ -1264,7 +1264,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
             foreach ( $calculations['anlagendaten'] as $anlage ) {
               if ( $anlage['art'] == 'heizung' ) {
                 if ( $key == $count ) {
-                  $mappings = wpenon_get_enev2013_waermeerzeuger_mappings();
+                  $mappings = wpenon_get_enev_waermeerzeuger_mappings();
                   if ( isset( $mappings[ $anlage['slug'] ] ) && $mappings[ $anlage['slug'] ] > -1 ) {
                     return $item['options'][ $mappings[ $anlage['slug'] ] ];
                   }
@@ -1328,7 +1328,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
             foreach ( $calculations['anlagendaten'] as $anlage ) {
               if ( $anlage['art'] == 'heizung' ) {
                 if ( $key == $count ) {
-                  $mappings = wpenon_get_enev2013_energietraeger_mappings();
+                  $mappings = wpenon_get_enev_energietraeger_mappings();
                   if ( isset( $mappings[ $anlage['energietraeger_slug'] ] ) && $mappings[ $anlage['energietraeger_slug'] ] > -1 ) {
                     return $item['options'][ $mappings[ $anlage['energietraeger_slug'] ] ];
                   }
@@ -1363,7 +1363,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
             foreach ( $calculations['anlagendaten'] as $anlage ) {
               if ( $anlage['art'] == 'warmwasser' ) {
                 if ( $key == $count ) {
-                  $mappings = wpenon_get_enev2013_warmwassererzeuger_mappings();
+                  $mappings = wpenon_get_enev_warmwassererzeuger_mappings();
                   if ( isset( $mappings[ $anlage['slug'] ] ) && $mappings[ $anlage['slug'] ] > -1 ) {
                     return $item['options'][ $mappings[ $anlage['slug'] ] ];
                   }
@@ -1416,7 +1416,7 @@ function wpenon_get_enev2013_xml_zusatzdatenerfassung_data( $context, $index = 0
   return false;
 }
 
-function wpenon_get_enev2013_anlagen_counts( $energieausweis ) {
+function wpenon_get_enev_anlagen_counts( $energieausweis ) {
   $counts = array( 'h' );
   if ( $energieausweis->h2_info ) {
     $counts[] = 'h2';
@@ -1431,7 +1431,7 @@ function wpenon_get_enev2013_anlagen_counts( $energieausweis ) {
   return $counts;
 }
 
-function wpenon_get_enev2013_himmelsrichtungen_mappings() {
+function wpenon_get_enev_himmelsrichtungen_mappings() {
   return array(
     'Nord'      => 'n',
     'Ost'       => 'o',
@@ -1444,7 +1444,7 @@ function wpenon_get_enev2013_himmelsrichtungen_mappings() {
   );
 }
 
-function wpenon_get_enev2013_waermeerzeuger_mappings() {
+function wpenon_get_enev_waermeerzeuger_mappings() {
   return array(
     'standardkessel'              => 0,
     'niedertemperaturkessel'      => 1,
@@ -1466,7 +1466,7 @@ function wpenon_get_enev2013_waermeerzeuger_mappings() {
   );
 }
 
-function wpenon_get_enev2013_warmwassererzeuger_mappings() {
+function wpenon_get_enev_warmwassererzeuger_mappings() {
   return array(
     'standardkessel'              => 0,
     'niedertemperaturkessel'      => 0,
@@ -1487,7 +1487,7 @@ function wpenon_get_enev2013_warmwassererzeuger_mappings() {
   );
 }
 
-function wpenon_get_enev2013_energietraeger_mappings() {
+function wpenon_get_enev_energietraeger_mappings() {
   return array(
     'heizoel'                   => 0,
     'heizoelbiooel'             => 1,
@@ -1511,7 +1511,7 @@ function wpenon_get_enev2013_energietraeger_mappings() {
   );
 }
 
-function wpenon_get_enev2013_energietraeger_unit_mappings() {
+function wpenon_get_enev_energietraeger_unit_mappings() {
   return array(
     'heizoel_l'                   => 0,
     'heizoel_kwh'                 => array( 1, 2 ),
