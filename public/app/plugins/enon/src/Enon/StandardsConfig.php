@@ -72,35 +72,4 @@ class StandardsConfig extends Config
 	{
 		return $this->getByTime( time() );
 	}
-
-	/**
-	 * Getting standard of a specific time.
-	 *
-	 * @param int $timestamp Timestamp.
-	 *
-	 * @return Standard $standard Standard key.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @todo Searching for standard regardless of array element order.
-	 */
-	public function getSchemaByTime( $timestamp )
-	{
-		$standard = $this->getByTime( $timestamp );
-		$schema = new Schema( $standard );
-
-		return $schema;
-	}
-
-	/**
-	 * Get schema for current moment.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return int|string
-	 */
-	public function getCurrentSchema()
-	{
-		return $this->getByTime( time() );
-	}
 }
