@@ -132,7 +132,7 @@ abstract class Standard
 	 *
 	 * @todo Get rid of statics
 	 */
-	public function getStandardPath()
+	public function getPath()
 	{
 		return WPENON_DATA_PATH . '/' . $this->getKey();
 	}
@@ -140,22 +140,29 @@ abstract class Standard
 	/**
 	 * Get config file.
 	 *
-	 * @return mixed
 	 * @since 1.0.0
+	 *
+	 * @param mixed $param Parameters for loading file
+	 * @return mixed
 	 */
-	abstract function getFile( $type );
+	abstract function getFile( $param );
 
 	/**
 	 * Load config file.
 	 *
-	 * @param string $type Type (vw/bw).
+	 * @param mixed $params    Parameters for loading file.
+	 * @param array $variables Variables which will be loaded before requiring script.
 	 * @return mixed Content of all file.
 	 *
 	 * @throws Exception File could not be loaded.
+	 *
+	 * @todo Rewriting included scripts!
 	 */
-	public function load( $type )
+	public function load( $params, $variables = array() )
 	{
-		$file = $this->getFile( $type );
+		extract( $variables );
+
+		$file = $this->getFile( $params );
 
 		if ( ! file_exists( $file ) ) {
 			throw new Exception( sprintf( 'Can not load file \'%s\'', $file ) );

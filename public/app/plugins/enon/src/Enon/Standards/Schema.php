@@ -21,7 +21,7 @@ class Schema extends Standard {
 	 */
 	public function getFile( $type )
 	{
-		$schema_file = $this->getStandardPath() . '/schema/' . $type . '.php';
+		$schema_file = $this->getPath() . '/schema/' . $type . '.php';
 		return  apply_filters( 'wpenon_schema_file', $schema_file, $this->getKey(), $type );
 	}
 }

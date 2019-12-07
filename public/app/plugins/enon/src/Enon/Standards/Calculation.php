@@ -20,7 +20,7 @@ class Calculation extends Standard {
 	 */
 	public function getFile( $type )
 	{
-		$schema_file = $this->getStandardPath() . '/calculations/' . $type . '.php';
+		$schema_file = $this->getPath() . '/calculations/' . $type . '.php';
 		return  apply_filters( 'wpenon_calculation_file', $schema_file, $this->getKey(), $type );
 	}
 }
