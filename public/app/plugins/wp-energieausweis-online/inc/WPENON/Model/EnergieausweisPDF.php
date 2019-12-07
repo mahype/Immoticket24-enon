@@ -7,8 +7,9 @@
 
 namespace WPENON\Model;
 
-use Enon\Enon\Standard;
 use Enon\Enon\Standards;
+use Enon\Enon\StandardsConfig;
+use Enon\Enon\Standards\Schema;
 
 class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 	private $wpenon_title = '';
@@ -126,14 +127,15 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 
 	private function renderPage( $index ) {
 		$override = apply_filters( 'wpenon_override_energieausweis_pdf_' . $index, false, $this );
-		$standard_date = (new Standard( $this->wpenon_standard, ( new Standards() ) ))->getDate('d.m.Y');
+
+		$schema = new Schema( $this->wpenon_standard );
+		$standard_date = $schema->getDate('d.m.Y');
 
 		if ( ! $override ) {
 			switch ( $index ) {
 				case 1:
 					$this->SetXY( 121.5, 19.5 );
 					$this->SetPageFont( 'enev_datum' );
-					(new Standard( $this->wpenon_standard, ( new Standards() ) ))->getStartDate('d.m.Y');
 					$this->WriteCell( $standard_date, 'R', 0, 23 );
 					$this->SetPageFont( 'registrier' );
 					if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
