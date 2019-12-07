@@ -7,6 +7,7 @@
 
 namespace WPENON\Model;
 
+use Enon\Enon\Standards\Mapping;
 use Enon\Enon\StandardsConfig;
 use Enon\Enon\TypesConfig;
 use Enon\Enon\Standards\Calculation;
@@ -338,11 +339,8 @@ class EnergieausweisManager
 	 */
 	public static function loadSchema( $type, $standard )
 	{
-		try {
-			$schema = (new Schema( $standard ))->load( $type );
-		} catch ( Exception $exception ) {
-
-		}
+		$schema = new Schema( $standard );
+		$schema = $schema->load( $type );
 
 		$private_fields = array(
 			'private' => array(
@@ -362,23 +360,16 @@ class EnergieausweisManager
 
 	public static function loadCalculations( $energieausweis )
 	{
-		return (new Calculation( $energieausweis->wpenon_standard ))->load( $energieausweis->wpenon_type);
+		$calculation = new Calculation( $energieausweis->wpenon_standard );
+		return $calculation->load( $energieausweis->wpenon_type, array( 'energieausweis' => $energieausweis ) );
 	}
 
 	public static function loadMappings( $mode, $standard )
 	{
 		$funcmode = str_replace( array( '-', ' ' ), '_', $mode );
 
-		if ( !function_exists( 'wpenon_get_' . $standard . '_' . $funcmode . '_data' ) ) {
-			if ( file_exists( WPENON_DATA_PATH . '/' . $standard . '/' . $mode . '-mappings.php' ) ) {
-				require_once WPENON_DATA_PATH . '/' . $standard . '/' . $mode . '-mappings.php';
-				if ( !function_exists( 'wpenon_get_' . $standard . '_' . $funcmode . '_data' ) ) {
-					new \WPENON\Util\Error( 'fatal', __METHOD__, sprintf( __( 'Die geforderte Mapping-Methode %s konnte nicht gefunden werden.', 'wpenon' ), '<code>' . 'wpenon_get_' . $standard . '_' . $mode . '_data' . '</code>' ), '1.0.0' );
-				}
-			} else {
-				new \WPENON\Util\Error( 'fatal', __METHOD__, sprintf( __( 'Die geforderte Mapping-Datei %s existiert nicht.', 'wpenon' ), '<code>' . '/' . $standard . '/' . $mode . '-mappings.php' . '</code>' ), '1.0.0' );
-			}
-		}
+		$mapping = new Mapping( $standard );
+		$mapping->load( $funcmode );
 	}
 
 	public static function findXSDFile( $mode, $standard )
