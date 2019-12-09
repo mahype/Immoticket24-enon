@@ -13,7 +13,6 @@ use Enon\Enon\StandardsConfig;
 use Enon\Enon\TypesConfig;
 use Enon\Enon\Standards\Calculation;
 use Enon\Enon\Standards\Schema;
-use Enon\Models\Exceptions\Exception;
 
 
 class EnergieausweisManager
