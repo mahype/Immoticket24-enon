@@ -7,20 +7,54 @@
 
 namespace WPENON\Model;
 
-use Enon\Enon\Standards\Standards;
-
 class Energieausweis {
+	/**
+	 * Id.
+	 *
+	 * @var int
+	 */
 	private $id = 0;
 
+	/**
+	 * Post object.
+	 *
+	 * @var array|\WP_Post|null
+	 */
 	private $post = null;
 
+	/**
+	 * Errors.
+	 *
+	 * @var array|bool|mixed
+	 */
 	public $errors = array();
+
+	/**
+	 * Warnings.
+	 *
+	 * @var array|bool|mixed
+	 */
 	public $warnings = array();
 
+	/**
+	 * Progress.
+	 *
+	 * @var array|mixed
+	 */
 	private $progress = array();
 
+	/**
+	 * Ordered.
+	 *
+	 * @var null
+	 */
 	private $ordered = null;
 
+	/**
+	 * Paid.
+	 *
+	 * @var null
+	 */
 	private $paid = null;
 
 	/**
@@ -30,9 +64,33 @@ class Energieausweis {
 	 */
 	private $schema = null;
 
+	/**
+	 * Calculation data.
+	 *
+	 * @var array
+	 */
 	private $calculations = array();
 
+	/**
+	 * Owner data.
+	 *
+	 * @var null
+	 */
 	private $owner_data = null;
+
+	/**
+	 * Type
+	 *
+	 * @var string
+	 */
+	private $type = null;
+
+	/**
+	 * Standard
+	 *
+	 * @var string
+	 */
+	private $standard;
 
 	public function __construct( $id ) {
 		$this->id = $id;
@@ -42,6 +100,10 @@ class Energieausweis {
 		$this->errors   = \WPENON\Util\Storage::getErrors( $this->id );
 		$this->warnings = \WPENON\Util\Storage::getWarnings( $this->id );
 		$this->progress = get_post_meta( $this->id, '_wpenon_progress' );
+
+		$this->type     = get_post_meta( $this->id, 'wpenon_type', true );
+		$this->standard = get_post_meta( $this->id, 'wpenon_standard', true );
+
 
 		add_action( 'edd_update_payment_status', array( $this, '_checkOrderedPaidStatus' ) );
 
@@ -220,7 +282,7 @@ class Energieausweis {
 	}
 
 	public function getPDF( $output_mode = 'I', $preview = false ) {
-		$pdf = new \WPENON\Model\EnergieausweisPDF( sprintf( __( 'Energieausweis-%s', 'wpenon' ), $this->post->post_title ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ), $preview );
+		$pdf = new \WPENON\Model\EnergieausweisPDF( sprintf( __( 'Energieausweis-%s', 'wpenon' ), $this->post->post_title ), $this->type, $this->standard, $preview );
 		if ( $this->isFinalized() ) {
 			$this->calculate();
 			$pdf->create( $this );
@@ -232,21 +294,21 @@ class Energieausweis {
 	}
 
 	public function getDataPDF( $output_mode = 'I' ) {
-		$pdf = new \WPENON\Model\EnergieausweisDataPDF( sprintf( __( 'Energieausweis-Daten-%s', 'wpenon' ), $this->post->post_title ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ) );
+		$pdf = new \WPENON\Model\EnergieausweisDataPDF( sprintf( __( 'Energieausweis-Daten-%s', 'wpenon' ), $this->post->post_title ), $this->type, $this->standard );
 		$pdf->create( $this );
 
 		return $pdf->finalize( $output_mode );
 	}
 
 	public function getDataAnonymizedPDF( $output_mode = 'I' ) {
-		$pdf = new \WPENON\Model\EnergieausweisDataPDF( sprintf( __( 'Energieausweis-Daten-%s', 'wpenon' ), $this->post->post_title ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ), true );
+		$pdf = new \WPENON\Model\EnergieausweisDataPDF( sprintf( __( 'Energieausweis-Daten-%s', 'wpenon' ), $this->post->post_title ), $this->type, $this->standard, true );
 		$pdf->create( $this );
 
 		return $pdf->finalize( $output_mode );
 	}
 
 	public function getXML( $mode, $output_mode = 'I', $raw = false ) {
-		$xml = new \WPENON\Model\EnergieausweisXML( $mode, sprintf( __( 'Energieausweis-%1$s-%2$s', 'wpenon' ), $this->post->post_title, ucfirst( $mode ) ), get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ) );
+		$xml = new \WPENON\Model\EnergieausweisXML( $mode, sprintf( __( 'Energieausweis-%1$s-%2$s', 'wpenon' ), $this->post->post_title, ucfirst( $mode ) ), $this->type, $this->standard );
 		if ( $this->isFinalized() ) {
 			$this->calculate();
 			$xml->create( $this, $raw );
@@ -425,7 +487,7 @@ class Energieausweis {
 		$post_id = (int) $post_id;
 
 		$type     = get_post_meta( $this->id, 'wpenon_type', true );
-		$standard = get_post_meta( $this->id, 'wpenon_standard', true );
+		$standard = $this->standard;
 
 		update_post_meta( $post_id, 'wpenon_type', $type );
 		update_post_meta( $post_id, 'wpenon_standard', $standard );
@@ -496,6 +558,6 @@ class Energieausweis {
 	}
 
 	private function _loadSchema() {
-		$this->schema = \WPENON\Model\EnergieausweisManager::loadSchema( get_post_meta( $this->id, 'wpenon_type', true ), get_post_meta( $this->id, 'wpenon_standard', true ) );
+		$this->schema = \WPENON\Model\EnergieausweisManager::loadSchema( $this->type, $this->standard );
 	}
 }
