@@ -361,17 +361,24 @@ class EnergieausweisManager
 
 	public static function loadCalculations( $energieausweis )
 	{
-		(new Calculation( $energieausweis->wpenon_standard ))->load( $energieausweis->wpenon_type, array( 'energieausweis' => $energieausweis ) );
+		$calculation = new Calculation( $energieausweis->wpenon_standard );
+		$calculations = $calculation->load( $energieausweis->wpenon_type, array( 'energieausweis' => $energieausweis ) );
+
+		return $calculations;
 	}
 
 	public static function loadMappings( $mode, $standard )
 	{
-		(new Mapping( $standard ))->load( $mode );
+		$mapping = new Mapping( $standard );
+		$mapping->load( $mode );
 	}
 
 	public static function getXSDFile( $mode, $standard )
 	{
-		return (new XSD( $standard ))->getFile( $mode );
+		$xsd = new XSD( $standard );
+		$file = $xsd->getFile( $mode );
+
+		return $file;
 	}
 
 	public static function getVerifiedPermalink( $post_id, $action = '' )
