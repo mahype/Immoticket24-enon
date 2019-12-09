@@ -16,6 +16,18 @@ add_action( 'wpenon_form_group_bauteile_basis_before', 'wpenon_immoticket24_disp
 add_action( 'wpenon_form_field_fenster_manuell_after', 'wpenon_immoticket24_display_grundriss_image' );
 add_action( 'wpenon_form_field_grundriss_form_after', 'wpenon_immoticket24_display_grundriss_image' );
 
+function wpenon_immoticket24_display_anbau_clean_image() {
+	$energieausweis = \WPENON\Model\EnergieausweisManager::getEnergieausweis();
+	if ( $energieausweis !== null && 'b' === $energieausweis->mode ) {
+		$form = $energieausweis->anbau_form;
+		if ( $form ) {
+			echo '<p class="text-center"><img class="immoticket24-anbau-bild" src="' . WPENON_DATA_URL . '/assets/anbau_' . $form . '_clean.png" alt="' . sprintf( __( 'Anbau-Form %s', 'wpenon' ), strtoupper( $form ) ) . '"></p>';
+		} else {
+			echo '<p class="text-center"><img class="immoticket24-anbau-bild" src="' . WPENON_DATA_URL . '/assets/anbauformen_clean.png" alt="' . __( 'Anbau-Formen', 'wpenon' ) . '"></p>';
+		}
+	}
+}
+
 function wpenon_immoticket24_display_anbau_image() {
 	$energieausweis = \WPENON\Model\EnergieausweisManager::getEnergieausweis();
 	if ( $energieausweis !== null && 'b' === $energieausweis->mode ) {
@@ -28,7 +40,8 @@ function wpenon_immoticket24_display_anbau_image() {
 	}
 }
 
-add_action( 'wpenon_form_field_anbau_form_after', 'wpenon_immoticket24_display_anbau_image' );
+add_action( 'wpenon_form_field_anbau_form_after', 'wpenon_immoticket24_display_anbau_clean_image' );
+
 add_action( 'wpenon_form_field_anbauwand_bauart_before', 'wpenon_immoticket24_display_anbau_image' );
 add_action( 'wpenon_form_field_anbaufenster_headline_before', 'wpenon_immoticket24_display_anbau_image' );
 
