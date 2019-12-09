@@ -105,6 +105,15 @@ function wpenon_immoticket24_show_jahr_daemmung( $daemmung, $dach = 'nicht-vorha
 }
 
 
+function wpenon_immoticket24_show_wand_bauart( $gebaeudekonstruktion, $bauart ) {
+	if ( $gebaeudekonstruktion === $bauart ) {
+		return true;
+	}
+
+	return false;
+}
+
+
 function wpenon_immoticket24_show_anbauwand_bauart( $anbau, $gebaeudekonstruktion, $bauart ) {
 	if ( $gebaeudekonstruktion === $bauart && wpenon_show_on_bool_compare( $anbau, true ) ) {
 		return true;
