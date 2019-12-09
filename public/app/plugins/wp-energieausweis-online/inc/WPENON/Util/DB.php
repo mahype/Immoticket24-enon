@@ -145,7 +145,7 @@ class DB {
 	public static function csvToTable( $table_slug, $file, $charset = WPENON_DEFAULT_CHARSET ) {
 		global $wpdb;
 
-		// ini_set( 'auto_detect_line_endings', '1' );
+		ini_set( 'auto_detect_line_endings', '1' );
 
 		$csv_settings = self::_getCSVSettings();
 
