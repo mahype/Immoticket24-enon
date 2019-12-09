@@ -824,7 +824,7 @@ $fxwerte = array(
   'kellerwand'      => 0.6,
   'boden'           => 0.6,
 );
-$uwerte = wpenon_get_table_results( 'uwerte' );
+$uwerte = wpenon_get_table_results( 'uwerte2019' );
 $uwerte_reference = array(
   'dach'            => 0.2,
   'decke'           => 0.2,
