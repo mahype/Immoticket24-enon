@@ -117,7 +117,7 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 				$context = $context[0];
 			}
 
-			return call_user_func( 'wpenon_get_' . $this->standard . '_xml_' . $this->mode . '_data', $context, $index, $this->energieausweis, array(
+			return call_user_func( 'wpenon_get_enev_xml_' . $this->mode . '_data', $context, $index, $this->energieausweis, array(
 				'mode' => 'occurrences',
 				'min'  => $min_occurs,
 				'max'  => $max_occurs
@@ -137,7 +137,7 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 				$context = $context[0];
 			}
 
-			return call_user_func( 'wpenon_get_' . $this->standard . '_xml_' . $this->mode . '_data', $context, $index, $this->energieausweis, array(
+			return call_user_func( 'wpenon_get_enev_xml_' . $this->mode . '_data', $context, $index, $this->energieausweis, array(
 				'mode'      => 'attribute',
 				'attribute' => $attribute
 			) );
@@ -156,7 +156,7 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 				$context = $context[0];
 			}
 
-			return call_user_func( 'wpenon_get_' . $this->standard . '_xml_' . $this->mode . '_data', $context, $index, $this->energieausweis, array(
+			return call_user_func( 'wpenon_get_enev_xml_' . $this->mode . '_data', $context, $index, $this->energieausweis, array(
 				'mode'    => 'choice',
 				'choices' => $choices
 			) );
@@ -174,19 +174,19 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 				$index   = absint( $context[1] );
 				$context = $context[0];
 			}
-			$value = call_user_func( 'wpenon_get_' . $this->standard . '_xml_' . $this->mode . '_data', $context, $index, $this->energieausweis, array(
+			$value = call_user_func( 'wpenon_get_enev_xml_' . $this->mode . '_data', $context, $index, $this->energieausweis, array(
 				'mode' => 'value',
 				'item' => $item
 			) );
 			if ( $value === false ) {
 				$context = $this->getPathItem( $path, 1 ) . '_' . $context;
-				$value   = call_user_func( 'wpenon_get_' . $this->standard . '_xml_' . $this->mode . '_data', $context, $index, $this->energieausweis, array(
+				$value   = call_user_func( 'wpenon_get_enev_xml_' . $this->mode . '_data', $context, $index, $this->energieausweis, array(
 					'mode' => 'value',
 					'item' => $item
 				) );
 				if ( $value === false ) {
 					$context = $this->getPathItem( $path, 2 ) . '_' . $context;
-					$value   = call_user_func( 'wpenon_get_' . $this->standard . '_xml_' . $this->mode . '_data', $context, $index, $this->energieausweis, array(
+					$value   = call_user_func( 'wpenon_get_enev_xml_' . $this->mode . '_data', $context, $index, $this->energieausweis, array(
 						'mode' => 'value',
 						'item' => $item
 					) );
