@@ -604,6 +604,31 @@ function wpenon_immoticket24_get_bauarten()
 	);
 }
 
+function wpenon_immoticket24_get_bauarten_holzhaus()
+{
+	return array(
+		'holz' => __('Holz', 'wpenon'),
+	);
+}
+
+function wpenon_immoticket24_get_bauarten_fachwerk()
+{
+	return array(
+		'lehm' => __('Lehm-/Lehmziegelausfachung', 'wpenon'),
+		'vollziegel' => __('Vollziegel oder Massive Natursteinausfach', 'wpenon'),
+	);
+}
+
+function wpenon_immoticket24_get_bauarten_massiv()
+{
+	return array(
+		'bims'        => __('Hochlochziegel, Bimsbeton; z. B. Poroton', 'wpenon'),
+		'zweischalig' => __('Zweischalige Bauweise', 'wpenon'),
+		'bis_20cm'    => __('Sonstige Massivwände bis 20 cm', 'wpenon'),
+		'ab_20cm'     => __('Sonstige Massivwände über 20 cm', 'wpenon'),
+	);
+}
+
 function wpenon_immoticket24_get_g_wert($bauart, $reference = false)
 {
 	if (!$reference) {
