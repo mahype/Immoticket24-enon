@@ -117,6 +117,18 @@ $calculations['volumenteile']['grundriss'] = array(
   'v'             => $grundflaeche * $wandhoehe,
 );
 
+switch ( $energieausweis->gebaeudekonstruktion ) {
+	case 'massiv':
+		$wand_bauart = 'massiv_' . $energieausweis->wand_bauart_massiv;
+		break;
+	case 'holz':
+		$wand_bauart = 'holzhaus_' . $energieausweis->wand_bauart_holz;
+		break;
+	case 'fachwerk':
+		$wand_bauart = 'fachwerk_' . $energieausweis->wand_bauart_fachwerk;
+		break;
+}
+
 $wandlaenge = 0.0;
 $calculations['wandrichtungen'] = array();
 foreach ( $grundriss_form as $wand => $data ) {
@@ -129,7 +141,7 @@ foreach ( $grundriss_form as $wand => $data ) {
       'name'          => sprintf( __( 'Außenwand %s', 'wpenon' ), $wand ),
       'typ'           => 'wand',
       'modus'         => 'opak',
-      'bauart'        => $energieausweis->wand_bauart,
+      'bauart'        => $wand_bauart,
       'baujahr'       => $energieausweis->baujahr,
       'richtung'      => $hr_mappings[ $data[1] ],
       'a'             => $$l_slug * $wandhoehe,
@@ -491,7 +503,7 @@ switch ( $energieausweis->dach ) {
               $dachwandflaechen['a'] = 0.5 * $wand_c_laenge * $dachhoehe + 0.5 * $wand_e_laenge * $dachhoehe;
               $dachwandflaechen['c'] = 0.5 * $wand_c_laenge * $dachhoehe;
               $dachwandflaechen['d'] = $wand_d_laenge * $dachhoehe;
-              $dachwandflaechen['e'] = 0.5 * $wand_e_laenge * $dachhoehe; 
+              $dachwandflaechen['e'] = 0.5 * $wand_e_laenge * $dachhoehe;
             }
             break;
           case 'c':
@@ -959,7 +971,7 @@ foreach ( $monate as $monat => $monatsdaten ) {
   // Lüftungswärmeverluste Qv
   $calculations['monate'][ $monat ]['qv'] = $calculations['hv'] * 0.024 * ( 19.0 - $calculations['monate'][ $monat ]['temperatur'] ) * $calculations['monate'][ $monat ]['tage'];
   $calculations['monate'][ $monat ]['qv_reference'] = $calculations['hv_reference'] * 0.024 * ( 19.0 - $calculations['monate'][ $monat ]['temperatur'] ) * $calculations['monate'][ $monat ]['tage'];
-  
+
   // Gesamtverluste Ql
   $calculations['monate'][ $monat ]['ql'] = $calculations['monate'][ $monat ]['qt'] + $calculations['monate'][ $monat ]['qv'];
   $calculations['monate'][ $monat ]['ql_reference'] = $calculations['monate'][ $monat ]['qt_reference'] + $calculations['monate'][ $monat ]['qv_reference'];
@@ -1157,7 +1169,7 @@ if ( $energieausweis->h2_info ) {
       ) ),
       'deckungsanteil'          => $energieausweis->h2_deckungsanteil,
     );
-    
+
     $anteilsumme += $calculations['anlagendaten']['h2']['deckungsanteil'];
 
     if ( $calculations['anlagendaten']['h2']['deckungsanteil'] > $calculations['anlagendaten']['h']['deckungsanteil'] ) {
