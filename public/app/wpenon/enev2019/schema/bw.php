@@ -206,12 +206,38 @@ return array(
 				'title' => __('Grundbauteile', 'wpenon'),
 				'description' => __('Geben Sie die relevanten Daten für die Grundbestandteile des Gebäudes an.', 'wpenon'),
 				'fields' => array(
-					'wand_bauart' => array(
+					'wand_bauart_holz' => array(
 						'type' => 'select',
 						'label' => __('Wandbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Außenwand aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten(),
+						'options' => wpenon_immoticket24_get_bauarten_holzhaus(),
 						'required' => true,
+						'display' => array(
+							'callback' => 'wpenon_immoticket24_show_wand_bauart',
+							'callback_args' => array('field::gebaeudekonstruktion', 'holz'),
+						),
+					),
+					'wand_bauart_fachwerk' => array(
+						'type' => 'select',
+						'label' => __('Wandbauart', 'wpenon'),
+						'description' => __('Wählen Sie die Bauart der Außenwand aus.', 'wpenon'),
+						'options' => wpenon_immoticket24_get_bauarten_fachwerk(),
+						'required' => true,
+						'display' => array(
+							'callback' => 'wpenon_immoticket24_show_wand_bauart',
+							'callback_args' => array('field::gebaeudekonstruktion', 'fachwerk'),
+						),
+					),
+					'wand_bauart_massiv' => array(
+						'type' => 'select',
+						'label' => __('Wandbauart', 'wpenon'),
+						'description' => __('Wählen Sie die Bauart der Außenwand aus.', 'wpenon'),
+						'options' => wpenon_immoticket24_get_bauarten_massiv(),
+						'required' => true,
+						'display' => array(
+							'callback' => 'wpenon_immoticket24_show_wand_bauart',
+							'callback_args' => array('field::gebaeudekonstruktion', 'massiv'),
+						),
 					),
 					'wand_a_headline' => array(
 						'type' => 'headline',
@@ -569,15 +595,37 @@ return array(
 							'callback_args' => array('field::anbau', true),
 						),
 					),
-					'anbauwand_bauart' => array(
+					'anbauwand_bauart_holz' => array(
 						'type' => 'select',
 						'label' => __('Anbau-Wandbauart', 'wpenon'),
-						'description' => __('Wählen Sie die Bauart der Wand des Anbaus aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten(),
+						'description' => __('Wählen Sie die Bauart der Außenwand aus.', 'wpenon'),
+						'options' => wpenon_immoticket24_get_bauarten_holzhaus(),
 						'required' => true,
 						'display' => array(
-							'callback' => 'wpenon_show_on_bool_compare',
-							'callback_args' => array('field::anbau', true),
+							'callback' => 'wpenon_immoticket24_show_anbauwand_bauart',
+							'callback_args' => array('field::anbau', 'field::gebaeudekonstruktion', 'holz'),
+						),
+					),
+					'anbauwand_bauart_fachwerk' => array(
+						'type' => 'select',
+						'label' => __('Anbau-Wandbauart', 'wpenon'),
+						'description' => __('Wählen Sie die Bauart der Außenwand aus.', 'wpenon'),
+						'options' => wpenon_immoticket24_get_bauarten_fachwerk(),
+						'required' => true,
+						'display' => array(
+							'callback' => 'wpenon_immoticket24_show_anbauwand_bauart',
+							'callback_args' => array('field::anbau', 'field::gebaeudekonstruktion', 'fachwerk'),
+						),
+					),
+					'anbauwand_bauart_massiv' => array(
+						'type' => 'select',
+						'label' => __('Anbau-Wandbauart', 'wpenon'),
+						'description' => __('Wählen Sie die Bauart der Außenwand aus.', 'wpenon'),
+						'options' => wpenon_immoticket24_get_bauarten_massiv(),
+						'required' => true,
+						'display' => array(
+							'callback' => 'wpenon_immoticket24_show_anbauwand_bauart',
+							'callback_args' => array('field::anbau', 'field::gebaeudekonstruktion', 'massiv'),
 						),
 					),
 					'anbauwand_daemmung' => array(
