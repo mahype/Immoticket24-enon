@@ -680,7 +680,7 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 					$data = $this->energieausweis->$context;
 				}
 			} else {
-				$data = call_user_func( 'wpenon_get_' . $this->wpenon_standard . '_pdf_data', $context, $index, $this->energieausweis );
+				$data = call_user_func( 'wpenon_get_enev_pdf_data', $context, $index, $this->energieausweis );
 			}
 		}
 
