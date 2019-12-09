@@ -6,7 +6,7 @@ return array(
 		'groups' => array(
 			'energieausweis' => array(
 				'title' => __('Allgemein', 'wpenon'),
-				'description' => __('Wählen Sie hier die passenden Angaben für Ihren Energieausweis ausXXX.', 'wpenon'),
+				'description' => __('Wählen Sie hier die passenden Angaben für Ihren Energieausweis aus.', 'wpenon'),
 				'fields' => array(
 					'anlass' => array(
 						'type' => 'select',
