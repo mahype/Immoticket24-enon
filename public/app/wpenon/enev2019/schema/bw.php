@@ -574,19 +574,6 @@ return array(
 							'callback_args' => array('field::grundriss_form', 'h', 'field::wand_h_nachbar'),
 						),
 					),
-					'wand_porenbeton' => array(
-						'type' => 'select',
-						'label' => __('Sind die Außenwände aus Porenbeton (z.B. Ytong)?', 'wpenon'),
-						'options' => array(
-							'ja' => __('Ja', 'wpenon'),
-							'nein' => __('Nein', 'wpenon'),
-							'unbekannt' => __('Unbekannt', 'wpenon'),
-						),
-						'display' => array(
-							'callback' => 'wpenon_immoticket24_show_wand_porenbeton_bedarf',
-							'callback_args' => array('field::grundriss_form', 'field::wand_a_daemmung', 'field::wand_b_daemmung', 'field::wand_c_daemmung', 'field::wand_d_daemmung', 'field::wand_e_daemmung', 'field::wand_f_daemmung', 'field::wand_g_daemmung', 'field::wand_h_daemmung'),
-						),
-					),
 					'anbauwand_headline' => array(
 						'type' => 'headline',
 						'label' => __('Anbau', 'wpenon'),
