@@ -21,7 +21,7 @@ namespace Enon\Core;
 use Awsm\WPWrapper\Plugin\Plugin;
 use Enon\Config\Loader as ConfigLoader;
 use Enon\Misc\Loader as MiscLoader;
-use Enon\Reseller\Loader as WhitelabelLoader;
+use Enon\Reseller\Loader as ResellerLoader;
 use Enon\Logger;
 
 require dirname( __FILE__ ) . '/vendor/autoload.php';
@@ -46,7 +46,7 @@ function enon_boot() {
 		( new Plugin() )
 			->addTask( ConfigLoader::class, $logger )
 			->addTask( MiscLoader::class, $logger )
-			->addTask( WhitelabelLoader::class, $logger )
+			// ->addTask( ResellerLoader::class, $logger )
 			->boot();
 	} catch ( \Exception $exception ) {
 		wp_die( $exception->getMessage() );
