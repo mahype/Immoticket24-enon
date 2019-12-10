@@ -52,16 +52,6 @@ return array(
 						),
 						'required' => true,
 					),
-					'gebaeudekonstruktion' => array(
-						'type' => 'radio',
-						'label' => __('Gebäudekonstruktion', 'wpenon'),
-						'options' => array(
-							'massiv'   => __('Massivhaus', 'wpenon'),
-							'holz'     => __('Holzhaus', 'wpenon'),
-							'fachwerk' => __('Fachwerkhaus', 'wpenon'),
-						),
-						'required' => true,
-					),
 					'wohnungen' => array(
 						'type' => 'int',
 						'label' => __('Wohnungen', 'wpenon'),
