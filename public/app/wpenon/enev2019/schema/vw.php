@@ -235,7 +235,7 @@ return array(
 					'h_erzeugung' => array(
 						'type' => 'select',
 						'label' => __('Typ der Heizungsanlage', 'wpenon'),
-						'options' => wpenon_immoticket24_get_heizungsanlagen(),
+						'options' => wpenon_immoticket24_get_heizungsanlagen2019(),
 						'required' => true,
 					),
 					'h_energietraeger' => array(
@@ -274,7 +274,7 @@ return array(
 					'h2_erzeugung' => array(
 						'type' => 'select',
 						'label' => __('Typ der 2. Heizungsanlage', 'wpenon'),
-						'options' => wpenon_immoticket24_get_heizungsanlagen(),
+						'options' => wpenon_immoticket24_get_heizungsanlagen2019(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_bool_compare',
@@ -333,7 +333,7 @@ return array(
 					'h3_erzeugung' => array(
 						'type' => 'select',
 						'label' => __('Typ der 3. Heizungsanlage', 'wpenon'),
-						'options' => wpenon_immoticket24_get_heizungsanlagen(),
+						'options' => wpenon_immoticket24_get_heizungsanlagen2019(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_bool_compare',
@@ -400,7 +400,7 @@ return array(
 					'ww_erzeugung' => array(
 						'type' => 'select',
 						'label' => __('Typ der Warmwasseranlage', 'wpenon'),
-						'options' => wpenon_immoticket24_get_warmwasseranlagen(),
+						'options' => wpenon_immoticket24_get_warmwasseranlagen2019(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_array_whitelist',

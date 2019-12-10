@@ -1516,7 +1516,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Typ der Heizungsanlage', 'wpenon'),
 						'description' => __('Falls Sie den mit Gas oder Öl betriebenen Typ der Heizungsanlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_heizungsanlagen(),
+						'options' => wpenon_immoticket24_get_heizungsanlagen2019(),
 						'required' => true,
 					),
 					'h_energietraeger' => array(
@@ -1582,7 +1582,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Typ der 2. Heizungsanlage', 'wpenon'),
 						'description' => __('Falls Sie den mit Gas oder Öl betriebenen Typ der Heizungsanlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_heizungsanlagen(),
+						'options' => wpenon_immoticket24_get_heizungsanlagen2019(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_bool_compare',
@@ -1668,7 +1668,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Typ der 3. Heizungsanlage', 'wpenon'),
 						'description' => __('Falls Sie den mit Gas oder Öl betriebenen Typ der Heizungsanlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_heizungsanlagen(),
+						'options' => wpenon_immoticket24_get_heizungsanlagen2019(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_bool_compare',
@@ -1811,7 +1811,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Typ der Warmwasseranlage', 'wpenon'),
 						'description' => __('Falls Sie den mit Gas oder Öl betriebenen Typ der Warmwasseranlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_warmwasseranlagen(),
+						'options' => wpenon_immoticket24_get_warmwasseranlagen2019(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_array_whitelist',
