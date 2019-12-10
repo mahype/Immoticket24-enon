@@ -351,6 +351,7 @@ function wpenon_immoticket24_make_yearkey($year, $table, $gedaemmt = false)
 {
 	switch ($table) {
 		case 'uwerte':
+		case 'uwerte2019':
 			$steps = array(1918, 1948, 1957, 1968, 1978, 1983, 1994);
 			foreach ($steps as $step) {
 				if ($year <= $step) {
@@ -359,7 +360,9 @@ function wpenon_immoticket24_make_yearkey($year, $table, $gedaemmt = false)
 			}
 			return 'ab1995';
 		case 'h_erzeugung':
+		case 'h_erzeugung2019':
 		case 'ww_erzeugung':
+		case 'ww_erzeugung2019':
 			$steps = array(1986, 1994);
 			foreach ($steps as $step) {
 				if ($year <= $step) {
@@ -368,6 +371,7 @@ function wpenon_immoticket24_make_yearkey($year, $table, $gedaemmt = false)
 			}
 			return '1995';
 		case 'h_verteilung':
+		case 'h_verteilung2019':
 		case 'ww_verteilung':
 			$steps = array(1978, 1994);
 			foreach ($steps as $step) {
@@ -601,6 +605,7 @@ function wpenon_immoticket24_get_bauarten()
 	return array(
 		'massiv' => __('Massiv', 'wpenon'),
 		'holz' => __('Holz', 'wpenon'),
+		'stahlbeton' => __('Stahlbeton', 'wpenon'),
 	);
 }
 
