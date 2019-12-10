@@ -858,7 +858,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Kellerwandbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Kellerwand aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten(),
+						'options' => wpenon_immoticket24_get_bauarten_keller(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_array_whitelist',

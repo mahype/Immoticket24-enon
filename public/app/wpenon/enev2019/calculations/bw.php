@@ -314,9 +314,10 @@ switch ( $energieausweis->keller ) {
   case 'beheizt':
     $keller_anteil = $energieausweis->keller_groesse * 0.01;
     $kellerwandhoehe = $energieausweis->keller_hoehe + 0.25;
+
     $calculations['bauteile']['kellerwand'] = array(
       'name'          => __( 'Kellerwand', 'wpenon' ),
-      'typ'           => 'boden',
+      'typ'           => 'wand',
       'modus'         => 'opak',
       'bauart'        => $energieausweis->keller_bauart,
       'baujahr'       => $energieausweis->baujahr,

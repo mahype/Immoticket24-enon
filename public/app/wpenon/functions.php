@@ -617,6 +617,16 @@ function wpenon_immoticket24_get_bauarten_boden()
 	);
 }
 
+
+function wpenon_immoticket24_get_bauarten_keller()
+{
+	return array(
+		'holzhaus_holz' => __('Holz', 'wpenon'),
+		'massiv_bis_20cm'    => __('Sonstige Massivwände bis 20 cm', 'wpenon'),
+		'massiv_ab_20cm'     => __('Sonstige Massivwände über 20 cm', 'wpenon'),
+	);
+}
+
 function wpenon_immoticket24_get_bauarten_holzhaus()
 {
 	return array(
