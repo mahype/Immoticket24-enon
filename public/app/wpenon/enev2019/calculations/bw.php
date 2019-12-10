@@ -1058,7 +1058,7 @@ $calculations['uebergabe'] = array();
 
 $aaa = $energieausweis->h_erzeugung;
 
-$h_erzeugung = wpenon_get_table_results( 'h_erzeugung2019', array( 'bezeichnung' => array( 'value' => '\n' . $energieausweis->h_erzeugung, 'compare' => '=' ) ), array(), true );
+$h_erzeugung = wpenon_get_table_results( 'h_erzeugung2019', array( 'bezeichnung' => array( 'value' => $energieausweis->h_erzeugung, 'compare' => '=' ) ), array(), true );
 $h_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => $energieausweis->h_energietraeger, 'compare' => '=' ) ), array(), true );
 $h_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->h_baujahr, 'h_erzeugung2019' );
 list( $h_ep150, $h_ep500, $h_ep2500 ) = wpenon_immoticket24_make_anlagenkeys( 'ep', $h_yearkey );
@@ -1782,9 +1782,9 @@ $co2faktor_strom = $energietraeger_strom->co2;
 
 if ( $energieausweis->regenerativ_aktiv ) {
   $calculations['qw_e_b'] -= wpenon_interpolate( $calculations['nutzflaeche'], array(
-    array( 'keysize' => 150, 'value' => 11.3 ),
-    array( 'keysize' => 500, 'value' => 8.0 ),
-    array( 'keysize' => 2500, 'value' => 6.0 ),
+    array( 'keysize' => 150, 'value' => 13.3 ),
+    array( 'keysize' => 500, 'value' => 10.4 ),
+    array( 'keysize' => 2500, 'value' => 7.5 ),
   ) );
   $calculations['qw_he_b'] += wpenon_interpolate( $calculations['nutzflaeche'], array(
     array( 'keysize' => 150, 'value' => 0.8 ),

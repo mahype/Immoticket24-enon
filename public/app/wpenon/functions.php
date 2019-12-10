@@ -549,6 +549,16 @@ function wpenon_immoticket24_get_warmwasseranlagen()
 	return wpenon_get_table_results('ww_erzeugung', array(), array('name'));
 }
 
+function wpenon_immoticket24_get_heizungsanlagen2019()
+{
+	return wpenon_get_table_results('h_erzeugung2019', array(), array('name'));
+}
+
+function wpenon_immoticket24_get_warmwasseranlagen2019()
+{
+	return wpenon_get_table_results('ww_erzeugung2019', array(), array('name'));
+}
+
 function wpenon_immoticket24_get_lueftungsanlagen()
 {
 	return wpenon_get_table_results('l_erzeugung', array(), array('name'));
@@ -623,7 +633,7 @@ function wpenon_immoticket24_get_bauarten_keller()
 	return array(
 		'holzhaus_holz' => __('Holz', 'wpenon'),
 		'massiv_bis_20cm'    => __('Sonstige Massivwände bis 20 cm', 'wpenon'),
-		'massiv_ab_20cm'     => __('Sonstige Massivwände über 20 cm', 'wpenon'),
+		'massiv_ueber_20cm'     => __('Sonstige Massivwände über 20 cm', 'wpenon'),
 	);
 }
 
@@ -648,7 +658,7 @@ function wpenon_immoticket24_get_bauarten_massiv()
 		'bims'        => __('Hochlochziegel, Bimsbeton; z. B. Poroton', 'wpenon'),
 		'zweischalig' => __('Zweischalige Bauweise', 'wpenon'),
 		'bis_20cm'    => __('Sonstige Massivwände bis 20 cm', 'wpenon'),
-		'ab_20cm'     => __('Sonstige Massivwände über 20 cm', 'wpenon'),
+		'ueber_20cm'     => __('Sonstige Massivwände über 20 cm', 'wpenon'),
 	);
 }
 
@@ -899,6 +909,10 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 
 	$minimum_date = strtotime('2019-11-16 0:00');
 	$energieausweis_date = strtotime($energieausweis->date);
+	$enon_type = $energieausweis->wpenon_type;
+	$verteilung_baujahr = $energieausweis->verteilung_baujahr;
+	$verteilung_gedaemmt = $energieausweis->verteilung_gedaemmt;
+	$keller = $energieausweis->keller;
 
 	if (wpenon_immoticket24_is_empfehlung_active('rohrleitungssystem', $energieausweis) && $energieausweis_date > $minimum_date) {
 		if ('bw' === $energieausweis->wpenon_type && $energieausweis->verteilung_baujahr <= 1978 && true !== $energieausweis->verteilung_gedaemmt && 'unbeheizt' == $energieausweis->keller) {
@@ -906,7 +920,9 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 		}
 	}
 
-	if( intval( $energieausweis->baujahr ) < 1995 ) {
+	$minimum_date = strtotime('2019-12-10 0:00');
+
+	if( intval( $energieausweis->baujahr ) < 1995  && $energieausweis_date > $minimum_date ) {
 		if (wpenon_immoticket24_is_empfehlung_active('dach', $energieausweis)) {
 			if ('b' === $energieausweis->mode && ($energieausweis->dach === 'beheizt' || $energieausweis->dach === 'nicht-vorhanden') && $energieausweis->dach_daemmung < 14.0) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['dach'];
@@ -958,19 +974,13 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['fenster'];
 			}
 		} elseif ($energieausweis->mode == 'b') {
-			if ($energieausweis->fenster_manuell) {
-				foreach (array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h') as $fenster) {
-					$flaecheslug = 'fenster_' . $fenster . '_flaeche';
-					$bauartslug = 'fenster_' . $fenster . '_bauart';
-					$baujahrslug = 'fenster_' . $fenster . '_baujahr';
-					if ($energieausweis->$flaecheslug > 0.0 && wpenon_immoticket24_needs_fenster_recommendations($energieausweis->$bauartslug, $energieausweis->$baujahrslug)) {
-						$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['fenster'];
-						break;
-					}
-				}
-			} else {
-				if (wpenon_immoticket24_needs_fenster_recommendations($energieausweis->fenster_bauart, $energieausweis->fenster_baujahr)) {
+			foreach (array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h') as $fenster) {
+				$flaecheslug = 'fenster_' . $fenster . '_flaeche';
+				$bauartslug = 'fenster_' . $fenster . '_bauart';
+				$baujahrslug = 'fenster_' . $fenster . '_baujahr';
+				if ($energieausweis->$flaecheslug > 0.0 && wpenon_immoticket24_needs_fenster_recommendations($energieausweis->$bauartslug, $energieausweis->$baujahrslug)) {
 					$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['fenster'];
+					break;
 				}
 			}
 		}
