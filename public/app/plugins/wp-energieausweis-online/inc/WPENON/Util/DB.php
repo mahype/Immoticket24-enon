@@ -200,6 +200,8 @@ class DB {
 					} else {
 						$value = \WPENON\Util\Format::utf8Encode( $value, $charset );
 					}
+					$value = str_replace("\n","" , $value);
+					$value = str_replace("\r","" , $value);
 					$field_values[ $field_names[ $key ] ] = $value;
 				}
 				if ( $line_counter > 1 ) {
