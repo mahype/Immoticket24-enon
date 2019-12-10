@@ -605,6 +605,14 @@ function wpenon_immoticket24_get_bauarten()
 	return array(
 		'massiv' => __('Massiv', 'wpenon'),
 		'holz' => __('Holz', 'wpenon'),
+	);
+}
+
+function wpenon_immoticket24_get_bauarten_boden()
+{
+	return array(
+		'massiv' => __('Massiv', 'wpenon'),
+		'holz' => __('Holz', 'wpenon'),
 		'stahlbeton' => __('Stahlbeton', 'wpenon'),
 	);
 }

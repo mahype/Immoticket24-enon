@@ -880,7 +880,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bodenbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Bodenplatte / Kellerdecke aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten(),
+						'options' => wpenon_immoticket24_get_bauarten_boden(),
 						'required' => true,
 					),
 					'boden_daemmung' => array(
@@ -902,7 +902,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Anbau-Bodenbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart des Bodens des Anbaus aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten(),
+						'options' => wpenon_immoticket24_get_bauarten_boden(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_bool_compare',
