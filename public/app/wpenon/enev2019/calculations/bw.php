@@ -864,7 +864,7 @@ foreach ( $calculations['bauteile'] as $slug => &$data ) {
       $uslug .= '_' . $data['bauart'];
     }
     if ( isset( $uwerte[ $uslug ] ) ) {
-      $yearkey = wpenon_immoticket24_make_yearkey( $data['baujahr'], 'uwerte' );
+      $yearkey = wpenon_immoticket24_make_yearkey( $data['baujahr'], 'uwerte2019' );
       $data['u'] = $uwerte[ $uslug ]->$yearkey;
     } else {
       $data['u'] = 1.0;
@@ -1096,9 +1096,9 @@ $calculations['verteilung'] = array();
 $calculations['speicherung'] = array();
 $calculations['uebergabe'] = array();
 
-$h_erzeugung = wpenon_get_table_results( 'h_erzeugung', array( 'bezeichnung' => array( 'value' => $energieausweis->h_erzeugung, 'compare' => '=' ) ), array(), true );
+$h_erzeugung = wpenon_get_table_results( 'h_erzeugung2019', array( 'bezeichnung' => array( 'value' => $energieausweis->h_erzeugung, 'compare' => '=' ) ), array(), true );
 $h_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => $energieausweis->h_energietraeger, 'compare' => '=' ) ), array(), true );
-$h_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->h_baujahr, 'h_erzeugung' );
+$h_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->h_baujahr, 'h_erzeugung2019' );
 list( $h_ep150, $h_ep500, $h_ep2500 ) = wpenon_immoticket24_make_anlagenkeys( 'ep', $h_yearkey );
 list( $h_he150, $h_he500, $h_he2500 ) = wpenon_immoticket24_make_anlagenkeys( 'he', $h_yearkey );
 $calculations['anlagendaten']['h'] = array(
@@ -1139,9 +1139,9 @@ if ( $energieausweis->h2_info ) {
   $anteilsumme = $energieausweis->h_deckungsanteil;
 
   if ( $energieausweis->h2_deckungsanteil > 0 ) {
-    $h2_erzeugung = wpenon_get_table_results( 'h_erzeugung', array( 'bezeichnung' => array( 'value' => $energieausweis->h2_erzeugung, 'compare' => '=' ) ), array(), true );
+    $h2_erzeugung = wpenon_get_table_results( 'h_erzeugung2019', array( 'bezeichnung' => array( 'value' => $energieausweis->h2_erzeugung, 'compare' => '=' ) ), array(), true );
     $h2_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => $energieausweis->h2_energietraeger, 'compare' => '=' ) ), array(), true );
-    $h2_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->h2_baujahr, 'h_erzeugung' );
+    $h2_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->h2_baujahr, 'h_erzeugung2019' );
     list( $h2_ep150, $h2_ep500, $h2_ep2500 ) = wpenon_immoticket24_make_anlagenkeys( 'ep', $h2_yearkey );
     list( $h2_he150, $h2_he500, $h2_he2500 ) = wpenon_immoticket24_make_anlagenkeys( 'he', $h2_yearkey );
     $calculations['anlagendaten']['h2'] = array(
@@ -1178,9 +1178,9 @@ if ( $energieausweis->h2_info ) {
   }
 
   if ( $energieausweis->h3_info && $energieausweis->h3_deckungsanteil > 0 ) {
-    $h3_erzeugung = wpenon_get_table_results( 'h_erzeugung', array( 'bezeichnung' => array( 'value' => $energieausweis->h3_erzeugung, 'compare' => '=' ) ), array(), true );
+    $h3_erzeugung = wpenon_get_table_results( 'h_erzeugung2019', array( 'bezeichnung' => array( 'value' => $energieausweis->h3_erzeugung, 'compare' => '=' ) ), array(), true );
     $h3_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => $energieausweis->h3_energietraeger, 'compare' => '=' ) ), array(), true );
-    $h3_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->h3_baujahr, 'h_erzeugung' );
+    $h3_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->h3_baujahr, 'h_erzeugung2019' );
     list( $h3_ep150, $h3_ep500, $h3_ep2500 ) = wpenon_immoticket24_make_anlagenkeys( 'ep', $h3_yearkey );
     list( $h3_he150, $h3_he500, $h3_he2500 ) = wpenon_immoticket24_make_anlagenkeys( 'he', $h3_yearkey );
     $calculations['anlagendaten']['h3'] = array(
@@ -1245,9 +1245,9 @@ $h_verteilung_slug = $calculations['anlagendaten'][ $h_max_anteil ]['typ'];
 if ( $h_verteilung_slug == 'zentral' ) {
   $h_verteilung_slug .= '_' . ( $calculations['anlagendaten'][ $h_max_anteil ]['heizkreistemperatur'] == '70/55°' ? '7055' : '5545' );
 }
-$h_verteilung = wpenon_get_table_results( 'h_verteilung', array( 'bezeichnung' => array( 'value' => $h_verteilung_slug, 'compare' => '=' ) ), array(), true );
+$h_verteilung = wpenon_get_table_results( 'h_verteilung2019', array( 'bezeichnung' => array( 'value' => $h_verteilung_slug, 'compare' => '=' ) ), array(), true );
 if ( $h_verteilung ) {
-  $hv_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->verteilung_baujahr, 'h_verteilung', $energieausweis->verteilung_gedaemmt );
+  $hv_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->verteilung_baujahr, 'h_verteilung2019', $energieausweis->verteilung_gedaemmt );
   list( $hv_wv150, $hv_wv500, $hv_wv2500 ) = wpenon_immoticket24_make_anlagenkeys( 'wv', $hv_yearkey );
   list( $hv_he150, $hv_he500, $hv_he2500 ) = wpenon_immoticket24_make_anlagenkeys( 'he', $hv_yearkey );
   $calculations['verteilung']['h'] = array(
@@ -1299,9 +1299,9 @@ if ( 'unbekannt' === $energieausweis->ww_info ) {
 $ww_erzeugung = $energieausweis->ww_info . '_erzeugung';
 $ww_energietraeger = $energieausweis->ww_info . '_energietraeger';
 $ww_baujahr = $energieausweis->ww_info . '_baujahr';
-$ww_erzeugung = wpenon_get_table_results( 'ww_erzeugung', array( 'bezeichnung' => array( 'value' => $energieausweis->$ww_erzeugung, 'compare' => '=' ) ), array(), true );
+$ww_erzeugung = wpenon_get_table_results( 'ww_erzeugung2019', array( 'bezeichnung' => array( 'value' => $energieausweis->$ww_erzeugung, 'compare' => '=' ) ), array(), true );
 $ww_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => $energieausweis->$ww_energietraeger, 'compare' => '=' ) ), array(), true );
-$ww_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->$ww_baujahr, 'ww_erzeugung' );
+$ww_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->$ww_baujahr, 'ww_erzeugung2019' );
 list( $ww_ep150, $ww_ep500, $ww_ep2500 ) = wpenon_immoticket24_make_anlagenkeys( 'ep', $ww_yearkey );
 list( $ww_he150, $ww_he500, $ww_he2500 ) = wpenon_immoticket24_make_anlagenkeys( 'he', $ww_yearkey );
 list( $ww_hwg150, $ww_hwg500, $ww_hwg2500 ) = wpenon_immoticket24_make_anlagenkeys( 'hwg', $ww_yearkey );
@@ -1463,10 +1463,10 @@ $calculations['verteilung_reference'] = array();
 $calculations['speicherung_reference'] = array();
 $calculations['uebergabe_reference'] = array();
 
-$h_reference_erzeugung = wpenon_get_table_results( 'h_erzeugung', array( 'bezeichnung' => array( 'value' => 'brennwertkesselverbessert', 'compare' => '=' ) ), array(), true );
+$h_reference_erzeugung = wpenon_get_table_results( 'h_erzeugung2019', array( 'bezeichnung' => array( 'value' => 'brennwertkesselverbessert', 'compare' => '=' ) ), array(), true );
 $h_reference_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => 'heizoel', 'compare' => '=' ) ), array(), true );
 $h_reference_baujahr = absint( wpenon_get_reference_date( 'Y', $energieausweis ) );
-$h_reference_yearkey = wpenon_immoticket24_make_yearkey( $h_reference_baujahr, 'h_erzeugung' );
+$h_reference_yearkey = wpenon_immoticket24_make_yearkey( $h_reference_baujahr, 'h_erzeugung2019' );
 list( $h_reference_ep150, $h_reference_ep500, $h_reference_ep2500 ) = wpenon_immoticket24_make_anlagenkeys( 'ep', $h_reference_yearkey );
 list( $h_reference_he150, $h_reference_he500, $h_reference_he2500 ) = wpenon_immoticket24_make_anlagenkeys( 'he', $h_reference_yearkey );
 $calculations['anlagendaten_reference']['h'] = array(
@@ -1517,10 +1517,10 @@ $h_verteilung_reference_slug = $calculations['anlagendaten_reference']['h']['typ
 if ( $h_verteilung_reference_slug == 'zentral' ) {
   $h_verteilung_reference_slug .= '_' . ( $calculations['anlagendaten_reference']['h']['heizkreistemperatur'] == '70/55°' ? '7055' : '5545' );
 }
-$h_verteilung_reference = wpenon_get_table_results( 'h_verteilung', array( 'bezeichnung' => array( 'value' => $h_verteilung_reference_slug, 'compare' => '=' ) ), array(), true );
+$h_verteilung_reference = wpenon_get_table_results( 'h_verteilung2019', array( 'bezeichnung' => array( 'value' => $h_verteilung_reference_slug, 'compare' => '=' ) ), array(), true );
 if ( $h_verteilung_reference ) {
   $hv_reference_baujahr = $h_reference_baujahr;
-  $hv_reference_yearkey = wpenon_immoticket24_make_yearkey( $hv_reference_baujahr, 'h_verteilung', true );
+  $hv_reference_yearkey = wpenon_immoticket24_make_yearkey( $hv_reference_baujahr, 'h_verteilung2019', true );
   list( $hv_reference_wv150, $hv_reference_wv500, $hv_reference_wv2500 ) = wpenon_immoticket24_make_anlagenkeys( 'wv', $hv_reference_yearkey );
   list( $hv_reference_he150, $hv_reference_he500, $hv_reference_he2500 ) = wpenon_immoticket24_make_anlagenkeys( 'he', $hv_reference_yearkey );
   $calculations['verteilung_reference']['h'] = array(
@@ -1564,10 +1564,10 @@ if ( $h_speicherung_reference ) {
   );
 }
 
-$ww_reference_erzeugung = wpenon_get_table_results( 'ww_erzeugung', array( 'bezeichnung' => array( 'value' => 'brennwertkesselverbessert', 'compare' => '=' ) ), array(), true );
+$ww_reference_erzeugung = wpenon_get_table_results( 'ww_erzeugung2019', array( 'bezeichnung' => array( 'value' => 'brennwertkesselverbessert', 'compare' => '=' ) ), array(), true );
 $ww_reference_energietraeger = $h_reference_energietraeger;
 $ww_reference_baujahr = $h_reference_baujahr;
-$ww_reference_yearkey = wpenon_immoticket24_make_yearkey( $ww_reference_baujahr, 'ww_erzeugung' );
+$ww_reference_yearkey = wpenon_immoticket24_make_yearkey( $ww_reference_baujahr, 'ww_erzeugung2019' );
 list( $ww_reference_ep150, $ww_reference_ep500, $ww_reference_ep2500 ) = wpenon_immoticket24_make_anlagenkeys( 'ep', $ww_reference_yearkey );
 list( $ww_reference_he150, $ww_reference_he500, $ww_reference_he2500 ) = wpenon_immoticket24_make_anlagenkeys( 'he', $ww_reference_yearkey );
 list( $ww_reference_hwg150, $ww_reference_hwg500, $ww_reference_hwg2500 ) = wpenon_immoticket24_make_anlagenkeys( 'hwg', $ww_reference_yearkey );
