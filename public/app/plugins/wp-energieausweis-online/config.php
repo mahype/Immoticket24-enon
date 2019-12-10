@@ -51,7 +51,7 @@ if ( ! defined( 'WPENON_AUDIT' ) ) {
   define( 'WPENON_AUDIT', true );
 }
 if ( ! defined( 'WPENON_DEFAULT_CHARSET' ) ) {
-  define( 'WPENON_DEFAULT_CHARSET', 'windows-1252' );
+  define( 'WPENON_DEFAULT_CHARSET', 'UTF-8' );
 }
 
 /* PLUGIN DEBUG MODE */
