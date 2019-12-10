@@ -677,108 +677,67 @@ if ( $geschosshoehe >= 2.5 && $geschosshoehe <= 3.0 ) {
  * BAUTEILE TRANSPARENT etc.
  *************************************************/
 
-if ( $energieausweis->fenster_manuell ) {
-  foreach ( $grundriss_form as $wand => $data ) {
-    if ( isset( $calculations['bauteile'][ 'wand_' . $wand ] ) ) {
-      $a_slug = 'fenster_' . $wand . '_flaeche';
-      $b_slug = 'fenster_' . $wand . '_bauart';
-      $j_slug = 'fenster_' . $wand . '_baujahr';
-      if ( $energieausweis->$a_slug > 0.0 ) {
-        $calculations['bauteile'][ 'fenster_' . $wand ] = array(
-          'name'          => sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand ),
-          'typ'           => 'fenster',
-          'modus'         => 'transparent',
-          'bauart'        => $energieausweis->$b_slug,
-          'baujahr'       => $energieausweis->$j_slug,
-          'richtung'      => $calculations['bauteile'][ 'wand_' . $wand ]['richtung'],
-          'a'             => $energieausweis->$a_slug,
-          'd'             => 0,
-          'winkel'        => 90.0,
-        );
-        $calculations['bauteile'][ 'wand_' . $wand ]['a'] -= $calculations['bauteile'][ 'fenster_' . $wand ]['a'];
-      }
-    }
-  }
-  unset( $data );
-  if ( isset( $calculations['bauteile']['dach'] ) && $energieausweis->fenster_dach_flaeche > 0.0 ) {
-    $calculations['bauteile']['fenster_dach'] = array(
-      'name'          => __( 'Fenster Dach', 'wpenon' ),
-      'typ'           => 'fenster',
-      'modus'         => 'transparent',
-      'bauart'        => $energieausweis->fenster_dach_bauart,
-      'baujahr'       => $energieausweis->fenster_dach_baujahr,
-      'richtung'      => 'o',
-      'a'             => $energieausweis->fenster_dach_flaeche,
-      'd'             => 0,
-      'winkel'        => $dachwinkel_formatted,
-    );
-  }
-
-  if ( $energieausweis->anbau ) {
-    foreach ( $anbau_form as $wand => $data ) {
-      if ( isset( $calculations['bauteile'][ 'anbauwand_' . $wand ] ) ) {
-        $a_slug = 'anbaufenster_' . $wand . '_flaeche';
-        $b_slug = 'anbaufenster_' . $wand . '_bauart';
-        $j_slug = 'anbaufenster_' . $wand . '_baujahr';
-        if ( $energieausweis->$a_slug > 0.0 ) {
-          $calculations['bauteile'][ 'anbaufenster_' . $wand ] = array(
-            'name'          => sprintf( __( 'Anbau-Fenster Wand %s', 'wpenon' ), $wand ),
-            'typ'           => 'fenster',
-            'modus'         => 'transparent',
-            'bauart'        => $energieausweis->$b_slug,
-            'baujahr'       => $energieausweis->$j_slug,
-            'richtung'      => $calculations['bauteile'][ 'anbauwand_' . $wand ]['richtung'],
-            'a'             => $energieausweis->$a_slug,
-            'd'             => 0,
-            'winkel'        => 90.0,
-          );
-          $calculations['bauteile'][ 'anbauwand_' . $wand ]['a'] -= $calculations['bauteile'][ 'anbaufenster_' . $wand ]['a'];
-        }
-      }
-    }
-    unset( $data );
-  }
-} else {
-  $nutzflaeche_mpk = 1.2;
-  if ( $energieausweis->wohnungen <= 2 && $energieausweis->keller == 'beheizt' ) {
-    $nutzflaeche_mpk = 1.35;
-  }
-
-  $wohnflaeche = $calculations['nutzflaeche'] / $nutzflaeche_mpk;
-  $fensterflaeche = $wohnflaeche * 0.2;
-  if ( 2 === strlen( $energieausweis->grundriss_richtung ) ) {
-    $fensterwand_bauteile = array_merge( wp_list_filter( $calculations['bauteile'], array( 'typ' => 'wand', 'richtung' => 'nw' ) ), wp_list_filter( $calculations['bauteile'], array( 'typ' => 'wand', 'richtung' => 'so' ) ) );
-  } else {
-    $fensterwand_bauteile = array_merge( wp_list_filter( $calculations['bauteile'], array( 'typ' => 'wand', 'richtung' => 'w' ) ), wp_list_filter( $calculations['bauteile'], array( 'typ' => 'wand', 'richtung' => 'o' ) ) );
-  }
-  $fensterwand_bauteile_count = count( $fensterwand_bauteile );
-  if ( 0 < $fensterwand_bauteile_count ) {
-    foreach ( $fensterwand_bauteile as $slug => $data ) {
-      $wand = str_replace( 'wand_', '', $slug );
-      $fensterwand_bauteil_flaeche = $fensterflaeche / $fensterwand_bauteile_count;
-      if ( $fensterwand_bauteil_flaeche > $data['a'] ) {
-        $fensterwand_bauteil_flaeche = $data['a'] - 5.0;
-      }
-      $calculations['bauteile'][ 'fenster_' . $wand ] = array(
-        'name'          => sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand ),
-        'typ'           => 'fenster',
-        'modus'         => 'transparent',
-        'bauart'        => $energieausweis->fenster_bauart,
-        'baujahr'       => $energieausweis->fenster_baujahr,
-        'richtung'      => $calculations['bauteile'][ 'wand_' . $wand ]['richtung'],
-        'a'             => $fensterwand_bauteil_flaeche,
-        'd'             => 0,
-        'winkel'        => 90.0,
-      );
-      $calculations['bauteile'][ 'wand_' . $wand ]['a'] -= $fensterwand_bauteil_flaeche;
-      $fensterwand_bauteile_count -= 1;
-      $fensterflaeche -= $fensterwand_bauteil_flaeche;
-    }
-    if ( $fensterflaeche > 0.0 ) {
-      //TODO: What do do here? Not very clear and realistic.
-    }
+foreach ( $grundriss_form as $wand => $data ) {
+if ( isset( $calculations['bauteile'][ 'wand_' . $wand ] ) ) {
+  $a_slug = 'fenster_' . $wand . '_flaeche';
+  $b_slug = 'fenster_' . $wand . '_bauart';
+  $j_slug = 'fenster_' . $wand . '_baujahr';
+  if ( $energieausweis->$a_slug > 0.0 ) {
+	$calculations['bauteile'][ 'fenster_' . $wand ] = array(
+	  'name'          => sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand ),
+	  'typ'           => 'fenster',
+	  'modus'         => 'transparent',
+	  'bauart'        => $energieausweis->$b_slug,
+	  'baujahr'       => $energieausweis->$j_slug,
+	  'richtung'      => $calculations['bauteile'][ 'wand_' . $wand ]['richtung'],
+	  'a'             => $energieausweis->$a_slug,
+	  'd'             => 0,
+	  'winkel'        => 90.0,
+	);
+	$calculations['bauteile'][ 'wand_' . $wand ]['a'] -= $calculations['bauteile'][ 'fenster_' . $wand ]['a'];
   }
 }
+}
+unset( $data );
+if ( isset( $calculations['bauteile']['dach'] ) && $energieausweis->fenster_dach_flaeche > 0.0 ) {
+$calculations['bauteile']['fenster_dach'] = array(
+  'name'          => __( 'Fenster Dach', 'wpenon' ),
+  'typ'           => 'fenster',
+  'modus'         => 'transparent',
+  'bauart'        => $energieausweis->fenster_dach_bauart,
+  'baujahr'       => $energieausweis->fenster_dach_baujahr,
+  'richtung'      => 'o',
+  'a'             => $energieausweis->fenster_dach_flaeche,
+  'd'             => 0,
+  'winkel'        => $dachwinkel_formatted,
+);
+}
+
+if ( $energieausweis->anbau ) {
+foreach ( $anbau_form as $wand => $data ) {
+  if ( isset( $calculations['bauteile'][ 'anbauwand_' . $wand ] ) ) {
+	$a_slug = 'anbaufenster_' . $wand . '_flaeche';
+	$b_slug = 'anbaufenster_' . $wand . '_bauart';
+	$j_slug = 'anbaufenster_' . $wand . '_baujahr';
+	if ( $energieausweis->$a_slug > 0.0 ) {
+	  $calculations['bauteile'][ 'anbaufenster_' . $wand ] = array(
+		'name'          => sprintf( __( 'Anbau-Fenster Wand %s', 'wpenon' ), $wand ),
+		'typ'           => 'fenster',
+		'modus'         => 'transparent',
+		'bauart'        => $energieausweis->$b_slug,
+		'baujahr'       => $energieausweis->$j_slug,
+		'richtung'      => $calculations['bauteile'][ 'anbauwand_' . $wand ]['richtung'],
+		'a'             => $energieausweis->$a_slug,
+		'd'             => 0,
+		'winkel'        => 90.0,
+	  );
+	  $calculations['bauteile'][ 'anbauwand_' . $wand ]['a'] -= $calculations['bauteile'][ 'anbaufenster_' . $wand ]['a'];
+	}
+  }
+}
+unset( $data );
+}
+
 
 if ( $energieausweis->heizkoerpernischen == 'vorhanden' ) {
   foreach ( $grundriss_form as $wand => $data ) {
@@ -1097,7 +1056,9 @@ $calculations['verteilung'] = array();
 $calculations['speicherung'] = array();
 $calculations['uebergabe'] = array();
 
-$h_erzeugung = wpenon_get_table_results( 'h_erzeugung2019', array( 'bezeichnung' => array( 'value' => $energieausweis->h_erzeugung, 'compare' => '=' ) ), array(), true );
+$aaa = $energieausweis->h_erzeugung;
+
+$h_erzeugung = wpenon_get_table_results( 'h_erzeugung2019', array( 'bezeichnung' => array( 'value' => '\n' . $energieausweis->h_erzeugung, 'compare' => '=' ) ), array(), true );
 $h_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => $energieausweis->h_energietraeger, 'compare' => '=' ) ), array(), true );
 $h_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->h_baujahr, 'h_erzeugung2019' );
 list( $h_ep150, $h_ep500, $h_ep2500 ) = wpenon_immoticket24_make_anlagenkeys( 'ep', $h_yearkey );
