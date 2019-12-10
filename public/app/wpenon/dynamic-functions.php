@@ -42,7 +42,7 @@ function wpenon_immoticket24_display_anbau_image() {
 
 add_action( 'wpenon_form_field_anbau_form_after', 'wpenon_immoticket24_display_anbau_clean_image' );
 
-add_action( 'wpenon_form_field_anbauwand_bauart_before', 'wpenon_immoticket24_display_anbau_image' );
+add_action( 'wpenon_form_field_anbauwand_headline_after', 'wpenon_immoticket24_display_anbau_image' );
 add_action( 'wpenon_form_field_anbaufenster_headline_before', 'wpenon_immoticket24_display_anbau_image' );
 
 function wpenon_immoticket24_show_wand( $grundriss, $wand, $nachbar = false ) {
