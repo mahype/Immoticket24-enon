@@ -273,7 +273,7 @@ return array(
 					),
 					'wand_a_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Dämmung', 'wpenon'),
+						'label' => __('Nachträgliche Dämmung', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 23,
 						'display' => array(
@@ -315,7 +315,7 @@ return array(
 					),
 					'wand_b_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Dämmung', 'wpenon'),
+						'label' => __('Nachträgliche Dämmung', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 23,
 						'display' => array(
@@ -357,7 +357,7 @@ return array(
 					),
 					'wand_c_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Dämmung', 'wpenon'),
+						'label' => __('Nachträgliche Dämmung', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 23,
 						'display' => array(
@@ -399,7 +399,7 @@ return array(
 					),
 					'wand_d_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Dämmung', 'wpenon'),
+						'label' => __('Nachträgliche Dämmung', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 23,
 						'display' => array(
@@ -441,7 +441,7 @@ return array(
 					),
 					'wand_e_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Dämmung', 'wpenon'),
+						'label' => __('Nachträgliche Dämmung', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 23,
 						'display' => array(
@@ -483,7 +483,7 @@ return array(
 					),
 					'wand_f_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Dämmung', 'wpenon'),
+						'label' => __('Nachträgliche Dämmung', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 23,
 						'display' => array(
@@ -525,7 +525,7 @@ return array(
 					),
 					'wand_g_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Dämmung', 'wpenon'),
+						'label' => __('Nachträgliche Dämmung', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 23,
 						'display' => array(
@@ -566,7 +566,7 @@ return array(
 					),
 					'wand_h_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Dämmung', 'wpenon'),
+						'label' => __('Nachträgliche Dämmung', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 23,
 						'display' => array(
@@ -630,7 +630,7 @@ return array(
 					),
 					'anbauwand_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Anbau-Wanddämmung', 'wpenon'),
+						'label' => __('Nachträgliche Anbau-Wanddämmung', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 23,
 						'display' => array(
@@ -751,7 +751,7 @@ return array(
 					),
 					'dach_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Dachdämmung', 'wpenon'),
+						'label' => __('Nachträgliche Dachdämmung', 'wpenon'),
 						'description' => __('Falls das Dach zusätzlich gedämmt worden ist, geben Sie hier dessen Dämmstärke in Zentimetern an.', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 30,
@@ -773,7 +773,7 @@ return array(
 					),
 					'decke_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Deckendämmung', 'wpenon'),
+						'label' => __('Nachträgliche Deckendämmung', 'wpenon'),
 						'description' => __('Falls die Oberste Geschossdecke zusätzlich gedämmt worden ist, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 30,
@@ -803,7 +803,7 @@ return array(
 					),
 					'anbaudach_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Anbau-Dachdämmung', 'wpenon'),
+						'label' => __('Nachträgliche Anbau-Dachdämmung', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 30,
 						'display' => array(
@@ -867,7 +867,7 @@ return array(
 					),
 					'keller_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Kellerwanddämmung', 'wpenon'),
+						'label' => __('Nachträgliche Kellerwanddämmung', 'wpenon'),
 						'description' => __('Falls die Kellerwände zusätzlich gedämmt worden sind, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 23,
@@ -885,7 +885,7 @@ return array(
 					),
 					'boden_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Bodendämmung', 'wpenon'),
+						'label' => __('Nachträgliche Bodendämmung', 'wpenon'),
 						'description' => __('Falls die Bodenplatte / Kellerdecke zusätzlich gedämmt worden ist, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 25,
@@ -911,7 +911,7 @@ return array(
 					),
 					'anbauboden_daemmung' => array(
 						'type' => 'int',
-						'label' => __('Anbau-Bodendämmung', 'wpenon'),
+						'label' => __('Nachträgliche Anbau-Bodendämmung', 'wpenon'),
 						'unit' => 'cm',
 						'max' => 25,
 						'display' => array(
@@ -925,21 +925,12 @@ return array(
 				'title' => __('Fenster', 'wpenon'),
 				'description' => __('Geben Sie die relevanten Daten für die Fenster des Gebäudes an.', 'wpenon'),
 				'fields' => array(
-					'fenster_manuell' => array(
-						'type' => 'checkbox',
-						'label' => __('Fensterflächen manuell eingeben? Ansonsten werden diese anhand der Wohnfläche errechnet.', 'wpenon'),
-						'default' => false,
-					),
 					'fenster_bauart' => array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Fenster des Gebäudes aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'),
 						'options' => wpenon_immoticket24_get_fenster_bauarten(),
 						'required' => true,
-						'display' => array(
-							'callback' => 'wpenon_show_on_bool_compare',
-							'callback_args' => array('field::fenster_manuell', false),
-						),
 					),
 					'fenster_baujahr' => array(
 						'type' => 'int',
@@ -948,10 +939,6 @@ return array(
 						'min' => 1800,
 						'max' => wpenon_get_reference_date('Y'),
 						'required' => true,
-						'display' => array(
-							'callback' => 'wpenon_show_on_bool_compare',
-							'callback_args' => array('field::fenster_manuell', false),
-						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
 					),
@@ -960,7 +947,7 @@ return array(
 						'label' => sprintf(__('Fenster %s', 'wpenon'), 'a'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'a', 'field::wand_a_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'a', 'field::wand_a_nachbar'),
 						),
 					),
 					'fenster_a_flaeche' => array(
@@ -970,7 +957,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'a', 'field::wand_a_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'a', 'field::wand_a_nachbar'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_at_least_one_fenster',
 						'validate_dependencies' => array('fenster_b_flaeche', 'fenster_c_flaeche', 'fenster_d_flaeche', 'fenster_e_flaeche', 'fenster_f_flaeche', 'fenster_g_flaeche', 'fenster_h_flaeche'),
@@ -983,7 +970,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'a', 'field::wand_a_nachbar', 'field::fenster_a_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'a', 'field::wand_a_nachbar', 'field::fenster_a_flaeche'),
 						),
 					),
 					'fenster_a_baujahr' => array(
@@ -995,7 +982,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'a', 'field::wand_a_nachbar', 'field::fenster_a_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'a', 'field::wand_a_nachbar', 'field::fenster_a_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
@@ -1005,7 +992,7 @@ return array(
 						'label' => sprintf(__('Fenster %s', 'wpenon'), 'b'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'b', 'field::wand_b_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'b', 'field::wand_b_nachbar'),
 						),
 					),
 					'fenster_b_flaeche' => array(
@@ -1015,7 +1002,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'b', 'field::wand_b_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'b', 'field::wand_b_nachbar'),
 						),
 					),
 					'fenster_b_bauart' => array(
@@ -1026,7 +1013,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'b', 'field::wand_b_nachbar', 'field::fenster_b_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'b', 'field::wand_b_nachbar', 'field::fenster_b_flaeche'),
 						),
 					),
 					'fenster_b_baujahr' => array(
@@ -1038,7 +1025,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'b', 'field::wand_b_nachbar', 'field::fenster_b_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'b', 'field::wand_b_nachbar', 'field::fenster_b_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
@@ -1048,7 +1035,7 @@ return array(
 						'label' => sprintf(__('Fenster %s', 'wpenon'), 'c'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'c', 'field::wand_c_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'c', 'field::wand_c_nachbar'),
 						),
 					),
 					'fenster_c_flaeche' => array(
@@ -1058,7 +1045,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'c', 'field::wand_c_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'c', 'field::wand_c_nachbar'),
 						),
 					),
 					'fenster_c_bauart' => array(
@@ -1069,7 +1056,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'c', 'field::wand_c_nachbar', 'field::fenster_c_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'c', 'field::wand_c_nachbar', 'field::fenster_c_flaeche'),
 						),
 					),
 					'fenster_c_baujahr' => array(
@@ -1081,7 +1068,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'c', 'field::wand_c_nachbar', 'field::fenster_c_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'c', 'field::wand_c_nachbar', 'field::fenster_c_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
@@ -1091,7 +1078,7 @@ return array(
 						'label' => sprintf(__('Fenster %s', 'wpenon'), 'd'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'd', 'field::wand_d_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'd', 'field::wand_d_nachbar'),
 						),
 					),
 					'fenster_d_flaeche' => array(
@@ -1101,7 +1088,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'd', 'field::wand_d_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'd', 'field::wand_d_nachbar'),
 						),
 					),
 					'fenster_d_bauart' => array(
@@ -1112,7 +1099,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'd', 'field::wand_d_nachbar', 'field::fenster_d_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'd', 'field::wand_d_nachbar', 'field::fenster_d_flaeche'),
 						),
 					),
 					'fenster_d_baujahr' => array(
@@ -1124,7 +1111,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'd', 'field::wand_d_nachbar', 'field::fenster_d_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'd', 'field::wand_d_nachbar', 'field::fenster_d_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
@@ -1134,7 +1121,7 @@ return array(
 						'label' => sprintf(__('Fenster %s', 'wpenon'), 'e'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'e', 'field::wand_e_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'e', 'field::wand_e_nachbar'),
 						),
 					),
 					'fenster_e_flaeche' => array(
@@ -1144,7 +1131,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'e', 'field::wand_e_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'e', 'field::wand_e_nachbar'),
 						),
 					),
 					'fenster_e_bauart' => array(
@@ -1155,7 +1142,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'e', 'field::wand_e_nachbar', 'field::fenster_e_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'e', 'field::wand_e_nachbar', 'field::fenster_e_flaeche'),
 						),
 					),
 					'fenster_e_baujahr' => array(
@@ -1167,7 +1154,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'e', 'field::wand_e_nachbar', 'field::fenster_e_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'e', 'field::wand_e_nachbar', 'field::fenster_e_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
@@ -1177,7 +1164,7 @@ return array(
 						'label' => sprintf(__('Fenster %s', 'wpenon'), 'f'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'f', 'field::wand_f_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'f', 'field::wand_f_nachbar'),
 						),
 					),
 					'fenster_f_flaeche' => array(
@@ -1187,7 +1174,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'f', 'field::wand_f_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'f', 'field::wand_f_nachbar'),
 						),
 					),
 					'fenster_f_bauart' => array(
@@ -1198,7 +1185,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'f', 'field::wand_f_nachbar', 'field::fenster_f_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'f', 'field::wand_f_nachbar', 'field::fenster_f_flaeche'),
 						),
 					),
 					'fenster_f_baujahr' => array(
@@ -1210,7 +1197,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'f', 'field::wand_f_nachbar', 'field::fenster_f_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'f', 'field::wand_f_nachbar', 'field::fenster_f_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
@@ -1220,7 +1207,7 @@ return array(
 						'label' => sprintf(__('Fenster %s', 'wpenon'), 'g'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'g', 'field::wand_g_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'g', 'field::wand_g_nachbar'),
 						),
 					),
 					'fenster_g_flaeche' => array(
@@ -1230,7 +1217,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'g', 'field::wand_g_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'g', 'field::wand_g_nachbar'),
 						),
 					),
 					'fenster_g_bauart' => array(
@@ -1241,7 +1228,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'g', 'field::wand_g_nachbar', 'field::fenster_g_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'g', 'field::wand_g_nachbar', 'field::fenster_g_flaeche'),
 						),
 					),
 					'fenster_g_baujahr' => array(
@@ -1253,7 +1240,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'g', 'field::wand_g_nachbar', 'field::fenster_g_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'g', 'field::wand_g_nachbar', 'field::fenster_g_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
@@ -1263,7 +1250,7 @@ return array(
 						'label' => sprintf(__('Fenster %s', 'wpenon'), 'h'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'h', 'field::wand_h_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'h', 'field::wand_h_nachbar'),
 						),
 					),
 					'fenster_h_flaeche' => array(
@@ -1273,7 +1260,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'h', 'field::wand_h_nachbar'),
+							'callback_args' => array(true, 'field::grundriss_form', 'h', 'field::wand_h_nachbar'),
 						),
 					),
 					'fenster_h_bauart' => array(
@@ -1284,7 +1271,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'h', 'field::wand_h_nachbar', 'field::fenster_h_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'h', 'field::wand_h_nachbar', 'field::fenster_h_flaeche'),
 						),
 					),
 					'fenster_h_baujahr' => array(
@@ -1296,7 +1283,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
-							'callback_args' => array('field::fenster_manuell', 'field::grundriss_form', 'h', 'field::wand_h_nachbar', 'field::fenster_h_flaeche'),
+							'callback_args' => array(true, 'field::grundriss_form', 'h', 'field::wand_h_nachbar', 'field::fenster_h_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
@@ -1306,7 +1293,7 @@ return array(
 						'label' => __('Dachfenster', 'wpenon'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_dachfenster',
-							'callback_args' => array('field::fenster_manuell', 'field::dach'),
+							'callback_args' => array(true, 'field::dach'),
 						),
 					),
 					'fenster_dach_flaeche' => array(
@@ -1316,7 +1303,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_dachfenster',
-							'callback_args' => array('field::fenster_manuell', 'field::dach'),
+							'callback_args' => array(true, 'field::dach'),
 						),
 					),
 					'fenster_dach_bauart' => array(
@@ -1327,7 +1314,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_dachfenster',
-							'callback_args' => array('field::fenster_manuell', 'field::dach', 'field::fenster_dach_flaeche'),
+							'callback_args' => array(true, 'field::dach', 'field::fenster_dach_flaeche'),
 						),
 					),
 					'fenster_dach_baujahr' => array(
@@ -1339,7 +1326,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_dachfenster',
-							'callback_args' => array('field::fenster_manuell', 'field::dach', 'field::fenster_dach_flaeche'),
+							'callback_args' => array(true, 'field::dach', 'field::fenster_dach_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
@@ -1349,7 +1336,7 @@ return array(
 						'label' => __('Anbau-Fenster', 'wpenon'),
 						'display' => array(
 							'callback' => 'wpenon_show_on_bool_compare',
-							'callback_args' => array(array('field::fenster_manuell', 'field::anbau'), array(true, true)),
+							'callback_args' => array(array(true, 'field::anbau'), array(true, true)),
 						),
 					),
 					'anbaufenster_b_headline' => array(
@@ -1357,7 +1344,7 @@ return array(
 						'label' => sprintf(__('Anbau-Fenster %s', 'wpenon'), 'b'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 'b'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 'b'),
 						),
 					),
 					'anbaufenster_b_flaeche' => array(
@@ -1367,7 +1354,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 'b'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 'b'),
 						),
 					),
 					'anbaufenster_b_bauart' => array(
@@ -1378,7 +1365,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 'b', 'field::anbaufenster_b_flaeche'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 'b', 'field::anbaufenster_b_flaeche'),
 						),
 					),
 					'anbaufenster_b_baujahr' => array(
@@ -1390,7 +1377,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 'b', 'field::anbaufenster_b_flaeche'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 'b', 'field::anbaufenster_b_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
@@ -1400,7 +1387,7 @@ return array(
 						'label' => sprintf(__('Anbau-Fenster %s', 'wpenon'), 't'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 't'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 't'),
 						),
 					),
 					'anbaufenster_t_flaeche' => array(
@@ -1410,7 +1397,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 't'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 't'),
 						),
 					),
 					'anbaufenster_t_bauart' => array(
@@ -1421,7 +1408,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 't', 'field::anbaufenster_t_flaeche'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 't', 'field::anbaufenster_t_flaeche'),
 						),
 					),
 					'anbaufenster_t_baujahr' => array(
@@ -1433,7 +1420,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 't', 'field::anbaufenster_t_flaeche'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 't', 'field::anbaufenster_t_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
@@ -1443,7 +1430,7 @@ return array(
 						'label' => sprintf(__('Anbau-Fenster %s', 'wpenon'), 's1'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 's1'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 's1'),
 						),
 					),
 					'anbaufenster_s1_flaeche' => array(
@@ -1453,7 +1440,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 's1'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 's1'),
 						),
 					),
 					'anbaufenster_s1_bauart' => array(
@@ -1464,7 +1451,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 's1', 'field::anbaufenster_s1_flaeche'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 's1', 'field::anbaufenster_s1_flaeche'),
 						),
 					),
 					'anbaufenster_s1_baujahr' => array(
@@ -1476,7 +1463,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 's1', 'field::anbaufenster_s1_flaeche'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 's1', 'field::anbaufenster_s1_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
@@ -1486,7 +1473,7 @@ return array(
 						'label' => sprintf(__('Anbau-Fenster %s', 'wpenon'), 's2'),
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 's2'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 's2'),
 						),
 					),
 					'anbaufenster_s2_flaeche' => array(
@@ -1496,7 +1483,7 @@ return array(
 						'unit' => 'm&sup2;',
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 's2'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 's2'),
 						),
 					),
 					'anbaufenster_s2_bauart' => array(
@@ -1507,7 +1494,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 's2', 'field::anbaufenster_s2_flaeche'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 's2', 'field::anbaufenster_s2_flaeche'),
 						),
 					),
 					'anbaufenster_s2_baujahr' => array(
@@ -1519,7 +1506,7 @@ return array(
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
-							'callback_args' => array('field::fenster_manuell', 'field::anbau', 'field::anbau_form', 's2', 'field::anbaufenster_s2_flaeche'),
+							'callback_args' => array(true, 'field::anbau', 'field::anbau_form', 's2', 'field::anbaufenster_s2_flaeche'),
 						),
 						'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 						'validate_dependencies' => array('baujahr'),
