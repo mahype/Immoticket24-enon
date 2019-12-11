@@ -920,7 +920,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 		}
 	}
 
-	$minimum_date = strtotime('2019-12-10 0:00');
+	$minimum_date = strtotime('2019-12-11');
 
 	if( intval( $energieausweis->baujahr ) < 1995  && $energieausweis_date > $minimum_date ) {
 		if (wpenon_immoticket24_is_empfehlung_active('dach', $energieausweis)) {
