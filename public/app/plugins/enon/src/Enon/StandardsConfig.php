@@ -34,9 +34,9 @@ class StandardsConfig extends Config
 				'startDate' => '2017-07-01',
 			),
 			'enev2019' => array(
-				'name' => __( 'EnEV 2013 (ab 10.12.2019)', 'wpenon' ),
+				'name' => __( 'EnEV 2013 (ab 11.12.2019)', 'wpenon' ),
 				'date' => '2013-11-18',
-				'startDate' => '2019-12-01'
+				'startDate' => '2019-12-11'
 			),
 		);
 	}
