@@ -1,16 +1,5 @@
 jQuery(document).ready(function($) {
 	if (typeof _wpenon_data === "object") {
-		/*
-		$(_wpenon_data.select2_selector).select2({
-			containerCss: {
-				width: "100%"
-			},
-			closeOnSelect: false,
-			escapeMarkup: function(m) {
-				return m;
-			}
-		});
-		*/
 
 		_wpenon_data.active_requests = 0;
 
@@ -129,7 +118,6 @@ jQuery(document).ready(function($) {
 		if ($("#_wpenon_progress").length) {
 			$(".form-group input, .form-group select").each(function() {
 				var $field = $(this);
-				//var trigger = $field.is( 'select' ) ? 'select2-open' : _wpenon_data.get_trigger( $field );
 				var trigger = _wpenon_data.get_trigger($field);
 				$field.on(trigger, function() {
 					var field_slug = $(this).attr("id");
