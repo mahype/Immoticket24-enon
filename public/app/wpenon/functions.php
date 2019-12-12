@@ -907,22 +907,16 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 		}
 	}
 
-	$minimum_date = strtotime('2019-11-16 0:00');
+	$minimum_date_rohleitung = strtotime('2019-11-16 0:00');
 	$energieausweis_date = strtotime($energieausweis->date);
-	$enon_type = $energieausweis->wpenon_type;
-	$verteilung_baujahr = $energieausweis->verteilung_baujahr;
-	$verteilung_gedaemmt = $energieausweis->verteilung_gedaemmt;
-	$keller = $energieausweis->keller;
 
-	if (wpenon_immoticket24_is_empfehlung_active('rohrleitungssystem', $energieausweis) && $energieausweis_date > $minimum_date) {
+	if (wpenon_immoticket24_is_empfehlung_active('rohrleitungssystem', $energieausweis) && $energieausweis_date > $minimum_date_rohleitung ) {
 		if ('bw' === $energieausweis->wpenon_type && $energieausweis->verteilung_baujahr <= 1978 && true !== $energieausweis->verteilung_gedaemmt && 'unbeheizt' == $energieausweis->keller) {
 			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['rohrleitungssystem'];
 		}
 	}
 
-	$minimum_date = strtotime('2019-12-11');
-
-	if( intval( $energieausweis->baujahr ) < 1995  && $energieausweis_date > $minimum_date ) {
+	if( intval( $energieausweis->baujahr ) < 1995 ) {
 		if (wpenon_immoticket24_is_empfehlung_active('dach', $energieausweis)) {
 			if ('b' === $energieausweis->mode && ($energieausweis->dach === 'beheizt' || $energieausweis->dach === 'nicht-vorhanden') && $energieausweis->dach_daemmung < 14.0) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['dach'];
@@ -974,13 +968,21 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['fenster'];
 			}
 		} elseif ($energieausweis->mode == 'b') {
-			foreach (array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h') as $fenster) {
-				$flaecheslug = 'fenster_' . $fenster . '_flaeche';
-				$bauartslug = 'fenster_' . $fenster . '_bauart';
-				$baujahrslug = 'fenster_' . $fenster . '_baujahr';
-				if ($energieausweis->$flaecheslug > 0.0 && wpenon_immoticket24_needs_fenster_recommendations($energieausweis->$bauartslug, $energieausweis->$baujahrslug)) {
+			$fenster_manuell = $energieausweis->fenster_manuell;
+			if ( $energieausweis->fenster_manuell || $energieausweis_date > strtotime('2019-12-11') ) {
+				foreach ( array( 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ) as $fenster ) {
+					$flaecheslug = 'fenster_' . $fenster . '_flaeche';
+					$bauartslug = 'fenster_' . $fenster . '_bauart';
+					$baujahrslug = 'fenster_' . $fenster . '_baujahr';
+
+					if ( $energieausweis->$flaecheslug > 0.0 && wpenon_immoticket24_needs_fenster_recommendations( $energieausweis->$bauartslug, $energieausweis->$baujahrslug ) ) {
+						$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen[ 'fenster' ];
+						break;
+					}
+				}
+			} else {
+				if ( wpenon_immoticket24_needs_fenster_recommendations( $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr ) ) {
 					$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['fenster'];
-					break;
 				}
 			}
 		}
