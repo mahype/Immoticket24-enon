@@ -916,7 +916,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 		}
 	}
 
-	if( intval( $energieausweis->baujahr ) < 1995 ) {
+	if( ( $energieausweis_date > strtotime('2019-12-11') ) && intval( $energieausweis->baujahr ) < 1995 || $energieausweis_date < strtotime('2019-12-11')  ) {
 		if (wpenon_immoticket24_is_empfehlung_active('dach', $energieausweis)) {
 			if ('b' === $energieausweis->mode && ($energieausweis->dach === 'beheizt' || $energieausweis->dach === 'nicht-vorhanden') && $energieausweis->dach_daemmung < 14.0) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['dach'];
