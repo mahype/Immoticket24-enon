@@ -1419,27 +1419,36 @@ function wpenon_immoticket24_check_global_certificate_validation_results($result
 	if (property_exists($energieausweis, 'type') && 'bw' === $energieausweis->type) {
 		$grundriss_form = !empty($results['validated']['grundriss_form']) ? $results['validated']['grundriss_form'] : $energieausweis->grundriss_form;
 
+		$wand_a_laenge = \WPENON\Util\Parse::float( $results['validated']['wand_a_laenge'] );
+		$wand_b_laenge = \WPENON\Util\Parse::float( $results['validated']['wand_b_laenge'] );
+		$wand_c_laenge = \WPENON\Util\Parse::float( $results['validated']['wand_c_laenge'] );
+		$wand_d_laenge = \WPENON\Util\Parse::float( $results['validated']['wand_d_laenge'] );
+
 		switch ($grundriss_form) {
 			case 'b':
-				if (!empty($results['validated']['wand_a_laenge']) && !empty($results['validated']['wand_c_laenge']) && $results['validated']['wand_a_laenge'] <= $results['validated']['wand_c_laenge']) {
+				if (!empty($results['validated']['wand_a_laenge']) && !empty($results['validated']['wand_c_laenge']) && $wand_a_laenge <= $wand_c_laenge) {
 					$results['errors']['wand_c_laenge'] = sprintf(__('Wand %1$s muss kürzer als Wand %2$s sein.', 'wpenon'), 'c', 'a');
 				}
-				if (!empty($results['validated']['wand_b_laenge']) && !empty($results['validated']['wand_d_laenge']) && $results['validated']['wand_b_laenge'] <= $results['validated']['wand_d_laenge']) {
+				if (!empty($results['validated']['wand_b_laenge']) && !empty($results['validated']['wand_d_laenge']) && $wand_b_laenge <= $wand_d_laenge) {
 					$results['errors']['wand_d_laenge'] = sprintf(__('Wand %1$s muss kürzer als Wand %2$s sein.', 'wpenon'), 'd', 'b');
 				}
 				break;
 			case 'c':
-				if (!empty($results['validated']['wand_a_laenge']) && !empty($results['validated']['wand_c_laenge']) && !empty($results['validated']['wand_e_laenge']) && $results['validated']['wand_a_laenge'] <= $results['validated']['wand_c_laenge'] + $results['validated']['wand_e_laenge']) {
+				$wand_e_laenge = \WPENON\Util\Parse::float( $results['validated']['wand_e_laenge'] );
+
+				if (!empty($results['validated']['wand_a_laenge']) && !empty($results['validated']['wand_c_laenge']) && !empty($results['validated']['wand_e_laenge']) && $wand_a_laenge <= $wand_c_laenge + $wand_e_laenge) {
 					$results['errors']['wand_c_laenge'] = sprintf(__('Wand %1$s und Wand %2$s müssen zusammen kürzer als Wand %3$s sein.', 'wpenon'), 'c', 'e', 'a');
 					$results['errors']['wand_e_laenge'] = sprintf(__('Wand %1$s und Wand %2$s müssen zusammen kürzer als Wand %3$s sein.', 'wpenon'), 'c', 'e', 'a');
 				}
 				break;
 			case 'd':
-				if (!empty($results['validated']['wand_a_laenge']) && !empty($results['validated']['wand_c_laenge']) && !empty($results['validated']['wand_e_laenge']) && $results['validated']['wand_a_laenge'] <= $results['validated']['wand_c_laenge'] + $results['validated']['wand_e_laenge']) {
+				$wand_e_laenge = \WPENON\Util\Parse::float( $results['validated']['wand_e_laenge'] );
+
+				if (!empty($results['validated']['wand_a_laenge']) && !empty($results['validated']['wand_c_laenge']) && !empty($results['validated']['wand_e_laenge']) && $wand_a_laenge <= $wand_c_laenge + $wand_e_laenge) {
 					$results['errors']['wand_c_laenge'] = sprintf(__('Wand %1$s und Wand %2$s müssen zusammen kürzer als Wand %3$s sein.', 'wpenon'), 'c', 'e', 'a');
 					$results['errors']['wand_e_laenge'] = sprintf(__('Wand %1$s und Wand %2$s müssen zusammen kürzer als Wand %3$s sein.', 'wpenon'), 'c', 'e', 'a');
 				}
-				if (!empty($results['validated']['wand_b_laenge']) && !empty($results['validated']['wand_d_laenge']) && $results['validated']['wand_b_laenge'] <= $results['validated']['wand_d_laenge']) {
+				if (!empty($results['validated']['wand_b_laenge']) && !empty($results['validated']['wand_d_laenge']) && $wand_b_laenge <= $wand_b_laenge) {
 					$results['errors']['wand_d_laenge'] = sprintf(__('Wand %1$s muss kürzer als Wand %2$s sein.', 'wpenon'), 'd', 'b');
 				}
 				break;
