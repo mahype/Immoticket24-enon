@@ -46,7 +46,7 @@ function enon_boot() {
 		( new Plugin() )
 			->addTask( ConfigLoader::class, $logger )
 			->addTask( MiscLoader::class, $logger )
-			// ->addTask( ResellerLoader::class, $logger )
+			->addTask( ResellerLoader::class, $logger )
 			->boot();
 	} catch ( \Exception $exception ) {
 		wp_die( $exception->getMessage() );
