@@ -1171,7 +1171,9 @@ function wpenon_immoticket24_send_needs_review_email($payment_id, $energieauswei
 
 	$message = 'Hallo,' . "\n\n";
 	$message .= 'Es wurde eine neue Bestellung getätigt, die überprüft werden muss, da der Energieausweis einen ungewöhnlichen Endenergiewert aufweist.' . "\n\n";
-	$message .= '{download_list}' . "\n\n";
+	$message .= '{download_list}' . "\n\n\n\n";
+	$message .= 'Rabbatt-Code;' . "\n\n";
+	$message .= '{discount_codes}' . "\n\n";
 	$message .= sprintf('Die betroffene Zahlung hat die Nummer %s.', $payment_title) . ' ';
 	$message .= 'Bitte setzen Sie sie nach erfolgter Prüfung auf Abgeschlossen, um die Zahlung zu vervollständigen und dem Kunden den Energieausweis zuzusenden.' . "\n\n";
 	$message .= 'Vielen Dank!';
