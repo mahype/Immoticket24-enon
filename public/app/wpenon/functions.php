@@ -916,7 +916,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 		}
 	}
 
-	if( ( $energieausweis_date > strtotime('2019-12-11') ) && intval( $energieausweis->baujahr ) < 1995 || $energieausweis_date < strtotime('2019-12-11')  ) {
+	if( ( $energieausweis_date > strtotime('2019-12-11') ) && intval( $energieausweis->baujahr ) < 1995 || $energieausweis_date < strtotime('2019-12-12')  ) {
 		if (wpenon_immoticket24_is_empfehlung_active('dach', $energieausweis)) {
 			if ('b' === $energieausweis->mode && ($energieausweis->dach === 'beheizt' || $energieausweis->dach === 'nicht-vorhanden') && $energieausweis->dach_daemmung < 14.0) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['dach'];
@@ -969,7 +969,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 			}
 		} elseif ($energieausweis->mode == 'b') {
 			$fenster_manuell = $energieausweis->fenster_manuell;
-			if ( $energieausweis->fenster_manuell || $energieausweis_date > strtotime('2019-12-11') ) {
+			if ( $energieausweis->fenster_manuell || $energieausweis_date > strtotime('2019-12-12') ) {
 				foreach ( array( 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ) as $fenster ) {
 					$flaecheslug = 'fenster_' . $fenster . '_flaeche';
 					$bauartslug = 'fenster_' . $fenster . '_bauart';
