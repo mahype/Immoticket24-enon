@@ -1450,7 +1450,7 @@ function wpenon_immoticket24_check_global_certificate_validation_results($result
 					$results['errors']['wand_c_laenge'] = sprintf(__('Wand %1$s und Wand %2$s müssen zusammen kürzer als Wand %3$s sein.', 'wpenon'), 'c', 'e', 'a');
 					$results['errors']['wand_e_laenge'] = sprintf(__('Wand %1$s und Wand %2$s müssen zusammen kürzer als Wand %3$s sein.', 'wpenon'), 'c', 'e', 'a');
 				}
-				if (!empty($results['validated']['wand_b_laenge']) && !empty($results['validated']['wand_d_laenge']) && $wand_b_laenge <= $wand_b_laenge) {
+				if (!empty($results['validated']['wand_b_laenge']) && !empty($results['validated']['wand_d_laenge']) && $wand_b_laenge <= $wand_d_laenge) {
 					$results['errors']['wand_d_laenge'] = sprintf(__('Wand %1$s muss kürzer als Wand %2$s sein.', 'wpenon'), 'd', 'b');
 				}
 				break;
