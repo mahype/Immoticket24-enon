@@ -141,6 +141,23 @@ class ResellerData extends PostData {
 	}
 
 	/**
+	 * Checks if order has to be sent to reseller.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Token string of current token.
+	 */
+	public function sendOrderToReseller() {
+		$sendOrderToReseller = $this->get( 'send_order_to_reseller' );
+
+		if( in_array( 'send_order_to_reseller', $sendOrderToReseller ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get afiliate id.
 	 *
 	 * @since 1.0.0

@@ -105,6 +105,14 @@ class TaskACF implements Task, Actions
 						'required' => 0,
 					),
 					array(
+						'key' => 'field_send_data_to_reseller',
+						'label' => __('Send order to reseller', 'enon'),
+						'name' => 'send_order_to_reseller',
+						'type' => 'checkbox',
+						'instructions' => __('Check if order email should be sent to reseller.', 'enon'),
+						'required' => 0,
+					),
+					array(
 						'key' => 'field_token',
 						'label' => __('Token', 'enon'),
 						'name' => 'token',
