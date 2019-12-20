@@ -446,7 +446,7 @@ class Emails {
 		$energieausweis_link = apply_filters( 'wpenon_confirmation_link',  $energieausweis->verified_permalink, $energieausweis );
 
 		$default_email_body = __( 'Sehr geehrter Kunde,', 'wpenon' ) . "\n\n";
-		$default_email_body .= sprintf( __( 'schön, dass Sie auf unserer Website %1$s mit der Erstellung eines Energieausweises (Kennung %2$s) begonnen haben.', 'wpenon' ), $energieausweis_site, $energieausweis->post_title ) . "\n\n";
+		$default_email_body .= sprintf( __( 'schön, dass Sie auf unserer Website mit der Erstellung eines Energieausweises (Kennung %2$s) begonnen haben.', 'wpenon' ), $energieausweis->post_title ) . "\n\n";
 		$default_email_body .= sprintf( __( 'Typ: %s', 'wpenon' ), $energieausweis->formatted_wpenon_type ) . "\n";
 		$default_email_body .= sprintf( __( 'Gebäudeadresse: %s', 'wpenon' ), $energieausweis->adresse ) . "\n\n";
 		$default_email_body .= __( 'Sie haben jederzeit die Möglichkeit die Erstellung des Energieausweises unter folgendem Link fortzusetzen:', 'wpenon' ) . "\n\n";
