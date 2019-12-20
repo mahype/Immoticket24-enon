@@ -74,7 +74,7 @@ class TaskSendEnergieausweis implements Actions, Task {
 	{
 		$endpoint = $this->reseller->data()->getPostEndpoint();
 
-		// Do not anything if not payed.
+		// Do not anything if not payed or if there is no endpoint given.
 		if ( 'publish' !== $status || empty( $endpoint ) ) {
 			return;
 		}
