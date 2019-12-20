@@ -80,11 +80,11 @@ class TaskAffiliateWP implements Task, Actions
 		$affiliateId = $this->reseller->data()->getAffiliateId();
 
 		if( empty( $affiliateId ) ) {
-			$this->logger->error( 'Could not set affiliate id.' );
 			return;
 		}
 
 		affiliate_wp()->tracking->referral = $affiliateId;
+		affiliate_wp()->tracking->set_affiliate_id( $affiliateId );
 	}
 
 	/**
