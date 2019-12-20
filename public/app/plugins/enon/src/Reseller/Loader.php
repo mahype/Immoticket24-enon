@@ -81,11 +81,11 @@ class Loader extends TaskLoader {
 
 		$this->addTask( TaskFrontend::class );
 		$this->addTask( TaskEnon::class, $reseller, $this->logger() );
-		// $this->addTask( TaskEmailConfirmation::class, $reseller, $this->logger() );
-		// $this->addTask( TaskEmailOrderConfirmation::class, $reseller, $this->logger() );
-		// $this->addTask( TaskSendEnergieausweis::class, $reseller, $this->logger() );
-		// $this->addTask( TaskAffiliateWP::class, $reseller, $this->logger() );
-		// $this->addTask( TaskEdd::class, $reseller, $this->logger() );
+		$this->addTask( TaskEmailConfirmation::class, $reseller, $this->logger() );
+		$this->addTask( TaskEmailOrderConfirmation::class, $reseller, $this->logger() );
+		$this->addTask( TaskSendEnergieausweis::class, $reseller, $this->logger() );
+		$this->addTask( TaskAffiliateWP::class, $reseller, $this->logger() );
+		$this->addTask( TaskEdd::class, $reseller, $this->logger() );
 
 		$this->runTasks();;
 	}
