@@ -66,7 +66,12 @@ class TaskEmailOrderConfirmation implements Task, Filters {
 	 *
 	 * @return string Reseller contact email address.
 	 */
-	public function filterToAddress() {
-		return $this->reseller->data()->getContactEmail();
+	public function filterToAddress( $email ) {
+		$resellerContactEmail = $this->reseller->data()->getContactEmail();
+
+		if( ! $this->reseller->data()->sendOrderToReseller() || empty( $resellerContactEmail ) ) {
+			return $email;
+		}
+		return $resellerContactEmail;
 	}
 }
