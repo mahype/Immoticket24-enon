@@ -135,7 +135,9 @@ class TaskCPTReseller implements Task, Actions, Filters
 				break;
 			case 'iframe_url':
 				if ( 'publish' ===  $post_status ) {
-					echo '<p>' . $resellerData->getIframeBedarfsausweisUrl() . '</p><p>' . $resellerData->getIframeVerbrauchsausweisUrl() . '</p>';
+					$bedarfsLink = sprintf( __( '[<a href="%s" target="_blank">Bedarfsausweis</a>]'), $resellerData->getIframeBedarfsausweisUrl() );
+					$verbrauchsLink = sprintf( __( '[<a href="%s" target="_blank">Verbrauchsausweis</a>]'), $resellerData->getIframeVerbrauchsausweisUrl() );
+					echo $bedarfsLink . ' ' . $verbrauchsLink;
 				} else {
 					echo __( 'Reseller have to be published before getting URL.', 'enon' );
 				}
