@@ -159,6 +159,16 @@ if ( ! function_exists( 'wpenon_show_on_array_dynamic_blacklist' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wpenon_show_on_not_empty' ) ) {
+	function wpenon_show_on_not_empty ( $value ) {
+		if ( empty( $value ) ) {
+			return true;
+		}
+
+		return false;
+	}
+}
+
 if ( ! function_exists( 'wpenon_get_value_by_field' ) ) {
 	function wpenon_get_value_by_field( $value, $parse_type = 'string' ) {
 		if ( is_callable( '\WPENON\Util\Parse::' . $parse_type ) ) {
