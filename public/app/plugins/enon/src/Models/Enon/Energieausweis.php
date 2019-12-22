@@ -11,13 +11,31 @@ namespace Enon\Models\Enon;
  */
 class Energieausweis {
 	/**
-	 * Payment id.
+	 * Energieausweis id.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @var int
 	 */
 	private $id;
+
+	/**
+	 * Type.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	private $type;
+
+	/**
+	 * Standard.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	private $standard;
 
 	/**
 	 * Energieausweis constructor.
@@ -29,6 +47,9 @@ class Energieausweis {
 	public function __construct( $id )
 	{
 		$this->id = $id;
+
+		$this->type     = get_post_meta( $this->id, 'wpenon_type', true );
+		$this->standard = get_post_meta( $this->id, 'wpenon_standard', true );
 	}
 
 	/**
@@ -41,6 +62,30 @@ class Energieausweis {
 	public function getId()
 	{
 		return $this->id;
+	}
+
+	/**
+	 * Get energieausweis type.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Energieausweis type.
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
+
+	/**
+	 * Get energieausweis standard.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Energieausweis standard.
+	 */
+	public function getStandard()
+	{
+		return $this->standard;
 	}
 
 	/**
