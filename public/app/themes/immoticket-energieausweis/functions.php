@@ -114,10 +114,10 @@ function immoticketenergieausweis_empty_cart_message( $message ) {
 
 <p>Dies können Sie in Ihrem Browser wie folgt erledigen:</p>
 
-<p><strong>Safari:</strong></p> 
+<p><strong>Safari:</strong></p>
 <p>Einstellungen => Datenschutz => "Alle Cookies blockieren" deaktivieren</p>
 
-<p><strong>Firefox:</strong></p> 
+<p><strong>Firefox:</strong></p>
 <p>Einstellungen => Datenschutz & Sicherheit => "Annehmen von Cookies und Website-Daten" aktivieren</p>
 
 <p><strong>Chrome:</strong></p>
@@ -359,7 +359,7 @@ add_action( 'wp_footer', 'immoticketenergieausweis_edd_maybe_print_default_gatew
 
 /* --------------------- GDPR ------------------- */
 
-function immoticketenergieausweis_show_certificate_gdpr_acceptance_field( $data ) {
+function enon_show_gdpr_field( $data ) {
   if ( ! isset( $data['gdpr_acceptance'] ) ) {
     return;
   }
@@ -380,31 +380,162 @@ function immoticketenergieausweis_show_certificate_gdpr_acceptance_field( $data 
   </div>
   <?php
 
-  add_action( 'wp_footer', 'immoticketenergieausweis_show_certificate_gdpr_acceptance_popup', 9999 );
+  add_action( 'wp_footer', 'enon_acceptance_gdpr_modal' );
 }
-add_action( 'immoticketenergieausweis_certificate_create_form_extra_fields', 'immoticketenergieausweis_show_certificate_gdpr_acceptance_field' );
+add_action( 'immoticketenergieausweis_certificate_create_form_extra_fields', 'enon_show_gdpr_field' );
 
-function immoticketenergieausweis_show_certificate_contact_acceptance_field( $data ) {
+function enon_show_contact_field( $data ) {
   if ( ! isset( $data['contact_acceptance'] ) ) {
     return;
   }
 
   ?>
-  <div id="gdpr_acceptance-wrap" class="checkbox">
+  <div id="contact_acceptance-wrap" class="checkbox">
 		<label>
 		  <input type="checkbox" id="contact_acceptance" name="contact_acceptance" value="1"<?php echo $data['contact_acceptance'] ? ' checked' : ''; ?>>
 		  <?php printf( __( 'Hiermit bestätige ich, dass Energieausweis-online-erstellen.de mich bei Fragen zu meinen Energieausweis-Angaben kontaktieren darf.', 'wpenon' ) ); ?>
 		</label>
   </div>
+	<input type="hidden" id="contact_question_answered" name="contact_question_answered" value="false" />
   <?php
-
-  add_action( 'wp_footer', 'immoticketenergieausweis_show_certificate_contact_acceptance_popup', 9999 );
+  add_action( 'wp_footer', 'enon_acceptance_contact_modal' );
+  add_action( 'wp_footer', 'enon_show_form_modals_js', 100 );
 }
-add_action( 'immoticketenergieausweis_certificate_create_form_extra_fields', 'immoticketenergieausweis_show_certificate_contact_acceptance_field' );
+add_action( 'immoticketenergieausweis_certificate_create_form_extra_fields', 'enon_show_contact_field' );
 
-function immoticketenergieausweis_show_certificate_contact_acceptance_popup() {
+function enon_show_form_modals_js() {
+	?>
+	<script type="text/javascript">
+		( function( $ ) {
+			if ( ! $ ) {
+				return;
+			}
+
+			var $form                = $( '#wpenon-generate-form' );
+
+			if ( ! $form.length ) {
+				return;
+			}
+
+			var $acceptanceGdpr           = $( '#gdpr_acceptance' );
+			var $acceptanceContact        = $( '#contact_acceptance' );
+			var $acceptanceEingabesupport = $( '#wpenon_eingabesupport' );
+
+			var $modalGdprAcceptance           = $( '#enon_acceptance_gdpr_modal' );
+			var $modalContactAcceptance        = $( '#enon_acceptance_contact_modal' );
+		    var $modalEingabesupportAcceptance = $( '#enon_acceptance_eingabesupport_modal');
+
+			$modalContactAcceptance.modal({
+				show: false,
+				closeExisting: false
+			});
+
+			$modalGdprAcceptance.modal({
+				show: false,
+				closeExisting: false
+			});
+
+			$modalEingabesupportAcceptance.modal({
+				show: false,
+				closeExisting: false
+			});
+
+			$( '.modal-backdrop' ).css( 'z-index', 1000 );
+
+			var $setContanct       = false;
+			var $setEingabesupport = false;
+
+			function onFormSubmission( e ) {
+				e.preventDefault();
+
+				if( ! $acceptanceGdpr.prop('checked') ) {
+					$modalGdprAcceptance.modal('show');
+					return false;
+				}
+
+				if( $acceptanceContact.prop('checked') ) {
+					$setContanct = true;
+				}
+
+				if( ! $acceptanceContact.prop('checked') &&  $setContanct === false ) {
+					$modalContactAcceptance.modal('show');
+					return false;
+				}
+
+				if( $setContanct && $acceptanceGdpr.prop('checked') ) {
+					$modalEingabesupportAcceptance.modal('show');
+					return false;
+				}
+
+				return false;
+			}
+
+			$form.on( 'submit', onFormSubmission );
+
+			/**
+			 * GDPR acceptance
+			 */
+			$('#wpit_gdpr_ok').on('click', function()  {
+				$modalGdprAcceptance.modal('hide');
+			});
+
+			/**
+			* Contact acceptance
+			*/
+			$( '#wpit_contact_proceed_accept' ).on( 'click', function() {
+				$acceptanceContact.prop( 'checked', true );
+				$modalContactAcceptance.modal( 'hide' );
+				$setContanct = true;
+
+				if( ! $setEingabesupport ) {
+					$modalEingabesupportAcceptance.modal('show');
+				}
+			});
+
+			$( '#wpit_contact_proceed_noaccept' ).on( 'click', function() {
+				$acceptanceContact.prop( 'checked', false );
+				$modalContactAcceptance.modal( 'hide' );
+				$setContanct = true;
+				if( ! $setEingabesupport ) {
+					$modalEingabesupportAcceptance.modal('show');
+				}
+			});
+
+			/**
+			 * Eingabesupport
+			 */
+			$('#wp-enon-eingabehilfe-yes').on('click', function () {
+				$acceptanceEingabesupport.val('true');
+				$modalEingabesupportAcceptance.modal('hide');
+				$setEingabesupport = true;
+				$form.off('submit', onFormSubmission );
+				$form.submit();
+			});
+
+			$('#wp-enon-eingabehilfe-no').on('click', function () {
+				$acceptanceEingabesupport.val('false');
+				$modalEingabesupportAcceptance.modal('hide');
+				$setEingabesupport = true;
+				$form.off('submit', onFormSubmission );
+				$form.submit();
+			});
+
+			$(document).on('show.bs.modal', '.modal', function () {
+				var zIndex = 1040 + (10 * $('.modal:visible').length);
+				$(this).css('z-index', zIndex);
+				setTimeout(function() {
+					$('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+				}, 0);
+			});
+
+		} )( window.jQuery );
+	</script>
+	<?php
+}
+
+function enon_acceptance_contact_modal() {
   ?>
-  <div id="wpit_gdpr_acceptance_modal" class="modal fade" tabindex="-1" role="dialog">
+  <div id="enon_acceptance_contact_modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document" style="margin-top:140px;">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -418,72 +549,15 @@ function immoticketenergieausweis_show_certificate_contact_acceptance_popup() {
 				<button id="wpit_contact_proceed_accept" type="button" class="btn btn-primary"><?php _e( 'Kontaktieren Sie mich bei Fragen', 'wpenon' ); ?></button>
 			</div>
 		</div>
+		<input type="hidden" name="gpdr_accepted" value="false" />
 	</div>
-    </div>
   </div>
-  <script type="text/javascript">
-    ( function( $ ) {
-      if ( ! $ ) {
-        return;
-      }
-
-      var $form           = $( '#wpenon-generate-form' );
-      var $modal          = $( '#wpit_contact_acceptance_modal' );
-      var $contactAcceptance = $( '#contact_acceptance' );
-
-      if ( ! $form.length || ! $modal.length || ! $contactAcceptance.length ) {
-        return;
-      }
-
-      $modal.modal({
-        show: false
-      });
-
-      function onFormSubmit( e ) {
-        if ( $contactAcceptance.prop( 'checked' ) ) {
-          return;
-        }
-
-        $modal.modal( 'show' );
-        $( '.modal-backdrop' ).css( 'z-index', 1060 );
-        $modal.css( 'z-index', 1080 );
-
-        e.preventDefault();
-        return false;
-      }
-
-      $form.on( 'submit', onFormSubmit );
-
-      $( '#wpit_contact_proceed_accept' ).on( 'click', function() {
-	    $( '.modal-backdrop' ).css( 'z-index', 1040 );
-        $contactAcceptance.prop( 'checked', true );
-        $form.off( 'submit', onFormSubmit );
-	    $modal.modal( 'hide' );
-
-	      if( $('#eingabesupport').val() === 'false' ) {
-		      $form.submit();
-	      }
-      });
-
-      $( '#wpit_gdpr_proceed_noaccept' ).on( 'click', function() {
-	    $( '.modal-backdrop' ).css( 'z-index', 1040 );
-        $contactAcceptance.prop( 'checked', false );
-        $form.off( 'submit', onFormSubmit );
-	    $modal.modal( 'hide' );
-
-	      if( $('#eingabesupport').val() === 'false' ) {
-		      $form.submit();
-	      }
-      });
-    } )( window.jQuery );
-  </script>
-	<input type ="hidden" id="eingabesupport" value="false" />
   <?php
 }
 
-function immoticketenergieausweis_show_certificate_gdpr_acceptance_popup() {
+function enon_acceptance_gdpr_modal() {
   ?>
-  <div id="wpit_gdpr_acceptance_modal" class="modal fade" tabindex="-1" role="dialog">
+  <div id="enon_acceptance_gdpr_modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document" style="margin-top:140px;">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -496,45 +570,8 @@ function immoticketenergieausweis_show_certificate_gdpr_acceptance_popup() {
 				<button id="wpit_gdpr_ok" type="button" class="btn btn-default"><?php _e( 'OK', 'wpenon' ); ?></button>
 			</div>
 		</div>
+	</div>
   </div>
-  <script type="text/javascript">
-    ( function( $ ) {
-      if ( ! $ ) {
-        return;
-      }
-
-      var $form           = $( '#wpenon-generate-form' );
-      var $modal          = $( '#wpit_contact_acceptance_modal' );
-      var $gdprAcceptance = $( '#gdpr_acceptance' );
-
-      if ( ! $form.length || ! $modal.length || ! $gdprAcceptance.length ) {
-        return;
-      }
-
-      $modal.modal({
-        show: false
-      });
-
-      function onFormSubmit( e ) {
-        if ( $gdprAcceptance.prop( 'checked' ) ) {
-          return;
-        }
-
-        $modal.modal( 'show' );
-        $( '.modal-backdrop' ).css( 'z-index', 1060 );
-        $modal.css( 'z-index', 1080 );
-
-        e.preventDefault();
-        return false;
-      }
-
-      $form.on( 'submit', onFormSubmit );
-
-      $( '#wpit_gdpr_ok' ).on( 'click', function() {
-	    return;
-      });
-    } )( window.jQuery );
-  </script>
   <?php
 }
 

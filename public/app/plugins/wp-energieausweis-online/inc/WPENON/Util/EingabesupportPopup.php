@@ -68,7 +68,7 @@ class EingabesupportPopup {
 		add_action( 'edd_pre_add_to_cart', array( $this, 'maybe_add_fees' ) );
 
 		add_action( 'wpenon_after_content', array( $this, 'print_html' ), 10, 2 );
-		add_action( 'wpenon_after_content', array( $this, 'print_dialog_scripts' ), 10, 2 );
+		add_action( 'wp_footer', array( $this, 'print_dialog_scripts' ), 1002 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
@@ -225,7 +225,7 @@ class EingabesupportPopup {
 	 */
 	private function get_email_body( $energieausweis ) {
 		$body = 'Folgender Kunde hat den Eingabesupport gebucht:
-		
+
 Energieausweis: ' . $energieausweis->post_title . '
 Gebäudeanschrift: ' . $energieausweis->adresse . '
 Email-Adresse: ' . $energieausweis->getOwnerData( 'email' ) . '
@@ -377,7 +377,7 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 			return;
 		}
 		?>
-		<div id="wp-enon-eingabehilfe-popup" class="modal fade" role="dialog">
+		<div id="enon_acceptance_eingabesupport_modal" class="modal fade" role="dialog">
 			<div class="modal-dialog" style="margin-top:140px;">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -408,11 +408,7 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis object.
 	 * @param \WPENON\View\FrontendBase $view Frontend base view.
 	 */
-	public function print_dialog_scripts( $energieausweis, $view ) {
-		if ( $view->get_template_slug() !== 'create' ) {
-			return;
-		}
-
+	public function print_dialog_scripts() {
 		if( filter_input( INPUT_GET, 'iframe') === 'true' ) {
 			return;
 		}
@@ -420,45 +416,17 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 		?>
 		<script>
 			jQuery(document).ready(function ($) {
-				$('#eingabesupport').val( true );
-
-
-				var $form = $('#wpenon-generate-form');
-				var $modal = $('#wp-enon-eingabehilfe-popup');
-				var $gdprAcceptance = $('#gdpr_acceptance');
-
-				if (!$form.length || !$modal.length || !$gdprAcceptance.length) {
-					return;
-				}
-
-				$modal.modal({
-					show: false
-				});
-
-				function onFormSubmitEingabesupport(e) {
-					setTimeout(function () {
-						$modal.modal('show');
-					}, 1000);
-
-					$modal.css('z-index', 1050);
-
-					e.preventDefault();
-					return false;
-				}
-
-				$form.on('submit', onFormSubmitEingabesupport);
-
 				$('#wp-enon-eingabehilfe-yes').on('click', function () {
 					$('#wpenon_eingabesupport').val('true');
-					$form.off('submit', onFormSubmitEingabesupport);
-					$modal.modal('hide');
+					$modalEingabesupport.modal('hide');
+					$form.off('submit', onFormSubmitEingabesupport );
 					$form.submit();
 				});
 
 				$('#wp-enon-eingabehilfe-no').on('click', function () {
 					$('#wpenon_eingabesupport').val('false');
-					$form.off('submit', onFormSubmitEingabesupport);
-					$modal.modal('hide');
+					$modalEingabesupport.modal('hide');
+					$form.off('submit', onFormSubmitEingabesupport );
 					$form.submit();
 				});
 			});
