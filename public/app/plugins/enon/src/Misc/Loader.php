@@ -2,6 +2,7 @@
 
 namespace Enon\Misc;
 
+use Enon\Misc\Tasks\Plugins\TaskEddSparkasseDiscounts;
 use Enon\Misc\Tasks\TaskGoogleTagManager;
 use Enon\Misc\Tasks\TaskRemoveOptimizepress;
 use Enon\TaskLoader;
@@ -24,6 +25,7 @@ class Loader extends TaskLoader
 	{
 		$this->addTask( TaskGoogleTagManager::class );
 		$this->addTask( TaskRemoveOptimizepress::class );
+		$this->addTask( TaskEddSparkasseDiscounts::class, $this->logger() );
 		$this->runTasks();;
 	}
 }
