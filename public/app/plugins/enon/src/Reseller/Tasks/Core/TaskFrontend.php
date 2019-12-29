@@ -91,7 +91,6 @@ class TaskFrontend implements Task, Actions, Filters {
 	public function add_css()
 	{
 		$extraCss = $this->reseller->data()->getExtraCSS();
-		$aid = $this->reseller->data()->getAffiliateId();
 
 		if( empty ( $extraCss ) ) {
 			return;
