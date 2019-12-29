@@ -19,7 +19,15 @@ class SendEnergieausweisSparkasse extends SendEnergieausweis {
 	 */
 	protected function getBody()
 	{
-		$data = $this->energieausweis;
+		$fields = $this->energieausweis->getSchema()->getFields();
+
+		$data = array();
+
+		foreach( $fields AS  $key => $field )
+		{
+			$data[$key] = $this->energieausweis->$key;
+		}
+
 		return $data;
 	}
 }
