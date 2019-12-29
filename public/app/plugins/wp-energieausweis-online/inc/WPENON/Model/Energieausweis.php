@@ -104,7 +104,6 @@ class Energieausweis {
 		$this->type     = get_post_meta( $this->id, 'wpenon_type', true );
 		$this->standard = get_post_meta( $this->id, 'wpenon_standard', true );
 
-
 		add_action( 'edd_update_payment_status', array( $this, '_checkOrderedPaidStatus' ) );
 
 		$this->_loadSchema();
