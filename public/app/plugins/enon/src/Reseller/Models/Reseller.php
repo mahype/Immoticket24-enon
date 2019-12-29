@@ -95,8 +95,6 @@ class Reseller {
 		if ( ! empty( $energieausweis_id ) ) {
 			$post = get_post( $energieausweis_id );
 
-
-
 			$query_args['access_token'] = (new Energieausweis( $energieausweis_id ) )->getAccessToken();
 			$query_args['slug']         = $post->post_name;
 		}

@@ -79,7 +79,7 @@ class Loader extends TaskLoader {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );
 		}
 
-		$this->addTask( TaskFrontend::class );
+		$this->addTask( TaskFrontend::class, $reseller );
 		$this->addTask( TaskEnon::class, $reseller, $this->logger() );
 		$this->addTask( TaskEmailConfirmation::class, $reseller, $this->logger() );
 		$this->addTask( TaskEmailOrderConfirmation::class, $reseller, $this->logger() );
