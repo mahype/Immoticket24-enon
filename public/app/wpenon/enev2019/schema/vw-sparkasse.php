@@ -1,5 +1,7 @@
 <?php
 
+$description_quality = __('<b>Einfach:</b><br/>z.B. Einfachverglasung, Dach ohne Wärmedämmung, PVC-Böden (niedriger Standard), Speicherheizung, Einzelöfen, Bäder ohne oder nur mit geringer Verfliesung<br/><br><b>Durchschnittlich:</b><br />z.B. Kunststofffenster, Isolierverglasung, Rolläden, mittlerer Wärmedämmungsstandard, Bat mit Dusche und Badewanne, Teppich, PVC Boden (mittlerer Standard), Fliesen, Kunststofftüren, Zentralheizung<br /><br /><b>Überdurchschnittlich:</b><br />z.B. Aluminiumfenster, Wärmeschutzverglasung, hoher Wärmestandard, zwei Bäder, Gäste-WC, Fliesenboden, Parkett, Glastüren, Zentralheizung<br />><br /><b>Aufwändig:</b><br />z.B. wandhohe Verfliesung, raumhohe Verglasung, elektische Rolläden, Schallschutzverglasung, Dachausschnitte mit Glas, aufwendige Dachausbauten, Natursteinböden, mehrere Bäder mit Bidet, Whirlpool, Einbruchschutz, massive Türen, Fußbodenheizung, Klimaanlage, Solaranlage', 'wpenon');
+
 return array(
 	'vw_basisdaten' => array(
 		'title' => __('Basisdaten', 'wpenon'),
@@ -880,6 +882,95 @@ return array(
 							'25' => __('Vor über 25 Jahren', 'wpenon'),
 						),
 						'required' => true,
+					),
+				),
+			),
+			'qualitaet_ausstattung' => array(
+				'title' => __('Qualität und Ausstattung', 'wpenon'),
+				'fields' => array(
+					'mauerwerk' => array(
+						'type' => 'select',
+						'label' => __('Mauerwerk', 'wpenon'),
+						'options' => array(
+							'einfach'               => __('Einfach', 'wpenon'),
+							'durchschnittlich'      => __('Durchschnittlich', 'wpenon'),
+							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
+							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
+						),
+						'required' => true,
+						'description' => $description_quality,
+					),
+					'dach' => array(
+						'type' => 'select',
+						'label' => __('Dach', 'wpenon'),
+						'options' => array(
+							'einfach'               => __('Einfach', 'wpenon'),
+							'durchschnittlich'      => __('Durchschnittlich', 'wpenon'),
+							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
+							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
+						),
+						'required' => true,
+						'description' => $description_quality,
+					),
+					'gebaeudedaemmung' => array(
+						'type' => 'select',
+						'label' => __('Gebäudedämmung', 'wpenon'),
+						'options' => array(
+							'einfach'               => __('Einfach', 'wpenon'),
+							'durchschnittlich'      => __('Durchschnittlich', 'wpenon'),
+							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
+							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
+						),
+						'required' => true,
+						'description' => $description_quality,
+					),
+					'fenster' => array(
+						'type' => 'select',
+						'label' => __('Fenster', 'wpenon'),
+						'options' => array(
+							'einfach'               => __('Einfach', 'wpenon'),
+							'durchschnittlich'      => __('Durchschnittlich', 'wpenon'),
+							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
+							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
+						),
+						'required' => true,
+						'description' => $description_quality,
+					),
+					'bodenbelaege' => array(
+						'type' => 'select',
+						'label' => __('Bodenbeläge', 'wpenon'),
+						'options' => array(
+							'einfach'               => __('Einfach', 'wpenon'),
+							'durchschnittlich'      => __('Durchschnittlich', 'wpenon'),
+							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
+							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
+						),
+						'required' => true,
+						'description' => $description_quality,
+					),
+					'heizung' => array(
+						'type' => 'select',
+						'label' => __('Heizung', 'wpenon'),
+						'options' => array(
+							'einfach'               => __('Einfach', 'wpenon'),
+							'durchschnittlich'      => __('Durchschnittlich', 'wpenon'),
+							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
+							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
+						),
+						'required' => true,
+						'description' => $description_quality,
+					),
+					'baeder_sanitaer' => array(
+						'type' => 'select',
+						'label' => __('Bäder/Sanitär', 'wpenon'),
+						'options' => array(
+							'einfach'               => __('Einfach', 'wpenon'),
+							'durchschnittlich'      => __('Durchschnittlich', 'wpenon'),
+							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
+							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
+						),
+						'required' => true,
+						'description' => $description_quality,
 					),
 				),
 			),
