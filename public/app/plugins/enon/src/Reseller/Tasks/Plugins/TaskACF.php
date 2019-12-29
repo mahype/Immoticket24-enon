@@ -170,6 +170,13 @@ class TaskACF implements Task, Actions
 						),
 						'return_format' => 'value',
 					),
+					array(
+						'key' => 'field_css',
+						'label' => __('CSS', 'enon'),
+						'name' => 'css',
+						'type' => 'textarea',
+						'instructions' => __('Add some extra CSS for reseller.', 'enon'),
+					),
 				),
 				'location' => array(
 					array(

@@ -237,6 +237,18 @@ class ResellerData extends PostData {
 	}
 
 	/**
+	 * Get reseller extra CSS.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Reseller extra CSS.
+	 */
+	public function getCSS()
+	{
+		return $this->get( 'css' );
+	}
+
+	/**
 	 * Get technical values.
 	 *
 	 * @since 1.0.0
