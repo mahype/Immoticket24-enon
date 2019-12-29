@@ -171,9 +171,9 @@ class TaskACF implements Task, Actions
 						'return_format' => 'value',
 					),
 					array(
-						'key' => 'field_css',
-						'label' => __('CSS', 'enon'),
-						'name' => 'css',
+						'key' => 'field_extra_css',
+						'label' => __('Extra CSS', 'enon'),
+						'name' => 'extra_css',
 						'type' => 'textarea',
 						'instructions' => __('Add some extra CSS for reseller.', 'enon'),
 					),
