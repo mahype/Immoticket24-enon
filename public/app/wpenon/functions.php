@@ -917,18 +917,27 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 	}
 
 	if( ( $energieausweis_date > strtotime('2019-12-11') ) && intval( $energieausweis->baujahr ) < 1995 || $energieausweis_date < strtotime('2019-12-12')  ) {
+
 		if (wpenon_immoticket24_is_empfehlung_active('dach', $energieausweis)) {
-			if ('b' === $energieausweis->mode && ($energieausweis->dach === 'beheizt' || $energieausweis->dach === 'nicht-vorhanden') && $energieausweis->dach_daemmung < 14.0) {
+			$energieausweis_mode          = $energieausweis->mode;
+			$energieausweis_dach          = $energieausweis->dach;
+			$energieausweis_dach_daemmung = $energieausweis->dach_daemmung;
+
+			if ('b' === $energieausweis_mode && ($energieausweis_dach === 'beheizt' || $energieausweis_dach === 'nicht-vorhanden') && $energieausweis_dach_daemmung < 14.0) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['dach'];
-			} elseif ('v' === $energieausweis->mode && $energieausweis->dach === 'beheizt' && $energieausweis->dach_daemmung < 14.0) {
+			} elseif ('v' === $energieausweis_mode && $energieausweis_dach === 'beheizt' && $energieausweis_dach_daemmung < 14.0) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['dach'];
 			}
 		}
 
 		if (wpenon_immoticket24_is_empfehlung_active('decke', $energieausweis)) {
-			if ('b' === $energieausweis->mode && $energieausweis->dach === 'unbeheizt' && $energieausweis->decke_daemmung < 14.0) {
+			$energieausweis_mode           = $energieausweis->mode;
+			$energieausweis_dach           = $energieausweis->dach;
+			$energieausweis_decke_daemmung = $energieausweis->decke_daemmung;
+
+			if ('b' === $energieausweis_mode && $energieausweis_dach === 'unbeheizt' && $energieausweis_decke_daemmung < 14.0) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['decke'];
-			} elseif ('v' === $energieausweis->mode && ($energieausweis->dach === 'unbeheizt' || $energieausweis->dach === 'nicht-vorhanden') && $energieausweis->decke_daemmung < 14.0) {
+			} elseif ('v' === $energieausweis_mode && ($energieausweis_dach === 'unbeheizt' || $energieausweis_dach === 'nicht-vorhanden') && $energieausweis_decke_daemmung < 14.0) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['decke'];
 			} elseif (76736 === (int)$energieausweis->id) { // Hacky fix for a weird bug.
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['decke'];
@@ -946,7 +955,12 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 						$laengenslug = 'wand_' . $wand . '_laenge';
 						$nachbarslug = 'wand_' . $wand . '_nachbar';
 						$daemmungsslug = 'wand_' . $wand . '_daemmung';
-						if ($energieausweis->$laengenslug > 0.0 && !$energieausweis->$nachbarslug && $energieausweis->$daemmungsslug < 4.0) {
+
+						$wand_laenge   = $energieausweis->$laengenslug;
+						$wand_daemmung = $energieausweis->$daemmungsslug;
+						$wand_nachbar  = $energieausweis->$nachbarslug;
+
+						if ( $wand_laenge > 0.0 && !$wand_nachbar && $wand_daemmung < 4.0) {
 							$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['wand'];
 							break;
 						}
@@ -956,7 +970,10 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 		}
 
 		if (wpenon_immoticket24_is_empfehlung_active('boden', $energieausweis)) {
-			if ($energieausweis->keller === 'unbeheizt' && $energieausweis->boden_daemmung < 6.0) {
+			$energieausweis_keller = $energieausweis->keller;
+			$energieausweis_boden_daemmung = $energieausweis->boden_daemmung;
+
+			if ($energieausweis_keller === 'unbeheizt' && $energieausweis_boden_daemmung < 6.0) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['boden'];
 			}
 		}
@@ -969,7 +986,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 			}
 		} elseif ($energieausweis->mode == 'b') {
 			$fenster_manuell = $energieausweis->fenster_manuell;
-			if ( $energieausweis->fenster_manuell || $energieausweis_date > strtotime('2019-12-12') ) {
+			if ( $fenster_manuell || $energieausweis_date > strtotime('2019-12-12') ) {
 				foreach ( array( 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ) as $fenster ) {
 					$flaecheslug = 'fenster_' . $fenster . '_flaeche';
 					$bauartslug = 'fenster_' . $fenster . '_bauart';
