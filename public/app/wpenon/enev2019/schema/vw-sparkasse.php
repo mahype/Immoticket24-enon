@@ -886,7 +886,7 @@ return array(
 				),
 			),
 			'qualitaet_ausstattung' => array(
-				'title' => __('Qualität und Ausstattung', 'wpenon'),
+				'title' => __('Wie ist die Qualität und Ausstattung des Gebäudes?', 'wpenon'),
 				'fields' => array(
 					'mauerwerk' => array(
 						'type' => 'select',
