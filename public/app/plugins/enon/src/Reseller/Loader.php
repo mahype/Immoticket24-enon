@@ -3,6 +3,8 @@
 namespace Enon\Reseller;
 
 use Enon\Reseller\Models\Token;
+use Enon\Reseller\Tasks\Enon\TaskReseller;
+use Enon\Reseller\Tasks\Enon\TaskRouteUrls;
 use Enon\TaskLoader;
 use Enon\Models\Exceptions\Exception;
 
@@ -34,6 +36,10 @@ class Loader extends TaskLoader {
 		$this->addTask( TaskCPTReseller::class );
 		$this->addTask( TaskACF::class, $this->logger() );
 
+		if( wp_doing_ajax() ) {
+			return;
+		}
+
 		if( is_admin() ) {
 			$this->runAdminTasks();
 		} else {
@@ -55,6 +61,7 @@ class Loader extends TaskLoader {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );
 		}
 
+		$this->addTask( TaskReseller::class, $reseller, $this->logger() );
 		$this->addTask( TaskSendEnergieausweis::class, $reseller, $this->logger() );
 		$this->runTasks();
 	}
@@ -80,7 +87,8 @@ class Loader extends TaskLoader {
 		}
 
 		$this->addTask( TaskFrontend::class, $reseller );
-		$this->addTask( TaskEnon::class, $reseller, $this->logger() );
+		$this->addTask( TaskReseller::class, $reseller, $this->logger() );
+		$this->addTask( TaskRouteUrls::class, $reseller, $this->logger() );
 		$this->addTask( TaskEmailConfirmation::class, $reseller, $this->logger() );
 		$this->addTask( TaskEmailOrderConfirmation::class, $reseller, $this->logger() );
 		$this->addTask( TaskSendEnergieausweis::class, $reseller, $this->logger() );

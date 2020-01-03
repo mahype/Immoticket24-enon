@@ -2,6 +2,8 @@
 
 namespace Enon\Enon\Standards;
 
+use WPENON\Model\Energieausweis;
+
 /**
  * Class Schema.
  *
@@ -15,13 +17,13 @@ class Schema extends Standard {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $type Type of Energieausweis (vw/bw)
+	 * @param Energieausweis $energieausweis Energieausweis object
 	 *
 	 * @return string The location of the schema file.
 	 */
-	public function getFile( $type )
+	public function getFile( $energieausweis )
 	{
-		$schema_file = $this->getPath() . '/schema/' . $type . '.php';
-		return  apply_filters( 'wpenon_schema_file', $schema_file, $this->getKey(), $type );
+		$schema_file = $this->getPath() . '/schema/' . $energieausweis->type . '.php';
+		return  apply_filters( 'wpenon_schema_file', $schema_file, $this->getKey(), $energieausweis );
 	}
 }

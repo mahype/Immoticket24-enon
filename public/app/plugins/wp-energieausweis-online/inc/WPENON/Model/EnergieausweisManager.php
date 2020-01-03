@@ -335,12 +335,12 @@ class EnergieausweisManager
 	 * @param $type
 	 * @param $standard
 	 *
-	 * @return \WPENON\Model\Schema Schema
+	 * @return \WPENON\Model\Energieausweis Schema
 	 */
-	public static function loadSchema( $type, $standard )
+	public static function loadSchema( $energieausweis )
 	{
-		$schema = new Schema( $standard );
-		$schema = $schema->load( $type );
+		$schema = new Schema( $energieausweis->standard );
+		$schema = $schema->load( $energieausweis );
 
 		$private_fields = array(
 			'private' => array(
@@ -348,7 +348,7 @@ class EnergieausweisManager
 				'groups' => array(
 					'basisdaten' => array(
 						'title' => __( 'Energieausweis-Metadaten', 'wpenon' ),
-						'fields' => self::getPrivateFields( $type, $standard ),
+						'fields' => self::getPrivateFields( $energieausweis->type, $energieausweis->standard ),
 					),
 				),
 			),

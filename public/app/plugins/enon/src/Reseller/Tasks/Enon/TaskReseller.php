@@ -1,0 +1,133 @@
+<?php
+
+namespace Enon\Reseller\Tasks\Enon;
+
+use Awsm\WPWrapper\BuildingPlans\Actions;
+use Awsm\WPWrapper\BuildingPlans\Filters;
+use Awsm\WPWrapper\BuildingPlans\Task;
+use Enon\Traits\Logger as LoggerTrait;
+use Enon\Logger;
+use Enon\Reseller\Models\Reseller;
+use WPENON\Model\Energieausweis;
+
+/**
+ * Class Wpenon.
+ *
+ * Running WordPress scripts
+ *
+ * @package Enon\Reseller\WordPress
+ */
+class TaskReseller implements Task, Actions, Filters
+{
+	use LoggerTrait;
+
+	/**
+	 * Reseller object.
+	 *
+	 * @since 1.0.0
+	 * @var Reseller;
+	 */
+	private $reseller;
+
+	/**
+	 * Wpenon constructor.
+	 *
+	 * @param Reseller $reseller
+	 * @param Logger $logger
+	 */
+	public function __construct( Reseller $reseller, Logger $logger )
+	{
+		$this->reseller = $reseller;
+		$this->logger = $logger;
+
+	}
+
+	/**
+	 * Running scripts.
+	 *
+	 * @since 1.0.0
+	 */
+	public function run()
+	{
+		$this->addActions();
+		$this->addFilters();
+	}
+
+	/**
+	 * Adding actions.
+	 *
+	 * @since 1.0.0
+	 */
+	public function addActions()
+	{
+		add_action( 'wpenon_energieausweis_create', [ $this, 'updateResellerId' ] );
+	}
+
+	/**
+	 * Adding filters.
+	 *
+	 * @since 1.0.0
+	 */
+	public function addFilters()
+	{
+		add_filter( 'wpenon_schema_file', [ $this, 'filterSchemafile' ], 10, 3 );
+	}
+
+	private function getResellerId( $energieausweis ) {
+		$resellerId = get_post_meta( $energieausweis->id, 'reseller_id', true );
+
+		if( ! empty( $resellerId ) ) {
+			return $resellerId;
+		}
+
+		return $this->reseller->data()->getPostId();
+	}
+
+	/**
+	 * Updating reseller id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Energieausweis $energieausweis Energieausweis object.
+	 */
+	public function updateResellerId( $energieausweis ) {
+		update_post_meta( $energieausweis->id, 'reseller_id', $this->getResellerId( $energieausweis ) );
+	}
+
+	/**
+	 * Filtering schema file.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $file Path to file.
+	 * @param string $type Schema typ.
+	 *
+	 * @return string Filtered schema file.
+	 */
+	public function filterSchemafile( $file, $standard, $energieausweis ) {
+		$resellerId = $this->getResellerId( $energieausweis );
+
+		if( empty( $resellerId ) ) {
+			return $file;
+		}
+
+		$this->reseller->data()->setPostId( $resellerId );
+
+		switch ( $energieausweis->type ) {
+			case 'bw':
+				$schema_file = trim( $this->reseller->data()->getBwSchemaFile() );
+				break;
+			case 'vw':
+				$schema_file = trim( $this->reseller->data()->getVwSchemaFile() );
+				break;
+		}
+
+		if( empty( $schema_file ) ) {
+			return $file;
+		}
+
+		$schema_file = WPENON_DATA_PATH . '/' . $standard . '/schema/' . $schema_file;
+
+		return $schema_file;
+	}
+}

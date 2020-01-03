@@ -83,14 +83,14 @@ class Energieausweis {
 	 *
 	 * @var string
 	 */
-	private $type = null;
+	public $type = null;
 
 	/**
 	 * Standard
 	 *
 	 * @var string
 	 */
-	private $standard;
+	public $standard;
 
 	public function __construct( $id ) {
 		$this->id = $id;
@@ -557,6 +557,6 @@ class Energieausweis {
 	}
 
 	private function _loadSchema() {
-		$this->schema = \WPENON\Model\EnergieausweisManager::loadSchema( $this->type, $this->standard );
+		$this->schema = \WPENON\Model\EnergieausweisManager::loadSchema( $this );
 	}
 }
