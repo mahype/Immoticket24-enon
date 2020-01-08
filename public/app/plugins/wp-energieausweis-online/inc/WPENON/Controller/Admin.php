@@ -21,6 +21,12 @@ class Admin
     }
 
     private $model = null;
+
+    /**
+     * View.
+     *
+     * @var \WPENON\View\AdminBase
+     */
     private $view = null;
 
     private $energieausweis = null;
