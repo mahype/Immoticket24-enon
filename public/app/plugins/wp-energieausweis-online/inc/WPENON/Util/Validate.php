@@ -201,7 +201,8 @@ class Validate
             case 'float':
             case 'float_length':
             case 'float_length_wall':
-                $empty = (floatval($value) <= 0.0);
+                $compare = \WPENON\Util\Parse::float($value);
+                $empty = ($compare <= 0.0);
                 $error = __('Der Wert muss größer als 0 sein.', 'wpenon');
                 break;
             default:
