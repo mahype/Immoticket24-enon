@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e472552125c14a6b55e0166c2ceb5f06",
+    "content-hash": "9b9e5ed1c75d1964934fdaad988a0ad7",
     "packages": [
         {
             "name": "composer/installers",
@@ -280,23 +280,23 @@
         },
         {
             "name": "johnpbloch/wordpress-core",
-            "version": "5.3.0",
+            "version": "5.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress-core.git",
-                "reference": "17ddddaf049e82655c6d3831ca787350807b0566"
+                "reference": "a282ab0051fac21d4e0cdd828519e6739743ba92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/17ddddaf049e82655c6d3831ca787350807b0566",
-                "reference": "17ddddaf049e82655c6d3831ca787350807b0566",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/a282ab0051fac21d4e0cdd828519e6739743ba92",
+                "reference": "a282ab0051fac21d4e0cdd828519e6739743ba92",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.6.20"
             },
             "provide": {
-                "wordpress/core-implementation": "5.3.0"
+                "wordpress/core-implementation": "5.3.2"
             },
             "type": "wordpress-core",
             "notification-url": "https://packagist.org/downloads/",
@@ -316,7 +316,7 @@
                 "cms",
                 "wordpress"
             ],
-            "time": "2019-11-12T20:45:53+00:00"
+            "time": "2019-12-18T22:32:15+00:00"
         },
         {
             "name": "johnpbloch/wordpress-core-installer",
@@ -423,15 +423,15 @@
         },
         {
             "name": "wpackagist-plugin/contact-form-7",
-            "version": "5.1.5",
+            "version": "5.1.6",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/contact-form-7/",
-                "reference": "tags/5.1.5"
+                "reference": "tags/5.1.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/contact-form-7.5.1.5.zip"
+                "url": "https://downloads.wordpress.org/plugin/contact-form-7.5.1.6.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -466,15 +466,15 @@
         },
         {
             "name": "wpackagist-plugin/gutenberg",
-            "version": "6.9.0",
+            "version": "7.2.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/gutenberg/",
-                "reference": "tags/6.9.0"
+                "reference": "tags/7.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/gutenberg.6.9.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/gutenberg.7.2.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -502,15 +502,15 @@
         },
         {
             "name": "wpackagist-plugin/imsanity",
-            "version": "2.4.3",
+            "version": "2.5.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/imsanity/",
-                "reference": "tags/2.4.3"
+                "reference": "tags/2.5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/imsanity.2.4.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/imsanity.2.5.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -538,15 +538,15 @@
         },
         {
             "name": "wpackagist-plugin/ninjafirewall",
-            "version": "4.0.5",
+            "version": "4.0.6",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/ninjafirewall/",
-                "reference": "tags/4.0.5"
+                "reference": "tags/4.0.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/ninjafirewall.4.0.5.zip"
+                "url": "https://downloads.wordpress.org/plugin/ninjafirewall.4.0.6.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -574,15 +574,15 @@
         },
         {
             "name": "wpackagist-plugin/shariff",
-            "version": "4.6.3",
+            "version": "4.6.4",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/shariff/",
-                "reference": "tags/4.6.3"
+                "reference": "tags/4.6.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/shariff.4.6.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/shariff.4.6.4.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -592,15 +592,15 @@
         },
         {
             "name": "wpackagist-plugin/vaultpress",
-            "version": "2.0.1",
+            "version": "2.1.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/vaultpress/",
-                "reference": "tags/2.0.1"
+                "reference": "tags/2.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/vaultpress.2.0.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/vaultpress.2.1.1.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -610,15 +610,15 @@
         },
         {
             "name": "wpackagist-plugin/wordpress-seo",
-            "version": "12.5",
+            "version": "12.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wordpress-seo/",
-                "reference": "tags/12.5"
+                "reference": "tags/12.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.12.5.zip"
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.12.8.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -664,15 +664,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-security-audit-log",
-            "version": "3.5.1.1",
+            "version": "4.0.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-security-audit-log/",
-                "reference": "tags/3.5.1.1"
+                "reference": "tags/4.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-security-audit-log.3.5.1.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-security-audit-log.4.0.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
