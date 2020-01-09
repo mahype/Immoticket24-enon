@@ -5,7 +5,7 @@ namespace Enon\Reseller\Tasks\Enon;
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 use Enon\Logger;
-use Enon\Traits\Logger as LoggerTrait;
+use Enon\Traits\Logger as Logger_Trait;
 use Enon\Reseller\Models\Reseller;
 use Enon\Models\Edd\EddPayment;
 use WPENON\Model\Energieausweis;
@@ -16,7 +16,7 @@ use WPENON\Model\Energieausweis;
  * @since 1.0.0
  */
 class TaskSendEnergieausweis implements Actions, Task {
-	use LoggerTrait;
+	use Logger_Trait;
 
 	/**
 	 * Reseller object.

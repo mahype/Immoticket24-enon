@@ -5,7 +5,7 @@ namespace Enon\Reseller\Tasks\Enon;
 use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 use Enon\Logger;
-use Enon\Traits\Logger as LoggerTrait;
+use Enon\Traits\Logger as Logger_Trait;
 use Enon\Reseller\Models\Reseller;
 
 /**
@@ -16,7 +16,7 @@ use Enon\Reseller\Models\Reseller;
  * @package Enon\Reseller\WordPress
  */
 class TaskEmailOrderConfirmation implements Task, Filters {
-	use LoggerTrait;
+	use Logger_Trait;
 
 	/**
 	 * Reseller object.

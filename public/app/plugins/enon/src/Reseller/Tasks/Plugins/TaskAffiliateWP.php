@@ -6,7 +6,7 @@ use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 
 use Enon\Models\Exceptions\Exception;
-use Enon\Traits\Logger as LoggerTrait;
+use Enon\Traits\Logger as Logger_Trait;
 use Enon\Logger;
 use Enon\Reseller\Models\Reseller;
 
@@ -19,7 +19,7 @@ use Enon\Reseller\Models\Reseller;
  */
 class TaskAffiliateWP implements Task, Actions
 {
-	use LoggerTrait;
+	use Logger_Trait;
 
 	/**
 	 * Reseller object.

@@ -4,7 +4,7 @@ namespace Enon\Reseller\Tasks\Plugins;
 
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
-use Enon\Traits\Logger as LoggerTrait;
+use Enon\Traits\Logger as Logger_Trait;
 use Enon\Logger;
 use Enon\Reseller\Models\Reseller;
 
@@ -17,7 +17,7 @@ use Enon\Reseller\Models\Reseller;
  */
 class TaskACF implements Task, Actions
 {
-	use LoggerTrait;
+	use Logger_Trait;
 
 	/**
 	 * Fieldsets which need to be registered.
@@ -26,7 +26,7 @@ class TaskACF implements Task, Actions
 	 *
 	 * @var array
 	 */
-	private $fieldSets;
+	private $field_sets;
 
 	/**
 	 * AffiliateWP constructor.

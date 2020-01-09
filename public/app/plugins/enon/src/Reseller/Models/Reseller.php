@@ -3,7 +3,7 @@
 namespace Enon\Reseller\Models;
 
 use Enon\Models\Enon\Energieausweis;
-use Enon\Traits\Logger AS LoggerTrait;
+use Enon\Traits\Logger AS Logger_Trait;
 use Enon\Logger;
 
 /**
@@ -14,7 +14,7 @@ use Enon\Logger;
  * @package Enon\Reseller
  */
 class Reseller {
-	use LoggerTrait;
+	use Logger_Trait;
 
 	/**
 	 * Holds loaded reseller data.

@@ -6,7 +6,7 @@ use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 
 use Enon\Models\Enon\Energieausweis;
-use Enon\Traits\Logger as LoggerTrait;
+use Enon\Traits\Logger as Logger_Trait;
 use Enon\Logger;
 use Enon\Reseller\Models\Reseller;
 
@@ -19,7 +19,7 @@ use Enon\Reseller\Models\Reseller;
  */
 class TaskEddSparkasseDiscounts implements Task, Filters
 {
-	use LoggerTrait;
+	use Logger_Trait;
 
 	/**
 	 * Discount_Types

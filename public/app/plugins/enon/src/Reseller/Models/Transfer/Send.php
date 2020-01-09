@@ -3,7 +3,7 @@
 namespace Enon\Reseller\Models\Transfer;
 
 use Enon\Logger;
-use Enon\Traits\Logger As LoggerTrait;
+use Enon\Traits\Logger As Logger_Trait;
 
 /**
  * Class Send.
@@ -11,7 +11,7 @@ use Enon\Traits\Logger As LoggerTrait;
  * @since 1.0.0
  */
 abstract class Send {
-	use LoggerTrait;
+	use Logger_Trait;
 
 	/**
 	 * Arguments for post.

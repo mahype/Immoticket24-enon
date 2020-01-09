@@ -5,7 +5,7 @@ namespace Enon\Reseller\Tasks\Enon;
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
-use Enon\Traits\Logger as LoggerTrait;
+use Enon\Traits\Logger as Logger_Trait;
 use Enon\Logger;
 use Enon\Reseller\Models\Reseller;
 use WPENON\Model\Energieausweis;
@@ -19,7 +19,7 @@ use WPENON\Model\Energieausweis;
  */
 class TaskEnon implements Task, Actions, Filters
 {
-	use LoggerTrait;
+	use Logger_Trait;
 
 	/**
 	 * Reseller object.
