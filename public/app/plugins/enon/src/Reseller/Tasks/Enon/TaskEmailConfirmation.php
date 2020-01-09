@@ -2,8 +2,8 @@
 
 namespace Enon\Reseller\Tasks\Enon;
 
-use Awsm\WPWrapper\BuildingPlans\Filters;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Filters;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 use Enon\Logger;
 use Enon\Traits\Logger as LoggerTrait;
 use Enon\Reseller\Models\Reseller;
@@ -47,7 +47,7 @@ class TaskEmailConfirmation implements Task, Filters
 	 * @since 1.0.0
 	 */
 	public function run() {
-		$this->addFilters();
+		$this->add_filters();
 	}
 
 	/**
@@ -55,7 +55,7 @@ class TaskEmailConfirmation implements Task, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFilters() {
+	public function add_filters() {
 		add_filter( 'wpenon_confirmation_from_address', [ $this, 'filterFromAddress' ] );
 		add_filter( 'wpenon_confirmation_from_name',    [ $this, 'filterFromName' ] );
 		add_filter( 'wpenon_confirmation_link',         [ $this, 'filterLink' ], 10, 2 );

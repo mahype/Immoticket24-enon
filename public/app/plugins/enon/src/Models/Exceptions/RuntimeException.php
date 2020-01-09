@@ -8,12 +8,12 @@
 namespace Enon\Models\Exceptions;
 
 /**
- * Class RuntimeException.
+ * Class Runtime_Exception.
  *
  * @since 1.0.0
  *
  * @package Enon\Models\Exceptions
  */
-class RuntimeException extends \RuntimeException {
+class Runtime_Exception extends \Runtime_Exception {
 
 }

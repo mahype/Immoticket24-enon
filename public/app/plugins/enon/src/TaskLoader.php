@@ -2,15 +2,15 @@
 
 namespace Enon;
 
-use Awsm\WPWrapper\BuildingPlans\Task;
-use Awsm\WPWrapper\Tasks\TaskRunner;
+use Awsm\WP_Wrapper\Building_Plans\Task;
+use Awsm\WP_Wrapper\Tasks\Task_Runner;
 
 /**
  * Config loader.
  */
 abstract class TaskLoader implements Task
 {
-	use TaskRunner;
+	use Task_Runner;
 
 	/**
 	 * Logger.

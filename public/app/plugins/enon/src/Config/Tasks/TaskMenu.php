@@ -6,8 +6,8 @@ use Awsm\WP_Plugin\Building_Plans\Hooks_Filters;
 use Awsm\WP_Plugin\Building_Plans\Service;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
-use Awsm\WPWrapper\BuildingPlans\Filters;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Filters;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 
 /**
  * Class Performance
@@ -25,7 +25,7 @@ class TaskMenu implements Filters, Task {
 	 * @return void
 	 */
 	public function run() {
-		$this->addFilters();
+		$this->add_filters();
 	}
 
 	/**
@@ -33,7 +33,7 @@ class TaskMenu implements Filters, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFilters() {
+	public function add_filters() {
 		add_filter( 'wp_nav_menu_objects', array( __CLASS__, 'filterMainMenu' ), 10, 2 );
 	}
 

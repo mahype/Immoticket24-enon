@@ -22,10 +22,10 @@ class Loader extends TaskLoader
      */
     public function run()
     {
-        $this->addTask(TaskDev::class);
-        $this->addTask(TaskGoogleTagManager::class);
-        $this->addTask(TaskRemoveOptimizepress::class);
-        $this->addTask(TaskEddSparkasseDiscounts::class, $this->logger());
+        $this->add_task(TaskDev::class);
+        $this->add_task(TaskGoogleTagManager::class);
+        $this->add_task(TaskRemoveOptimizepress::class);
+        $this->add_task(TaskEddSparkasseDiscounts::class, $this->logger());
         $this->runTasks();
     }
 }

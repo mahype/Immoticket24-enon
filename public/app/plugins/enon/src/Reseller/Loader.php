@@ -33,8 +33,8 @@ class Loader extends TaskLoader {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		$this->addTask( TaskCPTReseller::class );
-		$this->addTask( TaskACF::class, $this->logger() );
+		$this->add_task( TaskCPTReseller::class );
+		$this->add_task( TaskACF::class, $this->logger() );
 
 		if( wp_doing_ajax() ) {
 			return;
@@ -61,8 +61,8 @@ class Loader extends TaskLoader {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );
 		}
 
-		$this->addTask( TaskReseller::class, $reseller, $this->logger() );
-		$this->addTask( TaskSendEnergieausweis::class, $reseller, $this->logger() );
+		$this->add_task( TaskReseller::class, $reseller, $this->logger() );
+		$this->add_task( TaskSendEnergieausweis::class, $reseller, $this->logger() );
 		$this->runTasks();
 	}
 
@@ -86,14 +86,14 @@ class Loader extends TaskLoader {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );
 		}
 
-		$this->addTask( TaskFrontend::class, $reseller );
-		$this->addTask( TaskReseller::class, $reseller, $this->logger() );
-		$this->addTask( TaskRouteUrls::class, $reseller, $this->logger() );
-		$this->addTask( TaskEmailConfirmation::class, $reseller, $this->logger() );
-		$this->addTask( TaskEmailOrderConfirmation::class, $reseller, $this->logger() );
-		$this->addTask( TaskSendEnergieausweis::class, $reseller, $this->logger() );
-		$this->addTask( TaskAffiliateWP::class, $reseller, $this->logger() );
-		$this->addTask( TaskEdd::class, $reseller, $this->logger() );
+		$this->add_task( TaskFrontend::class, $reseller );
+		$this->add_task( TaskReseller::class, $reseller, $this->logger() );
+		$this->add_task( TaskRouteUrls::class, $reseller, $this->logger() );
+		$this->add_task( TaskEmailConfirmation::class, $reseller, $this->logger() );
+		$this->add_task( TaskEmailOrderConfirmation::class, $reseller, $this->logger() );
+		$this->add_task( TaskSendEnergieausweis::class, $reseller, $this->logger() );
+		$this->add_task( TaskAffiliateWP::class, $reseller, $this->logger() );
+		$this->add_task( TaskEdd::class, $reseller, $this->logger() );
 
 		$this->runTasks();;
 	}

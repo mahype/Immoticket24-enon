@@ -2,8 +2,8 @@
 
 namespace Enon\Reseller\Tasks\Plugins;
 
-use Awsm\WPWrapper\BuildingPlans\Filters;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Filters;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 
 use Enon\Traits\Logger as LoggerTrait;
 use Enon\Logger;
@@ -49,7 +49,7 @@ class TaskEdd implements Task, Filters {
 	 * @return mixed|void
 	 */
 	public function run() {
-		$this->addFilters();
+		$this->add_filters();
 	}
 
 	/**
@@ -57,7 +57,7 @@ class TaskEdd implements Task, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFilters() {
+	public function add_filters() {
 		add_filter( 'edd_get_checkout_uri', array( $this, 'filterIframeUrl' ), 100 );
 		add_filter( 'edd_get_success_page_uri', array( $this, 'filterIframeUrl' ), 100 );
 		add_filter( 'edd_get_failed_transaction_uri', array( $this, 'filterIframeUrl' ), 100 );

@@ -2,8 +2,8 @@
 
 namespace Enon\Reseller\Tasks\Plugins;
 
-use Awsm\WPWrapper\BuildingPlans\Actions;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Actions;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 
 use Enon\Models\Exceptions\Exception;
 use Enon\Traits\Logger as LoggerTrait;
@@ -51,7 +51,7 @@ class TaskAffiliateWP implements Task, Actions
 	 */
 	public function run()
 	{
-		$this->addActions();
+		$this->add_actions();
 	}
 
 	/**
@@ -59,7 +59,7 @@ class TaskAffiliateWP implements Task, Actions
 	 *
 	 * @since 1.0.0
 	 */
-	public function addActions()
+	public function add_actions()
 	{
 		add_action( 'template_redirect', array( $this, 'setAffiliatewpReferal' ), -10000, 0 );
 	}

@@ -2,8 +2,8 @@
 
 namespace Enon\Misc\Tasks;
 
-use Awsm\WPWrapper\BuildingPlans\Actions;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Actions;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 
 /**
  * Class Google_Tag_Manager.
@@ -24,7 +24,7 @@ class TaskDev implements Actions, Task
             return;
         }
 
-        $this->addActions();
+        $this->add_actions();
     }
 
     /**
@@ -32,7 +32,7 @@ class TaskDev implements Actions, Task
      *
      * @since 1.0.0
      */
-    public function addActions()
+    public function add_actions()
     {
         add_action('init', array(__CLASS__, 'stop_heartbeat'), 1);
     }

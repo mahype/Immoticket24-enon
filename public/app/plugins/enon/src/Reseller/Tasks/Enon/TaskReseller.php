@@ -2,9 +2,9 @@
 
 namespace Enon\Reseller\Tasks\Enon;
 
-use Awsm\WPWrapper\BuildingPlans\Actions;
-use Awsm\WPWrapper\BuildingPlans\Filters;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Actions;
+use Awsm\WP_Wrapper\Building_Plans\Filters;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 use Enon\Traits\Logger as LoggerTrait;
 use Enon\Logger;
 use Enon\Reseller\Models\Reseller;
@@ -49,8 +49,8 @@ class TaskReseller implements Task, Actions, Filters
 	 */
 	public function run()
 	{
-		$this->addActions();
-		$this->addFilters();
+		$this->add_actions();
+		$this->add_filters();
 	}
 
 	/**
@@ -58,7 +58,7 @@ class TaskReseller implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function addActions()
+	public function add_actions()
 	{
 		add_action( 'wpenon_energieausweis_create', [ $this, 'updateResellerId' ] );
 	}
@@ -68,7 +68,7 @@ class TaskReseller implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFilters()
+	public function add_filters()
 	{
 		add_filter( 'wpenon_schema_file', [ $this, 'filterSchemafile' ], 10, 3 );
 	}

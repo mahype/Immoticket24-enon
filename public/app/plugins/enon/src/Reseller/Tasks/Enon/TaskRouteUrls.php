@@ -2,9 +2,9 @@
 
 namespace Enon\Reseller\Tasks\Enon;
 
-use Awsm\WPWrapper\BuildingPlans\Actions;
-use Awsm\WPWrapper\BuildingPlans\Filters;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Actions;
+use Awsm\WP_Wrapper\Building_Plans\Filters;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 use Enon\Traits\Logger as LoggerTrait;
 use Enon\Logger;
 use Enon\Reseller\Models\Reseller;
@@ -48,7 +48,7 @@ class TaskRouteUrls implements Task, Filters
 	 */
 	public function run()
 	{
-		$this->addFilters();
+		$this->add_filters();
 	}
 
 	/**
@@ -56,7 +56,7 @@ class TaskRouteUrls implements Task, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFilters()
+	public function add_filters()
 	{
 		add_filter( 'wpenon_filter_url',          [ $this, 'filterIframeUrl' ] );
 		add_filter( 'wpenon_payment_success_url', [ $this, 'filterPaymentSuccessUrl' ] );

@@ -2,8 +2,8 @@
 
 namespace Enon\Reseller\Tasks\Enon;
 
-use Awsm\WPWrapper\BuildingPlans\Actions;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Actions;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 use Enon\Logger;
 use Enon\Traits\Logger as LoggerTrait;
 use Enon\Reseller\Models\Reseller;
@@ -49,7 +49,7 @@ class TaskSendEnergieausweis implements Actions, Task {
 	 */
 	public function run()
 	{
-		$this->addActions();
+		$this->add_actions();
 	}
 
 	/**
@@ -57,7 +57,7 @@ class TaskSendEnergieausweis implements Actions, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addActions()
+	public function add_actions()
 	{
 		add_action( 'edd_update_payment_status', [ $this, 'sendData' ], 10, 2 );
 	}

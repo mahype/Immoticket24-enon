@@ -23,8 +23,8 @@ class Loader extends TaskLoader
 	 */
 	public function run()
 	{
-		$this->addTask( TaskGutenberg::class );
-		$this->addTask( TaskMenu::class );
+		$this->add_task( TaskGutenberg::class );
+		$this->add_task( TaskMenu::class );
 		$this->runTasks();;
 	}
 }

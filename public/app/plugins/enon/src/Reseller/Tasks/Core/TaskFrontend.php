@@ -2,9 +2,9 @@
 
 namespace Enon\Reseller\Tasks\Core;
 
-use Awsm\WPWrapper\BuildingPlans\Actions;
-use Awsm\WPWrapper\BuildingPlans\Filters;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Actions;
+use Awsm\WP_Wrapper\Building_Plans\Filters;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 use Enon\Logger;
 use Enon\Reseller\Models\Reseller;
 use Enon\Traits\Logger as LoggerTrait;
@@ -44,8 +44,8 @@ class TaskFrontend implements Task, Actions, Filters {
 	 */
 	public function run()
 	{
-		$this->addActions();
-		$this->addFilters();
+		$this->add_actions();
+		$this->add_filters();
 
 		remove_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
 	}
@@ -55,7 +55,7 @@ class TaskFrontend implements Task, Actions, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addActions()
+	public function add_actions()
 	{
 		add_action( 'wp_head', 'wp_no_robots' );
 		add_action( 'enon_iframe_css', [ $this, 'add_css' ] );
@@ -66,7 +66,7 @@ class TaskFrontend implements Task, Actions, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFilters()
+	public function add_filters()
 	{
 		add_filter( 'template_include', [ $this, 'filter_iframe_template' ] );
 	}

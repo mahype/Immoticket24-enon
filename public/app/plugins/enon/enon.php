@@ -18,7 +18,7 @@
 
 namespace Enon\Core;
 
-use Awsm\WPWrapper\Plugin\Plugin;
+use Awsm\WP_Wrapper\Plugin\Plugin;
 use Enon\Config\Loader as ConfigLoader;
 use Enon\Misc\Loader as MiscLoader;
 use Enon\Reseller\Loader as ResellerLoader;

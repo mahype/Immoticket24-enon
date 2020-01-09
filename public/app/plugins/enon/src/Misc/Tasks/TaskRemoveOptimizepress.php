@@ -2,9 +2,9 @@
 
 namespace Enon\Misc\Tasks;
 
-use Awsm\WPWrapper\BuildingPlans\Actions;
-use Awsm\WPWrapper\BuildingPlans\Filters;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Actions;
+use Awsm\WP_Wrapper\Building_Plans\Filters;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 
 /**
  * Class Performance
@@ -22,8 +22,8 @@ class TaskRemoveOptimizepress implements Actions, Filters, Task {
 	 * @return void
 	 */
 	public function run() {
-		$this->addActions();
-		$this->addFilters();
+		$this->add_actions();
+		$this->add_filters();
 	}
 
 	/**
@@ -31,7 +31,7 @@ class TaskRemoveOptimizepress implements Actions, Filters, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addActions() {
+	public function add_actions() {
 		if ( is_admin() ) {
 			return;
 		}
@@ -45,7 +45,7 @@ class TaskRemoveOptimizepress implements Actions, Filters, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFilters() {
+	public function add_filters() {
 		if ( is_admin() ) {
 			return;
 		}

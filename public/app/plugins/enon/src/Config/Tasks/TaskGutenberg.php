@@ -6,8 +6,8 @@ use Awsm\WP_Plugin\Building_Plans\Hooks_Actions;
 use Awsm\WP_Plugin\Building_Plans\Service;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
-use Awsm\WPWrapper\BuildingPlans\Actions;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Actions;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 
 /**
  * Class Gutenberg Config.
@@ -25,7 +25,7 @@ class TaskGutenberg implements Actions, Task {
 	 * @return void
 	 */
 	public function run() {
-		$this->addActions();
+		$this->add_actions();
 	}
 
 	/**
@@ -33,7 +33,7 @@ class TaskGutenberg implements Actions, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addActions() {
+	public function add_actions() {
 		add_action( 'admin_head', array( __CLASS__, 'fullWidth' ) );
 		add_action( 'after_setup_theme', array( __CLASS__, 'colorPalette' ) );
 	}

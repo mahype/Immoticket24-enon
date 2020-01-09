@@ -2,8 +2,8 @@
 
 namespace Enon\Misc\Tasks\Plugins;
 
-use Awsm\WPWrapper\BuildingPlans\Filters;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Filters;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 
 use Enon\Models\Enon\Energieausweis;
 use Enon\Traits\Logger as LoggerTrait;
@@ -72,7 +72,7 @@ class TaskEddSparkasseDiscounts implements Task, Filters
 	 * @return mixed|void
 	 */
 	public function run() {
-		$this->addFilters();
+		$this->add_filters();
 	}
 
 	/**
@@ -80,7 +80,7 @@ class TaskEddSparkasseDiscounts implements Task, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFilters() {
+	public function add_filters() {
 		add_filter( 'edd_get_cart_item_discounted_amount', [ $this, 'setDiscount' ], 10, 4 );
 		add_filter( 'edd_get_cart_discount_html', [ $this, 'cartDiscountHtml' ], 10, 4 );
 	}

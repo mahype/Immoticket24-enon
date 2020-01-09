@@ -2,9 +2,9 @@
 
 namespace Enon\Reseller\Tasks\Core;
 
-use Awsm\WPWrapper\BuildingPlans\Actions;
-use Awsm\WPWrapper\BuildingPlans\Filters;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Actions;
+use Awsm\WP_Wrapper\Building_Plans\Filters;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 
 use Enon\Reseller\Models\ResellerData;
 
@@ -24,8 +24,8 @@ class TaskCPTReseller implements Task, Actions, Filters
 	 */
 	public function run()
 	{
-		$this->addActions();
-		$this->addFilters();
+		$this->add_actions();
+		$this->add_filters();
 	}
 
 	/**
@@ -33,7 +33,7 @@ class TaskCPTReseller implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function addActions()
+	public function add_actions()
 	{
 		add_action( 'init',  [ $this, 'add' ] );
 		add_action( 'add_meta_boxes', [ $this, 'removeMetaBoxes' ], 100 );
@@ -46,7 +46,7 @@ class TaskCPTReseller implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFilters()
+	public function add_filters()
 	{
 		add_filter( 'manage_reseller_posts_columns', [ $this, 'reseller_posts_columns' ], 1000, 1 );
 	}

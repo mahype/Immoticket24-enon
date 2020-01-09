@@ -5,8 +5,8 @@ use Awsm\WP_Plugin\Building_Plans\Hooks_Actions;
 use Awsm\WP_Plugin\Building_Plans\Service;
 use Awsm\WP_Plugin\Loaders\Hooks_Loader;
 use Awsm\WP_Plugin\Loaders\Loader;
-use Awsm\WPWrapper\BuildingPlans\Actions;
-use Awsm\WPWrapper\BuildingPlans\Task;
+use Awsm\WP_Wrapper\Building_Plans\Actions;
+use Awsm\WP_Wrapper\Building_Plans\Task;
 
 /**
  * Class Google_Tag_Manager
@@ -33,7 +33,7 @@ class TaskGoogleTagManager implements Actions, Task {
 	 * @return void
 	 */
 	public function run() {
-		$this->addActions();
+		$this->add_actions();
 	}
 
 	/**
@@ -41,7 +41,7 @@ class TaskGoogleTagManager implements Actions, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addActions() {
+	public function add_actions() {
 		add_action( 'wp_head', array( __CLASS__, 'head_script' ), 1 );
 		add_action( 'wp_body_open', array( __CLASS__, 'body_script' ), 1 );
 		add_action( 'edd_payment_receipt_after_table', array( __CLASS__, 'edd_purchase_conversions' ), 10, 2 );
