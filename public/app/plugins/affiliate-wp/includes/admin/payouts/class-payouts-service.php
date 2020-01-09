@@ -271,12 +271,19 @@ class Affiliate_WP_Payouts_Service {
 				// The affiliates that have earnings to be paid.
 				$affiliates = array();
 
+				// The affiliates that can't be paid out.
+				$invalid_affiliates = array();
+
 				// Retrieve the referrals from the database.
 				$referrals = affiliate_wp()->referrals->get_referrals( $args );
 
 				if ( $referrals ) {
 
 					foreach ( $referrals as $referral ) {
+
+						if ( in_array( $referral->affiliate_id, $invalid_affiliates ) ) {
+							continue;
+						}
 
 						if ( in_array( $referral->affiliate_id, $affiliates ) ) {
 
@@ -299,6 +306,10 @@ class Affiliate_WP_Payouts_Service {
 								);
 
 								$affiliates[] = $referral->affiliate_id;
+
+							} else {
+
+								$invalid_affiliates[] = $referral->affiliate_id;
 
 							}
 						}
@@ -343,9 +354,10 @@ class Affiliate_WP_Payouts_Service {
 					} else {
 
 						$payout_invoice_url = esc_url( $response->payment_link );
+						$payouts_data       = affwp_object_to_array( $response->payout_data );
 
 						// We now know which referrals should be marked as paid.
-						foreach ( $payouts as $affiliate_id => $payout ) {
+						foreach ( $payouts_data as $affiliate_id => $payout ) {
 
 							$payout_method = affwp_get_affiliate_meta( $affiliate_id, 'payouts_service_payout_method', true );
 

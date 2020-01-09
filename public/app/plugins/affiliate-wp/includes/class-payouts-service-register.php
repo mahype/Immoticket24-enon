@@ -238,12 +238,10 @@ class Service_Register {
 
 					$current_page_url = esc_url( $args['current_page_url'] );
 
-					$url = add_query_arg( array(
-						'redirect_url'  => urlencode( $current_page_url ),
-						'affwp_version' => AFFILIATEWP_VERSION,
-					), AFFILIATEWP_PAYOUTS_SERVICE_URL . '/account/' . $response->link_id );
+					$url = add_query_arg( 'redirect_url', urlencode( $current_page_url ), AFFILIATEWP_PAYOUTS_SERVICE_URL . '/account/' . $response->link_id );
 
-					wp_redirect( $url ); exit;
+					wp_redirect( $url );
+					exit;
 
 				} else {
 

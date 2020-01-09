@@ -274,6 +274,7 @@ function affwp_get_preview_payout_request_failed_reasons() {
 		'no_referrals'                  => __( 'No referrals within the specified date range', 'affiliate-wp' ),
 		'ps_account_disabled'           => __( 'Account temporarily disabled on the Payouts Service', 'affiliate-wp' ),
 		'unable_to_retrieve_ps_account' => __( 'Unable to retrieve Payouts Service account', 'affiliate-wp' ),
+		'unable_to_validate_payout'     => __( 'Unable to validate payout on the Payouts Service', 'affiliate-wp' ),
 		'user_account_deleted'          => __( 'Affiliate user account deleted', 'affiliate-wp' ),
 	);
 
@@ -301,4 +302,64 @@ function affwp_get_preview_payout_request_failed_reason_label( $reason ) {
 	$label   = array_key_exists( $reason, $reasons ) ? $reasons[ $reason ] : sanitize_text_field( $reason );
 
 	return $label;
+}
+
+/**
+ * Validate payout data on the Payouts Service.
+ *
+ * @since 2.4.2
+ *
+ * @param array $data Payout data.
+ * @return array Validated payout data.
+ */
+function affwp_validate_payouts_service_payout_data( $data ) {
+
+	$body_args = array(
+		'payout_data'   => $data,
+		'currency'      => affwp_get_currency(),
+		'affwp_version' => AFFILIATEWP_VERSION,
+	);
+
+	$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
+	$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
+
+	$headers = array(
+		'Authorization' => 'Basic ' . base64_encode( $vendor_id . ':' . $access_key ),
+	);
+
+	$args = array(
+		'body'      => $body_args,
+		'headers'   => $headers,
+		'timeout'   => 60,
+		'sslverify' => false,
+	);
+
+	$request = wp_remote_post( AFFILIATEWP_PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/validate-payout', $args );
+
+	$valid_payout_data   = array();
+	$invalid_payout_data = array();
+
+	foreach ( $data as $affiliate_id => $affiliate_data ) {
+		$invalid_payout_data[ $affiliate_id ] = 'unable_to_validate_payout';
+	}
+
+	if ( ! is_wp_error( $request ) ) {
+
+		$response      = json_decode( wp_remote_retrieve_body( $request ) );
+		$response_code = wp_remote_retrieve_response_code( $request );
+
+		if ( 200 === (int) $response_code && $response->status ) {
+
+			$valid_payout_data   = affwp_object_to_array( $response->valid_payout_data );
+			$invalid_payout_data = affwp_object_to_array( $response->invalid_payout_data );
+
+		}
+	}
+
+	$validated_payout_data = array(
+		'valid_payout_data'   => $valid_payout_data,
+		'invalid_payout_data' => $invalid_payout_data,
+	);
+
+	return $validated_payout_data;
 }

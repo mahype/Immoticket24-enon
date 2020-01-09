@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the AffiliateWP package.
 msgid ""
 msgstr ""
-"Project-Id-Version: AffiliateWP 2.4\n"
+"Project-Id-Version: AffiliateWP 2.4.2\n"
 "Report-Msgid-Bugs-To: https://affiliatewp.com/support/\n"
-"POT-Creation-Date: 2019-11-06 23:17:04+00:00\n"
+"POT-Creation-Date: 2019-11-27 22:57:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -43,13 +43,13 @@ msgstr ""
 #: includes/REST/class-rest.php:62 includes/REST/class-rest.php:68
 #: includes/REST/class-rest.php:81 includes/REST/class-rest.php:84
 #: includes/admin/AFFWP_Plugin_Updater.php:466
-#: includes/admin/affiliates/actions.php:22
-#: includes/admin/affiliates/actions.php:109
-#: includes/admin/affiliates/actions.php:113
-#: includes/admin/affiliates/actions.php:117
-#: includes/admin/affiliates/actions.php:181
-#: includes/admin/affiliates/actions.php:212
-#: includes/admin/affiliates/actions.php:216
+#: includes/admin/affiliates/actions.php:24
+#: includes/admin/affiliates/actions.php:111
+#: includes/admin/affiliates/actions.php:115
+#: includes/admin/affiliates/actions.php:119
+#: includes/admin/affiliates/actions.php:183
+#: includes/admin/affiliates/actions.php:214
+#: includes/admin/affiliates/actions.php:218
 #: includes/admin/class-addon-updater.php:283
 #: includes/admin/class-notices.php:702 includes/admin/creatives/actions.php:16
 #: includes/admin/creatives/actions.php:44
@@ -79,6 +79,7 @@ msgid "You do not have permission to %s API keys for this user."
 msgstr ""
 
 #: includes/REST/v1/class-affiliates-endpoints.php:61
+#: includes/REST/v1/class-customers-endpoints.php:58
 msgid "Whether to include a modified user object in the response."
 msgstr ""
 
@@ -255,59 +256,63 @@ msgstr ""
 msgid "The date the creative was created."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:173
+#: includes/REST/v1/class-customers-endpoints.php:64
+msgid "Whether to include the customer meta in the response."
+msgstr ""
+
+#: includes/REST/v1/class-customers-endpoints.php:236
 msgid "The customer ID or comma-separated list of IDs to query for."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:181
+#: includes/REST/v1/class-customers-endpoints.php:244
 msgid "The user ID or comma-separated list of IDs to query customers for."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:189
+#: includes/REST/v1/class-customers-endpoints.php:252
 msgid "Customer ID or comma-separated list of IDs to exclude."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:196
+#: includes/REST/v1/class-customers-endpoints.php:259
 msgid "The customer email or array of emails to query customers for."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:203
+#: includes/REST/v1/class-customers-endpoints.php:266
 msgid "Customers table column to order by."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:210
+#: includes/REST/v1/class-customers-endpoints.php:273
 msgid "The date array or string to query customers within."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:221
+#: includes/REST/v1/class-customers-endpoints.php:284
 msgid "Use any get_customers() arguments to modify the response."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:243
+#: includes/REST/v1/class-customers-endpoints.php:306
 msgid "The unique customer ID."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:247
+#: includes/REST/v1/class-customers-endpoints.php:310
 msgid "The affiliate user ID associated with the customer."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:251
+#: includes/REST/v1/class-customers-endpoints.php:314
 msgid "Customer first name."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:255
+#: includes/REST/v1/class-customers-endpoints.php:318
 msgid "Customer last name."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:259
+#: includes/REST/v1/class-customers-endpoints.php:322
 msgid "Customer email."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:263
+#: includes/REST/v1/class-customers-endpoints.php:326
 msgid "Customer IP address."
 msgstr ""
 
-#: includes/REST/v1/class-customers-endpoints.php:267
+#: includes/REST/v1/class-customers-endpoints.php:330
 msgid "The date the customer was created."
 msgstr ""
 
@@ -734,34 +739,34 @@ msgid ""
 "again later."
 msgstr ""
 
-#: includes/admin/affiliates/actions.php:22
-#: includes/admin/affiliates/actions.php:181
-#: includes/admin/affiliates/actions.php:212
+#: includes/admin/affiliates/actions.php:24
+#: includes/admin/affiliates/actions.php:183
+#: includes/admin/affiliates/actions.php:214
 msgid "You do not have permission to manage affiliates"
 msgstr ""
 
-#: includes/admin/affiliates/actions.php:26
+#: includes/admin/affiliates/actions.php:28
 msgid "Invalid user login name. User login name must include at least one letter"
 msgstr ""
 
-#: includes/admin/affiliates/actions.php:30
+#: includes/admin/affiliates/actions.php:32
 msgid "Invalid user login name. Must be between 4 and 60 characters."
 msgstr ""
 
-#: includes/admin/affiliates/actions.php:34
+#: includes/admin/affiliates/actions.php:36
 msgid "Invalid user email"
 msgstr ""
 
-#: includes/admin/affiliates/actions.php:38 includes/class-register.php:111
+#: includes/admin/affiliates/actions.php:40 includes/class-register.php:111
 msgid "Invalid payment email"
 msgstr ""
 
-#: includes/admin/affiliates/actions.php:109
+#: includes/admin/affiliates/actions.php:111
 msgid "You do not have permission to delete affiliate accounts"
 msgstr ""
 
-#: includes/admin/affiliates/actions.php:113
-#: includes/admin/affiliates/actions.php:216
+#: includes/admin/affiliates/actions.php:115
+#: includes/admin/affiliates/actions.php:218
 #: includes/admin/class-notices.php:702 includes/admin/creatives/actions.php:48
 #: includes/admin/payouts/actions.php:33
 #: includes/admin/referrals/actions.php:22
@@ -771,7 +776,7 @@ msgstr ""
 msgid "Security check failed"
 msgstr ""
 
-#: includes/admin/affiliates/actions.php:117
+#: includes/admin/affiliates/actions.php:119
 msgid "No affiliate IDs specified for deletion"
 msgstr ""
 
@@ -912,9 +917,9 @@ msgstr ""
 #: includes/admin/affiliates/class-list-table.php:421
 #: includes/admin/payouts/class-list-table.php:296
 #: includes/admin/payouts/class-list-table.php:365
-#: includes/admin/payouts/preview.php:313
-#: includes/admin/payouts/preview.php:384
-#: includes/admin/payouts/preview.php:502
+#: includes/admin/payouts/preview.php:325
+#: includes/admin/payouts/preview.php:396
+#: includes/admin/payouts/preview.php:514
 #: includes/admin/payouts/submitted.php:91 includes/admin/payouts/view.php:92
 #: includes/admin/referrals/edit.php:62
 msgid "(user deleted)"
@@ -1134,9 +1139,9 @@ msgstr ""
 
 #: includes/admin/affiliates/edit.php:216 includes/admin/affiliates/new.php:151
 #: includes/admin/settings/class-settings.php:548
-#: includes/integrations/class-edd.php:815
-#: includes/integrations/class-edd.php:852
-#: includes/integrations/class-edd.php:870
+#: includes/integrations/class-edd.php:818
+#: includes/integrations/class-edd.php:855
+#: includes/integrations/class-edd.php:873
 #: includes/integrations/class-memberpress.php:180
 #: includes/integrations/class-pmp.php:375
 #: includes/integrations/class-pms.php:52
@@ -1187,7 +1192,7 @@ msgstr ""
 
 #: includes/admin/affiliates/edit.php:257
 #: includes/admin/payouts/class-list-table.php:164
-#: includes/admin/payouts/new.php:89 includes/admin/payouts/preview.php:235
+#: includes/admin/payouts/new.php:89 includes/admin/payouts/preview.php:247
 #: includes/admin/payouts/view.php:103
 #: includes/admin/tools/export/class-batch-export-payouts.php:149
 #: templates/dashboard-tab-payouts.php:38
@@ -1342,7 +1347,7 @@ msgid "Email Address"
 msgstr ""
 
 #: includes/admin/affiliates/review.php:81
-#: includes/admin/class-upgrades.php:644
+#: includes/admin/class-upgrades.php:648
 #: includes/admin/settings/class-settings.php:966 includes/install.php:72
 #: templates/register.php:86 templates/register.php:87
 msgid "Website URL"
@@ -1727,18 +1732,18 @@ msgstr ""
 msgid "Settings successfully imported"
 msgstr ""
 
-#: includes/admin/class-upgrades.php:643
+#: includes/admin/class-upgrades.php:647
 #: includes/admin/settings/class-settings.php:965 includes/install.php:71
 #: templates/register.php:66 templates/register.php:67
 #: tests/misc/test-misc-functions.php:503
 msgid "Your Name"
 msgstr ""
 
-#: includes/admin/class-upgrades.php:762
+#: includes/admin/class-upgrades.php:766
 msgid "Notify site admin when a new affiliate has registered"
 msgstr ""
 
-#: includes/admin/class-upgrades.php:770
+#: includes/admin/class-upgrades.php:774
 msgid "Notify site admin when new referrals are earned"
 msgstr ""
 
@@ -1933,12 +1938,12 @@ msgstr ""
 
 #: includes/admin/dashboard-widgets.php:159
 #: includes/admin/payouts/class-list-table.php:161
-#: includes/admin/payouts/new.php:35 includes/admin/payouts/preview.php:287
-#: includes/admin/payouts/preview.php:330
-#: includes/admin/payouts/preview.php:358
-#: includes/admin/payouts/preview.php:401
-#: includes/admin/payouts/preview.php:476
-#: includes/admin/payouts/preview.php:519
+#: includes/admin/payouts/new.php:35 includes/admin/payouts/preview.php:299
+#: includes/admin/payouts/preview.php:342
+#: includes/admin/payouts/preview.php:370
+#: includes/admin/payouts/preview.php:413
+#: includes/admin/payouts/preview.php:488
+#: includes/admin/payouts/preview.php:531
 #: includes/admin/payouts/submitted.php:59
 #: includes/admin/payouts/submitted.php:108 includes/admin/payouts/view.php:34
 #: includes/admin/referrals/class-list-table.php:172
@@ -1953,8 +1958,8 @@ msgid "Affiliate"
 msgstr ""
 
 #: includes/admin/dashboard-widgets.php:161
-#: includes/admin/payouts/preview.php:290
-#: includes/admin/payouts/preview.php:333
+#: includes/admin/payouts/preview.php:302
+#: includes/admin/payouts/preview.php:345
 #: includes/admin/payouts/submitted.php:60
 #: includes/admin/payouts/submitted.php:109 includes/admin/payouts/view.php:60
 #: includes/admin/referrals/class-list-table.php:171
@@ -2131,39 +2136,39 @@ msgstr ""
 msgid "Your website is not connected to the Payouts Service"
 msgstr ""
 
-#: includes/admin/payouts/class-payouts-service.php:383
+#: includes/admin/payouts/class-payouts-service.php:395
 msgid "Unable to process payout request at the moment. Please try again later."
 msgstr ""
 
-#: includes/admin/payouts/class-payouts-service.php:493
+#: includes/admin/payouts/class-payouts-service.php:505
 msgid ""
 "There was an error connecting to the AffiliateWP Payouts Service. Please <a "
 "href=\"%s\">try again</a>. If you continue to have this problem, please "
 "contact support."
 msgstr ""
 
-#: includes/admin/payouts/class-payouts-service.php:532
-#: includes/admin/payouts/class-payouts-service.php:585
+#: includes/admin/payouts/class-payouts-service.php:544
+#: includes/admin/payouts/class-payouts-service.php:597
 msgid ""
 "You do not have permission to disconnect the site from the Payouts Service "
 "payments"
 msgstr ""
 
-#: includes/admin/payouts/class-payouts-service.php:558
+#: includes/admin/payouts/class-payouts-service.php:570
 msgid ""
 "Unable to reconnect to the AffiliateWP Payouts Service. Please <a "
 "href=\"%s\">try again</a>. If you continue to have this problem, please "
 "contact support."
 msgstr ""
 
-#: includes/admin/payouts/class-payouts-service.php:610
+#: includes/admin/payouts/class-payouts-service.php:622
 msgid ""
 "Unable to disconnect from the AffiliateWP Payouts Service. Please <a "
 "href=\"%s\">try again</a>. If you continue to have this problem, please "
 "contact support."
 msgstr ""
 
-#: includes/admin/payouts/class-payouts-service.php:641
+#: includes/admin/payouts/class-payouts-service.php:653
 msgid "Error:"
 msgstr ""
 
@@ -2241,83 +2246,83 @@ msgstr ""
 msgid "Manage Referrals"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:154
+#: includes/admin/payouts/preview.php:166
 msgid "Preview Payout Request"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:161
+#: includes/admin/payouts/preview.php:173
 msgid "Minimum Amount"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:173
+#: includes/admin/payouts/preview.php:185
 msgid "Referrals Start Date"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:191
+#: includes/admin/payouts/preview.php:203
 msgid "Referrals End Date"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:209
+#: includes/admin/payouts/preview.php:221
 msgid "Referrals Total"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:247
+#: includes/admin/payouts/preview.php:259
 msgid "Payout Currency"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:273
+#: includes/admin/payouts/preview.php:285
 msgid "Affiliate to be paid via %s"
 msgid_plural "Affiliates to be paid via %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/payouts/preview.php:318
-#: includes/admin/payouts/preview.php:389
-#: includes/admin/payouts/preview.php:507
+#: includes/admin/payouts/preview.php:330
+#: includes/admin/payouts/preview.php:401
+#: includes/admin/payouts/preview.php:519
 #: includes/admin/payouts/submitted.php:70
 msgid "Show more details"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:344
-#: includes/admin/payouts/preview.php:462
+#: includes/admin/payouts/preview.php:356
+#: includes/admin/payouts/preview.php:474
 msgid "Affiliate who cannot be paid via %s"
 msgid_plural "Affiliates who cannot be paid via %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/payouts/preview.php:361
-#: includes/admin/payouts/preview.php:404
-#: includes/admin/payouts/preview.php:479
-#: includes/admin/payouts/preview.php:522
+#: includes/admin/payouts/preview.php:373
+#: includes/admin/payouts/preview.php:416
+#: includes/admin/payouts/preview.php:491
+#: includes/admin/payouts/preview.php:534
 msgid "Reason"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:414
+#: includes/admin/payouts/preview.php:426
 msgid ""
 "Are you sure you want to generate the payout file? All included referrals "
 "will be marked as Paid."
 msgstr ""
 
-#: includes/admin/payouts/preview.php:420
+#: includes/admin/payouts/preview.php:432
 msgid "Generate CSV File"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:421
-#: includes/admin/payouts/preview.php:449
+#: includes/admin/payouts/preview.php:433
+#: includes/admin/payouts/preview.php:461
 msgid "Cancel"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:430
+#: includes/admin/payouts/preview.php:442
 msgid ""
 "Are you sure you want to payout referrals for the specified time frame via "
 "%s?"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:448
+#: includes/admin/payouts/preview.php:460
 msgid "Submit Payout"
 msgstr ""
 
-#: includes/admin/payouts/preview.php:530
+#: includes/admin/payouts/preview.php:542
 msgid ""
 "No referrals are available to be paid out. View all <a "
 "href=\"%s\">referrals</a>."
@@ -2617,7 +2622,7 @@ msgstr ""
 
 #: includes/admin/referrals/edit.php:149 includes/admin/referrals/new.php:49
 #: includes/integrations/class-formidablepro.php:132
-#: includes/integrations/class-gravityforms.php:324
+#: includes/integrations/class-gravityforms.php:350
 #: includes/integrations/extras/class-ninja-forms-action-add-referral.php:101
 msgid "Referral Type"
 msgstr ""
@@ -4755,13 +4760,13 @@ msgid ""
 "for this site using the same email address."
 msgstr ""
 
-#: includes/class-payouts-service-register.php:345
+#: includes/class-payouts-service-register.php:343
 #. translators: 1: Credit card brand, 2: Last four digits of the card number
 msgid "%1$s ending in %2$s"
 msgstr ""
 
-#: includes/class-payouts-service-register.php:599
-#: includes/class-payouts-service-register.php:612
+#: includes/class-payouts-service-register.php:597
+#: includes/class-payouts-service-register.php:610
 msgid ""
 "Unable to create an AffiliateWP Payouts Service account at the moment. Try "
 "again later."
@@ -5461,7 +5466,7 @@ msgid "Allow Referrals"
 msgstr ""
 
 #: includes/integrations/class-caldera-forms.php:268
-#: includes/integrations/class-gravityforms.php:317
+#: includes/integrations/class-gravityforms.php:343
 msgid "Enable affiliate referral creation for this form"
 msgstr ""
 
@@ -5498,13 +5503,13 @@ msgstr ""
 msgid "Form ID: "
 msgstr ""
 
-#: includes/integrations/class-edd.php:535
+#: includes/integrations/class-edd.php:538
 #: includes/integrations/class-woocommerce.php:248
 #. translators: 1: Referral link, 2: Amount, 3: Affiliate Name, 4: Affiliate ID
 msgid "Referral %1$s for %2$s recorded for %3$s (ID: %4$d)."
 msgstr ""
 
-#: includes/integrations/class-edd.php:670
+#: includes/integrations/class-edd.php:673
 #: includes/integrations/class-pmp.php:279
 #: includes/integrations/class-pms.php:108
 #: includes/integrations/class-rcp.php:282
@@ -5512,7 +5517,7 @@ msgstr ""
 msgid "Affiliate Discount?"
 msgstr ""
 
-#: includes/integrations/class-edd.php:676
+#: includes/integrations/class-edd.php:679
 #: includes/integrations/class-jigoshop.php:347
 #: includes/integrations/class-memberpress.php:286
 #: includes/integrations/class-pmp.php:285
@@ -5524,48 +5529,48 @@ msgid ""
 "of the affiliate it belongs to."
 msgstr ""
 
-#: includes/integrations/class-edd.php:760
+#: includes/integrations/class-edd.php:763
 msgid "Adjust EDD Commissions"
 msgstr ""
 
-#: includes/integrations/class-edd.php:761
+#: includes/integrations/class-edd.php:764
 msgid ""
 "Should AffiliateWP adjust the commission amounts recorded for purchases "
 "that include affiliate referrals? This will subtract the referral amount "
 "from the base amount used to calculate the commission total."
 msgstr ""
 
-#: includes/integrations/class-edd.php:781
+#: includes/integrations/class-edd.php:784
 msgid "Disable Renewal Referrals"
 msgstr ""
 
-#: includes/integrations/class-edd.php:782
+#: includes/integrations/class-edd.php:785
 msgid ""
 "Should AffiliateWP prevent referral commissions from being recorded on "
 "renewal purchases with EDD Software Licensing?"
 msgstr ""
 
-#: includes/integrations/class-edd.php:787
+#: includes/integrations/class-edd.php:790
 msgid "Disable Referrals on Upgrades"
 msgstr ""
 
-#: includes/integrations/class-edd.php:788
+#: includes/integrations/class-edd.php:791
 msgid ""
 "Should AffiliateWP prevent referral commissions from being recorded on "
 "license upgrade purchases with EDD Software Licensing?"
 msgstr ""
 
-#: includes/integrations/class-edd.php:809
+#: includes/integrations/class-edd.php:812
 #: includes/integrations/class-zippycourses.php:70
 msgid "Affiliate Rates:"
 msgstr ""
 
-#: includes/integrations/class-edd.php:822
+#: includes/integrations/class-edd.php:825
 #: includes/integrations/class-zippycourses.php:83
 msgid "Disable referrals on this %s"
 msgstr ""
 
-#: includes/integrations/class-edd.php:826
+#: includes/integrations/class-edd.php:829
 #: includes/integrations/class-memberpress.php:191
 #: includes/integrations/class-zippycourses.php:87
 msgid ""
@@ -5573,8 +5578,8 @@ msgid ""
 "blank to use the site default referral rate."
 msgstr ""
 
-#: includes/integrations/class-edd.php:854
-#: includes/integrations/class-edd.php:873
+#: includes/integrations/class-edd.php:857
+#: includes/integrations/class-edd.php:876
 msgid "The referral rate for this %s category."
 msgstr ""
 
@@ -5653,16 +5658,16 @@ msgstr ""
 msgid "Referral #%d for %s for %s rejected"
 msgstr ""
 
-#: includes/integrations/class-gravityforms.php:328
+#: includes/integrations/class-gravityforms.php:354
 #: includes/integrations/class-wpforms.php:42
 msgid "Allow referrals"
 msgstr ""
 
-#: includes/integrations/class-gravityforms.php:363
+#: includes/integrations/class-gravityforms.php:389
 msgid "Affiliate Coupon"
 msgstr ""
 
-#: includes/integrations/class-gravityforms.php:366
+#: includes/integrations/class-gravityforms.php:392
 msgid ""
 "To connect this coupon to an affiliate, enter the username of the "
 "affiliate. Anytime this coupon is redeemed, the connected affiliate will "
@@ -5958,7 +5963,6 @@ msgid "ActiveCampaign List ID"
 msgstr ""
 
 #: includes/integrations/opt-in-platforms/class-opt-in-platform-activecampaign.php:128
-#: includes/integrations/opt-in-platforms/class-opt-in-platform-mailchimp.php:140
 msgid "Enter the ID of the list you wish to subscribe contacts to."
 msgstr ""
 
@@ -5979,15 +5983,19 @@ msgid "Enter the ID of the form you wish to subscribe contacts to."
 msgstr ""
 
 #: includes/integrations/opt-in-platforms/class-opt-in-platform-mailchimp.php:132
-msgid "MailChimp API Key"
+msgid "Mailchimp API Key"
 msgstr ""
 
 #: includes/integrations/opt-in-platforms/class-opt-in-platform-mailchimp.php:134
-msgid "Enter your MailChimp API key."
+msgid "Enter your Mailchimp API key."
 msgstr ""
 
 #: includes/integrations/opt-in-platforms/class-opt-in-platform-mailchimp.php:138
-msgid "MailChimp List ID"
+msgid "Mailchimp Audience ID"
+msgstr ""
+
+#: includes/integrations/opt-in-platforms/class-opt-in-platform-mailchimp.php:140
+msgid "Enter the ID of the audience you wish to subscribe contacts to."
 msgstr ""
 
 #: includes/integrations/opt-in-platforms/class-opt-in-platform-mailchimp.php:144
@@ -6411,55 +6419,61 @@ msgstr ""
 
 #: includes/payout-functions.php:269
 #: tests/payouts/test-payout-functions.php:349
-#: tests/payouts/test-payout-functions.php:373
+#: tests/payouts/test-payout-functions.php:374
 msgid "Invalid affiliate account"
 msgstr ""
 
 #: includes/payout-functions.php:270
 #: tests/payouts/test-payout-functions.php:350
-#: tests/payouts/test-payout-functions.php:374
+#: tests/payouts/test-payout-functions.php:375
 msgid "Invalid Payouts Service account"
 msgstr ""
 
 #: includes/payout-functions.php:271
 #: tests/payouts/test-payout-functions.php:351
-#: tests/payouts/test-payout-functions.php:375
+#: tests/payouts/test-payout-functions.php:376
 msgid "Doesn&#8217;t meet the minimum payout amount"
 msgstr ""
 
 #: includes/payout-functions.php:272
 #: tests/payouts/test-payout-functions.php:352
-#: tests/payouts/test-payout-functions.php:376
+#: tests/payouts/test-payout-functions.php:377
 msgid "Hasn&#8217;t created a Payouts Service account"
 msgstr ""
 
 #: includes/payout-functions.php:273
 #: tests/payouts/test-payout-functions.php:353
-#: tests/payouts/test-payout-functions.php:377
+#: tests/payouts/test-payout-functions.php:378
 msgid "Hasn&#8217;t submitted payout method on Payouts Service"
 msgstr ""
 
 #: includes/payout-functions.php:274
 #: tests/payouts/test-payout-functions.php:354
-#: tests/payouts/test-payout-functions.php:378
+#: tests/payouts/test-payout-functions.php:379
 msgid "No referrals within the specified date range"
 msgstr ""
 
 #: includes/payout-functions.php:275
 #: tests/payouts/test-payout-functions.php:355
-#: tests/payouts/test-payout-functions.php:379
+#: tests/payouts/test-payout-functions.php:380
 msgid "Account temporarily disabled on the Payouts Service"
 msgstr ""
 
 #: includes/payout-functions.php:276
 #: tests/payouts/test-payout-functions.php:356
-#: tests/payouts/test-payout-functions.php:380
+#: tests/payouts/test-payout-functions.php:381
 msgid "Unable to retrieve Payouts Service account"
 msgstr ""
 
 #: includes/payout-functions.php:277
 #: tests/payouts/test-payout-functions.php:357
-#: tests/payouts/test-payout-functions.php:381
+#: tests/payouts/test-payout-functions.php:382
+msgid "Unable to validate payout on the Payouts Service"
+msgstr ""
+
+#: includes/payout-functions.php:278
+#: tests/payouts/test-payout-functions.php:358
+#: tests/payouts/test-payout-functions.php:383
 msgid "Affiliate user account deleted"
 msgstr ""
 
@@ -6853,8 +6867,8 @@ msgstr ""
 msgid "Bar Payouts Service"
 msgstr ""
 
-#: tests/payouts/test-payout-functions.php:368
-#: tests/payouts/test-payout-functions.php:382
+#: tests/payouts/test-payout-functions.php:369
+#: tests/payouts/test-payout-functions.php:384
 msgid "Foo Affiliate account banned"
 msgstr ""
 

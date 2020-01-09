@@ -106,14 +106,14 @@ $disabled     = disabled( (bool) $user, false, false );
 					<fieldset id="rate_type">
 						<legend class="screen-reader-text"><?php _e( 'Referral Rate Type', 'affiliate-wp' ); ?></legend>
 						<label for="rate_type_default">
-							<input type="radio" name="rate_type" id="rate_type_default" value="" checked="checked"  <?php echo $disabled; ?> />
+							<input type="radio" name="rate_type" id="rate_type_default" value="" checked="checked" <?php echo $disabled; ?> />
 							<?php _e( 'Site Default', 'affiliate-wp' ); ?>
 						</label>
 						<br/>
 						<?php foreach ( affwp_get_affiliate_rate_types() as $key => $type ) :
 							$value = esc_attr( $key ); ?>
 							<label for="rate_type_<?php echo $value; ?>">
-								<input type="radio" name="rate_type" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>"  <?php echo $disabled; ?>><?php echo esc_html( $type ); ?>
+								<input type="radio" name="rate_type" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>"  <?php echo $disabled; ?>> <?php echo esc_html( $type ); ?>
 							</label>
 							<br/>
 						<?php endforeach; ?>
@@ -135,7 +135,7 @@ $disabled     = disabled( (bool) $user, false, false );
 						<?php foreach ( affwp_get_affiliate_flat_rate_basis_types() as $key => $type ) :
 							$value = esc_attr( $key ); ?>
 							<label for="rate_type_<?php echo $value; ?>">
-								<input type="radio" name="flat_rate_basis" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>" <?php echo $disabled; ?>><?php echo esc_html( $type ); ?>
+								<input type="radio" name="flat_rate_basis" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>" <?php echo $disabled; ?>> <?php echo esc_html( $type ); ?>
 							</label>
 							<br/>
 						<?php endforeach; ?>

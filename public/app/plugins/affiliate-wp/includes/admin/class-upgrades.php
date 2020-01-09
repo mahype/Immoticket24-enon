@@ -171,6 +171,10 @@ class Affiliate_WP_Upgrades {
 			$this->v24_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.4.2', '<' ) ) {
+			$this->v242_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -911,6 +915,19 @@ class Affiliate_WP_Upgrades {
 		// Adds the referral meta table.
 		affiliate_wp()->referral_meta->create_table();
 		@affiliate_wp()->utils->log( 'Upgrade: The referral meta table has been created.' );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Performs database upgrades for version 2.4.2.
+	 *
+	 * @since 2.4.2
+	 */
+	private function v242_upgrade() {
+		// Flush rewrites for the benefit of the EDD integration.
+		flush_rewrite_rules();
+		@affiliate_wp()->utils->log( 'Upgrade: Rewrite rules flushed.' );
 
 		$this->upgraded = true;
 	}

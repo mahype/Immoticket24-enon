@@ -172,13 +172,13 @@ $payout_service_payout_method = affwp_get_affiliate_meta( $affiliate->affiliate_
 					<fieldset id="rate_type">
 						<legend class="screen-reader-text"><?php _e( 'Referral Rate Type', 'affiliate-wp' ); ?></legend>
 						<label for="rate_type_default">
-							<input type="radio" name="rate_type" id="rate_type_default" value="" <?php checked( $rate_type, '' ); ?>/><?php echo __( 'Site Default', 'affiliate-wp' ); ?>
+							<input type="radio" name="rate_type" id="rate_type_default" value="" <?php checked( $rate_type, '' ); ?>/> <?php echo __( 'Site Default', 'affiliate-wp' ); ?>
 						</label>
 						<br/>
 						<?php foreach ( affwp_get_affiliate_rate_types() as $key => $type ) :
 							$value = esc_attr( $key ); ?>
 							<label for="rate_type_<?php echo $value; ?>">
-								<input type="radio" name="rate_type" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>"<?php checked( $rate_type, $key ); ?>><?php echo esc_html( $type ); ?>
+								<input type="radio" name="rate_type" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>"<?php checked( $rate_type, $key ); ?>> <?php echo esc_html( $type ); ?>
 							</label>
 							<br/>
 						<?php endforeach; ?>
@@ -200,7 +200,7 @@ $payout_service_payout_method = affwp_get_affiliate_meta( $affiliate->affiliate_
 						<?php foreach ( affwp_get_affiliate_flat_rate_basis_types() as $key => $type ) :
 							$value = esc_attr( $key ); ?>
 							<label for="rate_type_<?php echo $value; ?>">
-								<input type="radio" name="flat_rate_basis" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>" <?php checked( $flat_rate_basis, $key ); ?>><?php echo esc_html( $type ); ?>
+								<input type="radio" name="flat_rate_basis" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>" <?php checked( $flat_rate_basis, $key ); ?>> <?php echo esc_html( $type ); ?>
 							</label>
 							<br/>
 						<?php endforeach; ?>

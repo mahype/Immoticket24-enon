@@ -375,8 +375,8 @@ add_filter( 'affwp_decimal_count', 'affwp_currency_decimal_filter' );
  *
  * @since 1.0
  *
- * @param unknown $data
- * @return array
+ * @param array|object $data Object or array to process.
+ * @return array Array.
  */
 function affwp_object_to_array( $data ) {
 	if ( is_array( $data ) || is_object( $data ) ) {

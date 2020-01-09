@@ -49,6 +49,10 @@ if ( $referrals ) {
 
 	foreach ( $referrals as $referral ) {
 
+		if ( array_key_exists( $referral->affiliate_id, $invalid_affiliates ) ) {
+			continue;
+		}
+
 		if ( array_key_exists( $referral->affiliate_id, $data ) ) {
 
 			// Add the amount to an affiliate that already has a referral in the export.
@@ -95,6 +99,15 @@ if ( $referrals ) {
 		}
 	}
 
+	if ( 'payouts-service' === $payout_method ) {
+		$payouts_service_data = affwp_validate_payouts_service_payout_data( $data );
+
+		$data                = $payouts_service_data['valid_payout_data'];
+		$invalid_payout_data = $payouts_service_data['invalid_payout_data'];
+
+		$invalid_affiliates = array_replace_recursive( $invalid_affiliates, $invalid_payout_data );
+	}
+
 	/**
 	 * Filters the list of invalid affiliates whose payout can't be processed.
 	 *
@@ -115,11 +128,10 @@ if ( $referrals ) {
 	 *
 	 * @since 2.4
 	 *
-	 * @param array           $data          Payout data.
-	 * @param \AffWP\Referral $referral      Referral object.
-	 * @param string          $payout_method Payout method.
+	 * @param array  $data          Payout data.
+	 * @param string $payout_method Payout method.
 	 */
-	$data = apply_filters( "affwp_preview_payout_data_{$payout_method}", $data, $referral, $payout_method );
+	$data = apply_filters( "affwp_preview_payout_data_{$payout_method}", $data, $payout_method );
 
 	$payouts = array();
 
