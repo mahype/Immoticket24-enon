@@ -63,7 +63,7 @@ class Loader extends TaskLoader {
 
 		$this->add_task( TaskReseller::class, $reseller, $this->logger() );
 		$this->add_task( TaskSendEnergieausweis::class, $reseller, $this->logger() );
-		$this->runTasks();
+		$this->run_tasks();
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Loader extends TaskLoader {
 		$this->add_task( TaskAffiliateWP::class, $reseller, $this->logger() );
 		$this->add_task( TaskEdd::class, $reseller, $this->logger() );
 
-		$this->runTasks();;
+		$this->run_tasks();;
 	}
 }
 

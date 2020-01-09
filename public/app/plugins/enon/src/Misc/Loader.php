@@ -26,6 +26,6 @@ class Loader extends TaskLoader
         $this->add_task(TaskGoogleTagManager::class);
         $this->add_task(TaskRemoveOptimizepress::class);
         $this->add_task(TaskEddSparkasseDiscounts::class, $this->logger());
-        $this->runTasks();
+        $this->run_tasks();
     }
 }
