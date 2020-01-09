@@ -442,17 +442,37 @@ class Emails {
 	}
 
 	public function getEmailConfirmationBodyContent( $energieausweis_id, $energieausweis ) {
-		$energieausweis_site = apply_filters( 'wpenon_confirmation_site',  home_url() );
-		$energieausweis_link = apply_filters( 'wpenon_confirmation_link',  $energieausweis->verified_permalink, $energieausweis );
+		$confirmation_site      = apply_filters( 'wpenon_confirmation_site',  home_url(), energieausweis );
+		$confirmation_link      = apply_filters( 'wpenon_confirmation_link',  $energieausweis->verified_permalink, $energieausweis );
+		$energieausweis_title   = apply_filters( 'wpenon_confirmation_energieausweis_title',  $energieausweis->post_title, $energieausweis );
+		$energieausweis_typ     = apply_filters( 'wpenon_confirmation_energieausweis_address',  $energieausweis->post_title, $energieausweis );
+		$energieausweis_address = apply_filters( 'wpenon_confirmation_energieausweis_title',  $energieausweis->post_title, $energieausweis );
+
+		$values = [
+			'site'    => apply_filters( 'wpenon_confirmation_site',  home_url(), energieausweis ),
+			'link'    => apply_filters( 'wpenon_confirmation_link',  $energieausweis->verified_permalink, $energieausweis ),
+			'title'   => apply_filters( 'wpenon_confirmation_energieausweis_title',  $energieausweis->post_title, $energieausweis ),
+			'type'    => apply_filters( 'wpenon_confirmation_energieausweis_type',  $energieausweis->formatted_wpenon_type, $energieausweis ),
+			'address' => apply_filters( 'wpenon_confirmation_energieausweis_address',  $energieausweis->adresse, $energieausweis ),
+		];
+
+		if ( ! $energieausweis->isOrdered() ) {
+			$values['not_ordered'] = __( 'Wenn Sie alle benötigten Angaben vollständig eingegeben haben, können Sie den Energieausweis bestellen.', 'wpenon' );
+		}
+
+		foreach( $values AS $key => $value ) {
+
+		}
 
 		$default_email_body = __( 'Sehr geehrter Kunde,', 'wpenon' ) . "\n\n";
-		$default_email_body .= sprintf( __( 'schön, dass Sie auf unserer Website mit der Erstellung eines Energieausweises (Kennung %s) begonnen haben.', 'wpenon' ), $energieausweis->post_title ) . "\n\n";
+		$default_email_body .= sprintf( __( 'schön, dass Sie auf unserer Website mit der Erstellung eines Energieausweises (Kennung %s) begonnen haben.', 'wpenon' ), energieausweis_title ) . "\n\n";
 		$default_email_body .= sprintf( __( 'Typ: %s', 'wpenon' ), $energieausweis->formatted_wpenon_type ) . "\n";
 		$default_email_body .= sprintf( __( 'Gebäudeadresse: %s', 'wpenon' ), $energieausweis->adresse ) . "\n\n";
 		$default_email_body .= __( 'Sie haben jederzeit die Möglichkeit die Erstellung des Energieausweises unter folgendem Link fortzusetzen:', 'wpenon' ) . "\n\n";
-		$default_email_body .= '<a href="' . $energieausweis_link . '">' . $energieausweis_link . '</a>' . "\n\n";
+		$default_email_body .= '<a href="' . $confirmation_link . '">' . $confirmation_site . '</a>' . "\n\n";
 		$default_email_body .= '<strong>' . __( 'Bitte gehen Sie vertraulich mit diesem Link um und geben Sie ihn unter keinen Umständen an Dritte weiter, da diese andernfalls Zugriff auf den Energieausweis bekommen würden.', 'wpenon' ) . '</strong>' . "\n\n";
 		$default_email_body .= __( 'Über diesen Link können Sie die Daten für Ihren Energieausweis jederzeit bearbeiten.', 'wpenon' );
+
 		if ( ! $energieausweis->isOrdered() ) {
 			$default_email_body .= ' ' . __( 'Wenn Sie alle benötigten Angaben vollständig eingegeben haben, können Sie den Energieausweis bestellen.', 'wpenon' );
 		}
