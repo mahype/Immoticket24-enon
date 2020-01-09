@@ -19,4 +19,9 @@
 			<property name="minimum_supported_version" value="4.7" />
 		</properties>
 	</rule>
+
+	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+		<exclude-pattern>*.php$</exclude-pattern>
+ 	</rule>
+
 </ruleset>
