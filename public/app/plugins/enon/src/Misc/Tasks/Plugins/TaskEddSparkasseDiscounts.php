@@ -17,8 +17,8 @@ use Enon\Reseller\Models\Reseller;
  *
  * @package Enon\Reseller\WordPress
  */
-class TaskEddSparkasseDiscounts implements Task, Filters
-{
+class TaskEddSparkasseDiscounts implements Task, Filters {
+
 	use Logger_Trait;
 
 	/**
@@ -50,17 +50,17 @@ class TaskEddSparkasseDiscounts implements Task, Filters
 	public function __construct( Logger $logger ) {
 		$this->logger = $logger;
 
-		$this->discountTypes = [ 'spk', 'web' ];
+		$this->discountTypes = array( 'spk', 'web' );
 
 		$this->discountAmounts = array(
 			'spk' => array(
 				'bw' => 50,
-				'vw' => 28
+				'vw' => 28,
 			),
 			'web' => array(
 				'bw' => 34.45,
-				'vw' => 14
-			)
+				'vw' => 14,
+			),
 		);
 	}
 
@@ -81,8 +81,8 @@ class TaskEddSparkasseDiscounts implements Task, Filters
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'edd_get_cart_item_discounted_amount', [ $this, 'setDiscount' ], 10, 4 );
-		add_filter( 'edd_get_cart_discount_html', [ $this, 'cartDiscountHtml' ], 10, 4 );
+		add_filter( 'edd_get_cart_item_discounted_amount', array( $this, 'setDiscount' ), 10, 4 );
+		add_filter( 'edd_get_cart_discount_html', array( $this, 'cartDiscountHtml' ), 10, 4 );
 	}
 
 	/**
@@ -100,7 +100,7 @@ class TaskEddSparkasseDiscounts implements Task, Filters
 	public function cartDiscountHtml( $discountHtml, $discountCode, $rate, $remove_url ) {
 		$cartContents = EDD()->cart->get_contents();
 
-		if( ! $this->getDiscountType( $discountCode ) || ! isset( $cartContents[0] )  ) {
+		if ( ! $this->getDiscountType( $discountCode ) || ! isset( $cartContents[0] ) ) {
 			return $discountHtml;
 		}
 
@@ -135,7 +135,7 @@ class TaskEddSparkasseDiscounts implements Task, Filters
 		$energieausweis_id = $item['id'];
 		$energieausweis = new Energieausweis( $energieausweis_id );
 
-		if( ! $discountCode = $this->findDiscountCode( $discounts ) ) {
+		if ( ! $discountCode = $this->findDiscountCode( $discounts ) ) {
 			return $discountedPrice;
 		}
 
@@ -170,10 +170,10 @@ class TaskEddSparkasseDiscounts implements Task, Filters
 	 * @return bool|mixed $discountType Discount type if found or false.
 	 */
 	private function getDiscountType( $discountCode ) {
-		foreach( $this->discountTypes AS $discountType ) {
+		foreach ( $this->discountTypes as $discountType ) {
 			$discountTypeLength = strlen( $discountType );
 
-			if( substr( $discountCode, 0 , $discountTypeLength ) === $discountType ) {
+			if ( substr( $discountCode, 0, $discountTypeLength ) === $discountType ) {
 				return $discountType;
 			}
 		}
@@ -186,16 +186,16 @@ class TaskEddSparkasseDiscounts implements Task, Filters
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array        $discountCodes Discount codes.
+	 * @param array $discountCodes Discount codes.
 	 * @return bool|string $discountCode Discount code if found or false.
 	 */
 	private function findDiscountCode( $discountCodes ) {
-		foreach( $discountCodes AS $discountCode ) {
-			foreach( $this->discountTypes AS $discountType ) {
+		foreach ( $discountCodes as $discountCode ) {
+			foreach ( $this->discountTypes as $discountType ) {
 				$discountPrefixLength = strlen( $discountType ) + 1;
 				$discountPrefix = $discountType . '-';
 
-				if( substr( $discountCode, 0, $discountPrefixLength ) === $discountPrefix ) {
+				if ( substr( $discountCode, 0, $discountPrefixLength ) === $discountPrefix ) {
 					return $discountCode;
 				}
 			}

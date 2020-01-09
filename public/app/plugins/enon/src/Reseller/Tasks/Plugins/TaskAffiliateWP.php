@@ -17,8 +17,8 @@ use Enon\Reseller\Models\Reseller;
  *
  * @package Enon\Reseller\WordPress
  */
-class TaskAffiliateWP implements Task, Actions
-{
+class TaskAffiliateWP implements Task, Actions {
+
 	use Logger_Trait;
 
 	/**
@@ -36,11 +36,10 @@ class TaskAffiliateWP implements Task, Actions
 	 * @since 1.0.0
 	 *
 	 * @param Reseller $reseller Reseller object.
-	 * @param Logger $logger Logger object.
+	 * @param Logger   $logger Logger object.
 	 */
-	public function __construct( Reseller $reseller,  Logger $logger )
-	{
-		$this->reseller = $reseller;
+	public function __construct( Reseller $reseller, Logger $logger ) {
+		 $this->reseller = $reseller;
 		$this->logger = $logger;
 	}
 
@@ -49,9 +48,8 @@ class TaskAffiliateWP implements Task, Actions
 	 *
 	 * @since 1.0.0
 	 */
-	public function run()
-	{
-		$this->add_actions();
+	public function run() {
+		 $this->add_actions();
 	}
 
 	/**
@@ -59,9 +57,8 @@ class TaskAffiliateWP implements Task, Actions
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_actions()
-	{
-		add_action( 'template_redirect', array( $this, 'setAffiliatewpReferal' ), -10000, 0 );
+	public function add_actions() {
+		 add_action( 'template_redirect', array( $this, 'setAffiliatewpReferal' ), -10000, 0 );
 	}
 
 	/**
@@ -69,17 +66,15 @@ class TaskAffiliateWP implements Task, Actions
 	 *
 	 * @since 1.0.0
 	 */
-	public function setAffiliatewpReferal()
-	{
-		if ( ! self::isActivated() )
-		{
-			$this->logger->alert('Affiliate WP seems not to be activated.');
+	public function setAffiliatewpReferal() {
+		if ( ! self::isActivated() ) {
+			$this->logger->alert( 'Affiliate WP seems not to be activated.' );
 			return;
 		}
 
 		$affiliateId = $this->reseller->data()->getAffiliateId();
 
-		if( empty( $affiliateId ) ) {
+		if ( empty( $affiliateId ) ) {
 			return;
 		}
 

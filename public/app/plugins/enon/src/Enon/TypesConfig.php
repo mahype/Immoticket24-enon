@@ -17,11 +17,10 @@ class TypesConfig extends Config {
 	 *
 	 * @todo Loading dynamically.
 	 */
-	protected function initiate()
-	{
-		$this->configData = array(
-			'vw' =>  __( 'Verbrauchsausweis für Wohngebäude', 'wpenon' ),
-			'bw' => __( 'Bedarfsausweis für Wohngebäude', 'wpenon' ),
-		);
+	protected function initiate() {
+		 $this->configData = array(
+			 'vw' => __( 'Verbrauchsausweis für Wohngebäude', 'wpenon' ),
+			 'bw' => __( 'Bedarfsausweis für Wohngebäude', 'wpenon' ),
+		 );
 	}
 }

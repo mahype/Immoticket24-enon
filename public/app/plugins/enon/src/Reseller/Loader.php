@@ -36,14 +36,14 @@ class Loader extends TaskLoader {
 		$this->add_task( TaskCPTReseller::class );
 		$this->add_task( TaskACF::class, $this->logger() );
 
-		if( wp_doing_ajax() ) {
+		if ( wp_doing_ajax() ) {
 			return;
 		}
 
-		if( is_admin() ) {
+		if ( is_admin() ) {
 			$this->runAdminTasks();
 		} else {
-		    $this->runFrontendTasks();
+			$this->runFrontendTasks();
 		}
 	}
 
@@ -52,11 +52,10 @@ class Loader extends TaskLoader {
 	 *
 	 * @since 1.0.0
 	 */
-	public function runAdminTasks()
-	{
+	public function runAdminTasks() {
 		try {
 			$resellerData = new ResellerData();
-			$reseller = new Reseller( $resellerData,  $this->logger() );
+			$reseller = new Reseller( $resellerData, $this->logger() );
 		} catch ( Exception $exception ) {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );
 		}
@@ -75,13 +74,13 @@ class Loader extends TaskLoader {
 		$token = new Token();
 
 		// No token, no action
-		if( empty( $token->get() ) ) {
+		if ( empty( $token->get() ) ) {
 			return;
 		}
 
 		try {
 			$resellerData = new ResellerData( $token );
-			$reseller = new Reseller( $resellerData,  $this->logger() );
+			$reseller = new Reseller( $resellerData, $this->logger() );
 		} catch ( Exception $exception ) {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );
 		}
@@ -95,7 +94,8 @@ class Loader extends TaskLoader {
 		$this->add_task( TaskAffiliateWP::class, $reseller, $this->logger() );
 		$this->add_task( TaskEdd::class, $reseller, $this->logger() );
 
-		$this->run_tasks();;
+		$this->run_tasks();
+		;
 	}
 }
 

@@ -19,9 +19,8 @@ class Mapping extends Standard {
 	 *
 	 * @return string The location of the mapping file.
 	 */
-	public function getFile( $type )
-	{
+	public function getFile( $type ) {
 		$mapping_file = $this->getPath() . '/mappings/' . $type . '-mappings.php';
-		return  apply_filters( 'wpenon_mapping_file', $mapping_file, $this->getKey(), $type );
+		return apply_filters( 'wpenon_mapping_file', $mapping_file, $this->getKey(), $type );
 	}
 }

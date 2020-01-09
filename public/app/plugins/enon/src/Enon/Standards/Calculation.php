@@ -1,6 +1,7 @@
 <?php
 
 namespace Enon\Enon\Standards;
+
 /**
  * Class Calculations.
  *
@@ -18,9 +19,8 @@ class Calculation extends Standard {
 	 *
 	 * @return string The location of the schema file.
 	 */
-	public function getFile( $type )
-	{
+	public function getFile( $type ) {
 		$schema_file = $this->getPath() . '/calculations/' . $type . '.php';
-		return  apply_filters( 'wpenon_calculation_file', $schema_file, $this->getKey(), $type );
+		return apply_filters( 'wpenon_calculation_file', $schema_file, $this->getKey(), $type );
 	}
 }

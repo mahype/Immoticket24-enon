@@ -11,8 +11,8 @@ use Enon\Enon\Standards\Schema;
  *
  * @todo Renaming standards?
  */
-class XSDConfig extends Config
-{
+class XSDConfig extends Config {
+
 	/**
 	 * Initiating types.
 	 *
@@ -20,11 +20,10 @@ class XSDConfig extends Config
 	 *
 	 * @todo Loading dynamically.
 	 */
-	protected function initiate()
-	{
-		$this->configData = array(
-			'datenerfassung' => __( 'Datenerfassung', 'wpenon' ),
-			'zusatzdatenerfassung' => __( 'Zusatzdatenerfassung', 'wpenon' ),
-		);
+	protected function initiate() {
+		 $this->configData = array(
+			 'datenerfassung' => __( 'Datenerfassung', 'wpenon' ),
+			 'zusatzdatenerfassung' => __( 'Zusatzdatenerfassung', 'wpenon' ),
+		 );
 	}
 }

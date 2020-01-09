@@ -27,12 +27,11 @@ abstract class SendEnergieausweis extends Send {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $endpoint
+	 * @param string         $endpoint
 	 * @param Energieausweis $energieausweis
-	 * @param Logger $logger
+	 * @param Logger         $logger
 	 */
-	public function __construct( $endpoint, Energieausweis $energieausweis, Logger $logger )
-	{
+	public function __construct( $endpoint, Energieausweis $energieausweis, Logger $logger ) {
 		$this->energieausweis = $energieausweis;
 
 		parent::__construct( $endpoint, $logger );

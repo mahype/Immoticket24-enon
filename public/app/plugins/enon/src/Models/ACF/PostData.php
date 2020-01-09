@@ -26,8 +26,7 @@ abstract class PostData {
 	 *
 	 * @param int $postId
 	 */
-	public function setPostId( $postId )
-	{
+	public function setPostId( $postId ) {
 		$this->postId = $postId;
 	}
 
@@ -38,8 +37,7 @@ abstract class PostData {
 	 *
 	 * @return int $postId Post Id.
 	 */
-	public function getPostId()
-	{
+	public function getPostId() {
 		return $this->postId;
 	}
 
@@ -53,7 +51,7 @@ abstract class PostData {
 	 * @return mixed/null Value if found, otherwhise null.
 	 */
 	public function get( $field_name ) {
-		if ( empty ( $this->postId ) ) {
+		if ( empty( $this->postId ) ) {
 			return null;
 		}
 

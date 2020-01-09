@@ -15,8 +15,8 @@ use Enon\Reseller\Models\Reseller;
  *
  * @package Enon\Reseller\WordPress
  */
-class Task_ACF implements Task, Actions
-{
+class Task_ACF implements Task, Actions {
+
 	use Logger_Trait;
 
 	/**
@@ -33,10 +33,8 @@ class Task_ACF implements Task, Actions
 	 *
 	 * @param Logger $logger Logger object.
 	 * @since 1.0.0
-	 *
 	 */
-	public function __construct(Logger $logger)
-	{
+	public function __construct( Logger $logger ) {
 		$this->logger = $logger;
 	}
 
@@ -45,10 +43,9 @@ class Task_ACF implements Task, Actions
 	 *
 	 * @since 1.0.0
 	 */
-	public function run()
-	{
-		if (!self::isActivated()) {
-			$this->logger->warning('Advanced custom fields seems not to be activated.');
+	public function run() {
+		if ( ! self::isActivated() ) {
+			$this->logger->warning( 'Advanced custom fields seems not to be activated.' );
 			return;
 		}
 
@@ -60,9 +57,8 @@ class Task_ACF implements Task, Actions
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_actions()
-	{
-		add_action('acf/init', [$this, 'registerFields']);
+	public function add_actions() {
+		 add_action( 'acf/init', array( $this, 'registerFields' ) );
 	}
 
 	/**
@@ -70,8 +66,7 @@ class Task_ACF implements Task, Actions
 	 *
 	 * @since 1.0.0
 	 */
-	public function registerFields()
-	{
+	public function registerFields() {
 		$confirmation_email_default_subject = '';
 		$confirmation_email_default_content = '';
 
@@ -82,53 +77,53 @@ class Task_ACF implements Task, Actions
 				'fields' => array(
 					array(
 						'key' => 'field_company_name',
-						'label' => __('Company Name', 'enon'),
+						'label' => __( 'Company Name', 'enon' ),
 						'name' => 'company_name',
 						'type' => 'text',
-						'instructions' => __('Resellers company name.', 'enon'),
+						'instructions' => __( 'Resellers company name.', 'enon' ),
 						'required' => 0,
 					),
 					array(
 						'key' => 'field_contact_name',
-						'label' => __('Contact Name', 'enon'),
+						'label' => __( 'Contact Name', 'enon' ),
 						'name' => 'contact_name',
 						'type' => 'text',
-						'instructions' => __('The name of the contact person on the company.', 'enon'),
+						'instructions' => __( 'The name of the contact person on the company.', 'enon' ),
 						'required' => 0,
 					),
 					array(
 						'key' => 'field_contact_email',
-						'label' => __('Contact Email', 'enon'),
+						'label' => __( 'Contact Email', 'enon' ),
 						'name' => 'contact_email',
 						'type' => 'email',
-						'instructions' => __('The email of the contact person on the company. All emails from the system will be sent to this address.', 'enon'),
+						'instructions' => __( 'The email of the contact person on the company. All emails from the system will be sent to this address.', 'enon' ),
 						'required' => 0,
 					),
 					array(
 						'key' => 'field_send_data_to_reseller',
-						'label' => __('Send order to reseller', 'enon'),
+						'label' => __( 'Send order to reseller', 'enon' ),
 						'name' => 'send_order_to_reseller',
 						'type' => 'checkbox',
-						'instructions' => __('Check if order email should be sent to reseller.', 'enon'),
+						'instructions' => __( 'Check if order email should be sent to reseller.', 'enon' ),
 						'required' => 0,
 					),
 					array(
 						'key' => 'field_token',
-						'label' => __('Token', 'enon'),
+						'label' => __( 'Token', 'enon' ),
 						'name' => 'token',
 						'type' => 'text',
-						'default_value' => substr(md5(rand()), 0, 14),
-						'instructions' => __('The token which have to be set by the reseller.', 'enon'),
+						'default_value' => substr( md5( rand() ), 0, 14 ),
+						'instructions' => __( 'The token which have to be set by the reseller.', 'enon' ),
 						'required' => 0,
 					),
 					array(
 						'key' => 'field_affiliateId',
-						'label' => __('Affiliate ID', 'enon'),
+						'label' => __( 'Affiliate ID', 'enon' ),
 						'name' => 'affiliate_id',
 						'type' => 'number',
-						'instructions' => __('Affiliate WP id.', 'enon'),
+						'instructions' => __( 'Affiliate WP id.', 'enon' ),
 						'required' => 0,
-					)
+					),
 				),
 				'location' => array(
 					array(
@@ -149,11 +144,11 @@ class Task_ACF implements Task, Actions
 				'fields' => array(
 					array(
 						'key' => 'field_user_interface',
-						'label' => __('User Interface', 'enon'),
+						'label' => __( 'User Interface', 'enon' ),
 						'name' => 'user_interface',
 						'type' => 'checkbox',
 						'choices' => array(
-							'show_headline' => __('Show headline', 'enon'),
+							'show_headline' => __( 'Show headline', 'enon' ),
 						),
 						'default_value' => array(
 							0 => 'show_headline',
@@ -162,20 +157,20 @@ class Task_ACF implements Task, Actions
 					),
 					array(
 						'key' => 'field_technical',
-						'label' => __('Technical', 'enon'),
+						'label' => __( 'Technical', 'enon' ),
 						'name' => 'technical',
 						'type' => 'checkbox',
 						'choices' => array(
-							'submit_iframe_height' => __('Submit iframe height', 'enon'),
+							'submit_iframe_height' => __( 'Submit iframe height', 'enon' ),
 						),
 						'return_format' => 'value',
 					),
 					array(
 						'key' => 'field_extra_css',
-						'label' => __('Extra CSS', 'enon'),
+						'label' => __( 'Extra CSS', 'enon' ),
 						'name' => 'extra_css',
 						'type' => 'textarea',
-						'instructions' => __('Add some extra CSS for reseller.', 'enon'),
+						'instructions' => __( 'Add some extra CSS for reseller.', 'enon' ),
 					),
 				),
 				'location' => array(
@@ -197,17 +192,17 @@ class Task_ACF implements Task, Actions
 				'fields' => array(
 					array(
 						'key' => 'field_bw_schema_file',
-						'label' => __('Bedarfsausweis schema file', 'enon'),
+						'label' => __( 'Bedarfsausweis schema file', 'enon' ),
 						'name' => 'bw_schema_file',
 						'type' => 'text',
-						'instructions' => __('Leave blank for standard file (bw.php).', 'enon'),
+						'instructions' => __( 'Leave blank for standard file (bw.php).', 'enon' ),
 					),
 					array(
 						'key' => 'field_vw_schema_file',
-						'label' => __('Verbrauchsausweis schema file', 'enon'),
+						'label' => __( 'Verbrauchsausweis schema file', 'enon' ),
 						'name' => 'vw_schema_file',
 						'type' => 'text',
-						'instructions' => __('Leave blank for standard file (vw.php).', 'enon'),
+						'instructions' => __( 'Leave blank for standard file (vw.php).', 'enon' ),
 					),
 				),
 				'location' => array(
@@ -229,34 +224,34 @@ class Task_ACF implements Task, Actions
 				'fields' => array(
 					array(
 						'key' => 'field_website_name',
-						'label' => __('Website name', 'enon'),
+						'label' => __( 'Website name', 'enon' ),
 						'name' => 'website_name',
 						'type' => 'text',
-						'instructions' => __('This is the website name, which appears in emails.', 'enon'),
+						'instructions' => __( 'This is the website name, which appears in emails.', 'enon' ),
 					),
 					array(
 						'key' => 'field_customer_edit_url',
-						'label' => __('Customer Edit URL', 'enon'),
-						'instructions' => __('The edit url of the reseller website.', 'enon'),
+						'label' => __( 'Customer Edit URL', 'enon' ),
+						'instructions' => __( 'The edit url of the reseller website.', 'enon' ),
 						'name' => 'customer_edit_url',
 						'type' => 'url',
-						'placeholder' => 'https://'
+						'placeholder' => 'https://',
 					),
 					array(
 						'key' => 'field_payment_successful_url',
-						'label' => __('Payment successful URL', 'enon'),
-						'instructions' => __('This url will be shown after successful payment.', 'enon'),
+						'label' => __( 'Payment successful URL', 'enon' ),
+						'instructions' => __( 'This url will be shown after successful payment.', 'enon' ),
 						'name' => 'payment_successful_url',
 						'type' => 'url',
-						'placeholder' => 'https://'
+						'placeholder' => 'https://',
 					),
 					array(
 						'key' => 'field_payment_failed_url',
-						'label' => __('Payment failed URL', 'enon'),
-						'instructions' => __('This url will be shown after failed payment.', 'enon'),
+						'label' => __( 'Payment failed URL', 'enon' ),
+						'instructions' => __( 'This url will be shown after failed payment.', 'enon' ),
 						'name' => 'payment_failed_url',
 						'type' => 'url',
-						'placeholder' => 'https://'
+						'placeholder' => 'https://',
 					),
 				),
 				'location' => array(
@@ -278,23 +273,24 @@ class Task_ACF implements Task, Actions
 				'fields' => array(
 					array(
 						'key' => 'field_email_sender_address',
-						'label' => __('E-Mail sender address', 'enon'),
+						'label' => __( 'E-Mail sender address', 'enon' ),
 						'name' => 'email_sender_address',
 						'type' => 'email',
 					),
 					array(
 						'key' => 'field_email_sender_name',
-						'label' => __('E-Mail sender name', 'enon'),
+						'label' => __( 'E-Mail sender name', 'enon' ),
 						'name' => 'email_sender_name',
 						'type' => 'text',
 					),
 					array(
 						'key' => 'field_email_footer',
-						'label' => __('E-Mail Footer', 'enon'),
+						'label' => __( 'E-Mail Footer', 'enon' ),
 						'name' => 'email_footer',
 						'type' => 'textarea',
 					),
-					/* New
+					/*
+					 New
 					array (
 						'key' => 'field_email_subject',
 						'label' => __( 'E-Mail Subject', 'enon' ),
@@ -321,71 +317,73 @@ class Task_ACF implements Task, Actions
 			)
 		);
 
-		acf_add_local_field_group(array(
-			'key' => 'post_data',
-			'title' => 'Post Data',
-			'fields' => array(
-				array(
-					'key' => 'field_post_endpoint',
-					'label' => __( 'Endpoint', 'enon' ),
-					'name' => 'post_endpoint',
-					'type' => 'url',
-					'instructions' => __( 'URL to send data.', 'enon' ),
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array(
-						'width' => '',
-						'class' => '',
-						'id' => '',
+		acf_add_local_field_group(
+			array(
+				'key' => 'post_data',
+				'title' => 'Post Data',
+				'fields' => array(
+					array(
+						'key' => 'field_post_endpoint',
+						'label' => __( 'Endpoint', 'enon' ),
+						'name' => 'post_endpoint',
+						'type' => 'url',
+						'instructions' => __( 'URL to send data.', 'enon' ),
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array(
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'default_value' => '',
+						'placeholder' => 'https://',
 					),
-					'default_value' => '',
-					'placeholder' => 'https://',
-				),
-				array(
-					'key' => 'field_post_data_config class',
-					'label' => __( 'Data config class.', 'enon' ),
-					'name' => 'post_data_config_class',
-					'type' => 'text',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => array(
-						array(
+					array(
+						'key' => 'field_post_data_config class',
+						'label' => __( 'Data config class.', 'enon' ),
+						'name' => 'post_data_config_class',
+						'type' => 'text',
+						'instructions' => '',
+						'required' => 0,
+						'conditional_logic' => array(
 							array(
-								'field' => 'post_endpoint',
-								'operator' => '!=empty',
+								array(
+									'field' => 'post_endpoint',
+									'operator' => '!=empty',
+								),
 							),
 						),
+						'wrapper' => array(
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'default_value' => '',
+						'placeholder' => 'SendEnergieausweisStandard',
+						'prepend' => '',
+						'append' => '',
+						'maxlength' => '',
 					),
-					'wrapper' => array(
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
-					'placeholder' => 'SendEnergieausweisStandard',
-					'prepend' => '',
-					'append' => '',
-					'maxlength' => '',
 				),
-			),
-			'location' => array(
-				array(
+				'location' => array(
 					array(
-						'param' => 'post_type',
-						'operator' => '==',
-						'value' => 'reseller',
+						array(
+							'param' => 'post_type',
+							'operator' => '==',
+							'value' => 'reseller',
+						),
 					),
 				),
-			),
-			'menu_order' => 0,
-			'position' => 'normal',
-			'style' => 'default',
-			'label_placement' => 'top',
-			'instruction_placement' => 'label',
-			'hide_on_screen' => '',
-			'active' => true,
-			'description' => '',
-		));
+				'menu_order' => 0,
+				'position' => 'normal',
+				'style' => 'default',
+				'label_placement' => 'top',
+				'instruction_placement' => 'label',
+				'hide_on_screen' => '',
+				'active' => true,
+				'description' => '',
+			)
+		);
 	}
 
 	/**
@@ -393,11 +391,9 @@ class Task_ACF implements Task, Actions
 	 *
 	 * @return bool Is Affiliate WP activated.
 	 * @since 1.0.0
-	 *
 	 */
-	public static function isActivated()
-	{
-		if (!function_exists('acf_add_local_field_group')) {
+	public static function isActivated() {
+		if ( ! function_exists( 'acf_add_local_field_group' ) ) {
 			return false;
 		}
 

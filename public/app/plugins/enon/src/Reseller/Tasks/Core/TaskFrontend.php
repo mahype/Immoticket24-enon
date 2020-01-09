@@ -32,9 +32,8 @@ class TaskFrontend implements Task, Actions, Filters {
 	 *
 	 * @param Reseller $reseller
 	 */
-	public function __construct( Reseller $reseller )
-	{
-		$this->reseller = $reseller;
+	public function __construct( Reseller $reseller ) {
+		 $this->reseller = $reseller;
 	}
 
 	/**
@@ -42,9 +41,8 @@ class TaskFrontend implements Task, Actions, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function run()
-	{
-		$this->add_actions();
+	public function run() {
+		 $this->add_actions();
 		$this->add_filters();
 
 		remove_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
@@ -55,10 +53,9 @@ class TaskFrontend implements Task, Actions, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_actions()
-	{
-		add_action( 'wp_head', 'wp_no_robots' );
-		add_action( 'enon_iframe_css', [ $this, 'add_css' ] );
+	public function add_actions() {
+		 add_action( 'wp_head', 'wp_no_robots' );
+		add_action( 'enon_iframe_css', array( $this, 'add_css' ) );
 	}
 
 	/**
@@ -66,9 +63,8 @@ class TaskFrontend implements Task, Actions, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_filters()
-	{
-		add_filter( 'template_include', [ $this, 'filter_iframe_template' ] );
+	public function add_filters() {
+		 add_filter( 'template_include', array( $this, 'filter_iframe_template' ) );
 	}
 
 	/**
@@ -78,8 +74,7 @@ class TaskFrontend implements Task, Actions, Filters {
 	 *
 	 * @return string $template The path of the template to include.
 	 */
-	public function filter_iframe_template()
-	{
+	public function filter_iframe_template() {
 		return locate_template( array( 'energieausweis-iframe.php' ) );
 	}
 
@@ -88,11 +83,10 @@ class TaskFrontend implements Task, Actions, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_css()
-	{
-		$extraCss = $this->reseller->data()->getExtraCSS();
+	public function add_css() {
+		 $extraCss = $this->reseller->data()->getExtraCSS();
 
-		if( empty ( $extraCss ) ) {
+		if ( empty( $extraCss ) ) {
 			return;
 		}
 

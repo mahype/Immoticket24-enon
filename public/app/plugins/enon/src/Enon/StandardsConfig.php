@@ -11,8 +11,8 @@ use Enon\Enon\Standards\Schema;
  *
  * @todo Renaming standards?
  */
-class StandardsConfig extends Config
-{
+class StandardsConfig extends Config {
+
 	/**
 	 * Initiating standards.
 	 *
@@ -20,25 +20,24 @@ class StandardsConfig extends Config
 	 *
 	 * @todo Loading dynamically.
 	 */
-	protected function initiate()
-	{
-		$this->configData = array(
-			'enev2013' => array(
-				'name' => __( 'EnEV 2013', 'wpenon' ),
-				'date' => '2013-11-18',
-				'startDate' => '2014-05-01'
-			),
-			'enev2017' => array(
-				'name' => __( 'EnEV 2013 (ab 1.7.2017)', 'wpenon' ),
-				'date' => '2013-11-18',
-				'startDate' => '2017-07-01',
-			),
-			'enev2019' => array(
-				'name' => __( 'EnEV 2013 (ab 11.12.2019)', 'wpenon' ),
-				'date' => '2013-11-18',
-				'startDate' => '2019-12-11'
-			),
-		);
+	protected function initiate() {
+		 $this->configData = array(
+			 'enev2013' => array(
+				 'name' => __( 'EnEV 2013', 'wpenon' ),
+				 'date' => '2013-11-18',
+				 'startDate' => '2014-05-01',
+			 ),
+			 'enev2017' => array(
+				 'name' => __( 'EnEV 2013 (ab 1.7.2017)', 'wpenon' ),
+				 'date' => '2013-11-18',
+				 'startDate' => '2017-07-01',
+			 ),
+			 'enev2019' => array(
+				 'name' => __( 'EnEV 2013 (ab 11.12.2019)', 'wpenon' ),
+				 'date' => '2013-11-18',
+				 'startDate' => '2019-12-11',
+			 ),
+		 );
 	}
 
 	/**
@@ -50,8 +49,8 @@ class StandardsConfig extends Config
 	 * @return string Standard key.
 	 */
 	public function getByTime( $timestamp ) {
-		foreach ( $this->configData AS $key => $standard ) {
-			if ( strtotime( $standard[ 'startDate' ] ) > $timestamp ) {
+		foreach ( $this->configData as $key => $standard ) {
+			if ( strtotime( $standard['startDate'] ) > $timestamp ) {
 				break;
 			}
 
@@ -68,8 +67,7 @@ class StandardsConfig extends Config
 	 *
 	 * @return string Standard key.
 	 */
-	public function getCurrent()
-	{
+	public function getCurrent() {
 		return $this->getByTime( time() );
 	}
 }

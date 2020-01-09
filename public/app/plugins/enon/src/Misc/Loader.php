@@ -13,19 +13,18 @@ use Enon\TaskLoader;
  *
  * @since 1.0.0
  */
-class Loader extends TaskLoader
-{
-    /**
-     * Loading Scripts.
-     *
-     * @since 1.0.0
-     */
-    public function run()
-    {
-        $this->add_task(TaskDev::class);
-        $this->add_task(TaskGoogleTagManager::class);
-        $this->add_task(TaskRemoveOptimizepress::class);
-        $this->add_task(TaskEddSparkasseDiscounts::class, $this->logger());
-        $this->run_tasks();
-    }
+class Loader extends TaskLoader {
+
+	/**
+	 * Loading Scripts.
+	 *
+	 * @since 1.0.0
+	 */
+	public function run() {
+		$this->add_task( TaskDev::class );
+		$this->add_task( TaskGoogleTagManager::class );
+		$this->add_task( TaskRemoveOptimizepress::class );
+		$this->add_task( TaskEddSparkasseDiscounts::class, $this->logger() );
+		$this->run_tasks();
+	}
 }

@@ -8,8 +8,8 @@ use Awsm\WP_Wrapper\Tasks\Task_Runner;
 /**
  * Config loader.
  */
-abstract class TaskLoader implements Task
-{
+abstract class TaskLoader implements Task {
+
 	use Task_Runner;
 
 	/**
@@ -26,10 +26,8 @@ abstract class TaskLoader implements Task
 	 *
 	 * @param Logger $logger Logger object.
 	 * @since 1.0.0
-	 *
 	 */
-	public function __construct(Logger $logger)
-	{
+	public function __construct( Logger $logger ) {
 		$this->logger = $logger;
 	}
 

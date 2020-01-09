@@ -11,8 +11,8 @@ use Enon\Enon\Standards\Schema;
  *
  * @todo Renaming standards?
  */
-class MappingsConfig extends Config
-{
+class MappingsConfig extends Config {
+
 	/**
 	 * Initiating types.
 	 *
@@ -20,12 +20,11 @@ class MappingsConfig extends Config
 	 *
 	 * @todo Loading dynamically.
 	 */
-	protected function initiate()
-	{
-		$this->configData = array(
-			'pdf' =>  __( 'PDF', 'wpenon' ),
-			'xml-datenerfassung' => __( 'XML Datenerfassung', 'wpenon' ),
-			'xml-zusatzdatenerfassung' => __( 'XML Zusatzdatenerfassung', 'wpenon' ),
-		);
+	protected function initiate() {
+		 $this->configData = array(
+			 'pdf' => __( 'PDF', 'wpenon' ),
+			 'xml-datenerfassung' => __( 'XML Datenerfassung', 'wpenon' ),
+			 'xml-zusatzdatenerfassung' => __( 'XML Zusatzdatenerfassung', 'wpenon' ),
+		 );
 	}
 }

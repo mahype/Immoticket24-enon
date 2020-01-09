@@ -17,8 +17,8 @@ use WPENON\Model\Energieausweis;
  *
  * @package Enon\Reseller\WordPress
  */
-class TaskRouteUrls implements Task, Filters
-{
+class TaskRouteUrls implements Task, Filters {
+
 	use Logger_Trait;
 
 	/**
@@ -33,11 +33,10 @@ class TaskRouteUrls implements Task, Filters
 	 * Wpenon constructor.
 	 *
 	 * @param Reseller $reseller
-	 * @param Logger $logger
+	 * @param Logger   $logger
 	 */
-	public function __construct( Reseller $reseller, Logger $logger )
-	{
-		$this->reseller = $reseller;
+	public function __construct( Reseller $reseller, Logger $logger ) {
+		 $this->reseller = $reseller;
 		$this->logger = $logger;
 	}
 
@@ -46,9 +45,8 @@ class TaskRouteUrls implements Task, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function run()
-	{
-		$this->add_filters();
+	public function run() {
+		 $this->add_filters();
 	}
 
 	/**
@@ -56,11 +54,10 @@ class TaskRouteUrls implements Task, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_filters()
-	{
-		add_filter( 'wpenon_filter_url',          [ $this, 'filterIframeUrl' ] );
-		add_filter( 'wpenon_payment_success_url', [ $this, 'filterPaymentSuccessUrl' ] );
-		add_filter( 'wpenon_payment_failed_url',  [ $this, 'filterPaymentFailedUrl' ] );
+	public function add_filters() {
+		 add_filter( 'wpenon_filter_url', array( $this, 'filterIframeUrl' ) );
+		add_filter( 'wpenon_payment_success_url', array( $this, 'filterPaymentSuccessUrl' ) );
+		add_filter( 'wpenon_payment_failed_url', array( $this, 'filterPaymentFailedUrl' ) );
 	}
 
 	/**

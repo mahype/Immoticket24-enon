@@ -17,8 +17,7 @@ class SendEnergieausweisStandard extends SendEnergieausweis {
 	 *
 	 * @return mixed|void
 	 */
-	protected function getBody()
-	{
+	protected function getBody() {
 		$data = $this->energieausweis;
 		return $data;
 	}

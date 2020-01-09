@@ -32,11 +32,10 @@ class TaskSendEnergieausweis implements Actions, Task {
 	 * @since 1.0.0
 	 *
 	 * @param Reseller $reseller Reseller object.
-	 * @param Logger $logger Logger object.
+	 * @param Logger   $logger Logger object.
 	 */
-	public function __construct( Reseller $reseller, Logger $logger )
-	{
-		$this->reseller = $reseller;
+	public function __construct( Reseller $reseller, Logger $logger ) {
+		 $this->reseller = $reseller;
 		$this->logger = $logger;
 	}
 
@@ -47,9 +46,8 @@ class TaskSendEnergieausweis implements Actions, Task {
 	 *
 	 * @return mixed|void
 	 */
-	public function run()
-	{
-		$this->add_actions();
+	public function run() {
+		 $this->add_actions();
 	}
 
 	/**
@@ -57,9 +55,8 @@ class TaskSendEnergieausweis implements Actions, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_actions()
-	{
-		add_action( 'edd_update_payment_status', [ $this, 'sendData' ], 10, 2 );
+	public function add_actions() {
+		 add_action( 'edd_update_payment_status', array( $this, 'sendData' ), 10, 2 );
 	}
 
 	/**
@@ -67,11 +64,10 @@ class TaskSendEnergieausweis implements Actions, Task {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $paymentId Payment id.
+	 * @param int    $paymentId Payment id.
 	 * @param string $status Payment status.
 	 */
-	public function sendData( $paymentId, $status )
-	{
+	public function sendData( $paymentId, $status ) {
 		$endpoint = $this->reseller->data()->getPostEndpoint();
 
 		// Do not anything if not payed or if there is no endpoint given.
@@ -81,12 +77,12 @@ class TaskSendEnergieausweis implements Actions, Task {
 
 		$senderClassName = 'Enon\\Reseller\\Models\\Transfer\\' . $this->reseller->data()->getPostDataConfigClass();
 
-		if( ! class_exists( $senderClassName ) ) {
+		if ( ! class_exists( $senderClassName ) ) {
 			$this->logger()->warning( sprintf( 'Sender Class %s does not exist, Do not send data.', $senderClassName ) );
 			return;
 		}
 
-		$energieausweisId = (new EddPayment( $paymentId ) )->getEnergieausweisId();
+		$energieausweisId = ( new EddPayment( $paymentId ) )->getEnergieausweisId();
 		$energieausweis = new Energieausweis( $energieausweisId );
 
 		( new $senderClassName( $endpoint, $energieausweis, $this->logger() ) )->send();

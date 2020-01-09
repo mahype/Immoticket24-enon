@@ -3,7 +3,7 @@
 namespace Enon\Reseller\Models;
 
 use Enon\Models\Enon\Energieausweis;
-use Enon\Traits\Logger AS Logger_Trait;
+use Enon\Traits\Logger as Logger_Trait;
 use Enon\Logger;
 
 /**
@@ -39,12 +39,11 @@ class Reseller {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param ResellerData  $data   Reseller data object.
-	 * @param Logger        $logger Logger object.
+	 * @param ResellerData $data   Reseller data object.
+	 * @param Logger       $logger Logger object.
 	 */
-	public function __construct( ResellerData $data, Logger $logger )
-	{
-		$this->data   = $data;
+	public function __construct( ResellerData $data, Logger $logger ) {
+		 $this->data   = $data;
 		$this->logger = $logger;
 	}
 
@@ -95,7 +94,7 @@ class Reseller {
 		if ( ! empty( $energieausweis_id ) ) {
 			$post = get_post( $energieausweis_id );
 
-			$query_args['access_token'] = (new Energieausweis( $energieausweis_id ) )->getAccessToken();
+			$query_args['access_token'] = ( new Energieausweis( $energieausweis_id ) )->getAccessToken();
 			$query_args['slug']         = $post->post_name;
 		}
 

@@ -15,16 +15,15 @@ use Enon\Reseller\Models\ResellerData;
  *
  * @package Enon\Reseller\Tasks\Core
  */
-class TaskCPTReseller implements Task, Actions, Filters
-{
+class TaskCPTReseller implements Task, Actions, Filters {
+
 	/**
 	 * Running scripts.
 	 *
 	 * @since 1.0.0
 	 */
-	public function run()
-	{
-		$this->add_actions();
+	public function run() {
+		 $this->add_actions();
 		$this->add_filters();
 	}
 
@@ -33,12 +32,11 @@ class TaskCPTReseller implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_actions()
-	{
-		add_action( 'init',  [ $this, 'add' ] );
-		add_action( 'add_meta_boxes', [ $this, 'removeMetaBoxes' ], 100 );
+	public function add_actions() {
+		 add_action( 'init', array( $this, 'add' ) );
+		add_action( 'add_meta_boxes', array( $this, 'removeMetaBoxes' ), 100 );
 
-		add_action( 'manage_reseller_posts_custom_column' , [ $this, 'reseller_custom_column_values' ], 10, 2 );
+		add_action( 'manage_reseller_posts_custom_column', array( $this, 'reseller_custom_column_values' ), 10, 2 );
 	}
 
 	/**
@@ -46,16 +44,15 @@ class TaskCPTReseller implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_filters()
-	{
-		add_filter( 'manage_reseller_posts_columns', [ $this, 'reseller_posts_columns' ], 1000, 1 );
+	public function add_filters() {
+		 add_filter( 'manage_reseller_posts_columns', array( $this, 'reseller_posts_columns' ), 1000, 1 );
 	}
 
 	/**
 	 * Removing meta Boxes.
 	 */
 	public function removeMetaBoxes() {
-		remove_meta_box('wpseo_meta', 'reseller', 'normal');
+		remove_meta_box( 'wpseo_meta', 'reseller', 'normal' );
 	}
 
 	/**
@@ -63,51 +60,50 @@ class TaskCPTReseller implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function add()
-	{
-		$labels = array(
-			'name'               => _x( 'Reseller', 'post type general name', 'enon' ),
-			'singular_name'      => _x( 'Reseller', 'post type singular name', 'enon' ),
-			'menu_name'          => _x( 'Resellers', 'admin menu', 'enon' ),
-			'name_admin_bar'     => _x( 'Reseller', 'add new on admin bar', 'enon' ),
-			'add_new'            => _x( 'Add New', 'reseller', 'enon' ),
-			'add_new_item'       => __( 'Add New reseller', 'enon' ),
-			'new_item'           => __( 'New reseller', 'enon' ),
-			'edit_item'          => __( 'Edit reseller', 'enon' ),
-			'view_item'          => __( 'View reseller', 'enon' ),
-			'all_items'          => __( 'All resellers', 'enon' ),
-			'search_items'       => __( 'Search reseller', 'enon' ),
-			'parent_item_colon'  => __( 'Parent resellers:', 'enon' ),
-			'not_found'          => __( 'No reseller found.', 'enon' ),
-			'not_found_in_trash' => __( 'No reseller found in Trash.', 'enon' )
-		);
+	public function add() {
+		 $labels = array(
+			 'name'               => _x( 'Reseller', 'post type general name', 'enon' ),
+			 'singular_name'      => _x( 'Reseller', 'post type singular name', 'enon' ),
+			 'menu_name'          => _x( 'Resellers', 'admin menu', 'enon' ),
+			 'name_admin_bar'     => _x( 'Reseller', 'add new on admin bar', 'enon' ),
+			 'add_new'            => _x( 'Add New', 'reseller', 'enon' ),
+			 'add_new_item'       => __( 'Add New reseller', 'enon' ),
+			 'new_item'           => __( 'New reseller', 'enon' ),
+			 'edit_item'          => __( 'Edit reseller', 'enon' ),
+			 'view_item'          => __( 'View reseller', 'enon' ),
+			 'all_items'          => __( 'All resellers', 'enon' ),
+			 'search_items'       => __( 'Search reseller', 'enon' ),
+			 'parent_item_colon'  => __( 'Parent resellers:', 'enon' ),
+			 'not_found'          => __( 'No reseller found.', 'enon' ),
+			 'not_found_in_trash' => __( 'No reseller found in Trash.', 'enon' ),
+		 );
 
-		$args = array(
-			'labels'             => $labels,
-			'description'        => __( 'Description.', 'enon' ),
-			'public'             => false,
-			'publicly_queryable' => false,
-			'show_ui'            => true,
-			'show_in_menu'       => true,
-			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'reseller' ),
-			'capability_type'    => 'post',
-			'has_archive'        => false,
-			'hierarchical'       => false,
-			'menu_position'      => null,
-			'menu_icon'          => 'dashicons-businessman',
-			'supports'           => array( 'thumbnail' )
-		);
+		 $args = array(
+			 'labels'             => $labels,
+			 'description'        => __( 'Description.', 'enon' ),
+			 'public'             => false,
+			 'publicly_queryable' => false,
+			 'show_ui'            => true,
+			 'show_in_menu'       => true,
+			 'query_var'          => true,
+			 'rewrite'            => array( 'slug' => 'reseller' ),
+			 'capability_type'    => 'post',
+			 'has_archive'        => false,
+			 'hierarchical'       => false,
+			 'menu_position'      => null,
+			 'menu_icon'          => 'dashicons-businessman',
+			 'supports'           => array( 'thumbnail' ),
+		 );
 
-		register_post_type( 'reseller', $args );
+		 register_post_type( 'reseller', $args );
 	}
 
 	public function reseller_posts_columns( $columns ) {
-		unset( $columns['title']  );
+		unset( $columns['title'] );
 		unset( $columns['author'] );
-		unset( $columns['date']   );
-		unset( $columns['wpseo-links']   );
-		unset( $columns['ratings']   );
+		unset( $columns['date'] );
+		unset( $columns['wpseo-links'] );
+		unset( $columns['ratings'] );
 
 		$columns['company_name']  = __( 'Company Name', 'enon' );
 		$columns['contact_name']  = __( 'Contact Name', 'enon' );
@@ -134,9 +130,9 @@ class TaskCPTReseller implements Task, Actions, Filters
 				echo $resellerData->getContactEmail();
 				break;
 			case 'iframe_url':
-				if ( 'publish' ===  $post_status ) {
-					$bedarfsLink = sprintf( __( '[<a href="%s" target="_blank">Bedarfsausweis</a>]'), $resellerData->getIframeBedarfsausweisUrl() );
-					$verbrauchsLink = sprintf( __( '[<a href="%s" target="_blank">Verbrauchsausweis</a>]'), $resellerData->getIframeVerbrauchsausweisUrl() );
+				if ( 'publish' === $post_status ) {
+					$bedarfsLink = sprintf( __( '[<a href="%s" target="_blank">Bedarfsausweis</a>]' ), $resellerData->getIframeBedarfsausweisUrl() );
+					$verbrauchsLink = sprintf( __( '[<a href="%s" target="_blank">Verbrauchsausweis</a>]' ), $resellerData->getIframeVerbrauchsausweisUrl() );
 					echo $bedarfsLink . ' ' . $verbrauchsLink;
 				} else {
 					echo __( 'Reseller have to be published before getting URL.', 'enon' );

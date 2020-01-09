@@ -19,9 +19,8 @@ class XSD extends Standard {
 	 *
 	 * @return string The location of the mapping file.
 	 */
-	public function getFile( $type )
-	{
+	public function getFile( $type ) {
 		$mapping_file = $this->getPath() . '/datenerfassung/' . $type . '.xsd';
-		return  apply_filters( 'wpenon_xsd_file', $mapping_file, $this->getKey(), $type );
+		return apply_filters( 'wpenon_xsd_file', $mapping_file, $this->getKey(), $type );
 	}
 }

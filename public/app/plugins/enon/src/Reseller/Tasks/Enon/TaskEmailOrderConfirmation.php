@@ -54,7 +54,7 @@ class TaskEmailOrderConfirmation implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'wpenon_order_confirmation_to_address', [ $this, 'filterToAddress' ] );
+		add_filter( 'wpenon_order_confirmation_to_address', array( $this, 'filterToAddress' ) );
 	}
 
 	/**
@@ -69,7 +69,7 @@ class TaskEmailOrderConfirmation implements Task, Filters {
 	public function filterToAddress( $email ) {
 		$resellerContactEmail = $this->reseller->data()->getContactEmail();
 
-		if( ! $this->reseller->data()->sendOrderToReseller() || empty( $resellerContactEmail ) ) {
+		if ( ! $this->reseller->data()->sendOrderToReseller() || empty( $resellerContactEmail ) ) {
 			return $email;
 		}
 		return $resellerContactEmail;

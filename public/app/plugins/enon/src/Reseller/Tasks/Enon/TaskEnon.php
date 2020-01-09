@@ -17,8 +17,8 @@ use WPENON\Model\Energieausweis;
  *
  * @package Enon\Reseller\WordPress
  */
-class TaskEnon implements Task, Actions, Filters
-{
+class TaskEnon implements Task, Actions, Filters {
+
 	use Logger_Trait;
 
 	/**
@@ -33,11 +33,10 @@ class TaskEnon implements Task, Actions, Filters
 	 * Wpenon constructor.
 	 *
 	 * @param Reseller $reseller
-	 * @param Logger $logger
+	 * @param Logger   $logger
 	 */
-	public function __construct( Reseller $reseller, Logger $logger )
-	{
-		$this->reseller = $reseller;
+	public function __construct( Reseller $reseller, Logger $logger ) {
+		 $this->reseller = $reseller;
 		$this->logger = $logger;
 	}
 
@@ -46,9 +45,8 @@ class TaskEnon implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function run()
-	{
-		$this->add_actions();
+	public function run() {
+		 $this->add_actions();
 		$this->add_filters();
 	}
 
@@ -57,10 +55,9 @@ class TaskEnon implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_actions()
-	{
-		add_action( 'wpenon_confirmation_start', [ $this, 'updateEnergieausweisToken' ] );
-		add_action( 'wpenon_energieausweis_create', [ $this, 'updateRessellerId' ] );
+	public function add_actions() {
+		 add_action( 'wpenon_confirmation_start', array( $this, 'updateEnergieausweisToken' ) );
+		add_action( 'wpenon_energieausweis_create', array( $this, 'updateRessellerId' ) );
 	}
 
 	/**
@@ -68,12 +65,11 @@ class TaskEnon implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_filters()
-	{
-		add_filter( 'wpenon_schema_file',         [ $this, 'filterSchemafile' ], 10, 3 );
-		add_filter( 'wpenon_filter_url',          [ $this, 'filterIframeUrl' ] );
-		add_filter( 'wpenon_payment_success_url', [ $this, 'filterPaymentSuccessUrl' ] );
-		add_filter( 'wpenon_payment_failed_url',  [ $this, 'filterPaymentFailedUrl' ] );
+	public function add_filters() {
+		 add_filter( 'wpenon_schema_file', array( $this, 'filterSchemafile' ), 10, 3 );
+		add_filter( 'wpenon_filter_url', array( $this, 'filterIframeUrl' ) );
+		add_filter( 'wpenon_payment_success_url', array( $this, 'filterPaymentSuccessUrl' ) );
+		add_filter( 'wpenon_payment_failed_url', array( $this, 'filterPaymentFailedUrl' ) );
 	}
 
 	/**
@@ -118,7 +114,7 @@ class TaskEnon implements Task, Actions, Filters
 				break;
 		}
 
-		if( empty( $schema_file ) ) {
+		if ( empty( $schema_file ) ) {
 			return $file;
 		}
 

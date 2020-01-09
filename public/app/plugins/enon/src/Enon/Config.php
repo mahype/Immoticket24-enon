@@ -17,9 +17,8 @@ abstract class Config {
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct()
-	{
-		$this->initiate();
+	public function __construct() {
+		 $this->initiate();
 	}
 
 	/**
@@ -49,9 +48,9 @@ abstract class Config {
 	 *
 	 * @param string $key Key to get value for.
 	 * @return mixed Config value to get.
- 	 */
+	 */
 	public function getValue( $key ) {
-		if( ! isset ( $this->configData[ $key ] ) ) {
+		if ( ! isset( $this->configData[ $key ] ) ) {
 			return false;
 		}
 
@@ -79,7 +78,7 @@ abstract class Config {
 	 * @return bool
 	 */
 	public function keyExists( $key ) {
-		if ( ! isset( $this->configData[$key] ) ) {
+		if ( ! isset( $this->configData[ $key ] ) ) {
 			return false;
 		}
 

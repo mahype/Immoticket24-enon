@@ -14,17 +14,17 @@ use Enon\TaskLoader;
  *
  * @package Enon\Config
  */
-class Loader extends TaskLoader
-{
+class Loader extends TaskLoader {
+
 	/**
 	 * Loading Scripts.
 	 *
 	 * @since 1.0.0
 	 */
-	public function run()
-	{
-		$this->add_task( TaskGutenberg::class );
+	public function run() {
+		 $this->add_task( TaskGutenberg::class );
 		$this->add_task( TaskMenu::class );
-		$this->run_tasks();;
+		$this->run_tasks();
+		;
 	}
 }

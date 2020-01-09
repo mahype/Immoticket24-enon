@@ -44,8 +44,7 @@ class Energieausweis {
 	 *
 	 * @param int $id Energieausweis id.
 	 */
-	public function __construct( $id )
-	{
+	public function __construct( $id ) {
 		$this->id = $id;
 
 		$this->type     = get_post_meta( $this->id, 'wpenon_type', true );
@@ -59,8 +58,7 @@ class Energieausweis {
 	 *
 	 * @return int Energieausweis id.
 	 */
-	public function getId()
-	{
+	public function getId() {
 		return $this->id;
 	}
 
@@ -71,9 +69,8 @@ class Energieausweis {
 	 *
 	 * @return string Energieausweis type.
 	 */
-	public function getType()
-	{
-		return $this->type;
+	public function getType() {
+		 return $this->type;
 	}
 
 	/**
@@ -83,9 +80,8 @@ class Energieausweis {
 	 *
 	 * @return string Energieausweis standard.
 	 */
-	public function getStandard()
-	{
-		return $this->standard;
+	public function getStandard() {
+		 return $this->standard;
 	}
 
 	/**

@@ -45,7 +45,7 @@ class ResellerData extends PostData {
 	public function setToken( Token $token ) {
 		$postId = $this->getPostIdByToken( $token );
 
-		if( empty( $postId ) ) {
+		if ( empty( $postId ) ) {
 			throw new Exception( sprintf( 'Invalid token "%s".', $token->get() ) );
 		}
 
@@ -63,18 +63,18 @@ class ResellerData extends PostData {
 	 */
 	private function getPostIdByToken( Token $token ) {
 		$args = array(
-			'post_type'		=> 'reseller',
+			'post_type'     => 'reseller',
 			'meta_query'        => array(
 				array(
 					'key'       => 'token',
-					'value'     => $token->get()
-				)
+					'value'     => $token->get(),
+				),
 			),
 		);
 
 		$posts = \get_posts( $args );
 
-		foreach ( $posts AS $post ) {
+		foreach ( $posts as $post ) {
 			return $post->ID; // There can only be one, the first is returned.
 		}
 
@@ -95,11 +95,11 @@ class ResellerData extends PostData {
 			return;
 		}
 
-		if( 'download' !== $_REQUEST['post_type'] || 'edd-payment-history' !== $_REQUEST['page'] || 'view-order-details' !== $_REQUEST['view'] || ! isset( $_REQUEST['id'] ) ) {
+		if ( 'download' !== $_REQUEST['post_type'] || 'edd-payment-history' !== $_REQUEST['page'] || 'view-order-details' !== $_REQUEST['view'] || ! isset( $_REQUEST['id'] ) ) {
 			return;
 		}
 
-		$energieausweisId = (new EddPayment( $_REQUEST['id'] ) )->getEnergieausweisId();
+		$energieausweisId = ( new EddPayment( $_REQUEST['id'] ) )->getEnergieausweisId();
 
 		// @todo Move to new energieausweis object getResellerId function
 		$resellerId = get_post_meta( $energieausweisId, 'reseller_id', true );
@@ -150,7 +150,7 @@ class ResellerData extends PostData {
 	public function sendOrderToReseller() {
 		$sendOrderToReseller = $this->get( 'send_order_to_reseller' );
 
-		if( in_array( 'send_order_to_reseller', $sendOrderToReseller ) ) {
+		if ( in_array( 'send_order_to_reseller', $sendOrderToReseller ) ) {
 			return true;
 		}
 
@@ -219,9 +219,8 @@ class ResellerData extends PostData {
 	 *
 	 * @return string Url where users are redirected after failed payment.
 	 */
-	public function getPaymentFailedUrl()
-	{
-		return trim( $this->get( 'payment_failed_url' ) );
+	public function getPaymentFailedUrl() {
+		 return trim( $this->get( 'payment_failed_url' ) );
 	}
 
 	/**
@@ -231,8 +230,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return array User interface values.
 	 */
-	public function getUserInterfaceValues()
-	{
+	public function getUserInterfaceValues() {
 		return $this->get( 'user_interface' );
 	}
 
@@ -243,9 +241,8 @@ class ResellerData extends PostData {
 	 *
 	 * @return string Reseller extra CSS.
 	 */
-	public function getExtraCSS()
-	{
-		return $this->get( 'extra_css' );
+	public function getExtraCSS() {
+		 return $this->get( 'extra_css' );
 	}
 
 	/**
@@ -255,8 +252,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return string Technical values.
 	 */
-	public function getTechnicalValues()
-	{
+	public function getTechnicalValues() {
 		return $this->get( 'technical_values' );
 	}
 
@@ -334,7 +330,7 @@ class ResellerData extends PostData {
 	 * @return string iframe url.
 	 */
 	public function getIframeVerbrauchsausweisUrl() {
-		return get_home_url() . '/energieausweis2/verbrauchsausweis-wohngebaeude/?iframe_token=' . $this->getToken() ;
+		return get_home_url() . '/energieausweis2/verbrauchsausweis-wohngebaeude/?iframe_token=' . $this->getToken();
 	}
 
 	/**
@@ -358,7 +354,7 @@ class ResellerData extends PostData {
 	public function getPostDataConfigClass() {
 		$configFile = $this->get( 'post_data_config_class' );
 
-		if( empty( $configFile ) ) {
+		if ( empty( $configFile ) ) {
 			return 'SendEnergieausweisStandard';
 		}
 

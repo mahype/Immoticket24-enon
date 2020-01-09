@@ -12,8 +12,8 @@ use Enon\Models\Exceptions\Exception;
  *
  * @package Enon\Enon
  */
-abstract class Standard
-{
+abstract class Standard {
+
 	/**
 	 * Key.
 	 *
@@ -59,20 +59,19 @@ abstract class Standard
 	 *
 	 * @throws Exception If config could not be loaded.
 	 */
-	public function __construct( $key )
-	{
+	public function __construct( $key ) {
 		$standardsConfig = new StandardsConfig();
 
-		if( ! $standardsConfig->keyExists( $key ) ) {
+		if ( ! $standardsConfig->keyExists( $key ) ) {
 			throw new Exception( sprintf( 'Key \'%s\' does not exist on initiating \'%s\' class.', $key, get_called_class() ) );
 		}
 
 		$standardValue = $standardsConfig->getValue( $key );
 
 		$this->key = $key;
-		$this->name = $standardValue[ 'name' ];
-		$this->date = $standardValue[ 'date' ];
-		$this->startDate = $standardValue[ 'startDate' ];
+		$this->name = $standardValue['name'];
+		$this->date = $standardValue['date'];
+		$this->startDate = $standardValue['startDate'];
 	}
 
 	/**
@@ -80,10 +79,8 @@ abstract class Standard
 	 *
 	 * @return string
 	 * @since 1.0.0
-	 *
 	 */
-	public function getKey()
-	{
+	public function getKey() {
 		return $this->key;
 	}
 
@@ -92,11 +89,9 @@ abstract class Standard
 	 *
 	 * @return string
 	 * @since 1.0.0
-	 *
 	 */
-	public function getName()
-	{
-		return $this->name;
+	public function getName() {
+		 return $this->name;
 	}
 
 	/**
@@ -104,10 +99,8 @@ abstract class Standard
 	 *
 	 * @return string
 	 * @since 1.0.0
-	 *
 	 */
-	public function getDate( $format = 'Y-m-D' )
-	{
+	public function getDate( $format = 'Y-m-D' ) {
 		return date( $format, strtotime( $this->date ) );
 	}
 
@@ -116,11 +109,9 @@ abstract class Standard
 	 *
 	 * @return string
 	 * @since 1.0.0
-	 *
 	 */
-	public function getStartDate( $format = 'Y-m-D' )
-	{
-		return date( $format, strtotime( $this->startDate ) );
+	public function getStartDate( $format = 'Y-m-D' ) {
+		 return date( $format, strtotime( $this->startDate ) );
 	}
 
 	/**
@@ -132,9 +123,8 @@ abstract class Standard
 	 *
 	 * @todo Get rid of statics
 	 */
-	public function getPath()
-	{
-		return WPENON_DATA_PATH . '/' . $this->getKey();
+	public function getPath() {
+		 return WPENON_DATA_PATH . '/' . $this->getKey();
 	}
 
 	/**
@@ -158,9 +148,8 @@ abstract class Standard
 	 *
 	 * @todo Rewriting included scripts!
 	 */
-	public function load( $params, $variables = array() )
-	{
-		extract( $variables );
+	public function load( $params, $variables = array() ) {
+		 extract( $variables );
 
 		$file = $this->getFile( $params );
 

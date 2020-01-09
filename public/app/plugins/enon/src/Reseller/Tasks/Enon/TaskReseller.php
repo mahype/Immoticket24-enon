@@ -17,8 +17,8 @@ use WPENON\Model\Energieausweis;
  *
  * @package Enon\Reseller\WordPress
  */
-class TaskReseller implements Task, Actions, Filters
-{
+class TaskReseller implements Task, Actions, Filters {
+
 	use Logger_Trait;
 
 	/**
@@ -33,11 +33,10 @@ class TaskReseller implements Task, Actions, Filters
 	 * Wpenon constructor.
 	 *
 	 * @param Reseller $reseller
-	 * @param Logger $logger
+	 * @param Logger   $logger
 	 */
-	public function __construct( Reseller $reseller, Logger $logger )
-	{
-		$this->reseller = $reseller;
+	public function __construct( Reseller $reseller, Logger $logger ) {
+		 $this->reseller = $reseller;
 		$this->logger = $logger;
 
 	}
@@ -47,9 +46,8 @@ class TaskReseller implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function run()
-	{
-		$this->add_actions();
+	public function run() {
+		 $this->add_actions();
 		$this->add_filters();
 	}
 
@@ -58,9 +56,8 @@ class TaskReseller implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_actions()
-	{
-		add_action( 'wpenon_energieausweis_create', [ $this, 'updateResellerId' ] );
+	public function add_actions() {
+		 add_action( 'wpenon_energieausweis_create', array( $this, 'updateResellerId' ) );
 	}
 
 	/**
@@ -68,15 +65,14 @@ class TaskReseller implements Task, Actions, Filters
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_filters()
-	{
-		add_filter( 'wpenon_schema_file', [ $this, 'filterSchemafile' ], 10, 3 );
+	public function add_filters() {
+		 add_filter( 'wpenon_schema_file', array( $this, 'filterSchemafile' ), 10, 3 );
 	}
 
 	private function getResellerId( $energieausweis ) {
 		$resellerId = get_post_meta( $energieausweis->id, 'reseller_id', true );
 
-		if( ! empty( $resellerId ) ) {
+		if ( ! empty( $resellerId ) ) {
 			return $resellerId;
 		}
 
@@ -107,7 +103,7 @@ class TaskReseller implements Task, Actions, Filters
 	public function filterSchemafile( $file, $standard, $energieausweis ) {
 		$resellerId = $this->getResellerId( $energieausweis );
 
-		if( empty( $resellerId ) ) {
+		if ( empty( $resellerId ) ) {
 			return $file;
 		}
 
@@ -122,7 +118,7 @@ class TaskReseller implements Task, Actions, Filters
 				break;
 		}
 
-		if( empty( $schema_file ) ) {
+		if ( empty( $schema_file ) ) {
 			return $file;
 		}
 

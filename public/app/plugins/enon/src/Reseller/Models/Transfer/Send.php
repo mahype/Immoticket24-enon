@@ -3,7 +3,7 @@
 namespace Enon\Reseller\Models\Transfer;
 
 use Enon\Logger;
-use Enon\Traits\Logger As Logger_Trait;
+use Enon\Traits\Logger as Logger_Trait;
 
 /**
  * Class Send.
@@ -39,8 +39,7 @@ abstract class Send {
 	 * @param string $endpoint
 	 * @param Logger
 	 */
-	public function __construct( $endpoint, Logger $logger )
-	{
+	public function __construct( $endpoint, Logger $logger ) {
 		$this->endpoint = $endpoint;
 		$this->logger = $logger;
 	}
@@ -57,9 +56,8 @@ abstract class Send {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function setupArgs()
-	{
-		$body =  $this->getBody();
+	protected function setupArgs() {
+		$body = $this->getBody();
 
 		$this->args = array(
 			'body' => $body,
@@ -68,7 +66,7 @@ abstract class Send {
 			'httpversion' => '1.0',
 			'blocking' => true,
 			'headers' => array(),
-			'cookies' => array()
+			'cookies' => array(),
 		);
 	}
 
@@ -77,8 +75,7 @@ abstract class Send {
 	 *
 	 * @since 1.0.0
 	 */
-	public function send()
-	{
+	public function send() {
 		$this->setupArgs();
 		// @todo Switch between request methods
 		$response = wp_remote_post( $this->endpoint, $this->args );
@@ -91,7 +88,7 @@ abstract class Send {
 			case 200:
 				return true;
 			default:
-				$this->logger()->warning( sprintf( 'Error %s on sending data.', $response ));
+				$this->logger()->warning( sprintf( 'Error %s on sending data.', $response ) );
 				break;
 		}
 	}

@@ -24,8 +24,7 @@ class Token {
 	 *
 	 * @return string
 	 */
-	public function get() : string
-	{
+	public function get() : string {
 		if ( empty( $this->token ) ) {
 			$this->token = $this->getByRequest();
 		}
@@ -40,9 +39,8 @@ class Token {
 	 *
 	 * @param $token
 	 */
-	public function set( $token )
-	{
-		$this->token = $token;
+	public function set( $token ) {
+		 $this->token = $token;
 	}
 
 	/**
@@ -52,9 +50,8 @@ class Token {
 	 *
 	 * @return string Token
 	 */
-	public function getByRequest() : string
-	{
-		if( ! isset ( $_REQUEST['iframe_token'] ) ) {
+	public function getByRequest() : string {
+		if ( ! isset( $_REQUEST['iframe_token'] ) ) {
 			return false;
 		}
 
