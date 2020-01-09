@@ -3,7 +3,7 @@
 	<arg value="psvn"/>
 	<arg name="extensions" value="php" />
 
-	<file>.</file>
+	<file>./public/app/plugins/enon/</file>
 
 	<rule ref="WordPress" />
 
