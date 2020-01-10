@@ -1,4 +1,13 @@
 <?php
+/**
+ * Class for adding reseller CPT.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Tasks\Core
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller\Tasks\Core;
 
@@ -150,8 +159,8 @@ class Task_CPT_Reseller implements Task, Actions, Filters {
 				break;
 			case 'iframe_url':
 				if ( 'publish' === $post_status ) {
-					$bedarfs_link = sprintf( __( '[<a href="%s" target="_blank">Bedarfsausweis</a>]' ), $reseller_data->getIframeBedarfsausweisUrl() );
-					$verbrauchs_link = sprintf( __( '[<a href="%s" target="_blank">Verbrauchsausweis</a>]' ), $reseller_data->getIframeVerbrauchsausweisUrl() );
+					$bedarfs_link = sprintf( __( '[<a href="%s" target="_blank">Bedarfsausweis</a>]' ), $reseller_data->get_iframe_bedarfsausweis_url() );
+					$verbrauchs_link = sprintf( __( '[<a href="%s" target="_blank">Verbrauchsausweis</a>]' ), $reseller_data->get_iframe_verbrauchsausweis_url() );
 					echo $bedarfs_link . ' ' . $verbrauchs_link;
 				} else {
 					echo __( 'Reseller have to be published before getting URL.', 'enon' );

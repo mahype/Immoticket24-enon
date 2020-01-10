@@ -107,10 +107,10 @@ class TaskEnon implements Task, Actions, Filters {
 	public function filterSchemafile( $file, $standard, $type ) {
 		switch ( $type ) {
 			case 'bw':
-				$schema_file = trim( $this->reseller->data()->getBwSchemaFile() );
+				$schema_file = trim( $this->reseller->data()->get_bw_schema_file() );
 				break;
 			case 'vw':
-				$schema_file = trim( $this->reseller->data()->getVwSchemaFile() );
+				$schema_file = trim( $this->reseller->data()->get_vw_schema_file() );
 				break;
 		}
 

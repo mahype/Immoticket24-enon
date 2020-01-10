@@ -73,7 +73,7 @@ class TaskEmailConfirmation implements Task, Filters {
 	 * @return string Reseller from email address.
 	 */
 	public function filterFromAddress( $email ) {
-		$resellerEmail = $this->reseller->data()->getEmailSenderAddress();
+		$resellerEmail = $this->reseller->data()->get_email_sender_address();
 
 		if ( empty( $resellerEmail ) ) {
 			return $email;
@@ -90,7 +90,7 @@ class TaskEmailConfirmation implements Task, Filters {
 	 * @return string Tokens from email name.
 	 */
 	public function filterFromName( $name ) {
-		$resellerName = $this->reseller->data()->getEmailSenderName();
+		$resellerName = $this->reseller->data()->get_email_sender_name();
 
 		if ( empty( $resellerName ) ) {
 			return $name;
@@ -150,7 +150,7 @@ class TaskEmailConfirmation implements Task, Filters {
 	 * @return string $footer Footer content.
 	 */
 	public function filterAlternativeFooter( $footer ) {
-		$resellerFooter = $this->reseller->data()->getEmailFooter();
+		$resellerFooter = $this->reseller->data()->get_email_footer();
 
 		if ( empty( $resellerFooter ) ) {
 			return $footer;

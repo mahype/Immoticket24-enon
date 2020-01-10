@@ -1,4 +1,13 @@
 <?php
+/**
+ * Class for handling reseller data.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Models
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller\Models;
 
@@ -43,13 +52,13 @@ class Reseller_Data extends PostData {
 	 * @throws Exception Token was not found.
 	 */
 	public function set_token( Token $token ) {
-		$postId = $this->get_post_id_by_token( $token );
+		$post_id = $this->get_post_id_by_token( $token );
 
-		if ( empty( $postId ) ) {
+		if ( empty( $post_id ) ) {
 			throw new Exception( sprintf( 'Invalid token "%s".', $token->get() ) );
 		}
 
-		$this->set_post_id( $postId );
+		$this->set_post_id( $post_id );
 	}
 
 	/**
@@ -99,12 +108,12 @@ class Reseller_Data extends PostData {
 			return;
 		}
 
-		$energieausweisId = ( new EddPayment( $_REQUEST['id'] ) )->getEnergieausweisId();
+		$energieausweis_id = ( new EddPayment( $_REQUEST['id'] ) )->getenergieausweis_id();
 
-		// @todo Move to new energieausweis object getResellerId function
-		$resellerId = get_post_meta( $energieausweisId, 'reseller_id', true );
+		// @todo Move to new energieausweis object getreseller_id function
+		$reseller_id = get_post_meta( $energieausweis_id, 'reseller_id', true );
 
-		$this->set_post_id( $resellerId );
+		$this->set_post_id( $reseller_id );
 	}
 
 	/**
@@ -230,7 +239,7 @@ class Reseller_Data extends PostData {
 	 *
 	 * @return array User interface values.
 	 */
-	public function getUserInterfaceValues() {
+	public function get_user_interface_values() {
 		return $this->get( 'user_interface' );
 	}
 
@@ -241,7 +250,7 @@ class Reseller_Data extends PostData {
 	 *
 	 * @return string Reseller extra CSS.
 	 */
-	public function getExtraCSS() {
+	public function get_extra_css() {
 		 return $this->get( 'extra_css' );
 	}
 
@@ -252,7 +261,7 @@ class Reseller_Data extends PostData {
 	 *
 	 * @return string Technical values.
 	 */
-	public function getTechnicalValues() {
+	public function get_technical_values() {
 		return $this->get( 'technical_values' );
 	}
 
@@ -263,7 +272,7 @@ class Reseller_Data extends PostData {
 	 *
 	 * @return string Schema file.
 	 */
-	public function getBwSchemaFile() {
+	public function get_bw_schema_file() {
 		return $this->get( 'bw_schema_file' );
 	}
 
@@ -274,7 +283,7 @@ class Reseller_Data extends PostData {
 	 *
 	 * @return string Schema file.
 	 */
-	public function getVwSchemaFile() {
+	public function get_vw_schema_file() {
 		return $this->get( 'vw_schema_file' );
 	}
 
@@ -285,7 +294,7 @@ class Reseller_Data extends PostData {
 	 *
 	 * @return string Email from address.
 	 */
-	public function getEmailSenderAddress() {
+	public function get_email_sender_address() {
 		return $this->get( 'email_sender_address' );
 	}
 
@@ -296,7 +305,7 @@ class Reseller_Data extends PostData {
 	 *
 	 * @return string Email from name.
 	 */
-	public function getEmailSenderName() {
+	public function get_email_sender_name() {
 		return $this->get( 'email_sender_name' );
 	}
 
@@ -307,7 +316,7 @@ class Reseller_Data extends PostData {
 	 *
 	 * @return string Email footer.
 	 */
-	public function getEmailFooter() {
+	public function get_email_footer() {
 		return $this->get( 'email_footer' );
 	}
 
@@ -318,7 +327,7 @@ class Reseller_Data extends PostData {
 	 *
 	 * @return string iframe url.
 	 */
-	public function getIframeBedarfsausweisUrl() {
+	public function get_iframe_bedarfsausweis_url() {
 		return get_home_url() . '/energieausweis2/bedarfsausweis-wohngebaeude/?iframe_token=' . $this->get_token();
 	}
 
@@ -329,7 +338,7 @@ class Reseller_Data extends PostData {
 	 *
 	 * @return string iframe url.
 	 */
-	public function getIframeVerbrauchsausweisUrl() {
+	public function get_iframe_verbrauchsausweis_url() {
 		return get_home_url() . '/energieausweis2/verbrauchsausweis-wohngebaeude/?iframe_token=' . $this->get_token();
 	}
 
@@ -340,7 +349,7 @@ class Reseller_Data extends PostData {
 	 *
 	 * @return string iframe url.
 	 */
-	public function getPostEndpoint() {
+	public function get_post_endpoint() {
 		return $this->get( 'post_endpoint' );
 	}
 
@@ -351,13 +360,13 @@ class Reseller_Data extends PostData {
 	 *
 	 * @return string iframe url.
 	 */
-	public function getPostDataConfigClass() {
-		$configFile = $this->get( 'post_data_config_class' );
+	public function get_post_data_config_class() {
+		$config_file = $this->get( 'post_data_config_class' );
 
-		if ( empty( $configFile ) ) {
+		if ( empty( $config_file ) ) {
 			return 'SendEnergieausweisStandard';
 		}
 
-		return $configFile;
+		return $config_file;
 	}
 }

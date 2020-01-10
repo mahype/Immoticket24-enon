@@ -84,13 +84,13 @@ class TaskFrontend implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_css() {
-		 $extraCss = $this->reseller->data()->getExtraCSS();
+		 $extraCss = $this->reseller->data()->get_extra_css();
 
 		if ( empty( $extraCss ) ) {
 			return;
 		}
 
-		$source = $this->reseller->data()->getExtraCSS();
+		$source = $this->reseller->data()->get_extra_css();
 		echo $source;
 	}
 }
