@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin initialization file
  *
@@ -19,9 +18,10 @@
 namespace Enon\Core;
 
 use Awsm\WP_Wrapper\Plugin\Plugin;
-use Enon\Config\Loader as ConfigLoader;
-use Enon\Misc\Loader as MiscLoader;
-use Enon\Reseller\Loader as ResellerLoader;
+use Enon\Core\Loader as Core_Loader;
+use Enon\Config\Loader as Config_Loader;
+use Enon\Misc\Loader as Misc_Loader;
+use Enon\Reseller\Loader as Reseller_Loader;
 use Enon\Logger;
 
 require dirname( __FILE__ ) . '/vendor/autoload.php';
@@ -44,9 +44,10 @@ function enon_boot() {
 		$logger = new Logger( 'Enon' );
 
 		( new Plugin() )
-			->add_task( ConfigLoader::class, $logger )
-			->add_task( MiscLoader::class, $logger )
-			->add_task( ResellerLoader::class, $logger )
+			->add_task( Core_Loader::class, $logger )
+			->add_task( Config_Loader::class, $logger )
+			->add_task( Misc_Loader::class, $logger )
+			->add_task( Reseller_Loader::class, $logger )
 			->boot();
 	} catch ( \Exception $exception ) {
 		wp_die( $exception->getMessage() );
