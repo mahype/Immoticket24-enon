@@ -9,9 +9,9 @@ use Enon\TaskLoader;
 use Enon\Models\Exceptions\Exception;
 
 use Enon\Reseller\Models\Reseller;
-use Enon\Reseller\Models\ResellerData;
+use Enon\Reseller\Models\Reseller_Data;
 
-use Enon\Reseller\Tasks\Core\TaskCPTReseller;
+use Enon\Reseller\Tasks\Core\Task_CPT_Reseller;
 use Enon\Reseller\Tasks\Core\TaskFrontend;
 use Enon\Reseller\Tasks\Enon\TaskEmailConfirmation;
 use Enon\Reseller\Tasks\Enon\TaskEmailOrderConfirmation;
@@ -33,7 +33,7 @@ class Loader extends TaskLoader {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		$this->add_task( TaskCPTReseller::class );
+		$this->add_task( Task_CPT_Reseller::class );
 		$this->add_task( TaskACF::class, $this->logger() );
 
 		if ( is_admin() ) {
@@ -52,7 +52,7 @@ class Loader extends TaskLoader {
 	 */
 	public function addAdminTasks() {
 		try {
-			$reseller_data = new ResellerData();
+			$reseller_data = new Reseller_Data();
 			$reseller = new Reseller( $reseller_data, $this->logger() );
 		} catch ( Exception $exception ) {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );
@@ -76,7 +76,7 @@ class Loader extends TaskLoader {
 		}
 
 		try {
-			$reseller_data = new ResellerData( $token );
+			$reseller_data = new Reseller_Data( $token );
 			$reseller = new Reseller( $reseller_data, $this->logger() );
 		} catch ( Exception $exception ) {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );

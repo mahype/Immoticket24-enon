@@ -4,7 +4,8 @@ namespace Enon\Core;
 
 use Enon\TaskLoader;
 use Enon\Models\Exceptions\Exception;
-use Enon\Core\Tasks\Plugins\Task_ACF;
+use Enon\Core\Tasks\Task_ACF;
+use Enon\Core\Tasks\Task_Options_Page;
 
 /**
  * Whitelabel loader.
@@ -35,6 +36,7 @@ class Loader extends TaskLoader {
 	 * @since 1.0.0
 	 */
 	public function addAdminTasks() {
+		$this->add_task( Task_Options_Page::class, $this->logger() );
 	}
 
 	/**
@@ -43,7 +45,6 @@ class Loader extends TaskLoader {
 	 * @since 1.0.0
 	 */
 	public function addFrontendTasks() {
-
 	}
 }
 

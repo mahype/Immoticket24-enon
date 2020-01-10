@@ -36,7 +36,7 @@ class TaskReseller implements Task, Actions, Filters {
 	 * @param Logger   $logger
 	 */
 	public function __construct( Reseller $reseller, Logger $logger ) {
-		 $this->reseller = $reseller;
+		$this->reseller = $reseller;
 		$this->logger = $logger;
 
 	}
@@ -107,7 +107,7 @@ class TaskReseller implements Task, Actions, Filters {
 			return $file;
 		}
 
-		$this->reseller->data()->setPostId( $resellerId );
+		$this->reseller->data()->set_post_id( $resellerId );
 
 		switch ( $energieausweis->type ) {
 			case 'bw':

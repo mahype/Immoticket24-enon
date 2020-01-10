@@ -1,0 +1,67 @@
+<?php
+
+namespace Enon\Core\Tasks;
+
+use Awsm\WP_Wrapper\Building_Plans\Actions;
+use Awsm\WP_Wrapper\Building_Plans\Task;
+use Enon\Models\ACF\ACF;
+use Enon\Traits\Logger as Logger_Trait;
+use Enon\Logger;
+
+/**
+ * Managing ACF Fields.
+ *
+ * @since 1.0.0
+ *
+ * @package Enon\Reseller\WordPress
+ */
+class Task_Options_Page implements Task, Actions {
+	/**
+	 * AffiliateWP constructor.
+	 *
+	 * @param Logger $logger Logger object.
+	 * @since 1.0.0
+	 */
+	public function __construct( Logger $logger ) {
+		$this->logger = $logger;
+	}
+
+	/**
+	 * Running scripts.
+	 *
+	 * @since 1.0.0
+	 */
+	public function run() {
+		if ( ! ACF::is_activated() ) {
+			$this->logger->warning( 'Advanced custom fields seems not to be activated.' );
+			return;
+		}
+
+		$this->add_actions();
+	}
+
+	/**
+	 * Adding actions.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_actions() {
+		add_action( 'admin_menu', array( $this, 'enon_menu' ) );
+	}
+
+	/**
+	 * Register enon menu in admin.
+	 *
+	 * @since 1.0.0
+	 */
+	public function enon_menu() {
+		add_menu_page( __('Enon', 'enon' ), __('Enon settings', 'enon' ), 'administrator', 'enon', [ $this, 'options_page' ], 'dashicons-admin-multisite', 50 );
+	}
+
+	/**
+	 * Options page content.
+	 */
+	public function options_page() {
+
+	}
+}

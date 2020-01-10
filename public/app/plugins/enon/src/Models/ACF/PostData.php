@@ -26,7 +26,7 @@ abstract class PostData {
 	 *
 	 * @param int $postId
 	 */
-	public function setPostId( $postId ) {
+	public function set_post_id( $postId ) {
 		$this->postId = $postId;
 	}
 

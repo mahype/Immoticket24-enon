@@ -14,10 +14,10 @@ use Enon\Models\Edd\EddPayment;
  *
  * @package Enon\Reseller
  */
-class ResellerData extends PostData {
+class Reseller_Data extends PostData {
 
 	/**
-	 * ResellerData constructor.
+	 * Reseller_Data constructor.
 	 *
 	 * @since 1.0.0
 	 *
@@ -27,9 +27,9 @@ class ResellerData extends PostData {
 	 */
 	public function __construct( Token $token = null ) {
 		if ( ! empty( $token ) ) {
-			$this->setToken( $token );
+			$this->set_token( $token );
 		} elseif ( is_admin() ) {
-			$this->setPost();
+			$this->set_post();
 		}
 	}
 
@@ -42,14 +42,14 @@ class ResellerData extends PostData {
 	 *
 	 * @throws Exception Token was not found.
 	 */
-	public function setToken( Token $token ) {
-		$postId = $this->getPostIdByToken( $token );
+	public function set_token( Token $token ) {
+		$postId = $this->get_post_id_by_token( $token );
 
 		if ( empty( $postId ) ) {
 			throw new Exception( sprintf( 'Invalid token "%s".', $token->get() ) );
 		}
 
-		$this->setPostId( $postId );
+		$this->set_post_id( $postId );
 	}
 
 	/**
@@ -61,7 +61,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return int/bool Post id if found or false. Returns the first token which was found.
 	 */
-	private function getPostIdByToken( Token $token ) {
+	private function get_post_id_by_token( Token $token ) {
 		$args = array(
 			'post_type'     => 'reseller',
 			'meta_query'        => array(
@@ -88,7 +88,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return void
 	 */
-	private function setPost() {
+	private function set_post() {
 		global $pagenow;
 
 		if ( 'edit.php' !== $pagenow ) {
@@ -104,7 +104,7 @@ class ResellerData extends PostData {
 		// @todo Move to new energieausweis object getResellerId function
 		$resellerId = get_post_meta( $energieausweisId, 'reseller_id', true );
 
-		$this->setPostId( $resellerId );
+		$this->set_post_id( $resellerId );
 	}
 
 	/**
@@ -114,7 +114,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return string Token string of current token.
 	 */
-	public function getCompanyName() {
+	public function get_company_name() {
 		return $this->get( 'company_name' );
 	}
 
@@ -125,7 +125,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return string Token string of current token.
 	 */
-	public function getContactName() {
+	public function get_contact_name() {
 		return $this->get( 'contact_name' );
 	}
 
@@ -136,7 +136,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return string Token string of current token.
 	 */
-	public function getContactEmail() {
+	public function get_contact_email() {
 		return $this->get( 'contact_email' );
 	}
 
@@ -147,10 +147,10 @@ class ResellerData extends PostData {
 	 *
 	 * @return string Token string of current token.
 	 */
-	public function sendOrderToReseller() {
-		$sendOrderToReseller = $this->get( 'send_order_to_reseller' );
+	public function send_order_to_reseller() {
+		$send_order_to_reseller = $this->get( 'send_order_to_reseller' );
 
-		if ( in_array( 'send_order_to_reseller', $sendOrderToReseller ) ) {
+		if ( in_array( 'send_order_to_reseller', $send_order_to_reseller ) ) {
 			return true;
 		}
 
@@ -164,7 +164,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return mixed
 	 */
-	public function getAffiliateId() {
+	public function get_affiliate_id() {
 		return $this->get( 'affiliate_id' );
 	}
 
@@ -175,7 +175,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return string Token string of current token.
 	 */
-	public function getToken() {
+	public function get_token() {
 		return $this->get( 'token' );
 	}
 
@@ -186,7 +186,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return string Sitename of current token.
 	 */
-	public function getWebdsiteName() {
+	public function get_website_name() {
 		return $this->get( 'website_name' );
 	}
 
@@ -197,7 +197,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return string Url where users are redirected for editing entry.
 	 */
-	public function getCustomerEditUrl() {
+	public function get_customer_edit_url() {
 		return trim( $this->get( 'customer_edit_url' ) );
 	}
 
@@ -208,7 +208,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return string Url where users are redirected after succesful payment.
 	 */
-	public function getPaymentSuccesfulUrl() {
+	public function get_payment_successful_url() {
 		return trim( $this->get( 'payment_successful_url' ) );
 	}
 
@@ -219,7 +219,7 @@ class ResellerData extends PostData {
 	 *
 	 * @return string Url where users are redirected after failed payment.
 	 */
-	public function getPaymentFailedUrl() {
+	public function get_payment_failed_url() {
 		 return trim( $this->get( 'payment_failed_url' ) );
 	}
 
@@ -319,7 +319,7 @@ class ResellerData extends PostData {
 	 * @return string iframe url.
 	 */
 	public function getIframeBedarfsausweisUrl() {
-		return get_home_url() . '/energieausweis2/bedarfsausweis-wohngebaeude/?iframe_token=' . $this->getToken();
+		return get_home_url() . '/energieausweis2/bedarfsausweis-wohngebaeude/?iframe_token=' . $this->get_token();
 	}
 
 	/**
@@ -330,7 +330,7 @@ class ResellerData extends PostData {
 	 * @return string iframe url.
 	 */
 	public function getIframeVerbrauchsausweisUrl() {
-		return get_home_url() . '/energieausweis2/verbrauchsausweis-wohngebaeude/?iframe_token=' . $this->getToken();
+		return get_home_url() . '/energieausweis2/verbrauchsausweis-wohngebaeude/?iframe_token=' . $this->get_token();
 	}
 
 	/**

@@ -66,7 +66,7 @@ class TaskEnon implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		 add_filter( 'wpenon_schema_file', array( $this, 'filterSchemafile' ), 10, 3 );
+		add_filter( 'wpenon_schema_file', array( $this, 'filterSchemafile' ), 10, 3 );
 		add_filter( 'wpenon_filter_url', array( $this, 'filterIframeUrl' ) );
 		add_filter( 'wpenon_payment_success_url', array( $this, 'filterPaymentSuccessUrl' ) );
 		add_filter( 'wpenon_payment_failed_url', array( $this, 'filterPaymentFailedUrl' ) );
@@ -80,7 +80,7 @@ class TaskEnon implements Task, Actions, Filters {
 	 * @param \WPENON\Model\Energieausweis $energieausweis Energieausweis object.
 	 */
 	public function updateEnergieausweisToken( $energieausweis ) {
-		update_post_meta( $energieausweis->id, 'whitelabel_token', $this->reseller->data()->getToken() );
+		update_post_meta( $energieausweis->id, 'whitelabel_token', $this->reseller->data()->get_token() );
 	}
 
 	/**
@@ -142,7 +142,7 @@ class TaskEnon implements Task, Actions, Filters {
 	 * @return string
 	 */
 	public function filterPaymentSuccessUrl( $old_url ) {
-		$url = $this->reseller->data()->getPaymentSuccesfulUrl();
+		$url = $this->reseller->data()->get_payment_successful_url();
 
 		if ( empty( $url ) ) {
 			$payment_successful_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_successful_payment' );
@@ -167,7 +167,7 @@ class TaskEnon implements Task, Actions, Filters {
 	 * @return string
 	 */
 	public function filterPaymentFailedUrl( $old_url ) {
-		$url = $this->reseller->data()->getPaymentFailedUrl();
+		$url = $this->reseller->data()->get_payment_failed_url();
 
 		if ( empty( $url ) ) {
 			$payment_failed_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_failed_payment' );

@@ -110,7 +110,7 @@ class TaskEmailConfirmation implements Task, Filters {
 	 * @return string Filtered signature.
 	 */
 	public function filterSiteName( $siteName ) {
-		$resellerSiteName = $this->reseller->data()->getWebdsiteName();
+		$resellerSiteName = $this->reseller->data()->get_website_name();
 
 		if ( empty( $resellerSiteName ) ) {
 			return $siteName;
@@ -127,7 +127,7 @@ class TaskEmailConfirmation implements Task, Filters {
 	 * @return string Filtered signature.
 	 */
 	public function filterLink( $link, $energieausweis ) {
-		$customerEditUrl = $this->reseller->data()->getCustomerEditUrl();
+		$customerEditUrl = $this->reseller->data()->get_customer_edit_url();
 
 		if ( empty( $customerEditUrl ) ) {
 			return $link;
@@ -159,7 +159,7 @@ class TaskEmailConfirmation implements Task, Filters {
 		$footer = '<div style="font-size:14px;">';
 		$footer .= wpautop( $resellerFooter );
 		$footer .= '</div>';
-		$footer .= '<small>' . sprintf( __( 'Diese Email wurde automatisch von <a href="%1$s">%2$s</a> versendet.', 'wpenon' ), $this->reseller->data()->getCustomerEditUrl(), $this->reseller->data()->getWebdsiteName() ) . '</small>';
+		$footer .= '<small>' . sprintf( __( 'Diese Email wurde automatisch von <a href="%1$s">%2$s</a> versendet.', 'wpenon' ), $this->reseller->data()->get_customer_edit_url(), $this->reseller->data()->get_website_name() ) . '</small>';
 
 		return $footer;
 	}
@@ -172,8 +172,8 @@ class TaskEmailConfirmation implements Task, Filters {
 	 * @return string Filtered footer.
 	 */
 	public function filterLegal( $legal ) {
-		$resellerCustomerEditUrl = $this->reseller->data()->getCustomerEditUrl();
-		$resellerWebsiteName = $this->reseller->data()->getWebdsiteName();
+		$resellerCustomerEditUrl = $this->reseller->data()->get_customer_edit_url();
+		$resellerWebsiteName = $this->reseller->data()->get_website_name();
 
 		if ( empty( $resellerCustomerEditUrl ) ) {
 			return $legal;
@@ -200,7 +200,7 @@ class TaskEmailConfirmation implements Task, Filters {
 	 * @return string Filtered signature.
 	 */
 	public function filterSignature( $signature ) {
-		$resellerWebsiteName = $this->reseller->data()->getWebdsiteName();
+		$resellerWebsiteName = $this->reseller->data()->get_website_name();
 
 		if ( empty( $resellerWebsiteName ) ) {
 			return $signature;

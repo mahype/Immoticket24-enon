@@ -79,7 +79,7 @@ class TaskRouteUrls implements Task, Filters {
 	 * @return string
 	 */
 	public function filterPaymentSuccessUrl( $old_url ) {
-		$url = $this->reseller->data()->getPaymentSuccesfulUrl();
+		$url = $this->reseller->data()->get_payment_successful_url();
 
 		if ( empty( $url ) ) {
 			$payment_successful_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_successful_payment' );
@@ -104,7 +104,7 @@ class TaskRouteUrls implements Task, Filters {
 	 * @return string
 	 */
 	public function filterPaymentFailedUrl( $old_url ) {
-		$url = $this->reseller->data()->getPaymentFailedUrl();
+		$url = $this->reseller->data()->get_payment_failed_url();
 
 		if ( empty( $url ) ) {
 			$payment_failed_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_failed_payment' );

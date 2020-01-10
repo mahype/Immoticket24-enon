@@ -21,7 +21,7 @@ class Reseller {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var ResellerData
+	 * @var Reseller_Data
 	 */
 	private $data;
 
@@ -39,11 +39,11 @@ class Reseller {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param ResellerData $data   Reseller data object.
+	 * @param Reseller_Data $data   Reseller data object.
 	 * @param Logger       $logger Logger object.
 	 */
-	public function __construct( ResellerData $data, Logger $logger ) {
-		 $this->data   = $data;
+	public function __construct( Reseller_Data $data, Logger $logger ) {
+		$this->data   = $data;
 		$this->logger = $logger;
 	}
 
@@ -52,7 +52,7 @@ class Reseller {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return ResellerData
+	 * @return Reseller_Data
 	 */
 	public function data() {
 		return $this->data;
@@ -67,7 +67,7 @@ class Reseller {
 	 */
 	public function createIframeUrl( $url ) {
 		$args = array(
-			'iframe_token' => $this->data()->getToken(),
+			'iframe_token' => $this->data()->get_token(),
 		);
 
 		return add_query_arg( $args, $url );
@@ -86,7 +86,7 @@ class Reseller {
 	public function createVerfiedUrl( $url, $energieausweis_id = null ) {
 		$query_args = array(
 			'iframe'       => true,
-			'iframe_token' => $this->data()->getToken(),
+			'iframe_token' => $this->data()->get_token(),
 			'access_token' => md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true ),
 			'slug' => '',
 		);

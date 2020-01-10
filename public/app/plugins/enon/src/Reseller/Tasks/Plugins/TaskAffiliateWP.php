@@ -72,7 +72,7 @@ class TaskAffiliateWP implements Task, Actions {
 			return;
 		}
 
-		$affiliateId = $this->reseller->data()->getAffiliateId();
+		$affiliateId = $this->reseller->data()->get_affiliate_id();
 
 		if ( empty( $affiliateId ) ) {
 			return;

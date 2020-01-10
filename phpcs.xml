@@ -20,6 +20,10 @@
 		</properties>
 	</rule>
 
+	<rule ref="Generic.Arrays.DisallowShortArraySyntax.Found">
+		<exclude-pattern>*.php$</exclude-pattern>
+ 	</rule>
+
 	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
 		<exclude-pattern>*.php$</exclude-pattern>
  	</rule>
