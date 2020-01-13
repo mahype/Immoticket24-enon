@@ -418,7 +418,7 @@ class TaskACF implements Task, Actions {
 			$form_settings_fields,
 			$website_data_fields,
 			$iframe_settings_fields,
-			$post_data_fields,
+			$post_data_fields
 		);
 
 		acf_add_local_field_group(
@@ -435,7 +435,7 @@ class TaskACF implements Task, Actions {
 						),
 					),
 				),
-			),
+			)
 		);
 	}
 
