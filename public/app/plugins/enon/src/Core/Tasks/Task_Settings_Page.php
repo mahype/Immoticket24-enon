@@ -15,7 +15,7 @@ use Enon\Logger;
  *
  * @package Enon\Reseller\WordPress
  */
-class Task_Options_Page implements Task, Actions {
+class Task_Settings_Page implements Task, Actions {
 	/**
 	 * AffiliateWP constructor.
 	 *
@@ -62,6 +62,6 @@ class Task_Options_Page implements Task, Actions {
 	 * Options page content.
 	 */
 	public function options_page() {
-
+		// Will be overwritten by added CPT's, so leave empty.
 	}
 }

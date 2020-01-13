@@ -19,13 +19,13 @@ use Enon\Traits\Logger as Logger_Trait;
 use Enon\Logger;
 
 /**
- * Class Task_ACF.
+ * Class Task_Settings_ACF.
  *
  * @since 1.0.0
  *
  * @package Enon\Reseller\WordPress
  */
-class Task_ACF implements Task, Actions {
+class Task_Settings_ACF implements Task, Actions {
 
 	use Logger_Trait;
 
