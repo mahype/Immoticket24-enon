@@ -99,7 +99,7 @@ if( !defined( 'WP_CONTENT_URL' ) )
 	define( 'WP_CONTENT_URL', rtrim( WP_HOME, '/' ) . '/app' );
 }
 
-define( 'FORCE_SSL_ADMIN', true );
+// define( 'FORCE_SSL_ADMIN', true );
 
 /**======================================================================================
  * Core bundled plugins / themes
