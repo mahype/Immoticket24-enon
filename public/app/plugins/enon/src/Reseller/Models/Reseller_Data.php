@@ -108,7 +108,7 @@ class Reseller_Data extends PostData {
 			return;
 		}
 
-		$energieausweis_id = ( new EddPayment( $_REQUEST['id'] ) )->getenergieausweis_id();
+		$energieausweis_id = ( new EddPayment( $_REQUEST['id'] ) )->get_energieausweis_id();
 
 		// @todo Move to new energieausweis object getreseller_id function
 		$reseller_id = get_post_meta( $energieausweis_id, 'reseller_id', true );

@@ -442,14 +442,14 @@ class Emails {
 	}
 
 	public function getEmailConfirmationBodyContent( $energieausweis_id, $energieausweis ) {
-		$confirmation_site      = apply_filters( 'wpenon_confirmation_site',  home_url(), energieausweis );
+		$confirmation_site      = apply_filters( 'wpenon_confirmation_site',  home_url(), $energieausweis );
 		$confirmation_link      = apply_filters( 'wpenon_confirmation_link',  $energieausweis->verified_permalink, $energieausweis );
 		$energieausweis_title   = apply_filters( 'wpenon_confirmation_energieausweis_title',  $energieausweis->post_title, $energieausweis );
 		$energieausweis_typ     = apply_filters( 'wpenon_confirmation_energieausweis_address',  $energieausweis->post_title, $energieausweis );
 		$energieausweis_address = apply_filters( 'wpenon_confirmation_energieausweis_title',  $energieausweis->post_title, $energieausweis );
 
 		$values = [
-			'site'    => apply_filters( 'wpenon_confirmation_site',  home_url(), energieausweis ),
+			'site'    => apply_filters( 'wpenon_confirmation_site',  home_url(), $energieausweis ),
 			'link'    => apply_filters( 'wpenon_confirmation_link',  $energieausweis->verified_permalink, $energieausweis ),
 			'title'   => apply_filters( 'wpenon_confirmation_energieausweis_title',  $energieausweis->post_title, $energieausweis ),
 			'type'    => apply_filters( 'wpenon_confirmation_energieausweis_type',  $energieausweis->formatted_wpenon_type, $energieausweis ),
@@ -465,7 +465,7 @@ class Emails {
 		}
 
 		$default_email_body = __( 'Sehr geehrter Kunde,', 'wpenon' ) . "\n\n";
-		$default_email_body .= sprintf( __( 'schön, dass Sie auf unserer Website mit der Erstellung eines Energieausweises (Kennung %s) begonnen haben.', 'wpenon' ), energieausweis_title ) . "\n\n";
+		$default_email_body .= sprintf( __( 'schön, dass Sie auf unserer Website mit der Erstellung eines Energieausweises (Kennung %s) begonnen haben.', 'wpenon' ), $energieausweis_title ) . "\n\n";
 		$default_email_body .= sprintf( __( 'Typ: %s', 'wpenon' ), $energieausweis->formatted_wpenon_type ) . "\n";
 		$default_email_body .= sprintf( __( 'Gebäudeadresse: %s', 'wpenon' ), $energieausweis->adresse ) . "\n\n";
 		$default_email_body .= __( 'Sie haben jederzeit die Möglichkeit die Erstellung des Energieausweises unter folgendem Link fortzusetzen:', 'wpenon' ) . "\n\n";

@@ -82,7 +82,7 @@ class TaskSendEnergieausweis implements Actions, Task {
 			return;
 		}
 
-		$energieausweisId = ( new EddPayment( $paymentId ) )->getEnergieausweisId();
+		$energieausweisId = ( new EddPayment( $paymentId ) )->get_energieausweis_id();
 		$energieausweis = new Energieausweis( $energieausweisId );
 
 		( new $senderClassName( $endpoint, $energieausweis, $this->logger() ) )->send();
