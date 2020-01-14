@@ -82,7 +82,6 @@ abstract class Send {
 		$status = wp_remote_retrieve_response_code( $response );
 
 		$body = wp_remote_retrieve_body( $response );
-		$bodyArr = json_decode( $body );
 
 		switch ( $status ) {
 			case 200:
