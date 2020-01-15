@@ -26,6 +26,8 @@ class SendEnergieausweisSparkasse extends SendEnergieausweis {
 			$data[ $key ] = $this->energieausweis->$key;
 		}
 
+		$data['sender'] = 'immoticket24';
+
 		return $data;
 	}
 }
