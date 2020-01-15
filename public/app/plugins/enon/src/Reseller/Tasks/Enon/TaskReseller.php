@@ -102,6 +102,7 @@ class TaskReseller implements Task, Actions, Filters {
 	 */
 	public function filterSchemafile( $file, $standard, $energieausweis ) {
 		$resellerId = $this->getResellerId( $energieausweis );
+		$type = get_post_meta( $energieausweis->id, 'wpenon_type', true );
 
 		if ( empty( $resellerId ) ) {
 			return $file;
@@ -109,7 +110,7 @@ class TaskReseller implements Task, Actions, Filters {
 
 		$this->reseller->data()->set_post_id( $resellerId );
 
-		switch ( $energieausweis->type ) {
+		switch ( $type ) {
 			case 'bw':
 				$schema_file = trim( $this->reseller->data()->get_bw_schema_file() );
 				break;
