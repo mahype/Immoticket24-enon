@@ -52,7 +52,9 @@
 
 	</div>
 </div><!-- .wrapper -->
-
+<script type="text/javascript">
+<?php do_action( 'enon_iframe_js' ); ?>
+</script>
 <?php wp_footer(); ?>
 
 </body>

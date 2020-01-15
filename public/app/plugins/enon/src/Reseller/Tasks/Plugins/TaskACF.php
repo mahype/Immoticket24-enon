@@ -262,8 +262,19 @@ class TaskACF implements Task, Actions {
 				'key' => 'field_extra_css',
 				'label' => __( 'Extra CSS', 'enon' ),
 				'name' => 'extra_css',
-				'type' => 'textarea',
+				'type' => 'acf_code_field',
 				'instructions' => __( 'Add some extra CSS for reseller.', 'enon' ),
+				'mode' => 'css',
+				'theme' => 'monokai',
+			),
+			array(
+				'key' => 'field_extra_js',
+				'label' => __( 'Extra JS', 'enon' ),
+				'name' => 'extra_js',
+				'type' => 'acf_code_field',
+				'instructions' => __( 'Add some extra JavaScript for reseller.', 'enon' ),
+				'mode' => 'javascript',
+				'theme' => 'monokai',
 			),
 		);
 

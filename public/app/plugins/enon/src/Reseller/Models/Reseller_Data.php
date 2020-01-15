@@ -255,6 +255,17 @@ class Reseller_Data extends PostData {
 	}
 
 	/**
+	 * Get reseller extra JS.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Reseller extra JS.
+	 */
+	public function get_extra_js() {
+		 return $this->get( 'extra_js' );
+	}
+
+	/**
 	 * Get technical values.
 	 *
 	 * @since 1.0.0

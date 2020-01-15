@@ -54,8 +54,9 @@ class TaskFrontend implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		 add_action( 'wp_head', 'wp_no_robots' );
+		add_action( 'wp_head', 'wp_no_robots' );
 		add_action( 'enon_iframe_css', array( $this, 'add_css' ) );
+		add_action( 'enon_iframe_js', array( $this, 'add_js' ) );
 	}
 
 	/**
@@ -84,13 +85,27 @@ class TaskFrontend implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_css() {
-		 $extraCss = $this->reseller->data()->get_extra_css();
+		 $extra_css = $this->reseller->data()->get_extra_css();
 
-		if ( empty( $extraCss ) ) {
+		if ( empty( $extra_css ) ) {
 			return;
 		}
 
-		$source = $this->reseller->data()->get_extra_css();
-		echo $source;
+		echo $extra_css;
 	}
+
+	/**
+	 * Add reseller CSS.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_js() {
+		$extra_js = $this->reseller->data()->get_extra_js();
+
+		if ( empty( $extra_js ) ) {
+			return;
+		}
+
+		echo $extra_js;
+   }
 }
