@@ -149,7 +149,7 @@ abstract class Standard {
 	 * @todo Rewriting included scripts!
 	 */
 	public function load( $params, $variables = array() ) {
-		 extract( $variables );
+		extract( $variables );
 
 		$file = $this->getFile( $params );
 

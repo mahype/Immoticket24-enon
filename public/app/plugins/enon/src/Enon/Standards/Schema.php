@@ -22,7 +22,9 @@ class Schema extends Standard {
 	 * @return string The location of the schema file.
 	 */
 	public function getFile( $energieausweis ) {
-		$schema_file = $this->getPath() . '/schema/' . $energieausweis->type . '.php';
+		$type = get_post_meta( $energieausweis->id, 'wpenon_type', true );
+
+		$schema_file = $this->getPath() . '/schema/' . $type . '.php';
 		return apply_filters( 'wpenon_schema_file', $schema_file, $this->getKey(), $energieausweis );
 	}
 }

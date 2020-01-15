@@ -173,7 +173,8 @@ class EnergieausweisManager
 
 	public static function getAvailableTypes()
 	{
-		return (new TypesConfig())->get();
+		$types = (new TypesConfig())->get();
+		return $types;
 	}
 
 	public static function getAvailableStandards()
@@ -339,7 +340,10 @@ class EnergieausweisManager
 	 */
 	public static function loadSchema( $energieausweis )
 	{
-		$schema = new Schema( $energieausweis->standard );
+		$type = get_post_meta( $energieausweis->id, 'wpenon_type', true );
+		$standard = get_post_meta( $energieausweis->id, 'wpenon_standard', true );
+
+		$schema = new Schema( $standard );
 		$schema = $schema->load( $energieausweis );
 
 		$private_fields = array(
@@ -348,7 +352,7 @@ class EnergieausweisManager
 				'groups' => array(
 					'basisdaten' => array(
 						'title' => __( 'Energieausweis-Metadaten', 'wpenon' ),
-						'fields' => self::getPrivateFields( $energieausweis->type, $energieausweis->standard ),
+						'fields' => self::getPrivateFields( $type, $standard ),
 					),
 				),
 			),

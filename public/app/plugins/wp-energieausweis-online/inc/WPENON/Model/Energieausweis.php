@@ -62,7 +62,7 @@ class Energieausweis {
 	 *
 	 * @var \WPENON\Model\Schema|null
 	 */
-	private $schema = null;
+	public $schema = null;
 
 	/**
 	 * Calculation data.
@@ -78,20 +78,6 @@ class Energieausweis {
 	 */
 	private $owner_data = null;
 
-	/**
-	 * Type
-	 *
-	 * @var string
-	 */
-	public $type = null;
-
-	/**
-	 * Standard
-	 *
-	 * @var string
-	 */
-	public $standard;
-
 	public function __construct( $id ) {
 		$this->id = $id;
 
@@ -101,12 +87,14 @@ class Energieausweis {
 		$this->warnings = \WPENON\Util\Storage::getWarnings( $this->id );
 		$this->progress = get_post_meta( $this->id, '_wpenon_progress' );
 
-		$this->type     = get_post_meta( $this->id, 'wpenon_type', true );
-		$this->standard = get_post_meta( $this->id, 'wpenon_standard', true );
-
 		add_action( 'edd_update_payment_status', array( $this, '_checkOrderedPaidStatus' ) );
 
 		$this->_loadSchema();
+
+		$x = 1;
+
+		// $this->type     = get_post_meta( $this->id, 'wpenon_type', true );
+		// $this->standard = get_post_meta( $this->id, 'wpenon_standard', true );
 	}
 
 	public function __set( $field, $value ) {
