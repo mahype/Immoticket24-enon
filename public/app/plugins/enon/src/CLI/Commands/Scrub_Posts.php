@@ -20,9 +20,9 @@ namespace Enon\CLI\Commands;
  */
 class Scrub_Posts extends \WP_CLI_Command {
 	/**
-	 * Scrub posts
+	 * Scrub posts.
 	 *
-	 * ## OPTIONS
+	 * OPTIONS
 	 *
 	 * --date=<date>
 	 * : Delete posts older than this date.
@@ -40,20 +40,29 @@ class Scrub_Posts extends \WP_CLI_Command {
 	 *
 	 *     wp scrub posts --date='-1 month'
 	 *     wp scrub posts --date='2015-01-01'
+	 *
+	 * @param array $args       WP CLI arguments.
+	 * @param array $assoc_args WP CLI associated arguments.
+	 *
+	 * @since 1.0.0
 	 */
-	function posts( $args, $assoc_args ) {
+	public function posts( $args, $assoc_args ) {
 		$dry_run = isset( $assoc_args['dry-run'] );
-		$date = date( 'Y-m-d', strtotime( $assoc_args['date'] ) );
-		$ppp = intval( $assoc_args['posts_per_page'] );
-		if ( $ppp === 0 ) {
+		$date    = gmdate( 'Y-m-d', strtotime( $assoc_args['date'] ) );
+		$ppp     = intval( $assoc_args['posts_per_page'] );
+
+		if ( 0 === $ppp ) {
 			$ppp = 100;
 		}
+
 		$post_type = $assoc_args['post_type'];
+
 		if ( empty( $post_type ) ) {
 			$post_type = 'post';
 		}
+
 		$gtotal = wp_count_posts( $post_type )->publish;
-		$args = array(
+		$args   = array(
 			'fields'                 => 'ids',
 			'update_post_meta_cache' => false,
 			'update_post_term_cache' => false,
@@ -65,31 +74,38 @@ class Scrub_Posts extends \WP_CLI_Command {
 				),
 			),
 		);
-		$scrub_query = new \WP_Query( $args );
-		$pages = $scrub_query->max_num_pages;
-		$total = $scrub_query->found_posts;
+
+		$scrub_query           = new \WP_Query( $args );
+		$pages                 = $scrub_query->max_num_pages;
+		$total                 = $scrub_query->found_posts;
 		$args['no_found_rows'] = true;
+
 		if ( $total > 0 ) {
-			\WP_CLI::confirm( sprintf( "Found %d posts (of %d) older than %s. Proceed?", $total, $gtotal, $date ) );
+			\WP_CLI::confirm( sprintf( 'Found %d posts (of %d) older than %s. Proceed?', $total, $gtotal, $date ) );
 		} else {
 			\WP_CLI::line( 'No posts found' );
 			return;
 		}
+
 		$notify = \WP_CLI\Utils\make_progress_bar( sprintf( 'Removing %d post(s)', $total ), $total );
-		for( $i=1; $i<=$pages; $i++ ) {
+
+		for ( $i = 1; $i <= $pages; $i++ ) {
 			if ( $i > 1 ) {
 				if ( $dry_run ) {
 					$args['paged'] = $i;
 				}
 				$scrub_query = new \WP_Query( $args );
 			}
+
 			foreach ( $scrub_query->posts as $post_id ) {
 				if ( ! $dry_run ) {
 					\wp_delete_post( $post_id, true );
 				}
- 				$notify->tick();
+
+				$notify->tick();
 			}
 		}
+
 		$notify->finish();
 	}
 }

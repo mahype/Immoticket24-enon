@@ -9,8 +9,8 @@ namespace WPENON\Model;
 
 use Enon\Enon\Standards\Mapping;
 use Enon\Enon\Standards\XSD;
-use Enon\Enon\StandardsConfig;
-use Enon\Enon\TypesConfig;
+use Enon\Enon\Standards_Config;
+use Enon\Enon\Types_Config;
 use Enon\Enon\Standards\Calculation;
 use Enon\Enon\Standards\Schema;
 
@@ -115,8 +115,8 @@ class EnergieausweisManager
 
 	public function create( $type, $standard = '', $custom_meta = array() )
 	{
-		$standardsConfig = new StandardsConfig();
-		$typesConfig = new TypesConfig();
+		$standardsConfig = new Standards_Config();
+		$typesConfig = new Types_Config();
 
 		if ( empty( $type ) ) {
 			new \WPENON\Util\Error( 'fatal', __METHOD__, __( 'Type must not be empty.', 'wpenon' ), '1.0.0' );
@@ -173,13 +173,13 @@ class EnergieausweisManager
 
 	public static function getAvailableTypes()
 	{
-		$types = (new TypesConfig())->get();
+		$types = (new Types_Config())->get();
 		return $types;
 	}
 
 	public static function getAvailableStandards()
 	{
-		$standardValues = (new StandardsConfig())->get();
+		$standardValues = (new Standards_Config())->get();
 
 		$standards = array();
 		foreach( $standardValues AS $key => $standardValue ) {
@@ -379,7 +379,7 @@ class EnergieausweisManager
 	public static function getXSDFile( $mode, $standard )
 	{
 		$xsd = new XSD( $standard );
-		$file = $xsd->getFile( $mode );
+		$file = $xsd->get_file( $mode );
 
 		return $file;
 	}

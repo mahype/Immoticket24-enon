@@ -1,4 +1,13 @@
 <?php
+/**
+ * XSD config.
+ *
+ * @category Class
+ * @package  Enon\Enon
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Enon;
 
@@ -11,7 +20,7 @@ use Enon\Enon\Standards\Schema;
  *
  * @todo Renaming standards?
  */
-class XSDConfig extends Config {
+class XSD_Config extends Config {
 
 	/**
 	 * Initiating types.

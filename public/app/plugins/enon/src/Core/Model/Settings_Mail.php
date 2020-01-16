@@ -63,7 +63,7 @@ class Settings_Mail extends ACF_Settings {
 		return $this->get( 'confirmation_content' );
 	}
 
-    /**
+	/**
 	 * Get bill sender name.
 	 *
 	 * @from

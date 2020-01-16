@@ -89,6 +89,5 @@ class Task_Gutenberg implements Actions, Task {
 				),
 			)
 		);
-
 	}
 }

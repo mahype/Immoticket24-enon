@@ -8,7 +8,7 @@
 namespace WPENON\Model;
 
 use Enon\Enon\Standards;
-use Enon\Enon\StandardsConfig;
+use Enon\Enon\Standards_Config;
 use Enon\Enon\Standards\Schema;
 
 class EnergieausweisPDF extends \WPENON\Util\UFPDI {

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Types config.
+ *
+ * @category Class
+ * @package  Enon\Enon
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Enon;
 
@@ -9,7 +18,7 @@ namespace Enon\Enon;
  *
  * @package Enon\Enon
  */
-class TypesConfig extends Config {
+class Types_Config extends Config {
 	/**
 	 * Initiating types.
 	 *

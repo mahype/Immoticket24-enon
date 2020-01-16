@@ -1,8 +1,17 @@
 <?php
+/**
+ * Parent standard class.
+ *
+ * @category Class
+ * @package  Enon\Enon\Standards
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Enon\Standards;
 
-use Enon\Enon\StandardsConfig;
+use Enon\Enon\Standards_Config;
 use Enon\Models\Exceptions\Exception;
 
 /**
@@ -48,7 +57,7 @@ abstract class Standard {
 	 *
 	 * @var string
 	 */
-	private $startDate;
+	private $start_date;
 
 	/**
 	 * Standard constructor.
@@ -60,18 +69,18 @@ abstract class Standard {
 	 * @throws Exception If config could not be loaded.
 	 */
 	public function __construct( $key ) {
-		$standardsConfig = new StandardsConfig();
+		$standards_config = new Standards_Config();
 
-		if ( ! $standardsConfig->keyExists( $key ) ) {
+		if ( ! $standards_config->keyExists( $key ) ) {
 			throw new Exception( sprintf( 'Key \'%s\' does not exist on initiating \'%s\' class.', $key, get_called_class() ) );
 		}
 
-		$standardValue = $standardsConfig->getValue( $key );
+		$standards_value = $standards_config->getValue( $key );
 
-		$this->key = $key;
-		$this->name = $standardValue['name'];
-		$this->date = $standardValue['date'];
-		$this->startDate = $standardValue['startDate'];
+		$this->key        = $key;
+		$this->name       = $standards_value['name'];
+		$this->date       = $standards_value['date'];
+		$this->start_date = $standards_value['start_date'];
 	}
 
 	/**
@@ -91,7 +100,7 @@ abstract class Standard {
 	 * @since 1.0.0
 	 */
 	public function getName() {
-		 return $this->name;
+		return $this->name;
 	}
 
 	/**
@@ -110,8 +119,8 @@ abstract class Standard {
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public function getStartDate( $format = 'Y-m-D' ) {
-		 return date( $format, strtotime( $this->startDate ) );
+	public function getstart_date( $format = 'Y-m-D' ) {
+		return date( $format, strtotime( $this->start_date ) );
 	}
 
 	/**
@@ -124,7 +133,7 @@ abstract class Standard {
 	 * @todo Get rid of statics
 	 */
 	public function getPath() {
-		 return WPENON_DATA_PATH . '/' . $this->getKey();
+		return WPENON_DATA_PATH . '/' . $this->getKey();
 	}
 
 	/**
@@ -135,7 +144,7 @@ abstract class Standard {
 	 * @param mixed $param Parameters for loading file
 	 * @return mixed
 	 */
-	abstract function getFile( $param );
+	abstract public function get_file( $param );
 
 	/**
 	 * Load config file.
@@ -151,7 +160,7 @@ abstract class Standard {
 	public function load( $params, $variables = array() ) {
 		extract( $variables );
 
-		$file = $this->getFile( $params );
+		$file = $this->get_file( $params );
 
 		if ( ! file_exists( $file ) ) {
 			throw new Exception( sprintf( 'Can not load file \'%s\'', $file ) );

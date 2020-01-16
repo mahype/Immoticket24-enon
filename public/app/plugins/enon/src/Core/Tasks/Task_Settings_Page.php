@@ -1,4 +1,13 @@
 <?php
+/**
+ * Load settings menu & page.
+ *
+ * @category Class
+ * @package  Enon\Core\Tasks
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Core\Tasks;
 
@@ -9,7 +18,7 @@ use Enon\Traits\Logger as Logger_Trait;
 use Enon\Logger;
 
 /**
- * Managing ACF Fields.
+ * Class Task_Settings_Page.
  *
  * @since 1.0.0
  *

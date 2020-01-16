@@ -1,4 +1,13 @@
 <?php
+/**
+ * Calculation Standard.
+ *
+ * @category Class
+ * @package  Enon\Enon\Standards
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Enon\Standards;
 
@@ -19,7 +28,7 @@ class Calculation extends Standard {
 	 *
 	 * @return string The location of the schema file.
 	 */
-	public function getFile( $type ) {
+	public function get_file( $type ) {
 		$schema_file = $this->getPath() . '/calculations/' . $type . '.php';
 		return apply_filters( 'wpenon_calculation_file', $schema_file, $this->getKey(), $type );
 	}

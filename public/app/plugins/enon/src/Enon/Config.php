@@ -1,4 +1,13 @@
 <?php
+/**
+ * Configuration.
+ *
+ * @category Class
+ * @package  Enon\Enon
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Enon;
 

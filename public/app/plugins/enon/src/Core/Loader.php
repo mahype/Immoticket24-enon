@@ -1,4 +1,13 @@
 <?php
+/**
+ * Whitelabel loader.
+ *
+ * @category Class
+ * @package  Enon\Core
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Core;
 
@@ -8,7 +17,7 @@ use Enon\Core\Tasks\Task_Settings_ACF;
 use Enon\Core\Tasks\Task_Settings_Page;
 
 /**
- * Whitelabel loader.
+ * Class loader.
  *
  * @package Enon\Config
  */

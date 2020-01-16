@@ -1,4 +1,13 @@
 <?php
+/**
+ * Schema Standard
+ *
+ * @category Class
+ * @package  Enon\Enon\Standards
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Enon\Standards;
 
@@ -21,7 +30,7 @@ class Schema extends Standard {
 	 *
 	 * @return string The location of the schema file.
 	 */
-	public function getFile( $energieausweis ) {
+	public function get_file( $energieausweis ) {
 		$type = get_post_meta( $energieausweis->id, 'wpenon_type', true );
 
 		$schema_file = $this->getPath() . '/schema/' . $type . '.php';
