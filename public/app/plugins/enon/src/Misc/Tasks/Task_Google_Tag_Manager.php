@@ -1,13 +1,22 @@
 <?php
+/**
+ * Google tag manager tasks.
+ *
+ * @category Class
+ * @package  Enon\Misc\Tasks
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Misc\Tasks;
 
-use Awsm\WP_Plugin\Building_Plans\Hooks_Actions;
-use Awsm\WP_Plugin\Building_Plans\Service;
-use Awsm\WP_Plugin\Loaders\Hooks_Loader;
-use Awsm\WP_Plugin\Loaders\Loader;
+use Awsm\WP_Wrapper\Building_Plans\Hooks_Actions;
+use Awsm\WP_Wrapper\Building_Plans\Service;
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
+use Awsm\WP_Wrapper\Loaders\Hooks_Loader;
+use Awsm\WP_Wrapper\Loaders\Loader;
 
 /**
  * Class Google_Tag_Manager
@@ -16,7 +25,7 @@ use Awsm\WP_Wrapper\Building_Plans\Task;
  *
  * @since 1.0.0
  */
-class TaskGoogleTagManager implements Actions, Task {
+class Task_Google_Tag_Manager implements Actions, Task {
 	/**
 	 * Google Tag manager Company ID.
 	 *

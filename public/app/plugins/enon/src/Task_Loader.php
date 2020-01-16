@@ -1,4 +1,13 @@
 <?php
+/**
+ * Task loader parent class.
+ *
+ * @category Class
+ * @package  Enon
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon;
 
@@ -8,7 +17,7 @@ use Awsm\WP_Wrapper\Tasks\Task_Runner;
 /**
  * Config loader.
  */
-abstract class TaskLoader implements Task {
+abstract class Task_Loader implements Task {
 
 	use Task_Runner;
 

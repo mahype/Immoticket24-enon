@@ -1,11 +1,20 @@
 <?php
+/**
+ * Loading Gutenberg tasks.
+ *
+ * @category Class
+ * @package  Enon\Config\Tasks
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Config\Tasks;
 
-use Awsm\WP_Plugin\Building_Plans\Hooks_Actions;
-use Awsm\WP_Plugin\Building_Plans\Service;
-use Awsm\WP_Plugin\Loaders\Hooks_Loader;
-use Awsm\WP_Plugin\Loaders\Loader;
+use Awsm\WP_Wrapper\Building_Plans\Hooks_Actions;
+use Awsm\WP_Wrapper\Building_Plans\Service;
+use Awsm\WP_Wrapper\Loaders\Hooks_Loader;
+use Awsm\WP_Wrapper\Loaders\Loader;
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 
@@ -16,7 +25,7 @@ use Awsm\WP_Wrapper\Building_Plans\Task;
  *
  * @since 1.0.0
  */
-class TaskGutenberg implements Actions, Task {
+class Task_Gutenberg implements Actions, Task {
 	/**
 	 * Running tasks.
 	 *
@@ -34,8 +43,8 @@ class TaskGutenberg implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'admin_head', array( __CLASS__, 'fullWidth' ) );
-		add_action( 'after_setup_theme', array( __CLASS__, 'colorPalette' ) );
+		add_action( 'admin_head', array( __CLASS__, 'full_width' ) );
+		add_action( 'after_setup_theme', array( __CLASS__, 'color_palette' ) );
 	}
 
 	/**
@@ -43,7 +52,7 @@ class TaskGutenberg implements Actions, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function fullWidth() {
+	public static function full_width() {
 		echo '<style>
 			body.gutenberg-editor-page .editor-post-title__block, body.gutenberg-editor-page .editor-default-block-appender, body.gutenberg-editor-page .editor-block-list__block {
 						max-width: 80% !important;
@@ -59,7 +68,7 @@ class TaskGutenberg implements Actions, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function colorPalette() {
+	public static function color_palette() {
 		add_theme_support(
 			'editor-color-palette',
 			array(

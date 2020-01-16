@@ -1,17 +1,26 @@
 <?php
+/**
+ * CLI task loader.
+ *
+ * @category Class
+ * @package  Enon\CLI
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\CLI;
 
-use Enon\TaskLoader;
+use Enon\Task_Loader;
 use Enon\CLI\Tasks\Task_Commands;
 
 
 /**
- * CLI loader.
+ * Class Loader.
  *
  * @package Enon\Config
  */
-class Loader extends TaskLoader {
+class Loader extends Task_Loader {
 	/**
 	 * Loading Scripts.
 	 *

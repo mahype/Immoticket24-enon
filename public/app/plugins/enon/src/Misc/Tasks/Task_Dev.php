@@ -1,4 +1,13 @@
 <?php
+/**
+ * Dev tasks.
+ *
+ * @category Class
+ * @package  Enon\Misc\Tasks
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Misc\Tasks;
 
@@ -10,7 +19,7 @@ use Awsm\WP_Wrapper\Building_Plans\Task;
  *
  * @since 1.0.0
  */
-class TaskDev implements Actions, Task {
+class Task_Dev implements Actions, Task {
 
 	/**
 	 * Running tasks.

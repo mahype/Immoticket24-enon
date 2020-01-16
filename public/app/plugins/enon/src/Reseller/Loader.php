@@ -5,7 +5,7 @@ namespace Enon\Reseller;
 use Enon\Reseller\Models\Token;
 use Enon\Reseller\Tasks\Enon\TaskReseller;
 use Enon\Reseller\Tasks\Enon\TaskRouteUrls;
-use Enon\TaskLoader;
+use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;
 
 use Enon\Reseller\Models\Reseller;
@@ -26,7 +26,7 @@ use Enon\Reseller\Tasks\Plugins\TaskEdd;
  *
  * @package Enon\Config
  */
-class Loader extends TaskLoader {
+class Loader extends Task_Loader {
 	/**
 	 * Loading Scripts.
 	 *

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Loading Config tasks.
+ *
+ * @category Class
+ * @package  Enon\Mis\Tasks
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Misc\Tasks;
 
@@ -13,7 +22,7 @@ use Awsm\WP_Wrapper\Building_Plans\Task;
  *
  * @since 1.0.0
  */
-class TaskRemoveOptimizepress implements Actions, Filters, Task {
+class Task_Remove_Optimizepress implements Actions, Filters, Task {
 	/**
 	 * Running tasks.
 	 *

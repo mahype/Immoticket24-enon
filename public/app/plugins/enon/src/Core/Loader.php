@@ -2,7 +2,7 @@
 
 namespace Enon\Core;
 
-use Enon\TaskLoader;
+use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;
 use Enon\Core\Tasks\Task_Settings_ACF;
 use Enon\Core\Tasks\Task_Settings_Page;
@@ -12,7 +12,7 @@ use Enon\Core\Tasks\Task_Settings_Page;
  *
  * @package Enon\Config
  */
-class Loader extends TaskLoader {
+class Loader extends Task_Loader {
 	/**
 	 * Loading Scripts.
 	 *

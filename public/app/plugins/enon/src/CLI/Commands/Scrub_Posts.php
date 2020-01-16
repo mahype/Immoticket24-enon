@@ -1,4 +1,13 @@
 <?php
+/**
+ * Scrub posts command for WP CLI.
+ *
+ * @category Class
+ * @package  Enon\CLI\Commands
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\CLI\Commands;
 

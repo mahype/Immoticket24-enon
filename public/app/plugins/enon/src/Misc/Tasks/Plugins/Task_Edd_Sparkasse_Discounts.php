@@ -1,4 +1,13 @@
 <?php
+/**
+ * Loading sparkasse discount code tasks.
+ *
+ * @category Class
+ * @package  Enon\Misc
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Misc\Tasks\Plugins;
 
@@ -17,7 +26,7 @@ use Enon\Reseller\Models\Reseller;
  *
  * @package Enon\Reseller\WordPress
  */
-class TaskEddSparkasseDiscounts implements Task, Filters {
+class Task_Edd_Sparkasse_Discounts implements Task, Filters {
 
 	use Logger_Trait;
 
