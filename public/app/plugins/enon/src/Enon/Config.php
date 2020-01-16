@@ -11,6 +11,11 @@
 
 namespace Enon\Enon;
 
+/**
+ * Class Config.
+ *
+ * @since 1.0.0
+ */
 abstract class Config {
 	/**
 	 * Config.
@@ -58,7 +63,7 @@ abstract class Config {
 	 * @param string $key Key to get value for.
 	 * @return mixed Config value to get.
 	 */
-	public function getValue( $key ) {
+	public function get_value( $key ) {
 		if ( ! isset( $this->config_data[ $key ] ) ) {
 			return false;
 		}
@@ -73,7 +78,7 @@ abstract class Config {
 	 *
 	 * @return array Config keys.
 	 */
-	public function getKeys() {
+	public function get_keys() {
 		return array_keys( $this->config_data );
 	}
 
@@ -86,7 +91,7 @@ abstract class Config {
 	 *
 	 * @return bool
 	 */
-	public function keyExists( $key ) {
+	public function key_exists( $key ) {
 		if ( ! isset( $this->config_data[ $key ] ) ) {
 			return false;
 		}

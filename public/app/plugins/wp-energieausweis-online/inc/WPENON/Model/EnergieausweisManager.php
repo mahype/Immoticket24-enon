@@ -123,12 +123,12 @@ class EnergieausweisManager
 			return null;
 		}
 
-		if ( ! $typesConfig->keyExists( $type ) ) {
+		if ( ! $typesConfig->key_exists( $type ) ) {
 			new \WPENON\Util\Error( 'notice', __METHOD__, __( 'Ungültiger Typ für Energieausweis angegeben.', 'wpenon' ), '1.0.0' );
 			return null;
 		}
 
-		if ( ! empty( $standard ) && ! $standardsConfig->keyExists( $standard ) ) {
+		if ( ! empty( $standard ) && ! $standardsConfig->key_exists( $standard ) ) {
 			new \WPENON\Util\Error( 'notice', __METHOD__, __( 'Ungültiger Standard für Energieausweis angegeben.', 'wpenon' ), '1.0.0' );
 			return null;
 		}

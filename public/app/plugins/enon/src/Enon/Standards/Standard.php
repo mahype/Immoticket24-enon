@@ -71,11 +71,11 @@ abstract class Standard {
 	public function __construct( $key ) {
 		$standards_config = new Standards_Config();
 
-		if ( ! $standards_config->keyExists( $key ) ) {
+		if ( ! $standards_config->key_exists( $key ) ) {
 			throw new Exception( sprintf( 'Key \'%s\' does not exist on initiating \'%s\' class.', $key, get_called_class() ) );
 		}
 
-		$standards_value = $standards_config->getValue( $key );
+		$standards_value = $standards_config->get_value( $key );
 
 		$this->key        = $key;
 		$this->name       = $standards_value['name'];
@@ -89,7 +89,7 @@ abstract class Standard {
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public function getKey() {
+	public function get_key() {
 		return $this->key;
 	}
 
@@ -99,32 +99,38 @@ abstract class Standard {
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public function getName() {
+	public function get_name() {
 		return $this->name;
 	}
 
 	/**
 	 * Get date.
 	 *
+	 * @param string $format Date format.
+	 *
 	 * @return string
+	 *
 	 * @since 1.0.0
 	 */
-	public function getDate( $format = 'Y-m-D' ) {
-		return date( $format, strtotime( $this->date ) );
+	public function get_date( $format = 'Y-m-D' ) {
+		return gmdate( $format, strtotime( $this->date ) );
 	}
 
 	/**
 	 * Get start date.
 	 *
-	 * @return string
+	 * @param string $format Date format.
+	 *
+	 * @return string Start date formatted.
+	 *
 	 * @since 1.0.0
 	 */
-	public function getstart_date( $format = 'Y-m-D' ) {
-		return date( $format, strtotime( $this->start_date ) );
+	public function get_start_date( $format = 'Y-m-D' ) {
+		return gmdate( $format, strtotime( $this->start_date ) );
 	}
 
 	/**
-	 * Get standard path.
+	 * Get path.
 	 *
 	 * @return string Path of standard.
 	 *
@@ -132,8 +138,8 @@ abstract class Standard {
 	 *
 	 * @todo Get rid of statics
 	 */
-	public function getPath() {
-		return WPENON_DATA_PATH . '/' . $this->getKey();
+	public function get_path() {
+		return WPENON_DATA_PATH . '/' . $this->get_key();
 	}
 
 	/**
@@ -141,7 +147,7 @@ abstract class Standard {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param mixed $param Parameters for loading file
+	 * @param mixed $param Parameters for loading file.
 	 * @return mixed
 	 */
 	abstract public function get_file( $param );
@@ -151,6 +157,7 @@ abstract class Standard {
 	 *
 	 * @param mixed $params    Parameters for loading file.
 	 * @param array $variables Variables which will be loaded before requiring script.
+	 *
 	 * @return mixed Content of all file.
 	 *
 	 * @throws Exception File could not be loaded.

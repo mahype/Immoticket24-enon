@@ -65,7 +65,7 @@ abstract class Send {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function setupArgs() {
+	protected function setup_args() {
 		$body = $this->get_body();
 
 		$this->args = array(
@@ -85,7 +85,7 @@ abstract class Send {
 	 * @since 1.0.0
 	 */
 	public function send() {
-		$this->setupArgs();
+		$this->setup_args();
 		// @todo Switch between request methods
 		$response = wp_remote_post( $this->endpoint, $this->args );
 		$status = wp_remote_retrieve_response_code( $response );

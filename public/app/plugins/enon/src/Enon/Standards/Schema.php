@@ -33,7 +33,7 @@ class Schema extends Standard {
 	public function get_file( $energieausweis ) {
 		$type = get_post_meta( $energieausweis->id, 'wpenon_type', true );
 
-		$schema_file = $this->getPath() . '/schema/' . $type . '.php';
-		return apply_filters( 'wpenon_schema_file', $schema_file, $this->getKey(), $energieausweis );
+		$schema_file = $this->get_path() . '/schema/' . $type . '.php';
+		return apply_filters( 'wpenon_schema_file', $schema_file, $this->get_key(), $energieausweis );
 	}
 }

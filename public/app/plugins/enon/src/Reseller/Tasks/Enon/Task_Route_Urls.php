@@ -41,11 +41,13 @@ class Task_Route_Urls implements Task, Filters {
 	/**
 	 * Wpenon constructor.
 	 *
-	 * @param Reseller $reseller
-	 * @param Logger   $logger
+	 * @param Reseller $reseller Reseller object.
+	 * @param Logger   $logger   Logger object.
+	 *
+	 * @since 1.0.0
 	 */
 	public function __construct( Reseller $reseller, Logger $logger ) {
-		 $this->reseller = $reseller;
+		$this->reseller = $reseller;
 		$this->logger = $logger;
 	}
 
@@ -55,7 +57,7 @@ class Task_Route_Urls implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		 $this->add_filters();
+		$this->add_filters();
 	}
 
 	/**
@@ -64,7 +66,7 @@ class Task_Route_Urls implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		 add_filter( 'wpenon_filter_url', array( $this, 'filterIframeUrl' ) );
+		add_filter( 'wpenon_filter_url', array( $this, 'filterIframeUrl' ) );
 		add_filter( 'wpenon_payment_success_url', array( $this, 'filterPaymentSuccessUrl' ) );
 		add_filter( 'wpenon_payment_failed_url', array( $this, 'filterPaymentFailedUrl' ) );
 	}

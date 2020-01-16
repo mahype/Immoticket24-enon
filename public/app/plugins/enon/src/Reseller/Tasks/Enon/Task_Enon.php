@@ -41,11 +41,13 @@ class Task_Enon implements Task, Actions, Filters {
 	/**
 	 * Wpenon constructor.
 	 *
-	 * @param Reseller $reseller
-	 * @param Logger   $logger
+	 * @param Reseller $reseller Reseller object.
+	 * @param Logger   $logger   Logger object.
+	 *
+	 * @since 1.0.0
 	 */
 	public function __construct( Reseller $reseller, Logger $logger ) {
-		 $this->reseller = $reseller;
+		$this->reseller = $reseller;
 		$this->logger = $logger;
 	}
 
@@ -55,7 +57,7 @@ class Task_Enon implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		 $this->add_actions();
+		$this->add_actions();
 		$this->add_filters();
 	}
 
@@ -108,8 +110,9 @@ class Task_Enon implements Task, Actions, Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $file Path to file.
-	 * @param string $type Schema typ.
+	 * @param string $file     Path to file.
+	 * @param string $standard Standard.
+	 * @param string $type     Type.
 	 *
 	 * @return string Filtered schema file.
 	 */

@@ -39,7 +39,7 @@ class Task_Frontend implements Task, Actions, Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Reseller $reseller
+	 * @param Reseller $reseller Reseller object.
 	 */
 	public function __construct( Reseller $reseller ) {
 		 $this->reseller = $reseller;
@@ -100,7 +100,7 @@ class Task_Frontend implements Task, Actions, Filters {
 			return;
 		}
 
-		echo $extra_css;
+		echo esc_attr( $extra_css );
 	}
 
 	/**
@@ -115,6 +115,6 @@ class Task_Frontend implements Task, Actions, Filters {
 			return;
 		}
 
-		echo $extra_js;
-   }
+		echo esc_attr( $extra_js );
+	}
 }

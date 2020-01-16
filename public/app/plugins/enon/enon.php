@@ -53,7 +53,7 @@ function enon_boot() {
 			->add_task( CLI_Loader::class, $logger )
 			->boot();
 	} catch ( \Exception $exception ) {
-		wp_die( $exception->getMessage() );
+		wp_die( esc_attr( $exception->getMessage() ) );
 	}
 }
 

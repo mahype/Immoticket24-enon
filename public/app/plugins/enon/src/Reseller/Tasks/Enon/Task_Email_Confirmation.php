@@ -77,9 +77,11 @@ class Task_Email_Confirmation implements Task, Filters {
 	/**
 	 * Returning token from email address.
 	 *
-	 * @since 1.0.0
+	 * @param string $email Email from address to filter.
 	 *
 	 * @return string $email Reseller from email address.
+	 *
+	 * @since 1.0.0
 	 */
 	public function filter_from_address( $email ) {
 		$reseller_mail = $this->reseller->data()->get_email_sender_address();
@@ -94,9 +96,11 @@ class Task_Email_Confirmation implements Task, Filters {
 	/**
 	 * Returning token from email name.
 	 *
-	 * $since 1.0.0
+	 * @param string $name Name of the sender.
 	 *
-	 * @return string $name Tokens from email name.
+	 * @return string $name Reseller sender name if given or global sender name.
+	 *
+	 * @since 1.0.0
 	 */
 	public function filter_from_name( $name ) {
 		$reseller_name = $this->reseller->data()->get_email_sender_name();
@@ -113,7 +117,7 @@ class Task_Email_Confirmation implements Task, Filters {
 	 *
 	 * $since 1.0.0
 	 *
-	 * @param string                                      $link Link to filter.
+	 * @param string $site Site name of sender.
 	 * @param \WPENON\Model\Energieausweis Energieausweis
 	 *
 	 * @return string Filtered signature.

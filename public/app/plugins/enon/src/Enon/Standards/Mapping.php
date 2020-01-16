@@ -29,7 +29,7 @@ class Mapping extends Standard {
 	 * @return string The location of the mapping file.
 	 */
 	public function get_file( $type ) {
-		$mapping_file = $this->getPath() . '/mappings/' . $type . '-mappings.php';
-		return apply_filters( 'wpenon_mapping_file', $mapping_file, $this->getKey(), $type );
+		$mapping_file = $this->get_path() . '/mappings/' . $type . '-mappings.php';
+		return apply_filters( 'wpenon_mapping_file', $mapping_file, $this->get_key(), $type );
 	}
 }

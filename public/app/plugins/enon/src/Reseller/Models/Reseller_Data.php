@@ -104,15 +104,22 @@ class Reseller_Data extends Post_Data {
 			return;
 		}
 
-		if( isset( $_REQUEST['post_type'] ) |)
-
-		if ( 'download' !== $_REQUEST['post_type'] || 'edd-payment-history' !== $_REQUEST['page'] || 'view-order-details' !== $_REQUEST['view'] || ! isset( $_REQUEST['id'] ) ) {
+		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
+		if ( ! isset( $_GET['post_type'] ) || ! isset( $_GET['page'] ) || ! isset( $_GET['view'] ) ) {
 			return;
 		}
 
-		$energieausweis_id = ( new Edd_Payment( $_REQUEST['id'] ) )->get_energieausweis_id();
+		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
+		if ( 'download' !== $_GET['post_type'] || 'edd-payment-history' !== $_GET['page'] || 'view-order-details' !== $_GET['view'] || ! isset( $_GET['id'] ) ) {
+			return;
+		}
 
-		// @todo Move to new energieausweis object getreseller_id function
+		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
+		$payment_id = intval( $_GET['id'] );
+
+		$energieausweis_id = ( new Edd_Payment( $payment_id ) )->get_energieausweis_id();
+
+		// @todo Move to new energieausweis object get_reseller_id function
 		$reseller_id = get_post_meta( $energieausweis_id, 'reseller_id', true );
 
 		$this->set_post_id( $reseller_id );

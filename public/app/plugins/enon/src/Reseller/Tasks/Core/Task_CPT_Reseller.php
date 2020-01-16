@@ -137,7 +137,7 @@ class Task_CPT_Reseller implements Task, Actions, Filters {
 	 * Set post column values.
 	 *
 	 * @param string $column Column name.
-	 * @param int $post_id Post id.
+	 * @param int    $post_id Post id.
 	 *
 	 * @since 1.0.0
 	 */
@@ -149,21 +149,23 @@ class Task_CPT_Reseller implements Task, Actions, Filters {
 
 		switch ( $column ) {
 			case 'company_name':
-				echo sprintf( '<a href="%s">%s</a>', get_edit_post_link( $post_id ), $reseller_data->get_company_name() );
+				echo sprintf( '<a href="%s">%s</a>', get_edit_post_link( $post_id ), esc_attr( $reseller_data->get_company_name() ) ); // phpcs:ignore
 				break;
 			case 'contact_name':
-				echo $reseller_data->get_contact_name();
+				echo esc_attr( $reseller_data->get_contact_name() );
 				break;
 			case 'contact_email':
-				echo $reseller_data->get_contact_email();
+				echo esc_attr( $reseller_data->get_contact_email() );
 				break;
 			case 'iframe_url':
 				if ( 'publish' === $post_status ) {
-					$bedarfs_link    = sprintf( __( '[<a href="%s" target="_blank">Bedarfsausweis</a>]' ), $reseller_data->get_iframe_bedarfsausweis_url() );
-					$verbrauchs_link = sprintf( __( '[<a href="%s" target="_blank">Verbrauchsausweis</a>]' ), $reseller_data->get_iframe_verbrauchsausweis_url() );
-					echo $bedarfs_link . ' ' . $verbrauchs_link;
+					// translators: Link to Bedarfsausweis.
+					$bedarfs_link = esc_attr( sprintf( __( '[<a href="%s" target="_blank">Bedarfsausweis</a>]' ), $reseller_data->get_iframe_bedarfsausweis_url() ) );
+					// translators: Link to Verbrauchsausweis.
+					$verbrauchs_link = esc_attr( sprintf( __( '[<a href="%s" target="_blank">Verbrauchsausweis</a>]' ), $reseller_data->get_iframe_verbrauchsausweis_url() ) );
+					echo esc_attr( $bedarfs_link . ' ' . $verbrauchs_link );
 				} else {
-					echo __( 'Reseller have to be published before getting URL.', 'enon' );
+					echo esc_attr( __( 'Reseller have to be published before getting URL.', 'enon' ) );
 				}
 				break;
 		}

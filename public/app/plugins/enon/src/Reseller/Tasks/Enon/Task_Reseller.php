@@ -41,8 +41,8 @@ class Task_Reseller implements Task, Actions, Filters {
 	/**
 	 * Wpenon constructor.
 	 *
-	 * @param Reseller $reseller
-	 * @param Logger   $logger
+	 * @param Reseller $reseller Reseller object.
+	 * @param Logger   $logger   Logger object.
 	 */
 	public function __construct( Reseller $reseller, Logger $logger ) {
 		$this->reseller = $reseller;
@@ -77,7 +77,14 @@ class Task_Reseller implements Task, Actions, Filters {
 		add_filter( 'wpenon_schema_file', array( $this, 'filterSchemafile' ), 10, 3 );
 	}
 
-	private function getreseller_id( $energieausweis ) {
+	/**
+	 * Get reseller id.
+	 *
+	 * @param Energieausweis $energieausweis Energieausweis object.
+	 *
+	 * @since 1.0.0
+	 */
+	private function get_reseller_id( $energieausweis ) {
 		$reseller_id = get_post_meta( $energieausweis->id, 'reseller_id', true );
 
 		if ( ! empty( $reseller_id ) ) {
@@ -95,7 +102,7 @@ class Task_Reseller implements Task, Actions, Filters {
 	 * @param Energieausweis $energieausweis Energieausweis object.
 	 */
 	public function updatereseller_id( $energieausweis ) {
-		update_post_meta( $energieausweis->id, 'reseller_id', $this->getreseller_id( $energieausweis ) );
+		update_post_meta( $energieausweis->id, 'reseller_id', $this->get_reseller_id( $energieausweis ) );
 	}
 
 	/**
@@ -103,14 +110,15 @@ class Task_Reseller implements Task, Actions, Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $file Path to file.
-	 * @param string $type Schema typ.
+	 * @param string         $file           Path to file.
+	 * @param string         $standard       Standard.
+	 * @param Energieausweis $energieausweis Energieausweis object.
 	 *
 	 * @return string Filtered schema file.
 	 */
 	public function filterSchemafile( $file, $standard, $energieausweis ) {
-		$reseller_id = $this->getreseller_id( $energieausweis );
-		$type = get_post_meta( $energieausweis->id, 'wpenon_type', true );
+		$reseller_id = $this->get_reseller_id( $energieausweis );
+		$type        = get_post_meta( $energieausweis->id, 'wpenon_type', true );
 
 		if ( empty( $reseller_id ) ) {
 			return $file;

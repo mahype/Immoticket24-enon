@@ -24,12 +24,12 @@ class Calculation extends Standard {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $type Type of Energieausweis (vw/bw)
+	 * @param string $type Type of Energieausweis (vw/bw).
 	 *
 	 * @return string The location of the schema file.
 	 */
 	public function get_file( $type ) {
-		$schema_file = $this->getPath() . '/calculations/' . $type . '.php';
-		return apply_filters( 'wpenon_calculation_file', $schema_file, $this->getKey(), $type );
+		$schema_file = $this->get_path() . '/calculations/' . $type . '.php';
+		return apply_filters( 'wpenon_calculation_file', $schema_file, $this->get_key(), $type );
 	}
 }

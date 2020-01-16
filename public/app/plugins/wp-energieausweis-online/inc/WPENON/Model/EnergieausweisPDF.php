@@ -129,7 +129,7 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 		$override = apply_filters( 'wpenon_override_energieausweis_pdf_' . $index, false, $this );
 
 		$schema = new Schema( $this->wpenon_standard );
-		$standard_date = $schema->getDate('d.m.Y');
+		$standard_date = $schema->get_date('d.m.Y');
 
 		if ( ! $override ) {
 			switch ( $index ) {
