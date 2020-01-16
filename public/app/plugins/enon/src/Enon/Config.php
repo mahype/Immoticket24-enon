@@ -19,7 +19,7 @@ abstract class Config {
 	 *
 	 * @var array
 	 */
-	protected $configData = array();
+	protected $config_data = array();
 
 	/**
 	 * Standards constructor.
@@ -27,7 +27,7 @@ abstract class Config {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		 $this->initiate();
+		$this->initiate();
 	}
 
 	/**
@@ -47,7 +47,7 @@ abstract class Config {
 	 * @return array Data.
 	 */
 	public function get() {
-		return $this->configData;
+		return $this->config_data;
 	}
 
 	/**
@@ -59,11 +59,11 @@ abstract class Config {
 	 * @return mixed Config value to get.
 	 */
 	public function getValue( $key ) {
-		if ( ! isset( $this->configData[ $key ] ) ) {
+		if ( ! isset( $this->config_data[ $key ] ) ) {
 			return false;
 		}
 
-		return $this->configData[ $key ];
+		return $this->config_data[ $key ];
 	}
 
 	/**
@@ -74,7 +74,7 @@ abstract class Config {
 	 * @return array Config keys.
 	 */
 	public function getKeys() {
-		return array_keys( $this->configData );
+		return array_keys( $this->config_data );
 	}
 
 	/**
@@ -87,7 +87,7 @@ abstract class Config {
 	 * @return bool
 	 */
 	public function keyExists( $key ) {
-		if ( ! isset( $this->configData[ $key ] ) ) {
+		if ( ! isset( $this->config_data[ $key ] ) ) {
 			return false;
 		}
 

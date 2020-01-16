@@ -30,10 +30,10 @@ class Mappings_Config extends Config {
 	 * @todo Loading dynamically.
 	 */
 	protected function initiate() {
-		 $this->configData = array(
-			 'pdf' => __( 'PDF', 'wpenon' ),
-			 'xml-datenerfassung' => __( 'XML Datenerfassung', 'wpenon' ),
-			 'xml-zusatzdatenerfassung' => __( 'XML Zusatzdatenerfassung', 'wpenon' ),
-		 );
+		$this->config_data = array(
+			'pdf'                      => __( 'PDF', 'wpenon' ),
+			'xml-datenerfassung'       => __( 'XML Datenerfassung', 'wpenon' ),
+			'xml-zusatzdatenerfassung' => __( 'XML Zusatzdatenerfassung', 'wpenon' ),
+		);
 	}
 }

@@ -30,23 +30,23 @@ class Standards_Config extends Config {
 	 * @todo Loading dynamically.
 	 */
 	protected function initiate() {
-		 $this->configData = array(
-			 'enev2013' => array(
-				 'name' => __( 'EnEV 2013', 'wpenon' ),
-				 'date' => '2013-11-18',
-				 'startDate' => '2014-05-01',
-			 ),
-			 'enev2017' => array(
-				 'name' => __( 'EnEV 2013 (ab 1.7.2017)', 'wpenon' ),
-				 'date' => '2013-11-18',
-				 'startDate' => '2017-07-01',
-			 ),
-			 'enev2019' => array(
-				 'name' => __( 'EnEV 2013 (ab 11.12.2019)', 'wpenon' ),
-				 'date' => '2013-11-18',
-				 'startDate' => '2019-12-11',
-			 ),
-		 );
+		$this->config_data = array(
+			'enev2013' => array(
+				'name'      => __( 'EnEV 2013', 'wpenon' ),
+				'date'      => '2013-11-18',
+				'startDate' => '2014-05-01',
+			),
+			'enev2017' => array(
+				'name'      => __( 'EnEV 2013 (ab 1.7.2017)', 'wpenon' ),
+				'date'      => '2013-11-18',
+				'startDate' => '2017-07-01',
+			),
+			'enev2019' => array(
+				'name'      => __( 'EnEV 2013 (ab 11.12.2019)', 'wpenon' ),
+				'date'      => '2013-11-18',
+				'startDate' => '2019-12-11',
+			),
+		);
 	}
 
 	/**
@@ -58,15 +58,15 @@ class Standards_Config extends Config {
 	 * @return string Standard key.
 	 */
 	public function getByTime( $timestamp ) {
-		foreach ( $this->configData as $key => $standard ) {
+		foreach ( $this->config_data as $key => $standard ) {
 			if ( strtotime( $standard['startDate'] ) > $timestamp ) {
 				break;
 			}
 
-			$foundStandard = $key;
+			$found_standard = $key;
 		}
 
-		return $foundStandard;
+		return $found_standard;
 	}
 
 	/**

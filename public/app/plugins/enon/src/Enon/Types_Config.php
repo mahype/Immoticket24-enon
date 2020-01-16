@@ -27,7 +27,7 @@ class Types_Config extends Config {
 	 * @todo Loading dynamically.
 	 */
 	protected function initiate() {
-		 $this->configData = array(
+		 $this->config_data = array(
 			 'vw' => __( 'Verbrauchsausweis für Wohngebäude', 'wpenon' ),
 			 'bw' => __( 'Bedarfsausweis für Wohngebäude', 'wpenon' ),
 		 );

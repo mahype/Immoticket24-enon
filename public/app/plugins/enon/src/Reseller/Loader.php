@@ -1,4 +1,13 @@
 <?php
+/**
+ * Reseller loader.
+ *
+ * @category Class
+ * @package  Enon\Reseller
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller;
 
@@ -70,7 +79,7 @@ class Loader extends Task_Loader {
 	public function addFrontendTasks() {
 		$token = new Token();
 
-		// No token, no action
+		// No token, no action.
 		if ( empty( $token->get() ) ) {
 			return;
 		}
