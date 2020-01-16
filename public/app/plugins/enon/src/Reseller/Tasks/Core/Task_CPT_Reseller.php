@@ -159,7 +159,7 @@ class Task_CPT_Reseller implements Task, Actions, Filters {
 				break;
 			case 'iframe_url':
 				if ( 'publish' === $post_status ) {
-					$bedarfs_link = sprintf( __( '[<a href="%s" target="_blank">Bedarfsausweis</a>]' ), $reseller_data->get_iframe_bedarfsausweis_url() );
+					$bedarfs_link    = sprintf( __( '[<a href="%s" target="_blank">Bedarfsausweis</a>]' ), $reseller_data->get_iframe_bedarfsausweis_url() );
 					$verbrauchs_link = sprintf( __( '[<a href="%s" target="_blank">Verbrauchsausweis</a>]' ), $reseller_data->get_iframe_verbrauchsausweis_url() );
 					echo $bedarfs_link . ' ' . $verbrauchs_link;
 				} else {

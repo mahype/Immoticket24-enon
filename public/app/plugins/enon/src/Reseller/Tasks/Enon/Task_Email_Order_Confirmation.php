@@ -1,4 +1,13 @@
 <?php
+/**
+ * Task which loads email order confirmation scripts.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Tasks\Enon
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller\Tasks\Enon;
 
@@ -15,7 +24,7 @@ use Enon\Reseller\Models\Reseller;
  *
  * @package Enon\Reseller\WordPress
  */
-class TaskEmailOrderConfirmation implements Task, Filters {
+class Task_Email_Order_Confirmation implements Task, Filters {
 	use Logger_Trait;
 
 	/**

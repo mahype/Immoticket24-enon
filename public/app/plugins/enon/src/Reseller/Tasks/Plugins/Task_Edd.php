@@ -1,4 +1,13 @@
 <?php
+/**
+ * Class for loading Edd functionality for resellers.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Tasks\Plugins
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller\Tasks\Plugins;
 
@@ -16,7 +25,7 @@ use Enon\Reseller\Models\Reseller;
  *
  * @package Enon\Reseller\WordPress
  */
-class TaskEdd implements Task, Filters {
+class Task_Edd implements Task, Filters {
 	use Logger_Trait;
 
 	/**
@@ -72,6 +81,6 @@ class TaskEdd implements Task, Filters {
 	 * @return string
 	 */
 	public function filterIframeUrl( $url ) {
-		return $this->reseller->createIframeUrl( $url );
+		return $this->reseller->create_iframe_url( $url );
 	}
 }

@@ -74,17 +74,17 @@ class Task_Gutenberg implements Actions, Task {
 			array(
 				array(
 					'name'  => esc_html__( 'Black', 'enon' ),
-					'slug' => 'black',
+					'slug'  => 'black',
 					'color' => '#000000',
 				),
 				array(
 					'name'  => esc_html__( 'White', 'enon' ),
-					'slug' => 'white',
+					'slug'  => 'white',
 					'color' => '#FFFFFF',
 				),
 				array(
 					'name'  => esc_html__( 'Green', 'enon' ),
-					'slug' => 'green',
+					'slug'  => 'green',
 					'color' => '#00af30',
 				),
 			)

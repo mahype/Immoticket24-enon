@@ -1,4 +1,15 @@
 <?php
+/**
+ * New Energieasweis class.
+ *
+ * @category Class
+ * @package  Enon\Models\Enon
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ *
+ * @todo Replacing old energieausweis class.
+ */
 
 namespace Enon\Models\Enon;
 
@@ -58,7 +69,7 @@ class Energieausweis {
 	 *
 	 * @return int Energieausweis id.
 	 */
-	public function getId() {
+	public function get_id() {
 		return $this->id;
 	}
 
@@ -69,8 +80,8 @@ class Energieausweis {
 	 *
 	 * @return string Energieausweis type.
 	 */
-	public function getType() {
-		 return $this->type;
+	public function get_type() {
+		return $this->type;
 	}
 
 	/**
@@ -80,8 +91,8 @@ class Energieausweis {
 	 *
 	 * @return string Energieausweis standard.
 	 */
-	public function getStandard() {
-		 return $this->standard;
+	public function get_standard() {
+		return $this->standard;
 	}
 
 	/**
@@ -91,7 +102,7 @@ class Energieausweis {
 	 *
 	 * @return string $access_token      Token to use in URL.
 	 */
-	public function getAccessToken() {
-		return md5( get_post_meta( $this->id, 'wpenon_email', true ) ) . '-' . get_post_meta( $this->id, 'wpenon_secret', true );
+	public function get_access_token() {
+		return md5( get_post_meta( $this->get_id(), 'wpenon_email', true ) ) . '-' . get_post_meta( $this->get_id(), 'wpenon_secret', true );
 	}
 }

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Class for loading Affiliate WP functionality for resellers.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Tasks\Plugins
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller\Tasks\Plugins;
 
@@ -11,13 +20,11 @@ use Enon\Logger;
 use Enon\Reseller\Models\Reseller;
 
 /**
- * Class PluginAffiliateWP
+ * Class Task_Affiliate_WP.
  *
  * @since 1.0.0
- *
- * @package Enon\Reseller\WordPress
  */
-class TaskAffiliateWP implements Task, Actions {
+class Task_Affiliate_WP implements Task, Actions {
 
 	use Logger_Trait;
 
@@ -39,7 +46,7 @@ class TaskAffiliateWP implements Task, Actions {
 	 * @param Logger   $logger Logger object.
 	 */
 	public function __construct( Reseller $reseller, Logger $logger ) {
-		 $this->reseller = $reseller;
+		$this->reseller = $reseller;
 		$this->logger = $logger;
 	}
 
@@ -49,7 +56,7 @@ class TaskAffiliateWP implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		 $this->add_actions();
+		$this->add_actions();
 	}
 
 	/**
@@ -58,7 +65,7 @@ class TaskAffiliateWP implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		 add_action( 'template_redirect', array( $this, 'setAffiliatewpReferal' ), -10000, 0 );
+		add_action( 'template_redirect', array( $this, 'setAffiliatewpReferal' ), -10000, 0 );
 	}
 
 	/**
@@ -72,14 +79,14 @@ class TaskAffiliateWP implements Task, Actions {
 			return;
 		}
 
-		$affiliateId = $this->reseller->data()->get_affiliate_id();
+		$affiliate_id = $this->reseller->data()->get_affiliate_id();
 
-		if ( empty( $affiliateId ) ) {
+		if ( empty( $affiliate_id ) ) {
 			return;
 		}
 
-		affiliate_wp()->tracking->referral = $affiliateId;
-		affiliate_wp()->tracking->set_affiliate_id( $affiliateId );
+		affiliate_wp()->tracking->referral = $affiliate_id;
+		affiliate_wp()->tracking->set_affiliate_id( $affiliate_id );
 	}
 
 	/**

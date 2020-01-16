@@ -1,15 +1,24 @@
 <?php
+/**
+ * Wrapper class for EDD Payment functions.
+ *
+ * @category Class
+ * @package  Enon\Models\Edd;
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Models\Edd;
 
 /**
- * Class EddPayment
+ * Class Edd_Payment
  *
  * @since 1.0.0
  *
  * @package Enon\Reseller\Taks\Plugins
  */
-class EddPayment {
+class Edd_Payment {
 	/**
 	 * Payment id.
 	 *
@@ -20,7 +29,7 @@ class EddPayment {
 	private $id;
 
 	/**
-	 * EddPayment constructor.
+	 * Edd_Payment constructor.
 	 *
 	 * @since 1.0.0
 	 *

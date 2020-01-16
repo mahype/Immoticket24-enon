@@ -37,7 +37,7 @@ class Task_Edd_Sparkasse_Discounts implements Task, Filters {
 	 *
 	 * @var array
 	 */
-	private $discountTypes = array();
+	private $discount_types = array();
 
 	/**
 	 * Discount_Amounts
@@ -46,22 +46,21 @@ class Task_Edd_Sparkasse_Discounts implements Task, Filters {
 	 *
 	 * @var array
 	 */
-	private $discountAmounts = array();
+	private $discount_amounts = array();
 
 	/**
 	 * Loading Plugin scripts.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Reseller $reseller Reseller object.
-	 * @param Logger   $logger   Logger object.
+	 * @param Logger $logger Logger object.
 	 */
 	public function __construct( Logger $logger ) {
 		$this->logger = $logger;
 
-		$this->discountTypes = array( 'spk', 'web' );
+		$this->discount_types = array( 'spk', 'web' );
 
-		$this->discountAmounts = array(
+		$this->discount_amounts = array(
 			'spk' => array(
 				'bw' => 50,
 				'vw' => 28,
@@ -90,8 +89,8 @@ class Task_Edd_Sparkasse_Discounts implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'edd_get_cart_item_discounted_amount', array( $this, 'setDiscount' ), 10, 4 );
-		add_filter( 'edd_get_cart_discount_html', array( $this, 'cartDiscountHtml' ), 10, 4 );
+		add_filter( 'edd_get_cart_item_discounted_amount', array( $this, 'set_discount' ), 10, 4 );
+		add_filter( 'edd_get_cart_discount_html', array( $this, 'cartdiscount_html' ), 10, 4 );
 	}
 
 	/**
@@ -99,33 +98,32 @@ class Task_Edd_Sparkasse_Discounts implements Task, Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $discountHtml Discount HTML.
-	 * @param string $discountCode Discount code.
+	 * @param string $discount_html Discount HTML.
+	 * @param string $discount_code Discount code.
 	 * @param float  $rate         Discount rate.
 	 * @param string $remove_url   Remove URL.
 	 *
-	 * @return string $discountHtml Filtered Discount HTML.
+	 * @return string $discount_html Filtered Discount HTML.
 	 */
-	public function cartDiscountHtml( $discountHtml, $discountCode, $rate, $remove_url ) {
-		$cartContents = EDD()->cart->get_contents();
+	public function cartdiscount_html( $discount_html, $discount_code, $rate, $remove_url ) {
+		$cart_contents = EDD()->cart->get_contents();
 
-		if ( ! $this->getDiscountType( $discountCode ) || ! isset( $cartContents[0] ) ) {
-			return $discountHtml;
+		if ( ! $this->get_discount_type( $discount_code ) || ! isset( $cart_contents[0] ) ) {
+			return $discount_html;
 		}
 
-		$energieausweisId = $cartContents[0]['id'];
-		$energieausweis = new Energieausweis( $energieausweisId );
+		$energieausweis_id = $cart_contents[0]['id'];
+		$energieausweis    = new Energieausweis( $energieausweis_id );
+		$discount_id       = edd_get_discount_id_by_code( $discount_code );
+		$discount_type     = edd_get_discount_type( $discount_id );
+		$rate              = edd_format_discount_rate( $discount_type, $this->get_discount_amount( $discount_code, $energieausweis->get_type() ) );
 
-		$discountId = edd_get_discount_id_by_code( $discountCode );
-		$discountType = edd_get_discount_type( $discountId );
-		$rate = edd_format_discount_rate( $discountType, $this->getDiscountAmount( $discountCode, $energieausweis->getType() ) );
+		$discount_html  = "<span class=\"edd_discount\">\n";
+		$discount_html .= "<span class=\"edd_discount_rate\">$discount_code&nbsp;&ndash;&nbsp;$rate</span>\n";
+		$discount_html .= "<a href=\"$remove_url\" data-code=\"$discount_code\" class=\"edd_discount_remove\"></a>\n";
+		$discount_html .= "</span>\n";
 
-		$discountHtml = "<span class=\"edd_discount\">\n";
-			$discountHtml .= "<span class=\"edd_discount_rate\">$discountCode&nbsp;&ndash;&nbsp;$rate</span>\n";
-			$discountHtml .= "<a href=\"$remove_url\" data-code=\"$discountCode\" class=\"edd_discount_remove\"></a>\n";
-		$discountHtml .= "</span>\n";
-
-		return $discountHtml;
+		return $discount_html;
 	}
 
 	/**
@@ -133,24 +131,25 @@ class Task_Edd_Sparkasse_Discounts implements Task, Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param float $discountedPrice
-	 * @param array $discounts
-	 * @param array $item
-	 * @param float $price
+	 * @param float $discount_price Discount price.
+	 * @param array $discounts      Discounts.
+	 * @param array $item           Item to discount.
+	 * @param float $price          Price.
 	 *
-	 * @return float $discountedPrice Discounted price.
+	 * @return float $discount_price Discounted price.
 	 */
-	public function setDiscount( $discountedPrice, $discounts, $item, $price ) {
+	public function set_discount( $discount_price, $discounts, $item, $price ) {
 		$energieausweis_id = $item['id'];
-		$energieausweis = new Energieausweis( $energieausweis_id );
+		$energieausweis    = new Energieausweis( $energieausweis_id );
+		$discount_code     = $this->find_discount_code( $discounts );
 
-		if ( ! $discountCode = $this->findDiscountCode( $discounts ) ) {
-			return $discountedPrice;
+		if ( ! $discount_code ) {
+			return $discount_price;
 		}
 
-		$discountedPrice = $price - $this->getDiscountAmount( $discountCode, $energieausweis->getType() );
+		$discount_price = $price - $this->get_discount_amount( $discount_code, $energieausweis->get_type() );
 
-		return $discountedPrice;
+		return $discount_price;
 	}
 
 	/**
@@ -158,16 +157,16 @@ class Task_Edd_Sparkasse_Discounts implements Task, Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $discountCode     Discount Code.
-	 * @param string $engieausweisType Energieausweis type.
+	 * @param string $discount_code     Discount Code.
+	 * @param string $engieausweis_type Energieausweis type.
 	 *
-	 * @return float $discountAmount Discount Amount.
+	 * @return float $discount_amount Discount Amount.
 	 */
-	private function getDiscountAmount( $discountCode, $engieausweisType ) {
-		$discountType = $this->getDiscountType( $discountCode );
-		$discountAmount = $this->discountAmounts[ $discountType ][ $engieausweisType ];
+	private function get_discount_amount( $discount_code, $engieausweis_type ) {
+		$discount_type   = $this->get_discount_type( $discount_code );
+		$discount_amount = $this->discount_amounts[ $discount_type ][ $engieausweis_type ];
 
-		return $discountAmount;
+		return $discount_amount;
 	}
 
 	/**
@@ -175,15 +174,15 @@ class Task_Edd_Sparkasse_Discounts implements Task, Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $discountCode Discount code.
-	 * @return bool|mixed $discountType Discount type if found or false.
+	 * @param string $discount_code Discount code.
+	 * @return bool|mixed $discount_type Discount type if found or false.
 	 */
-	private function getDiscountType( $discountCode ) {
-		foreach ( $this->discountTypes as $discountType ) {
-			$discountTypeLength = strlen( $discountType );
+	private function get_discount_type( $discount_code ) {
+		foreach ( $this->discount_types as $discount_type ) {
+			$discount_type_length = strlen( $discount_type );
 
-			if ( substr( $discountCode, 0, $discountTypeLength ) === $discountType ) {
-				return $discountType;
+			if ( substr( $discount_code, 0, $discount_type_length ) === $discount_type ) {
+				return $discount_type;
 			}
 		}
 
@@ -195,17 +194,17 @@ class Task_Edd_Sparkasse_Discounts implements Task, Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $discountCodes Discount codes.
-	 * @return bool|string $discountCode Discount code if found or false.
+	 * @param array $discount_codes Discount codes.
+	 * @return bool|string $discount_code Discount code if found or false.
 	 */
-	private function findDiscountCode( $discountCodes ) {
-		foreach ( $discountCodes as $discountCode ) {
-			foreach ( $this->discountTypes as $discountType ) {
-				$discountPrefixLength = strlen( $discountType ) + 1;
-				$discountPrefix = $discountType . '-';
+	private function find_discount_code( $discount_codes ) {
+		foreach ( $discount_codes as $discount_code ) {
+			foreach ( $this->discount_types as $discount_type ) {
+				$discount_prefix_length = strlen( $discount_type ) + 1;
+				$discount_prefix = $discount_type . '-';
 
-				if ( substr( $discountCode, 0, $discountPrefixLength ) === $discountPrefix ) {
-					return $discountCode;
+				if ( substr( $discount_code, 0, $discount_prefix_length ) === $discount_prefix ) {
+					return $discount_code;
 				}
 			}
 		}

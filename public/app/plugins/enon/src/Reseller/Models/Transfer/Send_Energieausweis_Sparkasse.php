@@ -1,15 +1,24 @@
 <?php
+/**
+ * Class for sending and preparing data to sparkasse.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Models\Transfer
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller\Models\Transfer;
 
 /**
- * Class SendEnergieausweisSparkasse
+ * Class Send_Energieausweis_Sparkasse
  *
  * @since 1.0.0
  *
  * @package Enon\Reseller\Send
  */
-class SendEnergieausweisSparkasse extends SendEnergieausweis {
+class Send_Energieausweis_Sparkasse extends Send_Energieausweis {
 	/**
 	 * Get body to send to endpoint.
 	 *
@@ -17,7 +26,7 @@ class SendEnergieausweisSparkasse extends SendEnergieausweis {
 	 *
 	 * @return mixed|void
 	 */
-	protected function getBody() {
+	protected function get_body() {
 		$fields = $this->energieausweis->getSchema()->getFields();
 
 		$data = array();

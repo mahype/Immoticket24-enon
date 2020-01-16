@@ -1,4 +1,13 @@
 <?php
+/**
+ * Class for loading frontend scripts.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Tasks\Core
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller\Tasks\Core;
 
@@ -10,13 +19,13 @@ use Enon\Reseller\Models\Reseller;
 use Enon\Traits\Logger as Logger_Trait;
 
 /**
- * Class WordPress.
- *
- * Running WordPress scripts
+ * Class Task_Frontend.
  *
  * @package Enon\Reseller\WordPress
+ *
+ * @since 1.0.0
  */
-class TaskFrontend implements Task, Actions, Filters {
+class Task_Frontend implements Task, Actions, Filters {
 	/**
 	 * Reseller object.
 	 *
@@ -26,7 +35,7 @@ class TaskFrontend implements Task, Actions, Filters {
 	private $reseller;
 
 	/**
-	 * TaskFrontend constructor.
+	 * Task_Frontend constructor.
 	 *
 	 * @since 1.0.0
 	 *

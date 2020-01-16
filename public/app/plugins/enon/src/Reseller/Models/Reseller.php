@@ -1,4 +1,15 @@
 <?php
+/**
+ * Reseller object.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Models
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ *
+ * @todo Replacing old energieausweis class.
+ */
 
 namespace Enon\Reseller\Models;
 
@@ -40,7 +51,7 @@ class Reseller {
 	 * @since 1.0.0
 	 *
 	 * @param Reseller_Data $data   Reseller data object.
-	 * @param Logger       $logger Logger object.
+	 * @param Logger        $logger Logger object.
 	 */
 	public function __construct( Reseller_Data $data, Logger $logger ) {
 		$this->data   = $data;
@@ -65,7 +76,7 @@ class Reseller {
 	 *
 	 * @return string
 	 */
-	public function createIframeUrl( $url ) {
+	public function create_iframe_url( $url ) {
 		$args = array(
 			'iframe_token' => $this->data()->get_token(),
 		);
@@ -83,7 +94,7 @@ class Reseller {
 	 *
 	 * @return string $url               URL with needed parameters.
 	 */
-	public function createVerfiedUrl( $url, $energieausweis_id = null ) {
+	public function create_verfied_url( $url, $energieausweis_id = null ) {
 		$query_args = array(
 			'iframe'       => true,
 			'iframe_token' => $this->data()->get_token(),
@@ -94,7 +105,7 @@ class Reseller {
 		if ( ! empty( $energieausweis_id ) ) {
 			$post = get_post( $energieausweis_id );
 
-			$query_args['access_token'] = ( new Energieausweis( $energieausweis_id ) )->getAccessToken();
+			$query_args['access_token'] = ( new Energieausweis( $energieausweis_id ) )->get_access_token();
 			$query_args['slug']         = $post->post_name;
 		}
 

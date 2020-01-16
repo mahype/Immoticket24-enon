@@ -1,4 +1,13 @@
 <?php
+/**
+ * Parent class for sending data.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Models\Transfer
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller\Models\Transfer;
 
@@ -36,12 +45,12 @@ abstract class Send {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $endpoint
-	 * @param Logger
+	 * @param string $endpoint URL where data have to be sent.
+	 * @param Logger $logger   Logger object.
 	 */
 	public function __construct( $endpoint, Logger $logger ) {
 		$this->endpoint = $endpoint;
-		$this->logger = $logger;
+		$this->logger   = $logger;
 	}
 
 	/**
@@ -49,7 +58,7 @@ abstract class Send {
 	 *
 	 * @return mixed
 	 */
-	abstract protected function getBody();
+	abstract protected function get_body();
 
 	/**
 	 * Settuing up arguments.
@@ -57,7 +66,7 @@ abstract class Send {
 	 * @since 1.0.0
 	 */
 	protected function setupArgs() {
-		$body = $this->getBody();
+		$body = $this->get_body();
 
 		$this->args = array(
 			'body' => $body,

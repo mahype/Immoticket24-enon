@@ -13,8 +13,8 @@ namespace Enon\Reseller\Models;
 
 use Enon\Models\Exceptions\Exception;
 
-use Enon\Models\ACF\PostData;
-use Enon\Models\Edd\EddPayment;
+use Enon\Models\ACF\Post_Data;
+use Enon\Models\Edd\Edd_Payment;
 
 /**
  * Class ACFResellerFiels
@@ -23,7 +23,7 @@ use Enon\Models\Edd\EddPayment;
  *
  * @package Enon\Reseller
  */
-class Reseller_Data extends PostData {
+class Reseller_Data extends Post_Data {
 
 	/**
 	 * Reseller_Data constructor.
@@ -72,11 +72,11 @@ class Reseller_Data extends PostData {
 	 */
 	private function get_post_id_by_token( Token $token ) {
 		$args = array(
-			'post_type'     => 'reseller',
-			'meta_query'        => array(
+			'post_type'  => 'reseller',
+			'meta_query' => array(
 				array(
-					'key'       => 'token',
-					'value'     => $token->get(),
+					'key'   => 'token',
+					'value' => $token->get(),
 				),
 			),
 		);
@@ -104,11 +104,13 @@ class Reseller_Data extends PostData {
 			return;
 		}
 
+		if( isset( $_REQUEST['post_type'] ) |)
+
 		if ( 'download' !== $_REQUEST['post_type'] || 'edd-payment-history' !== $_REQUEST['page'] || 'view-order-details' !== $_REQUEST['view'] || ! isset( $_REQUEST['id'] ) ) {
 			return;
 		}
 
-		$energieausweis_id = ( new EddPayment( $_REQUEST['id'] ) )->get_energieausweis_id();
+		$energieausweis_id = ( new Edd_Payment( $_REQUEST['id'] ) )->get_energieausweis_id();
 
 		// @todo Move to new energieausweis object getreseller_id function
 		$reseller_id = get_post_meta( $energieausweis_id, 'reseller_id', true );
@@ -159,7 +161,7 @@ class Reseller_Data extends PostData {
 	public function send_order_to_reseller() {
 		$send_order_to_reseller = $this->get( 'send_order_to_reseller' );
 
-		if ( in_array( 'send_order_to_reseller', $send_order_to_reseller ) ) {
+		if ( in_array( 'send_order_to_reseller', $send_order_to_reseller, true ) ) {
 			return true;
 		}
 
@@ -229,7 +231,7 @@ class Reseller_Data extends PostData {
 	 * @return string Url where users are redirected after failed payment.
 	 */
 	public function get_payment_failed_url() {
-		 return trim( $this->get( 'payment_failed_url' ) );
+		return trim( $this->get( 'payment_failed_url' ) );
 	}
 
 	/**
@@ -251,7 +253,7 @@ class Reseller_Data extends PostData {
 	 * @return string Reseller extra CSS.
 	 */
 	public function get_extra_css() {
-		 return $this->get( 'extra_css' );
+		return $this->get( 'extra_css' );
 	}
 
 	/**
@@ -262,7 +264,7 @@ class Reseller_Data extends PostData {
 	 * @return string Reseller extra JS.
 	 */
 	public function get_extra_js() {
-		 return $this->get( 'extra_js' );
+		return $this->get( 'extra_js' );
 	}
 
 	/**
@@ -375,7 +377,7 @@ class Reseller_Data extends PostData {
 		$config_file = $this->get( 'post_data_config_class' );
 
 		if ( empty( $config_file ) ) {
-			return 'SendEnergieausweisStandard';
+			return 'Send_Energieausweis_Standard';
 		}
 
 		return $config_file;

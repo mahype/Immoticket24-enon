@@ -1,4 +1,13 @@
 <?php
+/**
+ * Task which routes urls for resellers.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Tasks\Enon
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller\Tasks\Enon;
 
@@ -17,7 +26,7 @@ use WPENON\Model\Energieausweis;
  *
  * @package Enon\Reseller\WordPress
  */
-class TaskRouteUrls implements Task, Filters {
+class Task_Route_Urls implements Task, Filters {
 
 	use Logger_Trait;
 
@@ -68,7 +77,7 @@ class TaskRouteUrls implements Task, Filters {
 	 * @return string
 	 */
 	public function filterIframeUrl( $url ) {
-		return $this->reseller->createIframeUrl( $url );
+		return $this->reseller->create_iframe_url( $url );
 	}
 
 	/**
@@ -91,7 +100,7 @@ class TaskRouteUrls implements Task, Filters {
 			$url = get_permalink( $payment_successful_page );
 		}
 
-		$url = $this->reseller->createVerfiedUrl( $url );
+		$url = $this->reseller->create_verfied_url( $url );
 
 		return $url;
 	}
@@ -116,7 +125,7 @@ class TaskRouteUrls implements Task, Filters {
 			$url = get_permalink( $payment_failed_page );
 		}
 
-		$url = $this->reseller->createVerfiedUrl( $url );
+		$url = $this->reseller->create_verfied_url( $url );
 
 		return $url;
 	}

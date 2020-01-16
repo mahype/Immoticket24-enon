@@ -1,4 +1,13 @@
 <?php
+/**
+ * Class for loading ACF functionality for resellers.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Tasks\Plugins
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller\Tasks\Plugins;
 
@@ -15,7 +24,7 @@ use Enon\Reseller\Models\Reseller;
  *
  * @package Enon\Reseller\WordPress
  */
-class TaskACF implements Task, Actions {
+class Task_ACF implements Task, Actions {
 
 	use Logger_Trait;
 
@@ -415,7 +424,7 @@ class TaskACF implements Task, Actions {
 					'id' => '',
 				),
 				'default_value' => '',
-				'placeholder' => 'SendEnergieausweisStandard',
+				'placeholder' => 'Send_Energieausweis_Standard',
 				'prepend' => '',
 				'append' => '',
 				'maxlength' => '',

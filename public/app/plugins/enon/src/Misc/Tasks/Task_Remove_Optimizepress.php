@@ -1,6 +1,6 @@
 <?php
 /**
- * Loading Config tasks.
+ * Remove OptimizePress.
  *
  * @category Class
  * @package  Enon\Mis\Tasks
@@ -59,7 +59,7 @@ class Task_Remove_Optimizepress implements Actions, Filters, Task {
 			return;
 		}
 
-		add_filter( 'immoticketenergieausweis_stylesheet_dependencies', array( __CLASS__, 'removeDepencies' ), 1 );
+		add_filter( 'immoticketenergieausweis_stylesheet_dependencies', array( __CLASS__, 'remove_epencies' ), 1 );
 	}
 
 	/**
@@ -70,11 +70,11 @@ class Task_Remove_Optimizepress implements Actions, Filters, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function removeDepencies( $depencies ) {
-		$page_id = get_the_ID();
+	public static function remove_epencies( $depencies ) {
+		$page_id      = get_the_ID();
 		$ban_page_ids = array( 294865 );
 
-		if ( in_array( $page_id, $ban_page_ids ) ) {
+		if ( in_array( $page_id, $ban_page_ids, true ) ) {
 			remove_filter( 'immoticketenergieausweis_stylesheet_dependencies', 'immoticketenergieausweis_optimizepress_add_dependencies' );
 		}
 
@@ -93,13 +93,13 @@ class Task_Remove_Optimizepress implements Actions, Filters, Task {
 			return;
 		}
 
-		$page_id = get_the_ID();
+		$page_id      = get_the_ID();
 		$ban_page_ids = array( 294865, 300047 );
 
 		$wp_styles->dequeue( 'op_map_custom' );
 		$wp_styles->remove( 'op_map_custom' );
 
-		if ( in_array( $page_id, $ban_page_ids ) ) {
+		if ( in_array( $page_id, $ban_page_ids, true ) ) {
 			foreach ( $wp_scripts->queue as $handle ) {
 				if ( substr( $handle, 0, strlen( OP_SN ) ) === OP_SN ) {
 					$wp_scripts->dequeue( $handle );

@@ -18,7 +18,7 @@ use Enon\Models\ACF\ACF_Settings;
  *
  * @since 1.0.0
  */
-class Settings_Mail extends ACF_Settings {
+class Data_Mail extends ACF_Settings {
 	/**
 	 * Get confirmation sender name.
 	 *

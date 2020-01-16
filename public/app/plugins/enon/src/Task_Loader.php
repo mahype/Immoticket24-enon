@@ -1,6 +1,6 @@
 <?php
 /**
- * Task loader parent class.
+ * Enon Task loader.
  *
  * @category Class
  * @package  Enon
@@ -15,7 +15,9 @@ use Awsm\WP_Wrapper\Building_Plans\Task;
 use Awsm\WP_Wrapper\Tasks\Task_Runner;
 
 /**
- * Config loader.
+ * Class Task_Loader.
+ *
+ * @since 1.0.0
  */
 abstract class Task_Loader implements Task {
 

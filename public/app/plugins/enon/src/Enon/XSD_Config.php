@@ -30,9 +30,9 @@ class XSD_Config extends Config {
 	 * @todo Loading dynamically.
 	 */
 	protected function initiate() {
-		 $this->config_data = array(
-			 'datenerfassung' => __( 'Datenerfassung', 'wpenon' ),
-			 'zusatzdatenerfassung' => __( 'Zusatzdatenerfassung', 'wpenon' ),
-		 );
+		$this->config_data = array(
+			'datenerfassung'       => __( 'Datenerfassung', 'wpenon' ),
+			'zusatzdatenerfassung' => __( 'Zusatzdatenerfassung', 'wpenon' ),
+		);
 	}
 }

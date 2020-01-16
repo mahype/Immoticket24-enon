@@ -1,4 +1,13 @@
 <?php
+/**
+ * Token object.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Models
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller\Models;
 
@@ -22,11 +31,11 @@ class Token {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string
+	 * @return string Token string.
 	 */
 	public function get() : string {
 		if ( empty( $this->token ) ) {
-			$this->token = $this->getByRequest();
+			$this->token = $this->get_by_request();
 		}
 
 		return $this->token;
@@ -37,10 +46,10 @@ class Token {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param $token
+	 * @param string $token Token string.
 	 */
 	public function set( $token ) {
-		 $this->token = $token;
+		$this->token = $token;
 	}
 
 	/**
@@ -50,7 +59,7 @@ class Token {
 	 *
 	 * @return string Token
 	 */
-	public function getByRequest() : string {
+	public function get_by_request() : string {
 		if ( ! isset( $_REQUEST['iframe_token'] ) ) {
 			return false;
 		}

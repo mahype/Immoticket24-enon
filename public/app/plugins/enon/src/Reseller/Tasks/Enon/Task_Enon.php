@@ -1,4 +1,13 @@
 <?php
+/**
+ * Task which loads enon scripts.
+ *
+ * @category Class
+ * @package  Enon\Reseller\Tasks\Enon
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
 namespace Enon\Reseller\Tasks\Enon;
 
@@ -17,7 +26,7 @@ use WPENON\Model\Energieausweis;
  *
  * @package Enon\Reseller\WordPress
  */
-class TaskEnon implements Task, Actions, Filters {
+class Task_Enon implements Task, Actions, Filters {
 
 	use Logger_Trait;
 
@@ -91,7 +100,7 @@ class TaskEnon implements Task, Actions, Filters {
 	 * @param Energieausweis $energieausweis Energieausweis object.
 	 */
 	public function updateRessellerId( $energieausweis ) {
-		update_post_meta( $energieausweis->id, 'reseller_id', $this->reseller->data()->getPostId() );
+		update_post_meta( $energieausweis->id, 'reseller_id', $this->reseller->data()->get_post_id() );
 	}
 
 	/**
@@ -131,7 +140,7 @@ class TaskEnon implements Task, Actions, Filters {
 	 * @return string
 	 */
 	public function filterIframeUrl( $url ) {
-		return $this->reseller->createIframeUrl( $url );
+		return $this->reseller->create_iframe_url( $url );
 	}
 
 	/**
@@ -154,7 +163,7 @@ class TaskEnon implements Task, Actions, Filters {
 			$url = get_permalink( $payment_successful_page );
 		}
 
-		$url = $this->reseller->createVerfiedUrl( $url );
+		$url = $this->reseller->create_verfied_url( $url );
 
 		return $url;
 	}
@@ -179,7 +188,7 @@ class TaskEnon implements Task, Actions, Filters {
 			$url = get_permalink( $payment_failed_page );
 		}
 
-		$url = $this->reseller->createVerfiedUrl( $url );
+		$url = $this->reseller->create_verfied_url( $url );
 
 		return $url;
 	}
