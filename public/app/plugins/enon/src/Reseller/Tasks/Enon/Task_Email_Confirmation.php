@@ -117,8 +117,7 @@ class Task_Email_Confirmation implements Task, Filters {
 	 *
 	 * $since 1.0.0
 	 *
-	 * @param string $site Site name of sender.
-	 * @param \WPENON\Model\Energieausweis Energieausweis
+	 * @param string $site_name Site name of sender.
 	 *
 	 * @return string Filtered signature.
 	 */
@@ -135,9 +134,12 @@ class Task_Email_Confirmation implements Task, Filters {
 	/**
 	 * Set site name to signature.
 	 *
-	 * @since 1.0.0
+	 * @param string         $link           Link to site.
+	 * @param Energieausweis $energieausweis Energieausweis object.
 	 *
 	 * @return string Filtered signature.
+	 *
+	 * @since 1.0.0
 	 */
 	public function filter_link( $link, $energieausweis ) {
 		$customer_edit_url = $this->reseller->data()->get_customer_edit_url();
@@ -158,9 +160,11 @@ class Task_Email_Confirmation implements Task, Filters {
 	/**
 	 * Set email footer.
 	 *
-	 * @since 1.0.0
+	 * @param string $footer Footer HTML.
 	 *
-	 * @return string $footer Footer content.
+	 * @return string $footer Filtered footer HTML.
+	 *
+	 * @since 1.0.0
 	 */
 	public function filter_alternative_footer( $footer ) {
 		$reseller_footer = $this->reseller->data()->get_email_footer();
@@ -169,9 +173,10 @@ class Task_Email_Confirmation implements Task, Filters {
 			return $footer;
 		}
 
-		$footer = '<div style="font-size:14px;">';
+		$footer  = '<div style="font-size:14px;">';
 		$footer .= wpautop( $reseller_footer );
 		$footer .= '</div>';
+		// translators: Confirmation email to customer was sent.
 		$footer .= '<small>' . sprintf( __( 'Diese Email wurde automatisch von <a href="%1$s">%2$s</a> versendet.', 'wpenon' ), $this->reseller->data()->get_customer_edit_url(), $this->reseller->data()->get_website_name() ) . '</small>';
 
 		return $footer;
@@ -180,9 +185,11 @@ class Task_Email_Confirmation implements Task, Filters {
 	/**
 	 * Set legal.
 	 *
-	 * @since 1.0.0
+	 * @param string $legal Legal text.
 	 *
 	 * @return string Filtered footer.
+	 *
+	 * @since 1.0.0
 	 */
 	public function filter_legal( $legal ) {
 		$resellercustomer_edit_url = $this->reseller->data()->get_customer_edit_url();
@@ -202,15 +209,18 @@ class Task_Email_Confirmation implements Task, Filters {
 			}
 		}
 
+		// translators: Legal text.
 		return sprintf( __( 'Diese Email wurde automatisch von <a href="%1$s">%2$s</a> versendet.', 'wpenon' ), $resellercustomer_edit_url, $reseller_website_name );
 	}
 
 	/**
 	 * Set signature.
 	 *
-	 * @since 1.0.0
+	 * @param string $signature Signature text.
 	 *
-	 * @return string Filtered signature.
+	 * @return string Filtered signature text.
+	 *
+	 * @since 1.0.0
 	 */
 	public function filter_signature( $signature ) {
 		$reseller_website_name = $this->reseller->data()->get_website_name();
@@ -219,15 +229,11 @@ class Task_Email_Confirmation implements Task, Filters {
 			return $signature;
 		}
 
-		$signature = sprintf(
-			__(
-				'Mit freundlichen Grüßen,
+		// translators: Signature text.
+		$signature = sprintf( __( 'Mit freundlichen Grüßen,
 
-		Ihr Team von %s.',
-				'wpenon'
-			),
-			$reseller_website_name
-		);
+		Ihr Team von %s.', 'wpenon' ), $reseller_website_name );
+
 		return $signature;
 	}
 }
