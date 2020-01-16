@@ -450,10 +450,10 @@ class Emails {
 
 		$values = [
 			'site'    => apply_filters( 'wpenon_confirmation_site',  home_url(), $energieausweis ),
-			'link'    => apply_filters( 'wpenon_confirmation_link',  $energieausweis->verified_permalink, $energieausweis ),
-			'title'   => apply_filters( 'wpenon_confirmation_energieausweis_title',  $energieausweis->post_title, $energieausweis ),
-			'type'    => apply_filters( 'wpenon_confirmation_energieausweis_type',  $energieausweis->formatted_wpenon_type, $energieausweis ),
-			'address' => apply_filters( 'wpenon_confirmation_energieausweis_address',  $energieausweis->adresse, $energieausweis ),
+			'en-link'    => apply_filters( 'wpenon_confirmation_link',  $energieausweis->verified_permalink, $energieausweis ),
+			'en-title'   => apply_filters( 'wpenon_confirmation_energieausweis_title',  $energieausweis->post_title, $energieausweis ),
+			'en-type'    => apply_filters( 'wpenon_confirmation_energieausweis_type',  $energieausweis->formatted_wpenon_type, $energieausweis ),
+			'customer-address' => apply_filters( 'wpenon_confirmation_energieausweis_address',  $energieausweis->adresse, $energieausweis ),
 		];
 
 		if ( ! $energieausweis->isOrdered() ) {
