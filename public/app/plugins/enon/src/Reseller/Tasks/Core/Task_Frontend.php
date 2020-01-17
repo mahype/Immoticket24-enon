@@ -42,7 +42,7 @@ class Task_Frontend implements Task, Actions, Filters {
 	 * @param Reseller $reseller Reseller object.
 	 */
 	public function __construct( Reseller $reseller ) {
-		 $this->reseller = $reseller;
+		$this->reseller = $reseller;
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Task_Frontend implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		 $this->add_actions();
+		$this->add_actions();
 		$this->add_filters();
 
 		remove_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
@@ -74,7 +74,7 @@ class Task_Frontend implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		 add_filter( 'template_include', array( $this, 'filter_iframe_template' ) );
+		add_filter( 'template_include', array( $this, 'filter_iframe_template' ) );
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Task_Frontend implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_css() {
-		 $extra_css = $this->reseller->data()->get_extra_css();
+		$extra_css = $this->reseller->data()->get_extra_css();
 
 		if ( empty( $extra_css ) ) {
 			return;
