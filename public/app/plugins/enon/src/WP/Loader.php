@@ -14,8 +14,6 @@ namespace Enon\WP;
 use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;
 
-use Enon\WP\Tasks\Task_Settings_ACF;
-
 use Enon\WP\Tasks\Add_CPT_Reseller;
 use Enon\WP\Tasks\Add_Admin_Pages;
 use Enon\WP\Tasks\Setup_Gutenberg;
@@ -25,7 +23,9 @@ use Enon\WP\Tasks\Stop_Heartbeat;
 /**
  * Class loader.
  *
- * @package Enon\Config
+ * @package Enon\WP
+ *
+ * @since 1.0.0
  */
 class Loader extends Task_Loader {
 	/**
