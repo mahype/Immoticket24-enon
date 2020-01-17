@@ -3,13 +3,13 @@
  * Whitelabel loader.
  *
  * @category Class
- * @package  Enon\Core
+ * @package  Enon\WP
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\Core;
+namespace Enon\WP;
 
 use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;
@@ -34,8 +34,7 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		$this->add_task( Add_CPT_Reseller::class, $this->logger() );
-		$this->add_task( Task_Settings_ACF::class, $this->logger() );
+		$this->add_task( Add_CPT_Reseller::class );
 
 		if ( is_admin() ) {
 			$this->add_admin_tasks();

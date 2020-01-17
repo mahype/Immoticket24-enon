@@ -9,13 +9,15 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Acf\Tasks;
+namespace Enon\ACF\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
+
+use Enon\ACF\Models\ACF;
+
 use Enon\Traits\Logger as Logger_Trait;
 use Enon\Logger;
-use Enon\Reseller\Models\Reseller;
 
 /**
  * Managing ACF Fields.
@@ -53,7 +55,7 @@ class Task_ACF implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		if ( ! self::isActivated() ) {
+		if ( ! ACF::is_activated() ) {
 			$this->logger->warning( 'Advanced custom fields seems not to be activated.' );
 			return;
 		}
@@ -457,19 +459,5 @@ class Task_ACF implements Task, Actions {
 				),
 			)
 		);
-	}
-
-	/**
-	 * Is activated.
-	 *
-	 * @return bool Is Affiliate WP activated.
-	 * @since 1.0.0
-	 */
-	public static function isActivated() {
-		if ( ! function_exists( 'acf_add_local_field_group' ) ) {
-			return false;
-		}
-
-		return true;
 	}
 }

@@ -15,15 +15,17 @@
  * Text Domain: enon
  */
 
-namespace Enon\Core;
+namespace Enon;
 
 use Awsm\WP_Wrapper\Plugin\Plugin;
 
-use Enon\WP\Loader as Core_Loader;
-use Enon\Config\Loader as Config_Loader;
-use Enon\Misc\Loader as Misc_Loader;
-use Enon\Reseller\Loader as Reseller_Loader;
+use Enon\WP\Loader as WP_Loader;
 use Enon\CLI\Loader as CLI_Loader;
+use Enon\Misc\Loader as Misc_Loader;
+use Enon\ACF\Loader as ACF_Loader;
+
+use Enon\Reseller\Loader as Reseller_Loader;
+
 use Enon\Logger;
 
 require dirname( __FILE__ ) . '/vendor/autoload.php';
@@ -46,10 +48,11 @@ function enon_boot() {
 		$logger = new Logger( 'Enon' );
 
 		( new Plugin() )
-			->add_task( Core_Loader::class, $logger )
+			->add_task( WP_Loader::class, $logger )
+			->add_task( CLI_Loader::class, $logger )
 			->add_task( Misc_Loader::class, $logger )
 			->add_task( Reseller_Loader::class, $logger )
-			->add_task( CLI_Loader::class, $logger )
+			->add_task( ACF_Loader::class, $logger )
 			->boot();
 	} catch ( \Exception $exception ) {
 		wp_die( esc_attr( $exception->getMessage() ) );

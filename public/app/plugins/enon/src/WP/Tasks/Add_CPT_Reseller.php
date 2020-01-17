@@ -27,6 +27,14 @@ use Enon\Reseller\Models\Reseller_Data;
 class Add_CPT_Reseller implements Task, Actions, Filters {
 
 	/**
+	 * AffiliateWP constructor.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct() {
+	}
+
+	/**
 	 * Running scripts.
 	 *
 	 * @since 1.0.0

@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Models\ACF;
+namespace Enon\ACF\Models;
 
 use Enon\ACF\Models;
 
