@@ -9,15 +9,16 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Misc\Tasks\Plugins;
+namespace Enon\EDD\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 
-use Enon\Models\Enon\Energieausweis;
-use Enon\Traits\Logger as Logger_Trait;
 use Enon\Logger;
+use Enon\Traits\Logger as Logger_Trait;
 use Enon\Reseller\Models\Reseller;
+
+use Enon\Models\Enon\Energieausweis;
 
 /**
  * Class PluginEdd.
@@ -26,7 +27,7 @@ use Enon\Reseller\Models\Reseller;
  *
  * @package Enon\Reseller\WordPress
  */
-class Task_Edd_Sparkasse_Discounts implements Task, Filters {
+class Sparkasse_Discounts implements Task, Filters {
 
 	use Logger_Trait;
 

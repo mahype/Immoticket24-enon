@@ -33,7 +33,6 @@ class Loader extends Task_Loader {
 	public function run() {
 		$this->add_task( Task_Google_Tag_Manager::class );
 		$this->add_task( Task_Remove_Optimizepress::class );
-		$this->add_task( Task_Edd_Sparkasse_Discounts::class, $this->logger() );
 		$this->run_tasks();
 	}
 }

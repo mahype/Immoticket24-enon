@@ -23,6 +23,7 @@ use Enon\WP\Loader as WP_Loader;
 use Enon\CLI\Loader as CLI_Loader;
 use Enon\Misc\Loader as Misc_Loader;
 use Enon\ACF\Loader as ACF_Loader;
+use Enon\EDD\Loader as EDD_Loader;
 
 use Enon\Reseller\Loader as Reseller_Loader;
 
@@ -53,6 +54,7 @@ function enon_boot() {
 			->add_task( Misc_Loader::class, $logger )
 			->add_task( Reseller_Loader::class, $logger )
 			->add_task( ACF_Loader::class, $logger )
+			->add_task( EDD_Loader::class, $logger )
 			->boot();
 	} catch ( \Exception $exception ) {
 		wp_die( esc_attr( $exception->getMessage() ) );
