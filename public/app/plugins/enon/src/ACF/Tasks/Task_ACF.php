@@ -69,7 +69,7 @@ class Task_ACF implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		 add_action( 'acf/init', array( $this, 'registerFields' ) );
+		add_action( 'acf/init', array( $this, 'registerFields' ) );
 	}
 
 	/**

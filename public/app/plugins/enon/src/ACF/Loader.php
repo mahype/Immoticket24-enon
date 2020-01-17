@@ -13,9 +13,7 @@ namespace Enon\ACF;
 
 use Enon\Task_Loader;
 
-use Enon\ACF\Tasks\Task_ACF;
-use Enon\ACF\Tasks\Task_Settings_ACF;
-
+use Enon\ACF\Tasks\Add_Options;
 
 /**
  * Class Loader.
@@ -29,8 +27,8 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		$this->add_task( Task_ACF::class, $this->logger() );
-		$this->add_task( Task_Settings_ACF::class, $this->logger() );
+		$this->add_task( Add_Options::class, $this->logger() );
+		// $this->add_task( Task_Settings_ACF::class, $this->logger() );
 
 		$this->run_tasks();
 	}

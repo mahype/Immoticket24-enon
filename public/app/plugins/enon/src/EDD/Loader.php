@@ -53,7 +53,6 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function add_frontend_tasks() {
-		$this->add_task( Setup_WP_Nav::class );
 	}
 }
 
