@@ -19,7 +19,7 @@ namespace Enon\Core;
 
 use Awsm\WP_Wrapper\Plugin\Plugin;
 
-use Enon\Core\Loader as Core_Loader;
+use Enon\WP\Loader as Core_Loader;
 use Enon\Config\Loader as Config_Loader;
 use Enon\Misc\Loader as Misc_Loader;
 use Enon\Reseller\Loader as Reseller_Loader;
@@ -47,7 +47,6 @@ function enon_boot() {
 
 		( new Plugin() )
 			->add_task( Core_Loader::class, $logger )
-			->add_task( Config_Loader::class, $logger )
 			->add_task( Misc_Loader::class, $logger )
 			->add_task( Reseller_Loader::class, $logger )
 			->add_task( CLI_Loader::class, $logger )

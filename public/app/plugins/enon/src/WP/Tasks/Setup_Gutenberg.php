@@ -1,6 +1,6 @@
 <?php
 /**
- * Loading Gutenberg tasks.
+ * Setting up gutenberg editor.
  *
  * @category Class
  * @package  Enon\Config\Tasks
@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Config\Tasks;
+namespace Enon\WP\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Hooks_Actions;
 use Awsm\WP_Wrapper\Building_Plans\Service;
@@ -19,13 +19,13 @@ use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 
 /**
- * Class Gutenberg Config.
+ * Class Setup_Gutenberg.
  *
  * @package awsmug\Enon\Tools
  *
  * @since 1.0.0
  */
-class Task_Gutenberg implements Actions, Task {
+class Setup_Gutenberg implements Actions, Task {
 	/**
 	 * Running tasks.
 	 *

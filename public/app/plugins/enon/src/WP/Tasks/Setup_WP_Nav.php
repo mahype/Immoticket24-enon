@@ -1,6 +1,6 @@
 <?php
 /**
- * Loading menu tasks.
+ * Setting up wp navigation (wp_nav).
  *
  * @category Class
  * @package  Enon\Config\Tasks
@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Config\Tasks;
+namespace Enon\WP\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Hooks_Filters;
 use Awsm\WP_Wrapper\Building_Plans\Service;
@@ -20,13 +20,13 @@ use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 
 /**
- * Class Performance
+ * Class Setup_Menu.
  *
  * @package awsmug\Enon\Tools
  *
  * @since 1.0.0
  */
-class Task_Menu implements Filters, Task {
+class Setup_WP_Nav implements Filters, Task {
 	/**
 	 * Running tasks.
 	 *

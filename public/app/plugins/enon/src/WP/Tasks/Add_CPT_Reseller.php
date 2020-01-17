@@ -3,19 +3,19 @@
  * Class for adding reseller CPT.
  *
  * @category Class
- * @package  Enon\Reseller\Tasks\Core
+ * @package  Enon\WP\Tasks
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\Reseller\Tasks\Core;
+namespace Enon\WP\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 
-use Enon\Reseller\Models\reseller_data;
+use Enon\Reseller\Models\Reseller_Data;
 
 /**
  * Class Task_CPT_Reseller.
@@ -24,7 +24,7 @@ use Enon\Reseller\Models\reseller_data;
  *
  * @package Enon\Reseller\Tasks\Core
  */
-class Task_CPT_Reseller implements Task, Actions, Filters {
+class Add_CPT_Reseller implements Task, Actions, Filters {
 
 	/**
 	 * Running scripts.

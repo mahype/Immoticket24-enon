@@ -1,39 +1,38 @@
 <?php
 /**
- * Loading Config tasks.
+ * CLI task loader.
  *
  * @category Class
- * @package  Enon\Config
+ * @package  Enon\ACF
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\Config;
-
-use Enon\Config\Tasks\Task_Gutenberg;
-use Enon\Config\Tasks\Task_Menu;
+namespace Enon\ACF;
 
 use Enon\Task_Loader;
 
+use Enon\Acf\Tasks\Task_ACF;
+use Enon\Acf\Tasks\Task_Settings_ACF;
+
+
 /**
- * Config loader.
- *
- * @since 1.0.0
+ * Class Loader.
  *
  * @package Enon\Config
  */
 class Loader extends Task_Loader {
-
 	/**
 	 * Loading Scripts.
 	 *
 	 * @since 1.0.0
 	 */
 	public function run() {
-		 $this->add_task( Task_Gutenberg::class );
-		$this->add_task( Task_Menu::class );
+		$this->add_task( Task_ACF::class, $this->logger() );
+		$this->add_task( Task_Settings_ACF::class );
+
 		$this->run_tasks();
-		;
 	}
 }
+

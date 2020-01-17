@@ -13,8 +13,14 @@ namespace Enon\Core;
 
 use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;
-use Enon\Core\Tasks\Task_Settings_ACF;
-use Enon\Core\Tasks\Task_Settings_Page;
+
+use Enon\WP\Tasks\Task_Settings_ACF;
+
+use Enon\WP\Tasks\Add_CPT_Reseller;
+use Enon\WP\Tasks\Add_Admin_Pages;
+use Enon\WP\Tasks\Setup_Gutenberg;
+use Enon\WP\Tasks\Setup_WP_Nav;
+use Enon\WP\Tasks\Stop_Heartbeat;
 
 /**
  * Class loader.
@@ -28,12 +34,13 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function run() {
+		$this->add_task( Add_CPT_Reseller::class, $this->logger() );
 		$this->add_task( Task_Settings_ACF::class, $this->logger() );
 
 		if ( is_admin() ) {
-			$this->addAdminTasks();
+			$this->add_admin_tasks();
 		} else {
-			$this->addFrontendTasks();
+			$this->add_frontend_tasks();
 		}
 
 		$this->run_tasks();
@@ -44,8 +51,10 @@ class Loader extends Task_Loader {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addAdminTasks() {
-		$this->add_task( Task_Settings_Page::class, $this->logger() );
+	public function add_admin_tasks() {
+		$this->add_task( Add_Admin_Pages::class, $this->logger() );
+		$this->add_task( Setup_Gutenberg::class );
+		$this->add_task( Stop_Heartbeat::class );
 	}
 
 	/**
@@ -53,7 +62,8 @@ class Loader extends Task_Loader {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFrontendTasks() {
+	public function add_frontend_tasks() {
+		$this->add_task( Setup_WP_Nav::class );
 	}
 }
 

@@ -3,22 +3,22 @@
  * Class for getting enon settings/options.
  *
  * @category Class
- * @package  Enon\Core\Model
+ * @package  Enon\WP\Model
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\Core\Model;
+namespace Enon\WP\Model;
 
-use Enon\Models\ACF\ACF_Settings;
+use Enon\ACF\Models\ACF_Settings;
 
 /**
  * Class Settings.
  *
  * @since 1.0.0
  */
-class Data_Mail extends ACF_Settings {
+class Mail_Data extends ACF_Settings {
 	/**
 	 * Get confirmation sender name.
 	 *

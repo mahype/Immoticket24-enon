@@ -3,18 +3,20 @@
  * Class for managing ACF Fields.
  *
  * @category Class
- * @package  Enon\Core\Tasks
+ * @package  Enon\WP\Tasks
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\Core\Tasks;
+namespace Enon\Acf\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
-use Enon\Models\ACF\ACF;
-use Enon\Core\Model\Data_Mail;
+
+use Enon\ACF\Models\ACF;
+use Enon\WP\Model\Mail_Data;
+
 use Enon\Traits\Logger as Logger_Trait;
 use Enon\Logger;
 
@@ -98,7 +100,7 @@ class Task_Settings_ACF implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function register_mail_options() {
-		$fieldset = ( new Data_Mail() )->fieldset();
+		$fieldset = ( new Mail_Data() )->fieldset();
 
 		$options = array(
 			'key'                   => 'group_email_settings',

@@ -3,13 +3,13 @@
  * Load settings menu & page.
  *
  * @category Class
- * @package  Enon\Core\Tasks
+ * @package  Enon\WP\Tasks
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\Core\Tasks;
+namespace Enon\WP\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
@@ -24,7 +24,7 @@ use Enon\Logger;
  *
  * @package Enon\Reseller\WordPress
  */
-class Task_Settings_Page implements Task, Actions {
+class Add_Admin_Pages implements Task, Actions {
 	/**
 	 * AffiliateWP constructor.
 	 *

@@ -12,7 +12,7 @@
 namespace Enon\CLI;
 
 use Enon\Task_Loader;
-use Enon\CLI\Tasks\Task_Commands;
+use Enon\CLI\Tasks\Add_Commands;
 
 
 /**
@@ -31,7 +31,7 @@ class Loader extends Task_Loader {
 			return;
 		}
 
-		$this->add_task( Task_Commands::class );
+		$this->add_task( Add_Commands::class );
 
 		$this->run_tasks();
 	}

@@ -64,8 +64,8 @@ class Task_Email_Confirmation implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'wpenon_confirmation_from_address', array( $this, 'filter_from_address' ) );
-		add_filter( 'wpenon_confirmation_from_name', array( $this, 'filter_from_name' ) );
+		add_filter( 'wpenon_confirmation_sender_email', array( $this, 'filter_from_address' ) );
+		add_filter( 'wpenon_confirmation_sender_name', array( $this, 'filter_from_name' ) );
 		add_filter( 'wpenon_confirmation_link', array( $this, 'filter_link' ), 10, 2 );
 		add_filter( 'wpenon_confirmation_site', array( $this, 'filtersite_name' ), 10, 1 );
 

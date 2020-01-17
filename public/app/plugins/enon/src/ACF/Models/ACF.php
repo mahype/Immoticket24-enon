@@ -3,7 +3,7 @@
  * Class for use of ACF
  *
  * @category Class
- * @package  Enon\Core\Model
+ * @package  Enon\WP\Model
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
@@ -11,7 +11,7 @@
 
 namespace Enon\Models\ACF;
 
-use Enon\Models\Exceptions\Exception;
+use Enon\ACF\Models;
 
 /**
  * Class ACF_Setting.

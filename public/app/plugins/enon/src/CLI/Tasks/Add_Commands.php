@@ -21,7 +21,7 @@ use Enon\CLI\Commands\Scrub_Posts;
  *
  * @package Enon\Reseller\Tasks\Core
  */
-class Task_Commands implements Task {
+class Add_Commands implements Task {
 	/**
 	 * Running scripts.
 	 *

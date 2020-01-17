@@ -3,13 +3,13 @@
  * Class for getting enon settings/options.
  *
  * @category Class
- * @package  Enon\Core\Model
+ * @package  Enon\WP\Model
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\Models\ACF;
+namespace Enon\ACF\Models;
 
 /**
  * Class ACF_Setting.

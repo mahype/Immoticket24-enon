@@ -3,13 +3,13 @@
  * Dev tasks.
  *
  * @category Class
- * @package  Enon\Misc\Tasks
+ * @package  Enon\WP\Tasks
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\Misc\Tasks;
+namespace Enon\WP\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
@@ -19,7 +19,7 @@ use Awsm\WP_Wrapper\Building_Plans\Task;
  *
  * @since 1.0.0
  */
-class Task_Dev implements Actions, Task {
+class Stop_Heartbeat implements Actions, Task {
 
 	/**
 	 * Running tasks.

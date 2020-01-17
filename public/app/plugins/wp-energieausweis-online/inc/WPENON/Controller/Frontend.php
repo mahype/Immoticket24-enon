@@ -94,7 +94,7 @@ class Frontend {
 						exit;
 						break;
 					case 'confirmation-email-send':
-						$status = \WPENON\Util\Emails::instance()->sendConfirmationEmail( $this->energieausweis );
+						$status = \WPENON\Util\Emails::instance()->send_confirmation_email( $this->energieausweis );
 						wp_redirect( add_query_arg( array(
 							'post_type'              => 'download',
 							'frontend_action'        => $action,

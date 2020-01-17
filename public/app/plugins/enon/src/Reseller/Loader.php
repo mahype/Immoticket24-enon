@@ -42,11 +42,8 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		$this->add_task( Task_CPT_Reseller::class );
-		$this->add_task( Task_ACF::class, $this->logger() );
-
 		if ( is_admin() ) {
-			$this->addAdminTasks();
+			$this->add_admin_tasks();
 		} else {
 			$this->addFrontendTasks();
 		}
@@ -59,7 +56,7 @@ class Loader extends Task_Loader {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addAdminTasks() {
+	public function add_admin_tasks() {
 		try {
 			$reseller_data = new Reseller_Data();
 			$reseller = new Reseller( $reseller_data, $this->logger() );
