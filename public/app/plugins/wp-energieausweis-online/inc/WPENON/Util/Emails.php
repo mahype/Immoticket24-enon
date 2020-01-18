@@ -7,7 +7,7 @@
 
 namespace WPENON\Util;
 
-use Enon\WP\Model\Mail_Data;
+use Enon\WP\Models\Options_Confirmation_Email;
 
 class Emails {
 
@@ -417,17 +417,19 @@ class Emails {
 			return false;
 		}
 
-		$data_mail    = new Mail_Data();
-		$sender_name  = $data_mail->get_confirmation_sender_name();
-		$sender_email = $data_mail->get_confirmation_sender_email();
-		$subject      = $data_mail->get_confirmation_subject();
+		$options_email = new Options_Confirmation_Email();
+
+		$sender_name  = $options_email->get_sender_name();
+		$sender_email = $options_email->get_sender_email();
+		$subject      = $options_email->get_subject();
+		$content      = $options_email->get_content();
 
 		$sender_name  = apply_filters( 'wpenon_confirmation_sender_name', $sender_name, $energieausweis );
 		$sender_email = apply_filters( 'wpenon_confirmation_sender_email', $sender_email, $energieausweis );
 		$subject      = apply_filters( 'wpenon_confirmation_subject', $subject, $energieausweis );
 
 		$recipient_email = apply_filters( 'wpenon_confirmation_recipient_address', $energieausweis->wpenon_email );
-		$message         = $this->get_email_confirmation_body_content( $energieausweis );
+		$message         = $this->get_email_confirmation_body_content( $energieausweis, $content );
 
 		do_action( 'wpenon_confirmation_start', $energieausweis );
 
@@ -443,13 +445,13 @@ class Emails {
 	 * Get confirmation email body content.
 	 *
 	 * @param WPENON\Model\Energieausweis $energieausweis Energieausweis Object.
-	 * @param Mail_DataEnon\WP\Model    $data_mail      Mail data from settings.
+	 * @param string                      $content        Email content.
 	 *
 	 * @return string $body Email body content.
 	 *
 	 * @since 1.0.0
 	 */
-	private function get_email_confirmation_body_content( $energieausweis, $data_mail ) {
+	private function get_email_confirmation_body_content( $energieausweis, $content ) {
 		$confirmation_site    = apply_filters( 'wpenon_confirmation_site',  home_url(), $energieausweis );
 		$energieausweis_link  = apply_filters( 'wpenon_confirmation_energieausweis_link', $energieausweis->verified_permalink, $energieausweis );
 		$energieausweis_title = apply_filters( 'wpenon_confirmation_energieausweis_title', $energieausweis->post_title, $energieausweis );
@@ -468,7 +470,7 @@ class Emails {
 			$values['not-ordered'] = __( 'Wenn Sie alle benötigten Angaben vollständig eingegeben haben, können Sie den Energieausweis bestellen.', 'wpenon' );
 		}
 
-		$body = apply_filters( 'wpenon_confirmation_body', $data_mail->get_confirmation_content(), $energieausweis );
+		$body = apply_filters( 'wpenon_confirmation_body', $content, $energieausweis );
 
 		// Replacing values in mail body.
 		foreach ( $values AS $key => $value ) {
