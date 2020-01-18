@@ -7,7 +7,11 @@
 
 namespace WPENON\Util;
 
+use WPENON\Model\Energieausweis;
+
+use Enon\Edd\Models\Payment;
 use Enon\WP\Models\Options_Confirmation_Email;
+use Enon\WP\Models\Options_Billing_Email;
 
 class Emails {
 
@@ -408,10 +412,19 @@ class Emails {
 		$gateway  = edd_get_payment_gateway( $payment_id );
 		$supports = edd_get_gateway_supports( $gateway );
 		if ( in_array( 'manual_handling', $supports ) ) {
-			$this->sendOrderConfirmationEmail( $payment_id );
+			$this->send_bill_email( $payment_id );
 		}
 	}
 
+	/**
+	 * Send confirmation email.
+	 *
+	 * @param Energieausweis $energieausweis Energieausweis object.
+	 *
+	 * @return bool Whether the email contents were sent successfully.
+	 *
+	 * @since 1.0.0
+	 */
 	public function send_confirmation_email( $energieausweis ) {
 		if ( ! apply_filters( 'wpenon_send_certificate_create_confirmation_email', true ) ) {
 			return false;
@@ -427,9 +440,11 @@ class Emails {
 		$sender_name  = apply_filters( 'wpenon_confirmation_sender_name', $sender_name, $energieausweis );
 		$sender_email = apply_filters( 'wpenon_confirmation_sender_email', $sender_email, $energieausweis );
 		$subject      = apply_filters( 'wpenon_confirmation_subject', $subject, $energieausweis );
+		$content      = apply_filters( 'wpenon_confirmation_content', $content, $energieausweis );
 
 		$recipient_email = apply_filters( 'wpenon_confirmation_recipient_address', $energieausweis->wpenon_email );
-		$message         = $this->get_email_confirmation_body_content( $energieausweis, $content );
+
+		$message         = $this->replace_tags_confirmation_content( $energieausweis, $content );
 
 		do_action( 'wpenon_confirmation_start', $energieausweis );
 
@@ -442,17 +457,17 @@ class Emails {
 	}
 
 	/**
-	 * Get confirmation email body content.
+	 * Replacing tags in confitmation body content.
 	 *
-	 * @param WPENON\Model\Energieausweis $energieausweis Energieausweis Object.
-	 * @param string                      $content        Email content.
+	 * @param Energieausweis $energieausweis Energieausweis Object.
+	 * @param string         $content        Email content.
 	 *
 	 * @return string $body Email body content.
 	 *
 	 * @since 1.0.0
 	 */
-	private function get_email_confirmation_body_content( $energieausweis, $content ) {
-		$confirmation_site    = apply_filters( 'wpenon_confirmation_site',  home_url(), $energieausweis );
+	private function replace_tags_confirmation_content( $energieausweis, $content ) {
+		$confirmation_site    = apply_filters( 'wpenon_confirmation_site', home_url(), $energieausweis );
 		$energieausweis_link  = apply_filters( 'wpenon_confirmation_energieausweis_link', $energieausweis->verified_permalink, $energieausweis );
 		$energieausweis_title = apply_filters( 'wpenon_confirmation_energieausweis_title', $energieausweis->post_title, $energieausweis );
 		$energieausweis_type  = apply_filters( 'wpenon_confirmation_energieausweis_type', $energieausweis->formatted_wpenon_type, $energieausweis );
@@ -470,66 +485,80 @@ class Emails {
 			$values['not-ordered'] = __( 'Wenn Sie alle benötigten Angaben vollständig eingegeben haben, können Sie den Energieausweis bestellen.', 'wpenon' );
 		}
 
-		$body = apply_filters( 'wpenon_confirmation_body', $content, $energieausweis );
-
-		// Replacing values in mail body.
-		foreach ( $values AS $key => $value ) {
-			$body = str_replace( '{{' . $key . '}}', $value, $body );
+		// Replacing template tags in mail body.
+		foreach ( $template_tags as $template_tags => $value ) {
+			$content = str_replace( '{{' . $template_tags . '}}', $value, $content );
 		}
 
-		return $body;
+		return $content;
 	}
 
-	public function sendOrderConfirmationEmail( $payment_id, $admin_notice = true ) {
-		$payment_data = edd_get_payment_meta( $payment_id );
+	/**
+	 * Send bill email.
+	 *
+	 * @param int  $payment_id Edd payment id.
+	 * @param bool $admin_notice
+	 *
+	 * @since 1.0.0
+	 */
+	public function send_bill_email( $payment_id ) {
+		$options_email = new Options_Billing_Email();
+		$payment       = new Payment( $payment_id );
 
-		$from_name = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
-		$from_name = apply_filters( 'wpenon_order_confirmation_from_name', $from_name, $payment_id, $payment_data );
+		$sender_name     = $options_email->get_sender_name();
+		$sender_email    = $options_email->get_sender_email();
+		$subject         = $options_email->get_subject();
+		$content         = $options_email->get_content();
+		$recipient_email = edd_get_payment_user_email( $payment_id );
+		$energieausweis  = $payment->get_energieausweis_old(); // @todo switch to new energieausweis object.
 
-		$from_email = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
-		$from_email = apply_filters( 'wpenon_order_confirmation_from_address', $from_email, $payment_id, $payment_data );
-
-		$to_email = apply_filters( 'wpenon_order_confirmation_to_address', edd_get_payment_user_email( $payment_id ) );
-
-		$subject = edd_get_option( 'order_confirmation_subject', __( 'Zahlungsaufforderung', 'wpenon' ) );
-		$subject = apply_filters( 'wpenon_order_confirmation_subject', wp_strip_all_tags( $subject ), $payment_id );
-		$subject = edd_do_email_tags( $subject, $payment_id );
+		$sender_name     = apply_filters( 'wpenon_bill_sender_name', $sender_name, $energieausweis );
+		$sender_email    = apply_filters( 'wpenon_bill_sender_email', $sender_email, $energieausweis );
+		$subject         = apply_filters( 'wpenon_bill_subject', $subject, $energieausweis );
+		$content         = apply_filters( 'wpenon_bill_content', $content, $energieausweis );
+		$recipient_email = apply_filters( 'wpenon_bill_to_address', edd_get_payment_user_email( $payment_id ) );
 
 		$attachments = array();
-		$message     = edd_do_email_tags( $this->getEmailOrderConfirmationBodyContent( $payment_id, $payment_data ), $payment_id );
+		$message     = $this->replace_tags_bill_content( $payment, $energieausweis, $content );
 
 		$emails = EDD()->emails;
+		$emails->__set( 'from_name', $sender_name );
+		$emails->__set( 'from_email', $sender_email );
+		$emails->__set( 'heading', $subject );
 
-		$emails->__set( 'from_name', $from_name );
-		$emails->__set( 'from_email', $from_email );
-		$emails->__set( 'heading', __( 'Zahlungsaufforderung', 'wpenon' ) );
+		$emails->send( $recipient_email, $subject, $message, $attachments );
 
-		$headers = apply_filters( 'wpenon_order_confirmation_headers', $emails->get_headers(), $payment_id, $payment_data );
-		$emails->__set( 'headers', $headers );
-
-		$emails->send( $to_email, $subject, $message, $attachments );
-
-		if ( $admin_notice && ! edd_admin_notices_disabled( $payment_id ) ) {
-			do_action( 'edd_admin_sale_notice', $payment_id, $payment_data );
-		}
+		do_action( 'edd_admin_sale_notice', $payment_id, $payment_data );
 	}
 
-	public function getEmailOrderConfirmationBodyContent( $payment_id, $payment_data ) {
-		$default_email_body = __( 'Sehr geehrte/r', 'wpenon' ) . " {fullname},\n\n";
-		$default_email_body .= __( 'vielen Dank für Ihre Bestellung. Bitte begleichen Sie die Rechnung umgehend, um die Bestellung abzuschließen und Ihren Energieausweis zu erhalten.', 'wpenon' ) . "\n\n";
-		$default_email_body .= __( 'Die PDF-Rechnung für Ihre Bestellung finden Sie unter diesem Link: {pdf_link}', 'wpenon' ) . "\n\n";
-		$default_email_body .= __( 'Im Folgenden finden Sie die nötigen Daten für die Zahlung:', 'wpenon' ) . "\n\n";
-		$default_email_body .= "{bank_account_info}\n\n";
-		$default_email_body .= "{sitename}";
+	/**
+	 * Replacing tags in confitmation body content.
+	 *
+	 * @param Payment        $payment        Payment object.
+	 * @param Energieausweis $energieausweis Energieausweis Object.
+	 * @param string         $content        Email content.
+	 *
+	 * @return string $content Email body content.
+	 *
+	 * @since 1.0.0
+	 */
+	public function replace_tags_bill_content( $payment, $energieausweis, $content ) {
+		$customer = $payment->get_customer();
 
-		$email = edd_get_option( 'order_confirmation', false );
-		$email = $email ? stripslashes( $email ) : $default_email_body;
+		$customer_name = apply_filters( 'wpenon_bill_customer_name', $customer->name, $payment, $energieausweis );
+		$receipt_link  = apply_filters( 'wpenon_bill_receipt_link', $energieausweis->_emailTagPDFLink(), $energieausweis ); // @todo: Replace th _emailTagPDFLink function.
 
-		$email_body = wpautop( $email );
+		$template_tags = [
+			'customer-name' => $customer_name,
+			'receipt_url'   => $receipt_link,
+		];
 
-		$email_body = apply_filters( 'wpenon_order_confirmation_' . EDD()->emails->get_template(), $email_body, $payment_id, $payment_data );
+		// Replacing template tags in mail body.
+		foreach ( $template_tags as $template_tag => $value ) {
+			$content = str_replace( '{{' . $template_tag . '}}', $value, $content );
+		}
 
-		return apply_filters( 'wpenon_order_confirmation', $email_body, $payment_id, $payment_data );
+		return $content;
 	}
 
 	public function _processPreviewEmailTags( $message ) {

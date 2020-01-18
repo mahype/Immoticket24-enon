@@ -14,7 +14,7 @@ namespace Enon\Reseller\Models;
 use Enon\Models\Exceptions\Exception;
 
 use Enon\Models\ACF\Post_Data;
-use Enon\Models\Edd\Edd_Payment;
+use Enon\Edd\Models\Payment;
 
 /**
  * Class ACFResellerFiels
@@ -117,7 +117,7 @@ class Reseller_Data extends Post_Data {
 		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
 		$payment_id = intval( $_GET['id'] );
 
-		$energieausweis_id = ( new Edd_Payment( $payment_id ) )->get_energieausweis_id();
+		$energieausweis_id = ( new Payment( $payment_id ) )->get_energieausweis_id();
 
 		// @todo Move to new energieausweis object get_reseller_id function
 		$reseller_id = get_post_meta( $energieausweis_id, 'reseller_id', true );

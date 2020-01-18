@@ -16,7 +16,7 @@ use Awsm\WP_Wrapper\Building_Plans\Task;
 use Enon\Logger;
 use Enon\Traits\Logger as Logger_Trait;
 use Enon\Reseller\Models\Reseller;
-use Enon\Models\Edd\Edd_Payment;
+use Enon\Edd\Models\Payment;
 use WPENON\Model\Energieausweis;
 
 /**
@@ -91,7 +91,7 @@ class Task_Send_Energieausweis implements Actions, Task {
 			return;
 		}
 
-		$energieausweis_id = ( new Edd_Payment( $payment_id ) )->get_energieausweis_id();
+		$energieausweis_id = ( new Payment( $payment_id ) )->get_energieausweis_id();
 		$energieausweis    = new Energieausweis( $energieausweis_id );
 
 		( new $sender_class_name( $endpoint, $energieausweis, $this->logger() ) )->send();
