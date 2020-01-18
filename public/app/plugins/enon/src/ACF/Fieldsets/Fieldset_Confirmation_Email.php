@@ -3,15 +3,15 @@
  * Confirmation email fieldset.
  *
  * @category Class
- * @package  Enon\ACF\Fieldsets
+ * @package  Enon\Acf\Fieldsets
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\ACF\Fieldsets;
+namespace Enon\Acf\Fieldsets;
 
-use Enon\ACF\Models\Fieldset;
+use Enon\Acf\Models\Fieldset;
 
 /**
  * Class Confirmation_Email.

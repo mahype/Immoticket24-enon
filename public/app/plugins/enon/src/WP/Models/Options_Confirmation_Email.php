@@ -11,7 +11,7 @@
 
 namespace Enon\WP\Models;
 
-use Enon\ACF\Models\ACF_Settings;
+use Enon\Acf\Models\ACF_Settings;
 
 /**
  * Class Settings.

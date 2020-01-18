@@ -14,7 +14,7 @@ namespace Enon\EDD;
 use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;
 
-use Enon\EDD\Tasks\Sparkasse_Discounts;
+use Enon\Edd\Tasks\Sparkasse_Discounts;
 
 /**
  * Class loader.

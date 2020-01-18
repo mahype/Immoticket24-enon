@@ -2,7 +2,7 @@
 /**
  * Plugin initialization file
  *
- * @package ENON
+ * @package Enon
  * @since 1.0.0
  *
  * @wordpress-plugin
@@ -22,8 +22,8 @@ use Awsm\WP_Wrapper\Plugin\Plugin;
 use Enon\WP\Loader as WP_Loader;
 use Enon\CLI\Loader as CLI_Loader;
 use Enon\Misc\Loader as Misc_Loader;
-use Enon\ACF\Loader as ACF_Loader;
-use Enon\EDD\Loader as EDD_Loader;
+use Enon\Acf\Loader as ACF_Loader;
+use Enon\Edd\Loader as EDD_Loader;
 
 use Enon\Reseller\Loader as Reseller_Loader;
 

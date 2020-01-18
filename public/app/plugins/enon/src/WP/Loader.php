@@ -14,7 +14,6 @@ namespace Enon\WP;
 use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;
 
-use Enon\WP\Tasks\Add_CPT_Reseller;
 use Enon\WP\Tasks\Add_Admin_Pages;
 use Enon\WP\Tasks\Setup_Gutenberg;
 use Enon\WP\Tasks\Setup_WP_Nav;
@@ -34,8 +33,6 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		$this->add_task( Add_CPT_Reseller::class );
-
 		if ( is_admin() ) {
 			$this->add_admin_tasks();
 		} else {

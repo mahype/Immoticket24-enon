@@ -9,12 +9,12 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\ACF\Tasks;
+namespace Enon\Acf\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 
-use Enon\ACF\Models\ACF;
+use Enon\Acf\Models\ACF;
 
 use Enon\Traits\Logger as Logger_Trait;
 use Enon\Logger;

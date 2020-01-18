@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\EDD\Tasks;
+namespace Enon\Edd\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;

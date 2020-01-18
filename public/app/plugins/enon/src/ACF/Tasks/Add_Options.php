@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\ACF\Tasks;
+namespace Enon\Acf\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
@@ -18,14 +18,14 @@ use Enon\Task_Loader;
 use Enon\Traits\Logger as Logger_Trait;
 use Enon\Logger;
 
-use Enon\ACF\Models\ACF;
-use Enon\ACF\Models\Page;
-use Enon\ACF\Models\Tabs;
-use Enon\ACF\Models\Tab;
-use Enon\ACF\Models\Fieldset;
+use Enon\Acf\Models\ACF;
+use Enon\Acf\Models\Page;
+use Enon\Acf\Models\Tabs;
+use Enon\Acf\Models\Tab;
+use Enon\Acf\Models\Fieldset;
 
-use Enon\ACF\Fieldsets\Fieldset_Billing_Email;
-use Enon\ACF\Fieldsets\Fieldset_Confirmation_Email;
+use Enon\Acf\Fieldsets\Fieldset_Billing_Email;
+use Enon\Acf\Fieldsets\Fieldset_Confirmation_Email;
 
 /**
  * Class Add_Options.

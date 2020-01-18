@@ -3,13 +3,13 @@
  * Tab class.
  *
  * @category Class
- * @package  Enon\ACF\Models
+ * @package  Enon\Acf\Models
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\ACF\Models;
+namespace Enon\Acf\Models;
 
 /**
  * Class Tab.
