@@ -12,7 +12,8 @@
 namespace Enon\Edd\Models;
 
 use Enon\Models\Enon\Energieausweis;
-use WPENON\Models\Energieausweis as Energeausweis_Old; // Old and have to be removed later.
+use WPENON\Model\Energieausweis as Energieausweis_Old; // Old and have to be removed later.
+
 /**
  * Class Edd_Payment
  *
@@ -39,6 +40,28 @@ class Payment {
 	 */
 	public function __construct( $id ) {
 		$this->id = $id;
+	}
+
+	/**
+	 * Get payment id.
+	 *
+	 * @return int Payment id.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_id() {
+		return $this->id;
+	}
+
+	/**
+	 * Get the payment title.
+	 *
+	 * @return string Payment title.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_title() {
+		return get_the_title( $this->id );
 	}
 
 	/**
@@ -76,7 +99,7 @@ class Payment {
 	 */
 	public function get_energieausweis_old() : Energieausweis_Old {
 		$energieausweis_id = $this->get_energieausweis_id();
-		return Energieausweis_Old( energieausweis_id );
+		return new Energieausweis_Old( $energieausweis_id );
 	}
 
 	/**
@@ -89,7 +112,7 @@ class Payment {
 	 * @since 1.0.0
 	 */
 	public function get_customer_id() {
-		$customer_id = edd_get_payment_customer_id( $payment_id );
+		$customer_id = edd_get_payment_customer_id( $this->id );
 
 		return $customer_id;
 	}

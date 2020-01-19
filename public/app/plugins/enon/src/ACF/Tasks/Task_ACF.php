@@ -16,8 +16,8 @@ use Awsm\WP_Wrapper\Building_Plans\Task;
 
 use Enon\Acf\Models\ACF;
 
-use Enon\Traits\Logger as Logger_Trait;
-use Enon\Logger;
+use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
+use Awsm\WP_Wrapper\Tools\Logger;
 
 /**
  * Managing ACF Fields.

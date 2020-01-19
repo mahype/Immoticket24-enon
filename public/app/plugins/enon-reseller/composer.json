@@ -1,0 +1,14 @@
+{
+    "name": "enon/reseller",
+    "description": "Enon reseller plugin.",
+    "version": "1.0.0",
+    "license": "GPL-2.0-or-later",
+    "require": {
+      "awsm/wp-wrapper": "dev-master"
+    },
+    "autoload": {
+      "psr-4": {
+        "Enon_Reseller\\":"src/"
+      }
+    }
+}

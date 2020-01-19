@@ -1,61 +1,63 @@
 <?php
 /**
- * Class for getting billing email data.
+ * Class for getting resellers post meta company data.
  *
  * @category Class
- * @package  Enon\WP\Model
+ * @package  Enon_Reseller\Models\Post_Meta
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\WP\Models;
+namespace Enon_Reseller\Models\Post_Meta;
+
+use Enon\Acf\Models\Post_Meta;
 
 /**
  * Class Settings.
  *
  * @since 1.0.0
  */
-class Options_Billing_Email extends Options {
+class Billing_Email extends Post_Meta {
 	/**
-	 * Get bill sender name.
-	 *
-	 * @from
+	 * Get sender name.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return string Name of the billig email sender.
 	 */
 	public function get_sender_name() {
 		return $this->get( 'bill_sender_name' );
 	}
 
 	/**
-	 * Get bill sender email.
-	 *
-	 * @from
+	 * Get sender email.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return string Email of the billig email sender.
 	 */
 	public function get_sender_email() {
 		return $this->get( 'bill_sender_email' );
 	}
 
 	/**
-	 * Get bill subject.
-	 *
-	 * @from
+	 * Get subject.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return string Subject for billiug email.
 	 */
 	public function get_subject() {
 		return $this->get( 'bill_subject' );
 	}
 
 	/**
-	 * Get bill content.
-	 *
-	 * @from
+	 * Get content.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return string Content for billiug email.
 	 */
 	public function get_content() {
 		return $this->get( 'bill_content' );

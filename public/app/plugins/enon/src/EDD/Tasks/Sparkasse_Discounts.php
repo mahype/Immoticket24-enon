@@ -14,8 +14,8 @@ namespace Enon\Edd\Tasks;
 use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 
-use Enon\Logger;
-use Enon\Traits\Logger as Logger_Trait;
+use Awsm\WP_Wrapper\Tools\Logger;
+use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
 use Enon\Reseller\Models\Reseller;
 
 use Enon\Models\Enon\Energieausweis;

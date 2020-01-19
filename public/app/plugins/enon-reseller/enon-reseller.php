@@ -2,11 +2,11 @@
 /**
  * Plugin initialization file
  *
- * @package Enon
+ * @package Enon_Reseller
  * @since 1.0.0
  *
  * @wordpress-plugin
- * Plugin Name: ENON - Core Plugin (neu)
+ * Plugin Name: ENON - Reseller Plugin
  * Plugin URI:  https://energieausweis-online-erstellen.de
  * Description: Core Plugin for Energieausweis Online site.
  * Version:     1.0.0
@@ -15,19 +15,13 @@
  * Text Domain: enon
  */
 
-namespace Enon;
+namespace Enon_Reseller;
 
 use Awsm\WP_Wrapper\Plugin\Plugin;
-
-use Enon\WP\Loader as WP_Loader;
-use Enon\CLI\Loader as CLI_Loader;
-use Enon\Misc\Loader as Misc_Loader;
-use Enon\Acf\Loader as ACF_Loader;
-use Enon\Edd\Loader as EDD_Loader;
-
-use Enon\Reseller\Loader as Reseller_Loader;
-
 use Awsm\WP_Wrapper\Tools\Logger;
+
+use Enon_Reseller\Tasks\Loader;
+
 
 require dirname( __FILE__ ) . '/vendor/autoload.php';
 
@@ -44,20 +38,16 @@ require_once dirname( __FILE__ ) . '/vendor/autoload.php';
  *
  * @since 1.0.0
  */
-function enon_boot() {
+function enon_reseller_boot() {
 	try {
-		$logger = new Logger( 'Enon' );
+		$logger = new Logger( 'Enon_Reseller' );
 
 		( new Plugin() )
-			->add_task( WP_Loader::class, $logger )
-			->add_task( CLI_Loader::class, $logger )
-			->add_task( Misc_Loader::class, $logger )
-			->add_task( ACF_Loader::class, $logger )
-			->add_task( EDD_Loader::class, $logger )
+			->add_task( Loader::class, $logger )
 			->boot();
 	} catch ( \Exception $exception ) {
 		wp_die( esc_attr( $exception->getMessage() ) );
 	}
 }
 
-enon_boot();
+enon_reseller_boot();

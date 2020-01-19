@@ -28,7 +28,6 @@ class Loader extends Task_Loader {
 	 */
 	public function run() {
 		$this->add_task( Add_Options::class, $this->logger() );
-		// $this->add_task( Task_Settings_ACF::class, $this->logger() );
 
 		$this->run_tasks();
 	}

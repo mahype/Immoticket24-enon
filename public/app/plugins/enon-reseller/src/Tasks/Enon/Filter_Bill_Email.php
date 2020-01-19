@@ -1,0 +1,111 @@
+<?php
+/**
+ * Task which loads email order confirmation scripts.
+ *
+ * @category Class
+ * @package  Enon_Reseller\Tasks\Enon
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
+
+namespace Enon_Reseller\Tasks\Enon;
+
+use Awsm\WP_Wrapper\Building_Plans\Filters;
+use Awsm\WP_Wrapper\Building_Plans\Task;
+use Awsm\WP_Wrapper\Tools\Logger;
+use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
+
+use Enon_Reseller\Models\Post_Meta\Billing_Email;
+
+use Enon_Reseller\Models\Reseller;
+
+
+/**
+ * Class EnonEmailOrderConfirmation.
+ *
+ * @since 1.0.0
+ *
+ * @package Enon_Reseller\WordPress
+ */
+class Filter_Bill_Email implements Task, Filters {
+	use Logger_Trait;
+
+	/**
+	 * Reseller object.
+	 *
+	 * @since 1.0.0
+	 * @var Reseller;
+	 */
+	private $reseller;
+
+	/**
+	 * Wpenon constructor.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Reseller $reseller Reseller object.
+	 * @param Logger   $logger   Logger object.
+	 */
+	public function __construct( Reseller $reseller, Logger $logger ) {
+		$this->reseller = $reseller;
+		$this->logger = $logger;
+	}
+
+	/**
+	 * Running scripts.
+	 *
+	 * @since 1.0.0
+	 */
+	public function run() {
+		$this->add_filters();
+	}
+
+	/**
+	 * Adding filters.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_filters() {
+		add_filter( 'wpenon_confirmation_sender_name', array( $this, 'filter_sender_name' ) );
+		add_filter( 'wpenon_confirmation_sender_email', array( $this, 'filter_sender_email' ) );
+	}
+
+	/**
+	 * Filter sender name.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $name From name.
+	 *
+	 * @return string From name.
+	 */
+	public function filter_sender_name( $name ) {
+		$sender_name = $this->reseller->data()->billing_email->get_sender_name();
+
+		if ( empty( $sender_name ) ) {
+			return $name;
+		}
+
+		return $sender_name;
+	}
+
+	/**
+	 * Filter sender email.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $name From email.
+	 *
+	 * @return string From email.
+	 */
+	public function filter_sender_email( $email ) {
+		$sender_email = $this->reseller->data()->billing_email->get_sender_email();
+
+		if ( empty( $sender_email ) ) {
+			return $email;
+		}
+
+		return $sender_email;
+	}
+}

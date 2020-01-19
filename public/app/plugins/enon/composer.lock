@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/awsmug/wp-wrapper.git",
-                "reference": "421b0776c567f928cccea940292a35223580943b"
+                "reference": "0f29e4df03f5b9fe371b004ecb9a2fa16b63595a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/421b0776c567f928cccea940292a35223580943b",
-                "reference": "421b0776c567f928cccea940292a35223580943b",
+                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/0f29e4df03f5b9fe371b004ecb9a2fa16b63595a",
+                "reference": "0f29e4df03f5b9fe371b004ecb9a2fa16b63595a",
                 "shasum": ""
             },
             "type": "library",
@@ -44,7 +44,7 @@
                 "plugin",
                 "wordpress"
             ],
-            "time": "2020-01-09T11:43:46+00:00"
+            "time": "2020-01-09T17:14:24+00:00"
         },
         {
             "name": "monolog/monolog",

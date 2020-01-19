@@ -1,0 +1,60 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "7418e92b22162467443c0caa3790a124",
+    "packages": [
+        {
+            "name": "awsm/wp-wrapper",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/awsmug/wp-wrapper.git",
+                "reference": "0f29e4df03f5b9fe371b004ecb9a2fa16b63595a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/0f29e4df03f5b9fe371b004ecb9a2fa16b63595a",
+                "reference": "0f29e4df03f5b9fe371b004ecb9a2fa16b63595a",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Awsm\\WP_Wrapper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Sven Wagener",
+                    "email": "sven@awesome.ug",
+                    "homepage": "http://svenwagener.com",
+                    "role": "Head of Development"
+                }
+            ],
+            "description": "Wrapping WordPress for more beautiful code.",
+            "homepage": "https://github.com/awsmug/wp-wrapper",
+            "keywords": [
+                "plugin",
+                "wordpress"
+            ],
+            "time": "2020-01-09T17:14:24+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "awsm/wp-wrapper": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

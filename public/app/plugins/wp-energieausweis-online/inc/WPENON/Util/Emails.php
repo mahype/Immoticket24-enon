@@ -40,8 +40,6 @@ class Emails {
 		add_filter( 'edd_admin_notices_disabled', array( $this, '_hackAdminNotices' ), 10, 2 );
 
 		add_filter( 'edd_settings_emails', array( $this, '_addAdditionalEmailSettings' ) );
-
-		add_filter( 'edd_email_footer_text', array( $this, '_adjustEmailFooterText' ) );
 	}
 
 	public function _addEmailTags() {
@@ -471,14 +469,15 @@ class Emails {
 		$energieausweis_link  = apply_filters( 'wpenon_confirmation_energieausweis_link', $energieausweis->verified_permalink, $energieausweis );
 		$energieausweis_title = apply_filters( 'wpenon_confirmation_energieausweis_title', $energieausweis->post_title, $energieausweis );
 		$energieausweis_type  = apply_filters( 'wpenon_confirmation_energieausweis_type', $energieausweis->formatted_wpenon_type, $energieausweis );
-		$customer_address     = apply_filters( 'wpenon_confirmation_customer_address', $energieausweis->post_title, $energieausweis );
+		$customer_address     = apply_filters( 'wpenon_confirmation_customer_address', $energieausweis->adresse, $energieausweis );
 
-		$values = [
+		$template_tags = [
 			'site'             => $confirmation_site,
 			'en-link'          => $energieausweis_link,
 			'en-title'         => $energieausweis_title,
-			'en-type'          => $energieausweis_title,
+			'en-type'          => $energieausweis_type,
 			'customer-address' => $customer_address,
+			'not-ordered'      => '',
 		];
 
 		if ( ! $energieausweis->isOrdered() ) {
@@ -486,8 +485,8 @@ class Emails {
 		}
 
 		// Replacing template tags in mail body.
-		foreach ( $template_tags as $template_tags => $value ) {
-			$content = str_replace( '{{' . $template_tags . '}}', $value, $content );
+		foreach ( $template_tags as $template_tag => $value ) {
+			$content = str_replace( '{{' . $template_tag . '}}', $value, $content );
 		}
 
 		return $content;
@@ -546,11 +545,13 @@ class Emails {
 		$customer = $payment->get_customer();
 
 		$customer_name = apply_filters( 'wpenon_bill_customer_name', $customer->name, $payment, $energieausweis );
-		$receipt_link  = apply_filters( 'wpenon_bill_receipt_link', $energieausweis->_emailTagPDFLink(), $energieausweis ); // @todo: Replace th _emailTagPDFLink function.
+		$receipt_link  = apply_filters( 'wpenon_bill_receipt_link', $this->_emailTagPDFLink( $payment->get_id() ), $energieausweis ); // @todo: Replace th _emailTagPDFLink function.
+		$receipt_title = apply_filters( 'wpenon_bill_receipt_title', $payment->get_title(), $energieausweis );
 
 		$template_tags = [
 			'customer-name' => $customer_name,
-			'receipt_url'   => $receipt_link,
+			'receipt-url'   => $receipt_link,
+			'receipt-title' => $receipt_title,
 		];
 
 		// Replacing template tags in mail body.
