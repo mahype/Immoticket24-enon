@@ -2,6 +2,130 @@
 
 $description_quality = __('<b>Einfach:</b><br/>z.B. Einfachverglasung, Dach ohne Wärmedämmung, PVC-Böden (niedriger Standard), Speicherheizung, Einzelöfen, Bäder ohne oder nur mit geringer Verfliesung<br/><br><b>Durchschnittlich:</b><br />z.B. Kunststofffenster, Isolierverglasung, Rolläden, mittlerer Wärmedämmungsstandard, Bat mit Dusche und Badewanne, Teppich, PVC Boden (mittlerer Standard), Fliesen, Kunststofftüren, Zentralheizung<br /><br /><b>Überdurchschnittlich:</b><br />z.B. Aluminiumfenster, Wärmeschutzverglasung, hoher Wärmestandard, zwei Bäder, Gäste-WC, Fliesenboden, Parkett, Glastüren, Zentralheizung<br />><br /><b>Aufwändig:</b><br />z.B. wandhohe Verfliesung, raumhohe Verglasung, elektische Rolläden, Schallschutzverglasung, Dachausschnitte mit Glas, aufwendige Dachausbauten, Natursteinböden, mehrere Bäder mit Bidet, Whirlpool, Einbruchschutz, massive Türen, Fußbodenheizung, Klimaanlage, Solaranlage', 'wpenon');
 
+
+$qualities = [
+	'dach' => [
+		[
+			'title'       => 'Einfach',
+			'description' => 'z.B. Dach ohne Wärmedämmung',
+		],
+		[
+			'title'       => 'Durchschnittlich',
+			'description' => 'z.B. Dach mit mittlerer Wärmedämmung',
+		],
+		[
+			'title'       => 'Überdurchschnittlich',
+			'description' => 'z.B. Dach mit hoher Wärmedämmung',
+		],
+		[
+			'title'       => 'Aufwändig',
+			'description' => 'z.B. Dachausschnitte mit Glas, aufwendige Dachausbauten',
+		]
+	],
+	'daemmung' => [
+		[
+			'title'       => 'Einfach',
+			'description' => 'z.B. einfacher Wärmedämmungsstandard',
+		],
+		[
+			'title'       => 'Durchschnittlich',
+			'description' => 'z.B. mittlerer Wärmedämmungsstandard',
+		],
+		[
+			'title'       => 'Überdurchschnittlich',
+			'description' => 'z.B. hoher Wärmestandard',
+		],
+		[
+			'title'       => 'Aufwändig',
+			'description' => 'z.B. sehr hoher Wärmestandard, Passivhaus',
+		]
+	],
+	'fenster' => [
+		[
+			'title'       => 'Einfach',
+			'description' => 'z.B. Einfachverglasung',
+		],
+		[
+			'title'       => 'Durchschnittlich',
+			'description' => 'z.B. Kunststofffenster, Isolierverglasung, Rollläden',
+		],
+		[
+			'title'       => 'Überdurchschnittlich',
+			'description' => 'z.B. Aluminiumfenster, Wärmeschutzverglasung',
+		],
+		[
+			'title'       => 'Aufwändig',
+			'description' => 'z.B. elektrische Rollläden, Schallschutzverglasung',
+		]
+	],
+	'boden' => [
+		[
+			'title'       => 'Einfach',
+			'description' => 'z.B. PVC-Böden (niedriger Standard)',
+		],
+		[
+			'title'       => 'Durchschnittlich',
+			'description' => 'z.B. Teppich, PVC Boden (mittlerer Standard), Fliesen',
+		],
+		[
+			'title'       => 'Überdurchschnittlich',
+			'description' => 'z.B. Fliesenboden, Parkett',
+		],
+		[
+			'title'       => 'Aufwändig',
+			'description' => 'z.B. Natursteinböden',
+		]
+	],
+	'heizung' => [
+		[
+			'title'       => 'Einfach',
+			'description' => 'z. B. Speicherheizung, Einzelöfen',
+		],
+		[
+			'title'       => 'Durchschnittlich',
+			'description' => 'z.B. Zentralheizung',
+		],
+		[
+			'title'       => 'Überdurchschnittlich',
+			'description' => 'z.B. Zentralheizung',
+		],
+		[
+			'title'       => 'Aufwändig',
+			'description' => 'z.B. Fußbodenheizung, Klimaanlage, Solaranlage',
+		]
+	],
+	'baeder' => [
+		[
+			'title'       => 'Einfach',
+			'description' => 'z.B. Bäder ohne oder nur mit geringer Verfliesung',
+		],
+		[
+			'title'       => 'Durchschnittlich',
+			'description' => 'z.B. Bad mit Dusche und Badewanne',
+		],
+		[
+			'title'       => 'Überdurchschnittlich',
+			'description' => 'z.B. zwei Bäder, Gäste-WC',
+		],
+		[
+			'title'       => 'Aufwändig',
+			'description' => 'z.B. mehrere Bäder mit Bidet, Whirlpool',
+		]
+	]
+];
+
+function get_quality_description( $elements ) {
+	$html = '';
+
+	foreach ( $elements as $element ) {
+		$html .= sprintf( "<b>%s</b><br />%s<br /><br />", $element['title'], $element['description' ] );
+	}
+
+	return $html;
+}
+
+
+$description_quality_dach = _('');
 return array(
 	'vw_basisdaten' => array(
 		'title' => __('Basisdaten', 'wpenon'),
@@ -854,7 +978,7 @@ return array(
 							'16-25' => __('Vor 16- 25 Jahren', 'wpenon'),
 							'25' => __('Vor über 25 Jahren', 'wpenon'),
 						),
-						'required' => true,
+						'required' => false,
 					),
 					'modernisierung_innenausbau' => array(
 						'type' => 'select',
@@ -867,12 +991,11 @@ return array(
 							'16-25' => __('Vor 16- 25 Jahren', 'wpenon'),
 							'25' => __('Vor über 25 Jahren', 'wpenon'),
 						),
-						'required' => true,
+						'required' => false,
 					),
 					'verbesserung_grundrissgestaltung' => array(
 						'type' => 'select',
 						'label' => __('Wesentliche Verbesserung der Grundrissgestaltung', 'wpenon'),
-						'description' => __('Wurden die Bäder modernisiert und wenn ja vor wie viel Jahren?', 'wpenon'),
 						'options' => array(
 							'nein'      => __('Keine Verbesserung', 'wpenon'),
 							'0-5' => __('Vor 0-5 Jahren', 'wpenon'),
@@ -881,7 +1004,7 @@ return array(
 							'16-25' => __('Vor 16- 25 Jahren', 'wpenon'),
 							'25' => __('Vor über 25 Jahren', 'wpenon'),
 						),
-						'required' => true,
+						'required' => false,
 					),
 				),
 			),
@@ -897,7 +1020,7 @@ return array(
 							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
 							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
 						),
-						'required' => true,
+						'required' => false,
 						'description' => $description_quality,
 					),
 					'dach' => array(
@@ -909,8 +1032,8 @@ return array(
 							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
 							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
 						),
-						'required' => true,
-						'description' => $description_quality,
+						'required' => false,
+						'description' => get_quality_description( $qualities['dach'] ),
 					),
 					'gebaeudedaemmung' => array(
 						'type' => 'select',
@@ -921,8 +1044,8 @@ return array(
 							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
 							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
 						),
-						'required' => true,
-						'description' => $description_quality,
+						'required' => false,
+						'description' => get_quality_description( $qualities['daemmung'] ),
 					),
 					'fenster' => array(
 						'type' => 'select',
@@ -933,8 +1056,8 @@ return array(
 							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
 							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
 						),
-						'required' => true,
-						'description' => $description_quality,
+						'required' => false,
+						'description' => get_quality_description( $qualities['fenster'] ),
 					),
 					'bodenbelaege' => array(
 						'type' => 'select',
@@ -945,8 +1068,8 @@ return array(
 							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
 							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
 						),
-						'required' => true,
-						'description' => $description_quality,
+						'required' => false,
+						'description' => get_quality_description( $qualities['boden'] ),
 					),
 					'heizung' => array(
 						'type' => 'select',
@@ -957,8 +1080,8 @@ return array(
 							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
 							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
 						),
-						'required' => true,
-						'description' => $description_quality,
+						'required' => false,
+						'description' => get_quality_description( $qualities['heizung'] ),
 					),
 					'baeder_sanitaer' => array(
 						'type' => 'select',
@@ -969,13 +1092,13 @@ return array(
 							'ueberdurchschnittlich' => __('Überdurchschnittlich', 'wpenon'),
 							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
 						),
-						'required' => true,
-						'description' => $description_quality,
+						'required' => false,
+						'description' => get_quality_description( $qualities['baeder'] ),
 					),
 				),
 			),
 			'grundstück' => array(
-				'title' => __('Grundstück und Lage', 'wpenon'),
+				'title' => __('Grundstück', 'wpenon'),
 				'fields' => array(
 					'grundstuecksflaeche' => array(
 						'type' => 'int',
