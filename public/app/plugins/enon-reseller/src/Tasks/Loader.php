@@ -12,31 +12,26 @@
 namespace Enon_Reseller\Tasks;
 
 use Enon\Task_Loader;
+use Enon\Models\Exceptions\Exception;
 
 use Enon_Reseller\Models\Token;
-use Enon_Reseller\Tasks\Enon\Task_Reseller;
-use Enon_Reseller\Tasks\Enon\Task_Route_Urls;
-use Enon_Reseller\Models\Exceptions\Exception;
+
 
 use Enon_Reseller\Models\Reseller;
-use Enon_Reseller\Models\Reseller_Data;
 
 use Enon_Reseller\Tasks\WP\Add_CPT_Reseller;
-
 use Enon_Reseller\Tasks\WP\Load_Frontend;
-use Enon_Reseller\Tasks\Enon\Route_Urls;
-
-use Enon_Reseller\Tasks\Enon\Task_Enon;
+use Enon_Reseller\Tasks\Acf\Add_Post_Meta;
 
 use Enon_Reseller\Tasks\Enon\Setup_Enon;
-use Enon_Reseller\Tasks\Plugins\Setup_Affiliate_WP;
-use Enon_Reseller\Tasks\Plugins\Setup_Edd;
 
+use Enon_Reseller\Tasks\Enon\Filter_General;
 use Enon_Reseller\Tasks\Enon\Filter_Confirmation_Email;
 use Enon_Reseller\Tasks\Enon\Filter_Bill_Email;
-use Enon_Reseller\Tasks\Enon\Submit_Energieausweis;
+use Enon_Reseller\Tasks\Enon\Filter_Website;
+use Enon_Reseller\Tasks\Enon\Filter_Schema;
 
-use Enon_Reseller\Tasks\Acf\Add_Post_Meta;
+use Enon_Reseller\Tasks\Enon\Submit_Energieausweis;
 
 /**
  * Whitelabel loader.
@@ -66,8 +61,7 @@ class Loader extends Task_Loader {
 	 */
 	public function add_admin_tasks() {
 		try {
-			$reseller_data = new Reseller_Data();
-			$reseller      = new Reseller( $reseller_data, $this->logger() );
+			$reseller = new Reseller( null, $this->logger() );
 		} catch ( Exception $exception ) {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );
 		}
@@ -92,23 +86,21 @@ class Loader extends Task_Loader {
 		}
 
 		try {
-			$reseller_data = new Reseller_Data( $token );
-			$reseller = new Reseller( $reseller_data, $this->logger() );
+			$reseller = new Reseller( $token, $this->logger() );
 		} catch ( Exception $exception ) {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );
 		}
 
 		$this->add_task( Add_CPT_Reseller::class );
 
-		$this->add_task( Load_Frontend::class, $reseller );
-		$this->add_task( Route_Urls::class, $reseller, $this->logger() );
-
 		$this->add_task( Setup_Enon::class, $reseller, $this->logger() );
-		$this->add_task( Setup_Affiliate_WP::class, $reseller, $this->logger() );
-		$this->add_task( Setup_Edd::class, $reseller, $this->logger() );
+		$this->add_task( Load_Frontend::class, $reseller, $this->logger() );
 
+		$this->add_task( Filter_General::class, $reseller, $this->logger() );
 		$this->add_task( Filter_Confirmation_Email::class, $reseller, $this->logger() );
 		$this->add_task( Filter_Bill_Email::class, $reseller, $this->logger() );
+		$this->add_task( Filter_Website::class, $reseller, $this->logger() );
+		$this->add_task( Filter_Schema::class, $reseller, $this->logger() );
 
 		$this->add_task( Submit_Energieausweis::class, $reseller, $this->logger() );
 	}

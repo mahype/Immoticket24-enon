@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Models;
+namespace Enon_Reseller\Models\Submit;
 
 /**
  * Class Submit_Energieausweis_Sparkasse.

@@ -14,8 +14,6 @@ namespace Enon_Reseller\Tasks\WP;
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
-use Awsm\WP_Wrapper\Tools\Logger;
-use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
 
 use Enon_Reseller\Models\Reseller;
 
@@ -26,7 +24,7 @@ use Enon_Reseller\Models\Reseller;
  *
  * @since 1.0.0
  */
-class Task_Frontend implements Task, Actions, Filters {
+class Load_Frontend implements Task, Actions, Filters {
 	/**
 	 * Reseller object.
 	 *

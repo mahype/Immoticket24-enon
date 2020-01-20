@@ -1,6 +1,6 @@
 <?php
 /**
- * Class for getting resellers post meta schema data.
+ * Class for getting resellers post meta form data.
  *
  * @category Class
  * @package  Enon_Reseller\Models\Post_Meta
@@ -11,31 +11,31 @@
 
 namespace Enon_Reseller\Models\Post_Meta;
 
-use Enon\Acf\Models\Post_Meta;
+use Enon\WP\Models\Post_Meta;
 
 /**
- * Class Schema.
+ * Class Post_Meta_Schema.
  *
  * @since 1.0.0
  */
-class Schema extends Post_Meta {
+class Post_Meta_Schema extends Post_Meta {
 	/**
-	 * Get Bedarsfausweis schema file.
+	 * Get bedarfsausweis schema file.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string Schema file.
+	 * @return string Bedarfsausweis schema file.
 	 */
 	public function get_bw_schema_file() {
 		return $this->get( 'bw_schema_file' );
 	}
 
 	/**
-	 * Get Verbrauchsausweis schema file.
+	 * Get verbrauchsausweis schema file.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string Schema file.
+	 * @return string Verbrauchssausweis schema file.
 	 */
 	public function get_vw_schema_file() {
 		return $this->get( 'vw_schema_file' );

@@ -28,7 +28,7 @@ use WPENON\Model\Energieausweis;
  *
  * @package Enon_Reseller\WordPress
  */
-class Task_Route_Urls implements Task, Filters {
+class Filter_Website implements Task, Filters {
 
 	use Logger_Trait;
 
@@ -71,6 +71,11 @@ class Task_Route_Urls implements Task, Filters {
 		add_filter( 'wpenon_filter_url', array( $this, 'filter_iframe_url' ) );
 		add_filter( 'wpenon_payment_success_url', array( $this, 'filter_payment_success_url' ) );
 		add_filter( 'wpenon_payment_failed_url', array( $this, 'filter_payment_failed_url' ) );
+
+		add_filter( 'edd_get_checkout_uri', array( $this, 'filter_iframe_url' ), 100 );
+		add_filter( 'edd_get_success_page_uri', array( $this, 'filter_iframe_url' ), 100 );
+		add_filter( 'edd_get_failed_transaction_uri', array( $this, 'filter_iframe_url' ), 100 );
+		add_filter( 'edd_remove_fee_url', array( $this, 'filter_iframe_url' ), 100 );
 	}
 
 	/**
@@ -92,7 +97,7 @@ class Task_Route_Urls implements Task, Filters {
 	 * @return string
 	 */
 	public function filter_payment_success_url( $old_url ) {
-		$url = $this->reseller->data()->get_payment_successful_url();
+		$url = $this->reseller->data()->website->get_payment_successful_url();
 
 		if ( empty( $url ) ) {
 			$payment_successful_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_successful_payment' );
@@ -117,7 +122,7 @@ class Task_Route_Urls implements Task, Filters {
 	 * @return string
 	 */
 	public function filter_payment_failed_url( $old_url ) {
-		$url = $this->reseller->data()->get_payment_failed_url();
+		$url = $this->reseller->data()->website->get_payment_failed_url();
 
 		if ( empty( $url ) ) {
 			$payment_failed_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_failed_payment' );

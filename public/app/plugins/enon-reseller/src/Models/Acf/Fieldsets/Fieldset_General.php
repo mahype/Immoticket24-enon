@@ -3,7 +3,7 @@
  * Reseller company settings fieldset.
  *
  * @category Class
- * @package  Enon\Acf\Fieldsets
+ * @package  Enon_Reseller\Models\Acf\Fieldsets;
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
@@ -18,7 +18,7 @@ use Enon\Acf\Models\Fieldset;
  *
  * @since 1.0.0
  */
-class Fieldset_Reseller_Company implements Fieldset {
+class Fieldset_General implements Fieldset {
 	/**
 	 * Get the fieldset.
 	 *
@@ -38,7 +38,7 @@ class Fieldset_Reseller_Company implements Fieldset {
 			),
 			array(
 				'key'          => 'field_contact_name',
-				'label'        => __( 'Contact Name', 'enon' ),
+				'label'        => __( 'Kontakt Name', 'enon' ),
 				'name'         => 'contact_name',
 				'type'         => 'text',
 				'instructions' => __( 'The name of the contact person on the company.', 'enon' ),
@@ -46,7 +46,7 @@ class Fieldset_Reseller_Company implements Fieldset {
 			),
 			array(
 				'key'          => 'field_contact_email',
-				'label'        => __( 'Contact Email', 'enon' ),
+				'label'        => __( 'Kontakt Email', 'enon' ),
 				'name'         => 'contact_email',
 				'type'         => 'email',
 				'instructions' => __( 'The email of the contact person on the company. All emails from the system will be sent to this address.', 'enon' ),
@@ -54,13 +54,29 @@ class Fieldset_Reseller_Company implements Fieldset {
 			),
 			array(
 				'key'          => 'field_send_bill_to_reseller',
-				'label'        => __( 'Send bill to reseller', 'enon' ),
+				'label'        => __( 'Rechnung zum Reseller senden', 'enon' ),
 				'name'         => 'send_bill_to_reseller',
 				'type'         => 'checkbox',
 				'choices' => array(
-					'Ja' => 'Ja',
+					'send_bill_to_reseller' => 'Ja',
 				),
-				'instructions' => __( 'Check if bill email should be sent to reseller.', 'enon' ),
+				'instructions' => __( 'Check if bill email should be sent to reseller instead of customer.', 'enon' ),
+				'required'     => 0,
+			),
+			array(
+				'key'          => 'field_price_bw',
+				'label'        => __( 'Preis Bedarfsausweis', 'enon' ),
+				'name'         => 'price_bw',
+				'type'         => 'number',
+				'instructions' => __( 'Set individual price for reseller or leave empty for standard price.', 'enon' ),
+				'required'     => 0,
+			),
+			array(
+				'key'          => 'field_price_vw',
+				'label'        => __( 'Preis Verbrauchsausweis', 'enon' ),
+				'name'         => 'price_vw',
+				'type'         => 'number',
+				'instructions' => __( 'Set individual price for reseller or leave empty for standard price.', 'enon' ),
 				'required'     => 0,
 			),
 			array(

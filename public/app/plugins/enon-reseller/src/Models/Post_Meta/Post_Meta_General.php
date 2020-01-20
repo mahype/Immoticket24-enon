@@ -1,6 +1,6 @@
 <?php
 /**
- * Class for getting resellers post meta company data.
+ * Class for getting resellers post meta general data.
  *
  * @category Class
  * @package  Enon_Reseller\Models\Post_Meta
@@ -11,14 +11,14 @@
 
 namespace Enon_Reseller\Models\Post_Meta;
 
-use Enon\Acf\Models\Post_Meta;
+use Enon\WP\Models\Post_Meta;
 
 /**
- * Class Settings.
+ * Class Post_Meta_General.
  *
  * @since 1.0.0
  */
-class Company extends Post_Meta {
+class Post_Meta_General extends Post_Meta {
 	/**
 	 * Get company name.
 	 *
@@ -50,6 +50,45 @@ class Company extends Post_Meta {
 	 */
 	public function get_contact_email() {
 		return $this->get( 'contact_email' );
+	}
+
+	/**
+	 * Get send to reseller.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool True if email have to be sent to reseller.
+	 */
+	public function isset_send_bill_to_reseller() {
+		$send_bill_to_reseller = $this->get( 'send_bill_to_reseller' );
+
+		if ( in_array( 'send_bill_to_reseller', $send_bill_to_reseller ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get price for bedarfsausweis.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return mixed
+	 */
+	public function get_price_bw() {
+		return $this->get( 'price_bw' );
+	}
+
+	/**
+	 * Get price for verbrauchsausweis.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return mixed
+	 */
+	public function get_price_vw() {
+		return $this->get( 'price_vw' );
 	}
 
 	/**

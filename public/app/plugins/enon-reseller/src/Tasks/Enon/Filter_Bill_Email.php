@@ -16,10 +16,7 @@ use Awsm\WP_Wrapper\Building_Plans\Task;
 use Awsm\WP_Wrapper\Tools\Logger;
 use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
 
-use Enon_Reseller\Models\Post_Meta\Billing_Email;
-
 use Enon_Reseller\Models\Reseller;
-
 
 /**
  * Class EnonEmailOrderConfirmation.
@@ -49,7 +46,7 @@ class Filter_Bill_Email implements Task, Filters {
 	 */
 	public function __construct( Reseller $reseller, Logger $logger ) {
 		$this->reseller = $reseller;
-		$this->logger = $logger;
+		$this->logger   = $logger;
 	}
 
 	/**
@@ -67,8 +64,10 @@ class Filter_Bill_Email implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'wpenon_confirmation_sender_name', array( $this, 'filter_sender_name' ) );
-		add_filter( 'wpenon_confirmation_sender_email', array( $this, 'filter_sender_email' ) );
+		add_filter( 'wpenon_bill_sender_name', array( $this, 'filter_sender_name' ) );
+		add_filter( 'wpenon_bill_sender_email', array( $this, 'filter_sender_email' ) );
+		add_filter( 'wpenon_bill_subject', array( $this, 'filter_subject' ) );
+		add_filter( 'wpenon_bill_content', array( $this, 'filter_content' ) );
 	}
 
 	/**
@@ -95,9 +94,9 @@ class Filter_Bill_Email implements Task, Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $name From email.
+	 * @param string $email Sender email.
 	 *
-	 * @return string From email.
+	 * @return string Filtered sender email.
 	 */
 	public function filter_sender_email( $email ) {
 		$sender_email = $this->reseller->data()->billing_email->get_sender_email();
@@ -107,5 +106,43 @@ class Filter_Bill_Email implements Task, Filters {
 		}
 
 		return $sender_email;
+	}
+
+	/**
+	 * Filter subject.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $subject Subject.
+	 *
+	 * @return string Filtered subject.
+	 */
+	public function filter_subject( $subject ) {
+		$reseller_subject = $this->reseller->data()->billing_email->get_reseller_subject();
+
+		if ( empty( $reseller_subject ) ) {
+			return $subject;
+		}
+
+		return $reseller_subject;
+	}
+
+	/**
+	 * Filter content.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $content Content.
+	 *
+	 * @return string Filtered content.
+	 */
+	public function filter_content( $content ) {
+		$reseller_content = $this->reseller->data()->billing_email->get_content();
+
+		if ( empty( $reseller_content ) ) {
+			return $content;
+		}
+
+		return $reseller_content;
 	}
 }

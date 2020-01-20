@@ -447,8 +447,8 @@ class Emails {
 		do_action( 'wpenon_confirmation_start', $energieausweis );
 
 		$emails = EDD()->emails;
-		$emails->__set( 'from_name', $from_name );
-		$emails->__set( 'from_address', $from_email );
+		$emails->__set( 'from_name', $sender_name );
+		$emails->__set( 'from_address', $sender_email );
 		$emails->__set( 'heading', __( 'Ihr Energieausweis', 'wpenon' ) );
 
 		return $emails->send( $recipient_email, $subject, $message, array() );
@@ -515,7 +515,7 @@ class Emails {
 		$sender_email    = apply_filters( 'wpenon_bill_sender_email', $sender_email, $energieausweis );
 		$subject         = apply_filters( 'wpenon_bill_subject', $subject, $energieausweis );
 		$content         = apply_filters( 'wpenon_bill_content', $content, $energieausweis );
-		$recipient_email = apply_filters( 'wpenon_bill_to_address', edd_get_payment_user_email( $payment_id ) );
+		$recipient_email = apply_filters( 'wpenon_bill_to_address', $recipient_email );
 
 		$attachments = array();
 		$message     = $this->replace_tags_bill_content( $payment, $energieausweis, $content );

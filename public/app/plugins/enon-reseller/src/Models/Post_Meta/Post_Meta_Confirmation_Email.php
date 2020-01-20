@@ -1,9 +1,9 @@
 <?php
 /**
- * Class for getting resellers post meta company data.
+ * Class for getting resellers post meta confirmation email data.
  *
  * @category Class
- * @package  Enon_Reseller\Models\Post_Meta
+ * @package  Enon\WP\Models
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
@@ -11,23 +11,23 @@
 
 namespace Enon_Reseller\Models\Post_Meta;
 
-use Enon\Acf\Models\Post_Meta;
+use Enon\WP\Models\Post_Meta;
 
 /**
- * Class Settings.
+ * Class Post_Meta_Confirmation_Email.
  *
  * @since 1.0.0
  */
-class Billing_Email extends Post_Meta {
+class Post_Meta_Confirmation_Email extends Post_Meta {
 	/**
 	 * Get sender name.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string Name of the billig email sender.
+	 * @return string Sender name.
 	 */
 	public function get_sender_name() {
-		return $this->get( 'bill_sender_name' );
+		return $this->get( 'confirmation_sender_name' );
 	}
 
 	/**
@@ -35,10 +35,10 @@ class Billing_Email extends Post_Meta {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string Email of the billig email sender.
+	 * @return string Sender email.
 	 */
 	public function get_sender_email() {
-		return $this->get( 'bill_sender_email' );
+		return $this->get( 'confirmation_sender_email' );
 	}
 
 	/**
@@ -46,10 +46,10 @@ class Billing_Email extends Post_Meta {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string Subject for billiug email.
+	 * @return string Subject.
 	 */
 	public function get_subject() {
-		return $this->get( 'bill_subject' );
+		return $this->get( 'confirmation_subject' );
 	}
 
 	/**
@@ -57,9 +57,9 @@ class Billing_Email extends Post_Meta {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string Content for billiug email.
+	 * @return string Content.
 	 */
 	public function get_content() {
-		return $this->get( 'bill_content' );
+		return $this->get( 'confirmation_content' );
 	}
 }

@@ -18,7 +18,7 @@ namespace Enon\Acf\Models;
  */
 class Post_Meta {
 	/**
-	 * Contents objects array
+	 * Contents objects array.
 	 *
 	 * @var array
 	 *
@@ -27,12 +27,18 @@ class Post_Meta {
 	private $contents;
 
 	/**
+	 * Post type.
+	 *
+	 * @var string
+	 *
+	 * @since 1.0.0
+	 */
+	private $post_type;
+
+	/**
 	 * Tab constructor.
 	 *
-	 * @param string $slug       Slug for internal handling.
-	 * @param string $menu_title Title which appears in menu.
-	 * @param string $page_title Title which appears on top of page.
-	 * @param string $capability Capability for accessing page.
+	 * @param string $post_type Post type.
 	 *
 	 * @since 1.0.0
 	 */

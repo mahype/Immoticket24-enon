@@ -11,14 +11,14 @@
 
 namespace Enon_Reseller\Models\Post_Meta;
 
-use Enon\Acf\Models\Post_Meta;
+use Enon\WP\Models\Post_Meta;
 
 /**
- * Class Settings.
+ * Class Post_Meta_Website.
  *
  * @since 1.0.0
  */
-class Reseller_Website extends Post_Meta {
+class Post_Meta_Website extends Post_Meta {
 	/**
 	 * Get Website Name.
 	 *

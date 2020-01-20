@@ -150,14 +150,14 @@ class Add_CPT_Reseller implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function set_custom_column_values( $column, $post_id ) {
-		$reseller_data = new Reseller_Data();
+		$reseller_data = new Reseller_Data( $post_id );
 		$reseller_data->set_post_id( $post_id );
 
 		$post_status = get_post_status( $post_id );
 
 		switch ( $column ) {
 			case 'company_name':
-				echo sprintf( '<a href="%s">%s</a>', get_edit_post_link( $post_id ), esc_attr( $reseller_data->get_company_name() ) ); // phpcs:ignore
+				echo sprintf( '<a href="%s">%s</a>', get_edit_post_link( $post_id ), esc_attr( $reseller_data->company->get_company_name() ) ); // phpcs:ignore
 				break;
 			case 'contact_name':
 				echo esc_attr( $reseller_data->get_contact_name() );

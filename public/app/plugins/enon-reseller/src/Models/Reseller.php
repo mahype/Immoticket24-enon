@@ -20,50 +20,170 @@ use Awsm\WP_Wrapper\Tools\Logger;
 /**
  * Class Reseller
  *
- * @since 1.0.0
- *
  * @package Enon_Reseller
+ *
+ * @since 1.0.0
  */
 class Reseller {
 	use Logger_Trait;
 
 	/**
-	 * Holds loaded reseller data.
+	 * Post id.
+	 *
+	 * @var int $post_id
 	 *
 	 * @since 1.0.0
+	 */
+	private $post_id;
+
+	/**
+	 * Holds loaded reseller data.
 	 *
 	 * @var Reseller_Data
+	 *
+	 * @since 1.0.0
 	 */
 	private $data;
 
 	/**
 	 * Token.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @var Token
+	 *
+	 * @since 1.0.0
 	 */
 	private $token;
 
 	/**
 	 * Reseller constructor.
 	 *
-	 * @since 1.0.0
+	 * @param Token  $token  Token object.
+	 * @param Logger $logger Logger object.
 	 *
-	 * @param Reseller_Data $data   Reseller data object.
-	 * @param Logger        $logger Logger object.
+	 * @since 1.0.0
 	 */
-	public function __construct( Reseller_Data $data, Logger $logger ) {
-		$this->data   = $data;
+	public function __construct( $token, Logger $logger ) {
 		$this->logger = $logger;
+
+		if ( ! empty( $token ) ) {
+			$this->set_post_id_by_token( $token );
+		} else {
+			$this->set_post_id_by_admin_url();
+		}
+	}
+
+	/**
+	 * Get post id.
+	 *
+	 * @return int Post id of reseller.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_post_id() {
+		return $this->post_id;
+	}
+
+	/**
+	 * Set post id.
+	 *
+	 * @param int $post_id Post id.
+	 *
+	 * @since 1.0.0
+	 */
+	public function set_post_id( $post_id ) {
+		$this->post_id = $post_id;
+		$this->data = new Reseller_Data( $post_id );
+	}
+
+	/**
+	 * Set post id by token.
+	 *
+	 * @param Token $token Token object.
+	 *
+	 * @throws Exception Token was not found.
+	 *
+	 * @since 1.0.0
+	 */
+	private function set_post_id_by_token( Token $token ) {
+		$post_id = $this->get_post_id_by_token( $token );
+
+		if ( empty( $post_id ) ) {
+			throw new Exception( sprintf( 'Invalid token "%s".', $token->get() ) );
+		}
+
+		$this->set_post_id( $post_id );
+	}
+
+	/**
+	 * Gett post id by token.
+	 *
+	 * @param Token $token Reseller token.
+	 *
+	 * @return int/bool Post id if found or false. Returns the first token which was found.
+	 *
+	 * @since 1.0.0
+	 */
+	private function get_post_id_by_token( Token $token ) {
+		$args = array(
+			'post_type'  => 'reseller',
+			'meta_query' => array(
+				array(
+					'key'   => 'token',
+					'value' => $token->get(),
+				),
+			),
+		);
+
+		$posts = \get_posts( $args );
+
+		foreach ( $posts as $post ) {
+			return $post->ID; // There can only be one, the first is returned.
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get post id automatically.
+	 *
+	 * @return void
+	 *
+	 * @since 1.0.0
+	 */
+	private function set_post_id_by_admin_url() {
+		global $pagenow;
+
+		if ( 'edit.php' !== $pagenow ) {
+			return;
+		}
+
+		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
+		if ( ! isset( $_GET['post_type'] ) || ! isset( $_GET['page'] ) || ! isset( $_GET['view'] ) ) {
+			return;
+		}
+
+		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
+		if ( 'download' !== $_GET['post_type'] || 'edd-payment-history' !== $_GET['page'] || 'view-order-details' !== $_GET['view'] || ! isset( $_GET['id'] ) ) {
+			return;
+		}
+
+		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
+		$payment_id = intval( $_GET['id'] );
+
+		$energieausweis_id = ( new Payment( $payment_id ) )->get_energieausweis_id();
+
+		// @todo Move to new energieausweis object get_reseller_id function
+		$reseller_id = get_post_meta( $energieausweis_id, 'reseller_id', true );
+
+		$this->set_post_id( $reseller_id );
 	}
 
 	/**
 	 * Get reseller values.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @return Reseller_Data
+	 *
+	 * @since 1.0.0
 	 */
 	public function data() {
 		return $this->data;
@@ -75,6 +195,8 @@ class Reseller {
 	 * @param mixed $url Extra query args to add to the URI.
 	 *
 	 * @return string
+	 *
+	 * @since 1.0.0
 	 */
 	public function create_iframe_url( $url ) {
 		$args = array(
@@ -87,12 +209,12 @@ class Reseller {
 	/**
 	 * Adds iframe and energeausweis parameters to url.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param string $url               URL where parameters have to be added.
 	 * @param int    $energieausweis_id ID of energieausweis.
 	 *
 	 * @return string $url               URL with needed parameters.
+	 *
+	 * @since 1.0.0
 	 */
 	public function create_verfied_url( $url, $energieausweis_id = null ) {
 		$query_args = array(

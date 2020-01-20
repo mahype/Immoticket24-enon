@@ -14,7 +14,14 @@ namespace Enon_Reseller\Models;
 use Enon\Models\Exceptions\Exception;
 
 use Enon\Acf\Models\Post_Data;
-use Enon\Edd\Models\Payment;
+
+use Enon_Reseller\Models\Post_Meta\Post_Meta_General;
+use Enon_Reseller\Models\Post_Meta\Post_Meta_Billing_Email;
+use Enon_Reseller\Models\Post_Meta\Post_Meta_Confirmation_Email;
+use Enon_Reseller\Models\Post_Meta\Post_Meta_Iframe;
+use Enon_Reseller\Models\Post_Meta\Post_Meta_Schema;
+use Enon_Reseller\Models\Post_Meta\Post_Meta_Website;
+use Enon_Reseller\Models\Post_Meta\Post_Meta_Send_Data;
 
 /**
  * Class ACFResellerFiels
@@ -25,40 +32,96 @@ use Enon\Edd\Models\Payment;
  */
 class Reseller_Data {
 	/**
-	 * Reseller_Data constructor.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param \Enon_Reseller\Models\Token $token Token object.
-	 *
-	 * @throws Exception Token was not found.
-	 */
-	public function __construct( Token $token = null ) {
-		if ( ! empty( $token ) ) {
-			$this->set_token( $token );
-		} elseif ( is_admin() ) {
-			$this->set_post();
-		}
-	}
-
-	/**
 	 * Post Id.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @var int
+	 *
+	 * @since 1.0.0
 	 */
-	protected $post_id = null;
+	private $post_id = null;
 
 	/**
-	 * Set post id.
+	 * Company data.
+	 *
+	 * @var Post_Meta_General
 	 *
 	 * @since 1.0.0
+	 */
+	public $general;
+
+	/**
+	 * Billing email data.
+	 *
+	 * @var Post_Meta_Billing_Email
+	 *
+	 * @since 1.0.0
+	 */
+	public $billing_email;
+
+	/**
+	 * Confirmation email data.
+	 *
+	 * @var Post_Meta_Confirmation_Email
+	 *
+	 * @since 1.0.0
+	 */
+	public $confirmation_email;
+
+	/**
+	 * Schema data.
+	 *
+	 * @var Post_Meta_Schema
+	 *
+	 * @since 1.0.0
+	 */
+	public $schema;
+
+	/**
+	 * Iframe data.
+	 *
+	 * @var Post_Meta_Iframe
+	 *
+	 @since 1.0.0
+	 */
+	public $iframe;
+
+	/**
+	 * Website data.
+	 *
+	 * @var Post_Meta_Website
+	 *
+	 * @since 1.0.0
+	 */
+	public $website;
+
+	/**
+	 * Website data.
+	 *
+	 * @var Post_Meta_Send_Data
+	 *
+	 * @since 1.0.0
+	 */
+	public $send_data;
+
+	/**
+	 * Reseller_Data constructor.
 	 *
 	 * @param int $post_id Post id.
+	 *
+	 * @throws Exception Token was not found.
+	 *
+	 * @since 1.0.0
 	 */
-	public function set_post_id( $post_id ) {
+	public function __construct( $post_id ) {
 		$this->post_id = $post_id;
+
+		$this->general            = new Post_Meta_General( $post_id );
+		$this->confirmation_email = new Post_Meta_Billing_Email( $post_id );
+		$this->billing_email      = new Post_Meta_Confirmation_Email( $post_id );
+		$this->iframe             = new Post_Meta_Iframe( $post_id );
+		$this->schema             = new Post_Meta_Schema( $post_id );
+		$this->send_data          = new Post_Meta_Send_Data( $post_id );
+		$this->website            = new Post_Meta_Website( $post_id );
 	}
 
 	/**
@@ -73,321 +136,6 @@ class Reseller_Data {
 	}
 
 	/**
-	 * Get post field.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $field_name Name of the field.
-	 *
-	 * @return mixed/null Value if found, otherwhise null.
-	 */
-	public function get( $field_name ) {
-		if ( empty( $this->post_id ) ) {
-			return null;
-		}
-
-		return get_field( $field_name, $this->post_id );
-	}
-
-	/**
-	 * Set token.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param Token $token Token object.
-	 *
-	 * @throws Exception Token was not found.
-	 */
-	public function set_token( Token $token ) {
-		$post_id = $this->get_post_id_by_token( $token );
-
-		if ( empty( $post_id ) ) {
-			throw new Exception( sprintf( 'Invalid token "%s".', $token->get() ) );
-		}
-
-		$this->set_post_id( $post_id );
-	}
-
-	/**
-	 * Gett post id by token.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param Token $token Reseller token.
-	 *
-	 * @return int/bool Post id if found or false. Returns the first token which was found.
-	 */
-	private function get_post_id_by_token( Token $token ) {
-		$args = array(
-			'post_type'  => 'reseller',
-			'meta_query' => array(
-				array(
-					'key'   => 'token',
-					'value' => $token->get(),
-				),
-			),
-		);
-
-		$posts = \get_posts( $args );
-
-		foreach ( $posts as $post ) {
-			return $post->ID; // There can only be one, the first is returned.
-		}
-
-		return false;
-	}
-
-	/**
-	 * Get post id automatically.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	private function set_post() {
-		global $pagenow;
-
-		if ( 'edit.php' !== $pagenow ) {
-			return;
-		}
-
-		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
-		if ( ! isset( $_GET['post_type'] ) || ! isset( $_GET['page'] ) || ! isset( $_GET['view'] ) ) {
-			return;
-		}
-
-		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
-		if ( 'download' !== $_GET['post_type'] || 'edd-payment-history' !== $_GET['page'] || 'view-order-details' !== $_GET['view'] || ! isset( $_GET['id'] ) ) {
-			return;
-		}
-
-		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
-		$payment_id = intval( $_GET['id'] );
-
-		$energieausweis_id = ( new Payment( $payment_id ) )->get_energieausweis_id();
-
-		// @todo Move to new energieausweis object get_reseller_id function
-		$reseller_id = get_post_meta( $energieausweis_id, 'reseller_id', true );
-
-		$this->set_post_id( $reseller_id );
-	}
-
-	/**
-	 * Get company name.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Token string of current token.
-	 */
-	public function get_company_name() {
-		return $this->get( 'company_name' );
-	}
-
-	/**
-	 * Get contact name.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Token string of current token.
-	 */
-	public function get_contact_name() {
-		return $this->get( 'contact_name' );
-	}
-
-	/**
-	 * Get contact email.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Token string of current token.
-	 */
-	public function get_contact_email() {
-		return $this->get( 'contact_email' );
-	}
-
-	/**
-	 * Checks if order has to be sent to reseller.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Token string of current token.
-	 */
-	public function send_order_to_reseller() {
-		$send_order_to_reseller = $this->get( 'send_order_to_reseller' );
-
-		if ( in_array( 'send_order_to_reseller', $send_order_to_reseller, true ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Get afiliate id.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return mixed
-	 */
-	public function get_affiliate_id() {
-		return $this->get( 'affiliate_id' );
-	}
-
-	/**
-	 * Get token.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Token string of current token.
-	 */
-	public function get_token() {
-		return $this->get( 'token' );
-	}
-
-	/**
-	 * Get Website Name.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Sitename of current token.
-	 */
-	public function get_website_name() {
-		return $this->get( 'website_name' );
-	}
-
-	/**
-	 * Get customer edit url.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Url where users are redirected for editing entry.
-	 */
-	public function get_customer_edit_url() {
-		return trim( $this->get( 'customer_edit_url' ) );
-	}
-
-	/**
-	 * Get payment successful url.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Url where users are redirected after succesful payment.
-	 */
-	public function get_payment_successful_url() {
-		return trim( $this->get( 'payment_successful_url' ) );
-	}
-
-	/**
-	 * Get payment failed url.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Url where users are redirected after failed payment.
-	 */
-	public function get_payment_failed_url() {
-		return trim( $this->get( 'payment_failed_url' ) );
-	}
-
-	/**
-	 * Get user interface values.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array User interface values.
-	 */
-	public function get_user_interface_values() {
-		return $this->get( 'user_interface' );
-	}
-
-	/**
-	 * Get reseller extra CSS.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Reseller extra CSS.
-	 */
-	public function get_extra_css() {
-		return $this->get( 'extra_css' );
-	}
-
-	/**
-	 * Get reseller extra JS.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Reseller extra JS.
-	 */
-	public function get_extra_js() {
-		return $this->get( 'extra_js' );
-	}
-
-	/**
-	 * Get technical values.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Technical values.
-	 */
-	public function get_technical_values() {
-		return $this->get( 'technical_values' );
-	}
-
-	/**
-	 * Get Bedarsfausweis schema file.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Schema file.
-	 */
-	public function get_bw_schema_file() {
-		return $this->get( 'bw_schema_file' );
-	}
-
-	/**
-	 * Get Verbrauchsausweis schema file.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Schema file.
-	 */
-	public function get_vw_schema_file() {
-		return $this->get( 'vw_schema_file' );
-	}
-
-	/**
-	 * Get Email From Address.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Email from address.
-	 */
-	public function get_email_sender_address() {
-		return $this->get( 'email_sender_address' );
-	}
-
-	/**
-	 * Get Email From Name.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Email from name.
-	 */
-	public function get_email_sender_name() {
-		return $this->get( 'email_sender_name' );
-	}
-
-	/**
-	 * Get Email Footer.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Email footer.
-	 */
-	public function get_email_footer() {
-		return $this->get( 'email_footer' );
-	}
-
-	/**
 	 * Get iframe url.
 	 *
 	 * @since 1.0.0
@@ -395,7 +143,7 @@ class Reseller_Data {
 	 * @return string iframe url.
 	 */
 	public function get_iframe_bedarfsausweis_url() {
-		return get_home_url() . '/energieausweis2/bedarfsausweis-wohngebaeude/?iframe_token=' . $this->get_token();
+		return get_home_url() . '/energieausweis2/bedarfsausweis-wohngebaeude/?iframe_token=' . $this->general->get_token();
 	}
 
 	/**
@@ -406,34 +154,6 @@ class Reseller_Data {
 	 * @return string iframe url.
 	 */
 	public function get_iframe_verbrauchsausweis_url() {
-		return get_home_url() . '/energieausweis2/verbrauchsausweis-wohngebaeude/?iframe_token=' . $this->get_token();
-	}
-
-	/**
-	 * Get Post endpoint.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string iframe url.
-	 */
-	public function get_post_endpoint() {
-		return $this->get( 'post_endpoint' );
-	}
-
-	/**
-	 * Get Post data config class.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string iframe url.
-	 */
-	public function get_post_data_config_class() {
-		$config_file = $this->get( 'post_data_config_class' );
-
-		if ( empty( $config_file ) ) {
-			return 'Send_Energieausweis_Standard';
-		}
-
-		return $config_file;
+		return get_home_url() . '/energieausweis2/verbrauchsausweis-wohngebaeude/?iframe_token=' . $this->general->get_token();
 	}
 }

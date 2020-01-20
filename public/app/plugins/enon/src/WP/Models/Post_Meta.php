@@ -14,37 +14,30 @@ namespace Enon\WP\Models;
 /**
  * Class Post_Data.
  *
- * @since 1.0.0
- *
  * @package Enon\Reseller\Taks\Plugins
+ *
+ * @since 1.0.0
  */
 abstract class Post_Meta {
 	/**
 	 * Post Id.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @var int
+	 *
+	 * @since 1.0.0
 	 */
 	protected $post_id = null;
 
-	/**
-	 * Set post id.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param int $post_id Post id.
-	 */
-	public function set_post_id( $post_id ) {
+	public function __construct( $post_id ) {
 		$this->post_id = $post_id;
 	}
 
 	/**
 	 * Get post id.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @return int $post_id Post Id.
+	 *
+	 * @since 1.0.0
 	 */
 	public function get_post_id() {
 		return $this->post_id;
@@ -53,13 +46,13 @@ abstract class Post_Meta {
 	/**
 	 * Get post field.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param string $field_name Name of the field.
 	 *
 	 * @return mixed/null Value if found, otherwhise null.
+	 *
+	 * @since 1.0.0
 	 */
-	public function get( $field_name ) {
+	protected function get( $field_name ) {
 		if ( empty( $this->post_id ) ) {
 			return null;
 		}

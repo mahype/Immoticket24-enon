@@ -9,11 +9,13 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Models;
+namespace Enon_Reseller\Models\Submit;
 
 use Awsm\WP_Wrapper\Tools\Logger;
 
 use WPENON\Model\Energieausweis;
+
+use Enon_Reseller\Models\Submit;
 
 
 /**

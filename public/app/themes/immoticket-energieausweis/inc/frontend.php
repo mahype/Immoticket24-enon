@@ -442,9 +442,11 @@ function immoticketenergieausweis_energy_box_shortcode( $atts, $content = null )
   if ( empty( $atts['preis'] ) ) {
     if ( function_exists( 'wpenon_get_option' ) && function_exists( 'edd_format_amount' ) ) {
       if ( 'bedarf' === $atts['typ'] ) {
-        $atts['preis'] = edd_format_amount( wpenon_get_option( 'bw_download_price' ) );
+		$bw_download_price = apply_filters( 'wpenon_price_bw', wpenon_get_option( 'bw_download_price' ) );
+        $atts['preis'] = edd_format_amount( $bw_download_price );
       } else {
-        $atts['preis'] = edd_format_amount( wpenon_get_option( 'vw_download_price' ) );
+		$vw_download_price = apply_filters( 'wpenon_price_vw', wpenon_get_option( 'vw_download_price' ) );
+        $atts['preis'] = edd_format_amount( $vw_download_price );
       }
       //$atts['preis'] = sprintf( __( 'ab %s', 'immoticketenergieausweis' ), $atts['preis'] );
     }

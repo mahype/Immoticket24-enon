@@ -25,6 +25,8 @@ function wpenon_get_table_results( $slug, $rows = array(), $cols = array(), $sin
 function wpenon_get_option( $option ) {
 	$settings = \WPENON\Util\Settings::instance();
 
+	$value = apply_filters( 'wpenon_get_option', $settings->$option, $option );
+
 	return $settings->$option;
 }
 

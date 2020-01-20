@@ -79,14 +79,14 @@ class Submit_Energieausweis implements Actions, Task {
 	 * @param string $status Payment status.
 	 */
 	public function sendData( $payment_id, $status ) {
-		$endpoint = $this->reseller->data()->get_post_endpoint();
+		$endpoint = $this->reseller->data()->send_data->get_post_endpoint();
 
 		// Do not anything if not payed or if there is no endpoint given.
 		if ( 'publish' !== $status || empty( $endpoint ) ) {
 			return;
 		}
 
-		$sender_class_name = 'Enon\\Reseller\\Models\\Transfer\\' . $this->reseller->data()->get_post_data_config_class();
+		$sender_class_name = 'Enon_Reseller\\Models\\Transfer\\' . $this->reseller->data()->send_data->get_post_data_config_class();
 
 		if ( ! class_exists( $sender_class_name ) ) {
 			$this->logger()->warning( sprintf( 'Sender Class %s does not exist, Do not send data.', $sender_class_name ) );

@@ -3,7 +3,7 @@
  * Reseller iframe settings fieldset.
  *
  * @category Class
- * @package  Enon\Acf\Fieldsets
+ * @package  Enon_Reseller\Models\Acf\Fieldsets;
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
@@ -18,7 +18,7 @@ use Enon\Acf\Models\Fieldset;
  *
  * @since 1.0.0
  */
-class Fieldset_Reseller_Iframe implements Fieldset {
+class Fieldset_Iframe implements Fieldset {
 	/**
 	 * Get the fieldset.
 	 *
