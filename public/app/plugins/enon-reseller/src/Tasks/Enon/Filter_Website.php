@@ -72,6 +72,8 @@ class Filter_Website implements Task, Filters {
 		add_filter( 'wpenon_payment_success_url', array( $this, 'filter_payment_success_url' ) );
 		add_filter( 'wpenon_payment_failed_url', array( $this, 'filter_payment_failed_url' ) );
 
+		add_filter( 'wpenon_create_privacy_url', array( $this, 'filter_privacy_url' ) );
+
 		add_filter( 'edd_get_checkout_uri', array( $this, 'filter_iframe_url' ), 100 );
 		add_filter( 'edd_get_success_page_uri', array( $this, 'filter_iframe_url' ), 100 );
 		add_filter( 'edd_get_failed_transaction_uri', array( $this, 'filter_iframe_url' ), 100 );
@@ -137,5 +139,21 @@ class Filter_Website implements Task, Filters {
 		$url = $this->reseller->create_verfied_url( $url );
 
 		return $url;
+	}
+
+	/**
+	 * Filtering privacy URL.
+	 *
+	 * @param mixed $url Extra query args to add to the URI.
+	 *
+	 * @return string
+	 */
+	public function filter_privacy_url( $url ) {
+		$privacy_url = $this->reseller->data()->website->get_privacy_url( $url );
+
+		if ( empty( $privacy_url ) ) {
+			return $url;
+		}
+		return $privacy_url;
 	}
 }

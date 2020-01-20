@@ -62,4 +62,15 @@ class Post_Meta_Website extends Post_Meta {
 	public function get_payment_failed_url() {
 		return trim( $this->get( 'payment_failed_url' ) );
 	}
+
+	/**
+	 * Get privacy url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Privacy url.
+	 */
+	public function get_privacy_url() {
+		return trim( $this->get( 'privacy_url' ) );
+	}
 }
