@@ -29,6 +29,7 @@ use Enon_Reseller\Tasks\Enon\Filter_General;
 use Enon_Reseller\Tasks\Enon\Filter_Confirmation_Email;
 use Enon_Reseller\Tasks\Enon\Filter_Bill_Email;
 use Enon_Reseller\Tasks\Enon\Filter_Website;
+use Enon_Reseller\Tasks\Enon\Filter_Iframe;
 use Enon_Reseller\Tasks\Enon\Filter_Schema;
 
 use Enon_Reseller\Tasks\Enon\Submit_Energieausweis;
@@ -100,6 +101,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Filter_Confirmation_Email::class, $reseller, $this->logger() );
 		$this->add_task( Filter_Bill_Email::class, $reseller, $this->logger() );
 		$this->add_task( Filter_Website::class, $reseller, $this->logger() );
+		$this->add_task( Filter_Iframe::class, $reseller, $this->logger() );
 		$this->add_task( Filter_Schema::class, $reseller, $this->logger() );
 
 		$this->add_task( Submit_Energieausweis::class, $reseller, $this->logger() );

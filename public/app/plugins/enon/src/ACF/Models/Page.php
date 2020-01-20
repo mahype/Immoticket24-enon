@@ -114,8 +114,8 @@ class Page {
 		}
 
 		$field_group = array(
-			'key'                   => 'settings',
-			'title'                 => 'Email Einstellungen',
+			'key'                   => 'general_settings',
+			'title'                 => 'Allgemeine Einstellungen',
 			'fields'                => $data,
 			'menu_order'            => 0,
 			'position'              => 'normal',

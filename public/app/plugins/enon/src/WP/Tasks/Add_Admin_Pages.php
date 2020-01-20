@@ -26,6 +26,8 @@ use Awsm\WP_Wrapper\Tools\Logger;
  * @package Enon\Reseller\WordPress
  */
 class Add_Admin_Pages implements Task, Actions {
+	use Logger_Trait;
+
 	/**
 	 * AffiliateWP constructor.
 	 *

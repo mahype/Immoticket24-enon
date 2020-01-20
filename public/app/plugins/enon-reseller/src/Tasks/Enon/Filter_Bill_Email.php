@@ -118,7 +118,7 @@ class Filter_Bill_Email implements Task, Filters {
 	 * @return string Filtered subject.
 	 */
 	public function filter_subject( $subject ) {
-		$reseller_subject = $this->reseller->data()->billing_email->get_reseller_subject();
+		$reseller_subject = $this->reseller->data()->billing_email->get_subject();
 
 		if ( empty( $reseller_subject ) ) {
 			return $subject;

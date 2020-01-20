@@ -65,7 +65,7 @@ class Filter_Schema implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'wpenon_schema_file', array( $this, 'filter_schema_file' ) );
+		add_filter( 'wpenon_schema_file', array( $this, 'filter_schema_file' ), 10, 3 );
 	}
 
 	/**

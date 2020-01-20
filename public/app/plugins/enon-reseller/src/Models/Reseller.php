@@ -200,7 +200,7 @@ class Reseller {
 	 */
 	public function create_iframe_url( $url ) {
 		$args = array(
-			'iframe_token' => $this->data()->get_token(),
+			'iframe_token' => $this->data()->general->get_token(),
 		);
 
 		return add_query_arg( $args, $url );
@@ -219,7 +219,7 @@ class Reseller {
 	public function create_verfied_url( $url, $energieausweis_id = null ) {
 		$query_args = array(
 			'iframe'       => true,
-			'iframe_token' => $this->data()->get_token(),
+			'iframe_token' => $this->data()->general->get_token(),
 			'access_token' => md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true ),
 			'slug' => '',
 		);

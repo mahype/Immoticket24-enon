@@ -65,8 +65,7 @@ class Filter_General implements Task, Filters {
 	 */
 	public function add_filters() {
 		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_to_address' ) );
-		add_filter( 'wpenon_price_bw', array( $this, 'filter_price_bw' ) );
-		add_filter( 'wpenon_price_vw', array( $this, 'filter_price_vw' ) );
+		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
 		add_action( 'template_redirect', array( $this, 'set_affiliatewp_referal' ), -10000, 0 );
 	}
 
@@ -91,39 +90,26 @@ class Filter_General implements Task, Filters {
 	/**
 	 * Filter price for bedarfsausweis.
 	 *
-	 * @param string $price Price.
+	 * @param string $value Value to filter.
+	 * @param string $name  Name of value.
 	 *
-	 * @return string Filtered price.
-	 *
-	 * @since 1.0.0
-	 */
-	public function filter_price_bw( $price ) {
-		$reseller_price = $this->reseller->data()->general->get_price_bw();
-
-		if ( empty( $reseller_price ) ) {
-			return $price;
-		}
-
-		return $reseller_price;
-	}
-
-	/**
-	 * Filter price for verbrauchsausweis.
-	 *
-	 * @param string $price Price.
-	 *
-	 * @return string Filtered price.
+	 * @return string Filtered value.
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_price_vw( $price ) {
-		$reseller_price = $this->reseller->data()->general->get_price_vw();
-
-		if ( empty( $reseller_price ) ) {
-			return $price;
+	public function filter_price( $value, $name ) {
+		switch ( $name ) {
+			case 'bw_download_price':
+				$value = $this->reseller->data()->general->get_price_bw();
+				break;
+			case 'vw_download_price':
+				$value = $this->reseller->data()->general->get_price_vw();
+				break;
+			default:
+				break;
 		}
 
-		return $reseller_price;
+		return $value;
 	}
 
 	/**
@@ -137,7 +123,7 @@ class Filter_General implements Task, Filters {
 			return;
 		}
 
-		$affiliate_id = $this->reseller->data()->get_affiliate_id();
+		$affiliate_id = $this->reseller->data()->general->get_affiliate_id();
 
 		if ( empty( $affiliate_id ) ) {
 			return;

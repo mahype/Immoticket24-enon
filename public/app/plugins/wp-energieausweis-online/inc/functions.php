@@ -27,7 +27,7 @@ function wpenon_get_option( $option ) {
 
 	$value = apply_filters( 'wpenon_get_option', $settings->$option, $option );
 
-	return $settings->$option;
+	return $value;
 }
 
 function wpenon_interpolate( $keysize, $references = array() ) {

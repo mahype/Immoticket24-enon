@@ -63,8 +63,6 @@ class Load_Frontend implements Task, Actions, Filters {
 	 */
 	public function add_actions() {
 		add_action( 'wp_head', 'wp_no_robots' );
-		add_action( 'enon_iframe_css', array( $this, 'add_css' ) );
-		add_action( 'enon_iframe_js', array( $this, 'add_js' ) );
 	}
 
 	/**
@@ -87,33 +85,5 @@ class Load_Frontend implements Task, Actions, Filters {
 		return locate_template( array( 'energieausweis-iframe.php' ) );
 	}
 
-	/**
-	 * Add reseller CSS.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_css() {
-		$extra_css = $this->reseller->data()->get_extra_css();
 
-		if ( empty( $extra_css ) ) {
-			return;
-		}
-
-		echo esc_attr( $extra_css );
-	}
-
-	/**
-	 * Add reseller CSS.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_js() {
-		$extra_js = $this->reseller->data()->get_extra_js();
-
-		if ( empty( $extra_js ) ) {
-			return;
-		}
-
-		echo esc_attr( $extra_js );
-	}
 }

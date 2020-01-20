@@ -116,8 +116,8 @@ class Reseller_Data {
 		$this->post_id = $post_id;
 
 		$this->general            = new Post_Meta_General( $post_id );
-		$this->confirmation_email = new Post_Meta_Billing_Email( $post_id );
-		$this->billing_email      = new Post_Meta_Confirmation_Email( $post_id );
+		$this->confirmation_email = new Post_Meta_Confirmation_Email( $post_id );
+		$this->billing_email      = new Post_Meta_Billing_Email( $post_id );
 		$this->iframe             = new Post_Meta_Iframe( $post_id );
 		$this->schema             = new Post_Meta_Schema( $post_id );
 		$this->send_data          = new Post_Meta_Send_Data( $post_id );

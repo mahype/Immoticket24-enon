@@ -62,7 +62,7 @@ class Post_Meta_General extends Post_Meta {
 	public function isset_send_bill_to_reseller() {
 		$send_bill_to_reseller = $this->get( 'send_bill_to_reseller' );
 
-		if ( in_array( 'send_bill_to_reseller', $send_bill_to_reseller ) ) {
+		if ( ! empty( $send_bill_to_reseller ) && in_array( 'send_bill_to_reseller', $send_bill_to_reseller ) ) {
 			return true;
 		}
 

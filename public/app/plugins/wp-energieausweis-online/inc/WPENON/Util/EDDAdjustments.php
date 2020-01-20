@@ -464,7 +464,8 @@ class EDDAdjustments {
 
 	public function _getPriceDefaults( $type, $mode = '' ) {
 		$defaults                        = array();
-		$defaults['edd_price']           = edd_sanitize_amount( wpenon_get_option( $type . '_download_price' ) );
+		$price                           = wpenon_get_option( $type . '_download_price' );
+		$defaults['edd_price']           = edd_sanitize_amount( $price );
 		$defaults['_variable_pricing']   = ( WPENON_POSTAL || WPENON_AUDIT ) ? true : false;
 		$defaults['edd_variable_prices'] = array(
 			array(

@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\WP\Models;
+namespace Enon\WP\Models;
 
 /**
  * Class Settings.

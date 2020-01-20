@@ -441,7 +441,6 @@ class Emails {
 		$content      = apply_filters( 'wpenon_confirmation_content', $content, $energieausweis );
 
 		$recipient_email = apply_filters( 'wpenon_confirmation_recipient_address', $energieausweis->wpenon_email );
-
 		$message         = $this->replace_tags_confirmation_content( $energieausweis, $content );
 
 		do_action( 'wpenon_confirmation_start', $energieausweis );
@@ -465,19 +464,19 @@ class Emails {
 	 * @since 1.0.0
 	 */
 	private function replace_tags_confirmation_content( $energieausweis, $content ) {
-		$confirmation_site    = apply_filters( 'wpenon_confirmation_site', home_url(), $energieausweis );
-		$energieausweis_link  = apply_filters( 'wpenon_confirmation_energieausweis_link', $energieausweis->verified_permalink, $energieausweis );
-		$energieausweis_title = apply_filters( 'wpenon_confirmation_energieausweis_title', $energieausweis->post_title, $energieausweis );
-		$energieausweis_type  = apply_filters( 'wpenon_confirmation_energieausweis_type', $energieausweis->formatted_wpenon_type, $energieausweis );
-		$customer_address     = apply_filters( 'wpenon_confirmation_customer_address', $energieausweis->adresse, $energieausweis );
+		$confirmation_site      = apply_filters( 'wpenon_confirmation_site', home_url(), $energieausweis );
+		$energieausweis_link    = apply_filters( 'wpenon_confirmation_energieausweis_link', $energieausweis->verified_permalink, $energieausweis );
+		$energieausweis_title   = apply_filters( 'wpenon_confirmation_energieausweis_title', $energieausweis->post_title, $energieausweis );
+		$energieausweis_type    = apply_filters( 'wpenon_confirmation_energieausweis_type', $energieausweis->formatted_wpenon_type, $energieausweis );
+		$energieausweis_address = apply_filters( 'wpenon_confirmation_customer_address', $energieausweis->adresse, $energieausweis );
 
 		$template_tags = [
-			'site'             => $confirmation_site,
-			'en-link'          => $energieausweis_link,
-			'en-title'         => $energieausweis_title,
-			'en-type'          => $energieausweis_type,
-			'customer-address' => $customer_address,
-			'not-ordered'      => '',
+			'site'        => $confirmation_site,
+			'en-link'     => $energieausweis_link,
+			'en-title'    => $energieausweis_title,
+			'en-type'     => $energieausweis_type,
+			'en-address'  => $energieausweis_address,
+			'not-ordered' => '',
 		];
 
 		if ( ! $energieausweis->isOrdered() ) {

@@ -67,7 +67,7 @@ class Submit_Energieausweis implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'edd_update_payment_status', array( $this, 'sendData' ), 10, 2 );
+		add_action( 'edd_update_payment_status', array( $this, 'send_data' ), 10, 2 );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Submit_Energieausweis implements Actions, Task {
 	 * @param int    $payment_id Payment id.
 	 * @param string $status Payment status.
 	 */
-	public function sendData( $payment_id, $status ) {
+	public function send_data( $payment_id, $status ) {
 		$endpoint = $this->reseller->data()->send_data->get_post_endpoint();
 
 		// Do not anything if not payed or if there is no endpoint given.
