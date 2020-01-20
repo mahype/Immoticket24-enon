@@ -68,6 +68,8 @@ class Filter_Confirmation_Email implements Task, Filters {
 		add_filter( 'wpenon_confirmation_sender_email', array( $this, 'filter_sender_email' ) );
 		add_filter( 'wpenon_confirmation_subject', array( $this, 'filter_subject' ) );
 		add_filter( 'wpenon_confirmation_content', array( $this, 'filter_content' ) );
+
+		add_filter( 'wpenon_confirmation_energieausweis_link', array( $this, 'filter_link' ) );
 	}
 
 	/**
@@ -144,5 +146,27 @@ class Filter_Confirmation_Email implements Task, Filters {
 		}
 
 		return $reseller_content;
+	}
+
+
+
+	/**
+	 * Filter link.
+	 *
+	 * @param string $link Link.
+	 *
+	 * @return string Filtered link.
+	 *
+	 * @since 1.0.0
+	 */
+	public function filter_link( $link ) {
+		$reseller_link = $this->reseller->data()->website->get_customer_edit_url();
+		$reseller_link = $this->reseller->create_verfied_url( $reseller_link );
+
+		if ( empty( $reseller_link ) ) {
+			return $link;
+		}
+
+		return $reseller_link;
 	}
 }
