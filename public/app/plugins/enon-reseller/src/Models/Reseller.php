@@ -108,7 +108,7 @@ class Reseller {
 		$post_id = $this->get_post_id_by_token( $token );
 
 		if ( empty( $post_id ) ) {
-			throw new Exception( sprintf( 'Invalid token "%s".', $token->get() ) );
+			wp_die( sprintf( 'Invalid token "%s".', esc_attr( $token->get() ) ) );
 		}
 
 		$this->set_post_id( $post_id );

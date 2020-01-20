@@ -108,8 +108,6 @@ class Reseller_Data {
 	 *
 	 * @param int $post_id Post id.
 	 *
-	 * @throws Exception Token was not found.
-	 *
 	 * @since 1.0.0
 	 */
 	public function __construct( $post_id ) {
