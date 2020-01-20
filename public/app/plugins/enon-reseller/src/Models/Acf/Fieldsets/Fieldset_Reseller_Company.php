@@ -18,7 +18,7 @@ use Enon\Acf\Models\Fieldset;
  *
  * @since 1.0.0
  */
-class Company implements Fieldset {
+class Fieldset_Reseller_Company implements Fieldset {
 	/**
 	 * Get the fieldset.
 	 *
@@ -53,11 +53,14 @@ class Company implements Fieldset {
 				'required'     => 0,
 			),
 			array(
-				'key'          => 'field_send_data_to_reseller',
-				'label'        => __( 'Send order to reseller', 'enon' ),
-				'name'         => 'send_order_to_reseller',
+				'key'          => 'field_send_bill_to_reseller',
+				'label'        => __( 'Send bill to reseller', 'enon' ),
+				'name'         => 'send_bill_to_reseller',
 				'type'         => 'checkbox',
-				'instructions' => __( 'Check if order email should be sent to reseller.', 'enon' ),
+				'choices' => array(
+					'Ja' => 'Ja',
+				),
+				'instructions' => __( 'Check if bill email should be sent to reseller.', 'enon' ),
 				'required'     => 0,
 			),
 			array(

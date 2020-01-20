@@ -24,7 +24,6 @@ use Enon\Edd\Models\Payment;
  * @package Enon_Reseller
  */
 class Reseller_Data {
-
 	/**
 	 * Reseller_Data constructor.
 	 *
@@ -40,6 +39,54 @@ class Reseller_Data {
 		} elseif ( is_admin() ) {
 			$this->set_post();
 		}
+	}
+
+	/**
+	 * Post Id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var int
+	 */
+	protected $post_id = null;
+
+	/**
+	 * Set post id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $post_id Post id.
+	 */
+	public function set_post_id( $post_id ) {
+		$this->post_id = $post_id;
+	}
+
+	/**
+	 * Get post id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return int $post_id Post Id.
+	 */
+	public function get_post_id() {
+		return $this->post_id;
+	}
+
+	/**
+	 * Get post field.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $field_name Name of the field.
+	 *
+	 * @return mixed/null Value if found, otherwhise null.
+	 */
+	public function get( $field_name ) {
+		if ( empty( $this->post_id ) ) {
+			return null;
+		}
+
+		return get_field( $field_name, $this->post_id );
 	}
 
 	/**
@@ -124,8 +171,6 @@ class Reseller_Data {
 
 		$this->set_post_id( $reseller_id );
 	}
-
-	pu
 
 	/**
 	 * Get company name.

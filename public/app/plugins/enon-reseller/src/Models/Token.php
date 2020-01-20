@@ -65,6 +65,7 @@ class Token {
 			return false;
 		}
 
+		// phpcs:ignore
 		return sanitize_text_field( wp_unslash( $_REQUEST['iframe_token'] ) );
 	}
 }
