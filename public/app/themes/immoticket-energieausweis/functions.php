@@ -366,7 +366,9 @@ function enon_show_gdpr_field( $data ) {
 
   $privacy_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_privacy' );
   $privacy_url  = add_query_arg( 'iframe', 'true', get_permalink( $privacy_page ) );
-  $privacy_url  = add_query_arg( 'iframe_token', 'hazsudga7t6713r41f6178fcv', $privacy_url );
+  $privacy_url  = add_query_arg( 'iframe_token', '140f6e9d568e79', $privacy_url );
+
+  $privacy_url  = apply_filters( 'wpenon_create_privacy_url', $privacy_url );
 
   $onclick         = 'onclick="return !; window.open( this.href, \'%s\', \'width=500,height=500,top=100,left=100\' )" target="_blank"';
   $privacy_onclick = sprintf( $onclick, get_the_title( $privacy_page ) );

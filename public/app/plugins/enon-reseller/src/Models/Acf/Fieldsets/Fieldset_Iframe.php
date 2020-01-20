@@ -29,12 +29,13 @@ class Fieldset_Iframe implements Fieldset {
 	public function get() : array {
 		$data = [
 			array(
-				'key' => 'field_user_interface',
-				'label' => __( 'User Interface', 'enon' ),
-				'name' => 'user_interface',
+				'key' => 'field_elements',
+				'label' => __( 'Elemente', 'enon' ),
+				'name' => 'elements',
 				'type' => 'checkbox',
 				'choices' => array(
-					'show_headline' => __( 'Show headline', 'enon' ),
+					'show_title'    => __( 'Titel anzeigen', 'enon' ),
+					'show_description' => __( 'Beschreibung anzeigen', 'enon' ),
 				),
 				'default_value' => array(
 					0 => 'show_headline',

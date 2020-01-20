@@ -12,6 +12,7 @@
 namespace Enon_Reseller\Tasks\Enon;
 
 use Awsm\WP_Wrapper\Building_Plans\Actions;
+use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 use Awsm\WP_Wrapper\Tools\Logger;
 use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
@@ -25,7 +26,7 @@ use Enon_Reseller\Models\Reseller;
  *
  * @package Enon_Reseller\Tasks\Enon
  */
-class Filter_Iframe implements Task, Actions {
+class Filter_Iframe implements Task, Actions, Filters {
 	use Logger_Trait;
 
 	/**
@@ -56,6 +57,17 @@ class Filter_Iframe implements Task, Actions {
 	 */
 	public function run() {
 		$this->add_actions();
+		$this->add_filters();
+	}
+
+	/**
+	 * Adding filters.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_filters() {
+		add_filter( 'wpenon_create_show_title', array( $this, 'filter_title' ) );
+		add_filter( 'wpenon_create_show_description', array( $this, 'filter_description' ) );
 	}
 
 	/**
@@ -66,6 +78,30 @@ class Filter_Iframe implements Task, Actions {
 	public function add_actions() {
 		add_action( 'enon_iframe_css', array( $this, 'add_css' ) );
 		add_action( 'enon_iframe_js', array( $this, 'add_js' ) );
+	}
+
+	/**
+	 * Filtering if title will be shown on energieausweis creation.
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	public function filter_title() {
+		$show = $this->reseller->data()->iframe->isset_element_title();
+		return $show;
+	}
+
+	/**
+	 * Filtering if description will be shown on energieausweis creation.
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	public function filter_description() {
+		$show = $this->reseller->data()->iframe->isset_element_description();
+		return $show;
 	}
 
 	/**

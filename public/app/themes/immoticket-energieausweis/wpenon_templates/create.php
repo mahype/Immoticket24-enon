@@ -4,8 +4,16 @@
  * @version 1.0.2
  * @author Felix Arntz <felix-arntz@leaves-webdesign.com>
  */
-?>
 
+$show_title       = apply_filters( 'wpenon_create_show_title', true );
+$show_description = apply_filters( 'wpenon_create_show_description', true );
+$site_title       = $this->template_suffix === 'bw' ? 'Bedarfsausweis': 'Verbrauchsausweis';
+
+?>
+<?php if ( $show_title ) : ?>
+<h1><?php echo $site_title; ?> erstellen</h1>
+<?php endif; ?>
+<?php if ( $show_description ) : ?>
 <p>
 	<?php _e( 'Geben Sie allgemeine Informationen für den Energieausweis ein, den Sie erstellen möchten.', 'wpenon' ); ?>
 </p>
@@ -16,7 +24,7 @@
 <p>
 	<?php _e( 'Ihren Energieausweis erhalten Sie nach Bestellabschluss per Mail zugesendet.', 'wpenon' ); ?>
 </p>
-
+<?php endif; ?>
 <?php wpenon_get_view()->displaySubTemplate( 'message-error', '', $data['errors'] ); ?>
 <?php wpenon_get_view()->displaySubTemplate( 'message-warning', '', $data['warnings'] ); ?>
 

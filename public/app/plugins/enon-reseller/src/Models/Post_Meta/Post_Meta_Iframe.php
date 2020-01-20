@@ -20,6 +20,40 @@ use Enon\WP\Models\Post_Meta;
  */
 class Post_Meta_Iframe extends Post_Meta {
 	/**
+	 * Checks if title element is checked.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool True if is checked..
+	 */
+	public function isset_element_title() {
+		$elements = $this->get( 'elements' );
+
+		if ( ! empty( $elements ) && in_array( 'show_title', $elements ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if header element is checked.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool True if is checked.
+	 */
+	public function isset_element_description() {
+		$elements = $this->get( 'elements' );
+
+		if ( ! empty( $elements ) && in_array( 'show_description', $elements ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get reseller extra CSS.
 	 *
 	 * @since 1.0.0
