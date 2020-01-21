@@ -29,8 +29,6 @@ use Enon\Reseller\Loader as Reseller_Loader;
 
 use Awsm\WP_Wrapper\Tools\Logger;
 
-require dirname( __FILE__ ) . '/vendor/autoload.php';
-
 if ( ! defined( 'WPINC' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
