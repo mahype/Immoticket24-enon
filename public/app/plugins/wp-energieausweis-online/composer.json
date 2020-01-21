@@ -26,8 +26,8 @@
     }
   ],
   "autoload": {
-    "psr-0": {
-      "WPENON\\": "inc/"
+    "psr-4": {
+      "WPENON\\": "inc/WPENON/"
     }
   },
   "require": {

@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\EDD;
+namespace Enon\Edd;
 
 use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;

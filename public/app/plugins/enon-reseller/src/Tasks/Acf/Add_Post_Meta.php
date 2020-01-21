@@ -55,7 +55,7 @@ class Add_Post_Meta implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		if ( ! ACF::is_activated() ) {
+		if ( ! function_exists( 'acf_add_local_field_group' ) ) {
 			$this->logger->warning( 'Advanced custom fields seems not to be activated.' );
 			return;
 		}

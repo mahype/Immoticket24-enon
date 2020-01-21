@@ -46,6 +46,10 @@ if ( ! defined( 'EDD_DISABLE_ARCHIVE' ) ) {
 function wpenon_init() {
 	load_plugin_textdomain( 'wpenon', false, dirname( WPENON_BASENAME ) . '/inc/languages/' );
 
+	if ( ! function_exists( 'enon_boot' ) ) {
+	// 	return;
+	}
+
 	if ( WPENON_VERSION_CHECK === true ) {
 		if ( wpenon_memory_limit_check() ) {
 			require_once WPENON_PATH . '/inc/dynamic-functions.php';

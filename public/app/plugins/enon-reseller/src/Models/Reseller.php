@@ -13,9 +13,11 @@
 
 namespace Enon_Reseller\Models;
 
-use Enon\Models\Enon\Energieausweis;
 use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
 use Awsm\WP_Wrapper\Tools\Logger;
+
+use Enon\Models\Enon\Energieausweis;
+use Enon\Edd\Models\Payment;
 
 /**
  * Class Reseller

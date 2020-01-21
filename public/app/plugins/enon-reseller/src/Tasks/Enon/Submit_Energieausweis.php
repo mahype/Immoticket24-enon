@@ -86,7 +86,7 @@ class Submit_Energieausweis implements Actions, Task {
 			return;
 		}
 
-		$sender_class_name = 'Enon_Reseller\\Models\\Transfer\\' . $this->reseller->data()->send_data->get_post_data_config_class();
+		$sender_class_name = 'Enon_Reseller\\Models\\Submit\\' . $this->reseller->data()->send_data->get_post_data_config_class();
 
 		if ( ! class_exists( $sender_class_name ) ) {
 			$this->logger()->warning( sprintf( 'Sender Class %s does not exist, Do not send data.', $sender_class_name ) );

@@ -45,6 +45,10 @@ require_once dirname( __FILE__ ) . '/vendor/autoload.php';
  * @since 1.0.0
  */
 function enon_boot() {
+	if ( ! function_exists( 'wpenon_init' ) ) {
+	// 	return;
+	}
+
 	try {
 		$logger = new Logger( 'Enon' );
 

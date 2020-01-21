@@ -114,14 +114,16 @@ $qualities = [
 	]
 ];
 
-function get_quality_description( $elements ) {
-	$html = '';
+if( ! function_exists( 'get_quality_description' ) ) {
+	function get_quality_description( $elements ) {
+		$html = '';
 
-	foreach ( $elements as $element ) {
-		$html .= sprintf( "<b>%s</b><br />%s<br /><br />", $element['title'], $element['description' ] );
+		foreach ( $elements as $element ) {
+			$html .= sprintf( "<b>%s</b><br />%s<br /><br />", $element['title'], $element['description' ] );
+		}
+
+		return $html;
 	}
-
-	return $html;
 }
 
 
