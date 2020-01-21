@@ -3,13 +3,13 @@
  * Reseller send data settings fieldset.
  *
  * @category Class
- * @package  Enon_Reseller\Models\Acf\Fieldsets;
+ * @package  Enon_Reseller\Models\Fieldsets;
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Models\Acf\Fieldsets;
+namespace Enon_Reseller\Models\Fieldsets;
 
 use Enon\Acf\Models\Fieldset;
 

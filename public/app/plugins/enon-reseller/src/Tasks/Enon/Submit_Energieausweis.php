@@ -67,7 +67,7 @@ class Submit_Energieausweis implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'edd_update_payment_status', array( $this, 'send_data' ), 10, 2 );
+		// add_action( 'edd_update_payment_status', array( $this, 'send_data' ), 10, 2 );
 	}
 
 	/**

@@ -25,11 +25,11 @@ use Enon\Acf\Models\Post_Meta;
 use Enon\Acf\Fieldsets\Fieldset_Billing_Email;
 use Enon\Acf\Fieldsets\Fieldset_Confirmation_Email;
 
-use Enon_Reseller\Models\Acf\Fieldsets\Fieldset_General;
-use Enon_Reseller\Models\Acf\Fieldsets\Fieldset_Schema;
-use Enon_Reseller\Models\Acf\Fieldsets\Fieldset_Iframe;
-use Enon_Reseller\Models\Acf\Fieldsets\Fieldset_Send_Data;
-use Enon_Reseller\Models\Acf\Fieldsets\Fieldset_Website;
+use Enon_Reseller\Models\Fieldsets\Fieldset_General;
+use Enon_Reseller\Models\Fieldsets\Fieldset_Schema;
+use Enon_Reseller\Models\Fieldsets\Fieldset_Iframe;
+use Enon_Reseller\Models\Fieldsets\Fieldset_Send_Data;
+use Enon_Reseller\Models\Fieldsets\Fieldset_Website;
 
 /**
  * Class Add_Options.

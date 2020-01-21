@@ -4,6 +4,24 @@ $description_quality = __('<b>Einfach:</b><br/>z.B. Einfachverglasung, Dach ohne
 
 
 $qualities = [
+	'mauerwerk' => [
+		[
+			'title'       => 'Einfach',
+			'description' => 'z.B. dünnes Mauerwerk, ungedämmt',
+		],
+		[
+			'title'       => 'Durchschnittlich',
+			'description' => 'z.B. mittleres Mauerwerk, ungedämmt',
+		],
+		[
+			'title'       => 'Überdurchschnittlich',
+			'description' => 'z.B. starkes Mauerwerk, gedämmt',
+		],
+		[
+			'title'       => 'Aufwändig',
+			'description' => 'z.B. starkes bis sehr starkes Mauerwerk mit neuwertiger Dämmung',
+		]
+	],
 	'dach' => [
 		[
 			'title'       => 'Einfach',
@@ -966,6 +984,20 @@ return array(
 	'sonstiges' => array(
 		'title' => __('Sonstiges', 'wpenon'),
 		'groups' => array(
+			'wertanalyse' => array(
+				'title' => __( 'Wertanalyse', 'wpenon'),
+				'fields' => array(
+					'wertanalyse_title' => array(
+						'type' => 'headline',
+						'description' => __( 'Bei diesen Angaben handelt es sich um die Zusatzangaben, die für Ihre Wertanalyse benötigt werden. Möchten Sie keine kostenlose qualifizierte Wertanalyse  von S-Immobilien erhalten, können Sie die Eingabefelder überspringen.', 'wpenon' ),
+						'set_once' => true,
+					),
+					'wertanalyse' => array(
+						'type' => 'checkbox',
+						'label' => __('„Ich möchte keine kostenlose qualifizierte Wertanalyse von S-Immobilien Heidelberg erhalten.', 'wpenon'),
+					),
+				),
+			),
 			'modernisierung' => array(
 				'title' => __('Modernisierungen', 'wpenon'),
 				'fields' => array(
@@ -981,6 +1013,10 @@ return array(
 							'25' => __('Vor über 25 Jahren', 'wpenon'),
 						),
 						'required' => false,
+						'display' => array(
+							'callback' => 'wpenon_show_on_array_whitelist',
+							'callback_args' => array('field::ww_info', 'ww'),
+						),
 					),
 					'modernisierung_innenausbau' => array(
 						'type' => 'select',
@@ -1023,7 +1059,7 @@ return array(
 							'aufwaendig_luxus'      => __('Aufwändig/Luxus', 'wpenon'),
 						),
 						'required' => false,
-						'description' => $description_quality,
+						'description' => get_quality_description( $qualities['mauerwerk'] ),
 					),
 					'dach' => array(
 						'type' => 'select',

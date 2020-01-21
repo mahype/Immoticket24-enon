@@ -1716,7 +1716,7 @@ foreach ( $anlagentechnik as $anlagentyp ) {
           $heslug = 'ql_he_b';
           break;
         default:
-          continue;
+          continue 2;
       }
       if ( isset( $data['waermeverluste'] ) ) {
         $calculations[ $aslug ] += $data['waermeverluste'];
@@ -1763,7 +1763,7 @@ foreach ( $calculations['anlagendaten'] as $slug => $data ) {
       $cslug = 'ql_co2';
       break;
     default:
-      continue;
+      continue 2;
   }
   $deckungsanteil = $data['deckungsanteil'] * 0.01;
   $aufwandszahl = isset( $data['aufwandszahl'] ) ? $data['aufwandszahl'] : 1.0;
@@ -1840,7 +1840,7 @@ foreach ( $anlagentechnik_reference as $anlagentyp ) {
           $heslug = 'ql_he_b_reference';
           break;
         default:
-          continue;
+          continue 2;
       }
       if ( isset( $data['waermeverluste'] ) ) {
         $calculations[ $aslug ] += $data['waermeverluste'];
@@ -1887,7 +1887,7 @@ foreach ( $calculations['anlagendaten_reference'] as $slug => $data ) {
       $cslug = 'ql_co2_reference';
       break;
     default:
-      continue;
+      continue 2;
   }
   $deckungsanteil = $data['deckungsanteil'] * 0.01;
   $aufwandszahl = isset( $data['aufwandszahl'] ) ? $data['aufwandszahl'] : 1.0;

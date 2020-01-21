@@ -491,7 +491,7 @@ switch ( $energieausweis->dach ) {
               $dachwandflaechen['a'] = 0.5 * $wand_c_laenge * $dachhoehe + 0.5 * $wand_e_laenge * $dachhoehe;
               $dachwandflaechen['c'] = 0.5 * $wand_c_laenge * $dachhoehe;
               $dachwandflaechen['d'] = $wand_d_laenge * $dachhoehe;
-              $dachwandflaechen['e'] = 0.5 * $wand_e_laenge * $dachhoehe; 
+              $dachwandflaechen['e'] = 0.5 * $wand_e_laenge * $dachhoehe;
             }
             break;
           case 'c':
@@ -959,7 +959,7 @@ foreach ( $monate as $monat => $monatsdaten ) {
   // Lüftungswärmeverluste Qv
   $calculations['monate'][ $monat ]['qv'] = $calculations['hv'] * 0.024 * ( 19.0 - $calculations['monate'][ $monat ]['temperatur'] ) * $calculations['monate'][ $monat ]['tage'];
   $calculations['monate'][ $monat ]['qv_reference'] = $calculations['hv_reference'] * 0.024 * ( 19.0 - $calculations['monate'][ $monat ]['temperatur'] ) * $calculations['monate'][ $monat ]['tage'];
-  
+
   // Gesamtverluste Ql
   $calculations['monate'][ $monat ]['ql'] = $calculations['monate'][ $monat ]['qt'] + $calculations['monate'][ $monat ]['qv'];
   $calculations['monate'][ $monat ]['ql_reference'] = $calculations['monate'][ $monat ]['qt_reference'] + $calculations['monate'][ $monat ]['qv_reference'];
@@ -1157,7 +1157,7 @@ if ( $energieausweis->h2_info ) {
       ) ),
       'deckungsanteil'          => $energieausweis->h2_deckungsanteil,
     );
-    
+
     $anteilsumme += $calculations['anlagendaten']['h2']['deckungsanteil'];
 
     if ( $calculations['anlagendaten']['h2']['deckungsanteil'] > $calculations['anlagendaten']['h']['deckungsanteil'] ) {
@@ -1789,7 +1789,7 @@ foreach ( $calculations['anlagendaten'] as $slug => $data ) {
       $cslug = 'ql_co2';
       break;
     default:
-      continue;
+      continue 2;
   }
   $deckungsanteil = $data['deckungsanteil'] * 0.01;
   $aufwandszahl = isset( $data['aufwandszahl'] ) ? $data['aufwandszahl'] : 1.0;
@@ -1866,7 +1866,7 @@ foreach ( $anlagentechnik_reference as $anlagentyp ) {
           $heslug = 'ql_he_b_reference';
           break;
         default:
-          continue;
+          continue 2;
       }
       if ( isset( $data['waermeverluste'] ) ) {
         $calculations[ $aslug ] += $data['waermeverluste'];
@@ -1913,7 +1913,7 @@ foreach ( $calculations['anlagendaten_reference'] as $slug => $data ) {
       $cslug = 'ql_co2_reference';
       break;
     default:
-      continue;
+      continue 2;
   }
   $deckungsanteil = $data['deckungsanteil'] * 0.01;
   $aufwandszahl = isset( $data['aufwandszahl'] ) ? $data['aufwandszahl'] : 1.0;
