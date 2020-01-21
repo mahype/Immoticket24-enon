@@ -3,13 +3,13 @@
  * Class for getting resellers post meta iframe data.
  *
  * @category Class
- * @package  Enon_Reseller\Models\Post_Meta
+ * @package  Enon_Reseller\Models\Data
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Models\Post_Meta;
+namespace Enon_Reseller\Models\Data;
 
 use Enon\WP\Models\Post_Meta;
 

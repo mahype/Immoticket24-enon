@@ -17,9 +17,10 @@ use Awsm\WP_Wrapper\Tools\Logger;
 use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
 
 use Enon_Reseller\Models\Reseller;
+use Enon_Reseller\Models\Reseller_Data;
 use Enon\Edd\Models\Payment;
 
-use WPENON\Model\Energieausweis;
+use WPENON\Model\Energieausweis as Energieausweis_Old;
 
 /**
  * Class Submit_Energieausweis
@@ -67,7 +68,7 @@ class Submit_Energieausweis implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		// add_action( 'edd_update_payment_status', array( $this, 'send_data' ), 10, 2 );
+		add_action( 'edd_update_payment_status', array( $this, 'send_data' ), 10, 2 );
 	}
 
 	/**
@@ -79,23 +80,57 @@ class Submit_Energieausweis implements Actions, Task {
 	 * @param string $status Payment status.
 	 */
 	public function send_data( $payment_id, $status ) {
-		$endpoint = $this->reseller->data()->send_data->get_post_endpoint();
-
-		// Do not anything if not payed or if there is no endpoint given.
-		if ( 'publish' !== $status || empty( $endpoint ) ) {
+		if ( 'publish' !== $status ) {
 			return;
 		}
 
-		$sender_class_name = 'Enon_Reseller\\Models\\Submit\\' . $this->reseller->data()->send_data->get_post_data_config_class();
+		$payment = new Payment( $payment_id );
+
+		$energieausweis_id  = $payment->get_energieausweis_id();
+		$energieausweis_old = new Energieausweis_Old( $energieausweis_id );
+		$reseller_id        = $energieausweis_old->reseller_id;
+
+		if ( empty( $reseller_id ) ) {
+			return;
+		}
+
+		$reseller_data = new Reseller_Data( $reseller_id );
+		$post_endpoint = $reseller_data->send_data->get_post_endpoint();
+
+		if ( empty( $post_endpoint ) ) {
+			return;
+		}
+
+		if( ! $this->has_relevant_values( $energieausweis ) ) {
+			return;
+		}
+
+		$sender_class_name = 'Enon_Reseller\\Models\\Requests\\' . $this->reseller->data()->send_data->get_post_data_config_class();
 
 		if ( ! class_exists( $sender_class_name ) ) {
 			$this->logger()->warning( sprintf( 'Sender Class %s does not exist, Do not send data.', $sender_class_name ) );
 			return;
 		}
 
-		$energieausweis_id = ( new Payment( $payment_id ) )->get_energieausweis_id();
-		$energieausweis    = new Energieausweis( $energieausweis_id );
+		$request = new $sender_class_name( $post_endpoint, $energieausweis_old, $this->logger() );
+		$request->post();
+	}
 
-		( new $sender_class_name( $endpoint, $energieausweis, $this->logger() ) )->submit();
+	/**
+	 * Checks if thera is any relevand data for relevant.
+	 *
+	 * @param Energieausweis_Old $energieausweis Energieausweis object.
+	 *
+	 * @return bool True if it has relevant values.
+	 *
+	 * @since 1.0.0
+	 */
+	private function has_relevant_values( $energieausweis ) {
+		$values_to_check = [
+			'mauerwerk'
+		];
+
+
+		return true;
 	}
 }

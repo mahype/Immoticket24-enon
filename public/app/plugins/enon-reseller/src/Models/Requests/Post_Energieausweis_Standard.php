@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Models\Submit;
+namespace Enon_Reseller\Models\Requests;
 
 /**
  * Class Submit_Energieausweis_Standard
@@ -18,7 +18,7 @@ namespace Enon_Reseller\Models\Submit;
  *
  * @package Enon_Reseller\Send
  */
-class Submit_Energieausweis_Standard extends Submit_Energieausweis {
+class Post_Energieausweis_Standard extends Post_Energieausweis {
 	/**
 	 * Get body to send to endpoint.
 	 *

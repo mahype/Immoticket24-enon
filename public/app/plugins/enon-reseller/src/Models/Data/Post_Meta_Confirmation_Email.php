@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Models\Post_Meta;
+namespace Enon_Reseller\Models\Data;
 
 use Enon\WP\Models\Post_Meta;
 

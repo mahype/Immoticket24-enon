@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Models;
+namespace Enon\Models;
 
 use Awsm\WP_Wrapper\Tools\Logger;
 use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
@@ -19,7 +19,7 @@ use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
  *
  * @since 1.0.0
  */
-abstract class Submit {
+abstract class Request {
 	use Logger_Trait;
 
 	/**
@@ -84,9 +84,8 @@ abstract class Submit {
 	 *
 	 * @since 1.0.0
 	 */
-	public function submit() {
+	public function post() {
 		$this->setup_args();
-		// @todo Switch between request methods
 		$response = wp_remote_post( $this->endpoint, $this->args );
 		$status = wp_remote_retrieve_response_code( $response );
 

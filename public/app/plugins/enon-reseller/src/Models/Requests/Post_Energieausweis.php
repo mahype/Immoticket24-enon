@@ -9,13 +9,13 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Models\Submit;
+namespace Enon_Reseller\Models\Requests;
 
 use Awsm\WP_Wrapper\Tools\Logger;
 
 use WPENON\Model\Energieausweis;
 
-use Enon_Reseller\Models\Submit;
+use Enon\Models\Request;
 
 
 /**
@@ -23,7 +23,7 @@ use Enon_Reseller\Models\Submit;
  *
  * @since 1.0.0
  */
-abstract class Submit_Energieausweis extends Submit {
+abstract class Post_Energieausweis extends Request {
 	/**
 	 * Energieausweis Object.
 	 *
@@ -42,7 +42,7 @@ abstract class Submit_Energieausweis extends Submit {
 	 * @param Energieausweis $energieausweis Energieausweis object.
 	 * @param Logger         $logger         Logger object.
 	 */
-	public function __construct( $endpoint, Energieausweis $energieausweis, Logger $logger ) {
+	public function __construct( string $endpoint, Energieausweis $energieausweis, Logger $logger ) {
 		$this->energieausweis = $energieausweis;
 
 		parent::__construct( $endpoint, $logger );
