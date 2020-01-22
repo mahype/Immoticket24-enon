@@ -14,7 +14,7 @@ namespace Enon_Reseller\Tasks\Acf;
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 
-use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
+use Awsm\WP_Wrapper\Tools\Logger_Trait;
 use Awsm\WP_Wrapper\Tools\Logger;
 
 use Enon\Acf\Models\ACF;

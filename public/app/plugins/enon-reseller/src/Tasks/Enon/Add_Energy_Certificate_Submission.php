@@ -14,8 +14,10 @@ namespace Enon_Reseller\Tasks\Enon;
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 use Awsm\WP_Wrapper\Tools\Logger;
-use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
+use Awsm\WP_Wrapper\Tools\Logger_Trait;
 
+use Enon\Models\Api\Out\Distributor_Energy_Certificate;
+use Enon\Models\Api\Out\Distributor_Schemas\Sparkasse_Schema;
 use Enon_Reseller\Models\Reseller;
 use Enon_Reseller\Models\Reseller_Data;
 use Enon\Edd\Models\Payment;
@@ -27,7 +29,7 @@ use WPENON\Model\Energieausweis as Energieausweis_Old;
  *
  * @since 1.0.0
  */
-class Submit_Energieausweis implements Actions, Task {
+class Add_Energy_Certificate_Submission implements Actions, Task {
 	use Logger_Trait;
 
 	/**
@@ -87,50 +89,32 @@ class Submit_Energieausweis implements Actions, Task {
 		$payment = new Payment( $payment_id );
 
 		$energieausweis_id  = $payment->get_energieausweis_id();
-		$energieausweis_old = new Energieausweis_Old( $energieausweis_id );
-		$reseller_id        = $energieausweis_old->reseller_id;
+		$energieausweis     = new Energieausweis_Old( $energieausweis_id );
+		$reseller_id        = $energieausweis->reseller_id;
 
+		// Was there a reseller? Bail out if not.
 		if ( empty( $reseller_id ) ) {
 			return;
 		}
 
 		$reseller_data = new Reseller_Data( $reseller_id );
-		$post_endpoint = $reseller_data->send_data->get_post_endpoint();
+		$endpoint      = $reseller_data->send_data->get_post_endpoint();
 
-		if ( empty( $post_endpoint ) ) {
+		// Is there an endpoint to send the data? Bail out if not.
+		if ( empty( $endpoint ) ) {
 			return;
 		}
 
-		if( ! $this->has_relevant_values( $energieausweis ) ) {
+		$schema_name  = $reseller_data->send_data->get_post_data_config_class();
+		$schema_class = 'Enon_Reseller\\Models\\Api\\Schemas\\' . $schema_name . '_Schema';
+
+		if ( ! class_exists( $schema_class ) ) {
+			$this->logger()->warning( sprintf( 'Sender Class %s does not exist, Do not send data.', $schema_class ) );
 			return;
 		}
 
-		$sender_class_name = 'Enon_Reseller\\Models\\Requests\\' . $reseller_data->send_data->get_post_data_config_class();
-
-		if ( ! class_exists( $sender_class_name ) ) {
-			$this->logger()->warning( sprintf( 'Sender Class %s does not exist, Do not send data.', $sender_class_name ) );
-			return;
-		}
-
-		$request = new $sender_class_name( $post_endpoint, $energieausweis_old, $this->logger() );
-		$request->post();
-	}
-
-	/**
-	 * Checks if thera is any relevand data for relevant.
-	 *
-	 * @param Energieausweis_Old $energieausweis Energieausweis object.
-	 *
-	 * @return bool True if it has relevant values.
-	 *
-	 * @since 1.0.0
-	 */
-	private function has_relevant_values( $energieausweis ) {
-		$values_to_check = [
-			'mauerwerk'
-		];
-
-
-		return true;
+		$schema      = new Sparkasse_Schema();
+		$distributor = new Distributor_Energy_Certificate( $schema, $energieausweis, $this->logger() );
+		$distributor->send();
 	}
 }

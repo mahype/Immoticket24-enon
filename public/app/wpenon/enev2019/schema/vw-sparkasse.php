@@ -984,20 +984,6 @@ return array(
 	'sonstiges' => array(
 		'title' => __('Sonstiges', 'wpenon'),
 		'groups' => array(
-			'wertanalyse' => array(
-				'title' => __( 'Wertanalyse', 'wpenon'),
-				'fields' => array(
-					'wertanalyse_title' => array(
-						'type' => 'headline',
-						'description' => __( 'Bei diesen Angaben handelt es sich um die Zusatzangaben, die für Ihre Wertanalyse benötigt werden. Möchten Sie keine kostenlose qualifizierte Wertanalyse  von S-Immobilien erhalten, können Sie die Eingabefelder überspringen.', 'wpenon' ),
-						'set_once' => true,
-					),
-					'wertanalyse' => array(
-						'type' => 'checkbox',
-						'label' => __('„Ich möchte keine kostenlose qualifizierte Wertanalyse von S-Immobilien Heidelberg erhalten.', 'wpenon'),
-					),
-				),
-			),
 			'modernisierung' => array(
 				'title' => __('Modernisierungen', 'wpenon'),
 				'fields' => array(
@@ -1049,7 +1035,7 @@ return array(
 			'qualitaet_ausstattung' => array(
 				'title' => __('Wie ist die Qualität und Ausstattung des Gebäudes?', 'wpenon'),
 				'fields' => array(
-					'mauerwerk' => array(
+					'qualitaet_mauerwerk' => array(
 						'type' => 'select',
 						'label' => __('Mauerwerk', 'wpenon'),
 						'options' => array(
@@ -1061,7 +1047,7 @@ return array(
 						'required' => false,
 						'description' => get_quality_description( $qualities['mauerwerk'] ),
 					),
-					'dach' => array(
+					'qualitaet_dach' => array(
 						'type' => 'select',
 						'label' => __('Dach', 'wpenon'),
 						'options' => array(
@@ -1073,7 +1059,7 @@ return array(
 						'required' => false,
 						'description' => get_quality_description( $qualities['dach'] ),
 					),
-					'gebaeudedaemmung' => array(
+					'qualitaet_gebaeudedaemmung' => array(
 						'type' => 'select',
 						'label' => __('Gebäudedämmung', 'wpenon'),
 						'options' => array(
@@ -1085,7 +1071,7 @@ return array(
 						'required' => false,
 						'description' => get_quality_description( $qualities['daemmung'] ),
 					),
-					'fenster' => array(
+					'qualitaet_fenster' => array(
 						'type' => 'select',
 						'label' => __('Fenster', 'wpenon'),
 						'options' => array(
@@ -1097,7 +1083,7 @@ return array(
 						'required' => false,
 						'description' => get_quality_description( $qualities['fenster'] ),
 					),
-					'bodenbelaege' => array(
+					'qualitaet_bodenbelaege' => array(
 						'type' => 'select',
 						'label' => __('Bodenbeläge', 'wpenon'),
 						'options' => array(
@@ -1109,7 +1095,7 @@ return array(
 						'required' => false,
 						'description' => get_quality_description( $qualities['boden'] ),
 					),
-					'heizung' => array(
+					'qualitaet_heizung' => array(
 						'type' => 'select',
 						'label' => __('Heizung', 'wpenon'),
 						'options' => array(
@@ -1121,7 +1107,7 @@ return array(
 						'required' => false,
 						'description' => get_quality_description( $qualities['heizung'] ),
 					),
-					'baeder_sanitaer' => array(
+					'qualitaet_baeder_sanitaer' => array(
 						'type' => 'select',
 						'label' => __('Bäder/Sanitär', 'wpenon'),
 						'options' => array(

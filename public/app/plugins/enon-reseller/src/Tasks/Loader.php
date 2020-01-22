@@ -69,8 +69,9 @@ class Loader extends Task_Loader {
 
 		$this->add_task( Add_CPT_Reseller::class );
 		$this->add_task( Add_Post_Meta::class, $this->logger() );
+		$this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
+
 		$this->add_task( Setup_Enon::class, $reseller, $this->logger() );
-		$this->add_task( Submit_Energieausweis::class, $reseller, $this->logger() );
 	}
 
 	/**

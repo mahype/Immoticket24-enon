@@ -22,9 +22,6 @@ use Awsm\WP_Wrapper\Tools\Logger;
 
 use Enon_Reseller\Tasks\Loader;
 
-
-require dirname( __FILE__ ) . '/vendor/autoload.php';
-
 if ( ! defined( 'WPINC' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -39,10 +36,6 @@ require_once dirname( __FILE__ ) . '/vendor/autoload.php';
  * @since 1.0.0
  */
 function enon_reseller_boot() {
-	if ( ! function_exists( 'enon_boot' ) ) {
-	// 	return;
-	}
-
 	try {
 		$logger = new Logger( 'Enon_Reseller' );
 

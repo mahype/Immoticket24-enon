@@ -15,7 +15,7 @@ use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 use Awsm\WP_Wrapper\Tools\Logger;
-use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
+use Awsm\WP_Wrapper\Tools\Logger_Trait;
 
 use Enon_Reseller\Models\Reseller;
 

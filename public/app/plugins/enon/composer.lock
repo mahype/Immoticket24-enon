@@ -12,13 +12,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/awsmug/wp-wrapper.git",
-                "reference": "0f29e4df03f5b9fe371b004ecb9a2fa16b63595a"
+                "reference": "dcb8f371ac14e2188a131976d19c1682b5dd7009"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/0f29e4df03f5b9fe371b004ecb9a2fa16b63595a",
-                "reference": "0f29e4df03f5b9fe371b004ecb9a2fa16b63595a",
+                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/dcb8f371ac14e2188a131976d19c1682b5dd7009",
+                "reference": "dcb8f371ac14e2188a131976d19c1682b5dd7009",
                 "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "^2.0"
             },
             "type": "library",
             "autoload": {
@@ -44,7 +47,7 @@
                 "plugin",
                 "wordpress"
             ],
-            "time": "2020-01-09T17:14:24+00:00"
+            "time": "2020-01-22T15:43:02+00:00"
         },
         {
             "name": "monolog/monolog",

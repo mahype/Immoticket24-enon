@@ -13,7 +13,7 @@
 
 namespace Enon_Reseller\Models;
 
-use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
+use Awsm\WP_Wrapper\Tools\Logger_Trait;
 use Awsm\WP_Wrapper\Tools\Logger;
 
 use Enon\Models\Enon\Energieausweis;
