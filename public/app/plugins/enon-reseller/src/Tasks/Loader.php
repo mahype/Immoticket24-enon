@@ -32,7 +32,7 @@ use Enon_Reseller\Tasks\Enon\Filter_Website;
 use Enon_Reseller\Tasks\Enon\Filter_Iframe;
 use Enon_Reseller\Tasks\Enon\Filter_Schema;
 
-use Enon_Reseller\Tasks\Enon\Submit_Energieausweis;
+use Enon_Reseller\Tasks\Enon\Add_Energy_Certificate_Submission;
 
 /**
  * Whitelabel loader.
@@ -105,7 +105,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Filter_Iframe::class, $reseller, $this->logger() );
 		$this->add_task( Filter_Schema::class, $reseller, $this->logger() );
 
-		$this->add_task( Submit_Energieausweis::class, $reseller, $this->logger() );
+		$this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
 	}
 }
 
