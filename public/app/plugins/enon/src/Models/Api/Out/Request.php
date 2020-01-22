@@ -12,7 +12,7 @@
 namespace Enon\Models\Api\Out;
 
 use Awsm\WP_Wrapper\Tools\Logger;
-use Awsm\WP_Wrapper\Traits\Logger as Logger_Trait;
+use Awsm\WP_Wrapper\Tools\Logger_Trait;
 
 /**
  * Class Send.
