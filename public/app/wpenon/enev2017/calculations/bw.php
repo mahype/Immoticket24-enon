@@ -1742,7 +1742,7 @@ foreach ( $anlagentechnik as $anlagentyp ) {
           $heslug = 'ql_he_b';
           break;
         default:
-          continue;
+          continue 2;
       }
       if ( isset( $data['waermeverluste'] ) ) {
         $calculations[ $aslug ] += $data['waermeverluste'];
