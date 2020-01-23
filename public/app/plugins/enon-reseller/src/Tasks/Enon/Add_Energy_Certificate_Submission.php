@@ -70,50 +70,88 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'edd_update_payment_status', array( $this, 'send_data' ), 10, 2 );
+		add_action( 'edd_update_payment_status', array( $this, 'send_data_after_payment_completed' ), 10, 2 );
+		add_action( 'edd_payment_saved', array( $this, 'send_data_after_payment_saved' ), 10, 1 );
+	}
+
+	/**
+	 * Send data after a completed payment.
+	 *
+	 * @param int    $payment_id Payment id.
+	 * @param string $status     Status of payment.
+	 *
+	 * @since 1.0.0
+	 */
+	public function send_data_after_completed_payment( int $payment_id, string $status ) {
+		if ( 'publish' !== $status ) {
+			return;
+		}
+
+		$this->send_data_by_payment_id( $payment_id );
+	}
+
+	/**
+	 * Send data after a saved payment (for test purpose).
+	 *
+	 * @param int          $payment_id Payment id.
+	 * @param \EDD_Payment $payment    Edd Payment object.
+	 *
+	 * @since 1.0.0
+	 */
+	public function send_data_after_payment_saved( int $payment_id ) {
+		$this->send_data_by_payment_id( $payment_id );
+	}
+
+	/**
+	 * Sending data by payment id.
+	 *
+	 * @param int  $payment_id Payment id.
+	 *
+	 * @since 1.0.0
+	 */
+	public function send_data_by_payment_id( int $payment_id ) {
+		$payment = new Payment( $payment_id );
+
+		$energieausweis_id = $payment->get_energieausweis_id();
+		$energieausweis    = new Energieausweis_Old( $energieausweis_id );
+		$reseller_id       = $energieausweis->reseller_id;
+
+		if ( empty( $reseller_id ) ) {
+			$this->logger()->notice( sprintf( 'No endpiont given. No data sent to reseller #%s for energy certificate #%s.', $reseller_id, $energieausweis->id ) );
+			return;
+		}
+
+		$this->send_data( $energieausweis, $reseller_id );
 	}
 
 	/**
 	 * Send data.
 	 *
-	 * @since 1.0.0
+	 * @param Energieausweis_Old $energieausweis Energieausweis object.
+	 * @param int                $reseller_id    Reseller id.
 	 *
-	 * @param int    $payment_id Payment id.
-	 * @param string $status Payment status.
+	 * @since 1.0.0
 	 */
-	public function send_data( $payment_id, $status ) {
-		if ( 'publish' !== $status ) {
-			return;
-		}
-
-		$payment = new Payment( $payment_id );
-
-		$energieausweis_id  = $payment->get_energieausweis_id();
-		$energieausweis     = new Energieausweis_Old( $energieausweis_id );
-		$reseller_id        = $energieausweis->reseller_id;
-
-		// Was there a reseller? Bail out if not.
-		if ( empty( $reseller_id ) ) {
-			return;
-		}
-
+	public function send_data( Energieausweis_Old $energieausweis, int $reseller_id ) {
 		$reseller_data = new Reseller_Data( $reseller_id );
 		$endpoint      = $reseller_data->send_data->get_post_endpoint();
 
 		// Is there an endpoint to send the data? Bail out if not.
 		if ( empty( $endpoint ) ) {
+			$this->logger()->notice( sprintf( 'No endpiont given. No data sent to reseller #%s for energy certificate #%s.', $reseller_id, $energieausweis->id ) );
 			return;
 		}
 
 		$schema_name  = $reseller_data->send_data->get_post_data_config_class();
-		$schema_class = 'Enon_Reseller\\Models\\Api\\Schemas\\' . $schema_name . '_Schema';
+		$schema_class = 'Enon_Reseller\\Models\\Api\\Out\\Distributor_Schemas\\' . $schema_name;
 
+		// Is there an schema name which was set? Bail out if not.
 		if ( ! class_exists( $schema_class ) ) {
-			$this->logger()->warning( sprintf( 'Sender Class %s does not exist, Do not send data.', $schema_class ) );
+			$this->logger()->warning( sprintf( 'Sender Class %s does not exist. No data sent to reseller #%s for energy certificate #%s.', $schema_class, $reseller_id, $energieausweis->id ) );
 			return;
 		}
 
-		$schema      = new Sparkasse_Schema();
+		$schema      = new $schema_class();
 		$distributor = new Distributor_Energy_Certificate( $schema, $energieausweis, $this->logger() );
 		$distributor->send();
 	}

@@ -95,7 +95,11 @@ abstract class Request {
 			case 200:
 				return true;
 			default:
-				$this->logger()->warning( sprintf( 'Error %s on sending data.', $response ) );
+				if ( is_wp_error( $response ) ) {
+					$this->logger()->warning( sprintf( 'Error "%s" on sending data.', $response->get_error_message() ) );
+				} else {
+					$this->logger()->warning( sprintf( 'Error "Status %s" on sending data with message "%s.', $status, wp_remote_retrieve_response_message( $response ) ) );
+				}
 				break;
 		}
 	}

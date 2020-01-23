@@ -9,7 +9,9 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Models\Api\Out\Distributor_Schemas;
+namespace Enon_Reseller\Models\Api\Out\Distributor_Schemas;
+
+use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema;
 
 use WPENON\Model\Energieausweis as Energieausweis_Old;
 
@@ -45,7 +47,7 @@ class Sparkasse implements Distributor_Schema {
 		);
 
 		foreach ( $values_to_check as $value ) {
-			if ( $energieausweis->$value ) {
+			if ( ! empty( $energieausweis->$value ) ) {
 				return true;
 			}
 		}

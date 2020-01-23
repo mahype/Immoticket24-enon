@@ -66,6 +66,8 @@ class Distributor_Energy_Certificate extends Request {
 		$this->distributor_schema = $distributor_schema;
 		$this->energy_certificate = $energy_certificate;
 		$this->logger             = $logger;
+
+		parent::__construct( $distributor_schema->get_endpoint(), $logger );
 	}
 
 	/**
@@ -82,7 +84,9 @@ class Distributor_Energy_Certificate extends Request {
 			$data[ $key ] = $this->energy_certificate->$key;
 		}
 
-		$this->distributor_schema->filter_data( $data );
+		$data = $this->distributor_schema->filter_data( $data );
+
+		return $data;
 	}
 
 	/**
@@ -93,7 +97,7 @@ class Distributor_Energy_Certificate extends Request {
 	 * @since 1.0.0
 	 */
 	public function send() {
-		if ( ! $this->distributor_schema->check() ) {
+		if ( ! $this->distributor_schema->check( $this->energy_certificate ) ) {
 			$this->logger()->notice( sprintf( 'Energy certificate #%s: No data sent to %s, because check not passed.', $this->energy_certificate->id, $this->distributor_schema->get_endpoint() ) );
 			return false;
 		}
