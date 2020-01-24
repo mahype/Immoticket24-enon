@@ -22,7 +22,7 @@ use WPENON\Model\Energieausweis as Energieausweis_Old;
  */
 class Sparkasse implements Distributor_Schema {
 	/**
-	 * Checks if data will be sent.
+	 * Checks if data can be sent.
 	 *
 	 * @param Energieausweis_Old $energieausweis Energy certificate.
 	 *
