@@ -70,7 +70,7 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'edd_update_payment_status', array( $this, 'send_data_after_payment_completed' ), 10, 2 );
+		// add_action( 'edd_update_payment_status', array( $this, 'send_data_after_payment_completed' ), 10, 2 );
 		add_action( 'edd_payment_saved', array( $this, 'send_data_after_payment_saved' ), 10, 1 );
 	}
 
@@ -82,7 +82,7 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function send_data_after_completed_payment( int $payment_id, string $status ) {
+	public function send_data_after_payment_completed( int $payment_id, string $status ) {
 		if ( 'publish' !== $status ) {
 			return;
 		}
