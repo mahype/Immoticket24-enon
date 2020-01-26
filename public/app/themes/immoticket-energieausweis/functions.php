@@ -686,13 +686,13 @@ function immoticketenergieausweis_show_terms_text( $purchase_button ) {
   $withdrawal_onclick = sprintf( $onclick, get_the_title( $withdrawal_page ) );
 
   $terms_checkboxes = array(
-    array(
+    'extra_terms' => array(
       'id'       => 'it-agree-to-extra-terms',
       'name'     => 'it_agree_to_extra_terms',
       'label'    => sprintf( __( 'Ich erkläre mich mit den <a href="%3$s" %4$s>AGB</a>, den <a href="%5$s" %6$s>Widerrufsbestimmungen</a> und der <a href="%1$s" %2$s>Datenschutzerklärung</a> einverstanden.', 'immoticketenergieausweis' ), esc_url( $privacy_url ), $privacy_onclick, esc_url( $terms_url ), $terms_onclick, esc_url( $withdrawal_url ), $withdrawal_onclick ),
       'required' => true,
     ),
-    array(
+    'newsletter_terms' => array(
       'id'       => 'it-agree-to-newsletter-terms',
       'name'     => 'it_agree_to_newsletter_terms',
       'label'    => __( 'Ich erkläre mich damit einverstanden nach Bestellabschluss weitere Informationen über aktuelle und künftige Angebote und Produkte zu erhalten, denen ich jederzeit unter info@immoticket24.de oder über den Abmeldelink in der Email widersprechen kann.', 'immoticketenergieausweis' ),
@@ -711,6 +711,17 @@ function immoticketenergieausweis_show_terms_text( $purchase_button ) {
       'required' => false,
     ),*/
   );
+
+	/**
+	 * Filtering terms checkboxes.
+	 *
+	 * @param array $terms_checkboxes Terms checkboxes.
+	 *
+	 * @return array Filtered terms.
+	 *
+	 * @since 1.0.0
+	 */
+  $terms_checkboxes = apply_filters( 'wpenon_terms_checkboxes', $terms_checkboxes );
 
   $special_affiliate = immoticketenergieausweis_is_special_affiliate();
   if ( $special_affiliate ) {

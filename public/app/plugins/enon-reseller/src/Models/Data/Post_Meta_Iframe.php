@@ -54,6 +54,23 @@ class Post_Meta_Iframe extends Post_Meta {
 	}
 
 	/**
+	 * Checks if newsletter terms element is checked.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool True if is checked.
+	 */
+	public function isset_element_newsletter_terms() {
+		$elements = $this->get( 'elements' );
+
+		if ( ! empty( $elements ) && in_array( 'show_newsletter_terms', $elements ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get reseller extra CSS.
 	 *
 	 * @since 1.0.0

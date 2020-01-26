@@ -30,15 +30,18 @@ class Fieldset_Iframe implements Fieldset {
 		$data = [
 			array(
 				'key' => 'field_elements',
-				'label' => __( 'Elemente', 'enon' ),
+				'label' => __( 'Welche Elemente sollen angezeigt werden', 'enon' ),
 				'name' => 'elements',
 				'type' => 'checkbox',
 				'choices' => array(
-					'show_title'    => __( 'Titel anzeigen', 'enon' ),
-					'show_description' => __( 'Beschreibung anzeigen', 'enon' ),
+					'show_title'            => __( 'Titel', 'enon' ),
+					'show_description'      => __( 'Beschreibung', 'enon' ),
+					'show_newsletter_terms' => __( 'Newsletter-Checkbox', 'enon' ),
 				),
 				'default_value' => array(
-					0 => 'show_headline',
+					0 => 'show_title',
+					1 => 'show_description',
+					2 => 'show_newsletter_terms',
 				),
 				'return_format' => 'value',
 			),

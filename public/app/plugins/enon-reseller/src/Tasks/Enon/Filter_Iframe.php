@@ -68,6 +68,7 @@ class Filter_Iframe implements Task, Actions, Filters {
 	public function add_filters() {
 		add_filter( 'wpenon_create_show_title', array( $this, 'filter_title' ) );
 		add_filter( 'wpenon_create_show_description', array( $this, 'filter_description' ) );
+		add_filter( 'wpenon_terms_checkboxes', array( $this, 'filter_newsletter_terms' ) );
 	}
 
 	/**
@@ -102,6 +103,23 @@ class Filter_Iframe implements Task, Actions, Filters {
 	public function filter_description() {
 		$show = $this->reseller->data()->iframe->isset_element_description();
 		return $show;
+	}
+
+	/**
+	 * Filtering if newsletter terms will be shown on energieausweis creation.
+	 *
+	 * @param array $terms_checkboxes Terms checkboxes.
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	public function filter_newsletter_terms( $terms_checkboxes ) {
+		if ( ! $this->reseller->data()->iframe->isset_element_newsletter_terms() ) {
+			unset( $terms_checkboxes['newsletter_terms'] );
+		}
+
+		return $terms_checkboxes;
 	}
 
 	/**
