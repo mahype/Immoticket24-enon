@@ -15,6 +15,7 @@ use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;
 
 use Enon\WP\Tasks\Add_Admin_Pages;
+use Enon\WP\Tasks\Add_Translations;
 use Enon\WP\Tasks\Setup_Gutenberg;
 use Enon\WP\Tasks\Setup_WP_Nav;
 use Enon\WP\Tasks\Stop_Heartbeat;
@@ -48,6 +49,7 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function add_admin_tasks() {
+
 		$this->add_task( Add_Admin_Pages::class, $this->logger() );
 		$this->add_task( Setup_Gutenberg::class );
 		$this->add_task( Stop_Heartbeat::class );
@@ -59,6 +61,7 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function add_frontend_tasks() {
+		$this->add_task( Add_Translations::class, $this->logger() );
 		$this->add_task( Setup_WP_Nav::class );
 	}
 }
