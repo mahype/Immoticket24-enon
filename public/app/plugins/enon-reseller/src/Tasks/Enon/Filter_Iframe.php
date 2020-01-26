@@ -68,7 +68,7 @@ class Filter_Iframe implements Task, Actions, Filters {
 	public function add_filters() {
 		add_filter( 'wpenon_create_show_title', array( $this, 'filter_title' ) );
 		add_filter( 'wpenon_create_show_description', array( $this, 'filter_description' ) );
-		add_filter( 'wpenon_terms_checkboxes', array( $this, 'filter_newsletter_terms' ) );
+		add_filter( 'immoticketenergieausweis_checkout_terms_checkboxes', array( $this, 'filter_newsletter_terms' ) );
 	}
 
 	/**

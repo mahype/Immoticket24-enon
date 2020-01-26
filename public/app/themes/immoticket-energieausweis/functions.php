@@ -712,17 +712,6 @@ function immoticketenergieausweis_show_terms_text( $purchase_button ) {
     ),*/
   );
 
-	/**
-	 * Filtering terms checkboxes.
-	 *
-	 * @param array $terms_checkboxes Terms checkboxes.
-	 *
-	 * @return array Filtered terms.
-	 *
-	 * @since 1.0.0
-	 */
-  $terms_checkboxes = apply_filters( 'wpenon_terms_checkboxes', $terms_checkboxes );
-
   $special_affiliate = immoticketenergieausweis_is_special_affiliate();
   if ( $special_affiliate ) {
     switch ( $special_affiliate ) {
@@ -754,7 +743,15 @@ function immoticketenergieausweis_show_terms_text( $purchase_button ) {
         $content .= '<input type="hidden" name="it_is_special_affiliate" value="' . $special_affiliate . '">';
     }
   }
-
+	/**
+	 * Filtering terms checkboxes.
+	 *
+	 * @param array $terms_checkboxes Terms checkboxes.
+	 *
+	 * @return array Filtered terms.
+	 *
+	 * @since 1.0.0
+	 */
   $terms_checkboxes = apply_filters( 'immoticketenergieausweis_checkout_terms_checkboxes', $terms_checkboxes );
 
   foreach ( $terms_checkboxes as $terms_checkbox ) {
