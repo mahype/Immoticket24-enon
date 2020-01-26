@@ -46,7 +46,7 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		if ( is_admin() ) {
+		if ( is_admin() && ! wp_doing_ajax() ) {
 			$this->add_admin_tasks();
 		} else {
 			$this->add_frontend_tasks();

@@ -38,6 +38,10 @@ class Token {
 			$this->token = $this->get_by_request();
 		}
 
+		if( empty( $this->token ) ) {
+			$this->token = $this->get_by_cookie();
+		}
+
 		return $this->token;
 	}
 
@@ -50,6 +54,10 @@ class Token {
 	 */
 	public function set( $token ) {
 		$this->token = $token;
+
+		$lifespan = time() + 60;
+
+		setcookie( 'iframe_token', $token, $lifespan, '/' );
 	}
 
 	/**
@@ -65,7 +73,26 @@ class Token {
 			return false;
 		}
 
+		$this->set( $_REQUEST['iframe_token'] );
+
 		// phpcs:ignore
 		return sanitize_text_field( wp_unslash( $_REQUEST['iframe_token'] ) );
+	}
+
+	/**
+	 * Checks if current request is whitelabeled.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Token
+	 */
+	public function get_by_cookie() : string {
+		// phpcs:ignore
+		if ( ! isset( $_COOKIE['iframe_token'] ) ) {
+			return false;
+		}
+
+		// phpcs:ignore
+		return $_COOKIE['iframe_token'];
 	}
 }
