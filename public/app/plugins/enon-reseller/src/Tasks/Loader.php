@@ -49,7 +49,7 @@ class Loader extends Task_Loader {
 		if ( is_admin() ) {
 			$this->add_admin_tasks();
 		} else {
-			$this->addFrontendTasks();
+			$this->add_frontend_tasks();
 		}
 
 		$this->run_tasks();
@@ -79,7 +79,7 @@ class Loader extends Task_Loader {
 	 *
 	 * @since 1.0.0
 	 */
-	public function addFrontendTasks() {
+	public function add_frontend_tasks() {
 		$token = new Token();
 
 		// No token, no action.
