@@ -1,5 +1,6 @@
 <?php
-defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Validate Cloudflare input data
@@ -580,3 +581,159 @@ function do_rocket_deactivate_cloudflare_devmode() {
 	update_option( WP_ROCKET_SLUG, $options );
 }
 add_action( 'rocket_cron_deactivate_cloudflare_devmode', 'do_rocket_deactivate_cloudflare_devmode' );
+
+
+/**
+ * Purge Cloudflare Cache by URL
+ *
+ * @since 3.4.2
+ * @author Soponar Cristina
+ *
+ * @param WP_Post $post       The post object.
+ * @param array   $purge_urls URLs cache files to remove.
+ * @param string  $lang       The post language.
+ *
+ * @throws Exception          If any error occurs when doing the API request.
+ * @return mixed Object|bool  true if the purge is successful, WP_Error otherwise
+ */
+function rocket_purge_cloudflare_by_url( $post, $purge_urls, $lang ) {
+	if ( is_wp_error( $GLOBALS['rocket_cloudflare'] ) ) {
+		return $GLOBALS['rocket_cloudflare'];
+	}
+
+	try {
+		$cf_cache = new Cloudflare\Zone\Cache( $GLOBALS['rocket_cloudflare']->auth );
+		$cf_purge = $cf_cache->purge_files( $GLOBALS['rocket_cloudflare']->zone_id, $purge_urls );
+
+		if ( empty( $cf_purge->success ) ) {
+			foreach ( $cf_purge->errors as $error ) {
+				$errors[] = $error->message;
+			}
+
+			$errors = implode( ', ', $errors );
+			throw new Exception( $errors );
+		}
+
+		return true;
+
+	} catch ( Exception $e ) {
+		$msg = __( 'Incorrect Cloudflare email address or API key.', 'rocket' );
+
+		$msg .= ' ' . sprintf(
+			/* translators: %1$s = opening link; %2$s = closing link */
+			__( 'Read the %1$sdocumentation%2$s for further guidance.', 'rocket' ),
+			// translators: Documentation exists in EN, FR; use localized URL if applicable.
+			'<a href="' . esc_url( __( 'https://docs.wp-rocket.me/article/18-using-wp-rocket-with-cloudflare/?utm_source=wp_plugin&utm_medium=wp_rocket#add-on', 'rocket' ) ) . '" rel="noopener noreferrer" target="_blank">',
+			'</a>'
+		);
+		return new WP_Error( 'cloudflare_purge_failed', $msg );
+	}
+}
+
+/**
+ * Checks if CF has the $action_value set as a Page Rule.
+ *
+ * @since  3.4.2
+ * @author Soponar Cristina
+ *
+ * @param  String $action_value - cache_everything.
+ * @return mixed  Object|bool   - true / false if $action_value was found or not, WP_Error otherwise
+ *
+ * @throws Exception          If any error occurs when doing the API request.
+ */
+function rocket_cf_has_page_rule( $action_value ) {
+	if ( is_wp_error( $GLOBALS['rocket_cloudflare'] ) ) {
+		return $GLOBALS['rocket_cloudflare'];
+	}
+
+	try {
+		$cf_page_rules = new Cloudflare\Zone\Pagerules( $GLOBALS['rocket_cloudflare']->auth );
+		$cf_page_rule  = $cf_page_rules->list_pagerules( $GLOBALS['rocket_cloudflare']->zone_id, 'active' );
+
+		if ( empty( $cf_page_rule->success ) ) {
+			foreach ( $cf_page_rule->errors as $error ) {
+				$errors[] = $error->message;
+			}
+
+			$errors = implode( ', ', $errors );
+			throw new Exception( $errors );
+		}
+
+		$cf_page_rule_arr = wp_json_encode( $cf_page_rule );
+		return preg_match( '/' . preg_quote( $action_value, '/' ) . '/', $cf_page_rule_arr );
+	} catch ( Exception $e ) {
+		return new WP_Error( 'cloudflare_page_rule_failed', $e->getMessage() );
+	}
+}
+
+
+/**
+ * Purge Cloudflare cache automatically if Cache Everything is set as a Page Rule
+ *
+ * @since 3.4.2
+ * @author Soponar Cristina
+ */
+function rocket_auto_purge_cloudflare() {
+	if ( ! get_rocket_option( 'do_cloudflare' ) ) {
+		return;
+	}
+
+	if ( ! current_user_can( 'rocket_purge_cloudflare_cache' ) ) {
+		return;
+	}
+
+	$cf_cache_everything = rocket_cf_has_page_rule( 'cache_everything' );
+	if ( is_wp_error( $cf_cache_everything ) ) {
+		return;
+	}
+	if ( ! $cf_cache_everything ) {
+		return;
+	}
+
+	// Purge CloudFlare.
+	$cf_purge = rocket_purge_cloudflare();
+}
+add_action( 'after_rocket_clean_domain', 'rocket_auto_purge_cloudflare' );
+
+
+/**
+ * Purge Cloudflare cache URLs automatically if Cache Everything is set as a Page Rule
+ *
+ * @since 3.4.2
+ * @author Soponar Cristina
+ *
+ * @param WP_Post $post       The post object.
+ * @param array   $purge_urls URLs cache files to remove.
+ * @param string  $lang       The post language.
+ */
+function rocket_auto_purge_cloudflare_by_url( $post, $purge_urls, $lang ) {
+	if ( ! get_rocket_option( 'do_cloudflare' ) ) {
+		return;
+	}
+
+	if ( ! current_user_can( 'rocket_purge_cloudflare_cache' ) ) {
+		return;
+	}
+
+	$cf_cache_everything = rocket_cf_has_page_rule( 'cache_everything' );
+	if ( is_wp_error( $cf_cache_everything ) ) {
+		return;
+	}
+	if ( ! $cf_cache_everything ) {
+		return;
+	}
+
+	// Add home URL and feeds URLs to Cloudflare clean cache URLs list.
+	$purge_urls[] = get_rocket_i18n_home_url( $lang );
+	$feed_urls    = [];
+	$feed_urls[]  = get_feed_link();
+	$feed_urls[]  = get_feed_link( 'comments_' );
+
+	// this filter is documented in inc/functions/files.php.
+	$feed_urls  = apply_filters( 'rocket_clean_home_feeds', $feed_urls );
+	$purge_urls = array_unique( array_merge( $purge_urls, $feed_urls ) );
+
+	// Purge CloudFlare.
+	rocket_purge_cloudflare_by_url( $post, $purge_urls, $lang );
+}
+add_action( 'after_rocket_clean_post', 'rocket_auto_purge_cloudflare_by_url', 10, 3 );

@@ -3,7 +3,7 @@ use WP_Rocket\Admin\Options;
 use WP_Rocket\Admin\Options_Data;
 use WP_Rocket\Logger\Logger;
 
-defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
+defined( 'ABSPATH' ) || exit;
 
 /**
  * A wrapper to easily get rocket option
@@ -412,16 +412,22 @@ function get_rocket_exclude_defer_js() {
 		'www.uplaunch.com',
 		'google.com/recaptcha',
 		'widget.reviews.co.uk',
+		'verify.authorize.net/anetseal',
+		'lib/admin/assets/lib/webfont/webfont.min.js',
+		'app.mailerlite.com',
 	];
 
 	if ( get_rocket_option( 'defer_all_js', 0 ) && get_rocket_option( 'defer_all_js_safe', 0 ) ) {
 		$jquery            = site_url( wp_scripts()->registered['jquery-core']->src );
 		$jetpack_jquery    = 'c0.wp.com/c/(?:.+)/wp-includes/js/jquery/jquery.js';
 		$googleapis_jquery = 'ajax.googleapis.com/ajax/libs/jquery/(?:.+)/jquery(?:\.min)?.js';
+		$cdnjs_jquery      = 'cdnjs.cloudflare.com/ajax/libs/jquery/(?:.+)/jquery(?:\.min)?.js';
 
 		$exclude_defer_js[] = rocket_clean_exclude_file( $jquery );
 		$exclude_defer_js[] = $jetpack_jquery;
 		$exclude_defer_js[] = $googleapis_jquery;
+		$exclude_defer_js[] = $cdnjs_jquery;
+		
 	}
 
 	/**

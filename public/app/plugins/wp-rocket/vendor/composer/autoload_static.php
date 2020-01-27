@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1fa963a29c9f1cd9d3c5a806e1a6e596
+class ComposerStaticInit16813c2d1e8242c22411bc905d3cc75a
 {
     public static $files = array (
         '7dd4ccccfce1b9c8f18c306a0bd93e85' => __DIR__ . '/../..' . '/inc/functions/api.php',
@@ -499,9 +499,11 @@ class ComposerStaticInit1fa963a29c9f1cd9d3c5a806e1a6e596
         'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Optimization\\Hummingbird_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/Optimization/class-hummingbird-subscriber.php',
         'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\PageBuilder\\Elementor_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/PageBuilder/class-elementor-subscriber.php',
         'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Security\\Sucuri_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/security/class-sucuri-subscriber.php',
+        'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Smush_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/class-smush-subscriber.php',
         'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\SyntaxHighlighter_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/class-syntaxhighlighter-subscriber.php',
         'WP_Rocket\\Subscriber\\Third_Party\\Themes\\Bridge_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/Themes/class-bridge-subscriber.php',
         'WP_Rocket\\Subscriber\\Tools\\Cache_Dir_Size_Check_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Tools/class-cache-dir-size-check-subscriber.php',
+        'WP_Rocket\\Subscriber\\Tools\\Detect_Missing_Tags_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Tools/class-detect-missing-tags-subscriber.php',
         'WP_Rocket\\Traits\\Config_Updater' => __DIR__ . '/../..' . '/inc/classes/traits/trait-config-updater.php',
         'WP_Rocket\\Traits\\Memoize' => __DIR__ . '/../..' . '/inc/classes/traits/trait-memoize.php',
         'WP_Rocket\\Traits\\Updater_Api_Tools' => __DIR__ . '/../..' . '/inc/classes/traits/trait-updater-api-tools.php',
@@ -510,9 +512,9 @@ class ComposerStaticInit1fa963a29c9f1cd9d3c5a806e1a6e596
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1fa963a29c9f1cd9d3c5a806e1a6e596::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1fa963a29c9f1cd9d3c5a806e1a6e596::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit1fa963a29c9f1cd9d3c5a806e1a6e596::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit16813c2d1e8242c22411bc905d3cc75a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit16813c2d1e8242c22411bc905d3cc75a::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit16813c2d1e8242c22411bc905d3cc75a::$classMap;
 
         }, null, ClassLoader::class);
     }
