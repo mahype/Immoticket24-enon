@@ -1,0 +1,843 @@
+# Translation of Plugins - Shariff Wrapper - Stable (latest release) in German
+# This file is distributed under the same license as the Plugins - Shariff Wrapper - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2019-07-23 17:12:57+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: de\n"
+"Project-Id-Version: Plugins - Shariff Wrapper - Stable (latest release)\n"
+
+#: admin/admin-menu.php:1997
+msgid "Facebook shut down the possibility to request share counts without an APP ID and Secret. Therefore, you need to create a Facebook APP ID and Secret and enter it in the settings on the Statistic tab. Google will provide you with many tutorials. Simple search for “facebook app id secret” and you will find one in your language."
+msgstr "Facebook hat die Möglichkeit abgeschaltet Share Counts ohne Registrierung, d.h. ohne App-ID und App-Geheimcode, abzufragen. Daher ist es nun zwingend erforderlich, sich eine App-ID und einen App-Geheimcode zu erstellen und diese in den Shariff-Einstellungen auf dem Reiter \"Statistik\" einzutragen. Über Google lassen sich diverse Tutorials finden die erklären, wie dies funktioniert. Eine Suche nach \"facebook app id secret\" sollte schnell eine geeignete Anleitung in der eigenen Sprache zu Tage fördern."
+
+#: admin/admin-menu.php:371
+msgid "Hide WhatsApp on desktop devices."
+msgstr "Verstecke WhatsApp auf Desktop-Geräten."
+
+#: admin/admin-menu.php:1432
+msgid "Notice: Twitter does not offer official share counts anymore. As an alternative share counts for Twitter can be requested via twitcount.com. You will need to register with them for it to work. Otherwise the count will always be zero."
+msgstr "Hinweis: Twitter bietet keine Schnittstelle zur direkten Abfrage von Share Counts mehr an. Als Alternative können diese via twitcount.com abgerufen werden. Dazu ist eine Registrierung bei diesem Dienst erforderlich. Andernfalls werden die Zähler immer null anzeigen."
+
+#: shariff.php:61
+msgid ""
+"<h2>Social Media Plugin \"Shariff Wrapper\"</h2>\n"
+"\n"
+"On our website we offer you the possibility to use so called \"Social Media Buttons\". To protect your data, we use a solution called \"Shariff\". Hereby the share buttons are implemented as static images, which contain a link to the corresponding social network site. If you click on such a button, you will be redirected to the respective social network site in the same way, as normal links would do as well. Only in that moment of time the provider of the social network site will get information about you, for example your IP address. If you do not click on such a share button, no data will be transmitted. Information about the collection and usage of your date on the social network sites can be found in the corresponding terms of use of the respective provider. More information about the plugin and the Shariff solution can be found here: <a href=\"https://wordpress.org/plugins/shariff/\">https://wordpress.org/plugins/shariff/</a>\n"
+"\n"
+"On our website we offer share buttons for the following services / companies: AddThis, Diaspora, Facebook, Flattr, Flipboard, LinkedIn, Mix, Odnoklassniki, Patreon, PayPal, Pinterest, Pocket, Qzone, Reddit, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing."
+msgstr ""
+"<h2>Social-Media-Plugin „Shariff Wrapper“</h2>\n"
+"\n"
+"Wir bieten Ihnen auf unserer Website die Möglichkeit zur Nutzung von sogenannten „Social-Media-Buttons“ an. Zum Schutz Ihrer Daten setzen wir bei der Implementierung auf die Lösung „Shariff“. Hierdurch werden diese Buttons auf unserer Seite lediglich als statische Grafik eingebunden, die eine Verlinkung auf die entsprechende Website des Anbieters enthält. Durch das Anklicken der Grafik werden Sie somit zu der Website des jeweiligen Anbieters weitergeleitet, genauso wie es auch bei normalen Links funktioniert. Erst beim Aufruf der Website des Anbieters erhält dieser Informationen über Sie, wie zum Beispiel Ihre IP-Adresse. Sofern Sie die Button-Grafiken nicht anklicken, findet keinerlei Datenaustausch statt. Informationen über die Erhebung und Verwendung Ihrer Daten in den sozialen Netzwerken finden Sie in den jeweiligen Nutzungsbedingungen der entsprechenden Anbieter. Mehr Informationen über das Plugin und zur Shariff-Lösung finden Sie hier: <a href=\"https://de.wordpress.org/plugins/shariff/\">https://de.wordpress.org/plugins/shariff/</a>\n"
+"\n"
+"Wir bieten auf unserer Website Buttons für die folgenden Dienste / Unternehmen an: AddThis, Diaspora, Facebook, Flattr, Flipboard, LinkedIn, Mix, Odnoklassniki, Patreon, PayPal, Pinterest, Pocket, Qzone, Reddit, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing."
+
+#: admin/admin-menu.php:2367
+msgid "Product"
+msgstr "Produkt"
+
+#: admin/admin-menu.php:1206
+msgid "Same rules as for the default headline. Leave empty to keep the same headline in all cases."
+msgstr "Die gleichen Regeln wie für die Standardüberschrift. Leer lassen, um überall die gleiche Überschrift beizubehalten."
+
+#: admin/admin-menu.php:1204
+msgid "Be the first one to share this post!"
+msgstr "Sei der Erste, der diesen Beitrag teilt!"
+
+#: admin/admin-menu.php:968
+msgid "Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more hooks."
+msgstr "Verwende das Pipe-Zeichen | (Alt Gr + &lt; oder &#8997; + 7) als Trennzeichen zwischen den Hooks."
+
+#: admin/admin-menu.php:967
+msgid "some_custom_wordpress_hook|some_other_custom_wordpress_hook"
+msgstr "irgendein_benutzerdefinierter_WordPress_Hook|irgendein_anderer_benutzerdefinierter_WordPress_Hook"
+
+#: admin/admin-menu.php:232
+msgid "Alternative headline, if share counts are zero:"
+msgstr "Alternative Überschrift, wenn die Anzahl der Teilungen null ist:"
+
+#: admin/admin-menu.php:133
+msgid "Automatically set button language based on locale (e.g. set by WPML)."
+msgstr "Automatische Einstellung der Button-Sprache basierend auf dem Gebietsschema (z.&nbsp;B. durch WPML festgelegt)."
+
+#: admin/admin-menu.php:124
+msgid "Default button language:"
+msgstr "Standard-Button-Sprache:"
+
+#: admin/admin-menu.php:111
+msgid "Use the following shortcode for the custom hooks:"
+msgstr "Verwende den folgenden Shortcode für die Hooks:"
+
+#: admin/admin-menu.php:108
+msgid "Add Shariff to the following custom WordPress hooks:"
+msgstr "Die Shariff-Buttons zu den folgenden WordPress-Hooks hinzufügen:"
+
+#: admin/admin-menu.php:1821
+msgid "Adds a custom class to the container around Shariff."
+msgstr "Fügt eine individuelle Klasse zum Container um Shariff hinzu."
+
+#: admin/admin-menu.php:1813
+msgid "Adds custom style attributes to the container around Shariff."
+msgstr "Fügt individuelle Style-Attribute zum Container um Shariff hinzu."
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins-wp/shariff/"
+msgstr "https://de.wordpress.org/plugins-wp/shariff/"
+
+#: shariff.php:208
+msgid "Timestamp of the last update of the post. Used for dynamic cache lifespan."
+msgstr "Der Zeitstempel der letzten Beitragsaktualisierung. Dieser wird für die dynamische Cache-Lebensdauer verwendet."
+
+#: shariff.php:204
+msgid "A list of services separated by |. Example: twitter|facebook|xing"
+msgstr "Eine Liste mit Dienste durch | getrennt. Beispiel: twitter|facebook|xing"
+
+#: shariff.php:199
+msgid "URL of the post or page to request share counts for."
+msgstr "URL des Beitrags oder der Seite, für die Share Counts abgefragt werden sollen."
+
+#: includes/class-shariff-widget.php:57 includes/class-shariff-widget.php:61
+msgid "(optional)"
+msgstr "(optional)"
+
+#. Translators: %s will be replaced with the correct URL to the local Shariff
+#. Settings page and tab.
+#: admin/admin-notices.php:43
+msgid "Please check your <a href=\"%s\">Shariff Settings</a>!"
+msgstr "Bitte überprüfe deine <a href=\"%s\">Shariff-Einstellungen</a>!"
+
+#: admin/admin-metabox.php:77
+msgid "Add buttons after this content."
+msgstr "Buttons nach dem Inhalt einfügen."
+
+#: admin/admin-menu.php:2252
+msgid "Page"
+msgstr "Seite"
+
+#: admin/admin-menu.php:1885
+msgid "Sets a custom text for the info button."
+msgstr "Legt einen individuelle Text für den Alt-Text des Info-Buttons fest."
+
+#: admin/admin-menu.php:1884
+msgid "My custom text."
+msgstr "Mein eigener Text."
+
+#. Translators: %s will be replaced with the correct URL to the wordpress.org
+#. review page.
+#: admin/admin-menu.php:1687
+msgid "If you enjoy our plugin, please consider writing a review about it on <a href=\"%s\" target=\"_blank\">wordpress.org</a>."
+msgstr "Wenn dir unser Plugin gefällt, würden wir uns über eine Bewertung auf <a href=\"%s\" target=\"_blank\">wordpress.org</a> freuen."
+
+#. Translators: %s will be replaced with the correct URL to the authors twitter
+#. account.
+#: admin/admin-menu.php:1671
+msgid "You can also follow <a href=\"%s\" target=_blank\">@jplambeck</a> on Twitter."
+msgstr "Du kannst auch <a href=\"%s\" target=_blank\">@jplambeck</a> auf Twitter folgen."
+
+#. Translators: %1$s and %2$s will be replaced with the correct URLs to FAQ and
+#. the forum on wordpress.org.
+#: admin/admin-menu.php:1654
+msgid "If you need any help with the plugin, take a look at the <a href=\"%1$s\" target=\"_blank\">Frequently Asked Questions (FAQ)</a> and the <a href=\"%2$s\" target=\"_blank\">Support Forum</a> on wordpress.org. "
+msgstr "Bei Problemen, Fragen und Anregungen wirf einen Blick in die <a href=\"%1$s\" target=\"_blank\">Frequently Asked Questions (FAQ)</a> und das <a href=\"%2$s\" target=\"_blank\">Support-Forum</a>."
+
+#. Translators: %s will be replaced with the correct URL to the German computer
+#. magazine.
+#: admin/admin-menu.php:1640
+msgid "It is based on the original Shariff buttons developed by the German computer magazine <a href=\"%s\" target=\"_blank\">c't</a> that are compliant to the General Data Protection Regulation (GDPR) (Regulation (EU) 2016/679)."
+msgstr "Es basiert auf den original Shariff-Buttons, die vom Computermagazin <a href=\"%s\" target=\"_blank\">c't</a> entwickelt wurden, die den strengen Regeln der europäischen Datenschutzgrundverordnung (DSGVO) folgen (Verordnung (EU) 2016/679)."
+
+#. Translators: %1$s and %2$s will be replaced with the correct URLs to the
+#. authors websites.
+#: admin/admin-menu.php:1625
+msgid "The WordPress plugin \"Shariff Wrapper\" has been developed by <a href=\"%1$s\" target=\"_blank\">Jan-Peter Lambeck</a> and  <a href=\"%2$s\" target=\"_blank\">3UU</a> in order to help protect the privacy of your visitors. "
+msgstr "Das WordPress-Plugin „Shariff Wrapper“ wurde von <a href=\"%1$s\" target=\"_blank\">Jan-Peter Lambeck</a> und <a href=\"%2$s\" target=\"_blank\">3UU</a> entwickelt, um die Privatsphäre von Webseitenbesuchern zu schützen."
+
+#: admin/admin-menu.php:1437
+msgid "You entered an external API and chose to call it directly! Therefore, all options and features (e.g. the ranking tab) regarding the statistic have no effect. You need to configure them on the external server. Remember: This feature is still experimental!"
+msgstr "Es wurde eine externe API angegeben und ausgewählt, diese direkt abzurufen! Daher haben viele Optionen und Funktionen (z.B. der Ranglisten-Tab) auf dieser Seite keinen Effekt. Diese müssen auf dem externen Server eingestellt werden. Zur Erinnerung: Diese Funktion ist noch experimentell!"
+
+#: admin/admin-menu.php:1435
+msgid "Warning: "
+msgstr "Warnung: "
+
+#: admin/admin-menu.php:1302 admin/admin-menu.php:1883
+msgid "More information about these buttons."
+msgstr "Weitere Informationen zu diesen Buttons."
+
+#: admin/admin-menu.php:1262
+msgid "This configures the advanced options of Shariff regarding specific services. "
+msgstr "Dies konfiguriert die erweiterten Optionen von Shariff in Bezug auf bestimmte Dienste. "
+
+#. Translators: %s will be replaced with the correct URL to the wordpress.org
+#. support forum.
+#: admin/admin-menu.php:996 admin/admin-menu.php:1269
+msgid "You should also check out the <a href=\"%s\" target=\"_blank\">Support Forum</a>. "
+msgstr "Du kannst auch das <a href=\"%s\" target=\"_blank\">Support-Forum</a> aufsuchen."
+
+#. Translators: %s will be replaced with the correct URL to the help section.
+#: admin/admin-menu.php:992 admin/admin-menu.php:1265
+msgid "For more information please take a look at the <a href=\"%s\">Help Section</a>. "
+msgstr " Weitere Informationen findest du im <a href=\"%s\">Hilfeabschnitt</a>. "
+
+#: admin/admin-menu.php:989
+msgid "This configures the default design of the Shariff buttons. Most options can be overwritten for single posts or pages with the options within the [shariff] shorttag. "
+msgstr "Im Folgenden wird das Standarddesign der Shariff-Buttons festgelegt. Die meisten Einstellungen können in einzelnen Beiträgen und auf Seiten mit dem Shorttag [shariff] überschrieben werden."
+
+#: admin/admin-menu.php:389
+msgid "Disable the metabox."
+msgstr "Deaktiviere die Metabox."
+
+#: admin/admin-menu.php:299
+msgid "Custom text for the info button:"
+msgstr "Individueller Alt-Text für den Info-Button."
+
+#: admin/admin-metabox.php:101
+msgid "Do not affect buttons in widgets."
+msgstr "Keine Buttons in Widgets beeinflussen."
+
+#: admin/admin-metabox.php:95
+msgid "Ignore Widgets"
+msgstr "Widgets ignorieren"
+
+#: admin/admin-metabox.php:89
+msgid "The settings in this shortcode field overwrite ALL global settings."
+msgstr "Die Einstellungen in diesem Shortcode-Feld überschreiben ALLE globalen Einstellungen."
+
+#: admin/admin-metabox.php:89
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: admin/admin-metabox.php:83
+msgid "The complete url to your desired custom image for Pinterest."
+msgstr "Die vollständige URL zum gewünschten individuellen Pinterest-Bild."
+
+#: admin/admin-metabox.php:83
+msgid "Pinterest Image"
+msgstr "Pinterest-Bild"
+
+#: admin/admin-metabox.php:70
+msgid "Add buttons before this content."
+msgstr "Buttons vor diesem Inhalt einfügen."
+
+#: admin/admin-metabox.php:63
+msgid "Add Shariff"
+msgstr "Shariff hinzufügen"
+
+#: admin/admin-metabox.php:57
+msgid "Disable Shariff for this content."
+msgstr "Shariff für diesen Inhalt deaktivieren."
+
+#: admin/admin-metabox.php:51
+msgid "Disable Shariff"
+msgstr "Shariff deaktivieren"
+
+#: admin/admin-menu.php:1909
+msgid "Provides the time the current post or page was last modified as a timestamp. Used for determining the dynamic cache lifespan. Only for special use cases."
+msgstr "Stelle den Zeitpunkt, an dem der aktuelle Beitrag oder die Seite zuletzt geändert wurde, als Zeitstempel (timestamp) zur Verfügung."
+
+#: admin/admin-menu.php:1907
+msgid "The timestamp of the last modification of the current post or page."
+msgstr "Zeitstempel (timestamp) der letzten Änderung des aktuellen Beitrags oder Seite."
+
+#: admin/admin-menu.php:1741
+msgid "Determines the button size regardless of theme choice."
+msgstr "Legt die Buttongröße unabhängig vom gewählten Theme fest."
+
+#: admin/admin-menu.php:1086
+msgid "large"
+msgstr "groß"
+
+#: admin/admin-menu.php:1085
+msgid "medium"
+msgstr "mittel"
+
+#: admin/admin-menu.php:1084
+msgid "small"
+msgstr "klein"
+
+#: admin/admin-menu.php:483
+msgid "Disable the dynamic cache lifespan (not recommended)."
+msgstr "Die dynamische Cache-Lebensdauer deaktivieren (nicht empfohlen)."
+
+#: admin/admin-menu.php:429
+msgid "Hide share counts when they are zero."
+msgstr "Zähler (Share Counts) verstecken, wenn sie null sind."
+
+#: admin/admin-menu.php:268
+msgid "Open links in a popup (requires JavaScript)."
+msgstr "Links in einem Popup öffnen (erfordert JavaScript)."
+
+#: admin/admin-menu.php:250
+msgid "Custom CSS <u>class</u> for the container <u>around</u> Shariff:"
+msgstr "Individuelle CSS-<u>Klasse</u> für den Container <u>um</u> Shariff:"
+
+#: admin/admin-menu.php:241
+msgid "Custom CSS <u>attributes</u> for the container <u>around</u> Shariff:"
+msgstr "Individuelle CSS-<u>Attribute</u> für den Container <u>um</u> Shariff:"
+
+#: admin/admin-menu.php:151
+msgid "Button size:"
+msgstr "Button-Größe:"
+
+#. Translators: %s will be replaced with a service name e.g. Twitter.
+#: admin/admin-notices.php:46
+msgid "%s has been selected as a service, but no username, ID or address has been provided! Please enter the required information on the advanced tab!"
+msgstr "%s wurde als Dienst ausgewählt. Es wurde jedoch keine ID, Adresse oder Benutzername angegeben. Bitte ergänze die notwendigen Angaben unter dem Tab „Erweitert“."
+
+#: admin/admin-metabox.php:30
+msgid "Shariff Settings"
+msgstr "Shariff-Einstellungen"
+
+#: admin/admin-menu.php:101
+msgid "Disable the Shariff buttons outside of the main loop."
+msgstr "Shariff-Buttons außerhalb der Hauptschleife deaktivieren."
+
+#: shariff.php:541
+msgid "Once weekly"
+msgstr "Einmal wöchentlich"
+
+#: admin/admin-menu.php:1773
+msgid "Sets a custom secondary color for all buttons (hexadecimal). The secondary color is, depending on theme, used for hover effects."
+msgstr "Legt die individuelle Sekundärfarbe für alle Buttons fest (hexadezimal). Die Sekundärfarbe wird, je nach Theme, für Hover-Effekte verwendet."
+
+#: admin/admin-menu.php:1765
+msgid "Sets a custom main color for all buttons (hexadecimal)."
+msgstr "Legt die individuelle Hauptfarbe für alle Buttons fest (hexadezimal)."
+
+#: admin/admin-menu.php:1757
+msgid "Sets the border radius for the round theme. 1 essentially equals a square."
+msgstr "Legt den Radius (border-radius) für das runde Theme fest. 1 entspricht einem Quadrat."
+
+#: admin/admin-menu.php:465
+msgid "Number of posts on ranking tab:"
+msgstr "Anzahl an Beiträgen auf dem Ranglisten-Reiter:"
+
+#: admin/admin-menu.php:456
+msgid "Fill cache automatically."
+msgstr "Den Cache automatisch befüllen."
+
+#: admin/admin-menu.php:259
+msgid "Hide buttons until page is fully loaded."
+msgstr "Buttons verstecken, bis die Seite vollständig geladen wurde."
+
+#: admin/admin-menu.php:187
+msgid "Custom secondary color for <b>all</b> buttons (hexadecimal):"
+msgstr "Individuelle Sekundärfarbe für <b>alle</b> Buttons (hexadezimal):"
+
+#: admin/admin-menu.php:178
+msgid "Custom main color for <b>all</b> buttons (hexadecimal):"
+msgstr "Individuelle Hauptfarbe für <b>alle</b> Buttons (hexadezimal):"
+
+#: admin/admin-menu.php:169
+msgid "Border radius for the round theme (1-50):"
+msgstr "Individueller Radius (border-radius) für das runde Theme (1-50):"
+
+#: admin/admin-menu.php:519
+msgid "Local API not reachable in root."
+msgstr "Lokale API nicht über das Stammverzeichnis erreichbar."
+
+#. Author of the plugin
+msgid "Jan-Peter Lambeck & 3UU"
+msgstr "Jan-Peter Lambeck & 3UU"
+
+#. Description of the plugin
+msgid "Shariff provides share buttons that respect the privacy of your visitors and follow the General Data Protection Regulation (GDPR)."
+msgstr "Shariff stellt Teilen-Buttons bereit, die die Privatsphäre der Besucher schützen und im Einklang mit der Datenschutzgrundverordnung (DSGVO) stehen."
+
+#. Author URI of the plugin
+msgid "https://wordpress.org/plugins/shariff/"
+msgstr "https://wordpress.org/plugins/shariff/ "
+
+#. Plugin Name of the plugin
+msgid "Shariff Wrapper"
+msgstr "Shariff Wrapper"
+
+#: includes/class-shariff-widget.php:55
+msgid "Title"
+msgstr "Titel"
+
+#: includes/class-shariff-widget.php:30
+msgid "Add Shariff as configured on the plugin options page."
+msgstr "Fügt die Shariff-Buttons mit den Einstellungen aus dem Plugin-Menü ein."
+
+#: shariff.php:1542
+msgid "Address for Bitcoin is missing!"
+msgstr "Adresse für Bitcoin fehlt!"
+
+#: shariff.php:1538
+msgid "PayPal.Me ID is missing!"
+msgstr "PayPal.Me ID fehlt!"
+
+#: shariff.php:1534
+msgid "Button ID for PayPal is missing!"
+msgstr "Button-ID für PayPal fehlt!"
+
+#: shariff.php:1530
+msgid "Username for patreon is missing!"
+msgstr "Benutzername für Patreon fehlt!"
+
+#: shariff.php:173
+msgid "Support Forum"
+msgstr "Support-Forum"
+
+#: shariff.php:173
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: admin/admin-menu.php:2459
+msgid "Help"
+msgstr "Hilfe"
+
+#: admin/admin-menu.php:2447
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: admin/admin-menu.php:2441
+msgid "Design"
+msgstr "Design"
+
+#: admin/admin-menu.php:2435
+msgid "Basic"
+msgstr "Basis"
+
+#: admin/admin-menu.php:2144 admin/admin-menu.php:2258
+#: admin/admin-menu.php:2373
+msgid "Total"
+msgstr "Gesamt"
+
+#: admin/admin-menu.php:2140 admin/admin-menu.php:2254
+#: admin/admin-menu.php:2369
+msgid "Time"
+msgstr "Zeit"
+
+#: admin/admin-menu.php:2139 admin/admin-menu.php:2253
+#: admin/admin-menu.php:2368
+msgid "Date"
+msgstr "Datum"
+
+#: admin/admin-menu.php:2138
+msgid "Post"
+msgstr "Beitrag"
+
+#: admin/admin-menu.php:2137 admin/admin-menu.php:2251
+#: admin/admin-menu.php:2366
+msgid "Rank"
+msgstr "Rang"
+
+#: admin/admin-menu.php:2129 admin/admin-menu.php:2243
+#: admin/admin-menu.php:2357
+msgid "The statistic option has been disabled on the statistic tab. Share counts will not get updated!"
+msgstr "Die Statistik-Option wurde unter dem Statistik-Tab deaktiviert. Die Zählerstände werden nicht aktualisiert!"
+
+#: admin/admin-menu.php:2127 admin/admin-menu.php:2241
+#: admin/admin-menu.php:2355
+msgid "Warning:"
+msgstr "Warnung:"
+
+#: admin/admin-menu.php:2120
+msgid "The following tables shows the ranking of your last 100 posts, pages and, if applicable, products in descending order by total share counts. To prevent slow loading times only cached data is being used. Therefore, you may see blank entries for posts that have not been visited by anyone since the last update or activation of Shariff Wrapper. You can simply visit the respective post yourself in order to have the share counts fetched."
+msgstr "Die nachfolgende Tabelle zeigt die Rangliste der letzten 100 Beiträge, Seiten und, falls verfügbar, Produkte. Die Einträge sind absteigend nach der Gesamtanzahl an Teilungen sortiert. Um lange Ladezeiten zu vermeiden werden nur im Cache gespeicherte Daten verwendet. Daher können Angaben fehlen, wenn niemand seit der letzten Aktualisierung oder der letzten Aktivierung des Shariff Wrappers den betreffenden Beitrag besucht hat. Es reicht in diesem Fall aus, selbst den jeweiligen Beitrag aufzurufen, um die Abfrage der Zählerstände anzustoßen."
+
+#: admin/admin-menu.php:2035
+msgid "The GD Library is not installed on this server. This is only needed for the QR codes, if your are using the bitcoin button."
+msgstr "Die GD-Library ist auf diesem Server nicht installiert. Diese wird nur für die QR-Codes benötigt, wenn der Bitcoin-Button verwendet wird."
+
+#: admin/admin-menu.php:2021
+msgid "GD Library:"
+msgstr "GD-Library:"
+
+#: admin/admin-menu.php:2004
+msgid "Service didn't respond in less than five seconds."
+msgstr "Dienst hat nicht innerhalb von fünf Sekunden geantwortet."
+
+#: admin/admin-menu.php:2000
+msgid "Share Count:"
+msgstr "Share Count:"
+
+#: admin/admin-menu.php:1978
+msgid "One or more services didn't respond in less than five seconds."
+msgstr "Einer oder mehrere Dienste haben nicht innerhalb von fünf Sekunden geantwortet."
+
+#: admin/admin-menu.php:1977 admin/admin-menu.php:2002
+msgid "Timeout"
+msgstr "Zeitüberschreitung"
+
+#: admin/admin-menu.php:1975
+msgid "One or more services reported an error."
+msgstr "Einer oder mehrere Dienste erzeugten eine Fehlermeldung."
+
+#: admin/admin-menu.php:1974 admin/admin-menu.php:2007
+#: admin/admin-menu.php:2034
+msgid "Error"
+msgstr "Fehler"
+
+#: admin/admin-menu.php:1972
+msgid "No error messages."
+msgstr "Keine Fehlermeldungen."
+
+#: admin/admin-menu.php:1971 admin/admin-menu.php:1999
+#: admin/admin-menu.php:2027
+msgid "OK"
+msgstr "OK"
+
+#: admin/admin-menu.php:1941 admin/admin-menu.php:1995
+msgid "Disabled"
+msgstr "Deaktiviert"
+
+#: admin/admin-menu.php:1935
+msgid "Statistic:"
+msgstr "Statistik:"
+
+#: admin/admin-menu.php:1917
+msgid "Changes the RSS feed url to another feed."
+msgstr "Ändert die Feed-URL für den RSS-Button."
+
+#: admin/admin-menu.php:1901
+msgid "Changes the title to share. Only for special use cases."
+msgstr "Legt den Titel zum Teilen fest. Nur für spezielle Umstände."
+
+#: admin/admin-menu.php:1900
+msgid "My Post Title"
+msgstr "Mein Beitragstitel"
+
+#: admin/admin-menu.php:1899
+msgid "The title of the current post or page."
+msgstr "Der Titel des aktuellen Beitrags oder der Seite."
+
+#: admin/admin-menu.php:1893
+msgid "Changes the url to share. Only for special use cases."
+msgstr "Legt die URL zum Teilen fest. Nur für spezielle Umstände."
+
+#: admin/admin-menu.php:1891
+msgid "The url of the current post or page."
+msgstr "Die URL des aktuellen Beitrags oder der Seite."
+
+#: admin/admin-menu.php:1877
+msgid "Sets a custom link for the info button."
+msgstr "Legt einen individuellen Link für den Info-Button fest."
+
+#: admin/admin-menu.php:1869
+msgid "Determines the default image to share for Pinterest, if no other usable image is found."
+msgstr "Legt das Standardbild zum Teilen für Pinterest fest, wenn kein anderes Bild gefunden wird."
+
+#: admin/admin-menu.php:1867
+msgid "The post featured image or the first image of the post."
+msgstr "Das Beitragsbild oder das erste Bild des Beitrags."
+
+#: admin/admin-menu.php:1861
+msgid "Sets the bitcoin address."
+msgstr "Legt die Bitcoin-Adresse fest."
+
+#: admin/admin-menu.php:1853
+msgid "Sets the PayPal.Me ID. Default amount can be added with a / e.g. name/25."
+msgstr "Legt die PayPal.Me ID fest. Standard Betrag kann mit einem / angehängt werden. Zum Beispiel: Name/25."
+
+#: admin/admin-menu.php:1845
+msgid "Sets the PayPal hosted button ID."
+msgstr "Legt die PayPal Hosted-Button-ID fest."
+
+#: admin/admin-menu.php:1837
+msgid "Sets the Patreon username."
+msgstr "Legt den Patreon-Benutzernamen fest."
+
+#: admin/admin-menu.php:1829
+msgid "Sets the Twitter via tag."
+msgstr "Bestimmt den Twitter-via-Tag."
+
+#: admin/admin-menu.php:1805
+msgid "Adds a headline above the Shariff buttons. Basic HTML as well as style and class attributes can be used. To remove a headline set on the plugins options page use headline=\"\"."
+msgstr "Fügt eine Überschrift zu den Shariff-Buttons hinzu. Basis-HTML sowie style- und class-Attribute dürfen verwendet werden. Um eine Überschrift, die in den Plugin-Einstellungen gesetzt wurde, bei einzelnen Widgets zu entfernen, kann headline=\"\" verwendet werden"
+
+#: admin/admin-menu.php:1804
+msgid "Please share this post"
+msgstr "Bitte teile diesen Beitrag"
+
+#: admin/admin-menu.php:1797
+msgid "Changes the language of the share buttons."
+msgstr "Stellt die Sprache der Shariff-Buttons ein."
+
+#: admin/admin-menu.php:1795
+msgid "Automatically selected by browser."
+msgstr "Automatisch durch den Browser bestimmt."
+
+#: admin/admin-menu.php:1789
+msgid "Changes the horizontal alignment of the buttons. flex-start means left, center is obvious and flex-end means right."
+msgstr "Verändert die horizontale Ausrichtung der Buttons. flex-start bedeutet linksbündig, center ist selbsterklärend und flex-end bedeutet rechtsbündig."
+
+#: admin/admin-menu.php:1781
+msgid "Changes the orientation of the buttons."
+msgstr "Verändert die Anordnung der Shariff-Buttons."
+
+#: admin/admin-menu.php:1733
+msgid "Determines the main design of the buttons."
+msgstr "Legt das Hauptdesign der Shariff-Buttons fest."
+
+#: admin/admin-menu.php:1725
+msgid "Enables share counts on the buttons."
+msgstr "Aktiviert die Statistik (share counts) in den Shariff-Buttons."
+
+#: admin/admin-menu.php:1717
+msgid "Determines which buttons to show and in which order."
+msgstr "Legt fest, welche Buttons benutzt werden sollen und in welcher Reihenfolge."
+
+#: admin/admin-menu.php:1709
+msgid "Description"
+msgstr "Beschreibung"
+
+#: admin/admin-menu.php:1708
+msgid "Example"
+msgstr "Beispiel"
+
+#: admin/admin-menu.php:1707
+msgid "Default"
+msgstr "Standard"
+
+#: admin/admin-menu.php:1706
+msgid "Options"
+msgstr "Optionen"
+
+#: admin/admin-menu.php:1705
+msgid "Name"
+msgstr "Name"
+
+#: admin/admin-menu.php:1699
+msgid "This is a list of all available options for the <code>[shariff]</code> shortcode:"
+msgstr "Dies ist eine Liste mit allen verfügbaren Optionen für den <code>[shariff]</code> Shortcode:"
+
+#: admin/admin-menu.php:1603
+msgid "Please check, if you have correctly set the Access-Control-Allow-Origin header!"
+msgstr "Bitte überprüfe, ob der Access-Control-Allow-Origin-Header korrekt gesetzt wurde!"
+
+#: admin/admin-menu.php:1591
+msgid "Please check, if you have to add this domain to the array $SHARIFF_FRONTENDS on the external server."
+msgstr "Bitte überprüfe, ob diese Domain zum Array $SHARIFF_FRONTENDS auf dem externen Server hinzugefügt werden muss."
+
+#: admin/admin-menu.php:1583
+msgid "Warning: This is an experimental feature. Please read the <a href=\"https://wordpress.org/plugins/shariff/faq/\" target=\"_blank\">Frequently Asked Questions (FAQ)</a>."
+msgstr "Warnung: Dies ist eine experimentelle Funktion. Bitte lies die <a href=\"https://de.wordpress.org/plugins/shariff/#faq\" target=\"_blank\">Häufig gestellten Fragen (FAQ)</a>."
+
+#: admin/admin-menu.php:1470
+msgid "Warning: The statistic functionality must be enabled in order for the share counts to be shown."
+msgstr "Warnung: Die Statistik-Funktionalität muss aktiviert sein, damit die Zählerstände angezeigt werden können."
+
+#: admin/admin-menu.php:1449
+msgid "WordPress-Version 4.4 or better is required to enable the statistic / share count functionality."
+msgstr "WordPress-Version 4.4 oder neuer wird benötigt, um die Statistik- / Zähler-Funktionalität zu aktivieren."
+
+#: admin/admin-menu.php:1430
+msgid "This determines how share counts are handled by Shariff."
+msgstr "Diese Einstellungen bestimmen, wie Shariff mit den sogenannten „Share Counts“ umgeht."
+
+#: admin/admin-menu.php:1410
+msgid "Warning: DO NOT change this unless you know what you are doing or have been told so by the plugin author!"
+msgstr "Warnung: NICHT verändern, außer die Konsequenzen sind bekannt oder ein Plugin-Autor hat dazu aufgefordert!"
+
+#: admin/admin-metabox.php:41 admin/admin-metabox.php:84
+#: admin/admin-menu.php:35 admin/admin-menu.php:1386
+msgid "Choose image"
+msgstr "Bild wählen"
+
+#: admin/admin-menu.php:1350
+msgid "name"
+msgstr "Name"
+
+#: admin/admin-menu.php:1314 admin/admin-menu.php:1326
+msgid "username"
+msgstr "Benutzername"
+
+#: admin/admin-menu.php:1219 admin/admin-menu.php:1231
+msgid "More information in the FAQ."
+msgstr "Mehr Informationen in der FAQ."
+
+#: admin/admin-menu.php:1191
+msgid "Already shared %total times!"
+msgstr "Bereits %total Mal geteilt!"
+
+#: admin/admin-menu.php:1189
+msgid "Example:"
+msgstr "Beispiel:"
+
+#: admin/admin-menu.php:1187
+msgid "Basic HTML as well as style and class attributes are allowed. You can use %total to show the total amount of shares."
+msgstr "Basis-HTML sowie style- und class-Attribute sind erlaubt. Mittels %total kann die Gesamtanzahl an Shares angezeigt werden."
+
+#: admin/admin-menu.php:1185
+msgid "Share this post"
+msgstr "Teile diesen Beitrag"
+
+#: admin/admin-menu.php:1160 admin/admin-menu.php:1173
+msgid "right"
+msgstr "rechts"
+
+#: admin/admin-menu.php:1159 admin/admin-menu.php:1172
+msgid "center"
+msgstr "zentriert"
+
+#: admin/admin-menu.php:1158 admin/admin-menu.php:1171
+msgid "left"
+msgstr "links"
+
+#: admin/admin-menu.php:866 admin/admin-menu.php:916
+msgid "Excerpts"
+msgstr "Textauszügen (Excerpts)"
+
+#: admin/admin-menu.php:859 admin/admin-menu.php:909
+msgid "Pages"
+msgstr "Seiten"
+
+#: admin/admin-menu.php:852 admin/admin-menu.php:902
+msgid "Posts (blog page)"
+msgstr "Beiträgen (Blogseite)"
+
+#: admin/admin-menu.php:845 admin/admin-menu.php:895
+msgid "Posts"
+msgstr "Beiträgen"
+
+#: admin/admin-menu.php:833
+msgid "Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services."
+msgstr "Verwende das Pipe-Zeichen | (Alt Gr + &lt; oder &#8997; + 7) als Trennzeichen zwischen den Diensten. "
+
+#: admin/admin-menu.php:817
+msgid "Select the desired services in the order you want them to be displayed and where the Shariff buttons should be included automatically."
+msgstr "Wähle die zu aktivierenden Dienste in der gewünschten Reihenfolge und wo die Shariff-Buttons automatisch eingebunden werden sollen."
+
+#: admin/admin-menu.php:550 admin/admin-menu.php:2471
+msgid "Ranking"
+msgstr "Rangliste"
+
+#: admin/admin-menu.php:540 admin/admin-menu.php:2465
+msgid "Status"
+msgstr "Status"
+
+#: admin/admin-menu.php:530
+msgid "Shariff Help"
+msgstr "Shariff-Hilfe"
+
+#: admin/admin-menu.php:510
+msgid "Request external API directly."
+msgstr "Die externe API direkt kontaktieren."
+
+#: admin/admin-menu.php:501
+msgid "External API for share counts:"
+msgstr "Externe API für die Share Counts:"
+
+#: admin/admin-menu.php:492
+msgid "Disable the following services (share counts only):"
+msgstr "Folgende Dienste deaktivieren (nur Statistik):"
+
+#: admin/admin-menu.php:474
+msgid "Cache TTL in seconds (60 - 7200):"
+msgstr "Cache-Lebensdauer (TTL) in Sekunden (60 - 7200):"
+
+#: admin/admin-menu.php:447
+msgid "Facebook App Secret:"
+msgstr "Facebook App Secret:"
+
+#: admin/admin-menu.php:438
+msgid "Facebook App ID:"
+msgstr "Facebook App ID:"
+
+#: admin/admin-menu.php:420
+msgid "Show share counts on buttons."
+msgstr "Zähler (Share Counts) auf den Buttons anzeigen."
+
+#: admin/admin-menu.php:411
+msgid "Enable statistic."
+msgstr "Die Statistik aktivieren."
+
+#: admin/admin-menu.php:403 admin/admin-menu.php:2453
+msgid "Statistic"
+msgstr "Statistik"
+
+#: admin/admin-menu.php:380
+msgid "Shortcode priority:"
+msgstr "Shortcode-Priorität:"
+
+#: admin/admin-menu.php:362
+msgid "Default image for Pinterest:"
+msgstr "Standardbild für Pinterest:"
+
+#: admin/admin-menu.php:353
+msgid "RSS feed:"
+msgstr "RSS-Feed:"
+
+#: admin/admin-menu.php:344
+msgid "Bitcoin address:"
+msgstr "Bitcoin-Adresse:"
+
+#: admin/admin-menu.php:335
+msgid "PayPal.Me ID:"
+msgstr "PayPal.Me-ID:"
+
+#: admin/admin-menu.php:326
+msgid "PayPal hosted button ID:"
+msgstr "PayPal Hosted-Button-ID:"
+
+#: admin/admin-menu.php:317
+msgid "Patreon username:"
+msgstr "Patreon-Benutzername:"
+
+#: admin/admin-menu.php:308
+msgid "Twitter username for the via tag:"
+msgstr "Twitter-Benutzername für das via-Attribut:"
+
+#: admin/admin-menu.php:290
+msgid "Custom link for the info button:"
+msgstr "Individueller Link für den Info-Button:"
+
+#: admin/admin-menu.php:282
+msgid "Advanced options"
+msgstr "Erweiterte Einstellungen"
+
+#: admin/admin-menu.php:223
+msgid "Headline above all Shariff buttons:"
+msgstr "Überschrift über allen Shariff-Buttons:"
+
+#: admin/admin-menu.php:214
+msgid "Alignment of the Shariff buttons in the widget:"
+msgstr "Ausrichtung der Shariff-Buttons im Widget:"
+
+#: admin/admin-menu.php:205
+msgid "Alignment of the Shariff buttons:"
+msgstr "Ausrichtung der Shariff-Buttons:"
+
+#: admin/admin-menu.php:196
+msgid "Shariff button orientation <b>vertical</b>."
+msgstr "Die Shariff-Buttons <b>vertikal</b> anordnen."
+
+#: admin/admin-menu.php:160 admin/admin-menu.php:1749
+msgid "Stretch buttons horizontally to full width."
+msgstr "Die Buttons horizontal auf die gesamte Breite strecken."
+
+#: admin/admin-menu.php:142
+msgid "Shariff button design:"
+msgstr "Design der Shariff-Buttons:"
+
+#: admin/admin-menu.php:119
+msgid "Design options"
+msgstr "Designoptionen"
+
+#: admin/admin-menu.php:92
+msgid "Disable the Shariff buttons on password protected posts."
+msgstr "Die Buttons bei passwortgeschützten Beiträgen verbergen."
+
+#: admin/admin-menu.php:83
+msgid "Add the Shariff buttons <u>before</u> all:"
+msgstr "Die Shariff-Buttons einfügen <u>vor</u> allen:"
+
+#: admin/admin-menu.php:74
+msgid "Add the Shariff buttons <u>after</u> all:"
+msgstr "Die Shariff-Buttons einfügen <u>nach</u> allen:"
+
+#: admin/admin-menu.php:69
+msgid "Enable the following services in the provided order:"
+msgstr "Folgende Dienste in dieser Reihenfolge aktivieren:"
+
+#: admin/admin-menu.php:63
+msgid "Basic options"
+msgstr "Basiseinstellungen"

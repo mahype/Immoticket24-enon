@@ -1,0 +1,71 @@
+# Translation of Stable (latest release) in German
+# This file is distributed under the same license as the Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2015-11-21 22:48:59+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
+"Project-Id-Version: Stable (latest release)\n"
+
+#: bootstrap-for-contact-form-7.php:193
+msgid "The plugin <em>Bootstrap for Contact Form 7</em> has not been initialized since either <em>Contact Form 7</em> is not active or you are not using a Bootstrap theme."
+msgstr "Das Plugin <em>Bootstrap for Contact Form 7</em> konnte nicht initialisiert werden, da entweder <em>Contact Form 7</em> nicht aktiv ist oder du kein Bootstrap-Theme benutzt."
+
+#: bootstrap-for-contact-form-7.php:195
+msgid "Please make sure the conditions for the plugin are met or deactivate it otherwise."
+msgstr "Bitte stell sicher, dass die Bedingungen für das Plugin erfüllt sind, oder deaktiviere es."
+
+#: modifications.php:259
+msgid "https://wordpress.org/plugins/bootstrap-for-contact-form-7/other_notes/"
+msgstr "https://de.wordpress.org/plugins/bootstrap-for-contact-form-7/other_notes/"
+
+#. Tags of the plugin/theme
+msgid "wordpress, plugin, contact form 7, wpcf7, bootstrap, bootstrap 3, bootstrap framework, addon, contact form 7 addon, contact form, cf7bs, css"
+msgstr "wordpress, plugin, contact form 7, wpcf7, bootstrap, bootstrap 3, bootstrap framework, addon, contact form 7 addon, contact form, cf7bs, css"
+
+#: modifications.php:207
+msgid "Your Name"
+msgstr "Ihr Name"
+
+#: modifications.php:208
+msgid "Your Email"
+msgstr "Ihre Email-Adresse"
+
+#: modifications.php:209
+msgid "Subject"
+msgstr "Betreff"
+
+#: modifications.php:210
+msgid "Your Message"
+msgstr "Ihre Nachricht"
+
+#: modifications.php:211 modules/submit.php:22
+msgid "Send"
+msgstr "Senden"
+
+#: modules/really-simple-captcha.php:22
+msgid "To use CAPTCHA, you need <a href=\"http://wordpress.org/extend/plugins/really-simple-captcha/\">Really Simple CAPTCHA</a> plugin installed."
+msgstr "Um CAPTCHA zu verwenden, müssen Sie das Plugin <a href=\"http://wordpress.org/extend/plugins/really-simple-captcha/\">Really Simple CAPTCHA</a> installieren."
+
+#. Plugin Name of the plugin/theme
+msgid "Bootstrap for Contact Form 7"
+msgstr "Bootstrap for Contact Form 7"
+
+#. Plugin URI of the plugin/theme
+msgid "http://wordpress.org/plugins/bootstrap-for-contact-form-7/"
+msgstr "http://wordpress.org/plugins/bootstrap-for-contact-form-7/"
+
+#. Description of the plugin/theme
+msgid "This plugin modifies the output of the popular Contact Form 7 plugin to be styled in compliance with themes using the Bootstrap CSS framework."
+msgstr "Dieses Plugin verändert die Ausgabe des beliebten Plugins Contact Form 7, sodass diese bei Verwendung eines Bootstrap-Themes automatisch passend gestylt ist."
+
+#. Author of the plugin/theme
+msgid "Felix Arntz"
+msgstr "Felix Arntz"
+
+#. Author URI of the plugin/theme
+msgid "http://leaves-and-love.net"
+msgstr "http://leaves-and-love.net"
