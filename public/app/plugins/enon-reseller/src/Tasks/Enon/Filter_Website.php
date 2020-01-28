@@ -88,7 +88,8 @@ class Filter_Website implements Task, Filters {
 	 * @return string
 	 */
 	public function filter_iframe_url( $url ) {
-		return $this->reseller->create_iframe_url( $url );
+		$url = $this->reseller->data()->website->get_customer_edit_url();
+		return $this->reseller->create_verfied_url( $url );
 	}
 
 	/**

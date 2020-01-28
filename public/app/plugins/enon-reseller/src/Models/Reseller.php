@@ -220,10 +220,8 @@ class Reseller {
 	 */
 	public function create_verfied_url( $url, $energieausweis_id = null ) {
 		$query_args = array(
-			'iframe'       => true,
 			'iframe_token' => $this->data()->general->get_token(),
 			'access_token' => md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true ),
-			'slug' => '',
 		);
 
 		if ( ! empty( $energieausweis_id ) ) {
