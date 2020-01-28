@@ -71,6 +71,7 @@ class Filter_Website implements Task, Filters {
 		add_filter( 'wpenon_filter_url', array( $this, 'filter_iframe_url' ) );
 		add_filter( 'wpenon_payment_success_url', array( $this, 'filter_payment_success_url' ) );
 		add_filter( 'wpenon_payment_failed_url', array( $this, 'filter_payment_failed_url' ) );
+		add_filter( 'wpenon_overview_page_data', array( $this, 'filter_access_link' ), 10, 2 );
 
 		add_filter( 'wpenon_create_privacy_url', array( $this, 'filter_privacy_url' ) );
 
@@ -88,8 +89,7 @@ class Filter_Website implements Task, Filters {
 	 * @return string
 	 */
 	public function filter_iframe_url( $url ) {
-		$url = $this->reseller->data()->website->get_customer_edit_url();
-		return $this->reseller->create_verfied_url( $url );
+		return $this->reseller->create_iframe_url( $url );
 	}
 
 	/**
@@ -123,6 +123,8 @@ class Filter_Website implements Task, Filters {
 	 * @param string $old_url Old url.
 	 *
 	 * @return string
+	 *
+	 * @since 1.0.0
 	 */
 	public function filter_payment_failed_url( $old_url ) {
 		$url = $this->reseller->data()->website->get_payment_failed_url();
@@ -140,6 +142,25 @@ class Filter_Website implements Task, Filters {
 		$url = $this->reseller->create_verfied_url( $url );
 
 		return $url;
+	}
+
+	/**
+	 * Filtering access link
+	 *
+	 * @param array              $data           Data on page overview request.
+	 * @param Energieausweis_Old $energieausweis Energieausweis object.
+	 *
+	 * @return array Filtered data.
+	 *
+	 * @since 1.0.0
+	 */
+	public function filter_access_link( $data, $energieausweis ) {
+		$url = $this->reseller->data()->website->get_customer_edit_url();
+		$url = $this->reseller->create_verfied_url( $url, $energieausweis->id );
+
+		$data['access_link'] = $url;
+
+		return $data;
 	}
 
 	/**
