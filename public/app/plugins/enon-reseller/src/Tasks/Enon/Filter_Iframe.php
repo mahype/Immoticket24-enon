@@ -134,7 +134,7 @@ class Filter_Iframe implements Task, Actions, Filters {
 			return;
 		}
 
-		echo esc_attr( $extra_css );
+		echo $extra_css;
 	}
 
 	/**
@@ -149,6 +149,6 @@ class Filter_Iframe implements Task, Actions, Filters {
 			return;
 		}
 
-		echo esc_attr( $extra_js );
+		echo $extra_js;
 	}
 }
