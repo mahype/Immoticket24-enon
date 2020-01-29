@@ -63,6 +63,19 @@ class Task_Google_Tag_Manager implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public static function head_script() {
+		/**
+		 * Set if tag manager have to be shown.
+		 *
+		 * @param bool True if it have to be shown.
+		 *
+		 * @since 1.0.0
+		 */
+		$show_tag_manager = apply_filters( 'wpenon_show_tag_manager', true );
+
+		if ( ! $show_tag_manager ) {
+			return;
+		}
+
 		?>
 		<!-- Google Tag Manager -->
 		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','<?php echo self::$company_id; ?>');</script>
@@ -76,6 +89,19 @@ class Task_Google_Tag_Manager implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public static function body_script() {
+		/**
+		 * Set if tag manager have to be shown.
+		 *
+		 * @param bool True if it have to be shown.
+		 *
+		 * @since 1.0.0
+		 */
+		$show_tag_manager = apply_filters( 'wpenon_show_tag_manager', true );
+
+		if ( ! $show_tag_manager ) {
+			return;
+		}
+
 		?>
 		<!-- Google Tag Manager (noscript) -->
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo self::$company_id; ?>" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

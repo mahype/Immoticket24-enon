@@ -28,7 +28,7 @@ use WPENON\Model\Energieausweis;
  *
  * @package Enon_Reseller\WordPress
  */
-class Setup_Enon implements Task, Actions {
+class Setup_Enon implements Task, Actions, Filters {
 
 	use Logger_Trait;
 
@@ -58,6 +58,7 @@ class Setup_Enon implements Task, Actions {
 	 */
 	public function run() {
 		$this->add_actions();
+		$this->add_filters();
 	}
 
 	/**
@@ -67,6 +68,16 @@ class Setup_Enon implements Task, Actions {
 	 */
 	public function add_actions() {
 		add_action( 'wpenon_energieausweis_create', array( $this, 'update_reseller_id' ) );
+	}
+
+	/**
+	 * Adding filters.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_filters() {
+		add_filter( 'wpenon_show_tag_manager', '__return_false' );
+		add_filter( 'wpenon_show_uptain_scripts', '__return_false' );
 	}
 
 	/**

@@ -145,6 +145,19 @@ function immoticketenergieausweis_header_image() {
 }
 
 function immoticketenergieausweis_uptain_script() {
+	/**
+	 * Set true uptain scripts have to be shown.
+	 *
+	 * @param bool True if it have to be shown.
+	 *
+	 * @since 1.0.0
+	 */
+	$show_uptain_scripts = apply_filters( 'wpenon_show_uptain_scripts', true );
+
+	if (! $show_uptain_scripts ) {
+		return;
+	}
+
   $email = apply_filters( 'immoticketenergieausweis_uptain_email', '' );
 
   if ( ! empty( $email ) ) {
