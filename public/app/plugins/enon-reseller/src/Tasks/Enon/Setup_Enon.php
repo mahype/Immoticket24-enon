@@ -76,8 +76,9 @@ class Setup_Enon implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'wpenon_show_tag_manager', '__return_false' );
+		add_filter( 'wpenon_show_tag_manager_scripts', '__return_false' );
 		add_filter( 'wpenon_show_uptain_scripts', '__return_false' );
+		add_filter( 'wpenon_show_adcell_scripts', '__return_false' );
 	}
 
 	/**

@@ -260,6 +260,19 @@ function immoticketenergieausweis_trusted_checkout_shortcode( $atts ) {
 add_shortcode( 'trusted_shops_checkout', 'immoticketenergieausweis_trusted_checkout_shortcode' );
 
 function immoticketenergieausweis_adcell_tracking_script() {
+	/**
+	 * Set if adcell scripts have to be shown.
+	 *
+	 * @param bool True if it have to be shown.
+	 *
+	 * @since 1.0.0
+	 */
+	$show_tag_manager = apply_filters( 'wpenon_show_adcell_scripts', true );
+
+	if ( ! $show_tag_manager ) {
+		return;
+	}
+
   $session = edd_get_purchase_session();
   if ( isset( $_GET['payment_key'] ) ) {
     $payment_key = urldecode( $_GET['payment_key'] );
@@ -304,6 +317,19 @@ function immoticketenergieausweis_adcell_tracking_script() {
 add_shortcode( 'adcell_tracking_script', 'immoticketenergieausweis_adcell_tracking_script' );
 
 function immoticketenergieausweis_adcell_retargeting_script() {
+	/**
+	 * Set if adcell scripts have to be shown.
+	 *
+	 * @param bool True if it have to be shown.
+	 *
+	 * @since 1.0.0
+	 */
+	$show_tag_manager = apply_filters( 'wpenon_show_adcell_scripts', true );
+
+	if ( ! $show_tag_manager ) {
+		return;
+	}
+
   $url = 'https://www.adcell.de/js/inlineretarget.js';
   $args = array(
     'pid' => '4408',
