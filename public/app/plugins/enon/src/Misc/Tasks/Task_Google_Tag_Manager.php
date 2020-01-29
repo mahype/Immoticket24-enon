@@ -70,7 +70,7 @@ class Task_Google_Tag_Manager implements Actions, Task {
 		 *
 		 * @since 1.0.0
 		 */
-		$show_tag_manager = apply_filters( 'wpenon_show_tag_manager', true );
+		$show_tag_manager = apply_filters( 'wpenon_show_tag_manager_scripts', true );
 
 		if ( ! $show_tag_manager ) {
 			return;
@@ -96,7 +96,7 @@ class Task_Google_Tag_Manager implements Actions, Task {
 		 *
 		 * @since 1.0.0
 		 */
-		$show_tag_manager = apply_filters( 'wpenon_show_tag_manager', true );
+		$show_tag_manager = apply_filters( 'wpenon_show_tag_manager_scripts', true );
 
 		if ( ! $show_tag_manager ) {
 			return;
