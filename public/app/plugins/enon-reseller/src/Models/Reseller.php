@@ -192,45 +192,28 @@ class Reseller {
 	}
 
 	/**
-	 * Filtering iframe URL.
-	 *
-	 * @param mixed $url Extra query args to add to the URI.
-	 *
-	 * @return string
-	 *
-	 * @since 1.0.0
-	 */
-	public function create_iframe_url( $url ) {
-		$args = array(
-			'iframe_token' => $this->data()->general->get_token(),
-		);
-
-		return add_query_arg( $args, $url );
-	}
-
-	/**
 	 * Adds iframe and energeausweis parameters to url.
 	 *
 	 * @param string $url               URL where parameters have to be added.
-	 * @param int    $energieausweis_id ID of energieausweis.
+	 * @param int    $energieausweis_id ID of energy certificate.
 	 *
 	 * @return string $url               URL with needed parameters.
 	 *
 	 * @since 1.0.0
 	 */
-	public function create_verfied_url( $url, $energieausweis_id = null ) {
-		$query_args = array(
+	public function add_iframe_params( $url, $energieausweis_id = null ) {
+		$args = array(
 			'iframe_token' => $this->data()->general->get_token(),
-			'access_token' => md5( get_post_meta( $energieausweis_id, 'wpenon_email', true ) ) . '-' . get_post_meta( $energieausweis_id, 'wpenon_secret', true ),
 		);
 
+		// If there is an existing energy certificate, get slug and access token.
 		if ( ! empty( $energieausweis_id ) ) {
 			$post = get_post( $energieausweis_id );
 
-			$query_args['access_token'] = ( new Energieausweis( $energieausweis_id ) )->get_access_token();
-			$query_args['slug']         = $post->post_name;
+			$args['access_token'] = ( new Energieausweis( $energieausweis_id ) )->get_access_token();
+			$args['slug']         = $post->post_name;
 		}
 
-		return add_query_arg( $query_args, trailingslashit( $url ) );
+		return add_query_arg( $args, trailingslashit( $url ) );
 	}
 }

@@ -11,7 +11,6 @@
 
 namespace Enon_Reseller\Tasks\Enon;
 
-use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 use Awsm\WP_Wrapper\Tools\Logger_Trait;
@@ -19,7 +18,7 @@ use Awsm\WP_Wrapper\Tools\Logger;
 
 use Enon_Reseller\Models\Reseller;
 
-use WPENON\Model\Energieausweis;
+use WPENON\Model\Energieausweis AS Energieausweis_Old;
 
 /**
  * Class Wpenon.
@@ -69,6 +68,7 @@ class Filter_Website implements Task, Filters {
 	 */
 	public function add_filters() {
 		add_filter( 'wpenon_filter_url', array( $this, 'filter_iframe_url' ) );
+
 		add_filter( 'wpenon_payment_success_url', array( $this, 'filter_payment_success_url' ) );
 		add_filter( 'wpenon_payment_failed_url', array( $this, 'filter_payment_failed_url' ) );
 		add_filter( 'wpenon_overview_page_data', array( $this, 'filter_access_link' ), 10, 2 );
@@ -87,9 +87,11 @@ class Filter_Website implements Task, Filters {
 	 * @param mixed $url Extra query args to add to the URI.
 	 *
 	 * @return string
+	 *
+	 * @since 1.0.0
 	 */
 	public function filter_iframe_url( $url ) {
-		return $this->reseller->create_iframe_url( $url );
+		return $this->reseller->add_iframe_params( $url );
 	}
 
 	/**
@@ -98,11 +100,15 @@ class Filter_Website implements Task, Filters {
 	 * @param string $old_url Old url.
 	 *
 	 * @return string
+	 *
+	 * @since 1.0.0
 	 */
 	public function filter_payment_success_url( $old_url ) {
 		$url = $this->reseller->data()->website->get_payment_successful_url();
 
+		// Backup to standard values.
 		if ( empty( $url ) ) {
+			// Todo: Have to be an option in new settings pages.
 			$payment_successful_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_successful_payment' );
 
 			if ( empty( $payment_successful_page ) ) {
@@ -111,8 +117,6 @@ class Filter_Website implements Task, Filters {
 
 			$url = get_permalink( $payment_successful_page );
 		}
-
-		$url = $this->reseller->create_verfied_url( $url );
 
 		return $url;
 	}
@@ -129,7 +133,9 @@ class Filter_Website implements Task, Filters {
 	public function filter_payment_failed_url( $old_url ) {
 		$url = $this->reseller->data()->website->get_payment_failed_url();
 
+		// Backup to standard values.
 		if ( empty( $url ) ) {
+			// Todo: Have to be an option in new settings pages.
 			$payment_failed_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_failed_payment' );
 
 			if ( empty( $payment_failed_page ) ) {
@@ -139,7 +145,7 @@ class Filter_Website implements Task, Filters {
 			$url = get_permalink( $payment_failed_page );
 		}
 
-		$url = $this->reseller->create_verfied_url( $url );
+		$url = $this->reseller->add_iframe_params( $url );
 
 		return $url;
 	}
@@ -156,7 +162,12 @@ class Filter_Website implements Task, Filters {
 	 */
 	public function filter_access_link( $data, $energieausweis ) {
 		$url = $this->reseller->data()->website->get_customer_edit_url();
-		$url = $this->reseller->create_verfied_url( $url, $energieausweis->id );
+
+		if ( empty( $url ) ) {
+			return $data;
+		}
+
+		$url = $this->reseller->add_iframe_params( $url, $energieausweis->id );
 
 		$data['access_link'] = $url;
 
@@ -169,13 +180,16 @@ class Filter_Website implements Task, Filters {
 	 * @param mixed $url Extra query args to add to the URI.
 	 *
 	 * @return string
+	 *
+	 * @since 1.0.0
 	 */
 	public function filter_privacy_url( $url ) {
-		$privacy_url = $this->reseller->data()->website->get_privacy_url( $url );
+		$privacy_url = $this->reseller->data()->website->get_privacy_url();
 
 		if ( empty( $privacy_url ) ) {
 			return $url;
 		}
+
 		return $privacy_url;
 	}
 }

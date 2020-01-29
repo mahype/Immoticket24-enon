@@ -514,7 +514,7 @@ class Emails {
 		$sender_email    = apply_filters( 'wpenon_bill_sender_email', $sender_email, $energieausweis );
 		$subject         = apply_filters( 'wpenon_bill_subject', $subject, $energieausweis );
 		$content         = apply_filters( 'wpenon_bill_content', $content, $energieausweis );
-		$recipient_email = apply_filters( 'wpenon_bill_to_address', $recipient_email );
+		$recipient_email = apply_filters( 'wpenon_bill_to_address', $recipient_email, $energieausweis );
 
 		$attachments = array();
 		$message     = $this->replace_tags_bill_content( $payment, $energieausweis, $content );

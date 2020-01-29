@@ -17,6 +17,7 @@ use Awsm\WP_Wrapper\Tools\Logger;
 use Awsm\WP_Wrapper\Tools\Logger_Trait;
 
 use Enon_Reseller\Models\Reseller;
+use WPENON\Model\Energieausweis as Energieausweis_Old;
 
 /**
  * Class Filter_Confirmation_Email.
@@ -69,7 +70,7 @@ class Filter_Confirmation_Email implements Task, Filters {
 		add_filter( 'wpenon_confirmation_subject', array( $this, 'filter_subject' ) );
 		add_filter( 'wpenon_confirmation_content', array( $this, 'filter_content' ) );
 
-		add_filter( 'wpenon_confirmation_energieausweis_link', array( $this, 'filter_link' ) );
+		add_filter( 'wpenon_confirmation_energieausweis_link', array( $this, 'filter_link' ), 10, 2 );
 	}
 
 	/**
@@ -154,14 +155,15 @@ class Filter_Confirmation_Email implements Task, Filters {
 	 * Filter link.
 	 *
 	 * @param string $link Link.
+	 * @param Energieausweis_Old $energy_certificate Energy certificate object.
 	 *
 	 * @return string Filtered link.
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_link( $link ) {
+	public function filter_link( $link, $energy_certificate ) {
 		$reseller_link = $this->reseller->data()->website->get_customer_edit_url();
-		$reseller_link = $this->reseller->create_verfied_url( $reseller_link );
+		$reseller_link = $this->reseller->add_iframe_params( $reseller_link, $energy_certificate->id );
 
 		if ( empty( $reseller_link ) ) {
 			return $link;
