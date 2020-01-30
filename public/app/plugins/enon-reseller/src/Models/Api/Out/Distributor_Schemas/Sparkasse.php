@@ -11,9 +11,12 @@
 
 namespace Enon_Reseller\Models\Api\Out\Distributor_Schemas;
 
+use Enon\Edd\Models\Payment;
 use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema;
 
+use Enon\Models\Enon\Energieausweis;
 use WPENON\Model\Energieausweis as Energieausweis_Old;
+use WPENON\Util\PaymentMeta;
 
 /**
  * Class Distributor_Schema
@@ -58,13 +61,35 @@ class Sparkasse implements Distributor_Schema {
 	/**
 	 * Filter data.
 	 *
-	 * @param array $data Data to filter.
+	 * @param array              $estate_data            Estate data.
+	 * @param Energieausweis_Old $energy_certificate_old Energy certificate object.
+	 *
 	 * @return array Filtered data.
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_data( array $data ) : array {
-		$data['sender'] = 'immoticket24'; // Required by Sparkasse Immobilien Heidelberg.
+	public function filter_data( array $estate_data, Energieausweis_Old $energy_certificate_old ) : array {
+		$energy_certificate = new Energieausweis( $energy_certificate_old->id );
+		$payment            = new \Edd_Payment( $energy_certificate->get_payment_id() );
+
+		$customer_data = array(
+			'name' => $payment->first_name . ' ' . $payment->last_name,
+		);
+
+		$estate_address_data = array(
+			'email'              => $energy_certificate_old->wpenon_email,
+			'adresse_strassenr'  => $energy_certificate_old->adresse_strassenr,
+			'adresse_plz'        => $energy_certificate_old->adresse_plz,
+			'adresse_ort'        => $energy_certificate_old->adresse_ort,
+			'adresse_bundesland' => $energy_certificate_old->adresse_bundesland,
+		);
+
+		$data = array(
+			'customer'       => $customer_data,
+			'estate_address' => $estate_address_data,
+			'estate'         => $estate_data,
+			'sender'         => 'immoticket24', // Required by Sparkasse Immobilien Heidelberg.
+		);
 
 		return $data;
 	}
@@ -77,6 +102,6 @@ class Sparkasse implements Distributor_Schema {
 	 * @since 1.0.0
 	 */
 	public function get_endpoint() : string {
-		return 'https://postman-echo.com/post';
+		return 'https://www.immobilienwertanalyse.de/iwapro/import/importData.php';
 	}
 }
