@@ -96,6 +96,23 @@ class Energieausweis {
 	}
 
 	/**
+	 * Get payment id.
+	 *
+	 * @return int Payment id.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_payment_id() {
+		$payment_ids = get_post_meta( $this->id, '_wpenon_attached_payment_id' );
+
+		if ( count( $payment_ids ) < 1 ) {
+			return false;
+		}
+
+		return $payment_ids[0];
+	}
+
+	/**
 	 * Get access token for editing page.
 	 *
 	 * @since 1.0.0
