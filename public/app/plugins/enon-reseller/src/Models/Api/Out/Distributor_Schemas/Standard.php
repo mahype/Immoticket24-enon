@@ -35,12 +35,14 @@ class Standard implements Distributor_Schema {
 	/**
 	 * Filter data.
 	 *
-	 * @param array $data Data to filter.
+	 * @param array              $data               Data to filter.
+	 * @param Energieausweis_Old $energy_certificate Energy certificate object.
+	 *
 	 * @return array Filtered data.
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_data( array $data ) : array {
+	public function filter_data( array $data, Energieausweis_Old $energy_certificate ) : array {
 		return $data;
 	}
 

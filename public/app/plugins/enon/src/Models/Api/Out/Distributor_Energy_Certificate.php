@@ -84,7 +84,7 @@ class Distributor_Energy_Certificate extends Request {
 			$data[ $key ] = $this->energy_certificate->$key;
 		}
 
-		$data = $this->distributor_schema->filter_data( $data );
+		$data = $this->distributor_schema->filter_data( $data, $this->energy_certificate );
 
 		return $data;
 	}

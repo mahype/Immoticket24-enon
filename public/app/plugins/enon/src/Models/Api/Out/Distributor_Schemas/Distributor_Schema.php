@@ -33,13 +33,14 @@ interface Distributor_Schema {
 	/**
 	 * Filter the data which will be sent.
 	 *
-	 * @param array $data Data array of energy certificate.
+	 * @param array              $data               Data array of energy certificate.
+	 * @param Energieausweis_Old $energy_certificate Energy certificate object.
 	 *
 	 * @return array Filtered data.
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_data( array $data ) : array;
+	public function filter_data( array $data, Energieausweis_Old $energy_certificate ) : array;
 
 	/**
 	 * Get endpoint url.
