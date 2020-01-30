@@ -12,7 +12,9 @@
 namespace Enon\Edd\Models;
 
 use Enon\Models\Enon\Energieausweis;
+
 use WPENON\Model\Energieausweis as Energieausweis_Old; // Old and have to be removed later.
+use WPENON\Util\PaymentMeta as Payment_Meta_Old;
 
 /**
  * Class Edd_Payment
@@ -122,8 +124,6 @@ class Payment {
 	/**
 	 * Returns customer.
 	 *
-	 * @param int $payment_id Payment id.
-	 *
 	 * @return \EDD_Customer $customer Edd customer object.
 	 *
 	 * @since 1.0.0
@@ -133,5 +133,16 @@ class Payment {
 		$customer    = new \EDD_Customer( $customer_id );
 
 		return $customer;
+	}
+
+	/**
+	 * Get seller meta.
+	 *
+	 * @return array Seller meta.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_seller_meta() {
+		return Payment_Meta_Old::instance()->getSellerMeta( $this->id );
 	}
 }
