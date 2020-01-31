@@ -134,13 +134,6 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 	 */
 	public function send_data( Energieausweis_Old $energieausweis, int $reseller_id ) {
 		$reseller_data = new Reseller_Data( $reseller_id );
-		$endpoint      = $reseller_data->send_data->get_post_endpoint();
-
-		// Is there an endpoint to send the data? Bail out if not.
-		if ( empty( $endpoint ) ) {
-			$this->logger()->notice( sprintf( 'No endpiont given. No data sent to reseller #%s for energy certificate #%s.', $reseller_id, $energieausweis->id ) );
-			return;
-		}
 
 		$schema_name  = $reseller_data->send_data->get_post_data_config_class();
 		$schema_class = 'Enon_Reseller\\Models\\Api\\Out\\Distributor_Schemas\\' . $schema_name;
@@ -151,7 +144,14 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 			return;
 		}
 
-		$schema      = new $schema_class();
+		$schema   = new $schema_class();
+
+		// Is there an endpoint to send the data? Bail out if not.
+		if ( empty( $schema->get_endpoint() ) ) {
+			$this->logger()->notice( sprintf( 'No endpoint given. No data sent to reseller #%s for energy certificate #%s.', $reseller_id, $energieausweis->id ) );
+			return;
+		}
+
 		$distributor = new Distributor_Energy_Certificate( $schema, $energieausweis, $this->logger() );
 		$distributor->send();
 	}
