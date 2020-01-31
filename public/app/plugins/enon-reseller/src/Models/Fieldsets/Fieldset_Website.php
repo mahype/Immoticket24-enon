@@ -52,6 +52,14 @@ class Fieldset_Website implements Fieldset {
 				'placeholder'  => 'https://',
 			),
 			array(
+				'key'          => 'field_payment_pending_url',
+				'label'        => __( 'Payment pending URL', 'enon' ),
+				'instructions' => __( 'This url will be shown after pending payment.', 'enon' ),
+				'name'         => 'payment_pending_url',
+				'type'         => 'url',
+				'placeholder'  => 'https://',
+			),
+			array(
 				'key'          => 'field_payment_failed_url',
 				'label'        => __( 'Payment failed URL', 'enon' ),
 				'instructions' => __( 'This url will be shown after failed payment.', 'enon' ),

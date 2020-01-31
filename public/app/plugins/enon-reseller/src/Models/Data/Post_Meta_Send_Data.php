@@ -20,17 +20,6 @@ use Enon\WP\Models\Post_Meta;
  */
 class Post_Meta_Send_Data extends Post_Meta {
 	/**
-	 * Get post endpoint.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Post endpoint.
-	 */
-	public function get_post_endpoint() {
-		return $this->get( 'post_endpoint' );
-	}
-
-	/**
 	 * Get post data config class.
 	 *
 	 * @since 1.0.0

@@ -29,15 +29,6 @@ class Fieldset_Send_Data implements Fieldset {
 	public function get() : array {
 		$data = [
 			array(
-				'key'          => 'field_post_endpoint',
-				'label'        => __( 'Endpoint', 'enon' ),
-				'name'         => 'post_endpoint',
-				'type'         => 'url',
-				'instructions' => __( 'URL to send data.', 'enon' ),
-				'required'     => 0,
-				'placeholder'  => 'https://',
-			),
-			array(
 				'key'          => 'field_post_data_config class',
 				'label'        => __( 'Data config class.', 'enon' ),
 				'name'         => 'post_data_config_class',
