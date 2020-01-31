@@ -1145,13 +1145,13 @@ function wpenon_immoticket24_maybe_prevent_completion($val, $payment_id, $new_st
 
 	if ($calculations['qh_e_b'] <= 5.0 || $calculations['qw_e_b'] <= 5.0) {
 		wpenon_immoticket24_send_needs_review_email($payment_id, $energieausweis);
-		// return false;
+		return false;
 	}
 
 	$boundaries = 'v' === $energieausweis->mode ? array(5.0, 250.0) : array(5.0, 400.0);
 	if ($calculations['endenergie'] <= $boundaries[0] || $calculations['endenergie'] >= $boundaries[1]) {
 		wpenon_immoticket24_send_needs_review_email($payment_id, $energieausweis);
-		// return false;
+		return false;
 	}
 
 	return true;
