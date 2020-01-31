@@ -55,7 +55,7 @@ class Token {
 	public function set( $token ) {
 		$this->token = $token;
 
-		$lifespan = time() + 60;
+		$lifespan = time() + 600;
 
 		setcookie( 'iframe_token', $token, $lifespan, '/' );
 	}
