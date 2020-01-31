@@ -172,7 +172,7 @@ abstract class PaymentGateway {
 			'payment-id'           => $payment_id,
 		), get_permalink( edd_get_option( 'success_page', false ) ) );
 
-		return apply_filters( 'wpenon_payment_success_url', $url );
+		return apply_filters( 'wpenon_payment_success_url', $url, $payment_id );
 	}
 
 	protected function _getFailureURL( $payment_id ) {

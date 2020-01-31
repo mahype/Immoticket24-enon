@@ -198,7 +198,7 @@ class EDDAdjustments {
 			// Only send to PayPal if the pending payment is created successfully
 			$listener_url = add_query_arg( 'edd-listener', 'IPN', home_url( 'index.php' ) );
 
-			$success_url = apply_filters( 'wpenon_payment_success_url', get_permalink( edd_get_option( 'success_page', false ) ) );
+			$success_url = apply_filters( 'wpenon_payment_success_url', get_permalink( edd_get_option( 'success_page', false ) ), $payment );
 
 			// Get the success url
 			$return_url = add_query_arg( array(
