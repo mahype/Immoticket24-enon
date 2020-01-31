@@ -69,10 +69,10 @@ class Filter_Website implements Task, Filters {
 	public function add_filters() {
 		add_filter( 'wpenon_filter_url', array( $this, 'filter_iframe_url' ) );
 
-		add_filter( 'wpenon_payment_success_url', array( $this, 'filter_payment_success_url' ) );
+		add_filter( 'wpenon_payment_success_url', array( $this, 'filter_payment_success_url' ), 10, 2 );
 		add_filter( 'wpenon_payment_failed_url', array( $this, 'filter_payment_failed_url' ) );
-		add_filter( 'wpenon_overview_page_data', array( $this, 'filter_access_link' ), 10, 2 );
 
+		add_filter( 'wpenon_overview_page_data', array( $this, 'filter_access_link' ), 10, 2 );
 		add_filter( 'wpenon_create_privacy_url', array( $this, 'filter_privacy_url' ) );
 
 		add_filter( 'edd_get_checkout_uri', array( $this, 'filter_iframe_url' ), 100 );
@@ -103,8 +103,16 @@ class Filter_Website implements Task, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_payment_success_url( $old_url ) {
-		$url = $this->reseller->data()->website->get_payment_successful_url();
+	public function filter_payment_success_url( $old_url, $payment_id ) {
+		$payment = new \EDD_Payment( $payment_id );
+
+		$payment_status = $payment->status;
+
+		if ( 'pending' === $payment->status ) {
+			$url = $this->reseller->data()->website->get_payment_pending_url();
+		} else {
+			$url = $this->reseller->data()->website->get_payment_successful_url();
+		}
 
 		// Backup to standard values.
 		if ( empty( $url ) ) {

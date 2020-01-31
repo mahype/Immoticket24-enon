@@ -53,6 +53,17 @@ class Post_Meta_Website extends Post_Meta {
 	}
 
 	/**
+	 * Get payment pending url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Url where users are redirected after pending payment.
+	 */
+	public function get_payment_pending_url() {
+		return trim( $this->get( 'payment_pending_url' ) );
+	}
+
+	/**
 	 * Get payment failed url.
 	 *
 	 * @since 1.0.0
