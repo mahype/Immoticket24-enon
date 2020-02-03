@@ -214,6 +214,6 @@ class Reseller {
 			$args['slug']         = $post->post_name;
 		}
 
-		return add_query_arg( $args, trailingslashit( $url ) );
+		return add_query_arg( $args, $url );
 	}
 }
