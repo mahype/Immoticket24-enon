@@ -120,6 +120,10 @@ class Energieausweis {
 	 * @return string $access_token      Token to use in URL.
 	 */
 	public function get_access_token() {
-		return md5( get_post_meta( $this->get_id(), 'wpenon_email', true ) ) . '-' . get_post_meta( $this->get_id(), 'wpenon_secret', true );
+		$wpenon_email  = get_post_meta( $this->get_id(), 'wpenon_email', true );
+		$wpenon_secret = get_post_meta( $this->get_id(), 'wpenon_secret', true );
+		$access_token  = md5( $wpenon_email ) . '-' . $wpenon_secret;
+
+		return $access_token;
 	}
 }
