@@ -24,6 +24,7 @@ use Enon\CLI\Loader as CLI_Loader;
 use Enon\Misc\Loader as Misc_Loader;
 use Enon\Acf\Loader as Acf_Loader;
 use Enon\Edd\Loader as Edd_Loader;
+use Enon\Tasks\Loader as Tasks_Loader;
 
 if ( ! defined( 'WPINC' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -44,6 +45,7 @@ function enon_boot() {
 
 		( new Plugin() )
 			->add_task( WP_Loader::class, $logger )
+			->add_task( Tasks_Loader::class, $logger )
 			->add_task( CLI_Loader::class, $logger )
 			->add_task( Misc_Loader::class, $logger )
 			->add_task( Acf_Loader::class, $logger )
