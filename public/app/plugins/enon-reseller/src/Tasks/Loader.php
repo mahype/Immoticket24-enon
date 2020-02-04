@@ -87,10 +87,14 @@ class Loader extends Task_Loader {
 			return;
 		}
 
+		// phpcs:ignore
+		$this->logger()->notice('Got reseller token.', array( 'token', $token->get() ) );
+
 		try {
 			$reseller = new Reseller( $token, $this->logger() );
 		} catch ( Exception $exception ) {
-			$this->logger()->error( sprintf( $exception->getMessage() ) );
+			// phpcs:ignore
+			$this->logger()->error( 'Exception caught', array( 'exception' => $exception ) );
 		}
 
 		$this->add_task( Add_CPT_Reseller::class );
