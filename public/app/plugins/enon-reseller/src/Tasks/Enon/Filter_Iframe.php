@@ -110,7 +110,7 @@ class Filter_Iframe implements Task, Actions, Filters {
 	 *
 	 * @param array $terms_checkboxes Terms checkboxes.
 	 *
-	 * @return bool
+	 * @return array Filtered Terms checkboxes.
 	 *
 	 * @since 1.0.0
 	 */
