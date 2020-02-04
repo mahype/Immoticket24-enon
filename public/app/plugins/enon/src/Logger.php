@@ -32,6 +32,9 @@ class Logger extends \Awsm\WP_Wrapper\Tools\Logger {
 	public function __construct( string $name, array $handlers = [], array $processors = [], DateTimeZone $timezone = null ) {
 		parent::__construct( $name, $handlers, $processors, $timezone );
 
-		$this->pushHandler( new FirePHPHandler() );
+		if ( WP_DEBUG ) {
+			$this->pushHandler( new FirePHPHandler() );
+			$this->notice( 'WP Debug is switched on. Fire PHP is now activated.' );
+		}
 	}
 }
