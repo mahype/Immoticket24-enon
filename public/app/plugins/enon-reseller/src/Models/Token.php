@@ -38,7 +38,7 @@ class Token {
 			$this->token = $this->get_by_request();
 		}
 
-		if( empty( $this->token ) ) {
+		if ( empty( $this->token ) ) {
 			$this->token = $this->get_by_cookie();
 		} else {
 			unset( $_COOKIE['iframe_token'] );
