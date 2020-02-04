@@ -60,6 +60,15 @@ abstract class Standard {
 	private $start_date;
 
 	/**
+	 * Is file on loading required once?
+	 *
+	 * @var bool
+	 *
+	 * @since 1.0.0
+	 */
+	protected $require_once = true;
+
+	/**
 	 * Standard constructor.
 	 *
 	 * @since 1.0.0
@@ -155,8 +164,9 @@ abstract class Standard {
 	/**
 	 * Load config file.
 	 *
-	 * @param mixed $params    Parameters for loading file.
-	 * @param array $variables Variables which will be loaded before requiring script.
+	 * @param mixed $params       Parameters for loading file.
+	 * @param array $variables    Variables which will be loaded before requiring script.
+	 * @param bool  $require_once Require file once.
 	 *
 	 * @return mixed Content of all file.
 	 *
@@ -173,6 +183,9 @@ abstract class Standard {
 			throw new Exception( sprintf( 'Can not load file \'%s\'', $file ) );
 		}
 
+		if ( $this->require_once ) {
+			return require_once $file;
+		}
 		return require $file;
 	}
 }

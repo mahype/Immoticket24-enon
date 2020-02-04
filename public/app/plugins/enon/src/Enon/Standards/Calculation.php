@@ -11,6 +11,8 @@
 
 namespace Enon\Enon\Standards;
 
+use Enon\Models\Exceptions\Exception;
+
 /**
  * Class Calculations.
  *
@@ -19,6 +21,15 @@ namespace Enon\Enon\Standards;
  * @package Enon\Enon\Standards
  */
 class Calculation extends Standard {
+	/**
+	 * Is file on loading required once?
+	 *
+	 * @var bool
+	 *
+	 * @since 1.0.0
+	 */
+	protected $require_once = false;
+
 	/**
 	 * Get calculation file.
 	 *

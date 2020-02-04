@@ -11,6 +11,7 @@
 
 namespace Enon\Enon\Standards;
 
+use Enon\Models\Exceptions\Exception;
 use WPENON\Model\Energieausweis;
 
 /**
@@ -21,6 +22,15 @@ use WPENON\Model\Energieausweis;
  * @package Enon\Enon\Standards
  */
 class Schema extends Standard {
+	/**
+	 * Is file on loading required once?
+	 *
+	 * @var bool
+	 *
+	 * @since 1.0.0
+	 */
+	protected $require_once = false;
+
 	/**
 	 * Get schema file.
 	 *
