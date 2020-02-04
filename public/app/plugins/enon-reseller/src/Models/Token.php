@@ -40,6 +40,8 @@ class Token {
 
 		if( empty( $this->token ) ) {
 			$this->token = $this->get_by_cookie();
+		} else {
+			unset( $_COOKIE['iframe_token'] );
 		}
 
 		return $this->token;
@@ -92,7 +94,10 @@ class Token {
 			return false;
 		}
 
+		$iframe_token = $_COOKIE['iframe_token'];
+		unset( $_COOKIE['iframe_token'] );
+
 		// phpcs:ignore
-		return $_COOKIE['iframe_token'];
+		return $iframe_token;
 	}
 }

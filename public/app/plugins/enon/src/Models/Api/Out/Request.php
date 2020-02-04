@@ -93,6 +93,7 @@ abstract class Request {
 
 		switch ( $status ) {
 			case 200:
+				$this->logger()->notice( sprintf( 'Sucess "Status %s" on sending data with message "%s.', $status, wp_remote_retrieve_response_message( $response ) ) );
 				return true;
 			default:
 				if ( is_wp_error( $response ) ) {
