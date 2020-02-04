@@ -42,6 +42,7 @@ require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 function enon_boot() {
 	try {
 		$logger = new Logger( 'Enon' );
+		$logger->warning('Das issn Test' );
 
 		( new Plugin() )
 			->add_task( WP_Loader::class, $logger )
