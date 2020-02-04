@@ -5,7 +5,7 @@
  * @package immoticketenergieausweis
  */
 ?><!DOCTYPE html>
-<html <?php echo $html_attrs; ?> <?php language_attributes(); ?>>
+<html <?php  echo ! empty($html_attrs) ? $html_attrs: ''; ?> <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
