@@ -40,7 +40,7 @@ class Stop_Heartbeat implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'init', array( __CLASS__, 'stop_heartbeat' ), 1 );
+		add_action( 'init', array( $this, 'stop_heartbeat' ), 1 );
 	}
 
 	/**
