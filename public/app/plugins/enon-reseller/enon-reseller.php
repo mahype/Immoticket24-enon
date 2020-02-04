@@ -18,8 +18,6 @@
 namespace Enon_Reseller;
 
 use Awsm\WP_Wrapper\Plugin\Plugin;
-use Awsm\WP_Wrapper\Tools\Logger;
-
 use Enon_Reseller\Tasks\Loader;
 
 if ( ! defined( 'WPINC' ) ) {

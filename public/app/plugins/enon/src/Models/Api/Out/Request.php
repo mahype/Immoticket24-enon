@@ -89,18 +89,21 @@ abstract class Request {
 		$response = wp_remote_post( $this->endpoint, $this->args );
 		$status = wp_remote_retrieve_response_code( $response );
 
-		$body = wp_remote_retrieve_body( $response );
-
 		switch ( $status ) {
 			case 200:
-				$this->logger()->notice( sprintf( 'Sucess "Status %s" on sending data with message "%s.', $status, wp_remote_retrieve_response_message( $response ) ) );
+				$this->logger()->notice( 'Sending data successful.', $response );
 				return true;
 			default:
 				if ( is_wp_error( $response ) ) {
-					$this->logger()->warning( sprintf( 'Error "%s" on sending data.', $response->get_error_message() ) );
+					$values = array(
+						'error_message' => $response->get_error_message(),
+					);
 				} else {
-					$this->logger()->warning( sprintf( 'Error "Status %s" on sending data with message "%s.', $status, wp_remote_retrieve_response_message( $response ) ) );
+					$values = $response;
 				}
+
+				$this->logger()->warning( 'Sending data failed.', $values );
+
 				break;
 		}
 	}

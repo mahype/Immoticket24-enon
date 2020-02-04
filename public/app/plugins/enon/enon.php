@@ -25,10 +25,6 @@ use Enon\Misc\Loader as Misc_Loader;
 use Enon\Acf\Loader as Acf_Loader;
 use Enon\Edd\Loader as Edd_Loader;
 
-use Enon\Reseller\Loader as Reseller_Loader;
-
-use Awsm\WP_Wrapper\Tools\Logger;
-
 if ( ! defined( 'WPINC' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );

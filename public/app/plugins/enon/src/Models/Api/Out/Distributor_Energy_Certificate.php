@@ -98,7 +98,12 @@ class Distributor_Energy_Certificate extends Request {
 	 */
 	public function send() {
 		if ( ! $this->distributor_schema->check( $this->energy_certificate ) ) {
-			$this->logger()->notice( sprintf( 'Energy certificate #%s: No data sent to %s, because check not passed.', $this->energy_certificate->id, $this->distributor_schema->get_endpoint() ) );
+			$values = array(
+				'energy_certificate_id' => $this->energy_certificate->id,
+				'endpoint'              => $this->distributor_schema->get_endpoint(),
+			);
+
+			$this->logger()->notice( 'No data sent, because check not passed.', $values );
 			return false;
 		}
 
