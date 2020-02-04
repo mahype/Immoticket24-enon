@@ -97,6 +97,8 @@ class Loader extends Task_Loader {
 			$this->logger()->error( 'Exception caught', array( 'exception' => $exception ) );
 		}
 
+		$this->logger()->notice( 'Set reseller.', array( 'company_name', $reseller->data()->general->get_company_name() ) );
+
 		$this->add_task( Add_CPT_Reseller::class );
 
 		$this->add_task( Setup_Enon::class, $reseller, $this->logger() );
