@@ -79,8 +79,8 @@ class Format {
 			'3' => $html_entity ? '&sup3;' : '³',
 		);
 		foreach ( $replacements as $character => $replacement ) {
-			if ( strpos( $unit, $character ) !== false ) {
-				if ( strpos( $unit, $replacement ) === false ) {
+			if ( strpos( $unit, strval( $character ) ) !== false ) {
+				if ( strpos( $unit, strval( $replacement ) ) === false ) {
 					return str_replace( $character, $replacement, $unit );
 				}
 			}
