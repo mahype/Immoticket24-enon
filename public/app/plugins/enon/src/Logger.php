@@ -53,4 +53,15 @@ class Logger extends \Awsm\WP_Wrapper\Tools\Logger {
 	protected function get_debug_level() {
 		return self::WARNING;
 	}
+
+	/**
+	 * Getting one dir higher for logs.
+	 *
+	 * @return string Loggong path.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function get_logging_path() {
+		return dirname( parent::get_logging_path() );
+	}
 }
