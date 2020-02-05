@@ -13,6 +13,7 @@ namespace Enon_Reseller;
 
 use DateTimeZone;
 use Monolog\Handler\HandlerInterface;
+use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Handler\FirePHPHandler;
 use Monolog\Handler\SlackWebhookHandler;
 
@@ -29,17 +30,29 @@ class Logger extends \Awsm\WP_Wrapper\Tools\Logger {
 	 * @param HandlerInterface[] $handlers   Optional stack of handlers, the first one in the array is called first, etc.
 	 * @param callable[]         $processors Optional array of processors.
 	 * @param DateTimeZone|null  $timezone   Optional timezone, if not provided date_default_timezone_get() will be used.
+	 *
+	 * @since 1.0.0
 	 */
 	public function __construct( string $name, array $handlers = [], array $processors = [], DateTimeZone $timezone = null ) {
 		parent::__construct( $name, $handlers, $processors, $timezone );
 
 		// phpcs:ignore
-		$slack_handler = new SlackWebhookHandler( 'https://hooks.slack.com/services/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', '#logs-enon', 'Monolog', true, null, false, false, Logger::WARNING );
+		$slack_handler = new SlackWebhookHandler( 'https://hooks.slack.com/services/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', '#logs-enon', 'Monolog', true, null, false, false, self::WARNING );
 		$this->pushHandler( $slack_handler );
 
 		if ( WP_DEBUG ) {
-			$this->pushHandler( new FirePHPHandler() );
-			$this->notice( 'WP Debug is switched on. Fire PHP is now activated.' );
+			$this->pushHandler( new BrowserConsoleHandler() );
 		}
+	}
+
+	/**
+	 * Setting debug level.
+	 *
+	 * @return int|string Debug level.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function get_debug_level() {
+		return self::DEBUG;
 	}
 }

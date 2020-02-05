@@ -11,13 +11,12 @@
 
 namespace Enon\Tasks\WP;
 
-use Awsm\WP_Wrapper\Building_Plans\Actions;
-use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 use Awsm\WP_Wrapper\Tools\Logger_Trait;
 
-use Monolog\Handler\FirePHPHandler;
+use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Handler\SlackWebhookHandler;
+use Monolog\Handler\StreamHandler;
 
 use Enon\Logger;
 
@@ -28,7 +27,7 @@ use Enon\Logger;
  *
  * @since 1.0.0
  */
-class Log implements Task {
+class Setup_Wonolog implements Task {
 	use Logger_Trait;
 
 	/**
@@ -53,10 +52,19 @@ class Log implements Task {
 			return;
 		}
 
+		$file = dirname( ABSPATH ) . '/System.log';
+
 		$wonolog = \Inpsyde\Wonolog\bootstrap();
 
-		foreach ( $this->logger()->getHandlers() as $handler ) {
-			$wonolog->use_handler( $handler );
+		$stream_handler = new StreamHandler( $file, Logger::WARNING );
+		$wonolog->use_handler( $stream_handler );
+
+		$slack_handler = new SlackWebhookHandler( 'https://hooks.slack.com/services/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', '#logs-enon', 'Monolog', true, null, false, false, Logger::WARNING );
+		$wonolog->use_handler( $slack_handler );
+
+		if ( WP_DEBUG ) {
+			$browserconsole_handler = new BrowserConsoleHandler();
+			$wonolog->use_handler( $browserconsole_handler );
 		}
 
 		$wonolog->log_php_errors();

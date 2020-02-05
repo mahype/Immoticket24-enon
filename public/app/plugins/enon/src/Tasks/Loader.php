@@ -12,7 +12,7 @@
 namespace Enon\Tasks;
 
 use Enon\Task_Loader;
-use Enon\Tasks\WP\Log;
+use Enon\Tasks\WP\Setup_Wonolog;
 
 /**
  * Tasks loader.
@@ -26,7 +26,7 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		$this->add_task( Log::class, $this->logger() );
+		$this->add_task( Setup_Wonolog::class, $this->logger() );
 
 		if ( is_admin() && ! wp_doing_ajax() ) {
 			$this->add_admin_tasks();
