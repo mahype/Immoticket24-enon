@@ -102,6 +102,8 @@ class Filter_Schema implements Task, Filters {
 
 		$schema_file = WPENON_DATA_PATH . '/' . $standard . '/schema/' . $schema_file;
 
+		$this->logger()->notice('Filtering schema file.', array( 'energy_certificate_id' => $energieausweis->id, 'reseller_id' => $reseller_id, 'schema_file' => $schema_file ) );
+
 		return $schema_file;
 	}
 

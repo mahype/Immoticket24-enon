@@ -126,6 +126,8 @@ class Filter_Website implements Task, Filters {
 			$url = get_permalink( $payment_successful_page );
 		}
 
+		$this->logger()->notice('Redirecting user after successful payment.', array( 'payment_id' => $payment_id, 'url' => $url, 'payment_status' => $payment->status ) );
+
 		return $url;
 	}
 
@@ -155,6 +157,8 @@ class Filter_Website implements Task, Filters {
 
 		$url = $this->reseller->add_iframe_params( $url );
 
+		$this->logger()->notice('Redirecting user after failed payment.', array( 'url' => $url ) );
+
 		return $url;
 	}
 
@@ -179,6 +183,8 @@ class Filter_Website implements Task, Filters {
 
 		$data['access_link'] = $url;
 
+		$this->logger()->notice('Filtering access link.', array( 'url' => $url ) );
+
 		return $data;
 	}
 
@@ -197,6 +203,8 @@ class Filter_Website implements Task, Filters {
 		if ( empty( $privacy_url ) ) {
 			return $url;
 		}
+
+		$this->logger()->notice('Filtering privacy url.', array( 'url' => $privacy_url ) );
 
 		return $privacy_url;
 	}

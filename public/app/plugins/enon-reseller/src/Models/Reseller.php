@@ -214,6 +214,8 @@ class Reseller {
 			$args['slug']         = $post->post_name;
 		}
 
+		$this->logger()->notice( 'Adding iframe params.', $args );
+
 		return add_query_arg( $args, $url );
 	}
 }
