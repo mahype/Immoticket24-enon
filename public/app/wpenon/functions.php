@@ -227,7 +227,7 @@ add_filter('wpenon_pdf_seller_company_name', 'wpenon_immoticket24_pdf_seller_com
 
 function wpenon_immoticket24_pdf_seller_meta($meta, $pdf)
 {
-	$meta = 'Inh. Roland Harsche' . "\n" . \WPENON\Util\Format::pdfEncode('(geprüfter Gebäudeenergieberater' . "\n" . 'Öko-Zentrum NRW)' . "\n" . 'Von-Lassaulx-Straße 44, 53424 Remagen');
+	$meta = 'Inh. Roland Harsche' . "\n" . \WPENON\Util\Format::pdfEncode('(geprüfter Gebäudeenergieberater' . "\n" . 'Öko-Zentrum NRW)' . "\n" . 'Gartenstraße 25, 53498 Bad Breisig');
 
 	return $meta;
 }
