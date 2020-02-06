@@ -40,7 +40,7 @@ class Logger extends \Awsm\WP_Wrapper\Tools\Logger {
 		$slack_handler = new SlackWebhookHandler( 'https://hooks.slack.com/services/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', '#logs-enon', 'Monolog', true, null, false, false, self::WARNING );
 		$this->pushHandler( $slack_handler );
 
-		if ( WP_DEBUG ) {
+		if ( WP_DEBUG && ! wp_doing_ajax() ) {
 			$this->pushHandler( new BrowserConsoleHandler() );
 		}
 	}
