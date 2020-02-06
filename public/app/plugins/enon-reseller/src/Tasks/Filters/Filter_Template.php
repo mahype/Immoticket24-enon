@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Tasks\WP;
+namespace Enon_Reseller\Tasks\Filters;
 
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Filters;
@@ -24,7 +24,7 @@ use Enon_Reseller\Models\Reseller;
  *
  * @since 1.0.0
  */
-class Load_Frontend implements Task, Actions, Filters {
+class Filter_Template implements Task, Actions, Filters {
 	/**
 	 * Reseller object.
 	 *

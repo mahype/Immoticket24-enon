@@ -9,30 +9,29 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Tasks;
+namespace Enon_Reseller;
 
 use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;
 
 use Enon_Reseller\Models\Token;
-
-
 use Enon_Reseller\Models\Reseller;
 
-use Enon_Reseller\Tasks\WP\Add_CPT_Reseller;
-use Enon_Reseller\Tasks\WP\Load_Frontend;
-use Enon_Reseller\Tasks\Acf\Add_Post_Meta;
+use Enon_Reseller\Tasks\Add_CPT_Reseller;
 
-use Enon_Reseller\Tasks\Enon\Setup_Enon;
+use Enon_Reseller\Tasks\Add_Post_Meta;
+use Enon_Reseller\Tasks\Setup_Enon;
 
-use Enon_Reseller\Tasks\Enon\Filter_General;
-use Enon_Reseller\Tasks\Enon\Filter_Confirmation_Email;
-use Enon_Reseller\Tasks\Enon\Filter_Bill_Email;
-use Enon_Reseller\Tasks\Enon\Filter_Website;
-use Enon_Reseller\Tasks\Enon\Filter_Iframe;
-use Enon_Reseller\Tasks\Enon\Filter_Schema;
+use Enon_Reseller\Tasks\Filters\Filter_General;
+use Enon_Reseller\Tasks\Filters\Filter_Confirmation_Email;
+use Enon_Reseller\Tasks\Filters\Filter_Bill_Email;
+use Enon_Reseller\Tasks\Filters\Filter_Website;
+use Enon_Reseller\Tasks\Filters\Filter_Iframe;
+use Enon_Reseller\Tasks\Filters\Filter_Schema;
+use Enon_Reseller\Tasks\Filters\Filter_Template;
 
-use Enon_Reseller\Tasks\Enon\Add_Energy_Certificate_Submission;
+use Enon_Reseller\Tasks\Add_Energy_Certificate_Submission;
+use Enon_Reseller\Tasks\Add_Sparkasse_Discounts;
 
 /**
  * Whitelabel loader.
@@ -46,6 +45,8 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function run() {
+		$this->add_task( Add_CPT_Reseller::class );
+
 		if ( is_admin() && ! wp_doing_ajax() ) {
 			$this->add_admin_tasks();
 		} else {
@@ -67,7 +68,6 @@ class Loader extends Task_Loader {
 			$this->logger()->error( sprintf( $exception->getMessage() ) );
 		}
 
-		$this->add_task( Add_CPT_Reseller::class );
 		$this->add_task( Add_Post_Meta::class, $this->logger() );
 		$this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
 
@@ -99,11 +99,9 @@ class Loader extends Task_Loader {
 
 		$this->logger()->notice( 'Set reseller.', array( 'company_name', $reseller->data()->general->get_company_name() ) );
 
-		$this->add_task( Add_CPT_Reseller::class );
-
 		$this->add_task( Setup_Enon::class, $reseller, $this->logger() );
-		$this->add_task( Load_Frontend::class, $reseller, $this->logger() );
 
+		$this->add_task( Filter_Template::class, $reseller, $this->logger() );
 		$this->add_task( Filter_General::class, $reseller, $this->logger() );
 		$this->add_task( Filter_Confirmation_Email::class, $reseller, $this->logger() );
 		$this->add_task( Filter_Bill_Email::class, $reseller, $this->logger() );
@@ -112,6 +110,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Filter_Schema::class, $reseller, $this->logger() );
 
 		$this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
+		$this->add_task( Add_Sparkasse_Discounts::class, $reseller, $this->logger() );
 	}
 }
 

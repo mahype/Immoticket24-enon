@@ -9,14 +9,14 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Edd\Tasks;
+namespace Enon_Reseller\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 
 use Awsm\WP_Wrapper\Tools\Logger;
 use Awsm\WP_Wrapper\Tools\Logger_Trait;
-use Enon\Reseller\Models\Reseller;
+use Enon_Reseller\Models\Reseller;
 
 use Enon\Models\Enon\Energieausweis;
 
@@ -27,48 +27,76 @@ use Enon\Models\Enon\Energieausweis;
  *
  * @package Enon\Reseller\WordPress
  */
-class Sparkasse_Discounts implements Task, Filters {
-
+class Add_Sparkasse_Discounts implements Task, Filters {
 	use Logger_Trait;
+
+	/**
+	 * Reseller object.
+	 *
+	 * @since 1.0.0
+	 * @var Reseller;
+	 */
+	private $reseller;
 
 	/**
 	 * Discount_Types
 	 *
-	 * @since 1.0.0
-	 *
 	 * @var array
+	 *
+	 * @since 1.0.0
 	 */
 	private $discount_types = array();
 
 	/**
 	 * Discount_Amounts
 	 *
-	 * @since 1.0.0
-	 *
 	 * @var array
+	 *
+	 * @since 1.0.0
 	 */
 	private $discount_amounts = array();
 
 	/**
-	 * Loading Plugin scripts.
+	 * Allowed zip areas.
+	 *
+	 * @var array
 	 *
 	 * @since 1.0.0
-	 *
-	 * @param Logger $logger Logger object.
 	 */
-	public function __construct( Logger $logger ) {
+	private $allowed_zip_areas = array();
+
+	/**
+	 * Loading Plugin scripts.
+	 *
+	 * @param Reseller $reseller Logger object.
+	 * @param Logger   $logger   Logger object.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct( Reseller $reseller, Logger $logger ) {
 		$this->logger = $logger;
+		$this->reseller = $reseller;
 
 		$this->discount_types = array( 'spk', 'web' );
 
 		$this->discount_amounts = array(
+			// Coupon codes beginning with spk.
 			'spk' => array(
-				'bw' => 50,
-				'vw' => 28,
+				'bw' => 18.55, // Amount which will be deducted on bedarfsausweis.
+				'vw' => 14, // Amount which will be deducted on verbrauchsausweis.
 			),
+			// Coupon codes beginning with web.
 			'web' => array(
 				'bw' => 34.45,
 				'vw' => 14,
+			),
+		);
+
+		// Zip zones which are allowed for coupon codes.
+		$this->allowed_zip_areas = array(
+			0 => array(
+				'from' => 40721,
+				'to'   => 40724,
 			),
 		);
 	}
@@ -76,9 +104,9 @@ class Sparkasse_Discounts implements Task, Filters {
 	/**
 	 * Running scripts.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @return mixed|void
+	 *
+	 * @since 1.0.0
 	 */
 	public function run() {
 		$this->add_filters();
@@ -92,6 +120,54 @@ class Sparkasse_Discounts implements Task, Filters {
 	public function add_filters() {
 		add_filter( 'edd_get_cart_item_discounted_amount', array( $this, 'set_discount' ), 10, 4 );
 		add_filter( 'edd_get_cart_discount_html', array( $this, 'cartdiscount_html' ), 10, 4 );
+		add_filter( 'edd_is_discount_valid', array( $this, 'is_valid_zip' ), 10, 4 );
+	}
+
+	/**
+	 * Checks if coupon code is valid.
+	 *
+	 * @param bool   $is_valid      Is coupon code valid.
+	 * @param int    $discount_id   Discount id.
+	 * @param string $discount_code Discount code.
+	 * @param string $user          User information.
+	 *
+	 * @return bool True if coupon code is valid.
+	 *
+	 * @since 1.0.0
+	 */
+	public function is_valid_zip( $is_valid, $discount_id, $discount_code, $user ) {
+		if ( ! $is_valid ) {
+			return $is_valid;
+		}
+
+		if ( ! $this->get_discount_type( $discount_code ) ) {
+			return $is_valid;
+		}
+
+		$energy_certificate_ids = $this->get_cart_energy_certificate_ids();
+
+		if ( ! $energy_certificate_ids ) {
+			return $is_valid;
+		}
+
+		foreach ( $energy_certificate_ids as $energy_certificate_id ) {
+			$energy_certificate = new \WPENON\Model\Energieausweis( $energy_certificate_id );
+
+			foreach ( $this->allowed_zip_areas as $allowed_zip_area ) {
+				if ( $energy_certificate->adresse_plz < $allowed_zip_area['from'] || $energy_certificate->adresse_plz > $allowed_zip_area['to'] ) {
+					$is_valid = false;
+					$debug_values = array(
+						'energy_certificate_id' => $energy_certificate_id,
+						'energy_certificate_zip' => $energy_certificate->addresse_plz,
+					);
+
+					\edd_set_error( 'edd-discount-error', _x( 'Energieausweis Gutschein-Code ist nicht innerhalb des erlaubten Postleitzahlen-Bereichs.', 'Energy certificate not within allowed zip areas.', 'enon-reseller' ) );
+					$this->logger->alert( 'Energy certificate not within allowed zip areas.', $debug_values );
+				}
+			}
+		}
+
+		return $is_valid;
 	}
 
 	/**
@@ -101,19 +177,23 @@ class Sparkasse_Discounts implements Task, Filters {
 	 *
 	 * @param string $discount_html Discount HTML.
 	 * @param string $discount_code Discount code.
-	 * @param float  $rate         Discount rate.
-	 * @param string $remove_url   Remove URL.
+	 * @param float  $rate          Discount rate.
+	 * @param string $remove_url    Remove URL.
 	 *
 	 * @return string $discount_html Filtered Discount HTML.
 	 */
 	public function cartdiscount_html( $discount_html, $discount_code, $rate, $remove_url ) {
-		$cart_contents = EDD()->cart->get_contents();
-
-		if ( ! $this->get_discount_type( $discount_code ) || ! isset( $cart_contents[0] ) ) {
+		if ( ! $this->get_discount_type( $discount_code ) ) {
 			return $discount_html;
 		}
 
-		$energieausweis_id = $cart_contents[0]['id'];
+		$energy_certificate_ids = $this->get_cart_energy_certificate_ids();
+
+		if ( ! $energy_certificate_ids ) {
+			return $discount_html;
+		}
+
+		$energieausweis_id = $energy_certificate_ids[0];
 		$energieausweis    = new Energieausweis( $energieausweis_id );
 		$discount_id       = edd_get_discount_id_by_code( $discount_code );
 		$discount_type     = edd_get_discount_type( $discount_id );
@@ -125,6 +205,28 @@ class Sparkasse_Discounts implements Task, Filters {
 		$discount_html .= "</span>\n";
 
 		return $discount_html;
+	}
+
+	/**
+	 * Get energy certificate id of cart.
+	 *
+	 * @return bool|array Energy certificate ids.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @todo Have to go into a separate cart class.
+	 */
+	public function get_cart_energy_certificate_ids() {
+		$cart_contents     = EDD()->cart->get_contents();
+
+		$energy_certificate_ids = false;
+		if ( isset( $cart_contents[0] ) && isset( $cart_contents[0]['id'] ) ) {
+			foreach ( $cart_contents AS $cart_content ) {
+				$energy_certificate_ids[] = $cart_content['id'];
+			}
+		}
+
+		return $energy_certificate_ids;
 	}
 
 	/**
@@ -149,6 +251,14 @@ class Sparkasse_Discounts implements Task, Filters {
 		}
 
 		$discount_price = $price - $this->get_discount_amount( $discount_code, $energieausweis->get_type() );
+
+		$debug_values = array(
+			'energy_certificate_id' => $energieausweis_id,
+			'discount_code'         => $discount_code,
+			'discount_price'        => $discount_price,
+		);
+
+		$this->logger()->notice( 'Setting special sparkasse discount.', $debug_values );
 
 		return $discount_price;
 	}
