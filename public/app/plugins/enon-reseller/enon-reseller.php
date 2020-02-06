@@ -18,7 +18,7 @@
 namespace Enon_Reseller;
 
 use Awsm\WP_Wrapper\Plugin\Plugin;
-use Enon_Reseller\Tasks\Loader;
+use Enon_Reseller\Loader;
 
 if ( ! defined( 'WPINC' ) ) {
 	header( 'Status: 403 Forbidden' );
