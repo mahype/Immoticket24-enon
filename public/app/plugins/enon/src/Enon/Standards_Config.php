@@ -32,19 +32,19 @@ class Standards_Config extends Config {
 	protected function initiate() {
 		$this->config_data = array(
 			'enev2013' => array(
-				'name'      => __( 'EnEV 2013', 'wpenon' ),
-				'date'      => '2013-11-18',
-				'startDate' => '2014-05-01',
+				'name'       => __( 'EnEV 2013', 'wpenon' ),
+				'date'       => '2013-11-18',
+				'start_date' => '2014-05-01',
 			),
 			'enev2017' => array(
-				'name'      => __( 'EnEV 2013 (ab 1.7.2017)', 'wpenon' ),
-				'date'      => '2013-11-18',
-				'startDate' => '2017-07-01',
+				'name'       => __( 'EnEV 2013 (ab 1.7.2017)', 'wpenon' ),
+				'date'       => '2013-11-18',
+				'start_date' => '2017-07-01',
 			),
 			'enev2019' => array(
-				'name'      => __( 'EnEV 2013 (ab 11.12.2019)', 'wpenon' ),
-				'date'      => '2013-11-18',
-				'startDate' => '2019-12-11',
+				'name'       => __( 'EnEV 2013 (ab 11.12.2019)', 'wpenon' ),
+				'date'       => '2013-11-18',
+				'start_date' => '2019-12-11',
 			),
 		);
 	}
@@ -59,7 +59,7 @@ class Standards_Config extends Config {
 	 */
 	public function getByTime( $timestamp ) {
 		foreach ( $this->config_data as $key => $standard ) {
-			if ( strtotime( $standard['startDate'] ) > $timestamp ) {
+			if ( strtotime( $standard['start_date'] ) > $timestamp ) {
 				break;
 			}
 
