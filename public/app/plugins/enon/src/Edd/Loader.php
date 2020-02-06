@@ -30,31 +30,7 @@ class Loader extends Task_Loader {
 	 */
 	public function run() {
 		$this->add_task( Setup_Edd::class, $this->logger() );
-		$this->add_task( Sparkasse_Discounts::class, $this->logger() );
-
-		if ( is_admin() ) {
-			$this->add_admin_tasks();
-		} else {
-			$this->add_frontend_tasks();
-		}
-
 		$this->run_tasks();
-	}
-
-	/**
-	 * Running admin tasks.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_admin_tasks() {
-	}
-
-	/**
-	 * Running frontend tasks.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_frontend_tasks() {
 	}
 }
 
