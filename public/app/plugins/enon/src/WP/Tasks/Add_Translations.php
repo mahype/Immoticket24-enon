@@ -75,6 +75,9 @@ class Add_Translations implements Task, Filters {
 			case 'Rabatt eingeben':
 				$translation = 'Gutschein eingeben';
 				break;
+			case 'Dein Warenkorb ist leer':
+				$translation = 'Ihr Warenkorb ist leer';
+				break;
 		}
 
 		return $translation;
