@@ -91,7 +91,12 @@ abstract class Request {
 
 		switch ( $status ) {
 			case 200:
-				$this->logger()->notice( 'Sending data successful.', $response );
+				$debug_data = array(
+					'endpoint' => $this->endpoint,
+					'response' => $response,
+				);
+
+				$this->logger()->notice( 'Sending data successful.', $debug_data );
 				return true;
 			default:
 				if ( is_wp_error( $response ) ) {
