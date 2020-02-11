@@ -126,7 +126,13 @@ class Filter_Website implements Task, Filters {
 			$url = get_permalink( $payment_successful_page );
 		}
 
-		$this->logger()->notice('Redirecting user after successful payment.', array( 'payment_id' => $payment_id, 'url' => $url, 'payment_status' => $payment->status ) );
+		$debug_values = array(
+			'payment_id'     => $payment_id,
+			'url'            => $url,
+			'payment_status' => $payment->status,
+		);
+
+		$this->logger()->notice( 'Setting payment url.', $debug_values );
 
 		return $url;
 	}
