@@ -104,7 +104,9 @@ class PaymentGatewayPaymill extends \WPENON\Model\PaymentGateway {
 			$this->_handlePaymentError( $payment_id, sprintf( __( 'Paymill PHP Error: %1$s: %2$s', 'wpenon' ), $e->getCode(), $e->getMessage() ), true );
 		}
 
-		$this->_handlePaymentSuccess( $payment_id, $transaction_id );
+		$redirect_url = apply_filters( 'wpenon_payment_success_url', home_url('/vermarktungspaket/'), $payment_id );
+
+		$this->_handlePaymentSuccess( $payment_id, $transaction_id, $redirect_url );
 	}
 
 	public function processPurchaseNotification( $data ) {
