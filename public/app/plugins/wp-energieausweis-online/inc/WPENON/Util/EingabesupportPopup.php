@@ -409,7 +409,7 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 	 * @param \WPENON\View\FrontendBase $view Frontend base view.
 	 */
 	public function print_dialog_scripts() {
-		if( filter_input( INPUT_GET, 'iframe') === 'true' ) {
+		if( ! empty( filter_input( INPUT_GET, 'iframe_token') ) ) {
 			return;
 		}
 
