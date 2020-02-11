@@ -26,6 +26,14 @@ class PaymentGatewaySofortueberweisung extends \WPENON\Model\PaymentGateway {
 		parent::__construct();
 	}
 
+	protected function get_config_key() {
+		if ( edd_is_test_mode() ) {
+			return  '64225:573466:3c410e9ca42d0a4ef88f8abaab89ad18';
+		}
+
+		return  edd_get_option( 'sofortueberweisung_config_key', '' );
+	}
+
 	public function processPurchase( $purchase_data ) {
 		$payment_data = $this->_makePaymentData( $purchase_data );
 
@@ -36,7 +44,7 @@ class PaymentGatewaySofortueberweisung extends \WPENON\Model\PaymentGateway {
 			$this->_handlePaymentError( $payment_id, sprintf( __( 'Payment creation failed while processing a Sofortueberweisung purchase. Payment data: %s', 'wpenon' ), json_encode( $payment_data ) ), true );
 		}
 
-		$config_key = edd_get_option( 'sofortueberweisung_config_key', '' );
+		$config_key = $this->get_config_key();
 		if ( substr_count( $config_key, ':' ) != 2 ) {
 			$this->_handlePaymentError( $payment_id, __( 'Sofortueberweisung purchase could not be processed because of invalid or missing config key.', 'wpenon' ), true );
 		}
@@ -137,7 +145,8 @@ class PaymentGatewaySofortueberweisung extends \WPENON\Model\PaymentGateway {
 			// $this->_handlePaymentProcessError( null, sprintf( __( 'Payment for the transaction ID %s could not be found.', 'wpenon' ), $transaction_id ), true );
 		}
 
-		$config_key = edd_get_option( 'sofortueberweisung_config_key', '' );
+		$config_key = $this->get_config_key();
+
 		if ( substr_count( $config_key, ':' ) != 2 ) {
 			$this->_handlePaymentProcessError( $payment_id, __( 'Invalid or missing config key.', 'wpenon' ), true );
 		}
