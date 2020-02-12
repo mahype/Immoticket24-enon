@@ -21,4 +21,5 @@ jobs:
         script: |
           cd /www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/
           ls -la
-          composer update
+          git pull
+          /www/htdocs/w012900a/bin/composer.phar update
