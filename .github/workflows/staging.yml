@@ -1,4 +1,4 @@
-name: CI
+name: Deploy on staging.energieausweis-online-erstellen.de
 
 on:
   push:
@@ -19,5 +19,6 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script_stop: true
         script:
-          cd staging.energieausweis-online-erstellen.de
+          ls -la
+          cd ./staging.energieausweis-online-erstellen.de
           composer update
