@@ -98,7 +98,6 @@ abstract class PaymentGateway {
 		}
 		if ( $sendback ) {
 			edd_send_back_to_checkout( '?payment-mode=' . static::$gateway_name );
-
 			exit;
 		}
 	}
