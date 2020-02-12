@@ -91,7 +91,27 @@ class Sparkasse implements Distributor_Schema {
 			'sender'         => 'immoticket24', // Required by Sparkasse Immobilien Heidelberg.
 		);
 
+		$data = $this->encode_data_recursive( 'utf8_encode', $data );
+
 		return $data;
+	}
+
+	/**
+	 * Encoding data recursive.
+	 *
+	 * @param string $callback Callback function for encoding.
+	 * @param array  $data     Data to encode.
+	 *
+	 * @return array Encoded tata.
+	 *
+	 * @since 1.0.0
+	 */
+	private function encode_data_recursive( $callback, $data ) {
+		$function = function ( $item ) use ( &$function, &$callback ) {
+			return is_array( $item ) ? array_map( $function, $item ) : call_user_func( $callback, $item );
+		};
+
+		return array_map( $function, $data );
 	}
 
 	/**
