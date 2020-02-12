@@ -19,7 +19,15 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script_stop: true
         script: |
-          cd /www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/
+          WWW=/www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/
+          alias composer="/www/htdocs/w012900a/bin/composer.phar"
+          cd $WWW
           ls -la
           git pull
-          /www/htdocs/w012900a/bin/composer.phar update
+          composer update
+          cd $WWW/public/app/plugins/enon
+          composer update
+          cd $WWW/public/app/plugins/enon-reseller
+          composer update
+          cd $WWW/public/app/plugins/wp-energieausweis-online
+          composer update
