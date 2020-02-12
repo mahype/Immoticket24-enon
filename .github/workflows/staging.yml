@@ -20,14 +20,13 @@ jobs:
         script_stop: true
         script: |
           WWW=/www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/
-          alias composer="/www/htdocs/w012900a/bin/composer.phar"
           cd $WWW
           ls -la
           git pull
-          composer update
+          /www/htdocs/w012900a/bin/composer.phar update
           cd $WWW/public/app/plugins/enon
-          composer update
+          /www/htdocs/w012900a/bin/composer.phar update
           cd $WWW/public/app/plugins/enon-reseller
-          composer update
+          /www/htdocs/w012900a/bin/composer.phar update
           cd $WWW/public/app/plugins/wp-energieausweis-online
-          composer update
+          /www/htdocs/w012900a/bin/composer.phar update
