@@ -7,6 +7,11 @@
 
 namespace WPENON\Model;
 
+/**
+ * Class PaymentGateway
+ *
+ * @package WPENON\Model
+ */
 abstract class PaymentGateway {
 	protected static $gateway_name = '';
 
