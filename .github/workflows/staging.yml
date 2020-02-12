@@ -19,6 +19,6 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script_stop: true
         script: |
+          cd /www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/
           ls -la
-          cd ./staging.energieausweis-online-erstellen.de
           composer update
