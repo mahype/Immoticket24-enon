@@ -1,8 +1,9 @@
 name: CI
 
-on: [push]
-  branches:
-    - staging
+on:
+  push:
+    branches:
+      - staging
 
 jobs:
   build:
