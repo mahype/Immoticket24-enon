@@ -189,7 +189,7 @@ class Filter_Website implements Task, Filters {
 
 		$data['access_link'] = $url;
 
-		$this->logger()->notice('Filtering access link.', array( 'url' => $url ) );
+		$this->logger()->notice( 'Filtering access link.', array( 'url' => $url ) );
 
 		return $data;
 	}
