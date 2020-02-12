@@ -74,7 +74,7 @@ abstract class Request {
 			'redirection' => '5',
 			'httpversion' => '1.0',
 			'blocking' => true,
-			'headers' => array(),
+			'headers' => array( 'Content-Type' => 'multipart/form-data; charset=utf-8' ),
 			'cookies' => array(),
 		);
 	}
@@ -94,6 +94,7 @@ abstract class Request {
 				$debug_data = array(
 					'endpoint' => $this->endpoint,
 					'response' => $response,
+					'args'     => $this->args,
 				);
 
 				$this->logger()->notice( 'Sending data successful.', $debug_data );
