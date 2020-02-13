@@ -1585,6 +1585,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Modernisierung der Leitungssysteme', 'wpenon'),
 						'options' => array(
+							'nein' => __('Keine Modernisierung durchgeführt', 'wpenon'),
 							'0-5' => __('Vor 0-5 Jahren', 'wpenon'),
 							'6-10' => __('Vor 6-10 Jahren', 'wpenon'),
 							'11-15' => __('Vor 11-15 Jahren', 'wpenon'),
@@ -1675,6 +1676,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Modernisierung der Leitungssysteme', 'wpenon'),
 						'options' => array(
+							'nein' => __('Keine Modernisierung durchgeführt', 'wpenon'),
 							'0-5' => __('Vor 0-5 Jahren', 'wpenon'),
 							'6-10' => __('Vor 6-10 Jahren', 'wpenon'),
 							'11-15' => __('Vor 11-15 Jahren', 'wpenon'),
@@ -1777,6 +1779,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Modernisierung der Leitungssysteme', 'wpenon'),
 						'options' => array(
+							'nein' => __('Keine Modernisierung durchgeführt', 'wpenon'),
 							'0-5' => __('Vor 0-5 Jahren', 'wpenon'),
 							'6-10' => __('Vor 6-10 Jahren', 'wpenon'),
 							'11-15' => __('Vor 11-15 Jahren', 'wpenon'),
