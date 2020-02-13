@@ -17,7 +17,7 @@ use Awsm\WP_Wrapper\Tools\Logger_Trait;
 use Awsm\WP_Wrapper\Tools\Logger;
 
 use Enon\Models\Enon\Energieausweis;
-use Enon\Edd\Models\Payment;
+use Enon\Models\Edd\Payment;
 
 /**
  * Class Reseller

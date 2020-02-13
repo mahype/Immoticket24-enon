@@ -74,7 +74,7 @@ abstract class Request {
 			'redirection' => '5',
 			'httpversion' => '1.0',
 			'blocking' => true,
-			'headers' => array( 'Content-Type' => 'multipart/form-data; charset=utf-8' ),
+			'headers' => array(),
 			'cookies' => array(),
 		);
 	}

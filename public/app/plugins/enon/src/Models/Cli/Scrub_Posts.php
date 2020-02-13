@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\CLI\Commands;
+namespace Enon\Models\Cli;
 
 /**
  * Scrub Posts

@@ -9,9 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Acf\Fieldsets;
-
-use Enon\Acf\Models\Fieldset;
+namespace Enon\Models\Fieldsets;
 
 /**
  * Class Confirmation_Email.

@@ -11,7 +11,7 @@
 
 namespace Enon_Reseller\Models\Api\Out\Distributor_Schemas;
 
-use Enon\Edd\Models\Payment;
+use Enon\Models\Edd\Payment;
 use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema;
 
 use Enon\Models\Enon\Energieausweis;
@@ -91,7 +91,7 @@ class Sparkasse implements Distributor_Schema {
 			'sender'         => 'immoticket24', // Required by Sparkasse Immobilien Heidelberg.
 		);
 
-		$data = $this->encode_data_recursive( 'utf8_encode', $data );
+		// $data = $this->encode_data_recursive( 'utf8_encode', $data );
 
 		return $data;
 	}
@@ -124,7 +124,7 @@ class Sparkasse implements Distributor_Schema {
 	public function get_endpoint() : string {
 		// phpcs:ignore
 		if ( 'enon.test' === $_SERVER['SERVER_NAME'] ) {
-			return 'https://postman-echo.com/post';
+		// 	return 'https://postman-echo.com/post';
 		}
 
 		return 'https://www.immobilienwertanalyse.de/iwapro/import/importData.php';

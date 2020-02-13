@@ -12,9 +12,9 @@
 namespace Enon\WP\Models;
 
 /**
- * Class Post_Data.
+ * Class Post_Meta.
  *
- * @package Enon\Reseller\Taks\Plugins
+ * @package Enon\WP\Models
  *
  * @since 1.0.0
  */

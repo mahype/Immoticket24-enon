@@ -11,7 +11,7 @@
 
 namespace Enon_Reseller\Models\Fieldsets;
 
-use Enon\Acf\Models\Fieldset;
+use Enon\Models\Fieldsets\Fieldset;
 
 /**
  * Class Reseller_Send_Data.

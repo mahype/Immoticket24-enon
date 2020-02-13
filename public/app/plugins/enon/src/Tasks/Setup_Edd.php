@@ -9,13 +9,11 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Edd\Tasks;
+namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
-
 use Awsm\WP_Wrapper\Tools\Logger;
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
 
 /**
  * Class Setup_Edd.

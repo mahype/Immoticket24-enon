@@ -9,9 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Acf\Models;
-
-use Enon\Acf\Models;
+namespace Enon\Models\Plugins;
 
 /**
  * Class ACF_Setting.

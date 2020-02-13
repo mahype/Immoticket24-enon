@@ -9,30 +9,28 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Acf\Tasks;
+namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 
-use Enon\Task_Loader;
 use Awsm\WP_Wrapper\Tools\Logger_Trait;
 use Awsm\WP_Wrapper\Tools\Logger;
 
-use Enon\Acf\Models\ACF;
-use Enon\Acf\Models\Page;
-use Enon\Acf\Models\Tabs;
-use Enon\Acf\Models\Tab;
-use Enon\Acf\Models\Fieldset;
+use Enon\Models\Plugins\ACF;
+use Enon\Models\WP\Page;
+use Enon\Models\WP\Tabs;
+use Enon\Models\WP\Tab;
 
-use Enon\Acf\Fieldsets\Fieldset_Billing_Email;
-use Enon\Acf\Fieldsets\Fieldset_Confirmation_Email;
+use Enon\Models\Fieldsets\Fieldset_Billing_Email;
+use Enon\Models\Fieldsets\Fieldset_Confirmation_Email;
 
 /**
  * Class Add_Options.
  *
  * @package Enon\Config
  */
-class Add_Options implements Task, Actions {
+class Add_Options_General implements Task, Actions {
 	use Logger_Trait;
 
 	/**

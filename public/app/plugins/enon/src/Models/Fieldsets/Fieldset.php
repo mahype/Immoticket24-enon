@@ -3,13 +3,13 @@
  * Interface for a fieldset.
  *
  * @category Interface
- * @package  Enon\Acf\Models
+ * @package  Enon\Models\WP
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\Acf\Models;
+namespace Enon\Models\Fieldsets;
 
 /**
  * Interface Fieldset.

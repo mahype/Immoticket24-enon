@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Misc\Tasks;
+namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Hooks_Actions;
 use Awsm\WP_Wrapper\Building_Plans\Service;
@@ -25,7 +25,7 @@ use Awsm\WP_Wrapper\Loaders\Loader;
  *
  * @since 1.0.0
  */
-class Task_Google_Tag_Manager implements Actions, Task {
+class Add_Google_Tag_Manager implements Actions, Task {
 	/**
 	 * Google Tag manager Company ID.
 	 *

@@ -1,15 +1,17 @@
 <?php
 /**
- * Post meta xlass.
+ * Post meta class.
  *
  * @category Class
- * @package  Enon\Acf\Models
+ * @package  Enon\Models\WP
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\Acf\Models;
+namespace Enon\Models\WP;
+
+use Enon\Models\Fieldsets\Fieldset;
 
 /**
  * Class Tab.
@@ -89,7 +91,7 @@ class Post_Meta {
 	 *
 	 * @param Tabs $tabs Tabs object.
 	 *
-	 * @return Page $this Page object for chaining functionality.
+	 * @return Post_Meta $this Page object for chaining functionality.
 	 *
 	 * @since 1.0.0
 	 */
@@ -104,7 +106,7 @@ class Post_Meta {
 	 *
 	 * @param Fieldset $fieldset Fieldset object.
 	 *
-	 * @return Page $this Page object for chaining functionality.
+	 * @return Post_Meta $this Page object for chaining functionality.
 	 *
 	 * @since 1.0.0
 	 */

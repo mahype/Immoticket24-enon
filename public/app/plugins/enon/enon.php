@@ -46,10 +46,6 @@ function enon_boot() {
 		( new Plugin() )
 			->add_task( WP_Loader::class, $logger )
 			->add_task( Tasks_Loader::class, $logger )
-			->add_task( CLI_Loader::class, $logger )
-			->add_task( Misc_Loader::class, $logger )
-			->add_task( Acf_Loader::class, $logger )
-			->add_task( Edd_Loader::class, $logger )
 			->boot();
 	} catch ( \Exception $exception ) {
 		wp_die( esc_attr( $exception->getMessage() ) );

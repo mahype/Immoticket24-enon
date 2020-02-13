@@ -9,7 +9,7 @@ namespace WPENON\Util;
 
 use WPENON\Model\Energieausweis;
 
-use Enon\Edd\Models\Payment;
+use Enon\Models\Edd\Payment;
 use Enon\WP\Models\Options_Confirmation_Email;
 use Enon\WP\Models\Options_Billing_Email;
 

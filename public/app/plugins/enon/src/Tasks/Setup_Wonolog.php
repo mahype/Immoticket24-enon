@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Tasks\WP;
+namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Task;
 use Awsm\WP_Wrapper\Tools\Logger_Trait;

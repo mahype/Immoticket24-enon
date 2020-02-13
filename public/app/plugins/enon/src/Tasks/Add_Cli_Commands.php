@@ -9,10 +9,10 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\CLI\Tasks;
+namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Building_Plans\Task;
-use Enon\CLI\Commands\Scrub_Posts;
+use Enon\Models\Cli\Scrub_Posts;
 
 /**
  * Class Task_CPT_Reseller.
@@ -21,13 +21,17 @@ use Enon\CLI\Commands\Scrub_Posts;
  *
  * @package Enon\Reseller\Tasks\Core
  */
-class Add_Commands implements Task {
+class Add_Cli_Commands implements Task {
 	/**
 	 * Running scripts.
 	 *
 	 * @since 1.0.0
 	 */
 	public function run() {
-		\WP_CLI::add_command( 'scrub', 'Enon\CLI\Commands\Scrub_Posts' );
+		if ( ! defined( 'WP_CLI' ) ) {
+			return;
+		}
+
+		\WP_CLI::add_command( 'scrub', 'Enon\Models\Cli\Scrub_Posts' );
 	}
 }

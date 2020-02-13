@@ -3,13 +3,13 @@
  * Wrapper class for Payment functions.
  *
  * @category Class
- * @package  Enon\Edd\Models
+ * @package  Enon\Models\Edd
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
  */
 
-namespace Enon\Edd\Models;
+namespace Enon\Models\Edd;
 
 use Enon\Models\Enon\Energieausweis;
 

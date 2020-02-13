@@ -20,7 +20,7 @@ use Enon\Models\Api\Out\Distributor_Energy_Certificate;
 use Enon\Models\Api\Out\Distributor_Schemas\Sparkasse_Schema;
 use Enon_Reseller\Models\Reseller;
 use Enon_Reseller\Models\Reseller_Data;
-use Enon\Edd\Models\Payment;
+use Enon\Models\Edd\Payment;
 
 use WPENON\Model\Energieausweis as Energieausweis_Old;
 
