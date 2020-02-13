@@ -61,8 +61,8 @@ class Post_Meta {
 		}
 
 		$field_group = array(
-			'key'                   => 'settings',
-			'title'                 => 'Einstellungen',
+			'key'                   => 'settings_' . $this->post_type,
+			'title'                 => __( 'Einstellungen', 'enon' ),
 			'fields'                => $data,
 			'menu_order'            => 0,
 			'position'              => 'normal',

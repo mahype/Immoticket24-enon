@@ -30,5 +30,7 @@ get_header(); ?>
       <?php endif; ?>
 
     </div>
-
+<script type="text/javascript">
+	<?php do_action( 'enon_page_js' ); ?>
+</script>
 <?php get_footer(); ?>
