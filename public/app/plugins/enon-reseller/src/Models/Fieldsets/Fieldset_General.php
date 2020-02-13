@@ -29,6 +29,17 @@ class Fieldset_General implements Fieldset {
 	public function get() : array {
 		$data = [
 			array(
+				'key'          => 'field_company_id',
+				'label'        => __( 'Company ID', 'enon' ),
+				'name'         => 'company_id',
+				'type'         => 'text',
+				'instructions' => 'This field is very important to fetch correct templates or sender classes. Please DO NOT CHANGE if you are not know what you are doing.',
+				'placeholder'  => '',
+				'prepend'      => '',
+				'append'       => '',
+				'maxlength'    => '',
+			),
+			array(
 				'key'          => 'field_company_name',
 				'label'        => __( 'Company Name', 'enon' ),
 				'name'         => 'company_name',

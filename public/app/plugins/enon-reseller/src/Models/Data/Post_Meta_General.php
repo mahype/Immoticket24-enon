@@ -20,6 +20,17 @@ use Enon\WP\Models\Post_Meta;
  */
 class Post_Meta_General extends Post_Meta {
 	/**
+	 * Get company id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Id of the company.
+	 */
+	public function get_company_id() {
+		return $this->get( 'company_id' );
+	}
+
+	/**
 	 * Get company name.
 	 *
 	 * @since 1.0.0
