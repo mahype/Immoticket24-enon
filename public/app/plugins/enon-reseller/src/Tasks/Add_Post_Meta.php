@@ -99,7 +99,6 @@ class Add_Post_Meta implements Task, Actions {
 			->add( new Tab( 'billing_email', __( 'Rechnungs-Email', 'enon' ), new Fieldset_Billing_Email() ) )
 			->add( new Tab( 'schema', __( 'Schema', 'enon' ), new Fieldset_Schema() ) )
 			->add( new Tab( 'iframe', __( 'Iframe', 'enon' ), new Fieldset_Iframe() ) )
-			->add( new Tab( 'send_data', __( 'Senden', 'enon' ), new Fieldset_Send_Data() ) )
 			->add( new Tab( 'website', __( 'Webseite', 'enon' ), new Fieldset_Website() ) );
 
 		return $tabs;

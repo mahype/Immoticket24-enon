@@ -139,18 +139,30 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 	public function send_data( Energieausweis_Old $energieausweis, int $reseller_id ) {
 		$reseller_data = new Reseller_Data( $reseller_id );
 
-		$schema_name  = $reseller_data->send_data->get_post_data_config_class();
+		$schema_name  = ucfirst( $reseller_data->general->get_company_id() );
+
+		$debug_values = array(
+			'energy_certificate_id' => $energieausweis->id,
+			'reseller_id'           => $reseller_id,
+			'schema_name'          => $schema_name,
+		);
+
+		if ( empty( $schema_name ) ) {
+			$this->logger()->warning( 'Company has no id.', $debug_values );
+			return;
+		}
+
 		$schema_class = 'Enon_Reseller\\Models\\Api\\Out\\Distributor_Schemas\\' . $schema_name;
 
 		// Is there an schema name which was set? Bail out if not.
 		if ( ! class_exists( $schema_class ) ) {
-			$values = array(
+			$debug_values = array(
 				'energy_certificate_id' => $energieausweis->id,
 				'reseller_id'           => $reseller_id,
 				'schema_class'          => $schema_class,
 			);
 
-			$this->logger()->warning( 'Sender Class does not exist. No data sent to reseller for energy certificate.', $values );
+			$this->logger()->warning( 'Sender Class does not exist. No data sent to reseller for energy certificate.', $debug_values );
 			return;
 		}
 
