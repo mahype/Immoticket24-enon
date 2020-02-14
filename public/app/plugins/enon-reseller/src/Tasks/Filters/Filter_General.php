@@ -110,16 +110,20 @@ class Filter_General implements Task, Filters, Actions {
 	public function filter_price( $value, $name ) {
 		switch ( $name ) {
 			case 'bw_download_price':
-				$value = $this->reseller->data()->general->get_price_bw();
+				$reseller_value = $this->reseller->data()->general->get_price_bw();
 				break;
 			case 'vw_download_price':
-				$value = $this->reseller->data()->general->get_price_vw();
+				$reseller_value = $this->reseller->data()->general->get_price_vw();
 				break;
 			default:
 				break;
 		}
 
-		return $value;
+		if ( empty( $reseller_value ) && 0 !== $reseller_value ) {
+			return $value;
+		}
+
+		return $reseller_value;
 	}
 
 	/**
