@@ -11,6 +11,7 @@
 
 namespace Enon_Reseller\Tasks\Filters;
 
+use Awsm\WP_Wrapper\Building_Plans\Actions;
 use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
 use Awsm\WP_Wrapper\Tools\Logger;
@@ -25,7 +26,7 @@ use Enon_Reseller\Models\Reseller;
  *
  * @package Enon_Reseller\WordPress
  */
-class Filter_General implements Task, Filters {
+class Filter_General implements Task, Filters, Actions {
 	use Logger_Trait;
 
 	/**
@@ -56,6 +57,7 @@ class Filter_General implements Task, Filters {
 	 */
 	public function run() {
 		$this->add_filters();
+		$this->add_actions();
 	}
 
 	/**
@@ -66,6 +68,14 @@ class Filter_General implements Task, Filters {
 	public function add_filters() {
 		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_to_address' ) );
 		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
+	}
+
+	/**
+	 * Adding actions.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_actions() {
 		add_action( 'template_redirect', array( $this, 'set_affiliatewp_referal' ), -10000, 0 );
 	}
 
