@@ -66,6 +66,15 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 	private $allowed_zip_areas = array();
 
 	/**
+	 * Allowed zip cities.
+	 *
+	 * @var array
+	 *
+	 * @since 1.0.0
+	 */
+	private $allowed_zip_cities = array();
+
+	/**
 	 * Loading Plugin scripts.
 	 *
 	 * @param Reseller $reseller Logger object.
@@ -74,10 +83,13 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function __construct( Reseller $reseller, Logger $logger ) {
+
 		$this->logger = $logger;
 		$this->reseller = $reseller;
 
 		$this->discount_types = array( 'spk', 'web' );
+
+		// Use spk-c22db for testing.
 
 		$this->discount_amounts = array(
 			// Coupon codes beginning with spk.
@@ -95,9 +107,18 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 		// Zip zones which are allowed for coupon codes.
 		$this->allowed_zip_areas = array(
 			0 => array(
-				'from' => 40721,
-				'to'   => 40724,
+				'from' => 40720,
+				'to'   => 40725,
 			),
+		);
+
+		// Specific zips which are allowed for coupon codes
+		$this->allowed_zip_cities = array(
+			'heidelberg' => [ 69115, 69117, 69118, 69120, 69121, 69123, 69124, 69126 ],
+			'neckargemuend' => [ 69151, 69239, 69245, 69250, 69253, 69256, 69257, 69259, 69434, 74909, 74931 ],
+			'walldorf_wiesloch' => [ 68789, 69168, 69181, 69190, 69207, 69226, 69231, 69234, 69242, 69254, 74918 ],
+			'schwetzingen' => [ 68723, 68775, 68782, 69214 ],
+			'hockenheim' => [ 68766, 68799, 68804, 68809 ],
 		);
 	}
 
@@ -153,21 +174,34 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 		foreach ( $energy_certificate_ids as $energy_certificate_id ) {
 			$energy_certificate = new \WPENON\Model\Energieausweis( $energy_certificate_id );
 
-			foreach ( $this->allowed_zip_areas as $allowed_zip_area ) {
-				if ( $energy_certificate->adresse_plz < $allowed_zip_area['from'] || $energy_certificate->adresse_plz > $allowed_zip_area['to'] ) {
-					$is_valid = false;
-					$debug_values = array(
-						'energy_certificate_id' => $energy_certificate_id,
-						'energy_certificate_zip' => $energy_certificate->addresse_plz,
-					);
+			$allowed_zip_cities_merged = array();
 
-					\edd_set_error( 'edd-discount-error', _x( 'Energieausweis Gutschein-Code ist nicht innerhalb des erlaubten Postleitzahlen-Bereichs.', 'Energy certificate not within allowed zip areas.', 'enon-reseller' ) );
-					$this->logger->alert( 'Energy certificate not within allowed zip areas.', $debug_values );
+			foreach ( $this->allowed_zip_cities as $allowed_zip_city ) {
+				$allowed_zip_cities_merged = array_merge( $allowed_zip_cities_merged, $allowed_zip_city );
+			}
+
+			$zip = $energy_certificate->adresse_plz;
+
+			if ( in_array( $zip, $allowed_zip_cities_merged ) ) {
+				return true;
+			}
+
+			foreach ( $this->allowed_zip_areas as $allowed_zip_area ) {
+				if ( $zip >= $allowed_zip_area['from'] && $zip <= $allowed_zip_area['to'] ) {
+					return true;
 				}
 			}
 		}
 
-		return $is_valid;
+		$debug_values = array(
+			'energy_certificate_id' => $energy_certificate_id,
+			'energy_certificate_zip' => $energy_certificate->addresse_plz,
+		);
+
+		$this->logger->alert( 'Energy certificate not within allowed zip areas.', $debug_values );
+		\edd_set_error( 'edd-discount-error', _x( 'Energieausweis Gutschein-Code ist nicht innerhalb des erlaubten Postleitzahlen-Bereichs.', 'Energy certificate not within allowed zip areas.', 'enon-reseller' ) );
+
+		return false;
 	}
 
 	/**
