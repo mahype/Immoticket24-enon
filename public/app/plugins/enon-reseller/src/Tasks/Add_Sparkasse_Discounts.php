@@ -112,7 +112,7 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 			),
 		);
 
-		// Specific zips which are allowed for coupon codes
+		// Specific zips which are allowed for coupon codes.
 		$this->allowed_zip_cities = array(
 			'heidelberg' => [ 69115, 69117, 69118, 69120, 69121, 69123, 69124, 69126 ],
 			'neckargemuend' => [ 69151, 69239, 69245, 69250, 69253, 69256, 69257, 69259, 69434, 74909, 74931 ],
