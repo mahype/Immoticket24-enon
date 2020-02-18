@@ -116,7 +116,8 @@ class Filter_Website implements Task, Filters {
 	/**
 	 * Filtering payment success URL.
 	 *
-	 * @param string $old_url Old url.
+	 * @param string $old_url    Old url.
+	 * @param int    $payment_id Payment id.
 	 *
 	 * @return string
 	 *
