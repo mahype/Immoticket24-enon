@@ -77,6 +77,7 @@ class Filter_Website implements Task, Filters {
 
 		add_filter( 'edd_get_checkout_uri', array( $this, 'filter_iframe_url' ), 100 );
 		add_filter( 'edd_get_success_page_uri', array( $this, 'filter_iframe_url' ), 100 );
+		add_filter( 'edd_get_success_page_uri', array( $this, 'filter_success_url' ), 200 );
 		add_filter( 'edd_get_failed_transaction_uri', array( $this, 'filter_iframe_url' ), 100 );
 		add_filter( 'edd_remove_fee_url', array( $this, 'filter_iframe_url' ), 100 );
 	}
@@ -92,6 +93,24 @@ class Filter_Website implements Task, Filters {
 	 */
 	public function filter_iframe_url( $url ) {
 		return $this->reseller->add_iframe_params( $url );
+	}
+
+	/**
+	 * Filter success url (also on no payment).
+	 *
+	 * @param string $url Url to redeírect after successful checkout.
+	 *
+	 * @return string Filtered url.
+	 *
+	 * @since 1.0.0
+	 */
+	public function filter_success_url( $url ) {
+		$success_url = $this->reseller->data()->website->get_payment_successful_url();
+		if ( ! empty( $success_url ) ) {
+			return $success_url;
+		}
+
+		return $url;
 	}
 
 	/**
