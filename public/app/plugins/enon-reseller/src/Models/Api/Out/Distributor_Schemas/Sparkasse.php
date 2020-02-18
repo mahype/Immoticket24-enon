@@ -124,7 +124,7 @@ class Sparkasse implements Distributor_Schema {
 	public function get_endpoint() : string {
 		// phpcs:ignore
 		if ( 'enon.test' === $_SERVER['SERVER_NAME'] ) {
-		// 	return 'https://postman-echo.com/post';
+		 	return 'https://postman-echo.com/post';
 		}
 
 		return 'https://www.immobilienwertanalyse.de/iwapro/import/importData.php';
