@@ -163,11 +163,12 @@ class Filter_Confirmation_Email implements Task, Filters {
 	 */
 	public function filter_link( $link, $energy_certificate ) {
 		$reseller_link = $this->reseller->data()->website->get_customer_edit_url();
-		$reseller_link = $this->reseller->add_iframe_params( $reseller_link, $energy_certificate->id );
 
 		if ( empty( $reseller_link ) ) {
 			return $link;
 		}
+
+		$reseller_link = $this->reseller->add_iframe_params( $reseller_link, $energy_certificate->id );
 
 		return $reseller_link;
 	}
