@@ -141,15 +141,17 @@ if( ! function_exists( 'get_quality_description' ) ) {
 	}
 }
 
-function wpenon_immoticket24_show_notice_misc()
-{
-	?>
-	<div class="alert alert-warning">
-		<p>
-			<?php _e('Bei diesen Angaben handelt es sich um die Zusatzangaben, die für Ihre Wertanalyse benötigt werden. Möchten Sie keine kostenlose qualifizierte Wertanalyse erhalten, können Sie diese Eingabefelder überspringen.', 'wpenon'); ?>
-		</p>
-	</div>
-	<?php
+if( ! function_exists( 'wpenon_immoticket24_show_notice_misc' ) ) {
+	function wpenon_immoticket24_show_notice_misc()
+	{
+		?>
+		<div class="alert alert-warning">
+			<p>
+				<?php _e('Bei diesen Angaben handelt es sich um die Zusatzangaben, die für Ihre Wertanalyse benötigt werden. Möchten Sie keine kostenlose qualifizierte Wertanalyse erhalten, können Sie diese Eingabefelder überspringen.', 'wpenon'); ?>
+			</p>
+		</div>
+		<?php
+	}
 }
 
 add_action('wpenon_form_group_notice_before', 'wpenon_immoticket24_show_notice_misc');
