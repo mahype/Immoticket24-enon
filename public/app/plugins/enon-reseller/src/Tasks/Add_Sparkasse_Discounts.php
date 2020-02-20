@@ -57,6 +57,15 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 	private $discount_amounts = array();
 
 	/**
+	 * Glory coupon codes are valid without further validation.
+	 *
+	 * @var array
+	 *
+	 * @since 1.0.0
+	 */
+	private $glory_codes = array();
+
+	/**
 	 * Allowed zip areas.
 	 *
 	 * @var array
@@ -83,14 +92,19 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function __construct( Reseller $reseller, Logger $logger ) {
-
 		$this->logger = $logger;
 		$this->reseller = $reseller;
 
-		$this->discount_types = array( 'spk', 'web' );
+		$this->discount_types = array(
+			'spk', // Sparkasse standard coupon.
+			'web', // Sparkasse web coupon.
+		);
+
+		// This coupon codes are valid without further validation.
+		// @todo Should move to higher place in code.
+		$this->glory_codes = array( 'ARPI221', 'CORRECT211', 'FAILURE-MT01' );
 
 		// Use spk-c22db for testing.
-
 		$this->discount_amounts = array(
 			// Coupon codes beginning with spk.
 			'spk' => array(
@@ -107,8 +121,8 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 		// Zip zones which are allowed for coupon codes.
 		$this->allowed_zip_areas = array(
 			0 => array(
-				'from' => 40720,
-				'to'   => 40725,
+				'from' => 0,
+				'to'   => 0,
 			),
 		);
 
@@ -139,9 +153,9 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
+		add_filter( 'edd_is_discount_valid', array( $this, 'is_valid' ), 10, 4 );
 		add_filter( 'edd_get_cart_item_discounted_amount', array( $this, 'set_discount' ), 10, 4 );
 		add_filter( 'edd_get_cart_discount_html', array( $this, 'cartdiscount_html' ), 10, 4 );
-		add_filter( 'edd_is_discount_valid', array( $this, 'is_valid_zip' ), 10, 4 );
 	}
 
 	/**
@@ -156,17 +170,37 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function is_valid_zip( $is_valid, $discount_id, $discount_code, $user ) {
+	public function is_valid( $is_valid, $discount_id, $discount_code, $user ) {
 		if ( ! $is_valid ) {
 			return $is_valid;
 		}
 
-		if ( ! $this->get_discount_type( $discount_code ) ) {
-			return $is_valid;
+		/**
+		 * Filter glory codes which are valid without further validation.
+		 *
+		 * @param array $glory_codes Coupon codes.
+		 *
+		 * @since 1.0.0
+		 */
+		$glory_codes = apply_filters( 'enon_reseller_glory_codes', $this->glory_codes );
+
+		// Glory codes are valid everywhere.
+		if ( in_array( $discount_code, $glory_codes ) ) {
+			return true;
 		}
 
+		// Checking discount type.
+		$discount_code_type = $this->get_discount_code_type( $discount_code );
+		if ( ! $discount_code_type ) {
+			$this->logger->alert( 'Energy certificate not valid.' );
+			\edd_set_error( 'edd-discount-error', _x( 'Energieausweis Gutschein-Code ist nicht gültig.', 'Energy certificate not within allowed zip areas.', 'enon-reseller' ) );
+			return false;
+		}
+
+		// Get current engergy certificate ids in cart.
 		$energy_certificate_ids = $this->get_cart_energy_certificate_ids();
 
+		// Bail out if there is no energy certificate.
 		if ( ! $energy_certificate_ids ) {
 			return $is_valid;
 		}
@@ -217,7 +251,8 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 	 * @return string $discount_html Filtered Discount HTML.
 	 */
 	public function cartdiscount_html( $discount_html, $discount_code, $rate, $remove_url ) {
-		if ( ! $this->get_discount_type( $discount_code ) ) {
+		$discount_code_type = $this->get_discount_code_type( $discount_code );
+		if ( ! $discount_code_type ) {
 			return $discount_html;
 		}
 
@@ -308,7 +343,7 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 	 * @return float $discount_amount Discount Amount.
 	 */
 	private function get_discount_amount( $discount_code, $engieausweis_type ) {
-		$discount_type   = $this->get_discount_type( $discount_code );
+		$discount_type   = $this->get_discount_code_type( $discount_code );
 		$discount_amount = $this->discount_amounts[ $discount_type ][ $engieausweis_type ];
 
 		return $discount_amount;
@@ -322,7 +357,7 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 	 * @param string $discount_code Discount code.
 	 * @return bool|mixed $discount_type Discount type if found or false.
 	 */
-	private function get_discount_type( $discount_code ) {
+	private function get_discount_code_type( $discount_code ) {
 		foreach ( $this->discount_types as $discount_type ) {
 			$discount_type_length = strlen( $discount_type );
 
