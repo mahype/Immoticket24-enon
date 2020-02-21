@@ -31,6 +31,15 @@ class Energieausweis {
 	private $id;
 
 	/**
+	 * Post object.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var \WP_Post
+	 */
+	private $post;
+
+	/**
 	 * Type.
 	 *
 	 * @since 1.0.0
@@ -60,6 +69,8 @@ class Energieausweis {
 
 		$this->type     = get_post_meta( $this->id, 'wpenon_type', true );
 		$this->standard = get_post_meta( $this->id, 'wpenon_standard', true );
+
+		$this->post = get_post( $id );
 	}
 
 	/**
@@ -71,6 +82,17 @@ class Energieausweis {
 	 */
 	public function get_id() {
 		return $this->id;
+	}
+
+	/**
+	 * Get post object.
+	 *
+	 * @return array|\WP_Post|null
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_post() {
+		return $this->post;
 	}
 
 	/**
