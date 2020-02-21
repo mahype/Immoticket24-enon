@@ -14,7 +14,7 @@ namespace Enon\Models\Api\Out;
 use Awsm\WP_Wrapper\Tools\Logger;
 use Awsm\WP_Wrapper\Tools\Logger_Trait;
 
-use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema;
+use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema_Interface;
 
 use WPENON\Model\Energieausweis as Energieausweis_Old;
 
@@ -29,7 +29,7 @@ class Distributor_Energy_Certificate extends Request {
 	/**
 	 * Distributor schema.
 	 *
-	 * @var Distributor_Schema
+	 * @var Distributor_Schema_Interface
 	 *
 	 * @since 1.0.0
 	 */
@@ -56,13 +56,13 @@ class Distributor_Energy_Certificate extends Request {
 	/**
 	 * Constructor.
 	 *
-	 * @param Distributor_Schema $distributor_schema Schema file for distributor.
+	 * @param Distributor_Schema_Interface $distributor_schema Schema file for distributor.
 	 * @param Energieausweis_Old $energy_certificate Engergy certificate object.
 	 * @param Logger             $logger             Logger object.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct( Distributor_Schema $distributor_schema, Energieausweis_Old $energy_certificate, Logger $logger ) {
+	public function __construct( Distributor_Schema_Interface $distributor_schema, Energieausweis_Old $energy_certificate, Logger $logger ) {
 		$this->distributor_schema = $distributor_schema;
 		$this->energy_certificate = $energy_certificate;
 		$this->logger             = $logger;

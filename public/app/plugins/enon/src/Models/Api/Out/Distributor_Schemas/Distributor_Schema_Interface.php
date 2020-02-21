@@ -18,7 +18,7 @@ use WPENON\Model\Energieausweis as Energieausweis_Old;
  *
  * @since 1.0.0
  */
-interface Distributor_Schema {
+interface Distributor_Schema_Interface {
 	/**
 	 * Checks if data have to be sent.
 	 *

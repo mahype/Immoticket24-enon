@@ -23,7 +23,7 @@ use WPENON\Util\PaymentMeta;
  *
  * @since 1.0.0
  */
-class Sparkasse implements Distributor_Schema {
+class Sparkasse implements Distributor_Schema_Interface {
 	/**
 	 * Checks if data can be sent.
 	 *
