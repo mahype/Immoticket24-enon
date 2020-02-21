@@ -558,61 +558,6 @@ function immoticketenergieausweis_wp_title( $sep )
   }
 }
 
-function immoticketenergieausweis_get_ekomi_rating() {
-  $rating = get_transient( 'it-ekomi-aggregate-rating' );
-  $rating_count = get_transient( 'it-ekomi-rating-count' );
-  if ( false === $rating || false === $rating_count ) {
-    $rating = 0.0;
-    $rating_count = 0;
-
-    $url = add_query_arg( array(
-      'auth'          => '81266|bcee523b2de16d3165bc9f8d6',
-      'type'          => 'json',
-    ), 'https://api.ekomi.de/v3/getFeedback' );
-
-    $response = wp_remote_get( $url );
-
-    if ( ! is_wp_error( $response ) ) {
-      $reviews = json_decode( wp_remote_retrieve_body( $response ) );
-      foreach ( $reviews as $review ) {
-        $rating += floatval( $review->rating );
-        $rating_count++;
-      }
-      $rating /= floatval( $rating_count );
-    }
-
-    set_transient( 'it-ekomi-aggregate-rating', $rating, DAY_IN_SECONDS );
-    set_transient( 'it-ekomi-rating-count', $rating_count, DAY_IN_SECONDS );
-  } else {
-    $rating = floatval( $rating );
-    $rating_count = intval( $rating_count );
-  }
-
-  return array( $rating, $rating_count );
-}
-
-function immoticketenergieausweis_render_rating_stars( $rating, $max_rating = 5.0 ) {
-  $star_count = intval( $max_rating );
-
-  $full_count = intval( round( $rating / 1.0 ) );
-  $half_count = ( $rating - $full_count ) > 0.5 ? 1 : 0;
-  $empty_count = $star_count - $full_count - $half_count;
-
-  echo '<div class="stars">';
-
-  for ( $i = 0; $i < $full_count; $i++ ) {
-    echo '<div class="star-full"></div>';
-  }
-  for ( $i = 0; $i < $half_count; $i++ ) {
-    echo '<div class="star-half"></div>';
-  }
-  for ( $i = 0; $i < $empty_count; $i++ ) {
-    echo '<div class="star-empty"></div>';
-  }
-
-  echo '</div>';
-}
-
 function immoticketenergieausweis_business_data_shortcode( $atts = array() )
 {
   extract( shortcode_atts( array(

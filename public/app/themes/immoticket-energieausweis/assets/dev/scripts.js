@@ -101,18 +101,6 @@
       e.preventDefault();
     });
 
-    $( '#ekomi-wrap' ).hover( function() {
-      if ( document.documentElement.clientWidth < 992 ) {
-        return;
-      }
-      $( '#ekomi-widget' ).fadeIn( 50 );
-    }, function() {
-      if ( document.documentElement.clientWidth < 992 ) {
-        return;
-      }
-      $( '#ekomi-widget' ).fadeOut( 50 );
-    });
-
   });
 
 }(jQuery);

@@ -7,7 +7,6 @@
  * @package immoticketenergieausweis
  */
 ?>
-
     </div><!-- #content -->
 
     <?php if ( ! immoticketenergieausweis_is_distraction_free() ) : ?>

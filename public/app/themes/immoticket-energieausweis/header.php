@@ -8,7 +8,6 @@
  */
 
 $data = immoticketenergieausweis_get_option( 'it-business' );
-$ekomi_rating = immoticketenergieausweis_get_ekomi_rating();
 
 $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
 
@@ -64,17 +63,21 @@ $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
         </div>
         <div class="trust col-md-7">
           <div class="badges">
+	          <?php
+	          /**
+	           * Header badges.
+	           *
+	           * @since 1.0.0
+	           */
+	            do_action('enon_header_badges' );
+	          ?>
             <div id="trusted-shops-badge"></div>
-            <div id="ekomi-wrap">
-              <div id="ekomi-badge"></div>
-              <div id="ekomi-rating">
-                <?php immoticketenergieausweis_render_rating_stars( $ekomi_rating[0], 5.0 ); ?>
-                <div class="stars-description">
-                  <strong><?php echo number_format( $ekomi_rating[0], 2 ); ?></strong>/5.00
-                </div>
-              </div>
-              <div id="ekomi-widget"></div>
-            </div>
+			<?php
+				$ekomi_bage = new \Enon\Models\Badges\Ekomi_Badge();
+				echo $ekomi_bage->html();
+				echo $ekomi_bage->css();
+				echo $ekomi_bage->js();
+			?>
             <div id="co2-neutral">
               <a href="https://www.co2neutralwebsite.de/crt/dispcust/c/4127/l/4" target="_blank">
                 <img src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/co2-neutrale-website.png">

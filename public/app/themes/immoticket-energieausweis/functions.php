@@ -698,18 +698,6 @@ function immoticketenergieausweis_show_terms_text( $purchase_button ) {
       'label'    => __( 'Ich erkläre mich damit einverstanden nach Bestellabschluss weitere Informationen über aktuelle und künftige Angebote und Produkte zu erhalten, denen ich jederzeit unter info@immoticket24.de oder über den Abmeldelink in der Email widersprechen kann.', 'immoticketenergieausweis' ),
       'required' => false,
     ),
-    /*array(
-      'id'       => 'it-agree-to-trustedshops-terms',
-      'name'     => 'it_agree_to_trustedshops_terms',
-      'label'    => __( '<strong>Bewerten und gutes tun!</strong> TrustedShops darf mich nach Bestellabschluss um meine Zufriedenheit zu Energieausweis-online-erstellen.de befragen. Für jede Bewertung spendet Energieausweis-online-erstellen.de 2 Euro an UNICEF.', 'immoticketenergieausweis' ),
-      'required' => false,
-    ),
-    array(
-      'id'       => 'it-agree-to-ekomi-terms',
-      'name'     => 'it_agree_to_ekomi_terms',
-      'label'    => __( '<strong>Bewerten und gutes tun!</strong> eKomi darf mich nach Bestellabschluss um meine Zufriedenheit zu Energieausweis-online-erstellen.de befragen. Für jede Bewertung spendet Energieausweis-online-erstellen.de 2 Euro an UNICEF.', 'immoticketenergieausweis' ),
-      'required' => false,
-    ),*/
   );
 
   $special_affiliate = immoticketenergieausweis_is_special_affiliate();
@@ -817,14 +805,6 @@ function immoticketenergieausweis_set_terms_acceptance_flags( $payment_id ) {
       $customer->delete_meta( 'it24_agree_to_newsletter_terms' );
     }
   }
-
-  /*if ( ! empty( $_POST['it_agree_to_trustedshops_terms'] ) ) {
-    $payment->update_meta( 'it24_agree_to_trustedshops_terms', '1' );
-  }
-
-  if ( ! empty( $_POST['it_agree_to_ekomi_terms'] ) ) {
-    $payment->update_meta( 'it24_agree_to_ekomi_terms', '1' );
-  }*/
 
   $special_affiliates = immoticketenergieausweis_get_special_affiliates();
   if ( ! empty( $_POST['it_is_special_affiliate'] ) && in_array( $_POST['it_is_special_affiliate'], $special_affiliates, true ) ) {
