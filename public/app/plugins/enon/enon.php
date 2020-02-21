@@ -20,10 +20,6 @@ namespace Enon;
 use Awsm\WP_Wrapper\Plugin\Plugin;
 
 use Enon\WP\Loader as WP_Loader;
-use Enon\CLI\Loader as CLI_Loader;
-use Enon\Misc\Loader as Misc_Loader;
-use Enon\Acf\Loader as Acf_Loader;
-use Enon\Edd\Loader as Edd_Loader;
 use Enon\Tasks\Loader as Tasks_Loader;
 
 if ( ! defined( 'WPINC' ) ) {
