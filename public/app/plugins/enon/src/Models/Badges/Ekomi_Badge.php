@@ -1,6 +1,6 @@
 <?php
 /**
- * Distributor for sending energy certificates to other API's.
+ * Ekomi badge.
  *
  * @category Class
  * @package  Enon\Models\Badges
@@ -12,7 +12,7 @@
 namespace Enon\Models\Badges;
 
 /**
- * Class Distributor_Energy_Certificate
+ * Class Ekomi_Badge.
  *
  * @since 1.0.0
  */
@@ -31,7 +31,7 @@ class Ekomi_Badge extends Badge_Component {
 		?>
 		<div id="ekomi-wrap">
 			<div id="ekomi-badge-tuev">
-				<img src="<?php echo plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'src/Assets/Img/tuev-saarland-logo.png'; ?>" />
+				<img src="<?php echo plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'src/Assets/Img/Badges/tuev-saarland-logo.png'; ?>" />
 			</div>
 			<div id="ekomi-rating">
 				<?php

@@ -170,36 +170,6 @@ function immoticketenergieausweis_uptain_script() {
 }
 add_action( 'wp_footer', 'immoticketenergieausweis_uptain_script', 100 );
 
-function immoticketenergieausweis_trusted_shops_badge_script() {
-  ?>
-  <script type="text/javascript">
-    (function () {
-      var _tsid = 'X509FCF5891E8A90932F2A46F02AD28DE';
-      _tsConfig = {
-        'yOffset': '0', /* offset from page bottom */
-        'variant': 'custom_reviews', /* text, default, small, reviews, custom, custom_reviews */
-        'customElementId': 'trusted-shops-badge', /* required for variants custom and custom_reviews */
-        'customCheckoutElementId': 'trusted-shops-warranty',
-        'trustcardDirection': 'bottomLeft', /* for custom variants: topRight, topLeft, bottomRight, bottomLeft */
-        'customBadgeWidth': '', /* for custom variants: 40 - 90 (in pixels) */
-        'customBadgeHeight': '70', /* for custom variants: 40 - 90 (in pixels) */
-        'disableResponsive': 'false', /* deactivate responsive behaviour */
-        'disableTrustbadge': 'false', /* deactivate trustbadge */
-        'trustCardTrigger': 'mouseenter' /* set to 'click' if you want the trustcard to be opened on click instead */
-      };
-      var _ts = document.createElement('script');
-      _ts.type = 'text/javascript';
-      _ts.charset = 'utf-8';
-      _ts.async = true;
-      _ts.src = '//widgets.trustedshops.com/js/' + _tsid + '.js';
-      var __ts = document.getElementsByTagName('script')[0];
-      __ts.parentNode.insertBefore(_ts, __ts);
-    })();
-  </script>
-  <?php
-}
-// add_action( 'wp_footer', 'immoticketenergieausweis_trusted_shops_badge_script', 100 );
-
 function immoticketenergieausweis_trusted_badge_shortcode( $atts ) {
   $atts = shortcode_atts( array(
     'variant'   => 'skyscraper_horizontal',

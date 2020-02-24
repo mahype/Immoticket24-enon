@@ -71,18 +71,6 @@ $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
 	           */
 	            do_action('enon_header_badges' );
 	          ?>
-            <div id="trusted-shops-badge"></div>
-			<?php
-				$ekomi_bage = new \Enon\Models\Badges\Ekomi_Badge();
-				echo $ekomi_bage->html();
-				echo $ekomi_bage->css();
-				echo $ekomi_bage->js();
-			?>
-            <div id="co2-neutral">
-              <a href="https://www.co2neutralwebsite.de/crt/dispcust/c/4127/l/4" target="_blank">
-                <img src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/co2-neutrale-website.png">
-              </a>
-            </div>
           </div>
         </div>
       </div>
@@ -117,7 +105,7 @@ $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
                 <img src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/trusted-shops-badge.png">
               </a>
               <a href="https://www.ekomi.de/bewertungen-energieausweis-online-erstellende.html" target="_blank">
-                <img src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/ekomi-badge.png">
+                <img src="/app/plugins/enon/src/Assets/Img/Badges/tuev-saarland-logo.png">
               </a>
             </div>
           </div>
@@ -177,12 +165,6 @@ $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
             <nav class="navigation-content col-md-12" role="navigation">
               <?php immoticketenergieausweis_nav_menu( 'primary', 'button' ); ?>
             </nav>
-            <!--<div class="service-provided-by col-md-3 col-md-pull-9">
-              <a class="btn btn-default btn-block" href="<?php echo esc_url( $business_url ); ?>" target="_blank">
-                <span><?php _e( 'Ein Service von', 'immoticketenergieausweis' ); ?></span>
-                <img src="<?php echo esc_url( $business_logo ); ?>" alt="<?php echo esc_attr( $business_name ); ?>">
-              </a>
-            </div>-->
           </div>
         </div>
         <?php endif; ?>
