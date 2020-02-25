@@ -34,8 +34,4 @@ class Trusted_Shops_Badge extends Badge_Component {
 
 		return $content;
 	}
-
-	public function js() : string {
-		// JS is managed by Google Tag manager
-	}
 }
