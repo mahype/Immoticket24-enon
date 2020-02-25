@@ -104,8 +104,8 @@ $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
               <a href="https://www.trustedshops.de/bewertung/info_X509FCF5891E8A90932F2A46F02AD28DE.html" target="_blank">
                 <img src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/trusted-shops-badge.png">
               </a>
-              <a href="https://www.ekomi.de/bewertungen-energieausweis-online-erstellende.html" target="_blank">
-                <img src="/app/plugins/enon/src/Assets/Img/Badges/tuev-saarland-logo.png">
+              <a href="https://www.service-tested.de/bewertungen/immoticket24-de-gmbh-www-energieausweis-online-erstellen-de/kundenurteil-gesamtbewertung-ekomi/" target="_blank">
+                <img src="/app/plugins/enon/src/Assets/Img/Badges/tuev-saarland-logo.png" />
               </a>
             </div>
           </div>
