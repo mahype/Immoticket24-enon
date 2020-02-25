@@ -1,3 +1,5 @@
+![Deploy to staging](https://github.com/awsmug/enon/workflows/Deploy%20to%20staging/badge.svg)
+
 # Energieausweis-Online-Erstellen.de Network
 
 This project is for development of the Energieausweis-Online-Erstellen.de Network.
