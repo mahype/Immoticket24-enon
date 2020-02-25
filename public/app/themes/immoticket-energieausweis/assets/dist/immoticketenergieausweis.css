@@ -5958,6 +5958,10 @@ a img.aligncenter {
   -o-transition: opacity cubic-bezier(0.1, 0.7, 0.1, 1) 400ms;
      transition: opacity cubic-bezier(0.1, 0.7, 0.1, 1) 400ms;
 }
+.navigation-bar .navigation-branding img,
+.navigation-bar .navigation-trust img {
+  max-width: 54px;
+}
 @media (max-width: 991px) {
   .navigation-bar .navigation-branding,
   .navigation-bar .navigation-trust {
