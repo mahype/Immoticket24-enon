@@ -40,8 +40,8 @@ class Ekomi_Badge extends Badge_Component {
 				?>
 				<div class="stars-description">
 					<strong>
-						4.80
-					</strong>/5.00
+						4.8
+					</strong>/5
 				</div>
 			</div>
 			<div id="ekomi-widget" class="ekomi-widget-container ekomi-widget-sf812665e4a9b6aad5b9"></div>
