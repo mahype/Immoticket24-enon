@@ -40,10 +40,7 @@ class Ekomi_Badge extends Badge_Component {
 				?>
 				<div class="stars-description">
 					<strong>
-						<?php
-						// phpcs:ignore
-						echo $ekomi->get_rating_formatted();
-						?>
+						4.80
 					</strong>/5.00
 				</div>
 			</div>
