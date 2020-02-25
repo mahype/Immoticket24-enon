@@ -128,6 +128,9 @@ RewriteCond %{REQUEST_URI} !^(/energieausweis2/bedarfsausweis-wohngebaeude/|/ene
 RewriteCond %{HTTP_USER_AGENT} !^(facebookexternalhit).* [NC]
 RewriteCond "%{DOCUMENT_ROOT}/app/cache/wp-rocket/%{HTTP_HOST}%{REQUEST_URI}/index%{ENV:WPR_SSL}%{ENV:WPR_WEBP}.html%{ENV:WPR_ENC}" -f
 RewriteRule .* "/app/cache/wp-rocket/%{HTTP_HOST}%{REQUEST_URI}/index%{ENV:WPR_SSL}%{ENV:WPR_WEBP}.html%{ENV:WPR_ENC}" [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^app/uploads/(.*) https://energieausweis-online-erstellen.de/app/uploads/$1
 </IfModule>
 # END WP Rocket
 php_value memory_limit 512M
