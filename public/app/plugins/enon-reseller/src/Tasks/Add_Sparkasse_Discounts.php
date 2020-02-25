@@ -192,8 +192,8 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 		// Checking discount type.
 		$discount_code_type = $this->get_discount_code_type( $discount_code );
 		if ( ! $discount_code_type ) {
-			$this->logger->alert( 'Energy certificate not valid.' );
-			\edd_set_error( 'edd-discount-error', _x( 'Energieausweis Gutschein-Code ist nicht gültig.', 'Energy certificate not within allowed zip areas.', 'enon-reseller' ) );
+			$this->logger->alert( 'Coupon code not not valid.' );
+			\edd_set_error( 'edd-discount-error', _x( 'Energieausweis Gutschein-Code ist nicht gültig.', 'Coupon code not within allowed zip areas.', 'enon-reseller' ) );
 			return false;
 		}
 
