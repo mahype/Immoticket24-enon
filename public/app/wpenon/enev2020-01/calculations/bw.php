@@ -823,6 +823,13 @@ foreach ( $calculations['bauteile'] as $slug => &$data ) {
     if ( ! empty( $data['bauart'] ) ) {
       $uslug .= '_' . $data['bauart'];
     }
+
+    // Special wish (26.02.2020
+	// Wenn Dach beheizt ist, dann immer die Uwerte von dach aus holz.
+    if ( 'dach' === $slug && 'beheizt' === $energieausweis->dach ) {
+	    $uslug = 'dach_holz';
+    }
+
     if ( isset( $uwerte[ $uslug ] ) ) {
       $yearkey = wpenon_immoticket24_make_yearkey( $data['baujahr'], 'uwerte202001' );
       $data['u'] = $uwerte[ $uslug ]->$yearkey;
