@@ -4,7 +4,7 @@
 
 # Authentication
 # User staging
-# Pass gehweghier
+# Pass lassMalSehen2020
 
 AuthUserFile /www/htdocs/w012900a//staging.energieausweis-online-erstellen.de/.htpasswd
 AuthGroupFile /dev/null
