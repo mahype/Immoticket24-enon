@@ -12,14 +12,6 @@ AuthName "Staging"
 AuthType Basic
 require valid-user
 
-<IfModule mod_rewrite.c>
-	RewriteEngine On
-	RewriteBase /
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule ^app/uploads/(.*) https://energieausweis-online-erstellen.de/app/uploads/$1 [R=302,L]
-</IfModule>
-
 ######################
 # Standard entries
 ######################
@@ -140,6 +132,9 @@ SetEnvIfNoCase Request_URI \.html_gzip$ no-gzip
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteBase /
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^app/uploads/(.*) https://energieausweis-online-erstellen.de/app/uploads/$1 [R=302,L]
 	RewriteCond %{HTTPS} on [OR]
 	RewriteCond %{SERVER_PORT} ^443$ [OR]
 	RewriteCond %{HTTP:X-Forwarded-Proto} https
