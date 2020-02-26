@@ -1,5 +1,7 @@
 <?php
 
+require_once ( dirname( __DIR__ ) . '/Standard_Options.php' );
+
 return array(
 	'bw_basisdaten' => array(
 		'title' => __('Basisdaten', 'wpenon'),
@@ -119,7 +121,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Form des Grundrisses', 'wpenon'),
 						'description' => __('Wählen Sie hier die Form aus (Draufsicht), die auf den Grundriss Ihres Gebäudes zutrifft.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_grundriss_dropdown(),
+						'options' => Standard_Options::get_grundriss_formen(),
 						'required' => true,
 					),
 					'grundriss_richtung' => array(
@@ -138,7 +140,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Form des Anbaus', 'wpenon'),
 						'description' => __('Wählen Sie hier die Form aus (Draufsicht), die auf den Anbau Ihres Gebäudes zutrifft.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_anbau_dropdown(),
+						'options' => Standard_Options::get_anbau_formen(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_bool_compare',
@@ -210,7 +212,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Wandbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Außenwand aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten_holzhaus(),
+						'options' => Standard_Options::get_bauarten_holzhaus(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_wand_bauart',
@@ -221,7 +223,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Wandbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Außenwand aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten_fachwerk(),
+						'options' => Standard_Options::get_bauarten_fachwerkaus(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_wand_bauart',
@@ -232,7 +234,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Wandbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Außenwand aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten_massiv(),
+						'options' => Standard_Options::get_bauarten_massiv(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_wand_bauart',
@@ -586,7 +588,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Anbau-Wandbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Außenwand aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten_holzhaus(),
+						'options' => Standard_Options::get_bauarten_holzhaus(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_anbauwand_bauart',
@@ -597,7 +599,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Anbau-Wandbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Außenwand aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten_fachwerk(),
+						'options' => Standard_Options::get_bauarten_fachwerkaus(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_anbauwand_bauart',
@@ -608,7 +610,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Anbau-Wandbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Außenwand aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten_massiv(),
+						'options' => Standard_Options::get_bauarten_massiv(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_anbauwand_bauart',
@@ -705,7 +707,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Dachtyp', 'wpenon'),
 						'description' => __('Falls das Dach Ihres Hauses nicht einer dieser Formen entspricht, wählen Sie hier bitte die Dachform aus, die Ihrem Dach am nächsten kommt.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_dach_formen(),
+						'options' => Standard_Options::get_dach_formen(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_array_whitelist',
@@ -729,7 +731,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Dachbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart des Daches aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten(),
+						'options' => Standard_Options::get_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_array_blacklist',
@@ -751,7 +753,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Deckenbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Obersten Geschossdecke aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten(),
+						'options' => Standard_Options::get_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_array_whitelist',
@@ -781,7 +783,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Anbau-Dachbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart des Dachs des Anbaus aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten(),
+						'options' => Standard_Options::get_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_bool_compare',
@@ -845,7 +847,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Kellerwandbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Kellerwand aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten_keller(),
+						'options' => Standard_Options::get_bauarten_keller(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_array_whitelist',
@@ -867,7 +869,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bodenbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Bodenplatte / Kellerdecke aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten_boden(),
+						'options' => Standard_Options::get_bauarten_boden(),
 						'required' => true,
 					),
 					'boden_daemmung' => array(
@@ -889,7 +891,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Anbau-Bodenbauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart des Bodens des Anbaus aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_bauarten_boden(),
+						'options' => Standard_Options::get_bauarten_boden(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_show_on_bool_compare',
@@ -936,7 +938,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => sprintf(__('Wählen Sie die Bauart der Fenster an Seite %s des Gebäudes aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'), 'a'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
@@ -979,7 +981,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => sprintf(__('Wählen Sie die Bauart der Fenster an Seite %s des Gebäudes aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'), 'b'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
@@ -1022,7 +1024,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => sprintf(__('Wählen Sie die Bauart der Fenster an Seite %s des Gebäudes aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'), 'c'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
@@ -1065,7 +1067,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => sprintf(__('Wählen Sie die Bauart der Fenster an Seite %s des Gebäudes aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'), 'd'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
@@ -1108,7 +1110,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => sprintf(__('Wählen Sie die Bauart der Fenster an Seite %s des Gebäudes aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'), 'e'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
@@ -1151,7 +1153,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => sprintf(__('Wählen Sie die Bauart der Fenster an Seite %s des Gebäudes aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'), 'f'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
@@ -1194,7 +1196,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => sprintf(__('Wählen Sie die Bauart der Fenster an Seite %s des Gebäudes aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'), 'g'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
@@ -1237,7 +1239,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => sprintf(__('Wählen Sie die Bauart der Fenster an Seite %s des Gebäudes aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'), 'h'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_fenster',
@@ -1280,7 +1282,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => __('Wählen Sie die Bauart der Dachfenster aus.', 'wpenon'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_dachfenster',
@@ -1331,7 +1333,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => sprintf(__('Wählen Sie die Bauart der Fenster an Seite %s des Anbaus aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'), 'b'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
@@ -1374,7 +1376,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => sprintf(__('Wählen Sie die Bauart der Fenster an Seite %s des Anbaus aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'), 't'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
@@ -1417,7 +1419,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => sprintf(__('Wählen Sie die Bauart der Fenster an Seite %s des Anbaus aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'), 's1'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',
@@ -1460,7 +1462,7 @@ return array(
 						'type' => 'select',
 						'label' => __('Bauart', 'wpenon'),
 						'description' => sprintf(__('Wählen Sie die Bauart der Fenster an Seite %s des Anbaus aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'), 's2'),
-						'options' => wpenon_immoticket24_get_fenster_bauarten(),
+						'options' => Standard_Options::get_fenster_bauarten(),
 						'required' => true,
 						'display' => array(
 							'callback' => 'wpenon_immoticket24_show_specific_anbaufenster',

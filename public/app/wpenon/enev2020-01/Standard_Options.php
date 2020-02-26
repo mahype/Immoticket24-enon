@@ -1,0 +1,198 @@
+<?php
+
+/**
+ * Class Standard_Options.
+ *
+ * @since 1.0.0
+ */
+class Standard_Options {
+	/**
+	 * Building construction type.
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_bauarten() {
+		$construction_types = array(
+			'massiv' => __( 'Massiv', 'wpenon' ),
+			'holz'   => __( 'Holz', 'wpenon' ),
+		);
+
+		return $construction_types;
+	}
+
+	/**
+	 * Floor construction type.
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_bauarten_boden() {
+		$construction_types = array(
+			'massiv'     => __( 'Massiv', 'wpenon' ),
+			'holz'       => __( 'Holz', 'wpenon' ),
+			'stahlbeton' => __( 'Stahlbeton', 'wpenon' ),
+		);
+
+		return $construction_types;
+	}
+
+	/**
+	 * Basement construction type.
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_bauarten_keller() {
+		$construction_types = array(
+			'bims'                              => __( 'Hochlochziegel, Bimsbeton; z. B. Poroton', 'wpenon' ),
+			'zweischalig'                       => __( 'Zweischalige Bauweise', 'wpenon' ),
+			'holzhaus_holz'                     => __( 'Holz', 'wpenon' ),
+			'massiv_bis_20cm'                   => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
+			'massiv_ueber_20cm'                 => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
+			'vollziegel_20cm_bis_30_cm'         => __( 'Vollziegel, Kalksandstein bis 20 cm', 'wpenon' ),
+			'vollziegel_bis_20cm'               => __( 'Vollziegel, Kalksandstein 20 - 30 cm', 'wpenon' ),
+			'wand_massiv_vollziegel_ueber_30cm' => __( 'Vollziegel, Kalksandstein über 30 cm', 'wpenon' ),
+		);
+
+		return $construction_types;
+	}
+
+	/**
+	 * Wooden house construction types.
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_bauarten_holzhaus() {
+		$construction_types = array(
+			'holz' => __( 'Holz', 'wpenon' ),
+		);
+
+		return $construction_types;
+	}
+
+	/**
+	 * Fachwerkhaus construction types.
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_bauarten_fachwerkaus() {
+		$construction_types = array(
+			'lehm'       => __( 'Lehm-/Lehmziegelausfachung', 'wpenon' ),
+			'vollziegel' => __( 'Vollziegel oder Massive Natursteinausfach', 'wpenon' ),
+		);
+
+		return $construction_types;
+	}
+
+	/**
+	 * Get massiv wall construction types.
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_bauarten_massiv() {
+		$construction_types = array(
+			'bims'                              => __( 'Hochlochziegel, Bimsbeton; z. B. Poroton', 'wpenon' ),
+			'zweischalig'                       => __( 'Zweischalige Bauweise', 'wpenon' ),
+			'bis_20cm'                          => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
+			'ueber_20cm'                        => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
+			'vollziegel_20cm_bis_30_cm'         => __( 'Vollziegel, Kalksandstein bis 20 cm', 'wpenon' ),
+			'vollziegel_bis_20cm'               => __( 'Vollziegel, Kalksandstein 20 - 30 cm', 'wpenon' ),
+			'wand_massiv_vollziegel_ueber_30cm' => __( 'Vollziegel, Kalksandstein über 30 cm', 'wpenon' ),
+		);
+
+		return $construction_types;
+	}
+
+	/**
+	 * Plot forms.
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_grundriss_formen() {
+		$formen = wpenon_immoticket24_get_grundriss_formen(); // Todo: Getting class for it.
+
+		foreach ( $formen as $key => &$value ) {
+			// phpcs:ignore
+			$value = sprintf( __( 'Form %s', 'wpenon' ), strtoupper( $key ) );
+		}
+
+		return $formen;
+	}
+
+	/**
+	 * Roof forms.
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_dach_formen() {
+		$formen = array(
+			'satteldach' => __( 'Satteldach', 'wpenon' ),
+			'pultdach'   => __( 'Pultdach', 'wpenon' ),
+			'walmdach'   => __( 'Walmdach', 'wpenon' ),
+		);
+
+		return $formen;
+	}
+
+	/**
+	 * Extension form.
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_anbau_formen() {
+		$formen = wpenon_immoticket24_get_anbau_formen();
+
+		foreach ( $formen as $key => &$value ) {
+			// phpcs:ignore
+			$value = sprintf( __( 'Form %s', 'wpenon' ), strtoupper( $key ) );
+		}
+
+		return $formen;
+	}
+
+	/**
+	 * Window construction type.
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_fenster_bauarten() {
+		$_windows = wpenon_get_table_results(
+			'uwerte202001',
+			array(
+				'bezeichnung' => array(
+					'value'   => 'fenster_%',
+					'compare' => 'LIKE',
+				),
+			),
+			array( 'name' ),
+			false,
+			'name',
+			'ASC'
+		);
+
+		$windows = array();
+		foreach ( $_windows as $slug => $name ) {
+			$windows[ str_replace( 'fenster_', '', $slug ) ] = $name;
+		}
+
+		return $windows;
+	}
+}
