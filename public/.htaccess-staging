@@ -1,3 +1,28 @@
+######################
+# Staging entries
+######################
+
+# Authentication
+# User staging
+# Pass gehweghier
+
+AuthUserFile /www/htdocs/w012900a//staging.energieausweis-online-erstellen.de/.htpasswd
+AuthGroupFile /dev/null
+AuthName "Staging"
+AuthType Basic
+require valid-user
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^app/uploads/(.*) https://energieausweis-online-erstellen.de/app/uploads/$1 [R=302,L]
+</IfModule>
+
+######################
+# Standard entries
+######################
 # BEGIN WP Rocket v3.4.4
 # Use UTF-8 encoding for anything served text/plain or text/html
 AddDefaultCharset UTF-8
@@ -113,24 +138,21 @@ AddEncoding gzip .html_gzip
 SetEnvIfNoCase Request_URI \.html_gzip$ no-gzip
 </IfModule>
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^app/uploads/(.*) https://energieausweis-online-erstellen.de/app/uploads/$1 [R=302,L]
-RewriteCond %{HTTPS} on [OR]
-RewriteCond %{SERVER_PORT} ^443$ [OR]
-RewriteCond %{HTTP:X-Forwarded-Proto} https
-RewriteRule .* - [E=WPR_SSL:-https]
-RewriteCond %{HTTP:Accept-Encoding} gzip
-RewriteRule .* - [E=WPR_ENC:_gzip]
-RewriteCond %{REQUEST_METHOD} GET
-RewriteCond %{QUERY_STRING} =""
-RewriteCond %{HTTP:Cookie} !(wordpress_logged_in_.+|wp-postpass_|wptouch_switch_toggle|comment_author_|comment_author_email_) [NC]
-RewriteCond %{REQUEST_URI} !^(/energieausweis2/bedarfsausweis-wohngebaeude/|/energieausweis2/verbrauchsausweis-wohngebaeude/|/energieausweise/(.*)|/checkout/|/checkout/kaufbestaetigung/|/edd-listener(.*)|/checkout/kauf-fehlgeschlagen/|/checkout/kaufarchiv/|/vermarktungspaket/|/(.+/)?feed/?|/(?:.+/)?embed/)$ [NC]
-RewriteCond %{HTTP_USER_AGENT} !^(facebookexternalhit).* [NC]
-RewriteCond "%{DOCUMENT_ROOT}/app/cache/wp-rocket/%{HTTP_HOST}%{REQUEST_URI}/index%{ENV:WPR_SSL}%{ENV:WPR_WEBP}.html%{ENV:WPR_ENC}" -f
-RewriteRule .* "/app/cache/wp-rocket/%{HTTP_HOST}%{REQUEST_URI}/index%{ENV:WPR_SSL}%{ENV:WPR_WEBP}.html%{ENV:WPR_ENC}" [L]
+	RewriteEngine On
+	RewriteBase /
+	RewriteCond %{HTTPS} on [OR]
+	RewriteCond %{SERVER_PORT} ^443$ [OR]
+	RewriteCond %{HTTP:X-Forwarded-Proto} https
+	RewriteRule .* - [E=WPR_SSL:-https]
+	RewriteCond %{HTTP:Accept-Encoding} gzip
+	RewriteRule .* - [E=WPR_ENC:_gzip]
+	RewriteCond %{REQUEST_METHOD} GET
+	RewriteCond %{QUERY_STRING} =""
+	RewriteCond %{HTTP:Cookie} !(wordpress_logged_in_.+|wp-postpass_|wptouch_switch_toggle|comment_author_|comment_author_email_) [NC]
+	RewriteCond %{REQUEST_URI} !^(/energieausweis2/bedarfsausweis-wohngebaeude/|/energieausweis2/verbrauchsausweis-wohngebaeude/|/energieausweise/(.*)|/checkout/|/checkout/kaufbestaetigung/|/edd-listener(.*)|/checkout/kauf-fehlgeschlagen/|/checkout/kaufarchiv/|/vermarktungspaket/|/(.+/)?feed/?|/(?:.+/)?embed/)$ [NC]
+	RewriteCond %{HTTP_USER_AGENT} !^(facebookexternalhit).* [NC]
+	RewriteCond "%{DOCUMENT_ROOT}/app/cache/wp-rocket/%{HTTP_HOST}%{REQUEST_URI}/index%{ENV:WPR_SSL}%{ENV:WPR_WEBP}.html%{ENV:WPR_ENC}" -f
+	RewriteRule .* "/app/cache/wp-rocket/%{HTTP_HOST}%{REQUEST_URI}/index%{ENV:WPR_SSL}%{ENV:WPR_WEBP}.html%{ENV:WPR_ENC}" [L]
 </IfModule>
 # END WP Rocket
 php_value memory_limit 512M
