@@ -47,9 +47,9 @@ class Standards_Config extends Config {
 				'start_date' => '2019-12-11',
 			),
 			'enev2020-01' => array(
-				'name'       => __( 'EnEV 2013 (ab 28.03.2020)', 'wpenon' ),
+				'name'       => __( 'EnEV 2013 (ab 28.02.2020)', 'wpenon' ),
 				'date'       => '2013-11-18',
-				'start_date' => '2020-03-25',
+				'start_date' => '2020-02-25',
 			),
 		);
 	}
