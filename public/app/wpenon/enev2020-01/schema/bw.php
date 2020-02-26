@@ -734,8 +734,8 @@ return array(
 						'options' => Standard_Options::get_bauarten(),
 						'required' => true,
 						'display' => array(
-							'callback' => 'wpenon_show_on_array_blacklist',
-							'callback_args' => array('field::dach', 'unbeheizt'),
+							'callback' => 'wpenon_show_on_array_whitelist',
+							'callback_args' => array('field::dach', 'nicht-vorhanden'),
 						),
 					),
 					'dach_daemmung' => array(
