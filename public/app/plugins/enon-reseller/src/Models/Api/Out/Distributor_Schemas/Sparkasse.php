@@ -11,12 +11,10 @@
 
 namespace Enon_Reseller\Models\Api\Out\Distributor_Schemas;
 
-use Enon\Models\Edd\Payment;
-use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema;
+use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema_Interface;
 
 use Enon\Models\Enon\Energieausweis;
 use WPENON\Model\Energieausweis as Energieausweis_Old;
-use WPENON\Util\PaymentMeta;
 
 /**
  * Class Distributor_Schema
