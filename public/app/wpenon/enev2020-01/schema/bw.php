@@ -672,7 +672,7 @@ return array(
 							'callback_args' => array('field::anbau_form', 's1', 'field::anbau'),
 						),
 					),
-					'anbauwand_s2_laenge' => array(
+					'anbauwand_s2_laenge' => array( // Hidden by CSS!
 						'type' => 'float_length',
 						'label' => __('Anbau-Schnittlänge s2', 'wpenon'),
 						'required' => true,
