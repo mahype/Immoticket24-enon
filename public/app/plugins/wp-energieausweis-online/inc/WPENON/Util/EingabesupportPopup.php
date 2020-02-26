@@ -284,6 +284,8 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 			$this->deactivate_eingabesupport( $energieausweis->id );
 		}
 
+		$fees = EDD()->cart->fees;
+
 		return $fees;
 	}
 

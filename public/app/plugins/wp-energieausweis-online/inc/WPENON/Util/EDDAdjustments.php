@@ -888,17 +888,6 @@ class EDDAdjustments {
 
 		$field_labels = apply_filters( 'wpenon_address_field_labels', $field_labels );
 
-		$logged_in = is_user_logged_in();
-
-		$user_address = array();
-
-		if ( $logged_in ) {
-			// $user_address = get_user_meta( get_current_user_id(), '_edd_user_address', true );
-		}
-		$line1 = $logged_in && ! isset( $user_address['line1'] ) ? $user_address['line1'] : '';
-		$line2 = $logged_in && ! isset( $user_address['line2'] ) ? $user_address['line2'] : '';
-		$city  = $logged_in && ! isset( $user_address['city'] ) ? $user_address['city'] : '';
-		$zip   = $logged_in && ! isset( $user_address['zip'] ) ? $user_address['zip'] : '';
 		ob_start(); ?>
 		<fieldset id="edd_cc_address" class="cc-address">
 			<span><legend><?php _e( 'Billing Details', 'easy-digital-downloads' ); ?></legend></span>
@@ -915,8 +904,7 @@ class EDDAdjustments {
 				<input type="text" id="card_address" name="card_address"
 				       class="card-address edd-input<?php if ( edd_field_is_required( 'card_address' ) ) {
 					       echo ' required';
-				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'Address line 1', 'easy-digital-downloads' ) . '"' : ''; ?>
-				       value="<?php echo $line1; ?>"/>
+				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'Address line 1', 'easy-digital-downloads' ) . '"' : ''; ?> />
 			</p>
 			<p id="edd-card-address-2-wrap">
 				<label for="card_address_2" class="edd-label">
@@ -930,8 +918,7 @@ class EDDAdjustments {
 				<input type="text" id="card_address_2" name="card_address_2"
 				       class="card-address-2 edd-input<?php if ( edd_field_is_required( 'card_address_2' ) ) {
 					       echo ' required';
-				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'Address line 2', 'easy-digital-downloads' ) . '"' : ''; ?>
-				       value="<?php echo $line2; ?>"/>
+				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'Address line 2', 'easy-digital-downloads' ) . '"' : ''; ?> />
 			</p>
 			<p id="edd-card-zip-wrap">
 				<label for="card_zip" class="edd-label">
@@ -945,8 +932,7 @@ class EDDAdjustments {
 				<input type="text" size="4" name="card_zip"
 				       class="card-zip edd-input<?php if ( edd_field_is_required( 'card_zip' ) ) {
 					       echo ' required';
-				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'Zip / Postal code', 'easy-digital-downloads' ) . '"' : ''; ?>
-				       value="<?php echo $zip; ?>"/>
+				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'Zip / Postal code', 'easy-digital-downloads' ) . '"' : ''; ?> />
 			</p>
 			<p id="edd-card-city-wrap">
 				<label for="card_city" class="edd-label">
@@ -955,13 +941,11 @@ class EDDAdjustments {
 						<span class="edd-required-indicator">*</span>
 					<?php } ?>
 				</label>
-				<span
-					class="edd-description"><?php _e( 'The city for your billing address.', 'easy-digital-downloads' ); ?></span>
+				<span class="edd-description"><?php _e( 'The city for your billing address.', 'easy-digital-downloads' ); ?></span>
 				<input type="text" id="card_city" name="card_city"
 				       class="card-city edd-input<?php if ( edd_field_is_required( 'card_city' ) ) {
 					       echo ' required';
-				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'City', 'easy-digital-downloads' ) . '"' : ''; ?>
-				       value="<?php echo $city; ?>"/>
+				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'City', 'easy-digital-downloads' ) . '"' : ''; ?> />
 			</p>
 			<p id="edd-card-country-wrap">
 				<label for="billing_country" class="edd-label">
@@ -977,13 +961,7 @@ class EDDAdjustments {
 					        echo ' required';
 				        } ?>">
 					<?php
-
 					$selected_country = edd_get_shop_country();
-
-					if ( $logged_in && ! empty( $user_address['country'] ) && '*' !== $user_address['country'] ) {
-						$selected_country = $user_address['country'];
-					}
-
 					$countries = edd_get_country_list();
 					foreach ( $countries as $country_code => $country ) {
 						echo '<option value="' . esc_attr( $country_code ) . '"' . selected( $country_code, $selected_country, false ) . '>' . $country . '</option>';
@@ -1001,13 +979,7 @@ class EDDAdjustments {
 				<span
 					class="edd-description"><?php _e( 'The state or province for your billing address.', 'easy-digital-downloads' ); ?></span>
 				<?php
-				$selected_state = edd_get_shop_state();
-				$states         = edd_get_shop_states( $selected_country );
-
-				if ( $logged_in && ! empty( $user_address['state'] ) ) {
-					$selected_state = $user_address['state'];
-				}
-
+				$states = edd_get_shop_states( $selected_country );
 				if ( ! empty( $states ) ) : ?>
 					<select name="card_state" id="card_state"
 					        class="card_state edd-select<?php if ( edd_field_is_required( 'card_state' ) ) {
@@ -1015,7 +987,7 @@ class EDDAdjustments {
 					        } ?>">
 						<?php
 						foreach ( $states as $state_code => $state ) {
-							echo '<option value="' . $state_code . '"' . selected( $state_code, $selected_state, false ) . '>' . $state . '</option>';
+							echo '<option value="' . $state_code . '">' . $state . '</option>';
 						}
 						?>
 					</select>
