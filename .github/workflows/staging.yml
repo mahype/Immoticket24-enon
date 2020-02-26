@@ -21,6 +21,8 @@ jobs:
         script: |
           WWW=/www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/
           cd $WWW
+          rm ./.htaccess
+          mv ./.htaccess-staging ./.htaccess
           ls -la
           git pull
           /www/htdocs/w012900a/bin/composer.phar update
