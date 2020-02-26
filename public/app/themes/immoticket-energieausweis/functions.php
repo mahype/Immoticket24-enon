@@ -236,8 +236,9 @@ function immoticketenergieausweis_payment_icons() {
           value = 'paymill';
         }
 
+        $( 'input[name="payment-mode"]' ).prop( 'checked', false );
         $( '#edd-gateway-' + value ).prop( 'checked', true );
-        $( 'input[name="payment-mode"]' ).trigger( 'change' );
+        $( '#edd-gateway-' + value ).trigger( 'change' );
       });
 
       function maybeAddDoneCheckmark() {
