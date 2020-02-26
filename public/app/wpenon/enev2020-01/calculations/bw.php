@@ -796,7 +796,7 @@ $fxwerte = array(
   'kellerwand'      => 0.6,
   'boden'           => 0.6,
 );
-$uwerte = wpenon_get_table_results( 'uwerte2019' );
+$uwerte = wpenon_get_table_results( 'uwerte202001' );
 $uwerte_reference = array(
   'dach'            => 0.2,
   'decke'           => 0.2,
@@ -824,7 +824,7 @@ foreach ( $calculations['bauteile'] as $slug => &$data ) {
       $uslug .= '_' . $data['bauart'];
     }
     if ( isset( $uwerte[ $uslug ] ) ) {
-      $yearkey = wpenon_immoticket24_make_yearkey( $data['baujahr'], 'uwerte2019' );
+      $yearkey = wpenon_immoticket24_make_yearkey( $data['baujahr'], 'uwerte202001' );
       $data['u'] = $uwerte[ $uslug ]->$yearkey;
     } else {
       $data['u'] = 1.0;
