@@ -9,7 +9,9 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Models\Api\Out\Distributor_Schemas;
+namespace Enon\Models\Api\Out\Distributor_Schema_Interface;
+
+use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema_Interface;
 
 use WPENON\Model\Energieausweis as Energieausweis_Old;
 
