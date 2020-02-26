@@ -742,8 +742,8 @@ class EDDAdjustments {
 		}
 
 		$owner_data = array();
-		if ( $energieausweis !== null ) {
-			$owner_data = $energieausweis->getOwnerData();
+		if ( $energieausweis !== null && WP_DEBUG ) {
+		//   	$owner_data = $energieausweis->getOwnerData();
 		}
 
 		$fields = array(
@@ -783,7 +783,7 @@ class EDDAdjustments {
 						echo ' required';
 					} ?>" type="text" name="<?php echo $field_slug; ?>"
 					       id="<?php echo $field_id; ?>"<?php echo $enable_placeholders ? ' placeholder="' . $field_title . '"' : ''; ?>
-					       value="<?php echo $field_value; ?>"<?php echo 'email' == $field_shortslug ? ' readonly' : ''; ?>>
+					       value="<?php echo $field_value; ?>"<?php echo 'email' == $field_shortslug && ! empty( $field_value ) ? ' readonly' : ''; ?>>
 				</p>
 				<?php
 				if ( 'email' == $field_shortslug ) {
@@ -890,13 +890,15 @@ class EDDAdjustments {
 
 		$logged_in = is_user_logged_in();
 
+		$user_address = array();
+
 		if ( $logged_in ) {
-			$user_address = get_user_meta( get_current_user_id(), '_edd_user_address', true );
+			// $user_address = get_user_meta( get_current_user_id(), '_edd_user_address', true );
 		}
-		$line1 = $logged_in && ! empty( $user_address['line1'] ) ? $user_address['line1'] : '';
-		$line2 = $logged_in && ! empty( $user_address['line2'] ) ? $user_address['line2'] : '';
-		$city  = $logged_in && ! empty( $user_address['city'] ) ? $user_address['city'] : '';
-		$zip   = $logged_in && ! empty( $user_address['zip'] ) ? $user_address['zip'] : '';
+		$line1 = $logged_in && ! isset( $user_address['line1'] ) ? $user_address['line1'] : '';
+		$line2 = $logged_in && ! isset( $user_address['line2'] ) ? $user_address['line2'] : '';
+		$city  = $logged_in && ! isset( $user_address['city'] ) ? $user_address['city'] : '';
+		$zip   = $logged_in && ! isset( $user_address['zip'] ) ? $user_address['zip'] : '';
 		ob_start(); ?>
 		<fieldset id="edd_cc_address" class="cc-address">
 			<span><legend><?php _e( 'Billing Details', 'easy-digital-downloads' ); ?></legend></span>
