@@ -1,5 +1,9 @@
 <?php
 
+require_once ( 'lib/Extension.php' );
+require_once ( 'lib/Extension_Form_A.php' );
+require_once ( 'lib/Extension_Form_B.php' );
+
 $energietraeger_table_name = 'energietraeger';
 if ( strtotime( '2016-01-01' ) <= strtotime( wpenon_get_reference_date( 'Y-m-d', $energieausweis ) ) ) {
   $energietraeger_table_name = 'energietraeger2016';
@@ -249,20 +253,36 @@ if ( $energieausweis->anbau ) {
     'v'             => $anbaugrundflaeche * $anbauwandhoehe,
   );
 
+	switch( $energieausweis->anbau_form ) {
+		case 'a':
+			$extension = new Extension_Form_A();
+			$extension->set_height( $energieausweis->anbau_hoehe );
+			$extension->set_walls( $energieausweis->anbauwand_s1_laenge, $energieausweis->anbauwand_t_laenge, $energieausweis->anbauwand_b_laenge );
+			$surface_areas = $extension->get_surface_areas();
+			break;
+		case 'b':
+			$extension = new Extension_Form_B();
+			$extension->set_height( $energieausweis->anbau_hoehe );
+			$extension->set_walls( $energieausweis->anbauwand_s1_laenge, $energieausweis->anbauwand_s2_laenge, $energieausweis->anbauwand_t_laenge, $energieausweis->anbauwand_b_laenge );
+			$surface_areas = $extension->get_surface_areas();
+			break;
+	}
+
   $anbauwandlaenge = 0.0;
   $calculations['anbauwandrichtungen'] = array();
   foreach ( $anbau_form as $wand => $data ) {
     $l_slug = 'anbauwand_' . $wand . '_laenge';
     $anbauwandlaenge += $$l_slug;
+    $_dslug = $$l_slug;
 
-    $calculations['bauteile'][ 'anbauwand_' . $wand ] = array(
+    $calculations['bauteile'][ 'anbauwand_anbauwand_' . $wand ] = array(
       'name'          => sprintf( __( 'Anbau-Wand %s', 'wpenon' ), $wand ),
       'typ'           => 'wand',
       'modus'         => 'opak',
       'bauart'        => $energieausweis->anbauwand_bauart,
       'baujahr'       => $energieausweis->anbau_baujahr,
       'richtung'      => $hr_mappings[ $data[1] ],
-      'a'             => $$l_slug * $anbauwandhoehe,
+      'a'             => $surface_areas[ $wand ],
       'd'             => $energieausweis->anbauwand_daemmung,
     );
     if ( ! isset( $calculations['anbauwandrichtungen'][ $calculations['bauteile'][ 'anbauwand_' . $wand ]['richtung'] ] ) ) {
