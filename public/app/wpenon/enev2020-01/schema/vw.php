@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema;
+
 return array(
 	'vw_basisdaten' => array(
 		'title' => __('Basisdaten', 'wpenon'),

@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema;
+
 $description_quality = __('<b>Einfach:</b><br/>z.B. Einfachverglasung, Dach ohne Wärmedämmung, PVC-Böden (niedriger Standard), Speicherheizung, Einzelöfen, Bäder ohne oder nur mit geringer Verfliesung<br/><br><b>Durchschnittlich:</b><br />z.B. Kunststofffenster, Isolierverglasung, Rolläden, mittlerer Wärmedämmungsstandard, Bat mit Dusche und Badewanne, Teppich, PVC Boden (mittlerer Standard), Fliesen, Kunststofftüren, Zentralheizung<br /><br /><b>Überdurchschnittlich:</b><br />z.B. Aluminiumfenster, Wärmeschutzverglasung, hoher Wärmestandard, zwei Bäder, Gäste-WC, Fliesenboden, Parkett, Glastüren, Zentralheizung<br />><br /><b>Aufwändig:</b><br />z.B. wandhohe Verfliesung, raumhohe Verglasung, elektische Rolläden, Schallschutzverglasung, Dachausschnitte mit Glas, aufwendige Dachausbauten, Natursteinböden, mehrere Bäder mit Bidet, Whirlpool, Einbruchschutz, massive Türen, Fußbodenheizung, Klimaanlage, Solaranlage', 'wpenon');
 
 $qualities = [

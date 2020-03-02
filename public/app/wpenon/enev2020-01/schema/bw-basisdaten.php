@@ -1,0 +1,111 @@
+<?php
+
+namespace Enev\Schema;
+
+$basisdaten = array(
+	'title'  => __( 'Basisdaten', 'wpenon' ),
+	'groups' => array(
+		'energieausweis' => array(
+			'title'       => __( 'Allgemein', 'wpenon' ),
+			'description' => __( 'Wählen Sie hier die passenden Angaben für Ihren Energieausweis aus.', 'wpenon' ),
+			'fields'      => array(
+				'anlass' => array(
+					'type'        => 'select',
+					'label'       => __( 'Anlass', 'wpenon' ),
+					'description' => __( 'Wählen Sie aus, für welchen Zweck dieser Energieausweis verwendet werden soll.', 'wpenon' ),
+					'options'     => array(
+						'modernisierung' => __( 'Modernisierung / Erweiterung', 'wpenon' ),
+						'vermietung'     => __( 'Vermietung', 'wpenon' ),
+						'verkauf'        => __( 'Verkauf', 'wpenon' ),
+						'sonstiges'      => __( 'sonstiges', 'wpenon' ),
+					),
+					'required'    => true,
+				),
+			),
+		),
+		'gebaeude'       => array(
+			'title'       => __( 'Gebäudeinformationen', 'wpenon' ),
+			'description' => __( 'Machen Sie hier grundsätzliche Angaben zum Gebäude.', 'wpenon' ),
+			'fields'      => array(
+				'gebaeudetyp'          => array(
+					'type'             => 'select',
+					'label'            => __( 'Gebäudetyp', 'wpenon' ),
+					'description'      => __( 'Wählen Sie den passenden Typ für das Gebäude aus.', 'wpenon' ),
+					'options'          => array(
+						'freistehend'       => __( 'freistehendes Haus', 'wpenon' ),
+						'reihenhaus'        => __( 'Reihenhaus', 'wpenon' ),
+						'reiheneckhaus'     => __( 'Reiheneckhaus', 'wpenon' ),
+						'doppelhaushaelfte' => __( 'Doppelhaushälfte', 'wpenon' ),
+						'sonstiges'         => __( 'sonstiges Wohngebäude', 'wpenon' ),
+					),
+					'disabled_options' => array(
+						'wohnung' => __( 'Wohnung (gemäß EnEV nicht möglich)', 'wpenon' ),
+					),
+					'required'         => true,
+				),
+				'gebaeudeteil'         => array(
+					'type'        => 'radio',
+					'label'       => __( 'Gebäudeteil', 'wpenon' ),
+					'description' => __( 'Wählen Sie den Gebäudeteil aus, für den der Energieausweis erstellt wird.', 'wpenon' ),
+					'options'     => array(
+						'gesamt'   => __( 'Gesamtes Gebäude', 'wpenon' ),
+						'gemischt' => __( 'Wohnteil gemischt genutztes Gebäude', 'wpenon' ),
+					),
+					'required'    => true,
+				),
+				'gebaeudekonstruktion' => array(
+					'type'     => 'radio',
+					'label'    => __( 'Gebäudekonstruktion', 'wpenon' ),
+					'options'  => array(
+						'massiv'   => __( 'Massivhaus', 'wpenon' ),
+						'holz'     => __( 'Holzhaus', 'wpenon' ),
+						'fachwerk' => __( 'Fachwerkhaus', 'wpenon' ),
+					),
+					'required' => true,
+				),
+				'wohnungen'            => array(
+					'type'        => 'int',
+					'label'       => __( 'Wohnungen', 'wpenon' ),
+					'description' => __( 'Geben Sie die Anzahl der Wohnungen im Gebäude ein.', 'wpenon' ),
+					'default'     => 1,
+					'min'         => 1,
+					'required'    => true,
+				),
+				'baujahr'              => array(
+					'type'        => 'int',
+					'label'       => __( 'Baujahr', 'wpenon' ),
+					'description' => __( 'Geben Sie das Baujahr des Gebäudes an.', 'wpenon' ),
+					'min'         => 1800,
+					'max'         => wpenon_get_reference_date( 'Y' ),
+					'required'    => true,
+				),
+			),
+		),
+		'regenerativ'    => array(
+			'title'       => __( 'Erneuerbare Energien', 'wpenon' ),
+			'description' => __( 'Falls Ihr Gebäude zum Teil erneuerbare Energien verwendet, machen Sie hier entsprechende Angaben.', 'wpenon' ),
+			'fields'      => array(
+				'regenerativ_art'     => array(
+					'type'        => 'text',
+					'label'       => __( 'Art der erneuerbaren Energien', 'wpenon' ),
+					'description' => __( 'Geben Sie die Art der erneuerbaren Energien ein, sofern Sie Photovoltaik, Geothermie, Solaranlage, Windenergie oder Energie aus Biogas nutzen. Falls nicht vorhanden, geben Sie bitte &quot;Keine&quot; ein. Dies dient ausschließlich der Information.', 'wpenon' ),
+					'default'     => __( 'Keine', 'wpenon' ),
+					'required'    => true,
+					'max'         => 40,
+				),
+				'regenerativ_nutzung' => array(
+					'type'        => 'text',
+					'label'       => __( 'Verwendung der erneuerbaren Energien', 'wpenon' ),
+					'description' => __( 'Geben Sie die Verwendung der erneuerbaren Energien ein, wenn Sie diese zur Wärmeerzeugung, Warmwassererzeugung, Energiespeicherung oder Stromerzeugung nutzen. Falls nicht vorhanden, geben Sie bitte &quot;Keine&quot; ein. Dies dient ausschließlich der Information.', 'wpenon' ),
+					'default'     => __( 'Keine', 'wpenon' ),
+					'required'    => true,
+					'max'         => 40,
+				),
+				'regenerativ_aktiv'   => array(
+					'type'  => 'checkbox',
+					'label' => __( 'Thermische Solaranlage vorhanden?', 'wpenon' ),
+				),
+			),
+		),
+	),
+);
