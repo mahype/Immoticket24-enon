@@ -3,8 +3,8 @@
 ######################
 
 # Authentication
-# User staging
-# Pass lassMalSehen2020
+# User sparkasse
+# Pass lassMichRein
 
 AuthUserFile /www/htdocs/w012900a/sparkasse.energieausweis-online-erstellen.de/.htpasswd
 AuthGroupFile /dev/null
