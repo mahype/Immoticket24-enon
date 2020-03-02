@@ -32,3 +32,7 @@ jobs:
           /www/htdocs/w012900a/bin/composer.phar update
           rm $WWW/public/.htaccess
           cp $WWW/public/.htaccess-sparkasse $WWW/public/.htaccess
+          cd $WWW
+          /www/htdocs/w012900a/wp-cli/wp-cli.phar language core update
+          /www/htdocs/w012900a/wp-cli/wp-cli.phar language plugin update
+          /www/htdocs/w012900a/wp-cli/wp-cli.phar language theme update
