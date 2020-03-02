@@ -12,6 +12,30 @@ require_once( dirname( __FILE__ ) . '/bw.php' );
  */
 class Bedarfsausweis_Schema_Sparkasse extends Bedarfsausweis_Schema {
 	/**
+	 * Bedarfsausweis_Schema_Sparkasse constructor.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct() {
+		add_action( 'wpenon_form_group_notice_before', array( $this, 'show_notice_misc' ) );
+	}
+
+	/**
+	 * Showing notice on misc page.
+	 *
+	 * @since 1.0.0
+	 */
+	public function show_notice_misc() {
+		?>
+		<div class="alert alert-warning">
+			<p>
+				<?php _e( 'Bei diesen Angaben handelt es sich um die Zusatzangaben, die für Ihre Wertanalyse benötigt werden. Möchten Sie keine kostenlose qualifizierte Wertanalyse erhalten, können Sie diese Eingabefelder überspringen.', 'wpenon' ); ?>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Get Basisdaten.
 	 *
 	 * @return array Basisdaten.
