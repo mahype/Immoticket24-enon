@@ -116,6 +116,7 @@ class Filter_General implements Task, Filters, Actions {
 				$reseller_value = $this->reseller->data()->general->get_price_vw();
 				break;
 			default:
+				$reseller_value = '';
 				break;
 		}
 
