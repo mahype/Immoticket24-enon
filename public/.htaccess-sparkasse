@@ -4,7 +4,7 @@
 
 # Authentication
 # User sparkasse
-# Pass lassMichRein
+# Pass immerR3inh1er
 
 AuthUserFile /www/htdocs/w012900a/sparkasse.energieausweis-online-erstellen.de/.htpasswd
 AuthGroupFile /dev/null
