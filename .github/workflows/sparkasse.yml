@@ -1,0 +1,34 @@
+name: Deploy to staging
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Remote Deployment
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script_stop: true
+        script: |
+          WWW=/www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/
+          cd $WWW
+          ls -la
+          git pull
+          /www/htdocs/w012900a/bin/composer.phar update
+          cd $WWW/public/app/plugins/enon
+          /www/htdocs/w012900a/bin/composer.phar update
+          cd $WWW/public/app/plugins/enon-reseller
+          /www/htdocs/w012900a/bin/composer.phar update
+          cd $WWW/public/app/plugins/wp-energieausweis-online
+          /www/htdocs/w012900a/bin/composer.phar update
+          rm $WWW/public/.htaccess
+          mv $WWW/public/.htaccess-staging $WWW/public/.htaccess
