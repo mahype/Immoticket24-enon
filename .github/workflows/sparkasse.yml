@@ -1,9 +1,9 @@
-name: Deploy to staging
+name: Deploy to sparkasse
 
 on:
   push:
     branches:
-      - staging
+      - sparkasse
 
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script_stop: true
         script: |
-          WWW=/www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/
+          WWW=/www/htdocs/w012900a/sparkasse.energieausweis-online-erstellen.de/
           cd $WWW
           ls -la
           git pull

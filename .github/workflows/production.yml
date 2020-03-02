@@ -1,9 +1,9 @@
-name: Deploy to staging
+name: Deploy to production
 
 on:
   push:
     branches:
-      - staging
+      - production
 
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script_stop: true
         script: |
-          WWW=/www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/
+          WWW=/www/htdocs/w012900a/production.energieausweis-online-erstellen.de/
           cd $WWW
           ls -la
           git pull
@@ -30,5 +30,3 @@ jobs:
           /www/htdocs/w012900a/bin/composer.phar update
           cd $WWW/public/app/plugins/wp-energieausweis-online
           /www/htdocs/w012900a/bin/composer.phar update
-          rm $WWW/public/.htaccess
-          mv $WWW/public/.htaccess-staging $WWW/public/.htaccess
