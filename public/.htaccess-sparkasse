@@ -6,7 +6,7 @@
 # User staging
 # Pass lassMalSehen2020
 
-AuthUserFile /www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/.htpasswd
+AuthUserFile /www/htdocs/w012900a/sparkasse.energieausweis-online-erstellen.de/.htpasswd
 AuthGroupFile /dev/null
 AuthName "Staging"
 AuthType Basic
