@@ -1085,11 +1085,15 @@ $calculations['uebergabe'] = array();
 
 $aaa = $energieausweis->h_erzeugung;
 
+$h_energietraeger_name = 'h_energietraeger_' . $energieausweis->h_erzeugung;
+$h_energietraeger_value = $energieausweis->$h_energietraeger_name;
+
 $h_erzeugung = wpenon_get_table_results( 'h_erzeugung2019', array( 'bezeichnung' => array( 'value' => $energieausweis->h_erzeugung, 'compare' => '=' ) ), array(), true );
-$h_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => $energieausweis->h_energietraeger, 'compare' => '=' ) ), array(), true );
+$h_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => $h_energietraeger_value, 'compare' => '=' ) ), array(), true );
 $h_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->h_baujahr, 'h_erzeugung2019' );
 list( $h_ep150, $h_ep500, $h_ep2500 ) = wpenon_immoticket24_make_anlagenkeys( 'ep', $h_yearkey );
 list( $h_he150, $h_he500, $h_he2500 ) = wpenon_immoticket24_make_anlagenkeys( 'he', $h_yearkey );
+
 $calculations['anlagendaten']['h'] = array(
   'name'                    => $h_erzeugung->name,
   'slug'                    => $h_erzeugung->bezeichnung,
