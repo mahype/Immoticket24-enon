@@ -269,6 +269,8 @@ abstract class Affiliate_WP_DB {
 			 *
 			 * The dynamic portion of the hook name, `$type`, refers to the object type.
 			 *
+			 * @since 1.0
+			 *
 			 * @param array $data Array of object data.
 			 */
 			do_action( 'affwp_pre_insert_' . $type, $data );
@@ -304,6 +306,8 @@ abstract class Affiliate_WP_DB {
 
 				/**
 				 * Fires immediately after an item has been created in the database.
+				 *
+				 * @since 1.0
 				 *
 				 * @param int   $object_id Object ID.
 				 * @param array $data      Array of object data.
@@ -387,6 +391,8 @@ abstract class Affiliate_WP_DB {
 		/**
 		 * Fires immediately after an item has been successfully updated.
 		 *
+		 * @since 1.0
+		 *
 		 * @param array $data   Array of item data.
 		 * @param int   $row_id Current item ID.
 		 */
@@ -419,6 +425,8 @@ abstract class Affiliate_WP_DB {
 		/**
 		 * Fires immediately before an item deletion has been attempted.
 		 *
+		 * @since 1.0
+		 *
 		 * @param string     $object Core object type.
 		 * @param int|string $row_id Row ID.
 		 */
@@ -433,6 +441,8 @@ abstract class Affiliate_WP_DB {
 		 *
 		 * In the case of deletion, this must fire prior
 		 * to the cache being invalidated below.
+		 *
+		 * @since 1.0
 		 *
 		 * @param string     $object Core object type.
 		 * @param int|string $row_id Row ID.

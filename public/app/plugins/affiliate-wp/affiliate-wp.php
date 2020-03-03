@@ -5,7 +5,7 @@
  * Description: Affiliate Plugin for WordPress
  * Author: Sandhills Development, LLC
  * Author URI: https://sandhillsdev.com
- * Version: 2.4.2
+ * Version: 2.4.5
  * Text Domain: affiliate-wp
  * Domain Path: languages
  * GitHub Plugin URI: affiliatewp/affiliatewp
@@ -25,7 +25,7 @@
  * @package AffiliateWP
  * @category Core
  * @author Pippin Williamson
- * @version 2.4.2
+ * @version 2.4.5
  */
 
 // Exit if accessed directly
@@ -57,7 +57,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.4.2';
+	private $version = '2.4.5';
 
 	/**
 	 * The affiliates DB instance variable.
@@ -511,6 +511,10 @@ final class Affiliate_WP {
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/cli/class-payout-sub-commands.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/cli/class-referral-sub-commands.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/cli/class-visit-sub-commands.php';
+
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/cli/class-affiliate-meta-sub-commands.php';
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/cli/class-customer-meta-sub-commands.php';
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/cli/class-referral-meta-sub-commands.php';
 		}
 	}
 

@@ -296,6 +296,8 @@ function affwp_set_affiliate_status( $affiliate, $status = '' ) {
 	/**
 	 * Fires just prior to update the affiliate status.
 	 *
+	 * @since 1.0
+	 *
 	 * @param  string $status     The new affiliate status. Optional.
 	 * @param  string $old_status The old affiliate status.
 	 */
@@ -415,11 +417,13 @@ function affwp_get_affiliate_rate( $affiliate = 0, $formatted = false, $product_
 	$rate = ( 'percentage' === $type ) ? $rate / 100 : $rate;
 
 	/**
-	 * Filter the affiliate rate
+	 * Filters the affiliate rate.
 	 *
-	 * @param  string  $rate
-	 * @param  int     $affiliate_id
-	 * @param  string  $type
+	 * @since 1.0
+	 *
+	 * @param float  $rate         The affiliate rate.
+	 * @param int    $affiliate_id Affiliate ID.
+	 * @param string $type         Rate type, usually 'flat' or 'percentage'.
 	 */
 	$rate = (string) apply_filters( 'affwp_get_affiliate_rate', $rate, $affiliate_id, $type, $reference );
 
@@ -759,6 +763,8 @@ function affwp_delete_affiliate( $affiliate, $delete_data = false ) {
 
 		/**
 		 * Fires immediately after an affiliate is deleted.
+		 *
+		 * @since 1.0
 		 *
 		 * @param int             $affiliate_id The affiliate ID.
 		 * @param bool            $delete_data  Whether the user data was also flagged for deletion.
@@ -1342,6 +1348,11 @@ function affwp_add_affiliate( $data = array() ) {
 
 		affwp_set_affiliate_status( $affiliate_id, $status );
 
+		// Add or delete affiliate notes
+		if ( ! empty( $args['notes'] ) ) {
+			affwp_update_affiliate_meta( $affiliate_id, 'notes', $args['notes'] );
+		}
+
 		return $affiliate_id;
 	}
 
@@ -1749,19 +1760,31 @@ function affwp_get_active_affiliate_area_tab() {
 }
 
 /**
- * Show a tab in the Affiliate Area
+ * Determines whether to render a given Affiliate Area area tab.
  *
- * @since  1.8
- * @return boolean
+ * @since 1.8
+ *
+ * @param string $tab Optional. Affiliate Area tab slug. Default empty.
+ * @return bool True if the tab should be rendered, otherwise false.
  */
 function affwp_affiliate_area_show_tab( $tab = '' ) {
+	/**
+	 * Filters whether to show a given Affiliate Area tab or not.
+	 *
+	 * @since 1.8
+	 *
+	 * @param bool   $show Whether to show the given tab.
+	 * @param string $tab  The given tab slug.
+	 */
 	return apply_filters( 'affwp_affiliate_area_show_tab', true, $tab );
 }
 
 /**
- * Render a specified tab of the affiliate area
+ * Renders a specified Affiliate Area tab.
  *
- * @since  2.1.7
+ * @since 2.1.7
+ *
+ * @param string $tab Optional. Slug for the Affiliate Area tab to render. Default empty.
  * @return void
  */
 function affwp_render_affiliate_dashboard_tab( $tab = '' ) {
@@ -1770,7 +1793,27 @@ function affwp_render_affiliate_dashboard_tab( $tab = '' ) {
 	affiliate_wp()->templates->get_template_part( 'dashboard-tab', $tab );
 	$content = ob_get_clean();
 
+	/**
+	 * Filters the contents of a specific Affiliate Area tab.
+	 *
+	 * The dynamic portion of the hook name, `$tab`, refers to the current Affiliate Area
+	 * tab slug.
+	 *
+	 * @since 2.1.7
+	 *
+	 * @param string $content Contents of the tab.
+	 * @param string $tab     The tab slug.
+	 */
 	$content = apply_filters( 'affwp_render_affiliate_dashboard_tab_' . $tab, $content, $tab );
+
+	/**
+	 * Filters the contents of the current Affiliate Area tab.
+	 *
+	 * @since 2.1.7
+	 *
+	 * @param string $content Contents of the tab.
+	 * @param string $tab     The tab slug.
+	 */
 	echo apply_filters( 'affwp_render_affiliate_dashboard_tab', $content, $tab );
 
 }

@@ -32,8 +32,13 @@ class Affiliate_WP_Integrations {
 	 * @return array
 	 */
 	public function get_integrations() {
-
-
+		/**
+		 * Filters the list of supported integrations.
+		 *
+		 * @since 1.0
+		 *
+		 * @param array $integrations List of supported integrations.
+		 */
 		return apply_filters( 'affwp_integrations', array(
 			'caldera-forms'  => 'Caldera Forms',
 			'contactform7'   => 'Contact Form 7',
@@ -86,7 +91,14 @@ class Affiliate_WP_Integrations {
 	 * @return array The list of integration classes.
 	 */
 	public function get_integration_classes() {
-
+		/**
+		 * Filters the list of integration classes.
+		 *
+		 * @since 2.2
+		 *
+		 * @param array $classes Key/value pairs where the key is the integration
+		 *                       slug and the value is the class name.
+		 */
 		return apply_filters( 'affwp_integration_classes', array(
 			'contactform7'   => 'Affiliate_WP_Contact_Form_7',
 			'edd'            => 'Affiliate_WP_EDD',
@@ -147,10 +159,19 @@ class Affiliate_WP_Integrations {
 		// Load each enabled integrations
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/integrations/class-base.php';
 
+		/**
+		 * Filters the list of enabled integrations.
+		 *
+		 * @since 1.0
+		 *
+		 * @param array $enabled List of enabled integrations.
+		 */
 		$enabled = apply_filters( 'affwp_enabled_integrations', $this->get_enabled_integrations() );
 
 		/**
 		 * Fires immediately prior to AffiliateWP integrations being loaded.
+		 *
+		 * @since 1.0
 		 */
 		do_action( 'affwp_integrations_load' );
 
@@ -166,6 +187,8 @@ class Affiliate_WP_Integrations {
 
 		/**
 		 * Fires immediately after all AffiliateWP integrations are loaded.
+		 *
+		 * @since 1.0
 		 */
 		do_action( 'affwp_integrations_loaded' );
 

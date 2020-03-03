@@ -53,7 +53,9 @@ $months = array(
 
 affiliate_wp()->affiliates->payouts->service_register->print_errors();
 
-if ( ! empty( $errors ) && ! in_array( 'service_account_not_created', $error_codes ) ) {
+if ( ! empty( $errors )
+	 && ! ( in_array( 'service_account_not_created', $error_codes ) || in_array( 'http_request_failed', $error_codes ) )
+) {
 
 	if ( ! in_array( 'empty_country', $error_codes ) ) {
 		$selected_country = sanitize_text_field( $_POST['country'] );

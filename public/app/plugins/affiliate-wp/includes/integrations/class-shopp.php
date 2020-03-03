@@ -26,6 +26,13 @@ class Affiliate_WP_Shopp extends Affiliate_WP_Base {
 
 		if( $this->was_referred() ) {
 
+			/**
+			 * Filters the Shopp order prior to adding the pending referral.
+			 *
+			 * @since 1.3
+			 *
+			 * @param object $order The Shopp order.
+			 */
 			$this->order = apply_filters( 'affwp_get_shopp_order', shopp_order( $order_id->order ) );
 
 			$this->email = $this->order->email;

@@ -67,6 +67,8 @@ function affwp_get_settings_tabs() {
 	/**
 	 * Filters the list of settings tabs.
 	 *
+	 * @since 1.0
+	 *
 	 * @param array $tabs Settings tabs.
 	 */
 	return apply_filters( 'affwp_settings_tabs', $tabs );

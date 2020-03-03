@@ -52,6 +52,8 @@ function affwp_referrals_admin() {
 			<?php
 			/**
 			 * Fires at the top of the referrals list-table admin screen.
+			 *
+			 * @since 1.0
 			 */
 			do_action( 'affwp_referrals_page_top' );
 			?>
@@ -62,6 +64,8 @@ function affwp_referrals_admin() {
 					<?php
 					/**
 					 * Fires in the action buttons area of the referrals list-table admin screen.
+					 *
+					 * @since 1.0
 					 */
 					do_action( 'affwp_referrals_page_buttons' );
 					?>
@@ -81,6 +85,8 @@ function affwp_referrals_admin() {
 			<?php
 			/**
 			 * Fires at the bottom of the referrals list table admin screen.
+			 *
+			 * @since 1.0
 			 */
 			do_action( 'affwp_referrals_page_bottom' );
 			?>

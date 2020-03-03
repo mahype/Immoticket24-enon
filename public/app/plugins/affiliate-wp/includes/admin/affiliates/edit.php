@@ -24,6 +24,8 @@ $payout_service_payout_method = affwp_get_affiliate_meta( $affiliate->affiliate_
 		/**
 		 * Fires at the top of the edit-affiliate admin screen, just inside of the form element.
 		 *
+		 * @since 1.0
+		 *
 		 * @param \AffWP\Affiliate $affiliate The affiliate object being edited.
 		 */
 		do_action( 'affwp_edit_affiliate_top', $affiliate );
@@ -365,6 +367,8 @@ $payout_service_payout_method = affwp_get_affiliate_meta( $affiliate->affiliate_
 			/**
 			 * Fires at the end of the edit-affiliate admin screen form area, below form fields.
 			 *
+			 * @since 1.0
+			 *
 			 * @param \AffWP\Affiliate $affiliate The affiliate object being edited.
 			 */
 			do_action( 'affwp_edit_affiliate_end', $affiliate );
@@ -375,6 +379,8 @@ $payout_service_payout_method = affwp_get_affiliate_meta( $affiliate->affiliate_
 		<?php
 		/**
 		 * Fires at the bottom of the edit-affiliate admin screen, just before the submit button.
+		 *
+		 * @since 1.0
 		 *
 		 * @param \AffWP\Affiliate $affiliate The affiliate object being edited.
 		 */

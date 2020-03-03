@@ -12,10 +12,24 @@ if ( isset( $_GET['affwp-notice'] ) && 'opted-in' == $_GET['affwp-notice'] ) : ?
 endif ?>
 
 <form id="affwp-opt-in-form" class="affwp-form" action="" method="post">
-	<?php do_action( 'affwp_affiliate_opt_in_form_top' ); ?>
+	<?php
+	/**
+	 * Fires at the top of the affiliate opt-in form, just inside the form tag.
+	 *
+	 * @since 2.2
+	 */
+	do_action( 'affwp_affiliate_opt_in_form_top' );
+	?>
 
 	<fieldset>
-		<?php do_action( 'affwp_opt_in_fields_before' ); ?>
+		<?php
+		/**
+		 * Fires immediately before the opt-in form fields.
+		 *
+		 * @since 2.2
+		 */
+		do_action( 'affwp_opt_in_fields_before' );
+		?>
 
 		<p>
 			<label for="affwp-opt-in-name"><?php _e( 'First Name', 'affiliate-wp' ); ?></label>
@@ -39,8 +53,22 @@ endif ?>
 			<input type="submit" class="button" value="<?php esc_attr_e( 'Subscribe', 'affiliate-wp' ); ?>" />
 		</p>
 
-		<?php do_action( 'affwp_opt_in_fields_after' ); ?>
+		<?php
+		/**
+		 * Fires immediately after the opt-in form fields.
+		 *
+		 * @since 2.2
+		 */
+		do_action( 'affwp_opt_in_fields_after' );
+		?>
 	</fieldset>
 
-	<?php do_action( 'affwp_affiliate_opt_in_form_bottom' ); ?>
+	<?php
+	/**
+	 * Fires at the top of the affiliate opt-in form, just inside the form tag.
+	 *
+	 * @since 2.2
+	 */
+	do_action( 'affwp_affiliate_opt_in_form_bottom' );
+	?>
 </form>

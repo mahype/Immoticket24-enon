@@ -98,6 +98,8 @@ class Reports {
 			<?php
 			/**
 			 * Fires at the top of the admin reports page screen.
+			 *
+			 * @since 1.9
 			 */
 			do_action( 'affwp_reports_page_top' );
 			?>
@@ -114,6 +116,8 @@ class Reports {
 			<?php
 			/**
 			 * Fires in the middle of the admin reports page screen.
+			 *
+			 * @since 1.9
 			 */
 			do_action( 'affwp_reports_page_middle' );
 			?>
@@ -125,6 +129,8 @@ class Reports {
 				 * Fires inside the tab container element of the currently-active admin reports screen tab.
 				 *
 				 * The dynamic portion of the hook name, `$active_tab`, refers to the active reports tab.
+				 *
+				 * @since 1.9
 				 */
 				do_action( 'affwp_reports_tab_' . $active_tab );
 				?>
@@ -134,6 +140,8 @@ class Reports {
 			<?php
 			/**
 			 * Fires at the bottom of the admin reports page screen.
+			 *
+			 * @since 1.9
 			 */
 			do_action( 'affwp_reports_page_bottom' );
 			?>

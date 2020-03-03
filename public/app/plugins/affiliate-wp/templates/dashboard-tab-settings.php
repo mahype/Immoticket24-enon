@@ -57,6 +57,8 @@ $connection_status      = affiliate_wp()->settings->get( 'payouts_service_connec
 		/**
 		 * Fires immediately prior to the profile submit button in the affiliate area.
 		 *
+		 * @since 1.0
+		 *
 		 * @param int    $affiliate_id      Affiliate ID.
 		 * @param string $affiliate_user_id The user of the currently logged-in affiliate.
 		 */

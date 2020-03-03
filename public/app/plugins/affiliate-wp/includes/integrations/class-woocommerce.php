@@ -96,6 +96,13 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 */
 	public function add_pending_referral( $order_id = 0 ) {
 
+		/**
+		 * Filters the WooCommerce order prior to adding the pending referral.
+		 *
+		 * @since 1.0
+		 *
+		 * @param \WC_Order $order The order object.
+		 */
 		$this->order = apply_filters( 'affwp_get_woocommerce_order', new WC_Order( $order_id ) );
 
 		// Check if an affiliate coupon was used
@@ -138,55 +145,72 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 				$cart_shipping += $this->order->get_shipping_tax();
 			}
 
-		if ( affwp_is_per_order_rate( $affiliate_id ) ) {
-			$amount = $this->calculate_referral_amount();
-		} else {
-			$items = $this->order->get_items();
+			if ( affwp_is_per_order_rate( $affiliate_id ) ) {
 
-		  // Calculate the referral amount based on product prices
-		  $amount = 0.00;
+				$amount = $this->calculate_referral_amount();
 
-			foreach ( $items as $product ) {
+			} else {
 
-				if ( get_post_meta( $product['product_id'], '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
-					continue; // Referrals are disabled on this product
+				$items = $this->order->get_items();
+
+				// Calculate the referral amount based on product prices
+				$amount = 0.00;
+
+				foreach ( $items as $product ) {
+
+					if ( get_post_meta( $product['product_id'], '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
+						continue; // Referrals are disabled on this product
+					}
+
+					if ( ! empty( $product['variation_id'] ) && get_post_meta( $product['variation_id'], '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
+						continue; // Referrals are disabled on this variation
+					}
+
+					// Get the categories associated with the download.
+					$categories = get_the_terms( $product['product_id'], 'product_cat' );
+
+					// Get the first category ID for the product.
+					$category_id = $categories && ! is_wp_error( $categories ) ? $categories[0]->term_id : 0;
+
+					// The order discount has to be divided across the items
+					$product_total = $product['line_total'];
+					$shipping      = 0;
+
+					if ( $cart_shipping > 0 && ! affiliate_wp()->settings->get( 'exclude_shipping' ) ) {
+						$shipping      = $cart_shipping / count( $items );
+						$product_total += $shipping;
+					}
+
+					if ( ! affiliate_wp()->settings->get( 'exclude_tax' ) ) {
+						$product_total += $product['line_tax'];
+					}
+
+					if ( $product_total <= 0 && 'flat' !== affwp_get_affiliate_rate_type( $affiliate_id ) ) {
+						continue;
+					}
+
+					$product_id_for_rate = $product['product_id'];
+
+					if ( ! empty( $product['variation_id'] ) && $this->get_product_rate( $product['variation_id'] ) ) {
+						$product_id_for_rate = $product['variation_id'];
+					}
+
+					$amount += $this->calculate_referral_amount( $product_total, $order_id, $product_id_for_rate, $affiliate_id, $category_id );
 				}
-
-				if ( ! empty( $product['variation_id'] ) && get_post_meta( $product['variation_id'], '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
-					continue; // Referrals are disabled on this variation
-				}
-
-				// Get the categories associated with the download.
-				$categories = get_the_terms( $product['product_id'], 'product_cat' );
-
-				// Get the first category ID for the product.
-				$category_id = $categories && ! is_wp_error( $categories ) ? $categories[0]->term_id : 0;
-
-				// The order discount has to be divided across the items
-				$product_total = $product['line_total'];
-				$shipping      = 0;
-
-				if ( $cart_shipping > 0 && ! affiliate_wp()->settings->get( 'exclude_shipping' ) ) {
-					$shipping      = $cart_shipping / count( $items );
-					$product_total += $shipping;
-				}
-
-				if ( ! affiliate_wp()->settings->get( 'exclude_tax' ) ) {
-					$product_total += $product['line_tax'];
-				}
-
-				if ( $product_total <= 0 && 'flat' !== affwp_get_affiliate_rate_type( $affiliate_id ) ) {
-					continue;
-				}
-
-				$product_id_for_rate = $product['product_id'];
-				if ( ! empty( $product['variation_id'] ) && $this->get_product_rate( $product['variation_id'] ) ) {
-					$product_id_for_rate = $product['variation_id'];
-				}
-				$amount += $this->calculate_referral_amount( $product_total, $order_id, $product_id_for_rate, $affiliate_id, $category_id );
-
 			}
-		}
+
+			/**
+			 * Filters the referral amount immediately after WooCommerce calculations have completed.
+			 *
+			 * @since 2.4.4
+			 *
+			 * @param float                     $amount       Calculated referral amount.
+			 * @param int                       $order_id     Order ID (reference)
+			 * @param int                       $affiliate_id Affiliate ID.
+			 * @param \Affiliate_WP_WooCommerce $this         WooCommerce integration class instance.
+			 */
+			$amount = apply_filters( 'affwp_woocommerce_add_pending_referral_amount', $amount, $order_id, $affiliate_id, $this );
+
 			if ( 0 == $amount && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
 
 				$this->log( 'Referral not created due to 0.00 amount.' );
@@ -409,6 +433,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 */
 	public function mark_referral_complete( $order_id = 0 ) {
 
+		/** This filter is documented in includes/integrations/class-woocommerce.php */
 		$this->order = apply_filters( 'affwp_get_woocommerce_order', new WC_Order( $order_id ) );
 
 		if ( true === version_compare( WC()->version, '3.0.0', '>=' ) ) {
@@ -713,7 +738,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 				 *
 				 * Use this hook to register extra product based settings to AffiliateWP product tab in WooCommerce.
 				 *
-				 * @ since 2.2.9
+				 * @since 2.2.9
 				 */
 				do_action( 'affwp_' . $this->context . '_product_settings' );
 
@@ -953,7 +978,6 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		}
 
 		return $referral_amount;
-
 	}
 
 	/**

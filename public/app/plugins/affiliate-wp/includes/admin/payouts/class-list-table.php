@@ -203,6 +203,8 @@ class AffWP_Payouts_Table extends List_Table {
 		/**
 		 * Filters the payouts list table sortable columns.
 		 *
+		 * @since 1.9
+		 *
 		 * @param array                $columns          The sortable columns for this list table.
 		 * @param \AffWP_Payouts_Table $this             List table instance.
 		 */
@@ -637,6 +639,8 @@ class AffWP_Payouts_Table extends List_Table {
 			 *
 			 * The dynamic portion of the hook name, `$this->current_action()` refers
 			 * to the current bulk action being performed.
+			 *
+			 * @since 1.9
 			 *
 			 * @param int $id The ID of the object.
 			 */

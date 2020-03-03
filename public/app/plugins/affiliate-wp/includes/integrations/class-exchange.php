@@ -63,6 +63,13 @@ class Affiliate_WP_Exchange extends Affiliate_WP_Base {
 	public function add_pending_referral( $transaction_id = 0 ) {
 
 		// get transaction object
+		/**
+		 * Filters the Exchange transaction before adding a pending referral.
+		 *
+		 * @since 1.0
+		 *
+		 * @param object $transaction Transaction object.
+		 */
 		$this->transaction = apply_filters( 'affwp_get_it_exchange_transaction', get_post_meta( $transaction_id, '_it_exchange_cart_object', true ) );
 
 		// get affiliate ID from the transaction object if set

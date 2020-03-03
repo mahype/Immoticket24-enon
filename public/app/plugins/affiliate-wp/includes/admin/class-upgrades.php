@@ -216,6 +216,16 @@ class Affiliate_WP_Upgrades {
 				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/upgrades/class-batch-upgrade-create-customers.php'
 			)
 		) );
+
+		$this->add_routine( 'upgrade_v245_create_customer_affiliate_relationship_records', array(
+			'version' => '2.4.5',
+			'compare' => '<',
+			'batch_process' => array(
+				'id'    => 'create-customer-affiliate-relationship-upgrade',
+				'class' => 'AffWP\Utils\Batch_Process\Upgrade_Create_Customer_Affiliate_Relationship',
+				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/upgrades/class-batch-upgrade-create-customer-affiliate-relationship.php'
+			)
+		) );
 	}
 
 	/**

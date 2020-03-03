@@ -245,6 +245,8 @@ class Affiliate_WP_Settings {
 		 *     `affwp_settings_misc_sanitize`
 		 *     `affwp_settings_integrations_sanitize`
 		 *
+		 * @since 1.0
+		 *
 		 * @param mixed $input The settings tab content to sanitize.
 		 */
 		$input = apply_filters( 'affwp_settings_' . $tab . '_sanitize', $input );
@@ -296,6 +298,8 @@ class Affiliate_WP_Settings {
 				 *     `affwp_settings_sanitize_checkbox`
 				 *     `affwp_settings_sanitize_select`
 				 *
+				 * @since 1.0
+				 *
 				 * @param array  $value The input array and settings key defined within.
 				 * @param string $key   The settings key.
 				 */
@@ -304,6 +308,8 @@ class Affiliate_WP_Settings {
 
 			/**
 			 * General setting sanitization filter
+			 *
+			 * @since 1.0
 			 *
 			 * @param array  $input[ $key ] The input array and settings key defined within.
 			 * @param string $key           The settings key.
@@ -451,6 +457,8 @@ class Affiliate_WP_Settings {
 			/**
 			 * Filters the default "General" settings.
 			 *
+			 * @since 1.0
+			 *
 			 * @param array $settings General settings.
 			 */
 			'general' => apply_filters( 'affwp_settings_general',
@@ -506,8 +514,11 @@ class Affiliate_WP_Settings {
 						'name' => __( 'Default Referral Format', 'affiliate-wp' ),
 						'desc' => sprintf( __( 'Show referral URLs to affiliates with either their affiliate ID or Username appended.<br/> For example: <strong>%s or %s</strong>.', 'affiliate-wp' ), esc_url( add_query_arg( affiliate_wp()->tracking->get_referral_var(), '1', home_url( '/' ) ) ), esc_url( add_query_arg( affiliate_wp()->tracking->get_referral_var(), $username, home_url( '/' ) ) ) ),
 						'type' => 'select',
+
 						/**
 						 * The referral format (such as ID or Username)
+						 *
+						 * @since 1.0
 						 *
 						 * @param array The available referring formats.
 						 */
@@ -631,6 +642,8 @@ class Affiliate_WP_Settings {
 			/**
 			 * Filters the default integration settings.
 			 *
+			 * @since 1.0
+			 *
 			 * @param array $integrations The enabled integrations. Defaults to `affiliate_wp()->integrations->get_integrations()`.
 			 */
 			'integrations' => apply_filters( 'affwp_settings_integrations',
@@ -647,6 +660,8 @@ class Affiliate_WP_Settings {
 
 			/**
 			 * Filters the default opt-in settings.
+			 *
+			 * @since 1.0
 			 *
 			 * @param array $opt_in_forms The opt in form settings.
 			 */
@@ -689,6 +704,8 @@ class Affiliate_WP_Settings {
 
 			/**
 			 * Filters the default "Email" settings.
+			 *
+			 * @since 1.0
 			 *
 			 * @param array $settings Array of email settings.
 			 */
@@ -808,6 +825,8 @@ class Affiliate_WP_Settings {
 
 			/**
 			 * Filters the default "Misc" settings.
+			 *
+			 * @since 1.0
 			 *
 			 * @param array $settings Array of misc settings.
 			 */
@@ -936,6 +955,8 @@ class Affiliate_WP_Settings {
 
 		/**
 		 * Filters the entire default settings array.
+		 *
+		 * @since 1.0
 		 *
 		 * @param array $settings Array of default settings.
 		 */
@@ -1661,6 +1682,14 @@ class Affiliate_WP_Settings {
 
 	}
 
+	/**
+	 * Checks validity of the license key.
+	 *
+	 * @since 1.0
+	 *
+	 * @param bool $force Optional. Whether to force checking the license (bypass caching).
+	 * @return bool|mixed|void
+	 */
 	public function check_license( $force = false ) {
 
 		if( ! empty( $_POST['affwp_settings'] ) ) {
@@ -1683,6 +1712,8 @@ class Affiliate_WP_Settings {
 
 			/**
 			 * Filters whether to send site data.
+			 *
+			 * @since 1.0
 			 *
 			 * @param bool $send Whether to send site data. Default true.
 			 */
@@ -1822,6 +1853,7 @@ class Affiliate_WP_Settings {
 		$data['integrations']     = affiliate_wp()->integrations->get_enabled_integrations();
 		$data['affiliates']       = affiliate_wp()->affiliates->count( array( 'number' => -1 ) );
 		$data['creatives']        = affiliate_wp()->creatives->count( array( 'number' => -1 ) );
+		$data['customers']        = affiliate_wp()->customers->count( array( 'number' => -1 ) );
 		$data['payouts']          = affiliate_wp()->affiliates->payouts->count( array( 'number' => -1 ) );
 		$data['referrals']        = affiliate_wp()->referrals->count( array( 'number' => -1 ) );
 		$data['consumers']        = affiliate_wp()->REST->consumers->count( array( 'number' => -1 ) );
