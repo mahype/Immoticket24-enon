@@ -945,7 +945,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 			$type_field = $heating . '_erzeugung';
 			$year_field = $heating . '_baujahr';
 
-			if (in_array($energieausweis->$type_field, $kessel, true) && !empty($energieausweis->$year_field) && $energieausweis->$year_field <= $current_year - 30) {
+			if (in_array($energieausweis->$type_field, $kessel, true) && !empty($energieausweis->$year_field) && $energieausweis->$year_field <= $current_year - 25) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['heizkessel'];
 			}
 
