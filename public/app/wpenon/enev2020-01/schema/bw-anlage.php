@@ -211,7 +211,6 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'stueckholz' => __( 'Stückholz', 'wpenon' ),
 						'braunkohle' => __( 'Braunkohle', 'wpenon' ),
 						'steinkohle' => __( 'Steinkohle', 'wpenon' ),
 					),
@@ -456,7 +455,6 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'stueckholz' => __( 'Stückholz', 'wpenon' ),
 						'braunkohle' => __( 'Braunkohle', 'wpenon' ),
 						'steinkohle' => __( 'Steinkohle', 'wpenon' ),
 					),
@@ -709,7 +707,6 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'stueckholz' => __( 'Stückholz', 'wpenon' ),
 						'braunkohle' => __( 'Braunkohle', 'wpenon' ),
 						'steinkohle' => __( 'Steinkohle', 'wpenon' ),
 					),
