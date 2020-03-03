@@ -1,6 +1,7 @@
 # Application
 *.log
 public/app/languages/*
+public/app/languages/plugins/*
 public/app/debug.log
 public/app/mu-plugins/*/
 public/app/plugins/*
