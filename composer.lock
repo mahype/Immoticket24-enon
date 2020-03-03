@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "187ea1d116c9638eaf399322e6ddcb21",
+    "content-hash": "57f645420e0948a7a77f9a4b1ed789f8",
     "packages": [
         {
             "name": "composer/installers",
@@ -461,15 +461,15 @@
         },
         {
             "name": "wpackagist-plugin/easy-digital-downloads",
-            "version": "2.9.20",
+            "version": "2.9.21",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/easy-digital-downloads/",
-                "reference": "tags/2.9.20"
+                "reference": "tags/2.9.21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/easy-digital-downloads.2.9.20.zip"
+                "url": "https://downloads.wordpress.org/plugin/easy-digital-downloads.2.9.21.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -521,24 +521,6 @@
             "homepage": "https://wordpress.org/plugins/imagify/"
         },
         {
-            "name": "wpackagist-plugin/imsanity",
-            "version": "2.5.0",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/imsanity/",
-                "reference": "tags/2.5.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/imsanity.2.5.0.zip"
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/imsanity/"
-        },
-        {
             "name": "wpackagist-plugin/login-lockdown",
             "version": "v1.8.1",
             "source": {
@@ -558,15 +540,15 @@
         },
         {
             "name": "wpackagist-plugin/ninjafirewall",
-            "version": "4.0.6",
+            "version": "4.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/ninjafirewall/",
-                "reference": "tags/4.0.6"
+                "reference": "tags/4.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/ninjafirewall.4.0.6.zip"
+                "url": "https://downloads.wordpress.org/plugin/ninjafirewall.4.1.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -630,39 +612,21 @@
         },
         {
             "name": "wpackagist-plugin/wordpress-seo",
-            "version": "13.1",
+            "version": "13.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wordpress-seo/",
-                "reference": "tags/13.1"
+                "reference": "tags/13.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.13.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.13.2.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/wordpress-seo/"
-        },
-        {
-            "name": "wpackagist-plugin/wp-maintenance-mode",
-            "version": "2.2.4",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/wp-maintenance-mode/",
-                "reference": "tags/2.2.4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-maintenance-mode.2.2.4.zip"
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wp-maintenance-mode/"
         },
         {
             "name": "wpackagist-plugin/wp-postratings",
@@ -681,24 +645,6 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/wp-postratings/"
-        },
-        {
-            "name": "wpackagist-plugin/wp-security-audit-log",
-            "version": "4.0.2",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/wp-security-audit-log/",
-                "reference": "tags/4.0.2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-security-audit-log.4.0.2.zip"
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wp-security-audit-log/"
         }
     ],
     "packages-dev": [

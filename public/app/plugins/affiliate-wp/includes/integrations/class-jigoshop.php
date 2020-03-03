@@ -63,6 +63,13 @@ class Affiliate_WP_Jigoshop extends Affiliate_WP_Base {
 				$this->affiliate_id = $affiliate_id;
 			}
 
+			/**
+			 * Filters the Jigoshop prder object before adding the pending referral.
+			 *
+			 * @since 1.0
+			 *
+			 * @param jigoshop_order $order Order object.
+			 */
 			$this->order = apply_filters( 'affwp_get_jigoshop_order', new jigoshop_order( $order_id ) ); // Fetch order
 
 			if ( $this->is_affiliate_email( $this->order->billing_email ) ) {
@@ -120,6 +127,7 @@ class Affiliate_WP_Jigoshop extends Affiliate_WP_Base {
 	*/
 	public function add_pending_referral_new( $order_object ) {
 
+		/** This filter is documented in includes/integrations/class-jigoshop.php */
 		$this->order = apply_filters( 'affwp_get_jigoshop_order', $order_object );
 
 		// Check if an affiliate coupon was used

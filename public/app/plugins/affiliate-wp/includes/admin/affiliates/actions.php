@@ -18,7 +18,12 @@ function affwp_process_add_affiliate( $data ) {
 		return false;
 	}
 
-	$data = array_map( 'trim', $data );
+	// Trim username, email, payment email fields.
+	foreach ( array( 'user_name', 'user_email', 'payment_email' ) as $key ) {
+		if ( isset( $data[ $key ] ) ) {
+			$data[ $key ] = trim( $data[ $key ] );
+		}
+	}
 
 	if ( ! current_user_can( 'manage_affiliates' ) ) {
 		wp_die( __( 'You do not have permission to manage affiliates', 'affiliate-wp' ), __( 'Error', 'affiliate-wp' ), array( 'response' => 403 ) );

@@ -1,0 +1,74 @@
+# Copyright (c) 2016-2016 Felix Arntz
+msgid ""
+msgstr ""
+"Project-Id-Version: edd-custom-fees 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/plugins/edd-custom-fees/\n"
+"POT-Creation-Date: 2016-01-18 21:24:54+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-01-18 22:28+0100\n"
+"Last-Translator: Felix Arntz <felix-arntz@leaves-and-love.net>\n"
+"Language-Team: Felix Arntz <felix-arntz@leaves-and-love.net>\n"
+"X-Generator: Poedit 1.6.7\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: uft-8\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2; _nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__; esc_html__;esc_attr_e; esc_html_e;"
+"esc_attr_x:1,2c; esc_html_x:1,2c\n"
+"X-Poedit-Bookmars: \n"
+"X-Textdomain-Support: yes\n"
+"Language: en_US\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: edd-custom-fees.php:63
+msgid "Additional Services"
+msgstr "Zusätzliche Leistungen"
+
+#: edd-custom-fees.php:65
+msgid "Get even more from your order by purchasing additional services."
+msgstr ""
+"Hol noch mehr aus deiner Bestellung, indem du zusätzliche Leistungen "
+"erwirbst."
+
+#: edd-custom-fees.php:134
+msgid ""
+"Notes for the customer about the custom fees associated with the payment."
+msgstr "Notizen für den Kunden über die zusätzlichen Gebühren in der Zahlung"
+
+#: edd-custom-fees.php:135
+msgid "A list of custom fees associated with the payment."
+msgstr "Eine Liste zusätzlicher Gebühren in der Zahlung"
+
+#: edd-custom-fees.php:181 edd-custom-fees.php:211
+msgid "The customer also purchased the following additional services:"
+msgstr "Der Kunde hat außerdem die folgenden zusätzlichen Leistungen erworben:"
+
+#: edd-custom-fees.php:236 edd-custom-fees.php:259
+msgid "Missing fee ID."
+msgstr "Fehlende Gebühren-ID."
+
+#: edd-custom-fees.php:243
+msgid "Invalid fee ID."
+msgstr "Ungültige Gebühren-ID."
+
+#. Plugin Name of the plugin/theme
+msgid "EDD Custom Fees"
+msgstr "EDD Custom Fees"
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/edd-custom-fees"
+msgstr "https://wordpress.org/plugins/edd-custom-fees"
+
+#. Description of the plugin/theme
+msgid "Add custom fees to all products on Easy Digital Downloads."
+msgstr ""
+"Fügt zusätzliche Gebühren zu allen Produkten in Easy Digital Downloads hinzu."
+
+#. Author of the plugin/theme
+msgid "Felix Arntz"
+msgstr "Felix Arntz"
+
+#. Author URI of the plugin/theme
+msgid "http://leaves-and-love.net"
+msgstr "http://leaves-and-love.net"

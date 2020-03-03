@@ -200,7 +200,7 @@ class Affiliate_WP_Customers_DB extends Affiliate_WP_DB {
 				$search = "`customer_id` IN( {$search_value} )";
 			} elseif ( is_string( $search_value ) ) {
 
-				// Searching by an affiliate's name or email
+				// Searching by a customer's name or email
 				if ( is_email( $search_value ) ) {
 
 					$user    = get_user_by( 'email', $search_value );
@@ -308,7 +308,6 @@ class Affiliate_WP_Customers_DB extends Affiliate_WP_DB {
 		return $this->get_customers( $args, true );
 	}
 
-
 	/**
 	 * Add a new customer
 	 *
@@ -407,6 +406,7 @@ class Affiliate_WP_Customers_DB extends Affiliate_WP_DB {
 			 * Fires immediately after an customer has been added to the database.
 			 *
 			 * @since 2.2
+			 *
 			 * @param int   $add  The new customer ID.
 			 * @param array $args The arguments passed to the insert method.
 			 */
@@ -432,9 +432,20 @@ class Affiliate_WP_Customers_DB extends Affiliate_WP_DB {
 	 */
 	public function update( $row_id, $data = array(), $where = '', $type = 'customer' ) {
 
-		if( isset( $data['affiliate_id'] ) ) {
+		if ( isset( $data['affiliate_id'] ) ) {
+
 			$affiliate_id = absint( $data['affiliate_id'] );
-			affwp_add_customer_meta( $row_id, 'affiliate_id', $affiliate_id, true );
+
+			global $wpdb;
+
+			$customers_meta_table = affiliate_wp()->customer_meta->table_name;
+
+			$customer_meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM {$customers_meta_table} WHERE affwp_customer_id = %d AND meta_key = 'affiliate_id' AND meta_value = %d LIMIT 1;", $row_id, $affiliate_id ) );
+
+			if ( ! $customer_meta_id ) {
+				affwp_add_customer_meta( $row_id, 'affiliate_id', $affiliate_id, false );
+			}
+
 			unset( $data['affiliate_id'] );
 		}
 

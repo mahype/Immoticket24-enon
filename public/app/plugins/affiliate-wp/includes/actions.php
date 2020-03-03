@@ -18,6 +18,8 @@ function affwp_do_actions() {
 		 * The dynamic portion of the hook name, `$action`, refers to the action passed via
 		 * the `affwp_action` parameter.
 		 *
+		 * @since 1.0
+		 *
 		 * @param array $_REQUEST Request data.
 		 */
 		do_action( "affwp_{$action}", $_REQUEST );

@@ -127,6 +127,18 @@ class Affiliate_WP_Admin_Notices {
 			$output .= self::show_notice( 'no_integrations', false );
 		}
 
+		if ( true === version_compare( AFFILIATEWP_VERSION, '2.0', '<' ) || false === affwp_has_upgrade_completed( 'upgrade_v20_recount_unpaid_earnings' ) ) {
+			$output .= self::show_notice( 'upgrade_v20_recount_unpaid_earnings', false );
+		}
+
+		if ( false === affwp_has_upgrade_completed( 'upgrade_v22_create_customer_records' ) ) {
+			$output .= self::show_notice( 'upgrade_v22_create_customer_records', false );
+		}
+
+		if ( false === affwp_has_upgrade_completed( 'upgrade_v245_create_customer_affiliate_relationship_records' ) ) {
+			$output .= self::show_notice( 'upgrade_v245_create_customer_affiliate_relationship_records', false );
+		}
+
 		// Payouts Service.
 		if ( in_array( affwp_get_current_screen(), array( 'affiliate-wp-referrals', 'affiliate-wp-payouts'), true ) ) {
 			$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
@@ -385,47 +397,73 @@ class Affiliate_WP_Admin_Notices {
 	 * @since 2.0
 	 */
 	public function upgrade_notices() {
-		if ( true === version_compare( AFFILIATEWP_VERSION, '2.0', '<' ) || false === affwp_has_upgrade_completed( 'upgrade_v20_recount_unpaid_earnings' ) ) :
-			self::show_notice( function() {
-				ob_start();
 
-				// Enqueue admin JS for the batch processor.
-				affwp_enqueue_admin_js();
-				?>
-				<div class="notice notice-info is-dismissible">
-					<p><?php _e( 'Your database needs to be upgraded following the latest AffiliateWP update.', 'affiliate-wp' ); ?></p>
-					<form method="post" class="affwp-batch-form" data-batch_id="recount-affiliate-stats-upgrade" data-nonce="<?php echo esc_attr( wp_create_nonce( 'recount-affiliate-stats-upgrade_step_nonce' ) ); ?>">
+		$this->add_notice( 'upgrade_v20_recount_unpaid_earnings',
+			array(
+				'class'   => 'notice notice-info is-dismissible',
+				'message' => function() {
+					$notice = __( 'Your database needs to be upgraded following the latest AffiliateWP update', 'affiliate-wp' );
+					$nonce  = wp_create_nonce( 'recount-affiliate-stats-upgrade_step_nonce' );
+
+					ob_start();
+					// Enqueue admin JS for the batch processor.
+					affwp_enqueue_admin_js();
+					?>
+					<p><?php echo $notice; ?></p>
+					<form method="post" class="affwp-batch-form" data-dismiss-when-complete="true" data-batch_id="recount-affiliate-stats-upgrade" data-nonce="<?php echo esc_attr( $nonce ); ?>">
 						<p>
 							<?php submit_button( __( 'Upgrade Database', 'affiliate-wp' ), 'secondary', 'v20-recount-unpaid-earnings', false ); ?>
 						</p>
 					</form>
-				</div>
-				<?php
+					<?php
+					return ob_get_clean();
+				},
+			) );
 
-				return ob_get_clean();
-			} );
-		endif;
+		$this->add_notice( 'upgrade_v22_create_customer_records',
+			array(
+				'class'   => 'notice notice-info is-dismissible',
+				'message' => function() {
+					$notice = __( 'Your database needs to be upgraded following the latest AffiliateWP update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
+					$nonce  = wp_create_nonce( 'create-customers-upgrade_step_nonce' );
 
-		if ( false === affwp_has_upgrade_completed( 'upgrade_v22_create_customer_records' ) ) :
-			self::show_notice( function() {
-				ob_start();
-
-				// Enqueue admin JS for the batch processor.
-				affwp_enqueue_admin_js();
-				?>
-				<div class="notice notice-info is-dismissible">
-					<p><?php _e( 'Your database needs to be upgraded following the latest AffiliateWP update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' ); ?></p>
-					<form method="post" class="affwp-batch-form" data-batch_id="create-customers-upgrade" data-nonce="<?php echo esc_attr( wp_create_nonce( 'create-customers-upgrade_step_nonce' ) ); ?>">
+					ob_start();
+					// Enqueue admin JS for the batch processor.
+					affwp_enqueue_admin_js();
+					?>
+					<p><?php echo $notice; ?></p>
+					<form method="post" class="affwp-batch-form" data-dismiss-when-complete="true" data-batch_id="create-customers-upgrade" data-nonce="<?php echo esc_attr( $nonce ); ?>">
 						<p>
 							<?php submit_button( __( 'Upgrade Database', 'affiliate-wp' ), 'secondary', 'v22-create-customers', false ); ?>
 						</p>
 					</form>
-				</div>
-				<?php
+					<?php
+					return ob_get_clean();
+				},
+			) );
 
-				return ob_get_clean();
-			} );
- 		endif;
+		$this->add_notice( 'upgrade_v245_create_customer_affiliate_relationship_records',
+			array(
+				'class'   => 'notice notice-info is-dismissible',
+				'message' => function() {
+					$notice = __( 'Your database needs to be upgraded following the latest AffiliateWP update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
+					$nonce  = wp_create_nonce( 'create-customer-affiliate-relationship-upgrade_step_nonce' );
+
+					ob_start();
+					// Enqueue admin JS for the batch processor.
+					affwp_enqueue_admin_js();
+					?>
+					<p><?php echo $notice; ?></p>
+					<form method="post" class="affwp-batch-form" data-dismiss-when-complete="true" data-batch_id="create-customer-affiliate-relationship-upgrade" data-nonce="<?php echo esc_attr( $nonce ); ?>">
+						<p>
+							<?php submit_button( __( 'Upgrade Database', 'affiliate-wp' ), 'secondary', 'v245-create-customer-affiliate-relationship', false ); ?>
+						</p>
+					</form>
+					<?php
+					return ob_get_clean();
+				},
+			) );
+
 	}
 
 	/**
