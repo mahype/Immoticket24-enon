@@ -1300,10 +1300,14 @@ if ( 'unbekannt' === $energieausweis->ww_info ) {
 }
 
 $ww_erzeugung = $energieausweis->ww_info . '_erzeugung';
-$ww_energietraeger = $energieausweis->ww_info . '_energietraeger';
+$ww_energietraeger = $energieausweis->ww_info . '_energietraeger_' . $energieausweis->$ww_erzeugung;
 $ww_baujahr = $energieausweis->ww_info . '_baujahr';
+
+
 $ww_erzeugung = wpenon_get_table_results( 'ww_erzeugung202001', array( 'bezeichnung' => array( 'value' => $energieausweis->$ww_erzeugung, 'compare' => '=' ) ), array(), true );
 $ww_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => $energieausweis->$ww_energietraeger, 'compare' => '=' ) ), array(), true );
+
+
 $ww_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->$ww_baujahr, 'ww_erzeugung202001' );
 list( $ww_ep150, $ww_ep500, $ww_ep2500 ) = wpenon_immoticket24_make_anlagenkeys( 'ep', $ww_yearkey );
 list( $ww_he150, $ww_he500, $ww_he2500 ) = wpenon_immoticket24_make_anlagenkeys( 'he', $ww_yearkey );
