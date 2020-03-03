@@ -159,7 +159,7 @@ add_action('wpenon_form_group_notice_before', 'wpenon_immoticket24_show_notice_m
 
 
 $description_quality_dach = _('');
-return array(
+$schema = array(
 	'vw_basisdaten' => array(
 		'title' => __('Basisdaten', 'wpenon'),
 		'groups' => array(
@@ -1154,3 +1154,5 @@ return array(
 		),
 	),
 );
+
+return $schema;

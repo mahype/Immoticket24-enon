@@ -1,6 +1,6 @@
 <?php
 
-return array(
+$schema = array(
 	'bw_basisdaten' => array(
 		'title' => __('Basisdaten', 'wpenon'),
 		'groups' => array(
@@ -1924,3 +1924,5 @@ return array(
 		),
 	),
 );
+
+return $schema;

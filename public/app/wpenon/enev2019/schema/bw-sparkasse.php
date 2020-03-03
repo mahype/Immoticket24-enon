@@ -156,7 +156,7 @@ if( ! function_exists( 'wpenon_immoticket24_show_notice_misc' ) ) {
 
 add_action('wpenon_form_group_notice_before', 'wpenon_immoticket24_show_notice_misc');
 
-return array(
+$schema = array(
 	'bw_basisdaten' => array(
 		'title' => __('Basisdaten', 'wpenon'),
 		'groups' => array(
@@ -2310,3 +2310,5 @@ return array(
 		),
 	),
 );
+
+return $schema;

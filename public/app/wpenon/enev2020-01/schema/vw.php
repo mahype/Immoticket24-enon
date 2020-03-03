@@ -73,12 +73,14 @@ if ( ! class_exists( 'Enev\Schema\Verbrauchsausweis_Schema' ) ):
 		 * @since 1.0.0
 		 */
 		public function get() {
-			return array(
+			$schema = array(
 				'vw_basisdaten' => $this->get_basisdaten(),
 				'vw_bauteile'   => $this->get_bauteile(),
 				'vw_anlage'   => $this->get_anlage(),
 				'vw_erfassung'     => $this->get_erfassung(),
 			);
+
+			return $schema;
 		}
 	}
 

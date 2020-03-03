@@ -73,12 +73,14 @@ if ( ! class_exists( 'Enev\Schema\Bedarfsausweis_Schema' ) ):
 		 * @since 1.0.0
 		 */
 		public function get() {
-			return array(
+			$schema = array(
 				'bw_basisdaten' => $this->get_basisdaten(),
 				'bw_gebaeude'   => $this->get_gebaeude(),
 				'bw_bauteile'   => $this->get_bauteile(),
 				'bw_anlage'     => $this->get_anlage(),
 			);
+
+			return $schema;
 		}
 	}
 

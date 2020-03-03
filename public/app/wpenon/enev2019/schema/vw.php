@@ -1,6 +1,6 @@
 <?php
 
-return array(
+$schema = array(
 	'vw_basisdaten' => array(
 		'title' => __('Basisdaten', 'wpenon'),
 		'groups' => array(
@@ -711,3 +711,5 @@ return array(
 		),
 	),
 );
+
+return $schema;
