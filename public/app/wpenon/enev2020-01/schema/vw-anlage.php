@@ -801,21 +801,50 @@ $anlage = array(
 				'ww_erzeugung'      => array(
 					'type'     => 'select',
 					'label'    => __( 'Typ der Warmwasseranlage', 'wpenon' ),
-					'options'  => wpenon_immoticket24_get_warmwasseranlagen2019(),
+					'options'  => wpenon_immoticket24_get_warmwasseranlagen202001(),
 					'required' => true,
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
 						'callback_args' => array( 'field::ww_info', 'ww' ),
 					),
 				),
-				'ww_energietraeger' => array(
+				'ww_energietraeger_dezentralelektroerhitzer' => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Warmwasseranlage', 'wpenon' ),
-					'options'  => wpenon_immoticket24_get_energietraeger( true ),
+					'options'  => array(
+						'strom_kwh' => __( 'Strom in kWh', 'wpenon' ),
+					),
+					'default'  => 'strom_kwh',
 					'required' => true,
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::ww_info', 'ww' ),
+						'callback_args' => array( 'field::ww_erzeugung', 'dezentralelektroerhitzer' ),
+					),
+				),
+				'ww_energietraeger_dezentralkleinspeicher' => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Warmwasseranlage', 'wpenon' ),
+					'options'  => array(
+						'strom_kwh' => __( 'Strom in kWh', 'wpenon' ),
+					),
+					'default'  => 'strom_kwh',
+					'required' => true,
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::ww_erzeugung', 'dezentralkleinspeicher' ),
+					),
+				),
+				'ww_energietraeger_dezentralgaserhitzer' => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Warmwasseranlage', 'wpenon' ),
+					'options'  => array(
+						'erdgas_m3' => __( 'Erdgas in m3', 'wpenon' ),
+						'erdgas_kwh' => __( 'Erdgas in kWh', 'wpenon' ),
+					),
+					'required' => true,
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::ww_erzeugung', 'dezentralgaserhitzer' ),
 					),
 				),
 				'ww_baujahr'        => array(
