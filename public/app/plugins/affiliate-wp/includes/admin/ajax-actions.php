@@ -15,6 +15,8 @@ function affwp_search_users() {
 	/**
 	 * Fires immediately prior to an AffiliateWP user search query.
 	 *
+	 * @since 2.0
+	 *
 	 * @param string $search_query The user search query.
 	 */
 	do_action( 'affwp_pre_search_users', $search_query );
@@ -379,6 +381,8 @@ function affwp_check_user_login() {
 
 	/**
 	 * Fires immediately prior to an AffiliateWP user check.
+	 *
+	 * @since 2.1.4
 	 *
 	 * @param string $user The user login.
 	 */

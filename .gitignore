@@ -1,5 +1,7 @@
 # Application
 *.log
+public/app/languages/*
+public/app/languages/plugins/*
 public/app/debug.log
 public/app/mu-plugins/*/
 public/app/plugins/*
@@ -12,7 +14,6 @@ public/app/uploads/*
 public/app/nfwlog/*
 
 # Ignore Exceptions
-!public/app/languages
 !public/app/mu-plugins/energieausweis-*/
 !public/app/mu-plugins/energieausweis-*.php
 !public/app/plugins/advanced-custom-fields-pro

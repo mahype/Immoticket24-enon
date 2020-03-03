@@ -24,7 +24,14 @@ if ( $user_name && ( $affiliate = affwp_get_affiliate( $user_name ) ) ) {
 // The minimum payout amount.
 $minimum = ! empty( $_REQUEST['minimum'] ) ? sanitize_text_field( affwp_sanitize_amount( $_REQUEST['minimum'] ) ) : 0;
 
-$args = array(
+/**
+ * Filters the arguments used to retrieve referrals for the payout preview.
+ *
+ * @since 2.4.3
+ *
+ * @param array $args Array of get_referrals() arguments.
+ */
+$args = apply_filters( 'affwp_preview_payout_get_referrals_args', array(
 	'status'       => 'unpaid',
 	'date'         => array(
 		'start' => $start,
@@ -32,7 +39,7 @@ $args = array(
 	),
 	'number'       => -1,
 	'affiliate_id' => $affiliate_id,
-);
+) );
 
 // Final  affiliate / referral data to be paid out.
 $data = array();

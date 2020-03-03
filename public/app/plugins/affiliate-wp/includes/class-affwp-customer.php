@@ -44,7 +44,7 @@ final class Customer extends Base_Object {
 	protected $affiliate_ids = array();
 
 	/**
-	 * Affiliate user ID.
+	 * Customer user ID.
 	 *
 	 * @since 2.2
 	 * @access public
@@ -53,7 +53,7 @@ final class Customer extends Base_Object {
 	public $user_id = 0;
 
 	/**
-	 * Affiliate first name.
+	 * Customer first name.
 	 *
 	 * @since 2.2
 	 * @access public
@@ -170,7 +170,7 @@ final class Customer extends Base_Object {
 	 * @since 2.2
 	 * @access public
 	 *
-	 * @return string Customerr name
+	 * @return string Customer name
 	 */
 	public function get_name() {
 
@@ -192,7 +192,6 @@ final class Customer extends Base_Object {
 
 		return $name;
 	}
-
 
 	/**
 	 * Retrieves the affiliate IDs associated with this customer.
@@ -218,6 +217,15 @@ final class Customer extends Base_Object {
 		global $wpdb;
 		$table_name   = affiliate_wp()->customer_meta->table_name;
 		$affiliate_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$table_name} WHERE meta_key = 'affiliate_id' AND affwp_customer_id = %d ORDER BY meta_id ASC LIMIT 1;", $this->customer_id ) );
+
+		/**
+		 * Filters the canonical affiliate ID for the current customer.
+		 *
+		 * @since 2.2
+		 *
+		 * @param int             $affiliate_id Affiliate ID.
+		 * @param \AffWP\Customer $customer     Current Customer object.
+		 */
 		return apply_filters( 'affwp_get_canonical_customer_affiliate_id', $affiliate_id, $this );
 	}
 

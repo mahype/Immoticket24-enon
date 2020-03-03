@@ -267,9 +267,11 @@ class Meta_Box {
 		/**
 		 * Filter the title tag content for an admin page.
 		 *
-		 * @param string $content The content of the meta box, set in $this->content()
+		 * The dynamic portion of the hook name, $meta_box_id, refers to the ID of the meta box.
+		 *
 		 * @since 1.9
 		 *
+		 * @param string $content The content of the meta box, set in $this->content().
 		 */
 		return apply_filters( 'affwp_meta_box_' . $this->meta_box_id, $content );
 	}

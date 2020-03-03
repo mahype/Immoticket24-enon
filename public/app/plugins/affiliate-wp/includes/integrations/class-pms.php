@@ -449,9 +449,7 @@ class Affiliate_WP_PMS extends Affiliate_WP_Base {
             $rate = null;
         }
 
-        /**
-         * This filter is documented in the base class
-         */
+	    /** This filter is documented in includes/integrations/class-base.php */
         $rate = apply_filters( 'affwp_get_product_rate', $rate, $subscription_id, $args, $this->affiliate_id, $this->context );
 
 	    $rate = affwp_sanitize_referral_rate( $rate );

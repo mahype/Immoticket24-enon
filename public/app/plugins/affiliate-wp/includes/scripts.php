@@ -235,7 +235,13 @@ function affwp_frontend_creative_styles() {
 		return;
 	}
 
-	if ( has_shortcode( $post->post_content, 'affiliate_creative' ) || has_shortcode( $post->post_content, 'affiliate_creatives' ) || apply_filters( 'affwp_force_frontend_scripts', false ) ) { ?>
+	/** This filter is documented in includes/scripts.php. */
+	$force_frontend_scripts = apply_filters( 'affwp_force_frontend_scripts', false );
+
+	if ( has_shortcode( $post->post_content, 'affiliate_creative' )
+		|| has_shortcode( $post->post_content, 'affiliate_creatives' )
+		|| $force_frontend_scripts
+	) { ?>
 		<style>.affwp-creative{margin-bottom: 4em;}</style>
 	<?php }
 }

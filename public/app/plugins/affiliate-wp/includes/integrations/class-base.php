@@ -109,6 +109,14 @@ abstract class Affiliate_WP_Base {
 		// get affiliate ID
 		$this->affiliate_id = isset( $data['affiliate_id'] ) ? $data['affiliate_id'] : $this->get_affiliate_id( $reference, $this->context );
 
+		/**
+		 * Filters whether to allow referrals to be created for the current integration.
+		 *
+		 * @since 1.0
+		 *
+		 * @param bool $allow Whether to allow referrals to be created.
+		 * @param array $args Many of the arguments for generating the referral.
+		 */
 		if ( ! (bool) apply_filters( 'affwp_integration_create_referral', true, array( 'affiliate_id' => $this->affiliate_id, 'amount' => $amount, 'reference' => $reference, 'description' => $description, 'products' => $products, 'data' => $data ) ) ) {
 
 			affiliate_wp()->utils->log( 'Referral not created because integration is disabled via filter' );
@@ -140,6 +148,11 @@ abstract class Affiliate_WP_Base {
 		$is_coupon_referral = isset( $data['is_coupon_referral'] ) && false !== $data['is_coupon_referral'];
 		$visit_id           = false === $is_coupon_referral ? affiliate_wp()->tracking->get_visit_id() : false;
 
+		// Allow overriding of ID through custom data.
+		$visit_id = isset( $data['visit_id'] )
+			? intval( $data['visit_id'] )
+			: $visit_id;
+
 		if ( false !== $visit_id && ! affwp_validate_visit_id( $visit_id ) ) {
 			affiliate_wp()->utils->log( sprintf( 'Referral not created due to invalid visit ID value, %d.', $visit_id ) );
 
@@ -166,6 +179,20 @@ abstract class Affiliate_WP_Base {
 
 		affiliate_wp()->utils->log( 'Arguments being sent to DB:', $args );
 
+		/**
+		 * Filters the arguments used to insert a pending referral.
+		 *
+		 * @since 1.0
+		 *
+		 * @param array  $args         Arguments sent to referrals->add() to insert a pending referral.
+		 * @param float  $amount       Calculated referral amount.
+		 * @param string $reference    Referral reference (usually the order or entry number).
+		 * @param string $description  Referral description.
+		 * @param int    $affiliate_id Affiliate ID.
+		 * @param int    $visit_id     Visit ID.
+		 * @param array  $data         Data originally sent to insert the referral.
+		 * @param string $context      Context for creating the referral (typically the integration slug).
+		 */
 		$args = apply_filters( 'affwp_insert_pending_referral', $args, $amount, $reference, $description, $this->affiliate_id, $visit_id, $data, $this->context );
 
 		if( ! empty( $args['customer'] ) && empty( $args['customer']['affiliate_id'] ) ) {
@@ -230,6 +257,13 @@ abstract class Affiliate_WP_Base {
 			return false;
 		}
 
+		/**
+		 * Filters whether to allows referrals to be auto-completed.
+		 *
+		 * @since 1.0
+		 *
+		 * @param bool $allow Whether to allow referrals to be auto-completed.
+		 */
 		if ( ! apply_filters( 'affwp_auto_complete_referral', true ) ) {
 
 			affiliate_wp()->utils->log( 'Referral not marked as complete because of affwp_auto_complete_referral filter' );
@@ -241,6 +275,8 @@ abstract class Affiliate_WP_Base {
 
 			/**
 			 * Fires when completing a referral.
+			 *
+			 * @since 1.0
 			 *
 			 * @param int             $referral_id The referral ID.
 			 * @param \AffWP\Referral $referral    The referral object.
@@ -326,13 +362,23 @@ abstract class Affiliate_WP_Base {
 	}
 
 	/**
-	 * Retrieves the ID of the referring affiliate
+	 * Retrieves the ID of the referring affiliate.
 	 *
-	 * @access  public
-	 * @since   1.0
-	 * @return  int
+	 * @since 1.0
+	 *
+	 * @param int $reference Optional. The referral reference. Default 0.
+	 * @return int Affiliate ID for the referral.
 	 */
 	public function get_affiliate_id( $reference = 0 ) {
+		/**
+		 * Filters the ID of the referring affiliate.
+		 *
+		 * @since 1.0
+		 *
+		 * @param int    $affiliate_id Affiliate ID.
+		 * @param string $reference    Referral reference (typically the order or entry number).
+		 * @param string $context      Referral context (typically the integration slug).
+		 */
 		return absint( apply_filters( 'affwp_get_referring_affiliate_id', $this->affiliate_id, $reference, $this->context ) );
 	}
 
@@ -376,6 +422,15 @@ abstract class Affiliate_WP_Base {
 		// True if the email is valid and matches affiliate user email or payment email, otherwise false
 		$is_affiliate_email = ( is_email( $email ) && ( $user_email === $email || $payment_email === $email ) );
 
+		/**
+		 * Filters whether the passed email belongs the affiliate.
+		 *
+		 * @since 1.6
+		 *
+		 * @param bool   $is_affiliate_email Whether the email is the affiliate email.
+		 * @param string $email              Email address.
+		 * @param int    $affiliate_id       Affiliate ID.
+		 */
 		return (bool) apply_filters( 'affwp_is_customer_email_affiliate_email', $is_affiliate_email, $email, $affiliate_id );
 
 	}

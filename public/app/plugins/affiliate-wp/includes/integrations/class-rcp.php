@@ -149,6 +149,7 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 
 		}
 
+		/** This filter is documented in includes/integrations/class-base.php */
 		$rate = apply_filters( 'affwp_get_product_rate', $rate, $level_id, $args, $this->affiliate_id, $this->context );
 
 		$rate = affwp_sanitize_referral_rate( $rate );

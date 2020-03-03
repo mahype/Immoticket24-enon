@@ -14,6 +14,8 @@ $disabled     = disabled( (bool) $user, false, false );
 		<?php
 		/**
 		 * Fires at the top of the new-affiliate admin screen, just inside of the form element.
+		 *
+		 * @since 1.0
 		 */
 		do_action( 'affwp_new_affiliate_top' );
 		?>
@@ -185,7 +187,7 @@ $disabled     = disabled( (bool) $user, false, false );
 				</th>
 
 				<td>
-					<textarea name="notes" rows="5" cols="50" id="notes" class="large-text" <?php echo $disabled; ?>></textarea>
+					<textarea name="notes" rows="5" cols="50" id="notes" class="large-text"></textarea>
 					<p class="description"><?php _e( 'Enter any notes for this affiliate. Notes are only visible to the admin.', 'affiliate-wp' ); ?></p>
 				</td>
 
@@ -209,6 +211,8 @@ $disabled     = disabled( (bool) $user, false, false );
 			<?php
 			/**
 			 * Fires at the end of the new-affiliate admin screen form area, below form fields.
+			 *
+			 * @since 1.0
 			 */
 			do_action( 'affwp_new_affiliate_end' );
 			?>
@@ -218,6 +222,8 @@ $disabled     = disabled( (bool) $user, false, false );
 		<?php
 		/**
 		 * Fires at the bottom of the new-affiliate admin screen, prior to the submit button.
+		 *
+		 * @since 1.0
 		 */
 		do_action( 'affwp_new_affiliate_bottom' );
 		?>

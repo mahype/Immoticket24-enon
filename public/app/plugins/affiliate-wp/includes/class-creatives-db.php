@@ -272,6 +272,8 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			/**
 			 * Fires immediately after a creative has been added to the database.
 			 *
+			 * @since 1.2
+			 *
 			 * @param array $add The creative data being added.
 			 */
 			do_action( 'affwp_insert_creative', $add );

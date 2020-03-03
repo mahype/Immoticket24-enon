@@ -459,7 +459,7 @@ class Service_Register {
 
 			} else {
 
-				$this->errors->add( 'account_not_created', $response->message );
+				$this->errors->add( 'service_account_not_created', $response->message );
 
 			}
 

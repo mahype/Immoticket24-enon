@@ -86,7 +86,8 @@ function affiliate_wp_install() {
 
 	$completed_upgrades = array(
 		'upgrade_v20_recount_unpaid_earnings',
-		'upgrade_v22_create_customer_records'
+		'upgrade_v22_create_customer_records',
+		'upgrade_v245_create_customer_affiliate_relationship_records'
 	);
 
 	// Set past upgrade routines complete for all sites.

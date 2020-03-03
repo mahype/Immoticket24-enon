@@ -367,6 +367,13 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	 */
 	public function get_referral_total( $payment_id = 0, $affiliate_id = 0 ) {
 
+		/**
+		 * Filters the EDD cart details before determining the referral total.
+		 *
+		 * @since 1.3.1
+		 *
+		 * @param array $cart_details EDD cart details.
+		 */
 		$downloads = apply_filters( 'affwp_get_edd_cart_details', edd_get_payment_meta_cart_details( $payment_id ) );
 
 		if ( is_array( $downloads ) ) {

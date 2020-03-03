@@ -105,7 +105,7 @@ function affwp_get_referral_statuses() {
 /**
  * Sets a referral's status.
  *
- * @since
+ * @since 1.0
  *
  * @param int|AffWP\Referral $referral   Referral ID or object.
  * @param string             $new_status Optional. New referral status to set. Default empty.
@@ -160,6 +160,8 @@ function affwp_set_referral_status( $referral, $new_status = '' ) {
 				/**
 				 * Fires when a referral is marked as accepted.
 				 *
+				 * @since 1.0
+				 *
 				 * @param int             $affiliate_id Referral affiliate ID.
 				 * @param \AffWP\Referral $referral     The referral object.
 				 */
@@ -172,7 +174,7 @@ function affwp_set_referral_status( $referral, $new_status = '' ) {
 		 *
 		 * Will not fire if the new status matches the old one, or if `$new_status` is empty.
 		 *
-		 * @since
+		 * @since 1.0
 		 *
 		 * @param int    $referral_id Referral ID.
 		 * @param string $new_status  New referral status.
@@ -320,7 +322,7 @@ function affwp_delete_referral( $referral ) {
 		/**
 		 * Fires immediately after a referral has been deleted.
 		 *
-		 * @since
+		 * @since 1.0
 		 *
 		 * @param int $referral_id Referral ID.
 		 */

@@ -62,6 +62,10 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 			return;
 		}
 
+		$visit_id = isset( $object->metadata->affwp_visit_id )
+			? intval( $object->metadata->affwp_visit_id )
+			: false;
+
 		switch ( $object->object ) {
 			case 'subscription': 
 				$this->log( 'Processing referral for Stripe subscription.' );
@@ -121,6 +125,7 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 			array(),
 			array(
 				'affiliate_id' => $affiliate_id,
+				'visit_id'     => $visit_id,
 				'livemode'     => $mode,
 			)
 		);
