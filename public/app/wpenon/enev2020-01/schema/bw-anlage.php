@@ -789,6 +789,10 @@ $anlage = array(
 					'required'              => true,
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_blacklist',
+						'callback_args' => array( 'field::h_erzeugung', array( 'elektronachtspeicherheizung', 'elektrodirektheizgeraet', 'kohleholzofen', 'kleinthermeniedertemperatur', 'kleinthermebrennwert', 'gasraumheizer', 'oelofenverdampfungsbrenner' ) ),
+					),
 				),
 				'verteilung_gedaemmt'                           => array(
 					'type'    => 'checkbox',
