@@ -81,22 +81,6 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-				'h_energietraeger_brennwertkessel'             => array(
-					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
-					'options'  => array(
-						'heizoel'      => __( 'Heizöl', 'wpenon' ),
-						'erdgas'       => __( 'Erdgas', 'wpenon' ),
-						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
-						'biogas'       => __( 'Biogas', 'wpenon' ),
-					),
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h_erzeugung', 'brennwertkessel' ),
-					),
-					'required' => true,
-				),
 				'h_energietraeger_brennwertkesselverbessert'   => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
