@@ -261,15 +261,204 @@ $anlage = array(
 						'callback_args' => array( 'field::h2_info', true ),
 					),
 				),
-				'h2_energietraeger'                            => array(
+				'h2_energietraeger_standardkessel'              => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
-					'options'  => wpenon_immoticket24_get_energietraeger(),
-					'required' => true,
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( 'field::h2_info', true ),
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'standardkessel' ),
+					),
+					'required' => true,
+				),
+				'h2_energietraeger_fernwaerme'                  => array(
+					'type'     => 'select',
+					'label'    => __( 'Nah-/Fernwärme-Übergabestation', 'wpenon' ),
+					'options'  => array(
+						'fernwaermehzwfossil'      => __( 'Nah- und Fernwärme aus Heizwerken fossil', 'wpenon' ),
+						'fernwaermehzwregenerativ' => __( 'Nah- und Fernwärme aus Heizwerken regenerativ', 'wpenon' ),
+						'fernwaermekwkfossil'      => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil', 'wpenon' ),
+						'fernwaermekwkregenerativ' => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung regenerativ', 'wpenon' ),
+						'biogas'                   => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil mit Biomasseanteil', 'wpenon' ),
+						// Gibt es nicht als Wert in Tabelle
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'fernwaerme' ),
+					),
+					'required' => true,
+				),
+				'h2_energietraeger_niedertemperaturkessel'      => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'niedertemperaturkessel' ),
+					),
+					'required' => true,
+				),
+				'h2_energietraeger_brennwertkessel'             => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'brennwertkessel' ),
+					),
+					'required' => true,
+				),
+				'h2_energietraeger_brennwertkesselverbessert'   => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'brennwertkesselverbessert' ),
+					),
+					'required' => true,
+				),
+				'h2_energietraeger_waermepumpeluft'             => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'waermepumpeluft' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
+				'h2_energietraeger_waermepumpewasser'           => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'waermepumpewasser' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
+				'h2_energietraeger_waermepumpeerde'             => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'waermepumpeerde' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
+				'h2_energietraeger_pelletfeuerung'              => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
+						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'pelletfeuerung' ),
+					),
+					'required' => true,
+				),
+				'h2_energietraeger_elektronachtspeicherheizung' => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'elektronachtspeicherheizung' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
+				'h2_energietraeger_elektrodirektheizgeraet'     => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'elektrodirektheizgeraet' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
+				'h2_energietraeger_kohleholzofen'               => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'stueckholz' => __( 'Stückholz', 'wpenon' ),
+						'braunkohle' => __( 'Braunkohle', 'wpenon' ),
+						'steinkohle' => __( 'Steinkohle', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'kohleholzofen' ),
+					),
+					'required' => true,
+				),
+				'h2_energietraeger_gasraumheizer'               => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'erdgas'      => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'gasraumheizer' ),
+					),
+					'required' => true,
+				),
+				'h2_energietraeger_oelofenverdampfungsbrenner'  => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel' => __( 'Heizöl', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'oelofenverdampfungsbrenner' ),
+					),
+					'default'  => 'heizoel',
+					'required' => true,
 				),
 				'h2_deckungsanteil'                            => array(
 					'type'        => 'int',
@@ -325,15 +514,204 @@ $anlage = array(
 						'callback_args' => array( array( 'field::h2_info', 'field::h3_info' ), array( true, true ) ),
 					),
 				),
-				'h3_energietraeger'                            => array(
+				'h3_energietraeger_standardkessel'              => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
-					'options'  => wpenon_immoticket24_get_energietraeger(),
-					'required' => true,
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( array( 'field::h2_info', 'field::h3_info' ), array( true, true ) ),
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'standardkessel' ),
+					),
+					'required' => true,
+				),
+				'h3_energietraeger_fernwaerme'                  => array(
+					'type'     => 'select',
+					'label'    => __( 'Nah-/Fernwärme-Übergabestation', 'wpenon' ),
+					'options'  => array(
+						'fernwaermehzwfossil'      => __( 'Nah- und Fernwärme aus Heizwerken fossil', 'wpenon' ),
+						'fernwaermehzwregenerativ' => __( 'Nah- und Fernwärme aus Heizwerken regenerativ', 'wpenon' ),
+						'fernwaermekwkfossil'      => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil', 'wpenon' ),
+						'fernwaermekwkregenerativ' => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung regenerativ', 'wpenon' ),
+						'biogas'                   => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil mit Biomasseanteil', 'wpenon' ),
+						// Gibt es nicht als Wert in Tabelle
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'fernwaerme' ),
+					),
+					'required' => true,
+				),
+				'h3_energietraeger_niedertemperaturkessel'      => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'niedertemperaturkessel' ),
+					),
+					'required' => true,
+				),
+				'h3_energietraeger_brennwertkessel'             => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'brennwertkessel' ),
+					),
+					'required' => true,
+				),
+				'h3_energietraeger_brennwertkesselverbessert'   => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'brennwertkesselverbessert' ),
+					),
+					'required' => true,
+				),
+				'h3_energietraeger_waermepumpeluft'             => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'waermepumpeluft' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
+				'h3_energietraeger_waermepumpewasser'           => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'waermepumpewasser' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
+				'h3_energietraeger_waermepumpeerde'             => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'waermepumpeerde' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
+				'h3_energietraeger_pelletfeuerung'              => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
+						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'pelletfeuerung' ),
+					),
+					'required' => true,
+				),
+				'h3_energietraeger_elektronachtspeicherheizung' => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'elektronachtspeicherheizung' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
+				'h3_energietraeger_elektrodirektheizgeraet'     => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'elektrodirektheizgeraet' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
+				'h3_energietraeger_kohleholzofen'               => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'stueckholz' => __( 'Stückholz', 'wpenon' ),
+						'braunkohle' => __( 'Braunkohle', 'wpenon' ),
+						'steinkohle' => __( 'Steinkohle', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'kohleholzofen' ),
+					),
+					'required' => true,
+				),
+				'h3_energietraeger_gasraumheizer'               => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'erdgas'      => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'gasraumheizer' ),
+					),
+					'required' => true,
+				),
+				'h3_energietraeger_oelofenverdampfungsbrenner'  => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel' => __( 'Heizöl', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'oelofenverdampfungsbrenner' ),
+					),
+					'default'  => 'heizoel',
+					'required' => true,
 				),
 				'h3_deckungsanteil'                            => array(
 					'type'        => 'int',
