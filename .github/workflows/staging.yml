@@ -21,7 +21,7 @@ jobs:
         script: |
           WWW=/www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/
           cd $WWW
-          ls -la
+          git stash
           git pull
           /www/htdocs/w012900a/bin/composer.phar update
           cd $WWW/public/app/plugins/enon
