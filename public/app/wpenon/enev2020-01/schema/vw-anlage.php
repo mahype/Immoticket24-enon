@@ -7,19 +7,247 @@ $anlage = array(
 			'title'       => __( 'Heizungsanlage', 'wpenon' ),
 			'description' => __( 'Machen Sie hier Angaben zur Heizungsanlage / Wärmeerzeugung des Gebäudes. Sie können bis zu drei unterschiedliche Heizungsanlagen spezifizieren.', 'wpenon' ),
 			'fields'      => array(
-				'h_erzeugung'       => array(
+				'h_erzeugung'                                  => array(
 					'type'     => 'select',
 					'label'    => __( 'Typ der Heizungsanlage', 'wpenon' ),
 					'options'  => wpenon_immoticket24_get_heizungsanlagen2019(),
 					'required' => true,
 				),
-				'h_energietraeger'  => array(
+				'h_energietraeger_standardkessel'              => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
-					'options'  => wpenon_immoticket24_get_energietraeger( true ),
+					'options'  => array(
+						'heizoel_l'        => __( 'Heizöl in Liter', 'wpenon' ),
+						'heizoel_kwh'      => __( 'Heizöl in kWh', 'wpenon' ),
+						'erdgaserdgas_m3'  => __( 'Erdgas in m3', 'wpenon' ),
+						'erdgas_kwh'       => __( 'Erdgas in kWh', 'wpenon' ),
+						'fluessiggas_l'    => __( 'Flüssiggas in Liter flüssig', 'wpenon' ),
+						'fluessiggas_m3'   => __( 'Flüssiggas in m3 gasförmig', 'wpenon' ),
+						'fluessiggas_kg'   => __( 'Flüssiggas in kg', 'wpenon' ),
+						'fluessiggas_kwh'  => __( 'Flüssiggas in kWh', 'wpenon' ),
+						'erdgasbiogas_m3'  => __( 'Erdgas-Biogas-Gemisch in m3', 'wpenon' ),
+						'erdgasbiogas_kwh' => __( 'Erdgas-Biogas-Gemisch in kWh', 'wpenon' ),
+						'biogas_m3'        => __( 'Biogas in m3', 'wpenon' ),
+						'biogas_kwh'       => __( 'Biogas in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'standardkessel' ),
+					),
 					'required' => true,
 				),
-				'h_baujahr'         => array(
+				'h_energietraeger_niedertemperaturkessel'      => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel_l'        => __( 'Heizöl in Liter', 'wpenon' ),
+						'heizoel_kwh'      => __( 'Heizöl in kWh', 'wpenon' ),
+						'erdgaserdgas_m3'  => __( 'Erdgas in m3', 'wpenon' ),
+						'erdgas_kwh'       => __( 'Erdgas in kWh', 'wpenon' ),
+						'fluessiggas_l'    => __( 'Flüssiggas in Liter flüssig', 'wpenon' ),
+						'fluessiggas_m3'   => __( 'Flüssiggas in m3 gasförmig', 'wpenon' ),
+						'fluessiggas_kg'   => __( 'Flüssiggas in kg', 'wpenon' ),
+						'fluessiggas_kwh'  => __( 'Flüssiggas in kWh', 'wpenon' ),
+						'erdgasbiogas_m3'  => __( 'Erdgas-Biogas-Gemisch in m3', 'wpenon' ),
+						'erdgasbiogas_kwh' => __( 'Erdgas-Biogas-Gemisch in kWh', 'wpenon' ),
+						'biogas_m3'        => __( 'Biogas in m3', 'wpenon' ),
+						'biogas_kwh'       => __( 'Biogas in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'niedertemperaturkessel' ),
+					),
+					'required' => true,
+				),
+				'h_energietraeger_brennwertkessel'             => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel_l'        => __( 'Heizöl in Liter', 'wpenon' ),
+						'heizoel_kwh'      => __( 'Heizöl in kWh', 'wpenon' ),
+						'erdgaserdgas_m3'  => __( 'Erdgas in m3', 'wpenon' ),
+						'erdgas_kwh'       => __( 'Erdgas in kWh', 'wpenon' ),
+						'fluessiggas_l'    => __( 'Flüssiggas in Liter flüssig', 'wpenon' ),
+						'fluessiggas_m3'   => __( 'Flüssiggas in m3 gasförmig', 'wpenon' ),
+						'fluessiggas_kg'   => __( 'Flüssiggas in kg', 'wpenon' ),
+						'fluessiggas_kwh'  => __( 'Flüssiggas in kWh', 'wpenon' ),
+						'erdgasbiogas_m3'  => __( 'Erdgas-Biogas-Gemisch in m3', 'wpenon' ),
+						'erdgasbiogas_kwh' => __( 'Erdgas-Biogas-Gemisch in kWh', 'wpenon' ),
+						'biogas_m3'        => __( 'Biogas in m3', 'wpenon' ),
+						'biogas_kwh'       => __( 'Biogas in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'brennwertkessel' ),
+					),
+					'required' => true,
+				),
+				'h_energietraeger_brennwertkesselverbessert'   => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel_l'        => __( 'Heizöl in Liter', 'wpenon' ),
+						'heizoel_kwh'      => __( 'Heizöl in kWh', 'wpenon' ),
+						'erdgaserdgas_m3'  => __( 'Erdgas in m3', 'wpenon' ),
+						'erdgas_kwh'       => __( 'Erdgas in kWh', 'wpenon' ),
+						'fluessiggas_l'    => __( 'Flüssiggas in Liter flüssig', 'wpenon' ),
+						'fluessiggas_m3'   => __( 'Flüssiggas in m3 gasförmig', 'wpenon' ),
+						'fluessiggas_kg'   => __( 'Flüssiggas in kg', 'wpenon' ),
+						'fluessiggas_kwh'  => __( 'Flüssiggas in kWh', 'wpenon' ),
+						'erdgasbiogas_m3'  => __( 'Erdgas-Biogas-Gemisch in m3', 'wpenon' ),
+						'erdgasbiogas_kwh' => __( 'Erdgas-Biogas-Gemisch in kWh', 'wpenon' ),
+						'biogas_m3'        => __( 'Biogas in m3', 'wpenon' ),
+						'biogas_kwh'       => __( 'Biogas in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'brennwertkesselverbessert' ),
+					),
+					'required' => true,
+				),
+				'h_energietraeger_fernwaerme'                  => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'fernwaermehzwfossil_kwh'      => __( 'Nah- und Fernwärme aus Heizwerken fossil in kWh', 'wpenon' ),
+						'fernwaermehzwregenerativ_kwh' => __( 'Nah- und Fernwärme aus Heizwerken regenerativ in kWh', 'wpenon' ),
+						'fernwaermekwkfossil_kwh'      => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil in kWh', 'wpenon' ),
+						'fernwaermekwkregenerativ_kwh' => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung regenerativ in kWh', 'wpenon' ),
+						'fernwaermekwkfossilbio_kwh'   => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil mit Biomasseanteil in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'fernwaerme' ),
+					),
+					'required' => true,
+				),
+				'h_energietraeger_waermepumpeluft'             => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom_kwh' => __( 'Strom in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'waermepumpeluft' ),
+					),
+					'default'  => 'strom_kwh',
+					'required' => true,
+				),
+				'h_energietraeger_waermepumpewasser'           => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom_kwh' => __( 'Strom in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'waermepumpewasser' ),
+					),
+					'default'  => 'strom_kwh',
+					'required' => true,
+				),
+				'h_energietraeger_waermepumpeerde'             => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom_kwh' => __( 'Strom in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'waermepumpeerde' ),
+					),
+					'default'  => 'strom_kwh',
+					'required' => true,
+				),
+				'h_energietraeger_elektronachtspeicherheizung' => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom_kwh' => __( 'Strom in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'elektronachtspeicherheizung' ),
+					),
+					'default'  => 'strom_kwh',
+					'required' => true,
+				),
+				'h_energietraeger_elektrodirektheizgeraet'     => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom_kwh' => __( 'Strom in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'elektrodirektheizgeraet' ),
+					),
+					'default'  => 'strom_kwh',
+					'required' => true,
+				),
+				'h_energietraeger_pelletfeuerung'              => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'holzpellets_kg'  => __( 'Holzpellets in kg', 'wpenon' ),
+						'holzpellets_kwh' => __( 'Holzpellets in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'pelletfeuerung' ),
+					),
+					'required' => true,
+				),
+				'h_energietraeger_kohleholzofen'               => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'stueckholz_m3'  => __( 'Stückholz in Raummeter', 'wpenon' ),
+						'stueckholz_kg'  => __( 'Stückholz in kg', 'wpenon' ),
+						'stueckholz_kwh' => __( 'Stückholz in kWh', 'wpenon' ),
+						'braunkohle_kg'  => __( 'Braunkohle in kg', 'wpenon' ),
+						'braunkohle_kwh' => __( 'Braunkohle in kWh', 'wpenon' ),
+						'steinkohle_kg'  => __( 'Steinkohle in kg', 'wpenon' ),
+						'steinkohle_kwh' => __( 'Steinkohle in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'kohleholzofen' ),
+					),
+					'required' => true,
+				),
+				'h_energietraeger_gasraumheizer'               => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'erdgaserdgas_m3'  => __( 'Erdgas in m3', 'wpenon' ),
+						'erdgas_kwh'       => __( 'Erdgas in kWh', 'wpenon' ),
+						'fluessiggas_l'    => __( 'Flüssiggas in Liter flüssig', 'wpenon' ),
+						'fluessiggas_m3'   => __( 'Flüssiggas in m3 gasförmig', 'wpenon' ),
+						'fluessiggas_kg'   => __( 'Flüssiggas in kg', 'wpenon' ),
+						'fluessiggas_kwh'  => __( 'Flüssiggas in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'gasraumheizer' ),
+					),
+					'required' => true,
+				),
+				'h_energietraeger_oelofenverdampfungsbrenner'               => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel_l'        => __( 'Heizöl in Liter', 'wpenon' ),
+						'heizoel_kwh'      => __( 'Heizöl in kWh', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'oelofenverdampfungsbrenner' ),
+					),
+					'required' => true,
+				),
+				'h_baujahr'                                    => array(
 					'type'                  => 'int',
 					'label'                 => __( 'Baujahr der Heizungsanlage', 'wpenon' ),
 					'min'                   => 1800,
@@ -28,11 +256,11 @@ $anlage = array(
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
-				'h2_info'           => array(
+				'h2_info'                                      => array(
 					'type'  => 'checkbox',
 					'label' => __( '2. Heizungsanlage vorhanden?', 'wpenon' ),
 				),
-				'h2_erzeugung'      => array(
+				'h2_erzeugung'                                 => array(
 					'type'     => 'select',
 					'label'    => __( 'Typ der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => wpenon_immoticket24_get_heizungsanlagen2019(),
@@ -42,7 +270,7 @@ $anlage = array(
 						'callback_args' => array( 'field::h2_info', true ),
 					),
 				),
-				'h2_energietraeger' => array(
+				'h2_energietraeger'                            => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => wpenon_immoticket24_get_energietraeger( true ),
@@ -52,7 +280,7 @@ $anlage = array(
 						'callback_args' => array( 'field::h2_info', true ),
 					),
 				),
-				'h2_baujahr'        => array(
+				'h2_baujahr'                                   => array(
 					'type'                  => 'int',
 					'label'                 => __( 'Baujahr der 2. Heizungsanlage', 'wpenon' ),
 					'min'                   => 1800,
@@ -65,7 +293,7 @@ $anlage = array(
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
-				'h3_info'           => array(
+				'h3_info'                                      => array(
 					'type'    => 'checkbox',
 					'label'   => __( '3. Heizungsanlage vorhanden?', 'wpenon' ),
 					'display' => array(
@@ -73,7 +301,7 @@ $anlage = array(
 						'callback_args' => array( 'field::h2_info', true ),
 					),
 				),
-				'h3_erzeugung'      => array(
+				'h3_erzeugung'                                 => array(
 					'type'     => 'select',
 					'label'    => __( 'Typ der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => wpenon_immoticket24_get_heizungsanlagen2019(),
@@ -83,7 +311,7 @@ $anlage = array(
 						'callback_args' => array( array( 'field::h2_info', 'field::h3_info' ), array( true, true ) ),
 					),
 				),
-				'h3_energietraeger' => array(
+				'h3_energietraeger'                            => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => wpenon_immoticket24_get_energietraeger( true ),
@@ -93,7 +321,7 @@ $anlage = array(
 						'callback_args' => array( array( 'field::h2_info', 'field::h3_info' ), array( true, true ) ),
 					),
 				),
-				'h3_baujahr'        => array(
+				'h3_baujahr'                                   => array(
 					'type'                  => 'int',
 					'label'                 => __( 'Baujahr der 3. Heizungsanlage', 'wpenon' ),
 					'min'                   => 1800,
