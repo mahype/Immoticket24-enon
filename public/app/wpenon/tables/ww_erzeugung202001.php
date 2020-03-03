@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'title' => __( 'Warmwasseranlagen 2020', 'wpenon' ),
+	'title' => __( 'Warmwasseranlagen 2020/01', 'wpenon' ),
 	'description' => __( 'Diese Tabelle enthält die standardisierten Anlagen-Aufwandszahlen (E<sub>P</sub>), Heizwärmegewinne und Hilfsenergiewerte für diverse Warmwasseranlagen.', 'wpenon' ),
 	'asterisks' => array(
 		'E<sub>P</sub>' => __( 'Anlagen-Aufwandszahl', 'wpenon' ),

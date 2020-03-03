@@ -30,6 +30,7 @@ $primaer_list        = array();
 
 // Migrate old data to new Energietraeger table data.
 $energietraeger_fields = array( 'h_energietraeger', 'h2_energietraeger', 'h3_energietraeger', 'ww_energietraeger' );
+
 foreach ( $energietraeger_fields as $energietraeger_field ) {
 	if ( false !== strpos( $energieausweis->$energietraeger_field, '_kwhheizwert' ) ) {
 		$energieausweis->$energietraeger_field = str_replace( '_kwhheizwert', '_kwh', $energieausweis->$energietraeger_field );
@@ -38,12 +39,17 @@ foreach ( $energietraeger_fields as $energietraeger_field ) {
 	}
 }
 
+$h_energietraeger_name = 'h_energietraeger_' . $energieausweis->h_erzeugung;
+$h_energietraeger_value = $energieausweis->$h_energietraeger_name;
+
 $h_energietraeger_umrechnungen     = wpenon_get_table_results( 'energietraeger_umrechnungen', array(
 	'bezeichnung' => array(
-		'value'   => $energieausweis->h_energietraeger,
+		'value'   => $h_energietraeger_value,
 		'compare' => '='
 	)
 ), array(), true );
+
+
 $h_energietraeger                  = wpenon_get_table_results( 'energietraeger2016', array(
 	'bezeichnung' => array(
 		'value'   => $h_energietraeger_umrechnungen->energietraeger,
@@ -56,6 +62,7 @@ $h_anlagentyp                      = wpenon_get_table_results( 'h_erzeugung2019'
 		'compare' => '='
 	)
 ), array( 'name' ), true );
+
 $energietraeger_list[]             = $h_energietraeger->name;
 $primaer_list[]                    = $h_energietraeger->primaer;
 $calculations['anlagendaten']['h'] = array(
@@ -70,9 +77,12 @@ $calculations['anlagendaten']['h'] = array(
 	'verbrauch'              => array(),
 );
 if ( $energieausweis->h2_info ) {
+	$h2_energietraeger_name = 'h2_energietraeger_' . $energieausweis->h2_erzeugung;
+	$h2_energietraeger_value = $energieausweis->$h2_energietraeger_name;
+
 	$h2_energietraeger_umrechnungen     = wpenon_get_table_results( 'energietraeger_umrechnungen', array(
 		'bezeichnung' => array(
-			'value'   => $energieausweis->h2_energietraeger,
+			'value'   => $h2_energietraeger_value,
 			'compare' => '='
 		)
 	), array(), true );
@@ -101,10 +111,14 @@ if ( $energieausweis->h2_info ) {
 		'energietraeger_primaer' => $energieausweis->h2_custom ? floatval( $energieausweis->h2_custom_primaer ) : floatval( $h2_energietraeger->primaer ),
 		'verbrauch'              => array(),
 	);
+
 	if ( $energieausweis->h3_info ) {
+		$h3_energietraeger_name = 'h3_energietraeger_' . $energieausweis->h3_erzeugung;
+		$h3_energietraeger_value = $energieausweis->$h3_energietraeger_name;
+
 		$h3_energietraeger_umrechnungen     = wpenon_get_table_results( 'energietraeger_umrechnungen', array(
 			'bezeichnung' => array(
-				'value'   => $energieausweis->h3_energietraeger,
+				'value'   => $h3_energietraeger_value,
 				'compare' => '='
 			)
 		), array(), true );
@@ -148,7 +162,7 @@ if ( $energieausweis->ww_info == 'ww' ) {
 			'compare' => '='
 		)
 	), array(), true );
-	$ww_anlagentyp                      = wpenon_get_table_results( 'ww_erzeugung2019', array(
+	$ww_anlagentyp                      = wpenon_get_table_results( 'ww_erzeugung202001', array(
 		'bezeichnung' => array(
 			'value'   => $energieausweis->ww_erzeugung,
 			'compare' => '='

@@ -371,6 +371,7 @@ function wpenon_immoticket24_make_yearkey($year, $table, $gedaemmt = false)
 		case 'h_erzeugung2019':
 		case 'ww_erzeugung':
 		case 'ww_erzeugung2019':
+		case 'ww_erzeugung202001':
 			$steps = array(1986, 1994);
 			foreach ($steps as $step) {
 				if ($year <= $step) {
@@ -565,6 +566,11 @@ function wpenon_immoticket24_get_heizungsanlagen2019()
 function wpenon_immoticket24_get_warmwasseranlagen2019()
 {
 	return wpenon_get_table_results('ww_erzeugung2019', array(), array('name'));
+}
+
+function wpenon_immoticket24_get_warmwasseranlagen202001()
+{
+	return wpenon_get_table_results('ww_erzeugung202001', array(), array('name'));
 }
 
 function wpenon_immoticket24_get_lueftungsanlagen()
