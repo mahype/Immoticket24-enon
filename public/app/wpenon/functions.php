@@ -829,6 +829,14 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 			'amortisation' => '',
 			'kosten' => '',
 		),
+		'heizkessel' => array(
+			'bauteil' => 'Heizkessel',
+			'beschreibung' => 'Erneuerung des Heizkessels',
+			'gesamt' => true,
+			'einzeln' => true,
+			'amortisation' => '',
+			'kosten' => '',
+		),
 		'rohrleitungssystem' => array(
 			'bauteil' => 'Rohrleitungssystem',
 			'beschreibung' => 'Dämmung freiliegender Heizungsrohre',
@@ -854,7 +862,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 			'kosten' => '',
 		),
 		'wand' => array(
-			'bauteil' => 'Außenwände',
+			'bauteil' => 'Wände',
 			'beschreibung' => 'Dämmstärken von mindestens 14 cm oder mehr',
 			'gesamt' => true,
 			'einzeln' => true,
@@ -904,7 +912,6 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 
 		$current_year = absint(current_time('Y'));
 		$kessel = array(
-			'standardkessel',
 			'gasraumheizer',
 			'elektronachtspeicherheizung',
 			'oelofenverdampfungsbrenner',
@@ -916,6 +923,30 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 
 			if (in_array($energieausweis->$type_field, $kessel, true) && !empty($energieausweis->$year_field) && $energieausweis->$year_field <= $current_year - 30) {
 				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['heizung'];
+			}
+		}
+	}
+
+	if (wpenon_immoticket24_is_empfehlung_active('heizkessel', $energieausweis)) {
+		$heatings = array('h');
+		if (isset($energieausweis->h2_info) && $energieausweis->h2_info) {
+			$heatings[] = 'h2';
+			if (isset($energieausweis->h3_info) && $energieausweis->h3_info) {
+				$heatings[] = 'h3';
+			}
+		}
+
+		$current_year = absint(current_time('Y'));
+		$kessel = array(
+			'standardkessel',
+		);
+
+		foreach ($heatings as $heating) {
+			$type_field = $heating . '_erzeugung';
+			$year_field = $heating . '_baujahr';
+
+			if (in_array($energieausweis->$type_field, $kessel, true) && !empty($energieausweis->$year_field) && $energieausweis->$year_field <= $current_year - 30) {
+				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['heizkessel'];
 			}
 
 		}
