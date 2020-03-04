@@ -268,6 +268,8 @@ if ( $energieausweis->anbau ) {
 			break;
 	}
 
+	$anbauwand_bauart_field = 'anbauwand_bauart_' . $energieausweis->gebaeudekonstruktion;
+
   $anbauwandlaenge = 0.0;
   $calculations['anbauwandrichtungen'] = array();
   foreach ( $anbau_form as $wand => $data ) {
@@ -279,7 +281,7 @@ if ( $energieausweis->anbau ) {
       'name'          => sprintf( __( 'Anbau-Wand %s', 'wpenon' ), $wand ),
       'typ'           => 'wand',
       'modus'         => 'opak',
-      'bauart'        => $energieausweis->anbauwand_bauart,
+      'bauart'        => $energieausweis->$anbauwand_bauart_field,
       'baujahr'       => $energieausweis->anbau_baujahr,
       'richtung'      => $hr_mappings[ $data[1] ],
       'a'             => $surface_areas[ $wand ],
