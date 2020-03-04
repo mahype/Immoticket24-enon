@@ -1066,9 +1066,9 @@ $anlage = array(
 						'callback'      => 'wpenon_immoticket24_get_ww_energietraeger_by_erzeugung',
 						'callback_args' => array(
 							'field::ww_erzeugung',
-							'field::ww_dezentralelektroerhitzer',
-							'field::ww_dezentralkleinspeicher',
-							'field::ww_dezentralgaserhitzer',
+							'field::ww_energietraeger_dezentralelektroerhitzer',
+							'field::ww_energietraeger_dezentralgaserhitzer',
+							'field::ww_energietraeger_dezentralgaserhitzer',
 						),
 					),
 				),

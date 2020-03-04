@@ -977,6 +977,18 @@ $anlage = array(
 						'callback_args' => array( 'field::ww_erzeugung', 'dezentralkleinspeicher' ),
 					),
 				),
+				'ww_energietraeger'                                  => array(
+					'type'     => 'hidden',
+					'value'        => array(
+						'callback'      => 'wpenon_immoticket24_get_ww_energietraeger_by_erzeugung',
+						'callback_args' => array(
+							'field::ww_erzeugung',
+							'field::ww_energietraeger_dezentralelektroerhitzer',
+							'field::ww_energietraeger_dezentralgaserhitzer',
+							'field::ww_energietraeger_dezentralgaserhitzer',
+						),
+					),
+				),
 				'ww_baujahr'                                 => array(
 					'type'                  => 'int',
 					'label'                 => __( 'Baujahr der Warmwasseranlage', 'wpenon' ),
