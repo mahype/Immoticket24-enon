@@ -414,3 +414,30 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 
 	return $energietraeger;
 }
+
+function wpenon_immoticket24_get_ww_energietraeger_by_erzeugung(
+	$erzeugung,
+	$energietraeger_dezentralelektroerhitzer,
+	$energietraeger_dezentralkleinspeicher,
+	$energietraeger_dezentralgaserhitzer
+) {
+	if( empty( $erzeugung ) ) {
+		return;
+	}
+
+	switch( $erzeugung ) {
+		case 'dezentralelektroerhitzer':
+			$energietraeger = $energietraeger_dezentralelektroerhitzer;
+			break;
+		case 'dezentralkleinspeicher':
+			$energietraeger = $energietraeger_dezentralkleinspeicher;
+			break;
+		case 'dezentralgaserhitzer':
+			$energietraeger = $energietraeger_dezentralgaserhitzer;
+			break;
+		default:
+			break;
+	}
+
+	return $energietraeger;
+}
