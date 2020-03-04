@@ -99,7 +99,7 @@ function wpenon_immoticket24_show_wand_porenbeton_bedarf( $grundriss, $a = 0, $b
 	return true;
 }
 
-function wpenon_immoticket24_show_wand_porenbeton_verbrauch( $daemmung  ) {
+function wpenon_immoticket24_show_wand_porenbeton_verbrauch( $daemmung ) {
 	if ( absint( $daemmung ) === 0 ) {
 		return true;
 	}
@@ -355,11 +355,11 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 	$energietraeger_gasraumheizer,
 	$energietraeger_oelofenverdampfungsbrenner
 ) {
-	if( empty( $erzeugung ) ) {
+	if ( empty( $erzeugung ) ) {
 		return;
 	}
 
-	switch( $erzeugung ) {
+	switch ( $erzeugung ) {
 		case 'standardkessel':
 			$energietraeger = $energietraeger_standardkessel;
 			break;
@@ -421,11 +421,11 @@ function wpenon_immoticket24_get_ww_energietraeger_by_erzeugung(
 	$energietraeger_dezentralkleinspeicher,
 	$energietraeger_dezentralgaserhitzer
 ) {
-	if( empty( $erzeugung ) ) {
+	if ( empty( $erzeugung ) ) {
 		return;
 	}
 
-	switch( $erzeugung ) {
+	switch ( $erzeugung ) {
 		case 'dezentralelektroerhitzer':
 			$energietraeger = $energietraeger_dezentralelektroerhitzer;
 			break;
