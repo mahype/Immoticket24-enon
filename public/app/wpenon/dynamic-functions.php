@@ -441,3 +441,16 @@ function wpenon_immoticket24_get_ww_energietraeger_by_erzeugung(
 
 	return $energietraeger;
 }
+
+function wpenon_immoticket24_show_verteilung_gedaemmt( $erzeugung, $blacklist, $baujahr, $baujahr_limit ) {
+	if ( ! wpenon_show_on_array_blacklist( $erzeugung, $blacklist ) ) {
+		return false;
+	}
+	if ( ! wpenon_show_on_number_lower( $baujahr, $baujahr_limit ) ) {
+		return false;
+	}
+
+	return true;
+}
+
+

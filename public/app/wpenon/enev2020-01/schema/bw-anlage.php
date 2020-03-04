@@ -870,8 +870,8 @@ $anlage = array(
 					'type'    => 'checkbox',
 					'label'   => __( 'Freiliegende Heizungsrohre zusätzlich gedämmt?', 'wpenon' ),
 					'display' => array(
-						'callback'      => 'wpenon_show_on_number_lower',
-						'callback_args' => array( 'field::verteilung_baujahr', 1978 ),
+						'callback'      => 'wpenon_immoticket24_show_verteilung_gedaemmt',
+						'callback_args' => array( 'field::h_erzeugung', array( 'elektronachtspeicherheizung', 'elektrodirektheizgeraet', 'kohleholzofen', 'kleinthermeniedertemperatur', 'kleinthermebrennwert', 'gasraumheizer', 'oelofenverdampfungsbrenner' ), 'field::verteilung_baujahr', 1978 ),
 					),
 				),
 				'speicherung'                                   => array(
