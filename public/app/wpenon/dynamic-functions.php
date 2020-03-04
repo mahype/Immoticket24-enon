@@ -335,3 +335,82 @@ function wpenon_immoticket24_get_energietraeger_unit( $energietraeger ) {
 		)
 	), array( 'einheit' ), true );
 }
+
+function wpenon_immoticket24_get_energietraeger_by_erzeugung(
+	$erzeugung,
+	$energietraeger_standardkessel,
+	$energietraeger_niedertemperaturkessel,
+	$energietraeger_brennwertkessel,
+	$energietraeger_brennwertkesselverbessert,
+	$energietraeger_kleinthermeniedertemperatur,
+	$energietraeger_kleinthermebrennwert,
+	$energietraeger_fernwaerme,
+	$energietraeger_waermepumpeluft,
+	$energietraeger_waermepumpewasser,
+	$energietraeger_waermepumpeerde,
+	$energietraeger_elektronachtspeicherheizung,
+	$energietraeger_elektrodirektheizgeraet,
+	$energietraeger_pelletfeuerung,
+	$energietraeger_kohleholzofen,
+	$energietraeger_gasraumheizer,
+	$energietraeger_oelofenverdampfungsbrenner
+) {
+	if( empty( $erzeugung ) ) {
+		return;
+	}
+
+	switch( $erzeugung ) {
+		case 'standardkessel':
+			$energietraeger = $energietraeger_standardkessel;
+			break;
+		case 'niedertemperaturkessel':
+			$energietraeger = $energietraeger_niedertemperaturkessel;
+			break;
+		case 'brennwertkessel':
+			$energietraeger = $energietraeger_brennwertkessel;
+			break;
+		case 'brennwertkesselverbessert':
+			$energietraeger = $energietraeger_brennwertkesselverbessert;
+			break;
+		case 'kleinthermeniedertemperatur':
+			$energietraeger = $energietraeger_kleinthermeniedertemperatur;
+			break;
+		case 'kleinthermebrennwert':
+			$energietraeger = $energietraeger_kleinthermebrennwert;
+			break;
+		case 'fernwaerme':
+			$energietraeger = $energietraeger_fernwaerme;
+			break;
+		case 'waermepumpeluft':
+			$energietraeger = $energietraeger_waermepumpeluft;
+			break;
+		case 'waermepumpewasser':
+			$energietraeger = $energietraeger_waermepumpewasser;
+			break;
+		case 'waermepumpeerde':
+			$energietraeger = $energietraeger_waermepumpeerde;
+			break;
+		case 'elektronachtspeicherheizung':
+			$energietraeger = $energietraeger_elektronachtspeicherheizung;
+			break;
+		case 'elektrodirektheizgeraet':
+			$energietraeger = $energietraeger_elektrodirektheizgeraet;
+			break;
+		case 'pelletfeuerung':
+			$energietraeger = $energietraeger_pelletfeuerung;
+			break;
+		case 'kohleholzofen':
+			$energietraeger = $energietraeger_kohleholzofen;
+			break;
+		case 'gasraumheizer':
+			$energietraeger = $energietraeger_gasraumheizer;
+			break;
+		case 'oelofenverdampfungsbrenner':
+			$energietraeger = $energietraeger_oelofenverdampfungsbrenner;
+			break;
+		default:
+			break;
+	}
+
+	return $energietraeger;
+}
