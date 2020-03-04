@@ -957,7 +957,6 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-
 				'h3_energietraeger'                                  => array(
 					'type'     => 'hidden',
 					'value'        => array(
@@ -1059,6 +1058,18 @@ $anlage = array(
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
 						'callback_args' => array( 'field::ww_erzeugung', 'dezentralgaserhitzer' ),
+					),
+				),
+				'ww_energietraeger'                                  => array(
+					'type'     => 'hidden',
+					'value'        => array(
+						'callback'      => 'wpenon_immoticket24_get_ww_energietraeger_by_erzeugung',
+						'callback_args' => array(
+							'field::ww_erzeugung',
+							'field::ww_dezentralelektroerhitzer',
+							'field::ww_dezentralkleinspeicher',
+							'field::ww_dezentralgaserhitzer',
+						),
 					),
 				),
 				'ww_baujahr'        => array(
