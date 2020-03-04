@@ -780,7 +780,7 @@ $anlage = array(
 				'verteilung_baujahr'                            => array(
 					'type'                  => 'int',
 					'label'                 => __( 'Baujahr des Rohrleitungssystems', 'wpenon' ),
-					'description'           => __( 'In der Regel ist dies identisch mit dem Baujahr der Heizungsanlage.', 'wpenon' ),
+					'description'           => __( 'Geben Sie hier das Baujahr der freiliegenden Heizungsrohre an.' ),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -793,7 +793,7 @@ $anlage = array(
 				),
 				'verteilung_gedaemmt'                           => array(
 					'type'    => 'checkbox',
-					'label'   => __( 'Rohrleitungssystem zusätzlich gedämmt?', 'wpenon' ),
+					'label'   => __( 'Freiliegende Heizungsrohre zusätzlich gedämmt?', 'wpenon' ),
 					'display' => array(
 						'callback'      => 'wpenon_show_on_number_lower',
 						'callback_args' => array( 'field::verteilung_baujahr', 1978 ),
