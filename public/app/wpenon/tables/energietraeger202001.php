@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'title'         => __( 'Energieträger 2020', 'wpenon' ),
+	'title'         => __( 'Energieträger 2020/01', 'wpenon' ),
 	'description'   => __( 'Diese Tabelle enthält Energieträger und ihre Primärenergiefaktoren (gültig ab 2020).', 'wpenon' ),
 	'asterisks'     => array(),
 	'primary_field' => 'bezeichnung',
