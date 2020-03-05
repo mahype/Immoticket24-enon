@@ -415,7 +415,7 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 	return $energietraeger;
 }
 
-function wpenon_immoticket24_show_energietraeger( $ww_info, $erzeuger, $energietraeger ) {
+function wpenon_immoticket24_show_ww_energietraeger( $ww_info, $erzeuger, $energietraeger ) {
 	if( $ww_info !== 'ww' ) {
 		return false;
 	}

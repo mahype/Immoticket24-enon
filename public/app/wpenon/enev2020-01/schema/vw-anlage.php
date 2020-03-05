@@ -1030,8 +1030,8 @@ $anlage = array(
 					'default'  => 'strom_kwh',
 					'required' => true,
 					'display'  => array(
-						'callback'      => 'wpenon_immoticket24_show_energietraeger',
-						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'dezentralkleinspeicher' ),
+						'callback'      => 'wpenon_immoticket24_show_ww_energietraeger',
+						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'dezentralelektroerhitzer' ),
 					),
 				),
 				'ww_energietraeger_dezentralkleinspeicher' => array(
@@ -1043,7 +1043,7 @@ $anlage = array(
 					'default'  => 'strom_kwh',
 					'required' => true,
 					'display'  => array(
-						'callback'      => 'wpenon_immoticket24_show_energietraeger',
+						'callback'      => 'wpenon_immoticket24_show_ww_energietraeger',
 						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'dezentralkleinspeicher' ),
 					),
 				),
@@ -1056,8 +1056,8 @@ $anlage = array(
 					),
 					'required' => true,
 					'display'  => array(
-						'callback'      => 'wpenon_immoticket24_show_energietraeger',
-						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'dezentralkleinspeicher' ),
+						'callback'      => 'wpenon_immoticket24_show_ww_energietraeger',
+						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'dezentralgaserhitzer' ),
 					),
 				),
 				'ww_energietraeger'                                  => array(
