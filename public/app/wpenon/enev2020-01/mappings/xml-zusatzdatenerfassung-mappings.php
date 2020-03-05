@@ -405,7 +405,7 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 					$kuehlung_flaeche = $energieausweis->k_flaeche ? floatval( $energieausweis->k_flaeche ) * $calculations['nutzflaeche_mpk'] : $calculations['nutzflaeche'];
 					return $kuehlung_flaeche;
 				case 'Kuehlzuschlag::0_Primaerenergiefaktor':
-					$kuehlung_energietraeger = wpenon_get_table_results( 'energietraeger2016', array( 'bezeichnung' => array( 'value' => 'strom', 'compare' => '=' ) ), array(), true );
+					$kuehlung_energietraeger = wpenon_get_table_results( 'energietraeger202001', array( 'bezeichnung' => array( 'value' => 'strom', 'compare' => '=' ) ), array(), true );
 					return $kuehlung_energietraeger->primaer;
 				case 'Kuehlzuschlag::0_Kuehlzuschlag-kWh':
 					$calculations = $energieausweis->calculate();

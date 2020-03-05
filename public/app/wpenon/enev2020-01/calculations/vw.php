@@ -50,7 +50,7 @@ $h_energietraeger_umrechnungen     = wpenon_get_table_results( 'energietraeger_u
 ), array(), true );
 
 
-$h_energietraeger                  = wpenon_get_table_results( 'energietraeger2016', array(
+$h_energietraeger                  = wpenon_get_table_results( 'energietraeger202001', array(
 	'bezeichnung' => array(
 		'value'   => $h_energietraeger_umrechnungen->energietraeger,
 		'compare' => '='
@@ -86,7 +86,7 @@ if ( $energieausweis->h2_info ) {
 			'compare' => '='
 		)
 	), array(), true );
-	$h2_energietraeger                  = wpenon_get_table_results( 'energietraeger2016', array(
+	$h2_energietraeger                  = wpenon_get_table_results( 'energietraeger202001', array(
 		'bezeichnung' => array(
 			'value'   => $h2_energietraeger_umrechnungen->energietraeger,
 			'compare' => '='
@@ -122,7 +122,7 @@ if ( $energieausweis->h2_info ) {
 				'compare' => '='
 			)
 		), array(), true );
-		$h3_energietraeger                  = wpenon_get_table_results( 'energietraeger2016', array(
+		$h3_energietraeger                  = wpenon_get_table_results( 'energietraeger202001', array(
 			'bezeichnung' => array(
 				'value'   => $h3_energietraeger_umrechnungen->energietraeger,
 				'compare' => '='
@@ -158,7 +158,7 @@ if ( $energieausweis->ww_info == 'ww' ) {
 			'compare' => '='
 		)
 	), array(), true );
-	$ww_energietraeger                  = wpenon_get_table_results( 'energietraeger2016', array(
+	$ww_energietraeger                  = wpenon_get_table_results( 'energietraeger202001', array(
 		'bezeichnung' => array(
 			'value'   => $ww_energietraeger_umrechnungen->energietraeger,
 			'compare' => '='
@@ -316,7 +316,7 @@ if ( $energieausweis->ww_info == 'unbekannt' ) {
 }
 
 if ( $energieausweis->k_info == 'vorhanden' ) {
-	$kuehlung_energietraeger = wpenon_get_table_results( 'energietraeger2016', array(
+	$kuehlung_energietraeger = wpenon_get_table_results( 'energietraeger202001', array(
 		'bezeichnung' => array(
 			'value'   => 'strom',
 			'compare' => '='

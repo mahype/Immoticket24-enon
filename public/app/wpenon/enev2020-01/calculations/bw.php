@@ -6,7 +6,7 @@ require_once ( 'lib/Extension_Form_B.php' );
 
 $energietraeger_table_name = 'energietraeger';
 if ( strtotime( '2016-01-01' ) <= strtotime( wpenon_get_reference_date( 'Y-m-d', $energieausweis ) ) ) {
-  $energietraeger_table_name = 'energietraeger2016';
+  $energietraeger_table_name = 'energietraeger202001';
 }
 
 $calculations = array();
