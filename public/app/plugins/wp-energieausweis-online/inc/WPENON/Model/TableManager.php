@@ -18,6 +18,9 @@ class TableManager {
 		return self::$instance;
 	}
 
+	/**
+	 * @var Table[] Tables array.
+	 */
 	private $tables = array();
 
 	private function __construct() {
@@ -26,6 +29,8 @@ class TableManager {
 		$this->registerTables();
 
 		if ( is_admin() ) {
+			$this->installTables();
+
 			add_action( 'wpenon_install', array( $this, 'installTables' ) );
 			add_action( 'wpenon_uninstall', array( $this, 'uninstallTables' ) );
 
