@@ -48,14 +48,14 @@ class Standard_Options {
 	 */
 	public static function get_bauarten_keller() {
 		$construction_types = array(
-			'bims'                              => __( 'Hochlochziegel, Bimsbeton; z. B. Poroton', 'wpenon' ),
-			'zweischalig'                       => __( 'Zweischalige Bauweise', 'wpenon' ),
-			'holzhaus_holz'                     => __( 'Holz', 'wpenon' ),
-			'massiv_bis_20cm'                   => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
-			'massiv_ueber_20cm'                 => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
-			'vollziegel_20cm_bis_30_cm'         => __( 'Vollziegel, Kalksandstein bis 20 cm', 'wpenon' ),
-			'vollziegel_bis_20cm'               => __( 'Vollziegel, Kalksandstein 20 - 30 cm', 'wpenon' ),
-			'wand_massiv_vollziegel_ueber_30cm' => __( 'Vollziegel, Kalksandstein über 30 cm', 'wpenon' ),
+			'massiv_bims'                         => __( 'Hochlochziegel, Bimsbeton; z. B. Poroton', 'wpenon' ),
+			'massiv_zweischalig'                  => __( 'Zweischalige Bauweise', 'wpenon' ),
+			'massiv_holzhaus_holz'                => __( 'Holz', 'wpenon' ),
+			'massiv_bis_20cm'              => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
+			'massiv_ueber_20cm'            => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
+			'massiv_vollziegel_20cm_bis_30_cm'    => __( 'Vollziegel, Kalksandstein bis 20 cm', 'wpenon' ),
+			'massiv_vollziegel_bis_20cm'          => __( 'Vollziegel, Kalksandstein 20 - 30 cm', 'wpenon' ),
+			'massiv_vollziegel_ueber_30cm' => __( 'Vollziegel, Kalksandstein über 30 cm', 'wpenon' ),
 		);
 
 		return $construction_types;
@@ -70,7 +70,7 @@ class Standard_Options {
 	 */
 	public static function get_bauarten_holzhaus() {
 		$construction_types = array(
-			'holz' => __( 'Holz', 'wpenon' ),
+			'holzhaus_holz' => __( 'Holz', 'wpenon' ),
 		);
 
 		return $construction_types;
@@ -85,8 +85,8 @@ class Standard_Options {
 	 */
 	public static function get_bauarten_fachwerkaus() {
 		$construction_types = array(
-			'lehm'       => __( 'Lehm-/Lehmziegelausfachung', 'wpenon' ),
-			'vollziegel' => __( 'Vollziegel oder Massive Natursteinausfach', 'wpenon' ),
+			'fachwerk_lehm'       => __( 'Lehm-/Lehmziegelausfachung', 'wpenon' ),
+			'fachwerk_vollziegel' => __( 'Vollziegel oder Massive Natursteinausfach', 'wpenon' ),
 		);
 
 		return $construction_types;
@@ -101,13 +101,13 @@ class Standard_Options {
 	 */
 	public static function get_bauarten_massiv() {
 		$construction_types = array(
-			'bims'                              => __( 'Hochlochziegel, Bimsbeton; z. B. Poroton', 'wpenon' ),
-			'zweischalig'                       => __( 'Zweischalige Bauweise', 'wpenon' ),
-			'bis_20cm'                          => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
-			'ueber_20cm'                        => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
-			'vollziegel_20cm_bis_30_cm'         => __( 'Vollziegel, Kalksandstein bis 20 cm', 'wpenon' ),
-			'vollziegel_bis_20cm'               => __( 'Vollziegel, Kalksandstein 20 - 30 cm', 'wpenon' ),
-			'massiv_vollziegel_ueber_30cm'      => __( 'Vollziegel, Kalksandstein über 30 cm', 'wpenon' ),
+			'massiv_bims'                      => __( 'Hochlochziegel, Bimsbeton; z. B. Poroton', 'wpenon' ),
+			'massiv_zweischalig'               => __( 'Zweischalige Bauweise', 'wpenon' ),
+			'massiv_bis_20cm'                  => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
+			'massiv_ueber_20cm'                => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
+			'massiv_vollziegel_20cm_bis_30_cm' => __( 'Vollziegel, Kalksandstein bis 20 cm', 'wpenon' ),
+			'massiv_vollziegel_bis_20cm'       => __( 'Vollziegel, Kalksandstein 20 - 30 cm', 'wpenon' ),
+			'massiv_vollziegel_ueber_30cm'     => __( 'Vollziegel, Kalksandstein über 30 cm', 'wpenon' ),
 		);
 
 		return $construction_types;

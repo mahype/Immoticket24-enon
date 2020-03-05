@@ -123,13 +123,13 @@ $calculations['volumenteile']['grundriss'] = array(
 
 switch ( $energieausweis->gebaeudekonstruktion ) {
 	case 'massiv':
-		$wand_bauart = 'massiv_' . $energieausweis->wand_bauart_massiv;
+		$wand_bauart = $energieausweis->wand_bauart_massiv;
 		break;
 	case 'holz':
-		$wand_bauart = 'holzhaus_' . $energieausweis->wand_bauart_holz;
+		$wand_bauart = $energieausweis->wand_bauart_holz;
 		break;
 	case 'fachwerk':
-		$wand_bauart = 'fachwerk_' . $energieausweis->wand_bauart_fachwerk;
+		$wand_bauart = $energieausweis->wand_bauart_fachwerk;
 		break;
 }
 
