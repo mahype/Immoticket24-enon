@@ -77,11 +77,11 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 		case 'energietraeger_heizung':
 			$energietraeger = array();
 			if ( $energieausweis->mode == 'b' ) {
-				$energietraeger[] = $energieausweis->formatted_h_energietraeger;
+				$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->formatted_h_energietraeger );
 				if ( $energieausweis->h2_info ) {
-					$energietraeger[] = $energieausweis->formatted_h2_energietraeger;
+					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->formatted_h2_energietraeger );
 					if ( $energieausweis->h3_info ) {
-						$energietraeger[] = $energieausweis->formatted_h3_energietraeger;
+						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->formatted_h3_energietraeger );
 					}
 				}
 			} else {
