@@ -82,6 +82,8 @@ class TableManager {
 					}
 				}
 			}
+
+			ksort( $this->tables );
 			closedir( $handle );
 		}
 	}
