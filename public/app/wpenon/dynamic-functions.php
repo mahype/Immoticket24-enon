@@ -415,6 +415,18 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 	return $energietraeger;
 }
 
+function wpenon_immoticket24_show_energietraeger( $ww_info, $erzeuger, $energietraeger ) {
+	if( $ww_info !== 'ww' ) {
+		return false;
+	}
+
+	if ( ! wpenon_show_on_array_whitelist( $erzeuger, $energietraeger ) ) {
+		return false;
+	}
+
+	return true;
+}
+
 function wpenon_immoticket24_get_ww_energietraeger_by_erzeugung(
 	$erzeugung,
 	$energietraeger_dezentralelektroerhitzer,
