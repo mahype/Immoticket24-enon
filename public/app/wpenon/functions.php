@@ -602,12 +602,14 @@ function wpenon_immoticket24_get_energietraeger_name( $slug, $is_with_units = fa
 		$table_slug = 'energietraeger2016';
 	}
 
-	return wpenon_get_table_results( $table_slug, array(
+	$energietraeger_name = wpenon_get_table_results( $table_slug, array(
 		'bezeichnung' => array(
 			'value'   => $slug,
 			'compare' => '='
 		)
 	), array( 'name' ), true );
+
+	return $energietraeger_name;
 }
 
 function wpenon_immoticket24_get_fenster_bauarten() {
