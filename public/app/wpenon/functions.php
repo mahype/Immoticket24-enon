@@ -360,6 +360,7 @@ function wpenon_immoticket24_make_yearkey( $year, $table, $gedaemmt = false ) {
 			return 'ab2007';
 		case 'h_erzeugung':
 		case 'h_erzeugung2019':
+		case 'h_erzeugung202001':
 		case 'ww_erzeugung':
 		case 'ww_erzeugung2019':
 		case 'ww_erzeugung202001':
@@ -549,6 +550,10 @@ function wpenon_immoticket24_get_warmwasseranlagen() {
 
 function wpenon_immoticket24_get_heizungsanlagen2019() {
 	return wpenon_get_table_results( 'h_erzeugung2019', array(), array( 'name' ) );
+}
+
+function wpenon_immoticket24_get_heizungsanlagen202001() {
+	return wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
 }
 
 function wpenon_immoticket24_get_warmwasseranlagen2019() {
