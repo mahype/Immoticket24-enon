@@ -105,8 +105,8 @@ class Standard_Options {
 			'massiv_zweischalig'               => __( 'Zweischalige Bauweise', 'wpenon' ),
 			'massiv_bis_20cm'                  => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
 			'massiv_ueber_20cm'                => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
-			'massiv_vollziegel_20cm_bis_30_cm' => __( 'Vollziegel, Kalksandstein bis 20 cm', 'wpenon' ),
-			'massiv_vollziegel_bis_20cm'       => __( 'Vollziegel, Kalksandstein 20 - 30 cm', 'wpenon' ),
+			'massiv_vollziegel_bis_20cm'       => __( 'Vollziegel, Kalksandstein bis 20 cm', 'wpenon' ),
+			'massiv_vollziegel_20cm_bis_30_cm' => __( 'Vollziegel, Kalksandstein 20 - 30 cm', 'wpenon' ),
 			'massiv_vollziegel_ueber_30cm'     => __( 'Vollziegel, Kalksandstein über 30 cm', 'wpenon' ),
 		);
 
