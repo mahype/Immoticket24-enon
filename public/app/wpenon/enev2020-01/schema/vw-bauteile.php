@@ -7,25 +7,41 @@ $bauteile = array(
 			'title'       => __( 'Grundbauteile', 'wpenon' ),
 			'description' => __( 'Geben Sie die relevanten Daten für die Grundbestandteile des Gebäudes an.', 'wpenon' ),
 			'fields'      => array(
+				'wand_daemmung_on' => array(
+					'type'        => 'select',
+					'label'       => __( 'Nachträgliche Wanddämmung', 'wpenon' ),
+					'description' => __( 'Wurden die Außenwände zusätzlich gedämmt?', 'wpenon' ),
+					'options'     => array(
+						'yes'   => __( 'Ja', 'wpenon' ),
+						'no' => __( 'Nein', 'wpenon' ),
+
+					),
+					'required'    => true,
+				),
 				'wand_daemmung'   => array(
 					'type'        => 'int',
 					'label'       => __( 'Wanddämmung', 'wpenon' ),
-					'description' => __( 'Falls die Außenwände zusätzlich gedämmt worden sind, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
+					'description' => __( 'Geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
 					'unit'        => 'cm',
 					'max'         => 23,
-				),
-				'wand_porenbeton' => array(
-					'type'    => 'select',
-					'label'   => __( 'Sind die Außenwände aus Porenbeton (z.B. Ytong)?', 'wpenon' ),
-					'options' => array(
-						'ja'        => __( 'Ja', 'wpenon' ),
-						'nein'      => __( 'Nein', 'wpenon' ),
-						'unbekannt' => __( 'Unbekannt', 'wpenon' ),
-					),
 					'display' => array(
-						'callback'      => 'wpenon_immoticket24_show_wand_porenbeton_verbrauch',
-						'callback_args' => array( 'field::wand_daemmung' ),
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::wand_daemmung_on', 'yes' ),
 					),
+				),
+				'decke_daemmung_on' => array(
+					'type'        => 'select',
+					'label'       => __( 'Nachträgliche Deckendämmung', 'wpenon' ),
+					'description' => __( 'Wurden die Decke zusätzlich gedämmt?', 'wpenon' ),
+					'options'     => array(
+						'yes'   => __( 'Ja', 'wpenon' ),
+						'no' => __( 'Nein', 'wpenon' ),
+					),
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::dach', array( 'unbeheizt', 'nicht-vorhanden' ) ),
+					),
+					'required'    => true,
 				),
 				'decke_daemmung'  => array(
 					'type'        => 'int',
@@ -34,9 +50,19 @@ $bauteile = array(
 					'unit'        => 'cm',
 					'max'         => 30,
 					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_blacklist',
-						'callback_args' => array( 'field::dach', 'beheizt' ),
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::decke_daemmung_on', 'yes' ),
 					),
+				),
+				'boden_daemmung_on' => array(
+					'type'        => 'select',
+					'label'       => __( 'Nachträgliche Bodendämmung', 'wpenon' ),
+					'description' => __( 'Wurden der Boden zusätzlich gedämmt?', 'wpenon' ),
+					'options'     => array(
+						'yes'   => __( 'Ja', 'wpenon' ),
+						'no' => __( 'Nein', 'wpenon' ),
+					),
+					'required'    => true,
 				),
 				'boden_daemmung'  => array(
 					'type'        => 'int',
@@ -44,6 +70,10 @@ $bauteile = array(
 					'description' => __( 'Falls die Bodenplatte / Kellerdecke zusätzlich gedämmt worden ist, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
 					'unit'        => 'cm',
 					'max'         => 25,
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::boden_daemmung_on', 'yes' ),
+					),
 				),
 			),
 		),
@@ -61,6 +91,20 @@ $bauteile = array(
 					),
 					'required' => true,
 				),
+				'dach_daemmung_on' => array(
+					'type'        => 'select',
+					'label'       => __( 'Nachträgliche Dachdämmung', 'wpenon' ),
+					'description' => __( 'Wurden das Dach zusätzlich gedämmt?', 'wpenon' ),
+					'options'     => array(
+						'yes'   => __( 'Ja', 'wpenon' ),
+						'no' => __( 'Nein', 'wpenon' ),
+					),
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::dach', 'beheizt' ),
+					),
+					'required'    => true,
+				),
 				'dach_daemmung' => array(
 					'type'        => 'int',
 					'label'       => __( 'Dachdämmung', 'wpenon' ),
@@ -69,7 +113,7 @@ $bauteile = array(
 					'max'         => 30,
 					'display'     => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::dach', 'beheizt' ),
+						'callback_args' => array( 'field::dach_daemmung_on', 'yes' ),
 					),
 				),
 			),
@@ -87,17 +131,6 @@ $bauteile = array(
 						'beheizt'         => __( 'beheizt', 'wpenon' ),
 					),
 					'required' => true,
-				),
-				'keller_daemmung' => array(
-					'type'        => 'int',
-					'label'       => __( 'Kellerwanddämmung', 'wpenon' ),
-					'description' => __( 'Falls die Kellerwände zusätzlich gedämmt worden sind, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
-					'unit'        => 'cm',
-					'max'         => 23,
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::keller', 'beheizt' ),
-					),
 				),
 			),
 		),

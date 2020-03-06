@@ -4,6 +4,7 @@ namespace Enev\Schema;
 
 require_once( dirname( __FILE__ ) . '/schema.php' );
 require_once( dirname( __DIR__ ) . '/Standard_Options.php' );
+require_once( dirname( __DIR__ ) . '/VW_Moderinzations.php' );
 
 if ( ! class_exists( 'Enev\Schema\Verbrauchsausweis_Schema' ) ):
 
@@ -13,6 +14,15 @@ if ( ! class_exists( 'Enev\Schema\Verbrauchsausweis_Schema' ) ):
 	 * @since 1.0.0
 	 */
 	class Verbrauchsausweis_Schema extends Schema {
+		/**
+		 * Verbrauchsausweis_Schema constructor.
+		 *
+		 * @since 1.0.0
+		 */
+		public function __construct() {
+			new \VW_Modernizations();
+		}
+
 		/**
 		 * Get Basisdaten.
 		 *

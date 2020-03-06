@@ -1053,6 +1053,16 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 		}
 	}
 
+	/**
+	 * Filtering modernization recommendations.
+	 *
+	 * @param array $modernisierungsempfehlungen
+	 * @param \WPENON\Model\Energieausweis $energieausweis
+	 *
+	 * @since 1.0.0
+	 */
+	$modernisierungsempfehlungen = apply_filters( 'enon_filter_modernization_recommendations', $modernisierungsempfehlungen, $energieausweis );
+
 	return $modernisierungsempfehlungen;
 }
 

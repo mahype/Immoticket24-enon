@@ -293,15 +293,6 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-				'h_baujahr'                                    => array(
-					'type'                  => 'int',
-					'label'                 => __( 'Baujahr der Heizungsanlage', 'wpenon' ),
-					'min'                   => 1800,
-					'max'                   => wpenon_get_reference_date( 'Y' ),
-					'required'              => true,
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
-					'validate_dependencies' => array( 'baujahr' ),
-				),
 				'h_energietraeger'                                  => array(
 					'type'     => 'hidden',
 					'value'        => array(
@@ -325,6 +316,37 @@ $anlage = array(
 							'field::h_energietraeger_gasraumheizer',
 							'field::h_energietraeger_oelofenverdampfungsbrenner',
 						),
+					),
+				),
+				'h_baujahr'                                    => array(
+					'type'                  => 'int',
+					'label'                 => __( 'Baujahr der Heizungsanlage', 'wpenon' ),
+					'min'                   => 1800,
+					'max'                   => wpenon_get_reference_date( 'Y' ),
+					'required'              => true,
+					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate_dependencies' => array( 'baujahr' ),
+				),
+				'verteilung_baujahr'                            => array(
+					'type'                  => 'int',
+					'label'                 => __( 'Baujahr des Rohrleitungssystems', 'wpenon' ),
+					'description'           => __( 'Geben Sie hier das Baujahr der freiliegenden Heizungsrohre an.' ),
+					'min'                   => 1800,
+					'max'                   => wpenon_get_reference_date( 'Y' ),
+					'required'              => true,
+					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate_dependencies' => array( 'baujahr' ),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_blacklist',
+						'callback_args' => array( 'field::h_erzeugung', array( 'elektronachtspeicherheizung', 'elektrodirektheizgeraet', 'kohleholzofen', 'kleinthermeniedertemperatur', 'kleinthermebrennwert', 'gasraumheizer', 'oelofenverdampfungsbrenner' ) ),
+					),
+				),
+				'verteilung_gedaemmt'                           => array(
+					'type'    => 'checkbox',
+					'label'   => __( 'Freiliegende Heizungsrohre zusätzlich gedämmt?', 'wpenon' ),
+					'display' => array(
+						'callback'      => 'wpenon_immoticket24_show_verteilung_gedaemmt',
+						'callback_args' => array( 'field::h_erzeugung', array( 'elektronachtspeicherheizung', 'elektrodirektheizgeraet', 'kohleholzofen', 'kleinthermeniedertemperatur', 'kleinthermebrennwert', 'gasraumheizer', 'oelofenverdampfungsbrenner' ), 'field::verteilung_baujahr', 1995 ),
 					),
 				),
 				'h2_info'                                      => array(
