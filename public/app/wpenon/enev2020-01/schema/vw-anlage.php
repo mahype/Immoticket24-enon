@@ -1067,7 +1067,7 @@ $anlage = array(
 						'callback_args' => array(
 							'field::ww_erzeugung',
 							'field::ww_energietraeger_dezentralelektroerhitzer',
-							'field::ww_energietraeger_dezentralgaserhitzer',
+							'field::ww_energietraeger_dezentralkleinspeicher',
 							'field::ww_energietraeger_dezentralgaserhitzer',
 						),
 					),
