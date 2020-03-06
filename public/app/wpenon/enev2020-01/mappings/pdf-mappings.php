@@ -77,11 +77,11 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 		case 'energietraeger_heizung':
 			$energietraeger = array();
 			if ( $energieausweis->mode == 'b' ) {
-				$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->formatted_h_energietraeger );
+				$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h_energietraeger );
 				if ( $energieausweis->h2_info ) {
-					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->formatted_h2_energietraeger );
+					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h2_energietraeger );
 					if ( $energieausweis->h3_info ) {
-						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->formatted_h3_energietraeger );
+						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h3_energietraeger );
 					}
 				}
 			} else {
@@ -98,7 +98,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 		case 'energietraeger_warmwasser':
 			if ( $energieausweis->ww_info == 'ww' ) {
 				if ( $energieausweis->mode == 'b' ) {
-					return $energieausweis->formatted_ww_energietraeger;
+					return wpenon_immoticket24_get_energietraeger_name( $energieausweis->ww_energietraeger );
 				} else {
 					return wpenon_immoticket24_get_energietraeger_name( $energieausweis->ww_energietraeger, true );
 				}
