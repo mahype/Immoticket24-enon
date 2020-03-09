@@ -18,17 +18,6 @@ $bauteile = array(
 					),
 					'required'    => true,
 				),
-				'wand_daemmung'   => array(
-					'type'        => 'int',
-					'label'       => __( 'Wanddämmung', 'wpenon' ),
-					'description' => __( 'Geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
-					'unit'        => 'cm',
-					'max'         => 23,
-					'display' => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::wand_daemmung_on', 'yes' ),
-					),
-				),
 				'decke_daemmung_on' => array(
 					'type'        => 'select',
 					'label'       => __( 'Nachträgliche Deckendämmung', 'wpenon' ),
@@ -43,17 +32,6 @@ $bauteile = array(
 					),
 					'required'    => true,
 				),
-				'decke_daemmung'  => array(
-					'type'        => 'int',
-					'label'       => __( 'Deckendämmung', 'wpenon' ),
-					'description' => __( 'Falls die Oberste Geschossdecke zusätzlich gedämmt worden ist, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
-					'unit'        => 'cm',
-					'max'         => 30,
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::decke_daemmung_on', 'yes' ),
-					),
-				),
 				'boden_daemmung_on' => array(
 					'type'        => 'select',
 					'label'       => __( 'Nachträgliche Bodendämmung', 'wpenon' ),
@@ -63,17 +41,6 @@ $bauteile = array(
 						'no' => __( 'Nein', 'wpenon' ),
 					),
 					'required'    => true,
-				),
-				'boden_daemmung'  => array(
-					'type'        => 'int',
-					'label'       => __( 'Bodendämmung', 'wpenon' ),
-					'description' => __( 'Falls die Bodenplatte / Kellerdecke zusätzlich gedämmt worden ist, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
-					'unit'        => 'cm',
-					'max'         => 25,
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::boden_daemmung_on', 'yes' ),
-					),
 				),
 			),
 		),
@@ -104,17 +71,6 @@ $bauteile = array(
 						'callback_args' => array( 'field::dach', 'beheizt' ),
 					),
 					'required'    => true,
-				),
-				'dach_daemmung' => array(
-					'type'        => 'int',
-					'label'       => __( 'Dachdämmung', 'wpenon' ),
-					'description' => __( 'Falls das Dach zusätzlich gedämmt worden ist, geben Sie hier dessen Dämmstärke in Zentimetern an.', 'wpenon' ),
-					'unit'        => 'cm',
-					'max'         => 30,
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::dach_daemmung_on', 'yes' ),
-					),
 				),
 			),
 		),

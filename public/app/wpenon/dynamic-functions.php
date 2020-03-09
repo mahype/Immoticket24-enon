@@ -108,8 +108,8 @@ function wpenon_immoticket24_show_wand_porenbeton_verbrauch( $daemmung ) {
 }
 
 
-function wpenon_immoticket24_show_jahr_daemmung( $daemmung, $dach = 'nicht-vorhanden' ) {
-	if ( absint( $daemmung ) === 0 || $dach === 'beheizt' ) {
+function wpenon_immoticket24_show_jahr_daemmung( $daemmung_on, $dach = 'nicht-vorhanden' ) {
+	if ( 'yes' !== $daemmung_on || 'beheizt' === $dach  ) {
 		return false;
 	}
 

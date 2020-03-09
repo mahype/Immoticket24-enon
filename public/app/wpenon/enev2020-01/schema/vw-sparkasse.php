@@ -108,11 +108,11 @@ class Verbrauchsausweis_Schema_Sparkasse extends Verbrauchsausweis_Schema {
 			'max'         => wpenon_get_reference_date( 'Y' ),
 			'display'     => array(
 				'callback'      => 'wpenon_immoticket24_show_jahr_daemmung',
-				'callback_args' => array( 'field::wand_daemmung' ),
+				'callback_args' => array( 'field::wand_daemmung_on' ),
 			),
 		);
 
-		$bauteile = $this->insert_after_key( $bauteile, 'bauteile_basis', 'wand_daemmung', $data );
+		$bauteile = $this->insert_after_key( $bauteile, 'bauteile_basis', 'wand_daemmung_on', $data );
 
 		unset( $data );
 
@@ -125,11 +125,11 @@ class Verbrauchsausweis_Schema_Sparkasse extends Verbrauchsausweis_Schema {
 			'max'         => wpenon_get_reference_date( 'Y' ),
 			'display'     => array(
 				'callback'      => 'wpenon_immoticket24_show_jahr_daemmung',
-				'callback_args' => array( 'field::decke_daemmung', 'field::dach' ),
+				'callback_args' => array( 'field::decke_daemmung_on', 'field::dach' ),
 			),
 		);
 
-		$bauteile = $this->insert_after_key( $bauteile, 'bauteile_basis', 'decke_daemmung', $data );
+		$bauteile = $this->insert_after_key( $bauteile, 'bauteile_basis', 'decke_daemmung_on', $data );
 
 		unset( $data );
 
@@ -142,11 +142,11 @@ class Verbrauchsausweis_Schema_Sparkasse extends Verbrauchsausweis_Schema {
 			'max'         => wpenon_get_reference_date( 'Y' ),
 			'display'     => array(
 				'callback'      => 'wpenon_immoticket24_show_jahr_daemmung',
-				'callback_args' => array( 'field::boden_daemmung' ),
+				'callback_args' => array( 'field::boden_daemmung_on' ),
 			),
 		);
 
-		$bauteile = $this->insert_after_key( $bauteile, 'bauteile_basis', 'boden_daemmung', $data );
+		$bauteile = $this->insert_after_key( $bauteile, 'bauteile_basis', 'boden_daemmung_on', $data );
 
 		unset( $data );
 
@@ -159,11 +159,11 @@ class Verbrauchsausweis_Schema_Sparkasse extends Verbrauchsausweis_Schema {
 			'max'         => wpenon_get_reference_date( 'Y' ),
 			'display'     => array(
 				'callback'      => 'wpenon_immoticket24_show_jahr_daemmung',
-				'callback_args' => array( 'field::dach_daemmung' ),
+				'callback_args' => array( 'field::dach_daemmung_on' ),
 			),
 		);
 
-		$bauteile = $this->insert_after_key( $bauteile, 'bauteile_basis', 'dach_daemmung', $data );
+		$bauteile = $this->insert_after_key( $bauteile, 'bauteile_basis', 'dach_daemmung_on', $data );
 
 		unset( $data );
 
@@ -176,11 +176,11 @@ class Verbrauchsausweis_Schema_Sparkasse extends Verbrauchsausweis_Schema {
 			'max'         => wpenon_get_reference_date( 'Y' ),
 			'display'     => array(
 				'callback'      => 'wpenon_immoticket24_show_jahr_daemmung',
-				'callback_args' => array( 'field::dach_daemmung' ),
+				'callback_args' => array( 'field::dach_daemmung_on' ),
 			),
 		);
 
-		$bauteile = $this->insert_after_key( $bauteile, 'bauteile_keller', 'keller_daemmung', $data );
+		$bauteile = $this->insert_after_key( $bauteile, 'bauteile_keller', 'keller_daemmung_on', $data );
 
 		unset( $data );
 
