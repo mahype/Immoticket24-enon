@@ -127,10 +127,12 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 			if (!jQuery('#wpit_transfer_certificate_input').length) {
 				var wohnungen = parseInt(jQuery('#wohnungen').val(), 10);
 				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
-				var wand_daemmung = parseInt(jQuery('#wand_daemmung').val(), 10);
+				var wand_daemmung_on = jQuery('#wand_daemmung_on').val();
 
-				if (strict || (wohnungen > 0 && baujahr > 0 && (wand_daemmung > 0 || _wpit_wand_touched))) {
-					if (wohnungen < 5 && baujahr < 1978 && wand_daemmung < 1) {
+				console.log( wand_daemmung_on );
+
+				if (strict || (wohnungen > 0 && baujahr > 0 && (wand_daemmung_on == 'yes' || _wpit_wand_touched))) {
+					if ( wohnungen < 5 && baujahr < 1978 && wand_daemmung_on === 'no' ) {
 						jQuery('#wpit_invalid_certificate_modal').modal('show');
 
 						return false;
