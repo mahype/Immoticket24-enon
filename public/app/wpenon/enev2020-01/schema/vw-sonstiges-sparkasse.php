@@ -133,7 +133,7 @@ $qualities = [
 	]
 ];
 
-if ( ! function_exists( 'get_quality_description' ) ) {
+if ( ! function_exists( 'Enev\Schema\get_quality_description' ) ) {
 	function get_quality_description( $elements ) {
 		$html = '';
 
