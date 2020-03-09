@@ -416,7 +416,7 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 }
 
 function wpenon_immoticket24_show_h_energietraeger( $erzeugung_vorhanden, $erzeugung, $erzeugung_must  ) {
-	if( true !== $erzeugung_vorhanden ) {
+	if( ! wpenon_show_on_bool_compare( $erzeugung_vorhanden, true )) {
 		return false;
 	}
 
