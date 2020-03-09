@@ -5,7 +5,7 @@ namespace Enev\Schema;
 require_once( dirname( __DIR__ ) . '/Standard_Options.php' );
 require_once( dirname( __FILE__ ) . '/bw.php' );
 
-if ( ! class_exists( 'Bedarfsausweis_Schema_Sparkasse' ) ) :
+if ( ! class_exists( 'Enev\Schema\Bedarfsausweis_Schema_Sparkasse' ) ) :
 
 	/**
 	 * Class Bedarfsausweis_Schema

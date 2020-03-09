@@ -8,7 +8,7 @@ namespace Enev\Schema;
 require_once( dirname( __DIR__ ) . '/Standard_Options.php' );
 require_once( dirname( __FILE__ ) . '/vw.php' );
 
-if ( ! class_exists( 'Verbrauchsausweis_Schema_Sparkasse' ) ) :
+if ( ! class_exists( 'Enev\Schema\Verbrauchsausweis_Schema_Sparkasse' ) ) :
 
 	/**
 	 * Class Verbrauchsausweis_Schema_Sparkasse
