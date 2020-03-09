@@ -229,6 +229,10 @@ if ( ! class_exists( 'Enev\Schema\Verbrauchsausweis_Schema_Sparkasse' ) ) :
 					'16-25' => __( 'Vor 16- 25 Jahren', 'wpenon' ),
 					'25'    => __( 'Vor über 25 Jahren', 'wpenon' ),
 				),
+				'display'  => array(
+					'callback'      => 'wpenon_show_on_bool_compare',
+					'callback_args' => array( 'field::h2_info', true ),
+				),
 				'required' => true,
 			);
 
@@ -246,6 +250,10 @@ if ( ! class_exists( 'Enev\Schema\Verbrauchsausweis_Schema_Sparkasse' ) ) :
 					'11-15' => __( 'Vor 11-15 Jahren', 'wpenon' ),
 					'16-25' => __( 'Vor 16- 25 Jahren', 'wpenon' ),
 					'25'    => __( 'Vor über 25 Jahren', 'wpenon' ),
+				),
+				'display'  => array(
+					'callback'      => 'wpenon_show_on_bool_compare',
+					'callback_args' => array( 'field::h3_info', true ),
 				),
 				'required' => true,
 			);
