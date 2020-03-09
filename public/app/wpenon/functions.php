@@ -352,7 +352,7 @@ function wpenon_immoticket24_make_yearkey( $year, $table, $gedaemmt = false ) {
 
 			return 'ab1995';
 		case 'uwerte202001':
-			$steps = array( 1918, 1948, 1957, 1968, 1978, 1983, 1994, 2001 );
+			$steps = array( 1918, 1948, 1957, 1968, 1978, 1983, 1994, 2001, 2006 );
 			foreach ( $steps as $step ) {
 				if ( $year <= $step ) {
 					return 'bis' . $step;

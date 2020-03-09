@@ -49,6 +49,10 @@ return array(
 			'title'       => __( '1995-2001', 'wpenon' ),
 			'type'        => 'FLOAT',
 		),
+		'bis2006'      => array(
+			'title'       => __( '2001-2006', 'wpenon' ),
+			'type'        => 'FLOAT',
+		),
 		'ab2007'      => array(
 			'title'       => __( 'Ab 2007', 'wpenon' ),
 			'type'        => 'FLOAT',
