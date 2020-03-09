@@ -65,7 +65,7 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-				'h_energietraeger_kleinthermeniedertemperatur'       => array(
+				'h_energietraeger_kleinthermeniedertemperatur'  => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
@@ -81,7 +81,7 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-				'h_energietraeger_kleinthermebrennwert'       => array(
+				'h_energietraeger_kleinthermebrennwert'         => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
@@ -246,9 +246,9 @@ $anlage = array(
 					'default'  => 'heizoel',
 					'required' => true,
 				),
-				'h_energietraeger'                                  => array(
-					'type'     => 'hidden',
-					'value'        => array(
+				'h_energietraeger'                              => array(
+					'type'  => 'hidden',
+					'value' => array(
 						'callback'      => 'wpenon_immoticket24_get_energietraeger_by_erzeugung',
 						'callback_args' => array(
 							'field::h_erzeugung',
@@ -328,8 +328,8 @@ $anlage = array(
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'standardkessel' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h2_info', 'field::h2_erzeugung', 'standardkessel' ),
 					),
 					'required' => true,
 				),
@@ -345,8 +345,8 @@ $anlage = array(
 						// Gibt es nicht als Wert in Tabelle
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'fernwaerme' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h2_info', 'field::h2_erzeugung', 'fernwaerme' ),
 					),
 					'required' => true,
 				),
@@ -361,8 +361,8 @@ $anlage = array(
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'niedertemperaturkessel' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h2_info', 'field::h2_erzeugung', 'niedertemperaturkessel' ),
 					),
 					'required' => true,
 				),
@@ -377,8 +377,8 @@ $anlage = array(
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'brennwertkessel' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h2_info', 'field::h2_erzeugung', 'brennwertkessel' ),
 					),
 					'required' => true,
 				),
@@ -393,8 +393,12 @@ $anlage = array(
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'brennwertkesselverbessert' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array(
+							'field::h2_info',
+							'field::h2_erzeugung',
+							'brennwertkesselverbessert'
+						),
 					),
 					'required' => true,
 				),
@@ -405,8 +409,8 @@ $anlage = array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'waermepumpeluft' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h2_info', 'field::h2_erzeugung', 'waermepumpeluft' ),
 					),
 					'default'  => 'strom',
 					'required' => true,
@@ -418,8 +422,8 @@ $anlage = array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'waermepumpewasser' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h2_info', 'field::h2_erzeugung', 'waermepumpewasser' ),
 					),
 					'default'  => 'strom',
 					'required' => true,
@@ -431,8 +435,8 @@ $anlage = array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'waermepumpeerde' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h2_info', 'field::h2_erzeugung', 'waermepumpeerde' ),
 					),
 					'default'  => 'strom',
 					'required' => true,
@@ -445,8 +449,8 @@ $anlage = array(
 						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'pelletfeuerung' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h2_info', 'field::h2_erzeugung', 'pelletfeuerung' ),
 					),
 					'required' => true,
 				),
@@ -457,8 +461,12 @@ $anlage = array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'elektronachtspeicherheizung' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array(
+							'field::h2_info',
+							'field::h2_erzeugung',
+							'elektronachtspeicherheizung'
+						),
 					),
 					'default'  => 'strom',
 					'required' => true,
@@ -470,8 +478,8 @@ $anlage = array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'elektrodirektheizgeraet' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h2_info', 'field::h2_erzeugung', 'elektrodirektheizgeraet' ),
 					),
 					'default'  => 'strom',
 					'required' => true,
@@ -484,8 +492,8 @@ $anlage = array(
 						'steinkohle' => __( 'Steinkohle', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'kohleholzofen' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h2_info', 'field::h2_erzeugung', 'kohleholzofen' ),
 					),
 					'required' => true,
 				),
@@ -497,8 +505,8 @@ $anlage = array(
 						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'gasraumheizer' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h2_info', 'field::h2_erzeugung', 'gasraumheizer' ),
 					),
 					'required' => true,
 				),
@@ -509,15 +517,19 @@ $anlage = array(
 						'heizoel' => __( 'Heizöl', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'oelofenverdampfungsbrenner' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array(
+							'field::h2_info',
+							'field::h2_erzeugung',
+							'oelofenverdampfungsbrenner'
+						),
 					),
 					'default'  => 'heizoel',
 					'required' => true,
 				),
-				'h2_energietraeger'                                  => array(
-					'type'     => 'hidden',
-					'value'        => array(
+				'h2_energietraeger'                             => array(
+					'type'  => 'hidden',
+					'value' => array(
 						'callback'      => 'wpenon_immoticket24_get_energietraeger_by_erzeugung',
 						'callback_args' => array(
 							'field::h2_erzeugung',
@@ -605,8 +617,8 @@ $anlage = array(
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'standardkessel' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'standardkessel' ),
 					),
 					'required' => true,
 				),
@@ -622,8 +634,8 @@ $anlage = array(
 						// Gibt es nicht als Wert in Tabelle
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'fernwaerme' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'fernwaerme' ),
 					),
 					'required' => true,
 				),
@@ -638,8 +650,8 @@ $anlage = array(
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'niedertemperaturkessel' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'niedertemperaturkessel' ),
 					),
 					'required' => true,
 				),
@@ -654,8 +666,8 @@ $anlage = array(
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'brennwertkessel' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'brennwertkessel' ),
 					),
 					'required' => true,
 				),
@@ -670,8 +682,12 @@ $anlage = array(
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'brennwertkesselverbessert' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array(
+							'field::h3_info',
+							'field::h3_erzeugung',
+							'brennwertkesselverbessert'
+						),
 					),
 					'required' => true,
 				),
@@ -682,8 +698,8 @@ $anlage = array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'waermepumpeluft' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'waermepumpeluft' ),
 					),
 					'default'  => 'strom',
 					'required' => true,
@@ -695,8 +711,8 @@ $anlage = array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'waermepumpewasser' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'waermepumpewasser' ),
 					),
 					'default'  => 'strom',
 					'required' => true,
@@ -708,8 +724,8 @@ $anlage = array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'waermepumpeerde' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'waermepumpeerde' ),
 					),
 					'default'  => 'strom',
 					'required' => true,
@@ -722,8 +738,8 @@ $anlage = array(
 						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'pelletfeuerung' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'pelletfeuerung' ),
 					),
 					'required' => true,
 				),
@@ -734,8 +750,12 @@ $anlage = array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'elektronachtspeicherheizung' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array(
+							'field::h3_info',
+							'field::h3_erzeugung',
+							'elektronachtspeicherheizung'
+						),
 					),
 					'default'  => 'strom',
 					'required' => true,
@@ -747,8 +767,8 @@ $anlage = array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'elektrodirektheizgeraet' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'elektrodirektheizgeraet' ),
 					),
 					'default'  => 'strom',
 					'required' => true,
@@ -761,8 +781,8 @@ $anlage = array(
 						'steinkohle' => __( 'Steinkohle', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'kohleholzofen' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'kohleholzofen' ),
 					),
 					'required' => true,
 				),
@@ -774,8 +794,8 @@ $anlage = array(
 						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'gasraumheizer' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'gasraumheizer' ),
 					),
 					'required' => true,
 				),
@@ -786,15 +806,19 @@ $anlage = array(
 						'heizoel' => __( 'Heizöl', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'oelofenverdampfungsbrenner' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array(
+							'field::h3_info',
+							'field::h3_erzeugung',
+							'oelofenverdampfungsbrenner'
+						),
 					),
 					'default'  => 'heizoel',
 					'required' => true,
 				),
-				'h3_energietraeger'                                  => array(
-					'type'     => 'hidden',
-					'value'        => array(
+				'h3_energietraeger'                             => array(
+					'type'  => 'hidden',
+					'value' => array(
 						'callback'      => 'wpenon_immoticket24_get_energietraeger_by_erzeugung',
 						'callback_args' => array(
 							'field::h3_erzeugung',
@@ -861,9 +885,20 @@ $anlage = array(
 					'required'              => true,
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
-					'display'  => array(
+					'display'               => array(
 						'callback'      => 'wpenon_show_on_array_blacklist',
-						'callback_args' => array( 'field::h_erzeugung', array( 'elektronachtspeicherheizung', 'elektrodirektheizgeraet', 'kohleholzofen', 'kleinthermeniedertemperatur', 'kleinthermebrennwert', 'gasraumheizer', 'oelofenverdampfungsbrenner' ) ),
+						'callback_args' => array(
+							'field::h_erzeugung',
+							array(
+								'elektronachtspeicherheizung',
+								'elektrodirektheizgeraet',
+								'kohleholzofen',
+								'kleinthermeniedertemperatur',
+								'kleinthermebrennwert',
+								'gasraumheizer',
+								'oelofenverdampfungsbrenner'
+							)
+						),
 					),
 				),
 				'verteilung_gedaemmt'                           => array(
@@ -871,7 +906,20 @@ $anlage = array(
 					'label'   => __( 'Freiliegende Heizungsrohre zusätzlich gedämmt?', 'wpenon' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_verteilung_gedaemmt',
-						'callback_args' => array( 'field::h_erzeugung', array( 'elektronachtspeicherheizung', 'elektrodirektheizgeraet', 'kohleholzofen', 'kleinthermeniedertemperatur', 'kleinthermebrennwert', 'gasraumheizer', 'oelofenverdampfungsbrenner' ), 'field::verteilung_baujahr', 1978 ),
+						'callback_args' => array(
+							'field::h_erzeugung',
+							array(
+								'elektronachtspeicherheizung',
+								'elektrodirektheizgeraet',
+								'kohleholzofen',
+								'kleinthermeniedertemperatur',
+								'kleinthermebrennwert',
+								'gasraumheizer',
+								'oelofenverdampfungsbrenner'
+							),
+							'field::verteilung_baujahr',
+							1978
+						),
 					),
 				),
 				'speicherung'                                   => array(
@@ -951,7 +999,7 @@ $anlage = array(
 						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'dezentralelektroerhitzer' ),
 					),
 				),
-				'ww_energietraeger_dezentralgaserhitzer' => array(
+				'ww_energietraeger_dezentralgaserhitzer'     => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Warmwasseranlage', 'wpenon' ),
 					'required' => true,
@@ -964,7 +1012,7 @@ $anlage = array(
 						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'dezentralgaserhitzer' ),
 					),
 				),
-				'ww_energietraeger_dezentralkleinspeicher' => array(
+				'ww_energietraeger_dezentralkleinspeicher'   => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Warmwasseranlage', 'wpenon' ),
 					'required' => true,
@@ -977,9 +1025,9 @@ $anlage = array(
 						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'dezentralkleinspeicher' ),
 					),
 				),
-				'ww_energietraeger'                                  => array(
-					'type'     => 'hidden',
-					'value'        => array(
+				'ww_energietraeger'                          => array(
+					'type'  => 'hidden',
+					'value' => array(
 						'callback'      => 'wpenon_immoticket24_get_ww_energietraeger_by_erzeugung',
 						'callback_args' => array(
 							'field::ww_erzeugung',

@@ -415,6 +415,18 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 	return $energietraeger;
 }
 
+function wpenon_immoticket24_show_h_energietraeger( $erzeugung_vorhanden, $erzeugung, $erzeugung_must  ) {
+	if( ! wpenon_show_on_bool_compare( $erzeugung_vorhanden, true )) {
+		return false;
+	}
+
+	if ( ! wpenon_show_on_array_whitelist( $erzeugung, $erzeugung_must ) ) {
+		return false;
+	}
+
+	return true;
+}
+
 function wpenon_immoticket24_show_ww_energietraeger( $ww_info, $erzeuger, $energietraeger ) {
 	if( $ww_info !== 'ww' ) {
 		return false;
