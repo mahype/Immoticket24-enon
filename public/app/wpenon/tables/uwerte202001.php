@@ -50,7 +50,7 @@ return array(
 			'type'        => 'FLOAT',
 		),
 		'bis2006'      => array(
-			'title'       => __( '2001-2006', 'wpenon' ),
+			'title'       => __( '2002-2006', 'wpenon' ),
 			'type'        => 'FLOAT',
 		),
 		'ab2007'      => array(
