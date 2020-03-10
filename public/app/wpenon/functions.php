@@ -85,7 +85,7 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 					<h4 class="modal-title"><?php _e( 'Für dieses Gebäude kann kein Verbrauchsausweis erstellt werden', 'wpenon' ); ?></h4>
 				</div>
 				<div class="modal-body">
-					<?php _e( 'Für vor 1978 errichtete Gebäude mit weniger als 5 Wohneinheiten ohne Außenwanddämmung darf gemäß EnEV kein Verbrauchsausweis erstellt werden.', 'wpenon' ); ?>
+					<?php _e( 'Für vor 1978 errichtete Gebäude mit weniger als 5 Wohneinheiten ohne Wanddämmung darf gemäß EnEV kein Verbrauchsausweis erstellt werden.', 'wpenon' ); ?>
 					<?php _e( 'Es ist jedoch möglich einen entsprechenden Bedarfsausweis zu erstellen. Klicken Sie den unten angezeigten Button, um Ihren Ausweis in einen Bedarfsausweis umzuwandeln.', 'wpenon' ); ?>
 				</div>
 				<div class="modal-footer">
