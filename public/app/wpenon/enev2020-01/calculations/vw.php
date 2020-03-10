@@ -11,7 +11,7 @@ $calculations['nutzflaeche'] = $energieausweis->flaeche * $calculations['nutzfla
 
 $calculations['reference'] = 125;
 
-$klimafaktoren       = wpenon_get_table_results( 'klimafaktoren', array(
+$klimafaktoren       = wpenon_get_table_results( 'klimafaktoren202001', array(
 	'bezeichnung' => array(
 		'value'   => $energieausweis->adresse_plz,
 		'compare' => '>='
