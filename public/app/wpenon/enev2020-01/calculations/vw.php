@@ -150,7 +150,8 @@ if ( $energieausweis->h2_info ) {
 	}
 }
 if ( $energieausweis->ww_info == 'ww' ) {
-	$ww_energietraeger_value = 'ww_energietraeger_' . $energieausweis->ww_erzeugung;
+	$ww_energietraeger_name = 'ww_energietraeger_' . $energieausweis->ww_erzeugung;
+	$ww_energietraeger_value = $energieausweis->$ww_energietraeger_name;
 
 	$ww_energietraeger_umrechnungen     = wpenon_get_table_results( 'energietraeger_umrechnungen', array(
 		'bezeichnung' => array(
