@@ -8,7 +8,7 @@ if ( ! function_exists( 'wpenon_immoticket24_pre_rebuild_klimafaktoren_table' ) 
 
 		$months_count = count( $first_line ) - 1;
 
-		$start = get_option( 'wpenon_immoticket24_klimafaktoren_start', '2010_01' );
+		$start = get_option( 'wpenon_immoticket24_klimafaktoren_start', '2018_01' );
 		list( $startjahr, $startmonat ) = array_map( 'absint', explode( '_', $start ) );
 
 		$endjahr  = $startjahr + absint( floor( $months_count / 12 ) );
@@ -23,7 +23,7 @@ if ( ! function_exists( 'wpenon_immoticket24_pre_rebuild_klimafaktoren_table' ) 
 }
 
 $_klimafaktoren_schema = array(
-	'title'             => __( 'Klimafaktoren', 'wpenon' ),
+	'title'             => __( 'Klimafaktoren 2020/01', 'wpenon' ),
 	'description'       => __( 'Diese Tabelle enthält Klimafaktoren für sämtliche Postleitzahlen.', 'wpenon' ),
 	'asterisks'         => array(
 		'PLZ' => __( 'Postleitzahl', 'wpenon' ),
@@ -40,8 +40,8 @@ $_klimafaktoren_schema = array(
 	),
 );
 
-$start = get_option( 'wpenon_immoticket24_klimafaktoren_start', '2010_01' );
-$end   = get_option( 'wpenon_immoticket24_klimafaktoren_end', '2014_03' );
+$start = get_option( 'wpenon_immoticket24_klimafaktoren_start', '2018_01' );
+$end   = get_option( 'wpenon_immoticket24_klimafaktoren_end', '2019_12' );
 list( $startjahr, $startmonat ) = array_map( 'absint', explode( '_', $start ) );
 list( $endjahr, $endmonat ) = array_map( 'absint', explode( '_', $end ) );
 
