@@ -689,6 +689,35 @@ function wpenon_immoticket24_get_g_wert( $bauart, $reference = false ) {
 	return 0.6;
 }
 
+function wpenon_immoticket24_get_klimafaktoren_zeitraeume202001() {
+	$zeitraeume = array();
+
+	$reference = wpenon_get_reference_date( 'timestamp' );
+
+	$_daten = \WPENON\Util\DB::getTableColumns( \WPENON\Util\Format::prefix( 'klimafaktoren202001' ) );
+	$_daten = array_slice( $_daten, 1, count( $_daten ) - 25 );
+
+	$daten = array();
+	foreach ( $_daten as $_datum ) {
+		$daten[] = $_datum->Field;
+	}
+	unset( $_datum );
+	unset( $_daten );
+
+	$year = $month = '';
+
+	foreach ( $daten as $datum ) {
+		if ( wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 2, true, 'timestamp' ) > $reference ) {
+			break;
+		}
+		$zeitraeume[ $datum ] = wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 0, false, 'data' ) . ' - ' . wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 2, true, 'data' );
+	}
+
+	$zeitraeume = array_reverse( $zeitraeume );
+
+	return $zeitraeume;
+}
+
 function wpenon_immoticket24_get_klimafaktoren_zeitraeume() {
 	$zeitraeume = array();
 
