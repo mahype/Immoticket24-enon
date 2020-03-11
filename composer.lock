@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bd5c318971b3a46b67cebea16de649b",
+    "content-hash": "2e64a2b44204e8c7e9a1fdef64ab764c",
     "packages": [
         {
             "name": "advanced-custom-fields/advanced-custom-fields-pro",
@@ -386,6 +386,15 @@
                 "wordpress"
             ],
             "time": "2018-11-09T20:10:38+00:00"
+        },
+        {
+            "name": "wp-rocket/wp-rocket",
+            "version": "3.5.0.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://wp-rocket.me/download/71599/4dc0cdc9/"
+            },
+            "type": "wordpress-plugin"
         },
         {
             "name": "wpackagist-plugin/acf-code-field",

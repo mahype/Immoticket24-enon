@@ -1,4 +1,4 @@
-# BEGIN WP Rocket v3.4.4
+# BEGIN WP Rocket v3.5.0.2
 # Use UTF-8 encoding for anything served text/plain or text/html
 AddDefaultCharset UTF-8
 # Force UTF-8 for a number of file formats
@@ -15,7 +15,7 @@ FileETag None
 <IfModule mod_alias.c>
 <FilesMatch "\.(html|htm|rtf|rtx|txt|xsd|xsl|xml)$">
 <IfModule mod_headers.c>
-Header set X-Powered-By "WP Rocket/3.4.4"
+Header set X-Powered-By "WP Rocket/3.5.0.2"
 Header unset Pragma
 Header append Cache-Control "public"
 Header unset Last-Modified
@@ -124,7 +124,7 @@ RewriteRule .* - [E=WPR_ENC:_gzip]
 RewriteCond %{REQUEST_METHOD} GET
 RewriteCond %{QUERY_STRING} =""
 RewriteCond %{HTTP:Cookie} !(wordpress_logged_in_.+|wp-postpass_|wptouch_switch_toggle|comment_author_|comment_author_email_) [NC]
-RewriteCond %{REQUEST_URI} !^(/energieausweis2/bedarfsausweis-wohngebaeude/|/energieausweis2/verbrauchsausweis-wohngebaeude/|/energieausweise/(.*)|/checkout/|/checkout/kaufbestaetigung/|/edd-listener(.*)|/checkout/kauf-fehlgeschlagen/|/checkout/kaufarchiv/|/vermarktungspaket/|/(.+/)?feed/?|/(?:.+/)?embed/)$ [NC]
+RewriteCond %{REQUEST_URI} !^(/energieausweis2/bedarfsausweis-wohngebaeude/|/energieausweis2/verbrauchsausweis-wohngebaeude/|/energieausweise/(.*)|/checkout/|/checkout/kaufbestaetigung/|/edd-listener(.*)|/checkout/kauf-fehlgeschlagen/|/checkout/kaufarchiv/|/vermarktungspaket/|/(.+/)?feed/?|/(?:.+/)?embed/|/checkout/(.*)|/(index\.php/)?api(/.*|$))$ [NC]
 RewriteCond %{HTTP_USER_AGENT} !^(facebookexternalhit).* [NC]
 RewriteCond "%{DOCUMENT_ROOT}/app/cache/wp-rocket/%{HTTP_HOST}%{REQUEST_URI}/index%{ENV:WPR_SSL}%{ENV:WPR_WEBP}.html%{ENV:WPR_ENC}" -f
 RewriteRule .* "/app/cache/wp-rocket/%{HTTP_HOST}%{REQUEST_URI}/index%{ENV:WPR_SSL}%{ENV:WPR_WEBP}.html%{ENV:WPR_ENC}" [L]
