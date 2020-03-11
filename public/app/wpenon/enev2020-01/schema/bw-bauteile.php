@@ -1552,6 +1552,26 @@ $bauteile = array(
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
+				'heizkoerpernischen'       => array(
+					'type'     => 'select',
+					'label'    => __( 'Heizkörpernischen', 'wpenon' ),
+					'options'  => array(
+						'nicht-vorhanden' => __( 'nicht vorhanden', 'wpenon' ),
+						'vorhanden'       => __( 'vorhanden', 'wpenon' ),
+					),
+					'required' => true,
+				),
+				'rollladenkaesten'         => array(
+					'type'     => 'select',
+					'label'    => __( 'Rollladenkästen', 'wpenon' ),
+					'options'  => array(
+						'nicht-vorhanden'  => __( 'nicht vorhanden', 'wpenon' ),
+						'aussen'           => __( 'außenliegend', 'wpenon' ),
+						'innen_ungedaemmt' => __( 'innenliegend, ungedämmt', 'wpenon' ),
+						'innen_gedaemmt'   => __( 'innenliegend, gedämmt', 'wpenon' ),
+					),
+					'required' => true,
+				),
 			),
 		),
 	),

@@ -973,15 +973,6 @@ $anlage = array(
 						'callback_args' => array( 'field::speicherung', true ),
 					),
 				),
-				'heizkoerpernischen'       => array(
-					'type'     => 'select',
-					'label'    => __( 'Heizkörpernischen', 'wpenon' ),
-					'options'  => array(
-						'nicht-vorhanden' => __( 'nicht vorhanden', 'wpenon' ),
-						'vorhanden'       => __( 'vorhanden', 'wpenon' ),
-					),
-					'required' => true,
-				),
 			),
 		),
 		'warmwasser' => array(
@@ -1164,24 +1155,6 @@ $anlage = array(
 				'dichtheit'   => array(
 					'type'  => 'checkbox',
 					'label' => __( 'Wurde eine Dichtheitsprüfung (z.B. Blower-Door-Test) erfolgreich durchgeführt?', 'wpenon' ),
-				),
-
-
-			),
-		),
-		'sonstiges'   => array(
-			'title'       => __( 'Sonstiges', 'wpenon' ),
-			'fields'      => array(
-				'rollladenkaesten'         => array(
-					'type'     => 'select',
-					'label'    => __( 'Rollladenkästen', 'wpenon' ),
-					'options'  => array(
-						'nicht-vorhanden'  => __( 'nicht vorhanden', 'wpenon' ),
-						'aussen'           => __( 'außenliegend', 'wpenon' ),
-						'innen_ungedaemmt' => __( 'innenliegend, ungedämmt', 'wpenon' ),
-						'innen_gedaemmt'   => __( 'innenliegend, gedämmt', 'wpenon' ),
-					),
-					'required' => true,
 				),
 			),
 		),
