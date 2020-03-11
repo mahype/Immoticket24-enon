@@ -48,7 +48,7 @@ class Standard_Options {
 	 */
 	public static function get_bauarten_keller() {
 		$construction_types = array(
-			'massiv_bims'                      => __( 'Hochlochziegel, Bimsbeton; z. B. Poroton', 'wpenon' ),
+			'massiv_bims'                      => __( 'Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton', 'wpenon' ),
 			'massiv_zweischalig'               => __( 'Zweischalige Bauweise', 'wpenon' ),
 			'massiv_holzhaus_holz'             => __( 'Holz', 'wpenon' ),
 			'massiv_bis_20cm'                  => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
@@ -101,7 +101,7 @@ class Standard_Options {
 	 */
 	public static function get_bauarten_massiv() {
 		$construction_types = array(
-			'massiv_bims'                      => __( 'Hochlochziegel, Bimsbeton; z. B. Poroton', 'wpenon' ),
+			'massiv_bims'                      => __( 'Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton', 'wpenon' ),
 			'massiv_zweischalig'               => __( 'Zweischalige Bauweise', 'wpenon' ),
 			'massiv_bis_20cm'                  => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
 			'massiv_ueber_20cm'                => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
