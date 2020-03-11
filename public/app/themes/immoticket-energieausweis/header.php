@@ -19,6 +19,7 @@ $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
 <title><?php immoticketenergieausweis_wp_title( '|' ); ?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <?php wp_head(); ?>
+<meta name="google-site-verification" content="ZdRDoVTYbiT47J7E5uD09uB5jq7g98tQsQ_7gTKwym8" />
 </head>
 <body <?php body_class(); ?>>
   <?php wp_body_open(); ?>
