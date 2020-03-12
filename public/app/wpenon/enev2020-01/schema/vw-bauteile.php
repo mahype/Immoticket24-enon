@@ -9,7 +9,7 @@ $bauteile = array(
 			'fields'      => array(
 				'wand_daemmung_on' => array(
 					'type'        => 'select',
-					'label'       => __( 'Nachträgliche Wanddämmung', 'wpenon' ),
+					'label'       => __( 'Wanddämmung', 'wpenon' ),
 					'description' => __( 'Wurden die Außenwände zusätzlich gedämmt?', 'wpenon' ),
 					'options'     => array(
 						'yes'   => __( 'Ja', 'wpenon' ),
@@ -20,7 +20,7 @@ $bauteile = array(
 				),
 				'decke_daemmung_on' => array(
 					'type'        => 'select',
-					'label'       => __( 'Nachträgliche Deckendämmung', 'wpenon' ),
+					'label'       => __( 'Deckendämmung', 'wpenon' ),
 					'description' => __( 'Wurden die Decke zusätzlich gedämmt?', 'wpenon' ),
 					'options'     => array(
 						'yes'   => __( 'Ja', 'wpenon' ),
@@ -34,7 +34,7 @@ $bauteile = array(
 				),
 				'boden_daemmung_on' => array(
 					'type'        => 'select',
-					'label'       => __( 'Nachträgliche Bodendämmung', 'wpenon' ),
+					'label'       => __( 'Bodendämmung', 'wpenon' ),
 					'description' => __( 'Wurden der Boden zusätzlich gedämmt?', 'wpenon' ),
 					'options'     => array(
 						'yes'   => __( 'Ja', 'wpenon' ),
@@ -60,7 +60,7 @@ $bauteile = array(
 				),
 				'dach_daemmung_on' => array(
 					'type'        => 'select',
-					'label'       => __( 'Nachträgliche Dachdämmung', 'wpenon' ),
+					'label'       => __( 'Dachdämmung', 'wpenon' ),
 					'description' => __( 'Wurden das Dach zusätzlich gedämmt?', 'wpenon' ),
 					'options'     => array(
 						'yes'   => __( 'Ja', 'wpenon' ),
