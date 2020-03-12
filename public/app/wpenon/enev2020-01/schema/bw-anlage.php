@@ -999,7 +999,11 @@ $anlage = array(
 					'type'        => 'select',
 					'label'       => __( 'Typ der Warmwasseranlage', 'wpenon' ),
 					'description' => __( 'Falls Sie den mit Gas oder Öl betriebenen Typ der Warmwasseranlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon' ),
-					'options'     => wpenon_immoticket24_get_warmwasseranlagen202001(),
+					'options'  => array(
+						'dezentralkleinspeicher'   => __( 'elektrischer Kleinspeicher', 'wpenon' ),
+						'dezentralelektroerhitzer' => __( 'elektrischer Durchlauferhitzer', 'wpenon' ),
+						'dezentralgaserhitzer'     => __( 'Gas-Durchlauferhitzer', 'wpenon' ),
+					),
 					'required'    => true,
 					'display'     => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
