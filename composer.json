@@ -51,6 +51,18 @@
           "url": "https://affiliatewp.com/index.php?eddfile=430090%3A17%3A0%3A0&ttl=1584162456&file=0&token=114396935e17a163f6da2e1fb5d9b0f774be43c0b9ff2f62593db88933502ddd"
         }
       }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "wp-rocket/wp-rocket",
+        "version": "3.5.0.2",
+        "type": "wordpress-plugin",
+        "dist": {
+          "type": "zip",
+          "url": "https://wp-rocket.me/download/71599/4dc0cdc9/"
+        }
+      }
     }
   ],
   "require": {
@@ -76,6 +88,7 @@
     "wpackagist-plugin/vaultpress": "2.1.1",
     "wpackagist-plugin/wordpress-seo": "13.2",
     "wpackagist-plugin/wp-postratings": "1.87",
+    "wp-rocket/wp-rocket": "3.5.0.2",
     "felixarntz/wp-gdpr-cookie-notice": "dev-master",
     "felixarntz/plugin-lib": "dev-master"
   },
