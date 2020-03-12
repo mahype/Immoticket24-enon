@@ -1552,6 +1552,12 @@ $bauteile = array(
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
+			),
+		),
+		'bauteile_sonstiges' => array(
+			'title'       => __( 'Sonstiges', 'wpenon' ),
+			'description' => __( 'Geben Sie die relevanten Daten für sonstige Bauteile des Gebäudes an.', 'wpenon' ),
+			'fields'      => array(
 				'heizkoerpernischen'       => array(
 					'type'     => 'select',
 					'label'    => __( 'Heizkörpernischen', 'wpenon' ),

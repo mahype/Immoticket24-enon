@@ -30,6 +30,11 @@ class VW_Modernizations extends Modernizations {
 	 * @since 1.0.0
 	 */
 	public function add_modernizations( array $modernizations, \WPENON\Model\Energieausweis $energieausweis ) : array {
+		// Remove modernizations which are checked afterwards.
+		$slugs_to_remove = [ 'wand', 'decke', 'boden', 'dach', 'rohrleitungssystem' ];
+		$modernizations = $this->remove_modernizations( $modernizations, $slugs_to_remove );
+
+		// Checking for modernizations.
 		if ( 1995 > $energieausweis->baujahr && 'no' === $energieausweis->wand_daemmung_on ) {
 			$modernization = $this->get_modernization( 'wand' );
 			if ( ! $this->modernization_already_added( $modernizations, $modernization ) ) {
@@ -68,25 +73,5 @@ class VW_Modernizations extends Modernizations {
 		}
 
 		return $modernizations;
-	}
-
-	/**
-	 * Check if moderinzation is alreade added.
-	 *
-	 * @param array $modernizations     Modernizations.
-	 * @param array $modernization_info Single Modernization information.
-	 *
-	 * @return bool
-	 *
-	 * @since 1.0.0
-	 */
-	public function modernization_already_added( $modernizations, $modernization_info ) {
-		foreach ( $modernizations as $modernization ) {
-			if ( $modernization['bauteil'] === $modernization_info['bauteil'] ) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 }
