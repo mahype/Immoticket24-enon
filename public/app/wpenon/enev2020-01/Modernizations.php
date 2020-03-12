@@ -125,15 +125,40 @@ class Modernizations {
 	 * @since 1.0.0
 	 */
 	public function remove_modernizations( array $modernizations, array $slugs_to_remove ) {
-		foreach ( $slugs_to_remove as $slug ) {
-			if ( ! array_key_exists( $slug, $modernizations ) ) {
+		$count_modernizations = count( $modernizations );
+		for ( $key = 0; $key < $count_modernizations; $key++ ) {
+			$slug = $this->get_slug_by_bauteil( $modernizations[ $key ]['bauteil'] );
+
+			if ( ! $slug ) {
+				// Should be logged.
 				continue;
 			}
 
-			unset( $modernizations[ $slug ] );
+			if ( in_array( $slug, $slugs_to_remove ) ) {
+				unset( $modernizations[ $key ] );
+			}
 		}
 
 		return $modernizations;
+	}
+
+	/**
+	 * Get slug by bauteil.
+	 *
+	 * @param string $bauteil Bauteil name.
+	 *
+	 * @return bool|string Modernization slug. False if not found.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_slug_by_bauteil( $bauteil ) {
+		foreach ( $this->modernizations as $slug => $modernization ) {
+			if ( $bauteil === $modernization['bauteil'] ) {
+				return $slug;
+			}
+		}
+
+		return false;
 	}
 
 	/**
