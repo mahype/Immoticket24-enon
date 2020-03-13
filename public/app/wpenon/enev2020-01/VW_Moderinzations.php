@@ -9,6 +9,15 @@ require_once( dirname( __FILE__ ) . '/Modernizations.php' );
  */
 class VW_Modernizations extends Modernizations {
 	/**
+	 * Energy certificate
+	 *
+	 * @var \WPENON\Model\Energieausweis
+	 *
+	 * @since 1.0.0
+	 */
+	private $energieausweis;
+
+	/**
 	 * VW_Modernizations constructor.
 	 *
 	 * @since 1.0.0
@@ -30,6 +39,8 @@ class VW_Modernizations extends Modernizations {
 	 * @since 1.0.0
 	 */
 	public function add_modernizations( array $modernizations, \WPENON\Model\Energieausweis $energieausweis ): array {
+		$this->energieausweis = $energieausweis;
+
 		// Remove modernizations which are checked afterwards.
 		$slugs_to_remove = [ 'wand', 'decke', 'boden', 'dach', 'rohrleitungssystem', 'solarthermie' ];
 		$modernizations  = $this->remove_modernizations( $modernizations, $slugs_to_remove );
@@ -74,17 +85,51 @@ class VW_Modernizations extends Modernizations {
 			$modernizations[] = $modernization;
 		}
 
-		$regenerativ_art   = trim( $energieausweis->regenerativ_art );
-		$regenerativ_aktiv = isset( $energieausweis->regenerativ_aktiv ) ? $energieausweis->regenerativ_aktiv : false;
-
-		if ( ( empty( $regenerativ_art ) || strtolower( $regenerativ_art ) == 'keine' ) && ! $regenerativ_aktiv ) {
-			$age_heater = date( 'Y' ) - (int) $energieausweis->h_baujahr;
-			if ( $age_heater >= 25 ) {
-				$modernization    = $this->get_modernization( 'solarthermie' );
-				$modernizations[] = $modernization;
-			}
+		if ( $this->needs_solarthermie() ) {
+			$modernization    = $this->get_modernization( 'solarthermie' );
+			$modernizations[] = $modernization;
 		}
 
 		return $modernizations;
+	}
+
+	/**
+	 * Needs solarthermie.
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	protected function needs_solarthermie() {
+		$regenerativ_art   = trim( $this->energieausweis->regenerativ_art );
+		$regenerativ_aktiv = isset( $this->energieausweis->regenerativ_aktiv ) ? $this->energieausweis->regenerativ_aktiv : false;
+
+		if ( ! empty( $regenerativ_aktiv ) && strtolower( $regenerativ_art ) !== 'keine' ) {
+			return false;
+		}
+
+		if ( $regenerativ_aktiv ) {
+			return false;
+		}
+
+		$age_heater = date( 'Y' ) - (int) $this->energieausweis->h_baujahr;
+
+		switch ( $this->energieausweis->h_erzeugung ) {
+			case 'kleinthermeniedertemperatur':
+			case 'kleinthermebrennwert':
+				return false;
+			case 'fernwaerme':
+			case 'oelofenverdampfungsbrenner':
+			case 'kohleholzofen':
+			case 'gasraumheizer':
+			case 'elektronachtspeicherheizung':
+			case 'elektrodirektheizgeraet':
+				if ( $age_heater < 25 ) {
+					return false;
+				}
+				return true;
+			default:
+				return true;
+		}
 	}
 }
