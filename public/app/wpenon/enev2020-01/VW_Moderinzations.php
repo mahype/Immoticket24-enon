@@ -1,6 +1,6 @@
 <?php
 
-require_once ( dirname( __FILE__ ) . '/Modernizations.php' );
+require_once( dirname( __FILE__ ) . '/Modernizations.php' );
 
 /**
  * Class VW_Modernizations.
@@ -29,10 +29,10 @@ class VW_Modernizations extends Modernizations {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_modernizations( array $modernizations, \WPENON\Model\Energieausweis $energieausweis ) : array {
+	public function add_modernizations( array $modernizations, \WPENON\Model\Energieausweis $energieausweis ): array {
 		// Remove modernizations which are checked afterwards.
-		$slugs_to_remove = [ 'wand', 'decke', 'boden', 'dach', 'rohrleitungssystem' ];
-		$modernizations = $this->remove_modernizations( $modernizations, $slugs_to_remove );
+		$slugs_to_remove = [ 'wand', 'decke', 'boden', 'dach', 'rohrleitungssystem', 'solarthermie' ];
+		$modernizations  = $this->remove_modernizations( $modernizations, $slugs_to_remove );
 
 		// Checking for modernizations.
 		if ( 1995 > $energieausweis->baujahr && 'no' === $energieausweis->wand_daemmung_on ) {
@@ -50,24 +50,37 @@ class VW_Modernizations extends Modernizations {
 		}
 
 		if ( 1995 > $energieausweis->baujahr && 'no' === $energieausweis->boden_daemmung_on && 'unbeheizt' === $energieausweis->keller ) {
-			$modernization = $this->get_modernization( 'boden' );
-			if ( ! $this->modernization_already_added( $modernizations, $modernization ) ) {
-				$modernizations[] = $modernization;
-			}
+			$modernization    = $this->get_modernization( 'boden' );
+			$modernizations[] = $modernization;
 		}
 
 		if ( 1995 > $energieausweis->baujahr && 'no' === $energieausweis->dach_daemmung_on && 'beheizt' === $energieausweis->dach ) {
-			$modernization = $this->get_modernization( 'dach' );
-			if ( ! $this->modernization_already_added( $modernizations, $modernization ) ) {
-				$modernizations[] = $modernization;
-			}
+			$modernization    = $this->get_modernization( 'dach' );
+			$modernizations[] = $modernization;
 		}
 
-		$irrelevant_heaters = array( 'elektronachtspeicherheizung', 'elektrodirektheizgeraet', 'kohleholzofen', 'kleinthermeniedertemperatur', 'kleinthermebrennwert', 'gasraumheizer', 'oelofenverdampfungsbrenner' );
+		$irrelevant_heaters = array(
+			'elektronachtspeicherheizung',
+			'elektrodirektheizgeraet',
+			'kohleholzofen',
+			'kleinthermeniedertemperatur',
+			'kleinthermebrennwert',
+			'gasraumheizer',
+			'oelofenverdampfungsbrenner',
+		);
 
 		if ( 1995 > $energieausweis->verteilung_baujahr && ! $energieausweis->verteilung_gedaemmt && ! in_array( $energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
-			$modernization = $this->get_modernization( 'rohrleitungssystem' );
-			if ( ! $this->modernization_already_added( $modernizations, $modernization ) ) {
+			$modernization    = $this->get_modernization( 'rohrleitungssystem' );
+			$modernizations[] = $modernization;
+		}
+
+		$regenerativ_art   = trim( $energieausweis->regenerativ_art );
+		$regenerativ_aktiv = isset( $energieausweis->regenerativ_aktiv ) ? $energieausweis->regenerativ_aktiv : false;
+
+		if ( ( empty( $regenerativ_art ) || strtolower( $regenerativ_art ) == 'keine' ) && ! $regenerativ_aktiv ) {
+			$age_heater = date( 'Y' ) - (int) $energieausweis->h_baujahr;
+			if ( $age_heater >= 25 ) {
+				$modernization    = $this->get_modernization( 'solarthermie' );
 				$modernizations[] = $modernization;
 			}
 		}
