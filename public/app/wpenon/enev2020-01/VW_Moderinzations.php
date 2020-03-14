@@ -152,10 +152,10 @@ class VW_Modernizations extends Modernizations {
 
 		if ( isset( $this->energieausweis->h2_info ) && $this->energieausweis->h2_info ) {
 			$heatings[] = 'h2';
-		}
 
-		if ( isset( $this->energieausweis->h3_info ) && $this->energieausweis->h3_info ) {
-			$heatings[] = 'h3';
+			if ( isset( $this->energieausweis->h3_info ) && $this->energieausweis->h3_info ) {
+				$heatings[] = 'h3';
+			}
 		}
 
 		$current_year = absint( current_time( 'Y' ) );
