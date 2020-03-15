@@ -22,8 +22,7 @@ services:
       VIRTUAL_PORT: ${PORTO}
       VIRTUAL_PORTO: https
     volumes:
-      - ./public/core:/var/www/html
-      - ./public:/var/www
+      - ./public/:/var/www/html
       - ./assets/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./assets/error-logging.ini:/usr/local/etc/php/conf.d/error-logging.ini
 
