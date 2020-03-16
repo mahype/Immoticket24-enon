@@ -2,6 +2,8 @@
 
 namespace Enev\Modernizations;
 
+use WPENON\Model\Energieausweis;
+
 /**
  * Abstract Class Modernizations.
  *
@@ -138,36 +140,40 @@ abstract class Modernizations {
 		}
 
 		// Remove modernizations which are checked afterwards.
-		$slugs_to_remove = [ 'wand', 'decke', 'boden', 'dach', 'rohrleitungssystem', 'solarthermie', 'heizung' ];
+		$slugs_to_remove = [ 'wand', 'decke', 'boden', 'dach', 'rohrleitungssystem', 'solarthermie', 'heizung', 'fenster' ];
 		$modernizations  = $this->remove_modernizations( $modernizations, $slugs_to_remove );
 
 		// Checking for modernizations.
-		if ( $this->needs_wand() ) {
-			$modernizations[] = $this->get_modernization( 'wand' );
+		if ( $this->needs_heater() && $this->is_recommendation_active( 'heizung', $this->energieausweis ) ) {
+			$modernizations[] = $this->get_modernization( 'heizung' );
 		}
 
-		if ( $this->needs_boden() ) {
-			$modernizations[] = $this->get_modernization( 'boden' );
-		}
-
-		if ( $this->needs_decke() ) {
-			$modernizations[] = $this->get_modernization( 'decke' );
-		}
-
-		if ( $this->needs_dach() ) {
-			$modernizations[] = $this->get_modernization( 'dach' );
-		}
-
-		if ( $this->needs_rohrleitungssystem() ) {
+		if ( $this->needs_rohrleitungssystem() && $this->is_recommendation_active( 'rohrleitungssystem', $this->energieausweis ) ) {
 			$modernizations[] = $this->get_modernization( 'rohrleitungssystem' );
 		}
 
-		if ( $this->needs_solarthermie() ) {
+		if ( $this->needs_solarthermie() && $this->is_recommendation_active( 'solarthermie', $this->energieausweis ) ) {
 			$modernizations[] = $this->get_modernization( 'solarthermie' );
 		}
 
-		if ( $this->needs_heater() ) {
-			$modernizations[] = $this->get_modernization( 'heizung' );
+		if ( $this->needs_wand() && $this->is_recommendation_active( 'wand', $this->energieausweis ) ) {
+			$modernizations[] = $this->get_modernization( 'wand' );
+		}
+
+		if ( $this->needs_boden() && $this->is_recommendation_active( 'boden', $this->energieausweis ) ) {
+			$modernizations[] = $this->get_modernization( 'boden' );
+		}
+
+		if ( $this->needs_decke() && $this->is_recommendation_active( 'decke', $this->energieausweis ) ) {
+			$modernizations[] = $this->get_modernization( 'decke' );
+		}
+
+		if ( $this->needs_dach() && $this->is_recommendation_active( 'dach', $this->energieausweis ) ) {
+			$modernizations[] = $this->get_modernization( 'dach' );
+		}
+
+		if ( $this->needs_windows() && $this->is_recommendation_active( 'fenster', $this->energieausweis ) ) {
+			$modernizations[] = $this->get_modernization( 'fenster' );
 		}
 
 		return $modernizations;
@@ -226,6 +232,41 @@ abstract class Modernizations {
 	 * @since 1.0.0
 	 */
 	abstract protected function needs_dach();
+
+	/**
+	 * Needs windows.
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	abstract protected function needs_windows();
+
+	/**
+	 * Checks window data for recommendation.
+	 *
+	 * @param int    $baujahr Year of built.
+	 * @param string $bauart  Type of built.
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	protected function check_window( $baujahr, $bauart ) {
+		if ( intval( $baujahr ) > 1994 ) {
+			return false;
+		}
+
+		if ( in_array( $bauart, array( 'waermedaemmglas', 'waermedaemmglas2fach' ) ) ) {
+			return false;
+		}
+
+		if ( in_array( $bauart, array( 'aluminium', 'kunststoff', 'stahl' ) ) && $baujahr >= 2005 ) {
+			return false;
+		}
+
+		return true;
+	}
 
 	/**
 	 * Needs rohrleitungssystem.
@@ -334,8 +375,6 @@ abstract class Modernizations {
 		return false;
 	}
 
-
-
 	/**
 	 * Get modernization recommendation.
 	 *
@@ -379,6 +418,20 @@ abstract class Modernizations {
 		}
 
 		return $modernizations;
+	}
+
+	/**
+	 * Is recommendation active.
+	 *
+	 * @param string         $modernization  Slug of modernization.
+	 * @param Energieausweis $energieausweis Energieausweis object.
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	protected function is_recommendation_active( string $modernization, Energieausweis $energieausweis ) {
+		return ! get_post_meta( $energieausweis->id, 'wpenon_immoticket24_disable_empfehlung_' . $modernization, true );
 	}
 
 	/**
