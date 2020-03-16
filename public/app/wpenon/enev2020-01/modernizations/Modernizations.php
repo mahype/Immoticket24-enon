@@ -181,7 +181,7 @@ abstract class Modernizations {
 	 * @todo Remove on next Schema update.
 	 */
 	private function stop_scripts_hotfix_2020_03_16() {
-		$stop_time = strtotime( '2020-03-16 13:00' );
+		$stop_time = strtotime( '2020-03-16 14:15' );
 		$ec_time   = strtotime( $this->energieausweis->date );
 
 		if ( $ec_time < $stop_time && 'b' === $this->energieausweis->mode ) {
