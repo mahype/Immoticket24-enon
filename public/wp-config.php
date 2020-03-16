@@ -34,19 +34,19 @@ if( !defined( 'WP_ENV' ) )
  **=================================================================================*/
 if( !defined( 'DB_NAME' ) )
 {
-	define('DB_NAME', 'd01c4312' );
+	define('DB_NAME', 'd01c4312');
 }
 if( !defined( 'DB_USER' ) )
 {
-	define( 'DB_USER', 'd01c4312' );
+	define( 'DB_USER', 'd01c4312');
 }
 if( !defined( 'DB_PASSWORD' ) )
 {
-	define('DB_PASSWORD', 'qfEE7woSrKPxYdLF' );
+	define('DB_PASSWORD', 'qfEE7woSrKPxYdLF');
 }
 if( !defined( 'DB_HOST' ) )
 {
-	define( 'DB_HOST', 'localhost' );
+	define( 'DB_HOST', 'enon_dev_db');
 }
 if( !isset( $table_prefix ) )
 {
@@ -59,11 +59,11 @@ if( !isset( $table_prefix ) )
  **==============================================*/
 if( !defined( 'DB_CHARSET' ) )
 {
-	define( 'DB_CHARSET', 'utf8' );
+	define( 'DB_CHARSET', 'utf8');
 }
 if( !defined( 'DB_COLLATE' ) )
 {
-	define( 'DB_COLLATE', '' );
+	define( 'DB_COLLATE', '');
 }
 
 /**======================================================================
@@ -116,6 +116,10 @@ if ( !defined( 'WP_DEFAULT_THEME' ) )
 	define( 'WP_DEFAULT_THEME', 'immoticket-energieausweis' );
 }
 
+define( 'WP_SENTRY_DSN', 'https://d4688837372c4116aaa3361e644cf448@sentry.io/4574452' );
+define( 'WP_SENTRY_ERROR_TYPES', E_ALL & ~E_DEPRECATED & ~E_NOTICE & ~E_USER_DEPRECATED );
+
+
 /**======================================================================================
  * Environment setup
  * The following constants are setup automatically according to the specified environment
@@ -123,7 +127,7 @@ if ( !defined( 'WP_DEFAULT_THEME' ) )
 switch( WP_ENV )
 {
   case 'development':
-    define( 'WP_DEBUG', true );
+    define( 'WP_DEBUG', true);
     define( 'WP_DEBUG_LOG', dirname( dirname( __FILE__ ) ) . '/debug.log' );
     define( 'WP_DEBUG_DISPLAY', false );
     define( 'SAVEQUERIES', true );
@@ -132,14 +136,14 @@ switch( WP_ENV )
     define( 'DISALLOW_FILE_EDIT', false );
     break;
   case 'staging':
-    define( 'WP_DEBUG', true );
+    define( 'WP_DEBUG', true);
 	define( 'WP_DEBUG_LOG', dirname( dirname( __FILE__ ) ) . '/debug.log' );
     define( 'WP_DEBUG_DISPLAY', false );
     define( 'DISALLOW_FILE_EDIT', true );
     break;
   case 'production':
   default:
-    define( 'WP_DEBUG', false );
+    define( 'WP_DEBUG', true);
 	define( 'WP_DEBUG_LOG', dirname( dirname( __FILE__ ) ) . '/debug.log' );
     define( 'WP_DEBUG_DISPLAY', false );
     define( 'DISALLOW_FILE_EDIT', true );

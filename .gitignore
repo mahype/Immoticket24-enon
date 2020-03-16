@@ -16,8 +16,6 @@ public/app/nfwlog/*
 # Ignore Exceptions
 !public/app/mu-plugins/energieausweis-*/
 !public/app/mu-plugins/energieausweis-*.php
-!public/app/plugins/advanced-custom-fields-pro
-!public/app/plugins/affiliate-wp
 !public/app/plugins/affiliate-wp-lifetime-commissions
 !public/app/plugins/cf7-mailchimp-integration
 !public/app/plugins/enon
@@ -30,7 +28,6 @@ public/app/nfwlog/*
 !public/app/plugins/options-definitely
 !public/app/plugins/wp-energieausweis-online
 !public/app/plugins/wp-postratings-migrate
-!public/app/plugins/wp-rocket
 !public/app/themes/immoticket-energieausweis
 
 # WordPress

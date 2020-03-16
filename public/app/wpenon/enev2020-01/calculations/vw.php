@@ -11,7 +11,7 @@ $calculations['nutzflaeche'] = $energieausweis->flaeche * $calculations['nutzfla
 
 $calculations['reference'] = 125;
 
-$klimafaktoren       = wpenon_get_table_results( 'klimafaktoren', array(
+$klimafaktoren       = wpenon_get_table_results( 'klimafaktoren202001', array(
 	'bezeichnung' => array(
 		'value'   => $energieausweis->adresse_plz,
 		'compare' => '>='
@@ -150,7 +150,8 @@ if ( $energieausweis->h2_info ) {
 	}
 }
 if ( $energieausweis->ww_info == 'ww' ) {
-	$ww_energietraeger_value = 'ww_energietraeger_' . $energieausweis->ww_erzeugung;
+	$ww_energietraeger_name = 'ww_energietraeger_' . $energieausweis->ww_erzeugung;
+	$ww_energietraeger_value = $energieausweis->$ww_energietraeger_name;
 
 	$ww_energietraeger_umrechnungen     = wpenon_get_table_results( 'energietraeger_umrechnungen', array(
 		'bezeichnung' => array(

@@ -140,7 +140,7 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 					$attribute = $data['attribute'];
 					switch ($attribute['name']) {
 						case 'EnEV-Version':
-							return (new \Enon\Enon\Standard($energieausweis->wpenon_standard, (new \Enon\Enon\Standards())))->get_date('Y');
+							return (new \Enon\Enon\Standards\Schema( $energieausweis->wpenon_standard) )->get_date( 'Y' );
 						default:
 					}
 					break;

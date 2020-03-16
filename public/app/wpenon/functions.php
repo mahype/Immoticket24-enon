@@ -85,7 +85,7 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 					<h4 class="modal-title"><?php _e( 'Für dieses Gebäude kann kein Verbrauchsausweis erstellt werden', 'wpenon' ); ?></h4>
 				</div>
 				<div class="modal-body">
-					<?php _e( 'Für vor 1978 errichtete Gebäude mit weniger als 5 Wohneinheiten ohne Außenwanddämmung darf gemäß EnEV kein Verbrauchsausweis erstellt werden.', 'wpenon' ); ?>
+					<?php _e( 'Für vor 1978 errichtete Gebäude mit weniger als 5 Wohneinheiten ohne Wanddämmung darf gemäß EnEV kein Verbrauchsausweis erstellt werden.', 'wpenon' ); ?>
 					<?php _e( 'Es ist jedoch möglich einen entsprechenden Bedarfsausweis zu erstellen. Klicken Sie den unten angezeigten Button, um Ihren Ausweis in einen Bedarfsausweis umzuwandeln.', 'wpenon' ); ?>
 				</div>
 				<div class="modal-footer">
@@ -352,7 +352,7 @@ function wpenon_immoticket24_make_yearkey( $year, $table, $gedaemmt = false ) {
 
 			return 'ab1995';
 		case 'uwerte202001':
-			$steps = array( 1918, 1948, 1957, 1968, 1978, 1983, 1994, 2001 );
+			$steps = array( 1918, 1948, 1957, 1968, 1978, 1983, 1994, 2001, 2006 );
 			foreach ( $steps as $step ) {
 				if ( $year <= $step ) {
 					return 'bis' . $step;
@@ -687,6 +687,44 @@ function wpenon_immoticket24_get_g_wert( $bauart, $reference = false ) {
 	}
 
 	return 0.6;
+}
+
+function wpenon_get_construction_year( $construction_year, $field_year ) {
+	// If field was already set
+	if( 1800 !== (int) $field_year ) {
+		return $field_year;
+	}
+
+	return $construction_year;
+}
+
+function wpenon_immoticket24_get_klimafaktoren_zeitraeume202001() {
+	$zeitraeume = array();
+
+	$reference = wpenon_get_reference_date( 'timestamp' );
+
+	$_daten = \WPENON\Util\DB::getTableColumns( \WPENON\Util\Format::prefix( 'klimafaktoren202001' ) );
+	$_daten = array_slice( $_daten, 1, count( $_daten ) - 25 );
+
+	$daten = array();
+	foreach ( $_daten as $_datum ) {
+		$daten[] = $_datum->Field;
+	}
+	unset( $_datum );
+	unset( $_daten );
+
+	$year = $month = '';
+
+	foreach ( $daten as $datum ) {
+		if ( wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 2, true, 'timestamp' ) > $reference ) {
+			break;
+		}
+		$zeitraeume[ $datum ] = wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 0, false, 'data' ) . ' - ' . wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 2, true, 'data' );
+	}
+
+	$zeitraeume = array_reverse( $zeitraeume );
+
+	return $zeitraeume;
 }
 
 function wpenon_immoticket24_get_klimafaktoren_zeitraeume() {
