@@ -69,4 +69,15 @@ class VW_Modernizations extends Modernizations {
 
 		return false;
 	}
+
+	/**
+	 * Needs windows.
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	protected function needs_windows() {
+		return $this->check_window( $this->energieausweis->fenster_baujahr, $this->energieausweis->fenster_bauart );
+	}
 }
