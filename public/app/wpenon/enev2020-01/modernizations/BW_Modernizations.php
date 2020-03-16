@@ -104,24 +104,20 @@ class BW_Modernizations extends Modernizations {
 	 * @since 1.0.0
 	 */
 	protected function needs_windows() {
-		if ( $this->energieausweis->fenster_manuell ) {
-			foreach ( array( 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ) as $fenster ) {
-				$flaecheslug = 'fenster_' . $fenster . '_flaeche';
-				$bauartslug  = 'fenster_' . $fenster . '_bauart';
-				$baujahrslug = 'fenster_' . $fenster . '_baujahr';
+		foreach ( array( 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ) as $fenster ) {
+			$flaecheslug = 'fenster_' . $fenster . '_flaeche';
+			$bauartslug  = 'fenster_' . $fenster . '_bauart';
+			$baujahrslug = 'fenster_' . $fenster . '_baujahr';
 
-				if ( 0 === intval( $this->energieausweis->$flaecheslug ) ) {
-					continue;
-				}
-
-				if ( ! $this->check_window( $this->energieausweis->$baujahrslug, $this->energieausweis->$bauartslug ) ) {
-					continue;
-				}
-
-				return true;
+			if ( 0 === intval( $this->energieausweis->$flaecheslug ) ) {
+				continue;
 			}
-		} else {
-			return $this->check_window( $this->energieausweis->fenster_baujahr, $this->energieausweis->fenster_bauart );
+
+			if ( ! $this->check_window( $this->energieausweis->$baujahrslug, $this->energieausweis->$bauartslug ) ) {
+				continue;
+			}
+
+			return true;
 		}
 
 		return false;

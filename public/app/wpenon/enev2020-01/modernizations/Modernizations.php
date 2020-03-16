@@ -261,6 +261,7 @@ abstract class Modernizations {
 			return false;
 		}
 
+		// Todo: Not reachable becuase of construction year!
 		if ( in_array( $bauart, array( 'aluminium', 'kunststoff', 'stahl' ) ) && $baujahr >= 2005 ) {
 			return false;
 		}
