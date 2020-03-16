@@ -173,7 +173,7 @@ abstract class Modernizations {
 		}
 
 		if ( $this->needs_windows() && $this->is_recommendation_active( 'fenster', $this->energieausweis ) ) {
-			$modernizations[] = $this->get_modernization( 'fenster' );
+		 	$modernizations[] = $this->get_modernization( 'fenster' );
 		}
 
 		return $modernizations;
@@ -261,6 +261,7 @@ abstract class Modernizations {
 			return false;
 		}
 
+		// Todo: Not reachable becuase of construction year!
 		if ( in_array( $bauart, array( 'aluminium', 'kunststoff', 'stahl' ) ) && $baujahr >= 2005 ) {
 			return false;
 		}
