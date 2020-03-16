@@ -5,9 +5,18 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteBase /
+
 	RewriteRule ^app/uploads/(.*) https://energieausweis-online-erstellen.de/app/uploads/$1 [R=302,L]
+
 	RewriteRule ^index\.php$ - [L]
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule . /index.php [L]
+
+    # add a trailing slash to /wp-admin
+    RewriteRule ^(?:([_0-9a-zA-Z-]+)/?){0,2}wp-admin$ $1/wp-admin/ [R=302,L]
+
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+    RewriteRule ^(?:(?:[_0-9a-zA-Z-]+)/){0,2}(wp-(admin|includes|login).*) core/$1 [L]
+    RewriteRule ^(?:(?:[_0-9a-zA-Z-]+)/){0,2}(.*\.php)$ core/$1 [L]
+    RewriteRule . index.php [L]
 </IfModule>
