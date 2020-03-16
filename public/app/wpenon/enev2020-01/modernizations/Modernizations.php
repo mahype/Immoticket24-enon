@@ -140,7 +140,7 @@ abstract class Modernizations {
 		}
 
 		// Remove modernizations which are checked afterwards.
-		$slugs_to_remove = [ 'wand', 'decke', 'boden', 'dach', 'rohrleitungssystem', 'solarthermie', 'heizung', 'fenster' ];
+		$slugs_to_remove = [ 'wand', 'decke', 'boden', 'dach', 'rohrleitungssystem', 'solarthermie', 'heizung' ];
 		$modernizations  = $this->remove_modernizations( $modernizations, $slugs_to_remove );
 
 		// Checking for modernizations.
@@ -173,7 +173,7 @@ abstract class Modernizations {
 		}
 
 		if ( $this->needs_windows() && $this->is_recommendation_active( 'fenster', $this->energieausweis ) ) {
-			$modernizations[] = $this->get_modernization( 'fenster' );
+		// 	$modernizations[] = $this->get_modernization( 'fenster' );
 		}
 
 		return $modernizations;
