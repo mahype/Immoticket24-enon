@@ -4,6 +4,9 @@ namespace Enev\Schema;
 
 require_once( dirname( __FILE__ ) . '/schema.php' );
 require_once( dirname( __DIR__ ) . '/Standard_Options.php' );
+require_once( dirname( __DIR__ ) . '/modernizations/BW_Modernizations.php' );
+
+use Enev\Modernizations\BW_Modernizations;
 
 if ( ! class_exists( 'Enev\Schema\Bedarfsausweis_Schema' ) ):
 
@@ -13,6 +16,15 @@ if ( ! class_exists( 'Enev\Schema\Bedarfsausweis_Schema' ) ):
 	 * @since 1.0.0
 	 */
 	class Bedarfsausweis_Schema extends Schema {
+		/**
+		 * Verbrauchsausweis_Schema constructor.
+		 *
+		 * @since 1.0.0
+		 */
+		public function __construct() {
+			new BW_Modernizations();
+		}
+
 		/**
 		 * Get Basisdaten.
 		 *
