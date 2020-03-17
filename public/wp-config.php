@@ -99,6 +99,10 @@ if( !defined( 'WP_CONTENT_URL' ) )
 {
 	define( 'WP_CONTENT_URL', rtrim( WP_HOME, '/' ) . '/app' );
 }
+if( !defined( 'WP_LOG_DIR' ) )
+{
+	define( 'WP_LOG_DIR', WP_CONTENT_DIR . '/logs' );
+}
 
 // define( 'FORCE_SSL_ADMIN', true );
 
