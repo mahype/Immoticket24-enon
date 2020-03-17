@@ -111,6 +111,8 @@ class Distributor_Energy_Certificate extends Request {
 
 		$this->post();
 
+		$this->distributor_schema->set_sent();
+
 		return true;
 	}
 }

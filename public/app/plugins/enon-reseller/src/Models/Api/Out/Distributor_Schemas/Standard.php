@@ -49,6 +49,15 @@ class Standard implements Distributor_Schema_Interface {
 	}
 
 	/**
+	 * Set as sent.
+	 *
+	 * @param Energieausweis_Old $energieausweis Engergieausweis object.
+	 *
+	 * @since 1.0.0
+	 */
+	public function set_sent( Energieausweis_Old $energieausweis ){}
+
+	/**
 	 * Get endpoint url.
 	 *
 	 * @return string Endpoint url.

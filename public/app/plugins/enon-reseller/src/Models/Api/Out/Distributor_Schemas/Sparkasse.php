@@ -32,6 +32,10 @@ class Sparkasse implements Distributor_Schema_Interface {
 	 * @since 1.0.0
 	 */
 	public function check( Energieausweis_Old $energieausweis ) : bool {
+		if ( $this->already_sent() ) {
+			return false;
+		}
+
 		// Sending data is only relevant if one of the following fields is filled out.
 		$values_to_check = array(
 			'modernisierung_baeder',
@@ -51,6 +55,39 @@ class Sparkasse implements Distributor_Schema_Interface {
 			if ( ! empty( $energieausweis->$value ) ) {
 				return true;
 			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Set as sent.
+	 *
+	 * @param Energieausweis_Old $energieausweis Engergieausweis object.
+	 *
+	 * @return int|bool The new meta field ID if a field with the given key didn't exist and was
+     *                  therefore added, true on successful update, false on failure.
+	 *
+	 * @since 1.0.0
+	 */
+	public function set_sent( Energieausweis_Old $energieausweis ) {
+		return update_post_meta( $energieausweis->id, 'sent_to_sparkasse', true );
+	}
+
+	/**
+	 * Checks if Engergieausweis was sent to sparkasse.
+	 *
+	 * @param Energieausweis_Old $energieausweis Engergieausweis object.
+	 *
+	 * @return bool True if was already sent to sparkasse, false if not.
+	 *
+	 * @since 1.0.0
+	 */
+	public function already_sent( Energieausweis_Old $energieausweis ) {
+		$is_sent = (bool) get_post_meta( $energieausweis->id, 'sent_to_sparkasse' );
+
+		if ( true === $is_sent ){
+			return true;
 		}
 
 		return false;
