@@ -84,7 +84,7 @@ class Distributor_Energy_Certificate extends Request {
 			$data[ $key ] = $this->energy_certificate->$key;
 		}
 
-		$data = $this->distributor_schema->filter_data( $data, $this->energy_certificate );
+		$data = $this->distributor_schema->filter_data( $data );
 
 		return $data;
 	}
@@ -98,16 +98,17 @@ class Distributor_Energy_Certificate extends Request {
 	 */
 	public function send() {
 		$debug_values = array(
-			'energy_certificate_id' => $this->energy_certificate->id,
+			'energy_certificate_id' => (int) $this->energy_certificate->id,
+			'reseller_id'           => (int) $this->energy_certificate->reseller_id,
 			'endpoint'              => $this->distributor_schema->get_endpoint(),
 		);
 
-		if ( ! $this->distributor_schema->check( $this->energy_certificate ) ) {
+		if ( ! $this->distributor_schema->check() ) {
 			$this->logger()->notice( 'No data sent, because check not passed.', $debug_values );
 			return false;
 		}
 
-		$this->logger()->notice( 'Sending data for energy certificate.', $debug_values );
+		$this->logger()->notice( 'Start Sending data.', $debug_values );
 
 		$this->post();
 

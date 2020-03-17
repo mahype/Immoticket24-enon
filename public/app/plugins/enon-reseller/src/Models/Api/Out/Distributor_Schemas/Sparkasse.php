@@ -30,9 +30,21 @@ class Sparkasse extends Distributor_Schema {
 	 * @since 1.0.0
 	 */
 	public function check() : bool {
+		if ( 321587 !== (int) $this->energieausweis->reseller_id ) {
+			$debug_values = array(
+				'energy_certificate_id' => (int) $this->energieausweis->id,
+				'reseller_id'           => (int) $this->energieausweis->reseller_id,
+			);
+
+			$this->logger()->notice('Stopped sending data to sparkasse server. Reseller id is wrong.', $debug_values );
+
+			return false;
+		}
+
 		if ( $this->already_sent() ) {
 			$debug_values = array(
-				'energy_certificate' => $this->energieausweis,
+				'energy_certificate_id' => (int) $this->energieausweis->id,
+				'reseller_id'           => (int) $this->energieausweis->reseller_id,
 			);
 
 			$this->logger()->notice('Stopped sending data to sparkasse server. Data already sent.', $debug_values );
@@ -62,8 +74,9 @@ class Sparkasse extends Distributor_Schema {
 		}
 
 		$debug_values = array(
-			'values_to_check'    => $values_to_check,
-			'energy_certificate' => $this->energieausweis,
+			'energy_certificate_id' => (int) $this->energieausweis->id,
+			'reseller_id'           => (int) $this->energieausweis->reseller_id,
+			'values_to_check'       => $values_to_check,
 		);
 
 		$this->logger()->notice('Stopped sending data to sparkasse server. Value check not passed..', $debug_values );
@@ -93,7 +106,7 @@ class Sparkasse extends Distributor_Schema {
 	public function already_sent() {
 		$is_sent = (bool) get_post_meta( $this->energieausweis->id, 'sent_to_sparkasse' );
 
-		if ( true === $is_sent ){
+		if ( true === $is_sent ) {
 			return true;
 		}
 
@@ -134,11 +147,12 @@ class Sparkasse extends Distributor_Schema {
 
 		// $data = $this->encode_data_recursive( 'utf8_encode', $data );
 		$debug_values = array(
-			'data'     => $data,
-			'energy_certificate' => $this->energieausweis,
+			'energy_certificate_id' => (int) $this->energieausweis->id,
+			'reseller_id'           => (int) $this->energieausweis->reseller_id,
+			'data'                  => $data,
 		);
 
-		$this->logger()->notice('Data', $debug_values );
+		$this->logger()->notice('Prepared data.', $debug_values );
 
 		return $data;
 	}
@@ -182,13 +196,6 @@ class Sparkasse extends Distributor_Schema {
 				$receipient_server = 'https://www.immobilienwertanalyse.de/iwapro/import/importData.php';
 				break;
 		}
-
-		$debug_values = array(
-			'receipient_url'     => $receipient_server,
-			'energy_certificate' => $this->energieausweis,
-		);
-
-		$this->logger()->notice('Sent sparkasse data to server', $debug_values );
 
 		return $receipient_server;
 	}

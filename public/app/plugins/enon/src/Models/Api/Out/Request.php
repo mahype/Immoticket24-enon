@@ -97,7 +97,7 @@ abstract class Request {
 					'args'     => $this->args,
 				);
 
-				$this->logger()->notice( 'Sending data successful.', $debug_data );
+				$this->logger()->notice( 'Response successful.', $debug_data );
 				return true;
 			default:
 				if ( is_wp_error( $response ) ) {
@@ -108,7 +108,7 @@ abstract class Request {
 					$values = $response;
 				}
 
-				$this->logger()->warning( 'Sending data failed.', $values );
+				$this->logger()->warning( 'Response failed.', $values );
 
 				break;
 		}

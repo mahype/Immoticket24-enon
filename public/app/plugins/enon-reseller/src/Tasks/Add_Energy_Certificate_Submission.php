@@ -142,9 +142,9 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 		$schema_name  = ucfirst( $reseller_data->general->get_company_id() );
 
 		$debug_values = array(
+			'energy_certificate_id' => $energieausweis->id,
 			'reseller_id'           => $reseller_id,
-			'schema_name'          => $schema_name,
-			'energy_certificate' => $energieausweis,
+			'schema_name'           => $schema_name,
 		);
 
 		if ( empty( $schema_name ) ) {
@@ -157,16 +157,16 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 		// Is there an schema name which was set? Bail out if not.
 		if ( ! class_exists( $schema_class ) ) {
 			$debug_values = array(
-				'reseller_id'        => $reseller_id,
-				'schema_class'       => $schema_class,
-				'energy_certificate' => $energieausweis,
+				'energy_certificate_id' => $energieausweis,
+				'reseller_id'           => $reseller_id,
+				'schema_class'          => $schema_class,
 			);
 
 			$this->logger()->warning( 'Sender Class does not exist. No data sent to reseller for energy certificate.', $debug_values );
 			return;
 		}
 
-		$schema   = new $schema_class();
+		$schema   = new $schema_class( $this->logger(), $energieausweis );
 
 		// Is there an endpoint to send the data? Bail out if not.
 		if ( empty( $schema->get_endpoint() ) ) {
