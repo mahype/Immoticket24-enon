@@ -37,7 +37,10 @@ class Logger extends \Awsm\WP_Wrapper\Tools\Logger {
 		$slack_level = self::WARNING;
 
 		if ( WP_DEBUG && ! wp_doing_ajax() ) {
-			$this->pushHandler( new BrowserConsoleHandler() );
+			// $this->pushHandler( new BrowserConsoleHandler() );
+		}
+
+		if ( WP_DEBUG ) {
 			$slack_level = self::NOTICE;
 		}
 
