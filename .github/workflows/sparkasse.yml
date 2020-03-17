@@ -32,6 +32,8 @@ jobs:
           /www/htdocs/w012900a/bin/composer.phar update
           rm $WWW/public/.htaccess
           cp $WWW/public/.htaccess-sparkasse $WWW/public/.htaccess
+          rm $WWW/public/local-config.php
+          cp $WWW/public/local-config-sparkasse.php $WWW/public/local-config.php
           cd $WWW
           /www/htdocs/w012900a/wp-cli/wp-cli.phar language core update
           /www/htdocs/w012900a/wp-cli/wp-cli.phar language plugin update --all

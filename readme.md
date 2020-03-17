@@ -1,0 +1,62 @@
+# Ready to use - WordPress Composer Docker Environment #
+
+you are searching for a ready to use -WordPress Docker environment- which you have only start up with one command?   
+### What is in this repository? ###
+* **Nginx based proxy** - so you can run multiple docker instances with different domains.
+* **Simple demo WordPress install** 
+
+### How do I get set up? ###
+* Using first time the nginx-proxy [go here](#markdown-header-the-nginx-proxy) for startup instruction 
+* Start the WordPress [go here](URL)
+
+### Handle the nginx-proxy
+  * First not checkout this repository
+  `git clone git@bitbucket.org:webdevmedia/wordpress-docker-nginx-proxy.git`
+  * cerate a new Docker network `docker network create nginx-proxy`  
+  * go to nginx-proxy  `cd nginx-proxy` 
+  * run `docker-compose up -d` 
+  * your nginx-proxy are now running. For a proof run `docker ps` and you will see something like this
+
+
+```
+  | CONTAINER ID | IMAGE                      | COMMAND                  | CREATED        | STATUS        | PORTS                                    | NAMES                     |
+  |--------------|----------------------------|--------------------------|----------------|---------------|------------------------------------------|---------------------------|
+  | 0f8415cd052c | jwilder/nginx-proxy:alpine | "/app/docker-entrypoint" | 11 seconds ago | Up 10 seconds | 0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp | nginx-proxy_nginx-proxy_1 |
+```
+
+  
+Sometimes you will take a look into the nginx-proxy setting. With `docker ps` you will see the name of the nginx-proxy -> `nginx-proxy_nginx-proxy_1`
+For that run the following command:`docker exec nginx-proxy_nginx-proxy_1 grep -vE '^\s*$' /etc/nginx/conf.d/default.conf`
+  
+As result you see the current proxy configuration.
+  
+```
+    shell
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $proxy_x_forwarded_proto;
+    proxy_set_header X-Forwarded-Ssl $proxy_x_forwarded_ssl;
+    proxy_set_header X-Forwarded-Port $proxy_x_forwarded_port;
+    # Mitigate httpoxy attack (see README for details)
+    proxy_set_header Proxy "";
+    server {
+      	server_name _; # This is just an invalid value which will never trigger on a real hostname.
+      	listen 80;
+      	access_log /var/log/nginx/access.log vhost;
+      	return 503;
+    }
+```
+
+* The nginx-proxy are now listen to all request on `127.0.0.1`
+* **that's it you have never touch again the nginx-proxy**
+
+### Start a WordPress
+$ docker-compose up -d
+
+- rename public/.htaccess into public/.htaccess-origin
+- rename public/.htaccess-docker into public/.htaccess
+
+### useful commands ###
+- `docker exec DB_CONTAINER_NAME /bin/bash -c 'mysqldump -u username -ppassword wordpress > /var/lib/mysql/wordpress.sql`
+- `docker exec PROXY_CONTAINER_NAME grep -vE '^\s*$' /etc/nginx/conf.d/default.conf`
+- `docker exec PHP_CONTAINER_NAME /bin/bash -c 'php Search-Replace-DB/srdb.cli.php -h DB_CONTAINER_NAME -n DBNAME -u DBUSER -p DBPASS -s SEARCH_STR -r REPLACE_STR'`
+
