@@ -23,6 +23,7 @@ jobs:
           cd $WWW
           git stash
           git pull
+          /www/htdocs/w012900a/bin/composer.phar install
           /www/htdocs/w012900a/bin/composer.phar update
           cd $WWW/public/app/plugins/enon
           /www/htdocs/w012900a/bin/composer.phar update
