@@ -11,7 +11,7 @@
 
 namespace Enon_Reseller\Models\Api\Out\Distributor_Schemas;
 
-use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema_Interface;
+use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema;
 
 use Enon\Models\Enon\Energieausweis;
 use WPENON\Model\Energieausweis as Energieausweis_Old;
@@ -21,18 +21,22 @@ use WPENON\Model\Energieausweis as Energieausweis_Old;
  *
  * @since 1.0.0
  */
-class Sparkasse implements Distributor_Schema_Interface {
+class Sparkasse extends Distributor_Schema {
 	/**
 	 * Checks if data can be sent.
-	 *
-	 * @param Energieausweis_Old $energieausweis Energy certificate.
 	 *
 	 * @return bool
 	 *
 	 * @since 1.0.0
 	 */
-	public function check( Energieausweis_Old $energieausweis ) : bool {
+	public function check() : bool {
 		if ( $this->already_sent() ) {
+			$debug_values = array(
+				'energy_certificate' => $this->energieausweis,
+			);
+
+			$this->logger()->notice('Stopped sending data to sparkasse server. Data already sent.', $debug_values );
+
 			return false;
 		}
 
@@ -52,10 +56,17 @@ class Sparkasse implements Distributor_Schema_Interface {
 		);
 
 		foreach ( $values_to_check as $value ) {
-			if ( ! empty( $energieausweis->$value ) ) {
+			if ( ! empty( $this->energieausweis->$value ) ) {
 				return true;
 			}
 		}
+
+		$debug_values = array(
+			'values_to_check'    => $values_to_check,
+			'energy_certificate' => $this->energieausweis,
+		);
+
+		$this->logger()->notice('Stopped sending data to sparkasse server. Value check not passed..', $debug_values );
 
 		return false;
 	}
@@ -63,28 +74,24 @@ class Sparkasse implements Distributor_Schema_Interface {
 	/**
 	 * Set as sent.
 	 *
-	 * @param Energieausweis_Old $energieausweis Engergieausweis object.
-	 *
 	 * @return int|bool The new meta field ID if a field with the given key didn't exist and was
      *                  therefore added, true on successful update, false on failure.
 	 *
 	 * @since 1.0.0
 	 */
-	public function set_sent( Energieausweis_Old $energieausweis ) {
-		return update_post_meta( $energieausweis->id, 'sent_to_sparkasse', true );
+	public function set_sent() {
+		return update_post_meta( $this->energieausweis->id, 'sent_to_sparkasse', true );
 	}
 
 	/**
 	 * Checks if Engergieausweis was sent to sparkasse.
 	 *
-	 * @param Energieausweis_Old $energieausweis Engergieausweis object.
-	 *
 	 * @return bool True if was already sent to sparkasse, false if not.
 	 *
 	 * @since 1.0.0
 	 */
-	public function already_sent( Energieausweis_Old $energieausweis ) {
-		$is_sent = (bool) get_post_meta( $energieausweis->id, 'sent_to_sparkasse' );
+	public function already_sent() {
+		$is_sent = (bool) get_post_meta( $this->energieausweis->id, 'sent_to_sparkasse' );
 
 		if ( true === $is_sent ){
 			return true;
@@ -97,14 +104,13 @@ class Sparkasse implements Distributor_Schema_Interface {
 	 * Filter data.
 	 *
 	 * @param array              $estate_data            Estate data.
-	 * @param Energieausweis_Old $energy_certificate_old Energy certificate object.
 	 *
 	 * @return array Filtered data.
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_data( array $estate_data, Energieausweis_Old $energy_certificate_old ) : array {
-		$energy_certificate = new Energieausweis( $energy_certificate_old->id );
+	public function filter_data( array $estate_data ) : array {
+		$energy_certificate = new Energieausweis( $this->energieausweis->id );
 		$payment            = new \Edd_Payment( $energy_certificate->get_payment_id() );
 
 		$customer_data = array(
@@ -112,11 +118,11 @@ class Sparkasse implements Distributor_Schema_Interface {
 		);
 
 		$estate_address_data = array(
-			'email'              => $energy_certificate_old->wpenon_email,
-			'adresse_strassenr'  => $energy_certificate_old->adresse_strassenr,
-			'adresse_plz'        => $energy_certificate_old->adresse_plz,
-			'adresse_ort'        => $energy_certificate_old->adresse_ort,
-			'adresse_bundesland' => $energy_certificate_old->adresse_bundesland,
+			'email'              => $this->energieausweis->wpenon_email,
+			'adresse_strassenr'  => $this->energieausweis->adresse_strassenr,
+			'adresse_plz'        => $this->energieausweis->adresse_plz,
+			'adresse_ort'        => $this->energieausweis->adresse_ort,
+			'adresse_bundesland' => $this->energieausweis->adresse_bundesland,
 		);
 
 		$data = array(
@@ -127,6 +133,12 @@ class Sparkasse implements Distributor_Schema_Interface {
 		);
 
 		// $data = $this->encode_data_recursive( 'utf8_encode', $data );
+		$debug_values = array(
+			'data'     => $data,
+			'energy_certificate' => $this->energieausweis,
+		);
+
+		$this->logger()->notice('Data', $debug_values );
 
 		return $data;
 	}
@@ -158,10 +170,26 @@ class Sparkasse implements Distributor_Schema_Interface {
 	 */
 	public function get_endpoint() : string {
 		// phpcs:ignore
-		if ( 'enon.test' === $_SERVER['SERVER_NAME'] || 'sparkasse.energieausweis-online-erstellen.de' === $_SERVER['SERVER_NAME'] || 'staging.energieausweis-online-erstellen.de' === $_SERVER['SERVER_NAME']  ) {
-			return 'https://postman-echo.com/post';
+		$server_name = $_SERVER['SERVER_NAME'];
+
+		switch( $server_name ) {
+			case 'enon.test':
+			case 'staging.energieausweis-online-erstellen.de':
+			case 'sparkasse.energieausweis-online-erstellen.de':
+				$receipient_server = 'https://postman-echo.com/post';
+				break;
+			default:
+				$receipient_server = 'https://www.immobilienwertanalyse.de/iwapro/import/importData.php';
+				break;
 		}
 
-		return 'https://www.immobilienwertanalyse.de/iwapro/import/importData.php';
+		$debug_values = array(
+			'receipient_url'     => $receipient_server,
+			'energy_certificate' => $this->energieausweis,
+		);
+
+		$this->logger()->notice('Sent sparkasse data to server', $debug_values );
+
+		return $receipient_server;
 	}
 }
