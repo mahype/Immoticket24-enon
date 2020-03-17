@@ -30,7 +30,6 @@ jobs:
           /www/htdocs/w012900a/bin/composer.phar update
           cd $WWW/public/app/plugins/wp-energieausweis-online
           /www/htdocs/w012900a/bin/composer.phar update
-          rm $WWW/public/.htaccess
           cp $WWW/public/.htaccess-sparkasse $WWW/public/.htaccess
           rm $WWW/public/local-config.php
           cp $WWW/public/local-config-sparkasse.php $WWW/public/local-config.php
