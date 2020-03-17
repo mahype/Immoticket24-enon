@@ -34,13 +34,16 @@ class Logger extends \Awsm\WP_Wrapper\Tools\Logger {
 	public function __construct( string $name, array $handlers = [], array $processors = [], DateTimeZone $timezone = null ) {
 		parent::__construct( $name, $handlers, $processors, $timezone );
 
-		// phpcs:ignore
-		$slack_handler = new SlackWebhookHandler( 'https://hooks.slack.com/services/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', '#logs-enon', 'Monolog', true, null, false, false, self::WARNING );
-		$this->pushHandler( $slack_handler );
+		$slack_level = self::WARNING;
 
 		if ( WP_DEBUG && ! wp_doing_ajax() ) {
 			$this->pushHandler( new BrowserConsoleHandler() );
+			$slack_level = self::NOTICE;
 		}
+
+		// phpcs:ignore
+		$slack_handler = new SlackWebhookHandler( 'https://hooks.slack.com/services/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', '#logs-enon', 'Monolog', true, null, false, false, $slack_level );
+		$this->pushHandler( $slack_handler );
 	}
 
 	/**
