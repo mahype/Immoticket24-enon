@@ -116,6 +116,10 @@ if ( !defined( 'WP_DEFAULT_THEME' ) )
 	define( 'WP_DEFAULT_THEME', 'immoticket-energieausweis' );
 }
 
+define( 'WP_SENTRY_DSN', 'https://d4688837372c4116aaa3361e644cf448@sentry.io/4574452' );
+define( 'WP_SENTRY_ERROR_TYPES', E_ALL & ~E_DEPRECATED & ~E_NOTICE & ~E_USER_DEPRECATED );
+
+
 /**======================================================================================
  * Environment setup
  * The following constants are setup automatically according to the specified environment

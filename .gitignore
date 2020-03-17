@@ -13,6 +13,10 @@ public/app/cache/*
 public/app/uploads/*
 public/app/nfwlog/*
 
+# Local configuration
+assets/mysql/*
+public/local-config.php
+
 # Ignore Exceptions
 !public/app/mu-plugins/energieausweis-*/
 !public/app/mu-plugins/energieausweis-*.php
@@ -92,3 +96,6 @@ public/dibt.log
 
 #DB
 provision/db.sql
+
+# htaccess
+public/.htaccess
