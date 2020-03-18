@@ -111,7 +111,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 			if( 'keine' !== $energieausweis->regenerativ_art ) {
 				return wpenon_immoticket24_get_regenerativ_nutzung_name( $energieausweis->regenerativ_nutzung );
 			}
-			return '';
+			return 'Keine';
 		case 'lueftungsart':
 			$l_info = $energieausweis->l_info;
 			if ( $l_info == 'anlage' ) {
