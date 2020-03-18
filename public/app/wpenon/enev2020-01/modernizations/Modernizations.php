@@ -135,7 +135,7 @@ abstract class Modernizations {
 		$this->energieausweis = $energieausweis;
 
 		// Stopping scripts in bedarfsausweis energy certificates before 2020-03-16 1pm. Need to be removed in next schema.
-		if ( $this->stop_scripts_hotfix_2020_03_16() ) {
+		if ( $this->use_until_2020_03_16() ) {
 			return $modernizations;
 		}
 
@@ -186,11 +186,29 @@ abstract class Modernizations {
 	 *
 	 * @todo Remove on next Schema update.
 	 */
-	private function stop_scripts_hotfix_2020_03_16() {
+	private function use_until_2020_03_16() {
 		$stop_time = strtotime( '2020-03-16 14:15' );
 		$ec_time   = strtotime( $this->energieausweis->date );
 
 		if ( $ec_time < $stop_time && 'b' === $this->energieausweis->mode ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Hotfix for changes on modernization before 2020-03-16.
+	 *
+	 * @return bool
+	 *
+	 * @todo Remove on next Schema update.
+	 */
+	private function use_until_2020_03_18() {
+		$stop_time = strtotime( '2020-03-18 15:30' );
+		$ec_time   = strtotime( $this->energieausweis->date );
+
+		if ( $ec_time < $stop_time && 'v' === $this->energieausweis->mode ) {
 			return true;
 		}
 
@@ -287,8 +305,15 @@ abstract class Modernizations {
 			'oelofenverdampfungsbrenner',
 		);
 
-		if ( intval( $this->energieausweis->baujahr ) < 1995 && ! $this->energieausweis->verteilung_gedaemmt && ! in_array( $this->energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
-			return true;
+
+		if ( $this->use_until_2020_03_18() ) {
+			if ( intval( $this->energieausweis->baujahr ) < 1995 && ! $this->energieausweis->verteilung_gedaemmt && ! in_array( $this->energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
+				return true;
+			}
+		} else {
+			if ( intval( $this->energieausweis->verteilung_baujahr ) < 1995 && ! $this->energieausweis->verteilung_gedaemmt && ! in_array( $this->energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
+				return true;
+			}
 		}
 
 		return false;
