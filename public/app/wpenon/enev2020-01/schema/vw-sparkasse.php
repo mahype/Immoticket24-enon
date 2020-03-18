@@ -218,50 +218,6 @@ if ( ! class_exists( 'Enev\Schema\Verbrauchsausweis_Schema_Sparkasse' ) ) :
 
 			unset( $data );
 
-			$data['h2_modernisierung'] = array(
-				'type'     => 'select',
-				'label'    => __( 'Modernisierung der Leitungssysteme', 'wpenon' ),
-				'options'  => array(
-					'nein'  => __( 'Keine Modernisierung durchgeführt', 'wpenon' ),
-					'0-5'   => __( 'Vor 0-5 Jahren', 'wpenon' ),
-					'6-10'  => __( 'Vor 6-10 Jahren', 'wpenon' ),
-					'11-15' => __( 'Vor 11-15 Jahren', 'wpenon' ),
-					'16-25' => __( 'Vor 16- 25 Jahren', 'wpenon' ),
-					'25'    => __( 'Vor über 25 Jahren', 'wpenon' ),
-				),
-				'display'  => array(
-					'callback'      => 'wpenon_show_on_bool_compare',
-					'callback_args' => array( 'field::h2_info', true ),
-				),
-				'required' => true,
-			);
-
-			$anlage = $this->insert_after_key( $anlage, 'heizung', 'h2_baujahr', $data );
-
-			unset( $data );
-
-			$data['h3_modernisierung'] = array(
-				'type'     => 'select',
-				'label'    => __( 'Modernisierung der Leitungssysteme', 'wpenon' ),
-				'options'  => array(
-					'nein'  => __( 'Keine Modernisierung durchgeführt', 'wpenon' ),
-					'0-5'   => __( 'Vor 0-5 Jahren', 'wpenon' ),
-					'6-10'  => __( 'Vor 6-10 Jahren', 'wpenon' ),
-					'11-15' => __( 'Vor 11-15 Jahren', 'wpenon' ),
-					'16-25' => __( 'Vor 16- 25 Jahren', 'wpenon' ),
-					'25'    => __( 'Vor über 25 Jahren', 'wpenon' ),
-				),
-				'display'  => array(
-					'callback'      => 'wpenon_show_on_bool_compare',
-					'callback_args' => array( 'field::h3_info', true ),
-				),
-				'required' => true,
-			);
-
-			$anlage = $this->insert_after_key( $anlage, 'heizung', 'h3_baujahr', $data );
-
-			unset( $data );
-
 			return $anlage;
 		}
 
