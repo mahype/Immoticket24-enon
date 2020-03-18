@@ -62,7 +62,7 @@ class Setup_Wonolog implements Task {
 		$slack_handler = new SlackWebhookHandler( 'https://hooks.slack.com/services/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', '#logs-enon', 'Monolog', true, null, false, false, Logger::WARNING );
 		$wonolog->use_handler( $slack_handler );
 
-		if ( WP_DEBUG ) {
+		if ( WP_DEBUG && ! wp_doing_ajax() ) {
 			$browserconsole_handler = new BrowserConsoleHandler();
 			$wonolog->use_handler( $browserconsole_handler );
 		}
