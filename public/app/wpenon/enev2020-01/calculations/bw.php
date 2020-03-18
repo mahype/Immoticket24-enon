@@ -1826,7 +1826,7 @@ $energietraeger_strom = wpenon_get_table_results( $energietraeger_table_name, ar
 $primaerfaktor_strom = $energietraeger_strom->primaer;
 $co2faktor_strom = $energietraeger_strom->co2;
 
-if ( $energieausweis->regenerativ_aktiv ) {
+if ( 'solar' === $energieausweis->regenerativ_art || $energieausweis->regenerativ_aktiv ) {
   $calculations['qw_e_b'] -= wpenon_interpolate( $calculations['nutzflaeche'], array(
     array( 'keysize' => 150, 'value' => 13.3 ),
     array( 'keysize' => 500, 'value' => 10.4 ),

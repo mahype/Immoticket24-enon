@@ -327,14 +327,7 @@ abstract class Modernizations {
 	 * @since 1.0.0
 	 */
 	protected function needs_solarthermie() {
-		$regenerativ_art   = trim( $this->energieausweis->regenerativ_art );
-		$regenerativ_aktiv = isset( $this->energieausweis->regenerativ_aktiv ) ? $this->energieausweis->regenerativ_aktiv : false;
-
-		if ( ! empty( $regenerativ_aktiv ) && strtolower( $regenerativ_art ) !== 'keine' ) {
-			return false;
-		}
-
-		if ( $regenerativ_aktiv ) {
+		if ( $this->energieausweis->regenerativ_art !== 'keine' ) {
 			return false;
 		}
 

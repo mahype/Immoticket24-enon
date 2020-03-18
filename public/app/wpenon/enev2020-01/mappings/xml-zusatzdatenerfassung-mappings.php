@@ -241,19 +241,10 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 
 							return implode( '; ', array_unique( $energietraeger ) );
 						case 'Erneuerbare-Art':
-							$art = $energieausweis->regenerativ_art;
-							if ( strtolower( $art ) == 'unbekannt' || strtolower( $art ) == 'keine' ) {
-								return 'Keine';
-							}
-
-							return str_replace( ',', ';', $art );
+							$art =  wpenon_immoticket24_get_regenerativ_art_name( $energieausweis->regenerativ_art );
+							return $art;
 						case 'Erneuerbare-Verwendung':
-							$nutzung = $energieausweis->regenerativ_nutzung;
-							if ( strtolower( $nutzung ) == 'unbekannt' || strtolower( $nutzung ) == 'keine' ) {
-								return 'Keine';
-							}
-
-							return str_replace( ',', ';', $nutzung );
+							return wpenon_immoticket24_get_regenerativ_nutzung_name( $energieausweis->regenerativ_nutzung );
 						case 'Lueftungsart-Fensterlueftung':
 							if ( $energieausweis->l_info == 'fenster' ) {
 								return 'true';

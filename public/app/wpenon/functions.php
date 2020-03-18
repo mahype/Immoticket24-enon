@@ -614,6 +614,32 @@ function wpenon_immoticket24_get_energietraeger_name( $slug, $is_with_units = fa
 	return $energietraeger_name;
 }
 
+function wpenon_immoticket24_get_regenerativ_art_name( $slug ) {
+	$regenerativ_arten = array(
+		'keine' => 'Keine',
+		'solar' => 'Solargestützt',
+	);
+
+	if ( array_key_exists( $slug, $regenerativ_arten ) ) {
+		return $regenerativ_arten[ $slug ];
+	}
+
+	return 'Keine';
+}
+
+function wpenon_immoticket24_get_regenerativ_nutzung_name( $slug ) {
+	$values = array(
+		'warmwasser'                 => 'Warmwasser',
+		'warmwasser_waermeerzeugung' => 'Warmwasser und Wärmeerzeugung',
+	);
+
+	if ( array_key_exists( $slug, $values ) ) {
+		return $values[ $slug ];
+	}
+
+	return 'Keine';
+}
+
 function wpenon_immoticket24_get_fenster_bauarten() {
 	$_fenster = wpenon_get_table_results( 'uwerte', array(
 		'bezeichnung' => array(

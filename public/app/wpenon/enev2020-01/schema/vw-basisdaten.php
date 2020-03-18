@@ -80,21 +80,29 @@ $basisdaten = array(
 			'title'       => __( 'Erneuerbare Energien', 'wpenon' ),
 			'description' => __( 'Falls Ihr Gebäude zum Teil erneuerbare Energien verwendet, machen Sie hier entsprechende Angaben.', 'wpenon' ),
 			'fields'      => array(
-				'regenerativ_art'     => array(
-					'type'        => 'text',
+				'regenerativ_art'           => array(
+					'type'        => 'select',
 					'label'       => __( 'Art der erneuerbaren Energien', 'wpenon' ),
 					'description' => __( 'Geben Sie die Art der erneuerbaren Energien ein, sofern Sie Photovoltaik, Geothermie, Solaranlage, Windenergie oder Energie aus Biogas nutzen. Falls nicht vorhanden, geben Sie bitte &quot;Keine&quot; ein. Dies dient ausschließlich der Information.', 'wpenon' ),
-					'default'     => __( 'Keine', 'wpenon' ),
+					'options'     => array(
+						'keine' => 'Keine thermische Solaranlage',
+						'solar' => 'Solargestützte Warmwasser-/Heizungsunterstützung',
+					),
 					'required'    => true,
-					'max'         => 40,
 				),
 				'regenerativ_nutzung' => array(
-					'type'        => 'text',
+					'type'        => 'select',
 					'label'       => __( 'Verwendung der erneuerbaren Energien', 'wpenon' ),
 					'description' => __( 'Geben Sie die Verwendung der erneuerbaren Energien ein, wenn Sie diese zur Wärmeerzeugung, Warmwassererzeugung, Energiespeicherung oder Stromerzeugung nutzen. Falls nicht vorhanden, geben Sie bitte &quot;Keine&quot; ein. Dies dient ausschließlich der Information.', 'wpenon' ),
-					'default'     => __( 'Keine', 'wpenon' ),
+					'options'     => array(
+						'warmwasser'                 => 'Warmwasser',
+						'warmwasser_waermeerzeugung' => 'Warmwasser und Wärmeerzeugung',
+					),
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::regenerativ_art', 'solar' ),
+					),
 					'required'    => true,
-					'max'         => 40,
 				),
 			),
 		),
