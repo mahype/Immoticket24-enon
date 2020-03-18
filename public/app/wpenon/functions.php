@@ -213,7 +213,7 @@ function wpenon_immoticket24_enqueue_additional_js() {
 	wp_enqueue_script( 'immoticket24-extra-js', WPENON_DATA_URL . '/assets/extra-scripts.js', array( 'wpenon-frontend' ), false, true );
 }
 
-add_action( 'wp_enqueue_scripts', 'wpenon_immoticket24_enqueue_additional_js' );
+// add_action( 'wp_enqueue_scripts', 'wpenon_immoticket24_enqueue_additional_js' );
 
 function wpenon_immoticket24_pdf_seller_company_name( $name, $pdf ) {
 	return 'Harsche-Energieberatung';
