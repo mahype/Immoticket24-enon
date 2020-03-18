@@ -302,10 +302,6 @@ $anlage = array(
 					'required'              => true,
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::h_baujahr' ),
-					),
 				),
 				'h2_info'                                       => array(
 					'type'  => 'checkbox',
@@ -588,10 +584,6 @@ $anlage = array(
 					'display'               => array(
 						'callback'      => 'wpenon_show_on_bool_compare',
 						'callback_args' => array( 'field::h2_info', true ),
-					),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::h2_baujahr' ),
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
@@ -882,10 +874,6 @@ $anlage = array(
 						'callback'      => 'wpenon_show_on_bool_compare',
 						'callback_args' => array( array( 'field::h2_info', 'field::h3_info' ), array( true, true ) ),
 					),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::h3_baujahr' ),
-					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
@@ -898,10 +886,6 @@ $anlage = array(
 					'required'              => true,
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::verteilung_baujahr' ),
-					),
 					'display'               => array(
 						'callback'      => 'wpenon_show_on_array_blacklist',
 						'callback_args' => array(
@@ -951,10 +935,6 @@ $anlage = array(
 					'required'              => true,
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::speicherung_baujahr' ),
-					),
 					'display'               => array(
 						'callback'      => 'wpenon_show_on_bool_compare',
 						'callback_args' => array( 'field::speicherung', true ),
@@ -1072,10 +1052,6 @@ $anlage = array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
 						'callback_args' => array( 'field::ww_info', 'ww' ),
 					),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::ww_baujahr' ),
-					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
@@ -1125,10 +1101,6 @@ $anlage = array(
 					'display'               => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
 						'callback_args' => array( 'field::l_info', 'anlage' ),
-					),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::l_baujahr' ),
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
