@@ -617,7 +617,7 @@ function wpenon_immoticket24_get_energietraeger_name( $slug, $is_with_units = fa
 function wpenon_immoticket24_get_regenerativ_art_name( $slug ) {
 	$regenerativ_arten = array(
 		'keine' => 'Keine',
-		'solar' => 'Solargestützt',
+		'solar' => 'Solaranlage',
 	);
 
 	if ( array_key_exists( $slug, $regenerativ_arten ) ) {
