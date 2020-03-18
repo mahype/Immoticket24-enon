@@ -244,7 +244,10 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 							$art =  wpenon_immoticket24_get_regenerativ_art_name( $energieausweis->regenerativ_art );
 							return $art;
 						case 'Erneuerbare-Verwendung':
-							return wpenon_immoticket24_get_regenerativ_nutzung_name( $energieausweis->regenerativ_nutzung );
+							if( 'keine' !== $energieausweis->regenerativ_art ) {
+								return wpenon_immoticket24_get_regenerativ_nutzung_name( $energieausweis->regenerativ_nutzung );
+							}
+							return '';
 						case 'Lueftungsart-Fensterlueftung':
 							if ( $energieausweis->l_info == 'fenster' ) {
 								return 'true';
