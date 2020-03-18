@@ -17,6 +17,9 @@ public/app/nfwlog/*
 assets/mysql/*
 public/local-config.php
 
+# Local Cache
+public/app/nfwlog/*
+
 # Ignore Exceptions
 !public/app/mu-plugins/energieausweis-*/
 !public/app/mu-plugins/energieausweis-*.php
