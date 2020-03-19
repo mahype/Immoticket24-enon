@@ -491,6 +491,7 @@ $anlage = array(
 					'options'  => array(
 						'braunkohle' => __( 'Braunkohle', 'wpenon' ),
 						'steinkohle' => __( 'Steinkohle', 'wpenon' ),
+						'stueckholz' => __( 'Stückholz', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
@@ -780,6 +781,7 @@ $anlage = array(
 					'options'  => array(
 						'braunkohle' => __( 'Braunkohle', 'wpenon' ),
 						'steinkohle' => __( 'Steinkohle', 'wpenon' ),
+						'stueckholz' => __( 'Stückholz', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
