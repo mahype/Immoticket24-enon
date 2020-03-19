@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b3bf80dc0cc7a801a22525d8c3d349e",
+    "content-hash": "7931480dc9b3140a94d516c94397e8b0",
     "packages": [
         {
             "name": "awsm/wp-wrapper",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/awsmug/wp-wrapper.git",
-                "reference": "cef3204d15cecb41bfcf5a29c65dfe50852ed600"
+                "reference": "cdfd9388b08ce540b76deea064b352a62e35c9e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/cef3204d15cecb41bfcf5a29c65dfe50852ed600",
-                "reference": "cef3204d15cecb41bfcf5a29c65dfe50852ed600",
+                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/cdfd9388b08ce540b76deea064b352a62e35c9e1",
+                "reference": "cdfd9388b08ce540b76deea064b352a62e35c9e1",
                 "shasum": ""
             },
             "require": {
@@ -47,7 +47,7 @@
                 "plugin",
                 "wordpress"
             ],
-            "time": "2020-02-04T19:48:38+00:00"
+            "time": "2020-03-19T13:29:54+00:00"
         },
         {
             "name": "monolog/monolog",

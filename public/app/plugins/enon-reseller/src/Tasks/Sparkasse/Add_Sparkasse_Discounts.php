@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Tasks;
+namespace Enon_Reseller\Tasks\Sparkasse;
 
 use Awsm\WP_Wrapper\Building_Plans\Filters;
 use Awsm\WP_Wrapper\Building_Plans\Task;
@@ -27,17 +27,7 @@ use Enon\Models\Enon\Energieausweis;
  *
  * @package Enon\Reseller\WordPress
  */
-class Add_Sparkasse_Discounts implements Task, Filters {
-	use Logger_Trait;
-
-	/**
-	 * Reseller object.
-	 *
-	 * @since 1.0.0
-	 * @var Reseller;
-	 */
-	private $reseller;
-
+class Add_Sparkasse_Discounts extends Sparkasse_Frontend_Task implements Filters {
 	/**
 	 * Discount_Types
 	 *
@@ -92,8 +82,11 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function __construct( Reseller $reseller, Logger $logger ) {
-		$this->logger = $logger;
-		$this->reseller = $reseller;
+		parent::__construct( $reseller, $logger );
+
+		if ( ! $this->can_run() ) {
+			return;
+		}
 
 		$this->discount_types = array(
 			'spk', // Sparkasse standard coupon.
@@ -144,6 +137,10 @@ class Add_Sparkasse_Discounts implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function run() {
+		if ( ! $this->can_run() ) {
+			return;
+		}
+
 		$this->add_filters();
 	}
 

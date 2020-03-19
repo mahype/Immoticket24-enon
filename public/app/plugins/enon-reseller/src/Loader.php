@@ -32,7 +32,9 @@ use Enon_Reseller\Tasks\Filters\Filter_Schema;
 use Enon_Reseller\Tasks\Filters\Filter_Template;
 
 use Enon_Reseller\Tasks\Add_Energy_Certificate_Submission;
-use Enon_Reseller\Tasks\Add_Sparkasse_Discounts;
+
+use Enon_Reseller\Tasks\Sparkasse\Add_Sparkasse_Discounts;
+use Enon_Reseller\Tasks\Sparkasse\Sparkasse_Setup_Edd;
 
 /**
  * Whitelabel loader.
@@ -113,6 +115,7 @@ class Loader extends Task_Loader {
 
 		$this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
 		$this->add_task( Add_Sparkasse_Discounts::class, $reseller, $this->logger() );
+		$this->add_task( Sparkasse_Setup_Edd::class, $reseller, $this->logger() );
 	}
 }
 
