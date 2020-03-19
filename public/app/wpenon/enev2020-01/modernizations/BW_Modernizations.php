@@ -122,4 +122,39 @@ class BW_Modernizations extends Modernizations {
 
 		return false;
 	}
+
+	/**
+	 * Needs rohrleitungssystem.
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	protected function needs_rohrleitungssystem() {
+		$irrelevant_heaters = array(
+			'elektronachtspeicherheizung',
+			'elektrodirektheizgeraet',
+			'kohleholzofen',
+			'kleinthermeniedertemperatur',
+			'kleinthermebrennwert',
+			'gasraumheizer',
+			'oelofenverdampfungsbrenner',
+		);
+
+		if ( $this->use_until_2020_03_18() ) {
+			if ( intval( $this->energieausweis->baujahr ) < 1995 && ! $this->energieausweis->verteilung_gedaemmt && ! in_array( $this->energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
+				return true;
+			}
+		} elseif ( $this->use_until_2020_03_19() ) {
+			if ( intval( $this->energieausweis->verteilung_baujahr ) < 1995 && ! $this->energieausweis->verteilung_gedaemmt && ! in_array( $this->energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
+				return true;
+			}
+		} else {
+			if ( intval( $this->energieausweis->verteilung_baujahr ) < 1978 && ! $this->energieausweis->verteilung_gedaemmt && ! in_array( $this->energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

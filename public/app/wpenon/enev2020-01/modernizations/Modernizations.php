@@ -186,7 +186,7 @@ abstract class Modernizations {
 	 *
 	 * @todo Remove on next Schema update.
 	 */
-	private function use_until_2020_03_16() {
+	protected function use_until_2020_03_16() {
 		$stop_time = strtotime( '2020-03-16 14:15' );
 		$ec_time   = strtotime( $this->energieausweis->date );
 
@@ -204,8 +204,26 @@ abstract class Modernizations {
 	 *
 	 * @todo Remove on next Schema update.
 	 */
-	private function use_until_2020_03_18() {
+	protected function use_until_2020_03_18() {
 		$stop_time = strtotime( '2020-03-18 15:30' );
+		$ec_time   = strtotime( $this->energieausweis->date );
+
+		if ( $ec_time < $stop_time && 'v' === $this->energieausweis->mode ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Hotfix for changes on modernization before 2020-03-16.
+	 *
+	 * @return bool
+	 *
+	 * @todo Remove on next Schema update.
+	 */
+	protected function use_until_2020_03_19() {
+		$stop_time = strtotime( '2020-03-19 19:45' );
 		$ec_time   = strtotime( $this->energieausweis->date );
 
 		if ( $ec_time < $stop_time && 'v' === $this->energieausweis->mode ) {
@@ -261,6 +279,15 @@ abstract class Modernizations {
 	abstract protected function needs_windows();
 
 	/**
+	 * Needs rohleitungssystem.
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	abstract protected function needs_rohrleitungssystem();
+
+	/**
 	 * Checks window data for recommendation.
 	 *
 	 * @param int    $baujahr Year of built.
@@ -285,38 +312,6 @@ abstract class Modernizations {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Needs rohrleitungssystem.
-	 *
-	 * @return bool
-	 *
-	 * @since 1.0.0
-	 */
-	protected function needs_rohrleitungssystem() {
-		$irrelevant_heaters = array(
-			'elektronachtspeicherheizung',
-			'elektrodirektheizgeraet',
-			'kohleholzofen',
-			'kleinthermeniedertemperatur',
-			'kleinthermebrennwert',
-			'gasraumheizer',
-			'oelofenverdampfungsbrenner',
-		);
-
-
-		if ( $this->use_until_2020_03_18() ) {
-			if ( intval( $this->energieausweis->baujahr ) < 1995 && ! $this->energieausweis->verteilung_gedaemmt && ! in_array( $this->energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
-				return true;
-			}
-		} else {
-			if ( intval( $this->energieausweis->verteilung_baujahr ) < 1995 && ! $this->energieausweis->verteilung_gedaemmt && ! in_array( $this->energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	/**
