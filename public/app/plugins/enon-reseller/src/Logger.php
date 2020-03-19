@@ -57,14 +57,17 @@ class Logger extends \Awsm\WP_Wrapper\Tools\Logger {
 	 * @since 1.0.0
 	 */
 	public function addRecord( $level, $message, array $context = array() ) {
-		$remote_addr = $_SERVER['REMOTE_ADDR'];
-		$remote_addr = explode('.', $remote_addr );
-		$remote_addr[3] = '*';
+		$remote_addr       = $_SERVER['REMOTE_ADDR'];
+		$remote_addr_parts = explode( '.', $remote_addr );
 
-		$remote_addr      = implode('.', $remote_addr );
+		if ( 4 === count( $remote_addr_parts ) ) {
+			$remote_addr_parts[3] = '*';
+			$remote_addr          = implode( '.', $remote_addr_parts );
+		}
+
 		$remote_addr_data = array( 'remote_addr' => $remote_addr );
 
-		if( is_array( $context ) ) {
+		if ( is_array( $context ) ) {
 			$context = array_merge( $remote_addr_data, $context );
 		} else {
 			$context = array( $remote_addr_data, $context );
