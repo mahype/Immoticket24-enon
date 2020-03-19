@@ -120,7 +120,7 @@ class Filter_Schema implements Task, Filters {
 		$reseller_id = get_post_meta( $energieausweis->id, 'reseller_id', true );
 
 		if ( ! empty( $reseller_id ) ) {
-			return $reseller_id;
+			return (int) $reseller_id;
 		}
 
 		return false;
