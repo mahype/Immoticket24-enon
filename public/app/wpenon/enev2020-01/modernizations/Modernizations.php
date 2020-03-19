@@ -226,7 +226,7 @@ abstract class Modernizations {
 		$stop_time = strtotime( '2020-03-19 19:45' );
 		$ec_time   = strtotime( $this->energieausweis->date );
 
-		if ( $ec_time < $stop_time && 'v' === $this->energieausweis->mode ) {
+		if ( $ec_time < $stop_time && 'b' === $this->energieausweis->mode ) {
 			return true;
 		}
 
