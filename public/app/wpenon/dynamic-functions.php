@@ -428,16 +428,67 @@ function wpenon_immoticket24_show_h_energietraeger( $erzeugung_vorhanden, $erzeu
 	return true;
 }
 
-function wpenon_immoticket24_show_ww_energietraeger( $ww_info, $erzeuger, $energietraeger ) {
-	if( $ww_info !== 'ww' ) {
-		return false;
+function wpenon_immoticket24_show_ww_erzeugung( $ww_info, $h_erzeugung ) {
+	$h_energietraeger_showers = array(
+		'oelofenverdampfungsbrenner',
+		'kohleholzofen',
+		'gasraumheizer',
+		'elektronachtspeicherheizung',
+		'elektrodirektheizgeraet',
+		'pelletfeuerung',
+	);
+
+	if ( in_array( $h_erzeugung, $h_energietraeger_showers ) ) {
+		return true;
 	}
 
-	if ( ! wpenon_show_on_array_whitelist( $erzeuger, $energietraeger ) ) {
-		return false;
+	if( 'ww' === $ww_info ) {
+		return true;
 	}
 
-	return true;
+	return false;
+}
+
+function wpenon_immoticket24_show_ww_energietraeger( $ww_info, $h_erzeugung, $ww_erzeugung, $erzeuger_name ) {
+	$h_energietraeger_shower = array(
+		'oelofenverdampfungsbrenner',
+		'kohleholzofen',
+		'gasraumheizer',
+		'elektronachtspeicherheizung',
+		'elektrodirektheizgeraet',
+		'pelletfeuerung',
+	);
+
+	if ( in_array( $h_erzeugung, $h_energietraeger_shower ) && $erzeuger_name === $ww_erzeugung ) {
+		return true;
+	}
+
+	if( 'ww' === $ww_info && $erzeuger_name === $ww_erzeugung ) {
+		return true;
+	}
+
+	return false;
+}
+
+function wpenon_immoticket24_show_ww_baujahr( $ww_info, $ww_erzeugung, $h_erzeugung ) {
+	$h_energietraeger_shower = array(
+		'oelofenverdampfungsbrenner',
+		'kohleholzofen',
+		'gasraumheizer',
+		'elektronachtspeicherheizung',
+		'elektrodirektheizgeraet',
+		'pelletfeuerung',
+	);
+
+	if ( in_array( $h_erzeugung, $h_energietraeger_shower ) ) {
+		return true;
+	}
+
+	if( 'ww' === $ww_info ) {
+		return true;
+	}
+
+	return false;
 }
 
 function wpenon_immoticket24_get_ww_energietraeger_by_erzeugung(

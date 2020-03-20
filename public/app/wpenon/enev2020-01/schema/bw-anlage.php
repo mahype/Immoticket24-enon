@@ -973,8 +973,12 @@ $anlage = array(
 							'field::h3_info',
 							'field::h_erzeugung',
 							'field::h2_erzeugung',
-							'field::h3_erzeugung'
+							'field::h3_erzeugung',
 						),
+					),
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_array_blacklist',
+						'callback_args' => array( 'field::h_erzeugung', array( 'oelofenverdampfungsbrenner', 'kohleholzofen', 'gasraumheizer', 'elektronachtspeicherheizung', 'elektrodirektheizgeraet', 'pelletfeuerung', ) ),
 					),
 					'required'    => true,
 				),
@@ -989,8 +993,8 @@ $anlage = array(
 					),
 					'required'    => true,
 					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::ww_info', 'ww' ),
+						'callback'      => 'wpenon_immoticket24_show_ww_erzeugung',
+						'callback_args' => array( 'field::ww_info', 'field::h_erzeugung' ),
 					),
 				),
 				'ww_energietraeger_dezentralelektroerhitzer' => array(
@@ -1003,7 +1007,7 @@ $anlage = array(
 					'default'  => 'strom',
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_ww_energietraeger',
-						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'dezentralelektroerhitzer' ),
+						'callback_args' => array( 'field::ww_info', 'field::h_erzeugung', 'field::ww_erzeugung', 'dezentralelektroerhitzer' ),
 					),
 				),
 				'ww_energietraeger_dezentralgaserhitzer'     => array(
@@ -1016,7 +1020,7 @@ $anlage = array(
 					'default'  => 'erdgas',
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_ww_energietraeger',
-						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'dezentralgaserhitzer' ),
+						'callback_args' => array( 'field::ww_info', 'field::h_erzeugung', 'field::ww_erzeugung', 'dezentralgaserhitzer' ),
 					),
 				),
 				'ww_energietraeger_dezentralkleinspeicher'   => array(
@@ -1029,7 +1033,7 @@ $anlage = array(
 					'default'  => 'strom',
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_ww_energietraeger',
-						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'dezentralkleinspeicher' ),
+						'callback_args' => array( 'field::ww_info', 'field::h_erzeugung', 'field::ww_erzeugung', 'dezentralkleinspeicher' ),
 					),
 				),
 				'ww_energietraeger'                          => array(
@@ -1051,8 +1055,8 @@ $anlage = array(
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
 					'display'               => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::ww_info', 'ww' ),
+						'callback'      => 'wpenon_immoticket24_show_ww_baujahr',
+						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'field::h_erzeugung' ),
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
