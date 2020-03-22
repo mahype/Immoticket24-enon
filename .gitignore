@@ -15,7 +15,6 @@ public/app/nfwlog/*
 
 # Local configuration
 assets/mysql/*
-public/local-config.php
 
 # Local Cache
 public/app/nfwlog/*
