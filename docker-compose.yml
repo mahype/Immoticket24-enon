@@ -14,6 +14,7 @@ services:
       WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX}
       WORDPRESS_DEBUG: 'false'
       VIRTUAL_HOST: ${HOSTS}
+      VIRTUAL_PORT: ${PORTO}
     volumes: &ref_0
       - ./public:/var/www/html
       - ./assets/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
