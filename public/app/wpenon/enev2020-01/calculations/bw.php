@@ -1297,8 +1297,19 @@ if ( $energieausweis->speicherung ) {
   }
 }
 
-if ( 'unbekannt' === $energieausweis->ww_info ) {
-  $energieausweis->ww_info = 'h';
+$h_energietraeger_non_pauschal = array(
+	'oelofenverdampfungsbrenner',
+	'kohleholzofen',
+	'gasraumheizer',
+	'elektronachtspeicherheizung',
+	'elektrodirektheizgeraet',
+	'pelletfeuerung',
+);
+
+if ( 'unbekannt' === $energieausweis->ww_info && ! in_array( $energieausweis->h_erzeugung, $h_energietraeger_non_pauschal ) ) {
+     $energieausweis->ww_info = 'h';
+} else {
+	$energieausweis->ww_info = 'ww';
 }
 
 $ww_erzeugung = $energieausweis->ww_info . '_erzeugung';
