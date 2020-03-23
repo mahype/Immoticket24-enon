@@ -1010,19 +1010,6 @@ $anlage = array(
 						'callback_args' => array( 'field::ww_info', 'field::h_erzeugung', 'field::ww_erzeugung', 'dezentralelektroerhitzer' ),
 					),
 				),
-				'ww_energietraeger_dezentralgaserhitzer'     => array(
-					'type'     => 'select',
-					'label'    => __( 'Energieträger der Warmwasseranlage', 'wpenon' ),
-					'required' => true,
-					'options'  => array(
-						'erdgas' => __( 'Erdgas', 'wpenon' ),
-					),
-					'default'  => 'erdgas',
-					'display'  => array(
-						'callback'      => 'wpenon_immoticket24_show_ww_energietraeger',
-						'callback_args' => array( 'field::ww_info', 'field::h_erzeugung', 'field::ww_erzeugung', 'dezentralgaserhitzer' ),
-					),
-				),
 				'ww_energietraeger_dezentralkleinspeicher'   => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Warmwasseranlage', 'wpenon' ),
@@ -1034,6 +1021,19 @@ $anlage = array(
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_ww_energietraeger',
 						'callback_args' => array( 'field::ww_info', 'field::h_erzeugung', 'field::ww_erzeugung', 'dezentralkleinspeicher' ),
+					),
+				),
+				'ww_energietraeger_dezentralgaserhitzer'     => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Warmwasseranlage', 'wpenon' ),
+					'required' => true,
+					'options'  => array(
+						'erdgas' => __( 'Erdgas', 'wpenon' ),
+					),
+					'default'  => 'erdgas',
+					'display'  => array(
+						'callback'      => 'wpenon_immoticket24_show_ww_energietraeger',
+						'callback_args' => array( 'field::ww_info', 'field::h_erzeugung', 'field::ww_erzeugung', 'dezentralgaserhitzer' ),
 					),
 				),
 				'ww_energietraeger'                          => array(
