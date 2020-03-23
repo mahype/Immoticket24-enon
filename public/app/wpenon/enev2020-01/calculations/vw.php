@@ -149,6 +149,22 @@ if ( $energieausweis->h2_info ) {
 		);
 	}
 }
+
+$h_energietraeger_non_pauschal = array(
+	'oelofenverdampfungsbrenner',
+	'kohleholzofen',
+	'gasraumheizer',
+	'elektronachtspeicherheizung',
+	'elektrodirektheizgeraet',
+	'pelletfeuerung',
+);
+
+if ( 'unbekannt' === $energieausweis->ww_info && ! in_array( $energieausweis->h_erzeugung, $h_energietraeger_non_pauschal ) ) {
+	$energieausweis->ww_info = 'h';
+} else {
+	$energieausweis->ww_info = 'ww';
+}
+
 if ( $energieausweis->ww_info == 'ww' ) {
 	$ww_energietraeger_name = 'ww_energietraeger_' . $energieausweis->ww_erzeugung;
 	$ww_energietraeger_value = $energieausweis->$ww_energietraeger_name;
