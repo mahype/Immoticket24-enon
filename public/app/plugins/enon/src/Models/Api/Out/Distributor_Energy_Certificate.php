@@ -45,15 +45,6 @@ class Distributor_Energy_Certificate extends Request {
 	private $energy_certificate;
 
 	/**
-	 * Logger object.
-	 *
-	 * @var Logger
-	 *
-	 * @since 1.0.0
-	 */
-	private $logger;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param Distributor_Schema_Interface $distributor_schema Schema file for distributor.
