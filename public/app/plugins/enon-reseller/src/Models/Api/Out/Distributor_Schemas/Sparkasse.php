@@ -189,7 +189,6 @@ class Sparkasse extends Distributor_Schema {
 		switch( $server_name ) {
 			case 'enon.test':
 			case 'staging.energieausweis-online-erstellen.de':
-			case 'sparkasse.energieausweis-online-erstellen.de':
 				$receipient_server = 'https://postman-echo.com/post';
 				break;
 			default:
