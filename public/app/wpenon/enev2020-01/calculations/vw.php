@@ -150,19 +150,8 @@ if ( $energieausweis->h2_info ) {
 	}
 }
 
-$h_energietraeger_non_pauschal = array(
-	'oelofenverdampfungsbrenner',
-	'kohleholzofen',
-	'gasraumheizer',
-	'elektronachtspeicherheizung',
-	'elektrodirektheizgeraet',
-	'pelletfeuerung',
-);
-
-if ( 'unbekannt' === $energieausweis->ww_info && ! in_array( $energieausweis->h_erzeugung, $h_energietraeger_non_pauschal ) ) {
+if ( 'unbekannt' === $energieausweis->ww_info ) {
 	$energieausweis->ww_info = 'h';
-} else {
-	$energieausweis->ww_info = 'ww';
 }
 
 if ( $energieausweis->ww_info == 'ww' ) {
@@ -305,7 +294,7 @@ if ( $post && ! empty( $post->post_date_gmt ) && '0000-00-00 00:00:00' !== $post
 }
 $should_calculations_be_fixed = $energieausweis_timestamp > 1536326720; // 09/07/2018 @ 1:25pm (UTC)
 
-if ( $energieausweis->ww_info == 'unbekannt' ) {
+if ( $warmwasser_zuschlag ) {
 	$calculations['warmwasser_zuschlag'] = 20.0 * $calculations['nutzflaeche'] * 3;
 	if ( $should_calculations_be_fixed ) {
 		$calculations['warmwasser_zuschlag_b'] = $calculations['warmwasser_zuschlag'] / $calculations['nutzflaeche'];
