@@ -150,10 +150,6 @@ if ( $energieausweis->h2_info ) {
 	}
 }
 
-if ( 'unbekannt' === $energieausweis->ww_info ) {
-	$energieausweis->ww_info = 'h';
-}
-
 if ( $energieausweis->ww_info == 'ww' ) {
 	$ww_energietraeger_name = 'ww_energietraeger_' . $energieausweis->ww_erzeugung;
 	$ww_energietraeger_value = $energieausweis->$ww_energietraeger_name;
