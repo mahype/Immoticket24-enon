@@ -442,7 +442,7 @@ function wpenon_immoticket24_show_ww_erzeugung( $ww_info, $h_erzeugung ) {
 		return true;
 	}
 
-	if( 'ww' === $ww_info ) {
+	if ( 'ww' === $ww_info ) {
 		return true;
 	}
 
@@ -459,11 +459,15 @@ function wpenon_immoticket24_show_ww_energietraeger( $ww_info, $h_erzeugung, $ww
 		'pelletfeuerung',
 	);
 
-	if ( in_array( $h_erzeugung, $h_energietraeger_shower ) && $erzeuger_name === $ww_erzeugung ) {
+	if ( $erzeuger_name !== $ww_erzeugung ) {
+		return false;
+	}
+
+	if ( in_array( $h_erzeugung, $h_energietraeger_shower ) ) {
 		return true;
 	}
 
-	if( 'ww' === $ww_info && $erzeuger_name === $ww_erzeugung ) {
+	if ( 'ww' === $ww_info ) {
 		return true;
 	}
 
