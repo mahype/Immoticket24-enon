@@ -186,19 +186,30 @@ class Add_Sparkasse_Discounts extends Sparkasse_Frontend_Task implements Filters
 			return true;
 		}
 
+		// Get current engergy certificate ids in cart.
+		$energy_certificate_ids = $this->get_cart_energy_certificate_ids();
+
 		// Checking discount type.
 		$discount_code_type = $this->get_discount_code_type( $discount_code );
 		if ( ! $discount_code_type ) {
-			$this->logger->alert( 'Coupon code not not valid.' );
+			$debug_values = array(
+				'coupon_code'        => $discount_code,
+				'energy_certificates' => $energy_certificate_ids,
+			);
+
+			$this->logger->alert( 'Coupon code not valid. Cant get discount code type.', $debug_values );
 			\edd_set_error( 'edd-discount-error', _x( 'Energieausweis Gutschein-Code ist nicht gültig.', 'Coupon code not within allowed zip areas.', 'enon-reseller' ) );
 			return false;
 		}
 
-		// Get current engergy certificate ids in cart.
-		$energy_certificate_ids = $this->get_cart_energy_certificate_ids();
-
 		// Bail out if there is no energy certificate.
 		if ( ! $energy_certificate_ids ) {
+			$debug_values = array(
+				'coupon_code'        => $discount_code,
+				'energy_certificates' => $energy_certificate_ids,
+			);
+
+			$this->logger->alert( 'Coupon code not valid. No energy certificates found.', $debug_values );
 			return $is_valid;
 		}
 
