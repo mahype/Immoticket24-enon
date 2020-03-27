@@ -1,11 +1,11 @@
-version: '3'
-
+version: '3.7'
 services:
   wordpress:
     container_name: ${WORDPRESS_CONTAINER}
-    image: wordpress:${WORDPRESS_VERSION}
+    build: .
+    depends_on:
+      - mysql
     restart: always
-
     environment:
       WORDPRESS_DB_HOST: "${WORDPRESS_CONTAINER}_db"
       WORDPRESS_DB_USER: ${DB_USER}
@@ -13,20 +13,23 @@ services:
       WORDPRESS_DB_NAME: ${DB_NAME}
       WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX}
       WORDPRESS_DEBUG: 'false'
-      WORDPRESS_CONFIG_EXTRA: |
-        define( 'WP_HOME', 'https://${HOSTS}' );
-        define( 'WP_SITEURL', 'https://${HOSTS}' );
-        define( 'WP_CACHE', true);
-        define( 'RELOCATE', true );
       VIRTUAL_HOST: ${HOSTS}
       VIRTUAL_PORT: ${PORTO}
-      VIRTUAL_PORTO: https
-    volumes:
+    volumes: &ref_0
       - ./public:/var/www/html
       - ./assets/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./assets/error-logging.ini:/usr/local/etc/php/conf.d/error-logging.ini
 
-  db:
+  cli:
+    depends_on:
+      - wordpress
+      - mysql
+    image: 'wordpress:cli'
+    container_name: "${WORDPRESS_CONTAINER}_cli"
+    volumes: *ref_0
+    user: '33:33'
+
+  mysql:
     image: mysql:5.7
     container_name: "${WORDPRESS_CONTAINER}_db"
     restart: always
@@ -41,11 +44,9 @@ services:
       - ./assets/mysql/dump:/dump
       - ./assets/mysql/data:/var/lib/mysql
 
+volumes: {}
+
 networks:
   default:
     external:
       name: nginx-proxy
-
-volumes:
-  wp_data:
-  mysql:
