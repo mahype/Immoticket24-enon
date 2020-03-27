@@ -61,6 +61,9 @@ $ docker-compose up -d
 - `docker exec PHP_CONTAINER_NAME /bin/bash -c 'php Search-Replace-DB/srdb.cli.php -h DB_CONTAINER_NAME -n DBNAME -u DBUSER -p DBPASS -s SEARCH_STR -r REPLACE_STR'`
 
 ## Systems
+
+To get changes to the systems, just push them to the branches staging, sparkasse or production. Github actions will push them to the servers.
+
 ###Staging customer
 
 https://staging.energieausweis-online-erstellen.de/
@@ -80,6 +83,41 @@ Password: immerR3inh1er
 ###Live site
 
 https://sparkasse.energieausweis-online-erstellen.de/
+
+## Creation of an energy certificate
+
+Bedarfsausweis / Verbrauchsausweis process
+
+1. Entering address.
+2. Overview Page (at the bottom of the page you will find the calculation results !important).
+3. Editing the data (there is the form which is created by the schema).
+4. After completion of the data, the energy certificate can be bought and the calculations are working now.
+5. Checking out the energy certificate
+6. Buying the certificate.
+- The certificate XML will be sent to DIBT to get an DIBT id.
+- Emails going out to the customer and Christian Esch.
+- Some 
+
+##Important to know:
+- Both, Bedarfs- an Verbrauchsausweis using different schemas (@see public/app/wpenen/enevVERSION).
+- The sparkasse schema class inherits the current schema and changes it for their own needs.
+- The current schema is enev2020-01 and this is valid since 2020-03-11.
+- Older energy certificates using a different schema (@see public/app/plugins/enon/src/Enon/Standards_Config.php)
+
+## Plugins
+
+Plugins to add new code:
+public/app/plugins/enon
+public/app/plugins/enon-reseller
+
+Legacy plugins
+public/app/plugins/wp-energieausweis-online
+
+## Anomalies
+
+There is a lot of procedual code. Functions will be found in plugins and also in theme files. ;) Have a lot of fun!
+
+
 
 
 
