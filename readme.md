@@ -96,13 +96,13 @@ Bedarfsausweis / Verbrauchsausweis process
 6. Buying the certificate.
 - The certificate XML will be sent to DIBT to get an DIBT id.
 - Emails going out to the customer and Christian Esch.
-- Some 
 
 ##Important to know:
 - Both, Bedarfs- an Verbrauchsausweis using different schemas (@see public/app/wpenen/enevVERSION).
 - The sparkasse schema class inherits the current schema and changes it for their own needs.
 - The current schema is enev2020-01 and this is valid since 2020-03-11.
 - Older energy certificates using a different schema (@see public/app/plugins/enon/src/Enon/Standards_Config.php)
+- The schemas containing the fields of the forms and also calculations and PDF and XML mappings for the variables.
 
 ## Plugins
 
