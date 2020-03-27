@@ -28,7 +28,7 @@ jQuery(document).ready(function($) {
 			if ($field.is('input[type="checkbox"]') || $field.is('input[type="radio"]')) {
 				return "click";
 			}
-			return "focusout";
+			return "change";
 		};
 
 		_wpenon_data.get_value = function(field, force_get) {
