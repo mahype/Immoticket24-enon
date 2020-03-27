@@ -115,7 +115,8 @@ public/app/plugins/wp-energieausweis-online
 
 ## Anomalies
 
-There is a lot of procedual code. Functions will be found in plugins and also in theme files. ;) Have a lot of fun!
+- Never update the plugins via the admin! Use composer, because of patches (@see patches dir)
+- There is a lot of procedual code. Functions will be found in plugins and also in theme files. ;) Have a lot of fun!
 
 
 
