@@ -41,7 +41,7 @@ class Token {
 		if ( empty( $this->token ) ) {
 			$this->token = $this->get_by_cookie();
 		} else {
-			unset( $_COOKIE['iframe_token'] );
+			// unset( $_COOKIE['iframe_token'] );
 		}
 
 		return $this->token;
@@ -57,7 +57,7 @@ class Token {
 	public function set( $token ) {
 		$this->token = $token;
 
-		$lifespan = time() + 600;
+		$lifespan = time() + 3600;
 
 		setcookie( 'iframe_token', $token, $lifespan, '/' );
 	}
@@ -95,7 +95,7 @@ class Token {
 		}
 
 		$iframe_token = $_COOKIE['iframe_token'];
-		unset( $_COOKIE['iframe_token'] );
+		// unset( $_COOKIE['iframe_token'] );
 
 		// phpcs:ignore
 		return $iframe_token;
