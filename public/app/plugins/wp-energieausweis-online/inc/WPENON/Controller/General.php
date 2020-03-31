@@ -118,6 +118,7 @@ class General {
 			'wpenon-formatter',
 			'wpenon-dynamic-functions'
 		), WPENON_VERSION );
+
 	}
 
 	public function getModel() {
@@ -131,6 +132,7 @@ class General {
 	public static function getScriptVars( $energieausweis = null, $schema = null, $admin = false ) {
 		$vars = array(
 			'ajax_url'             => admin_url( 'admin-ajax.php' ),
+			'rest_url'             => home_url('wp-json/'),
 			'security_nonce'       => wp_create_nonce( WPENON_AJAX_PREFIX . 'energieausweis' ),
 			'debug'                => WPENON_DEBUG,
 			'decimal_separator'    => wpenon_get_option( 'decimal_separator' ),

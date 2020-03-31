@@ -64,6 +64,15 @@ function wpenon_init() {
 	}
 }
 
+add_filter( 'request', function($query){
+	if(!empty($_POST['wpenon_thumbnail_upload'])) {
+		$frontend = \WPENON\Controller\Frontend::instance();
+		$frontend->_handleRequest();
+	}
+
+	return $query;
+}, 1);
+
 add_action( 'plugins_loaded', 'wpenon_init' );
 
 register_activation_hook( WPENON_MAINFILE, array( 'WPENON\App', 'install' ) );
