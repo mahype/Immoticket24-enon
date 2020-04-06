@@ -153,8 +153,7 @@ jQuery( document ).ready( function ( $ ) {
 	 **/
 	$('#wpenon-thumbnail-form').on('submit',(function(e) {
 		e.preventDefault();
-		var thumbBodyElem = this.querySelector(".overview-thumbnail")
-		var file = this.querySelector('[name="wpenon_thumbnail_file"]').files[0];
+		var thumbBodyElem = document.querySelector('#wpenon-thumbnail-form');
 
 		var formData = new FormData(this);
 			formData.append('wpenon_thumbnail_upload', true);
@@ -166,16 +165,28 @@ jQuery( document ).ready( function ( $ ) {
 
 		xhr.onload = function () {
 			if (xhr.status === 200) {
-				$("body").trigger("wpenon_ajax_end");
-				var response = xhr.responseText;
+				var response = JSON.parse(xhr.responseText);
+
 				if(!response.error){
-					console.log(file);
-					debugger;
+					var image = response.tmpImage;
+
+					if(image) {
+						var imageWrapper = document.querySelector('.thumbnail-wrapper');
+						imageWrapper.innerHTML = "";
+
+						var divImg = document.createElement('div');
+						divImg.setAttribute("style", "background: url(" + image.path + ") no-repeat center center;background-size: cover;height: 250px;");
+
+						imageWrapper.appendChild(divImg);
+					}
 				}
+
+				$("body").trigger("wpenon_ajax_end");
 
 			} else {
 				var div = document.createElement('div');
 				div.innerHTML = "Fehler beim Upload " + xhr.responseText;
+				div.classList.add('error');
 				thumbBodyElem.appendChild(div);
 			}
 		};
@@ -185,7 +196,7 @@ jQuery( document ).ready( function ( $ ) {
 			console.log({percentUpload,e});
 		};
 
-		//$("body").trigger("wpenon_ajax_start");
+		$("body").trigger("wpenon_ajax_start");
 
 		xhr.send(formData);
 	}));

@@ -250,7 +250,10 @@ class Frontend {
 			# handel ajax thumb upload
 			$tmpImageID = \WPENON\Util\ThumbnailHandler::upload( 'wpenon_thumbnail_file' );
 			$responseJson = json_encode([
-				'tmpImage' => wp_get_attachment_url($tmpImageID)
+				'tmpImage' => [
+					'path' => wp_get_attachment_image_url($tmpImageID, [300,300]),
+					'id' => $tmpImageID
+				]
 			]);
 			die($responseJson);
 		}
