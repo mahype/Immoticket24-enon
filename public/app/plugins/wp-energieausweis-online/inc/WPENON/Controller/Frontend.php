@@ -248,9 +248,11 @@ class Frontend {
 			}
 		} else {
 			# handel ajax thumb upload
-			\WPENON\Util\ThumbnailHandler::upload( 'wpenon_thumbnail_file' );
-			echo 'ok';
-			die();
+			$tmpImageID = \WPENON\Util\ThumbnailHandler::upload( 'wpenon_thumbnail_file' );
+			$responseJson = json_encode([
+				'tmpImage' => wp_get_attachment_url($tmpImageID)
+			]);
+			die($responseJson);
 		}
 	}
 

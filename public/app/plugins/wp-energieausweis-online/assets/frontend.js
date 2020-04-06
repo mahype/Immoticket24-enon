@@ -153,12 +153,12 @@ jQuery( document ).ready( function ( $ ) {
 	 **/
 	$('#wpenon-thumbnail-form').on('submit',(function(e) {
 		e.preventDefault();
-
+		var thumbBodyElem = this.querySelector(".overview-thumbnail")
 		var file = this.querySelector('[name="wpenon_thumbnail_file"]').files[0];
 
 		var formData = new FormData(this);
 			formData.append('wpenon_thumbnail_upload', true);
-			formData.append('id', _wpenon_data.energieausweis_id);
+			formData.append('energieausweis_id', _wpenon_data.energieausweis_id);
 
 		var xhr = new XMLHttpRequest();
 
@@ -166,15 +166,17 @@ jQuery( document ).ready( function ( $ ) {
 
 		xhr.onload = function () {
 			if (xhr.status === 200) {
-
 				$("body").trigger("wpenon_ajax_end");
-				// Dateien wurden hochgeladen
-/*
-				document.querySelector("#result").innerHTML = xhr.responseText;
-				uploadButton.innerHTML = 'Upload';*/
+				var response = xhr.responseText;
+				if(!response.error){
+					console.log(file);
+					debugger;
+				}
 
 			} else {
-				//document.querySelector("#result").innerHTML = "Fehler beim Upload " + xhr.responseText;
+				var div = document.createElement('div');
+				div.innerHTML = "Fehler beim Upload " + xhr.responseText;
+				thumbBodyElem.appendChild(div);
 			}
 		};
 
@@ -183,12 +185,9 @@ jQuery( document ).ready( function ( $ ) {
 			console.log({percentUpload,e});
 		};
 
-		$("body").trigger("wpenon_ajax_start");
+		//$("body").trigger("wpenon_ajax_start");
 
 		xhr.send(formData);
-
-
-
 	}));
 
 	$("#wpenon_thumbnail_file").on("change", function() {

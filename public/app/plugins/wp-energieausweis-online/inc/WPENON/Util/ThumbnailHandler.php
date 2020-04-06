@@ -97,8 +97,14 @@ class ThumbnailHandler {
 				require_once( ABSPATH . '/wp-admin/includes/media.php' );
 			}
 
+
+			if(!empty($_POST['energieausweis_id'])){
+				array( 'error' => __( 'Energieausweis-ID fehlt', 'wpenon' ) );
+			}
+
 			$post_array = array(
 				'post_title'  => __( 'Temporäres Energieausweis-Bild', 'wpenon' ),
+				'post_name'  => "temporaeres-energieausweis-bild-" . $_POST['energieausweis_id'],
 				'post_status' => 'wpenon-thumbnail',
 			);
 
