@@ -127,6 +127,8 @@ class ThumbnailHandler {
 				return array( 'error' => __( 'Beim Upload ist ein unbekannter Fehler aufgetreten.', 'wpenon' ) );
 			}
 
+
+			set_post_thumbnail(get_post($_POST['energieausweis_id']), $id);
 			return $id;
 		}
 
