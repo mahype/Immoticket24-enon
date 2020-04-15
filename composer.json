@@ -88,7 +88,6 @@
     "wpackagist-plugin/vaultpress": "2.1.1",
     "wpackagist-plugin/wordpress-seo": "13.2",
     "wpackagist-plugin/wp-postratings": "1.87",
-    "wpackagist-plugin/wp-sentry-integration": "3.3.0",
     "wp-rocket/wp-rocket": "3.5.0.2",
     "felixarntz/wp-gdpr-cookie-notice": "dev-master",
     "felixarntz/plugin-lib": "dev-master"
