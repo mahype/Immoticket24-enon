@@ -22,6 +22,8 @@ jobs:
         script: |
           WWW=/www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/
           cd $WWW
+          git config --global user.email "sven@awesome.ug"
+          git config --global user.name "Sven Wagener"
           git stash
           git pull
           /www/htdocs/w012900a/bin/composer.phar update
