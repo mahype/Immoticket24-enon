@@ -74,9 +74,9 @@ $erfassung = array(
 						'callback'      => 'wpenon_immoticket24_get_energietraeger_unit',
 						'callback_args' => array( 'field::ww_energietraeger' ),
 					),
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::ww_info', 'ww' ),
+					'display'               => array(
+						'callback'      => 'wpenon_immoticket24_show_ww_verbrauch',
+						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'field::h_erzeugung' ),
 					),
 				),
 				'verbrauch1_leerstand' => array(
@@ -142,9 +142,9 @@ $erfassung = array(
 						'callback'      => 'wpenon_immoticket24_get_energietraeger_unit',
 						'callback_args' => array( 'field::ww_energietraeger' ),
 					),
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::ww_info', 'ww' ),
+					'display'               => array(
+						'callback'      => 'wpenon_immoticket24_show_ww_verbrauch',
+						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'field::h_erzeugung' ),
 					),
 				),
 				'verbrauch2_leerstand' => array(
@@ -210,9 +210,9 @@ $erfassung = array(
 						'callback'      => 'wpenon_immoticket24_get_energietraeger_unit',
 						'callback_args' => array( 'field::ww_energietraeger' ),
 					),
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::ww_info', 'ww' ),
+					'display'               => array(
+						'callback'      => 'wpenon_immoticket24_show_ww_verbrauch',
+						'callback_args' => array( 'field::ww_info', 'field::ww_erzeugung', 'field::h_erzeugung' ),
 					),
 				),
 				'verbrauch3_leerstand' => array(
