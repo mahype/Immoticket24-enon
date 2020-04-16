@@ -64,6 +64,7 @@ vvv-nginx.conf
 log/*
 
 # Vendor (e.g. Composer)
+composer.lock
 vendor
 !public/app/plugins/wp-rocket/vendor
 !public/app/plugins/optimizePressPlugin/lib/vendor
