@@ -53,6 +53,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
+				'dibt_value'   => 'Heizung',
 			),
 			'heizkessel'         => array(
 				'bauteil'      => 'Heizkessel',
@@ -61,6 +62,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
+				'dibt_value'   => 'Heizung',
 			),
 			'rohrleitungssystem' => array(
 				'bauteil'      => 'Rohrleitungssystem',
@@ -69,6 +71,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
+				'dibt_value'   => 'Sonstiges',
 			),
 			'dach'               => array(
 				'bauteil'      => 'Dach',
@@ -77,6 +80,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
+				'dibt_value'   => 'Dach',
 			),
 			'decke'              => array(
 				'bauteil'      => 'Oberste Geschossdecke',
@@ -85,6 +89,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
+				'dibt_value'   => 'Sonstiges',
 			),
 			'wand'               => array(
 				'bauteil'      => 'Wände',
@@ -93,6 +98,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
+				'dibt_value'   => 'Sonstiges',
 			),
 			'boden'              => array(
 				'bauteil'      => 'Kellerdecke',
@@ -101,6 +107,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
+				'dibt_value'   => 'Sonstiges',
 			),
 			'fenster'            => array(
 				'bauteil'      => 'Fenster',
@@ -109,6 +116,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
+				'dibt_value'   => 'Fenster',
 			),
 			'solarthermie'       => array(
 				'bauteil'      => 'Solarthermie',
@@ -117,6 +125,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
+				'dibt_value'   => 'Sonstiges',
 			),
 		);
 	}

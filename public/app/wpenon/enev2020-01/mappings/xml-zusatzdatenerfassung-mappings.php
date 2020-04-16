@@ -330,30 +330,21 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Modernisierungsempfehlungen::7_Bauteil-Anlagenteil':
 						case 'Modernisierungsempfehlungen::8_Bauteil-Anlagenteil':
 						case 'Modernisierungsempfehlungen::9_Bauteil-Anlagenteil':
-							$parent_index                = absint( str_replace( array(
-								'Modernisierungsempfehlungen::',
-								'_Bauteil-Anlagenteil'
-							), '', $context ) );
+							$parent_index = absint( str_replace( array( 'Modernisierungsempfehlungen::', '_Bauteil-Anlagenteil' ), '', $context ) );
 							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis );
-							$mappings                    = array(
-								'Dach'                      => 0,
-								'Oberste Geschossdecke'     => 1,
-								'Außenwände'                => 5,
-								'Kellerdecke / Bodenplatte' => 13,
-								'Fenster'                   => 6,
-								'Solarthermie'              => 30,
-							);
 
-							if ( array_key_exists( $parent_index, $modernisierungsempfehlungen ) ) {
-								$modernisierungsempfehlung = $modernisierungsempfehlungen[ $parent_index ];
-								$bauteil =  $modernisierungsempfehlung['bauteil' ];
-
-								if ( array_key_exists( $bauteil, $mappings ) ) {
-									return $item['options'][ $mappings[ $bauteil ] ];
-								}
+							if ( ! array_key_exists( $parent_index, $modernisierungsempfehlungen ) ) {
+								return false;
 							}
 
-							return false;
+							$modernisierungsempfehlung = $modernisierungsempfehlungen[ $parent_index ];
+
+							if( ! array_key_exists( 'dibt_value', $modernisierungsempfehlung ) ) {
+								return 'Sonstiges';
+							}
+
+							return $modernisierungsempfehlung['dibt_value'];
+
 						case 'Modernisierungsempfehlungen::0_Massnahmenbeschreibung':
 						case 'Modernisierungsempfehlungen::1_Massnahmenbeschreibung':
 						case 'Modernisierungsempfehlungen::2_Massnahmenbeschreibung':
