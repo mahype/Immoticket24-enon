@@ -23,48 +23,6 @@
   "config": {
     "preferred-install": "dist"
   },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://wpackagist.org"
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "advanced-custom-fields/advanced-custom-fields-pro",
-        "version": "5.8.9",
-        "type": "wordpress-plugin",
-        "dist": {
-          "type": "zip",
-          "url": "https://connect.advancedcustomfields.com/v2/plugins/download?p=pro&k=b3JkZXJfaWQ9OTEzMzJ8dHlwZT1wZXJzb25hbHxkYXRlPTIwMTYtMTAtMDkgMTE6Mzk6MzE="
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "affiliate-wp/affiliate-wp",
-        "version": "2.4.5",
-        "type": "wordpress-plugin",
-        "dist": {
-          "type": "zip",
-          "url": "https://affiliatewp.com/index.php?eddfile=430090%3A17%3A0%3A0&ttl=1584162456&file=0&token=114396935e17a163f6da2e1fb5d9b0f774be43c0b9ff2f62593db88933502ddd"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "wp-rocket/wp-rocket",
-        "version": "3.5.2",
-        "type": "wordpress-plugin",
-        "dist": {
-          "type": "zip",
-          "url": "https://wp-rocket.me/download/71599/4dc0cdc9/"
-        }
-      }
-    }
-  ],
   "require": {
     "php": ">=7.0",
     "composer/installers": "~1.0",
@@ -88,7 +46,6 @@
     "wpackagist-plugin/vaultpress": "2.1.1",
     "wpackagist-plugin/wordpress-seo": "13.5",
     "wpackagist-plugin/wp-postratings": "1.87",
-    "wp-rocket/wp-rocket": "3.5.2",
     "felixarntz/wp-gdpr-cookie-notice": "dev-master",
     "felixarntz/plugin-lib": "dev-master"
   },
