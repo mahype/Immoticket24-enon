@@ -16,7 +16,8 @@ jobs:
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_KEY }}
+        password: ${{ secrets.SSH_PASS }}
+        #key: ${{ secrets.SSH_KEY }}
         script_stop: true
         script: |
           WWW=/www/htdocs/w012900a/production.energieausweis-online-erstellen.de/

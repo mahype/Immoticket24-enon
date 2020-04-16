@@ -343,9 +343,13 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 								'Fenster'                   => 6,
 								'Solarthermie'              => 30,
 							);
-							if ( isset( $modernisierungsempfehlungen[ $parent_index ] ) ) {
-								if ( isset( $mappings[ $modernisierungsempfehlungen[ $parent_index ]['bauteil'] ] ) ) {
-									return $item['options'][ $mappings[ $modernisierungsempfehlungen[ $parent_index ]['bauteil'] ] ];
+
+							if ( array_key_exists( $parent_index, $modernisierungsempfehlungen ) ) {
+								$modernisierungsempfehlung = $modernisierungsempfehlungen[ $parent_index ];
+								$bauteil =  $modernisierungsempfehlung['bauteil' ];
+
+								if ( array_key_exists( $bauteil, $mappings ) ) {
+									return $item['options'][ $mappings[ $bauteil ] ];
 								}
 							}
 

@@ -139,9 +139,14 @@ abstract class Modernizations {
 			return $modernizations;
 		}
 
-		// Remove modernizations which are checked afterwards.
+		// Remove modernizations which are checked afterwards. // Todo: Have to leave
 		$slugs_to_remove = [ 'wand', 'decke', 'boden', 'dach', 'rohrleitungssystem', 'solarthermie', 'heizung', 'fenster' ];
-		$modernizations  = $this->remove_modernizations( $modernizations, $slugs_to_remove );
+		$modernizations_old  = $this->remove_modernizations( $modernizations, $slugs_to_remove );
+
+		$modernizations = array();
+		foreach( $modernizations_old as $modernization_old ) {
+			$modernizations[] = $modernization_old;
+		}
 
 		// Checking for modernizations.
 		if ( $this->needs_heater() && $this->is_recommendation_active( 'heizung', $this->energieausweis ) ) {

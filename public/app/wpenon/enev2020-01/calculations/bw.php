@@ -1297,7 +1297,7 @@ if ( $energieausweis->speicherung ) {
   }
 }
 
-if ( 'unbekannt' === $energieausweis->ww_info  ) {
+if ( 'unbekannt' === $energieausweis->ww_info || empty( $energieausweis->ww_info ) ) {
 	$energieausweis->ww_info = 'h';
 }
 
