@@ -474,7 +474,7 @@ function wpenon_immoticket24_show_ww_energietraeger( $ww_info, $h_erzeugung, $ww
 	return false;
 }
 
-function wpenon_immoticket24_show_ww_baujahr( $ww_info, $ww_erzeugung, $h_erzeugung ) {
+function wpenon_immoticket24_show_ww_fields( $ww_info, $ww_erzeugung, $h_erzeugung ) {
 	$h_energietraeger_shower = array(
 		'oelofenverdampfungsbrenner',
 		'kohleholzofen',
@@ -493,6 +493,14 @@ function wpenon_immoticket24_show_ww_baujahr( $ww_info, $ww_erzeugung, $h_erzeug
 	}
 
 	return false;
+}
+
+function wpenon_immoticket24_show_ww_baujahr( $ww_info, $ww_erzeugung, $h_erzeugung ) {
+	return wpenon_immoticket24_show_ww_fields( $ww_info, $ww_erzeugung, $h_erzeugung );
+}
+
+function wpenon_immoticket24_show_ww_verbrauch( $ww_info, $ww_erzeugung, $h_erzeugung ) {
+	return wpenon_immoticket24_show_ww_fields( $ww_info, $ww_erzeugung, $h_erzeugung );
 }
 
 function wpenon_immoticket24_get_ww_energietraeger_by_erzeugung(
