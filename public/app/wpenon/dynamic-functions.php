@@ -435,7 +435,6 @@ function wpenon_immoticket24_show_ww_erzeugung( $ww_info, $h_erzeugung ) {
 		'gasraumheizer',
 		'elektronachtspeicherheizung',
 		'elektrodirektheizgeraet',
-		'pelletfeuerung',
 	);
 
 	if ( in_array( $h_erzeugung, $h_energietraeger_showers ) ) {
@@ -456,7 +455,6 @@ function wpenon_immoticket24_show_ww_energietraeger( $ww_info, $h_erzeugung, $ww
 		'gasraumheizer',
 		'elektronachtspeicherheizung',
 		'elektrodirektheizgeraet',
-		'pelletfeuerung',
 	);
 
 	if ( $erzeuger_name !== $ww_erzeugung ) {
@@ -481,7 +479,6 @@ function wpenon_immoticket24_show_ww_fields( $ww_info, $ww_erzeugung, $h_erzeugu
 		'gasraumheizer',
 		'elektronachtspeicherheizung',
 		'elektrodirektheizgeraet',
-		'pelletfeuerung',
 	);
 
 	if ( in_array( $h_erzeugung, $h_energietraeger_shower ) ) {
