@@ -886,6 +886,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 			'einzeln'      => true,
 			'amortisation' => '',
 			'kosten'       => '',
+			'dibt_value'   => 'Heizung',
 		),
 		'heizkessel'         => array(
 			'bauteil'      => 'Heizkessel',
@@ -894,6 +895,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 			'einzeln'      => true,
 			'amortisation' => '',
 			'kosten'       => '',
+			'dibt_value'   => 'Heizung',
 		),
 		'rohrleitungssystem' => array(
 			'bauteil'      => 'Rohrleitungssystem',
@@ -902,6 +904,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 			'einzeln'      => true,
 			'amortisation' => '',
 			'kosten'       => '',
+			'dibt_value'   => 'Wärmeverteilung / -abgabe',
 		),
 		'dach'               => array(
 			'bauteil'      => 'Dach',
@@ -910,6 +913,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 			'einzeln'      => true,
 			'amortisation' => '',
 			'kosten'       => '',
+			'dibt_value'   => 'Dach',
 		),
 		'decke'              => array(
 			'bauteil'      => 'Oberste Geschossdecke',
@@ -918,6 +922,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 			'einzeln'      => true,
 			'amortisation' => '',
 			'kosten'       => '',
+			'dibt_value'   => 'Sonstiges',
 		),
 		'wand'               => array(
 			'bauteil'      => 'Wände',
@@ -926,6 +931,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 			'einzeln'      => true,
 			'amortisation' => '',
 			'kosten'       => '',
+			'dibt_value'   => 'Außenwand gg. Erdreich',
 		),
 		'boden'              => array(
 			'bauteil'      => 'Kellerdecke',
@@ -934,6 +940,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 			'einzeln'      => true,
 			'amortisation' => '',
 			'kosten'       => '',
+			'dibt_value'   => 'Kellerdecke',
 		),
 		'fenster'            => array(
 			'bauteil'      => 'Fenster',
@@ -942,6 +949,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 			'einzeln'      => true,
 			'amortisation' => '',
 			'kosten'       => '',
+			'dibt_value'   => 'Fenster',
 		),
 		'solarthermie'       => array(
 			'bauteil'      => 'Solarthermie',
@@ -950,6 +958,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 			'einzeln'      => true,
 			'amortisation' => '',
 			'kosten'       => '',
+			'dibt_value'   => 'Sonstiges',
 		),
 	);
 
