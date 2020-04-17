@@ -89,7 +89,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
-				'dibt_value'   => 'Sonstiges',
+				'dibt_value'   => 'oberste Geschossdecke',
 			),
 			'wand'               => array(
 				'bauteil'      => 'Wände',
