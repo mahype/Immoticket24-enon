@@ -71,7 +71,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
-				'dibt_value'   => 'Sonstiges',
+				'dibt_value'   => 'Wärmeverteilung / -abgabe',
 			),
 			'dach'               => array(
 				'bauteil'      => 'Dach',
@@ -98,7 +98,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
-				'dibt_value'   => 'Sonstiges',
+				'dibt_value'   => 'Außenwand gg. Erdreich',
 			),
 			'boden'              => array(
 				'bauteil'      => 'Kellerdecke',
@@ -107,7 +107,7 @@ abstract class Modernizations {
 				'einzeln'      => true,
 				'amortisation' => '',
 				'kosten'       => '',
-				'dibt_value'   => 'Sonstiges',
+				'dibt_value'   => 'Kellerdecke',
 			),
 			'fenster'            => array(
 				'bauteil'      => 'Fenster',
