@@ -174,10 +174,10 @@ jQuery( document ).ready( function ( $ ) {
 						var imageWrapper = document.querySelector('.thumbnail-wrapper');
 						imageWrapper.innerHTML = "";
 
-						var divImg = document.createElement('div');
-						divImg.setAttribute("style", "background: url(" + image.path + ") no-repeat center center;background-size: cover;height: 250px;");
+						var img = document.createElement('img');
+						img.setAttribute("src", image.path);
 
-						imageWrapper.appendChild(divImg);
+						imageWrapper.appendChild(img);
 					}
 				}
 
