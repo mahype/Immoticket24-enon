@@ -100,6 +100,8 @@ class EDDAdjustments {
 
 		add_action( 'widgets_init', array( $this, '_unregisterMemoryLimitErrorWidget' ), 20 );
 
+		add_shortcode( 'edd_empty_cart', array( $this, 'empty_cart_shortcode' ) );
+
 		// EDD Fixes (fees cannot include taxes in EDD Core)
 		if ( function_exists( 'edd_prices_include_tax' ) && edd_prices_include_tax() ) {
 			add_filter( 'edd_get_payment_subtotal', array( $this, 'eddfix_get_payment_subtotal' ), 10, 3 );
@@ -164,6 +166,10 @@ class EDDAdjustments {
 		}
 
 		return $tax;
+	}
+
+	public function empty_cart_shortcode() {
+		edd_empty_cart();
 	}
 
 	public function eddfix_process_paypal_purchase( $purchase_data ) {
