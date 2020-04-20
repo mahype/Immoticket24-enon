@@ -247,6 +247,10 @@ class Frontend {
 				}
 			}
 		} else {
+			if(empty($_POST['wpenon_thumbnail_upload']) && filter_var($_POST['wpenon_thumbnail_upload'], FILTER_VALIDATE_BOOLEAN)) {
+				return;
+			}
+
 			# handel ajax thumb upload
 			$tmpImageID = \WPENON\Util\ThumbnailHandler::upload( 'wpenon_thumbnail_file' );
 			$responseJson = json_encode([
