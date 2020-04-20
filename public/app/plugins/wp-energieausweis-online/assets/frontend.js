@@ -161,6 +161,7 @@ jQuery( document ).ready( function ( $ ) {
 		self.energieausweis_id =_wpenon_data.energieausweis_id;
 		self.parentElem = document.querySelector('#wpenon-thumbnail-form');
 		self.imageWrapper = document.querySelector('.thumbnail-wrapper');
+		self.imageButtons = self.parentElem.querySelector('.image-buttons');
 
 		self.formData = new FormData(this);
 			self.formData.append('wpenon_thumbnail_upload', self.upload);
@@ -183,6 +184,15 @@ jQuery( document ).ready( function ( $ ) {
 				img.setAttribute("src", image.path);
 
 				self.imageWrapper.appendChild(img);
+
+
+				var button = document.createElement('button');
+				button.setAttribute('type', 'submit');
+				button.setAttribute('name', 'wpenon_thumbnail_delete');
+				button.setAttribute('class', 'btn btn-danger btn-xs');
+				button.innerHTML = 'Bild löschen';
+
+				self.imageButtons.appendChild(button);
 			}
 		};
 
@@ -202,8 +212,7 @@ jQuery( document ).ready( function ( $ ) {
 			self.imageWrapper.appendChild(span);
 
 			var delBtn = self.querySelector('.btn-danger');
-
-			self.removeChild(delBtn);
+			self.imageButtons.removeChild(delBtn);
 		};
 
 		self.errorMsg = function(responseText) {
@@ -227,7 +236,6 @@ jQuery( document ).ready( function ( $ ) {
 				}
 
 				$("body").trigger("wpenon_ajax_end");
-
 			} else {
 				self.errorMsg(xhr.responseText)
 			}
