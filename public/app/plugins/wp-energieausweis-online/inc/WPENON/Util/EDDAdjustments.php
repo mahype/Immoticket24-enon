@@ -326,9 +326,6 @@ class EDDAdjustments {
 			// Fix for some sites that encode the entities
 			$paypal_redirect = str_replace( '&amp;', '&', $paypal_redirect );
 
-			// Get rid of cart contents
-			edd_empty_cart();
-
 			// Redirect to PayPal
 			wp_redirect( $paypal_redirect );
 			exit;
