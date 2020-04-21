@@ -163,6 +163,10 @@ jQuery( document ).ready( function ( $ ) {
 		self.imageWrapper = document.querySelector('.thumbnail-wrapper');
 		self.imageButtons = self.parentElem.querySelector('.image-buttons');
 
+		if(self.removeUpload && !confirm('Soll das Bild wirklich gelöscht werden?')){
+			return;
+		}
+
 		self.formData = new FormData(this);
 			self.formData.append('wpenon_thumbnail_upload', self.upload);
 			self.formData.append('wpenon_thumbnail_delete', self.removeUpload);
