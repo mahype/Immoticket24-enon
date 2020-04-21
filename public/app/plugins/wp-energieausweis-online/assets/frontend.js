@@ -163,7 +163,7 @@ jQuery( document ).ready( function ( $ ) {
 		self.imageWrapper = document.querySelector('.thumbnail-wrapper');
 		self.imageButtons = self.parentElem.querySelector('.image-buttons');
 		self.delBtn = self.imageButtons.querySelector('.btn-danger');
-		self.percentSpan = self.imageButtons.querySelector('span');
+		self.percentSpan = self.imageButtons.querySelector('small');
 
 		if(self.removeUpload && !confirm('Soll das Bild wirklich gelöscht werden?')){
 			return;
@@ -201,7 +201,7 @@ jQuery( document ).ready( function ( $ ) {
 				button.innerHTML = 'Bild löschen';
 
 
-				var percentSpan = self.imageButtons.querySelector('span');
+				var percentSpan = self.imageButtons.querySelector('small');
 				self.imageButtons.removeChild(percentSpan);
 
 				self.imageButtons.appendChild(button);
@@ -254,13 +254,12 @@ jQuery( document ).ready( function ( $ ) {
 		};
 
 		if(self.submitter === 'wpenon_thumbnail_upload') {
-			self.imageButtons.appendChild( document.createElement('span') );
-			self.percentSpan = self.imageButtons.querySelector('span');
-			self.percentSpan.classList.add('input-lg');
+			self.imageButtons.appendChild( document.createElement('small') );
+			self.percentSpan = self.imageButtons.querySelector('small');
 
 			xhr.upload.onprogress = function( e ) {
 				var percentUpload = Math.floor( 100 * e.loaded / e.total );
-				self.percentSpan.innerHTML = ' Bildupload ' + percentUpload + '% - <br />Verarbeite Bilddaten ...';
+				self.percentSpan.innerHTML = '&nbsp;&nbsp;Verarbeite Bilddaten ...';
 			};
 		}
 
