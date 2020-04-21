@@ -155,7 +155,7 @@ jQuery( document ).ready( function ( $ ) {
 		e.preventDefault();
 
 		var self = this;
-		self.submitter = e.originalEvent.submitter.name;
+		self.submitter = document.activeElement.name;
 		self.upload = self.submitter == 'wpenon_thumbnail_upload';
 		self.removeUpload = self.submitter == 'wpenon_thumbnail_delete';
 		self.energieausweis_id =_wpenon_data.energieausweis_id;
@@ -163,7 +163,7 @@ jQuery( document ).ready( function ( $ ) {
 		self.imageWrapper = document.querySelector('.thumbnail-wrapper');
 		self.imageButtons = self.parentElem.querySelector('.image-buttons');
 		self.delBtn = self.imageButtons.querySelector('.btn-danger');
-		self.percentSpan = self.imageButtons.querySelector('p');
+		self.percentSpan = self.imageButtons.querySelector('span');
 
 		if(self.removeUpload && !confirm('Soll das Bild wirklich gelöscht werden?')){
 			return;
@@ -201,7 +201,7 @@ jQuery( document ).ready( function ( $ ) {
 				button.innerHTML = 'Bild löschen';
 
 
-				var percentSpan = self.imageButtons.querySelector('p');
+				var percentSpan = self.imageButtons.querySelector('span');
 				self.imageButtons.removeChild(percentSpan);
 
 				self.imageButtons.appendChild(button);
@@ -254,13 +254,13 @@ jQuery( document ).ready( function ( $ ) {
 		};
 
 		if(self.submitter === 'wpenon_thumbnail_upload') {
-			self.imageButtons.appendChild( document.createElement('p') );
-			self.percentSpan = self.imageButtons.querySelector('p');
+			self.imageButtons.appendChild( document.createElement('span') );
+			self.percentSpan = self.imageButtons.querySelector('span');
 			self.percentSpan.classList.add('input-lg');
 
 			xhr.upload.onprogress = function( e ) {
 				var percentUpload = Math.floor( 100 * e.loaded / e.total );
-				self.percentSpan.innerHTML = ' Bildupload ' + percentUpload + '% - Verarbeite Bilddaten ...';
+				self.percentSpan.innerHTML = ' Bildupload ' + percentUpload + '% - <br />Verarbeite Bilddaten ...';
 			};
 		}
 
