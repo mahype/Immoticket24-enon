@@ -162,9 +162,13 @@ jQuery( document ).ready( function ( $ ) {
 		self.parentElem = document.querySelector('#wpenon-thumbnail-form');
 		self.imageWrapper = document.querySelector('.thumbnail-wrapper');
 		self.imageButtons = self.parentElem.querySelector('.image-buttons');
+		self.delBtn = self.imageButtons.querySelector('.btn-danger');
+		self.percentSpan = self.imageButtons.querySelector('p');
 
 		if(self.removeUpload && !confirm('Soll das Bild wirklich gelöscht werden?')){
 			return;
+		}else if(self.upload && self.delBtn){
+			self.imageButtons.removeChild(self.delBtn);
 		}
 
 		self.formData = new FormData(this);
@@ -195,6 +199,10 @@ jQuery( document ).ready( function ( $ ) {
 				button.setAttribute('name', 'wpenon_thumbnail_delete');
 				button.setAttribute('class', 'btn btn-danger btn-xs');
 				button.innerHTML = 'Bild löschen';
+
+
+				var percentSpan = self.imageButtons.querySelector('p');
+				self.imageButtons.removeChild(percentSpan);
 
 				self.imageButtons.appendChild(button);
 			}
@@ -246,9 +254,13 @@ jQuery( document ).ready( function ( $ ) {
 		};
 
 		if(self.submitter === 'wpenon_thumbnail_upload') {
+			self.imageButtons.appendChild( document.createElement('p') );
+			self.percentSpan = self.imageButtons.querySelector('p');
+			self.percentSpan.classList.add('input-lg');
+
 			xhr.upload.onprogress = function( e ) {
 				var percentUpload = Math.floor( 100 * e.loaded / e.total );
-				console.log( percentUpload );
+				self.percentSpan.innerHTML = ' Bildupload ' + percentUpload + '% - Verarbeite Bilddaten ...';
 			};
 		}
 
