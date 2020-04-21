@@ -227,7 +227,8 @@ function immoticketenergieausweis_payment_icons() {
       check_active();
 
       $( 'input[name="payment-mode"]' ).on( 'change', function( e ) {
-        check_active();
+	     $(document).trigger('wpenon.update_payment_method', [$active_tab_content.index()]);
+         check_active();
       });
 
       $( document ).on( 'click', '.immoticket24-payment-buttons button', function( e ) {
