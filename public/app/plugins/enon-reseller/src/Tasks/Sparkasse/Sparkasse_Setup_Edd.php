@@ -66,7 +66,6 @@ class Sparkasse_Setup_Edd extends Sparkasse_Frontend_Task implements Actions, Fi
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'wpenon_custom_fees', array( $this, 'setup_custom_fees' ) );
 	}
 
 	/**
@@ -77,26 +76,6 @@ class Sparkasse_Setup_Edd extends Sparkasse_Frontend_Task implements Actions, Fi
 	public function add_actions() {
 		remove_action( 'edd_checkout_form_top', 'edd_discount_field', - 1 );
 		add_action( 'edd_checkout_form_top', array( $this, 'edd_discount_field' ), - 1 );
-	}
-
-	/**
-	 * Remove premium bewertung.
-	 *
-	 * @param array $fees Fees.
-	 *
-	 * @return array Filtered fees.
-	 *
-	 * @since 1.0.0
-	 */
-	public function setup_custom_fees( $fees ) {
-		foreach ( $fees as $index => $fee ) {
-			if ( 'premium_bewertung' === $fee['id'] ) {
-				unset( $fees[ $index ] );
-				break;
-			}
-		}
-
-		return $fees;
 	}
 
 	/**

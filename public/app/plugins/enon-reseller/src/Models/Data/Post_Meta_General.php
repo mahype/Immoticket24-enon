@@ -103,6 +103,17 @@ class Post_Meta_General extends Post_Meta {
 	}
 
 	/**
+	 * Get custom fees.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return mixed
+	 */
+	public function get_custom_fees() {
+		return $this->get( 'custom_fees' );
+	}
+
+	/**
 	 * Get afiliate id.
 	 *
 	 * @since 1.0.0

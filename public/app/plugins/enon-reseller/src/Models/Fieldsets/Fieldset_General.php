@@ -91,6 +91,24 @@ class Fieldset_General implements Fieldset {
 				'required'     => 0,
 			),
 			array(
+				'key'          => 'field_custom_fees',
+				'label'        => __( 'Zusätzliche Leistungen', 'enon' ),
+				'name'         => 'custom_fees',
+				'type'         => 'checkbox',
+				'choices' => array(
+					'energieausweis_besprechung' => 'Energieausweis Besprechung',
+					'experten_check' => 'Experten Check',
+					'sendung_per_post' => 'Sendung per Post',
+					'kostenlose_korrektur' => 'Kostenlose Korrektur',
+					'premium_bewertung' => 'Premium Bewertung',
+				),
+				'default_value' => array(
+					0 => 'premium_bewertung',
+				),
+				'instructions' => __( 'Zusätzliche Leistungen des Resellers.', 'enon' ),
+				'required'     => 0,
+			),
+			array(
 				'key'           => 'field_token',
 				'label'         => __( 'Token', 'enon' ),
 				'name'          => 'token',
