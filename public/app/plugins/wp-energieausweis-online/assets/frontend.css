@@ -5,6 +5,9 @@
   display: none;
   color: #ffffff;
 }
+.wpenon-wrapper #wpenon-thumbnail-form p {
+  font-size: 87%;
+}
 .wpenon-wrapper .form-group {
   clear: both;
 }

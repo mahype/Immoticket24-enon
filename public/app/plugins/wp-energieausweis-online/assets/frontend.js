@@ -1,5 +1,4 @@
 jQuery( document ).ready( function ( $ ) {
-
 	$( 'body' ).prepend( '<div id="wpenon-preloader-overlay" class="wpenon-preloader-overlay"><div class="wpenon-preloader"></div></div>' );
 
 	$( 'body' ).on( 'wpenon_ajax_start', function () {
@@ -148,5 +147,132 @@ jQuery( document ).ready( function ( $ ) {
 			}
 		});
 	}
+
+	/**
+	 * Image upload
+	 **/
+	$('#wpenon-thumbnail-form').on('submit',(function(e) {
+		e.preventDefault();
+
+		var self = this;
+		self.submitter = document.activeElement.name;
+		self.upload = self.submitter == 'wpenon_thumbnail_upload';
+		self.removeUpload = self.submitter == 'wpenon_thumbnail_delete';
+		self.energieausweis_id =_wpenon_data.energieausweis_id;
+		self.parentElem = document.querySelector('#wpenon-thumbnail-form');
+		self.imageWrapper = document.querySelector('.thumbnail-wrapper');
+		self.imageButtons = self.parentElem.querySelector('.image-buttons');
+		self.delBtn = self.imageButtons.querySelector('.btn-danger');
+		self.percentSpan = self.imageButtons.querySelector('small');
+
+		if(self.removeUpload && !confirm('Soll das Bild wirklich gelöscht werden?')){
+			return;
+		}else if(self.upload && self.delBtn){
+			self.imageButtons.removeChild(self.delBtn);
+		}
+
+		self.formData = new FormData(this);
+			self.formData.append('wpenon_thumbnail_upload', self.upload);
+			self.formData.append('wpenon_thumbnail_delete', self.removeUpload);
+			self.formData.append('energieausweis_id', self.energieausweis_id);
+
+		self.updatePreview = function(response, isUpload){
+			var self = this;
+
+			if(!isUpload){
+				return;
+			}
+
+			var image = response.tmpImage;
+
+			if(image) {
+				self.imageWrapper.innerHTML = "";
+
+				var img = document.createElement('img');
+				img.setAttribute("src", image.path);
+
+				self.imageWrapper.appendChild(img);
+
+
+				var button = document.createElement('button');
+				button.setAttribute('type', 'submit');
+				button.setAttribute('name', 'wpenon_thumbnail_delete');
+				button.setAttribute('class', 'btn btn-danger btn-xs');
+				button.innerHTML = 'Bild löschen';
+
+
+				var percentSpan = self.imageButtons.querySelector('small');
+				self.imageButtons.removeChild(percentSpan);
+
+				self.imageButtons.appendChild(button);
+			}
+		};
+
+		self.deleteAttachment = function(response, removeUpload){
+			var self = this;
+
+			if(!removeUpload){
+				return;
+			}
+
+			self.imageWrapper.innerHTML = "";
+
+			var uploadBtn = self.querySelector("input[name='wpenon_thumbnail_file']");
+			uploadBtn.value = '';
+
+			var span = document.createElement('span');
+			span.classList.add('glyphicon');
+			span.classList.add('glyphicon-picture');
+
+			self.imageWrapper.appendChild(span);
+
+			var delBtn = self.querySelector('.btn-danger');
+			self.imageButtons.removeChild(delBtn);
+		};
+
+		self.errorMsg = function(responseText) {
+			var div = document.createElement('div');
+			div.innerHTML = "Fehler beim Upload " + responseText;
+			div.classList.add('error');
+			self.parentElem.appendChild(div);
+		};
+
+		var xhr = new XMLHttpRequest();
+
+		xhr.open('POST', this.action, true);
+
+		xhr.onload = function () {
+			if (xhr.status === 200) {
+				var response = JSON.parse(xhr.responseText);
+
+				if(!response.error){
+					self.updatePreview(response, self.upload);
+					self.deleteAttachment(response, self.removeUpload);
+				}
+
+				$("body").trigger("wpenon_ajax_end");
+			} else {
+				self.errorMsg(xhr.responseText)
+			}
+		};
+
+		if(self.submitter === 'wpenon_thumbnail_upload') {
+			self.imageButtons.appendChild( document.createElement('small') );
+			self.percentSpan = self.imageButtons.querySelector('small');
+
+			xhr.upload.onprogress = function( e ) {
+				var percentUpload = Math.floor( 100 * e.loaded / e.total );
+				self.percentSpan.innerHTML = '<br />Verarbeite Bilddaten ...';
+			};
+		}
+
+		$("body").trigger("wpenon_ajax_start");
+
+		xhr.send(self.formData);
+	}));
+
+	$("#wpenon_thumbnail_file").on("change", function() {
+		$("#imageUploadForm").submit();
+	});
 
 });

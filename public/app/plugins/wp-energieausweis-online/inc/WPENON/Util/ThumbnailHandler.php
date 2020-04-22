@@ -97,8 +97,14 @@ class ThumbnailHandler {
 				require_once( ABSPATH . '/wp-admin/includes/media.php' );
 			}
 
+
+			if(!empty($_POST['energieausweis_id'])){
+				array( 'error' => __( 'Energieausweis-ID fehlt', 'wpenon' ) );
+			}
+
 			$post_array = array(
 				'post_title'  => __( 'Temporäres Energieausweis-Bild', 'wpenon' ),
+				'post_name'  => "temporaeres-energieausweis-bild-" . $_POST['energieausweis_id'],
 				'post_status' => 'wpenon-thumbnail',
 			);
 
@@ -121,6 +127,8 @@ class ThumbnailHandler {
 				return array( 'error' => __( 'Beim Upload ist ein unbekannter Fehler aufgetreten.', 'wpenon' ) );
 			}
 
+
+			set_post_thumbnail(get_post($_POST['energieausweis_id']), $id);
 			return $id;
 		}
 
