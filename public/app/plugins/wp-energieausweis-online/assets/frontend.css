@@ -64,6 +64,9 @@
 .wpenon-wrapper .overview-meta .lead {
   margin-bottom: 0;
 }
+.wpenon-wrapper .overview-meta .form-group.is-done .is-done-checkmark {
+  display: none;
+}
 .wpenon-wrapper .fix-entries-button {
   float: right;
 }

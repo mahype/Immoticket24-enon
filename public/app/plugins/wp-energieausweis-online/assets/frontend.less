@@ -82,8 +82,17 @@
     margin-left: 10px;
   }
 
-  .overview-meta .lead {
-    margin-bottom: 0;
+  .overview-meta {
+	  .lead {
+		  margin-bottom: 0;
+	  }
+	  .form-group{
+		  &.is-done {
+			  .is-done-checkmark {
+				  display: none;
+			  }
+		  }
+	  }
   }
 
   .fix-entries-button {
