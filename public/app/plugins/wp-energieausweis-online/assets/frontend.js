@@ -217,6 +217,9 @@ jQuery( document ).ready( function ( $ ) {
 
 			self.imageWrapper.innerHTML = "";
 
+			var uploadBtn = self.querySelector("input[name='wpenon_thumbnail_file']");
+			uploadBtn.value = '';
+
 			var span = document.createElement('span');
 			span.classList.add('glyphicon');
 			span.classList.add('glyphicon-picture');
@@ -259,7 +262,7 @@ jQuery( document ).ready( function ( $ ) {
 
 			xhr.upload.onprogress = function( e ) {
 				var percentUpload = Math.floor( 100 * e.loaded / e.total );
-				self.percentSpan.innerHTML = '&nbsp;&nbsp;Verarbeite Bilddaten ...';
+				self.percentSpan.innerHTML = '<br />Verarbeite Bilddaten ...';
 			};
 		}
 
