@@ -103,7 +103,11 @@ class Fieldset_General implements Fieldset {
 					'premium_bewertung' => 'Premium Bewertung',
 				),
 				'default_value' => array(
-					0 => 'premium_bewertung',
+					0 => 'energieausweis_besprechung',
+					1 => 'experten_check',
+					2 => 'sendung_per_post',
+					3 => 'kostenlose_korrektur',
+					4 => 'premium_bewertung',
 				),
 				'instructions' => __( 'Zusätzliche Leistungen des Resellers.', 'enon' ),
 				'required'     => 0,
