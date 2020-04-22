@@ -67,6 +67,9 @@
 .wpenon-wrapper .overview-meta .form-group.is-done .is-done-checkmark {
   display: none;
 }
+.wpenon-wrapper .overview-meta .form-group .label-info {
+  display: none;
+}
 .wpenon-wrapper .fix-entries-button {
   float: right;
 }
