@@ -172,8 +172,6 @@ jQuery( document ).ready( function ( $ ) {
 	wtf_thumb.trigger.del = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_delete"]');
 	wtf_thumb.trigger.parenntNode = wtf_thumb.form.querySelector('.image-buttons');
 
-	wtf_thumb.form.percentSpan = wtf_thumb.trigger.parenntNode.querySelector('small');
-
 	wtf_thumb.preview = document.querySelector('.thumbnail-wrapper');
 
 	/**
@@ -184,6 +182,8 @@ jQuery( document ).ready( function ( $ ) {
 	 * @property {function} upload
 	 * @property {function} remove
 	 * @property {function} updatePreview
+	 * @property {function} getFormData
+	 * @property {function} appendMsg
 	 * @property {function} xhr
 	 */
 	wtf_thumb.functions = function(){};
@@ -194,45 +194,62 @@ jQuery( document ).ready( function ( $ ) {
 	 * @namespace wtf_thumb.functions.addEvents
 	 */
 	wtf_thumb.functions.prototype.addEvents = function(){
-		wtf_thumb.functions.prototype.appendFormData();
-
 		for (let [trigger, node] of Object.entries(wtf_thumb.trigger)) {
-			node.addEventListener('click', function(e) {
-				e.preventDefault();
+			if(node) {
+				node.addEventListener( 'click', function( e ) {
+					e.preventDefault();
 
-				switch (trigger) {
-					case "upload":
-						wtf_thumb.functions.prototype.upload();
-						break;
-					case "del":
-						wtf_thumb.functions.prototype.remove();
-						break;
-				}
+					switch ( trigger ) {
+						case "upload":
+							wtf_thumb.functions.prototype.upload();
+							break;
+						case "del":
+							wtf_thumb.functions.prototype.remove();
+							break;
+					}
 
-				console.log(node,trigger);
-			});
+					console.log( node, trigger );
+				} );
+			}
 		}
 	};
 
 	/**
 	 * Handel the thumb upload
 	 * @namespace wtf_thumb.functions.uplad
+	 * @param {bool} isXhrResponse
 	 */
-	wtf_thumb.functions.prototype.upload = function() {
-		if(wtf_thumb.trigger.del) {
-			wtf_thumb.trigger.parenntNode.removeChild( wtf_thumb.trigger.del );
+	wtf_thumb.functions.prototype.upload = function(isXhrResponse) {
+		var isXhrCallback = isXhrResponse ? isXhrResponse : false;
+
+		if(!isXhrCallback){
+			if(wtf_thumb.trigger.del) {
+				wtf_thumb.trigger.parenntNode.removeChild( wtf_thumb.trigger.del );
+			}
+
+			wtf_thumb.functions.prototype.xhr('upload');
+			return;
 		}
 
-		var xhrResponse = wtf_thumb.functions.prototype.xhr();
-		wtf_thumb.functions.prototype.updatePreview(xhrResponse, 'restorePrev');
+
 	};
 
 	/**
 	 * Handel the thumb delete
 	 * @namespace wtf_thumb.functions.remove
+	 * @param {bool} isXhrResponse
+	 * @param {Object} xhrResponse
 	 */
-	wtf_thumb.functions.prototype.remove = function() {
-		if(!confirm('Soll das Bild wirklich gelöscht werden?')){
+	wtf_thumb.functions.prototype.remove = function(isXhrResponse, xhrResponse ) {
+		var isXhrCallback = isXhrResponse ? isXhrResponse : false;
+		var response = xhrResponse ? xhrResponse : null;
+
+		if(!isXhrCallback && !confirm('Soll das Bild wirklich gelöscht werden?')){
+			return;
+		}
+
+		if(!isXhrCallback){
+			wtf_thumb.functions.prototype.xhr('remove');
 			return;
 		}
 
@@ -240,14 +257,13 @@ jQuery( document ).ready( function ( $ ) {
 		wtf_thumb.trigger.del.value = '';
 
 		var span = document.createElement('span');
-		span.classList.add('glyphicon');
-		span.classList.add('glyphicon-picture');
+			span.classList.add('glyphicon');
+			span.classList.add('glyphicon-picture');
 
-		self.imageWrapper.appendChild(span);
+		wtf_thumb.preview.appendChild(span);
 		wtf_thumb.trigger.parenntNode.removeChild(wtf_thumb.trigger.del);
 
-		var xhrResponse = wtf_thumb.functions.prototype.xhr();
-		wtf_thumb.functions.prototype.updatePreview(xhrResponse, 'restorePrev');
+		wtf_thumb.functions.prototype.updatePreview(response, 'restorePrev');
 	};
 
 	/**
@@ -257,112 +273,131 @@ jQuery( document ).ready( function ( $ ) {
 	 * @param {xhr} response
 	 * @param {string} action - addTumbnail || restorePrev
 	 */
-	wtf_thumb.functions.prototype.updatePreview = function(response, action) {
-		var image = response.tmpImage;
+	wtf_thumb.functions.prototype.updatePreview = function( response, action ) {
+		var thumbnailParent = document.querySelector( '.thumbnail-wrapper' );
+		thumbnailParent.innerHTML = "";
 
-		if(image) {
-			var thumbnailParent = document.querySelector('thumbnail-wrapper');
-			thumbnailParent.innerHTML = "";
+		if ( action === 'addTumbnail' ) {
+			var image = response.tmpImage;
 
-			if(action === 'addTumbnail'){
-				var img = document.createElement('img');
-				img.setAttribute("src", image.path);
+			if ( image ) {
+				var img = document.createElement( 'img' );
+				img.setAttribute( "src", image.path );
 
-				thumbnailParent.appendChild(img);
+				thumbnailParent.appendChild( img );
 
-				var button = document.createElement('button');
-				button.setAttribute('type', 'submit');
-				button.setAttribute('name', 'wpenon_thumbnail_delete');
-				button.setAttribute('class', 'btn btn-danger btn-xs');
+				var button = document.createElement( 'button' );
+				button.setAttribute( 'type', 'submit' );
+				button.setAttribute( 'name', 'wpenon_thumbnail_delete' );
+				button.setAttribute( 'class', 'btn btn-danger btn-xs' );
 				button.innerHTML = 'Bild löschen';
 
-				var percentSpan = wtf_thumb.trigger.parenntNode.querySelector('small');
+				var percentSpan = wtf_thumb.trigger.parenntNode.querySelector( 'span' );
 
-				thumbnailParent.removeChild(percentSpan);
-				wtf_thumb.trigger.parenntNode.appendChild(button);
+				thumbnailParent.removeChild( percentSpan );
+				wtf_thumb.trigger.parenntNode.appendChild( button );
 
 				wtf_thumb.functions.prototype.addEvents();
-
-			}else if(action === 'restorePrev'){
-				var span = document.createElement('span');
-					span.classList.add('glyphicon');
-					span.classList.add('glyphicon-picture');
-
-				thumbnailParent.appendChild(span);
-
-				var delBtn = self.querySelector('.btn-danger');
-				self.imageButtons.removeChild(delBtn);
 			}
+
+		} else if ( action === 'restorePrev' ) {
+			var span = document.createElement( 'span' );
+			span.classList.add( 'glyphicon' );
+			span.classList.add( 'glyphicon-picture' );
+
+			thumbnailParent.appendChild( span );
+
+			var delBtn = self.querySelector( '.btn-danger' );
+			wtf_thumb.trigger.parenntNode.removeChild( delBtn );
 		}
 	};
 
 	/**
 	 * Preparation: create Form object and append data
-	 * @namespace wtf_thumb.functions.appendFormData
+	 * @namespace wtf_thumb.functions.getFormData
+	 * @param {string} action
 	 */
-	wtf_thumb.functions.prototype.appendFormData = function() {
-		wtf_thumb.form.data = new FormData(wtf_thumb.form);
-		wtf_thumb.form.data.append('wpenon_thumbnail_upload', wtf_thumb.trigger.upload);
-		wtf_thumb.form.data.append('wpenon_thumbnail_delete', wtf_thumb.trigger.del);
-		wtf_thumb.form.data.append('energieausweis_id', wtf_thumb.energieausweis_id);
+	wtf_thumb.functions.prototype.getFormData = function(action) {
+		var submitter = {};
+		submitter.upload = action === 'upload';
+		submitter.remove = action === 'remove';
+
+		form_data = new FormData(wtf_thumb.form);
+		form_data.append('wpenon_thumbnail_upload', submitter.upload);
+		form_data.append('wpenon_thumbnail_delete', submitter.remove);
+		form_data.append('energieausweis_id', wtf_thumb.energieausweis_id);
+
+		return form_data;
+	};
+
+	/**
+	 * Create a msg node and append this to the form
+	 * @namespace wtf_thumb.functions.appendMsg
+	 * @param {string} msg
+	 */
+	wtf_thumb.functions.prototype.appendMsg = function(msg) {
+		var div = document.createElement('div');
+			div.innerHTML = msg;
+			div.classList.add('error');
+
+		wtf_thumb.trigger.parenntNode.appendChild(div);
 	};
 
 	/**
 	 * Send xhr
 	 * @namespace wtf_thumb.functions.xhr
+	 * @param {string} action
 	 */
-	wtf_thumb.functions.prototype.xhr = function() {
-		console.log('xhr');
-		return {};
+	wtf_thumb.functions.prototype.xhr = function(action) {
+		var self = this;
+			self.action = action;
+
+		var infoNode = document.createElement('span');
+		infoNode.setAttribute('style', 'float:right');
+		infoNode.classList.add('wpenon-preloader');
+
+		wtf_thumb.trigger.parenntNode.appendChild( infoNode );
+		self.percentSpan = wtf_thumb.trigger.parenntNode.querySelector('span');
+
+		var xhr = new XMLHttpRequest();
+			xhr.open('POST', wtf_thumb.form.action, true);
+
+			xhr.onload = function () {
+				if (xhr.status === 200) {
+					var response = JSON.parse(xhr.responseText);
+
+					if(!response.error){
+						switch (self.action) {
+							case "upload":
+								wtf_thumb.functions.prototype.upload(true, response);
+								wtf_thumb.functions.prototype.updatePreview(response, 'addTumbnail');
+								$("body").trigger("wpenon_ajax_end");
+								break;
+							case "remove":
+								wtf_thumb.functions.prototype.remove(true, response);
+								$("body").trigger("wpenon_ajax_end");
+								break;
+						}
+					}
+
+
+				} else {
+					wtf_thumb.functions.appendMsg(xhr.responseText);
+				}
+			};
+
+			xhr.upload.onprogress = function( /* event */ ) {
+				if(self.percentSpan){
+					//var percentUpload = Math.floor( 100 * event.loaded / event.total );
+					self.percentSpan.innerHTML = '<br />Verarbeite Bilddaten ...';
+				}
+			};
+
+			$("body").trigger("wpenon_ajax_start");
+
+			xhr.send(wtf_thumb.functions.prototype.getFormData(action));
 	};
 
 	wtf_thumb.functions.prototype.addEvents();
-
-	console.log(wtf_thumb);
-/*
-		self.errorMsg = function(responseText) {
-			var div = document.createElement('div');
-			div.innerHTML = "Fehler beim Upload " + responseText;
-			div.classList.add('error');
-			self.parentElem.appendChild(div);
-		};
-
-		var xhr = new XMLHttpRequest();
-
-		xhr.open('POST', this.action, true);
-
-		xhr.onload = function () {
-			if (xhr.status === 200) {
-				var response = JSON.parse(xhr.responseText);
-
-				if(!response.error){
-					self.updatePreview(response, self.upload);
-					self.deleteAttachment(response, self.removeUpload);
-				}
-
-				$("body").trigger("wpenon_ajax_end");
-			} else {
-				self.errorMsg(xhr.responseText)
-			}
-		};
-
-		if(self.upload) {
-			self.imageButtons.appendChild( document.createElement('small') );
-			self.percentSpan = self.imageButtons.querySelector('small');
-
-			xhr.upload.onprogress = function( e ) {
-				var percentUpload = Math.floor( 100 * e.loaded / e.total );
-				self.percentSpan.innerHTML = '<br />Verarbeite Bilddaten ...';
-			};
-		}
-
-		$("body").trigger("wpenon_ajax_start");
-
-		xhr.send(self.formData);
-
-	$("#wpenon_thumbnail_file").on("change", function() {
-		$("#imageUploadForm").submit();
-	});
-*/
 
 });

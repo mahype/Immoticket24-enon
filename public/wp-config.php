@@ -32,16 +32,16 @@ if ( ! defined( 'WP_ENV' ) ) {
  * This login data is required to access the WordPress database. Keep them a secret!
  **=================================================================================*/
 if ( ! defined( 'DB_NAME' ) ) {
-	define( 'DB_NAME', 'd01c4312' );
+	define( 'DB_NAME', 'd01c4312');
 }
 if ( ! defined( 'DB_USER' ) ) {
-	define( 'DB_USER', 'd01c4312' );
+	define( 'DB_USER', 'd01c4312');
 }
 if ( ! defined( 'DB_PASSWORD' ) ) {
-	define( 'DB_PASSWORD', 'qfEE7woSrKPxYdLF' );
+	define( 'DB_PASSWORD', 'qfEE7woSrKPxYdLF');
 }
 if ( ! defined( 'DB_HOST' ) ) {
-	define( 'DB_HOST', 'localhost' );
+	define( 'DB_HOST', 'enon_dev_db');
 }
 if ( ! isset( $table_prefix ) ) {
 	$table_prefix = 'wpit24_';
@@ -52,10 +52,10 @@ if ( ! isset( $table_prefix ) ) {
  * You most certainly don't wanna change these...
  **==============================================*/
 if ( ! defined( 'DB_CHARSET' ) ) {
-	define( 'DB_CHARSET', 'utf8' );
+	define( 'DB_CHARSET', 'utf8');
 }
 if ( ! defined( 'DB_COLLATE' ) ) {
-	define( 'DB_COLLATE', '' );
+	define( 'DB_COLLATE', '');
 }
 
 /**======================================================================
@@ -116,7 +116,7 @@ define( 'WP_SENTRY_ERROR_TYPES', E_ALL & ~E_DEPRECATED & ~E_NOTICE & ~E_USER_DEP
  **======================================================================================*/
 switch ( WP_ENV ) {
 	case 'development':
-		define( 'WP_DEBUG', true );
+		define( 'WP_DEBUG', true);
 		define( 'WP_DEBUG_LOG', dirname( dirname( __FILE__ ) ) . '/debug.log' );
 		define( 'WP_DEBUG_DISPLAY', false );
 		define( 'SAVEQUERIES', true );
@@ -125,14 +125,14 @@ switch ( WP_ENV ) {
 		define( 'DISALLOW_FILE_EDIT', false );
 		break;
 	case 'staging':
-		define( 'WP_DEBUG', true );
+		define( 'WP_DEBUG', true);
 		define( 'WP_DEBUG_LOG', dirname( dirname( __FILE__ ) ) . '/debug.log' );
 		define( 'WP_DEBUG_DISPLAY', false );
 		define( 'DISALLOW_FILE_EDIT', true );
 		break;
 	case 'production':
 	default:
-		define( 'WP_DEBUG', false );
+		define( 'WP_DEBUG', true);
 		define( 'WP_DEBUG_LOG', dirname( dirname( __FILE__ ) ) . '/debug.log' );
 		define( 'WP_DEBUG_DISPLAY', false );
 		define( 'DISALLOW_FILE_EDIT', true );
