@@ -221,6 +221,8 @@ jQuery( document ).ready( function ( $ ) {
 		var isXhrCallback = isXhrResponse ? isXhrResponse : false;
 
 		if(!isXhrCallback){
+			wtf_thumb.trigger.del = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_delete"]');
+
 			if(wtf_thumb.trigger.del) {
 				wtf_thumb.trigger.parenntNode.removeChild( wtf_thumb.trigger.del );
 			}
@@ -275,6 +277,8 @@ jQuery( document ).ready( function ( $ ) {
 		var thumbnailParent = document.querySelector( '.thumbnail-wrapper' );
 		thumbnailParent.innerHTML = "";
 
+		var percentSpan = wtf_thumb.trigger.parenntNode.querySelector( 'span' );
+
 		if ( action === 'addTumbnail' ) {
 			var image = response.tmpImage;
 
@@ -290,11 +294,11 @@ jQuery( document ).ready( function ( $ ) {
 				button.setAttribute( 'class', 'btn btn-danger btn-xs' );
 				button.innerHTML = 'Bild löschen';
 
-				var percentSpan = wtf_thumb.trigger.parenntNode.querySelector( 'span' );
 
 				wtf_thumb.trigger.parenntNode.removeChild( percentSpan );
 				wtf_thumb.trigger.parenntNode.appendChild( button );
 
+				wtf_thumb.trigger.del = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_delete"]');
 				wtf_thumb.functions.prototype.addEvents();
 			}
 
@@ -305,8 +309,7 @@ jQuery( document ).ready( function ( $ ) {
 
 			thumbnailParent.appendChild( span );
 
-			var delBtn = self.querySelector( '.btn-danger' );
-			wtf_thumb.trigger.parenntNode.removeChild( delBtn );
+			wtf_thumb.trigger.parenntNode.removeChild( percentSpan );
 		}
 	};
 
