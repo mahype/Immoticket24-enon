@@ -247,7 +247,7 @@ class Frontend {
 				}
 			}
 		} else {
-			if(empty($_POST['wpenon_thumbnail_upload']) && filter_var($_POST['wpenon_thumbnail_upload'], FILTER_VALIDATE_BOOLEAN)) {
+			if(empty($_POST['wpenon_thumbnail_upload']) && filter_var($_POST['wpenon_thumbnail_upload'], FILTER_VALIDATE_BOOLEAN) || is_admin()) {
 				return;
 			}
 
