@@ -69,7 +69,7 @@ class Filter_Confirmation_Email implements Task, Filters {
 		add_filter( 'wpenon_confirmation_sender_email', array( $this, 'filter_sender_email' ) );
 		add_filter( 'wpenon_confirmation_subject', array( $this, 'filter_subject' ) );
 		add_filter( 'wpenon_confirmation_content', array( $this, 'filter_content' ) );
-
+		add_filter( 'wpenon_confirmation_recipients', array( $this, 'filter_recipients' ) );
 		add_filter( 'wpenon_confirmation_energieausweis_link', array( $this, 'filter_link' ), 10, 2 );
 	}
 
@@ -109,6 +109,26 @@ class Filter_Confirmation_Email implements Task, Filters {
 		}
 
 		return $sender_name;
+	}
+
+	/**
+	 * Filter recipients.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $recipients Recipients.
+	 *
+	 * @return array Filtered recipients.
+	 */
+	public function filter_recipients( $recipients ) {
+		if ( ! $this->reseller->data()->general->send_confirmation_to_customer() ) {
+			$recipients = array();
+		}
+		if ( $this->reseller->data()->general->send_confirmation_to_reseller() ) {
+			$recipients[] = $this->reseller->data()->general->get_contact_email();
+		}
+
+		return $recipients;
 	}
 
 	/**

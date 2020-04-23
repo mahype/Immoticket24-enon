@@ -443,6 +443,15 @@ class Emails {
 		$recipient_email = apply_filters( 'wpenon_confirmation_recipient_address', $energieausweis->wpenon_email );
 		$message         = $this->replace_tags_confirmation_content( $energieausweis, $content );
 
+		/**
+		 * Filtering confirmation recipients.
+		 *
+		 * @param array $recipients Array list of recipients.
+		 *
+		 * @since 1.0.0
+		 */
+		$recipients  = apply_filters( 'wpenon_confirmation_recipients', array( $recipient_email ) );
+
 		do_action( 'wpenon_confirmation_start', $energieausweis );
 
 		$emails = EDD()->emails;
@@ -450,7 +459,11 @@ class Emails {
 		$emails->__set( 'from_address', $sender_email );
 		$emails->__set( 'heading', __( 'Ihr Energieausweis', 'wpenon' ) );
 
-		return $emails->send( $recipient_email, $subject, $message, array() );
+		foreach( $recipients AS $recipient ) {
+			$emails->send( $recipient, $subject, $message, array() );
+		}
+
+		return true;
 	}
 
 	/**
@@ -519,12 +532,23 @@ class Emails {
 		$attachments = array();
 		$message     = $this->replace_tags_bill_content( $payment, $energieausweis, $content );
 
+		/**
+		 * Filtering bill recipients.
+		 *
+		 * @param array $recipients Array list of recipients.
+		 *
+		 * @since 1.0.0
+		 */
+		$recipients  = apply_filters( 'wpenon_bill_recipients', array( $recipient_email ) );
+
 		$emails = EDD()->emails;
 		$emails->__set( 'from_name', $sender_name );
 		$emails->__set( 'from_email', $sender_email );
 		$emails->__set( 'heading', $subject );
 
-		$emails->send( $recipient_email, $subject, $message, $attachments );
+		foreach( $recipients AS $recipient ) {
+			$emails->send( $recipient, $subject, $message, $attachments );
+		}
 
 		do_action( 'edd_admin_sale_notice', $payment_id, $payment_data );
 	}
