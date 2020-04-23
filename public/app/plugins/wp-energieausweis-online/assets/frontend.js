@@ -294,7 +294,7 @@ jQuery( document ).ready( function ( $ ) {
 
 				var percentSpan = wtf_thumb.trigger.parenntNode.querySelector( 'span' );
 
-				thumbnailParent.removeChild( percentSpan );
+				wtf_thumb.trigger.parenntNode.removeChild( percentSpan );
 				wtf_thumb.trigger.parenntNode.appendChild( button );
 
 				wtf_thumb.functions.prototype.addEvents();
@@ -354,7 +354,6 @@ jQuery( document ).ready( function ( $ ) {
 
 		var infoNode = document.createElement('span');
 		infoNode.setAttribute('style', 'float:right');
-		infoNode.classList.add('wpenon-preloader');
 
 		wtf_thumb.trigger.parenntNode.appendChild( infoNode );
 		self.percentSpan = wtf_thumb.trigger.parenntNode.querySelector('span');
@@ -387,7 +386,7 @@ jQuery( document ).ready( function ( $ ) {
 			};
 
 			xhr.upload.onprogress = function( /* event */ ) {
-				if(self.percentSpan){
+				if(self.percentSpan && self.action === "upload"){
 					//var percentUpload = Math.floor( 100 * event.loaded / event.total );
 					self.percentSpan.innerHTML = '<br />Verarbeite Bilddaten ...';
 				}
