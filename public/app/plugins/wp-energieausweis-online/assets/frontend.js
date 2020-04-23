@@ -149,50 +149,126 @@ jQuery( document ).ready( function ( $ ) {
 	}
 
 	/**
-	 * Image upload
-	 **/
-	$('#wpenon-thumbnail-form').on('submit',(function(e) {
-		e.preventDefault();
+	 * handle enon thumbnail upload
+	 *
+	 * @author web dev media UG  <info@web-dev-media.de>
+	 * @version 1.2.0
+	 *
+	 * @namespace wtf_thumb
+	 * @property {Int} energieausweis_id
+	 * @property {Node} form
+	 * @property {Object} trigger collection of nodes
+	 * @property {Node} preview
+	 * @property {Function} functions collection of progress functions
+	 */
+	var wtf_thumb = {};
+	wtf_thumb.energieausweis_id = _wpenon_data.energieausweis_id;
 
-		var self = this;
-		self.submitter = document.activeElement.name;
-		self.upload = self.submitter == 'wpenon_thumbnail_upload';
-		self.removeUpload = self.submitter == 'wpenon_thumbnail_delete';
-		self.energieausweis_id =_wpenon_data.energieausweis_id;
-		self.parentElem = document.querySelector('#wpenon-thumbnail-form');
-		self.imageWrapper = document.querySelector('.thumbnail-wrapper');
-		self.imageButtons = self.parentElem.querySelector('.image-buttons');
-		self.delBtn = self.imageButtons.querySelector('.btn-danger');
-		self.percentSpan = self.imageButtons.querySelector('small');
+	wtf_thumb.form = document.querySelector('#wpenon-thumbnail-form');
+	wtf_thumb.form.file = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_file"]');
 
-		if(self.removeUpload && !confirm('Soll das Bild wirklich gelöscht werden?')){
-			return;
-		}else if(self.upload && self.delBtn){
-			self.imageButtons.removeChild(self.delBtn);
+	wtf_thumb.trigger = {};
+	wtf_thumb.trigger.upload = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_upload"]');
+	wtf_thumb.trigger.del = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_delete"]');
+	wtf_thumb.trigger.parenntNode = wtf_thumb.form.querySelector('.image-buttons');
+
+	wtf_thumb.form.percentSpan = wtf_thumb.trigger.parenntNode.querySelector('small');
+
+	wtf_thumb.preview = document.querySelector('.thumbnail-wrapper');
+
+	/**
+	 * Progress functions to handle thumb form actions
+	 *
+	 * @namespace wtf_thumb.functions
+	 * @property {function} addEvents
+	 * @property {function} upload
+	 * @property {function} remove
+	 * @property {function} updatePreview
+	 * @property {function} xhr
+	 */
+	wtf_thumb.functions = function(){};
+
+	/**
+	 * add click event to form btn
+	 *
+	 * @namespace wtf_thumb.functions.addEvents
+	 */
+	wtf_thumb.functions.prototype.addEvents = function(){
+		wtf_thumb.functions.prototype.appendFormData();
+
+		for (let [trigger, node] of Object.entries(wtf_thumb.trigger)) {
+			node.addEventListener('click', function(e) {
+				e.preventDefault();
+
+				switch (trigger) {
+					case "upload":
+						wtf_thumb.functions.prototype.upload();
+						break;
+					case "del":
+						wtf_thumb.functions.prototype.remove();
+						break;
+				}
+
+				console.log(node,trigger);
+			});
+		}
+	};
+
+	/**
+	 * Handel the thumb upload
+	 * @namespace wtf_thumb.functions.uplad
+	 */
+	wtf_thumb.functions.prototype.upload = function() {
+		if(wtf_thumb.trigger.del) {
+			wtf_thumb.trigger.parenntNode.removeChild( wtf_thumb.trigger.del );
 		}
 
-		self.formData = new FormData(this);
-			self.formData.append('wpenon_thumbnail_upload', self.upload);
-			self.formData.append('wpenon_thumbnail_delete', self.removeUpload);
-			self.formData.append('energieausweis_id', self.energieausweis_id);
+		var xhrResponse = wtf_thumb.functions.prototype.xhr();
+		wtf_thumb.functions.prototype.updatePreview(xhrResponse, 'restorePrev');
+	};
 
-		self.updatePreview = function(response, isUpload){
-			var self = this;
+	/**
+	 * Handel the thumb delete
+	 * @namespace wtf_thumb.functions.remove
+	 */
+	wtf_thumb.functions.prototype.remove = function() {
+		if(!confirm('Soll das Bild wirklich gelöscht werden?')){
+			return;
+		}
 
-			if(!isUpload){
-				return;
-			}
+		//toto check if this needed
+		wtf_thumb.trigger.del.value = '';
 
-			var image = response.tmpImage;
+		var span = document.createElement('span');
+		span.classList.add('glyphicon');
+		span.classList.add('glyphicon-picture');
 
-			if(image) {
-				self.imageWrapper.innerHTML = "";
+		self.imageWrapper.appendChild(span);
+		wtf_thumb.trigger.parenntNode.removeChild(wtf_thumb.trigger.del);
 
+		var xhrResponse = wtf_thumb.functions.prototype.xhr();
+		wtf_thumb.functions.prototype.updatePreview(xhrResponse, 'restorePrev');
+	};
+
+	/**
+	 * Handle thumbnail preview state
+	 *
+	 * @namespace wtf_thumb.functions.updatePreview
+	 * @param {xhr} response
+	 * @param {string} action - addTumbnail || restorePrev
+	 */
+	wtf_thumb.functions.prototype.updatePreview = function(response, action) {
+		var image = response.tmpImage;
+
+		if(image) {
+			var thumbnailParent = document.querySelector('thumbnail-wrapper');
+			thumbnailParent.innerHTML = "";
+
+			if(action === 'addTumbnail'){
 				var img = document.createElement('img');
 				img.setAttribute("src", image.path);
 
-				self.imageWrapper.appendChild(img);
-
+				thumbnailParent.appendChild(img);
 
 				var button = document.createElement('button');
 				button.setAttribute('type', 'submit');
@@ -200,36 +276,50 @@ jQuery( document ).ready( function ( $ ) {
 				button.setAttribute('class', 'btn btn-danger btn-xs');
 				button.innerHTML = 'Bild löschen';
 
+				var percentSpan = wtf_thumb.trigger.parenntNode.querySelector('small');
 
-				var percentSpan = self.imageButtons.querySelector('small');
-				self.imageButtons.removeChild(percentSpan);
+				thumbnailParent.removeChild(percentSpan);
+				wtf_thumb.trigger.parenntNode.appendChild(button);
 
-				self.imageButtons.appendChild(button);
+				wtf_thumb.functions.prototype.addEvents();
+
+			}else if(action === 'restorePrev'){
+				var span = document.createElement('span');
+					span.classList.add('glyphicon');
+					span.classList.add('glyphicon-picture');
+
+				thumbnailParent.appendChild(span);
+
+				var delBtn = self.querySelector('.btn-danger');
+				self.imageButtons.removeChild(delBtn);
 			}
-		};
+		}
+	};
 
-		self.deleteAttachment = function(response, removeUpload){
-			var self = this;
+	/**
+	 * Preparation: create Form object and append data
+	 * @namespace wtf_thumb.functions.appendFormData
+	 */
+	wtf_thumb.functions.prototype.appendFormData = function() {
+		wtf_thumb.form.data = new FormData(wtf_thumb.form);
+		wtf_thumb.form.data.append('wpenon_thumbnail_upload', wtf_thumb.trigger.upload);
+		wtf_thumb.form.data.append('wpenon_thumbnail_delete', wtf_thumb.trigger.del);
+		wtf_thumb.form.data.append('energieausweis_id', wtf_thumb.energieausweis_id);
+	};
 
-			if(!removeUpload){
-				return;
-			}
+	/**
+	 * Send xhr
+	 * @namespace wtf_thumb.functions.xhr
+	 */
+	wtf_thumb.functions.prototype.xhr = function() {
+		console.log('xhr');
+		return {};
+	};
 
-			self.imageWrapper.innerHTML = "";
+	wtf_thumb.functions.prototype.addEvents();
 
-			var uploadBtn = self.querySelector("input[name='wpenon_thumbnail_file']");
-			uploadBtn.value = '';
-
-			var span = document.createElement('span');
-			span.classList.add('glyphicon');
-			span.classList.add('glyphicon-picture');
-
-			self.imageWrapper.appendChild(span);
-
-			var delBtn = self.querySelector('.btn-danger');
-			self.imageButtons.removeChild(delBtn);
-		};
-
+	console.log(wtf_thumb);
+/*
 		self.errorMsg = function(responseText) {
 			var div = document.createElement('div');
 			div.innerHTML = "Fehler beim Upload " + responseText;
@@ -256,7 +346,7 @@ jQuery( document ).ready( function ( $ ) {
 			}
 		};
 
-		if(self.submitter === 'wpenon_thumbnail_upload') {
+		if(self.upload) {
 			self.imageButtons.appendChild( document.createElement('small') );
 			self.percentSpan = self.imageButtons.querySelector('small');
 
@@ -269,10 +359,10 @@ jQuery( document ).ready( function ( $ ) {
 		$("body").trigger("wpenon_ajax_start");
 
 		xhr.send(self.formData);
-	}));
 
 	$("#wpenon_thumbnail_file").on("change", function() {
 		$("#imageUploadForm").submit();
 	});
+*/
 
 });
