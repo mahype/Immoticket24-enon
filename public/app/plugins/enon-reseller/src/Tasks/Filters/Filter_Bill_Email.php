@@ -68,6 +68,7 @@ class Filter_Bill_Email implements Task, Filters {
 		add_filter( 'wpenon_bill_sender_email', array( $this, 'filter_sender_email' ) );
 		add_filter( 'wpenon_bill_subject', array( $this, 'filter_subject' ) );
 		add_filter( 'wpenon_bill_content', array( $this, 'filter_content' ) );
+		add_filter( 'wpenon_bill_recipients', array( $this, 'filter_recipients' ) );
 	}
 
 	/**
@@ -106,6 +107,26 @@ class Filter_Bill_Email implements Task, Filters {
 		}
 
 		return $sender_email;
+	}
+
+	/**
+	 * Filter recipients.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $recipients Recipients.
+	 *
+	 * @return array Filtered recipients.
+	 */
+	public function filter_recipients( $recipients ) {
+		if ( ! $this->reseller->data()->general->send_bill_to_customer() ) {
+			$recipients = array();
+		}
+		if ( $this->reseller->data()->general->send_bill_to_reseller() ) {
+			$recipients[] = $this->reseller->data()->general->get_contact_email();
+		}
+
+		return $recipients;
 	}
 
 	/**
