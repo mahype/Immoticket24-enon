@@ -5827,8 +5827,9 @@ img.wp-post-image {
 .page-template-page-without-title-bg-white-grey .bg-white-grey article > .wp-block-group:nth-child(2n) {
   background-image: url(../media/pattern-grey.gif);
   background-repeat: repeat;
-  margin-left: -100px;
-  margin-right: -100px;
+  background-color: red;
+  /*			 margin-left: -100px;
+			 margin-right: -100px;*/
   padding: 20px 100px;
 }
 .page-template-page-without-title h3.question,
