@@ -207,8 +207,6 @@ jQuery( document ).ready( function ( $ ) {
 							wtf_thumb.functions.prototype.remove();
 							break;
 					}
-
-					console.log( node, trigger );
 				} );
 			}
 		}
