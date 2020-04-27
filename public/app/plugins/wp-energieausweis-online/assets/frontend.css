@@ -76,6 +76,19 @@
 .wpenon-wrapper .tooltip {
   min-width: 250px;
 }
+.wpenon-wrapper .field-info .label-info {
+  content: ' ';
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  margin-top: 7px;
+  padding: 0;
+  background-image: url('img/icon-exclamation-mark_36x36.png');
+  -webkit-background-size: contain;
+          background-size: contain;
+  background-color: transparent;
+  border: 1px solid #ccc;
+}
 .wpenon-wrapper .back-to-overview-button {
   margin: 0 0 15px 25px;
   float: right;
@@ -388,17 +401,4 @@
          -o-transform: rotate(360deg);
             transform: rotate(360deg);
   }
-}
-
-.field-info .label-info {
-	content: ' ';
-	display: inline-block;
-	height: 24px;
-	width: 24px;
-	margin-top: 7px;
-	padding: 0;	
-	background-image: url('./img/icon-exclamation-mark_36x36.png');
-	background-size: contain;
-	background-color: transparent;
-	border: 1px solid #ccc;
 }
