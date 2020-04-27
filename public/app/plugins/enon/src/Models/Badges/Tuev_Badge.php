@@ -16,7 +16,7 @@ namespace Enon\Models\Badges;
  *
  * @since 1.0.0
  */
-class Ekomi_Badge extends Badge_Component {
+class Tuev_Badge extends Badge_Component {
 	/**
 	 * Ekomi Badge.
 	 *
@@ -29,11 +29,11 @@ class Ekomi_Badge extends Badge_Component {
 
 		ob_start();
 		?>
-		<div id="ekomi-wrap">
-			<div id="ekomi-badge">
-				<img src="<?php echo plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'src/Assets/Img/Badges/ekomi-badge.png'; ?>" />
+		<div id="tuev-wrap">
+			<div id="tuev-badge">
+				<img src="<?php echo plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'src/Assets/Img/Badges/tuev-saarland-logo.png'; ?>" />
 			</div>
-			<div id="ekomi-rating">
+			<div id="tuev-rating">
 				<?php
 				// phpcs:ignore
 				echo $ekomi->get_rating_stars();
@@ -44,7 +44,7 @@ class Ekomi_Badge extends Badge_Component {
 					</strong>/5
 				</div>
 			</div>
-			<div id="eKomiWidget_default"></div>
+			<div id="ekomi-widget" class="ekomi-widget-container ekomi-widget-sf812665e4a9b6aad5b9"></div>
 		</div>
 		<?php
 
@@ -58,30 +58,38 @@ class Ekomi_Badge extends Badge_Component {
 		?>
 		<script type="text/javascript">
 			jQuery( document ).ready( function( $ ) {
-				$('#ekomi-wrap').hover( function () {
+				$('#tuev-wrap').hover( function () {
 					if ( document.documentElement.clientWidth < 992 ) {
 						return;
 					}
-					$('#eKomiWidget_default').fadeIn(50);
+					$('#ekomi-widget').fadeIn(50);
 				}, function () {
 					if ( document.documentElement.clientWidth < 992 ) {
 						return;
 					}
-					$('#eKomiWidget_default').fadeOut(50);
+					$('#ekomi-widget').fadeOut(50);
 				});
 			});
 
-			(function(){
-				eKomiIntegrationConfig = new Array(
-					{certId:'0C5034E9BC8E6D1'}
-				);
-				if(typeof eKomiIntegrationConfig != "undefined"){for(var eKomiIntegrationLoop=0;eKomiIntegrationLoop<eKomiIntegrationConfig.length;eKomiIntegrationLoop++){
-					var eKomiIntegrationContainer = document.createElement('script');
-					eKomiIntegrationContainer.type = 'text/javascript'; eKomiIntegrationContainer.defer = true;
-					eKomiIntegrationContainer.src = (document.location.protocol=='https:'?'https:':'http:') +"//connect.ekomi.de/integration_1587995546/" + eKomiIntegrationConfig[eKomiIntegrationLoop].certId + ".js";
-					document.getElementsByTagName("head")[0].appendChild(eKomiIntegrationContainer);
-				}}else{if('console' in window){ console.error('connectEkomiIntegration - Cannot read eKomiIntegrationConfig'); }}
-			})();
+			(function (w) {
+				w['_ekomiWidgetsServerUrl'] = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//widgets.ekomi.com';
+				w['_customerId'] = 81266;
+				w['_ekomiDraftMode'] = true;
+				w['_language'] = 'de';
+
+				if(typeof(w['_ekomiWidgetTokens']) !== 'undefined'){
+					w['_ekomiWidgetTokens'][w['_ekomiWidgetTokens'].length] = 'sf812665e4a9b6aad5b9';
+				} else {
+					w['_ekomiWidgetTokens'] = new Array('sf812665e4a9b6aad5b9');
+				}
+
+				if(typeof(ekomiWidgetJs) == 'undefined') {
+					ekomiWidgetJs = true;
+
+					var scr = document.createElement('script');scr.src = 'https://sw-assets.ekomiapps.de/static_resources/widget.js';
+					var head = document.getElementsByTagName('head')[0];head.appendChild(scr);
+				}
+			})(window);
 		</script>
 		<?php
 
@@ -94,30 +102,27 @@ class Ekomi_Badge extends Badge_Component {
 		ob_start();
 		?>
 		<style>
-			.trust .badges #ekomi-wrap {
+			.trust .badges #tuev-wrap {
 				padding-left: 8px;
 				background-color: #fafafa;
 				border: 1px solid #dddddd;
 				border-radius: 8px;
 			}
-			.trust .badges #ekomi-badge {
-				margin-top:8px;
-			}
-			.trust .badges #ekomi-badge,
-			.trust .badges #ekomi-rating {
+			.trust .badges #tuev-badge,
+			.trust .badges #tuev-rating {
 				display: block;
 				float: left;
 			}
-			.trust .badges #ekomi-badge-tuev img {
+			.trust .badges #tuev-badge img {
 				width: 54px;
 				margin-top: 8px;
 			}
-			.trust .badges #ekomi-rating {
+			.trust .badges #tuev-rating {
 				margin-top: 15px;
 				padding: 5px;
 				text-align: center;
 			}
-			.trust .badges #eKomiWidget_default {
+			.trust .badges #ekomi-widget {
 				position: absolute;
 				top: 93px;
 				left: -135px;
@@ -128,7 +133,7 @@ class Ekomi_Badge extends Badge_Component {
 				background: none repeat scroll 0 0 #ffffff;
 				border: 1px solid #aaaaaa;
 			}
-			.trust .badges #eKomiWidget_default:before {
+			.trust .badges #ekomi-widget:before {
 				content: "";
 				border-bottom: 12px solid #ffffff;
 				border-right: 12px solid transparent;
@@ -139,7 +144,7 @@ class Ekomi_Badge extends Badge_Component {
 				margin-left: -12px;
 				z-index: 9999999999999999999;
 			}
-			.trust .badges #eKomiWidget_default:after {
+			.trust .badges #ekomi-widget:after {
 				content: "";
 				border-bottom: 12px solid #aaaaaa;
 				border-right: 12px solid transparent;
@@ -150,7 +155,7 @@ class Ekomi_Badge extends Badge_Component {
 				margin-left: -12px;
 				z-index: -10000;
 			}
-			.trust .badges #eKomiWidget_default img {
+			.trust .badges #ekomi-widget img {
 				display: block;
 				margin: 0 auto;
 			}

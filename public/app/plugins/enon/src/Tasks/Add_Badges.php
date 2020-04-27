@@ -21,6 +21,7 @@ use Awsm\WP_Wrapper\Loaders\Loader;
 use Enon\Models\Badges\CO2_Badge;
 use \Enon\Models\Badges\Ekomi_Badge;
 use Enon\Models\Badges\Trusted_Shops_Badge;
+use Enon\Models\Badges\Tuev_Badge;
 
 /**
  * Class Google_Tag_Manager
@@ -38,6 +39,15 @@ class Add_Badges implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	private $badge_trusted_shops;
+
+	/**
+	 * Badges.
+	 *
+	 * @var Tuev_Badge
+	 *
+	 * @since 1.0.0
+	 */
+	private $badge_tuev;
 
 	/**
 	 * Badges.
@@ -68,6 +78,7 @@ class Add_Badges implements Actions, Task {
 		$this->add_actions();
 
 		$this->badge_ekomi = new Ekomi_Badge();
+		$this->badge_tuev = new Tuev_Badge();
 		$this->badge_trusted_shops = new Trusted_Shops_Badge();
 		$this->badge_co2 = new CO2_Badge();
 	}
@@ -91,6 +102,7 @@ class Add_Badges implements Actions, Task {
 	public function badges() {
 		// phpcs:ignore
 		echo $this->badge_trusted_shops->html();
+		echo $this->badge_tuev->html();
 		echo $this->badge_ekomi->html();
 		echo $this->badge_co2->html();
 	}
@@ -103,6 +115,7 @@ class Add_Badges implements Actions, Task {
 	public function css() {
 		// phpcs:ignore
 		echo $this->badge_ekomi->css();
+		echo $this->badge_tuev->css();
 	}
 
 	/**
@@ -113,6 +126,7 @@ class Add_Badges implements Actions, Task {
 	public function js() {
 		// phpcs:ignore
 		echo $this->badge_ekomi->js();
+		echo $this->badge_tuev->js();
 		echo $this->badge_trusted_shops->js();
 	}
 }
