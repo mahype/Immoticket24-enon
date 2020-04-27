@@ -817,9 +817,6 @@ img.wp-post-image {
 		}
 	}
 
-	.wp-block-group {
-	}
-
 	.bg-grey-white {
 		article{
 		 &> .wp-block-group:nth-child(2n+1) {
@@ -834,13 +831,24 @@ img.wp-post-image {
 
 	.bg-white-grey {
 		article{
-		 &> .wp-block-group:nth-child(2n) {
-			 background-image: url(../media/pattern-grey.gif);
-			 background-repeat: repeat;
-			 margin-left: -100px;
-			 margin-right: -100px;
-			 padding: 20px 100px;
-		 }
+			&> .wp-block-group:nth-child(2n) {
+				background-image: url(../media/pattern-grey.gif);
+				background-repeat: repeat;
+				padding: 20px 100px;
+				margin-left: -100px;
+				margin-right: -100px;
+
+				@media (max-width: 767px ) { 
+					padding: 20px 24px;
+					margin-left: -12px;
+					margin-right: -12px;				
+				}
+			
+				.wp-block-group__inner-container .wp-block-group__inner-container {
+					padding-left: 0;
+					padding-right: 0;
+				}
+			}
 		}
 	}
 

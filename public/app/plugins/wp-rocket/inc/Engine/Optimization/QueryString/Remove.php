@@ -1,8 +1,9 @@
 <?php
-namespace WP_Rocket\Optimization;
+namespace WP_Rocket\Engine\Optimization\QueryString;
 
-use WP_Rocket\Admin\Options_Data as Options;
-use WP_Rocket\Optimization\Abstract_Optimization;
+use WP_Rocket\Admin\Options_Data;
+use WP_Rocket\Engine\Optimization\AbstractOptimization;
+use WP_Rocket\Optimization\CSS\Path_Rewriter;
 
 /**
  * Remove query string from static resources
@@ -10,8 +11,8 @@ use WP_Rocket\Optimization\Abstract_Optimization;
  * @since 3.1
  * @author Remy Perona
  */
-class Remove_Query_String extends Abstract_Optimization {
-	use \WP_Rocket\Optimization\CSS\Path_Rewriter;
+class Remove extends AbstractOptimization {
+	use Path_Rewriter;
 
 	/**
 	 * Plugin options instance.
@@ -19,7 +20,7 @@ class Remove_Query_String extends Abstract_Optimization {
 	 * @since 3.1
 	 * @author Remy Perona
 	 *
-	 * @var Options
+	 * @var Options_Data
 	 */
 	protected $options;
 
@@ -59,11 +60,11 @@ class Remove_Query_String extends Abstract_Optimization {
 	 * @since 3.1
 	 * @author Remy Perona
 	 *
-	 * @param Options $options      Plugin options instance.
-	 * @param string  $busting_path Base cache busting files path.
-	 * @param string  $busting_url  Base cache busting files URL.
+	 * @param Options_Data $options      Plugin options instance.
+	 * @param string       $busting_path Base cache busting files path.
+	 * @param string       $busting_url  Base cache busting files URL.
 	 */
-	public function __construct( Options $options, $busting_path, $busting_url ) {
+	public function __construct( Options_Data $options, $busting_path, $busting_url ) {
 		$this->options      = $options;
 		$this->busting_path = $busting_path . get_current_blog_id() . '/';
 		$this->busting_url  = $busting_url . get_current_blog_id() . '/';
@@ -209,7 +210,7 @@ class Remove_Query_String extends Abstract_Optimization {
 	 * @return boolean
 	 */
 	public function is_allowed() {
-		if ( defined( 'DONOTROCKETOPTIMIZE' ) && DONOTROCKETOPTIMIZE ) {
+		if ( rocket_get_constant( 'DONOTROCKETOPTIMIZE' ) ) {
 			return false;
 		}
 
@@ -236,8 +237,10 @@ class Remove_Query_String extends Abstract_Optimization {
 			return false;
 		}
 
-		if ( false !== strpos( $url, 'ver=' . $GLOBALS['wp_version'] ) ) {
-			$url = rtrim( str_replace( [ 'ver=' . $GLOBALS['wp_version'], '?&', '&&' ], [ '', '?', '&' ], $url ), '?&' );
+		$version = get_bloginfo( 'version' );
+
+		if ( false !== strpos( $url, 'ver=' . $version ) ) {
+			$url = rtrim( str_replace( [ 'ver=' . $version, '?&', '&&' ], [ '', '?', '&' ], $url ), '?&' );
 		}
 
 		if ( $this->is_external_file( $url ) ) {
@@ -281,12 +284,15 @@ class Remove_Query_String extends Abstract_Optimization {
 	 * @return bool|string
 	 */
 	protected function replace_url( $url, $extension ) {
-		$parsed_url = get_rocket_parse_url( $url );
+		$query = wp_parse_url( $url, PHP_URL_QUERY );
 
-		if ( empty( $parsed_url['query'] ) ) {
+		if ( empty( $query ) ) {
 			return $url;
 		}
 
+		// This filter is documented in /inc/classes/optimization/class-abstract-optimization.php.
+		$internal_url = apply_filters( 'rocket_asset_url', $url, $this->get_zones() );
+		$parsed_url   = get_rocket_parse_url( $internal_url );
 		$relative_src = ltrim( $parsed_url['path'] . '?' . $parsed_url['query'], '/' );
 		$filename     = preg_replace( '/\.(' . $extension . ')\?(?:timestamp|ver)=([^&]+)(?:.*)/', '-$2.$1', $relative_src );
 

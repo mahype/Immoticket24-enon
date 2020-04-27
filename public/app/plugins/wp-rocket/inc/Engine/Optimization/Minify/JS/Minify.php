@@ -1,5 +1,5 @@
 <?php
-namespace WP_Rocket\Optimization\JS;
+namespace WP_Rocket\Engine\Optimization\Minify\JS;
 
 use WP_Rocket\Logger\Logger;
 use MatthiasMullie\Minify as Minifier;
@@ -10,7 +10,7 @@ use MatthiasMullie\Minify as Minifier;
  * @since 3.1
  * @author Remy Perona
  */
-class Minify extends Abstract_JS_Optimization {
+class Minify extends AbstractJSOptimization {
 	/**
 	 * Minifies JS files
 	 *
@@ -24,7 +24,7 @@ class Minify extends Abstract_JS_Optimization {
 		Logger::info( 'JS MINIFICATION PROCESS STARTED.', [ 'js minification process' ] );
 
 		$html_nocomments = $this->hide_comments( $html );
-		$scripts         = $this->find( '<script\s+([^>]+[\s\'"])?src\s*=\s*[\'"]\s*?([^\'"]+\.js(?:\?[^\'"]*)?)\s*?[\'"]([^>]+)?\/?>', $html_nocomments );
+		$scripts         = $this->find( '<script\s+([^>]+[\s\'"])?src\s*=\s*[\'"]\s*?(?<url>[^\'"]+\.js(?:\?[^\'"]*)?)\s*?[\'"]([^>]+)?\/?>', $html_nocomments );
 
 		if ( ! $scripts ) {
 			Logger::debug( 'No `<script>` tags found.', [ 'js minification process' ] );
@@ -42,7 +42,7 @@ class Minify extends Abstract_JS_Optimization {
 		foreach ( $scripts as $script ) {
 			global $wp_scripts;
 
-			if ( preg_match( '/[-.]min\.js/iU', $script[2] ) ) {
+			if ( preg_match( '/[-.]min\.js/iU', $script['url'] ) ) {
 				Logger::debug(
 					'Script is already minified.',
 					[
@@ -53,7 +53,7 @@ class Minify extends Abstract_JS_Optimization {
 				continue;
 			}
 
-			if ( $this->is_external_file( $script[2] ) ) {
+			if ( $this->is_external_file( $script['url'] ) ) {
 				Logger::debug(
 					'Script is external.',
 					[
@@ -76,7 +76,7 @@ class Minify extends Abstract_JS_Optimization {
 			}
 
 			// Don't minify jQuery included in WP core since it's already minified but without .min in the filename.
-			if ( ! empty( $wp_scripts->registered['jquery-core']->src ) && false !== strpos( $script[2], $wp_scripts->registered['jquery-core']->src ) ) {
+			if ( ! empty( $wp_scripts->registered['jquery-core']->src ) && false !== strpos( $script['url'], $wp_scripts->registered['jquery-core']->src ) ) {
 				Logger::debug(
 					'jQuery script is already minified.',
 					[
@@ -87,7 +87,7 @@ class Minify extends Abstract_JS_Optimization {
 				continue;
 			}
 
-			$minify_url = $this->replace_url( $script[2] );
+			$minify_url = $this->replace_url( $script['url'] );
 
 			if ( ! $minify_url ) {
 				Logger::error(
@@ -100,7 +100,7 @@ class Minify extends Abstract_JS_Optimization {
 				continue;
 			}
 
-			$replace_script = str_replace( $script[2], $minify_url, $script[0] );
+			$replace_script = str_replace( $script['url'], $minify_url, $script[0] );
 			$replace_script = str_replace( '<script', '<script data-minify="1"', $replace_script );
 			$html           = str_replace( $script[0], $replace_script, $html );
 
@@ -131,8 +131,10 @@ class Minify extends Abstract_JS_Optimization {
 			return false;
 		}
 
+		// This filter is documented in /inc/classes/optimization/class-abstract-optimization.php.
+		$url       = apply_filters( 'rocket_asset_url', $url, $this->get_zones() );
 		$unique_id = md5( $url . $this->minify_key );
-		$filename  = preg_replace( '/\.js$/', '-' . $unique_id . '.js', ltrim( rocket_realpath( rocket_extract_url_component( $url, PHP_URL_PATH ) ), '/' ) );
+		$filename  = preg_replace( '/\.js$/', '-' . $unique_id . '.js', ltrim( rocket_realpath( wp_parse_url( $url, PHP_URL_PATH ) ), '/' ) );
 
 		$minified_file = $this->minify_base_path . $filename;
 		$minified_url  = $this->get_minify_url( $filename, $url );

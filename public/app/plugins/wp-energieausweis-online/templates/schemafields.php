@@ -201,7 +201,7 @@
           <p>
             <span class="is-done-checkmark label label-success">&#10004;</span>
             <?php if( ! empty( $field['description'] ) ) : ?>
-              <span class="label label-info" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title="<?php echo $field['description']; ?>">?</span>
+              <span class="label label-info" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title="<?php echo $field['description']; ?>"></span>
             <?php endif; ?>
           </p>
         </div>

@@ -1,8 +1,7 @@
 <?php
-namespace WP_Rocket\Subscriber\Optimization;
+namespace WP_Rocket\Engine\Optimization\QueryString;
 
-use WP_Rocket\Optimization\Remove_Query_String;
-use WP_Rocket\Subscriber\Optimization\Minify_Subscriber;
+use WP_Rocket\Event_Management\Subscriber_Interface;
 
 /**
  * Hooks into WordPress to remove query strings for static files
@@ -10,14 +9,14 @@ use WP_Rocket\Subscriber\Optimization\Minify_Subscriber;
  * @since 3.1
  * @author Remy Perona
  */
-class Remove_Query_String_Subscriber extends Minify_Subscriber {
+class RemoveSubscriber implements Subscriber_Interface {
 	/**
 	 * Remove Query String instance.
 	 *
 	 * @since 3.1
 	 * @author Remy Perona
 	 *
-	 * @var Remove_Query_String
+	 * @var Remove
 	 */
 	protected $remove_query_string;
 
@@ -27,9 +26,9 @@ class Remove_Query_String_Subscriber extends Minify_Subscriber {
 	 * @since 3.1
 	 * @author Remy Perona
 	 *
-	 * @param Remove_Query_String $remove_query_string Remove Query String instance.
+	 * @param Remove $remove_query_string Remove Query String instance.
 	 */
-	public function __construct( Remove_Query_String $remove_query_string ) {
+	public function __construct( Remove $remove_query_string ) {
 		$this->remove_query_string = $remove_query_string;
 	}
 

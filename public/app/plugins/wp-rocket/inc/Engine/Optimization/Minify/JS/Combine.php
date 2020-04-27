@@ -1,10 +1,10 @@
 <?php
-namespace WP_Rocket\Optimization\JS;
+namespace WP_Rocket\Engine\Optimization\Minify\JS;
 
-use WP_Rocket\Admin\Options_Data as Options;
+use WP_Rocket\Admin\Options_Data;
 use WP_Rocket\Optimization\Assets_Local_Cache;
 use WP_Rocket\Logger\Logger;
-use MatthiasMullie\Minify;
+use MatthiasMullie\Minify\JS as MinifyJS;
 
 /**
  * Combines JS files
@@ -12,14 +12,14 @@ use MatthiasMullie\Minify;
  * @since 3.1
  * @author Remy Perona
  */
-class Combine extends Abstract_JS_Optimization {
+class Combine extends AbstractJSOptimization {
 	/**
 	 * Minifier instance
 	 *
 	 * @since 3.1
 	 * @author Remy Perona
 	 *
-	 * @var Minify\JS
+	 * @var MinifyJS
 	 */
 	private $minifier;
 
@@ -69,11 +69,11 @@ class Combine extends Abstract_JS_Optimization {
 	 * @since 3.1
 	 * @author Remy Perona
 	 *
-	 * @param Options            $options  Plugin options instance.
-	 * @param Minify\JS          $minifier Minifier instance.
+	 * @param Options_Data       $options  Plugin options instance.
+	 * @param MinifyJS           $minifier Minifier instance.
 	 * @param Assets_Local_Cache $local_cache Assets local cache instance.
 	 */
-	public function __construct( Options $options, Minify\JS $minifier, Assets_Local_Cache $local_cache ) {
+	public function __construct( Options_Data $options, MinifyJS $minifier, Assets_Local_Cache $local_cache ) {
 		parent::__construct( $options );
 
 		$this->minifier    = $minifier;
@@ -177,12 +177,12 @@ class Combine extends Abstract_JS_Optimization {
 	protected function parse( $scripts ) {
 		$scripts = array_map(
 			function( $script ) {
-				preg_match( '/<script\s+([^>]+[\s\'"])?src\s*=\s*[\'"]\s*?([^\'"]+\.js(?:\?[^\'"]*)?)\s*?[\'"]([^>]+)?\/?>/Umsi', $script[0], $matches );
+				preg_match( '/<script\s+([^>]+[\s\'"])?src\s*=\s*[\'"]\s*?(?<url>[^\'"]+\.js(?:\?[^\'"]*)?)\s*?[\'"]([^>]+)?\/?>/Umsi', $script[0], $matches );
 
-				if ( isset( $matches[2] ) ) {
-					if ( $this->is_external_file( $matches[2] ) ) {
+				if ( isset( $matches['url'] ) ) {
+					if ( $this->is_external_file( $matches['url'] ) ) {
 						foreach ( $this->get_excluded_external_file_path() as $excluded_file ) {
-							if ( false !== strpos( $matches[2], $excluded_file ) ) {
+							if ( false !== strpos( $matches['url'], $excluded_file ) ) {
 								Logger::debug(
 									'Script is external.',
 									[
@@ -196,7 +196,7 @@ class Combine extends Abstract_JS_Optimization {
 
 						$this->scripts[] = [
 							'type'    => 'url',
-							'content' => $matches[2],
+							'content' => $matches['url'],
 						];
 
 						return $script;
@@ -213,7 +213,7 @@ class Combine extends Abstract_JS_Optimization {
 						return;
 					}
 
-					if ( $this->jquery_url && false !== strpos( $matches[2], $this->jquery_url ) ) {
+					if ( $this->jquery_url && false !== strpos( $matches['url'], $this->jquery_url ) ) {
 						Logger::debug(
 							'Script is jQuery.',
 							[
@@ -224,7 +224,7 @@ class Combine extends Abstract_JS_Optimization {
 						return;
 					}
 
-					$file_path = $this->get_file_path( $matches[2] );
+					$file_path = $this->get_file_path( $matches['url'] );
 
 					if ( ! $file_path ) {
 						return;
@@ -634,6 +634,10 @@ class Combine extends Abstract_JS_Optimization {
 			'tarteaucitron',
 			'pw_brand_product_list',
 			'tminusCountDown',
+			'pysWooSelectContentData',
+			'wpvq_ans89733',
+			'_isp_version',
+			'price_range_data',
 		];
 
 		$excluded_inline = array_merge( $defaults, $this->options->get( 'exclude_inline_js', [] ) );
@@ -721,6 +725,8 @@ class Combine extends Abstract_JS_Optimization {
 			'ck.page',
 			'cdn.jsdelivr.net/gh/AmauriC/',
 			'static.klaviyo.com/onsite/js/klaviyo.js',
+			'a.omappapi.com/app/js/api.min.js',
+			'static.zdassets.com',
 		];
 
 		$excluded_external = array_merge( $defaults, $this->options->get( 'exclude_js', [] ) );
@@ -840,6 +846,7 @@ class Combine extends Abstract_JS_Optimization {
 			'tdbMenuItem',
 			'tdbSearchItem',
 			'best_seller_badge',
+			'jQuery(\'#product-top-bar',
 		];
 
 		/**

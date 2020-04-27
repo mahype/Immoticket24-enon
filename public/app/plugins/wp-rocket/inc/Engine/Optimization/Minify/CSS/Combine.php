@@ -1,11 +1,10 @@
 <?php
-namespace WP_Rocket\Optimization\CSS;
+namespace WP_Rocket\Engine\Optimization\Minify\CSS;
 
-use WP_Rocket\Admin\Options_Data as Options;
+use WP_Rocket\Admin\Options_Data;
 use WP_Rocket\Logger\Logger;
-use MatthiasMullie\Minify;
-
-defined( 'ABSPATH' ) || exit;
+use WP_Rocket\Optimization\CSS\Path_Rewriter;
+use MatthiasMullie\Minify\CSS as MinifyCSS;
 
 /**
  * Minify & Combine CSS files
@@ -13,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.1
  * @author Remy Perona
  */
-class Combine extends Abstract_CSS_Optimization {
+class Combine extends AbstractCSSOptimization {
 	use Path_Rewriter;
 
 	/**
@@ -22,7 +21,7 @@ class Combine extends Abstract_CSS_Optimization {
 	 * @since 3.1
 	 * @author Remy Perona
 	 *
-	 * @var Minify\CSS
+	 * @var MinifyCSS
 	 */
 	private $minifier;
 
@@ -32,10 +31,10 @@ class Combine extends Abstract_CSS_Optimization {
 	 * @since 3.1
 	 * @author Remy Perona
 	 *
-	 * @param Options    $options  Options instance.
-	 * @param Minify\CSS $minifier Minifier instance.
+	 * @param Options_Data $options  Options instance.
+	 * @param MinifyCSS    $minifier Minifier instance.
 	 */
-	public function __construct( Options $options, Minify\CSS $minifier ) {
+	public function __construct( Options_Data $options, MinifyCSS $minifier ) {
 		parent::__construct( $options );
 
 		$this->minifier = $minifier;
@@ -54,7 +53,7 @@ class Combine extends Abstract_CSS_Optimization {
 		Logger::info( 'CSS COMBINE PROCESS STARTED.', [ 'css combine process' ] );
 
 		$html_nocomments = $this->hide_comments( $html );
-		$styles          = $this->find( '<link\s+([^>]+[\s\'"])?href\s*=\s*[\'"]\s*?([^\'"]+\.css(?:\?[^\'"]*)?)\s*?[\'"]([^>]+)?\/?>', $html_nocomments );
+		$styles          = $this->find( '<link\s+([^>]+[\s"\'])?href\s*=\s*[\'"]\s*?(?<url>[^\'"]+\.css(?:\?[^\'"]*)?)\s*?[\'"]([^>]+)?\/?>', $html_nocomments );
 
 		if ( ! $styles ) {
 			Logger::debug( 'No `<link>` tags found.', [ 'css combine process' ] );
@@ -72,7 +71,7 @@ class Combine extends Abstract_CSS_Optimization {
 		$files  = [];
 		$styles = array_map(
 				function( $style ) use ( &$files ) {
-					if ( $this->is_external_file( $style[2] ) ) {
+					if ( $this->is_external_file( $style['url'] ) ) {
 						Logger::debug(
 							'Style is external.',
 							[
@@ -94,7 +93,7 @@ class Combine extends Abstract_CSS_Optimization {
 						return;
 					}
 
-					$style_filepath = $this->get_file_path( $style[2] );
+					$style_filepath = $this->get_file_path( $style['url'] );
 
 					if ( ! $style_filepath ) {
 						return;
