@@ -1,15 +1,14 @@
 <?php
-namespace WP_Rocket\ServiceProvider;
+namespace WP_Rocket\Engine\Optimization;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 /**
- * Service Provider for Beacon
+ * Service provider for the WP Rocket optimizations
  *
- * @since 3.3
- * @author Remy Perona
+ * @since 3.5.3
  */
-class Beacon extends AbstractServiceProvider {
+class AdminServiceProvider extends AbstractServiceProvider {
 
 	/**
 	 * The provides array is a way to let the container
@@ -21,19 +20,17 @@ class Beacon extends AbstractServiceProvider {
 	 * @var array
 	 */
 	protected $provides = [
-		'beacon',
+		'minify_css_admin_subscriber',
 	];
 
 	/**
 	 * Registers the option array in the container
 	 *
-	 * @since 3.3
-	 * @author Remy Perona
+	 * @since 3.5.3
 	 *
 	 * @return void
 	 */
 	public function register() {
-		$this->getContainer()->add( 'beacon', 'WP_Rocket\Admin\Settings\Beacon' )
-			->withArgument( $this->getContainer()->get( 'options' ) );
+		$this->getContainer()->share( 'minify_css_admin_subscriber', 'WP_Rocket\Engine\Optimization\Minify\CSS\AdminSubscriber' );
 	}
 }

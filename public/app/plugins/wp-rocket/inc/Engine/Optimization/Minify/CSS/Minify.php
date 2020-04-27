@@ -1,8 +1,9 @@
 <?php
-namespace WP_Rocket\Optimization\CSS;
+namespace WP_Rocket\Engine\Optimization\Minify\CSS;
 
-use WP_Rocket\Logger\Logger;
 use MatthiasMullie\Minify as Minifier;
+use WP_Rocket\Logger\Logger;
+use WP_Rocket\Optimization\CSS\Path_Rewriter;
 
 /**
  * Minify CSS files
@@ -10,7 +11,7 @@ use MatthiasMullie\Minify as Minifier;
  * @since 3.1
  * @author Remy Perona
  */
-class Minify extends Abstract_CSS_Optimization {
+class Minify extends AbstractCSSOptimization {
 	use Path_Rewriter;
 
 	/**
@@ -26,7 +27,7 @@ class Minify extends Abstract_CSS_Optimization {
 		Logger::info( 'CSS MINIFICATION PROCESS STARTED.', [ 'css minification process' ] );
 
 		$html_nocomments = $this->hide_comments( $html );
-		$styles          = $this->find( '<link\s+([^>]+[\s"\'])?href\s*=\s*[\'"]\s*?([^\'"]+\.css(?:\?[^\'"]*)?)\s*?[\'"]([^>]+)?\/?>', $html_nocomments );
+		$styles          = $this->find( '<link\s+([^>]+[\s"\'])?href\s*=\s*[\'"]\s*?(?<url>[^\'"]+\.css(?:\?[^\'"]*)?)\s*?[\'"]([^>]+)?\/?>', $html_nocomments );
 
 		if ( ! $styles ) {
 			Logger::debug( 'No `<link>` tags found.', [ 'css minification process' ] );
@@ -42,7 +43,7 @@ class Minify extends Abstract_CSS_Optimization {
 		);
 
 		foreach ( $styles as $style ) {
-			if ( preg_match( '/(?:-|\.)min.css/iU', $style[2] ) ) {
+			if ( preg_match( '/(?:-|\.)min.css/iU', $style['url'] ) ) {
 				Logger::debug(
 					'Style is already minified.',
 					[
@@ -53,7 +54,7 @@ class Minify extends Abstract_CSS_Optimization {
 				continue;
 			}
 
-			if ( $this->is_external_file( $style[2] ) ) {
+			if ( $this->is_external_file( $style['url'] ) ) {
 				Logger::debug(
 					'Style is external.',
 					[
@@ -75,7 +76,7 @@ class Minify extends Abstract_CSS_Optimization {
 				continue;
 			}
 
-			$minify_url = $this->replace_url( $style[2] );
+			$minify_url = $this->replace_url( $style['url'] );
 
 			if ( ! $minify_url ) {
 				Logger::error(
@@ -88,7 +89,7 @@ class Minify extends Abstract_CSS_Optimization {
 				continue;
 			}
 
-			$replace_style = str_replace( $style[2], $minify_url, $style[0] );
+			$replace_style = str_replace( $style['url'], $minify_url, $style[0] );
 			$replace_style = str_replace( '<link', '<link data-minify="1"', $replace_style );
 			$html          = str_replace( $style[0], $replace_style, $html );
 
@@ -119,8 +120,11 @@ class Minify extends Abstract_CSS_Optimization {
 			return false;
 		}
 
+		// This filter is documented in /inc/classes/optimization/class-abstract-optimization.php.
+		$url = apply_filters( 'rocket_asset_url', $url, $this->get_zones() );
+
 		$unique_id = md5( $url . $this->minify_key );
-		$filename  = preg_replace( '/\.(css)$/', '-' . $unique_id . '.css', ltrim( rocket_realpath( rocket_extract_url_component( $url, PHP_URL_PATH ) ), '/' ) );
+		$filename  = preg_replace( '/\.(css)$/', '-' . $unique_id . '.css', ltrim( rocket_realpath( wp_parse_url( $url, PHP_URL_PATH ) ), '/' ) );
 
 		$minified_file = $this->minify_base_path . $filename;
 		$minify_url    = $this->get_minify_url( $filename, $url );
