@@ -78,9 +78,9 @@ class Add_Badges implements Actions, Task {
 		$this->add_actions();
 
 		$this->badge_ekomi = new Ekomi_Badge();
-		$this->badge_tuev = new Tuev_Badge();
 		$this->badge_trusted_shops = new Trusted_Shops_Badge();
 		$this->badge_co2 = new CO2_Badge();
+		$this->badge_tuev = new Tuev_Badge();
 	}
 
 	/**
@@ -102,9 +102,9 @@ class Add_Badges implements Actions, Task {
 	public function badges() {
 		// phpcs:ignore
 		echo $this->badge_trusted_shops->html();
-		echo $this->badge_tuev->html();
 		echo $this->badge_ekomi->html();
 		echo $this->badge_co2->html();
+		echo $this->badge_tuev->html();
 	}
 
 	/**
