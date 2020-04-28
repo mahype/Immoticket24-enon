@@ -33,7 +33,7 @@ class Tuev_Badge extends Badge_Component {
 			<div id="tuev-badge">
 				<img src="<?php echo plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'src/Assets/Img/Badges/tuev-saarland-logo.png'; ?>" />
 			</div>
-			<div id="tuev-rating">
+			<div id="ekomi-rating">
 				<?php
 				// phpcs:ignore
 				echo $ekomi->get_rating_stars();
@@ -44,7 +44,9 @@ class Tuev_Badge extends Badge_Component {
 					</strong>/5
 				</div>
 			</div>
-			<div id="ekomi-widget" class="ekomi-widget-container ekomi-widget-sf812665e4a9b6aad5b9"></div>
+			<div id="tuev-widget">
+				<a href="http://tuev-saar.de/SC44176"><img src="<?php echo plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'src/Assets/Img/Badges/tuev-geprueft.png'; ?>" /></a>
+			</div>
 		</div>
 		<?php
 
@@ -62,12 +64,12 @@ class Tuev_Badge extends Badge_Component {
 					if ( document.documentElement.clientWidth < 992 ) {
 						return;
 					}
-					$('#ekomi-widget').fadeIn(50);
+					$('#tuev-widget').fadeIn(50);
 				}, function () {
 					if ( document.documentElement.clientWidth < 992 ) {
 						return;
 					}
-					$('#ekomi-widget').fadeOut(50);
+					$('#tuev-widget').fadeOut(50);
 				});
 			});
 
@@ -122,7 +124,7 @@ class Tuev_Badge extends Badge_Component {
 				padding: 5px;
 				text-align: center;
 			}
-			.trust .badges #ekomi-widget {
+			.trust .badges #tuev-widget {
 				position: absolute;
 				top: 93px;
 				left: -135px;
@@ -133,7 +135,7 @@ class Tuev_Badge extends Badge_Component {
 				background: none repeat scroll 0 0 #ffffff;
 				border: 1px solid #aaaaaa;
 			}
-			.trust .badges #ekomi-widget:before {
+			.trust .badges #tuev-widget:before {
 				content: "";
 				border-bottom: 12px solid #ffffff;
 				border-right: 12px solid transparent;
@@ -144,7 +146,7 @@ class Tuev_Badge extends Badge_Component {
 				margin-left: -12px;
 				z-index: 9999999999999999999;
 			}
-			.trust .badges #ekomi-widget:after {
+			.trust .badges #tuev-widget:after {
 				content: "";
 				border-bottom: 12px solid #aaaaaa;
 				border-right: 12px solid transparent;
@@ -155,7 +157,7 @@ class Tuev_Badge extends Badge_Component {
 				margin-left: -12px;
 				z-index: -10000;
 			}
-			.trust .badges #ekomi-widget img {
+			.trust .badges #tuev-widget img {
 				display: block;
 				margin: 0 auto;
 			}
