@@ -68,6 +68,8 @@ class Filter_General implements Task, Filters, Actions {
 	public function add_filters() {
 		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_to_address' ) );
 		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
+		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
+		add_filter( 'wpenon_custom_fees', array( $this, 'filter_custom_fees' ), 100, 1 );
 	}
 
 	/**
@@ -125,6 +127,35 @@ class Filter_General implements Task, Filters, Actions {
 		}
 
 		return $reseller_value;
+	}
+
+	/**
+	 * Filtering custom fees
+	 *
+	 * @param array $fees Fees.
+	 *
+	 * @return array Filtered fees.
+	 *
+	 * @since 1.0.0
+	 */
+	public function filter_custom_fees( $fees ) {
+		$custom_fees = $this->reseller->data()->general->get_custom_fees();
+
+		if ( null === $custom_fees ) {
+			return $fees;
+		}
+
+		foreach ( $fees as $index => $fee ) {
+			if ( 'eingabesupport' === $fee['id'] ) {
+				continue;
+			}
+
+			if ( ! is_array( $custom_fees ) || ! in_array( $fee['id'], $custom_fees ) ) {
+				unset( $fees[ $index ] );
+			}
+		}
+
+		return $fees;
 	}
 
 	/**

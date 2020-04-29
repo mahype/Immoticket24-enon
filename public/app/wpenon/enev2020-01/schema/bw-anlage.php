@@ -978,7 +978,7 @@ $anlage = array(
 					),
 					'display'     => array(
 						'callback'      => 'wpenon_show_on_array_blacklist',
-						'callback_args' => array( 'field::h_erzeugung', array( 'oelofenverdampfungsbrenner', 'kohleholzofen', 'gasraumheizer', 'elektronachtspeicherheizung', 'elektrodirektheizgeraet', 'pelletfeuerung', ) ),
+						'callback_args' => array( 'field::h_erzeugung', array( 'oelofenverdampfungsbrenner', 'kohleholzofen', 'gasraumheizer', 'elektronachtspeicherheizung', 'elektrodirektheizgeraet' ) ),
 					),
 					'required'    => true,
 				),

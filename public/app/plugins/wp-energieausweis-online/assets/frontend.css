@@ -5,6 +5,9 @@
   display: none;
   color: #ffffff;
 }
+.wpenon-wrapper #wpenon-thumbnail-form p {
+  font-size: 87%;
+}
 .wpenon-wrapper .form-group {
   clear: both;
 }
@@ -61,11 +64,30 @@
 .wpenon-wrapper .overview-meta .lead {
   margin-bottom: 0;
 }
+.wpenon-wrapper .overview-meta .form-group.is-done .is-done-checkmark {
+  display: none;
+}
+.wpenon-wrapper .overview-meta .form-group .label-info {
+  display: none;
+}
 .wpenon-wrapper .fix-entries-button {
   float: right;
 }
 .wpenon-wrapper .tooltip {
   min-width: 250px;
+}
+.wpenon-wrapper .field-info .label-info {
+  content: ' ';
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  margin-top: 7px;
+  padding: 0;
+  background-image: url('img/icon-exclamation-mark_36x36.png');
+  -webkit-background-size: contain;
+          background-size: contain;
+  background-color: transparent;
+  border: 1px solid #ccc;
 }
 .wpenon-wrapper .back-to-overview-button {
   margin: 0 0 15px 25px;

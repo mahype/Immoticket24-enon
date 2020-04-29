@@ -100,6 +100,8 @@ class EDDAdjustments {
 
 		add_action( 'widgets_init', array( $this, '_unregisterMemoryLimitErrorWidget' ), 20 );
 
+		add_shortcode( 'edd_empty_cart', array( $this, 'empty_cart_shortcode' ) );
+
 		// EDD Fixes (fees cannot include taxes in EDD Core)
 		if ( function_exists( 'edd_prices_include_tax' ) && edd_prices_include_tax() ) {
 			add_filter( 'edd_get_payment_subtotal', array( $this, 'eddfix_get_payment_subtotal' ), 10, 3 );
@@ -166,6 +168,10 @@ class EDDAdjustments {
 		return $tax;
 	}
 
+	public function empty_cart_shortcode() {
+		edd_empty_cart();
+	}
+
 	public function eddfix_process_paypal_purchase( $purchase_data ) {
 		if ( ! wp_verify_nonce( $purchase_data['gateway_nonce'], 'edd-gateway' ) ) {
 			wp_die( __( 'Nonce verification has failed', 'easy-digital-downloads' ), __( 'Error', 'easy-digital-downloads' ), array( 'response' => 403 ) );
@@ -224,7 +230,7 @@ class EDDAdjustments {
 				'custom'        => $payment,
 				'rm'            => '2',
 				'return'        => $return_url,
-				'cancel_return' => edd_get_failed_transaction_uri( '?payment-id=' . $payment ),
+				'cancel_return' => edd_get_checkout_uri(),
 				'notify_url'    => $listener_url,
 				'page_style'    => edd_get_paypal_page_style(),
 				'cbt'           => get_bloginfo( 'name' ),
@@ -325,9 +331,6 @@ class EDDAdjustments {
 
 			// Fix for some sites that encode the entities
 			$paypal_redirect = str_replace( '&amp;', '&', $paypal_redirect );
-
-			// Get rid of cart contents
-			edd_empty_cart();
 
 			// Redirect to PayPal
 			wp_redirect( $paypal_redirect );

@@ -64,6 +64,25 @@ function wpenon_init() {
 	}
 }
 
+add_filter( 'request', function($query){
+	if(empty($_POST['wpenon_thumbnail_upload']) && filter_var($_POST['wpenon_thumbnail_upload'], FILTER_VALIDATE_BOOLEAN) && empty((int) $_FILES['wpenon_thumbnail_file']['error'])) {
+		$frontend = \WPENON\Controller\Frontend::instance();
+		$frontend->_handleRequest();
+	}elseif(!empty($_POST['wpenon_thumbnail_delete']) && !empty($_POST['energieausweis_id']) && filter_var($_POST['wpenon_thumbnail_delete'], FILTER_VALIDATE_BOOLEAN)) {
+		$imageId = get_post_meta( $_POST['energieausweis_id'], '_thumbnail_id', true );
+		delete_post_thumbnail( $_POST['energieausweis_id'] );
+		wp_delete_attachment($imageId);
+		die(json_encode([
+			                'tmpImage' => [
+				                'deleted' => true
+			                ]
+		                ])
+		);
+	}
+
+	return $query;
+}, 1);
+
 add_action( 'plugins_loaded', 'wpenon_init' );
 
 register_activation_hook( WPENON_MAINFILE, array( 'WPENON\App', 'install' ) );

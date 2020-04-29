@@ -4,6 +4,50 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Class aliases.
+ */
+class_alias( '\\WP_Rocket\\Engine\\Preload\\AbstractPreload', '\\WP_Rocket\\Preload\\Abstract_Preload' );
+class_alias( '\\WP_Rocket\\Engine\\Preload\\AbstractProcess', '\\WP_Rocket\\Preload\\Process' );
+class_alias( '\\WP_Rocket\\Engine\\Preload\\FullProcess', '\\WP_Rocket\\Preload\\Full_Process' );
+class_alias( '\\WP_Rocket\\Engine\\Preload\\Homepage', '\\WP_Rocket\\Preload\\Homepage' );
+class_alias( '\\WP_Rocket\\Engine\\Preload\\PartialPreloadSubscriber', '\\WP_Rocket\\Subscriber\\Preload\\Partial_Preload_Subscriber' );
+class_alias( '\\WP_Rocket\\Engine\\Preload\\PartialProcess', '\\WP_Rocket\\Preload\\Partial_Process' );
+class_alias( '\\WP_Rocket\\Engine\\Preload\\PreloadSubscriber', '\\WP_Rocket\\Subscriber\\Preload\\Preload_Subscriber' );
+class_alias( '\\WP_Rocket\\Engine\\Preload\\ServiceProvider', '\\WP_Rocket\\ServiceProvider\\Preload_Subscribers' );
+class_alias( '\\WP_Rocket\\Engine\\Preload\\Sitemap', '\\WP_Rocket\\Preload\\Sitemap' );
+class_alias( '\\WP_Rocket\\Engine\\Preload\\SitemapPreloadSubscriber', '\\WP_Rocket\\Subscriber\\Preload\\Sitemap_Preload_Subscriber' );
+class_alias( '\\WP_Rocket\\Engine\\Optimization\\GoogleFonts\\Combine','\\WP_Rocket\\Optimization\\CSS\\Combine_Google_Fonts' );
+class_alias( 'WP_Rocket\\Engine\\Optimization\\GoogleFonts\\Subscriber', '\\WP_Rocket\\Subscriber\\Optimization\\Combine_Google_Fonts_Subscriber' );
+
+/**
+ * Removes Minification, DNS Prefetch, LazyLoad, Defer JS when on an AMP version of a post with the AMP for WordPress plugin from Auttomatic
+ *
+ * @since 2.8.10 Compatibility with wp_resource_hints in WP 4.6
+ * @since 2.7
+ * @deprecated 3.5.2
+ *
+ * @author Remy Perona
+ */
+function rocket_disable_options_on_amp() {
+	_deprecated_function( __FUNCTION__ . '()', '3.5.2', '\WP_Rocket\ThirdParty\Plugins\Optimization\AMP::disable_options_on_amp()' );
+	global $wp_filter;
+
+	if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) {
+		remove_filter( 'wp_resource_hints', 'rocket_dns_prefetch', 10, 2 );
+		add_filter( 'do_rocket_lazyload', '__return_false' );
+		unset( $wp_filter['rocket_buffer'] );
+
+		// this filter is documented in inc/front/protocol.php.
+		$do_rocket_protocol_rewrite = apply_filters( 'do_rocket_protocol_rewrite', false ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+
+		if ( ( get_rocket_option( 'do_cloudflare', 0 ) && get_rocket_option( 'cloudflare_protocol_rewrite', 0 ) || $do_rocket_protocol_rewrite ) ) {
+			remove_filter( 'rocket_buffer', 'rocket_protocol_rewrite', PHP_INT_MAX );
+			remove_filter( 'wp_calculate_image_srcset', 'rocket_protocol_rewrite_srcset', PHP_INT_MAX );
+		}
+	}
+}
+
+/**
  * Validate Cloudflare input data
  *
  * @since 3.4.1
@@ -745,5 +789,84 @@ function rocket_varnish_http_purge( $url ) {
 				]
 			),
 		)
+	);
+}
+
+/**
+ * Display a warning notice if WP Rocket scheduled events are not running properly
+ *
+ * @since 3.5.4 deprecated
+ * @since 3.3.7
+ * @author Remy Perona
+ *
+ * @return void
+ */
+function rocket_warning_cron() {
+	_deprecated_function( __FUNCTION__ . '()', '3.5.4', 'WP_Rocket\Engine\Admin\HealthCheck::missed_cron()' );
+	$screen = get_current_screen();
+
+	// This filter is documented in inc/admin-bar.php.
+	if ( ! current_user_can( apply_filters( 'rocket_capacity', 'manage_options' ) ) ) {
+		return;
+	}
+
+	if ( 'settings_page_wprocket' !== $screen->id ) {
+		return;
+	}
+
+	$boxes = get_user_meta( get_current_user_id(), 'rocket_boxes', true );
+
+	if ( in_array( __FUNCTION__, (array) $boxes, true ) ) {
+		return;
+	}
+
+	if ( 0 === (int) get_rocket_option( 'purge_cron_interval' ) && 0 === get_rocket_option( 'async_css' ) && 0 === get_rocket_option( 'manual_preload' ) && 0 === get_rocket_option( 'schedule_automatic_cleanup' ) ) {
+		return;
+	}
+
+	$events = [
+		'rocket_purge_time_event'                      => 'Scheduled Cache Purge',
+		'rocket_database_optimization_time_event'      => 'Scheduled Database Optimization',
+		'rocket_database_optimization_cron_interval'   => 'Database Optimization Process',
+		'rocket_preload_cron_interval'                 => 'Preload',
+		'rocket_critical_css_generation_cron_interval' => 'Critical Path CSS Generation Process',
+	];
+
+	foreach ( $events as $event => $description ) {
+		$timestamp = wp_next_scheduled( $event );
+
+		if ( false === $timestamp ) {
+			unset( $events[ $event ] );
+			continue;
+		}
+
+		if ( $timestamp - time() > 0 ) {
+			unset( $events[ $event ] );
+			continue;
+		}
+	}
+
+	if ( empty( $events ) ) {
+		return;
+	}
+
+	$message = '<p>' . _n( 'The following scheduled event failed to run. This may indicate the CRON system is not running properly, which can prevent some WP Rocket features from working as intended:', 'The following scheduled events failed to run. This may indicate the CRON system is not running properly, which can prevent some WP Rocket features from working as intended:', count( $events ), 'rocket' ) . '</p>';
+
+	$message .= '<ul>';
+
+	foreach ( $events as $description ) {
+		$message .= '<li>' . $description . '</li>';
+	}
+
+	$message .= '</ul>';
+	$message .= '<p>' . __( 'Please contact your host to check if CRON is working.', 'rocket' ) . '</p>';
+
+	rocket_notice_html(
+		[
+			'status'         => 'warning',
+			'dismissible'    => '',
+			'message'        => $message,
+			'dismiss_button' => __FUNCTION__,
+		]
 	);
 }

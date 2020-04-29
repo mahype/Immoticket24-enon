@@ -27,7 +27,7 @@ class EnergieausweisForm {
 		$this->manager = \WPENON\Model\EnergieausweisManager::instance();
 	}
 
-	public function handleOverviewPageRequest( $energieausweis ) {
+	public function handleOverviewPageRequest( $energieausweis = null) {
 		$data = array();
 
 		$this->id     = $energieausweis->id;
@@ -45,17 +45,17 @@ class EnergieausweisForm {
 		);
 
 		if ( $this->_isEnergieausweisPostRequest() ) {
-			$this->_verifyNonceField();
+			#$this->_verifyNonceField();
 
 			if ( isset( $_POST[ $thumbnail['delete_button_name'] ] ) ) {
 				$energieausweis->thumbnail_id = 0;
 			} elseif ( isset( $_POST[ $thumbnail['upload_button_name'] ] ) ) {
-				$id = \WPENON\Util\ThumbnailHandler::upload( $thumbnail['file_field_name'] );
+				/*$id = \WPENON\Util\ThumbnailHandler::upload( $thumbnail['file_field_name'] );
 				if ( is_array( $id ) ) {
 					$thumbnail['error'] = $id['error'];
 				} else {
 					$energieausweis->thumbnail_id = $id;
-				}
+				}*/
 			}
 			$thumbnail['id'] = $energieausweis->thumbnail_id;
 		}

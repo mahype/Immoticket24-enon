@@ -36,6 +36,12 @@ class Frontend {
 
 		add_action( 'wp', array( $this, '_loadEnergieausweis' ) );
 
+		# awesome tape to prevent memory consumption on thumbnail upload
+		if(!empty($_FILES['wpenon_thumbnail_file']) && !empty($_POST['wpenon_thumbnail_upload'])){
+			add_action( 'request', array( $this, '_handleRequest' ) );
+
+		}
+
 		add_action( 'template_redirect', array( $this, '_handleRequest' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, '_enqueueScripts' ), 20 );
@@ -240,6 +246,16 @@ class Frontend {
 					$this->enqueue_scripts = true;
 				}
 			}
+		} elseif( ! is_admin() &&  array_key_exists( 'wpenon_thumbnail_upload', $_POST ) ) {
+			# handle ajax thumb upload
+			$tmpImageID = \WPENON\Util\ThumbnailHandler::upload( 'wpenon_thumbnail_file' );
+			$responseJson = json_encode([
+				'tmpImage' => [
+					'path' => wp_get_attachment_image_url($tmpImageID, [300,255]),
+					'id' => $tmpImageID
+				]
+			]);
+			die($responseJson);
 		}
 	}
 

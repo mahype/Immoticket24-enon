@@ -5827,9 +5827,24 @@ img.wp-post-image {
 .page-template-page-without-title-bg-white-grey .bg-white-grey article > .wp-block-group:nth-child(2n) {
   background-image: url(../media/pattern-grey.gif);
   background-repeat: repeat;
+  padding: 20px 100px;
   margin-left: -100px;
   margin-right: -100px;
-  padding: 20px 100px;
+}
+@media (max-width: 767px) {
+  .page-template-page-without-title .bg-white-grey article > .wp-block-group:nth-child(2n),
+  .page-template-page-without-title-bg-grey-white .bg-white-grey article > .wp-block-group:nth-child(2n),
+  .page-template-page-without-title-bg-white-grey .bg-white-grey article > .wp-block-group:nth-child(2n) {
+    padding: 20px 24px;
+    margin-left: -12px;
+    margin-right: -12px;
+  }
+}
+.page-template-page-without-title .bg-white-grey article > .wp-block-group:nth-child(2n) .wp-block-group__inner-container .wp-block-group__inner-container,
+.page-template-page-without-title-bg-grey-white .bg-white-grey article > .wp-block-group:nth-child(2n) .wp-block-group__inner-container .wp-block-group__inner-container,
+.page-template-page-without-title-bg-white-grey .bg-white-grey article > .wp-block-group:nth-child(2n) .wp-block-group__inner-container .wp-block-group__inner-container {
+  padding-left: 0;
+  padding-right: 0;
 }
 .page-template-page-without-title h3.question,
 .page-template-page-without-title-bg-grey-white h3.question,

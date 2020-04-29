@@ -64,6 +64,24 @@ class Fieldset_General implements Fieldset {
 				'required'     => 0,
 			),
 			array(
+				'key'          => 'field_email_delivery',
+				'label'        => __( 'Emailversand', 'enon' ),
+				'name'         => 'email_delivery',
+				'type'         => 'checkbox',
+				'choices' => array(
+					'send_confirmation_to_customer' => 'Bestätigunsmail &rarr; Kunde',
+					'send_confirmation_to_reseller' => 'Bestätigunsmail &rarr; Reseller',
+					'send_bill_to_customer' => 'Rechnungsmail &rarr; Kunden',
+					'send_bill_to_reseller' => 'Rechnungsmail &rarr; Reseller',
+				),
+				'default_value' => array(
+					'send_confirmation_to_customer',
+					'send_bill_to_customer',
+				),
+				'instructions' => __( 'An wen sollen welche Emails gesendet werden?', 'enon' ),
+				'required'     => 0,
+			),
+			array(
 				'key'          => 'field_send_bill_to_reseller',
 				'label'        => __( 'Rechnung zum Reseller senden', 'enon' ),
 				'name'         => 'send_bill_to_reseller',
@@ -88,6 +106,28 @@ class Fieldset_General implements Fieldset {
 				'name'         => 'price_vw',
 				'type'         => 'number',
 				'instructions' => __( 'Set individual price for reseller or leave empty for standard price.', 'enon' ),
+				'required'     => 0,
+			),
+			array(
+				'key'          => 'field_custom_fees',
+				'label'        => __( 'Zusätzliche Leistungen', 'enon' ),
+				'name'         => 'custom_fees',
+				'type'         => 'checkbox',
+				'choices' => array(
+					'energieausweis_besprechung' => 'Energieausweis Besprechung',
+					'experten_check' => 'Experten Check',
+					'sendung_per_post' => 'Sendung per Post',
+					'kostenlose_korrektur' => 'Kostenlose Korrektur',
+					'premium_bewertung' => 'Premium Bewertung',
+				),
+				'default_value' => array(
+					'energieausweis_besprechung',
+					'experten_check',
+					'sendung_per_post',
+					'kostenlose_korrektur',
+					'premium_bewertung',
+				),
+				'instructions' => __( 'Zusätzliche Leistungen des Resellers.', 'enon' ),
 				'required'     => 0,
 			),
 			array(

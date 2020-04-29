@@ -84,6 +84,4 @@ class Filter_Template implements Task, Actions, Filters {
 	public function filter_iframe_template() {
 		return locate_template( array( 'energieausweis-iframe.php' ) );
 	}
-
-
 }

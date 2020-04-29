@@ -30,8 +30,8 @@ class Ekomi_Badge extends Badge_Component {
 		ob_start();
 		?>
 		<div id="ekomi-wrap">
-			<div id="ekomi-badge-tuev">
-				<img src="<?php echo plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'src/Assets/Img/Badges/tuev-saarland-logo.png'; ?>" />
+			<div id="ekomi-badge">
+				<img src="<?php echo plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'src/Assets/Img/Badges/ekomi-badge.png'; ?>" />
 			</div>
 			<div id="ekomi-rating">
 				<?php
@@ -44,7 +44,7 @@ class Ekomi_Badge extends Badge_Component {
 					</strong>/5
 				</div>
 			</div>
-			<div id="ekomi-widget" class="ekomi-widget-container ekomi-widget-sf812665e4a9b6aad5b9"></div>
+			<div id="eKomiWidget_default"></div>
 		</div>
 		<?php
 
@@ -62,34 +62,26 @@ class Ekomi_Badge extends Badge_Component {
 					if ( document.documentElement.clientWidth < 992 ) {
 						return;
 					}
-					$('#ekomi-widget').fadeIn(50);
+					$('#eKomiWidget_default').fadeIn(50);
 				}, function () {
 					if ( document.documentElement.clientWidth < 992 ) {
 						return;
 					}
-					$('#ekomi-widget').fadeOut(50);
+					$('#eKomiWidget_default').fadeOut(50);
 				});
 			});
 
-			(function (w) {
-				w['_ekomiWidgetsServerUrl'] = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//widgets.ekomi.com';
-				w['_customerId'] = 81266;
-				w['_ekomiDraftMode'] = true;
-				w['_language'] = 'de';
-
-				if(typeof(w['_ekomiWidgetTokens']) !== 'undefined'){
-					w['_ekomiWidgetTokens'][w['_ekomiWidgetTokens'].length] = 'sf812665e4a9b6aad5b9';
-				} else {
-					w['_ekomiWidgetTokens'] = new Array('sf812665e4a9b6aad5b9');
-				}
-
-				if(typeof(ekomiWidgetJs) == 'undefined') {
-					ekomiWidgetJs = true;
-
-					var scr = document.createElement('script');scr.src = 'https://sw-assets.ekomiapps.de/static_resources/widget.js';
-					var head = document.getElementsByTagName('head')[0];head.appendChild(scr);
-				}
-			})(window);
+			(function(){
+				eKomiIntegrationConfig = new Array(
+					{certId:'0C5034E9BC8E6D1'}
+				);
+				if(typeof eKomiIntegrationConfig != "undefined"){for(var eKomiIntegrationLoop=0;eKomiIntegrationLoop<eKomiIntegrationConfig.length;eKomiIntegrationLoop++){
+					var eKomiIntegrationContainer = document.createElement('script');
+					eKomiIntegrationContainer.type = 'text/javascript'; eKomiIntegrationContainer.defer = true;
+					eKomiIntegrationContainer.src = (document.location.protocol=='https:'?'https:':'http:') +"//connect.ekomi.de/integration_1587995546/" + eKomiIntegrationConfig[eKomiIntegrationLoop].certId + ".js";
+					document.getElementsByTagName("head")[0].appendChild(eKomiIntegrationContainer);
+				}}else{if('console' in window){ console.error('connectEkomiIntegration - Cannot read eKomiIntegrationConfig'); }}
+			})();
 		</script>
 		<?php
 
@@ -108,7 +100,10 @@ class Ekomi_Badge extends Badge_Component {
 				border: 1px solid #dddddd;
 				border-radius: 8px;
 			}
-			.trust .badges #ekomi-badge-tuev,
+			.trust .badges #ekomi-badge {
+				margin-top:8px;
+			}
+			.trust .badges #ekomi-badge,
 			.trust .badges #ekomi-rating {
 				display: block;
 				float: left;
@@ -122,7 +117,7 @@ class Ekomi_Badge extends Badge_Component {
 				padding: 5px;
 				text-align: center;
 			}
-			.trust .badges #ekomi-widget {
+			.trust .badges #eKomiWidget_default {
 				position: absolute;
 				top: 93px;
 				left: -135px;
@@ -133,7 +128,7 @@ class Ekomi_Badge extends Badge_Component {
 				background: none repeat scroll 0 0 #ffffff;
 				border: 1px solid #aaaaaa;
 			}
-			.trust .badges #ekomi-widget:before {
+			.trust .badges #eKomiWidget_default:before {
 				content: "";
 				border-bottom: 12px solid #ffffff;
 				border-right: 12px solid transparent;
@@ -144,7 +139,7 @@ class Ekomi_Badge extends Badge_Component {
 				margin-left: -12px;
 				z-index: 9999999999999999999;
 			}
-			.trust .badges #ekomi-widget:after {
+			.trust .badges #eKomiWidget_default:after {
 				content: "";
 				border-bottom: 12px solid #aaaaaa;
 				border-right: 12px solid transparent;
@@ -155,7 +150,7 @@ class Ekomi_Badge extends Badge_Component {
 				margin-left: -12px;
 				z-index: -10000;
 			}
-			.trust .badges #ekomi-widget img {
+			.trust .badges #eKomiWidget_default img {
 				display: block;
 				margin: 0 auto;
 			}

@@ -50,7 +50,7 @@ $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
     <header class="header" role="banner">
 
       <div class="row">
-        <div class="branding col-md-5">
+        <div class="branding col-md-4">
             <p class="site-title"><a href="<?php echo home_url( '/' ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
             <p class="site-description lead"><?php bloginfo( 'description' ); ?></p>
             <?php if ( function_exists( 'the_custom_logo' ) ) : ?>
@@ -61,7 +61,7 @@ $html_attrs = apply_filters( 'immoticketenergieausweis_html_attrs', '' );
               </a>
             <?php endif; ?>
         </div>
-        <div class="trust col-md-7">
+        <div class="trust col-md-8">
           <div class="badges">
 	          <?php
 	          /**
