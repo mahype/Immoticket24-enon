@@ -974,11 +974,9 @@ $anlage = array(
 							'field::h_erzeugung',
 							'field::h2_erzeugung',
 							'field::h3_erzeugung',
+							true,
+							true,
 						),
-					),
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_blacklist',
-						'callback_args' => array( 'field::h_erzeugung', array( 'oelofenverdampfungsbrenner', 'kohleholzofen', 'gasraumheizer', 'elektronachtspeicherheizung', 'elektrodirektheizgeraet' ) ),
 					),
 					'required'    => true,
 				),
