@@ -273,7 +273,7 @@ function wpenon_immoticket24_get_ww_info( $h2_info = false, $h3_info = false, $h
 	$info = array();
 
 	$hide_pauschal = false;
-	$hide_pauschal_erzeuger = array( 'oelofenverdampfungsbrenner', 'kohleholzofen', 'gasraumheizer', 'elektronachtspeicherheizung', 'elektrodirektheizgeraet', 'pelletfeuerung' );
+	$hide_pauschal_erzeuger = array( 'oelofenverdampfungsbrenner', 'kohleholzofen', 'gasraumheizer', 'elektronachtspeicherheizung', 'elektrodirektheizgeraet' );
 
 	if ( in_array( $h_erzeuger, $hide_pauschal_erzeuger ) && $can_hide_pauschal ) {
 		$hide_pauschal = true;
