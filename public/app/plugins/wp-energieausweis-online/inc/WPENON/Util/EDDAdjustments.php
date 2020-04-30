@@ -745,8 +745,9 @@ class EDDAdjustments {
 		}
 
 		$owner_data = array();
-		if ( $energieausweis !== null && WP_DEBUG ) {
-		//   	$owner_data = $energieausweis->getOwnerData();
+
+		if ( ! empty ( $energieausweis->wpenon_email ) ) {
+			$owner_data['email'] = $energieausweis->wpenon_email;
 		}
 
 		$fields = array(
@@ -786,7 +787,7 @@ class EDDAdjustments {
 						echo ' required';
 					} ?>" type="text" name="<?php echo $field_slug; ?>"
 					       id="<?php echo $field_id; ?>"<?php echo $enable_placeholders ? ' placeholder="' . $field_title . '"' : ''; ?>
-					       value="<?php echo $field_value; ?>"<?php echo 'email' == $field_shortslug && ! empty( $field_value ) ? ' readonly' : ''; ?>>
+					       value="<?php echo $field_value; ?>">
 				</p>
 				<?php
 				if ( 'email' == $field_shortslug ) {
