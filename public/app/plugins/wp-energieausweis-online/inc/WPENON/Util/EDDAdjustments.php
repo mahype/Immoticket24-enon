@@ -787,7 +787,7 @@ class EDDAdjustments {
 						echo ' required';
 					} ?>" type="text" name="<?php echo $field_slug; ?>"
 					       id="<?php echo $field_id; ?>"<?php echo $enable_placeholders ? ' placeholder="' . $field_title . '"' : ''; ?>
-					       value="<?php echo $field_value; ?>"<?php echo 'email' === $field_shortslug && ! empty( $field_value ) ? ' readonly' : ''; ?>>
+					       value="<?php echo $field_value; ?>">
 				</p>
 				<?php
 				if ( 'email' == $field_shortslug ) {
