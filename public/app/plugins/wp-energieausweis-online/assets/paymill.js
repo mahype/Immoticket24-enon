@@ -200,11 +200,4 @@ jQuery( document ).ready( function($) {
     }, 200 );
   });
 
-
-	document.getElementById( 'edd_purchase_form_wrap' ).addEventListener( 'click', function() {
-		document.getElementById( 'sepa_account_id' ).addEventListener( 'input', function( e)  {
-			e.target.value = e.target.value.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim();
-		});
-	});
-
 });
