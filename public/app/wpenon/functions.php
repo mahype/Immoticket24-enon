@@ -1,5 +1,38 @@
 <?php
 
+/**
+ * EDD cart filter
+ * If more then one items in cart, store the last item and unset the other one.
+ * Also filter duplicated items from cart
+ *
+ * @since 03.05.2020
+ * @wp-hook edd_cart_contents
+ * @param $cart array
+ */
+add_filter('edd_cart_contents', function (array $cart ): array {
+	$cart = array_unique($cart, SORT_REGULAR);
+
+	if (!empty($cart) && count($cart) > 1) {
+		$last_cart_item = array_reverse($cart)[0];
+
+		foreach ($cart as $cart_item_key => $cart_item) {
+			if($cart_item['id'] !== $last_cart_item['id']){
+				unset($cart[$cart_item_key]);
+
+				/**
+				 * ToDo - discuss: schould we delete all other post instead remove them from cart?
+				 * wp_delete_post( $cart_item['id'], true );
+				 */
+			}
+		}
+
+		$cart = $last_cart_item;
+	}
+
+	return $cart;
+}, 10);
+
+
 // custom functions
 
 require_once dirname( __FILE__ ) . '/customer-csv-generator.php';
