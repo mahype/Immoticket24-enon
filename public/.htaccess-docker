@@ -8,6 +8,8 @@
 
 	RewriteRule ^app/uploads/(.*) https://energieausweis-online-erstellen.de/app/uploads/$1 [R=302,L]
 
+	RewriteCond %{REQUEST_URI} !^(/energieausweis2/bedarfsausweis-wohngebaeude/|/energieausweis2/verbrauchsausweis-wohngebaeude/|/energieausweise/(.*)|/checkout/|/checkout/kaufbestaetigung/|/edd-listener(.*)|/checkout/kauf-fehlgeschlagen/|/checkout/kaufarchiv/|/vermarktungspaket/|/(.+/)?feed/?|/(?:.+/)?embed/|/checkout/(.*)|/(index\.php/)?api(/.*|$))$ [NC]
+
 	RewriteRule ^index\.php$ - [L]
 
     # add a trailing slash to /wp-admin
