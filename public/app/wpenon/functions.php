@@ -10,26 +10,7 @@
  * @param $cart array
  */
 add_filter('edd_cart_contents', function (array $cart ): array {
-	$cart = array_unique($cart, SORT_REGULAR);
-
-	if (!empty($cart) && count($cart) > 1) {
-		$last_cart_item = array_reverse($cart)[0];
-
-		foreach ($cart as $cart_item_key => $cart_item) {
-			if($cart_item['id'] !== $last_cart_item['id']){
-				unset($cart[$cart_item_key]);
-
-				/**
-				 * ToDo - discuss: schould we delete all other post instead remove them from cart?
-				 * wp_delete_post( $cart_item['id'], true );
-				 */
-			}
-		}
-
-		$cart = $last_cart_item;
-	}
-
-	return $cart;
+	return array_unique($cart, SORT_REGULAR);
 }, 10);
 
 
