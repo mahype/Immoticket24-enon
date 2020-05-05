@@ -49,7 +49,7 @@ if ( ! class_exists( 'Enev\Schema\Bedarfsausweis_Schema_Sparkasse' ) ) :
 
 			$basisdaten['groups']['gebaeude']['fields']['gebaeudetyp']['options'] = array(
 				'freistehend'       => __( 'freistehendes Haus', 'wpenon' ),
-				'reihenhaus'        => __( 'Reihenhaus', 'wpenon' ),
+				'reihenhaus'        => __( 'Reihenmittelhaus', 'wpenon' ),
 				'reiheneckhaus'     => __( 'Reiheneckhaus', 'wpenon' ),
 				'fertighaus'        => __( 'Fertighaus', 'wpenon' ),
 				'doppelhaushaelfte' => __( 'Doppelhaushälfte', 'wpenon' ),
