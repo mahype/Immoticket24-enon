@@ -41,7 +41,6 @@ $anlage = array(
 						'fernwaermekwkfossil'      => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil', 'wpenon' ),
 						'fernwaermekwkregenerativ' => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung regenerativ', 'wpenon' ),
 						'fernwaermekwkfossilbio'   => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil mit Biomasseanteil', 'wpenon' ),
-						// Gibt es nicht als Wert in Tabelle
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
