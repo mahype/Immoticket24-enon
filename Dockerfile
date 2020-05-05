@@ -1,13 +1,20 @@
 FROM wordpress:latest
 
-RUN apt-get update && apt-get install -y \
-    unzip wget
+RUN apt-get update -y \
+	&& apt-get install -y \
+	   unzip wget \
+	   libxml2-dev \
+	    git \
+	&& apt-get clean -y \
 
 ENV XDEBUG_PORT 9000
 ENV XDEBUG_IDEKEY PHPSTORM
 
 # Install xdebug
 RUN pecl install xdebug-2.9.1 \
+	&& docker-php-ext-configure soap --enable-soap \
+    && docker-php-ext-install \
+        soap \
     && docker-php-ext-enable xdebug \
     && echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "display_startup_errors = On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
