@@ -1298,12 +1298,12 @@ if ( $energieausweis->speicherung ) {
 }
 
 if ( 'unbekannt' === $energieausweis->ww_info || empty( $energieausweis->ww_info ) ) {
-	$energieausweis->ww_info = 'h';
+	$prefix_ww = 'h';
 }
 
-$ww_erzeugung = $energieausweis->ww_info . '_erzeugung';
-$ww_energietraeger = $energieausweis->ww_info . '_energietraeger_' . $energieausweis->$ww_erzeugung;
-$ww_baujahr = $energieausweis->ww_info . '_baujahr';
+$ww_erzeugung = $prefix_ww . '_erzeugung';
+$ww_energietraeger = $prefix_ww . '_energietraeger_' . $energieausweis->$ww_erzeugung;
+$ww_baujahr = $prefix_ww . '_baujahr';
 
 $ww_erzeugung = wpenon_get_table_results( 'ww_erzeugung2019', array( 'bezeichnung' => array( 'value' => $energieausweis->$ww_erzeugung, 'compare' => '=' ) ), array(), true );
 $ww_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => $energieausweis->$ww_energietraeger, 'compare' => '=' ) ), array(), true );
