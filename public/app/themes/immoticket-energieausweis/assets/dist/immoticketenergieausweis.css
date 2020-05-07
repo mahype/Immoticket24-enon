@@ -5683,9 +5683,7 @@ img.wp-post-image {
 #edd_checkout_cart td.edd_cart_item_price {
   text-align: right;
 }
-.edd_cart_actions {
-  display: none;
-}
+
 #edd_checkout_form_wrap .edd-description {
   display: none !important;
 }

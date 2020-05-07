@@ -1,5 +1,19 @@
 <?php
 
+/**
+ * EDD cart filter
+ * If more then one items in cart, store the last item and unset the other one.
+ * Also filter duplicated items from cart
+ *
+ * @since 03.05.2020
+ * @wp-hook edd_cart_contents
+ * @param $cart array
+ */
+add_filter('edd_cart_contents', function (array $cart ): array {
+	return array_unique($cart, SORT_REGULAR);
+}, 10);
+
+
 // custom functions
 
 require_once dirname( __FILE__ ) . '/customer-csv-generator.php';
