@@ -17,7 +17,7 @@ global $post; ?>
 	<tbody>
 		<?php $cart_items = edd_get_cart_contents(); ?>
 		<?php do_action( 'edd_cart_items_before' ); ?>
-		<?php $cartItemCount = count($cart_items)-1; ?>
+		<?php $cartItemCount = count($cart_items); ?>
 		<?php if ( $cart_items ) : ?>
 			<?php foreach ( $cart_items as $key => $item ) : ?>
 				<tr class="edd_cart_item" id="edd_cart_item_<?php echo esc_attr( $key ) . '_' . esc_attr( $item['id'] ); ?>" data-download-id="<?php echo esc_attr( $item['id'] ); ?>">
@@ -55,7 +55,7 @@ global $post; ?>
 							<input type="hidden" name="edd-cart-download-<?php echo $key; ?>-options" value="<?php echo esc_attr( json_encode( $item['options'] ) ); ?>"/>
 						<?php endif; ?>
 						<?php do_action( 'edd_cart_actions', $item, $key ); ?>
-						<?php if($key != $cartItemCount): ?>
+						<?php if($cartItemCount !== 1): ?>
 						<a class="edd_cart_remove_item_btn" href="<?php echo esc_url( wp_nonce_url( edd_remove_item_url( $key ), 'edd-remove-from-cart-' . $key, 'edd_remove_from_cart_nonce' ) ); ?>"><?php _e( 'Remove', 'easy-digital-downloads' ); ?></a>
 						<?php endif; ?>
 					</td>
