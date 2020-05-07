@@ -733,25 +733,16 @@ class EDDAdjustments {
 		return array_merge( $required_fields, $new_required_fields );
 	}
 
-	/**
-	 * Returns first found ernergy certificate in cart.
-	 *
-	 * @return bool|\WPENON\Model|\WPENON\Model\Energieausweis|null.
-	 *
-	 * @since 1.0.0
-	 */
-	private function getFirstCartEnergieausweis() {
-		$cart_items = edd_get_cart_contents();
-
-		if ( 0 === count( $cart_items ) ) {
-			return false;
-		}
-
-		return \WPENON\Model\EnergieausweisManager::getEnergieausweis( $cart_items[0]['id'] );
-	}
-
 	public function _displayUserInfoFields() {
-		$energieausweis = $this->getFirstCartEnergieausweis();
+		$energieausweis = null;
+
+		$cart_items = edd_get_cart_contents();
+		if ( $cart_items ) {
+			foreach ( $cart_items as $key => $item ) {
+				$energieausweis = \WPENON\Model\EnergieausweisManager::getEnergieausweis( $item['id'] );
+				break;
+			}
+		}
 
 		$owner_data = array();
 
@@ -888,15 +879,6 @@ class EDDAdjustments {
 	}
 
 	public function _displayCCAddressFields() {
-		$energieausweis = $this->getFirstCartEnergieausweis();
-
-		$owner_data = array(
-			'street' => $energieausweis->adresse_strassenr,
-			'zip'    => $energieausweis->adresse_plz,
-			'city'   => $energieausweis->adresse_ort,
-			'state'  => $energieausweis->adresse_bundesland,
-		);
-
 		$enable_placeholders = apply_filters( 'wpenon_enable_purchase_placeholders', true );
 
 		$field_labels = array(
@@ -926,7 +908,7 @@ class EDDAdjustments {
 				<input type="text" id="card_address" name="card_address"
 				       class="card-address edd-input<?php if ( edd_field_is_required( 'card_address' ) ) {
 					       echo ' required';
-				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'Address line 1', 'easy-digital-downloads' ) . '"' : ''; ?> value="<?php echo $owner_data['street']; ?>" />
+				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'Address line 1', 'easy-digital-downloads' ) . '"' : ''; ?> />
 			</p>
 			<p id="edd-card-address-2-wrap">
 				<label for="card_address_2" class="edd-label">
@@ -954,7 +936,7 @@ class EDDAdjustments {
 				<input type="text" size="4" name="card_zip"
 				       class="card-zip edd-input<?php if ( edd_field_is_required( 'card_zip' ) ) {
 					       echo ' required';
-				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'Zip / Postal code', 'easy-digital-downloads' ) . '"' : ''; ?> value="<?php echo $owner_data['zip']; ?>" />
+				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'Zip / Postal code', 'easy-digital-downloads' ) . '"' : ''; ?> />
 			</p>
 			<p id="edd-card-city-wrap">
 				<label for="card_city" class="edd-label">
@@ -967,7 +949,7 @@ class EDDAdjustments {
 				<input type="text" id="card_city" name="card_city"
 				       class="card-city edd-input<?php if ( edd_field_is_required( 'card_city' ) ) {
 					       echo ' required';
-				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'City', 'easy-digital-downloads' ) . '"' : ''; ?>  value="<?php echo $owner_data['city']; ?>" />
+				       } ?>"<?php echo $enable_placeholders ? ' placeholder="' . __( 'City', 'easy-digital-downloads' ) . '"' : ''; ?> />
 			</p>
 			<p id="edd-card-country-wrap">
 				<label for="billing_country" class="edd-label">
@@ -1015,7 +997,7 @@ class EDDAdjustments {
 					</select>
 				<?php else : ?>
 					<input type="text" size="6" name="card_state" id="card_state"
-					       class="card_state edd-input"<?php echo $enable_placeholders ? ' placeholder="' . __( 'State / Province', 'easy-digital-downloads' ) . '"' : ''; ?>  value="<?php echo $owner_data['state']; ?>" />
+					       class="card_state edd-input"<?php echo $enable_placeholders ? ' placeholder="' . __( 'State / Province', 'easy-digital-downloads' ) . '"' : ''; ?> />
 				<?php endif; ?>
 			</p>
 			<?php do_action( 'edd_cc_billing_bottom' ); ?>
