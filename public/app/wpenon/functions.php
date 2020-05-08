@@ -141,15 +141,23 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 			if ( ! jQuery('#wpit_transfer_certificate_input').length ) {
 				var wohnungen = parseInt(jQuery('#wohnungen').val(), 10);
 				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
+				var dach = jQuery('#dach').val();
 				var wand_daemmung_on = jQuery('#wand_daemmung_on').val();
 				var decke_daemmung_on = jQuery('#decke_daemmung_on').val();
+				var dach_daemmung_on = jQuery('#dach_daemmung_on').val();
 
-				if ( strict || ( wohnungen > 0 && baujahr > 0 ) ) {
-					if ( wohnungen < 5 && baujahr < 1978 && wand_daemmung_on === 'no' || wohnungen < 5 && baujahr < 1978 && decke_daemmung_on === 'no' ) {
-						jQuery('#wpit_invalid_certificate_modal').modal('show');
+				if ( wohnungen >= 5 || baujahr > 1977 ) {
+					return true;
+				}
 
-						return false;
-					}
+				if ( wand_daemmung_on === 'no' && ( dach === 'unbeheizt' || dach === 'nicht-vorhanden' ) && decke_daemmung_on === 'no' ) {
+					jQuery('#wpit_invalid_certificate_modal').modal('show');
+					return false;
+				}
+
+				if ( wand_daemmung_on === 'no' && dach === 'beheizt' && dach_daemmung_on === 'no' ) {
+					jQuery('#wpit_invalid_certificate_modal').modal('show');
+					return false;
 				}
 			}
 
