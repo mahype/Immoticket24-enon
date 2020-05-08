@@ -340,15 +340,7 @@ $anlage = array(
 						'callback'      => 'wpenon_show_on_array_blacklist',
 						'callback_args' => array(
 							'field::h_erzeugung',
-							array(
-								'elektronachtspeicherheizung',
-								'elektrodirektheizgeraet',
-								'kohleholzofen',
-								'kleinthermeniedertemperatur',
-								'kleinthermebrennwert',
-								'gasraumheizer',
-								'oelofenverdampfungsbrenner'
-							)
+							wpenon_get_water_independend_heaters(),
 						),
 					),
 				),
@@ -359,15 +351,7 @@ $anlage = array(
 						'callback'      => 'wpenon_immoticket24_show_verteilung_gedaemmt',
 						'callback_args' => array(
 							'field::h_erzeugung',
-							array(
-								'elektronachtspeicherheizung',
-								'elektrodirektheizgeraet',
-								'kohleholzofen',
-								'kleinthermeniedertemperatur',
-								'kleinthermebrennwert',
-								'gasraumheizer',
-								'oelofenverdampfungsbrenner'
-							),
+							wpenon_get_water_independend_heaters(),
 							'field::verteilung_baujahr',
 							1995
 						),
