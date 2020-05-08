@@ -354,9 +354,9 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 
 						if ( file_exists( WPENON_DATA_PATH . '/pdf-signature.png' ) ) {
 							if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
-								$this->Image( WPENON_DATA_PATH . '/pdf-signature.png', 150, 249, 45 );
-							} else {
 								$this->Image( WPENON_DATA_PATH . '/pdf-signature.png', 150, 253, 45 );
+							} else {
+								$this->Image( WPENON_DATA_PATH . '/pdf-signature.png', 150, 257, 45 );
 							}
 						}
 					}
