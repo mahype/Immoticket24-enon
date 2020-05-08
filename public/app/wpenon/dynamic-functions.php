@@ -269,13 +269,27 @@ function wpenon_immoticket24_show_specific_anbaufenster( $fenster_manuell, $anba
 	return false;
 }
 
+function wpenon_get_water_independend_heaters() {
+	return array(
+		'oelofenverdampfungsbrenner',
+		'kohleholzofen',
+		'gasraumheizer',
+		'elektronachtspeicherheizung',
+		'elektrodirektheizgeraet',
+	);
+}
+
+function wpenon_is_water_independend_heater( $heater ) {
+	return in_array( $heater, wpenon_get_water_independend_heaters() );
+}
+
 function wpenon_immoticket24_get_ww_info( $h2_info = false, $h3_info = false, $h_erzeuger = false, $h2_erzeuger = false, $h3_erzeuger = false, $show_unbekannt = false, $can_hide_pauschal = false ) {
 	$info = array();
 
 	$hide_pauschal = false;
-	$hide_pauschal_erzeuger = array( 'oelofenverdampfungsbrenner', 'kohleholzofen', 'gasraumheizer', 'elektronachtspeicherheizung', 'elektrodirektheizgeraet' );
+	$water_independend_heaters = wpenon_get_water_independend_heaters();
 
-	if ( in_array( $h_erzeuger, $hide_pauschal_erzeuger ) && $can_hide_pauschal ) {
+	if ( in_array( $h_erzeuger, $water_independend_heaters ) && $can_hide_pauschal ) {
 		$hide_pauschal = true;
 	}
 

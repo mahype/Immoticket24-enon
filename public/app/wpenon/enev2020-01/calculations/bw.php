@@ -1297,7 +1297,12 @@ if ( $energieausweis->speicherung ) {
   }
 }
 
-if ( 'unbekannt' === $energieausweis->ww_info || empty( $energieausweis->ww_info ) ) {
+if ( 'unbekannt' === $energieausweis->ww_info ) {
+	// This kind of heater can't be set to pauschal, because there is no value for it in schema logic.
+	if( ! wpenon_is_water_independend_heater( $energieausweis->h_erzeugung ) ) {
+		$energieausweis->ww_info = 'h';
+	}
+
 	$prefix_ww = 'h';
 }
 
