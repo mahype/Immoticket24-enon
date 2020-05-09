@@ -1,5 +1,19 @@
 <?php
 
+/**
+ * EDD cart filter
+ * If more then one items in cart, store the last item and unset the other one.
+ * Also filter duplicated items from cart
+ *
+ * @since 03.05.2020
+ * @wp-hook edd_cart_contents
+ * @param $cart array
+ */
+add_filter('edd_cart_contents', function (array $cart ): array {
+	return array_unique($cart, SORT_REGULAR);
+}, 10);
+
+
 // custom functions
 
 require_once dirname( __FILE__ ) . '/customer-csv-generator.php';
@@ -124,19 +138,26 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 			// Strict check if no parameter given (when form is submitted).
 			var strict = 'undefined' === typeof e;
 
-			if (!jQuery('#wpit_transfer_certificate_input').length) {
+			if ( ! jQuery('#wpit_transfer_certificate_input').length ) {
 				var wohnungen = parseInt(jQuery('#wohnungen').val(), 10);
 				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
+				var dach = jQuery('#dach').val();
 				var wand_daemmung_on = jQuery('#wand_daemmung_on').val();
+				var decke_daemmung_on = jQuery('#decke_daemmung_on').val();
+				var dach_daemmung_on = jQuery('#dach_daemmung_on').val();
 
-				console.log( wand_daemmung_on );
+				if ( wohnungen >= 5 || baujahr > 1977 ) {
+					return true;
+				}
 
-				if (strict || (wohnungen > 0 && baujahr > 0 && (wand_daemmung_on == 'yes' || _wpit_wand_touched))) {
-					if ( wohnungen < 5 && baujahr < 1978 && wand_daemmung_on === 'no' ) {
-						jQuery('#wpit_invalid_certificate_modal').modal('show');
+				if ( wand_daemmung_on === 'no' && ( dach === 'unbeheizt' || dach === 'nicht-vorhanden' ) && decke_daemmung_on === 'no' ) {
+					jQuery('#wpit_invalid_certificate_modal').modal('show');
+					return false;
+				}
 
-						return false;
-					}
+				if ( wand_daemmung_on === 'no' && dach === 'beheizt' && dach_daemmung_on === 'no' ) {
+					jQuery('#wpit_invalid_certificate_modal').modal('show');
+					return false;
 				}
 			}
 
