@@ -269,12 +269,33 @@ function wpenon_immoticket24_show_specific_anbaufenster( $fenster_manuell, $anba
 	return false;
 }
 
-function wpenon_immoticket24_get_ww_info( $h2_info = false, $h3_info = false, $h_erzeuger = false, $h2_erzeuger = false, $h3_erzeuger = false, $show_unbekannt = false ) {
+function wpenon_get_water_independend_heaters() {
+	return array(
+		'oelofenverdampfungsbrenner',
+		'kohleholzofen',
+		'gasraumheizer',
+		'elektronachtspeicherheizung',
+		'elektrodirektheizgeraet',
+	);
+}
+
+function wpenon_is_water_independend_heater( $heater ) {
+	return in_array( $heater, wpenon_get_water_independend_heaters() );
+}
+
+function wpenon_immoticket24_get_ww_info( $h2_info = false, $h3_info = false, $h_erzeuger = false, $h2_erzeuger = false, $h3_erzeuger = false, $show_unbekannt = false, $can_hide_pauschal = false ) {
 	$info = array();
+
+	$hide_pauschal = false;
+	$water_independend_heaters = wpenon_get_water_independend_heaters();
+
+	if ( in_array( $h_erzeuger, $water_independend_heaters ) && $can_hide_pauschal ) {
+		$hide_pauschal = true;
+	}
 
 	$h_erzeuger = \WPENON\Util\Parse::boolean( $h_erzeuger );
 
-	if ( ! $h_erzeuger || wpenon_immoticket24_is_h_erzeuger_ww( $h_erzeuger ) ) {
+	if ( ( ! $h_erzeuger || wpenon_immoticket24_is_h_erzeuger_ww( $h_erzeuger ) ) && ! $hide_pauschal ) {
 		$info['h'] = __( 'pauschal in Heizungsanlage enthalten', 'wpenon' );
 	}
 
@@ -284,11 +305,11 @@ function wpenon_immoticket24_get_ww_info( $h2_info = false, $h3_info = false, $h
 	$h2_erzeuger = \WPENON\Util\Parse::boolean( $h2_erzeuger );
 	$h3_erzeuger = \WPENON\Util\Parse::boolean( $h3_erzeuger );
 
-	if ( $h2_info ) {
+	if ( $h2_info && ! $hide_pauschal ) {
 		if ( ! $h2_erzeuger || wpenon_immoticket24_is_h_erzeuger_ww( $h2_erzeuger ) ) {
 			$info['h2'] = __( 'pauschal in 2. Heizungsanlage enthalten', 'wpenon' );
 		}
-		if ( $h3_info ) {
+		if ( $h3_info && ! $hide_pauschal ) {
 			if ( ! $h3_erzeuger || wpenon_immoticket24_is_h_erzeuger_ww( $h3_erzeuger ) ) {
 				$info['h3'] = __( 'pauschal in 3. Heizungsanlage enthalten', 'wpenon' );
 			}
@@ -429,18 +450,6 @@ function wpenon_immoticket24_show_h_energietraeger( $erzeugung_vorhanden, $erzeu
 }
 
 function wpenon_immoticket24_show_ww_erzeugung( $ww_info, $h_erzeugung ) {
-	$h_energietraeger_showers = array(
-		'oelofenverdampfungsbrenner',
-		'kohleholzofen',
-		'gasraumheizer',
-		'elektronachtspeicherheizung',
-		'elektrodirektheizgeraet',
-	);
-
-	if ( in_array( $h_erzeugung, $h_energietraeger_showers ) ) {
-		return true;
-	}
-
 	if ( 'ww' === $ww_info ) {
 		return true;
 	}
@@ -449,20 +458,8 @@ function wpenon_immoticket24_show_ww_erzeugung( $ww_info, $h_erzeugung ) {
 }
 
 function wpenon_immoticket24_show_ww_energietraeger( $ww_info, $h_erzeugung, $ww_erzeugung, $erzeuger_name ) {
-	$h_energietraeger_shower = array(
-		'oelofenverdampfungsbrenner',
-		'kohleholzofen',
-		'gasraumheizer',
-		'elektronachtspeicherheizung',
-		'elektrodirektheizgeraet',
-	);
-
 	if ( $erzeuger_name !== $ww_erzeugung ) {
 		return false;
-	}
-
-	if ( in_array( $h_erzeugung, $h_energietraeger_shower ) ) {
-		return true;
 	}
 
 	if ( 'ww' === $ww_info ) {
@@ -473,18 +470,6 @@ function wpenon_immoticket24_show_ww_energietraeger( $ww_info, $h_erzeugung, $ww
 }
 
 function wpenon_immoticket24_show_ww_fields( $ww_info, $ww_erzeugung, $h_erzeugung ) {
-	$h_energietraeger_shower = array(
-		'oelofenverdampfungsbrenner',
-		'kohleholzofen',
-		'gasraumheizer',
-		'elektronachtspeicherheizung',
-		'elektrodirektheizgeraet',
-	);
-
-	if ( in_array( $h_erzeugung, $h_energietraeger_shower ) ) {
-		return true;
-	}
-
 	if( 'ww' === $ww_info ) {
 		return true;
 	}

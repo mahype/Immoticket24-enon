@@ -295,3 +295,10 @@ if ( ! function_exists( 'edd_sanitize_price' ) ) {
 
 	add_filter( 'edd_settings_price_sanitize', 'edd_sanitize_price' );
 }
+
+/**
+ * Paymill bank events js include like iban validation
+ */
+add_action('edd_after_cc_fields', function(){
+	echo '<script type="text/javascript" src="' . plugin_dir_url(__DIR__) . '/assets/paymill-bank-events.js"></script>';
+});

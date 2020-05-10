@@ -52,7 +52,7 @@ if ( ! class_exists( 'Enev\Schema\Verbrauchsausweis_Schema_Sparkasse' ) ) :
 
 			$basisdaten['groups']['gebaeude']['fields']['gebaeudetyp']['options'] = array(
 				'freistehend'            => __( 'freistehendes Haus', 'wpenon' ),
-				'reihenhaus'             => __( 'Reihenhaus', 'wpenon' ),
+				'reihenhaus'             => __( 'Reihenmittelhaus', 'wpenon' ),
 				'reiheneckhaus'          => __( 'Reiheneckhaus', 'wpenon' ),
 				'doppelhaushaelfte'      => __( 'Doppelhaushälfte', 'wpenon' ),
 				'fertighausfachwerkhaus' => __( 'Fertighaus/Fachwerkhaus', 'wpenon' ),

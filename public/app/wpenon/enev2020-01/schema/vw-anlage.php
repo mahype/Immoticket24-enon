@@ -340,15 +340,7 @@ $anlage = array(
 						'callback'      => 'wpenon_show_on_array_blacklist',
 						'callback_args' => array(
 							'field::h_erzeugung',
-							array(
-								'elektronachtspeicherheizung',
-								'elektrodirektheizgeraet',
-								'kohleholzofen',
-								'kleinthermeniedertemperatur',
-								'kleinthermebrennwert',
-								'gasraumheizer',
-								'oelofenverdampfungsbrenner'
-							)
+							wpenon_get_water_independend_heaters(),
 						),
 					),
 				),
@@ -359,15 +351,7 @@ $anlage = array(
 						'callback'      => 'wpenon_immoticket24_show_verteilung_gedaemmt',
 						'callback_args' => array(
 							'field::h_erzeugung',
-							array(
-								'elektronachtspeicherheizung',
-								'elektrodirektheizgeraet',
-								'kohleholzofen',
-								'kleinthermeniedertemperatur',
-								'kleinthermebrennwert',
-								'gasraumheizer',
-								'oelofenverdampfungsbrenner'
-							),
+							wpenon_get_water_independend_heaters(),
 							'field::verteilung_baujahr',
 							1995
 						),
@@ -1085,11 +1069,15 @@ $anlage = array(
 					'description' => __( 'Wählen Sie aus, ob die Warmwasserzeugung durch eine der angegebenen Heizungsanlagen oder in einer separaten Anlage stattfindet. Alternativ können Sie auch &quot;Unbekannt&quot; auswählen, in diesem Fall wird der Verbrauch pauschal um 20 kWh/(m&sup2;a) erhöht.', 'wpenon' ),
 					'options'     => array(
 						'callback'      => 'wpenon_immoticket24_get_ww_info',
-						'callback_args' => array( 'field::h2_info', 'field::h3_info', false, false, false, true ),
-					),
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_blacklist',
-						'callback_args' => array( 'field::h_erzeugung', array( 'oelofenverdampfungsbrenner', 'kohleholzofen', 'gasraumheizer', 'elektronachtspeicherheizung', 'elektrodirektheizgeraet' ) ),
+						'callback_args' => array(
+							'field::h2_info',
+							'field::h3_info',
+							'field::h_erzeugung',
+							'field::h2_erzeugung',
+							'field::h3_erzeugung',
+							true,
+							true,
+						),
 					),
 					'required'    => true,
 				),

@@ -40,8 +40,7 @@ $anlage = array(
 						'fernwaermehzwregenerativ' => __( 'Nah- und Fernwärme aus Heizwerken regenerativ', 'wpenon' ),
 						'fernwaermekwkfossil'      => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil', 'wpenon' ),
 						'fernwaermekwkregenerativ' => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung regenerativ', 'wpenon' ),
-						'biogas'                   => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil mit Biomasseanteil', 'wpenon' ),
-						// Gibt es nicht als Wert in Tabelle
+						'fernwaermekwkfossilbio'   => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil mit Biomasseanteil', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -892,15 +891,7 @@ $anlage = array(
 						'callback'      => 'wpenon_show_on_array_blacklist',
 						'callback_args' => array(
 							'field::h_erzeugung',
-							array(
-								'elektronachtspeicherheizung',
-								'elektrodirektheizgeraet',
-								'kohleholzofen',
-								'kleinthermeniedertemperatur',
-								'kleinthermebrennwert',
-								'gasraumheizer',
-								'oelofenverdampfungsbrenner'
-							)
+							wpenon_get_water_independend_heaters(),
 						),
 					),
 				),
@@ -911,15 +902,7 @@ $anlage = array(
 						'callback'      => 'wpenon_immoticket24_show_verteilung_gedaemmt',
 						'callback_args' => array(
 							'field::h_erzeugung',
-							array(
-								'elektronachtspeicherheizung',
-								'elektrodirektheizgeraet',
-								'kohleholzofen',
-								'kleinthermeniedertemperatur',
-								'kleinthermebrennwert',
-								'gasraumheizer',
-								'oelofenverdampfungsbrenner'
-							),
+							wpenon_get_water_independend_heaters(),
 							'field::verteilung_baujahr',
 							1978
 						),
@@ -974,11 +957,9 @@ $anlage = array(
 							'field::h_erzeugung',
 							'field::h2_erzeugung',
 							'field::h3_erzeugung',
+							true,
+							true,
 						),
-					),
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_blacklist',
-						'callback_args' => array( 'field::h_erzeugung', array( 'oelofenverdampfungsbrenner', 'kohleholzofen', 'gasraumheizer', 'elektronachtspeicherheizung', 'elektrodirektheizgeraet' ) ),
 					),
 					'required'    => true,
 				),
