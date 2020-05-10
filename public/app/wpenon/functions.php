@@ -14,6 +14,30 @@ add_filter('edd_cart_contents', function (array $cart ): array {
 }, 10);
 
 
+/**
+ * Add invoice link for an Energieausweis
+ *
+ * @since 10.05.2020
+ * @wp-hook edd_stats_meta_box
+ */
+add_action('edd_stats_meta_box', function (){
+	if(empty($_GET['post'])){
+		return;
+	}
+
+	$post_id    = $_GET['post'];
+	$invoice_id = get_post_meta($post_id, '_wpenon_attached_payment_id', true);
+	$invoice    = get_post($invoice_id);
+
+	if(empty($invoice)){
+		return;
+	}
+
+	$invoice_url = home_url('wp-admin/edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $invoice_id);
+
+	echo '<hr />Zugehörige Rechnung: <a href="' . $invoice_url . '" target="_blank">' . $invoice->post_title . '</a>';
+});
+
 // custom functions
 
 require_once dirname( __FILE__ ) . '/customer-csv-generator.php';
