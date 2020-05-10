@@ -1304,6 +1304,8 @@ if ( 'unbekannt' === $energieausweis->ww_info ) {
 	}
 
 	$prefix_ww = 'h';
+} else {
+	$prefix_ww = $energieausweis->ww_info;
 }
 
 $ww_erzeugung = $prefix_ww . '_erzeugung';
