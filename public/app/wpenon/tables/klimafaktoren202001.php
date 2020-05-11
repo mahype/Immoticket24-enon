@@ -1,7 +1,7 @@
 <?php
 
-if ( ! function_exists( 'wpenon_immoticket24_pre_rebuild_klimafaktoren_table' ) ) {
-	function wpenon_immoticket24_pre_rebuild_klimafaktoren_table( $file, $charset ) {
+if ( ! function_exists( 'wpenon_immoticket24_pre_rebuild_klimafaktoren_table_202001' ) ) {
+	function wpenon_immoticket24_pre_rebuild_klimafaktoren_table_202001( $file, $charset ) {
 		$file_handle = fopen( $file, 'r' );
 		$first_line  = fgetcsv( $file_handle, 0, ';', '"', '"' );
 		fclose( $file_handle );
@@ -31,7 +31,7 @@ $_klimafaktoren_schema = array(
 	'primary_field'     => 'bezeichnung',
 	'search_field'      => 'bezeichnung',
 	'search_before'     => true,
-	'rebuild_on_import' => 'wpenon_immoticket24_pre_rebuild_klimafaktoren_table',
+	'rebuild_on_import' => 'wpenon_immoticket24_pre_rebuild_klimafaktoren_table_202001',
 	'fields'            => array(
 		'bezeichnung' => array(
 			'title' => __( 'PLZ<sup>1</sup>', 'wpenon' ),
