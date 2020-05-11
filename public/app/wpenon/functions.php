@@ -29,7 +29,7 @@ add_action('edd_stats_meta_box', function (){
 	$invoice_id = get_post_meta($post_id, '_wpenon_attached_payment_id', true);
 	$invoice    = get_post($invoice_id);
 
-	if(empty($invoice)){
+	if(empty($invoice_id)){
 		return;
 	}
 
