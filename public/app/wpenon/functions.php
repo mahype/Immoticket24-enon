@@ -174,12 +174,12 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 					return true;
 				}
 
-				if ( wand_daemmung_on === 'no' && ( dach === 'unbeheizt' || dach === 'nicht-vorhanden' ) && decke_daemmung_on === 'no' ) {
+				if ( wand_daemmung_on === 'no' || ( ( dach === 'unbeheizt' || dach === 'nicht-vorhanden' ) && decke_daemmung_on === 'no' ) ) {
 					jQuery('#wpit_invalid_certificate_modal').modal('show');
 					return false;
 				}
 
-				if ( wand_daemmung_on === 'no' && dach === 'beheizt' && dach_daemmung_on === 'no' ) {
+				if ( wand_daemmung_on === 'no' || ( dach === 'beheizt' && dach_daemmung_on === 'no' ) ) {
 					jQuery('#wpit_invalid_certificate_modal').modal('show');
 					return false;
 				}
