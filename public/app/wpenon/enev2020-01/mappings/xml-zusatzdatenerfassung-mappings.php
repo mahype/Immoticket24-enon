@@ -646,13 +646,14 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 									$heizung            = !empty($verbrauch['heizung']) ? $verbrauch['heizung'] : null;
 									$warmwasser         = !empty($verbrauch['warmwasser']) ? $verbrauch['warmwasser'] : null;
 									$energietraeger_mpk = !empty($traeger['energietraeger_mpk']) ? $traeger['energietraeger_mpk'] : null;
-									$menge              = (int) 0;
 
-									if(!$heizung || !$warmwasser || !$energietraeger_mpk){
-										return $menge;
+									if(!$heizung || $warmwasser || $energietraeger_mpk){
+										return (int) 0;
 									}
 
-									return (int) ( $heizung + $warmwasser ) / $energietraeger_mpk;
+									$menge = ( $heizung + $warmwasser ) / $energietraeger_mpk;
+
+									return (int) $menge;
 								}
 							}
 
