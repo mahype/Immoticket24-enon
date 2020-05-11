@@ -33,7 +33,7 @@ add_action('edd_stats_meta_box', function (){
 		return;
 	}
 
-	$invoice_url = admin_url('wp-admin/edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $invoice_id);
+	$invoice_url = admin_url('edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $invoice_id);
 
 	echo '<hr />Zugehörige Rechnung: <a href="' . $invoice_url . '">' . $invoice->post_title . '</a>';
 });
