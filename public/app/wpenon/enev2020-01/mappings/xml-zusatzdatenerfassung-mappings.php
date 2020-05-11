@@ -642,16 +642,7 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 								$calculations = $energieausweis->calculate();
 								$traeger      = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
 								if ( isset( $traeger['verbrauch'][ $parent_index ] ) ) {
-									$verbrauch          = !empty($traeger['verbrauch'][$parent_index]) ? $traeger['verbrauch'][$parent_index] : null;
-									$heizung            = !empty($verbrauch['heizung']) ? $verbrauch['heizung'] : null;
-									$warmwasser         = !empty($verbrauch['warmwasser']) ? $verbrauch['warmwasser'] : null;
-									$energietraeger_mpk = !empty($traeger['energietraeger_mpk']) ? $traeger['energietraeger_mpk'] : null;
-
-									if(!$heizung || $warmwasser || $energietraeger_mpk){
-										return (int) 0;
-									}
-
-									$menge = ( $heizung + $warmwasser ) / $energietraeger_mpk;
+									$menge = ( $traeger['verbrauch'][ $parent_index ]['heizung'] + $traeger['verbrauch'][ $parent_index ]['warmwasser'] ) / $traeger['energietraeger_mpk'];
 
 									return (int) $menge;
 								}
