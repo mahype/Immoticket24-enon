@@ -24,8 +24,7 @@ class Premiumbewertung_Popup extends Popup_Component {
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->set_trigger( '#edd-purchase-button', 'click' );
+		$this->set_trigger( 'document', 'wpenon.update_payment_method' );
 	}
 
 
@@ -42,7 +41,7 @@ class Premiumbewertung_Popup extends Popup_Component {
 			'Sichern Sie sich jetzt noch schnell eine kostenlose vor-Ort-Bewertung Ihrer Immobilie, damit Sie beim Verkauf kein Geld verschenken.',
 			'Energieausweis inklusive kostenloser Immobilien-Bewertung bestellen',
 			'Energieausweis ohne Bewertung bestellen',
-			plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'src/Assets/Img/Popups/Premium-Bewertung.png'
+			plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'src/Assets/Img/Popups/Premium-Bewertung.jpg'
 		);
 
 		return $html;
@@ -55,9 +54,29 @@ class Premiumbewertung_Popup extends Popup_Component {
 	 *
 	 * @since 1.0.0
 	 */
+	public function js_action_on_trigger(): string {
+		ob_start()
+		?>
+		var premium_bewertung_is_checked = $('#edd_custom_fee_premium_bewertung').is(":checked");
+		if ( premium_bewertung_is_checked ) {
+		    return;
+		}
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Returns JS code of component.
+	 *
+	 * @return string JS content.
+	 *
+	 * @since 1.0.0
+	 */
 	public function js_action(): string {
 		ob_start()
 		?>
+		alert
 
 		<?php
 

@@ -55,8 +55,7 @@ class Add_Popups implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'wp_footer', array( $this, 'js' ) );
-		add_action( 'edd_cart_footer_buttons', array( $this, 'html_premiumbewertung' ) );
+		add_action( 'wp_footer', array( $this, 'html_premiumbewertung' ) );
 	}
 
 	/**

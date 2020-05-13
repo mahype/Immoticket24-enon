@@ -57,7 +57,7 @@ class Loader extends Task_Loader {
 	 */
 	public function add_frontend_tasks() {
 		$this->add_task( Add_Badges::class );
-		// $this->add_task( Add_Popups::class );
+		$this->add_task( Add_Popups::class );
 
 		$this->add_task( Add_Page_Scripts::class );
 		$this->add_task( Remove_Optimizepress::class );

@@ -72,7 +72,7 @@ abstract class Popup_Component extends Component {
 	 * @since 1.0.0
 	 */
 	private function create_popup_id() : string {
-		return md5( self::class . microtime() );
+		return 'modal__' . substr( md5( self::class . microtime() ), 0, 5 );
 	}
 
 	/**
@@ -127,7 +127,7 @@ abstract class Popup_Component extends Component {
 		ob_start();
 		?>
 		<div id="<?php echo $this->get_popup_id(); ?>" class="modal fade" role="dialog">
-			<div class="modal-dialog" style="margin-top:<?php echo self::MARGIN_TOP; ?>>;">
+			<div class="modal-dialog" style="margin-top:<?php echo self::MARGIN_TOP; ?>">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title"><?php echo $title; ?></h4>
@@ -146,6 +146,7 @@ abstract class Popup_Component extends Component {
 		<?php
 
 		$html = ob_get_clean();
+		$html.= $this->js();
 
 		return $html;
 	}
@@ -160,8 +161,8 @@ abstract class Popup_Component extends Component {
 	public function js() : string {
 		ob_start();
 		?>
-		<script>
-			jQuery(document).ready(function ($) {
+		<script type="text/javascript">
+			jQuery( document ).ready( function ( $ ) {
 				var <?php echo $this->get_popup_id(); ?> = $( '#<?php echo $this->get_popup_id(); ?>' );
 
 				var <?php echo $this->get_show_popup_function_name(); ?> = function() {
@@ -173,12 +174,10 @@ abstract class Popup_Component extends Component {
 					closeExisting: false
 				});
 
-				var <?php echo $this->get_popup_id(); ?>_selector = document.querySelector( '<?php echo $this->trigger_selector; ?>');
-
-				<?php echo $this->get_popup_id(); ?>_selector.addEventListener( '<?php echo $this->trigger_event; ?>', function (event) {
-					event.preventDefault();
+				$( <?php echo $this->trigger_selector; ?> ).on( '<?php echo $this->trigger_event; ?>', function (e) {
+					<?php echo $this->js_action_on_trigger(); ?>
 					<?php echo $this->get_popup_id(); ?>.modal('show');
-				}, false );
+				});
 
 				$('#<?php echo $this->popup_id; ?>-action').on('click', function () {
 					<?php echo $this->js_action(); ?>
@@ -186,6 +185,7 @@ abstract class Popup_Component extends Component {
 				});
 
 				$('#<?php echo $this->popup_id; ?>-noaction').on('click', function () {
+					<?php echo $this->js_noaction(); ?>
 					<?php echo $this->get_popup_id(); ?>.modal('hide');
 				});
 			});
@@ -198,14 +198,35 @@ abstract class Popup_Component extends Component {
 	}
 
 	/**
-	 * JS if action was clicked.
+	 * JS on action.
 	 *
 	 * @return mixed
 	 *
-	 * @since 1.o
-	 * o.o
+	 * @since 1.0.0
 	 */
 	abstract protected function js_action() : string;
+
+	/**
+	 * JS on no action.
+	 *
+	 * @return mixed
+	 *
+	 * @since 1.0.0
+	 */
+	protected function js_noaction() : string {
+		return '';
+	}
+
+	/**
+	 * JS if action on trigger.
+	 *
+	 * @return mixed
+	 *
+	 * @since 1.0.0
+	 */
+	protected function js_action_on_trigger() : string {
+		return '';
+	}
 
 	/**
 	 * Enqueueing Scripts.
