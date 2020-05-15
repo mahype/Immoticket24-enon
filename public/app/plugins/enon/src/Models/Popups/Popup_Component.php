@@ -60,8 +60,12 @@ abstract class Popup_Component extends Component {
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct() {
-		$this->popup_id = $this->create_popup_id();
+	public function __construct( $popup_id = null ) {
+		if ( ! empty ( $popup_id ) )  {
+			$this->popup_id = $popup_id;
+		} else {
+			$this->popup_id = $this->create_popup_id();
+		}
 	}
 
 	/**
@@ -174,10 +178,13 @@ abstract class Popup_Component extends Component {
 					closeExisting: false
 				});
 
-				$( <?php echo $this->trigger_selector; ?> ).on( '<?php echo $this->trigger_event; ?>', function (e) {
+				<?php if ( ! empty( $this->trigger_selector ) ) : ?>
+				var trigger_element = $( <?php echo $this->trigger_selector; ?> );
+				trigger_element.on( '<?php echo $this->trigger_event; ?>', function(e) {
 					<?php echo $this->js_action_on_trigger(); ?>
 					<?php echo $this->get_popup_id(); ?>.modal('show');
 				});
+				<?php endif; ?>
 
 				$('#<?php echo $this->popup_id; ?>-action').on('click', function () {
 					<?php echo $this->js_action(); ?>

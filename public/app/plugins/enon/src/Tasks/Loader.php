@@ -61,6 +61,7 @@ class Loader extends Task_Loader {
 
 		$this->add_task( Add_Page_Scripts::class );
 		$this->add_task( Remove_Optimizepress::class );
+		$this->add_task( Add_Scripts::class );
 
 		if( ! WP_DEBUG ) {
 			$this->add_task( Add_Google_Tag_Manager::class );
