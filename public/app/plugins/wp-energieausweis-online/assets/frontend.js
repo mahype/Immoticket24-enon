@@ -394,7 +394,7 @@ jQuery( document ).ready( function ( $ ) {
 				}
 			};
 
-		//	$("body").trigger("wpenon_ajax_start");
+			$("body").trigger("wpenon_ajax_start");
 
 			xhr.send(wtf_thumb.functions.prototype.getFormData(action));
 	};
