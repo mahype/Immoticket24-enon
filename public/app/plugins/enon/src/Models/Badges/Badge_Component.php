@@ -3,7 +3,7 @@
  * Abstraction component layer for badges.
  *
  * @category Class
- * @package  Enon_Reseller\Models\Transfer
+ * @package  Enon\Models\Badges
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug

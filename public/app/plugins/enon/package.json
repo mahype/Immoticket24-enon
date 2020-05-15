@@ -3,10 +3,17 @@
   "version": "1.0.0",
   "description": "Energieausweis online main plugin.",
   "main": "index.js",
-  "dependencies": {
-    "cookieconsent": "^3.1.1"
+  "scripts": {
+    "build": "webpack"
   },
-  "devDependencies": {},
+  "dependencies": {
+    "cookieconsent": "^3.1.1",
+    "jquery": "^3.5.1"
+  },
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
   "author": "",
   "license": "ISC"
 }

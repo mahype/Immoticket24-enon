@@ -5674,6 +5674,10 @@ img.wp-post-image {
 .modal .modal-title {
   font-weight: bold;
 }
+#modal_premiumbewertung button {
+  width: 100%;
+  margin: 0 0 10px 0;
+}
 .post-13 figure.wp-caption,
 .post-15 figure.wp-caption {
   border-top-left-radius: 80px;
@@ -5683,7 +5687,9 @@ img.wp-post-image {
 #edd_checkout_cart td.edd_cart_item_price {
   text-align: right;
 }
-
+.edd_cart_actions {
+  display: none;
+}
 #edd_checkout_form_wrap .edd-description {
   display: none !important;
 }
