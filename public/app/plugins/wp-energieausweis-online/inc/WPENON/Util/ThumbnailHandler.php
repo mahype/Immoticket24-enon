@@ -119,6 +119,11 @@ class ThumbnailHandler {
 				),
 			);
 
+			add_filter( 'wp_unique_filename', function($filename, $ext){
+				$filename = substr(md5($filename . $_POST['energieausweis_id']), 0 ,12) . $ext;
+				return $filename;
+			}, 10, 2 );
+
 			$id = media_handle_upload( $field_slug, 0, $post_array, $overrides );
 
 			if ( is_a( $id, '\WP_Error' ) ) {

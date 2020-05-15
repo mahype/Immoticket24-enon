@@ -197,6 +197,22 @@ jQuery( document ).ready( function ( $ ) {
 	};
 
 	/**
+	 * add click event to node
+	 *
+	 * @namespace wtf_thumb.functions.addEvent
+	 * @param {Node} node
+	 * @param {Callback} cb
+	 */
+	wtf_thumb.functions.prototype.addEvent = function(node, cb){
+		if(node && typeof cb === "function") {
+			node.addEventListener( 'click', function( e ) {
+				e.preventDefault();
+				cb();
+			});
+		}
+	};
+
+	/**
 	 * Handel the thumb upload
 	 * @namespace wtf_thumb.functions.uplad
 	 * @param {bool} isXhrResponse
@@ -283,7 +299,8 @@ jQuery( document ).ready( function ( $ ) {
 				wtf_thumb.triggerNodes.parenntNode.appendChild( button );
 
 				wtf_thumb.triggerNodes.action.del  = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_delete"]');
-				wtf_thumb.functions.prototype.addEvents();
+
+				wtf_thumb.functions.prototype.addEvent(button, wtf_thumb.functions.prototype.remove);
 			}
 
 		} else if ( action === 'restorePrev' ) {
@@ -377,7 +394,7 @@ jQuery( document ).ready( function ( $ ) {
 				}
 			};
 
-			$("body").trigger("wpenon_ajax_start");
+		//	$("body").trigger("wpenon_ajax_start");
 
 			xhr.send(wtf_thumb.functions.prototype.getFormData(action));
 	};
