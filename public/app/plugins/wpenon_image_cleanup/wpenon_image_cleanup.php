@@ -14,9 +14,14 @@ add_action(/**
  *
  */ 'init', function () {
 
-	$chunk_size = 500;
-
 	$is_runing = !empty($_GET['wpenon_image_cleanup_progress']) ? TRUE : FALSE;
+
+	if(!empty($_GET['wpenon_image_cleanup_progress_start']) || $is_runing){
+		return false;
+	}
+
+
+	$chunk_size = 500;
 
 	$item_count = (int) !empty($_GET['wpenon_image_cleanup_items']) ? $_GET['wpenon_image_cleanup_items'] : get_posts_count();
 
