@@ -35,10 +35,10 @@ class Popup_Premiumbewertung extends Popup_Component {
 	 */
 	public function html() : string {
 		$html = parent::html_popup(
-			'Premium Bewertung',
+			'Jetzt zusätzlich Gratis-Wertermittlung Ihrer Immobilie sichern',
 			'Sichern Sie sich jetzt noch schnell eine kostenlose vor-Ort-Bewertung Ihrer Immobilie, damit Sie beim Verkauf kein Geld verschenken.',
-			'Energieausweis inklusive kostenloser Immobilien-Bewertung bestellen',
-			'Energieausweis ohne Bewertung bestellen',
+			'Energieausweis mit kostenloser Immobilien-Wertermittlung bestellen',
+			'Energieausweis ohne Immobilien-Wertermittlung bestellen',
 			plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'src/Assets/Img/Popups/Premium-Bewertung.jpg'
 		);
 
