@@ -27,17 +27,13 @@ class Service extends ServiceWorker\Services implements Interfaces\Action {
 	public function initAction() {
 		$chunk_size = 500;
 
-		$item_count = (int) !empty($_GET[$this::getServiceName() . 'items']) ? $_GET[$this::getServiceName() . 'items'] : get_posts_count();
+		$item_count = (int) !empty($this->serviceArgument['items']) ? $this->serviceArgument['items'] : get_posts_count();
+		$cunks = (int) !empty($this->serviceArgument['chunks']) ? $this->serviceArgument['chunks'] : get_cunk_size($item_count, $chunk_size);
+		$total = (int) !empty($this->serviceArgument['total']) ? $this->serviceArgument['total'] : $cunks;
 
-		$cunks = (int) !empty($_GET[$this::getServiceName() . 'chunks']) ? $_GET[$this::getServiceName() . 'chunks'] : get_cunk_size($item_count, $chunk_size);
-
-		$total = (int) !empty($_GET[$this::getServiceName() . 'total']) ? $_GET[$this::getServiceName() . 'total'] : $cunks;
-
-		if ($is_runing) {
-			get_thumbnail_with_post();
-			#set_marker_on_post_thumbnail($chunk_size);
-			sleep(5);
-		}
+		#get_thumbnail_with_post();
+		#set_marker_on_post_thumbnail($chunk_size);
+		sleep(5);
 
 		$next = $cunks - 1;
 
@@ -46,20 +42,19 @@ class Service extends ServiceWorker\Services implements Interfaces\Action {
 		}
 
 		$query_args = [
-			$this::getServiceName() . 'progress' => TRUE,
-			$this::getServiceName() . 'items'    => $item_count,
-			$this::getServiceName() . 'total'    => $total,
-			$this::getServiceName() . 'chunks'   => $next,
+			$this::getServiceName() . '_progress' => TRUE,
+			$this::getServiceName() . '_items'    => $item_count,
+			$this::getServiceName() . '_total'    => $total,
+			$this::getServiceName() . '_chunks'   => $next,
 		];
 
 		add_filter('x_redirect_by', function () {
-
-			return 'wpenon_image_cleanup';
+			return $this::getServiceName();
 		});
 
 		$query    = build_query($query_args);
 		$progress = round($next * 100 / $total);
-		header("wpenon-image-cleanup-progress: " . $progress);
+		header($this::getServiceName() . "_progress: " . $progress);
 		wp_redirect(home_url() . '?' . $query);
 		exit();
 	}
