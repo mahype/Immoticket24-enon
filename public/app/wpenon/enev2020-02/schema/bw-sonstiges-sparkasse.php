@@ -1,7 +1,5 @@
 <?php
 
-namespace Enev\Schema;
-
 $qualities = [
 	'mauerwerk' => [
 		[

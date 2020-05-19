@@ -1,7 +1,5 @@
 <?php
 
-namespace Enev\Schema;
-
 $anlage = array(
 	'title'  => __( 'Anlage', 'wpenon' ),
 	'groups' => array(

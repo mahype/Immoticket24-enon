@@ -1,7 +1,5 @@
 <?php
 
-namespace Enev\Schema;
-
 $basisdaten = array(
 	'title'  => __( 'Basisdaten', 'wpenon' ),
 	'groups' => array(
