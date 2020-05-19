@@ -721,19 +721,6 @@ if ( isset( $calculations['bauteile'][ 'wand_' . $wand ] ) ) {
 }
 }
 unset( $data );
-if ( isset( $calculations['bauteile']['dach'] ) && $energieausweis->fenster_dach_flaeche > 0.0 ) {
-$calculations['bauteile']['fenster_dach'] = array(
-  'name'          => __( 'Fenster Dach', 'wpenon' ),
-  'typ'           => 'fenster',
-  'modus'         => 'transparent',
-  'bauart'        => $energieausweis->fenster_dach_bauart,
-  'baujahr'       => $energieausweis->fenster_dach_baujahr,
-  'richtung'      => 'o',
-  'a'             => $energieausweis->fenster_dach_flaeche,
-  'd'             => 0,
-  'winkel'        => $dachwinkel_formatted,
-);
-}
 
 if ( $energieausweis->anbau ) {
 foreach ( $anbau_form as $wand => $data ) {

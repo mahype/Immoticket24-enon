@@ -1307,49 +1307,6 @@ $bauteile = array(
 						'callback_args' => array( 'field::fenster_a_baujahr', 'field::h_baujahr' ),
 					),
 				),
-				'fenster_dach_headline'    => array(
-					'type'    => 'headline',
-					'label'   => __( 'Dachfenster', 'wpenon' ),
-					'display' => array(
-						'callback'      => 'wpenon_immoticket24_show_specific_dachfenster',
-						'callback_args' => array( true, 'field::dach' ),
-					),
-				),
-				'fenster_dach_flaeche'     => array(
-					'type'        => 'float',
-					'label'       => __( 'Fläche', 'wpenon' ),
-					'description' => __( 'Geben Sie die gesamte Fläche aller Fenster ein, welche sich auf dem Dach befinden.', 'wpenon' ),
-					'unit'        => 'm&sup2;',
-					'display'     => array(
-						'callback'      => 'wpenon_immoticket24_show_specific_dachfenster',
-						'callback_args' => array( true, 'field::dach' ),
-					),
-				),
-				'fenster_dach_bauart'      => array(
-					'type'        => 'select',
-					'label'       => __( 'Bauart', 'wpenon' ),
-					'description' => __( 'Wählen Sie die Bauart der Dachfenster aus.', 'wpenon' ),
-					'options'     => \Enev\Schema202002\Schema\Standard_Options::get_fenster_bauarten(),
-					'required'    => true,
-					'display'     => array(
-						'callback'      => 'wpenon_immoticket24_show_specific_dachfenster',
-						'callback_args' => array( true, 'field::dach', 'field::fenster_dach_flaeche' ),
-					),
-				),
-				'fenster_dach_baujahr'     => array(
-					'type'                  => 'int',
-					'label'                 => __( 'Baujahr', 'wpenon' ),
-					'description'           => __( 'Geben Sie das Baujahr der Dachfenster an.', 'wpenon' ),
-					'min'                   => 1800,
-					'max'                   => wpenon_get_reference_date( 'Y' ),
-					'required'              => true,
-					'display'               => array(
-						'callback'      => 'wpenon_immoticket24_show_specific_dachfenster',
-						'callback_args' => array( true, 'field::dach', 'field::fenster_dach_flaeche' ),
-					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
-					'validate_dependencies' => array( 'baujahr' ),
-				),
 				'anbaufenster_headline'    => array(
 					'type'    => 'headline',
 					'label'   => __( 'Anbau-Fenster', 'wpenon' ),
