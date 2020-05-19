@@ -10,7 +10,7 @@ $anlage = array(
 				'h_erzeugung'                                   => array(
 					'type'     => 'select',
 					'label'    => __( 'Typ der Heizungsanlage', 'wpenon' ),
-					'options'  => wpenon_immoticket24_get_heizungsanlagen202001(),
+					'options'  => wpenon_immoticket24_get_heizungsanlagen202002_vw(),
 					'required' => true,
 				),
 				'h_energietraeger_standardkessel'               => array(
@@ -279,6 +279,7 @@ $anlage = array(
 							'field::h_energietraeger_standardkessel',
 							'field::h_energietraeger_niedertemperaturkessel',
 							'field::h_energietraeger_brennwertkessel',
+							false,
 							'field::h_energietraeger_kleinthermeniedertemperatur',
 							'field::h_energietraeger_kleinthermebrennwert',
 							'field::h_energietraeger_fernwaerme',
@@ -340,7 +341,7 @@ $anlage = array(
 				'h2_erzeugung'                                  => array(
 					'type'     => 'select',
 					'label'    => __( 'Typ der 2. Heizungsanlage', 'wpenon' ),
-					'options'  => wpenon_immoticket24_get_heizungsanlagen202001(),
+					'options'  => wpenon_immoticket24_get_heizungsanlagen202002_vw(),
 					'required' => true,
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_bool_compare',
@@ -625,6 +626,7 @@ $anlage = array(
 							'field::h2_energietraeger_standardkessel',
 							'field::h2_energietraeger_niedertemperaturkessel',
 							'field::h2_energietraeger_brennwertkessel',
+							false,
 							'field::h2_energietraeger_kleinthermeniedertemperatur',
 							'field::h2_energietraeger_kleinthermebrennwert',
 							'field::h2_energietraeger_fernwaerme',
@@ -664,7 +666,7 @@ $anlage = array(
 				'h3_erzeugung'                                  => array(
 					'type'     => 'select',
 					'label'    => __( 'Typ der 3. Heizungsanlage', 'wpenon' ),
-					'options'  => wpenon_immoticket24_get_heizungsanlagen202001(),
+					'options'  => wpenon_immoticket24_get_heizungsanlagen202002_vw(),
 					'required' => true,
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_bool_compare',
@@ -949,6 +951,7 @@ $anlage = array(
 							'field::h3_energietraeger_standardkessel',
 							'field::h3_energietraeger_niedertemperaturkessel',
 							'field::h3_energietraeger_brennwertkessel',
+							false,
 							'field::h3_energietraeger_kleinthermeniedertemperatur',
 							'field::h3_energietraeger_kleinthermebrennwert',
 							'field::h3_energietraeger_fernwaerme',
