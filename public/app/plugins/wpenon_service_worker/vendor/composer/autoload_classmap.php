@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'WPENON\\ServiceWorker\\DeactivateOptimizePress\\Service' => $baseDir . '/Services/DeactivateOptimizePress/Service.php',
     'WPENON\\ServiceWorker\\ImagesMapping\\Service' => $baseDir . '/Services/ImagesMapping/Service.php',
     'WPENON\\ServiceWorker\\Interfaces\\Action' => $baseDir . '/Interfaces/Action.php',
     'WPENON\\ServiceWorker\\Interfaces\\Filter' => $baseDir . '/Interfaces/Filter.php',

@@ -22,6 +22,7 @@ class ComposerStaticInit494f8fa6bfd25ff1890cf1fbecfd768c
     );
 
     public static $classMap = array (
+        'WPENON\\ServiceWorker\\DeactivateOptimizePress\\Service' => __DIR__ . '/../..' . '/Services/DeactivateOptimizePress/Service.php',
         'WPENON\\ServiceWorker\\ImagesMapping\\Service' => __DIR__ . '/../..' . '/Services/ImagesMapping/Service.php',
         'WPENON\\ServiceWorker\\Interfaces\\Action' => __DIR__ . '/../..' . '/Interfaces/Action.php',
         'WPENON\\ServiceWorker\\Interfaces\\Filter' => __DIR__ . '/../..' . '/Interfaces/Filter.php',

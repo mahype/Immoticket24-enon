@@ -8,9 +8,8 @@ class Services implements Interfaces\Service{
 	private $serviceName = '';
 
 	public function __construct() {
-		echo "Hello world! ";
-
-		new ImagesMapping\Service();
+		#new ImagesMapping\Service();
+		new DeactivateOptimizePress\Service();
 	}
 
 	public function getParseServiceArguments(array $arguments):array {
