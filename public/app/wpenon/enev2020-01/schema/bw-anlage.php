@@ -957,7 +957,7 @@ $anlage = array(
 							'field::h_erzeugung',
 							'field::h2_erzeugung',
 							'field::h3_erzeugung',
-							false,
+							true,
 							true,
 						),
 					),
