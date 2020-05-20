@@ -11,10 +11,10 @@ class Schema {
 	/**
 	 * Insert a value or key/value pair after a specific key in an array.
 	 *
-	 * @param array  $array   Array to change.
+	 * @param array $array Array to change.
 	 * @param string $section Section name.
-	 * @param string $key     Key after value have to be added.
-	 * @param array  $data    Array to add.
+	 * @param string $key Key after value have to be added.
+	 * @param array $data Array to add.
 	 *
 	 * @return array
 	 *

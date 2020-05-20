@@ -603,6 +603,12 @@ function wpenon_immoticket24_get_heizungsanlagen202001() {
 	return wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
 }
 
+function wpenon_immoticket24_get_heizungsanlagen202002_vw() {
+	$anlagen = wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
+	unset( $anlagen['brennwertkesselverbessert'] );
+	return $anlagen;
+}
+
 function wpenon_immoticket24_get_warmwasseranlagen2019() {
 	return wpenon_get_table_results( 'ww_erzeugung2019', array(), array( 'name' ) );
 }
