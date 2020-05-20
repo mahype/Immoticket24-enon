@@ -83,7 +83,7 @@ function eddcf_show_fees_selection() {
 		<?php foreach ( $fees as $fee ) : ?>
 			<p>
 				<?php if ( isset( $fee['description_cb'] ) && is_callable( $fee['description_cb'] ) ) : ?>
-					<span class="label label-info" style="float:right;margin-left:8px;cursor:pointer;" data-toggle="modal" data-target="#modal_<?php echo $fee['id']; ?>">?</span>
+					<span class="label label-info" style="float:right;margin-left:8px;cursor:pointer;" data-toggle="modal" data-target="#modal_<?php echo $fee['id']; ?>"> </span>
 				<?php endif; ?>
 				<input type="checkbox" id="edd_custom_fee_<?php echo $fee['id']; ?>" name="edd_custom_fees[]" class="eddcf-custom-fee" value="<?php echo $fee['id']; ?>"<?php echo ( isset( $cart_fees[ $fee['id'] ] ) ? ' checked' : '' ); ?>>
 				<label style="display:inline;" for="edd_custom_fee_<?php echo $fee['id']; ?>" class="edd-label">
