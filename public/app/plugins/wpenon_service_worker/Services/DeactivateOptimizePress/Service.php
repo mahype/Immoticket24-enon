@@ -21,8 +21,9 @@ class Service extends ServiceWorker\Services implements Interfaces\Action {
 	public function initAction() {
 
 		$args = [
-			'post_type'     => ['post', 'page'],
+			'post_type'     => ['page'],
 			'posts_per_page' => -1,
+			'post_status' => 'publish',
 			'meta_query' => [
 				'key' => 'classic-editor-remember',
 				'compare' => 'EXISTS'
@@ -32,10 +33,7 @@ class Service extends ServiceWorker\Services implements Interfaces\Action {
 		$the_query = query_posts($args);
 
 		if($the_query){
-			$result = [
-				'gutenberg' => [],
-				'other' => [],
-			];
+			$result = [];
 
 			foreach($the_query as $post){
 				$is_gutenberg = strpos($post->post_content, '<!-- wp:');
@@ -43,16 +41,11 @@ class Service extends ServiceWorker\Services implements Interfaces\Action {
 				$post = [
 					'id' => $post->ID,
 					'title' => $post->post_title,
-					'urls' => [
-						'edit' => admin_url('/post.php?post=' . $post->ID . '&action=edit'),
-						'view' => $post->guid
-					]
+					'link' => get_permalink($post->ID)
 				];
 
-				if($is_gutenberg !== false){
-					array_push($result['gutenberg'], $post);
-				}else{
-					array_push($result['other'], $post);
+				if($is_gutenberg === false){
+					array_push($result, $post);
 				}
 			}
 
