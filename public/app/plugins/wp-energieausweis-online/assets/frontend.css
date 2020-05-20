@@ -4,6 +4,7 @@
   left: -12px;
   display: none;
   color: #ffffff;
+  padding: 6px;
 }
 .wpenon-wrapper #wpenon-thumbnail-form p {
   font-size: 87%;
@@ -81,7 +82,7 @@
   display: inline-block;
   height: 24px;
   width: 24px;
-  margin-top: 7px;
+  margin-top: 4px;
   padding: 0;
   background-image: url('img/icon-exclamation-mark_36x36.png');
   -webkit-background-size: contain;
