@@ -5684,7 +5684,9 @@ img.wp-post-image {
   border-top-right-radius: 80px;
 }
 #edd_checkout_cart th.edd_cart_item_price,
-#edd_checkout_cart td.edd_cart_item_price {
+#edd_checkout_cart td.edd_cart_item_price,
+#edd_checkout_cart th.edd_cart_fee_amount,
+#edd_checkout_cart td.edd_cart_fee_amount {
   text-align: right;
 }
 #edd_checkout_form_wrap .edd-description {
