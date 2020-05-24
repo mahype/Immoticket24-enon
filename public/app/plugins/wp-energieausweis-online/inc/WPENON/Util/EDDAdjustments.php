@@ -102,6 +102,8 @@ class EDDAdjustments {
 
 		add_shortcode( 'edd_empty_cart', array( $this, 'empty_cart_shortcode' ) );
 
+		add_action('edd_payment_billing_details', [$this, 'edd_payment_billing_details_add_extra_fields'], 11, 1);
+
 		// EDD Fixes (fees cannot include taxes in EDD Core)
 		if ( function_exists( 'edd_prices_include_tax' ) && edd_prices_include_tax() ) {
 			add_filter( 'edd_get_payment_subtotal', array( $this, 'eddfix_get_payment_subtotal' ), 10, 3 );
@@ -118,6 +120,29 @@ class EDDAdjustments {
 				}
 				$total += $this->fees_total;
 				$this->total = $total;*/
+		}
+	}
+
+	public function edd_payment_billing_details_add_extra_fields( $payment_id ) {
+
+		$user_info = edd_get_payment_meta_user_info($payment_id);
+
+		if (!empty($user_info['business_name'])) { ?>
+			<div id="edd-order-address-extra-fields">
+				<div class="order-data-address">
+					<div class="data column-container">
+						<div class="column">
+							<p>
+								<strong class="order-data-address-line"><?php echo __('Firmenname', 'wpenon'); ?></strong><br />
+								<input type="text" name="edd-payment-address[0][business_name]" value="<?php echo esc_attr($user_info['business_name']); ?>" class="large-text" />
+
+							</p>
+						</div>
+
+					</div>
+				</div>
+			</div><!-- /#edd-order-address-extra-fields -->
+			<?php
 		}
 	}
 
