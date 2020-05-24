@@ -103,6 +103,7 @@ class EDDAdjustments {
 		add_shortcode( 'edd_empty_cart', array( $this, 'empty_cart_shortcode' ) );
 
 		add_action('edd_payment_billing_details', [$this, 'edd_payment_billing_details_add_extra_fields'], 11, 1);
+		add_action('save_post', [$this, 'edd_payment_billing_update_details'], 11, 3);
 
 		// EDD Fixes (fees cannot include taxes in EDD Core)
 		if ( function_exists( 'edd_prices_include_tax' ) && edd_prices_include_tax() ) {
@@ -123,18 +124,35 @@ class EDDAdjustments {
 		}
 	}
 
+	public function edd_payment_billing_update_details( $post_ID, $post, $update ) {
+		$user_id = !empty($_POST['customer-id']) ? $_POST['customer-id'] : null;
+		$customer = EDD()->customers->get_customer_by( 'id', $user_id );
+
+		if ( !$customer && empty( $customer->id ) ) {
+			return null;
+		}
+
+		if(empty($_POST['edd-order-address-extra-fields']) && empty($_POST['edd_payment_id'])){
+			return null;
+		}
+
+		$new_value = $_POST['edd-order-address-extra-fields'][0]['business_name'];
+		\WPENON\Util\CustomerMeta::update( $customer->id, 'business_name', $new_value );
+	}
+
 	public function edd_payment_billing_details_add_extra_fields( $payment_id ) {
 
 		$user_info = edd_get_payment_meta_user_info($payment_id);
+		$business_name = !empty($user_info['business_name']) ? $user_info['business_name'] : null;
 
-		if (!empty($user_info['business_name'])) { ?>
+		if ($business_name) { ?>
 			<div id="edd-order-address-extra-fields">
 				<div class="order-data-address">
 					<div class="data column-container">
 						<div class="column">
 							<p>
 								<strong class="order-data-address-line"><?php echo __('Firmenname', 'wpenon'); ?></strong><br />
-								<input type="text" name="edd-payment-address[0][business_name]" value="<?php echo esc_attr($user_info['business_name']); ?>" class="large-text" />
+								<input type="text" name="edd-order-address-extra-fields[0][business_name]" value="<?php echo esc_attr($business_name); ?>" class="large-text" />
 
 							</p>
 						</div>
