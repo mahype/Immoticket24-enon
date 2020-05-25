@@ -5668,11 +5668,14 @@ img.wp-post-image {
 .modal {
   z-index: 10000;
 }
-.modal .modal-banner {
+.modal .modal-image {
   width: 100%;
 }
 .modal .modal-title {
   font-weight: bold;
+}
+.modal h4 {
+  font-size: 18px;
 }
 #modal_premiumbewertung button {
   width: 100%;
