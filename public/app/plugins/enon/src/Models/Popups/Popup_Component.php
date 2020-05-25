@@ -26,7 +26,7 @@ abstract class Popup_Component extends Component {
 	 *
 	 * @since 1.0.0
 	 */
-	const MARGIN_TOP = '100px';
+	const MARGIN_TOP = '50px';
 
 	/**
 	 * Popup id.
@@ -136,7 +136,9 @@ abstract class Popup_Component extends Component {
 					<div class="modal-header">
 						<h4 class="modal-title"><?php echo $title; ?></h4>
 					</div>
-					<img src="<?php echo $image; ?>" class="modal-banner" />
+					<?php if ( ! empty( $image ) ): ?>
+						<img src="<?php echo $image; ?>" class="modal-image" />
+		            <?php endif; ?>
 					<div class="modal-body">
 						<?php echo $content; ?>
 					</div>

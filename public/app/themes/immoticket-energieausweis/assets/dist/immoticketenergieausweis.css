@@ -5674,11 +5674,14 @@ img.wp-post-image {
 .modal {
   z-index: 10000;
 }
-.modal .modal-banner {
+.modal .modal-image {
   width: 100%;
 }
 .modal .modal-title {
   font-weight: bold;
+}
+.modal h4 {
+  font-size: 18px;
 }
 #modal_premiumbewertung button {
   width: 100%;
@@ -6711,11 +6714,4 @@ a img.aligncenter {
 .it24-terms-acceptance {
   margin-bottom: 15px;
   font-size: 14px;
-}
-#edd_checkout_wrap #edd_custom_fees_selection .alert-icon-neu {
-  background-image: url('../media/neu.png');
-  background-position: left center;
-  background-repeat: no-repeat;
-  paddng-left: 30px;
-  display: inline;
 }
