@@ -30,7 +30,7 @@
     }
   ],
   "require": {
-    "php": ">=7.*",
+    "php": "^7.0",
     "composer/installers": "~1.0",
     "cweagans/composer-patches": "~1.0",
     "johnpbloch/wordpress-core-installer": "~1.0",
