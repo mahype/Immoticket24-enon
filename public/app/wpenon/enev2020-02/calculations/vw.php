@@ -223,10 +223,8 @@ for ( $i = 0; $i < 3; $i ++ ) {
 			$ww_verbrauch = $energieausweis->$verbrauch_key * $data['energietraeger_mpk'];
 		} else {
 			$h_verbrauch = $energieausweis->$verbrauch_key * $data['energietraeger_mpk'];
-			if ( $energieausweis->ww_info == $key ) {
-				$ww_verbrauch = $h_verbrauch * 0.18;
-				$h_verbrauch  -= $ww_verbrauch;
-			}
+			$ww_verbrauch = $h_verbrauch * 0.18;
+			$h_verbrauch  -= $ww_verbrauch;
 		}
 
 		if ( $h_verbrauch > 0.0 ) {
