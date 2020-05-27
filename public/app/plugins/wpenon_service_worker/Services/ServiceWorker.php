@@ -9,7 +9,7 @@ class Services implements Interfaces\Service{
 
 	public function __construct() {
 		#new ImagesMapping\Service();
-		new DeactivateOptimizePress\Service();
+		#new DeactivateOptimizePress\Service();
 	}
 
 	public function getParseServiceArguments(array $arguments):array {

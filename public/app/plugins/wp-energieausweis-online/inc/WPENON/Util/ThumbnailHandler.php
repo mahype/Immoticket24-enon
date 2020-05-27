@@ -149,6 +149,14 @@ class ThumbnailHandler {
 
 
 			set_post_thumbnail(get_post($_POST['energieausweis_id']), $id);
+
+			$src = wp_get_attachment_image_src( get_post_thumbnail_id( $_POST['energieausweis_id'] ), 'full', false );
+			$file = basename($src[0]);
+
+			$upload_dir = wp_upload_dir();
+			$full_image_path = trailingslashit( $upload_dir['path'] ) . $file;
+			unlink( $full_image_path );
+
 			return $id;
 		}
 
