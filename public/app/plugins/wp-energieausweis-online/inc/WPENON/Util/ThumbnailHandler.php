@@ -119,6 +119,26 @@ class ThumbnailHandler {
 				),
 			);
 
+			add_filter( 'wp_unique_filename', function($filename, $ext){
+				$filename = substr(md5($filename . $_POST['energieausweis_id']), 0 ,12) . $ext;
+				return $filename;
+			}, 10, 2 );
+
+
+			add_filter('intermediate_image_sizes', function ($default_sizes){
+				$remove = ['1536x1536','2048x2048','80x60','large','medium','medium_large','thumbnail', 'post-thumbnail'];
+				foreach ($remove as $to_remove){
+					foreach ($default_sizes as $index => $item) {
+						if($item !== $to_remove){
+							continue;
+						}
+						unset($default_sizes[$index]);
+					}
+				}
+
+				return $default_sizes;
+			}, 12, 1);
+
 			$id = media_handle_upload( $field_slug, 0, $post_array, $overrides );
 
 			if ( is_a( $id, '\WP_Error' ) ) {
@@ -134,7 +154,6 @@ class ThumbnailHandler {
 
 		return array( 'error' => __( 'Es wurde keine Datei zum Upload angegeben.', 'wpenon' ) );
 	}
-
 	public static function delete( $attachment_id ) {
 		wp_delete_attachment( $attachment_id, true );
 	}
