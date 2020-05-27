@@ -626,12 +626,16 @@ img.wp-post-image {
 .modal {
 	z-index: 10000;
 
-	.modal-banner {
+	.modal-image {
 		width: 100%;
 	}
 
 	.modal-title {
 		font-weight: bold;
+	}
+
+	h4 {
+		font-size: 18px;
 	}
 }
 
@@ -653,14 +657,10 @@ img.wp-post-image {
 // EDD
 #edd_checkout_cart {
 	th, td {
-		&.edd_cart_item_price {
+		&.edd_cart_item_price, &.edd_cart_fee_amount {
 			text-align: right;
 		}
 	}
-}
-
-.edd_cart_actions {
-	display: none;
 }
 
 #edd_checkout_form_wrap {

@@ -3667,11 +3667,17 @@ a.label:focus {
   background-color: #449d44;
 }
 .label-info {
-  background-color: #2a5896;
-}
-.label-info[href]:hover,
-.label-info[href]:focus {
-  background-color: #1f416e;
+  content: ' ';
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  margin-top: 4px;
+  padding: 0;
+  background-image: url('../media/icon-exclamation-mark_36x36.png');
+  -webkit-background-size: contain;
+          background-size: contain;
+  background-color: transparent;
+  border: 1px solid #ccc;
 }
 .label-warning {
   background-color: #f0ad4e;
@@ -5668,11 +5674,14 @@ img.wp-post-image {
 .modal {
   z-index: 10000;
 }
-.modal .modal-banner {
+.modal .modal-image {
   width: 100%;
 }
 .modal .modal-title {
   font-weight: bold;
+}
+.modal h4 {
+  font-size: 18px;
 }
 #modal_premiumbewertung button {
   width: 100%;
@@ -5684,11 +5693,10 @@ img.wp-post-image {
   border-top-right-radius: 80px;
 }
 #edd_checkout_cart th.edd_cart_item_price,
-#edd_checkout_cart td.edd_cart_item_price {
+#edd_checkout_cart td.edd_cart_item_price,
+#edd_checkout_cart th.edd_cart_fee_amount,
+#edd_checkout_cart td.edd_cart_fee_amount {
   text-align: right;
-}
-.edd_cart_actions {
-  display: none;
 }
 #edd_checkout_form_wrap .edd-description {
   display: none !important;

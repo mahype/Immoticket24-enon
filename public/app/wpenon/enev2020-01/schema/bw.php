@@ -2,7 +2,7 @@
 
 namespace Enev\Schema;
 
-require_once( dirname( __FILE__ ) . '/schema.php' );
+require_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/schema.php' ) ;
 require_once( dirname( __DIR__ ) . '/Standard_Options.php' );
 require_once( dirname( __DIR__ ) . '/modernizations/BW_Modernizations.php' );
 

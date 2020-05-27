@@ -248,6 +248,14 @@ class Frontend {
 			}
 		} elseif( ! is_admin() &&  array_key_exists( 'wpenon_thumbnail_upload', $_POST ) ) {
 			# handle ajax thumb upload
+
+			$imageId = get_post_meta( $_POST['energieausweis_id'], '_thumbnail_id', true );
+
+			if($imageId) {
+				delete_post_thumbnail($_POST['energieausweis_id']);
+				wp_delete_attachment($imageId);
+			}
+
 			$tmpImageID = \WPENON\Util\ThumbnailHandler::upload( 'wpenon_thumbnail_file' );
 			$responseJson = json_encode([
 				'tmpImage' => [

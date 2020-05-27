@@ -225,7 +225,7 @@ module.exports = function(grunt) {
     }
 
   });
-  
+
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -258,6 +258,13 @@ module.exports = function(grunt) {
     'less:frontend',
     'autoprefixer:frontend',
     'cssmin:frontend'
+  ]);
+
+  grunt.registerTask('stylesheets', [
+	'clean:frontend',
+	'less:frontend',
+	'autoprefixer:frontend',
+	'cssmin:frontend'
   ]);
 
   grunt.registerTask('translation', [

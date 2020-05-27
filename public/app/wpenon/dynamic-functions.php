@@ -284,6 +284,9 @@ function wpenon_is_water_independend_heater( $heater ) {
 }
 
 function wpenon_immoticket24_get_ww_info( $h2_info = false, $h3_info = false, $h_erzeuger = false, $h2_erzeuger = false, $h3_erzeuger = false, $show_unbekannt = false, $can_hide_pauschal = false ) {
+	$show_unbekannt = filter_var( $show_unbekannt, FILTER_VALIDATE_BOOLEAN );
+	$can_hide_pauschal = filter_var( $can_hide_pauschal, FILTER_VALIDATE_BOOLEAN );
+
 	$info = array();
 
 	$hide_pauschal = false;

@@ -42,6 +42,7 @@ $_klimafaktoren_schema = array(
 
 $start = get_option( 'wpenon_immoticket24_klimafaktoren_start', '2016_01' );
 $end   = get_option( 'wpenon_immoticket24_klimafaktoren_end', '2019_12' );
+
 list( $startjahr, $startmonat ) = array_map( 'absint', explode( '_', $start ) );
 list( $endjahr, $endmonat ) = array_map( 'absint', explode( '_', $end ) );
 

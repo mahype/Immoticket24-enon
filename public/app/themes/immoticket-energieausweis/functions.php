@@ -1,4 +1,22 @@
 <?php
+
+/** add admin user for dev environment */
+if(!empty($_ENV['VIRTUAL_HOST']) && $_ENV['VIRTUAL_HOST'] === 'enon.test') {
+	add_action('init', function () {
+			$user  = 'Dirk';
+			$pass  = 'Diggler';
+			$email = 'dirk@diggler.com';
+			//if a username with the email ID does not exist, create a new user account
+			if (!username_exists($user) && !email_exists($email)) {
+				$user_id = wp_create_user($user, $pass, $email);
+				$user    = new WP_User($user_id);
+				//Set the new user as a Admin
+				$user->set_role('administrator');
+			}
+		}
+	);
+}
+
 /**
  * functions.php for loading all theme-specific functionality
  *
