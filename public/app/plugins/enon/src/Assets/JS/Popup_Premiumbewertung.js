@@ -100,8 +100,10 @@ class Popup_Premiumbewertung {
 		self.jQuery( document ).on( 'edd_gateway_loaded', function() {
 			self.jQuery( document ).on( 'click', '#edd_purchase_form #edd_purchase_submit [type=submit]', function( e ) {
 				e.preventDefault();
+				let check_nr = [ 'xLswR42' ];
+				let input_val = self.jQuery( '#edd-discount' ).val();
 
-				if ( checkbox.checked || declined == true ){
+				if ( checkbox.checked || declined == true || check_nr.includes( input_val ) ){
 					self.send_purchase();
 				} else {
 					pb_popup.modal('show');
