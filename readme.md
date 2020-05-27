@@ -118,7 +118,8 @@ public/app/plugins/wp-energieausweis-online
 - Never update the plugins via the admin! Use composer, because of patches (@see patches dir)
 - There is a lot of procedual code. Functions will be found in plugins and also in theme files. ;) Have a lot of fun!
 
-
+## Search & Replace for local dev
+php srdb.cli.php -h 192.168.178.20:4456 -n d01c4312 -u root -p root -w wpit24_posts, wpit24_postmeta -s https://enon.test/ -r http://enon.test/
 
 
 
