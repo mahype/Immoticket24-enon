@@ -136,32 +136,73 @@ class EDDAdjustments {
 			return null;
 		}
 
-		$new_value = $_POST['edd-order-address-extra-fields'][0]['business_name'];
-		\WPENON\Util\CustomerMeta::update( $customer->id, 'business_name', $new_value );
+		$post_address_extra_fields = $_POST['edd-order-address-extra-fields'];
+
+		if(!empty($post_address_extra_fields['business_name'])){
+			\WPENON\Util\CustomerMeta::update($customer->id, 'business_name',  $post_address_extra_fields['business_name']);
+		}
+
+		if(!empty($post_address_extra_fields['first_name']) && !empty($post_address_extra_fields['last_name'])){
+			$edd = EDD();
+			$edd->customers->update($customer->id, ['name' => $post_address_extra_fields['first_name'] . ' ' . $post_address_extra_fields['last_name']]);
+		}
 	}
 
 	public function edd_payment_billing_details_add_extra_fields( $payment_id ) {
-
 		$user_info = edd_get_payment_meta_user_info($payment_id);
-		$business_name = !empty($user_info['business_name']) ? $user_info['business_name'] : null;
+		$post = get_post($_GET['id']);
+		$customer = EDD()->customers->get_customer_by( 'user_id', $post->post_author );
+		$customer_name = explode(' ', $customer->name);
+		$customer_first_name = $customer_name[0];
 
-		if ($business_name) { ?>
+		unset($customer_name[0]);
+		$customer_last_name = implode(' ', $customer_name);
+
+		$extra_fields_markup = '';
+
+		$extra_fields = [
+			'business_name' => [
+					'name' =>  __('Firmenname', 'wpenon')
+				],
+			'first_name' => [
+					'name' =>  __('Vorname', 'wpenon'),
+					'value' => $customer_first_name,
+				],
+			'last_name' => [
+					'name' =>  __('Nachname', 'wpenon'),
+					'value' => $customer_last_name,
+				],
+		];
+
+		$input_tpl = '<div class="column"><p>
+			<strong class="order-data-address-line">{{name}}</strong><br />
+			<input type="text" name="edd-order-address-extra-fields[{{key}}]" value="{{value}}" class="large-text" />
+			</p></div>
+		';
+
+		foreach ( $extra_fields as $extra_field_key => $extra_field ) {
+			if ( empty( $extra_field['name'] ) ) {
+				continue;
+			}
+
+			$value = esc_attr(!empty($user_info[$extra_field_key]) ? $user_info[$extra_field_key] : '');
+
+			if ( $extra_field_key != 'business_name') {
+				$value = $extra_field['value'];
+			}
+
+			$extra_fields_markup .= str_replace(['{{key}}', '{{value}}', '{{name}}'], [$extra_field_key, $value, $extra_field['name']], $input_tpl);
+		}
+
+		?>
 			<div id="edd-order-address-extra-fields">
 				<div class="order-data-address">
 					<div class="data column-container">
-						<div class="column">
-							<p>
-								<strong class="order-data-address-line"><?php echo __('Firmenname', 'wpenon'); ?></strong><br />
-								<input type="text" name="edd-order-address-extra-fields[0][business_name]" value="<?php echo esc_attr($business_name); ?>" class="large-text" />
-
-							</p>
-						</div>
-
+						<?php echo $extra_fields_markup; ?>
 					</div>
 				</div>
 			</div><!-- /#edd-order-address-extra-fields -->
-			<?php
-		}
+		<?php
 	}
 
 	public function eddfix_get_payment_subtotal( $subtotal, $payment_id, $payment ) {
