@@ -126,7 +126,19 @@ class ThumbnailHandler {
 
 
 			add_filter('intermediate_image_sizes', function ($default_sizes){
-				$remove = ['1536x1536','2048x2048','80x60','large','medium','medium_large','thumbnail', 'post-thumbnail'];
+				$remove = [
+					'1536x1536',
+					'2048x2048',
+					'80x60',
+					'large',
+					'medium',
+					'medium_large',
+					'thumbnail',
+					'post-thumbnail',
+					'it-header',
+					'it-logo',
+					'it-logo-nav'
+				];
 				foreach ($remove as $to_remove){
 					foreach ($default_sizes as $index => $item) {
 						if($item !== $to_remove){
