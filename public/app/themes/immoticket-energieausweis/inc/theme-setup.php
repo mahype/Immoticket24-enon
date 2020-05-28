@@ -29,9 +29,7 @@ function immoticketenergieausweis_setup()
     'footer'        => __( 'Fußmenü', 'immoticketenergieausweis' ),
   ) );
 
-  add_image_size( 'enon-object-image-preview', 303, 200, array( 'center', 'center' ) );
   add_image_size( 'enon-object-image-pdf', 485, 678, array( 'center', 'center' ) );
-
 
   add_image_size( 'it-header', 680, 300, array( 'right', 'center' ) );
   add_image_size( 'it-logo', 405, 135, true );

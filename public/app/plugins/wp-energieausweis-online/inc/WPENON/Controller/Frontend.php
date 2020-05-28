@@ -259,7 +259,7 @@ class Frontend {
 			$tmpImageID = \WPENON\Util\ThumbnailHandler::upload( 'wpenon_thumbnail_file' );
 			$responseJson = json_encode([
 				'tmpImage' => [
-					'path' => wp_get_attachment_image_url($tmpImageID, 'enon-object-image-preview'),
+					'path' => wp_get_attachment_image_url($tmpImageID, 'enon-object-image-pdf'),
 					'id' => $tmpImageID
 				]
 			]);
