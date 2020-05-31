@@ -57,7 +57,9 @@ class DIBTSoapRequest
 
             $request_body = new \SoapVar($xml, XSD_ANYXML);
             $response = $soap->$function($request_body);
+	        $this->response = $response;
         } catch (\SoapFault $exception) {
+	        $this->response = $response;
             new \WPENON\Util\Error('notice', __METHOD__, sprintf(__('DIBT Soap Fehler: %s', 'wpenon'), $exception->getMessage()), '1.0.0');
         }
 
