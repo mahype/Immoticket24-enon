@@ -104,7 +104,7 @@ class DIBT {
 
 	public static function getRegistryIDsLeft() {
 		$rest = get_transient( 'wpenon_restkontingent' );
-		if ( false === $rest ) {
+		if ( false === false ) {
 			$credentials = self::getCredentials();
 
 			$response = self::request( 'Restkontingent', array(
