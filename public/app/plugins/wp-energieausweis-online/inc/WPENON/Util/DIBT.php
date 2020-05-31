@@ -136,6 +136,8 @@ class DIBT {
 
 		$response = $request->getResponse();
 
+		self::log( sprintf('Response data: %s', var_export( $response, true ) ), true );
+
 		if ( $response !== null ) {
 			return $response;
 		}
