@@ -53,6 +53,8 @@ class DIBTSoapRequest
             $soap = new \SoapClient($this->api_url.'?WSDL', array(
                 'cache_wsdl' => WSDL_CACHE_NONE,
                 'trace' => 1,
+                'verifypeer' => false,
+                'verifyhost' => false,
             ));
 
             $request_body = new \SoapVar($xml, XSD_ANYXML);

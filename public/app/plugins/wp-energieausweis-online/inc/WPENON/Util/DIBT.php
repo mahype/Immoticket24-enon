@@ -104,7 +104,7 @@ class DIBT {
 
 	public static function getRegistryIDsLeft() {
 		$rest = get_transient( 'wpenon_restkontingent' );
-		if ( false === false ) {
+		if ( false === $rest ) {
 			$credentials = self::getCredentials();
 
 			$response = self::request( 'Restkontingent', array(
@@ -130,7 +130,7 @@ class DIBT {
 
 	public static function request( $action, $args = array() ) {
 		$request = new \WPENON\Util\DIBTSoapRequest( $action, $args );
-		$test_resp = $request->send();
+		$request->send();
 
 		self::log( sprintf('Request action "%s" with Args: %s', $action,  var_export( $args, true ) ), true );
 
