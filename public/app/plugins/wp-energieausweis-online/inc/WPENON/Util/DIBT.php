@@ -130,13 +130,13 @@ class DIBT {
 
 	public static function request( $action, $args = array() ) {
 		$request = new \WPENON\Util\DIBTSoapRequest( $action, $args );
-		$request->send();
+		$test_resp = $request->send();
 
 		self::log( sprintf('Request action "%s" with Args: %s', $action,  var_export( $args, true ) ), true );
 
 		$response = $request->getResponse();
 
-		self::log( sprintf('Response data: %s', var_export( $response, true ) ), true );
+		self::log( sprintf('Response data: %s', var_export( $test_resp, true ) ), true );
 
 		if ( $response !== null ) {
 			return $response;
