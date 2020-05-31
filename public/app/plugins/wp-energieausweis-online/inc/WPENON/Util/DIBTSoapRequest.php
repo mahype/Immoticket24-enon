@@ -63,6 +63,8 @@ class DIBTSoapRequest
 
         // $this->write_to_file( time() . '_dibt.xml', $xml );
 
+	    $this->response = $response;
+
         if (!is_soap_fault($response)) {
             if (isset($response->$response_type)) {
                 $response = $response->$response_type;
