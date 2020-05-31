@@ -60,6 +60,9 @@ class DIBTSoapRequest
 	        $this->response = $response;
 	        self::log( sprintf( 'Response: %s', var_export( $response, true ) ) );
         } catch (\SoapFault $exception) {
+	        self::log( sprintf( 'Response: %s', var_export( $response, true ) ) );
+	        self::log( sprintf( 'Response: %s', $exception->getMessage() ) );
+	        self::log( sprintf( 'Exception: %s', var_export( $exception, true ) ) );
             new \WPENON\Util\Error('notice', __METHOD__, sprintf(__('DIBT Soap Fehler: %s', 'wpenon'), $exception->getMessage()), '1.0.0');
         }
 
