@@ -263,7 +263,9 @@ class Frontend {
 					'id' => $tmpImageID
 				]
 			]);
-			die($responseJson);
+
+			echo $responseJson;
+			exit;
 		}
 	}
 
