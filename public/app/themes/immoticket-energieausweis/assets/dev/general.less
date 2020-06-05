@@ -626,12 +626,23 @@ img.wp-post-image {
 .modal {
 	z-index: 10000;
 
-	.modal-banner {
+	.modal-image {
 		width: 100%;
 	}
 
 	.modal-title {
 		font-weight: bold;
+	}
+
+	h4 {
+		font-size: 18px;
+	}
+}
+
+#modal_premiumbewertung {
+	button {
+		width: 100%;
+		margin: 0 0 10px 0;
 	}
 }
 
@@ -646,14 +657,10 @@ img.wp-post-image {
 // EDD
 #edd_checkout_cart {
 	th, td {
-		&.edd_cart_item_price {
+		&.edd_cart_item_price, &.edd_cart_fee_amount {
 			text-align: right;
 		}
 	}
-}
-
-.edd_cart_actions {
-	display: none;
 }
 
 #edd_checkout_form_wrap {
@@ -838,12 +845,12 @@ img.wp-post-image {
 				margin-left: -100px;
 				margin-right: -100px;
 
-				@media (max-width: 767px ) { 
+				@media (max-width: 767px ) {
 					padding: 20px 24px;
 					margin-left: -12px;
-					margin-right: -12px;				
+					margin-right: -12px;
 				}
-			
+
 				.wp-block-group__inner-container .wp-block-group__inner-container {
 					padding-left: 0;
 					padding-right: 0;
