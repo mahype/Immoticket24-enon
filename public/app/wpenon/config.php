@@ -34,7 +34,7 @@ if ( function_exists( 'get_current_user_id' ) && get_current_user_id() == 1 ) {
 define( 'WPENON_DIBT_USER', 'harsche-energieberatung@web.de' );
 define( 'WPENON_DIBT_PASSWORD', '139K76m88' );
 define( 'WPENON_DIBT_DEBUG_USER', 'roland.harsche@immoticket24.de' );
-define( 'WPENON_DIBT_DEBUG_PASSWORD', 'k4f4m2g7F6' );
+define( 'WPENON_DIBT_DEBUG_PASSWORD', '.1K_f+lj^m2Po4.xT^D-' );
 
 function wpenon_immoticket24_hack_allow_changes_after_order( $allow_changes_after_order, $energieausweis ) {
 	if ( 79241 == $energieausweis->id ) {

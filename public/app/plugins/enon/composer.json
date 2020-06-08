@@ -5,7 +5,7 @@
     "license": "GPL-2.0-or-later",
     "require": {
         "awsm/wp-wrapper": "dev-master",
-        "awsm/mail-wrapper": "dev-develop",
+        "awsm/lib-mail": "dev-develop",
         "monolog/monolog": "^1.0.0",
         "inpsyde/wonolog": "^1.0"
     },
