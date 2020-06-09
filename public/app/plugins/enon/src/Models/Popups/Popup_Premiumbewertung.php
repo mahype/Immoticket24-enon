@@ -11,12 +11,14 @@
 
 namespace Enon\Models\Popups;
 
+use Awsm\WP_Wrapper\Building_Plans\Filters;
+
 /**
  * Class Premiumbewertung_Popup.
  *
  * @since 1.0.0
  */
-class Popup_Premiumbewertung extends Popup_Component {
+class Popup_Premiumbewertung extends Popup_Component implements Filters {
 	/**
 	 * Premiumbewertung_Popup constructor.
 	 *
@@ -24,6 +26,55 @@ class Popup_Premiumbewertung extends Popup_Component {
 	 */
 	public function __construct() {
 		parent::__construct( 'modal_premiumbewertung' );
+		$this->add_filters();
+	}
+
+	/**
+	 * Add filters.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_filters() {
+		add_filter( 'eddcf_custom_fees', [ $this, 'filter_fees' ] );
+	}
+
+	/**
+	 * Filter fees.
+	 *
+	 * @param array $fees Fees.
+	 *
+	 * @return array Filtered fees.
+	 *
+	 * @since 1.0.0
+	 */
+	public function filter_fees( $fees ) {
+		$discounts = EDD()->cart->get_discounts();
+
+		foreach ( $discounts as $discount ) {
+			if ( 'xLswR42' === $discount ) {
+				$fees = $this->remove_premiumbewertung_from_fees( $fees );
+				break;
+			}
+		}
+
+		return $fees;
+	}
+
+	/**
+	 * Remove Premiumbewertung from fees.
+	 *
+	 * @param array $fees Fees.
+	 *
+	 * @return array Fees without 'premiumbewertung'.
+	 * @since 1.0.0
+	 */
+	private function remove_premiumbewertung_from_fees( $fees ) {
+		foreach ( $fees as $key => $fee ) {
+			if ( 'premium_bewertung' === $fee['id'] ) {
+				unset( $fees[ $key ] );
+				return $fees;
+			}
+		}
 	}
 
 	/**
