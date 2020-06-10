@@ -217,7 +217,7 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 						if ( $image ) {
 							$this->SetPageFillColor( 'bright' );
 							$this->Rect( 157.1, 53.5, 44, 53.3, 'F' );
-							$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-object-image-pdf' ), 156.1, 52.5, 46, 55.3 );
+							$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-energieausweiss-image' ), 156.1, 52.5, 46, 55.3 );
 							$this->SetPageFillColor( 'background' );
 						}
 					} else {
@@ -293,7 +293,7 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 						if ( $image ) {
 							$this->SetPageFillColor( 'bright' );
 							$this->Rect( 162.2, 54.8, 39, 55.4, 'F' );
-							$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-object-image-pdf' ), 161.2, 53.8, 41, 57.4 );
+							$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-energieausweiss-image' ), 161.2, 53.8, 41, 57.4 );
 							$this->SetPageFillColor( 'background' );
 						}
 					}
@@ -600,7 +600,7 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 						if ( $image ) {
 							$this->SetPageFillColor( 'bright' );
 							$this->Rect( 166.2, 54.7, 35, 47, 'F' );
-							$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-object-image-pdf' ), 165.2, 53.7, 37, 49 );
+							$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-energieausweiss-image' ), 165.2, 53.7, 37, 49 );
 							$this->SetPageFillColor( 'background' );
 						}
 
