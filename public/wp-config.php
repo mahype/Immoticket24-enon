@@ -1,4 +1,4 @@
-<?php
+v<?php
 define( 'WP_CACHE', true ); // Added by WP Rocket
 
 /**
@@ -41,7 +41,7 @@ if ( ! defined( 'DB_PASSWORD' ) ) {
 	define( 'DB_PASSWORD', 'qfEE7woSrKPxYdLF');
 }
 if ( ! defined( 'DB_HOST' ) ) {
-	define( 'DB_HOST', 'enon_dev_db');
+	define( 'DB_HOST', 'localhost');
 }
 if ( ! isset( $table_prefix ) ) {
 	$table_prefix = 'wpit24_';
