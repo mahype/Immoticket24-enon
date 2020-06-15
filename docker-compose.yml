@@ -2,7 +2,7 @@ version: '3.7'
 services:
   wordpress:
     container_name: ${WORDPRESS_CONTAINER}
-    build: .
+    build: ./.docker/
     depends_on:
       - mysql
     restart: always
@@ -20,15 +20,6 @@ services:
       - ./assets/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./assets/error-logging.ini:/usr/local/etc/php/conf.d/error-logging.ini
 
-  cli:
-    depends_on:
-      - wordpress
-      - mysql
-    image: 'wordpress:cli'
-    container_name: "${WORDPRESS_CONTAINER}_cli"
-    volumes: *ref_0
-    user: '33:33'
-
   mysql:
     image: mysql:5.7
     container_name: "${WORDPRESS_CONTAINER}_db"
@@ -43,6 +34,13 @@ services:
     volumes:
       - ./assets/mysql/dump:/dump
       - ./assets/mysql/data:/var/lib/mysql
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - ${SMTP_PORT}:1025
+      - ${MAILHOG_PORT}:8025
 
 volumes: {}
 

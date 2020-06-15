@@ -259,11 +259,13 @@ class Frontend {
 			$tmpImageID = \WPENON\Util\ThumbnailHandler::upload( 'wpenon_thumbnail_file' );
 			$responseJson = json_encode([
 				'tmpImage' => [
-					'path' => wp_get_attachment_image_url($tmpImageID, [300,255]),
+					'path' => wp_get_attachment_image_url($tmpImageID, 'enon-energieausweiss-image'),
 					'id' => $tmpImageID
 				]
 			]);
-			die($responseJson);
+
+			echo $responseJson;
+			exit;
 		}
 	}
 

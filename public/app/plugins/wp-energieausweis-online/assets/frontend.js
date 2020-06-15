@@ -365,7 +365,13 @@ jQuery( document ).ready( function ( $ ) {
 
 			xhr.onload = function () {
 				if (xhr.status === 200) {
-					var response = JSON.parse(xhr.responseText);
+					var responseText = xhr.responseText;
+
+					if(responseText.indexOf('}}<') > 1){
+						responseText = responseText.split('}}<')[0] + '}}';
+					}
+
+					var response = JSON.parse(responseText);
 
 					if(!response.error){
 						switch (self.action) {

@@ -71,7 +71,7 @@ if ( function_exists( 'edd_get_download_price' ) ) {
       </p>
       <div class="thumbnail-wrapper">
         <?php if ( $data['thumbnail']['id'] > 0 ) : ?>
-          <img src="<?php echo wpenon_get_image_url( $data['thumbnail']['id'], 'medium' ); ?>">
+	        <img src="<?php echo wpenon_get_image_url( $data['thumbnail']['id'], 'enon-energieausweiss-image' ); ?>">
         <?php else : ?>
           <span class="glyphicon glyphicon-picture"></span>
         <?php endif; ?>
