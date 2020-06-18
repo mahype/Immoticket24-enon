@@ -212,11 +212,32 @@ class Popup_Premiumbewertung {
 			self.send_purchase();
 		});
 
+		self.jQuery( '.edd-apply-discount' ).on('click', function () {
+			let check_nr = [ 'xLswR42' ];
+			let input_val = self.jQuery( '#edd-discount' ).val();
+
+			if ( check_nr.includes( input_val ) ) {
+				wp.ajax.post( 'eddcf_remove_fee', {
+					fee_id: 'premium_bewertung'
+				}).done( function( data ) {
+					document.getElementById( 'edd_custom_fee_premium_bewertung' ).disabled = true;
+					EDD_Checkout.recalculate_taxes();
+				}).fail( function( data ) {
+					if ( 'undefined' !== typeof data.message ) {
+						console.log( data.message );
+					}
+				});
+			}
+		});
+
+
 		self.jQuery( document ).on( 'edd_gateway_loaded', function() {
 			self.jQuery( document ).on( 'click', '#edd_purchase_form #edd_purchase_submit [type=submit]', function( e ) {
 				e.preventDefault();
 				let check_nr = [ 'xLswR42' ];
 				let input_val = self.jQuery( '#edd-discount' ).val();
+
+
 
 				if ( checkbox.checked || declined == true || check_nr.includes( input_val ) ){
 					self.send_purchase();

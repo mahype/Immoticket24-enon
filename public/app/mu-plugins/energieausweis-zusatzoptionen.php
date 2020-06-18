@@ -478,7 +478,7 @@ function energieausweis_zusatzoptionen_get_default( $field = '' ) {
 		case 'kostenlose_korrektur_order':
 			return 4;
 		case 'premium_bewertung_label':
-			return '<img src="' . get_template_directory_uri() . '/assets/media/neu.png" style="height: 30px;" /> Premium-Bewertung Ihrer Immobilie - KOSTENLOSE TESTPHASE!';
+			return 'Premium-Bewertung Ihrer Immobilie - KOSTENLOSE TESTPHASE!';
 		case 'premium_bewertung_description':
 			return '<p>Bei Auswahl dieser Option nehmen wir nach Abschluss Ihrer Bestellung mit Ihnen Kontakt auf, um den Wert Ihrer Immobilie zu ermitteln und Ihnen hierfür eine Verkaufsempfehlung zu geben. Die Bewertung Ihrer Immobilie ist kostenfrei.</p>';
 		case 'premium_bewertung_price':

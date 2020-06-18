@@ -62,7 +62,7 @@
       </p>
       <div class="thumbnail-wrapper">
         <?php if ( $data['thumbnail']['id'] > 0 ) : ?>
-          <img src="<?php echo wpenon_get_image_url( $data['thumbnail']['id'], 'medium' ); ?>">
+          <img src="<?php echo wpenon_get_image_url( $data['thumbnail']['id'], 'enon-object-image-preview' ); ?>">
         <?php else : ?>
           <span class="glyphicon glyphicon-picture"></span>
         <?php endif; ?>
@@ -173,11 +173,11 @@
       ?>
     </small>
   </p>
-  
+
   <div class="energy-bar-wrapper">
     <?php wpenon_get_view()->displaySubTemplate( 'energy-bar', '', $data['energy_bar'] ); ?>
   </div>
-  
+
   <?php if ( $data['efficiency_class'] ) : ?>
     <p class="lead text-center">
       <?php printf( __( 'Energieeffizienzklasse: %s', 'wpenon' ), '<strong>' . $data['efficiency_class'] . '</strong>' ); ?>

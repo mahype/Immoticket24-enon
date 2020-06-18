@@ -5704,6 +5704,11 @@ img.wp-post-image {
 #edd_custom_fees_selection {
   background-color: #f6f6f6;
 }
+label[for=edd_custom_fee_premium_bewertung] {
+  background-image: url('../media/neu.png');
+  background-repeat: no-repeat;
+  padding: 5px 0 5px 50px;
+}
 #edd_checkout_user_info {
   background-color: #f6f6f6;
 }

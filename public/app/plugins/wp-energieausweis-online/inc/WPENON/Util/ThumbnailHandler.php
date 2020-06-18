@@ -126,7 +126,19 @@ class ThumbnailHandler {
 
 
 			add_filter('intermediate_image_sizes', function ($default_sizes){
-				$remove = ['1536x1536','2048x2048','80x60','large','medium','medium_large','thumbnail', 'post-thumbnail'];
+				$remove = [
+					'1536x1536',
+					'2048x2048',
+					'80x60',
+					'large',
+					'medium',
+					'medium_large',
+					'thumbnail',
+					'post-thumbnail',
+					'it-header',
+					'it-logo',
+					'it-logo-nav'
+				];
 				foreach ($remove as $to_remove){
 					foreach ($default_sizes as $index => $item) {
 						if($item !== $to_remove){
@@ -149,6 +161,14 @@ class ThumbnailHandler {
 
 
 			set_post_thumbnail(get_post($_POST['energieausweis_id']), $id);
+
+			$src = wp_get_attachment_image_src( get_post_thumbnail_id( $_POST['energieausweis_id'] ), 'full', false );
+			$file = basename($src[0]);
+
+			$upload_dir = wp_upload_dir();
+			$full_image_path = trailingslashit( $upload_dir['path'] ) . $file;
+			unlink( $full_image_path );
+
 			return $id;
 		}
 
