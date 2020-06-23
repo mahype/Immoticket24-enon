@@ -32,9 +32,9 @@ class Popup_Premiumbewertung {
 	option_exists() {
 		var option = document.getElementById('edd_custom_fee_premium_bewertung' );
 
-		if ( option !== undefined && option !== null ){
+		if ( option !== undefined && option !== null ) {
 			return true;
-		} else{
+		} else {
 			return false;
 		}
 	}
