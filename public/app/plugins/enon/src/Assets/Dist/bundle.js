@@ -129,7 +129,7 @@ class Popup_Premiumbewertung {
 	constructor( jQuery ) {
 		this.jQuery = jQuery;
 
-		if ( ! this.modal_exists() ) {
+		if ( ! this.option_exists() ) {
 			return;
 		}
 
@@ -144,10 +144,10 @@ class Popup_Premiumbewertung {
 	 *
 	 * @since 1.0.0
 	 */
-	modal_exists() {
-		var modal = document.getElementById('modal_premiumbewertung' );
+	option_exists() {
+		var option = document.getElementById('edd_custom_fee_premium_bewertung' );
 
-		if ( typeof( modal ) != 'undefined' && modal != null){
+		if ( option !== undefined ){
 			return true;
 		} else{
 			return false;
