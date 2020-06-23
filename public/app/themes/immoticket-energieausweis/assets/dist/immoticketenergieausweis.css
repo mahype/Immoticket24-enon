@@ -5887,7 +5887,7 @@ body .wp-gdpr-cookie-notice-wrap .wp-gdpr-cookie-notice-inner {
 .headline-3 {
   font-size: 19px;
 }
-.price-style-1 {
+.price-style-1.has-text-color {
   font-size: 30px;
   font-weight: bold;
   color: #00af30;
