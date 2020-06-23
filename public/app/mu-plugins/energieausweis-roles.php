@@ -281,8 +281,17 @@ function energieausweis_roles_grant_extra_plugin_caps() {
 
 function energieausweis_grant_owner_capabilities( $allcaps, $caps, $args, $user ) {
 	$global_caps = energieausweis_roles_get_global_admin_caps();
+	
+	$admin_user = [
+		'felixarntz',
+		'svenwagener',
+		'reimren',
+		'balzsve',
+		'svebal'
+	];
 
-	if ( 'felixarntz' === $user->user_login || 'svenwagener' === $user->user_login || ( 'development' === WP_ENV && 'admin' === $user->user_login ) ) {
+	if ( in_array( $user->user_login, $admin_user ) || ( 'development' === WP_ENV && 'admin' === $user->user_login ) ) {
+		die('yeah!');
 		foreach ( $global_caps as $global_cap ) {
 			$allcaps[ $global_cap ] = true;
 		}
