@@ -39,7 +39,6 @@ public/app/nfwlog/*
 !public/app/plugins/options-definitely
 !public/app/plugins/wp-energieausweis-online
 !public/app/plugins/wp-postratings-migrate
-!public/app/plugins/wordpress-importer
 !public/app/themes/immoticket-energieausweis
 
 # WordPress
