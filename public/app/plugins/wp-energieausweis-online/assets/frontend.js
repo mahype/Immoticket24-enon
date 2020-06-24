@@ -338,11 +338,15 @@ jQuery( document ).ready( function ( $ ) {
 	 * @param {string} msg
 	 */
 	wtf_thumb.functions.prototype.appendMsg = function(msg) {
+		msg = msg || 'error';
+
 		var div = document.createElement('div');
 			div.innerHTML = msg;
 			div.classList.add('error');
 
 		wtf_thumb.triggerNodes.parenntNode.appendChild(div);
+
+		$("body").trigger("wpenon_ajax_end");
 	};
 
 	/**
@@ -389,7 +393,7 @@ jQuery( document ).ready( function ( $ ) {
 
 
 				} else {
-					wtf_thumb.functions.appendMsg(xhr.responseText);
+					wtf_thumb.functions.prototype.appendMsg(xhr.responseText);
 				}
 			};
 
