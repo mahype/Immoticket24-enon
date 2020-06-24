@@ -51,6 +51,7 @@
     "wpackagist-plugin/vaultpress": "2.1.1",
     "wpackagist-plugin/wordpress-seo": "14.0.2",
     "wpackagist-plugin/wp-postratings": "1.87",
+    "wpackagist-plugin/wordpress-importer":"0.7",
     "felixarntz/wp-gdpr-cookie-notice": "dev-master",
     "felixarntz/plugin-lib": "dev-master"
   },
