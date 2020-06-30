@@ -5880,6 +5880,47 @@ body .wp-gdpr-cookie-notice-wrap {
 body .wp-gdpr-cookie-notice-wrap .wp-gdpr-cookie-notice-inner {
   max-width: none;
 }
+.headline-2 {
+  font-size: 35px;
+  letter-spacing: -1px;
+}
+.headline-3 {
+  font-size: 19px;
+}
+.price-style-1.has-text-color {
+  font-size: 30px;
+  font-weight: bold;
+  color: #00af30;
+  text-shadow: 2px 2px 0 #ffffff, 3px 3px 3px rgba(0, 0, 0, 0.25);
+}
+.wp-block-separator.is-style-wide {
+  margin-bottom: 20px;
+  padding-top: 10px;
+  border-top: 3px solid #dbdbdb;
+}
+article ul.checkmark {
+  padding-left: 0;
+  list-style-image: url('../media/checkmark.png');
+  list-style-position: inside;
+  font-size: 15px;
+  line-height: 28px;
+}
+.is-style-rounded.custom-rounded {
+  display: block;
+  height: 100px;
+  width: 100px;
+  margin: 0 auto 15px auto;
+  border-radius: 50%;
+  text-align: center;
+  background-color: #fff;
+}
+.is-style-rounded.custom-rounded img {
+  position: relative;
+  top: 25px;
+  height: 50px;
+  width: auto;
+  border-radius: 0;
+}
 .alignnone {
   margin: 5px 20px 20px 0;
 }
@@ -6637,6 +6678,430 @@ a img.aligncenter {
 }
 .social-navigation .inline-menu a[href*="youtube.com"]:before {
   content: "\f167" !important;
+}
+.op-settings-addon-op_comparison_table .field-row.field-container h3,
+.op-settings-addon-op_comparison_table .field-row.field-container h3 a {
+  color: #004a80 !important;
+  font-size: 16px;
+  font-weight: bold;
+  float: left;
+  text-shadow: 0 0 1px #fff, 0 0 1px #fff;
+  margin-top: 8px;
+}
+.op-settings-addon-op_comparison_table .op-multirow {
+  position: relative;
+}
+.op-settings-addon-op_comparison_table .remove-row {
+  position: absolute;
+  top: 9px;
+  right: -17px;
+}
+.op_asset_browser_slide .op-settings-addon-op_comparison_table .field-multirow:last-child {
+  margin-bottom: 0;
+}
+.op-asset-actual-content .comparison_table_features .new-row {
+  display: none;
+}
+.op-comparison-table-column {
+  padding-top: 10px;
+}
+.field-row.op-comparison-table-column {
+  padding-top: 0;
+}
+.op-settings-addon-op_comparison_table .field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container .op-multirow {
+  background: #FBFAFA;
+  border: 1px solid #ccc;
+  padding: 20px 30px;
+}
+.op-settings-addon-op_comparison_table .field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container .op-multirow + .op-multirow {
+  margin-top: 30px;
+}
+.op-settings-addon-op_comparison_table .field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container .op-multirow:last-child {
+  margin-bottom: 30px;
+}
+.op-settings-addon-op_comparison_table .field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container:empty {
+  display: none;
+}
+#op_asset_browser_container .op-settings-addon-op_comparison_table .field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container input,
+#op_asset_browser_container .op-settings-addon-op_comparison_table .field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container textarea {
+  background: #fff;
+}
+#op_asset_browser_container .op-settings-addon-op_comparison_table .field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container input[type=text],
+#op_asset_browser_container .op-settings-addon-op_comparison_table .field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container input[type=text]:focus {
+  height: 48px;
+}
+.section-op_assets_addon_op_comparison_table_columns .remove-row {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+.comparison-icon-container .op-asset-dropdown-list-item {
+  display: inline-block;
+}
+#op_asset_browser_container .multirow-container .comparison-table-feature-column {
+  margin: 0;
+  display: inline-block;
+  width: 240px;
+  margin-right: 20px;
+  vertical-align: top;
+}
+#op_asset_browser_container .multirow-container .comparison-table-feature-icon a {
+  text-align: center;
+}
+#op_asset_browser_container .multirow-container .comparison-table-feature-icon img {
+  margin: 2px 0 -2px;
+}
+#op_asset_browser_container .multirow-container .comparison-table-feature-icon {
+  width: 40px;
+}
+.field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container .op-asset-dropdown a {
+  background: #fff;
+  width: 40px;
+}
+#op_asset_browser_container .multirow-container .comparison-table-feature-text {
+  margin-right: 0;
+}
+#op_asset_browser_container .multirow-container .comparison-table-feature-paragraph {
+  margin: 0;
+  padding: 10px 0;
+}
+#op_asset_browser_container .multirow-container .comparison-table-feature-paragraph p {
+  margin: 0;
+  line-height: 1.2;
+}
+#op_asset_browser_container .multirow-container .comparison-table-feature-column .op-asset-dropdown {
+  padding-top: 0;
+}
+.field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container .op-multirow .op-multirow {
+  padding: 15px;
+  margin-bottom: 10px;
+  background: #F7F7F7;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container .op-asset-dropdown {
+  background: none;
+}
+.field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container .op-asset-dropdown a {
+  background: #F3F3F3;
+}
+.field-id-op_assets_addon_op_comparison_table_columns_columns-multirow-container .op-multirow .op-multirow:last-child {
+  margin-right: 0;
+}
+.section-op_assets_addon_op_comparison_table_columns .op-multirow .op-multirow .remove-row,
+#op_asset_browser_container .section-op_assets_addon_op_comparison_table_columns .comparison_table_hidden_image_selector {
+  display: none;
+}
+#op_asset_browser_container .sneezing-panda .content.comparison-guarantee-icon {
+  display: block;
+}
+.section-op_assets_addon_op_comparison_table_columns .field-multirow-length-5 .new-row {
+  opacity: 0.3;
+  pointer-events: none;
+}
+#op_asset_browser_container .sneezing-panda .comparison-icon-container {
+  background: #F3F3F3;
+}
+/**
+ * Front End
+ */
+.op-comparison-table-2col .op-comparison-table-column,
+.op-comparison-table-2col .op-comparison-table-features-column {
+  width: 50%;
+  float: left;
+}
+.op-comparison-table-3col .op-comparison-table-column {
+  width: 30%;
+  float: left;
+}
+.op-comparison-table-3col .op-comparison-table-features-column {
+  width: 40%;
+  float: left;
+}
+.op-comparison-table-4col .op-comparison-table-column,
+.op-comparison-table-4col .op-comparison-table-features-column {
+  width: 24%;
+  float: left;
+}
+.op-comparison-table-4col .op-comparison-table-features-column {
+  width: 28%;
+}
+.op-comparison-table-5col .op-comparison-table-column,
+.op-comparison-table-5col .op-comparison-table-features-column {
+  width: 20%;
+  float: left;
+}
+.op-comparison-table-6col .op-comparison-table-column,
+.op-comparison-table-6col .op-comparison-table-features-column {
+  width: 16%;
+  float: left;
+}
+.op-comparison-table-6col .op-comparison-table-features-column {
+  width: 20%;
+}
+/**
+ * Comparison table style 1
+ */
+.op-comparison-table-style1 {
+  color: #5a5a5a;
+  clear: both;
+  margin-top: 30px;
+  /* To accomodate -30px margin on column-popular */
+}
+.op-comparison-table-style1 .op-comparison-table-column {
+  border: 1px solid #ecf2f2;
+  border-right: none;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.op-comparison-table-style1 .op-comparison-table-column:last-child {
+  border-right: 1px solid #ecf2f2;
+}
+.op-comparison-table-style1 .op-comparison-table-column-header,
+.op-comparison-table-style1 .op-comparison-table-header {
+  background: #f5f9f9;
+  padding: 50px 25px;
+}
+.op-comparison-table-style1 .op-comparison-table-feature,
+.op-comparison-table-style1 .op-comparison-table-btn-container {
+  border-bottom: 1px solid #ecf2f2;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0;
+  display: table;
+  width: 100%;
+}
+.op-comparison-table-style1 .op-comparison-table-btn-container {
+  border-bottom: none;
+  background-color: #fff;
+}
+.op-comparison-table-style1 .op-comparison-table-feature-cell {
+  display: table-cell;
+  padding: 15px 25px;
+  vertical-align: middle;
+}
+.op-comparison-table-style1 .op-comparison-table-feature-icon,
+.op-comparison-table-style1 .op-comparison-table-feature-text,
+.op-comparison-table-style1 .op-comparison-table-feature-icon-container {
+  vertical-align: middle;
+}
+.op-comparison-table-style1 .op-comparison-table-feature-icon-container,
+.op-comparison-table-style1 .op-comparison-table-feature-text {
+  padding: 0 7px;
+  font-weight: normal;
+}
+.op-comparison-table-style1 .op-comparison-table-features {
+  margin: 0;
+  background-color: #fff;
+}
+.op-comparison-table-style1 .op-comparison-table-features-column {
+  border: 1px solid #ecf2f2;
+  border-right: none;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.op-comparison-table-style1 .op-comparison-table-features-column .op-comparison-table-feature {
+  text-align: center;
+}
+.op-comparison-table-style1 .op-comparison-table-features-column .op-comparison-table-feature:last-child {
+  border-left: none;
+  border-bottom: none;
+}
+.op-comparison-table-style1 td:first-child {
+  white-space: nowrap;
+  text-align: right;
+  width: auto;
+}
+.op-comparison-table-style1 .op-comparison-table-header {
+  text-align: center;
+}
+.op-comparison-table-style1 .op-comparison-table-features-column .op-comparison-table-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.op-comparison-table-style1 .op-comparison-table-empty-header {
+  border-left: none;
+  border-top: none;
+}
+.op-comparison-table-style1 .op-comparison-table-empty-header .op-comparison-table-header {
+  background: none;
+  border-bottom: 1px solid #ecf2f2;
+}
+.op-comparison-table-style1 .op-comparison-table-features-column.op-comparison-table-empty-header .op-comparison-table-features {
+  border-left: 1px solid #ecf2f2;
+}
+.op-comparison-table-style1 .op-comparison-table-guarantee_icon {
+  max-width: 100%;
+  max-height: 100px;
+  width: auto;
+  height: auto;
+}
+.op-comparison-table-style1 .op-comparison-table-guarantee_text {
+  padding: 0 20px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.op-comparison-table-style1 tr:last-child td:first-child {
+  border-left: none;
+  border-bottom: none;
+}
+.op-comparison-table-style1 .op-comparison-table-title {
+  text-transform: uppercase;
+  font-size: 18px;
+  color: #5a5a5a;
+}
+.op-comparison-table-style1 .op-comparison-table-price {
+  display: block;
+  font-size: 40px;
+  margin: 20px 0 15px;
+}
+.op-comparison-table-style1 .op-comparison-table-variable {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 10px;
+}
+.op-comparison-table-style1 .op-comparison-table-description {
+  margin: 0;
+  color: #acb8bd;
+  font-size: 14px;
+  display: block;
+  font-weight: normal;
+}
+.op-comparison-table-style1 .op-comparison-table-package-description {
+  margin: 20px 0 0;
+  font-size: 14px;
+  display: block;
+}
+.op-comparison-table-style1 .op-comparison-table-package-description:empty {
+  display: none;
+}
+.op-comparison-table-style1 .op-comparison-table-btn {
+  padding: 10px 30px;
+  background: #7ec05e;
+  color: #fff;
+  display: block;
+}
+.op-comparison-table-style1 .op-comparison-table-feature-title {
+  display: none;
+}
+.op-comparison-table-style1 .op-comparison-table-column-popular .op-comparison-table-header {
+  background: #e6eef1;
+}
+.op-comparison-table-style1 .op-comparison-table-column-popular .op-comparison-table-btn {
+  background: #63b13d;
+}
+.op-comparison-table-style1 .op-comparison-table-column-popular .op-comparison-table-features,
+.op-comparison-table-style1 .op-comparison-table-column-popular .op-comparison-table-btn-container {
+  background: #F5F9FA;
+}
+.op-comparison-table-style1 .op-comparison-table-column-popular .op-comparison-table-btn-container,
+.op-comparison-table-style1 .op-comparison-table-btn-container {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+  border-right: 1px solid #FFF;
+}
+.op-comparison-table-style1 .op-comparison-table-column-popular .op-comparison-table-title {
+  margin-top: -20px;
+}
+.op-comparison-table-style1 .op-comparison-table-column-popular .op-comparison-table-header {
+  padding-top: 80px;
+  margin-top: -30px;
+  margin-right: -1px;
+  position: relative;
+}
+/**
+ * Responsive style 1
+ */
+@media screen and (max-width: 1000px) {
+  .op-comparison-table-style1 .op-comparison-table-feature-cell {
+    padding: 15px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .op-comparison-table-style1 {
+    outline: 1px solid #008000;
+  }
+  .op-comparison-table-style1 .op-comparison-table-features-column,
+  .op-comparison-table-style1 .op-comparison-table-column {
+    width: 100%;
+    margin: 20px 0;
+  }
+  .op-comparison-table-style1 .op-comparison-table-column {
+    border: 1px solid #ecf2f2;
+  }
+  .op-comparison-table-style1 .op-comparison-table-header,
+  .op-comparison-table-style1 .op-comparison-table-title,
+  .op-comparison-table-style1 .op-comparison-table-price,
+  .op-comparison-table-style1 .op-comparison-table-variable,
+  .op-comparison-table-style1 .op-comparison-table-description,
+  .op-comparison-table-style1 .op-comparison-table-package-description,
+  .op-comparison-table-style1 .op-comparison-table-feature {
+    height: auto !important;
+  }
+  .op-comparison-table-style1 .op-comparison-table-header:empty,
+  .op-comparison-table-style1 .op-comparison-table-title:empty,
+  .op-comparison-table-style1 .op-comparison-table-price:empty,
+  .op-comparison-table-style1 .op-comparison-table-variable:empty,
+  .op-comparison-table-style1 .op-comparison-table-description:empty,
+  .op-comparison-table-style1 .op-comparison-table-package-description:empty,
+  .op-comparison-table-style1 .op-comparison-table-feature:empty {
+    display: none;
+  }
+  .op-comparison-table-style1 .op-comparison-table-features-column .op-comparison-table-feature {
+    display: none;
+  }
+  .op-comparison-table-style1 .op-comparison-table-feature-title {
+    margin: 3px auto;
+    display: block;
+    color: #878787;
+    font-size: 1.2em;
+  }
+  .op-comparison-table-empty-header {
+    display: none;
+  }
+}
+/**
+ * General comparison table styles
+ */
+.op_comparison_table_hidden {
+  display: none !important;
+}
+.op-comparison-table span {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .op-comparison-table {
+    margin-left: -100px;
+    margin-right: -100px;
+    padding-right: 0;
+    padding-left: 0;
+  }
 }
 .wpenon-wrapper legend {
   border-bottom: 1px solid #555555;
