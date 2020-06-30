@@ -28,7 +28,6 @@ use WPENON\Model\Energieausweis AS Energieausweis_Old;
  * @package Enon_Reseller\WordPress
  */
 class Filter_Website implements Task, Filters {
-
 	use Logger_Trait;
 
 	/**
