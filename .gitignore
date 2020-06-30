@@ -34,6 +34,8 @@ public/app/nfwlog/*
 !public/app/plugins/edd-custom-fees
 !public/app/plugins/edd-discount-code-generator
 !public/app/plugins/edd-klicktipp-integration
+!public/app/plugins/edd-stripe
+!public/app/plugins/edd-stripe/vendor
 !public/app/plugins/optimizePressPlugin
 !public/app/plugins/optimizePressPlusPack
 !public/app/plugins/options-definitely
@@ -69,6 +71,7 @@ composer.lock
 vendor
 !public/app/plugins/wp-rocket/vendor
 !public/app/plugins/optimizePressPlugin/lib/vendor
+!public/app/plugins/edd-stripe/vendor
 
 # Node Package Manager
 node_modules
