@@ -110,7 +110,7 @@ class Filter_Payment_Fee_Email implements Task, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_premium_bewertung_email_address( array $emails ) : string {
+	public function filter_premium_bewertung_email_address( array $emails ) : array {
 		$new_email = 'premiumbewertung-reseller@energieausweis-online-erstellen.de';
 
 		$debug_values = array(
