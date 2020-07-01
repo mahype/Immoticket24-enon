@@ -71,7 +71,6 @@ function wpenon_immoticket24_email_tag_certificate_data( $payment_id ) {
 	$output = '';
 
 	if ( ! empty( $energieausweis->reseller_id ) ) {
-		$reseller = get_post( $energieausweis->reseller_id );
 		$company_name = get_post_meta( $energieausweis->reseller_id, 'company_name', true );
 		$output.= '<strong>Reseller: ' . $company_name . "</strong>\n";
 	}
