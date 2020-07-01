@@ -69,6 +69,13 @@ function wpenon_immoticket24_email_tag_certificate_data( $payment_id ) {
 	$content_type = EDD()->emails->get_content_type();
 
 	$output = '';
+
+	if ( ! empty( $energieausweis->reseller_id ) ) {
+		$reseller = get_post( $energieausweis->reseller_id );
+		$company_name = get_post_meta( $energieausweis->reseller_id, 'company_name', true );
+		$output.= '<strong>Reseller: ' . $company_name . "</strong>\n";
+	}
+
 	foreach ( $schema->getFields( $energieausweis, true ) as $field_slug => $field ) {
 		if ( ! $field['display'] ) {
 			continue;
