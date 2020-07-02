@@ -190,10 +190,10 @@ class Filter_Confirmation_Email implements Task, Filters {
 
 		switch ( $energy_certificate->type ) {
 			case 'vw':
-				$reseller_link .= '/verbrauchsausweis';
+				$reseller_link .= '/verbrauchsausweis/';
 				break;
 			case 'bw':
-				$reseller_link .= '/bedarfsausweis';
+				$reseller_link .= '/bedarfsausweis/';
 				break;
 			default:
 				return $link;
