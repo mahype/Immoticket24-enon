@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/awsmug/lib-mail.git",
-                "reference": "b11a9b5de68e98bfad8d8135254b3e87e495f9ae"
+                "reference": "4eceb8e2c9c053f0afa6424a4b6460a85a5529fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awsmug/lib-mail/zipball/b11a9b5de68e98bfad8d8135254b3e87e495f9ae",
-                "reference": "b11a9b5de68e98bfad8d8135254b3e87e495f9ae",
+                "url": "https://api.github.com/repos/awsmug/lib-mail/zipball/4eceb8e2c9c053f0afa6424a4b6460a85a5529fa",
+                "reference": "4eceb8e2c9c053f0afa6424a4b6460a85a5529fa",
                 "shasum": ""
             },
             "require-dev": {
@@ -35,7 +35,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Awesome mail functionality. Easy and clean mail creation and transportation.",
-            "time": "2020-06-05T09:38:15+00:00"
+            "time": "2020-06-05T20:25:07+00:00"
         },
         {
             "name": "awsm/wp-wrapper",

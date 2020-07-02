@@ -69,6 +69,7 @@ composer.lock
 vendor
 !public/app/plugins/wp-rocket/vendor
 !public/app/plugins/optimizePressPlugin/lib/vendor
+!public/app/plugins/edd-stripe/vendor
 
 # Node Package Manager
 node_modules
