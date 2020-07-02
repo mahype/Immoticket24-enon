@@ -188,6 +188,17 @@ class Filter_Confirmation_Email implements Task, Filters {
 			return $link;
 		}
 
+		switch ( $energy_certificate->type ) {
+			case 'vw':
+				$reseller_link .= '/verbrauchsausweis/';
+				break;
+			case 'bw':
+				$reseller_link .= '/bedarfsausweis/';
+				break;
+			default:
+				return $link;
+		}
+
 		$reseller_link = $this->reseller->add_iframe_params( $reseller_link, $energy_certificate->id );
 
 		return $reseller_link;
