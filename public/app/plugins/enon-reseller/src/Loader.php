@@ -21,6 +21,7 @@ use Enon_Reseller\Tasks\Add_CPT_Reseller;
 
 use Enon_Reseller\Tasks\Add_Post_Meta;
 use Enon_Reseller\Tasks\Filters\Filter_Email_Template;
+use Enon_Reseller\Tasks\Filters\Filter_Payment_Fee_Email;
 use Enon_Reseller\Tasks\Setup_Enon;
 
 use Enon_Reseller\Tasks\Filters\Filter_General;
@@ -73,6 +74,7 @@ class Loader extends Task_Loader {
 
 		$this->add_task( Add_Post_Meta::class, $this->logger() );
 		$this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
+		$this->add_task( Filter_Payment_Fee_Email::class, $reseller, $this->logger() );
 
 		$this->add_task( Setup_Enon::class, $reseller, $this->logger() );
 	}
@@ -112,6 +114,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Filter_Website::class, $reseller, $this->logger() );
 		$this->add_task( Filter_Iframe::class, $reseller, $this->logger() );
 		$this->add_task( Filter_Schema::class, $reseller, $this->logger() );
+		$this->add_task( Filter_Payment_Fee_Email::class, $reseller, $this->logger() );
 
 		$this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
 		$this->add_task( Add_Sparkasse_Discounts::class, $reseller, $this->logger() );
