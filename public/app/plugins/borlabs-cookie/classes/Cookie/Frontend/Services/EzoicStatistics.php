@@ -1,0 +1,103 @@
+<?php
+/*
+ * ----------------------------------------------------------------------
+ *
+ *                          Borlabs Cookie
+ *                      developed by Borlabs
+ *
+ * ----------------------------------------------------------------------
+ *
+ * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * This file may not be redistributed in whole or significant part.
+ * Content of this file is protected by international copyright laws.
+ *
+ * ----------------- Borlabs Cookie IS NOT FREE SOFTWARE -----------------
+ *
+ * @copyright Borlabs - Benjamin A. Bornschein, https://borlabs.io
+ * @author Benjamin A. Bornschein, Borlabs ben@borlabs.io
+ *
+ */
+
+namespace BorlabsCookie\Cookie\Frontend\Services;
+
+class EzoicStatistics
+{
+    private static $instance;
+
+    public static function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
+    }
+
+    private function __clone()
+    {
+    }
+
+    private function __wakeup()
+    {
+    }
+
+    /**
+     * __construct function.
+     *
+     * @access protected
+     * @return void
+     */
+    protected function __construct()
+    {
+    }
+
+    /**
+     * getDefault function.
+     *
+     * @access public
+     * @return void
+     */
+    public function getDefault()
+    {
+        $data = [
+            'cookieId' => 'ezoic-statistics',
+            'service' => 'EzoicStatistics',
+            'name' => 'Ezoic - Statistics',
+            'provider' => 'Ezoic Inc.',
+            'purpose' => _x('Helping to understand how visitors interact with websites by collecting and reporting information anonymously.', 'Frontend / Cookie / Ezoic - Statistics / Text', 'borlabs-cookie'),
+            'privacyPolicyURL' => _x('https://www.ezoic.com/privacy-policy/', 'Frontend / Cookie / Ezoic - Statistics / Text', 'borlabs-cookie'),
+            'hosts' => [],
+            'cookieName' => 'ez*, __qca, _gid, _ga, _gat, AMP_ECID_EZOIC, __utm*, _ga*',
+            'cookieExpiry' => _x('1 Year', 'Frontend / Cookie / Ezoic - Statistics / Text', 'borlabs-cookie'),
+            'optInJS' => $this->optInJS(),
+            'optOutJS' => '',
+            'fallbackJS' => '',
+            'settings' => [
+                'blockCookiesBeforeConsent' => false,
+                'prioritize' => false,
+            ],
+            'status' => true,
+            'undeletetable' => false,
+        ];
+
+        return $data;
+    }
+
+    /**
+     * optInJS function.
+     *
+     * @access private
+     * @return void
+     */
+    private function optInJS()
+    {
+        $code = <<<EOT
+<script>
+if (typeof window.ezConsentCategories == 'object') {
+    window.ezConsentCategories.statistics = true;
+}
+</script>
+EOT;
+        return $code;
+    }
+}
