@@ -113,6 +113,7 @@ function energieausweis_roles_get_caps( $role_slug ) {
 				'backwpup_logs_delete',
 				'backwpup_settings',
 				'backwpup_restore',
+				'manage_borlabs_cookie',
 			) );
 		case 'editor':
 			$caps = array_merge( $caps, array(
