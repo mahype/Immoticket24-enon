@@ -79,7 +79,7 @@ class Service extends ServiceWorker\Services implements Interfaces\Action {
 				'Grund' => 'anlass',
 				'Gebäudetyp' => 'gebaeudetyp',
 				'Datum + Uhrzeit Ausweis beendet' => 'ausstellungszeit',
-				'Bewertung erwünscht' => '',
+				'Bewertung erwünscht' => 'premium_bewertung',
 				'Preis' => 'edd_price',
 				'Vorname' => 'user_info_firstname',
 				'Name' => 'user_info_lastname',
@@ -96,6 +96,7 @@ class Service extends ServiceWorker\Services implements Interfaces\Action {
 				$invoice    = get_post($invoice_id);
 				$invoiceMeta = get_post_meta($invoice_id, '_edd_payment_meta', true);
 				$userIfno = $invoiceMeta['user_info'];
+				$payment_fees = edd_get_payment_fees( $invoice_id, 'item' );
 
 				foreach ($meta_keys as $meta_key => $meta_value){
 					if($meta_value === ''){
@@ -115,6 +116,15 @@ class Service extends ServiceWorker\Services implements Interfaces\Action {
 
 					if($meta_value === 'user_info_lastname'){
 						$result[$post->ID][$meta_key] = $userIfno['last_name'];
+						continue;
+					}
+
+					if($meta_value === 'premium_bewertung'){
+						if(!empty($payment_fees) && $payment_fees[0]['id'] === 'premium_bewertung'){
+							$result[$post->ID][$meta_key] = 'ja';
+						}else{
+							$result[$post->ID][$meta_key] = 'nein';
+						}
 						continue;
 					}
 
