@@ -126,6 +126,24 @@ $qualities = [
 			'title'       => 'Aufwändig',
 			'description' => 'z.B. mehrere Bäder mit Bidet, Whirlpool',
 		]
+	],
+	'generell'    => [
+		[
+			'title'       => 'Einfach',
+			'description' => 'z.B. Einfachverglasung, Dach ohne Wärmedämmung, PVC-Boden (niedriger Standard), Speicherheizung, Einzelöfen, Bäder ohne oder nur mit geringer Verfliesung.',
+		],
+		[
+			'title'       => 'Durchschnittlich',
+			'description' => 'z.B. Kunststoffenster, Isolierverglasung, Rolläden, mittlerer Wärmedämmungsstandard, Bad mit Dusche und Badewanne, Teppich, PVC Kunststofftüren, Zentralheizung.',
+		],
+		[
+			'title'       => 'Überdurchschnittlich',
+			'description' => 'z.B. Aluminiumfenster, Wärmeschutzverglasung, hoher Wärmedämmstandard, zwei Bäder, Gäste WC, Fliesenboden, Parkett, Glastüren, Zentralheizung.',
+		],
+		[
+			'title'       => 'Aufwändig',
+			'description' => 'z.B. wandhohe Verfliesung, raumhohe Verglasung, elektrische Rolläden, Schallschutzverglasung, Dachausschnitte mit Glas, Oberlichter, aufwendige Dachausbauten, Natursteinböden, mehrere Bäder mit Bidet, Whirlpool, Einbruchschutz, massive Türen, Fußbodenheizung, Klimaanlage, Solaranlage.',
+		]
 	]
 ];
 
@@ -207,7 +225,8 @@ $sonstiges = array(
 						'ueberdurchschnittlich' => __( 'Überdurchschnittlich', 'wpenon' ),
 						'aufwaendig_luxus'      => __( 'Aufwändig/Luxus', 'wpenon' ),
 					),
-					'required'    => false
+					'required'    => false,
+					'description' => get_quality_description( $qualities['generell'] ),
 				),
 			),
 		),
