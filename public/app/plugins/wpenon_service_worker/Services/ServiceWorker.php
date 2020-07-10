@@ -8,6 +8,7 @@ class Services implements Interfaces\Service{
 	private $serviceName = '';
 
 	public function __construct() {
+		new GenerateSparkassenCSV\Service();
 		#new ImagesMapping\Service();
 		#new DeactivateOptimizePress\Service();
 	}
