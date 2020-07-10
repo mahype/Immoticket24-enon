@@ -38,13 +38,32 @@ class Service extends ServiceWorker\Services implements Interfaces\Action {
 
 		$filename_aditional = '';
 
-		if(!empty($this->serviceArgument['range_30_days'])){
-			$args['date_query'] = [
-				'column'  => 'post_date',
-				'after'   => '- 30 days'
-			];
+		if(!empty($this->serviceArgument['date_ragne'])){
+			$range = explode('-', $this->serviceArgument['date_ragne']);
+			$from = strtotime($range[0]);
+			$to = strtotime($range[1]);
 
-			$filename_aditional .= '_daterange_30';
+			if(!empty($from) || !empty($to)){
+				$args['date_query'] = [
+					'column'  => 'post_date',
+					'after'   => [
+						'year'  => date("Y", $from),
+						'month' => date("m", $from),
+						'day'   => date("d", $from),
+					],
+					'before'    => [
+						'year'  => date("Y", $to),
+						'month' => date("m", $to),
+						'day'   => date("d", $to),
+					],
+					'inclusive' => true,
+				];
+
+				$from_str = str_replace('/', '', $range[0]);
+				$to_str = str_replace('/', '',$range[1]);
+
+				$filename_aditional .= '_daterange_' . $from_str . '_to_' . $to_str . '_';
+			}
 		}
 
 		if(!empty($this->serviceArgument['certificate_checked'])){
