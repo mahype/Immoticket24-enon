@@ -62,11 +62,11 @@ class Service extends ServiceWorker\Services implements Interfaces\Action {
 				$from_str = str_replace('/', '', $range[0]);
 				$to_str = str_replace('/', '',$range[1]);
 
-				$filename_aditional .= '_daterange_' . $from_str . '_to_' . $to_str . '_';
+				$filename_aditional .= '_daterange_' . $from_str . '_to_' . $to_str;
 			}
 		}
 
-		if(!empty($this->serviceArgument['certificate_checked'])){
+		if(!empty($this->serviceArgument['certificate_checked'] && $this->serviceArgument['certificate_checked'] === 1)){
 			$args['meta_query']['certificate_checked'] = [
 				'key' => 'wpenon_immoticket24_certificate_checked',
 				'value' => '1',
@@ -75,7 +75,7 @@ class Service extends ServiceWorker\Services implements Interfaces\Action {
 			$filename_aditional .= '_certificate_checked';
 		}
 
-		if(!empty($this->serviceArgument['not_in_bussiness_range'])){
+		if(!empty($this->serviceArgument['not_in_bussiness_range']) && $this->serviceArgument['not_in_bussiness_range'] === 1){
 			$args['meta_query']['not_in_bussiness_range'] = [
 				'key'       => 'adresse_plz',
 				'value'     => ['69115, 69117, 69118, 69120, 69121, 69123, 69124, 69126, 69151, 69239, 69245, 69250, 69253, 69256, 69257, 69259, 69434, 74909, 74931, 68789, 69168, 69181, 69190, 69207, 69226, 69231, 69234, 69242, 69254, 74918, 68723, 68775, 68782, 69214, 68766, 68799, 68804, 68809'],
@@ -97,7 +97,7 @@ class Service extends ServiceWorker\Services implements Interfaces\Action {
 				'Art (Verbrauch- oder Bedarf)' => 'wpenon_type',
 				'Grund' => 'anlass',
 				'Gebäudetyp' => 'gebaeudetyp',
-				'Datum + Uhrzeit Ausweis beendet' => 'ausstellungszeit',
+				'Datum + Uhrzeit Ausweis beendet' => '',
 				'Bewertung erwünscht' => 'premium_bewertung',
 				'Preis' => 'edd_price',
 				'Vorname' => 'user_info_firstname',
