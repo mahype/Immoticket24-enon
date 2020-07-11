@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dbbc722d8301b9c7af9396e07378d06d",
+    "content-hash": "4ebb6f0f94d95c28ca146501b04d9d67",
     "packages": [
         {
             "name": "awsm/lib-mail",
@@ -39,16 +39,16 @@
         },
         {
             "name": "awsm/wp-wrapper",
-            "version": "dev-master",
+            "version": "dev-add_query_parser",
             "source": {
                 "type": "git",
-                "url": "https://github.com/awsmug/wp-wrapper.git",
-                "reference": "d82112615dc4dbbccb13132ba5962076f450be5d"
+                "url": "https://github.com/derpixler/wp-wrapper.git",
+                "reference": "74db22652a2af8ad73cd46afdd24a0b7b4d3ce82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/d82112615dc4dbbccb13132ba5962076f450be5d",
-                "reference": "d82112615dc4dbbccb13132ba5962076f450be5d",
+                "url": "https://api.github.com/repos/derpixler/wp-wrapper/zipball/74db22652a2af8ad73cd46afdd24a0b7b4d3ce82",
+                "reference": "74db22652a2af8ad73cd46afdd24a0b7b4d3ce82",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +60,6 @@
                     "Awsm\\WP_Wrapper\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -75,10 +74,14 @@
             "description": "Wrapping WordPress for more beautiful code.",
             "homepage": "https://github.com/awsmug/wp-wrapper",
             "keywords": [
-                "plugin",
-                "wordpress"
+                "Plugin",
+                "WordPress"
             ],
-            "time": "2020-05-14T14:31:03+00:00"
+            "support": {
+                "issues": "https://github.com/awsmug/wp-wrapper/issues",
+                "source": "https://github.com/derpixler/wp-wrapper/tree/add_query_parser"
+            },
+            "time": "2020-07-11T15:40:11+00:00"
         },
         {
             "name": "inpsyde/wonolog",
