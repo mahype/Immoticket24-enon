@@ -3,14 +3,8 @@
     "description": "Enon core plugin.",
     "version": "1.0.0",
     "license": "GPL-2.0-or-later",
-    "repositories": [
-      {
-        "type": "vcs",
-        "url": "git@github.com:derpixler/wp-wrapper.git"
-      }
-    ],
     "require": {
-        "awsm/wp-wrapper": "dev-add_query_parser",
+        "awsm/wp-wrapper": "dev-master",
         "awsm/lib-mail": "dev-develop",
         "monolog/monolog": "^1.0.0",
         "inpsyde/wonolog": "^1.0"
