@@ -29,12 +29,20 @@ class CSV_Generator implements Task, Actions {
 
 	private $task_arguments = [];
 
+	/* @var \WP_User*/
+	private $user = null;
+
 	/**
 	 * Running scripts.
 	 *
 	 * @since 1.0.0
 	 */
 	public function run() {
+		// bail early if not logged in
+		if( !is_user_logged_in() ) return false;
+
+		$this->user = wp_get_current_user();
+		if(!is_super_admin( $this->user ->ID )) return false;
 
 		$this->set_task_query_prefix('wpenon_csv');
 		$this->task_arguments = $this->get_parsed_task_queries($_GET);
