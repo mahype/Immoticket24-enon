@@ -70,11 +70,11 @@ class EzoicPreferences
             'cookieName' => 'ez*, sitespeed_preview, FTNT*, SITESERVER, SL*, speed_no_process, GED_PLAYLIST_ACTIVITY, __guid',
             'cookieExpiry' => _x('1 Year', 'Frontend / Cookie / Ezoic - Preferences / Text', 'borlabs-cookie'),
             'optInJS' => $this->optInJS(),
-            'optOutJS' => '',
+            'optOutJS' => $this->optOutJS(),
             'fallbackJS' => '',
             'settings' => [
                 'blockCookiesBeforeConsent' => false,
-                'prioritize' => false,
+                'prioritize' => true,
             ],
             'status' => true,
             'undeletetable' => false,
@@ -95,6 +95,24 @@ class EzoicPreferences
 <script>
 if (typeof window.ezConsentCategories == 'object') {
     window.ezConsentCategories.preferences = true;
+}
+</script>
+EOT;
+        return $code;
+    }
+
+    /**
+     * optOutJS function.
+     *
+     * @access private
+     * @return void
+     */
+    private function optOutJS()
+    {
+        $code = <<<EOT
+<script>
+if (typeof window.ezConsentCategories == 'object') {
+    window.ezConsentCategories.preferences = false;
 }
 </script>
 EOT;

@@ -190,21 +190,32 @@ class Filter_Website implements Task, Filters {
 	/**
 	 * Filtering access link
 	 *
-	 * @param array              $data           Data on page overview request.
-	 * @param Energieausweis_Old $energieausweis Energieausweis object.
+	 * @param array              $data               Data on page overview request.
+	 * @param Energieausweis_Old $energy_certificate Energieausweis object.
 	 *
 	 * @return array Filtered data.
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_access_link( $data, $energieausweis ) {
+	public function filter_access_link( $data, $energy_certificate ) {
 		$url = $this->reseller->data()->website->get_customer_edit_url();
 
 		if ( empty( $url ) ) {
 			return $data;
 		}
 
-		$url = $this->reseller->add_iframe_params( $url, $energieausweis->id );
+		switch ( $energy_certificate->type ) {
+			case 'vw':
+				$url .= '/verbrauchsausweis/';
+				break;
+			case 'bw':
+				$url .= '/bedarfsausweis/';
+				break;
+			default:
+				return $data;
+		}
+
+		$url = $this->reseller->add_iframe_params( $url, $energy_certificate->id );
 
 		$data['access_link'] = $url;
 

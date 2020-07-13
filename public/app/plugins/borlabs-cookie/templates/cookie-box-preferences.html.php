@@ -92,7 +92,7 @@
                                 <div class="bcac-item">
                                     <div class="d-flex flex-row">
                                         <label for="borlabs-cookie-group-<?php echo $groupData->group_id; ?>" class="w-75">
-                                            <h4><?php echo esc_html($groupData->name); ?> (<?php echo count($groupData->cookies); ?>)</h4>
+                                            <span role="heading" aria-level="4" class="_brlbs-h4"><?php echo esc_html($groupData->name); ?> (<?php echo count($groupData->cookies); ?>)</span >
                                         </label>
 
                                         <div class="w-25 text-right">
