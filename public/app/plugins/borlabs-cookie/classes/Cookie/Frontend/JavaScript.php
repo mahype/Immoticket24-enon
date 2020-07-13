@@ -28,6 +28,9 @@ class JavaScript
 {
     private static $instance;
 
+    private $cookiePath = null;
+    private $cookieVersion = null;
+
     /**
      * contentBlocker
      *
@@ -37,6 +40,16 @@ class JavaScript
      * @access private
      */
     private $contentBlocker = [];
+
+    /**
+     * fallbackCode
+     *
+     * (default value: [])
+     *
+     * @var mixed
+     * @access private
+     */
+    private $fallbackCode = [];
 
     public static function getInstance()
     {
@@ -57,6 +70,16 @@ class JavaScript
 
     protected function __construct()
     {
+        // Domain information for javascript cookie
+        $siteURL = get_home_url();
+        $siteURLInfo = parse_url($siteURL);
+        $this->cookiePath = !empty($siteURLInfo['path']) ? $siteURLInfo['path'] : "/";
+
+        if (Config::getInstance()->get('automaticCookieDomainAndPath') === false) {
+            $this->cookiePath = Config::getInstance()->get('cookiePath');
+        }
+
+        $this->cookieVersion = intval(get_site_option('BorlabsCookieCookieVersion', 1));
     }
 
     /**
@@ -114,12 +137,83 @@ class JavaScript
     }
 
     /**
-     * register function.
+     * registerHeadFallback function.
      *
      * @access public
      * @return void
      */
-    public function register()
+    public function registerHeadFallback()
+    {
+        // Fallback code is always executed
+        if (!empty($this->fallbackCode)) {
+            foreach ($this->fallbackCode as $groupData) {
+                foreach ($groupData as $cookieFallbackCode) {
+                    echo $cookieFallbackCode;
+                }
+            }
+        }
+    }
+
+    /**
+     * registerHead function.
+     *
+     * @access public
+     * @return void
+     */
+    public function registerHead()
+    {
+        $allCookies = Cookies::getInstance()->getAllCookieGroups();
+        $prioritizedCodes = [];
+
+        if (!empty($allCookies)) {
+            foreach ($allCookies as $cookieGroupData) {
+
+                if (!empty($cookieGroupData->cookies)) {
+
+                    foreach ($cookieGroupData->cookies as $cookieData) {
+
+                        if (!empty($cookieData->opt_in_js) || !empty($cookieData->fallback_js)) {
+
+                            if (!empty($cookieData->settings['prioritize'])) {
+                                $prioritizedCodes[$cookieGroupData->group_id][$cookieData->cookie_id] = base64_encode(do_shortcode($cookieData->opt_in_js));
+                            }
+
+                            $this->fallbackCode[$cookieGroupData->group_id][$cookieData->cookie_id] = do_shortcode($cookieData->fallback_js);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!empty($prioritizedCodes)) {
+
+            wp_enqueue_script(
+                'borlabs-cookie-prioritize', BORLABS_COOKIE_PLUGIN_URL.'javascript/borlabs-cookie-prioritize.min.js',
+                [],
+                BORLABS_COOKIE_VERSION
+            );
+
+            wp_localize_script(
+                'borlabs-cookie-prioritize',
+                'borlabsCookiePrioritized',
+                [
+                    'domain' => Config::getInstance()->get('cookieDomain'),
+                    'path' => $this->cookiePath,
+                    'version' => $this->cookieVersion,
+                    'bots' => Config::getInstance()->get('cookiesForBots'),
+                    'optInJS' => $prioritizedCodes,
+                ]
+            );
+        }
+    }
+
+    /**
+     * registerFooter function.
+     *
+     * @access public
+     * @return void
+     */
+    public function registerFooter ()
     {
         wp_enqueue_script(
             'borlabs-cookie', BORLABS_COOKIE_PLUGIN_URL.'javascript/borlabs-cookie.min.js',
@@ -129,17 +223,6 @@ class JavaScript
             BORLABS_COOKIE_VERSION,
             true
         );
-
-        // Domain information for javascript cookie
-        $siteURL = get_home_url();
-        $siteURLInfo = parse_url($siteURL);
-        $cookiePath = !empty($siteURLInfo['path']) ? $siteURLInfo['path'] : "/";
-
-        if (Config::getInstance()->get('automaticCookieDomainAndPath') === false) {
-            $cookiePath = Config::getInstance()->get('cookiePath');
-        }
-
-        $cookieVersion = intval(get_site_option('BorlabsCookieCookieVersion', 1));
 
         $jsConfig = [
             'ajaxURL' => admin_url('admin-ajax.php'),
@@ -155,13 +238,13 @@ class JavaScript
 
             'automaticCookieDomainAndPath' => Config::getInstance()->get('automaticCookieDomainAndPath'),
             'cookieDomain' => Config::getInstance()->get('cookieDomain'),
-            'cookiePath' => $cookiePath,
+            'cookiePath' => $this->cookiePath,
             'cookieLifetime' => Config::getInstance()->get('cookieLifetime'),
             'crossDomainCookie' => Config::getInstance()->get('crossDomainCookie'),
 
             'cookieBeforeConsent' => Config::getInstance()->get('cookieBeforeConsent'),
             'cookiesForBots' => Config::getInstance()->get('cookiesForBots'),
-            'cookieVersion' => $cookieVersion,
+            'cookieVersion' => $this->cookieVersion,
             'hideCookieBoxOnPages' => Config::getInstance()->get('hideCookieBoxOnPages'),
             'respectDoNotTrack' => Config::getInstance()->get('respectDoNotTrack'),
             'reloadAfterConsent' => Config::getInstance()->get('reloadAfterConsent'),
@@ -175,8 +258,6 @@ class JavaScript
 
         $allCookies = Cookies::getInstance()->getAllCookieGroups();
         $cookies = [];
-        $prioritizedCodes = [];
-        $fallbackCode = [];
 
         if (!empty($allCookies)) {
             foreach ($allCookies as $cookieGroupData) {
@@ -200,16 +281,10 @@ class JavaScript
 
                         if (!empty($cookieData->opt_in_js) || !empty($cookieData->opt_out_js) || !empty($cookieData->fallback_js)) {
 
-                            if (!empty($cookieData->settings['prioritize'])) {
-                                $prioritizedCodes[$cookieGroupData->group_id][$cookieData->cookie_id] = base64_encode(do_shortcode($cookieData->opt_in_js));
-                            }
-
                             $cookies[$cookieGroupData->group_id][$cookieData->cookie_id] = [
                                 'optInJS' => empty($cookieData->settings['prioritize']) ? base64_encode(do_shortcode($cookieData->opt_in_js)) : '',
                                 'optOutJS' => base64_encode(do_shortcode($cookieData->opt_out_js)),
                             ];
-
-                            $fallbackCode[$cookieGroupData->group_id][$cookieData->cookie_id] = do_shortcode($cookieData->fallback_js);
                         }
                     }
                 }
@@ -244,35 +319,5 @@ EOT;
         $jsCode .= "});";
 
         wp_add_inline_script('borlabs-cookie', $jsCode, 'after');
-
-        // Fallback code is always executed
-        if (!empty($fallbackCode)) {
-            foreach ($fallbackCode as $groupData) {
-                foreach ($groupData as $cookieFallbackCode) {
-                    echo $cookieFallbackCode;
-                }
-            }
-        }
-
-        if (!empty($prioritizedCodes)) {
-
-            wp_enqueue_script(
-                'borlabs-cookie-prioritize', BORLABS_COOKIE_PLUGIN_URL.'javascript/borlabs-cookie-prioritize.min.js',
-                [],
-                BORLABS_COOKIE_VERSION
-            );
-
-            wp_localize_script(
-                'borlabs-cookie-prioritize',
-                'borlabsCookiePrioritized',
-                [
-                    'domain' => Config::getInstance()->get('cookieDomain'),
-                    'path' => $cookiePath,
-                    'version' => $cookieVersion,
-                    'bots' => Config::getInstance()->get('cookiesForBots'),
-                    'optInJS' => $prioritizedCodes,
-                ]
-            );
-        }
     }
 }

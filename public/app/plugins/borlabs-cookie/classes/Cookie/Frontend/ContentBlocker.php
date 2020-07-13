@@ -81,7 +81,7 @@ class ContentBlocker
      * @access public
      * @return void
      */
-    public function init ()
+    public function init()
     {
         global $wpdb;
 
@@ -419,7 +419,7 @@ class ContentBlocker
 
                     } elseif (has_filter('borlabsCookie/bct/modify_content/'.$detectedContentBlockerId)) {
                         // Backwards compatibility
-                        $content = apply_filters('borlabsCookie/bct/modify_content/'.$detectedContentBlockerId, $detectedContentBlockerId, $content, $atts);
+                        $content = apply_filters('borlabsCookie/bct/modify_content/'.$detectedContentBlockerId, $detectedContentBlockerId, $content);
 
                     } else {
                         $content = ContentBlocker\Custom::getInstance()->modify($content, $detectedContentBlockerId, $atts);
