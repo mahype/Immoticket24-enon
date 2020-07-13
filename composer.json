@@ -51,6 +51,7 @@
     "wpackagist-plugin/wordpress-importer":"0.7",
     "wpackagist-plugin/wordpress-seo": "14.4.1",
     "wpackagist-plugin/wp-postratings": "1.88",
+    "wpackagist-plugin/wordpress-importer":"0.7",
     "felixarntz/wp-gdpr-cookie-notice": "dev-master",
     "felixarntz/plugin-lib": "dev-master"
   },

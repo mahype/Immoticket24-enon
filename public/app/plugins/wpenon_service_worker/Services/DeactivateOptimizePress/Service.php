@@ -1,5 +1,5 @@
 <?php
-namespace WPENON\ServiceWorker\DeactivateOptimizePress;
+namespace WPENON\ServiceWorker\GenerateSparkassenCSV;
 
 use WPENON\ServiceWorker\Interfaces;
 use WPENON\ServiceWorker;
