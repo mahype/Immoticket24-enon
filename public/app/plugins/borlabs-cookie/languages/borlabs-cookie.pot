@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Borlabs Cookie - Cookie Opt-in\n"
-"POT-Creation-Date: 2020-06-28 10:47+0200\n"
+"POT-Creation-Date: 2020-06-29 17:25+0200\n"
 "PO-Revision-Date: 2018-02-21 19:56+0100\n"
 "Last-Translator: Borlabs - Benjamin Bornschein <contact@borlabs.io>\n"
 "Language-Team: Borlabs - Benjamin Bornschein <contact@borlabs.io>\n"
@@ -2269,7 +2269,7 @@ msgid ""
 "If a <strong>Content Blocker</strong> already exists for this type of "
 "content, it is sufficient to deactivate the corresponding <strong>Content "
 "Blocker</strong>. If there is no <strong>Content Blocker</strong>, enter the "
-"source in the <strong>Host(s) Whitelist</strong>."
+"source in the <strong>Host(s) Allow List</strong>."
 msgstr ""
 
 #: templates/content-blocker-overview.html.php:114
@@ -2310,7 +2310,7 @@ msgstr ""
 
 #: templates/content-blocker-overview.html.php:140
 msgctxt "Backend / Content Blocker / Label"
-msgid "Host(s) Whitelist"
+msgid "Host(s) Allow List"
 msgstr ""
 
 #: templates/content-blocker-overview.html.php:143

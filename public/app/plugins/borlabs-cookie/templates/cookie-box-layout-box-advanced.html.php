@@ -86,6 +86,7 @@
                                             href="#"
                                             tabindex="0"
                                             role="button"
+                                            id="CookieBoxSaveButton"
                                             data-cookie-accept
                                         >
                                             <?php echo $cookieBoxTextAcceptButton; ?>

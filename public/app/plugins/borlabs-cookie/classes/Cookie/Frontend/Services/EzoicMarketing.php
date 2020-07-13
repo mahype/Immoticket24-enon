@@ -70,11 +70,11 @@ class EzoicMarketing
             'cookieName' => 'ez*, _sm_au, cto*, __gads, mind*, _ym_uid, GoogleAdServingTest',
             'cookieExpiry' => _x('1 Year', 'Frontend / Cookie / Ezoic - Marketing / Text', 'borlabs-cookie'),
             'optInJS' => $this->optInJS(),
-            'optOutJS' => '',
+            'optOutJS' => $this->optOutJS(),
             'fallbackJS' => '',
             'settings' => [
                 'blockCookiesBeforeConsent' => false,
-                'prioritize' => false,
+                'prioritize' => true,
             ],
             'status' => true,
             'undeletetable' => false,
@@ -95,6 +95,24 @@ class EzoicMarketing
 <script>
 if (typeof window.ezConsentCategories == 'object') {
     window.ezConsentCategories.marketing = true;
+}
+</script>
+EOT;
+        return $code;
+    }
+
+    /**
+     * optOutJS function.
+     *
+     * @access private
+     * @return void
+     */
+    private function optOutJS()
+    {
+        $code = <<<EOT
+<script>
+if (typeof window.ezConsentCategories == 'object') {
+    window.ezConsentCategories.marketing = false;
 }
 </script>
 EOT;

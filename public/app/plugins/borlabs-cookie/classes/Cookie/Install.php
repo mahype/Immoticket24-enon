@@ -472,7 +472,7 @@ class Install
             'borlabs-cookie',
             '".esc_sql(_x('1 Year', 'Frontend / Cookie / Borlabs Cookie / Text', 'borlabs-cookie'))."',
             '',
-            'a:1:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";}',
+            'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"0\";}',
             1,
             1,
             1
@@ -490,7 +490,7 @@ class Install
             '',
             '',
             '".esc_sql('<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("facebook"); }</script>')."',
-            'a:1:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";}',
+            'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"0\";}',
             1,
             1,
             0
@@ -508,7 +508,7 @@ class Install
             'NID',
             '".esc_sql(_x('6 Month', 'Frontend / Cookie / Google Maps / Text', 'borlabs-cookie'))."',
             '".esc_sql('<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("googlemaps"); }</script>')."',
-            'a:1:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";}',
+            'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"0\";}',
             2,
             1,
             0
@@ -526,7 +526,7 @@ class Install
             'pigeon_state',
             '".esc_sql(_x('Session', 'Frontend / Cookie / Instagram / Text', 'borlabs-cookie'))."',
             '".esc_sql('<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("instagram"); }</script>')."',
-            'a:1:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";}',
+            'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"0\";}',
             3,
             1,
             0
@@ -544,7 +544,7 @@ class Install
             '_osm_location, _osm_session, _osm_totp_token, _osm_welcome, _pk_id., _pk_ref., _pk_ses., qos_token',
             '".esc_sql(_x('1-10 Years', 'Frontend / Cookie / OpenStreetMap / Text', 'borlabs-cookie'))."',
             '".esc_sql('<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("openstreetmap"); }</script>')."',
-            'a:1:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";}',
+            'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"0\";}',
             4,
             1,
             0
@@ -562,7 +562,7 @@ class Install
             '__widgetsettings, local_storage_support_test',
             '".esc_sql(_x('Unlimited', 'Frontend / Cookie / Twitter / Text', 'borlabs-cookie'))."',
             '".esc_sql('<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("twitter"); }</script>')."',
-            'a:1:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";}',
+            'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"0\";}',
             5,
             1,
             0
@@ -580,7 +580,7 @@ class Install
             'vuid',
             '".esc_sql(_x('2 Years', 'Frontend / Cookie / Twitter / Text', 'borlabs-cookie'))."',
             '".esc_sql('<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("vimeo"); }</script>')."',
-            'a:1:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";}',
+            'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"0\";}',
             6,
             1,
             0
@@ -598,7 +598,7 @@ class Install
             'NID',
             '".esc_sql(_x('6 Month', 'Frontend / Cookie / YouTube / Text', 'borlabs-cookie'))."',
             '".esc_sql('<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("youtube"); }</script>')."',
-            'a:1:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";}',
+            'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"0\";}',
             7,
             1,
             0
