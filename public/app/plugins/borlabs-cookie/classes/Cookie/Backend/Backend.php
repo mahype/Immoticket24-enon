@@ -513,6 +513,13 @@ class Backend
             /* Check if license is expired */
             License::getInstance()->handleLicenseExpiredMessage();
 
+            /* Check if cache should be cleared after upgrade */
+            $clearCache = get_option('BorlabsCookieClearCache', false);
+
+            if ($clearCache == true) {
+                \BorlabsCookie\Cookie\Upgrade::getInstance()->clearCache();
+            }
+
             /* System Check */
             $statusSystemCheck = [];
 

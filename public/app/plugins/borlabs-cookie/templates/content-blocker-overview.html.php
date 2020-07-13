@@ -107,7 +107,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                 </button>
 
                 <div id="accordionContentBlockerTwo" class="collapse" data-parent="#accordionContentBlocker">
-                    <p><?php _ex('If a <strong>Content Blocker</strong> already exists for this type of content, it is sufficient to deactivate the corresponding <strong>Content Blocker</strong>. If there is no <strong>Content Blocker</strong>, enter the source in the <strong>Host(s) Whitelist</strong>.', 'Backend / Content Blocker / Tips / Text', 'borlabs-cookie'); ?></p>
+                    <p><?php _ex('If a <strong>Content Blocker</strong> already exists for this type of content, it is sufficient to deactivate the corresponding <strong>Content Blocker</strong>. If there is no <strong>Content Blocker</strong>, enter the source in the <strong>Host(s) Allow List</strong>.', 'Backend / Content Blocker / Tips / Text', 'borlabs-cookie'); ?></p>
                 </div>
 
                 <button type="button" class="collapsed" data-toggle="collapse" data-target="#accordionContentBlockerThree">
@@ -137,7 +137,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                     <div class="col-12">
 
                         <div class="form-group row">
-                            <label for="contentBlockerHostWhitelist" class="col-sm-4 col-form-label"><?php _ex('Host(s) Whitelist', 'Backend / Content Blocker / Label', 'borlabs-cookie'); ?></label>
+                            <label for="contentBlockerHostWhitelist" class="col-sm-4 col-form-label"><?php _ex('Host(s) Allow List', 'Backend / Content Blocker / Label', 'borlabs-cookie'); ?></label>
                             <div class="col-sm-8">
                                 <textarea class="form-control d-inline-block align-top w-75 mr-2" name="contentBlockerHostWhitelist" id="contentBlockerHostWhitelist" rows="3" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"><?php echo $textareaHostWhitelist; ?></textarea>
                                 <span data-toggle="tooltip" title="<?php echo esc_attr_x('One host per line. When a host is recognized (for example within the src-attribute of an iframe) the content will not be blocked.', 'Backend / Content Blocker / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
