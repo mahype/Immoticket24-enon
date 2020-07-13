@@ -96,6 +96,7 @@
                                             href="#"
                                             tabindex="0"
                                             role="button"
+                                            id="CookieBoxSaveButton"
                                             class="_brlbs-btn<?php echo $cookieBoxShowAcceptAllButton ? ' _brlbs-btn-accept-all' : ''; ?> _brlbs-cursor"
                                             data-cookie-accept
                                         >
