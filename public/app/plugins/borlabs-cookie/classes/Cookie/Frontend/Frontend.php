@@ -75,11 +75,14 @@ class Frontend
 
             // Add scripts and styles
             add_action('wp_enqueue_scripts', [Style::getInstance(), 'register']);
-            add_action('wp_enqueue_scripts', [JavaScript::getInstance(), 'register']);
+            add_action('wp_enqueue_scripts', [JavaScript::getInstance(), 'registerHead']);
+            add_action('wp_head', [JavaScript::getInstance(), 'registerHeadFallback']);
+            add_action('wp_footer', [JavaScript::getInstance(), 'registerFooter']);
 
             // Detect and modify scripts
             add_action('template_redirect', [Buffer::getInstance(), 'handleBuffering'], 19021987); // Will be used by ScriptBlocker->handleJavaScriptTagBlocking() && ScriptBlocker->detectJavaScriptsTags()
             add_filter('script_loader_tag', [ScriptBlocker::getInstance(), 'detectHandles'], 990, 3);
+            add_filter('script_loader_tag', [ScriptBlocker::getInstance(), 'blockHandles'], 999, 3);
             add_action('wp_footer', [ScriptBlocker::getInstance(), 'detectJavaScriptsTags'], 998);
             add_action('wp_footer', [ScriptBlocker::getInstance(), 'saveDetectedJavaScripts'], 999);
             add_action('wp_footer', [ScriptBlocker::getInstance(), 'handleJavaScriptTagBlocking'], 19021987); // Late but not latest

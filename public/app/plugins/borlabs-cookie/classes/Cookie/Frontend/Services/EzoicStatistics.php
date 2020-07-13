@@ -70,11 +70,11 @@ class EzoicStatistics
             'cookieName' => 'ez*, __qca, _gid, _ga, _gat, AMP_ECID_EZOIC, __utm*, _ga*',
             'cookieExpiry' => _x('1 Year', 'Frontend / Cookie / Ezoic - Statistics / Text', 'borlabs-cookie'),
             'optInJS' => $this->optInJS(),
-            'optOutJS' => '',
+            'optOutJS' => $this->optOutJS(),
             'fallbackJS' => '',
             'settings' => [
                 'blockCookiesBeforeConsent' => false,
-                'prioritize' => false,
+                'prioritize' => true,
             ],
             'status' => true,
             'undeletetable' => false,
@@ -95,6 +95,24 @@ class EzoicStatistics
 <script>
 if (typeof window.ezConsentCategories == 'object') {
     window.ezConsentCategories.statistics = true;
+}
+</script>
+EOT;
+        return $code;
+    }
+
+    /**
+     * optOutJS function.
+     *
+     * @access private
+     * @return void
+     */
+    private function optOutJS()
+    {
+        $code = <<<EOT
+<script>
+if (typeof window.ezConsentCategories == 'object') {
+    window.ezConsentCategories.statistics = false;
 }
 </script>
 EOT;

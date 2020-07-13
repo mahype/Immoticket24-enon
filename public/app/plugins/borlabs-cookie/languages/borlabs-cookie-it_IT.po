@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Borlabs Cookie - Cookie Opt-in\n"
-"POT-Creation-Date: 2020-06-28 10:47+0200\n"
-"PO-Revision-Date: 2020-06-28 10:47+0200\n"
+"POT-Creation-Date: 2020-07-03 12:02+0200\n"
+"PO-Revision-Date: 2020-07-03 12:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: Borlabs - Benjamin Bornschein <contact@borlabs.io>\n"
 "Language: it_IT\n"
@@ -2555,12 +2555,12 @@ msgid ""
 "If a <strong>Content Blocker</strong> already exists for this type of "
 "content, it is sufficient to deactivate the corresponding <strong>Content "
 "Blocker</strong>. If there is no <strong>Content Blocker</strong>, enter the "
-"source in the <strong>Host(s) Whitelist</strong>."
+"source in the <strong>Host(s) Allow List</strong>."
 msgstr ""
 "Se per questo tipo di contenuti esiste già un <strong>Content Blocker</"
 "strong>, è sufficiente disattivare il corrispondente <strong>Content "
 "Blocker</strong>. Se non c'è un <strong>Content Blocker</strong>, inserisci "
-"la fonte nella <strong>Host Whitelist</strong>."
+"la fonte nella <strong>Lista di host abilitati</strong>."
 
 #: templates/content-blocker-overview.html.php:114
 msgctxt "Backend / Content Blocker / Tips / Headline"
@@ -2606,8 +2606,8 @@ msgstr "Impostazioni generali"
 
 #: templates/content-blocker-overview.html.php:140
 msgctxt "Backend / Content Blocker / Label"
-msgid "Host(s) Whitelist"
-msgstr "Host Whitelist"
+msgid "Host(s) Allow List"
+msgstr "Lista di host abilitati"
 
 #: templates/content-blocker-overview.html.php:143
 msgctxt "Backend / Content Blocker / Tooltip"

@@ -69,12 +69,12 @@ class Ezoic
             'hosts' => [],
             'cookieName' => 'ez*, cf*, unique_id, __cf*, __utmt*',
             'cookieExpiry' => _x('1 Year', 'Frontend / Cookie / Ezoic / Text', 'borlabs-cookie'),
-            'optInJS' => '',
+            'optInJS' => $this->optInJS(),
             'optOutJS' => '',
-            'fallbackJS' => $this->fallbackJS(),
+            'fallbackJS' => '',
             'settings' => [
                 'blockCookiesBeforeConsent' => false,
-                'prioritize' => false,
+                'prioritize' => true,
             ],
             'status' => true,
             'undeletetable' => false,
@@ -84,16 +84,18 @@ class Ezoic
     }
 
     /**
-     * fallbackJS function.
+     * optInJS function.
      *
      * @access private
      * @return void
      */
-    private function fallbackJS()
+    private function optInJS()
     {
         $code = <<<EOT
 <script>
-document.addEventListener("borlabs-cookie-code-unblocked-after-consent", function (e) {
+window.ezConsentCategories = window.ezConsentCategories || {};
+window.BorlabsCookieEzoicHandle = function (e) {
+
     window.ezConsentCategories.preferences = window.ezConsentCategories.preferences || false;
     window.ezConsentCategories.statistics = window.ezConsentCategories.statistics || false;
     window.ezConsentCategories.marketing = window.ezConsentCategories.marketing || false;
@@ -101,7 +103,10 @@ document.addEventListener("borlabs-cookie-code-unblocked-after-consent", functio
     if (typeof ezConsentCategories == 'object' && typeof __ezconsent == 'object') {
         __ezconsent.setEzoicConsentSettings(window.ezConsentCategories);
     }
-}, false);
+};
+
+document.addEventListener("borlabs-cookie-prioritized-code-unblocked", window.BorlabsCookieEzoicHandle, false);
+document.addEventListener("borlabs-cookie-code-unblocked-after-consent", window.BorlabsCookieEzoicHandle, false);
 </script>
 EOT;
         return $code;

@@ -207,7 +207,7 @@ class ScriptBlocker
             foreach ($this->scriptBlocker as $data) {
                 if (!empty($data->blockPhrases)) {
                     foreach ($data->blockPhrases as $blockPhrase) {
-                        if (strpos($tag[0], $blockPhrase) !== false && strpos($tag[0], 'borlabsCookieConfig') === false && strpos($tag[0], 'borlabsCookieContentBlocker') === false) {
+                        if (strpos($tag[0], $blockPhrase) !== false && strpos($tag[0], 'borlabsCookieConfig') === false && strpos($tag[0], 'borlabsCookiePrioritized') === false && strpos($tag[0], 'borlabsCookieContentBlocker') === false) {
 
                             // Detect if script is of type javascript
                             $scriptType = [];
