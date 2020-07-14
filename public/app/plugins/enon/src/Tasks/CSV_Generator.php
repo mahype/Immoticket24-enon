@@ -14,7 +14,6 @@ namespace Enon\Tasks;
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
 use Awsm\WP_Wrapper\Tasks\Task_Query_Parser;
-use Enon\Task_Loader;
 
 /**
  * Class Setup_Enon.
