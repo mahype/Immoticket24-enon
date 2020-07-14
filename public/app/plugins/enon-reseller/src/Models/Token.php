@@ -59,7 +59,14 @@ class Token {
 
 		$lifespan = time() + 3600;
 
-		setcookie( 'iframe_token', $token, $lifespan, '/' );
+		$cookie_params = array(
+			'expires'  => $lifespan,
+			'path'     => '/',
+			'samesite' => 'None',
+			'secure'   => true,
+		);
+
+		setcookie( 'iframe_token', $token, $cookie_params );
 	}
 
 	/**
