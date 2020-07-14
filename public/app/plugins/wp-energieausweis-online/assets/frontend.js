@@ -419,7 +419,11 @@ jQuery( document ).ready( function ( $ ) {
 	wtf_thumb.energieausweis_id = _wpenon_data.energieausweis_id;
 
 	wtf_thumb.form = document.querySelector('#wpenon-thumbnail-form');
-	wtf_thumb.form.file = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_file"]');
+
+	if( null !== wtf_thumb.form ) {
+		wtf_thumb.form.file = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_file"]');
+	}
+
 	wtf_thumb.preview = document.querySelector('.thumbnail-wrapper');
 
 	wtf_thumb.triggerNodes = {
