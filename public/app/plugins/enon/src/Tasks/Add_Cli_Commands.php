@@ -11,7 +11,7 @@
 
 namespace Enon\Tasks;
 
-use Awsm\WP_Wrapper\Building_Plans\Task;
+use Awsm\WP_Wrapper\Interfaces\Task;
 use Enon\Models\Cli\Scrub_Posts;
 
 /**
