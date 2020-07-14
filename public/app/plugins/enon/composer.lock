@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4ebb6f0f94d95c28ca146501b04d9d67",
+    "content-hash": "dbbc722d8301b9c7af9396e07378d06d",
     "packages": [
         {
             "name": "awsm/lib-mail",
@@ -12,21 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/awsmug/lib-mail.git",
-<<<<<<< HEAD
-                "reference": "4eceb8e2c9c053f0afa6424a4b6460a85a5529fa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/awsmug/lib-mail/zipball/4eceb8e2c9c053f0afa6424a4b6460a85a5529fa",
-                "reference": "4eceb8e2c9c053f0afa6424a4b6460a85a5529fa",
-=======
                 "reference": "479893dd506c06d7857734fff89e573fed14e433"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/awsmug/lib-mail/zipball/479893dd506c06d7857734fff89e573fed14e433",
                 "reference": "479893dd506c06d7857734fff89e573fed14e433",
->>>>>>> enhancement/enon-174-cookie-consent
                 "shasum": ""
             },
             "require-dev": {
@@ -44,28 +35,27 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Awesome mail functionality. Easy and clean mail creation and transportation.",
-<<<<<<< HEAD
-            "time": "2020-06-05T20:25:07+00:00"
-=======
             "time": "2020-06-24T11:15:13+00:00"
->>>>>>> enhancement/enon-174-cookie-consent
         },
         {
             "name": "awsm/wp-wrapper",
-            "version": "dev-add_query_parser",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/derpixler/wp-wrapper.git",
-                "reference": "74db22652a2af8ad73cd46afdd24a0b7b4d3ce82"
+                "url": "https://github.com/awsmug/wp-wrapper.git",
+                "reference": "2808ebf3b7066888c72db8e69ff5d7900a48a75b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/derpixler/wp-wrapper/zipball/74db22652a2af8ad73cd46afdd24a0b7b4d3ce82",
-                "reference": "74db22652a2af8ad73cd46afdd24a0b7b4d3ce82",
+                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/2808ebf3b7066888c72db8e69ff5d7900a48a75b",
+                "reference": "2808ebf3b7066888c72db8e69ff5d7900a48a75b",
                 "shasum": ""
             },
             "require": {
                 "monolog/monolog": "^1.0"
+            },
+            "require-dev": {
+                "wp-coding-standards/wpcs": "dev-master"
             },
             "type": "library",
             "autoload": {
@@ -73,6 +63,7 @@
                     "Awsm\\WP_Wrapper\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -87,14 +78,10 @@
             "description": "Wrapping WordPress for more beautiful code.",
             "homepage": "https://github.com/awsmug/wp-wrapper",
             "keywords": [
-                "Plugin",
-                "WordPress"
+                "plugin",
+                "wordpress"
             ],
-            "support": {
-                "issues": "https://github.com/awsmug/wp-wrapper/issues",
-                "source": "https://github.com/derpixler/wp-wrapper/tree/add_query_parser"
-            },
-            "time": "2020-07-11T15:40:11+00:00"
+            "time": "2020-07-14T09:20:41+00:00"
         },
         {
             "name": "inpsyde/wonolog",
