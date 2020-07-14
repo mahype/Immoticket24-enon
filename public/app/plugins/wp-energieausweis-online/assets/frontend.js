@@ -419,17 +419,21 @@ jQuery( document ).ready( function ( $ ) {
 	wtf_thumb.energieausweis_id = _wpenon_data.energieausweis_id;
 
 	wtf_thumb.form = document.querySelector('#wpenon-thumbnail-form');
-	wtf_thumb.form.file = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_file"]');
-	wtf_thumb.preview = document.querySelector('.thumbnail-wrapper');
 
-	wtf_thumb.triggerNodes = {
-		action: {
-			upload: wtf_thumb.form.querySelector('[name="wpenon_thumbnail_upload"]'),
-			del: wtf_thumb.form.querySelector('[name="wpenon_thumbnail_delete"]')
-		},
-		parenntNode: wtf_thumb.form.querySelector('.image-buttons')
-	};
+	if( null !== wtf_thumb.form ) {
+		wtf_thumb.form.file = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_file"]');
+
+		wtf_thumb.preview = document.querySelector('.thumbnail-wrapper');
+
+		wtf_thumb.triggerNodes = {
+			action: {
+				upload: wtf_thumb.form.querySelector('[name="wpenon_thumbnail_upload"]'),
+				del: wtf_thumb.form.querySelector('[name="wpenon_thumbnail_delete"]')
+			},
+			parenntNode: wtf_thumb.form.querySelector('.image-buttons')
+		};
 
 
-	wtf_thumb.functions.prototype.addEvents();
+		wtf_thumb.functions.prototype.addEvents();
+	}
 });

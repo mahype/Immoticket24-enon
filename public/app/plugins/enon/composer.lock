@@ -43,16 +43,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/awsmug/wp-wrapper.git",
-                "reference": "d82112615dc4dbbccb13132ba5962076f450be5d"
+                "reference": "b6ef77fe40c62846674615c7a64be5cd7a98c8b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/d82112615dc4dbbccb13132ba5962076f450be5d",
-                "reference": "d82112615dc4dbbccb13132ba5962076f450be5d",
+                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/b6ef77fe40c62846674615c7a64be5cd7a98c8b6",
+                "reference": "b6ef77fe40c62846674615c7a64be5cd7a98c8b6",
                 "shasum": ""
             },
             "require": {
                 "monolog/monolog": "^1.0"
+            },
+            "require-dev": {
+                "wp-coding-standards/wpcs": "dev-master"
             },
             "type": "library",
             "autoload": {
@@ -78,7 +81,7 @@
                 "plugin",
                 "wordpress"
             ],
-            "time": "2020-05-14T14:31:03+00:00"
+            "time": "2020-07-14T11:55:14+00:00"
         },
         {
             "name": "inpsyde/wonolog",

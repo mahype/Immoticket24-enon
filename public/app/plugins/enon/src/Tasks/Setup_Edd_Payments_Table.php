@@ -11,12 +11,12 @@
 
 namespace Enon\Tasks;
 
-use Awsm\WP_Wrapper\Building_Plans\Hooks_Actions;
-use Awsm\WP_Wrapper\Building_Plans\Service;
+use Awsm\WP_Wrapper\Interfaces\Hooks_Actions;
+use Awsm\WP_Wrapper\Interfaces\Service;
 use Awsm\WP_Wrapper\Loaders\Hooks_Loader;
 use Awsm\WP_Wrapper\Loaders\Loader;
-use Awsm\WP_Wrapper\Building_Plans\Filters;
-use Awsm\WP_Wrapper\Building_Plans\Task;
+use Awsm\WP_Wrapper\Interfaces\Filters;
+use Awsm\WP_Wrapper\Interfaces\Task;
 use Enon\Models\Edd\Payment;
 use Enon\Models\Enon\Energieausweis;
 
