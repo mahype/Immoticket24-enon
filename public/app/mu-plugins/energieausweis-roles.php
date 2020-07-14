@@ -116,7 +116,7 @@ function energieausweis_roles_get_caps( $role_slug ) {
 				'backwpup_settings',
 				'backwpup_restore',
 				'manage_borlabs_cookie',
-				'generate_csv',
+				'view_reseller_leads',
 			) );
 		case 'editor':
 			$caps = array_merge( $caps, array(
@@ -175,7 +175,7 @@ function energieausweis_roles_get_caps( $role_slug ) {
 			) );
 			case 'wpenon_reseller':
 			$caps = array_merge( $caps, array(
-				'generate_csv',
+				'view_reseller_leads',
 			) );
 		case 'subscriber':
 			$caps = array_merge( $caps, array(

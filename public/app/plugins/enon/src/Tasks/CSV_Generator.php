@@ -57,11 +57,11 @@ class CSV_Generator implements Task, Actions {
 
 		$this->user = wp_get_current_user();
 
-		if ( ! is_super_admin( $this->user->ID ) || ! $this->user->has_cap( 'generate_csv' ) ) {
+		if ( ! is_super_admin( $this->user->ID ) || ! $this->user->has_cap( 'view_reseller_leads' ) ) {
 			return false;
 		}
 
-		$this->set_task_query_prefix( 'wpenon_csv' );
+		$this->set_task_query_prefix( 'reseller_leads' );
 		$this->task_arguments = $this->get_parsed_task_queries( $_GET );
 
 		if ( ! empty( $this->task_arguments['reseller'] ) ) {
