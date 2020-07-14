@@ -13,7 +13,7 @@ namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Assets\Frontend_Script;
 use Awsm\WP_Wrapper\Tools\Class_Location;
-use Awsm\WP_Wrapper\Building_Plans\Task;
+use Awsm\WP_Wrapper\Interfaces\Task;
 
 /**
  * Class Google_Tag_Manager

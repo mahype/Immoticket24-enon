@@ -11,8 +11,8 @@
 
 namespace Enon\WP\Tasks;
 
-use Awsm\WP_Wrapper\Building_Plans\Actions;
-use Awsm\WP_Wrapper\Building_Plans\Task;
+use Awsm\WP_Wrapper\Interfaces\Actions;
+use Awsm\WP_Wrapper\Interfaces\Task;
 
 use Enon\Models\Plugins\ACF;
 use Awsm\WP_Wrapper\Tools\Logger_Trait;

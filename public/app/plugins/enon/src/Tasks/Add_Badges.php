@@ -11,10 +11,10 @@
 
 namespace Enon\Tasks;
 
-use Awsm\WP_Wrapper\Building_Plans\Hooks_Actions;
-use Awsm\WP_Wrapper\Building_Plans\Service;
-use Awsm\WP_Wrapper\Building_Plans\Actions;
-use Awsm\WP_Wrapper\Building_Plans\Task;
+use Awsm\WP_Wrapper\Interfaces\Hooks_Actions;
+use Awsm\WP_Wrapper\Interfaces\Service;
+use Awsm\WP_Wrapper\Interfaces\Actions;
+use Awsm\WP_Wrapper\Interfaces\Task;
 use Awsm\WP_Wrapper\Loaders\Hooks_Loader;
 use Awsm\WP_Wrapper\Loaders\Loader;
 
