@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Tasks;
+namespace Enon_Reseller\Tasks;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
@@ -63,7 +63,7 @@ class CSV_Generator implements Task, Actions {
 		$this->set_task_query_prefix( 'reseller_leads' );
 		$this->task_arguments = $this->get_parsed_task_queries( $_GET );
 
-		if ( ! empty( $this->task_arguments['reseller'] ) ) {
+		if ( count( $this->task_arguments ) > 0 ) {
 			$this->add_actions();
 		}
 	}
@@ -99,7 +99,7 @@ class CSV_Generator implements Task, Actions {
 		$filename_aditional = '';
 
 		if ( ! empty( $this->task_arguments['date_range'] ) ) {
-			$range = explode( '-', $this->task_arguments['date_range'] );
+			$range = explode( '|', $this->task_arguments['date_range'] );
 			$from  = strtotime( $range[0] );
 			$to    = strtotime( $range[1] );
 

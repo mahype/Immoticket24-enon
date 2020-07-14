@@ -14,12 +14,13 @@ namespace Enon_Reseller;
 use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;
 
+
 use Enon_Reseller\Models\Token;
 use Enon_Reseller\Models\Reseller;
 
 use Enon_Reseller\Tasks\Add_CPT_Reseller;
-
 use Enon_Reseller\Tasks\Add_Post_Meta;
+use Enon_Reseller\Tasks\CSV_Generator;
 use Enon_Reseller\Tasks\Filters\Filter_Email_Template;
 use Enon_Reseller\Tasks\Filters\Filter_Payment_Fee_Email;
 use Enon_Reseller\Tasks\Setup_Enon;
@@ -66,6 +67,8 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function add_admin_tasks() {
+		$this->add_task( CSV_Generator::class );
+
 		try {
 			$reseller = new Reseller( null, $this->logger() );
 		} catch ( Exception $exception ) {
