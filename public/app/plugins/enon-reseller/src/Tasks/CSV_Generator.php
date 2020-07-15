@@ -148,9 +148,9 @@ class CSV_Generator implements Task, Actions {
 			$filename_aditional .= '_not_in_bussiness_range';
 		}
 
-		$the_query = query_posts( $args );
+		$posts = query_posts( $args );
 
-		if ( $the_query ) {
+		if ( $posts ) {
 			$result = [];
 
 			$meta_keys = [
@@ -173,7 +173,7 @@ class CSV_Generator implements Task, Actions {
 
 			$result[0] = array_keys( $meta_keys );
 
-			foreach ( $the_query as $post ) {
+			foreach ( $posts as $post ) {
 				$invoice_id   = get_post_meta( $post->ID, '_wpenon_attached_payment_id', true );
 				$invoice      = get_post( $invoice_id );
 				$invoice_meta  = get_post_meta( $invoice_id, '_edd_payment_meta', true );
