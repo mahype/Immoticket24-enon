@@ -49,21 +49,20 @@ class CSV_Generator implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function run() {
-
 		if ( ! is_user_logged_in() ) {
 			return false;
 		}
 
 		$this->user = wp_get_current_user();
 
-		if ( ! is_super_admin( $this->user->ID ) || ! $this->user->has_cap( 'view_reseller_leads' ) ) {
+		if ( ! is_super_admin( $this->user->ID ) && ! $this->user->has_cap( 'view_reseller_leads' ) ) {
 			return false;
 		}
 
-		$this->set_task_query_prefix( 'reseller_leads' );
-		$this->task_arguments = $this->get_parsed_task_queries( $_GET );
+		$this->set_query_parameter_prefix( 'reseller_leads' );
+		$this->set_query( $_GET );
 
-		if ( count( $this->task_arguments ) > 0 ) {
+		if ( $this->has_query_values() ) {
 			$this->add_actions();
 		}
 	}
@@ -83,6 +82,12 @@ class CSV_Generator implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function generate_csv() {
+		$reseller_id = get_user_meta( $this->user->ID, 'reseller_id', true );
+
+		if ( empty( $reseller_id ) ) {
+			wp_die('No reseller id given.' );
+		}
+
 		$args = [
 			'post_type'      => [ 'download' ],
 			'posts_per_page' => - 1,
@@ -91,7 +96,7 @@ class CSV_Generator implements Task, Actions {
 				'relation' => 'AND',
 				'reseller' => [
 					'key'   => 'reseller_id',
-					'value' => '321587',
+					'value' => $reseller_id,
 				],
 			],
 		];
