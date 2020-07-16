@@ -162,7 +162,6 @@ class CSV_Generator implements Task, Actions {
 			$result = [];
 
 			$meta_keys = [
-
 				'Datum Beginn Eingabe'            => 'ausstellungsdatum',
 				'Uhrzeit Beginn Eingabe'          => 'ausstellungszeit',
 				'Energieausweis-Nr.'              => 'name',
@@ -184,8 +183,8 @@ class CSV_Generator implements Task, Actions {
 
 			foreach ( $posts as $post ) {
 				$invoice_id   = get_post_meta( $post->ID, '_wpenon_attached_payment_id', true );
-				$invoice_meta  = get_post_meta( $invoice_id, '_edd_payment_meta', true );
-				$user_info     = $invoice_meta['user_info'];
+				$invoice_meta = get_post_meta( $invoice_id, '_edd_payment_meta', true );
+				$user_info    = $invoice_meta['user_info'];
 				$payment_fees = edd_get_payment_fees( $invoice_id, 'item' );
 
 				foreach ( $meta_keys as $meta_key => $meta_value ) {
@@ -227,7 +226,7 @@ class CSV_Generator implements Task, Actions {
 			$f = fopen( 'php://memory', 'w' );
 
 			foreach ( $result as $line ) {
-				fputcsv( $f, $line, ',' );
+				fputcsv( $f, $line, ';' );
 			}
 			fseek( $f, 0 );
 			header( 'Content-Type: application/csv' );
