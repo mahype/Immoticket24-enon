@@ -63,6 +63,7 @@ class Fieldset_Iframe implements Fieldset {
 				'instructions' => __( 'Add some extra JavaScript for reseller.', 'enon' ),
 				'mode' => 'javascript',
 				'theme' => 'monokai',
+				'default_value' => $this->get_default_extra_js(),
 			),
 			array(
 				'key' => 'field_iframe_bw_html',
@@ -150,5 +151,45 @@ function receiveEnonSettings(event) {
 </script>';
 
 		return $iframe_html;
+	}
+
+	/**
+	 * Get default extra js.
+	 *
+	 * @return string
+	 *
+	 * @since 1.0.0
+	 */
+	private function get_default_extra_js() {
+		$extra_js = 'jQuery( document ).ready( function ( $ ) {
+  let get_document_height = function () {
+    var body = document.body,
+        html = document.documentElement;
+
+    var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+    return height;
+  }
+
+  let get_wrapper_height = function() {
+     return $(".wrapper").height() + 100;
+  }
+
+  let send_document_height = function () {
+    var height = get_wrapper_height();
+    parent.postMessage( JSON.stringify( {\'frame_height\': height} ), \'*\' );
+  }
+
+  send_document_height();
+
+  $( document ).on(\'wpenon.update_active_tab\', function (e) {
+     setTimeout( function(){ send_document_height(); }, 100 );
+  });
+
+  $( document ).on(\'edd_gateway_loaded\', function (e) {
+     setTimeout( function(){ send_document_height(); }, 100 );
+  });
+});
+';
+		return $extra_js;
 	}
 }
