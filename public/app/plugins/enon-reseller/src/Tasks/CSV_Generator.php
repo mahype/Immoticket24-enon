@@ -222,7 +222,7 @@ class CSV_Generator implements Task, Actions {
 				}
 			}
 
-			$filename = 'wpenon_csv_reseller_spk' . $filename_aditional . '.csv';
+			$filename = 'reseller_leads' . $filename_aditional . '.csv';
 
 			$f = fopen( 'php://memory', 'w' );
 
