@@ -68,7 +68,7 @@ class Add_Popups implements Actions, Task {
 
 		$energy_certificate_ids = false;
 		if ( isset( $cart_contents[0] ) && isset( $cart_contents[0]['id'] ) ) {
-			foreach ( $cart_contents AS $cart_content ) {
+			foreach ( $cart_contents as $cart_content ) {
 				$energy_certificate_ids[] = $cart_content['id'];
 			}
 		}
@@ -94,7 +94,7 @@ class Add_Popups implements Actions, Task {
 
 		$found_verkauf = false;
 
-		foreach( $certificate_ids AS $certificate_id ) {
+		foreach ( $certificate_ids as $certificate_id ) {
 			$certificate = new \WPENON\Model\Energieausweis( $certificate_id );
 			$anlass = $certificate->anlass;
 

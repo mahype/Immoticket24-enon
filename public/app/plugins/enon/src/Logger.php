@@ -52,9 +52,9 @@ class Logger extends \Awsm\WP_Wrapper\Tools\Logger {
 	/**
 	 * Adding global data to record.
 	 *
-	 * @param int $level
+	 * @param int    $level
 	 * @param string $message
-	 * @param array $context
+	 * @param array  $context
 	 *
 	 * @return bool
 	 *

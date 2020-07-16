@@ -61,7 +61,7 @@ abstract class Popup_Component extends Component {
 	 * @since 1.0.0
 	 */
 	public function __construct( $popup_id = null ) {
-		if ( ! empty ( $popup_id ) )  {
+		if ( ! empty( $popup_id ) ) {
 			$this->popup_id = $popup_id;
 		} else {
 			$this->popup_id = $this->create_popup_id();
@@ -136,9 +136,9 @@ abstract class Popup_Component extends Component {
 					<div class="modal-header">
 						<h4 class="modal-title"><?php echo $title; ?></h4>
 					</div>
-					<?php if ( ! empty( $image ) ): ?>
+					<?php if ( ! empty( $image ) ) : ?>
 						<img src="<?php echo $image; ?>" class="modal-image" />
-		            <?php endif; ?>
+					<?php endif; ?>
 					<div class="modal-body">
 						<?php echo $content; ?>
 					</div>
@@ -152,7 +152,7 @@ abstract class Popup_Component extends Component {
 		<?php
 
 		$html = ob_get_clean();
-		$html.= $this->js();
+		$html .= $this->js();
 
 		return $html;
 	}
