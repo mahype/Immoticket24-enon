@@ -25,6 +25,7 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function run() {
+		$this->add_task( Config_User::class );
 		$this->add_task( Add_Options_General::class, $this->logger() );
 		$this->add_task( Add_Page_Fields::class, $this->logger() );
 		$this->add_task( Add_Cli_Commands::class );

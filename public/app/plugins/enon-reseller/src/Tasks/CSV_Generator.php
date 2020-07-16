@@ -49,21 +49,20 @@ class CSV_Generator implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function run() {
-
 		if ( ! is_user_logged_in() ) {
 			return false;
 		}
 
 		$this->user = wp_get_current_user();
 
-		if ( ! is_super_admin( $this->user->ID ) || ! $this->user->has_cap( 'view_reseller_leads' ) ) {
+		if ( ! is_super_admin( $this->user->ID ) && ! $this->user->has_cap( 'view_reseller_leads' ) ) {
 			return false;
 		}
 
-		$this->set_task_query_prefix( 'reseller_leads' );
-		$this->task_arguments = $this->get_parsed_task_queries( $_GET );
+		$this->set_query_parameter_prefix( 'reseller_leads' );
+		$this->set_query( $_GET );
 
-		if ( count( $this->task_arguments ) > 0 ) {
+		if ( $this->has_query_values() ) {
 			$this->add_actions();
 		}
 	}
@@ -81,8 +80,16 @@ class CSV_Generator implements Task, Actions {
 	 * Generates CSV.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @todo Has to go to into models and to be abstracted.
 	 */
 	public function generate_csv() {
+		$reseller_id = (int) get_user_meta( $this->user->ID, 'reseller_id', true );
+
+		if ( empty( $reseller_id ) ) {
+			wp_die( 'No reseller id given.' );
+		}
+
 		$args = [
 			'post_type'      => [ 'download' ],
 			'posts_per_page' => - 1,
@@ -91,15 +98,16 @@ class CSV_Generator implements Task, Actions {
 				'relation' => 'AND',
 				'reseller' => [
 					'key'   => 'reseller_id',
-					'value' => '321587',
+					'value' => $reseller_id,
 				],
 			],
 		];
+		$values = $this->get_query_values();
 
 		$filename_aditional = '';
 
-		if ( ! empty( $this->task_arguments['date_range'] ) ) {
-			$range = explode( '|', $this->task_arguments['date_range'] );
+		if ( ! empty( $values['date_range'] ) ) {
+			$range = explode( '|', $values['date_range'] );
 			$from  = strtotime( $range[0] );
 			$to    = strtotime( $range[1] );
 
@@ -126,7 +134,7 @@ class CSV_Generator implements Task, Actions {
 			}
 		}
 
-		if ( ! empty( $this->task_arguments['certificate_checked'] && 1 === $this->task_arguments['certificate_checked'] ) ) {
+		if ( ! empty( $values['certificate_checked'] && 1 === $values['certificate_checked'] ) ) {
 			$args['meta_query']['certificate_checked'] = [
 				'key'   => 'wpenon_immoticket24_certificate_checked',
 				'value' => '1',
@@ -135,7 +143,7 @@ class CSV_Generator implements Task, Actions {
 			$filename_aditional .= '_certificate_checked';
 		}
 
-		if ( ! empty( $this->task_arguments['not_in_bussiness_range'] ) && 1 === $this->task_arguments['not_in_bussiness_range'] ) {
+		if ( ! empty( $values['not_in_bussiness_range'] ) && 1 === $values['not_in_bussiness_range'] ) {
 			$args['meta_query']['not_in_bussiness_range'] = [
 				'key'     => 'adresse_plz',
 				'value'   => [
@@ -154,6 +162,7 @@ class CSV_Generator implements Task, Actions {
 			$result = [];
 
 			$meta_keys = [
+
 				'Datum Beginn Eingabe'            => 'ausstellungsdatum',
 				'Uhrzeit Beginn Eingabe'          => 'ausstellungszeit',
 				'Energieausweis-Nr.'              => 'name',
@@ -175,7 +184,6 @@ class CSV_Generator implements Task, Actions {
 
 			foreach ( $posts as $post ) {
 				$invoice_id   = get_post_meta( $post->ID, '_wpenon_attached_payment_id', true );
-				$invoice      = get_post( $invoice_id );
 				$invoice_meta  = get_post_meta( $invoice_id, '_edd_payment_meta', true );
 				$user_info     = $invoice_meta['user_info'];
 				$payment_fees = edd_get_payment_fees( $invoice_id, 'item' );

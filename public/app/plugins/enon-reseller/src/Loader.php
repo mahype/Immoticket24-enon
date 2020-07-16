@@ -20,6 +20,7 @@ use Enon_Reseller\Models\Reseller;
 
 use Enon_Reseller\Tasks\Add_CPT_Reseller;
 use Enon_Reseller\Tasks\Add_Post_Meta;
+use Enon_Reseller\Tasks\Config_User;
 use Enon_Reseller\Tasks\CSV_Generator;
 use Enon_Reseller\Tasks\Filters\Filter_Email_Template;
 use Enon_Reseller\Tasks\Filters\Filter_Payment_Fee_Email;
@@ -67,7 +68,9 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function add_admin_tasks() {
+		$this->add_task( Config_User::class );
 		$this->add_task( CSV_Generator::class );
+		$this->add_task( Tasks\Admin\Loader::class, $this->logger() );
 
 		try {
 			$reseller = new Reseller( null, $this->logger() );
