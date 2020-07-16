@@ -73,7 +73,7 @@ class Config_Dashboard_Widgets implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function widget_lead_export() {
-		$csv_all = admin_url( '?reseller_leads_not_in_bussiness_range=0' );
+		$csv_all = admin_url( '?reseller_leads_download' );
 		echo sprintf( '<p>Alle Leads exportieren: <a href="%s">CSV</a></p>', $csv_all );
 	}
 }
