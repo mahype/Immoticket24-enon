@@ -64,7 +64,7 @@ class Config_Dashboard_Widgets implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function add() {
-		wp_add_dashboard_widget( 'lead_export', 'Leads', [ $this, 'widget_lead_export' ] );
+		wp_add_dashboard_widget( 'lead_export', 'Lead export', [ $this, 'widget_lead_export' ] );
 	}
 
 	/**
@@ -74,6 +74,21 @@ class Config_Dashboard_Widgets implements Task, Actions {
 	 */
 	public function widget_lead_export() {
 		$csv_all = admin_url( '?reseller_leads_download' );
-		echo sprintf( '<p>Alle Leads exportieren: <a href="%s">CSV</a></p>', $csv_all );
+
+		$date_start_last_month = date("Y-m-d", strtotime("first day of previous month"));
+		$date_end_last_month   = date("Y-m-d", strtotime("last day of previous month"));
+
+		$csv_last_month = admin_url( '?reseller_leads_date_range=' . $date_start_last_month . '|' . $date_end_last_month );
+
+		$date_start_this_month = date("Y-m-d", strtotime("first day of this month"));
+		$date_end_this_month   = date("Y-m-d", time() );
+
+		$csv_this_month = admin_url( '?reseller_leads_date_range=' . $date_start_this_month . '|' . $date_end_this_month );
+
+		echo sprintf( '<p>Alle: <a href="%s">CSV</a></p>', $csv_all );
+		echo sprintf( '<p>Letzter Monat: <a href="%s">CSV</a></p>', $csv_last_month );
+		echo sprintf( '<p>Dieser Monat: <a href="%s">CSV</a></p>', $csv_this_month );
+
+		do_action( 'enon_widget_lead_export_end' );
 	}
 }
