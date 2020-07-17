@@ -13,6 +13,7 @@ namespace Enon_Reseller\Tasks\Admin;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
+use Enon_Reseller\Models\Data\Post_Meta_Iframe;
 
 /**
  * Class Config_Dashboard_Widgets
@@ -65,6 +66,7 @@ class Config_Dashboard_Widgets implements Task, Actions {
 	 */
 	public function add() {
 		wp_add_dashboard_widget( 'lead_export', 'Lead export', [ $this, 'widget_lead_export' ] );
+		wp_add_dashboard_widget( 'iframe_html', 'iFrame HTML', [ $this, 'widget_iframe_code' ] );
 	}
 
 	/**
@@ -90,5 +92,22 @@ class Config_Dashboard_Widgets implements Task, Actions {
 		echo sprintf( '<p>Dieser Monat: <a href="%s">CSV</a></p>', $csv_this_month );
 
 		do_action( 'enon_widget_lead_export_end' );
+	}
+
+	/**
+	 * Widget for iframe code.
+	 *
+	 * @since 1.0.0
+	 */
+	public function widget_iframe_code() {
+		$user = wp_get_current_user();
+		$reseller_id = get_user_meta( $user->ID, 'reseller_id', true );
+		$iframe = new Post_Meta_Iframe( $reseller_id );
+
+		echo '<p>Iframe Bedarfsausweis code</p>';
+		echo '<pre><code style="width:95%; display: block; overflow: scroll; font-size: 12px;">' . htmlentities( $iframe->get_iframe_bw_html() ) . '</code></pre>';
+
+		echo '<p>Iframe Verbrauchsausweis code</p>';
+		echo '<pre><code style="width:95%; display: block; overflow: scroll; font-size: 12px;">' . htmlentities( $iframe->get_iframe_vw_html() ) . '</code></pre>';
 	}
 }
