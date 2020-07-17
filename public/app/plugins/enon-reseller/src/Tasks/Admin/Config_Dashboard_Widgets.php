@@ -77,13 +77,13 @@ class Config_Dashboard_Widgets implements Task, Actions {
 	public function widget_lead_export() {
 		$csv_all = admin_url( '?reseller_leads_download' );
 
-		$date_start_last_month = date("Y-m-d", strtotime("first day of previous month"));
-		$date_end_last_month   = date("Y-m-d", strtotime("last day of previous month"));
+		$date_start_last_month = date( 'Y-m-d', strtotime( 'first day of previous month' ) );
+		$date_end_last_month   = date( 'Y-m-d', strtotime( 'last day of previous month' ) );
 
 		$csv_last_month = admin_url( '?reseller_leads_date_range=' . $date_start_last_month . '|' . $date_end_last_month );
 
-		$date_start_this_month = date("Y-m-d", strtotime("first day of this month"));
-		$date_end_this_month   = date("Y-m-d", time() );
+		$date_start_this_month = date( 'Y-m-d', strtotime( 'first day of this month' ) );
+		$date_end_this_month   = date( 'Y-m-d', time() );
 
 		$csv_this_month = admin_url( '?reseller_leads_date_range=' . $date_start_this_month . '|' . $date_end_this_month );
 
