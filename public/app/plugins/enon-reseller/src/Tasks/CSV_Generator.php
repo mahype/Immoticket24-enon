@@ -143,18 +143,15 @@ class CSV_Generator implements Task, Actions {
 			$filename_aditional .= '_certificate_checked';
 		}
 
-		if ( ! empty( $values['not_in_bussiness_range'] ) && 1 === $values['not_in_bussiness_range'] ) {
-			$args['meta_query']['not_in_bussiness_range'] = [
-				'key'     => 'adresse_plz',
-				'value'   => [
-					'06110',
-					'69115, 69117, 69118, 69120, 69121, 69123, 69124, 69126, 69151, 69239, 69245, 69250, 69253, 69256, 69257, 69259, 69434, 74909, 74931, 68789, 69168, 69181, 69190, 69207, 69226, 69231, 69234, 69242, 69254, 74918, 68723, 68775, 68782, 69214, 68766, 68799, 68804, 68809',
-				],
-				'compare' => 'NOT IN',
-			];
-
-			$filename_aditional .= '_not_in_bussiness_range';
-		}
+		/**
+		 * Filter query args for reseller leads data.
+		 *
+		 * @param array $args Query arguments.
+		 * @param array $values Task query values.
+		 *
+		 * @since 1.0.0
+		 */
+		$args = apply_filters( 'enon_reseller_leads_quer_args', $args, $values );
 
 		$posts = query_posts( $args );
 

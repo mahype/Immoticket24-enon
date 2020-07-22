@@ -91,4 +91,26 @@ class Post_Meta_Iframe extends Post_Meta {
 	public function get_extra_js() {
 		return $this->get( 'extra_js' );
 	}
+
+	/**
+	 * Get reseller bw iframe html.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Reseller bw iframe html.
+	 */
+	public function get_iframe_bw_html() {
+		return $this->get( 'iframe_bw_html' );
+	}
+
+	/**
+	 * Get reseller vw iframe html.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Reseller vw iframe html.
+	 */
+	public function get_iframe_vw_html() {
+		return $this->get( 'iframe_vw_html' );
+	}
 }

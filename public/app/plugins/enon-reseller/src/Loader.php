@@ -36,6 +36,7 @@ use Enon_Reseller\Tasks\Filters\Filter_Template;
 
 use Enon_Reseller\Tasks\Add_Energy_Certificate_Submission;
 
+use Enon_Reseller\Tasks\Sparkasse\Add_CSV_Export;
 use Enon_Reseller\Tasks\Sparkasse\Add_Sparkasse_Discounts;
 use Enon_Reseller\Tasks\Sparkasse\Sparkasse_Setup_Edd;
 
@@ -70,6 +71,7 @@ class Loader extends Task_Loader {
 	public function add_admin_tasks() {
 		$this->add_task( Config_User::class );
 		$this->add_task( CSV_Generator::class );
+		$this->add_task( Add_CSV_Export::class );
 		$this->add_task( Tasks\Admin\Loader::class, $this->logger() );
 
 		try {
