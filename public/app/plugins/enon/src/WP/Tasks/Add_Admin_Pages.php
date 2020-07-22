@@ -11,8 +11,8 @@
 
 namespace Enon\WP\Tasks;
 
-use Awsm\WP_Wrapper\Building_Plans\Actions;
-use Awsm\WP_Wrapper\Building_Plans\Task;
+use Awsm\WP_Wrapper\Interfaces\Actions;
+use Awsm\WP_Wrapper\Interfaces\Task;
 
 use Enon\Models\Plugins\ACF;
 use Awsm\WP_Wrapper\Tools\Logger_Trait;
@@ -67,7 +67,7 @@ class Add_Admin_Pages implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function enon_menu() {
-		add_menu_page( __('Enon', 'enon' ), __('Enon settings', 'enon' ), 'administrator', 'enon', [ $this, 'options_page' ], 'dashicons-admin-multisite', 50 );
+		add_menu_page( __( 'Enon', 'enon' ), __( 'Enon settings', 'enon' ), 'administrator', 'enon', [ $this, 'options_page' ], 'dashicons-admin-multisite', 50 );
 	}
 
 	/**

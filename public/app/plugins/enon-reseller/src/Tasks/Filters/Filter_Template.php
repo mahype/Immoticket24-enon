@@ -11,9 +11,9 @@
 
 namespace Enon_Reseller\Tasks\Filters;
 
-use Awsm\WP_Wrapper\Building_Plans\Actions;
-use Awsm\WP_Wrapper\Building_Plans\Filters;
-use Awsm\WP_Wrapper\Building_Plans\Task;
+use Awsm\WP_Wrapper\Interfaces\Actions;
+use Awsm\WP_Wrapper\Interfaces\Filters;
+use Awsm\WP_Wrapper\Interfaces\Task;
 
 use Enon_Reseller\Models\Reseller;
 

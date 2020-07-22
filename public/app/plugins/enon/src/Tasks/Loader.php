@@ -25,6 +25,7 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function run() {
+		$this->add_task( Config_User::class );
 		$this->add_task( Add_Options_General::class, $this->logger() );
 		$this->add_task( Add_Page_Fields::class, $this->logger() );
 		$this->add_task( Add_Cli_Commands::class );
@@ -63,7 +64,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Remove_Optimizepress::class );
 		$this->add_task( Add_Scripts::class );
 
-		if( ! WP_DEBUG ) {
+		if ( ! WP_DEBUG ) {
 			$this->add_task( Add_Google_Tag_Manager::class );
 		}
 	}

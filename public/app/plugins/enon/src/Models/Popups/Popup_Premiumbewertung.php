@@ -11,7 +11,7 @@
 
 namespace Enon\Models\Popups;
 
-use Awsm\WP_Wrapper\Building_Plans\Filters;
+use Awsm\WP_Wrapper\Interfaces\Filters;
 
 /**
  * Class Premiumbewertung_Popup.

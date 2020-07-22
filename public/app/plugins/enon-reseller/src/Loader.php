@@ -14,12 +14,14 @@ namespace Enon_Reseller;
 use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;
 
+
 use Enon_Reseller\Models\Token;
 use Enon_Reseller\Models\Reseller;
 
 use Enon_Reseller\Tasks\Add_CPT_Reseller;
-
 use Enon_Reseller\Tasks\Add_Post_Meta;
+use Enon_Reseller\Tasks\Config_User;
+use Enon_Reseller\Tasks\CSV_Generator;
 use Enon_Reseller\Tasks\Filters\Filter_Email_Template;
 use Enon_Reseller\Tasks\Filters\Filter_Payment_Fee_Email;
 use Enon_Reseller\Tasks\Setup_Enon;
@@ -34,6 +36,7 @@ use Enon_Reseller\Tasks\Filters\Filter_Template;
 
 use Enon_Reseller\Tasks\Add_Energy_Certificate_Submission;
 
+use Enon_Reseller\Tasks\Sparkasse\Add_CSV_Export;
 use Enon_Reseller\Tasks\Sparkasse\Add_Sparkasse_Discounts;
 use Enon_Reseller\Tasks\Sparkasse\Sparkasse_Setup_Edd;
 
@@ -66,6 +69,11 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function add_admin_tasks() {
+		$this->add_task( Config_User::class );
+		$this->add_task( CSV_Generator::class );
+		$this->add_task( Add_CSV_Export::class );
+		$this->add_task( Tasks\Admin\Loader::class, $this->logger() );
+
 		try {
 			$reseller = new Reseller( null, $this->logger() );
 		} catch ( Exception $exception ) {

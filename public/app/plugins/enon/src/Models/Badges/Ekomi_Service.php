@@ -88,10 +88,13 @@ class Ekomi_Service {
 		$rating = 0.0;
 		$rating_count = 0;
 
-		$url = add_query_arg( array(
-			'auth'          => '81266|bcee523b2de16d3165bc9f8d6',
-			'type'          => 'json',
-		), 'https://api.ekomi.de/v3/getFeedback' );
+		$url = add_query_arg(
+			array(
+				'auth'          => '81266|bcee523b2de16d3165bc9f8d6',
+				'type'          => 'json',
+			),
+			'https://api.ekomi.de/v3/getFeedback'
+		);
 
 		$response = wp_remote_get( $url );
 

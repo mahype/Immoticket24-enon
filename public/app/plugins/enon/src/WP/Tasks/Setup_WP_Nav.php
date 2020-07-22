@@ -11,13 +11,13 @@
 
 namespace Enon\WP\Tasks;
 
-use Awsm\WP_Wrapper\Building_Plans\Hooks_Filters;
-use Awsm\WP_Wrapper\Building_Plans\Service;
+use Awsm\WP_Wrapper\Interfaces\Hooks_Filters;
+use Awsm\WP_Wrapper\Interfaces\Service;
 use Awsm\WP_Wrapper\Loaders\Hooks_Loader;
 use Awsm\WP_Wrapper\Loaders\Loader;
 
-use Awsm\WP_Wrapper\Building_Plans\Filters;
-use Awsm\WP_Wrapper\Building_Plans\Task;
+use Awsm\WP_Wrapper\Interfaces\Filters;
+use Awsm\WP_Wrapper\Interfaces\Task;
 
 /**
  * Class Setup_Menu.

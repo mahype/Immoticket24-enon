@@ -29,7 +29,7 @@ interface Distributor_Schema_Interface {
 	/**
 	 * Filter the data which will be sent.
 	 *
-	 * @param array              $data               Data array of energy certificate.
+	 * @param array $data               Data array of energy certificate.
 	 *
 	 * @return array Filtered data.
 	 *
@@ -37,11 +37,11 @@ interface Distributor_Schema_Interface {
 	 */
 	public function filter_data( array $data ) : array;
 
-    /**
+	/**
 	 * Set as sent.
 	 *
 	 * @return int|bool The new meta field ID if a field with the given key didn't exist and was
-     *                  therefore added, true on successful update, false on failure.
+	 *                  therefore added, true on successful update, false on failure.
 	 *
 	 * @since 1.0.0
 	 */
