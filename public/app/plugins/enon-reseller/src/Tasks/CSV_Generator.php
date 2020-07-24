@@ -223,10 +223,11 @@ class CSV_Generator implements Task, Actions {
 			$f = fopen( 'php://memory', 'w' );
 
 			foreach ( $result as $line ) {
+				$line = mb_convert_encoding( $line,"ISO-8859-1", "UTF-8" );
 				fputcsv( $f, $line, ';' );
 			}
 			fseek( $f, 0 );
-			header( 'Content-Type: application/csv; charset=iso-8859-1' );
+			header( 'Content-Type: application/csv; charset=ISO-8859-1' );
 			header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
 			fpassthru( $f );
 
