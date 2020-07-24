@@ -226,7 +226,7 @@ class CSV_Generator implements Task, Actions {
 				fputcsv( $f, $line, ';' );
 			}
 			fseek( $f, 0 );
-			header( 'Content-Type: application/csv; charset=utf-8' );
+			header( 'Content-Type: application/csv; charset=iso-8859-1' );
 			header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
 			fpassthru( $f );
 
