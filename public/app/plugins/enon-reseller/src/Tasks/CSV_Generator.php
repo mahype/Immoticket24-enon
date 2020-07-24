@@ -223,7 +223,7 @@ class CSV_Generator implements Task, Actions {
 			$f = fopen( 'php://memory', 'w' );
 
 			foreach ( $result as $line ) {
-				$line = mb_convert_encoding( $line, 'UTF-16LE', 'UTF-8'));
+				$line = mb_convert_encoding( $line, 'UTF-16LE', 'UTF-8');
 				fputcsv( $f, $line, ';' );
 			}
 			fseek( $f, 0 );
