@@ -5939,6 +5939,9 @@ article ul.checkmark {
 .column-yt iframe {
   width: 100%;
 }
+#it24-stripe-button {
+  display: none;
+}
 .alignnone {
   margin: 5px 20px 20px 0;
 }
