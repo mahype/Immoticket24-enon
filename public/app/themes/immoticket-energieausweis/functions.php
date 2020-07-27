@@ -312,6 +312,9 @@ function immoticketenergieausweis_payment_icons() {
 	</button>
 
   </div>
+	<div style="margin-top:20px;">
+	<p>Aufgrund von technischen Problemen ist die Auswahl des Lastschriftverfahrens heute nicht möglich.</p>
+    </div>
   <?php
 }
 add_action( 'edd_payment_mode_after_gateways', 'immoticketenergieausweis_payment_icons' );

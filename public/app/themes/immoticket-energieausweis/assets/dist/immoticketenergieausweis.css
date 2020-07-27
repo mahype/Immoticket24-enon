@@ -5921,7 +5921,8 @@ article ul.checkmark {
   width: auto;
   border-radius: 0;
 }
-#it24-stripe-button {
+#it24-stripe-button,
+#it24-lastschrift-button {
   display: none;
 }
 .alignnone {
