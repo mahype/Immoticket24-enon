@@ -5921,6 +5921,9 @@ article ul.checkmark {
   width: auto;
   border-radius: 0;
 }
+#it24-stripe-button {
+  display: none;
+}
 .alignnone {
   margin: 5px 20px 20px 0;
 }
