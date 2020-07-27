@@ -5939,7 +5939,8 @@ article ul.checkmark {
 .column-yt iframe {
   width: 100%;
 }
-#it24-stripe-button {
+#it24-stripe-button,
+#it24-lastschrift-button {
   display: none;
 }
 .alignnone {
