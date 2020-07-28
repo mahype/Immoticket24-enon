@@ -40,10 +40,16 @@ export function mountCardElement( elementsInstance, toMount = '#edd-stripe-card-
 
 		// Add default styles for the iframe input if none exist.
 		if ( ! elementsOptions.style ) {
+			let fontFamily = inputStyles.getPropertyValue( 'font-family' );
+
+			if ( null !== fontFamily.match( /[\\\/\<\>\!\@\$\%\^\&\*\=\~\`\|\{\}\[\]]/g ) ) {
+				fontFamily = 'system-ui';
+			}
+
 			elementsOptions.style = {
 				base: {
 					color: inputStyles.getPropertyValue( 'color' ),
-					fontFamily: inputStyles.getPropertyValue( 'font-family' ),
+					fontFamily,
 					fontSize: inputStyles.getPropertyValue( 'font-size' ),
 					fontWeight: inputStyles.getPropertyValue( 'font-weight' ),
 					fontSmoothing: inputStyles.getPropertyValue( '-webkit-font-smoothing' ),
