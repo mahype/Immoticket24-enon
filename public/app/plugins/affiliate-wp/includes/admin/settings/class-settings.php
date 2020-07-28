@@ -1149,20 +1149,24 @@ class Affiliate_WP_Settings {
 	 */
 	function radio_callback( $args ) {
 
+		echo '<fieldset id="affwp_settings[' . $args['id'] . ']">';
+		echo '<legend class="screen-reader-text">' . $args['name'] . '</legend>';
+
 		foreach ( $args['options'] as $key => $option ) :
 			$checked = false;
 
-			if ( isset( $this->options[ $args['id'] ] ) && $this->options[ $args['id'] ] == $key )
+			if ( isset( $this->options[ $args['id'] ] ) && $this->options[ $args['id'] ] == $key ) {
 				$checked = true;
-			elseif( isset( $args['std'] ) && $args['std'] == $key && ! isset( $this->options[ $args['id'] ] ) )
+			} elseif ( isset( $args['std'] ) && $args['std'] == $key && ! isset( $this->options[ $args['id'] ] ) ) {
 				$checked = true;
+			}
 
 			echo '<label for="affwp_settings[' . $args['id'] . '][' . $key . ']">';
-			echo '<input name="affwp_settings[' . $args['id'] . ']" id="affwp_settings[' . $args['id'] . '][' . $key . ']" type="radio" value="' . $key . '" ' . checked(true, $checked, false) . '/>&nbsp;';
+			echo '<input name="affwp_settings[' . $args['id'] . ']" id="affwp_settings[' . $args['id'] . '][' . $key . ']" type="radio" value="' . $key . '" ' . checked( true, $checked, false ) . '/>';
 			echo $option . '</label><br/>';
 		endforeach;
 
-		echo '<p class="description">' . $args['desc'] . '</p>';
+		echo '</fieldset><p class="description">' . $args['desc'] . '</p>';
 	}
 
 	/**

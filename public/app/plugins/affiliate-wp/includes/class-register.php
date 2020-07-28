@@ -88,11 +88,13 @@ class Affiliate_WP_Register {
 
 			}
 
-			if ( username_exists( $data['affwp_user_login'] ) ) {
+			$user_login = sanitize_text_field( $data['affwp_user_login'] );
+
+			if ( username_exists( $user_login ) ) {
 				$this->add_error( 'username_unavailable', __( 'Username already taken', 'affiliate-wp' ) );
 			}
 
-			if ( ! validate_username( $data['affwp_user_login'] ) || strstr( $data['affwp_user_login'], ' ' ) ) {
+			if ( ! validate_username( $user_login ) || strstr( $user_login, ' ' ) ) {
 				if ( is_multisite() ) {
 					$this->add_error( 'username_invalid', __( 'Invalid username. Only lowercase letters (a-z) and numbers are allowed', 'affiliate-wp' ) );
 				} else {
@@ -100,11 +102,11 @@ class Affiliate_WP_Register {
 				}
 			}
 
-			if ( strlen( $data['affwp_user_login'] ) > 60 ) {
+			if ( strlen( $user_login ) > 60 ) {
 				$this->add_error( 'username_invalid_length', __( 'Invalid username. Must be between 1 and 60 characters.', 'affiliate-wp' ) );
 			}
 
-			if ( is_numeric( $data['affwp_user_login'] ) ) {
+			if ( is_numeric( $user_login ) ) {
 				$this->add_error( 'username_invalid_numeric', __( 'Invalid username. Usernames must include at least one letter', 'affiliate-wp' ) );
 			}
 
@@ -123,7 +125,7 @@ class Affiliate_WP_Register {
 			$required_registration_fields = affiliate_wp()->settings->get( 'required_registration_fields' );
 
 			if( isset( $required_registration_fields['password'] ) ) {
-				if ( ( ! empty( $_POST['affwp_user_pass'] ) && empty( $_POST['affwp_user_pass2'] ) ) || ( $_POST['affwp_user_pass'] !== $_POST['affwp_user_pass2'] ) ) {
+				if ( ( ! empty( $data['affwp_user_pass'] ) && empty( $data['affwp_user_pass2'] ) ) || ( $data['affwp_user_pass'] !== $data['affwp_user_pass2'] ) ) {
 					$this->add_error( 'password_mismatch', __( 'Passwords do not match', 'affiliate-wp' ) );
 				}
 			}
@@ -137,7 +139,7 @@ class Affiliate_WP_Register {
 					continue;
 				}
 
-				$field = sanitize_text_field( $_POST[ $field_name ] );
+				$field = sanitize_text_field( $data[ $field_name ] );
 
 				if ( empty( $field ) ) {
 					$this->add_error( $value['error_id'], $value['error_message'] );
@@ -147,7 +149,7 @@ class Affiliate_WP_Register {
 		}
 
 		$terms_of_use = affiliate_wp()->settings->get( 'terms_of_use' );
-		if ( ! empty( $terms_of_use ) && empty( $_POST['affwp_tos'] ) ) {
+		if ( ! empty( $terms_of_use ) && empty( $data['affwp_tos'] ) ) {
 			$this->add_error( 'empty_tos', __( 'Please agree to our terms of use', 'affiliate-wp' ) );
 		}
 
@@ -155,7 +157,7 @@ class Affiliate_WP_Register {
 			$this->add_error( 'recaptcha_required', __( 'Please verify that you are not a robot', 'affiliate-wp' ) );
 		}
 
-		if ( ! empty( $_POST['affwp_honeypot'] ) ) {
+		if ( ! empty( $data['affwp_honeypot'] ) ) {
 			$this->add_error( 'spam', __( 'Nice try honey bear, don&#8217;t touch our honey', 'affiliate-wp' ) );
 		}
 

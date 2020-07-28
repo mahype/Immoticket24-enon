@@ -127,6 +127,15 @@ class Meta_Box {
 	public $context = 'primary';
 
 	/**
+	 * The tooltip content to display above the title on-hover.
+	 *
+	 * @since 2.5
+	 *
+	 * @var string
+	 */
+	public $tooltip = '';
+
+	/**
 	 * The action on which the meta box will be loaded.
 	 * AffiliateWP uses custom meta box actions.
 	 * These contexts are listed below:
@@ -203,7 +212,10 @@ class Meta_Box {
 	private function maybe_process_args( $args ) {
 
 		// Whitelist.
-		$required = array( 'meta_box_id', 'meta_box_name', 'action', 'context', 'display_callback', 'extra_args' );
+		$required = array(
+			'meta_box_id', 'tooltip', 'meta_box_name', 'action',
+			'context', 'display_callback', 'extra_args',
+		);
 
 		foreach ( $args as $arg => $value ) {
 			if ( in_array( $arg, $required, true ) ) {
@@ -240,6 +252,21 @@ class Meta_Box {
 	 * @since   1.9
 	 */
 	public function add_meta_box() {
+
+		if ( ! empty( $this->tooltip ) ) {
+			$screen = get_current_screen();
+
+			if ( $screen instanceof \WP_Screen ) {
+
+				add_filter( "postbox_classes_{$screen->base}_{$this->meta_box_id}", function( $classes ) {
+					$classes[] = 'has-tooltip';
+
+					return $classes;
+				} );
+
+			}
+		}
+
 		add_meta_box(
 			$this->meta_box_id,
 			$this->meta_box_name,

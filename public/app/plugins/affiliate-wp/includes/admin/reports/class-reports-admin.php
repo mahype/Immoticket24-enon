@@ -21,6 +21,7 @@ include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/reports/tabs/class-referrals-re
 include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/reports/tabs/class-payouts-reports-tab.php';
 include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/reports/tabs/class-visits-reports-tab.php';
 include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/reports/tabs/class-campaigns-reports-tab.php';
+include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/reports/tabs/class-sales-reports-tab.php';
 
 class Reports {
 
@@ -184,6 +185,7 @@ class Reports {
 	public function register_core_tabs() {
 		new \AffWP\Referral\Admin\Reports\Tab;
 		new \AffWP\Affiliate\Admin\Reports\Tab;
+		new \AffWP\Referral\Sale\Admin\Reports\Tab;
 		new \AffWP\Affiliate\Payout\Admin\Reports\Tab;
 		new \AffWP\Visit\Admin\Reports\Tab;
 		new \AffWP\Campaign\Admin\Reports\Tab;
