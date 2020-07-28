@@ -2,14 +2,18 @@
 # This file is distributed under the same license as the Plugins - Imagify – WebP &amp; Image Compression and Optimization - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-12-01 19:36:38+0000\n"
+"PO-Revision-Date: 2020-04-09 19:31:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha\n"
 "Language: de\n"
 "Project-Id-Version: Plugins - Imagify – WebP &amp; Image Compression and Optimization - Stable (latest release)\n"
+
+#: inc/functions/api.php:213
+msgid "Our server returned an invalid response."
+msgstr "Unser Server gab eine ungültige Antwort zurück."
 
 #: views/part-settings-library.php:52
 msgid "Resizing is done only during optimization."
@@ -19,7 +23,7 @@ msgstr "Die Verkleinerung wird nur während einer Optimierung ausgeführt."
 msgid "Resizing is done on upload or during optimization."
 msgstr "Die Verkleinerung wird nach dem Hochladen, oder während einer Optimierung ausgeführt."
 
-#: classes/Optimization/File.php:202
+#: classes/Optimization/File.php:204
 msgid "No threshold provided for resizing."
 msgstr "Kein Schwellenwert für die Verkleinerung angegeben."
 
@@ -146,14 +150,14 @@ msgid "All your optimized images already have a webp version. Congratulations!"
 msgstr "Alle optimierten Bilder sind als WebP verfügbar. Glückwunsch!"
 
 #. translators: %s is a float number.
-#: inc/functions/api.php:268
+#: inc/functions/api.php:269
 msgid "Request was throttled. Expected available in %s second."
 msgid_plural "Request was throttled. Expected available in %s seconds."
 msgstr[0] "Anfrage wurde gedrosselt, voraussichtliche Verfügbarkeit in %s Sekunde."
 msgstr[1] "Anfrage wurde gedrosselt, voraussichtliche Verfügbarkeit in %s Sekunden."
 
 #. translators: %s is an error message.
-#: inc/functions/api.php:250
+#: inc/functions/api.php:251
 msgid "Our server returned an error (%s)."
 msgstr "Unser Server gab einen Fehler zurück (%s). "
 
@@ -463,47 +467,47 @@ msgid "This media is not optimized yet."
 msgstr "Dieser Medieneintrag ist noch nicht optimiert."
 
 #. translators: %1$s is an error message, %2$s is a "More info?" link.
-#: classes/Optimization/File.php:619
+#: classes/Optimization/File.php:621
 msgid "No php extensions are available to edit images on the server. ImageMagick or GD is required. The internal error is: %1$s. %2$s"
 msgstr "Auf dem Server sind keine PHP-Module zur Bildbearbeitung verfügbar. ImageMagick oder GD sind erforderlich. Der interne Fehler lautet: %1$s. %2$s"
 
-#: classes/Optimization/File.php:403
+#: classes/Optimization/File.php:405
 msgid "Error while retrieving the backups directory path."
 msgstr "Fehler beim Ermitteln des Verzeichnispfads für das Backup."
 
-#: classes/Optimization/File.php:376 classes/Optimization/File.php:560
+#: classes/Optimization/File.php:378 classes/Optimization/File.php:562
 msgid "The file could not be moved to its final destination."
 msgstr "Die Datei konnte nicht an ihren Zielort verschoben werden."
 
-#: classes/Optimization/File.php:352
+#: classes/Optimization/File.php:354
 msgid "The thumbnail could not be created."
 msgstr "Das Vorschaubild konnte nicht erstellt werden."
 
 #. translators: %s is a file path.
-#: classes/Optimization/File.php:211 classes/Optimization/File.php:336
+#: classes/Optimization/File.php:213 classes/Optimization/File.php:338
 msgid "The file %s does not seem to be an image, and cannot be resized."
 msgstr "Die Datei %s scheint kein Bild zu sein, sie kann nicht verkleinert werden."
 
 #. translators: %s is a file path.
-#: classes/Optimization/File.php:161
+#: classes/Optimization/File.php:163
 msgid "The folder %s does not seem to be writable."
 msgstr "Der Ordner %s scheint nicht beschreibbar zu sein."
 
 #. translators: %s is a file path.
-#: classes/Optimization/File.php:148
+#: classes/Optimization/File.php:150
 #: classes/Optimization/Process/AbstractProcess.php:670
 #: classes/Optimization/Process/AbstractProcess.php:1548
 msgid "The file %s does not seem to be writable."
 msgstr "Die  Datei %s scheint nicht beschreibbar zu sein."
 
 #. translators: %s is a file path.
-#: classes/Optimization/File.php:137
+#: classes/Optimization/File.php:139
 #: classes/Optimization/Process/AbstractProcess.php:1559
 msgid "This does not seem to be a file: %s."
 msgstr "Dies scheint keine Datei zu sein: %s"
 
 #. translators: %s is a file path.
-#: classes/Optimization/File.php:126
+#: classes/Optimization/File.php:128
 #: classes/Optimization/Process/AbstractProcess.php:656
 msgid "The file %s does not seem to exist."
 msgstr "Die Datei %s scheint nicht zu existieren."
@@ -562,7 +566,7 @@ msgid "No php extensions are available to edit images on the server. ImageMagick
 msgstr "Auf dem Server sind keine PHP-Module zur Bildbearbeitung verfügbar. ImageMagick oder GD sind erforderlich. %s"
 
 #. translators: %s is an error message.
-#: inc/functions/api.php:244
+#: inc/functions/api.php:245
 msgid "An error occurred (%s)."
 msgstr "Ein Fehler ist aufgetreten (%s)."
 
@@ -804,43 +808,38 @@ msgstr "Die Einstellungen sind verfügbar, sobald du deinen API-Schlüssel eingi
 msgid "Account Type"
 msgstr "Konto-Art"
 
-#: views/part-rocket-ad.php:59
+#: views/part-rocket-ad.php:52
 msgid "Remove the ad"
 msgstr "Werbung entfernen"
 
-#: views/part-rocket-ad.php:56
+#: views/part-rocket-ad.php:49
 msgid "Immediate results."
 msgstr "Sofortige Ergebnisse."
 
-#: views/part-rocket-ad.php:55
+#: views/part-rocket-ad.php:48
 msgid "WooCommerce compatibility."
 msgstr "Kompatibel mit WooCommerce."
 
-#: views/part-rocket-ad.php:54
+#: views/part-rocket-ad.php:47
 msgid "Boost your SEO."
 msgstr "SEO-Turbo."
 
-#: views/part-rocket-ad.php:53
+#: views/part-rocket-ad.php:46
 msgid "Improve your Google PageSpeed Score."
 msgstr "Besserer Google PageSpeed."
 
 #. translators: %s is a percentage.
-#: views/part-rocket-ad.php:47
+#: views/part-rocket-ad.php:40
 msgid "Get %s OFF Now!"
 msgstr "Jetzt mit %s Rabatt!"
 
-#. translators: %s is a coupon code.
-#: views/part-rocket-ad.php:41
-msgid "Coupon: %s"
-msgstr "Gutschein: %s"
-
 #. translators: 1 is a "bold" tag opening, 2 is the "bold" tag closing. Please
 #. use a non-breaking space for WP Rocket.
-#: views/part-rocket-ad.php:33
+#: views/part-rocket-ad.php:32
 msgid "WP Rocket is a %1$sspeed optimization plugin for WordPress%2$s helping you to implement a variety of speed-boosting features to your WordPress site."
 msgstr "WP Rocket ist ein %1$sWordPress-Plugin für Speed-Optimierung%2$s, das dir dabei hilft, eine Vielzahl von Funktionen zur Verbesserung der Geschwindigkeit deiner WordPress-Site zu implementieren."
 
-#: views/part-rocket-ad.php:25
+#: views/part-rocket-ad.php:24
 msgid "We recommend for you"
 msgstr "Wir empfehlen dir"
 
@@ -1019,15 +1018,15 @@ msgid "%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.
 msgstr "%1$s ist <strong>veraltet</strong> seit Version %2$s! Nutze %3$s stattdessen."
 
 #. translators: %s is a file extension.
-#: inc/functions/api.php:262
+#: inc/functions/api.php:263
 msgid "%s is not a valid extension."
 msgstr "%s ist keine gültige Endung."
 
-#: inc/functions/api.php:234
+#: inc/functions/api.php:235
 msgid "Invalid or corrupted file."
 msgstr "Ungültige oder schadhafte Datei."
 
-#: inc/functions/api.php:213 inc/functions/i18n.php:97
+#: inc/functions/api.php:214 inc/functions/i18n.php:97
 #: inc/functions/i18n.php:240 inc/deprecated/deprecated.php:619
 msgid "cURL is not available on the server."
 msgstr "cURL ist auf diesem Server nicht installiert."
@@ -1243,7 +1242,7 @@ msgstr "Du kannst deine Bilder auch erneut in jeder %1$sGalerie%2$s optimieren."
 msgid "NextGen Galleries"
 msgstr "NextGen Galleries"
 
-#: inc/functions/api.php:220
+#: inc/functions/api.php:221
 msgid "This account already exists."
 msgstr "Dieses Konto existiert bereits."
 
@@ -1286,75 +1285,75 @@ msgid "Optimize Missing Sizes"
 msgstr "Fehlende Größen optimieren"
 
 #. translators: %s is a formatted number, dont use %d.
-#: inc/functions/api.php:256
+#: inc/functions/api.php:257
 msgid "Custom One Time plan starts from %s MB."
 msgstr "Spezieller Einmal-Tarif beginnt ab %s MB."
 
-#: inc/functions/api.php:232
+#: inc/functions/api.php:233
 msgid "You have consumed all your data. You have to upgrade your account to continue."
 msgstr "Du hast dein Guthaben aufgebraucht. Um fortzufahren, aktualisiere dein Konto."
 
-#: inc/functions/api.php:231
+#: inc/functions/api.php:232
 msgid "You are not authorized to perform this action."
 msgstr "Zu dieser Aktion bist du nicht berechtigt."
 
-#: inc/functions/api.php:230
+#: inc/functions/api.php:231
 msgid "WELL DONE. This media file is already optimized, no further optimization is required."
 msgstr "Exzellent! Dieser Medieneintrag ist bereits optimiert."
 
-#: inc/functions/api.php:229
+#: inc/functions/api.php:230
 msgid "User not valid."
 msgstr "Ungültige/-r Benutzer/-in."
 
-#: inc/functions/api.php:228
+#: inc/functions/api.php:229
 msgid "Unable to regenerate access token."
 msgstr "Erneuerung des Access Tokens nicht möglich."
 
-#: inc/functions/api.php:227
+#: inc/functions/api.php:228
 msgid "Too many requests, please be patient."
 msgstr "Zu viele Zugriffe, einen Moment Geduld bitte."
 
-#: inc/functions/api.php:226
+#: inc/functions/api.php:227
 msgid "This user does not exist."
 msgstr "Diese/-r Benutzer/-in existiert nicht."
 
-#: inc/functions/api.php:225
+#: inc/functions/api.php:226
 msgid "This email is already registered, you should try another email."
 msgstr "Diese E-Mail-Adresse ist bereits registriert, bitte versuche es mit einer anderen."
 
-#: inc/functions/api.php:224
+#: inc/functions/api.php:225
 msgid "Unable to retrieve the token from Data Storage API."
 msgstr "Token von der DataStorage API kann nicht ermittelt werden."
 
-#: inc/functions/api.php:223
+#: inc/functions/api.php:224
 msgid "Unable to connect to Data Storage API."
 msgstr "Verbindung mit Data Storage API kann nicht hergestellt werden."
 
-#: inc/functions/api.php:222
+#: inc/functions/api.php:223
 msgid "Unable to connect to Data Storage API to get the token."
 msgstr "Verbindung mit Data Storage API zur Übermittlung des Tokens kann nicht hergestellt werden."
 
-#: inc/functions/api.php:221
+#: inc/functions/api.php:222
 msgid "Error uploading to Data Storage."
 msgstr "Fehler beim Upload zu Data Storage."
 
-#: inc/functions/api.php:219
+#: inc/functions/api.php:220
 msgid "Email field should not be empty."
 msgstr "E-Mail-Feld muss ausgefüllt sein."
 
-#: inc/functions/api.php:218
+#: inc/functions/api.php:219
 msgid "Coupon does not exist."
 msgstr "Gutschein existiert nicht."
 
-#: inc/functions/api.php:217
+#: inc/functions/api.php:218
 msgid "Confirm your account to continue optimizing files."
 msgstr "Bestätige dein Konto, um weiter Bilder zu optimieren."
 
-#: inc/functions/api.php:216
+#: inc/functions/api.php:217
 msgid "Cannot create client token."
 msgstr "Client Token kann nicht erstellt werden."
 
-#: inc/functions/api.php:215
+#: inc/functions/api.php:216
 msgid "Authentication not provided."
 msgstr "Keine Authentifizierung übermittelt."
 
@@ -1461,11 +1460,11 @@ msgstr "Dateien konnten nicht zu Amazon S3 gesendet werden."
 msgid "This type of file is not supported."
 msgstr "Dieses Datei-Format wird nicht unterstützt."
 
-#: classes/Optimization/File.php:432 inc/deprecated/deprecated.php:791
+#: classes/Optimization/File.php:434 inc/deprecated/deprecated.php:791
 msgid "The file could not be saved."
 msgstr "Datei konnte nicht gespeichert werden."
 
-#: classes/Optimization/File.php:118 inc/deprecated/deprecated.php:747
+#: classes/Optimization/File.php:120 inc/deprecated/deprecated.php:747
 msgid "Filesystem error."
 msgstr "Fehler im Dateisystem."
 
@@ -1473,7 +1472,7 @@ msgstr "Fehler im Dateisystem."
 msgid "Error while retrieving the uploads directory path."
 msgstr "Fehler beim Ermitteln des Upload-Verzeichnisses."
 
-#: classes/Optimization/File.php:410 inc/deprecated/deprecated.php:760
+#: classes/Optimization/File.php:412 inc/deprecated/deprecated.php:760
 msgid "The backup directory is not writable."
 msgstr "Der Backup-Ordner ist nicht beschreibbar."
 
@@ -1856,11 +1855,11 @@ msgstr "%s ist nicht beschreibbar."
 msgid "Could not find %s."
 msgstr "Konnte %s nicht finden."
 
-#: classes/Optimization/File.php:114 inc/deprecated/deprecated.php:614
+#: classes/Optimization/File.php:116 inc/deprecated/deprecated.php:614
 msgid "File path is empty."
 msgstr "Der Dateipfad ist leer."
 
-#: classes/Optimization/File.php:481 inc/functions/i18n.php:103
+#: classes/Optimization/File.php:483 inc/functions/i18n.php:103
 #: inc/functions/i18n.php:246 inc/deprecated/deprecated.php:635
 msgid "External HTTP requests are blocked."
 msgstr "Externe HTTP-Anfragen sind blockiert."
@@ -2082,7 +2081,7 @@ msgstr "Bilder beim Hochladen automatisch optimieren"
 msgid "Need help to choose? %1$sTry the Visual Comparison%2$s"
 msgstr "Brauchst du Hilfe bei der Auswahl? %1$sVergleichsübersicht nutzen%2$s"
 
-#: classes/Optimization/File.php:621 views/page-settings.php:48
+#: classes/Optimization/File.php:623 views/page-settings.php:48
 #: views/page-settings.php:189 inc/functions/i18n.php:101
 #: inc/functions/i18n.php:244 inc/deprecated/deprecated.php:629
 msgid "More info?"
@@ -2334,7 +2333,7 @@ msgstr "<strong>FEHLER</strong>: Die Einstellungsseite wurde nicht gefunden."
 msgid "Check your Settings"
 msgstr "Einstellungen überprüfen"
 
-#: inc/functions/admin-ui.php:459 inc/functions/api.php:233
+#: inc/functions/admin-ui.php:459 inc/functions/api.php:234
 #: inc/classes/class-imagify-files-list-table.php:727
 #: inc/admin/meta-boxes.php:40
 msgid "Invalid API key"
