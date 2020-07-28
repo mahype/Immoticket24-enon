@@ -23,6 +23,14 @@ class Affiliate_WP_Payouts_DB extends Affiliate_WP_DB {
 	public $cache_group = 'payouts';
 
 	/**
+	 * Database group value.
+	 *
+	 * @since 2.5
+	 * @var string
+	 */
+	public $db_group = 'affiliates:payouts';
+
+	/**
 	 * Object type to query for.
 	 *
 	 * @access public

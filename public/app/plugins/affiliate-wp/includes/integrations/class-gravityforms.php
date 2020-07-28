@@ -3,17 +3,19 @@
 class Affiliate_WP_Gravity_Forms extends Affiliate_WP_Base {
 
 	/**
+	 * The context for referrals. This refers to the integration that is being used.
+	 *
+	 * @access  public
+	 * @since   1.2
+	 */
+	public $context = 'gravityforms';
+
+	/**
 	 * Register hooks for this integration
 	 *
 	 * @access public
 	 */
 	public function init() {
-
-		if ( ! class_exists( 'GFFormsModel' ) || ! class_exists( 'GFCommon' ) ) {
-			return;
-		}
-
-		$this->context = 'gravityforms';
 
 		// Gravity Forms hooks
 		add_filter( 'gform_entry_created', array( $this, 'add_pending_referral' ), 10, 2 );
@@ -478,8 +480,16 @@ class Affiliate_WP_Gravity_Forms extends Affiliate_WP_Base {
 		return $customer;
 	}
 
+	/**
+	 * Runs the check necessary to confirm this plugin is active.
+	 *
+	 * @since 2.5
+	 *
+	 * @return bool True if the plugin is active, false otherwise.
+	 */
+	function plugin_is_active() {
+		return class_exists( 'GFCommon' );
+	}
 }
 
-if ( class_exists( 'GFCommon' ) ) {
 	new Affiliate_WP_Gravity_Forms;
-}

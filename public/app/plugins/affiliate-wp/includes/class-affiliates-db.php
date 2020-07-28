@@ -29,6 +29,14 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 	public $cache_group = 'affiliates';
 
 	/**
+	 * Database group value.
+	 *
+	 * @since 2.5
+	 * @var string
+	 */
+	public $db_group = 'affiliates';
+
+	/**
 	 * Object type to query for.
 	 *
 	 * @access public
@@ -249,7 +257,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 		$joined_users = false;
 
 		if ( ! empty( $args['search'] ) ) {
-			$search_value = $args['search'];
+			$search_value = trim( $args['search'] );
 
 			if ( is_numeric( $search_value ) ) {
 				$search = "`affiliate_id` IN( {$search_value} )";

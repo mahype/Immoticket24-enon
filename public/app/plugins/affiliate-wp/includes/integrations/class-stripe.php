@@ -3,14 +3,20 @@
 class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 
 	/**
+	 * The context for referrals. This refers to the integration that is being used.
+	 *
+	 * @access  public
+	 * @since   1.2
+	 */
+	public $context = 'stripe';
+
+	/**
 	 * Get things started
 	 *
 	 * @access  public
 	 * @since   2.0
 	 */
 	public function init() {
-
-		$this->context = 'stripe';
 
 		add_filter( 'affwp_referral_reference_column', array( $this, 'reference_link' ), 10, 2 );
 
@@ -315,8 +321,16 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 		return '<a href="' . esc_url( $url ) . '">' . $reference . '</a>';
 	}
 
+	/**
+	 * Runs the check necessary to confirm this plugin is active.
+	 *
+	 * @since 2.5
+	 *
+	 * @return bool True if the plugin is active, false otherwise.
+	 */
+	function plugin_is_active() {
+		return class_exists( 'Stripe_Checkout' ) || class_exists( 'Stripe_Checkout_Pro' ) || class_exists( '\SimplePay\Core\SimplePay' );
+	}
 }
 
-if ( class_exists( 'Stripe_Checkout' ) || class_exists( 'Stripe_Checkout_Pro' ) || class_exists( '\SimplePay\Core\SimplePay' ) ) {
 	new Affiliate_WP_Stripe;
-}
