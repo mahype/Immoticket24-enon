@@ -89,16 +89,16 @@ function edd_stripe_new_card_form() {
 
 <p id="edd-card-name-wrap">
 	<label for="card_name" class="edd-label">
-		<?php _e( 'Name on the Card', 'edds' ); ?>
+		<?php esc_html_e( 'Name on the Card', 'edds' ); ?>
 		<span class="edd-required-indicator">*</span>
 	</label>
-	<span class="edd-description"><?php _e( 'The name printed on the front of your credit card.', 'edds' ); ?></span>
-	<input type="text" name="card_name" id="card_name" class="card-name edd-input required" autocomplete="cc-name" />
+	<span class="edd-description"><?php esc_html_e( 'The name printed on the front of your credit card.', 'edds' ); ?></span>
+	<input type="text" name="card_name" id="card_name" class="card-name edd-input required" placeholder="<?php esc_attr_e( 'Card name', 'edds' ); ?>" autocomplete="cc-name" />
 </p>
 
 <div id="edd-card-wrap">
 	<label for="edd-card-element" class="edd-label">
-		<?php _e( 'Credit Card', 'edds' ); ?>
+		<?php esc_html_e( 'Credit Card', 'edds' ); ?>
 		<span class="edd-required-indicator">*</span>
 	</label>
 

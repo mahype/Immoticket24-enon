@@ -1,7 +1,7 @@
 {
 	"name": "edd-stripe",
 	"title": "Easy Digital Downloads - Stripe Payment Gateway",
-	"version": "2.7.6",
+	"version": "2.7.7",
 	"description": "Adds a payment gateway for Stripe.com",
 	"author": "Sandhills Development, LLC",
 	"license": "GPL-2.0-or-later",
