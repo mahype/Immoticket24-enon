@@ -201,6 +201,7 @@ $sonstiges = array(
 				'verbesserung_grundrissgestaltung' => array(
 					'type'     => 'select',
 					'label'    => __( 'Wesentliche Verbesserung der Grundrissgestaltung', 'wpenon' ),
+					'description' => __( 'Wurde in den letzten Jahren eine Grundrissveränderung vorgenommen, die die Wohnqualität wesentlich verbessert hat?', 'wpenon' ),
 					'options'  => array(
 						'nein'  => __( 'Keine Verbesserung', 'wpenon' ),
 						'0-5'   => __( 'Vor 0-5 Jahren', 'wpenon' ),
