@@ -136,6 +136,11 @@ function onPaymentSourceChange( paymentSource ) {
 			}
 		}
 
+		// Recalculate taxes.
+		if ( window.EDD_Checkout.recalculate_taxes ) {
+			window.EDD_Checkout.recalculate_taxes();
+		}
+
 		// Show billing fields.
 		toggleBillingFields( true );
 
@@ -203,9 +208,19 @@ function onPaymentSourceChange( paymentSource ) {
 			}
 		}
 
-		// SUPER ghetto way to watch for core form state because no consistent events are in place.
-		// Core calls `edd_cart_billing_address_updated` but only on checkout. These methods
-		// can be used anywhere.
+		/**
+		 * Monitor AJAX requests for address changes.
+		 *
+		 * Wait for the "State" field to be updated based on the "Country" field's
+		 * change event. Once there is an AJAX response fill the "State" field with the
+		 * saved card's State data and recalculate taxes.
+		 *
+		 * @since 2.7
+		 *
+		 * @param {Object} event
+		 * @param {Object} xhr
+		 * @param {Object} options
+		 */
 		$( document ).ajaxSuccess( function( event, xhr, options ) {
 			if ( ! options || ! options.data || ! xhr ) {
 				return;
@@ -220,6 +235,11 @@ function onPaymentSourceChange( paymentSource ) {
 
 				if ( stateField ) {
 					stateField.value = billingDetails.address_state;
+
+					// Recalculate taxes.
+					if ( window.EDD_Checkout.recalculate_taxes ) {
+						window.EDD_Checkout.recalculate_taxes( stateField.value );
+					}
 				}
 			}
 		} );

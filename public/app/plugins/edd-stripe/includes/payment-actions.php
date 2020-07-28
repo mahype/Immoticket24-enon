@@ -88,9 +88,10 @@ function edds_process_purchase_form( $purchase_data ) {
 		$existing_payment_methods = edd_stripe_get_existing_cards( $purchase_data['user_info']['id'] );
 		$is_first_payment_method  = empty( $existing_payment_methods );
 
+		$address_info = $purchase_data['user_info']['address'];
+
 		// Update PaymentMethod details if necessary.
 		if ( $payment_method_exists && ! empty( $_POST['edd_stripe_update_billing_address'] ) ) {
-			$address_info    = $purchase_data['user_info']['address'];
 			$billing_address = array();
 
 			foreach ( $address_info as $key => $value ) {
@@ -111,13 +112,31 @@ function edds_process_purchase_form( $purchase_data ) {
 			) );
 		}
 
+		// Create a list of {$download_id}_{$price_id}
+		$payment_items = array();
+
+		foreach ( $purchase_data['cart_details'] as $item ) {
+			$price_id = isset( $item['item_number']['options']['price_id'] )
+				? $item['item_number']['options']['price_id']
+				: null;
+
+			$payment_items[] = $item['id'] . ( ! empty( $price_id ) ? ( '_' . $price_id ) : '' );
+		}
+
 		// Shared Intent arguments.
 		$intent_args = array(
 			'confirm'        => true,
 			'payment_method' => $payment_method_id,
 			'customer'       => $customer->id,
 			'metadata'       => array(
-				'email' => $purchase_data['user_info']['email'],
+				'email'                => esc_html( $purchase_data['user_info']['email'] ),
+				'edd_payment_subtotal' => esc_html( $purchase_data['subtotal'] ),
+				'edd_payment_discount' => esc_html( $purchase_data['discount'] ),
+				'edd_payment_tax'      => esc_html( $purchase_data['tax'] ),
+				'edd_payment_tax_rate' => esc_html( $purchase_data['tax_rate'] ),
+				'edd_payment_fees'     => esc_html( edd_get_cart_fee_total() ),
+				'edd_payment_total'    => esc_html( $purchase_data['price'] ),
+				'edd_payment_items'    => esc_html( implode( ', ', $payment_items ) ),
 			),
 		);
 
@@ -479,29 +498,37 @@ function edds_create_payment() {
 	// Simulate being in an `edd_process_purchase_form()` request.
 	_edds_fake_process_purchase_step();
 
-	$intent = isset( $_REQUEST['intent'] ) ? $_REQUEST['intent'] : array();
-
-	$purchase_data = edd_get_purchase_session();
-
-	$payment_data = array(
-		'price'        => $purchase_data['price'],
-		'date'         => $purchase_data['date'],
-		'user_email'   => $purchase_data['user_email'],
-		'purchase_key' => $purchase_data['purchase_key'],
-		'currency'     => edd_get_currency(),
-		'downloads'    => $purchase_data['downloads'],
-		'cart_details' => $purchase_data['cart_details'],
-		'user_info'    => $purchase_data['user_info'],
-		'status'       => 'pending',
-		'gateway'      => 'stripe'
-	);
-
-	// Record the pending payment.
-	$payment_id  = edd_insert_payment( $payment_data );
-
 	try {
+		$intent = isset( $_REQUEST['intent'] ) ? $_REQUEST['intent'] : array();
+
 		if ( ! isset( $intent['id'] ) ) {
-			throw new \Exception( esc_html__( 'Unable to create payment.', 'edds' ) );
+			throw new \Exception( esc_html__( 'Unable to verify intent.', 'edds' ) );
+		}
+
+		$purchase_data = edd_get_purchase_session();
+
+		if ( false === $purchase_data ) {
+			throw new \Exception( __( 'Unable to verify purchase session.', 'edds' ) );
+		}
+
+		$payment_data = array(
+			'price'        => $purchase_data['price'],
+			'date'         => $purchase_data['date'],
+			'user_email'   => $purchase_data['user_email'],
+			'purchase_key' => $purchase_data['purchase_key'],
+			'currency'     => edd_get_currency(),
+			'downloads'    => $purchase_data['downloads'],
+			'cart_details' => $purchase_data['cart_details'],
+			'user_info'    => $purchase_data['user_info'],
+			'status'       => 'pending',
+			'gateway'      => 'stripe'
+		);
+
+		// Record the pending payment.
+		$payment_id = edd_insert_payment( $payment_data );
+
+		if ( false === $payment_id ) {
+			throw new \Exception( __( 'Unable to create payment.', 'edds' ) );
 		}
 
 		// Retrieve created payment.
