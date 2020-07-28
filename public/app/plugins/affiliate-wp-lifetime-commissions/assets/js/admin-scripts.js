@@ -1,3 +1,4 @@
+/* global affwp_lc */
 jQuery(document).ready(function ($) {
 
 	$( document.body ).on( 'click', '#affwp_lc_add_email', function(e) {
@@ -7,7 +8,8 @@ jQuery(document).ready(function ($) {
 		var customer_email = $( '#affwp_lc_email' ).val(),
 			affiliate_id = $( '#affwp_lc_affiliate_id' ).val(),
 			add_email_button = $( '#affwp_lc_add_email' ),
-			email_field = $( '#affwp_lc_email' );
+			email_field = $( '#affwp_lc_email' ),
+			linked_customers_desc = $( '#affwp-lc-linked-customers-desc' );
 
 		add_email_button.prop( 'disabled', true );
 
@@ -31,6 +33,8 @@ jQuery(document).ready(function ($) {
 					email_field.val('');
 
 					add_email_button.prop('disabled', false);
+
+					linked_customers_desc.text( affwp_lc.linked_customers );
 
 					$( 'ul.affwp-lc-linked-customers' ).append( response.data.customer_html );
 
