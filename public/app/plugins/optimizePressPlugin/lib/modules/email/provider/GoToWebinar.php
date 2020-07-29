@@ -12,6 +12,7 @@ require_once(OP_LIB . 'vendor/gotowebinar/CitrixAPI.php');
 class OptimizePress_Modules_Email_Provider_GoToWebinar extends OptimizePress_Modules_Email_Provider_AbstractProvider implements OptimizePress_Modules_Email_ProviderInterface
 {
     const OPTION_NAME_OAUTH_ACCESS_TOKEN    = 'gotowebinar_access_token';
+    const OPTION_NAME_OAUTH_REFRESH_TOKEN   = 'gotowebinar_refresh_token';
     const OPTION_NAME_OAUTH_ORGANIZER_KEY   = 'gotowebinar_organizer_key';
     const OPTION_NAME_OAUTH_API_KEY         = 'gotowebinar_api_key';
     const OPTION_NAME_OAUTH_API_SECRET      = 'gotowebinar_api_secret';
@@ -31,6 +32,16 @@ class OptimizePress_Modules_Email_Provider_GoToWebinar extends OptimizePress_Mod
      * @var string|bool
      */
     protected $accessToken;
+
+    /**
+     * @var string|bool
+     */
+    protected $refreshToken;
+
+    /**
+     * @var string|bool
+     */
+    protected $expiresIn;
 
     /**
      * @var string|bool
@@ -60,15 +71,20 @@ class OptimizePress_Modules_Email_Provider_GoToWebinar extends OptimizePress_Mod
         /*
          * Fetching values from wp_options table
          */
-        $this->accessToken  = op_get_option(self::OPTION_NAME_OAUTH_ACCESS_TOKEN);
-        $this->organizerKey = op_get_option(self::OPTION_NAME_OAUTH_ORGANIZER_KEY);
-        $this->apiKey       = op_get_option(self::OPTION_NAME_OAUTH_API_KEY);
-        $this->apiSecret       = op_get_option(self::OPTION_NAME_OAUTH_API_SECRET);
+        $this->accessToken      = op_get_option(self::OPTION_NAME_OAUTH_ACCESS_TOKEN);
+        $this->refreshToken     = op_get_option(self::OPTION_NAME_OAUTH_REFRESH_TOKEN);
+        $this->organizerKey     = op_get_option(self::OPTION_NAME_OAUTH_ORGANIZER_KEY);
+        $this->apiKey           = op_get_option(self::OPTION_NAME_OAUTH_API_KEY);
+        $this->apiSecret        = op_get_option(self::OPTION_NAME_OAUTH_API_SECRET);
+        $this->expiresIn        = op_get_option(self::OPTION_NAME_OAUTH_EXPIRES_IN);
 
         /*
          * Initializing logger
          */
         $this->logger = $logger;
+
+        // refresh token if needed
+        $this->refreshToken();
     }
 
     /**
@@ -89,6 +105,64 @@ class OptimizePress_Modules_Email_Provider_GoToWebinar extends OptimizePress_Mod
     public function isEnabled()
     {
         return $this->accessToken === false || $this->organizerKey === false ? false : true;
+    }
+
+    /**
+     * Since the token never expires we simply return the current data
+     *
+     * @param  bool  $force
+     * @return mixed
+     */
+    public function refreshToken($force = false)
+    {
+        // Refresh the token only if refresh token is set and we're forcing a refresh or the token has expired
+        if ($this->getRefreshToken() && $this->isTokenExpired()) {
+            $this->logger->info('[GOTOWEBINAR] Refreshing access token.');
+
+            // And try to make the request
+
+            $response = $this->getClient()->refreshToken($this->apiKey, $this->apiSecret, $this->getRefreshToken());
+
+            if (is_string($response)) {
+                $data = json_decode($response);
+
+                $expiresAt = date('Y-m-d H:i:s', time() + $data->expires_in);
+                /*
+                 * Saving access token
+                 */
+                op_update_option(self::OPTION_NAME_OAUTH_ACCESS_TOKEN, $data->access_token);
+                op_update_option(self::OPTION_NAME_OAUTH_REFRESH_TOKEN, $data->refresh_token);
+                op_update_option(self::OPTION_NAME_OAUTH_ORGANIZER_KEY, $data->organizer_key);
+                op_update_option(self::OPTION_NAME_OAUTH_EXPIRES_IN, $expiresAt);
+            }
+        }
+    }
+
+    /**
+     * Check if the token is expired
+     *
+     * @return bool
+     */
+    public function isTokenExpired()
+    {
+        $refreshToken = $this->getRefreshToken();
+        $expiresAt = $this->expiresIn;
+
+        if ($refreshToken && $expiresAt) {
+            return $expiresAt < date('Y-m-d H:i:s');
+        }
+
+        return false;
+    }
+
+    /**
+     * Return OAuth refresh token for this integration
+     *
+     * @return string
+     */
+    public function getRefreshToken()
+    {
+        return $this->refreshToken;
     }
 
     /**
@@ -113,12 +187,15 @@ class OptimizePress_Modules_Email_Provider_GoToWebinar extends OptimizePress_Mod
 
             if (is_string($response)) {
                 $data = json_decode($response);
+
+                $expiresAt = date('Y-m-d H:i:s', time() + $data->expires_in);
                 /*
                  * Saving access token
                  */
                 op_update_option(self::OPTION_NAME_OAUTH_ACCESS_TOKEN, $data->access_token);
+                op_update_option(self::OPTION_NAME_OAUTH_REFRESH_TOKEN, $data->refresh_token);
                 op_update_option(self::OPTION_NAME_OAUTH_ORGANIZER_KEY, $data->organizer_key);
-                op_update_option(self::OPTION_NAME_OAUTH_EXPIRES_IN, time() + (int) $data->expires_in);
+                op_update_option(self::OPTION_NAME_OAUTH_EXPIRES_IN, $expiresAt);
             }
 
             /*
@@ -132,6 +209,7 @@ class OptimizePress_Modules_Email_Provider_GoToWebinar extends OptimizePress_Mod
              * Saving access data
              */
             op_delete_option(self::OPTION_NAME_OAUTH_ACCESS_TOKEN);
+            op_delete_option(self::OPTION_NAME_OAUTH_REFRESH_TOKEN);
             op_delete_option(self::OPTION_NAME_OAUTH_ORGANIZER_KEY);
             op_delete_option(self::OPTION_NAME_OAUTH_EXPIRES_IN);
             op_delete_option(self::OPTION_NAME_OAUTH_API_KEY);
@@ -145,6 +223,7 @@ class OptimizePress_Modules_Email_Provider_GoToWebinar extends OptimizePress_Mod
             exit();
         } else if ('1' == op_get('clean')) {
             op_delete_option(self::OPTION_NAME_OAUTH_API_KEY);
+            op_delete_option(self::OPTION_NAME_OAUTH_API_SECRET);
 
             /*
              * Redirecting user to dashboard page
@@ -154,7 +233,7 @@ class OptimizePress_Modules_Email_Provider_GoToWebinar extends OptimizePress_Mod
             exit();
         } else {
             $callbackUrl = admin_url('admin.php?action=' . OP_GOTOWEBINAR_AUTH_URL);
-            $this->getClient()->getOAuthToken($this->apiKey, $callbackUrl);
+            $this->getClient()->getOAuthToken($this->apiKey, $this->apiSecret, $callbackUrl);
         }
     }
 

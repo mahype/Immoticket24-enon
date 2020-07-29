@@ -3,7 +3,7 @@
 if(!function_exists('op_define_vars')){
     function op_define_vars(){
         //Init constants
-        define('OP_VERSION', '2.5.19.1');
+        define('OP_VERSION', '2.5.23');
 
         define('OP_TYPE','plugin');
         define('OP_SN','optimizepress'); //Short/safe name
@@ -720,7 +720,7 @@ if(!function_exists('op_define_vars')){
     /*
      * GoToWebinar token is active only for a year. We are showing user notice when the token is about to expire
      */
-    add_action('admin_notices', 'goToWebinarTokenExpiry');
+    //add_action('admin_notices', 'goToWebinarTokenExpiry');
 
     /**
      * Checks that 'optimizepress_gotowebinar_access_token' is defined and if 'optimizepress_gotowebinar_expires_in' is larger smaller than two weeks
@@ -1028,7 +1028,7 @@ if(!function_exists('op_define_vars')){
             $obj->download_url      = isset($apiResponse->s3_package) ? $apiResponse->s3_package : $apiResponse->package;
             $obj->package           = isset($apiResponse->s3_package) ? $apiResponse->s3_package : $apiResponse->package;
             $obj->requires          = '3.5';
-            $obj->tested            = '5.0.1';
+            $obj->tested            = '5.2.1';
             $obj->sections          = array(
                                         'description' => $apiResponse->section->description,
                                         'changelog' => $apiResponse->section->changelog,
@@ -1118,7 +1118,7 @@ if(!function_exists('op_define_vars')){
         $obj->download_url      = $apiResponse->s3_package;
         $obj->package           = $apiResponse->s3_package;
         $obj->requires          = '3.5';
-        $obj->tested            = '5.0.3';
+        $obj->tested            = '5.2.1';
         $obj->sections          = array(
             'description' => $apiResponse->section->description,
             'changelog' => $apiResponse->section->changelog,
@@ -1451,7 +1451,7 @@ if(!function_exists('op_define_vars')){
     function op2_disable_gutenberg()
     {
         global $post;
-        if (is_le_page($post->ID))
+        if (isset($post->ID) && is_le_page($post->ID))
             return false;
 
         return true;

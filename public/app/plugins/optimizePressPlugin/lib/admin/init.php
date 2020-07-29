@@ -38,10 +38,17 @@ class OptimizePress_Admin_Init
 
     function addOpLinks($actions, $page_object)
     {
+        global $post;
+
         if (get_post_meta($page_object->ID,'_'.OP_SN.'_pagebuilder',true) == 'Y') {
             $actions['op_live_editor'] = "<a class='op-pagebuilder' href='" . admin_url("admin.php?page=optimizepress-page-builder&page_id=".$page_object->ID."&step=5") . "'>" . __('Live Editor', 'optimizepress') . "</a>";
         }
-        $actions['op_page_clone'] = "<a class='op-clone' href='" . admin_url("admin.php?action=optimizepress-page-cloning&page_id=".$page_object->ID."") . "'>" . __('Clone Page', 'optimizepress') . "</a>";
+        
+        $op3 = function_exists('is_op3_page') && is_op3_page($post->ID);
+
+        if (! $op3) {
+            $actions['op_page_clone'] = "<a class='op-clone' href='" . admin_url("admin.php?action=optimizepress-page-cloning&page_id=" . $page_object->ID . "") . "'>" . __('Clone Page', 'optimizepress') . "</a>";
+        }
 
         return $actions;
     }
