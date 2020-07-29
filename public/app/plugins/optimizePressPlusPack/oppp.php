@@ -2,7 +2,7 @@
 /*
 Plugin Name: OptimizePress PlusPack
 Plugin URI: http://www.optimizepress.com/
-Version: 1.1.8.2
+Version: 1.1.10
 Description: Additional features for pro & plus packages
 Author: OptimizePress
 Author URI: http://www.optimizepress.com/
@@ -15,7 +15,7 @@ if (! defined('WPINC')) {
     die;
 }
 
-define('OPPP_VERSION', '1.1.8.2');
+define('OPPP_VERSION', '1.1.10');
 define('OPPP_BASE_DIR', plugin_dir_path(__FILE__));
 define('OPPP_BASE_URL', plugin_dir_url(__FILE__));
 define('OPPP_PLUGIN_SLUG', plugin_basename(__FILE__));

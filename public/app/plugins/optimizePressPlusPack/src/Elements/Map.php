@@ -15,7 +15,7 @@ class OptimizePress_Elements_Map
 
     /**
      * @var string
-     */    
+     */
     protected $api_key = '';
 
     /**
@@ -64,8 +64,8 @@ class OptimizePress_Elements_Map
      * Enqueue scripts
      * @return void
      */
-    public function enqueueScripts($attr) 
-    { 
+    public function enqueueScripts($attr)
+    {
         if ($this->checkIfApiKeyIsEmpty()) {
             return;
         }
@@ -93,7 +93,7 @@ class OptimizePress_Elements_Map
      * @return void
      */
     public function initShortcodes()
-    {   
+    {
         add_shortcode($this->tag, array($this, 'shortcode'));
         add_shortcode('op_' . $this->tag, array($this, 'shortcode'));
     }
@@ -181,7 +181,7 @@ class OptimizePress_Elements_Map
     public function addToAssetList($assets)
     {
         $assets['addon'][$this->tag] = array(
-            'title'         => __('Map element', 'optimizepress-plus-pack'),
+            'title'         => __('Map Element', 'optimizepress-plus-pack'),
             'description'   => __('Use this map element to share your business location or to promote an event location.', 'optimizepress-plus-pack'),
             'settings'      => 'Y',
             'image'         => OPPP_BASE_URL . 'images/elements/' . $this->tag . '/' . $this->tag . '.png',
@@ -252,6 +252,19 @@ class OptimizePress_Elements_Map
             $url = OPPP_BASE_URL . 'images/elements/';
         }
         return $url;
+    }
+
+    /**
+     * Add element key and name to cacheable elements list.
+     * Filter is read in OP Helper Tools plugin and uses it to compile a list of elements whose transient cache can be cleared.
+     * @param array $elements
+     * @return array
+     */
+    public function addToCacheableElementsList($elements)
+    {
+        $elements['el_map_'] = __('Map Element', 'optimizepress-plus-pack');
+
+        return $elements;
     }
 
     /**
