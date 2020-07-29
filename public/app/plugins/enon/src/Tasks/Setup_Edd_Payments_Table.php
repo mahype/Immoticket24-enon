@@ -18,7 +18,7 @@ use Awsm\WP_Wrapper\Loaders\Loader;
 use Awsm\WP_Wrapper\Interfaces\Filters;
 use Awsm\WP_Wrapper\Interfaces\Task;
 use Enon\Models\Edd\Payment;
-use Enon\Models\Edd\Payment_Used_Coupons;
+use Enon\Models\Edd\Payment_Query_Used_Coupons;
 use Enon\Models\Enon\Energieausweis;
 
 /**
@@ -39,8 +39,8 @@ class Setup_Edd_Payments_Table implements Filters, Task {
 	public function run() {
 		$this->add_filters();
 
-		$payment_used_coupons = new Payment_Used_Coupons();
-		$payment_used_coupons->add_actions();
+		$payment_used_coupons = new Payment_Query_Used_Coupons();
+		$payment_used_coupons->add_filters();
 	}
 
 	/**
