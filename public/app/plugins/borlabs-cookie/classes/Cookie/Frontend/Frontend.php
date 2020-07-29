@@ -104,7 +104,9 @@ class Frontend
             // Register Cookie Box for login page
             if (Config::getInstance()->get('showCookieBoxOnLoginPage') === true) {
                 add_action('login_enqueue_scripts', [Style::getInstance(), 'register']);
-                add_action('login_footer', [JavaScript::getInstance(), 'register']);
+                add_action('login_enqueue_scripts', [JavaScript::getInstance(), 'registerHead']);
+                add_action('login_head', [JavaScript::getInstance(), 'registerHeadFallback']);
+                add_action('login_footer', [JavaScript::getInstance(), 'registerFooter']);
                 add_action('login_footer', [CookieBox::getInstance(), 'insertCookieBox']);
             }
 
