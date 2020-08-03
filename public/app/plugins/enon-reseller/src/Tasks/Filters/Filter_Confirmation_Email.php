@@ -11,8 +11,8 @@
 
 namespace Enon_Reseller\Tasks\Filters;
 
-use Awsm\WP_Wrapper\Building_Plans\Filters;
-use Awsm\WP_Wrapper\Building_Plans\Task;
+use Awsm\WP_Wrapper\Interfaces\Filters;
+use Awsm\WP_Wrapper\Interfaces\Task;
 use Awsm\WP_Wrapper\Tools\Logger;
 use Awsm\WP_Wrapper\Tools\Logger_Trait;
 
@@ -186,6 +186,17 @@ class Filter_Confirmation_Email implements Task, Filters {
 
 		if ( empty( $reseller_link ) ) {
 			return $link;
+		}
+
+		switch ( $energy_certificate->type ) {
+			case 'vw':
+				$reseller_link .= '/verbrauchsausweis/';
+				break;
+			case 'bw':
+				$reseller_link .= '/bedarfsausweis/';
+				break;
+			default:
+				return $link;
 		}
 
 		$reseller_link = $this->reseller->add_iframe_params( $reseller_link, $energy_certificate->id );

@@ -584,7 +584,9 @@ function energieausweis_zusatzoptionen_maybe_add_extra_sale_notices( $payment_id
 	$payment_fees = edd_get_payment_fees( $payment_id, 'item' );
 	foreach ( $payment_fees as $payment_fee ) {
 		$filter_callback = 'energieausweis_zusatzoptionen_send_to_' . $payment_fee['id'] . '_email_address';
-		if ( function_exists( $filter_callback ) ) {
+		$filter_callback = apply_filters( 'filter_payment_fee_email_address_callback', $filter_callback, $payment_fee['id'], $payment_id );
+
+		if ( is_callable( $filter_callback ) ) {
 			add_filter( 'edd_admin_notice_emails', $filter_callback );
 		}
 	}
@@ -596,6 +598,8 @@ function energieausweis_zusatzoptionen_maybe_remove_extra_sale_notices( $payment
 	$payment_fees = edd_get_payment_fees( $payment_id, 'item' );
 	foreach ( $payment_fees as $payment_fee ) {
 		$filter_callback = 'energieausweis_zusatzoptionen_send_to_' . $payment_fee['id'] . '_email_address';
+		$filter_callback = apply_filters( 'filter_payment_fee_email_address_callback', $filter_callback, $payment_fee['id'], $payment_id );
+
 		if ( has_filter( 'edd_admin_notice_emails', $filter_callback ) ) {
 			remove_filter( 'edd_admin_notice_emails', $filter_callback );
 		}

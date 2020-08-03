@@ -57,13 +57,7 @@ class Sparkasse extends Distributor_Schema {
 			'modernisierung_baeder',
 			'modernisierung_innenausbau',
 			'verbesserung_grundrissgestaltung',
-			'qualitaet_mauerwerk',
-			'qualitaet_dach',
-			'qualitaet_gebaeudedaemmung',
-			'qualitaet_fenster',
-			'qualitaet_bodenbelaege',
-			'qualitaet_heizung',
-			'qualitaet_baeder_sanitaer',
+			'qualitaet_generell',
 			'grundstuecksflaeche',
 		);
 
@@ -126,6 +120,9 @@ class Sparkasse extends Distributor_Schema {
 		$energy_certificate = new Energieausweis( $this->energieausweis->id );
 		$payment            = new \Edd_Payment( $energy_certificate->get_payment_id() );
 
+		$imageID            = get_post_meta($this->energieausweis->ID, '_thumbnail_id', true);
+		$image              = wp_get_attachment_image_url($imageID, 'enon-energieausweiss-image');
+
 		$customer_data = array(
 			'name' => $payment->first_name . ' ' . $payment->last_name,
 		);
@@ -140,6 +137,7 @@ class Sparkasse extends Distributor_Schema {
 
 		$data = array(
 			'customer'       => $customer_data,
+			'image'          => $image,
 			'estate_address' => $estate_address_data,
 			'estate'         => $estate_data,
 			'sender'         => 'immoticket24', // Required by Sparkasse Immobilien Heidelberg.

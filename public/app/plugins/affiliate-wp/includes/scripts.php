@@ -119,6 +119,7 @@ add_action( 'admin_enqueue_scripts', 'affwp_admin_styles' );
 function affwp_enqueue_admin_js() {
 
 	$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+	wp_register_script( 'affwp-tooltips', AFFILIATEWP_PLUGIN_URL . 'assets/js/tooltips' . $suffix . '.js', array( 'jquery' ), AFFILIATEWP_VERSION );
 
 	// Batch processing.
 	wp_register_script( 'affwp-batch', AFFILIATEWP_PLUGIN_URL . 'assets/js/batch' . $suffix . '.js', array( 'jquery-form' ), AFFILIATEWP_VERSION );

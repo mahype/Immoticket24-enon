@@ -2,7 +2,7 @@
 $affiliate                    = affwp_get_affiliate( absint( $_GET['affiliate_id'] ) );
 $user_info                    = get_userdata( $affiliate->user_id );
 $rate_type                    = ! empty( $affiliate->rate_type ) ? $affiliate->rate_type : '';
-$flat_rate_basis              = ! empty( $affiliate->flat_rate_basis ) ? $affiliate->flat_rate_basis : '';
+$flat_rate_basis              = ! empty( $affiliate->flat_rate_basis ) ? $affiliate->flat_rate_basis : 'per_product';
 $rate                         = isset( $affiliate->rate ) ? $affiliate->rate : null;
 $rate                         = affwp_abs_number_round( $affiliate->rate );
 $default_rate                 = affiliate_wp()->settings->get( 'referral_rate', 20 );

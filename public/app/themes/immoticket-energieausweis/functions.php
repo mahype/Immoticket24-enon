@@ -229,6 +229,11 @@ function immoticketenergieausweis_payment_icons() {
       display: inline;
       margin-left: 10px;
     }
+
+    #it24-stripe-button img{
+	    height: 50px;
+	    width: 170px;
+    }
   </style>
   <script type="text/javascript">
     jQuery( document ).ready( function( $ ) {
@@ -300,7 +305,16 @@ function immoticketenergieausweis_payment_icons() {
       <span class="sr-only"><?php _e( 'Banküberweisung', 'immoticketenergieausweis' ); ?></span>
       <img src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/deposit.png">
     </button>
+
+	<button type="button" id="it24-stripe-button" class="btn btn-default">
+		<span class="sr-only"><?php _e( 'Kreditkarte', 'immoticketenergieausweis' ); ?></span>
+		<img src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/stripe.png">
+	</button>
+
   </div>
+	<div style="margin-top:20px;">
+	<p>Aufgrund von technischen Problemen ist die Auswahl des Lastschriftverfahrens heute nicht möglich.</p>
+    </div>
   <?php
 }
 add_action( 'edd_payment_mode_after_gateways', 'immoticketenergieausweis_payment_icons' );

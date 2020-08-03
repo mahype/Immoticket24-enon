@@ -10,13 +10,15 @@ class Affiliate_WP_Exchange extends Affiliate_WP_Base {
 	*/
 	private $transaction;
 
+	/**
+	 * The context for referrals. This refers to the integration that is being used.
+	 *
+	 * @access  public
+	 * @since   1.2
+	 */
+	public $context = 'it-exchange';
+
 	public function init() {
-
-		$this->context = 'it-exchange';
-
-		if( ! class_exists( 'IT_Exchange' ) ) {
-			return;
-		}
 
 		add_filter( 'it_exchange_generate_transaction_object', array( $this, 'add_affiliate_id_to_txn_object' ) );
 		add_action( 'it_exchange_add_transaction_success', array( $this, 'add_pending_referral' ), 10 );
@@ -406,8 +408,17 @@ class Affiliate_WP_Exchange extends Affiliate_WP_Base {
 
 		}
 	}
+
+	/**
+	 * Runs the check necessary to confirm this plugin is active.
+	 *
+	 * @since 2.5
+	 *
+	 * @return bool True if the plugin is active, false otherwise.
+	 */
+	function plugin_is_active() {
+		return class_exists( 'IT_Exchange' );
+	}
 }
 
-if ( class_exists( 'IT_Exchange' ) ) {
 	new Affiliate_WP_Exchange;
-}

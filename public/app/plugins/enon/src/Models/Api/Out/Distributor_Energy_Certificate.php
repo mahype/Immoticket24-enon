@@ -48,8 +48,8 @@ class Distributor_Energy_Certificate extends Request {
 	 * Constructor.
 	 *
 	 * @param Distributor_Schema_Interface $distributor_schema Schema file for distributor.
-	 * @param Energieausweis_Old $energy_certificate Engergy certificate object.
-	 * @param Logger             $logger             Logger object.
+	 * @param Energieausweis_Old           $energy_certificate Engergy certificate object.
+	 * @param Logger                       $logger             Logger object.
 	 *
 	 * @since 1.0.0
 	 */

@@ -338,11 +338,15 @@ jQuery( document ).ready( function ( $ ) {
 	 * @param {string} msg
 	 */
 	wtf_thumb.functions.prototype.appendMsg = function(msg) {
+		msg = msg || 'error';
+
 		var div = document.createElement('div');
 			div.innerHTML = msg;
 			div.classList.add('error');
 
 		wtf_thumb.triggerNodes.parenntNode.appendChild(div);
+
+		$("body").trigger("wpenon_ajax_end");
 	};
 
 	/**
@@ -389,7 +393,7 @@ jQuery( document ).ready( function ( $ ) {
 
 
 				} else {
-					wtf_thumb.functions.appendMsg(xhr.responseText);
+					wtf_thumb.functions.prototype.appendMsg(xhr.responseText);
 				}
 			};
 
@@ -415,17 +419,21 @@ jQuery( document ).ready( function ( $ ) {
 	wtf_thumb.energieausweis_id = _wpenon_data.energieausweis_id;
 
 	wtf_thumb.form = document.querySelector('#wpenon-thumbnail-form');
-	wtf_thumb.form.file = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_file"]');
-	wtf_thumb.preview = document.querySelector('.thumbnail-wrapper');
 
-	wtf_thumb.triggerNodes = {
-		action: {
-			upload: wtf_thumb.form.querySelector('[name="wpenon_thumbnail_upload"]'),
-			del: wtf_thumb.form.querySelector('[name="wpenon_thumbnail_delete"]')
-		},
-		parenntNode: wtf_thumb.form.querySelector('.image-buttons')
-	};
+	if( null !== wtf_thumb.form ) {
+		wtf_thumb.form.file = wtf_thumb.form.querySelector('[name="wpenon_thumbnail_file"]');
+
+		wtf_thumb.preview = document.querySelector('.thumbnail-wrapper');
+
+		wtf_thumb.triggerNodes = {
+			action: {
+				upload: wtf_thumb.form.querySelector('[name="wpenon_thumbnail_upload"]'),
+				del: wtf_thumb.form.querySelector('[name="wpenon_thumbnail_delete"]')
+			},
+			parenntNode: wtf_thumb.form.querySelector('.image-buttons')
+		};
 
 
-	wtf_thumb.functions.prototype.addEvents();
+		wtf_thumb.functions.prototype.addEvents();
+	}
 });

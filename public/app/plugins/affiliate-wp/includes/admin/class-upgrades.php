@@ -175,6 +175,10 @@ class Affiliate_WP_Upgrades {
 			$this->v242_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.5', '<' ) ) {
+			$this->v25_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -938,6 +942,18 @@ class Affiliate_WP_Upgrades {
 		// Flush rewrites for the benefit of the EDD integration.
 		flush_rewrite_rules();
 		@affiliate_wp()->utils->log( 'Upgrade: Rewrite rules flushed.' );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Performs database upgrades for version 2.5.
+	 *
+	 * @since 2.5
+	 */
+	private function v25_upgrade() {
+		affiliate_wp()->referrals->sales->create_table();
+		@affiliate_wp()->utils->log( 'Upgrade: The sales table has been created.' );
 
 		$this->upgraded = true;
 	}

@@ -24,6 +24,7 @@ public/app/nfwlog/*
 !public/app/mu-plugins/energieausweis-*/
 !public/app/mu-plugins/energieausweis-*.php
 !public/app/plugins/affiliate-wp
+!public/app/plugins/borlabs-cookie
 !public/app/plugins/wpenon_image_cleanup
 !public/app/plugins/affiliate-wp-lifetime-commissions
 !public/app/plugins/advanced-custom-fields-pro
@@ -34,12 +35,13 @@ public/app/nfwlog/*
 !public/app/plugins/edd-custom-fees
 !public/app/plugins/edd-discount-code-generator
 !public/app/plugins/edd-klicktipp-integration
+!public/app/plugins/edd-stripe
+!public/app/plugins/edd-stripe/vendor
 !public/app/plugins/optimizePressPlugin
 !public/app/plugins/optimizePressPlusPack
 !public/app/plugins/options-definitely
 !public/app/plugins/wp-energieausweis-online
 !public/app/plugins/wp-postratings-migrate
-!public/app/plugins/wordpress-importer
 !public/app/themes/immoticket-energieausweis
 
 # WordPress
@@ -70,6 +72,8 @@ composer.lock
 vendor
 !public/app/plugins/wp-rocket/vendor
 !public/app/plugins/optimizePressPlugin/lib/vendor
+!public/app/plugins/edd-stripe/vendor
+!public/app/plugins/borlabs-cookie/vendor
 
 # Node Package Manager
 node_modules

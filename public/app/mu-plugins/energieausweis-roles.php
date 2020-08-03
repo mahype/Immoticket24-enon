@@ -15,7 +15,7 @@ function energieausweis_roles_init() {
 
 	$role_slugs = array(
 		/* Core roles */
-		'subscriber', 'contributor', 'author', 'editor', 'administrator', 'wpenon_manager'
+		'subscriber', 'contributor', 'author', 'editor', 'administrator', 'wpenon_manager', 'wpenon_reseller'
 	);
 
 	$wp_user_roles = array();
@@ -56,6 +56,8 @@ function energieausweis_roles_get_name( $role_slug ) {
 			return __( 'Administrator', 'energieausweis-roles' );
 		case 'wpenon_manager':
 			return __( 'Energieausweis Manager', 'energieausweis-roles' );
+		case 'wpenon_reseller':
+			return __( 'Energieausweis Reseller', 'energieausweis-roles' );
 	}
 
 	return '';
@@ -113,6 +115,8 @@ function energieausweis_roles_get_caps( $role_slug ) {
 				'backwpup_logs_delete',
 				'backwpup_settings',
 				'backwpup_restore',
+				'manage_borlabs_cookie',
+				'view_reseller_leads',
 			) );
 		case 'editor':
 			$caps = array_merge( $caps, array(
@@ -168,6 +172,10 @@ function energieausweis_roles_get_caps( $role_slug ) {
 				'edit_shop_payments',
 				'edit_shop_customer',
 				'manage_shop_discounts',
+			) );
+			case 'wpenon_reseller':
+			$caps = array_merge( $caps, array(
+				'view_reseller_leads',
 			) );
 		case 'subscriber':
 			$caps = array_merge( $caps, array(
@@ -281,7 +289,7 @@ function energieausweis_roles_grant_extra_plugin_caps() {
 
 function energieausweis_grant_owner_capabilities( $allcaps, $caps, $args, $user ) {
 	$global_caps = energieausweis_roles_get_global_admin_caps();
-	
+
 	$admin_user = [
 		'felixarntz',
 		'svenwagener',

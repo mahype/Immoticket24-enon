@@ -7,8 +7,17 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 *
 	 * @access  private
 	 * @since   1.1
+	 * @var WC_Order
 	*/
-	private $order;
+	private $order = false;
+
+	/**
+	 * The context for referrals. This refers to the integration that is being used.
+	 *
+	 * @access  public
+	 * @since   1.2
+	 */
+	public $context = 'woocommerce';
 
 	/**
 	 * Setup actions and filters
@@ -17,8 +26,6 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 * @since   1.0
 	*/
 	public function init() {
-
-		$this->context = 'woocommerce';
 
 		add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'add_pending_referral' ), 10 );
 
@@ -85,25 +92,57 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	}
 
 	/**
+	 * Runs the check necessary to confirm this plugin is active.
+	 *
+	 * @since 2.5
+	 *
+	 * @return bool True if the plugin is active, false otherwise.
+	 */
+	public function plugin_is_active() {
+		return class_exists( 'WooCommerce' );
+	}
+
+	/**
+	 * Sets the WooCommerce order.
+	 *
+	 * @since 2.5
+	 *
+	 * @param int $order_id The WooCommerce order ID
+	 * @return \WC_Order A filtered WooCommerce order object.
+	 */
+	private function set_order( $order_id ) {
+		if ( false === $this->order ) {
+
+			/**
+			 * Filters the woocommerce order object.
+			 *
+			 * @since 2.4.2
+			 *
+			 * @param \WC_Order $order The WC order object.
+			 */
+			$this->order = apply_filters( 'affwp_get_woocommerce_order', wc_get_order( $order_id ) );
+
+			if ( ! $this->order instanceof \WC_Order ) {
+				$this->order = false;
+			}
+		}
+
+		return $this->order;
+	}
+
+	/**
 	 * Store a pending referral when a new order is created
 	 *
 	 * @access  public
 	 * @since   1.0
 	 * @since   2.3   Added support for per-order rates
 	 * @param int $order_id The order ID to work from.
-   *
+	 *
 	 * @return bool
 	 */
 	public function add_pending_referral( $order_id = 0 ) {
 
-		/**
-		 * Filters the WooCommerce order prior to adding the pending referral.
-		 *
-		 * @since 1.0
-		 *
-		 * @param \WC_Order $order The order object.
-		 */
-		$this->order = apply_filters( 'affwp_get_woocommerce_order', new WC_Order( $order_id ) );
+		$this->set_order( $order_id );
 
 		// Check if an affiliate coupon was used
 		$coupon_affiliate_id = $this->get_coupon_affiliate_id();
@@ -239,9 +278,10 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 					'campaign'     => affiliate_wp()->tracking->get_campaign(),
 					'affiliate_id' => $affiliate_id,
 					'visit_id'     => $visit_id,
+					'order_total'  => $this->get_order_total(),
 					'products'     => $this->get_products(),
 					'customer'     => $this->get_customer( $order_id ),
-					'context'      => $this->context
+					'context'      => $this->context,
 				) );
 
 				$this->log( sprintf( 'WooCommerce Referral #%d updated successfully.', $existing->referral_id ) );
@@ -319,6 +359,29 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		}
 
+	}
+
+	/**
+	 * Retrieves the order total from the order.
+	 *
+	 * @access public
+	 * @since  2.5
+	 *
+	 * @param int $order the order number. If this isn't specified, it will use the order object that's already set.
+	 * @return float The order total for the current integration.
+	 */
+	public function get_order_total( $order = 0 ) {
+		if ( $order > 0 ) {
+			$this->set_order( $order );
+		}
+
+		if ( $this->order instanceof \WC_Order ) {
+			$order_total = $this->order->get_total();
+		} else {
+			$order_total = 0;
+		}
+
+		return $order_total;
 	}
 
 	/**
@@ -433,8 +496,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 */
 	public function mark_referral_complete( $order_id = 0 ) {
 
-		/** This filter is documented in includes/integrations/class-woocommerce.php */
-		$this->order = apply_filters( 'affwp_get_woocommerce_order', new WC_Order( $order_id ) );
+		$this->set_order( $order_id );
 
 		if ( true === version_compare( WC()->version, '3.0.0', '>=' ) ) {
 			$payment_method = $this->order->get_payment_method();
@@ -1130,6 +1192,178 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Gets the total order count for this integration.
+	 *
+	 * @since 2.5
+	 *
+	 * @param string|array $date {
+	 *     Optional. Date string or start/end range to retrieve orders for. Default empty.
+	 *
+	 *     @type string $start Start date to retrieve orders for.
+	 *     @type string $end   End date to retrieve orders for.
+	 * }
+	 * @return int|false Total order count, otherwise false.
+	 */
+	public function get_total_order_count( $date = '' ) {
+
+		if ( true === version_compare( WC()->version, '4.0.0', '>=' ) ) {
+
+			require_once( WC()->plugin_path() . '/includes/admin/reports/class-wc-admin-report.php' );
+			require_once( WC()->plugin_path() . '/includes/admin/reports/class-wc-report-sales-by-date.php' );
+
+			$report             = new \WC_Report_Sales_By_Date();
+			$date               = parent::prepare_date_range( $date );
+			$report->start_date = strtotime( $date['start'] );
+			$report->end_date   = strtotime( $date['end'] );
+
+			$data = $report->get_order_report_data( array(
+				'data'         => array(
+					'ID' => array(
+						'type'     => 'post_data',
+						'function' => 'COUNT',
+						'name'     => 'count',
+						'distinct' => true,
+					),
+				),
+				'filter_range' => true,
+				'order_status' => array( 'completed' ),
+			) );
+
+			$order_count = $data->count;
+		} else {
+			$args = array(
+				'limit'        => -1,
+				'status'       => 'wc-completed',
+				'fields'       => 'ids',
+				'return'       => 'ids',
+				'date_created' => $this->prepare_date_range( $date ),
+			);
+
+			$query = new \WC_Order_Query( $args );
+
+			try {
+				$order_count = count( $query->get_orders() );
+			} catch( Exception $e ) {
+				$this->log( 'An error occurred while getting the WooCommerce order count.' . $e->getMessage() );
+				$order_count = false;
+			}
+		}
+
+		return (int) $order_count;
+	}
+
+	/**
+	 * Gets the total sales for this integration.
+	 *
+	 * @since 2.5
+	 * @since 2.5.5 Refactored this query to leverage WooCommerce's reporting API if using WooCommerce 4.0 or higher.
+	 *
+	 * @param string|array $date  {
+	 *     Optional. Date string or start/end range to retrieve orders for. Default empty.
+	 *
+	 *     @type string $start Start date to retrieve orders for.
+	 *     @type string $end   End date to retrieve orders for.
+	 * }
+	 * @return float|int The total sales values for the specified date range.
+	 */
+	public function get_total_sales( $date = '' ) {
+		// Leverage the faster option, if using Woo 4.0 or up.
+		if ( true === version_compare( WC()->version, '4.0.0', '>=' ) ) {
+
+			require_once( WC()->plugin_path() . '/includes/admin/reports/class-wc-admin-report.php' );
+			require_once( WC()->plugin_path() . '/includes/admin/reports/class-wc-report-sales-by-date.php' );
+
+			$report             = new \WC_Report_Sales_By_Date();
+			$date               = parent::prepare_date_range( $date );
+			$report->start_date = strtotime( $date['start'] );
+			$report->end_date   = strtotime( $date['end'] );
+
+			$data = $report->get_order_report_data( array(
+				'data'         => array(
+					'_order_total' => array(
+						'type'     => 'meta',
+						'function' => 'SUM',
+						'name'     => 'total_sales',
+					),
+				),
+				'filter_range' => true,
+				'order_status' => array( 'completed' ),
+			) );
+
+			$total_sales = (float) $data->total_sales;
+		} else {
+			$total_sales = 0;
+
+			$args = array(
+				'limit'        => 300,
+				'return'       => 'ids',
+				'fields'       => 'ids',
+				'status'       => 'wc-completed',
+				'offset'       => 0,
+				'date_created' => $this->prepare_date_range( $date ),
+			);
+
+			// Repeat until the previous query did not find any orders.
+			do {
+
+				$query = new \WC_Order_Query( $args );
+
+				try {
+					// Retrieve the array of order IDs.
+					$orders = $query->get_orders();
+					foreach ( $orders as $order_id ) {
+
+						// Get the order. This allows us to get the total.
+						$order = wc_get_order( $order_id );
+
+						// If nothing went wrong, add the order total to the total sales.
+						if ( false !== $order ) {
+							$total_sales += $order->get_total();
+						}
+					}
+
+					/*
+					 * Increase our offset for the next time this query runs.
+					 *
+					 * Eventually, this number gets larger than the number of items in the database.
+					 * This causes orders to be an empty array, which ends the while loop.
+					 */
+					$args['offset'] += count( $orders );
+				} catch ( Exception $e ) {
+
+					$this->log( 'An error occurred while getting the WooCommerce sales totals.' . $e->getMessage() );
+
+					// Set total sales to false
+					$total_sales = false;
+
+					// Bail out of the loop
+					break;
+				}
+			} while ( is_array( $orders ) && count( $orders ) !== 0 );
+		}
+
+		return $total_sales;
+	}
+
+	/**
+	 * Prepares a date range to be accepted by the current integration.
+	 *
+	 * Most integrations accept a date range in a specific format. Often this format differs from AffiliateWP.
+	 * This method provides a way to convert an AffiliateWP date range into the integration date range.
+	 *
+	 * @since 2.5
+	 *
+	 * @param array|string $date_range The AffiliateWP date range, or an empty value.
+	 * @return string The date range, formatted for the current integration.
+	 */
+	public function prepare_date_range( $date_range ) {
+		$date_range = parent::prepare_date_range( $date_range );
+		$date_range = $date_range['start'] . '...' . $date_range['end'];
+
+		return $date_range;
 	}
 
 	/**

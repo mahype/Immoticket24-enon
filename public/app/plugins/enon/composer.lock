@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/awsmug/lib-mail.git",
-                "reference": "b11a9b5de68e98bfad8d8135254b3e87e495f9ae"
+                "reference": "479893dd506c06d7857734fff89e573fed14e433"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awsmug/lib-mail/zipball/b11a9b5de68e98bfad8d8135254b3e87e495f9ae",
-                "reference": "b11a9b5de68e98bfad8d8135254b3e87e495f9ae",
+                "url": "https://api.github.com/repos/awsmug/lib-mail/zipball/479893dd506c06d7857734fff89e573fed14e433",
+                "reference": "479893dd506c06d7857734fff89e573fed14e433",
                 "shasum": ""
             },
             "require-dev": {
@@ -35,7 +35,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Awesome mail functionality. Easy and clean mail creation and transportation.",
-            "time": "2020-06-05T09:38:15+00:00"
+            "time": "2020-06-24T11:15:13+00:00"
         },
         {
             "name": "awsm/wp-wrapper",
@@ -43,16 +43,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/awsmug/wp-wrapper.git",
-                "reference": "d82112615dc4dbbccb13132ba5962076f450be5d"
+                "reference": "8ea7f59ff459fb0ffc4637a9b324fdef333b48cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/d82112615dc4dbbccb13132ba5962076f450be5d",
-                "reference": "d82112615dc4dbbccb13132ba5962076f450be5d",
+                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/8ea7f59ff459fb0ffc4637a9b324fdef333b48cb",
+                "reference": "8ea7f59ff459fb0ffc4637a9b324fdef333b48cb",
                 "shasum": ""
             },
             "require": {
                 "monolog/monolog": "^1.0"
+            },
+            "require-dev": {
+                "wp-coding-standards/wpcs": "dev-master"
             },
             "type": "library",
             "autoload": {
@@ -78,7 +81,7 @@
                 "plugin",
                 "wordpress"
             ],
-            "time": "2020-05-14T14:31:03+00:00"
+            "time": "2020-07-15T16:11:26+00:00"
         },
         {
             "name": "inpsyde/wonolog",

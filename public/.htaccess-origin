@@ -261,3 +261,5 @@ Header set Cache-Control "max-age=2592000, public"
   </IfModule>
   FileETag None
 </IfModule>
+Redirect 301 /ankereffekte_vermarktungsangebot/ https://www.energieausweis-online-erstellen.de/ankereffekte-vermarktungsangebot/
+Redirect 301 /8-profi-tipps_vermarktungsangebot-2/ https://www.energieausweis-online-erstellen.de/8-profi-tipps-vermarktungsangebot-2/
