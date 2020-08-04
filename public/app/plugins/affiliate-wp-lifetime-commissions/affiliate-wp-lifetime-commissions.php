@@ -5,7 +5,7 @@
  * Description: Allow your affiliates to receive a commission on all future purchases by the customer
  * Author: Sandhills Development, LLC
  * Author URI: https://sandhillsdev.com
- * Version: 1.4
+ * Version: 1.4.3
  * Text Domain: affiliate-wp-lifetime-commissions
  * Domain Path: languages
  *
@@ -24,7 +24,7 @@
  * @package AffiliateWP Lifetime Commissions
  * @category Core
  * @author Andrew Munro
- * @version 1.4
+ * @version 1.4.3
  */
 
 // Exit if accessed directly
@@ -51,6 +51,22 @@ final class AffiliateWP_Lifetime_Commissions {
 	public $integrations;
 
 	/**
+	 * The lifetime commissions DB instance variable.
+	 *
+	 * @var Affiliate_WP_Lifetime_Commissions_DB
+	 * @since 1.4.1
+	 */
+	public $lifetime_customers;
+
+	/**
+	 * The lifetime commissions upgrades instance variable.
+	 *
+	 * @var Affiliate_WP_Lifetime_Commissions_Upgrades
+	 * @since 1.4.2
+	 */
+	public $upgrades;
+
+	/**
 	 * Main AffiliateWP_Lifetime_Commissions Instance.
 	 *
 	 * Insures that only one instance of AffiliateWP_Lifetime_Commissions exists in memory at any one
@@ -64,7 +80,7 @@ final class AffiliateWP_Lifetime_Commissions {
 	public static function instance() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof AffiliateWP_Lifetime_Commissions ) ) {
 			self::$instance = new AffiliateWP_Lifetime_Commissions;
-			self::$version  = '1.4';
+			self::$version  = '1.4.3';
 
 			self::$instance->setup_constants();
 			self::$instance->load_textdomain();
@@ -72,8 +88,12 @@ final class AffiliateWP_Lifetime_Commissions {
 			self::$instance->init();
 			self::$instance->hooks();
 
-			self::$instance->integrations = new Affiliate_WP_Lifetime_Commissions_Base;
+			self::$instance->integrations       = new Affiliate_WP_Lifetime_Commissions_Base;
+			self::$instance->lifetime_customers = new Affiliate_WP_Lifetime_Commissions_DB;
 
+			if ( is_admin() ) {
+				self::$instance->upgrades = new Affiliate_WP_Lifetime_Commissions_Upgrades( self::$version );
+			}
 		}
 		return self::$instance;
 	}
@@ -145,7 +165,7 @@ final class AffiliateWP_Lifetime_Commissions {
 
 		// Set filter for plugin's languages directory
 		$lang_dir = dirname( plugin_basename( __FILE__ ) ) . '/languages/';
-		$lang_dir = apply_filters( 'aff_wp_languages_directory', $lang_dir );
+		$lang_dir = apply_filters( 'affwp_lc_languages_directory', $lang_dir );
 
 		// Traditional WordPress plugin locale filter
 		$locale   = apply_filters( 'plugin_locale',  get_locale(), 'affiliate-wp-lifetime-commissions' );
@@ -178,11 +198,12 @@ final class AffiliateWP_Lifetime_Commissions {
 
 		if ( is_admin() ) {
 			require_once AFFWP_LC_PLUGIN_DIR . 'includes/class-admin.php';
-			require_once AFFWP_LC_PLUGIN_DIR . 'includes/upgrades.php';
+			require_once AFFWP_LC_PLUGIN_DIR . 'includes/class-upgrades.php';
 		}
 
 		require_once AFFWP_LC_PLUGIN_DIR . 'includes/class-dashboard.php';
 		require_once AFFWP_LC_PLUGIN_DIR . 'includes/class-shortcodes.php';
+		require_once AFFWP_LC_PLUGIN_DIR . 'includes/class-lifetime-commissions-db.php';
 		require_once AFFWP_LC_PLUGIN_DIR . 'integrations/class-base.php';
 
 		// Load the class for each integration enabled.
@@ -383,7 +404,7 @@ final class AffiliateWP_Lifetime_Commissions {
 	 * @return void
 	 */
 	public function get_theme_template_paths( $file_paths ) {
-		$file_paths[120] = plugin_dir_path( __FILE__ ) . '/templates';
+		$file_paths[120] = plugin_dir_path( __FILE__ ) . 'templates';
 
 		return $file_paths;
 	}
@@ -447,8 +468,8 @@ final class AffiliateWP_Lifetime_Commissions {
  * Example: <?php $affiliatewp_lifetime_commissions = affiliate_wp_lifetime_commissions(); ?>
  *
  * @since 1.0
- * @return object The one true AffiliateWP_Lifetime_Commissions Instance
- * @since  1.0
+ *
+ * @return AffiliateWP_Lifetime_Commissions|void The one true plugin instance.
  */
 function affiliate_wp_lifetime_commissions() {
 
@@ -459,3 +480,31 @@ function affiliate_wp_lifetime_commissions() {
 	return AffiliateWP_Lifetime_Commissions::instance();
 }
 add_action( 'plugins_loaded', 'affiliate_wp_lifetime_commissions', 100 );
+
+/**
+ * Setup plugin for use.
+ *
+ * @since 1.4.1
+ */
+function affiliate_wp_lifetime_commissions_install() {
+
+	if ( ! function_exists( 'affiliate_wp' ) ) {
+		return;
+	}
+
+	affiliate_wp_lifetime_commissions()->lifetime_customers->create_table();
+
+	if ( true === version_compare( AFFILIATEWP_VERSION, '2.0.2', '>=' ) ) {
+		@affiliate_wp()->utils->log( 'Upgrade: Lifetime Commissions: The lifetime customers table has been created.' );
+	}
+
+	$affiliate_wp_settings = affiliate_wp()->settings->get_all();
+
+	if ( ! isset( $affiliate_wp_settings['lifetime_commissions'] ) ) {
+		update_option( 'affwp_lc_is_installed', '1' );
+		update_option( 'affwp_lc_migrate_customers', '1' );
+		update_option( 'affwp_lc_migrate_meta', '1' );
+	}
+
+}
+register_activation_hook( __FILE__, 'affiliate_wp_lifetime_commissions_install' );

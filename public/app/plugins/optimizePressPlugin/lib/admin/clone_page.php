@@ -106,7 +106,14 @@ class OptimizePress_Admin_ClonePage
 
             $metaValues = get_post_custom_values($metaKey, $oldId);
 
+            $op3 = function_exists('is_op3_page') && is_op3_page($oldId);
+
             foreach ($metaValues as $metaValue) {
+                // if OP3 page
+                if ($op3) {
+                    update_post_meta($newId, $metaKey, addslashes($metaValue));
+                    continue;
+                }
 
                 $metaValue = maybe_unserialize($metaValue);
                 update_post_meta($newId, $metaKey, $metaValue);

@@ -14,6 +14,18 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 		// Create a customer record when user accounts are registered
 		add_action( 'user_register', array( $this, 'create_customer_on_register' ), 10 );
 
+		// Create a lifetime customer record when a referral is created.
+		add_action( 'affwp_insert_referral', array( $this, 'create_lifetime_customer' ) );
+
+		// Save the customer old email when their user profile is updated.
+		add_action( 'profile_update', array( $this, 'update_customer_email' ), 10, 2 );
+
+		// Don't save new customer record if the customer email belongs to an existing customer.
+		add_filter( 'affwp_pre_insert_customer_data', array( $this, 'validate_new_customer_email' ) );
+
+		// Delete the lifetime customer data if a customer is deleted.
+		add_action( 'affwp_post_delete_customer', array( $this, 'delete_lifetime_customer_data' ) );
+
 		$this->init();
 
 	}
@@ -36,7 +48,7 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 
 
 	/**
-	 * Retrieve the email address of a customer from the referrence (order, payment, etc)
+	 * Retrieve the email address of a customer from the reference (order, payment, etc)
 	 *
 	 * @access  public
 	 * @since   2.0
@@ -62,7 +74,7 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 			return $affiliate_id;
 		}
 
-		$lc_affiliate_id = $this->customer->get_canonical_affiliate_id();
+		$lc_affiliate_id = $this->get_lifetime_affiliate_id();
 
 		if ( ! $this->is_lifetime_length_valid( $lc_affiliate_id ) ) {
 
@@ -94,24 +106,97 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 
 	}
 
+	/**
+	 * Checks if the customer is a lifetime customer.
+	 *
+	 * @since 1.3
+	 *
+	 * @param int $reference Referral reference.
+	 *
+	 * @return bool True if customer is a lifetime customer, false otherwise.
+	 */
 	public function is_lifetime_customer( $reference = 0 ) {
 
 		$ret         = false;
 		$this->email = $this->get_email( $reference );
 
 		if ( $this->email ) {
+			$this->customer = $this->get_customer_by_email( $this->email );
 
-			$this->customer = affwp_get_customer( $this->email );
+			// Checks and save the new email for a logged in customer who is a lifetime customer for an affiliate.
+			if ( ! $this->customer && is_user_logged_in() ) {
 
-			if ( $this->customer && $this->customer->get_canonical_affiliate_id() ) {
+				$customer = affwp_get_customer( wp_get_current_user()->user_email );
 
-				$ret = true;
+				if ( $customer ) {
+					$this->customer = $customer;
 
+					// Save new email for the logged in customer to the customer meta.
+					$this->maybe_add_email_to_customer( $customer->ID, $this->email );
+				}
 			}
 
+			if ( $this->customer ) {
+
+				$linked_affiliate = affiliate_wp_lifetime_commissions()->lifetime_customers->get_by(
+					'affwp_customer_id',
+					$this->customer->customer_id
+				);
+
+				if ( $linked_affiliate ) {
+					$ret = true;
+				}
+			}
 		}
 
 		return apply_filters( 'affwp_lc_is_lifetime_customer', $ret, $this->email, $reference );
+	}
+
+	/**
+	 * Get the lifetime affiliate ID for the customer.
+	 *
+	 * @since 1.4.1
+	 *
+	 * @return int|false Lifetime affiliate ID for the customer, false otherwise.
+	 */
+	public function get_lifetime_affiliate_id() {
+
+		$lifetime_affiliate_id = affiliate_wp_lifetime_commissions()->lifetime_customers->get_column_by(
+			'affiliate_id',
+			'affwp_customer_id',
+			$this->customer->ID
+		);
+
+		if ( ! $lifetime_affiliate_id ) {
+
+			$customer = $this->get_customer_by_email( $this->email );
+
+			if ( $customer instanceof AffWP\Customer ) {
+
+				$lifetime_affiliate_id = affiliate_wp_lifetime_commissions()->lifetime_customers->get_column_by(
+					'affiliate_id',
+					'affwp_customer_id',
+					$customer->customer_id
+				);
+			}
+		}
+
+		if ( ! $lifetime_affiliate_id && is_user_logged_in() ) {
+
+			$customer = affwp_get_customer( wp_get_current_user()->user_email );
+
+			if ( $customer ) {
+
+				$lifetime_affiliate_id = affiliate_wp_lifetime_commissions()->lifetime_customers->get_column_by(
+					'affiliate_id',
+					'affwp_customer_id',
+					$customer->ID
+				);
+
+			}
+		}
+
+		return $lifetime_affiliate_id;
 
 	}
 
@@ -203,7 +288,7 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 		// get per affiliate rate
 		$lifetime_affiliate_rate = $this->get_affiliate_lifetime_referral_rate( $affiliate_id );
 
-		if ( ! empty( $lifetime_affiliate_rate ) ) {
+		if ( is_numeric( $lifetime_affiliate_rate ) ) {
 			$rate = $lifetime_affiliate_rate;
 		}
 
@@ -225,7 +310,7 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 		 */
 		$rate = apply_filters( 'affwp_lc_lifetime_referral_rate', $rate, $affiliate_id );
 
-		return $rate;
+		return affwp_abs_number_round( $rate );
 	}
 
 	/**
@@ -238,7 +323,7 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 		// get per affiliate rate
 		$rate = affwp_get_affiliate_meta( $affiliate_id, 'affwp_lc_lifetime_referral_rate', true );
 
-		if ( $rate ) {
+		if ( is_numeric( $rate ) ) {
 			return $rate;
 		}
 
@@ -292,7 +377,7 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 		$lifetime_rate = $this->get_lifetime_rate( $affiliate_id );
 
 		// has lifetime rate
-		if ( $lifetime_rate ) {
+		if ( is_numeric( $lifetime_rate ) ) {
 			$rate = $lifetime_rate;
 		}
 
@@ -323,23 +408,29 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 	 * Get an affiliate's ID from a customer's email address
 	 *
 	 * @since  1.0
-	 * @param  string $email The customer's email address
-	 * @return bool
 	 *
+	 * @param  string $email The customer's email address.
+	 * @return int|false Affiliate ID, false otherwise.
 	 */
 	public function get_affiliate_id_from_customer_email( $email = '' ) {
 
 		if ( ! $email ) {
-			return;
+			return false;
 		}
 
-		$customer = affwp_get_customer( $email );
+		$lifetime_affiliate_id = false;
+		$customer              = $this->get_customer_by_email( $email );
 
-		if ( $customer ) {
-			return $customer->get_canonical_affiliate_id();
+		if ( $customer instanceof AffWP\Customer ) {
+
+			$lifetime_affiliate_id = affiliate_wp_lifetime_commissions()->lifetime_customers->get_column_by(
+				'affiliate_id',
+				'affwp_customer_id',
+				$customer->ID
+			);
 		}
 
-		return false;
+		return $lifetime_affiliate_id;
 	}
 
 	/**
@@ -363,7 +454,7 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 			$user = get_userdata( $user_id );
 
 			// store the affiliate ID with the user.
-			$customer = affwp_get_customer( $user->user_email );
+			$customer = $this->get_customer_by_email( $user->user_email );
 
 			if ( ! $customer ) {
 
@@ -376,8 +467,22 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 					'ip'           => affiliate_wp()->tracking->get_ip()
 				);
 
-				affwp_add_customer( $args );
+				$customer_id = affwp_add_customer( $args );
 
+				/**
+				 * Create lifetime customer record.
+				 *
+				 * @since 1.4.1
+				 */
+				if ( $customer_id ) {
+
+					$args = array(
+						'affwp_customer_id' => $customer_id,
+						'affiliate_id'      => $referring_affiliate_id,
+					);
+
+					affiliate_wp_lifetime_commissions()->lifetime_customers->add( $args );
+				}
 			}
 
 		}
@@ -387,27 +492,28 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 	/**
 	 * Get all customers for an affiliate
 	 *
-	 * @since  1.3
-	 * @param  int   $affiliate_id The affiliate ID
-	 * @return array The customer IDs
+	 * @since 1.3
+	 *
+	 * @param int $affiliate_id The affiliate ID.
+	 * @return array An array of customer IDs.
 	 */
 	public function get_customers_for_affiliate( $affiliate_id ) {
 
-		global $wpdb;
+		$customers = array();
 
-		$table        = affiliate_wp()->customer_meta->table_name;
-		$customers    = array();
-		$customer_ids = $wpdb->get_col( $wpdb->prepare( "SELECT affwp_customer_id FROM {$table} WHERE meta_key = 'affiliate_id' AND meta_value = %d ORDER BY meta_id ASC;", $affiliate_id ) );
-		$customer_ids = array_map( 'absint', $customer_ids );
+		$args = array(
+			'affiliate_id' => $affiliate_id,
+			'fields'       => 'affwp_customer_id',
+			'number'       => -1,
+		);
 
-		if ( ! empty( $customer_ids ) ) {
+		$lifetime_customers = affiliate_wp_lifetime_commissions()->lifetime_customers->get_lifetime_customers( $args );
 
-			$customer_ids = array_unique( $customer_ids );
+		if ( ! empty( $lifetime_customers ) ) {
 
-			foreach ( $customer_ids as $customer_id ) {
+			foreach ( $lifetime_customers as $customer_id ) {
 				$customers[] = affwp_get_customer( $customer_id );
 			}
-
 		}
 
 		return $customers;
@@ -479,4 +585,168 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 
 	}
 
+	/**
+	 * Creates a lifetime customer record when a referral is created.
+	 *
+	 * @since  1.4.1
+	 * @param  int $referral_id The referral ID.
+	 * @return int|false Lifetime customer ID if successfully created, false otherwise.
+	 */
+	public function create_lifetime_customer( $referral_id ) {
+
+		$referral = affwp_get_referral( $referral_id );
+
+		if ( $referral ) {
+
+			$global_lc_enabled    = affiliate_wp()->settings->get( 'lifetime_commissions' );
+			$affiliate_lc_enabled = affwp_get_affiliate_meta( $referral->affiliate_id, 'affwp_lc_enabled', true );
+			$lc_enabled           = ( $global_lc_enabled || ( ! $global_lc_enabled && $affiliate_lc_enabled ) );
+
+			if ( $lc_enabled ) {
+
+				$lifetime_customer = affiliate_wp_lifetime_commissions()->lifetime_customers->get_by( 'affwp_customer_id', $referral->customer_id );
+
+				if ( ! $lifetime_customer ) {
+
+					$args = array(
+						'affwp_customer_id' => $referral->customer_id,
+						'affiliate_id'      => $referral->affiliate_id,
+					);
+
+					return affiliate_wp_lifetime_commissions()->lifetime_customers->add( $args );
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Save the customer old email when their user profile is updated.
+	 *
+	 * @since  1.4.1
+	 *
+	 * @param int     $user_id       User ID.
+	 * @param WP_User $old_user_data Old user's data.
+	 * @return void.
+	 */
+	public function update_customer_email( $user_id, $old_user_data ) {
+
+		$customer = affiliate_wp()->customers->get_by( 'user_id', $user_id );
+
+		if ( $customer ) {
+			$user = get_user_by( 'id', $user_id );
+
+			if ( $customer->email !== $user->user_email ) {
+
+				// Save old customer email in the customer meta.
+				$this->maybe_add_email_to_customer( $customer->customer_id, $old_user_data->data->user_email );
+			}
+		}
+
+	}
+
+	/**
+	 * Maybe add old customer email to the customer meta if it doesn't exist.
+	 *
+	 * @since 1.4.1
+	 *
+	 * @param int    $customer_id Customer ID.
+	 * @param string $user_email  User email.
+	 *
+	 * @return void.
+	 */
+	public function maybe_add_email_to_customer( $customer_id = 0, $user_email = '' ) {
+
+		$customer = affwp_get_customer( $customer_id );
+
+		if ( $customer && $user_email !== $customer->email ) {
+
+			if ( ! in_array( $user_email, $this->get_customer_emails( $customer_id ) ) ) {
+				affwp_add_customer_meta( $customer_id, 'affwp_lc_customer_email', $user_email );
+			}
+
+		}
+
+	}
+
+	/**
+	 * Get array of customer's old email addresses
+	 *
+	 * @since  1.4.1
+	 *
+	 * @param int $customer_id Customer ID.
+	 * @return array|false old customer emails, otherwise false.
+	 */
+	public function get_customer_emails( $customer_id = 0 ) {
+
+		if ( ! $customer_id ) {
+			return false;
+		}
+
+		$emails = affwp_get_customer_meta( $customer_id, 'affwp_lc_customer_email' );
+
+		return (array) $emails;
+	}
+
+	/**
+	 * Checks if the new customer email is not currently linked to an existing customer.
+	 * This will prevent a new customer from being created if the customer email is linked to an existing customer.
+	 *
+	 * @since  1.4.1
+	 *
+	 * @param array $customer_data New customer data.
+	 * @return false|array New customer data if customer email doesn't belong to an existing customer, false otherwise.
+	 */
+	public function validate_new_customer_email( $customer_data ) {
+
+		$customer = $this->get_customer_by_email( $customer_data['email'] );
+
+		if ( $customer instanceof AffWP\Customer ) {
+			return false;
+		}
+
+		return $customer_data;
+	}
+
+	/**
+	 * Delete all data for a lifetime customer if a customer is deleted.
+	 *
+	 * @since  1.4.1
+	 *
+	 * @param int $customer_id Deleted customer ID.
+	 * @return void.
+	 */
+	public function delete_lifetime_customer_data( $customer_id ) {
+
+		affwp_delete_customer_meta( $customer_id, 'affwp_lc_customer_email' );
+
+		$lifetime_customer = affiliate_wp_lifetime_commissions()->lifetime_customers->get_by( 'affwp_customer_id', $customer_id );
+
+		if ( $lifetime_customer ) {
+			affiliate_wp_lifetime_commissions()->lifetime_customers->delete( $lifetime_customer->lifetime_customer_id );
+		}
+	}
+
+	/**
+	 * Retrieves the customer meta row from the provided lifetime customer email address.
+	 *
+	 * @since 1.4.3
+	 *
+	 * @param string $email The email address to lookup
+	 * @return AffWP\Customer|false The customer, if found. Otherwise, false.
+	 */
+	public function get_customer_by_email( $email ) {
+		$customer = affwp_get_customer( $email );
+
+		if ( false === $customer && method_exists( affiliate_wp()->customer_meta, 'get_meta_by_value' ) ) {
+			$meta = affiliate_wp()->customer_meta->get_meta_by_value( 'affwp_lc_customer_email', $email );
+
+			if ( false !== $meta ) {
+				$customer = affwp_get_customer( $meta->affwp_customer_id );
+			}
+		}
+
+		return $customer;
+	}
 }

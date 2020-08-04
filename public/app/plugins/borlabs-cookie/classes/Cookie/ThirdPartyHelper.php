@@ -22,6 +22,7 @@ namespace BorlabsCookie\Cookie;
 
 use BorlabsCookie\Cookie\Backend\CSS;
 use BorlabsCookie\Cookie\Backend\ContentBlocker as BackendContentBlocker;
+use BorlabsCookie\Cookie\Backend\Cookies as BackendCookies;
 use BorlabsCookie\Cookie\Frontend\ContentBlocker;
 use BorlabsCookie\Cookie\Frontend\Cookies;
 use BorlabsCookie\Cookie\Frontend\JavaScript;
@@ -77,6 +78,7 @@ class ThirdPartyHelper
     public function addContentBlocker($contentBlockerId, $name, $description = '', $privacyPolicyURL = '', $hosts, $previewHTML, $previewCSS = '', $globalJS = '', $initJS = '', $settings = [], $status = false, $undeletable = false)
     {
         if (preg_match('/^[a-z\-\_]{3,}$/', $contentBlockerId)) {
+
             $contentBlockerData = [
                 'contentBlockerId' => $contentBlockerId,
                 'language' => '',
@@ -93,24 +95,56 @@ class ThirdPartyHelper
                 'undeletable' => $undeletable,
             ];
 
-            if (defined('ICL_LANGUAGE_CODE')) {
-                $activeLanguages = apply_filters('wpml_active_languages', null, []);
+            // Update Multilanguage
+            $languageCodes = [];
 
-                foreach ($activeLanguages as $languageData) {
-                    if (!empty($languageData['code'])) {
-                        $contentBlockerData['language'] = $languageData['code'];
+            // Polylang
+            if (defined('POLYLANG_VERSION')) {
 
-                        BackendContentBlocker::getInstance()->add($contentBlockerData);
+                $polylangLanguages = get_terms('language', ['hide_empty' => false]);
 
-                        // Update CSS
-                        CSS::getInstance()->save($languageData['code']);
+                if (!empty($polylangLanguages)) {
+                    foreach ($polylangLanguages as $languageData) {
+                        if (!empty($languageData->slug) && is_string($languageData->slug)) {
+                            $languageCodes[$languageData->slug] = $languageData->slug;
+                        }
                     }
                 }
+            }
+
+            // WPML
+            if (defined('ICL_LANGUAGE_CODE')) {
+
+                $wpmlLanguages = apply_filters('wpml_active_languages', null, []);
+
+                if (!empty($wpmlLanguages)) {
+                    foreach ($wpmlLanguages as $languageData) {
+                        if (!empty($languageData['code'])) {
+                            $languageCodes[$languageData['code']] = $languageData['code'];
+                        }
+                    }
+                }
+            }
+
+            if (!empty($languageCodes)) {
+
+                foreach ($languageCodes as $languageCode) {
+
+                    $contentBlockerData['language'] = $languageCode;
+
+                    BackendContentBlocker::getInstance()->add($contentBlockerData);
+
+                    // Update CSS
+                    CSS::getInstance()->save($languageCode);
+                }
+
             } else {
+
                 BackendContentBlocker::getInstance()->add($contentBlockerData);
 
                 // Update CSS
                 CSS::getInstance()->save();
+
             }
 
             return true;
@@ -256,6 +290,42 @@ class ThirdPartyHelper
             'initJS' => $contentBlockerData->init_js,
             'settings' => $contentBlockerData->settings,
         ];
+    }
+
+    /**
+     * getCookieData function.
+     *
+     * @access public
+     * @param mixed $cookieId
+     * @return void
+     */
+    public function getCookieData($cookieId)
+    {
+        $cookieData = [];
+
+        $cookieData = BackendCookies::getInstance()->getByCookieId($cookieId);
+
+        if (!empty($cookieData)) {
+
+            $cookieData = [
+                'cookieId' => $cookieData->cookie_id,
+                'service' => $cookieData->service,
+                'name' => $cookieData->name,
+                'provider' => $cookieData->provider,
+                'purpose' => $cookieData->purpose,
+                'privacyPolicyURL' => $cookieData->privacyPolicyURL,
+                'hosts' => $cookieData->hosts,
+                'cookieName' => $cookieData->cookie_name,
+                'cookieExpiry' => $cookieData->cookie_expiry,
+                'optInJS' => $cookieData->opt_in_js,
+                'optOutJS' => $cookieData->opt_out_js,
+                'fallbackJS' => $cookieData->fallback_js,
+                'settings' => $cookieData->settings,
+                'status' => $cookieData->status ? true : false,
+            ];
+        }
+
+        return $cookieData;
     }
 
     /**

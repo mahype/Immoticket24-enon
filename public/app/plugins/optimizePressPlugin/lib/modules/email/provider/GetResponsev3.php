@@ -169,8 +169,9 @@ class OptimizePress_Modules_Email_Provider_GetResponsev3 extends OptimizePress_M
         if (isset($data['list']) && isset($data['email'])) {
 
             $params = array(
-                'email' => $data['email'],
-                'campaign' => array('campaignId' => $data['list'])
+                'email'         => $data['email'],
+                'campaign'      => array('campaignId' => $data['list']),
+                'dayOfCycle'    => 0,
             );
 
             if (isset($_POST['name']) && !empty($_POST['name'])) {
@@ -181,9 +182,9 @@ class OptimizePress_Modules_Email_Provider_GetResponsev3 extends OptimizePress_M
 
             if (!empty($customFields)) {
                 foreach ($customFields as $key => $customField) {
-                    $params['customFieldsValues'][] = array(
+                    $params['customFieldValues'][] = array(
                         'customFieldId' => $key,
-                        'value' => $customField
+                        'value' => array($customField)
                     );
                 }
             }
@@ -205,6 +206,7 @@ class OptimizePress_Modules_Email_Provider_GetResponsev3 extends OptimizePress_M
             }
 
             try {
+                $this->logger->info('PArams: ' . print_r($params, true));
                 $status = $this->getClient()->addContact($params);
                 $this->logger->notice('Subscription status: ' . print_r($status, true));
 

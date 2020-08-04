@@ -43,12 +43,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/awsmug/wp-wrapper.git",
-                "reference": "8ea7f59ff459fb0ffc4637a9b324fdef333b48cb"
+                "reference": "0a17c8aba99ed86c7e7c9de82b1e865a971b45cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/8ea7f59ff459fb0ffc4637a9b324fdef333b48cb",
-                "reference": "8ea7f59ff459fb0ffc4637a9b324fdef333b48cb",
+                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/0a17c8aba99ed86c7e7c9de82b1e865a971b45cd",
+                "reference": "0a17c8aba99ed86c7e7c9de82b1e865a971b45cd",
                 "shasum": ""
             },
             "require": {
@@ -81,20 +81,20 @@
                 "plugin",
                 "wordpress"
             ],
-            "time": "2020-07-15T16:11:26+00:00"
+            "time": "2020-07-30T12:54:29+00:00"
         },
         {
             "name": "inpsyde/wonolog",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/inpsyde/Wonolog.git",
-                "reference": "62b2cf977d2222787fbc895bd0c7f557c6687b44"
+                "reference": "60ee47b0b2040e54fd11327751e69546df5750ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inpsyde/Wonolog/zipball/62b2cf977d2222787fbc895bd0c7f557c6687b44",
-                "reference": "62b2cf977d2222787fbc895bd0c7f557c6687b44",
+                "url": "https://api.github.com/repos/inpsyde/Wonolog/zipball/60ee47b0b2040e54fd11327751e69546df5750ee",
+                "reference": "60ee47b0b2040e54fd11327751e69546df5750ee",
                 "shasum": ""
             },
             "require": {
@@ -148,20 +148,20 @@
                 "psr-3",
                 "wordpress"
             ],
-            "time": "2019-09-11T10:42:24+00:00"
+            "time": "2020-07-21T15:58:57+00:00"
         },
         {
             "name": "monolog/monolog",
-            "version": "1.25.4",
+            "version": "1.25.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "3022efff205e2448b560c833c6fbbf91c3139168"
+                "reference": "1817faadd1846cd08be9a49e905dc68823bc38c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/3022efff205e2448b560c833c6fbbf91c3139168",
-                "reference": "3022efff205e2448b560c833c6fbbf91c3139168",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1817faadd1846cd08be9a49e905dc68823bc38c0",
+                "reference": "1817faadd1846cd08be9a49e905dc68823bc38c0",
                 "shasum": ""
             },
             "require": {
@@ -225,7 +225,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2020-05-22T07:31:27+00:00"
+            "time": "2020-07-23T08:35:51+00:00"
         },
         {
             "name": "psr/log",

@@ -127,6 +127,17 @@ class OptimizePress_Elements_OptinBox
                 'opm_integration'           => 'N',
                 'opm_level'                 => 0,
                 'opm_packages'              => '',
+
+                'gdpr_consent'              => 'disabled',
+                'consent_1_enabled'         => 'no',
+                'consent_1_tag_accepted'    => 'missing_integration_type',
+                'consent_1_tag_declined'    => 'missing_integration_type',
+                'consent_1_tag_not_shown'   => 'missing_integration_type',
+                'consent_2_enabled'         => 'no',
+                'consent_2_tag_accepted'    => 'missing_integration_type',
+                'consent_2_tag_declined'    => 'missing_integration_type',
+                'consent_2_tag_not_shown'   => 'missing_integration_type',
+                'consent_notes_field'       => '',
             ), $atts);
             extract($atts);
 
@@ -137,6 +148,8 @@ class OptimizePress_Elements_OptinBox
                     'headline'  => '',
                     'paragraph' => '',
                     'privacy'   => '',
+                    'consent_1_label'   => '',
+                    'consent_2_label'   => '',
                 ),
                 'fields'        => array(),
                 'submit_button' => '',
@@ -164,10 +177,12 @@ class OptimizePress_Elements_OptinBox
                             $field = shortcode_atts(array(
                                 'name' => '',
                             ), shortcode_parse_atts($matches[3][$i]));
-                            if($field['name'] != ''){
+                            if ($field['name'] != '') {
                                 $data['content'][$field['name']] = op_clean_shortcode_content($matches[5][$i]);
-                                if($field['name'] == 'paragraph'){
+                                if ($field['name'] == 'paragraph') {
                                     $data['content'][$field['name']] = wpautop(op_texturize(base64_decode($data['content'][$field['name']])));
+                                } else if (in_array($field['name'], array('consent_1_label', 'consent_2_label'))) {
+                                    $atts[$field['name']] = base64_decode($matches[5][$i]);
                                 }
                             }
                             break;
@@ -175,6 +190,7 @@ class OptimizePress_Elements_OptinBox
                             $button_atts = shortcode_parse_atts($matches[3][$i]);
                             $button_atts['element_type'] = 'button';
                             $button_content = $matches[5][$i];
+                            $atts['button_label'] = $button_content;
                             $type = op_get_var($button_atts,'type',1);
                             if ($type == '0') {
                                 $uid = 'btn_0_' . md5($button_content);
@@ -299,6 +315,9 @@ class OptimizePress_Elements_OptinBox
             if (isset($order)) {
                 $data['order'] = $order;
             }
+
+            // GDPR
+            $data['shortcodes']['op_gdpr_consent'] = op_gdpr_compile_shortcode($atts);
 
             _op_tpl('clear');
             $template = _op_tpl('_load_file', apply_filters('op_style_template_path_optin_form', OPPP_BASE_DIR . 'templates/elements/optin_box/style_' . $style . '.php', $style, $data), $data, true);
