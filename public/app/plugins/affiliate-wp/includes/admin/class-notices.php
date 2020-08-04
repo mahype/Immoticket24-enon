@@ -140,12 +140,25 @@ class Affiliate_WP_Admin_Notices {
 		}
 
 		// Payouts Service.
-		if ( in_array( affwp_get_current_screen(), array( 'affiliate-wp-referrals', 'affiliate-wp-payouts'), true ) ) {
+		if ( in_array( affwp_get_current_screen(), array( 'affiliate-wp-referrals', 'affiliate-wp-payouts' ), true ) ) {
 			$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
 			$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
 
 			if ( ! ( $vendor_id && $access_key ) && false === get_transient( 'affwp_payouts_service_notice' ) ) {
 				$output .= self::show_notice( 'payouts_service', false );
+			}
+		}
+
+		// Integrations.
+		$active_integrations = affiliate_wp()->integrations->query( array( 'fields' => 'ids' ) );
+
+		foreach ( $active_integrations as $id ) {
+
+			$integration = affiliate_wp()->integrations->get( $id );
+			$screen      = affwp_get_current_screen();
+
+			if ( 'affiliate-wp-reports' === $screen && ! is_wp_error( $integration ) && true === $integration->needs_synced() ) {
+				$output .= self::show_notice( $integration->context . '_needs_synced', false );
 			}
 		}
 
@@ -478,12 +491,43 @@ class Affiliate_WP_Admin_Notices {
 		$this->add_notice( 'no_integrations', array(
 			'class'   => 'error',
 			'message' => function() {
-				$message =  sprintf( __( 'There are currently no AffiliateWP <a href="%s">integrations</a> enabled. If you are using AffiliateWP without any integrations, you may disregard this message.', 'affiliate-wp' ), affwp_admin_url( 'settings', array( 'tab' => 'integrations' ) ) ) . '</p>';
-				$message .= '<p><a href="' . wp_nonce_url( add_query_arg( array( 'affwp_action' => 'dismiss_notices', 'affwp_notice' => 'no_integrations' ) ), 'affwp_dismiss_notice', 'affwp_dismiss_notice_nonce' ) . '">' . _x( 'Dismiss Notice', 'Integrations', 'affiliate-wp' ) . '</a>';
+				$message = sprintf( __( 'There are currently no AffiliateWP <a href="%s">integrations</a> enabled. If you are using AffiliateWP without any integrations, you may disregard this message.', 'affiliate-wp' ), affwp_admin_url( 'settings', array( 'tab' => 'integrations' ) ) ) . '</p>';
+				$message .= '<p><a href="' . wp_nonce_url( add_query_arg( array(
+						'affwp_action' => 'dismiss_notices',
+						'affwp_notice' => 'no_integrations',
+					) ), 'affwp_dismiss_notice', 'affwp_dismiss_notice_nonce' ) . '">' . _x( 'Dismiss Notice', 'Integrations', 'affiliate-wp' ) . '</a>';
 
 				return $message;
 			},
 		) );
+
+		$integrations = affiliate_wp()->integrations->query( array( 'supports' => 'sales_reporting' ) );
+
+		// Loop through active integrations and post any notices for that integration.
+		foreach ( $integrations as $context => $integration ) {
+			$this->add_notice( $context . '_needs_synced',
+				array(
+					'class'   => 'notice notice-warning',
+					'message' => function() use ( $context, $integration ) {
+						$notice = sprintf( __( "AffiliateWP needs to import %s sales data. This will ensure AffiliateWP sales reports are accurate." ), $integration['name'] );
+						$nonce  = wp_create_nonce( 'sync-integration-sales-data_step_nonce' );
+
+						ob_start();
+						// Enqueue admin JS for the batch processor.
+						affwp_enqueue_admin_js();
+						?>
+						<p><?php echo $notice; ?></p>
+						<form method="post" class="affwp-batch-form" data-dismiss-when-complete="true" data-batch_id="sync-integration-sales-data" data-nonce="<?php echo esc_attr( $nonce ); ?>">
+							<input type="hidden" name="context" value="<?php echo esc_attr( $context ); ?>">
+							<p>
+								<?php submit_button( __( 'Sync', 'affiliate-wp' ), 'secondary', 'sync-integration-sales-data-' . $context, false ); ?>
+								</p>
+							</form>
+							<?php
+							return ob_get_clean();
+						},
+					) );
+		}
 	}
 
 	/**

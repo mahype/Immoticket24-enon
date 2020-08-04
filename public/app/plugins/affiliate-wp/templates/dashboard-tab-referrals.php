@@ -23,7 +23,7 @@ $affiliate_id = affwp_get_affiliate_id();
 
 	<?php
 	/**
-	 * Fires before the referrals dashbaord data able within the referrals template.
+	 * Fires before the referrals dashboard data table within the referrals template.
 	 *
 	 * @since 1.0
 	 *

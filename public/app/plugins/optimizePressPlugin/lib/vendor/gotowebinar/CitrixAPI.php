@@ -31,8 +31,11 @@ class OP_CitrixAPI {
 
             $headers = array(
                 'Authorization: Basic '. base64_encode($_apiKey . ':' . $_apiSecret),
-                'Content-Type: application/x-www-form-urlencoded'
+                'Content-Type: application/x-www-form-urlencoded',
+                'Accept:application/json'
             );
+            $this->logger->debug(base64_encode($_apiKey . ':' . $_apiSecret));
+            $this->logger->debug(sanitize_text_field($_GET['code']));
 
             $data = 'grant_type=authorization_code&code=' . sanitize_text_field($_GET['code']) . '&redirect_uri='.$_callbackUrl;
             return $this->makeApiRequest($url, 'POST', $data, $headers);
@@ -53,9 +56,11 @@ class OP_CitrixAPI {
             'Accept:application/json'
         );
 
-        $data = array();
-        $data['grant_type'] = 'refresh_token';
-        $data['refresh_token'] = $refreshToken;
+        //$data = array();
+        //$data['grant_type'] = 'refresh_token';
+        //$data['refresh_token'] = $refreshToken;
+
+        $data = 'grant_type=refresh_token&refresh_token=' . $refreshToken;
 
         $url  = 'https://api.getgo.com/oauth/v2/token?grant_type=refresh_token&refresh_token=' . $refreshToken;
         return $this->makeApiRequest($url, 'POST', $data, $headers);
@@ -139,7 +144,7 @@ class OP_CitrixAPI {
      */
     public function createRegistrant($webinarKey, $postData) {
         $url  = 'https://api.getgo.com/G2W/rest/v2/organizers/'. $this->_organizerKey .'/webinars/'. $webinarKey . '/registrants';
-        return $this->makeApiRequest($url, 'POST', $postData, $this->getJsonHeaders());
+        return $this->makeApiRequest($url, 'POST', json_encode($postData), $this->getJsonHeaders());
     }
 
     /**
@@ -157,7 +162,7 @@ class OP_CitrixAPI {
 
         if ($requestType == 'POST') {
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);

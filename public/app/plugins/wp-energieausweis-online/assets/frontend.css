@@ -77,6 +77,9 @@
 .wpenon-wrapper .tooltip {
   min-width: 250px;
 }
+.wpenon-wrapper .tooltip .tooltip-inner {
+  max-width: 350px;
+}
 .wpenon-wrapper .field-info .label-info {
   content: ' ';
   display: inline-block;

@@ -26,6 +26,14 @@ class Affiliate_WP_Customers_DB extends Affiliate_WP_DB {
 	public $cache_group = 'customers';
 
 	/**
+	 * Database group value.
+	 *
+	 * @since 2.5
+	 * @var string
+	 */
+	public $db_group = 'customers';
+
+	/**
 	 * Object type to query for.
 	 *
 	 * @access public

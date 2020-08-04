@@ -5,7 +5,7 @@
  * Description: Affiliate Plugin for WordPress
  * Author: Sandhills Development, LLC
  * Author URI: https://sandhillsdev.com
- * Version: 2.4.5
+ * Version: 2.5.6
  * Text Domain: affiliate-wp
  * Domain Path: languages
  * GitHub Plugin URI: affiliatewp/affiliatewp
@@ -25,7 +25,7 @@
  * @package AffiliateWP
  * @category Core
  * @author Pippin Williamson
- * @version 2.4.5
+ * @version 2.5.6
  */
 
 // Exit if accessed directly
@@ -57,7 +57,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.4.5';
+	private $version = '2.5.6';
 
 	/**
 	 * The affiliates DB instance variable.
@@ -390,6 +390,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-creative.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-payout.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-referral.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-sale.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-visit.php';
 
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/actions.php';
@@ -399,6 +400,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/abstracts/class-meta-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affiliates-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-payouts-db.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-sales-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-capabilities.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-utilities.php';
 
@@ -446,6 +448,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-referrals-graph.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-visits-graph.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/reports/class-payouts-graph.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/reports/class-sales-graph.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/abstracts/class-affwp-opt-in-platform.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-integrations.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-login.php';
@@ -471,6 +474,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/payout-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/referral-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/referral-meta-functions.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/sale-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/visit-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/customer-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/creative-functions.php';
@@ -492,6 +496,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-customers-endpoints.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-payouts-endpoints.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-referrals-endpoints.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-sales-endpoints.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-visits-endpoints.php';
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
