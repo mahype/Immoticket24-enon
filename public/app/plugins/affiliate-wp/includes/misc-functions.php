@@ -1116,7 +1116,18 @@ function affwp_has_upgrade_completed( $upgrade_action ) {
 
 	$completed_upgrades = affwp_get_completed_upgrades();
 
-	return in_array( $upgrade_action, $completed_upgrades, true );
+	$has_completed = in_array( $upgrade_action, $completed_upgrades, true );
+
+	// (Maybe) force an upgrade action to show.
+	if ( ! empty( $_REQUEST['affwp_force_notice'] ) ) {
+		$foced_upgrade_action = sanitize_key( $_REQUEST['affwp_force_notice'] );
+
+		if ( $foced_upgrade_action === $upgrade_action ) {
+			$has_completed = false;
+		}
+	}
+
+	return $has_completed;
 }
 
 /**
@@ -1380,6 +1391,9 @@ function affwp_get_payouts_service_country_list() {
 		'AU' => __( 'Australia', 'affiliate-wp' ),
 		'AT' => __( 'Austria', 'affiliate-wp' ),
 		'BE' => __( 'Belgium', 'affiliate-wp' ),
+		'BG' => __( 'Bulgaria', 'affiliate-wp' ),
+		'CY' => __( 'Cyprus', 'affiliate-wp' ),
+		'CZ' => __( 'Czech Republic', 'affiliate-wp' ),
 		'DK' => __( 'Denmark', 'affiliate-wp' ),
 		'EE' => __( 'Estonia', 'affiliate-wp' ),
 		'FI' => __( 'Finland', 'affiliate-wp' ),
@@ -1394,11 +1408,13 @@ function affwp_get_payouts_service_country_list() {
 		'LT' => __( 'Lithuania', 'affiliate-wp' ),
 		'LU' => __( 'Luxembourg', 'affiliate-wp' ),
 		'MY' => __( 'Malaysia', 'affiliate-wp' ),
+		'MT' => __( 'Malta', 'affiliate-wp' ),
 		'NL' => __( 'Netherlands', 'affiliate-wp' ),
 		'NZ' => __( 'New Zealand', 'affiliate-wp' ),
 		'NO' => __( 'Norway', 'affiliate-wp' ),
 		'PL' => __( 'Poland', 'affiliate-wp' ),
 		'PT' => __( 'Portugal', 'affiliate-wp' ),
+		'RO' => __( 'Romania', 'affiliate-wp' ),
 		'SG' => __( 'Singapore', 'affiliate-wp' ),
 		'SK' => __( 'Slovakia', 'affiliate-wp' ),
 		'SI' => __( 'Slovenia', 'affiliate-wp' ),
@@ -1409,4 +1425,107 @@ function affwp_get_payouts_service_country_list() {
 
 	return $countries;
 
+}
+
+/**
+ * Determines whether the given element is part of the database component.
+ *
+ * @since 2.5
+ *
+ * @param mixed $element Element to check.
+ * @return bool Whether or not the element is an instance of Affiliate_WP_DB.
+ */
+function affwp_is_db( $element ) {
+	return $element instanceof \Affiliate_WP_DB;
+}
+
+/**
+ * Calculates the percentage of two values.
+ *
+ * Answers the question like so: $value is what percent of $divided_by?
+ *
+ * @since 2.5
+ *
+ * @param float  $value      The base value to get percentage from.
+ * @param float  $divided_by What to divide the value by to get the percent.
+ * @return float The percentage, as a float. Will return INF if `$divided_by` is 0.
+ */
+function affwp_calculate_percentage( $value, $divided_by ) {
+	$value      = (float) $value;
+	$divided_by = (float) $divided_by;
+
+	// Return INF if dividing by zero.
+	if ( $divided_by === 0.0 ) {
+		return INF;
+	}
+
+	$percentage = ( $value / $divided_by ) * 100;
+
+	return $percentage;
+}
+
+/**
+ * Formats a number as a percentage.
+ *
+ * @since 2.5
+ *
+ * @param number       $percentage The percentage to format.
+ * @param int          $precision  Optional. The number of decimal places to round the percentage. Default 0.
+ * @return string The formatted percentage, or an empty string if infinite.
+ */
+function affwp_format_percentage( $percentage, $precision = 0 ) {
+
+	if ( is_infinite( $percentage ) ) {
+		return '';
+	}
+
+	$percentage = round( $percentage, $precision );
+
+	/* translators: Formatted percentage value. If using '%' to format percentage, must be expressed as '%%' to avoid errors */
+
+	return sprintf( __( '%s%%', 'affiliate-wp' ), $percentage );
+}
+
+/**
+ * Determines if the provided amount is something that can be converted to an amount.
+ *
+ * @since 2.5.5
+ *
+ * @param mixed $amount The amount to check.
+ * @return true|WP_Error True if the amount if valid. Otherwise, WP_Error explaining why.
+ */
+function affwp_is_valid_amount( $amount ) {
+
+	// If this is a number, then it's valid. Go ahead and return true.
+	if ( is_numeric( $amount ) ) {
+		return true;
+	}
+
+	// If this is a string, run a regex to see if it is valid.
+	if ( is_string( $amount ) ) {
+
+		$separator = affiliate_wp()->settings->get( 'decimal_separator', '.' );
+
+		// Determine if the item is an intended zero string.
+		$matched = preg_match( sprintf( '/\$%1$s[0-9]+$|^[0-9]+$|^[0-9]+[\%1$s]([0-9]+$|$)/', $separator ), $amount );
+
+		if ( 1 === $matched ) {
+			$valid = true;
+		} else {
+			$valid = new \WP_Error(
+				'affwp_amount_is_malformed',
+				'The provided amount is not a valid amount.',
+				array( 'amount' => $amount )
+			);
+		}
+		// Otherwise, this is invalid. Return an error.
+	} else {
+		$valid = new \WP_Error(
+			'affwp_amount_is_invalid_type',
+			'The provided amount is not a valid type. Must be a valid numerical string, a float, or an integer.',
+			array( 'amount' => $amount, 'type' => gettype( $amount ) )
+		);
+	}
+
+	return $valid;
 }

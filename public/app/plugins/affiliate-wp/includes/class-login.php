@@ -66,12 +66,16 @@ class Affiliate_WP_Login {
 
 		if ( empty( $data['affwp_user_login'] ) ) {
 			$this->add_error( 'empty_username', __( 'Invalid username', 'affiliate-wp' ) );
+
+			$data['affwp_user_login'] = '';
 		}
 
-		$user = get_user_by( 'login', $_POST['affwp_user_login'] );
+		$user_login = sanitize_text_field( $data['affwp_user_login'] );
+
+		$user = get_user_by( 'login', $user_login );
 
 		if ( ! $user ) {
-			$user = get_user_by( 'email', $_POST['affwp_user_login'] );
+			$user = get_user_by( 'email', $user_login );
 		}
 
 		if ( ! $user ) {
@@ -88,13 +92,13 @@ class Affiliate_WP_Login {
 		 */
 		if ( true === apply_filters( 'affwp_login_check_password', true, $user ) ) {
 			
-			if ( empty( $_POST['affwp_user_pass'] ) ) {
+			if ( empty( $data['affwp_user_pass'] ) ) {
 				$this->add_error( 'empty_password', __( 'Please enter a password', 'affiliate-wp' ) );
 			}
 
 			if ( $user ) {
 				// check the user's login with their password
-				if ( ! wp_check_password( $_POST['affwp_user_pass'], $user->user_pass, $user->ID ) ) {
+				if ( ! wp_check_password( $data['affwp_user_pass'], $user->user_pass, $user->ID ) ) {
 					// if the password is incorrect for the specified user
 					$this->add_error( 'password_incorrect', __( 'Incorrect username or password', 'affiliate-wp' ) );
 				}
@@ -119,9 +123,9 @@ class Affiliate_WP_Login {
 		// only log the user in if there are no errors
 		if ( empty( $this->errors ) ) {
 
-			$remember = isset( $_POST['affwp_user_remember'] );
+			$remember = ! empty( $data['affwp_user_remember'] );
 
-			$this->log_user_in( $user->ID, $_POST['affwp_user_login'], $remember );
+			$this->log_user_in( $user->ID, $user_login, $remember );
 
 			$redirect = empty( $data['affwp_redirect'] ) ? affwp_get_affiliate_area_page_url() : $data['affwp_redirect'];
 
@@ -141,7 +145,7 @@ class Affiliate_WP_Login {
 		} else {
 
 			if ( function_exists( 'limit_login_failed' ) ) {
-				limit_login_failed( $_POST['affwp_user_login'] );
+				limit_login_failed( $user_login );
 			}
 
 		}

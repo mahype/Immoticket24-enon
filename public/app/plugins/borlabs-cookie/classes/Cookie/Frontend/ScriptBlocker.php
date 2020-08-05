@@ -172,7 +172,7 @@ class ScriptBlocker
         if (!empty($this->scriptBlocker)) {
             foreach ($this->scriptBlocker as $data) {
                 if (!empty($data->handles)) {
-                    if ($handle !== 'borlabs-cookie' && in_array($handle, $data->handles)) {
+                    if ($handle !== 'borlabs-cookie' && $handle !== 'borlabs-cookie-prioritize' && in_array($handle, $data->handles)) {
                         $tag = str_replace(
                             [
                                 'text/javascript',
@@ -216,23 +216,25 @@ class ScriptBlocker
                             // Only <script>-tags without type attribute or with type attribute text/javascript are JavaScript
                             if (empty($scriptType) || !empty($scriptType) && strtolower($scriptType[3]) == 'text/javascript') {
 
-                                // Only modify inline JavaScript
-                                if (preg_match('/<script(.*?)src=("|\')([^"\']*)("|\')/', $tag[0]) === 0) {
-
-                                    // Add type attribute if missing
-                                    if (empty($scriptType)) {
-                                        $tag[0] = str_replace('<script', '<script type=\'text/template\'', $tag[0]);
-                                    } else {
-                                        $tag[0] = preg_replace('/text\/javascript/', 'text/template', $tag[0], 1);
-                                    }
-
-                                    // Switch type attribute and add data attribute
-                                    $tag[0] = str_replace(
-                                        '<script',
-                                        '<script data-borlabs-script-blocker-id=\'' . $data->scriptBlockerId . '\'',
-                                        $tag[0]
-                                    );
+                                // Add type attribute if missing
+                                if (empty($scriptType)) {
+                                    $tag[0] = str_replace('<script', '<script type=\'text/template\'', $tag[0]);
+                                } else {
+                                    $tag[0] = preg_replace('/text\/javascript/', 'text/template', $tag[0], 1);
                                 }
+
+                                // Switch type attribute and add data attribute
+                                $tag[0] = str_replace(
+                                    [
+                                        '<script',
+                                        ' src=',
+                                    ],
+                                    [
+                                        '<script data-borlabs-script-blocker-id=\'' . $data->scriptBlockerId . '\'',
+                                        ' data-borlabs-script-blocker-src=',
+                                    ],
+                                    $tag[0]
+                                );
                             }
                         }
                     }

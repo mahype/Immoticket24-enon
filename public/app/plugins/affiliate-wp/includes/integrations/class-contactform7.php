@@ -34,6 +34,14 @@ class Affiliate_WP_Contact_Form_7 extends Affiliate_WP_Base {
 	public $cancel_url;
 
 	/**
+	 * The context for referrals. This refers to the integration that is being used.
+	 *
+	 * @access  public
+	 * @since   1.2
+	 */
+	public $context = 'contactform7';
+
+	/**
 	 * @access  public
 	 * @see     Affiliate_WP_Base::init
 	 * @since   2.0
@@ -41,8 +49,6 @@ class Affiliate_WP_Contact_Form_7 extends Affiliate_WP_Base {
 	public function init() {
 
 		$this->doc_url = 'http://docs.affiliatewp.com/article/657-contact-form-7';
-
-		$this->context = 'contactform7';
 
 		// Set the success and cancel url
 		$paypal_options   = get_option( 'cf7pp_options' );
@@ -628,8 +634,16 @@ class Affiliate_WP_Contact_Form_7 extends Affiliate_WP_Base {
 
 	}
 
+	/**
+	 * Runs the check necessary to confirm this plugin is active.
+	 *
+	 * @since 2.5
+	 *
+	 * @return bool True if the plugin is active, false otherwise.
+	 */
+	function plugin_is_active() {
+		return class_exists( 'WPCF7_ContactForm' );
+	}
 }
 
-if ( class_exists( 'WPCF7_ContactForm' ) ) {
 	new Affiliate_WP_Contact_Form_7;
-}

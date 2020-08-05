@@ -166,16 +166,17 @@ if ( ! class_exists( '\Enev\Schema202002\Schema\Verbrauchsausweis_Schema_Sparkas
 			unset( $data );
 
 			$data['unterkellerung'] = array(
-				'type'        => 'int',
-				'label'       => __( 'Jahr der Dämmung', 'wpenon' ),
-				'description' => __( 'Geben Sie das Jahr der Dämmung an.', 'wpenon' ),
-				'default'     => '',
-				'min'         => 1995,
-				'max'         => wpenon_get_reference_date( 'Y' ),
-				'display'     => array(
-					'callback'      => 'wpenon_immoticket24_show_jahr_daemmung',
-					'callback_args' => array( 'field::dach_daemmung_on' ),
+				'type' => 'select',
+				'label' => __('Unterkellerung', 'wpenon'),
+				'options' => array(
+					'teilunterkellert' => __('Teilunterkellert', 'wpenon'),
+					'vollunterkellert' => __('Voll unterkellert', 'wpenon'),
 				),
+				'display' => array(
+					'callback' => 'wpenon_immoticket24_show_unterkellerung',
+					'callback_args' => array('field::keller'),
+				),
+				'required' => true,
 			);
 
 			$bauteile = $this->insert_after_key( $bauteile, 'bauteile_keller', 'keller_daemmung_on', $data );

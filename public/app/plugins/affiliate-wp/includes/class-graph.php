@@ -208,7 +208,7 @@ class Affiliate_WP_Graph {
 		if ( false !== $this->get( 'show_controls' ) ) {
 			echo $this->graph_controls();
 		}
-		?><div id="affwp-graph-<?php echo $this->id; ?>" class="affwp-graph" style="height: 300px; width:100%;"></div><?php
+		?><div id="affwp-graph-<?php echo $this->id; ?>" class="affwp-graph" style="height: 300px; width:97%;"></div><?php
 		return ob_get_clean();
 	}
 

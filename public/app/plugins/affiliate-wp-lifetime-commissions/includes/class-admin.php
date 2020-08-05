@@ -166,11 +166,13 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 
 		<?php
 		// if all affiliate can earn lifetime commissions don't show this admin option
-		$global_lifetime_commissions_enabled = affiliate_wp()->settings->get( 'lifetime_commissions' );
+		$global_lc_enabled    = affiliate_wp()->settings->get( 'lifetime_commissions' );
+		$affiliate_lc_enabled = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'affwp_lc_enabled', true );
+		$lc_enabled           = ( $global_lc_enabled || ( ! $global_lc_enabled && $affiliate_lc_enabled ) );
 
-		if ( ! $global_lifetime_commissions_enabled ) :
+		$lc_settings_url = affwp_admin_url( 'settings', array( 'tab' => 'lifetime-commissions' ) );
 
-			$checked = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'affwp_lc_enabled', true );
+		if ( ! $global_lc_enabled ) :
 			?>
 			<table class="form-table">
 
@@ -181,8 +183,10 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 					</th>
 
 					<td>
-						<input type="checkbox" name="lifetime_commissions" id="lifetime-commissions" value="1" <?php checked( $checked, 1 ); ?> />
-						<p class="description"><?php _e( 'Allow this affiliate to receive lifetime commissions.', 'affiliate-wp-lifetime-commissions' ); ?></p>
+						<label for="lifetime-commissions">
+							<input type="checkbox" name="lifetime_commissions" id="lifetime-commissions" value="1" <?php checked( $affiliate_lc_enabled, 1 ); ?> />
+							<?php esc_html_e( 'Allow this affiliate to receive lifetime commissions.', 'affiliate-wp-lifetime-commissions' ); ?>
+						</label>
 					</td>
 
 				</tr>
@@ -193,9 +197,9 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 		endif;
 
 		// If all affiliate can access their lifetime customers.
-		$global_lifetime_customers_access = affiliate_wp()->settings->get( 'lifetime_commissions_customers_access', false );
+		$global_lc_customer_access = affiliate_wp()->settings->get( 'lifetime_commissions_customers_access', false );
 
-		if ( ! $global_lifetime_customers_access ) :
+		if ( ! $global_lc_customer_access ) :
 
 			$checked = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'affwp_lc_customers_access', true );
 			?>
@@ -208,8 +212,10 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 					</th>
 
 					<td>
-						<input type="checkbox" name="lifetime_customers_access" id="lifetime-customers-access" value="1" <?php checked( $checked, 1 ); ?> />
-						<p class="description"><?php _e( 'Allow affiliate to see their lifetime customers.', 'affiliate-wp-lifetime-commissions' ); ?></p>
+						<label for="lifetime-customers-access">
+							<input type="checkbox" name="lifetime_customers_access" id="lifetime-customers-access" value="1" <?php checked( $checked, 1 ); ?> />
+							<?php esc_html_e( 'Allow affiliate to see their lifetime customers.', 'affiliate-wp-lifetime-commissions' ); ?>
+						</label>
 					</td>
 
 				</tr>
@@ -233,15 +239,14 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 					</th>
 
 					<td>
-						<input type="number" class="small-text" name="lifetime_referral_rate" id="lifetime-referral-rate" placeholder="<?php echo esc_attr( $global_rate ); ?>" value="<?php echo esc_attr( $lifetime_rate ); ?>" />
-						<p class="description"><?php echo sprintf( __( 'The affiliate\'s lifetime referral rate. This rate takes priority over the <a href="%s">Lifetime Referral Rate</a> set in the Integrations tab.', 'affiliate-wp-lifetime-commissions' ), admin_url( 'admin.php?page=affiliate-wp-settings&tab=integrations' ) ); ?></p>
+						<input type="number" name="lifetime_referral_rate" id="lifetime-referral-rate" class="small-text" step="0.01" min="0" placeholder="<?php echo esc_attr( $global_rate ); ?>" value="<?php echo esc_attr( $lifetime_rate ); ?>" />
+						<p class="description"><?php echo sprintf( __( 'The affiliate&#8217;s lifetime referral rate. This rate takes priority over the <a href="%s">Lifetime Referral Rate</a> set in the Lifetime Commissions settings tab.', 'affiliate-wp-lifetime-commissions' ), $lc_settings_url ); ?></p>
 
 					</td>
 				</tr>
 
-				<?php
-					$lifetime_referral_rate_type = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'affwp_lc_lifetime_referral_rate_type', true );
-				?>
+				<?php $lifetime_referral_rate_type = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'affwp_lc_lifetime_referral_rate_type', true ); ?>
+
 				<tr class="form-row">
 
 					<th scope="row">
@@ -255,7 +260,7 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 								<option value="<?php echo esc_attr( $key ); ?>"<?php selected( $lifetime_referral_rate_type, $key ); ?>><?php echo esc_html( $type ); ?></option>
 							<?php endforeach; ?>
 						</select>
-						<p class="description"><?php echo sprintf( __( 'The affiliate\'s lifetime referral rate type. This rate type takes priority over the <a href="%s">Lifetime Referral Rate Type</a> set in the Integrations tab.', 'affiliate-wp-lifetime-commissions' ), admin_url( 'admin.php?page=affiliate-wp-settings&tab=integrations' ) ); ?></p>
+						<p class="description"><?php echo sprintf( __( 'The affiliate&#8217;s lifetime referral rate type. This rate type takes priority over the <a href="%s">Lifetime Referral Rate Type</a> set in the Lifetime Commissions settings tab.', 'affiliate-wp-lifetime-commissions' ), $lc_settings_url ); ?></p>
 					</td>
 
 				</tr>
@@ -280,83 +285,75 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 
                 <td>
                     <input type="number" class="small-text" name="lifetime_referral_length" id="lifetime-referral-length" placeholder="<?php echo esc_attr( $global_length ); ?>" value="<?php echo esc_attr( $lifetime_length ); ?>" />
-                    <p class="description"><?php echo sprintf( __( 'The number of days this affiliate can earn lifetime commissions from a referral. This length takes priority over the <a href="%s">Lifetime Length</a> set in the Integrations tab.', 'affiliate-wp-lifetime-commissions' ), admin_url( 'admin.php?page=affiliate-wp-settings&tab=integrations' ) ); ?></p>
+                    <p class="description"><?php echo sprintf( __( 'The number of days this affiliate can earn lifetime commissions from a referral. This length takes priority over the <a href="%s">Lifetime Length</a> set in the Lifetime Commissions settings tab.', 'affiliate-wp-lifetime-commissions' ), $lc_settings_url ); ?></p>
                 </td>
             </tr>
 
         </table>
 
-		<?php
-		$linked_customers = affiliate_wp_lifetime_commissions()->integrations->get_customers_for_affiliate( $affiliate->affiliate_id );
-		if ( $linked_customers ) : ?>
+		<table class="form-table">
+			<tr class="form-row form-required">
+				<th scope="row">
+					<label for="lifetime-commissions"><?php _e( 'Lifetime Customers', 'affiliate-wp-lifetime-commissions' ); ?></label>
+				</th>
 
-			<table class="form-table">
+				<td>
+					<?php $linked_customers = affiliate_wp_lifetime_commissions()->integrations->get_customers_for_affiliate( $affiliate->affiliate_id ); ?>
 
-				<tr class="form-row form-required">
-
-					<th scope="row">
-						<label for="lifetime-commissions"><?php _e( 'Linked Customers', 'affiliate-wp-lifetime-commissions' ); ?></label>
-					</th>
-
-					<td>
-						<p class="description"><?php _e( 'Customers linked to this affiliate.', 'affiliate-wp-lifetime-commissions' ); ?></p>
-						<ul class="affwp-lc-linked-customers">
+					<p id="affwp-lc-linked-customers-desc" class="description">
 						<?php
+						if ( $linked_customers && $lc_enabled ) :
+							_e( 'Customers linked to this affiliate.', 'affiliate-wp-lifetime-commissions' );
+						else :
+							_e( 'No customers are linked to this affiliate.', 'affiliate-wp-lifetime-commissions' );
+						endif;
+						?>
+					</p>
 
-							foreach ( $linked_customers as $customer ) {
+					<ul class="affwp-lc-linked-customers">
+						<?php
+						if ( $linked_customers && $lc_enabled ) :
+							foreach ( $linked_customers as $customer ) :
 
 								if( ! $customer ) {
 									continue;
 								}
 
-								echo '<li>';
+								$customer_html = $this->get_customer_html( $customer->customer_id, $affiliate->ID );
 
-								if ( $customer->user_id ) {
-									echo '<a href="' . get_edit_user_link( $customer->user_id ) . '">';
+								if ( false !== $customer_html ) {
+									echo $customer_html;
 								}
 
-								echo $customer->get_name() . ' (' . $customer->email . ')';
-
-								if( $customer->user_id ) {
-									echo '</a>';
-								}
-
-								$delink_url = wp_nonce_url( add_query_arg( array( 'affwp_action' => 'lc_delink_customer', 'affiliate_id' => $affiliate->affiliate_id, 'customer' => $customer->customer_id ) ), 'affwp-lc-delink-customer-nonce' );
-								echo ' | <a href="' . $delink_url . '">' . __( 'Unlink customer', 'affiliate-wp-lifetime-commissions' ) . '</a>';
-
-								echo'</li>';
-
-							}
+							endforeach;
+						endif;
 						?>
 					</ul>
+				</td>
+			</tr>
+		</table>
+
+		<?php if ( $lc_enabled ) : ?>
+			<table class="form-table">
+
+				<tr class="form-row form-required">
+
+					<th scope="row">
+						<label for="lifetime-commissions"><?php _e( 'Add New Customer Email', 'affiliate-wp-lifetime-commissions' ); ?></label>
+					</th>
+
+					<td>
+						<input class="regular-text" type="email" name="affwp_lc_email" id="affwp_lc_email" value="" placeholder="<?php esc_attr_e( 'Enter an email address', 'affiliate-wp-lifetime-commissions' ); ?>"/>
+						<input type="hidden" name="affwp_lc_affiliate_id" id="affwp_lc_affiliate_id" value="<?php echo esc_attr( $affiliate->affiliate_id ); ?>">
+						<input type="submit" name="affwp_lc_add_email" id="affwp_lc_add_email" class="button" value="<?php _e( 'Add Email', 'affiliate-wp-lifetime-commissions' ); ?>">
+						<p class="description"><?php _e( 'Enter an email to link a new customer to this affiliate.', 'affiliate-wp-lifetime-commissions' ); ?></p>
 					</td>
 
 				</tr>
 
 			</table>
-
-		<?php endif; ?>
-
-		<table class="form-table">
-
-			<tr class="form-row form-required">
-
-				<th scope="row">
-					<label for="lifetime-commissions"><?php _e( 'Add New Customer Email', 'affiliate-wp-lifetime-commissions' ); ?></label>
-				</th>
-
-				<td>
-					<input class="regular-text" type="email" name="affwp_lc_email" id="affwp_lc_email" value="" placeholder="<?php esc_attr_e( 'Enter an email address', 'affiliate-wp-lifetime-commissions' ); ?>"/>
-					<input type="hidden" name="affwp_lc_affiliate_id" id="affwp_lc_affiliate_id" value="<?php echo esc_attr( $affiliate->affiliate_id ); ?>">
-					<input type="submit" name="affwp_lc_add_email" id="affwp_lc_add_email" class="button" value="<?php _e( 'Add Email', 'affiliate-wp-lifetime-commissions' ); ?>">
-					<p class="description"><?php _e( 'Enter an email to link a new customer to this affiliate.', 'affiliate-wp-lifetime-commissions' ); ?></p>
-				</td>
-
-			</tr>
-
-		</table>
-
 		<?php
+		endif;
 	}
 
 	/**
@@ -395,7 +392,7 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 		$lifetime_rate = isset( $data['lifetime_referral_rate'] ) ? $data['lifetime_referral_rate'] : '';
 
 		if ( $lifetime_rate ) {
-			affwp_update_affiliate_meta( $data['affiliate_id'], 'affwp_lc_lifetime_referral_rate', absint( $lifetime_rate ) );
+			affwp_update_affiliate_meta( $data['affiliate_id'], 'affwp_lc_lifetime_referral_rate', (float) abs( $lifetime_rate ) );
 		} else {
 			affwp_delete_affiliate_meta( $data['affiliate_id'], 'affwp_lc_lifetime_referral_rate' );
 		}
@@ -435,19 +432,38 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 							'customer_id' => $customer->customer_id,
 						);
 
-						affwp_update_customer( $args );
+						$update_customer = affwp_update_customer( $args );
+
+						if ( $update_customer ) {
+
+							$linked_affiliate = affiliate_wp_lifetime_commissions()->lifetime_customers->get_by( 'affwp_customer_id', $customer->customer_id );
+
+							if ( ! $linked_affiliate ) {
+
+								$args = array(
+									'affwp_customer_id' => $customer->ID,
+									'affiliate_id'      => $data['affiliate_id'],
+								);
+
+								affiliate_wp_lifetime_commissions()->lifetime_customers->add( $args );
+
+							}
+						}
 					}
-
 				}
 
-				$linked_affiliates = affwp_get_customer_meta( $customer->customer_id, 'affiliate_id' );
+				$linked_affiliate = affiliate_wp_lifetime_commissions()->lifetime_customers->get_by( 'affwp_customer_id', $customer->customer_id );
 
-				if ( ! $linked_affiliates ) {
+				if ( ! $linked_affiliate ) {
 
-					affwp_add_customer_meta( $customer->customer_id, 'affiliate_id', $data['affiliate_id'], true );
+					$args = array(
+						'affwp_customer_id' => $customer->ID,
+						'affiliate_id'      => $data['affiliate_id'],
+					);
+
+					affiliate_wp_lifetime_commissions()->lifetime_customers->add( $args );
 
 				}
-
 			} else {
 
 				$args = array(
@@ -463,7 +479,17 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 					$args['last_name']  = $user->last_name;
 				}
 
-				affwp_add_customer( $args );
+				$customer_id = affwp_add_customer( $args );
+
+				if ( false !== $customer_id ) {
+
+					$args = array(
+						'affwp_customer_id' => $customer_id,
+						'affiliate_id'      => $data['affiliate_id'],
+					);
+
+					affiliate_wp_lifetime_commissions()->lifetime_customers->add( $args );
+				}
 			}
 
 		}
@@ -485,10 +511,14 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 			wp_die( __( 'Nonce verification failed', 'affiliate-wp' ), __( 'Error', 'affiliate-wp-lifetime-commissions' ), array( 'response' => 403 ) );
 		}
 
-		$customer_id  = absint( $data[ 'customer' ] );
-		$affiliate_id = absint( $data[ 'affiliate_id' ] );
+		$customer_id  = absint( $data['customer'] );
+		$affiliate_id = absint( $data['affiliate_id'] );
 
-		affwp_delete_customer_meta( $customer_id, 'affiliate_id', $affiliate_id );
+		$lifetime_customer = affiliate_wp_lifetime_commissions()->lifetime_customers->get_by( 'affwp_customer_id', $customer_id );
+
+		if ( $lifetime_customer && ( $affiliate_id === absint( $lifetime_customer->affiliate_id ) ) ) {
+			affiliate_wp_lifetime_commissions()->lifetime_customers->delete( $lifetime_customer->lifetime_customer_id );
+		}
 
 		$message = urlencode( __( 'Customer unlinked successfully', 'affiliate-wp-lifetime-commissions' ) );
 
@@ -513,11 +543,14 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 		// Register scripts.
 		wp_register_script( 'affwplc-admin-scripts', AFFWP_LC_PLUGIN_URL . 'assets/js/admin-scripts' . $suffix . '.js', array(), AFFWP_LC_VERSION, false );
 
+		wp_localize_script( 'affwplc-admin-scripts', 'affwp_lc', array(
+			'linked_customers' => __( 'Customers linked to this affiliate.', 'affiliate-wp-lifetime-commissions' ),
+		) );
+
 		// Enqueue scripts.
 		if ( isset( $_GET['action'] ) && $_GET['action'] == 'edit_affiliate' ) {
 			wp_enqueue_script( 'affwplc-admin-scripts' );
 		}
-
 	}
 
 	/**
@@ -562,13 +595,18 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 
 			}
 
-			$linked_affiliate = affwp_get_customer_meta( $customer->customer_id, 'affiliate_id' );
+			$linked_affiliate = affiliate_wp_lifetime_commissions()->lifetime_customers->get_by( 'affwp_customer_id', $customer->customer_id );
 
 			if ( ! $linked_affiliate ) {
 
-				$customer_meta = affwp_add_customer_meta( $customer->customer_id, 'affiliate_id', $affiliate_id, true );
+				$args = array(
+					'affwp_customer_id' => $customer->customer_id,
+					'affiliate_id'      => $affiliate_id,
+				);
 
-				if ( $customer_meta ) {
+				$lifetime_customer = affiliate_wp_lifetime_commissions()->lifetime_customers->add( $args );
+
+				if ( $lifetime_customer ) {
 
 					$customer_html = $this->get_customer_html( $customer->customer_id, $affiliate_id );
 
@@ -616,16 +654,35 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 
 			$customer_id = affwp_add_customer( $args );
 
-			$customer_html = $this->get_customer_html( $customer_id, $affiliate_id );
-
 			if ( $customer_id ) {
 
-				$response = array(
-					'message'       => __( 'Customer has been linked to this affiliate.', 'affiliate-wp-lifetime-commissions' ),
-					'customer_html' => $customer_html,
+				$args = array(
+					'affwp_customer_id' => $customer_id,
+					'affiliate_id'      => $affiliate_id,
 				);
 
-				wp_send_json_success( $response );
+				$lifetime_customer = affiliate_wp_lifetime_commissions()->lifetime_customers->add( $args );
+
+				if ( $lifetime_customer ) {
+
+					$customer_html = $this->get_customer_html( $customer_id, $affiliate_id );
+
+					$response = array(
+						'message'       => __( 'Customer has been linked to this affiliate.', 'affiliate-wp-lifetime-commissions' ),
+						'customer_html' => $customer_html,
+					);
+
+					wp_send_json_success( $response );
+
+				} else {
+
+					$response = array(
+						'message' => __( 'Unable to link customer to this affiliate.', 'affiliate-wp-lifetime-commissions' ),
+					);
+
+					wp_send_json_error( $response );
+
+				}
 
 			} else {
 
@@ -656,24 +713,30 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 			return false;
 		}
 
-		echo '<li>';
+		echo '<li id="customer-' . esc_attr( $customer->customer_id ) . '">';
 
-		if ( $customer->user_id ) {
-			echo '<a href="' . get_edit_user_link( $customer->user_id ) . '">';
+		$edit_user_link = get_edit_user_link( $customer->user_id );
+
+		if ( $customer->user_id && $edit_user_link ) {
+
+			/* translators: 1: Edit user link, 2: Customer Name, 3: Customer Email */
+			echo sprintf( __( '<a href="%1$s">%2$s (%3$s)</a>' ), esc_url( $edit_user_link ), $customer->get_name(), $customer->email );
+
+		} else {
+
+			echo $customer->get_name() . ' (' . $customer->email . ')';
+
 		}
 
-		echo $customer->get_name() . ' (' . $customer->email . ')';
-
-		if ( $customer->user_id ) {
-			echo '</a>';
-		}
-
-		$delink_url = wp_nonce_url( add_query_arg( array(
+		$delink_url = add_query_arg( array(
 			'affwp_action' => 'lc_delink_customer',
 			'affiliate_id' => $affiliate_id,
 			'customer'     => $customer->customer_id,
-		) ), 'affwp-lc-delink-customer-nonce' );
-		echo ' | <a href="' . $delink_url . '">' . __( 'Unlink customer', 'affiliate-wp-lifetime-commissions' ) . '</a>';
+		) );
+
+		$delink_url = wp_nonce_url( $delink_url, 'affwp-lc-delink-customer-nonce' );
+
+		echo ' | <a href="' . esc_url( $delink_url ) . '">' . __( 'Unlink customer', 'affiliate-wp-lifetime-commissions' ) . '</a>';
 
 		echo '</li>';
 
