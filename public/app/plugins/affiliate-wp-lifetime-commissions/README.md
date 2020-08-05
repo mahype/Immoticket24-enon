@@ -3,6 +3,39 @@ Lifetime Commissions
 
 Allow your affiliates to receive a commission on all future purchases by the customer
 
+= Version 1.4.3, June 2, 2020 =
+* Improved: Delete all the previous email addresses of a lifetime customer when a customer is unlinked
+* Fixed: WooCommerce: Referral rates used on first purchase by customer, shows Lifetime Commissions link in referrals
+* Fixed: Unable to set zero (0) or floating point numbers for an affiliate lifetime referral rate
+* Fixed: Wrong lifetime referral amount calculated when the global lifetime referral rate or affiliate lifetime referral rate is set to 0
+* Dev: validate_new_customer_email() uses a vague check for email address
+* Dev: Fix template include path to remove an extra front slash
+
+= Version 1.4.2, April, 3, 2020 =
+* Fixed: Upgrade notice not displayed when plugin is updated to version 1.4.1
+
+= Version 1.4.1, March 31, 2020 =
+* New: Add language files to ease translation
+* Improved: Don't save existing email address of the customer when they update their WP user account email address
+* Improved: WooCommerce: site using global referral rate and not LC specific rate
+* Improved: Remove user data when user is deleted
+* Improved: Change lc_customer_email meta_key to affwp_lc_customer_email
+* Improved: Change "Linked Customers" to "Lifetime Customers"
+* Improved: Show "Linked Customers" section when email is added for the first time
+* Fixed: Data not deleted when "Remove Data When Deleted?" enabled
+* Fixed: Remove links for customers without user accounts
+* Fixed: Don't show upgrade notice when no upgrade needed
+* Fixed: Fatal error when activating Lifetime Commissions before AffiliateWP
+* Fixed: Unable to manually link an existing customer who isn't linked to an affiliate
+* Fixed: WooCommerce: site using global referral rate and not LC specific rate
+* Fixed: Minified version of the `admin-scripts` JS file not being loaded
+* Fixed: WooCommerce: site using global referral rate and not LC specific rate
+* Fixed: Changes to customer emails are no longer recorded
+* Fixed: Link customer and affiliate via new lifetime customers table
+* Fixed: Customer emails show as linked when affiliate is not enabled for LC
+* Fixed: Lifetime referral rate is different on the edit affiliate screen then what is in the LC settings
+* Fixed: Links going to wrong settings section
+
 = Version 1.4, September 12, 2019 =
 * New: Added integration with MemberPress
 * New: Added an option to hide customers' email addresses from affiliates 

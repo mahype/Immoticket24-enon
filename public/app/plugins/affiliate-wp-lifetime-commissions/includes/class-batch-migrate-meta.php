@@ -211,8 +211,8 @@ class Migrate_Lifetime_Commissions_Meta extends Utils\Batch_Process implements B
 
 				$message = sprintf(
 					_n(
-						'%s affiliate was updated successfully.',
-						'%s affiliates were updated successfully.',
+						'%d affiliate was updated successfully.',
+						'%d affiliates were updated successfully.',
 						$final_count,
 						'affiliate-wp-lifetime-commissions'
 					), number_format_i18n( $final_count )
