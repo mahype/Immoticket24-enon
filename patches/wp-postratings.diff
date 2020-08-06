@@ -1,0 +1,10 @@
+--- ./wp-postratings.php	2020-08-06 11:58:35.000000000 +0200
++++ ./wp-postratings.php	2020-08-06 11:35:05.000000000 +0200
+@@ -1259,6 +1259,7 @@
+ 		$ratings_meta = '';
+ 		if ( $ratings_options['richsnippet_ratings']  && $post_ratings_average > 0 ) {
+ 			$ratings_meta .= '<div style="display: none;" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
++			$ratings_meta .= '<meta itemprop="name" content="' . get_bloginfo( 'name' ) . '" />';
+ 			$ratings_meta .= '<meta itemprop="bestRating" content="' . $ratings_max . '" />';
+ 			$ratings_meta .= '<meta itemprop="worstRating" content="1" />';
+ 			$ratings_meta .= '<meta itemprop="ratingValue" content="' . $post_ratings_average . '" />';
