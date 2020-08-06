@@ -239,7 +239,7 @@ function immoticketenergieausweis_payment_icons() {
     jQuery( document ).ready( function( $ ) {
       function check_active() {
         var value = $( 'input[name="payment-mode"]:checked' ).val();
-        if ( 'paymill' == value ) {
+        if ( 'stripe_sepa' == value ) {
           value = 'lastschrift';
         }
 
@@ -257,7 +257,7 @@ function immoticketenergieausweis_payment_icons() {
       $( document ).on( 'click', '.immoticket24-payment-buttons button', function( e ) {
         var value = $( this ).attr( 'id' ).replace( 'it24-', '' ).replace( '-button', '' );
         if ( 'lastschrift' == value ) {
-          value = 'paymill';
+          value = 'stripe_sepa';
         }
 
         $( 'input[name="payment-mode"]' ).prop( 'checked', false );
