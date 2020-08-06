@@ -24,7 +24,6 @@ public/app/nfwlog/*
 !public/app/mu-plugins/energieausweis-*/
 !public/app/mu-plugins/energieausweis-*.php
 !public/app/plugins/advanced-custom-fields-pro
-!public/app/plugins/advanced-gutenberg
 !public/app/plugins/affiliate-wp
 !public/app/plugins/affiliate-wp-lifetime-commissions
 !public/app/plugins/borlabs-cookie
