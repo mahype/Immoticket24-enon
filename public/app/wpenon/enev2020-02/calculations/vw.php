@@ -224,12 +224,12 @@ for ( $i = 0; $i < 3; $i ++ ) {
 		} else {
 			$h_verbrauch = $energieausweis->$verbrauch_key * $data['energietraeger_mpk'];
 
-			$bugfix_start_date = strtotime( '2020-08-10 10:00' );
+			$bugfix_start_date = strtotime( '2020-08-10 16:00' );
 			$energieausweis_date     = strtotime( $energieausweis->date );
 
-			if( $bugfix_start_date < $energieausweis_date ) {
+			if( $energieausweis_date > $bugfix_start_date ) {
 				// Should be
-				if ( $energieausweis->ww_info !== $key ) {
+				if ( $energieausweis->ww_info == $key ) {
 					$ww_verbrauch = $h_verbrauch * 0.18;
 					$h_verbrauch  -= $ww_verbrauch;
 				}
