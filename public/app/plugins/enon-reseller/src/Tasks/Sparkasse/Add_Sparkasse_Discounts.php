@@ -91,6 +91,7 @@ class Add_Sparkasse_Discounts extends Sparkasse_Frontend_Task implements Filters
 		$this->discount_types = array(
 			'spk', // Sparkasse standard coupon.
 			'web', // Sparkasse web coupon.
+			'immo-hd', // Sparkasse full amount coupon.
 		);
 
 		// This coupon codes are valid without further validation.
@@ -186,11 +187,12 @@ class Add_Sparkasse_Discounts extends Sparkasse_Frontend_Task implements Filters
 			return true;
 		}
 
+		// Checking discount type.
+		$discount_code_type = $this->get_discount_code_type( $discount_code );
+
 		// Get current engergy certificate ids in cart.
 		$energy_certificate_ids = $this->get_cart_energy_certificate_ids();
 
-		// Checking discount type.
-		$discount_code_type = $this->get_discount_code_type( $discount_code );
 		if ( ! $discount_code_type ) {
 			$debug_values = array(
 				'coupon_code'        => $discount_code,
@@ -274,7 +276,13 @@ class Add_Sparkasse_Discounts extends Sparkasse_Frontend_Task implements Filters
 		$energieausweis    = new Energieausweis( $energieausweis_id );
 		$discount_id       = edd_get_discount_id_by_code( $discount_code );
 		$discount_type     = edd_get_discount_type( $discount_id );
-		$rate              = edd_format_discount_rate( $discount_type, $this->get_discount_amount( $discount_code, $energieausweis->get_type() ) );
+		$discount_amount   = $this->get_discount_amount( $discount_code, $energieausweis->get_type() );
+
+		if ( null === $discount_amount ) {
+			$discount_amount = edd_get_discount_amount( $discount_id );
+		}
+
+		$rate              = edd_format_discount_rate( $discount_type, $discount_amount );
 
 		$discount_html  = "<span class=\"edd_discount\">\n";
 		$discount_html .= "<span class=\"edd_discount_rate\">$discount_code&nbsp;&ndash;&nbsp;$rate</span>\n";
@@ -324,6 +332,12 @@ class Add_Sparkasse_Discounts extends Sparkasse_Frontend_Task implements Filters
 		$discount_code     = $this->find_discount_code( $discounts );
 
 		if ( ! $discount_code ) {
+			return $discount_price;
+		}
+
+		$discount_type   = $this->get_discount_code_type( $discount_code );
+
+		if ( 'immo-hd' === $discount_type ) {
 			return $discount_price;
 		}
 

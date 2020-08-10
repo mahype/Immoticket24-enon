@@ -149,10 +149,11 @@ class EnergieausweisForm {
 				$energieausweis->type = $new_type;
 				$this->type           = $energieausweis->type;
 
-				$errors = $warnings = array();
-				if ( isset( $schema ) ) {
-					$schema = $energieausweis->getSchema();
-				}
+				$schema = $energieausweis->getSchema();
+				$schema->validateFields( $_POST, $energieausweis );
+
+				$errors   = $schema->getErrors( $energieausweis );
+				$warnings = $schema->getWarnings( $energieausweis );
 			}
 		}
 

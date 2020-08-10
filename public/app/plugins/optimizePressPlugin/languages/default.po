@@ -137,15 +137,15 @@ msgstr ""
 msgid "Upload another layout"
 msgstr ""
 
-#: lib/admin/init.php:42 lib/framework.php:323 lib/tpl/post_page/index.php:22
+#: lib/admin/init.php:44 lib/framework.php:323 lib/tpl/post_page/index.php:22
 msgid "Live Editor"
 msgstr ""
 
-#: lib/admin/init.php:44
+#: lib/admin/init.php:50
 msgid "Clone Page"
 msgstr ""
 
-#: lib/admin/init.php:66
+#: lib/admin/init.php:73
 msgid "Insert into Post"
 msgstr ""
 
@@ -1859,7 +1859,7 @@ msgstr ""
 msgid "Set the colour of the text/copyright message in the footer"
 msgstr ""
 
-#: lib/functions/sl_api.php:157
+#: lib/functions/sl_api.php:158
 msgid ""
 "There seems to be a problem with your OptimizePress API Key.<br />Please "
 "recheck it is entered correctly and if you still have problems <a "

@@ -55,42 +55,43 @@ class OptimizePress_Modules_Email_Provider_Ontraport extends OptimizePress_Modul
         $this->logger->info('Subscribing user: ' . print_r($data, true));
 
         if (isset($data['email'])) {
-                $form_params = array(
-                            'objectID'       => 0,
-                            'email'          => $data['email'],
-                            'updateSequence' => "*/*".$data['list']."*/*"
-                );
-                /* make back-compatible for old api fields */
-                if (isset($data['first_name']))
-                    $form_params['firstname'] = $data['first_name'];
-                if (isset($data['last_name']))
-                    $form_params['lastname'] = $data['last_name'];
+            $form_params = array(
+                'objectID'       => 0,
+                'email'          => $data['email'],
+                'updateSequence' => "*/*".$data['list']."*/*"
+            );
+            /* make back-compatible for old api fields */
+            /* make back-compatible for old api fields */
+            if (isset($_POST['first_name']))
+                $form_params['firstname'] = $_POST['first_name'];
+            if (isset($_POST['last_name']))
+                $form_params['lastname'] = $_POST['last_name'];
 
-                /* New api fields */
-                if (isset($data['firstname']))
-                    $form_params['firstname'] = $data['firstname'];
-                if (isset($data['lastname']))
-                    $form_params['lastname'] = $data['lastname'];
+            /* New api fields */
+            if (isset($_POST['firstname']))
+                $form_params['firstname'] = $_POST['firstname'];
+            if (isset($_POST['lastname']))
+                $form_params['lastname'] = $_POST['lastname'];
 
-                try {
-                    $response = $this->getClient()->request($form_params, 'objects', "post", '5', '');
-                    $result = json_decode($response);
-                    $data = $result->data;
-                    $user_id = $data->id;
+            try {
+                $response = $this->getClient()->request($form_params, 'objects/saveorupdate', "post", '5', '');
+                $result = json_decode($response);
+                $data = $result->data;
+                $user_id = $data->id;
 
-                    $this->logger->info('After Subscribing user id: ' . print_r($user_id, true));
+                $this->logger->info('After Subscribing user id: ' . print_r($user_id, true));
 
-                    // add gdpr note
-                    if (isset($_POST['op_gdpr_consent_label'])) {
-                        $this->saveGdprNote($user_id);
-                    }
-
-                    return true;
-                } catch (Exception $e) {
-                    $this->logger->error('Error ' . $e->getCode() . ': ' . $e->getMessage());
-
-                    return false;
+                // add gdpr note
+                if (isset($_POST['op_gdpr_consent_label'])) {
+                    $this->saveGdprNote($user_id);
                 }
+
+                return true;
+            } catch (Exception $e) {
+                $this->logger->error('Error ' . $e->getCode() . ': ' . $e->getMessage());
+
+                return false;
+            }
 
         }else{
             $this->logger->alert('Mandatory information not present [email address]');
@@ -110,28 +111,28 @@ class OptimizePress_Modules_Email_Provider_Ontraport extends OptimizePress_Modul
 
 
         if (isset($email)) {
-                $form_params = array(
-                            'objectID'       => 0,
-                            'firstname'      => $fname,
-                            'lastname'       => $lname,
-                            'email'          => $email,
-                            'updateSequence' => "*/*".$list."*/*"
-                );
+            $form_params = array(
+                'objectID'       => 0,
+                'firstname'      => $fname,
+                'lastname'       => $lname,
+                'email'          => $email,
+                'updateSequence' => "*/*".$list."*/*"
+            );
 
-                try {
-                    $response = $this->getClient()->request($form_params, 'objects', "post", '5', '');
+            try {
+                $response = $this->getClient()->request($form_params, 'objects', "post", '5', '');
 
-                    // add gdpr note
-                    if (isset($_POST['op_gdpr_consent_label'])) {
-                        $this->saveGdprNote($response->contact['id'][0]);
-                    }
-
-                    return true;
-                } catch (Exception $e) {
-                    $this->logger->error('Error ' . $e->getCode() . ': ' . $e->getMessage());
-
-                    return false;
+                // add gdpr note
+                if (isset($_POST['op_gdpr_consent_label'])) {
+                    $this->saveGdprNote($response->contact['id'][0]);
                 }
+
+                return true;
+            } catch (Exception $e) {
+                $this->logger->error('Error ' . $e->getCode() . ': ' . $e->getMessage());
+
+                return false;
+            }
 
         }else{
             $this->logger->alert('Mandatory information not present [email address]');
@@ -148,18 +149,48 @@ class OptimizePress_Modules_Email_Provider_Ontraport extends OptimizePress_Modul
      */
     public function getLists()
     {
-        $lists = array();
-        $response = $this->getClient()->request(array('objectID' => 5), 'objects', "get", '5', '');
+        $limit    = 50;
+        $page     = 0;
+        $lists     = $this->getListsOnPage($page, $limit);
+        $loadMore = $loadMore = (count($lists) >= $limit);
 
-        $result = json_decode($response);
+        // Append
+        while ($loadMore) {
+            $page++;
+            $additionalLists = $this->getListsOnPage($page, $limit);
 
-        foreach($result->data as $item){
-            $lists[$item->drip_id] = $item->name;
+            // Merge it
+            if (count($additionalLists)) $lists = array_merge($lists, $additionalLists);
+
+            // Check if we stop loading
+            if (count($additionalLists) < $limit) $loadMore = false;
         }
 
         $this->logger->info('Lists: ' . print_r($lists, true));
 
-        return $lists;
+        return array_unique($lists);
+    }
+
+    public function getListsOnPage($page, $limit)
+    {
+        // And try to make the request
+        try {
+            $start = $page * $limit;
+            // Prepare request data
+            $response = $this->getClient()->request(array('objectID' => 5, 'start' => $start), 'objects', "get", '5', '');
+
+            if ($result = @json_decode($response) and isset($result->data)) {
+                foreach($result->data as $item){
+                    $lists[$item->drip_id] = $item->name;
+                }
+
+                return $lists;
+            }
+
+            error_log('[ONTRAPORT] Failed to get lists. ' . @json_decode($response->getBody()));
+        } catch (Exception $e) {
+            error_log('[ONTRAPORT] Error when fetching lists from service. ' . $e->getMessage());
+        }
     }
 
     /**
@@ -334,9 +365,9 @@ class OptimizePress_Modules_Email_Provider_Ontraport extends OptimizePress_Modul
 
         foreach($tags as $tagID){
             $form_params = array(
-                        'objectID'       => 0,
-                        'add_list'      => $tagID,
-                        'ids'       => $contactId
+                'objectID'       => 0,
+                'add_list'      => $tagID,
+                'ids'       => $contactId
             );
             $response = $this->getClient()->request($form_params, 'objects/tag', "put", '5', '');
 

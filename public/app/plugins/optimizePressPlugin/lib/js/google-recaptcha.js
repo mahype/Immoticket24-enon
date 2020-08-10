@@ -17,7 +17,9 @@
                 }).appendTo($form);
 
                 // show Google badge as it is needed
-                $('.grecaptcha-badge').show();
+                var badge = $('.grecaptcha-badge');
+                badge.show();
+                badge.css('visibility', 'visible');
             }
         });
     });

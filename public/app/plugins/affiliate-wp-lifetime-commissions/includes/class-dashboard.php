@@ -37,7 +37,7 @@ class AffiliateWP_Lifetime_Commissions_Dashboard {
 
 		$lc_enabled = affiliate_wp_lifetime_commissions()->integrations->can_receive_lifetime_commissions( $affiliate_id );
 
-		if ( ! $lc_enabled || $this->get_affiliate_lifetime_customers_count() === 0 ) {
+		if ( ! $lc_enabled || 0 === $this->get_affiliate_lifetime_customers_count( $affiliate_id ) ) {
 			return;
 		}
 
@@ -111,15 +111,17 @@ class AffiliateWP_Lifetime_Commissions_Dashboard {
 	/**
 	 * Get the lifetime customers count for an affiliate.
 	 *
-	 * @since 1.3
+	 * @param int $affiliate_id Affiliate ID.
+	 *
+	 * @return int The lifetime customers count for the affiliate.
 	 */
 	public function get_affiliate_lifetime_customers_count( $affiliate_id = 0 ) {
 
 		global $wpdb;
 
 		$customers_count = 0;
-		$table           = affiliate_wp()->customer_meta->table_name;
-		$customer_ids    = $wpdb->get_col( $wpdb->prepare( "SELECT affwp_customer_id FROM {$table} WHERE meta_key = 'affiliate_id' AND meta_value = %d ORDER BY meta_id ASC;", $affiliate_id ) );
+		$table           = affiliate_wp_lifetime_commissions()->lifetime_customers->table_name;
+		$customer_ids    = $wpdb->get_col( $wpdb->prepare( "SELECT affwp_customer_id FROM {$table} WHERE affiliate_id = %d;", $affiliate_id ) );
 		$customer_ids    = array_map( 'absint', $customer_ids );
 
 		if ( ! empty( $customer_ids ) ) {
