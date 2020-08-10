@@ -21,6 +21,14 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 	public $cache_group = 'creatives';
 
 	/**
+	 * Database group value.
+	 *
+	 * @since 2.5
+	 * @var string
+	 */
+	public $db_group = 'creatives';
+
+	/**
 	 * Object type to query for.
 	 *
 	 * @since 1.9

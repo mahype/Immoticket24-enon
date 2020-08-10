@@ -93,14 +93,46 @@ abstract class Affiliate_WP_Meta_DB extends Affiliate_WP_DB {
 	}
 
 	/**
+	 * Retrieves metadata from a key/value pair.
+	 *
+	 * @since 2.5.4
+	 *
+	 * @param string $meta_key   The meta key to look up.
+	 * @param mixed  $meta_value The meta value to look up.
+	 * @return object|false The data row if found, otherwise false.
+	 */
+	public function get_meta_by_value( $meta_key, $meta_value ) {
+		$results = $this->get_results( array(
+			'fields'  => '*',
+			'where'   => 'WHERE meta_key="' . $meta_key . '" AND meta_value="' . $meta_value . '"',
+			'count'   => false,
+			'join'    => '',
+			'orderby' => 'meta_key',
+			'order'   => 'DESC',
+		),
+			array( 'number' => 1, 'offset' => 0 )
+		);
+
+		if ( is_array( $results ) && count( $results ) > 0 ) {
+			$results = $results[0];
+		}
+
+		if ( ! is_object( $results ) ) {
+			$results = false;
+		}
+
+		return $results;
+	}
+
+	/**
 	 * Adds a meta data field to an object.
 	 *
 	 * @since 2.4
 	 *
-	 * @param int    $object_id   Optional. Object ID. Default 0.
-	 * @param string $meta_key    Optional. Meta data key. Default empty.
-	 * @param mixed  $meta_value  Optional. Meta data value. Default empty
-	 * @param bool   $unique      Optional. Whether the same key should not be added. Default false.
+	 * @param int    $object_id  Optional. Object ID. Default 0.
+	 * @param string $meta_key   Optional. Meta data key. Default empty.
+	 * @param mixed  $meta_value Optional. Meta data value. Default empty
+	 * @param bool   $unique     Optional. Whether the same key should not be added. Default false.
 	 * @return bool False for failure. True for success.
 	 */
 	function add_meta( $object_id = 0, $meta_key = '', $meta_value = '', $unique = false ) {

@@ -24,6 +24,14 @@ class Affiliate_WP_Customer_Meta_DB extends Affiliate_WP_Meta_DB {
 	public $version = '1.0';
 
 	/**
+	 * Database group value.
+	 *
+	 * @since 2.5
+	 * @var string
+	 */
+	public $db_group = 'customer_meta';
+
+	/**
 	 * Sets the customer meta table name.
 	 *
 	 * @since 2.4

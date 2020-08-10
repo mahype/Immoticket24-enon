@@ -17,6 +17,14 @@ class Affiliate_WP_Affiliate_Meta_DB extends Affiliate_WP_Meta_DB {
 	public $version = '1.0';
 
 	/**
+	 * Database group value.
+	 *
+	 * @since 2.5
+	 * @var string
+	 */
+	public $db_group = 'affiliate_meta';
+
+	/**
 	 * Retrieves the table columns and data types.
 	 *
 	 * @access public

@@ -196,20 +196,20 @@ function affwp_process_batch_request() {
 		$process->pre_fetch();
 	}
 
-	/** @var int|string|\WP_Error $step */
-	$step = $process->process_step();
+	$step          = $process->process_step();
+	$response_data = array( 'step' => $step );
+
+	// Map fields if this is an import.
+	if ( isset( $process->field_mapping ) && ( $process instanceof \AffWP\Utils\Importer\CSV ) ) {
+		$response_data['columns'] = $process->get_columns();
+		$response_data['mapping'] = $process->field_mapping;
+	}
 
 	if ( is_wp_error( $step ) ) {
+		// Log the error with response data.
+		affiliate_wp()->utils->log( "Batch Process {$batch_id} failed to complete.", $response_data );
 		wp_send_json_error( $step );
 	} else {
-		$response_data = array( 'step' => $step );
-
-		// Map fields if this is an import.
-		if ( isset( $process->field_mapping ) && ( $process instanceof \AffWP\Utils\Importer\CSV ) ) {
-			$response_data['columns'] = $process->get_columns();
-			$response_data['mapping'] = $process->field_mapping;
-		}
-
 		// Finish and set the status flag if done.
 		if ( 'done' === $step ) {
 			$response_data['done']    = true;
@@ -227,6 +227,9 @@ function affwp_process_batch_request() {
 					) );
 				}
 			}
+
+			// Log the success message
+			affiliate_wp()->utils->log( "Batch Process {$batch_id} completed.", $response_data );
 
 			// Once all calculations have finished, run cleanup.
 			$process->finish( $batch_id );

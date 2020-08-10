@@ -1,7 +1,15 @@
 <?php
 
 class Affiliate_WP_Shopp extends Affiliate_WP_Base {
-	
+
+	/**
+	 * The context for referrals. This refers to the integration that is being used.
+	 *
+	 * @access  public
+	 * @since   1.2
+	 */
+	public $context = 'shopp';
+
 	/**
 	 * The order object
 	 *
@@ -11,7 +19,6 @@ class Affiliate_WP_Shopp extends Affiliate_WP_Base {
 	private $order;
 
 	public function init() {
-		$this->context = 'shopp';
 
 		add_action( 'shopp_invoiced_order_event', array( $this, 'add_pending_referral' ), 10, 1 );
 		add_action( 'shopp_captured_order_event', array( $this, 'mark_referral_complete' ), 10, 1 );
@@ -129,9 +136,18 @@ class Affiliate_WP_Shopp extends Affiliate_WP_Base {
 		$url = admin_url( 'admin.php?page=shopp-orders&id=' . $reference );
 
 		return '<a href="' . esc_url( $url ) . '">' . $reference . '</a>';
-	}	
+	}
+
+	/**
+	 * Runs the check necessary to confirm this plugin is active.
+	 *
+	 * @since 2.5
+	 *
+	 * @return bool True if the plugin is active, false otherwise.
+	 */
+	function plugin_is_active() {
+		return function_exists( 'shopp_order' );
+	}
 }
 
-if ( function_exists( 'shopp_order' ) ) {
 	new Affiliate_WP_Shopp;
-}

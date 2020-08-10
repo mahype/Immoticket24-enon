@@ -57,13 +57,7 @@ class Sparkasse extends Distributor_Schema {
 			'modernisierung_baeder',
 			'modernisierung_innenausbau',
 			'verbesserung_grundrissgestaltung',
-			'qualitaet_mauerwerk',
-			'qualitaet_dach',
-			'qualitaet_gebaeudedaemmung',
-			'qualitaet_fenster',
-			'qualitaet_bodenbelaege',
-			'qualitaet_heizung',
-			'qualitaet_baeder_sanitaer',
+			'qualitaet_generell',
 			'grundstuecksflaeche',
 		);
 

@@ -997,8 +997,16 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 		</script>
 	<?php }
 
+	/**
+	 * Runs the check necessary to confirm this plugin is active.
+	 *
+	 * @since 2.5
+	 *
+	 * @return bool True if the plugin is active, false otherwise.
+	 */
+	function plugin_is_active() {
+		return function_exists( 'LLMS' );
+	}
 }
 
-if ( function_exists( 'LLMS' ) ) {
 	new Affiliate_WP_LifterLMS;
-}

@@ -17,14 +17,20 @@ class Affiliate_WP_Jigoshop extends Affiliate_WP_Base {
 	private $order;
 
 	/**
+	 * The context for referrals. This refers to the integration that is being used.
+	 *
+	 * @access  public
+	 * @since   1.2
+	 */
+	public $context = 'jigoshop';
+
+	/**
 	 * Initiate
 	 *
 	 * @function init()
 	 * @access public
 	 */
 	public function init() {
-		$this->context = 'jigoshop';
-
 		// Actions
 		add_action( 'jigoshop_new_order', array( $this, 'add_pending_referral' ), 10, 1 ); // Referral added when order is made.
 		add_action( 'jigoshop_order_status_completed', array( $this, 'mark_referral_complete' ), 10 ); // Referral is marked complete when order is completed.
@@ -525,8 +531,17 @@ class Affiliate_WP_Jigoshop extends Affiliate_WP_Base {
 
 		return $description;
 	}
+
+	/**
+	 * Runs the check necessary to confirm this plugin is active.
+	 *
+	 * @since 2.5
+	 *
+	 * @return bool True if the plugin is active, false otherwise.
+	 */
+	function plugin_is_active() {
+		return function_exists( 'jigoshop_init' ) || class_exists( 'JigoshopInit' );
+	}
 }
 
-if ( function_exists( 'jigoshop_init') || class_exists( 'JigoshopInit' ) ) {
 	new Affiliate_WP_Jigoshop;
-}
