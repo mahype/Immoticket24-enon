@@ -28,6 +28,9 @@ class Payment_Query_Used_Coupons implements Filters {
 
 	public function add_coupon_meta_query($post){
 		global $pagenow, $wpdb;
+
+		$result = [];
+
 		if ( is_admin() && $pagenow == 'edit.php' && ! empty( $_GET['post_type'] ) && $_GET['post_type'] == 'download' && ! empty( $_GET['s'] ) ) {
 			$request = 'SELECT SQL_CALC_FOUND_ROWS  ' . $wpdb->posts . '.* FROM ' . $wpdb->posts . ' INNER JOIN ' . $wpdb->postmeta . ' AS pm ON pm.post_id = ' . $wpdb->posts . '.ID AND pm.meta_key="_edd_payment_meta" AND pm.meta_value like "%' . sanitize_text_field( wp_unslash( $_GET['s'] ) ) . '%"';
 			$result = $wpdb->get_results($request);
