@@ -54,6 +54,8 @@
     "wpackagist-plugin/wordpress-importer":"0.7",
     "wpackagist-plugin/wordpress-seo": "14.6.1",
     "wpackagist-plugin/wp-postratings": "1.88",
+    "wpackagist-plugin/wordpress-importer":"0.7",
+    "wpackagist-plugin/advanced-gutenberg":"2.3.11",
     "felixarntz/wp-gdpr-cookie-notice": "dev-master",
     "felixarntz/plugin-lib": "dev-master",
     "awsmug/edd-payment-stripe-sepa": "dev-master"
@@ -80,6 +82,9 @@
         "Hack: EDD Recalculating total, because of missing VAT in sercices": "patches/edd-recalculate-total.diff",
         "Hack: EDD showing different value of entries on payment site": "patches/edd-payments-per-page.diff",
         "Hack: EDD fix for setting custom email sender": "patches/edd-custom-email-sender.diff"
+      },
+      "wpackagist-plugin/wp-postratings": {
+        "Hack: WP Postratings - Adding name to property": "patches/wp-postratings.diff"
       },
       "felixarntz/wp-gdpr-cookie-notice": {
         "Hack: Inserting notice on top": "patches/wpgpdr-show-on-top.diff"
