@@ -27,6 +27,10 @@
     {
       "type": "composer",
       "url": "https://wpackagist.org"
+    },
+    {
+      "type": "vcs",
+      "url" : "git@github.com:awsmug/edd-payment-stripe-sepa.git"
     }
   ],
   "require": {
@@ -51,7 +55,8 @@
     "wpackagist-plugin/wordpress-seo": "14.6.1",
     "wpackagist-plugin/wp-postratings": "1.88",
     "felixarntz/wp-gdpr-cookie-notice": "dev-master",
-    "felixarntz/plugin-lib": "dev-master"
+    "felixarntz/plugin-lib": "dev-master",
+    "awsmug/edd-payment-stripe-sepa": "dev-master"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "3.*",
@@ -85,7 +90,8 @@
     "post-install-cmd": [
       "cd public/app/plugins/wp-energieausweis-online; composer install --no-dev; cd ../../../..",
       "cd public/app/plugins/enon; composer install --no-dev; cd ../../../..",
-      "cd public/app/plugins/enon_reseller; composer install --no-dev; cd ../../../..",
+      "cd public/app/plugins/edd-payment-stripe-sepa; composer install --no-dev; cd ../../../..",
+      "cd public/app/plugins/enon-reseller; composer install --no-dev; cd ../../../..",
       "docker-compose stop",
       "docker-compose up -d"
     ],
@@ -95,5 +101,7 @@
     "test": [
       "vendor/bin/phpcs --ignore=public/core/,vendor/ -n -s ."
     ]
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
