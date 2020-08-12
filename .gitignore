@@ -37,6 +37,7 @@ public/app/nfwlog/*
 !public/app/plugins/edd-klicktipp-integration
 !public/app/plugins/edd-stripe
 !public/app/plugins/edd-stripe/vendor
+!public/app/plugins/edd-payment-gateway-stripe-sepa
 !public/app/plugins/optimizePressPlugin
 !public/app/plugins/optimizePressPlusPack
 !public/app/plugins/options-definitely
@@ -73,6 +74,7 @@ vendor
 !public/app/plugins/wp-rocket/vendor
 !public/app/plugins/optimizePressPlugin/lib/vendor
 !public/app/plugins/edd-stripe/vendor
+!public/app/plugins/edd-payment-gateway-stripe-sepa/vendor
 !public/app/plugins/borlabs-cookie/vendor
 
 # Node Package Manager
