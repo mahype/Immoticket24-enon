@@ -127,7 +127,6 @@ class Energieausweis {
 	public function get_payment_id() {
 		$payments = edd_get_payments( array(
 			'output'   => 'payments',
-			'status'   => array( 'publish', 'pending' ),
 			'download' => $this->id,
 		) );
 
