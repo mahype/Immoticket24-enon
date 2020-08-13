@@ -54,7 +54,6 @@
     "wpackagist-plugin/wordpress-importer":"0.7",
     "wpackagist-plugin/wordpress-seo": "14.6.1",
     "wpackagist-plugin/wp-postratings": "1.88",
-    "wpackagist-plugin/wordpress-importer":"0.7",
     "wpackagist-plugin/advanced-gutenberg":"2.3.11",
     "felixarntz/wp-gdpr-cookie-notice": "dev-master",
     "felixarntz/plugin-lib": "dev-master",
@@ -95,8 +94,8 @@
     "post-install-cmd": [
       "cd public/app/plugins/wp-energieausweis-online; composer install --no-dev; cd ../../../..",
       "cd public/app/plugins/enon; composer install --no-dev; cd ../../../..",
-      "cd public/app/plugins/edd-payment-stripe-sepa; composer install --no-dev; cd ../../../..",
       "cd public/app/plugins/enon-reseller; composer install --no-dev; cd ../../../..",
+      "cd public/app/plugins/edd-payment-stripe-sepa; composer install --no-dev; cd ../../../..",
       "docker-compose stop",
       "docker-compose up -d"
     ],
