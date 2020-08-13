@@ -10,6 +10,7 @@
  * @param $cart array
  */
 
+use Enon\Models\Edd\Payment;
 use Enon\Models\Enon\Energieausweis;
 
 add_filter('edd_cart_contents', function (array $cart ): array {
@@ -1291,28 +1292,10 @@ function wpenon_immoticket24_maybe_prevent_completion( $val, $payment_id, $new_s
 		return $val;
 	}
 
-	$posts = get_posts( array(
-		'post_type'      => 'download',
-		'post_status'    => 'publish',
-		'posts_per_page' => 1,
-		'fields'         => 'ids',
-		'meta_query'     => array(
-			'relation' => 'AND',
-			array(
-				'key'     => '_wpenon_attached_payment_id',
-				'value'   => $payment_id,
-				'compare' => '=',
-				'type'    => 'NUMERIC',
-			),
-		),
-	) );
+	$payment = new Payment( $payment_id );
+	$energieausweis = $payment->get_energieausweis();
 
-	if ( ! isset( $posts[0] ) ) {
-		return $val;
-	}
-
-	$energieausweis = WPENON\Model\EnergieausweisManager::getEnergieausweis( $posts[0] );
-	if ( ! $energieausweis ) {
+	if ( empty( $energieausweis ) ){
 		return $val;
 	}
 
