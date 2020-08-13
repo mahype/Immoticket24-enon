@@ -41,7 +41,7 @@ if ( ! defined( 'DB_PASSWORD' ) ) {
 	define( 'DB_PASSWORD', 'qfEE7woSrKPxYdLF');
 }
 if ( ! defined( 'DB_HOST' ) ) {
-	define( 'DB_HOST', 'enon_dev_db');
+	define( 'DB_HOST', 'localhost');
 }
 if ( ! isset( $table_prefix ) ) {
 	$table_prefix = 'wpit24_';
@@ -116,7 +116,7 @@ define( 'WP_SENTRY_ERROR_TYPES', E_ALL & ~E_DEPRECATED & ~E_NOTICE & ~E_USER_DEP
  **======================================================================================*/
 switch ( WP_ENV ) {
 	case 'development':
-		define( 'WP_DEBUG', true);
+		define( 'WP_DEBUG', false);
 		define( 'WP_DEBUG_LOG', dirname( dirname( __FILE__ ) ) . '/debug.log' );
 		define( 'WP_DEBUG_DISPLAY', false );
 		define( 'SAVEQUERIES', true );
