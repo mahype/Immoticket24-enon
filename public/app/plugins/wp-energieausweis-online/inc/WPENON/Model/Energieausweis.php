@@ -394,14 +394,50 @@ class Energieausweis {
 	}
 
 	public function getPayment() {
-		$energy_certificate = new \Enon\Models\Enon\Energieausweis( $this->id );
-		$payment = $energy_certificate->get_payment();
+		$payments = array();
 
-		if ( ! $payment ) {
-			return null;
+		$active_statuses = apply_filters( 'wpenon_payment_active_statuses', array( 'pending', 'publish' ) );
+
+		$payment_ids = get_post_meta( $this->id, '_wpenon_attached_payment_id' );
+
+		if ( count( $payment_ids ) > 0 ) {
+			$payments = edd_get_payments( array(
+				'output'   => 'payments',
+				'status'   => $active_statuses,
+				'post__in' => array_map( 'absint', $payment_ids ),
+			) );
+			if ( empty( $payments ) ) {
+				$payments = array();
+				foreach ( $payment_ids as $payment_id ) {
+					$payment = edd_get_payment( $payment_id );
+					if ( $payment ) {
+						$payments[] = $payment;
+					}
+				}
+			}
+		} else {
+			$payments = edd_get_payments( array(
+				'output'   => 'payments',
+				'status'   => $active_statuses,
+				'download' => $this->id,
+			) );
+			foreach ( $payments as $payment ) {
+				add_post_meta( $this->id, '_wpenon_attached_payment_id', $payment->ID );
+			}
 		}
 
-		return $payment;
+		// preferably return a complete payment (in case multiple payments exist for an Energieausweis due to an error)
+		foreach ( $payments as $payment ) {
+			if ( edd_is_payment_complete( $payment->ID ) ) {
+				return $payment;
+			}
+		}
+
+		if ( isset( $payments[0] ) ) {
+			return $payments[0];
+		}
+
+		return null;
 	}
 
 	public function _checkOrderedPaidStatus() {
