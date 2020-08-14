@@ -45,12 +45,12 @@
     "wpackagist-plugin/ninjafirewall": "4.2.3",
     "wpackagist-plugin/login-lockdown": "v1.8.1",
     "wpackagist-plugin/really-simple-captcha": "2.0.2",
+    "wpackagist-plugin/samesite": "1.4",
     "wpackagist-plugin/shariff": "4.6.5",
     "wpackagist-plugin/vaultpress": "2.1.1",
     "wpackagist-plugin/wordpress-importer":"0.7",
     "wpackagist-plugin/wordpress-seo": "14.6.1",
     "wpackagist-plugin/wp-postratings": "1.88",
-    "wpackagist-plugin/wordpress-importer":"0.7",
     "wpackagist-plugin/advanced-gutenberg":"2.3.11",
     "felixarntz/wp-gdpr-cookie-notice": "dev-master",
     "felixarntz/plugin-lib": "dev-master"
