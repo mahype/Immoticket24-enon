@@ -125,14 +125,16 @@ class Energieausweis {
 	 * @since 1.0.0
 	 */
 	public function get_payment_id() {
-		$ec = new \WPENON\Model\Energieausweis( $this->id );
-		$payment = $ec->getPayment();
+		$payments = edd_get_payments( array(
+			'output'   => 'payments',
+			'download' => $this->id,
+		) );
 
-		if( empty( $payment ) ) {
+		if( count( $payments ) === 0 ){
 			return false;
 		}
 
-		return $payment->ID;
+		return $payments[ count( $payments ) -1 ]->ID; // Getting the last one
 	}
 
 	/**
