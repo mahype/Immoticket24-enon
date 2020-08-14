@@ -14,6 +14,7 @@ namespace Enon_Reseller\Tasks;
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
 use Awsm\WP_Wrapper\Tasks\Task_Query_Parser;
+use Enon\Models\Enon\Energieausweis;
 
 /**
  * Class Setup_Enon.
@@ -179,9 +180,11 @@ class CSV_Generator implements Task, Actions {
 			$result[0] = array_keys( $meta_keys );
 
 			foreach ( $posts as $post ) {
-				$invoice_id   = get_post_meta( $post->ID, '_wpenon_attached_payment_id', true );
-				$invoice_meta = get_post_meta( $invoice_id, '_edd_payment_meta', true );
-				$user_info    = $invoice_meta['user_info'];
+				$energy_certificate = new Energieausweis( $post->ID );
+				$payment            = $energy_certificate->get_payment();
+
+				$invoice_id   = $payment->ID;
+				$user_info    = $payment->user_info;
 				$payment_fees = edd_get_payment_fees( $invoice_id, 'item' );
 
 				foreach ( $meta_keys as $meta_key => $meta_value ) {

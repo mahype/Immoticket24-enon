@@ -9,6 +9,10 @@
  * @wp-hook edd_cart_contents
  * @param $cart array
  */
+
+use Enon\Models\Edd\Payment;
+use Enon\Models\Enon\Energieausweis;
+
 add_filter('edd_cart_contents', function (array $cart ): array {
 	return array_unique($cart, SORT_REGULAR);
 }, 10);
@@ -20,22 +24,20 @@ add_filter('edd_cart_contents', function (array $cart ): array {
  * @since 10.05.2020
  * @wp-hook edd_stats_meta_box
  */
-add_action('edd_stats_meta_box', function (){
-	if(empty($_GET['post'])){
+add_action( 'edd_stats_meta_box', function (){
+	if( empty( $_GET['post'] ) ){
 		return;
 	}
 
-	$post_id    = $_GET['post'];
-	$invoice_id = get_post_meta($post_id, '_wpenon_attached_payment_id', true);
-	$invoice    = get_post($invoice_id);
+	$energy_certificate = new Energieausweis( $_GET['post'] );
+	$payment = $energy_certificate->get_payment();
 
-	if(empty($invoice_id)){
+	if ( ! ( $payment ) ) {
 		return;
 	}
 
-	$invoice_url = admin_url('edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $invoice_id);
-
-	echo '<hr />Zugehörige Rechnung: <a href="' . $invoice_url . '">' . $invoice->post_title . '</a>';
+	$invoice_url = admin_url('edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment->ID );
+	echo '<hr />Zugehörige Rechnung: <a href="' . $invoice_url . '">' . $payment->number . '</a><br />';
 });
 
 // custom functions
@@ -1290,28 +1292,10 @@ function wpenon_immoticket24_maybe_prevent_completion( $val, $payment_id, $new_s
 		return $val;
 	}
 
-	$posts = get_posts( array(
-		'post_type'      => 'download',
-		'post_status'    => 'publish',
-		'posts_per_page' => 1,
-		'fields'         => 'ids',
-		'meta_query'     => array(
-			'relation' => 'AND',
-			array(
-				'key'     => '_wpenon_attached_payment_id',
-				'value'   => $payment_id,
-				'compare' => '=',
-				'type'    => 'NUMERIC',
-			),
-		),
-	) );
+	$payment = new Payment( $payment_id );
+	$energieausweis = $payment->get_energieausweis();
 
-	if ( ! isset( $posts[0] ) ) {
-		return $val;
-	}
-
-	$energieausweis = WPENON\Model\EnergieausweisManager::getEnergieausweis( $posts[0] );
-	if ( ! $energieausweis ) {
+	if ( empty( $energieausweis ) ){
 		return $val;
 	}
 

@@ -125,13 +125,30 @@ class Energieausweis {
 	 * @since 1.0.0
 	 */
 	public function get_payment_id() {
-		$payment_ids = get_post_meta( $this->id, '_wpenon_attached_payment_id' );
+		$ec = new \WPENON\Model\Energieausweis( $this->id );
+		$payment = $ec->getPayment();
 
-		if ( count( $payment_ids ) < 1 ) {
+		if( empty( $payment ) ) {
 			return false;
 		}
 
-		return $payment_ids[0];
+		return $payment->ID;
+	}
+
+	/**
+	 * Get payment id.
+	 *
+	 * @return \EDD_Payment|Bool Edd Payment object, false if not found.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_payment() {
+		$payment_id = $this->get_payment_id();
+		if( ! $payment_id ) {
+			return false;
+		}
+
+		return new \EDD_Payment( $payment_id );
 	}
 
 	/**
