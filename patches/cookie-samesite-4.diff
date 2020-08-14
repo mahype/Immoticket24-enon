@@ -1,0 +1,36 @@
+--- includes/libraries/wp_session/class-wp-session.php
++++ includes/libraries/wp_session/class-wp-session.php
+@@ -79,7 +79,15 @@
+
+ 		$this->read_data();
+
+-		setcookie( WP_SESSION_COOKIE, $this->session_id, $this->expires, COOKIEPATH, COOKIE_DOMAIN );
++		$options = [
++			'expires'  => $this->expires,
++			'path'     => COOKIEPATH,
++			'domain'   => COOKIE_DOMAIN,
++			'secure'   => false,
++			'samesite' => 'None'
++		];
++
++		setcookie( WP_SESSION_COOKIE, $this->session_id, $options );
+ 	}
+
+ 	/**
+@@ -176,7 +184,15 @@
+
+ 		$this->session_id = $this->generate_id();
+
+-		setcookie( WP_SESSION_COOKIE, $this->session_id, time() + $this->expires, COOKIEPATH, COOKIE_DOMAIN );
++		$options = [
++			'expires'  => time() + $this->expires,
++			'path'     => COOKIEPATH,
++			'domain'   => COOKIE_DOMAIN,
++			'secure'   => false,
++			'samesite' => 'None'
++		];
++
++		setcookie( WP_SESSION_COOKIE, $this->session_id, $options );
+ 	}
+
+ 	/**
