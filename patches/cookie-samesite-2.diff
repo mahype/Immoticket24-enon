@@ -16,3 +16,15 @@
  			} else {
  				if ( isset($_COOKIE['edd_items_in_cart']) ) {
  					@setcookie( 'edd_items_in_cart', '', time() - 3600, COOKIEPATH, COOKIE_DOMAIN, false );
+@@ -411,6 +418,11 @@
+ 		}
+
+ 		if( ! session_id() && ! headers_sent() ) {
++			$options = [
++				'secure'   => false,
++				'samesite' => 'None'
++			];
++			session_set_cookie_params( $options );
+ 			session_start();
+ 		}
+ 	}
