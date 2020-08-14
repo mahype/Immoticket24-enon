@@ -132,7 +132,8 @@ switch ( WP_ENV ) {
 		break;
 	case 'production':
 	default:
-		define( 'WP_DEBUG', false);
+		define( 'WP_DEBUG', true);
+		define( 'WP_DEBUG_DISPLAY', false );
 		define( 'WP_DEBUG_LOG', dirname( dirname( __FILE__ ) ) . '/debug.log' );
 		define( 'WP_DEBUG_DISPLAY', false );
 		define( 'DISALLOW_FILE_EDIT', true );
