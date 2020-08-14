@@ -76,7 +76,9 @@
       "wpackagist-plugin/easy-digital-downloads": {
         "Hack: EDD Recalculating total, because of missing VAT in sercices": "patches/edd-recalculate-total.diff",
         "Hack: EDD showing different value of entries on payment site": "patches/edd-payments-per-page.diff",
-        "Hack: EDD fix for setting custom email sender": "patches/edd-custom-email-sender.diff"
+        "Hack: EDD fix for setting custom email sender": "patches/edd-custom-email-sender.diff",
+        "Hack: EDD fix samesite cookie for iframe sites 1": "patches/cookie-samesite-1.diff",
+        "Hack: EDD fix samesite cookie for iframe sites 2": "patches/cookie-samesite-2.diff"
       },
       "wpackagist-plugin/wp-postratings": {
         "Hack: WP Postratings - Adding name to property": "patches/wp-postratings.diff"
@@ -90,9 +92,7 @@
     "post-install-cmd": [
       "cd public/app/plugins/wp-energieausweis-online; composer install --no-dev; cd ../../../..",
       "cd public/app/plugins/enon; composer install --no-dev; cd ../../../..",
-      "cd public/app/plugins/enon_reseller; composer install --no-dev; cd ../../../..",
-      "docker-compose stop",
-      "docker-compose up -d"
+      "cd public/app/plugins/enon-reseller; composer install --no-dev; cd ../../../.."
     ],
     "config-phpcs": [
       "vendor/bin/phpcs --config-set installed_paths ../../wp-coding-standards/wpcs"

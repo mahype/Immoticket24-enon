@@ -1,0 +1,22 @@
+--- includes/cart/class-edd-cart.php
++++ includes/cart/class-edd-cart.php
+@@ -1374,8 +1374,17 @@
+ 			update_user_meta( $user_id, 'edd_cart_token', $token, false );
+ 		} else {
+ 			$cart = json_encode( $cart );
+-			setcookie( 'edd_saved_cart', $cart,  time() + 3600 * 24 * 7, COOKIEPATH, COOKIE_DOMAIN );
+-			setcookie( 'edd_cart_token', $token, time() + 3600 * 24 * 7, COOKIEPATH, COOKIE_DOMAIN );
++
++			$options = [
++				'expires'  => time() + 3600 * 24 * 7,
++				'path'     => COOKIEPATH,
++				'domain'   => COOKIE_DOMAIN,
++				'secure'   => false,
++				'samesite' => 'None'
++			];
++
++			setcookie( 'edd_saved_cart', $cart,  $options );
++			setcookie( 'edd_cart_token', $token, $options );
+ 		}
+
+ 		$messages = EDD()->session->get( 'edd_cart_messages' );

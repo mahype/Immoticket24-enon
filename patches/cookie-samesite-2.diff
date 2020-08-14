@@ -1,0 +1,18 @@
+--- includes/class-edd-session.php
++++ includes/class-edd-session.php
+@@ -233,7 +233,14 @@
+ 	public function set_cart_cookie( $set = true ) {
+ 		if( ! headers_sent() ) {
+ 			if( $set ) {
+-				@setcookie( 'edd_items_in_cart', '1', time() + 30 * 60, COOKIEPATH, COOKIE_DOMAIN, false );
++				$options = [
++					'expires'  => time() + 30 * 60,
++					'path'     => COOKIEPATH,
++					'domain'   => COOKIE_DOMAIN,
++					'secure'   => false,
++					'samesite' => 'None'
++				];
++				@setcookie( 'edd_items_in_cart', '1', $options );
+ 			} else {
+ 				if ( isset($_COOKIE['edd_items_in_cart']) ) {
+ 					@setcookie( 'edd_items_in_cart', '', time() - 3600, COOKIEPATH, COOKIE_DOMAIN, false );
