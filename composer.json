@@ -45,7 +45,6 @@
     "wpackagist-plugin/ninjafirewall": "4.2.3",
     "wpackagist-plugin/login-lockdown": "v1.8.1",
     "wpackagist-plugin/really-simple-captcha": "2.0.2",
-    "wpackagist-plugin/samesite": "1.4",
     "wpackagist-plugin/shariff": "4.6.5",
     "wpackagist-plugin/vaultpress": "2.1.1",
     "wpackagist-plugin/wordpress-importer":"0.7",

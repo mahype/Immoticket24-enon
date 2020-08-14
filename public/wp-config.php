@@ -141,8 +141,6 @@ switch ( WP_ENV ) {
 
 define( 'DISABLE_WP_CRON', true );
 
-define( 'WP_SAMESITE_COOKIE', 'None' );
-
 define( 'CF7_MAILCHIMP_API_KEY', '97915031f990d58d79191ac983402b40-us10' );
 
 define( 'EDD_KLICKTIPP_USERNAME', 'bokobat' );
