@@ -48,11 +48,13 @@ class Mediathek_Thumbnail_Validator implements Task, Filters {
 	 */
 	public function add_filters() {
 		add_filter( 'wp_prepare_attachment_for_js', [ $this, 'validate_attachemnt_url' ], 1, 3 );
+		add_filter( 'big_image_size_threshold', [ $this, 'big_image_size_threshold' ], 9223372036854775778, 4 );
 	}
 
 	/**
 	 * @hook $attachment
 	 * @param array $attachment
+	 * @return array $attachment
 	 */
 	public function validate_attachemnt_url( array $attachment ) {
 		if ( empty( $attachment ) ) {
@@ -76,5 +78,20 @@ class Mediathek_Thumbnail_Validator implements Task, Filters {
 		}
 
 		return $attachment;
+	}
+
+	/**
+	 * Filters the "BIG image" threshold value.
+	 *
+	 * @param int    $threshold     The threshold value in pixels. Default 2560.
+	 * @param array  $imagesize
+	 * @param string $file          Full path to the uploaded image file.
+	 * @param int    $attachment_id Attachment post ID.
+	 *
+	 * @return int $threshold
+	 */
+	public function big_image_size_threshold( int $threshold, array $imagesize, string $file, int $attachment_id) {
+		$threshold = 100000;
+		return $threshold;
 	}
 }
