@@ -48,7 +48,7 @@ class Mediathek_Thumbnail_Validator implements Task, Filters {
 	 */
 	public function add_filters() {
 		add_filter( 'wp_prepare_attachment_for_js', [ $this, 'validate_attachemnt_url' ], 1, 3 );
-		add_filter( 'big_image_size_threshold', [ $this, 'big_image_size_threshold' ], 9223372036854775778, 4 );
+		add_filter( 'big_image_size_threshold', [ $this, 'big_image_size_threshold' ], 9223372036854775778 );
 	}
 
 	/**
@@ -68,7 +68,7 @@ class Mediathek_Thumbnail_Validator implements Task, Filters {
 		$attachment_path = $attachment_basepath . '/' . $url_parts['basename'];
 
 		if ( ! file_exists( $attachment_path ) ) {
-			$glob_path = $attachment_basepath . '/' . $url_parts['filename'] . '*.*';
+			$glob_path = $attachment_basepath . '/' . str_replace('-scaled', '', $url_parts['filename']) . '*.*';
 
 			foreach ( glob( $glob_path ) as $matched_attachment_url ) {
 				$attachment['sizes']['full']['url'] = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $matched_attachment_url );
@@ -82,16 +82,9 @@ class Mediathek_Thumbnail_Validator implements Task, Filters {
 
 	/**
 	 * Filters the "BIG image" threshold value.
-	 *
-	 * @param int    $threshold     The threshold value in pixels. Default 2560.
-	 * @param array  $imagesize
-	 * @param string $file          Full path to the uploaded image file.
-	 * @param int    $attachment_id Attachment post ID.
-	 *
 	 * @return int $threshold
 	 */
-	public function big_image_size_threshold( int $threshold, array $imagesize, string $file, int $attachment_id) {
-		$threshold = 100000;
-		return $threshold;
+	public function big_image_size_threshold() {
+		return false;
 	}
 }
