@@ -423,6 +423,7 @@ class Energieausweis {
 			) );
 			foreach ( $payments as $payment ) {
 				add_post_meta( $this->id, '_wpenon_attached_payment_id', $payment->ID );
+				add_post_meta( $this->id,  '_wpenon_attached_payment_log', 'Function: getPayment Payment ID: ' . $payment->ID . ' EAID: ' .$this->id . ' Found Payment data ' . print_r( $payment, true ) . ' EA: ' . print_r( $this, true ) . ' REQUEST: ' . print_r( $_REQUEST, true ) );
 			}
 		}
 
