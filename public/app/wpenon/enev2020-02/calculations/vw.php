@@ -223,9 +223,22 @@ for ( $i = 0; $i < 3; $i ++ ) {
 			$ww_verbrauch = $energieausweis->$verbrauch_key * $data['energietraeger_mpk'];
 		} else {
 			$h_verbrauch = $energieausweis->$verbrauch_key * $data['energietraeger_mpk'];
-			if ( $energieausweis->ww_info !== 'unbekannt' ) {
-				$ww_verbrauch = $h_verbrauch * 0.18;
-				$h_verbrauch  -= $ww_verbrauch;
+
+			$bugfix_start_date = strtotime( '2020-08-10 16:00' );
+			$energieausweis_date     = strtotime( $energieausweis->date );
+
+			if( $energieausweis_date > $bugfix_start_date ) {
+				// Should be
+				if ( $energieausweis->ww_info == $key ) {
+					$ww_verbrauch = $h_verbrauch * 0.18;
+					$h_verbrauch  -= $ww_verbrauch;
+				}
+			} else {
+				// Old buggy calculation
+				if ( $energieausweis->ww_info !== 'unbekannt' ) {
+					$ww_verbrauch = $h_verbrauch * 0.18;
+					$h_verbrauch  -= $ww_verbrauch;
+				}
 			}
 		}
 
