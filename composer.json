@@ -51,7 +51,7 @@
     "wpackagist-plugin/wordpress-seo": "14.6.1",
     "wpackagist-plugin/wp-postratings": "1.88",
     "wpackagist-plugin/advanced-gutenberg":"2.3.11",
-    "felixarntz/wp-gdpr-cookie-notice": "dev-master",
+    "felixarntz/wp-gdpr-cookie-notice": "1.0.0-beta.2",
     "felixarntz/plugin-lib": "dev-master"
   },
   "require-dev": {
