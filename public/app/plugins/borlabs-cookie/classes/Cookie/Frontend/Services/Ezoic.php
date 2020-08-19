@@ -93,15 +93,24 @@ class Ezoic
     {
         $code = <<<EOT
 <script>
-window.ezConsentCategories = window.ezConsentCategories || {};
+window.BorlabsEZConsentCategories = window.BorlabsEZConsentCategories || {};
 window.BorlabsCookieEzoicHandle = function (e) {
 
-    window.ezConsentCategories.preferences = window.ezConsentCategories.preferences || false;
-    window.ezConsentCategories.statistics = window.ezConsentCategories.statistics || false;
-    window.ezConsentCategories.marketing = window.ezConsentCategories.marketing || false;
+    window.BorlabsEZConsentCategories.preferences = window.BorlabsEZConsentCategories.preferences || false;
+    window.BorlabsEZConsentCategories.statistics = window.BorlabsEZConsentCategories.statistics || false;
+    window.BorlabsEZConsentCategories.marketing = window.BorlabsEZConsentCategories.marketing || false;
 
-    if (typeof ezConsentCategories == 'object' && typeof __ezconsent == 'object') {
-        __ezconsent.setEzoicConsentSettings(window.ezConsentCategories);
+    if (typeof BorlabsEZConsentCategories == 'object') {
+        var waitForEzoic = function () {
+			if (typeof __ezconsent == 'object') {
+    			window.ezConsentCategories = window.BorlabsEZConsentCategories;
+    			__ezconsent.setEzoicConsentSettings(window.ezConsentCategories);
+			} else {
+				window.setTimeout(waitForEzoic, 60);
+			}
+		};
+
+		waitForEzoic();
     }
 };
 

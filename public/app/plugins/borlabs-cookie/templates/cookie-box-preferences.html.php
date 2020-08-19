@@ -24,7 +24,7 @@
                         <h3><?php echo $cookieBoxPreferenceTextHeadline; ?></h3>
 
                         <p id="CookiePrefDescription">
-                            <?php echo $cookieBoxPreferenceTextDescription; ?>
+                            <?php echo do_shortcode($cookieBoxPreferenceTextDescription); ?>
                         </p>
 
                         <div class="row no-gutters align-items-center">

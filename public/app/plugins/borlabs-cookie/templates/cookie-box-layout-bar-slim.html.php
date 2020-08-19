@@ -25,7 +25,7 @@
 
                             <div class="<?php echo $cookieBoxShowLogo ? 'col-10 col-sm-8' : 'col-12 col-sm-9' ?>">
                                 <p id="CookieBoxTextDescription">
-                                    <?php echo $cookieBoxTextDescription; ?>
+                                    <?php echo do_shortcode($cookieBoxTextDescription); ?>
                                 </p>
 
                                 <p class="_brlbs-actions">

@@ -57,6 +57,9 @@ class Upgrade
         'upgradeVersion_2_2_3' => '2.2.3',
         'upgradeVersion_2_2_4' => '2.2.4',
         'upgradeVersion_2_2_5' => '2.2.5',
+        'upgradeVersion_2_2_6' => '2.2.6',
+        'upgradeVersion_2_2_7' => '2.2.7',
+        'upgradeVersion_2_2_8' => '2.2.8',
     ];
 
     private $currentBlogId = '';
@@ -639,6 +642,86 @@ class Upgrade
         update_option('BorlabsCookieClearCache', true, 'no');
 
         update_option('BorlabsCookieVersion', '2.2.5', 'no');
+
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_6()
+    {
+        global $wpdb;
+
+        Log::getInstance()->info(__METHOD__, 'Update Ezoic setup');
+
+        $tableNameCookies = $wpdb->prefix.'borlabs_cookie_cookies';
+
+        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameCookies)) {
+
+            $wpdb->query("
+                UPDATE
+                    `".$tableNameCookies."`
+                SET
+                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
+                    `opt_in_js` = '".esc_sql(\BorlabsCookie\Cookie\Frontend\Services\Ezoic::getInstance()->getDefault()['optInJS'])."',
+                    `fallback_js` = ''
+                WHERE
+                    `service` = 'Ezoic'
+            ");
+
+            $wpdb->query("
+                UPDATE
+                    `".$tableNameCookies."`
+                SET
+                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
+                    `opt_in_js` = '".esc_sql(\BorlabsCookie\Cookie\Frontend\Services\EzoicMarketing::getInstance()->getDefault()['optInJS'])."',
+                    `opt_out_js` = '".esc_sql(\BorlabsCookie\Cookie\Frontend\Services\EzoicMarketing::getInstance()->getDefault()['optOutJS'])."'
+                WHERE
+                    `service` = 'EzoicMarketing'
+            ");
+
+            $wpdb->query("
+                UPDATE
+                    `".$tableNameCookies."`
+                SET
+                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
+                    `opt_in_js` = '".esc_sql(\BorlabsCookie\Cookie\Frontend\Services\EzoicPreferences::getInstance()->getDefault()['optInJS'])."',
+                    `opt_out_js` = '".esc_sql(\BorlabsCookie\Cookie\Frontend\Services\EzoicPreferences::getInstance()->getDefault()['optOutJS'])."'
+                WHERE
+                    `service` = 'EzoicPreferences'
+            ");
+
+            $wpdb->query("
+                UPDATE
+                    `".$tableNameCookies."`
+                SET
+                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
+                    `opt_in_js` = '".esc_sql(\BorlabsCookie\Cookie\Frontend\Services\EzoicStatistics::getInstance()->getDefault()['optInJS'])."',
+                    `opt_out_js` = '".esc_sql(\BorlabsCookie\Cookie\Frontend\Services\EzoicStatistics::getInstance()->getDefault()['optOutJS'])."'
+                WHERE
+                    `service` = 'EzoicStatistics'
+            ");
+        }
+
+        update_option('BorlabsCookieClearCache', true, 'no');
+
+        update_option('BorlabsCookieVersion', '2.2.6', 'no');
+
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_7()
+    {
+        update_option('BorlabsCookieClearCache', true, 'no');
+
+        update_option('BorlabsCookieVersion', '2.2.7', 'no');
+
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_8()
+    {
+        update_option('BorlabsCookieClearCache', true, 'no');
+
+        update_option('BorlabsCookieVersion', '2.2.8', 'no');
 
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }

@@ -239,7 +239,7 @@ class Shortcode
                         if (!empty($cookieData->purpose)) {
                             $content .= "<tr>";
                             $content .= "<th>".$cookieBoxCookieDetailsTablePurpose."</th>";
-                            $content .= "<td>".esc_html($cookieData->purpose)."</td>";
+                            $content .= "<td>".$cookieData->purpose."</td>";
                             $content .= "</tr>";
                         }
 

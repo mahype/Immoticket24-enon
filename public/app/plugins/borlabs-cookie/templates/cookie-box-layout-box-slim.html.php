@@ -23,7 +23,7 @@
                                         >
                                     <?php } ?>
 
-                                    <p id="CookieBoxTextDescription"><?php echo $cookieBoxTextDescription; ?></p>
+                                    <p id="CookieBoxTextDescription"><?php echo do_shortcode($cookieBoxTextDescription); ?></p>
                                 </div>
 
                                 <p class="_brlbs-accept">

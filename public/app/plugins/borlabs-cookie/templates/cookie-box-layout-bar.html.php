@@ -28,7 +28,7 @@
 
                                     <div class="<?php echo $cookieBoxShowLogo ? 'col-10' : 'col-12'; ?>">
                                         <h3 id="CookieBoxTextHeadline"><?php echo $cookieBoxTextHeadline; ?></h3>
-                                        <p id="CookieBoxTextDescription"><?php echo $cookieBoxTextDescription; ?></p>
+                                        <p id="CookieBoxTextDescription"><?php echo do_shortcode($cookieBoxTextDescription); ?></p>
                                     </div>
                                 </div>
 

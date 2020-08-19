@@ -93,8 +93,8 @@ class EzoicPreferences
     {
         $code = <<<EOT
 <script>
-if (typeof window.ezConsentCategories == 'object') {
-    window.ezConsentCategories.preferences = true;
+if (typeof window.BorlabsEZConsentCategories == 'object') {
+    window.BorlabsEZConsentCategories.preferences = true;
 }
 </script>
 EOT;
@@ -111,8 +111,8 @@ EOT;
     {
         $code = <<<EOT
 <script>
-if (typeof window.ezConsentCategories == 'object') {
-    window.ezConsentCategories.preferences = false;
+if (typeof window.BorlabsEZConsentCategories == 'object') {
+    window.BorlabsEZConsentCategories.preferences = false;
 }
 </script>
 EOT;
