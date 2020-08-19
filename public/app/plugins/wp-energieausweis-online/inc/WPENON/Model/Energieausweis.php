@@ -416,15 +416,7 @@ class Energieausweis {
 				}
 			}
 		} else {
-			$payments = edd_get_payments( array(
-				'output'   => 'payments',
-				'status'   => $active_statuses,
-				'download' => $this->id,
-			) );
-			foreach ( $payments as $payment ) {
-				add_post_meta( $this->id, '_wpenon_attached_payment_id', $payment->ID );
-				add_post_meta( $this->id,  '_wpenon_attached_payment_log', 'Function: getPayment Payment ID: ' . $payment->ID . ' EAID: ' .$this->id . ' Found Payment data ' . print_r( $payment, true ) . ' EA: ' . print_r( $this, true ) . ' REQUEST: ' . print_r( $_REQUEST, true ) );
-			}
+			return null;
 		}
 
 		// preferably return a complete payment (in case multiple payments exist for an Energieausweis due to an error)
