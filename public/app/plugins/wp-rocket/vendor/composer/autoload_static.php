@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88
+class ComposerStaticInit972c8a8108ace53e56050cdd6a2791aa
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
@@ -26,10 +26,6 @@ class ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88
             'Monolog\\' => 8,
             'MatthiasMullie\\PathConverter\\' => 29,
             'MatthiasMullie\\Minify\\' => 22,
-        ),
-        'L' => 
-        array (
-            'League\\Container\\' => 17,
         ),
         'I' => 
         array (
@@ -73,10 +69,6 @@ class ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88
         'MatthiasMullie\\Minify\\' => 
         array (
             0 => __DIR__ . '/..' . '/matthiasmullie/minify/src',
-        ),
-        'League\\Container\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/league/container/src',
         ),
         'Interop\\Container\\' => 
         array (
@@ -187,36 +179,6 @@ class ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88
         'Interop\\Container\\ContainerInterface' => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container/ContainerInterface.php',
         'Interop\\Container\\Exception\\ContainerException' => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container/Exception/ContainerException.php',
         'Interop\\Container\\Exception\\NotFoundException' => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container/Exception/NotFoundException.php',
-        'League\\Container\\Argument\\ArgumentResolverInterface' => __DIR__ . '/..' . '/league/container/src/Argument/ArgumentResolverInterface.php',
-        'League\\Container\\Argument\\ArgumentResolverTrait' => __DIR__ . '/..' . '/league/container/src/Argument/ArgumentResolverTrait.php',
-        'League\\Container\\Argument\\RawArgument' => __DIR__ . '/..' . '/league/container/src/Argument/RawArgument.php',
-        'League\\Container\\Argument\\RawArgumentInterface' => __DIR__ . '/..' . '/league/container/src/Argument/RawArgumentInterface.php',
-        'League\\Container\\Container' => __DIR__ . '/..' . '/league/container/src/Container.php',
-        'League\\Container\\ContainerAwareInterface' => __DIR__ . '/..' . '/league/container/src/ContainerAwareInterface.php',
-        'League\\Container\\ContainerAwareTrait' => __DIR__ . '/..' . '/league/container/src/ContainerAwareTrait.php',
-        'League\\Container\\ContainerInterface' => __DIR__ . '/..' . '/league/container/src/ContainerInterface.php',
-        'League\\Container\\Definition\\AbstractDefinition' => __DIR__ . '/..' . '/league/container/src/Definition/AbstractDefinition.php',
-        'League\\Container\\Definition\\CallableDefinition' => __DIR__ . '/..' . '/league/container/src/Definition/CallableDefinition.php',
-        'League\\Container\\Definition\\ClassDefinition' => __DIR__ . '/..' . '/league/container/src/Definition/ClassDefinition.php',
-        'League\\Container\\Definition\\ClassDefinitionInterface' => __DIR__ . '/..' . '/league/container/src/Definition/ClassDefinitionInterface.php',
-        'League\\Container\\Definition\\DefinitionFactory' => __DIR__ . '/..' . '/league/container/src/Definition/DefinitionFactory.php',
-        'League\\Container\\Definition\\DefinitionFactoryInterface' => __DIR__ . '/..' . '/league/container/src/Definition/DefinitionFactoryInterface.php',
-        'League\\Container\\Definition\\DefinitionInterface' => __DIR__ . '/..' . '/league/container/src/Definition/DefinitionInterface.php',
-        'League\\Container\\Exception\\NotFoundException' => __DIR__ . '/..' . '/league/container/src/Exception/NotFoundException.php',
-        'League\\Container\\ImmutableContainerAwareInterface' => __DIR__ . '/..' . '/league/container/src/ImmutableContainerAwareInterface.php',
-        'League\\Container\\ImmutableContainerAwareTrait' => __DIR__ . '/..' . '/league/container/src/ImmutableContainerAwareTrait.php',
-        'League\\Container\\ImmutableContainerInterface' => __DIR__ . '/..' . '/league/container/src/ImmutableContainerInterface.php',
-        'League\\Container\\Inflector\\Inflector' => __DIR__ . '/..' . '/league/container/src/Inflector/Inflector.php',
-        'League\\Container\\Inflector\\InflectorAggregate' => __DIR__ . '/..' . '/league/container/src/Inflector/InflectorAggregate.php',
-        'League\\Container\\Inflector\\InflectorAggregateInterface' => __DIR__ . '/..' . '/league/container/src/Inflector/InflectorAggregateInterface.php',
-        'League\\Container\\ReflectionContainer' => __DIR__ . '/..' . '/league/container/src/ReflectionContainer.php',
-        'League\\Container\\ServiceProvider\\AbstractServiceProvider' => __DIR__ . '/..' . '/league/container/src/ServiceProvider/AbstractServiceProvider.php',
-        'League\\Container\\ServiceProvider\\AbstractSignatureServiceProvider' => __DIR__ . '/..' . '/league/container/src/ServiceProvider/AbstractSignatureServiceProvider.php',
-        'League\\Container\\ServiceProvider\\BootableServiceProviderInterface' => __DIR__ . '/..' . '/league/container/src/ServiceProvider/BootableServiceProviderInterface.php',
-        'League\\Container\\ServiceProvider\\ServiceProviderAggregate' => __DIR__ . '/..' . '/league/container/src/ServiceProvider/ServiceProviderAggregate.php',
-        'League\\Container\\ServiceProvider\\ServiceProviderAggregateInterface' => __DIR__ . '/..' . '/league/container/src/ServiceProvider/ServiceProviderAggregateInterface.php',
-        'League\\Container\\ServiceProvider\\ServiceProviderInterface' => __DIR__ . '/..' . '/league/container/src/ServiceProvider/ServiceProviderInterface.php',
-        'League\\Container\\ServiceProvider\\SignatureServiceProviderInterface' => __DIR__ . '/..' . '/league/container/src/ServiceProvider/SignatureServiceProviderInterface.php',
         'MatthiasMullie\\Minify\\CSS' => __DIR__ . '/..' . '/matthiasmullie/minify/src/CSS.php',
         'MatthiasMullie\\Minify\\Exception' => __DIR__ . '/..' . '/matthiasmullie/minify/src/Exception.php',
         'MatthiasMullie\\Minify\\Exceptions\\BasicException' => __DIR__ . '/..' . '/matthiasmullie/minify/src/Exceptions/BasicException.php',
@@ -351,7 +313,11 @@ class ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88
         'WP_Async_Request' => __DIR__ . '/..' . '/wp-media/background-processing/wp-async-request.php',
         'WP_Background_Process' => __DIR__ . '/..' . '/wp-media/background-processing/wp-background-process.php',
         'WP_Rocket\\Abstract_Render' => __DIR__ . '/../..' . '/inc/classes/class-abstract-render.php',
+        'WP_Rocket\\Addon\\Busting\\BustingFactory' => __DIR__ . '/../..' . '/inc/Addon/Busting/BustingFactory.php',
+        'WP_Rocket\\Addon\\Busting\\FileBustingTrait' => __DIR__ . '/../..' . '/inc/Addon/Busting/FileBustingTrait.php',
         'WP_Rocket\\Addon\\FacebookTracking\\Subscriber' => __DIR__ . '/../..' . '/inc/Addon/FacebookTracking/Subscriber.php',
+        'WP_Rocket\\Addon\\GoogleTracking\\GoogleAnalytics' => __DIR__ . '/../..' . '/inc/Addon/GoogleTracking/GoogleAnalytics.php',
+        'WP_Rocket\\Addon\\GoogleTracking\\GoogleTagManager' => __DIR__ . '/../..' . '/inc/Addon/GoogleTracking/GoogleTagManager.php',
         'WP_Rocket\\Addon\\GoogleTracking\\Subscriber' => __DIR__ . '/../..' . '/inc/Addon/GoogleTracking/Subscriber.php',
         'WP_Rocket\\Addon\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Addon/ServiceProvider.php',
         'WP_Rocket\\Addon\\Varnish\\Subscriber' => __DIR__ . '/../..' . '/inc/Addon/Varnish/Subscriber.php',
@@ -369,13 +335,12 @@ class ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88
         'WP_Rocket\\Buffer\\Optimization' => __DIR__ . '/../..' . '/inc/classes/Buffer/class-optimization.php',
         'WP_Rocket\\Buffer\\Tests' => __DIR__ . '/../..' . '/inc/classes/Buffer/class-tests.php',
         'WP_Rocket\\Busting\\Abstract_Busting' => __DIR__ . '/../..' . '/inc/classes/busting/class-abstract-busting.php',
-        'WP_Rocket\\Busting\\Busting_Factory' => __DIR__ . '/../..' . '/inc/classes/busting/class-busting-factory.php',
         'WP_Rocket\\Busting\\Facebook_Pickles' => __DIR__ . '/../..' . '/inc/classes/busting/class-facebook-pickles.php',
         'WP_Rocket\\Busting\\Facebook_SDK' => __DIR__ . '/../..' . '/inc/classes/busting/class-facebook-sdk.php',
-        'WP_Rocket\\Busting\\File_Busting' => __DIR__ . '/../..' . '/inc/classes/busting/trait-file-busting.php',
-        'WP_Rocket\\Busting\\Google_Analytics' => __DIR__ . '/../..' . '/inc/classes/busting/class-google-analytics.php',
-        'WP_Rocket\\Busting\\Google_Tag_Manager' => __DIR__ . '/../..' . '/inc/classes/busting/class-google-tag-manager.php',
         'WP_Rocket\\Cache\\Expired_Cache_Purge' => __DIR__ . '/../..' . '/inc/classes/Cache/class-expired-cache-purge.php',
+        'WP_Rocket\\Engine\\Activation\\Activation' => __DIR__ . '/../..' . '/inc/Engine/Activation/Activation.php',
+        'WP_Rocket\\Engine\\Activation\\ActivationInterface' => __DIR__ . '/../..' . '/inc/Engine/Activation/ActivationInterface.php',
+        'WP_Rocket\\Engine\\Activation\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/Activation/ServiceProvider.php',
         'WP_Rocket\\Engine\\Admin\\Beacon\\Beacon' => __DIR__ . '/../..' . '/inc/Engine/Admin/Beacon/Beacon.php',
         'WP_Rocket\\Engine\\Admin\\Beacon\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/Admin/Beacon/ServiceProvider.php',
         'WP_Rocket\\Engine\\Admin\\Deactivation\\DeactivationIntent' => __DIR__ . '/../..' . '/inc/Engine/Admin/Deactivation/DeactivationIntent.php',
@@ -401,6 +366,39 @@ class ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88
         'WP_Rocket\\Engine\\Cache\\PurgeActionsSubscriber' => __DIR__ . '/../..' . '/inc/Engine/Cache/PurgeActionsSubscriber.php',
         'WP_Rocket\\Engine\\Cache\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/Cache/ServiceProvider.php',
         'WP_Rocket\\Engine\\Cache\\WPCache' => __DIR__ . '/../..' . '/inc/Engine/Cache/WPCache.php',
+        'WP_Rocket\\Engine\\Capabilities\\Manager' => __DIR__ . '/../..' . '/inc/Engine/Capabilities/Manager.php',
+        'WP_Rocket\\Engine\\Capabilities\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/Capabilities/ServiceProvider.php',
+        'WP_Rocket\\Engine\\Capabilities\\Subscriber' => __DIR__ . '/../..' . '/inc/Engine/Capabilities/Subscriber.php',
+        'WP_Rocket\\Engine\\Container\\Argument\\ArgumentResolverInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/Argument/ArgumentResolverInterface.php',
+        'WP_Rocket\\Engine\\Container\\Argument\\ArgumentResolverTrait' => __DIR__ . '/../..' . '/inc/Engine/Container/Argument/ArgumentResolverTrait.php',
+        'WP_Rocket\\Engine\\Container\\Argument\\RawArgument' => __DIR__ . '/../..' . '/inc/Engine/Container/Argument/RawArgument.php',
+        'WP_Rocket\\Engine\\Container\\Argument\\RawArgumentInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/Argument/RawArgumentInterface.php',
+        'WP_Rocket\\Engine\\Container\\Container' => __DIR__ . '/../..' . '/inc/Engine/Container/Container.php',
+        'WP_Rocket\\Engine\\Container\\ContainerAwareInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/ContainerAwareInterface.php',
+        'WP_Rocket\\Engine\\Container\\ContainerAwareTrait' => __DIR__ . '/../..' . '/inc/Engine/Container/ContainerAwareTrait.php',
+        'WP_Rocket\\Engine\\Container\\ContainerInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/ContainerInterface.php',
+        'WP_Rocket\\Engine\\Container\\Definition\\AbstractDefinition' => __DIR__ . '/../..' . '/inc/Engine/Container/Definition/AbstractDefinition.php',
+        'WP_Rocket\\Engine\\Container\\Definition\\CallableDefinition' => __DIR__ . '/../..' . '/inc/Engine/Container/Definition/CallableDefinition.php',
+        'WP_Rocket\\Engine\\Container\\Definition\\ClassDefinition' => __DIR__ . '/../..' . '/inc/Engine/Container/Definition/ClassDefinition.php',
+        'WP_Rocket\\Engine\\Container\\Definition\\ClassDefinitionInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/Definition/ClassDefinitionInterface.php',
+        'WP_Rocket\\Engine\\Container\\Definition\\DefinitionFactory' => __DIR__ . '/../..' . '/inc/Engine/Container/Definition/DefinitionFactory.php',
+        'WP_Rocket\\Engine\\Container\\Definition\\DefinitionFactoryInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/Definition/DefinitionFactoryInterface.php',
+        'WP_Rocket\\Engine\\Container\\Definition\\DefinitionInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/Definition/DefinitionInterface.php',
+        'WP_Rocket\\Engine\\Container\\Exception\\NotFoundException' => __DIR__ . '/../..' . '/inc/Engine/Container/Exception/NotFoundException.php',
+        'WP_Rocket\\Engine\\Container\\ImmutableContainerAwareInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/ImmutableContainerAwareInterface.php',
+        'WP_Rocket\\Engine\\Container\\ImmutableContainerAwareTrait' => __DIR__ . '/../..' . '/inc/Engine/Container/ImmutableContainerAwareTrait.php',
+        'WP_Rocket\\Engine\\Container\\ImmutableContainerInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/ImmutableContainerInterface.php',
+        'WP_Rocket\\Engine\\Container\\Inflector\\Inflector' => __DIR__ . '/../..' . '/inc/Engine/Container/Inflector/Inflector.php',
+        'WP_Rocket\\Engine\\Container\\Inflector\\InflectorAggregate' => __DIR__ . '/../..' . '/inc/Engine/Container/Inflector/InflectorAggregate.php',
+        'WP_Rocket\\Engine\\Container\\Inflector\\InflectorAggregateInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/Inflector/InflectorAggregateInterface.php',
+        'WP_Rocket\\Engine\\Container\\ReflectionContainer' => __DIR__ . '/../..' . '/inc/Engine/Container/ReflectionContainer.php',
+        'WP_Rocket\\Engine\\Container\\ServiceProvider\\AbstractServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/Container/ServiceProvider/AbstractServiceProvider.php',
+        'WP_Rocket\\Engine\\Container\\ServiceProvider\\AbstractSignatureServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/Container/ServiceProvider/AbstractSignatureServiceProvider.php',
+        'WP_Rocket\\Engine\\Container\\ServiceProvider\\BootableServiceProviderInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/ServiceProvider/BootableServiceProviderInterface.php',
+        'WP_Rocket\\Engine\\Container\\ServiceProvider\\ServiceProviderAggregate' => __DIR__ . '/../..' . '/inc/Engine/Container/ServiceProvider/ServiceProviderAggregate.php',
+        'WP_Rocket\\Engine\\Container\\ServiceProvider\\ServiceProviderAggregateInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/ServiceProvider/ServiceProviderAggregateInterface.php',
+        'WP_Rocket\\Engine\\Container\\ServiceProvider\\ServiceProviderInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/ServiceProvider/ServiceProviderInterface.php',
+        'WP_Rocket\\Engine\\Container\\ServiceProvider\\SignatureServiceProviderInterface' => __DIR__ . '/../..' . '/inc/Engine/Container/ServiceProvider/SignatureServiceProviderInterface.php',
         'WP_Rocket\\Engine\\CriticalPath\\APIClient' => __DIR__ . '/../..' . '/inc/Engine/CriticalPath/APIClient.php',
         'WP_Rocket\\Engine\\CriticalPath\\Admin\\Admin' => __DIR__ . '/../..' . '/inc/Engine/CriticalPath/Admin/Admin.php',
         'WP_Rocket\\Engine\\CriticalPath\\Admin\\Post' => __DIR__ . '/../..' . '/inc/Engine/CriticalPath/Admin/Post.php',
@@ -417,6 +415,9 @@ class ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88
         'WP_Rocket\\Engine\\CriticalPath\\RESTWPPost' => __DIR__ . '/../..' . '/inc/Engine/CriticalPath/RESTWPPost.php',
         'WP_Rocket\\Engine\\CriticalPath\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/CriticalPath/ServiceProvider.php',
         'WP_Rocket\\Engine\\CriticalPath\\TransientTrait' => __DIR__ . '/../..' . '/inc/Engine/CriticalPath/TransientTrait.php',
+        'WP_Rocket\\Engine\\Deactivation\\Deactivation' => __DIR__ . '/../..' . '/inc/Engine/Deactivation/Deactivation.php',
+        'WP_Rocket\\Engine\\Deactivation\\DeactivationInterface' => __DIR__ . '/../..' . '/inc/Engine/Deactivation/DeactivationInterface.php',
+        'WP_Rocket\\Engine\\Deactivation\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/Deactivation/ServiceProvider.php',
         'WP_Rocket\\Engine\\HealthCheck\\CacheDirSizeCheck' => __DIR__ . '/../..' . '/inc/Engine/HealthCheck/CacheDirSizeCheck.php',
         'WP_Rocket\\Engine\\HealthCheck\\HealthCheck' => __DIR__ . '/../..' . '/inc/Engine/HealthCheck/HealthCheck.php',
         'WP_Rocket\\Engine\\HealthCheck\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/HealthCheck/ServiceProvider.php',
@@ -474,7 +475,6 @@ class ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88
         'WP_Rocket\\Subscriber\\Optimization\\Buffer_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Optimization/class-buffer-subscriber.php',
         'WP_Rocket\\Subscriber\\Optimization\\Dequeue_JQuery_Migrate_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Optimization/class-dequeue-jquery-migrate-subscriber.php',
         'WP_Rocket\\Subscriber\\Optimization\\Minify_HTML_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Optimization/class-minify-html-subscriber.php',
-        'WP_Rocket\\Subscriber\\Plugin\\Capabilities_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Plugin/class-capabilities-subscriber.php',
         'WP_Rocket\\Subscriber\\Plugin\\Information_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Plugin/class-information-subscriber.php',
         'WP_Rocket\\Subscriber\\Plugin\\Updater_Api_Common_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Plugin/class-updater-api-common-subscriber.php',
         'WP_Rocket\\Subscriber\\Plugin\\Updater_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Plugin/class-updater-subscriber.php',
@@ -491,10 +491,18 @@ class ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88
         'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\Security\\Sucuri_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/security/class-sucuri-subscriber.php',
         'WP_Rocket\\Subscriber\\Third_Party\\Plugins\\SyntaxHighlighter_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/third-party/plugins/class-syntaxhighlighter-subscriber.php',
         'WP_Rocket\\Subscriber\\Tools\\Detect_Missing_Tags_Subscriber' => __DIR__ . '/../..' . '/inc/classes/subscriber/Tools/class-detect-missing-tags-subscriber.php',
+        'WP_Rocket\\ThirdParty\\Hostings\\AbstractNoCacheHost' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/AbstractNoCacheHost.php',
         'WP_Rocket\\ThirdParty\\Hostings\\Cloudways' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/Cloudways.php',
+        'WP_Rocket\\ThirdParty\\Hostings\\HostResolver' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/HostResolver.php',
+        'WP_Rocket\\ThirdParty\\Hostings\\HostSubscriberFactory' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/HostSubscriberFactory.php',
+        'WP_Rocket\\ThirdParty\\Hostings\\O2Switch' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/O2Switch.php',
         'WP_Rocket\\ThirdParty\\Hostings\\Pressable' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/Pressable.php',
+        'WP_Rocket\\ThirdParty\\Hostings\\Savvii' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/Savvii.php',
+        'WP_Rocket\\ThirdParty\\Hostings\\ServiceProvider' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/ServiceProvider.php',
         'WP_Rocket\\ThirdParty\\Hostings\\SpinUpWP' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/SpinUpWP.php',
         'WP_Rocket\\ThirdParty\\Hostings\\WPEngine' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/WPEngine.php',
+        'WP_Rocket\\ThirdParty\\Hostings\\WordPressCom' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/WordPressCom.php',
+        'WP_Rocket\\ThirdParty\\NullSubscriber' => __DIR__ . '/../..' . '/inc/ThirdParty/NullSubscriber.php',
         'WP_Rocket\\ThirdParty\\Plugins\\Ecommerce\\WooCommerceSubscriber' => __DIR__ . '/../..' . '/inc/ThirdParty/Plugins/Ecommerce/WooCommerceSubscriber.php',
         'WP_Rocket\\ThirdParty\\Plugins\\Optimization\\AMP' => __DIR__ . '/../..' . '/inc/ThirdParty/Plugins/Optimization/AMP.php',
         'WP_Rocket\\ThirdParty\\Plugins\\Optimization\\Hummingbird' => __DIR__ . '/../..' . '/inc/ThirdParty/Plugins/Optimization/Hummingbird.php',
@@ -505,7 +513,9 @@ class ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88
         'WP_Rocket\\ThirdParty\\Plugins\\Smush' => __DIR__ . '/../..' . '/inc/ThirdParty/Plugins/Smush.php',
         'WP_Rocket\\ThirdParty\\ReturnTypesTrait' => __DIR__ . '/../..' . '/inc/ThirdParty/ReturnTypesTrait.php',
         'WP_Rocket\\ThirdParty\\ServiceProvider' => __DIR__ . '/../..' . '/inc/ThirdParty/ServiceProvider.php',
+        'WP_Rocket\\ThirdParty\\SubscriberFactoryInterface' => __DIR__ . '/../..' . '/inc/ThirdParty/SubscriberFactoryInterface.php',
         'WP_Rocket\\ThirdParty\\Themes\\Bridge' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/Bridge.php',
+        'WP_Rocket\\ThirdParty\\Themes\\Divi' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/Divi.php',
         'WP_Rocket\\Traits\\Config_Updater' => __DIR__ . '/../..' . '/inc/classes/traits/trait-config-updater.php',
         'WP_Rocket\\Traits\\Memoize' => __DIR__ . '/../..' . '/inc/classes/traits/trait-memoize.php',
         'WP_Rocket\\Traits\\Updater_Api_Tools' => __DIR__ . '/../..' . '/inc/classes/traits/trait-updater-api-tools.php',
@@ -515,9 +525,9 @@ class ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit1efe4e5d8ad8da04b748b8e1b52c5a88::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit972c8a8108ace53e56050cdd6a2791aa::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit972c8a8108ace53e56050cdd6a2791aa::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit972c8a8108ace53e56050cdd6a2791aa::$classMap;
 
         }, null, ClassLoader::class);
     }
