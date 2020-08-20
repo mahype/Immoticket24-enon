@@ -92,7 +92,13 @@ class Fix_Misleaded_Invoices implements Actions, Task {
 				echo sprintf( '<a href="%s" target="_blank">Invoice</a><br />', $invoice_url );
 
 				if( $_GET['misleaded_invoices'] === 'delete' ) {
-					$this->remove_payment_from_download( $payment->ID, $download_id );
+					$affected_rows = $this->remove_payment_from_download( $payment->ID, $download_id );
+					if ( $affected_rows > 0 ) {
+						echo sprintf( '<span style="color:green">Removed Payment %d from download %d</span> - Affected rows = %d<br /> ', $payment->ID, $download_id, $affected_rows );
+					} else {
+						echo sprintf( '<span style="color:red; font-weight:bold;">Removing Payment %d from download failed %d</span> - Affected rows = %d<br /> ', $payment->ID, $download_id, $affected_rows );
+					}
+
 				}
 			} else {
 				$download_url = admin_url( sprintf( 'post.php?post=%d&action=edit', $download_id ) );
@@ -109,9 +115,10 @@ class Fix_Misleaded_Invoices implements Actions, Task {
 
 		$data   = [
 			'post_id' => $download_id,
-			'_wpenon_attached_payment_id' => $payment_id,
+			'meta_key' => '_wpenon_attached_payment_id',
+			'meta_value' => $payment_id,
 		];
-		$format = [ '%d', '%d' ];
+		$format = [ '%d', '%s', '%d' ];
 
 		return $wpdb->delete( 'wpit24_postmeta', $data, $format );
 	}
