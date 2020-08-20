@@ -27,7 +27,7 @@
                                     <h3 id="CookieBoxTextHeadline"><?php echo $cookieBoxTextHeadline; ?></h3>
                                 </div>
 
-                                <p id="CookieBoxTextDescription"><?php echo $cookieBoxTextDescription; ?></p>
+                                <p id="CookieBoxTextDescription"><?php echo do_shortcode($cookieBoxTextDescription); ?></p>
 
                                 <?php if (!empty($cookieGroups)) { ?>
                                     <ul>

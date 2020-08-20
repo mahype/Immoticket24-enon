@@ -1,0 +1,19 @@
+--- includes/libraries/class-wp-session.php
++++ includes/libraries/class-wp-session.php
+@@ -133,7 +133,15 @@
+ 	 * Set the session cookie
+ 	 */
+ 	protected function set_cookie() {
+-		@setcookie( WP_SESSION_COOKIE, $this->session_id . '||' . $this->expires . '||' . $this->exp_variant , $this->expires, COOKIEPATH, COOKIE_DOMAIN );
++		$options = [
++			'expires'  => $this->expires,
++			'path'     => COOKIEPATH,
++			'domain'   => COOKIE_DOMAIN,
++			'secure'   => false,
++			'samesite' => 'None'
++		];
++
++		@setcookie( WP_SESSION_COOKIE, $this->session_id . '||' . $this->expires . '||' . $this->exp_variant , $options );
+ 	}
+
+ 	/**

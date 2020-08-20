@@ -148,6 +148,8 @@ define( 'EDD_KLICKTIPP_PASSWORD', 'HerrArntz' );
 define( 'EDD_KLICKTIPP_LIST_ID', 94806 );
 define( 'EDD_KLICKTIPP_TAG_ID', 2001353 );
 
+define( 'WP_MEMORY_LIMIT', '1024M');
+
 /**===============================
  * WordPress Bootstrap
  * Never edit the following lines!

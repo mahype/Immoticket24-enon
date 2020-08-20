@@ -141,6 +141,9 @@ class CrossDomainCookie
                 /* Set cookie */
                 $javascript = '<script>document.cookie = "' . implode(';', $cookieInformation) . '";</script>';
 
+                /* Cross-Cookie workaround due SameSite Policy - Does not work in incognito mode because browsers block third party cookies in that mode by default */
+                header('Set-Cookie: borlabs-cookie=' . rawurlencode(json_encode($cookieData)) . '; SameSite=None; Secure');
+
                 echo "<html><head><meta name=\"robots\" content=\"noindex,nofollow,norarchive\"></head><body>" . $javascript . "</body></html>";
             }
         }

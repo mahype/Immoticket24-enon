@@ -48,6 +48,7 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function add_admin_tasks() {
+		// $this->add_task( Fix_Misleaded_Invoices::class );
 		$this->add_task( Setup_Edd_Payments_Table::class );
 		$this->add_task( Mediathek_Thumbnail_Validator::class );
 	}

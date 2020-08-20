@@ -93,8 +93,8 @@ class EzoicMarketing
     {
         $code = <<<EOT
 <script>
-if (typeof window.ezConsentCategories == 'object') {
-    window.ezConsentCategories.marketing = true;
+if (typeof window.BorlabsEZConsentCategories == 'object') {
+    window.BorlabsEZConsentCategories.marketing = true;
 }
 </script>
 EOT;
@@ -111,8 +111,8 @@ EOT;
     {
         $code = <<<EOT
 <script>
-if (typeof window.ezConsentCategories == 'object') {
-    window.ezConsentCategories.marketing = false;
+if (typeof window.BorlabsEZConsentCategories == 'object') {
+    window.BorlabsEZConsentCategories.marketing = false;
 }
 </script>
 EOT;

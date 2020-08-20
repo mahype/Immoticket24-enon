@@ -55,6 +55,7 @@ class General {
 		if ( isset( $payment_data['cart_details'] ) ) {
 			foreach ( $payment_data['cart_details'] as $item ) {
 				add_post_meta( $item['id'], '_wpenon_attached_payment_id', $payment_id );
+				add_post_meta( $item['id'], '_wpenon_attached_payment_log', 'Function: _attachPayment Payment ID: ' . $payment_id . ' EAID: ' . $item['id'] . ' Payment data ' . print_r( $payment_data, true ) );
 			}
 		}
 	}
@@ -64,6 +65,7 @@ class General {
 		if ( is_array( $cart_details ) ) {
 			foreach ( $cart_details as $item ) {
 				delete_post_meta( $item['id'], '_wpenon_attached_payment_id', $payment_id );
+				delete_post_meta( $item['id'], '_wpenon_attached_payment_log', $payment_id );
 			}
 		}
 	}

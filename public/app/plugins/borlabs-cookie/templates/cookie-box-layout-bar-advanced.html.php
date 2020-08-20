@@ -31,7 +31,7 @@
                                             <?php echo $cookieBoxTextHeadline; ?>
                                         </h3>
                                         <p id="CookieBoxTextDescription">
-                                            <?php echo $cookieBoxTextDescription; ?>
+                                            <?php echo do_shortcode($cookieBoxTextDescription); ?>
                                         </p>
                                     </div>
                                 </div>

@@ -93,8 +93,8 @@ class EzoicStatistics
     {
         $code = <<<EOT
 <script>
-if (typeof window.ezConsentCategories == 'object') {
-    window.ezConsentCategories.statistics = true;
+if (typeof window.BorlabsEZConsentCategories == 'object') {
+    window.BorlabsEZConsentCategories.statistics = true;
 }
 </script>
 EOT;
@@ -111,8 +111,8 @@ EOT;
     {
         $code = <<<EOT
 <script>
-if (typeof window.ezConsentCategories == 'object') {
-    window.ezConsentCategories.statistics = false;
+if (typeof window.BorlabsEZConsentCategories == 'object') {
+    window.BorlabsEZConsentCategories.statistics = false;
 }
 </script>
 EOT;

@@ -21,21 +21,25 @@ add_filter('edd_cart_contents', function (array $cart ): array {
  * @wp-hook edd_stats_meta_box
  */
 add_action('edd_stats_meta_box', function (){
-	if(empty($_GET['post'])){
+	if ( empty( $_GET['post'] ) ) {
 		return;
 	}
 
 	$post_id    = $_GET['post'];
-	$invoice_id = get_post_meta($post_id, '_wpenon_attached_payment_id', true);
-	$invoice    = get_post($invoice_id);
 
-	if(empty($invoice_id)){
+	$payments = get_post_meta( $post_id, '_wpenon_attached_payment_id' );
+
+	if( count( $payments ) === 0 ) {
 		return;
 	}
 
-	$invoice_url = admin_url('edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $invoice_id);
+	echo '<hr />Zugehörige Rechnung/en:<br />';
 
-	echo '<hr />Zugehörige Rechnung: <a href="' . $invoice_url . '">' . $invoice->post_title . '</a>';
+	foreach( $payments AS $payment_id ) {
+		$payment = edd_get_payment( $payment_id );
+		$payment_url = admin_url( 'edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment->ID );
+		echo '<a href="' . $payment_url . '">' . $payment->number . '</a> (' . $payment->gateway . '/' . $payment->status_nicename. ')<br />';
+	}
 });
 
 // custom functions

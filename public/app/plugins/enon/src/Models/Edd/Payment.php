@@ -71,15 +71,22 @@ class Payment {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return int Energieausweis id.
+	 * @return int|null Energieausweis id.
 	 */
-	public function get_energieausweis_id() : int {
+	public function get_energieausweis_id() : ?int {
+		$id = null;
+
 		$payment = new \Edd_Payment( $this->id );
 		$cart_details = $payment->cart_details;
 
-		$item         = array_shift( $cart_details );
+		if(empty($cart_details)){
+			return $id;
+		}
 
-		return $item['id'];
+		$item = array_shift( $cart_details );
+		$id = $item['id'];
+
+		return $id;
 	}
 
 	/**

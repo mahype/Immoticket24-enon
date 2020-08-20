@@ -313,7 +313,7 @@ class ThirdPartyHelper
                 'name' => $cookieData->name,
                 'provider' => $cookieData->provider,
                 'purpose' => $cookieData->purpose,
-                'privacyPolicyURL' => $cookieData->privacyPolicyURL,
+                'privacyPolicyURL' => $cookieData->privacy_policy_url,
                 'hosts' => $cookieData->hosts,
                 'cookieName' => $cookieData->cookie_name,
                 'cookieExpiry' => $cookieData->cookie_expiry,
