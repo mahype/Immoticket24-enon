@@ -44,7 +44,7 @@ class Fix_Misleaded_Invoices implements Actions, Task {
 
 	private function get_downloads_with_multiple_invoices() {
 		global $wpdb;
-		$sql = "SELECT p.ID, p.post_date, p.post_title, COUNT(ID) AS counter FROM `wpit24_posts` AS p, `wpit24_postmeta` AS pm WHERE pm.post_id=p.ID AND pm.meta_key='_wpenon_attached_payment_id' AND p.post_date > '2020-07-15' GROUP BY p.ID HAVING COUNT(ID) > 1";
+		$sql = "SELECT p.ID, p.post_date, p.post_title, COUNT(ID) AS counter FROM `wpit24_posts` AS p, `wpit24_postmeta` AS pm WHERE pm.post_id=p.ID AND pm.meta_key='_wpenon_attached_payment_id' AND p.post_date > '2020-07-01' GROUP BY p.ID HAVING COUNT(ID) > 1";
 		return $wpdb->get_results( $sql );
 	}
 
@@ -90,6 +90,10 @@ class Fix_Misleaded_Invoices implements Actions, Task {
 				echo sprintf( '<span style="color:red">Payment %d have to be removed from download %d</span> - ', $payment->ID, $download_id );
 				echo sprintf( '<a href="%s" target="_blank">Download</a> | ', $download_url );
 				echo sprintf( '<a href="%s" target="_blank">Invoice</a><br />', $invoice_url );
+
+				if( $_GET['misleaded_invoices'] === 'delete' ) {
+					$this->remove_payment_from_download( $payment->ID, $download_id );
+				}
 			} else {
 				$download_url = admin_url( sprintf( 'post.php?post=%d&action=edit', $download_id ) );
 				$invoice_url = admin_url( sprintf( 'edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=%d', $payment->ID ) );
@@ -124,9 +128,10 @@ class Fix_Misleaded_Invoices implements Actions, Task {
 
 		$downloads = $this->get_downloads_with_multiple_invoices();
 
+		$i = 1;
 		foreach ( $downloads as $download ) {
 			if( $this->download_has_incorrect_payment_ids( $download->ID ) ) {
-				echo '<b>Inorrect invoices for ' .  $download->post_title . '</b><br />';
+				echo '<b>Inorrect invoices for ' .  $download->post_title . ' (' . $i++ . ')</b><br />';
 				$this->fix_incorrect_payment_ids( $download->ID );
 			}
 		}
