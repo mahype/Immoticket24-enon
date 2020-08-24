@@ -48,11 +48,13 @@ class Mediathek_Thumbnail_Validator implements Task, Filters {
 	 */
 	public function add_filters() {
 		add_filter( 'wp_prepare_attachment_for_js', [ $this, 'validate_attachemnt_url' ], 1, 3 );
+		add_filter( 'big_image_size_threshold', [ $this, 'big_image_size_threshold' ], 9223372036854775778 );
 	}
 
 	/**
 	 * @hook $attachment
 	 * @param array $attachment
+	 * @return array $attachment
 	 */
 	public function validate_attachemnt_url( array $attachment ) {
 		if ( empty( $attachment ) ) {
@@ -66,7 +68,7 @@ class Mediathek_Thumbnail_Validator implements Task, Filters {
 		$attachment_path = $attachment_basepath . '/' . $url_parts['basename'];
 
 		if ( ! file_exists( $attachment_path ) ) {
-			$glob_path = $attachment_basepath . '/' . $url_parts['filename'] . '*.*';
+			$glob_path = $attachment_basepath . '/' . str_replace('-scaled', '', $url_parts['filename']) . '*.*';
 
 			foreach ( glob( $glob_path ) as $matched_attachment_url ) {
 				$attachment['sizes']['full']['url'] = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $matched_attachment_url );
@@ -76,5 +78,13 @@ class Mediathek_Thumbnail_Validator implements Task, Filters {
 		}
 
 		return $attachment;
+	}
+
+	/**
+	 * Filters the "BIG image" threshold value.
+	 * @return int $threshold
+	 */
+	public function big_image_size_threshold() {
+		return false;
 	}
 }
