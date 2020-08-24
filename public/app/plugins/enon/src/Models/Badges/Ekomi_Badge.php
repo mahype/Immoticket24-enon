@@ -54,40 +54,7 @@ class Ekomi_Badge extends Badge_Component {
 	}
 
 	public function js() : string {
-		ob_start();
-		?>
-		<script type="text/javascript">
-			jQuery( document ).ready( function( $ ) {
-				$('#ekomi-wrap').hover( function () {
-					if ( document.documentElement.clientWidth < 992 ) {
-						return;
-					}
-					$('#eKomiWidget_default').fadeIn(50);
-				}, function () {
-					if ( document.documentElement.clientWidth < 992 ) {
-						return;
-					}
-					$('#eKomiWidget_default').fadeOut(50);
-				});
-			});
-
-			(function(){
-				eKomiIntegrationConfig = new Array(
-					{certId:'0C5034E9BC8E6D1'}
-				);
-				if(typeof eKomiIntegrationConfig != "undefined"){for(var eKomiIntegrationLoop=0;eKomiIntegrationLoop<eKomiIntegrationConfig.length;eKomiIntegrationLoop++){
-					var eKomiIntegrationContainer = document.createElement('script');
-					eKomiIntegrationContainer.type = 'text/javascript'; eKomiIntegrationContainer.defer = true;
-					eKomiIntegrationContainer.src = (document.location.protocol=='https:'?'https:':'http:') +"//connect.ekomi.de/integration_1587995546/" + eKomiIntegrationConfig[eKomiIntegrationLoop].certId + ".js";
-					document.getElementsByTagName("head")[0].appendChild(eKomiIntegrationContainer);
-				}}else{if('console' in window){ console.error('connectEkomiIntegration - Cannot read eKomiIntegrationConfig'); }}
-			})();
-		</script>
-		<?php
-
-		$content = ob_get_clean();
-
-		return $content;
+		return '';
 	}
 
 	public function css() : string {
