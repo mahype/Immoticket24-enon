@@ -65,10 +65,10 @@ function wpenon_init() {
 }
 
 add_filter( 'request', function($query){
-	if(empty($_POST['wpenon_thumbnail_upload']) && filter_var($_POST['wpenon_thumbnail_upload'], FILTER_VALIDATE_BOOLEAN) && empty((int) $_FILES['wpenon_thumbnail_file']['error'])) {
+	if( array_key_exists( 'wpenon_thumbnail_upload', $_POST ) && empty($_POST['wpenon_thumbnail_upload']) && filter_var($_POST['wpenon_thumbnail_upload'], FILTER_VALIDATE_BOOLEAN) && empty((int) $_FILES['wpenon_thumbnail_file']['error'])) {
 		$frontend = \WPENON\Controller\Frontend::instance();
 		$frontend->_handleRequest();
-	}elseif(!empty($_POST['wpenon_thumbnail_delete']) && !empty($_POST['energieausweis_id']) && filter_var($_POST['wpenon_thumbnail_delete'], FILTER_VALIDATE_BOOLEAN)) {
+	}elseif(array_key_exists( 'wpenon_thumbnail_delete', $_POST ) && !empty($_POST['wpenon_thumbnail_delete']) && array_key_exists( 'energieausweis_id', $_POST ) && !empty($_POST['energieausweis_id']) && filter_var($_POST['wpenon_thumbnail_delete'], FILTER_VALIDATE_BOOLEAN)) {
 		$imageId = get_post_meta( $_POST['energieausweis_id'], '_thumbnail_id', true );
 		delete_post_thumbnail( $_POST['energieausweis_id'] );
 		wp_delete_attachment($imageId);
