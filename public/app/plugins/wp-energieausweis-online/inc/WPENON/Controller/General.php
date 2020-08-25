@@ -26,7 +26,7 @@ class General {
 
 		\WPENON\Model\PaymentGatewayDeposit::instance();
 		\WPENON\Model\PaymentGatewaySofortueberweisung::instance();
-		\WPENON\Model\PaymentGatewayPaymill::instance();
+		// \WPENON\Model\PaymentGatewayPaymill::instance();
 
 		add_action( 'init', array( $this, '_registerRewriteRules' ) );
 		add_action( 'init', array( $this, '_letListenerDie' ), 100 );
