@@ -95,7 +95,7 @@ if ( ! defined( 'WPENON_TABLE_CAP' ) ) {
 
 /* SETTINGS */
 if ( ! defined( 'WPENON_SETTING_TEST_MODE' ) ) {
-  define( 'WPENON_SETTING_TEST_MODE', WPENON_DEBUG );
+//   define( 'WPENON_SETTING_TEST_MODE', WPENON_DEBUG );
 }
 if ( ! defined( 'WPENON_SETTING_ITEM_QUANTITIES' ) ) {
   define( 'WPENON_SETTING_ITEM_QUANTITIES', false );
