@@ -31,7 +31,9 @@ class Loader extends Task_Loader {
 		$this->add_task( Add_Cli_Commands::class );
 
 		$this->add_task( Mediathek_Thumbnail_Validator::class, $this->logger() );
+
 		$this->add_task( Setup_Wonolog::class, $this->logger() );
+		$this->add_task( Setup_Edd_Stripe_Sepa_Payment::class );
 
 		if ( is_admin() && ! wp_doing_ajax() ) {
 			$this->add_admin_tasks();
