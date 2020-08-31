@@ -29,7 +29,7 @@ class Setup_Edd_Stripe_Sepa_Payment implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		// $this->add_actions();
+		$this->add_actions();
 	}
 
 	/**
@@ -38,7 +38,7 @@ class Setup_Edd_Stripe_Sepa_Payment implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'awsm_edd_payment_pending', [ $this, 'payment_pending' ], 1 );
+		add_action( 'awsm_edd_payment_pending', [ $this, 'payment_pending' ], 10, 1 );
 	}
 
 	/**
