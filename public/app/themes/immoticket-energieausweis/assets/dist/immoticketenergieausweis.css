@@ -5942,6 +5942,9 @@ article ul.checkmark {
 #it24-stripe-button {
   display: none;
 }
+.edd-success .edd-alert-error {
+  display: none;
+}
 .alignnone {
   margin: 5px 20px 20px 0;
 }
