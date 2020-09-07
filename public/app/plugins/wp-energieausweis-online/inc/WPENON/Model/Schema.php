@@ -465,6 +465,7 @@ class Schema {
 				return \WPENON\Util\Format::float( $value );
 			case 'float_length':
 			case 'float_length_wall':
+			case 'float_size_window':
 				return \WPENON\Util\Format::float_length( $value );
 			case 'date':
 				if ( $mode == 'output' ) {
@@ -543,6 +544,10 @@ class Schema {
 						break;
 					case 'float_length_wall':
 						$default_validate = '\WPENON\Util\Validate::float_length_wall';
+						$default_default  = $field['min'] ? $field['min'] : 0.0;
+						break;
+					case 'float_size_window':
+						$default_validate = '\WPENON\Util\Validate::float_size_window';
 						$default_default  = $field['min'] ? $field['min'] : 0.0;
 						break;
 					case 'zip':
