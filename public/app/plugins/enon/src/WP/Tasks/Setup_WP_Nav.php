@@ -58,7 +58,7 @@ class Setup_WP_Nav implements Filters, Task {
 	 */
 	public static function filter_main_menu( $sorted_menu_items, $args ) {
 		// Only showing "Gewerbeschein senden" on "Für Makler" page.
-		if ( 'primary' === $args->theme_location && 23110 !== get_the_ID() ) {
+		if ( 'primary' === $args->theme_location && 387247 !== get_the_ID() ) {
 			$sorted_menu_items = self::remove_entry_by_title( $sorted_menu_items, 'Gewerbeschein senden' );
 		}
 		return $sorted_menu_items;
