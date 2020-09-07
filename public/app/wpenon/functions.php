@@ -923,7 +923,7 @@ function wpenon_immoticket24_validate_fenster( $value, $field ) {
 
 	$min_window_size = 9;
 	$all_fensters_empty = true;
-	$all_fenster_size = 0;
+	$all_fenster_size = $value;
 
 	foreach ( $field['validate_dependencies'] as $dependency ) {
 		$all_fenster_size += (float) $dependency;
