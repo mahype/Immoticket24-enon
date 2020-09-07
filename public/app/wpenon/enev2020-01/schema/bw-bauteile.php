@@ -848,7 +848,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array( true, 'field::grundriss_form', 'a', 'field::wand_a_nachbar' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_at_least_one_fenster',
+					'validate'              => 'wpenon_immoticket24_validate_fenster',
 					'validate_dependencies' => array(
 						'fenster_b_flaeche',
 						'fenster_c_flaeche',
