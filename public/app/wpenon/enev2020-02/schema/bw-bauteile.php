@@ -838,7 +838,7 @@ $bauteile = array(
 					),
 				),
 				'fenster_a_flaeche'        => array(
-					'type'                  => 'float_size_window',
+					'type'                  => 'float',
 					'label'                 => __( 'Fläche', 'wpenon' ),
 					'description'           => sprintf( __( 'Geben Sie die gesamte Fläche aller Fenster an Seite %s des Gebäudes ein.', 'wpenon' ), 'a' ),
 					'unit'                  => 'm&sup2;',
@@ -903,7 +903,7 @@ $bauteile = array(
 					),
 				),
 				'fenster_b_flaeche'        => array(
-					'type'        => 'float_size_window',
+					'type'        => 'float',
 					'label'       => __( 'Fläche', 'wpenon' ),
 					'description' => sprintf( __( 'Geben Sie die gesamte Fläche aller Fenster an Seite %s des Gebäudes ein.', 'wpenon' ), 'b' ),
 					'unit'        => 'm&sup2;',
@@ -962,7 +962,7 @@ $bauteile = array(
 					),
 				),
 				'fenster_c_flaeche'        => array(
-					'type'        => 'float_size_window',
+					'type'        => 'float',
 					'label'       => __( 'Fläche', 'wpenon' ),
 					'description' => sprintf( __( 'Geben Sie die gesamte Fläche aller Fenster an Seite %s des Gebäudes ein.', 'wpenon' ), 'c' ),
 					'unit'        => 'm&sup2;',
@@ -1021,7 +1021,7 @@ $bauteile = array(
 					),
 				),
 				'fenster_d_flaeche'        => array(
-					'type'        => 'float_size_window',
+					'type'        => 'float',
 					'label'       => __( 'Fläche', 'wpenon' ),
 					'description' => sprintf( __( 'Geben Sie die gesamte Fläche aller Fenster an Seite %s des Gebäudes ein.', 'wpenon' ), 'd' ),
 					'unit'        => 'm&sup2;',
@@ -1080,7 +1080,7 @@ $bauteile = array(
 					),
 				),
 				'fenster_e_flaeche'        => array(
-					'type'        => 'float_size_window',
+					'type'        => 'float',
 					'label'       => __( 'Fläche', 'wpenon' ),
 					'description' => sprintf( __( 'Geben Sie die gesamte Fläche aller Fenster an Seite %s des Gebäudes ein.', 'wpenon' ), 'e' ),
 					'unit'        => 'm&sup2;',
@@ -1139,7 +1139,7 @@ $bauteile = array(
 					),
 				),
 				'fenster_f_flaeche'        => array(
-					'type'        => 'float_size_window',
+					'type'        => 'float',
 					'label'       => __( 'Fläche', 'wpenon' ),
 					'description' => sprintf( __( 'Geben Sie die gesamte Fläche aller Fenster an Seite %s des Gebäudes ein.', 'wpenon' ), 'f' ),
 					'unit'        => 'm&sup2;',
@@ -1198,7 +1198,7 @@ $bauteile = array(
 					),
 				),
 				'fenster_g_flaeche'        => array(
-					'type'        => 'float_size_window',
+					'type'        => 'float',
 					'label'       => __( 'Fläche', 'wpenon' ),
 					'description' => sprintf( __( 'Geben Sie die gesamte Fläche aller Fenster an Seite %s des Gebäudes ein.', 'wpenon' ), 'g' ),
 					'unit'        => 'm&sup2;',
@@ -1257,7 +1257,7 @@ $bauteile = array(
 					),
 				),
 				'fenster_h_flaeche'        => array(
-					'type'        => 'float_size_window',
+					'type'        => 'float',
 					'label'       => __( 'Fläche', 'wpenon' ),
 					'description' => sprintf( __( 'Geben Sie die gesamte Fläche aller Fenster an Seite %s des Gebäudes ein.', 'wpenon' ), 'h' ),
 					'unit'        => 'm&sup2;',

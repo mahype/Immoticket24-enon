@@ -132,29 +132,6 @@ class Validate
         return self::formatResponse($value, $field, $error);
     }
 
-    public static function float_size_window($value, $field)
-    {
-        if (is_admin()) {
-            return self::formatResponse($value, $field, $error);
-        }
-        $value = \WPENON\Util\Parse::float_length($value);
-
-        $error = '';
-
-        if ($field['min'] !== false) {
-            if ($value < floatval($field['min'])) {
-                $error = sprintf(__('Der eingegebene Wert darf nicht kleiner als %s sein.', 'wpenon'), \WPENON\Util\Format::float(floatval($field['min'])));
-            }
-        }
-        if ($field['max'] !== false) {
-            if ($value > floatval($field['max'])) {
-                $error = sprintf(__('Der eingegebene Wert darf nicht größer als %s sein.', 'wpenon'), \WPENON\Util\Format::float(floatval($field['max'])));
-            }
-        }
-
-        return self::formatResponse($value, $field, $error);
-    }
-
     public static function zip($value, $field)
     {
         $error = '';
@@ -224,7 +201,6 @@ class Validate
             case 'float':
             case 'float_length':
             case 'float_length_wall':
-            case 'float_size_window':
                 $compare = \WPENON\Util\Parse::float($value);
                 $empty = ($compare <= 0.0);
                 $error = __('Der Wert muss größer als 0 sein.', 'wpenon');
