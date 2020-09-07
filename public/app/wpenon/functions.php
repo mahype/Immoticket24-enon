@@ -923,11 +923,14 @@ function wpenon_immoticket24_validate_fenster( $value, $field ) {
 
 	$min_window_size = 9;
 	$all_fensters_empty = true;
-	$all_fenster_size = $value;
+	$all_fenster_size = 0;
+
+	foreach ( $field['validate_dependencies'] as $dependency ) {
+		$all_fenster_size += (float) $dependency;
+	}
 	
 	foreach ( $field['validate_dependencies'] as $dependency ) {
 		$other_fenster = \WPENON\Util\Parse::float( $dependency );
-		$all_fenster_size += (float) $other_fenster;
 
 		if ( $other_fenster > 0.0 ) {
 			$all_fensters_empty = false;
@@ -937,7 +940,7 @@ function wpenon_immoticket24_validate_fenster( $value, $field ) {
 	
 	if ( $value == 0.0  && $all_fensters_empty ) {
 		$error = __( 'Mindestens eine der angegebenen Fensterflächen muss größer als 0 sein.', 'wpenon' );
-	} else if ( $all_fenster_size <= 9 ) {
+	} else if ( $all_fenster_size < 9 ) {
 		$error = __( 'Ihr Fensterflächen sind ungewöhnlich gering, bitte prüfen Sie diese noch einmal. Haben Sie die Haustür berücksichtigt? Beachten Sie das Sie für die Angaben haften, daher geben Sie diese bitte so genau wie möglich ein.', 'wpenon' );
 	}
 
