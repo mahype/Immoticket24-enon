@@ -6893,6 +6893,7 @@ a img.aligncenter {
 .op-comparison-table-style1 .op-comparison-table-header {
   background: #f5f9f9;
   padding: 50px 25px;
+  min-height: 162px;
 }
 .op-comparison-table-style1 .op-comparison-table-feature,
 .op-comparison-table-style1 .op-comparison-table-btn-container {
@@ -6912,6 +6913,7 @@ a img.aligncenter {
   display: table-cell;
   padding: 15px 25px;
   vertical-align: middle;
+  height: 60px;
 }
 .op-comparison-table-style1 .op-comparison-table-feature-icon,
 .op-comparison-table-style1 .op-comparison-table-feature-text,
