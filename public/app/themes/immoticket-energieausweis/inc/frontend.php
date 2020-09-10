@@ -261,11 +261,6 @@ function immoticketenergieausweis_adcell_tracking_script() {
 add_shortcode( 'adcell_tracking_script', 'immoticketenergieausweis_adcell_tracking_script' );
 
 function immoticketenergieausweis_adcell_retargeting_script() {
-
-	global $post;
-	echo 'POSTID:';
-	print_r( $post->ID );
-
 	/**
 	 * Set if adcell scripts have to be shown.
 	 *
