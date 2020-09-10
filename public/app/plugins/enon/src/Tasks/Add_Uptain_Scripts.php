@@ -50,6 +50,14 @@ class Add_Uptain_Scripts implements Task, Actions {
 			$ec_manager = EnergieausweisManager::instance();
 			$ec = $ec_manager::getEnergieausweis();
 
+			if ( ! $ec ) {
+				return;
+			}
+
+			if( ! $this->contact_accepeted( $ec ) ) {
+				return;
+			}
+
 			$type = $ec->type;
 			$email = $ec->wpenon_email;
 
@@ -71,7 +79,27 @@ class Add_Uptain_Scripts implements Task, Actions {
 		}
 	}
 
-	private function data_tag( array $values ) {
+	/**
+	 * Checks if user wants to be contacted.
+	 * 
+	 * @param Energieausweis $ec Energy certificate object.
+	 * @return Bool True if user wants to be contacted, false if not.
+	 * 
+	 * @since 2020-09-10
+	 */
+	private function contact_accepeted( $ec ) : bool {
+		return (bool) get_post_meta( $ec->ID, 'contact_acceptance', '1' );
+	}
+
+	/**
+	 * Create uptain data tag.
+	 * 
+	 * @param array $values Values to add to tag.
+	 * @return string Data tag HTML.
+	 * 
+	 * @since 2020-09-10
+	 */
+	private function data_tag( array $values ) : string {
 		$tag = '<div id="__up_data_qp"';
 
 		/**
