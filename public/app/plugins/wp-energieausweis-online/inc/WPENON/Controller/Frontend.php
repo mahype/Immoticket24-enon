@@ -12,6 +12,8 @@ use WPENON\Model\Energieausweis;
 class Frontend {
 	private static $instance;
 
+	private $action;
+
 	public static function instance() {
 		if ( self::$instance === null ) {
 			self::$instance = new self;
@@ -56,6 +58,10 @@ class Frontend {
 		}
 	}
 
+	public function get_action() {
+		return $this->action;
+	}
+
 	public function _handleRequest() {
 		if ( is_singular() ) {
 			if ( is_a( $this->energieausweis, '\WPENON\Model\Energieausweis' ) ) {
@@ -86,6 +92,8 @@ class Frontend {
 						wp_die( __( 'Der Zugriffsschlüssel für diesen Energieausweis wurde entweder nicht angegeben oder ist falsch.', 'wpenon' ), __( 'Zugriff verweigert', 'wpenon' ), 403 );
 					}
 				}
+
+				$this->action = $action;
 
 				switch ( $action ) {
 					case 'duplicate':

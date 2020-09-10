@@ -34,6 +34,7 @@ class Loader extends Task_Loader {
 
 		$this->add_task( Setup_Wonolog::class, $this->logger() );
 		$this->add_task( Setup_Edd_Stripe_Sepa_Payment::class );
+		$this->add_task( Add_Uptain_Scripts::class );
 
 		if ( is_admin() && ! wp_doing_ajax() ) {
 			$this->add_admin_tasks();

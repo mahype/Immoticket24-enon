@@ -12,7 +12,7 @@
 namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Assets\Frontend_Script;
-use Awsm\WP_Wrapper\Tools\Class_Location;
+use Awsm\WP_Wrapper\Tools\Class_Location_Trait;
 use Awsm\WP_Wrapper\Interfaces\Task;
 
 /**
@@ -23,7 +23,7 @@ use Awsm\WP_Wrapper\Interfaces\Task;
  * @since 1.0.0
  */
 class Add_Scripts implements Task {
-	use Class_Location;
+	use Class_Location_Trait;
 
 	/**
 	 * Running tasks.
