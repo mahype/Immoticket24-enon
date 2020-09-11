@@ -15,6 +15,7 @@ use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
 use Enon\Models\Enon\Enon_Location;
 use WPENON\Model\EnergieausweisManager;
+use WPENON\Model\Energieausweis;
 
 /**
  * Class Google_Tag_Manager
@@ -47,8 +48,7 @@ class Add_Uptain_Scripts implements Task, Actions {
 	 */
 	public function controller() {
 		if ( Enon_Location::overview() || Enon_Location::edit() || Enon_Location::cart() ) {
-			$ec_manager = EnergieausweisManager::instance();
-			$ec = $ec_manager::getEnergieausweis();
+			$ec = $this->ec();
 
 			if ( ! $ec ) {
 				return;
@@ -58,24 +58,54 @@ class Add_Uptain_Scripts implements Task, Actions {
 				return;
 			}
 
-			$type = $ec->type;
 			$email = $ec->wpenon_email;
 
-			switch( $type ) {
-				case 'bw':
-					$price = 89.95;
-					break;
-				case 'vw':
-					$price = 39.95;
-					break;
-				default:
-					return;
-			}
-
-			echo self::data_tag( [
+			echo $this->data_tag( [
 				'email' => $email,
-				'scv'   => $price
+				'scv'   => $this->ec_price( $ec )
 			] );
+		}
+	}
+
+	/**
+	 * Get current ec (works on funnel pages)
+	 * 
+	 * @return Energieausweis Energy certificate object.
+	 * 
+	 * @since 2020-09-11
+	 */
+	private function ec() {
+		if( ! Enon_Location::funnel() ) {
+			return false;
+		}
+
+		$ec_manager = EnergieausweisManager::instance();
+		$ec = $ec_manager::getEnergieausweis();
+
+		if ( ! $ec ) {
+			return false;
+		}
+
+		return $ec;
+	}
+
+	/**
+	 * Get price of ec.
+	 * 
+	 * @return float Price
+	 * 
+	 * @since 2020-09-11
+	 */
+	private function ec_price( $ec ) : float {
+		switch( $ec->type ) {
+			case 'bw':
+				return 89.95;
+				break;
+			case 'vw':
+				return 39.95;
+				break;
+			default:
+				return 0;
 		}
 	}
 
