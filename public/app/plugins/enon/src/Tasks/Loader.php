@@ -12,6 +12,9 @@
 namespace Enon\Tasks;
 
 use Enon\Task_Loader;
+use Enon\Tasks\Scripts\Add_Scripts;
+use Enon\Tasks\Scripts\Add_Page_Scripts;
+use Enon\Tasks\Scripts\Add_Uptain_Scripts;
 
 /**
  * Tasks loader.
@@ -34,7 +37,7 @@ class Loader extends Task_Loader {
 
 		$this->add_task( Setup_Wonolog::class, $this->logger() );
 		$this->add_task( Setup_Edd_Stripe_Sepa_Payment::class );
-		$this->add_task( Add_Uptain_Scripts::class );
+
 
 		if ( is_admin() && ! wp_doing_ajax() ) {
 			$this->add_admin_tasks();
@@ -66,9 +69,11 @@ class Loader extends Task_Loader {
 		$this->add_task( Add_Badges::class );
 		$this->add_task( Add_Popups::class );
 
-		$this->add_task( Add_Page_Scripts::class );
 		$this->add_task( Remove_Optimizepress::class );
+
 		$this->add_task( Add_Scripts::class );
+		$this->add_task( Add_Page_Scripts::class );
+		$this->add_task( Add_Uptain_Scripts::class );
 
 		if ( ! WP_DEBUG ) {
 			$this->add_task( Add_Google_Tag_Manager::class );

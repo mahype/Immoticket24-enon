@@ -9,14 +9,9 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Tasks;
+namespace Enon\Tasks\Scripts;
 
-use Awsm\WP_Wrapper\Interfaces\Actions;
-use Awsm\WP_Wrapper\Interfaces\Task;
-use Enon\Models\Enon\Enon_Location;
 use Enon\Models\Scripts\Script_Loader;
-use WPENON\Model\EnergieausweisManager;
-use WPENON\Model\Energieausweis;
 
 /**
  * Class Google_Tag_Manager
@@ -36,6 +31,17 @@ class Add_Uptain_Scripts extends Script_Loader {
 			'email' => $this->ec_mail(),
 			'scv'   => $this->ec_price(),
 		] );
+
+		echo $this->base_script();
+	}
+
+	/**
+	 * Script files.
+	 * 
+	 * @since 2010-09-10
+	 */
+	protected function script_files() : array {
+		return array('https://app.uptain.de/js/uptain.js?x=hnne9BonaNH0mRA0');
 	}
 
 	/**
@@ -67,7 +73,6 @@ class Add_Uptain_Scripts extends Script_Loader {
 		}
 
 		$tag.= '></div>';
-		$tag.= '<script type="text/javascript" src="https://app.uptain.de/js/uptain.js?x=hnne9BonaNH0mRA0" async></script>';
 
 		return $tag;
 	}

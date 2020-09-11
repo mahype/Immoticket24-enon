@@ -9,12 +9,11 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Tasks;
+namespace Enon\Tasks\Scripts;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
 use Awsm\WP_Wrapper\Tools\Logger_Trait;
-use Awsm\WP_Wrapper\Tools\Logger;
 
 use Enon\Models\Data\Post_Meta_Page;
 

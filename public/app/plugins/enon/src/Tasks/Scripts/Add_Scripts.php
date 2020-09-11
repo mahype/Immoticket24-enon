@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Tasks;
+namespace Enon\Tasks\Scripts;
 
 use Awsm\WP_Wrapper\Assets\Frontend_Script;
 use Awsm\WP_Wrapper\Tools\Class_Location_Trait;
@@ -47,7 +47,7 @@ class Add_Scripts implements Task {
 	 * @since 1.0.0
 	 */
 	private function get_assets_url( $filename ) {
-		$assets_dir = dirname( dirname( self::get_file() ) ) . '/Assets/Dist/';
+		$assets_dir = dirname( dirname( dirname( self::get_file() ) ) ) . '/Assets/Dist/';
 		return plugin_dir_url( $assets_dir . $filename ) . $filename;
 	}
 }

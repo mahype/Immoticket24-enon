@@ -10,9 +10,10 @@
 
 namespace Enon\Models\Scripts;
 
+use ReflectionClass;
+
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
-use Enon\Models\Enon\Energieausweis as EnonEnergieausweis;
 use Enon\Models\Enon\Enon_Location;
 use Enon\Models\Exceptions\Exception;
 use WPENON\Model\EnergieausweisManager;
@@ -79,6 +80,49 @@ abstract class Script_Loader implements Actions, Task {
         if ( Enon_Location::failed() ) {
             $this->failed();
         }
+    }
+
+    /**
+     * Base script to load in Borlabs.
+     */
+    protected function base_script() {
+        $reflect = new ReflectionClass( $this );
+
+        $function_name = strtolower( $reflect->getShortName() );
+        $js_files      = '';
+        $js            = '';
+
+        if ( count( $this->script_files() ) > 0 ) {
+            foreach( $this->script_files()  AS $file ) {
+                $js_files.= sprintf( 'var %s = document.createElement("script");', $function_name );
+                $js_files.= sprintf( '%s.src = \'%s\';', $function_name, $file );
+                $js_files.= sprintf( 'document.body.appendChild(%s);', $function_name );
+            }
+        }
+
+        if ( ! empty( $this->script() ) || count( $this->script_files() ) > 0 ) {
+            $js = sprintf( '<script>window.load_%s=function(){%s}</script>', $function_name, $this->script() . $js_files );
+        }
+        
+        return $js;
+    }
+
+    /**
+     * JavaScript functionality.
+     * 
+     * @since 2020-09-11.
+     */
+    protected function script() : string {
+        return '';
+    }
+
+    /**
+     * JavaScript scripts to load.
+     * 
+     * @since 2020-09-11.
+     */
+    protected function script_files() : array {
+        return array();
     }
 
     /**
