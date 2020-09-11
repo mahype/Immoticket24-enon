@@ -1,0 +1,213 @@
+<?php 
+/**
+ * Script Loader.
+ *
+ * @category Class
+ * @package  Enon\Models\Scripts
+ * @author   Sven Wagener
+ * @link     https://awesome.ug
+ */
+
+namespace Enon\Models\Scripts;
+
+use Awsm\WP_Wrapper\Interfaces\Actions;
+use Awsm\WP_Wrapper\Interfaces\Task;
+use Enon\Models\Enon\Energieausweis as EnonEnergieausweis;
+use Enon\Models\Enon\Enon_Location;
+use Enon\Models\Exceptions\Exception;
+use WPENON\Model\EnergieausweisManager;
+use WPENON\Model\Energieausweis;
+
+/**
+ * Class Script_Loader.
+ * 
+ * @since 2020-09-11.
+ */
+abstract class Script_Loader implements Actions, Task {
+    /**
+     * Run scripts.
+     * 
+     * @since 2020-09-11
+     */
+    public function run() {
+        $this->add_actions();
+    }
+
+    /**
+     * Add actions.
+     * 
+     * @since 2020-09-11
+     */
+    public function add_actions() {
+        add_action( 'wp_footer', [ $this, 'controller' ] );
+    }
+
+    /**
+     * Controller.
+     * 
+     * @since 2020-09-11
+     */
+    public function controller() {
+        if ( Enon_Location::ec_funnel() ) {
+            $this->ec_funnel();
+        }
+
+        if ( Enon_Location::ec_funnel_started() ) {
+            $this->ec_funnel_editing_started();
+        }
+
+        if ( Enon_Location::ec_funnel_started() && $this->contacting_allowed() ) {
+            $this->ec_funnel_contacting_allowed();
+        }
+
+        if ( Enon_Location::ec_registration() ) {
+            $this->ec_registration();
+        }
+
+        if ( Enon_Location::ec_edit() ) {
+            $this->ec_edit();
+        }
+
+        if ( Enon_Location::cart() ) {
+            $this->cart();
+        }
+
+        if ( Enon_Location::success() ) {
+            $this->success();
+        }
+
+        if ( Enon_Location::failed() ) {
+            $this->failed();
+        }
+    }
+
+    /**
+     * Scripts for whole fronend.
+     * 
+     * @since 2020-09-11.
+     */
+    protected function frontend() {}
+
+    /**
+     * Funnel page scripts if contacting is allowed.
+     * 
+     * @since 2020-09-11.
+     */
+    protected function ec_funnel_contacting_allowed() {}
+
+    /**
+     * Funnel page scripts if energy certificate is started.
+     * 
+     * @since 2020-09-11.
+     */
+    protected function ec_funnel_editing_started() {}
+
+    /**
+     * Funnel page scripts.
+     * 
+     * @since 2020-09-11.
+     */
+    protected function ec_funnel() {}
+
+    /**
+     * Registration page.
+     * 
+     * @since 2020-09-11.
+     */
+    protected function ec_registration() {}
+
+    /**
+     * Energy certificate edit page.
+     * 
+     * @since 2020-09-11.
+     */
+    protected function ec_edit() {}
+
+    /**
+     * Cart page.
+     * 
+     * @since 2020-09-11.
+     */
+    protected function cart() {}
+
+    /**
+     * Success page.
+     * 
+     * @since 2020-09-11.
+     */
+    protected function success() {}
+
+    /**
+     * Failed page.
+     * 
+     * @since 2020-09-11.
+     */
+    protected function failed() {}
+
+    /**
+	 * Get current ec (works on funnel pages)
+	 * 
+	 * @return Energieausweis Energy certificate object.
+	 * 
+	 * @since 2020-09-11
+	 */
+	protected function ec() {
+		if( ! Enon_Location::ec_funnel_started() ) {
+			throw new Exception('ec() functions cannot be used outside funnel.');
+		}
+
+		$ec_manager = EnergieausweisManager::instance();
+		$ec = $ec_manager::getEnergieausweis();
+
+		if ( ! $ec ) {
+			return false;
+		}
+
+		return $ec;
+    }
+
+	/**
+	 * Get price of ec.
+	 * 
+	 * @return float Price
+	 * 
+	 * @since 2020-09-11
+	 */
+	protected function ec_price( ) : float {
+		switch( $this->ec()->type ) {
+			case 'bw':
+				return 89.95;
+				break;
+			case 'vw':
+				return 39.95;
+				break;
+			default:
+				return 0;
+		}
+    }
+
+
+
+	/**
+	 * Get price of ec.
+	 * 
+	 * @return float Price
+	 * 
+	 * @since 2020-09-11
+	 */
+	protected function ec_mail( Energieausweis $ec = null ) : string {
+		return $this->ec()->wpenon_email;
+    }
+
+	/**
+	 * Checks if user wants to be contacted.
+	 * 
+	 * @param Energieausweis $ec Energy certificate object.
+	 * @return Bool True if user wants to be contacted, false if not.
+	 * 
+	 * @since 2020-09-10
+	 */
+	protected function contacting_allowed() : bool {
+		return (bool) get_post_meta( $this->ec()->ID, 'contact_acceptance', '1' );
+	}
+}

@@ -55,15 +55,33 @@ class Enon_Location extends WP_Location {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function funnel() {
+	public static function ec_funnel() {
 		if ( 
-			self::registration() ||
-			self::overview()     ||
-			self::edit()         ||
-			self::editoverview() ||
-			self::cart()         ||
-			self::success()      ||
-			self::failed() 
+			self::ec_registration() ||
+			self::ec_overview()     ||
+			self::ec_edit()         ||
+			self::ec_editoverview() ||
+			self::cart()
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Funnel pages after ec started.
+	 *
+	 * @return bool True if is a funnel page after ec creation started, false if not.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function ec_funnel_started() {
+		if (
+			self::ec_overview()     ||
+			self::ec_edit()         ||
+			self::ec_editoverview() ||
+			self::cart()
 		) {
 			return true;
 		}
@@ -78,7 +96,7 @@ class Enon_Location extends WP_Location {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function registration() {
+	public static function ec_registration() {
 		if ( self::page() && ( self::page_id( self::$need_registration_page_id ) || self::page_id( self::$consumption_registration_page_id ) ) ) {
 			return true;
 		}
@@ -93,7 +111,7 @@ class Enon_Location extends WP_Location {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function overview() {
+	public static function ec_overview() {
 		$action = wpenon_get_controller()->get_action();
 		if ( self::frontend() &&  wpenon_get_controller()->get_action() === 'overview' ) {
 			return true;
@@ -109,7 +127,7 @@ class Enon_Location extends WP_Location {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function edit() {
+	public static function ec_edit() {
 		if ( self::frontend() && wpenon_get_controller()->get_action() === 'edit' ) {
 			return true;
 		}
@@ -124,7 +142,7 @@ class Enon_Location extends WP_Location {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function editoverview() {
+	public static function ec_editoverview() {
 		if ( self::frontend() && wpenon_get_controller()->get_action() === 'editoverview' ) {
 			return true;
 		}
@@ -139,7 +157,7 @@ class Enon_Location extends WP_Location {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function purchase() {
+	public static function ec_purchase() {
 		if ( self::frontend() && wpenon_get_controller()->get_action() === 'purchase' ) {
 			return true;
 		}
