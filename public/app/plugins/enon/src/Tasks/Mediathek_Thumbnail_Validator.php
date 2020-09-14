@@ -68,7 +68,7 @@ class Mediathek_Thumbnail_Validator implements Task, Filters {
 		$attachment_path = $attachment_basepath . '/' . $url_parts['basename'];
 
 		if ( ! file_exists( $attachment_path ) ) {
-			$glob_path = $attachment_basepath . '/' . str_replace('-scaled', '', $url_parts['filename']) . '*.*';
+			$glob_path = $attachment_basepath . '/' . str_replace(['-scaled', '-rotated'], '', $url_parts['filename']) . '*.*';
 
 			foreach ( glob( $glob_path ) as $matched_attachment_url ) {
 				$attachment['sizes']['full']['url'] = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $matched_attachment_url );
