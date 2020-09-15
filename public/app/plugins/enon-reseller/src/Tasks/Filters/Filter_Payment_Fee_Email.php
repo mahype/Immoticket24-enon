@@ -111,17 +111,20 @@ class Filter_Payment_Fee_Email implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function filter_premium_bewertung_email_address( array $emails ) : array {
-		$new_email = 'premiumbewertung-reseller@energieausweis-online-erstellen.de';
+		$new_email1 = 'premiumbewertung-reseller@energieausweis-online-erstellen.de';
+		$new_email2 = 'premiumbewertung@energieausweis-online-erstellen.de';
 
 		$debug_values = array(
-			'emails' => $emails,
-			'new_email' => $new_email,
+			'emails' => $emails, 
+			'new_email1' => $new_email1,
+			'new_email2' => $new_email2,
 		);
 
 		$this->logger()->notice( 'Adding premium bewertung reseller email address.', $debug_values );
 
 		if ( ! in_array( $new_email, $emails, true ) ) {
-			$emails[] = $new_email;
+			$emails[] = $new_email1;
+			$emails[] = $new_email2;
 		}
 
 		return $emails;
