@@ -113,13 +113,11 @@ class Filter_Payment_Fee_Email implements Task, Filters {
 	public function filter_premium_bewertung_email_address( array $emails ) : array {
 		$new_email1 = 'premiumbewertung-reseller@energieausweis-online-erstellen.de';
 		$new_email2 = 'premiumbewertung@energieausweis-online-erstellen.de';
-		$new_email3 = 'sven@awesome.ug';
 
 		$debug_values = array(
 			'emails' => $emails, 
 			'new_email1' => $new_email1,
 			'new_email2' => $new_email2,
-			'new_email3' => $new_email3,
 		);
 
 		$this->logger()->notice( 'Adding premium bewertung reseller email address.', $debug_values );
@@ -127,7 +125,6 @@ class Filter_Payment_Fee_Email implements Task, Filters {
 		if ( ! in_array( $new_email, $emails, true ) ) {
 			$emails[] = $new_email1;
 			$emails[] = $new_email2;
-			$emails[] = $new_email3;
 		}
 
 		return $emails;
