@@ -11,6 +11,7 @@
 
 namespace Enon\Tasks\Scripts;
 
+use Enon\Models\Enon\Enon_Location;
 use Enon\Models\Scripts\Script_Loader;
 
 /**
@@ -22,17 +23,50 @@ use Enon\Models\Scripts\Script_Loader;
  */
 class Add_Uptain_Scripts extends Script_Loader {
 	/**
-	 * Controller
+	 * Funnel page.
 	 *
 	 * @since 2010-09-10
 	 */
 	protected function ec_funnel_contacting_allowed() {
+		;
+
 		echo $this->data_tag( [
-			'email' => $this->ec_mail(),
-			'scv'   => $this->ec_price(),
+			'email'   => $this->ec_mail(),
+			'scv'     => $this->ec_price(),
+			'success' => $this->is_success() ? 1 : 0,
 		] );
 
 		echo $this->base_script();
+	}
+
+	/**
+	 * Success page
+	 * 
+	 * @since 2010-09-16
+	 */
+	protected function is_success() {
+		global $edd_receipt_args;
+
+		if( ! Enon_Location::success() || ! array_key_exists( 'id',$edd_receipt_args ) ) {
+			return false;
+		}
+
+		$payment = get_post( $edd_receipt_args['id'] );
+		$status = edd_get_payment_status( $payment );
+
+		switch( $status ) {
+			case 'publish':
+			case 'pending':
+				return true;
+				break;
+			case 'failed':
+			case 'abandoned':
+			case 'revoked':
+			case 'processing':
+			default:
+				return false;
+				break;
+		}
 	}
 
 	/**
