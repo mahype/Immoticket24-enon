@@ -14,6 +14,7 @@ use ReflectionClass;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
+use Enon\Models\Edd\Payment;
 use Enon\Models\Enon\Enon_Location;
 use Enon\Models\Exceptions\Exception;
 use WPENON\Model\EnergieausweisManager;
@@ -49,6 +50,10 @@ abstract class Script_Loader implements Actions, Task {
      * @since 2020-09-11
      */
     public function controller() {
+        if ( Enon_Location::cart() ) {
+            $this->cart();
+        }
+
         if ( Enon_Location::ec_funnel() ) {
             $this->ec_funnel();
         }
@@ -67,10 +72,6 @@ abstract class Script_Loader implements Actions, Task {
 
         if ( Enon_Location::ec_edit() ) {
             $this->ec_edit();
-        }
-
-        if ( Enon_Location::cart() ) {
-            $this->cart();
         }
 
         if ( Enon_Location::success() ) {
@@ -198,16 +199,62 @@ abstract class Script_Loader implements Actions, Task {
 	protected function ec() {
 		if( ! Enon_Location::ec_funnel_started() ) {
 			throw new Exception('ec() functions cannot be used outside funnel.');
-		}
-
-		$ec_manager = EnergieausweisManager::instance();
-		$ec = $ec_manager::getEnergieausweis();
+        }
+        
+        if ( Enon_Location::cart() ) {
+            $ec = $this->get_ec_in_cart();
+        } else if ( Enon_Location::success() ) {
+            $ec = $this->get_ec_in_success_page();
+        } else {
+            $ec_manager = EnergieausweisManager::instance();
+            $ec = $ec_manager::getEnergieausweis();
+        }
 
 		if ( ! $ec ) {
 			return false;
 		}
 
 		return $ec;
+    }
+
+    /**
+     * Get ec in cart.
+     * 
+     * @return Energieausweis
+     * 
+     * @since 2020-09-16
+     */
+    public function get_ec_in_cart() {
+        $cart_items = EDD()->cart->get_contents();
+
+        if( count( $cart_items ) === 0 ) {
+            return false;
+        }
+
+        $ec_id = $cart_items[0]['id'];
+        return  new Energieausweis( $ec_id );
+    }
+
+    /**
+     * Get ec in success page.
+     * 
+     * @return Energieausweis
+     * 
+     * @since 2020-09-16
+     */
+    public function get_ec_in_success_page() {
+        global $edd_receipt_args;
+
+        $payment_id = $edd_receipt_args['id'];
+
+        if( empty( $payment_id ) ) {
+            return;
+        }
+
+        $payment = new Payment( $payment_id );
+        $ec_id = $payment->get_energieausweis_id();
+
+        return new Energieausweis( $ec_id );
     }
 
 	/**
@@ -252,6 +299,12 @@ abstract class Script_Loader implements Actions, Task {
 	 * @since 2020-09-10
 	 */
 	protected function contacting_allowed() : bool {
-		return (bool) get_post_meta( $this->ec()->ID, 'contact_acceptance', '1' );
+        $ec_id = $this->ec()->ID;
+
+        if ( ! $ec_id ) {
+            return false;
+        }
+       
+		return (bool) get_post_meta( $ec_id, 'contact_acceptance', '1' );
 	}
 }
