@@ -61,7 +61,8 @@ class Enon_Location extends WP_Location {
 			self::ec_overview()     ||
 			self::ec_edit()         ||
 			self::ec_editoverview() ||
-			self::cart()
+			self::cart()            ||
+			self::success()
 		) {
 			return true;
 		}
@@ -81,7 +82,8 @@ class Enon_Location extends WP_Location {
 			self::ec_overview()     ||
 			self::ec_edit()         ||
 			self::ec_editoverview() ||
-			self::cart()
+			self::cart() 			||
+			self::success()
 		) {
 			return true;
 		}
