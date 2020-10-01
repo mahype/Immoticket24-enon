@@ -892,7 +892,11 @@ $bauteile = array(
 						),
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
-					'validate_dependencies' => array( 'baujahr' ),
+                    'validate_dependencies' => array( 'baujahr' ),
+                    'value'                 => array(
+						'callback'      => 'wpenon_get_construction_year',
+						'callback_args' => array( 'field::baujahr', 'field::fenster_a_baujahr' ),
+					),
 				),
 				'fenster_b_headline'       => array(
 					'type'    => 'headline',
@@ -950,7 +954,7 @@ $bauteile = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::fenster_a_baujahr', 'field::h_baujahr' ),
+						'callback_args' => array( 'field::baujahr', 'field::fenster_b_baujahr' ),
 					),
 				),
 				'fenster_c_headline'       => array(
@@ -1009,7 +1013,7 @@ $bauteile = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::fenster_a_baujahr', 'field::h_baujahr' ),
+						'callback_args' => array( 'field::baujahr', 'field::fenster_c_baujahr' ),
 					),
 				),
 				'fenster_d_headline'       => array(
@@ -1068,7 +1072,7 @@ $bauteile = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::fenster_a_baujahr', 'field::h_baujahr' ),
+						'callback_args' => array( 'field::baujahr', 'field::fenster_d_baujahr' ),
 					),
 				),
 				'fenster_e_headline'       => array(
@@ -1127,7 +1131,7 @@ $bauteile = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::fenster_a_baujahr', 'field::h_baujahr' ),
+						'callback_args' => array( 'field::baujahr', 'field::fenster_e_baujahr' ),
 					),
 				),
 				'fenster_f_headline'       => array(
@@ -1186,7 +1190,7 @@ $bauteile = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::fenster_a_baujahr', 'field::h_baujahr' ),
+						'callback_args' => array( 'field::baujahr', 'field::fenster_f_baujahr' ),
 					),
 				),
 				'fenster_g_headline'       => array(
@@ -1245,7 +1249,7 @@ $bauteile = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::fenster_a_baujahr', 'field::h_baujahr' ),
+						'callback_args' => array( 'field::baujahr', 'field::fenster_g_baujahr' ),
 					),
 				),
 				'fenster_h_headline'       => array(
@@ -1304,7 +1308,7 @@ $bauteile = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::fenster_a_baujahr', 'field::h_baujahr' ),
+						'callback_args' => array( 'field::baujahr', 'field::fenster_h_baujahr' ),
 					),
 				),
 				'anbaufenster_headline'    => array(
