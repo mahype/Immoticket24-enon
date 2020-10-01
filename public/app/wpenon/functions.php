@@ -777,12 +777,11 @@ function wpenon_immoticket24_get_g_wert( $bauart, $reference = false ) {
 }
 
 function wpenon_get_construction_year( $construction_year, $field_year ) {
-	// If field was already set
-	if( 1800 !== (int) $field_year ) {
-		return $field_year;
-	}
+    if ( $field_year <= $construction_year ) {
+        return $construction_year;
+    }
 
-	return $construction_year;
+	return $field_year;
 }
 
 function wpenon_immoticket24_get_klimafaktoren_zeitraeume202001() {
