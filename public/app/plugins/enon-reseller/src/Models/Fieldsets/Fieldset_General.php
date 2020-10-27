@@ -95,10 +95,10 @@ class Fieldset_General implements Fieldset {
             array(
 				'key' => 'field_marketing',
 				'label' => __( 'Marketing-Tools', 'enon' ),
-				'name' => 'elements',
+				'name' => 'marketing',
 				'type' => 'checkbox',
 				'choices' => array(
-					'klicktipp'            => __( 'Klicktipp', 'enon' ),
+					'klicktipp'            => __( 'Klicktipp - Email-Adressen bei Newsletter-Einwilligung an Klicktipp senden.', 'enon' ),
 				),
 				'default_value' => array(
 					0 => 'klicktipp'
