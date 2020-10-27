@@ -91,6 +91,19 @@ class Fieldset_General implements Fieldset {
 				),
 				'instructions' => __( 'Check if bill email should be sent to reseller instead of customer.', 'enon' ),
 				'required'     => 0,
+            ),
+            array(
+				'key' => 'field_marketing',
+				'label' => __( 'Marketing-Tools', 'enon' ),
+				'name' => 'elements',
+				'type' => 'checkbox',
+				'choices' => array(
+					'klicktipp'            => __( 'Klicktipp', 'enon' ),
+				),
+				'default_value' => array(
+					0 => 'klicktipp'
+				),
+				'return_format' => 'value',
 			),
 			array(
 				'key'          => 'field_price_bw',

@@ -69,7 +69,8 @@ class Filter_General implements Task, Filters, Actions {
 		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_to_address' ) );
 		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
 		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
-		add_filter( 'wpenon_custom_fees', array( $this, 'filter_custom_fees' ), 100, 1 );
+        add_filter( 'wpenon_custom_fees', array( $this, 'filter_custom_fees' ), 100, 1 );
+        add_filter( 'eddkti_add_customer', array( $this, 'filter_send_customer_to_klicktipp' ), 100, 1 );
 	}
 
 	/**
@@ -97,6 +98,23 @@ class Filter_General implements Task, Filters, Actions {
 			return $email;
 		}
 		return $reseller_contact_email;
+    }
+
+	/**
+	 * Filter if customer can be send to klicktipp.
+	 *
+	 * @param bool $can_send True if user can be send to klicktipp, false if not.
+	 *
+	 * @return bool $can_send True if user can be send to klicktipp, false if not.
+	 *
+	 * @since 1.0.0
+	 */
+	public function filter_send_customer_to_klicktipp( $can_send ) {
+		if ( ! $this->reseller->data()->general->isset_marketing_klicktipp() ) {
+			return false;
+        }
+        
+		return $can_send;
 	}
 
 	/**

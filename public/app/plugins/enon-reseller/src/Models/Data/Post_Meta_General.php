@@ -132,6 +132,23 @@ class Post_Meta_General extends Post_Meta {
 		}
 
 		return true;
+    }
+    
+    /**
+	 * Checks if title element is checked.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool True if is checked..
+	 */
+	public function isset_marketing_klicktipp() {
+		$values = $this->get( 'marketing' );
+
+		if ( ! empty( $values ) && in_array( 'klicktipp', $values ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
