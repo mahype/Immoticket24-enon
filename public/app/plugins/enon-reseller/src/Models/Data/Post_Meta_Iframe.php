@@ -71,6 +71,17 @@ class Post_Meta_Iframe extends Post_Meta {
 	}
 
 	/**
+	 * Get newsletter terms.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Newsletter terms.
+	 */
+	public function get_newsletter_terms() {
+		return $this->get( 'newsletter_terms' );
+    }
+    
+	/**
 	 * Get reseller extra CSS.
 	 *
 	 * @since 1.0.0

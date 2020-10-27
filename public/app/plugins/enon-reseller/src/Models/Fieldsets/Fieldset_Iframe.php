@@ -47,15 +47,24 @@ class Fieldset_Iframe implements Fieldset {
 				'return_format' => 'value',
 			),
 			array(
-				'key' => 'field_extra_css',
-				'label' => __( 'Extra CSS', 'enon' ),
-				'name' => 'extra_css',
+				'key' => 'field_newsletter_terms',
+				'label' => __( 'Newsletter checkbox text', 'enon' ),
+				'name' => 'newsletter_terms',
 				'type' => 'acf_code_field',
-				'instructions' => __( 'Add some extra CSS for reseller.', 'enon' ),
-				'mode' => 'css',
+				'instructions' => __( 'Text für die Newsletter checkbox. Ist der Text leer, wird der standard Text genommen', 'enon' ),
+				'mode' => 'html',
 				'theme' => 'monokai',
-			),
-			array(
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_elements',
+                            'operator' => '==',
+                            'value' => 'show_newsletter_terms',
+                        ),
+                    ),
+                ),
+            ),
+            array(
 				'key' => 'field_extra_js',
 				'label' => __( 'Extra JS', 'enon' ),
 				'name' => 'extra_js',
