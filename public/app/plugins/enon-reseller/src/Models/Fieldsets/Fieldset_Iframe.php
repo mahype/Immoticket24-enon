@@ -51,7 +51,7 @@ class Fieldset_Iframe implements Fieldset {
 				'label' => __( 'Newsletter checkbox text', 'enon' ),
 				'name' => 'newsletter_terms',
 				'type' => 'acf_code_field',
-				'instructions' => __( 'Text für die Newsletter checkbox. Ist der Text leer, wird der standard Text genommen', 'enon' ),
+				'instructions' => __( 'Text für die Newsletter checkbox. Ist der Text leer, wird der Standardtext genommen', 'enon' ),
 				'mode' => 'html',
 				'theme' => 'monokai',
                 'conditional_logic' => array(
