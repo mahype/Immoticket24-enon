@@ -56,7 +56,18 @@ function eddkti_add_remove_payment_customer( $payment_id ) {
 }
 
 function eddkti_add_customer( $customer_id ) {
-	global $edd_logs;
+    global $edd_logs;
+    
+    /**
+     * Check if customer can be added.
+     * 
+     * @param bool True if customer can be added, false if not.
+     */
+    $add_customer = apply_filters( 'eddkti_add_customer', true );
+
+    if( ! $add_customer ) {
+        return;
+    }
 
 	$username = eddkti_get_username();
 	$password = eddkti_get_password();
