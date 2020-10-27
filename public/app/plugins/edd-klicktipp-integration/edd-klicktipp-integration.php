@@ -14,7 +14,7 @@ function eddkti_init() {
 		return;
 	}
 
-	require_once plugin_dir_path( __FILE__ ) . 'klicktipp.api.inc';
+	require_once plugin_dir_path( __FILE__ ) . 'klicktipp.api.inc.php';
 
 	add_action( 'edd_post_insert_customer', 'eddkti_add_customer', 100, 1 );
 	add_action( 'edd_insert_payment', 'eddkti_add_remove_payment_customer', 100, 1 );
