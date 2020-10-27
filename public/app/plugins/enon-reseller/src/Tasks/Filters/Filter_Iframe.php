@@ -117,12 +117,13 @@ class Filter_Iframe implements Task, Actions, Filters {
 	public function filter_newsletter_terms( $terms_checkboxes ) {
 		if ( ! $this->reseller->data()->iframe->isset_element_newsletter_terms() ) {
 			unset( $terms_checkboxes['newsletter_terms'] );
-        }
+        } else {
 
-        $newsletter_terms = $this->reseller->data()->iframe->get_newsletter_terms();
-        
-        if ( ! empty ( $newsletter_terms ) ) {
-            $newsletter_terms['newsletter_terms']['label'] = $newsletter_terms;
+            $newsletter_terms = $this->reseller->data()->iframe->get_newsletter_terms();
+            
+            if ( ! empty ( $newsletter_terms ) ) {
+                $terms_checkboxes['newsletter_terms']['label'] = $newsletter_terms;
+            }
         }
 
 		return $terms_checkboxes;
