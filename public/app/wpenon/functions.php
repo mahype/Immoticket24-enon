@@ -164,6 +164,55 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 			</div>
 		</div>
 	</div>
+	<div id="wpenon_immoticket24_check_construction_project_approval_1" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document" style="margin-top:140px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><?php _e( 'Abfrage zur Baugenehmigung', 'wpenon' ); ?></h4>
+				</div>
+				<div class="modal-body">
+					<?php _e( 'Wurde für das Bauvorhaben eine Genehmigung beantragt?', 'wpenon' ); ?>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="wpit_approval_yes" class="btn btn-default"><?php _e( 'Ja', 'wpenon' ); ?></button>
+					<button type="button" id="wpit_approval_no"  class="btn btn-default" data-dismiss="modal"><?php _e( 'Nein', 'wpenon' ); ?></button>
+				</div>
+			</div>
+		</div>
+    </div>
+    
+	<div id="wpenon_immoticket24_check_construction_project_approval_2" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document" style="margin-top:140px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><?php _e( 'Abfrage zur Baugenehmigung', 'wpenon' ); ?></h4>
+				</div>
+				<div class="modal-body">
+					<?php _e( 'Wann wurde die Genehmigung beantragt?', 'wpenon' ); ?>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="wpit_approval_until_october_2020" class="btn btn-default" data-dismiss="modal"><?php _e( 'bis 31.10.2020', 'wpenon' ); ?></button>
+					<button type="button" id="wpit_approval_since_november_2020"  class="btn btn-default"><?php _e( 'ab 01.11.2020', 'wpenon' ); ?></button>
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <div id="wpenon_immoticket24_check_construction_project_approval_3" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document" style="margin-top:140px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><?php _e( 'Abfrage zur Baugenehmigung', 'wpenon' ); ?></h4>
+				</div>
+				<div class="modal-body">
+					<?php _e( 'Sie benötigen einen Energieausweis nach dem neuen Gebäude-Energiegesetz 2020. Kontaktieren Sie hierzu Ihren Energieberater vor Ort.', 'wpenon' ); ?>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="wpit_approval_until_october_2020" class="btn btn-default" data-dismiss="modal"><?php _e( 'OK', 'wpenon' ); ?></button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script type="text/javascript">
 		var _wpit_wand_touched = false;
 		var _wpit_climatefactors_target_year = <?php echo esc_js( $klima_maximum_year ); ?>;
@@ -217,14 +266,56 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 			return true;
 		}
 
-		jQuery(document).on('change', '#wohnungen', wpenon_immoticket24_check_certificate_valid);
+        function wpenon_immoticket24_check_construction_project_approval(e) {
+            var strict = 'undefined' === typeof e;
+
+			if (!jQuery('#wpit_transfer_certificate_input').length) {
+				var anlass = jQuery('#anlass').val();
+                
+                if( anlass != 'modernisierung' && anlass != 'sonstiges' ) {
+                    return true;
+                }
+
+                jQuery('#wpenon_immoticket24_check_construction_project_approval_1').modal('show');
+			}
+
+			return true;
+        }
+
+        function wpenon_immoticket24_is_approval_after_november_2020() {
+            var approval_after_november_2020 = jQuery( '#wpit_approval_after_november_2020' ).val();
+
+            if ( approval_after_november_2020 == 'yes' ) {
+                jQuery('#wpenon_immoticket24_check_construction_project_approval_3').modal('show');
+                return true;
+            }
+
+            return false;
+        }
+
+        jQuery('#wpit_approval_yes').on('click', function (e) {
+			e.preventDefault();
+            jQuery('#wpenon_immoticket24_check_construction_project_approval_1').modal('hide');
+			jQuery('#wpenon_immoticket24_check_construction_project_approval_2').modal('show');
+		});
+
+
+        jQuery('#wpit_approval_since_november_2020').on('click', function (e) {
+			e.preventDefault();
+            jQuery('#wpenon_immoticket24_check_construction_project_approval_2').modal('hide');
+			jQuery('#wpenon_immoticket24_check_construction_project_approval_3').modal('show');
+            jQuery('#wpenon-generate-form').append('<input type="hidden" id="wpit_approval_after_november_2020" name="wpit_approval_after_november_2020" value="yes" />');
+		});
+
+		jQuery(document).on('change', '#anlass', wpenon_immoticket24_check_construction_project_approval);
+        jQuery(document).on('change', '#wohnungen', wpenon_immoticket24_check_certificate_valid);
 		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_valid);
 		jQuery(document).on('change', '#wand_daemmung', wpenon_immoticket24_check_certificate_valid);
 
 		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_climatefactors_valid);
 
 		jQuery('#wpenon-generate-form').on('submit', function (e) {
-			if (!wpenon_immoticket24_check_certificate_valid() || !wpenon_immoticket24_check_certificate_climatefactors_valid()) {
+			if (!wpenon_immoticket24_check_certificate_valid() || !wpenon_immoticket24_check_certificate_climatefactors_valid() || wpenon_immoticket24_is_approval_after_november_2020() ) {
 				e.preventDefault();
 			}
 		});
