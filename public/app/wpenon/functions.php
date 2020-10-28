@@ -205,7 +205,7 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 					<h4 class="modal-title"><?php _e( 'Abfrage zur Baugenehmigung', 'wpenon' ); ?></h4>
 				</div>
 				<div class="modal-body">
-					<?php _e( 'Sie benötigen einen Energieausweis nach dem neuen Gebäude-Energiegesetz 2020. Kontaktieren Sie hierzu Ihren Energieberater vor Ort.', 'wpenon' ); ?>
+					<?php _e( 'Sie benötigen einen Energieausweis nach dem neuen Gebäude-Energiegesetz 2020 (GEG20), da bei Energieausweisen für Bauanträge, die ab dem 01.11.2020 eingereicht werden, diese nach dem GEG20 vorgeschrieben sind. Auf unserer Website können Sie nur Energieausweise nach der EnEV 2014 erstellen, welche für Verkauf/Vermietung, Modernisierung & Sonstiges (bei Bauantrag vor dem 01.11.2020) auch weiterhin gültig sind.', 'wpenon' ); ?>
 				</div>
 				<div class="modal-footer">
 					<button type="button" id="wpit_approval_until_october_2020" class="btn btn-default" data-dismiss="modal"><?php _e( 'OK', 'wpenon' ); ?></button>
