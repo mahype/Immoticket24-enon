@@ -15,7 +15,7 @@ $basisdaten = array(
 						'modernisierung' => __( 'Modernisierung / Erweiterung', 'wpenon' ),
 						'vermietung'     => __( 'Vermietung', 'wpenon' ),
 						'verkauf'        => __( 'Verkauf', 'wpenon' ),
-						'sonstiges'      => __( 'sonstiges', 'wpenon' ),
+						'sonstiges'      => __( 'Sonstiges', 'wpenon' ),
 					),
 					'required'    => true,
 				),
