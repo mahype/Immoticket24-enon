@@ -32,7 +32,7 @@ if ( function_exists( 'edd_get_download_price' ) ) {
 <?php endif; ?>
 
 <?php if ( $data['finalized'] && ! $data['ordered'] ) : ?>
-  <a class="back-to-overview-button btn btn-primary" href="<?php echo add_query_arg( 'action', 'editoverview', $data['access_link'] ); ?>">
+  <a id="btn-order-now" class="back-to-overview-button btn btn-primary" href="<?php echo add_query_arg( 'action', 'editoverview', $data['access_link'] ); ?>">
     <?php echo $prefix; ?>
     <?php _e( 'Jetzt bestellen', 'wpenon' ); ?>
   </a>

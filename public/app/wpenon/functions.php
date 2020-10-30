@@ -145,6 +145,7 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 			</div>
 		</div>
 	</div>
+
 	<div id="wpit_invalid_certificate_modal_climatefactors" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document" style="margin-top:140px;">
 			<div class="modal-content">
@@ -164,7 +165,8 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 			</div>
 		</div>
 	</div>
-	<div id="wpenon_immoticket24_check_construction_project_approval_1" class="modal fade" tabindex="-1" role="dialog">
+
+	<div id="dialog_geg2020_approval" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document" style="margin-top:140px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -174,14 +176,14 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 					<?php _e( 'Wurde für das Bauvorhaben eine Genehmigung beantragt?', 'wpenon' ); ?>
 				</div>´
 				<div class="modal-footer">
-					<button type="button" id="wpit_approval_yes" class="btn btn-default"><?php _e( 'Ja', 'wpenon' ); ?></button>
-					<button type="button" id="wpit_approval_no"  class="btn btn-default" data-dismiss="modal"><?php _e( 'Nein', 'wpenon' ); ?></button>
+					<button type="button" id="geg2020_approval_yes" class="btn btn-default" data-dismiss="modal"><?php _e( 'Ja', 'wpenon' ); ?></button>
+					<button type="button" id="geg2020_approval_no"  class="btn btn-default" data-dismiss="modal"><?php _e( 'Nein', 'wpenon' ); ?></button>
 				</div>
 			</div>
 		</div>
     </div>
     
-	<div id="wpenon_immoticket24_check_construction_project_approval_2" class="modal fade" tabindex="-1" role="dialog">
+	<div id="dialog_geg2020_approval_requested_date" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document" style="margin-top:140px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -191,14 +193,31 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 					<?php _e( 'Wann wurde die Genehmigung beantragt?', 'wpenon' ); ?>
 				</div>
 				<div class="modal-footer">
-					<button type="button" id="wpit_approval_until_october_2020" class="btn btn-default" data-dismiss="modal"><?php _e( 'bis 31.10.2020', 'wpenon' ); ?></button>
-					<button type="button" id="wpit_approval_since_november_2020"  class="btn btn-default"><?php _e( 'ab 01.11.2020', 'wpenon' ); ?></button>
+                    <button type="button" id="geg2020_approval_requested_october" class="btn btn-default" data-dismiss="modal"><?php _e( 'bis 31.10.2020', 'wpenon' ); ?></button>
+					<button type="button" id="geg2020_approval_requested_november" class="btn btn-default" data-dismiss="modal"><?php _e( 'ab 01.11.2020', 'wpenon' ); ?></button>
 				</div>
 			</div>
 		</div>
     </div>
 
-    <div id="wpenon_immoticket24_check_construction_project_approval_3" class="modal fade" tabindex="-1" role="dialog">
+    <div id="dialog_geg2020_building_measure_date" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document" style="margin-top:140px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><?php _e( 'Abfrage zur Baugenehmigung', 'wpenon' ); ?></h4>
+				</div>
+				<div class="modal-body">
+					<?php _e( 'Wann wurde mit der Baumaßnahme begonnen?', 'wpenon' ); ?>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="geg2020_building_measure_october" class="btn btn-default" data-dismiss="modal"><?php _e( 'bis 31.10.2020', 'wpenon' ); ?></button>
+					<button type="button" id="geg2020_building_measure_november" class="btn btn-default" data-dismiss="modal"><?php _e( 'ab 01.11.2020', 'wpenon' ); ?></button>
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <div id="dialog_geg2020_creation_denied" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document" style="margin-top:140px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -272,40 +291,71 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 
 			if (!jQuery('#wpit_transfer_certificate_input').length) {
 				var anlass = jQuery('#anlass').val();
-                
+                                
                 if( anlass != 'modernisierung' && anlass != 'sonstiges' ) {
+                    jQuery('#geg2020_creation_denied').val('no');
+                    jQuery('#geg20_approval').val('');
+                    jQuery('#geg20_approval_date').val('');
+                    jQuery('#geg20_building_measure_date').val('');
                     return true;
-                }
+                }              
 
-                jQuery('#wpenon_immoticket24_check_construction_project_approval_1').modal('show');
+                jQuery('#dialog_geg2020_approval').modal('show');
 			}
 
 			return true;
         }
 
-        function wpenon_immoticket24_is_approval_after_november_2020() {
-            var approval_after_november_2020 = jQuery( '#wpit_approval_after_november_2020' ).val();
+        function wp_enon_geg2020_creation_denied() {
+            var geg2020_creation_denied = jQuery( '#geg2020_creation_denied' ).val();
 
-            if ( approval_after_november_2020 == 'yes' ) {
-                jQuery('#wpenon_immoticket24_check_construction_project_approval_3').modal('show');
+            if ( geg2020_creation_denied == 'yes' ) {
+                jQuery('#dialog_geg2020_creation_denied').modal('show');
                 return true;
             }
 
             return false;
         }
 
-        jQuery('#wpit_approval_yes').on('click', function (e) {
+        jQuery('#geg2020_approval_yes').on('click', function (e) {
 			e.preventDefault();
-            jQuery('#wpenon_immoticket24_check_construction_project_approval_1').modal('hide');
-			jQuery('#wpenon_immoticket24_check_construction_project_approval_2').modal('show');
+            jQuery('#geg20_approval').val('Wurde für das Bauvorhaben eine Genehmigung beantragt? - Ja');
+            jQuery('#geg20_building_measure_date').val('-');
+			jQuery('#dialog_geg2020_approval_requested_date').modal('show');
 		});
 
-
-        jQuery('#wpit_approval_since_november_2020').on('click', function (e) {
+        jQuery('#geg2020_approval_no').on('click', function (e) {
 			e.preventDefault();
-            jQuery('#wpenon_immoticket24_check_construction_project_approval_2').modal('hide');
-			jQuery('#wpenon_immoticket24_check_construction_project_approval_3').modal('show');
-            jQuery('#wpenon-generate-form').append('<input type="hidden" id="wpit_approval_after_november_2020" name="wpit_approval_after_november_2020" value="yes" />');
+            jQuery('#geg20_approval').val('Wurde für das Bauvorhaben eine Genehmigung beantragt? - Nein');
+            jQuery('#geg20_approval_date').val('-');
+			jQuery('#dialog_geg2020_building_measure_date').modal('show');
+		});
+
+        jQuery('#geg2020_approval_requested_october').on('click', function (e) {
+			e.preventDefault();
+            jQuery('#geg20_approval_date').val('Wann wurde die Genehmigung beantragt? - bis 31.10.2020');
+            jQuery('#geg2020_creation_denied').val('no');
+		});
+
+        jQuery('#geg2020_approval_requested_november').on('click', function (e) {
+			e.preventDefault();
+            jQuery('#geg20_approval_date').val('Wann wurde die Genehmigung beantragt? - ab 01.11.2020');
+            
+			jQuery('#dialog_geg2020_creation_denied').modal('show');
+            jQuery('#wpenon-generate-form').append('<input type="hidden" id="geg2020_creation_denied" name="geg2020_creation_denied" value="yes" />');
+		});
+
+        jQuery('#geg2020_building_measure_october').on('click', function (e) {
+			e.preventDefault();
+            jQuery('#geg20_building_measure_date').val('Wann wurde mit der Baumaßnahme begonnen? - bis 31.10.2020');
+            jQuery('#geg2020_creation_denied').val('no');
+		});
+
+        jQuery('#geg2020_building_measure_november').on('click', function (e) {
+			e.preventDefault();
+            jQuery('#geg20_building_measure_date').val('Wann wurde mit der Baumaßnahme begonnen? - ab 01.11.2020');
+			jQuery('#dialog_geg2020_creation_denied').modal('show');
+            jQuery('#wpenon-generate-form').append('<input type="hidden" id="geg2020_creation_denied" name="geg2020_creation_denied" value="yes" />');
 		});
 
 		jQuery(document).on('change', '#anlass', wpenon_immoticket24_check_construction_project_approval);
@@ -316,10 +366,16 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_climatefactors_valid);
 
 		jQuery('#wpenon-generate-form').on('submit', function (e) {
-			if (!wpenon_immoticket24_check_certificate_valid() || !wpenon_immoticket24_check_certificate_climatefactors_valid() || wpenon_immoticket24_is_approval_after_november_2020() ) {
+			if (!wpenon_immoticket24_check_certificate_valid() || !wpenon_immoticket24_check_certificate_climatefactors_valid() || wp_enon_geg2020_creation_denied() ) {
 				e.preventDefault();
 			}
 		});
+
+        jQuery('#btn-order-now').click(function(e) {
+			if ( wp_enon_geg2020_creation_denied() ) {
+				e.preventDefault();
+			}
+		});      
 
 		jQuery('.wpit_transfer_certificate').on('click', function (e) {
 			e.preventDefault();
