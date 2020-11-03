@@ -95,6 +95,9 @@
       "cd public/app/plugins/enon-reseller; composer install --no-dev; cd ../../../..",
       "cd public/app/plugins/edd-payment-stripe-sepa; composer install --no-dev; cd ../../../.."
     ],
+    "post-update-cmd": [
+      "cd public/app/plugins/edd-payment-stripe-sepa; composer update --no-dev; cd ../../../.."
+    ],
     "config-phpcs": [
       "vendor/bin/phpcs --config-set installed_paths ../../wp-coding-standards/wpcs"
     ],
