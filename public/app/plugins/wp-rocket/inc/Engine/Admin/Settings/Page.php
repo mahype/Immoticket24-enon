@@ -3,6 +3,7 @@ namespace WP_Rocket\Engine\Admin\Settings;
 
 use WP_Rocket\Admin\Database\Optimization;
 use WP_Rocket\Engine\Admin\Beacon\Beacon;
+use WP_Rocket\Engine\License\API\UserClient;
 use WP_Rocket\Interfaces\Render_Interface;
 
 /**
@@ -76,24 +77,42 @@ class Page {
 	private $optimize;
 
 	/**
+	 * User client instance.
+	 *
+	 * @var UserClient
+	 */
+	private $user_client;
+
+	/**
 	 * Creates an instance of the Page object.
 	 *
 	 * @since 3.0
 	 *
-	 * @param array            $args     Array of required arguments to add the admin page.
-	 * @param Settings         $settings Instance of Settings class.
-	 * @param Render_Interface $render   Implementation of Render interface.
-	 * @param Beacon           $beacon   Beacon instance.
-	 * @param Optimization     $optimize Database optimization instance.
+	 * @param array            $args        Array of required arguments to add the admin page.
+	 * @param Settings         $settings    Instance of Settings class.
+	 * @param Render_Interface $render      Implementation of Render interface.
+	 * @param Beacon           $beacon      Beacon instance.
+	 * @param Optimization     $optimize    Database optimization instance.
+	 * @param UserClient       $user_client User client instance.
 	 */
-	public function __construct( $args, Settings $settings, Render_Interface $render, Beacon $beacon, Optimization $optimize ) {
-		$this->slug       = $args['slug'];
-		$this->title      = $args['title'];
-		$this->capability = $args['capability'];
-		$this->settings   = $settings;
-		$this->render     = $render;
-		$this->beacon     = $beacon;
-		$this->optimize   = $optimize;
+	public function __construct( array $args, Settings $settings, Render_Interface $render, Beacon $beacon, Optimization $optimize, UserClient $user_client ) {
+		$args = array_merge(
+			[
+				'slug'       => 'wprocket',
+				'title'      => 'WP Rocket',
+				'capability' => 'rocket_manage_options',
+			],
+			$args
+		);
+
+		$this->slug        = $args['slug'];
+		$this->title       = $args['title'];
+		$this->capability  = $args['capability'];
+		$this->settings    = $settings;
+		$this->render      = $render;
+		$this->beacon      = $beacon;
+		$this->optimize    = $optimize;
+		$this->user_client = $user_client;
 	}
 
 	/**
@@ -214,64 +233,45 @@ class Page {
 	}
 
 	/**
-	 * Gets customer data from WP Rocket website to display it in the dashboard.
+	 * Returns the customer data to display on the dashboard
 	 *
-	 * @since 3.0
-	 *
-	 * @return object
-	 */
-	private function get_customer_data() {
-		$customer_key   = defined( 'WP_ROCKET_KEY' ) ? WP_ROCKET_KEY : get_rocket_option( 'consumer_key', '' );
-		$customer_email = defined( 'WP_ROCKET_EMAIL' ) ? WP_ROCKET_EMAIL : get_rocket_option( 'consumer_email', '' );
-
-		$response = wp_safe_remote_post(
-			WP_ROCKET_WEB_MAIN . 'stat/1.0/wp-rocket/user.php',
-			[
-				'body' => 'user_id=' . rawurlencode( $customer_email ) . '&consumer_key=' . $customer_key,
-			]
-		);
-
-		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			return (object) [
-				'licence_account'    => __( 'Unavailable', 'rocket' ),
-				'licence_expiration' => __( 'Unavailable', 'rocket' ),
-				'class'              => 'wpr-isInvalid',
-			];
-		}
-
-		$customer_data = json_decode( wp_remote_retrieve_body( $response ) );
-
-		if ( 1 <= $customer_data->licence_account && $customer_data->licence_account < 3 ) {
-			$customer_data->licence_account = 'Single';
-		} elseif ( '-1' === $customer_data->licence_account ) {
-			$customer_data->licence_account = 'Infinite';
-		} else {
-			$customer_data->licence_account = 'Plus';
-		}
-
-		$customer_data->class              = time() < $customer_data->licence_expiration ? 'wpr-isValid' : 'wpr-isInvalid';
-		$customer_data->licence_expiration = date_i18n( get_option( 'date_format' ), (int) $customer_data->licence_expiration );
-
-		return $customer_data;
-	}
-
-	/**
-	 * Returns customer data from transient or request and save it if not cached.
-	 *
+	 * @since 3.7.3 Update to use the user client class to get the data
 	 * @since 3.0
 	 *
 	 * @return object
 	 */
 	public function customer_data() {
-		if ( false !== get_transient( 'wp_rocket_customer_data' ) ) {
-			return get_transient( 'wp_rocket_customer_data' );
+		$user = $this->user_client->get_user_data();
+		$data = [
+			'license_type'       => __( 'Unavailable', 'rocket' ),
+			'license_expiration' => __( 'Unavailable', 'rocket' ),
+			'license_class'      => 'wpr-isInvalid',
+		];
+
+		if (
+			false === $user
+			||
+			! isset( $user->licence_account, $user->licence_expiration )
+		) {
+			return $data;
 		}
 
-		$customer_data = $this->get_customer_data();
+		if (
+			1 <= $user->licence_account
+			&&
+			$user->licence_account < 3
+		) {
+			$data['license_type'] = 'Single';
+		} elseif ( -1 === (int) $user->licence_account ) {
+			$data['license_type'] = 'Infinite';
+		} else {
+			$data['license_type'] = 'Plus';
+		}
 
-		set_transient( 'wp_rocket_customer_data', $customer_data, DAY_IN_SECONDS );
+		$data['license_class']      = time() < $user->licence_expiration ? 'wpr-isValid' : 'wpr-isInvalid';
+		$data['license_expiration'] = date_i18n( get_option( 'date_format' ), (int) $user->licence_expiration );
 
-		return $customer_data;
+		return $data;
 	}
 
 	/**
@@ -569,7 +569,7 @@ class Page {
 		$inline_js_beacon      = $this->beacon->get_suggest( 'exclude_inline_js' );
 		$exclude_js_beacon     = $this->beacon->get_suggest( 'exclude_js' );
 		$jquery_migrate_beacon = $this->beacon->get_suggest( 'jquery_migrate' );
-		$google_fonts_beacon   = $this->beacon->get_suggest( 'google_fonts' );
+		$delay_js_beacon       = $this->beacon->get_suggest( 'delay_js' );
 
 		$this->settings->add_page_section(
 			'file_optimization',
@@ -581,13 +581,7 @@ class Page {
 
 		$this->settings->add_settings_sections(
 			[
-				'basic' => [
-					'title'  => __( 'Basic Settings', 'rocket' ),
-					'page'   => 'file_optimization',
-					// translators: %1$s = type of minification (HTML, CSS or JS), %2$s = “WP Rocket”.
-					'helper' => rocket_maybe_disable_minify_html() ? sprintf( __( '%1$s Minification is currently activated in <strong>Autoptimize</strong>. If you want to use %2$s’s minification, disable those options in Autoptimize.', 'rocket' ), 'HTML', WP_ROCKET_PLUGIN_NAME ) : '',
-				],
-				'css'   => [
+				'css' => [
 					'title'  => __( 'CSS Files', 'rocket' ),
 					'help'   => [
 						'id'  => $this->beacon->get_suggest( 'css_section' ),
@@ -597,7 +591,7 @@ class Page {
 					// translators: %1$s = type of minification (HTML, CSS or JS), %2$s = “WP Rocket”.
 					'helper' => rocket_maybe_disable_minify_css() ? sprintf( __( '%1$s Minification is currently activated in <strong>Autoptimize</strong>. If you want to use %2$s’s minification, disable those options in Autoptimize.', 'rocket' ), 'CSS', WP_ROCKET_PLUGIN_NAME ) : '',
 				],
-				'js'    => [
+				'js'  => [
 					'title'  => __( 'JavaScript Files', 'rocket' ),
 					'help'   => [
 						'id'  => $this->beacon->get_suggest( 'js_section' ),
@@ -612,31 +606,6 @@ class Page {
 
 		$this->settings->add_settings_fields(
 			[
-				'minify_html'            => [
-					'type'              => 'checkbox',
-					'label'             => __( 'Minify HTML', 'rocket' ),
-					'container_class'   => [
-						rocket_maybe_disable_minify_html() ? 'wpr-isDisabled' : '',
-					],
-					'description'       => __( 'Minifying HTML removes whitespace and comments to reduce the size.', 'rocket' ),
-					'section'           => 'basic',
-					'page'              => 'file_optimization',
-					'default'           => 0,
-					'sanitize_callback' => 'sanitize_checkbox',
-					'input_attr'        => [
-						'disabled' => rocket_maybe_disable_minify_html() ? 1 : 0,
-					],
-				],
-				'minify_google_fonts'    => [
-					'type'              => 'checkbox',
-					'label'             => __( 'Optimize Google Fonts', 'rocket' ),
-					// translators: %1$s = opening <a> tag, %2$s = closing </a> tag.
-					'description'       => sprintf( __( 'Improves font performance and combines multiple font requests to reduce the number of HTTP requests. %1$sMore info%2$s', 'rocket' ), '<a href="' . esc_url( $google_fonts_beacon['url'] ) . '" data-beacon-article="' . esc_attr( $google_fonts_beacon['id'] ) . '" target="_blank">', '</a>' ),
-					'section'           => 'basic',
-					'page'              => 'file_optimization',
-					'default'           => 0,
-					'sanitize_callback' => 'sanitize_checkbox',
-				],
 				'minify_css'             => [
 					'type'              => 'checkbox',
 					'label'             => __( 'Minify CSS files', 'rocket' ),
@@ -684,7 +653,9 @@ class Page {
 					'type'              => 'textarea',
 					'label'             => __( 'Excluded CSS Files', 'rocket' ),
 					'description'       => __( 'Specify URLs of CSS files to be excluded from minification and concatenation (one per line).', 'rocket' ),
-					'helper'            => __( 'The domain part of the URL will be stripped automatically.<br>Use (.*).css wildcards to exclude all CSS files located at a specific path.', 'rocket' ),
+					'helper'            => __( '<strong>Internal:</strong> The domain part of the URL will be stripped automatically. Use (.*).css wildcards to exclude all CSS files located at a specific path.', 'rocket' ) . '<br>' .
+					// translators: %1$s = opening <a> tag, %2$s = closing </a> tag.
+					sprintf( __( '<strong>3rd Party:</strong> Use either the full URL path or only the domain name, to exclude external CSS. %1$sMore info%2$s', 'rocket' ), '<a href="' . esc_url( $exclude_js_beacon['url'] ) . '" data-beacon-article="' . esc_attr( $exclude_js_beacon['id'] ) . '" rel="noopener noreferrer" target="_blank">', '</a>' ),
 					'container_class'   => [
 						'wpr-field--children',
 					],
@@ -842,6 +813,37 @@ class Page {
 					'page'              => 'file_optimization',
 					'default'           => 1,
 					'sanitize_callback' => 'sanitize_checkbox',
+				],
+				'delay_js'               => [
+					'container_class'   => [
+						'wpr-isParent',
+						'wpr-Delayjs',
+					],
+					'type'              => 'checkbox',
+					'label'             => __( 'Delay JavaScript execution', 'rocket' ),
+					// translators: %1$s = opening <a> tag, %2$s = closing </a> tag.
+					'description'       => sprintf( __( 'Improves performance by delaying the loading of JavaScript files until user interaction (e.g. scroll, click). %1$sMore info%2$s', 'rocket' ), '<a href="' . esc_url( $delay_js_beacon['url'] ) . '" data-beacon-article="' . esc_attr( $delay_js_beacon['id'] ) . '" target="_blank">', '</a>' ),
+					'section'           => 'js',
+					'page'              => 'file_optimization',
+					'default'           => 0,
+					'sanitize_callback' => 'sanitize_checkbox',
+				],
+				'delay_js_scripts'       => [
+					'type'              => 'textarea',
+					'label'             => __( 'Scripts to delay', 'rocket' ),
+					'description'       => __( 'Specify keywords that can identify inline or JavaScript files to be delayed (one per line).', 'rocket' ),
+					'helper'            => __( 'A curated list of scripts that are safe to delay is provided. They may not all apply to your website and it is safe to leave the list as-is unless you face issues.', 'rocket' ),
+					'container_class'   => [
+						'wpr-field--children',
+					],
+					'parent'            => 'delay_js',
+					'section'           => 'js',
+					'page'              => 'file_optimization',
+					'default'           => [],
+					'sanitize_callback' => 'sanitize_textarea',
+					'input_attr'        => [
+						'disabled' => get_rocket_option( 'delay_js' ) ? 0 : 1,
+					],
 				],
 			]
 		);
@@ -1076,6 +1078,7 @@ class Page {
 
 		$bot_beacon    = $this->beacon->get_suggest( 'bot' );
 		$fonts_preload = $this->beacon->get_suggest( 'fonts_preload' );
+		$preload_links = $this->beacon->get_suggest( 'preload_links' );
 
 		$this->settings->add_settings_sections(
 			[
@@ -1087,6 +1090,17 @@ class Page {
 					'help'        => [
 						'id'  => $this->beacon->get_suggest( 'sitemap_preload' ),
 						'url' => $bot_beacon['url'],
+					],
+					'page'        => 'preload',
+				],
+				'preload_links_section' => [
+					'title'       => __( 'Preload Links', 'rocket' ),
+					'type'        => 'fields_container',
+					// translators: %1$s = opening <a> tag, %2$s = closing </a> tag.
+					'description' => sprintf( __( 'Link preloading improves the perceived load time by downloading a page when a user hovers over the link. %1$sMore info%2$s', 'rocket' ), '<a href="' . esc_url( $preload_links['url'] ) . '" data-beacon-article="' . esc_attr( $preload_links['id'] ) . '" target="_blank">', '</a>' ),
+					'help'        => [
+						'id'  => $preload_links['id'],
+						'url' => $preload_links['url'],
 					],
 					'page'        => 'preload',
 				],
@@ -1188,6 +1202,14 @@ class Page {
 					'page'              => 'preload',
 					'default'           => [],
 					'sanitize_callback' => 'sanitize_textarea',
+				],
+				'preload_links' => [
+					'type'              => 'checkbox',
+					'label'             => __( 'Enable link preloading', 'rocket' ),
+					'section'           => 'preload_links_section',
+					'page'              => 'preload',
+					'default'           => 0,
+					'sanitize_callback' => 'sanitize_checkbox',
 				],
 			]
 		);
@@ -2080,6 +2102,7 @@ class Page {
 					'cloudflare_old_settings',
 					'sitemap_preload_url_crawl',
 					'cache_ssl',
+					'minify_google_fonts',
 				]
 			)
 		);

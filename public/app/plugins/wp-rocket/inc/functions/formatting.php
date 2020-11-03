@@ -99,7 +99,23 @@ function rocket_validate_js( $file ) {
 		return $file;
 	}
 
-	return sanitize_text_field( \rocket_remove_url_protocol( strtok( $file, '?' ) ) );
+	return sanitize_text_field( rocket_remove_url_protocol( strtok( $file, '?' ) ) );
+}
+
+/**
+ * Sanitize and validate CSS files to exclude from the minification.
+ *
+ * @since  3.7
+ *
+ * @param  string $file filepath to sanitize.
+ * @return string
+ */
+function rocket_validate_css( $file ) {
+	if ( rocket_is_internal_file( $file ) ) {
+		return rocket_sanitize_css( rocket_clean_exclude_file( trim( $file ) ) );
+	}
+
+	return sanitize_text_field( rocket_remove_url_protocol( strtok( $file, '?' ) ) );
 }
 
 /**
@@ -168,9 +184,10 @@ function rocket_sanitize_textarea_field( $field, $value ) {
 		'cache_reject_uri'     => [ 'esc_url', 'rocket_clean_exclude_file', 'rocket_clean_wildcards' ], // Pattern.
 		'cache_query_strings'  => [ 'rocket_sanitize_key' ],
 		'cdn_reject_files'     => [ 'rocket_clean_exclude_file', 'rocket_clean_wildcards' ], // Pattern.
-		'exclude_css'          => [ 'rocket_clean_exclude_file', 'rocket_sanitize_css', 'rocket_clean_wildcards' ], // Pattern.
+		'exclude_css'          => [ 'rocket_validate_css', 'rocket_clean_wildcards' ], // Pattern.
 		'exclude_inline_js'    => [ 'sanitize_text_field' ], // Pattern.
 		'exclude_js'           => [ 'rocket_validate_js', 'rocket_clean_wildcards' ], // Pattern.
+		'delay_js_scripts'     => [ 'rocket_validate_js' ],
 	];
 
 	if ( ! isset( $fields[ $field ] ) ) {
@@ -249,7 +266,7 @@ function rocket_sanitize_ua( $user_agent ) {
  * @return string $url The URL without protocol
  */
 function rocket_remove_url_protocol( $url, $no_dots = false ) {
-	$url = str_replace( [ 'http://', 'https://' ], '', $url );
+	$url = preg_replace( '#^(https?:)?\/\/#im', '', $url );
 
 	/** This filter is documented in inc/front/htaccess.php */
 	if ( apply_filters( 'rocket_url_no_dots', $no_dots ) ) {
@@ -475,6 +492,7 @@ function rocket_url_to_path( $url, array $zones = [ 'all' ] ) {
 	 */
 	$url = apply_filters( 'rocket_asset_url', $url, $zones );
 
+	$url      = rawurldecode( $url );
 	$root_url = preg_replace( '/^https?:/', '', $root_url );
 	$url      = preg_replace( '/^https?:/', '', $url );
 	$file     = str_replace( $root_url, $root_dir, $url );

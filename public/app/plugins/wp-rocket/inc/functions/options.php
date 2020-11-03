@@ -166,16 +166,32 @@ function rocket_get_ignored_parameters() {
 		'utm_expid'       => 1,
 		'utm_term'        => 1,
 		'utm_content'     => 1,
+		'mtm_source'      => 1,
+		'mtm_medium'      => 1,
+		'mtm_campaign'    => 1,
+		'mtm_keyword'     => 1,
+		'mtm_cid'         => 1,
+		'mtm_content'     => 1,
+		'pk_source'       => 1,
+		'pk_medium'       => 1,
+		'pk_campaign'     => 1,
+		'pk_keyword'      => 1,
+		'pk_cid'          => 1,
+		'pk_content'      => 1,
 		'fb_action_ids'   => 1,
 		'fb_action_types' => 1,
 		'fb_source'       => 1,
 		'fbclid'          => 1,
+		'campaignid'      => 1,
+		'adgroupid'       => 1,
+		'adid'            => 1,
 		'gclid'           => 1,
 		'age-verified'    => 1,
 		'ao_noptimize'    => 1,
 		'usqp'            => 1,
 		'cn-reloaded'     => 1,
 		'_ga'             => 1,
+		'sscid'           => 1,
 	];
 
 	/**
@@ -215,9 +231,9 @@ function get_rocket_cache_reject_uri( $force = false ) { // phpcs:ignore WordPre
 	$uris              = (array) get_rocket_option( 'cache_reject_uri', [] );
 	$home_root         = rocket_get_home_dirname();
 	$home_root_escaped = preg_quote( $home_root, '/' ); // The site is not at the domain root, it's in a folder.
+	$home_root_len     = strlen( $home_root );
 
 	if ( '' !== $home_root && $uris ) {
-		$home_root_len = strlen( $home_root );
 		foreach ( $uris as $i => $uri ) {
 			/**
 			 * Since these URIs can be regex patterns like `/homeroot(/.+)/`, we can't simply search for the string `/homeroot/` (nor `/homeroot`).
@@ -424,6 +440,13 @@ function get_rocket_exclude_defer_js() { // phpcs:ignore WordPress.NamingConvent
 		'lib/admin/assets/lib/webfont/webfont.min.js',
 		'app.mailerlite.com',
 		'widget.reviews.io',
+		'simplybook.(.*)/v2/widget/widget.js',
+		'/wp-includes/js/dist/i18n.min.js',
+		'/wp-content/plugins/wpfront-notification-bar/js/wpfront-notification-bar(.*).js',
+		'/wp-content/plugins/oxygen/component-framework/vendor/aos/aos.js',
+		'static.mailerlite.com/data/(.*).js',
+		'cdn.voxpow.com/static/libs/v1/(.*).js',
+		'cdn.voxpow.com/media/trackers/js/(.*).js',
 	];
 
 	if ( get_rocket_option( 'defer_all_js', 0 ) && get_rocket_option( 'defer_all_js_safe', 0 ) ) {
@@ -431,11 +454,13 @@ function get_rocket_exclude_defer_js() { // phpcs:ignore WordPress.NamingConvent
 		$jetpack_jquery    = 'c0.wp.com/c/(?:.+)/wp-includes/js/jquery/jquery.js';
 		$googleapis_jquery = 'ajax.googleapis.com/ajax/libs/jquery/(?:.+)/jquery(?:\.min)?.js';
 		$cdnjs_jquery      = 'cdnjs.cloudflare.com/ajax/libs/jquery/(?:.+)/jquery(?:\.min)?.js';
+		$code_jquery       = 'code.jquery.com/jquery-.*(?:\.min|slim)?.js';
 
 		$exclude_defer_js[] = rocket_clean_exclude_file( $jquery );
 		$exclude_defer_js[] = $jetpack_jquery;
 		$exclude_defer_js[] = $googleapis_jquery;
 		$exclude_defer_js[] = $cdnjs_jquery;
+		$exclude_defer_js[] = $code_jquery;
 	}
 
 	/**

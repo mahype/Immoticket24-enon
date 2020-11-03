@@ -60,12 +60,11 @@ class WooCommerceSubscriber implements Event_Manager_Aware_Subscriber_Interface 
 			 * Filters activation of WooCommerce empty cart caching
 			 *
 			 * @since 3.1
-			 * @author Remy Perona
 			 *
 			 * @param bool true to activate, false to deactivate.
 			 */
 			if ( apply_filters( 'rocket_cache_wc_empty_cart', true ) ) {
-				$events['plugins_loaded']    = [ 'serve_cache_empty_cart', 11 ];
+				$events['after_setup_theme'] = [ 'serve_cache_empty_cart', 11 ];
 				$events['template_redirect'] = [ 'cache_empty_cart', -1 ];
 				$events['switch_theme']      = 'delete_cache_empty_cart';
 			}
@@ -279,7 +278,7 @@ class WooCommerceSubscriber implements Event_Manager_Aware_Subscriber_Interface 
 	 * @return void
 	 */
 	public function serve_cache_empty_cart() {
-		if ( ! $this->is_get_refreshed_fragments() ) {
+		if ( ! $this->is_get_refreshed_fragments() || rocket_bypass() ) {
 			return;
 		}
 
@@ -301,7 +300,7 @@ class WooCommerceSubscriber implements Event_Manager_Aware_Subscriber_Interface 
 	 * @return void
 	 */
 	public function cache_empty_cart() {
-		if ( ! $this->is_get_refreshed_fragments() ) {
+		if ( ! $this->is_get_refreshed_fragments() || rocket_bypass() ) {
 			return;
 		}
 
@@ -472,6 +471,12 @@ class WooCommerceSubscriber implements Event_Manager_Aware_Subscriber_Interface 
 			'dokan_report_abuse', // Dokan report abuse popup.
 			'uabb_subscribe_form_submit', // Ultimate Addons for Beaver Builder - MailChimp signup form.
 			'konte-add-to-cart', // Add to cart feature of the Konte theme.
+			'wpuf_form_add', // WP User Frontend Pro.
+			'everest_forms_ajax_form_submission', // Everest forms AJAX submission.
+			'everest-forms_process_submit', // Everest forms submission.
+			'ajax-login-nonce', // Rehub theme login modal.
+			'filter-nonce', // Rehub theme filter.
+			'log-out', // WordPress's log-out action (wp_nonce_ays() function).
 		];
 	}
 }
