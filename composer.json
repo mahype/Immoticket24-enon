@@ -38,7 +38,7 @@
     "composer/installers": "~1.0",
     "cweagans/composer-patches": "~1.0",
     "johnpbloch/wordpress-core-installer": "~1.0",
-    "johnpbloch/wordpress-core": "5.5.1",
+    "johnpbloch/wordpress-core": "5.5.3",
     "wpackagist-plugin/akismet": "4.1.7",
     "wpackagist-plugin/acf-code-field": "1.8",
     "wpackagist-plugin/advanced-gutenberg":"2.4.7",
