@@ -136,21 +136,21 @@ class Dashboard
         $cookieVersion = get_site_option('BorlabsCookieCookieVersion', 1);
 
         // Get last 10000 entries
-        $consentsLogs = $wpdb->get_results('
+        $consentsLogs = $wpdb->get_results("
             SELECT
                 `uid`,
                 `consents`
             FROM
-                `'.$tableCookieConsentLog.'`
+                `".$tableCookieConsentLog."`
             WHERE
                 `is_latest` = 1
                 AND
-                `cookie_version` = "'.esc_sql($cookieVersion).'"
+                `cookie_version` = '".esc_sql($cookieVersion)."'
             ORDER BY
                 `stamp` DESC
             LIMIT
                 0, 10000
-        ');
+        ");
 
         $chartDataValues = [];
 
@@ -171,19 +171,19 @@ class Dashboard
         // Get all Cookie Groups
         $tableCookieGroup = $wpdb->prefix.'borlabs_cookie_groups';
 
-        $cookieGroups = $wpdb->get_results('
+        $cookieGroups = $wpdb->get_results("
             SELECT
                 `group_id`,
                 `name`
             FROM
-                `'.$tableCookieGroup.'`
+                `".$tableCookieGroup."`
             WHERE
-                `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
+                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
                 AND
                 `status` = 1
             ORDER BY
                 `position` ASC
-        ');
+        ");
 
         $index = 0;
 
@@ -234,20 +234,20 @@ class Dashboard
 
         $tableCookieConsentLog = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)."borlabs_cookie_consent_log";
 
-        $consentLogs = $wpdb->get_results('
+        $consentLogs = $wpdb->get_results("
             SELECT
                 `uid`,
                 `cookie_version`,
                 `stamp`
             FROM
-                `'.$tableCookieConsentLog.'`
+                `".$tableCookieConsentLog."`
             WHERE
                 `is_latest` = 1
             ORDER BY
                 `stamp` DESC
             LIMIT
                 0, 5
-        ');
+        ");
 
         return $consentLogs;
     }

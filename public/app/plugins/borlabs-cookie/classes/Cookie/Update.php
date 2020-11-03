@@ -125,12 +125,12 @@ class Update
         $lastVersion = get_option('BorlabsCookieVersion', false);
 
         if (is_multisite()) {
-            $allBlogs = $wpdb->get_results('
+            $allBlogs = $wpdb->get_results("
                 SELECT
                     `blog_id`
                 FROM
-                    `'.$wpdb->base_prefix.'blogs`
-            ');
+                    `".$wpdb->base_prefix."blogs`
+            ");
         }
 
         $versionUpgrades = Upgrade::getInstance()->getVersionUpgrades();

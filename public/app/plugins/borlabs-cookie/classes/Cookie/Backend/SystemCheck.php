@@ -89,12 +89,12 @@ class SystemCheck
 
         if (file_exists(WP_CONTENT_DIR.'/cache/borlabs-cookie') && !is_writable(WP_CONTENT_DIR.'/cache/borlabs-cookie')) {
             $data['success'] = false;
-            $data['message'] = sprintf(_x('The folder <strong>/%s/cache/borlabs_cookie</strong> is not writable. Please set the right permissions. See <a href="https://borlabs.io/folder-permissions/" rel="nofollow noopener noreferrer" target="_blank">FAQ</a>.', 'Backend / System Check / Alert Message', 'borlabs-cookie'), basename(WP_CONTENT_DIR));
+            $data['message'] = sprintf(_x('The folder <strong>/%s/cache/borlabs-cookie</strong> is not writable. Please set the right permissions. See <a href="https://borlabs.io/folder-permissions/" rel="nofollow noopener noreferrer" target="_blank">FAQ</a>.', 'Backend / System Check / Alert Message', 'borlabs-cookie'), basename(WP_CONTENT_DIR));
         }
 
         if (!file_exists(WP_CONTENT_DIR.'/cache/borlabs-cookie')) {
             $data['success'] = false;
-            $data['message'] =  sprintf(_x('The folder <strong>/%s/cache/borlabs_cookie</strong> does not exist. Please set the right permissions. See <a href="https://borlabs.io/folder-permissions/" rel="nofollow noopener noreferrer" target="_blank">FAQ</a>.', 'Backend / System Check / Alert Message', 'borlabs-cookie'), basename(WP_CONTENT_DIR));
+            $data['message'] =  sprintf(_x('The folder <strong>/%s/cache/borlabs-cookie</strong> does not exist. Please set the right permissions. See <a href="https://borlabs.io/folder-permissions/" rel="nofollow noopener noreferrer" target="_blank">FAQ</a>.', 'Backend / System Check / Alert Message', 'borlabs-cookie'), basename(WP_CONTENT_DIR));
         }
 
         return $data;
@@ -116,16 +116,16 @@ class SystemCheck
         ];
 
         $tableName = $wpdb->prefix.'borlabs_cookie_content_blocker';
-        $sql = '
+        $sql = "
             SELECT
                 `content_blocker_id`
             FROM
-                `'.$tableName.'`
+                `".$tableName."`
             WHERE
-                `content_blocker_id` IN ("default", "facebook", "googlemaps", "instagram", "openstreetmap", "twitter", "vimeo", "youtube")
+                `content_blocker_id` IN ('default', 'facebook', 'googlemaps', 'instagram', 'openstreetmap', 'twitter', 'vimeo', 'youtube')
                 AND
-                `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
-        ';
+                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+        ";
 
         $defaultContentBlocker = $wpdb->get_results($sql);
 
@@ -164,16 +164,16 @@ class SystemCheck
         ];
 
         $tableName = $wpdb->prefix.'borlabs_cookie_groups';
-        $sql = '
+        $sql = "
             SELECT
                 `group_id`
             FROM
-                `'.$tableName.'`
+                `".$tableName."`
             WHERE
-                `group_id` IN ("essential", "statistics", "marketing", "external-media")
+                `group_id` IN ('essential', 'statistics', 'marketing', 'external-media')
                 AND
-                `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
-        ';
+                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+        ";
 
         $defaultCookieGroups = $wpdb->get_results($sql);
 
@@ -194,16 +194,16 @@ class SystemCheck
         }
 
         // Change status of essential cookie group "essential"
-        $wpdb->query('
+        $wpdb->query("
             UPDATE
-                `'.$tableName.'`
+                `".$tableName."`
             SET
                 `status` = 1
             WHERE
-                `group_id` = "essential"
+                `group_id` = 'essential'
                 AND
-                `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
-        ');
+                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+        ");
 
         return $data;
     }
@@ -224,16 +224,16 @@ class SystemCheck
         ];
 
         $tableName = $wpdb->prefix.'borlabs_cookie_cookies';
-        $sql = '
+        $sql = "
             SELECT
                 `cookie_id`
             FROM
-                `'.$tableName.'`
+                `".$tableName."`
             WHERE
-                `cookie_id` IN ("borlabs-cookie")
+                `cookie_id` IN ('borlabs-cookie')
                 AND
-                `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
-        ';
+                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+        ";
 
         $defaultCookies = $wpdb->get_results($sql);
 
@@ -254,16 +254,16 @@ class SystemCheck
         }
 
         // Change status of essential cookie "borlabs-cookie"
-        $wpdb->query('
+        $wpdb->query("
             UPDATE
-                `'.$tableName.'`
+                `".$tableName."`
             SET
                 `status` = 1
             WHERE
-                `cookie_id` = "borlabs-cookie"
+                `cookie_id` = 'borlabs-cookie'
                 AND
-                `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
-        ');
+                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+        ");
 
         return $data;
     }
@@ -311,6 +311,9 @@ class SystemCheck
             if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || $_SERVER['SERVER_PORT'] === '443') {
                 $data['success'] = false;
                 $data['message'] = _x('Your SSL configuration is not correct. Please go to <strong>Settings &gt; General</strong> and replace <strong><em>http://</em></strong> with <strong><em>https://</em></strong> in the settings <strong>WordPress Address (URL)</strong> and <strong>Site Address (URL)</strong>.', 'Backend / System Check / Alert Message', 'borlabs-cookie');
+                $data['message'] .= "<br>WP_CONTENT_URL: ".WP_CONTENT_URL;
+                $data['message'] .= "<br>\$_SERVER['HTTPS']: ".$_SERVER['HTTPS'];
+                $data['message'] .= "<br>\$_SERVER['SERVER_PORT']: ".$_SERVER['SERVER_PORT'];
             } else {
                 $data['success'] = false;
                 $data['message'] = _x('Your website is not using a SSL certification.', 'Backend / System Check / Alert Message', 'borlabs-cookie');
@@ -546,7 +549,7 @@ class SystemCheck
         if ($columnStatus === true) {
 
             // Fix Script Blocker Table
-            $wpdb->query('DROP TABLE IF EXISTS `'.$tableNameScriptBlocker.'`');
+            $wpdb->query("DROP TABLE IF EXISTS `".$tableNameScriptBlocker."`");
 
             $sqlCreateTableScriptBlocker = Install::getInstance()->getCreateTableStatementScriptBlocker($tableNameScriptBlocker, $charsetCollate);
 
@@ -573,16 +576,16 @@ class SystemCheck
             $dbName = DB_NAME;
         }
 
-        $consentLogTableSize = $wpdb->get_results('
+        $consentLogTableSize = $wpdb->get_results("
             SELECT
                 round(((`data_length` + `index_length`) / 1024 / 1024), 2) `size_in_mb`
             FROM
                 `information_schema`.`TABLES`
             WHERE
-                `TABLE_SCHEMA` = "'.esc_sql($dbName).'"
+                `TABLE_SCHEMA` = '".esc_sql($dbName)."'
                 AND
-                `TABLE_NAME` = "'.$table.'"
-        ');
+                `TABLE_NAME` = '".$table."'
+        ");
 
         return !empty($consentLogTableSize[0]->size_in_mb) ? $consentLogTableSize[0]->size_in_mb : 0;
     }
@@ -599,12 +602,12 @@ class SystemCheck
 
         $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)."borlabs_cookie_consent_log";
 
-        $totalConsentLogs = $wpdb->get_results('
+        $totalConsentLogs = $wpdb->get_results("
             SELECT
                 COUNT(*) as `total`
             FROM
-                `'.$table.'`
-        ');
+                `".$table."`
+        ");
 
         return !empty($totalConsentLogs[0]->total) ? $totalConsentLogs[0]->total : 0;
     }

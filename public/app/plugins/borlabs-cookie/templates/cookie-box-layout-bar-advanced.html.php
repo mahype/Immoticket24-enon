@@ -27,9 +27,9 @@
                                     <?php } ?>
 
                                     <div class="<?php echo $cookieBoxShowLogo ? 'col-10' : 'col-12'; ?>">
-                                        <h3 id="CookieBoxTextHeadline">
+                                        <span role="heading" aria-level="3" class="_brlbs-h3" id="CookieBoxTextHeadline">
                                             <?php echo $cookieBoxTextHeadline; ?>
-                                        </h3>
+                                        </span>
                                         <p id="CookieBoxTextDescription">
                                             <?php echo do_shortcode($cookieBoxTextDescription); ?>
                                         </p>
@@ -55,7 +55,7 @@
                                                             <?php echo $groupData->group_id === 'essential' ? ' disabled' : ''; ?>
                                                             data-borlabs-cookie-checkbox
                                                         >
-                                                        <div class="_brlbs-checkbox-indicator"></div>
+                                                        <span class="_brlbs-checkbox-indicator"></span>
                                                     </label>
                                                 </li>
                                             <?php } ?>

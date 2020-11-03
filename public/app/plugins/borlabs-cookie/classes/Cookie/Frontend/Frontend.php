@@ -123,6 +123,11 @@ class Frontend
                 ThirdParty\Plugins\ACF::getInstance()->register();
             }
 
+            // Avada
+            if (defined('AVADA_VERSION')) {
+                add_action('fusion_builder_enqueue_live_scripts', [ThirdParty\Themes\Avada::getInstance(), 'adminHeadCSS'], 100);
+            }
+
             // Divi
             if (function_exists('et_divi_builder_init_plugin') || function_exists('et_setup_theme')) {
                 add_action('wp', [ThirdParty\Themes\Divi::getInstance(), 'modifyDiviSettings']);

@@ -360,16 +360,16 @@ class CSS
 
         $tableName = $wpdb->prefix . 'borlabs_cookie_content_blocker';
 
-        $contentBlocker = $wpdb->get_results('
+        $contentBlocker = $wpdb->get_results("
             SELECT
                 `preview_css`
             FROM
-                `'.$tableName.'`
+                `".$tableName."`
             WHERE
-                `language` = "'.esc_sql($language).'"
+                `language` = '".esc_sql($language)."'
                 AND
                 `status` = 1
-        ');
+        ");
 
         if (!empty($contentBlocker)) {
             foreach ($contentBlocker as $key => $data) {

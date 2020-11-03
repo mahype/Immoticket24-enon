@@ -242,12 +242,12 @@ class ThirdPartyHelper
 
         $tableName = $wpdb->prefix.'borlabs_cookie_content_blocker';
 
-        $wpdb->query('
+        $wpdb->query("
             DELETE FROM
-                `'.$tableName.'`
+                `".$tableName."`
             WHERE
-                `content_blocker_id`="'.esc_sql($contentBlockerId).'"
-        ');
+                `content_blocker_id` = '".esc_sql($contentBlockerId)."'
+        ");
 
         return true;
     }

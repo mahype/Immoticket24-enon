@@ -120,9 +120,9 @@ class ScriptBlocker
             $data['blockPhrases'] = $blockPhrases;
         }
 
-        $wpdb->query('
+        $wpdb->query("
             INSERT INTO
-                `'.$this->tableScriptBlocker.'`
+                `".$this->tableScriptBlocker."`
                 (
                     `script_blocker_id`,
                     `name`,
@@ -133,14 +133,14 @@ class ScriptBlocker
                 )
             VALUES
                 (
-                    "'.esc_sql($data['scriptBlockerId']).'",
-                    "'.esc_sql(stripslashes($data['name'])).'",
-                    "'.esc_sql(serialize($data['blockHandles'])).'",
-                    "'.esc_sql(serialize($data['blockPhrases'])).'",
-                    "'.(intval($data['status']) ? 1 : 0).'",
-                    "'.(intval($data['undeletable']) ? 1 : 0).'"
+                    '".esc_sql($data['scriptBlockerId'])."',
+                    '".esc_sql(stripslashes($data['name']))."',
+                    '".esc_sql(serialize($data['blockHandles']))."',
+                    '".esc_sql(serialize($data['blockPhrases']))."',
+                    '".(intval($data['status']) ? 1 : 0)."',
+                    '".(intval($data['undeletable']) ? 1 : 0)."'
                 )
-        ');
+        ");
 
         if (!empty($wpdb->insert_id)) {
             return $wpdb->insert_id;
@@ -160,14 +160,14 @@ class ScriptBlocker
     {
         global $wpdb;
 
-        $checkId = $wpdb->get_results('
+        $checkId = $wpdb->get_results("
             SELECT
                 `script_blocker_id`
             FROM
-                `'.$this->tableScriptBlocker.'`
+                `".$this->tableScriptBlocker."`
             WHERE
-                `script_blocker_id`="'.esc_sql($scriptBlockerId).'"
-        ');
+                `script_blocker_id` = '".esc_sql($scriptBlockerId)."'
+        ");
 
         if (!empty($checkId[0]->script_blocker_id)) {
             return true;
@@ -187,14 +187,14 @@ class ScriptBlocker
     {
         global $wpdb;
 
-        $wpdb->query('
+        $wpdb->query("
             DELETE FROM
-                `'.$this->tableScriptBlocker.'`
+                `".$this->tableScriptBlocker."`
             WHERE
-                `id` = "'.intval($id).'"
+                `id` = '".intval($id)."'
                 AND
                 `undeletable` = 0
-        ');
+        ");
 
         return true;
     }
@@ -353,7 +353,7 @@ class ScriptBlocker
     {
         global $wpdb;
 
-        $scriptBlocker = $wpdb->get_results('
+        $scriptBlocker = $wpdb->get_results("
             SELECT
                 `id`,
                 `script_blocker_id`,
@@ -363,10 +363,10 @@ class ScriptBlocker
                 `status`,
                 `undeletable`
             FROM
-                `'.$this->tableScriptBlocker.'`
+                `".$this->tableScriptBlocker."`
             ORDER BY
                 `name` ASC
-        ');
+        ");
 
         if (!empty($scriptBlocker)) {
             foreach ($scriptBlocker as $key => $data) {
@@ -527,7 +527,7 @@ class ScriptBlocker
 
         $data = false;
 
-        $scriptBlockerData = $wpdb->get_results('
+        $scriptBlockerData = $wpdb->get_results("
             SELECT
                 `id`,
                 `script_blocker_id`,
@@ -536,10 +536,10 @@ class ScriptBlocker
                 `js_block_phrases`,
                 `status`
             FROM
-                `'.$this->tableScriptBlocker.'`
+                `".$this->tableScriptBlocker."`
             WHERE
-                `id` = "'.esc_sql($id).'"
-        ');
+                `id` = '".esc_sql($id)."'
+        ");
 
         if (!empty($scriptBlockerData[0]->id)) {
             $data = $scriptBlockerData[0];
@@ -631,15 +631,15 @@ class ScriptBlocker
 
         $data = array_merge($default, $data);
 
-        $wpdb->query('
+        $wpdb->query("
             UPDATE
-                `'.$this->tableScriptBlocker.'`
+                `".$this->tableScriptBlocker."`
             SET
-                `name` = "'.esc_sql(stripslashes($data['name'])).'",
-                `status` = "'.(intval($data['status']) ? 1 : 0).'"
+                `name` = '".esc_sql(stripslashes($data['name']))."',
+                `status` = '".(intval($data['status']) ? 1 : 0)."'
             WHERE
-                `id` = "'.intval($id).'"
-        ');
+                `id` = '".intval($id)."'
+        ");
 
         return $id;
     }
@@ -677,14 +677,14 @@ class ScriptBlocker
     {
         global $wpdb;
 
-        $wpdb->query('
+        $wpdb->query("
             UPDATE
-                `'.$this->tableScriptBlocker.'`
+                `".$this->tableScriptBlocker."`
             SET
                 `status` = IF(`status` <> 0, 0, 1)
             WHERE
-                `id` = "'.intval($id).'"
-        ');
+                `id` = '".intval($id)."'
+        ");
 
         return true;
     }

@@ -123,12 +123,12 @@ class Install
 
         if (is_multisite()) {
 
-            $allBlogs = $wpdb->get_results('
+            $allBlogs = $wpdb->get_results("
                 SELECT
                     `blog_id`
                 FROM
-                    `'.$wpdb->base_prefix.'blogs`
-            ');
+                    `".$wpdb->base_prefix."blogs`
+            ");
 
             if (!empty($allBlogs)) {
 
@@ -425,15 +425,15 @@ class Install
         // Get Cookie Group Ids
         $cookieGroupIds = [];
 
-        $cookieGroups = $wpdb->get_results('
+        $cookieGroups = $wpdb->get_results("
             SELECT
                 `id`,
                 `group_id`
             FROM
-                `'.$tableNameCookieGroups.'`
+                `".$tableNameCookieGroups."`
             WHERE
-                `language` = "'.esc_sql($language).'"
-        ');
+                `language` = '".esc_sql($language)."'
+        ");
 
         foreach ($cookieGroups as $groupData) {
             $cookieGroupIds[$groupData->group_id] = $groupData->id;
@@ -626,16 +626,16 @@ class Install
             $dbName = DB_NAME;
         }
 
-        $tableResult = $wpdb->get_results('
+        $tableResult = $wpdb->get_results("
             SELECT
                 `TABLE_NAME`
             FROM
                 `information_schema`.`TABLES`
             WHERE
-                `TABLE_SCHEMA` = "'.esc_sql($dbName).'"
+                `TABLE_SCHEMA` = '".esc_sql($dbName)."'
                 AND
-                `TABLE_NAME` = "'.esc_sql($tableName).'"
-        ');
+                `TABLE_NAME` = '".esc_sql($tableName)."'
+        ");
 
         if (!empty($tableResult[0]->TABLE_NAME)) {
             return true;
@@ -663,18 +663,18 @@ class Install
             $dbName = DB_NAME;
         }
 
-        $tableResult = $wpdb->get_results('
+        $tableResult = $wpdb->get_results("
             SELECT
                 `COLUMN_NAME`
             FROM
                 `information_schema`.`COLUMNS`
             WHERE
-                `TABLE_SCHEMA` = "'.esc_sql($dbName).'"
+                `TABLE_SCHEMA` = '".esc_sql($dbName)."'
                 AND
-                `TABLE_NAME` = "'.esc_sql($tableName).'"
+                `TABLE_NAME` = '".esc_sql($tableName)."'
                 AND
-                `COLUMN_NAME` = "'.esc_sql($columnName).'"
-        ');
+                `COLUMN_NAME` = '".esc_sql($columnName)."'
+        ");
 
         if (!empty($tableResult[0]->COLUMN_NAME)) {
             return true;
@@ -731,18 +731,18 @@ class Install
             $dbName = DB_NAME;
         }
 
-        $tableResult = $wpdb->get_results('
+        $tableResult = $wpdb->get_results("
             SELECT
                 `DATA_TYPE`
             FROM
                 `information_schema`.`COLUMNS`
             WHERE
-                `TABLE_SCHEMA` = "'.esc_sql($dbName).'"
+                `TABLE_SCHEMA` = '".esc_sql($dbName)."'
                 AND
-                `TABLE_NAME` = "'.esc_sql($tableName).'"
+                `TABLE_NAME` = '".esc_sql($tableName)."'
                 AND
-                `COLUMN_NAME` = "'.esc_sql($columnName).'"
-        ');
+                `COLUMN_NAME` = '".esc_sql($columnName)."'
+        ");
 
         if (!empty($tableResult[0]->DATA_TYPE) && strtolower($tableResult[0]->DATA_TYPE) == strtolower($expectedType)) {
             return true;

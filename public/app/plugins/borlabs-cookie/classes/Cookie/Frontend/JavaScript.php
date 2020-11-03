@@ -281,10 +281,8 @@ class JavaScript
 
                         if (!empty($cookieData->opt_in_js) || !empty($cookieData->opt_out_js) || !empty($cookieData->fallback_js)) {
 
-                            $cookies[$cookieGroupData->group_id][$cookieData->cookie_id] = [
-                                'optInJS' => empty($cookieData->settings['prioritize']) ? base64_encode(do_shortcode($cookieData->opt_in_js)) : '',
-                                'optOutJS' => base64_encode(do_shortcode($cookieData->opt_out_js)),
-                            ];
+                            $cookies[$cookieGroupData->group_id][$cookieData->cookie_id]['optInJS'] = empty($cookieData->settings['prioritize']) ? base64_encode(do_shortcode($cookieData->opt_in_js)) : '';
+                            $cookies[$cookieGroupData->group_id][$cookieData->cookie_id]['optOutJS'] = base64_encode(do_shortcode($cookieData->opt_out_js));
                         }
                     }
                 }

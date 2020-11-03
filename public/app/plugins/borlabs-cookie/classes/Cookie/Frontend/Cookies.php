@@ -93,7 +93,7 @@ class Cookies
 
         if (empty($this->cookieGroups)) {
 
-            $cookieGroupData = $wpdb->get_results('
+            $cookieGroupData = $wpdb->get_results("
                 SELECT
                     `id`,
                     `group_id`,
@@ -102,14 +102,14 @@ class Cookies
                     `pre_selected`,
                     `position`
                 FROM
-                    `'.$wpdb->prefix.'borlabs_cookie_groups`
+                    `".$wpdb->prefix."borlabs_cookie_groups`
                 WHERE
-                    `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
+                    `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
                     AND
                     `status` = 1
                 ORDER BY
                     `position` ASC
-            ');
+            ");
 
             if (!empty($cookieGroupData)) {
 
@@ -136,7 +136,7 @@ class Cookies
 
         $data = [];
 
-        $cookiesData = $wpdb->get_results('
+        $cookiesData = $wpdb->get_results("
             SELECT
                 `cookie_id`,
                 `name`,
@@ -151,16 +151,16 @@ class Cookies
                 `fallback_js`,
                 `settings`
             FROM
-                `'.$wpdb->prefix.'borlabs_cookie_cookies`
+                `".$wpdb->prefix."borlabs_cookie_cookies`
             WHERE
-                `cookie_group_id` = "'.esc_sql($id).'"
+                `cookie_group_id` = '".esc_sql($id)."'
                 AND
-                `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
+                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
                 AND
                 `status` = 1
             ORDER BY
                 `position` ASC
-        ');
+        ");
 
         if (!empty($cookiesData)) {
 
@@ -206,17 +206,17 @@ class Cookies
 
             $this->allCookieGroupsByLanguage[$language] = [];
 
-            $cookieGroupData = $wpdb->get_results('
+            $cookieGroupData = $wpdb->get_results("
                 SELECT
                     `group_id`,
                     `name`
                 FROM
-                    `'.$wpdb->prefix.'borlabs_cookie_groups`
+                    `".$wpdb->prefix."borlabs_cookie_groups`
                 WHERE
-                    `language` = "'.esc_sql($language).'"
+                    `language` = '".esc_sql($language)."'
                     AND
                     `status` = 1
-            ');
+            ");
 
             if (!empty($cookieGroupData)) {
                 foreach ($cookieGroupData as $groupData) {
@@ -243,17 +243,17 @@ class Cookies
 
             $this->allCookiesByLanguage[$language] = [];
 
-            $cookiesData = $wpdb->get_results('
+            $cookiesData = $wpdb->get_results("
                 SELECT
                     `cookie_id`,
                     `name`
                 FROM
-                    `'.$wpdb->prefix.'borlabs_cookie_cookies`
+                    `".$wpdb->prefix."borlabs_cookie_cookies`
                 WHERE
-                    `language` = "'.esc_sql($language).'"
+                    `language` = '".esc_sql($language)."'
                     AND
                     `status` = 1
-            ');
+            ");
 
             if (!empty($cookiesData)) {
                 foreach ($cookiesData as $cookieData) {
@@ -278,29 +278,29 @@ class Cookies
 
         $data = [];
 
-        $cookieData = $wpdb->get_results('
+        $cookieData = $wpdb->get_results("
             SELECT
                 c.`cookie_id`,
                 c.`name`,
                 cg.`group_id`,
                 cg.`name` as `cookie_group`
             FROM
-                `'.$wpdb->prefix.'borlabs_cookie_cookies` as c
+                `".$wpdb->prefix."borlabs_cookie_cookies` as c
             INNER JOIN
-                `'.$wpdb->prefix.'borlabs_cookie_groups` as cg
+                `".$wpdb->prefix."borlabs_cookie_groups` as cg
                 ON
                 (
-                    c.`cookie_id` = "'.esc_sql($cookieId).'"
+                    c.`cookie_id` = '".esc_sql($cookieId)."'
                     AND
-                    c.`language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
+                    c.`language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
                     AND
                     c.`status` = 1
                     AND
                     cg.`id` = c.`cookie_group_id`
                     AND
-                    cg.`language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
+                    cg.`language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
                 )
-        ');
+        ");
 
 
         if (!empty($cookieData[0]->cookie_id)) {

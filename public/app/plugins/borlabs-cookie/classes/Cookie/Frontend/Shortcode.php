@@ -245,7 +245,7 @@ class Shortcode
 
                         if (!empty($cookieData->privacy_policy_url)) {
                             $content .= "<tr>";
-                            $content .= "<th>".$cookieBoxCookieDetailsTablePurpose."</th>";
+                            $content .= "<th>".$cookieBoxCookieDetailsTablePrivacyPolicy."</th>";
                             $content .= "<td><a href=\"".esc_url($cookieData->privacy_policy_url)."\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">".esc_url($cookieData->privacy_policy_url)."</a></td>";
                             $content .= "</tr>";
                         }

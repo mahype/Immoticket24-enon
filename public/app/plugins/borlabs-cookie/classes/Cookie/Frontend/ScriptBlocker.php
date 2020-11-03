@@ -412,16 +412,16 @@ class ScriptBlocker
 
         $tableName = $wpdb->prefix . 'borlabs_cookie_script_blocker';
 
-        $scriptBlocker = $wpdb->get_results('
+        $scriptBlocker = $wpdb->get_results("
             SELECT
                 `script_blocker_id`,
                 `handles`,
                 `js_block_phrases`
             FROM
-                `'.$tableName.'`
+                `".$tableName."`
             WHERE
                 `status` = 1
-        ');
+        ");
 
         if (!empty($scriptBlocker)) {
             foreach ($scriptBlocker as $key => $data) {

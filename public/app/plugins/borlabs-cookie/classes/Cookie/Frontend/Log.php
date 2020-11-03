@@ -94,17 +94,17 @@ class Log
                 }
 
                 // Get last log
-                $lastLog = $wpdb->get_results('
+                $lastLog = $wpdb->get_results("
                     SELECT
                         `cookie_version`,
                         `consents`
                     FROM
-                        `'.$table.'`
+                        `".$table."`
                     WHERE
-                        `uid` = "'.esc_sql($cookieData['uid']).'"
+                        `uid` = '".esc_sql($cookieData['uid'])."'
                         AND
                         `is_latest` = 1
-                ');
+                ");
 
                 $cookieVersion = null;
 
@@ -120,20 +120,20 @@ class Log
 
                     if (!empty($lastLog[0]->consents)) {
                         // Set "is_latest" of all old entries of the uid to 0
-                        $wpdb->query('
+                        $wpdb->query("
                             UPDATE
-                                `'.$table.'`
+                                `".$table."`
                             SET
                                 `is_latest` = 0
                             WHERE
-                                `uid` = "'.esc_sql($cookieData['uid']).'"
-                        ');
+                                `uid` = '".esc_sql($cookieData['uid'])."'
+                        ");
                     }
 
                     // Insert log
-                    $wpdb->query('
+                    $wpdb->query("
                         INSERT INTO
-                            `'.$table.'`
+                            `".$table."`
                         (
                             `log_id`,
                             `uid`,
@@ -145,13 +145,13 @@ class Log
                         VALUES
                         (
                             null,
-                            "'.esc_sql($cookieData['uid']).'",
-                            "'.$cookieVersion.'",
-                            "'.esc_sql($consents).'",
-                            "1",
+                            '".esc_sql($cookieData['uid'])."',
+                            '".$cookieVersion."',
+                            '".esc_sql($consents)."',
+                            '1',
                             NOW()
                         )
-                    ');
+                    ");
                 }
             }
         }
@@ -185,19 +185,19 @@ class Log
             $availableCookieGroups = Cookies::getInstance()->getAllCookieGroupsOfLanguage($language);
             $availableCookies = Cookies::getInstance()->getAllCookiesOfLanguage($language);
 
-            $logs = $wpdb->get_results('
+            $logs = $wpdb->get_results("
                 SELECT
                     `log_id`,
                     `cookie_version`,
                     `consents`,
                     `stamp`
                 FROM
-                    `'.$table.'`
+                    `".$table."`
                 WHERE
-                    `uid` = "'.esc_sql($uid).'"
+                    `uid` = '".esc_sql($uid)."'
                 ORDER BY
                     `stamp` DESC
-            ');
+            ");
 
             foreach ($logs as $logItem) {
 

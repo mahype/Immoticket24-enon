@@ -107,7 +107,7 @@ class ContentBlocker
         $tableName = $wpdb->prefix . 'borlabs_cookie_content_blocker';
 
         // Load active Content Blocker
-        $contentBlocker = $wpdb->get_results('
+        $contentBlocker = $wpdb->get_results("
             SELECT
                 `id`,
                 `content_blocker_id`,
@@ -119,12 +119,12 @@ class ContentBlocker
                 `init_js`,
                 `settings`
             FROM
-                `'.$tableName.'`
+                `".$tableName."`
             WHERE
-                `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
+                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
                 AND
                 `status` = 1
-        ');
+        ");
 
         if (!empty($contentBlocker)) {
             foreach ($contentBlocker as $key => $data) {
@@ -167,16 +167,16 @@ class ContentBlocker
         }
 
         // Add hosts of disabled Content Blocker to whitelist
-        $disabledContentBlocker = $wpdb->get_results('
+        $disabledContentBlocker = $wpdb->get_results("
             SELECT
                 `hosts`
             FROM
-                `'.$tableName.'`
+                `".$tableName."`
             WHERE
-                `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
+                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
                 AND
                 `status` = 0
-        ');
+        ");
 
         if (!empty($disabledContentBlocker)) {
             foreach ($disabledContentBlocker as $data) {

@@ -115,9 +115,9 @@ class ContentBlocker
 
         if ($this->checkIdExists($data['contentBlockerId'], $data['language']) === false) {
 
-            $wpdb->query('
+            $wpdb->query("
                 INSERT INTO
-                    `'.$this->table.'`
+                    `".$this->table."`
                     (
                         `content_blocker_id`,
                         `language`,
@@ -135,21 +135,21 @@ class ContentBlocker
                     )
                 VALUES
                     (
-                        "'.esc_sql($data['contentBlockerId']).'",
-                        "'.esc_sql($data['language']).'",
-                        "'.esc_sql(stripslashes($data['name'])).'",
-                        "'.esc_sql(stripslashes($data['description'])).'",
-                        "'.esc_sql(stripslashes($data['privacyPolicyURL'])).'",
-                        "'.esc_sql(serialize($data['hosts'])).'",
-                        "'.esc_sql(stripslashes($data['previewHTML'])).'",
-                        "'.esc_sql(stripslashes($data['previewCSS'])).'",
-                        "'.esc_sql(stripslashes($data['globalJS'])).'",
-                        "'.esc_sql(stripslashes($data['initJS'])).'",
-                        "'.esc_sql(serialize($data['settings'])).'",
-                        "'.(intval($data['status']) ? 1 : 0).'",
-                        "'.(intval($data['undeletable']) ? 1 : 0).'"
+                        '".esc_sql($data['contentBlockerId'])."',
+                        '".esc_sql($data['language'])."',
+                        '".esc_sql(stripslashes($data['name']))."',
+                        '".esc_sql(stripslashes($data['description']))."',
+                        '".esc_sql(stripslashes($data['privacyPolicyURL']))."',
+                        '".esc_sql(serialize($data['hosts']))."',
+                        '".esc_sql(stripslashes($data['previewHTML']))."',
+                        '".esc_sql(stripslashes($data['previewCSS']))."',
+                        '".esc_sql(stripslashes($data['globalJS']))."',
+                        '".esc_sql(stripslashes($data['initJS']))."',
+                        '".esc_sql(serialize($data['settings']))."',
+                        '".(intval($data['status']) ? 1 : 0)."',
+                        '".(intval($data['undeletable']) ? 1 : 0)."'
                     )
-            ');
+            ");
 
             if (!empty($wpdb->insert_id)) {
                 return $wpdb->insert_id;
@@ -176,16 +176,16 @@ class ContentBlocker
             $language = Multilanguage::getInstance()->getCurrentLanguageCode();
         }
 
-        $checkId = $wpdb->get_results('
+        $checkId = $wpdb->get_results("
             SELECT
                 `content_blocker_id`
             FROM
-                `'.$this->table.'`
+                `".$this->table."`
             WHERE
-                `content_blocker_id`="'.esc_sql($contentBlockerId).'"
+                `content_blocker_id` = '".esc_sql($contentBlockerId)."'
                 AND
-                `language`="'.esc_sql($language).'"
-        ');
+                `language` = '".esc_sql($language)."'
+        ");
 
         if (!empty($checkId[0]->content_blocker_id)) {
             return true;
@@ -205,12 +205,12 @@ class ContentBlocker
     {
         global $wpdb;
 
-        $wpdb->query('
+        $wpdb->query("
             DELETE FROM
-                `'.$this->table.'`
+                `".$this->table."`
             WHERE
-                `id` = "'.intval($id).'"
-        ');
+                `id` = '".intval($id)."'
+        ");
 
         return true;
     }
@@ -423,7 +423,7 @@ class ContentBlocker
         global $wpdb;
 
         // Get all blocked content types for the current language
-        $contentBlocker = $wpdb->get_results('
+        $contentBlocker = $wpdb->get_results("
             SELECT
                 `id`,
                 `content_blocker_id`,
@@ -432,12 +432,12 @@ class ContentBlocker
                 `status`,
                 `undeletable`
             FROM
-                `'.$this->table.'`
+                `".$this->table."`
             WHERE
-                `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
+                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
             ORDER BY
                 `name` ASC
-        ');
+        ");
 
         if (!empty($contentBlocker)) {
             foreach ($contentBlocker as $key => $data) {
@@ -487,7 +487,7 @@ class ContentBlocker
 
         $data = false;
 
-        $contentBlockerData = $wpdb->get_results('
+        $contentBlockerData = $wpdb->get_results("
             SELECT
                 `id`,
                 `content_blocker_id`,
@@ -503,10 +503,10 @@ class ContentBlocker
                 `settings`,
                 `status`
             FROM
-                `'.$this->table.'`
+                `".$this->table."`
             WHERE
-                `id` = "'.esc_sql($id).'"
-        ');
+                `id` = '".esc_sql($id)."'
+        ");
 
         if (!empty($contentBlockerData[0]->id)) {
             $data = $contentBlockerData[0];
@@ -550,16 +550,16 @@ class ContentBlocker
         $language = Multilanguage::getInstance()->getCurrentLanguageCode();
 
         // Get content blocker id for the current language
-        $contentBlockerId = $wpdb->get_results('
+        $contentBlockerId = $wpdb->get_results("
             SELECT
                 `id`
             FROM
-                `'.$this->table.'`
+                `".$this->table."`
             WHERE
-                `language` = "'.esc_sql($language).'"
+                `language` = '".esc_sql($language)."'
                 AND
-                `content_blocker_id` = "'.esc_sql($contentBlockerId).'"
-        ');
+                `content_blocker_id` = '".esc_sql($contentBlockerId)."'
+        ");
 
         if (!empty($contentBlockerId[0]->id)) {
             $data = $this->get($contentBlockerId[0]->id);
@@ -595,22 +595,22 @@ class ContentBlocker
 
         $data = array_merge($default, $data);
 
-        $wpdb->query('
+        $wpdb->query("
             UPDATE
-                `'.$this->table.'`
+                `".$this->table."`
             SET
-                `name` = "'.esc_sql(stripslashes($data['name'])).'",
-                `privacy_policy_url` = "'.esc_sql(stripslashes($data['privacyPolicyURL'])).'",
-                `hosts` = "'.esc_sql(serialize($data['hosts'])).'",
-                `preview_html` = "'.esc_sql(stripslashes($data['previewHTML'])).'",
-                `preview_css` = "'.esc_sql(stripslashes($data['previewCSS'])).'",
-                `global_js` = "'.esc_sql(stripslashes($data['globalJS'])).'",
-                `init_js` = "'.esc_sql(stripslashes($data['initJS'])).'",
-                `settings` = "'.esc_sql(serialize($data['settings'])).'",
-                `status` = "'.(intval($data['status']) ? 1 : 0).'"
+                `name` = '".esc_sql(stripslashes($data['name']))."',
+                `privacy_policy_url` = '".esc_sql(stripslashes($data['privacyPolicyURL']))."',
+                `hosts` = '".esc_sql(serialize($data['hosts']))."',
+                `preview_html` = '".esc_sql(stripslashes($data['previewHTML']))."',
+                `preview_css` = '".esc_sql(stripslashes($data['previewCSS']))."',
+                `global_js` = '".esc_sql(stripslashes($data['globalJS']))."',
+                `init_js` = '".esc_sql(stripslashes($data['initJS']))."',
+                `settings` = '".esc_sql(serialize($data['settings']))."',
+                `status` = '".(intval($data['status']) ? 1 : 0)."'
             WHERE
-                `id` = "'.intval($id).'"
-        ');
+                `id` = '".intval($id)."'
+        ");
 
         return $id;
     }
@@ -631,14 +631,14 @@ class ContentBlocker
         foreach ($this->defaultContentBlocker as $contentBlockerId => $class) {
 
             // Delete
-            $contentBlocker = $wpdb->query('
+            $contentBlocker = $wpdb->query("
                 DELETE FROM
-                    `'.$this->table.'`
+                    `".$this->table."`
                 WHERE
-                    `language`="'.esc_sql($language).'"
+                    `language` = '".esc_sql($language)."'
                     AND
-                    `content_blocker_id`="'.esc_sql($contentBlockerId).'"
-            ');
+                    `content_blocker_id` = '".esc_sql($contentBlockerId)."'
+            ");
 
             // Restore
             $ContentBlocker = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\'.$class;
@@ -754,14 +754,14 @@ class ContentBlocker
     {
         global $wpdb;
 
-        $wpdb->query('
+        $wpdb->query("
             UPDATE
-                `'.$this->table.'`
+                `".$this->table."`
             SET
                 `status` = IF(`status` <> 0, 0, 1)
             WHERE
-                `id` = "'.intval($id).'"
-        ');
+                `id` = '".intval($id)."'
+        ");
 
         return true;
     }

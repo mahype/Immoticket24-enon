@@ -67,12 +67,12 @@ class Uninstall
 
         if (is_multisite()) {
 
-            $allBlogs = $wpdb->get_results('
+            $allBlogs = $wpdb->get_results("
                 SELECT
                     `blog_id`
                 FROM
-                    `'.$wpdb->prefix.'blogs`
-            ');
+                    `".$wpdb->prefix."blogs`
+            ");
 
             if (!empty($allBlogs)) {
 
@@ -86,23 +86,23 @@ class Uninstall
                     $tableNameContentBlocker = $wpdb->prefix.$blogData->blog_id.'_borlabs_cookie_content_blocker';
                     $tableNameScriptBlocker = $wpdb->prefix.$blogData->blog_id.'_borlabs_cookie_script_blocker';
 
-                    $wpdb->query('DROP TABLE IF EXISTS `'.$tableNameCookies.'`');
-                    $wpdb->query('DROP TABLE IF EXISTS `'.$tableNameCookieGroups.'`');
-                    $wpdb->query('DROP TABLE IF EXISTS `'.$tableNameCookieConsentLog.'`');
-                    $wpdb->query('DROP TABLE IF EXISTS `'.$tableNameContentBlocker.'`');
-                    $wpdb->query('DROP TABLE IF EXISTS `'.$tableNameScriptBlocker.'`');
+                    $wpdb->query("DROP TABLE IF EXISTS `".$tableNameCookies."`");
+                    $wpdb->query("DROP TABLE IF EXISTS `".$tableNameCookieGroups."`");
+                    $wpdb->query("DROP TABLE IF EXISTS `".$tableNameCookieConsentLog."`");
+                    $wpdb->query("DROP TABLE IF EXISTS `".$tableNameContentBlocker."`");
+                    $wpdb->query("DROP TABLE IF EXISTS `".$tableNameScriptBlocker."`");
 
                     switch_to_blog($blogData->blog_id);
 
                     // Find Borlabs Cookie Options and delete them
-                    $borlabsCookieOptions = $wpdb->get_results('
+                    $borlabsCookieOptions = $wpdb->get_results("
                         SELECT
                             `option_name`
                         FROM
-                            `'.$wpdb->options.'`
+                            `".$wpdb->options."`
                         WHERE
-                            `option_name` LIKE "BorlabsCookie%"
-                    ');
+                            `option_name` LIKE 'BorlabsCookie%'
+                    ");
 
                     if (!empty($borlabsCookieOptions)) {
                         foreach ($borlabsCookieOptions as $optionData) {
@@ -121,14 +121,14 @@ class Uninstall
             }
 
             // Find Borlabs Cookie Options in sitemeta and delete them
-            $borlabsCookieOptions = $wpdb->get_results('
+            $borlabsCookieOptions = $wpdb->get_results("
                 SELECT
                     `meta_key`
                 FROM
-                    `'.$wpdb->sitemeta.'`
+                    `".$wpdb->sitemeta."`
                 WHERE
-                    `meta_key` LIKE "BorlabsCookie%"
-            ');
+                    `meta_key` LIKE 'BorlabsCookie%'
+            ");
 
             if (!empty($borlabsCookieOptions)) {
                 foreach ($borlabsCookieOptions as $optionData) {
@@ -139,14 +139,14 @@ class Uninstall
         } else {
 
             // Find Borlabs Cookie Options and delete them
-            $borlabsCookieOptions = $wpdb->get_results('
+            $borlabsCookieOptions = $wpdb->get_results("
                 SELECT
                     `option_name`
                 FROM
-                    `'.$wpdb->options.'`
+                    `".$wpdb->options."`
                 WHERE
-                    `option_name` LIKE "BorlabsCookie%"
-            ');
+                    `option_name` LIKE 'BorlabsCookie%'
+            ");
 
             if (!empty($borlabsCookieOptions)) {
                 foreach ($borlabsCookieOptions as $optionData) {
@@ -167,11 +167,11 @@ class Uninstall
         $tableNameContentBlocker = $wpdb->prefix.'borlabs_cookie_content_blocker';
         $tableNameScriptBlocker = $wpdb->prefix.'borlabs_cookie_script_blocker';
 
-        $wpdb->query('DROP TABLE IF EXISTS `'.$tableNameCookies.'`');
-        $wpdb->query('DROP TABLE IF EXISTS `'.$tableNameCookieGroups.'`');
-        $wpdb->query('DROP TABLE IF EXISTS `'.$tableNameCookieConsentLog.'`');
-        $wpdb->query('DROP TABLE IF EXISTS `'.$tableNameContentBlocker.'`');
-        $wpdb->query('DROP TABLE IF EXISTS `'.$tableNameScriptBlocker.'`');
+        $wpdb->query("DROP TABLE IF EXISTS `".$tableNameCookies."`");
+        $wpdb->query("DROP TABLE IF EXISTS `".$tableNameCookieGroups."`");
+        $wpdb->query("DROP TABLE IF EXISTS `".$tableNameCookieConsentLog."`");
+        $wpdb->query("DROP TABLE IF EXISTS `".$tableNameContentBlocker."`");
+        $wpdb->query("DROP TABLE IF EXISTS `".$tableNameScriptBlocker."`");
     }
 
     /**

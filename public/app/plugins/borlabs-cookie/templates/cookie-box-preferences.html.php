@@ -21,7 +21,7 @@
                     <?php } ?>
 
                     <div class="<?php echo $cookieBoxShowLogo ? 'col-10' : 'col-12'; ?>">
-                        <h3><?php echo $cookieBoxPreferenceTextHeadline; ?></h3>
+                        <span role="heading" aria-level="3" class="_brlbs-h3"><?php echo $cookieBoxPreferenceTextHeadline; ?></span>
 
                         <p id="CookiePrefDescription">
                             <?php echo do_shortcode($cookieBoxPreferenceTextDescription); ?>

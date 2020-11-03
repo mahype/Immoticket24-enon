@@ -60,6 +60,10 @@ class Upgrade
         'upgradeVersion_2_2_6' => '2.2.6',
         'upgradeVersion_2_2_7' => '2.2.7',
         'upgradeVersion_2_2_8' => '2.2.8',
+        'upgradeVersion_2_2_9' => '2.2.9',
+        'upgradeVersion_2_2_10' => '2.2.10',
+        'upgradeVersion_2_2_11' => '2.2.11',
+        'upgradeVersion_2_2_12' => '2.2.12',
     ];
 
     private $currentBlogId = '';
@@ -330,7 +334,7 @@ class Upgrade
         if ($columnStatus === true) {
 
             // Fix Script Blocker Table
-            $wpdb->query('DROP TABLE IF EXISTS `'.$tableNameScriptBlocker.'`');
+            $wpdb->query("DROP TABLE IF EXISTS `".$tableNameScriptBlocker."`");
 
             $sqlCreateTableScriptBlocker = \BorlabsCookie\Cookie\Install::getInstance()->getCreateTableStatementScriptBlocker($tableNameScriptBlocker, $charsetCollate);
 
@@ -722,6 +726,102 @@ class Upgrade
         update_option('BorlabsCookieClearCache', true, 'no');
 
         update_option('BorlabsCookieVersion', '2.2.8', 'no');
+
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_9()
+    {
+        // Update Multilanguage
+        $languageCodes = [];
+
+        // Polylang
+        if (defined('POLYLANG_VERSION')) {
+
+            $polylangLanguages = get_terms('language', ['hide_empty' => false]);
+
+            if (!empty($polylangLanguages)) {
+                foreach ($polylangLanguages as $languageData) {
+                    if (!empty($languageData->slug) && is_string($languageData->slug)) {
+                        $languageCodes[$languageData->slug] = $languageData->slug;
+                    }
+                }
+            }
+        }
+
+        // WPML
+        if (defined('ICL_LANGUAGE_CODE')) {
+
+            $wpmlLanguages = apply_filters('wpml_active_languages', null, []);
+
+            if (!empty($wpmlLanguages)) {
+                foreach ($wpmlLanguages as $languageData) {
+                    if (!empty($languageData['code'])) {
+                        $languageCodes[$languageData['code']] = $languageData['code'];
+                    }
+                }
+            }
+        }
+
+        if (!empty($languageCodes)) {
+
+            foreach ($languageCodes as $languageCode) {
+
+                Log::getInstance()->info(__METHOD__, 'Update CSS of language {languageCode}', ['languageCode' => $languageCode]);
+
+                // Load config
+                \BorlabsCookie\Cookie\Config::getInstance()->loadConfig($languageCode);
+
+                // Save CSS
+                \BorlabsCookie\Cookie\Backend\CSS::getInstance()->save($languageCode);
+
+                // Update style version
+                $styleVersion = get_option('BorlabsCookieStyleVersion_' . $languageCode, 1);
+                $styleVersion = intval($styleVersion) + 1;
+
+                update_option('BorlabsCookieStyleVersion_' . $languageCode, $styleVersion, false);
+            }
+        } else {
+
+            Log::getInstance()->info(__METHOD__, 'Update CSS');
+
+            // Load config
+            \BorlabsCookie\Cookie\Config::getInstance()->loadConfig();
+
+            // Save CSS
+            \BorlabsCookie\Cookie\Backend\CSS::getInstance()->save();
+        }
+
+        update_option('BorlabsCookieClearCache', true, 'no');
+
+        update_option('BorlabsCookieVersion', '2.2.9', 'no');
+
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_10()
+    {
+        update_option('BorlabsCookieClearCache', true, 'no');
+
+        update_option('BorlabsCookieVersion', '2.2.10', 'no');
+
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_11()
+    {
+        update_option('BorlabsCookieClearCache', true, 'no');
+
+        update_option('BorlabsCookieVersion', '2.2.11', 'no');
+
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_12()
+    {
+        update_option('BorlabsCookieClearCache', true, 'no');
+
+        update_option('BorlabsCookieVersion', '2.2.12', 'no');
 
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }

@@ -102,9 +102,9 @@ class CookieGroups
 
         if ($this->checkIdExists($data['groupId'], $data['language']) === false) {
 
-            $wpdb->query('
+            $wpdb->query("
                 INSERT INTO
-                    `'.$this->tableCookieGroup.'`
+                    `".$this->tableCookieGroup."`
                     (
                         `group_id`,
                         `language`,
@@ -117,16 +117,16 @@ class CookieGroups
                     )
                 VALUES
                     (
-                        "'.esc_sql($data['groupId']).'",
-                        "'.esc_sql($data['language']).'",
-                        "'.esc_sql(stripslashes($data['name'])).'",
-                        "'.esc_sql(stripslashes($data['description'])).'",
-                        "'.(intval($data['preSelected']) ? 1 : 0).'",
-                        "'.intval($data['position']).'",
-                        "'.(intval($data['status']) ? 1 : 0).'",
-                        "'.(intval($data['undeletable']) ? 1 : 0).'"
+                        '".esc_sql($data['groupId'])."',
+                        '".esc_sql($data['language'])."',
+                        '".esc_sql(stripslashes($data['name']))."',
+                        '".esc_sql(stripslashes($data['description']))."',
+                        '".(intval($data['preSelected']) ? 1 : 0)."',
+                        '".intval($data['position'])."',
+                        '".(intval($data['status']) ? 1 : 0)."',
+                        '".(intval($data['undeletable']) ? 1 : 0)."'
                     )
-            ');
+            ");
 
             if (!empty($wpdb->insert_id)) {
                 return $wpdb->insert_id;
@@ -152,16 +152,16 @@ class CookieGroups
             $language = Multilanguage::getInstance()->getCurrentLanguageCode();
         }
 
-        $checkId = $wpdb->get_results('
+        $checkId = $wpdb->get_results("
             SELECT
                 `group_id`
             FROM
-                `'.$this->tableCookieGroup.'`
+                `".$this->tableCookieGroup."`
             WHERE
-                `group_id`="'.esc_sql($groupId).'"
+                `group_id` = '".esc_sql($groupId)."'
                 AND
-                `language`="'.esc_sql($language).'"
-        ');
+                `language` = '".esc_sql($language)."'
+        ");
 
         if (!empty($checkId[0]->group_id)) {
             return true;
@@ -184,27 +184,27 @@ class CookieGroups
         $deleteStatus = false;
 
         // Check if no cookie is linked to this cookie group
-        $checkCookies = $wpdb->get_results('
+        $checkCookies = $wpdb->get_results("
             SELECT
                 `cookie_id`
             FROM
-                `'.$this->tableCookie.'`
+                `".$this->tableCookie."`
             WHERE
-                `cookie_group_id`="'.esc_sql($id).'"
+                `cookie_group_id` = '".esc_sql($id)."'
             LIMIT
                 0,1
-        ');
+        ");
 
         if (empty($checkCookies[0]->cookie_id)) {
 
-            $wpdb->query('
+            $wpdb->query("
                 DELETE FROM
-                    `'.$this->tableCookieGroup.'`
+                    `".$this->tableCookieGroup."`
                 WHERE
-                    `id` = "'.intval($id).'"
+                    `id` = '".intval($id)."'
                     AND
                     `undeletable` = 0
-            ');
+            ");
 
             $deleteStatus = true;
         }
@@ -376,7 +376,7 @@ class CookieGroups
     {
         global $wpdb;
 
-        $cookieGroups = $wpdb->get_results('
+        $cookieGroups = $wpdb->get_results("
             SELECT
                 `id`,
                 `group_id`,
@@ -385,12 +385,12 @@ class CookieGroups
                 `status`,
                 `undeletable`
             FROM
-                `'.$this->tableCookieGroup.'`
+                `".$this->tableCookieGroup."`
             WHERE
-                `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
+                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
             ORDER BY
                 `name` ASC
-        ');
+        ");
 
         if (!empty($cookieGroups)) {
             foreach ($cookieGroups as $key => $data) {
@@ -414,7 +414,7 @@ class CookieGroups
 
         $data = false;
 
-        $cookieGroupData = $wpdb->get_results('
+        $cookieGroupData = $wpdb->get_results("
             SELECT
                 `id`,
                 `group_id`,
@@ -425,10 +425,10 @@ class CookieGroups
                 `position`,
                 `status`
             FROM
-                `'.$this->tableCookieGroup.'`
+                `".$this->tableCookieGroup."`
             WHERE
-                `id` = "'.esc_sql($id).'"
-        ');
+                `id` = '".esc_sql($id)."'
+        ");
 
         if (!empty($cookieGroupData[0]->id)) {
             $data = $cookieGroupData[0];
@@ -453,16 +453,16 @@ class CookieGroups
         $language = Multilanguage::getInstance()->getCurrentLanguageCode();
 
         // Get cookie group id for the current language
-        $cookieGroupId = $wpdb->get_results('
+        $cookieGroupId = $wpdb->get_results("
             SELECT
                 `id`
             FROM
-                `'.$this->tableCookieGroup.'`
+                `".$this->tableCookieGroup."`
             WHERE
-                `language` = "'.esc_sql($language).'"
+                `language` = '".esc_sql($language)."'
                 AND
-                `group_id` = "'.esc_sql($groupId).'"
-        ');
+                `group_id` = '".esc_sql($groupId)."'
+        ");
 
         if (!empty($cookieGroupId[0]->id)) {
             $data = $this->get($cookieGroupId[0]->id);
@@ -493,18 +493,18 @@ class CookieGroups
 
         $data = array_merge($default, $data);
 
-        $wpdb->query('
+        $wpdb->query("
             UPDATE
-                `'.$this->tableCookieGroup.'`
+                `".$this->tableCookieGroup."`
             SET
-                `name` = "'.esc_sql(stripslashes($data['name'])).'",
-                `description` = "'.esc_sql(stripslashes($data['description'])).'",
-                `pre_selected` = "'.(intval($data['preSelected']) ? 1 : 0).'",
-                `position` = "'.intval($data['position']).'",
-                `status` = "'.(intval($data['status']) ? 1 : 0).'"
+                `name` = '".esc_sql(stripslashes($data['name']))."',
+                `description` = '".esc_sql(stripslashes($data['description']))."',
+                `pre_selected` = '".(intval($data['preSelected']) ? 1 : 0)."',
+                `position` = '".intval($data['position'])."',
+                `status` = '".(intval($data['status']) ? 1 : 0)."'
             WHERE
-                `id` = "'.intval($id).'"
-        ');
+                `id` = '".intval($id)."'
+        ");
 
         return $id;
     }
@@ -522,44 +522,44 @@ class CookieGroups
         $language = Multilanguage::getInstance()->getCurrentLanguageCode();
 
         // Get old cookie groups and their ids
-        $cookieGroups = $wpdb->get_results('
+        $cookieGroups = $wpdb->get_results("
             SELECT
                 `id`,
                 `group_id`
             FROM
-                `'.$this->tableCookieGroup.'`
+                `".$this->tableCookieGroup."`
             WHERE
-                `language` = "'.esc_sql($language).'"
+                `language` = '".esc_sql($language)."'
                 AND
-                `group_id` IN ("essential", "statistics", "marketing", "external-media")
-        ');
+                `group_id` IN ('essential', 'statistics', 'marketing', 'external-media')
+        ");
 
         // Delete default Cookie Groups
-        $wpdb->query('
+        $wpdb->query("
             DELETE FROM
-                `'.$this->tableCookieGroup.'`
+                `".$this->tableCookieGroup."`
             WHERE
-                `language` = "'.esc_sql($language).'"
+                `language` = '".esc_sql($language)."'
                 AND
-                `group_id` IN ("essential", "statistics", "marketing", "external-media")
-        ');
+                `group_id` IN ('essential', 'statistics', 'marketing', 'external-media')
+        ");
 
         $sqlDefaultEntriesCookieGroups = \BorlabsCookie\Cookie\Install::getInstance()->getDefaultEntriesCookieGroups($this->tableCookieGroup, $language);
 
         $wpdb->query($sqlDefaultEntriesCookieGroups);
 
         // Get new cookie groups and their ids
-        $cookieGroupsNew = $wpdb->get_results('
+        $cookieGroupsNew = $wpdb->get_results("
             SELECT
                 `id`,
                 `group_id`
             FROM
-                `'.$this->tableCookieGroup.'`
+                `".$this->tableCookieGroup."`
             WHERE
-                `language` = "'.esc_sql($language).'"
+                `language` = '".esc_sql($language)."'
                 AND
-                `group_id` IN ("essential", "statistics", "marketing", "external-media")
-        ');
+                `group_id` IN ('essential', 'statistics', 'marketing', 'external-media')
+        ");
 
         // Match old / new
         $matchCookieGroups = [];
@@ -584,14 +584,14 @@ class CookieGroups
             if (!empty($matchCookieGroups)) {
                 foreach ($matchCookieGroups as $matchData) {
                     if (!empty($matchData['new'])) {
-                        $wpdb->query('
+                        $wpdb->query("
                             UPDATE
-                                `'.$this->tableCookie.'`
+                                `".$this->tableCookie."`
                             SET
-                                `cookie_group_id` = "'.esc_sql($matchData['new']).'"
+                                `cookie_group_id` = '".esc_sql($matchData['new'])."'
                             WHERE
-                                `cookie_group_id` = "'.esc_sql($matchData['old']).'"
-                        ');
+                                `cookie_group_id` = '".esc_sql($matchData['old'])."'
+                        ");
                     }
                 }
             }
@@ -633,16 +633,16 @@ class CookieGroups
     {
         global $wpdb;
 
-        $wpdb->query('
+        $wpdb->query("
             UPDATE
-                `'.$this->tableCookieGroup.'`
+                `".$this->tableCookieGroup."`
             SET
                 `status` = IF(`status` <> 0, 0, 1)
             WHERE
-                `id` = "'.intval($id).'"
+                `id` = '".intval($id)."'
                 AND
-                `group_id` != "essential"
-        ');
+                `group_id` != 'essential'
+        ");
 
         return true;
     }

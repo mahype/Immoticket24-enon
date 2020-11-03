@@ -134,9 +134,9 @@ class Cookies
 
         if ($this->checkIdExists($data['cookieId'], $data['language']) === false) {
 
-            $wpdb->query('
+            $wpdb->query("
                 INSERT INTO
-                    `'.$this->tableCookie.'`
+                    `".$this->tableCookie."`
                     (
                         `cookie_id`,
                         `language`,
@@ -159,26 +159,26 @@ class Cookies
                     )
                 VALUES
                     (
-                        "'.esc_sql($data['cookieId']).'",
-                        "'.esc_sql($data['language']).'",
-                        "'.intval($data['cookieGroupId']).'",
-                        "'.esc_sql($data['service']).'",
-                        "'.esc_sql(stripslashes($data['name'])).'",
-                        "'.esc_sql(stripslashes($data['provider'])).'",
-                        "'.esc_sql(stripslashes($data['purpose'])).'",
-                        "'.esc_sql(stripslashes($data['privacyPolicyURL'])).'",
-                        "'.esc_sql(serialize($data['hosts'])).'",
-                        "'.esc_sql(stripslashes($data['cookieName'])).'",
-                        "'.esc_sql(stripslashes($data['cookieExpiry'])).'",
-                        "'.esc_sql(stripslashes($data['optInJS'])).'",
-                        "'.esc_sql(stripslashes($data['optOutJS'])).'",
-                        "'.esc_sql(stripslashes($data['fallbackJS'])).'",
-                        "'.esc_sql(serialize($data['settings'])).'",
-                        "'.intval($data['position']).'",
-                        "'.(intval($data['status']) ? 1 : 0).'",
-                        "'.(intval($data['undeletable']) ? 1 : 0).'"
+                        '".esc_sql($data['cookieId'])."',
+                        '".esc_sql($data['language'])."',
+                        '".intval($data['cookieGroupId'])."',
+                        '".esc_sql($data['service'])."',
+                        '".esc_sql(stripslashes($data['name']))."',
+                        '".esc_sql(stripslashes($data['provider']))."',
+                        '".esc_sql(stripslashes($data['purpose']))."',
+                        '".esc_sql(stripslashes($data['privacyPolicyURL']))."',
+                        '".esc_sql(serialize($data['hosts']))."',
+                        '".esc_sql(stripslashes($data['cookieName']))."',
+                        '".esc_sql(stripslashes($data['cookieExpiry']))."',
+                        '".esc_sql(stripslashes($data['optInJS']))."',
+                        '".esc_sql(stripslashes($data['optOutJS']))."',
+                        '".esc_sql(stripslashes($data['fallbackJS']))."',
+                        '".esc_sql(serialize($data['settings']))."',
+                        '".intval($data['position'])."',
+                        '".(intval($data['status']) ? 1 : 0)."',
+                        '".(intval($data['undeletable']) ? 1 : 0)."'
                     )
-            ');
+            ");
 
             if (!empty($wpdb->insert_id)) {
                 return $wpdb->insert_id;
@@ -204,16 +204,16 @@ class Cookies
             $language = Multilanguage::getInstance()->getCurrentLanguageCode();
         }
 
-        $checkId = $wpdb->get_results('
+        $checkId = $wpdb->get_results("
             SELECT
                 `cookie_id`
             FROM
-                `'.$this->tableCookie.'`
+                `".$this->tableCookie."`
             WHERE
-                `cookie_id`="'.esc_sql($cookieId).'"
+                `cookie_id` = '".esc_sql($cookieId)."'
                 AND
-                `language`="'.esc_sql($language).'"
-        ');
+                `language` = '".esc_sql($language)."'
+        ");
 
         if (!empty($checkId[0]->cookie_id)) {
             return true;
@@ -233,14 +233,14 @@ class Cookies
     {
         global $wpdb;
 
-        $wpdb->query('
+        $wpdb->query("
             DELETE FROM
-                `'.$this->tableCookie.'`
+                `".$this->tableCookie."`
             WHERE
-                `id` = "'.intval($id).'"
+                `id` = '".intval($id)."'
                 AND
                 `undeletable` = 0
-        ');
+        ");
 
         return true;
     }
@@ -579,7 +579,7 @@ class Cookies
     {
         global $wpdb;
 
-        $cookieGroups = $wpdb->get_results('
+        $cookieGroups = $wpdb->get_results("
             SELECT
                 `id`,
                 `name`,
@@ -587,18 +587,18 @@ class Cookies
                 `status`,
                 `undeletable`
             FROM
-                `'.$this->tableCookieGroup.'`
+                `".$this->tableCookieGroup."`
             WHERE
-                `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
+                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
             ORDER BY
                 `name` ASC
-        ');
+        ");
 
         if (!empty($cookieGroups)) {
 
             foreach ($cookieGroups as $key => $cookieGroupData) {
 
-                $cookies = $wpdb->get_results('
+                $cookies = $wpdb->get_results("
                     SELECT
                         `id`,
                         `cookie_id`,
@@ -607,14 +607,14 @@ class Cookies
                         `status`,
                         `undeletable`
                     FROM
-                        `'.$this->tableCookie.'`
+                        `".$this->tableCookie."`
                     WHERE
-                        `language` = "'.esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()).'"
+                        `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
                         AND
-                        `cookie_group_id` = "'.intval($cookieGroupData->id).'"
+                        `cookie_group_id` = '".intval($cookieGroupData->id)."'
                     ORDER BY
                         `name` ASC
-                ');
+                ");
 
                 if (!empty($cookies)) {
                     foreach ($cookies as $cookieData) {
@@ -643,7 +643,7 @@ class Cookies
 
         $data = false;
 
-        $cookieData = $wpdb->get_results('
+        $cookieData = $wpdb->get_results("
             SELECT
                 `id`,
                 `cookie_id`,
@@ -665,10 +665,10 @@ class Cookies
                 `status`,
                 `undeletable`
             FROM
-                `'.$this->tableCookie.'`
+                `".$this->tableCookie."`
             WHERE
-                `id` = "'.esc_sql($id).'"
-        ');
+                `id` = '".esc_sql($id)."'
+        ");
 
         if (!empty($cookieData[0]->id)) {
             $data = $cookieData[0];
@@ -696,16 +696,16 @@ class Cookies
         $language = Multilanguage::getInstance()->getCurrentLanguageCode();
 
         // Get cookie id for the current language
-        $cookieId = $wpdb->get_results('
+        $cookieId = $wpdb->get_results("
             SELECT
                 `id`
             FROM
-                `'.$this->tableCookie.'`
+                `".$this->tableCookie."`
             WHERE
-                `language` = "'.esc_sql($language).'"
+                `language` = '".esc_sql($language)."'
                 AND
-                `cookie_id` = "'.esc_sql($cookieId).'"
-        ');
+                `cookie_id` = '".esc_sql($cookieId)."'
+        ");
 
         if (!empty($cookieId[0]->id)) {
             $data = $this->get($cookieId[0]->id);
@@ -744,26 +744,26 @@ class Cookies
 
         $data = array_merge($default, $data);
 
-        $wpdb->query('
+        $wpdb->query("
             UPDATE
-                `'.$this->tableCookie.'`
+                `".$this->tableCookie."`
             SET
-                `name` = "'.esc_sql(stripslashes($data['name'])).'",
-                `provider` = "'.esc_sql(stripslashes($data['provider'])).'",
-                `purpose` = "'.esc_sql(stripslashes($data['purpose'])).'",
-                `privacy_policy_url` = "'.esc_sql(stripslashes($data['privacyPolicyURL'])).'",
-                `hosts` = "'.esc_sql(serialize($data['hosts'])).'",
-                `cookie_name` = "'.esc_sql(stripslashes($data['cookieName'])).'",
-                `cookie_expiry` = "'.esc_sql(stripslashes($data['cookieExpiry'])).'",
-                `opt_in_js` = "'.esc_sql(stripslashes($data['optInJS'])).'",
-                `opt_out_js` = "'.esc_sql(stripslashes($data['optOutJS'])).'",
-                `fallback_js` = "'.esc_sql(stripslashes($data['fallbackJS'])).'",
-                `settings` = "'.esc_sql(serialize($data['settings'])).'",
-                `position` = "'.intval($data['position']).'",
-                `status` = "'.(intval($data['status']) ? 1 : 0).'"
+                `name` = '".esc_sql(stripslashes($data['name']))."',
+                `provider` = '".esc_sql(stripslashes($data['provider']))."',
+                `purpose` = '".esc_sql(stripslashes($data['purpose']))."',
+                `privacy_policy_url` = '".esc_sql(stripslashes($data['privacyPolicyURL']))."',
+                `hosts` = '".esc_sql(serialize($data['hosts']))."',
+                `cookie_name` = '".esc_sql(stripslashes($data['cookieName']))."',
+                `cookie_expiry` = '".esc_sql(stripslashes($data['cookieExpiry']))."',
+                `opt_in_js` = '".esc_sql(stripslashes($data['optInJS']))."',
+                `opt_out_js` = '".esc_sql(stripslashes($data['optOutJS']))."',
+                `fallback_js` = '".esc_sql(stripslashes($data['fallbackJS']))."',
+                `settings` = '".esc_sql(serialize($data['settings']))."',
+                `position` = '".intval($data['position'])."',
+                `status` = '".(intval($data['status']) ? 1 : 0)."'
             WHERE
-                `id` = "'.intval($id).'"
-        ');
+                `id` = '".intval($id)."'
+        ");
 
         return $id;
     }
@@ -782,14 +782,14 @@ class Cookies
 
 
         // Delete default Cookies
-        $wpdb->query('
+        $wpdb->query("
             DELETE FROM
-                `'.$this->tableCookie.'`
+                `".$this->tableCookie."`
             WHERE
-                `language`="'.esc_sql($language).'"
+                `language` = '".esc_sql($language)."'
                 AND
-                `cookie_id` IN ("borlabs-cookie", "facebook", "googlemaps", "instagram", "openstreetmap", "twitter", "vimeo", "youtube")
-        ');
+                `cookie_id` IN ('borlabs-cookie', 'facebook', 'googlemaps', 'instagram', 'openstreetmap', 'twitter', 'vimeo', 'youtube')
+        ");
 
         $sqlDefaultEntriesCookies = \BorlabsCookie\Cookie\Install::getInstance()->getDefaultEntriesCookies($this->tableCookie, $language, $this->tableCookieGroup);
 
@@ -834,16 +834,16 @@ class Cookies
     {
         global $wpdb;
 
-        $wpdb->query('
+        $wpdb->query("
             UPDATE
-                `'.$this->tableCookie.'`
+                `".$this->tableCookie."`
             SET
                 `status` = IF(`status` <> 0, 0, 1)
             WHERE
-                `id` = "'.intval($id).'"
+                `id` = '".intval($id)."'
                 AND
-                `cookie_id` != "borlabs-cookie"
-        ');
+                `cookie_id` != 'borlabs-cookie'
+        ");
 
         return true;
     }

@@ -18,12 +18,12 @@
  *
  */
 
-namespace BorlabsCookie\Cookie\Backend;
+namespace BorlabsCookie\Cookie\Frontend\ThirdParty\Themes;
 
-use BorlabsCookie\Cookie\Config;
-use BorlabsCookie\Cookie\Tools;
+use BorlabsCookie\Cookie\Frontend\ContentBlocker;
+use BorlabsCookie\Cookie\Frontend\JavaScript;
 
-class Maintenance
+class Avada
 {
     private static $instance;
 
@@ -36,6 +36,16 @@ class Maintenance
         return self::$instance;
     }
 
+    /**
+     * __construct function.
+     *
+     * @access public
+     * @return void
+     */
+    public function __construct()
+    {
+    }
+
     private function __clone()
     {
     }
@@ -44,35 +54,14 @@ class Maintenance
     {
     }
 
-    protected function __construct()
-    {
-    }
-
     /**
-     * cleanUp function.
+     * adminHeadCSS function.
      *
      * @access public
-     * @param bool $optimizeTable (default: false)
      * @return void
      */
-    public function cleanUp($optimizeTable = false)
+    public function adminHeadCSS()
     {
-        global $wpdb;
-
-        $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)."borlabs_cookie_consent_log";
-        $cookieLifetime = Config::getInstance()->get('cookieLifetime');
-
-        // Delete old entries
-        $wpdb->query("
-            DELETE FROM
-                `".$table."`
-            WHERE
-                `stamp` < NOW() - INTERVAL ".intval($cookieLifetime)." DAY
-        ");
-
-        // Optimize
-        if ($optimizeTable === true) {
-            $wpdb->query("OPTIMIZE TABLE `".$table."`");
-        }
+        echo "<style>#BorlabsCookieBox { display: none !important; }</style>";
     }
 }

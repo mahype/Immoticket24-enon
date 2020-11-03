@@ -24,7 +24,7 @@
                                         >
                                     <?php } ?>
 
-                                    <h3 id="CookieBoxTextHeadline"><?php echo $cookieBoxTextHeadline; ?></h3>
+                                    <span role="heading" aria-level="3" class="_brlbs-h3" id="CookieBoxTextHeadline"><?php echo $cookieBoxTextHeadline; ?></span>
                                 </div>
 
                                 <p id="CookieBoxTextDescription"><?php echo do_shortcode($cookieBoxTextDescription); ?></p>
