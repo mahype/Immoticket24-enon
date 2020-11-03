@@ -199,6 +199,29 @@ function affwp_email_tag_review_url( $affiliate_id = 0 ) {
 }
 
 /**
+ * Email template tag: registration_coupon
+ * The affiliate's registration coupon
+ *
+ * @since 2.6
+ *
+ * @param int $affiliate_id Affiliate ID.
+ * @return string Affiliate registration coupon, or empty string if none.
+ */
+function affwp_email_tag_registration_coupon( $affiliate_id = 0 ) {
+	$coupon_code = '';
+
+	$coupons = affwp_get_dynamic_affiliate_coupons( $affiliate_id, false );
+
+	if ( ! empty( $coupons ) ) {
+		$coupon = reset( $coupons );
+
+		$coupon_code = affwp_get_affiliate_coupon_code( $affiliate_id, $coupon->coupon_id );
+	}
+
+	return $coupon_code;
+}
+
+/**
  * Get the landing page of the referral
  *
  * @since 1.9

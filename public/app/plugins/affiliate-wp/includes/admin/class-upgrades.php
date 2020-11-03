@@ -179,6 +179,10 @@ class Affiliate_WP_Upgrades {
 			$this->v25_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.6', '<' ) ) {
+			$this->v26_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -229,6 +233,16 @@ class Affiliate_WP_Upgrades {
 				'class' => 'AffWP\Utils\Batch_Process\Upgrade_Create_Customer_Affiliate_Relationship',
 				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/upgrades/class-batch-upgrade-create-customer-affiliate-relationship.php'
 			)
+		) );
+
+		$this->add_routine( 'upgrade_v26_create_dynamic_coupons', array(
+			'version' => '2.6',
+			'compare' => '<',
+			'batch_process' => array(
+				'id'    => 'create-dynamic-coupons-upgrade',
+				'class' => 'AffWP\Utils\Batch_Process\Upgrade_Create_Dynamic_Coupons',
+				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/upgrades/class-batch-upgrade-create-dynamic-coupons.php',
+			),
 		) );
 	}
 
@@ -954,6 +968,23 @@ class Affiliate_WP_Upgrades {
 	private function v25_upgrade() {
 		affiliate_wp()->referrals->sales->create_table();
 		@affiliate_wp()->utils->log( 'Upgrade: The sales table has been created.' );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Performs database upgrades for version 2.6.
+	 *
+	 * @since 2.6
+	 */
+	private function v26_upgrade() {
+		affiliate_wp()->affiliates->coupons->create_table();
+		@affiliate_wp()->utils->log( 'Upgrade: The coupons table has been created.' );
+
+		// Enable the affiliate coupons setting (will not cause unexpected behavior).
+		@affiliate_wp()->settings->set( array(
+			'affiliate_coupons'  => true,
+		), $save = true );
 
 		$this->upgraded = true;
 	}

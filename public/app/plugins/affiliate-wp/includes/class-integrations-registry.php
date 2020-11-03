@@ -124,11 +124,12 @@ class Integrations_Registry extends Utils\Registry {
 	 * Retrieves the list of features the current integration supports.
 	 *
 	 * @since 2.5
+	 * @since 2.6 'manual_coupons' and 'dynamic_coupons' supports were added.
 	 *
 	 * @return array List of supported integration features.
 	 */
 	private function supports_whitelist() {
-		$supports = array( 'sales_reporting' );
+		$supports = array( 'sales_reporting', 'manual_coupons', 'dynamic_coupons' );
 
 		/**
 		 * Filters the supported integration features.
@@ -319,7 +320,7 @@ class Integrations_Registry extends Utils\Registry {
 		$this->add_integration( 'edd', array(
 			'name'     => 'Easy Digital Downloads',
 			'class'    => '\Affiliate_WP_EDD',
-			'supports' => array( 'sales_reporting' ),
+			'supports' => array( 'sales_reporting', 'manual_coupons' ),
 		) );
 
 		// Formidable Pro
@@ -342,8 +343,9 @@ class Integrations_Registry extends Utils\Registry {
 
 		// ExchangeWP (iThemes Exchange)
 		$this->add_integration( 'exchange', array(
-			'name'  => 'ExchangeWP (iThemes Exchange)',
-			'class' => '\Affiliate_WP_Exchange',
+			'name'     => 'ExchangeWP (iThemes Exchange)',
+			'class'    => '\Affiliate_WP_Exchange',
+			'supports' => array( 'manual_coupons' ),
 		) );
 
 		// Jigoshop
@@ -372,8 +374,9 @@ class Integrations_Registry extends Utils\Registry {
 
 		// MemberPress
 		$this->add_integration( 'memberpress', array(
-			'name'  => 'MemberPress',
-			'class' => '\Affiliate_WP_MemberPress',
+			'name'     => 'MemberPress',
+			'class'    => '\Affiliate_WP_MemberPress',
+			'supports' => array( 'manual_coupons' ),
 		) );
 
 		// Ninja Forms
@@ -441,7 +444,7 @@ class Integrations_Registry extends Utils\Registry {
 		$this->add_integration( 'woocommerce', array(
 			'name'     => 'WooCommerce',
 			'class'    => '\Affiliate_WP_WooCommerce',
-			'supports' => array( 'sales_reporting' ),
+			'supports' => array( 'sales_reporting', 'manual_coupons', 'dynamic_coupons' ),
 		) );
 
 		// WP EasyCart

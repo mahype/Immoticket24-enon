@@ -255,17 +255,21 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 				$referral    = affwp_get_referral( $add );
 				$integration = affiliate_wp()->integrations->get( $referral->context );
 
-				// If the order_total is empty, try to get it from the integration directly.
-				if ( ! is_wp_error( $integration ) && empty( $args['order_total'] ) ) {
-					$args['order_total'] = $integration->get_order_total( $referral->reference );
-				}
+				if ( ! is_wp_error( $integration ) ) {
+					if ( $integration->is_active() ) {
+						// If the order_total is empty, try to get it from the integration directly.
+						if ( empty( $args['order_total'] ) ) {
+							$args['order_total'] = $integration->get_order_total( $referral->reference );
+						}
 
-				affiliate_wp()->referrals->sales->add( array(
-					'order_total'   => $args['order_total'],
-					'amount'        => $referral->amount,
-					'affiliate_id'  => $referral->affiliate_id,
-					'referral_id'   => $referral->referral_id,
-				) );
+						affiliate_wp()->referrals->sales->add( array(
+							'order_total'   => $args['order_total'],
+							'amount'        => $referral->amount,
+							'affiliate_id'  => $referral->affiliate_id,
+							'referral_id'   => $referral->referral_id,
+						) );
+					}
+				}
 
 				/**
 				 * Fires once a new referral has successfully been inserted into the database.

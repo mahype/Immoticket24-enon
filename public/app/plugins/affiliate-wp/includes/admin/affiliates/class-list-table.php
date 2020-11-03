@@ -697,7 +697,21 @@ class AffWP_Affiliates_Table extends List_Table {
 			wp_safe_redirect( $redirect );
 		}
 
+		$dynamic_coupons_enabled = affiliate_wp()->settings->get( 'dynamic_coupons' );
+
 		foreach ( $ids as $id ) {
+
+			if ( $dynamic_coupons_enabled && in_array( $this->current_action(), array( 'accept', 'activate' ) ) ) {
+				$coupons = affwp_get_dynamic_affiliate_coupons( $id, false );
+
+				if ( empty( $coupons ) ) {
+					$coupon_added = affiliate_wp()->affiliates->coupons->add( array( 'affiliate_id' => $id ) );
+
+					if ( false === $coupon_added ) {
+						affiliate_wp()->utils->log( sprintf( 'Coupon could not be added for affiliate #%1$d.', $id ) );
+					}
+				}
+			}
 
 			if ( 'accept' === $this->current_action() ) {
 				affwp_set_affiliate_status( $id, 'active' );

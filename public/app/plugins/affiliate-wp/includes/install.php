@@ -36,6 +36,7 @@ function affiliate_wp_install() {
 	$affiliate_wp_install->creatives->create_table();
 	$affiliate_wp_install->sales->create_table();
 	$affiliate_wp_install->affiliates->payouts->create_table();
+	$affiliate_wp_install->affiliates->coupons->create_table();
 	$affiliate_wp_install->REST->consumers->create_table();
 
 	if ( ! get_option( 'affwp_is_installed' ) ) {
@@ -89,7 +90,8 @@ function affiliate_wp_install() {
 	$completed_upgrades = array(
 		'upgrade_v20_recount_unpaid_earnings',
 		'upgrade_v22_create_customer_records',
-		'upgrade_v245_create_customer_affiliate_relationship_records'
+		'upgrade_v245_create_customer_affiliate_relationship_records',
+		'upgrade_v26_create_dynamic_coupons',
 	);
 
 	// Set past upgrade routines complete for all sites.

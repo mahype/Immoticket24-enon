@@ -775,6 +775,8 @@ class AffWP_Referrals_Table extends List_Table {
 			do_action( 'affwp_referrals_do_bulk_action_' . $this->current_action(), $id );
 		}
 
+		// Refresh referral counts.
+		$this->get_referral_counts();
 	}
 
 	/**

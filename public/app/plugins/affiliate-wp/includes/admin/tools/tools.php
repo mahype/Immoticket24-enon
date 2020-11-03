@@ -100,6 +100,10 @@ function affwp_get_tools_tabs() {
 		$tabs['debug'] = __( 'Debug Assistant', 'affiliate-wp' );
 	}
 
+	if ( affwp_get_dynamic_coupons_integrations() ) {
+		$tabs['coupons'] = __( 'Coupons', 'affiliate-wp' );
+	}
+
 	/**
 	 * Filters AffiliateWP tools tabs.
 	 *
@@ -544,7 +548,6 @@ function affwp_system_info_tab() {
 	</form>
 	<?php
 }
-
 add_action( 'affwp_tools_tab_system_info', 'affwp_system_info_tab' );
 
 /**
@@ -608,6 +611,46 @@ function affwp_debug_tab() {
 <?php
 }
 add_action( 'affwp_tools_tab_debug', 'affwp_debug_tab' );
+
+/**
+ * Generate Coupons Tab
+ *
+ * @since  2.6
+ * @return void
+ */
+function affwp_coupons_tab() {
+	$dynamic_coupon_template = affiliate_wp()->settings->get( 'coupon_template_woocommerce' )
+	?>
+	<div id="affwp-dashboard-widgets-wrap">
+		<div class="metabox-holder">
+
+			<div class="postbox">
+				<h3><span><?php esc_html_e( 'Dynamic Coupons', 'affiliate-wp' ); ?></span></h3>
+				<div class="inside">
+					<p><?php esc_html_e( 'Generate dynamic coupons for all affiliates.', 'affiliate-wp' ); ?></p>
+					<?php if ( $dynamic_coupon_template ): ?>
+						<form method="post" enctype="multipart/form-data" class="affwp-batch-form" data-batch_id="create-dynamic-coupons" data-nonce="<?php echo esc_attr( wp_create_nonce( 'create-dynamic-coupons_step_nonce' ) ); ?>">
+							<p>
+								<label>
+									<input type="checkbox" name="override_coupon" value="1">
+									<span class="">Override existing coupon for all affiliates</span>
+								</label>
+							</p>
+							<p>
+								<?php submit_button( __( 'Generate Coupons', 'affiliate-wp' ), 'secondary', 'create-dynamic-coupons-submit', false ); ?>
+							</p>
+						</form>
+					<?php else: ?>
+						<p class="description"><?php printf( __( 'Generating coupons requires a <a href="%s" target="_blank">Coupon Template</a> to be selected.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'settings', array( 'tab' => 'coupons' ) ) ) ); ?></p>
+					<?php endif; ?>
+				</div><!-- .inside -->
+			</div><!-- .postbox -->
+
+		</div><!-- .metabox-holder -->
+	</div><!-- #affwp-dashboard-widgets-wrap -->
+	<?php
+}
+add_action( 'affwp_tools_tab_coupons', 'affwp_coupons_tab' );
 
 /**
  * Handles submit actions for the debug log.

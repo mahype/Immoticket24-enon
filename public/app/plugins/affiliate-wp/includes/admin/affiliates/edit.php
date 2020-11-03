@@ -13,6 +13,49 @@ $promotion_method             = get_user_meta( $affiliate->user_id, 'affwp_promo
 $notes                        = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'notes', true );
 $payout_service_account       = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'payouts_service_account', true );
 $payout_service_payout_method = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'payouts_service_payout_method', true );
+$dynamic_coupons              = affwp_get_dynamic_affiliate_coupons( $affiliate->ID, false );
+
+if ( isset( $_REQUEST['delete_coupon'] ) && 1 == absint( $_REQUEST['delete_coupon'] ) && isset( $_REQUEST['coupon_id'] ) ) {
+	$coupon = affwp_get_affiliate_coupon( $affiliate->ID, absint( $_REQUEST['coupon_id'] ) );
+	if ( ! is_wp_error( $coupon ) ) {
+		$coupon_deleted = affiliate_wp()->affiliates->coupons->delete( $coupon->ID );
+		if ( $coupon_deleted ) {
+			wp_safe_redirect( affwp_admin_url( 'affiliates', array(
+				'affiliate_id' => $affiliate->ID,
+				'action'       => 'edit_affiliate',
+				'affwp_notice' => 'dynamic_coupon_deleted',
+			) ) );
+			exit;
+		} else {
+			wp_safe_redirect( affwp_admin_url( 'affiliates', array(
+				'affiliate_id' => $affiliate->ID,
+				'action'       => 'edit_affiliate',
+				'affwp_notice' => 'dynamic_coupon_delete_failed',
+			) ) );
+			exit;
+		}
+	}
+}
+
+if ( isset( $_REQUEST['generate_coupon'] ) && 1 == absint( $_REQUEST['generate_coupon'] ) ) {
+	$coupon_created = affiliate_wp()->affiliates->coupons->add( array( 'affiliate_id' => $affiliate->ID ) );
+	if ( $coupon_created ) {
+		wp_safe_redirect( affwp_admin_url( 'affiliates', array(
+			'affiliate_id' => $affiliate->ID,
+			'action'       => 'edit_affiliate',
+			'affwp_notice' => 'dynamic_coupon_created',
+		) ) );
+		exit;
+	} else {
+		wp_safe_redirect( affwp_admin_url( 'affiliates', array(
+			'affiliate_id' => $affiliate->ID,
+			'action'       => 'edit_affiliate',
+			'affwp_notice' => 'dynamic_coupon_create_failed',
+		) ) );
+		exit;
+	}
+}
+
 ?>
 <div class="wrap">
 
@@ -224,6 +267,40 @@ $payout_service_payout_method = affwp_get_affiliate_meta( $affiliate->affiliate_
 				</td>
 
 			</tr>
+
+			<?php if ( affwp_dynamic_coupons_is_setup() ) : ?>
+
+				<tr class="form-row affwp-coupon-code-wrap">
+
+					<th scope="row">
+						<label for="dynamic_coupon"><?php esc_html_e( 'Dynamic Coupon', 'affiliate-wp' ); ?></label>
+					</th>
+
+					<td>
+
+						<?php if ( ! empty( $dynamic_coupons ) ) : ?>
+							<?php foreach( $dynamic_coupons as $coupon ): ?>
+								<p>
+									<input class="medium-text" type="text" name="dynamic_coupon" id="dynamic_coupon" readonly value="<?php echo esc_attr( $coupon->coupon_code ); ?>" />
+									<?php echo affwp_admin_link( 'affiliates', __( 'Delete Coupon', 'affiliate-wp' ), array( 'affiliate_id' => $affiliate->ID, 'action' => 'edit_affiliate', 'coupon_id' => $coupon->ID, 'delete_coupon' => 1 ), array( 'class' => 'button' ) ); ?>
+								</p>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<?php echo affwp_admin_link( 'affiliates', __( 'Generate Coupon', 'affiliate-wp' ), array( 'affiliate_id' => $affiliate->ID, 'action' => 'edit_affiliate', 'generate_coupon' => 1 ), array( 'class' => 'button' ) ); ?>
+						<?php endif; ?>
+
+						<p class="description">
+							<?php
+							/* translators: Coupon settings tab URL */
+							printf( __( 'The affiliate&#8217;s dynamic coupon will use the settings from the selected <a href="%s">coupon template</a>.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'settings', array( 'tab' => 'coupons' ) ) ) );
+							?>
+						</p>
+
+					</td>
+
+				</tr>
+
+			<?php endif; ?>
 
 			<tr class="form-row">
 

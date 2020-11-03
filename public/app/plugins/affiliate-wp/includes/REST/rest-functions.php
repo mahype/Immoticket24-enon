@@ -139,3 +139,71 @@ function affwp_validate_rest_id( $rest_id ) {
 
 	return $valid;
 }
+
+
+/**
+ * Dispatches a request to a given REST endpoint.
+ *
+ * @since 2.6
+ *
+ * @param string $method The method to use for this request.
+ * @param string $route  The route to call
+ * @param array  $params Optional. Parameters to send along with the request. Default empty array.
+ * @return mixed The API request's response.
+ */
+function affwp_rest_request( $method, $route, $params = array() ) {
+
+	$request = new \WP_REST_Request( $method, $route );
+	$request->set_query_params( $params );
+
+	$response = rest_do_request( $request );
+	$server   = rest_get_server();
+	$data     = $server->response_to_data( $response, false );
+
+	return $data;
+}
+
+/**
+ * Dispatches a GET request to a given REST endpoint.
+ *
+ * @since 2.6
+ *
+ * @see affwp_rest_request()
+ *
+ * @param string $route  The route to call
+ * @param array  $params Optional. Parameters to send along with the request. Default empty array.
+ * @return mixed The API request's response
+ */
+function affwp_rest_get( $route, $params = array() ) {
+	return affwp_rest_request( 'GET', $route, $params );
+}
+
+/**
+ * Dispatches a PUT request to a given REST endpoint.
+ *
+ * @since 2.6
+ *
+ * @see affwp_rest_request()
+ *
+ * @param string $route  The route to call
+ * @param array  $params Optional. Parameters to send along with the request. Default empty array.
+ * @return mixed The API request's response
+ */
+function affwp_rest_put( $route, $params = array() ) {
+	return affwp_rest_request( 'PUT', $route, $params );
+}
+
+/**
+ * Dispatches a POST request to a given REST endpoint.
+ *
+ * @since 2.6
+ *
+ * @see affwp_rest_request()
+ *
+ * @param string $route  The route to call
+ * @param array  $params Optional. Parameters to send along with the request. Default empty array.
+ * @return mixed The API request's response
+ */
+function affwp_rest_post( $route, $params = array() ) {
+	return affwp_rest_request( 'POST', $route, $params );
+}

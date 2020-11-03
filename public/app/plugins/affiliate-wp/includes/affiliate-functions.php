@@ -297,11 +297,16 @@ function affwp_set_affiliate_status( $affiliate, $status = '' ) {
 	 * Fires just prior to update the affiliate status.
 	 *
 	 * @since 1.0
+	 * @since 2.6 Now fires even if the affiliate status is unchanged.
 	 *
 	 * @param  string $status     The new affiliate status. Optional.
 	 * @param  string $old_status The old affiliate status.
 	 */
 	do_action( 'affwp_set_affiliate_status', $affiliate->ID, $status, $old_status );
+
+	if ( $status === $old_status ) {
+		return false; // The old affiliate status is the same as the new status
+	}
 
 	if ( affiliate_wp()->affiliates->update( $affiliate->ID, array( 'status' => $status ), '', 'affiliate' ) ) {
 
@@ -711,6 +716,7 @@ function affwp_get_affiliate_login( $affiliate, $default = false ) {
  *
  * @since 1.0
  * @since 2.3 Deletion of all affiliate meta was added
+ * @since 2.6 Deletion of the affiliate coupon was added
  *
  * @param int|AffWP\Affiliate $affiliate   Affiliate ID or object.
  * @param bool                $delete_data Whether to also delete affiliate meta, referral and visit data. Default false.
@@ -736,6 +742,12 @@ function affwp_delete_affiliate( $affiliate, $delete_data = false ) {
 				affiliate_wp()->affiliate_meta->delete_meta( $affiliate_id, $meta_key );
 			}
 
+			$coupons = affiliate_wp()->affiliates->coupons->get_coupons( array(
+				'affiliate_id' => $affiliate_id,
+				'number'       => -1,
+				'fields'       => 'ids',
+			) );
+
 			$referrals = affiliate_wp()->referrals->get_referrals( array(
 				'affiliate_id' => $affiliate_id,
 				'number'       => -1,
@@ -747,6 +759,10 @@ function affwp_delete_affiliate( $affiliate, $delete_data = false ) {
 				'number'       => -1,
 				'fields'       => 'ids',
 			) );
+
+			foreach ( $coupons as $coupon_id ) {
+				affiliate_wp()->affiliates->coupons->delete( $coupon_id );
+			}
 
 			foreach ( $referrals as $referral_id ) {
 				affiliate_wp()->referrals->delete( $referral_id );
@@ -1251,6 +1267,7 @@ function affwp_get_affiliate_campaigns( $affiliate = 0, $args = array() ) {
  * Adds a new affiliate to the database.
  *
  * @since 1.0
+ * @since 2.6 Added support for a `$dynamic_coupon` argument.
  *
  * @see Affiliate_WP_DB_Affiliates::add()
  *
@@ -1270,6 +1287,7 @@ function affwp_get_affiliate_campaigns( $affiliate = 0, $args = array() ) {
  *                                   `user_id` not given.
  *     @type string $notes           Notes about the affiliate for use by administrators.
  *     @type string $website_url     The affiliate's website URL.
+ *     @type bool   $dynamic_coupon  Set to true if a dynamic coupon should be created for the new affiliate.
  * }
  * @return int|false The ID for the newly-added affiliate, otherwise false.
  */
@@ -1331,15 +1349,16 @@ function affwp_add_affiliate( $data = array() ) {
 	update_user_meta( $user_id, 'affwp_referral_notifications', true );
 
 	$args = array(
-		'user_id'         => $user_id,
-		'status'          => $status,
-		'rate'            => ! empty( $data['rate'] ) ? sanitize_text_field( $data['rate'] ) : '',
-		'rate_type'       => ! empty( $data['rate_type' ] ) ? sanitize_text_field( $data['rate_type'] ) : '',
-		'flat_rate_basis' => ! empty( $data['flat_rate_basis' ] ) ? sanitize_text_field( $data['flat_rate_basis'] ) : '',
-		'payment_email'   => ! empty( $data['payment_email'] ) ? sanitize_text_field( $data['payment_email'] ) : '',
-		'notes'           => ! empty( $data['notes' ] ) ? wp_kses_post( $data['notes'] ) : '',
-		'website_url'     => ! empty( $data['website_url'] ) ? sanitize_text_field( $data['website_url'] ) : '',
-		'date_registered' => ! empty( $data['date_registered'] ) ? $data['date_registered'] : '',
+		'user_id'          => $user_id,
+		'status'           => $status,
+		'rate'             => ! empty( $data['rate'] ) ? sanitize_text_field( $data['rate'] ) : '',
+		'rate_type'        => ! empty( $data['rate_type'] ) ? sanitize_text_field( $data['rate_type'] ) : '',
+		'flat_rate_basis'  => ! empty( $data['flat_rate_basis'] ) ? sanitize_text_field( $data['flat_rate_basis'] ) : '',
+		'payment_email'    => ! empty( $data['payment_email'] ) ? sanitize_text_field( $data['payment_email'] ) : '',
+		'notes'            => ! empty( $data['notes'] ) ? wp_kses_post( $data['notes'] ) : '',
+		'website_url'      => ! empty( $data['website_url'] ) ? sanitize_text_field( $data['website_url'] ) : '',
+		'date_registered'  => ! empty( $data['date_registered'] ) ? $data['date_registered'] : '',
+		'dynamic_coupon'   => ! empty( $data['dynamic_coupon'] ) ? $data['dynamic_coupon'] : '',
 	);
 
 	$affiliate_id = affiliate_wp()->affiliates->add( $args );
@@ -1427,6 +1446,37 @@ function affwp_update_affiliate( $data = array() ) {
 	// Change the affiliate's status if different from their old status
 	if ( $args['status'] !== $affiliate->status ) {
 		$status = affwp_set_affiliate_status( $affiliate_id, $args['status'] );
+	}
+
+	//
+	// Coupon Code
+	//
+
+	$coupon_args = array();
+
+	if ( ! empty( $data['coupon_code'] ) ) {
+		$coupon_code = affwp_sanitize_coupon_code( $data['coupon_code'] );
+
+		if ( ! affiliate_wp()->affiliates->coupons->get_by( 'coupon_code', $coupon_code ) ) {
+			$coupon_args['coupon_code'] = $coupon_code;
+		}
+	}
+
+	if ( ! empty( $data['coupon_code_status'] ) ) {
+		$status = sanitize_key( $data['coupon_code_status'] );
+
+		$coupon_args['status'] = $status;
+	}
+
+	if ( ! empty( $coupon_args ) ) {
+		affiliate_wp()->affiliates->coupons->update_coupon( $affiliate_id, $coupon_args );
+	}
+
+	// Coupon templates.
+	if ( ! empty( $data['coupon_templates'] ) ) {
+		foreach ( $data['coupon_templates'] as $integration => $template_id ) {
+			affwp_update_affiliate_meta( $affiliate_id, "{$integration}_coupon_template", $template_id );
+		}
 	}
 
 	$updated = affiliate_wp()->affiliates->update( $affiliate_id, $args, '', 'affiliate' );
@@ -1716,10 +1766,17 @@ function affwp_get_affiliate_area_tabs() {
 			'referrals' => __( 'Referrals', 'affiliate-wp' ),
 			'payouts'   => __( 'Payouts', 'affiliate-wp' ),
 			'visits'    => __( 'Visits', 'affiliate-wp' ),
+			'coupons'   => __( 'Coupons', 'affiliate-wp' ),
 			'creatives' => __( 'Creatives', 'affiliate-wp' ),
 			'settings'  => __( 'Settings', 'affiliate-wp' ),
 		)
 	);
+
+	$affiliate_coupons = affwp_get_affiliate_coupons( affwp_get_affiliate_id() );
+
+	if ( empty( $affiliate_coupons ) ) {
+		unset( $tabs['coupons'] );
+	}
 
 	return $tabs;
 }

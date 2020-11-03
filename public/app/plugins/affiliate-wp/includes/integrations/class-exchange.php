@@ -374,6 +374,52 @@ class Affiliate_WP_Exchange extends Affiliate_WP_Base {
 	}
 
 	/**
+	 * Retrieves coupons of a given type.
+	 *
+	 * @since 2.6
+	 *
+	 * @param string               $type         Coupon type.
+	 * @param int|\AffWP\Affiliate $affiliate    Optional. Affiliate ID or object to retrieve coupons for.
+	 *                                           Default null (ignored).
+	 * @param bool                 $details_only Optional. Whether to retrieve the coupon details only (for display).
+	 *                                           Default true. If false, the full coupon objects will be retrieved.
+	 * @return array|\AffWP\Affiliate\Coupon[]|\WP_Post[] An array of arrays of coupon details if `$details_only` is
+	 *                                                    true or an array of coupon or post objects if false, depending
+	 *                                                    on whether dynamic or manual coupons, otherwise an empty array.
+	 */
+	public function get_coupons_of_type( $type, $affiliate = null, $details_only = true ) {
+		if ( ! $this->is_active() ) {
+			return array();
+		}
+
+		$affiliate = affwp_get_affiliate( $affiliate );
+		$coupons   = array();
+
+		switch ( $type ) {
+			case 'manual':
+				$ids = $this->get_coupon_post_ids( 'it_exchange_coupon', 'publish', $affiliate );
+
+				if ( ! empty( $ids ) ) {
+					foreach ( $ids as $id ) {
+						if ( true === $details_only ) {
+							$coupons[ $id ]['code']   = get_post_meta( $id, '_it-basic-code', true );
+							$coupons[ $id ]['amount'] = esc_attr( it_exchange_get_coupon_discount_label( $id ) );
+						} else {
+							$coupons[ $id ] = get_post( $id );
+						}
+					}
+				}
+				break;
+
+			default:
+				$coupons = array();
+				break;
+		}
+
+		return $coupons;
+	}
+
+	/**
 	 * Load the product feature for controlling per-product rates.
 	 * @access  public
 	 * @since   1.5

@@ -64,6 +64,14 @@ function affwp_remove_query_args( $query_args ) {
 	if ( isset( $_GET['register_affiliate'] ) ) {
 		$query_args[] = 'register_affiliate';
 	}
+
+	if ( isset( $_GET['generate_coupon'] ) ) {
+		$query_args[] = 'generate_coupon';
+	}
+
+	if ( isset( $_GET['delete_coupon'] ) ) {
+		$query_args[] = 'delete_coupon';
+	}
 	
 	return $query_args;
 }
@@ -151,3 +159,22 @@ function affwp_btc_decimal_count( $decimal_places ) {
 
 }
 add_filter( 'affwp_decimal_count', 'affwp_btc_decimal_count' );
+
+/**
+ * Remove template_redirect action in the Show Affiliate Coupons add-on.
+ *
+ * @since 2.6
+ *
+ * @return void
+ */
+function affwp_show_affiliate_coupons_remove_template_redirect() {
+
+	if ( ! function_exists( 'affiliatewp_show_affiliate_coupons' ) ) {
+		return;
+	}
+
+	$affiliatewp_show_affiliate_coupons = affiliatewp_show_affiliate_coupons();
+	remove_action( 'template_redirect', array( $affiliatewp_show_affiliate_coupons, 'no_access_redirect' ) );
+
+}
+add_action( 'template_redirect', 'affwp_show_affiliate_coupons_remove_template_redirect', 5 );

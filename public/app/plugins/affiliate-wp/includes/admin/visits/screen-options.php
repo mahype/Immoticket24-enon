@@ -40,7 +40,6 @@ function affwp_visits_screen_options() {
 	do_action( 'affwp_visits_screen_options', $screen );
 
 }
-add_action( 'load-affiliates_page_affiliate-wp-visits', 'affwp_visits_screen_options' );
 
 /**
  * Per page screen option value for the Visits list table
@@ -54,6 +53,8 @@ add_action( 'load-affiliates_page_affiliate-wp-visits', 'affwp_visits_screen_opt
 function affwp_visits_set_screen_option( $status, $option, $value ) {
 
 	if ( 'affwp_edit_visits_per_page' === $option ) {
+		update_user_meta( get_current_user_id(), $option, $value );
+
 		return $value;
 	}
 

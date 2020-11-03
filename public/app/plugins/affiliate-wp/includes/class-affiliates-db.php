@@ -17,6 +17,14 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 	public $payouts;
 
 	/**
+	 * The coupons class instance variable.
+	 *
+	 * @since 2.6
+	 * @var   Affiliate_WP_Coupons_DB
+	 */
+	public $coupons;
+
+	/**
 	 * Cache group for queries.
 	 *
 	 * @internal DO NOT change. This is used externally both as a cache group and shortcut
@@ -64,6 +72,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 		$this->version     = '1.2';
 
 		$this->payouts = new Affiliate_WP_Payouts_DB;
+		$this->coupons = new Affiliate_WP_Coupons_DB;
 
 		// REST endpoints.
 		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
@@ -253,6 +262,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 			}
 		}
 
+		$search       = '';
 		$join         = '';
 		$joined_users = false;
 
@@ -274,7 +284,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 
 					$joined_users = true;
 
-					$join   .= "a INNER JOIN {$wpdb->users} u ON a.user_id = u.ID";
+					$join   .= "{$this->table_name} INNER JOIN {$wpdb->users} u ON {$this->table_name}.user_id = u.ID";
 					$search = "u.display_name LIKE '%%{$search_value}%%' OR u.user_login LIKE '%%{$search_value}%%' ";
 
 				}
@@ -300,7 +310,12 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 
 		// Select valid affiliates only
 		$where .= empty( $where ) ? "WHERE " : "AND ";
-		$where .= "`$this->primary_key` > 0";
+
+		if ( ! empty( $search ) ) {
+			$where .= "{$this->table_name}.{$this->primary_key} > 0";
+		} else {
+			$where .= "$this->primary_key > 0";
+		}
 
 		if ( 'DESC' === strtoupper( $args['order'] ) ) {
 			$order = 'DESC';
@@ -320,7 +335,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 				$orderby = 'u.display_name';
 
 				if ( ! $joined_users ) {
-					$join .= "a INNER JOIN {$wpdb->users} u ON a.user_id = u.ID";
+					$join .= "{$this->table_name} INNER JOIN {$wpdb->users} u ON {$this->table_name}.user_id = u.ID";
 				}
 
 				break;
@@ -330,7 +345,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 				$orderby = 'u.user_login';
 
 				if ( ! $joined_users ) {
-					$join .= "a INNER JOIN {$wpdb->users} u ON a.user_id = u.ID";
+					$join .= "{$this->table_name} INNER JOIN {$wpdb->users} u ON {$this->table_name}.user_id = u.ID";
 				}
 
 				break;
@@ -445,7 +460,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 		$name = wp_cache_get( $cache_key, 'affiliates' );
 
 		if( false === $name ) {
-			$name = $wpdb->get_var( $wpdb->prepare( "SELECT u.display_name FROM {$wpdb->users} u INNER JOIN {$this->table_name} a ON u.ID = a.user_id WHERE a.affiliate_id = %d;", $affiliate->ID ) );
+			$name = $wpdb->get_var( $wpdb->prepare( "SELECT u.display_name FROM {$wpdb->users} u INNER JOIN {$this->table_name} {$this->table_name} ON u.ID = {$this->table_name}.user_id WHERE {$this->table_name}.affiliate_id = %d;", $affiliate->ID ) );
 			wp_cache_set( $cache_key, $name, 'affiliates', HOUR_IN_SECONDS );
 		}
 
@@ -457,6 +472,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 	 *
 	 * @since 1.0
 	 * @since 2.2.2 Added support for a `$rest_id` argument.
+	 * @since 2.6   Added support for a `$dynamic_coupon` argument.
 	 * @access public
 	 *
 	 * @param array $args {
@@ -473,6 +489,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 	 *     @type int    $user_id         User ID used to correspond to the affiliate.
 	 *     @type string $rest_id         REST ID (site:affiliate ID combination).
 	 *     @type string $website_url     The affiliate's website URL.
+	 *     @type bool   $dynamic_coupon  Dynamic coupon. Whether to create a dynamic coupon after the affiliate is added.
 	 * }
 	 * @return int|false Affiliate ID if successfully added, otherwise false.
 	*/
@@ -537,6 +554,14 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 					$rest_id_error,
 					$add
 				) );
+			}
+
+			if ( ! empty( $args['dynamic_coupon' ] ) ) {
+				$coupon_added = affiliate_wp()->affiliates->coupons->add( array( 'affiliate_id' => $add ) );
+
+				if ( false === $coupon_added ) {
+					affiliate_wp()->utils->log( sprintf( 'Coupon could not be added for affiliate #%1$d.', $add ) );
+				}
 			}
 
 			return $add;

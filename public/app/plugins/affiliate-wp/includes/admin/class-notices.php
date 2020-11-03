@@ -89,12 +89,14 @@ class Affiliate_WP_Admin_Notices {
 		$this->affiliate_notices();
 		$this->consumer_notices();
 		$this->creative_notices();
+		$this->customer_notices();
 		$this->payout_notices();
 		$this->referral_notices();
 
 		$this->integration_notices();
 		$this->license_notices();
 		$this->settings_notices();
+		$this->environment_notices();
 		$this->upgrade_notices();
 	}
 
@@ -121,6 +123,14 @@ class Affiliate_WP_Admin_Notices {
 			$output .= self::show_notice( 'settings-updated', false );
 		}
 
+		// PHP minimum notice.
+		if ( true === version_compare( phpversion(), '5.6', '<' )
+			&& affwp_is_admin_page()
+			&& false === get_transient( 'affwp_requirements_php_56_notice' )
+		) {
+			$output .= self::show_notice( 'requirements_php_56', false );
+		}
+
 		$integrations = affiliate_wp()->integrations->get_enabled_integrations();
 
 		if ( empty( $integrations ) && ! get_user_meta( get_current_user_id(), '_affwp_no_integrations_dismissed', true ) ) {
@@ -137,6 +147,10 @@ class Affiliate_WP_Admin_Notices {
 
 		if ( false === affwp_has_upgrade_completed( 'upgrade_v245_create_customer_affiliate_relationship_records' ) ) {
 			$output .= self::show_notice( 'upgrade_v245_create_customer_affiliate_relationship_records', false );
+		}
+
+		if ( false === affwp_has_upgrade_completed( 'upgrade_v26_create_dynamic_coupons' ) ) {
+			$output .= self::show_notice( 'upgrade_v26_create_dynamic_coupons', false );
 		}
 
 		// Payouts Service.
@@ -232,7 +246,7 @@ class Affiliate_WP_Admin_Notices {
 			},
 		) );
 
-		$this->add_notice( 'affiiate_update_failed', array(
+		$this->add_notice( 'affiliate_update_failed', array(
 			'class'   => 'error',
 			'message' => __( 'Affiliate update failed, please try again', 'affiliate-wp' ),
 		) );
@@ -260,6 +274,24 @@ class Affiliate_WP_Admin_Notices {
 
 		$this->add_notice( 'affiliate_rejected', array(
 			'message' => __( 'Affiliate request was rejected', 'affiliate-wp' ),
+		) );
+
+		$this->add_notice( 'dynamic_coupon_created', array(
+			'message' => __( 'Dynamic coupon successfully created.', 'affiliate-wp' ),
+		) );
+
+		$this->add_notice( 'dynamic_coupon_create_failed', array(
+			'class'   => 'error',
+			'message' => __( 'Dynamic coupon creation failed, please try again.', 'affiliate-wp' ),
+		) );
+
+		$this->add_notice( 'dynamic_coupon_deleted', array(
+			'message' => __( 'Dynamic coupon successfully deleted.', 'affiliate-wp' ),
+		) );
+
+		$this->add_notice( 'dynamic_coupon_delete_failed', array(
+			'class'   => 'error',
+			'message' => __( 'Dynamic coupon deletion failed, please try again.', 'affiliate-wp' ),
 		) );
 	}
 
@@ -316,6 +348,31 @@ class Affiliate_WP_Admin_Notices {
 
 		$this->add_notice( 'creative_deactivated', array(
 			'message' => __( 'Creative deactivated', 'affiliate-wp' ),
+		) );
+	}
+
+	/**
+	 * Registers customer admin notices.
+	 *
+	 * @since 2.5.7
+	 */
+	public function customer_notices() {
+		$this->add_notice( 'customer_added', array(
+			'message' => __( 'Customer added successfully', 'affiliate-wp' ),
+		) );
+
+		$this->add_notice( 'customer_added_failed', array(
+			'class'   => 'error',
+			'message' => __( 'Customer wasn&#8217;t added, please try again.', 'affiliate-wp' ),
+		) );
+
+		$this->add_notice( 'customer_updated', array(
+			'message' => __( 'Customer updated successfully', 'affiliate-wp' ),
+		) );
+
+		$this->add_notice( 'customer_update_failed', array(
+			'class'   => 'error',
+			'message' => __( 'Customer update failed, please try again', 'affiliate-wp' ),
 		) );
 	}
 
@@ -453,7 +510,8 @@ class Affiliate_WP_Admin_Notices {
 					<?php
 					return ob_get_clean();
 				},
-			) );
+			)
+		);
 
 		$this->add_notice( 'upgrade_v245_create_customer_affiliate_relationship_records',
 			array(
@@ -475,8 +533,31 @@ class Affiliate_WP_Admin_Notices {
 					<?php
 					return ob_get_clean();
 				},
-			) );
+			)
+		);
 
+		$this->add_notice( 'upgrade_v26_create_dynamic_coupons',
+			array(
+				'class'   => 'notice notice-info is-dismissible',
+				'message' => function() {
+					$notice = __( 'Your database needs to be upgraded following the latest AffiliateWP update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
+					$nonce  = wp_create_nonce( 'create-dynamic-coupons-upgrade_step_nonce' );
+
+					ob_start();
+					// Enqueue admin JS for the batch processor.
+					affwp_enqueue_admin_js();
+					?>
+					<p><?php echo $notice; ?></p>
+					<form method="post" class="affwp-batch-form" data-dismiss-when-complete="true" data-batch_id="create-dynamic-coupons-upgrade" data-nonce="<?php echo esc_attr( $nonce ); ?>">
+						<p>
+							<?php submit_button( __( 'Upgrade Database', 'affiliate-wp' ), 'secondary', 'v26-create-dynamic-coupons', false ); ?>
+						</p>
+					</form>
+					<?php
+					return ob_get_clean();
+				},
+			)
+		);
 	}
 
 	/**
@@ -711,6 +792,50 @@ class Affiliate_WP_Admin_Notices {
 	}
 
 	/**
+	 * Registers environment admin notices.
+	 *
+	 * @since 2.6
+	 */
+	public function environment_notices() {
+		$this->add_notice( 'requirements_php_56', array(
+			'class'       => 'notice-warning',
+			'dismissible' => true,
+			'message'     => function() {
+				ob_start();
+				?>
+				<h3><?php printf( __( 'AffiliateWP has detected that your site is running on an insecure version of PHP (%s).', 'affiliate-wp' ), phpversion() ); ?></h3>
+
+				<p><?php _e( '', 'affiliate-wp' ); ?></p>
+
+				<h4><?php _e( 'What is PHP and how does it affect my site?' ); ?></h4>
+				<p><?php _e( 'PHP is the programming language used to build and maintain WordPress and plugins like AffiliateWP. Newer versions of PHP are both faster and more secure, so updating will have a positive effect on your site&#8217;s performance.', 'affiliate-wp' ); ?></p>
+
+				<h4><?php _e( 'Why it matters for AffiliateWP', 'affiliate-wp' ); ?></h4>
+				<p><?php _e( 'As we evolve over time, the ability to tap into more modern PHP features means we can continue to deliver a superior product to you.', 'affiliate-wp' ); ?></p>
+				<p><?php _e( '<strong>Starting in February 2021, we&#8217;ll require PHP 5.6 or newer to use AffiliateWP.</strong>', 'affiliate-wp' ); ?></p>
+
+				<p class="button-container">
+					<?php
+					printf(
+						'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+						esc_url( wp_get_update_php_url() ),
+						__( 'Learn more about updating PHP' ),
+						/* translators: Accessibility text. */
+						__( '(opens in a new tab)' )
+					);
+					?>
+				</p>
+				<?php
+
+				wp_update_php_annotation();
+				wp_direct_php_update_button();
+
+				return ob_get_clean();
+			}
+		) );
+	}
+
+	/**
 	 * Processes message data for output as admin notices.
 	 *
 	 * @since 2.1
@@ -798,6 +923,9 @@ class Affiliate_WP_Admin_Notices {
 					break;
 				case 'payouts_service':
 					set_transient( 'affwp_payouts_service_notice', true, 2 * WEEK_IN_SECONDS );
+					break;
+				case 'requirements_php_56':
+					set_transient( 'affwp_requirements_php_56_notice', true, 2 * WEEK_IN_SECONDS );
 					break;
 				default:
 					/**

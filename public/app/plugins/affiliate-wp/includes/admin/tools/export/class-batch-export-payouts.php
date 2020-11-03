@@ -242,7 +242,7 @@ class Export_Payouts extends Batch\Export\CSV implements Batch\With_PreFetch {
 					'payout_method'   => $payout->payout_method,
 					'service_account' => $payout->service_account,
 					'status'          => $payout->status,
-					'date'            => $payout->date_i18n(),
+					'date'            => $payout->date_i18n( 'mysql' ),
 				), $payout );
 
 				// Add slashing.

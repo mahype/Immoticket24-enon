@@ -1,11 +1,13 @@
 <?php
-$affiliate        = affwp_get_affiliate( absint( $_GET['affiliate_id'] ) );
-$affiliate_id     = $affiliate->affiliate_id;
-$name             = affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id );
-$user_info        = get_userdata( $affiliate->user_id );
-$user_url         = $user_info->user_url;
-$promotion_method = get_user_meta( $affiliate->user_id, 'affwp_promotion_method', true );
-$payment_email    = $affiliate->payment_email;
+$affiliate               = affwp_get_affiliate( absint( $_GET['affiliate_id'] ) );
+$affiliate_id            = $affiliate->affiliate_id;
+$name                    = affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id );
+$user_info               = get_userdata( $affiliate->user_id );
+$user_url                = $user_info->user_url;
+$promotion_method        = get_user_meta( $affiliate->user_id, 'affwp_promotion_method', true );
+$payment_email           = $affiliate->payment_email;
+$dynamic_coupons_enabled = affiliate_wp()->settings->get( 'dynamic_coupons' );
+$dynamic_coupons         = affwp_get_dynamic_affiliate_coupons( $affiliate_id, false );
 ?>
 <div class="wrap">
 
@@ -116,6 +118,25 @@ $payment_email    = $affiliate->payment_email;
 				</td>
 
 			</tr>
+
+			<?php if ( affwp_dynamic_coupons_is_setup() && empty( $dynamic_coupons ) ) : ?>
+
+				<tr class="form-row">
+
+					<th scope="row">
+						<label for="dynamic_coupon"><?php _e( 'Dynamic Coupon', 'affiliate-wp' ); ?></label>
+					</th>
+
+					<td>
+						<label class="description">
+							<input type="checkbox" name="dynamic_coupon" id="dynamic_coupon" value="1" <?php checked( $dynamic_coupons_enabled, true ); ?> />
+							<?php _e( 'Create dynamic coupon for affiliate?', 'affiliate-wp' ); ?>
+						</label>
+					</td>
+
+				</tr>
+
+			<?php endif; ?>
 
 			<?php
 			/**

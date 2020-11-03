@@ -5,7 +5,7 @@
  * Description: Affiliate Plugin for WordPress
  * Author: Sandhills Development, LLC
  * Author URI: https://sandhillsdev.com
- * Version: 2.5.6
+ * Version: 2.6
  * Text Domain: affiliate-wp
  * Domain Path: languages
  * GitHub Plugin URI: affiliatewp/affiliatewp
@@ -25,7 +25,7 @@
  * @package AffiliateWP
  * @category Core
  * @author Pippin Williamson
- * @version 2.5.6
+ * @version 2.6
  */
 
 // Exit if accessed directly
@@ -57,7 +57,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.5.6';
+	private $version = '2.6';
 
 	/**
 	 * The affiliates DB instance variable.
@@ -386,6 +386,7 @@ final class Affiliate_WP {
 
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/abstracts/class-affwp-object.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-affiliate.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-coupon.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-customer.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-creative.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-payout.php';
@@ -400,6 +401,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/abstracts/class-meta-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affiliates-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-payouts-db.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-coupons-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-sales-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-capabilities.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-utilities.php';
@@ -423,6 +425,7 @@ final class Affiliate_WP {
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/creatives/creatives.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/class-meta-box-base.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/overview/overview.php';
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/customers/actions.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/referrals/actions.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/referrals/referrals.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/payouts/actions.php';
@@ -478,7 +481,9 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/visit-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/customer-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/creative-functions.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/coupon-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/install.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/core-compatibility.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/plugin-compatibility.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/scripts.php';
 

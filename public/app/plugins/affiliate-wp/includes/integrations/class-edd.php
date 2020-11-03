@@ -784,6 +784,52 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	}
 
 	/**
+	 * Retrieves coupons of a given type.
+	 *
+	 * @since 2.6
+	 *
+	 * @param string               $type         Coupon type.
+	 * @param int|\AffWP\Affiliate $affiliate    Optional. Affiliate ID or object to retrieve coupons for.
+	 *                                           Default null (ignored).
+	 * @param bool                 $details_only Optional. Whether to retrieve the coupon details only (for display).
+	 *                                           Default true. If false, the full coupon objects will be retrieved.
+	 * @return array|\AffWP\Affiliate\Coupon[]|\WP_Post[] An array of arrays of coupon details if `$details_only` is
+	 *                                                    true or an array of coupon or post objects if false, depending
+	 *                                                    on whether dynamic or manual coupons, otherwise an empty array.
+	 */
+	public function get_coupons_of_type( $type, $affiliate = null, $details_only = true ) {
+		if ( ! $this->is_active() ) {
+			return array();
+		}
+
+		$affiliate = affwp_get_affiliate( $affiliate );
+		$coupons   = array();
+
+		switch ( $type ) {
+			case 'manual':
+				$ids = $this->get_coupon_post_ids( 'edd_discount', 'active', $affiliate );
+
+				if ( ! empty( $ids ) ) {
+					foreach ( $ids as $id ) {
+						if ( true === $details_only ) {
+							$coupons[ $id ]['code']   = edd_get_discount_code( $id );
+							$coupons[ $id ]['amount'] = edd_format_discount_rate( edd_get_discount_type( $id ), edd_get_discount_amount( $id ) );
+						} else {
+							$coupons[ $id ] = get_post( $id );
+						}
+					}
+				}
+				break;
+
+			default:
+				$coupons = array();
+				break;
+		}
+
+		return $coupons;
+	}
+
+	/**
 	 * Adjust the commission rate recorded if a referral is present
 	 *
 	 * @access  public

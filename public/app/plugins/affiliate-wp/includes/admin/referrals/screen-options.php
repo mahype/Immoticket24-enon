@@ -53,6 +53,8 @@ function affwp_referrals_screen_options() {
 function affwp_referrals_set_screen_option( $status, $option, $value ) {
 
 	if ( 'affwp_edit_referrals_per_page' === $option ) {
+		update_user_meta( get_current_user_id(), $option, $value );
+
 		return $value;
 	}
 

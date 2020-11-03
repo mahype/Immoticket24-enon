@@ -76,6 +76,10 @@ class Notices_Registry extends Utils\Registry {
 			$classes = $notice_args['class'];
 		}
 
+		if ( ! in_array( 'notice', $classes ) ) {
+			$classes[] = 'notice';
+		}
+
 		$notice_args['class'] = array_map( 'sanitize_html_class', $classes );
 
 		if ( empty( $notice_args['message'] ) ) {

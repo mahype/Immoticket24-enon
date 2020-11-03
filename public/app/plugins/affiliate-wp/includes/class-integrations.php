@@ -450,7 +450,7 @@ class Affiliate_WP_Integrations {
 		}
 
 		// Instantiate the class, or throw an error.
-		if ( class_exists( $integration['class'] ) ) {
+		if ( $integration && class_exists( $integration['class'] ) ) {
 			$integration = new $integration['class'];
 		} else {
 			$integration = new \WP_Error(

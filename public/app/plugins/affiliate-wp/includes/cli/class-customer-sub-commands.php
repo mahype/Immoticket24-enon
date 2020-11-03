@@ -29,7 +29,7 @@ class Sub_Commands extends Base {
 		'email',
 		'user_id',
 		'ip',
-		'affiliate_id',
+		'affiliate_ids',
 		'date'
 	);
 

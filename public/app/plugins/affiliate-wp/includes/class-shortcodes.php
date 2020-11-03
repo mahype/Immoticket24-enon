@@ -14,6 +14,7 @@ class Affiliate_WP_Shortcodes {
 		add_shortcode( 'affiliate_creative',          array( $this, 'affiliate_creative'     ) );
 		add_shortcode( 'affiliate_creatives',         array( $this, 'affiliate_creatives'    ) );
 		add_shortcode( 'opt_in',                      array( $this, 'opt_in_form'            ) );
+		add_shortcode( 'affiliate_coupons',           array( $this, 'affiliate_coupons'      ) );
 
 	}
 
@@ -394,6 +395,31 @@ class Affiliate_WP_Shortcodes {
 
 		return affiliate_wp()->integrations->opt_in->form( $redirect );
 
+	}
+
+	/**
+	 *  Affiliate coupons shortcode.
+	 *
+	 *  @since 2.6
+	 *  @return string
+	 */
+	public function affiliate_coupons( $atts, $content = null ) {
+
+		if ( function_exists( 'affiliatewp_show_affiliate_coupons' ) ) {
+			return;
+		}
+
+		if ( ! ( affwp_is_affiliate() && affwp_is_active_affiliate() ) ) {
+			return;
+		}
+
+		ob_start();
+
+		affiliate_wp()->templates->get_template_part( 'dashboard-tab', 'coupons' );
+
+		$content = ob_get_clean();
+
+		return do_shortcode( $content );
 	}
 
 

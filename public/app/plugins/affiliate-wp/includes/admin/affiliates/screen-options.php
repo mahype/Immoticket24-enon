@@ -63,6 +63,8 @@ function affwp_affiliates_screen_options() {
 function affwp_affiliates_set_screen_option( $status, $option, $value ) {
 
 	if ( 'affwp_edit_affiliates_per_page' === $option ) {
+		update_user_meta( get_current_user_id(), $option, $value );
+
 		return $value;
 	}
 

@@ -387,10 +387,11 @@ class Affiliate_WP_Register {
 		$status = affiliate_wp()->settings->get( 'require_approval' ) ? 'pending' : 'active';
 
 		$affiliate_id = affwp_add_affiliate( array(
-			'user_id'       => $user_id,
-			'payment_email' => ! empty( $_POST['affwp_payment_email'] ) ? sanitize_text_field( $_POST['affwp_payment_email'] ) : '',
-			'status'        => $status,
-			'website_url'   => $website_url,
+			'user_id'        => $user_id,
+			'payment_email'  => ! empty( $_POST['affwp_payment_email'] ) ? sanitize_text_field( $_POST['affwp_payment_email'] ) : '',
+			'status'         => $status,
+			'website_url'    => $website_url,
+			'dynamic_coupon' => ! affiliate_wp()->settings->get( 'require_approval' ) ? 1 : '',
 		) );
 
 		if ( ! is_user_logged_in() ) {

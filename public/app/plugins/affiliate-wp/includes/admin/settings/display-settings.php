@@ -64,6 +64,10 @@ function affwp_get_settings_tabs() {
 	$tabs['misc']            = __( 'Misc', 'affiliate-wp' );
 	$tabs['payouts_service'] = __( 'Payouts Service', 'affiliate-wp' );
 
+	if ( affwp_get_dynamic_coupons_integrations() ) {
+		$tabs['coupons'] = __( 'Coupons', 'affiliate-wp' );
+	}
+
 	/**
 	 * Filters the list of settings tabs.
 	 *

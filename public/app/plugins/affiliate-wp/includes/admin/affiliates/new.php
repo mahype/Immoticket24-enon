@@ -1,9 +1,10 @@
 <?php
-$default_rate = affiliate_wp()->settings->get( 'referral_rate', 20 );
-$default_rate = affwp_abs_number_round( $default_rate );
-$user_id      = isset( $_GET['user_id'] ) ? absint( $_GET['user_id'] ) : '';
-$user         = ! empty( $user_id ) && ! affwp_is_affiliate( $user_id ) ? get_userdata( $user_id ) : false;
-$disabled     = disabled( (bool) $user, false, false );
+$default_rate            = affiliate_wp()->settings->get( 'referral_rate', 20 );
+$default_rate            = affwp_abs_number_round( $default_rate );
+$user_id                 = isset( $_GET['user_id'] ) ? absint( $_GET['user_id'] ) : '';
+$user                    = ! empty( $user_id ) && ! affwp_is_affiliate( $user_id ) ? get_userdata( $user_id ) : false;
+$disabled                = disabled( (bool) $user, false, false );
+$dynamic_coupons_enabled = affiliate_wp()->settings->get( 'dynamic_coupons' );
 ?>
 <div class="wrap">
 
@@ -207,6 +208,25 @@ $disabled     = disabled( (bool) $user, false, false );
 				</td>
 
 			</tr>
+
+			<?php if ( affwp_dynamic_coupons_is_setup() ) : ?>
+
+				<tr class="form-row" id="affwp-affiliate-coupon-row">
+
+					<th scope="row">
+						<label for="dynamic_coupon"><?php _e( 'Dynamic Coupon', 'affiliate-wp' ); ?></label>
+					</th>
+
+					<td>
+						<label class="description">
+							<input type="checkbox" name="dynamic_coupon" id="dynamic_coupon" value="1" <?php echo $disabled; ?> <?php checked( $dynamic_coupons_enabled, true ); ?> />
+							<?php _e( 'Create dynamic coupon for affiliate?', 'affiliate-wp' ); ?>
+						</label>
+					</td>
+
+				</tr>
+
+			<?php endif; ?>
 
 			<?php
 			/**

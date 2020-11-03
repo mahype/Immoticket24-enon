@@ -999,6 +999,7 @@ add_action( 'template_redirect', 'affwp_filter_shown_affiliate_area_forms' );
  * Generates an AffiliateWP admin URL based on the given type.
  *
  * @since 2.0
+ * @since 2.5.7 Added support for customers URLs
  *
  * @param string $type       Optional. Type of admin URL. Accepts 'affiliates', 'creatives', 'payouts',
  *                           'referrals', 'visits', 'settings', 'tools', or 'add-ons'. Default empty
@@ -1010,11 +1011,16 @@ function affwp_admin_url( $type = '', $query_args = array() ) {
 	$page = 'affiliate-wp';
 
 	$whitelist = array(
-		'affiliates', 'creatives', 'payouts', 'referrals',
+		'affiliates', 'customers', 'creatives', 'payouts', 'referrals',
 		'visits', 'reports', 'settings', 'tools', 'add-ons'
 	);
 
 	if ( in_array( $type, $whitelist, true ) ) {
+		// Reroute customers requests.
+		if ( 'customers' === $type ) {
+			$type = 'affiliates';
+		}
+
 		$page = "affiliate-wp-{$type}";
 	}
 
@@ -1528,4 +1534,24 @@ function affwp_is_valid_amount( $amount ) {
 	}
 
 	return $valid;
+}
+
+/**
+ * Helper function to determine whether the given integration is active.
+ *
+ * @since 2.6
+ *
+ * @param string $integration_slug Integration slug.
+ * @return bool True if the integration is active, otherwise false.
+ */
+function affwp_is_integration_active( $integration_slug ) {
+	$integration = affiliate_wp()->integrations->get( $integration_slug );
+
+	if ( is_wp_error( $integration ) ) {
+		$is_active = false;
+	} else {
+		$is_active = $integration->is_active();
+	}
+
+	return $is_active;
 }

@@ -53,6 +53,8 @@ function affwp_process_add_affiliate( $data ) {
 			unset( $data['user_name'] );
 		}
 
+		$data['dynamic_coupon'] = isset( $data['dynamic_coupon'] ) ? $data['dynamic_coupon'] : '';
+
 		$affiliate_id = affwp_add_affiliate( $data );
 
 		if ( $affiliate_id ) {
@@ -235,6 +237,21 @@ function affwp_process_affiliate_moderation( $data ) {
 
 			affwp_add_affiliate_meta( $data['affiliate_id'], '_rejection_reason', $reason, true );
 
+		}
+
+	}
+
+	if ( 'active' === $status && isset( $data['dynamic_coupon'] ) ) {
+
+		$coupon = affwp_get_dynamic_affiliate_coupons( $data['affiliate_id'], false );
+
+		if ( empty( $coupon ) ) {
+
+			$coupon_added = affiliate_wp()->affiliates->coupons->add( array( 'affiliate_id' => $data['affiliate_id'] ) );
+
+			if ( false === $coupon_added ) {
+				affiliate_wp()->utils->log( sprintf( 'Coupon could not be added for affiliate #%1$d.', $data['affiliate_id'] ), $data );
+			}
 		}
 
 	}

@@ -558,6 +558,11 @@ class Affiliate_WP_Emails {
 				'description' => __( 'The name of the campaign associated with the referral (if any)', 'affiliate-wp' ),
 				'function'    => 'affwp_email_tag_campaign_name'
 			),
+			array(
+				'tag'         => 'registration_coupon',
+				'description' => __( 'The affiliate registration coupon (if any)', 'affiliate-wp' ),
+				'function'    => 'affwp_email_tag_registration_coupon',
+			),
 		);
 
 		/**

@@ -147,6 +147,12 @@ class Registry extends Utils\Registry {
 			'class' => 'AffWP\Utils\Batch_Process\Recount_Affiliate_Stats',
 			'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-recount-affiliate-stats.php',
 		) );
+
+		// Create dynamic coupons for all affiliates.
+		$this->register_process( 'create-dynamic-coupons', array(
+			'class' => 'AffWP\Utils\Batch_Process\Create_Dynamic_Coupons',
+			'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-create-dynamic-coupons.php',
+		) );
 	}
 
 	/**

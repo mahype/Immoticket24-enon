@@ -286,6 +286,27 @@ jQuery(document).ready(function($) {
 
 	});
 
+	// Generate Code button in Affiliates > Add / Edit.
+	$( '#generate-coupon-code-button' ).on( 'click', function( event ) {
+		event.preventDefault();
+
+		$.ajax( {
+			type : 'POST',
+			url  : ajaxurl,
+			data : {
+				action: 'affwp_generate_coupon_code',
+				affiliate_id: $( this ).data( 'affiliate_id' )
+			},
+			dataType: "json",
+			success : function (response) {
+				if ( response.success && response.data.coupon_code ) {
+					$( '#coupon_code' ).val( response.data.coupon_code );
+				}
+			}
+		} );
+
+	} );
+
 	/**
 	 * Support to show/hide the Referral basis based on the affiliate rate type.
 	 * Used in Affiliate WP Settings, edit affiliate admin page, and new affiliate admin page.

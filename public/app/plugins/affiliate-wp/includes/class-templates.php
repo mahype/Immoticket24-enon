@@ -173,6 +173,16 @@ class Affiliate_WP_Templates {
 		 */
 		$file_paths = apply_filters( 'affwp_template_paths', $file_paths );
 
+		/**
+		 * Remove the template path registered in the Show Affiliate Coupons add-on if plugin is installed.
+		 *
+		 * @since 2.6
+		 * @return void
+		 */
+		if ( function_exists( 'affiliatewp_show_affiliate_coupons' ) ) {
+			unset( $file_paths[82] );
+		}
+
 		// sort the file paths based on priority
 		ksort( $file_paths, SORT_NUMERIC );
 

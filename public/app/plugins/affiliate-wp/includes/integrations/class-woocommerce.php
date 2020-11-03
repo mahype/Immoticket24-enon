@@ -89,6 +89,9 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		add_filter( 'woocommerce_admin_order_preview_get_order_details', array( $this, 'order_preview_get_referral' ), 10, 2 );
 		add_action( 'woocommerce_admin_order_preview_end', array( $this, 'render_order_preview_referral' ) );
 
+		// Integrate AffiliateWP affiliate coupons.
+		add_filter( 'woocommerce_get_shop_coupon_data', array( $this, 'maybe_inject_dynamic_coupon' ), 10, 2 );
+		add_filter( 'woocommerce_coupon_is_valid', array( $this, 'validate_affiliate_coupon' ), 10, 3 );
 	}
 
 	/**
@@ -608,15 +611,22 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 			$user         = get_userdata( $user_id );
 			$user_name    = $user ? $user->user_login : '';
 		}
+		$template_id = affiliate_wp()->settings->get( 'coupon_template_woocommerce', 0 );
 ?>
 		<p class="form-field affwp-woo-coupon-field">
 			<label for="user_name"><?php _e( 'Affiliate Discount?', 'affiliate-wp' ); ?></label>
 			<span class="affwp-ajax-search-wrap">
 				<span class="affwp-woo-coupon-input-wrap">
-					<input type="text" name="user_name" id="user_name" value="<?php echo esc_attr( $user_name ); ?>" class="affwp-user-search" data-affwp-status="active" autocomplete="off" />
+					<input type="text" name="user_name" id="user_name" <?php disabled( (int) $post->ID, (int) $template_id ); ?> value="<?php echo esc_attr( $user_name ); ?>" class="affwp-user-search" data-affwp-status="active" autocomplete="off" />
 				</span>
 				<img class="help_tip" data-tip='<?php _e( 'If you would like to connect this discount to an affiliate, enter the name of the affiliate it belongs to.', 'affiliate-wp' ); ?>' src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16" />
 			</span>
+			<?php if ( (int) $post->ID === (int) $template_id ) : ?>
+				<br />
+				<span class="howto">
+					<?php printf( __( 'This setting is disabled because this coupon is designated as a dynamic coupon template. Visit <a href="%s" target="_blank">Settings &rarr; Coupons</a> to configure dynamic coupons.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'settings', array( 'tab' => 'coupons' ) ) ) ); ?>
+				</span>
+			<?php endif; ?>
 		</p>
 <?php
 	}
@@ -661,8 +671,10 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 			$coupons = $this->order->get_used_coupons();
 		}
 
+		$affiliate_id = false;
+
 		if ( empty( $coupons ) ) {
-			return false;
+			return $affiliate_id;
 		}
 
 		foreach ( $coupons as $code ) {
@@ -674,21 +686,26 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 				$coupon_id = $coupon->id;
 			}
 
-			$affiliate_id = get_post_meta( $coupon_id, 'affwp_discount_affiliate', true );
+			$coupon_affiliate_id = get_post_meta( $coupon_id, 'affwp_discount_affiliate', true );
 
-			if ( $affiliate_id ) {
+			// Check for global affiliate coupon.
+			if ( empty( $coupon_affiliate_id ) ) {
+				$coupon = affiliate_wp()->affiliates->coupons->get_by( 'coupon_code', $code );
 
-				if ( ! affiliate_wp()->tracking->is_valid_affiliate( $affiliate_id ) ) {
-					continue;
+				if ( isset( $coupon->affiliate_id ) ) {
+					$affiliate_id = $coupon->affiliate_id;
 				}
+			} else {
+				$affiliate_id = $coupon_affiliate_id;
+			}
 
-				return $affiliate_id;
-
+			if ( ! affiliate_wp()->tracking->is_valid_affiliate( $affiliate_id ) ) {
+				continue;
 			}
 
 		}
 
-		return false;
+		return $affiliate_id;
 	}
 
 	/**
@@ -1550,13 +1567,317 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 *
 	 */
 	public function render_order_preview_referral() {
-
-?>
+		?>
 		<# if ( data.referral ) { #>
 			{{{ data.referral }}}
 		<# } #>
-<?php
+		<?php
 
+	}
+
+	/**
+	 * Gets the coupon templates for this integration.
+	 *
+	 * @since 2.6
+	 *
+	 * @return array Coupon templates array where the key is the coupon ID and value is the label.
+	 */
+	public function get_coupon_templates() {
+
+		$templates = array();
+
+		$coupon_templates = get_posts( array(
+			'post_type'   => 'shop_coupon',
+			'post_status' => array( 'draft', 'pending', 'publish' ),
+			'numberposts' => 25,
+			'meta_query'  => array(
+				array(
+					'key'     => 'affwp_discount_affiliate',
+					'value'   => '',
+					'compare' => 'NOT EXISTS',
+				),
+			),
+		) );
+
+		if ( ! empty( $coupon_templates ) ) {
+			foreach ( $coupon_templates as $coupon_template ) {
+				$templates[ $coupon_template->ID ] = $coupon_template->post_title;
+			}
+		}
+
+		/**
+		 * Filters the WooCommerce coupon templates.
+		 *
+		 * @since 2.6
+		 *
+		 * @param array                     $templates Coupon templates array where the key is the coupon ID
+		 *                                             and value is the label.
+		 * @param \Affiliate_WP_WooCommerce $this      WooCommerce integration instance.
+		 */
+		return apply_filters( "affwp_{$this->context}_get_coupon_templates", $templates, $this );
+	}
+
+	/**
+	 * Builds an array of coupon template options for display in settings.
+	 *
+	 * @since 2.6
+	 *
+	 * @return array Options array.
+	 */
+	public function get_coupon_templates_options() {
+		$options = array( '' => __( '(select one)', 'affiliate-wp' ) ) + $this->get_coupon_templates();
+
+		return $options;
+	}
+
+	/**
+	 * Retrieves coupons of a given type.
+	 *
+	 * @since 2.6
+	 *
+	 * @param string               $type         Coupon type.
+	 * @param int|\AffWP\Affiliate $affiliate    Optional. Affiliate ID or object to retrieve coupons for.
+	 *                                           Default null (ignored).
+	 * @param bool                 $details_only Optional. Whether to retrieve the coupon details only (for display).
+	 *                                           Default true. If false, the full coupon objects will be retrieved.
+	 * @return array|\AffWP\Affiliate\Coupon[]|\WP_Post[] An array of arrays of coupon details if `$details_only` is
+	 *                                                    true or an array of coupon or post objects if false, depending
+	 *                                                    on whether dynamic or manual coupons, otherwise an empty array.
+	 */
+	public function get_coupons_of_type( $type, $affiliate = null, $details_only = true ) {
+		if ( ! $this->is_active() ) {
+			return array();
+		}
+
+		global $wpdb;
+
+		$affiliate = affwp_get_affiliate( $affiliate );
+		$coupons   = array();
+
+		switch ( $type ) {
+
+			case 'manual':
+				$ids = $this->get_coupon_post_ids( 'shop_coupon', 'publish', $affiliate );
+
+				if ( ! empty( $ids ) ) {
+					foreach ( $ids as $id ) {
+						if ( true === $details_only ) {
+							$coupons[ $id ]['code'] = get_the_title( $id );
+
+							$coupon_amount = get_post_meta( $id, 'coupon_amount', true );
+							$coupon_type   = get_post_meta( $id, 'discount_type', true );
+
+							if ( 'fixed_product' === $coupon_type || 'fixed_cart' === $coupon_type ) {
+								$amount = wc_price( $coupon_amount );
+							} elseif ( 'percent' === $coupon_type ) {
+								$amount = affwp_format_percentage( $coupon_amount );
+							} else {
+								$coupon_info = ' (' . esc_html( wc_get_coupon_type( get_post_meta( $id, 'discount_type', true ) ) ) . ')';
+								$amount      = $coupon_amount . $coupon_info;
+							}
+
+							$coupons[ $id ]['amount'] = $amount;
+						} else {
+							$coupons[ $id ] = get_post( $id );
+						}
+					}
+				}
+				break;
+
+			case 'dynamic':
+
+				$args = array(
+					'fields' => 'ids',
+					'number' => -1,
+				);
+
+				if ( $affiliate ) {
+					$args['affiliate_id'] = $affiliate->ID;
+				}
+
+				$ids = affiliate_wp()->affiliates->coupons->get_coupons( $args );
+
+				if ( ! empty( $ids ) ) {
+					foreach ( $ids as $id ) {
+						$coupon = affwp_get_coupon( $id );
+
+						if ( ! is_wp_error( $coupon ) ) {
+
+							$coupon_integration = $coupon->get_integration();
+
+							/*
+							 * If the coupon has an integration set, make sure to only pull the ones compatible
+							 * with the current integration. If not set, the coupon is fully dynamic to any
+							 * eligible integration.
+							 */
+							if ( ! empty( $coupon_integration ) && $this->context !== $coupon_integration ) {
+								continue;
+							}
+
+							if ( true === $details_only ) {
+								$coupon_details = $this->get_coupon_details( $coupon );
+
+								if ( ! empty( $coupon_details ) ) {
+									$coupons[ $id ] = $coupon_details;
+								}
+							} else {
+								$coupons[ $id ] = $coupon;
+							}
+						}
+					}
+				}
+				break;
+
+			default:
+				$coupons = array();
+				break;
+		}
+
+		return $coupons;
+	}
+
+	/**
+	 * Retrieves the details of a coupon.
+	 *
+	 * @since 2.6
+	 *
+	 * @param AffWP\Affiliate\Coupon $affiliate_coupon Coupon object.
+	 * @return array Coupon details if all required conditions are met, otherwise an empty array.
+	 */
+	public function get_coupon_details( $affiliate_coupon ) {
+
+		$coupon_details = array();
+
+		$template_id = affiliate_wp()->settings->get( "coupon_template_{$affiliate_coupon->get_integration()}" );
+
+		if ( $template_id && ( 'publish' === get_post_status( $template_id ) ) ) {
+
+			$coupon_amount = get_post_meta( $template_id, 'coupon_amount', true );
+			$coupon_type   = get_post_meta( $template_id, 'discount_type', true );
+
+			if ( 'fixed_product' === $coupon_type || 'fixed_cart' === $coupon_type ) {
+				$amount = wc_price( $coupon_amount );
+			} elseif ( 'percent' === $coupon_type ) {
+				$amount = affwp_format_percentage( $coupon_amount );
+			} else {
+				$coupon_info = ' (' . esc_html( wc_get_coupon_type( get_post_meta( $template_id, 'discount_type', true ) ) ) . ')';
+				$amount      = $coupon_amount . $coupon_info;
+			}
+
+			$coupon_details = array(
+				'code'   => $affiliate_coupon->coupon_code,
+				'amount' => $amount,
+			);
+
+		}
+
+		return $coupon_details;
+	}
+
+	/**
+	 * (Maybe) injects the AffiliateWP global affiliate coupon into the mix when processing WooCommerce coupons.
+	 *
+	 * @since 2.6
+	 *
+	 * @param false|array $manual_coupon Coupon data. Default false.
+	 * @param string      $code          Coupon code passed to WooCommerce.
+	 * @return array|false Data WooCommerce will use to generate a manual coupon, otherwise false.
+	 */
+	public function maybe_inject_dynamic_coupon( $manual_coupon, $code ) {
+
+		$coupon = affiliate_wp()->affiliates->coupons->get_by( 'coupon_code', $code );
+
+		$manual_coupon = false;
+
+		if ( $coupon ) {
+
+			$template_id = affiliate_wp()->settings->get( 'coupon_template_woocommerce', 0 );
+
+			if ( 'publish' === get_post_status( $template_id ) ) {
+
+				$template = $this->get_coupon_template( $template_id );
+
+				$fields = array(
+					'amount', 'discount_type', 'excluded_product_ids', 'excluded_product_categories',
+					'product_ids', 'individual_use', 'free_shipping', 'exclude_sale_items', 'date_expires'
+				);
+
+				foreach ( $fields as $field ) {
+					if ( method_exists( $template, "get_{$field}" ) ) {
+						$manual_coupon[ $field ] = call_user_func( array( $template, "get_{$field}" ) );
+					}
+				}
+			}
+		}
+
+		return $manual_coupon;
+	}
+
+	/**
+	 * Check if the automatic affiliate coupon is valid and can be applied to the cart.
+	 *
+	 * @since 2.6
+	 *
+	 * @param bool         $is_valid   True if coupon is valid, false otherwise.
+	 * @param \WC_Coupon    $coupon    WooCommerce Coupon object.
+	 * @param \WC_Discounts $discounts WooCommerce Discounts object.
+	 * @return bool True if the coupon can be applied to the cart, otherwise false.
+	 */
+	public function validate_affiliate_coupon( $is_valid, $coupon, $discounts ) {
+
+		$coupon_code = $coupon->get_code();
+
+		$affiliate_coupon = affiliate_wp()->affiliates->coupons->get_by( 'coupon_code', $coupon_code );
+
+		if ( ! $affiliate_coupon ) {
+			return $is_valid;
+		}
+
+		$applied_coupons = WC()->cart->get_applied_coupons();
+
+		foreach ( $applied_coupons as $coupon_code ) {
+
+			$coupon = new \WC_Coupon( $coupon_code );
+
+			if ( true === version_compare( WC()->version, '3.0.0', '>=' ) ) {
+				$coupon_id = $coupon->get_id();
+			} else {
+				$coupon_id = $coupon->id;
+			}
+
+			$affiliate_id = get_post_meta( $coupon_id, 'affwp_discount_affiliate', true );
+
+			if ( $affiliate_id && affiliate_wp()->tracking->is_valid_affiliate( $affiliate_id ) ) {
+
+				add_filter( 'woocommerce_coupon_error', function() {
+					return __( 'This coupon can&#8217;t be used at the moment', 'affiliate-wp' );
+				} );
+
+				return false;
+			}
+		}
+
+		return $is_valid;
+	}
+
+	/**
+	 * Retrieves the WC_Coupon instance for the coupon template.
+	 *
+	 * @since 2.6
+	 *
+	 * @param int $template_id Coupon ID for the "template" set for the current integration.
+	 * @return \WC_Coupon Coupon instance.
+	 */
+	protected function get_coupon_template( $template_id ) {
+		// Remove the filter to prevent recursion.
+		remove_filter( 'woocommerce_get_shop_coupon_data', array( $this, 'maybe_inject_dynamic_coupon' ), 10, 2 );
+
+		$coupon = new \WC_Coupon( $template_id );
+
+		// Re-add it.
+		add_filter( 'woocommerce_get_shop_coupon_data', array( $this, 'maybe_inject_dynamic_coupon' ), 10, 2 );
+
+		return $coupon;
 	}
 }
 

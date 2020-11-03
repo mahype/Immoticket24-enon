@@ -73,7 +73,6 @@ function affwp_payouts_screen_options() {
 	do_action( 'affwp_payouts_screen_options', $screen );
 
 }
-add_action( 'load-affiliates_page_affiliate-wp-payouts', 'affwp_payouts_screen_options' );
 
 /**
  * Renders per-page screen option value for the Payouts list table.
@@ -88,6 +87,8 @@ add_action( 'load-affiliates_page_affiliate-wp-payouts', 'affwp_payouts_screen_o
 function affwp_payouts_set_screen_option( $status, $option, $value ) {
 
 	if ( 'affwp_edit_payouts_per_page' === $option ) {
+		update_user_meta( get_current_user_id(), $option, $value );
+
 		return $value;
 	}
 

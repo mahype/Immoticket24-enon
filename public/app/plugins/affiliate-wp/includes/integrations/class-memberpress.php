@@ -354,6 +354,62 @@ class Affiliate_WP_MemberPress extends Affiliate_WP_Base {
 		update_post_meta( $post_id, 'affwp_discount_affiliate', $affiliate_id );
 	}
 
+	/**
+	 * Retrieves coupons of a given type.
+	 *
+	 * @since 2.6
+	 *
+	 * @param string               $type         Coupon type.
+	 * @param int|\AffWP\Affiliate $affiliate    Optional. Affiliate ID or object to retrieve coupons for.
+	 *                                           Default null (ignored).
+	 * @param bool                 $details_only Optional. Whether to retrieve the coupon details only (for display).
+	 *                                           Default true. If false, the full coupon objects will be retrieved.
+	 * @return array|\AffWP\Affiliate\Coupon[]|\WP_Post[] An array of arrays of coupon details if `$details_only` is
+	 *                                                    true or an array of coupon or post objects if false, depending
+	 *                                                    on whether dynamic or manual coupons, otherwise an empty array.
+	 */
+	public function get_coupons_of_type( $type, $affiliate = null, $details_only = true ) {
+		if ( ! $this->is_active() ) {
+			return array();
+		}
+
+		$affiliate = affwp_get_affiliate( $affiliate );
+		$coupons   = array();
+
+		switch ( $type ) {
+			case 'manual':
+				$ids = $this->get_coupon_post_ids( 'memberpresscoupon', 'publish', $affiliate );
+
+				if ( ! empty( $ids ) ) {
+					foreach ( $ids as $id ) {
+						if ( true === $details_only ) {
+							$amount        = get_post_meta( $id, '_mepr_coupons_discount_amount', true );
+							$discount_type = get_post_meta( $id, '_mepr_coupons_discount_type', true );
+
+							if ( 'percent' === $discount_type ) {
+								$amount = affwp_format_percentage( $amount );
+							} else {
+								$mepr_options  = MeprOptions::fetch();
+								$currency_code = $mepr_options->currency_code;
+								$amount        = $currency_code . affwp_format_amount( $amount );
+							}
+
+							$coupons[ $id ]['code']   = get_the_title( $id );
+							$coupons[ $id ]['amount'] = esc_html( $amount );
+						} else {
+							$coupons[ $id ] = get_post( $id );
+						}
+					}
+				}
+				break;
+
+			default:
+				$coupons = array();
+				break;
+		}
+
+		return $coupons;
+	}
 
 	/**
 	 * Retrieve the affiliate ID for the coupon used, if any

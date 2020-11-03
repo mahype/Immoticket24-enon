@@ -25,11 +25,12 @@ class Affiliate_WP_Settings {
 		add_action( 'affwp_pre_get_registered_settings', array( $this, 'handle_global_debug_mode_setting' ) );
 
 		// Sanitization.
-		add_filter( 'affwp_settings_sanitize', array( $this, 'sanitize_referral_variable' ), 10, 2 );
-		add_filter( 'affwp_settings_sanitize_text', array( $this, 'sanitize_text_fields' ), 10, 2 );
-		add_filter( 'affwp_settings_sanitize_url', array( $this, 'sanitize_url_fields' ), 10, 2 );
-		add_filter( 'affwp_settings_sanitize_checkbox', array( $this, 'sanitize_cb_fields' ), 10, 2 );
-		add_filter( 'affwp_settings_sanitize_number', array( $this, 'sanitize_number_fields' ), 10, 2 );
+		add_filter( 'affwp_settings_sanitize',             array( $this, 'sanitize_referral_variable'  ), 10, 2 );
+		add_filter( 'affwp_settings_sanitize',             array( $this, 'sanitize_coupon_template'    ), 10, 2 );
+		add_filter( 'affwp_settings_sanitize_text',        array( $this, 'sanitize_text_fields'        ), 10, 2 );
+		add_filter( 'affwp_settings_sanitize_url',         array( $this, 'sanitize_url_fields'         ), 10, 2 );
+		add_filter( 'affwp_settings_sanitize_checkbox',    array( $this, 'sanitize_cb_fields'          ), 10, 2 );
+		add_filter( 'affwp_settings_sanitize_number',      array( $this, 'sanitize_number_fields'      ), 10, 2 );
 		add_filter( 'affwp_settings_sanitize_rich_editor', array( $this, 'sanitize_rich_editor_fields' ), 10, 2 );
 
 		// Capabilities
@@ -191,18 +192,19 @@ class Affiliate_WP_Settings {
 					'affwp_settings_' . $tab,
 					'affwp_settings_' . $tab,
 					array(
-						'id'       => $key,
-						'desc'     => ! empty( $option['desc'] ) ? $option['desc'] : '',
-						'name'     => isset( $option['name'] ) ? $option['name'] : null,
-						'section'  => $tab,
-						'size'     => isset( $option['size'] ) ? $option['size'] : null,
-						'max'      => isset( $option['max'] ) ? $option['max'] : null,
-						'min'      => isset( $option['min'] ) ? $option['min'] : null,
-						'step'     => isset( $option['step'] ) ? $option['step'] : null,
-						'options'  => isset( $option['options'] ) ? $option['options'] : '',
-						'std'      => isset( $option['std'] ) ? $option['std'] : '',
-						'disabled' => isset( $option['disabled'] ) ? $option['disabled'] : '',
-						'class'    => isset( $option['class'] ) ? $option['class'] : ''
+						'id'               => $key,
+						'desc'             => ! empty( $option['desc'] ) ? $option['desc'] : '',
+						'name'             => isset( $option['name'] ) ? $option['name'] : null,
+						'section'          => $tab,
+						'size'             => isset( $option['size'] ) ? $option['size'] : null,
+						'max'              => isset( $option['max'] ) ? $option['max'] : null,
+						'min'              => isset( $option['min'] ) ? $option['min'] : null,
+						'step'             => isset( $option['step'] ) ? $option['step'] : null,
+						'options'          => isset( $option['options'] ) ? $option['options'] : '',
+						'std'              => isset( $option['std'] ) ? $option['std'] : '',
+						'disabled'         => isset( $option['disabled'] ) ? $option['disabled'] : '',
+						'class'            => isset( $option['class'] ) ? $option['class'] : '',
+						'options_callback' => isset( $option['options_callback'] ) ? $option['options_callback'] : '',
 					)
 				);
 			}
@@ -352,6 +354,24 @@ class Affiliate_WP_Settings {
 
 			update_option( 'affwp_flush_rewrites', '1' );
 
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Sanitizes the coupon template setting.
+	 *
+	 * @since 2.6
+	 *
+	 * @param mixed  $value Template setting value.
+	 * @param string $key   Setting key.
+	 * @return mixed Sanitized template value.
+	 */
+	public function sanitize_coupon_template( $value = '', $key = '' ) {
+
+		if ( 'coupon_template_woocommerce' === $key ) {
+			$value = intval( $value );
 		}
 
 		return $value;
@@ -951,6 +971,33 @@ class Affiliate_WP_Settings {
 					),
 				)
 			),
+
+			/**
+			 * Filters the default "Coupons" settings.
+			 *
+			 * @since 2.6
+			 *
+			 * @param array $settings Array of coupons settings.
+			 */
+			'coupons' => apply_filters( 'affwp_settings_coupons',
+				array(
+					'dynamic_coupons_header'     => array(
+						'name' => __( 'Dynamic Coupons', 'affiliate-wp' ),
+						'type' => 'header',
+					),
+					'coupon_template_woocommerce' => array(
+						'name'             => __( 'Coupon Template', 'affiliate-wp' ),
+						'desc'             => __( 'All dynamic coupons will use the settings from the selected coupon template.', 'affiliate-wp' ),
+						'type'             => 'select',
+						'options_callback' => $this->get_integration_callback( 'woocommerce', 'coupon_templates', 'options' ),
+					),
+					'dynamic_coupons'            => array(
+						'name' => __( 'Automatically Generate Coupons', 'affiliate-wp' ),
+						'desc' => sprintf( __( 'Automatically generate a coupon code for each registered affiliate.<p class="description">To bulk generate coupons for existing affiliates visit the <a href="%s">Tools</a> screen.</p>', 'affiliate-wp' ), esc_url( affwp_admin_url( 'tools', array( 'tab' => 'coupons' ) ) ) ),
+						'type' => 'checkbox',
+					),
+				)
+			),
 		);
 
 		/**
@@ -1388,6 +1435,10 @@ class Affiliate_WP_Settings {
 
 		$html = '<select id="affwp_settings[' . $args['id'] . ']" name="affwp_settings[' . $args['id'] . ']"/>';
 
+		if ( ! empty( $args['options_callback'] ) && is_callable( $args['options_callback'] ) ) {
+			$args['options'] = call_user_func( $args['options_callback'] );
+		}
+
 		foreach ( $args['options'] as $option => $name ) :
 			$selected = selected( $option, $value, false );
 			$html .= '<option value="' . $option . '" ' . $selected . '>' . $name . '</option>';
@@ -1460,6 +1511,40 @@ class Affiliate_WP_Settings {
 		$html = wp_kses_post( $args['desc'] );
 
 		echo $html;
+	}
+
+	/**
+	 * Retrieves the given type of callback for the given integration.
+	 *
+	 * @since 2.6
+	 *
+	 * @param string $integration Integration slug.
+	 * @param string $context     Context for the callback, e.g. 'coupon_templates'.
+	 * @param string $type        Callback type, e.g. 'options'.
+	 * @return callable|false Callback or false if none could be found.
+	 */
+	public function get_integration_callback( $integration, $context, $type ) {
+		$integration = affiliate_wp()->integrations->get( $integration );
+
+		$callback = false;
+
+		if ( is_wp_error( $integration ) || ! $integration->is_active() ) {
+			return $callback;
+		}
+
+		switch ( $type ) {
+			case 'options':
+				if ( 'coupon_templates' === $context ) {
+					$callback = array( $integration, 'get_coupon_templates_options' );
+				}
+				break;
+
+			default:
+				$callback = false;
+				break;
+		}
+
+		return $callback;
 	}
 
 	/**
@@ -1868,4 +1953,5 @@ class Affiliate_WP_Settings {
 
 		return $data;
 	}
+
 }

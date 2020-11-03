@@ -29,6 +29,18 @@ function affwp_affiliates_admin() {
 	$affiliate_id = isset( $_REQUEST['affiliate_id'] ) ? absint( $_REQUEST['affiliate_id'] ) : 0;
 	$affiliate    = affwp_get_affiliate( $affiliate_id );
 
+	$customer_id = isset( $_REQUEST['customer_id'] ) ? intval( $_REQUEST['customer_id'] ) : 0;
+	$customer    = affwp_get_customer( $customer_id );
+
+	/**
+	 * Filters whether to enable the customer add and edit screens.
+	 *
+	 * @since 2.5.7
+	 *
+	 * @param bool $customer_screens_enabled Whether the customer screens have been enabled. Default false.
+	 */
+	$customer_screens_enabled = (bool) apply_filters( 'affwp_enable_customer_screens', false );
+
 	if ( 'view_affiliate' === $action && $affiliate ) {
 
 		include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/affiliates/view.php';
@@ -48,6 +60,14 @@ function affwp_affiliates_admin() {
 	} elseif ( 'delete' === $action  ) {
 
 		include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/affiliates/delete.php';
+
+	} elseif ( 'add_customer' === $action && $customer_screens_enabled ) {
+
+		include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/customers/new.php';
+
+	} elseif ( 'edit_customer' === $action && $customer_screens_enabled && $customer ) {
+
+		include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/customers/edit.php';
 
 	} else {
 

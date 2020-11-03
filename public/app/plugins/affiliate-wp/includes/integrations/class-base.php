@@ -337,6 +337,117 @@ abstract class Affiliate_WP_Base {
 	}
 
 	/**
+	 * Retrieves coupons of a given type for the current integration.
+	 *
+	 * @since 2.6
+	 *
+	 * @param string               $type         Coupon type.
+	 * @param int|\AffWP\Affiliate $affiliate    Optional. Affiliate ID or object to retrieve coupons for.
+	 *                                           Default null (ignored).
+	 * @param bool                 $details_only Optional. Whether to retrieve the coupon details only (for display).
+	 *                                           Default true. If false, the full coupon objects will be retrieved.
+	 * @return array|\AffWP\Affiliate\Coupon[]|WP_Post[] An array of arrays of coupon details if `$details_only` is
+	 *                                                   true or an array of coupon or post objects if false, depending
+	 *                                                   on whether dynamic or manual coupons, otherwise an empty array.
+	 */
+	public function get_coupons_of_type( $type, $affiliate = null, $details_only = true ) {
+		return array();
+	}
+
+	/**
+	 * Retrieves manual coupon post IDs for integrations storing coupons in post types.
+	 *
+	 * @since 2.6
+	 *
+	 * @param string               $post_type   Post type to retrieve entries for.
+	 * @param string               $post_status Coupons post status.
+	 * @param int|\AffWP\Affiliate $affiliate Optional. Affiliate ID or object. Default null (unused).
+	 */
+	public function get_coupon_post_ids( $post_type, $post_status, $affiliate = null ) {
+		global $wpdb;
+
+		$affiliate = affwp_get_affiliate( $affiliate );
+
+		if ( $affiliate ) {
+			$query_args = array(
+				'fields'      => 'ids',
+				'numberposts' => -1,
+				'post_type'   => $post_type,
+				'post_status' => $post_status,
+				'meta_query'  => array(
+					'relation' => 'OR',
+					array(
+						'key'   => 'affwp_discount_affiliate',
+						'value' => $affiliate->ID,
+					),
+					array(
+						'key'   => 'affwp_coupon_affiliate',
+						'value' => $affiliate->ID,
+					),
+				),
+			);
+		} else {
+			$query_args = array(
+				'fields'      => 'ids',
+				'numberposts' => -1,
+				'post_type'   => $post_type,
+				'post_status' => $post_status,
+				'meta_query'  => array(
+					'relation' => 'OR',
+					array(
+						'key'     => 'affwp_discount_affiliate',
+						'compare' => 'EXISTS',
+					),
+					array(
+						'key'     => 'affwp_coupon_affiliate',
+						'compare' => 'EXISTS',
+					),
+				),
+			);
+		}
+
+		$post_ids = get_posts( $query_args );
+
+		return $post_ids;
+	}
+
+	/**
+	 * Gets the coupon templates for this integration.
+	 *
+	 * @since 2.6
+
+	 * @return \WP_Error|array WP_Error object by default. Potential array if sub-classes extend the method.
+	 */
+	public function get_coupon_templates() {
+		$integration_name = $this->get_name();
+
+		return new \WP_Error( 'not_support_dynamic_coupons', "The integration {$integration_name} does not support dynamic coupons." );
+	}
+
+	/**
+	 * Builds an array of coupon template options for display in settings.
+	 *
+	 * @since 2.6
+	 *
+	 * @return array Options array.
+	 */
+	public function get_coupon_templates_options() {
+		return array();
+	}
+
+	/**
+	 * Retrieves the details for a coupon.
+	 *
+	 * @since 2.6
+	 *
+	 * @param AffWP\Affiliate\Coupon $coupon Coupon object.
+	 * @return array The coupon details.
+	 */
+	public function get_coupon_details( $coupon ) {
+		return array();
+	}
+
+	/**
 	 * Prepares a date range to be accepted by the current integration.
 	 * Most integrations accept a date range in a specific format. Often this format differs from AffiliateWP.
 	 * This method provides a way to convert an AffiliateWP date range into the integration date range.

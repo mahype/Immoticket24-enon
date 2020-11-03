@@ -102,7 +102,7 @@
 			<?php else : ?>
 
 				<tr>
-					<td class="affwp-table-no-data" colspan="6"><?php _e( 'None of your referrals have been paid out yet.', 'affiliate-wp' ); ?></td>
+					<td class="affwp-table-no-data" colspan="<?php echo true === $payouts_service_enabled ? 6 : 4; ?>"><?php _e( 'None of your referrals have been paid out yet.', 'affiliate-wp' ); ?></td>
 				</tr>
 
 			<?php endif; ?>
