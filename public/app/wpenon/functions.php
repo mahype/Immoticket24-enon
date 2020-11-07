@@ -291,13 +291,30 @@ function wpenon_immoticket24_print_no_consumption_modal() {
             wp_enon_geg20_check();
         }
 
-        function wp_enon_geg20_check(e) {
+        function wp_enon_geg20_check( e ) {
             if( ! wp_enon_geg20_needs_check() ) {
                 return;
             }
 
             geg20_reset_questions();
             jQuery('#dialog_geg20_approval').modal('show');
+        }
+
+        function wp_enon_geg20_needs_save() {
+            var geg20_needs_save = jQuery( '#geg20_needs_save' ).val();
+
+            if( geg20_needs_save == 'yes' ) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function wp_enon_geg20_save_check( e ) {
+            if( wp_enon_geg20_needs_save() ) {
+                e.preventDefault();
+                alert( 'Sie müssen Ihre Änderung speichern, bevor Sie fortfahren!');
+            }
         }
 
         function wp_enon_geg20_creation_denied() {
@@ -364,7 +381,7 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 			e.preventDefault();
             jQuery('#geg20_approval_date').val('Wann wurde die Genehmigung beantragt? - ab 01.11.2020');           
 			jQuery('#dialog_geg20_creation_denied').modal('show');
-            geg20_deny_creation();    
+            geg20_deny_creation();
 		});
 
         jQuery('#geg20_building_measure_october').on('click', function (e) {
@@ -380,10 +397,6 @@ function wpenon_immoticket24_print_no_consumption_modal() {
             geg20_deny_creation();      
 		});
 
-        jQuery('#geg20_creation_denied_button').on('click', function(e) {
-            jQuery('#wpenon-generate-form').submit();
-        });
-
         function geg20_reset_questions() {
             jQuery('#geg20_creation_denied').val('');
             jQuery('#geg20_approval').val('');
@@ -393,18 +406,20 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 
         function geg20_deny_creation() {
             jQuery('#geg20_creation_denied').val('yes');
+            jQuery('#wpenon-generate-form').append('<input type="hidden" id="geg20_needs_save" name="geg20_needs_save" value="yes" />');    
         }
 
         function geg20_allow_creation() {
             jQuery('#geg20_creation_denied').val('no');
+            jQuery('#wpenon-generate-form').append('<input type="hidden" id="geg20_needs_save" name="geg20_needs_save" value="yes" />');    
         }
 
 		jQuery(document).on('change', '#anlass', wp_enon_change_reason );
-        jQuery(document).on('change', '#wohnungen', wpenon_immoticket24_check_certificate_valid);
-		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_valid);
-		jQuery(document).on('change', '#wand_daemmung', wpenon_immoticket24_check_certificate_valid);
+        jQuery(document).on('change', '#wohnungen', wpenon_immoticket24_check_certificate_valid );
+		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_valid );
+		jQuery(document).on('change', '#wand_daemmung', wpenon_immoticket24_check_certificate_valid );
 
-		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_climatefactors_valid);
+		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_climatefactors_valid );
 
 		jQuery('#wpenon-generate-form').on('submit', function (e) {
 			if ( ! wpenon_immoticket24_check_certificate_valid() || ! wpenon_immoticket24_check_certificate_climatefactors_valid() ) {
@@ -427,6 +442,12 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 			if( wp_enon_geg20_needs_check() ) {
                 e.preventDefault();
                 wp_enon_geg20_check();
+                return;
+            }
+
+            if( wp_enon_geg20_needs_save() ) {
+                e.preventDefault();
+                alert( 'Sie müssen Ihre Änderung speichern, bevor Sie fortfahren!');
                 return;
             }
 
