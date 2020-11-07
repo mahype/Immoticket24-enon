@@ -31,7 +31,7 @@ $basisdaten = array(
                     'type'  => 'hidden',
                     'title' => __( 'Wann wurde mit der Baumaßnahme begonnen?', 'wpenon' ),          
                 ),
-                'geg2020_creation_denied' => array(
+                'geg20_creation_denied' => array(
                     'type'  => 'hidden',
                     'title' => __( 'Kauf des Ausweises verweigert?', 'wpenon' ),          
                 ),

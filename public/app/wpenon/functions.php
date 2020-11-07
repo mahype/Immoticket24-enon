@@ -166,7 +166,7 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 		</div>
 	</div>
 
-	<div id="dialog_geg2020_approval" class="modal fade" tabindex="-1" role="dialog">
+	<div id="dialog_geg20_approval" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document" style="margin-top:140px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -176,14 +176,14 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 					<?php _e( 'Wurde für das Bauvorhaben eine Genehmigung beantragt?', 'wpenon' ); ?>
 				</div>´
 				<div class="modal-footer">
-					<button type="button" id="geg2020_approval_yes" class="btn btn-default" data-dismiss="modal"><?php _e( 'Ja', 'wpenon' ); ?></button>
-					<button type="button" id="geg2020_approval_no"  class="btn btn-default" data-dismiss="modal"><?php _e( 'Nein', 'wpenon' ); ?></button>
+					<button type="button" id="geg20_approval_yes" class="btn btn-default" data-dismiss="modal"><?php _e( 'Ja', 'wpenon' ); ?></button>
+					<button type="button" id="geg20_approval_no"  class="btn btn-default" data-dismiss="modal"><?php _e( 'Nein', 'wpenon' ); ?></button>
 				</div>
 			</div>
 		</div>
     </div>
     
-	<div id="dialog_geg2020_approval_requested_date" class="modal fade" tabindex="-1" role="dialog">
+	<div id="dialog_geg20_approval_requested_date" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document" style="margin-top:140px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -193,14 +193,14 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 					<?php _e( 'Wann wurde die Genehmigung beantragt?', 'wpenon' ); ?>
 				</div>
 				<div class="modal-footer">
-                    <button type="button" id="geg2020_approval_requested_october" class="btn btn-default" data-dismiss="modal"><?php _e( 'bis 31.10.2020', 'wpenon' ); ?></button>
-					<button type="button" id="geg2020_approval_requested_november" class="btn btn-default" data-dismiss="modal"><?php _e( 'ab 01.11.2020', 'wpenon' ); ?></button>
+                    <button type="button" id="geg20_approval_requested_october" class="btn btn-default" data-dismiss="modal"><?php _e( 'bis 31.10.2020', 'wpenon' ); ?></button>
+					<button type="button" id="geg20_approval_requested_november" class="btn btn-default" data-dismiss="modal"><?php _e( 'ab 01.11.2020', 'wpenon' ); ?></button>
 				</div>
 			</div>
 		</div>
     </div>
 
-    <div id="dialog_geg2020_building_measure_date" class="modal fade" tabindex="-1" role="dialog">
+    <div id="dialog_geg20_building_measure_date" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document" style="margin-top:140px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -210,14 +210,14 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 					<?php _e( 'Wann wurde mit der Baumaßnahme begonnen?', 'wpenon' ); ?>
 				</div>
 				<div class="modal-footer">
-					<button type="button" id="geg2020_building_measure_october" class="btn btn-default" data-dismiss="modal"><?php _e( 'bis 31.10.2020', 'wpenon' ); ?></button>
-					<button type="button" id="geg2020_building_measure_november" class="btn btn-default" data-dismiss="modal"><?php _e( 'ab 01.11.2020', 'wpenon' ); ?></button>
+					<button type="button" id="geg20_building_measure_october" class="btn btn-default" data-dismiss="modal"><?php _e( 'bis 31.10.2020', 'wpenon' ); ?></button>
+					<button type="button" id="geg20_building_measure_november" class="btn btn-default" data-dismiss="modal"><?php _e( 'ab 01.11.2020', 'wpenon' ); ?></button>
 				</div>
 			</div>
 		</div>
     </div>
 
-    <div id="dialog_geg2020_creation_denied" class="modal fade" tabindex="-1" role="dialog">
+    <div id="dialog_geg20_creation_denied" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document" style="margin-top:140px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -228,7 +228,7 @@ function wpenon_immoticket24_print_no_consumption_modal() {
                     <p><?php _e( 'Auf unserer Website können Sie nur Energieausweise nach der EnEV 2014 erstellen, welche für Verkauf/Vermietung, Modernisierung & Sonstiges (bei Bauantrag vor dem 01.11.2020) auch weiterhin gültig sind.', 'wpenon' ); ?></p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" id="wpit_approval_until_october_2020" class="btn btn-default" data-dismiss="modal"><?php _e( 'OK', 'wpenon' ); ?></button>
+					<button type="button" id="geg20_creation_denied_button" class="btn btn-default" data-dismiss="modal"><?php _e( 'OK', 'wpenon' ); ?></button>
 				</div>
 			</div>
 		</div>
@@ -286,99 +286,120 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 			return true;
 		}
 
-        function wpenon_immoticket24_check_construction_project_approval(e) {
-            var strict = 'undefined' === typeof e;
-
-			if (!jQuery('#wpit_transfer_certificate_input').length) {
-				var anlass = jQuery('#anlass').val();
-                                
-                if( anlass != 'modernisierung' && anlass != 'sonstiges' ) {
-                    geg2020_reset_questions();
-                    return true;
-                }              
-
-                jQuery('#dialog_geg2020_approval').modal('show');
-			}
-
-			return true;
+        function wp_enon_change_reason() {
+            geg20_reset_questions();
+            wp_enon_geg20_check();
         }
 
-        function wp_enon_geg2020_creation_denied() {
-            var geg2020_creation_denied = jQuery( '#geg2020_creation_denied' ).val();
-
-            if ( geg2020_creation_denied == 'yes' ) {
-                jQuery('#dialog_geg2020_creation_denied').modal('show');
-                return true;
+        function wp_enon_geg20_check(e) {
+            if( ! wp_enon_geg20_needs_check() ) {
+                return;
             }
 
-            var anlass = jQuery('#anlass').val();
-            console.log( anlass );
-            console.log( geg2020_creation_denied );
+            geg20_reset_questions();
+            jQuery('#dialog_geg20_approval').modal('show');
+        }
 
-            if( ( anlass == 'modernisierung' || anlass == 'sonstiges' ) && ( geg2020_creation_denied == '' || geg2020_creation_denied == undefined ) ) {
-                jQuery('#dialog_geg2020_approval').modal('show');
+        function wp_enon_geg20_creation_denied() {
+            var geg20_creation_denied = jQuery( '#geg20_creation_denied' ).val();
+
+            if ( geg20_creation_denied == 'yes' ) {
+                jQuery('#dialog_geg20_creation_denied').modal('show');
                 return true;
             }
 
             return false;
         }
 
-        jQuery('#geg2020_approval_yes').on('click', function (e) {
+        function wp_enon_geg20_needs_check() {
+            var anlass = jQuery( '#anlass' ).val();
+
+            if( anlass == 'modernisierung' || anlass == 'sonstiges' ) {
+                var geg20_approval              = jQuery( '#geg20_approval' ).val();
+                var geg20_approval_date         = jQuery( '#geg20_approval_date' ).val();
+                var geg20_building_measure_date = jQuery( '#geg20_building_measure_date' ).val();
+                var geg20_creation_denied       = jQuery( '#geg20_creation_denied' ).val();
+
+                if ( geg20_approval == '' ) {
+                    return true;
+                }
+
+                if ( geg20_approval_date == '' ) {
+                    return true;
+                }
+
+                if ( geg20_building_measure_date == '' ) {
+                    return true;
+                }
+
+                if ( geg20_creation_denied == '' ) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        jQuery('#geg20_approval_yes').on('click', function (e) {
 			e.preventDefault();
             jQuery('#geg20_approval').val('Wurde für das Bauvorhaben eine Genehmigung beantragt? - Ja');
             jQuery('#geg20_building_measure_date').val('-');
-			jQuery('#dialog_geg2020_approval_requested_date').modal('show');
+			jQuery('#dialog_geg20_approval_requested_date').modal('show');
 		});
 
-        jQuery('#geg2020_approval_no').on('click', function (e) {
+        jQuery('#geg20_approval_no').on('click', function (e) {
 			e.preventDefault();
             jQuery('#geg20_approval').val('Wurde für das Bauvorhaben eine Genehmigung beantragt? - Nein');
             jQuery('#geg20_approval_date').val('-');
-			jQuery('#dialog_geg2020_building_measure_date').modal('show');
+			jQuery('#dialog_geg20_building_measure_date').modal('show');
 		});
 
-        jQuery('#geg2020_approval_requested_october').on('click', function (e) {
+        jQuery('#geg20_approval_requested_october').on('click', function (e) {
 			e.preventDefault();
             jQuery('#geg20_approval_date').val('Wann wurde die Genehmigung beantragt? - bis 31.10.2020');
-            geg2020_allow_creation();
+            geg20_allow_creation();
 		});
 
-        jQuery('#geg2020_approval_requested_november').on('click', function (e) {
+        jQuery('#geg20_approval_requested_november').on('click', function (e) {
 			e.preventDefault();
             jQuery('#geg20_approval_date').val('Wann wurde die Genehmigung beantragt? - ab 01.11.2020');           
-			jQuery('#dialog_geg2020_creation_denied').modal('show');
-            geg2020_deny_creation();    
+			jQuery('#dialog_geg20_creation_denied').modal('show');
+            geg20_deny_creation();    
 		});
 
-        jQuery('#geg2020_building_measure_october').on('click', function (e) {
+        jQuery('#geg20_building_measure_october').on('click', function (e) {
 			e.preventDefault();
             jQuery('#geg20_building_measure_date').val('Wann wurde mit der Baumaßnahme begonnen? - bis 31.10.2020');
-            geg2020_allow_creation();
+            geg20_allow_creation();
 		});
 
-        jQuery('#geg2020_building_measure_november').on('click', function (e) {
+        jQuery('#geg20_building_measure_november').on('click', function (e) {
 			e.preventDefault();
             jQuery('#geg20_building_measure_date').val('Wann wurde mit der Baumaßnahme begonnen? - ab 01.11.2020');
-			jQuery('#dialog_geg2020_creation_denied').modal('show');
-            geg2020_deny_creation();      
+			jQuery('#dialog_geg20_creation_denied').modal('show');
+            geg20_deny_creation();      
 		});
 
-        function geg2020_reset_questions() {
-            jQuery('#geg2020_creation_denied').remove();
+        jQuery('#geg20_creation_denied_button').on('click', function(e) {
+            jQuery('#wpenon-generate-form').submit();
+        });
+
+        function geg20_reset_questions() {
+            jQuery('#geg20_creation_denied').val('');
             jQuery('#geg20_approval').val('');
             jQuery('#geg20_approval_date').val('');
             jQuery('#geg20_building_measure_date').val('');
         }
 
-        function geg2020_deny_creation() {
-            jQuery('#geg2020_creation_denied').val('yes');
+        function geg20_deny_creation() {
+            jQuery('#geg20_creation_denied').val('yes');
         }
 
-        function geg2020_allow_creation() {
-            jQuery('#geg2020_creation_denied').val('no');
+        function geg20_allow_creation() {
+            jQuery('#geg20_creation_denied').val('no');
         }
 
-		jQuery(document).on('change', '#anlass', wpenon_immoticket24_check_construction_project_approval);
+		jQuery(document).on('change', '#anlass', wp_enon_change_reason );
         jQuery(document).on('change', '#wohnungen', wpenon_immoticket24_check_certificate_valid);
 		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_valid);
 		jQuery(document).on('change', '#wand_daemmung', wpenon_immoticket24_check_certificate_valid);
@@ -386,16 +407,33 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_climatefactors_valid);
 
 		jQuery('#wpenon-generate-form').on('submit', function (e) {
-            console.log('SAVE');
-			if (!wpenon_immoticket24_check_certificate_valid() || !wpenon_immoticket24_check_certificate_climatefactors_valid() || wp_enon_geg2020_creation_denied() ) {
+			if ( ! wpenon_immoticket24_check_certificate_valid() || ! wpenon_immoticket24_check_certificate_climatefactors_valid() ) {
                 e.preventDefault();
 			}
+
+            if( wp_enon_geg20_needs_check() ) {
+                e.preventDefault();
+                wp_enon_geg20_check();
+                return;
+            }
+
+            if( wp_enon_geg20_creation_denied() ) {
+                e.preventDefault();
+                jQuery('#dialog_geg20_creation_denied').modal('show');
+            }
 		});
 
-        jQuery('#btn-order-now').click(function(e) {            
-			if ( wp_enon_geg2020_creation_denied() ) {                
-				e.preventDefault();                
-			}
+        jQuery('#btn-order-now').click(function(e) {
+			if( wp_enon_geg20_needs_check() ) {
+                e.preventDefault();
+                wp_enon_geg20_check();
+                return;
+            }
+
+            if( wp_enon_geg20_creation_denied() ) {
+                e.preventDefault();
+                jQuery('#dialog_geg20_creation_denied').modal('show');
+            }
 		});      
 
 		jQuery('.wpit_transfer_certificate').on('click', function (e) {
