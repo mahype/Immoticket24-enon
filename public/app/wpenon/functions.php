@@ -1186,6 +1186,32 @@ function wpenon_immoticket24_validate_fenster( $value, $field ) {
 
 	return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
 }
+// @deprecated: wpenon_immoticket24_validate_at_least_one_fenster - Used in old schemas
+function wpenon_immoticket24_validate_at_least_one_fenster( $value, $field ) {
+	$value = \WPENON\Util\Validate::float( $value, $field );
+	if ( isset( $value['error'] ) || isset( $value['warning'] ) ) {
+		return $value;
+	}
+
+	$value = $value['value'];
+	$error = '';
+	if ( $value == 0.0 ) {
+		$all_fensters_empty = true;
+		foreach ( $field['validate_dependencies'] as $dependency ) {
+			$other_fenster = \WPENON\Util\Parse::float( $dependency );
+			if ( $other_fenster > 0.0 ) {
+				$all_fensters_empty = false;
+				break;
+			}
+		}
+
+		if ( $all_fensters_empty ) {
+			$error = __( 'Mindestens eine der angegebenen Fensterflächen muss größer als 0 sein.', 'wpenon' );
+		}
+	}
+
+	return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
+}
 
 function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = null ) {
 	$_modernisierungsempfehlungen = array(

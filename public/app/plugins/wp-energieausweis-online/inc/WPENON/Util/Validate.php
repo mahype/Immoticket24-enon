@@ -222,6 +222,9 @@ class Validate
             return call_user_func_array($field['validate'], array($value, $field));
         }
 
+        print_r( $field );
+        exit;
+
         return self::formatResponse($value, $field, __('Es liegt ein Fehler im System vor. Bitte wenden Sie sich an den Administrator.', 'wpenon'));
     }
 
