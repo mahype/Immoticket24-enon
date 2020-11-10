@@ -122,7 +122,8 @@ function wpenon_immoticket24_email_tag_certificate_data( $payment_id ) {
 	return $output;
 }
 
-function wpenon_immoticket24_print_no_consumption_modal() {
+function wpenon_immoticket24_print_no_consumption_modal
+() {
 	list( $klima_year, $klima_month ) = array_map( 'absint', explode( '_', get_option( 'wpenon_immoticket24_klimafaktoren_end', '2014_03' ) ) );
 	$klima_maximum_year = $klima_year - 2;
 	?>
@@ -166,7 +167,91 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 		</div>
 	</div>
 
-	<div id="dialog_geg20_approval" class="modal fade" tabindex="-1" role="dialog">
+	
+	<script type="text/javascript">
+		var _wpit_wand_touched = false;
+		var _wpit_climatefactors_target_year = <?php echo esc_js( $klima_maximum_year ); ?>;
+
+		function wpenon_immoticket24_check_certificate_valid(e) {
+			// Strict check if no parameter given (when form is submitted).
+			var strict = 'undefined' === typeof e;
+
+			if ( ! jQuery('#wpit_transfer_certificate_input').length ) {
+				var wohnungen = parseInt(jQuery('#wohnungen').val(), 10);
+				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
+				var dach = jQuery('#dach').val();
+				var wand_daemmung_on = jQuery('#wand_daemmung_on').val();
+				var decke_daemmung_on = jQuery('#decke_daemmung_on').val();
+				var dach_daemmung_on = jQuery('#dach_daemmung_on').val();
+
+				if ( wohnungen >= 5 || baujahr > 1977 ) {
+					return true;
+				}
+
+				if ( wand_daemmung_on === 'no' || ( ( dach === 'unbeheizt' || dach === 'nicht-vorhanden' ) && decke_daemmung_on === 'no' ) ) {
+					jQuery('#wpit_invalid_certificate_modal').modal('show');
+					return false;
+				}
+
+				if ( wand_daemmung_on === 'no' || ( dach === 'beheizt' && dach_daemmung_on === 'no' ) ) {
+					jQuery('#wpit_invalid_certificate_modal').modal('show');
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		function wpenon_immoticket24_check_certificate_climatefactors_valid(e) {
+			// Strict check if no parameter given (when form is submitted).
+			var strict = 'undefined' === typeof e;
+
+			if (!jQuery('#wpit_transfer_certificate_input').length) {
+				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
+
+				if (strict || baujahr > 0) {
+					if (baujahr > _wpit_climatefactors_target_year) {
+						jQuery('#wpit_invalid_certificate_modal_climatefactors').modal('show');
+
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
+        
+        jQuery(document).on('change', '#wohnungen', wpenon_immoticket24_check_certificate_valid );
+		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_valid );
+		jQuery(document).on('change', '#wand_daemmung', wpenon_immoticket24_check_certificate_valid );
+
+		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_climatefactors_valid );
+
+		jQuery('#wpenon-generate-form').on('submit', function (e) {
+			if ( ! wpenon_immoticket24_check_certificate_valid() || ! wpenon_immoticket24_check_certificate_climatefactors_valid() ) {
+                e.preventDefault();
+			}
+		});
+
+		jQuery('.wpit_transfer_certificate').on('click', function (e) {
+			e.preventDefault();
+
+			jQuery('#wpenon-generate-form').append('<input type="hidden" id="wpit_transfer_certificate_input" name="wpenon_type" value="bw" />');
+			jQuery('#wpenon-generate-form').trigger('submit');
+		});
+
+		jQuery('#wand_daemmung').one('focus', function () {
+			_wpit_wand_touched = true;
+
+			jQuery('#wand_daemmung').one('focusout', wpenon_immoticket24_check_certificate_valid);
+		});
+	</script>
+	<?php
+}
+
+function wpenon_check_geg20() {
+    ?>
+    <div id="dialog_geg20_approval" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document" style="margin-top:140px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -233,71 +318,36 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		var _wpit_wand_touched = false;
-		var _wpit_climatefactors_target_year = <?php echo esc_js( $klima_maximum_year ); ?>;
-
-		function wpenon_immoticket24_check_certificate_valid(e) {
-			// Strict check if no parameter given (when form is submitted).
-			var strict = 'undefined' === typeof e;
-
-			if ( ! jQuery('#wpit_transfer_certificate_input').length ) {
-				var wohnungen = parseInt(jQuery('#wohnungen').val(), 10);
-				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
-				var dach = jQuery('#dach').val();
-				var wand_daemmung_on = jQuery('#wand_daemmung_on').val();
-				var decke_daemmung_on = jQuery('#decke_daemmung_on').val();
-				var dach_daemmung_on = jQuery('#dach_daemmung_on').val();
-
-				if ( wohnungen >= 5 || baujahr > 1977 ) {
-					return true;
-				}
-
-				if ( wand_daemmung_on === 'no' || ( ( dach === 'unbeheizt' || dach === 'nicht-vorhanden' ) && decke_daemmung_on === 'no' ) ) {
-					jQuery('#wpit_invalid_certificate_modal').modal('show');
-					return false;
-				}
-
-				if ( wand_daemmung_on === 'no' || ( dach === 'beheizt' && dach_daemmung_on === 'no' ) ) {
-					jQuery('#wpit_invalid_certificate_modal').modal('show');
-					return false;
-				}
-			}
-
-			return true;
-		}
-
-		function wpenon_immoticket24_check_certificate_climatefactors_valid(e) {
-			// Strict check if no parameter given (when form is submitted).
-			var strict = 'undefined' === typeof e;
-
-			if (!jQuery('#wpit_transfer_certificate_input').length) {
-				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
-
-				if (strict || baujahr > 0) {
-					if (baujahr > _wpit_climatefactors_target_year) {
-						jQuery('#wpit_invalid_certificate_modal_climatefactors').modal('show');
-
-						return false;
-					}
-				}
-			}
-
-			return true;
-		}
-
+    <script type="text/javascript">
         function wp_enon_change_reason() {
             geg20_reset_questions();
             wp_enon_geg20_check();
         }
 
-        function wp_enon_geg20_check(e) {
+        function wp_enon_geg20_check( e ) {
             if( ! wp_enon_geg20_needs_check() ) {
                 return;
             }
 
             geg20_reset_questions();
             jQuery('#dialog_geg20_approval').modal('show');
+        }
+
+        function wp_enon_geg20_needs_save() {
+            var geg20_needs_save = jQuery( '#geg20_needs_save' ).val();
+
+            if( geg20_needs_save == 'yes' ) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function wp_enon_geg20_save_check( e ) {
+            if( wp_enon_geg20_needs_save() ) {
+                e.preventDefault();
+                alert( 'Sie müssen Ihre Änderung speichern, bevor Sie fortfahren!');
+            }
         }
 
         function wp_enon_geg20_creation_denied() {
@@ -364,7 +414,7 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 			e.preventDefault();
             jQuery('#geg20_approval_date').val('Wann wurde die Genehmigung beantragt? - ab 01.11.2020');           
 			jQuery('#dialog_geg20_creation_denied').modal('show');
-            geg20_deny_creation();    
+            geg20_deny_creation();
 		});
 
         jQuery('#geg20_building_measure_october').on('click', function (e) {
@@ -380,10 +430,6 @@ function wpenon_immoticket24_print_no_consumption_modal() {
             geg20_deny_creation();      
 		});
 
-        jQuery('#geg20_creation_denied_button').on('click', function(e) {
-            jQuery('#wpenon-generate-form').submit();
-        });
-
         function geg20_reset_questions() {
             jQuery('#geg20_creation_denied').val('');
             jQuery('#geg20_approval').val('');
@@ -393,24 +439,17 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 
         function geg20_deny_creation() {
             jQuery('#geg20_creation_denied').val('yes');
+            jQuery('#wpenon-generate-form').append('<input type="hidden" id="geg20_needs_save" name="geg20_needs_save" value="yes" />');    
         }
 
         function geg20_allow_creation() {
             jQuery('#geg20_creation_denied').val('no');
+            jQuery('#wpenon-generate-form').append('<input type="hidden" id="geg20_needs_save" name="geg20_needs_save" value="yes" />');    
         }
 
 		jQuery(document).on('change', '#anlass', wp_enon_change_reason );
-        jQuery(document).on('change', '#wohnungen', wpenon_immoticket24_check_certificate_valid);
-		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_valid);
-		jQuery(document).on('change', '#wand_daemmung', wpenon_immoticket24_check_certificate_valid);
-
-		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_climatefactors_valid);
 
 		jQuery('#wpenon-generate-form').on('submit', function (e) {
-			if ( ! wpenon_immoticket24_check_certificate_valid() || ! wpenon_immoticket24_check_certificate_climatefactors_valid() ) {
-                e.preventDefault();
-			}
-
             if( wp_enon_geg20_needs_check() ) {
                 e.preventDefault();
                 wp_enon_geg20_check();
@@ -430,27 +469,22 @@ function wpenon_immoticket24_print_no_consumption_modal() {
                 return;
             }
 
+            if( wp_enon_geg20_needs_save() ) {
+                e.preventDefault();
+                alert( 'Sie müssen Ihre Änderung speichern, bevor Sie fortfahren!');
+                return;
+            }
+
             if( wp_enon_geg20_creation_denied() ) {
                 e.preventDefault();
                 jQuery('#dialog_geg20_creation_denied').modal('show');
             }
-		});      
-
-		jQuery('.wpit_transfer_certificate').on('click', function (e) {
-			e.preventDefault();
-
-			jQuery('#wpenon-generate-form').append('<input type="hidden" id="wpit_transfer_certificate_input" name="wpenon_type" value="bw" />');
-			jQuery('#wpenon-generate-form').trigger('submit');
-		});
-
-		jQuery('#wand_daemmung').one('focus', function () {
-			_wpit_wand_touched = true;
-
-			jQuery('#wand_daemmung').one('focusout', wpenon_immoticket24_check_certificate_valid);
 		});
 	</script>
-	<?php
+    <?php
 }
+
+add_action( 'wp_footer', 'wpenon_check_geg20' );
 
 function wpenon_immoticket24_enqueue_no_consumption_modal( $template_slug, $template_suffix ) {
 	if ( 'edit' !== $template_slug || 'vw' !== $template_suffix ) {
