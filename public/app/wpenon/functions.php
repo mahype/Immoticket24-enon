@@ -353,7 +353,7 @@ function wpenon_check_geg20() {
         function wp_enon_geg20_creation_denied() {
             var geg20_creation_denied = jQuery( '#geg20_creation_denied' ).val();
 
-            if ( geg20_creation_denied == 'yes' ) {
+            if ( geg20_creation_denied == 'Erstellung des Ausweises verweigert: Ja.' ) {
                 jQuery('#dialog_geg20_creation_denied').modal('show');
                 return true;
             }
@@ -438,12 +438,12 @@ function wpenon_check_geg20() {
         }
 
         function geg20_deny_creation() {
-            jQuery('#geg20_creation_denied').val('yes');
+            jQuery('#geg20_creation_denied').val('Erstellung des Ausweises verweigert: Ja.');
             jQuery('#wpenon-generate-form').append('<input type="hidden" id="geg20_needs_save" name="geg20_needs_save" value="yes" />');    
         }
 
         function geg20_allow_creation() {
-            jQuery('#geg20_creation_denied').val('no');
+            jQuery('#geg20_creation_denied').val('Erstellung des Ausweises verweigert: Nein.');
             jQuery('#wpenon-generate-form').append('<input type="hidden" id="geg20_needs_save" name="geg20_needs_save" value="yes" />');    
         }
 
