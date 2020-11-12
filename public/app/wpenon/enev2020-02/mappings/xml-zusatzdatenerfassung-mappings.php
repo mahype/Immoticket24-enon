@@ -940,7 +940,13 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Opak::21_Flaechenbezeichnung':
 						case 'Bauteil-Opak::22_Flaechenbezeichnung':
 						case 'Bauteil-Opak::23_Flaechenbezeichnung':
-						case 'Bauteil-Opak::24_Flaechenbezeichnung':
+                        case 'Bauteil-Opak::24_Flaechenbezeichnung':
+                        case 'Bauteil-Opak::25_Flaechenbezeichnung':
+                        case 'Bauteil-Opak::26_Flaechenbezeichnung':
+                        case 'Bauteil-Opak::27_Flaechenbezeichnung':
+                        case 'Bauteil-Opak::28_Flaechenbezeichnung':
+                        case 'Bauteil-Opak::29_Flaechenbezeichnung':
+                        case 'Bauteil-Opak::30_Flaechenbezeichnung':                             
 							$calculations  = $energieausweis->calculate();
 							$bauteile_opak = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'opak' ) );
 							$index         = absint( str_replace( array(
@@ -975,6 +981,12 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Opak::22_Flaeche':
 						case 'Bauteil-Opak::23_Flaeche':
 						case 'Bauteil-Opak::24_Flaeche':
+                        case 'Bauteil-Opak::25_Flaeche':
+                        case 'Bauteil-Opak::26_Flaeche':
+                        case 'Bauteil-Opak::27_Flaeche':
+                        case 'Bauteil-Opak::28_Flaeche':
+                        case 'Bauteil-Opak::29_Flaeche':
+                        case 'Bauteil-Opak::30_Flaeche':
 							$calculations  = $energieausweis->calculate();
 							$bauteile_opak = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'opak' ) );
 							$index         = absint( str_replace( array(
@@ -1008,7 +1020,13 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Opak::21_U-Wert':
 						case 'Bauteil-Opak::22_U-Wert':
 						case 'Bauteil-Opak::23_U-Wert':
-						case 'Bauteil-Opak::24_U-Wert':
+                        case 'Bauteil-Opak::24_U-Wert':
+                        case 'Bauteil-Opak::25_U-Wert':
+                        case 'Bauteil-Opak::26_U-Wert':
+                        case 'Bauteil-Opak::27_U-Wert':
+                        case 'Bauteil-Opak::28_U-Wert':
+                        case 'Bauteil-Opak::29_U-Wert':
+                        case 'Bauteil-Opak::30_U-Wert':                            
 							$calculations  = $energieausweis->calculate();
 							$bauteile_opak = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'opak' ) );
 							$index         = absint( str_replace( array(
@@ -1043,6 +1061,12 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Opak::22_Ausrichtung':
 						case 'Bauteil-Opak::23_Ausrichtung':
 						case 'Bauteil-Opak::24_Ausrichtung':
+                        case 'Bauteil-Opak::25_Ausrichtung':
+                        case 'Bauteil-Opak::26_Ausrichtung':
+                        case 'Bauteil-Opak::27_Ausrichtung':
+                        case 'Bauteil-Opak::28_Ausrichtung':
+                        case 'Bauteil-Opak::29_Ausrichtung':
+                        case 'Bauteil-Opak::30_Ausrichtung':
 							$calculations  = $energieausweis->calculate();
 							$bauteile_opak = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'opak' ) );
 							$index         = absint( str_replace( array(
@@ -1080,6 +1104,12 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Opak::22_grenztAn':
 						case 'Bauteil-Opak::23_grenztAn':
 						case 'Bauteil-Opak::24_grenztAn':
+                        case 'Bauteil-Opak::25_grenztAn':
+                        case 'Bauteil-Opak::26_grenztAn':
+                        case 'Bauteil-Opak::27_grenztAn':
+                        case 'Bauteil-Opak::28_grenztAn':
+                        case 'Bauteil-Opak::29_grenztAn':
+                        case 'Bauteil-Opak::30_grenztAn':
 							$calculations  = $energieausweis->calculate();
 							$bauteile_opak = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'opak' ) );
 							$index         = absint( str_replace( array(
