@@ -225,7 +225,7 @@ for ( $i = 0; $i < 3; $i ++ ) {
 			$h_verbrauch = $energieausweis->$verbrauch_key * $data['energietraeger_mpk'];
 
             $bugfix_start_date_1 = strtotime( '2020-08-10 16:00' );
-            $bugfix_start_date_2 = strtotime( '2020-11-19 08:00' );
+            $bugfix_start_date_2 = strtotime( '2020-11-19 14:00' );
 
             $energieausweis_date = strtotime( $energieausweis->date );
             
