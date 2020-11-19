@@ -224,10 +224,18 @@ for ( $i = 0; $i < 3; $i ++ ) {
 		} else {
 			$h_verbrauch = $energieausweis->$verbrauch_key * $data['energietraeger_mpk'];
 
-			$bugfix_start_date = strtotime( '2020-08-10 16:00' );
-			$energieausweis_date     = strtotime( $energieausweis->date );
+            $bugfix_start_date_1 = strtotime( '2020-08-10 16:00' );
+            $bugfix_start_date_2 = strtotime( '2020-11-19 08:00' );
 
-			if( $energieausweis_date > $bugfix_start_date ) {
+            $energieausweis_date = strtotime( $energieausweis->date );
+            
+            if( $energieausweis_date > $bugfix_start_date_2 ) {
+                // Calculate consumption of all heaters if warmwater is "Pauschal in Heizungsanlage enthalten"
+                if ( $energieausweis->ww_info === 'h' && ( $key == 'h' || $key == 'h2' || $key == 'h3' ) ) {
+                    $ww_verbrauch = $h_verbrauch * 0.18;
+                    $h_verbrauch  -= $ww_verbrauch;
+                }
+			} elseif( $energieausweis_date > $bugfix_start_date_1 ) {
 				// Should be
 				if ( $energieausweis->ww_info == $key ) {
 					$ww_verbrauch = $h_verbrauch * 0.18;
