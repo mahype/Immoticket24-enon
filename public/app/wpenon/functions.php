@@ -1180,7 +1180,7 @@ function wpenon_immoticket24_validate_fenster( $value, $field ) {
 	
 	if ( $value == 0.0  && $all_fensters_empty ) {
 		$error = __( 'Mindestens eine der angegebenen Fensterflächen muss größer als 0 sein.', 'wpenon' );
-	} else if ( $all_fenster_size < 9 ) {
+	} else if ( $all_fenster_size < 9 && ! is_admin() ) {
 		$error = __( 'Ihr Fensterflächen sind ungewöhnlich gering, bitte prüfen Sie diese noch einmal. Haben Sie die Haustür berücksichtigt? Beachten Sie das Sie für die Angaben haften, daher geben Sie diese bitte so genau wie möglich ein.', 'wpenon' );
 	}
 
