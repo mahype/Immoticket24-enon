@@ -68,7 +68,8 @@ class Filter_Iframe implements Task, Actions, Filters {
 	public function add_filters() {
 		add_filter( 'wpenon_create_show_title', array( $this, 'filter_title' ) );
 		add_filter( 'wpenon_create_show_description', array( $this, 'filter_description' ) );
-		add_filter( 'immoticketenergieausweis_checkout_terms_checkboxes', array( $this, 'filter_newsletter_terms' ) );
+        add_filter( 'immoticketenergieausweis_checkout_terms_checkboxes', array( $this, 'filter_newsletter_terms' ) );
+        add_filter( 'borlabsCookie/settings', array( $this, 'switch_off_borlabs' ) );
 	}
 
 	/**
@@ -127,7 +128,20 @@ class Filter_Iframe implements Task, Actions, Filters {
         }
 
 		return $terms_checkboxes;
-	}
+    }
+    
+    /**
+     * Hiding cookie box.
+     * 
+     * @param  array $config Borlabs cookie settings.
+     * @return array Filtered borlabs cookie settings.
+     * 
+     * @since 1.0.0
+     */
+    public function switch_off_borlabs( $config ) {
+        $config['showCookieBox'] = false;
+        return $config;
+    }
 
 	/**
 	 * Add reseller CSS.
