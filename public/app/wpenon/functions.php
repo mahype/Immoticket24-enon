@@ -1599,16 +1599,9 @@ function wpenon_immoticket24_maybe_prevent_completion( $val, $payment_id, $new_s
 		return $val;
 	}
 
-	if ( $calculations['qh_e_b'] <= 5.0 || $calculations['qw_e_b'] <= 5.0 ) {
+	
+	if (  ! wpenon_end_energy_check( $calculations, $energieausweis ) || ! wpenon_energy_check( $calculations ) || ! wpenon_heater_consumption_check( $energieausweis ) ) {
 		wpenon_immoticket24_send_needs_review_email( $payment_id, $energieausweis );
-
-		return false;
-	}
-
-	$boundaries = 'v' === $energieausweis->mode ? array( 5.0, 250.0 ) : array( 5.0, 400.0 );
-	if ( $calculations['endenergie'] <= $boundaries[0] || $calculations['endenergie'] >= $boundaries[1] ) {
-		wpenon_immoticket24_send_needs_review_email( $payment_id, $energieausweis );
-
 		return false;
 	}
 
@@ -1616,6 +1609,62 @@ function wpenon_immoticket24_maybe_prevent_completion( $val, $payment_id, $new_s
 }
 
 add_filter( 'edd_should_update_payment_status', 'wpenon_immoticket24_maybe_prevent_completion', 10, 4 );
+
+function wpenon_heater_consumption_check( $energieausweis ) {
+    // True if leerstand is not 0 at all values
+    if ( 
+            (int) $energieausweis->verbrauch1_leerstand !== 0 ||
+            (int) $energieausweis->verbrauch2_leerstand !== 0 || 
+            (int) $energieausweis->verbrauch3_leerstand !== 0
+       ) 
+    {
+        return true; 
+    }
+
+    $compare_values = [
+        $energieausweis->verbrauch1_h,
+        $energieausweis->verbrauch2_h,
+        $energieausweis->verbrauch3_h,
+    ];
+
+    $percentage_treshold = 30;
+
+    $min_value = min( $compare_values );
+    $max_value = max( $compare_values );
+
+    $percentage_max = 100;
+    $percentage_min = 100 / $max_value * $min_value;
+
+    $percentage_diff = $percentage_max - $percentage_min;
+
+    // True if percentag difference is under treshold
+    if ( $percentage_diff < $percentage_treshold ) {
+        return true;
+    }
+
+    return false;
+}
+
+function wpenon_end_energy_check( $calculations, $energieausweis ) {
+    $boundaries = 'v' === $energieausweis->mode ? array( 5.0, 250.0 ) : array( 5.0, 400.0 );
+
+    if ( $calculations['endenergie'] <= $boundaries[0] || $calculations['endenergie'] >= $boundaries[1] ) {
+        return false;
+    }
+
+    return true;
+}
+
+function wpenon_energy_check ( $calculations ) {
+    // qh_e_b = Endenergiekennwert-Waerme-AN
+    // qw_e_b = Endenergiebedarf-Waerme-AN
+
+    if( $calculations['qh_e_b'] <= 5.0 || $calculations['qw_e_b'] <= 5.0 ) {
+        return false;
+    }
+
+    return true;
+}
 
 function wpenon_immoticket24_allow_manual_completion_trigger() {
 	global $edd_payments_page;
