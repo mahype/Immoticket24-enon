@@ -1611,6 +1611,11 @@ function wpenon_immoticket24_maybe_prevent_completion( $val, $payment_id, $new_s
 add_filter( 'edd_should_update_payment_status', 'wpenon_immoticket24_maybe_prevent_completion', 10, 4 );
 
 function wpenon_heater_consumption_check( $energieausweis ) {
+    // Only check verbrauchsausweis
+    if ( 'v' !== $energieausweis->mode ) {
+        return true;
+    }
+    
     // True if leerstand is not 0 at all values
     if ( 
             (int) $energieausweis->verbrauch1_leerstand !== 0 ||
