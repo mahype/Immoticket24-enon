@@ -1623,7 +1623,7 @@ function wpenon_immoticket24_maybe_prevent_completion( $val, $payment_id, $new_s
         }
         $reasons.= '</ul>';
 
-        wpenon_immoticket24_send_needs_review_email( $payment_id, $fails );
+        wpenon_immoticket24_send_needs_review_email( $payment_id, $reasons );
 
         return false;
     }
@@ -1743,7 +1743,7 @@ function wpenon_immoticket24_send_needs_review_email( $payment_id, $reason ) {
 	$message .= 'Rabbatt-Code;' . "\n\n";
 	$message .= '{discount_codes}' . "\n\n";
     $message .= sprintf( 'Die betroffene Zahlung hat die Nummer %s.', $payment_title ) . ' ';
-    $message .= sprintf( 'Folgende Auffälligkeit ist aufgetreten: %s.', $reason ) . ' ';
+    $message .= sprintf( 'Folgende Auffälligkeit ist aufgetreten: %s.', $reason );
 	$message .= 'Bitte setzen Sie sie nach erfolgter Prüfung auf Abgeschlossen, um die Zahlung zu vervollständigen und dem Kunden den Energieausweis zuzusenden.' . "\n\n";
 	$message .= 'Vielen Dank!';
 
