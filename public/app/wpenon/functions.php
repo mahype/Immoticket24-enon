@@ -1597,13 +1597,36 @@ function wpenon_immoticket24_maybe_prevent_completion( $val, $payment_id, $new_s
 	$calculations = $energieausweis->calculate();
 	if ( ! $calculations ) {
 		return $val;
-	}
+    }
+    
+    $fails = [];
 
-	
-	if (  ! wpenon_end_energy_check( $calculations, $energieausweis ) || ! wpenon_energy_check( $calculations ) || ! wpenon_heater_consumption_check( $energieausweis ) ) {
-		wpenon_immoticket24_send_needs_review_email( $payment_id, $energieausweis );
-		return false;
-	}
+    $check = wpenon_end_energy_check( $calculations, $energieausweis );
+    if (  true !== $check ) {
+		$fails[] = $check;
+    }
+
+    $check = wpenon_energy_check( $calculations );
+    if (  true !== $check ) {
+		$fails[] = $check;
+    }
+
+    $check = wpenon_heater_consumption_check( $energieausweis );
+    if (  true !== $check ) {
+		$fails[] = $check;
+    }
+    
+    if( ! empty( $fails ) ) {
+        $reasons = '<ul>';
+        foreach( $fails as $fail ) {
+            $reasons.= '<li>' . $fail . '</li>';
+        }
+        $reasons.= '</ul>';
+
+        wpenon_immoticket24_send_needs_review_email( $payment_id, $fails );
+
+        return false;
+    }
 
 	return true;
 }
@@ -1643,18 +1666,28 @@ function wpenon_heater_consumption_check( $energieausweis ) {
     $percentage_diff = $percentage_max - $percentage_min;
 
     // True if percentag difference is under treshold
-    if ( $percentage_diff < $percentage_treshold ) {
-        return true;
+    if ( $percentage_diff >= $percentage_treshold ) {
+        return 'Der Abstand der Verbrauchsmengen zwischen dem Mindest- und dem Höchstverbrauch liegt über 30%';
     }
 
-    return false;
+    return true;
 }
 
 function wpenon_end_energy_check( $calculations, $energieausweis ) {
     $boundaries = 'v' === $energieausweis->mode ? array( 5.0, 250.0 ) : array( 5.0, 400.0 );
 
-    if ( $calculations['endenergie'] <= $boundaries[0] || $calculations['endenergie'] >= $boundaries[1] ) {
-        return false;
+    $checks = array();
+
+    if ( $calculations['endenergie'] <= $boundaries[0] ) {
+        $checks[] = sprintf( 'Endenergie %s ist kleiner/gleich %s.', $calculations['endenergie'], $boundaries[0] );
+    }
+
+    if ( $calculations['endenergie'] >= $boundaries[1] ) {
+        $checks[] = sprintf( 'Endenergie %s ist größer/gleich %s.', $calculations['endenergie'], $boundaries[1] );
+    }
+
+    if( ! empty( $checks ) ) {
+        return implode( ' ', $checks );
     }
 
     return true;
@@ -1663,9 +1696,18 @@ function wpenon_end_energy_check( $calculations, $energieausweis ) {
 function wpenon_energy_check ( $calculations ) {
     // qh_e_b = Endenergiekennwert-Waerme-AN
     // qw_e_b = Endenergiebedarf-Waerme-AN
+    $checks = array();
 
-    if( $calculations['qh_e_b'] <= 5.0 || $calculations['qw_e_b'] <= 5.0 ) {
-        return false;
+    if ( $calculations['qh_e_b'] <= 5.0 ) {
+        $checks[] = sprintf( 'Endenergiekennwert-Waerme-AN %s ist kleiner/gleich %s.', $calculations['qh_e_b'], 5.0 );
+    }
+
+    if ( $calculations['qw_e_b'] <= 5.0 ) {
+        $checks[] = sprintf( 'Endenergiebedarf-Waerme-AN %s ist kleiner/gleich %s.', $calculations['endenergie'], 5.0 );
+    }
+
+    if( ! empty( $checks ) ) {
+        return implode( ' ', $checks );
     }
 
     return true;
@@ -1683,7 +1725,7 @@ function wpenon_immoticket24_allow_manual_completion() {
 	remove_filter( 'edd_should_update_payment_status', 'wpenon_immoticket24_maybe_prevent_completion', 10 );
 }
 
-function wpenon_immoticket24_send_needs_review_email( $payment_id, $energieausweis ) {
+function wpenon_immoticket24_send_needs_review_email( $payment_id, $reason ) {
 	$payment_title = get_the_title( $payment_id );
 
 	$from_name  = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
@@ -1700,7 +1742,8 @@ function wpenon_immoticket24_send_needs_review_email( $payment_id, $energieauswe
 	$message .= '{download_list}' . "\n\n\n\n";
 	$message .= 'Rabbatt-Code;' . "\n\n";
 	$message .= '{discount_codes}' . "\n\n";
-	$message .= sprintf( 'Die betroffene Zahlung hat die Nummer %s.', $payment_title ) . ' ';
+    $message .= sprintf( 'Die betroffene Zahlung hat die Nummer %s.', $payment_title ) . ' ';
+    $message .= sprintf( 'Folgende Auffälligkeit ist aufgetreten: %s.', $reason ) . ' ';
 	$message .= 'Bitte setzen Sie sie nach erfolgter Prüfung auf Abgeschlossen, um die Zahlung zu vervollständigen und dem Kunden den Energieausweis zuzusenden.' . "\n\n";
 	$message .= 'Vielen Dank!';
 
