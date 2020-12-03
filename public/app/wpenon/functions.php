@@ -1679,11 +1679,11 @@ function wpenon_end_energy_check( $calculations, $energieausweis ) {
     $checks = array();
 
     if ( $calculations['endenergie'] <= $boundaries[0] ) {
-        $checks[] = sprintf( 'Endenergie %s ist kleiner/gleich %s.', $calculations['endenergie'], $boundaries[0] );
+        $checks[] = sprintf( 'Zu geringer Verbrauch. (Endenergie in Höhe von %s ist kleiner/gleich %s.)', number_format_i18n( $calculations['endenergie'], 2 ), $boundaries[0] );
     }
 
     if ( $calculations['endenergie'] >= $boundaries[1] ) {
-        $checks[] = sprintf( 'Endenergie %s ist größer/gleich %s.', $calculations['endenergie'], $boundaries[1] );
+        $checks[] = sprintf( 'Zu hoher Verbrauch. (Endenergie in Höhe von %s ist größer/gleich %s.)', number_format_i18n( $calculations['endenergie'], 2 ), $boundaries[1] );
     }
 
     if( ! empty( $checks ) ) {
@@ -1699,11 +1699,11 @@ function wpenon_energy_check ( $calculations ) {
     $checks = array();
 
     if ( $calculations['qh_e_b'] <= 5.0 ) {
-        $checks[] = sprintf( 'Endenergiekennwert-Waerme-AN %s ist kleiner/gleich %s.', $calculations['qh_e_b'], 5.0 );
+        $checks[] = sprintf( 'Fenstergrößen zu hoch. (Endenergiekennwert-Waerme-AN %s ist kleiner/gleich %s.)', number_format_i18n( $calculations['qh_e_b'], 2 ) , 5.0 );
     }
 
     if ( $calculations['qw_e_b'] <= 5.0 ) {
-        $checks[] = sprintf( 'Endenergiebedarf-Waerme-AN %s ist kleiner/gleich %s.', $calculations['endenergie'], 5.0 );
+        $checks[] = sprintf( 'Fenstergrößen zu hoch. (Endenergiebedarf-Waerme-AN %s ist kleiner/gleich %s.)', number_format_i18n( $calculations['endenergie'] ), 5.0 );
     }
 
     if( ! empty( $checks ) ) {
