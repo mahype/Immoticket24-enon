@@ -1699,11 +1699,11 @@ function wpenon_energy_check ( $calculations ) {
     $checks = array();
 
     if ( $calculations['qh_e_b'] <= 5.0 ) {
-        $checks[] = sprintf( 'Fenstergrößen zu hoch. (Endenergiekennwert-Waerme-AN %s ist kleiner/gleich %s.)', number_format_i18n( $calculations['qh_e_b'], 2 ) , 5.0 );
+        $checks[] = sprintf( 'Endenergiekennwert-Waerme-AN in Höhe von %s ist kleiner/gleich %s.', number_format_i18n( $calculations['qh_e_b'], 2 ) , 5.0 );
     }
 
     if ( $calculations['qw_e_b'] <= 5.0 ) {
-        $checks[] = sprintf( 'Fenstergrößen zu hoch. (Endenergiebedarf-Waerme-AN %s ist kleiner/gleich %s.)', number_format_i18n( $calculations['endenergie'] ), 5.0 );
+        $checks[] = sprintf( 'Endenergiebedarf-Waerme-AN in Höhe von %s ist kleiner/gleich %s.', number_format_i18n( $calculations['qw_e_b'] ), 5.0 );
     }
 
     if( ! empty( $checks ) ) {
