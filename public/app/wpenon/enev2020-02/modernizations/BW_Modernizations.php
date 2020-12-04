@@ -30,13 +30,31 @@ class BW_Modernizations extends Modernizations {
 				break;
 			default:
 				return false;
-		}
+        }
 
+        switch( $this->energieausweis->grundriss_form ) {
+            case 'a':
+                $walls = ['a', 'b', 'c', 'd'];
+                break;
+            case 'b':
+                $walls = ['a', 'b', 'c', 'd', 'e', 'f'];
+                break;
+            case 'c':
+                $walls = ['a', 'b', 'c', 'd', 'e', 'f'];
+                break;
+            case 'd':
+                $walls = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+                break;
+            default:
+                $walls = [];
+                break;
+        }
+        
 		if ( intval( $this->energieausweis->baujahr ) < 1995 && ( ! $wand_bauart || 'wand_massiv_vollziegel_ueber_30cm' !== $wand_bauart ) ) {
-			foreach ( array( 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ) as $wand ) {
-				$laengenslug   = 'wand_' . $wand . '_laenge';
-				$nachbarslug   = 'wand_' . $wand . '_nachbar';
-				$daemmungsslug = 'wand_' . $wand . '_daemmung';
+			foreach ( $walls as $wall ) {
+				$laengenslug   = 'wand_' . $wall . '_laenge';
+				$nachbarslug   = 'wand_' . $wall . '_nachbar';
+				$daemmungsslug = 'wand_' . $wall . '_daemmung';
 
 				$wand_laenge   = $this->energieausweis->$laengenslug;
 				$wand_daemmung = $this->energieausweis->$daemmungsslug;
