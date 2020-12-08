@@ -167,7 +167,6 @@ class ThumbnailHandler {
 
 			$upload_dir = wp_upload_dir();
 			$full_image_path = trailingslashit( $upload_dir['path'] ) . $file;
-			unlink( $full_image_path );
 
 			return $id;
 		}
