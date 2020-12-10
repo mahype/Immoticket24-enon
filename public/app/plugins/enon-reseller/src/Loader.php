@@ -112,21 +112,25 @@ class Loader extends Task_Loader {
 
 		$this->logger()->notice( 'Set reseller.', array( 'company_name', $reseller->data()->general->get_company_name() ) );
 
-		$this->add_task( Setup_Enon::class, $reseller, $this->logger() );
+        $this->add_task( Setup_Enon::class, $reseller, $this->logger() );
+        
+        $this->add_task( Filter_General::class, $reseller, $this->logger() );
 
-		$this->add_task( Filter_Template::class, $reseller, $this->logger() );
-		$this->add_task( Filter_Email_Template::class, $reseller, $this->logger() );
-		$this->add_task( Filter_General::class, $reseller, $this->logger() );
-		$this->add_task( Filter_Confirmation_Email::class, $reseller, $this->logger() );
-		$this->add_task( Filter_Bill_Email::class, $reseller, $this->logger() );
-		$this->add_task( Filter_Website::class, $reseller, $this->logger() );
-		$this->add_task( Filter_Iframe::class, $reseller, $this->logger() );
+        $this->add_task( Filter_Template::class, $reseller, $this->logger() );
+        $this->add_task( Filter_Iframe::class, $reseller, $this->logger() );
+        $this->add_task( Filter_Website::class, $reseller, $this->logger() );
+
+        $this->add_task( Filter_Email_Template::class, $reseller, $this->logger() );
+        $this->add_task( Filter_Confirmation_Email::class, $reseller, $this->logger() );
+		$this->add_task( Filter_Bill_Email::class, $reseller, $this->logger() );   
+		
 		$this->add_task( Filter_Schema::class, $reseller, $this->logger() );
 		$this->add_task( Filter_Payment_Fee_Email::class, $reseller, $this->logger() );
 
-		$this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
+        $this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
+        
+        $this->add_task( Sparkasse_Setup_Edd::class, $reseller, $this->logger() );
 		$this->add_task( Add_Sparkasse_Discounts::class, $reseller, $this->logger() );
-		$this->add_task( Sparkasse_Setup_Edd::class, $reseller, $this->logger() );
 	}
 }
 
