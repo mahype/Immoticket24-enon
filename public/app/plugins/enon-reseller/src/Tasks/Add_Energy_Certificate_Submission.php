@@ -17,7 +17,6 @@ use Awsm\WP_Wrapper\Tools\Logger;
 use Awsm\WP_Wrapper\Tools\Logger_Trait;
 
 use Enon\Models\Api\Out\Distributor_Energy_Certificate;
-use Enon\Models\Api\Out\Distributor_Schemas\Sparkasse_Schema;
 use Enon_Reseller\Models\Reseller;
 use Enon_Reseller\Models\Reseller_Data;
 use Enon\Models\Edd\Payment;
@@ -57,7 +56,7 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 	 * Running task.
 	 *
 	 * @since 1.0.0
-	 *
+	 
 	 * @return mixed|void
 	 */
 	public function run() {
@@ -71,7 +70,6 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 	 */
 	public function add_actions() {
 		add_action( 'edd_update_payment_status', array( $this, 'send_data_after_payment_completed' ), 10, 2 );
-		// add_action( 'edd_payment_saved', array( $this, 'send_data_after_payment_saved' ), 10, 1 ); // For testing purposes
 	}
 
 	/**
@@ -87,29 +85,6 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 			return;
 		}
 
-		$this->send_data_by_payment_id( $payment_id );
-	}
-
-	/**
-	 * Send data after a saved payment (for test purpose).
-	 *
-	 * @param int          $payment_id Payment id.
-	 * @param \EDD_Payment $payment    Edd Payment object.
-	 *
-	 * @since 1.0.0
-	 */
-	public function send_data_after_payment_saved( int $payment_id ) {
-		$this->send_data_by_payment_id( $payment_id );
-	}
-
-	/**
-	 * Sending data by payment id.
-	 *
-	 * @param int  $payment_id Payment id.
-	 *
-	 * @since 1.0.0
-	 */
-	public function send_data_by_payment_id( int $payment_id ) {
 		$payment = new Payment( $payment_id );
 
 		$energieausweis_id = $payment->get_energieausweis_id();
@@ -126,7 +101,7 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 		}
 
 		$this->send_data( $energieausweis, $reseller_id );
-	}
+    }
 
 	/**
 	 * Send data.

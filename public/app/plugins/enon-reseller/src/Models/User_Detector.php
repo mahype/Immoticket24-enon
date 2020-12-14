@@ -1,9 +1,9 @@
 <?php
 /**
- * Detector object.
+ * User_Detector object.
  *
  * @category Class
- * @package  Enon_Reseller\Detector
+ * @package  Enon_Reseller\User_Detector
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
@@ -18,7 +18,7 @@ namespace Enon_Reseller\Models;
  *
  * @since 1.0.0
  */
-class Detector {
+class User_Detector {
     /**
      * Check if it is reseller.
      * 

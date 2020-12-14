@@ -79,7 +79,19 @@ class Filter_General implements Task, Filters, Actions {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'template_redirect', array( $this, 'set_affiliatewp_referal' ), -10000, 0 );
+        add_action( 'template_redirect', array( $this, 'set_affiliatewp_referal' ), -10000, 0 );
+        add_action( 'wpenon_energieausweis_create', array( $this, 'update_reseller_id' ) );
+    }
+    
+    /**
+	 * Updating reseller id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Energieausweis $energieausweis Energieausweis object.
+	 */
+	public function update_reseller_id( $energieausweis ) {
+		update_post_meta( $energieausweis->id, 'reseller_id', $this->reseller );
 	}
 
 	/**

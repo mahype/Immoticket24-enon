@@ -17,7 +17,7 @@ use Enon\Models\Exceptions\Exception;
 
 use Enon_Reseller\Models\Token;
 use Enon_Reseller\Models\Reseller;
-
+use Enon_Reseller\Models\User_Detector;
 use Enon_Reseller\Tasks\Add_CPT_Reseller;
 use Enon_Reseller\Tasks\Add_Post_Meta;
 use Enon_Reseller\Tasks\Config_User;
@@ -93,44 +93,47 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function add_frontend_tasks() {
-		$token = new Token();
+        // Only reseller customers get tasks
+        if( ! User_Detector::is_reseller() ) {
+            return;
+        }
 
-		// No token, no action.
-		if ( empty( $token->get() ) ) {
-			return;
-		}
+        $reseller_id = User_Detector::get_reseller_id();
+        $reseller    = new Reseller( $reseller_id, $this->logger() );
 
-		// phpcs:ignore
-		$this->logger()->notice('Got reseller token.', array( 'token', $token->get() ) );
-
-		try {
-			$reseller = new Reseller( $token, $this->logger() );
-		} catch ( Exception $exception ) {
-			// phpcs:ignore
-			$this->logger()->error( 'Exception caught', array( 'exception' => $exception ) );
-		}
-
-		$this->logger()->notice( 'Set reseller.', array( 'company_name', $reseller->data()->general->get_company_name() ) );
-
-        $this->add_task( Setup_Enon::class, $reseller, $this->logger() );
+        $this->logger()->notice( 'Set reseller.', array( 'company_name', $reseller->data()->general->get_company_name() ) );
         
-        $this->add_task( Filter_General::class, $reseller, $this->logger() );
-
+        $this->add_reseller_tasks( $reseller );
+        
+        // Only start iframe scripts on iframe based url
+        if ( User_Detector::is_iframe() ) {
+            $this->add_iframe_tasks( $reseller );
+        }
+        
+        $this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
+        
+        // @todo Move to sparkasse
+        $this->add_task( Sparkasse_Setup_Edd::class, $reseller, $this->logger() );
+		$this->add_task( Add_Sparkasse_Discounts::class, $reseller, $this->logger() );
+    }
+    
+    public function add_iframe_tasks( Reseller $reseller ) {
         $this->add_task( Filter_Template::class, $reseller, $this->logger() );
         $this->add_task( Filter_Iframe::class, $reseller, $this->logger() );
         $this->add_task( Filter_Website::class, $reseller, $this->logger() );
+    }
 
+    public function add_reseller_tasks( Reseller $reseller ) {
+        $this->add_task( Setup_Enon::class );
+
+        $this->add_task( Filter_General::class, $reseller, $this->logger() );
         $this->add_task( Filter_Email_Template::class, $reseller, $this->logger() );
         $this->add_task( Filter_Confirmation_Email::class, $reseller, $this->logger() );
-		$this->add_task( Filter_Bill_Email::class, $reseller, $this->logger() );   
+        $this->add_task( Filter_Bill_Email::class, $reseller, $this->logger() );
+        $this->add_task( Filter_Payment_Fee_Email::class, $reseller, $this->logger() );  
 		
 		$this->add_task( Filter_Schema::class, $reseller, $this->logger() );
-		$this->add_task( Filter_Payment_Fee_Email::class, $reseller, $this->logger() );
-
-        $this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
-        
-        $this->add_task( Sparkasse_Setup_Edd::class, $reseller, $this->logger() );
-		$this->add_task( Add_Sparkasse_Discounts::class, $reseller, $this->logger() );
-	}
+		
+    }
 }
 

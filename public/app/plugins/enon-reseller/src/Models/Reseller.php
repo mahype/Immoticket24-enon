@@ -32,11 +32,11 @@ class Reseller {
 	/**
 	 * Post id.
 	 *
-	 * @var int $post_id
+	 * @var int $id
 	 *
 	 * @since 1.0.0
 	 */
-	private $post_id;
+	private $id;
 
 	/**
 	 * Holds loaded reseller data.
@@ -59,95 +59,40 @@ class Reseller {
 	/**
 	 * Reseller constructor.
 	 *
-	 * @param Token  $token  Token object.
+	 * @param int    $id    Reseller id.
 	 * @param Logger $logger Logger object.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct( $token, Logger $logger ) {
+	public function __construct( $id, Logger $logger ) {
 		$this->logger = $logger;
-
-		if ( ! empty( $token ) ) {
-			$this->set_post_id_by_token( $token );
-		} else {
-			$this->set_post_id_by_admin_url();
-		}
+		$this->set_id( $id );
 	}
 
 	/**
-	 * Get post id.
+	 * Get id.
 	 *
 	 * @return int Post id of reseller.
 	 *
 	 * @since 1.0.0
 	 */
-	public function get_post_id() {
-		return $this->post_id;
+	public function get_id() {
+		return $this->id;
 	}
 
 	/**
 	 * Set post id.
 	 *
-	 * @param int $post_id Post id.
+	 * @param int $id Post id.
 	 *
 	 * @since 1.0.0
 	 */
-	public function set_post_id( $post_id ) {
-		$this->post_id = $post_id;
-		$this->data = new Reseller_Data( $post_id );
+	public function set_id( $id ) {
+		$this->id = $id;
+		$this->data = new Reseller_Data( $id );
 	}
 
-	/**
-	 * Set post id by token.
-	 *
-	 * @param Token $token Token object.
-	 *
-	 * @throws Exception Token was not found.
-	 *
-	 * @since 1.0.0
-	 */
-	private function set_post_id_by_token( Token $token ) {
-		$post_id = $this->get_post_id_by_token( $token );
-
-		if ( empty( $post_id ) ) {
-			wp_die(
-				sprintf( 'Invalid token "%s".', esc_attr( $token->get() ) ),
-				sprintf( 'Invalid token "%s".', esc_attr( $token->get() ) ),
-				[ 'response' => 404 ],
-			);
-		}
-
-		$this->set_post_id( $post_id );
-	}
-
-	/**
-	 * Gett post id by token.
-	 *
-	 * @param Token $token Reseller token.
-	 *
-	 * @return int/bool Post id if found or false. Returns the first token which was found.
-	 *
-	 * @since 1.0.0
-	 */
-	private function get_post_id_by_token( Token $token ) {
-		$args = array(
-			'post_type'  => 'reseller',
-			'meta_query' => array(
-				array(
-					'key'   => 'token',
-					'value' => $token->get(),
-				),
-			),
-		);
-
-		$posts = \get_posts( $args );
-
-		foreach ( $posts as $post ) {
-			return $post->ID; // There can only be one, the first is returned.
-		}
-
-		return false;
-	}
+	
 
 	/**
 	 * Get post id automatically.
@@ -156,7 +101,7 @@ class Reseller {
 	 *
 	 * @since 1.0.0
 	 */
-	private function set_post_id_by_admin_url() {
+	private function set_id_by_admin_url() {
 		global $pagenow;
 
 		if ( 'edit.php' !== $pagenow ) {
@@ -181,7 +126,7 @@ class Reseller {
 		// @todo Move to new energieausweis object get_reseller_id function
 		$reseller_id = get_post_meta( $energieausweis_id, 'reseller_id', true );
 
-		$this->set_post_id( $reseller_id );
+		$this->set_id( $reseller_id );
 	}
 
 	/**
