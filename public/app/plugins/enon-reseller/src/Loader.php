@@ -110,8 +110,6 @@ class Loader extends Task_Loader {
             $this->add_iframe_tasks( $reseller );
         }
         
-        $this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
-        
         // @todo Move to sparkasse
         $this->add_task( Sparkasse_Setup_Edd::class, $reseller, $this->logger() );
 		$this->add_task( Add_Sparkasse_Discounts::class, $reseller, $this->logger() );
@@ -132,8 +130,8 @@ class Loader extends Task_Loader {
         $this->add_task( Filter_Bill_Email::class, $reseller, $this->logger() );
         $this->add_task( Filter_Payment_Fee_Email::class, $reseller, $this->logger() );  
 		
-		$this->add_task( Filter_Schema::class, $reseller, $this->logger() );
-		
+        $this->add_task( Filter_Schema::class, $reseller, $this->logger() );
+        $this->add_task( Add_Energy_Certificate_Submission::class, $reseller, $this->logger() );
     }
 }
 
