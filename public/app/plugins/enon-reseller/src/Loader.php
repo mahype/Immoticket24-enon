@@ -99,13 +99,12 @@ class Loader extends Task_Loader {
             return;
         }
 
-        $reseller_id = User_Detector::get_reseller_id();
-        $reseller    = new Reseller( $reseller_id, $this->logger() );
+        $reseller = new Reseller( User_Detector::get_reseller_id(), $this->logger() );
 
         $this->logger()->notice( 'Set reseller.', array( 'company_name', $reseller->data()->general->get_company_name() ) );
         
         $this->add_reseller_tasks( $reseller );
-        
+
         // Only start iframe scripts on iframe based url
         if ( User_Detector::is_iframe() ) {
             $this->add_iframe_tasks( $reseller );
@@ -123,6 +122,13 @@ class Loader extends Task_Loader {
     }
 
     public function add_reseller_tasks( Reseller $reseller ) {
+        $affiliate_id = $reseller->data()->general->get_affiliate_id();
+
+        if ( ! empty( $affiliate_id ) ) {
+			affiliate_wp()->tracking->referral = $affiliate_id;
+		    affiliate_wp()->tracking->set_affiliate_id( $affiliate_id );
+        }
+        
         $this->add_task( Setup_Enon::class );
 
         $this->add_task( Filter_General::class, $reseller, $this->logger() );
