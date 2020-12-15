@@ -412,7 +412,7 @@ $anlage = array(
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h_erzeugung', 'kleinthermeniedertemperatur' ),
+						'callback_args' => array( 'field::h2_erzeugung', 'kleinthermeniedertemperatur' ),
 					),
 					'required' => true,
 				),
@@ -734,7 +734,7 @@ $anlage = array(
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h_erzeugung', 'kleinthermeniedertemperatur' ),
+						'callback_args' => array( 'field::h3_erzeugung', 'kleinthermeniedertemperatur' ),
 					),
 					'required' => true,
 				),
