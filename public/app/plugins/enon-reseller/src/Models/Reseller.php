@@ -92,43 +92,6 @@ class Reseller {
 		$this->data = new Reseller_Data( $id );
 	}
 
-	
-
-	/**
-	 * Get post id automatically.
-	 *
-	 * @return void
-	 *
-	 * @since 1.0.0
-	 */
-	private function set_id_by_admin_url() {
-		global $pagenow;
-
-		if ( 'edit.php' !== $pagenow ) {
-			return;
-		}
-
-		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
-		if ( ! isset( $_GET['post_type'] ) || ! isset( $_GET['page'] ) || ! isset( $_GET['view'] ) ) {
-			return;
-		}
-
-		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
-		if ( 'download' !== $_GET['post_type'] || 'edd-payment-history' !== $_GET['page'] || 'view-order-details' !== $_GET['view'] || ! isset( $_GET['id'] ) ) {
-			return;
-		}
-
-		// phpcs:ignore Getting vars from wordpress admin url cant set nonce.
-		$payment_id = intval( $_GET['id'] );
-
-		$energieausweis_id = ( new Payment( $payment_id ) )->get_energieausweis_id();
-
-		// @todo Move to new energieausweis object get_reseller_id function
-		$reseller_id = get_post_meta( $energieausweis_id, 'reseller_id', true );
-
-		$this->set_id( $reseller_id );
-	}
-
 	/**
 	 * Get reseller values.
 	 *
