@@ -399,6 +399,38 @@ $anlage = array(
 						),
 					),
 					'required' => true,
+                ),
+                'h2_energietraeger_kleinthermeniedertemperatur'  => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'kleinthermeniedertemperatur' ),
+					),
+					'required' => true,
+				),
+				'h2_energietraeger_kleinthermebrennwert'         => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'kleinthermebrennwert' ),
+					),
+					'required' => true,
 				),
 				'h2_energietraeger_waermepumpeluft'             => array(
 					'type'     => 'select',
@@ -687,6 +719,38 @@ $anlage = array(
 							'field::h3_erzeugung',
 							'brennwertkesselverbessert'
 						),
+					),
+					'required' => true,
+                ),
+                'h3_energietraeger_kleinthermeniedertemperatur'  => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'kleinthermeniedertemperatur' ),
+					),
+					'required' => true,
+				),
+				'h3_energietraeger_kleinthermebrennwert'         => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'kleinthermebrennwert' ),
 					),
 					'required' => true,
 				),
