@@ -91,7 +91,7 @@ class Filter_General implements Task, Filters, Actions {
 	 * @param Energieausweis $energieausweis Energieausweis object.
 	 */
 	public function update_reseller_id( $energieausweis ) {
-		update_post_meta( $energieausweis->id, 'reseller_id', $this->reseller );
+		update_post_meta( $energieausweis->id, 'reseller_id', $this->reseller->get_id() );
 	}
 
 	/**
