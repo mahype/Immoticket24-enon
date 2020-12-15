@@ -54,12 +54,14 @@ class Loader extends Task_Loader {
 		$this->add_task( Add_CPT_Reseller::class );
 
 		if ( is_admin() && ! wp_doing_ajax() ) {
-			$this->add_admin_tasks();
+            $this->add_admin_tasks();
+            $this->run_tasks();
 		} else {
-			$this->add_frontend_tasks();
-		}
-
-		$this->run_tasks();
+            add_action( 'template_redirect', array( $this, 'add_frontend_tasks' ), 1 );
+            add_action( 'template_redirect', array( $this, 'run_tasks' ), 1 );
+        }
+        
+        
 	}
 
 	/**
