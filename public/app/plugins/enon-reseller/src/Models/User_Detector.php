@@ -96,11 +96,12 @@ class User_Detector {
      * @since 1.0.0
      */
     private static function get_reseller_id_by_page () {
-        if ( ! is_page() ) {
+        $post = get_post();
+
+        if ( empty( $post ) ) {
             return false;
         }
 
-        $post = get_post();
         $reseller_id = get_post_meta( $post->ID, 'reseller_id', true );
 
         if ( empty( $reseller_id ) ) {
