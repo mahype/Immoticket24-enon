@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Models\Api\Out\Distributor_Schema_Interface;
+namespace Enon_Reseller\Models\Api\Out\Distributor_Schemas;
 
 use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema_Interface;
 
