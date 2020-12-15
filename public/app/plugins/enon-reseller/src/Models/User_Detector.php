@@ -45,6 +45,7 @@ class User_Detector {
      */
     public static function get_reseller_id() {
         $reseller_id = self::get_reseller_id_by_iframe();
+
         if ( ! empty( $reseller_id ) ) {
             return $reseller_id;
         }
@@ -80,7 +81,7 @@ class User_Detector {
      * @since 1.0.0
      */
     private static function get_iframe_token() {
-        if ( self::is_iframe() ) {
+        if ( ! self::is_iframe() ) {
             return false;
         }
 
@@ -118,6 +119,7 @@ class User_Detector {
      */
     private static function get_reseller_id_by_iframe () {
         $iframe_token = self::get_iframe_token();
+
         if ( ! empty( $iframe_token ) ) {
             $reseller_id = self::get_reseller_id_by_iframe_token( $iframe_token );
 
