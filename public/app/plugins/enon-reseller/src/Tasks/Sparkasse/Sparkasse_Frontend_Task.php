@@ -56,7 +56,7 @@ abstract class Sparkasse_Frontend_Task implements Task {
 	 * @return bool
 	 */
 	public function can_run() {
-		if ( 321587 !== $this->reseller->get_post_id() ) {
+		if ( 321587 !== $this->reseller->get_id() ) {
 			return false;
 		}
 
