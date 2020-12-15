@@ -15,7 +15,6 @@ use Enon\Task_Loader;
 use Enon\Models\Exceptions\Exception;
 
 
-use Enon_Reseller\Models\Token;
 use Enon_Reseller\Models\Reseller;
 use Enon_Reseller\Models\User_Detector;
 use Enon_Reseller\Tasks\Add_CPT_Reseller;
