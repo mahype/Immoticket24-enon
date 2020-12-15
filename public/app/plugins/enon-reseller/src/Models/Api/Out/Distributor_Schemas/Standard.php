@@ -30,7 +30,7 @@ class Standard implements Distributor_Schema_Interface {
 	 *
 	 * @since 1.0.0
 	 */
-	public function check( Energieausweis_Old $energieausweis ) : bool {
+	public function check() : bool {
 		return true;
 	}
 
@@ -44,7 +44,7 @@ class Standard implements Distributor_Schema_Interface {
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_data( array $data, Energieausweis_Old $energy_certificate ) : array {
+	public function filter_data( array $data ) : array {
 		return $data;
 	}
 
@@ -55,7 +55,7 @@ class Standard implements Distributor_Schema_Interface {
 	 *
 	 * @since 1.0.0
 	 */
-	public function set_sent( Energieausweis_Old $energieausweis ){}
+	public function set_sent(){}
 
 	/**
 	 * Get endpoint url.
