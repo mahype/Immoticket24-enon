@@ -27,8 +27,6 @@ use Enon\Models\Edd\Payment;
  * @since 1.0.0
  */
 class Reseller {
-	use Logger_Trait;
-
 	/**
 	 * Post id.
 	 *
@@ -48,24 +46,13 @@ class Reseller {
 	private $data;
 
 	/**
-	 * Token.
-	 *
-	 * @var Token
-	 *
-	 * @since 1.0.0
-	 */
-	private $token;
-
-	/**
 	 * Reseller constructor.
 	 *
 	 * @param int    $id    Reseller id.
-	 * @param Logger $logger Logger object.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct( $id, Logger $logger ) {
-		$this->logger = $logger;
+	public function __construct( $id ) {
 		$this->set_id( $id );
 	}
 

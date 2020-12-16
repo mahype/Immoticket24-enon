@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Tasks\Admin;
+namespace Enon_Reseller\Tasks\Sparkasse;
 
 use Awsm\WP_Wrapper\Interfaces\Task;
 use Enon\Task_Loader;
@@ -28,18 +28,17 @@ class Loader extends Task_Loader implements Task {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		if ( ! is_admin() || wp_doing_ajax() ) {
-			return;
-		}
-
-		if ( ! current_user_can( 'view_reseller_leads' ) ) {
-			return;
-		}
-
-		$this->add_task( Config_Dashboard::class );
-        $this->add_task( Config_Dashboard_Widgets::class );
-        $this->add_task( Config_User::class );
+		$this->add_task( Sparkasse_Setup_Edd::class, $reseller, $this->logger() );
+        $this->add_task( Add_Sparkasse_Discounts::class, $reseller, $this->logger() );
 
 		$this->run_tasks();
-	}
+    }
+    
+    public function add_frontent_tasks() {
+
+    }
+
+    public function add_backend_tasks() {
+        
+    }
 }

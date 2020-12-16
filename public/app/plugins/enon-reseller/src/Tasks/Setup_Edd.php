@@ -28,29 +28,19 @@ use WPENON\Model\Energieausweis as Energieausweis_Old;
  *
  * @since 1.0.0
  */
-class Add_Energy_Certificate_Submission implements Actions, Task {
-	use Logger_Trait;
+class Setup_Edd implements Actions, Task {
+    use Logger_Trait;
 
-	/**
-	 * Reseller object.
-	 *
-	 * @since 1.0.0
-	 * @var Reseller;
-	 */
-	private $reseller;
-
-	/**
-	 * Send_Energieausweis constructor.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param Reseller $reseller Reseller object.
-	 * @param Logger   $logger Logger object.
-	 */
-	public function __construct( Reseller $reseller, Logger $logger ) {
-		$this->reseller = $reseller;
-		$this->logger   = $logger;
-	}
+    /**
+     * Constructor.
+     * 
+     * @param Logger Logger object.
+     * 
+     * @since 1.0.0
+     */
+    public function __construct( Logger $logger ) {
+        $this->logger = $logger;
+    }
 
 	/**
 	 * Running task.
@@ -69,7 +59,7 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'edd_update_payment_status', array( $this, 'send_data_after_payment_completed' ), 10, 2 );
+        add_action( 'edd_update_payment_status', array( $this, 'finish_after_payment' ), 10, 2 );
 	}
 
 	/**
@@ -80,7 +70,7 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function send_data_after_payment_completed( int $payment_id, string $status ) {
+	public function finish_after_payment( int $payment_id, string $status ) {
 		if ( 'publish' !== $status ) {
 			return;
 		}
@@ -92,15 +82,18 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 		$reseller_id       = $energieausweis->reseller_id;
 
 		if ( empty( $reseller_id ) ) {
-			$values = array(
-				'energy_certificate_id' => $energieausweis->id,
-			);
-
-			$this->logger()->notice( 'No reseller id given. No data sent to reseller for energy certificate.', $values );
 			return;
-		}
+        }
+        
+        $reseller = new Reseller( $reseller_id );
 
-		$this->send_data( $energieausweis, $reseller_id );
+        $this->send_data( $energieausweis, $reseller );
+
+        $affiliate_id = $reseller->data()->general->get_affiliate_id();
+        if ( ! empty( $affiliate_id ) ) {            
+            affiliate_wp()->tracking->referral = $affiliate_id;
+            affiliate_wp()->tracking->set_affiliate_id( $affiliate_id );
+        }
     }
 
 	/**
@@ -111,19 +104,10 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 	 *
 	 * @since 1.0.0
 	 */
-	public function send_data( Energieausweis_Old $energieausweis, int $reseller_id ) {
-		$reseller_data = new Reseller_Data( $reseller_id );
-
-		$schema_name  = ucfirst( $reseller_data->general->get_company_id() );
-
-		$debug_values = array(
-			'energy_certificate_id' => $energieausweis->id,
-			'reseller_id'           => $reseller_id,
-			'schema_name'           => $schema_name,
-		);
+	public function send_data( Energieausweis_Old $energieausweis, Reseller $reseller ) {
+		$schema_name  = ucfirst( $reseller->data()->general->get_company_id() );
 
 		if ( empty( $schema_name ) ) {
-			$this->logger()->warning( 'Company has no id.', $debug_values );
 			return;
 		}
 
@@ -131,13 +115,6 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 
 		// Is there an schema name which was set? Bail out if not.
 		if ( ! class_exists( $schema_class ) ) {
-			$debug_values = array(
-				'energy_certificate_id' => $energieausweis,
-				'reseller_id'           => $reseller_id,
-				'schema_class'          => $schema_class,
-			);
-
-			$this->logger()->warning( 'Sender Class does not exist. No data sent to reseller for energy certificate.', $debug_values );
 			return;
 		}
 
@@ -145,16 +122,10 @@ class Add_Energy_Certificate_Submission implements Actions, Task {
 
 		// Is there an endpoint to send the data? Bail out if not.
 		if ( empty( $schema->get_endpoint() ) ) {
-			$values = array(
-				'reseller_id'        => $reseller_id,
-				'energy_certificate' => $energieausweis,
-			);
-
-			$this->logger()->notice( 'No endpoint given. No data sent to reseller for energy certificate.', $values );
 			return;
 		}
 
 		$distributor = new Distributor_Energy_Certificate( $schema, $energieausweis, $this->logger() );
 		$distributor->send();
-	}
+    }
 }

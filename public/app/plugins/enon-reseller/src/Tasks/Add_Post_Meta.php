@@ -37,7 +37,6 @@ use Enon_Reseller\Models\Fieldsets\Fieldset_Website;
  * @package Enon\Config
  */
 class Add_Post_Meta implements Task, Actions {
-	use Logger_Trait;
 
 	/**
 	 * AffiliateWP constructor.
@@ -45,8 +44,7 @@ class Add_Post_Meta implements Task, Actions {
 	 * @param Logger $logger Logger object.
 	 * @since 1.0.0
 	 */
-	public function __construct( Logger $logger ) {
-		$this->logger = $logger;
+	public function __construct() {
 	}
 
 	/**
@@ -55,11 +53,6 @@ class Add_Post_Meta implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		if ( ! function_exists( 'acf_add_local_field_group' ) ) {
-			$this->logger->warning( 'Advanced custom fields seems not to be activated.' );
-			return;
-		}
-
 		$this->add_actions();
 	}
 

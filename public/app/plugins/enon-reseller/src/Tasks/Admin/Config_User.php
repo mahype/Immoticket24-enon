@@ -9,10 +9,9 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Tasks;
+namespace Enon_Reseller\Tasks\Admin;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
-use Awsm\WP_Wrapper\Interfaces\Filters;
 use Awsm\WP_Wrapper\Interfaces\Task;
 
 /**
