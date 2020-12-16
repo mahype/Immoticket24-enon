@@ -1125,7 +1125,7 @@ if ( $energieausweis->h2_info ) {
 
   if ( $energieausweis->h2_deckungsanteil > 0 ) {
     $h2_erzeugung = wpenon_get_table_results( 'h_erzeugung2019', array( 'bezeichnung' => array( 'value' => $energieausweis->h2_erzeugung, 'compare' => '=' ) ), array(), true );
-    $h2_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => $h_energietraeger_value, 'compare' => '=' ) ), array(), true );
+    $h2_energietraeger = wpenon_get_table_results( $energietraeger_table_name, array( 'bezeichnung' => array( 'value' => $h2_energietraeger_value, 'compare' => '=' ) ), array(), true );
 
     $h2_yearkey = wpenon_immoticket24_make_yearkey( $energieausweis->h2_baujahr, 'h_erzeugung2019' );
 
