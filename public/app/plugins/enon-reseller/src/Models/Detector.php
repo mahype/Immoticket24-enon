@@ -113,7 +113,7 @@ class Detector {
             $reseller_id = self::get_reseller_id_by_iframe_token( $iframe_token );
 
             if ( ! empty( $reseller_id ) ) {
-                return $reseller_id;
+                return new Reseller( $reseller_id );
             }
         }
 

@@ -3,7 +3,7 @@
  * Task which loads reseller email sctripts to system.
  *
  * @category Class
- * @package  Enon_Reseller\Tasks\Enon
+ * @package  Enon_Reseller\Tasks
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
@@ -18,7 +18,6 @@ use Awsm\WP_Wrapper\Tools\Logger_Trait;
 
 use Enon\Models\Api\Out\Distributor_Energy_Certificate;
 use Enon_Reseller\Models\Reseller;
-use Enon_Reseller\Models\Reseller_Data;
 use Enon\Models\Edd\Payment;
 
 use WPENON\Model\Energieausweis as Energieausweis_Old;

@@ -12,17 +12,13 @@
 namespace Enon_Reseller;
 
 use Enon\Task_Loader;
-use Enon\Models\Exceptions\Exception;
+
 use Enon_Reseller\Models\Detector;
-use Enon_Reseller\Models\Reseller;
-use Enon_Reseller\Models\Reseller_Detector;
 use Enon_Reseller\Tasks\Add_CPT_Reseller;
 use Enon_Reseller\Tasks\Add_Post_Meta;
-use Enon_Reseller\Tasks\Config_User;
 use Enon_Reseller\Tasks\CSV_Generator;
 use Enon_Reseller\Tasks\Filters\Filter_Email_Template;
 use Enon_Reseller\Tasks\Filters\Filter_Payment_Fee_Email;
-use Enon_Reseller\Tasks\Setup_Enon;
 
 use Enon_Reseller\Tasks\Filters\Filter_General;
 use Enon_Reseller\Tasks\Filters\Filter_Confirmation_Email;
@@ -32,12 +28,10 @@ use Enon_Reseller\Tasks\Filters\Filter_Iframe;
 use Enon_Reseller\Tasks\Filters\Filter_Schema;
 use Enon_Reseller\Tasks\Filters\Filter_Template;
 
-use Enon_Reseller\Tasks\Add_Energy_Certificate_Submission;
+
 use Enon_Reseller\Tasks\Admin\Loader as AdminLoader;
+use Enon_Reseller\Tasks\Setup_Edd;
 use Enon_Reseller\Tasks\Sparkasse\Add_CSV_Export;
-use Enon_Reseller\Tasks\Sparkasse\Add_Sparkasse_Discounts;
-use Enon_Reseller\Tasks\Sparkasse\Sparkasse_Setup_Edd;
-use Leaves_And_Love\Plugin_Lib\DB_Objects\Models\User;
 
 /**
  * Whitelabel loader.
