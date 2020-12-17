@@ -151,7 +151,7 @@ class CSV_Generator implements Task, Actions {
 		 *
 		 * @since 1.0.0
 		 */
-		$args = apply_filters( 'enon_reseller_leads_quer_args', $args, $values );
+		$args = apply_filters( 'enon_reseller_leads_query_args', $args, $values );
 
 		$posts = query_posts( $args );
 
@@ -159,8 +159,8 @@ class CSV_Generator implements Task, Actions {
 			$result = [];
 
 			$meta_keys = [
-				'Datum Beginn Eingabe'            => 'ausstellungsdatum',
-				'Uhrzeit Beginn Eingabe'          => 'ausstellungszeit',
+				'Datum Beginn Eingabe'            => 'beginn_eingabe_datum',
+				'Uhrzeit Beginn Eingabe'          => 'beginn_eingabe_uhrzeit',
 				'Energieausweis-Nr.'              => 'name',
 				'Art (Verbrauch- oder Bedarf)'    => 'wpenon_type',
 				'Grund'                           => 'anlass',
@@ -173,7 +173,9 @@ class CSV_Generator implements Task, Actions {
 				'Straße Objekt'                   => 'adresse_strassenr',
 				'PLZ Objekt'                      => 'adresse_plz',
 				'Ort Objekt'                      => 'adresse_ort',
-				'Rechnungsadresse'                => '',
+                'Rechnungsadresse'                => '',
+                'Ausstellungsdatum'               => 'ausstellungsdatum',
+				'Ausstellungszeit'                => 'ausstellungszeit',
 			];
 
 			$result[0] = array_keys( $meta_keys );
@@ -182,11 +184,25 @@ class CSV_Generator implements Task, Actions {
 				$invoice_id   = get_post_meta( $post->ID, '_wpenon_attached_payment_id', true );
 				$invoice_meta = get_post_meta( $invoice_id, '_edd_payment_meta', true );
 				$user_info    = $invoice_meta['user_info'];
-				$payment_fees = edd_get_payment_fees( $invoice_id, 'item' );
+                $payment_fees = edd_get_payment_fees( $invoice_id, 'item' );
+                
+                if ( empty( get_post_meta( $post->ID, 'ausstellungsdatum', true ) ) ) {
+                    continue;
+                }
 
 				foreach ( $meta_keys as $meta_key => $meta_value ) {
 					if ( '' === $meta_value ) {
 						$result[ $post->ID ][ $meta_key ] = '-';
+						continue;
+                    }                    
+
+					if ( 'beginn_eingabe_datum' === $meta_value ) {
+						$result[ $post->ID ][ $meta_key ] = date( 'Y-m-d', strtotime( $post->post_date ) );
+						continue;
+                    }
+                    
+					if ( 'beginn_eingabe_uhrzeit' === $meta_value ) {
+						$result[ $post->ID ][ $meta_key ] = date( 'H:i', strtotime( $post->post_date ) );
 						continue;
 					}
 

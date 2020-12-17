@@ -56,7 +56,7 @@ class Add_CSV_Export implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'enon_reseller_leads_quer_args', [ $this, 'filter_query_args' ], 10, 2 );
+		add_filter( 'enon_reseller_leads_query_args', [ $this, 'filter_query_args' ], 10, 2 );
 	}
 
 	/**
