@@ -132,7 +132,14 @@ class CSV_Generator implements Task, Actions {
 
 				$filename_aditional .= '_daterange_' . $from_str . '_to_' . $to_str;
 			}
-		}
+        }
+        
+        if ( ! empty( $values['ec_type'] ) ){
+            $args['meta_query']['ec_type'] = [
+                'key' => 'wpenon_type',
+                'value' => $values['ec_type']
+            ];
+        }
 
 		if ( ! empty( $values['certificate_checked'] && 1 === $values['certificate_checked'] ) ) {
 			$args['meta_query']['certificate_checked'] = [
