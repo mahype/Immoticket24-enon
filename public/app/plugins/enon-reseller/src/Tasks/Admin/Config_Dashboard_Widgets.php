@@ -75,7 +75,6 @@ class Config_Dashboard_Widgets implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function widget_lead_export() {
-
         $this->buttons();        
         $this->date_field();
 
@@ -95,12 +94,88 @@ class Config_Dashboard_Widgets implements Task, Actions {
 
 		$csv_this_month = admin_url( '?reseller_leads_date_range=' . $date_start_this_month . '|' . $date_end_this_month );
         ?>
-        <fieldset style="padding: 10px;">
+        <fieldset style="border: 2px dotted #1C6EA4; padding: 10px; margin-bottom: 20px;">
+            <legend>Schnellexport</legend>
             <a href ="<?php echo $csv_all; ?>" class="button" style="margin: 0 5px 5px 0;">Alle</a>
             <a href ="<?php echo $csv_last_month; ?>" class="button" style="margin: 0 5px 5px 0;">Letzter Monat</a>
             <a href ="<?php echo $csv_this_month; ?>" class="button" style="margin: 0 5px 5px 0;">Dieser Monat</a>
             <?php do_action( 'enon_widget_lead_export_buttons_end' ); ?>
         </fieldset>
+
+        <script type="text/javascript">
+            document.getElementById( 'export-by-date' ).addEventListener('click', function () {
+                var admin_url = '<?php echo admin_url(); ?>';
+                var date_start = document.getElementById('export-date-start').value;
+                var date_end = document.getElementById('export-date-end').value;
+
+                admin_url += '?reseller_leads_date_range=' + date_start + '|' + date_end;
+                console.log( admin_url );
+                
+                document.location.href = admin_url;
+            });
+        </script>
+        <?php
+    }
+
+    private function extended_export() {
+        ?>
+        <fieldset style="border: 2px dotted #1C6EA4; padding: 10px; margin-bottom: 20px;">
+            <legend>Export</legend>
+            <h3>Typ</h3>
+            <div style="display:block; margin-bottom:20px;">
+                <label>
+                    <input type="radio" name="ec_type" value="all" checked>
+                    Alle
+                </label>
+                <label>
+                    <input type="radio" name="ec_type" value="vw">
+                    Verbrauchsausweise
+                </label>
+                <label>
+                    <input type="radio" name="ec_type" value="bw">
+                    Bedarfsausweise
+                </label>
+            </div>
+
+            <h3>Zeitraum</h3>
+            <div style="display:block; margin-bottom:20px;">
+                <label>
+                    <input type="radio" name="range" value="all" checked>
+                    Gesamter Zeitraum
+                </label>
+                <label>
+                    <input type="radio" name="range" value="vw">
+                    Letzter Monat
+                </label>
+                <label>
+                    <input type="radio" name="range" value="bw">
+                    Dieser Monat
+                </label>
+            </div>
+
+            <div style="display:block; margin-bottom:20px;">
+                <input type="button" class="button button-primary" id="export" value="Exportieren" />
+            </div>
+            
+
+            <a href ="<?php echo $csv_all; ?>" class="button" style="margin: 0 5px 5px 0;">Alle</a>
+            <a href ="<?php echo $csv_last_month; ?>" class="button" style="margin: 0 5px 5px 0;">Letzter Monat</a>
+            <a href ="<?php echo $csv_this_month; ?>" class="button" style="margin: 0 5px 5px 0;">Dieser Monat</a>
+            <?php do_action( 'enon_widget_lead_export_buttons_end' ); ?>
+        </fieldset>
+
+        <script type="text/javascript">
+            document.getElementById( 'export-by-date' ).addEventListener('click', function () {
+                var admin_url = '<?php echo admin_url(); ?>';
+                var date_start = document.getElementById('export-date-start').value;
+                var date_end = document.getElementById('export-date-end').value;
+
+                admin_url += '?reseller_leads_date_range=' + date_start + '|' + date_end;
+                console.log( admin_url );
+                
+                document.location.href = admin_url;
+            });
+        </script>
         <?php
     }
     
