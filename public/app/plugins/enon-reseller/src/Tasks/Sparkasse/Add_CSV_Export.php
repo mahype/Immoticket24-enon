@@ -47,7 +47,7 @@ class Add_CSV_Export implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'enon_widget_lead_export_end', [ $this, 'add_export_links' ] );
+		add_action( 'enon_widget_lead_export_buttons_end', [ $this, 'add_export_links' ] );
 	}
 
 	/**
@@ -66,9 +66,12 @@ class Add_CSV_Export implements Task, Actions, Filters {
 	 */
 	public function add_export_links() {
 		$csv_in_range = admin_url( '?reseller_leads_spk_in_range=1' );
-		$csv_out_range = admin_url( '?reseller_leads_spk_in_range=0' );
-
-		echo sprintf( '<p>Alle: <a href="%s">Im Geschäftsbereich</a> | <a href="%s">Außerhalb des Geschäftsbereichs</a></p>', $csv_in_range, $csv_out_range );
+        $csv_out_range = admin_url( '?reseller_leads_spk_in_range=0' );
+        
+        ?>  
+            <a href ="<?php echo $csv_in_range; ?>" class="button" style="margin: 0 5px 5px 0;">Im Geschäftsbereich</a>
+            <a href ="<?php echo $csv_out_range; ?>" class="button" style="margin: 0 5px 5px 0;">Außerhalb des Geschäftsbereichs</a>
+        <?php
 	}
 
 	/**

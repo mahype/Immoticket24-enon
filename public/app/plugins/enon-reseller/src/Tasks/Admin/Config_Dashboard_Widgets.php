@@ -75,7 +75,15 @@ class Config_Dashboard_Widgets implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function widget_lead_export() {
-		$csv_all = admin_url( '?reseller_leads_download' );
+
+        $this->buttons();        
+        $this->date_field();
+
+        do_action( 'enon_widget_lead_export_end' );
+    }
+
+    private function buttons() {
+        $csv_all = admin_url( '?reseller_leads_download' );
 
 		$date_start_last_month = date( 'Y-m-d', strtotime( 'first day of previous month' ) );
 		$date_end_last_month   = date( 'Y-m-d', strtotime( 'last day of previous month' ) );
@@ -86,13 +94,46 @@ class Config_Dashboard_Widgets implements Task, Actions {
 		$date_end_this_month   = date( 'Y-m-d', time() );
 
 		$csv_this_month = admin_url( '?reseller_leads_date_range=' . $date_start_this_month . '|' . $date_end_this_month );
+        ?>
+        <fieldset style="padding: 10px;">
+            <a href ="<?php echo $csv_all; ?>" class="button" style="margin: 0 5px 5px 0;">Alle</a>
+            <a href ="<?php echo $csv_last_month; ?>" class="button" style="margin: 0 5px 5px 0;">Letzter Monat</a>
+            <a href ="<?php echo $csv_this_month; ?>" class="button" style="margin: 0 5px 5px 0;">Dieser Monat</a>
+            <?php do_action( 'enon_widget_lead_export_buttons_end' ); ?>
+        </fieldset>
+        <?php
+    }
+    
+    private function date_field() {
+        $admin_url = admin_url();
+        ?>
+        <fieldset style="border: 2px dotted #1C6EA4; padding: 10px;">
+                <legend>Export nach Datum</legend>
+                
+                <div>
+                    <label for="export-date-start" style="display:inline-block; width:100px;">Startdatum:</label>
+                    <input type="date" id="export-date-start" name="export-date-start" value="<?php echo date('Y-m-d'); ?>">
+                </div>
 
-		echo sprintf( '<p>Alle: <a href="%s">CSV</a></p>', $csv_all );
-		echo sprintf( '<p>Letzter Monat: <a href="%s">CSV</a></p>', $csv_last_month );
-		echo sprintf( '<p>Dieser Monat: <a href="%s">CSV</a></p>', $csv_this_month );
+                <label for="export-date-end" style="display:inline-block; width:100px;">Enddatum:</label>
+                <input type="date" id="export-date-end" name="export-date-end" value="<?php echo date('Y-m-d'); ?>">
 
-		do_action( 'enon_widget_lead_export_end' );
-	}
+                <input type="button" class="button button-primary" id="export-by-date" value="Exportieren" />
+        </fieldset>
+        <script type="text/javascript">
+            document.getElementById( 'export-by-date' ).addEventListener('click', function () {
+                var admin_url = '<?php echo admin_url(); ?>';
+                var date_start = document.getElementById('export-date-start').value;
+                var date_end = document.getElementById('export-date-end').value;
+
+                admin_url += '?reseller_leads_date_range=' + date_start + '|' + date_end;
+                console.log( admin_url );
+                
+                document.location.href = admin_url;
+            });
+        </script>
+        <?php
+    }
 
 	/**
 	 * Widget for iframe code.
