@@ -80,7 +80,7 @@ class Detector {
     /**
      * Get reseller id by page (Energy certificate form page).
      * 
-     * @return int Reseller id if found, 0 if not.
+     * @return Reseller|bool Reseller object, false if not.
      * 
      * @since 1.0.0
      */
@@ -93,7 +93,7 @@ class Detector {
         $reseller_id = get_post_meta( $post->ID, 'reseller_id', true );
 
         if ( empty( $reseller_id ) ) {
-            return 0;
+            return false;
         }
 
         return new Reseller( $reseller_id );

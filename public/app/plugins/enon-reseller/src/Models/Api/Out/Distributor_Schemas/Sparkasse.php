@@ -14,7 +14,6 @@ namespace Enon_Reseller\Models\Api\Out\Distributor_Schemas;
 use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema;
 
 use Enon\Models\Enon\Energieausweis;
-use WPENON\Model\Energieausweis as Energieausweis_Old;
 
 /**
  * Class Distributor_Schema
@@ -186,7 +185,8 @@ class Sparkasse extends Distributor_Schema {
 
 		switch( $server_name ) {
 			case 'enon.test':
-			case 'staging.energieausweis-online-erstellen.de':
+            case 'staging.energieausweis-online-erstellen.de':
+            case 'develop.energieausweis-online-erstellen.de':
 				$receipient_server = 'https://postman-echo.com/post';
 				break;
 			default:
