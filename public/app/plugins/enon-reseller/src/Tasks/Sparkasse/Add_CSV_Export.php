@@ -22,7 +22,7 @@ use Awsm\WP_Wrapper\Interfaces\Task;
  *
  * @package Enon\Reseller\WordPress
  */
-class Add_CSV_Export implements Task, Actions, Filters {
+class Add_CSV_Export implements Task, Actions {
 	/**
 	 * Run task.
 	 *
@@ -38,7 +38,6 @@ class Add_CSV_Export implements Task, Actions, Filters {
 		}
 
 		$this->add_actions();
-		$this->add_filters();
 	}
 
 	/**
@@ -47,16 +46,7 @@ class Add_CSV_Export implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'enon_widget_lead_export_buttons_end', [ $this, 'add_export_links' ] );
-	}
-
-	/**
-	 * Add Filters.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_filters() {
-		add_filter( 'enon_reseller_leads_query_args', [ $this, 'filter_query_args' ], 10, 2 );
+		add_action( 'enon_widget_lead_export_after_postcode', [ $this, 'add_preset' ] );
 	}
 
 	/**
@@ -64,25 +54,7 @@ class Add_CSV_Export implements Task, Actions, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_export_links() {
-		$csv_in_range = admin_url( '?reseller_leads_spk_in_range=1' );
-        $csv_out_range = admin_url( '?reseller_leads_spk_in_range=0' );
-        
-        ?>  
-            <a href ="<?php echo $csv_in_range; ?>" class="button" style="margin: 0 5px 5px 0;">Im Geschäftsbereich</a>
-            <a href ="<?php echo $csv_out_range; ?>" class="button" style="margin: 0 5px 5px 0;">Außerhalb des Geschäftsbereichs</a>
-        <?php
-	}
-
-	/**
-	 * Filter query for additional data.
-	 *
-	 * @param array $query_args Query arguments.
-	 * @param array $query_values Query values.
-	 *
-	 * @return array Filtered query arguments.
-	 */
-	public function filter_query_args( $query_args, $query_values ) {
+	public function add_preset() {
 		$postcodes = array(
 			'heidelberg' => [ 69115, 69117, 69118, 69120, 69121, 69123, 69124, 69126 ],
 			'neckargemuend' => [ 69151, 69239, 69245, 69250, 69253, 69256, 69257, 69259, 69434, 74909, 74931 ],
@@ -91,24 +63,36 @@ class Add_CSV_Export implements Task, Actions, Filters {
 			'hockenheim' => [ 68766, 68799, 68804, 68809 ],
 		);
 
-		$postcodes = array_merge( $postcodes['heidelberg'], $postcodes['neckargemuend'], $postcodes['walldorf_wiesloch'], $postcodes['schwetzingen'], $postcodes['hockenheim'] );
+        $postcodes = array_merge( $postcodes['heidelberg'], $postcodes['neckargemuend'], $postcodes['walldorf_wiesloch'], $postcodes['schwetzingen'], $postcodes['hockenheim'] );
+        $postcodes = implode( ', ', $postcodes );
+        
+        ?>  
+            <div class="button-group">
+                <a id="sparkasse-in-range" class="button">Im Geschäftsbereich</a>
+                <a id="sparkasse-out-range" class="button">Außerhalb des Geschäftsbereichs</a>
+            </div>
 
-		if ( ! empty( $query_values['spk_in_range'] ) && 1 === (int) $query_values['spk_in_range'] ) {
-			$query_args['meta_query']['spk_in_range'] = [
-				'key'     => 'adresse_plz',
-				'value'   => $postcodes,
-				'compare' => 'IN',
-			];
-		}
+            <script type="text/javascript">
+            var sparkasse_postcodes = [ <?php echo $postcodes; ?> ];
 
-		if ( ! empty( $query_values['spk_in_range'] ) && 0 === (int) $query_values['spk_in_range'] ) {
-			$query_args['meta_query']['spk_in_range'] = [
-				'key'     => 'adresse_plz',
-				'value'   => $postcodes,
-				'compare' => 'NOT IN',
-			];
-		}
+            document.getElementById( 'sparkasse-in-range' ).addEventListener('click', function() {
+               add_postcodes();
+               document.getElementById('filter_postcodes_direction').value = 'include';
+            });
 
-		return $query_args;
+            document.getElementById( 'sparkasse-out-range' ).addEventListener('click', function() {
+               add_postcodes();
+               document.getElementById('filter_postcodes_direction').value = 'exclude';
+            });
+
+            function add_postcodes() {
+                document.getElementById('filter_postcodes').value = '';
+
+                sparkasse_postcodes.forEach( function (postcode) {
+                    document.getElementById('filter_postcodes').value += postcode + '\r\n';
+                });
+            }
+        </script>
+        <?php
 	}
 }

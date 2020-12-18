@@ -134,10 +134,21 @@ class CSV_Generator implements Task, Actions {
 			}
         }
         
-        if ( ! empty( $values['ec_type'] ) ){
+        if ( ! empty( $values['ec_type'] ) && $values['ec_type'] !== 'all'){
             $args['meta_query']['ec_type'] = [
                 'key' => 'wpenon_type',
                 'value' => $values['ec_type']
+            ];
+        }
+
+        if ( ! empty( $values['postcodes'] ) ){
+            $postcodes = explode( ',', $values['postcodes']);
+            $compare = $values['postcodes_direction'] === 'include' ? 'IN': 'NOT IN';
+
+            $args['meta_query']['postcodes'] = [
+                'key' => 'adresse_plz',
+                'value' => $postcodes,
+                'compare' => $compare
             ];
         }
 
