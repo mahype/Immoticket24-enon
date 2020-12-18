@@ -185,7 +185,8 @@ class CSV_Generator implements Task, Actions {
 				'Gebäudetyp'                      => 'gebaeudetyp',
 				'Datum + Uhrzeit Ausweis beendet' => '',
 				'Bewertung erwünscht'             => 'premium_bewertung',
-				'Preis'                           => 'edd_price',
+                'Preis'                           => 'edd_price',
+                'Gutschein Code'                  => 'discount_code',
 				'Vorname'                         => 'user_info_firstname',
 				'Name'                            => 'user_info_lastname',
 				'Straße Objekt'                   => 'adresse_strassenr',
@@ -203,10 +204,6 @@ class CSV_Generator implements Task, Actions {
 				$invoice_meta = get_post_meta( $invoice_id, '_edd_payment_meta', true );
 				$user_info    = $invoice_meta['user_info'];
                 $payment_fees = edd_get_payment_fees( $invoice_id, 'item' );
-                
-                if ( empty( get_post_meta( $post->ID, 'ausstellungsdatum', true ) ) ) {
-                    continue;
-                }
 
 				foreach ( $meta_keys as $meta_key => $meta_value ) {
 					if ( '' === $meta_value ) {
@@ -226,6 +223,12 @@ class CSV_Generator implements Task, Actions {
 
 					if ( 'name' === $meta_value ) {
 						$result[ $post->ID ][ $meta_key ] = $post->post_name;
+						continue;
+					}
+
+					if ( 'discount_code' === $meta_value ) {
+                        $discount_code = $user_info['discount'] !== 'none' ? $user_info['discount'] : '';
+						$result[ $post->ID ][ $meta_key ] = $discount_code;
 						continue;
 					}
 
