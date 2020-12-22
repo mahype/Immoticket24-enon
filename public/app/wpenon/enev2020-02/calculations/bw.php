@@ -277,7 +277,10 @@ if ( $energieausweis->anbau ) {
     $anbauwandlaenge += $$l_slug;
     $_dslug = $$l_slug;
 
-    if ( strtotime( '2020-12-22 12:00' ) <= strtotime( wpenon_get_reference_date( 'Y-m-d H:i', $energieausweis->date ) ) ){
+    $patch_time = strtotime( '2020-12-22 15:00' );
+    $ec_time = strtotime( $energieausweis->date );
+
+    if ( $patch_time <= $ec_time ){
         $calculations['bauteile'][ 'anbauwand_' . $wand ] = array(
             'name'          => sprintf( __( 'Anbau-Wand %s', 'wpenon' ), $wand ),
             'typ'           => 'wand',
