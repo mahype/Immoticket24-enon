@@ -277,16 +277,30 @@ if ( $energieausweis->anbau ) {
     $anbauwandlaenge += $$l_slug;
     $_dslug = $$l_slug;
 
-    $calculations['bauteile'][ 'anbauwand_anbauwand_' . $wand ] = array(
-      'name'          => sprintf( __( 'Anbau-Wand %s', 'wpenon' ), $wand ),
-      'typ'           => 'wand',
-      'modus'         => 'opak',
-      'bauart'        => $energieausweis->$anbauwand_bauart_field,
-      'baujahr'       => $energieausweis->anbau_baujahr,
-      'richtung'      => $hr_mappings[ $data[1] ],
-      'a'             => $surface_areas[ $wand ],
-      'd'             => $energieausweis->anbauwand_daemmung,
-    );
+    if ( strtotime( '2020-12-22 12:00' ) <= strtotime( wpenon_get_reference_date( 'Y-m-d H:i', $energieausweis->date ) ) ){
+        $calculations['bauteile'][ 'anbauwand_' . $wand ] = array(
+            'name'          => sprintf( __( 'Anbau-Wand %s', 'wpenon' ), $wand ),
+            'typ'           => 'wand',
+            'modus'         => 'opak',
+            'bauart'        => $energieausweis->$anbauwand_bauart_field,
+            'baujahr'       => $energieausweis->anbau_baujahr,
+            'richtung'      => $hr_mappings[ $data[1] ],
+            'a'             => $surface_areas[ $wand ],
+            'd'             => $energieausweis->anbauwand_daemmung,
+        );
+    } else {
+        $calculations['bauteile'][ 'anbauwand_anbauwand_' . $wand ] = array(
+            'name'          => sprintf( __( 'Anbau-Wand %s', 'wpenon' ), $wand ),
+            'typ'           => 'wand',
+            'modus'         => 'opak',
+            'bauart'        => $energieausweis->$anbauwand_bauart_field,
+            'baujahr'       => $energieausweis->anbau_baujahr,
+            'richtung'      => $hr_mappings[ $data[1] ],
+            'a'             => $surface_areas[ $wand ],
+            'd'             => $energieausweis->anbauwand_daemmung,
+            );
+    }
+
     if ( ! isset( $calculations['anbauwandrichtungen'][ $calculations['bauteile'][ 'anbauwand_' . $wand ]['richtung'] ] ) ) {
       $calculations['anbauwandrichtungen'][ $calculations['bauteile'][ 'anbauwand_' . $wand ]['richtung'] ] = array();
     }
