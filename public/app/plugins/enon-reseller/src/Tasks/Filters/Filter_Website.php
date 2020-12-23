@@ -104,12 +104,16 @@ class Filter_Website implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function filter_success_url( $url ) {
-		$success_url = $this->reseller->data()->website->get_payment_successful_url();
+        $success_url = $this->reseller->data()->website->get_payment_successful_url();
+
 		if ( ! empty( $success_url ) ) {
 			return $success_url;
-		}
+        }
+        
+        $ifame_token = $this->reseller->data()->general->get_token();
+        $success_url = get_site_url() . '/danke-fuer-ihr-vertrauen/?iframe_token=' . $ifame_token;
 
-		return $url;
+		return $success_url;
 	}
 
 	/**
