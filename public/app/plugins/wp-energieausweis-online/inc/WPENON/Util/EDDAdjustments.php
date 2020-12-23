@@ -807,7 +807,11 @@ class EDDAdjustments {
 			'edd_last'     => array(
 				'error_id'      => 'invalid_last_name',
 				'error_message' => __( 'Bitte geben Sie Ihren Nachnamen ein', 'wpenon' ),
-			),
+            ),            
+			'wpenon_telefon' => array(
+                'error_id'      => 'it_missing_phone_number',
+                'error_message' => 'Bitte geben Sie Ihre Telefonnummer an.',
+            ),
 			'card_address' => array(
 				'error_id'      => 'invalid_last_name',
 				'error_message' => __( 'Bitte geben Sie Ihre Straße und Hausnummer ein', 'wpenon' ),
