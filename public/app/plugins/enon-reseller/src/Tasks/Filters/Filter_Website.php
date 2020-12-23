@@ -111,7 +111,7 @@ class Filter_Website implements Task, Filters {
         }
         
         $ifame_token = $this->reseller->data()->general->get_token();
-        $success_url = get_site_url() . '/danke-fuer-ihr-vertrauen/?iframe_token=' . $ifame_token;
+        $success_url = get_home_url() . '/danke-fuer-ihr-vertrauen/?iframe_token=' . $ifame_token;
 
 		return $success_url;
 	}
