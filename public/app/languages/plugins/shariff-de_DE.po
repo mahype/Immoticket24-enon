@@ -2,18 +2,18 @@
 # This file is distributed under the same license as the Plugins - Shariff Wrapper - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-07-23 17:12:57+0000\n"
+"PO-Revision-Date: 2020-12-09 11:30:33+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: de\n"
 "Project-Id-Version: Plugins - Shariff Wrapper - Stable (latest release)\n"
 
 #: admin/admin-menu.php:1997
 msgid "Facebook shut down the possibility to request share counts without an APP ID and Secret. Therefore, you need to create a Facebook APP ID and Secret and enter it in the settings on the Statistic tab. Google will provide you with many tutorials. Simple search for “facebook app id secret” and you will find one in your language."
-msgstr "Facebook hat die Möglichkeit abgeschaltet Share Counts ohne Registrierung, d.h. ohne App-ID und App-Geheimcode, abzufragen. Daher ist es nun zwingend erforderlich, sich eine App-ID und einen App-Geheimcode zu erstellen und diese in den Shariff-Einstellungen auf dem Reiter \"Statistik\" einzutragen. Über Google lassen sich diverse Tutorials finden die erklären, wie dies funktioniert. Eine Suche nach \"facebook app id secret\" sollte schnell eine geeignete Anleitung in der eigenen Sprache zu Tage fördern."
+msgstr "Facebook hat die Möglichkeit abgeschaltet Share-Counts ohne Registrierung, d.h. ohne App-ID und App-Geheimcode, abzufragen. Daher ist es nun zwingend erforderlich, sich eine App-ID und einen App-Geheimcode zu erstellen und diese in den Shariff-Einstellungen auf dem Reiter \"Statistik\" einzutragen. Über Google lassen sich diverse Tutorials finden die erklären, wie dies funktioniert. Eine Suche nach \"facebook app id secret\" sollte schnell eine geeignete Anleitung in der eigenen Sprache zu Tage fördern."
 
 #: admin/admin-menu.php:371
 msgid "Hide WhatsApp on desktop devices."
@@ -21,7 +21,7 @@ msgstr "Verstecke WhatsApp auf Desktop-Geräten."
 
 #: admin/admin-menu.php:1432
 msgid "Notice: Twitter does not offer official share counts anymore. As an alternative share counts for Twitter can be requested via twitcount.com. You will need to register with them for it to work. Otherwise the count will always be zero."
-msgstr "Hinweis: Twitter bietet keine Schnittstelle zur direkten Abfrage von Share Counts mehr an. Als Alternative können diese via twitcount.com abgerufen werden. Dazu ist eine Registrierung bei diesem Dienst erforderlich. Andernfalls werden die Zähler immer null anzeigen."
+msgstr "Hinweis: Twitter bietet keine Schnittstelle zur direkten Abfrage von Share-Counts mehr an. Als Alternative können diese via twitcount.com abgerufen werden. Dazu ist eine Registrierung bei diesem Dienst erforderlich. Andernfalls werden die Zähler immer null anzeigen."
 
 #: shariff.php:61
 msgid ""
@@ -99,7 +99,7 @@ msgstr "Eine Liste mit Dienste durch | getrennt. Beispiel: twitter|facebook|xing
 
 #: shariff.php:199
 msgid "URL of the post or page to request share counts for."
-msgstr "URL des Beitrags oder der Seite, für die Share Counts abgefragt werden sollen."
+msgstr "URL des Beitrags oder der Seite, für die Share-Counts abgefragt werden sollen."
 
 #: includes/class-shariff-widget.php:57 includes/class-shariff-widget.php:61
 msgid "(optional)"
@@ -266,7 +266,7 @@ msgstr "Die dynamische Cache-Lebensdauer deaktivieren (nicht empfohlen)."
 
 #: admin/admin-menu.php:429
 msgid "Hide share counts when they are zero."
-msgstr "Zähler (Share Counts) verstecken, wenn sie null sind."
+msgstr "Zähler (Share-Counts) verstecken, wenn sie null sind."
 
 #: admin/admin-menu.php:268
 msgid "Open links in a popup (requires JavaScript)."
@@ -365,19 +365,19 @@ msgstr "Titel"
 msgid "Add Shariff as configured on the plugin options page."
 msgstr "Fügt die Shariff-Buttons mit den Einstellungen aus dem Plugin-Menü ein."
 
-#: shariff.php:1542
+#: shariff.php:1543
 msgid "Address for Bitcoin is missing!"
 msgstr "Adresse für Bitcoin fehlt!"
 
-#: shariff.php:1538
+#: shariff.php:1539
 msgid "PayPal.Me ID is missing!"
 msgstr "PayPal.Me ID fehlt!"
 
-#: shariff.php:1534
+#: shariff.php:1535
 msgid "Button ID for PayPal is missing!"
 msgstr "Button-ID für PayPal fehlt!"
 
-#: shariff.php:1530
+#: shariff.php:1531
 msgid "Username for patreon is missing!"
 msgstr "Benutzername für Patreon fehlt!"
 
@@ -579,7 +579,7 @@ msgstr "Legt das Hauptdesign der Shariff-Buttons fest."
 
 #: admin/admin-menu.php:1725
 msgid "Enables share counts on the buttons."
-msgstr "Aktiviert die Statistik (share counts) in den Shariff-Buttons."
+msgstr "Aktiviert die Statistik (Share-Counts) in den Shariff-Buttons."
 
 #: admin/admin-menu.php:1717
 msgid "Determines which buttons to show and in which order."
@@ -631,7 +631,7 @@ msgstr "WordPress-Version 4.4 oder neuer wird benötigt, um die Statistik- / Zä
 
 #: admin/admin-menu.php:1430
 msgid "This determines how share counts are handled by Shariff."
-msgstr "Diese Einstellungen bestimmen, wie Shariff mit den sogenannten „Share Counts“ umgeht."
+msgstr "Diese Einstellungen bestimmen, wie Shariff mit den sogenannten „Share-Counts“ umgeht."
 
 #: admin/admin-menu.php:1410
 msgid "Warning: DO NOT change this unless you know what you are doing or have been told so by the plugin author!"
@@ -724,7 +724,7 @@ msgstr "Die externe API direkt kontaktieren."
 
 #: admin/admin-menu.php:501
 msgid "External API for share counts:"
-msgstr "Externe API für die Share Counts:"
+msgstr "Externe API für die Share-Counts:"
 
 #: admin/admin-menu.php:492
 msgid "Disable the following services (share counts only):"
@@ -744,7 +744,7 @@ msgstr "Facebook App ID:"
 
 #: admin/admin-menu.php:420
 msgid "Show share counts on buttons."
-msgstr "Zähler (Share Counts) auf den Buttons anzeigen."
+msgstr "Zähler (Share-Counts) auf den Buttons anzeigen."
 
 #: admin/admin-menu.php:411
 msgid "Enable statistic."

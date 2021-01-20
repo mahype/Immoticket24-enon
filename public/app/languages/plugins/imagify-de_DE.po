@@ -1,15 +1,19 @@
-# Translation of Plugins - Imagify – WebP &amp; Image Compression and Optimization - Stable (latest release) in German
-# This file is distributed under the same license as the Plugins - Imagify – WebP &amp; Image Compression and Optimization - Stable (latest release) package.
+# Translation of Plugins - Imagify – Optimize your Images &amp; Convert WebP - Stable (latest release) in German
+# This file is distributed under the same license as the Plugins - Imagify – Optimize your Images &amp; Convert WebP - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-04-09 19:31:46+0000\n"
+"PO-Revision-Date: 2020-11-25 06:42:22+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: de\n"
-"Project-Id-Version: Plugins - Imagify – WebP &amp; Image Compression and Optimization - Stable (latest release)\n"
+"Project-Id-Version: Plugins - Imagify – Optimize your Images &amp; Convert WebP - Stable (latest release)\n"
+
+#: inc/classes/class-imagify-settings.php:434
+msgid "Please consider writing more inclusive code."
+msgstr "Bitte erwäge, inklusiveren Code zu schreiben."
 
 #: inc/functions/api.php:213
 msgid "Our server returned an invalid response."
@@ -88,12 +92,12 @@ msgstr "https://cdn.example.com"
 
 #: views/part-settings-webp.php:77
 msgid "If you use a CDN, specify the URL:"
-msgstr "Wenn du ein CDN nutzt, gib die URL an:"
+msgstr "Gib die URL an, wenn du ein CDN nutzt:"
 
 #. translators: %s is an URL.
 #: views/part-settings-webp.php:65
 msgid "Your CDN URL is set to %1$s by filter."
-msgstr "Deine CDN URL wurde durch einen Filter auf %1$s gesetzt."
+msgstr "Deine CDN-URL wurde durch einen Filter auf %1$s gesetzt."
 
 #. translators: 1 is an URL, 2 is a plugin name.
 #: views/part-settings-webp.php:58
@@ -393,6 +397,11 @@ msgstr "Verkleinerung fehlgeschlagen: %s"
 msgid "The backup file could not be copied over the optimized one."
 msgstr "Die Backup-Datei konnte nicht über die optimierte Version kopiert werden."
 
+#: classes/Optimization/Process/AbstractProcess.php:870
+#: classes/Optimization/Process/AbstractProcess.php:1421
+msgid "This media has no backup file."
+msgstr "Dieser Medieneintrag hat keine Backup-Datei."
+
 #: classes/Optimization/Process/AbstractProcess.php:613
 msgid "This file is not an image and cannot be converted to webp format."
 msgstr "Diese Datei ist kein Bild und daher nicht WebP-fähig."
@@ -536,15 +545,10 @@ msgstr "Die Datei %s scheint nicht zu existieren."
 #: inc/3rd-party/nextgen-gallery/classes/Optimization/Process/NGG.php:79
 #: inc/functions/admin-ui.php:436
 #: inc/classes/class-imagify-admin-ajax-post.php:256
-#: inc/classes/class-imagify-custom-folders.php:252
+#: inc/classes/class-imagify-custom-folders.php:295
 #: inc/deprecated/classes/class-imagify-admin-ajax-post-deprecated.php:212
 msgid "This media is not valid."
 msgstr "Dies ist kein gültiger Medieneintrag."
-
-#: classes/Optimization/Process/AbstractProcess.php:870
-#: classes/Optimization/Process/AbstractProcess.php:1421
-msgid "This media has no backup file."
-msgstr "Dieser Medieneintrag hat keine Backup-Datei."
 
 #. translators: %s is a formatted price.
 #: views/modal-payment.php:131
@@ -645,6 +649,10 @@ msgid "%s Media File Optimized"
 msgid_plural "%s Media Files Optimized"
 msgstr[0] "%s Media-Datei optimiert"
 msgstr[1] "%s Media-Dateien optimiert"
+
+#: inc/classes/Dependencies/deliciousbrains/wp-background-processing/classes/wp-background-process.php:425
+msgid "Every %d Minutes"
+msgstr "Alle %d Minuten"
 
 #: inc/classes/class-imagify-views.php:279
 msgid "Optimize your media files"
@@ -1075,11 +1083,11 @@ msgstr "Andere Medien"
 msgid "Other Media optimized by Imagify"
 msgstr "Andere von Imagify optimierte Medien"
 
-#: inc/classes/class-imagify-settings.php:611
+#: inc/classes/class-imagify-settings.php:682
 msgid "Unselect All"
 msgstr "Auswahl für alle aufheben"
 
-#: inc/classes/class-imagify-settings.php:607
+#: inc/classes/class-imagify-settings.php:674
 msgid "Select All"
 msgstr "Alle auswählen"
 
@@ -1191,11 +1199,11 @@ msgstr "Die Backup-Datei existiert nicht."
 msgid "This file is already optimized with this level."
 msgstr "Diese Datei wurde bereits mit dieser Stufe optimiert."
 
-#: inc/classes/class-imagify-custom-folders.php:347
+#: inc/classes/class-imagify-custom-folders.php:390
 msgid "The file has been modified or was not optimized: its folder not being selected in the settings, the entry has been deleted from the database."
 msgstr "Die Datei wurde geändert, oder nicht optimiert: Da der übergeordnete Ordner in den Einstellungen nicht ausgewählt war, wurde der Eintrag aus der Datenbank entfernt."
 
-#: inc/classes/class-imagify-custom-folders.php:286
+#: inc/classes/class-imagify-custom-folders.php:329
 msgid "The file was missing or its path could not be retrieved from the database. The entry has been deleted from the database."
 msgstr "Die Datei fehlte, oder ihr Pfad konnte nicht aus der Datenbank geladen werden. Der Eintrag wurde aus der Datenbank entfernt."
 
@@ -1366,17 +1374,17 @@ msgid "Unknown error occurred."
 msgstr "Unbekannter Fehler."
 
 #. translators: %s is the plugin name.
-#: inc/functions/admin.php:320
+#: inc/functions/admin.php:326
 msgid "%s Failure Notice"
 msgstr "Fehlermeldung von %s"
 
 #. translators: This sentense already exists in WordPress.
-#: inc/functions/admin.php:315
+#: inc/functions/admin.php:321
 msgid "Go back"
 msgstr "Zurück"
 
 #. translators: This sentense already exists in WordPress.
-#: inc/functions/admin.php:283
+#: inc/functions/admin.php:289
 msgid "Sorry, you are not allowed to do that."
 msgstr "Du bist leider nicht berechtigt, dies zu tun."
 
@@ -1585,16 +1593,9 @@ msgstr "Du hast dein Guthaben für diesen Monat aufgebraucht. Am <strong>%2$s</s
 msgid "This size could not be retrieved from Amazon S3."
 msgstr "Diese Größe konnte von Amazon S3 nicht abgerufen werden."
 
-#. translators: %s is a percentage.
-#: views/page-bulk.php:76
-msgid "You optimized %s of your website's images"
-msgstr "Du hast %s der Bilder auf deiner Website optimiert"
-
-#. translators: 1 is a "bold" tag start, 2 is a pourcentage, 3 is the "bold"
-#. tag end, 4 is a coupon code.
-#: views/notice-wp-rocket.php:20
-msgid "%1$sGet %2$s off%3$s with this coupon code: %4$s"
-msgstr "%1$sSpare %2$s%3$s mit diesem Gutschein-Code: %4$s"
+#: inc/classes/class-imagify-abstract-cron.php:163
+msgid "Once Weekly"
+msgstr "Einmal wöchentlich"
 
 #. translators: 1 and 2 are optimization levels: "Original", "Normal",
 #. "Aggressive", or "Ultra".
@@ -1602,9 +1603,16 @@ msgstr "%1$sSpare %2$s%3$s mit diesem Gutschein-Code: %4$s"
 msgid "I want to compare %1$s and %2$s"
 msgstr "Ich möchte %1$s und %2$s vergleichen"
 
-#: inc/classes/class-imagify-abstract-cron.php:163
-msgid "Once Weekly"
-msgstr "Einmal wöchentlich"
+#. translators: 1 is a "bold" tag start, 2 is a pourcentage, 3 is the "bold"
+#. tag end, 4 is a coupon code.
+#: views/notice-wp-rocket.php:20
+msgid "%1$sGet %2$s off%3$s with this coupon code: %4$s"
+msgstr "%1$sSpare %2$s%3$s mit diesem Gutschein-Code: %4$s"
+
+#. translators: %s is a percentage.
+#: views/page-bulk.php:76
+msgid "You optimized %s of your website's images"
+msgstr "Du hast %s der Bilder auf deiner Website optimiert"
 
 #. translators: %s is a formatted date.
 #: views/part-discount-banner.php:19
@@ -1616,51 +1624,51 @@ msgstr "Angebot<br><strong>bis %s</strong>"
 msgid "%s OFF on all the subscriptions"
 msgstr "Spare %s bei allen Tarifen"
 
-#: views/modal-payment.php:19
-msgid "We are analyzing your images"
-msgstr "Wir analysieren deine Bilder"
-
-#: views/modal-payment.php:22
-msgid "Analyzing"
-msgstr "Analyse läuft"
-
-#: views/modal-payment.php:70
-msgid "The free plan is enough to optimize your images"
-msgstr "Ein kostenfreier Tarif reicht aus, um deine Bilder zu optimieren"
-
-#: views/modal-payment.php:194
-msgid "Checking Coupon"
-msgstr "Gutschein wird geprüft"
-
-#: views/modal-payment.php:196
-msgid "If you have a <strong>coupon code</strong><br> use it here:"
-msgstr "Du hast einen <strong>Gutschein-Code</strong>?<br>Nutze ihn hier:"
-
-#: views/modal-payment.php:199
-msgid "Coupon Code"
-msgstr "Gutschein-Code"
-
-#: views/modal-payment.php:200
-msgid "OK"
-msgstr "OK"
-
-#: views/modal-payment.php:222
-msgid "Choose a plan"
-msgstr "Tarif wählen"
-
-#: inc/functions/i18n.php:138
-msgid "Something went wrong with getting our updated offers. Please retry later."
-msgstr "Wahrscheinlich ein Verbindungsfehler. Bitte versuche es später noch einmal."
-
-#: inc/functions/i18n.php:135
-msgid "Error with checking this coupon."
-msgstr "Fehler beim Prüfen dieses Gutscheins."
-
 #. translators: 1 is a percentage, 2 is a coupon code.
 #: inc/functions/i18n.php:137
 msgctxt "coupon validated"
 msgid "%1$s off with %2$s"
 msgstr "Spare %1$s mit %2$s"
+
+#: inc/functions/i18n.php:135
+msgid "Error with checking this coupon."
+msgstr "Fehler beim Prüfen dieses Gutscheins."
+
+#: inc/functions/i18n.php:138
+msgid "Something went wrong with getting our updated offers. Please retry later."
+msgstr "Wahrscheinlich ein Verbindungsfehler. Bitte versuche es später noch einmal."
+
+#: views/modal-payment.php:222
+msgid "Choose a plan"
+msgstr "Tarif wählen"
+
+#: views/modal-payment.php:200
+msgid "OK"
+msgstr "OK"
+
+#: views/modal-payment.php:199
+msgid "Coupon Code"
+msgstr "Gutschein-Code"
+
+#: views/modal-payment.php:196
+msgid "If you have a <strong>coupon code</strong><br> use it here:"
+msgstr "Du hast einen <strong>Gutschein-Code</strong>?<br>Nutze ihn hier:"
+
+#: views/modal-payment.php:194
+msgid "Checking Coupon"
+msgstr "Gutschein wird geprüft"
+
+#: views/modal-payment.php:70
+msgid "The free plan is enough to optimize your images"
+msgstr "Ein kostenfreier Tarif reicht aus, um deine Bilder zu optimieren"
+
+#: views/modal-payment.php:22
+msgid "Analyzing"
+msgstr "Analyse läuft"
+
+#: views/modal-payment.php:19
+msgid "We are analyzing your images"
+msgstr "Wir analysieren deine Bilder"
 
 #: inc/functions/i18n.php:43
 msgid "You need to specify your api key!"
@@ -1836,8 +1844,8 @@ msgid "WP Media"
 msgstr "WP Media"
 
 #. Description of the plugin
-msgid "Dramaticaly reduce image file sizes without losing quality, make your website load faster, boost your SEO and save money on your bandwidth using Imagify, the new most advanced image optimization tool."
-msgstr "Reduziert die Größe von Bild-Dateien maßgeblich ohne Qualitätsverlust, sorgt für ein schnelleres Laden der Website und spart Bandbreite."
+msgid "Dramatically reduce image file sizes without losing quality, make your website load faster, boost your SEO and save money on your bandwidth using Imagify, the new most advanced image optimization tool."
+msgstr "Reduzier die Größe von Bild-Dateien maßgeblich ohne Qualitätsverlust, sorgt für ein schnelleres Laden der Website und spart Bandbreite durch die Benutzung von Imagify, dem neuen und fortschrittlichsten Bildoptimierungs-Werkzeug."
 
 #. Plugin URI of the plugin
 #. translators: Plugin URI of the plugin/theme
@@ -2323,7 +2331,7 @@ msgstr "Konto aktualisieren, um mit der Optimierung weiterer Bilder fortzufahren
 msgid "Settings"
 msgstr "﻿Einstellungen"
 
-#: inc/classes/class-imagify-settings.php:413
+#: inc/classes/class-imagify-settings.php:443
 msgid "<strong>ERROR</strong>: options page not found."
 msgstr "<strong>FEHLER</strong>: Die Einstellungsseite wurde nicht gefunden."
 
