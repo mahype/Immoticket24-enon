@@ -40,12 +40,12 @@ function affwp_referrals_admin() {
 		<div class="wrap">
 			<h1>
 				<?php _e( 'Referrals', 'affiliate-wp' ); ?>
-				<a href="<?php echo esc_url( add_query_arg( 'action', 'add_referral' ) ); ?>" class="page-title-action"><?php _e( 'Add New', 'affiliate-wp' ); ?></a>
+				<a href="<?php echo esc_url( add_query_arg( 'action', 'add_referral' ) ); ?>" class="button action button-small"><?php _e( 'Add New', 'affiliate-wp' ); ?></a>
 				<?php if ( current_user_can( 'view_affiliate_reports' ) ) : ?>
-					<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'affiliate-wp-reports', 'tab' => 'referrals' ) ) ); ?>" class="page-title-action"><?php _ex( 'Reports', 'referrals', 'affiliate-wp' ); ?></a>
+					<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'affiliate-wp-reports', 'tab' => 'referrals' ) ) ); ?>" class="button action button-small"><?php _ex( 'Reports', 'referrals', 'affiliate-wp' ); ?></a>
 				<?php endif; ?>
 				<?php if ( current_user_can( 'manage_payouts' ) ) : ?>
-					<a href="<?php echo esc_url( affwp_admin_url( 'payouts', array( 'action' => 'new_payout' ) ) ); ?>" class="button-primary page-title-action"><?php _e( 'Pay Affiliates', 'affiliate-wp' ); ?></a>
+					<a href="<?php echo esc_url( affwp_admin_url( 'payouts', array( 'action' => 'new_payout' ) ) ); ?>" class="button action button-primary button-small"><?php _e( 'Pay Affiliates', 'affiliate-wp' ); ?></a>
 				<?php endif; // manage_payouts ?>
 			</h1>
 

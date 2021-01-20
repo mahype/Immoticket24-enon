@@ -151,7 +151,7 @@ function affwp_recount_tab() {
 			<div class="postbox">
 				<h3><span><?php esc_html_e( 'Recount Affiliate Stats', 'affiliate-wp' ); ?></span></h3>
 				<div class="inside">
-					<p><?php esc_html_e( 'Use this tool to recount affiliate statistics.', 'affiliate-wp' ); ?></p>
+					<p><?php esc_html_e( 'Use this tool to recount statistics for one or all affiliates.', 'affiliate-wp' ); ?></p>
 					<form method="post" enctype="multipart/form-data" class="affwp-batch-form" data-batch_id="recount-affiliate-stats" data-nonce="<?php echo esc_attr( wp_create_nonce( 'recount-affiliate-stats_step_nonce' ) ); ?>">
 						<p>
 							<span class="affwp-ajax-search-wrap">
@@ -557,7 +557,7 @@ add_action( 'affwp_tools_tab_system_info', 'affwp_system_info_tab' );
  */
 function affwp_tools_sysinfo_download() {
 
-	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+	if ( wp_doing_ajax() ) {
 		return;
 	}
 

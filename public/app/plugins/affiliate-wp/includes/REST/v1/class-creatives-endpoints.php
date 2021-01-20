@@ -71,7 +71,7 @@ class Endpoints extends Controller {
 	 * Base endpoint to retrieve all creatives.
 	 *
 	 * @since 1.9
-	 * @access public
+	 * @since 2.6.1 Added support for the 'response_callback' parameter.
 	 *
 	 * @param \WP_REST_Request $request Request arguments.
 	 * @return \WP_REST_Response|\WP_Error Creatives response, otherwise WP_Error.
@@ -117,6 +117,10 @@ class Endpoints extends Controller {
 				$creative = $inst->process_for_output( $creative, $request );
 				return $creative;
 			}, $creatives );
+		}
+
+		if ( isset( $request['response_callback'] ) && is_callable( $request['response_callback'] ) ) {
+			$creatives = call_user_func( $request['response_callback'], $creatives, $request, 'creatives' );
 		}
 
 		return $this->response( $creatives );

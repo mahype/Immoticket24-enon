@@ -149,12 +149,18 @@ function affwp_validate_rest_id( $rest_id ) {
  * @param string $method The method to use for this request.
  * @param string $route  The route to call
  * @param array  $params Optional. Parameters to send along with the request. Default empty array.
- * @return mixed The API request's response.
+ * @return mixed The API request's response, otherwise a WP_Error object.
  */
 function affwp_rest_request( $method, $route, $params = array() ) {
 
 	$request = new \WP_REST_Request( $method, $route );
 	$request->set_query_params( $params );
+
+	$validate_or_error = $request->has_valid_params();
+
+	if ( is_wp_error( $validate_or_error ) ) {
+		return $validate_or_error;
+	}
 
 	$response = rest_do_request( $request );
 	$server   = rest_get_server();
@@ -172,7 +178,7 @@ function affwp_rest_request( $method, $route, $params = array() ) {
  *
  * @param string $route  The route to call
  * @param array  $params Optional. Parameters to send along with the request. Default empty array.
- * @return mixed The API request's response
+ * @return mixed The API request's response, otherwise a WP_Error object.
  */
 function affwp_rest_get( $route, $params = array() ) {
 	return affwp_rest_request( 'GET', $route, $params );
@@ -187,7 +193,7 @@ function affwp_rest_get( $route, $params = array() ) {
  *
  * @param string $route  The route to call
  * @param array  $params Optional. Parameters to send along with the request. Default empty array.
- * @return mixed The API request's response
+ * @return mixed The API request's response, otherwise a WP_Error object.
  */
 function affwp_rest_put( $route, $params = array() ) {
 	return affwp_rest_request( 'PUT', $route, $params );
@@ -202,7 +208,7 @@ function affwp_rest_put( $route, $params = array() ) {
  *
  * @param string $route  The route to call
  * @param array  $params Optional. Parameters to send along with the request. Default empty array.
- * @return mixed The API request's response
+ * @return mixed The API request's response, otherwise a WP_Error object.
  */
 function affwp_rest_post( $route, $params = array() ) {
 	return affwp_rest_request( 'POST', $route, $params );

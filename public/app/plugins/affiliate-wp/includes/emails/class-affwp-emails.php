@@ -338,6 +338,8 @@ class Affiliate_WP_Emails {
 	 * Send the email
 	 *
 	 * @since 1.6
+	 * @since 2.6.1 Tag support was added to the email subject
+	 *
 	 * @param string $to The To address
 	 * @param string $subject The subject line of the email
 	 * @param string $message The body of the email
@@ -379,6 +381,9 @@ class Affiliate_WP_Emails {
 		 * @param \Affiliate_WP_Emails $this        Email class instance.
 		 */
 		$attachments = apply_filters( 'affwp_email_attachments', $attachments, $this );
+
+		// Parse tags in subject line.
+		$subject = $this->parse_tags( $subject );
 
 		$sent = wp_mail( $to, $subject, $message, $this->get_headers(), $attachments );
 
@@ -439,9 +444,9 @@ class Affiliate_WP_Emails {
 	 * Search content for email tags and filter email tags through their hooks
 	 *
 	 * @since 1.6
+	 *
 	 * @param string $content Content to search for email tags
-	 * @param int $affiliate_id The affiliate ID
-	 * @return string $content Filtered content
+	 * @return string Filtered content.
 	 */
 	private function parse_tags( $content ) {
 

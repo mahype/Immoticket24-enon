@@ -70,7 +70,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_referrals';
 		}
 		$this->primary_key = 'referral_id';
-		$this->version     = '1.2';
+		$this->version     = '1.3';
 
 		$this->sales = new \Affiliate_WP_Sales_DB;
 
@@ -106,24 +106,24 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	*/
 	public function get_columns() {
 		return array(
-			'referral_id' => '%d',
-			'affiliate_id'=> '%d',
-			'visit_id'    => '%d',
-			'rest_id'     => '%s',
-			'customer_id' => '%d',
-			'parent_id'   => '%d',
-			'description' => '%s',
-			'status'      => '%s',
-			'amount'      => '%s',
-			'currency'    => '%s',
-			'custom'      => '%s',
-			'context'     => '%s',
-			'campaign'    => '%s',
-			'reference'   => '%s',
-			'products'    => '%s',
-			'payout_id'   => '%d',
-			'type'        => '%s',
-			'date'        => '%s',
+			'referral_id'    => '%d',
+			'affiliate_id'   => '%d',
+			'visit_id'       => '%d',
+			'rest_id'        => '%s',
+			'customer_id'    => '%d',
+			'parent_id'      => '%d',
+			'description'    => '%s',
+			'status'         => '%s',
+			'amount'         => '%s',
+			'currency'       => '%s',
+			'custom'         => '%s',
+			'context'        => '%s',
+			'campaign'       => '%s',
+			'reference'      => '%s',
+			'products'       => '%s',
+			'payout_id'      => '%d',
+			'type'           => '%s',
+			'date'           => '%s',
 		);
 	}
 
@@ -135,7 +135,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	 */
 	public function get_sum_columns() {
 		return array(
-				'amount_sum' => '%d'
+			'amount_sum' => '%d',
 		);
 	}
 
@@ -144,7 +144,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	 *
 	 * @access  public
 	 * @since   1.0
-	*/
+	 */
 	public function get_column_defaults() {
 		return array(
 			'affiliate_id' => 0,
@@ -468,36 +468,62 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	}
 
 	/**
-	 * Retrieves a referral by a specific field.
+	 * Retrieves a referral by a specific column and value.
 	 *
-	 * @access  public
-	 * @since   1.0
+	 * @since 1.0
+	 * @since 2.6.1 The optional `$context` parameter was deprecated and removed for PHP 8 compat.
+	 *              Use get_by_with_context() instead. The `$row_id` parameter was renamed to `$value`.
 	 *
-	 * @param string $column  Column name. See get_columns().
-	 * @param string $context Optional. Context for which to retrieve a referral. Default empty.
-	 * @return object|false Database query result object or false on failure.
+	 * @param string $column Column name. See get_columns().
+	 * @param mixed  $value  Column value
+	 * @return object|false Resulting referral if found, otherwise false.
 	*/
-	public function get_by( $column, $row_id, $context = '' ) {
+	public function get_by( $column, $value ) {
 		global $wpdb;
 
-		if ( empty( $column ) || empty( $row_id ) || ! array_key_exists( $column, $this->get_columns() ) ) {
+		$args = func_get_args();
+
+		if ( isset( $args[2] ) ) {
+			return $this->get_by_with_context( $column, $value, $args[2] );
+		}
+
+		if ( empty( $column ) || empty( $value ) || ! array_key_exists( $column, $this->get_columns() ) ) {
 			return false;
 		}
 
-		$and = '';
-		if( ! empty( $context ) ) {
-			$and = " AND context = '" . esc_sql( $context ) . "'";
+		$query = $wpdb->prepare( "SELECT * FROM $this->table_name WHERE $column = '%s' LIMIT 1;", $value );
+
+		return $wpdb->get_row( $query );
+	}
+
+	/**
+	 * Retrieves a referral by a specific column, value, and context.
+	 *
+	 * @since 2.6.1
+	 *
+	 * @param string $column Column name.
+	 * @param mixed  $value  Column value.
+	 * @param string $context Context under which to search.
+	 * @return object|false Resulting referral if found, otherwise false.
+	 */
+	public function get_by_with_context( $column, $value, $context ) {
+		global $wpdb;
+
+		if ( empty( $column ) || empty( $value ) || empty( $context ) || ! array_key_exists( $column, $this->get_columns() ) ) {
+			return false;
 		}
 
-		return $wpdb->get_row( $wpdb->prepare(  "SELECT * FROM $this->table_name WHERE $column = '%s'$and LIMIT 1;", $row_id ) );
+		$query = $wpdb->prepare( "SELECT * FROM $this->table_name WHERE $column = '%s' AND context = '%s' LIMIT 1;", $value, $context );
+
+		return $wpdb->get_row( $query );
 	}
 
 	/**
 	 * Retrieves referrals from the database.
 	 *
-	 * @access  public
-	 * @since   1.0
-	 * @since   2.3 Added the `$sum_fields` argument.
+	 * @since 1.0
+	 * @since 2.3   Added the `$sum_fields` argument.
+	 * @since 2.6.2 Added the `$date_format` argument.
 	 *
 	 * @param array $args {
 	 *     Optional. Arguments to retrieve referrals from the database.
@@ -540,10 +566,19 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	 *     @type bool         $search         Whether a search query is being performed. Default false.
 	 *     @type string|array $fields         Specific fields to retrieve. Accepts 'ids', a single referral field, or an
 	 *                                        array of fields. Default '*' (all).
-	 *     @type array        $sum_fields     A database column, or an array of database columns to add to the query as a sum. Default empty string.
+	 *     @type array        $sum_fields     A database column, or an array of database columns to add to the query
+	 *                                        as a sum. Default empty string.
+	 *     @type string       $date_format    Specific format for date. Adds a formatted_date to response. Uses MySQL
+	 *                                        date_format syntax. Default empty.
 	 * }
 	 * @param   bool  $count  Optional. Whether to return only the total number of results found. Default false.
-	 * @return array|int Array of referral objects or field(s) (if found), int if `$count` is true.
+	 * @return \AffWP\Referral[]|object[]|array|int An array of referral objects, an array of values from a single
+	 *                                              field passed to `$fields`, or an array of objects with multiple
+	 *                                              fields defined in `$fields`. Note: if `$sum_fields` and/or
+	 *                                              `$date_format` are used, relevant sum-based and/or 'formatted_date'
+	 *                                              fields, respectively, will be added to the objects in the result
+	 *                                              set alongside any fields defined in `$fields`. If `$count` is true,
+	 *                                              an integer will be returned.
 	*/
 	public function get_referrals( $args = array(), $count = false ) {
 
@@ -570,7 +605,8 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			'order'          => 'DESC',
 			'search'         => false,
 			'fields'         => '',
-			'sum_fields'     => ''
+			'date_format'    => '',
+			'sum_fields'     => '',
 		);
 
 		$args  = wp_parse_args( $args, $defaults );
@@ -650,7 +686,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 
 			$where .= empty( $where ) ? "WHERE " : "AND ";
 
-			if( is_array( $args['parent_id'] ) ) {
+			if ( is_array( $args['parent_id'] ) ) {
 				$parent_ids = implode( ',', array_map( 'intval', $args['parent_id'] ) );
 			} else {
 				$parent_ids = intval( $args['parent_id'] );
@@ -834,7 +870,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			$fields   = "$this->primary_key";
 			$callback = 'intval';
 		} else {
-			$fields = $this->parse_fields( $args['fields'] );
+			$fields = $this->parse_fields( $args['fields'], $args['date_format'] );
 
 			if ( '*' === $fields ) {
 				$callback = 'affwp_get_referral';
@@ -872,7 +908,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 	/**
 	 * Return the number of results found for a given query
 	 *
-	 * @param  array  $args
+	 * @param array $args
 	 * @return int
 	 */
 	public function count( $args = array() ) {
@@ -1236,7 +1272,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 		date datetime NOT NULL,
 		PRIMARY KEY  (referral_id),
 		KEY affiliate_id (affiliate_id)
-		) CHARACTER SET utf8 COLLATE utf8_general_ci;";
+		) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 
 		dbDelta( $sql );
 

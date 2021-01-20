@@ -244,6 +244,16 @@ class Affiliate_WP_Upgrades {
 				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/upgrades/class-batch-upgrade-create-dynamic-coupons.php',
 			),
 		) );
+
+		$this->add_routine( 'upgrade_v261_utf8mb4_compat', array(
+			'version' => '2.6.1',
+			'compare' => '<',
+			'batch_process' => array(
+				'id'    => 'upgrade-db-utf8mb4',
+				'class' => 'AffWP\Utils\Batch_Process\Upgrade_Database_ut8mb4_Compat',
+				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/upgrades/class-batch-upgrade-db-utf8mb4.php',
+			),
+		) );
 	}
 
 	/**

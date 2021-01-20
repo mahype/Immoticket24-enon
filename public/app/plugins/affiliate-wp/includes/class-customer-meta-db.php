@@ -21,7 +21,7 @@ class Affiliate_WP_Customer_Meta_DB extends Affiliate_WP_Meta_DB {
 	 * @since 2.4
 	 * @var   string
 	 */
-	public $version = '1.0';
+	public $version = '1.1';
 
 	/**
 	 * Database group value.
@@ -93,8 +93,8 @@ class Affiliate_WP_Customer_Meta_DB extends Affiliate_WP_Meta_DB {
 			meta_value longtext,
 			PRIMARY KEY  (meta_id),
 			KEY affwp_customer_id (affwp_customer_id),
-			KEY meta_key (meta_key)
-			) CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			KEY meta_key (meta_key(191))
+			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 
 		dbDelta( $sql );
 

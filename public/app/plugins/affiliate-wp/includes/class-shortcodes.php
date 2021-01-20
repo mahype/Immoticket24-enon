@@ -27,7 +27,7 @@ class Affiliate_WP_Shortcodes {
 	public function affiliate_area( $atts, $content = null ) {
 
 		// See https://github.com/AffiliateWP/AffiliateWP/issues/867
-		if( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
+		if( is_admin() && ( ! wp_doing_ajax() ) ) {
 			return;
 		}
 

@@ -85,6 +85,7 @@ class Endpoints extends Controller {
 	 * Base endpoint to retrieve all customers.
 	 *
 	 * @since 2.3
+	 * @since 2.6.1 Added support for the 'response_callback' parameter.
 	 *
 	 * @param \WP_REST_Request $request Request arguments.
 	 * @return \WP_REST_Response|\WP_Error Customers response object or \WP_Error object if not found.
@@ -134,6 +135,10 @@ class Endpoints extends Controller {
 				$customer = $inst->process_for_output( $customer, $request );
 				return $customer;
 			}, $customers );
+		}
+
+		if ( isset( $request['response_callback'] ) && is_callable( $request['response_callback'] ) ) {
+			$customers = call_user_func( $request['response_callback'], $customers, $request, 'customers' );
 		}
 
 		return $this->response( $customers );

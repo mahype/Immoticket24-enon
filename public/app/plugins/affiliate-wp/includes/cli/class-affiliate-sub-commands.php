@@ -101,7 +101,7 @@ class Sub_Commands extends Base {
 	 * : Referral rate type. Accepts 'percentage', 'flat', or any custom rate type.
 	 *
 	 * If not specified, the default rate type will be used.
-	*
+	 *
 	 * [--flat_rate_basis=<basis>]
 	 * : Referral rate type. Accepts 'per_product', or 'per_order'.
 	 *
@@ -237,6 +237,12 @@ class Sub_Commands extends Base {
 	 * [--flat_rate_basis=<basis>]
 	 * : Referral rate type. Accepts 'per_product', or 'per_order'.
 	 *
+	 * [--earnings=<number>]
+	 * : (Paid) earnings for the affiliate.
+	 *
+	 * [--unpaid_earnings=<number>]
+	 * : Unpaid earnings for the affiliate.
+	 *
 	 * If not specified, the default rate type will be used. This is only used when the rate_type is set to flat.
 	 *
 	 * [--status=<status>]
@@ -285,12 +291,14 @@ class Sub_Commands extends Base {
 		}
 
 		$data['affiliate_id']    = $affiliate->affiliate_id;
-		$data['payment_email']   = Utils\get_flag_value( $assoc_args, 'payment_email',   $affiliate->payment_email );
-		$data['rate']            = Utils\get_flag_value( $assoc_args, 'rate',            $affiliate->rate          );
-		$data['user_id']         = Utils\get_flag_value( $assoc_args, 'user_id',         $affiliate->user_id       );
-		$data['rate_type']       = Utils\get_flag_value( $assoc_args, 'rate_type',       $affiliate->rate_type     );
-		$data['status']          = Utils\get_flag_value( $assoc_args, 'status',          $affiliate->status        );
-		$data['flat_rate_basis'] = Utils\get_flag_value( $assoc_args, 'flat_rate_basis', ''                        );
+		$data['payment_email']   = Utils\get_flag_value( $assoc_args, 'payment_email',   $affiliate->payment_email   );
+		$data['rate']            = Utils\get_flag_value( $assoc_args, 'rate',            $affiliate->rate            );
+		$data['user_id']         = Utils\get_flag_value( $assoc_args, 'user_id',         $affiliate->user_id         );
+		$data['rate_type']       = Utils\get_flag_value( $assoc_args, 'rate_type',       $affiliate->rate_type       );
+		$data['status']          = Utils\get_flag_value( $assoc_args, 'status',          $affiliate->status          );
+		$data['flat_rate_basis'] = Utils\get_flag_value( $assoc_args, 'flat_rate_basis', ''                          );
+		$data['earnings']        = Utils\get_flag_value( $assoc_args, 'earnings',        $affiliate->earnings        );
+		$data['unpaid_earnings'] = Utils\get_flag_value( $assoc_args, 'unpaid_earnings', $affiliate->unpaid_earnings );
 
 		$update = affwp_update_affiliate( $data );
 
@@ -537,6 +545,21 @@ class Sub_Commands extends Base {
 			$item->earnings = 0;
 		}
 		$item->earnings = html_entity_decode( affwp_currency_filter( affwp_format_amount( $item->earnings ) ) );
+	}
+
+	/**
+	 * Handler for the 'unpaid_earnings' field.
+	 *
+	 * @since 2.6.3
+	 *
+	 * @param \AffWP\Affiliate &$item Affiliate object (passed by reference).
+	 */
+	protected function unpaid_earnings_field( &$item ) {
+		if ( empty( $item->unpaid_earnings ) ) {
+			$item->unpaid_earnings = 0;
+		}
+
+		$item->unpaid_earnings = html_entity_decode( affwp_currency_filter( affwp_format_amount( $item->unpaid_earnings ) ) );
 	}
 
 	/**

@@ -43,16 +43,26 @@ class Endpoints extends Controller {
 	 * Registers sales routes.
 	 *
 	 * @since 2.5
+	 * @since 2.6.1 Updated the /sales endpoint to allow affiliates to request their own data.
 	 */
 	public function register_routes() {
+		// PHP 5.3 compat.
+		$instance = $this;
+
 		// /sales/
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			array(
 				'methods'             => \WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_items' ),
 				'args'                => $this->get_collection_params(),
-				'permission_callback' => function( $request ) {
-					return current_user_can( 'manage_referrals' );
+				'permission_callback' => function( \WP_REST_Request $request ) use ( $instance ) {
+					$permitted = $instance->check_affiliate_self_request( $request );
+
+					if ( false === $permitted ) {
+						$permitted = current_user_can( 'manage_referrals' );
+					}
+
+					return $permitted;
 				},
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
@@ -109,6 +119,7 @@ class Endpoints extends Controller {
 		 * Filters the query arguments used to retrieve sales in a REST request.
 		 *
 		 * @since 2.5
+		 * @since 2.6.1 Added support for the 'response_callback' parameter.
 		 *
 		 * @param array            $args    Arguments.
 		 * @param \WP_REST_Request $request Request.
@@ -130,6 +141,10 @@ class Endpoints extends Controller {
 
 				return $referral;
 			}, $sales );
+		}
+
+		if ( isset( $request['response_callback'] ) && is_callable( $request['response_callback'] ) ) {
+			$sales = call_user_func( $request['response_callback'], $sales, $request, 'sales' );
 		}
 
 		return $this->response( $sales );

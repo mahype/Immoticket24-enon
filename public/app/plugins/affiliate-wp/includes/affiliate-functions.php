@@ -26,7 +26,7 @@ function affwp_is_affiliate( $user_id = 0 ) {
 function affwp_get_affiliate_id( $user_id = 0 ) {
 
 	if ( empty( $user_id ) ) {
-		$is_admin_doing_ajax = is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX );
+		$is_admin_doing_ajax = is_admin() || wp_doing_ajax();
 
 		if ( ! $is_admin_doing_ajax && ! is_user_logged_in() ) {
 			return false;
@@ -151,7 +151,7 @@ function affwp_get_affiliate_last_name( $affiliate = 0 ) {
 	}
 
 	return esc_html( $user_info->last_name );
-	
+
 }
 
 /**
@@ -177,7 +177,7 @@ function affwp_get_affiliate_first_name( $affiliate = 0 ) {
 	}
 
 	return esc_html( $user_info->first_name );
-	
+
 }
 
 /**
@@ -1188,11 +1188,18 @@ function affwp_decrease_affiliate_visit_count( $affiliate = 0 ) {
  * Retrieves the affiliate's conversion rate.
  *
  * @since 1.0
+ * @since 2.6.1 Added a `$date_range` parameter.
  *
- * @param int|AffWP\Affiliate $affiliate Optional. Affiliate ID or object. Default is the current affiliate.
+ * @param int|AffWP\Affiliate $affiliate  Optional. Affiliate ID or object. Default is the current affiliate.
+ * @param string|array        $date_range {
+ *     Optional. Date string or start/end range to calculate for. Default empty array.
+ *
+ *     @type string $start Start date to calculate for.
+ *     @type string $end   End date to calculate for.
+ * }
  * @return string|false The affiliate's conversion rate, otherwise false.
  */
-function affwp_get_affiliate_conversion_rate( $affiliate = 0 ) {
+function affwp_get_affiliate_conversion_rate( $affiliate, $date_range = array() ) {
 
 	if ( ! $affiliate = affwp_get_affiliate( $affiliate ) ) {
 		return false;
@@ -1200,12 +1207,8 @@ function affwp_get_affiliate_conversion_rate( $affiliate = 0 ) {
 
 	$rate = 0;
 
-	$referrals = affiliate_wp()->referrals->count( array(
-		'affiliate_id' => $affiliate->ID,
-		'status'       => array( 'paid', 'unpaid' )
-	) );
-
-	$visits = affwp_get_affiliate_visit_count( $affiliate->ID );
+	$referrals = affwp_count_referrals( $affiliate->ID, array( 'paid', 'unpaid' ), $date_range );
+	$visits    = affwp_count_visits( $affiliate->ID, $date_range );
 
 	if ( $visits > 0 ) {
 		$rate = $referrals / $visits;
@@ -1217,11 +1220,13 @@ function affwp_get_affiliate_conversion_rate( $affiliate = 0 ) {
 	 * Filters the conversion rate.
 	 *
 	 * @since 1.0
+	 * @since 2.6.1 Added a `$date_range` parameter
 	 *
 	 * @param string $rate         Formatted conversion rate.
 	 * @param int    $affiliate_id Affiliate ID.
+	 * @param array  $date_range   Date range the conversion rate represents.
 	 */
-	return apply_filters( 'affwp_get_affiliate_conversion_rate', $rate, $affiliate->ID );
+	return apply_filters( 'affwp_get_affiliate_conversion_rate', $rate, $affiliate->ID, $date_range );
 
 }
 
@@ -1383,7 +1388,8 @@ function affwp_add_affiliate( $data = array() ) {
  * Updates an affiliate.
  *
  * @since 1.0
- * @since 1.9 Support was added for updating an affiliate's status.
+ * @since 1.9   Support was added for updating an affiliate's status.
+ * @since 2.6.3 Support was added for directly updating an affiliate's earnings and unpaid earnings.
  *
  * @todo Document `$data` as a hash notation
  *
@@ -1416,6 +1422,8 @@ function affwp_update_affiliate( $data = array() ) {
 	$args['rate']            = ( isset( $data['rate'] ) && '' !== $data['rate'] ) ? sanitize_text_field( $data['rate'] ) : '';
 	$args['rate_type']       = ! empty( $data['rate_type'] ) ? sanitize_text_field( $data['rate_type'] ) : '';
 	$args['flat_rate_basis'] = ! empty( $data['flat_rate_basis'] ) && 'flat' === $args['rate_type'] ? sanitize_text_field( $data['flat_rate_basis'] ) : '';
+	$args['earnings']        = ( isset( $data['earnings'] ) && is_numeric( $data['earnings'] ) ) ? floatval( $data['earnings'] ) : '';
+	$args['unpaid_earnings'] = ( isset( $data['unpaid_earnings'] ) && is_numeric( $data['unpaid_earnings'] ) ) ? floatval( $data['unpaid_earnings'] ) : '';
 	$args['status']          = ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : $affiliate->status;
 	$args['user_id']         = $user_id;
 	$args['notes']           = ! empty( $data['notes'] ) ? wp_kses_post( $data['notes'] ) : '';
@@ -1962,7 +1970,7 @@ function affwp_get_payouts_service_account( $affiliate_id = 0 ) {
 		'sslverify' => false,
 	);
 
-	$request = wp_remote_get( AFFILIATEWP_PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/account/validate-account', $args );
+	$request = wp_remote_get( PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/account/validate-account', $args );
 
 	if ( is_wp_error( $request ) ) {
 
@@ -2025,4 +2033,15 @@ function affwp_get_payouts_service_account( $affiliate_id = 0 ) {
 	}
 
 	return $account_details;
+}
+
+/**
+ * Determines whether the current page is the Affiliate Area or not.
+ *
+ * @since 2.6.2
+ *
+ * @return bool True if the current page is the Affiliate Area, false if not.
+ */
+function affwp_is_affiliate_area() {
+	return get_the_ID() === affwp_get_affiliate_area_page_id();
 }

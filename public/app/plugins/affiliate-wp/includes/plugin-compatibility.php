@@ -145,3 +145,21 @@ function affwp_enable_signup_referrals_activation_with_wps_hide_login( $enable )
 	return $enable;
 }
 add_filter( 'wps_hide_login_signup_enable', 'affwp_enable_signup_referrals_activation_with_wps_hide_login' );
+
+/**
+ * Prevent Edwiser Bridge – WordPress Moodle LMS Integration plugin from overwriting the email "From Name" value.
+ *
+ * @since 2.6.1
+ *
+ * @param string $from_name The email from name.
+ * @return string The email from name.
+ */
+function affwp_edwiser_bridge_prevent_from_name_from_being_overwritten( $from_name ) {
+
+	if ( did_action( 'affwp_email_send_before' ) ) {
+		$from_name = affiliate_wp()->emails->get_from_name();
+	}
+
+	return $from_name;
+}
+add_filter( 'pre_option_eb_mail_from_name', 'affwp_edwiser_bridge_prevent_from_name_from_being_overwritten' );

@@ -5,7 +5,7 @@
  * Description: Affiliate Plugin for WordPress
  * Author: Sandhills Development, LLC
  * Author URI: https://sandhillsdev.com
- * Version: 2.6
+ * Version: 2.6.3.1
  * Text Domain: affiliate-wp
  * Domain Path: languages
  * GitHub Plugin URI: affiliatewp/affiliatewp
@@ -25,7 +25,7 @@
  * @package AffiliateWP
  * @category Core
  * @author Pippin Williamson
- * @version 2.6
+ * @version 2.6.3.1
  */
 
 // Exit if accessed directly
@@ -57,7 +57,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.6';
+	private $version = '2.6.3.1';
 
 	/**
 	 * The affiliates DB instance variable.
@@ -369,9 +369,19 @@ final class Affiliate_WP {
 			define( 'CAL_GREGORIAN', 1 );
 		}
 
-		// Make sure AFFILIATEWP_PAYOUTS_SERVICE_URL is defined.
-		if ( ! defined( 'AFFILIATEWP_PAYOUTS_SERVICE_URL' ) ) {
-			define( 'AFFILIATEWP_PAYOUTS_SERVICE_URL', 'https://payouts.sandhillsdev.com' );
+		// Make sure PAYOUTS_SERVICE_NAME is defined.
+		if ( ! defined( 'PAYOUTS_SERVICE_NAME' ) ) {
+			define( 'PAYOUTS_SERVICE_NAME', 'Payouts Service' );
+		}
+
+		// Make sure PAYOUTS_SERVICE_URL is defined.
+		if ( ! defined( 'PAYOUTS_SERVICE_URL' ) ) {
+			define( 'PAYOUTS_SERVICE_URL', 'https://payouts.sandhillsdev.com' );
+		}
+
+		// Make sure PAYOUTS_SERVICE_DOCS_URL is defined.
+		if ( ! defined( 'PAYOUTS_SERVICE_DOCS_URL' ) ) {
+			define( 'PAYOUTS_SERVICE_DOCS_URL', 'https://docs.affiliatewp.com/article/2111-payouts-service' );
 		}
 	}
 
@@ -497,6 +507,7 @@ final class Affiliate_WP {
 		// REST endpoints.
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-rest-controller.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-affiliates-endpoints.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-campaigns-endpoints.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-creatives-endpoints.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-customers-endpoints.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-payouts-endpoints.php';

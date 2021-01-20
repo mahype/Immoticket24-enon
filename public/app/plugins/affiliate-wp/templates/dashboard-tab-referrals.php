@@ -8,15 +8,16 @@ $affiliate_id = affwp_get_affiliate_id();
 
 	<?php
 	$per_page  = 30;
+	$statuses  = array( 'paid', 'unpaid', 'rejected' );
 	$page      = affwp_get_current_page_number();
-	$pages     = absint( ceil( affwp_count_referrals( $affiliate_id ) / $per_page ) );
+	$pages     = absint( ceil( affwp_count_referrals( $affiliate_id, $statuses ) / $per_page ) );
 	/** @var \AffWP\Referral[] $referrals */
 	$referrals = affiliate_wp()->referrals->get_referrals(
 		array(
 			'number'       => $per_page,
 			'offset'       => $per_page * ( $page - 1 ),
 			'affiliate_id' => $affiliate_id,
-			'status'       => array( 'paid', 'unpaid', 'rejected' ),
+			'status'       => $statuses,
 		)
 	);
 	?>

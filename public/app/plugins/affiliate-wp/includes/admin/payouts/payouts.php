@@ -42,11 +42,13 @@ function affwp_payouts_admin() {
 			<h1>
 				<?php _e( 'Payouts', 'affiliate-wp' ); ?>
 				<?php
-				echo affwp_admin_link( 'reports', _x( 'Reports', 'payouts', 'affiliate-wp' ), array( 'tab' => 'payouts' ), array( 'class' => 'page-title-action' ) );
-				echo affwp_admin_link( 'referrals', __( 'Manage Referrals', 'affiliate-wp' ), array(), array( 'class' => 'page-title-action' ) );
+				echo affwp_admin_link( 'reports', _x( 'Reports', 'payouts', 'affiliate-wp' ), array( 'tab' => 'payouts' ), array( 'class' => 'button action button-small' ) );
+				?>
+				<?php
+				echo affwp_admin_link( 'referrals', __( 'Manage Referrals', 'affiliate-wp' ), array(), array( 'class' => 'button action button-small' ) );
 				?>
 				<?php if ( current_user_can( 'manage_payouts' ) ) : ?>
-					<a href="<?php echo esc_url( affwp_admin_url( 'payouts', array( 'action' => 'new_payout' ) ) ); ?>" class="button-primary page-title-action"><?php _e( 'Pay Affiliates', 'affiliate-wp' ); ?></a>
+					<a href="<?php echo esc_url( affwp_admin_url( 'payouts', array( 'action' => 'new_payout' ) ) ); ?>" class="button action button-primary button-small"><?php _e( 'Pay Affiliates', 'affiliate-wp' ); ?></a>
 				<?php endif; // manage_payouts ?>
 			</h1>
 			<?php

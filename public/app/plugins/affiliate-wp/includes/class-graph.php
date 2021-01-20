@@ -467,19 +467,41 @@ class Affiliate_WP_Graph {
  * selected date-range (if any)
  *
  * @since 1.0
+ * @since 2.6.2 The `$args` parameter was added, removing reliance alone on request-based arguments.
  *
+ * @param array $args {
+ *     Optional. Arguments for filtering graph data.
+ *
+ *     @type string $range    Date range to filter for. Accepts 'this_month', 'last_month', 'today',
+ *                            'yesterday', 'this_week', 'last_week', 'this_quarter', 'last_quarter',
+ *                            'this_year', and 'last_year'. Default 'this_month'.
+ *     @type string $year     Beginning year to filter for. The year for the 'date_from' timestamp
+ *                            is used as a fallback, and the current year the fallback after that.
+ *     @type string $year_end Ending year to filter for. The year for the 'date_to' timestamp
+ *                            is used as a fallback, and the current year the fallback after that.
+ *     @type string $m_start  Beginning month to filter for. The month for the 'date_from' timestamp
+ *                            is used as a fallback, and the current month the fallback after that.
+ *     @type string $m_end    Ending month to filter for. The month for the 'date_to' timestamp
+ *                            is used as a fallback, and the current month the fallback after that.
+ *     @type string $day      Beginning day to filter for. The day for the 'date_from' timestamp
+ *                            is used as a fallback, and the current day the fallback after that.
+ *     @type string $day_end  Ending day to filter for. The day for the 'date_to' timestamp
+ *                            is used as a fallback, and the current day the fallback after that.
+ * }
  * @return array {
  *     Date values used by the reports API.
  *
- *     @type int $day      Day of the month (1-31) to start filtering results by.
- *     @type int $day_end  Day of the month (1-31) to end filtering results by.
- *     @type int $m_start  Month of the year (1-12) to start filtering results by.
- *     @type int $m_end    Month of the year (1-12) to end filtering results by.
- *     @type int $year     Year to start filtering results by.
- *     @type int $year_end Year to end filtering results by.
+ *     @type string $date_form Complete date to filter from if set, otherwise the current timestamp.
+ *     @type string $date_to   Complete date to filter to if set, otherwise the current timestamp.
+ *     @type int    $day      Day of the month (1-31) to start filtering results by.
+ *     @type int    $day_end  Day of the month (1-31) to end filtering results by.
+ *     @type int    $m_start  Month of the year (1-12) to start filtering results by.
+ *     @type int    $m_end    Month of the year (1-12) to end filtering results by.
+ *     @type int    $year     Year to start filtering results by.
+ *     @type int    $year_end Year to end filtering results by.
  * }
 */
-function affwp_get_report_dates() {
+function affwp_get_report_dates( $args = array() ) {
 	$dates = array();
 
 	$current_time = current_time( 'timestamp' );
@@ -490,13 +512,23 @@ function affwp_get_report_dates() {
 	$variable_from_time  = ! empty( $_REQUEST['filter_from'] ) ? strtotime( $dates['date_from'] ) : $current_time;
 	$variable_to_time    = ! empty( $_REQUEST['filter_to'] )   ? strtotime( $dates['date_to'] )   : $current_time;
 
-	$dates['range']      = isset( $_GET['range'] )      ? $_GET['range']      : 'this_month';
-	$dates['year']       = isset( $_GET['year_start'] ) ? $_GET['year_start'] : date( 'Y', $variable_from_time );
-	$dates['year_end']   = isset( $_GET['year_end'] )   ? $_GET['year_end']   : date( 'Y', $variable_to_time );
-	$dates['m_start']    = isset( $_GET['m_start'] )    ? $_GET['m_start']    : date( 'n', $variable_from_time );
-	$dates['m_end']      = isset( $_GET['m_end'] )      ? $_GET['m_end']      : date( 'n', $variable_to_time );
-	$dates['day']        = isset( $_GET['day'] )        ? $_GET['day']        : date( 'd', $variable_from_time );
-	$dates['day_end']    = isset( $_GET['day_end'] )    ? $_GET['day_end']    : date( 'd', $variable_to_time );
+	$date_filters = array(
+		'range'    => 'this_month',
+		'year'     => date( 'Y', $variable_from_time ),
+		'year_end' => date( 'Y', $variable_to_time ),
+		'm_start'  => date( 'n', $variable_from_time ),
+		'm_end'    => date( 'n', $variable_to_time ),
+		'day'      => date( 'd', $variable_from_time ),
+		'day_end'  => date( 'd', $variable_to_time ),
+	);
+
+	// Parse in dates from args first.
+	$date_filters = array_merge( $date_filters, array_intersect_key( $args, $date_filters ) );
+
+	// Parse in dates from $_GET.
+	$date_filters = array_merge( $date_filters, array_intersect_key( $_GET, $date_filters ) );
+
+	$dates = array_merge( $dates, $date_filters );
 
 	// Modify dates based on predefined ranges
 	switch ( $dates['range'] ) :

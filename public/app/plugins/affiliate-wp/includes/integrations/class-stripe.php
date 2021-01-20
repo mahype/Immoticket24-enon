@@ -20,12 +20,23 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 
 		add_filter( 'affwp_referral_reference_column', array( $this, 'reference_link' ), 10, 2 );
 
-		if ( version_compare( SIMPLE_PAY_VERSION, '3.6.0', '>=' ) ) {
+		// Use webhooks to track conversions more accurately across multiple types
+		// of Payment Methods in WP Simple Pay Pro >= 3.6.0.
+		if ( 
+			class_exists( '\SimplePay\Pro\SimplePayPro' ) &&
+			version_compare( SIMPLE_PAY_VERSION, '3.6.0', '>=' )
+		) {
 			add_filter( 'simpay_get_subscription_args_from_payment_form_request', array( $this, 'maybe_track_referral_360' ) );
 			add_filter( 'simpay_get_paymentintent_args_from_payment_form_request', array( $this, 'maybe_track_referral_360' ) );
 
 			add_action( 'simpay_webhook_subscription_created', array( $this, 'process_referral_360' ), 10, 2 );
 			add_action( 'simpay_webhook_payment_intent_succeeded', array( $this, 'process_referral_360' ), 10, 2 );
+
+		// Track conversions when the "Payment Success Page" is reached in
+		// WP Simple Pay Lite or WP Simple Pay Pro < 3.6.0 (no webhooks).
+		//
+		// "Payment Success Page" must include [simpay_payment_receipt] shortcode
+		// for legacy actions to run and referrals tracked.
 		} else {
 			add_action( 'simpay_subscription_created', array( $this, 'insert_referral' ) );
 			add_action( 'simpay_charge_created', array( $this, 'insert_referral' ) );

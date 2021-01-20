@@ -68,7 +68,7 @@ if ( ! empty( $errors )
 	if ( ! in_array( 'empty_business_name', $error_codes ) ) {
 		$business_name = sanitize_text_field( $_POST['business_name'] );
 	}
-	
+
 	if ( ! in_array( 'empty_first_name', $error_codes ) ) {
 		$first_name = sanitize_text_field( $_POST['first_name'] );
 	}
@@ -87,7 +87,7 @@ if ( ! empty( $errors )
 	if ( ! in_array( 'empty_year_of_birth', $error_codes ) ) {
 		$year_of_birth = sanitize_text_field( $_POST['year_of_birth'] );
 	}
-	
+
 }
 ?>
 
@@ -103,7 +103,8 @@ if ( $payouts_service_description ) {
 
 ?>
 
-<p><?php printf( __( 'Already have an AffiliateWP Payouts Service account? Connect it <a href="%s">here</a>', 'affiliate-wp' ), esc_url( $connect_account_url ) ); ?></p>
+<?php /* translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant, 2: Payouts service account connection URL */ ?>
+<p><?php printf( __( 'Already have a %1$s account? Connect it <a href="%2$s">here</a>', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME, esc_url( $connect_account_url ) ); ?></p>
 
 <form id="affwp-affiliate-dashboard-payouts-service-form" class="affwp-form" method="post">
 

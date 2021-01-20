@@ -153,6 +153,10 @@ class Affiliate_WP_Admin_Notices {
 			$output .= self::show_notice( 'upgrade_v26_create_dynamic_coupons', false );
 		}
 
+		if ( false === affwp_has_upgrade_completed( 'upgrade_v261_utf8mb4_compat' ) ) {
+			$output .= self::show_notice( 'upgrade_v261_utf8mb4_compat', false );
+		}
+
 		// Payouts Service.
 		if ( in_array( affwp_get_current_screen(), array( 'affiliate-wp-referrals', 'affiliate-wp-payouts' ), true ) ) {
 			$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
@@ -396,15 +400,18 @@ class Affiliate_WP_Admin_Notices {
 
 		// Payouts service notices.
 		$this->add_notice( 'payouts_service_site_connected', array(
-			'message' => __( 'Website connected to the AffiliateWP Payouts Service.', 'affiliate-wp' ),
+			/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
+			'message' => sprintf( __( 'Website connected to the %s.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME ),
 		) );
 
 		$this->add_notice( 'payouts_service_site_disconnected', array(
-			'message' => __( 'Website disconnected from the AffiliateWP Payouts Service.', 'affiliate-wp' ),
+			/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
+			'message' => sprintf( __( 'Website disconnected from the %s.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME ),
 		) );
 
 		$this->add_notice( 'payouts_service_site_reconnected', array(
-			'message' => __( 'Website reconnected to the AffiliateWP Payouts Service.', 'affiliate-wp' ),
+			/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
+			'message' => sprintf( __( 'Website reconnected to the %s.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME ),
 		) );
 
 		// Payouts Service.
@@ -551,6 +558,29 @@ class Affiliate_WP_Admin_Notices {
 					<form method="post" class="affwp-batch-form" data-dismiss-when-complete="true" data-batch_id="create-dynamic-coupons-upgrade" data-nonce="<?php echo esc_attr( $nonce ); ?>">
 						<p>
 							<?php submit_button( __( 'Upgrade Database', 'affiliate-wp' ), 'secondary', 'v26-create-dynamic-coupons', false ); ?>
+						</p>
+					</form>
+					<?php
+					return ob_get_clean();
+				},
+			)
+		);
+
+		$this->add_notice( 'upgrade_v261_utf8mb4_compat',
+			array(
+				'class' => 'notice notice-info is-dismissible',
+				'message' => function() {
+					$notice = __( 'Your database tables need to be upgraded following the latest AffiliateWP update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
+					$nonce  = wp_create_nonce( 'upgrade-db-utf8mb4_step_nonce' );
+
+					ob_start();
+					// Enqueue admin JS for the batch processor.
+					affwp_enqueue_admin_js();
+					?>
+					<p><?php echo $notice; ?></p>
+					<form method="post" class="affwp-batch-form" data-dismiss-when-complete="true" data-batch_id="upgrade-db-utf8mb4" data-nonce="<?php echo esc_attr( $nonce ); ?>">
+						<p>
+							<?php submit_button( __( 'Upgrade Database Tables', 'affiliate-wp' ), 'secondary', 'v261-upgrade-db-utf8mb4', false ); ?>
 						</p>
 					</form>
 					<?php

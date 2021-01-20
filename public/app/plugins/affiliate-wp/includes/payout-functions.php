@@ -136,33 +136,56 @@ function affwp_get_payout_referrals( $payout = 0 ) {
  * Retrieves the status label for a payout.
  *
  * @since 1.6
+ * @since 2.6.1 The `$payout` parameter was renamed to `$payout_or_status` and now also accepts
+ *              a payout status.
  *
- * @param int|AffWP\Affiliate\Payout $payout Payout ID or object.
+ * @param int|AffWP\Affiliate\Payout|string $payout_or_status Payout ID, object, or status.
  * @return string|false The localized version of the payout status label, otherwise false.
  */
-function affwp_get_payout_status_label( $payout ) {
+function affwp_get_payout_status_label( $payout_or_status ) {
 
-	if ( ! $payout = affwp_get_payout( $payout ) ) {
-		return false;
+	if ( is_string( $payout_or_status ) ) {
+		$payout = null;
+		$status = $payout_or_status;
+	} else {
+		$payout = affwp_get_payout( $payout_or_status );
+
+		if ( isset( $payout->status ) ) {
+			$status = $payout->status;
+		} else {
+			return false;
+		}
 	}
 
-	$statuses = array(
-		'processing' => _x( 'Processing', 'payout', 'affiliate-wp' ),
-		'paid'       => _x( 'Paid', 'payout', 'affiliate-wp' ),
-		'failed'     => __( 'Failed', 'affiliate-wp' ),
-	);
-
-	$label = array_key_exists( $payout->status, $statuses ) ? $statuses[ $payout->status ] : _x( 'Paid', 'payout', 'affiliate-wp' );
+	$statuses = affwp_get_payout_statuses();
+	$label    = array_key_exists( $status, $statuses ) ? $statuses[ $status ] : $statuses['paid'];
 
 	/**
 	 * Filters the payout status label.
 	 *
 	 * @since 1.9
+	 * @since 2.6.1 Added the `$status` parameter
 	 *
 	 * @param string                 $label  A localized version of the payout status label.
 	 * @param AffWP\Affiliate\Payout $payout Payout object.
+	 * @param string                 $status Payout status.
 	 */
-	return apply_filters( 'affwp_payout_status_label', $label, $payout );
+	return apply_filters( 'affwp_payout_status_label', $label, $payout, $status );
+}
+
+/**
+ * Retrieves the list of payout statuses and corresponding labels.
+ *
+ * @since 2.6.1
+ *
+ * @return array Key/value pairs of statuses where key is the status and the value is the label.
+ */
+function affwp_get_payout_statuses() {
+	return array(
+		'processing' => _x( 'Processing', 'payout', 'affiliate-wp' ),
+		'paid'       => _x( 'Paid', 'payout', 'affiliate-wp' ),
+		'failed'     => __( 'Failed', 'affiliate-wp' ),
+	);
 }
 
 /**
@@ -334,7 +357,7 @@ function affwp_validate_payouts_service_payout_data( $data ) {
 		'sslverify' => false,
 	);
 
-	$request = wp_remote_post( AFFILIATEWP_PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/validate-payout', $args );
+	$request = wp_remote_post( PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/validate-payout', $args );
 
 	$valid_payout_data   = array();
 	$invalid_payout_data = array();
@@ -362,4 +385,15 @@ function affwp_validate_payouts_service_payout_data( $data ) {
 	);
 
 	return $validated_payout_data;
+}
+
+/**
+ * Determines whether the payouts service is enabled and configured.
+ *
+ * @since 2.6.1
+ *
+ * @return bool True if the service is enabled and configured, otherwise false.
+ */
+function affwp_is_payouts_service_enabled() {
+	return affiliate_wp()->affiliates->payouts->service_register->is_service_enabled();
 }

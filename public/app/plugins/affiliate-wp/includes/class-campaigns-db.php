@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class Affiliate_WP_Campaigns_DB
+ *
+ * @property-read \AffWP\Campaign\REST\v1\Endpoints $REST Campaigns REST endpoints.
+ */
 class Affiliate_WP_Campaigns_DB extends Affiliate_WP_DB {
 
 	/**
@@ -31,7 +36,7 @@ class Affiliate_WP_Campaigns_DB extends Affiliate_WP_DB {
 	 * @since  1.7
 	 */
 	public function __construct() {
-		global $wpdb;
+		global $wpdb, $wp_version;
 
 		if( defined( 'AFFILIATE_WP_NETWORK_WIDE' ) && AFFILIATE_WP_NETWORK_WIDE ) {
 			// Allows a single visits table for the whole network
@@ -40,7 +45,12 @@ class Affiliate_WP_Campaigns_DB extends Affiliate_WP_DB {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_campaigns';
 		}
 		$this->primary_key = 'affiliate_id';
-		$this->version     = '1.0';
+		$this->version     = '1.1';
+
+		// REST endpoints.
+		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
+			$this->REST = new \AffWP\Campaign\REST\v1\Endpoints;
+		}
 	}
 
 	/**
@@ -308,6 +318,20 @@ class Affiliate_WP_Campaigns_DB extends Affiliate_WP_DB {
 	 */
 	public function delete( $row_id = 0, $type = '' ) {
 		_doing_it_wrong( 'delete', 'The AffiliateWP Campaigns table is a read-only VIEW. Data cannot be deleted.', '1.7' );
+	}
+
+	/**
+	 * Handles (maybe) converting the current table to utf8mb4 collation.
+	 *
+	 * @since 2.6.1
+	 *
+	 * @see maybe_convert_table_to_utf8mb4()
+	 *
+	 * @return bool True if the table was converted, otherwise false.
+	 */
+	public function maybe_convert_table_to_utf8mb4() {
+		// Character set and collation are determined by the contributing columns of a view.
+		return false;
 	}
 
 	/**
