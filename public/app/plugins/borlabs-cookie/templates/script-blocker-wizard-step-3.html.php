@@ -53,6 +53,9 @@ $scriptTagCounter = 1;
 
                  <div class="row">
                     <div class="col-sm-8 offset-sm-4">
+                        <?php wp_nonce_field('borlabs_cookie_script_blocker_create'); ?>
+                        <input type="hidden" name="action" value="create">
+                        <input type="hidden" name="id" value="new">
                         <button type="submit" class="btn btn-primary btn-sm"><?php _ex('Create Script Blocker', 'Backend / Script Blocker / Button Title', 'borlabs-cookie'); ?></button>
                     </div>
                 </div>
@@ -424,9 +427,6 @@ $scriptTagCounter = 1;
 
                 <div class="row">
                     <div class="col-sm-8 offset-sm-4">
-                        <?php wp_nonce_field('borlabs_cookie_script_blocker_create'); ?>
-                        <input type="hidden" name="action" value="create">
-                        <input type="hidden" name="id" value="new">
                         <button type="submit" class="btn btn-primary btn-sm"><?php _ex('Create Script Blocker', 'Backend / Script Blocker / Button Title', 'borlabs-cookie'); ?></button>
                     </div>
                 </div>

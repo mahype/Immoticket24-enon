@@ -64,6 +64,7 @@ class Upgrade
         'upgradeVersion_2_2_10' => '2.2.10',
         'upgradeVersion_2_2_11' => '2.2.11',
         'upgradeVersion_2_2_12' => '2.2.12',
+        'upgradeVersion_2_2_13' => '2.2.13',
     ];
 
     private $currentBlogId = '';
@@ -822,6 +823,15 @@ class Upgrade
         update_option('BorlabsCookieClearCache', true, 'no');
 
         update_option('BorlabsCookieVersion', '2.2.12', 'no');
+
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_13()
+    {
+        update_option('BorlabsCookieClearCache', true, 'no');
+
+        update_option('BorlabsCookieVersion', '2.2.13', 'no');
 
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
