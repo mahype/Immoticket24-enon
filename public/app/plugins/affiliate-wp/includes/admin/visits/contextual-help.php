@@ -54,6 +54,7 @@ function affwp_visits_contextual_help() {
 				<li>' . __( 'You can enter an IP address to find all visits from a specific IP', 'affiliate-wp' ) . '</li>
 				<li>' . __( 'You can enter a complete URL to find all visits that landed on or came from a specific URL', 'affiliate-wp' ) . '</li>
 				<li>' . __( 'You can enter a partial URL to find all visits that landed on or came from a specific site', 'affiliate-wp' ) . '</li>
+				<li>' . __( 'You can enter the visit&#8217;s ID number prefixed by &#8220;visit:&#8221;', 'affiliate-wp' ) . '</li>
 				<li>' . __( 'You can enter the referral&#8217;s ID number prefixed by &#8220;referral:&#8221;', 'affiliate-wp' ) . '</li>
 				<li>' . __( 'You can enter a visit context prefixed by &#8220;context:&#8221;', 'affiliate-wp' ) . '</li>
 				<li>' . __( 'You can enter the affiliate&#8217;s ID number prefixed by &#8220;affiliate:&#8221;', 'affiliate-wp' ) . '</li>

@@ -348,7 +348,8 @@ class AffWP_Visits_Table extends List_Table {
 
 		}
 
-		$url = '';
+		$url      = '';
+		$visit_id = 0;
 
 		if ( strpos( $search, 'referral:' ) !== false ) {
 			$referral_id = absint( trim( str_replace( 'referral:', '', $search ) ) );
@@ -366,6 +367,9 @@ class AffWP_Visits_Table extends List_Table {
 			$url    = trim( str_replace( 'url:', '', $search ) );
 			$url    = rtrim( $url, '/' ) . '/';
 			$search = '';
+		} elseif ( strpos( $search, 'visit:' ) !== false ) {
+			$visit_id = absint( trim( str_replace( 'visit:', '', $search ) ) );
+			$search   = '';
 		}
 
 		$per_page = $this->get_items_per_page( 'affwp_edit_visits_per_page', $this->per_page );
@@ -373,6 +377,7 @@ class AffWP_Visits_Table extends List_Table {
 		$args = wp_parse_args( $this->query_args, array(
 			'number'          => $this->per_page,
 			'offset'          => $this->per_page * ( $page - 1 ),
+			'visit_id'        => $visit_id,
 			'affiliate_id'    => $affiliate_id,
 			'referral_id'     => $referral_id,
 			'date'            => $date,

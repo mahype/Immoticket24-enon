@@ -34,18 +34,26 @@ class Endpoints extends Controller {
 	 * Registers Visit routes.
 	 *
 	 * @since 1.9
-	 * @access public
+	 * @since 2.6.1 Updated the /visits endpoint to allow affiliates to request their own data.
 	 */
 	public function register_routes() {
+		// PHP 5.3 compat.
+		$instance = $this;
 
-		// /visits/
+		// /visits
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			array(
 				'methods'             => \WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_items' ),
 				'args'                => $this->get_collection_params(),
-				'permission_callback' => function( $request ) {
-					return current_user_can( 'manage_visits' );
+				'permission_callback' => function( \WP_REST_Request $request ) use ( $instance ) {
+					$permitted = $instance->check_affiliate_self_request( $request );
+
+					if ( false === $permitted ) {
+						$permitted = current_user_can( 'manage_visits' );
+					}
+
+					return $permitted;
 				}
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
@@ -107,6 +115,7 @@ class Endpoints extends Controller {
 		 * Filters the query arguments used to retrieve visits in a REST request.
 		 *
 		 * @since 1.9
+		 * @since 2.6.1 Added support for the 'response_callback' parameter.
 		 *
 		 * @param array            $args    Arguments.
 		 * @param \WP_REST_Request $request Request.
@@ -127,6 +136,10 @@ class Endpoints extends Controller {
 				$visit = $inst->process_for_output( $visit, $request );
 				return $visit;
 			}, $visits );
+		}
+
+		if ( isset( $request['response_callback'] ) && is_callable( $request['response_callback'] ) ) {
+			$visits = call_user_func( $request['response_callback'], $visits, $request, 'visits' );
 		}
 
 		return $this->response( $visits );
@@ -225,7 +238,7 @@ class Endpoints extends Controller {
 		$params['orderby'] = array(
 			'description'       => __( 'Visits table column to order by.', 'affiliate-wp' ),
 			'validate_callback' => function( $param, $request, $key ) {
-				return array_key_exists( $param, affiliate_wp()->referrals->get_columns() );
+				return array_key_exists( $param, affiliate_wp()->visits->get_columns() );
 			},
 		);
 

@@ -38,7 +38,6 @@ foreach ( $to_delete as $affiliate_id ) {
 	if ( $deleting_self ) {
 		$name = __( sprintf( '%s (The current user will not be deleted)', $name ), 'affiliate-wp' );
 		$total_invalid_count++;
-		$invalid_affiliate_count++;
 	} elseif ( ! $affiliate_exists ) {
 		$name = __( '(Invalid Affiliate ID)', 'affiliate-wp' );
 		$total_invalid_count++;

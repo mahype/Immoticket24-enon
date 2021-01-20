@@ -9,7 +9,10 @@ function affwp_user_profile_fields( $user ) {
 	}
 
 	if( isset( $_GET['register_affiliate'] ) && 1 == absint( $_GET['register_affiliate'] ) ) {
-		$affiliate_id = affwp_add_affiliate( array( 'user_id' => $user->ID ) );
+		$affiliate_id = affwp_add_affiliate( array(
+			'user_id'        => $user->ID,
+			'dynamic_coupon' => ! affiliate_wp()->settings->get( 'require_approval' ) ? 1 : '',
+		) );
 	} else {
 		$affiliate_id = affwp_get_affiliate_id( $user->ID );
 	}

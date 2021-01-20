@@ -99,6 +99,12 @@ class Recount_Affiliate_Stats extends Utils\Batch_Process implements Batch\With_
 	 */
 	public function pre_fetch() {
 
+		$all_affiliate_ids = affiliate_wp()->affiliates->get_affiliates( array(
+			'fields' => 'affiliate_id',
+		) );
+
+		affiliate_wp()->utils->data->write( "{$this->batch_id}_all_affiliate_ids", $all_affiliate_ids );
+
 		// If an invalid affiliate is set, go no further.
 		if ( ! $this->affiliate_id && $this->affiliate_filter ) {
 			affiliate_wp()->utils->data->write( "{$this->batch_id}_affiliate_totals", array() );
@@ -129,7 +135,8 @@ class Recount_Affiliate_Stats extends Utils\Batch_Process implements Batch\With_
 	 * @since  2.0
 	 */
 	public function compile_affiliate_totals() {
-		$affiliate_totals = affiliate_wp()->utils->data->get( "{$this->batch_id}_affiliate_totals", array() );
+		$affiliate_totals  = affiliate_wp()->utils->data->get( "{$this->batch_id}_affiliate_totals", array() );
+		$all_affiliate_ids = affiliate_wp()->utils->data->get( "{$this->batch_id}_all_affiliate_ids", array() );
 
 		if ( false === $affiliate_totals ) {
 			if ( 'earnings' === $this->type ) {
@@ -151,26 +158,35 @@ class Recount_Affiliate_Stats extends Utils\Batch_Process implements Batch\With_
 				'affiliate_id' => $this->affiliate_id,
 			);
 
-			$referrals = affiliate_wp()->referrals->get_referrals( $args );
-
-			$data_sets = array();
-
-			foreach ( $referrals as $referral ) {
-				$data_sets[ $referral->affiliate_id ][] = $referral;
-			}
-
 			$affiliate_totals = array();
 
-			if ( ! empty( $data_sets ) ) {
-				foreach ( $data_sets as $affiliate_id => $referrals ) {
-					foreach ( $referrals as $referral ) {
-						if ( isset( $affiliate_totals[ $referral->affiliate_id ] ) ) {
-							$affiliate_totals[ $referral->affiliate_id ] += $referral->amount;
-						} else {
-							$affiliate_totals[ $referral->affiliate_id ] = $referral->amount;
+			$referrals = affiliate_wp()->referrals->get_referrals( $args );
+
+			if ( ! empty( $referrals ) ) {
+				$data_sets = array();
+
+				foreach ( $referrals as $referral ) {
+					$data_sets[ $referral->affiliate_id ][] = $referral;
+				}
+
+				if ( ! empty( $data_sets ) ) {
+					foreach ( $data_sets as $affiliate_id => $referrals ) {
+						foreach ( $referrals as $referral ) {
+							if ( isset( $affiliate_totals[ $referral->affiliate_id ] ) ) {
+								$affiliate_totals[ $referral->affiliate_id ] += $referral->amount;
+							} else {
+								$affiliate_totals[ $referral->affiliate_id ] = $referral->amount;
+							}
 						}
 					}
 				}
+			}
+
+			if ( 0 !== $this->affiliate_id && ! isset( $affiliate_totals[ $this->affiliate_id ] ) ) {
+				$affiliate_totals[ $this->affiliate_id ] = 0;
+			} else {
+				// Append any active affiliates lacking referrals with a total of 0.
+				$affiliate_totals += array_fill_keys( $all_affiliate_ids, 0 );
 			}
 
 			affiliate_wp()->utils->data->write( "{$this->batch_id}_affiliate_totals", $affiliate_totals );
@@ -189,7 +205,8 @@ class Recount_Affiliate_Stats extends Utils\Batch_Process implements Batch\With_
 	public function compile_totals() {
 		$count = 0;
 
-		$affiliate_totals = array();
+		$affiliate_totals  = array();
+		$all_affiliate_ids = affiliate_wp()->utils->data->get( "{$this->batch_id}_all_affiliate_ids", array() );
 
 		if ( 'referrals' === $this->type ) {
 
@@ -214,6 +231,13 @@ class Recount_Affiliate_Stats extends Utils\Batch_Process implements Batch\With_
 			$visits = array_map( 'absint', $visits );
 
 			$affiliate_totals = array_count_values( $visits );
+		}
+
+		if ( 0 !== $this->affiliate_id && ! isset( $affiliate_totals[ $this->affiliate_id ] ) ) {
+			$affiliate_totals[ $this->affiliate_id ] = 0;
+		} else {
+			// Append any active affiliates with none of the recount object with a total of 0.
+			$affiliate_totals += array_fill_keys( $all_affiliate_ids, 0 );
 		}
 
 		affiliate_wp()->utils->data->write( "{$this->batch_id}_affiliate_totals", $affiliate_totals );

@@ -544,7 +544,7 @@ function affwp_get_referral_format_value( $format = '', $affiliate_id = 0 ) {
  */
 function affwp_get_referral_format() {
 
-	$referral_format = affiliate_wp()->settings->get( 'referral_format' );
+	$referral_format = affiliate_wp()->settings->get( 'referral_format', 'id' );
 
 	return $referral_format;
 

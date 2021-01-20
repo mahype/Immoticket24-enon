@@ -73,7 +73,7 @@ class Affiliate_WP_Payouts_DB extends Affiliate_WP_DB {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_payouts';
 		}
 		$this->primary_key = 'payout_id';
-		$this->version     = '1.0';
+		$this->version     = '1.1';
 
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-payouts-service-register.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-payouts-service-events.php';
@@ -376,6 +376,7 @@ class Affiliate_WP_Payouts_DB extends Affiliate_WP_DB {
 	 *                                        field. Default 'payout_id'.
 	 *     @type string|array $fields         Specific fields to retrieve. Accepts 'ids', a single payout field, or an
 	 *                                        array of fields. Default '*' (all).
+	 *     @type string       $date_format    Specific format for date. Adds a formatted_date to response. Uses MYSQL date_format syntax.
 	 * }
 	 * @param bool  $count Optional. Whether to return only the total number of results found. Default false.
 	 * @return array|int Array of payout objects or field(s) (if found), int if `$count` is true.
@@ -401,6 +402,7 @@ class Affiliate_WP_Payouts_DB extends Affiliate_WP_DB {
 			'orderby'         => 'payout_id',
 			'fields'          => '',
 			'search'          => false,
+			'date_format'     => '',
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -616,7 +618,7 @@ class Affiliate_WP_Payouts_DB extends Affiliate_WP_DB {
 			$fields   = "$this->primary_key";
 			$callback = 'intval';
 		} else {
-			$fields = $this->parse_fields( $args['fields'] );
+			$fields = $this->parse_fields( $args['fields'], $args['date_format'] );
 
 			if ( '*' === $fields ) {
 				$callback = 'affwp_get_payout';
@@ -723,7 +725,7 @@ class Affiliate_WP_Payouts_DB extends Affiliate_WP_DB {
 			PRIMARY KEY  (payout_id),
 			KEY affiliate_id (affiliate_id),
 			KEY service_id (service_id)
-			) CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 
 		dbDelta( $sql );
 

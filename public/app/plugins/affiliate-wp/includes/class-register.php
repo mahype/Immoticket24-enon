@@ -460,7 +460,10 @@ class Affiliate_WP_Register {
 			return;
 		}
 
-		$affiliate_id = affwp_add_affiliate( array( 'user_id' => $user_id ) );
+		$affiliate_id = affwp_add_affiliate( array(
+			'user_id'        => $user_id,
+			'dynamic_coupon' => ! affiliate_wp()->settings->get( 'require_approval' ) ? 1 : '',
+		) );
 
 		if ( ! $affiliate_id ) {
 			return;
@@ -552,6 +555,19 @@ class Affiliate_WP_Register {
 					<label for="create-affiliate-<?php echo $context; ?>"><input type="checkbox" id="create-affiliate-<?php echo $context; ?>" name="affwp_create_affiliate" value="1" /> <?php _e( 'Add the user as an affiliate.', 'affiliate-wp' ); ?></label>
 				</td>
 			</tr>
+			<?php if ( affwp_dynamic_coupons_is_setup() ) : ?>
+				<tr class="form-row" id="affwp-affiliate-coupon-row">
+					<th scope="row">
+						<label for="dynamic-coupon-<?php echo $context; ?>"><?php _e( 'Dynamic Coupon', 'affiliate-wp' ); ?></label>
+					</th>
+					<td>
+						<label for="dynamic-coupon-<?php echo $context; ?>">
+							<input type="checkbox" name="dynamic_coupon" id="dynamic-coupon-<?php echo $context; ?>" value="1" />
+							<?php _e( 'Create dynamic coupon for affiliate?', 'affiliate-wp' ); ?>
+						</label>
+					</td>
+				</tr>
+			<?php endif; ?>
 			<?php if ( ! affiliate_wp()->emails->is_email_disabled() ) : ?>
 			<tr>
 				<th scope="row"><label for="disable-affiliate-email-<?php echo $context; ?>"><?php _e( 'Disable Affiliate Email',  'affiliate-wp' ); ?></label></th>
@@ -591,7 +607,10 @@ class Affiliate_WP_Register {
 		}
 
 		// add the affiliate
-		affwp_add_affiliate( array( 'user_id' => $user_id ) );
+		affwp_add_affiliate( array(
+			'user_id'        => $user_id,
+			'dynamic_coupon' => isset( $_POST['dynamic_coupon'] ) ? $_POST['dynamic_coupon'] : '',
+		) );
 
 	}
 

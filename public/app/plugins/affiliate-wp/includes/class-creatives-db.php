@@ -53,7 +53,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_creatives';
 		}
 		$this->primary_key = 'creative_id';
-		$this->version     = '1.0';
+		$this->version     = '1.1';
 
 		// REST endpoints.
 		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
@@ -126,6 +126,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 	 *                                     field. Default 'creative_id'.
 	 *     @type string|array $fields      Specific fields to retrieve. Accepts 'ids', a single creative field, or an
 	 *                                     array of fields. Default '*' (all).
+	 *     @type string       $date_format    Specific format for date. Adds a formatted_date to response. Uses MYSQL date_format syntax.
 	 * }
 	 * @param bool $count Whether to retrieve only the total number of results found. Default false.
 	 * @return array|int Array of creative objects or field(s) (if found), int if `$count` is true.
@@ -141,6 +142,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			'orderby'     => $this->primary_key,
 			'order'       => 'ASC',
 			'fields'      => '',
+			'date_format' => '',
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -208,7 +210,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			$fields   = "$this->primary_key";
 			$callback = 'intval';
 		} else {
-			$fields = $this->parse_fields( $args['fields'] );
+			$fields = $this->parse_fields( $args['fields'], $args['date_format'] );
 
 			if ( '*' === $fields ) {
 				$callback = 'affwp_get_creative';
@@ -306,7 +308,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			date datetime NOT NULL,
 			PRIMARY KEY  (creative_id),
 			KEY creative_id (creative_id)
-			) CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 
 		dbDelta( $sql );
 

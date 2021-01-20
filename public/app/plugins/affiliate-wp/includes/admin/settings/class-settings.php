@@ -778,7 +778,7 @@ class Affiliate_WP_Settings {
 					),
 					'registration_subject' => array(
 						'name' => __( 'Registration Email Subject', 'affiliate-wp' ),
-						'desc' => __( 'Enter the subject line for the registration email sent to affiliate managers when new affiliates register.', 'affiliate-wp' ),
+						'desc' => __( 'Enter the subject line for the registration email sent to affiliate managers when new affiliates register. Supports template tags.', 'affiliate-wp' ),
 						'type' => 'text',
 						'std' => __( 'New Affiliate Registration', 'affiliate-wp' )
 					),
@@ -795,7 +795,7 @@ class Affiliate_WP_Settings {
 					),
 					'new_admin_referral_subject' => array(
 						'name' => __( 'New Referral Email Subject', 'affiliate-wp' ),
-						'desc' => __( 'Enter the subject line for the email sent to site the site affiliate manager when affiliates earn referrals.', 'affiliate-wp' ),
+						'desc' => __( 'Enter the subject line for the email sent to site the site affiliate manager when affiliates earn referrals. Supports template tags.', 'affiliate-wp' ),
 						'type' => 'text',
 						'std' => __( 'Referral Earned!', 'affiliate-wp' )
 					),
@@ -812,7 +812,7 @@ class Affiliate_WP_Settings {
 					),
 					'referral_subject' => array(
 						'name' => __( 'New Referral Email Subject', 'affiliate-wp' ),
-						'desc' => __( 'Enter the subject line for new referral emails sent when affiliates earn referrals.', 'affiliate-wp' ),
+						'desc' => __( 'Enter the subject line for new referral emails sent when affiliates earn referrals. Supports template tags.', 'affiliate-wp' ),
 						'type' => 'text',
 						'std' => __( 'Referral Awarded!', 'affiliate-wp' )
 					),
@@ -829,7 +829,7 @@ class Affiliate_WP_Settings {
 					),
 					'accepted_subject' => array(
 						'name' => __( 'Application Accepted Email Subject', 'affiliate-wp' ),
-						'desc' => __( 'Enter the subject line for accepted application emails sent to affiliates when their account is approved.', 'affiliate-wp' ),
+						'desc' => __( 'Enter the subject line for accepted application emails sent to affiliates when their account is approved. Supports template tags.', 'affiliate-wp' ),
 						'type' => 'text',
 						'std' => __( 'Affiliate Application Accepted', 'affiliate-wp' )
 					),
@@ -956,7 +956,8 @@ class Affiliate_WP_Settings {
 					),
 					'enable_payouts_service' => array(
 						'name' => __( 'Enable Payouts Service', 'affiliate-wp' ),
-						'desc' => __( 'Enable the AffiliateWP Payouts Service.', 'affiliate-wp' ),
+						/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
+						'desc' => sprintf( __( 'Enable the %s.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME ),
 						'type' => 'checkbox',
 					),
 					'payouts_service_description' => array(
@@ -1092,7 +1093,7 @@ class Affiliate_WP_Settings {
 			),
 			'pending_subject' => array(
 				'name' => __( 'Application Pending Email Subject', 'affiliate-wp' ),
-				'desc' => __( 'Enter the subject line for pending affiliate application emails.', 'affiliate-wp' ),
+				'desc' => __( 'Enter the subject line for pending affiliate application emails. Supports template tags.', 'affiliate-wp' ),
 				'type' => 'text',
 				'std' => __( 'Your Affiliate Application Is Being Reviewed', 'affiliate-wp' )
 			),
@@ -1109,7 +1110,7 @@ class Affiliate_WP_Settings {
 			),
 			'rejection_subject' => array(
 				'name' => __( 'Application Rejection Email Subject', 'affiliate-wp' ),
-				'desc' => __( 'Enter the subject line for rejected affiliate application emails.', 'affiliate-wp' ),
+				'desc' => __( 'Enter the subject line for rejected affiliate application emails. Supports template tags.', 'affiliate-wp' ),
 				'type' => 'text',
 				'std' => __( 'Your Affiliate Application Has Been Rejected', 'affiliate-wp' )
 			),
@@ -1556,7 +1557,8 @@ class Affiliate_WP_Settings {
 	 */
 	function payouts_service_about() {
 
-		$payouts_service_about = '<p>' . __( 'Payouts by Sandhills Development allows you, as the site owner, to pay your affiliates directly from a credit or debit card and the funds for each recipient will be automatically deposited into their bank accounts. To use this service, connect your site to the service below. You will log into the service using your username and password from AffiliateWP.com.', 'affiliate-wp' ) . '</p>';
+		/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
+		$payouts_service_about = '<p>' . sprintf( __( '%s allows you, as the site owner, to pay your affiliates directly from a credit or debit card and the funds for each recipient will be automatically deposited into their bank accounts. To use this service, connect your site to the service below. You will log into the service using your username and password from AffiliateWP.com.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME ) . '</p>';
 		/* translators: 1: Payouts Service URL */
 		$payouts_service_about .= '<p>' . sprintf( __( '<a href="%s" target="_blank">Learn more and view pricing.</a>', 'affiliate-wp' ), 'https://payouts.sandhillsdev.com' ) . '</p>';
 
@@ -1579,15 +1581,19 @@ class Affiliate_WP_Settings {
 
 			$payouts_service_disconnect_url = wp_nonce_url( add_query_arg( array( 'affwp_action' => 'payouts_service_disconnect' ) ), 'payouts_service_disconnect', 'payouts_service_disconnect_nonce' );
 
-			$payouts_service_connection_status = '<p>' . __( 'Your website is connected to the AffiliateWP Payouts Service', 'affiliate-wp' ) . '</p>';
-			$payouts_service_connection_status .= '<a href="'. esc_url( $payouts_service_disconnect_url ) .'" class="affwp-payouts-service-disconnect"><span>' . __( 'Disconnect from the AffiliateWP Payouts Service', 'affiliate-wp' ) . '</span></a>';
+			/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
+			$payouts_service_connection_status = '<p>' . sprintf( __( 'Your website is connected to the %s.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME ) . '</p>';
+			/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
+			$payouts_service_connection_status .= '<a href="'. esc_url( $payouts_service_disconnect_url ) .'" class="affwp-payouts-service-disconnect"><span>' . sprintf( __( 'Disconnect from the %s.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME ) . '</span></a>';
 
 		} elseif ( 'inactive' === $connection_status ) {
 
 			$payouts_service_reconnect_url = wp_nonce_url( add_query_arg( array( 'affwp_action' => 'payouts_service_reconnect' ) ), 'payouts_service_reconnect', 'payouts_service_reconnect_nonce' );
 
-			$payouts_service_connection_status = '<a href="'. esc_url( $payouts_service_reconnect_url ) .'" class="affwp-payouts-service-disconnect"><span>' . __( 'Reconnect to the AffiliateWP Payouts Service', 'affiliate-wp' ) . '</span></a>';
-			$payouts_service_connection_status .= '<p>' . sprintf( __( 'Have questions about connecting with the AffiliateWP Payouts Service? See the <a href="%s" target="_blank" rel="noopener noreferrer">documentation</a>.', 'affiliate-wp' ), 'https://docs.affiliatewp.com/article/2111-affiliatewp-payouts-service' ) . '</p>';
+			/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
+			$payouts_service_connection_status = '<a href="'. esc_url( $payouts_service_reconnect_url ) .'" class="affwp-payouts-service-disconnect"><span>' . sprintf( __( 'Reconnect to the %s.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME ) . '</span></a>';
+			/* translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant, 2: Payouts service documentation URL */
+			$payouts_service_connection_status .= '<p>' . sprintf( __( 'Have questions about connecting with the %1$s? See the <a href="%2$s" target="_blank" rel="noopener noreferrer">documentation</a>.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME, esc_url( PAYOUTS_SERVICE_DOCS_URL ) ) . '</p>';
 
 		} else {
 
@@ -1596,10 +1602,12 @@ class Affiliate_WP_Settings {
 				'site_url'      => home_url(),
 				'redirect_url'  => urlencode( affwp_admin_url( 'settings', array( 'tab' => 'payouts_service' ) ) ),
 				'token'         => str_pad( wp_rand( wp_rand(), PHP_INT_MAX ), 100, wp_rand(), STR_PAD_BOTH ),
-			), AFFILIATEWP_PAYOUTS_SERVICE_URL . '/connect-site' );
+			), PAYOUTS_SERVICE_URL . '/connect-site' );
 
-			$payouts_service_connection_status = '<a href="' . esc_url( $payouts_service_connect_url ) . '" class="affwp-payouts-service-connect"><span>' . __( 'Connect to the AffiliateWP Payouts Service', 'affiliate-wp' ) . '</span></a>';
-			$payouts_service_connection_status .= '<p>' . sprintf( __( 'Have questions about connecting with the AffiliateWP Payouts Service? See the <a href="%s" target="_blank" rel="noopener noreferrer">documentation</a>.', 'affiliate-wp' ), 'https://docs.affiliatewp.com/article/2111-affiliatewp-payouts-service' ) . '</p>';
+			/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
+			$payouts_service_connection_status = '<a href="' . esc_url( $payouts_service_connect_url ) . '" class="affwp-payouts-service-connect"><span>' . sprintf( __( 'Connect to the %s.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME ) . '</span></a>';
+			/* translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant, 2: Payouts service documentation URL */
+			$payouts_service_connection_status .= '<p>' . sprintf( __( 'Have questions about connecting with the %1$s? See the <a href="%2$s" target="_blank" rel="noopener noreferrer">documentation</a>.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME, esc_url( PAYOUTS_SERVICE_DOCS_URL ) ) . '</p>';
 
 		}
 

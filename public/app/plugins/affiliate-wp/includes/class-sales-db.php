@@ -60,7 +60,7 @@ class Affiliate_WP_Sales_DB extends Affiliate_WP_DB {
 			$this->table_name = $wpdb->prefix . 'affiliate_wp_sales';
 		}
 		$this->primary_key = 'referral_id';
-		$this->version     = '1.0';
+		$this->version     = '1.1';
 
 		// REST endpoints.
 		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
@@ -675,7 +675,7 @@ class Affiliate_WP_Sales_DB extends Affiliate_WP_DB {
 			order_total   mediumtext NOT NULL,
 			PRIMARY KEY  (referral_id),
 			KEY affiliate_id (affiliate_id)
-		) CHARACTER SET utf8 COLLATE utf8_general_ci;";
+		) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 
 		dbDelta( $sql );
 

@@ -83,7 +83,7 @@ abstract class Controller {
 	 * Retrieves the query parameters for collections.
 	 *
 	 * @since 1.9
-	 * @access public
+	 * @since 2.6.1 Added support for a 'response_callback' parameter.
 	 *
 	 * @return array Collection parameters.
 	 */
@@ -122,7 +122,12 @@ abstract class Controller {
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => array( $this, 'validate_rest_id' ),
 			),
-
+			'response_callback' => array(
+				'description'       => __( 'A callback to pass the response through before returning.', 'affiliate-wp' ),
+				'validate_callback' => function( $param, $request, $key ) {
+					return is_callable( $param );
+				}
+			),
 		);
 	}
 
@@ -295,7 +300,17 @@ abstract class Controller {
 			$addl_fields[ $field_name ] = call_user_func( $field_options['get_callback'], $object, $field_name, $request, $object_type );
 		}
 
-		$object::fill_vars( $object, $addl_fields );
+		// There is no FQ object for campaigns.
+		if ( 'affwp_campaign' === $this->get_object_type() ) {
+			$vars   = get_object_vars( $object );
+			$fields = empty( $addl_fields ) ? $vars : wp_parse_args( $addl_fields, $vars );
+
+			foreach ( $fields as $field => $value ) {
+				$object->$field = $value;
+			}
+		} else {
+			$object::fill_vars( $object, $addl_fields );
+		}
 
 		return $this->response( (object) $object );
 	}
@@ -447,4 +462,46 @@ abstract class Controller {
 		return $object;
 	}
 
+	/**
+	 * Checks if ID for the current affiliate and the affiliate ID passed in the request match.
+	 *
+	 * @since 2.6.1
+	 *
+	 * @param \WP_REST_Request $request REST request.
+	 * @return bool True if the user is permitted to perform this request, otherwise false.
+	 */
+	public function check_affiliate_self_request( $request ) {
+		if ( $this->request_has_param( $request, 'affiliate_id' ) ) {
+			$affiliate_id         = $request['affiliate_id'];
+			$current_affiliate_id = intval( affwp_get_affiliate_id() );
+
+			return $affiliate_id === $current_affiliate_id;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Checks if a REST parameter exists in the request.
+	 *
+	 * This allows distinguishing between an omitted parameter,
+	 * and a parameter specifically set to null.
+	 *
+	 * Shims the \WP_REST_Request::has_param() method pre-WordPress 5.3.
+	 *
+	 * @since 2.6.3
+	 *
+	 * @param \WP_REST_Request $request WP_REST_Request instance.
+	 * @param string           $key     Parameter name.
+	 * @return bool True if a param exists for the given key.
+	 */
+	public function request_has_param( $request, $key ) {
+		if ( method_exists( $request, 'has_param' ) ) {
+			return $request->has_param( $key );
+		} else {
+			$value = $request->get_param( $key );
+
+			return null !== $value;
+		}
+	}
 }

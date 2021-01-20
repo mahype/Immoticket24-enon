@@ -220,4 +220,31 @@ abstract class Affiliate_WP_Meta_DB extends Affiliate_WP_DB {
 	*/
 	abstract public function create_table();
 
+	/**
+	 * Handles (maybe) converting the current meta table to utf8mb4 compatibility.
+	 *
+	 * @since 2.6.1
+	 *
+	 * @see maybe_convert_table_to_utf8mb4()
+	 *
+	 * @return bool True if the table was converted, otherwise false.
+	 */
+	public function maybe_convert_table_to_utf8mb4() {
+		global $wpdb;
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+		$db_version = get_option( $this->table_name . '_db_version', false );
+
+		$result = false;
+
+		if ( version_compare( $this->version, $db_version, '>' ) && 'utf8mb4' === $wpdb->charset ) {
+			$wpdb->query( "ALTER TABLE {$this->table_name} DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
+
+			$result = maybe_convert_table_to_utf8mb4( $this->table_name );
+		}
+
+		return $result;
+	}
+
 }

@@ -69,7 +69,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_affiliates';
 		}
 		$this->primary_key = 'affiliate_id';
-		$this->version     = '1.2';
+		$this->version     = '1.3';
 
 		$this->payouts = new Affiliate_WP_Payouts_DB;
 		$this->coupons = new Affiliate_WP_Coupons_DB;
@@ -611,7 +611,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 			date_registered datetime NOT NULL,
 			PRIMARY KEY  (affiliate_id),
 			KEY user_id (user_id)
-			) CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 
 		dbDelta( $sql );
 

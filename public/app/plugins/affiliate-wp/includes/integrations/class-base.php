@@ -375,14 +375,16 @@ abstract class Affiliate_WP_Base {
 				'post_type'   => $post_type,
 				'post_status' => $post_status,
 				'meta_query'  => array(
-					'relation' => 'OR',
 					array(
-						'key'   => 'affwp_discount_affiliate',
-						'value' => $affiliate->ID,
-					),
-					array(
-						'key'   => 'affwp_coupon_affiliate',
-						'value' => $affiliate->ID,
+						'relation' => 'OR',
+						array(
+							'key'   => 'affwp_discount_affiliate',
+							'value' => $affiliate->ID,
+						),
+						array(
+							'key'   => 'affwp_coupon_affiliate',
+							'value' => $affiliate->ID,
+						),
 					),
 				),
 			);
@@ -393,14 +395,16 @@ abstract class Affiliate_WP_Base {
 				'post_type'   => $post_type,
 				'post_status' => $post_status,
 				'meta_query'  => array(
-					'relation' => 'OR',
 					array(
-						'key'     => 'affwp_discount_affiliate',
-						'compare' => 'EXISTS',
-					),
-					array(
-						'key'     => 'affwp_coupon_affiliate',
-						'compare' => 'EXISTS',
+						'relation' => 'OR',
+						array(
+							'key'     => 'affwp_discount_affiliate',
+							'compare' => 'EXISTS',
+						),
+						array(
+							'key'     => 'affwp_coupon_affiliate',
+							'compare' => 'EXISTS',
+						),
 					),
 				),
 			);

@@ -4,13 +4,9 @@ $affiliate_id           = $affiliate->affiliate_id;
 $affiliate_user_id      = $affiliate->user_id;
 $payment_email          = affwp_get_affiliate_payment_email( $affiliate_id );
 $payouts_service_meta   = affwp_get_affiliate_meta( $affiliate_id, 'payouts_service_account', true );
-$enable_payouts_service = affiliate_wp()->settings->get( 'enable_payouts_service', false );
-$access_key             = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
-$vendor_id              = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-$connection_status      = affiliate_wp()->settings->get( 'payouts_service_connection_status', '' );
 ?>
 
-<?php if ( ( 'active' === $connection_status ) && $enable_payouts_service && $access_key && $vendor_id ) : ?>
+<?php if ( affwp_is_payouts_service_enabled() ) : ?>
 	<div id="affwp-affiliate-dashboard-payouts-service" class="affwp-tab-content">
 		<?php
 

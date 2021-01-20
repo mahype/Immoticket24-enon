@@ -60,7 +60,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_coupons';
 		}
 		$this->primary_key = 'coupon_id';
-		$this->version     = '1.0';
+		$this->version     = '1.1';
 	}
 
 	/**
@@ -342,31 +342,33 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 		 * Fires immediately after a coupon update has been attempted.
 		 *
 		 * @since 2.6
+		 * @since 2.6.1 Hook tag fixed to remove inadvertent naming conflict
 		 *
 		 * @param \AffWP\Affiliate\Coupon $updated_coupon Updated coupon object.
 		 * @param \AffWP\Affiliate\Coupon $coupon         Original coupon object.
 		 * @param bool                    $updated        Whether the coupon was successfully updated.
 		 */
-		do_action( 'affwp_updated_referral', affwp_get_coupon( $affiliate_id ), $coupon, $updated );
+		do_action( 'affwp_updated_coupon', affwp_get_coupon( $affiliate_id ), $coupon, $updated );
 
 		return $updated;
 	}
 
 	/**
-	 * Retrieves a coupon row based on column and row ID.
+	 * Retrieves a coupon row based on column and value.
 	 *
 	 * @since 2.6
+	 * @since 2.6.1 Renamed the `$row_id` parameter to `$value`.
 	 *
-	 * @param  string       $column Column name. See get_columns().
-	 * @param  int|string   $row_id Row ID.
+	 * @param  string $column Column name. See get_columns().
+	 * @param  mixed  $value  Column value.
 	 * @return object|false Database query result object or false on failure.
 	 */
-	public function get_by( $column, $row_id ) {
+	public function get_by( $column, $value ) {
 		if ( 'coupon_code' === $column ) {
-			$row_id = strtoupper( $row_id );
+			$value = strtoupper( $value );
 		}
 
-		return parent::get_by( $column, $row_id );
+		return parent::get_by( $column, $value );
 	}
 
 	/**
@@ -421,7 +423,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			coupon_code varchar(50) NOT NULL,
 			PRIMARY KEY (coupon_id),
 			KEY coupon_code (coupon_code)
-			) CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 
 		dbDelta( $sql );
 

@@ -92,6 +92,7 @@ function affiliate_wp_install() {
 		'upgrade_v22_create_customer_records',
 		'upgrade_v245_create_customer_affiliate_relationship_records',
 		'upgrade_v26_create_dynamic_coupons',
+		'upgrade_v261_utf8mb4_compat',
 	);
 
 	// Set past upgrade routines complete for all sites.

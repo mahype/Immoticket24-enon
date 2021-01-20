@@ -58,7 +58,7 @@ class Affiliate_WP_Customers_DB extends Affiliate_WP_DB {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_customers';
 		}
 		$this->primary_key = 'customer_id';
-		$this->version     = '1.0';
+		$this->version     = '1.1';
 
 		// REST endpoints.
 		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
@@ -480,7 +480,7 @@ class Affiliate_WP_Customers_DB extends Affiliate_WP_DB {
 			PRIMARY KEY  (customer_id),
 			KEY user_id (user_id),
 			KEY email (email)
-			) CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 
 		dbDelta( $sql );
 

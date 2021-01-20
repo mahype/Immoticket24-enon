@@ -34,9 +34,11 @@ class Endpoints extends Controller {
 	 * Registers Affiliate routes.
 	 *
 	 * @since 1.9
-	 * @access public
+	 * @since 2.6.2 Updated the /affiliates/ID|username endpoint to allow affiliates to request their own data.
 	 */
 	public function register_routes() {
+		// PHP 5.3 compat.
+		$instance = $this;
 
 		// /affiliates/
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
@@ -70,8 +72,14 @@ class Endpoints extends Controller {
 						}
 					),
 				),
-				'permission_callback' => function( $request ) {
-					return current_user_can( 'manage_affiliates' );
+				'permission_callback' => function( $request ) use ( $instance ) {
+					$permitted = $instance->check_affiliate_self_request( $request );
+
+					if ( false === $permitted ) {
+						$permitted = current_user_can( 'manage_affiliates' );
+					}
+
+					return $permitted;
 				},
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
@@ -88,7 +96,7 @@ class Endpoints extends Controller {
 	 * Base endpoint to retrieve all affiliates.
 	 *
 	 * @since 1.9
-	 * @access public
+	 * @since 2.6.1 Added support for the 'response_callback' parameter.
 	 *
 	 * @param \WP_REST_Request $request Request arguments.
 	 * @return \WP_REST_Response|\WP_Error Affiliates response object or \WP_Error object if not found.
@@ -141,6 +149,10 @@ class Endpoints extends Controller {
 				$affiliate = $inst->process_for_output( $affiliate, $request, $user, $meta );
 				return $affiliate;
 			}, $affiliates );
+		}
+
+		if ( isset( $request['response_callback'] ) && is_callable( $request['response_callback'] ) ) {
+			$affiliates = call_user_func( $request['response_callback'], $affiliates, $request, 'affiliates' );
 		}
 
 		return $this->response( $affiliates );
@@ -470,6 +482,26 @@ class Endpoints extends Controller {
 	 */
 	public function sanitize_payment_email( $payment_email ) {
 		return $this->convert_param_to_object( $payment_email );
+	}
+
+	/**
+	 * Checks if ID for the current affiliate and the affiliate ID passed in the request match.
+	 *
+	 * @since 2.6.2
+	 *
+	 * @param \WP_REST_Request $request REST request.
+	 * @return bool True if the user is permitted to perform this request, otherwise false.
+	 */
+	public function check_affiliate_self_request( $request ) {
+
+		if ( $this->request_has_param( $request, 'id' ) && ! empty( $request->get_param( 'id' ) ) ) {
+			$request['affiliate_id'] = (int) $request->get_param( 'id' );
+		} elseif ( $this->request_has_param( $request, 'username' ) && ! empty( $request->get_param( 'username' ) ) ) {
+			$affiliate               = affwp_get_affiliate();
+			$request['affiliate_id'] = (int) $affiliate->affiliate_id;
+		}
+
+		return parent::check_affiliate_self_request( $request );
 	}
 
 }

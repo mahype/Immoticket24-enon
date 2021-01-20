@@ -47,7 +47,7 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_visits';
 		}
 		$this->primary_key = 'visit_id';
-		$this->version     = '1.2';
+		$this->version     = '1.3';
 
 		// REST endpoints.
 		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
@@ -131,6 +131,13 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 	 *                                          Default 'DESC'.
 	 *     @type string|array $fields           Specific fields to retrieve. Accepts 'ids', a single visit field, or an
 	 *                                          array of fields. Default '*' (all).
+	 *     @type string|array $date             {
+	 *         Date string or start/end range to retrieve visits for.
+	 *
+	 *         @type string $start Start date to retrieve visits for.
+	 *         @type string $end   End date to retrieve visits for.
+	 *     }
+	 *     @type string       $date_format    Specific format for date. Adds a formatted_date to response. Uses MYSQL date_format syntax.
 	 * }
 	 * @param   bool  $count  Return only the total number of results found (optional)
 	 * @return array|int Array of visit objects or field(s) (if found), int if `$count` is true.
@@ -152,6 +159,7 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 			'order'            => 'DESC',
 			'orderby'          => 'visit_id',
 			'fields'           => '',
+			'date_format'      => '',
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -364,7 +372,7 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 			$fields   = "$this->primary_key";
 			$callback = 'intval';
 		} else {
-			$fields = $this->parse_fields( $args['fields'] );
+			$fields = $this->parse_fields( $args['fields'], $args['date_format'] );
 
 			if ( '*' === $fields ) {
 				$callback = 'affwp_get_visit';
@@ -407,6 +415,28 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 	}
 
 	/**
+	 * Sanitizes the specified campaign, preparing it to be saved in the database.
+	 *
+	 * @since 2.6.1
+	 *
+	 * @param string $campaign The campaign to sanitize.
+	 * @return string The sanitized campaign.
+	 */
+	public function sanitize_campaign( $campaign ) {
+
+		// Make sure any encoded characters are converted before saving.
+		$campaign = urldecode( $campaign );
+
+		// Make sure campaign is not longer than 50 characters
+		$campaign = substr( $campaign, 0, 50 );
+
+		// Sanitize the value
+		$campaign = sanitize_text_field( $campaign );
+
+		return $campaign;
+	}
+
+	/**
 	 * Adds a visit to the database.
 	 *
 	 * @access public
@@ -421,10 +451,7 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 		}
 
 		if( ! empty( $data['campaign'] ) ) {
-
-			// Make sure campaign is not longer than 50 characters
-			$data['campaign'] = substr( $data['campaign'], 0, 50 );
-
+			$data['campaign'] = $this->sanitize_campaign( $data['campaign'] );
 		}
 
 		if ( ! empty( $data['context'] ) ) {
@@ -491,7 +518,7 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 		}
 
 		if ( ! empty( $data['campaign'] ) ) {
-			$data['campaign'] = substr( $data['campaign'], 0, 50 );
+			$data['campaign'] = $this->sanitize_campaign( $data['campaign'] );
 		}
 
 		if ( ! empty( $data['context'] ) ) {
@@ -554,7 +581,7 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 			date datetime NOT NULL,
 			PRIMARY KEY  (visit_id),
 			KEY affiliate_id (affiliate_id)
-			) CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 
 		dbDelta( $sql );
 

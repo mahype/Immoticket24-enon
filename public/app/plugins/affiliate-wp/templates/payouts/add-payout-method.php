@@ -21,7 +21,7 @@ if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
 $url = add_query_arg( array(
 	'redirect_url'  => urlencode( $current_page_url ),
 	'affwp_version' => AFFILIATEWP_VERSION,
-), AFFILIATEWP_PAYOUTS_SERVICE_URL . '/account/' . $payouts_service_account_meta['link_id'] );
+), PAYOUTS_SERVICE_URL . '/account/' . $payouts_service_account_meta['link_id'] );
 
 affiliate_wp()->affiliates->payouts->service_register->print_errors();
 ?>

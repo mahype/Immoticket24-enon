@@ -161,8 +161,8 @@ class Service_Register {
 			if ( $is_email_registered ) {
 
 				$connect_account_url = wp_nonce_url( add_query_arg( array( 'affwp_action' => 'payouts_service_connect_account' ) ), 'payouts_service_connect_account', 'payouts_service_connect_account_nonce' );
-				/* translators: 1: Email, 2: Connect existing Payouts Service account URL */
-				$this->errors->add( 'email_registered', sprintf( __( 'Your email address %1$s is already registered on the AffiliateWP Payouts Service. Click <a href="%2$s">here</a> to continue registering to be paid for this site using the same email address.', 'affiliate-wp' ), $email, $connect_account_url ) );
+				/* translators: 1: Email, 2: Connect existing Payouts Service account URL, 3: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
+				$this->errors->add( 'email_registered', sprintf( __( 'Your email address %1$s is already registered on the %3$s. Click <a href="%2$s">here</a> to continue registering to be paid for this site using the same email address.', 'affiliate-wp' ), $email, esc_url( $connect_account_url ), PAYOUTS_SERVICE_NAME ) );
 
 			}
 		}
@@ -212,7 +212,7 @@ class Service_Register {
 				'sslverify' => false,
 			);
 
-			$request = wp_remote_post( AFFILIATEWP_PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/account', $api_args );
+			$request = wp_remote_post( PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/account', $api_args );
 
 			if ( is_wp_error( $request ) ) {
 
@@ -238,7 +238,7 @@ class Service_Register {
 
 					$current_page_url = esc_url( $args['current_page_url'] );
 
-					$url = add_query_arg( 'redirect_url', urlencode( $current_page_url ), AFFILIATEWP_PAYOUTS_SERVICE_URL . '/account/' . $response->link_id );
+					$url = add_query_arg( 'redirect_url', urlencode( $current_page_url ), PAYOUTS_SERVICE_URL . '/account/' . $response->link_id );
 
 					wp_redirect( $url );
 					exit;
@@ -304,7 +304,7 @@ class Service_Register {
 			'sslverify' => false,
 		);
 
-		$request = wp_remote_get( AFFILIATEWP_PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/account/payout-method', $args );
+		$request = wp_remote_get( PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/account/payout-method', $args );
 
 		if ( is_wp_error( $request ) ) {
 
@@ -440,7 +440,7 @@ class Service_Register {
 			'sslverify' => false,
 		);
 
-		$request = wp_remote_post( AFFILIATEWP_PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/account/link', $args );
+		$request = wp_remote_post( PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/account/link', $args );
 
 		if ( is_wp_error( $request ) ) {
 
@@ -453,7 +453,7 @@ class Service_Register {
 
 			if ( 200 === (int) $response_code ) {
 
-				$url = AFFILIATEWP_PAYOUTS_SERVICE_URL . '/connect/' . $response->link_id;
+				$url = PAYOUTS_SERVICE_URL . '/connect/' . $response->link_id;
 
 				wp_redirect( $url ); exit;
 
@@ -526,7 +526,7 @@ class Service_Register {
 			'sslverify' => false,
 		);
 
-		$request = wp_remote_get( AFFILIATEWP_PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/account/change-payout-method', $args );
+		$request = wp_remote_get( PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/account/change-payout-method', $args );
 
 		if ( is_wp_error( $request ) ) {
 
@@ -562,7 +562,7 @@ class Service_Register {
 	}
 
 	/**
-	 * Checks if the affiliate email is registered on the AffiliateWP payouts service.
+	 * Checks if the affiliate email is registered on the Payouts Service.
 	 *
 	 * @since 2.4
 	 *
@@ -590,11 +590,13 @@ class Service_Register {
 			'sslverify' => false,
 		);
 
-		$request = wp_remote_get( AFFILIATEWP_PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/account/validate-email', $args );
+		$request = wp_remote_get( PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/account/validate-email', $args );
 
 		if ( is_wp_error( $request ) ) {
 
-			$this->errors->add( 'invalid_email', __( 'Unable to create an AffiliateWP Payouts Service account at the moment. Try again later.', 'affiliate-wp' ) );
+			/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
+			$invalid_email_error = sprintf( __( 'Unable to create a %s account at the moment. Try again later.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME );
+			$this->errors->add( 'invalid_email', $invalid_email_error );
 
 		} else {
 
@@ -607,7 +609,9 @@ class Service_Register {
 
 			} else {
 
-				$this->errors->add( 'invalid_email', __( 'Unable to create an AffiliateWP Payouts Service account at the moment. Try again later.', 'affiliate-wp' ) );
+				/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
+				$invalid_email_error = sprintf( __( 'Unable to create a %s account at the moment. Try again later.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME );
+				$this->errors->add( 'invalid_email', $invalid_email_error );
 
 			}
 		}
@@ -625,12 +629,7 @@ class Service_Register {
 	 */
 	public function affiliate_area_notice( $affiliate_id ) {
 
-		$enable_payouts_service = affiliate_wp()->settings->get( 'enable_payouts_service', false );
-		$access_key             = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
-		$vendor_id              = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-		$connection_status      = affiliate_wp()->settings->get( 'payouts_service_connection_status', '' );
-
-		if ( 'active' !== $connection_status || ! ( $enable_payouts_service && $access_key && $vendor_id ) ) {
+		if ( ! $this->is_service_enabled() ) {
 			return;
 		}
 
@@ -640,6 +639,26 @@ class Service_Register {
 		if ( ! $payouts_service_account_meta && $payouts_service_notice ) : ?>
 			<p class="affwp-notice payouts-service-notice"><?php echo wp_kses_post( nl2br( $payouts_service_notice ) ); ?></p>
 		<?php endif;
+	}
+
+	/**
+	 * Determines whether the payouts service is enabled and configured.
+	 *
+	 * @since 2.6.1
+	 *
+	 * @return bool True if the service is enabled and configured, otherwise false.
+	 */
+	public function is_service_enabled() {
+		$enable_payouts_service = affiliate_wp()->settings->get( 'enable_payouts_service', false );
+		$access_key             = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
+		$vendor_id              = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
+		$connection_status      = affiliate_wp()->settings->get( 'payouts_service_connection_status', '' );
+
+		if ( 'active' === $connection_status && ( $enable_payouts_service && $access_key && $vendor_id ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

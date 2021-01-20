@@ -101,7 +101,13 @@ abstract class Affiliate_WP_DB {
 	 * @return array List of valid columns, including sum columns.
 	 */
 	public function get_all_columns() {
-		return array_merge( $this->get_columns(), $this->get_sum_columns() );
+		$columns = array_merge( $this->get_columns(), $this->get_sum_columns() );
+
+		if ( isset( $columns['date'] ) ) {
+			$columns['formatted_date'] = '%s';
+		}
+
+		return $columns;
 	}
 
 	/**
@@ -130,26 +136,29 @@ abstract class Affiliate_WP_DB {
 	}
 
 	/**
-	 * Retrieves a row based on column and row ID.
+	 * Retrieves a row based on column and value.
 	 *
-	 * @access public
+	 * @since 1.0
+	 * @since 2.6.1 Renamed the `$row_id` parameter to `$value`.
 	 *
-	 * @param string     $column Column name. See get_columns().
-	 * @param int|string $row_id Row ID.
+	 * @param string $column Column name. See get_columns().
+	 * @param mixed  $value  Column value.
 	 * @return object|false|null Database query result object, null if nothing was found, or false on failure.
 	 */
-	public function get_by( $column, $row_id ) {
+	public function get_by( $column, $value ) {
 		global $wpdb;
 
-		if ( ! array_key_exists( $column, $this->get_columns() ) || empty( $row_id ) ) {
+		if ( ! array_key_exists( $column, $this->get_columns() ) || empty( $value ) ) {
 			return false;
 		}
 
-		if( empty( $column ) || empty( $row_id ) ) {
+		if( empty( $column ) || empty( $value ) ) {
 			return false;
 		}
 
-		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE $column = '%s' LIMIT 1;", $row_id ) );
+		$query = $wpdb->prepare( "SELECT * FROM $this->table_name WHERE $column = '%s' LIMIT 1;", $value );
+
+		return $wpdb->get_row( $query );
 	}
 
 	/**
@@ -543,25 +552,34 @@ abstract class Affiliate_WP_DB {
 	 *
 	 * @access public
 	 * @since  2.1
+	 * @since  2.6.2 Added a `$date_format` parameter.
 	 *
-	 * @param string|array $fields Object fields.
+	 * @param string|array $fields      Object fields.
+	 * @param false|string $date_format Optional. Specifies a date format to provide to the date column. Default false.
 	 * @return string SQL-ready fields list. If empty, default is '*'.
 	 */
-	public function parse_fields( $fields ) {
-
-		$fields_sql = '';
+	public function parse_fields( $fields, $date_format = false ) {
 
 		if ( ! is_array( $fields ) ) {
 			$fields = array( $fields );
 		}
 
-		$count     = count( $fields );
 		$whitelist = array_keys( $this->get_columns() );
 
 		foreach ( $fields as $index => $field ) {
 			if ( ! in_array( $field, $whitelist, true ) ) {
 				unset( $fields[ $index ] );
 			}
+		}
+
+		if ( in_array( 'date', $whitelist ) && ! empty( $date_format ) && is_string( $date_format ) ) {
+			$format = esc_sql( $date_format );
+
+			if ( empty( $fields ) ) {
+				$fields[] = '*';
+			}
+
+			$fields[] = "date_format( date, '{$format}' ) AS formatted_date";
 		}
 
 		$fields_sql = implode( ', ', $fields );
@@ -610,7 +628,7 @@ abstract class Affiliate_WP_DB {
 	 */
 	public function prepare_group_by( $group_by ) {
 		$result = '';
-		if ( is_string( $group_by ) && array_key_exists( $group_by, $this->get_columns() ) ) {
+		if ( is_string( $group_by ) && array_key_exists( $group_by, $this->get_all_columns() ) ) {
 			$result = "GROUP BY {$group_by}";
 		}
 
@@ -713,5 +731,30 @@ abstract class Affiliate_WP_DB {
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * Handles (maybe) converting the current table to utf8mb4 compatibility.
+	 *
+	 * @since 2.6.1
+	 *
+	 * @see maybe_convert_table_to_utf8mb4()
+	 *
+	 * @return bool True if the table was converted, otherwise false.
+	 */
+	public function maybe_convert_table_to_utf8mb4() {
+		global $wpdb;
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+		$db_version = get_option( $this->table_name . '_db_version', false );
+
+		$result = false;
+
+		if ( version_compare( $this->version, $db_version, '>' ) && 'utf8mb4' === $wpdb->charset ) {
+			$result = maybe_convert_table_to_utf8mb4( $this->table_name );
+		}
+
+		return $result;
 	}
 }

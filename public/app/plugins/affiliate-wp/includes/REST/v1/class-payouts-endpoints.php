@@ -33,10 +33,12 @@ class Endpoints extends Controller {
 	/**
 	 * Registers Affiliate routes.
 	 *
-	 * @access public
-	 * @since  1.9
+	 * @since 1.9
+	 * @since 2.6.1 Updated the /payouts endpoint to allow affiliates to request their own data.
 	 */
 	public function register_routes() {
+		// PHP 5.3 compat.
+		$instance = $this;
 
 		// /payouts/
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
@@ -44,8 +46,14 @@ class Endpoints extends Controller {
 				'methods'             => \WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_items' ),
 				'args'                => $this->get_collection_params(),
-				'permission_callback' => function( $request ) {
-					return current_user_can( 'manage_payouts' );
+				'permission_callback' => function( \WP_REST_Request $request ) use ( $instance ) {
+					$permitted = $instance->check_affiliate_self_request( $request );
+
+					if ( false === $permitted ) {
+						$permitted = current_user_can( 'manage_payouts' );
+					}
+
+					return $permitted;
 				}
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
@@ -73,8 +81,8 @@ class Endpoints extends Controller {
 	/**
 	 * Base endpoint to retrieve all payouts.
 	 *
-	 * @access public
-	 * @since  1.9
+	 * @since 1.9
+	 * @since 2.6.1 Added support for the 'response_callback' parameter.
 	 *
 	 * @param \WP_REST_Request $request Request arguments.
 	 * @return \WP_REST_Response|\WP_Error Payouts response object or \WP_Error object if not found.
@@ -128,6 +136,10 @@ class Endpoints extends Controller {
 				$payout = $inst->process_for_output( $payout, $request );
 				return $payout;
 			}, $payouts );
+		}
+
+		if ( isset( $request['response_callback'] ) && is_callable( $request['response_callback'] ) ) {
+			$payouts = call_user_func( $request['response_callback'], $payouts, $request, 'payouts' );
 		}
 
 		return $this->response( $payouts );

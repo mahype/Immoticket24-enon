@@ -92,23 +92,26 @@
 				 */
 				this.addEventListeners = function(){
 					var instance = this;
-					if( false !== this.tooltipContentTarget ){
+					if( false !== this.tooltipContentTarget ) {
 						var tooltipContent = this.tooltipContentTarget;
-						this.markerTarget.on( 'hover', function( e ){
-							if( tooltipContent.hasClass( 'active' ) ){
-								tooltipContent.removeClass( 'overflow-top overflow-right active' );
-							}else{
-								var classes = ['active'];
-								var overflows = instance.getTooltipOverflows();
 
-								$( Object.keys( overflows ) ).each( function(){
-									if( false !== overflows[this] ){
-										classes.push( "overflow-" + this );
-									}
-								} );
+						// Adds the tooltip on hover
+						this.markerTarget.on( 'mouseenter', function( e ) {
+							var classes = ['active'];
+							var overflows = instance.getTooltipOverflows();
 
-								tooltipContent.addClass( classes.join( ' ' ) );
-							}
+							$( Object.keys( overflows ) ).each( function() {
+								if( false !== overflows[this] ) {
+									classes.push( "overflow-" + this );
+								}
+							} );
+
+							tooltipContent.addClass( classes.join( ' ' ) );
+						} );
+
+						// Removes the tooltip
+						this.markerTarget.on( 'mouseleave', function( e ) {
+							tooltipContent.removeClass( 'overflow-top overflow-right active' );
 						} );
 					}
 				};

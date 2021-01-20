@@ -41,7 +41,7 @@ class Database extends \Affiliate_WP_DB {
 		$this->table_name  = $wpdb->prefix . 'affiliate_wp_rest_consumers';
 
 		$this->primary_key = 'consumer_id';
-		$this->version     = '1.0';
+		$this->version     = '1.1';
 	}
 
 	/**
@@ -342,7 +342,7 @@ class Database extends \Affiliate_WP_DB {
 			date datetime NOT NULL,
 			PRIMARY KEY  (consumer_id),
 			KEY user_id (user_id)
-			) CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 
 		dbDelta( $sql );
 
