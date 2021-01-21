@@ -1662,7 +1662,7 @@ function wpenon_building_year_wall_insulation_check( $energieausweis ) {
     ];
 
     foreach ( $insulation_parts AS $insulation_part ) {
-        if( property_exists( $energieausweis, $insulation_part ) && (float) $energieausweis->$insulation_part > 0 ) {
+        if( isset( $energieausweis->$insulation_part ) && (float) $energieausweis->$insulation_part > 0 ) {
             return 'Nachträgliche Dämmung bei einem Gebäude unter 20 Jahren';
         }
     }
