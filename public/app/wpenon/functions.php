@@ -1615,6 +1615,11 @@ function wpenon_immoticket24_maybe_prevent_completion( $val, $payment_id, $new_s
     if (  true !== $check ) {
 		$fails[] = $check;
     }
+
+    $check = wpenon_building_year_wall_insulation_check( $energieausweis );
+    if (  true !== $check ) {
+		$fails[] = $check;
+    }
     
     if( ! empty( $fails ) ) {
         $reasons = '<ul>';
@@ -1632,6 +1637,38 @@ function wpenon_immoticket24_maybe_prevent_completion( $val, $payment_id, $new_s
 }
 
 add_filter( 'edd_should_update_payment_status', 'wpenon_immoticket24_maybe_prevent_completion', 10, 4 );
+
+function wpenon_building_year_wall_insulation_check( $energieausweis ) {
+    // Only check buildings older then 20 years
+    if ( $energieausweis->baujahr < ( date('Y') - 20 ) ) {
+        return true;
+    }
+
+    $insulation_parts = [
+        'wand_a_daemmung',
+        'wand_b_daemmung',
+        'wand_c_daemmung',
+        'wand_d_daemmung',
+        'wand_e_daemmung',
+        'wand_f_daemmung',
+        'wand_h_daemmung',
+        'dach_daemmung',
+        'decke_daemmung',
+        'boden_daemmung',
+        'keller_daemmung',
+        'anbauwand_daemmung',
+        'anbaudach_daemmung',
+        'anbauboden_daemmung'
+    ];
+
+    foreach ( $insulation_parts AS $insulation_part ) {
+        if( property_exists( $energieausweis, $insulation_part ) && (float) $energieausweis->$insulation_part > 0 ) {
+            return 'Nachträgliche Dämmung bei einem Gebäude unter 20 Jahren';
+        }
+    }
+
+    return true;    
+}
 
 function wpenon_heater_consumption_check( $energieausweis ) {
     // Only check verbrauchsausweis
