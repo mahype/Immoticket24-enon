@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -127,15 +127,17 @@ class ScriptBlocker
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
         // Check if scan is enabled
         if (get_option('BorlabsCookieScanJavaScripts', false)) {
@@ -418,7 +420,7 @@ class ScriptBlocker
                 `handles`,
                 `js_block_phrases`
             FROM
-                `".$tableName."`
+                `" . $tableName . "`
             WHERE
                 `status` = 1
         ");
@@ -487,8 +489,7 @@ class ScriptBlocker
             if (!empty($this->detectedHandles['matchedSearchPhrase'])
                 || !empty($this->detectedHandles['notMatchedSearchPhrase'])
                 || !empty($this->detectedJavaScripts['matchedSearchPhrase'])
-                || !empty($this->detectedJavaScripts['notMatchedSearchPhrase']))
-            {
+                || !empty($this->detectedJavaScripts['notMatchedSearchPhrase'])) {
                 update_option(
                     'BorlabsCookieDetectedJavaScripts',
                     [

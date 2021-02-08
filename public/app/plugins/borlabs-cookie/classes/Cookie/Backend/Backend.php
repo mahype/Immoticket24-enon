@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -23,6 +23,7 @@ namespace BorlabsCookie\Cookie\Backend;
 use BorlabsCookie\Cookie\Config;
 use BorlabsCookie\Cookie\Multilanguage;
 use BorlabsCookie\Cookie\Frontend\Log;
+use BorlabsCookie\Cookie\Frontend\Shortcode;
 
 class Backend
 {
@@ -63,18 +64,25 @@ class Backend
         add_action('wp_ajax_borlabs_cookie_handler', [$this, 'handleAjaxRequest']);
         add_action('wp_ajax_nopriv_borlabs_cookie_handler', [$this, 'handleAjaxRequest']);
 
+        /* Register shortcodes */
+        if (wp_doing_ajax() === true) {
+            add_shortcode('borlabs-cookie', [Shortcode::getInstance(), 'handleShortcode']);
+        }
+
         /* System Check */
         add_action('current_screen', [$this, 'handleSystemCheck']);
 
-        $this->templatePath = realpath(dirname(__FILE__).'/../../../templates');
+        $this->templatePath = realpath(dirname(__FILE__) . '/../../../templates');
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -90,7 +98,7 @@ class Backend
         // Load correct DE language file if any DE language was selected
         if (in_array(Multilanguage::getInstance()->getCurrentLanguageCode(), ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'])) {
             // Load german language pack
-            load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH.'languages/borlabs-cookie-de_DE.mo');
+            load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo');
         }
     }
 
@@ -164,7 +172,7 @@ class Backend
         );
 
         /* Content Blocker */
-         add_submenu_page(
+        add_submenu_page(
             'borlabs-cookie',
             _x('Content Blocker', 'Backend / Global / Site Title', 'borlabs-cookie'),
             _x('Content Blocker', 'Backend / Global / Menu Entry', 'borlabs-cookie'),
@@ -174,7 +182,7 @@ class Backend
         );
 
         /* Script Blocker */
-         add_submenu_page(
+        add_submenu_page(
             'borlabs-cookie',
             _x('Script Blocker', 'Backend / Global / Site Title', 'borlabs-cookie'),
             _x('Script Blocker', 'Backend / Global / Site Title', 'borlabs-cookie'),
@@ -194,7 +202,7 @@ class Backend
         );
 
         /* License */
-         add_submenu_page(
+        add_submenu_page(
             'borlabs-cookie',
             _x('License', 'Backend / Global / Site Title', 'borlabs-cookie'),
             _x('License', 'Backend / Global / Menu Entry', 'borlabs-cookie'),
@@ -228,35 +236,35 @@ class Backend
 
             wp_enqueue_style(
                 'borlabs-cookie-backend-css',
-                plugins_url('css/borlabs-cookie-backend.css', realpath(__DIR__.'/../../')),
+                plugins_url('css/borlabs-cookie-backend.css', realpath(__DIR__ . '/../../')),
                 [],
                 BORLABS_COOKIE_VERSION
             );
 
             wp_enqueue_style(
                 'borlabs-cookie-fontawesome',
-                plugins_url('vendor/fontawesome/css/fontawesome.min.css', realpath(__DIR__.'/../../')),
+                plugins_url('vendor/fontawesome/css/fontawesome.min.css', realpath(__DIR__ . '/../../')),
                 [],
                 '5.5.0'
             );
 
             wp_enqueue_style(
                 'borlabs-cookie-fontawesome-solid',
-                plugins_url('vendor/fontawesome/css/solid.min.css', realpath(__DIR__.'/../../')),
+                plugins_url('vendor/fontawesome/css/solid.min.css', realpath(__DIR__ . '/../../')),
                 [],
                 '5.5.0'
             );
 
             wp_enqueue_style(
                 'borlabs-cookie-animate',
-                plugins_url('vendor/animate/animate.min.css', realpath(__DIR__.'/../../')),
+                plugins_url('vendor/animate/animate.min.css', realpath(__DIR__ . '/../../')),
                 [],
                 '3.7.0'
             );
 
             wp_enqueue_script(
                 'borlabs-cookie-bootstrap',
-                plugins_url('javascript/bootstrap.bundle.min.js', realpath(__DIR__.'/../../')),
+                plugins_url('javascript/bootstrap.bundle.min.js', realpath(__DIR__ . '/../../')),
                 ['jquery'],
                 '4.1.3',
                 true
@@ -271,7 +279,7 @@ class Backend
             if ($currentScreenData->base === 'toplevel_page_borlabs-cookie') {
                 wp_enqueue_script(
                     'borlabs-cookie-chartjs',
-                    plugins_url('vendor/chartjs/Chart.min.js', realpath(__DIR__.'/../../')),
+                    plugins_url('vendor/chartjs/Chart.min.js', realpath(__DIR__ . '/../../')),
                     ['jquery'],
                     '2.8.0',
                     true
@@ -281,7 +289,7 @@ class Backend
             wp_enqueue_style('wp-color-picker');
             wp_enqueue_script(
                 'borlabs-cookie-admin',
-                plugins_url('javascript/borlabs-cookie-admin.min.js', realpath(__DIR__.'/../../')),
+                plugins_url('javascript/borlabs-cookie-admin.min.js', realpath(__DIR__ . '/../../')),
                 ['wp-color-picker', 'borlabs-cookie-bootstrap'],
                 BORLABS_COOKIE_VERSION,
                 true
@@ -304,7 +312,7 @@ class Backend
             if (function_exists('wp_enqueue_code_editor')) {
 
                 // Enqueue code editor and settings for manipulating HTML.
-                $settingsHTML = wp_enqueue_code_editor(['type'=>'text/html', 'htmlhint'=>['space-tab-mixed-disabled'=>false]]);
+                $settingsHTML = wp_enqueue_code_editor(['type' => 'text/html', 'htmlhint' => ['space-tab-mixed-disabled' => false]]);
 
                 if ($settingsHTML !== false) {
                     wp_add_inline_script(
@@ -317,7 +325,7 @@ class Backend
                 }
 
                 // Enqueue code editor and settings for manipulating JavaScript.
-                $settingsJS = wp_enqueue_code_editor(['type'=>'text/javascript']);
+                $settingsJS = wp_enqueue_code_editor(['type' => 'text/javascript']);
 
                 if ($settingsJS !== false) {
                     wp_add_inline_script(
@@ -330,7 +338,7 @@ class Backend
                 }
 
                 // Enqueue code editor and settings for manipulating CSS.
-                $settingsCSS = wp_enqueue_code_editor(['type'=>'text/css']);
+                $settingsCSS = wp_enqueue_code_editor(['type' => 'text/css']);
 
                 if ($settingsCSS !== false) {
                     wp_add_inline_script(
@@ -346,7 +354,7 @@ class Backend
             if (!empty($currentScreenData->post_type) && !empty(Config::getInstance()->get('metaBox')[$currentScreenData->post_type])) {
                 wp_enqueue_style(
                     'borlabs-cookie-backend-css',
-                    plugins_url('css/borlabs-cookie-backend.css', realpath(__DIR__.'/../../')),
+                    plugins_url('css/borlabs-cookie-backend.css', realpath(__DIR__ . '/../../')),
                     [],
                     BORLABS_COOKIE_VERSION
                 );
@@ -366,10 +374,10 @@ class Backend
         if (is_array($links)) {
             array_unshift(
                 $links,
-                '<a href="'.esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie')).'">'._x('Dashboard', 'Backend / WordPress Core / Plugins / Text', 'borlabs-cookie').'</a>',
-                '<a href="'.esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie-settings')).'">'._x('Settings', 'Backend / WordPress Core / Plugins / Text', 'borlabs-cookie').'</a>',
-                '<a href="'.esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie-license')).'">'._x('License', 'Backend / WordPress Core / Plugins / Text', 'borlabs-cookie').'</a>',
-                '<a href="'.esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie-help')).'">'._x('Help', 'Backend / WordPress Core / Plugins / Text', 'borlabs-cookie').'</a>'
+                '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie')) . '">' . _x('Dashboard', 'Backend / WordPress Core / Plugins / Text', 'borlabs-cookie') . '</a>',
+                '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie-settings')) . '">' . _x('Settings', 'Backend / WordPress Core / Plugins / Text', 'borlabs-cookie') . '</a>',
+                '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie-license')) . '">' . _x('License', 'Backend / WordPress Core / Plugins / Text', 'borlabs-cookie') . '</a>',
+                '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie-help')) . '">' . _x('Help', 'Backend / WordPress Core / Plugins / Text', 'borlabs-cookie') . '</a>'
             );
         }
 
@@ -416,7 +424,7 @@ class Backend
                 if (!empty($_POST['cookieData']) && !empty($_POST['language'])) {
                     echo json_encode(
                         [
-                            'success'=>Log::getInstance()->add($_POST['cookieData'], $_POST['language'])
+                            'success' => Log::getInstance()->add($_POST['cookieData'], $_POST['language'])
                         ]
                     );
                 }
@@ -480,7 +488,7 @@ class Backend
 
                         $urlQuery['__borlabsCookieScanJavaScripts'] = true;
 
-                        $scanURLManually = $scanURLInfo['scheme'].'://'.$scanURLInfo['host'].$scanURLInfo['path'].'?'.http_build_query($urlQuery);
+                        $scanURLManually = $scanURLInfo['scheme'] . '://' . $scanURLInfo['host'] . $scanURLInfo['path'] . '?' . http_build_query($urlQuery);
 
                         echo json_encode(['success' => $statusScanRequest, 'scanURLManually' => $scanURLManually]);
 
@@ -511,7 +519,9 @@ class Backend
         if (strpos($currentScreenData->id, 'borlabs-cookie') !== false) {
 
             /* Check if license is expired */
-            License::getInstance()->handleLicenseExpiredMessage();
+            if ($currentScreenData->id !== "borlabs-cookie_page_borlabs-cookie-license") {
+                License::getInstance()->handleLicenseExpiredMessage();
+            }
 
             /* Check if cache should be cleared after upgrade */
             $clearCache = get_option('BorlabsCookieClearCache', false);

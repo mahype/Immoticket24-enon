@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -33,6 +33,16 @@ class Config
         }
 
         return self::$instance;
+    }
+
+    public function __clone()
+    {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
+    }
+
+    public function __wakeup()
+    {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     public function __construct()
@@ -72,7 +82,7 @@ class Config
             $configLanguage = strtolower($language);
         }
 
-        $config = get_option('BorlabsCookieConfig_'.$configLanguage, 'does not exist');
+        $config = get_option('BorlabsCookieConfig_' . $configLanguage, 'does not exist');
 
         if ($config === 'does not exist') {
             $config = $this->defaultConfig();
@@ -90,7 +100,7 @@ class Config
      */
     public function defaultConfig()
     {
-        $imagePath = plugins_url('images', realpath(__DIR__.'/../'));
+        $imagePath = plugins_url('images', realpath(__DIR__ . '/../'));
 
         $defaultConfig = [
             'cookieStatus' => false,
@@ -134,8 +144,8 @@ class Config
             'cookieBoxAnimationIn' => 'fadeInDown',
             'cookieBoxAnimationOut' => 'flipOutX',
             'cookieBoxShowLogo' => true,
-            'cookieBoxLogo' => $imagePath.'/borlabs-cookie-logo.svg',
-            'cookieBoxLogoHD' => $imagePath.'/borlabs-cookie-logo.svg',
+            'cookieBoxLogo' => $imagePath . '/borlabs-cookie-logo.svg',
+            'cookieBoxLogoHD' => $imagePath . '/borlabs-cookie-logo.svg',
             'cookieBoxFontFamily' => 'inherit',
             'cookieBoxFontSize' => 14,
             'cookieBoxBgColor' => '#fff',
@@ -281,7 +291,7 @@ class Config
     {
         $configLanguage = Multilanguage::getInstance()->getCurrentLanguageCode();
 
-        update_option('BorlabsCookieConfig_'.$configLanguage, $configData, 'no');
+        update_option('BorlabsCookieConfig_' . $configLanguage, $configData, 'no');
 
         $this->loadConfig();
     }

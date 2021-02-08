@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -41,15 +41,17 @@ class ThirdPartyHelper
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
     }
 
@@ -61,21 +63,21 @@ class ThirdPartyHelper
      * The function also ensures that your CB will only be added when it does not exist.
      *
      * @access public
-     * @param string $contentBlockerId: only lowercase, - and _
-     * @param string $name: title of your CB
-     * @param string $description: optional description
-     * @param string $privacyPolicyURL: privacy policy URL description
-     * @param array $hosts: hosts for autodetection (for iframes or oEmbeds)
-     * @param string $previewHTML: html code that is shown instead of the blocked content
-     * @param string $previewCSS: css code that is used by the content blocker
-     * @param string $globalJS: global JavaScript, loaded once
-     * @param string $initJS: initialization JavaScript, executed everytime when a blocked content gets unblocked
+     * @param string $contentBlockerId : only lowercase, - and _
+     * @param string $name : title of your CB
+     * @param string $description : optional description
+     * @param string $privacyPolicyURL : privacy policy URL description
+     * @param array $hosts : hosts for autodetection (for iframes or oEmbeds)
+     * @param string $previewHTML : html code that is shown instead of the blocked content
+     * @param string $previewCSS : css code that is used by the content blocker
+     * @param string $globalJS : global JavaScript, loaded once
+     * @param string $initJS : initialization JavaScript, executed everytime when a blocked content gets unblocked
      * @param array $settings (default: [])
      * @param bool $status (default: false)
      * @param bool $undeletable (default: false): if true the user can not delete your CB
      * @return void
      */
-    public function addContentBlocker($contentBlockerId, $name, $description = '', $privacyPolicyURL = '', $hosts, $previewHTML, $previewCSS = '', $globalJS = '', $initJS = '', $settings = [], $status = false, $undeletable = false)
+    public function addContentBlocker($contentBlockerId, $name, $description = '', $privacyPolicyURL = '', $hosts = [], $previewHTML = '', $previewCSS = '', $globalJS = '', $initJS = '', $settings = [], $status = false, $undeletable = false)
     {
         if (preg_match('/^[a-z\-\_]{3,}$/', $contentBlockerId)) {
 
@@ -191,8 +193,8 @@ class ThirdPartyHelper
      * Lets you block any content and returns the preview code for the Content Blocker
      *
      * @access public
-     * @param mixed $content: Your content you want to be blocked.
-     * @param mixed $contentBlockerId: The Content Blocker id (content_blocker_id)
+     * @param mixed $content : Your content you want to be blocked.
+     * @param mixed $contentBlockerId : The Content Blocker id (content_blocker_id)
      * @param string $title (default: ''): You can change the title for your blocked content
      * @return void
      */
@@ -240,13 +242,13 @@ class ThirdPartyHelper
     {
         global $wpdb;
 
-        $tableName = $wpdb->prefix.'borlabs_cookie_content_blocker';
+        $tableName = $wpdb->prefix . 'borlabs_cookie_content_blocker';
 
         $wpdb->query("
             DELETE FROM
-                `".$tableName."`
+                `" . $tableName . "`
             WHERE
-                `content_blocker_id` = '".esc_sql($contentBlockerId)."'
+                `content_blocker_id` = '" . esc_sql($contentBlockerId) . "'
         ");
 
         return true;
@@ -376,19 +378,19 @@ class ThirdPartyHelper
      * The function also ensures that your BCT will only be added when it does not exist.
      *
      * @access public
-     * @param string $typeId: only lowercase
-     * @param string $name: title of your BCT
-     * @param string $description: optional description
-     * @param array $hosts: hosts for autodetection (for iframes or oEmbeds)
-     * @param string $previewHTML: html code that is shown instead of the blocked content
-     * @param string $globalJS: global JavaScript, loaded once
-     * @param string $initJS: initialization JavaScript, executed everytime when a blocked content gets unblocked
+     * @param string $typeId : only lowercase
+     * @param string $name : title of your BCT
+     * @param string $description : optional description
+     * @param array $hosts : hosts for autodetection (for iframes or oEmbeds)
+     * @param string $previewHTML : html code that is shown instead of the blocked content
+     * @param string $globalJS : global JavaScript, loaded once
+     * @param string $initJS : initialization JavaScript, executed everytime when a blocked content gets unblocked
      * @param array $settings (default: [])
      * @param bool $status (default: false)
      * @param bool $undeletable (default: false): if true the user can not delete your BCT
      * @return void
      */
-    public function addBlockedContentType($typeId, $name, $description = '', $hosts, $previewHTML, $globalJS = '', $initJS = '', $settings = [], $status = false, $undeletable = false)
+    public function addBlockedContentType($typeId, $name, $description = '', $hosts = [], $previewHTML = '', $globalJS = '', $initJS = '', $settings = [], $status = false, $undeletable = false)
     {
         if (preg_match('/^[a-z\-\_]{3,}$/', $typeId)) {
             $privacyPolicyURL = '';

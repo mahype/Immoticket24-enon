@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -46,17 +46,19 @@ class Dashboard
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
-        $this->imagePath = plugins_url('images', realpath(__DIR__.'/../../'));
+        $this->imagePath = plugins_url('images', realpath(__DIR__ . '/../../'));
     }
 
     /**
@@ -98,13 +100,13 @@ class Dashboard
 
         $language = Multilanguage::getInstance()->getCurrentLanguageCode();
 
-        $loadingIcon = $this->imagePath.'/borlabs-cookie-icon-black.svg';
+        $loadingIcon = $this->imagePath . '/borlabs-cookie-icon-black.svg';
 
         $chartData = json_encode($this->getChartData());
 
         $latestUIDData = $this->getLatestUID();
 
-        include Backend::getInstance()->templatePath.'/dashboard.html.php';
+        include Backend::getInstance()->templatePath . '/dashboard.html.php';
     }
 
     /**
@@ -131,7 +133,7 @@ class Dashboard
         ];
 
         // Get Chart data
-        $tableCookieConsentLog = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)."borlabs_cookie_consent_log";
+        $tableCookieConsentLog = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix) . "borlabs_cookie_consent_log";
 
         $cookieVersion = get_site_option('BorlabsCookieCookieVersion', 1);
 
@@ -141,11 +143,11 @@ class Dashboard
                 `uid`,
                 `consents`
             FROM
-                `".$tableCookieConsentLog."`
+                `" . $tableCookieConsentLog . "`
             WHERE
                 `is_latest` = 1
                 AND
-                `cookie_version` = '".esc_sql($cookieVersion)."'
+                `cookie_version` = '" . esc_sql($cookieVersion) . "'
             ORDER BY
                 `stamp` DESC
             LIMIT
@@ -169,16 +171,16 @@ class Dashboard
         }
 
         // Get all Cookie Groups
-        $tableCookieGroup = $wpdb->prefix.'borlabs_cookie_groups';
+        $tableCookieGroup = $wpdb->prefix . 'borlabs_cookie_groups';
 
         $cookieGroups = $wpdb->get_results("
             SELECT
                 `group_id`,
                 `name`
             FROM
-                `".$tableCookieGroup."`
+                `" . $tableCookieGroup . "`
             WHERE
-                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                 AND
                 `status` = 1
             ORDER BY
@@ -232,7 +234,7 @@ class Dashboard
     {
         global $wpdb;
 
-        $tableCookieConsentLog = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)."borlabs_cookie_consent_log";
+        $tableCookieConsentLog = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix) . "borlabs_cookie_consent_log";
 
         $consentLogs = $wpdb->get_results("
             SELECT
@@ -240,7 +242,7 @@ class Dashboard
                 `cookie_version`,
                 `stamp`
             FROM
-                `".$tableCookieConsentLog."`
+                `" . $tableCookieConsentLog . "`
             WHERE
                 `is_latest` = 1
             ORDER BY
@@ -264,7 +266,7 @@ class Dashboard
 
         $lastCheck = intval(get_site_option('BorlabsCookieNewsLastCheck', 0));
 
-        if (empty($lastCheck) || $lastCheck < intval(date('Ymd', mktime(date('H'), date('i'), date('s'), date('m'), date('d')-3)))) {
+        if (empty($lastCheck) || $lastCheck < intval(date('Ymd', mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 3)))) {
             $responseNews = API::getInstance()->getNews();
         }
 

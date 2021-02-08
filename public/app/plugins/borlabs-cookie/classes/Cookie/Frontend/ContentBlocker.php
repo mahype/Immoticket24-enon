@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -67,12 +67,14 @@ class ContentBlocker
         $this->init();
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -87,18 +89,18 @@ class ContentBlocker
 
         $this->hostWhitelist = Config::getInstance()->get('contentBlockerHostWhitelist');
 
-        $this->cacheFolder = WP_CONTENT_DIR.'/cache/borlabs-cookie';
+        $this->cacheFolder = WP_CONTENT_DIR . '/cache/borlabs-cookie';
         $this->siteHost = parse_url(get_home_url(), PHP_URL_HOST);
 
         // Check if main cache folders exists
         if (!file_exists($this->cacheFolder)) {
 
             // Check if /cache folder exists
-            if (!file_exists(WP_CONTENT_DIR.'/cache') && is_writable(WP_CONTENT_DIR)) {
-                mkdir(WP_CONTENT_DIR.'/cache');
+            if (!file_exists(WP_CONTENT_DIR . '/cache') && is_writable(WP_CONTENT_DIR)) {
+                mkdir(WP_CONTENT_DIR . '/cache');
             }
 
-            if (file_exists(WP_CONTENT_DIR.'/cache') && is_writable(WP_CONTENT_DIR.'/cache')) {
+            if (file_exists(WP_CONTENT_DIR . '/cache') && is_writable(WP_CONTENT_DIR . '/cache')) {
                 // Create /borlabs-cookie folder
                 mkdir($this->cacheFolder);
             }
@@ -119,9 +121,9 @@ class ContentBlocker
                 `init_js`,
                 `settings`
             FROM
-                `".$tableName."`
+                `" . $tableName . "`
             WHERE
-                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                 AND
                 `status` = 1
         ");
@@ -171,9 +173,9 @@ class ContentBlocker
             SELECT
                 `hosts`
             FROM
-                `".$tableName."`
+                `" . $tableName . "`
             WHERE
-                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                 AND
                 `status` = 0
         ");
@@ -364,10 +366,10 @@ class ContentBlocker
     public function handleContentBlocking($content, $url = '', $contentBlockerId = '', $title = '', $atts = [])
     {
         // Check if host is on the whitelist
-        if(empty($url) || $this->isHostWhitelisted($url) !== true) {
+        if (empty($url) || $this->isHostWhitelisted($url) !== true) {
 
             if (function_exists('is_feed') && is_feed() && Config::getInstance()->get('removeIframesInFeeds') == true) {
-               $content = '';
+                $content = '';
             } else {
 
                 // Set currentContent for third party filter that needs the content unmodified
@@ -414,12 +416,12 @@ class ContentBlocker
 
                 if (!empty($detectedContentBlockerId)) {
 
-                    if (has_filter('borlabsCookie/contentBlocker/modify/content/'.$detectedContentBlockerId)) {
-                        $content = apply_filters('borlabsCookie/contentBlocker/modify/content/'.$detectedContentBlockerId, $content, $atts);
+                    if (has_filter('borlabsCookie/contentBlocker/modify/content/' . $detectedContentBlockerId)) {
+                        $content = apply_filters('borlabsCookie/contentBlocker/modify/content/' . $detectedContentBlockerId, $content, $atts);
 
-                    } elseif (has_filter('borlabsCookie/bct/modify_content/'.$detectedContentBlockerId)) {
+                    } elseif (has_filter('borlabsCookie/bct/modify_content/' . $detectedContentBlockerId)) {
                         // Backwards compatibility
-                        $content = apply_filters('borlabsCookie/bct/modify_content/'.$detectedContentBlockerId, $detectedContentBlockerId, $content);
+                        $content = apply_filters('borlabsCookie/bct/modify_content/' . $detectedContentBlockerId, $detectedContentBlockerId, $content);
 
                     } else {
                         $content = ContentBlocker\Custom::getInstance()->modify($content, $detectedContentBlockerId, $atts);

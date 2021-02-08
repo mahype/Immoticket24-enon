@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -36,12 +36,14 @@ class Vimeo
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -52,7 +54,7 @@ class Vimeo
      * @access protected
      * @return void
      */
-    protected function __construct()
+    public function __construct()
     {
         add_action('borlabsCookie/contentBlocker/edit/template/settings/vimeo', [$this, 'additionalSettingsTemplate']);
         add_action('borlabsCookie/contentBlocker/edit/template/settings/help/vimeo', [$this, 'additionalSettingsHelpTemplate']);
@@ -78,7 +80,7 @@ class Vimeo
 	<div class="_brlbs-embed _brlbs-video-vimeo">
     	<img class="_brlbs-thumbnail" src="%%thumbnail%%" alt="%%name%%">
 		<div class="_brlbs-caption">
-			<p>' . _x("By loading the video, you agree to Vimeo's privacy policy.", 'Frontend / Content Blocker / Vimeo / Text', 'borlabs-cookie') .'<br><a href="%%privacy_policy_url%%" target="_blank" rel="nofollow noopener noreferrer">' . _x('Learn more', 'Frontend / Content Blocker / Vimeo / Text', 'borlabs-cookie') . '</a></p>
+			<p>' . _x("By loading the video, you agree to Vimeo's privacy policy.", 'Frontend / Content Blocker / Vimeo / Text', 'borlabs-cookie') . '<br><a href="%%privacy_policy_url%%" target="_blank" rel="nofollow noopener noreferrer">' . _x('Learn more', 'Frontend / Content Blocker / Vimeo / Text', 'borlabs-cookie') . '</a></p>
 			<p><a class="_brlbs-btn _brlbs-icon-play-white" href="#" data-borlabs-cookie-unblock role="button">' . _x('Load video', 'Frontend / Content Blocker / Vimeo / Text', 'borlabs-cookie') . '</a></p>
 			<p><label><input type="checkbox" name="unblockAll" value="1" checked> <small>' . _x('Always unblock Vimeo', 'Frontend / Content Blocker / Vimeo / Text', 'borlabs-cookie') . '</small></label></p>
 		</div>
@@ -165,7 +167,7 @@ class Vimeo
         if (!empty($atts)) {
 
             foreach ($atts as $key => $value) {
-                $contentBlockerData['previewHTML'] = str_replace('%%'.$key.'%%', $value, $contentBlockerData['previewHTML']);
+                $contentBlockerData['previewHTML'] = str_replace('%%' . $key . '%%', $value, $contentBlockerData['previewHTML']);
             }
         }
 
@@ -199,7 +201,7 @@ class Vimeo
         $thumbnailURL = BORLABS_COOKIE_PLUGIN_URL . 'images/cb-no-thumbnail.png';;
 
         // Path and filename of the requested thumbnail on the HDD
-        $filename = ContentBlocker::getInstance()->getCacheFolder() . '/vimeo_'.$videoId.'.jpg';
+        $filename = ContentBlocker::getInstance()->getCacheFolder() . '/vimeo_' . $videoId . '.jpg';
 
         // URL of the requested thumbnail
         $webFilename = content_url() . '/cache/borlabs-cookie/vimeo_' . $videoId . '.jpg';
@@ -254,27 +256,42 @@ class Vimeo
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputSaveThumbnails  = !empty($data->settings['saveThumbnails']) ? 1 : 0;
+        $inputSaveThumbnails = !empty($data->settings['saveThumbnails']) ? 1 : 0;
         $switchSaveThumbnails = $inputSaveThumbnails ? ' active' : '';
 
-        $inputVideoWrapper  = !empty($data->settings['videoWrapper']) ? 1 : 0;
+        $inputVideoWrapper = !empty($data->settings['videoWrapper']) ? 1 : 0;
         $switchVideoWrapper = $inputVideoWrapper ? ' active' : '';
         ?>
         <div class="form-group row align-items-center">
-            <label class="col-sm-4 col-form-label"><?php _ex('Save thumbnails locally', 'Backend / Content Blocker / Vimeo / Label', 'borlabs-cookie'); ?></label>
+            <label
+                class="col-sm-4 col-form-label"><?php _ex('Save thumbnails locally', 'Backend / Content Blocker / Vimeo / Label', 'borlabs-cookie'); ?></label>
             <div class="col-sm-8">
-                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchSaveThumbnails; ?>" data-toggle="button" data-switch-target="saveThumbnails" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
-                <input type="hidden" name="settings[saveThumbnails]" id="saveThumbnails" value="<?php echo $inputSaveThumbnails; ?>">
-                <span data-toggle="tooltip" title="<?php _ex('Attempts to get the thumbnail of the Vimeo video to save it locally. Your visitor\'s IP-address will not be transferred to Vimeo during this process.', 'Backend / Content Blocker / Vimeo / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchSaveThumbnails; ?>"
+                        data-toggle="button" data-switch-target="saveThumbnails" aria-pressed="false"
+                        autocomplete="off">
+                    <div class="handle"></div>
+                </button>
+                <input type="hidden" name="settings[saveThumbnails]" id="saveThumbnails"
+                       value="<?php echo $inputSaveThumbnails; ?>">
+                <span data-toggle="tooltip"
+                      title="<?php _ex('Attempts to get the thumbnail of the Vimeo video to save it locally. Your visitor\'s IP-address will not be transferred to Vimeo during this process.', 'Backend / Content Blocker / Vimeo / Tooltip', 'borlabs-cookie'); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>
 
         <div class="form-group row align-items-center">
-            <label for="videoWrapper" class="col-sm-4 col-form-label"><?php _ex('Video Wrapper', 'Backend / Content Blocker / Vimeo / Label', 'borlabs-cookie'); ?></label>
+            <label for="videoWrapper"
+                   class="col-sm-4 col-form-label"><?php _ex('Video Wrapper', 'Backend / Content Blocker / Vimeo / Label', 'borlabs-cookie'); ?></label>
             <div class="col-sm-8">
-                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchVideoWrapper; ?>" data-toggle="button" data-switch-target="videoWrapper" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
-                <input type="hidden" name="settings[videoWrapper]" id="videoWrapper" value="<?php echo $inputVideoWrapper; ?>">
-                <span data-toggle="tooltip" title="<?php _ex('Enable this option if the video is displayed too small, with incorrect aspect ratios, or large spacing.', 'Backend / Content Blocker / Vimeo / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchVideoWrapper; ?>"
+                        data-toggle="button" data-switch-target="videoWrapper" aria-pressed="false" autocomplete="off">
+                    <div class="handle"></div>
+                </button>
+                <input type="hidden" name="settings[videoWrapper]" id="videoWrapper"
+                       value="<?php echo $inputVideoWrapper; ?>">
+                <span data-toggle="tooltip"
+                      title="<?php _ex('Enable this option if the video is displayed too small, with incorrect aspect ratios, or large spacing.', 'Backend / Content Blocker / Vimeo / Tooltip', 'borlabs-cookie'); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>
         <?php

@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -37,15 +37,17 @@ class Style
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
     }
 
@@ -59,15 +61,15 @@ class Style
         $contentURL = content_url();
 
         // If CSS does not exist, try to create it on the fly
-        if (file_exists(WP_CONTENT_DIR.'/cache/borlabs-cookie/borlabs-cookie_' . get_current_blog_id() . '_' . $language . '.css') === false) {
+        if (file_exists(WP_CONTENT_DIR . '/cache/borlabs-cookie/borlabs-cookie_' . get_current_blog_id() . '_' . $language . '.css') === false) {
             CSS::getInstance()->save();
         }
 
         // If CSS does not exist, try fallback
-        if (file_exists(WP_CONTENT_DIR.'/cache/borlabs-cookie/borlabs-cookie_' . get_current_blog_id() . '_' . $language . '.css')) {
+        if (file_exists(WP_CONTENT_DIR . '/cache/borlabs-cookie/borlabs-cookie_' . get_current_blog_id() . '_' . $language . '.css')) {
 
             if (defined('BORLABS_COOKIE_DEV_MODE') && BORLABS_COOKIE_DEV_MODE === true) {
-                wp_enqueue_style('borlabs-cookie-origin', BORLABS_COOKIE_PLUGIN_URL.'css/borlabs-cookie.css', [], BORLABS_COOKIE_VERSION.'-'.$styleVersion);
+                wp_enqueue_style('borlabs-cookie-origin', BORLABS_COOKIE_PLUGIN_URL . 'css/borlabs-cookie.css', [], BORLABS_COOKIE_VERSION . '-' . $styleVersion);
             }
 
             wp_enqueue_style('borlabs-cookie', $contentURL . '/cache/borlabs-cookie/borlabs-cookie_' . get_current_blog_id() . '_' . $language . '.css', [], BORLABS_COOKIE_VERSION . '-' . $styleVersion);
@@ -79,7 +81,7 @@ class Style
             $inlineCSS .= Config::getInstance()->get('cookieBoxCustomCSS');
             $inlineCSS .= \BorlabsCookie\Cookie\Backend\CSS::getInstance()->getContentBlockerCSS($language);
 
-            wp_enqueue_style('borlabs-cookie', BORLABS_COOKIE_PLUGIN_URL.'css/borlabs-cookie.css', [], BORLABS_COOKIE_VERSION . '-' . $styleVersion);
+            wp_enqueue_style('borlabs-cookie', BORLABS_COOKIE_PLUGIN_URL . 'css/borlabs-cookie.css', [], BORLABS_COOKIE_VERSION . '-' . $styleVersion);
             wp_add_inline_style('borlabs-cookie', $inlineCSS);
         }
     }

@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -43,12 +43,14 @@ class GravityFormsIframe
     {
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -57,7 +59,7 @@ class GravityFormsIframe
      * @access public
      * @return void
      */
-    public function register ()
+    public function register()
     {
         add_action('gfiframe_head', function ($formId, $form) {
             echo "<style>#BorlabsCookieBox { display: none; }</style>";

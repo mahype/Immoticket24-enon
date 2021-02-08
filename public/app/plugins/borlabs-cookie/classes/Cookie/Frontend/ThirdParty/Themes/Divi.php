@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -46,12 +46,14 @@ class Divi
     {
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -81,7 +83,7 @@ class Divi
                     // Add updated settings, global js, and init js of the Content Blocker
                     JavaScript::getInstance()->addContentBlocker(
                         $contentBlockerData['content_blocker_id'],
-                        $contentBlockerData['globalJS'] . ' jQuery("body").append("<" + "script type=\'text/javascript\' src=\'https://maps.googleapis.com/maps/api/js?v=3&#038;key='.urlencode($googleApiSettings['api_key']).'&#038;ver='.ET_BUILDER_PRODUCT_VERSION.'\'"+"><"+"/script>"); ',
+                        $contentBlockerData['globalJS'] . ' jQuery("body").append("<" + "script type=\'text/javascript\' src=\'https://maps.googleapis.com/maps/api/js?v=3&#038;key=' . urlencode($googleApiSettings['api_key']) . '&#038;ver=' . ET_BUILDER_PRODUCT_VERSION . '\'"+"><"+"/script>"); ',
                         $contentBlockerData['initJS'] . ' var borlabsDiviGoogleMaps = setInterval(function () { if (typeof google !== "undefined" && typeof google.maps !== "undefined") { clearInterval(borlabsDiviGoogleMaps); jQuery(".et_pb_map_container").each(function () { if (jQuery(this).children(".et_pb_map").length) { window.et_pb_map_init(jQuery(this)); }}); } }, 125); ',
                         $contentBlockerData['settings']
                     );
@@ -126,11 +128,11 @@ class Divi
      * @access public
      * @return void
      */
-    public function loadGoogleMapsAPI ()
+    public function loadGoogleMapsAPI()
     {
         add_action('wp_head', function () {
             $googleApiSettings = get_option('et_google_api_settings');
-            echo '<script type=\'text/javascript\' src=\'https://maps.googleapis.com/maps/api/js?v=3&#038;key='.urlencode($googleApiSettings['api_key']).'&#038;ver='.ET_BUILDER_PRODUCT_VERSION.'\'></script>';
+            echo '<script type=\'text/javascript\' src=\'https://maps.googleapis.com/maps/api/js?v=3&#038;key=' . urlencode($googleApiSettings['api_key']) . '&#038;ver=' . ET_BUILDER_PRODUCT_VERSION . '\'></script>';
         });
     }
 
@@ -154,7 +156,7 @@ class Divi
      * @access public
      * @return void
      */
-    public function isBuilderModeActive ()
+    public function isBuilderModeActive()
     {
         $hideCookieBox = false;
 

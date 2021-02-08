@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -30,6 +30,7 @@ George: He's an importer.
 Elaine: Just imports? No exports?
 George: (getting irritated) He's an importer-exporter. Okay?
  */
+
 class ImportExport
 {
     private static $instance;
@@ -75,23 +76,25 @@ class ImportExport
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
         global $wpdb;
 
-        $this->tableContentBlocker = $wpdb->prefix.'borlabs_cookie_content_blocker';
-        $this->tableCookie = $wpdb->prefix.'borlabs_cookie_cookies';
-        $this->tableCookieGroup = $wpdb->prefix.'borlabs_cookie_groups';
-        $this->tableCookieGroup = $wpdb->prefix.'borlabs_cookie_groups';
-        $this->tableScriptBlocker = $wpdb->prefix.'borlabs_cookie_script_blocker';
+        $this->tableContentBlocker = $wpdb->prefix . 'borlabs_cookie_content_blocker';
+        $this->tableCookie = $wpdb->prefix . 'borlabs_cookie_cookies';
+        $this->tableCookieGroup = $wpdb->prefix . 'borlabs_cookie_groups';
+        $this->tableCookieGroup = $wpdb->prefix . 'borlabs_cookie_groups';
+        $this->tableScriptBlocker = $wpdb->prefix . 'borlabs_cookie_script_blocker';
     }
 
     /**
@@ -146,12 +149,12 @@ class ImportExport
 
     public function displayOverview()
     {
-        $textareaConfig = esc_textarea(json_encode(['config'=>Config::getInstance()->get()]));
+        $textareaConfig = esc_textarea(json_encode(['config' => Config::getInstance()->get()]));
         $textareaCookiesAndGroups = esc_textarea(json_encode($this->getAllCookiesAndGroups()));
         $textareaContentBlocker = esc_textarea(json_encode($this->getAllContentBlocker()));
         $textareaScriptBlocker = esc_textarea(json_encode($this->getAllScriptBlocker()));
 
-        include Backend::getInstance()->templatePath.'/import-export.html.php';
+        include Backend::getInstance()->templatePath . '/import-export.html.php';
     }
 
     /**
@@ -178,9 +181,9 @@ class ImportExport
                 `status`,
                 `undeletable`
             FROM
-                `".$this->tableCookieGroup."`
+                `" . $this->tableCookieGroup . "`
             WHERE
-                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
         ");
 
         $data['cookieGroups'] = $cookieGroupsData;
@@ -206,9 +209,9 @@ class ImportExport
                 `status`,
                 `undeletable`
             FROM
-                `".$this->tableCookie."`
+                `" . $this->tableCookie . "`
             WHERE
-                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
         ");
 
         $data['cookies'] = $cookiesData;
@@ -245,9 +248,9 @@ class ImportExport
                 `status`,
                 `undeletable`
             FROM
-                `".$this->tableContentBlocker."`
+                `" . $this->tableContentBlocker . "`
             WHERE
-                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
         ");
 
         $data['contentBlocker'] = $contentBlockerData;
@@ -277,7 +280,7 @@ class ImportExport
                 `status`,
                 `undeletable`
             FROM
-                `".$this->tableScriptBlocker."`
+                `" . $this->tableScriptBlocker . "`
         ");
 
         $data['scriptBlocker'] = $scriptBlockerData;
@@ -461,7 +464,7 @@ class ImportExport
 
             $wpdb->query("
                 INSERT INTO
-                    `".$this->tableContentBlocker."`
+                    `" . $this->tableContentBlocker . "`
                     (
                         `content_blocker_id`,
                         `language`,
@@ -479,19 +482,19 @@ class ImportExport
                     )
                 VALUES
                     (
-                        '".esc_sql($contentBlockerData['content_blocker_id'])."',
-                        '".esc_sql($language)."',
-                        '".esc_sql($contentBlockerData['name'])."',
-                        '".esc_sql($contentBlockerData['description'])."',
-                        '".esc_sql($contentBlockerData['privacy_policy_url'])."',
-                        '".esc_sql($contentBlockerData['hosts'])."',
-                        '".esc_sql($contentBlockerData['preview_html'])."',
-                        '".esc_sql($contentBlockerData['preview_css'])."',
-                        '".esc_sql($contentBlockerData['global_js'])."',
-                        '".esc_sql($contentBlockerData['init_js'])."',
-                        '".esc_sql($contentBlockerData['settings'])."',
-                        '".(intval($contentBlockerData['status']) ? 1 : 0)."',
-                        '".(intval($contentBlockerData['undeletable']) ? 1 : 0)."'
+                        '" . esc_sql($contentBlockerData['content_blocker_id']) . "',
+                        '" . esc_sql($language) . "',
+                        '" . esc_sql($contentBlockerData['name']) . "',
+                        '" . esc_sql($contentBlockerData['description']) . "',
+                        '" . esc_sql($contentBlockerData['privacy_policy_url']) . "',
+                        '" . esc_sql($contentBlockerData['hosts']) . "',
+                        '" . esc_sql($contentBlockerData['preview_html']) . "',
+                        '" . esc_sql($contentBlockerData['preview_css']) . "',
+                        '" . esc_sql($contentBlockerData['global_js']) . "',
+                        '" . esc_sql($contentBlockerData['init_js']) . "',
+                        '" . esc_sql($contentBlockerData['settings']) . "',
+                        '" . (intval($contentBlockerData['status']) ? 1 : 0) . "',
+                        '" . (intval($contentBlockerData['undeletable']) ? 1 : 0) . "'
                     )
                 ON DUPLICATE KEY UPDATE
                     `name` = VALUES(`name`),
@@ -531,7 +534,7 @@ class ImportExport
 
             $wpdb->query("
                 INSERT INTO
-                    `".$this->tableCookieGroup."`
+                    `" . $this->tableCookieGroup . "`
                     (
                         `group_id`,
                         `language`,
@@ -544,14 +547,14 @@ class ImportExport
                     )
                 VALUES
                     (
-                        '".esc_sql($groupData['group_id'])."',
-                        '".esc_sql($language)."',
-                        '".esc_sql($groupData['name'])."',
-                        '".esc_sql($groupData['description'])."',
-                        '".(intval($groupData['pre_selected']) ? 1 : 0)."',
-                        '".intval($groupData['position'])."',
-                        '".(intval($groupData['status']) ? 1 : 0)."',
-                        '".(intval($groupData['undeletable']) ? 1 : 0)."'
+                        '" . esc_sql($groupData['group_id']) . "',
+                        '" . esc_sql($language) . "',
+                        '" . esc_sql($groupData['name']) . "',
+                        '" . esc_sql($groupData['description']) . "',
+                        '" . (intval($groupData['pre_selected']) ? 1 : 0) . "',
+                        '" . intval($groupData['position']) . "',
+                        '" . (intval($groupData['status']) ? 1 : 0) . "',
+                        '" . (intval($groupData['undeletable']) ? 1 : 0) . "'
                     )
                 ON DUPLICATE KEY UPDATE
                     `name` = VALUES(`name`),
@@ -571,9 +574,9 @@ class ImportExport
                 `id`,
                 `group_id`
             FROM
-                `".$this->tableCookieGroup."`
+                `" . $this->tableCookieGroup . "`
             WHERE
-                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
         ");
 
         foreach ($cookieGroups as $groupData) {
@@ -587,7 +590,7 @@ class ImportExport
 
             $wpdb->query("
                 INSERT INTO
-                    `".$this->tableCookie."`
+                    `" . $this->tableCookie . "`
                     (
                         `cookie_id`,
                         `language`,
@@ -610,24 +613,24 @@ class ImportExport
                     )
                 VALUES
                     (
-                        '".esc_sql($cookieData['cookie_id'])."',
-                        '".esc_sql($language)."',
-                        '".intval($newCookieGroupId)."',
-                        '".esc_sql($cookieData['service'])."',
-                        '".esc_sql($cookieData['name'])."',
-                        '".esc_sql($cookieData['provider'])."',
-                        '".esc_sql($cookieData['purpose'])."',
-                        '".esc_sql($cookieData['privacy_policy_url'])."',
-                        '".esc_sql($cookieData['hosts'])."',
-                        '".esc_sql($cookieData['cookie_name'])."',
-                        '".esc_sql($cookieData['cookie_expiry'])."',
-                        '".esc_sql($cookieData['opt_in_js'])."',
-                        '".esc_sql($cookieData['opt_out_js'])."',
-                        '".esc_sql($cookieData['fallback_js'])."',
-                        '".esc_sql($cookieData['settings'])."',
-                        '".intval($cookieData['position'])."',
-                        '".(intval($cookieData['status']) ? 1 : 0)."',
-                        '".(intval($cookieData['undeletable']) ? 1 : 0)."'
+                        '" . esc_sql($cookieData['cookie_id']) . "',
+                        '" . esc_sql($language) . "',
+                        '" . intval($newCookieGroupId) . "',
+                        '" . esc_sql($cookieData['service']) . "',
+                        '" . esc_sql($cookieData['name']) . "',
+                        '" . esc_sql($cookieData['provider']) . "',
+                        '" . esc_sql($cookieData['purpose']) . "',
+                        '" . esc_sql($cookieData['privacy_policy_url']) . "',
+                        '" . esc_sql($cookieData['hosts']) . "',
+                        '" . esc_sql($cookieData['cookie_name']) . "',
+                        '" . esc_sql($cookieData['cookie_expiry']) . "',
+                        '" . esc_sql($cookieData['opt_in_js']) . "',
+                        '" . esc_sql($cookieData['opt_out_js']) . "',
+                        '" . esc_sql($cookieData['fallback_js']) . "',
+                        '" . esc_sql($cookieData['settings']) . "',
+                        '" . intval($cookieData['position']) . "',
+                        '" . (intval($cookieData['status']) ? 1 : 0) . "',
+                        '" . (intval($cookieData['undeletable']) ? 1 : 0) . "'
                     )
                 ON DUPLICATE KEY UPDATE
                     `cookie_group_id` = VALUES(`cookie_group_id`),
@@ -665,7 +668,7 @@ class ImportExport
 
             $wpdb->query("
                 INSERT INTO
-                    `".$this->tableScriptBlocker."`
+                    `" . $this->tableScriptBlocker . "`
                     (
                         `script_blocker_id`,
                         `name`,
@@ -676,12 +679,12 @@ class ImportExport
                     )
                 VALUES
                     (
-                        '".esc_sql($scriptBlockerData['script_blocker_id'])."',
-                        '".esc_sql($scriptBlockerData['name'])."',
-                        '".esc_sql($scriptBlockerData['handles'])."',
-                        '".esc_sql($scriptBlockerData['js_block_phrases'])."',
-                        '".(intval($scriptBlockerData['status']) ? 1 : 0)."',
-                        '".(intval($scriptBlockerData['undeletable']) ? 1 : 0)."'
+                        '" . esc_sql($scriptBlockerData['script_blocker_id']) . "',
+                        '" . esc_sql($scriptBlockerData['name']) . "',
+                        '" . esc_sql($scriptBlockerData['handles']) . "',
+                        '" . esc_sql($scriptBlockerData['js_block_phrases']) . "',
+                        '" . (intval($scriptBlockerData['status']) ? 1 : 0) . "',
+                        '" . (intval($scriptBlockerData['undeletable']) ? 1 : 0) . "'
                     )
                 ON DUPLICATE KEY UPDATE
                     `name` = VALUES(`name`),

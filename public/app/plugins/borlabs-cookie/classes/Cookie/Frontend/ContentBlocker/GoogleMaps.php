@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -35,21 +35,23 @@ class GoogleMaps
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
      * __construct function.
      *
-     * @access protected
+     * @access public
      * @return void
      */
-    protected function __construct()
+    public function __construct()
     {
         add_action('borlabsCookie/contentBlocker/edit/template/settings/googlemaps', [$this, 'additionalSettingsTemplate']);
         add_action('borlabsCookie/contentBlocker/edit/template/settings/help/googlemaps', [$this, 'additionalSettingsHelpTemplate']);
@@ -76,7 +78,7 @@ class GoogleMaps
 	<div class="_brlbs-embed _brlbs-google-maps">
     	<img class="_brlbs-thumbnail" src="%%thumbnail%%" alt="%%name%%">
 		<div class="_brlbs-caption">
-			<p>' . _x("By loading the map, you agree to Google's privacy policy.", 'Frontend / Content Blocker / Google Maps / Text', 'borlabs-cookie') .'<br><a href="%%privacy_policy_url%%" target="_blank" rel="nofollow noopener noreferrer">' . _x('Learn more', 'Frontend / Content Blocker / Google Maps / Text', 'borlabs-cookie') . '</a></p>
+			<p>' . _x("By loading the map, you agree to Google's privacy policy.", 'Frontend / Content Blocker / Google Maps / Text', 'borlabs-cookie') . '<br><a href="%%privacy_policy_url%%" target="_blank" rel="nofollow noopener noreferrer">' . _x('Learn more', 'Frontend / Content Blocker / Google Maps / Text', 'borlabs-cookie') . '</a></p>
 			<p><a class="_brlbs-btn" href="#" data-borlabs-cookie-unblock role="button">' . _x('Load map', 'Frontend / Content Blocker / Google Maps / Text', 'borlabs-cookie') . '</a></p>
 			<p><label><input type="checkbox" name="unblockAll" value="1" checked> <small>' . _x('Always unblock Google Maps', 'Frontend / Content Blocker / Google Maps / Text', 'borlabs-cookie') . '</small></label></p>
 		</div>
@@ -161,7 +163,7 @@ class GoogleMaps
         if (!empty($atts)) {
 
             foreach ($atts as $key => $value) {
-                $contentBlockerData['previewHTML'] = str_replace('%%'.$key.'%%', $value, $contentBlockerData['previewHTML']);
+                $contentBlockerData['previewHTML'] = str_replace('%%' . $key . '%%', $value, $contentBlockerData['previewHTML']);
             }
         }
 
@@ -194,10 +196,14 @@ class GoogleMaps
         $inputAPIKey = esc_html(!empty($data->settings['apiKey']) ? $data->settings['apiKey'] : '');
         ?>
         <div class="form-group row">
-            <label for="name" class="col-sm-4 col-form-label"><?php _ex('API Key', 'Backend / Content Blocker / Google Maps / Label', 'borlabs-cookie'); ?></label>
+            <label for="name"
+                   class="col-sm-4 col-form-label"><?php _ex('API Key', 'Backend / Content Blocker / Google Maps / Label', 'borlabs-cookie'); ?></label>
             <div class="col-sm-8">
-                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="name" name="settings[apiKey]" value="<?php echo $inputAPIKey; ?>">
-                <span data-toggle="tooltip" title="<?php _ex('Enter your Google API Key.', 'Backend / Content Blocker / Google Maps / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="name"
+                       name="settings[apiKey]" value="<?php echo $inputAPIKey; ?>">
+                <span data-toggle="tooltip"
+                      title="<?php _ex('Enter your Google API Key.', 'Backend / Content Blocker / Google Maps / Tooltip', 'borlabs-cookie'); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>
         <?php

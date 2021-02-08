@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -35,12 +35,14 @@ class YouTube
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -51,7 +53,7 @@ class YouTube
      * @access protected
      * @return void
      */
-    protected function __construct()
+    public function __construct()
     {
         add_action('borlabsCookie/contentBlocker/edit/template/settings/youtube', [$this, 'additionalSettingsTemplate']);
         add_action('borlabsCookie/contentBlocker/edit/template/settings/help/youtube', [$this, 'additionalSettingsHelpTemplate']);
@@ -80,7 +82,7 @@ class YouTube
 	<div class="_brlbs-embed _brlbs-video-youtube">
     	<img class="_brlbs-thumbnail" src="%%thumbnail%%" alt="%%name%%">
 		<div class="_brlbs-caption">
-			<p>' . _x("By loading the video, you agree to YouTube's privacy policy.", 'Frontend / Content Blocker / YouTube / Text', 'borlabs-cookie') .'<br><a href="%%privacy_policy_url%%" target="_blank" rel="nofollow noopener noreferrer">' . _x('Learn more', 'Frontend / Content Blocker / YouTube / Text', 'borlabs-cookie') . '</a></p>
+			<p>' . _x("By loading the video, you agree to YouTube's privacy policy.", 'Frontend / Content Blocker / YouTube / Text', 'borlabs-cookie') . '<br><a href="%%privacy_policy_url%%" target="_blank" rel="nofollow noopener noreferrer">' . _x('Learn more', 'Frontend / Content Blocker / YouTube / Text', 'borlabs-cookie') . '</a></p>
 			<p><a class="_brlbs-btn _brlbs-icon-play-white" href="#" data-borlabs-cookie-unblock role="button">' . _x('Load video', 'Frontend / Content Blocker / YouTube / Text', 'borlabs-cookie') . '</a></p>
 			<p><label><input type="checkbox" name="unblockAll" value="1" checked> <small>' . _x('Always unblock YouTube', 'Frontend / Content Blocker / YouTube / Text', 'borlabs-cookie') . '</small></label></p>
 		</div>
@@ -180,7 +182,7 @@ class YouTube
         if (!empty($atts)) {
 
             foreach ($atts as $key => $value) {
-                $contentBlockerData['previewHTML'] = str_replace('%%'.$key.'%%', $value, $contentBlockerData['previewHTML']);
+                $contentBlockerData['previewHTML'] = str_replace('%%' . $key . '%%', $value, $contentBlockerData['previewHTML']);
             }
         }
 
@@ -286,57 +288,88 @@ class YouTube
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputSaveThumbnails  = !empty($data->settings['saveThumbnails']) ? 1 : 0;
+        $inputSaveThumbnails = !empty($data->settings['saveThumbnails']) ? 1 : 0;
         $switchSaveThumbnails = $inputSaveThumbnails ? ' active' : '';
 
-        $optionThumbnailQualityHQDefault    = !empty($data->settings['thumbnailQuality']) && $data->settings['thumbnailQuality'] === 'hqdefault' ? ' selected' : '';
-        $optionThumbnailQualityMQDefault    = !empty($data->settings['thumbnailQuality']) && $data->settings['thumbnailQuality'] === 'mqdefault' ? ' selected' : '';
-        $optionThumbnailQualitySDDefault    = !empty($data->settings['thumbnailQuality']) && $data->settings['thumbnailQuality'] === 'sddefault' ? ' selected' : '';
-        $optionThumbnailQualityMaxResDefault= !empty($data->settings['thumbnailQuality']) && $data->settings['thumbnailQuality'] === 'maxresdefault' ? ' selected' : '';
+        $optionThumbnailQualityHQDefault = !empty($data->settings['thumbnailQuality']) && $data->settings['thumbnailQuality'] === 'hqdefault' ? ' selected' : '';
+        $optionThumbnailQualityMQDefault = !empty($data->settings['thumbnailQuality']) && $data->settings['thumbnailQuality'] === 'mqdefault' ? ' selected' : '';
+        $optionThumbnailQualitySDDefault = !empty($data->settings['thumbnailQuality']) && $data->settings['thumbnailQuality'] === 'sddefault' ? ' selected' : '';
+        $optionThumbnailQualityMaxResDefault = !empty($data->settings['thumbnailQuality']) && $data->settings['thumbnailQuality'] === 'maxresdefault' ? ' selected' : '';
 
-        $inputChangeURLToNoCookie  = !empty($data->settings['changeURLToNoCookie']) ? 1 : 0;
+        $inputChangeURLToNoCookie = !empty($data->settings['changeURLToNoCookie']) ? 1 : 0;
         $switchChangeURLToNoCookie = $inputChangeURLToNoCookie ? ' active' : '';
 
-        $inputVideoWrapper  = !empty($data->settings['videoWrapper']) ? 1 : 0;
+        $inputVideoWrapper = !empty($data->settings['videoWrapper']) ? 1 : 0;
         $switchVideoWrapper = $inputVideoWrapper ? ' active' : '';
         ?>
         <div class="form-group row align-items-center">
-            <label for="saveThumbnails" class="col-sm-4 col-form-label"><?php _ex('Save thumbnails locally', 'Backend / Content Blocker / YouTube / Label', 'borlabs-cookie'); ?></label>
+            <label for="saveThumbnails"
+                   class="col-sm-4 col-form-label"><?php _ex('Save thumbnails locally', 'Backend / Content Blocker / YouTube / Label', 'borlabs-cookie'); ?></label>
             <div class="col-sm-8">
-                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchSaveThumbnails; ?>" data-toggle="button" data-switch-target="saveThumbnails" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
-                <input type="hidden" name="settings[saveThumbnails]" id="saveThumbnails" value="<?php echo $inputSaveThumbnails; ?>">
-                <span data-toggle="tooltip" title="<?php _ex('Attempts to get the thumbnail of the YouTube video to save it locally. Your visitor\'s IP-address will not be transferred to YouTube during this process.', 'Backend / Content Blocker / YouTube / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchSaveThumbnails; ?>"
+                        data-toggle="button" data-switch-target="saveThumbnails" aria-pressed="false"
+                        autocomplete="off">
+                    <div class="handle"></div>
+                </button>
+                <input type="hidden" name="settings[saveThumbnails]" id="saveThumbnails"
+                       value="<?php echo $inputSaveThumbnails; ?>">
+                <span data-toggle="tooltip"
+                      title="<?php _ex('Attempts to get the thumbnail of the YouTube video to save it locally. Your visitor\'s IP-address will not be transferred to YouTube during this process.', 'Backend / Content Blocker / YouTube / Tooltip', 'borlabs-cookie'); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>
 
         <div class="form-group row">
-            <label for="cookieBoxShow" class="col-sm-4 col-form-label"><?php _ex('Thumbnail size &amp; quality', 'Backend / Content Blocker / YouTube / Label', 'borlabs-cookie'); ?></label>
+            <label for="cookieBoxShow"
+                   class="col-sm-4 col-form-label"><?php _ex('Thumbnail size &amp; quality', 'Backend / Content Blocker / YouTube / Label', 'borlabs-cookie'); ?></label>
             <div class="col-sm-8">
-                <select class="form-control form-control form-control-sm d-inline-block w-75 mr-2" name="settings[thumbnailQuality]" id="settings[thumbnailQuality]">
-                    <option<?php echo $optionThumbnailQualityHQDefault; ?> value="hqdefault"><?php _ex('High Quality', 'Backend / Content Blocker / YouTube / Select Option', 'borlabs-cookie'); ?></option>
-                    <option<?php echo $optionThumbnailQualityMQDefault; ?> value="mqdefault"><?php _ex('Medium Quality', 'Backend / Content Blocker / YouTube / Select Option', 'borlabs-cookie'); ?></option>
-                    <option<?php echo $optionThumbnailQualitySDDefault; ?> value="sddefault"><?php _ex('Standard Quality', 'Backend / Content Blocker / YouTube / Select Option', 'borlabs-cookie'); ?></option>
-                    <option<?php echo $optionThumbnailQualityMaxResDefault; ?> value="maxresdefault"><?php _ex('Maximum Resolution', 'Backend / Content Blocker / YouTube / Select Option', 'borlabs-cookie'); ?></option>
+                <select class="form-control form-control form-control-sm d-inline-block w-75 mr-2"
+                        name="settings[thumbnailQuality]" id="settings[thumbnailQuality]">
+                    <option<?php echo $optionThumbnailQualityHQDefault; ?>
+                        value="hqdefault"><?php _ex('High Quality', 'Backend / Content Blocker / YouTube / Select Option', 'borlabs-cookie'); ?></option>
+                    <option<?php echo $optionThumbnailQualityMQDefault; ?>
+                        value="mqdefault"><?php _ex('Medium Quality', 'Backend / Content Blocker / YouTube / Select Option', 'borlabs-cookie'); ?></option>
+                    <option<?php echo $optionThumbnailQualitySDDefault; ?>
+                        value="sddefault"><?php _ex('Standard Quality', 'Backend / Content Blocker / YouTube / Select Option', 'borlabs-cookie'); ?></option>
+                    <option<?php echo $optionThumbnailQualityMaxResDefault; ?>
+                        value="maxresdefault"><?php _ex('Maximum Resolution', 'Backend / Content Blocker / YouTube / Select Option', 'borlabs-cookie'); ?></option>
                 </select>
-                <span data-toggle="tooltip" title="<?php _ex('If the thumbnail in the requested quality is not available the <strong>High Quality</strong> quality is used.', 'Backend / Content Blocker / YouTube / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <span data-toggle="tooltip"
+                      title="<?php _ex('If the thumbnail in the requested quality is not available the <strong>High Quality</strong> quality is used.', 'Backend / Content Blocker / YouTube / Tooltip', 'borlabs-cookie'); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>
 
         <div class="form-group row align-items-center">
-            <label for="changeURLToNoCookie" class="col-sm-4 col-form-label"><?php _ex('Change URL to youtube-nocookie.com', 'Backend / Content Blocker / YouTube / Label', 'borlabs-cookie'); ?></label>
+            <label for="changeURLToNoCookie"
+                   class="col-sm-4 col-form-label"><?php _ex('Change URL to youtube-nocookie.com', 'Backend / Content Blocker / YouTube / Label', 'borlabs-cookie'); ?></label>
             <div class="col-sm-8">
-                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchChangeURLToNoCookie; ?>" data-toggle="button" data-switch-target="changeURLToNoCookie" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
-                <input type="hidden" name="settings[changeURLToNoCookie]" id="changeURLToNoCookie" value="<?php echo $inputChangeURLToNoCookie; ?>">
-                <span data-toggle="tooltip" title="<?php _ex('The YouTube URL of the iframe will be changed to www.youtube-nocookie.com.', 'Backend / Content Blocker / YouTube / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchChangeURLToNoCookie; ?>"
+                        data-toggle="button" data-switch-target="changeURLToNoCookie" aria-pressed="false"
+                        autocomplete="off">
+                    <div class="handle"></div>
+                </button>
+                <input type="hidden" name="settings[changeURLToNoCookie]" id="changeURLToNoCookie"
+                       value="<?php echo $inputChangeURLToNoCookie; ?>">
+                <span data-toggle="tooltip"
+                      title="<?php _ex('The YouTube URL of the iframe will be changed to www.youtube-nocookie.com.', 'Backend / Content Blocker / YouTube / Tooltip', 'borlabs-cookie'); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>
 
         <div class="form-group row align-items-center">
-            <label for="videoWrapper" class="col-sm-4 col-form-label"><?php _ex('Video Wrapper', 'Backend / Content Blocker / YouTube / Label', 'borlabs-cookie'); ?></label>
+            <label for="videoWrapper"
+                   class="col-sm-4 col-form-label"><?php _ex('Video Wrapper', 'Backend / Content Blocker / YouTube / Label', 'borlabs-cookie'); ?></label>
             <div class="col-sm-8">
-                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchVideoWrapper; ?>" data-toggle="button" data-switch-target="videoWrapper" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
-                <input type="hidden" name="settings[videoWrapper]" id="videoWrapper" value="<?php echo $inputVideoWrapper; ?>">
-                <span data-toggle="tooltip" title="<?php _ex('Enable this option if the video is displayed too small, with incorrect aspect ratios, or large spacing.', 'Backend / Content Blocker / YouTube / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchVideoWrapper; ?>"
+                        data-toggle="button" data-switch-target="videoWrapper" aria-pressed="false" autocomplete="off">
+                    <div class="handle"></div>
+                </button>
+                <input type="hidden" name="settings[videoWrapper]" id="videoWrapper"
+                       value="<?php echo $inputVideoWrapper; ?>">
+                <span data-toggle="tooltip"
+                      title="<?php _ex('Enable this option if the video is displayed too small, with incorrect aspect ratios, or large spacing.', 'Backend / Content Blocker / YouTube / Tooltip', 'borlabs-cookie'); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>
         <?php
@@ -356,10 +389,13 @@ class YouTube
             <div class="px-3 pt-3 pb-3 mb-4">
                 <h3 class="border-bottom mb-3"><?php _ex('Tips', 'Backend / Global / Tips / Headline', 'borlabs-cookie'); ?></h3>
                 <h4><?php _ex('Thumbnail Sizes', 'Backend / Content Blocker / YouTube / Tips / Headline', 'borlabs-cookie'); ?></h4>
-                <p><?php _ex('<strong>High Quality</strong>: 480 x 360 px. This size is available in most cases.', 'Backend / Content Blocker / YouTube / Tips / Text', 'borlabs-cookie'); ?><br>
-                <?php _ex('<strong>Medium Quality</strong>: 320 x 180 px.', 'Backend / Content Blocker / YouTube / Tips / Text', 'borlabs-cookie'); ?><br>
-                <?php _ex('<strong>Standard Quality</strong>: 640 x 480 px.', 'Backend / Content Blocker / YouTube / Tips / Text', 'borlabs-cookie'); ?><br>
-                <?php _ex('<strong>Maximum Resolution</strong>: 1280 x 720 px.', 'Backend / Content Blocker / YouTube / Tips / Text', 'borlabs-cookie'); ?>
+                <p><?php _ex('<strong>High Quality</strong>: 480 x 360 px. This size is available in most cases.', 'Backend / Content Blocker / YouTube / Tips / Text', 'borlabs-cookie'); ?>
+                    <br>
+                    <?php _ex('<strong>Medium Quality</strong>: 320 x 180 px.', 'Backend / Content Blocker / YouTube / Tips / Text', 'borlabs-cookie'); ?>
+                    <br>
+                    <?php _ex('<strong>Standard Quality</strong>: 640 x 480 px.', 'Backend / Content Blocker / YouTube / Tips / Text', 'borlabs-cookie'); ?>
+                    <br>
+                    <?php _ex('<strong>Maximum Resolution</strong>: 1280 x 720 px.', 'Backend / Content Blocker / YouTube / Tips / Text', 'borlabs-cookie'); ?>
                 </p>
                 <h4><?php _ex('Video Wrapper', 'Backend / Content Blocker / YouTube / Tips / Headline', 'borlabs-cookie'); ?></h4>
                 <p><?php _ex('If the <strong>Video Wrapper</strong> option is enabled, the iframe of the video is placed in a container to prevent problems with the video display, e.g. small video size, wrong aspect ratio or large spacing above the video.', 'Backend / Content Blocker / YouTube / Tips / Text', 'borlabs-cookie'); ?></p>

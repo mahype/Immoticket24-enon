@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -78,20 +78,22 @@ class Cookies
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
         global $wpdb;
 
-        $this->tableCookie = $wpdb->prefix.'borlabs_cookie_cookies';
-        $this->tableCookieGroup = $wpdb->prefix.'borlabs_cookie_groups';
+        $this->tableCookie = $wpdb->prefix . 'borlabs_cookie_cookies';
+        $this->tableCookieGroup = $wpdb->prefix . 'borlabs_cookie_groups';
     }
 
     /**
@@ -136,7 +138,7 @@ class Cookies
 
             $wpdb->query("
                 INSERT INTO
-                    `".$this->tableCookie."`
+                    `" . $this->tableCookie . "`
                     (
                         `cookie_id`,
                         `language`,
@@ -159,24 +161,24 @@ class Cookies
                     )
                 VALUES
                     (
-                        '".esc_sql($data['cookieId'])."',
-                        '".esc_sql($data['language'])."',
-                        '".intval($data['cookieGroupId'])."',
-                        '".esc_sql($data['service'])."',
-                        '".esc_sql(stripslashes($data['name']))."',
-                        '".esc_sql(stripslashes($data['provider']))."',
-                        '".esc_sql(stripslashes($data['purpose']))."',
-                        '".esc_sql(stripslashes($data['privacyPolicyURL']))."',
-                        '".esc_sql(serialize($data['hosts']))."',
-                        '".esc_sql(stripslashes($data['cookieName']))."',
-                        '".esc_sql(stripslashes($data['cookieExpiry']))."',
-                        '".esc_sql(stripslashes($data['optInJS']))."',
-                        '".esc_sql(stripslashes($data['optOutJS']))."',
-                        '".esc_sql(stripslashes($data['fallbackJS']))."',
-                        '".esc_sql(serialize($data['settings']))."',
-                        '".intval($data['position'])."',
-                        '".(intval($data['status']) ? 1 : 0)."',
-                        '".(intval($data['undeletable']) ? 1 : 0)."'
+                        '" . esc_sql($data['cookieId']) . "',
+                        '" . esc_sql($data['language']) . "',
+                        '" . intval($data['cookieGroupId']) . "',
+                        '" . esc_sql($data['service']) . "',
+                        '" . esc_sql(stripslashes($data['name'])) . "',
+                        '" . esc_sql(stripslashes($data['provider'])) . "',
+                        '" . esc_sql(stripslashes($data['purpose'])) . "',
+                        '" . esc_sql(stripslashes($data['privacyPolicyURL'])) . "',
+                        '" . esc_sql(serialize($data['hosts'])) . "',
+                        '" . esc_sql(stripslashes($data['cookieName'])) . "',
+                        '" . esc_sql(stripslashes($data['cookieExpiry'])) . "',
+                        '" . esc_sql(stripslashes($data['optInJS'])) . "',
+                        '" . esc_sql(stripslashes($data['optOutJS'])) . "',
+                        '" . esc_sql(stripslashes($data['fallbackJS'])) . "',
+                        '" . esc_sql(serialize($data['settings'])) . "',
+                        '" . intval($data['position']) . "',
+                        '" . (intval($data['status']) ? 1 : 0) . "',
+                        '" . (intval($data['undeletable']) ? 1 : 0) . "'
                     )
             ");
 
@@ -208,11 +210,11 @@ class Cookies
             SELECT
                 `cookie_id`
             FROM
-                `".$this->tableCookie."`
+                `" . $this->tableCookie . "`
             WHERE
-                `cookie_id` = '".esc_sql($cookieId)."'
+                `cookie_id` = '" . esc_sql($cookieId) . "'
                 AND
-                `language` = '".esc_sql($language)."'
+                `language` = '" . esc_sql($language) . "'
         ");
 
         if (!empty($checkId[0]->cookie_id)) {
@@ -235,9 +237,9 @@ class Cookies
 
         $wpdb->query("
             DELETE FROM
-                `".$this->tableCookie."`
+                `" . $this->tableCookie . "`
             WHERE
-                `id` = '".intval($id)."'
+                `id` = '" . intval($id) . "'
                 AND
                 `undeletable` = 0
         ");
@@ -276,7 +278,7 @@ class Cookies
 
                 // Load service and register hooks and filters
                 if (!empty($_POST['service']) && in_array($_POST['service'], $this->defaultServices)) {
-                    $Service = '\BorlabsCookie\Cookie\Frontend\Services\\'.$_POST['service'];
+                    $Service = '\BorlabsCookie\Cookie\Frontend\Services\\' . $_POST['service'];
                     $serviceData = $Service::getInstance();
                 }
 
@@ -292,14 +294,14 @@ class Cookies
             }
 
             // Switch status of Cookie
-            if ($action === 'switchStatus' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'switchStatus_'.$id)) {
+            if ($action === 'switchStatus' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'switchStatus_' . $id)) {
                 $this->switchStatus($id);
 
                 Messages::getInstance()->add(_x('Changed status successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'success');
             }
 
             // Delete Cookie
-            if ($action === 'delete' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_'.$id)) {
+            if ($action === 'delete' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_' . $id)) {
                 $this->delete($id);
 
                 Messages::getInstance()->add(_x('Deleted successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'success');
@@ -347,7 +349,7 @@ class Cookies
 
             foreach ($this->defaultServices as $class) {
 
-                $Service = '\BorlabsCookie\Cookie\Frontend\Services\\'.$class;
+                $Service = '\BorlabsCookie\Cookie\Frontend\Services\\' . $class;
                 $serviceData = $Service::getInstance()->getDefault();
 
                 $cookieServices[$class] = $serviceData['name'];
@@ -357,7 +359,7 @@ class Cookies
 
             asort($cookieServices, SORT_NATURAL | SORT_FLAG_CASE);
 
-            include Backend::getInstance()->templatePath.'/cookies-services.html.php';
+            include Backend::getInstance()->templatePath . '/cookies-services.html.php';
         }
     }
 
@@ -420,9 +422,9 @@ class Cookies
 
         // Load service
         if (!empty($formData['service'])) {
-            $Service = '\BorlabsCookie\Cookie\Frontend\Services\\'.$formData['service'];
+            $Service = '\BorlabsCookie\Cookie\Frontend\Services\\' . $formData['service'];
         } elseif (!empty($cookieData->service)) {
-            $Service = '\BorlabsCookie\Cookie\Frontend\Services\\'.$cookieData->service;
+            $Service = '\BorlabsCookie\Cookie\Frontend\Services\\' . $cookieData->service;
         } else {
             $Service = '\BorlabsCookie\Cookie\Frontend\Services\Custom';
         }
@@ -438,21 +440,21 @@ class Cookies
 
         // Only add default data for unsaved Cookie
         if (!empty($serviceDefaultData) && $id === 'new') {
-            $cookieData->cookie_id      = $serviceDefaultData['cookieId'];
-            $cookieData->service        = $serviceDefaultData['service'];
-            $cookieData->name           = $serviceDefaultData['name'];
-            $cookieData->provider       = $serviceDefaultData['provider'];
-            $cookieData->purpose        = $serviceDefaultData['purpose'];
+            $cookieData->cookie_id = $serviceDefaultData['cookieId'];
+            $cookieData->service = $serviceDefaultData['service'];
+            $cookieData->name = $serviceDefaultData['name'];
+            $cookieData->provider = $serviceDefaultData['provider'];
+            $cookieData->purpose = $serviceDefaultData['purpose'];
             $cookieData->privacy_policy_url = $serviceDefaultData['privacyPolicyURL'];
-            $cookieData->hosts          = $serviceDefaultData['hosts'];
-            $cookieData->cookie_name    = $serviceDefaultData['cookieName'];
-            $cookieData->cookie_expiry  = $serviceDefaultData['cookieExpiry'];
-            $cookieData->opt_in_js      = $serviceDefaultData['optInJS'];
-            $cookieData->opt_out_js     = $serviceDefaultData['optOutJS'];
-            $cookieData->fallback_js    = $serviceDefaultData['fallbackJS'];
-            $cookieData->settings       = $serviceDefaultData['settings'];
-            $cookieData->status         = $serviceDefaultData['status'];
-            $cookieData->undeletetable  = $serviceDefaultData['undeletetable'];
+            $cookieData->hosts = $serviceDefaultData['hosts'];
+            $cookieData->cookie_name = $serviceDefaultData['cookieName'];
+            $cookieData->cookie_expiry = $serviceDefaultData['cookieExpiry'];
+            $cookieData->opt_in_js = $serviceDefaultData['optInJS'];
+            $cookieData->opt_out_js = $serviceDefaultData['optOutJS'];
+            $cookieData->fallback_js = $serviceDefaultData['fallbackJS'];
+            $cookieData->settings = $serviceDefaultData['settings'];
+            $cookieData->status = $serviceDefaultData['status'];
+            $cookieData->undeletetable = $serviceDefaultData['undeletetable'];
         }
 
         // If no Cookie Group was selected or not available (due language switch) load overview again
@@ -535,37 +537,37 @@ class Cookies
             }
 
             // Preparing data for form mask
-            $inputId            = !empty($cookieData->id) ? intval($cookieData->id) : 'new';
-            $inputCookieId      = esc_attr(!empty($cookieData->cookie_id) ? $cookieData->cookie_id : '');
+            $inputId = !empty($cookieData->id) ? intval($cookieData->id) : 'new';
+            $inputCookieId = esc_attr(!empty($cookieData->cookie_id) ? $cookieData->cookie_id : '');
             $inputCookieGroupId = esc_attr(!empty($cookieData->cookie_group_id) ? $cookieData->cookie_group_id : '');
-            $inputService       = esc_attr(!empty($cookieData->service) ? $cookieData->service : '');
-            $inputStatus        = !empty($cookieData->status) ? 1 : 0;
-            $switchStatus       = $inputStatus ? ' active' : '';
-            $inputPosition      = intval(!empty($cookieData->position) ? $cookieData->position : '1');
+            $inputService = esc_attr(!empty($cookieData->service) ? $cookieData->service : '');
+            $inputStatus = !empty($cookieData->status) ? 1 : 0;
+            $switchStatus = $inputStatus ? ' active' : '';
+            $inputPosition = intval(!empty($cookieData->position) ? $cookieData->position : '1');
 
-            $inputName          = esc_attr(!empty($cookieData->name) ? $cookieData->name : '');
-            $inputProvider      = esc_attr(!empty($cookieData->provider) ? $cookieData->provider : '');
-            $textareaPurpose    = esc_textarea(!empty($cookieData->purpose) ? $cookieData->purpose : '');
+            $inputName = esc_attr(!empty($cookieData->name) ? $cookieData->name : '');
+            $inputProvider = esc_attr(!empty($cookieData->provider) ? $cookieData->provider : '');
+            $textareaPurpose = esc_textarea(!empty($cookieData->purpose) ? $cookieData->purpose : '');
             $inputPrivacyPolicyURL = esc_url(!empty($cookieData->privacy_policy_url) ? $cookieData->privacy_policy_url : '');
-            $textareaHosts      = esc_textarea(!empty($cookieData->hosts) ? $cookieData->hosts : '');
-            $inputCookieName    = esc_attr(!empty($cookieData->cookie_name) ? $cookieData->cookie_name : '');
+            $textareaHosts = esc_textarea(!empty($cookieData->hosts) ? $cookieData->hosts : '');
+            $inputCookieName = esc_attr(!empty($cookieData->cookie_name) ? $cookieData->cookie_name : '');
 
-            $inputBlockCookiesBeforeConsent  = !empty($cookieData->settings['blockCookiesBeforeConsent']) ? 1 : 0;
+            $inputBlockCookiesBeforeConsent = !empty($cookieData->settings['blockCookiesBeforeConsent']) ? 1 : 0;
             $switchBlockCookiesBeforeConsent = $inputBlockCookiesBeforeConsent ? ' active' : '';
 
-            $inputCookieExpiry  = esc_attr(!empty($cookieData->cookie_expiry) ? $cookieData->cookie_expiry : '');
+            $inputCookieExpiry = esc_attr(!empty($cookieData->cookie_expiry) ? $cookieData->cookie_expiry : '');
 
-            $inputSettingsPrioritize  = !empty($cookieData->settings['prioritize']) ? 1 : 0;
+            $inputSettingsPrioritize = !empty($cookieData->settings['prioritize']) ? 1 : 0;
             $switchSettingsPrioritize = $inputSettingsPrioritize ? ' active' : '';
 
-            $textareaOptInJS    = esc_textarea(!empty($cookieData->opt_in_js) ? $cookieData->opt_in_js : '');
-            $textareaOptOutJS   = esc_textarea(!empty($cookieData->opt_out_js) ? $cookieData->opt_out_js : '');
+            $textareaOptInJS = esc_textarea(!empty($cookieData->opt_in_js) ? $cookieData->opt_in_js : '');
+            $textareaOptOutJS = esc_textarea(!empty($cookieData->opt_out_js) ? $cookieData->opt_out_js : '');
             $textareaFallbackJS = esc_textarea(!empty($cookieData->fallback_js) ? $cookieData->fallback_js : '');
 
             $languageFlag = !empty($cookieData->language) ? Multilanguage::getInstance()->getLanguageFlag($cookieData->language) : '';
             $languageName = !empty($cookieData->language) ? Multilanguage::getInstance()->getLanguageName($cookieData->language) : '';
 
-            include Backend::getInstance()->templatePath.'/cookies-edit.html.php';
+            include Backend::getInstance()->templatePath . '/cookies-edit.html.php';
         }
     }
 
@@ -587,9 +589,9 @@ class Cookies
                 `status`,
                 `undeletable`
             FROM
-                `".$this->tableCookieGroup."`
+                `" . $this->tableCookieGroup . "`
             WHERE
-                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
             ORDER BY
                 `name` ASC
         ");
@@ -607,11 +609,11 @@ class Cookies
                         `status`,
                         `undeletable`
                     FROM
-                        `".$this->tableCookie."`
+                        `" . $this->tableCookie . "`
                     WHERE
-                        `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                        `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                         AND
-                        `cookie_group_id` = '".intval($cookieGroupData->id)."'
+                        `cookie_group_id` = '" . intval($cookieGroupData->id) . "'
                     ORDER BY
                         `name` ASC
                 ");
@@ -627,7 +629,7 @@ class Cookies
             }
         }
 
-        include Backend::getInstance()->templatePath.'/cookies-overview.html.php';
+        include Backend::getInstance()->templatePath . '/cookies-overview.html.php';
     }
 
     /**
@@ -665,9 +667,9 @@ class Cookies
                 `status`,
                 `undeletable`
             FROM
-                `".$this->tableCookie."`
+                `" . $this->tableCookie . "`
             WHERE
-                `id` = '".esc_sql($id)."'
+                `id` = '" . esc_sql($id) . "'
         ");
 
         if (!empty($cookieData[0]->id)) {
@@ -700,11 +702,11 @@ class Cookies
             SELECT
                 `id`
             FROM
-                `".$this->tableCookie."`
+                `" . $this->tableCookie . "`
             WHERE
-                `language` = '".esc_sql($language)."'
+                `language` = '" . esc_sql($language) . "'
                 AND
-                `cookie_id` = '".esc_sql($cookieId)."'
+                `cookie_id` = '" . esc_sql($cookieId) . "'
         ");
 
         if (!empty($cookieId[0]->id)) {
@@ -746,23 +748,23 @@ class Cookies
 
         $wpdb->query("
             UPDATE
-                `".$this->tableCookie."`
+                `" . $this->tableCookie . "`
             SET
-                `name` = '".esc_sql(stripslashes($data['name']))."',
-                `provider` = '".esc_sql(stripslashes($data['provider']))."',
-                `purpose` = '".esc_sql(stripslashes($data['purpose']))."',
-                `privacy_policy_url` = '".esc_sql(stripslashes($data['privacyPolicyURL']))."',
-                `hosts` = '".esc_sql(serialize($data['hosts']))."',
-                `cookie_name` = '".esc_sql(stripslashes($data['cookieName']))."',
-                `cookie_expiry` = '".esc_sql(stripslashes($data['cookieExpiry']))."',
-                `opt_in_js` = '".esc_sql(stripslashes($data['optInJS']))."',
-                `opt_out_js` = '".esc_sql(stripslashes($data['optOutJS']))."',
-                `fallback_js` = '".esc_sql(stripslashes($data['fallbackJS']))."',
-                `settings` = '".esc_sql(serialize($data['settings']))."',
-                `position` = '".intval($data['position'])."',
-                `status` = '".(intval($data['status']) ? 1 : 0)."'
+                `name` = '" . esc_sql(stripslashes($data['name'])) . "',
+                `provider` = '" . esc_sql(stripslashes($data['provider'])) . "',
+                `purpose` = '" . esc_sql(stripslashes($data['purpose'])) . "',
+                `privacy_policy_url` = '" . esc_sql(stripslashes($data['privacyPolicyURL'])) . "',
+                `hosts` = '" . esc_sql(serialize($data['hosts'])) . "',
+                `cookie_name` = '" . esc_sql(stripslashes($data['cookieName'])) . "',
+                `cookie_expiry` = '" . esc_sql(stripslashes($data['cookieExpiry'])) . "',
+                `opt_in_js` = '" . esc_sql(stripslashes($data['optInJS'])) . "',
+                `opt_out_js` = '" . esc_sql(stripslashes($data['optOutJS'])) . "',
+                `fallback_js` = '" . esc_sql(stripslashes($data['fallbackJS'])) . "',
+                `settings` = '" . esc_sql(serialize($data['settings'])) . "',
+                `position` = '" . intval($data['position']) . "',
+                `status` = '" . (intval($data['status']) ? 1 : 0) . "'
             WHERE
-                `id` = '".intval($id)."'
+                `id` = '" . intval($id) . "'
         ");
 
         return $id;
@@ -784,9 +786,9 @@ class Cookies
         // Delete default Cookies
         $wpdb->query("
             DELETE FROM
-                `".$this->tableCookie."`
+                `" . $this->tableCookie . "`
             WHERE
-                `language` = '".esc_sql($language)."'
+                `language` = '" . esc_sql($language) . "'
                 AND
                 `cookie_id` IN ('borlabs-cookie', 'facebook', 'googlemaps', 'instagram', 'openstreetmap', 'twitter', 'vimeo', 'youtube')
         ");
@@ -836,11 +838,11 @@ class Cookies
 
         $wpdb->query("
             UPDATE
-                `".$this->tableCookie."`
+                `" . $this->tableCookie . "`
             SET
                 `status` = IF(`status` <> 0, 0, 1)
             WHERE
-                `id` = '".intval($id)."'
+                `id` = '" . intval($id) . "'
                 AND
                 `cookie_id` != 'borlabs-cookie'
         ");

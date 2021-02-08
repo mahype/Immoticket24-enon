@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -60,15 +60,17 @@ class JavaScript
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
         // Domain information for javascript cookie
         $siteURL = get_home_url();
@@ -94,7 +96,7 @@ class JavaScript
      */
     public function addContentBlocker($contentBlockerId, $globalJS = '', $initJS = '', $settings = [])
     {
-        $settings = apply_filters('borlabsCookie/contentBlocker/modify/settings/'.$contentBlockerId, $settings);
+        $settings = apply_filters('borlabsCookie/contentBlocker/modify/settings/' . $contentBlockerId, $settings);
 
         $this->contentBlocker[$contentBlockerId] = [
             'contentBlockerId' => $contentBlockerId,
@@ -124,7 +126,7 @@ class JavaScript
                 $js .= '"id": "' . $contentBlockerId . '",';
                 $js .= '"global": function (contentBlockerData) { ' . $data['global'] . ' },';
                 $js .= '"init": function (el, contentBlockerData) { ' . $data['init'] . ' },';
-                $js .= '"settings": '.json_encode($data['settings']);
+                $js .= '"settings": ' . json_encode($data['settings']);
                 $js .= '},';
             }
 
@@ -188,7 +190,7 @@ class JavaScript
         if (!empty($prioritizedCodes)) {
 
             wp_enqueue_script(
-                'borlabs-cookie-prioritize', BORLABS_COOKIE_PLUGIN_URL.'javascript/borlabs-cookie-prioritize.min.js',
+                'borlabs-cookie-prioritize', BORLABS_COOKIE_PLUGIN_URL . 'javascript/borlabs-cookie-prioritize.min.js',
                 [],
                 BORLABS_COOKIE_VERSION
             );
@@ -213,10 +215,10 @@ class JavaScript
      * @access public
      * @return void
      */
-    public function registerFooter ()
+    public function registerFooter()
     {
         wp_enqueue_script(
-            'borlabs-cookie', BORLABS_COOKIE_PLUGIN_URL.'javascript/borlabs-cookie.min.js',
+            'borlabs-cookie', BORLABS_COOKIE_PLUGIN_URL . 'javascript/borlabs-cookie.min.js',
             [
                 Config::getInstance()->get('jQueryHandle'),
             ],
@@ -272,7 +274,7 @@ class JavaScript
                         // Add all cookies to the array which are needed by the JavaScript class
                         $jsConfig['cookies'][$cookieGroupData->group_id][] = $cookieData->cookie_id;
 
-                        $cookieData = apply_filters('borlabsCookie/cookie/modify/code/'.$cookieData->cookie_id, $cookieData);
+                        $cookieData = apply_filters('borlabsCookie/cookie/modify/code/' . $cookieData->cookie_id, $cookieData);
 
                         $cookies[$cookieGroupData->group_id][$cookieData->cookie_id] = [
                             'cookieNameList' => CookieBlocker::getInstance()->prepareCookieNamesList($cookieData->cookie_name),

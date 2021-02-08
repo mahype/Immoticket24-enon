@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -33,21 +33,23 @@ class GoogleAdSense
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
      * __construct function.
      *
-     * @access protected
+     * @access public
      * @return void
      */
-    protected function __construct()
+    public function __construct()
     {
         add_action('borlabsCookie/cookie/edit/template/settings/GoogleAdSense', [$this, 'additionalSettingsTemplate']);
         add_action('borlabsCookie/cookie/edit/template/settings/help/GoogleAdSense', [$this, 'additionalSettingsHelpTemplate']);
@@ -101,11 +103,18 @@ class GoogleAdSense
         $inputCaPubId = esc_html(!empty($data->settings['caPubId']) ? $data->settings['caPubId'] : '');
         ?>
         <div class="form-group row">
-            <label for="caPubId" class="col-sm-4 col-form-label"><?php _ex('Publisher ID', 'Backend / Cookie / Google AdSense / Label', 'borlabs-cookie'); ?></label>
+            <label for="caPubId"
+                   class="col-sm-4 col-form-label"><?php _ex('Publisher ID', 'Backend / Cookie / Google AdSense / Label', 'borlabs-cookie'); ?></label>
             <div class="col-sm-8">
-                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="caPubId" name="settings[caPubId]" value="<?php echo $inputCaPubId; ?>" placeholder="<?php _ex('Example', 'Backend / Global / Input Placeholder', 'borlabs-cookie'); ?>: ca-pub-123456789" required>
-                <span data-toggle="tooltip" title="<?php _ex('Enter your Publisher ID.', 'Backend / Cookie / Google AdSense / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
-                <div class="invalid-feedback"><?php _ex('This is a required field and cannot be empty.', 'Backend / Global / Validation Message', 'borlabs-cookie'); ?></div>
+                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="caPubId"
+                       name="settings[caPubId]" value="<?php echo $inputCaPubId; ?>"
+                       placeholder="<?php _ex('Example', 'Backend / Global / Input Placeholder', 'borlabs-cookie'); ?>: ca-pub-123456789"
+                       required>
+                <span data-toggle="tooltip"
+                      title="<?php _ex('Enter your Publisher ID.', 'Backend / Cookie / Google AdSense / Tooltip', 'borlabs-cookie'); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <div
+                    class="invalid-feedback"><?php _ex('This is a required field and cannot be empty.', 'Backend / Global / Validation Message', 'borlabs-cookie'); ?></div>
             </div>
         </div>
         <?php
@@ -130,7 +139,7 @@ class GoogleAdSense
                         _x('Copy this code to the place where you want the banner to appear: %s', 'Backend / Cookie / Google AdSense / Tips / Text', 'borlabs-cookie'),
                         sprintf('<span class="code-example">&lt;ins class="adsbygoogle" style="display:inline-block;min-width:320px;max-width:1200px;width:100%%;height:100px" data-ad-client="%s"&gt;&lt;/ins&gt;&lt;script&gt;(adsbygoogle = window.adsbygoogle || []).push({});&lt;/script&gt;</span>', !empty($data->settings['caPubId']) ? esc_html($data->settings['caPubId']) : 'ca-pub-XXXXXXXXX')
                     );
-                ?></p>
+                    ?></p>
             </div>
         </div>
         <?php

@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -36,15 +36,17 @@ class Tools
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
     }
 
@@ -65,7 +67,7 @@ class Tools
 
         foreach ($array as $key => $value) {
 
-            $newKey = $prefix . (!empty($prefix) ? '.' : '' ) . $key;
+            $newKey = $prefix . (!empty($prefix) ? '.' : '') . $key;
 
             if (is_array($value)) {
                 $result = array_merge($result, $this->arrayFlat($value, $newKey));
@@ -144,7 +146,7 @@ class Tools
             $timeFormat = get_option('time_format');
         }
 
-        $dateFormat = $dateFormat.(isset($timeFormat) ? ' ' : '').$timeFormat;
+        $dateFormat = $dateFormat . (isset($timeFormat) ? ' ' : '') . $timeFormat;
 
         return date_i18n($dateFormat, $timestamp);
     }
@@ -166,7 +168,7 @@ class Tools
             $stringLength = 32;
         }
 
-        for ($i=0; $i<$stringLength; $i++) {
+        for ($i = 0; $i < $stringLength; $i++) {
             $index = 0;
 
             // PHP 7
@@ -198,7 +200,8 @@ class Tools
      * @param mixed $hex
      * @return void
      */
-    public function hexToHsl($hex) {
+    public function hexToHsl($hex)
+    {
 
         $hex = str_replace('#', '', $hex);
 
@@ -207,13 +210,13 @@ class Tools
         }
 
         $hex = [
-            $hex[0].$hex[1],
-            $hex[2].$hex[3],
-            $hex[4].$hex[5]
+            $hex[0] . $hex[1],
+            $hex[2] . $hex[3],
+            $hex[4] . $hex[5]
         ];
 
         $rgb = array_map(
-            function($part) {
+            function ($part) {
                 return hexdec($part) / 255;
             },
             $hex
@@ -230,7 +233,7 @@ class Tools
             $diff = $max - $min;
             $s = $l > 0.5 ? $diff / (2 - $max - $min) : $diff / ($max + $min);
 
-            switch($max) {
+            switch ($max) {
                 case $rgb[0]:
                     $h = ($rgb[1] - $rgb[2]) / $diff + ($rgb[1] < $rgb[2] ? 6 : 0);
                     break;
@@ -239,7 +242,7 @@ class Tools
                     break;
                 case $rgb[2]:
                     $h = ($rgb[0] - $rgb[1]) / $diff + 4;
-                break;
+                    break;
             }
 
             $h = round($h * 60);

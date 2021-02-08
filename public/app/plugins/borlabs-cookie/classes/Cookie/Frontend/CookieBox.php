@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -41,12 +41,14 @@ class CookieBox
     {
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     public function insertCookieBox()
@@ -114,45 +116,45 @@ class CookieBox
         $cookieBoxPosition = esc_attr(Config::getInstance()->get('cookieBoxPosition'));
 
         // Logo
-        $cookieBoxShowLogo      = Config::getInstance()->get('cookieBoxShowLogo');
-        $cookieBoxLogo          = Config::getInstance()->get('cookieBoxLogo');
-        $cookieBoxLogoHD        = Config::getInstance()->get('cookieBoxLogoHD');
-        $cookieBoxLogoSrcSet    = [];
-        $cookieBoxLogoSrcSet[]  = $cookieBoxLogo;
+        $cookieBoxShowLogo = Config::getInstance()->get('cookieBoxShowLogo');
+        $cookieBoxLogo = Config::getInstance()->get('cookieBoxLogo');
+        $cookieBoxLogoHD = Config::getInstance()->get('cookieBoxLogoHD');
+        $cookieBoxLogoSrcSet = [];
+        $cookieBoxLogoSrcSet[] = $cookieBoxLogo;
 
         if (!empty($cookieBoxLogoHD)) {
             $cookieBoxLogoSrcSet[] = $cookieBoxLogoHD . ' 2x';
         }
 
         // Texts
-        $cookieBoxTextHeadline      = Config::getInstance()->get('cookieBoxTextHeadline');
-        $cookieBoxTextDescription   = nl2br(Config::getInstance()->get('cookieBoxTextDescription'));
-        $cookieBoxTextAcceptButton  = Config::getInstance()->get('cookieBoxTextAcceptButton');
-        $cookieBoxTextManageLink    = Config::getInstance()->get('cookieBoxTextManageLink');
-        $cookieBoxTextRefuseLink    = Config::getInstance()->get('cookieBoxTextRefuseLink');
-        $cookieBoxTextCookieDetailsLink   = Config::getInstance()->get('cookieBoxTextCookieDetailsLink');
-        $cookieBoxTextPrivacyLink   = Config::getInstance()->get('cookieBoxTextPrivacyLink');
-        $cookieBoxTextImprintLink   = Config::getInstance()->get('cookieBoxTextImprintLink');
+        $cookieBoxTextHeadline = Config::getInstance()->get('cookieBoxTextHeadline');
+        $cookieBoxTextDescription = nl2br(Config::getInstance()->get('cookieBoxTextDescription'));
+        $cookieBoxTextAcceptButton = Config::getInstance()->get('cookieBoxTextAcceptButton');
+        $cookieBoxTextManageLink = Config::getInstance()->get('cookieBoxTextManageLink');
+        $cookieBoxTextRefuseLink = Config::getInstance()->get('cookieBoxTextRefuseLink');
+        $cookieBoxTextCookieDetailsLink = Config::getInstance()->get('cookieBoxTextCookieDetailsLink');
+        $cookieBoxTextPrivacyLink = Config::getInstance()->get('cookieBoxTextPrivacyLink');
+        $cookieBoxTextImprintLink = Config::getInstance()->get('cookieBoxTextImprintLink');
 
-        $cookieBoxPreferenceTextHeadline        = Config::getInstance()->get('cookieBoxPreferenceTextHeadline');
-        $cookieBoxPreferenceTextDescription     = nl2br(Config::getInstance()->get('cookieBoxPreferenceTextDescription'));
-        $cookieBoxPreferenceTextSaveButton      = Config::getInstance()->get('cookieBoxPreferenceTextSaveButton');
+        $cookieBoxPreferenceTextHeadline = Config::getInstance()->get('cookieBoxPreferenceTextHeadline');
+        $cookieBoxPreferenceTextDescription = nl2br(Config::getInstance()->get('cookieBoxPreferenceTextDescription'));
+        $cookieBoxPreferenceTextSaveButton = Config::getInstance()->get('cookieBoxPreferenceTextSaveButton');
         $cookieBoxPreferenceTextAcceptAllButton = Config::getInstance()->get('cookieBoxPreferenceTextAcceptAllButton');
-        $cookieBoxPreferenceTextRefuseLink      = Config::getInstance()->get('cookieBoxPreferenceTextRefuseLink');
-        $cookieBoxPreferenceTextBackLink        = Config::getInstance()->get('cookieBoxPreferenceTextBackLink');
-        $cookieBoxPreferenceTextSwitchStatusActive      = Config::getInstance()->get('cookieBoxPreferenceTextSwitchStatusActive');
-        $cookieBoxPreferenceTextSwitchStatusInactive    = Config::getInstance()->get('cookieBoxPreferenceTextSwitchStatusInactive');
-        $cookieBoxPreferenceTextShowCookieLink  = Config::getInstance()->get('cookieBoxPreferenceTextShowCookieLink');
-        $cookieBoxPreferenceTextHideCookieLink  = Config::getInstance()->get('cookieBoxPreferenceTextHideCookieLink');
+        $cookieBoxPreferenceTextRefuseLink = Config::getInstance()->get('cookieBoxPreferenceTextRefuseLink');
+        $cookieBoxPreferenceTextBackLink = Config::getInstance()->get('cookieBoxPreferenceTextBackLink');
+        $cookieBoxPreferenceTextSwitchStatusActive = Config::getInstance()->get('cookieBoxPreferenceTextSwitchStatusActive');
+        $cookieBoxPreferenceTextSwitchStatusInactive = Config::getInstance()->get('cookieBoxPreferenceTextSwitchStatusInactive');
+        $cookieBoxPreferenceTextShowCookieLink = Config::getInstance()->get('cookieBoxPreferenceTextShowCookieLink');
+        $cookieBoxPreferenceTextHideCookieLink = Config::getInstance()->get('cookieBoxPreferenceTextHideCookieLink');
 
-        $cookieBoxCookieDetailsTableAccept          = Config::getInstance()->get('cookieBoxCookieDetailsTableAccept');
-        $cookieBoxCookieDetailsTableName            = Config::getInstance()->get('cookieBoxCookieDetailsTableName');
-        $cookieBoxCookieDetailsTableProvider        = Config::getInstance()->get('cookieBoxCookieDetailsTableProvider');
-        $cookieBoxCookieDetailsTablePurpose         = Config::getInstance()->get('cookieBoxCookieDetailsTablePurpose');
-        $cookieBoxCookieDetailsTablePrivacyPolicy   = Config::getInstance()->get('cookieBoxCookieDetailsTablePrivacyPolicy');
-        $cookieBoxCookieDetailsTableHosts           = Config::getInstance()->get('cookieBoxCookieDetailsTableHosts');
-        $cookieBoxCookieDetailsTableCookieName      = Config::getInstance()->get('cookieBoxCookieDetailsTableCookieName');
-        $cookieBoxCookieDetailsTableCookieExpiry    = Config::getInstance()->get('cookieBoxCookieDetailsTableCookieExpiry');
+        $cookieBoxCookieDetailsTableAccept = Config::getInstance()->get('cookieBoxCookieDetailsTableAccept');
+        $cookieBoxCookieDetailsTableName = Config::getInstance()->get('cookieBoxCookieDetailsTableName');
+        $cookieBoxCookieDetailsTableProvider = Config::getInstance()->get('cookieBoxCookieDetailsTableProvider');
+        $cookieBoxCookieDetailsTablePurpose = Config::getInstance()->get('cookieBoxCookieDetailsTablePurpose');
+        $cookieBoxCookieDetailsTablePrivacyPolicy = Config::getInstance()->get('cookieBoxCookieDetailsTablePrivacyPolicy');
+        $cookieBoxCookieDetailsTableHosts = Config::getInstance()->get('cookieBoxCookieDetailsTableHosts');
+        $cookieBoxCookieDetailsTableCookieName = Config::getInstance()->get('cookieBoxCookieDetailsTableCookieName');
+        $cookieBoxCookieDetailsTableCookieExpiry = Config::getInstance()->get('cookieBoxCookieDetailsTableCookieExpiry');
 
         // Cookie Groups
         $cookieGroups = Cookies::getInstance()->getAllCookieGroups();
@@ -166,18 +168,18 @@ class CookieBox
         }
 
         if (Config::getInstance()->get('testEnvironment') === true) {
-            $cookieBoxTextDescription .= "<span class=\"text-center\" style=\"display: block !important;background: #fff;color: #f00;\">"._x('Borlabs Cookie - Test Environment active!', 'Frontend / Global / Alert Message', 'borlabs-cookie')."</span>";
+            $cookieBoxTextDescription .= "<span class=\"text-center\" style=\"display: block !important;background: #fff;color: #f00;\">" . _x('Borlabs Cookie - Test Environment active!', 'Frontend / Global / Alert Message', 'borlabs-cookie') . "</span>";
         }
 
         // Cookie Box Layout
         $cookieBoxLayout = Config::getInstance()->get('cookieBoxLayout');
-        $cookieBoxTemplate = 'cookie-box-layout-'.$cookieBoxLayout.'.html.php';
+        $cookieBoxTemplate = 'cookie-box-layout-' . $cookieBoxLayout . '.html.php';
         $cookiePreferenceTemplate = 'cookie-box-preferences.html.php';
 
         $themePath = get_stylesheet_directory();
         $pluginTemplatePath = BORLABS_COOKIE_PLUGIN_PATH . 'templates';
-        $cookieBoxTemplateFile = $pluginTemplatePath . '/' .$cookieBoxTemplate;
-        $cookiePreferenceTemplateFile = $pluginTemplatePath . '/' .$cookiePreferenceTemplate;
+        $cookieBoxTemplateFile = $pluginTemplatePath . '/' . $cookieBoxTemplate;
+        $cookiePreferenceTemplateFile = $pluginTemplatePath . '/' . $cookiePreferenceTemplate;
 
         // Check if custom template file exists
         if (file_exists($themePath . '/plugins/' . dirname(BORLABS_COOKIE_BASENAME) . '/' . $cookieBoxTemplate)) {

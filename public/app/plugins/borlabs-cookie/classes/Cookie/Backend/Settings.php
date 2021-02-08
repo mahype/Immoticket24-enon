@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -37,15 +37,17 @@ class Settings
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
     }
 
@@ -90,28 +92,28 @@ class Settings
         $networkPath = !empty($siteURLInfo['path']) ? $siteURLInfo['path'] : '/';
         $postTypes = $this->getPostTypes();
 
-        $inputCookieStatus              = !empty(Config::getInstance()->get('cookieStatus')) ? 1 : 0;
-        $switchCookieStatus             = $inputCookieStatus ? ' active' : '';
-        $cookieVersion                  = esc_html(get_site_option('BorlabsCookieCookieVersion', 1));
-        $inputCookieBeforeConsent       = !empty(Config::getInstance()->get('cookieBeforeConsent')) ? 1 : 0;
-        $switchCookieBeforeConsent      = $inputCookieBeforeConsent ? ' active' : '';
-        $inputAggregateCookieConsent    = !empty(Config::getInstance()->get('aggregateCookieConsent')) ? 1 : 0;
-        $switchAggregateCookieConsent   = $inputAggregateCookieConsent ? ' active' : '';
-        $inputCookiesForBots            = !empty(Config::getInstance()->get('cookiesForBots')) ? 1 : 0;
-        $switchCookiesForBots           = $inputCookiesForBots ? ' active' : '';
-        $inputRespectDoNotTrack         = !empty(Config::getInstance()->get('respectDoNotTrack')) ? 1 : 0;
-        $switchRespectDoNotTrack        = $inputRespectDoNotTrack ? ' active' : '';
-        $inputReloadAfterConsent        = !empty(Config::getInstance()->get('reloadAfterConsent')) ? 1 : 0;
-        $switchReloadAfterConsent       = $inputReloadAfterConsent ? ' active' : '';
-        $inputJqueryHandle              = esc_attr(!empty(Config::getInstance()->get('jQueryHandle')) ? Config::getInstance()->get('jQueryHandle') : 'jquery');
-        $enabledPostTypes               = !empty(Config::getInstance()->get('metaBox')) ? Config::getInstance()->get('metaBox') : [];
+        $inputCookieStatus = !empty(Config::getInstance()->get('cookieStatus')) ? 1 : 0;
+        $switchCookieStatus = $inputCookieStatus ? ' active' : '';
+        $cookieVersion = esc_html(get_site_option('BorlabsCookieCookieVersion', 1));
+        $inputCookieBeforeConsent = !empty(Config::getInstance()->get('cookieBeforeConsent')) ? 1 : 0;
+        $switchCookieBeforeConsent = $inputCookieBeforeConsent ? ' active' : '';
+        $inputAggregateCookieConsent = !empty(Config::getInstance()->get('aggregateCookieConsent')) ? 1 : 0;
+        $switchAggregateCookieConsent = $inputAggregateCookieConsent ? ' active' : '';
+        $inputCookiesForBots = !empty(Config::getInstance()->get('cookiesForBots')) ? 1 : 0;
+        $switchCookiesForBots = $inputCookiesForBots ? ' active' : '';
+        $inputRespectDoNotTrack = !empty(Config::getInstance()->get('respectDoNotTrack')) ? 1 : 0;
+        $switchRespectDoNotTrack = $inputRespectDoNotTrack ? ' active' : '';
+        $inputReloadAfterConsent = !empty(Config::getInstance()->get('reloadAfterConsent')) ? 1 : 0;
+        $switchReloadAfterConsent = $inputReloadAfterConsent ? ' active' : '';
+        $inputJqueryHandle = esc_attr(!empty(Config::getInstance()->get('jQueryHandle')) ? Config::getInstance()->get('jQueryHandle') : 'jquery');
+        $enabledPostTypes = !empty(Config::getInstance()->get('metaBox')) ? Config::getInstance()->get('metaBox') : [];
 
-        $inputAutomaticCookieDomainAndPath  = !empty(Config::getInstance()->get('automaticCookieDomainAndPath')) ? 1 : 0;
+        $inputAutomaticCookieDomainAndPath = !empty(Config::getInstance()->get('automaticCookieDomainAndPath')) ? 1 : 0;
         $switchAutomaticCookieDomainAndPath = $inputAutomaticCookieDomainAndPath ? ' active' : '';
-        $inputCookieDomain              = esc_attr(!empty(Config::getInstance()->get('cookieDomain')) ? Config::getInstance()->get('cookieDomain') : $networkDomain);
-        $inputCookiePath                = esc_attr(!empty(Config::getInstance()->get('cookiePath')) ? Config::getInstance()->get('cookiePath') : '');
-        $inputCookieLifetime            = esc_attr(!empty(Config::getInstance()->get('cookieLifetime')) ? Config::getInstance()->get('cookieLifetime') : 365);
-        $textareaCrossDomainCookie      = esc_textarea(!empty(Config::getInstance()->get('crossDomainCookie')) ? implode("\n", Config::getInstance()->get('crossDomainCookie')) : '');
+        $inputCookieDomain = esc_attr(!empty(Config::getInstance()->get('cookieDomain')) ? Config::getInstance()->get('cookieDomain') : $networkDomain);
+        $inputCookiePath = esc_attr(!empty(Config::getInstance()->get('cookiePath')) ? Config::getInstance()->get('cookiePath') : '');
+        $inputCookieLifetime = esc_attr(!empty(Config::getInstance()->get('cookieLifetime')) ? Config::getInstance()->get('cookieLifetime') : 365);
+        $textareaCrossDomainCookie = esc_textarea(!empty(Config::getInstance()->get('crossDomainCookie')) ? implode("\n", Config::getInstance()->get('crossDomainCookie')) : '');
 
         // Check if Do Not Track is enabled
         $doNotTrackIsActive = false;
@@ -130,7 +132,7 @@ class Settings
             }
         }
 
-        include Backend::getInstance()->templatePath.'/settings.html.php';
+        include Backend::getInstance()->templatePath . '/settings.html.php';
     }
 
     /**
@@ -141,7 +143,7 @@ class Settings
      */
     public function getPostTypes()
     {
-        $postTypes = get_post_types(['public'=>true], 'objects');
+        $postTypes = get_post_types(['public' => true], 'objects');
 
         $orderedPostTypes = [];
 
@@ -188,13 +190,13 @@ class Settings
             update_site_option('BorlabsCookieCookieVersion', $currentVersion + 1);
         }
 
-        $updatedConfig['cookieBeforeConsent']       = !empty($formData['cookieBeforeConsent']) ? true : false;
-        $updatedConfig['aggregateCookieConsent']    = !empty($formData['aggregateCookieConsent']) ? true : false;
-        $updatedConfig['cookiesForBots']            = !empty($formData['cookiesForBots']) ? true : false;
-        $updatedConfig['respectDoNotTrack']         = !empty($formData['respectDoNotTrack']) ? true : false;
-        $updatedConfig['reloadAfterConsent']        = !empty($formData['reloadAfterConsent']) ? true : false;
-        $updatedConfig['jQueryHandle']              = !empty($formData['jQueryHandle']) ? preg_replace('/[^a-zA-z0-9\-_\.]+/', '', stripslashes($formData['jQueryHandle'])) : 'jquery';
-        $updatedConfig['metaBox']                   = !empty($formData['metaBox']) ? $formData['metaBox'] : [];
+        $updatedConfig['cookieBeforeConsent'] = !empty($formData['cookieBeforeConsent']) ? true : false;
+        $updatedConfig['aggregateCookieConsent'] = !empty($formData['aggregateCookieConsent']) ? true : false;
+        $updatedConfig['cookiesForBots'] = !empty($formData['cookiesForBots']) ? true : false;
+        $updatedConfig['respectDoNotTrack'] = !empty($formData['respectDoNotTrack']) ? true : false;
+        $updatedConfig['reloadAfterConsent'] = !empty($formData['reloadAfterConsent']) ? true : false;
+        $updatedConfig['jQueryHandle'] = !empty($formData['jQueryHandle']) ? preg_replace('/[^a-zA-z0-9\-_\.]+/', '', stripslashes($formData['jQueryHandle'])) : 'jquery';
+        $updatedConfig['metaBox'] = !empty($formData['metaBox']) ? $formData['metaBox'] : [];
 
         $siteURLInfo = parse_url(home_url());
         $networkDomain = $siteURLInfo['host'];
@@ -207,10 +209,10 @@ class Settings
             );
         }
 
-        $updatedConfig['automaticCookieDomainAndPath']  = !empty($formData['automaticCookieDomainAndPath']) ? true : false;
-        $updatedConfig['cookieDomain']                  = !empty($formData['cookieDomain']) ? stripslashes($formData['cookieDomain']) : $networkDomain;
-        $updatedConfig['cookiePath']                    = !empty($formData['cookiePath']) ? stripslashes($formData['cookiePath']) : '/';
-        $updatedConfig['cookieLifetime']                = !empty($formData['cookieLifetime']) ? intval($formData['cookieLifetime']) : 365;
+        $updatedConfig['automaticCookieDomainAndPath'] = !empty($formData['automaticCookieDomainAndPath']) ? true : false;
+        $updatedConfig['cookieDomain'] = !empty($formData['cookieDomain']) ? stripslashes($formData['cookieDomain']) : $networkDomain;
+        $updatedConfig['cookiePath'] = !empty($formData['cookiePath']) ? stripslashes($formData['cookiePath']) : '/';
+        $updatedConfig['cookieLifetime'] = !empty($formData['cookieLifetime']) ? intval($formData['cookieLifetime']) : 365;
 
         // Clean hosts
         $updatedConfig['crossDomainCookie'] = Tools::getInstance()->cleanHostList($formData['crossDomainCookie'], true);
