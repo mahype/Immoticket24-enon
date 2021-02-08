@@ -264,14 +264,14 @@ class Prevent_Completion {
      */
     private function check_heater_type() {
         $heaters = [
-            'h_erzeuger',
-            'h2_erzeuger',
-            'h3_erzeuger',
+            'h_erzeugung',
+            'h2_erzeugung',
+            'h3_erzeugung',
         ];
 
         foreach( $heaters AS $heater ) {
             if ( $this->energy_certificate->$heater === 'brennwertkesselverbessert') {
-                return [ 'Brennwertkessel verbessert wurde ausgewählt' ];
+                return 'Brennwertkessel verbessert wurde ausgewählt';
             }
         }
 
