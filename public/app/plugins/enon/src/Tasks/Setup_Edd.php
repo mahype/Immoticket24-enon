@@ -12,8 +12,11 @@
 namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
+use Awsm\WP_Wrapper\Interfaces\Filters;
 use Awsm\WP_Wrapper\Interfaces\Task;
 use Awsm\WP_Wrapper\Tools\Logger;
+
+use Enon\Models\Enon\Prevent_Completion;
 
 /**
  * Class Setup_Edd.
@@ -22,7 +25,7 @@ use Awsm\WP_Wrapper\Tools\Logger;
  *
  * @package Enon\Reseller\WordPress
  */
-class Setup_Edd implements Task, Actions {
+class Setup_Edd implements Task, Filters {
 	/**
 	 * Loading Plugin scripts.
 	 *
@@ -40,24 +43,15 @@ class Setup_Edd implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		$this->add_actions();
+        $this->add_filters();
 	}
 
 	/**
-	 * Adding actions.
+	 * Adding filters.
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_actions() {
-		add_action( 'edd_customer_post_attach_payment', [ $this, 'disable_email_on_existing_user_account' ], 1 );
-	}
-
-	/**
-	 * Disabling outgoing emails to guest orders if email adress exists for an user.
-	 *
-	 * @since 1.0.0
-	 */
-	public function disable_email_on_existing_user_account() {
-		remove_action( 'edd_customer_post_attach_payment', 'edd_connect_guest_customer_to_existing_user', 10, 4 );
+	public function add_filters() {
+		add_filter( 'plugins_loaded', array( Prevent_Completion::class, 'init' ), 20 );
 	}
 }
