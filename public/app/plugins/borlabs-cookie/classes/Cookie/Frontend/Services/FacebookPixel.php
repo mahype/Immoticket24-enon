@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -33,21 +33,23 @@ class FacebookPixel
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
      * __construct function.
      *
-     * @access protected
+     * @access public
      * @return void
      */
-    protected function __construct()
+    public function __construct()
     {
         add_action('borlabsCookie/cookie/edit/template/settings/FacebookPixel', [$this, 'additionalSettingsTemplate']);
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
@@ -98,11 +100,18 @@ class FacebookPixel
         $inputPixelId = esc_html(!empty($data->settings['pixelId']) ? $data->settings['pixelId'] : '');
         ?>
         <div class="form-group row">
-            <label for="pixelId" class="col-sm-4 col-form-label"><?php _ex('Pixel ID', 'Backend / Cookie / Facebook Pixel / Label', 'borlabs-cookie'); ?></label>
+            <label for="pixelId"
+                   class="col-sm-4 col-form-label"><?php _ex('Pixel ID', 'Backend / Cookie / Facebook Pixel / Label', 'borlabs-cookie'); ?></label>
             <div class="col-sm-8">
-                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="pixelId" name="settings[pixelId]" value="<?php echo $inputPixelId; ?>" placeholder="<?php _ex('Example', 'Backend / Global / Input Placeholder', 'borlabs-cookie'); ?>: 123456789" required>
-                <span data-toggle="tooltip" title="<?php _ex('Enter your Facebook Pixel ID.', 'Backend / Cookie / Facebook Pixel / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
-                <div class="invalid-feedback"><?php _ex('This is a required field and cannot be empty.', 'Backend / Global / Validation Message', 'borlabs-cookie'); ?></div>
+                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="pixelId"
+                       name="settings[pixelId]" value="<?php echo $inputPixelId; ?>"
+                       placeholder="<?php _ex('Example', 'Backend / Global / Input Placeholder', 'borlabs-cookie'); ?>: 123456789"
+                       required>
+                <span data-toggle="tooltip"
+                      title="<?php _ex('Enter your Facebook Pixel ID.', 'Backend / Cookie / Facebook Pixel / Tooltip', 'borlabs-cookie'); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <div
+                    class="invalid-feedback"><?php _ex('This is a required field and cannot be empty.', 'Backend / Global / Validation Message', 'borlabs-cookie'); ?></div>
             </div>
         </div>
         <?php

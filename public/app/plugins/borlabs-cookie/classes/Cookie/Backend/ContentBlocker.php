@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -65,19 +65,21 @@ class ContentBlocker
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
         global $wpdb;
 
-        $this->table = $wpdb->prefix.'borlabs_cookie_content_blocker';
+        $this->table = $wpdb->prefix . 'borlabs_cookie_content_blocker';
     }
 
     /**
@@ -117,7 +119,7 @@ class ContentBlocker
 
             $wpdb->query("
                 INSERT INTO
-                    `".$this->table."`
+                    `" . $this->table . "`
                     (
                         `content_blocker_id`,
                         `language`,
@@ -135,19 +137,19 @@ class ContentBlocker
                     )
                 VALUES
                     (
-                        '".esc_sql($data['contentBlockerId'])."',
-                        '".esc_sql($data['language'])."',
-                        '".esc_sql(stripslashes($data['name']))."',
-                        '".esc_sql(stripslashes($data['description']))."',
-                        '".esc_sql(stripslashes($data['privacyPolicyURL']))."',
-                        '".esc_sql(serialize($data['hosts']))."',
-                        '".esc_sql(stripslashes($data['previewHTML']))."',
-                        '".esc_sql(stripslashes($data['previewCSS']))."',
-                        '".esc_sql(stripslashes($data['globalJS']))."',
-                        '".esc_sql(stripslashes($data['initJS']))."',
-                        '".esc_sql(serialize($data['settings']))."',
-                        '".(intval($data['status']) ? 1 : 0)."',
-                        '".(intval($data['undeletable']) ? 1 : 0)."'
+                        '" . esc_sql($data['contentBlockerId']) . "',
+                        '" . esc_sql($data['language']) . "',
+                        '" . esc_sql(stripslashes($data['name'])) . "',
+                        '" . esc_sql(stripslashes($data['description'])) . "',
+                        '" . esc_sql(stripslashes($data['privacyPolicyURL'])) . "',
+                        '" . esc_sql(serialize($data['hosts'])) . "',
+                        '" . esc_sql(stripslashes($data['previewHTML'])) . "',
+                        '" . esc_sql(stripslashes($data['previewCSS'])) . "',
+                        '" . esc_sql(stripslashes($data['globalJS'])) . "',
+                        '" . esc_sql(stripslashes($data['initJS'])) . "',
+                        '" . esc_sql(serialize($data['settings'])) . "',
+                        '" . (intval($data['status']) ? 1 : 0) . "',
+                        '" . (intval($data['undeletable']) ? 1 : 0) . "'
                     )
             ");
 
@@ -180,11 +182,11 @@ class ContentBlocker
             SELECT
                 `content_blocker_id`
             FROM
-                `".$this->table."`
+                `" . $this->table . "`
             WHERE
-                `content_blocker_id` = '".esc_sql($contentBlockerId)."'
+                `content_blocker_id` = '" . esc_sql($contentBlockerId) . "'
                 AND
-                `language` = '".esc_sql($language)."'
+                `language` = '" . esc_sql($language) . "'
         ");
 
         if (!empty($checkId[0]->content_blocker_id)) {
@@ -207,9 +209,9 @@ class ContentBlocker
 
         $wpdb->query("
             DELETE FROM
-                `".$this->table."`
+                `" . $this->table . "`
             WHERE
-                `id` = '".intval($id)."'
+                `id` = '" . intval($id) . "'
         ");
 
         return true;
@@ -256,14 +258,14 @@ class ContentBlocker
             }
 
             // Switch status of Content Blocker
-            if ($action === 'switchStatus' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'switchStatus_'.$id)) {
+            if ($action === 'switchStatus' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'switchStatus_' . $id)) {
                 $this->switchStatus($id);
 
                 Messages::getInstance()->add(_x('Changed status successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'success');
             }
 
             // Delete Content Blocker
-            if ($action === 'delete' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_'.$id)) {
+            if ($action === 'delete' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_' . $id)) {
                 $this->delete($id);
 
                 Messages::getInstance()->add(_x('Deleted successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'success');
@@ -316,7 +318,7 @@ class ContentBlocker
             // Load defaults
             if (!empty($this->defaultContentBlocker[$contentBlockerData->content_blocker_id])) {
 
-                $contentBlockerClass = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\'.$this->defaultContentBlocker[$contentBlockerData->content_blocker_id];
+                $contentBlockerClass = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\' . $this->defaultContentBlocker[$contentBlockerData->content_blocker_id];
 
                 if (class_exists($contentBlockerClass)) {
                     // Init and register action hooks
@@ -386,30 +388,30 @@ class ContentBlocker
         }
 
         // Preparing data for form mask
-        $inputId        = !empty($contentBlockerData->id) ? intval($contentBlockerData->id) : 'new';
+        $inputId = !empty($contentBlockerData->id) ? intval($contentBlockerData->id) : 'new';
         $inputContentBlockerId = esc_attr(!empty($contentBlockerData->content_blocker_id) ? $contentBlockerData->content_blocker_id : '');
-        $inputStatus    = !empty($contentBlockerData->status) ? 1 : 0;
-        $switchStatus   = $inputStatus ? ' active' : '';
-        $inputName      = esc_attr(!empty($contentBlockerData->name) ? $contentBlockerData->name : '');
+        $inputStatus = !empty($contentBlockerData->status) ? 1 : 0;
+        $switchStatus = $inputStatus ? ' active' : '';
+        $inputName = esc_attr(!empty($contentBlockerData->name) ? $contentBlockerData->name : '');
         $inputPrivacyPolicyURL = esc_url(!empty($contentBlockerData->privacy_policy_url) ? $contentBlockerData->privacy_policy_url : '');
-        $textareaHosts  = esc_textarea(!empty($contentBlockerData->hosts) ? $contentBlockerData->hosts : '');
+        $textareaHosts = esc_textarea(!empty($contentBlockerData->hosts) ? $contentBlockerData->hosts : '');
 
-        $inputSettingsUnblockAll    = !empty($contentBlockerData->settings['unblockAll']) ? 1 : 0;
-        $switchSettingsUnblockAll   = $inputSettingsUnblockAll ? ' active' : '';
+        $inputSettingsUnblockAll = !empty($contentBlockerData->settings['unblockAll']) ? 1 : 0;
+        $switchSettingsUnblockAll = $inputSettingsUnblockAll ? ' active' : '';
 
-        $inputSettingsExecuteGlobalCodeBeforeUnblocking    = !empty($contentBlockerData->settings['executeGlobalCodeBeforeUnblocking']) ? 1 : 0;
-        $switchSettingsExecuteGlobalCodeBeforeUnblocking   = $inputSettingsExecuteGlobalCodeBeforeUnblocking ? ' active' : '';
+        $inputSettingsExecuteGlobalCodeBeforeUnblocking = !empty($contentBlockerData->settings['executeGlobalCodeBeforeUnblocking']) ? 1 : 0;
+        $switchSettingsExecuteGlobalCodeBeforeUnblocking = $inputSettingsExecuteGlobalCodeBeforeUnblocking ? ' active' : '';
 
-        $textareaPreviewHTML        = esc_textarea(!empty($contentBlockerData->preview_html) ? $contentBlockerData->preview_html : '');
-        $textareaPreviewCSS         = esc_textarea(!empty($contentBlockerData->preview_css) ? $contentBlockerData->preview_css : '');
+        $textareaPreviewHTML = esc_textarea(!empty($contentBlockerData->preview_html) ? $contentBlockerData->preview_html : '');
+        $textareaPreviewCSS = esc_textarea(!empty($contentBlockerData->preview_css) ? $contentBlockerData->preview_css : '');
 
-        $textareaGlobalJS           = esc_textarea(!empty($contentBlockerData->global_js) ? $contentBlockerData->global_js : '');
-        $textareaInitJS             = esc_textarea(!empty($contentBlockerData->init_js) ? $contentBlockerData->init_js : '');
+        $textareaGlobalJS = esc_textarea(!empty($contentBlockerData->global_js) ? $contentBlockerData->global_js : '');
+        $textareaInitJS = esc_textarea(!empty($contentBlockerData->init_js) ? $contentBlockerData->init_js : '');
 
         $languageFlag = !empty($contentBlockerData->language) ? Multilanguage::getInstance()->getLanguageFlag($contentBlockerData->language) : '';
         $languageName = !empty($contentBlockerData->language) ? Multilanguage::getInstance()->getLanguageName($contentBlockerData->language) : '';
 
-        include Backend::getInstance()->templatePath.'/content-blocker-edit.html.php';
+        include Backend::getInstance()->templatePath . '/content-blocker-edit.html.php';
     }
 
     /**
@@ -432,9 +434,9 @@ class ContentBlocker
                 `status`,
                 `undeletable`
             FROM
-                `".$this->table."`
+                `" . $this->table . "`
             WHERE
-                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
             ORDER BY
                 `name` ASC
         ");
@@ -454,24 +456,24 @@ class ContentBlocker
             }
         }
 
-        $textareaHostWhitelist      = esc_textarea(!empty(Config::getInstance()->get('contentBlockerHostWhitelist')) ? implode("\n", Config::getInstance()->get('contentBlockerHostWhitelist')) : '');
-        $inputRemoveIframesInFeeds  = !empty(Config::getInstance()->get('removeIframesInFeeds')) ? 1 : 0;
+        $textareaHostWhitelist = esc_textarea(!empty(Config::getInstance()->get('contentBlockerHostWhitelist')) ? implode("\n", Config::getInstance()->get('contentBlockerHostWhitelist')) : '');
+        $inputRemoveIframesInFeeds = !empty(Config::getInstance()->get('removeIframesInFeeds')) ? 1 : 0;
         $switchRemoveIframesInFeeds = $inputRemoveIframesInFeeds ? ' active' : '';
 
-        $inputContentBlockerFontFamily      = esc_attr(!empty(Config::getInstance()->get('contentBlockerFontFamily')) && Config::getInstance()->get('contentBlockerFontFamily') !== 'inherit' ? Config::getInstance()->get('contentBlockerFontFamily') : '');
-        $inputContentBlockerFontSize        = esc_attr(!empty(Config::getInstance()->get('contentBlockerFontSize')) && Config::getInstance()->get('contentBlockerFontSize') ? Config::getInstance()->get('contentBlockerFontSize') : '');
-        $inputContentBlockerBgColor         = esc_attr(!empty(Config::getInstance()->get('contentBlockerBgColor')) ? Config::getInstance()->get('contentBlockerBgColor') : '');
-        $inputContentBlockerTxtColor        = esc_attr(!empty(Config::getInstance()->get('contentBlockerTxtColor')) ? Config::getInstance()->get('contentBlockerTxtColor') : '');
-        $inputContentBlockerBgOpacity       = esc_attr(Config::getInstance()->get('contentBlockerBgOpacity'));
+        $inputContentBlockerFontFamily = esc_attr(!empty(Config::getInstance()->get('contentBlockerFontFamily')) && Config::getInstance()->get('contentBlockerFontFamily') !== 'inherit' ? Config::getInstance()->get('contentBlockerFontFamily') : '');
+        $inputContentBlockerFontSize = esc_attr(!empty(Config::getInstance()->get('contentBlockerFontSize')) && Config::getInstance()->get('contentBlockerFontSize') ? Config::getInstance()->get('contentBlockerFontSize') : '');
+        $inputContentBlockerBgColor = esc_attr(!empty(Config::getInstance()->get('contentBlockerBgColor')) ? Config::getInstance()->get('contentBlockerBgColor') : '');
+        $inputContentBlockerTxtColor = esc_attr(!empty(Config::getInstance()->get('contentBlockerTxtColor')) ? Config::getInstance()->get('contentBlockerTxtColor') : '');
+        $inputContentBlockerBgOpacity = esc_attr(Config::getInstance()->get('contentBlockerBgOpacity'));
         $inputContentBlockerBtnBorderRadius = esc_attr(Config::getInstance()->get('contentBlockerBtnBorderRadius'));
-        $inputContentBlockerBtnColor        = esc_attr(!empty(Config::getInstance()->get('contentBlockerBtnColor')) ? Config::getInstance()->get('contentBlockerBtnColor') : '');
-        $inputContentBlockerBtnHoverColor   = esc_attr(!empty(Config::getInstance()->get('contentBlockerBtnHoverColor')) ? Config::getInstance()->get('contentBlockerBtnHoverColor') : '');
-        $inputContentBlockerBtnTxtColor     = esc_attr(!empty(Config::getInstance()->get('contentBlockerBtnTxtColor')) ? Config::getInstance()->get('contentBlockerBtnTxtColor') : '');
-        $inputContentBlockerBtnTxtHoverColor= esc_attr(!empty(Config::getInstance()->get('contentBlockerBtnHoverTxtColor')) ? Config::getInstance()->get('contentBlockerBtnHoverTxtColor') : '');
-        $inputContentBlockerLinkColor       = esc_attr(!empty(Config::getInstance()->get('contentBlockerLinkColor')) ? Config::getInstance()->get('contentBlockerLinkColor') : '');
-        $inputContentBlockerLinkHoverColor  = esc_attr(!empty(Config::getInstance()->get('contentBlockerLinkHoverColor')) ? Config::getInstance()->get('contentBlockerLinkHoverColor') : '');
+        $inputContentBlockerBtnColor = esc_attr(!empty(Config::getInstance()->get('contentBlockerBtnColor')) ? Config::getInstance()->get('contentBlockerBtnColor') : '');
+        $inputContentBlockerBtnHoverColor = esc_attr(!empty(Config::getInstance()->get('contentBlockerBtnHoverColor')) ? Config::getInstance()->get('contentBlockerBtnHoverColor') : '');
+        $inputContentBlockerBtnTxtColor = esc_attr(!empty(Config::getInstance()->get('contentBlockerBtnTxtColor')) ? Config::getInstance()->get('contentBlockerBtnTxtColor') : '');
+        $inputContentBlockerBtnTxtHoverColor = esc_attr(!empty(Config::getInstance()->get('contentBlockerBtnHoverTxtColor')) ? Config::getInstance()->get('contentBlockerBtnHoverTxtColor') : '');
+        $inputContentBlockerLinkColor = esc_attr(!empty(Config::getInstance()->get('contentBlockerLinkColor')) ? Config::getInstance()->get('contentBlockerLinkColor') : '');
+        $inputContentBlockerLinkHoverColor = esc_attr(!empty(Config::getInstance()->get('contentBlockerLinkHoverColor')) ? Config::getInstance()->get('contentBlockerLinkHoverColor') : '');
 
-        include Backend::getInstance()->templatePath.'/content-blocker-overview.html.php';
+        include Backend::getInstance()->templatePath . '/content-blocker-overview.html.php';
     }
 
     /**
@@ -503,9 +505,9 @@ class ContentBlocker
                 `settings`,
                 `status`
             FROM
-                `".$this->table."`
+                `" . $this->table . "`
             WHERE
-                `id` = '".esc_sql($id)."'
+                `id` = '" . esc_sql($id) . "'
         ");
 
         if (!empty($contentBlockerData[0]->id)) {
@@ -517,13 +519,13 @@ class ContentBlocker
             $data->description = wp_kses(
                 $data->description,
                 [
-                    'a'=>[],
-                    'br'=>[],
-                    'div'=>[],
-                    'em'=>[],
-                    'pre'=>[],
-                    'span'=>[],
-                    'strong'=>[],
+                    'a' => [],
+                    'br' => [],
+                    'div' => [],
+                    'em' => [],
+                    'pre' => [],
+                    'span' => [],
+                    'strong' => [],
                 ],
                 [
                     'https'
@@ -554,11 +556,11 @@ class ContentBlocker
             SELECT
                 `id`
             FROM
-                `".$this->table."`
+                `" . $this->table . "`
             WHERE
-                `language` = '".esc_sql($language)."'
+                `language` = '" . esc_sql($language) . "'
                 AND
-                `content_blocker_id` = '".esc_sql($contentBlockerId)."'
+                `content_blocker_id` = '" . esc_sql($contentBlockerId) . "'
         ");
 
         if (!empty($contentBlockerId[0]->id)) {
@@ -597,19 +599,19 @@ class ContentBlocker
 
         $wpdb->query("
             UPDATE
-                `".$this->table."`
+                `" . $this->table . "`
             SET
-                `name` = '".esc_sql(stripslashes($data['name']))."',
-                `privacy_policy_url` = '".esc_sql(stripslashes($data['privacyPolicyURL']))."',
-                `hosts` = '".esc_sql(serialize($data['hosts']))."',
-                `preview_html` = '".esc_sql(stripslashes($data['previewHTML']))."',
-                `preview_css` = '".esc_sql(stripslashes($data['previewCSS']))."',
-                `global_js` = '".esc_sql(stripslashes($data['globalJS']))."',
-                `init_js` = '".esc_sql(stripslashes($data['initJS']))."',
-                `settings` = '".esc_sql(serialize($data['settings']))."',
-                `status` = '".(intval($data['status']) ? 1 : 0)."'
+                `name` = '" . esc_sql(stripslashes($data['name'])) . "',
+                `privacy_policy_url` = '" . esc_sql(stripslashes($data['privacyPolicyURL'])) . "',
+                `hosts` = '" . esc_sql(serialize($data['hosts'])) . "',
+                `preview_html` = '" . esc_sql(stripslashes($data['previewHTML'])) . "',
+                `preview_css` = '" . esc_sql(stripslashes($data['previewCSS'])) . "',
+                `global_js` = '" . esc_sql(stripslashes($data['globalJS'])) . "',
+                `init_js` = '" . esc_sql(stripslashes($data['initJS'])) . "',
+                `settings` = '" . esc_sql(serialize($data['settings'])) . "',
+                `status` = '" . (intval($data['status']) ? 1 : 0) . "'
             WHERE
-                `id` = '".intval($id)."'
+                `id` = '" . intval($id) . "'
         ");
 
         return $id;
@@ -633,15 +635,15 @@ class ContentBlocker
             // Delete
             $contentBlocker = $wpdb->query("
                 DELETE FROM
-                    `".$this->table."`
+                    `" . $this->table . "`
                 WHERE
-                    `language` = '".esc_sql($language)."'
+                    `language` = '" . esc_sql($language) . "'
                     AND
-                    `content_blocker_id` = '".esc_sql($contentBlockerId)."'
+                    `content_blocker_id` = '" . esc_sql($contentBlockerId) . "'
             ");
 
             // Restore
-            $ContentBlocker = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\'.$class;
+            $ContentBlocker = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\' . $class;
             $defaultData = $ContentBlocker::getInstance()->getDefault();
 
             $this->add($defaultData);
@@ -677,7 +679,7 @@ class ContentBlocker
 
                 if (!empty($contentBlockerData->content_blocker_id) && !empty($this->defaultContentBlocker[$contentBlockerData->content_blocker_id])) {
 
-                    $className = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\'.$this->defaultContentBlocker[$contentBlockerData->content_blocker_id];
+                    $className = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\' . $this->defaultContentBlocker[$contentBlockerData->content_blocker_id];
                     $defaultContentBlockerData = $className::getInstance()->getDefault();
 
                     $formData['previewHTML'] = $defaultContentBlockerData['previewHTML'];
@@ -721,20 +723,20 @@ class ContentBlocker
         $updatedConfig['contentBlockerHostWhitelist'] = Tools::getInstance()->cleanHostList($formData['contentBlockerHostWhitelist']);
         $updatedConfig['removeIframesInFeeds'] = !empty($formData['removeIframesInFeeds']) ? true : false;
 
-        $updatedConfig['contentBlockerFontFamily']               = !empty($formData['contentBlockerFontFamily']) ? stripslashes($formData['contentBlockerFontFamily']) : $defaultConfig['contentBlockerFontFamily'];
-        $updatedConfig['contentBlockerFontSize']                 = !empty($formData['contentBlockerFontSize']) ? intval($formData['contentBlockerFontSize']) : $defaultConfig['contentBlockerFontSize'];
+        $updatedConfig['contentBlockerFontFamily'] = !empty($formData['contentBlockerFontFamily']) ? stripslashes($formData['contentBlockerFontFamily']) : $defaultConfig['contentBlockerFontFamily'];
+        $updatedConfig['contentBlockerFontSize'] = !empty($formData['contentBlockerFontSize']) ? intval($formData['contentBlockerFontSize']) : $defaultConfig['contentBlockerFontSize'];
 
         // Colors
-        $updatedConfig['contentBlockerBgColor']         = !empty($formData['contentBlockerBgColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerBgColor']) ? $formData['contentBlockerBgColor'] : $defaultConfig['contentBlockerBgColor'];
-        $updatedConfig['contentBlockerTxtColor']        = !empty($formData['contentBlockerTxtColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerTxtColor']) ? $formData['contentBlockerTxtColor'] : $defaultConfig['contentBlockerTxtColor'];
-        $updatedConfig['contentBlockerBgOpacity']       = isset($formData['contentBlockerBgOpacity']) ? intval($formData['contentBlockerBgOpacity']) : $defaultConfig['contentBlockerBgOpacity'];
+        $updatedConfig['contentBlockerBgColor'] = !empty($formData['contentBlockerBgColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerBgColor']) ? $formData['contentBlockerBgColor'] : $defaultConfig['contentBlockerBgColor'];
+        $updatedConfig['contentBlockerTxtColor'] = !empty($formData['contentBlockerTxtColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerTxtColor']) ? $formData['contentBlockerTxtColor'] : $defaultConfig['contentBlockerTxtColor'];
+        $updatedConfig['contentBlockerBgOpacity'] = isset($formData['contentBlockerBgOpacity']) ? intval($formData['contentBlockerBgOpacity']) : $defaultConfig['contentBlockerBgOpacity'];
         $updatedConfig['contentBlockerBtnBorderRadius'] = isset($formData['contentBlockerBtnBorderRadius']) ? intval($formData['contentBlockerBtnBorderRadius']) : $defaultConfig['contentBlockerBtnBorderRadius'];
-        $updatedConfig['contentBlockerBtnColor']        = !empty($formData['contentBlockerBtnColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerBtnColor']) ? $formData['contentBlockerBtnColor'] : $defaultConfig['contentBlockerBtnColor'];
-        $updatedConfig['contentBlockerBtnHoverColor']   = !empty($formData['contentBlockerBtnHoverColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerBtnHoverColor']) ? $formData['contentBlockerBtnHoverColor'] : $defaultConfig['contentBlockerBtnHoverColor'];
-        $updatedConfig['contentBlockerBtnTxtColor']     = !empty($formData['contentBlockerBtnTxtColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerBtnTxtColor']) ? $formData['contentBlockerBtnTxtColor'] : $defaultConfig['contentBlockerBtnTxtColor'];
-        $updatedConfig['contentBlockerBtnHoverTxtColor']= !empty($formData['contentBlockerBtnHoverTxtColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerBtnHoverTxtColor']) ? $formData['contentBlockerBtnHoverTxtColor'] : $defaultConfig['contentBlockerBtnHoverTxtColor'];
-        $updatedConfig['contentBlockerLinkColor']       = !empty($formData['contentBlockerLinkColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerLinkColor']) ? $formData['contentBlockerLinkColor'] : $defaultConfig['contentBlockerLinkColor'];
-        $updatedConfig['contentBlockerLinkHoverColor']  = !empty($formData['contentBlockerLinkHoverColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerLinkHoverColor']) ? $formData['contentBlockerLinkHoverColor'] : $defaultConfig['contentBlockerLinkHoverColor'];
+        $updatedConfig['contentBlockerBtnColor'] = !empty($formData['contentBlockerBtnColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerBtnColor']) ? $formData['contentBlockerBtnColor'] : $defaultConfig['contentBlockerBtnColor'];
+        $updatedConfig['contentBlockerBtnHoverColor'] = !empty($formData['contentBlockerBtnHoverColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerBtnHoverColor']) ? $formData['contentBlockerBtnHoverColor'] : $defaultConfig['contentBlockerBtnHoverColor'];
+        $updatedConfig['contentBlockerBtnTxtColor'] = !empty($formData['contentBlockerBtnTxtColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerBtnTxtColor']) ? $formData['contentBlockerBtnTxtColor'] : $defaultConfig['contentBlockerBtnTxtColor'];
+        $updatedConfig['contentBlockerBtnHoverTxtColor'] = !empty($formData['contentBlockerBtnHoverTxtColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerBtnHoverTxtColor']) ? $formData['contentBlockerBtnHoverTxtColor'] : $defaultConfig['contentBlockerBtnHoverTxtColor'];
+        $updatedConfig['contentBlockerLinkColor'] = !empty($formData['contentBlockerLinkColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerLinkColor']) ? $formData['contentBlockerLinkColor'] : $defaultConfig['contentBlockerLinkColor'];
+        $updatedConfig['contentBlockerLinkHoverColor'] = !empty($formData['contentBlockerLinkHoverColor']) && Tools::getInstance()->validateHexColor($formData['contentBlockerLinkHoverColor']) ? $formData['contentBlockerLinkHoverColor'] : $defaultConfig['contentBlockerLinkHoverColor'];
 
         // Save config
         Config::getInstance()->saveConfig($updatedConfig);
@@ -756,11 +758,11 @@ class ContentBlocker
 
         $wpdb->query("
             UPDATE
-                `".$this->table."`
+                `" . $this->table . "`
             SET
                 `status` = IF(`status` <> 0, 0, 1)
             WHERE
-                `id` = '".intval($id)."'
+                `id` = '" . intval($id) . "'
         ");
 
         return true;

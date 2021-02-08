@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -55,21 +55,23 @@ class ScriptBlocker
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
         global $wpdb;
 
-        $this->tableScriptBlocker = $wpdb->prefix.'borlabs_cookie_script_blocker';
+        $this->tableScriptBlocker = $wpdb->prefix . 'borlabs_cookie_script_blocker';
 
-        $this->imagePath = plugins_url('images', realpath(__DIR__.'/../../'));
+        $this->imagePath = plugins_url('images', realpath(__DIR__ . '/../../'));
     }
 
     /**
@@ -122,7 +124,7 @@ class ScriptBlocker
 
         $wpdb->query("
             INSERT INTO
-                `".$this->tableScriptBlocker."`
+                `" . $this->tableScriptBlocker . "`
                 (
                     `script_blocker_id`,
                     `name`,
@@ -133,12 +135,12 @@ class ScriptBlocker
                 )
             VALUES
                 (
-                    '".esc_sql($data['scriptBlockerId'])."',
-                    '".esc_sql(stripslashes($data['name']))."',
-                    '".esc_sql(serialize($data['blockHandles']))."',
-                    '".esc_sql(serialize($data['blockPhrases']))."',
-                    '".(intval($data['status']) ? 1 : 0)."',
-                    '".(intval($data['undeletable']) ? 1 : 0)."'
+                    '" . esc_sql($data['scriptBlockerId']) . "',
+                    '" . esc_sql(stripslashes($data['name'])) . "',
+                    '" . esc_sql(serialize($data['blockHandles'])) . "',
+                    '" . esc_sql(serialize($data['blockPhrases'])) . "',
+                    '" . (intval($data['status']) ? 1 : 0) . "',
+                    '" . (intval($data['undeletable']) ? 1 : 0) . "'
                 )
         ");
 
@@ -164,9 +166,9 @@ class ScriptBlocker
             SELECT
                 `script_blocker_id`
             FROM
-                `".$this->tableScriptBlocker."`
+                `" . $this->tableScriptBlocker . "`
             WHERE
-                `script_blocker_id` = '".esc_sql($scriptBlockerId)."'
+                `script_blocker_id` = '" . esc_sql($scriptBlockerId) . "'
         ");
 
         if (!empty($checkId[0]->script_blocker_id)) {
@@ -189,9 +191,9 @@ class ScriptBlocker
 
         $wpdb->query("
             DELETE FROM
-                `".$this->tableScriptBlocker."`
+                `" . $this->tableScriptBlocker . "`
             WHERE
-                `id` = '".intval($id)."'
+                `id` = '" . intval($id) . "'
                 AND
                 `undeletable` = 0
         ");
@@ -254,14 +256,14 @@ class ScriptBlocker
             }
 
             // Switch status of Script Blocker
-            if ($action === 'switchStatus' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'switchStatus_'.$id)) {
+            if ($action === 'switchStatus' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'switchStatus_' . $id)) {
                 $this->switchStatus($id);
 
                 Messages::getInstance()->add(_x('Changed status successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'success');
             }
 
             // Delete Script Blocker
-            if ($action === 'delete' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_'.$id)) {
+            if ($action === 'delete' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_' . $id)) {
                 $this->delete($id);
 
                 Messages::getInstance()->add(_x('Deleted successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'success');
@@ -323,11 +325,11 @@ class ScriptBlocker
                 $scriptBlockerData->status = intval($formData['status']);
             }
 
-            $inputId                = intval($scriptBlockerData->id);
-            $inputScriptBlockerId   = esc_attr(!empty($scriptBlockerData->script_blocker_id) ? $scriptBlockerData->script_blocker_id : '');
-            $inputName              = esc_attr(!empty($scriptBlockerData->name) ? $scriptBlockerData->name : '');
-            $inputStatus            = !empty($scriptBlockerData->status) ? 1 : 0;
-            $switchStatus           = $inputStatus ? ' active' : '';
+            $inputId = intval($scriptBlockerData->id);
+            $inputScriptBlockerId = esc_attr(!empty($scriptBlockerData->script_blocker_id) ? $scriptBlockerData->script_blocker_id : '');
+            $inputName = esc_attr(!empty($scriptBlockerData->name) ? $scriptBlockerData->name : '');
+            $inputStatus = !empty($scriptBlockerData->status) ? 1 : 0;
+            $switchStatus = $inputStatus ? ' active' : '';
 
             $blockedHandles = $scriptBlockerData->handles;
             $blockedPhrases = $scriptBlockerData->js_block_phrases;
@@ -335,11 +337,11 @@ class ScriptBlocker
             sort($blockedHandles, SORT_NATURAL | SORT_FLAG_CASE);
             sort($blockedPhrases, SORT_NATURAL | SORT_FLAG_CASE);
 
-            $textareaUnblockScriptCookieCode = esc_textarea('<script>window.BorlabsCookie.unblockScriptBlockerId("'.$inputScriptBlockerId.'");</script>');
-            $textareaUnblockScriptContentBlockerCode = esc_textarea('window.BorlabsCookie.allocateScriptBlockerToContentBlocker(contentBlockerData.id, "'.$inputScriptBlockerId.'", "scriptBlockerId");');
-            $textareaUnblockScriptContentBlockerCode .= "\n".esc_textarea('window.BorlabsCookie.unblockScriptBlockerId("'.$inputScriptBlockerId.'");');
+            $textareaUnblockScriptCookieCode = esc_textarea('<script>window.BorlabsCookie.unblockScriptBlockerId("' . $inputScriptBlockerId . '");</script>');
+            $textareaUnblockScriptContentBlockerCode = esc_textarea('window.BorlabsCookie.allocateScriptBlockerToContentBlocker(contentBlockerData.id, "' . $inputScriptBlockerId . '", "scriptBlockerId");');
+            $textareaUnblockScriptContentBlockerCode .= "\n" . esc_textarea('window.BorlabsCookie.unblockScriptBlockerId("' . $inputScriptBlockerId . '");');
 
-            include Backend::getInstance()->templatePath.'/script-blocker-edit.html.php';
+            include Backend::getInstance()->templatePath . '/script-blocker-edit.html.php';
         }
     }
 
@@ -363,7 +365,7 @@ class ScriptBlocker
                 `status`,
                 `undeletable`
             FROM
-                `".$this->tableScriptBlocker."`
+                `" . $this->tableScriptBlocker . "`
             ORDER BY
                 `name` ASC
         ");
@@ -383,7 +385,7 @@ class ScriptBlocker
             }
         }
 
-        include Backend::getInstance()->templatePath.'/script-blocker-overview.html.php';
+        include Backend::getInstance()->templatePath . '/script-blocker-overview.html.php';
     }
 
     /**
@@ -395,12 +397,12 @@ class ScriptBlocker
      */
     public function displayWizardStep_1($formData = [])
     {
-        $borlabsCookieStatus= !empty(Config::getInstance()->get('cookieStatus')) ? true : false;
-        $inputScanPageId    = esc_attr(!empty($formData['scanPageId']) ? intval($formData['scanPageId']) : 0);
+        $borlabsCookieStatus = !empty(Config::getInstance()->get('cookieStatus')) ? true : false;
+        $inputScanPageId = esc_attr(!empty($formData['scanPageId']) ? intval($formData['scanPageId']) : 0);
         $inputScanCustomURL = esc_attr(!empty($formData['scanCustomURL']) ? stripslashes($formData['scanCustomURL']) : '');
         $inputSearchPhrases = esc_attr(!empty($formData['searchPhrases']) ? stripslashes($formData['searchPhrases']) : '');
 
-        include Backend::getInstance()->templatePath.'/script-blocker-wizard-step-1.html.php';
+        include Backend::getInstance()->templatePath . '/script-blocker-wizard-step-1.html.php';
     }
 
     /**
@@ -456,12 +458,12 @@ class ScriptBlocker
                 $scanURL = get_home_url();
             }
 
-            $inputScanURL       = esc_attr($scanURL);
+            $inputScanURL = esc_attr($scanURL);
             $inputSearchPhrases = esc_attr(!empty($formData['searchPhrases']) ? stripslashes($formData['searchPhrases']) : '');
 
-            $loadingIcon = $this->imagePath.'/borlabs-cookie-icon-black.svg';
+            $loadingIcon = $this->imagePath . '/borlabs-cookie-icon-black.svg';
 
-            include Backend::getInstance()->templatePath.'/script-blocker-wizard-step-2.html.php';
+            include Backend::getInstance()->templatePath . '/script-blocker-wizard-step-2.html.php';
         }
     }
 
@@ -487,10 +489,10 @@ class ScriptBlocker
             $this->displayWizardStep_1($formData);
         } else {
 
-            $inputScriptBlockerId   = esc_attr(!empty($formData['scriptBlockerId']) ? stripslashes($formData['scriptBlockerId']) : '');
-            $inputName              = esc_attr(!empty($formData['name']) ? stripslashes($formData['name']) : '');
-            $inputStatus            = esc_attr(!empty($formData['status']) ? 1 : 0);
-            $switchStatus           = $inputStatus ? ' active' : '';
+            $inputScriptBlockerId = esc_attr(!empty($formData['scriptBlockerId']) ? stripslashes($formData['scriptBlockerId']) : '');
+            $inputName = esc_attr(!empty($formData['name']) ? stripslashes($formData['name']) : '');
+            $inputStatus = esc_attr(!empty($formData['status']) ? 1 : 0);
+            $switchStatus = $inputStatus ? ' active' : '';
 
             // If an error occurred during saving, these variables are filled with the information,
             // whether a handle or script has been selected to be blocked
@@ -510,7 +512,7 @@ class ScriptBlocker
                 $blockedPhrases = $formData['blockPhrases'];
             }
 
-            include Backend::getInstance()->templatePath.'/script-blocker-wizard-step-3.html.php';
+            include Backend::getInstance()->templatePath . '/script-blocker-wizard-step-3.html.php';
         }
     }
 
@@ -536,9 +538,9 @@ class ScriptBlocker
                 `js_block_phrases`,
                 `status`
             FROM
-                `".$this->tableScriptBlocker."`
+                `" . $this->tableScriptBlocker . "`
             WHERE
-                `id` = '".esc_sql($id)."'
+                `id` = '" . esc_sql($id) . "'
         ");
 
         if (!empty($scriptBlockerData[0]->id)) {
@@ -633,12 +635,12 @@ class ScriptBlocker
 
         $wpdb->query("
             UPDATE
-                `".$this->tableScriptBlocker."`
+                `" . $this->tableScriptBlocker . "`
             SET
-                `name` = '".esc_sql(stripslashes($data['name']))."',
-                `status` = '".(intval($data['status']) ? 1 : 0)."'
+                `name` = '" . esc_sql(stripslashes($data['name'])) . "',
+                `status` = '" . (intval($data['status']) ? 1 : 0) . "'
             WHERE
-                `id` = '".intval($id)."'
+                `id` = '" . intval($id) . "'
         ");
 
         return $id;
@@ -679,11 +681,11 @@ class ScriptBlocker
 
         $wpdb->query("
             UPDATE
-                `".$this->tableScriptBlocker."`
+                `" . $this->tableScriptBlocker . "`
             SET
                 `status` = IF(`status` <> 0, 0, 1)
             WHERE
-                `id` = '".intval($id)."'
+                `id` = '" . intval($id) . "'
         ");
 
         return true;

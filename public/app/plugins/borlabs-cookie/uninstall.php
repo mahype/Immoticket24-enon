@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -24,11 +24,11 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 
 if (version_compare(phpversion(), '5.6', '>=')) {
 
-    include_once plugin_dir_path(__FILE__).'classes/Autoloader.php';
+    include_once plugin_dir_path(__FILE__) . 'classes/Autoloader.php';
 
     $Autoloader = new \BorlabsCookie\Autoloader();
     $Autoloader->register();
-	$Autoloader->addNamespace('BorlabsCookie', realpath(plugin_dir_path(__FILE__).'/classes'));
+    $Autoloader->addNamespace('BorlabsCookie', realpath(plugin_dir_path(__FILE__) . '/classes'));
 
     \BorlabsCookie\Cookie\Uninstall::getInstance()->uninstallPlugin();
 }

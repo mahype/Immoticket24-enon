@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -39,12 +39,14 @@ class Log
     {
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -62,7 +64,7 @@ class Log
         $allowedCookies = [];
         $consents = [];
 
-        $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)."borlabs_cookie_consent_log";
+        $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix) . "borlabs_cookie_consent_log";
 
         // Validate cookie data
         if (!empty($cookieData['uid'])) {
@@ -99,9 +101,9 @@ class Log
                         `cookie_version`,
                         `consents`
                     FROM
-                        `".$table."`
+                        `" . $table . "`
                     WHERE
-                        `uid` = '".esc_sql($cookieData['uid'])."'
+                        `uid` = '" . esc_sql($cookieData['uid']) . "'
                         AND
                         `is_latest` = 1
                 ");
@@ -122,18 +124,18 @@ class Log
                         // Set "is_latest" of all old entries of the uid to 0
                         $wpdb->query("
                             UPDATE
-                                `".$table."`
+                                `" . $table . "`
                             SET
                                 `is_latest` = 0
                             WHERE
-                                `uid` = '".esc_sql($cookieData['uid'])."'
+                                `uid` = '" . esc_sql($cookieData['uid']) . "'
                         ");
                     }
 
                     // Insert log
                     $wpdb->query("
                         INSERT INTO
-                            `".$table."`
+                            `" . $table . "`
                         (
                             `log_id`,
                             `uid`,
@@ -145,9 +147,9 @@ class Log
                         VALUES
                         (
                             null,
-                            '".esc_sql($cookieData['uid'])."',
-                            '".$cookieVersion."',
-                            '".esc_sql($consents)."',
+                            '" . esc_sql($cookieData['uid']) . "',
+                            '" . $cookieVersion . "',
+                            '" . esc_sql($consents) . "',
                             '1',
                             NOW()
                         )
@@ -175,7 +177,7 @@ class Log
 
         $uid = trim(strtolower($uid));
 
-        $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)."borlabs_cookie_consent_log";
+        $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix) . "borlabs_cookie_consent_log";
 
         if (preg_match('/[0-9a-z]{8}\-[0-9a-z]{8}\-[0-9a-z]{8}\-[0-9a-z]{8}/', $uid)) {
 
@@ -192,9 +194,9 @@ class Log
                     `consents`,
                     `stamp`
                 FROM
-                    `".$table."`
+                    `" . $table . "`
                 WHERE
-                    `uid` = '".esc_sql($uid)."'
+                    `uid` = '" . esc_sql($uid) . "'
                 ORDER BY
                     `stamp` DESC
             ");
@@ -222,7 +224,7 @@ class Log
                     }
 
                     foreach ($consentsTranslated as $data) {
-                        $finalConsentList[] = $data['cookieGroup'].(!empty($data['cookies']) ? ': '.implode(', ', $data['cookies']) : '');
+                        $finalConsentList[] = $data['cookieGroup'] . (!empty($data['cookies']) ? ': ' . implode(', ', $data['cookies']) : '');
                     }
                 }
 

@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -39,17 +39,19 @@ class Help
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
-        $this->imagePath = plugins_url('images', realpath(__DIR__.'/../../'));
+        $this->imagePath = plugins_url('images', realpath(__DIR__ . '/../../'));
     }
 
     /**
@@ -88,8 +90,8 @@ class Help
 
         $language = Multilanguage::getInstance()->getCurrentLanguageCode();
 
-        $loadingIcon = $this->imagePath.'/borlabs-cookie-icon-black.svg';
+        $loadingIcon = $this->imagePath . '/borlabs-cookie-icon-black.svg';
 
-        include Backend::getInstance()->templatePath.'/help.html.php';
+        include Backend::getInstance()->templatePath . '/help.html.php';
     }
 }

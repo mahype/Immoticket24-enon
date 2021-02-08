@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -37,15 +37,17 @@ class CSS
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
     }
 
@@ -155,7 +157,7 @@ class CSS
         $css .= '#BorlabsCookieBox ._brlbs-legal { color: %cookieBoxSecondaryLinkColor%; }';
         $css .= '#BorlabsCookieBox ._brlbs-legal a { color: inherit; }';
         $css .= '#BorlabsCookieBox ._brlbs-legal a:hover { color: %cookieBoxSecondaryLinkHoverColor%; }';
-        $css .= '#BorlabsCookieBox ._brlbs-branding { color: '.$brandingColor.'; }';
+        $css .= '#BorlabsCookieBox ._brlbs-branding { color: ' . $brandingColor . '; }';
         $css .= '#BorlabsCookieBox ._brlbs-branding a { color: inherit; }';
         $css .= '#BorlabsCookieBox ._brlbs-branding a:hover { color: inherit; }';
         $css .= '#BorlabsCookieBox ._brlbs-manage a { color: %cookieBoxPrimaryLinkColor%; }';
@@ -364,9 +366,9 @@ class CSS
             SELECT
                 `preview_css`
             FROM
-                `".$tableName."`
+                `" . $tableName . "`
             WHERE
-                `language` = '".esc_sql($language)."'
+                `language` = '" . esc_sql($language) . "'
                 AND
                 `status` = 1
         ");

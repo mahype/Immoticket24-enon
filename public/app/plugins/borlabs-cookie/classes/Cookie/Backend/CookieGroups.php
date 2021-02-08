@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -56,20 +56,22 @@ class CookieGroups
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
         global $wpdb;
 
-        $this->tableCookie = $wpdb->prefix.'borlabs_cookie_cookies';
-        $this->tableCookieGroup = $wpdb->prefix.'borlabs_cookie_groups';
+        $this->tableCookie = $wpdb->prefix . 'borlabs_cookie_cookies';
+        $this->tableCookieGroup = $wpdb->prefix . 'borlabs_cookie_groups';
     }
 
     /**
@@ -104,7 +106,7 @@ class CookieGroups
 
             $wpdb->query("
                 INSERT INTO
-                    `".$this->tableCookieGroup."`
+                    `" . $this->tableCookieGroup . "`
                     (
                         `group_id`,
                         `language`,
@@ -117,14 +119,14 @@ class CookieGroups
                     )
                 VALUES
                     (
-                        '".esc_sql($data['groupId'])."',
-                        '".esc_sql($data['language'])."',
-                        '".esc_sql(stripslashes($data['name']))."',
-                        '".esc_sql(stripslashes($data['description']))."',
-                        '".(intval($data['preSelected']) ? 1 : 0)."',
-                        '".intval($data['position'])."',
-                        '".(intval($data['status']) ? 1 : 0)."',
-                        '".(intval($data['undeletable']) ? 1 : 0)."'
+                        '" . esc_sql($data['groupId']) . "',
+                        '" . esc_sql($data['language']) . "',
+                        '" . esc_sql(stripslashes($data['name'])) . "',
+                        '" . esc_sql(stripslashes($data['description'])) . "',
+                        '" . (intval($data['preSelected']) ? 1 : 0) . "',
+                        '" . intval($data['position']) . "',
+                        '" . (intval($data['status']) ? 1 : 0) . "',
+                        '" . (intval($data['undeletable']) ? 1 : 0) . "'
                     )
             ");
 
@@ -156,11 +158,11 @@ class CookieGroups
             SELECT
                 `group_id`
             FROM
-                `".$this->tableCookieGroup."`
+                `" . $this->tableCookieGroup . "`
             WHERE
-                `group_id` = '".esc_sql($groupId)."'
+                `group_id` = '" . esc_sql($groupId) . "'
                 AND
-                `language` = '".esc_sql($language)."'
+                `language` = '" . esc_sql($language) . "'
         ");
 
         if (!empty($checkId[0]->group_id)) {
@@ -188,9 +190,9 @@ class CookieGroups
             SELECT
                 `cookie_id`
             FROM
-                `".$this->tableCookie."`
+                `" . $this->tableCookie . "`
             WHERE
-                `cookie_group_id` = '".esc_sql($id)."'
+                `cookie_group_id` = '" . esc_sql($id) . "'
             LIMIT
                 0,1
         ");
@@ -199,9 +201,9 @@ class CookieGroups
 
             $wpdb->query("
                 DELETE FROM
-                    `".$this->tableCookieGroup."`
+                    `" . $this->tableCookieGroup . "`
                 WHERE
-                    `id` = '".intval($id)."'
+                    `id` = '" . intval($id) . "'
                     AND
                     `undeletable` = 0
             ");
@@ -253,15 +255,15 @@ class CookieGroups
             }
 
             // Switch status of Cookie Group
-            if ($action === 'switchStatus' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'switchStatus_'.$id)) {
+            if ($action === 'switchStatus' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'switchStatus_' . $id)) {
                 $this->switchStatus($id);
 
                 Messages::getInstance()->add(_x('Changed status successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'success');
             }
 
             // Delete Cookie Group
-            if ($action === 'delete' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_'.$id)) {
-                if($this->delete($id)) {
+            if ($action === 'delete' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_' . $id)) {
+                if ($this->delete($id)) {
                     Messages::getInstance()->add(_x('Deleted successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'success');
                 } else {
                     Messages::getInstance()->add(_x('Could not delete <strong>Cookie Group</strong> because <strong>Cookie Group</strong> is linked with <strong>Cookies</strong>.', 'Backend / Cookie Groups / Alert Message', 'borlabs-cookie'), 'error');
@@ -344,14 +346,14 @@ class CookieGroups
         }
 
         // Preparing data for form mask
-        $inputId        = !empty($cookieGroupData->id) ? intval($cookieGroupData->id) : 'new';
-        $inputGroupId   = esc_attr(!empty($cookieGroupData->group_id) ? $cookieGroupData->group_id : '');
-        $inputStatus    = !empty($cookieGroupData->status) ? 1 : 0;
-        $switchStatus   = $inputStatus ? ' active' : '';
-        $inputName      = esc_attr(!empty($cookieGroupData->name) ? $cookieGroupData->name : '');
-        $textareaDescription= esc_textarea(!empty($cookieGroupData->description) ? $cookieGroupData->description : '');
-        $inputPreSelected   = !empty($cookieGroupData->pre_selected) ? 1 : 0;
-        $switchPreSelected  = $inputPreSelected ? ' active' : '';
+        $inputId = !empty($cookieGroupData->id) ? intval($cookieGroupData->id) : 'new';
+        $inputGroupId = esc_attr(!empty($cookieGroupData->group_id) ? $cookieGroupData->group_id : '');
+        $inputStatus = !empty($cookieGroupData->status) ? 1 : 0;
+        $switchStatus = $inputStatus ? ' active' : '';
+        $inputName = esc_attr(!empty($cookieGroupData->name) ? $cookieGroupData->name : '');
+        $textareaDescription = esc_textarea(!empty($cookieGroupData->description) ? $cookieGroupData->description : '');
+        $inputPreSelected = !empty($cookieGroupData->pre_selected) ? 1 : 0;
+        $switchPreSelected = $inputPreSelected ? ' active' : '';
         $inputPosition = intval(!empty($cookieGroupData->position) ? $cookieGroupData->position : '1');
 
         $languageFlag = !empty($cookieGroupData->language) ? Multilanguage::getInstance()->getLanguageFlag($cookieGroupData->language) : '';
@@ -363,7 +365,7 @@ class CookieGroups
             $ignorePreSelectStatusIsActive = true;
         }
 
-        include Backend::getInstance()->templatePath.'/cookie-groups-edit.html.php';
+        include Backend::getInstance()->templatePath . '/cookie-groups-edit.html.php';
     }
 
     /**
@@ -385,9 +387,9 @@ class CookieGroups
                 `status`,
                 `undeletable`
             FROM
-                `".$this->tableCookieGroup."`
+                `" . $this->tableCookieGroup . "`
             WHERE
-                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
             ORDER BY
                 `name` ASC
         ");
@@ -398,7 +400,7 @@ class CookieGroups
             }
         }
 
-        include Backend::getInstance()->templatePath.'/cookie-groups-overview.html.php';
+        include Backend::getInstance()->templatePath . '/cookie-groups-overview.html.php';
     }
 
     /**
@@ -425,9 +427,9 @@ class CookieGroups
                 `position`,
                 `status`
             FROM
-                `".$this->tableCookieGroup."`
+                `" . $this->tableCookieGroup . "`
             WHERE
-                `id` = '".esc_sql($id)."'
+                `id` = '" . esc_sql($id) . "'
         ");
 
         if (!empty($cookieGroupData[0]->id)) {
@@ -457,11 +459,11 @@ class CookieGroups
             SELECT
                 `id`
             FROM
-                `".$this->tableCookieGroup."`
+                `" . $this->tableCookieGroup . "`
             WHERE
-                `language` = '".esc_sql($language)."'
+                `language` = '" . esc_sql($language) . "'
                 AND
-                `group_id` = '".esc_sql($groupId)."'
+                `group_id` = '" . esc_sql($groupId) . "'
         ");
 
         if (!empty($cookieGroupId[0]->id)) {
@@ -495,15 +497,15 @@ class CookieGroups
 
         $wpdb->query("
             UPDATE
-                `".$this->tableCookieGroup."`
+                `" . $this->tableCookieGroup . "`
             SET
-                `name` = '".esc_sql(stripslashes($data['name']))."',
-                `description` = '".esc_sql(stripslashes($data['description']))."',
-                `pre_selected` = '".(intval($data['preSelected']) ? 1 : 0)."',
-                `position` = '".intval($data['position'])."',
-                `status` = '".(intval($data['status']) ? 1 : 0)."'
+                `name` = '" . esc_sql(stripslashes($data['name'])) . "',
+                `description` = '" . esc_sql(stripslashes($data['description'])) . "',
+                `pre_selected` = '" . (intval($data['preSelected']) ? 1 : 0) . "',
+                `position` = '" . intval($data['position']) . "',
+                `status` = '" . (intval($data['status']) ? 1 : 0) . "'
             WHERE
-                `id` = '".intval($id)."'
+                `id` = '" . intval($id) . "'
         ");
 
         return $id;
@@ -527,9 +529,9 @@ class CookieGroups
                 `id`,
                 `group_id`
             FROM
-                `".$this->tableCookieGroup."`
+                `" . $this->tableCookieGroup . "`
             WHERE
-                `language` = '".esc_sql($language)."'
+                `language` = '" . esc_sql($language) . "'
                 AND
                 `group_id` IN ('essential', 'statistics', 'marketing', 'external-media')
         ");
@@ -537,9 +539,9 @@ class CookieGroups
         // Delete default Cookie Groups
         $wpdb->query("
             DELETE FROM
-                `".$this->tableCookieGroup."`
+                `" . $this->tableCookieGroup . "`
             WHERE
-                `language` = '".esc_sql($language)."'
+                `language` = '" . esc_sql($language) . "'
                 AND
                 `group_id` IN ('essential', 'statistics', 'marketing', 'external-media')
         ");
@@ -554,9 +556,9 @@ class CookieGroups
                 `id`,
                 `group_id`
             FROM
-                `".$this->tableCookieGroup."`
+                `" . $this->tableCookieGroup . "`
             WHERE
-                `language` = '".esc_sql($language)."'
+                `language` = '" . esc_sql($language) . "'
                 AND
                 `group_id` IN ('essential', 'statistics', 'marketing', 'external-media')
         ");
@@ -586,11 +588,11 @@ class CookieGroups
                     if (!empty($matchData['new'])) {
                         $wpdb->query("
                             UPDATE
-                                `".$this->tableCookie."`
+                                `" . $this->tableCookie . "`
                             SET
-                                `cookie_group_id` = '".esc_sql($matchData['new'])."'
+                                `cookie_group_id` = '" . esc_sql($matchData['new']) . "'
                             WHERE
-                                `cookie_group_id` = '".esc_sql($matchData['old'])."'
+                                `cookie_group_id` = '" . esc_sql($matchData['old']) . "'
                         ");
                     }
                 }
@@ -635,11 +637,11 @@ class CookieGroups
 
         $wpdb->query("
             UPDATE
-                `".$this->tableCookieGroup."`
+                `" . $this->tableCookieGroup . "`
             SET
                 `status` = IF(`status` <> 0, 0, 1)
             WHERE
-                `id` = '".intval($id)."'
+                `id` = '" . intval($id) . "'
                 AND
                 `group_id` != 'essential'
         ");

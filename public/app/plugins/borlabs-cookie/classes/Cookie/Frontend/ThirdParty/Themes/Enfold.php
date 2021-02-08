@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -47,12 +47,14 @@ class Enfold
     {
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -73,18 +75,18 @@ class Enfold
 
             $style = '';
 
-            if(!empty($atts['format']) && $atts['format'] == 'custom') {
-				$height = intval($atts['height']);
-				$width  = intval($atts['width']);
-				$ratio  = (100 / $width) * $height;
-				$style .= "style=\"padding-bottom:" . $ratio ."%;\"";
-			}
+            if (!empty($atts['format']) && $atts['format'] == 'custom') {
+                $height = intval($atts['height']);
+                $width = intval($atts['width']);
+                $ratio = (100 / $width) * $height;
+                $style .= "style=\"padding-bottom:" . $ratio . "%;\"";
+            }
 
-			if (!empty($atts['conditional_play']) && $atts['conditional_play'] === 'lightbox') {
+            if (!empty($atts['conditional_play']) && $atts['conditional_play'] === 'lightbox') {
                 // Nothing for now - can not be supported
-			} else {
-    			$output = '<div class="avia-video avia-video-' . $atts['format'] . '" ' . $style .'>' . $video_html_raw . '</div>';
-			}
+            } else {
+                $output = '<div class="avia-video avia-video-' . $atts['format'] . '" ' . $style . '>' . $video_html_raw . '</div>';
+            }
         }
 
         return $output;

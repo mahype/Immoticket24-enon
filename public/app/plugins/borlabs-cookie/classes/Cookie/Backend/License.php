@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -39,15 +39,17 @@ class License
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
     }
 
@@ -107,16 +109,16 @@ class License
         $this->validateLicense();
 
         // License information
-        $licenseData            = $this->getLicenseData();
-        $validUntil             = !empty($licenseData->validUntil) ? new \DateTime($licenseData->validUntil) : null;
-        $supportUntil           = !empty($licenseData->supportUntil) ? new \DateTime($licenseData->supportUntil) : null;
+        $licenseData = $this->getLicenseData();
+        $validUntil = !empty($licenseData->validUntil) ? new \DateTime($licenseData->validUntil) : null;
+        $supportUntil = !empty($licenseData->supportUntil) ? new \DateTime($licenseData->supportUntil) : null;
 
-        $licenseStatus          = $this->isLicenseValid() ? 'valid' : 'expired';
-        $licenseStatusMessage   = $this->getLicenseMessageStatus($licenseStatus);
-        $licenseTypeTitle       = esc_html(!empty($licenseData->licenseType) ? $this->getLicenseTypeTitle($licenseData->licenseType) : '');
-        $licenseValidUntil      = !empty($licenseData->validUntil) ? Tools::getInstance()->formatTimestamp($validUntil->getTimestamp(), null, false) : '';
-        $licenseSupportUntil    = !empty($licenseData->supportUntil) ? Tools::getInstance()->formatTimestamp($supportUntil->getTimestamp(), null, false) : '';
-        $licenseMaxSites        = !empty($licenseData->maxSites) ? intval($licenseData->maxSites) : '';
+        $licenseStatus = $this->isLicenseValid() ? 'valid' : 'expired';
+        $licenseStatusMessage = $this->getLicenseMessageStatus($licenseStatus);
+        $licenseTypeTitle = esc_html(!empty($licenseData->licenseType) ? $this->getLicenseTypeTitle($licenseData->licenseType) : '');
+        $licenseValidUntil = !empty($licenseData->validUntil) ? Tools::getInstance()->formatTimestamp($validUntil->getTimestamp(), null, false) : '';
+        $licenseSupportUntil = !empty($licenseData->supportUntil) ? Tools::getInstance()->formatTimestamp($supportUntil->getTimestamp(), null, false) : '';
+        $licenseMaxSites = !empty($licenseData->maxSites) ? intval($licenseData->maxSites) : '';
         $licenseHideLicenseInformation = !empty($licenseData->hideLicenseInformation) ? true : false;
 
         if (!empty($licenseData->licenseType) && false === in_array($licenseData->licenseType, ['borlabs-cookie-personal', 'borlabs-cookie-business', 'borlabs-cookie-professional', 'borlabs-cookie-agency'])) {
@@ -128,15 +130,15 @@ class License
         // Mask license key
         $inputLicenseKey = preg_replace('/[^\-]/', '*', sanitize_text_field($this->getLicenseKey()));
 
-        $inputTestEnvironment   = !empty(Config::getInstance()->get('testEnvironment')) ? 1 : 0;
-        $switchTestEnvironment  = $inputTestEnvironment ? ' active' : '';
+        $inputTestEnvironment = !empty(Config::getInstance()->get('testEnvironment')) ? 1 : 0;
+        $switchTestEnvironment = $inputTestEnvironment ? ' active' : '';
 
         // Show information how to get the license key
         if ($this->isPluginUnlocked() === false) {
             Messages::getInstance()->add(_x('You can not find your license key? No problem! <a href="https://borlabs.io/account/?utm_source=Borlabs+Cookie&amp;utm_medium=Account+Link&amp;utm_campaign=Analysis" rel="nofollow noopener noreferrer" target="_blank">Click here</a> and log in to your account to get your license key.', 'Backend / License / Alert Message', 'borlabs-cookie'), 'info');
         }
 
-        include Backend::getInstance()->templatePath.'/license.html.php';
+        include Backend::getInstance()->templatePath . '/license.html.php';
     }
 
     /**
@@ -163,7 +165,7 @@ class License
             if (!empty($licenseData)) {
                 $this->licenseData = unserialize(base64_decode($licenseData));
             } else {
-                $this->licenseData = (object) ['noLicense'=>true];
+                $this->licenseData = (object)['noLicense' => true];
             }
         }
 
@@ -178,9 +180,9 @@ class License
      */
     public function getLicenseKey()
     {
-        $licenseKey         = '';
-        $licenseKeyNetwork  = get_site_option('BorlabsCookieLicenseKey');
-        $licenseKeyBlog     = get_option('BorlabsCookieLicenseKey');
+        $licenseKey = '';
+        $licenseKeyNetwork = get_site_option('BorlabsCookieLicenseKey');
+        $licenseKeyBlog = get_option('BorlabsCookieLicenseKey');
 
         if (!empty($licenseKeyNetwork)) {
             $licenseKey = $licenseKeyNetwork;
@@ -294,7 +296,13 @@ class License
     public function handleLicenseExpiredMessage()
     {
         if (!empty($this->getLicenseData()->validUntil) && $this->isLicenseValid() === false) {
-            Messages::getInstance()->add($this->getLicenseMessageKeyExpired(), 'error');
+            // Try to re-validate
+            $this->validateLicense();
+            $this->getLicenseData();
+
+            if ($this->isLicenseValid() === false) {
+                Messages::getInstance()->add($this->getLicenseMessageKeyExpired(), 'error');
+            }
         }
     }
 
@@ -365,8 +373,8 @@ class License
     public function removeLicense()
     {
         // Check if blog or network key should be removed
-        $licenseKeyNetwork  = get_site_option('BorlabsCookieLicenseKey');
-        $licenseKeyBlog     = get_option('BorlabsCookieLicenseKey');
+        $licenseKeyNetwork = get_site_option('BorlabsCookieLicenseKey');
+        $licenseKeyBlog = get_option('BorlabsCookieLicenseKey');
 
         if (!empty($licenseKeyBlog)) {
             delete_option('BorlabsCookieLicenseData');
@@ -435,7 +443,7 @@ class License
         $lastCheck = intval(get_option('BorlabsCookieLicenseLastCheck', 0));
         $licenseKey = $this->getLicenseKey();
 
-        if (!empty($licenseKey) && (empty($lastCheck) || $lastCheck < intval(date('Ymd', mktime(date('H'), date('i'), date('s'), date('m'), date('d')-3))))) {
+        if (!empty($licenseKey) && (empty($lastCheck) || $lastCheck < intval(date('Ymd', mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 3))))) {
             $responseRegisterLicense = API::getInstance()->registerLicense($licenseKey);
 
             if (empty($responseRegisterLicense->successMessage)) {

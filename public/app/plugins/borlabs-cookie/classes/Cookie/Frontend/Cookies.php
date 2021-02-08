@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -45,12 +45,14 @@ class Cookies
     {
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -102,9 +104,9 @@ class Cookies
                     `pre_selected`,
                     `position`
                 FROM
-                    `".$wpdb->prefix."borlabs_cookie_groups`
+                    `" . $wpdb->prefix . "borlabs_cookie_groups`
                 WHERE
-                    `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                    `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                     AND
                     `status` = 1
                 ORDER BY
@@ -151,11 +153,11 @@ class Cookies
                 `fallback_js`,
                 `settings`
             FROM
-                `".$wpdb->prefix."borlabs_cookie_cookies`
+                `" . $wpdb->prefix . "borlabs_cookie_cookies`
             WHERE
-                `cookie_group_id` = '".esc_sql($id)."'
+                `cookie_group_id` = '" . esc_sql($id) . "'
                 AND
-                `language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                 AND
                 `status` = 1
             ORDER BY
@@ -211,9 +213,9 @@ class Cookies
                     `group_id`,
                     `name`
                 FROM
-                    `".$wpdb->prefix."borlabs_cookie_groups`
+                    `" . $wpdb->prefix . "borlabs_cookie_groups`
                 WHERE
-                    `language` = '".esc_sql($language)."'
+                    `language` = '" . esc_sql($language) . "'
                     AND
                     `status` = 1
             ");
@@ -248,9 +250,9 @@ class Cookies
                     `cookie_id`,
                     `name`
                 FROM
-                    `".$wpdb->prefix."borlabs_cookie_cookies`
+                    `" . $wpdb->prefix . "borlabs_cookie_cookies`
                 WHERE
-                    `language` = '".esc_sql($language)."'
+                    `language` = '" . esc_sql($language) . "'
                     AND
                     `status` = 1
             ");
@@ -285,20 +287,20 @@ class Cookies
                 cg.`group_id`,
                 cg.`name` as `cookie_group`
             FROM
-                `".$wpdb->prefix."borlabs_cookie_cookies` as c
+                `" . $wpdb->prefix . "borlabs_cookie_cookies` as c
             INNER JOIN
-                `".$wpdb->prefix."borlabs_cookie_groups` as cg
+                `" . $wpdb->prefix . "borlabs_cookie_groups` as cg
                 ON
                 (
-                    c.`cookie_id` = '".esc_sql($cookieId)."'
+                    c.`cookie_id` = '" . esc_sql($cookieId) . "'
                     AND
-                    c.`language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                    c.`language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                     AND
                     c.`status` = 1
                     AND
                     cg.`id` = c.`cookie_group_id`
                     AND
-                    cg.`language` = '".esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode())."'
+                    cg.`language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                 )
         ");
 

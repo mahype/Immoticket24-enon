@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -34,12 +34,14 @@ class Multilanguage
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     public function __construct()
@@ -78,7 +80,7 @@ class Multilanguage
             if (function_exists('pll_default_language')) {
                 $defaultLanguage = pll_default_language();
             } else {
-            // WPML
+                // WPML
                 $null = null;
                 $defaultLanguage = apply_filters('wpml_default_language', $null);
             }
@@ -115,7 +117,7 @@ class Multilanguage
                     }
                 }
             } else {
-            // WPML
+                // WPML
                 $null = null;
                 $currentLanguage = apply_filters('wpml_current_language', $null);
             }
@@ -177,7 +179,7 @@ class Multilanguage
             }
 
         } elseif (defined('ICL_LANGUAGE_NAME')) {
-        // WPML
+            // WPML
             $currentLanguageName = ICL_LANGUAGE_NAME;
         } else {
             $currentLanguageName = '-';
@@ -238,7 +240,7 @@ class Multilanguage
      * @param mixed $languageCode
      * @return void
      */
-    public function polylangLanguageDefined ($languageCode)
+    public function polylangLanguageDefined($languageCode)
     {
         // Load config with new language code
         Config::getInstance()->loadConfig($languageCode);

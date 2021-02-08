@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -40,12 +40,14 @@ class CookieBlocker
     {
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -98,7 +100,7 @@ class CookieBlocker
      * @param mixed $cookieNames
      * @return void
      */
-    public function prepareCookieNamesList ($cookieNames)
+    public function prepareCookieNamesList($cookieNames)
     {
         $cookieNameList = [];
 

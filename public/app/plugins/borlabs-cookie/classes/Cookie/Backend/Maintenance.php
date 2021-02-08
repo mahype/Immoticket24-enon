@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -36,15 +36,17 @@ class Maintenance
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
     }
 
@@ -59,20 +61,20 @@ class Maintenance
     {
         global $wpdb;
 
-        $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)."borlabs_cookie_consent_log";
+        $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix) . "borlabs_cookie_consent_log";
         $cookieLifetime = Config::getInstance()->get('cookieLifetime');
 
         // Delete old entries
         $wpdb->query("
             DELETE FROM
-                `".$table."`
+                `" . $table . "`
             WHERE
-                `stamp` < NOW() - INTERVAL ".intval($cookieLifetime)." DAY
+                `stamp` < NOW() - INTERVAL " . intval($cookieLifetime) . " DAY
         ");
 
         // Optimize
         if ($optimizeTable === true) {
-            $wpdb->query("OPTIMIZE TABLE `".$table."`");
+            $wpdb->query("OPTIMIZE TABLE `" . $table . "`");
         }
     }
 }

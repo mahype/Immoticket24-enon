@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -37,17 +37,19 @@ class View
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    protected function __construct()
+    public function __construct()
     {
-        $this->imagePath = plugins_url('images', realpath(__DIR__.'/../../'));
+        $this->imagePath = plugins_url('images', realpath(__DIR__ . '/../../'));
     }
 
     /**
@@ -62,7 +64,7 @@ class View
     {
         $this->displayHeader();
 
-        $class = 'BorlabsCookie\Cookie\Backend\\'.$moduleClass;
+        $class = 'BorlabsCookie\Cookie\Backend\\' . $moduleClass;
 
         if (class_exists($class)) {
             $this->displayNavigation($moduleClass);
@@ -88,7 +90,7 @@ class View
     {
         $language = Multilanguage::getInstance()->getCurrentLanguageCode();
 
-        include Backend::getInstance()->templatePath.'/header.html.php';
+        include Backend::getInstance()->templatePath . '/header.html.php';
     }
 
     /**
@@ -111,7 +113,7 @@ class View
             $currentFlagURL = Multilanguage::getInstance()->getCurrentLanguageFlag();
 
             if (!empty($currentFlagURL)) {
-                $currentFlag = '<img src="'.$currentFlagURL.'" alt="'.$currentLanguage.'">';
+                $currentFlag = '<img src="' . $currentFlagURL . '" alt="' . $currentLanguage . '">';
             } else {
                 $currentFlag = '<i class="fas fa-language"></i>';
             }
@@ -119,7 +121,7 @@ class View
             $currentLanguageTooltipText = sprintf(_x('You are seeing the settings for the language <strong>%s</strong>.', 'Backend / Global / Tooltip', 'borlabs-cookie'), $currentLanguage);
         }
 
-        include Backend::getInstance()->templatePath.'/navigation.html.php';
+        include Backend::getInstance()->templatePath . '/navigation.html.php';
     }
 
     /**
@@ -130,6 +132,6 @@ class View
      */
     public function displayFooter()
     {
-        include Backend::getInstance()->templatePath.'/footer.html.php';
+        include Backend::getInstance()->templatePath . '/footer.html.php';
     }
 }

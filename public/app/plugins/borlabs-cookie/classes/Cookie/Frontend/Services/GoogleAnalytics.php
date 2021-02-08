@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -33,21 +33,23 @@ class GoogleAnalytics
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
      * __construct function.
      *
-     * @access protected
+     * @access public
      * @return void
      */
-    protected function __construct()
+    public function __construct()
     {
         add_action('borlabsCookie/cookie/edit/template/settings/GoogleAnalytics', [$this, 'additionalSettingsTemplate']);
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
@@ -98,11 +100,18 @@ class GoogleAnalytics
         $inputTrackingId = esc_html(!empty($data->settings['trackingId']) ? $data->settings['trackingId'] : '');
         ?>
         <div class="form-group row">
-            <label for="trackingId" class="col-sm-4 col-form-label"><?php _ex('Tracking ID', 'Backend / Cookie / Google Analytics / Label', 'borlabs-cookie'); ?></label>
+            <label for="trackingId"
+                   class="col-sm-4 col-form-label"><?php _ex('Tracking ID', 'Backend / Cookie / Google Analytics / Label', 'borlabs-cookie'); ?></label>
             <div class="col-sm-8">
-                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="trackingId" name="settings[trackingId]" value="<?php echo $inputTrackingId; ?>" placeholder="<?php _ex('Example', 'Backend / Global / Input Placeholder', 'borlabs-cookie'); ?>: UA-123456789" required>
-                <span data-toggle="tooltip" title="<?php _ex('Enter your Google Analytics Tracking ID.', 'Backend / Cookie / Google Analytics / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
-                <div class="invalid-feedback"><?php _ex('This is a required field and cannot be empty.', 'Backend / Global / Validation Message', 'borlabs-cookie'); ?></div>
+                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="trackingId"
+                       name="settings[trackingId]" value="<?php echo $inputTrackingId; ?>"
+                       placeholder="<?php _ex('Example', 'Backend / Global / Input Placeholder', 'borlabs-cookie'); ?>: UA-123456789"
+                       required>
+                <span data-toggle="tooltip"
+                      title="<?php _ex('Enter your Google Analytics Tracking ID.', 'Backend / Cookie / Google Analytics / Tooltip', 'borlabs-cookie'); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <div
+                    class="invalid-feedback"><?php _ex('This is a required field and cannot be empty.', 'Backend / Global / Validation Message', 'borlabs-cookie'); ?></div>
             </div>
         </div>
         <?php

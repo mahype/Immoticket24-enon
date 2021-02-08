@@ -7,7 +7,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2020 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
@@ -40,12 +40,14 @@ class API
         return self::$instance;
     }
 
-    private function __clone()
+    public function __clone()
     {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     public function __construct()
@@ -97,7 +99,7 @@ class API
         $licenseData = License::getInstance()->getLicenseData();
 
         $response = wp_remote_post(
-            $this->updateURL.'/latest-version/'.(defined('BORLABS_COOKIE_DEV_BUILD') && BORLABS_COOKIE_DEV_BUILD == true ? 'dev-' : '') . BORLABS_COOKIE_SLUG,
+            $this->updateURL . '/latest-version/' . (defined('BORLABS_COOKIE_DEV_BUILD') && BORLABS_COOKIE_DEV_BUILD == true ? 'dev-' : '') . BORLABS_COOKIE_SLUG,
             [
                 'timeout' => 45,
                 'body' => [
@@ -144,8 +146,8 @@ class API
             // Update last check
             update_site_option('BorlabsCookieNewsLastCheck', date('Ymd'), 'no');
 
-            return (object) [
-                'success'=>true,
+            return (object)[
+                'success' => true,
             ];
         } else {
             return $response;
@@ -163,7 +165,7 @@ class API
         $licenseData = License::getInstance()->getLicenseData();
 
         $response = wp_remote_post(
-            $this->updateURL.'/plugin-information/'.(defined('BORLABS_COOKIE_DEV_BUILD') && BORLABS_COOKIE_DEV_BUILD == true ? 'dev-' : '') . BORLABS_COOKIE_SLUG,
+            $this->updateURL . '/plugin-information/' . (defined('BORLABS_COOKIE_DEV_BUILD') && BORLABS_COOKIE_DEV_BUILD == true ? 'dev-' : '') . BORLABS_COOKIE_SLUG,
             [
                 'timeout' => 45,
                 'body' => [
@@ -261,7 +263,7 @@ class API
             'url' => $url,
             'networkUrl' => is_multisite() ? network_site_url() : '',
             'email' => '',
-            'urlWordPress' => $url != $urlWordPress ? $urlWordPress : '' ,
+            'urlWordPress' => $url != $urlWordPress ? $urlWordPress : '',
             'version' => BORLABS_COOKIE_VERSION,
         ];
 
@@ -273,9 +275,9 @@ class API
             // Save license data
             License::getInstance()->saveLicenseData($response);
 
-            return (object) [
-                'success'=>true,
-                'successMessage'=>_x('License registered successfully.', 'Backend / API / Alert Message', 'borlabs-cookie'),
+            return (object)[
+                'success' => true,
+                'successMessage' => _x('License registered successfully.', 'Backend / API / Alert Message', 'borlabs-cookie'),
             ];
         } elseif (!empty($response->unlink)) {
 
@@ -306,13 +308,13 @@ class API
         // Add authentification header
         if (!empty($salt)) {
             $args['headers'] = [
-                'X-Borlabs-Cookie-Auth'=>HMAC::getInstance()->hash($data, $salt),
+                'X-Borlabs-Cookie-Auth' => HMAC::getInstance()->hash($data, $salt),
             ];
         }
 
         // Make post request
         $response = wp_remote_post(
-            $this->apiURL.$route,
+            $this->apiURL . $route,
             $args
         );
 
@@ -331,14 +333,14 @@ class API
         } else {
             if (empty($response->errors) && !empty($response['response']['message'])) {
                 // Server message
-                return (object) [
-                    'errorMessage'=>$response['response']['code'].' '.$response['response']['message'],
+                return (object)[
+                    'errorMessage' => $response['response']['code'] . ' ' . $response['response']['message'],
                 ];
             } else {
                 // WP_Error messages
-                return (object) [
+                return (object)[
                     'serverError' => true,
-                    'errorMessage'=>implode('<br>', $response->get_error_messages())
+                    'errorMessage' => implode('<br>', $response->get_error_messages())
                 ];
             }
         }
@@ -399,7 +401,7 @@ class API
         }
 
         echo json_encode([
-            'success'=>true,
+            'success' => true,
         ]);
     }
 }
