@@ -95,6 +95,10 @@ class Prevent_Completion {
         if ( ! $can_be_updated ) {
             return false;
         }
+
+        if ( current_user_can( 'administrator' ) ) {
+            return false;
+        }
         
         if ( ! in_array( $new_status, array( 'complete', 'completed', 'publish' ) ) ) {
             return false;
