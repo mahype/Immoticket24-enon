@@ -253,7 +253,7 @@ class Prevent_Completion {
 
         // True if percentag difference is under treshold
         if ( $percentage_diff >= $percentage_treshold ) {
-            return [ 'Der Abstand der Verbrauchsmengen zwischen dem Mindest- und dem Höchstverbrauch liegt über 30%' ];
+            return 'Der Abstand der Verbrauchsmengen zwischen dem Mindest- und dem Höchstverbrauch liegt über 30%';
         }
 
         return true;
