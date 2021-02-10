@@ -319,6 +319,11 @@ function wpenon_check_geg20() {
 		</div>
 	</div>
     <script type="text/javascript">
+        var modal_params = {
+            backdrop: 'static', 
+            keyboard: false
+        };
+
         function wp_enon_change_reason() {
             geg20_reset_questions();
             wp_enon_geg20_check();
@@ -330,7 +335,7 @@ function wpenon_check_geg20() {
             }
 
             geg20_reset_questions();
-            jQuery('#dialog_geg20_approval').modal('show');
+            jQuery('#dialog_geg20_approval').modal(modal_params);
         }
 
         function wp_enon_geg20_needs_save() {
@@ -354,7 +359,7 @@ function wpenon_check_geg20() {
             var geg20_creation_denied = jQuery( '#geg20_creation_denied' ).val();
 
             if ( geg20_creation_denied == 'Erstellung des Ausweises verweigert: Ja.' ) {
-                jQuery('#dialog_geg20_creation_denied').modal('show');
+                jQuery('#dialog_geg20_creation_denied').modal(modal_params);
                 return true;
             }
 
@@ -394,14 +399,14 @@ function wpenon_check_geg20() {
 			e.preventDefault();
             jQuery('#geg20_approval').val('Wurde für das Bauvorhaben eine Genehmigung beantragt? - Ja');
             jQuery('#geg20_building_measure_date').val('-');
-			jQuery('#dialog_geg20_approval_requested_date').modal('show');
+			jQuery('#dialog_geg20_approval_requested_date').modal(modal_params);
 		});
 
         jQuery('#geg20_approval_no').on('click', function (e) {
 			e.preventDefault();
             jQuery('#geg20_approval').val('Wurde für das Bauvorhaben eine Genehmigung beantragt? - Nein');
             jQuery('#geg20_approval_date').val('-');
-			jQuery('#dialog_geg20_building_measure_date').modal('show');
+			jQuery('#dialog_geg20_building_measure_date').modal(modal_params);
 		});
 
         jQuery('#geg20_approval_requested_october').on('click', function (e) {
@@ -413,7 +418,7 @@ function wpenon_check_geg20() {
         jQuery('#geg20_approval_requested_november').on('click', function (e) {
 			e.preventDefault();
             jQuery('#geg20_approval_date').val('Wann wurde die Genehmigung beantragt? - ab 01.11.2020');           
-			jQuery('#dialog_geg20_creation_denied').modal('show');
+			jQuery('#dialog_geg20_creation_denied').modal(modal_params);
             geg20_deny_creation();
 		});
 
@@ -426,7 +431,7 @@ function wpenon_check_geg20() {
         jQuery('#geg20_building_measure_november').on('click', function (e) {
 			e.preventDefault();
             jQuery('#geg20_building_measure_date').val('Wann wurde mit der Baumaßnahme begonnen? - ab 01.11.2020');
-			jQuery('#dialog_geg20_creation_denied').modal('show');
+			jQuery('#dialog_geg20_creation_denied').modal(modal_params);
             geg20_deny_creation();      
 		});
 
@@ -458,7 +463,7 @@ function wpenon_check_geg20() {
 
             if( wp_enon_geg20_creation_denied() ) {
                 e.preventDefault();
-                jQuery('#dialog_geg20_creation_denied').modal('show');
+                jQuery('#dialog_geg20_creation_denied').modal(modal_params);
             }
 		});
 
@@ -477,7 +482,7 @@ function wpenon_check_geg20() {
 
             if( wp_enon_geg20_creation_denied() ) {
                 e.preventDefault();
-                jQuery('#dialog_geg20_creation_denied').modal('show');
+                jQuery('#dialog_geg20_creation_denied').modal(modal_params);
             }
 		});
 	</script>
