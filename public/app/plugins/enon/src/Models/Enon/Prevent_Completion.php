@@ -95,6 +95,10 @@ class Prevent_Completion {
         if ( ! $can_be_updated ) {
             return false;
         }
+
+        if ( current_user_can( 'administrator' ) ) {
+            return false;
+        }
         
         if ( ! in_array( $new_status, array( 'complete', 'completed', 'publish' ) ) ) {
             return false;
@@ -249,7 +253,7 @@ class Prevent_Completion {
 
         // True if percentag difference is under treshold
         if ( $percentage_diff >= $percentage_treshold ) {
-            return [ 'Der Abstand der Verbrauchsmengen zwischen dem Mindest- und dem Höchstverbrauch liegt über 30%' ];
+            return 'Der Abstand der Verbrauchsmengen zwischen dem Mindest- und dem Höchstverbrauch liegt über 30%';
         }
 
         return true;

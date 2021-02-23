@@ -277,7 +277,7 @@ class Affiliate_WP_Caldera_Forms extends Affiliate_WP_Base {
 				<div class="caldera-config-field">
 					<label for="affwp-referral-type">
 						<select name="config[affwp_referral_type]" id="affwp-referral-type" class="field-config">';
-							<?php foreach( affiliate_wp()->referrals->types_registry->get_types() as $type_id => $type ) : ?>
+							<?php foreach( affwp_get_referral_types() as $type_id => $type ) : ?>
 								<option value="<?php echo esc_attr( $type_id ); ?>"<?php selected( $type_id, $selected ); ?>><?php echo esc_html( $type['label'] ); ?></option>
 							<?php endforeach; ?>
 						</select>

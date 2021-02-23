@@ -237,24 +237,15 @@ final class Referral extends Base_Object {
 	}
 
 	/**
-	 * Retrieves the referral type name
+	 * Retrieves the referral type name.
 	 *
 	 * @since 2.2
-	 * @access public
-	 * @static
+	 * @since 2.6.4 Refactored to wrap affwp_get_referral_type_label()
 	 *
 	 * @return string Nice name of the referral type.
 	 */
 	public function type() {
-
-		$value = empty( $this->type ) ? 'sale' : $this->type;
-		$type  = affiliate_wp()->referrals->types_registry->get_type( $value );
-
-		if( $type ) {
-			$value = $type['label'];
-		}
-
-		return $value;
+		return affwp_get_referral_type_label( $this->type );
 	}
 
 	/**

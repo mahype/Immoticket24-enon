@@ -27,6 +27,8 @@ class Elementor
 {
     private static $instance;
 
+    public $blockedYouTubeURL = '';
+
     public static function getInstance()
     {
         if (null === self::$instance) {
@@ -54,6 +56,48 @@ class Elementor
     public function __wakeup()
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
+    }
+
+    /**
+     * detectYouTubeVideoWidget function.
+     *
+     * @access public
+     * @param mixed $elementBaseObj
+     * @return void
+     */
+    public function detectYouTubeVideoWidget($elementBaseObj = null)
+    {
+        $elementType = $elementBaseObj->get_type();
+
+        if ($elementType === 'widget') {
+            $frontendSettings = $elementBaseObj->get_frontend_settings();
+
+            if (!empty($frontendSettings) && !empty($frontendSettings['video_type']) && $frontendSettings['video_type'] === 'youtube') {
+
+                ob_start();
+                $elementBaseObj->remove_render_attribute('_wrapper', 'data-settings', null);
+                $this->blockedYouTubeURL = $frontendSettings['youtube_url'];
+
+                add_action('elementor/frontend/widget/after_render', [\BorlabsCookie\Cookie\Frontend\ThirdParty\Themes\Elementor::getInstance(), 'modifyYouTubeVideoWidget']);
+            }
+        }
+    }
+
+    public function modifyYouTubeVideoWidget()
+    {
+        if (!empty($this->blockedYouTubeURL)) {
+            $widgetHTML = ob_get_contents();
+            ob_end_clean();
+
+            $videoIframe = wp_oembed_get($this->blockedYouTubeURL);
+            $blockedIframe = \BorlabsCookie\Cookie\Frontend\ContentBlocker::getInstance()->handleOembed($videoIframe, $this->blockedYouTubeURL, [], []);
+
+            echo str_replace('<div class="elementor-video"></div>', '<div class="elementor-video">' . $blockedIframe . '</div>', $widgetHTML);
+
+            $this->blockedYouTubeURL = '';
+
+            remove_action('elementor/frontend/widget/after_render', [\BorlabsCookie\Cookie\Frontend\ThirdParty\Themes\Elementor::getInstance(), 'modifyYouTubeVideoWidget']);
+        }
     }
 
     /**

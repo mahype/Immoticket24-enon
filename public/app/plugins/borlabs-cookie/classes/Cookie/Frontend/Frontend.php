@@ -140,7 +140,10 @@ class Frontend
             }
 
             // Elementor
-            if (function_exists('_is_elementor_installed')) {
+            if (defined('ELEMENTOR_VERSION')) {
+                if (version_compare(ELEMENTOR_VERSION, '3.0', '>=')) {
+                    add_action('elementor/element/after_add_attributes', [ThirdParty\Themes\Elementor::getInstance(), 'detectYouTubeVideoWidget'], 100, 1);
+                }
                 add_action('elementor/widget/render_content', [ThirdParty\Themes\Elementor::getInstance(), 'detectFacebook'], 100, 2);
                 add_action('elementor/widget/render_content', [ThirdParty\Themes\Elementor::getInstance(), 'detectIframes'], 100, 2);
             }

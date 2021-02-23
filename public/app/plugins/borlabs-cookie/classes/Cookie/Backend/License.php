@@ -30,6 +30,18 @@ class License
 
     private $licenseData;
 
+    private $validLicenseTypes = [
+        'borlabs-cookie-legacy',
+        'borlabs-cookie',
+        'borlabs-cookie-personal',
+        'borlabs-cookie-business',
+        'borlabs-cookie-professional',
+        'borlabs-cookie-agency',
+        'borlabs-cookie-business-small',
+        'borlabs-cookie-business-medium',
+        'borlabs-cookie-agency-small',
+    ];
+
     public static function getInstance()
     {
         if (null === self::$instance) {
@@ -279,6 +291,15 @@ class License
             case 'borlabs-cookie-legacy':
                 $licenseType = _x('Agency (Legacy)', 'Backend / License / Text', 'borlabs-cookie');
                 break;
+            case 'borlabs-cookie-business-small':
+                $licenseType = _x('Business - Small', 'Backend / License / Text', 'borlabs-cookie');
+                break;
+            case 'borlabs-cookie-business-medium':
+                $licenseType = _x('Business - Medium', 'Backend / License / Text', 'borlabs-cookie');
+                break;
+            case 'borlabs-cookie-agency-small':
+                $licenseType = _x('Agency - Small', 'Backend / License / Text', 'borlabs-cookie');
+                break;
             case 'borlabs-cookie':
             default:
                 $licenseType = _x('Classic (Legacy)', 'Backend / License / Text', 'borlabs-cookie');
@@ -342,16 +363,7 @@ class License
         $unlocked = false;
 
         if (!empty($this->getLicenseData()->licenseType)) {
-            $validLicenseTypes = [
-                'borlabs-cookie-legacy',
-                'borlabs-cookie',
-                'borlabs-cookie-personal',
-                'borlabs-cookie-business',
-                'borlabs-cookie-professional',
-                'borlabs-cookie-agency',
-            ];
-
-            if (in_array($this->getLicenseData()->licenseType, $validLicenseTypes)) {
+            if (in_array($this->getLicenseData()->licenseType, $this->validLicenseTypes)) {
                 $unlocked = true;
             }
         }
@@ -420,7 +432,7 @@ class License
     public function saveLicenseData($licenseData)
     {
         if (!empty($licenseData->licenseKey)) {
-            if (in_array($licenseData->licenseType, ['borlabs-cookie-personal', 'borlabs-cookie-business', 'borlabs-cookie-professional', 'borlabs-cookie-agency'])) {
+            if (in_array($licenseData->licenseType, $this->validLicenseTypes) && $licenseData->licenseType !== 'borlabs-cookie-legacy') {
                 update_option('BorlabsCookieLicenseData', base64_encode(serialize($licenseData)), 'no');
                 update_option('BorlabsCookieLicenseKey', $licenseData->licenseKey, 'no');
             } else {

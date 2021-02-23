@@ -153,7 +153,7 @@ $disabled = disabled( (bool) $payout, true, false );
 
 				<td>
 					<select name="type" id="type">
-						<?php foreach( affiliate_wp()->referrals->types_registry->get_types() as $type_id => $type ) : ?>
+						<?php foreach( affwp_get_referral_types() as $type_id => $type ) : ?>
 							<option value="<?php echo esc_attr( $type_id ); ?>"<?php selected( $type_id, $referral->type ); ?>><?php echo esc_html( $type['label'] ); ?></option>
 						<?php endforeach; ?>
 					</select>

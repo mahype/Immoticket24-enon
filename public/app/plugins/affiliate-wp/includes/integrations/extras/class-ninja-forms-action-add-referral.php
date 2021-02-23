@@ -41,7 +41,7 @@ final class Affiliate_WP_Ninja_Forms_Add_Referral extends NF_Abstracts_Action {
         parent::__construct();
 
         $options = array();
-        foreach( affiliate_wp()->referrals->types_registry->get_types() as $type_id => $type ) {
+        foreach( affwp_get_referral_types() as $type_id => $type ) {
             $options[] = array(
                 'label' => $type['label'],
                 'value' => $type_id

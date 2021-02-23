@@ -130,7 +130,7 @@ class Import_Referrals extends Batch\Import\CSV implements Batch\With_PreFetch {
 				}
 
 				// Confirm the affiliate is set, and valid.
-				if ( ! isset( $args['affiliate'] ) || $args['affiliate'] < 1 ) {
+				if ( empty( $args['affiliate'] ) ) {
 					$errors->add(
 						'affiliate_not_set',
 						'Affiliate is not set, or invalid.',
@@ -199,6 +199,11 @@ class Import_Referrals extends Batch\Import\CSV implements Batch\With_PreFetch {
 	public function maybe_create_affiliate( $args ) {
 
 		$affiliate_id = 0;
+
+		// Check if username is only set on affiliate field.
+		if( empty( $args['username'] ) && is_string( $args['affiliate'] ) ) {
+			$args['username'] = $args['affiliate'];
+		}
 
 		unset( $args['affiliate'] );
 		unset( $args['amount'] );

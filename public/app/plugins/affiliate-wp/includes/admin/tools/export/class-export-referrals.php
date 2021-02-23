@@ -52,11 +52,12 @@ class Affiliate_WP_Referral_Export extends Affiliate_WP_Export implements Export
 	public $affiliate = null;
 
 	/**
-	 * Set the CSV columns
+	 * Sets the CSV columns.
 	 *
-	 * @access public
 	 * @since 1.0
-	 * @return array $cols All the columns
+	 * @since 2.6.4 Added the 'type' column.
+	 *
+	 * @return array All the referrals columns to export.
 	 */
 	public function csv_cols() {
 		$cols = array(
@@ -72,7 +73,8 @@ class Affiliate_WP_Referral_Export extends Affiliate_WP_Export implements Export
 			'reference'     => __( 'Reference', 'affiliate-wp' ),
 			'context'       => __( 'Context', 'affiliate-wp' ),
 			'status'        => __( 'Status', 'affiliate-wp' ),
-			'date'          => __( 'Date', 'affiliate-wp' )
+			'type'          => __( 'Type', 'affiliate-wp' ),
+			'date'          => __( 'Date', 'affiliate-wp' ),
 		);
 		return $cols;
 	}
@@ -107,6 +109,7 @@ class Affiliate_WP_Referral_Export extends Affiliate_WP_Export implements Export
 				 * Filters an individual line of referral data to be exported.
 				 *
 				 * @since 1.9.5
+				 * @since 2.6.4 Added support for exporting the referral type.
 				 *
 				 * @param array           $referral_data {
 				 *     Single line of exported referral data
@@ -121,6 +124,7 @@ class Affiliate_WP_Referral_Export extends Affiliate_WP_Export implements Export
 				 *     @type string $reference     Referral reference.
 				 *     @type string $context       Context the referral was created under, e.g. 'woocommerce'.
 				 *     @type string $status        Referral status.
+				 *     @type string $type          Referral type.
 				 *     @type string $date          Referral date.
 				 * }
 				 * @param \AffWP\Referral $referral Referral object.
@@ -138,6 +142,7 @@ class Affiliate_WP_Referral_Export extends Affiliate_WP_Export implements Export
 					'reference'     => $referral->reference,
 					'context'       => $referral->context,
 					'status'        => $referral->status,
+					'type'          => ! empty( $referral->type ) ? $referral->type : 'sale',
 					'date'          => $referral->date_i18n( 'datetime' ),
 				), $referral );
 
