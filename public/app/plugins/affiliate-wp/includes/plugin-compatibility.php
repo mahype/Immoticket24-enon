@@ -163,3 +163,54 @@ function affwp_edwiser_bridge_prevent_from_name_from_being_overwritten( $from_na
 	return $from_name;
 }
 add_filter( 'pre_option_eb_mail_from_name', 'affwp_edwiser_bridge_prevent_from_name_from_being_overwritten' );
+
+/**
+ * Integrates with the User Switching plugin to add 'Switch to' row actions to the Affiliates list table.
+ *
+ * @since 2.6.4
+ * @since 2.6.5 Adjusted to bail early if the affiliate user no longer exists.
+ *
+ * @param array            $row_actions Row actions array.
+ * @param \AffWP\Affiliate $affiliate   Current affiliate.
+ * @return array (Maybe) modified row actions.
+ */
+function affwp_user_switching_switch_to_affiliate( $row_actions, $affiliate ) {
+	if ( method_exists( 'user_switching', 'maybe_switch_url' ) ) {
+		$base_query_args = array(
+			'page' => 'affiliate-wp-affiliates',
+		);
+
+		$user = get_user_by( 'id', $affiliate->user_id );
+
+		// Invalid user, bail.
+		if ( ! $user ) {
+			return $row_actions;
+		}
+
+		$url  = user_switching::maybe_switch_url( $user );
+
+		if ( $url ) {
+			if ( isset( $row_actions['delete'] ) ) {
+				$delete_row_action = $row_actions['delete'];
+				unset( $row_actions['delete'] );
+			} else {
+				$delete_row_action = false;
+			}
+
+			$url  = add_query_arg( $base_query_args, $url );
+			$name = affwp_get_affiliate_name( $affiliate );
+
+			$row_actions['switch_to'] = sprintf( '<a href="%1$s">%2$s</a>',
+				esc_url( $url ),
+				esc_html__( 'Switch To', 'affiliate-wp' )
+			);
+
+			if ( false !== $delete_row_action ) {
+				$row_actions['delete'] = $delete_row_action;
+			}
+		}
+	}
+
+	return $row_actions;
+}
+add_filter( 'affwp_affiliate_row_actions', 'affwp_user_switching_switch_to_affiliate', 100, 2 );

@@ -118,6 +118,7 @@ function affwp_set_referral_status( $referral, $new_status = '' ) {
 		return false;
 	}
 
+	$new_status = strtolower( $new_status );
 	$old_status = $referral->status;
 
 	if( $old_status == $new_status ) {
@@ -494,4 +495,65 @@ function affwp_is_url_banned( $url ) {
  */
 function affwp_sanitize_referral_rate( $rate ) {
 	return preg_replace( '/[^0-9\.]/', '', $rate );
+}
+
+/**
+ * Retrieves a list of referral types and labels.
+ *
+ * New referral types can be registered via the {@see 'affwp_referral_type_init'} filter.
+ *
+ * @since 2.6.4
+ *
+ * @param bool $types_only Whether to retrieve the types only. If true, only the referral type
+ *                         identifiers will be returned. Default false.
+ * @return array List of referral types and associated attributes (unless `$types_only` is true).
+ */
+function affwp_get_referral_types( $types_only = false ) {
+	$types = affiliate_wp()->referrals->types_registry->get_types();
+
+	if ( true === $types_only ) {
+		$types = array_keys( $types );
+	}
+
+	return $types;
+}
+
+/**
+ * Retrieves the referral type label.
+ *
+ * @since 2.6.4
+ *
+ * @param int|AffWP\Referral|string $referral_or_type Referral ID, object, or referral type.
+ * @return string|false The localized version of the referral type, otherwise false. If the type
+ *                      isn't registered and the referral is valid, the default 'sale' type's
+ *                      label will be returned.
+ */
+function affwp_get_referral_type_label( $referral_or_type ) {
+
+	if ( is_string( $referral_or_type ) ) {
+		$referral = null;
+		$type     = $referral_or_type;
+	} else {
+		$referral = affwp_get_referral( $referral_or_type );
+
+		if ( isset( $referral->type ) ) {
+			$type = $referral->type;
+		} else {
+			return false;
+		}
+	}
+
+	$types = affwp_get_referral_types();
+	$label = array_key_exists( $type, $types ) ? $types[ $type ]['label'] : $types['sale']['label'];
+
+	/**
+	 * Filters the referral type label.
+	 *
+	 * @since 2.6.4
+	 *
+	 * @param string              $label    A localized version of the referral type label.
+	 * @param AffWP\Referral|null $referral Referral object if an id or object was passed, otherwise null.
+	 * @param string              $type     Referral type.
+	 */
+	return apply_filters( 'affwp_referral_type_label', $label, $referral, $type );
 }

@@ -71,6 +71,7 @@ log/*
 composer.lock
 vendor
 !public/app/plugins/wp-rocket/vendor
+public/app/plugins/wp-rocket/licence-data.php
 !public/app/plugins/optimizePressPlugin/lib/vendor
 !public/app/plugins/edd-stripe/vendor
 !public/app/plugins/edd-payment-gateway-stripe-sepa/vendor

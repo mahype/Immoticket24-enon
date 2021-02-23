@@ -31,9 +31,10 @@ abstract class Registry extends \ArrayObject {
 	 * Adds an item to the registry.
 	 *
 	 * @since 2.0.5
+	 * @since 2.6.4 $attributes argument can now be a non-array item.
 	 *
 	 * @param int    $item_id   Item ID.
-	 * @param array  $attributes {
+	 * @param mixed  $attributes {
 	 *     Item attributes.
 	 *
 	 *     @type string $class Item handler class.
@@ -42,8 +43,12 @@ abstract class Registry extends \ArrayObject {
 	 * @return true Always true.
 	 */
 	public function add_item( $item_id, $attributes ) {
-		foreach ( $attributes as $attribute => $value ) {
-			$this->items[ $item_id ][ $attribute ] = $value;
+		if ( is_array( $attributes ) ) {
+			foreach ( $attributes as $attribute => $value ) {
+				$this->items[ $item_id ][ $attribute ] = $value;
+			}
+		} else {
+			$this->items[ $item_id ] = $attributes;
 		}
 
 		return true;

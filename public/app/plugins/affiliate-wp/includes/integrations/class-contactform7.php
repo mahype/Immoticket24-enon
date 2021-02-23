@@ -50,17 +50,23 @@ class Affiliate_WP_Contact_Form_7 extends Affiliate_WP_Base {
 
 		$this->doc_url = 'http://docs.affiliatewp.com/article/657-contact-form-7';
 
-		// Set the success and cancel url
+		// Set the success and cancel url.
+		$this->return_url = get_home_url();
+		$this->cancel_url = get_home_url();
 		$paypal_options   = get_option( 'cf7pp_options' );
-		$this->return_url = $paypal_options['return'];
-		$this->cancel_url = $paypal_options['cancel'];
+		if ( is_array( $paypal_options ) && isset( $paypal_options['return'] ) ) {
+			$this->return_url = $paypal_options['return'];
+		}
+		if ( is_array( $paypal_options ) && isset( $paypal_options['cancel'] ) ) {
+			$this->cancel_url = $paypal_options['cancel'];
+		}
 
-		// Misc AffWP CF7 functions
+		// Misc AffWP CF7 functions.
 		$this->include_cf7_functions();
 
-		// Register core settings
+		// Register core settings.
 		add_filter( 'affwp_settings_tabs', array( $this, 'register_settings_tab' ) );
-		add_filter( 'affwp_settings',      array( $this, 'register_settings'     ) );
+		add_filter( 'affwp_settings', array( $this, 'register_settings' ) );
 
 		// Add PayPal meta to the contact form submision object.
 		add_action( 'wpcf7_submit', array( $this, 'add_paypal_meta' ), 1, 2 );
@@ -155,7 +161,7 @@ class Affiliate_WP_Contact_Form_7 extends Affiliate_WP_Base {
 		);
 
 		$types = array();
-		foreach( affiliate_wp()->referrals->types_registry->get_types() as $type_id => $type ) {
+		foreach( affwp_get_referral_types() as $type_id => $type ) {
 			$types[ $type_id ] =  $type['label'];
 		}
 

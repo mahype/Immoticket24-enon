@@ -5,7 +5,7 @@ Plugin URI: https://borlabs.io/
 Description: Borlabs Cookie is an easy to use cookie opt-in and content block solution for WordPress. Create detailed descriptions for cookies and sort them in customizable 'Cookie Groups'. Create specific 'Content Blockers' and block everything from YouTube media to Facebook posts. Let your visitors choose which cookies they want to allow and what content they want to see. Borlabs Cookie helps you to make your website ready for GDPR & ePrivacy regulations.
 Author: Benjamin A. Bornschein, Borlabs
 Author URI: https://borlabs.io
-Version: 2.2.15
+Version: 2.2.22
 Text Domain: borlabs-cookie
 Domain Path: /languages
 */
@@ -16,7 +16,7 @@ if (empty($borlabsCookieWPLANG) || strlen($borlabsCookieWPLANG) <= 1) {
     $borlabsCookieWPLANG = 'en';
 }
 
-define('BORLABS_COOKIE_VERSION', '2.2.15');
+define('BORLABS_COOKIE_VERSION', '2.2.22');
 define('BORLABS_COOKIE_BASENAME', plugin_basename(__FILE__));
 define('BORLABS_COOKIE_SLUG', basename(BORLABS_COOKIE_BASENAME, '.php'));
 define('BORLABS_COOKIE_PLUGIN_PATH', plugin_dir_path(__FILE__));
@@ -48,11 +48,14 @@ if (version_compare(phpversion(), '5.6', '>=')) {
     if (is_admin()) {
         /* Backend */
         \BorlabsCookie\Cookie\Init::getInstance()->initBackend();
-        /* Update */
-        \BorlabsCookie\Cookie\Init::getInstance()->initUpdateHooks();
     } else {
         /* Frontend */
         \BorlabsCookie\Cookie\Init::getInstance()->initFrontend();
+    }
+
+    /* Update*/
+    if ((defined('WP_CLI') && WP_CLI === true) || is_admin()) {
+        \BorlabsCookie\Cookie\Init::getInstance()->initUpdateHooks();
     }
 
     /* Call after upgrade process is complete */

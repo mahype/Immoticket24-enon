@@ -1787,13 +1787,13 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		$coupon = affiliate_wp()->affiliates->coupons->get_by( 'coupon_code', $code );
 
-		$manual_coupon = false;
-
 		if ( $coupon ) {
 
 			$template_id = affiliate_wp()->settings->get( 'coupon_template_woocommerce', 0 );
 
 			if ( 'publish' === get_post_status( $template_id ) ) {
+
+				$manual_coupon = false;
 
 				$template = $this->get_coupon_template( $template_id );
 

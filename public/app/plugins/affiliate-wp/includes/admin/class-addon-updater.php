@@ -10,6 +10,7 @@ class AffWP_AddOn_Updater {
 	private $name       = '';
 	private $slug       = '';
 	private $version    = '';
+	private $cache_key  = '';
 
 	/**
 	 * Class constructor.
@@ -24,10 +25,11 @@ class AffWP_AddOn_Updater {
 	 */
 	function __construct( $_addon_id, $_plugin_file, $_version ) {
 		$this->api_url    = 'https://affiliatewp.com';
-		$this->addon_id  = $_addon_id;
+		$this->addon_id   = $_addon_id;
 		$this->name       = plugin_basename( $_plugin_file );
 		$this->slug       = basename( $_plugin_file, '.php');
 		$this->version    = $_version;
+		$this->cache_key  = 'edd_sl_' . md5( serialize( $this->slug . $this->addon_id ) );
 
 		// Set up hooks.
 		$this->hook();
@@ -45,6 +47,34 @@ class AffWP_AddOn_Updater {
 		add_filter( 'plugins_api', array( $this, 'plugins_api_filter' ), 10, 3 );
 		add_action( 'after_plugin_row_' . $this->name, array( $this, 'show_update_notification' ), 10, 2 );
 		add_action( 'admin_init', array( $this, 'show_changelog' ) );
+
+		// Due to some older extensions not loading after AffiliateWP, fetch the data initially on plugins_loaded.
+		add_action( 'plugins_loaded', array( $this, 'fetch_initial_plugin_data' ), 11 );
+	}
+
+	/**
+	 * Fetches the initial plugin data.
+	 *
+	 * @since 2.6.4.1
+	 *
+	 * This method exists to do the initial splicing of the plugin data, either from cache or the API,
+	 * into the global data so it can be added to the main update_plugins transient of WordPress Core.
+	 *
+	 * @return void
+	 */
+	public function fetch_initial_plugin_data() {
+		global $affwp_plugin_data;
+
+		$affwp_plugin_data[ $this->slug ] = $this->get_repo_api_data();
+
+		/**
+		 * Fires after the $affwp_plugin_data is setup.
+		 *
+		 * @since 2.6.4
+		 *
+		 * @param array $affwp_plugin_data Array of EDD SL plugin data.
+		 */
+		do_action( 'post_affwp_sl_plugin_updater_setup', $affwp_plugin_data );
 	}
 
 	/**
@@ -74,7 +104,7 @@ class AffWP_AddOn_Updater {
 
 		if ( empty( $_transient_data->response ) || empty( $_transient_data->response[ $this->name ] ) ) {
 
-			$api_response = $this->api_request( 'plugin_latest_version', array( 'slug' => $this->slug ) );
+			$api_response = $this->get_repo_api_data();
 
 			if( false !== $api_response && is_object( $api_response ) && isset( $api_response->new_version ) ) {
 				if( version_compare( $this->version, $api_response->new_version, '<' ) ) {
@@ -88,6 +118,96 @@ class AffWP_AddOn_Updater {
 		}
 
 		return $_transient_data;
+	}
+
+	/**
+	 * Gets repo API data from store.
+	 *
+	 * Save to cache.
+	 *
+	 * @since 2.6.4
+	 *
+	 * @return \stdClass|false
+	 */
+	public function get_repo_api_data() {
+		$version_info = $this->get_cached_version_info();
+
+		if ( false === $version_info ) {
+			$version_info = $this->api_request(
+				'plugin_latest_version',
+				array(
+					'slug' => $this->slug,
+				)
+			);
+
+			if ( ! $version_info ) {
+				return false;
+			}
+
+			// This is required for your plugin to support auto-updates in WordPress 5.5.
+			$version_info->plugin = $this->name;
+			$version_info->id     = $this->name;
+
+			$this->set_version_info_cache( $version_info );
+		}
+
+		return $version_info;
+	}
+
+	/**
+	 * Gets the plugin's cached version information from the database.
+	 *
+	 * @since 2.6.4
+	 *
+	 * @param string $cache_key Optional. Cache key. Defaults to the value of the `$cache_key` property.
+	 * @return \stdClass|false Version info if set, otherwise false.
+	 */
+	public function get_cached_version_info( $cache_key = '' ) {
+
+		if( empty( $cache_key ) ) {
+			$cache_key = $this->cache_key;
+		}
+
+		$cache = get_option( $cache_key );
+
+		if( empty( $cache['timeout'] ) || time() > $cache['timeout'] ) {
+			return false; // Cache is expired
+		}
+
+		// We need to turn the icons into an array, thanks to WP Core forcing these into an object at some point.
+		$cache['value'] = json_decode( $cache['value'] );
+
+		if ( ! empty( $cache['value']->icons ) ) {
+			$cache['value']->icons = (array) $cache['value']->icons;
+		}
+
+		return $cache['value'];
+
+	}
+
+	/**
+	 * Adds the plugin version information to the database.
+	 *
+	 * @since 2.6.4
+	 *
+	 * @param \stdClass $value     Version info to pass into the cache.
+	 * @param string    $cache_key Optional. Cache key. Defaults to the value of the `$cache_key` property.
+	 */
+	public function set_version_info_cache( $value, $cache_key = '' ) {
+
+		if( empty( $cache_key ) ) {
+			$cache_key = $this->cache_key;
+		}
+
+		$data = array(
+			'timeout' => strtotime( '+3 hours', time() ),
+			'value'   => json_encode( $value )
+		);
+
+		update_option( $cache_key, $data, 'no' );
+
+		// Delete the duplicate option
+		delete_option( 'edd_api_request_' . md5( serialize( $this->slug . $this->addon_id ) ) );
 	}
 
 	/**
@@ -141,14 +261,13 @@ class AffWP_AddOn_Updater {
 
 		if ( ! is_object( $update_cache ) || empty( $update_cache->response ) || empty( $update_cache->response[ $this->name ] ) ) {
 
-			$cache_key    = md5( 'affwp_plugin_' . sanitize_key( $this->name ) . '_version_info' );
-			$version_info = get_transient( $cache_key );
+			$version_info = $this->get_repo_api_data();
 
 			if( false === $version_info ) {
 
 				$version_info = $this->api_request( 'plugin_latest_version', array( 'slug' => $this->slug ) );
 
-				set_transient( $cache_key, $version_info, HOUR_IN_SECONDS );
+				$this->set_version_info_cache( $version_info );
 			}
 
 

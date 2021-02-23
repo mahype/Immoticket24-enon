@@ -655,7 +655,7 @@ class AffWP_Referrals_Table extends List_Table {
 			?>
 			<select name="type" class="affwp-referral-type-select">
 				<option value=""><?php _e( 'All Types', 'affiliate-wp' ); ?></option>
-				<?php foreach( affiliate_wp()->referrals->types_registry->get_types() as $type_id => $type ) : ?>
+				<?php foreach( affwp_get_referral_types() as $type_id => $type ) : ?>
 					<option value="<?php echo esc_attr( $type_id ); ?>"<?php selected( $type_id, $set_type ); ?>><?php echo esc_html( $type['label'] ); ?></option>
 				<?php endforeach; ?>
 			</select>
