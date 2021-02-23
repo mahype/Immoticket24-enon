@@ -113,3 +113,5 @@ provision/db.sql
 
 # htaccess
 public/.htaccess
+
+public/app/plugins/wp-rocket/licence-data.php
