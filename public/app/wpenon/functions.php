@@ -1167,26 +1167,54 @@ function wpenon_immoticket24_validate_fenster( $value, $field ) {
 	$value = $value['value'];
 	$error = '';
 
-	$min_window_size = 9;
-	$all_fensters_empty = true;
-	$all_fenster_size = $value;
+	$windows = [
+		'a' => [			
+			'size'     => $value,
+			'has_neighbor' =>  $field['validate_dependencies'][7],
+		],
+		'b' => [			
+			'size'     => $field['validate_dependencies'][0],
+			'has_neighbor' =>  $field['validate_dependencies'][8],
+		],
+		'c' => [			
+			'size'     => $field['validate_dependencies'][1],
+			'has_neighbor' =>  $field['validate_dependencies'][9],
+		],
+		'd' => [			
+			'size'     => $field['validate_dependencies'][2],
+			'has_neighbor' =>  $field['validate_dependencies'][10],
+		],
+		'e' => [			
+			'size'     => $field['validate_dependencies'][3],
+			'has_neighbor' =>  $field['validate_dependencies'][10],
+		],
+		'f' => [			
+			'size'     => $field['validate_dependencies'][4],
+			'has_neighbor' =>  $field['validate_dependencies'][11],
+		],
+		'g' => [			
+			'size'     => $field['validate_dependencies'][5],
+			'has_neighbor' =>  $field['validate_dependencies'][12],
+		],
+		'h' => [			
+			'size'     => $field['validate_dependencies'][6],
+			'has_neighbor' =>  $field['validate_dependencies'][13],
+		],
+	];
 
-	foreach ( $field['validate_dependencies'] as $dependency ) {
-		$all_fenster_size += (float) $dependency;
-	}
-	
-	foreach ( $field['validate_dependencies'] as $dependency ) {
-		$other_fenster = \WPENON\Util\Parse::float( $dependency );
+	$window_size_sum = 0;
 
-		if ( $other_fenster > 0.0 ) {
-			$all_fensters_empty = false;
-			break;
+	foreach( $windows AS $window ) {
+		if( $window['has_neighbor'] === true ) {
+			continue;
 		}
+
+		$window_size_sum += (float) $window['size'];
 	}
 	
-	if ( $value == 0.0  && $all_fensters_empty ) {
+	if ( $window_size_sum === 0 ) {
 		$error = __( 'Mindestens eine der angegebenen Fensterflächen muss größer als 0 sein.', 'wpenon' );
-	} else if ( $all_fenster_size < 9 && ! is_admin() ) {
+	} else if ( $window_size_sum < 9 && ! is_admin() ) {
 		$error = __( 'Ihr Fensterflächen sind ungewöhnlich gering, bitte prüfen Sie diese noch einmal. Haben Sie die Haustür berücksichtigt? Beachten Sie das Sie für die Angaben haften, daher geben Sie diese bitte so genau wie möglich ein.', 'wpenon' );
 	}
 
