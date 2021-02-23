@@ -103,9 +103,9 @@ class CookieBox
             $bgColorHSL = Tools::getInstance()->hexToHsl(Config::getInstance()->get('cookieBoxBgColor'));
 
             if (isset($bgColorHSL[2]) && $bgColorHSL[2] <= 50) {
-                $supportBorlabsCookieLogo = BORLABS_COOKIE_PLUGIN_URL . '/images/borlabs-cookie-icon-white.svg';
+                $supportBorlabsCookieLogo = BORLABS_COOKIE_PLUGIN_URL . 'images/borlabs-cookie-icon-white.svg';
             } else {
-                $supportBorlabsCookieLogo = BORLABS_COOKIE_PLUGIN_URL . '/images/borlabs-cookie-icon-black.svg';
+                $supportBorlabsCookieLogo = BORLABS_COOKIE_PLUGIN_URL . 'images/borlabs-cookie-icon-black.svg';
             }
         }
 

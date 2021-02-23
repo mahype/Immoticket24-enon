@@ -346,7 +346,7 @@ jQuery(document).ready(function($) {
 					response.data.mapping = $form.serialize();
 					response.data.form = $form.serializeAssoc();
 
-					AffWP_Batch.process_step( 1, response.data, self );
+					AffWP_Batch.process_step( 1, response.data, $form );
 				});
 
 			} else {

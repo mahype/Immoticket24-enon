@@ -89,13 +89,15 @@ class Registry extends Utils\Registry {
 	/**
 	 * Removes a referral type from the registry by ID.
 	 *
-	 * @access public
-	 * @since  2.2
+	 * @since 2.2
+	 * @since 2.6.4 Adjusted to prevent the default 'sale' type from ever being removed.
 	 *
 	 * @param string $type_id Referral type ID.
 	 */
 	public function remove_type( $type_id ) {
-		$this->remove_item( $type_id );
+		if ( 'sale' !== $type_id ) {
+			$this->remove_item( $type_id );
+		}
 	}
 
 	/**

@@ -139,7 +139,7 @@ class Affiliate_WP_Formidable_Pro extends Affiliate_WP_Base {
 				</th>
 				<td>
 					<select name="options[affiliatewp][referral_type]" id="affwp_referral_type">
-						<?php foreach( affiliate_wp()->referrals->types_registry->get_types() as $type_id => $type ) : ?>
+						<?php foreach( affwp_get_referral_types() as $type_id => $type ) : ?>
 							<option value="<?php echo esc_attr( $type_id ); ?>"<?php selected( $type_id, self::get_array_values( $values, 'affiliatewp/referral_type' ) ); ?>><?php echo esc_html( $type['label'] ); ?></option>
 						<?php endforeach; ?>
 					</select>

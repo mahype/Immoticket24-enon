@@ -35,7 +35,7 @@ class Affiliate_WP_WPForms extends Affiliate_WP_Base {
 	public function add_settings( $instance ) {
 
 		$options = array();
-		foreach( affiliate_wp()->referrals->types_registry->get_types() as $type_id => $type ) {
+		foreach( affwp_get_referral_types() as $type_id => $type ) {
 			$options[ $type_id ] =  $type['label'];
 		}
 

@@ -1211,6 +1211,7 @@ function affwp_get_affiliate_import_fields() {
  * Retrieves the list of referral import fields.
  *
  * @since 2.1
+ * @since 2.6.4 Added support for mapping referral types
  *
  * @return array Array of referral import fields and associated labels.
  */
@@ -1220,6 +1221,7 @@ function affwp_get_referral_import_fields() {
 	 * Filters the list of core referral import fields.
 	 *
 	 * @since 2.1
+	 * @since 2.6.4 Added support for the referral type field.
 	 *
 	 * @param array $fields List of referral import fields and associated labels.
 	 */
@@ -1237,6 +1239,7 @@ function affwp_get_referral_import_fields() {
 		'reference'       => __( 'Reference', 'affiliate-wp' ),
 		'context'         => __( 'Context', 'affiliate-wp' ),
 		'status'          => __( 'Status', 'affiliate-wp' ),
+		'type'            => __( 'Type', 'affiliate-wp' ),
 		'date'            => __( 'Date', 'affiliate-wp' )
 	) );
 
@@ -1247,6 +1250,10 @@ function affwp_get_referral_import_fields() {
 
 	if ( empty( $fields['amount'] ) ) {
 		$fields['amount'] = __( 'Amount (required)', 'affiliate-wp' );
+	}
+
+	if ( empty( $fields['type'] ) ) {
+		$fields['type'] = 'sale';
 	}
 
 	return $fields;
@@ -1407,6 +1414,7 @@ function affwp_get_payouts_service_country_list() {
 		'DE' => __( 'Germany', 'affiliate-wp' ),
 		'GR' => __( 'Greece', 'affiliate-wp' ),
 		'HK' => __( 'Hong Kong', 'affiliate-wp' ),
+		'HU' => __( 'Hungary', 'affiliate-wp' ),
 		'JP' => __( 'Japan', 'affiliate-wp' ),
 		'IE' => __( 'Ireland', 'affiliate-wp' ),
 		'IT' => __( 'Italy', 'affiliate-wp' ),
@@ -1475,11 +1483,14 @@ function affwp_calculate_percentage( $value, $divided_by ) {
  *
  * @since 2.5
  *
- * @param number       $percentage The percentage to format.
- * @param int          $precision  Optional. The number of decimal places to round the percentage. Default 0.
+ * @param float|int $percentage The percentage to format.
+ * @param int       $precision  Optional. The number of decimal places to round the percentage. Default 0.
  * @return string The formatted percentage, or an empty string if infinite.
  */
 function affwp_format_percentage( $percentage, $precision = 0 ) {
+
+	// Force the percentage to a float.
+	$percentage = floatval( $percentage );
 
 	if ( is_infinite( $percentage ) ) {
 		return '';

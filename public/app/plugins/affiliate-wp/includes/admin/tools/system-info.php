@@ -143,6 +143,7 @@ function affwp_tools_system_info_report() {
 	$return .= 'Ignore Zero Referrals:             ' . ( $settings->get( 'ignore_zero_referrals' ) ? "True\n" : "False\n" );
 	$return .= 'Reject Unpaid Referrals on Refund: ' . ( $settings->get( 'revoke_on_refund' ) ? "True\n" : "False\n" );
 	$return .= 'Default Referral URL:              ' . ( $settings->get( 'default_referral_url' ) ? $settings->get( 'default_referral_url' ) : "Default (empty)\n" );
+	$return .= 'Dynamic Coupons Enabled:           ' . ( affwp_dynamic_coupons_is_setup() ? "True\n" : "False\n" );
 
 	// AffiliateWP Templates
 	$dir = trailingslashit( get_stylesheet_directory() . affiliate_wp()->templates->get_theme_template_dir_name() );

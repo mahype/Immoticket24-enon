@@ -226,7 +226,7 @@ function affwp_get_affiliate_user_id( $affiliate = 0 ) {
  * @since 1.9 The `$affiliate` parameter was made optional. Affiliates can also now
  *            be retrieved by username.
  *
- * @param int|AffWP\Affiliate $affiliate Optional. Affiliate ID or object. Default null.
+ * @param int|AffWP\Affiliate|string $affiliate Optional. Affiliate ID, object, or username. Default null.
  * @return AffWP\Affiliate|false Affiliate object if found, otherwise false.
  */
 function affwp_get_affiliate( $affiliate = 0 ) {

@@ -493,12 +493,20 @@ class Endpoints extends Controller {
 	 * @return bool True if the user is permitted to perform this request, otherwise false.
 	 */
 	public function check_affiliate_self_request( $request ) {
+		$id       = $request->get_param( 'id' );
+		$username = $request->get_param( 'username' );
 
-		if ( $this->request_has_param( $request, 'id' ) && ! empty( $request->get_param( 'id' ) ) ) {
-			$request['affiliate_id'] = (int) $request->get_param( 'id' );
-		} elseif ( $this->request_has_param( $request, 'username' ) && ! empty( $request->get_param( 'username' ) ) ) {
-			$affiliate               = affwp_get_affiliate();
-			$request['affiliate_id'] = (int) $affiliate->affiliate_id;
+		if ( $this->request_has_param( $request, 'id' ) && ! empty( $id ) ) {
+
+			$request['affiliate_id'] = (int) $id;
+
+		} elseif ( $this->request_has_param( $request, 'username' ) && ! empty( $username ) ) {
+
+			$affiliate = affwp_get_affiliate( $username );
+
+			if ( $affiliate ) {
+				$request['affiliate_id'] = (int) $affiliate->affiliate_id;
+			}
 		}
 
 		return parent::check_affiliate_self_request( $request );
