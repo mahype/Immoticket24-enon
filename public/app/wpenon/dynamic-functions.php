@@ -284,47 +284,47 @@ function wpenon_is_water_independend_heater( $heater ) {
 }
 
 function wpenon_immoticket24_get_ww_info( $h2_info = false, $h3_info = false, $h_erzeuger = false, $h2_erzeuger = false, $h3_erzeuger = false, $show_unbekannt = false, $can_hide_pauschal = false ) {
-	$show_unbekannt = filter_var( $show_unbekannt, FILTER_VALIDATE_BOOLEAN );
-	$can_hide_pauschal = filter_var( $can_hide_pauschal, FILTER_VALIDATE_BOOLEAN );
+	$h2_info = filter_var( $h2_info, FILTER_VALIDATE_BOOLEAN );
+	$h3_info = filter_var( $h3_info, FILTER_VALIDATE_BOOLEAN );
 
-	$info = array();
+	$heaters = [
+		'h' => [ 
+				'type' => $h_erzeuger,
+				'ww_value' => __( 'pauschal in Heizungsanlage enthalten', 'wpenon' )
+			],
+		'h2' => $h2_info ? [ 
+				'type' => $h2_erzeuger,
+				'ww_value' => __( 'pauschal in 2. Heizungsanlage enthalten', 'wpenon' ) 
+			]: false,
+		'h3' => $h3_info ? [ 
+				'type' => $h3_erzeuger,
+				'ww_value' => __( 'pauschal in 3. Heizungsanlage enthalten', 'wpenon' ) 
+			] : false
+	];
 
-	$hide_pauschal = false;
 	$water_independend_heaters = wpenon_get_water_independend_heaters();
 
-	if ( in_array( $h_erzeuger, $water_independend_heaters ) && $can_hide_pauschal ) {
-		$hide_pauschal = true;
-	}
+	$values = [];
 
-	$h_erzeuger = \WPENON\Util\Parse::boolean( $h_erzeuger );
-
-	if ( ( ! $h_erzeuger || wpenon_immoticket24_is_h_erzeuger_ww( $h_erzeuger ) ) && ! $hide_pauschal ) {
-		$info['h'] = __( 'pauschal in Heizungsanlage enthalten', 'wpenon' );
-	}
-
-	$h2_info = \WPENON\Util\Parse::boolean( $h2_info );
-	$h3_info = \WPENON\Util\Parse::boolean( $h3_info );
-
-	$h2_erzeuger = \WPENON\Util\Parse::boolean( $h2_erzeuger );
-	$h3_erzeuger = \WPENON\Util\Parse::boolean( $h3_erzeuger );
-
-	if ( $h2_info && ! $hide_pauschal ) {
-		if ( ! $h2_erzeuger || wpenon_immoticket24_is_h_erzeuger_ww( $h2_erzeuger ) ) {
-			$info['h2'] = __( 'pauschal in 2. Heizungsanlage enthalten', 'wpenon' );
+	foreach( $heaters AS $name => $heater ) {
+		if ( ! $heater ) {
+			continue;
 		}
-		if ( $h3_info && ! $hide_pauschal ) {
-			if ( ! $h3_erzeuger || wpenon_immoticket24_is_h_erzeuger_ww( $h3_erzeuger ) ) {
-				$info['h3'] = __( 'pauschal in 3. Heizungsanlage enthalten', 'wpenon' );
-			}
+
+		if ( in_array( $heater['type'], $water_independend_heaters ) ) {
+			continue;
 		}
+
+		$values[ $name ] = $heater['ww_value'];
 	}
-	$info['ww'] = __( 'separat angegeben', 'wpenon' );
+
+	$values['ww'] = __( 'separat angegeben', 'wpenon' );
 
 	if ( $show_unbekannt ) {
-		$info['unbekannt'] = __( 'unbekannt', 'wpenon' );
+		$values['unbekannt'] = __( 'unbekannt', 'wpenon' );
 	}
 
-	return $info;
+	return $values;
 }
 
 function wpenon_immoticket24_get_ww_info_vw( $h2_info = false, $h3_info = false, $h_erzeuger = false, $h2_erzeuger = false, $h3_erzeuger = false, $show_unbekannt = false, $can_hide_pauschal = false ) {
