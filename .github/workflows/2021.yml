@@ -3,7 +3,7 @@ name: Deploy to 2021
 on:
   push:
     branches:
-      - 2021
+      - relaunch-2021
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
         #key: ${{ secrets.SSH_KEY }}
         script_stop: true
         script: |
-          WWW=/www/htdocs/w012900a/2021.energieausweis-online-erstellen.de/
+          WWW=/www/htdocs/w012900a/2021.energieausweis-online-erstellen.de
           cd $WWW
           git stash
           git pull
