@@ -32,4 +32,4 @@ jobs:
           cd $WWW/public/app/plugins/wp-energieausweis-online
           /www/htdocs/w012900a/bin/composer.phar update
           cp $WWW/public/.htaccess-staging $WWW/public/.htaccess
-          cp $WWW/public/local-config-staging.php $WWW/public/local-config.php
+          cp $WWW/public/local-config-2021.php $WWW/public/local-config.php
