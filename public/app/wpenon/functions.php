@@ -859,6 +859,7 @@ function wpenon_immoticket24_get_heizungsanlagen202001() {
 	return wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
 }
 
+
 function wpenon_immoticket24_get_heizungsanlagen202002_vw() {
 	$anlagen = wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
 	unset( $anlagen['brennwertkesselverbessert'] );
@@ -2017,3 +2018,24 @@ function wpenon_immoticket24_add_payment_csv_bulk_action( $actions ) {
 }
 
 add_filter( 'edd_payments_table_bulk_actions', 'wpenon_immoticket24_add_payment_csv_bulk_action', 100 );
+
+/**
+ * 2021-01 Schema functions
+ */
+function wpenon_immoticket24_get_heizungsanlagen202101() {
+	$heaters = wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
+
+	if( is_admin() ) {
+		return $heaters;
+	}
+
+	$remove_heaters = [ 'brennwertkesselverbessert', 'gasraumheizer' ];
+
+	foreach( $remove_heaters AS $heater ) {
+		unset( $heaters[ $heater ] );
+	}
+
+	return $heaters;
+
+	return $heaters;
+}
