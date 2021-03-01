@@ -2036,6 +2036,4 @@ function wpenon_immoticket24_get_heizungsanlagen202101() {
 	}
 
 	return $heaters;
-
-	return $heaters;
 }
