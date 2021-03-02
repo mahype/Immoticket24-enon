@@ -13,8 +13,6 @@ fileInputs.forEach( ( fileInput )=> {
         let file  = event.target.files[0];
         let data  = new FormData();
 
-        console.log( event.target.files[0] );
-
         data.append('action', 'ec_image_upload');
         data.append('field', field  );
         data.append('ecId', ecId );        
@@ -29,20 +27,18 @@ const setPercentage = ( field, percent ) => {
     percentageBar = document.querySelector( '#' + field + '-wrap .percentage-bar' );
 
     if( percent === 0 ) {
-        console.log( 'Zero');
         percentage.style.display = 'none';
         percentageBar.style.width = '0%';
 
         return;
     }
     
-    console.log( 'Setting to ' + percent );
     percentage.style.display = 'block';
     percentageBar.style.width = percent + '%';
 }
 
 const sendUpload = ( data, field ) => {
-    return axios.put(
+    return axios.post(
         _wpenon_data.rest_url + 'ec/image_upload', 
         data,
         {

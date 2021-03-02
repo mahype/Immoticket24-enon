@@ -306,7 +306,7 @@ add_action('edd_after_cc_fields', function(){
 
 function wpenon_register_rest_api_endpoint() {
 	register_rest_route( 'ec', '/image_upload/', array(
-		'methods' => 'PUT',
+		'methods' => 'POST',
 		'callback' => 'wpenon_image_upload',
 		'permission_callback' => '__return_true'
 	) );
@@ -318,7 +318,33 @@ add_action( 'rest_api_init', 'wpenon_register_rest_api_endpoint' );
  * AJAX uploads in frontend
  */
 function wpenon_image_upload( \WP_REST_Request $request ) {
-	print_r(  $request );
+	$ecId  = $request->get_param( 'ecId' );
+	$field = $request->get_param( 'field' );
+	$file  = $request->get_file_params();
+
+	if( $file['file']['size'] === 0 ) {
+		$return = [
+			'error' => 'Datei ust zu klein'
+		];
+		
+		echo json_encode( $return );
+	}
+
+	if( $file['file']['type'] !== 'image/png' &&  $file['file']['type'] !== 'image/jpeg'  ) {
+		$return = [
+			'error' => 'Falscher Dateityp'
+		];
+		
+		echo json_encode( $return );
+	}
+
+	
+
+	if( $file['file']['type'] !== )
+
+	print_r( $ecId );
+	print_r( $field );
+	print_r( $files );
 }
 
 function wpenon_image_upload_progress() {	
