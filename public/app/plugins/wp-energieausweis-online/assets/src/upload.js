@@ -47,7 +47,10 @@ const sendUpload = ( data, field ) => {
         data,
         {
             headers: {'X-WP-Nonce': _wpenon_data.upload_nonce},
-            onUploadProgress: progressEvent => console.log(progressEvent.loaded)
+            onUploadProgress: function(progressEvent) {
+                var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
+                setPercentage( field, percentCompleted );
+            }
         }      
     ).then( ( response ) => {
         setPercentage( field, 0 );
