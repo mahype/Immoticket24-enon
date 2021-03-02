@@ -306,7 +306,7 @@ add_action('edd_after_cc_fields', function(){
 
 function wpenon_register_rest_api_endpoint() {
 	register_rest_route( 'ec', '/image_upload/', array(
-		'methods' => 'POST',
+		'methods' => 'PUT',
 		'callback' => 'wpenon_image_upload',
 		'permission_callback' => '__return_true'
 	) );
@@ -318,7 +318,7 @@ add_action( 'rest_api_init', 'wpenon_register_rest_api_endpoint' );
  * AJAX uploads in frontend
  */
 function wpenon_image_upload( \WP_REST_Request $request ) {
-	// print_r(  $request );
+	print_r(  $request );
 }
 
 function wpenon_image_upload_progress() {	

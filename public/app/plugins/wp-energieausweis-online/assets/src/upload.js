@@ -11,7 +11,9 @@ fileInputs.forEach( ( fileInput )=> {
         let ecId  = _wpenon_data.energieausweis_id;
         let field = event.target.id;        
         let file  = event.target.files[0];
-        let data  = new URLSearchParams();
+        let data  = new FormData();
+
+        console.log( event.target.files[0] );
 
         data.append('action', 'ec_image_upload');
         data.append('field', field  );
@@ -27,29 +29,29 @@ const setPercentage = ( field, percent ) => {
     percentageBar = document.querySelector( '#' + field + '-wrap .percentage-bar' );
 
     if( percent === 0 ) {
+        console.log( 'Zero');
         percentage.style.display = 'none';
         percentageBar.style.width = '0%';
+
+        return;
     }
     
+    console.log( 'Setting to ' + percent );
     percentage.style.display = 'block';
     percentageBar.style.width = percent + '%';
 }
 
 const sendUpload = ( data, field ) => {
-
-    return axios.post(
+    return axios.put(
         _wpenon_data.rest_url + 'ec/image_upload', 
         data,
         {
             headers: {'X-WP-Nonce': _wpenon_data.upload_nonce},
-            onUploadProgress: ( progressEvent ) => {
-                let percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
-                setPercentage( field, percentCompleted );
-            }           
+            onUploadProgress: progressEvent => console.log(progressEvent.loaded)
         }      
     ).then( ( response ) => {
         setPercentage( field, 0 );
 
-       // console.log( response )
+       console.log( response )
     })
 }
