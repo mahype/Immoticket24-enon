@@ -302,3 +302,30 @@ if ( ! function_exists( 'edd_sanitize_price' ) ) {
 add_action('edd_after_cc_fields', function(){
 	echo '<script type="text/javascript" src="' . plugin_dir_url(__DIR__) . '/assets/paymill-bank-events.js"></script>';
 });
+
+
+function wpenon_register_rest_api_endpoint() {
+	register_rest_route( 'ec', '/image_upload/', array(
+		'methods' => 'POST',
+		'callback' => 'wpenon_image_upload',
+		'permission_callback' => '__return_true'
+	) );
+}
+
+add_action( 'rest_api_init', 'wpenon_register_rest_api_endpoint' );
+
+/**
+ * AJAX uploads in frontend
+ */
+function wpenon_image_upload( \WP_REST_Request $request ) {
+	// print_r(  $request );
+}
+
+function wpenon_image_upload_progress() {	
+	?>
+	<div class="percentage" style="display:none; margin-top: 10px; height: 10px; line-height: 10px; background-color:grey;">
+    	<div class="percentage-bar" style="width:50%; height: 10px; background-color: #3da81d;" />
+	</div>
+	<?php
+}
+add_action( 'wpenon_form_field_h_typenschild_after', 'wpenon_image_upload_progress', 1000 ); 

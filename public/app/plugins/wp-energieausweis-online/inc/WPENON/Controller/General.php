@@ -96,12 +96,6 @@ class General {
 		$locale   = str_replace( '_', '-', get_locale() );
 		$language = substr( $locale, 0, 2 );
 
-		//wpenon_enqueue_style( 'select2', 'third-party/select2/select2', array(), '3.5.2' );
-		// && wpenon_enqueue_script( 'select2', 'third-party/select2/select2', array( 'jquery' ), '3.5.2' );
-		if ( ! wpenon_maybe_enqueue_script( 'select2-locale', 'third-party/select2/select2_locale_' . $locale, array( 'select2' ), '3.5.2' ) ) {
-		// 	wpenon_maybe_enqueue_script( 'select2-locale', 'third-party/select2/select2_locale_' . $language, array( 'select2' ), '3.5.2' );
-		}
-
 		wpenon_enqueue_script( 'wpenon-parser', 'parser', array(), WPENON_VERSION );
 		wp_localize_script( 'wpenon-parser', '_wpenon_data', self::getScriptVars( $energieausweis, $schema, $admin ) );
 
@@ -134,8 +128,9 @@ class General {
 	public static function getScriptVars( $energieausweis = null, $schema = null, $admin = false ) {
 		$vars = array(
 			'ajax_url'             => admin_url( 'admin-ajax.php' ),
-			'rest_url'             => home_url('wp-json/'),
+			'rest_url'             => get_rest_url(),
 			'security_nonce'       => wp_create_nonce( WPENON_AJAX_PREFIX . 'energieausweis' ),
+			'upload_nonce'         => wp_create_nonce( 'wp_rest' ),
 			'debug'                => WPENON_DEBUG,
 			'decimal_separator'    => wpenon_get_option( 'decimal_separator' ),
 			'thousands_separator'  => wpenon_get_option( 'thousands_separator' ),

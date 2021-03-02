@@ -300,6 +300,15 @@ $anlage = array(
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
+				'h_typenschild'                                     => array(
+					'type'                  => 'file',
+					'label'                 => __( 'Foto des Typenschilds', 'wpenon' ),
+					'required'              => true,
+					'filetypes' => array(
+						'image/png',
+						'image/jpeg'
+					)
+				),
 				'h2_info'                                       => array(
 					'type'  => 'checkbox',
 					'label' => __( '2. Heizungsanlage vorhanden?', 'wpenon' ),

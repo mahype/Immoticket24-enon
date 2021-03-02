@@ -166,6 +166,15 @@
               <input type="text" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" class="form-control" value="<?php echo $field['value']; ?>" pattern="[0-9]{5}"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ); ?>>
 
             <?php break; ?>
+            <?php case 'file': ?>
+            <?php 
+                if ( isset( $field['filetypes'] ) ) {
+                  $filetypes = ' accept="' . implode( ', ', $field['filetypes'] ) . '"';
+                }
+            ?>
+            <input type="file" class="file-control" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ) . $filetypes; ?>>
+
+            <?php break; ?>
             <?php default: ?>
 
               <input type="<?php echo $field['type']; ?>" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" class="form-control" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ); ?>>
@@ -186,7 +195,7 @@
           <span class="help-block"><?php echo $field['warning']; ?></span>
         <?php endif; ?>
 
-        <?php do_action( 'wpenon_form_field_' . $field_slug . '_after', $field ); ?>
+        <?php do_action( 'wpenon_form_field_' . $field_slug . '_after', $field, $field_slug ); ?>
 
       </div>
 
@@ -207,7 +216,7 @@
         </div>
       <?php endif; ?>
 
-      <?php do_action( 'wpenon_form_field_' . $field_slug . '_wrap_after', $field ); ?>
+      <?php do_action( 'wpenon_form_field_' . $field_slug . '_wrap_after', $field, $field_slug ); ?>
 
     </div>
 

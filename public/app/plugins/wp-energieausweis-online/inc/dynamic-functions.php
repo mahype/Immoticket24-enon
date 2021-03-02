@@ -37,6 +37,8 @@ function wpenon_ajax_dynamic_callback() {
 	die();
 }
 
+
+
 add_action( 'wp_ajax_wpenon_dynamic_callback', 'wpenon_ajax_dynamic_callback' );
 add_action( 'wp_ajax_nopriv_wpenon_dynamic_callback', 'wpenon_ajax_dynamic_callback' );
 
