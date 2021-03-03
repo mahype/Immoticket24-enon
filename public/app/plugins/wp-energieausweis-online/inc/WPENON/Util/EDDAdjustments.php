@@ -321,10 +321,6 @@ class EDDAdjustments {
 				'bn'            => 'EasyDigitalDownloads_SP'
 			);
 
-			$file = fopen( trailingslashit( ABSPATH ). 'paypal.log', 'a');
-			fputs( $file, print_r( $paypal_args, true ) );
-			fclose( $file );
-
 			if ( ! empty( $purchase_data['user_info']['address'] ) ) {
 				$paypal_args['address1'] = $purchase_data['user_info']['address']['line1'];
 				$paypal_args['address2'] = $purchase_data['user_info']['address']['line2'];

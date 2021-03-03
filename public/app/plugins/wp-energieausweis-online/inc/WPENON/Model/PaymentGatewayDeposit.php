@@ -19,6 +19,8 @@ class PaymentGatewayDeposit extends \WPENON\Model\PaymentGateway {
 
 		$this->show_cc_form = false;
 
+		add_filter( 'edd_payment_confirm_deposit', array( $this, 'confirm_deposit' ) );
+
 		parent::__construct();
 	}
 
@@ -32,11 +34,25 @@ class PaymentGatewayDeposit extends \WPENON\Model\PaymentGateway {
 			$this->_handlePaymentError( $payment_id, sprintf( __( 'Payment creation failed while processing a deposit purchase. Payment data: %s', 'wpenon' ), json_encode( $payment_data ) ), true );
 		}
 
-		$redirect_url = apply_filters( 'wpenon_payment_success_url', home_url('/vermarktungspaket-immoticket24-2/'), $payment_id );
+		$redirect_url = apply_filters( 'wpenon_payment_success_url', home_url('/vermarktungspaket-immoticket24-2/?payment-confirmation=deposit&payment-id=' . $payment_id ), $payment_id );
 
 		$this->_handlePaymentSuccess( $payment_id, null, $redirect_url );
 	}
 
+	public function confirm_deposit( $content ) {
+		if ( ! isset( $_GET['payment-id'] ) && ! edd_get_purchase_session() ) {
+			return $content;
+		}
+	
+		edd_empty_cart();	
+
+		ob_start();
+		edd_get_template_part( 'payment', 'processing' );
+		$content = ob_get_clean();
+	
+		return $content;	
+	}
+	
 	public function processPurchaseNotification( $data ) {
 		// there is no automated purchase notification for a deposit
 	}
