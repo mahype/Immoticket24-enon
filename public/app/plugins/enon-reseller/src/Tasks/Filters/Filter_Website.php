@@ -155,6 +155,8 @@ class Filter_Website implements Task, Filters {
 			'payment_status' => $payment->status,
 		);
 
+		$url = $this->reseller->add_iframe_params( $url );
+
 		$this->logger()->notice( 'Setting payment url.', $debug_values );
 
 		return $url;
