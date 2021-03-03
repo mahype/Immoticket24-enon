@@ -39,7 +39,7 @@ abstract class PaymentGateway {
 		add_action( 'edd_gateway_' . $gateway_name, array( $this, 'verifyNonce' ), 1 );
 		add_action( 'edd_gateway_' . $gateway_name, array( $this, 'processPurchase' ) );
 		
-		add_filter( 'edd_payment_confirm_' . $this->gateway_name,  array( $this, 'confirmPage' ) );
+		add_filter( 'edd_payment_confirm_' . $gateway_name,  array( $this, 'confirmPage' ) );
 
 		if ( ! empty( $this->listener_key ) ) {
 			add_action( 'init', array( $this, '_listenForNotification' ) );
