@@ -273,10 +273,13 @@ form.immo-rating {
       display: flex;
       margin: 0;
       padding: 2%;
-      font-size: 1em; }
+      font-size: 1em;
+      list-style-image: none;
+      list-style-type: none; }
       form.immo-rating .recommendations ul li {
         width: calc(100% / 3);
         text-align: center;
+        list-style-image: none;
         list-style-type: none;
         margin: 0; }
         form.immo-rating .recommendations ul li:before {
@@ -298,14 +301,14 @@ form.immo-rating {
   display: flex;
   overflow: hidden; }
 
-.loading.svelte-1wpmhsr {
-  background: url("images/loading.gif") no-repeat left; }
-
 fieldset.svelte-ovh2fw {
   flex: 1 0 auto;
   overflow: hidden;
   position: relative;
   top: 0; }
+
+.loading.svelte-1wpmhsr {
+  background: url("images/loading.gif") no-repeat left; }
 
 .percentage.svelte-h0i7g2 {
   position: relative;
