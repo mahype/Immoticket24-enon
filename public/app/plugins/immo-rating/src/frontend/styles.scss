@@ -386,10 +386,13 @@ form.immo-rating {
             margin: 0;
             padding: $halfDistance;
             font-size: 1em;
+            list-style-image: none;
+            list-style-type: none;
 
             li {
                 width: calc(100% / 3);
                 text-align: center;
+                list-style-image: none;
                 list-style-type: none;
                 margin: 0;
 
