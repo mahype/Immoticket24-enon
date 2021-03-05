@@ -1,0 +1,338 @@
+@charset "UTF-8";
+form.immo-rating {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.9em;
+  font-weight: 400;
+  /**
+     * Range slider
+     */
+  /**
+   * Navigation buttons
+   */
+  /**
+   * Footer
+   */ }
+  form.immo-rating fieldset {
+    /** resetting standard border **/
+    border: 0px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /**
+         * Legend on top
+         */
+    /**
+         * Container for fields
+         */
+    /**
+        * Field: Text input
+        */
+    /**
+        * Field: Radio choices
+        */
+    /**
+        * Field: Image choices
+        */ }
+    form.immo-rating fieldset legend {
+      background-color: #265993;
+      border: 1px solid #265993;
+      border-radius: 3px 3px 0 0;
+      color: white;
+      width: 100%;
+      text-align: center;
+      padding: 4% 0;
+      font-size: 1.3em;
+      font-weight: 500; }
+    form.immo-rating fieldset .fields {
+      padding: 0;
+      min-height: 326px;
+      /**
+            * Style images
+            */ }
+      form.immo-rating fieldset .fields section {
+        background-color: white;
+        transition: 3s; }
+        form.immo-rating fieldset .fields section.range {
+          text-align: center;
+          display: block; }
+          form.immo-rating fieldset .fields section.range label {
+            margin: 0 0 3em 0;
+            padding: 3em 0 0 0;
+            display: block;
+            font-size: 1.5em; }
+          form.immo-rating fieldset .fields section.range input[type="range"] {
+            width: 60%; }
+      form.immo-rating fieldset .fields .notices {
+        text-align: center; }
+        form.immo-rating fieldset .fields .notices ul {
+          padding: 2% 0 4% 0;
+          margin: 0;
+          list-style-type: none; }
+          form.immo-rating fieldset .fields .notices ul li {
+            color: #265993;
+            font-weight: bold; }
+      form.immo-rating fieldset .fields.house-left {
+        padding-left: 35%;
+        background: url("images/house.png");
+        background-repeat: no-repeat;
+        background-size: 20% auto;
+        background-position: 5% 5%; }
+        @media screen and (max-width: 600px) {
+          form.immo-rating fieldset .fields.house-left {
+            background: none;
+            padding-left: 0; } }
+      form.immo-rating fieldset .fields.flat-left {
+        padding-left: 35%;
+        background: url("images/flat.png");
+        background-repeat: no-repeat;
+        background-size: 20% auto;
+        background-position: 5% 5%; }
+        @media screen and (max-width: 600px) {
+          form.immo-rating fieldset .fields.flat-left {
+            background: none;
+            padding-left: 0; } }
+      form.immo-rating fieldset .fields.business-left {
+        padding-left: 35%;
+        background: url("images/business.png");
+        background-repeat: no-repeat;
+        background-size: 20% auto;
+        background-position: 5% 5%; }
+        @media screen and (max-width: 600px) {
+          form.immo-rating fieldset .fields.business-left {
+            background: none;
+            padding-left: 0; } }
+      form.immo-rating fieldset .fields.plot-left {
+        padding-left: 35%;
+        background: url("images/plot.png");
+        background-repeat: no-repeat;
+        background-size: 20% auto;
+        background-position: 5% 5%; }
+        @media screen and (max-width: 600px) {
+          form.immo-rating fieldset .fields.plot-left {
+            display: none;
+            padding-left: 0; } }
+    form.immo-rating fieldset .text {
+      width: 80%; }
+      form.immo-rating fieldset .text input {
+        width: 100%; }
+      form.immo-rating fieldset .text input[type="text"] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box; }
+      form.immo-rating fieldset .text:first-child {
+        padding-top: 5%; }
+        @media screen and (max-width: 600px) {
+          form.immo-rating fieldset .text:first-child {
+            padding: 5% 5% 0 5%; } }
+      @media screen and (max-width: 600px) {
+        form.immo-rating fieldset .text {
+          padding: 0 5%; } }
+      form.immo-rating fieldset .text:last-child {
+        padding-bottom: 5%; }
+        @media screen and (max-width: 600px) {
+          form.immo-rating fieldset .text:last-child {
+            padding: 0 5% 5% 5%; } }
+      form.immo-rating fieldset .text .notices {
+        text-align: left; }
+    form.immo-rating fieldset .radio-choice {
+      display: flex;
+      flex-direction: column;
+      min-height: calc( 100% / 3.3);
+      /* background: #FF0; */
+      justify-content: center; }
+      form.immo-rating fieldset .radio-choice label {
+        display: block;
+        margin: 0 0 0 0;
+        padding: 5% 0 0 0; }
+        form.immo-rating fieldset .radio-choice label input {
+          margin-right: 1em; }
+      @media screen and (max-width: 600px) {
+        form.immo-rating fieldset .radio-choice {
+          padding: 2em; } }
+      form.immo-rating fieldset .radio-choice .notices {
+        text-align: left;
+        padding: 5% 0 0 0; }
+    form.immo-rating fieldset .image-choice {
+      display: flex;
+      padding: 4%;
+      justify-content: center; }
+      form.immo-rating fieldset .image-choice label {
+        min-width: 210px;
+        min-height: 250px;
+        margin: 0 1%;
+        padding: 0.4%;
+        border: 5px solid #f3efe9;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        transition: 0.3s;
+        background-color: #FFF; }
+        form.immo-rating fieldset .image-choice label:first-child {
+          margin-left: 0; }
+        form.immo-rating fieldset .image-choice label:last-child {
+          margin-right: 0; }
+        form.immo-rating fieldset .image-choice label:hover {
+          border: 5px solid #41a62a; }
+        form.immo-rating fieldset .image-choice label:active {
+          box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+          transform: translateY(2px) translateX(2px); }
+      form.immo-rating fieldset .image-choice img {
+        background-color: white;
+        max-height: 210px; }
+      form.immo-rating fieldset .image-choice .image-text {
+        text-align: center;
+        font-weight: 500;
+        padding: 5%; }
+      form.immo-rating fieldset .image-choice .selected {
+        border: 5px solid #41a62a; }
+    @media screen and (max-width: 600px) {
+      form.immo-rating fieldset .image-choice {
+        flex-direction: column; }
+        form.immo-rating fieldset .image-choice label {
+          margin-bottom: 4%; } }
+  form.immo-rating input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 10px;
+    background: #d3d3d3;
+    outline: none; }
+    form.immo-rating input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      /* Override default look */
+      appearance: none;
+      width: 12px;
+      /* Set a specific slider handle width */
+      height: 30px;
+      /* Slider handle height */
+      background: #265993;
+      cursor: pointer;
+      /* Cursor on hover */
+      border-radius: 3px;
+      box-shadow: 2px 2px 5px slategrey; }
+    form.immo-rating input[type="range"]::-moz-range-thumb {
+      width: 12px;
+      /* Set a specific slider handle width */
+      height: 30px;
+      /* Slider handle height */
+      background: #265993;
+      cursor: pointer;
+      /* Cursor on hover */
+      border-radius: 3px;
+      box-shadow: 2px 2px 2px slategrey; }
+  form.immo-rating nav {
+    background-color: #f3efe9;
+    padding: 2%;
+    display: flex;
+    justify-content: space-between; }
+    form.immo-rating nav button {
+      border: 0;
+      background-color: #fff;
+      font-size: 1em;
+      margin: 0;
+      padding: 1%;
+      box-shadow: none;
+      transition: 0.3s;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      border-radius: 3px; }
+      form.immo-rating nav button:disabled {
+        cursor: auto;
+        background-color: white;
+        border-color: white;
+        color: white; }
+      form.immo-rating nav button:focus {
+        outline: 0; }
+      form.immo-rating nav button:active {
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        transform: translateY(2px) translateX(2px); }
+      form.immo-rating nav button:first-child {
+        margin-right: 0;
+        color: #999999; }
+        @media screen and (max-width: 600px) {
+          form.immo-rating nav button:first-child {
+            width: 50%; } }
+      form.immo-rating nav button:last-child {
+        border: 1px solid #41a62a;
+        background-color: #41a62a;
+        color: white;
+        opacity: 0.8;
+        width: 25%; }
+        @media screen and (max-width: 600px) {
+          form.immo-rating nav button:last-child {
+            width: 50%;
+            padding: 2em; } }
+  form.immo-rating .recommendations {
+    line-height: 40px;
+    background-color: #f3efe9; }
+    form.immo-rating .recommendations ul {
+      display: flex;
+      margin: 0;
+      padding: 2%;
+      font-size: 1em; }
+      form.immo-rating .recommendations ul li {
+        width: calc(100% / 3);
+        text-align: center;
+        list-style-type: none;
+        margin: 0; }
+        form.immo-rating .recommendations ul li:before {
+          content: "✓ ";
+          color: #41a62a; }
+        @media screen and (max-width: 600px) {
+          form.immo-rating .recommendations ul li {
+            width: 100%; } }
+      @media screen and (max-width: 600px) {
+        form.immo-rating .recommendations ul {
+          flex-direction: column; } }
+
+.thank-you.svelte-8dtc4q {
+  width: 100%;
+  text-align: center;
+  padding: 245px; }
+
+.fieldsets.svelte-8dtc4q {
+  display: flex;
+  overflow: hidden; }
+
+.loading.svelte-1wpmhsr {
+  background: url("images/loading.gif") no-repeat left; }
+
+fieldset.svelte-ovh2fw {
+  flex: 1 0 auto;
+  overflow: hidden;
+  position: relative;
+  top: 0; }
+
+.percentage.svelte-h0i7g2 {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  z-index: 1; }
+
+.percentage-bar.svelte-h0i7g2 {
+  position: absolute;
+  width: 0%;
+  z-index: 2; }
+
+.percentage-text.svelte-h0i7g2 {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  z-index: 3; }
+
+label.svelte-wryltr {
+  cursor: pointer; }
+
+input[type="radio"].svelte-wryltr {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0; }
+
+label.svelte-1251773 {
+  cursor: pointer; }

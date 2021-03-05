@@ -35,6 +35,7 @@ public/app/nfwlog/*
 !public/app/plugins/edd-stripe/vendor
 !public/app/plugins/enon
 !public/app/plugins/enon-reseller
+!public/app/plugins/immo-rating
 !public/app/plugins/optimizePressPlugin
 !public/app/plugins/optimizePressPlusPack
 !public/app/plugins/options-definitely
