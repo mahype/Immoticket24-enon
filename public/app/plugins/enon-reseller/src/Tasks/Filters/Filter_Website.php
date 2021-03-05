@@ -68,6 +68,8 @@ class Filter_Website implements Task, Filters {
 	public function add_filters() {
 		add_filter( 'wpenon_filter_url',              array( $this, 'add_iframe_params' ) );
 		add_filter( 'wpenon_payment_success_url',     array( $this, 'add_iframe_params' ), 10 );	
+		add_filter( 'awsm_edd_payment_success_url',     array( $this, 'add_iframe_params' ), 10 );	
+		
 		add_filter( 'wpenon_payment_failed_url',      array( $this, 'filter_payment_failed_url' ) );
 		add_filter( 'wpenon_overview_page_data',      array( $this, 'filter_access_link' ), 10, 2 );
 		add_filter( 'wpenon_create_privacy_url',      array( $this, 'filter_privacy_url' ) );
