@@ -29,6 +29,8 @@ jobs:
           /www/htdocs/w012900a/bin/composer.phar update
           cd $WWW/public/app/plugins/enon-reseller
           /www/htdocs/w012900a/bin/composer.phar update
+          cd $WWW/public/app/plugins/immo-rating
+          /www/htdocs/w012900a/bin/composer.phar update
           cd $WWW/public/app/plugins/wp-energieausweis-online
           /www/htdocs/w012900a/bin/composer.phar update
           cp $WWW/public/.htaccess-origin $WWW/public/.htaccess

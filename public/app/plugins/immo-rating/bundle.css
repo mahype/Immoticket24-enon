@@ -1,0 +1,214 @@
+@charset "UTF-8";
+#immo-rating {
+  /**
+   * Base styles
+   */
+  width: 100%;
+  overflow: hidden;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  /**
+   * Navigation buttons
+   */
+  /**
+   * Percentage bar
+   */
+  /**
+   * Footer
+   */ }
+  #immo-rating fieldset.active {
+    display: block; }
+  #immo-rating fieldset {
+    /** resetting standard border **/
+    border: 0px;
+    margin: 0;
+    padding: 0;
+    display: none;
+    /**
+        * Image choices
+        */
+    /**
+        * Content with image left
+        */ }
+    #immo-rating fieldset .active {
+      display: block; }
+    #immo-rating fieldset legend {
+      background-color: #265993;
+      border: 1px solid #265993;
+      border-radius: 3px 3px 0 0;
+      color: white;
+      width: 100%;
+      text-align: center;
+      padding: 1%;
+      margin-bottom: 2%;
+      font-size: 2rem; }
+    #immo-rating fieldset .image-choices {
+      display: flex;
+      /* hiding standard input field */ }
+      #immo-rating fieldset .image-choices label {
+        cursor: pointer;
+        margin: 3%; }
+        #immo-rating fieldset .image-choices label:first-child {
+          margin-left: 6%; }
+        #immo-rating fieldset .image-choices label:last-child {
+          margin-right: 6%; }
+      #immo-rating fieldset .image-choices input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0; }
+      #immo-rating fieldset .image-choices img {
+        border-radius: 3px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); }
+      #immo-rating fieldset .image-choices .image-text {
+        text-align: center;
+        font-size: 1.5rem; }
+    #immo-rating fieldset .content-image-left {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 2%; }
+      #immo-rating fieldset .content-image-left label {
+        display: flex; }
+        #immo-rating fieldset .content-image-left label div {
+          width: 50%; }
+      #immo-rating fieldset .content-image-left .image-left {
+        flex-wrap: 1;
+        width: 25%;
+        padding: 3%; }
+        #immo-rating fieldset .content-image-left .image-left img {
+          border-radius: 3px;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); }
+      #immo-rating fieldset .content-image-left .content {
+        flex-wrap: 3;
+        width: 75%;
+        padding: 3%; }
+        #immo-rating fieldset .content-image-left .content .range-text {
+          width: 100%;
+          display: flex;
+          margin-bottom: 4%; }
+          #immo-rating fieldset .content-image-left .content .range-text label {
+            width: 50%; }
+          #immo-rating fieldset .content-image-left .content .range-text div {
+            text-align: right;
+            width: 50%; }
+        #immo-rating fieldset .content-image-left .content .range-value input[type=text] {
+          width: 50%;
+          height: 2em; }
+        #immo-rating fieldset .content-image-left .content .range-slider input[type=range] {
+          width: 100%;
+          margin-bottom: 8%; }
+        #immo-rating fieldset .content-image-left .content label {
+          margin-bottom: 2%;
+          cursor: pointer; }
+          #immo-rating fieldset .content-image-left .content label input[type=radio] {
+            margin-right: 2%; }
+          #immo-rating fieldset .content-image-left .content label input[type=text] {
+            position: absolute;
+            margin-left: 15%;
+            width: 30%; }
+  #immo-rating input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 10px;
+    background: #d3d3d3;
+    outline: none; }
+    #immo-rating input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      /* Override default look */
+      appearance: none;
+      width: 12px;
+      /* Set a specific slider handle width */
+      height: 30px;
+      /* Slider handle height */
+      background: #265993;
+      cursor: pointer;
+      /* Cursor on hover */
+      border-radius: 3px;
+      box-shadow: 2px 2px 5px slategrey; }
+    #immo-rating input[type=range]::-moz-range-thumb {
+      width: 12px;
+      /* Set a specific slider handle width */
+      height: 30px;
+      /* Slider handle height */
+      background: #265993;
+      cursor: pointer;
+      /* Cursor on hover */
+      border-radius: 3px;
+      box-shadow: 2px 2px 2px slategrey; }
+  #immo-rating .navigation-buttons {
+    display: flex;
+    height: 40px; }
+    #immo-rating .navigation-buttons input[type=button] {
+      width: 50%;
+      background-color: #f3efe9;
+      border: 0;
+      border-radius: 0;
+      color: rgba(0, 0, 0, 0.2); }
+      #immo-rating .navigation-buttons input[type=button]:hover {
+        cursor: pointer;
+        background-color: #265993;
+        color: white; }
+      #immo-rating .navigation-buttons input[type=button]:first-child {
+        border-right: 1px solid rgba(0, 0, 0, 0.2); }
+  #immo-rating .immo-rating-percentage {
+    position: relative;
+    width: 100%;
+    line-height: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    background-color: #f3efe9;
+    z-index: 1;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.2); }
+    #immo-rating .immo-rating-percentage .immo-rating-percentage-bar {
+      background-color: #41a62a;
+      position: absolute;
+      width: 25%;
+      height: 40px;
+      z-index: 2; }
+    #immo-rating .immo-rating-percentage .immo-rating-percentage-text {
+      position: relative;
+      text-align: center;
+      width: 100%;
+      height: 40px;
+      color: white;
+      z-index: 3; }
+    #immo-rating .immo-rating-percentage .immo-rating-footer {
+      background-color: #f3efe9;
+      margin: 0;
+      padding: 1% 3%; }
+  #immo-rating .immo-rating-footer {
+    height: 40px;
+    line-height: 40px; }
+    #immo-rating .immo-rating-footer ul {
+      display: flex;
+      margin: 0;
+      padding: 0; }
+      #immo-rating .immo-rating-footer ul li {
+        width: calc(100% / 3);
+        text-align: center;
+        list-style-type: none;
+        font-size: 1.5rem;
+        margin: 0; }
+        #immo-rating .immo-rating-footer ul li:before {
+          content: '✓ ';
+          color: #41a62a;
+          font-size: 2rem; }
+
+fieldset.svelte-bfcn8g {
+  overflow: hidden; }
+
+label.svelte-1251773 {
+  cursor: pointer; }
+
+label.svelte-18qdbtm {
+  cursor: pointer; }
+
+input.svelte-18qdbtm {
+  display: none; }

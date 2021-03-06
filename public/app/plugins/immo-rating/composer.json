@@ -1,0 +1,20 @@
+{
+    "name": "awsm/immorating",
+    "description": "Immo rating plugin",
+    "repositories":[
+        {
+            "type": "vcs",
+            "url" : "https://github.com/awsmug/lib-wp"
+        }
+    ],
+    "require": {
+        "awsm/lib-tools": "dev-develop",
+        "awsm/lib-file": "dev-develop",
+        "awsm/lib-wp": "dev-develop"
+    },
+    "autoload": {
+        "psr-4": {
+            "AWSM\\ImmoRating\\" : "src/"
+        }
+    }
+}
