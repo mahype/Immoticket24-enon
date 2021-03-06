@@ -1,0 +1,1531 @@
+{
+    "name": "immo-rating",
+    "start": "start",
+    "classes": [ "immo-rating" ],
+    "fieldsets": [
+        {
+            "label": "Wählen Sie die Immobilienart, welche Sie verkaufen wollen.",
+            "name": "start",
+            "percentage": 10,
+            "fields": [
+                {
+                    "name": "immotype",
+                    "type": "ImageChoice",
+                    "choices": [
+                        {
+                            "label": "Haus",
+                            "value": "Haus",
+                            "image": "/app/plugins/immo-rating/src/assets/images/house.png"
+                        },
+                        {
+                            "label": "Wohnung",
+                            "value": "Wohnung",
+                            "image": "/app/plugins/immo-rating/src/assets/images/flat.png"
+                        },
+                        {
+                            "label": "Grundstück",
+                            "value": "Grundstück",
+                            "image": "/app/plugins/immo-rating/src/assets/images/plot.png" 
+                        },
+                        {
+                            "label": "Gewerbe",
+                            "value": "Gewerbe",
+                            "image": "/app/plugins/immo-rating/src/assets/images/business.png"
+                        }
+                    ],
+                    "required": true,
+                    "params": {
+                        "setNextFieldset": true
+                    },                    
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["Haus", "Wohnung", "Grundstück", "Gewerbe"],
+                            "error": "Wert stimmt nicht mit den Vorgaben überein"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Welche Fläche hat das Grundstück der Immobilie?",            
+            "name": "house/landarea",
+            "percentage": 20,
+            "conditions": [
+                {
+                    "field": "immotype",
+                    "value": "Haus",
+                    "operator": "=="
+                }
+            ],
+            "prevFieldset": "start",
+            "nextFieldset": "house/space",
+            "fieldsClasses": [
+                "house-left"
+            ],
+            "fields": [
+                {
+                    "name": "houseLandarea",
+                    "type": "Range",
+                    "label": "Grundstücksfläche",  
+                    "value": 250,            
+                    "params": { 
+                        "min": 1,
+                        "max": 500,
+                        "step": 1,
+                        "unit" : "m²"
+                    },
+                    "validations": [
+                        {
+                            "type": "min",
+                            "value": 1,
+                            "error": "Die Grundstücksfläche ist zu klein."
+                        },
+                        {
+                            "type": "max",
+                            "value": 500,
+                            "error": "Die Grundstücksfläche ist zu groß."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Wie ist die gesamte Wohnfläche der Immobilie?",
+            "name": "house/space",
+            "percentage": 30,
+            "nextFieldset": "house/floors",
+            "fieldsClasses": [
+                "house-left"
+            ],
+            "fields": [
+                {
+                    "name": "houseSpace",
+                    "type": "Range",
+                    "label": "Wohnfläche",
+                    "value": 250,
+                    "params": { 
+                        "min": 1,
+                        "max": 500,
+                        "step": 1,
+                        "unit" : "m²"
+                    },
+                    "validations": [
+                        {
+                            "type": "min",
+                            "value": 1,
+                            "error": "Die Wohnfläche ist zu klein."
+                        },
+                        {
+                            "type": "max",
+                            "value": 500,
+                            "error": "Die Wohnfläche ist zu groß."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Wie viele Etagen hat das Haus?",
+            "name": "house/floors",
+            "percentage": 40,           
+            "nextFieldset": "house/rooms",
+            "fields": [
+                {
+                    "name": "houseFloors",
+                    "type": "ImageChoice",
+                    "choices": [
+                        {
+                            "label": "Eine",
+                            "value": "Eine",
+                            "image": "/app/plugins/immo-rating/src/assets/images/one-floor.png"
+                        },
+                        {
+                            "label": "Anderthalb",
+                            "value": "Anderthalb",
+                            "image": "/app/plugins/immo-rating/src/assets/images/one-and-a-half-floors.png"
+                        },
+                        {
+                            "label": "Zwei",
+                            "value": "Zwei",
+                            "image": "/app/plugins/immo-rating/src/assets/images/two-floors.png" 
+                        },
+                        {
+                            "label": "Mehr als zwei",
+                            "value": "Mehr als zwei",
+                            "image": "/app/plugins/immo-rating/src/assets/images/more-than-two-floors.png"
+                        }
+                    ],                    
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["Eine", "Anderthalb", "Zwei", "Mehr als zwei"],
+                            "error": "Bitte geben Sie an wie viele Etagen das Haus hat."
+                        }
+                    ],
+                    "params": {
+                        "setNextFieldset": true
+                    }
+                }
+            ]
+        },
+        {
+            "label": "Wie viele Zimmer hat das Haus?",
+            "name": "house/rooms",
+            "percentage": 50,
+            "nextFieldset": "house/buildingyear",
+            "fieldsClasses": [
+                "house-left"
+            ],
+            "fields": [
+                {
+                    "name": "immoType",
+                    "type": "Range",
+                    "label": "Anzahl der Zimmer",
+                    "value": 4,
+                    "params": { 
+                        "min": 1,
+                        "max": 15,
+                        "step": 1
+                    },
+                    "validations": [
+                        {
+                            "type": "min",
+                            "value": 1,
+                            "error": "Das Haus muss mindestens ein Zimmer haben."
+                        },
+                        {
+                            "type": "max",
+                            "value": 15,
+                            "error": "Das Haus darf maximal 15 Zimmer haben."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Wann wurde das Haus gebaut?",
+            "name": "house/buildingyear",
+            "percentage": 60,
+            "nextFieldset": "house/parking",
+            "fieldsClasses": [
+                "house-left"
+            ],
+            "fields": [
+                {
+                    "name": "houseBuildingyear",
+                    "type": "Range",
+                    "label": "Baujahr",
+                    "value": 2000,
+                    "params": { 
+                        "min": 1800,
+                        "max": 2021,
+                        "step": 1
+                    },
+                    "validations": [
+                        {
+                            "type": "min",
+                            "value": 1800,
+                            "error": "Das Baujahr darf nicht älter als 1800 sein."
+                        },
+                        {
+                            "type": "max",
+                            "value": 2021,
+                            "error": "Das Haus muss schon fertig gebaut sein."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Welche Parkmöglichkeiten sind am Haus vorhanden?",
+            "name": "house/parking",
+            "percentage": 70,           
+            "nextFieldset": "house/selldate",
+            "fields": [
+                {
+                    "name": "houseParking",
+                    "type": "ImageChoice",
+                    "choices": [
+                        {
+                            "label": "Garage",
+                            "value": "Garage",
+                            "image": "/app/plugins/immo-rating/src/assets/images/garage.png"
+                        },
+                        {
+                            "label": "Carport",
+                            "value": "Carport",
+                            "image": "/app/plugins/immo-rating/src/assets/images/carport.png"
+                        },
+                        {
+                            "label": "Parkplatz",
+                            "value": "Parkplatz",
+                            "image": "/app/plugins/immo-rating/src/assets/images/parking-spot.png" 
+                        },
+                        {
+                            "label": "Nicht vorhanden",
+                            "value": "Nicht vorhanden",
+                            "image": "/app/plugins/immo-rating/src/assets/images/no-parking.png"
+                        }
+                    ],
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["Garage", "Carport", "Parkplatz", "Nicht vorhanden"],
+                            "error": "Bitte geben Sie an welche Parkmöglichkeiten das Haus hat."
+                        }
+                    ],
+                    "params": {
+                        "setNextFieldset": true
+                    }
+                }
+            ]
+        },
+        {
+            "label": "Wann möchten Sie Ihre Immobilie Verkaufen?",
+            "name": "house/selldate",
+            "percentage": 80,           
+            "nextFieldset": "house/address",
+            "fieldsClasses": [
+                "house-left"
+            ],
+            "fields": [
+                {
+                    "name": "houseContact",
+                    "type": "RadioChoice",
+                    "choices": [
+                        {
+                            "label": "in 1-3 Monaten",
+                            "value": "in 1-3 Monaten"
+                        },
+                        {
+                            "label": "in 4-6 Monaten",
+                            "value": "in 4-6 Monaten"
+                        },
+                        {
+                            "label": "in mehr als 6 Monaten",
+                            "value": "in mehr als 6 Monaten"
+                        },
+                        {
+                            "label": "Im Moment noch nicht",
+                            "value": "Im Moment noch nicht"
+                        }
+                    ],
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["in 1-3 Monaten", "in 4-6 Monaten", "in mehr als 6 Monaten", "Im Moment noch nicht"],
+                            "error": "Bitte treffen Sie eine Auswahl."
+                        }
+                    ],
+                    "params": {
+                        "setNextFieldset": true
+                    }                    
+                }
+            ]
+        },
+        {
+            "label": "Wie ist die Adresse der Immobilie?",
+            "name": "house/address",
+            "percentage": 90,
+            "nextFieldset": "house/contact",
+            "fieldsClasses": [
+                "house-left"
+            ],
+            "fields": [
+                {
+                    "name": "street",
+                    "label": "Straße und Hausnummer",
+                    "type": "Text",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 4,
+                            "error": "Mindestens 4 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                },
+                {
+                    "name": "postcode",
+                    "label": "Postleitzahl",
+                    "type": "Text",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 5,
+                            "error": "Mindestens 5 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 5,
+                            "error": "Maximal 5 Zeichen"
+                        }
+                    ]
+                },
+                {
+                    "name": "city",
+                    "label": "Ort",
+                    "type": "Text",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 4,
+                            "error": "Mindestens 3 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                }                
+            ]
+        },
+        {
+            "label": "Wie lauten Ihre Kontaktdaten?",
+            "name": "house/contact",
+            "percentage": 100,
+            "submission": {
+                "fieldsets": [
+                    "start",
+                    "house/landarea",
+                    "house/livingspace",
+                    "house/floors",
+                    "house/rooms",
+                    "house/buildingyear",
+                    "house/parking",
+                    "house/selldate",
+                    "house/address",
+                    "house/contact"
+                ],
+                "url": "/api/awsm/v1/submission",
+                "method": "POST"
+            },
+            "fieldsClasses": [
+                "house-left"
+            ],
+            "fields": [
+                {
+                    "name": "name",
+                    "label": "Name",
+                    "type": "Text",
+                    "placeholder": "Ihr Name",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 3,
+                            "error": "Mindestens 3 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                },
+                {
+                    "name": "email",
+                    "label": "Email",
+                    "type": "Text",
+                    "placeholder": "Ihr Email",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "email",
+                            "error": "Bitte geben Sie eine gültige Email-Adresse ein"
+                        }
+                    ]
+                },
+                {
+                    "name": "phone",
+                    "label": "Telefon",
+                    "type": "Text",
+                    "placeholder": "+49 030 123456789",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 8,
+                            "error": "Mindestens 3 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Wie viel m² hat die Wohnung?",
+            "name": "flat/livingspace",
+            "percentage": 12.5,
+            "prevFieldset": "start",
+            "nextFieldset": "flat/buildingyear",
+            "conditions": [
+                {
+                    "field": "immotype",
+                    "value": "Wohnung",
+                    "operator": "=="
+                }
+            ],
+            "fieldsClasses": [
+                "flat-left"
+            ],
+            "fields": [
+                {
+                    "name": "immoType",
+                    "type": "Range",
+                    "label": "Wohnfläche",
+                    "value": 100,
+                    "params": { 
+                        "min": 1,
+                        "max": 250,
+                        "step": 1,
+                        "unit" : "m²"
+                    },
+                    "validations": [
+                        {
+                            "type": "min",
+                            "value": 1,
+                            "error": "Die Grundstücksfläche ist zu klein."
+                        },
+                        {
+                            "type": "max",
+                            "value": 500,
+                            "error": "Die Grundstücksfläche ist zu groß."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Welches Baujahr hat das Wohnhaus?",
+            "name": "flat/buildingyear",
+            "percentage": 25,
+            "nextFieldset": "flat/parking",
+            "fieldsClasses": [
+                "flat-left"
+            ],
+            "fields": [
+                {
+                    "name": "immoType",
+                    "type": "Range",
+                    "label": "Baujahr",
+                    "value": 2000,
+                    "params": { 
+                        "min": 1800,
+                        "max": 2021,
+                        "step": 1
+                    },
+                    "validations": [
+                        {
+                            "type": "min",
+                            "value": 1800,
+                            "error": "Das Baujahr darf nicht älter als 1800 sein."
+                        },
+                        {
+                            "type": "max",
+                            "value": 2021,
+                            "error": "Das Haus muss schon fertig gebaut sein."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Welche Parkmöglichkeiten hat die Wohnung?",
+            "name": "flat/parking",
+            "percentage": 37.5,           
+            "nextFieldset": "flat/kitchen",
+            "fields": [
+                {
+                    "name": "flatParking",
+                    "type": "ImageChoice",
+                    "choices": [
+                        {
+                            "label": "Garage",
+                            "value": "Garage",
+                            "image": "/app/plugins/immo-rating/src/assets/images/garage.png"
+                        },
+                        {
+                            "label": "Carport",
+                            "value": "Carport",
+                            "image": "/app/plugins/immo-rating/src/assets/images/carport.png"
+                        },
+                        {
+                            "label": "Parkplatz",
+                            "value": "Parkplatz",
+                            "image": "/app/plugins/immo-rating/src/assets/images/parking-spot.png" 
+                        },
+                        {
+                            "label": "Nicht vorhanden",
+                            "value": "Nicht vorhanden",
+                            "image": "/app/plugins/immo-rating/src/assets/images/no-parking.png"
+                        }
+                    ],
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["Garage", "Carport", "Parkplatz", "Nicht vorhanden"],
+                            "error": "Bitte geben Sie eine Parkmöglichkeit an."
+                        }
+                    ],
+                    "params": {
+                        "setNextFieldset": true
+                    }
+                }
+            ]
+        },
+        {
+            "label": "Ist eine Einbauküche vorhanden?",
+            "name": "flat/kitchen",
+            "percentage": 50,       
+            "nextFieldset": "flat/elevator",
+            "fields": [
+                {
+                    "name": "flatKitchen",
+                    "type": "ImageChoice",
+                    "choices": [
+                        {
+                            "label": "Neuwertig",
+                            "value": "Neuwertig",
+                            "image": "/app/plugins/immo-rating/src/assets/images/kitchen-like-new.png"
+                        },
+                        {
+                            "label": "Gebraucht",
+                            "value": "Gebraucht",
+                            "image": "/app/plugins/immo-rating/src/assets/images/kitchen-used.png"
+                        },
+                        {
+                            "label": "Nicht vorhanden",
+                            "value": "Nicht vorhanden",
+                            "image": "/app/plugins/immo-rating/src/assets/images/no-kitchen.png" 
+                        }
+                    ],
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["Neuwertig", "Gebraucht", "Nicht vorhanden"],
+                            "error": "Bitte wählen Sie eine Option."
+                        }
+                    ],
+                    "params": {
+                        "setNextFieldset": true
+                    }
+                }
+            ]
+        },
+        {
+            "label": "Verfügt das Gebäude über einen Personenaufzug?",
+            "name": "flat/elevator",
+            "percentage": 62.5,           
+            "nextFieldset": "flat/selldate",
+            "fieldsClasses": [
+                "flat-left"
+            ],
+            "fields": [
+                {
+                    "name": "flatElevator",
+                    "type": "RadioChoice",
+                    "choices": [
+                        {
+                            "label": "Ja, es existiert ein Personenaufzug",
+                            "value": "Ja"
+                        },
+                        {
+                            "label": "Nein, es existiert kein Personenaufzug",
+                            "value": "Nein"
+                        }
+                    ],
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["Ja", "Nein"],
+                            "error": "Bitte wählen Sie eine Option."
+                        }
+                    ],
+                    "params": {
+                        "setNextFieldset": true
+                    }
+                }
+            ]
+        },
+        {
+            "label": "Wann möchten Sie Ihre Immobilie Verkaufen?",
+            "name": "flat/selldate",
+            "percentage": 75,           
+            "nextFieldset": "flat/address",
+            "fieldsClasses": [
+                "flat-left"
+            ],
+            "fields": [
+                {
+                    "name": "houseFloors",
+                    "type": "RadioChoice",
+                    "choices": [
+                        {
+                            "label": "in 1-3 Monaten",
+                            "value": "in 1-3 Monaten"
+                        },
+                        {
+                            "label": "in 4-6 Monaten",
+                            "value": "in 4-6 Monaten"
+                        },
+                        {
+                            "label": "in mehr als 6 Monaten",
+                            "value": "in mehr als 6 Monaten"
+                        },
+                        {
+                            "label": "Im Moment noch nicht",
+                            "value": "Im Moment noch nicht"
+                        }
+                    ],
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["in 1-3 Monaten", "in 4-6 Monaten", "in mehr als 6 Monaten", "Im Moment noch nicht"],
+                            "error": "Bitte wählen Sie eine Option."
+                        }
+                    ],
+                    "params": {
+                        "setNextFieldset": true
+                    }
+                }
+            ]
+        },
+        {
+            "label": "Wie ist die Adresse der Immobilie?",
+            "name": "flat/address",
+            "percentage": 87.5,
+            "nextFieldset": "flat/contact",
+            "fieldsClasses": [
+                "house-left"
+            ],
+            "fields": [
+                {
+                    "name": "street",
+                    "label": "Straße und Hausnummer",
+                    "type": "Text",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 4,
+                            "error": "Mindestens 4 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                },
+                {
+                    "name": "postcode",
+                    "label": "Postleitzahl",
+                    "type": "Text",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 5,
+                            "error": "Mindestens 5 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 5,
+                            "error": "Maximal 5 Zeichen"
+                        }
+                    ]
+                },
+                {
+                    "name": "city",
+                    "label": "Ort",
+                    "type": "Text",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 4,
+                            "error": "Mindestens 3 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                }                
+            ]
+        },
+        {
+            "label": "Wie lauten Ihre Kontaktdaten?",
+            "name": "flat/contact",
+            "percentage": 100,
+            "submission": {
+                "fieldsets": [
+                    "start",
+                    "flat/livingspace",
+                    "flat/buildingyear",
+                    "flat/parking",
+                    "flat/kitchen",
+                    "flat/elevator",
+                    "flat/selldate",
+                    "flat/address",
+                    "flat/contact"
+                ],
+                "url": "/api/awsm/v1/submission",
+                "method": "POST"
+            },
+            "fieldsClasses": [
+                "flat-left"
+            ],
+            "fields": [
+                {
+                    "name": "name",
+                    "label": "Name",
+                    "type": "Text",
+                    "placeholder": "Ihr Name",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 3,
+                            "error": "Mindestens 3 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                },
+                {
+                    "name": "email",
+                    "label": "Email",
+                    "type": "Text",
+                    "placeholder": "Ihr Email",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "email",
+                            "error": "Bitte geben Sie eine gültige Email-Adresse ein"
+                        }
+                    ]
+                },
+                {
+                    "name": "phone",
+                    "label": "Telefon",
+                    "type": "Text",
+                    "placeholder": "+49 030 123456789",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 8,
+                            "error": "Mindestens 3 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Welche Fläche hat das Grundstück der Immobilie?",            
+            "name": "plot/landarea",
+            "percentage": 16.6,
+            "conditions": [
+                {
+                    "field": "immotype",
+                    "value": "Grundstück",
+                    "operator": "=="
+                }
+            ],
+            "prevFieldset": "start",
+            "nextFieldset": "plot/developed",
+            "fieldsClasses": [
+                "plot-left"
+            ],
+            "fields": [
+                {
+                    "name": "plotLandarea",
+                    "type": "Range",
+                    "label": "Grundstücksfläche",  
+                    "value": 250,            
+                    "params": { 
+                        "min": 1,
+                        "max": 10000,
+                        "step": 1,
+                        "unit" : "m²"
+                    },
+                    "validations": [
+                        {
+                            "type": "min",
+                            "value": 1,
+                            "error": "Die Grundstücksfläche ist zu klein."
+                        },
+                        {
+                            "type": "max",
+                            "value": 10000,
+                            "error": "Die Grundstücksfläche ist zu groß."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Ist das Grundstück erschlossen?",
+            "name": "plot/developed",
+            "percentage": 32.2,           
+            "nextFieldset": "plot/development-possibilities",
+            "fieldsClasses": [
+                "plot-left"
+            ],
+            "fields": [
+                {
+                    "name": "plotDeveloped",
+                    "type": "RadioChoice",
+                    "choices": [
+                        {
+                            "label": "Erschlossen",
+                            "value": "Erschlossen"
+                        },
+                        {
+                            "label": "Teilerschlossen",
+                            "value": "Teilerschlossen"
+                        },
+                        {
+                            "label": "Vollerschlossen",
+                            "value": "Vollerschlossen"
+                        }
+                    ],
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["Erschlossen", "Teilerschlossen", "Vollerschlossen"],
+                            "error": "Bitte wählen Sie eine Option."
+                        }
+                    ],
+                    "params": {
+                        "setNextFieldset": true
+                    }
+                }
+            ]
+        },
+        {
+            "label": "Welche Bebauungsmöglichkeiten hat das Grundstück?",
+            "name": "plot/development-possibilities",
+            "percentage": 48.8,           
+            "nextFieldset": "plot/selldate",
+            "fieldsClasses": [
+                "plot-left"
+            ],
+            "fields": [
+                {
+                    "name": "plotDevelopmentPossibilities",
+                    "type": "RadioChoice",
+                    "choices": [
+                        {
+                            "label": "eingeschränkt bebaubar",
+                            "value": "eingeschränkt bebaubar"
+                        },
+                        {
+                            "label": "nicht bebaubar",
+                            "value": "nicht bebaubar"
+                        },
+                        {
+                            "label": "weiß nicht",
+                            "value": "weiß nicht"
+                        }
+                    ],
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["eingeschränkt bebaubar", "nicht bebaubar", "weiß nicht"],
+                            "error": "Bitte wählen Sie eine Option."
+                        }
+                    ],
+                    "params": {
+                        "setNextFieldset": true
+                    }
+                }
+            ]
+        },
+        {
+            "label": "Wann möchten Sie Ihr Grundstück Verkaufen?",
+            "name": "plot/selldate",
+            "percentage": 66.4,           
+            "nextFieldset": "plot/address",
+            "fieldsClasses": [
+                "plot-left"
+            ],
+            "fields": [
+                {
+                    "name": "plotSelldate",
+                    "type": "RadioChoice",
+                    "choices": [
+                        {
+                            "label": "in 1-3 Monaten",
+                            "value": "in 1-3 Monaten"
+                        },
+                        {
+                            "label": "in 4-6 Monaten",
+                            "value": "in 4-6 Monaten"
+                        },
+                        {
+                            "label": "in mehr als 6 Monaten",
+                            "value": "in mehr als 6 Monaten"
+                        },
+                        {
+                            "label": "Im Moment noch nicht",
+                            "value": "Im Moment noch nicht"
+                        }
+                    ],
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["in 1-3 Monaten", "in 4-6 Monaten", "in mehr als 6 Monaten", "Im Moment noch nicht"],
+                            "error": "Bitte wählen Sie eine Option."
+                        }
+                    ],
+                    "params": {
+                        "setNextFieldset": true
+                    }
+                }
+            ]
+        },
+        {
+            "label": "Wie ist die Adresse der Immobilie?",
+            "name": "plot/address",
+            "percentage": 83,
+            "nextFieldset": "plot/contact",
+            "fieldsClasses": [
+                "house-left"
+            ],
+            "fields": [
+                {
+                    "name": "street",
+                    "label": "Straße und Hausnummer",
+                    "type": "Text",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 4,
+                            "error": "Mindestens 4 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                },
+                {
+                    "name": "postcode",
+                    "label": "Postleitzahl",
+                    "type": "Text",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 5,
+                            "error": "Mindestens 5 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 5,
+                            "error": "Maximal 5 Zeichen"
+                        }
+                    ]
+                },
+                {
+                    "name": "city",
+                    "label": "Ort",
+                    "type": "Text",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 4,
+                            "error": "Mindestens 3 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                }                
+            ]
+        },
+        {
+            "label": "Wie lauten Ihre Kontaktdaten?",
+            "name": "plot/contact",
+            "percentage": 100,
+            "submission": {
+                "fieldsets": [
+                    "start",
+                    "plot/landarea",
+                    "plot/developed",
+                    "plot/development-possibilities",
+                    "plot/selldate",
+                    "plot/address",
+                    "plot/contact"
+                ],
+                "url": "/api/awsm/v1/submission",
+                "method": "POST"
+            },
+            "fieldsClasses": [
+                "plot-left"
+            ],
+            "fields": [
+                {
+                    "name": "name",
+                    "label": "Name",
+                    "type": "Text",
+                    "placeholder": "Ihr Name",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 3,
+                            "error": "Mindestens 3 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                },
+                {
+                    "name": "email",
+                    "label": "Email",
+                    "type": "Text",
+                    "placeholder": "Ihr Email",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "email",
+                            "error": "Bitte geben Sie eine gültige Email-Adresse ein"
+                        }
+                    ]
+                },
+                {
+                    "name": "phone",
+                    "label": "Telefon",
+                    "type": "Text",
+                    "placeholder": "+49 030 123456789",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 8,
+                            "error": "Mindestens 3 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Um welche Gebäudeart handelt es sich",
+            "name": "business/type",
+            "percentage": 16.6,
+            "prevFieldset": "start",       
+            "nextFieldset": "business/landarea",
+            "conditions": [
+                {
+                    "field": "immotype",
+                    "value": "Gewerbe",
+                    "operator": "=="
+                }
+            ],
+            "fields": [
+                {
+                    "name": "businessType",
+                    "type": "ImageChoice",
+                    "choices": [
+                        {
+                            "label": "Büro-/Lagergebäude",
+                            "value": "Büro-/Lagergebäude",
+                            "image": "/app/plugins/immo-rating/src/assets/images/office-warehouse.png"
+                        },
+                        {
+                            "label": "Wohn-/Geschäftsgebäude",
+                            "value": "Wohn-/Geschäftsgebäude",
+                            "image": "/app/plugins/immo-rating/src/assets/images/living-business.png"
+                        },
+                        {
+                            "label": "Industrie-/Gewerbegebäude",
+                            "value": "Industrie-/Gewerbegebäude",
+                            "image": "/app/plugins/immo-rating/src/assets/images/industry-business.png"
+                        }
+                    ],                    
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["Büro-/Lagergebäude", "Wohn-/Geschäftsgebäude", "Industrie-/Gewerbegebäude"],
+                            "error": "Bitte geben Sie an um welche Gebäudeart es sich handelt."
+                        }
+                    ],
+                    "params": {
+                        "setNextFieldset": true
+                    }
+                }
+            ]
+        },
+        {
+            "label": "Welche Fläche hat das Gebäude?",            
+            "name": "business/landarea",
+            "percentage": 32.2,
+            "nextFieldset": "business/buildingyear",
+            "fieldsClasses": [
+                "business-left"
+            ],
+            "fields": [
+                {
+                    "name": "house/landarea",
+                    "type": "Range",
+                    "label": "Grundstücksfläche",  
+                    "value": 250,            
+                    "params": { 
+                        "min": 1,
+                        "max": 20000,
+                        "step": 1,
+                        "unit" : "m²"
+                    },
+                    "validations": [
+                        {
+                            "type": "min",
+                            "value": 1,
+                            "error": "Die Gebäudefläche ist zu klein."
+                        },
+                        {
+                            "type": "max",
+                            "value": 20000,
+                            "error": "Die Gebäudefläche ist zu groß."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Welches Baujahr hat das Gebäude?",
+            "name": "business/buildingyear",
+            "percentage": 49.8,
+            "nextFieldset": "business/selldate",
+            "fieldsClasses": [
+                "business-left"
+            ],
+            "fields": [
+                {
+                    "name": "immoType",
+                    "type": "Range",
+                    "label": "Baujahr",
+                    "value": 2000,
+                    "params": { 
+                        "min": 1800,
+                        "max": 2021,
+                        "step": 1
+                    },
+                    "validations": [
+                        {
+                            "type": "min",
+                            "value": 1800,
+                            "error": "Das Baujahr darf nicht älter als 1800 sein."
+                        },
+                        {
+                            "type": "max",
+                            "value": 2021,
+                            "error": "Das Haus muss schon fertig gebaut sein."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Wann möchten Sie Ihre Immobilie Verkaufen?",
+            "name": "business/selldate",
+            "percentage": 66.4,           
+            "nextFieldset": "business/address",
+            "fieldsClasses": [
+                "business-left"
+            ],
+            "fields": [
+                {
+                    "name": "businessSelldate",
+                    "type": "RadioChoice",
+                    "choices": [
+                        {
+                            "label": "in 1-3 Monaten",
+                            "value": "in 1-3 Monaten"
+                        },
+                        {
+                            "label": "in 4-6 Monaten",
+                            "value": "in 4-6 Monaten"
+                        },
+                        {
+                            "label": "in mehr als 6 Monaten",
+                            "value": "in mehr als 6 Monaten"
+                        },
+                        {
+                            "label": "Im Moment noch nicht",
+                            "value": "Im Moment noch nicht"
+                        }
+                    ],
+                    "validations": [
+                        {
+                            "type": "inArray",
+                            "values": ["in 1-3 Monaten", "in 4-6 Monaten", "in mehr als 6 Monaten", "Im Moment noch nicht"],
+                            "error": "Bitte treffen Sie eine Auswahl."
+                        }
+                    ],
+                    "params": {
+                        "setNextFieldset": true
+                    }                    
+                }
+            ]
+        },
+
+        {
+            "label": "Wie ist die Adresse der Immobilie?",
+            "name": "business/address",
+            "percentage": 83,
+            "nextFieldset": "business/contact",
+            "fieldsClasses": [
+                "house-left"
+            ],
+            "fields": [
+                {
+                    "name": "street",
+                    "label": "Straße und Hausnummer",
+                    "type": "Text",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 4,
+                            "error": "Mindestens 4 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                },
+                {
+                    "name": "postcode",
+                    "label": "Postleitzahl",
+                    "type": "Text",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 5,
+                            "error": "Mindestens 5 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 5,
+                            "error": "Maximal 5 Zeichen"
+                        }
+                    ]
+                },
+                {
+                    "name": "city",
+                    "label": "Ort",
+                    "type": "Text",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 4,
+                            "error": "Mindestens 3 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                }                
+            ]
+        },
+        {
+            "label": "Wie lauten Ihre Kontaktdaten?",
+            "name": "business/contact",
+            "percentage": 100,
+            "submission": {
+                "fieldsets": [
+                    "start",
+                    "business/type",
+                    "business/landarea",
+                    "business/buildingyear",
+                    "business/selldate",
+                    "business/address",
+                    "business/contact"
+                ],
+                "url": "/api/awsm/v1/submission",
+                "method": "POST"
+            },
+            "fieldsClasses": [
+                "business-left"
+            ],
+            "fields": [
+                {
+                    "name": "name",
+                    "label": "Name",
+                    "type": "Text",
+                    "placeholder": "Ihr Name",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 3,
+                            "error": "Mindestens 3 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                },
+                {
+                    "name": "email",
+                    "label": "Email",
+                    "type": "Text",
+                    "placeholder": "Ihr Email",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "email",
+                            "error": "Bitte geben Sie eine gültige Email-Adresse ein"
+                        }
+                    ]
+                },
+                {
+                    "name": "phone",
+                    "label": "Telefon",
+                    "type": "Text",
+                    "placeholder": "+49 030 123456789",
+                    "required": true,
+                    "validations": [
+                        {
+                            "type": "string",
+                            "error": "Der Angegebene Wert muss eine Zeichenkette sein"
+                        },
+                        {
+                            "type": "minLength",
+                            "value": 8,
+                            "error": "Mindestens 3 Zeichen"
+                        },
+                        {
+                            "type": "maxLength",
+                            "value": 100,
+                            "error": "Maximal 100 Zeichen"
+                        }
+                    ]
+                }                
+            ]
+        }        
+    ]
+}
