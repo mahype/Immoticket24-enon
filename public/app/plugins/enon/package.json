@@ -4,7 +4,8 @@
   "description": "Energieausweis online main plugin.",
   "main": "index.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "serve": "webpack -w"
   },
   "dependencies": {
     "cookieconsent": "^3.1.1",
