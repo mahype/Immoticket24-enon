@@ -108,8 +108,8 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @since 1.0.0
  */
-( function( jQuery) {
-	document.addEventListener("DOMContentLoaded", function() {
+( function( jQuery ) {
+	jQuery(document).ready( () => {
 		const pb_popup = new _Popup_Premiumbewertung__WEBPACK_IMPORTED_MODULE_0__["default"]( jQuery );
 	});
 })( jQuery );
@@ -632,7 +632,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(false);
 // Module
-___CSS_LOADER_EXPORT___.push([module.i, "#edd-payment-filters {\n  position: relative;\n  padding: 12px 12px 50px 12px;\n}\n#edd-payment-filters p {\n  position: absolute;\n  right: 0;\n  top: 10px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.i, "", ""]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 
