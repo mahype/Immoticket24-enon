@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/awsmug/lib-mail.git",
-                "reference": "479893dd506c06d7857734fff89e573fed14e433"
+                "reference": "677f5f605debc966ff54e5a7a9819abc951b5215"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awsmug/lib-mail/zipball/479893dd506c06d7857734fff89e573fed14e433",
-                "reference": "479893dd506c06d7857734fff89e573fed14e433",
+                "url": "https://api.github.com/repos/awsmug/lib-mail/zipball/677f5f605debc966ff54e5a7a9819abc951b5215",
+                "reference": "677f5f605debc966ff54e5a7a9819abc951b5215",
                 "shasum": ""
             },
             "require-dev": {
@@ -27,7 +27,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "AWSM\\Lib_Mail\\": "src/"
+                    "AWSM\\LibMail\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -35,7 +35,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Awesome mail functionality. Easy and clean mail creation and transportation.",
-            "time": "2020-06-24T11:15:13+00:00"
+            "time": "2020-09-23T11:21:32+00:00"
         },
         {
             "name": "awsm/wp-wrapper",
@@ -43,12 +43,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/awsmug/wp-wrapper.git",
-                "reference": "b62aa3bc4e42237591eb9fa2f47ebb633892c46b"
+                "reference": "fe589d01b662d8400d248f418c22add584dda8bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/b62aa3bc4e42237591eb9fa2f47ebb633892c46b",
-                "reference": "b62aa3bc4e42237591eb9fa2f47ebb633892c46b",
+                "url": "https://api.github.com/repos/awsmug/wp-wrapper/zipball/fe589d01b662d8400d248f418c22add584dda8bf",
+                "reference": "fe589d01b662d8400d248f418c22add584dda8bf",
                 "shasum": ""
             },
             "require": {
@@ -81,7 +81,7 @@
                 "plugin",
                 "wordpress"
             ],
-            "time": "2020-09-10T11:50:46+00:00"
+            "time": "2021-03-08T11:15:11+00:00"
         },
         {
             "name": "inpsyde/wonolog",
@@ -152,16 +152,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.25.5",
+            "version": "1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1817faadd1846cd08be9a49e905dc68823bc38c0"
+                "reference": "2209ddd84e7ef1256b7af205d0717fb62cfc9c33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1817faadd1846cd08be9a49e905dc68823bc38c0",
-                "reference": "1817faadd1846cd08be9a49e905dc68823bc38c0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/2209ddd84e7ef1256b7af205d0717fb62cfc9c33",
+                "reference": "2209ddd84e7ef1256b7af205d0717fb62cfc9c33",
                 "shasum": ""
             },
             "require": {
@@ -177,7 +177,7 @@
                 "graylog2/gelf-php": "~1.0",
                 "php-amqplib/php-amqplib": "~2.4",
                 "php-console/php-console": "^3.1.3",
-                "php-parallel-lint/php-parallel-lint": "^1.0",
+                "phpstan/phpstan": "^0.12.59",
                 "phpunit/phpunit": "~4.5",
                 "ruflin/elastica": ">=0.90 <3.0",
                 "sentry/sentry": "^0.13",
@@ -197,11 +197,6 @@
                 "sentry/sentry": "Allow sending log messages to a Sentry server"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Monolog\\": "src/Monolog"
@@ -225,7 +220,17 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2020-07-23T08:35:51+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/Seldaek",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/monolog/monolog",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-12-14T12:56:38+00:00"
         },
         {
             "name": "psr/log",
