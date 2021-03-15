@@ -32,11 +32,11 @@ class PaymentGatewayDeposit extends \WPENON\Model\PaymentGateway {
 			$this->_handlePaymentError( $payment_id, sprintf( __( 'Payment creation failed while processing a deposit purchase. Payment data: %s', 'wpenon' ), json_encode( $payment_data ) ), true );
 		}
 
-		$redirect_url = apply_filters( 'wpenon_payment_success_url', home_url('/vermarktungspaket-immoticket24-2/'), $payment_id );
+		$redirect_url = apply_filters( 'wpenon_payment_success_url', home_url('/vermarktungspaket-immoticket24-2/?payment-confirmation=deposit&payment-id=' . $payment_id ), $payment_id );
 
 		$this->_handlePaymentSuccess( $payment_id, null, $redirect_url );
-	}
-
+	}	
+	
 	public function processPurchaseNotification( $data ) {
 		// there is no automated purchase notification for a deposit
 	}

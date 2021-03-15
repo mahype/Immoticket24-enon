@@ -34,7 +34,7 @@ class Add_Scripts implements Task {
 	 */
 	public function run() {
 		$bundle_js = $this->get_assets_url( 'bundle.js' );
-		new Frontend_Script( 'enon-bundle-js', $bundle_js, array(), '1.0.0', true );
+		new Frontend_Script( 'enon-bundle-js', $bundle_js, array(), '1.0.0', true, 100 );
 	}
 
 	/**

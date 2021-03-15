@@ -7,8 +7,8 @@ import Popup_Premiumbewertung from './Popup_Premiumbewertung';
  *
  * @since 1.0.0
  */
-( function( jQuery) {
-	document.addEventListener("DOMContentLoaded", function() {
+( function( jQuery ) {
+	jQuery(document).ready( () => {
 		const pb_popup = new Popup_Premiumbewertung( jQuery );
 	});
 })( jQuery );

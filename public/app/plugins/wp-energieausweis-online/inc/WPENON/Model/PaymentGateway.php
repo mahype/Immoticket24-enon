@@ -38,6 +38,8 @@ abstract class PaymentGateway {
 
 		add_action( 'edd_gateway_' . $gateway_name, array( $this, 'verifyNonce' ), 1 );
 		add_action( 'edd_gateway_' . $gateway_name, array( $this, 'processPurchase' ) );
+		
+		add_filter( 'edd_payment_confirm_' . $gateway_name,  array( $this, 'confirmPage' ) );
 
 		if ( ! empty( $this->listener_key ) ) {
 			add_action( 'init', array( $this, '_listenForNotification' ) );
@@ -209,5 +211,19 @@ abstract class PaymentGateway {
 		}
 
 		return 0;
+	}
+
+	public function confirmPage( $content ) {
+		if ( ! isset( $_GET['payment-id'] ) && ! edd_get_purchase_session() ) {
+			return $content;
+		}
+	
+		edd_empty_cart();	
+
+		ob_start();
+		edd_get_template_part( 'payment', 'processing' );
+		$content = ob_get_clean();
+	
+		return $content;	
 	}
 }

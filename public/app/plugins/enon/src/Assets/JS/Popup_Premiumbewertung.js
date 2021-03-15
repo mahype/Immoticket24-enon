@@ -122,8 +122,6 @@ class Popup_Premiumbewertung {
 				let check_nr = [ 'xLswR42' ];
 				let input_val = self.jQuery( '#edd-discount' ).val();
 
-
-
 				if ( checkbox.checked || declined == true || check_nr.includes( input_val ) ){
 					self.send_purchase();
 				} else {

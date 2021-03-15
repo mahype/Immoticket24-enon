@@ -66,19 +66,19 @@ class Filter_Website implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'wpenon_filter_url', array( $this, 'filter_iframe_url' ) );
+		add_filter( 'wpenon_filter_url',              array( $this, 'add_iframe_params' ) );
+		add_filter( 'wpenon_payment_success_url',     array( $this, 'add_iframe_params' ), 10 );	
+		add_filter( 'awsm_edd_payment_success_url',     array( $this, 'add_iframe_params' ), 10 );	
+		
+		add_filter( 'wpenon_payment_failed_url',      array( $this, 'filter_payment_failed_url' ) );
+		add_filter( 'wpenon_overview_page_data',      array( $this, 'filter_access_link' ), 10, 2 );
+		add_filter( 'wpenon_create_privacy_url',      array( $this, 'filter_privacy_url' ) );
 
-		add_filter( 'wpenon_payment_success_url', array( $this, 'filter_payment_success_url' ), 10, 2 );
-		add_filter( 'wpenon_payment_failed_url', array( $this, 'filter_payment_failed_url' ) );
-
-		add_filter( 'wpenon_overview_page_data', array( $this, 'filter_access_link' ), 10, 2 );
-		add_filter( 'wpenon_create_privacy_url', array( $this, 'filter_privacy_url' ) );
-
-		add_filter( 'edd_get_checkout_uri', array( $this, 'filter_iframe_url' ), 100 );
-		add_filter( 'edd_get_success_page_uri', array( $this, 'filter_iframe_url' ), 100 );
-		add_filter( 'edd_get_success_page_uri', array( $this, 'filter_success_url' ), 200 );
-		add_filter( 'edd_get_failed_transaction_uri', array( $this, 'filter_iframe_url' ), 100 );
-		add_filter( 'edd_remove_fee_url', array( $this, 'filter_iframe_url' ), 100 );
+		add_filter( 'edd_get_success_page_uri',       array( $this, 'filter_success_url' ), 100 );
+		add_filter( 'edd_get_success_page_uri',       array( $this, 'add_iframe_params' ), 200 );	
+		add_filter( 'edd_get_checkout_uri',           array( $this, 'add_iframe_params' ), 100 );
+		add_filter( 'edd_get_failed_transaction_uri', array( $this, 'add_iframe_params' ), 100 );
+		add_filter( 'edd_remove_fee_url',             array( $this, 'add_iframe_params' ), 100 );		
 	}
 
 	/**
@@ -90,7 +90,7 @@ class Filter_Website implements Task, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_iframe_url( $url ) {
+	public function add_iframe_params( $url ) {
 		return $this->reseller->add_iframe_params( $url );
 	}
 
@@ -104,58 +104,14 @@ class Filter_Website implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function filter_success_url( $url ) {
-        $success_url = $this->reseller->data()->website->get_payment_successful_url();
+		$url = $this->reseller->data()->website->get_payment_successful_url();
 
-		if ( ! empty( $success_url ) ) {
-			return $success_url;
-        }
-        
-        $ifame_token = $this->reseller->data()->general->get_token();
-        $success_url = get_home_url() . '/danke-fuer-ihr-vertrauen/?iframe_token=' . $ifame_token;
-
-		return $success_url;
-	}
-
-	/**
-	 * Filtering payment success URL.
-	 *
-	 * @param string $old_url    Old url.
-	 * @param int    $payment_id Payment id.
-	 *
-	 * @return string
-	 *
-	 * @since 1.0.0
-	 */
-	public function filter_payment_success_url( $old_url, $payment_id ) {
-		$payment = new \EDD_Payment( $payment_id );
-
-		$payment_status = $payment->status;
-
-		if ( 'pending' === $payment->status ) {
-			$url = $this->reseller->data()->website->get_payment_pending_url();
-		} else {
-			$url = $this->reseller->data()->website->get_payment_successful_url();
-		}
-
-		// Backup to standard values.
+		// Backup to standard value.
 		if ( empty( $url ) ) {
-			// Todo: Have to be an option in new settings pages.
-			$payment_successful_page = immoticketenergieausweis_get_option( 'it-theme', 'page_for_successful_payment' );
-
-			if ( empty( $payment_successful_page ) ) {
-				return $old_url;
-			}
-
-			$url = get_permalink( $payment_successful_page );
+			$url = home_url( '/danke-fuer-ihr-vertrauen/' );
 		}
 
-		$debug_values = array(
-			'payment_id'     => $payment_id,
-			'url'            => $url,
-			'payment_status' => $payment->status,
-		);
-
-		$this->logger()->notice( 'Setting payment url.', $debug_values );
+		$this->logger()->notice( 'Setting success url.', [ 'url' => $url ] );
 
 		return $url;
 	}
