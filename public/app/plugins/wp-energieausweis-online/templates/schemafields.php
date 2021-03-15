@@ -166,12 +166,18 @@
               <input type="text" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" class="form-control" value="<?php echo $field['value']; ?>" pattern="[0-9]{5}"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ); ?>>
 
             <?php break; ?>
-            <?php case 'file': ?>
+            <?php case 'image': ?>
+            <div id="<?php echo $field_slug; ?>_image">
+              <?php if( ! empty( $field['value'] ) ): ?>
+                <img src="<?php echo $field['value']; ?>" />
+              <?php endif; ?>
+            </div>
             <?php 
                 if ( isset( $field['filetypes'] ) ) {
                   $filetypes = ' accept="' . implode( ', ', $field['filetypes'] ) . '"';
                 }
             ?>
+
             <input type="file" class="file-control" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ) . $filetypes; ?>>
 
             <?php break; ?>

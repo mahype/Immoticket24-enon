@@ -321,30 +321,68 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 	$ecId  = $request->get_param( 'ecId' );
 	$field = $request->get_param( 'field' );
 	$file  = $request->get_file_params();
+	$oldFile = get_post_meta( $ecId, 'h_typenschild_file', true );
 
 	if( $file['file']['size'] === 0 ) {
-		$return = [
-			'error' => 'Datei ust zu klein'
-		];
-		
-		echo json_encode( $return );
+		echo json_encode( ['error' => 'Datei hat keinen Inhalt'] );
+		exit;
 	}
 
-	if( $file['file']['type'] !== 'image/png' &&  $file['file']['type'] !== 'image/jpeg'  ) {
-		$return = [
-			'error' => 'Falscher Dateityp'
-		];
-		
-		echo json_encode( $return );
-	}
+	if( $file['file']['type'] !== 'image/png' &&  $file['file']['type'] !== 'image/jpeg'  ) {		
+		echo json_encode( ['error' => 'Falscher Dateityp'] );
+		exit;
+	}	
 
+	$uploadedFile = wp_handle_upload( $file['file'], [ 'test_form' => FALSE ] );
 	
+	if( ! isset( $uploadedFile['file'] ) ) {		
+		echo json_encode( ['error' => 'Datei konnte nicht verschoben werden'] );
+		exit;
+	}
+	
+	$imageEditor = wp_get_image_editor( $uploadedFile['file'] );	
+	if( is_wp_error( $imageEditor ) ) {		
+		echo json_encode( ['error' => $imageEditor->get_error_message() ] );
+		exit;
+	}
 
-	if( $file['file']['type'] !== )
+	$setQuality = $imageEditor->set_quality( 35 );	
+	$resized = $imageEditor->resize( 800, 800 );	
 
-	print_r( $ecId );
-	print_r( $field );
-	print_r( $files );
+	if( is_wp_error( $resized ) ) {
+		echo json_encode( ['error' => $resized->get_error_message() ] );
+		exit;
+	}
+
+    $resizedFile = $imageEditor->save();
+
+	if( is_wp_error( $resizedFile ) ) {
+		echo json_encode( ['error' => $resizedFile->get_error_message() ] );
+		exit;
+	}
+
+	$upload_dir = wp_upload_dir();
+
+	$randInt = random_int ( PHP_INT_MIN, PHP_INT_MAX );
+	$prefix = 'typenschild_' . md5( $randInt );
+	$suffix = $file['file']['type'] === 'image/jpeg' ? 'jpg': 'png' ;
+		
+	$filename = $prefix . '.' . $suffix;
+		
+	rename( $resizedFile['path'], trailingslashit( $upload_dir['path'] ) . $filename );	
+	unlink( $uploadedFile['file']);
+	
+	$fileUrl =  trailingslashit( $upload_dir['url'] ) . basename( $filename );
+
+	update_post_meta( $ecId, 'h_typenschild_file', trailingslashit( $upload_dir['path'] ) . $filename  );
+	update_post_meta( $ecId, 'h_typenschild', $fileUrl );
+
+	if( ! empty( $oldFile ) && file_exists( $oldFile ) ) {
+		unlink( $oldFile );
+	}
+
+	echo json_encode( ['url' => $fileUrl ] );
+	exit;
 }
 
 function wpenon_image_upload_progress() {	

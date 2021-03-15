@@ -301,7 +301,7 @@ $anlage = array(
 					'validate_dependencies' => array( 'baujahr' ),
 				),
 				'h_typenschild'                                     => array(
-					'type'                  => 'file',
+					'type'                  => 'image',
 					'label'                 => __( 'Foto des Typenschilds', 'wpenon' ),
 					'required'              => true,
 					'filetypes' => array(
