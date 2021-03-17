@@ -167,18 +167,24 @@
 
             <?php break; ?>
             <?php case 'image': ?>
+            
             <div id="<?php echo $field_slug; ?>_image">
               <?php if( ! empty( $field['value'] ) ): ?>
                 <img src="<?php echo $field['value']; ?>" />
               <?php endif; ?>
             </div>
+
             <?php 
                 if ( isset( $field['filetypes'] ) ) {
                   $filetypes = ' accept="' . implode( ', ', $field['filetypes'] ) . '"';
                 }
             ?>
+            <input type="hidden" id="<?php echo $field_slug; ?>_field" name="<?php echo $field_slug; ?>"  value="<?php echo $field['value']; ?>" />
+            <input type="file" id="<?php echo $field_slug; ?>" class="file-control" value="<?php echo $field['value']; ?>" <?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ) . $filetypes; ?>>
 
-            <input type="file" class="file-control" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ) . $filetypes; ?>>
+            <div class="percentage" style="display:none; margin-top: 10px; height: 10px; line-height: 10px; background-color:grey;">
+    	        <div class="percentage-bar" style="width:50%; height: 10px; background-color: #3da81d;"></div>
+	          </div>
 
             <?php break; ?>
             <?php default: ?>

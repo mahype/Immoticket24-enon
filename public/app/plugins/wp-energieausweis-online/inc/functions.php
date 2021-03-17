@@ -364,7 +364,7 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 	$upload_dir = wp_upload_dir();
 
 	$randInt = random_int ( PHP_INT_MIN, PHP_INT_MAX );
-	$prefix = 'typenschild_' . md5( $randInt );
+	$prefix = $field . '_' . md5( $randInt );
 	$suffix = $file['file']['type'] === 'image/jpeg' ? 'jpg': 'png' ;
 		
 	$filename = $prefix . '.' . $suffix;
@@ -384,12 +384,3 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 	echo json_encode( ['url' => $fileUrl ] );
 	exit;
 }
-
-function wpenon_image_upload_progress() {	
-	?>
-	<div class="percentage" style="display:none; margin-top: 10px; height: 10px; line-height: 10px; background-color:grey;">
-    	<div class="percentage-bar" style="width:50%; height: 10px; background-color: #3da81d;" />
-	</div>
-	<?php
-}
-add_action( 'wpenon_form_field_h_typenschild_after', 'wpenon_image_upload_progress', 1000 ); 
