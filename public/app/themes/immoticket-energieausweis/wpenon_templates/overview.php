@@ -13,6 +13,8 @@ if ( function_exists( 'edd_get_download_price' ) ) {
   }
 }
 
+$is_old_standard = ( (int) substr( $data['meta']['standard_unformatted'], 4, 4) < 2021 ) ? true : false;
+
 ?>
 
 <div class="row">
@@ -59,8 +61,9 @@ if ( function_exists( 'edd_get_download_price' ) ) {
       ?>
     </div>
   </div>
+  <?php if ( $is_old_standard ): ?>
   <div class="col-sm-4">
-    <div class="overview-thumbnail">
+    <div class="overview-thumbnail">      
       <h4>
         <?php _e( 'Bild des Gebäudes', 'wpenon' ); ?>
       </h4>
@@ -97,6 +100,27 @@ if ( function_exists( 'edd_get_download_price' ) ) {
       </form>
     </div>
   </div>
+  <?php else: ?>
+  <div class="col-sm-4">
+    <div class="overview-thumbnail">      
+      <h4>
+        <?php _e( 'Bild des Gebäudes', 'wpenon' ); ?>
+      </h4>
+      <p>
+        <small>
+          <?php _e( 'Bearbeiten Sie den Ausweis und fügen Sie ein Foto vom Gebäude hinzu, damit es hier angezeigt wird..', 'wpenon' ); ?>
+        </small>
+      </p>
+      <div class="thumbnail-wrapper">
+        <?php if ( ! empty ( $data['meta']['gebauedefoto'] ) ) : ?>
+	        <img src="<?php echo $data['meta']['gebauedefoto']; ?>">
+        <?php else : ?>
+          <span class="glyphicon glyphicon-picture"></span>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
+  <?php endif; ?> 
 </div>
 
 <?php wpenon_get_view()->displaySubTemplate( 'access-box', '', $data['access_link'] ); ?>

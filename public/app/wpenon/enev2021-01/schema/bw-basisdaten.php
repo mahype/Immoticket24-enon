@@ -18,7 +18,7 @@ $basisdaten = array(
 						'sonstiges'      => __( 'Sonstiges', 'wpenon' ),
 					),
 					'required'    => true,
-                ),
+                ),				
                 'geg20_approval' => array(
                     'type'  => 'hidden',
                     'title' => __( 'Wurde für das Bauvorhaben eine Genehmigung beantragt?', 'wpenon' ),          
@@ -41,6 +41,15 @@ $basisdaten = array(
 			'title'       => __( 'Gebäudeinformationen', 'wpenon' ),
 			'description' => __( 'Machen Sie hier grundsätzliche Angaben zum Gebäude.', 'wpenon' ),
 			'fields'      => array(
+				'gebauedefoto'              => array(
+					'type'                  => 'image',
+					'label'                 => __( 'Foto des Gebäudes', 'wpenon' ),
+					'required'              => true,
+					'filetypes' => array(
+						'image/png',
+						'image/jpeg'
+					)
+				),
 				'gebaeudetyp'          => array(
 					'type'             => 'select',
 					'label'            => __( 'Gebäudetyp', 'wpenon' ),

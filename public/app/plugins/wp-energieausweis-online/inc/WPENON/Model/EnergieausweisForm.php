@@ -44,22 +44,6 @@ class EnergieausweisForm {
 			'nonce_field_value'  => wp_create_nonce( $this->_getNonceAction() ),
 		);
 
-		if ( $this->_isEnergieausweisPostRequest() ) {
-			#$this->_verifyNonceField();
-
-			if ( isset( $_POST[ $thumbnail['delete_button_name'] ] ) ) {
-				$energieausweis->thumbnail_id = 0;
-			} elseif ( isset( $_POST[ $thumbnail['upload_button_name'] ] ) ) {
-				/*$id = \WPENON\Util\ThumbnailHandler::upload( $thumbnail['file_field_name'] );
-				if ( is_array( $id ) ) {
-					$thumbnail['error'] = $id['error'];
-				} else {
-					$energieausweis->thumbnail_id = $id;
-				}*/
-			}
-			$thumbnail['id'] = $energieausweis->thumbnail_id;
-		}
-
 		$base_url = $this->filterURL( $energieausweis->verified_permalink, $this->action, $this->type );
 
 		$data['template']                  = $this->action;
@@ -71,17 +55,19 @@ class EnergieausweisForm {
 		$data['paid']                      = $energieausweis->isPaid();
 		$data['allow_changes_after_order'] = $this->allowChangesAfterOrder( $energieausweis );
 		$data['meta']                      = array(
-			'email'              => $energieausweis->wpenon_email,
-			'type'               => $energieausweis->formatted_wpenon_type,
-			'standard'           => $energieausweis->formatted_wpenon_standard,
-			'ausstellungsdatum'  => $data['paid'] ? $energieausweis->formatted_ausstellungsdatum : false,
-			'ausstellungszeit'  => $data['paid'] ? $energieausweis->formatted_ausstellungszeit : false,
-			'registriernummer'   => $data['paid'] ? $energieausweis->registriernummer : false,
-			'adresse_strassenr'  => $energieausweis->adresse_strassenr,
-			'adresse_plz'        => $energieausweis->adresse_plz,
-			'adresse_ort'        => $energieausweis->adresse_ort,
-			'adresse_bundesland' => $energieausweis->adresse_bundesland,
-		);
+			'gebauedefoto'		  => $energieausweis->gebauedefoto,
+			'email'               => $energieausweis->wpenon_email,
+			'type'                => $energieausweis->formatted_wpenon_type,
+			'standard'            => $energieausweis->formatted_wpenon_standard,
+			'standard_unformatted'=> $energieausweis->wpenon_standard,
+			'ausstellungsdatum'   => $data['paid'] ? $energieausweis->formatted_ausstellungsdatum : false,
+			'ausstellungszeit'    => $data['paid'] ? $energieausweis->formatted_ausstellungszeit : false,
+			'registriernummer'    => $data['paid'] ? $energieausweis->registriernummer : false,
+			'adresse_strassenr'   => $energieausweis->adresse_strassenr,
+			'adresse_plz'         => $energieausweis->adresse_plz,
+			'adresse_ort'         => $energieausweis->adresse_ort,
+			'adresse_bundesland'  => $energieausweis->adresse_bundesland,
+		); 
 		$data['thumbnail']                 = $thumbnail;
 		$data['calculations']              = $energieausweis->calculate();
 		$data['energy_bar']                = array(

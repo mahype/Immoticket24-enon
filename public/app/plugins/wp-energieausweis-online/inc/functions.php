@@ -320,8 +320,10 @@ add_action( 'rest_api_init', 'wpenon_register_rest_api_endpoint' );
 function wpenon_image_upload( \WP_REST_Request $request ) {
 	$ecId  = $request->get_param( 'ecId' );
 	$field = $request->get_param( 'field' );
+	$postMetaName = $field. '_image';
+
 	$file  = $request->get_file_params();
-	$oldFile = get_post_meta( $ecId, 'h_typenschild_file', true );
+	$oldFile = get_post_meta( $ecId, $postMetaName, true );
 
 	if( $file['file']['size'] === 0 ) {
 		echo json_encode( ['error' => 'Datei hat keinen Inhalt'] );
@@ -374,8 +376,8 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 	
 	$fileUrl =  trailingslashit( $upload_dir['url'] ) . basename( $filename );
 
-	update_post_meta( $ecId, 'h_typenschild_file', trailingslashit( $upload_dir['path'] ) . $filename  );
-	update_post_meta( $ecId, 'h_typenschild', $fileUrl );
+	update_post_meta( $ecId, $postMetaName . '_file', trailingslashit( $upload_dir['path'] ) . $filename  );
+	update_post_meta( $ecId, $postMetaName, $fileUrl );
 
 	if( ! empty( $oldFile ) && file_exists( $oldFile ) ) {
 		unlink( $oldFile );
