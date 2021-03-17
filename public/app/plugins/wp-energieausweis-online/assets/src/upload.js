@@ -26,7 +26,7 @@ const setPercentage = ( field, percent ) => {
     percentage    = document.querySelector( '#' + field + '-wrap .percentage' );
     percentageBar = document.querySelector( '#' + field + '-wrap .percentage-bar' );
 
-    if( percent === 0 ) {
+    if ( percent === 0 ) {
         percentage.style.display = 'none';
         percentageBar.style.width = '0%';
 
@@ -47,13 +47,10 @@ const sendUpload = ( data, field ) => {
                 var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
                 setPercentage( field, percentCompleted );
             }
-        }      
+        }
     ).then( ( response ) => {
        setPercentage( field, 0 );
-       console.log( response.data.url );
-       console.log( field );
-       console.log(   document.getElementById( field ) );   
        document.getElementById( field + "_field" ).value = response.data.url;
        document.getElementById( field + "_image" ).innerHTML = `<img src="${response.data.url}" />`;
-    })
+    });
 }
