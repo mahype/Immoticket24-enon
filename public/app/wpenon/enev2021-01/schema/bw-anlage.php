@@ -627,6 +627,19 @@ $anlage = array(
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
+				'h2_typenschild'                                     => array(
+					'type'                  => 'image',
+					'label'                 => __( 'Foto des Typenschilds', 'wpenon' ),
+					'required'              => true,
+					'filetypes' => array(
+						'image/png',
+						'image/jpeg'
+					),
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback_args' => array( 'field::h2_info', true ),
+					),
+				),
 				'h3_info'                                       => array(
 					'type'    => 'checkbox',
 					'label'   => __( '3. Heizungsanlage vorhanden?', 'wpenon' ),
@@ -948,6 +961,19 @@ $anlage = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
+				),
+				'h3_typenschild'                                     => array(
+					'type'                  => 'image',
+					'label'                 => __( 'Foto des Typenschilds', 'wpenon' ),
+					'required'              => true,
+					'filetypes' => array(
+						'image/png',
+						'image/jpeg'
+					),
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback_args' => array( 'field::h3_info', true ),
+					),
 				),
 				'verteilung_baujahr'                            => array(
 					'type'                  => 'int',

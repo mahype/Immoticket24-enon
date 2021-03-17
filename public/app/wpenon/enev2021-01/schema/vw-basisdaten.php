@@ -41,6 +41,15 @@ $basisdaten = array(
 			'title'       => __( 'Gebäudeinformationen', 'wpenon' ),
 			'description' => __( 'Machen Sie hier grundsätzliche Angaben zum Gebäude.', 'wpenon' ),
 			'fields'      => array(
+				'gebauedefoto'              => array(
+					'type'                  => 'image',
+					'label'                 => __( 'Foto des Gebäudes', 'wpenon' ),
+					'required'              => true,
+					'filetypes' => array(
+						'image/png',
+						'image/jpeg'
+					)
+				),
 				'gebaeudetyp'  => array(
 					'type'             => 'select',
 					'label'            => __( 'Gebäudetyp', 'wpenon' ),
