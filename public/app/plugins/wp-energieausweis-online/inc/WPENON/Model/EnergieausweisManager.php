@@ -344,7 +344,7 @@ class EnergieausweisManager
 		$standard = get_post_meta( $energieausweis->id, 'wpenon_standard', true );
 
 		$schema = new Schema( $standard );
-		$schema = $schema->load( $energieausweis );
+		$schema = $schema->load( $energieausweis, [ 'energieausweis' => $energieausweis ] );
 
 		$private_fields = array(
 			'private' => array(

@@ -18,13 +18,17 @@ if ( ! class_exists( '\Enev\Schema202002\Schema\Bedarfsausweis_Schema' ) ) :
 	 * @since 1.0.0
 	 */
 	class Bedarfsausweis_Schema extends Schema {
+		protected $energieausweis;
+
 		/**
 		 * Verbrauchsausweis_Schema constructor.
 		 *
 		 * @since 1.0.0
 		 */
-		public function __construct() {
-			new BW_Modernizations();
+		public function __construct( $energieausweis ) {
+			$this->energieausweis = $energieausweis;
+
+			new BW_Modernizations();			
 		}
 
 		/**
@@ -100,6 +104,6 @@ if ( ! class_exists( '\Enev\Schema202002\Schema\Bedarfsausweis_Schema' ) ) :
 
 endif;
 
-$bedarfsausweis_schema = new Bedarfsausweis_Schema();
+$bedarfsausweis_schema = new Bedarfsausweis_Schema( $energieausweis );
 
 return $bedarfsausweis_schema->get();

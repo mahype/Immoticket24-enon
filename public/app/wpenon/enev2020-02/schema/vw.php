@@ -17,12 +17,16 @@ if ( ! class_exists( '\Enev\Schema202002\Schema\Verbrauchsausweis_Schema' ) ) :
 	 * @since 1.0.0
 	 */
 	class Verbrauchsausweis_Schema extends Schema {
+		protected $energieausweis;
+
 		/**
 		 * Verbrauchsausweis_Schema constructor.
 		 *
 		 * @since 1.0.0
 		 */
-		public function __construct() {
+		public function __construct( $energieausweis ) {
+			$this->energieausweis = $energieausweis;
+
 			new VW_Modernizations();
 		}
 
@@ -99,6 +103,6 @@ if ( ! class_exists( '\Enev\Schema202002\Schema\Verbrauchsausweis_Schema' ) ) :
 
 endif;
 
-$verbrauchsausweis_schema = new Verbrauchsausweis_Schema();
+$verbrauchsausweis_schema = new Verbrauchsausweis_Schema( $energieausweis );
 
 return $verbrauchsausweis_schema->get();
