@@ -301,14 +301,14 @@ form.immo-rating {
   display: flex;
   overflow: hidden; }
 
-.loading.svelte-1wpmhsr {
-  background: url("images/loading.gif") no-repeat left; }
-
 fieldset.svelte-ovh2fw {
   flex: 1 0 auto;
   overflow: hidden;
   position: relative;
   top: 0; }
+
+.loading.svelte-1wpmhsr {
+  background: url("images/loading.gif") no-repeat left; }
 
 .percentage.svelte-h0i7g2 {
   position: relative;
@@ -328,9 +328,6 @@ fieldset.svelte-ovh2fw {
   width: 100%;
   z-index: 3; }
 
-label.svelte-1251773 {
-  cursor: pointer; }
-
 label.svelte-wryltr {
   cursor: pointer; }
 
@@ -339,3 +336,6 @@ input[type="radio"].svelte-wryltr {
   opacity: 0;
   width: 0;
   height: 0; }
+
+label.svelte-1251773 {
+  cursor: pointer; }

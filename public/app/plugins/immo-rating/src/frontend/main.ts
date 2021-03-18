@@ -4,9 +4,6 @@ import './styles.scss';
 let nonce;
 let element = document.querySelector('#immorating');
 
-console.log( "element" );
-console.log( element );
-
 if ( element !== null ) {
 	let nonce = element.dataset.nonce;	
 
