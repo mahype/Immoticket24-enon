@@ -320,7 +320,7 @@ class Schema {
 			$validated = \WPENON\Util\Validate::callback( $raw[ $field_slug ], $field );
 
 			if ( $field['display'] ) {
-				if ( $field['required'] ) {
+				if ( $field['required'] && ! isset ( $validated['error'] ) ) {
 					$_validated = \WPENON\Util\Validate::notempty( $validated['value'], $field );
 					if ( isset( $_validated['error'] ) ) {
 						$validated = $_validated;

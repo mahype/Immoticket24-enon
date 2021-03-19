@@ -311,7 +311,8 @@ $anlage = array(
 					'filetypes' => array(
 						'image/png',
 						'image/jpeg'
-					)
+					),
+					'validate' => 'wpenon_immoticket24_validate_typenschild_image_upload'
 				),
 				'verteilung_baujahr'                            => array(
 					'type'                  => 'int',
@@ -676,6 +677,7 @@ $anlage = array(
 						'callback'      => 'wpenon_show_on_bool_compare',
 						'callback_args' => array( 'field::h2_info', true ),
 					),
+					'validate' => 'wpenon_immoticket24_validate_typenschild_image_upload'
 				),
 				'h3_info'                                       => array(
 					'type'    => 'checkbox',
@@ -1014,6 +1016,7 @@ $anlage = array(
 						'callback'      => 'wpenon_show_on_bool_compare',
 						'callback_args' => array( 'field::h3_info', true ),
 					),
+					'validate' => 'wpenon_immoticket24_validate_typenschild_image_upload'
 				),
 			),
 		),
