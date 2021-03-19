@@ -104,7 +104,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::wand_a_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -175,7 +175,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::wand_b_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -246,7 +246,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::wand_c_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -317,7 +317,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::wand_d_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -388,7 +388,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::wand_e_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -459,7 +459,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::wand_f_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -530,7 +530,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::wand_g_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -600,7 +600,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::wand_h_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -669,7 +669,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::anbauwand_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -837,7 +837,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::dach_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -877,7 +877,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::decke_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -924,7 +924,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::anbaudach_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -1007,7 +1007,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::keller_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -1039,7 +1039,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::boden_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
@@ -1086,7 +1086,7 @@ $bauteile = array(
 						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
 						'callback_args' => array( 'field::anbauboden_daemmung' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
