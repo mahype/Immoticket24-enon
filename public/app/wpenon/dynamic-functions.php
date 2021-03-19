@@ -70,6 +70,16 @@ function wpenon_immoticket24_show_wand( $grundriss, $wand, $nachbar = false ) {
 	return false;
 }
 
+function wpenon_immoticket24_show_daemmung_baujahr( $daemmung ) {
+	$daemmung = filter_var( $daemmung, FILTER_VALIDATE_FLOAT );
+	
+	if ( $daemmung > 0 ) {
+		return true;
+	}
+
+	return false;
+}
+
 function wpenon_immoticket24_show_anbauwand( $grundriss, $wand, $anbau = false ) {
 	$anbau = \WPENON\Util\Parse::boolean( $anbau );
 	if ( $anbau ) {
