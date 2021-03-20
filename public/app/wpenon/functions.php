@@ -855,10 +855,11 @@ function wpenon_immoticket24_get_heizungsanlagen2019() {
 	return wpenon_get_table_results( 'h_erzeugung2019', array(), array( 'name' ) );
 }
 
-function wpenon_immoticket24_get_heizungsanlagen202001( $energieausweis ) {
+function wpenon_immoticket24_get_heizungsanlagen202001( $energieausweis = '' ) {
+	
 	$heaters = wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
 
-	if( is_admin() || strtotime( $energieausweis->getCreationDate() ) < strtotime( '2021-03-18 15:00' ) ) {
+	if( is_admin() || strtotime( $energieausweis->getCreationDate() ) < strtotime( '2021-03-18 15:00' ) ||  empty( $energieausweis ) ) {
 		return $heaters;
 	}
 
