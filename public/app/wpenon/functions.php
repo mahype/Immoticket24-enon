@@ -1154,6 +1154,38 @@ function wpenon_immoticket24_validate_year_greater_than( $value, $field ) {
 	return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
 }
 
+function wpenon_immoticket24_validate_daemmung_baujahr( $value, $field ) {
+	$baujahr_daemmung = filter_var( $value, FILTER_VALIDATE_INT );
+	$baujahr_haus = filter_var( $field['validate_dependencies'][0], FILTER_VALIDATE_INT );
+
+	if ( $baujahr_daemmung === $baujahr_haus ) {
+		$error = __( 'Die nachträgliche Dämmung darf nur angegeben werden, wenn diese nicht bereits beim Bau berücksichtigt wurde. Wurde diese bereits beim Bau des Gebäudes berücksichtigt, muss im Feld nachträgliche Dämmung 0 cm angegeben werden.', 'wpenon' );
+	}
+
+	if ( $baujahr_daemmung < $baujahr_haus ) {
+		$error = __( 'Das eingegebene Jahr ist kleiner als das Baujahr des Gebäudes.', 'wpenon' );
+	}
+
+	return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
+}
+
+function wpenon_immoticket24_validate_house_image_upload( $value, $field ) {
+	if( empty( $value ) ) {
+		$error = __( 'Bitte laden Sie ein Foto der Außenansicht vom Gebäude hoch. Die Aufnahmen sind durch das Gebäudeenergiegesetz (GEG) gefordert, da ohne diese Aufnahmen keine Ausstellung erfolgen darf.', 'wpenon' );
+	}
+
+	return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
+}
+
+
+function wpenon_immoticket24_validate_typenschild_image_upload( $value, $field ) {
+	if( empty( $value ) ) {
+		$error = __( 'Bitte laden Sie ein Foto vom Typenschild der Heizungsanlage hoch. Alternativ können Sie auch die Anlagenbeschreibung hochladen. Die Aufnahmen sind durch das Gebäudeenergiegesetz (GEG) gefordert, da ohne diese Aufnahmen keine Ausstellung erfolgen darf.', 'wpenon' );
+	}
+
+	return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
+}
+
 function wpenon_immoticket24_validate_area_lower_than( $value, $field ) {
 	$value = \WPENON\Util\Validate::float( $value, $field );
 	if ( isset( $value['error'] ) || isset( $value['warning'] ) ) {
