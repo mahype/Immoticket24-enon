@@ -11,7 +11,7 @@
 
 namespace Enon\Tasks\Emails;
 
-use Awsm\WP_Wrapper\Interfaces\Filters;
+use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
 use Enon\Models\Edd\Payment;
 use WPENON\Model\Energieausweis;
@@ -24,7 +24,15 @@ use WPENON\Model\Energieausweis;
  * @since 1.0.0
  */
 
-class Additional_Mails_Postcodes implements Filters, Task {
+class Additional_Mails_Postcodes implements Actions, Task {
+
+	/**
+	 * Email address used on sending email
+	 * 
+	 * @since 1.0.0
+	 */
+	private $email_to;
+
 	/**
 	 * Running tasks.
 	 *
@@ -37,24 +45,67 @@ class Additional_Mails_Postcodes implements Filters, Task {
 		$this->add_filters();
 	}
 
-	public function add_filters()
+	/**
+	 * Add Actions
+	 * 
+	 * @since 1.0.0
+	 */
+	public function add_actions()
 	{
-		add_action( 'edd_admin_sale_notice', 'mail_to_postcode_50_56', 10, 2 );
+		add_action( 'edd_admin_sale_notice', 'mail', 10, 2 );
 	}
-}
 
+	/**
+	 * Mail to postcode areas.
+	 * 
+	 * @param int   Payment ID.
+	 * @param array Payment data.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function mail( $payment_id = 0, $payment_data = array() ) {
+		$payment = new Payment( $payment_id );
+		$energieausweis_id = $payment->get_energieausweis_id();
 
-function mail_to_postcode_50_56( $payment_id = 0, $payment_data = array() ) {
-	$send_extra_mail = false;
+		$energieausweis = new Energieausweis( $energieausweis_id );
+		$energieausweis->adresse_plz;
 
-	$payment = new Payment( $payment_id );
-	$energieausweis_id = $payment->get_energieausweis_id();
+		$postcode_areas = [
+			[
+				'email_to'  => 'kwe@immoticket24.de',
+				'postcodes' => [ '50', '51', '52', '53', '54', '55', '56' ]
+			]
+		];
 
-	$energieausweis = new Energieausweis( $energieausweis_id );
+		foreach ( $postcode_areas AS $postcode_area ) {
+			$send_extra_mail = false;			
 
-	if ( $send_extra_mail ) {
-		add_filter( 'edd_admin_notice_emails', 'enon_add_postcode_email' );
-		edd_admin_email_notice( $payment_id, $payment_data );
-		remove_filter( 'edd_admin_notice_emails', 'enon_add_postcode_email' );
+			$this->email_to  = $postcode_area['email_to'];						
+			$postcodes       = $postcode_area['postcodes'];
+
+			foreach( $postcodes AS $postcode ) {
+				if ( substr( $energieausweis->adresse_plz, 0, strlen( $postcode ) ) == $postcode ) {
+					$send_extra_mail = true;
+				}
+			}
+
+			if ( $send_extra_mail ) {
+				add_filter( 'edd_admin_notice_emails', [ $this, 'add_email_to' ] );
+				edd_admin_email_notice( $payment_id, $payment_data );
+				remove_filter( 'edd_admin_notice_emails', [ $this,  'add_email_to' ] );
+			}		
+		}
+	}
+
+	/**
+	 * Adding recipient to email.
+	 * 
+	 * @var array Email addresses.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function add_email_to( $emails = array() ) {
+		$emails[] = $this->email_to;
+		return $emails;
 	}
 }
