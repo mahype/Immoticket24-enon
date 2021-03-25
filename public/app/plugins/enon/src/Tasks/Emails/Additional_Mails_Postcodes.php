@@ -42,7 +42,7 @@ class Additional_Mails_Postcodes implements Actions, Task {
 	 */
 	public function run() 
 	{
-		$this->add_filters();
+		$this->add_actions();
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Additional_Mails_Postcodes implements Actions, Task {
 	 */
 	public function add_actions()
 	{
-		add_action( 'edd_admin_sale_notice', 'mail', 10, 2 );
+		add_action( 'edd_admin_sale_notice', [ $this, 'mail' ], 10, 2 );
 	}
 
 	/**
@@ -72,7 +72,8 @@ class Additional_Mails_Postcodes implements Actions, Task {
 
 		$postcode_areas = [
 			[
-				'email_to'  => 'kwe@immoticket24.de',
+				// 'email_to'  => 'kwe@immoticket24.de',
+				'email_to'  => 'sven@awesome.ug',
 				'postcodes' => [ '50', '51', '52', '53', '54', '55', '56' ]
 			]
 		];
@@ -84,7 +85,9 @@ class Additional_Mails_Postcodes implements Actions, Task {
 			$postcodes       = $postcode_area['postcodes'];
 
 			foreach( $postcodes AS $postcode ) {
-				if ( substr( $energieausweis->adresse_plz, 0, strlen( $postcode ) ) == $postcode ) {
+				$compare_postcode = substr( $energieausweis->adresse_plz, 0, strlen( $postcode ) );
+
+				if ( $compare_postcode == $postcode ) {
 					$send_extra_mail = true;
 				}
 			}
