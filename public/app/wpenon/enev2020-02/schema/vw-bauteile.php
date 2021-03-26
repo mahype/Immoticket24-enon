@@ -18,6 +18,11 @@ $bauteile = array(
 					),
 					'required'    => true,
 				),
+				'wand_staerke'        => array(
+					'type'    => 'int',
+					'label'   => __( 'Wandstärke', 'wpenon' ),
+					'unit'    => 'cm',
+				),
 				'decke_daemmung_on' => array(
 					'type'        => 'select',
 					'label'       => __( 'Deckendämmung', 'wpenon' ),
