@@ -2073,11 +2073,7 @@ add_filter( 'edd_payments_table_bulk_actions', 'wpenon_immoticket24_add_payment_
 /**
  * 2021-01 Schema functions
  */
-<<<<<<< HEAD
-function wpenon_immoticket24_get_heizungsanlagen202101() {
-=======
 function wpenon_immoticket24_get_heizungsanlagen202101( $energieausweis ) {
->>>>>>> temp_relaunch
 	$heaters = wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
 
 	if( is_admin() ) {
