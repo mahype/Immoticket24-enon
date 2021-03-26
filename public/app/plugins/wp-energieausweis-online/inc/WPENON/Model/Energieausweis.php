@@ -256,6 +256,10 @@ class Energieausweis {
 		delete_post_meta( $this->id, '_wpenon_progress', $field );
 	}
 
+	public function getCreationDate() {
+		return $this->post->post_date;
+	}
+
 	public function calculate() {
 		if ( $this->isFinalized() ) {
 			if ( count( $this->calculations ) < 1 ) {

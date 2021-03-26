@@ -18,6 +18,11 @@ $bauteile = array(
 					),
 					'required'    => true,
 				),
+				'wand_staerke'        => array(
+					'type'    => 'int',
+					'label'   => __( 'Wandstärke', 'wpenon' ),
+					'unit'    => 'cm',
+				),
 				'decke_daemmung_on' => array(
 					'type'        => 'select',
 					'label'       => __( 'Deckendämmung', 'wpenon' ),
@@ -31,7 +36,7 @@ $bauteile = array(
 						'callback_args' => array( 'field::dach', array( 'unbeheizt', 'nicht-vorhanden' ) ),
 					),
 					'required'    => true,
-				),
+				),				
 				'boden_daemmung_on' => array(
 					'type'        => 'select',
 					'label'       => __( 'Bodendämmung', 'wpenon' ),

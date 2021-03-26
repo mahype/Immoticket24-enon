@@ -181,10 +181,15 @@ function wpenon_immoticket24_print_no_consumption_modal
 				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
 				var dach = jQuery('#dach').val();
 				var wand_daemmung_on = jQuery('#wand_daemmung_on').val();
+				var wand_staerke = jQuery('#wand_staerke').val();
 				var decke_daemmung_on = jQuery('#decke_daemmung_on').val();
 				var dach_daemmung_on = jQuery('#dach_daemmung_on').val();
 
 				if ( wohnungen >= 5 || baujahr > 1977 ) {
+					return true;
+				}
+
+				if ( wand_staerke > 35 && wand_daemmung_on === 'no' && ( dach_daemmung_on === 'yes' || decke_daemmung_on === 'yes' ) ) {
 					return true;
 				}
 
@@ -855,14 +860,28 @@ function wpenon_immoticket24_get_heizungsanlagen2019() {
 	return wpenon_get_table_results( 'h_erzeugung2019', array(), array( 'name' ) );
 }
 
-function wpenon_immoticket24_get_heizungsanlagen202001() {
-	return wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
+function wpenon_immoticket24_get_heizungsanlagen202001( $energieausweis = '' ) {
+	
+	$heaters = wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
+
+	if( empty( $energieausweis ) || is_admin() || strtotime( $energieausweis->getCreationDate() ) < strtotime( '2021-03-18 15:00' ) ) {
+		return $heaters;
+	}
+
+	$remove_heaters = [ 'brennwertkesselverbessert', 'gasraumheizer' ];
+
+	foreach( $remove_heaters AS $heater ) {
+		unset( $heaters[ $heater ] );
+	}
+
+	return $heaters;	
 }
 
 
 function wpenon_immoticket24_get_heizungsanlagen202002_vw() {
 	$anlagen = wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
 	unset( $anlagen['brennwertkesselverbessert'] );
+
 	return $anlagen;
 }
 
@@ -2054,7 +2073,11 @@ add_filter( 'edd_payments_table_bulk_actions', 'wpenon_immoticket24_add_payment_
 /**
  * 2021-01 Schema functions
  */
+<<<<<<< HEAD
 function wpenon_immoticket24_get_heizungsanlagen202101() {
+=======
+function wpenon_immoticket24_get_heizungsanlagen202101( $energieausweis ) {
+>>>>>>> temp_relaunch
 	$heaters = wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
 
 	if( is_admin() ) {
