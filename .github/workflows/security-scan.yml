@@ -1,0 +1,13 @@
+name: site-security-scan
+on:
+  push:
+    branches: [ staging, production ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:     
+    - name: OWASP ZAP Baseline Scan
+      uses: zaproxy/action-baseline@v0.4.0
+      with:
+        target: "https://www.energieausweis-online-erstellen.de/"
