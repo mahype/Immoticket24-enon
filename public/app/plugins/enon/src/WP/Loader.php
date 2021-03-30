@@ -12,8 +12,8 @@
 namespace Enon\WP;
 
 use Enon\Task_Loader;
-use Enon\Models\Exceptions\Exception;
 
+use Enon\WP\Tasks\Config_Auth;
 use Enon\WP\Tasks\Add_Admin_Pages;
 use Enon\WP\Tasks\Add_Translations;
 use Enon\WP\Tasks\Setup_Gutenberg;
@@ -34,6 +34,8 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function run() {
+		$this->add_task( Config_Auth::class );
+
 		if ( is_admin() ) {
 			$this->add_admin_tasks();
 		} else {
@@ -49,7 +51,6 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function add_admin_tasks() {
-
 		$this->add_task( Add_Admin_Pages::class, $this->logger() );
 		$this->add_task( Setup_Gutenberg::class );
 		$this->add_task( Stop_Heartbeat::class );
