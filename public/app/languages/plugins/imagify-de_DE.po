@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Imagify – Optimize your Images &amp; Convert WebP - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-11-25 06:42:22+0000\n"
+"PO-Revision-Date: 2021-02-13 18:48:54+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -187,22 +187,22 @@ msgstr "Die aufgerufene Klasse %1$s, die %2$s erweitert, ist seit Version %3$s <
 msgid "The called class %1$s extending %2$s is <strong>deprecated</strong> since version %3$s! Use %4$s instead."
 msgstr "Die aufgerufene Klasse %1$s, die %2$s erweitert, ist seit Version %3$s <strong>veraltet</strong>! Nutze stattdessen %4$s."
 
-#: inc/functions/admin-ui.php:479 inc/admin/meta-boxes.php:59
+#: inc/admin/meta-boxes.php:59 inc/functions/admin-ui.php:479
 msgid "Processing..."
 msgstr "Verarbeitung läuft..."
 
-#: inc/functions/admin-ui.php:93
 #: inc/classes/class-imagify-files-list-table.php:646
+#: inc/functions/admin-ui.php:93
 msgid "Webp generated:"
 msgstr "WebP generiert:"
 
-#: inc/functions/admin-ui.php:92
 #: inc/classes/class-imagify-files-list-table.php:643
+#: inc/functions/admin-ui.php:92
 msgid "No"
 msgstr "Nein"
 
-#: inc/functions/admin-ui.php:92
 #: inc/classes/class-imagify-files-list-table.php:643
+#: inc/functions/admin-ui.php:92
 msgid "Yes"
 msgstr "Ja"
 
@@ -450,9 +450,9 @@ msgstr "Die Optimierungsstufe dieses Medieneintrags ist in der Datenbank anschei
 msgid "The thumbnails failed to be created."
 msgstr "Vorschaubilder konnten nicht erstellt werden."
 
-#: classes/Optimization/Process/WP.php:151
 #: classes/Optimization/Process/AbstractProcess.php:390
 #: classes/Optimization/Process/AbstractProcess.php:874
+#: classes/Optimization/Process/WP.php:151
 msgid "This media is already being processed."
 msgstr "Dieser Medieneintrag wurde bereits verarbeitet."
 
@@ -463,8 +463,8 @@ msgid "No thumbnails seem to be missing."
 msgstr "Vorschaubilder vollständig vorhanden."
 
 #: classes/Optimization/Process/CustomFolders.php:76
-#: classes/Optimization/Process/WP.php:69
 #: classes/Optimization/Process/AbstractProcess.php:1476
+#: classes/Optimization/Process/WP.php:69
 #: inc/3rd-party/nextgen-gallery/classes/Optimization/Process/NGG.php:61
 msgid "This media is not an image."
 msgstr "Dieser Medieneintrag ist kein Bild."
@@ -503,36 +503,34 @@ msgid "The folder %s does not seem to be writable."
 msgstr "Der Ordner %s scheint nicht beschreibbar zu sein."
 
 #. translators: %s is a file path.
-#: classes/Optimization/File.php:150
 #: classes/Optimization/Process/AbstractProcess.php:670
 #: classes/Optimization/Process/AbstractProcess.php:1548
+#: classes/Optimization/File.php:150
 msgid "The file %s does not seem to be writable."
 msgstr "Die  Datei %s scheint nicht beschreibbar zu sein."
 
 #. translators: %s is a file path.
-#: classes/Optimization/File.php:139
 #: classes/Optimization/Process/AbstractProcess.php:1559
+#: classes/Optimization/File.php:139
 msgid "This does not seem to be a file: %s."
 msgstr "Dies scheint keine Datei zu sein: %s"
 
 #. translators: %s is a file path.
-#: classes/Optimization/File.php:128
 #: classes/Optimization/Process/AbstractProcess.php:656
+#: classes/Optimization/File.php:128
 msgid "The file %s does not seem to exist."
 msgstr "Die Datei %s scheint nicht zu existieren."
 
-#: classes/Media/Noop.php:242 classes/Media/CustomFolders.php:235
-#: classes/Media/WP.php:210 classes/Optimization/Process/Noop.php:139
+#: classes/Media/CustomFolders.php:235 classes/Media/Noop.php:242
+#: classes/Media/WP.php:210 classes/Optimization/Process/CustomFolders.php:56
+#: classes/Optimization/Process/CustomFolders.php:94
+#: classes/Optimization/Process/Noop.php:139
 #: classes/Optimization/Process/Noop.php:153
 #: classes/Optimization/Process/Noop.php:168
 #: classes/Optimization/Process/Noop.php:183
 #: classes/Optimization/Process/Noop.php:196
 #: classes/Optimization/Process/Noop.php:239
 #: classes/Optimization/Process/Noop.php:299
-#: classes/Optimization/Process/CustomFolders.php:56
-#: classes/Optimization/Process/CustomFolders.php:94
-#: classes/Optimization/Process/WP.php:49
-#: classes/Optimization/Process/WP.php:133
 #: classes/Optimization/Process/AbstractProcess.php:276
 #: classes/Optimization/Process/AbstractProcess.php:323
 #: classes/Optimization/Process/AbstractProcess.php:375
@@ -540,13 +538,15 @@ msgstr "Die Datei %s scheint nicht zu existieren."
 #: classes/Optimization/Process/AbstractProcess.php:860
 #: classes/Optimization/Process/AbstractProcess.php:1411
 #: classes/Optimization/Process/AbstractProcess.php:1470
+#: classes/Optimization/Process/WP.php:49
+#: classes/Optimization/Process/WP.php:133
+#: inc/classes/class-imagify-custom-folders.php:295
+#: inc/classes/class-imagify-admin-ajax-post.php:256
 #: inc/3rd-party/nextgen-gallery/classes/Media/NGG.php:277
 #: inc/3rd-party/nextgen-gallery/classes/Optimization/Process/NGG.php:41
 #: inc/3rd-party/nextgen-gallery/classes/Optimization/Process/NGG.php:79
-#: inc/functions/admin-ui.php:436
-#: inc/classes/class-imagify-admin-ajax-post.php:256
-#: inc/classes/class-imagify-custom-folders.php:295
 #: inc/deprecated/classes/class-imagify-admin-ajax-post-deprecated.php:212
+#: inc/functions/admin-ui.php:436
 msgid "This media is not valid."
 msgstr "Dies ist kein gültiger Medieneintrag."
 
@@ -564,8 +564,8 @@ msgid "Our recommendation for you"
 msgstr "Unsere Empfehlung für dich"
 
 #. translators: %s is a "More info?" link.
-#: inc/functions/i18n.php:100 inc/functions/i18n.php:243
-#: inc/deprecated/deprecated.php:628
+#: inc/deprecated/deprecated.php:628 inc/functions/i18n.php:100
+#: inc/functions/i18n.php:243
 msgid "No php extensions are available to edit images on the server. ImageMagick or GD is required. %s"
 msgstr "Auf dem Server sind keine PHP-Module zur Bildbearbeitung verfügbar. ImageMagick oder GD sind erforderlich. %s"
 
@@ -691,20 +691,20 @@ msgstr "Optimiert"
 
 #: classes/Optimization/Process/CustomFolders.php:62
 #: classes/Optimization/Process/CustomFolders.php:98
-#: classes/Optimization/Process/WP.php:55
-#: classes/Optimization/Process/WP.php:137
 #: classes/Optimization/Process/AbstractProcess.php:282
 #: classes/Optimization/Process/AbstractProcess.php:329
 #: classes/Optimization/Process/AbstractProcess.php:381
 #: classes/Optimization/Process/AbstractProcess.php:866
+#: classes/Optimization/Process/WP.php:55
+#: classes/Optimization/Process/WP.php:137
 #: inc/3rd-party/nextgen-gallery/classes/Optimization/Process/NGG.php:47
 #: inc/3rd-party/nextgen-gallery/classes/Optimization/Process/NGG.php:83
 #: inc/functions/admin-ui.php:447
 msgid "This media is not supported."
 msgstr "Dieser Medieneintrag wird nicht unterstützt."
 
-#: inc/functions/i18n.php:105 inc/functions/i18n.php:248
 #: inc/classes/class-imagify-admin-ajax-post.php:1613
+#: inc/functions/i18n.php:105 inc/functions/i18n.php:248
 msgid "Your API key is not valid!"
 msgstr "Dein API-Schlüssel ist ungültig!"
 
@@ -798,7 +798,7 @@ msgstr "Eigene Ordner"
 
 #: views/part-settings-account.php:99
 msgid "Enter Your API Key Below"
-msgstr "Gib deinen API-Schlüssel unten ein"
+msgstr "Gib hier deinen API-Schlüssel ein"
 
 #: views/part-settings-account.php:93
 msgid "Create a Free API Key"
@@ -984,8 +984,8 @@ msgstr "Bereits optimiert"
 msgid "The operation failed."
 msgstr "Der Prozess ist fehlgeschlagen."
 
-#: inc/functions/i18n.php:106 inc/functions/i18n.php:249
 #: inc/classes/class-imagify-admin-ajax-post.php:1621
+#: inc/functions/i18n.php:106 inc/functions/i18n.php:249
 msgid "You have used all your credits!"
 msgstr "Du hast dein Guthaben aufgebraucht!"
 
@@ -1034,8 +1034,8 @@ msgstr "%s ist keine gültige Endung."
 msgid "Invalid or corrupted file."
 msgstr "Ungültige oder schadhafte Datei."
 
-#: inc/functions/api.php:214 inc/functions/i18n.php:97
-#: inc/functions/i18n.php:240 inc/deprecated/deprecated.php:619
+#: inc/deprecated/deprecated.php:619 inc/functions/i18n.php:97
+#: inc/functions/i18n.php:240 inc/functions/api.php:214
 msgid "cURL is not available on the server."
 msgstr "cURL ist auf diesem Server nicht installiert."
 
@@ -1208,20 +1208,20 @@ msgid "The file was missing or its path could not be retrieved from the database
 msgstr "Die Datei fehlte, oder ihr Pfad konnte nicht aus der Datenbank geladen werden. Der Eintrag wurde aus der Datenbank entfernt."
 
 #: views/part-settings-custom-folders.php:26
-#: inc/classes/class-imagify-admin-ajax-post.php:960
-#: inc/classes/class-imagify-admin-ajax-post.php:963
 #: inc/classes/class-imagify-files-list-table.php:340
 #: inc/classes/class-imagify-files-list-table.php:593
+#: inc/classes/class-imagify-admin-ajax-post.php:960
+#: inc/classes/class-imagify-admin-ajax-post.php:963
 msgid "Site's root"
 msgstr "Stammverzeichnis der Website"
 
-#: inc/classes/class-imagify-admin-ajax-post.php:948
 #: inc/classes/class-imagify-files-scan.php:50
+#: inc/classes/class-imagify-admin-ajax-post.php:948
 msgid "This folder is not allowed."
 msgstr "Dieser Ordner ist nicht erlaubt."
 
-#: inc/classes/class-imagify-admin-ajax-post.php:942
 #: inc/classes/class-imagify-files-scan.php:46
+#: inc/classes/class-imagify-admin-ajax-post.php:942
 msgid "This file is not a folder."
 msgstr "Diese Datei ist kein Ordner."
 
@@ -1459,10 +1459,10 @@ msgstr "Das Hauptbild konnte nicht von Amazon S3 geladen werden."
 msgid "Files could not be sent to Amazon S3."
 msgstr "Dateien konnten nicht zu Amazon S3 gesendet werden."
 
-#: inc/deprecated/classes/class-imagify-admin-ajax-post-deprecated.php:216
-#: inc/deprecated/classes/class-imagify-as3cf-attachment.php:351
 #: inc/deprecated/classes/class-imagify-file-attachment.php:619
 #: inc/deprecated/classes/class-imagify-file-attachment.php:696
+#: inc/deprecated/classes/class-imagify-admin-ajax-post-deprecated.php:216
+#: inc/deprecated/classes/class-imagify-as3cf-attachment.php:351
 #: inc/deprecated/classes/class-imagify-attachment.php:572
 #: inc/deprecated/classes/class-imagify-attachment.php:691
 msgid "This type of file is not supported."
@@ -1488,8 +1488,8 @@ msgstr "Der Backup-Ordner ist nicht beschreibbar."
 msgid "The file to backup does not exist."
 msgstr "Die zu sichernde Datei existiert nicht."
 
-#: inc/deprecated/deprecated.php:740
 #: inc/deprecated/classes/class-imagify-file-attachment.php:709
+#: inc/deprecated/deprecated.php:740
 msgid "The file path is empty."
 msgstr "Der Dateipfad ist leer."
 
@@ -1845,7 +1845,7 @@ msgstr "WP Media"
 
 #. Description of the plugin
 msgid "Dramatically reduce image file sizes without losing quality, make your website load faster, boost your SEO and save money on your bandwidth using Imagify, the new most advanced image optimization tool."
-msgstr "Reduzier die Größe von Bild-Dateien maßgeblich ohne Qualitätsverlust, sorgt für ein schnelleres Laden der Website und spart Bandbreite durch die Benutzung von Imagify, dem neuen und fortschrittlichsten Bildoptimierungs-Werkzeug."
+msgstr "Reduziere die Größe von Bilddateien maßgeblich ohne Qualitätsverlust, sorge für ein schnelleres Laden deiner Website, treibe dein SEO nach vorne und spare Bandbreite, indem du Imagify benutzt, das fortschrittlichste Bildoptimierungs-Werkzeug."
 
 #. Plugin URI of the plugin
 #. translators: Plugin URI of the plugin/theme
@@ -1867,13 +1867,13 @@ msgstr "Konnte %s nicht finden."
 msgid "File path is empty."
 msgstr "Der Dateipfad ist leer."
 
-#: classes/Optimization/File.php:483 inc/functions/i18n.php:103
-#: inc/functions/i18n.php:246 inc/deprecated/deprecated.php:635
+#: classes/Optimization/File.php:483 inc/deprecated/deprecated.php:635
+#: inc/functions/i18n.php:103 inc/functions/i18n.php:246
 msgid "External HTTP requests are blocked."
 msgstr "Externe HTTP-Anfragen sind blockiert."
 
-#: inc/functions/i18n.php:104 inc/functions/i18n.php:247
-#: inc/deprecated/deprecated.php:640
+#: inc/deprecated/deprecated.php:640 inc/functions/i18n.php:104
+#: inc/functions/i18n.php:247
 msgid "Sorry, our servers are temporarily unavailable. Please, try again in a couple of minutes."
 msgstr "Unsere Server sind momentan nicht erreichbar. Bitte versuche es in ein paar Minuten noch einmal."
 
@@ -1891,8 +1891,8 @@ msgstr "Erneute Optimierung auf %s"
 msgid "Try again"
 msgstr "Erneut versuchen"
 
-#: views/button/restore.php:17 inc/functions/admin-ui.php:476
-#: inc/admin/meta-boxes.php:56
+#: views/button/restore.php:17 inc/admin/meta-boxes.php:56
+#: inc/functions/admin-ui.php:476
 msgid "Restoring..."
 msgstr "Wiederherstellung&nbsp;…"
 
@@ -1904,8 +1904,8 @@ msgstr "Einsparung insgesamt:"
 msgid "Thumbnails Optimized:"
 msgstr "Vorschaubilder optimiert:"
 
-#: inc/functions/admin-ui.php:86
 #: inc/classes/class-imagify-files-list-table.php:619
+#: inc/functions/admin-ui.php:86
 msgid "Original Filesize:"
 msgstr "Original-Dateigröße:"
 
@@ -1917,8 +1917,8 @@ msgstr "Details anzeigen"
 msgid "Close details"
 msgstr "Details schließen"
 
-#: inc/functions/admin-ui.php:49
 #: inc/classes/class-imagify-files-list-table.php:624
+#: inc/functions/admin-ui.php:49
 msgid "New Filesize:"
 msgstr "Neue Dateigröße:"
 
@@ -1947,9 +1947,9 @@ msgstr "Fehler"
 
 #: views/modal-settings-visual-comparison.php:80
 #: views/modal-settings-visual-comparison.php:100
-#: views/modal-settings-visual-comparison.php:121 inc/functions/admin-ui.php:69
-#: inc/functions/i18n.php:182
+#: views/modal-settings-visual-comparison.php:121
 #: inc/classes/class-imagify-files-list-table.php:628
+#: inc/functions/admin-ui.php:69 inc/functions/i18n.php:182
 msgid "Original Saving:"
 msgstr "Ersparnis gegenüber Original:"
 
@@ -1979,7 +1979,7 @@ msgstr "Optimiertes Bild rund %s"
 msgid "Original photography about %s"
 msgstr "Original-Bild rund %s"
 
-#: views/modal-settings-partners-infos.php:13 views/modal-settings-infos.php:52
+#: views/modal-settings-infos.php:52 views/modal-settings-partners-infos.php:13
 #: views/modal-payment.php:385 views/modal-settings-visual-comparison.php:135
 #: inc/functions/i18n.php:183
 msgid "Close"
@@ -2090,8 +2090,8 @@ msgid "Need help to choose? %1$sTry the Visual Comparison%2$s"
 msgstr "Brauchst du Hilfe bei der Auswahl? %1$sVergleichsübersicht nutzen%2$s"
 
 #: classes/Optimization/File.php:623 views/page-settings.php:48
-#: views/page-settings.php:189 inc/functions/i18n.php:101
-#: inc/functions/i18n.php:244 inc/deprecated/deprecated.php:629
+#: views/page-settings.php:189 inc/deprecated/deprecated.php:629
+#: inc/functions/i18n.php:101 inc/functions/i18n.php:244
 msgid "More info?"
 msgstr "Mehr Informationen?"
 
@@ -2202,7 +2202,7 @@ msgstr "Du hast noch kein Imagify-Konto? Optimiere deine Bilder, indem du in wen
 msgid "Create an Account"
 msgstr "Account erstellen"
 
-#: views/notice-welcome-steps.php:10 views/notice-footer.php:6
+#: views/notice-footer.php:6 views/notice-welcome-steps.php:10
 msgid "Dismiss this notice"
 msgstr "Diese Mitteilung verbergen"
 
@@ -2285,27 +2285,27 @@ msgstr "Überblick"
 msgid "Imagif’em all"
 msgstr "Alle optimieren"
 
-#: views/modal-settings-infos.php:11 views/button/re-optimize.php:21
+#: views/page-settings.php:56 views/modal-settings-infos.php:11
+#: views/button/re-optimize.php:21
 #: views/modal-settings-visual-comparison.php:23
 #: views/modal-settings-visual-comparison.php:35
-#: views/modal-settings-visual-comparison.php:73 views/page-settings.php:56
-#: inc/functions/common.php:393
+#: views/modal-settings-visual-comparison.php:73 inc/functions/common.php:393
 msgid "Normal"
 msgstr "Normal"
 
-#: views/modal-settings-infos.php:24 views/button/re-optimize.php:22
+#: views/page-settings.php:61 views/modal-settings-infos.php:24
+#: views/button/re-optimize.php:22
 #: views/modal-settings-visual-comparison.php:24
 #: views/modal-settings-visual-comparison.php:43
-#: views/modal-settings-visual-comparison.php:93 views/page-settings.php:61
-#: inc/functions/common.php:391
+#: views/modal-settings-visual-comparison.php:93 inc/functions/common.php:391
 msgid "Aggressive"
 msgstr "Aggressiv"
 
-#: views/modal-settings-infos.php:37 views/button/re-optimize.php:23
+#: views/page-settings.php:66 views/modal-settings-infos.php:37
+#: views/button/re-optimize.php:23
 #: views/modal-settings-visual-comparison.php:25
 #: views/modal-settings-visual-comparison.php:51
-#: views/modal-settings-visual-comparison.php:114 views/page-settings.php:66
-#: inc/functions/common.php:389
+#: views/modal-settings-visual-comparison.php:114 inc/functions/common.php:389
 msgid "Ultra"
 msgstr "Ultra"
 
@@ -2335,31 +2335,30 @@ msgstr "﻿Einstellungen"
 msgid "<strong>ERROR</strong>: options page not found."
 msgstr "<strong>FEHLER</strong>: Die Einstellungsseite wurde nicht gefunden."
 
-#: inc/functions/admin-ui.php:461
 #: inc/classes/class-imagify-files-list-table.php:728
-#: inc/admin/meta-boxes.php:43
+#: inc/admin/meta-boxes.php:43 inc/functions/admin-ui.php:461
 msgid "Check your Settings"
 msgstr "Einstellungen überprüfen"
 
-#: inc/functions/admin-ui.php:459 inc/functions/api.php:234
 #: inc/classes/class-imagify-files-list-table.php:727
-#: inc/admin/meta-boxes.php:40
+#: inc/admin/meta-boxes.php:40 inc/functions/admin-ui.php:459
+#: inc/functions/api.php:234
 msgid "Invalid API key"
 msgstr "Ungültiger API-Schlüssel"
 
 #. Plugin Name of the plugin
-#: inc/admin/upload.php:16 inc/admin/meta-boxes.php:38
-#: inc/admin/meta-boxes.php:68
+#: inc/admin/meta-boxes.php:38 inc/admin/meta-boxes.php:68
+#: inc/admin/upload.php:16
 msgid "Imagify"
 msgstr "Imagify"
 
 #: views/part-bulk-optimization-header.php:3
 #: views/part-bulk-optimization-header.php:13 inc/common/admin-bar.php:41
-#: inc/3rd-party/nextgen-gallery/inc/admin/menu.php:18
 #: inc/classes/class-imagify-views.php:163
 #: inc/classes/class-imagify-views.php:208
 #: inc/classes/class-imagify-views.php:218
 #: inc/classes/class-imagify-views.php:244
+#: inc/3rd-party/nextgen-gallery/inc/admin/menu.php:18
 msgid "Bulk Optimization"
 msgstr "Mengen-Optimierung"
 
@@ -2470,8 +2469,8 @@ msgid "View my subscription"
 msgstr "Mein Abo ansehen"
 
 #. translators: %s is a data quota.
-#: views/notice-almost-over-quota.php:18 views/page-bulk.php:115
-#: views/part-bulk-optimization-infos.php:11
+#: views/notice-almost-over-quota.php:18
+#: views/part-bulk-optimization-infos.php:11 views/page-bulk.php:115
 #: inc/classes/class-imagify-admin-ajax-post.php:1137
 msgid "You have %s space credit left"
 msgstr "Dir stehen noch %s Guthaben zur Verfügung"
@@ -2509,16 +2508,16 @@ msgstr "Du hast dein Guthaben bald aufgebraucht. %s Aktualisiere dein Abo, um we
 msgid "Oops, It's almost over!"
 msgstr "Hoppla, fast abgelaufen!"
 
-#: views/button/optimize.php:24 inc/functions/i18n.php:187
-#: inc/functions/i18n.php:203 inc/functions/i18n.php:319
-#: inc/admin/meta-boxes.php:77
+#: views/button/optimize.php:24 inc/admin/meta-boxes.php:77
+#: inc/functions/i18n.php:187 inc/functions/i18n.php:203
+#: inc/functions/i18n.php:319
 msgid "Optimize"
 msgstr "Optimieren"
 
 #: views/button/optimize-missing-sizes.php:17
-#: views/button/retry-optimize.php:17 views/button/re-optimize.php:17
-#: views/button/optimize.php:17 inc/functions/admin-ui.php:473
+#: views/button/retry-optimize.php:17 views/button/optimize.php:17
+#: views/button/re-optimize.php:17
 #: inc/classes/class-imagify-files-list-table.php:735
-#: inc/admin/meta-boxes.php:53
+#: inc/admin/meta-boxes.php:53 inc/functions/admin-ui.php:473
 msgid "Optimizing..."
 msgstr "Optimierung läuft&nbsp;…"

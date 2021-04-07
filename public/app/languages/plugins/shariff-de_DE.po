@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Shariff Wrapper - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-12-09 11:30:33+0000\n"
+"PO-Revision-Date: 2021-01-29 22:12:18+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -238,7 +238,7 @@ msgstr "Shariff deaktivieren"
 
 #: admin/admin-menu.php:1909
 msgid "Provides the time the current post or page was last modified as a timestamp. Used for determining the dynamic cache lifespan. Only for special use cases."
-msgstr "Stelle den Zeitpunkt, an dem der aktuelle Beitrag oder die Seite zuletzt geändert wurde, als Zeitstempel (timestamp) zur Verfügung."
+msgstr "Stelle den Zeitpunkt, an dem der aktuelle Beitrag oder die Seite zuletzt geändert wurde, als Zeitstempel (timestamp) zur Verfügung. Dieser wird für die dynamische Cache-Lebensdauer verwendet. Nur für spezielle Umstände."
 
 #: admin/admin-menu.php:1907
 msgid "The timestamp of the last modification of the current post or page."
