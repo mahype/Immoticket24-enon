@@ -70,10 +70,11 @@ function wpenon_immoticket24_show_wand( $grundriss, $wand, $nachbar = false ) {
 	return false;
 }
 
-function wpenon_immoticket24_show_daemmung_baujahr( $daemmung ) {
+function wpenon_immoticket24_show_daemmung_baujahr( $daemmung, $baujahr_haus ) {
 	$daemmung = filter_var( $daemmung, FILTER_VALIDATE_FLOAT );
+	$baujahr_haus = filter_var( $baujahr_haus, FILTER_VALIDATE_INT );
 	
-	if ( $daemmung > 0 ) {
+	if ( $daemmung > 0 && $baujahr_haus > 2003 ) {
 		return true;
 	}
 
