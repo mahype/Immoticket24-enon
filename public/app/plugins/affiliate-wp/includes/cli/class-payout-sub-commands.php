@@ -358,6 +358,9 @@ class Sub_Commands extends Base {
 	 * <payout_id>
 	 * : Payout ID.
 	 *
+	 * [--yes]
+	 * : Answer yes to any confirmation prompts.
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     # Deletes the payout with ID 20
@@ -415,6 +418,12 @@ class Sub_Commands extends Base {
 	 * [--fields=<fields>]
 	 * : Limit the output to specific payout fields.
 	 *
+	 * [--date_start=<date_string>]
+	 * : Start date to retrieve payouts on or after. Date will be adjusted for WordPress GMT offset.
+	 *
+	 * [--date_end=<date_string>]
+	 * : End date to retrieve payouts on or before. Date will be adjusted for WordPress GMT offset.
+	 *
 	 * [--format=<format>]
 	 * : Accepted values: table, csv, json, count, ids, yaml. Default: table
 	 *
@@ -457,6 +466,16 @@ class Sub_Commands extends Base {
 		if ( isset( $assoc_args['ID'] ) ) {
 			$assoc_args['payout_id'] = $assoc_args['ID'];
 			unset( $assoc_args['ID'] );
+		}
+
+		// Date start.
+		if ( isset( $assoc_args['date_start'] ) ) {
+			$assoc_args['date']['start'] = $assoc_args['date_start'];
+		}
+
+		// Date end/
+		if ( isset( $assoc_args['date_end'] ) ) {
+			$assoc_args['date']['end'] = $assoc_args['date_end'];
 		}
 
 		$args = $assoc_args;

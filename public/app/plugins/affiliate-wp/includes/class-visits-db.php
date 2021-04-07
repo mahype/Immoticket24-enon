@@ -2,6 +2,8 @@
 /**
  * Class Affiliate_WP_Visits_DB
  *
+ * @since 1.0
+ *
  * @see Affiliate_WP_DB
  *
  * @property-read \AffWP\Affiliate\REST\v1\Endpoints $REST Visits REST endpoints.
@@ -59,12 +61,11 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 	 * Retrieves a visit object.
 	 *
 	 * @since 1.9
-	 * @access public
 	 *
 	 * @see Affiliate_WP_DB::get_core_object()
 	 *
 	 * @param int|object|AffWP\Visit $visit Visit ID or object.
-	 * @return AffWP\Visit|null Visit object, null otherwise.
+	 * @return object|false Visit object, false otherwise.
 	 */
 	public function get_object( $visit ) {
 		return $this->get_core_object( $visit, $this->query_object_type );
@@ -439,10 +440,23 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 	/**
 	 * Adds a visit to the database.
 	 *
-	 * @access public
+	 * @since 1.0
 	 *
-	 * @param array $data Optional. Arguments for adding a new visit. Default empty array.
-	 * @return int ID of the added visit.
+	 * @param array $data {
+	 *     Arguments for adding a new visit.
+	 *
+	 *     @type int    $affiliate_id Required. Affiliate the visit was recorded for.
+	 *     @type int    $referral_id  Referral ID attached to the visit (if any).
+	 *     @type string $referrer     Referrer. Typically a URL or empty if direct link.
+	 *     @type string $url          Visit URL.
+	 *     @type string $campaign     Campaign slug.
+	 *     @type string $context      Context for the visit (typically the integration).
+	 *     @type string $rest_id      REST ID (site:objectId) combination.
+	 *     @type string $ip           IP address recorded for the visit. Will be ignored if disable_ip_logging
+	 *                                setting is enabled.
+	 *     @type string $date         Date the visit was recorded.
+	 * }
+	 * @return int|false ID of the added visit, otherwise false.
 	 */
 	public function add( $data = array() ) {
 
@@ -504,7 +518,19 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 	 * @access public
 	 *
 	 * @param int|AffWP\Visit $visit_id Visit ID or object.
-	 * @param array           $data     Optional. Data array. Default empty array.
+	 * @param array           $data     {
+	 *     Arguments for updating a new visit.
+	 *
+	 *     @type int    $affiliate_id Affiliate to associate the visit with. Ignored if invalid.
+	 *     @type int    $referral_id  Referral ID attached to the visit (if any). Ignored if invalid.
+	 *     @type string $referrer     Referrer. Typically a URL or empty if direct link.
+	 *     @type string $url          Visit URL.
+	 *     @type string $campaign     Campaign slug.
+	 *     @type string $context      Context for the visit (typically the integration).
+	 *     @type string $rest_id      REST ID (site:objectId) combination.
+	 *     @type string $ip           IP address recorded for the visit.
+	 *     @type string $date         Date the visit was recorded.
+	 * }
 	 * @return int|false The visit ID if successfully updated, false otherwise.
 	 */
 	public function update_visit( $visit, $data = array() ) {
@@ -513,39 +539,52 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 			return false;
 		}
 
+		$args = array();
+
+		if ( ! empty( $data['referral_id'] ) ) {
+			// If the passed affiliate ID is invalid, ignore the new value.
+			if ( ! affwp_get_referral( $data['referral_id'] ) ) {
+				$args['referral_id'] = $visit->referral_id;
+			}
+		}
+
+		if ( isset( $data['referrer'] ) ) {
+			$args['referrer'] = sanitize_text_field( $data['referrer'] );
+		}
+
 		if ( ! empty( $data['url'] ) ) {
-			$data['url'] = affwp_sanitize_visit_url( $data['url'] );
+			$args['url'] = affwp_sanitize_visit_url( $data['url'] );
 		}
 
 		if ( ! empty( $data['campaign'] ) ) {
-			$data['campaign'] = $this->sanitize_campaign( $data['campaign'] );
+			$args['campaign'] = $this->sanitize_campaign( $data['campaign'] );
 		}
 
 		if ( ! empty( $data['context'] ) ) {
-			$data['context'] = sanitize_key( substr( $data['context'], 0, 50 ) );
+			$args['context'] = sanitize_key( substr( $data['context'], 0, 50 ) );
 		}
 
 		if ( ! empty( $data['affiliate_id'] ) ) {
 			// If the passed affiliate ID is invalid, ignore the new value.
 			if ( ! affwp_get_affiliate( $data['affiliate_id'] ) ) {
-				$data['affiliate_id'] = $visit->affiliate_id;
+				$args['affiliate_id'] = $visit->affiliate_id;
 			}
 		}
 
 		if ( ! empty( $data['date' ] ) && $data['date'] !== $visit->date ) {
 			$timestamp    = strtotime( $data['date'] ) - affiliate_wp()->utils->wp_offset;
-			$data['date'] = gmdate( 'Y-m-d H:i:s', $timestamp );
+			$args['date'] = gmdate( 'Y-m-d H:i:s', $timestamp );
 		}
 
 		if ( ! empty( $data['rest_id'] ) && is_string( $data['rest_id'] ) && $data['rest_id'] !== $visit->rest_id ) {
 			if ( false !== strpos( $data['rest_id'], ':' ) ) {
-				$data['rest_id'] = sanitize_text_field( $data['rest_id'] );
+				$args['rest_id'] = sanitize_text_field( $data['rest_id'] );
 			} else {
-				$data['rest_id'] = $visit->rest_id;
+				$args['rest_id'] = $visit->rest_id;
 			}
 		}
 
-		if ( $this->update( $visit->ID, $data, '', 'visit' ) ) {
+		if ( $this->update( $visit->ID, $args, '', 'visit' ) ) {
 			$updated_visit = affwp_get_visit( $visit->ID );
 
 			// Handle visit counts if the affiliate was changed.
