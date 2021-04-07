@@ -181,15 +181,10 @@ function wpenon_immoticket24_print_no_consumption_modal
 				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
 				var dach = jQuery('#dach').val();
 				var wand_daemmung_on = jQuery('#wand_daemmung_on').val();
-				var wand_staerke = jQuery('#wand_staerke').val();
 				var decke_daemmung_on = jQuery('#decke_daemmung_on').val();
 				var dach_daemmung_on = jQuery('#dach_daemmung_on').val();
 
 				if ( wohnungen >= 5 || baujahr > 1977 ) {
-					return true;
-				}
-
-				if ( wand_staerke > 35 && wand_daemmung_on === 'no' && ( dach_daemmung_on === 'yes' || decke_daemmung_on === 'yes' ) ) {
 					return true;
 				}
 
@@ -876,7 +871,6 @@ function wpenon_immoticket24_get_heizungsanlagen202001( $energieausweis = '' ) {
 
 	return $heaters;	
 }
-
 
 function wpenon_immoticket24_get_heizungsanlagen202002_vw() {
 	$anlagen = wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
