@@ -531,7 +531,7 @@ class Schema {
 						break;
 					case 'int':
 						$default_validate = '\WPENON\Util\Validate::int';
-						$default_default  = $field['min'] ? $field['min'] : 0;
+						// $default_default  = $field['min'] ? $field['min'] : 0;
 						break;
 					case 'float':
 						$default_validate = '\WPENON\Util\Validate::float';
