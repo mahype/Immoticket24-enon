@@ -69,7 +69,7 @@ class Filter_Iframe implements Task, Actions, Filters {
 		add_filter( 'wpenon_create_show_title', array( $this, 'filter_title' ) );
 		add_filter( 'wpenon_create_show_description', array( $this, 'filter_description' ) );
         add_filter( 'immoticketenergieausweis_checkout_terms_checkboxes', array( $this, 'filter_newsletter_terms' ) );
-        add_filter( 'borlabsCookie/settings', array( $this, 'switch_off_borlabs' ) );
+		add_filter( 'borlabsCookie/settings', array( $this, 'switch_off_borlabs' ) );
 	}
 
 	/**
