@@ -670,7 +670,7 @@ class Affiliate_WP_Settings {
 				array(
 					'integrations' => array(
 						'name' => __( 'Integrations', 'affiliate-wp' ),
-						'desc' => sprintf( __( 'Choose the integrations to enable. If you are not using any of these, you may use the <strong>[affiliate_conversion_script]</strong> shortcode to track and create referrals. Refer to the <a href="%s" target="_blank">documentation</a> for help using this.', 'affiliate-wp' ), 'http://docs.affiliatewp.com/article/66-generic-referral-tracking-script' ),
+						'desc' => __( 'Choose the integrations to enable.', 'affiliate-wp' ),
 						'type' => 'multicheck',
 						'options' => affiliate_wp()->integrations->get_integrations()
 					),
@@ -1527,7 +1527,7 @@ class Affiliate_WP_Settings {
 	public function get_integration_callback( $integration, $context, $type ) {
 		$integration = affiliate_wp()->integrations->get( $integration );
 
-		$callback = false;
+		$callback = '__return_empty_array';
 
 		if ( is_wp_error( $integration ) || ! $integration->is_active() ) {
 			return $callback;
@@ -1540,9 +1540,7 @@ class Affiliate_WP_Settings {
 				}
 				break;
 
-			default:
-				$callback = false;
-				break;
+			default: break;
 		}
 
 		return $callback;
