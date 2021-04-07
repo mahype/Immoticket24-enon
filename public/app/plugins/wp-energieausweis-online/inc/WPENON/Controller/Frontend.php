@@ -310,7 +310,7 @@ class Frontend {
 				wpenon_enqueue_script( 'wpenon-bootstrap', 'third-party/bootstrap/dist/js/bootstrap', array( 'jquery' ), '3.3.2' );
 			}
 
-			wpenon_enqueue_script( 'wpenon-frontend', 'upload' );
+			wpenon_enqueue_script( 'wpenon-frontend-upload', 'upload' );
 			wpenon_enqueue_style( 'wpenon-frontend', 'frontend', $css_dependencies );
 			wpenon_enqueue_script( 'wpenon-frontend', 'frontend', array_merge( $js_dependencies, array(
 				'jquery',
