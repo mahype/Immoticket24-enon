@@ -472,7 +472,7 @@ function wpenon_check_geg20() {
             }
 		});
 
-        jQuery('#btn-order-now').click(function(e) {
+        jQuery('#btn-order-now').on('click',function(e) {
 			if( wp_enon_geg20_needs_check() ) {
                 e.preventDefault();
                 wp_enon_geg20_check();
