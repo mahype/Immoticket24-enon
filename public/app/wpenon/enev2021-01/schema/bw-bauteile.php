@@ -106,6 +106,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),
 				'wand_b_headline'           => array(
 					'type'    => 'headline',
@@ -173,6 +174,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),
 				'wand_c_headline'           => array(
 					'type'    => 'headline',
@@ -240,6 +242,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),
 				'wand_d_headline'           => array(
 					'type'    => 'headline',
@@ -307,6 +310,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),
 				'wand_e_headline'           => array(
 					'type'    => 'headline',
@@ -374,6 +378,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),
 				'wand_f_headline'           => array(
 					'type'    => 'headline',
@@ -441,6 +446,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),
 				'wand_g_headline'           => array(
 					'type'    => 'headline',
@@ -508,6 +514,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),
 				'wand_h_headline'           => array(
 					'type'    => 'headline',
@@ -574,6 +581,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),
 				'anbauwand_headline'        => array(
 					'type'    => 'headline',
@@ -639,6 +647,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),
 				'anbauwand_b_laenge'        => array(
 					'type'     => 'float_length',
@@ -803,6 +812,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),
 				'decke_bauart'       => array(
 					'type'        => 'select',
@@ -839,6 +849,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),
 				'anbaudach_headline' => array(
 					'type'    => 'headline',
@@ -882,6 +893,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,				
 				),
 			),
 		),
@@ -961,6 +973,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),
 				'boden_bauart'        => array(
 					'type'        => 'select',
@@ -989,6 +1002,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),		
 				'anbauboden_headline' => array(
 					'type'    => 'headline',
@@ -1032,6 +1046,7 @@ $bauteile = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
+					'default' => 0,
 				),					
 			),
 		),
