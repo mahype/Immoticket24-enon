@@ -15,7 +15,7 @@ use Enon\Task_Loader;
 use Enon\Tasks\Scripts\Add_Scripts;
 use Enon\Tasks\Scripts\Add_Page_Scripts;
 use Enon\Tasks\Scripts\Add_Uptain_Scripts;
-use Enon\Tasks\Emails\Additional_Mails_Postcodes;
+use Enon\Tasks\Filter_EDD_Emails;
 
 /**
  * Tasks loader.
@@ -39,7 +39,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Setup_Wonolog::class, $this->logger() );
         $this->add_task( Setup_Edd::class, $this->logger() );
 		$this->add_task( Setup_Edd_Stripe_Sepa_Payment::class );
-		$this->add_task( Additional_Mails_Postcodes::class );
+		$this->add_task( Filter_EDD_Emails::class );
 
 		if ( is_admin() && ! wp_doing_ajax() ) {
 			$this->add_admin_tasks();

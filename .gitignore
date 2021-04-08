@@ -42,6 +42,7 @@ public/app/nfwlog/*
 !public/app/plugins/wp-energieausweis-online
 !public/app/plugins/wp-postratings-migrate
 !public/app/plugins/wp-rocket
+public/app/plugins/wp-rocket/licence-data.php
 !public/app/plugins/wpenon_image_cleanup
 !public/app/themes/immoticket-energieausweis
 
