@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Tasks\Filters;
+namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
@@ -148,17 +148,21 @@ class Filter_EDD_Emails implements Task, Actions {
 			'experten_check'             => 'angabencheck@energieausweis-online-erstellen.de',
 			'sendung_per_post'           => 'postversand@energieausweis-online-erstellen.de',			
 			'energieausweis_besprechung' => 'angabencheck@energieausweis-online-erstellen.de',
-			'premiumbewertung'           => 'premiumbewertung@energieausweis-online-erstellen.de',
+			'premium_bewertung'          => 'premiumbewertung@energieausweis-online-erstellen.de',
 		];
 
 		foreach ( $this->payment_fees as $payment_fee ) {
-			$email = $payment_fee_emails[ $payment_fee ];
+			if ( ! array_key_exists( $payment_fee['id'], $payment_fee_emails ) ) {
+				continue;
+			}
+
+			$email = $payment_fee_emails[ $payment_fee['id'] ];
 
 			if ( in_array( $email, $emails, true ) ) {
 				continue;
 			}
 
-			if( $payment_fee === 'premium_bewertung' && $this->has_emails_for_postcodes() ) {
+			if( $payment_fee['id'] === 'premium_bewertung' && $this->has_emails_for_postcodes() ) {
 				continue;
 			}
 
