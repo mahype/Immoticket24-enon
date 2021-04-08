@@ -73,7 +73,7 @@ class Additional_Mails_Postcodes implements Actions, Task {
 		$postcode_areas = [
 			[
 				'email_to'  => 'kwe@immoticket24.de',
-				'postcodes' => [ '50', '51', '52', '53', '54', '55', '56' ]
+				'postcodes' => [ '53', '54', '55', '56' ]
 			]
 		];
 
