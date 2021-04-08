@@ -51,6 +51,7 @@ class Loader extends Task_Loader {
 	 */
 	public function run() {
 		$this->add_task( Add_CPT_Reseller::class );
+        $this->add_task( Filter_Payment_Fee_Email::class );  
 
 		if ( is_admin() && ! wp_doing_ajax() ) {
             $this->add_backend_tasks();
@@ -61,7 +62,7 @@ class Loader extends Task_Loader {
 
             // @todo How do we use tasks here? Clean up!
             add_action( 'template_redirect', array( $this, 'add_frontend_tasks_by_page' ), 1 );            
-        }        
+        }
 	}
 
 	/**
@@ -81,7 +82,6 @@ class Loader extends Task_Loader {
         $this->add_task( CSV_Generator::class );
         
         $this->add_task( Setup_Edd::class, $this->logger() );
-        $this->add_task( Filter_Payment_Fee_Email::class );
         
         $this->add_sparkasse_backend_tasks();
     }
@@ -161,7 +161,6 @@ class Loader extends Task_Loader {
         $this->add_task( Filter_Email_Template::class, $reseller, $this->logger() );
         $this->add_task( Filter_Confirmation_Email::class, $reseller, $this->logger() );
         $this->add_task( Filter_Bill_Email::class, $reseller, $this->logger() );
-        $this->add_task( Filter_Payment_Fee_Email::class );  
         $this->add_task( Filter_Schema::class, $reseller, $this->logger() );
 
             // @todo Clean up!

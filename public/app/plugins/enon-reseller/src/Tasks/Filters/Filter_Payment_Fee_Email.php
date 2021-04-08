@@ -13,11 +13,6 @@ namespace Enon_Reseller\Tasks\Filters;
 
 use Awsm\WP_Wrapper\Interfaces\Filters;
 use Awsm\WP_Wrapper\Interfaces\Task;
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
-
-use Enon_Reseller\Logger;
-use Enon_Reseller\Models\Reseller;
-use Enon_Reseller\Models\Reseller_Payment;
 
 /**
  * Class Filter_Payment_Fee_Email.
@@ -42,19 +37,25 @@ class Filter_Payment_Fee_Email implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'enon_edd_emails_payment_fees', array( $this, 'filter_premium_bewertung_email_address' ), 10, 2 );
+		add_filter( 'enon_edd_emails_payment_fees', array( $this, 'filter_premium_bewertung_email_address' ), 10, 3 );
 	}
 
 	/**
 	 * Filter premium bewertung email address.
 	 *
-	 * @param array $emails Email addresses.
+	 * @param array Email addresses.
+	 * @param array Payment fees.
+	 * @param Energieausweis 
 	 *
 	 * @return array Filtered email addresses.
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_premium_bewertung_email_address( array $emails, $payment_fees ) : array {
+	public function filter_premium_bewertung_email_address( array $emails, $payment_fees, $energieausweis ) : array {
+		if ( ! isset( $energieausweis->reseller_id ) ) {
+			return $emails;
+		}
+
 		if ( ! $this->has_premium_bewertung( $payment_fees ) ) {
 			return $emails;
 		}
@@ -78,7 +79,7 @@ class Filter_Payment_Fee_Email implements Task, Filters {
 	 */
 	private function has_premium_bewertung( $payment_fees ) {
 		foreach ( $payment_fees AS $payment_fee ) {
-			if ( $payment_fees['id'] === 'premium_bewertung' ) {
+			if ( $payment_fee['id'] === 'premium_bewertung' ) {
 				return true;
 			}
 		}
