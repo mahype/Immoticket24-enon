@@ -169,6 +169,8 @@ class Filter_EDD_Emails implements Task, Actions {
 			$emails[] = $email;
 		}
 
+		$emails = apply_filters( 'enon_edd_emails_payment_fees', $emails, $this->payment_fees );
+
 		return $emails;
 	}
 }
