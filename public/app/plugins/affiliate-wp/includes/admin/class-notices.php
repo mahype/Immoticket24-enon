@@ -479,7 +479,7 @@ class Affiliate_WP_Admin_Notices {
 			array(
 				'class'   => 'notice notice-info is-dismissible',
 				'message' => function() {
-					$notice = __( 'Your database needs to be upgraded following the latest AffiliateWP update', 'affiliate-wp' );
+					$notice = __( 'Your database needs to be upgraded following the AffiliateWP v2.0 update', 'affiliate-wp' );
 					$nonce  = wp_create_nonce( 'recount-affiliate-stats-upgrade_step_nonce' );
 
 					ob_start();
@@ -501,7 +501,7 @@ class Affiliate_WP_Admin_Notices {
 			array(
 				'class'   => 'notice notice-info is-dismissible',
 				'message' => function() {
-					$notice = __( 'Your database needs to be upgraded following the latest AffiliateWP update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
+					$notice = __( 'Your database needs to be upgraded following the AffiliateWP v2.2 update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
 					$nonce  = wp_create_nonce( 'create-customers-upgrade_step_nonce' );
 
 					ob_start();
@@ -524,7 +524,7 @@ class Affiliate_WP_Admin_Notices {
 			array(
 				'class'   => 'notice notice-info is-dismissible',
 				'message' => function() {
-					$notice = __( 'Your database needs to be upgraded following the latest AffiliateWP update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
+					$notice = __( 'Your database needs to be upgraded following the AffiliateWP v2.4.5 update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
 					$nonce  = wp_create_nonce( 'create-customer-affiliate-relationship-upgrade_step_nonce' );
 
 					ob_start();
@@ -547,7 +547,7 @@ class Affiliate_WP_Admin_Notices {
 			array(
 				'class'   => 'notice notice-info is-dismissible',
 				'message' => function() {
-					$notice = __( 'Your database needs to be upgraded following the latest AffiliateWP update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
+					$notice = __( 'Your database needs to be upgraded following the AffiliateWP v2.6 update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
 					$nonce  = wp_create_nonce( 'create-dynamic-coupons-upgrade_step_nonce' );
 
 					ob_start();
@@ -570,7 +570,7 @@ class Affiliate_WP_Admin_Notices {
 			array(
 				'class' => 'notice notice-info is-dismissible',
 				'message' => function() {
-					$notice = __( 'Your database tables need to be upgraded following the latest AffiliateWP update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
+					$notice = __( 'Your database tables need to be upgraded following the AffiliateWP v2.6.1 update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
 					$nonce  = wp_create_nonce( 'upgrade-db-utf8mb4_step_nonce' );
 
 					ob_start();

@@ -33,21 +33,32 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		add_action( 'affwp_updated_referral', array( $this, 'updated_referral_note' ), 10, 3 );
 
 		// There should be an option to choose which of these is used.
-		add_action( 'woocommerce_order_status_completed', array( $this, 'mark_referral_complete' ), 10 );
+		add_action( 'woocommerce_order_status_completed',  array( $this, 'mark_referral_complete' ), 10 );
 		add_action( 'woocommerce_order_status_processing', array( $this, 'mark_referral_complete' ), 10 );
-		add_action( 'woocommerce_order_status_completed_to_refunded', array( $this, 'revoke_referral_on_refund' ), 10 );
-		add_action( 'woocommerce_order_status_on-hold_to_refunded', array( $this, 'revoke_referral_on_refund' ), 10 );
+
+		// Refunded.
+		add_action( 'woocommerce_order_status_completed_to_refunded',  array( $this, 'revoke_referral_on_refund' ), 10 );
 		add_action( 'woocommerce_order_status_processing_to_refunded', array( $this, 'revoke_referral_on_refund' ), 10 );
+		add_action( 'woocommerce_order_status_pending_to_refunded',    array( $this, 'revoke_referral_on_refund' ), 10 );
+		add_action( 'woocommerce_order_status_on-hold_to_refunded',    array( $this, 'revoke_referral_on_refund' ), 10 );
+
+		// Cancelled.
+		add_action( 'woocommerce_order_status_completed_to_cancelled',  array( $this, 'revoke_referral' ), 10 );
 		add_action( 'woocommerce_order_status_processing_to_cancelled', array( $this, 'revoke_referral' ), 10 );
-		add_action( 'woocommerce_order_status_completed_to_cancelled', array( $this, 'revoke_referral' ), 10 );
-		add_action( 'woocommerce_order_status_pending_to_cancelled', array( $this, 'revoke_referral' ), 10 );
+		add_action( 'woocommerce_order_status_pending_to_cancelled',    array( $this, 'revoke_referral' ), 10 );
+		add_action( 'woocommerce_order_status_on-hold_to_cancelled',    array( $this, 'revoke_referral' ), 10 );
+
+		// Failed.
+		add_action( 'woocommerce_order_status_completed_to_failed',  array( $this, 'revoke_referral' ), 10 );
 		add_action( 'woocommerce_order_status_processing_to_failed', array( $this, 'revoke_referral' ), 10 );
-		add_action( 'woocommerce_order_status_completed_to_failed', array( $this, 'revoke_referral' ), 10 );
-		add_action( 'woocommerce_order_status_pending_to_failed', array( $this, 'revoke_referral' ), 10 );
-		add_action( 'woocommerce_order_status_on-hold_to_cancelled', array( $this, 'revoke_referral' ), 10 );
-		add_action( 'wc-on-hold_to_trash', array( $this, 'revoke_referral' ), 10 );
+		add_action( 'woocommerce_order_status_pending_to_failed',    array( $this, 'revoke_referral' ), 10 );
+		add_action( 'woocommerce_order_status_on-hold_to_failed',    array( $this, 'revoke_referral' ), 10 );
+
+		// Trashed.
+		add_action( 'wc-completed_to_trash',  array( $this, 'revoke_referral' ), 10 );
+		add_action( 'wc-pending_to_trash',    array( $this, 'revoke_referral' ), 10 );
 		add_action( 'wc-processing_to_trash', array( $this, 'revoke_referral' ), 10 );
-		add_action( 'wc-completed_to_trash', array( $this, 'revoke_referral' ), 10 );
+		add_action( 'wc-on-hold_to_trash',    array( $this, 'revoke_referral' ), 10 );
 
 		add_filter( 'affwp_referral_reference_column', array( $this, 'reference_link' ), 10, 2 );
 
@@ -551,12 +562,16 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	}
 
 	/**
-	 * Setup the reference link
+	 * Sets up the reference link.
 	 *
-	 * @access  public
-	 * @since   1.0
+	 * @since 1.0
+	 *
+	 * @param int             $reference Referral reference (order number).
+	 * @param \AffWP\Referral $referral  Current referral object.
+	 * @return int|string Unchanged reference value if there's nothing to link, otherwise link
+	 *                    markup pointing to the edit screen for the order.
 	*/
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if( empty( $referral->context ) || 'woocommerce' != $referral->context ) {
 

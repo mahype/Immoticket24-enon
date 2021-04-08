@@ -61,9 +61,11 @@ function affwp_tools_system_info_report() {
 	$return .= "\n" . '-- AffiliateWP Configuration' . "\n\n";
 	$return .= 'Version:                          ' . AFFILIATEWP_VERSION . "\n";
 	$return .= 'License Key:                      ' . ( $settings->get( 'license_key' ) ? $settings->get( 'license_key' ) . "\n" : "Not set\n" );
+	$return .= 'Global License Key:               ' . ( defined( 'AFFILIATEWP_LICENSE_KEY' ) ? empty( AFFILIATEWP_LICENSE_KEY ) ? 'Set empty' : AFFILIATEWP_LICENSE_KEY : 'Not set' ) . "\n";
 	$return .= 'Currency:                         ' . ( $settings->get( 'currency' ) ? $settings->get( 'currency' ) . "\n" : "Default\n" );
 	$return .= 'Currency Position:                ' . ( $settings->get( 'currency_position' ) ? $settings->get( 'currency_position' ) . "\n" : "Default\n" );
 	$return .= 'Cookie Expiration:                ' . ( $settings->get( 'cookie_exp' ) ? $settings->get( 'cookie_exp' ) . " day(s)\n" : "Default\n" );
+	$return .= 'Network-wide DB Tables:           ' . ( defined( 'AFFILIATE_WP_NETWORK_WIDE' ) ? AFFILIATE_WP_NETWORK_WIDE ? 'Enabled' : 'Disabled' : 'Not set' ) . "\n";
 
 	// Environment.
 	$return .= "\n" . '-- AffiliateWP Environment' . "\n\n";
@@ -123,11 +125,11 @@ function affwp_tools_system_info_report() {
 				$sync_status = $integration->needs_synced() ? 'Plugin Enabled, Needs Synced' : 'Enabled, Synced';
 			}
 
+			$name = $integration->get_name();
 		} else {
 			$sync_status = "Sync Status Unknown";
+			$name        = $id;
 		}
-
-		$name = $integration->get_name();
 
 		// Align text with other fields dynamically, based on the length of the integration name.
 		$spaces = str_repeat( ' ', 33 - strlen( $name ) );

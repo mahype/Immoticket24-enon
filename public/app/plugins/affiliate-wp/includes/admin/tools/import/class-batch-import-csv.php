@@ -62,7 +62,7 @@ class CSV extends Batch\Import implements Importer\CSV {
 	public function __construct( $_file = '', $_step = 1 ) {
 
 		if( ! class_exists( 'parseCSV' ) ) {
-			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/libraries/parsecsv.lib.php';
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/libraries/parsecsv/parsecsv.lib.php';
 		}
 
 		$this->step = $_step;

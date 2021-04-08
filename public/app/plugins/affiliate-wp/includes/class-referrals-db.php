@@ -332,21 +332,27 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			}
 		}
 
-		$args['affiliate_id']  = ! empty( $data['affiliate_id' ] ) ? absint( $data['affiliate_id'] )             : $referral->affiliate_id;
-		$args['visit_id']      = ! empty( $data['visit_id' ] )     ? absint( $data['visit_id'] )                 : $referral->visit_id;
-		$args['customer_id']   = ! empty( $data['customer_id' ] )  ? absint( $data['customer_id'] )              : $referral->customer_id;
-		$args['description']   = ! empty( $data['description' ] )  ? sanitize_text_field( $data['description'] ) : '';
+		$args['affiliate_id']  = ! empty( $data['affiliate_id' ] ) ? intval( $data['affiliate_id'] )             : $referral->affiliate_id;
+		$args['visit_id']      = ! empty( $data['visit_id' ] )     ? intval( $data['visit_id'] )                 : $referral->visit_id;
+		$args['customer_id']   = ! empty( $data['customer_id' ] )  ? intval( $data['customer_id'] )              : $referral->customer_id;
+		$args['description']   = ! empty( $data['description' ] )  ? sanitize_text_field( $data['description'] ) : $referral->description;
 		$args['amount']        = ! empty( $data['amount'] )        ? affwp_sanitize_amount( $data['amount'] )    : $referral->amount;
-		$args['currency']      = ! empty( $data['currency'] )      ? sanitize_text_field( $data['currency'] )    : '';
-		$args['custom']        = ! empty( $data['custom'] )        ? sanitize_text_field( $data['custom'] )      : '';
-		$args['context']       = ! empty( $data['context'] )       ? sanitize_text_field( $data['context'] )     : '';
-		$args['campaign']      = ! empty( $data['campaign'] )      ? sanitize_text_field( $data['campaign'] )    : '';
-		$args['reference']     = ! empty( $data['reference'] )     ? sanitize_text_field( $data['reference'] )   : '';
-		$args['type']          = ! empty( $data['type'] )          ? sanitize_text_field( $data['type'] )        : '';
-		$args['parent_id']     = ! empty( $data['parent_id'] )     ? absint( $data['parent_id'] )                : $referral->parent_id;
+		$args['currency']      = ! empty( $data['currency'] )      ? sanitize_text_field( $data['currency'] )    : $referral->currency;
+		$args['custom']        = ! empty( $data['custom'] )        ? sanitize_text_field( $data['custom'] )      : $referral->custom;
+		$args['context']       = ! empty( $data['context'] )       ? sanitize_text_field( $data['context'] )     : $referral->context;
+		$args['campaign']      = ! empty( $data['campaign'] )      ? sanitize_text_field( $data['campaign'] )    : $referral->campaign;
+		$args['reference']     = ! empty( $data['reference'] )     ? sanitize_text_field( $data['reference'] )   : $referral->reference;
+		$args['parent_id']     = ! empty( $data['parent_id'] )     ? intval( $data['parent_id'] )                : $referral->parent_id;
 
-		if( ! empty( $args['type'] ) && ! $this->types_registry->get_type( $args['type'] ) ) {
-			$args['type'] = 'sale';
+		// Validate any referral type changes.
+		if ( ! empty( $data['type'] ) ) {
+			$args['type'] = sanitize_key( $data['type'] );
+
+			if ( ! $this->types_registry->get_type( $args['type'] ) ) {
+				$args['type'] = 'sale';
+			}
+		} else {
+			$args['type'] = $referral->type;
 		}
 
 		// Force context to lowercase for system-wide compatibility.
@@ -361,7 +367,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 		 * adjustments. Now the status is only updated once as needed. See #2257.
 		 */
 		$new_status = ! empty( $data['status'] ) ? sanitize_key( $data['status'] ) : $referral->status;
-		$new_type   = ! empty( $args['type'] )   ? sanitize_key( $args['type'] )   : $referral->type;
+		$new_type   = $args['type'];
 
 		$updated          = $this->update( $referral->ID, $args, '', 'referral' );
 		$updated_referral = affwp_get_referral( $referral );

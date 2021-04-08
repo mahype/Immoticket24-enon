@@ -1402,9 +1402,13 @@ function affwp_update_affiliate( $data = array() ) {
 	}
 
 	$args         = array();
-	$affiliate_id = absint( $data['affiliate_id'] );
-	$affiliate    = affwp_get_affiliate( $affiliate_id );
-	$user_id      = $affiliate->user_id;
+	$affiliate_id = intval( $data['affiliate_id'] );
+
+	if ( ! $affiliate = affwp_get_affiliate( $affiliate_id ) ) {
+		return false;
+	}
+
+	$user_id = $affiliate->user_id;
 
 	if ( ! empty( $data['user_id'] ) ) {
 		$new_user_id = absint( $data['user_id'] );
@@ -1417,17 +1421,22 @@ function affwp_update_affiliate( $data = array() ) {
 		}
 	}
 
-	$args['account_email']   = ! empty( $data['account_email'] ) && is_email( $data['account_email'] ) ? sanitize_text_field( $data['account_email'] ) : '';
-	$args['payment_email']   = ! empty( $data['payment_email'] ) && is_email( $data['payment_email'] ) ? sanitize_text_field( $data['payment_email'] ) : '';
-	$args['rate']            = ( isset( $data['rate'] ) && '' !== $data['rate'] ) ? sanitize_text_field( $data['rate'] ) : '';
-	$args['rate_type']       = ! empty( $data['rate_type'] ) ? sanitize_text_field( $data['rate_type'] ) : '';
-	$args['flat_rate_basis'] = ! empty( $data['flat_rate_basis'] ) && 'flat' === $args['rate_type'] ? sanitize_text_field( $data['flat_rate_basis'] ) : '';
-	$args['earnings']        = ( isset( $data['earnings'] ) && is_numeric( $data['earnings'] ) ) ? floatval( $data['earnings'] ) : '';
-	$args['unpaid_earnings'] = ( isset( $data['unpaid_earnings'] ) && is_numeric( $data['unpaid_earnings'] ) ) ? floatval( $data['unpaid_earnings'] ) : '';
+	$args['payment_email']   = ! empty( $data['payment_email'] ) && is_email( $data['payment_email'] ) ? sanitize_text_field( $data['payment_email'] ) : $affiliate->payment_email;
+	$args['rate']            = ( isset( $data['rate'] ) && '' !== $data['rate'] ) ? sanitize_text_field( $data['rate'] ) : $affiliate->rate;
+	$args['rate_type']       = ! empty( $data['rate_type'] ) ? sanitize_text_field( $data['rate_type'] ) : $affiliate->rate_type;
+	$args['earnings']        = ( isset( $data['earnings'] ) && is_numeric( $data['earnings'] ) ) ? floatval( $data['earnings'] ) : $affiliate->earnings;
+	$args['unpaid_earnings'] = ( isset( $data['unpaid_earnings'] ) && is_numeric( $data['unpaid_earnings'] ) ) ? floatval( $data['unpaid_earnings'] ) : $affiliate->unpaid_earnings;
 	$args['status']          = ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : $affiliate->status;
 	$args['user_id']         = $user_id;
-	$args['notes']           = ! empty( $data['notes'] ) ? wp_kses_post( $data['notes'] ) : '';
 
+	// Reset flat rate basis if the incoming rate type isn't flat.
+	if ( ! empty( $data['flat_rate_basis'] ) && 'flat' === $args['rate_type'] ) {
+		$args['flat_rate_basis'] = sanitize_text_field( $data['flat_rate_basis'] );
+	} else {
+		$args['flat_rate_basis'] = '';
+	}
+
+	// Set a new date_registered (minus the offset) if it's different from the current date.
 	if ( ! empty( $data['date_registered'] ) && $data['date_registered'] !== $affiliate->date_registered ) {
 		$timestamp = strtotime( $data['date_registered'] ) - affiliate_wp()->utils->wp_offset;
 
@@ -1501,18 +1510,27 @@ function affwp_update_affiliate( $data = array() ) {
 
 	if ( $updated ) {
 
-		// Update affiliate's account email
-		if ( wp_update_user( array( 'ID' => $user_id, 'user_email' => $args['account_email'] ) ) ) {
+		// Add or update affiliate notes.
+		if ( ! empty( $data['notes'] ) ) {
+			$notes = wp_kses_post( $data['notes'] );
 
-			// Add or delete affiliate notes
-			if ( $args['notes'] ) {
-				affwp_update_affiliate_meta( $affiliate_id, 'notes', $args['notes'] );
-			} else {
-				affwp_delete_affiliate_meta( $affiliate_id, 'notes' );
-			}
-
-			return true;
+			affwp_update_affiliate_meta( $affiliate_id, 'notes', $notes );
 		}
+
+		// Maybe update affiliate's account email.
+		if ( isset( $data['account_email'] )
+			&& is_email( $data['account_email'] )
+			&& $data['account_email'] !== $affiliate->user->user_email
+		) {
+			$account_email = sanitize_text_field( $data['account_email'] );
+
+			wp_update_user( array(
+				'ID'         => $user_id,
+				'user_email' => $account_email
+			) );
+		}
+
+		return true;
 
 	}
 	return false;

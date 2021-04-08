@@ -17,6 +17,9 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 		// Delink a linked customer from an affiliate.
 		add_action( 'affwp_lc_delink_customer', array( $this, 'delink_customer' ) );
 
+		// Delink a linked customer from a deleted affiliate.
+		add_action( 'affwp_affiliate_deleted', array( $this, 'delink_customer_affiliate_deleted' ) );
+
 		// Load JS.
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 100 );
 
@@ -524,6 +527,23 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 
 		wp_redirect( affwp_admin_url( 'affiliates', array( 'action' => 'edit_affiliate', 'affiliate_id' => $affiliate_id, 'affwp_notice' => 'affiliate_delinked', 'affwp_message' => $message ) ) ); exit;
 
+	}
+
+	/**
+	 * Unlinks a lifetime customer from a deleted affiliate.
+	 *
+	 * @since 1.4.4
+	 *
+	 * @param int              $affiliate_id The affiliate ID.
+	 * @param bool             $delete_data  Whether the user data was also flagged for deletion.
+	 * @param \AffWP\Affiliate $affiliate    Affiliate object.
+	 */
+	public function delink_customer_affiliate_deleted( $affiliate_id ) {
+		$lifetime_customer = affiliate_wp_lifetime_commissions()->lifetime_customers->get_by( 'affiliate_id', $affiliate_id );
+
+		if ( $lifetime_customer ) {
+			affiliate_wp_lifetime_commissions()->lifetime_customers->delete( $lifetime_customer->lifetime_customer_id );
+		}
 	}
 
 	/**
