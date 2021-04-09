@@ -1179,6 +1179,7 @@ $anlage = array(
 						'callback_args' => array( 'field::k_leistung', 'groesser' ),
 					),
 					'validate'              => 'wpenon_immoticket24_validate_month_year',
+					'placeholder'			=> 'MM/JJJJ'
 				),
 				'k_flaeche'   => array(
 					'type'                  => 'float',
