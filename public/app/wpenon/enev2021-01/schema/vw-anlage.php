@@ -1194,6 +1194,19 @@ $anlage = array(
 					'validate'              => 'wpenon_immoticket24_validate_area_lower_than',
 					'validate_dependencies' => array( 'flaeche' ),
 				),
+				'k_typenschild'                                     => array(
+					'type'                  => 'image',
+					'label'                 => __( 'Foto des Typenschilds', 'wpenon' ),
+					'required'              => false,
+					'filetypes' => array(
+						'image/png',
+						'image/jpeg'
+					),
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::k_info', 'vorhanden' ),
+					),
+				),
 			),
 		),
 		'automation'   => array(
