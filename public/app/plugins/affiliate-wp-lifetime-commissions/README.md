@@ -3,6 +3,11 @@ Lifetime Commissions
 
 Allow your affiliates to receive a commission on all future purchases by the customer
 
+= Version 1.4.4, February 28, 2021 =
+* Fixed: Unlink a lifetime customer when an affiliate is deleted
+* Fixed: Avoid potential type errors when indicating lifetime referrals in the Affiliate Area
+* Fixed: Lifetime Customers count in the Affiliate Area > Statistics tab is wrong
+
 = Version 1.4.3, June 2, 2020 =
 * Improved: Delete all the previous email addresses of a lifetime customer when a customer is unlinked
 * Fixed: WooCommerce: Referral rates used on first purchase by customer, shows Lifetime Commissions link in referrals

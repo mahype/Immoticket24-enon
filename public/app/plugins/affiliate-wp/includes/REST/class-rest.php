@@ -177,7 +177,7 @@ class Affiliate_WP_REST {
 			$key = '';
 		}
 
-		$deleted = $this->consumers->delete( $consumer_id );
+		$deleted = $this->consumers->delete( $consumer_id, 'consumer' );
 
 		if ( $deleted ) {
 			// Dump cached values.
@@ -238,14 +238,27 @@ class Affiliate_WP_REST {
 	/**
 	 * Retrieves the consumer token.
 	 *
-	 * @access public
-	 * @since  1.9
+	 * @since 1.9
+	 * @since 2.6.7 The order of keys passed to `affwp_auth_hash()` was reversed to match the rest of core. Now
+	 *              returns false if the user is invalid or is not associated with a consumer.
 	 *
 	 * @param int $user_id Consumer user ID.
-	 * @return string The consumer's token.
+	 * @return string|false The consumer's token, otherwise false.
 	 */
 	public function get_token( $user_id ) {
-		return affwp_auth_hash( $this->get_consumer_secret_key( $user_id ), $this->get_consumer_public_key( $user_id ), false );
+		$consumer_id = (int) affiliate_wp()->REST->consumers->get_column_by( 'consumer_id', 'user_id', $user_id );
+
+		if ( 0 === $consumer_id || false === get_user_by( 'id', $user_id ) ) {
+			return false;
+		}
+
+		$token = affwp_auth_hash(
+			$this->get_consumer_public_key( $user_id ),
+			$this->get_consumer_secret_key( $user_id ),
+			false
+		);
+
+		return $token;
 	}
 
 	/**

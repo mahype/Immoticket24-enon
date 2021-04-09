@@ -336,6 +336,9 @@ class Sub_Commands extends Base {
 	 * : Whether to delete the user account network-wide (multisite only).
 	 * Ignored if --delete_user is omitted. Default false.
 	 *
+	 * [--yes]
+	 * : Answer yes to any confirmation prompts.
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     # Deletes the affiliateuser03 account, retaining its associated data and user account
@@ -416,6 +419,12 @@ class Sub_Commands extends Base {
 	 * [--fields=<fields>]
 	 * : Limit the output to specific affiliate fields.
 	 *
+	 * [--date_start=<date_string>]
+	 * : Start date to retrieve affiliates on or after. Date will be adjusted for WordPress GMT offset.
+	 *
+	 * [--date_end=<date_string>]
+	 * : End date to retrieve affiliates on or before. Date will be adjusted for WordPress GMT offset.
+	 *
 	 * [--format=<format>]
 	 * : Accepted values: table, csv, json, count, ids, yaml. Default: table
 	 *
@@ -466,6 +475,16 @@ class Sub_Commands extends Base {
 		if ( isset( $assoc_args['ID'] ) ) {
 			$assoc_args['affiliate_id'] = $assoc_args['ID'];
 			unset( $assoc_args['ID'] );
+		}
+
+		// Date start.
+		if ( isset( $assoc_args['date_start'] ) ) {
+			$assoc_args['date']['start'] = $assoc_args['date_start'];
+		}
+
+		// Date end/
+		if ( isset( $assoc_args['date_end'] ) ) {
+			$assoc_args['date']['end'] = $assoc_args['date_end'];
 		}
 
 		$args = array_merge( $defaults, $assoc_args );

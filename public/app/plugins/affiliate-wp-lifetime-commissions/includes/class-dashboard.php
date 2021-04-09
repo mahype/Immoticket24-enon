@@ -98,7 +98,7 @@ class AffiliateWP_Lifetime_Commissions_Dashboard {
 
 		<td class="lifetime-referral" data-th="<?php _e( 'Lifetime Referral', 'affiliate-wp-lifetime-commissions' ); ?>">
 
-			<?php if ( $custom && in_array( 'lifetime_referral', $custom ) ): ?>
+			<?php if ( is_array( $custom ) && in_array( 'lifetime_referral', $custom ) ): ?>
 				<span class="dashicons dashicons-yes" aria-label="<?php _e( 'Lifetime Referral', 'affiliate-wp-lifetime-commissions' ); ?>"></span>
 			<?php endif; ?>
 
@@ -109,10 +109,12 @@ class AffiliateWP_Lifetime_Commissions_Dashboard {
 	}
 
 	/**
-	 * Get the lifetime customers count for an affiliate.
+	 * Retrieves the lifetime customers count for an affiliate.
+	 *
+	 * @since 1.3
+	 * @since 1.4.4 Query adjusted to exclude invalid customers
 	 *
 	 * @param int $affiliate_id Affiliate ID.
-	 *
 	 * @return int The lifetime customers count for the affiliate.
 	 */
 	public function get_affiliate_lifetime_customers_count( $affiliate_id = 0 ) {
@@ -121,13 +123,11 @@ class AffiliateWP_Lifetime_Commissions_Dashboard {
 
 		$customers_count = 0;
 		$table           = affiliate_wp_lifetime_commissions()->lifetime_customers->table_name;
-		$customer_ids    = $wpdb->get_col( $wpdb->prepare( "SELECT affwp_customer_id FROM {$table} WHERE affiliate_id = %d;", $affiliate_id ) );
+		$customer_ids    = $wpdb->get_col( $wpdb->prepare( "SELECT affwp_customer_id FROM {$table} WHERE affiliate_id = %d AND affwp_customer_id != 0;", $affiliate_id ) );
 		$customer_ids    = array_map( 'absint', $customer_ids );
 
 		if ( ! empty( $customer_ids ) ) {
-
 			$customers_count = count( array_unique( $customer_ids ) );
-
 		}
 
 		return $customers_count;

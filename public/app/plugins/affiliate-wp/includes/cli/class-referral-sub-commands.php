@@ -265,6 +265,9 @@ class Sub_Commands extends Base {
 	 * <referral_id>
 	 * : Referral ID.
 	 *
+	 * [--yes]
+	 * : Answer yes to any confirmation prompts.
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     # Deletes the referral with ID 20
@@ -322,6 +325,12 @@ class Sub_Commands extends Base {
 	 * [--fields=<fields>]
 	 * : Limit the output to specific referral fields.
 	 *
+	 * [--date_start=<date_string>]
+	 * : Start date to retrieve referrals on or after. Date will be adjusted for WordPress GMT offset.
+	 *
+	 * [--date_end=<date_string>]
+	 * : End date to retrieve referrals on or before. Date will be adjusted for WordPress GMT offset.
+	 *
 	 * [--format=<format>]
 	 * : Accepted values: table, csv, json, count, ids, yaml. Default: table
 	 *
@@ -374,6 +383,16 @@ class Sub_Commands extends Base {
 		if ( isset( $assoc_args['ID'] ) ) {
 			$assoc_args['referral_id'] = $assoc_args['ID'];
 			unset( $assoc_args['ID'] );
+		}
+
+		// Date start.
+		if ( isset( $assoc_args['date_start'] ) ) {
+			$assoc_args['date']['start'] = $assoc_args['date_start'];
+		}
+
+		// Date end/
+		if ( isset( $assoc_args['date_end'] ) ) {
+			$assoc_args['date']['end'] = $assoc_args['date_end'];
 		}
 
 		$args = array_merge( $defaults, $assoc_args );

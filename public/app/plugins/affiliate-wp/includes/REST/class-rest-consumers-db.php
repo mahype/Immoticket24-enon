@@ -52,8 +52,8 @@ class Database extends \Affiliate_WP_DB {
 	 *
 	 * @see Affiliate_WP_DB::get_core_object()
 	 *
-	 * @param int|object|AffWP\REST\Consumer $consumer Consumer user ID or consumer object.
-	 * @return AffWP\REST\Consumer|null Consumer object, otherwise null.
+	 * @param int|object|\AffWP\REST\Consumer $consumer Consumer user ID or consumer object.
+	 * @return \AffWP\REST\Consumer|false Consumer object, otherwise null.
 	 */
 	public function get_object( $consumer ) {
 		return $this->get_core_object( $consumer, $this->query_object_type );
