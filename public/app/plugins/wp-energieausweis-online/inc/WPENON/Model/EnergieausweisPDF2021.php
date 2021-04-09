@@ -9,7 +9,7 @@ namespace WPENON\Model;
 
 use Enon\Enon\Standards\Schema;
 
-class EnergieausweisPDF extends \WPENON\Util\UFPDI {
+class EnergieausweisPDF2021 extends \WPENON\Util\UFPDI {
 	private $wpenon_title = '';
 	private $wpenon_type = 'bw';
 	private $wpenon_standard = 'enev2013';
@@ -44,7 +44,7 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 			'red'        => array( 255, 0, 0 ),
 		);
 		$this->wpenon_fonts    = array(
-			'default'    => array( 'Arial', '', 11, 6.64 ),
+			'default'    => array( 'Arial', '', 11, 5.54 ),
 			'small'      => array( 'Arial', '', 8, 4 ),
 			'marker'     => array( 'Arial', 'B', 7, 6.64 ),
 			'enev_datum' => array( 'Arial', '', 11, 5 ),
@@ -125,6 +125,7 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 		return $this->Output( $this->wpenon_title . '.pdf', $output_mode );
 	}
 
+
 	private function renderPage( $index ) {
 		$override = apply_filters( 'wpenon_override_energieausweis_pdf_' . $index, false, $this );
 
@@ -140,168 +141,111 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 					
 					$this->SetPageFont( 'registrier' );
 
-					if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
-						$this->SetXY( 161, 29.5 );
-						$this->WriteCell( $this->GetData( 'registriernummer', 0, true ), 'C', 0, 24 );
-					} else {
-						$this->SetXY( 162.5, 30 );
-						$this->WriteCell( $this->GetData( 'registriernummer', 0, true ), 'C', 0, 24 );
-					}
+					$this->SetXY( 162.5, 30 );
+					$this->WriteCell( $this->GetData( 'registriernummer', 0, true ), 'C', 0, 24 );
 
 					$this->SetPageFont( 'small' );
 					
-					if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
-						$this->SetXY( 24, 35 );
-						$this->WriteCell( \WPENON\Model\EnergieausweisManager::instance()->getExpirationDate( 'd.m.Y', $this->energieausweis ), 'L', 0, 24 );
-					} else {
-						$this->SetXY( 24, 35.5 );
-						$this->WriteCell( \WPENON\Model\EnergieausweisManager::instance()->getExpirationDate( 'd.m.Y', $this->energieausweis ), 'L', 0, 24 );
-					}
+					$this->SetXY( 24, 35.5 );
+					$this->WriteCell( \WPENON\Model\EnergieausweisManager::instance()->getExpirationDate( 'd.m.Y', $this->energieausweis ), 'L', 0, 24 );
 
+					/**
+					 * Gebäudedaten
+					 */
 					$this->SetPageFont( 'default' );
 
-					if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
-						$this->SetXY( 61.3, 52.6 );
-						$this->WriteMultiCell( $this->GetData( 'gebaeudetyp' ), 'L', 2, 94.8, 5.5, false, 2 );
-						$this->SetXY( 61.3, 63.7 );
-						$this->WriteCell( $this->GetData( 'adresse', 0, true ), 'L', 2, 94.8 );
-						$this->WriteCell( $this->GetData( 'gebaeudeteil' ), 'L', 2, 94.8 );
-						$this->WriteCell( $this->GetData( 'baujahr' ), 'L', 2, 94.8 );
-						$this->WriteCell( $this->GetData( 'baujahr_erzeuger' ), 'L', 2, 94.8 );
-						$this->WriteCell( $this->GetData( 'nutzflaeche' ) . \WPENON\Util\Format::pdfEncode( ' m&sup2;' ), 'L', 2, 94.8 );
-						$this->WriteCell( $this->GetData( 'energietraeger_heizung' ), 'L', 2, 94.8, 5.5 );
-						$this->WriteCell( $this->GetData( 'energietraeger_warmwasser' ), 'L', 2, 94.8, 5.5 );
+					$this->SetXY( 71, 53.7 );
+
+					// Generell
+					$this->WriteCell( $this->GetData( 'gebaeudetyp' ), 'L', 2, 99.3 );
+					$this->WriteCell( $this->GetData( 'adresse', 0, true ), 'L', 2, 99.3 );
+					$this->WriteCell( $this->GetData( 'gebaeudeteil' ), 'L', 2, 99.3 );
+					$this->WriteCell( $this->GetData( 'baujahr' ), 'L', 2, 99.3 );
+					$this->WriteCell( $this->GetData( 'baujahr_erzeuger' ), 'L', 2, 99.3 );
+					$this->WriteCell( $this->GetData( 'wohnungen' ), 'L', 2, 99.3 );
+
+					if ( $this->GetData( 'nutzflaeche_aus_wohnflaeche' ) ) {
 						$x = $this->GetX();
-						$this->SetY( $this->GetY() + 0.64 );
-						$this->SetX( $x + 8 );
-						$this->WriteCell( $this->GetData( 'regenerativ_art' ), 'L', 0, 63, $this->wpenon_fonts['default'][3] - 0.64 );
-						$this->SetX( $x + 96 );
-						$this->WriteCell( $this->GetData( 'regenerativ_nutzung' ), 'L', 2, 45, $this->wpenon_fonts['default'][3] - 0.64 );
+						$y = $this->GetY();
+						$this->WriteCell( $this->GetData( 'nutzflaeche' ) . \WPENON\Util\Format::pdfEncode( ' m&sup2;' ), 'L', 0, 24 );
+						$this->CheckBox( $x + 26.8, $y + 4.4 );
+						$this->Ln();
 						$this->SetX( $x );
-						$y            = $this->GetY();
-						$lueftungsart = $this->GetData( 'lueftungsart' );
-						switch ( $lueftungsart ) {
-							case 'fenster':
-								$this->CheckBox( $x + 1.6, $y + 4.4 );
-								break;
-							case 'schacht':
-								$this->CheckBox( $x + 1.6, $y + 9 );
-								break;
-							case 'mitgewinnung':
-								$this->CheckBox( $x + 33.2, $y + 4.4 );
-								break;
-							case 'ohnegewinnung':
-								$this->CheckBox( $x + 33.2, $y + 9 );
-								break;
-							default:
-								break;
-						}
-						if ( $this->GetData( 'kuehlung' ) ) {
-							$this->CheckBox( $x + 112.3, $y + 4.4 );
-						}
-						$y      += 11.2;
-						$anlass = $this->GetData( 'anlass' );
-						switch ( $anlass ) {
-							case 'neubau':
-								$this->CheckBox( $x + 1.6, $y + 4.4 );
-								break;
-							case 'modernisierung':
-								$this->CheckBox( $x + 43.4, $y + 4.4 );
-								break;
-							case 'verkauf':
-								$this->CheckBox( $x + 1.6, $y + 9 );
-								break;
-							case 'aushang':
-								$this->CheckBox( $x + 92.3, $y + 4.4 );
-								break;
-							case 'sonstiges':
-							default:
-								$this->CheckBox( $x + 92.3, $y + 9 );
-								break;
-						}
-						$image = $this->GetData( 'thumbnail_id', 0, true );
-						if ( $image ) {
-							$this->SetPageFillColor( 'bright' );
-							$this->Rect( 157.1, 53.5, 44, 53.3, 'F' );
-							$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-energieausweiss-image' ), 156.1, 52.5, 46, 55.3 );
-							$this->SetPageFillColor( 'background' );
-						}
+						$this->SetPageFont( 'default' );
 					} else {
-						$this->SetXY( 62, 53.7 );
-						$this->WriteCell( $this->GetData( 'gebaeudetyp' ), 'L', 2, 99.3 );
-						$this->WriteCell( $this->GetData( 'adresse', 0, true ), 'L', 2, 99.3 );
-						$this->WriteCell( $this->GetData( 'gebaeudeteil' ), 'L', 2, 99.3 );
-						$this->WriteCell( $this->GetData( 'baujahr' ), 'L', 2, 99.3 );
-						$this->WriteCell( $this->GetData( 'baujahr_erzeuger' ), 'L', 2, 99.3 );
-						$this->WriteCell( $this->GetData( 'wohnungen' ), 'L', 2, 99.3 );
-						if ( $this->GetData( 'nutzflaeche_aus_wohnflaeche' ) ) {
-							$x = $this->GetX();
-							$y = $this->GetY();
-							$this->WriteCell( $this->GetData( 'nutzflaeche' ) . \WPENON\Util\Format::pdfEncode( ' m&sup2;' ), 'L', 0, 24 );
-							$this->CheckBox( $x + 26.8, $y + 4.4 );
-							$this->Ln();
-							$this->SetX( $x );
-							$this->SetPageFont( 'default' );
-						} else {
-							$x = $this->GetX();
-							$this->WriteCell( $this->GetData( 'nutzflaeche' ) . \WPENON\Util\Format::pdfEncode( ' m&sup2;' ), 'L', 0, 99.3 );
-							$this->Ln();
-							$this->SetX( $x );
-						}
-						$this->WriteCell( $this->GetData( 'energietraeger_heizung' ), 'L', 2, 99.3, 5.5 );
-						$this->WriteCell( $this->GetData( 'energietraeger_warmwasser' ), 'L', 2, 99.3, 5.5 );
 						$x = $this->GetX();
-						$this->SetY( $this->GetY() + 0.64 );
-						$this->SetX( $x + 8 );
-						$this->WriteCell( $this->GetData( 'regenerativ_art' ), 'L', 0, 63, $this->wpenon_fonts['default'][3] - 0.64 );
-						$this->SetX( $x + 95 );
-						$this->WriteCell( $this->GetData( 'regenerativ_nutzung' ), 'L', 2, 45, $this->wpenon_fonts['default'][3] - 0.64 );
+						$this->WriteCell( $this->GetData( 'nutzflaeche' ) . \WPENON\Util\Format::pdfEncode( ' m&sup2;' ), 'L', 0, 99.3 );
+						$this->Ln();
 						$this->SetX( $x );
-						$y            = $this->GetY();
-						$lueftungsart = $this->GetData( 'lueftungsart' );
-						switch ( $lueftungsart ) {
-							case 'fenster':
-								$this->CheckBox( $x + 2.8, $y + 4.4 );
-								break;
-							case 'schacht':
-								$this->CheckBox( $x + 2.8, $y + 9 );
-								break;
-							case 'mitgewinnung':
-								$this->CheckBox( $x + 38, $y + 4.4 );
-								break;
-							case 'ohnegewinnung':
-								$this->CheckBox( $x + 38, $y + 9 );
-								break;
-							default:
-								break;
-						}
-						if ( $this->GetData( 'kuehlung' ) ) {
-							$this->CheckBox( $x + 116.8, $y + 4.4 );
-						}
-						$y      += 10.5;
-						$anlass = $this->GetData( 'anlass' );
-						switch ( $anlass ) {
-							case 'neubau':
-								$this->CheckBox( $x + 2.8, $y + 4.4 );
-								break;
-							case 'modernisierung':
-								$this->CheckBox( $x + 54, $y + 4.4 );
-								break;
-							case 'verkauf':
-								$this->CheckBox( $x + 2.8, $y + 9 );
-								break;
-							case 'sonstiges':
-							default:
-								$this->CheckBox( $x + 111.5, $y + 4.4 );
-								break;
-						}
-						$image = $this->GetData( 'thumbnail_id', 0, true );
-						if ( $image ) {
-							$this->SetPageFillColor( 'bright' );
-							$this->Rect( 162.2, 54.8, 39, 55.4, 'F' );
-							$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-energieausweiss-image' ), 161.2, 53.8, 41.5, 57.4 );
-							$this->SetPageFillColor( 'background' );
-						}
+					}
+					
+					// Heizung / Warmwasser
+					$this->WriteCell( $this->GetData( 'energietraeger_heizung' ), 'L', 2, 99.3, 5.5 );
+					$this->WriteCell( $this->GetData( 'energietraeger_warmwasser' ), 'L', 2, 99.3, 5.5 );
+					$x = $this->GetX();
+
+					$this->SetY( $this->GetY() + 0.64 );
+					$this->SetX( $x + 8 );
+					$this->WriteCell( $this->GetData( 'regenerativ_art' ), 'L', 0, 63, $this->wpenon_fonts['default'][3] - 0.64 );
+					$this->SetX( $x + 95 );
+					$this->WriteCell( $this->GetData( 'regenerativ_nutzung' ), 'L', 2, 45, $this->wpenon_fonts['default'][3] - 0.64 );
+					$this->SetX( $x );
+
+					$y            = $this->GetY();
+					$lueftungsart = $this->GetData( 'lueftungsart' );		
+
+					switch ( $lueftungsart ) {
+						case 'fenster':
+							$this->CheckBox( $x + 2.4, $y + 3.3 );
+							break;
+						case 'schacht':
+							$this->CheckBox( $x + 2.4, $y + 7.0 );
+							break;
+						case 'mitgewinnung':
+							$this->CheckBox( $x + 34.7, $y + 3.4 );
+							break;
+						case 'ohnegewinnung':
+							$this->CheckBox( $x + 34.7, $y + 7 );
+							break;
+						default:
+							break;
+					}
+
+					/**
+					 * !!! KÜHLUNG FEHLT
+					 */
+					if ( $this->GetData( 'kuehlung' ) ) {
+						$this->CheckBox( $x + 116.8, $y + 4.4 );
+					}
+
+
+					/**
+					 * !!! KÜHLUNG FEHLT
+					 */
+
+					$y      += 10.5;
+					$anlass = $this->GetData( 'anlass' );
+					switch ( $anlass ) {
+						case 'neubau':
+							$this->CheckBox( $x + 2.8, $y + 4.4 );
+							break;
+						case 'modernisierung':
+							$this->CheckBox( $x + 54, $y + 4.4 );
+							break;
+						case 'verkauf':
+							$this->CheckBox( $x + 2.8, $y + 9 );
+							break;
+						case 'sonstiges':
+						default:
+							$this->CheckBox( $x + 111.5, $y + 4.4 );
+							break;
+					}
+					$image = $this->GetData( 'thumbnail_id', 0, true );
+					if ( $image ) {
+						$this->SetPageFillColor( 'bright' );
+						$this->Rect( 162.2, 54.8, 39, 55.4, 'F' );
+						$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-energieausweiss-image' ), 161.2, 53.8, 41.5, 57.4 );
+						$this->SetPageFillColor( 'background' );
 					}
 
 					if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
@@ -847,7 +791,7 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 		$this->SetPageTextColor( 'red' );
 
 		$this->Rotate( 55, 40, 280 );
-		$this->Text( 40, 280, 'VORSCHAU' );
+		// $this->Text( 40, 280, 'VORSCHAU' );
 		$this->Rotate( 0 );
 
 		$this->SetPageFont( $orig_font );
