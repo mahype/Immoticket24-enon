@@ -188,8 +188,8 @@
 
             <?php break; ?>
             <?php default: ?>
-
-              <input type="<?php echo $field['type']; ?>" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" class="form-control" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ); ?>>
+           
+              <input type="<?php echo $field['type']; ?>" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" class="form-control" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ); ?><?php if( ! empty( $field['placeholder'] ) ) echo ' placeholder="' . $field['placeholder'] . '"'; ?>>
 
             <?php break; ?>
           <?php endswitch; ?>
