@@ -1191,6 +1191,21 @@ function wpenon_immoticket24_validate_typenschild_image_upload( $value, $field )
 	return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
 }
 
+function wpenon_immoticket24_validate_month_year( $value, $field ) {
+	if( ! preg_match('/^([0-9]{2})\/([0-9]{4})$/', $value, $matches ) ) {
+		$error = __( 'Sie haben kein gültiges Datum angegeben.', 'wpenon' );
+	}
+
+	$dateTime = DateTime::createFromFormat('d/m/Y', '01/' . $value );
+	$createdDate = $dateTime->format('m/Y');
+
+	if ( ! $dateTime || $createdDate !== $value ) {
+		$error = __( 'Sie haben kein gültiges Datum angegeben.', 'wpenon' );
+	}	
+
+	return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
+}
+
 function wpenon_immoticket24_validate_area_lower_than( $value, $field ) {
 	$value = \WPENON\Util\Validate::float( $value, $field );
 	if ( isset( $value['error'] ) || isset( $value['warning'] ) ) {

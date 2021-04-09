@@ -1153,6 +1153,33 @@ $anlage = array(
 					),
 					'required' => true,
 				),
+				'k_leistung'   => array(
+					'type'                  => 'radio',
+					'label'                 => __( 'Kühlleistung', 'wpenon' ),
+					'description'           => __( 'Wie hoch ist die Kühlleistung der Klimaanlage?', 'wpenon' ),
+					'required'              => true,
+					'options'     => array(
+						'groesser' => __( 'größer 12 kW', 'wpenon' ),
+						'kleiner'  => __( 'kleiner oder gleich 12 kW', 'wpenon' ),
+					),
+					'required'    => true,
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::k_info', 'vorhanden' ),
+					),
+				),
+				'k_baujahr'   => array(
+					'type'                  => 'text',
+					'label'                 => __( 'Baujahr der Klimaanlage', 'wpenon' ),
+					'description'           => __( 'Welches Baujahr hat die Klimaanlage? (Format MM/JJJJ)', 'wpenon' ),
+					'required'              => true,				
+					'required'    => true,
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::k_leistung', 'groesser' ),
+					),
+					'validate'              => 'wpenon_immoticket24_validate_month_year',
+				),
 				'k_flaeche'   => array(
 					'type'                  => 'float',
 					'label'                 => __( 'Gekühlte Fläche', 'wpenon' ),
