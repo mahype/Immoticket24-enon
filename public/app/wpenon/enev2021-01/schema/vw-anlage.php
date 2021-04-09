@@ -1196,5 +1196,33 @@ $anlage = array(
 				),
 			),
 		),
+		'automation'   => array(
+			'title'       => __( 'Automation', 'wpenon' ),
+			'description' => __( 'Machen Sie hier Angaben zur Automation des Gebäudes.', 'wpenon' ),
+			'fields'      => array(
+				'a_info'      => array(
+					'type'     => 'radio',
+					'label'    => __( 'Gebäudeautomation', 'wpenon' ),
+					'description' => __( 'Verfügt das Gebäude über eine Gebäudeautomation, die die Funktion der Gebäudetechnik überwacht?', 'wpenon' ),
+					'options'     => array(
+						'yes' => __( 'Ja', 'wpenon' ),
+						'no'  => __( 'Nein', 'wpenon' ),
+					),
+					'required' => true,
+				),				
+				'a_inspektion'   => array(
+					'type'                  => 'text',
+					'label'                 => __( 'Letzte Inspektion', 'wpenon' ),
+					'description'           => __( 'Wann erfolgte die Inspektion? (Format MM/JJJJ)', 'wpenon' ),
+					'required'              => true,				
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::a_info', 'yes' ),
+					),
+					'validate'              => 'wpenon_immoticket24_validate_month_year',
+					'placeholder'			=> 'MM/JJJJ'
+				),
+			),
+		),
 	),
 );
