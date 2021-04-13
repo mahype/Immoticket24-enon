@@ -158,21 +158,19 @@ class Filter_Website implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function filter_access_link( $data, $energy_certificate ) {
-		$url = $this->reseller->data()->website->get_customer_edit_url();
-
-		if ( empty( $url ) ) {
-			return $data;
-		}
-
 		switch ( $energy_certificate->type ) {
 			case 'vw':
-				$url .= '/verbrauchsausweis/';
+				$url = $this->reseller->data()->website->get_customer_edit_vw_url();
 				break;
 			case 'bw':
-				$url .= '/bedarfsausweis/';
+				$url = $this->reseller->data()->website->get_customer_edit_bw_url();
 				break;
 			default:
 				return $data;
+		}
+
+		if ( empty( $url ) ) {
+			return $data;
 		}
 
 		$url = $this->reseller->add_iframe_params( $url, $energy_certificate->id );

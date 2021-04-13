@@ -141,16 +141,18 @@ class Fieldset_Iframe implements Fieldset {
 
 		switch ( $energy_certificate_type ) {
 			case 'bw':
-				$url = 'https://www.energieausweis-online-erstellen.de/energieausweis2/bedarfsausweis-wohngebaeude/?iframe_token=' . $general->get_token();
+				$url = home_url( '/energieausweis2/bedarfsausweis-wohngebaeude/?iframe_token=' . $general->get_token() );
 				break;
 			case 'vw':
-				$url = 'https://www.energieausweis-online-erstellen.de/energieausweis2/verbrauchsausweis-wohngebaeude/?iframe_token=' . $general->get_token();
+				$url = home_url( '/energieausweis2/verbrauchsausweis-wohngebaeude/?iframe_token='  . $general->get_token() );
 				break;
 			default:
 				return '';
 		}
 
-		$iframe_html = '<iframe id="iframe-energieausweis-online" src="' . $url .'" style="width: 100%; height:500px; border: 0;"></iframe><script  type="text/javascript" src="https://www.energieausweis-online-erstellen.de/scripts/dist/reseller.min.js"></script>';
+		$js_url = home_url( '/scripts/dist/reseller.min.js' );
+
+		$iframe_html = '<iframe id="iframe-energieausweis-online" src="' . $url .'" style="width: 100%; height:500px; border: 0;"></iframe><script  type="text/javascript" src="' . $js_url . '"></script>';
 
 		return $iframe_html;
 	}

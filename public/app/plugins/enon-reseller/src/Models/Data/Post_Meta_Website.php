@@ -42,6 +42,28 @@ class Post_Meta_Website extends Post_Meta {
 	}
 
 	/**
+	 * Get customer edit vw url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Url where users are redirected for editing entry.
+	 */
+	public function get_customer_edit_vw_url() {
+		return trim( $this->get( 'customer_edit_vw_url' ) );
+	}
+
+	/**
+	 * Get customer edit bw url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Url where users are redirected for editing entry.
+	 */
+	public function get_customer_edit_bw_url() {
+		return trim( $this->get( 'customer_edit_bw_url' ) );
+	}
+
+	/**
 	 * Get payment successful url.
 	 *
 	 * @since 1.0.0
