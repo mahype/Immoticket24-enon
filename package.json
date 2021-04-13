@@ -1,0 +1,26 @@
+{
+  "name": "enon",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awsmug/enon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/awsmug/enon/issues"
+  },
+  "homepage": "https://github.com/awsmug/enon#readme",
+  "devDependencies": {
+    "html-webpack-plugin": "^5.3.1",
+    "webpack": "^5.32.0",
+    "webpack-cli": "^4.6.0",
+    "webpack-merge": "^5.7.3"
+  },
+  "dependencies": {
+    "terser-webpack-plugin": "^5.1.1"
+  }
+}

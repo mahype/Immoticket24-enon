@@ -150,16 +150,7 @@ class Fieldset_Iframe implements Fieldset {
 				return '';
 		}
 
-		$iframe_html = '<iframe id="iframe-energieausweis-online" src="' . $url .'" style="width: 100%; height:500px; border: 0;"></iframe>
-<script>
-window.addEventListener("message", receiveEnonSettings, false);
-function receiveEnonSettings(event) {
-    var data = {};
-    if (event.origin != \'https://www.energieausweis-online-erstellen.de\') return;
-    data = JSON.parse(event.data);
-    document.getElementById(\'iframe-energieausweis-online\').setAttribute("style","width:100%;height:" + data.frame_height + "px");
-}
-</script>';
+		$iframe_html = '<iframe id="iframe-energieausweis-online" src="' . $url .'" style="width: 100%; height:500px; border: 0;"></iframe><script  type="text/javascript" src="https://www.energieausweis-online-erstellen.de/scripts/dist/reseller.min.js"></script>';
 
 		return $iframe_html;
 	}
