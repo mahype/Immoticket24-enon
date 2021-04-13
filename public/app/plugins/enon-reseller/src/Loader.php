@@ -108,9 +108,14 @@ class Loader extends Task_Loader {
         
         if ( ! Detector::is_reseller_iframe() ) {
             return;
-        }
+        }        
 
         $reseller = Detector::get_reseller_by_iframe();
+
+        if( ! $reseller instanceof Reseller ) {
+            wp_die( 'Reseller not found');
+        }
+        
         $this->add_reseller_frontend_tasks( $reseller );              
     }
 
@@ -124,9 +129,14 @@ class Loader extends Task_Loader {
 
         if ( ! Detector::is_reseller_ec_page() ) {
             return;
-        }     
+        }             
         
         $reseller = Detector::get_reseller_by_page();
+        
+        if( ! $reseller instanceof Reseller ) {
+            wp_die( 'Reseller not found');
+        }
+
         $this->add_reseller_frontend_tasks( $reseller );
 
         add_action( 'template_redirect', array( $this, 'run_tasks' ), 5 );

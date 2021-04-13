@@ -182,25 +182,23 @@ class Filter_Confirmation_Email implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function filter_link( $link, $energy_certificate ) {
-		$reseller_link = $this->reseller->data()->website->get_customer_edit_url();
-
-		if ( empty( $reseller_link ) ) {
-			return $link;
-		}
-
 		switch ( $energy_certificate->type ) {
 			case 'vw':
-				$reseller_link .= '/verbrauchsausweis/';
+				$url = $this->reseller->data()->website->get_customer_edit_vw_url();
 				break;
 			case 'bw':
-				$reseller_link .= '/bedarfsausweis/';
+				$url = $this->reseller->data()->website->get_customer_edit_bw_url();
 				break;
 			default:
 				return $link;
 		}
 
-		$reseller_link = $this->reseller->add_iframe_params( $reseller_link, $energy_certificate->id );
+		if ( empty( $url ) ) {
+			return $link;
+		}
 
-		return $reseller_link;
+		$url = $this->reseller->add_iframe_params( $url, $energy_certificate->id );
+
+		return $url;
 	}
 }
