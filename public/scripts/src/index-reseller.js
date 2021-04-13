@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const enonAccessToken = enonUrlParams.get("access_token");
     const enonSlug = enonUrlParams.get("slug");
 
-    if( enonAccessToken !== undefined ) {
+    if( enonAccessToken !== null ) {
         const enonUrl = "https://www.energieausweis-online-erstellen.de/energieausweise/" + enonSlug + "/?iframe_token=" + enonIframeToken + "&access_token=" + enonAccessToken;
         document.getElementById("iframe-energieausweis-online").src = enonUrl;       
     }
