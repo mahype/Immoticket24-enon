@@ -1,0 +1,18 @@
+{
+    "name": "wagesve/wpenon",
+    "authors": [
+        {
+            "name": "Sven Wagener",
+            "email": "sven@awesome.ug"
+        }
+    ],
+    "repositories":[
+        {
+          "type": "vcs",
+          "url" : "git@github.com:awsmug/lib-estate.git"
+        }
+      ],
+      "require": {
+        "awsm/lib-estate": "dev-master"
+      }
+}

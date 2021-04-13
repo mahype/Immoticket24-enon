@@ -1,5 +1,29 @@
 <?php
 
+use AWSM\LibEstate\Building;
+use AWSM\LibEstate\Calculations\ConsumptionCalculation;
+use AWSM\LibEstate\Systems\Heaters;
+
+require( dirname( dirname(__FILE__) ) .'/vendor/autoload.php' );
+
+switch( $energieausweis->ww_info ) {
+	case 'ww':
+		$warmWaterSource = 'separate';
+		break;		
+	case 'h':
+		$warmWaterSource = 'heater';
+		break;
+	default:
+		$warmWaterSource = 'unknown';
+		break;
+}
+
+$building = new Building( $energieausweis->flaeche, $energieausweis->wohnungen, $warmWaterSource );
+$building->heaters = new Heaters();
+
+
+$calc = new ConsumptionCalculation( $building );
+
 $calculations = array();
 
 $calculations['nutzflaeche_mpk'] = 1.2;
