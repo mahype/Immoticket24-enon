@@ -162,6 +162,7 @@ if ( $energieausweis->ww_info == 'ww' ) {
 			'compare' => '='
 		)
 	), array(), true );
+	
 	$ww_energietraeger                  = wpenon_get_table_results( 'energietraeger202001', array(
 		'bezeichnung' => array(
 			'value'   => $ww_energietraeger_umrechnungen->energietraeger,
