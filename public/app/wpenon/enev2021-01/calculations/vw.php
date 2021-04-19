@@ -3,6 +3,7 @@
 require dirname( __FILE__ ) . '/CalculationsCC.php';
 
 $calcCC = new CalculationsCC( $energieausweis );
+$co2 = $calcCC->calculation()->getCo2Emissions();
 
 $calculations['nutzflaeche_mpk'] = 1.2;
 if ( $energieausweis->wohnungen <= 2 && $energieausweis->keller == 'beheizt' ) {

@@ -4,6 +4,8 @@ require( dirname( dirname(__FILE__) ) .'/vendor/autoload.php' );
 
 use AWSM\LibEstate\Calculations\ConsumptionCalculations;
 use AWSM\LibEstate\Data\Building;
+use AWSM\LibEstate\Data\ClimateFactor;
+use AWSM\LibEstate\Data\ClimateFactors;
 use AWSM\LibEstate\Data\Energy\EnergySource;
 use AWSM\LibEstate\Data\Energy\EnergySourceUnit;
 use AWSM\LibEstate\Data\Systems\Cooler;
@@ -82,7 +84,6 @@ class CalculationsCC {
         
         $this->loadformData();
         $this->setupBuilding();
-        $this->calculate();
     }
 
     /**
@@ -115,10 +116,66 @@ class CalculationsCC {
         }
     }
 
-    public function calculate() {
-       $calc = new ConsumptionCalculations( $this->building, $this->getTimePeriods() );
-       $co2Emissions = $calc->getCo2Emissions();
-       return $co2Emissions;
+    public function calculation() : ConsumptionCalculations
+    {
+       return new ConsumptionCalculations( $this->building, $this->getTimePeriods(), $this->getClimateFactors() );       
+    }
+
+    public function getClimateFactors() {
+        $climateFactors = new ClimateFactors();
+
+        $climateFactorsDates = wpenon_get_table_results( 'klimafaktoren202001', array(
+            'bezeichnung' => array(
+                'value'   => $this->formData->postcode,
+                'compare' => '>='
+            )
+        ), array(), true );
+
+        foreach( $climateFactorsDates AS $date => $value ) 
+        {
+            if( $date === 'bezeichnung' ) 
+            {
+                continue;
+            }
+
+            $date = str_replace( '_', '-', $date );
+
+            // $climateFactors->add( new ClimateFactor( new DateTime( $date ), $value )  );
+        }
+
+        $climateFactors->add( new ClimateFactor( new DateTime( '2016-01' ), 1.09 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2016-02' ), 1.09 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2016-03' ), 1.09 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2016-04' ), 1.09 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2016-05' ), 1.09 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2016-06' ), 1.09 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2016-07' ), 1.09 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2016-08' ), 1.09 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2016-09' ), 1.09 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2016-10' ), 1.09 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2016-11' ), 1.09 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2016-12' ), 1.09 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2017-01' ), 1.08 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2017-02' ), 1.08 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2017-03' ), 1.08 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2017-04' ), 1.08 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2017-05' ), 1.08 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2017-06' ), 1.08 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2017-07' ), 1.08 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2017-08' ), 1.08 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2017-09' ), 1.08 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2017-10' ), 1.08 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2017-11' ), 1.08 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2017-12' ), 1.08 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2018-01' ), 1.07 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2018-02' ), 1.07 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2018-03' ), 1.07 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2018-04' ), 1.07 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2018-05' ), 1.07 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2018-06' ), 1.07 ) );
+        $climateFactors->add( new ClimateFactor( new DateTime( '2018-07' ), 1.07 ) );
+
+        return $climateFactors;
     }
 
     /**
@@ -192,7 +249,8 @@ class CalculationsCC {
      * 
      * @since 1.0.0
      */
-    public function getTimePeriods() {
+    public function getTimePeriods() 
+    {
         $timePerdiods = new TimePeriods();
 
         for ( $i = 0; $i < 3; $i++ ) {
@@ -331,7 +389,13 @@ class CalculationsCC {
 
             $hotWaterSystem = $this->getHotWaterSystem( $hotWaterId );
             $energySource   = $this->getEnergySource( $energySourceId );
-        } 
+        }
+        else if ( $this->formData->hotWaterSource === 'heater' )
+        {
+            $hotWaterSystem = new HotWaterSystem( 'none', 'Kein spezifiziertes System' );            
+            // @todo: What to do on more than 1 heater?
+            $energySource = $this->getEnergySource( 'strom_kwh' );
+        }
         else 
         {            
             $hotWaterSystem = new HotWaterSystem( 'none', 'Kein spezifiziertes System' );
