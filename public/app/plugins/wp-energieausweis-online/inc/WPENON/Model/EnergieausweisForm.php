@@ -326,8 +326,6 @@ class EnergieausweisForm {
 	}
 
 	private function _mergeAdditionalFields( $custom_fields = array() ) {
-		$nonce_action = $this->_getNonceAction();
-
 		$fields = array(
 			'wpenon_active_tab' => array(
 				'type'    => 'hidden',
@@ -335,7 +333,7 @@ class EnergieausweisForm {
 			),
 			'wpenon_nonce'      => array(
 				'type'    => 'hidden',
-				'default' => wp_create_nonce( $nonce_action ),
+				'default' => wp_create_nonce( 'wpenon-energieausweis-form' ),
 			),
 		);
 
@@ -345,33 +343,12 @@ class EnergieausweisForm {
 	}
 
 	private function _verifyNonceField() {
-		$nonce_action = $this->_getNonceAction();
-
-		if ( isset( $_POST['wpenon_nonce'] ) && wp_verify_nonce( $_POST['wpenon_nonce'], $nonce_action ) ) {
+		if ( isset( $_POST['wpenon_nonce'] ) && wp_verify_nonce( $_POST['wpenon_nonce'], 'wpenon-energieausweis-form' ) ) {
 			return true;
 		} else {
 			wp_die( sprintf( __( 'Die Anfrage stammt aus einer unsicheren Quelle %s.', 'wpenon' ), $_POST['wpenon_nonce'] ), __( 'Ungültige Anfrage', 'wpenon' ) );
 		}
 
 		return false;
-	}
-
-	private function _getNonceAction() {
-		$salt = 'HVw:ql7.CDFd-@ktYO#?mTAZrP6QO4Z8=yYVGf@)=R25Pi51tG';
-		$nonce_action = 'wpenon-energieausweis-' . $salt;
-
-		/*
-		if ( ! empty( $this->type ) ) {
-			$nonce_action .= '-' . $this->type;
-		}
-		if ( ! empty( $this->action ) ) {
-			$nonce_action .= '-' . $this->action;
-		}
-		if ( $this->id > 0 ) {
-			$nonce_action .= '-' . $this->id;
-		}
-		*/
-
-		return $nonce_action;
 	}
 }
