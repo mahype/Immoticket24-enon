@@ -41,7 +41,7 @@ class EnergieausweisForm {
 			'upload_button_name' => 'wpenon_thumbnail_upload',
 			'delete_button_name' => 'wpenon_thumbnail_delete',
 			'nonce_field_name'   => 'wpenon_nonce',
-			'nonce_field_value'  => wp_create_nonce( $this->_getNonceAction() ),
+			'nonce_field_value'  => wp_create_nonce( 'wpenon-energieausweis-form' ),
 		);
 
 		$base_url = $this->filterURL( $energieausweis->verified_permalink, $this->action, $this->type );
