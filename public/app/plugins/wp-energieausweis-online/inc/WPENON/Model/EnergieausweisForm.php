@@ -350,7 +350,7 @@ class EnergieausweisForm {
 		if ( isset( $_POST['wpenon_nonce'] ) && wp_verify_nonce( $_POST['wpenon_nonce'], $nonce_action ) ) {
 			return true;
 		} else {
-			wp_die( __( 'Die Anfrage stammt aus einer unsicheren Quelle.', 'wpenon' ), __( 'Ungültige Anfrage', 'wpenon' ) );
+			wp_die( sprintf( __( 'Die Anfrage stammt aus einer unsicheren Quelle %s.', 'wpenon' ), $_POST['wpenon_nonce'] ), __( 'Ungültige Anfrage', 'wpenon' ) );
 		}
 
 		return false;
