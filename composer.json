@@ -99,7 +99,7 @@
     ],
     "post-update-cmd": [
       "cd public/app/plugins/edd-payment-stripe-sepa; composer update --no-dev; cd ../../../..",
-      "cd public/app/wpenon/enev20201-01/; composer update --no-dev; cd ../../../.."
+      "cd public/app/wpenon/enev2021-01/; composer update --no-dev; cd ../../../.."
     ],
     "config-phpcs": [
       "vendor/bin/phpcs --config-set installed_paths ../../wp-coding-standards/wpcs"
