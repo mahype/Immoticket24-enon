@@ -197,6 +197,11 @@ class CalculationsCC {
         }        
     }
 
+    public function hasCooler() : bool
+    {
+        return $this->formData->cooler;
+    }
+
     public function getClimateFactors() {
         $climateFactors = new ClimateFactors();
 

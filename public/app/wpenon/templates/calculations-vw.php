@@ -90,3 +90,21 @@
 <p class="lead">
   <?php printf( __( 'CO2 Emissionen: %s kg/(m²·a) ', 'wpenon' ), \WPENON\Util\Format::float( $data['co2_emissionen'] ) ); ?>
 </p>
+
+<?php foreach( $data['co2_emissionen_heaters'] AS $key => $co2_heater ) : ?>
+  <p>
+    <?php printf( __( 'CO2 Emissionen Heizung %s: %s kg/m²⋅a', 'wpenon' ), ( $key + 1 ) , \WPENON\Util\Format::pdfEncode( $co2_heater ) ) ?>
+  </p>
+<?php endforeach; ?>
+
+<?php if( $data['co2_emissionen_hotwaterheater'] ) : ?>
+<p>
+  <?php printf( __( 'CO2 Emissionen Warmwasser: %s kg/m²⋅a', 'wpenon' ), \WPENON\Util\Format::pdfEncode( $data['co2_emissionen_hotwaterheater'] ) ) ?>
+</p>
+<?php endif; ?>
+
+<?php if( $data['co2_emissionen_cooler'] ) : ?>
+<p>
+  <?php printf( __( 'CO2 Emissionen: %s kg/m²⋅a', 'wpenon' ), \WPENON\Util\Format::pdfEncode( $data['co2_emissionen_cooler'] ) ) ?>
+</p>
+<?php endif; ?>

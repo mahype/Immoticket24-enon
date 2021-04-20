@@ -5,6 +5,20 @@ require dirname( __FILE__ ) . '/CalculationsCC.php';
 $calcCC = new CalculationsCC( $energieausweis );
 $calculations['co2_emissionen'] = $calcCC->calculation()->getCo2Emissions();
 
+foreach( $calcCC->calculation()->heaters AS $heater ) {
+	$calculations['co2_emissionen_heaters'][] = $heater->getCo2Emissions();
+}
+
+$calculations['co2_emissionen_hotwaterheater'] = $calcCC->calculation()->hotWaterHeaters->getCo2Emissions();
+
+if ( $calcCC->hasCooler() ) {
+	$calculations['co2_emissionen_cooler'] = $calcCC->calculation()->coolers->getCo2Emissions();
+}
+
+/**
+ * Old
+ */
+
 $calculations['nutzflaeche_mpk'] = 1.2;
 if ( $energieausweis->wohnungen <= 2 && $energieausweis->keller == 'beheizt' ) {
 	$calculations['nutzflaeche_mpk'] = 1.35;	
