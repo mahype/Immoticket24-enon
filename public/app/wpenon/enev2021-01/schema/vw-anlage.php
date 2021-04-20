@@ -1022,7 +1022,6 @@ $anlage = array(
 				'ww_info'                                    => array(
 					'type'        => 'select',
 					'label'       => __( 'Der Energieverbrauch für Warmwasser ist:', 'wpenon' ),
-					'description' => __( 'Wählen Sie aus, ob die Warmwasserzeugung durch eine der angegebenen Heizungsanlagen oder in einer separaten Anlage stattfindet. Alternativ können Sie auch &quot;Unbekannt&quot; auswählen, in diesem Fall wird der Verbrauch pauschal um 20 kWh/(m&sup2;a) erhöht.', 'wpenon' ),
 					'options'     => array(
 						'callback'      => 'wpenon_immoticket24_get_ww_info_vw',
 						'callback_args' => array(
