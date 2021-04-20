@@ -1874,24 +1874,6 @@ function wpenon_immoticket24_show_gebaeude_table() {
 
 add_action( 'wpenon_form_group_gebaeude_before', 'wpenon_immoticket24_show_gebaeude_table' );
 
-function wpenon_immoticket24_show_warmwasser_warning() {
-	$energieausweis = WPENON\Model\EnergieausweisManager::getEnergieausweis();
-	if ( ! $energieausweis || 'v' !== $energieausweis->mode ) {
-		return;
-	}
-
-	?>
-	<div class="alert alert-warning">
-		<p>
-			<strong><?php _e( 'Achtung:', 'wpenon' ); ?></strong>
-			<?php _e( 'Wählen Sie nur dann &#8220;separat angegeben&#8221; aus, wenn Sie die Verbrauchswerte für Warmwasser gesondert vorliegen haben. Ansonsten wählen Sie im Falle einer separaten Anlage bitte &#8220;unbekannt&#8221; aus.', 'wpenon' ); ?>
-		</p>
-	</div>
-	<?php
-}
-
-add_action( 'wpenon_form_group_warmwasser_before', 'wpenon_immoticket24_show_warmwasser_warning' );
-
 function wpenon_immoticket24_migrate_old_energietraeger_fields_on_demand( $energieausweis ) {
 	$energietraeger_fields = array( 'h_energietraeger', 'h2_energietraeger', 'h3_energietraeger', 'ww_energietraeger' );
 	foreach ( $energietraeger_fields as $energietraeger_field ) {
