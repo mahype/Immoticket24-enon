@@ -9,11 +9,13 @@ use AWSM\LibEstate\Data\ClimateFactors;
 use AWSM\LibEstate\Data\Energy\EnergySource;
 use AWSM\LibEstate\Data\Energy\EnergySourceUnit;
 use AWSM\LibEstate\Data\Systems\Cooler;
+use AWSM\LibEstate\Data\Systems\Coolers;
 use AWSM\LibEstate\Data\Systems\Heater;
 use AWSM\LibEstate\Data\Systems\Heaters;
 use AWSM\LibEstate\Data\Systems\HeaterSystem;
-use AWSM\LibEstate\Data\Systems\HotWater;
-use AWSM\LibEstate\Data\Systems\HotWaterSystem;
+use AWSM\LibEstate\Data\Systems\HotWaterHeater;
+use AWSM\LibEstate\Data\Systems\HotWaterHeaters;
+use AWSM\LibEstate\Data\Systems\HotWaterHeaterSystem;
 use AWSM\LibEstate\Helpers\ConsumptionPeriod;
 use AWSM\LibEstate\Helpers\ConsumptionPeriods;
 use AWSM\LibEstate\Helpers\TimePeriod;
@@ -86,6 +88,13 @@ class CalculationsCC {
         $this->setupBuilding();
     }
 
+    public function calculation() : ConsumptionCalculations
+    {
+        $energySourceElectric = $this->getEnergySource('strom_kwh');
+        $calculation = new ConsumptionCalculations( $this->building, $this->getTimePeriods(), $this->getClimateFactors(), $energySourceElectric );        
+        return $calculation;       
+    }  
+
     /**
      * Setup building with EC data
      * 
@@ -109,74 +118,18 @@ class CalculationsCC {
             $this->building->heaters->add( $this->getHeater( $i ) );
         }
 
-        $this->building->hotWater = $this->getHotWater();
-        
-        if ( $this->formData->cooler ) {
-            $this->building->cooler = $this->getCooler();
-        }
-    }
-
-    public function calculation() : ConsumptionCalculations
-    {
-       return new ConsumptionCalculations( $this->building, $this->getTimePeriods(), $this->getClimateFactors() );       
-    }
-
-    public function getClimateFactors() {
-        $climateFactors = new ClimateFactors();
-
-        $climateFactorsDates = wpenon_get_table_results( 'klimafaktoren202001', array(
-            'bezeichnung' => array(
-                'value'   => $this->formData->postcode,
-                'compare' => '>='
-            )
-        ), array(), true );
-
-        foreach( $climateFactorsDates AS $date => $value ) 
+        if ( $this->formData->hotWaterSource === 'separate' )
         {
-            if( $date === 'bezeichnung' ) 
-            {
-                continue;
-            }
-
-            $date = str_replace( '_', '-', $date );
-
-            // $climateFactors->add( new ClimateFactor( new DateTime( $date ), $value )  );
+            $this->building->hotWaterHeaters = $this->getHotWaterHeaters();
         }
 
-        $climateFactors->add( new ClimateFactor( new DateTime( '2016-01' ), 1.09 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2016-02' ), 1.09 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2016-03' ), 1.09 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2016-04' ), 1.09 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2016-05' ), 1.09 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2016-06' ), 1.09 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2016-07' ), 1.09 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2016-08' ), 1.09 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2016-09' ), 1.09 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2016-10' ), 1.09 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2016-11' ), 1.09 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2016-12' ), 1.09 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2017-01' ), 1.08 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2017-02' ), 1.08 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2017-03' ), 1.08 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2017-04' ), 1.08 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2017-05' ), 1.08 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2017-06' ), 1.08 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2017-07' ), 1.08 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2017-08' ), 1.08 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2017-09' ), 1.08 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2017-10' ), 1.08 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2017-11' ), 1.08 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2017-12' ), 1.08 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2018-01' ), 1.07 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2018-02' ), 1.07 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2018-03' ), 1.07 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2018-04' ), 1.07 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2018-05' ), 1.07 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2018-06' ), 1.07 ) );
-        $climateFactors->add( new ClimateFactor( new DateTime( '2018-07' ), 1.07 ) );
-
-        return $climateFactors;
+        if ( $this->formData->cooler )
+        {
+            $this->building->coolers  = $this->getCoolers();
+        }
     }
+
+    
 
     /**
      * Load mappings for energy certificate values.
@@ -232,14 +185,41 @@ class CalculationsCC {
             case 'nicht-vorhanden':
                 $this->formData->roof = false;
                 $this->formData->roofHeated = false;
-                break;                
+                break;
         }
 
-        if(  $this->ec->k_info === 'vorhanden' ) {
-            $this->formData->cooler = true;
-            $this->formData->area   = $this->ec->k_flaeche;
-            $this->formData->power  = $this->ec->k_leistung === 'groesser' ? 'bigger' : 'smaller';
+        $this->formData->cooler = false;
+
+        if( $this->ec->k_info === 'vorhanden' ) {
+            $this->formData->cooler      = true;
+            $this->formData->coolerArea  = $this->ec->k_flaeche;
+            $this->formData->coolerPower = $this->ec->k_leistung === 'groesser' ? 'bigger' : 'smaller';
         }        
+    }
+
+    public function getClimateFactors() {
+        $climateFactors = new ClimateFactors();
+
+        $climateFactorsDates = wpenon_get_table_results( 'klimafaktoren202001', array(
+            'bezeichnung' => array(
+                'value'   => $this->formData->postcode,
+                'compare' => '>='
+            )
+        ), array(), true );
+
+        foreach( $climateFactorsDates AS $date => $value ) 
+        {
+            if( $date === 'bezeichnung' ) 
+            {
+                continue;
+            }
+
+            $date = str_replace( '_', '-', $date );
+
+            $climateFactors->add( new ClimateFactor( new DateTime( $date ), $value )  );
+        }
+
+        return $climateFactors;
     }
 
     /**
@@ -370,57 +350,47 @@ class CalculationsCC {
         }
     }
 
+    public function getHotWaterHeaters() : HotWaterHeaters
+    {
+        $hotWaterHeaters = new HotWaterHeaters();
+        $hotWaterHeaters->add( $this->getHotWaterHeater() );
+        
+        return $hotWaterHeaters;
+    }
+
     /**
      * Get hot water
      * 
-     * @return HotWater
+     * @return HotWaterHeater
      * 
      * @since 1.0.0     
      */
-    public function getHotWater() : HotWater
+    public function getHotWaterHeater() : HotWaterHeater
     {
-        if ( $this->formData->hotWaterSource === 'separate' )
-        {   
-            $hotWaterIdVarname     = 'ww_erzeugung';
-            $hotWaterId            = $this->ec->$hotWaterIdVarname;
-    
-            $energySourceIdVarname = 'ww_energietraeger_' . $hotWaterId;        
-            $energySourceId        = $this->ec->$energySourceIdVarname;
+        $hotWaterIdVarname     = 'ww_erzeugung';
+        $hotWaterId            = $this->ec->$hotWaterIdVarname;
 
-            $hotWaterSystem = $this->getHotWaterSystem( $hotWaterId );
-            $energySource   = $this->getEnergySource( $energySourceId );
-        }
-        else if ( $this->formData->hotWaterSource === 'heater' )
-        {
-            $hotWaterSystem = new HotWaterSystem( 'none', 'Kein spezifiziertes System' );            
-            // @todo: What to do on more than 1 heater?
-            $energySource = $this->getEnergySource( 'strom_kwh' );
-        }
-        else 
+        $energySourceIdVarname = 'ww_energietraeger_' . $hotWaterId;        
+        $energySourceId        = $this->ec->$energySourceIdVarname;
+
+        $hotWaterHeaterSystem = $this->getHotWaterHeaterSystem( $hotWaterId );
+        $energySource   = $this->getEnergySource( $energySourceId );
+
+        $consumptionPeriods   = new ConsumptionPeriods();
+
+        foreach( $this->timePerdiods AS $key => $timePeriod )
         {            
-            $hotWaterSystem = new HotWaterSystem( 'none', 'Kein spezifiziertes System' );
-            $energySource = $this->getEnergySource( 'strom_kwh' );
-        }
-        
-        $hotWater = new HotWater( $hotWaterSystem, $energySource );
-        
-        if ( $this->formData->hotWaterSource === 'separate' )
-        {
-            $consumptionPeriods   = new ConsumptionPeriods();
+            $consumptionValueName = 'verbrauch' . $key + 1 . '_ww';
+            $consumption          = $this->ec->$consumptionValueName;
+            $consumptionPeriod    = new ConsumptionPeriod( $timePeriod->start, $timePeriod->end, $consumption );
 
-            foreach( $this->timePerdiods AS $key => $timePeriod )
-            {            
-                $consumptionValueName = 'verbrauch' . $key + 1 . '_ww';
-                $consumption          = $this->ec->$consumptionValueName;
-                $consumptionPeriod    = new ConsumptionPeriod( $timePeriod->start, $timePeriod->end, $consumption );
-
-                $consumptionPeriods->add( $consumptionPeriod );
-            }
-
-            $hotWater->consumptionPeriods = $consumptionPeriods;
+            $consumptionPeriods->add( $consumptionPeriod );
         }
 
-        return $hotWater;
+        $hotWaterHeater = new HotWaterHeater( $hotWaterHeaterSystem, $energySource );
+        $hotWaterHeater->consumptionPeriods = $consumptionPeriods;
+
+        return $hotWaterHeater;
     }
 
     /**
@@ -431,7 +401,7 @@ class CalculationsCC {
      * 
      * @since 1.0.0 
      */
-    public function getHotWaterSystem( string $systemId ) : HotWaterSystem
+    public function getHotWaterHeaterSystem( string $systemId ) : HotWaterHeaterSystem
     {
         $hotWaterName = wpenon_get_table_results( 'ww_erzeugung202001', array(
             'bezeichnung' => array(
@@ -440,7 +410,21 @@ class CalculationsCC {
             )
         ), array( 'name' ), true );
 
-        return new HotWaterSystem ( $systemId, $hotWaterName );
+        return new HotWaterHeaterSystem ( $systemId, $hotWaterName );
+    }
+
+    /**
+     * Get coolers
+     * 
+     * @return Coolers
+     * 
+     * @since 1.0.0
+     */
+    public function getCoolers() : Coolers
+    {
+        $coolers = new Coolers();
+        $coolers->add( $this->getCooler() );
+        return $coolers;    
     }
 
     /**
@@ -454,7 +438,7 @@ class CalculationsCC {
     {
         return new Cooler( 
             $this->getEnergySource( 'strom_kwh' ),
-            $this->formData->coolerArea 
+            $this->formData->coolerArea
         );
     }
 

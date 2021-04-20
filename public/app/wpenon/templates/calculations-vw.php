@@ -86,3 +86,7 @@
 <p class="lead">
   <?php printf( __( 'Spez. Primärenergieverbrauch q<sub>P</sub>: %s kWh/m&sup2;', 'wpenon' ), \WPENON\Util\Format::float( $data['primaerenergie'] ) ); ?><br>
 </p>
+
+<p class="lead">
+  <?php printf( __( 'CO2 Emissionen: %s kg/(m²·a) ', 'wpenon' ), \WPENON\Util\Format::float( $data['co2_emissionen'] ) ); ?>
+</p>
