@@ -357,7 +357,10 @@ class EnergieausweisForm {
 	}
 
 	private function _getNonceAction() {
-		$nonce_action = 'wpenon-energieausweis';
+		$salt = 'HVw:ql7.CDFd-@ktYO#?mTAZrP6QO4Z8=yYVGf@)=R25Pi51tG';
+		$nonce_action = 'wpenon-energieausweis-' . $salt;
+
+		/*
 		if ( ! empty( $this->type ) ) {
 			$nonce_action .= '-' . $this->type;
 		}
@@ -367,6 +370,7 @@ class EnergieausweisForm {
 		if ( $this->id > 0 ) {
 			$nonce_action .= '-' . $this->id;
 		}
+		*/
 
 		return $nonce_action;
 	}
