@@ -1021,7 +1021,7 @@ $anlage = array(
 			'fields'      => array(
 				'ww_info'                                    => array(
 					'type'        => 'select',
-					'label'       => __( 'Art der Warmwassererzeugung', 'wpenon' ),
+					'label'       => __( 'Der Energieverbrauch für Warmwasser ist:', 'wpenon' ),
 					'description' => __( 'Wählen Sie aus, ob die Warmwasserzeugung durch eine der angegebenen Heizungsanlagen oder in einer separaten Anlage stattfindet. Alternativ können Sie auch &quot;Unbekannt&quot; auswählen, in diesem Fall wird der Verbrauch pauschal um 20 kWh/(m&sup2;a) erhöht.', 'wpenon' ),
 					'options'     => array(
 						'callback'      => 'wpenon_immoticket24_get_ww_info_vw',
@@ -1118,7 +1118,7 @@ $anlage = array(
 			),
 		),
 		'lueftung'   => array(
-			'title'       => __( 'Lüftungsanlage', 'wpenon' ),
+			'title'       => __( 'Lüftungsanlage & Gebäudekühlung', 'wpenon' ),
 			'description' => __( 'Machen Sie hier Angaben zur Lüftungsanlage des Gebäudes.', 'wpenon' ),
 			'fields'      => array(
 				'l_info'      => array(
@@ -1205,12 +1205,6 @@ $anlage = array(
 						'callback_args' => array( 'field::k_info', 'vorhanden' ),
 					),
 				),
-			),
-		),
-		'automation'   => array(
-			'title'       => __( 'Automation', 'wpenon' ),
-			'description' => __( 'Machen Sie hier Angaben zur Automation des Gebäudes.', 'wpenon' ),
-			'fields'      => array(
 				'a_info'      => array(
 					'type'     => 'radio',
 					'label'    => __( 'Gebäudeautomation', 'wpenon' ),
@@ -1234,6 +1228,6 @@ $anlage = array(
 					'placeholder'			=> 'MM/JJJJ'
 				),
 			),
-		),
+		)
 	),
 );
