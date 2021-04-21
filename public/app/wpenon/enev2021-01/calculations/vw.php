@@ -385,7 +385,6 @@ if ( $energieausweis->k_info == 'vorhanden' ) {
 		'gesamt'         => $calculations['kuehlung_zuschlag'],
 		'gesamt_b'       => $calculations['kuehlung_zuschlag_b'],
 	);
-
 	$calculations['endenergie']     += $calculations['kuehlung_zuschlag_b'];
 	$calculations['primaerenergie'] += $calculations['kuehlung_zuschlag_b'] * floatval( $kuehlung_energietraeger->primaer );
 }

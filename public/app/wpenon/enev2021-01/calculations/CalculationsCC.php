@@ -20,6 +20,8 @@ use AWSM\LibEstate\Helpers\ConsumptionPeriod;
 use AWSM\LibEstate\Helpers\ConsumptionPeriods;
 use AWSM\LibEstate\Helpers\TimePeriod;
 use AWSM\LibEstate\Helpers\TimePeriods;
+use AWSM\LibEstate\Helpers\VacancyPeriod;
+use AWSM\LibEstate\Helpers\VacancyPeriods;
 use WPENON\Model\Energieausweis;
 
 /**
@@ -102,8 +104,8 @@ class CalculationsCC {
      */
     public function setupBuilding() 
     {
-        $this->building     = new Building( $this->formData->area, $this->formData->flatCount, $this->formData->hotWaterSource );
         $this->timePerdiods = $this->getTimePeriods();
+        $this->building     = new Building( $this->formData->area, $this->getVacancyPeriods(), $this->formData->flatCount, $this->formData->hotWaterSource );        
 
         $numHeaters = 3;
 
@@ -200,6 +202,23 @@ class CalculationsCC {
     public function hasCooler() : bool
     {
         return $this->formData->cooler;
+    }
+
+    public function getVacancyPeriods() 
+    {
+        $vacancyPeriods   = new VacancyPeriods();
+
+        foreach( $this->timePerdiods AS $key => $timePeriod )
+        {            
+            $vacancyValueName = 'verbrauch' . ( $key + 1 ) . '_leerstand';
+
+            $vacancy          = $this->ec->$vacancyValueName;
+            $vacancyPeriod    = new VacancyPeriod( $timePeriod->start, $timePeriod->end, $vacancy );
+
+            $vacancyPeriods->add( $vacancyPeriod );
+        }
+
+        return $vacancyPeriods;
     }
 
     public function getClimateFactors() {
