@@ -2,6 +2,14 @@
 
 require dirname( __FILE__ ) . '/CalculationsCC.php';
 
+$tableNames = new stdClass();
+
+$tableNames->h_erzeugung                 = 'h_erzeugung2019';
+$tableNames->ww_erzeugung                = 'ww_erzeugung202001';
+$tableNames->energietraeger              = 'energietraeger202001';
+$tableNames->energietraeger_umrechnungen = 'energietraeger_umrechnungen';
+$tableNames->klimafaktoren               = 'klimafaktoren202001';
+
 $calcCC = new CalculationsCC( $energieausweis );
 $calculations['co2_emissionen'] = $calcCC->calculation()->getCo2Emissions();
 
