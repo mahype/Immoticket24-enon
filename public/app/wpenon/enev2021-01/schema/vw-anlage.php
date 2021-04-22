@@ -1204,7 +1204,7 @@ $anlage = array(
 						'callback_args' => array( 'field::k_info', 'vorhanden' ),
 					),
 				),
-				'a_info'      => array(
+				'k_automation'      => array(
 					'type'     => 'radio',
 					'label'    => __( 'Gebäudeautomation', 'wpenon' ),
 					'description' => __( 'Verfügt das Gebäude über eine Gebäudeautomation, die die Funktion der Gebäudetechnik überwacht?', 'wpenon' ),
@@ -1214,14 +1214,14 @@ $anlage = array(
 					),
 					'required' => true,
 				),				
-				'a_inspektion'   => array(
+				'k_inspektion'   => array(
 					'type'                  => 'text',
 					'label'                 => __( 'Letzte Inspektion', 'wpenon' ),
 					'description'           => __( 'Wann erfolgte die Inspektion? (Format MM/JJJJ)', 'wpenon' ),
 					'required'              => true,				
 					'display'               => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::a_info', 'yes' ),
+						'callback_args' => array( 'field::k_automation', 'no' ),
 					),
 					'validate'              => 'wpenon_immoticket24_validate_month_year',
 					'placeholder'			=> 'MM/JJJJ'

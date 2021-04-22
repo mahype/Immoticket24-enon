@@ -169,7 +169,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 						$x = $this->GetX();
 						$y = $this->GetY();
 						$this->WriteCell( $this->GetData( 'nutzflaeche' ) . \WPENON\Util\Format::pdfEncode( ' m&sup2;' ), 'L', 0, 24 );
-						$this->CheckBox( $x + 26.8, $y + 4.4 );
+						$this->CheckBox( $x + 25.5, $y + 3.2 );
 						$this->Ln();
 						$this->SetX( $x );
 						$this->SetPageFont( 'default' );
@@ -211,34 +211,37 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 						default:
 							break;
 					}
-
-					/**
-					 * !!! KÜHLUNG FEHLT
-					 */
+					
 					if ( $this->GetData( 'kuehlung' ) ) {
-						$this->CheckBox( $x + 116.8, $y + 4.4 );
+						$this->CheckBox( $x + 34.7, $y + 12.0 );
+
+						if ( $this->GetData( 'inspektionspflichtige_klimaanlagen' ) ) {
+							$y = $this->getY();
+							$this->SetY( $y + 18.1 );
+							$this->SetX( $x + 12 );
+							$this->WriteCell( 1, 'L', 2, 100, $this->wpenon_fonts['default'][3] - 0.64 );
+
+							$this->SetY( $y + 18.1 );
+							$this->SetX( $x + 95 );
+							$this->WriteCell( $this->GetData( 'inspektion_faelligkeit' ), 'L', 2, 0, $this->wpenon_fonts['default'][3] - 0.64 );
+						}
 					}
 
-
-					/**
-					 * !!! KÜHLUNG FEHLT
-					 */
-
-					$y      += 10.5;
+					$y      += 21.5;
 					$anlass = $this->GetData( 'anlass' );
 					switch ( $anlass ) {
 						case 'neubau':
-							$this->CheckBox( $x + 2.8, $y + 4.4 );
+							$this->CheckBox( $x + 2.4, $y + 4.4 );
 							break;
 						case 'modernisierung':
-							$this->CheckBox( $x + 54, $y + 4.4 );
+							$this->CheckBox( $x + 45, $y + 5.1 );
 							break;
 						case 'verkauf':
-							$this->CheckBox( $x + 2.8, $y + 9 );
+							$this->CheckBox( $x + 2.2, $y + 9 );
 							break;
 						case 'sonstiges':
 						default:
-							$this->CheckBox( $x + 111.5, $y + 4.4 );
+							$this->CheckBox( $x + 94.3, $y + 5.1 );
 							break;
 					}
 					$image = $this->GetData( 'thumbnail_id', 0, true );

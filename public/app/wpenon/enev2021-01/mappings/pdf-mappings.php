@@ -125,6 +125,41 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 			}
 
 			return false;
+		case 'inspektionspflichtige_klimaanlagen':
+			if( $energieausweis->k_leistung != 'groesser' )
+			{
+				return false;				
+			}
+
+			return true;
+		case 'inspektion_faelligkeit':
+			if( $energieausweis->k_leistung !== 'groesser' )
+			{
+				return '';				
+			}
+
+			$k_baujahr = explode( '/', $energieausweis->k_baujahr );
+			$k_baujahr = $k_baujahr[1] . '-' . $k_baujahr[0];
+			$k_baujahr = new DateTime( $k_baujahr );
+
+			$baujahr_limit = new DateTime( '2008-10' );			
+
+			if ( $k_baujahr < $baujahr_limit ) {
+				return '12/2022';
+			}
+
+			if( $energieausweis->k_automation === 'yes' )
+			{
+				return 'Keine Inspektion nötig, da Gebäudeautomation';				
+			}
+
+			$k_inspektion = explode( '/', $energieausweis->k_inspektion );
+			$k_inspektion = $k_inspektion[1] . '-' . $k_inspektion[0];
+			$k_inspektion = new DateTime( $k_inspektion );
+
+			$k_inspektion->add( new DateInterval('P10Y') );
+
+			return $k_inspektion->format('m/Y');
 		case 'anlass':
 			if ( 'vermietung' === $energieausweis->anlass ) {
 				return 'verkauf';
