@@ -307,7 +307,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 						$this->DrawEnergyBar( 8, 61, $this->GetData( 'reference' ), 'bedarf' );
 					} else {
 						$this->SetPageFont( 'small' );
-						$this->SetXY( 173, 54 );
+						$this->SetXY( 140, 54 );
 						$this->WriteCell( $this->GetData( 'co2_emissionen' ), 'R', 0, 11, 6.2 );
 						$this->DrawEnergyBar( 8, 61, $this->GetData( 'reference' ), 'bedarf', $this->GetData( 'endenergie' ), $this->GetData( 'primaerenergie' ) );
 						$this->SetPageFont( 'small' );
