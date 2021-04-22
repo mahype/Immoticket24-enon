@@ -1212,6 +1212,10 @@ $anlage = array(
 						'yes' => __( 'Ja', 'wpenon' ),
 						'no'  => __( 'Nein', 'wpenon' ),
 					),
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::k_info', 'vorhanden' ),
+					),
 					'required' => true,
 				),				
 				'k_inspektion'   => array(
