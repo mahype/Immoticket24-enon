@@ -58,6 +58,11 @@ class CalculationsCC {
     protected TimePeriods $timePerdiods;
 
     /**
+     * Table names
+     */
+    protected stdClass $tableNames;
+
+    /**
      * Mapped form data varables
      * 
      * @var array 
@@ -65,15 +70,6 @@ class CalculationsCC {
      * @since 1.0.0
      */
     protected stdClass $formData;
-
-    /**
-     * Mapped table data variables
-     * 
-     * @var array 
-     * 
-     * @since 1.0.0
-     */
-    protected stdClass $tableData;
 
     /**
      * Constructor
@@ -85,9 +81,17 @@ class CalculationsCC {
     public function __construct( Energieausweis $ec )
     {
         $this->ec = $ec;
+
+        $this->tableNames = new stdClass();
+
+        $this->tableNames->h_erzeugung                 = 'h_erzeugung2019';
+        $this->tableNames->ww_erzeugung                = 'ww_erzeugung202001';
+        $this->tableNames->energietraeger              = 'energietraeger202001';
+        $this->tableNames->energietraeger_umrechnungen = 'energietraeger_umrechnungen';
+        $this->tableNames->klimafaktoren               = 'klimafaktoren202001';     
         
         $this->loadformData();
-        $this->setupBuilding();
+        $this->setupBuilding();           
     }
 
     public function calculation() : ConsumptionCalculations
@@ -130,8 +134,6 @@ class CalculationsCC {
             $this->building->coolers  = $this->getCoolers();
         }
     }
-
-    
 
     /**
      * Load mappings for energy certificate values.
@@ -224,7 +226,7 @@ class CalculationsCC {
     public function getClimateFactors() {
         $climateFactors = new ClimateFactors();
 
-        $climateFactorsDates = wpenon_get_table_results( 'klimafaktoren202001', array(
+        $climateFactorsDates = wpenon_get_table_results( $this->tableNames->klimafaktoren, array(
             'bezeichnung' => array(
                 'value'   => $this->formData->postcode,
                 'compare' => '>='
@@ -343,7 +345,7 @@ class CalculationsCC {
      */
     public function getHeaterSystem( string $heaterId ) 
     {
-        $heaterName = wpenon_get_table_results( 'h_erzeugung2019', array(
+        $heaterName = wpenon_get_table_results( $this->tableNames->h_erzeugung, array(
             'bezeichnung' => array(
                 'value'   => $heaterId,
                 'compare' => '='
@@ -428,7 +430,7 @@ class CalculationsCC {
      */
     public function getHotWaterHeaterSystem( string $systemId ) : HotWaterHeaterSystem
     {
-        $hotWaterName = wpenon_get_table_results( 'ww_erzeugung202001', array(
+        $hotWaterName = wpenon_get_table_results( $this->tableNames->ww_erzeugung, array(
             'bezeichnung' => array(
                 'value'   => $systemId,
                 'compare' => '='
@@ -476,14 +478,14 @@ class CalculationsCC {
      */
     public function getEnergySource( string $energySourceId ) : EnergySource
     {
-        $conversions = wpenon_get_table_results( 'energietraeger_umrechnungen', array(
+        $conversions = wpenon_get_table_results( $this->tableNames->energietraeger_umrechnungen, array(
             'bezeichnung' => array(
                 'value'   => $energySourceId,
                 'compare' => '='
             )
         ), array(), true );
 
-        $energySourceValues = wpenon_get_table_results( 'energietraeger202001', array(
+        $energySourceValues = wpenon_get_table_results( $this->tableNames->energietraeger, array(
             'bezeichnung' => array(
                 'value'   => $conversions->energietraeger,
                 'compare' => '='
