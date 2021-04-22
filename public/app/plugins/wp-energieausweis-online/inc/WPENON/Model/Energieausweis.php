@@ -273,7 +273,20 @@ class Energieausweis {
 	}
 
 	public function getPDF( $output_mode = 'I', $preview = false ) {
-		$pdf = new \WPENON\Model\EnergieausweisPDF( sprintf( __( 'Energieausweis-%s', 'wpenon' ), $this->post->post_title ), $this->type, $this->standard, $preview );
+		$old_standards = [
+			'enev2013', 
+			'enev2017',
+			'enev2019',
+			'enev2020-01',
+			'enev2020-02',
+		];
+
+		if( in_array( $this->standard, $old_standards ) ) {
+			$pdf = new \WPENON\Model\EnergieausweisPDF( sprintf( __( 'Energieausweis-%s', 'wpenon' ), $this->post->post_title ), $this->type, $this->standard, $preview );
+		} else {
+			$pdf = new \WPENON\Model\EnergieausweisPDFGEG( sprintf( __( 'Energieausweis-%s', 'wpenon' ), $this->post->post_title ), $this->type, $this->standard, $preview );
+		}
+		
 		if ( $this->isFinalized() ) {
 			$this->calculate();
 			$pdf->create( $this );

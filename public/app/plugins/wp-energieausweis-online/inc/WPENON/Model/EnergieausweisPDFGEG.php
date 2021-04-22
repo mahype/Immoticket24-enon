@@ -9,7 +9,7 @@ namespace WPENON\Model;
 
 use Enon\Enon\Standards\Schema;
 
-class EnergieausweisPDF2021 extends \WPENON\Util\UFPDI {
+class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 	private $wpenon_title = '';
 	private $wpenon_type = 'bw';
 	private $wpenon_standard = 'enev2013';
@@ -105,7 +105,8 @@ class EnergieausweisPDF2021 extends \WPENON\Util\UFPDI {
 			$this->wpenon_seller_meta    = $paymentmeta->getSellerMeta();
 		}
 
-		$this->setSourceFile( $this->wpenon_pdf_path . 'energieausweis_' . substr( $this->wpenon_type, 1, 1 ) . '_2021.pdf' );
+		$sourceFile = $this->wpenon_pdf_path . 'energieausweis_' . substr( $this->wpenon_type, 1, 1 ) . '_2021.pdf';
+		$this->setSourceFile( $sourceFile );
 		
 		for ( $i = 0; $i < 5; $i ++ ) {
 			$this->addPage( 'P', array( $this->wpenon_width, $this->wpenon_height ) );
