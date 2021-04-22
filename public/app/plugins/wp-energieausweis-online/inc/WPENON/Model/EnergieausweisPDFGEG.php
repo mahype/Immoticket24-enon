@@ -217,12 +217,12 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 
 						if ( $this->GetData( 'inspektionspflichtige_klimaanlagen' ) ) {
 							$y = $this->getY();
-							$this->SetY( $y + 18.1 );
-							$this->SetX( $x + 12 );
+							$this->SetY( $y + 20.0 );
+							$this->SetX( $x + 15 );
 							$this->WriteCell( 1, 'L', 2, 100, $this->wpenon_fonts['default'][3] - 0.64 );
 
-							$this->SetY( $y + 18.1 );
-							$this->SetX( $x + 95 );
+							$this->SetY( $y + 22.0 );
+							$this->SetX( $x + 36.0 );
 							$this->WriteCell( $this->GetData( 'inspektion_faelligkeit' ), 'L', 2, 0, $this->wpenon_fonts['default'][3] - 0.64 );
 						}
 					}
@@ -231,72 +231,57 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 					$anlass = $this->GetData( 'anlass' );
 					switch ( $anlass ) {
 						case 'neubau':
-							$this->CheckBox( $x + 2.4, $y + 4.4 );
+							$this->CheckBox( $x + 2.4, $y + 9.1 );
 							break;
 						case 'modernisierung':
-							$this->CheckBox( $x + 45, $y + 5.1 );
+							$this->CheckBox( $x + 45, $y + 9.1 );
 							break;
 						case 'verkauf':
-							$this->CheckBox( $x + 2.2, $y + 9 );
+							$this->CheckBox( $x + 2.2, $y + 13 );
 							break;
 						case 'sonstiges':
 						default:
-							$this->CheckBox( $x + 94.3, $y + 5.1 );
+							$this->CheckBox( $x + 94.3, $y + 9.1 );
 							break;
 					}
+					
 					$image = $this->GetData( 'thumbnail_id', 0, true );
+
 					if ( $image ) {
 						$this->SetPageFillColor( 'bright' );
-						$this->Rect( 162.2, 54.8, 39, 55.4, 'F' );
-						$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-energieausweiss-image' ), 161.2, 53.8, 41.5, 57.4 );
+						$this->Rect( 162.2, 54.8, 39, 53.4, 'F' );
+						$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-energieausweiss-image' ), 161.2, 52.8, 41.5, 58.4 );
 						$this->SetPageFillColor( 'background' );
 					}
-
-					if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
-						if ( substr( $this->wpenon_type, 0, 1 ) == 'b' ) {
-							$this->CheckBox( 9.2, 173.5 );
-						} else {
-							$this->CheckBox( 9.2, 196 );
-						}
-						if ( $this->GetData( 'datenerhebung_durch_aussteller' ) ) {
-							$this->CheckBox( 146.5, 210.2 );
-						} else {
-							$this->CheckBox( 102.8, 210.2 );
-						}
-						if ( $this->GetData( 'zusatzinformationen_beigefuegt' ) ) {
-							$this->CheckBox( 9.2, 216.8 );
-						}
+					
+					
+					if ( substr( $this->wpenon_type, 0, 1 ) == 'b' ) {
+						$this->CheckBox( 9.8, 185.0 );
 					} else {
-						if ( substr( $this->wpenon_type, 0, 1 ) == 'b' ) {
-							$this->CheckBox( 9.4, 184.4 );
-						} else {
-							$this->CheckBox( 9.4, 199.2 );
-						}
-						if ( $this->GetData( 'datenerhebung_durch_aussteller' ) ) {
-							$this->CheckBox( 147.9, 212 );
-						} else {
-							$this->CheckBox( 103, 212 );
-						}
-						if ( $this->GetData( 'zusatzinformationen_beigefuegt' ) ) {
-							$this->CheckBox( 9.4, 218 );
-						}
+						$this->CheckBox( 9.8, 194.0 );
+					}					
+
+					if ( $this->GetData( 'datenerhebung_durch_aussteller' ) ) {
+						$this->CheckBox( 123.7, 206.1 );
+					} else {
+						$this->CheckBox( 78.8, 206.1 );
 					}
+					
+					
+
+					if ( $this->GetData( 'zusatzinformationen_beigefuegt' ) ) {
+						$this->CheckBox( 10.0, 211.9 );
+					}
+
 
 					$this->SetPageFont( 'small' );
-					if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
-						$this->SetXY( 110, 266 );
-					} else {
-						$this->SetXY( 110, 270 );
-					}
+					$this->SetXY( 110, 260 );
 					$this->WriteCell( \WPENON\Model\EnergieausweisManager::instance()->getReferenceDate( 'd.m.Y', $this->energieausweis ), 'L', 1, 20 );
 
-					if ( ! $this->wpenon_preview ) {
+					//if ( ! $this->wpenon_preview ) {
 						$this->SetPageFont( 'aussteller' );
-						if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
-							$this->SetXY( 24, 250 );
-						} else {
-							$this->SetXY( 25, 254 );
-						}
+						$this->SetXY( 25, 245 );
+						
 						$aussteller_firma = $this->GetData( 'sellermeta_firmenname' );
 						$aussteller_firma = apply_filters( 'wpenon_pdf_seller_company_name', $aussteller_firma, $this );
 						$aussteller_daten = $this->GetData( 'sellermeta_strassenr' ) . "\n" . $this->GetData( 'sellermeta_plz' ) . ' ' . $this->GetData( 'sellermeta_ort' ) . "\n" . __( 'Telefon:', 'wpenon' ) . ' ' . $this->GetData( 'sellermeta_telefon' );
@@ -307,13 +292,9 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 						$this->WriteMultiCell( $aussteller_daten, 'C', 1, 77 );
 
 						if ( file_exists( WPENON_DATA_PATH . '/pdf-signature.png' ) ) {
-							if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
-								$this->Image( WPENON_DATA_PATH . '/pdf-signature.png', 150, 253, 45 );
-							} else {
-								$this->Image( WPENON_DATA_PATH . '/pdf-signature.png', 150, 257, 45 );
-							}
+							$this->Image( WPENON_DATA_PATH . '/pdf-signature.png', 150, 243, 45 );
 						}
-					}
+					// }
 					break;
 				case 2:
 					$this->SetXY( 121.5, 19.5 );
