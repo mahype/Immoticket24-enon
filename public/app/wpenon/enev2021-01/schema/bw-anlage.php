@@ -303,7 +303,7 @@ $anlage = array(
 				'h_typenschild'                                     => array(
 					'type'                  => 'image',
 					'label'                 => __( 'Foto des Typenschilds', 'wpenon' ),
-					'required'              => true,
+					'required'              => false,
 					'filetypes' => array(
 						'image/png',
 						'image/jpeg'
@@ -631,7 +631,7 @@ $anlage = array(
 				'h2_typenschild'                                     => array(
 					'type'                  => 'image',
 					'label'                 => __( 'Foto des Typenschilds', 'wpenon' ),
-					'required'              => true,
+					'required'              => false,
 					'filetypes' => array(
 						'image/png',
 						'image/jpeg'
@@ -967,7 +967,7 @@ $anlage = array(
 				'h3_typenschild'                                     => array(
 					'type'                  => 'image',
 					'label'                 => __( 'Foto des Typenschilds', 'wpenon' ),
-					'required'              => true,
+					'required'              => false,
 					'filetypes' => array(
 						'image/png',
 						'image/jpeg'
