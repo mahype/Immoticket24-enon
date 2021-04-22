@@ -191,6 +191,13 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 			}
 
 			return null;
+		case 'co2_emissionen':
+			$calculations = $energieausweis->calculate();
+			if ( isset( $calculations['co2_emissionen'] ) ) {
+				return $calculations['co2_emissionen'];
+			}
+
+			return null;			
 		case 's_reference':
 			$calculations = $energieausweis->calculate();
 			if ( isset( $calculations['s_reference'] ) ) {

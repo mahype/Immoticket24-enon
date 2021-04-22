@@ -278,7 +278,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 					$this->SetXY( 110, 260 );
 					$this->WriteCell( \WPENON\Model\EnergieausweisManager::instance()->getReferenceDate( 'd.m.Y', $this->energieausweis ), 'L', 1, 20 );
 
-					//if ( ! $this->wpenon_preview ) {
+					if ( ! $this->wpenon_preview ) {
 						$this->SetPageFont( 'aussteller' );
 						$this->SetXY( 25, 245 );
 						
@@ -294,7 +294,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 						if ( file_exists( WPENON_DATA_PATH . '/pdf-signature.png' ) ) {
 							$this->Image( WPENON_DATA_PATH . '/pdf-signature.png', 150, 243, 45 );
 						}
-					// }
+					}
 					break;
 				case 2:
 					$this->SetXY( 121.5, 19.5 );
@@ -306,46 +306,42 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 					if ( substr( $this->wpenon_type, 0, 1 ) == 'v' ) {
 						$this->DrawEnergyBar( 8, 61, $this->GetData( 'reference' ), 'bedarf' );
 					} else {
-						if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
-
-						} else {
-							$this->SetPageFont( 'small' );
-							$this->SetXY( 173, 54 );
-							$this->WriteCell( $this->GetData( 'co2_emissionen' ), 'R', 0, 11, 6.2 );
-							$this->DrawEnergyBar( 8, 61, $this->GetData( 'reference' ), 'bedarf', $this->GetData( 'endenergie' ), $this->GetData( 'primaerenergie' ) );
-							$this->SetPageFont( 'small' );
-							$this->SetXY( 22, 125 );
-							$this->WriteCell( $this->GetData( 'primaerenergie' ), 'R', 0, 11, 5 );
-							$this->SetX( 77 );
-							$this->WriteCell( $this->GetData( 'primaerenergie_reference' ), 'R', 0, 10, 5 );
-							$this->SetXY( 22, 136.3 );
-							$this->WriteCell( $this->GetData( 'ht' ), 'R', 0, 11, 6 );
-							$this->SetX( 77 );
-							$this->WriteCell( $this->GetData( 'ht_reference' ), 'R', 0, 10, 6 );
-							$verfahren = $this->GetData( 'verfahren' );
-							switch ( $verfahren ) {
-								case 'din-v-18599':
-									$this->CheckBox( 114, 134 );
-									break;
-								case 'din-v-4108-6':
-								default:
-									$this->CheckBox( 114, 128.5 );
-									break;
-							}
-							if ( $this->GetData( 'regelung_absatz5' ) ) {
-								$this->CheckBox( 114, 140.4 );
-							}
-							if ( $this->GetData( 'verfahren_vereinfacht' ) ) {
-								$this->CheckBox( 114, 147 );
-							}
-							if ( $this->GetData( 'waermeschutz_eingehalten' ) ) {
-								$this->CheckBox( 70.6, 147 );
-							}
-							$this->SetXY( 173, 151.5 );
-							$this->SetPageFont( 'kennwerte' );
-							$this->WriteCell( $this->GetData( 'endenergie' ), 'R', 0, 29 );
+						$this->SetPageFont( 'small' );
+						$this->SetXY( 173, 54 );
+						$this->WriteCell( $this->GetData( 'co2_emissionen' ), 'R', 0, 11, 6.2 );
+						$this->DrawEnergyBar( 8, 61, $this->GetData( 'reference' ), 'bedarf', $this->GetData( 'endenergie' ), $this->GetData( 'primaerenergie' ) );
+						$this->SetPageFont( 'small' );
+						$this->SetXY( 22, 125 );
+						$this->WriteCell( $this->GetData( 'primaerenergie' ), 'R', 0, 11, 5 );
+						$this->SetX( 77 );
+						$this->WriteCell( $this->GetData( 'primaerenergie_reference' ), 'R', 0, 10, 5 );
+						$this->SetXY( 22, 136.3 );
+						$this->WriteCell( $this->GetData( 'ht' ), 'R', 0, 11, 6 );
+						$this->SetX( 77 );
+						$this->WriteCell( $this->GetData( 'ht_reference' ), 'R', 0, 10, 6 );
+						$verfahren = $this->GetData( 'verfahren' );
+						switch ( $verfahren ) {
+							case 'din-v-18599':
+								$this->CheckBox( 114, 134 );
+								break;
+							case 'din-v-4108-6':
+							default:
+								$this->CheckBox( 114, 128.5 );
+								break;
 						}
-					}
+						if ( $this->GetData( 'regelung_absatz5' ) ) {
+							$this->CheckBox( 114, 140.4 );
+						}
+						if ( $this->GetData( 'verfahren_vereinfacht' ) ) {
+							$this->CheckBox( 114, 147 );
+						}
+						if ( $this->GetData( 'waermeschutz_eingehalten' ) ) {
+							$this->CheckBox( 70.6, 147 );
+						}
+						$this->SetXY( 173, 151.5 );
+						$this->SetPageFont( 'kennwerte' );
+						$this->WriteCell( $this->GetData( 'endenergie' ), 'R', 0, 29 );
+					}					
 					break;
 				case 3:
 					$this->SetXY( 121.5, 19.5 );
@@ -354,81 +350,31 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 					$this->SetPageFont( 'registrier' );
 					$this->SetXY( 161, 29.5 );
 					$this->WriteCell( $this->GetData( 'registriernummer', 0, true ), 'C', 0, 24 );
+
+					$this->SetXY( 131.0, 53.9 );
+					$this->SetPageFont( 'kennwerte' );
+					$this->WriteCell( $this->GetData( 'co2_emissionen' ), 'C', 0, 24 );
+
 					if ( substr( $this->wpenon_type, 0, 1 ) == 'b' ) {
 						$this->DrawEnergyBar( 8, 55, $this->GetData( 'reference' ), 'verbrauch' );
-					} else {
-						if ( substr( $this->wpenon_type, 1, 1 ) == 'n' ) {
-							$this->DrawEnergyBar( 8, 55, $this->GetData( 'reference' ), 'verbrauch', $this->GetData( 'endenergie' ) );
-							if ( $this->GetData( 'warmwasser_enthalten' ) ) {
-								$this->CheckBox( 9.7, 108.2 );
-							}
-							$this->DrawEnergyBar( 8, 113.5, $this->GetData( 's_reference' ), 'strom', $this->GetData( 's_endenergie' ) );
-							$s_nutzung = \WPENON\Util\Parse::arr( $this->GetData( 's_nutzung' ) );
-							if ( in_array( 'heizung', $s_nutzung ) ) {
-								$this->CheckBox( 9.7, 172.6 );
-							}
-							if ( in_array( 'warmwasser', $s_nutzung ) ) {
-								$this->CheckBox( 46.2, 172.6 );
-							}
-							if ( in_array( 'lueftung', $s_nutzung ) ) {
-								$this->CheckBox( 80, 172.6 );
-							}
-							if ( in_array( 'beleuchtung', $s_nutzung ) ) {
-								$this->CheckBox( 104.8, 172.6 );
-							}
-							if ( in_array( 'kuehlung', $s_nutzung ) ) {
-								$this->CheckBox( 155.5, 172.6 );
-							}
-							if ( in_array( 'sonstiges', $s_nutzung ) ) {
-								$this->CheckBox( 179.7, 172.6 );
-							}
-							$this->SetY( 201 );
-							$this->SetPageFont( 'small' );
-							$verbrauchserfassung = \WPENON\Util\Parse::arr( $this->GetData( 'verbrauchserfassung' ) );
-							foreach ( $verbrauchserfassung as $jahr ) {
-								$this->SetX( 8 );
-								$this->WriteCell( $jahr['start'], 'C', 0, 18, 5.7 );
-								$this->WriteCell( $jahr['ende'], 'C', 0, 20.2, 5.7 );
-								$this->WriteCell( $jahr['energietraeger'], 'C', 0, 28, 5.7 );
-								$this->WriteCell( $jahr['primaer'], 'R', 0, 16.5, 5.7 );
-								$this->WriteCell( $jahr['gesamt'], 'R', 0, 32.7, 5.7 );
-								$this->WriteCell( $jahr['warmwasser'], 'R', 0, 20.7, 5.7 );
-								$this->WriteCell( $jahr['heizung'], 'R', 0, 18.4, 5.7 );
-								$this->WriteCell( $jahr['klima'], 'R', 0, 17.2, 5.7 );
-								$this->WriteCell( $jahr['strom'], 'R', 1, 22.3, 5.7 );
-							}
-							$this->SetXY( 163, 230 );
-							$this->SetPageFont( 'kennwerte' );
-							$this->WriteCell( $this->GetData( 'primaerenergie' ), 'R', 0, 20 );
-							$this->SetXY( 8, 261.5 );
-							$this->SetPageFont( 'small' );
-							$gebaeudebereiche = \WPENON\Util\Parse::arr( $this->GetData( 'gebaeudebereiche' ) );
-							foreach ( $gebaeudebereiche as $bereich ) {
-								$this->SetX( 8 );
-								$this->WriteCell( $bereich['typ'], 'C', 0, 34, 5.7 );
-								$this->WriteCell( $bereich['anteil'], 'C', 0, 24.3, 5.7 );
-								$this->WriteCell( $bereich['heizung'], 'R', 0, 23.6, 5.7 );
-								$this->WriteCell( $bereich['strom'], 'R', 1, 22.8, 5.7 );
-							}
-						} else {
-							$this->DrawEnergyBar( 8, 55, $this->GetData( 'reference' ), 'verbrauch', $this->GetData( 'endenergie' ), $this->GetData( 'primaerenergie' ) );
-							$this->SetXY( 166, 112.8 );
-							$this->SetPageFont( 'kennwerte' );
-							$this->WriteCell( $this->GetData( 'endenergie' ), 'R', 0, 36 );
-							$this->SetY( 148.4 );
-							$this->SetPageFont( 'small' );
-							$verbrauchserfassung = $this->GetData( 'verbrauchserfassung' );
-							foreach ( $verbrauchserfassung as $jahr ) {
-								$this->SetX( 8 );
-								$this->WriteCell( $jahr['start'], 'C', 0, 20.5, 6.65 );
-								$this->WriteCell( $jahr['ende'], 'C', 0, 21.8, 6.65 );
-								$this->WriteCell( $jahr['energietraeger'], 'C', 0, 29.8, 6.65 );
-								$this->WriteCell( $jahr['primaer'], 'R', 0, 19.8, 6.65 );
-								$this->WriteCell( $jahr['gesamt'], 'R', 0, 32.8, 6.65 );
-								$this->WriteCell( $jahr['warmwasser'], 'R', 0, 24, 6.65 );
-								$this->WriteCell( $jahr['heizung'], 'R', 0, 25.3, 6.65 );
-								$this->WriteCell( $jahr['klima'], 'R', 1, 20, 6.65 );
-							}
+					} else {						
+						$this->DrawEnergyBar( 8, 60, $this->GetData( 'reference' ), 'verbrauch', $this->GetData( 'endenergie' ), $this->GetData( 'primaerenergie' ) );
+						$this->SetXY( 166, 112.8 );
+						$this->SetPageFont( 'kennwerte' );
+						$this->WriteCell( $this->GetData( 'endenergie' ), 'R', 0, 36 );
+						$this->SetY( 148.4 );
+						$this->SetPageFont( 'small' );
+						$verbrauchserfassung = $this->GetData( 'verbrauchserfassung' );
+						foreach ( $verbrauchserfassung as $jahr ) {
+							$this->SetX( 8 );
+							$this->WriteCell( $jahr['start'], 'C', 0, 20.5, 6.65 );
+							$this->WriteCell( $jahr['ende'], 'C', 0, 21.8, 6.65 );
+							$this->WriteCell( $jahr['energietraeger'], 'C', 0, 29.8, 6.65 );
+							$this->WriteCell( $jahr['primaer'], 'R', 0, 19.8, 6.65 );
+							$this->WriteCell( $jahr['gesamt'], 'R', 0, 32.8, 6.65 );
+							$this->WriteCell( $jahr['warmwasser'], 'R', 0, 24, 6.65 );
+							$this->WriteCell( $jahr['heizung'], 'R', 0, 25.3, 6.65 );
+							$this->WriteCell( $jahr['klima'], 'R', 1, 20, 6.65 );
 						}
 					}
 					break;
