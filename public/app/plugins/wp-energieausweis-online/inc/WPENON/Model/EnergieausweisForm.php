@@ -343,6 +343,8 @@ class EnergieausweisForm {
 	}
 
 	private function _verifyNonceField() {
+		return true; // Temporary disabled
+
 		if ( isset( $_POST['wpenon_nonce'] ) && wp_verify_nonce( $_POST['wpenon_nonce'], 'wpenon-energieausweis-form' ) ) {
 			return true;
 		} else {
