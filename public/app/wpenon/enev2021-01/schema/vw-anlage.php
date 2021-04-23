@@ -1213,8 +1213,8 @@ $anlage = array(
 						'no'  => __( 'Nein', 'wpenon' ),
 					),
 					'display'               => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::k_info', 'vorhanden' ),
+						'callback'      => 'wpenon_immoticket24_show_k_automation',
+						'callback_args' => array( 'field::k_info', 'field::k_leistung' ),
 					),
 					'required' => true,
 				),				
@@ -1224,8 +1224,8 @@ $anlage = array(
 					'description'           => __( 'Wann erfolgte die Inspektion? (Format MM/JJJJ)', 'wpenon' ),
 					'required'              => true,				
 					'display'               => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::k_automation', 'no' ),
+						'callback'      => 'wpenon_immoticket24_show_k_inspektion',
+						'callback_args' => array( 'field::k_info', 'field::k_leistung', 'field::k_automation' ),
 					),
 					'validate'              => 'wpenon_immoticket24_validate_month_year',
 					'placeholder'			=> 'MM/JJJJ'
