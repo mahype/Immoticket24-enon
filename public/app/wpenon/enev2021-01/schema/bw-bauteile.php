@@ -7,6 +7,14 @@ $bauteile = array(
 			'title'       => __( 'Grundbauteile', 'wpenon' ),
 			'description' => __( 'Geben Sie die relevanten Daten für die Grundbestandteile des Gebäudes an.', 'wpenon' ),
 			'fields'      => array(
+				'wand_staerke'    => array(
+					'type'        => 'select',
+					'label'       => __( 'Wandstärke', 'wpenon' ),
+					'description' => __( 'Wählen Sie die Wandstärke der Außenwand aus.', 'wpenon' ),
+					'options'     => \Enev\Schema202002\Schema\Standard_Options::get_wandstaerken(),
+					'required'    => true,
+					'unit'     => 'cm',
+				),
 				'wand_bauart_holz'          => array(
 					'type'        => 'select',
 					'label'       => __( 'Wandbauart', 'wpenon' ),
@@ -590,6 +598,14 @@ $bauteile = array(
 						'callback'      => 'wpenon_show_on_bool_compare',
 						'callback_args' => array( 'field::anbau', true ),
 					),
+				),
+				'anbauwand_staerke'    => array(
+					'type'        => 'select',
+					'label'       => __( 'Wandstärke Anbau', 'wpenon' ),
+					'description' => __( 'Wählen Sie die Wandstärke der Außenwand aus.', 'wpenon' ),
+					'options'     => \Enev\Schema202002\Schema\Standard_Options::get_wandstaerken(),
+					'required'    => true,
+					'unit'     => 'cm',
 				),
 				'anbauwand_bauart_holz'     => array(
 					'type'        => 'select',

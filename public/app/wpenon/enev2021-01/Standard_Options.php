@@ -9,6 +9,24 @@ namespace Enev\Schema202002\Schema;
  */
 class Standard_Options {
 	/**
+	 * Get wall thickness.
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_wandstaerken() {
+		$start = 50;
+		$end   = 180;
+
+		for( $i = $start; $i <= $end; $i++ ) {
+			$options[] = $i;
+		}
+
+		return $options;
+	}
+
+	/**
 	 * Building construction type.
 	 *
 	 * @return array
@@ -23,6 +41,8 @@ class Standard_Options {
 
 		return $construction_types;
 	}
+
+	
 
 	/**
 	 * Floor construction type.
