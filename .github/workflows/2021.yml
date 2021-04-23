@@ -31,5 +31,5 @@ jobs:
           /www/htdocs/w012900a/bin/composer.phar update
           cd $WWW/public/app/plugins/wp-energieausweis-online
           /www/htdocs/w012900a/bin/composer.phar update
-          cp $WWW/public/.htaccess-staging $WWW/public/.htaccess
+          cp $WWW/public/.htaccess-2021 $WWW/public/.htaccess
           cp $WWW/public/local-config-2021.php $WWW/public/local-config.php
