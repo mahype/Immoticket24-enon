@@ -718,29 +718,61 @@ if ( $geschosshoehe >= 2.5 && $geschosshoehe <= 3.0 ) {
 
 foreach ( $grundriss_form as $wand => $data ) {
 if ( isset( $calculations['bauteile'][ 'wand_' . $wand ] ) ) {
-  $a_slug = 'fenster_' . $wand . '_flaeche';
-  $b_slug = 'fenster_' . $wand . '_bauart';
-  $j_slug = 'fenster_' . $wand . '_baujahr';
-  if ( $energieausweis->$a_slug > 0.0 ) {
-	$calculations['bauteile'][ 'fenster_' . $wand ] = array(
-	  'name'          => sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand ),
-	  'typ'           => 'fenster',
-	  'modus'         => 'transparent',
-	  'bauart'        => $energieausweis->$b_slug,
-	  'baujahr'       => $energieausweis->$j_slug,
-	  'richtung'      => $calculations['bauteile'][ 'wand_' . $wand ]['richtung'],
-	  'a'             => $energieausweis->$a_slug,
-	  'd'             => 0,
-	  'winkel'        => 90.0,
-	);
-	$calculations['bauteile'][ 'wand_' . $wand ]['a'] -= $calculations['bauteile'][ 'fenster_' . $wand ]['a'];
-  }
+
+  if( $energieausweis->fenster_manuell ) {
+    // Manuelle Berechnung
+    $a_slug = 'fenster_' . $wand . '_flaeche';
+    $b_slug = 'fenster_' . $wand . '_bauart';
+    $j_slug = 'fenster_' . $wand . '_baujahr';
+
+    if ( $energieausweis->$a_slug > 0.0 ) {
+      $calculations['bauteile'][ 'fenster_' . $wand ] = array(
+        'name'          => sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand ),
+        'typ'           => 'fenster',
+        'modus'         => 'transparent',
+        'bauart'        => $energieausweis->$b_slug,
+        'baujahr'       => $energieausweis->$j_slug,
+        'richtung'      => $calculations['bauteile'][ 'wand_' . $wand ]['richtung'],
+        'a'             => $energieausweis->$a_slug,
+        'd'             => 0,
+        'winkel'        => 90.0,
+      );
+
+      $calculations['bauteile'][ 'wand_' . $wand ]['a'] -= $calculations['bauteile'][ 'fenster_' . $wand ]['a'];
+    }
+
+  } else {
+    // Automatische Berechnung
+    $l_slug = 'wand_' . $wand . '_laenge';
+    $n_slug = 'wand_' . $wand . '_nachbar';    
+
+    if ( $energieausweis->$n_slug === true ) {
+      continue;
+    }
+
+    // Fensterfläche Wand a: 0,55 * (Wandlänge a - 2 * Wandstärke) * ((Geschosshöhe - 1,50 m) * Anzahl Vollgeschoss)
+    $fensterflaeche = 0.55 * ( $energieausweis->$l_slug - 2 * $energieausweis->wand_staerke ) * ( ( $energieausweis->geschoss_hoehe - 1.5 ) * $energieausweis->geschoss_zahl );
+
+    $calculations['bauteile'][ 'fenster_' . $wand ] = array(
+      'name'          => sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand ),
+      'typ'           => 'fenster',
+      'modus'         => 'transparent',
+      'richtung'      => $calculations['bauteile'][ 'wand_' . $wand ]['richtung'],
+      'a'             => $fensterflaeche,
+      'd'             => 0,
+      'winkel'        => 90.0,
+    );
+
+    $calculations['bauteile'][ 'wand_' . $wand ]['a'] -= $calculations['bauteile'][ 'fenster_' . $wand ]['a'];
+  }  
 }
+
 }
 unset( $data );
 
 if ( $energieausweis->anbau ) {
 foreach ( $anbau_form as $wand => $data ) {
+  
   if ( isset( $calculations['bauteile'][ 'anbauwand_' . $wand ] ) ) {
 	$a_slug = 'anbaufenster_' . $wand . '_flaeche';
 	$b_slug = 'anbaufenster_' . $wand . '_bauart';
