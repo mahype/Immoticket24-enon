@@ -1070,14 +1070,18 @@ $bauteile = array(
 			'title'       => __( 'Fenster', 'wpenon' ),
 			'description' => __( 'Geben Sie die relevanten Daten für die Fenster des Gebäudes an.', 'wpenon' ),
 			'fields'      => array(
+				'fenster_manuell'                                       => array(
+					'type'  => 'checkbox',
+					'label' => __( 'Fensterflächen manuell eingeben', 'wpenon' ),
+				),
 				'fenster_a_headline'       => array(
 					'type'    => 'headline',
 					'label'   => sprintf( __( 'Fenster %s', 'wpenon' ), 'a' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'a', 'field::wand_a_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'a', 'field::wand_a_nachbar' ),
 					),
-				),
+				),				
 				'fenster_a_flaeche'        => array(
 					'type'                  => 'float',
 					'label'                 => __( 'Fläche', 'wpenon' ),
@@ -1085,7 +1089,7 @@ $bauteile = array(
 					'unit'                  => 'm&sup2;',
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'a', 'field::wand_a_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'a', 'field::wand_a_nachbar' ),
 					),
 					'validate'              => 'wpenon_immoticket24_validate_fenster',
 					'validate_dependencies' => array(						
@@ -1115,7 +1119,7 @@ $bauteile = array(
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'a',
 							'field::wand_a_nachbar',
@@ -1133,7 +1137,7 @@ $bauteile = array(
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'a',
 							'field::wand_a_nachbar',
@@ -1152,7 +1156,7 @@ $bauteile = array(
 					'label'   => sprintf( __( 'Fenster %s', 'wpenon' ), 'b' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'b', 'field::wand_b_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'b', 'field::wand_b_nachbar' ),
 					),
 				),
 				'fenster_b_flaeche'        => array(
@@ -1162,7 +1166,7 @@ $bauteile = array(
 					'unit'        => 'm&sup2;',
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'b', 'field::wand_b_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'b', 'field::wand_b_nachbar' ),
 					),
 				),
 				'fenster_b_bauart'         => array(
@@ -1192,7 +1196,7 @@ $bauteile = array(
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'b',
 							'field::wand_b_nachbar',
@@ -1211,7 +1215,7 @@ $bauteile = array(
 					'label'   => sprintf( __( 'Fenster %s', 'wpenon' ), 'c' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'c', 'field::wand_c_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'c', 'field::wand_c_nachbar' ),
 					),
 				),
 				'fenster_c_flaeche'        => array(
@@ -1221,7 +1225,7 @@ $bauteile = array(
 					'unit'        => 'm&sup2;',
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'c', 'field::wand_c_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'c', 'field::wand_c_nachbar' ),
 					),
 				),
 				'fenster_c_bauart'         => array(
@@ -1233,7 +1237,7 @@ $bauteile = array(
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'c',
 							'field::wand_c_nachbar',
@@ -1251,7 +1255,7 @@ $bauteile = array(
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'c',
 							'field::wand_c_nachbar',
@@ -1270,7 +1274,7 @@ $bauteile = array(
 					'label'   => sprintf( __( 'Fenster %s', 'wpenon' ), 'd' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'd', 'field::wand_d_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'd', 'field::wand_d_nachbar' ),
 					),
 				),
 				'fenster_d_flaeche'        => array(
@@ -1280,7 +1284,7 @@ $bauteile = array(
 					'unit'        => 'm&sup2;',
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'd', 'field::wand_d_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'd', 'field::wand_d_nachbar' ),
 					),
 				),
 				'fenster_d_bauart'         => array(
@@ -1292,7 +1296,7 @@ $bauteile = array(
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'd',
 							'field::wand_d_nachbar',
@@ -1310,7 +1314,7 @@ $bauteile = array(
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'd',
 							'field::wand_d_nachbar',
@@ -1329,7 +1333,7 @@ $bauteile = array(
 					'label'   => sprintf( __( 'Fenster %s', 'wpenon' ), 'e' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'e', 'field::wand_e_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'e', 'field::wand_e_nachbar' ),
 					),
 				),
 				'fenster_e_flaeche'        => array(
@@ -1339,7 +1343,7 @@ $bauteile = array(
 					'unit'        => 'm&sup2;',
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'e', 'field::wand_e_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'e', 'field::wand_e_nachbar' ),
 					),
 				),
 				'fenster_e_bauart'         => array(
@@ -1351,7 +1355,7 @@ $bauteile = array(
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'e',
 							'field::wand_e_nachbar',
@@ -1369,7 +1373,7 @@ $bauteile = array(
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'e',
 							'field::wand_e_nachbar',
@@ -1388,7 +1392,7 @@ $bauteile = array(
 					'label'   => sprintf( __( 'Fenster %s', 'wpenon' ), 'f' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'f', 'field::wand_f_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'f', 'field::wand_f_nachbar' ),
 					),
 				),
 				'fenster_f_flaeche'        => array(
@@ -1398,7 +1402,7 @@ $bauteile = array(
 					'unit'        => 'm&sup2;',
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'f', 'field::wand_f_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'f', 'field::wand_f_nachbar' ),
 					),
 				),
 				'fenster_f_bauart'         => array(
@@ -1410,7 +1414,7 @@ $bauteile = array(
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'f',
 							'field::wand_f_nachbar',
@@ -1428,7 +1432,7 @@ $bauteile = array(
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'f',
 							'field::wand_f_nachbar',
@@ -1447,7 +1451,7 @@ $bauteile = array(
 					'label'   => sprintf( __( 'Fenster %s', 'wpenon' ), 'g' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'g', 'field::wand_g_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'g', 'field::wand_g_nachbar' ),
 					),
 				),
 				'fenster_g_flaeche'        => array(
@@ -1457,7 +1461,7 @@ $bauteile = array(
 					'unit'        => 'm&sup2;',
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'g', 'field::wand_g_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'g', 'field::wand_g_nachbar' ),
 					),
 				),
 				'fenster_g_bauart'         => array(
@@ -1469,7 +1473,7 @@ $bauteile = array(
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'g',
 							'field::wand_g_nachbar',
@@ -1487,7 +1491,7 @@ $bauteile = array(
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'g',
 							'field::wand_g_nachbar',
@@ -1506,7 +1510,7 @@ $bauteile = array(
 					'label'   => sprintf( __( 'Fenster %s', 'wpenon' ), 'h' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'h', 'field::wand_h_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'h', 'field::wand_h_nachbar' ),
 					),
 				),
 				'fenster_h_flaeche'        => array(
@@ -1516,7 +1520,7 @@ $bauteile = array(
 					'unit'        => 'm&sup2;',
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
-						'callback_args' => array( true, 'field::grundriss_form', 'h', 'field::wand_h_nachbar' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::grundriss_form', 'h', 'field::wand_h_nachbar' ),
 					),
 				),
 				'fenster_h_bauart'         => array(
@@ -1528,7 +1532,7 @@ $bauteile = array(
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'h',
 							'field::wand_h_nachbar',
@@ -1546,7 +1550,7 @@ $bauteile = array(
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'h',
 							'field::wand_h_nachbar',
@@ -1565,7 +1569,7 @@ $bauteile = array(
 					'label'   => __( 'Anbau-Fenster', 'wpenon' ),
 					'display' => array(
 						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( array( true, 'field::anbau' ), array( true, true ) ),
+						'callback_args' => array( array( 'field::fenster_manuell', 'field::anbau' ), array( true, true ) ),
 					),
 				),
 				'anbaufenster_b_headline'  => array(
@@ -1573,7 +1577,7 @@ $bauteile = array(
 					'label'   => sprintf( __( 'Anbau-Fenster %s', 'wpenon' ), 'b' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
-						'callback_args' => array( true, 'field::anbau', 'field::anbau_form', 'b' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::anbau', 'field::anbau_form', 'b' ),
 					),
 				),
 				'anbaufenster_b_flaeche'   => array(
@@ -1583,7 +1587,7 @@ $bauteile = array(
 					'unit'        => 'm&sup2;',
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
-						'callback_args' => array( true, 'field::anbau', 'field::anbau_form', 'b' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::anbau', 'field::anbau_form', 'b' ),
 					),
 				),
 				'anbaufenster_b_bauart'    => array(
@@ -1613,7 +1617,7 @@ $bauteile = array(
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::anbau',
 							'field::anbau_form',
 							'b',
@@ -1628,7 +1632,7 @@ $bauteile = array(
 					'label'   => sprintf( __( 'Anbau-Fenster %s', 'wpenon' ), 't' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
-						'callback_args' => array( true, 'field::anbau', 'field::anbau_form', 't' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::anbau', 'field::anbau_form', 't' ),
 					),
 				),
 				'anbaufenster_t_flaeche'   => array(
@@ -1638,7 +1642,7 @@ $bauteile = array(
 					'unit'        => 'm&sup2;',
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
-						'callback_args' => array( true, 'field::anbau', 'field::anbau_form', 't' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::anbau', 'field::anbau_form', 't' ),
 					),
 				),
 				'anbaufenster_t_bauart'    => array(
@@ -1650,7 +1654,7 @@ $bauteile = array(
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::anbau',
 							'field::anbau_form',
 							't',
@@ -1668,7 +1672,7 @@ $bauteile = array(
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::anbau',
 							'field::anbau_form',
 							't',
@@ -1683,7 +1687,7 @@ $bauteile = array(
 					'label'   => sprintf( __( 'Anbau-Fenster %s', 'wpenon' ), 's1' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
-						'callback_args' => array( true, 'field::anbau', 'field::anbau_form', 's1' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::anbau', 'field::anbau_form', 's1' ),
 					),
 				),
 				'anbaufenster_s1_flaeche'  => array(
@@ -1693,7 +1697,7 @@ $bauteile = array(
 					'unit'        => 'm&sup2;',
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
-						'callback_args' => array( true, 'field::anbau', 'field::anbau_form', 's1' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::anbau', 'field::anbau_form', 's1' ),
 					),
 				),
 				'anbaufenster_s1_bauart'   => array(
@@ -1705,7 +1709,7 @@ $bauteile = array(
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::anbau',
 							'field::anbau_form',
 							's1',
@@ -1723,7 +1727,7 @@ $bauteile = array(
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::anbau',
 							'field::anbau_form',
 							's1',
@@ -1738,7 +1742,7 @@ $bauteile = array(
 					'label'   => sprintf( __( 'Anbau-Fenster %s', 'wpenon' ), 's2' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
-						'callback_args' => array( true, 'field::anbau', 'field::anbau_form', 's2' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::anbau', 'field::anbau_form', 's2' ),
 					),
 				),
 				'anbaufenster_s2_flaeche'  => array(
@@ -1748,7 +1752,7 @@ $bauteile = array(
 					'unit'        => 'm&sup2;',
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
-						'callback_args' => array( true, 'field::anbau', 'field::anbau_form', 's2' ),
+						'callback_args' => array( 'field::fenster_manuell', 'field::anbau', 'field::anbau_form', 's2' ),
 					),
 				),
 				'anbaufenster_s2_bauart'   => array(
@@ -1760,7 +1764,7 @@ $bauteile = array(
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::anbau',
 							'field::anbau_form',
 							's2',
@@ -1778,7 +1782,7 @@ $bauteile = array(
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::anbau',
 							'field::anbau_form',
 							's2',

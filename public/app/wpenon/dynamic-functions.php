@@ -12,7 +12,7 @@ function wpenon_immoticket24_display_grundriss_image() {
 	}
 }
 
-add_action( 'wpenon_form_group_bauteile_fenster_before', 'wpenon_immoticket24_display_grundriss_image' );
+// add_action( 'wpenon_form_group_bauteile_fenster_before', 'wpenon_immoticket24_display_grundriss_image' );
 add_action( 'wpenon_form_group_bauteile_basis_before', 'wpenon_immoticket24_display_grundriss_image' );
 add_action( 'wpenon_form_field_fenster_manuell_after', 'wpenon_immoticket24_display_grundriss_image' );
 add_action( 'wpenon_form_field_grundriss_form_after', 'wpenon_immoticket24_display_grundriss_image' );
