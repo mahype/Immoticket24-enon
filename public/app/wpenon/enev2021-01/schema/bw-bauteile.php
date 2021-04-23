@@ -1178,7 +1178,7 @@ $bauteile = array(
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_fenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::grundriss_form',
 							'b',
 							'field::wand_b_nachbar',
