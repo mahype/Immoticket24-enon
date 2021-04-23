@@ -20,7 +20,7 @@ class Standard_Options {
 		$end   = 180;
 
 		for( $i = $start; $i <= $end; $i++ ) {
-			$options[] = $i;
+			$options[$i] = $i;
 		}
 
 		return $options;
