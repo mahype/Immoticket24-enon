@@ -1602,7 +1602,7 @@ $bauteile = array(
 					'label'   => __( 'Anbau-Fenster', 'wpenon' ),
 					'display' => array(
 						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( array( 'field::anbau' ), array( true, true ) ),
+						'callback_args' => array( 'field::anbau', true ),
 					),
 				),
 				'anbaufenster_bauart' => array(
