@@ -34,11 +34,7 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Nah-/Fernwärme-Übergabestation', 'wpenon' ),
 					'options'  => array(
-						'fernwaermehzwfossil'      => __( 'Nah- und Fernwärme aus Heizwerken fossil', 'wpenon' ),
-						'fernwaermehzwregenerativ' => __( 'Nah- und Fernwärme aus Heizwerken regenerativ', 'wpenon' ),
-						'fernwaermekwkfossil'      => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil', 'wpenon' ),
-						'fernwaermekwkregenerativ' => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung regenerativ', 'wpenon' ),
-						'fernwaermekwkfossilbio'   => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil mit Biomasseanteil', 'wpenon' ),
+						'fernwaermehzwfossil'      => __( 'Nah- und Fernwärme', 'wpenon' ),						
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -344,12 +340,7 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Nah-/Fernwärme-Übergabestation', 'wpenon' ),
 					'options'  => array(
-						'fernwaermehzwfossil'      => __( 'Nah- und Fernwärme aus Heizwerken fossil', 'wpenon' ),
-						'fernwaermehzwregenerativ' => __( 'Nah- und Fernwärme aus Heizwerken regenerativ', 'wpenon' ),
-						'fernwaermekwkfossil'      => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil', 'wpenon' ),
-						'fernwaermekwkregenerativ' => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung regenerativ', 'wpenon' ),
-						'biogas'                   => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil mit Biomasseanteil', 'wpenon' ),
-						// Gibt es nicht als Wert in Tabelle
+						'fernwaermehzwfossil'      => __( 'Nah- und Fernwärme', 'wpenon' ),						
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
@@ -679,12 +670,7 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Nah-/Fernwärme-Übergabestation', 'wpenon' ),
 					'options'  => array(
-						'fernwaermehzwfossil'      => __( 'Nah- und Fernwärme aus Heizwerken fossil', 'wpenon' ),
-						'fernwaermehzwregenerativ' => __( 'Nah- und Fernwärme aus Heizwerken regenerativ', 'wpenon' ),
-						'fernwaermekwkfossil'      => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil', 'wpenon' ),
-						'fernwaermekwkregenerativ' => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung regenerativ', 'wpenon' ),
-						'biogas'                   => __( 'Nah- und Fernwärme mit Kraft-Wärme-Kopplung fossil mit Biomasseanteil', 'wpenon' ),
-						// Gibt es nicht als Wert in Tabelle
+						'fernwaermehzwfossil'      => __( 'Nah- und Fernwärme', 'wpenon' ),						
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
