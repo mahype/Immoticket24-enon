@@ -1606,7 +1606,7 @@ $bauteile = array(
 					'label'   => __( 'Anbau-Fenster', 'wpenon' ),
 					'display' => array(
 						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( 'field::anbau', true ),
+						'callback_args' => array( array( 'field::fenster_manuell', 'field::anbau' ), array( false, true ) ),
 					),
 				),
 				'anbaufenster_bauart' => array(
@@ -1616,8 +1616,8 @@ $bauteile = array(
 					'options' => wpenon_immoticket24_get_fenster_bauarten(),
 					'required' => true,
 					'display' => array(
-						'callback' => 'wpenon_show_on_bool_compare',
-						'callback_args' => array('field::fenster_manuell', false),
+						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback_args' => array( array( 'field::fenster_manuell', 'field::anbau' ), array( false, true ) ),
 					),
 				),
 				'anbaufenster_baujahr' => array(
@@ -1628,8 +1628,8 @@ $bauteile = array(
 					'max' => wpenon_get_reference_date('Y'),
 					'required' => true,
 					'display' => array(
-						'callback' => 'wpenon_show_on_bool_compare',
-						'callback_args' => array('field::fenster_manuell', false),
+						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback_args' => array( array( 'field::fenster_manuell', 'field::anbau' ), array( false, true ) ),
 					),
 					'validate' => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array('baujahr'),
@@ -1661,7 +1661,7 @@ $bauteile = array(
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_specific_anbaufenster',
 						'callback_args' => array(
-							true,
+							'field::fenster_manuell',
 							'field::anbau',
 							'field::anbau_form',
 							'b',
