@@ -82,6 +82,22 @@ $anlage = array(
 					),
 					'required' => true,
 				),
+				'h_energietraeger_brennwertkesselverbessert'    => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'brennwertkesselverbessert' ),
+					),
+					'required' => true,
+				),
 				'h_energietraeger_kleinthermeniedertemperatur'  => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
@@ -426,6 +442,26 @@ $anlage = array(
 					),
 					'required' => true,
 				),
+				'h2_energietraeger_brennwertkesselverbessert'   => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array(
+							'field::h2_info',
+							'field::h2_erzeugung',
+							'brennwertkesselverbessert'
+						),
+					),
+					'required' => true,
+                ),
 				'h2_energietraeger_kleinthermeniedertemperatur' => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
@@ -763,6 +799,26 @@ $anlage = array(
 					),
 					'required' => true,
 				),
+				'h3_energietraeger_brennwertkesselverbessert'   => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'heizoel'      => __( 'Heizöl', 'wpenon' ),
+						'erdgas'       => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
+						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
+						'biogas'       => __( 'Biogas', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array(
+							'field::h3_info',
+							'field::h3_erzeugung',
+							'brennwertkesselverbessert'
+						),
+					),
+					'required' => true,
+                ),
 				'h3_energietraeger_kleinthermeniedertemperatur' => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
