@@ -658,6 +658,7 @@ function wpenon_immoticket24_make_yearkey( $year, $table, $gedaemmt = false ) {
 
 			return 'ab1995';
 		case 'uwerte202001':
+		case 'uwerte2021':
 			$steps = array( 1918, 1948, 1957, 1968, 1978, 1983, 1994, 2001, 2006 );
 			foreach ( $steps as $step ) {
 				if ( $year <= $step ) {
@@ -708,6 +709,8 @@ function wpenon_immoticket24_make_yearkey( $year, $table, $gedaemmt = false ) {
 			return '';
 		case 'l_erzeugung':
 		case 'l_verteilung':
+		case 'l_erzeugung2021':
+		case 'l_verteilung2021':
 			$steps = array( 1989, 1994 );
 			foreach ( $steps as $step ) {
 				if ( $year <= $step ) {
