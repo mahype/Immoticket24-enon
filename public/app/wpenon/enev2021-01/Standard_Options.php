@@ -16,8 +16,8 @@ class Standard_Options {
 	 * @since 1.0.0
 	 */
 	public static function get_wandstaerken() {
-		$start = 50;
-		$end   = 180;
+		$start = 18;
+		$end   = 50;
 
 		for( $i = $start; $i <= $end; $i++ ) {
 			$options[$i] = $i;
