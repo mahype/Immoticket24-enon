@@ -606,6 +606,10 @@ $bauteile = array(
 					'options'     => \Enev\Schema202002\Schema\Standard_Options::get_wandstaerken(),
 					'required'    => true,
 					'unit'     => 'cm',
+					'display' => array(
+						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback_args' => array( 'field::anbau', true ),
+					),
 				),
 				'anbauwand_bauart_holz'     => array(
 					'type'        => 'select',
