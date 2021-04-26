@@ -3,6 +3,7 @@
 require( dirname( dirname(__FILE__) ) .'/vendor/autoload.php' );
 
 use AWSM\LibEstate\Calculations\ConsumptionCalculations;
+use AWSM\LibEstate\Data\Body\Basement;
 use AWSM\LibEstate\Data\Building;
 use AWSM\LibEstate\Data\ClimateFactor;
 use AWSM\LibEstate\Data\ClimateFactors;
@@ -113,6 +114,10 @@ class CalculationsCC {
 
         $numHeaters = 3;
 
+        if ( $this->formData->basement ) {
+            $this->building->basement = new Basement( $this->formData->basementHeated );
+        }
+
         $this->building->heaters = new Heaters();        
 
         for ( $i = 0; $i < $numHeaters; $i++ ) 
@@ -162,6 +167,7 @@ class CalculationsCC {
                 break;
         }
 
+        $this->formData->basement = false;
         switch( $this->ec->keller ) {
             case 'beheizt':
                 $this->formData->basement = true;
@@ -169,7 +175,7 @@ class CalculationsCC {
                 break;
             case 'unbeheizt':
                 $this->formData->basement = true;
-                $this->basementHeated = false;
+                $this->formData->basementHeated = false;
                 break;
             case 'nicht-vorhanden':
                 $this->formData->basement = false;
@@ -177,6 +183,7 @@ class CalculationsCC {
                 break;                
         }
 
+        $this->formData->roof = false;
         switch( $this->ec->dach ) {
             case 'beheizt':
                 $this->formData->roof = true;
@@ -193,7 +200,6 @@ class CalculationsCC {
         }
 
         $this->formData->cooler = false;
-
         if( $this->ec->k_info === 'vorhanden' ) {
             $this->formData->cooler      = true;
             $this->formData->coolerArea  = $this->ec->k_flaeche;
