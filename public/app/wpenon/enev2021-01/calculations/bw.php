@@ -833,6 +833,8 @@ if ( $energieausweis->anbau ) {
           'name'          => sprintf( __( 'Anbau-Fenster Wand %s', 'wpenon' ), $wand ),
           'typ'           => 'fenster',
           'modus'         => 'transparent',
+          'bauart'        => $energieausweis->anbaufenster_bauart,
+          'baujahr'       => $energieausweis->anbaufenster_baujahr,
           'richtung'      => $calculations['bauteile'][ 'anbauwand_' . $wand ]['richtung'],
           'a'             => $fensterflaeche,
           'd'             => 0,

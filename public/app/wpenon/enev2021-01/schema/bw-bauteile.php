@@ -1074,6 +1074,31 @@ $bauteile = array(
 					'type'  => 'checkbox',
 					'label' => __( 'Fensterflächen manuell eingeben', 'wpenon' ),
 				),
+				'fenster_bauart' => array(
+					'type' => 'select',
+					'label' => __('Bauart', 'wpenon'),
+					'description' => __('Wählen Sie die Bauart der Fenster des Gebäudes aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'),
+					'options' => wpenon_immoticket24_get_fenster_bauarten(),
+					'required' => true,
+					'display' => array(
+						'callback' => 'wpenon_show_on_bool_compare',
+						'callback_args' => array('field::fenster_manuell', false),
+					),
+				),
+				'fenster_baujahr' => array(
+					'type' => 'int',
+					'label' => __('Baujahr', 'wpenon'),
+					'description' => __('Geben Sie das Baujahr der Fenster des Gebäudes an.', 'wpenon'),
+					'min' => 1800,
+					'max' => wpenon_get_reference_date('Y'),
+					'required' => true,
+					'display' => array(
+						'callback' => 'wpenon_show_on_bool_compare',
+						'callback_args' => array('field::fenster_manuell', false),
+					),
+					'validate' => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate_dependencies' => array('baujahr'),
+				),
 				'fenster_a_headline'       => array(
 					'type'    => 'headline',
 					'label'   => sprintf( __( 'Fenster %s', 'wpenon' ), 'a' ),
@@ -1571,6 +1596,39 @@ $bauteile = array(
 						'callback'      => 'wpenon_show_on_bool_compare',
 						'callback_args' => array( array( 'field::fenster_manuell', 'field::anbau' ), array( true, true ) ),
 					),
+				),
+				'anbaufenster_headline_auto'    => array(
+					'type'    => 'headline',
+					'label'   => __( 'Anbau-Fenster', 'wpenon' ),
+					'display' => array(
+						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback_args' => array( 'field::anbau' ), array( true, true ) ),
+					),
+				),
+				'anbaufenster_bauart' => array(
+					'type' => 'select',
+					'label' => __('Bauart', 'wpenon'),
+					'description' => __('Wählen Sie die Bauart der Fenster des Gebäudes aus. Hinweis: Wärmedämmglas ist die Weiterentwicklung der Isolierverglasung. Seit 1995 müssen neue Fenster mit Wärmedämmglas ausgestattet sein.', 'wpenon'),
+					'options' => wpenon_immoticket24_get_fenster_bauarten(),
+					'required' => true,
+					'display' => array(
+						'callback' => 'wpenon_show_on_bool_compare',
+						'callback_args' => array('field::fenster_manuell', false),
+					),
+				),
+				'anbaufenster_baujahr' => array(
+					'type' => 'int',
+					'label' => __('Baujahr', 'wpenon'),
+					'description' => __('Geben Sie das Baujahr der Fenster des Gebäudes an.', 'wpenon'),
+					'min' => 1800,
+					'max' => wpenon_get_reference_date('Y'),
+					'required' => true,
+					'display' => array(
+						'callback' => 'wpenon_show_on_bool_compare',
+						'callback_args' => array('field::fenster_manuell', false),
+					),
+					'validate' => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate_dependencies' => array('baujahr'),
 				),
 				'anbaufenster_b_headline'  => array(
 					'type'    => 'headline',
