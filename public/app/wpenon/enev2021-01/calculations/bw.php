@@ -4,13 +4,20 @@ require_once ( 'lib/Extension.php' );
 require_once ( 'lib/Extension_Form_A.php' );
 require_once ( 'lib/Extension_Form_B.php' );
 
-$energietraeger_table_name = 'energietraeger';
-if ( strtotime( '2016-01-01' ) <= strtotime( wpenon_get_reference_date( 'Y-m-d', $energieausweis ) ) ) {
-  $energietraeger_table_name = 'energietraeger202001';
-}
+$tableNames = new stdClass();
+
+$tableNames->h_erzeugung                 = 'h_erzeugung2019';
+$tableNames->h_uebergabe                 = 'h_uebergabe';
+$tableNames->ww_erzeugung                = 'ww_erzeugung202001';
+$tableNames->energietraeger              = 'energietraeger2021';
+$tableNames->energietraeger_umrechnungen = 'energietraeger_umrechnungen';
+$tableNames->uwerte                      = 'uwerte2021';
+$tableNames->l_erzeugung                 = 'l_erzeugung2021';
+$tableNames->l_verteilung                = 'l_verteilung2021';
+
+$tableNames->klimafaktoren               = 'klimafaktoren202001';
 
 $calculations = array();
-
 $calculations['reference'] = 125;
 
 /*************************************************
