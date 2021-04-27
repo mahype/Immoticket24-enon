@@ -1190,6 +1190,10 @@ $anlage = array(
 						'callback_args' => array( 'field::l_info', 'anlage' ),
 					),
 				),
+				'dichtheit'   => array(
+					'type'  => 'checkbox',
+					'label' => __( 'Wurde eine Dichtheitsprüfung (z.B. Blower-Door-Test) erfolgreich durchgeführt?', 'wpenon' ),
+				),
 				'k_info'      => array(
 					'type'     => 'select',
 					'label'    => __( 'Gebäudekühlung', 'wpenon' ),
@@ -1199,10 +1203,87 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-				'dichtheit'   => array(
-					'type'  => 'checkbox',
-					'label' => __( 'Wurde eine Dichtheitsprüfung (z.B. Blower-Door-Test) erfolgreich durchgeführt?', 'wpenon' ),
+				'k_leistung'   => array(
+					'type'                  => 'radio',
+					'label'                 => __( 'Kühlleistung', 'wpenon' ),
+					'description'           => __( 'Wie hoch ist die Kühlleistung der Klimaanlage?', 'wpenon' ),
+					'required'              => true,
+					'options'     => array(
+						'groesser' => __( 'größer 12 kW', 'wpenon' ),
+						'kleiner'  => __( 'kleiner oder gleich 12 kW', 'wpenon' ),
+					),
+					'required'    => true,
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::k_info', 'vorhanden' ),
+					),
 				),
+				'k_baujahr'   => array(
+					'type'                  => 'text',
+					'label'                 => __( 'Baujahr der Klimaanlage', 'wpenon' ),
+					'description'           => __( 'Welches Baujahr hat die Klimaanlage? (Format MM/JJJJ)', 'wpenon' ),
+					'required'              => true,				
+					'required'    => true,
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::k_leistung', 'groesser' ),
+					),
+					'validate'              => 'wpenon_immoticket24_validate_month_year',
+					'placeholder'			=> 'MM/JJJJ'
+				),
+				'k_flaeche'   => array(
+					'type'                  => 'float',
+					'label'                 => __( 'Gekühlte Fläche', 'wpenon' ),
+					'description'           => __( 'Geben Sie die gekühlte Wohnfläche in Quadratmetern ein.', 'wpenon' ),
+					'required'              => true,
+					'unit'                  => 'm&sup2;',
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::k_info', 'vorhanden' ),
+					),
+					'validate'              => 'wpenon_immoticket24_validate_area_lower_than',
+					'validate_dependencies' => array( 'flaeche' ),
+				),
+				'k_typenschild'                                     => array(
+					'type'                  => 'image',
+					'label'                 => __( 'Foto des Typenschilds', 'wpenon' ),
+					'required'              => false,
+					'filetypes' => array(
+						'image/png',
+						'image/jpeg'
+					),
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::k_info', 'vorhanden' ),
+					),
+				),
+				'k_automation'      => array(
+					'type'     => 'radio',
+					'label'    => __( 'Gebäudeautomation', 'wpenon' ),
+					'description' => __( 'Verfügt das Gebäude über eine Gebäudeautomation, die die Funktion der Gebäudetechnik überwacht?', 'wpenon' ),
+					'options'     => array(
+						'yes' => __( 'Ja', 'wpenon' ),
+						'no'  => __( 'Nein', 'wpenon' ),
+					),
+					'display'               => array(
+						'callback'      => 'wpenon_immoticket24_show_k_automation',
+						'callback_args' => array( 'field::k_info', 'field::k_leistung' ),
+					),
+					'required' => true,
+				),				
+				'k_inspektion'   => array(
+					'type'                  => 'text',
+					'label'                 => __( 'Letzte Inspektion', 'wpenon' ),
+					'description'           => __( 'Wann erfolgte die Inspektion? (Format MM/JJJJ)', 'wpenon' ),
+					'required'              => true,				
+					'display'               => array(
+						'callback'      => 'wpenon_immoticket24_show_k_inspektion',
+						'callback_args' => array( 'field::k_info', 'field::k_leistung', 'field::k_automation' ),
+					),
+					'validate'              => 'wpenon_immoticket24_validate_month_year',
+					'placeholder'			=> 'MM/JJJJ'
+				),
+				
 			),
 		),
 	),
