@@ -584,7 +584,7 @@ function wpenon_immoticket24_show_k_automation( $k_info, $k_leistung = false ) {
 }
 
 function wpenon_immoticket24_show_k_inspektion( $k_info, $k_leistung = false , $k_automation = false ) {
-	if( $k_info == 'vorhanden'  && $k_leistung == 'groesser' && $k_automation == 'yes' ) {
+	if( $k_info == 'vorhanden'  && $k_leistung == 'groesser' && $k_automation == 'no' ) {
 		return true;
 	}
 
