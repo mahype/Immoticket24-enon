@@ -662,8 +662,8 @@ $bauteile = array(
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
 					'display'               => array(
-						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
-						'callback_args' => array( 'field::anbauwand_daemmung', 'field::baujahr' ),
+						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr_anbau',
+						'callback_args' => array( 'field::anbauwand_daemmung', 'field::anbau_baujahr' ),
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),
