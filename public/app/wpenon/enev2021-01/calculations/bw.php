@@ -764,6 +764,8 @@ if ( isset( $calculations['bauteile'][ 'wand_' . $wand ] ) ) {
       'name'          => sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand ),
       'typ'           => 'fenster',
       'modus'         => 'transparent',
+      'bauart'        => $energieausweis->fenster_bauart,
+      'baujahr'       => $energieausweis->fenster_baujahr,
       'richtung'      => $calculations['bauteile'][ 'wand_' . $wand ]['richtung'],
       'a'             => $fensterflaeche,
       'd'             => 0,
