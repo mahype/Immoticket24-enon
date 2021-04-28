@@ -1231,19 +1231,6 @@ $anlage = array(
 					'validate'              => 'wpenon_immoticket24_validate_month_year',
 					'placeholder'			=> 'MM/JJJJ'
 				),
-				'k_flaeche'   => array(
-					'type'                  => 'float',
-					'label'                 => __( 'Gekühlte Fläche', 'wpenon' ),
-					'description'           => __( 'Geben Sie die gekühlte Wohnfläche in Quadratmetern ein.', 'wpenon' ),
-					'required'              => true,
-					'unit'                  => 'm&sup2;',
-					'display'               => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::k_info', 'vorhanden' ),
-					),
-					'validate'              => 'wpenon_immoticket24_validate_area_lower_than',
-					'validate_dependencies' => array( 'flaeche' ),
-				),
 				'k_typenschild'                                     => array(
 					'type'                  => 'image',
 					'label'                 => __( 'Foto des Typenschilds', 'wpenon' ),
