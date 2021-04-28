@@ -36,7 +36,7 @@ $calculations['nutzflaeche'] = $energieausweis->flaeche * $calculations['nutzfla
 
 $calculations['reference'] = 125;
 
-$klimafaktoren       = wpenon_get_table_results( 'klimafaktoren202001', array(
+$klimafaktoren       = wpenon_get_table_results( $tableNames->klimafaktoren , array(
 	'bezeichnung' => array(
 		'value'   => $energieausweis->adresse_plz,
 		'compare' => '>='
@@ -67,21 +67,20 @@ foreach ( $energietraeger_fields as $energietraeger_field ) {
 $h_energietraeger_name = 'h_energietraeger_' . $energieausweis->h_erzeugung;
 $h_energietraeger_value = $energieausweis->$h_energietraeger_name;
 
-$h_energietraeger_umrechnungen     = wpenon_get_table_results( 'energietraeger_umrechnungen', array(
+$h_energietraeger_umrechnungen     = wpenon_get_table_results( $tableNames->energietraeger_umrechnungen, array(
 	'bezeichnung' => array(
 		'value'   => $h_energietraeger_value,
 		'compare' => '='
 	)
 ), array(), true );
 
-
-$h_energietraeger                  = wpenon_get_table_results( 'energietraeger202001', array(
+$h_energietraeger                  = wpenon_get_table_results( $tableNames->energietraeger, array(
 	'bezeichnung' => array(
 		'value'   => $h_energietraeger_umrechnungen->energietraeger,
 		'compare' => '='
 	)
 ), array(), true );
-$h_anlagentyp                      = wpenon_get_table_results( 'h_erzeugung2019', array(
+$h_anlagentyp                      = wpenon_get_table_results( $tableNames->h_erzeugung, array(
 	'bezeichnung' => array(
 		'value'   => $energieausweis->h_erzeugung,
 		'compare' => '='
@@ -105,19 +104,19 @@ if ( $energieausweis->h2_info ) {
 	$h2_energietraeger_name = 'h2_energietraeger_' . $energieausweis->h2_erzeugung;
 	$h2_energietraeger_value = $energieausweis->$h2_energietraeger_name;
 
-	$h2_energietraeger_umrechnungen     = wpenon_get_table_results( 'energietraeger_umrechnungen', array(
+	$h2_energietraeger_umrechnungen     = wpenon_get_table_results( $tableNames->energietraeger_umrechnungen, array(
 		'bezeichnung' => array(
 			'value'   => $h2_energietraeger_value,
 			'compare' => '='
 		)
 	), array(), true );
-	$h2_energietraeger                  = wpenon_get_table_results( 'energietraeger202001', array(
+	$h2_energietraeger                  = wpenon_get_table_results( $tableNames->energietraeger, array(
 		'bezeichnung' => array(
 			'value'   => $h2_energietraeger_umrechnungen->energietraeger,
 			'compare' => '='
 		)
 	), array(), true );
-	$h2_anlagentyp                      = wpenon_get_table_results( 'h_erzeugung2019', array(
+	$h2_anlagentyp                      = wpenon_get_table_results( $tableNames->h_erzeugung, array(
 		'bezeichnung' => array(
 			'value'   => $energieausweis->h2_erzeugung,
 			'compare' => '='
@@ -141,19 +140,19 @@ if ( $energieausweis->h2_info ) {
 		$h3_energietraeger_name = 'h3_energietraeger_' . $energieausweis->h3_erzeugung;
 		$h3_energietraeger_value = $energieausweis->$h3_energietraeger_name;
 
-		$h3_energietraeger_umrechnungen     = wpenon_get_table_results( 'energietraeger_umrechnungen', array(
+		$h3_energietraeger_umrechnungen     = wpenon_get_table_results( $tableNames->energietraeger_umrechnungen, array(
 			'bezeichnung' => array(
 				'value'   => $h3_energietraeger_value,
 				'compare' => '='
 			)
 		), array(), true );
-		$h3_energietraeger                  = wpenon_get_table_results( 'energietraeger202001', array(
+		$h3_energietraeger                  = wpenon_get_table_results( $tableNames->energietraeger, array(
 			'bezeichnung' => array(
 				'value'   => $h3_energietraeger_umrechnungen->energietraeger,
 				'compare' => '='
 			)
 		), array(), true );
-		$h3_anlagentyp                      = wpenon_get_table_results( 'h_erzeugung2019', array(
+		$h3_anlagentyp                      = wpenon_get_table_results( $tableNames->h_erzeugung, array(
 			'bezeichnung' => array(
 				'value'   => $energieausweis->h3_erzeugung,
 				'compare' => '='
@@ -179,20 +178,20 @@ if ( $energieausweis->ww_info == 'ww' ) {
 	$ww_energietraeger_name = 'ww_energietraeger_' . $energieausweis->ww_erzeugung;
 	$ww_energietraeger_value = $energieausweis->$ww_energietraeger_name;
 
-	$ww_energietraeger_umrechnungen     = wpenon_get_table_results( 'energietraeger_umrechnungen', array(
+	$ww_energietraeger_umrechnungen     = wpenon_get_table_results( $tableNames->energietraeger_umrechnungen, array(
 		'bezeichnung' => array(
 			'value'   => $ww_energietraeger_value,
 			'compare' => '='
 		)
 	), array(), true );
 	
-	$ww_energietraeger                  = wpenon_get_table_results( 'energietraeger202001', array(
+	$ww_energietraeger                  = wpenon_get_table_results( $tableNames->energietraeger, array(
 		'bezeichnung' => array(
 			'value'   => $ww_energietraeger_umrechnungen->energietraeger,
 			'compare' => '='
 		)
 	), array(), true );
-	$ww_anlagentyp                      = wpenon_get_table_results( 'ww_erzeugung202001', array(
+	$ww_anlagentyp                      = wpenon_get_table_results( $tableNames->h_erzeugung, array(
 		'bezeichnung' => array(
 			'value'   => $energieausweis->ww_erzeugung,
 			'compare' => '='
@@ -365,7 +364,7 @@ if ( $energieausweis->ww_info === 'unbekannt' ) {
 }
 
 if ( $energieausweis->k_info == 'vorhanden' ) {
-	$kuehlung_energietraeger = wpenon_get_table_results( 'energietraeger202001', array(
+	$kuehlung_energietraeger = wpenon_get_table_results( $tableNames->energietraeger, array(
 		'bezeichnung' => array(
 			'value'   => 'strom',
 			'compare' => '='
