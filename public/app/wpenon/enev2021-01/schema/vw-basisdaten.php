@@ -63,7 +63,7 @@ $basisdaten = array(
 					'description' => __( 'Wählen Sie den Gebäudeteil aus, für den der Energieausweis erstellt wird.', 'wpenon' ),
 					'options'     => array(
 						'gesamt'   => __( 'Gesamtes Gebäude', 'wpenon' ),
-						'gemischt' => __( 'Wohnteil gemischt genutztes Gebäude', 'wpenon' ),
+						'gemischt' => __( 'Wohnteil (bei Wohn- und Geschäftshaus)', 'wpenon' ),
 					),
 					'required'    => true,
 				),
