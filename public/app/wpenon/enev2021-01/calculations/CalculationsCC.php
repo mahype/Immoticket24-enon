@@ -413,7 +413,7 @@ class CalculationsCC {
 
         foreach( $this->timePerdiods AS $key => $timePeriod )
         {            
-            $consumptionValueName = 'verbrauch' . $key + 1 . '_ww';
+            $consumptionValueName = 'verbrauch' . ( $key + 1 ) . '_ww';
             $consumption          = $this->ec->$consumptionValueName;
             $consumptionPeriod    = new ConsumptionPeriod( $timePeriod->start, $timePeriod->end, $consumption );
 
