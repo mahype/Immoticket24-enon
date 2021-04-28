@@ -18,22 +18,6 @@ $basisdaten = array(
 					),
 					'required'    => true,
                 ),
-                'geg20_approval' => array(
-                    'type'  => 'hidden',
-                    'title' => __( 'Wurde für das Bauvorhaben eine Genehmigung beantragt?', 'wpenon' ),          
-                ),
-                'geg20_approval_date' => array(
-                    'type'  => 'hidden',
-                    'title' => __( 'Wann wurde die Genehmigung beantragt?', 'wpenon' ),          
-                ),
-                'geg20_building_measure_date' => array(
-                    'type'  => 'hidden',
-                    'title' => __( 'Wann wurde mit der Baumaßnahme begonnen?', 'wpenon' ),          
-                ),
-                'geg20_creation_denied' => array(
-                    'type'  => 'hidden',
-                    'title' => __( 'Kauf des Ausweises verweigert?', 'wpenon' ),          
-                ),
 			),
         ),
 		'gebaeude'       => array(
