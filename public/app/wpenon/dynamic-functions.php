@@ -149,6 +149,50 @@ function wpenon_immoticket24_show_wand_bauart( $gebaeudekonstruktion, $bauart ) 
 }
 
 
+function wpenon_immoticket24_wand_massiv( $width ) {
+	$width = \WPENON\Util\Parse::int( $width );
+
+	if ( $width === 0 ) {
+		return array(
+			'massiv_bims'                      => __( 'Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton', 'wpenon' ),
+			'massiv_zweischalig'               => __( 'Zweischalige Bauweise', 'wpenon' ),
+			'massiv_bis_20cm'                  => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
+			'massiv_ueber_20cm'                => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
+			'massiv_vollziegel_bis_20cm'       => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein bis 20 cm', 'wpenon' ),
+			'massiv_vollziegel_20cm_bis_30_cm' => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein 20 - 30 cm', 'wpenon' ),
+			'massiv_vollziegel_ueber_30cm'     => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein über 30 cm', 'wpenon' ),
+		);
+	}
+
+	$construction_types = array(
+		'massiv_bims'                      => __( 'Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton', 'wpenon' ),
+		'massiv_zweischalig'               => __( 'Zweischalige Bauweise', 'wpenon' ),
+	);
+
+	if( $width <= 20 ) {
+		$construction_types = array_merge( $construction_types, array(				
+			'massiv_bis_20cm'                  => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
+			'massiv_vollziegel_bis_20cm'       => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein bis 20 cm', 'wpenon' ),
+		) );
+	}
+
+	if( $width > 20 && $width <= 30 ) {
+		$construction_types = array_merge( $construction_types, array(		
+			'massiv_ueber_20cm'                => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),		
+			'massiv_vollziegel_20cm_bis_30_cm' => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein 20 - 30 cm', 'wpenon' ),
+		) );
+	}
+
+	if( $width > 30 ) {
+		$construction_types = array_merge( $construction_types, array(				
+			'massiv_ueber_20cm'                => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
+			'massiv_vollziegel_ueber_30cm'     => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein über 30 cm', 'wpenon' ),
+		) );
+	}
+
+	return $construction_types;
+}
+
 function wpenon_immoticket24_show_anbauwand_bauart( $anbau, $gebaeudekonstruktion, $bauart ) {
 	if ( $gebaeudekonstruktion === $bauart && wpenon_show_on_bool_compare( $anbau, true ) ) {
 		return true;
