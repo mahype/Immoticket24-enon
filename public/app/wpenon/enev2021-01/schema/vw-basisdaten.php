@@ -12,7 +12,6 @@ $basisdaten = array(
 					'label'       => __( 'Anlass', 'wpenon' ),
 					'description' => __( 'Wählen Sie aus, für welchen Zweck dieser Energieausweis verwendet werden soll.', 'wpenon' ),
 					'options'     => array(
-						'modernisierung' => __( 'Modernisierung / Erweiterung', 'wpenon' ),
 						'vermietung'     => __( 'Vermietung', 'wpenon' ),
 						'verkauf'        => __( 'Verkauf', 'wpenon' ),
 						'sonstiges'      => __( 'Sonstiges', 'wpenon' ),
