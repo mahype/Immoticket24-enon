@@ -96,14 +96,21 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			return implode( ', ', array_unique( $energietraeger ) );
 		case 'energietraeger_warmwasser':
-			if ( $energieausweis->ww_info == 'ww' ) {
-				if ( $energieausweis->mode == 'b' ) {
+			if ( $energieausweis->mode == 'b' ) {
+				if ( $energieausweis->ww_info == 'ww' ) {
 					return wpenon_immoticket24_get_energietraeger_name( $energieausweis->ww_energietraeger );
 				} else {
+					return '';
+				}
+			} else {
+				if ( $energieausweis->ww_info == 'ww' ) {
 					return wpenon_immoticket24_get_energietraeger_name( $energieausweis->ww_energietraeger, true );
+				} else if ( $energieausweis->ww_info == 'h' ) {
+					return wpenon_immoticket24_get_energietraeger_name( $energieausweis->h_energietraeger, true );
+				} else if ( $energieausweis->ww_info == 'unbekannt' ) {
+					return 'Strom';
 				}
 			}
-
 			return '';
 		case 'regenerativ_art':
 			return wpenon_immoticket24_get_regenerativ_art_name( $energieausweis->regenerativ_art );
