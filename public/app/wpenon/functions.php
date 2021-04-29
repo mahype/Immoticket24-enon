@@ -902,6 +902,21 @@ function wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, $index = 0
 	return date_i18n( $format, $date );
 }
 
+function wpenon_validate_buildingyear( $value, $field ) {
+	$error = '';
+	
+	if( ! preg_match('/^([0-9]{4})$/', $value, $matches ) ) {
+		$error = __( 'Sie haben kein gültiges Baujahr angegeben. Bitte geben Sie das Datum im Format JJJJ an.', 'wpenon' );
+		return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
+	}
+
+	if( $value < 1800 && $value > date('Y') ) {
+		$error = sprintf( __( 'Das eingegebene Jahr darf nicht älter als 1800 und höher als %s sein.', 'wpenon' ), date('Y') );
+	}
+
+	return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
+}
+
 function wpenon_immoticket24_validate_year_greater_than( $value, $field ) {
 	$value = \WPENON\Util\Validate::int( $value, $field );
 	if ( isset( $value['error'] ) || isset( $value['warning'] ) ) {
@@ -910,6 +925,7 @@ function wpenon_immoticket24_validate_year_greater_than( $value, $field ) {
 
 	$value = $value['value'];
 	$error = '';
+	
 	if ( isset( $field['validate_dependencies'][0] ) && $field['validate_dependencies'][0] ) {
 		$reference_year = absint( $field['validate_dependencies'][0] );
 		if ( $value < $reference_year ) {
@@ -953,6 +969,8 @@ function wpenon_immoticket24_validate_typenschild_image_upload( $value, $field )
 }
 
 function wpenon_immoticket24_validate_month_year( $value, $field ) {
+	$error = '';
+
 	if ( empty( $value ) ) {
 		return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
 	}
