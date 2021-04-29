@@ -322,6 +322,10 @@ $anlage = array(
 					'required'              => true,
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
+					'value'                 => array(
+						'callback'      => 'wpenon_get_construction_year',
+						'callback_args' => array( 'field::baujahr', 'field::h_baujahr' ),
+					),
 				),
 				'h_typenschild'                                     => array(
 					'type'                  => 'image',
@@ -341,6 +345,10 @@ $anlage = array(
 					'required'              => true,
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
+					'value'                 => array(
+						'callback'      => 'wpenon_get_construction_year',
+						'callback_args' => array( 'field::baujahr', 'field::verteilung_baujahr' ),
+					),
 					'display'               => array(
 						'callback'      => 'wpenon_show_on_array_blacklist',
 						'callback_args' => array(
@@ -705,7 +713,12 @@ $anlage = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
+					'value'                 => array(
+						'callback'      => 'wpenon_get_construction_year',
+						'callback_args' => array( 'field::baujahr', 'field::verteilung_baujahr' ),
+					),
 				),
+				
 				'h2_typenschild'                                     => array(
 					'type'                  => 'image',
 					'label'                 => __( 'Foto des Typenschilds', 'wpenon' ),
@@ -1065,6 +1078,10 @@ $anlage = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
+					'value'                 => array(
+						'callback'      => 'wpenon_get_construction_year',
+						'callback_args' => array( 'field::baujahr', 'field::verteilung_baujahr' ),
+					),
 				),
 				'h3_typenschild'                                     => array(
 					'type'                  => 'image',
@@ -1178,6 +1195,10 @@ $anlage = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
+					'value'                 => array(
+						'callback'      => 'wpenon_get_construction_year',
+						'callback_args' => array( 'field::baujahr', 'field::verteilung_baujahr' ),
+					),
 				),
 			),
 		),
