@@ -160,13 +160,17 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 				return 'Keine Inspektion nötig, da Gebäudeautomation';				
 			}
 
-			$k_inspektion = explode( '/', $energieausweis->k_inspektion );
-			$k_inspektion = $k_inspektion[1] . '-' . $k_inspektion[0];
-			$k_inspektion = new DateTime( $k_inspektion );
+			if( ! empty ( $energieausweis->k_inspektion ) ) {
+				$k_inspektion = explode( '/', $energieausweis->k_inspektion );
+				$k_inspektion = $k_inspektion[1] . '-' . $k_inspektion[0];
+				$k_inspektion = new DateTime( $k_inspektion );
+				$k_inspektion->add( new DateInterval('P10Y') );
 
-			$k_inspektion->add( new DateInterval('P10Y') );
-
-			return $k_inspektion->format('m/Y');
+				return $k_inspektion->format('m/Y');
+			}
+			
+			$k_baujahr->add( new DateInterval('P10Y') );
+			return $k_baujahr->format('m/Y');
 		case 'anlass':
 			if ( 'vermietung' === $energieausweis->anlass ) {
 				return 'verkauf';

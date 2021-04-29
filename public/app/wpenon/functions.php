@@ -953,6 +953,10 @@ function wpenon_immoticket24_validate_typenschild_image_upload( $value, $field )
 }
 
 function wpenon_immoticket24_validate_month_year( $value, $field ) {
+	if ( empty( $value ) ) {
+		return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
+	}
+	
 	if( ! preg_match('/^([0-9]{2})\/([0-9]{4})$/', $value, $matches ) ) {
 		$error = __( 'Sie haben kein gültiges Datum angegeben. Bitte geben Sie das Datum im Format MM/JJJJ an.', 'wpenon' );
 		return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
