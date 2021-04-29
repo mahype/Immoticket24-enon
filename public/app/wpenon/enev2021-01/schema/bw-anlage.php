@@ -32,7 +32,7 @@ $anlage = array(
 				),
 				'h_energietraeger_fernwaerme'                   => array(
 					'type'     => 'select',
-					'label'    => __( 'Nah-/Fernwärme-Übergabestation', 'wpenon' ),
+					'label'    => __( 'Nah-/Fernwärme', 'wpenon' ),
 					'options'  => array(
 						'fernwaermehzwfossil'      => __( 'Nah- und Fernwärme', 'wpenon' ),						
 					),
@@ -338,7 +338,7 @@ $anlage = array(
 				),
 				'h2_energietraeger_fernwaerme'                  => array(
 					'type'     => 'select',
-					'label'    => __( 'Nah-/Fernwärme-Übergabestation', 'wpenon' ),
+					'label'    => __( 'Nah-/Fernwärme', 'wpenon' ),
 					'options'  => array(
 						'fernwaermehzwfossil'      => __( 'Nah- und Fernwärme', 'wpenon' ),						
 					),
@@ -668,7 +668,7 @@ $anlage = array(
 				),
 				'h3_energietraeger_fernwaerme'                  => array(
 					'type'     => 'select',
-					'label'    => __( 'Nah-/Fernwärme-Übergabestation', 'wpenon' ),
+					'label'    => __( 'Nah-/Fernwärme', 'wpenon' ),
 					'options'  => array(
 						'fernwaermehzwfossil'      => __( 'Nah- und Fernwärme', 'wpenon' ),						
 					),
