@@ -1262,7 +1262,6 @@ $anlage = array(
 					'type'                  => 'text',
 					'label'                 => __( 'Letzte Inspektion', 'wpenon' ),
 					'description'           => __( 'Wann erfolgte die Inspektion? (Format MM/JJJJ)', 'wpenon' ),
-					'required'              => true,				
 					'display'               => array(
 						'callback'      => 'wpenon_immoticket24_show_k_inspektion',
 						'callback_args' => array( 'field::k_info', 'field::k_leistung', 'field::k_automation' ),
