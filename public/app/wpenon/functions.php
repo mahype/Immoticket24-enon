@@ -803,7 +803,7 @@ function wpenon_immoticket24_get_g_wert( $bauart, $reference = false ) {
 }
 
 function wpenon_get_construction_year( $construction_year, $field_year ) {
-    if ( $field_year <= $construction_year ) {
+    if ( $field_year <= $construction_year || empty( $field_year ) ) {
         return $construction_year;
     }
 
