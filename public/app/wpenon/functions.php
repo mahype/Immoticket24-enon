@@ -1180,6 +1180,15 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 			'kosten'       => '',
 			'dibt_value'   => 'Sonstiges',
 		),
+		'ofen'       => array(
+			'bauteil'      => 'Ofen',
+			'beschreibung' => 'Austausch des Ofens',
+			'gesamt'       => true,
+			'einzeln'      => true,
+			'amortisation' => '',
+			'kosten'       => '',
+			'dibt_value'   => 'Sonstiges',
+		),
 	);
 
 	if ( ! $energieausweis ) {
@@ -1343,8 +1352,33 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 	if ( wpenon_immoticket24_is_empfehlung_active( 'solarthermie', $energieausweis ) ) {
 		$regenerativ_art   = trim( $energieausweis->regenerativ_art );
 		$regenerativ_aktiv = isset( $energieausweis->regenerativ_aktiv ) ? $energieausweis->regenerativ_aktiv : false;
+
 		if ( ( empty( $regenerativ_art ) || strtolower( $regenerativ_art ) == 'keine' ) && ! $regenerativ_aktiv ) {
 			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['solarthermie'];
+		}
+	}
+
+	if ( wpenon_immoticket24_is_empfehlung_active( 'ofen', $energieausweis ) ) {
+		$heatings = array( 'h' );
+		if ( isset( $energieausweis->h2_info ) && $energieausweis->h2_info ) {
+			$heatings[] = 'h2';
+			if ( isset( $energieausweis->h3_info ) && $energieausweis->h3_info ) {
+				$heatings[] = 'h3';
+			}
+		}
+
+		$oefen = array(
+			'kohleholzofen',
+			'oelofenverdampfungsbrenner',
+		);
+
+		foreach ( $heatings as $heating ) {
+			$type_field = $heating . '_erzeugung';
+			$year_field = $heating . '_baujahr';
+
+			if ( in_array( $energieausweis->$type_field, $oefen, true ) && $energieausweis->$year_field < 2011 ) {
+				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['ofen'];
+			}
 		}
 	}
 
