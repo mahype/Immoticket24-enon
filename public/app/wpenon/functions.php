@@ -963,6 +963,26 @@ function wpenon_immoticket24_get_energietraeger_name( $slug, $is_with_units = fa
 	return $energietraeger_name;
 }
 
+function wpenon_immoticket24_get_energietraeger_name_2021( $slug, $is_with_units = false ) {
+	if ( $is_with_units ) {
+		$slug = wpenon_get_table_results( 'energietraeger_umrechnungen', array(
+			'bezeichnung' => array(
+				'value'   => $slug,
+				'compare' => '='
+			)
+		), array( 'energietraeger' ), true );
+	}
+
+	$energietraeger_name = wpenon_get_table_results( 'energietraeger2021', array(
+		'bezeichnung' => array(
+			'value'   => $slug,
+			'compare' => '='
+		)
+	), array( 'name' ), true );
+
+	return $energietraeger_name;
+}
+
 function wpenon_immoticket24_get_regenerativ_art_name( $slug ) {
 	$regenerativ_arten = array(
 		'keine' => 'Keine',
@@ -991,6 +1011,22 @@ function wpenon_immoticket24_get_regenerativ_nutzung_name( $slug ) {
 
 function wpenon_immoticket24_get_fenster_bauarten() {
 	$_fenster = wpenon_get_table_results( 'uwerte', array(
+		'bezeichnung' => array(
+			'value'   => 'fenster_%',
+			'compare' => 'LIKE'
+		)
+	), array( 'name' ), false, 'name', 'ASC' );
+
+	$fenster = array();
+	foreach ( $_fenster as $bezeichnung => $name ) {
+		$fenster[ str_replace( 'fenster_', '', $bezeichnung ) ] = $name;
+	}
+
+	return $fenster;
+}
+
+function wpenon_immoticket24_get_fenster_bauarten_2021() {
+	$_fenster = wpenon_get_table_results( 'uwerte2021', array(
 		'bezeichnung' => array(
 			'value'   => 'fenster_%',
 			'compare' => 'LIKE'

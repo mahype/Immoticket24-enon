@@ -77,19 +77,19 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 		case 'energietraeger_heizung':
 			$energietraeger = array();
 			if ( $energieausweis->mode == 'b' ) {
-				$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h_energietraeger );
+				$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger );
 				if ( $energieausweis->h2_info ) {
-					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h2_energietraeger );
+					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger );
 					if ( $energieausweis->h3_info ) {
-						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h3_energietraeger );
+						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger );
 					}
 				}
 			} else {
-				$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h_energietraeger, true );
+				$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger, true );
 				if ( $energieausweis->h2_info ) {
-					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h2_energietraeger, true );
+					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger, true );
 					if ( $energieausweis->h3_info ) {
-						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h3_energietraeger, true );
+						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger, true );
 					}
 				}
 			}
@@ -98,13 +98,13 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 		case 'energietraeger_warmwasser':
 			if ( $energieausweis->mode == 'b' ) {
 				if ( $energieausweis->ww_info == 'ww' ) {
-					return wpenon_immoticket24_get_energietraeger_name( $energieausweis->ww_energietraeger );
+					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->ww_energietraeger );
 				} else if ( $energieausweis->ww_info == 'h' ) {
-					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h_energietraeger );
+					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger );
 					if ( $energieausweis->h2_info ) {
-						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h2_energietraeger );
+						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger );
 						if ( $energieausweis->h3_info ) {
-							$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h3_energietraeger );
+							$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger );
 						}
 					}
 					return implode( ', ', array_unique( $energietraeger ) );
@@ -113,13 +113,13 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 				}
 			} else {
 				if ( $energieausweis->ww_info == 'ww' ) {
-					return wpenon_immoticket24_get_energietraeger_name( $energieausweis->ww_energietraeger, true );
+					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->ww_energietraeger, true );
 				} else if ( $energieausweis->ww_info == 'h' ) {
-					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h_energietraeger );
+					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger, true );
 					if ( $energieausweis->h2_info ) {
-						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h2_energietraeger );
+						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger, true );
 						if ( $energieausweis->h3_info ) {
-							$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h3_energietraeger );
+							$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger, true );
 						}
 					}
 					return implode( ', ', array_unique( $energietraeger ) );
