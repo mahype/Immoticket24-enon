@@ -810,6 +810,40 @@ function wpenon_get_construction_year( $construction_year, $field_year ) {
 	return $field_year;
 }
 
+
+function wpenon_immoticket24_get_klimafaktoren_zeitraeume202101() {
+	$zeitraeume = array();
+
+	$reference = wpenon_get_reference_date( 'timestamp' );
+	$reference_date = date( 'Y-m-d', $reference );
+
+	$_daten = \WPENON\Util\DB::getTableColumns( \WPENON\Util\Format::prefix( 'klimafaktoren202001' ) );
+
+	$_daten = array_slice( $_daten, count( $_daten ) - 33 ); // - 32 month + 1 for table header
+
+	$daten = array();
+	foreach ( $_daten as $_datum ) {
+		$daten[] = $_datum->Field;
+	}
+	unset( $_datum );
+	unset( $_daten );
+
+	$year = $month = '';
+
+	foreach ( $daten as $datum ) {
+		$period_end_date = wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 2, true, 'timestamp' );
+		$ped = date( 'Y-m-d', $period_end_date );
+		if ( $period_end_date > $reference ) {
+			break;
+		}
+		$zeitraeume[ $datum ] = wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 0, false, 'data' ) . ' - ' . wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 2, true, 'data' );
+	}
+
+	$zeitraeume = array_reverse( $zeitraeume );
+
+	return $zeitraeume;
+}
+
 function wpenon_immoticket24_get_klimafaktoren_zeitraeume202001() {
 	$zeitraeume = array();
 

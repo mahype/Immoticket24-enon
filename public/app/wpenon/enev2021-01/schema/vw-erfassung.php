@@ -11,7 +11,7 @@ $erfassung = array(
 					'type'        => 'select',
 					'label'       => __( 'Zeitraum der Eingabedaten', 'wpenon' ),
 					'description' => __( 'Die Verbrauchsdaten müssen für drei aufeinanderfolgende Jahre eingegeben werden. Wählen Sie hier den entsprechenden Zeitraum aus.', 'wpenon' ),
-					'options'     => wpenon_immoticket24_get_klimafaktoren_zeitraeume202001(),
+					'options'     => wpenon_immoticket24_get_klimafaktoren_zeitraeume202101(),
 					'required'    => true,
 				),
 			),
