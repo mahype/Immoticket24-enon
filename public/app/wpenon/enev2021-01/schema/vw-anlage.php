@@ -158,7 +158,7 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'fernwaermehzwfossil_kwh'      => __( 'Nah- / Fernwärme in kWh', 'wpenon' ),						
+						'fernwaermehzwfossil_kwh'      => __( 'Nah-/Fernwärme in kWh', 'wpenon' ),						
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -540,7 +540,7 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'fernwaermehzwfossil_kwh'      => __( 'Nah- / Fernwärme in kWh', 'wpenon' ),						
+						'fernwaermehzwfossil_kwh'      => __( 'Nah-/Fernwärme in kWh', 'wpenon' ),						
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
@@ -908,7 +908,7 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'fernwaermehzwfossil_kwh'      => __( 'Nah- / Fernwärme in kWh', 'wpenon' ),						
+						'fernwaermehzwfossil_kwh'      => __( 'Nah-/Fernwärme in kWh', 'wpenon' ),						
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
