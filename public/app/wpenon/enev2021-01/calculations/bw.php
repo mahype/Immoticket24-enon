@@ -725,155 +725,112 @@ if ( $geschosshoehe >= 2.5 && $geschosshoehe <= 3.0 ) {
 
 foreach ( $grundriss_form as $wand => $data ) {
 if ( isset( $calculations['bauteile'][ 'wand_' . $wand ] ) ) {
+  
+  // Automatische Berechnung
+  $l_slug = 'wand_' . $wand . '_laenge';
+  $n_slug = 'wand_' . $wand . '_nachbar';    
 
-  if( $energieausweis->fenster_manuell ) {
-    // Manuelle Berechnung
-    $a_slug = 'fenster_' . $wand . '_flaeche';
-    $b_slug = 'fenster_' . $wand . '_bauart';
-    $j_slug = 'fenster_' . $wand . '_baujahr';
+  if ( $energieausweis->$n_slug === true ) {
+    continue;
+  }
 
-    if ( $energieausweis->$a_slug > 0.0 ) {
-      $calculations['bauteile'][ 'fenster_' . $wand ] = array(
-        'name'          => sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand ),
-        'typ'           => 'fenster',
-        'modus'         => 'transparent',
-        'bauart'        => $energieausweis->$b_slug,
-        'baujahr'       => $energieausweis->$j_slug,
-        'richtung'      => $calculations['bauteile'][ 'wand_' . $wand ]['richtung'],
-        'a'             => $energieausweis->$a_slug,
-        'd'             => 0,
-        'winkel'        => 90.0,
-      );
+  // Fensterfläche Wand a: 0,55 * (Wandlänge a - 2 * Wandstärke) * ((Geschosshöhe - 1,50 m) * Anzahl Vollgeschoss)
+  $fensterflaeche = 0.55 * ( $energieausweis->$l_slug - 2 * $energieausweis->wand_staerke / 100 ) * ( ( $energieausweis->geschoss_hoehe - 1.5 ) * $energieausweis->geschoss_zahl );
 
-      $calculations['bauteile'][ 'wand_' . $wand ]['a'] -= $calculations['bauteile'][ 'fenster_' . $wand ]['a'];
-    }
+  $calculations['bauteile'][ 'fenster_' . $wand ] = array(
+    'name'          => sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand ),
+    'typ'           => 'fenster',
+    'modus'         => 'transparent',
+    'bauart'        => $energieausweis->fenster_bauart,
+    'baujahr'       => $energieausweis->fenster_baujahr,
+    'richtung'      => $calculations['bauteile'][ 'wand_' . $wand ]['richtung'],
+    'a'             => $fensterflaeche,
+    'd'             => 0,
+    'winkel'        => 90.0,
+  );
 
-  } else {
-    // Automatische Berechnung
-    $l_slug = 'wand_' . $wand . '_laenge';
-    $n_slug = 'wand_' . $wand . '_nachbar';    
-
-    if ( $energieausweis->$n_slug === true ) {
-      continue;
-    }
-
-    // Fensterfläche Wand a: 0,55 * (Wandlänge a - 2 * Wandstärke) * ((Geschosshöhe - 1,50 m) * Anzahl Vollgeschoss)
-    $fensterflaeche = 0.55 * ( $energieausweis->$l_slug - 2 * $energieausweis->wand_staerke / 100 ) * ( ( $energieausweis->geschoss_hoehe - 1.5 ) * $energieausweis->geschoss_zahl );
-
-    $calculations['bauteile'][ 'fenster_' . $wand ] = array(
-      'name'          => sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand ),
-      'typ'           => 'fenster',
-      'modus'         => 'transparent',
-      'bauart'        => $energieausweis->fenster_bauart,
-      'baujahr'       => $energieausweis->fenster_baujahr,
-      'richtung'      => $calculations['bauteile'][ 'wand_' . $wand ]['richtung'],
-      'a'             => $fensterflaeche,
-      'd'             => 0,
-      'winkel'        => 90.0,
-    );
-
-    $calculations['bauteile'][ 'wand_' . $wand ]['a'] -= $calculations['bauteile'][ 'fenster_' . $wand ]['a'];
-  }  
+  $calculations['bauteile'][ 'wand_' . $wand ]['a'] -= $calculations['bauteile'][ 'fenster_' . $wand ]['a'];
+  
 }
 
 }
 unset( $data );
 
 if ( $energieausweis->anbau ) {
-  
   foreach ( $anbau_form as $wand => $data ) {      
     if ( isset( $calculations['bauteile'][ 'anbauwand_' . $wand ] ) ) {
       $a_slug = 'anbaufenster_' . $wand . '_flaeche';
 
-      if( $energieausweis->fenster_manuell == true && $energieausweis->$a_slug > 0.0 ) {  
-        $b_slug = 'anbaufenster_' . $wand . '_bauart';
-        $j_slug = 'anbaufenster_' . $wand . '_baujahr';
-        
-        $calculations['bauteile'][ 'anbaufenster_' . $wand ] = array(
-          'name'          => sprintf( __( 'Anbau-Fenster Wand %s', 'wpenon' ), $wand ),
-          'typ'           => 'fenster',
-          'modus'         => 'transparent',
-          'bauart'        => $energieausweis->$b_slug,
-          'baujahr'       => $energieausweis->$j_slug,
-          'richtung'      => $calculations['bauteile'][ 'anbauwand_' . $wand ]['richtung'],
-          'a'             => $energieausweis->$a_slug,
-          'd'             => 0,
-          'winkel'        => 90.0,
-        );
-        $calculations['bauteile'][ 'anbauwand_' . $wand ]['a'] -= $calculations['bauteile'][ 'anbaufenster_' . $wand ]['a'];
-        
-      } elseif( $energieausweis->fenster_manuell == false ) {
-        $l_slug = 'anbauwand_' . $wand . '_laenge';
+      $l_slug = 'anbauwand_' . $wand . '_laenge';
 
-        $b_laenge = $energieausweis->anbauwand_b_laenge;
-        $t_laenge = $energieausweis->anbauwand_t_laenge;
-        $s1_laenge = $energieausweis->anbauwand_s1_laenge;
-        $s2_laenge = $energieausweis->anbauwand_s2_laenge;
+      $b_laenge = $energieausweis->anbauwand_b_laenge;
+      $t_laenge = $energieausweis->anbauwand_t_laenge;
+      $s1_laenge = $energieausweis->anbauwand_s1_laenge;
+      $s2_laenge = $energieausweis->anbauwand_s2_laenge;
 
-        $anbauwand_staerke = $energieausweis->anbauwand_staerke / 100; // Umrechnen von cm in m
-        $geschoss_hoehe     = $energieausweis->geschoss_hoehe;
+      $anbauwand_staerke = $energieausweis->anbauwand_staerke / 100; // Umrechnen von cm in m
+      $geschoss_hoehe     = $energieausweis->geschoss_hoehe;
 
-        if ( $energieausweis->anbau_form === 'a' ) {
-          switch( $wand ) {
-            case 'b':
-              // Fensterfläche Wand b: 0,55 * (Wandlänge Anbaubreite b - 2 * Wandstärke Anbau) * (Höhe des Anbau - 1,50 m)
-              $fensterflaeche = 0.55 * ( $b_laenge - ( 2 * $anbauwand_staerke ) ) * ( $geschoss_hoehe - 1.5 );
-              break;
-            case 't':              
-              // Fensterfläche Wand t: 0,55 * (Wandlänge Anbautiefe t - 2 * Wandstärke Anbau) * (Höhe des Anbau - 1,50 m) 
-              $fensterflaeche = 0.55 * ( $t_laenge - ( 2 * $anbauwand_staerke ) ) * ( $geschoss_hoehe - 1.5 );
-              break;
-            case 's1':
-              // Fensterfläche Wand s1: 0,55 * (Wandlänge Anbautiefe t - Wandstärke Anbau) * (Höhe des Anbau - 1,50 m) - Anbau Schnittlänge s1
-              $fensterflaeche = 0.55 * ( $t_laenge - $anbauwand_staerke ) * ( $geschoss_hoehe - 1.5 ) - $s1_laenge;
-              break;
-            case 's2':
-              // Fensterfläche Wand s2: 0,55 * (Anbau Schnittlänge s2 - 2 * Wandstärke Anbau) * (Höhe des Anbau - 1,50 m) 
-              $fensterflaeche = 0.55 * ( $s2_laenge - ( 2 * $anbauwand_staerke ) ) * ( $geschoss_hoehe - 1.5 );
-              break;
-            
-          }
+      if ( $energieausweis->anbau_form === 'a' ) {
+        switch( $wand ) {
+          case 'b':
+            // Fensterfläche Wand b: 0,55 * (Wandlänge Anbaubreite b - 2 * Wandstärke Anbau) * (Höhe des Anbau - 1,50 m)
+            $fensterflaeche = 0.55 * ( $b_laenge - ( 2 * $anbauwand_staerke ) ) * ( $geschoss_hoehe - 1.5 );
+            break;
+          case 't':              
+            // Fensterfläche Wand t: 0,55 * (Wandlänge Anbautiefe t - 2 * Wandstärke Anbau) * (Höhe des Anbau - 1,50 m) 
+            $fensterflaeche = 0.55 * ( $t_laenge - ( 2 * $anbauwand_staerke ) ) * ( $geschoss_hoehe - 1.5 );
+            break;
+          case 's1':
+            // Fensterfläche Wand s1: 0,55 * (Wandlänge Anbautiefe t - Wandstärke Anbau) * (Höhe des Anbau - 1,50 m) - Anbau Schnittlänge s1
+            $fensterflaeche = 0.55 * ( $t_laenge - $anbauwand_staerke ) * ( $geschoss_hoehe - 1.5 ) - $s1_laenge;
+            break;
+          case 's2':
+            // Fensterfläche Wand s2: 0,55 * (Anbau Schnittlänge s2 - 2 * Wandstärke Anbau) * (Höhe des Anbau - 1,50 m) 
+            $fensterflaeche = 0.55 * ( $s2_laenge - ( 2 * $anbauwand_staerke ) ) * ( $geschoss_hoehe - 1.5 );
+            break;
+          
         }
+      }
 
-        if ( $energieausweis->anbau_form === 'b' ) {
-          switch( $wand ) {
-            case 'b':
-              // Fensterfläche Wand b: 0,55 * (Wandlänge Anbaubreite b - 2 * Wandstärke Anbau) * (Höhe des Anbau - 1,50 m)
-              $fensterflaeche = 0.55 * ( $b_laenge - ( 2 * $anbauwand_staerke ) ) * ( $geschoss_hoehe - 1.5 );
-              break;
-            case 't':              
-              // Fensterfläche Wand t: 0,55 * (Wandlänge Anbautiefe t - 2 * Wandstärke Anbau) * (Höhe des Anbau - 1,50 m) 
-              $fensterflaeche = 0.55 * ( $t_laenge - ( 2 * $anbauwand_staerke ) ) * ( $geschoss_hoehe - 1.5 );
-              break;
-            case 's1':
-              // Fensterfläche Wand s1: 0,55 * (Wandlänge Anbautiefe t - Wandstärke Anbau) * (Höhe des Anbau - 1,50 m) - Anbau Schnittlänge s1
-              $fensterflaeche = 0.55 * ( $t_laenge - $anbauwand_staerke ) * ( $geschoss_hoehe - 1.5 ) - $s1_laenge;
-              break;
-            case 's2':
-              // Fensterfläche Wand s2: 0,55 * (Anbaubreite b - Wandstärke Anbau) * (Höhe des Anbau - 1,50 m) - Anbau Schnittlänge s2
-              $fensterflaeche = 0.55 * ( $b_laenge - $anbauwand_staerke ) * ( $geschoss_hoehe - 1.5 ) - $s2_laenge;
-              break;
-          }
+      if ( $energieausweis->anbau_form === 'b' ) {
+        switch( $wand ) {
+          case 'b':
+            // Fensterfläche Wand b: 0,55 * (Wandlänge Anbaubreite b - 2 * Wandstärke Anbau) * (Höhe des Anbau - 1,50 m)
+            $fensterflaeche = 0.55 * ( $b_laenge - ( 2 * $anbauwand_staerke ) ) * ( $geschoss_hoehe - 1.5 );
+            break;
+          case 't':              
+            // Fensterfläche Wand t: 0,55 * (Wandlänge Anbautiefe t - 2 * Wandstärke Anbau) * (Höhe des Anbau - 1,50 m) 
+            $fensterflaeche = 0.55 * ( $t_laenge - ( 2 * $anbauwand_staerke ) ) * ( $geschoss_hoehe - 1.5 );
+            break;
+          case 's1':
+            // Fensterfläche Wand s1: 0,55 * (Wandlänge Anbautiefe t - Wandstärke Anbau) * (Höhe des Anbau - 1,50 m) - Anbau Schnittlänge s1
+            $fensterflaeche = 0.55 * ( $t_laenge - $anbauwand_staerke ) * ( $geschoss_hoehe - 1.5 ) - $s1_laenge;
+            break;
+          case 's2':
+            // Fensterfläche Wand s2: 0,55 * (Anbaubreite b - Wandstärke Anbau) * (Höhe des Anbau - 1,50 m) - Anbau Schnittlänge s2
+            $fensterflaeche = 0.55 * ( $b_laenge - $anbauwand_staerke ) * ( $geschoss_hoehe - 1.5 ) - $s2_laenge;
+            break;
         }
+      }
 
-        if ( $fensterflaeche < 0 ) {
-          $fensterflaeche = 0;
-        }
+      if ( $fensterflaeche < 0 ) {
+        $fensterflaeche = 0;
+      }
 
-        $calculations['bauteile'][ 'anbaufenster_' . $wand ] = array(
-          'name'          => sprintf( __( 'Anbau-Fenster Wand %s', 'wpenon' ), $wand ),
-          'typ'           => 'fenster',
-          'modus'         => 'transparent',
-          'bauart'        => $energieausweis->anbaufenster_bauart,
-          'baujahr'       => $energieausweis->anbaufenster_baujahr,
-          'richtung'      => $calculations['bauteile'][ 'anbauwand_' . $wand ]['richtung'],
-          'a'             => $fensterflaeche,
-          'd'             => 0,
-          'winkel'        => 90.0,
-        );
+      $calculations['bauteile'][ 'anbaufenster_' . $wand ] = array(
+        'name'          => sprintf( __( 'Anbau-Fenster Wand %s', 'wpenon' ), $wand ),
+        'typ'           => 'fenster',
+        'modus'         => 'transparent',
+        'bauart'        => $energieausweis->anbaufenster_bauart,
+        'baujahr'       => $energieausweis->anbaufenster_baujahr,
+        'richtung'      => $calculations['bauteile'][ 'anbauwand_' . $wand ]['richtung'],
+        'a'             => $fensterflaeche,
+        'd'             => 0,
+        'winkel'        => 90.0,
+      );
 
-        $calculations['bauteile'][ 'anbauwand_' . $wand ]['a'] -= $calculations['bauteile'][ 'anbaufenster_' . $wand ]['a'];
-      }    
+      $calculations['bauteile'][ 'anbauwand_' . $wand ]['a'] -= $calculations['bauteile'][ 'anbaufenster_' . $wand ]['a']; 
     }
   }
   unset( $data );
