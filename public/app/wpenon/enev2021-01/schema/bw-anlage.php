@@ -11,7 +11,10 @@ $anlage = array(
 					'type'        => 'select',
 					'label'       => __( 'Typ der Heizungsanlage', 'wpenon' ),
 					'description' => __( 'Falls Sie den mit Gas oder Öl betriebenen Typ der Heizungsanlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon' ),
-					'options'     => wpenon_immoticket24_get_heizungsanlagen202001(),
+					'options'     => array(
+						'callback'      => 'wpenon_immoticket24_get_heizungsanlagen202101',
+						'callback_args' => array( 'field::regenerativ_art' ),
+					),
 					'required'    => true,
 				),
 				'h_energietraeger_standardkessel'               => array(
@@ -313,7 +316,10 @@ $anlage = array(
 					'type'        => 'select',
 					'label'       => __( 'Typ der 2. Heizungsanlage', 'wpenon' ),
 					'description' => __( 'Falls Sie den mit Gas oder Öl betriebenen Typ der Heizungsanlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon' ),
-					'options'     => wpenon_immoticket24_get_heizungsanlagen202001(),
+					'options'     => array(
+						'callback'      => 'wpenon_immoticket24_get_heizungsanlagen202101',
+						'callback_args' => array( 'field::regenerativ_art' ),
+					),
 					'required'    => true,
 					'display'     => array(
 						'callback'      => 'wpenon_show_on_bool_compare',
@@ -643,7 +649,10 @@ $anlage = array(
 					'type'        => 'select',
 					'label'       => __( 'Typ der 3. Heizungsanlage', 'wpenon' ),
 					'description' => __( 'Falls Sie den mit Gas oder Öl betriebenen Typ der Heizungsanlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon' ),
-					'options'     => wpenon_immoticket24_get_heizungsanlagen202001(),
+					'options'     => array(
+						'callback'      => 'wpenon_immoticket24_get_heizungsanlagen202101',
+						'callback_args' => array( 'field::regenerativ_art' ),
+					),
 					'required'    => true,
 					'display'     => array(
 						'callback'      => 'wpenon_show_on_bool_compare',

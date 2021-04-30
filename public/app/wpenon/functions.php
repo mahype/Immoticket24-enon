@@ -621,6 +621,22 @@ function wpenon_immoticket24_get_heizungsanlagen2019() {
 	return wpenon_get_table_results( 'h_erzeugung2019', array(), array( 'name' ) );
 }
 
+function wpenon_immoticket24_get_heizungsanlagen202101( $field_regenerativ_art ) {
+	$heaters = wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
+
+	$remove_heaters = [ 'brennwertkesselverbessert', 'gasraumheizer' ];
+	if ( $field_regenerativ_art == 'solar' ) {
+		unset( $heaters[ 'kleinthermebrennwert' ] );
+		unset( $heaters[ 'kleinthermeniedertemperatur' ] );
+	}
+
+	foreach( $remove_heaters AS $heater ) {
+		unset( $heaters[ $heater ] );
+	}
+
+	return $heaters;
+}
+
 function wpenon_immoticket24_get_heizungsanlagen202001( $energieausweis = '' ) {
 	
 	$heaters = wpenon_get_table_results( 'h_erzeugung202001', array(), array( 'name' ) );
