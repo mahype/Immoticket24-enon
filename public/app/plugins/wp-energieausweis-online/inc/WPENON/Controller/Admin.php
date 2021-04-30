@@ -308,8 +308,9 @@ class Admin
             $schema = $this->energieausweis !== null ? $this->energieausweis->getSchema() : null;
             \WPENON\Controller\General::instance()->_enqueueScripts($this->energieausweis, $schema, true);
 
-            wpenon_enqueue_style('wpenon-admin', 'admin', array());
-            wpenon_enqueue_script('wpenon-admin', 'admin', array('jquery', 'wpenon-general'));
+            wpenon_enqueue_style(  'wpenon-admin', 'admin', array());
+            wpenon_enqueue_script( 'wpenon-admin', 'admin', array('jquery', 'wpenon-general'));
+            wpenon_enqueue_script( 'image-field-upload', 'upload' );
         }
     }
 
