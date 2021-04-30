@@ -7,6 +7,8 @@
 
 namespace WPENON\Model;
 
+use DateTime;
+
 class Energieausweis {
 	/**
 	 * Id.
@@ -89,12 +91,19 @@ class Energieausweis {
 
 		add_action( 'edd_update_payment_status', array( $this, '_checkOrderedPaidStatus' ) );
 
+		/**
+		 * Switching to new GEG if needed
+		 */
+		$date = new DateTime( date('Y-m-d' ) );
+		$dateSwitch = new DateTime('2021-05-01');
+		$schema = get_post_meta( $this->id, 'wpenon_standard', true );
+
+		if( $date >= $dateSwitch && $schema !== 'enev2021-01' && ! $this->isOrdered() ) {
+			update_post_meta( $this->id, '_finalized', false );
+			update_post_meta( $this->id, 'wpenon_standard', 'enev2021-01' );
+		}
+
 		$this->_loadSchema();
-
-		$x = 1;
-
-		// $this->type     = get_post_meta( $this->id, 'wpenon_type', true );
-		// $this->standard = get_post_meta( $this->id, 'wpenon_standard', true );
 	}
 
 	public function __set( $field, $value ) {
