@@ -1403,7 +1403,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 		$regenerativ_art   = trim( $energieausweis->regenerativ_art );
 		$regenerativ_aktiv = isset( $energieausweis->regenerativ_aktiv ) ? $energieausweis->regenerativ_aktiv : false;
 
-		if ( ( empty( $regenerativ_art ) || strtolower( $regenerativ_art ) == 'keine' ) && ! $regenerativ_aktiv ) {
+		if ( ( empty( $regenerativ_art ) || strtolower( $regenerativ_art ) == 'keine' ) && ! $regenerativ_aktiv && ! wpenon_ec_has_heater( $energieausweis, 'kleinthermeniedertemperatur' ) && ! wpenon_ec_has_heater( $energieausweis, 'kleinthermebrennwert' ) ) {
 			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['solarthermie'];
 		}
 	}
@@ -1443,6 +1443,26 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 	$modernisierungsempfehlungen = apply_filters( 'enon_filter_modernization_recommendations', $modernisierungsempfehlungen, $energieausweis );
 
 	return $modernisierungsempfehlungen;
+}
+
+function wpenon_ec_has_heater( $energieausweis, $heater_type ) {
+	$heatings = array( 'h' );
+	if ( isset( $energieausweis->h2_info ) && $energieausweis->h2_info ) {
+		$heatings[] = 'h2';
+		if ( isset( $energieausweis->h3_info ) && $energieausweis->h3_info ) {
+			$heatings[] = 'h3';
+		}
+	}
+
+	foreach ( $heatings as $heater ) {
+		$type_field = $heater . '_erzeugung';
+		
+		if( $energieausweis->$type_field === $heater_type ) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 function wpenon_immoticket24_needs_fenster_recommendations( $fenster_bauart, $fenster_baujahr = 1990 ) {
