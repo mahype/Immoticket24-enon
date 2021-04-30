@@ -49,6 +49,8 @@ const sendUpload = ( data, field ) => {
             }
         }
     ).then( ( response ) => {
+       console.log( 'test' );
+       console.log( response );
        setPercentage( field, 0 );
        document.getElementById( field + "_field" ).value = response.data.url;
        document.getElementById( field + "_image" ).innerHTML = `<img src="${response.data.url}" />`;
