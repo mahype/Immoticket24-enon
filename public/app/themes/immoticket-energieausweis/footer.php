@@ -53,7 +53,5 @@
 
 <?php wp_footer(); ?>
 
-<?php echo date('Y-m-d H:i:s', time() ); ?>
-
 </body>
 </html>
