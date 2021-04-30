@@ -77,6 +77,13 @@ $basisdaten = array(
 					'max'         => wpenon_get_reference_date( 'Y' ),
 					'required'    => true,
 				),
+				'bauantrag_jahr'      => array(
+					'type'        => 'text',
+					'label'       => __( 'Jahr des Bauantrags', 'wpenon' ),
+					'description' => __( 'Geben Sie das Jahr des Bauantrages an', 'wpenon' ),
+					'required'    => true,
+					'validate'	  => 'wpenon_validate_buildingyear',
+				),
 			),
 		),
 		'regenerativ'    => array(

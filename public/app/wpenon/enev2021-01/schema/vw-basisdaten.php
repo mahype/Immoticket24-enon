@@ -66,6 +66,13 @@ $basisdaten = array(
 					'validate'	  => 'wpenon_validate_buildingyear',
 					'placeholder' => 'Bitte wählen Sie ein Baujahr...'
 				),
+				'bauantrag_jahr'      => array(
+					'type'        => 'text',
+					'label'       => __( 'Jahr des Bauantrags', 'wpenon' ),
+					'description' => __( 'Geben Sie das Jahr des Bauantrages an', 'wpenon' ),
+					'required'    => true,
+					'validate'	  => 'wpenon_validate_buildingyear',
+				),
 				'flaeche'      => array(
 					'type'        => 'float',
 					'label'       => __( 'Wohnfläche', 'wpenon' ),
