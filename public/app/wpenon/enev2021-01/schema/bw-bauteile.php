@@ -640,7 +640,10 @@ $bauteile = array(
 					'type'        => 'select',
 					'label'       => __( 'Anbau-Wandbauart', 'wpenon' ),
 					'description' => __( 'Wählen Sie die Bauart der Außenwand aus.', 'wpenon' ),
-					'options'     => \Enev\Schema202101\Schema\Standard_Options::get_bauarten_massiv(),
+					'options'     =>  array(
+						'callback'      => 'wpenon_immoticket24_wand_massiv',
+						'callback_args' => array( 'field::anbauwand_staerke' ),
+					),
 					'required'    => true,
 					'display'     => array(
 						'callback'      => 'wpenon_immoticket24_show_anbauwand_bauart',
