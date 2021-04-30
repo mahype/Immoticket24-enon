@@ -1,9 +1,9 @@
 <?php
 
-namespace Enev\Schema202002\Schema;
+namespace Enev\Schema202101\Schema;
 
 /**
- * Class \Enev\Schema202002\Schema\Standard_Options.
+ * Class \Enev\Schema202101\Schema\Standard_Options.
  *
  * @since 1.0.0
  */

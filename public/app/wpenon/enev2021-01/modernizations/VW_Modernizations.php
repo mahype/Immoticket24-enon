@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202002\Modernizations;
+namespace Enev\Schema202101\Modernizations;
 
 require_once( dirname( __FILE__ ) . '/Modernizations.php' );
 
