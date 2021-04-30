@@ -254,6 +254,248 @@ function wpenon_immoticket24_print_no_consumption_modal
 	<?php
 }
 
+function wpenon_check_geg20() {
+    ?>
+    <div id="dialog_geg20_approval" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document" style="margin-top:140px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><?php _e( 'Abfrage zur Baugenehmigung', 'wpenon' ); ?></h4>
+				</div>
+				<div class="modal-body">
+					<?php _e( 'Wurde für das Bauvorhaben eine Genehmigung beantragt?', 'wpenon' ); ?>
+				</div>´
+				<div class="modal-footer">
+					<button type="button" id="geg20_approval_yes" class="btn btn-default" data-dismiss="modal"><?php _e( 'Ja', 'wpenon' ); ?></button>
+					<button type="button" id="geg20_approval_no"  class="btn btn-default" data-dismiss="modal"><?php _e( 'Nein', 'wpenon' ); ?></button>
+				</div>
+			</div>
+		</div>
+    </div>
+    
+	<div id="dialog_geg20_approval_requested_date" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document" style="margin-top:140px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><?php _e( 'Abfrage zur Baugenehmigung', 'wpenon' ); ?></h4>
+				</div>
+				<div class="modal-body">
+					<?php _e( 'Wann wurde die Genehmigung beantragt?', 'wpenon' ); ?>
+				</div>
+				<div class="modal-footer">
+                    <button type="button" id="geg20_approval_requested_october" class="btn btn-default" data-dismiss="modal"><?php _e( 'bis 31.10.2020', 'wpenon' ); ?></button>
+					<button type="button" id="geg20_approval_requested_november" class="btn btn-default" data-dismiss="modal"><?php _e( 'ab 01.11.2020', 'wpenon' ); ?></button>
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <div id="dialog_geg20_building_measure_date" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document" style="margin-top:140px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><?php _e( 'Abfrage zur Baugenehmigung', 'wpenon' ); ?></h4>
+				</div>
+				<div class="modal-body">
+					<?php _e( 'Wann wurde mit der Baumaßnahme begonnen?', 'wpenon' ); ?>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="geg20_building_measure_october" class="btn btn-default" data-dismiss="modal"><?php _e( 'bis 31.10.2020', 'wpenon' ); ?></button>
+					<button type="button" id="geg20_building_measure_november" class="btn btn-default" data-dismiss="modal"><?php _e( 'ab 01.11.2020', 'wpenon' ); ?></button>
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <div id="dialog_geg20_creation_denied" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document" style="margin-top:140px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><?php _e( 'Abfrage zur Baugenehmigung', 'wpenon' ); ?></h4>
+				</div>
+				<div class="modal-body">
+                    <p><?php _e( 'Sie benötigen einen Energieausweis nach dem neuen Gebäude-Energiegesetz 2020 (GEG20), da bei Energieausweisen für Bauanträge, die ab dem 01.11.2020 eingereicht werden, diese nach dem GEG20 vorgeschrieben sind. Den Energieausweis nach GEG20 können Sie auf dieser Website nicht erstellen.', 'wpenon' ); ?></p>
+                    <p><?php _e( 'Auf unserer Website können Sie nur Energieausweise nach der EnEV 2014 erstellen, welche für Verkauf/Vermietung, Modernisierung & Sonstiges (bei Bauantrag vor dem 01.11.2020) auch weiterhin gültig sind.', 'wpenon' ); ?></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="geg20_creation_denied_button" class="btn btn-default" data-dismiss="modal"><?php _e( 'OK', 'wpenon' ); ?></button>
+				</div>
+			</div>
+		</div>
+	</div>
+    <script type="text/javascript">
+        var modal_params = {
+            backdrop: 'static', 
+            keyboard: false
+        };
+
+        function wp_enon_change_reason() {
+            geg20_reset_questions();
+            wp_enon_geg20_check();
+        }
+
+        function wp_enon_geg20_check( e ) {
+            if( ! wp_enon_geg20_needs_check() ) {
+                return;
+            }
+
+            geg20_reset_questions();
+            jQuery('#dialog_geg20_approval').modal(modal_params);
+        }
+
+        function wp_enon_geg20_needs_save() {
+            var geg20_needs_save = jQuery( '#geg20_needs_save' ).val();
+
+            if( geg20_needs_save == 'yes' ) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function wp_enon_geg20_save_check( e ) {
+            if( wp_enon_geg20_needs_save() ) {
+                e.preventDefault();
+                alert( 'Sie müssen Ihre Änderung speichern, bevor Sie fortfahren!');
+            }
+        }
+
+        function wp_enon_geg20_creation_denied() {
+            var geg20_creation_denied = jQuery( '#geg20_creation_denied' ).val();
+
+            if ( geg20_creation_denied == 'Erstellung des Ausweises verweigert: Ja.' ) {
+                jQuery('#dialog_geg20_creation_denied').modal(modal_params);
+                return true;
+            }
+
+            return false;
+        }
+
+        function wp_enon_geg20_needs_check() {
+            var anlass = jQuery( '#anlass' ).val();
+
+            if( anlass == 'modernisierung' || anlass == 'sonstiges' ) {
+                var geg20_approval              = jQuery( '#geg20_approval' ).val();
+                var geg20_approval_date         = jQuery( '#geg20_approval_date' ).val();
+                var geg20_building_measure_date = jQuery( '#geg20_building_measure_date' ).val();
+                var geg20_creation_denied       = jQuery( '#geg20_creation_denied' ).val();
+
+                if ( geg20_approval == '' ) {
+                    return true;
+                }
+
+                if ( geg20_approval_date == '' ) {
+                    return true;
+                }
+
+                if ( geg20_building_measure_date == '' ) {
+                    return true;
+                }
+
+                if ( geg20_creation_denied == '' ) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        jQuery('#geg20_approval_yes').on('click', function (e) {
+			e.preventDefault();
+            jQuery('#geg20_approval').val('Wurde für das Bauvorhaben eine Genehmigung beantragt? - Ja');
+            jQuery('#geg20_building_measure_date').val('-');
+			jQuery('#dialog_geg20_approval_requested_date').modal(modal_params);
+		});
+
+        jQuery('#geg20_approval_no').on('click', function (e) {
+			e.preventDefault();
+            jQuery('#geg20_approval').val('Wurde für das Bauvorhaben eine Genehmigung beantragt? - Nein');
+            jQuery('#geg20_approval_date').val('-');
+			jQuery('#dialog_geg20_building_measure_date').modal(modal_params);
+		});
+
+        jQuery('#geg20_approval_requested_october').on('click', function (e) {
+			e.preventDefault();
+            jQuery('#geg20_approval_date').val('Wann wurde die Genehmigung beantragt? - bis 31.10.2020');
+            geg20_allow_creation();
+		});
+
+        jQuery('#geg20_approval_requested_november').on('click', function (e) {
+			e.preventDefault();
+            jQuery('#geg20_approval_date').val('Wann wurde die Genehmigung beantragt? - ab 01.11.2020');           
+			jQuery('#dialog_geg20_creation_denied').modal(modal_params);
+            geg20_deny_creation();
+		});
+
+        jQuery('#geg20_building_measure_october').on('click', function (e) {
+			e.preventDefault();
+            jQuery('#geg20_building_measure_date').val('Wann wurde mit der Baumaßnahme begonnen? - bis 31.10.2020');
+            geg20_allow_creation();
+		});
+
+        jQuery('#geg20_building_measure_november').on('click', function (e) {
+			e.preventDefault();
+            jQuery('#geg20_building_measure_date').val('Wann wurde mit der Baumaßnahme begonnen? - ab 01.11.2020');
+			jQuery('#dialog_geg20_creation_denied').modal(modal_params);
+            geg20_deny_creation();      
+		});
+
+        function geg20_reset_questions() {
+            jQuery('#geg20_creation_denied').val('');
+            jQuery('#geg20_approval').val('');
+            jQuery('#geg20_approval_date').val('');
+            jQuery('#geg20_building_measure_date').val('');
+        }
+
+        function geg20_deny_creation() {
+            jQuery('#geg20_creation_denied').val('Erstellung des Ausweises verweigert: Ja.');
+            jQuery('#wpenon-generate-form').append('<input type="hidden" id="geg20_needs_save" name="geg20_needs_save" value="yes" />');    
+        }
+
+        function geg20_allow_creation() {
+            jQuery('#geg20_creation_denied').val('Erstellung des Ausweises verweigert: Nein.');
+            jQuery('#wpenon-generate-form').append('<input type="hidden" id="geg20_needs_save" name="geg20_needs_save" value="yes" />');    
+        }
+
+		jQuery(document).on('change', '#anlass', wp_enon_change_reason );
+
+		jQuery('#wpenon-generate-form').on('submit', function (e) {
+            if( wp_enon_geg20_needs_check() ) {
+                e.preventDefault();
+                wp_enon_geg20_check();
+                return;
+            }
+
+            if( wp_enon_geg20_creation_denied() ) {
+                e.preventDefault();
+                jQuery('#dialog_geg20_creation_denied').modal(modal_params);
+            }
+		});
+
+        jQuery('#btn-order-now').on('click',function(e) {
+			if( wp_enon_geg20_needs_check() ) {
+                e.preventDefault();
+                wp_enon_geg20_check();
+                return;
+            }
+
+            if( wp_enon_geg20_needs_save() ) {
+                e.preventDefault();
+                alert( 'Sie müssen Ihre Änderung speichern, bevor Sie fortfahren!');
+                return;
+            }
+
+            if( wp_enon_geg20_creation_denied() ) {
+                e.preventDefault();
+                jQuery('#dialog_geg20_creation_denied').modal(modal_params);
+            }
+		});
+	</script>
+    <?php
+}
+
+add_action( 'wp_footer', 'wpenon_check_geg20' );
+
 function wpenon_immoticket24_enqueue_no_consumption_modal( $template_slug, $template_suffix ) {
 	if ( 'edit' !== $template_slug || 'vw' !== $template_suffix ) {
 		return;
