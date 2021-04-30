@@ -115,7 +115,14 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 				if ( $energieausweis->ww_info == 'ww' ) {
 					return wpenon_immoticket24_get_energietraeger_name( $energieausweis->ww_energietraeger, true );
 				} else if ( $energieausweis->ww_info == 'h' ) {
-					return wpenon_immoticket24_get_energietraeger_name( $energieausweis->h_energietraeger, true );
+					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h_energietraeger );
+					if ( $energieausweis->h2_info ) {
+						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h2_energietraeger );
+						if ( $energieausweis->h3_info ) {
+							$energietraeger[] = wpenon_immoticket24_get_energietraeger_name( $energieausweis->h3_energietraeger );
+						}
+					}
+					return implode( ', ', array_unique( $energietraeger ) );
 				} else if ( $energieausweis->ww_info == 'unbekannt' ) {
 					return 'Strom';
 				}
