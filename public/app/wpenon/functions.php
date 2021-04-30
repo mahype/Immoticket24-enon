@@ -380,6 +380,10 @@ function wpenon_check_geg20() {
                 var geg20_building_measure_date = jQuery( '#geg20_building_measure_date' ).val();
                 var geg20_creation_denied       = jQuery( '#geg20_creation_denied' ).val();
 
+				if( ! document.getElementsByName("geg20_approval") ) {
+					return false;
+				}
+
                 if ( geg20_approval == '' ) {
                     return true;
                 }
