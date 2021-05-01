@@ -23,8 +23,11 @@ class XSDReader {
 	public function read() {
 		if ( ! $this->template ) {
 			$xsd_arr = get_transient( $this->transient_name );
+			$xsd_arr = false;
+
 			if ( $xsd_arr !== false ) {
 				$this->template = json_decode( $xsd_arr, true );
+				
 			} else {
 				$this->template = self::parseFile( $this->file, $this->target_namespace );
 
@@ -33,9 +36,6 @@ class XSDReader {
 				}
 			}
 		}
-
-		print_r( $this->template );
-		exit;
 
 		return $this->template;
 	}
