@@ -380,7 +380,6 @@ class EnergieausweisManager
 	{
 		$xsd = new XSD( $standard );
 		$file = $xsd->get_file( $mode );
-		exit;
 
 		return $file;
 	}
