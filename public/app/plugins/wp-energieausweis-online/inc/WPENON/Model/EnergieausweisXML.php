@@ -53,8 +53,6 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 
 			$current = $this->template;
 
-			print_r( $current );
-
 			if ( ! $raw ) {
 				if ( ! empty( $this->sanitized_namespace ) && strpos( $this->sanitized_namespace, ':' ) !== strlen( $this->sanitized_namespace ) - 1 ) {
 					$this->sanitized_namespace .= ':';
