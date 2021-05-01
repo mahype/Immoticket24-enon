@@ -80,6 +80,7 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 			}
 
 			$this->outputElement( $current['children'][0], array() );
+			exit;
 		}
 	}
 
@@ -227,6 +228,9 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 
 	protected function outputElement( $current, $path = array() ) {
 		$occurs = 1;
+
+		print_r( $current['name'] . "\n" );
+
 		if ( isset( $current['minOccurs'] ) || isset( $current['maxOccurs'] ) ) {
 			$min_occurs = null;
 			$max_occurs = null;
