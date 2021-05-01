@@ -41,9 +41,6 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 				$file = fopen( $xsd_file, "r" );
 				$content = fread( $file, filesize($xsd_file) );
 				echo $content;
-				exit;
-
-				echo 'WEITAA';
 
 				parent::__construct( $xsd_file, $target_namespace, 'wpenon_xml_template_' . $this->mode . '_' . $this->standard );
 				$this->read();
