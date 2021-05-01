@@ -78,6 +78,7 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 					),
 				);
 			}
+			print_r( $current['children'][0] );
 
 			$this->outputElement( $current['children'][0], array() );
 			exit;
