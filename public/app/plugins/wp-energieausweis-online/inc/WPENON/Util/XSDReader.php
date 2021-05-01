@@ -34,6 +34,9 @@ class XSDReader {
 			}
 		}
 
+		print_r( $this->template );
+		exit;
+
 		return $this->template;
 	}
 
@@ -62,8 +65,6 @@ class XSDReader {
 		if ( ! empty( $source_namespace ) ) {
 			$source = str_replace( $source_namespace . ':', '', $source );
 		}
-
-		print_r( $source );
 
 		$xsd = json_decode( json_encode( simplexml_load_string( $source ) ), true );
 

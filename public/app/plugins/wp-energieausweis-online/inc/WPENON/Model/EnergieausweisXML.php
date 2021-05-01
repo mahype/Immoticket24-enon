@@ -35,10 +35,8 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 				if ( $this->mode == 'zusatzdatenerfassung' ) {
 					$target_namespace = 'n1';
 				}
-				$xsd_file = \WPENON\Model\EnergieausweisManager::getXSDFile( $this->mode, $this->standard );
-				parent::__construct( $xsd_file, $target_namespace, 'wpenon_xml_template_' . $this->mode . '_' . $this->standard );
+				parent::__construct( \WPENON\Model\EnergieausweisManager::getXSDFile( $this->mode, $this->standard ), $target_namespace, 'wpenon_xml_template_' . $this->mode . '_' . $this->standard );
 				$this->read();
-				print_r( $this->template );
 				break;
 			default:
 				new \WPENON\Util\Error( 'fatal', __METHOD__, sprintf( __( 'Der Modus %s ist kein gültiger XML-Modus.', 'wpenon' ), $this->mode ), '1.0.0' );
@@ -82,7 +80,6 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 			}
 
 			$this->outputElement( $current['children'][0], array() );
-			exit;
 		}
 	}
 
@@ -230,9 +227,6 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 
 	protected function outputElement( $current, $path = array() ) {
 		$occurs = 1;
-
-		print_r( $current['name'] . "\n" );
-
 		if ( isset( $current['minOccurs'] ) || isset( $current['maxOccurs'] ) ) {
 			$min_occurs = null;
 			$max_occurs = null;
