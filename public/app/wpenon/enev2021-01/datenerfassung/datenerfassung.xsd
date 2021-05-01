@@ -68,6 +68,11 @@
                   <xs:documentation xml:lang="de-de">Postleitzahl des Gebäudestandortes</xs:documentation>
                 </xs:annotation>
               </xs:element>
+              <xs:element type="xs:string" name="Gesetzesgrundlage" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation xml:lang="de-de">Verwendete Gesetzesgrundlage</xs:documentation>
+                </xs:annotation>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
