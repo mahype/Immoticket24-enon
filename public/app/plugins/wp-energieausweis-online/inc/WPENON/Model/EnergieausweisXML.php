@@ -35,8 +35,13 @@ class EnergieausweisXML extends \WPENON\Util\XSDReader {
 				if ( $this->mode == 'zusatzdatenerfassung' ) {
 					$target_namespace = 'n1';
 				}
-				parent::__construct( \WPENON\Model\EnergieausweisManager::getXSDFile( $this->mode, $this->standard ), $target_namespace, 'wpenon_xml_template_' . $this->mode . '_' . $this->standard );
+				$xsd_file = \WPENON\Model\EnergieausweisManager::getXSDFile( $this->mode, $this->standard );
+				print_r( $xsd_file );
+				fpassthru( $xsd_file );
+
+				parent::__construct( $xsd_file, $target_namespace, 'wpenon_xml_template_' . $this->mode . '_' . $this->standard );
 				$this->read();
+				print_r( $this->template );
 				break;
 			default:
 				new \WPENON\Util\Error( 'fatal', __METHOD__, sprintf( __( 'Der Modus %s ist kein gültiger XML-Modus.', 'wpenon' ), $this->mode ), '1.0.0' );
