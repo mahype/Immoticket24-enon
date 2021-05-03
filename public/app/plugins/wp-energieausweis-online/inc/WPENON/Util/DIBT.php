@@ -52,6 +52,8 @@ class DIBT {
 				}
 
 				return false;
+			} else {
+				self::log( sprintf( 'Energieausweis #%s: Already registered.', $energieausweis->id ) );
 			}
 
 			return true;
