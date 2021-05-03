@@ -9,8 +9,13 @@ namespace WPENON\Util;
 
 class DIBT {
 	public static function assignRegistryID( $energieausweis ) {
+		self::log( sprintf( 'Energieausweis #%s: Trying assigning registration.', $energieausweis->id ) );
+
 		if ( $energieausweis->isFinalized() ) {
+			self::log( sprintf( 'Energieausweis #%s: Energy certificate is finalized.', $energieausweis->id ) );
+
 			if ( ! $energieausweis->isRegistered() ) {
+				self::log( sprintf( 'Energieausweis #%s: Energy certificate is not registered.', $energieausweis->id ) );
 				$data = $energieausweis->getXML( 'datenerfassung', 'S', true );
 
 				$response = self::request( 'Datenregistratur', array(
@@ -48,9 +53,13 @@ class DIBT {
 				}
 
 				return false;
+			} else {
+				self::log( sprintf( 'Energieausweis #%s: Already registered.', $energieausweis->id ) );
 			}
 
 			return true;
+		} else {
+			self::log( sprintf( 'Energieausweis #%s: Already finalized.', $energieausweis->id ) );
 		}
 
 		return false;
@@ -217,7 +226,7 @@ class DIBT {
 
 		$line = $time . ' - ' . $microtime .  ' - ' . $url . chr(13) . $message . chr(13 );
 
-		$file = fopen( dirname( ABSPATH ) . '/dibt.log', 'a' );
+		$file = fopen( dirname( dirname( ABSPATH ) ) . '/dibt.log', 'a' );
 		fputs( $file, $line  );
 		fclose( $file );
 	}
