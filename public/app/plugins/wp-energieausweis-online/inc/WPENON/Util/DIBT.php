@@ -57,6 +57,8 @@ class DIBT {
 			}
 
 			return true;
+		} else {
+			self::log( sprintf( 'Energieausweis #%s: Already finalized.', $energieausweis->id ) );
 		}
 
 		return false;
