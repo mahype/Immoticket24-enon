@@ -1,6 +1,6 @@
 <?php
 
-require dirname( __FILE__ ) . '/CalculationsCC.php';
+require_once dirname( __FILE__ ) . '/CalculationsCC.php';
 
 $tableNames = new stdClass();
 
