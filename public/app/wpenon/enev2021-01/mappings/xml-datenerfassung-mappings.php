@@ -45,7 +45,7 @@ if( ! function_exists( 'wpenon_get_enev_xml_datenerfassung_data' ) ) {
 						case 'Postleitzahl':
 							return $energieausweis->adresse_plz;
 						case 'Gesetzesgrundlage':
-							return 'GEG';
+							return 'ENEV';
 						case 'Gebaeudeart':
 							if ($energieausweis->gebaeudetyp == 'gemischt') {
 								if ($energieausweis->building == 'n') {

@@ -337,6 +337,13 @@ if ( $post && ! empty( $post->post_date_gmt ) && '0000-00-00 00:00:00' !== $post
 $should_calculations_be_fixed = $energieausweis_timestamp > 1536326720; // 09/07/2018 @ 1:25pm (UTC)
 
 if ( $energieausweis->ww_info === 'unbekannt' ) {
+	$ww_energietraeger                  = wpenon_get_table_results( $tableNames->energietraeger, array(
+		'bezeichnung' => array(
+			'value'   => 'strom',
+			'compare' => '='
+		)
+	), array(), true );
+
 	$calculations['warmwasser_zuschlag'] = 20.0 * $calculations['nutzflaeche'] * 3;
 	if ( $should_calculations_be_fixed ) {
 		$calculations['warmwasser_zuschlag_b'] = $calculations['warmwasser_zuschlag'] / $calculations['nutzflaeche'];
@@ -348,7 +355,7 @@ if ( $energieausweis->ww_info === 'unbekannt' ) {
 		'start'          => $calculations['verbrauchsdaten'][0]['start'],
 		'ende'           => $calculations['verbrauchsdaten'][2]['ende'],
 		'energietraeger' => 'Warmwasserzuschlag',
-		'primaer'        => $calculations['anlagendaten']['h']['energietraeger_primaer'],
+		'primaer'        => floatval( $ww_energietraeger->primaer ),
 		'klima'          => '',
 		'heizung'        => 0.0,
 		'heizung_b'      => 0.0,
@@ -360,7 +367,7 @@ if ( $energieausweis->ww_info === 'unbekannt' ) {
 
 	$calculations['qw_e_b']         += $calculations['warmwasser_zuschlag_b'];
 	$calculations['endenergie']     += $calculations['warmwasser_zuschlag_b'];
-	$calculations['primaerenergie'] += $calculations['warmwasser_zuschlag_b'] * $calculations['anlagendaten']['h']['energietraeger_primaer'];
+	$calculations['primaerenergie'] += $calculations['warmwasser_zuschlag_b'] * floatval( $ww_energietraeger->primaer );
 }
 
 if ( $energieausweis->k_info == 'vorhanden' ) {
