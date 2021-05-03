@@ -15,6 +15,7 @@ class DIBT {
 			self::log( sprintf( 'Energieausweis #%s: Energy certificate is finalized.', $energieausweis->id ) );
 
 			if ( ! $energieausweis->isRegistered() ) {
+				self::log( sprintf( 'Energieausweis #%s: Energy certificate is not registered.', $energieausweis->id ) );
 				$data = $energieausweis->getXML( 'datenerfassung', 'S', true );
 
 				$response = self::request( 'Datenregistratur', array(
