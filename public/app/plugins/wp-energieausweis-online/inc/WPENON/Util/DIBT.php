@@ -9,7 +9,11 @@ namespace WPENON\Util;
 
 class DIBT {
 	public static function assignRegistryID( $energieausweis ) {
+		self::log( sprintf( 'Energieausweis #%s: Trying assigning registration.', $energieausweis->id ) );
+
 		if ( $energieausweis->isFinalized() ) {
+			self::log( sprintf( 'Energieausweis #%s: Energy certificate is finalized.', $energieausweis->id ) );
+
 			if ( ! $energieausweis->isRegistered() ) {
 				$data = $energieausweis->getXML( 'datenerfassung', 'S', true );
 
