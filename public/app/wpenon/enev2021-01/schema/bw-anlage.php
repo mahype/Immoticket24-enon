@@ -24,7 +24,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -52,7 +51,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -68,7 +66,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -84,7 +81,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -100,7 +96,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -116,7 +111,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -333,7 +327,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -361,7 +354,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -377,7 +369,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -393,7 +384,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -413,7 +403,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -429,7 +418,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -666,7 +654,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -694,7 +681,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -710,7 +696,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -726,7 +711,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -746,7 +730,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -762,7 +745,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
