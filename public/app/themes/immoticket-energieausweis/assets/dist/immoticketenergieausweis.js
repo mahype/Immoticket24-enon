@@ -1,6 +1,6 @@
 /*!
  * Immoticket Energieausweis Version 1.0.0 (http://www.energieausweis-online-erstellen.de)
- * Copyright 2014-2020 Felix Arntz
+ * Copyright 2014-2021 Felix Arntz
  * Licensed under GPL-2.0 (http://www.gnu.org/licenses/gpl-2.0.html)
  */
 /* ========================================================================
