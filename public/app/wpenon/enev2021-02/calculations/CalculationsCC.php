@@ -213,6 +213,8 @@ class CalculationsCC {
         if( $this->ec->regenerativ_art !== 'keine' )
         {
             $this->formData->solar = true;
+            $this->formData->solar_warmwasser = false;
+            $this->formData->solar_waermeerzeugung = false;
 
             if( $this->ec->regenerativ_nutzung === 'warmwasser' )
             {
