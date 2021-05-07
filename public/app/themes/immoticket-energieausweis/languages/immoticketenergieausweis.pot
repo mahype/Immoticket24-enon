@@ -1,13 +1,13 @@
-# Copyright (c) 2014-2014 Felix Arntz
+# Copyright (c) 2014-2021 Felix Arntz
 msgid ""
 msgstr ""
 "Project-Id-Version: Immoticket Energieausweis 1.0.0\n"
 "Report-Msgid-Bugs-To: http://www.energieausweis-online-erstellen.de\n"
-"POT-Creation-Date: 2014-11-08 19:15:22+00:00\n"
+"POT-Creation-Date: 2021-05-03 13:55:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n 0.4.5\n"
@@ -22,36 +22,1052 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes\n"
 
+#: category.php:19 home.php:19 index.php:19 single-post.php:18 tag.php:19
+msgid "Veröffentlicht am "
+msgstr ""
+
+#: category.php:19 home.php:19 index.php:19 single-post.php:18 tag.php:19
+msgid " von %s"
+msgstr ""
+
 #: comments.php:26 comments.php:43
-msgid "Comment navigation"
+msgid "Kommentar-Navigation"
 msgstr ""
 
 #: comments.php:27 comments.php:44
-msgid "&larr; Older Comments"
+msgid "&larr; Ältere Kommentare"
 msgstr ""
 
 #: comments.php:28 comments.php:45
-msgid "Newer Comments &rarr;"
+msgid "Neuere Kommentare &rarr;"
 msgstr ""
 
-#: comments.php:55
-msgid "Comments are closed."
+#: comments.php:52
+msgid "Kommentare sind geschlossen."
 msgstr ""
 
-#: inc/frontend.php:45
+#: comments.php:67 inc/backend.php:253
+msgid "Name"
+msgstr ""
+
+#: comments.php:68 inc/frontend.php:657
+msgid "Email"
+msgstr ""
+
+#: comments.php:69 inc/backend.php:303 inc/frontend.php:661
+msgid "Website"
+msgstr ""
+
+#: comments.php:71
+msgid "Kommentar"
+msgstr ""
+
+#: edd_templates/checkout_cart.php:11
+msgid "Item Name"
+msgstr ""
+
+#: edd_templates/checkout_cart.php:12
+msgid "Item Price"
+msgstr ""
+
+#: edd_templates/checkout_cart.php:13
+msgid "Actions"
+msgstr ""
+
+#: edd_templates/checkout_cart.php:59 edd_templates/checkout_cart.php:78
+msgid "Remove"
+msgstr ""
+
+#: edd_templates/checkout_cart.php:105
+msgid "Subtotal"
+msgstr ""
+
+#: edd_templates/checkout_cart.php:123
+msgid "Tax"
+msgstr ""
+
+#: edd_templates/checkout_cart.php:132
+msgid "Total"
+msgstr ""
+
+#: edd_templates/shortcode-receipt.php:16
+msgid "The specified receipt ID appears to be invalid"
+msgstr ""
+
+#: footer.php:44
+msgid "Ein Service von %s"
+msgstr ""
+
+#: footer.php:47
+msgid "Entwickelt von %s"
+msgstr ""
+
+#: functions.php:103
+msgid "Bedarfsausweis %s"
+msgstr ""
+
+#: functions.php:105
+msgid "Verbrauchsausweis %s"
+msgstr ""
+
+#: functions.php:119
+msgid "Mein Energieausweis %s"
+msgstr ""
+
+#: functions.php:131
+msgid ""
+"<p>Um Ihre Energieausweis-Bestellung abschließen zu können, müssen Sie "
+"hierfür Cookies akzeptieren, damit die eingegebenen Angaben für die "
+"Bestellung übernommen werden können.</p>\n"
+"\n"
+"<p>Dies können Sie in Ihrem Browser wie folgt erledigen:</p>\n"
+"\n"
+"<p><strong>Safari:</strong></p>\n"
+"<p>Einstellungen => Datenschutz => \"Alle Cookies blockieren\" "
+"deaktivieren</p>\n"
+"\n"
+"<p><strong>Firefox:</strong></p>\n"
+"<p>Einstellungen => Datenschutz & Sicherheit => \"Annehmen von Cookies und "
+"Website-Daten\" aktivieren</p>\n"
+"\n"
+"<p><strong>Chrome:</strong></p>\n"
+"<p>Einstellungen => Erweitert => Datenschutz & Sicherheit => \"Bei "
+"Browserzugriffen eine Do not track-Anforderung mitsenden\" deaktivieren</p>"
+msgstr ""
+
+#: functions.php:144
+msgid ""
+"<p>Um Ihr Energieausweis-Projekt erneut aufzurufen, verwenden Sie bitte den "
+"Zugriffs-Link, den Sie bei der Erstellung des Projekts per Email erhalten "
+"haben.</p>"
+msgstr ""
+
+#: functions.php:145
+msgid "Zurück zum Energieausweis"
+msgstr ""
+
+#: functions.php:161
+msgid "Ich akzeptiere die AGB von Immoticket24."
+msgstr ""
+
+#: functions.php:172
+msgid "AGB anzeigen"
+msgstr ""
+
+#: functions.php:173
+msgid "AGB ausblenden"
+msgstr ""
+
+#: functions.php:201
+msgid ""
+"Sie können Ihre Bestellung sofort nach Zahlungseingang herunterladen. Dazu "
+"benachrichtigen wir Sie per Email."
+msgstr ""
+
+#: functions.php:290
+msgid ""
+"Bitte wählen Sie die Zahlungsmethode aus, mit der Sie Ihre Bestellung "
+"bezahlen möchten!"
+msgstr ""
+
+#: functions.php:293
+msgid "PayPal"
+msgstr ""
+
+#: functions.php:297
+msgid "Sofortüberweisung"
+msgstr ""
+
+#: functions.php:301
+msgid "Lastschrift"
+msgstr ""
+
+#: functions.php:305
+msgid "Banküberweisung"
+msgstr ""
+
+#: functions.php:310
+msgid "Kreditkarte"
+msgstr ""
+
+#: functions.php:323 functions.php:324
+msgid "None"
+msgstr ""
+
+#: functions.php:408
+msgid ""
+"Ich habe die <a href=\"%1$s\" %2$s>Datenschutzerklärung</a> gelesen und "
+"akzeptiere sie."
+msgstr ""
+
+#: functions.php:426
+msgid ""
+"Hiermit bestätige ich, dass Energieausweis-online-erstellen.de mich bei "
+"Fragen zu meinen Energieausweis-Angaben kontaktieren darf."
+msgstr ""
+
+#: functions.php:572 functions.php:594
+msgid "Achtung"
+msgstr ""
+
+#: functions.php:575
+msgid ""
+"Beachten Sie, dass wir Sie ohne Einwilligung bei Fragen zu Ihren Angaben "
+"nicht kontaktieren können."
+msgstr ""
+
+#: functions.php:578
+msgid "Ohne Rückmeldung weiter"
+msgstr ""
+
+#: functions.php:579
+msgid "Kontaktieren Sie mich bei Fragen"
+msgstr ""
+
+#: functions.php:597
+msgid "Sie müssen die Datenschutzerklärung akzeptieren um fortfahren zu können."
+msgstr ""
+
+#: functions.php:600
+msgid "OK"
+msgstr ""
+
+#: functions.php:720
+msgid ""
+"Ich erkläre mich mit den <a href=\"%3$s\" %4$s>AGB</a>, den <a "
+"href=\"%5$s\" %6$s>Widerrufsbestimmungen</a> und der <a href=\"%1$s\" "
+"%2$s>Datenschutzerklärung</a> einverstanden."
+msgstr ""
+
+#: functions.php:726
+msgid ""
+"Ich erkläre mich damit einverstanden nach Bestellabschluss weitere "
+"Informationen über aktuelle und künftige Angebote und Produkte zu erhalten, "
+"denen ich jederzeit unter info@immoticket24.de oder über den Abmeldelink in "
+"der Email widersprechen kann."
+msgstr ""
+
+#: functions.php:738
+msgid ""
+"Ich bin damit einverstanden, dass meine Kontaktdaten und "
+"Bestellinformationen der DKB Grund GmbH, dem Anbieter dieser Website, zur "
+"Kontaktaufnahme zur Verfügung gestellt werden."
+msgstr ""
+
+#: functions.php:750
+msgid ""
+"Ich bin damit einverstanden, dass meine Kontaktdaten und "
+"Bestellinformationen der Agas Immobilien GmbH, dem Anbieter dieser Website, "
+"zur Kontaktaufnahme zur Verfügung gestellt werden."
+msgstr ""
+
+#: functions.php:790
+msgid ""
+"Sie haben den Bedingungen von Energieausweis-online-erstellen.de nicht "
+"zugestimmt."
+msgstr ""
+
+#: functions.php:794
+msgid "Sie haben den Bedingungen von Agas Immobilien GmbH nicht zugestimmt."
+msgstr ""
+
+#: header.php:34
+msgid "Sofort verfügbar"
+msgstr ""
+
+#: header.php:37
+msgid "Zufriedenheitsgarantie"
+msgstr ""
+
+#: header.php:40
+msgid "Kundenhotline"
+msgstr ""
+
+#: header.php:95
+msgid "Navigation"
+msgstr ""
+
+#: inc/backend.php:13 inc/backend.php:14
+msgid "Theme-Einstellungen"
+msgstr ""
+
+#: inc/backend.php:18
+msgid "Allgemein"
+msgstr ""
+
+#: inc/backend.php:19
+msgid "Hier können Sie allgemeine Einstellungen des Themes bearbeiten."
+msgstr ""
+
+#: inc/backend.php:24
+msgid "Kopfzeile"
+msgstr ""
+
+#: inc/backend.php:27
+msgid "Bild"
+msgstr ""
+
+#: inc/backend.php:28
+msgid "Legen Sie das Bild fest, das im Header angezeigt werden soll."
+msgstr ""
+
+#: inc/backend.php:32
+msgid "Beschriftung"
+msgstr ""
+
+#: inc/backend.php:36
+msgid "Link-URL"
+msgstr ""
+
+#: inc/backend.php:40
+msgid "Link-Beschriftung"
+msgstr ""
+
+#: inc/backend.php:44
+msgid "Link-Ziel"
+msgstr ""
+
+#: inc/backend.php:46
+msgid "Link in neuem Tab öffnen?"
+msgstr ""
+
+#: inc/backend.php:51
+msgid "Fußbereich"
+msgstr ""
+
+#: inc/backend.php:54
+msgid "Kontaktformular"
+msgstr ""
+
+#: inc/backend.php:55
+msgid ""
+"Wählen Sie das Kontaktformular aus, welches im Fußbereich angezeigt werden "
+"soll."
+msgstr ""
+
+#: inc/backend.php:62
+msgid "Spezielle Seiten"
+msgstr ""
+
+#: inc/backend.php:65
+msgid "Seite für Datenschutzerklärung"
+msgstr ""
+
+#: inc/backend.php:66
+msgid "Wählen Sie die Seite aus, welche die Datenschutzerklärung enthält."
+msgstr ""
+
+#: inc/backend.php:73
+msgid "AGB"
+msgstr ""
+
+#: inc/backend.php:74
+msgid "Wählen Sie die Seite aus, welche die AGB enthält."
+msgstr ""
+
+#: inc/backend.php:81
+msgid "Widerrufsbelehrung"
+msgstr ""
+
+#: inc/backend.php:82
+msgid "Wählen Sie die Seite aus, welche die Widerrufsbelehrung enthält."
+msgstr ""
+
+#: inc/backend.php:89
+msgid "Erfolgreiche Zahlung"
+msgstr ""
+
+#: inc/backend.php:90
+msgid ""
+"Wählen Sie die Seite aus, die nach einer erfolgreichen Zahlung angezeigt "
+"werden soll."
+msgstr ""
+
+#: inc/backend.php:97
+msgid "Fehlgeschlagene Zahlung"
+msgstr ""
+
+#: inc/backend.php:98
+msgid ""
+"Wählen Sie die Seite aus, die nach einer fehlgeschlagenen Zahlung angezeigt "
+"werden soll."
+msgstr ""
+
+#: inc/backend.php:153
+msgid "IFrame"
+msgstr ""
+
+#: inc/backend.php:154
+msgid "Hier können Sie die Einstellungen zum Energieausweis-IFrame verwalten."
+msgstr ""
+
+#: inc/backend.php:159
+msgid "Zugriffsschlüssel"
+msgstr ""
+
+#: inc/backend.php:160
+msgid "Dies ist die Liste der Zugriffsschlüssel für das IFrame"
+msgstr ""
+
+#: inc/backend.php:163
+msgid "Schlüssel"
+msgstr ""
+
+#: inc/backend.php:168 inc/backend.php:298
+msgid "Email-Adresse"
+msgstr ""
+
+#: inc/backend.php:172
+msgid "Zugriffsschlüssel zur Email"
+msgstr ""
+
+#: inc/backend.php:177
+msgid "Kunden Editierseite"
+msgstr ""
+
+#: inc/backend.php:182
+msgid "Zahlung Erfolgreich"
+msgstr ""
+
+#: inc/backend.php:187
+msgid "Zahlung Fehlgeschlagen"
+msgstr ""
+
+#: inc/backend.php:192
+msgid "Email Absender Adresse"
+msgstr ""
+
+#: inc/backend.php:197
+msgid "Email Absender Name"
+msgstr ""
+
+#: inc/backend.php:202
+msgid "Email Footer"
+msgstr ""
+
+#: inc/backend.php:207
+msgid "Seitennname"
+msgstr ""
+
+#: inc/backend.php:212
+msgid "Aktiv?"
+msgstr ""
+
+#: inc/backend.php:215
+msgid "Ja"
+msgstr ""
+
+#: inc/backend.php:216
+msgid "Nein"
+msgstr ""
+
+#: inc/backend.php:229 inc/backend.php:230 inc/backend.php:234
+msgid "Firmeninformationen"
+msgstr ""
+
+#: inc/backend.php:235
+msgid "Hier können Sie Ihre Firmendaten bearbeiten und aktualisieren."
+msgstr ""
+
+#: inc/backend.php:240
+msgid "Allgemeine Daten"
+msgstr ""
+
+#: inc/backend.php:243
+msgid "Firmenname"
+msgstr ""
+
+#: inc/backend.php:247 inc/frontend.php:614
+msgid "Geschäftsführer"
+msgstr ""
+
+#: inc/backend.php:260
+msgid "Logo"
+msgstr ""
+
+#: inc/backend.php:265
+msgid "Gründungsjahr"
+msgstr ""
+
+#: inc/backend.php:274
+msgid "Kontaktdaten"
+msgstr ""
+
+#: inc/backend.php:277
+msgid "Straße und Hausnummer"
+msgstr ""
+
+#: inc/backend.php:281
+msgid "Postleitzahl"
+msgstr ""
+
+#: inc/backend.php:285
+msgid "Ort"
+msgstr ""
+
+#: inc/backend.php:289 inc/frontend.php:653
+msgid "Telefon"
+msgstr ""
+
+#: inc/backend.php:293
+msgid "Telefon (maschinell)"
+msgstr ""
+
+#: inc/backend.php:294
+msgid ""
+"Geben Sie hier die Telefonnummer im maschinenlesbaren Format ein (inklusive "
+"aller Vorwahlen, startet in Deutschland mit +49)."
+msgstr ""
+
+#: inc/backend.php:310 inc/frontend.php:665
+msgid "Öffnungszeiten"
+msgstr ""
+
+#: inc/backend.php:313
+msgid "Haupt-Öffnungszeiten"
+msgstr ""
+
+#: inc/backend.php:318
+msgid "Haupt-Öffnungszeiten (maschinell)"
+msgstr ""
+
+#: inc/backend.php:319
+msgid ""
+"Geben Sie hier Ihre Öffnungszeiten in maschinenlesbarem Format ein. Als "
+"Hilfe zur Formatierung können Sie sich %1$sdiese Seite%2$s ansehen."
+msgstr ""
+
+#: inc/backend.php:326
+msgid "Kontoinformationen"
+msgstr ""
+
+#: inc/backend.php:329
+msgid "Kontoinhaber"
+msgstr ""
+
+#: inc/backend.php:333
+msgid "Kontonummer"
+msgstr ""
+
+#: inc/backend.php:337
+msgid "Bankleitzahl"
+msgstr ""
+
+#: inc/backend.php:341
+msgid "Kreditinstitut"
+msgstr ""
+
+#: inc/backend.php:345
+msgid "IBAN"
+msgstr ""
+
+#: inc/backend.php:349
+msgid "BIC (SWIFT)"
+msgstr ""
+
+#: inc/backend.php:355
+msgid "Rechtliche Informationen"
+msgstr ""
+
+#: inc/backend.php:358
+msgid "Steuernummer"
+msgstr ""
+
+#: inc/backend.php:362
+msgid "USt-Identifikationsnummer"
+msgstr ""
+
+#: inc/backend.php:366
+msgid "Handelsregister"
+msgstr ""
+
+#: inc/backend.php:370
+msgid "Berufsaufsichtsbehörde"
+msgstr ""
+
+#: inc/backend.php:408
+msgid "Erweitert"
+msgstr ""
+
+#: inc/backend.php:417
+msgid "Ad: Überschrift"
+msgstr ""
+
+#: inc/backend.php:421
+msgid "Geben Sie eine Überschrift für die Werbung ein."
+msgstr ""
+
+#: inc/backend.php:426
+msgid "Ad: Inhalt"
+msgstr ""
+
+#: inc/backend.php:430
+msgid ""
+"Geben Sie den Werbeinhalt ein. Das kann entweder ein kurzer Text sein oder "
+"eine Video-URL (z.B. von YouTube). Sie können zudem den Shortcode %s "
+"verwenden."
+msgstr ""
+
+#: inc/backend.php:435
+msgid "Bildquelle"
+msgstr ""
+
+#: inc/backend.php:439
+msgid "Geben Sie die Quelle des Beitragsbilds an."
+msgstr ""
+
+#: inc/backend.php:465
+msgid "Link als Button einfügen"
+msgstr ""
+
+#: inc/banner-widget.php:12
+msgid "Ein Energieausweis Online Erstellen-Banner."
+msgstr ""
+
+#: inc/banner-widget.php:14
+msgid "Energieausweis-Banner"
+msgstr ""
+
+#: inc/banner-widget.php:24
+msgid "Aktuelles Angebot"
+msgstr ""
+
+#: inc/banner-widget.php:55
+msgid "Title:"
+msgstr ""
+
+#: inc/banner-widget.php:58
+msgid "Target URL:"
+msgstr ""
+
+#: inc/frontend.php:68
+msgid ""
+"Wenn Ihnen der Artikel gefällt, würden wir uns über ein Teilen des Artikels "
+"mit Ihren Freunden freuen. Damit helfen Sie uns, unsere Website bekannter "
+"zu machen!"
+msgstr ""
+
+#: inc/frontend.php:76
+msgid "Titelbild:"
+msgstr ""
+
+#: inc/frontend.php:102
+msgid ""
+"War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel "
+"auf dieser Website:"
+msgstr ""
+
+#: inc/frontend.php:106
+msgid "Das sagen Kunden:"
+msgstr ""
+
+#: inc/frontend.php:419 wpenon_templates/purchase.php:70
+msgid "Bedarfsausweis"
+msgstr ""
+
+#: inc/frontend.php:421 wpenon_templates/purchase.php:68
+msgid "Verbrauchsausweis"
+msgstr ""
+
+#: inc/frontend.php:499
 msgid "Page %s"
 msgstr ""
 
-#: inc/theme-setup.php:21
-msgid "Primary Menu"
+#: inc/frontend.php:548
+msgid "Kontakt"
+msgstr ""
+
+#: inc/frontend.php:553
+msgid "Wir akzeptieren"
+msgstr ""
+
+#: inc/frontend.php:575
+msgid "Karte"
+msgstr ""
+
+#: inc/theme-setup.php:25
+msgid "Hauptmenü"
+msgstr ""
+
+#: inc/theme-setup.php:26
+msgid "Top-Navigation"
+msgstr ""
+
+#: inc/theme-setup.php:27
+msgid "Social Media-Menü"
+msgstr ""
+
+#: inc/theme-setup.php:28
+msgid "Oberes Fußmenü"
 msgstr ""
 
 #: inc/theme-setup.php:29
-msgid "Primary Sidebar"
+msgid "Fußmenü"
 msgstr ""
 
-#: inc/theme-setup.php:31
-msgid "This sidebar is shown beside the main content."
+#: inc/theme-setup.php:49
+msgid "Seitenleiste"
+msgstr ""
+
+#: inc/theme-setup.php:51
+msgid ""
+"Diese Seitenleiste wird rechts neben dem Inhalt (ausgenommen des Blogs) "
+"angezeigt."
+msgstr ""
+
+#: inc/theme-setup.php:59
+msgid "Blog-Seitenleiste"
+msgstr ""
+
+#: inc/theme-setup.php:61
+msgid "Diese Seitenleiste wird rechts neben Inhalten des Blogs angezeigt."
+msgstr ""
+
+#: wpenon_templates/access-box.php:11
+msgid ""
+"Sie können Ihren Energieausweis jederzeit auch zu einem späteren Zeitpunkt "
+"aufrufen, um ihn anzusehen oder die Arbeit daran fortzusetzen. Speichern "
+"Sie sich dazu einfach den hier angezeigten Link ab und rufen Sie ihn später "
+"wieder auf."
+msgstr ""
+
+#: wpenon_templates/access-box.php:17
+msgid ""
+"Gehen Sie bitte mit dem Link vertraulich um, damit nur Sie auf diesen "
+"Zugriff haben!"
+msgstr ""
+
+#: wpenon_templates/create.php:18
+msgid ""
+"Geben Sie allgemeine Informationen für den Energieausweis ein, den Sie "
+"erstellen möchten."
+msgstr ""
+
+#: wpenon_templates/create.php:21
+msgid "Achtung:"
+msgstr ""
+
+#: wpenon_templates/create.php:22
+msgid ""
+"Sie können die Adress-Angaben unten im Nachhinein nicht mehr ändern. Achten "
+"Sie also auf die Korrektheit Ihrer Eingaben."
+msgstr ""
+
+#: wpenon_templates/create.php:25
+msgid "Ihren Energieausweis erhalten Sie nach Bestellabschluss per Mail zugesendet."
+msgstr ""
+
+#: wpenon_templates/create.php:40
+msgid "Energieausweis-Erstellung beginnen"
+msgstr ""
+
+#: wpenon_templates/edit.php:19 wpenon_templates/editoverview.php:11
+msgid "Zurück zur Übersicht"
+msgstr ""
+
+#: wpenon_templates/edit.php:26 wpenon_templates/editoverview.php:18
+#: wpenon_templates/overview.php:131
+msgid "Energieausweis ansehen"
+msgstr ""
+
+#: wpenon_templates/edit.php:28 wpenon_templates/editoverview.php:20
+#: wpenon_templates/overview.php:133
+msgid "Vorschau ansehen"
+msgstr ""
+
+#: wpenon_templates/edit.php:37
+msgid "Jetzt bestellen"
+msgstr ""
+
+#: wpenon_templates/edit.php:42 wpenon_templates/overview.php:167
+msgid "Status:"
+msgstr ""
+
+#: wpenon_templates/edit.php:46 wpenon_templates/overview.php:171
+msgid "Angaben vollständig"
+msgstr ""
+
+#: wpenon_templates/edit.php:50 wpenon_templates/overview.php:175
+msgid "Angaben noch unvollständig"
+msgstr ""
+
+#: wpenon_templates/edit.php:59
+msgid ""
+"Ihre Angaben für diesen Energieausweis sind vollständig, sodass dieser nun "
+"berechnet und bestellt werden kann."
+msgstr ""
+
+#: wpenon_templates/edit.php:60
+msgid ""
+"Beachten Sie, dass Sie die Angaben im Nachhinein nicht mehr ändern können. "
+"Achten Sie also auf die Korrektheit der Angaben."
+msgstr ""
+
+#: wpenon_templates/edit.php:62
+msgid ""
+"Ihre Angaben für diesen Energieausweis sind noch unvollständig. Erst bei "
+"vollständigen Daten kann der Energieausweis berechnet und bestellt werden."
+msgstr ""
+
+#: wpenon_templates/edit.php:70
+msgid ""
+"Sie haben für diesen Energieausweis eine Bestellung aufgegeben, welche noch "
+"nicht bezahlt ist."
+msgstr ""
+
+#: wpenon_templates/edit.php:71
+msgid ""
+"Aus Sicherheitsgründen können Sie die Angaben im Energieausweis erst dann "
+"wieder bearbeiten, wenn die Bezahlung erfolgt ist."
+msgstr ""
+
+#: wpenon_templates/edit.php:75
+msgid ""
+"Sie haben für diesen Energieausweis bereits eine Bestellung aufgegeben. "
+"Ihre Eingaben sind daher zum jetzigen Zeitpunkt nicht mehr änderbar. Vor "
+"dem Kauf haben Sie die Korrektheit der Daten bestätigt."
+msgstr ""
+
+#: wpenon_templates/edit.php:84
+msgid "Erforderliche Felder für die Dateneingabe sind durch %s markiert."
+msgstr ""
+
+#: wpenon_templates/edit.php:91
+msgid "Änderungen speichern"
+msgstr ""
+
+#: wpenon_templates/editoverview.php:28
+msgid "Hier sehen Sie eine Übersicht zu den von Ihnen getätigten Angaben."
+msgstr ""
+
+#: wpenon_templates/editoverview.php:30
+msgid "Bitte prüfen Sie diese vor dem Fertigstellen der Bestellung auf Korrektheit!"
+msgstr ""
+
+#: wpenon_templates/editoverview.php:37
+msgid "Angaben korrigieren"
+msgstr ""
+
+#: wpenon_templates/editoverview.php:44
+msgid "Alle Angaben wurden von mir auf Korrektheit überprüft."
+msgstr ""
+
+#: wpenon_templates/message-error.php:12
+msgid "Fehlerhafte Eingaben!"
+msgstr ""
+
+#: wpenon_templates/message-error.php:15
+msgid "In den folgenden Feldern wurden ungültige Eingaben festgestellt:"
+msgstr ""
+
+#: wpenon_templates/message-error.php:25
+msgid "Klicken Sie auf den jeweiligen Punkt um den Fehler zu korrigieren."
+msgstr ""
+
+#: wpenon_templates/message-warning.php:12
+msgid "Überprüfung empfohlen!"
+msgstr ""
+
+#: wpenon_templates/message-warning.php:15
+msgid "Bitte überprüfen Sie Ihre Eingaben in den folgenden Feldern auf Korrektheit:"
+msgstr ""
+
+#: wpenon_templates/message-warning.php:25
+msgid "Klicken Sie auf den jeweiligen Punkt um die Warnung zu überprüfen."
+msgstr ""
+
+#: wpenon_templates/overview.php:24
+msgid "Energieausweis-Basisdaten"
+msgstr ""
+
+#: wpenon_templates/overview.php:28
+msgid ""
+"Dies sind allgemeine Daten zu Ihrem Energieausweis. Diese Informationen "
+"sind, einmal festgelegt, nicht mehr veränderlich. Beachten Sie, dass einige "
+"Daten erst nach Bezahlung festgelegt werden."
+msgstr ""
+
+#: wpenon_templates/overview.php:36
+msgid "Typ"
+msgstr ""
+
+#: wpenon_templates/overview.php:40
+msgid "Registriernummer"
+msgstr ""
+
+#: wpenon_templates/overview.php:44
+msgid "Ausstellungsdatum"
+msgstr ""
+
+#: wpenon_templates/overview.php:48
+msgid "Adresse des Gebäudes"
+msgstr ""
+
+#: wpenon_templates/overview.php:54 wpenon_templates/overview.php:55
+msgid "wird nach Bezahlung festgelegt"
+msgstr ""
+
+#: wpenon_templates/overview.php:67
+msgid "Bild des Gebäudes"
+msgstr ""
+
+#: wpenon_templates/overview.php:71
+msgid "Wenn Sie hier ein Bild hochladen, wird dieses im Energieausweis angezeigt."
+msgstr ""
+
+#: wpenon_templates/overview.php:94
+msgid "Bild hochladen"
+msgstr ""
+
+#: wpenon_templates/overview.php:96
+msgid "Bild löschen"
+msgstr ""
+
+#: wpenon_templates/overview.php:111
+msgid "Bearbeiten"
+msgstr ""
+
+#: wpenon_templates/overview.php:114
+msgid "(erst nach Bezahlung wieder möglich)"
+msgstr ""
+
+#: wpenon_templates/overview.php:122
+msgid "Angaben überprüfen"
+msgstr ""
+
+#: wpenon_templates/overview.php:137 wpenon_templates/overview.php:152
+msgid "(erst nach vollständiger Dateneingabe möglich)"
+msgstr ""
+
+#: wpenon_templates/overview.php:147
+msgid "Rechnung ansehen"
+msgstr ""
+
+#: wpenon_templates/overview.php:149
+msgid "Bestellen"
+msgstr ""
+
+#: wpenon_templates/overview.php:163
+msgid "Ergebnisse der Berechnungen"
+msgstr ""
+
+#: wpenon_templates/overview.php:184
+msgid "Hier sehen Sie die Ergebnisse der Energieausweis-Berechnungen."
+msgstr ""
+
+#: wpenon_templates/overview.php:186
+msgid ""
+"Nach der korrekten Eingabe aller Daten werden Sie hier die Ergebnisse der "
+"Energieausweis-Berechnungen sehen."
+msgstr ""
+
+#: wpenon_templates/overview.php:200
+msgid "Energieeffizienzklasse: %s"
+msgstr ""
+
+#: wpenon_templates/overview.php:206
+msgid "CO2 Emissionen: %s kg/m²⋅a"
+msgstr ""
+
+#: wpenon_templates/overview.php:214
+msgid "Details zur Berechnung anzeigen"
+msgstr ""
+
+#: wpenon_templates/overview.php:218
+msgid "Details zur Berechnung"
+msgstr ""
+
+#: wpenon_templates/overview.php:219
+msgid ""
+"Die folgenden Informationen sind nur für den Shop-Betreiber sichtbar. Der "
+"Kunde hat keinen Zugriff darauf."
+msgstr ""
+
+#: wpenon_templates/purchase.php:15
+msgid ""
+"Die Angaben für Ihren Energieausweis sind nun vollständig, sodass Sie "
+"diesen nun auf dieser Seite bestellen können."
+msgstr ""
+
+#: wpenon_templates/purchase.php:18
+msgid "Auf dieser Seite sehen Sie die Rechnungsübersicht für diesen Energieausweis."
+msgstr ""
+
+#: wpenon_templates/purchase.php:20
+msgid ""
+"Die Angaben für Ihren Energieausweis sind noch nicht vollständig. Sie "
+"können den Ausweis erst dann bestellen, wenn Sie alle nötigen Eingaben "
+"getätigt haben."
+msgstr ""
+
+#: wpenon_templates/purchase.php:32
+msgid "(Rechnung ansehen)"
+msgstr ""
+
+#: wpenon_templates/purchase.php:37
+msgid "Zahlungsstatus: %s"
+msgstr ""
+
+#: wpenon_templates/purchase.php:40
+msgid "Sie haben die Rechnung am %1$s via %2$s beglichen."
+msgstr ""
+
+#: wpenon_templates/purchase.php:42
+msgid ""
+"Bitte begleichen Sie die Rechnung umgehend, um Ihren rechtsgültigen "
+"Energieausweis zu erhalten."
+msgstr ""
+
+#: wpenon_templates/purchase.php:48
+msgid "PDF-Rechnung"
+msgstr ""
+
+#: wpenon_templates/purchase.php:57
+msgid "Zahlungsdetails"
+msgstr ""
+
+#: wpenon_templates/purchase.php:76
+msgid "%s in den Warenkorb legen"
+msgstr ""
+
+#: wpenon_templates/purchase.php:85
+msgid "Rechnungs-Archiv anzeigen"
+msgstr ""
+
+#: wpenon_templates/purchase.php:89
+msgid "Ihre neuesten Rechnungen"
+msgstr ""
+
+#: wpenon_templates/purchase.php:93
+msgid "Nummer"
+msgstr ""
+
+#: wpenon_templates/purchase.php:94
+msgid "Betrag"
+msgstr ""
+
+#: wpenon_templates/purchase.php:95
+msgid "Datum"
+msgstr ""
+
+#: wpenon_templates/purchase.php:96
+msgid "Status"
+msgstr ""
+
+#: wpenon_templates/purchase.php:97
+msgid "Aktionen"
+msgstr ""
+
+#: wpenon_templates/purchase.php:113
+msgid "PDF ansehen"
+msgstr ""
+
+#: wpenon_templates/schematabs.php:40
+msgid "Zurück"
+msgstr ""
+
+#: wpenon_templates/schematabs.php:45
+msgid "Weiter"
 msgstr ""
 
 #. Theme Name of the plugin/theme
@@ -74,9 +1090,25 @@ msgstr ""
 msgid "http://leaves-webdesign.com"
 msgstr ""
 
+#. Template Name of the plugin/theme
+msgid "Seite ohne Titel (bg: grey white)"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Seite ohne Titel (bg: white grey)"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Seite ohne Titel"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Template MetaData Filter"
+msgstr ""
+
 #: comments.php:19
 msgctxt "comments title"
-msgid "One thought on &ldquo;%2$s&rdquo;"
-msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgid "%1$s Kommentar zu &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s Kommentare zu &ldquo;%2$s&rdquo;"
 msgstr[0] ""
 msgstr[1] ""
