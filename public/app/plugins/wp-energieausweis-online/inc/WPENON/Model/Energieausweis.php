@@ -98,9 +98,9 @@ class Energieausweis {
 		$dateSwitch = new DateTime('2021-05-01');
 		$schema = get_post_meta( $this->id, 'wpenon_standard', true );
 
-		if( $date >= $dateSwitch && $schema !== 'enev2021-01' && ! $this->isOrdered() ) {
+		if( $date >= $dateSwitch && $schema !== 'enev2021-02' && ! $this->isOrdered() ) {
 			update_post_meta( $this->id, '_finalized', false );
-			update_post_meta( $this->id, 'wpenon_standard', 'enev2021-01' );
+			update_post_meta( $this->id, 'wpenon_standard', 'enev2021-02' );
 		}
 
 		$this->_loadSchema();
