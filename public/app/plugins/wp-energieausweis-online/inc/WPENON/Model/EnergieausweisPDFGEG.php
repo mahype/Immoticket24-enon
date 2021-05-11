@@ -722,7 +722,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 		$this->SetPageTextColor( 'red' );
 
 		$this->Rotate( 55, 40, 280 );
-		// $this->Text( 40, 280, 'VORSCHAU' );
+		$this->Text( 40, 280, 'VORSCHAU' );
 		$this->Rotate( 0 );
 
 		$this->SetPageFont( $orig_font );
