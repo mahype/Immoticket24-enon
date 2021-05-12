@@ -352,6 +352,12 @@ class CalculationsCC {
             $this->getEnergySource( $energySourceId ),
             $buildingYear
         );
+
+        $hotWaterlessHeaters = wpenon_get_water_independend_heaters();
+        
+        if( in_array( $heater->heaterSystem->id, $hotWaterlessHeaters ) ) {
+            $heater->canCreateHotWater = false;
+        }
         
         $consumptionPeriods   = new ConsumptionPeriods();
 
