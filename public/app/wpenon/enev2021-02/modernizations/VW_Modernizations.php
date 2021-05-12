@@ -18,6 +18,10 @@ class VW_Modernizations extends Modernizations {
 	 * @since 1.0.0
 	 */
 	protected function needs_wand() {
+		if ( $this->energieausweis->wand_staerke > 40 ) {
+			return false;		
+		}
+
 		if ( intval( $this->energieausweis->baujahr ) < 1995 && 'no' === $this->energieausweis->wand_daemmung_on ) {
 			return true;
 		}

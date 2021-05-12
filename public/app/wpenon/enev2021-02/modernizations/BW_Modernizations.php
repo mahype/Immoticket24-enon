@@ -18,6 +18,10 @@ class BW_Modernizations extends Modernizations {
 	 * @since 1.0.0
 	 */
 	protected function needs_wand() {
+		if ( $this->energieausweis->wand_staerke > 40 ) {
+			return false;		
+		}
+		
 		switch ( $this->energieausweis->gebaeudekonstruktion ) {
 			case 'massiv':
 				$wand_bauart = 'massiv_' . $this->energieausweis->wand_bauart_massiv;
