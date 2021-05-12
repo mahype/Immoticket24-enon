@@ -346,7 +346,8 @@ function wpenon_get_water_independend_heaters() {
 
 function wpenon_get_heaters_without_piping() {
 	$heaters = wpenon_get_water_independend_heaters();
-	return array_merge( $heaters, array( 'kleinthermebrennwert', 'kleinthermeniedertemperatur' ) );
+	$heaters = array_merge( $heaters, array( 'kleinthermebrennwert', 'kleinthermeniedertemperatur' ) );
+	return $heaters;
 }
 
 function wpenon_is_water_independend_heater( $heater ) {
