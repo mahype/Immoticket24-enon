@@ -247,11 +247,19 @@ for ( $i = 0; $i < 3; $i ++ ) {
 
 	foreach ( $calculations['anlagendaten'] as $key => &$data ) {
 		$verbrauch_key = 'verbrauch' . $count . '_' . $key;
+		$erzeuger_key = $key . '_erzeugung';
+
 		$h_verbrauch   = $ww_verbrauch = $h_verbrauch_b = $ww_verbrauch_b = 0.0;
 		if ( $key == 'ww' ) {
 			$ww_verbrauch = $energieausweis->$verbrauch_key * $data['energietraeger_mpk'];
 		} else {
 			$h_verbrauch = $energieausweis->$verbrauch_key * $data['energietraeger_mpk'];
+			$h_erzeuger  = $energieausweis->$erzeuger_key;
+
+			$multiplicator = 0.18;
+			if( wpenon_is_water_independend_heater( $h_erzeuger ) ) {
+				$multiplicator = 0;
+			}
 
             $bugfix_start_date_1 = strtotime( '2020-08-10 16:00' );
             $bugfix_start_date_2 = strtotime( '2020-11-19 14:00' );
@@ -261,19 +269,19 @@ for ( $i = 0; $i < 3; $i ++ ) {
             if( $energieausweis_date > $bugfix_start_date_2 ) {
                 // Calculate consumption of all heaters if warmwater is "Pauschal in Heizungsanlage enthalten"
                 if ( $energieausweis->ww_info === 'h' && ( $key == 'h' || $key == 'h2' || $key == 'h3' ) ) {
-                    $ww_verbrauch = $h_verbrauch * 0.18;
+                    $ww_verbrauch = $h_verbrauch * $multiplicator;
                     $h_verbrauch  -= $ww_verbrauch;
                 }
 			} elseif( $energieausweis_date > $bugfix_start_date_1 ) {
 				// Should be
 				if ( $energieausweis->ww_info == $key ) {
-					$ww_verbrauch = $h_verbrauch * 0.18;
+					$ww_verbrauch = $h_verbrauch * $multiplicator;
 					$h_verbrauch  -= $ww_verbrauch;
 				}
 			} else {
 				// Old buggy calculation
 				if ( $energieausweis->ww_info !== 'unbekannt' ) {
-					$ww_verbrauch = $h_verbrauch * 0.18;
+					$ww_verbrauch = $h_verbrauch * $multiplicator;
 					$h_verbrauch  -= $ww_verbrauch;
 				}
 			}
