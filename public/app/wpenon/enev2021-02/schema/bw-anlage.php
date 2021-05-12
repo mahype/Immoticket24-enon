@@ -983,7 +983,7 @@ $anlage = array(
 						'callback'      => 'wpenon_show_on_array_blacklist',
 						'callback_args' => array(
 							'field::h_erzeugung',
-							wpenon_get_water_independend_heaters(),
+							wpenon_get_heaters_without_piping(),
 						),
 					),
 				),
@@ -994,7 +994,7 @@ $anlage = array(
 						'callback'      => 'wpenon_immoticket24_show_verteilung_gedaemmt',
 						'callback_args' => array(
 							'field::h_erzeugung',
-							wpenon_get_water_independend_heaters(),
+							wpenon_get_heaters_without_piping(),
 							'field::verteilung_baujahr',
 							1978
 						),
