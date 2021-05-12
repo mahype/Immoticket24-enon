@@ -1701,7 +1701,6 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 
 		$oefen = array(
 			'kohleholzofen',
-			'oelofenverdampfungsbrenner',
 		);
 
 		foreach ( $heatings as $heating ) {
