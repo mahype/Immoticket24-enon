@@ -23,6 +23,10 @@ if ( $calcCC->hasCooler() ) {
 	$calculations['co2_emissionen_cooler'] = $calcCC->calculation()->coolers->getCo2Emissions();
 }
 
+$calculations['new_primaerenergie'] = $calcCC->calculation()->getPrimaryEnergy();
+$calculations['new_endenergie'] = $calcCC->calculation()->getFinalEnergy();
+
+
 /**
  * Old
  */
