@@ -320,7 +320,7 @@ class CalculationsCC {
             return true;
         }
 
-        if ( $heaterNumber === 2 && $this->ec->h3_info ) {
+        if ( $heaterNumber === 2 && $this->ec->h2_info && $this->ec->h3_info ) {
             return true;
         }
 
