@@ -362,7 +362,7 @@ function wpenon_immoticket24_get_ww_info( $h2_info = false, $h3_info = false, $h
 				'type' => $h2_erzeuger,
 				'ww_value' => __( 'pauschal in 2. Heizungsanlage enthalten', 'wpenon' ) 
 			]: false,
-		'h3' => $h3_info ? [ 
+		'h3' => $h2_info && $h3_info ? [ 
 				'type' => $h3_erzeuger,
 				'ww_value' => __( 'pauschal in 3. Heizungsanlage enthalten', 'wpenon' ) 
 			] : false
