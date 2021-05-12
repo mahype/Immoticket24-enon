@@ -130,7 +130,8 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 					}
 					return implode( ', ', array_unique( $energietraeger ) );
 				} else if ( $energieausweis->ww_info == 'unbekannt' ) {
-					return 'Strom';
+					$calculations = $energieausweis->calculate();
+					return $calculations['new_obj']->calculation()->hotWaterHeaters->getEnergySourceForSurcharge()->name;
 				}
 			}
 			return '';

@@ -26,6 +26,8 @@ if ( $calcCC->hasCooler() ) {
 $calculations['new_primaerenergie'] = $calcCC->calculation()->getPrimaryEnergy();
 $calculations['new_endenergie'] = $calcCC->calculation()->getFinalEnergy();
 
+$calculations['new_obj'] = $calcCC;
+
 
 /**
  * Old
@@ -348,10 +350,10 @@ if ( $post && ! empty( $post->post_date_gmt ) && '0000-00-00 00:00:00' !== $post
 }
 $should_calculations_be_fixed = $energieausweis_timestamp > 1536326720; // 09/07/2018 @ 1:25pm (UTC)
 
-if ( $energieausweis->ww_info === 'unbekannt' ) {
+if ( $energieausweis->ww_info === 'unbekannt' ) {	
 	$ww_energietraeger                  = wpenon_get_table_results( $tableNames->energietraeger, array(
 		'bezeichnung' => array(
-			'value'   => 'strom',
+			'value'   => $calcCC->calculation()->hotWaterHeaters->getEnergySourceForSurcharge()->id,
 			'compare' => '='
 		)
 	), array(), true );
