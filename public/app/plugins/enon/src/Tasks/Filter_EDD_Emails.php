@@ -99,7 +99,11 @@ class Filter_EDD_Emails implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	private function has_emails_for_postcodes() {		
-		$postcodes         = [ '53', '54', '55', '56' ];			
+		$postcodes = [ '53', '56' ];
+		
+		if ( $this->energieausweis->anlass != 'verkauf' ) {
+			return false;
+		}
 
 		foreach( $postcodes AS $postcode ) {
 			$compare_postcode = substr( $this->energieausweis->adresse_plz, 0, strlen( $postcode ) );
