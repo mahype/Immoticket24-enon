@@ -233,7 +233,12 @@ class CalculationsCC {
             $this->formData->cooler      = true;
             $this->formData->coolerArea  = $this->ec->k_flaeche;
             $this->formData->coolerPower = $this->ec->k_leistung === 'groesser' ? 'bigger' : 'smaller';
-        }        
+        }
+
+        $this->formData->solar = false;
+        if( $this->ec->regenerativ_art === 'solar' ) {
+            $this->formData->solar = true;
+        }      
     }
 
     public function hasCooler() : bool

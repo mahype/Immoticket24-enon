@@ -95,10 +95,10 @@ class Energieausweis {
 		 * Switching to new GEG if needed
 		 */
 		$date = new DateTime( date('Y-m-d' ) );
-		$dateSwitch = new DateTime('2021-05-13');
+		$dateSwitch = new DateTime('2021-05-17');
 		$schema = get_post_meta( $this->id, 'wpenon_standard', true );
 
-		if( $date >= $dateSwitch && $schema !== 'enev2021-02' && ! $this->isOrdered() ) {
+		if( $date >= $dateSwitch && $schema !== 'enev2021-03' && ! $this->isOrdered() ) {
 			update_post_meta( $this->id, '_finalized', false );
 			update_post_meta( $this->id, 'wpenon_standard', 'enev2021-02' );
 		}

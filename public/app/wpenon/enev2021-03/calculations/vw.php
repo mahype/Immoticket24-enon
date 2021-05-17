@@ -358,7 +358,12 @@ if ( $energieausweis->ww_info === 'unbekannt' ) {
 		)
 	), array(), true );
 
-	$calculations['warmwasser_zuschlag'] = 20.0 * $calculations['nutzflaeche'] * 3;
+	$zuschlag_mpk = 20.0;
+	if ( $energieausweis->regenerativ_art == 'solar' && $energieausweis->wohnungen <= 2 ) {
+		$zuschlag_mpk = 12.0;
+	}
+
+	$calculations['warmwasser_zuschlag'] = $zuschlag_mpk * $calculations['nutzflaeche'] * 3;
 	if ( $should_calculations_be_fixed ) {
 		$calculations['warmwasser_zuschlag_b'] = $calculations['warmwasser_zuschlag'] / $calculations['nutzflaeche'];
 	} else {
