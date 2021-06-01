@@ -63,7 +63,6 @@ class Frontend
     public function init()
     {
         if (Config::getInstance()->get('cookieStatus') === true) {
-
             /* Load textdomain */
             $this->loadTextdomain();
 
@@ -82,12 +81,20 @@ class Frontend
             add_action('wp_footer', [JavaScript::getInstance(), 'registerFooter']);
 
             // Detect and modify scripts
-            add_action('template_redirect', [Buffer::getInstance(), 'handleBuffering'], 19021987); // Will be used by ScriptBlocker->handleJavaScriptTagBlocking() && ScriptBlocker->detectJavaScriptsTags()
+            add_action(
+                'template_redirect',
+                [Buffer::getInstance(), 'handleBuffering'],
+                19021987
+            ); // Will be used by ScriptBlocker->handleJavaScriptTagBlocking() && ScriptBlocker->detectJavaScriptsTags()
             add_filter('script_loader_tag', [ScriptBlocker::getInstance(), 'detectHandles'], 990, 3);
             add_filter('script_loader_tag', [ScriptBlocker::getInstance(), 'blockHandles'], 999, 3);
             add_action('wp_footer', [ScriptBlocker::getInstance(), 'detectJavaScriptsTags'], 998);
             add_action('wp_footer', [ScriptBlocker::getInstance(), 'saveDetectedJavaScripts'], 999);
-            add_action('wp_footer', [ScriptBlocker::getInstance(), 'handleJavaScriptTagBlocking'], 19021987); // Late but not latest
+            add_action(
+                'wp_footer',
+                [ScriptBlocker::getInstance(), 'handleJavaScriptTagBlocking'],
+                19021987
+            ); // Late but not latest
 
             // Embed Cookie Box
             add_action('wp_footer', [CookieBox::getInstance(), 'insertCookieBox']);
@@ -115,7 +122,7 @@ class Frontend
             // Cron
             add_action('borlabsCookieCron', [Maintenance::getInstance(), 'cleanUp']);
 
-            if (!wp_next_scheduled('borlabsCookieCron')) {
+            if (! wp_next_scheduled('borlabsCookieCron')) {
                 wp_schedule_event(time(), 'daily', 'borlabsCookieCron');
             }
 
@@ -127,7 +134,20 @@ class Frontend
 
             // Avada
             if (defined('AVADA_VERSION')) {
-                add_action('fusion_builder_enqueue_live_scripts', [ThirdParty\Themes\Avada::getInstance(), 'adminHeadCSS'], 100);
+                add_action(
+                    'fusion_builder_enqueue_live_scripts',
+                    [ThirdParty\Themes\Avada::getInstance(), 'adminHeadCSS'],
+                    100
+                );
+            }
+
+            // Bricks
+            if (defined('BRICKS_VERSION')) {
+                add_action(
+                    'bricks/frontend/render_sections',
+                    [ThirdParty\Themes\Bricks::getInstance(), 'detectIframes'],
+                    100
+                );
             }
 
             // Divi
@@ -135,22 +155,47 @@ class Frontend
                 add_action('wp', [ThirdParty\Themes\Divi::getInstance(), 'modifyDiviSettings']);
                 add_action('wp', [ThirdParty\Themes\Divi::getInstance(), 'isBuilderModeActive']);
                 add_filter('the_content', [ThirdParty\Themes\Divi::getInstance(), 'detectGoogleMaps'], 100, 1);
-                add_filter('et_builder_render_layout', [ThirdParty\Themes\Divi::getInstance(), 'detectGoogleMaps'], 100, 1);
+                add_filter(
+                    'et_builder_render_layout',
+                    [ThirdParty\Themes\Divi::getInstance(), 'detectGoogleMaps'],
+                    100,
+                    1
+                );
                 add_filter('et_builder_render_layout', [ContentBlocker::getInstance(), 'detectIframes'], 100, 1);
             }
 
             // Elementor
             if (defined('ELEMENTOR_VERSION')) {
                 if (version_compare(ELEMENTOR_VERSION, '3.0', '>=')) {
-                    add_action('elementor/element/after_add_attributes', [ThirdParty\Themes\Elementor::getInstance(), 'detectYouTubeVideoWidget'], 100, 1);
+                    add_action(
+                        'elementor/element/after_add_attributes',
+                        [ThirdParty\Themes\Elementor::getInstance(), 'detectYouTubeVideoWidget'],
+                        100,
+                        1
+                    );
                 }
-                add_action('elementor/widget/render_content', [ThirdParty\Themes\Elementor::getInstance(), 'detectFacebook'], 100, 2);
-                add_action('elementor/widget/render_content', [ThirdParty\Themes\Elementor::getInstance(), 'detectIframes'], 100, 2);
+                add_action(
+                    'elementor/widget/render_content',
+                    [ThirdParty\Themes\Elementor::getInstance(), 'detectFacebook'],
+                    100,
+                    2
+                );
+                add_action(
+                    'elementor/widget/render_content',
+                    [ThirdParty\Themes\Elementor::getInstance(), 'detectIframes'],
+                    100,
+                    2
+                );
             }
 
             // Enfold
             if (function_exists('avia_register_frontend_scripts')) {
-                add_action('avf_sc_video_output', [ThirdParty\Themes\Enfold::getInstance(), 'modifyVideoOutput'], 100, 6);
+                add_action(
+                    'avf_sc_video_output',
+                    [ThirdParty\Themes\Enfold::getInstance(), 'modifyVideoOutput'],
+                    100,
+                    6
+                );
             }
 
             // Ezoic
@@ -167,7 +212,10 @@ class Frontend
             }
 
             // Backwards Compatibility
-            add_shortcode('borlabs_cookie_blocked_content', [BackwardsCompatibility::getInstance(), 'shortcodeBlockedContent']);
+            add_shortcode(
+                'borlabs_cookie_blocked_content',
+                [BackwardsCompatibility::getInstance(), 'shortcodeBlockedContent']
+            );
         }
     }
 
@@ -182,7 +230,12 @@ class Frontend
         load_plugin_textdomain('borlabs-cookie', false, BORLABS_COOKIE_SLUG . '/languages/');
 
         // Load correct DE language file if any DE language was selected
-        if (in_array(Multilanguage::getInstance()->getCurrentLanguageCode(), ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'])) {
+        if (
+        in_array(
+            Multilanguage::getInstance()->getCurrentLanguageCode(),
+            ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal']
+        )
+        ) {
             // Load german language pack
             load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo');
         }

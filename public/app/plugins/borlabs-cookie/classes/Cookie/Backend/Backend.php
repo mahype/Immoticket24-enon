@@ -72,6 +72,13 @@ class Backend
         /* System Check */
         add_action('current_screen', [$this, 'handleSystemCheck']);
 
+        // THIRD PARTY
+        // PixelYourSite
+        add_action(
+            'wp_loaded',
+            [\BorlabsCookie\Cookie\Frontend\ThirdParty\Plugins\PixelYourSite::getInstance(), 'register']
+        );
+
         $this->templatePath = realpath(dirname(__FILE__) . '/../../../templates');
     }
 
@@ -96,7 +103,12 @@ class Backend
         load_plugin_textdomain('borlabs-cookie', false, BORLABS_COOKIE_SLUG . '/languages/');
 
         // Load correct DE language file if any DE language was selected
-        if (in_array(Multilanguage::getInstance()->getCurrentLanguageCode(), ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'])) {
+        if (
+        in_array(
+            Multilanguage::getInstance()->getCurrentLanguageCode(),
+            ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal']
+        )
+        ) {
             // Load german language pack
             load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo');
         }
@@ -114,8 +126,7 @@ class Backend
         add_menu_page(
             _x('Borlabs Cookie', 'Backend / Global / Site Title', 'borlabs-cookie'),
             _x('Borlabs Cookie', 'Backend / Global / Menu Entry', 'borlabs-cookie'),
-            'manage_borlabs_cookie', /* lowest administrator level */
-            'borlabs-cookie',
+            'manage_borlabs_cookie', /* lowest administrator level */ 'borlabs-cookie',
             [View::getInstance(), 'Dashboard'],
             Icons::getInstance()->getAdminSVGIcon(),
             null /* menu position */
@@ -233,7 +244,6 @@ class Backend
         $currentScreenData = get_current_screen();
 
         if (strpos($currentScreenData->id, 'borlabs-cookie') !== false) {
-
             wp_enqueue_style(
                 'borlabs-cookie-backend-css',
                 plugins_url('css/borlabs-cookie-backend.css', realpath(__DIR__ . '/../../')),
@@ -310,9 +320,10 @@ class Backend
 
             // CodeMirror - WordPress 4.9.x
             if (function_exists('wp_enqueue_code_editor')) {
-
                 // Enqueue code editor and settings for manipulating HTML.
-                $settingsHTML = wp_enqueue_code_editor(['type' => 'text/html', 'htmlhint' => ['space-tab-mixed-disabled' => false]]);
+                $settingsHTML = wp_enqueue_code_editor(
+                    ['type' => 'text/html', 'htmlhint' => ['space-tab-mixed-disabled' => false]]
+                );
 
                 if ($settingsHTML !== false) {
                     wp_add_inline_script(
@@ -351,7 +362,14 @@ class Backend
                 }
             }
         } else {
-            if (!empty($currentScreenData->post_type) && !empty(Config::getInstance()->get('metaBox')[$currentScreenData->post_type])) {
+            if (
+                ! empty($currentScreenData->post_type)
+                && ! empty(
+                Config::getInstance()->get(
+                    'metaBox'
+                )[$currentScreenData->post_type]
+                )
+            ) {
                 wp_enqueue_style(
                     'borlabs-cookie-backend-css',
                     plugins_url('css/borlabs-cookie-backend.css', realpath(__DIR__ . '/../../')),
@@ -366,7 +384,9 @@ class Backend
      * addActionLinks function.
      *
      * @access public
-     * @param mixed $links
+     *
+     * @param  mixed  $links
+     *
      * @return void
      */
     public function addActionLinks($links)
@@ -374,10 +394,26 @@ class Backend
         if (is_array($links)) {
             array_unshift(
                 $links,
-                '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie')) . '">' . _x('Dashboard', 'Backend / WordPress Core / Plugins / Text', 'borlabs-cookie') . '</a>',
-                '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie-settings')) . '">' . _x('Settings', 'Backend / WordPress Core / Plugins / Text', 'borlabs-cookie') . '</a>',
-                '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie-license')) . '">' . _x('License', 'Backend / WordPress Core / Plugins / Text', 'borlabs-cookie') . '</a>',
-                '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie-help')) . '">' . _x('Help', 'Backend / WordPress Core / Plugins / Text', 'borlabs-cookie') . '</a>'
+                '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie')) . '">' . _x(
+                    'Dashboard',
+                    'Backend / WordPress Core / Plugins / Text',
+                    'borlabs-cookie'
+                ) . '</a>',
+                '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie-settings')) . '">' . _x(
+                    'Settings',
+                    'Backend / WordPress Core / Plugins / Text',
+                    'borlabs-cookie'
+                ) . '</a>',
+                '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie-license')) . '">' . _x(
+                    'License',
+                    'Backend / WordPress Core / Plugins / Text',
+                    'borlabs-cookie'
+                ) . '</a>',
+                '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=borlabs-cookie-help')) . '">' . _x(
+                    'Help',
+                    'Backend / WordPress Core / Plugins / Text',
+                    'borlabs-cookie'
+                ) . '</a>'
             );
         }
 
@@ -388,8 +424,10 @@ class Backend
      * extendPluginUpdateMessage function.
      *
      * @access public
-     * @param mixed $pluginData
-     * @param mixed $response
+     *
+     * @param  mixed  $pluginData
+     * @param  mixed  $response
+     *
      * @return void
      */
     public function extendPluginUpdateMessage($pluginData, $response)
@@ -400,7 +438,7 @@ class Backend
         if (empty($licenseData)) {
             echo "<br>";
             echo License::getInstance()->getLicenseMessageEnterKey();
-        } elseif (!empty($licenseData->validUntil) && strtotime($licenseData->validUntil) < strtotime(date('Y-m-d'))) {
+        } elseif (! empty($licenseData->validUntil) && strtotime($licenseData->validUntil) < strtotime(date('Y-m-d'))) {
             echo "<br>";
             echo License::getInstance()->getLicenseMessageKeyExpired();
         }
@@ -414,50 +452,42 @@ class Backend
      */
     public function handleAjaxRequest()
     {
-        if (!empty($_POST['type'])) {
-
+        if (! empty($_POST['type'])) {
             $requestType = $_POST['type'];
 
             /* Frontend request */
             if ($requestType == 'log') {
-
-                if (!empty($_POST['cookieData']) && !empty($_POST['language'])) {
+                if (! empty($_POST['cookieData']) && ! empty($_POST['language'])) {
                     echo json_encode(
                         [
-                            'success' => Log::getInstance()->add($_POST['cookieData'], $_POST['language'])
+                            'success' => Log::getInstance()->add($_POST['cookieData'], $_POST['language']),
                         ]
                     );
                 }
             } elseif ($requestType == 'consent_history') {
-
-                if (!empty($_POST['uid'])) {
-
+                if (! empty($_POST['uid'])) {
                     $language = Multilanguage::getInstance()->getCurrentLanguageCode();
 
-                    if (!empty($_POST['language'])) {
+                    if (! empty($_POST['language'])) {
                         $language = $_POST['language'];
                     }
 
                     echo json_encode(Log::getInstance()->getConsentHistory($_POST['uid'], $language));
                 }
             } elseif ($requestType == 'get_page') {
-
                 /* Backend request */
                 if (check_ajax_referer('borlabs-cookie-cookie-box', false, false)) {
-
                     $permalink = '';
 
-                    if (!empty($_POST['pageId'])) {
+                    if (! empty($_POST['pageId'])) {
                         $permalink = get_permalink(intval($_POST['pageId']));
                     }
 
                     echo json_encode(['permalink' => $permalink]);
                 }
             } elseif ($requestType == 'clean_up') {
-
                 /* Backend request */
                 if (check_ajax_referer('borlabs-cookie', false, false)) {
-
                     Maintenance::getInstance()->cleanUp(true);
 
                     $totalConsentLogs = number_format_i18n(SystemCheck::getInstance()->getTotalConsentLogs());
@@ -466,38 +496,42 @@ class Backend
                     echo json_encode(['total' => $totalConsentLogs, 'size' => $consentLogTableSize]);
                 }
             } elseif ($requestType == 'scan_javascripts') {
-
                 /* Backend request */
                 if (check_ajax_referer('borlabs-cookie-script-blocker', false, false)) {
-
-                    if (!empty($_POST['scanURL']) && !empty($_POST['getScanResults']) && $_POST['getScanResults'] === 'false') {
-
+                    if (
+                        ! empty($_POST['scanURL']) && ! empty($_POST['getScanResults'])
+                        && $_POST['getScanResults'] === 'false'
+                    ) {
                         // Reset scanned JavaScript result
                         update_option('BorlabsCookieDetectedJavaScripts', [], 'no');
 
-                        $statusScanRequest = ScriptBlocker::getInstance()->handleScanRequest($_POST['scanURL'], stripslashes($_POST['searchPhrases']));
+                        $statusScanRequest = ScriptBlocker::getInstance()->handleScanRequest(
+                            $_POST['scanURL'],
+                            stripslashes($_POST['searchPhrases'])
+                        );
 
                         // Fallback URL: user has to visit the website manually
                         $scanURLManually = '';
                         $urlQuery = [];
                         $scanURLInfo = parse_url($_POST['scanURL']);
 
-                        if (!empty($scanURLInfo['query'])) {
+                        if (! empty($scanURLInfo['query'])) {
                             parse_str($scanURLInfo['query'], $urlQuery);
                         }
 
                         $urlQuery['__borlabsCookieScanJavaScripts'] = true;
 
-                        $scanURLManually = $scanURLInfo['scheme'] . '://' . $scanURLInfo['host'] . $scanURLInfo['path'] . '?' . http_build_query($urlQuery);
+                        $scanURLManually = $scanURLInfo['scheme'] . '://' . $scanURLInfo['host'] . $scanURLInfo['path']
+                            . '?' . http_build_query($urlQuery);
 
                         echo json_encode(['success' => $statusScanRequest, 'scanURLManually' => $scanURLManually]);
-
-                    } elseif (!empty($_POST['getScanResults'])) {
-
+                    } elseif (! empty($_POST['getScanResults'])) {
                         // Fallback - Check if user has visited the website and JavaScripts were found
                         $detectedJavaScripts = get_option('BorlabsCookieDetectedJavaScripts', []);
 
-                        echo json_encode(['success' => !empty(count($detectedJavaScripts, COUNT_RECURSIVE)) ? true : false]);
+                        echo json_encode(
+                            ['success' => ! empty(count($detectedJavaScripts, COUNT_RECURSIVE)) ? true : false]
+                        );
                     }
                 }
             }
@@ -517,7 +551,6 @@ class Backend
         $currentScreenData = get_current_screen();
 
         if (strpos($currentScreenData->id, 'borlabs-cookie') !== false) {
-
             /* Check if license is expired */
             if ($currentScreenData->id !== "borlabs-cookie_page_borlabs-cookie-license") {
                 License::getInstance()->handleLicenseExpiredMessage();
@@ -547,7 +580,7 @@ class Backend
             $statusSystemCheck[] = SystemCheck::getInstance()->checkDefaultCookieGroups();
             $statusSystemCheck[] = SystemCheck::getInstance()->checkDefaultCookies();
 
-            if (!empty($statusSystemCheck)) {
+            if (! empty($statusSystemCheck)) {
                 foreach ($statusSystemCheck as $statusData) {
                     if ($statusData['success'] === false) {
                         Messages::getInstance()->add($statusData['message'], 'error');
@@ -558,7 +591,14 @@ class Backend
             // Check if Borlabs Cookie is active but only if plugin is unlocked
             if (License::getInstance()->isPluginUnlocked()) {
                 if (Config::getInstance()->get('cookieStatus') === false && empty($_POST['cookieStatus'])) {
-                    Messages::getInstance()->add(_x('Borlabs Cookie is not active. If you want to use Borlabs Cookies features on your website, please activate it under <strong>Settings &gt; Borlabs Cookie Status</strong>.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'warning');
+                    Messages::getInstance()->add(
+                        _x(
+                            'Borlabs Cookie is not active. If you want to use Borlabs Cookies features on your website, please activate it under <strong>Settings &gt; Borlabs Cookie Status</strong>.',
+                            'Backend / Global / Alert Message',
+                            'borlabs-cookie'
+                        ),
+                        'warning'
+                    );
                 }
             }
         }

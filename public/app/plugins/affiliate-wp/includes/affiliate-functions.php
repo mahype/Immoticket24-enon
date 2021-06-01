@@ -1969,12 +1969,7 @@ function affwp_get_payouts_service_account( $affiliate_id = 0 ) {
 		return $account_details;
 	}
 
-	$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-	$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
-
-	$headers = array(
-		'Authorization' => 'Basic ' . base64_encode( $vendor_id . ':' . $access_key ),
-	);
+	$headers = affwp_get_payouts_service_http_headers();
 
 	$api_params = array(
 		'account_id'    => $payout_service_account_meta['account_id'],

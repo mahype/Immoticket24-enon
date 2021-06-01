@@ -160,7 +160,12 @@ class Service_Register {
 
 			if ( $is_email_registered ) {
 
-				$connect_account_url = wp_nonce_url( add_query_arg( array( 'affwp_action' => 'payouts_service_connect_account' ) ), 'payouts_service_connect_account', 'payouts_service_connect_account_nonce' );
+				$query_args          = array(
+					'affwp_action'     => 'payouts_service_connect_account',
+					'current_page_url' => rawurlencode( esc_url( $args['current_page_url'] ) ),
+				);
+				$connect_account_url = wp_nonce_url( add_query_arg( $query_args ), 'payouts_service_connect_account', 'payouts_service_connect_account_nonce' );
+
 				/* translators: 1: Email, 2: Connect existing Payouts Service account URL, 3: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
 				$this->errors->add( 'email_registered', sprintf( __( 'Your email address %1$s is already registered on the %3$s. Click <a href="%2$s">here</a> to continue registering to be paid for this site using the same email address.', 'affiliate-wp' ), $email, esc_url( $connect_account_url ), PAYOUTS_SERVICE_NAME ) );
 
@@ -181,12 +186,7 @@ class Service_Register {
 			$month_of_birth = sanitize_text_field( $args['month_of_birth'] );
 			$year_of_birth  = sanitize_text_field( $args['year_of_birth'] );
 
-			$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-			$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
-
-			$headers = array(
-				'Authorization' => 'Basic ' . base64_encode( $vendor_id . ':' . $access_key ),
-			);
+			$headers = affwp_get_payouts_service_http_headers();
 
 			$api_params = array(
 				'site_url'       => home_url(),
@@ -283,12 +283,9 @@ class Service_Register {
 		$affiliate_id     = intval( $data['affiliate_id'] );
 		$payout_method_id = sanitize_text_field( $data['payout_method_id'] );
 
-		$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-		$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
+		$vendor_id = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
 
-		$headers = array(
-			'Authorization' => 'Basic ' . base64_encode( $vendor_id . ':' . $access_key ),
-		);
+		$headers = affwp_get_payouts_service_http_headers();
 
 		$api_params = array(
 			'vendor_id'        => $vendor_id,
@@ -416,12 +413,9 @@ class Service_Register {
 			return;
 		}
 
-		$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-		$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
+		$vendor_id = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
 
-		$headers = array(
-			'Authorization' => 'Basic ' . base64_encode( $vendor_id . ':' . $access_key ),
-		);
+		$headers = affwp_get_payouts_service_http_headers();
 
 		$current_page_url = esc_url( $data['current_page_url'] );
 
@@ -501,12 +495,9 @@ class Service_Register {
 		$affiliate_id                 = affwp_get_affiliate_id();
 		$payouts_service_account_meta = affwp_get_affiliate_meta( $affiliate_id, 'payouts_service_account', true );
 
-		$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-		$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
+		$vendor_id = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
 
-		$headers = array(
-			'Authorization' => 'Basic ' . base64_encode( $vendor_id . ':' . $access_key ),
-		);
+		$headers = affwp_get_payouts_service_http_headers();
 
 		$current_page_url = esc_url( $data['current_page_url'] );
 
@@ -571,12 +562,7 @@ class Service_Register {
 	 */
 	private function check_registration_status( $email ) {
 
-		$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-		$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
-
-		$headers = array(
-			'Authorization' => 'Basic ' . base64_encode( $vendor_id . ':' . $access_key ),
-		);
+		$headers = affwp_get_payouts_service_http_headers();
 
 		$api_params = array(
 			'email'         => $email,

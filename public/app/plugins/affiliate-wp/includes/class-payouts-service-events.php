@@ -25,8 +25,9 @@ class Service_Events {
 	 * @since   2.4
 	 */
 	public function __construct() {
-		add_action( 'affwp_payouts_service_update_payout_status', array( $this, 'update_payout_status' ) );
-		add_action( 'affwp_payouts_service_update_kyc_status',    array( $this, 'update_kyc_status'    ) );
+		add_action( 'affwp_payouts_service_update_payout_status',          array( $this, 'update_payout_status'          ) );
+		add_action( 'affwp_payouts_service_update_kyc_status',             array( $this, 'update_kyc_status'             ) );
+		add_action( 'affwp_payouts_service_update_payout_service_account', array( $this, 'update_payout_service_account' ) );
 	}
 
 	/**
@@ -173,4 +174,68 @@ class Service_Events {
 
 	}
 
+	/**
+	 * Updates the service account for a payout.
+	 *
+	 * @since 2.6.8
+	 *
+	 * @param array $data {
+	 *     Optional. Array of arguments for updating the service account for a payout.
+	 *     Default empty array.
+	 *
+	 *     @type int    $affiliate_id    Affiliate ID.
+	 *     @type int    $payout_id       Payouts Service Payout ID.
+	 *     @type string $service_account Service account.
+	 *     @type string $payout_status   Payout status.
+	 *     @type string $token           Payouts Service token.
+	 * }
+	 * @return void
+	 */
+	public function update_payout_service_account( $data = array() ) {
+
+		$defaults = array(
+			'affiliate_id'    => 0,
+			'payout_id'       => 0,
+			'service_account' => '',
+			'status'          => '',
+			'token'           => '',
+		);
+
+		$args = wp_parse_args( $data, $defaults );
+
+		if ( empty( $args['affiliate_id'] ) || empty( $args['payout_id'] ) || empty( $args['service_account'] ) || empty( $args['token'] ) ) {
+			wp_send_json_error( null, 400 );
+		}
+
+		$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
+		$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
+
+		$auth_check = base64_encode( $access_key . ':' . $vendor_id );
+
+		if ( $auth_check !== $args['token'] ) {
+			wp_send_json_error( null, 401 );
+		}
+
+		$payout = affiliate_wp()->affiliates->payouts->get_payouts( array(
+			'service_id'   => intval( $args['payout_id'] ),
+			'affiliate_id' => intval( $args['affiliate_id'] ),
+			'status'       => array( 'processing', 'failed', 'paid' ),
+			'number'       => 1,
+		) );
+
+		if ( ! empty( $payout[0] ) ) {
+
+			$update_args = array(
+				'service_account' => sanitize_text_field( $args['service_account'] ),
+			);
+
+			if ( 'paid' !== $payout[0]->status && ! empty( $args['status'] ) && array_key_exists( $args['status'], affwp_get_payout_statuses() ) ) {
+				$update_args['status'] = sanitize_text_field( $args['status'] );
+			}
+
+			affiliate_wp()->affiliates->payouts->update( $payout[0]->payout_id, $update_args );
+		}
+
+		wp_send_json_success( null, 200 );
+	}
 }

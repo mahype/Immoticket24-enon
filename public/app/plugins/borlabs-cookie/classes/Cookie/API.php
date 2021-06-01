@@ -110,6 +110,11 @@ class API
                     'php_version' => phpversion(), // Used to distinguish between >=7.4 and <7.4 builds
                     'licenseKey' => ! empty($licenseData->licenseKey) ? $licenseData->licenseKey : '',
                     'securityPatchesForExpiredLicenses' => ! License::getInstance()->isLicenseValid(),
+                    'securityPatchesForTestEnvironmentLicenses' => ! empty(
+                    Config::getInstance()->get(
+                        'testEnvironment'
+                    )
+                    ) ? '1' : '0',
                     'debug_php_time' => date('Y-m-d H:i:s'),
                     'debug_php_timestamp' => time(),
                     'debug_timezone' => date_default_timezone_get(),

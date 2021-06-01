@@ -33,16 +33,17 @@ class ContentBlocker
     private $currentBlockedContent = '';
     private $currentTitle = '';
     private $currentURL = '';
-    private $defaultClassMapping = [
-        'facebook' => 'Facebook',
-        'default' => 'Fallback', // Default
-        'googlemaps' => 'GoogleMaps',
-        'instagram' => 'Instagram',
-        'openstreetmap' => 'OpenStreetMap',
-        'twitter' => 'Twitter',
-        'vimeo' => 'Vimeo',
-        'youtube' => 'YouTube',
-    ];
+    private $defaultClassMapping
+        = [
+            'facebook' => 'Facebook',
+            'default' => 'Fallback', // Default
+            'googlemaps' => 'GoogleMaps',
+            'instagram' => 'Instagram',
+            'openstreetmap' => 'OpenStreetMap',
+            'twitter' => 'Twitter',
+            'vimeo' => 'Vimeo',
+            'youtube' => 'YouTube',
+        ];
     private $hosts = [];
     private $hostWhitelist = [];
     private $siteHost = '';
@@ -93,10 +94,9 @@ class ContentBlocker
         $this->siteHost = parse_url(get_home_url(), PHP_URL_HOST);
 
         // Check if main cache folders exists
-        if (!file_exists($this->cacheFolder)) {
-
+        if (! file_exists($this->cacheFolder)) {
             // Check if /cache folder exists
-            if (!file_exists(WP_CONTENT_DIR . '/cache') && is_writable(WP_CONTENT_DIR)) {
+            if (! file_exists(WP_CONTENT_DIR . '/cache') && is_writable(WP_CONTENT_DIR)) {
                 mkdir(WP_CONTENT_DIR . '/cache');
             }
 
@@ -109,7 +109,8 @@ class ContentBlocker
         $tableName = $wpdb->prefix . 'borlabs_cookie_content_blocker';
 
         // Load active Content Blocker
-        $contentBlocker = $wpdb->get_results("
+        $contentBlocker = $wpdb->get_results(
+            "
             SELECT
                 `id`,
                 `content_blocker_id`,
@@ -126,11 +127,11 @@ class ContentBlocker
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                 AND
                 `status` = 1
-        ");
+        "
+        );
 
-        if (!empty($contentBlocker)) {
+        if (! empty($contentBlocker)) {
             foreach ($contentBlocker as $key => $data) {
-
                 $contentBlocker[$key]->hosts = unserialize($data->hosts);
 
                 // Collect infos about all active Blocked Content Types
@@ -146,7 +147,7 @@ class ContentBlocker
                 ];
 
                 // Build list of available hosts => Content Blocker Ids for faster detection
-                if (!empty($contentBlocker[$key]->hosts)) {
+                if (! empty($contentBlocker[$key]->hosts)) {
                     foreach ($contentBlocker[$key]->hosts as $host) {
                         $this->hosts[$host] = $data->content_blocker_id;
                     }
@@ -161,15 +162,22 @@ class ContentBlocker
                 );
 
                 // Register action filter of default Content Blocker classes
-                if (!empty($this->defaultClassMapping[$data->content_blocker_id])) {
-                    $className = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\' . $this->defaultClassMapping[$data->content_blocker_id];
-                    add_filter('borlabsCookie/contentBlocker/modify/content/' . $data->content_blocker_id, [$className::getInstance(), 'modify'], 100, 2);
+                if (! empty($this->defaultClassMapping[$data->content_blocker_id])) {
+                    $className = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\'
+                        . $this->defaultClassMapping[$data->content_blocker_id];
+                    add_filter(
+                        'borlabsCookie/contentBlocker/modify/content/' . $data->content_blocker_id,
+                        [$className::getInstance(), 'modify'],
+                        100,
+                        2
+                    );
                 }
             }
         }
 
         // Add hosts of disabled Content Blocker to whitelist
-        $disabledContentBlocker = $wpdb->get_results("
+        $disabledContentBlocker = $wpdb->get_results(
+            "
             SELECT
                 `hosts`
             FROM
@@ -178,14 +186,14 @@ class ContentBlocker
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                 AND
                 `status` = 0
-        ");
+        "
+        );
 
-        if (!empty($disabledContentBlocker)) {
+        if (! empty($disabledContentBlocker)) {
             foreach ($disabledContentBlocker as $data) {
-
                 $hosts = unserialize($data->hosts);
 
-                if (!empty($hosts)) {
+                if (! empty($hosts)) {
                     $this->hostWhitelist = array_merge($this->hostWhitelist, unserialize($data->hosts));
                 }
             }
@@ -218,7 +226,9 @@ class ContentBlocker
      * setCurrentBlockedContent function.
      *
      * @access public
-     * @param mixed $content
+     *
+     * @param  mixed  $content
+     *
      * @return void
      */
     public function setCurrentBlockedContent($content)
@@ -254,12 +264,14 @@ class ContentBlocker
      * getContentBlockerData function.
      *
      * @access public
-     * @param mixed $contentBlockerId
+     *
+     * @param  mixed  $contentBlockerId
+     *
      * @return void
      */
     public function getContentBlockerData($contentBlockerId)
     {
-        if (!empty($this->contentBlocker[$contentBlockerId])) {
+        if (! empty($this->contentBlocker[$contentBlockerId])) {
             return $this->contentBlocker[$contentBlockerId];
         } else {
             return false;
@@ -270,14 +282,16 @@ class ContentBlocker
      * isHostWhitelisted function.
      *
      * @access public
-     * @param mixed $host
+     *
+     * @param  mixed  $host
+     *
      * @return true: host is whitelisted, false: host is not whitelisted
      */
     public function isHostWhitelisted($host)
     {
         $status = false;
 
-        if (!empty($this->hostWhitelist)) {
+        if (! empty($this->hostWhitelist)) {
             foreach ($this->hostWhitelist as $whitelistHost) {
                 if (strpos($host, $whitelistHost) !== false) {
                     $status = true;
@@ -292,9 +306,11 @@ class ContentBlocker
      * detectIframes function.
      *
      * @access public
-     * @param mixed $content
-     * @param mixed $postId (default: null)
-     * @param mixed $field (default: null)
+     *
+     * @param  mixed  $content
+     * @param  mixed  $postId  (default: null)
+     * @param  mixed  $field  (default: null)
+     *
      * @return void
      */
     public function detectIframes($content, $postId = null, $field = null)
@@ -304,7 +320,11 @@ class ContentBlocker
                 $content = preg_replace('/(\<p\>)?(<iframe.+?(?=<\/iframe>)<\/iframe>){1}(\<\/p\>)?/i', '', $content);
             }
         } else {
-            $content = preg_replace_callback('/(\<p\>)?(<iframe.+?(?=<\/iframe>)<\/iframe>){1}(\<\/p\>)?/i', [$this, 'handleIframe'], $content);
+            $content = preg_replace_callback(
+                '/(\<p\>)?(<iframe.+?(?=<\/iframe>)<\/iframe>){1}(\<\/p\>)?/i',
+                [$this, 'handleIframe'],
+                $content
+            );
         }
 
         return $content;
@@ -314,7 +334,9 @@ class ContentBlocker
      * handleIframe function.
      *
      * @access public
-     * @param mixed $tags
+     *
+     * @param  mixed  $tags
+     *
      * @return void
      */
     public function handleIframe($tags)
@@ -322,14 +344,21 @@ class ContentBlocker
         $content = $tags[0];
 
         if (strpos($tags[0], 'data-borlabs-cookie-iframe-spared') === false) {
-
             // Detect host
             $srcMatch = [];
+
+            // Test and replace data-src
+            if (preg_match('/data-src=("|\')([^"\']{1,})(\1)/i', $tags[2])) {
+                if (strpos($tags[2], ' src') === false) {
+                    $tags[2] = str_replace('data-src', 'src', $tags[2]);
+                    $tags[0] = str_replace('data-src', 'src', $tags[0]);
+                }
+            }
 
             preg_match('/src=("|\')([^"\']{1,})(\1)/i', $tags[2], $srcMatch);
 
             // Skip iframes without src attribute of where src is about:blank
-            if (!empty($srcMatch[2]) && $srcMatch[2] !== 'about:blank') {
+            if (! empty($srcMatch[2]) && $srcMatch[2] !== 'about:blank') {
                 $content = $this->handleContentBlocking($tags[0], $srcMatch[2]);
             }
         }
@@ -341,10 +370,12 @@ class ContentBlocker
      * handleOembed function.
      *
      * @access public
-     * @param mixed $html
-     * @param mixed $url
-     * @param mixed $atts
-     * @param mixed $postId
+     *
+     * @param  mixed  $html
+     * @param  mixed  $url
+     * @param  mixed  $atts
+     * @param  mixed  $postId
+     *
      * @return void
      */
     public function handleOembed($html, $url, $atts, $postId)
@@ -356,25 +387,25 @@ class ContentBlocker
      * handleContentBlocking function.
      *
      * @access public
-     * @param mixed $content
-     * @param string $url (default: '')
-     * @param string $contentBlockerId (default: '')
-     * @param string $title (default: '')
-     * @param mixed $atts (default: [])
+     *
+     * @param  mixed  $content
+     * @param  string  $url  (default: '')
+     * @param  string  $contentBlockerId  (default: '')
+     * @param  string  $title  (default: '')
+     * @param  mixed  $atts  (default: [])
+     *
      * @return void
      */
     public function handleContentBlocking($content, $url = '', $contentBlockerId = '', $title = '', $atts = [])
     {
         // Check if host is on the whitelist
         if (empty($url) || $this->isHostWhitelisted($url) !== true) {
-
             if (function_exists('is_feed') && is_feed() && Config::getInstance()->get('removeIframesInFeeds') == true) {
                 $content = '';
             } else {
-
                 // Set currentContent for third party filter that needs the content unmodified
                 $this->currentBlockedContent = $content;
-                $this->currentURL = !empty($url) ? $url : '';
+                $this->currentURL = ! empty($url) ? $url : '';
                 $this->currentTitle = $title;
 
                 $currentURLData = parse_url($this->currentURL);
@@ -382,20 +413,24 @@ class ContentBlocker
                 $detectedContentBlockerId = null;
 
                 // When $contentBlockerId is set - overwrites the by URL detected content blocker
-                if (!empty($contentBlockerId) && !empty($this->contentBlocker[$contentBlockerId])) {
+                if (! empty($contentBlockerId) && ! empty($this->contentBlocker[$contentBlockerId])) {
                     $detectedContentBlockerId = $contentBlockerId;
                 } else {
                     // Detect Content Blocker by Host
-                    if (!empty($this->hosts) && !empty($this->currentURL)) {
-
+                    if (! empty($this->hosts) && ! empty($this->currentURL)) {
                         $levenshtein = 0;
-                        $currentHost = $currentURLData['host'] . (isset($currentURLData['path']) ? $currentURLData['path'] : '');
+                        $currentHost = $currentURLData['host'] . (isset($currentURLData['path'])
+                                ? $currentURLData['path'] : '');
 
                         foreach ($this->hosts as $host => $contentBlocker) {
-
                             if (strpos($currentHost, $host) !== false) {
-
-                                if ((empty($levenshtein) && empty($detectedContentBlockerId)) || levenshtein($currentHost, $host) < $levenshtein) {
+                                if (
+                                    (empty($levenshtein) && empty($detectedContentBlockerId))
+                                    || levenshtein(
+                                        $currentHost,
+                                        $host
+                                    ) < $levenshtein
+                                ) {
                                     $levenshtein = levenshtein($currentHost, $host);
                                     $detectedContentBlockerId = $contentBlocker;
                                 }
@@ -405,35 +440,48 @@ class ContentBlocker
                 }
 
                 // Fallback but only if Fallback was not disabled
-                if (empty($detectedContentBlockerId) && !empty($this->contentBlocker['default'])) {
+                if (empty($detectedContentBlockerId) && ! empty($this->contentBlocker['default'])) {
                     $detectedContentBlockerId = 'default';
                 }
 
                 // Do not block oEmbed of own blog
-                if (!empty($this->currentURL) && strpos($currentURLData['host'], $this->siteHost) !== false) {
+                if (! empty($this->currentURL) && strpos($currentURLData['host'], $this->siteHost) !== false) {
                     $detectedContentBlockerId = null;
                 }
 
-                if (!empty($detectedContentBlockerId)) {
-
+                if (! empty($detectedContentBlockerId)) {
                     if (has_filter('borlabsCookie/contentBlocker/modify/content/' . $detectedContentBlockerId)) {
-                        $content = apply_filters('borlabsCookie/contentBlocker/modify/content/' . $detectedContentBlockerId, $content, $atts);
-
+                        $content = apply_filters(
+                            'borlabsCookie/contentBlocker/modify/content/' . $detectedContentBlockerId,
+                            $content,
+                            $atts
+                        );
                     } elseif (has_filter('borlabsCookie/bct/modify_content/' . $detectedContentBlockerId)) {
                         // Backwards compatibility
-                        $content = apply_filters('borlabsCookie/bct/modify_content/' . $detectedContentBlockerId, $detectedContentBlockerId, $content);
-
+                        $content = apply_filters(
+                            'borlabsCookie/bct/modify_content/' . $detectedContentBlockerId,
+                            $detectedContentBlockerId,
+                            $content
+                        );
                     } else {
-                        $content = ContentBlocker\Custom::getInstance()->modify($content, $detectedContentBlockerId, $atts);
+                        $content = ContentBlocker\Custom::getInstance()->modify(
+                            $content,
+                            $detectedContentBlockerId,
+                            $atts
+                        );
                     }
 
                     if (Config::getInstance()->get('cookieBoxIntegration') === 'javascript') {
-                        $blockedContent = '<script type="text/template">' . base64_encode($this->getCurrentBlockedContent()) . '</script>';
+                        $blockedContent = '<script type="text/template">' . base64_encode(
+                                $this->getCurrentBlockedContent()
+                            ) . '</script>';
                     } else {
                         $blockedContent = base64_encode($this->getCurrentBlockedContent());
                     }
 
-                    $content = '<div class="BorlabsCookie">' . $content . '<div class="borlabs-hide" data-borlabs-cookie-type="content-blocker" data-borlabs-cookie-id="' . $detectedContentBlockerId . '">' . $blockedContent . '</div></div>';
+                    $content = '<div class="BorlabsCookie">' . $content
+                        . '<div class="borlabs-hide" data-borlabs-cookie-type="content-blocker" data-borlabs-cookie-id="'
+                        . $detectedContentBlockerId . '">' . $blockedContent . '</div></div>';
                 }
             }
 

@@ -121,12 +121,7 @@ class Affiliate_WP_Payouts_Service {
 			'affwp_version' => AFFILIATEWP_VERSION,
 		);
 
-		$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-		$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
-
-		$headers = array(
-			'Authorization' => 'Basic ' . base64_encode( $vendor_id . ':' . $access_key ),
-		);
+		$headers = affwp_get_payouts_service_http_headers();
 
 		$args = array(
 			'body'      => $body_args,
@@ -219,9 +214,7 @@ class Affiliate_WP_Payouts_Service {
 
 		}
 
-		$headers = array(
-			'Authorization' => 'Basic ' . base64_encode( $vendor_id . ':' . $access_key ),
-		);
+		$headers = affwp_get_payouts_service_http_headers();
 
 		$args = array(
 			'headers'   => $headers,
@@ -422,12 +415,7 @@ class Affiliate_WP_Payouts_Service {
 			'affwp_version' => AFFILIATEWP_VERSION,
 		);
 
-		$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-		$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
-
-		$headers = array(
-			'Authorization' => 'Basic ' . base64_encode( $vendor_id . ':' . $access_key ),
-		);
+		$headers = affwp_get_payouts_service_http_headers();
 
 		$args = array(
 			'body'      => $body_args,
@@ -486,14 +474,21 @@ class Affiliate_WP_Payouts_Service {
 			return;
 		}
 
-		$ps_credentials_url = add_query_arg( array(
-			'token'         => sanitize_text_field( $data['token'] ),
-			'site_url'      => home_url(),
-			'ps_action'     => 'validate_vendor_access_key',
-			'affwp_version' => AFFILIATEWP_VERSION,
-		), PAYOUTS_SERVICE_URL );
+		$headers = affwp_get_payouts_service_http_headers( false );
 
-		$response      = wp_remote_get( esc_url_raw( $ps_credentials_url ) );
+		$body = array(
+			'token'    => sanitize_text_field( $data['token'] ),
+			'site_url' => home_url(),
+		);
+
+		$args = array(
+			'body'    => $body,
+			'headers' => $headers,
+			'timeout' => 60,
+		);
+
+		$api_url       = PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/vendor/validate-access-key';
+		$response      = wp_remote_post( $api_url, $args );
 		$response_code = wp_remote_retrieve_response_code( $response );
 
 		if ( is_wp_error( $response ) || 200 !== $response_code ) {
@@ -512,8 +507,7 @@ class Affiliate_WP_Payouts_Service {
 			wp_die( $message );
 		}
 
-		$response = json_decode( $response['body'], true );
-		$data     = $response['data'];
+		$data = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		$settings = array(
 			'payouts_service_access_key'        => $data['access_key'],
@@ -550,18 +544,20 @@ class Affiliate_WP_Payouts_Service {
 			return;
 		}
 
-		$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-		$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
+		$headers = affwp_get_payouts_service_http_headers();
 
-		$reconnect_site_url = add_query_arg( array(
-			'site_url'      => home_url(),
-			'vendor_id'     => $vendor_id,
-			'access_key'    => $access_key,
-			'ps_action'     => 'reconnect_site',
-			'affwp_version' => AFFILIATEWP_VERSION,
-		), PAYOUTS_SERVICE_URL );
+		$body = array(
+			'site_url' => home_url(),
+		);
 
-		$response      = wp_remote_get( esc_url_raw( $reconnect_site_url ) );
+		$args = array(
+			'body'    => $body,
+			'headers' => $headers,
+			'timeout' => 60,
+		);
+
+		$api_url       = PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/vendor/reconnect';
+		$response      = wp_remote_post( $api_url, $args );
 		$response_code = wp_remote_retrieve_response_code( $response );
 
 		if ( is_wp_error( $response ) || 200 !== $response_code ) {
@@ -604,18 +600,20 @@ class Affiliate_WP_Payouts_Service {
 			return;
 		}
 
-		$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-		$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
+		$headers = affwp_get_payouts_service_http_headers();
 
-		$disconnect_site_url = add_query_arg( array(
-			'site_url'      => home_url(),
-			'vendor_id'     => $vendor_id,
-			'access_key'    => $access_key,
-			'ps_action'     => 'disconnect_site',
-			'affwp_version' => AFFILIATEWP_VERSION,
-		), PAYOUTS_SERVICE_URL );
+		$body = array(
+			'site_url' => home_url(),
+		);
 
-		$response      = wp_remote_get( esc_url_raw( $disconnect_site_url ) );
+		$args = array(
+			'body'    => $body,
+			'headers' => $headers,
+			'timeout' => 60,
+		);
+
+		$api_url       = PAYOUTS_SERVICE_URL . '/wp-json/payouts/v1/vendor/disconnect';
+		$response      = wp_remote_post( $api_url, $args );
 		$response_code = wp_remote_retrieve_response_code( $response );
 
 		if ( is_wp_error( $response ) || 200 !== $response_code ) {
