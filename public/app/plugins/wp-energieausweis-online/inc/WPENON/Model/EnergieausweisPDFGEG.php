@@ -158,12 +158,12 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 					$this->SetXY( 71, 53.7 );
 
 					// Generell
-					$this->WriteCell( $this->GetData( 'gebaeudetyp' ), 'L', 2, 99.3 );
-					$this->WriteCell( $this->GetData( 'adresse', 0, true ), 'L', 2, 99.3 );
-					$this->WriteCell( $this->GetData( 'gebaeudeteil' ), 'L', 2, 99.3 );
-					$this->WriteCell( $this->GetData( 'baujahr' ), 'L', 2, 99.3 );
-					$this->WriteCell( $this->GetData( 'baujahr_erzeuger' ), 'L', 2, 99.3 );
-					$this->WriteCell( $this->GetData( 'wohnungen' ), 'L', 2, 99.3 );
+					$this->WriteCell( $this->GetData( 'gebaeudetyp' ), 'L', 2, 90.3 );
+					$this->WriteCell( $this->GetData( 'adresse', 0, true ), 'L', 2, 90.3 );
+					$this->WriteCell( $this->GetData( 'gebaeudeteil' ), 'L', 2, 90.3 );
+					$this->WriteCell( $this->GetData( 'baujahr' ), 'L', 2, 90.3 );
+					$this->WriteCell( $this->GetData( 'baujahr_erzeuger' ), 'L', 2, 90.3 );
+					$this->WriteCell( $this->GetData( 'wohnungen' ), 'L', 2, 90.3 );
 
 					if ( $this->GetData( 'nutzflaeche_aus_wohnflaeche' ) ) {
 						$x = $this->GetX();

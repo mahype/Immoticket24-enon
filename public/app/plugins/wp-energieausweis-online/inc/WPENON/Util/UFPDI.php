@@ -50,7 +50,7 @@ class UFPDI extends \FPDI {
 		$orig_font_size = $font_size = $this->FontSizePt;
 		if ( $width > 0 ) {
 			while ( $this->GetStringWidth( $text ) > $width ) {
-				$this->SetFontSize( $font_size -= 0.2 );
+				$this->SetFontSize( $font_size -= 2 );
 				$changed = true;
 			}
 		}
