@@ -343,12 +343,7 @@ function affwp_validate_payouts_service_payout_data( $data ) {
 		'affwp_version' => AFFILIATEWP_VERSION,
 	);
 
-	$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
-	$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
-
-	$headers = array(
-		'Authorization' => 'Basic ' . base64_encode( $vendor_id . ':' . $access_key ),
-	);
+	$headers = affwp_get_payouts_service_http_headers();
 
 	$args = array(
 		'body'      => $body_args,
@@ -396,4 +391,30 @@ function affwp_validate_payouts_service_payout_data( $data ) {
  */
 function affwp_is_payouts_service_enabled() {
 	return affiliate_wp()->affiliates->payouts->service_register->is_service_enabled();
+}
+
+/**
+ * Retrieve the headers to be sent for HTTP request to the Payouts Service.
+ *
+ * @since 2.6.8
+ * @param bool $add_authorization_header Optional. Whether to return the Authorization header.
+ *                                       Default true.
+ * @return array HTTP headers.
+ */
+function affwp_get_payouts_service_http_headers( $add_authorization_header = true ) {
+
+	$headers = array(
+		'Payouts-Service-Platform'         => 'affiliatewp',
+		'Payouts-Service-Platform-Url'     => site_url(),
+		'Payouts-Service-Platform-Version' => AFFILIATEWP_VERSION,
+	);
+
+	if ( true === $add_authorization_header ) {
+		$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
+		$access_key = affiliate_wp()->settings->get( 'payouts_service_access_key', '' );
+
+		$headers['Authorization'] = 'Basic ' . base64_encode( $vendor_id . ':' . $access_key );
+	}
+
+	return $headers;
 }

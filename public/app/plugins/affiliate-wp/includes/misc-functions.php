@@ -1401,10 +1401,13 @@ function affwp_get_payouts_service_country_list() {
 		'US' => __( 'United States', 'affiliate-wp' ),
 		'CA' => __( 'Canada', 'affiliate-wp' ),
 		'GB' => __( 'United Kingdom', 'affiliate-wp' ),
+		'AR' => __( 'Argentina', 'affiliate-wp' ),
 		'AU' => __( 'Australia', 'affiliate-wp' ),
 		'AT' => __( 'Austria', 'affiliate-wp' ),
 		'BE' => __( 'Belgium', 'affiliate-wp' ),
+		'BR' => __( 'Brazil', 'affiliate-wp' ),
 		'BG' => __( 'Bulgaria', 'affiliate-wp' ),
+		'CR' => __( 'Costa Rica', 'affiliate-wp' ),
 		'CY' => __( 'Cyprus', 'affiliate-wp' ),
 		'CZ' => __( 'Czech Republic', 'affiliate-wp' ),
 		'DK' => __( 'Denmark', 'affiliate-wp' ),
@@ -1415,6 +1418,8 @@ function affwp_get_payouts_service_country_list() {
 		'GR' => __( 'Greece', 'affiliate-wp' ),
 		'HK' => __( 'Hong Kong', 'affiliate-wp' ),
 		'HU' => __( 'Hungary', 'affiliate-wp' ),
+		'IN' => __( 'India', 'affiliate-wp' ),
+		'ID' => __( 'Indonesia', 'affiliate-wp' ),
 		'JP' => __( 'Japan', 'affiliate-wp' ),
 		'IE' => __( 'Ireland', 'affiliate-wp' ),
 		'IT' => __( 'Italy', 'affiliate-wp' ),
@@ -1423,6 +1428,7 @@ function affwp_get_payouts_service_country_list() {
 		'LU' => __( 'Luxembourg', 'affiliate-wp' ),
 		'MY' => __( 'Malaysia', 'affiliate-wp' ),
 		'MT' => __( 'Malta', 'affiliate-wp' ),
+		'MX' => __( 'Mexico', 'affiliate-wp' ),
 		'NL' => __( 'Netherlands', 'affiliate-wp' ),
 		'NZ' => __( 'New Zealand', 'affiliate-wp' ),
 		'NO' => __( 'Norway', 'affiliate-wp' ),
@@ -1435,6 +1441,7 @@ function affwp_get_payouts_service_country_list() {
 		'ES' => __( 'Spain', 'affiliate-wp' ),
 		'SE' => __( 'Sweden', 'affiliate-wp' ),
 		'CH' => __( 'Switzerland', 'affiliate-wp' ),
+		'TH' => __( 'Thailand', 'affiliate-wp' ),
 	);
 
 	return $countries;

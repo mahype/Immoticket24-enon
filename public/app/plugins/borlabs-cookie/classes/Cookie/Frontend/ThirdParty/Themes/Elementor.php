@@ -62,41 +62,75 @@ class Elementor
      * detectYouTubeVideoWidget function.
      *
      * @access public
-     * @param mixed $elementBaseObj
+     *
+     * @param  mixed  $elementBaseObj
+     *
      * @return void
      */
     public function detectYouTubeVideoWidget($elementBaseObj = null)
     {
+        // Get settings of the Content Blocker
+        $contentBlockerData = ContentBlocker::getInstance()->getContentBlockerData('youtube');
+
+        // Only modify when YouTube Content Blocker is active
+        if (empty($contentBlockerData)) {
+            return;
+        }
+
         $elementType = $elementBaseObj->get_type();
 
         if ($elementType === 'widget') {
             $frontendSettings = $elementBaseObj->get_frontend_settings();
 
-            if (!empty($frontendSettings) && !empty($frontendSettings['video_type']) && $frontendSettings['video_type'] === 'youtube') {
+            if (
+                ! empty($frontendSettings) && ! empty($frontendSettings['video_type'])
+                && $frontendSettings['video_type'] === 'youtube'
+            ) {
+                if (isset($frontendSettings['lightbox']) && $frontendSettings['lightbox'] === 'yes') {
+                    return;
+                }
 
                 ob_start();
                 $elementBaseObj->remove_render_attribute('_wrapper', 'data-settings', null);
                 $this->blockedYouTubeURL = $frontendSettings['youtube_url'];
 
-                add_action('elementor/frontend/widget/after_render', [\BorlabsCookie\Cookie\Frontend\ThirdParty\Themes\Elementor::getInstance(), 'modifyYouTubeVideoWidget']);
+                add_action(
+                    'elementor/frontend/widget/after_render',
+                    [
+                        \BorlabsCookie\Cookie\Frontend\ThirdParty\Themes\Elementor::getInstance(),
+                        'modifyYouTubeVideoWidget',
+                    ]
+                );
             }
         }
     }
 
     public function modifyYouTubeVideoWidget()
     {
-        if (!empty($this->blockedYouTubeURL)) {
+        if (! empty($this->blockedYouTubeURL)) {
             $widgetHTML = ob_get_contents();
             ob_end_clean();
 
             $videoIframe = wp_oembed_get($this->blockedYouTubeURL);
-            $blockedIframe = \BorlabsCookie\Cookie\Frontend\ContentBlocker::getInstance()->handleOembed($videoIframe, $this->blockedYouTubeURL, [], []);
+            $blockedIframe = \BorlabsCookie\Cookie\Frontend\ContentBlocker::getInstance()->handleOembed(
+                $videoIframe,
+                $this->blockedYouTubeURL,
+                [],
+                []
+            );
 
-            echo str_replace('<div class="elementor-video"></div>', '<div class="elementor-video">' . $blockedIframe . '</div>', $widgetHTML);
+            echo str_replace(
+                '<div class="elementor-video"></div>',
+                '<div class="elementor-video">' . $blockedIframe . '</div>',
+                $widgetHTML
+            );
 
             $this->blockedYouTubeURL = '';
 
-            remove_action('elementor/frontend/widget/after_render', [\BorlabsCookie\Cookie\Frontend\ThirdParty\Themes\Elementor::getInstance(), 'modifyYouTubeVideoWidget']);
+            remove_action(
+                'elementor/frontend/widget/after_render',
+                [\BorlabsCookie\Cookie\Frontend\ThirdParty\Themes\Elementor::getInstance(), 'modifyYouTubeVideoWidget']
+            );
         }
     }
 
@@ -104,13 +138,20 @@ class Elementor
      * detectFacebook function.
      *
      * @access public
-     * @param mixed $content
+     *
+     * @param  mixed  $content
+     *
      * @return void
      */
     public function detectFacebook($content, $widget)
     {
-        if (strpos($content, 'elementor-facebook-widget fb-page') !== false || strpos($content, 'elementor-facebook-widget fb-post') !== false) {
-
+        if (
+            strpos($content, 'elementor-facebook-widget fb-page') !== false
+            || strpos(
+                $content,
+                'elementor-facebook-widget fb-post'
+            ) !== false
+        ) {
             // Get settings of the Content Blocker
             $contentBlockerData = ContentBlocker::getInstance()->getContentBlockerData('facebook');
 
@@ -118,7 +159,8 @@ class Elementor
             JavaScript::getInstance()->addContentBlocker(
                 $contentBlockerData['content_blocker_id'],
                 $contentBlockerData['globalJS'],
-                $contentBlockerData['initJS'] . " if (typeof elementorFrontend.init === \"function\") { elementorFrontend.init(); } ",
+                $contentBlockerData['initJS']
+                . " if (typeof elementorFrontend.init === \"function\") { elementorFrontend.init(); } ",
                 $contentBlockerData['settings']
             );
 
@@ -132,8 +174,10 @@ class Elementor
      * detectIframes function.
      *
      * @access public
-     * @param mixed $content
-     * @param mixed $widget
+     *
+     * @param  mixed  $content
+     * @param  mixed  $widget
+     *
      * @return void
      */
     public function detectIframes($content, $widget)

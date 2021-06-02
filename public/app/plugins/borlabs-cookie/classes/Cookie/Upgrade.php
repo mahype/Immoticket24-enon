@@ -62,20 +62,7 @@ class Upgrade
             'upgradeVersion_2_2_7' => '2.2.7',
             'upgradeVersion_2_2_8' => '2.2.8',
             'upgradeVersion_2_2_9' => '2.2.9',
-            'upgradeVersion_2_2_10' => '2.2.10',
-            'upgradeVersion_2_2_11' => '2.2.11',
-            'upgradeVersion_2_2_12' => '2.2.12',
-            'upgradeVersion_2_2_13' => '2.2.13',
-            'upgradeVersion_2_2_14' => '2.2.14',
-            'upgradeVersion_2_2_15' => '2.2.15',
-            'upgradeVersion_2_2_16' => '2.2.16',
-            'upgradeVersion_2_2_17' => '2.2.17',
-            'upgradeVersion_2_2_18' => '2.2.18',
-            'upgradeVersion_2_2_19' => '2.2.19',
-            'upgradeVersion_2_2_20' => '2.2.20',
-            'upgradeVersion_2_2_21' => '2.2.21',
-            'upgradeVersion_2_2_22' => '2.2.22',
-            'upgradeVersion_2_2_23' => '2.2.23',
+            'upgradeVersion_2_2_26' => '2.2.26',
         ];
 
     private $currentBlogId = '';
@@ -860,62 +847,10 @@ class Upgrade
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
-    public function upgradeVersion_2_2_10()
-    {
-    }
-
-    public function upgradeVersion_2_2_11()
-    {
-    }
-
-    public function upgradeVersion_2_2_12()
-    {
-    }
-
-    public function upgradeVersion_2_2_13()
-    {
-    }
-
-    public function upgradeVersion_2_2_14()
-    {
-    }
-
-    public function upgradeVersion_2_2_15()
-    {
-    }
-
-    public function upgradeVersion_2_2_16()
-    {
-    }
-
-    public function upgradeVersion_2_2_17()
-    {
-    }
-
-    public function upgradeVersion_2_2_18()
-    {
-    }
-
-    public function upgradeVersion_2_2_19()
-    {
-    }
-
-    public function upgradeVersion_2_2_20()
-    {
-    }
-
-    public function upgradeVersion_2_2_21()
-    {
-    }
-
-    public function upgradeVersion_2_2_22()
-    {
-    }
-
-    public function upgradeVersion_2_2_23()
+    public function upgradeVersion_2_2_26()
     {
         update_option('BorlabsCookieClearCache', true, 'no');
-        update_option('BorlabsCookieVersion', '2.2.23', 'no');
+        update_option('BorlabsCookieVersion', '2.2.26', 'no');
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 }
