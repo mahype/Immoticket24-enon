@@ -99,12 +99,20 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 			if ( $energieausweis->mode == 'b' ) {
 				if ( $energieausweis->ww_info == 'ww' ) {
 					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->ww_energietraeger );
-				} else if ( $energieausweis->ww_info == 'h' ) {
-					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger );
+				} else if ( $energieausweis->ww_info == 'h'  ) {
+					if( ! wpenon_is_water_independend_heater( $energieausweis->h_erzeugung ) ) 
+					{
+						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger );
+					}
 					if ( $energieausweis->h2_info ) {
-						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger );
+						if( ! wpenon_is_water_independend_heater( $energieausweis->h2_erzeugung ) )
+						{
+							$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger );
+						}
 						if ( $energieausweis->h3_info ) {
-							$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger );
+							if( ! wpenon_is_water_independend_heater( $energieausweis->h3_erzeugung ) ) {
+								$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger );
+							}
 						}
 					}
 					return implode( ', ', array_unique( $energietraeger ) );
