@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/CalculationsCC.php';
+require( dirname(__FILE__) .'/CalculationsCC.php' );
 
 $tableNames = new stdClass();
 
@@ -11,23 +11,9 @@ $tableNames->energietraeger_umrechnungen = 'energietraeger_umrechnungen';
 $tableNames->klimafaktoren               = 'klimafaktoren202001';
 
 $calcCC = new CalculationsCC( $energieausweis );
-$calculations['co2_emissionen'] = $calcCC->calculation()->getCo2Emissions();
+$calculations['co2_emissionen'] = $calcCC->getBuilding()->getCo2Emissions();
 
-foreach( $calcCC->calculation()->heaters AS $heater ) {
-	$calculations['co2_emissionen_heaters'][] = $heater->getCo2Emissions();
-}
-
-$calculations['co2_emissionen_hotwaterheater'] = $calcCC->calculation()->hotWaterHeaters->getCo2Emissions();
-
-if ( $calcCC->hasCooler() ) {
-	$calculations['co2_emissionen_cooler'] = $calcCC->calculation()->coolers->getCo2Emissions();
-}
-
-$calculations['new_primaerenergie'] = $calcCC->calculation()->getPrimaryEnergy();
-$calculations['new_endenergie'] = $calcCC->calculation()->getFinalEnergy();
-
-$calculations['new_obj'] = $calcCC;
-
+$calculations['object'] = $calcCC;
 
 /**
  * Old

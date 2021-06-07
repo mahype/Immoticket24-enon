@@ -6,6 +6,79 @@
  */
 ?>
 
+<?php 
+
+$calc = $data['object']; 
+$building = $data['object']->getBuilding(); 
+$hotWaterHeater = $building->getHotWaterHeaters()->current();
+
+?>
+
+<?php foreach( $building->getHeaters() AS $heater ): ?>
+  <table class="table">
+    <tr>
+      <th>Heizungssytem</th>
+      <th>Energieträger</th>
+      <th>kWh-Multiplikator</th>
+      <th>Primärenergiefaktor</th>
+      <th>CO2-Emissionsfaktor</th>
+    </tr>  
+      <tr>
+        <td><?php echo $heater->getHeatingSystem()->getName(); ?></td>
+        <td><?php echo $heater->getEnergySource()->getName(); ?></td>
+        <td><?php echo $heater->getEnergySource()->getKWhMultiplicator(); ?></td>
+        <td><?php echo $heater->getEnergySource()->getPrimaryEnergyFactor(); ?></td>
+        <td><?php echo $heater->getEnergySource()->getCo2EmissionFactor(); ?></td>
+      </tr>  
+  </table>
+
+  <table class="table">
+    <tr>
+      <th>Startdatum</th>
+      <th>Enddatum</th>
+      <th>kWh</th>
+      <th>f<sub>k</sub></th>
+      <th>E<sub>vb,h</sub></th>
+      <th>E<sub>vb,ww</sub></th>
+      <th>E<sub>vb</sub></th>
+      <th>E<sub>leer,h</sub></th>
+      <th>e<sub>h</sub></th>
+      <th>e<sub>ww</sub></th>
+      <th>e</th>
+    </tr>
+    <?php foreach( $calc->getConsumptionPeriods() AS $key => $period ): ?>
+      <tr>
+        <td><?php echo $period['start']; ?></td>
+        <td><?php echo $period['end']; ?></td>
+        <td><?php echo $heater->getKWhOfPeriod( $key ); ?></td>
+        <td><?php echo $heater->getClimateFactorOfPeriod( $key ); ?></td>        
+        <td><?php echo $heater->getEnergyConsumptionOfPeriod( $key ); ?></td>
+        <td><?php echo $hotWaterHeater->getEnergyConsumptionOfPeriod( $key ); ?></td>
+        <td><?php echo ( $heater->getEnergyConsumptionOfPeriod( $key ) + $hotWaterHeater->getEnergyConsumptionOfPeriod( $key ) ); ?></td>        
+        <td><?php echo round( $heater->getVacancySurchargeOfPeriod( $key ), 2 ); ?></td>        
+        <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
+        <td><?php echo round( $hotWaterHeater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
+        <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ) + $hotWaterHeater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
+      </tr>
+    <?php endforeach; ?>
+  </table>
+<?php endforeach; ?>
+
+<p class="lead">
+<?php printf( __( 'Spez. Endenergieverbrauch q<sub>E</sub>: %s kWh/m&sup2;', 'wpenon' ),round( $building->getFinalEnergy(), 2 ) ); ?>
+</p>
+
+<p class="lead">
+  <?php printf( __( 'Spez. Primärenergieverbrauch q<sub>P</sub>: %s kWh/m&sup2;', 'wpenon' ), round( $building->getPrimaryEnergy(), 2 ) ); ?><br>
+</p>
+
+<p class="lead">
+  <?php printf( __( 'CO2 Emissionen: %s kg/(m²·a) ', 'wpenon' ), round( $building->getCo2Emissions(), 2 ) ); ?>
+</p>
+
+
+<div style="background:#ccc;">
+Alte Berechnungen
 <?php wpenon_get_view()->displaySubTemplate( 'table-row', '', array(
   'caption'   => __( 'Anlagendaten', 'wpenon' ),
   'fields'    => array(
@@ -86,35 +159,4 @@
 <p class="lead">
   <?php printf( __( 'Spez. Primärenergieverbrauch q<sub>P</sub>: %s kWh/m&sup2;', 'wpenon' ), \WPENON\Util\Format::float( $data['primaerenergie'] ) ); ?><br>
 </p>
-
-<h2>Neue Berechnungen</h2>
-
-<p class="lead">
-<?php printf( __( 'Spez. Endenergieverbrauch q<sub>E</sub>: %s kWh/m&sup2;', 'wpenon' ), \WPENON\Util\Format::float( $data['new_endenergie'] ) ); ?>
-</p>
-
-<p class="lead">
-  <?php printf( __( 'Spez. Primärenergieverbrauch q<sub>P</sub>: %s kWh/m&sup2;', 'wpenon' ), \WPENON\Util\Format::float( $data['new_primaerenergie'] ) ); ?><br>
-</p>
-
-<p class="lead">
-  <?php printf( __( 'CO2 Emissionen: %s kg/(m²·a) ', 'wpenon' ), \WPENON\Util\Format::float( $data['co2_emissionen'] ) ); ?>
-</p>
-
-<?php foreach( $data['co2_emissionen_heaters'] AS $key => $co2_heater ) : ?>
-  <p>
-    <?php printf( __( 'CO2 Emissionen Heizung %s: %s kg/m²⋅a', 'wpenon' ), ( $key + 1 ) , \WPENON\Util\Format::pdfEncode( $co2_heater ) ) ?>
-  </p>
-<?php endforeach; ?>
-
-<?php if( $data['co2_emissionen_hotwaterheater'] ) : ?>
-<p>
-  <?php printf( __( 'CO2 Emissionen Warmwasser: %s kg/m²⋅a', 'wpenon' ), \WPENON\Util\Format::pdfEncode( $data['co2_emissionen_hotwaterheater'] ) ) ?>
-</p>
-<?php endif; ?>
-
-<?php if( $data['co2_emissionen_cooler'] ) : ?>
-<p>
-  <?php printf( __( 'CO2 Emissionen: %s kg/m²⋅a', 'wpenon' ), \WPENON\Util\Format::pdfEncode( $data['co2_emissionen_cooler'] ) ) ?>
-</p>
-<?php endif; ?>
+</div>
