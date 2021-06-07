@@ -176,16 +176,11 @@ class CalculationsCC {
         if( $hotWater === 'separate' )
         {
             $hotWaterSurcharge = 0;
-            $dataHotWaterHeaters[] = $this->getHotWaterHeater();
+            $dataHotWaterHeaters = [ $this->getHotWaterHeater() ];
         }
 
         $heaters = new Heaters( $this->building->getCalculationArea(), $dataHeaters, $hotWaterSurcharge );
         $this->building->setHeaters( $heaters );
-
-        if( $hotWater === 'separate' )
-        {
-            $dataHeaters[] = $this->getHotWaterHeater();
-        }
         
         $hotWaterHeaters = new HotWaterHeaters( $this->building->getCalculationArea(), $this->building->getFlatCount(), $dataHotWaterHeaters, $hotWaterSurcharge );
         $this->building->setHotWaterHeaters( $hotWaterHeaters );
