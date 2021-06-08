@@ -339,7 +339,7 @@ $should_calculations_be_fixed = $energieausweis_timestamp > 1536326720; // 09/07
 if ( $energieausweis->ww_info === 'unbekannt' ) {	
 	$ww_energietraeger                  = wpenon_get_table_results( $tableNames->energietraeger, array(
 		'bezeichnung' => array(
-			'value'   => $calcCC->calculation()->hotWaterHeaters->getEnergySourceForSurcharge()->id,
+			'value'   => $calcCC->getBuilding()->getHeaters()->getHeaterByHighestEnergyValue()->getEnergySource()->getId(),
 			'compare' => '='
 		)
 	), array(), true );
