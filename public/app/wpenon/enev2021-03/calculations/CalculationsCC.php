@@ -7,7 +7,7 @@ require( dirname( dirname(__FILE__) ) .'/vendor/autoload.php' );
 use AWSM\LibEstate\Calculations\Building;
 use AWSM\LibEstate\Calculations\Basement;
 use AWSM\LibEstate\Calculations\Roof;
-use AWSM\LibEstate\Calculations\Cooler;
+use AWSM\LibEstate\Calculations\Coolers;
 use AWSM\LibEstate\Calculations\Heater;
 use AWSM\LibEstate\Calculations\Heaters;
 use AWSM\LibEstate\Calculations\HeaterSystem;
@@ -124,14 +124,20 @@ class CalculationsCC {
                 break;
             case 'unbeheizt':
                 $roof = new Roof( false );
-                $building->setRoof( $roof );
+                $this->building->setRoof( $roof );
                 break;
         }
         
         switch( $this->ec->k_info ) {
             case 'vorhanden':
-                $cooler = new Cooler( false, true );
-                $this->building->setCooler( $cooler );
+                $dataCoolers = [
+                    0 => [
+                        'energySource' => $this->getEnergySource( 'strom' )
+                    ]
+                 ];
+
+                $coolers = new Coolers( $this->building->getCalculationArea(), $dataCoolers );
+                $this->building->setCoolers( $coolers );
                 break;
         }
 
