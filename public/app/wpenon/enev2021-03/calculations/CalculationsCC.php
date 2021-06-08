@@ -132,7 +132,7 @@ class CalculationsCC {
             case 'vorhanden':
                 $dataCoolers = [
                     0 => [
-                        'energySource' => $this->getEnergySource( 'strom' )
+                        'energySource' => $this->getEnergySource( 'strom_kwh' )
                     ]
                  ];
 
