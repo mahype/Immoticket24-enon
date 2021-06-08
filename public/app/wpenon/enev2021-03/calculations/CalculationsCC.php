@@ -2,8 +2,6 @@
 
 require( dirname( dirname(__FILE__) ) .'/vendor/autoload.php' );
 
-// AWSM\LibEstate\Calculations
-
 use AWSM\LibEstate\Calculations\Building;
 use AWSM\LibEstate\Calculations\Basement;
 use AWSM\LibEstate\Calculations\Roof;
@@ -40,6 +38,15 @@ class CalculationsCC {
      * @since 1.0.0
      */
     protected Building $building;
+
+    /**
+     * Hot water
+     * 
+     * @var string
+     * 
+     * @since 1.0.0
+     */
+    protected string $hotWater;
 
     /**
      * Time periods
@@ -95,6 +102,85 @@ class CalculationsCC {
     public function getBuilding() : Building
     {
         return $this->building;
+    }
+
+    /**
+     * Prepares the consumption data list for PDF
+     * 
+     * @return array Consumption data list
+     * 
+     * @since 1.0.0
+     */
+    public function getConsumptionDataList() : array
+    {
+        $consumptionPeriods = $this->getConsumptionPeriods();
+
+        $start = $consumptionPeriods[ 0 ]['start'];
+        $end   = $consumptionPeriods[ count( $consumptionPeriods ) - 1 ]['end'];
+
+        foreach( $consumptionPeriods AS $key => $period )
+        {
+            $hotWater = 0;
+            if( $this->hotWater == 'heater' )
+            {
+                $hotWater = $this->getBuilding()->getHotWaterHeaters()->getEnergyConsumptionOfPeriod( $key );
+            }            
+
+            $data[] = [
+                'start'          => $period['start'],
+                'ende'           => $period['end'],
+                'energietraeger' => implode( ', ', $this->getBuilding()->getHeaters()->getEnergySourceNames() ),
+                'primaer'        => $this->getBuilding()->getHeaters()->getPrimaryEnergyFactorAverage(),
+                'gesamt'         => $this->getBuilding()->getHeaters()->getKWhOfPeriod( $key ),
+                'warmwasser'     => $hotWater,
+                'heizung'        => $this->getBuilding()->getHeaters()->getKWhOfPeriod( $key ),
+                'klima'          => $this->getBuilding()->getHeaters()->current()->getClimateFactorOfPeriod( $key ),
+            ];
+        }
+
+        if( $this->hotWater == 'unknown' )
+        {
+            $data[] = [
+                'start'          => $start,
+                'ende'           => $end,
+                'energietraeger' => 'Warmwasserzuschlag',                
+                'primaer'        => $this->getBuilding()->getHeaters()->getHeaterByHighestEnergyValue()->getEnergySource()->getPrimaryEnergyFactor(),
+                'gesamt'         => $this->getBuilding()->getHotWaterSurCharge(),
+                'warmwasser'     => 0,
+                'heizung'        => 0,
+                'klima'          => '',
+            ];
+        }
+
+        if ( $this->getBuilding()->getVacancySurcharge() > 0 ) 
+        {
+            $data[] = [
+                'start'          => $start,
+                'ende'           => $end,
+                'energietraeger' => 'Leerstandszuschlag',                
+                'primaer'        => $this->getBuilding()->getHeaters()->getHeaterByHighestEnergyValue()->getEnergySource()->getPrimaryEnergyFactor(),
+                'gesamt'         => $this->getBuilding()->getVacancySurcharge(),
+                'warmwasser'     => $this->getBuilding()->getHotWaterHeaters()->getVacancySurcharge(),
+                'heizung'        => $this->getBuilding()->getHeaters()->getVacancySurcharge(),
+                'klima'          => '',
+            ];
+        }
+
+        if ( $this->getBuilding()->issetCoolers() ) 
+        {
+            $data[] = [
+                'start'          => $start,
+                'ende'           => $end,
+                'energietraeger' => 'Kühlungszuschlag',
+                'primaer'        => $this->getBuilding()->getCoolers()->current()->getEnergySource()->getPrimaryEnergyFactor(),
+                'gesamt'         => $this->getBuilding()->getFinalEnergy( $key ),
+                'warmwasser'     => 0,
+                'heizung'        => 0,
+                'klima'          => '',
+            ];
+        }
+
+        return $data;
     }
 
     /**
@@ -154,13 +240,13 @@ class CalculationsCC {
         
         switch( $this->ec->ww_info ) {
             case 'ww':
-                $hotWater = 'separate';
+                $this->hotWater = 'separate';
                 break;
             case 'h':
-                $hotWater = 'heater';
+                $this->hotWater = 'heater';
                 break;
             case 'unbekannt':
-                $hotWater = 'unknown';
+                $this->hotWater = 'unknown';
                 break;
         }
 
@@ -179,7 +265,7 @@ class CalculationsCC {
         $dataHotWaterHeaters = $dataHeaters;
         $hotWaterSurcharge   = $hotWaterSurchargeInHeater = $this->building->getHotWaterSurcharge();
 
-        switch( $hotWater )
+        switch( $this->hotWater )
         {
             case 'separate':
                 $hotWaterSurcharge = 0;
@@ -372,6 +458,13 @@ class CalculationsCC {
         return $heaterSystem;
     }
 
+    /**
+     * Get consumption periods
+     * 
+     * @return array Consumption periods
+     * 
+     * @since 1.0.0
+     */
     public function getConsumptionPeriods() : array
     {
         $maxPeriods = 3;
@@ -392,7 +485,19 @@ class CalculationsCC {
         return $timePerdiods;
     }
 
-    public function getConsumptionPeriodDate( $date, $index = 0, $end = false, $format = 'coll'  )
+    /**
+     * Get consumption period date
+     * 
+     * @param  string Start date
+     * @param  int    Period number
+     * @param  bool   False if start date is needed, true if end date of period is needed
+     * @param  string Date format
+     * 
+     * @return string Consumption period date
+     * 
+     * @since 1.0.0
+     */
+    public function getConsumptionPeriodDate( string $date, int $index = 0, bool $end = false, string $format = 'coll'  ) : string
     {
         $year = $month = '';
         list( $year, $month ) = array_map( 'absint', explode( '_', $date ) );

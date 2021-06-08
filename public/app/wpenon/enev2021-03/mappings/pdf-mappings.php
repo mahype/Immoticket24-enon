@@ -1,6 +1,13 @@
 <?php
 
+require_once dirname( dirname( __FILE__ ) ) . '/calculations/CalculationsCC.php';
+
 function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null, $data = array() ) {
+	if( isset( $energieausweis ) )
+	{		
+		$calcCC = new CalculationsCC( $energieausweis );
+	}
+
 	switch ( $context ) {
 		case 'gebaeudetyp':
 			if ( 'freistehend' === $energieausweis->gebaeudetyp ) {
@@ -62,6 +69,11 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 		case 'wohnungen':
 			return $energieausweis->formatted_wohnungen;
 		case 'nutzflaeche':
+			if ( $energieausweis->mode == 'v' ) 
+			{
+				return $calcCC->getBuilding()->getCalculationArea();
+			}
+
 			$calculations = $energieausweis->calculate();
 			if ( isset( $calculations['nutzflaeche'] ) ) {
 				return $calculations['nutzflaeche'];
@@ -138,8 +150,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 					}
 					return implode( ', ', array_unique( $energietraeger ) );
 				} else if ( $energieausweis->ww_info == 'unbekannt' ) {
-					$calculations = $energieausweis->calculate();
-					return $calculations['new_obj']->calculation()->hotWaterHeaters->getEnergySourceForSurcharge()->name;
+					return $calcCC->getBuilding()->getHeaters()->getHeaterByHighestEnergyValue()->getEnergySource()->getName();;
 				}
 			}
 			return '';
@@ -213,6 +224,9 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 		case 'zusatzinformationen_beigefuegt':
 			return false;
 		case 'reference':
+			if( $energieausweis->mode == 'v') {
+				return 125;
+			}
 			$calculations = $energieausweis->calculate();
 			if ( isset( $calculations['reference'] ) ) {
 				return $calculations['reference'];
@@ -220,6 +234,10 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			return null;
 		case 'endenergie':
+			if( $energieausweis->mode == 'v') {
+				return $calcCC->getBuilding()->getFinalEnergy();
+			}#
+
 			$calculations = $energieausweis->calculate();
 			if ( isset( $calculations['endenergie'] ) ) {
 				return $calculations['endenergie'];
@@ -227,6 +245,10 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			return null;
 		case 'primaerenergie':
+			if( $energieausweis->mode == 'v') {
+				return $calcCC->getBuilding()->getPrimaryEnergy();
+			}
+
 			$calculations = $energieausweis->calculate();
 			if ( isset( $calculations['primaerenergie'] ) ) {
 				return $calculations['primaerenergie'];
@@ -234,6 +256,10 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			return null;
 		case 'co2_emissionen':
+			if( $energieausweis->mode == 'v') {
+				return $calcCC->getBuilding()->getCo2Emissions();
+			}
+
 			$calculations = $energieausweis->calculate();
 			if ( isset( $calculations['co2_emissionen'] ) ) {
 				return $calculations['co2_emissionen'];
@@ -258,13 +284,6 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 			$calculations = $energieausweis->calculate();
 			if ( isset( $calculations['s_primaerenergie'] ) ) {
 				return $calculations['s_primaerenergie'];
-			}
-
-			return null;
-		case 'co2_emissionen':
-			$calculations = $energieausweis->calculate();
-			if ( isset( $calculations['co2_emissionen'] ) ) {
-				return $calculations['co2_emissionen'];
 			}
 
 			return null;
@@ -320,6 +339,10 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			return array();
 		case 'verbrauchserfassung':
+			if( $energieausweis->mode == 'v') {
+				return $calcCC->getConsumptionDataList();
+			}
+
 			$calculations = $energieausweis->calculate();
 			if ( isset( $calculations['verbrauchsdaten'] ) ) {
 				return $calculations['verbrauchsdaten'];
