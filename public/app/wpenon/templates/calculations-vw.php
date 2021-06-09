@@ -42,6 +42,7 @@ $hotWaterHeater = $building->getHotWaterHeaters()->current();
       <th>E<sub>vb,ww</sub></th>
       <th>E<sub>vb</sub></th>
       <th>E<sub>leer,h</sub></th>
+      <th>E<sub>leer,ww</sub></th>
       <th>e<sub>h</sub></th>
       <th>e<sub>ww</sub></th>
       <th>e</th>
@@ -55,7 +56,8 @@ $hotWaterHeater = $building->getHotWaterHeaters()->current();
         <td><?php echo $heater->getEnergyConsumptionOfPeriod( $key ); ?></td>
         <td><?php echo $hotWaterHeater->getEnergyConsumptionOfPeriod( $key ); ?></td>
         <td><?php echo ( $heater->getEnergyConsumptionOfPeriod( $key ) + $hotWaterHeater->getEnergyConsumptionOfPeriod( $key ) ); ?></td>        
-        <td><?php echo round( $heater->getVacancySurchargeOfPeriod( $key ), 2 ); ?></td>        
+        <td><?php echo round( $heater->getVacancySurchargeOfPeriod( $key ), 2 ); ?></td>
+        <td><?php echo round( $hotWaterHeater->getVacancySurchargeOfPeriod( $key ), 2 ); ?></td>
         <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
         <td><?php echo round( $hotWaterHeater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
         <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ) + $hotWaterHeater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
