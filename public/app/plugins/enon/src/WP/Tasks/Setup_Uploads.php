@@ -53,7 +53,7 @@ class Setup_Uploads implements Filters, Task {
      *                                          $file being in a tmp directory).
      * @param array  $mimes                     Key is the file extension with value as the mime type.
      */
-    public function wpse_file_and_ext_webp( $types, $file, $filename, $mimes ) {
+    public static function wpse_file_and_ext_webp( $types, $file, $filename, $mimes ) {
         if ( false !== strpos( $filename, '.webp' ) ) {
             $types['ext'] = 'webp';
             $types['type'] = 'image/webp';
@@ -73,7 +73,7 @@ class Setup_Uploads implements Filters, Task {
      *
      * @return array
      */
-    public function wpse_mime_types_webp( $mimes ) {
+    public static function wpse_mime_types_webp( $mimes ) {
         $mimes['webp'] = 'image/webp';
         return $mimes;
     }
