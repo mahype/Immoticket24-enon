@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns="https://energieausweis.dibt.de/schema/SchemaDatenErfassung.xsd" xmlns:mstns="https://energieausweis.dibt.de/schema/SchemaDatenErfassung.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="SchemaDatenErfassung" targetNamespace="https://energieausweis.dibt.de/schema/SchemaDatenErfassung.xsd" elementFormDefault="qualified">
+<xs:schema xmlns="https://energieausweis.dibt.de/schema/SchemaDatenErfassungGEG.xsd" xmlns:mstns="https://energieausweis.dibt.de/schema/SchemaDatenErfassungGEG.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="SchemaDatenErfassungGEG" targetNamespace="https://energieausweis.dibt.de/schema/SchemaDatenErfassungGEG.xsd" elementFormDefault="qualified">
   <xs:element name="root">
     <xs:complexType>
       <xs:sequence>
@@ -9,7 +9,7 @@
             <xs:sequence>
               <xs:element name="Aussteller_ID_DIBT" type="xs:string">
                 <xs:annotation>
-                  <xs:documentation xml:lang="de-de">Die bei der Registratur am DIBt-Ausstellerportal verwendete Benutzer-ID des Benutzers der Organisation</xs:documentation>
+                  <xs:documentation xml:lang="de-de">Die bei der Registrierung am DIBt-Ausstellerportal verwendete Benutzer-ID des Benutzers der Organisation</xs:documentation>
                 </xs:annotation>
               </xs:element>
               <xs:element name="Aussteller_PWD_DIBT" type="xs:string">
@@ -20,10 +20,10 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <!-- EnEV-Nachweis -->
-        <xs:element name="EnEV-Nachweis">
+        <!-- Nachweis-Daten -->
+        <xs:element name="Nachweis-Daten">
           <xs:annotation>
-            <xs:documentation xml:lang="de-de">Block, der die typunanabhändigen Daten zur Beziehung einer Registriernummer vom DIBt enthält</xs:documentation>
+            <xs:documentation xml:lang="de-de">Block, der die typunabhängigen Daten zur Beziehung einer Registriernummer vom DIBt enthält</xs:documentation>
           </xs:annotation>
           <xs:complexType>
             <xs:sequence>
@@ -62,10 +62,16 @@
                   <xs:documentation xml:lang="de-de">Postleitzahl des Gebäudestandortes</xs:documentation>
                 </xs:annotation>
               </xs:element>
-              <xs:element type="xs:string" name="Gesetzesgrundlage" minOccurs="1" maxOccurs="1">
+              <xs:element name="Gesetzesgrundlage" minOccurs="1" maxOccurs="1">
                 <xs:annotation>
-                  <xs:documentation xml:lang="de-de">Verwendete Gesetzesgrundlage</xs:documentation>
+                  <xs:documentation xml:lang="de-de">Gesetzesgrundlage des Energieausweises oder energetischen Inspektionsberichtes</xs:documentation>
                 </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="ENEV"/>
+                    <xs:enumeration value="GEG-2020"/>
+                  </xs:restriction>
+                </xs:simpleType>
               </xs:element>
             </xs:sequence>
           </xs:complexType>
