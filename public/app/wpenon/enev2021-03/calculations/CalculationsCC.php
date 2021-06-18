@@ -222,7 +222,7 @@ class CalculationsCC {
                     ]
                  ];
 
-                $coolers = new Coolers( $this->building->getCalculationArea(), $dataCoolers );
+                $coolers = new Coolers( $this->building->getUsefulArea(), $dataCoolers );
                 $this->building->setCoolers( $coolers );
                 break;
         }
@@ -277,10 +277,10 @@ class CalculationsCC {
                 break;
         }
 
-        $heaters = new Heaters( $this->building->getCalculationArea(), $dataHeaters, $hotWaterSurchargeInHeater );
+        $heaters = new Heaters( $this->building->getUsefulArea(), $dataHeaters, $hotWaterSurchargeInHeater );
         $this->building->setHeaters( $heaters );
         
-        $hotWaterHeaters = new HotWaterHeaters( $this->building->getCalculationArea(), $this->building->getFlatCount(), $dataHotWaterHeaters, $hotWaterSurcharge );
+        $hotWaterHeaters = new HotWaterHeaters( $this->building->getUsefulArea(), $this->building->getFlatCount(), $dataHotWaterHeaters, $hotWaterSurcharge );
         $this->building->setHotWaterHeaters( $hotWaterHeaters );
     }
     

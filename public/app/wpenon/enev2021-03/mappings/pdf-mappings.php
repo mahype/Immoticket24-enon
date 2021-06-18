@@ -71,7 +71,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 		case 'nutzflaeche':
 			if ( $energieausweis->mode == 'v' ) 
 			{
-				return $calcCC->getBuilding()->getCalculationArea();
+				return $calcCC->getBuilding()->getUsefulArea();
 			}
 
 			$calculations = $energieausweis->calculate();
