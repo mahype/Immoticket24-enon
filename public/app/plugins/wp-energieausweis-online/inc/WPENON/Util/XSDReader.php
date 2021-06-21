@@ -92,9 +92,6 @@ class XSDReader {
 								break;
 							}
 						}
-						if ( ! isset( $choices_before[ $first_element ] ) ) {
-							$choices_before[ $first_element ] = array();
-						}
 						$choices_before[ $first_element ][] = $current_name;
 						break;
 					}
@@ -165,14 +162,20 @@ class XSDReader {
 						$arr['children'][] = self::parseXSDComplexType( $current['sequence']['element'], $xsd, $choices_before, $target_namespace );
 					}
 				}
-				if ( isset( $current['sequence']['choice'] ) && isset( $current['sequence']['choice']['element'] ) ) {
+				if ( isset( $current['sequence']['choice']['element'] ) ) {
 					$choice_arr = array();
+					/**
+					 * Multiple Elements
+					 */
 					if ( isset( $current['sequence']['choice']['element'][0] ) ) {
 						foreach ( $current['sequence']['choice']['element'] as $element ) {
 							$choice                        = self::parseXSDComplexType( $element, $xsd, $choices_before, $target_namespace );
 							$choice_arr[ $choice['name'] ] = $choice;
 						}
-					} else {
+					/**
+					 * Single Element
+					 */
+					} elseif( isset( $current['sequence']['choice']['element'] ) ) {
 						$choice                        = self::parseXSDComplexType( $current['sequence']['choice']['element'], $xsd, $choices_before, $target_namespace );
 						$choice_arr[ $choice['name'] ] = $choice;
 					}
@@ -185,6 +188,63 @@ class XSDReader {
 							'def'  => $choice_arr,
 						);
 						array_splice( $arr['children'], $key, 0, array( $choice_arr ) );
+					}
+				} elseif( isset( $current['sequence']['choice'][0] ) ) {
+					/**
+					 * Muktiple choices
+					 */
+					foreach ( $current['sequence']['choice'] AS $choiceSelection )
+					{
+						/**
+						 * Multiple Elements
+						 */
+						if ( isset( $choiceSelection['element'][0] ) ) {
+							foreach ( $choiceSelection['element'] as $element ) {
+								$choice                        = self::parseXSDComplexType( $element, $xsd, $choices_before, $target_namespace );
+								$choice_arr[ $choice['name'] ] = $choice;
+							}
+						/**
+						 * Single Element
+						 */
+						} elseif( isset( $choiceSelection['element'] ) ) {
+							$choice                        = self::parseXSDComplexType( $choiceSelection['element'], $xsd, $choices_before, $target_namespace );
+							$choice_arr[ $choice['name'] ] = $choice;
+						}
+
+						/**
+						 * Sequence
+						 * 
+						 * $current['sequence']['choice'][$i]['sequence']
+						 */
+						if ( isset( $choiceSelection['sequence'] ) ) {
+							foreach ( $choiceSelection['sequence'] as $subSequenceElement ) {
+								if( isset( $subSequenceElement[0] ) )
+								{
+									foreach ( $subSequenceElement as $element ) 
+									{
+										$choice                        = self::parseXSDComplexType( $element, $xsd, $choices_before, $target_namespace );
+										$choice_arr[ $choice['name'] ] = $choice;
+									}
+								} else {
+									$choice                        = self::parseXSDComplexType( $subSequenceElement['element'], $xsd, $choices_before, $target_namespace );
+									$choice_arr[ $choice['name'] ] = $choice;
+								}
+							}
+						}
+						
+						$first_element = key( $choice_arr );
+
+						if( isset( $choices_before[ $first_element ] ) ) {
+							$key = self::searchXSDElements( $arr['children'], $choices_before[ $first_element ], true );
+							if ( $key !== false ) {
+								$choice_arr = array(
+									'type' => 'choice',
+									'def'  => $choice_arr,
+								);
+								array_splice( $arr['children'], $key, 0, array( $choice_arr ) );
+								$arr = $arr;
+							}
+						}
 					}
 				}
 			} elseif ( isset( $current['complexType'] ) && ( ! isset( $current['complexType']['@attributes'] ) || ! isset( $current['complexType']['@attributes']['name'] ) ) ) {
