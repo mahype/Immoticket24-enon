@@ -57,7 +57,7 @@ $is_old_standard = ( (int) substr( $data['meta']['standard_unformatted'], 4, 4) 
           ),
         ),
       );
-      wpenon_get_view()->displaySubTemplate( 'table-col', '', $table_data );
+      wpenon_get_view()->displaySubTemplate( 'responsive-data', '', $table_data );
       ?>
     </div>
   </div>
