@@ -46,7 +46,7 @@
           ),
         ),
       );
-      wpenon_get_view()->displaySubTemplate( 'table-col', '', $table_data );
+      wpenon_get_view()->displaySubTemplate( 'responsive-data', '', $table_data );
       ?>
     </div>
   </div>
