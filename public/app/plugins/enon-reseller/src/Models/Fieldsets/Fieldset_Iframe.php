@@ -74,6 +74,15 @@ class Fieldset_Iframe implements Fieldset {
 				'theme' => 'monokai',
 				'default_value' => $this->get_default_extra_js(),
 			),
+            array(
+				'key' => 'field_extra_css',
+				'label' => __( 'Extra CSS', 'enon' ),
+				'name' => 'extra_css',
+				'type' => 'acf_code_field',
+				'instructions' => __( 'Add some extra CSS for reseller.', 'enon' ),
+				'mode' => 'css',
+				'theme' => 'monokai',
+			),
 			array(
 				'key' => 'field_iframe_bw_html',
 				'label' => __( 'Iframe Bedarfsausweis HTML', 'enon' ),

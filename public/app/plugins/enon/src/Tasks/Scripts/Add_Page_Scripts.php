@@ -41,6 +41,7 @@ class Add_Page_Scripts implements Task, Actions {
 	 */
 	public function add_actions() {
 		add_action( 'enon_page_js', [ $this, 'add_js' ] );
+		add_action( 'enon_iframe_css', [ $this, 'add_css' ] );
 	}
 
 	/**
@@ -60,5 +61,24 @@ class Add_Page_Scripts implements Task, Actions {
 
 		// phpcs:ignore
 		echo $extra_js;
+	}
+
+	/**
+	 * Adding CSS to page.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_css() {
+		$page_id   = get_the_ID();
+		$post_meta = new Post_Meta_Page( $page_id );
+
+		$extra_css = $post_meta->get_extra_css();
+
+		if ( empty( $extra_css ) ) {
+			return;
+		}
+
+		// phpcs:ignore
+		echo $extra_css;
 	}
 }
