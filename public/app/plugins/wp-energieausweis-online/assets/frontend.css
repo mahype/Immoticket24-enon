@@ -184,6 +184,11 @@
     top: 35%;
   }
 }
+@media (max-width: 400px) {
+  .wpenon-wrapper .energy-bar {
+    display:none;
+  }
+}
 .wpenon-wrapper .energy-bar .core {
   position: relative;
   height: 0;
