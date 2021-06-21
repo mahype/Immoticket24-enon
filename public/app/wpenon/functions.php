@@ -189,7 +189,7 @@ function wpenon_immoticket24_print_no_consumption_modal
 					return true;
 				}
 
-				if ( wand_staerke > 35 && wand_daemmung_on === 'no' && ( dach_daemmung_on === 'yes' || decke_daemmung_on === 'yes' ) ) {
+				if ( wand_staerke >= 40 && wand_daemmung_on === 'no' && ( dach_daemmung_on === 'yes' || decke_daemmung_on === 'yes' ) ) {
 					return true;
 				}
 
