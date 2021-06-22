@@ -130,9 +130,16 @@ class XSDReader {
 		}
 
 		if ( $type === false ) {
+			/**
+			 * Simple element
+			 */
 			if ( isset( $current['element'] ) ) {
 				$arr['children']   = array();
 				$arr['children'][] = self::parseXSDComplexType( $current['element'], $xsd, $choices_before, $target_namespace );
+			/**
+			 * Choice
+			 */
+			}
 			} elseif ( isset( $current['choice'] ) && isset( $current['choice']['element'] ) ) {
 				$arr['children'] = array();
 				$choice_arr      = array();
@@ -151,8 +158,15 @@ class XSDReader {
 					'type' => 'choice',
 					'def'  => $choice_arr,
 				);
+			/**
+			 * Sequence
+			 */				
 			} elseif ( isset( $current['sequence'] ) ) {
 				$arr['children'] = array();
+
+				/**
+				 * Element in sequence
+				 */
 				if ( isset( $current['sequence']['element'] ) ) {
 					if ( isset( $current['sequence']['element'][0] ) ) {
 						foreach ( $current['sequence']['element'] as $element ) {
@@ -162,7 +176,79 @@ class XSDReader {
 						$arr['children'][] = self::parseXSDComplexType( $current['sequence']['element'], $xsd, $choices_before, $target_namespace );
 					}
 				}
-				if ( isset( $current['sequence']['choice']['element'] ) ) {
+
+				/**
+				 * Multiple choices in sequence
+				 */
+				if( isset( $current['sequence']['choice'][0] ) ) {
+					
+					foreach ( $current['sequence']['choice'] AS $choiceSelection )
+					{
+						$choice_arr = array();
+
+						/**
+						 * Multiple Elements in choice
+						 */
+						if ( isset( $choiceSelection['element'][0] ) ) {
+							foreach ( $choiceSelection['element'] as $element ) {
+								$choice                        = self::parseXSDComplexType( $element, $xsd, $choices_before, $target_namespace );
+								$choice_arr[ $choice['name'] ] = $choice;
+							}
+						/**
+						 * Single Element in choice
+						 */
+						} elseif( isset( $choiceSelection['element'] ) ) {
+							$choice                        = self::parseXSDComplexType( $choiceSelection['element'], $xsd, $choices_before, $target_namespace );
+							$choice_arr[ $choice['name'] ] = $choice;
+						}
+
+						/**
+						 * Sequence
+						 * 
+						 * $current['sequence']['choice'][$i]['sequence']
+						 */
+						if ( isset( $choiceSelection['sequence'] ) ) {
+							$sequence_arr = array();
+							foreach ( $choiceSelection['sequence'] as $subSequenceElement ) {
+								if( isset( $subSequenceElement[0] ) )
+								{
+									foreach ( $subSequenceElement as $element ) 
+									{
+										$sequence                        = self::parseXSDComplexType( $element, $xsd, $choices_before, $target_namespace );
+										$sequence_arr[ $sequence['name'] ] = $sequence;
+									}
+								} else {
+									$sequence                        = self::parseXSDComplexType( $subSequenceElement['element'], $xsd, $choices_before, $target_namespace );
+									$sequence_arr[ $sequence['name'] ] = $sequence;
+								}
+							}
+
+							$choice_arr[] = array(
+								'type' => 'complexType',
+								'def'  => array(
+									'children' => $sequence_arr
+								)
+							);
+						}
+						
+						$first_element = key( $choice_arr );
+
+						if( isset( $choices_before[ $first_element ] ) ) {
+							$key = self::searchXSDElements( $arr['children'], $choices_before[ $first_element ], true );
+							if ( $key !== false ) {
+								$choice_arr = array(
+									'type' => 'choice',
+									'def'  => $choice_arr,
+								);
+								array_splice( $arr['children'], $key, 0, array( $choice_arr ) );
+								$arr = $arr;
+							}
+						}
+					}
+				/**
+				 * Single Choice in sequence
+				 */
+				} elseif ( isset( $current['sequence']['choice'] ) ) {
 					$choice_arr = array();
 					/**
 					 * Multiple Elements
@@ -188,63 +274,6 @@ class XSDReader {
 							'def'  => $choice_arr,
 						);
 						array_splice( $arr['children'], $key, 0, array( $choice_arr ) );
-					}
-				} elseif( isset( $current['sequence']['choice'][0] ) ) {
-					/**
-					 * Muktiple choices
-					 */
-					foreach ( $current['sequence']['choice'] AS $choiceSelection )
-					{
-						/**
-						 * Multiple Elements
-						 */
-						if ( isset( $choiceSelection['element'][0] ) ) {
-							foreach ( $choiceSelection['element'] as $element ) {
-								$choice                        = self::parseXSDComplexType( $element, $xsd, $choices_before, $target_namespace );
-								$choice_arr[ $choice['name'] ] = $choice;
-							}
-						/**
-						 * Single Element
-						 */
-						} elseif( isset( $choiceSelection['element'] ) ) {
-							$choice                        = self::parseXSDComplexType( $choiceSelection['element'], $xsd, $choices_before, $target_namespace );
-							$choice_arr[ $choice['name'] ] = $choice;
-						}
-
-						/**
-						 * Sequence
-						 * 
-						 * $current['sequence']['choice'][$i]['sequence']
-						 */
-						if ( isset( $choiceSelection['sequence'] ) ) {
-							foreach ( $choiceSelection['sequence'] as $subSequenceElement ) {
-								if( isset( $subSequenceElement[0] ) )
-								{
-									foreach ( $subSequenceElement as $element ) 
-									{
-										$choice                        = self::parseXSDComplexType( $element, $xsd, $choices_before, $target_namespace );
-										$choice_arr[ $choice['name'] ] = $choice;
-									}
-								} else {
-									$choice                        = self::parseXSDComplexType( $subSequenceElement['element'], $xsd, $choices_before, $target_namespace );
-									$choice_arr[ $choice['name'] ] = $choice;
-								}
-							}
-						}
-						
-						$first_element = key( $choice_arr );
-
-						if( isset( $choices_before[ $first_element ] ) ) {
-							$key = self::searchXSDElements( $arr['children'], $choices_before[ $first_element ], true );
-							if ( $key !== false ) {
-								$choice_arr = array(
-									'type' => 'choice',
-									'def'  => $choice_arr,
-								);
-								array_splice( $arr['children'], $key, 0, array( $choice_arr ) );
-								$arr = $arr;
-							}
-						}
 					}
 				}
 			} elseif ( isset( $current['complexType'] ) && ( ! isset( $current['complexType']['@attributes'] ) || ! isset( $current['complexType']['@attributes']['name'] ) ) ) {
