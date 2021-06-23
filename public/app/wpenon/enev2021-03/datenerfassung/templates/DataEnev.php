@@ -2,7 +2,12 @@
 
 use WPENON\Model\Energieausweis;
 
-class DataEnev {
+/**
+ * Base data for Enev XML
+ * 
+ * @since 1.0.0
+ */
+abstract class DataEnev {
     /**
      * Energieausweis object
      * 
@@ -12,7 +17,7 @@ class DataEnev {
      */
     protected Energieausweis $energieausweis;
 
-    private string $MISSING = 'DATEN NEU!';
+    private string $MISSING = 'DATEN NEU!'; // @todo Remove later
     
     /**
      * Registriernummer
@@ -466,6 +471,19 @@ class DataEnev {
     }
 
     /**
+     * Klimaanlage vorhanden?
+     * 
+     * @return bool
+     * 
+     * 
+     * @since 1.0.0
+     */
+    public function KlimaanlageVorhanden() : bool
+    {
+        return $this->MISSING; // BOOL
+    }
+
+    /**
      * Anzahl-Klimanlagen
      * 
      * @return string
@@ -475,5 +493,183 @@ class DataEnev {
     public function AnzahlKlimaanlagen() : string
     {        
         return $this->MISSING; // INT
+    }
+
+    /**
+     * Anlage-groesser-12kW-ohneGA
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function AnlageGroesser12kWohneGA() : string
+    {        
+        return $this->MISSING; // BOOL
+    }
+
+    /**
+     * Anlage-groesser-12kW-mitGA
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function AnlageGroesser12kWmitGA() : string
+    {        
+        return $this->MISSING; // BOOL
+    }
+
+    /**
+     * Anlage-groesser-70kW
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function AnlageGroesser70kW() : string
+    {        
+        return $this->MISSING; // BOOL
+    }
+
+    /**
+     * Faelligkeitsdatum-Inspektion
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function FaelligkeitsdatumInspektion() : string
+    {        
+        return $this->MISSING; // DATE
+    }
+
+    /**
+     * Treibhausgasemissionen
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Treibhausgasemissionen() : string
+    {        
+        return $this->MISSING; // DATE
+    }
+
+    /**
+     * Ausstellungsanlass
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Ausstellungsanlass() : string
+    {
+        switch( $this->energieausweis->anlass )
+        {
+            case 'vermietung':
+            case 'verkauf':
+                return 'Vermietung-Verkauf';
+            default:
+                return 'Sonstiges';
+        }
+    }
+
+    /**
+     * Datenerhebung-Aussteller
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function DatenerhebungAussteller() : string
+    {        
+        return 'false';
+    }
+
+    /**
+     * Datenerhebung-Eigentuemer
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function DatenerhebungEigentuemer() : string
+    {        
+        return 'true';
+    }
+
+    /**
+     * Gebaeudetyp
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Gebaeudetyp() : string
+    { 
+        if ( 'gemischt' === $this->energieausweis->gebaeudeteil ) 
+        {
+            return 'Wohnteil gemischt genutztes Gebäude';
+        }
+
+        $wohnungen = (int) $this->energieausweis->wohnungen;
+
+        if ( $wohnungen > 2 ) {
+            return 'Mehrfamilienhaus';
+        }
+        if ( $wohnungen == $wohnungen ) {
+            return 'Zweifamilienhaus';
+        }
+
+        return 'Einfamilienhaus';
+    }
+
+    /**
+     * Anzahl-Wohneinheiten
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function AnzahlWohneinheiten() : int
+    {        
+        return (int) $this->energieausweis->wohnungen;
+    }
+
+    /**
+     * Gebaeudenutzflaeche
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public abstract function Gebaeudenutzflaeche();
+
+    /**
+     * Wohnflaeche
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Wohnflaeche() : int
+    {        
+        return (int) $this->energieausweis->flaeche;;
+    }
+
+    /**
+     * Keller-beheizt
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function KellerBeheizt() : int
+    {        
+        if ( $this->energieausweis->keller == 'beheizt' ) {
+            return 'true';
+        }
+
+        return 'false';
     }
 }

@@ -27,23 +27,27 @@ $data = new DataEnevBW( $energieausweis );
     <n1:Kuehlungsart-Strom><?php echo $data->KuehlungsartStrom(); ?></n1:Kuehlungsart-Strom>
     <n1:Kuehlungsart-Waerme><?php echo $data->KuehlungsartWaerme(); ?></n1:Kuehlungsart-Waerme>
     <n1:Kuehlungsart-gelieferte-Kaelte><?php echo $data->KuehlungsartGelieferteKaelte(); ?></n1:Kuehlungsart-gelieferte-Kaelte>
-    <n1:Anzahl-Klimanlagen><?php echo $data->AnzahlKlimaanlagen(); ?></n1:Anzahl-Klimanlagen>
-    <n1:Anlage-groesser-12kW-ohneGA>false</n1:Anlage-groesser-12kW-ohneGA>
-    <n1:Anlage-groesser-12kW-mitGA>false</n1:Anlage-groesser-12kW-mitGA>
-    <n1:Anlage-groesser-70kW>false</n1:Anlage-groesser-70kW>
-    <n1:Faelligkeitsdatum-Inspektion>2022-01-01</n1:Faelligkeitsdatum-Inspektion>
-    <n1:Treibhausgasemissionen>100</n1:Treibhausgasemissionen>
-    <n1:Ausstellungsanlass>Modernisierung-Erweiterung</n1:Ausstellungsanlass>
-    <n1:Datenerhebung-Aussteller>false</n1:Datenerhebung-Aussteller>
-    <n1:Datenerhebung-Eigentuemer>false</n1:Datenerhebung-Eigentuemer>
+    <?php if ( $data->KlimaanlageVorhanden() ) : ?>
+      <n1:Anzahl-Klimanlagen><?php echo $data->AnzahlKlimaanlagen(); ?></n1:Anzahl-Klimanlagen>
+      <n1:Anlage-groesser-12kW-ohneGA><?php echo $data->AnlageGroesser12kWohneGA(); ?></n1:Anlage-groesser-12kW-ohneGA>
+      <n1:Anlage-groesser-12kW-mitGA><?php echo $data->AnlageGroesser12kWmitGA(); ?></n1:Anlage-groesser-12kW-mitGA>
+      <n1:Anlage-groesser-70kW><?php echo $data->AnlageGroesser70kW(); ?></n1:Anlage-groesser-70kW>
+      <n1:Faelligkeitsdatum-Inspektion><?php echo $data->FaelligkeitsdatumInspektion(); ?></n1:Faelligkeitsdatum-Inspektion>
+    <?php else: ?>
+      <n1:Keine-inspektionspflichtige-Anlage>true</n1:Faelligkeitsdatum-Inspektion>
+    <?php endif; ?>
+    <n1:Treibhausgasemissionen><?php echo $data->Treibhausgasemissionen(); ?></n1:Treibhausgasemissionen>
+    <n1:Ausstellungsanlass><?php echo $data->Ausstellungsanlass(); ?></n1:Ausstellungsanlass>
+    <n1:Datenerhebung-Aussteller><?php echo $data->DatenerhebungAussteller(); ?></n1:Datenerhebung-Aussteller>
+    <n1:Datenerhebung-Eigentuemer><?php echo $data->DatenerhebungEigentuemer(); ?></n1:Datenerhebung-Eigentuemer>
     <n1:Wohngebaeude>
-      <n1:Gebaeudetyp>Einfamilienhaus</n1:Gebaeudetyp>
-      <n1:Anzahl-Wohneinheiten>4</n1:Anzahl-Wohneinheiten>
-      <n1:Gebaeudenutzflaeche>360</n1:Gebaeudenutzflaeche>
+      <n1:Gebaeudetyp><?php echo $data->Gebaeudetyp(); ?></n1:Gebaeudetyp>
+      <n1:Anzahl-Wohneinheiten><?php echo $data->AnzahlWohneinheiten(); ?></n1:Anzahl-Wohneinheiten>
+      <n1:Gebaeudenutzflaeche><?php echo $data->Gebaeudenutzflaeche(); ?></n1:Gebaeudenutzflaeche>
       <n1:Bedarfswerte-4108-4701>
-        <n1:Wohngebaeude-Anbaugrad>freistehend</n1:Wohngebaeude-Anbaugrad>
-        <n1:Bruttovolumen>900</n1:Bruttovolumen>
-        <n1:durchschnittliche-Geschosshoehe>2.50</n1:durchschnittliche-Geschosshoehe>
+        <n1:Wohngebaeude-Anbaugrad><?php $data->WohngebaeudeAnbaugrad();?></n1:Wohngebaeude-Anbaugrad>
+        <n1:Bruttovolumen><?php $data->Bruttovolumen();?></n1:Bruttovolumen>
+        <n1:durchschnittliche-Geschosshoehe><?php $data->DurchschnittlicheGeschosshoehe();?></n1:durchschnittliche-Geschosshoehe>
         <n1:Bauteil-Opak>
           <n1:Flaechenbezeichnung>Nord-Wand</n1:Flaechenbezeichnung>
           <n1:Flaeche>15</n1:Flaeche>

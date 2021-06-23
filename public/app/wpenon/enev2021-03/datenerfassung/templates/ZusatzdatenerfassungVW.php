@@ -27,23 +27,27 @@ $data = new DataEnevVW( $energieausweis );
     <n1:Kuehlungsart-Strom><?php echo $data->KuehlungsartStrom(); ?></n1:Kuehlungsart-Strom>
     <n1:Kuehlungsart-Waerme><?php echo $data->KuehlungsartWaerme(); ?></n1:Kuehlungsart-Waerme>
     <n1:Kuehlungsart-gelieferte-Kaelte><?php echo $data->KuehlungsartGelieferteKaelte(); ?></n1:Kuehlungsart-gelieferte-Kaelte>
-    <n1:Anzahl-Klimanlagen>1</n1:Anzahl-Klimanlagen>
-    <n1:Anlage-groesser-12kW-ohneGA>false</n1:Anlage-groesser-12kW-ohneGA>
-    <n1:Anlage-groesser-12kW-mitGA>false</n1:Anlage-groesser-12kW-mitGA>
-    <n1:Anlage-groesser-70kW>false</n1:Anlage-groesser-70kW>
-    <n1:Faelligkeitsdatum-Inspektion>2022-01-01</n1:Faelligkeitsdatum-Inspektion>
-    <n1:Treibhausgasemissionen>100</n1:Treibhausgasemissionen>
-    <n1:Ausstellungsanlass>Sonstiges</n1:Ausstellungsanlass>
-    <n1:Datenerhebung-Aussteller>false</n1:Datenerhebung-Aussteller>
-    <n1:Datenerhebung-Eigentuemer>false</n1:Datenerhebung-Eigentuemer>
+    <?php if ( $data->KlimaanlageVorhanden() ) : ?>
+      <n1:Anzahl-Klimanlagen><?php echo $data->AnzahlKlimaanlagen(); ?></n1:Anzahl-Klimanlagen>
+      <n1:Anlage-groesser-12kW-ohneGA><?php echo $data->AnlageGroesser12kWohneGA(); ?></n1:Anlage-groesser-12kW-ohneGA>
+      <n1:Anlage-groesser-12kW-mitGA><?php echo $data->AnlageGroesser12kWmitGA(); ?></n1:Anlage-groesser-12kW-mitGA>
+      <n1:Anlage-groesser-70kW><?php echo $data->AnlageGroesser70kW(); ?></n1:Anlage-groesser-70kW>
+      <n1:Faelligkeitsdatum-Inspektion><?php echo $data->FaelligkeitsdatumInspektion(); ?></n1:Faelligkeitsdatum-Inspektion>
+    <?php else: ?>
+      <n1:Keine-inspektionspflichtige-Anlage>true</n1:Faelligkeitsdatum-Inspektion>
+    <?php endif; ?>
+    <n1:Treibhausgasemissionen><?php echo $data->Treibhausgasemissionen(); ?></n1:Treibhausgasemissionen>
+    <n1:Ausstellungsanlass><?php echo $data->Ausstellungsanlass(); ?></n1:Ausstellungsanlass>
+    <n1:Datenerhebung-Aussteller><?php echo $data->DatenerhebungAussteller(); ?></n1:Datenerhebung-Aussteller>
+    <n1:Datenerhebung-Eigentuemer><?php echo $data->DatenerhebungEigentuemer(); ?></n1:Datenerhebung-Eigentuemer>
     <n1:Wohngebaeude>
-      <n1:Gebaeudetyp>Einfamilienhaus</n1:Gebaeudetyp>
-      <n1:Anzahl-Wohneinheiten>5</n1:Anzahl-Wohneinheiten>
-      <n1:Gebaeudenutzflaeche>360</n1:Gebaeudenutzflaeche>
+      <n1:Gebaeudetyp><?php echo $data->Gebaeudetyp(); ?></n1:Gebaeudetyp>
+      <n1:Anzahl-Wohneinheiten><?php echo $data->AnzahlWohneinheiten(); ?></n1:Anzahl-Wohneinheiten>
+      <n1:Gebaeudenutzflaeche><?php echo $data->Gebaeudenutzflaeche(); ?></n1:Gebaeudenutzflaeche>
       <n1:Verbrauchswerte>
         <n1:Flaechenermittlung-AN-aus-Wohnflaeche>true</n1:Flaechenermittlung-AN-aus-Wohnflaeche>
-        <n1:Wohnflaeche>300</n1:Wohnflaeche>
-        <n1:Keller-beheizt>true</n1:Keller-beheizt>
+        <n1:Wohnflaeche><?php echo $data->Wohnflaeche(); ?></n1:Wohnflaeche>
+        <n1:Keller-beheizt><?php echo $data->KellerBeheizt(); ?></n1:Keller-beheizt>        
         <n1:Energietraeger>
           <n1:Energietraeger-Verbrauch>Biogas, gebäudenah erzeugt in kWh Heizwert</n1:Energietraeger-Verbrauch>
           <n1:Unterer-Heizwert>1.00</n1:Unterer-Heizwert>
