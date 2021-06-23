@@ -97,25 +97,24 @@ $data = new DataEnevBW( $energieausweis );
 
         <n1:Pufferspeicher-Nenninhalt><?php echo $data->PufferspeicherNenninhalt(); ?></n1:Pufferspeicher-Nenninhalt>
         <n1:Heizkreisauslegungstemperatur><?php echo $data->Heizkreisauslegungstemperatur(); ?></n1:Heizkreisauslegungstemperatur>
-        <n1:Heizungsanlage-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizungsanlage-innerhalb-Huelle>
-        
+        <n1:Heizungsanlage-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizungsanlage-innerhalb-Huelle>        
+        <?php foreach( $data->Trinkwasseranlagen() AS $trinkwasseranlage ): ?>
         <n1:Trinkwarmwasseranlage>
-          <n1:Trinkwarmwassererzeuger-Bauweise-4701>Elektro-Durchlauferhitzer</n1:Trinkwarmwassererzeuger-Bauweise-4701>
-          <n1:Trinkwarmwassererzeuger-Baujahr>1989</n1:Trinkwarmwassererzeuger-Baujahr>
-          <n1:Anzahl-baugleiche>0</n1:Anzahl-baugleiche>
+          <n1:Trinkwarmwassererzeuger-Bauweise-4701><?php echo $trinkwasseranlage->TrinkwarmwassererzeugerBauweise4701(); ?></n1:Trinkwarmwassererzeuger-Bauweise-4701>
+          <n1:Trinkwarmwassererzeuger-Baujahr><?php echo $trinkwasseranlage->TrinkwarmwassererzeugerBaujahr(); ?></n1:Trinkwarmwassererzeuger-Baujahr>
+          <n1:Anzahl-baugleiche><?php echo $trinkwasseranlage->AnzahlBaugleiche(); ?></n1:Anzahl-baugleiche>
         </n1:Trinkwarmwasseranlage>
+        <?php endforeach; ?>
+        <n1:Trinkwarmwasserspeicher-Nenninhalt><?php echo $data->TrinkwarmwasserspeicherNenninhalt(); ?></n1:Trinkwarmwasserspeicher-Nenninhalt>
+        <n1:Trinkwarmwasserverteilung-Zirkulation><?php echo $data->TrinkwarmwasserverteilungZirkulation(); ?></n1:Trinkwarmwasserverteilung-Zirkulation>
+        <n1:Vereinfachte-Datenaufnahme><?php echo $data->VereinfachteDatenaufnahme(); ?></n1:Vereinfachte-Datenaufnahme>
+        <n1:spezifischer-Transmissionswaermeverlust-Ist><?php echo $data->SpezifischerTransmissionswaermeverlustIst(); ?></n1:spezifischer-Transmissionswaermeverlust-Ist>
+        <n1:Innovationsklausel><?php echo $data->Innovationsklausel(); ?></n1:Innovationsklausel>
+        <n1:Quartiersregelung><?php echo $data->Quartiersregelung(); ?></n1:Quartiersregelung>
+        <n1:Primaerenergiebedarf-Hoechstwert-Bestand><?php echo $data->PrimaerenergiebedarfHoechstwertBestand(); ?></n1:Primaerenergiebedarf-Hoechstwert-Bestand>
+        <n1:Endenergiebedarf-Hoechstwert-Bestand><?php echo $data->EndenergiebedarfHoechstwertBestand(); ?></n1:Endenergiebedarf-Hoechstwert-Bestand>
+        <n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php echo $data->TreibhausgasemissionenHoechstwertBestand(); ?><</n1:Treibhausgasemissionen-Hoechstwert-Bestand>
 
-        <n1:Trinkwarmwasserspeicher-Nenninhalt>50</n1:Trinkwarmwasserspeicher-Nenninhalt>
-        <n1:Trinkwarmwasserverteilung-Zirkulation>true</n1:Trinkwarmwasserverteilung-Zirkulation>
-        <n1:Vereinfachte-Datenaufnahme>false</n1:Vereinfachte-Datenaufnahme>
-        <n1:spezifischer-Transmissionswaermeverlust-Ist>20</n1:spezifischer-Transmissionswaermeverlust-Ist>
-        <n1:spezifischer-Transmissionswaermeverlust-Hoechstwert>30</n1:spezifischer-Transmissionswaermeverlust-Hoechstwert>
-        <n1:angerechneter-lokaler-erneuerbarer-Strom>10</n1:angerechneter-lokaler-erneuerbarer-Strom>
-        <n1:Innovationsklausel>false</n1:Innovationsklausel>
-        <n1:Quartiersregelung>false</n1:Quartiersregelung>
-        <n1:Primaerenergiebedarf-Hoechstwert-Bestand>1.4</n1:Primaerenergiebedarf-Hoechstwert-Bestand>
-        <n1:Endenergiebedarf-Hoechstwert-Bestand>1.2</n1:Endenergiebedarf-Hoechstwert-Bestand>
-        <n1:Treibhausgasemissionen-Hoechstwert-Bestand>1.5</n1:Treibhausgasemissionen-Hoechstwert-Bestand>
         <n1:Energietraeger-Liste>
           <n1:Energietraegerbezeichnung>Biogas</n1:Energietraegerbezeichnung>
           <n1:Primaerenergiefaktor>1.2</n1:Primaerenergiefaktor>
@@ -126,6 +125,7 @@ $data = new DataEnevBW( $energieausweis );
           <n1:Endenergiebedarf-Lueftung-spezifisch>6</n1:Endenergiebedarf-Lueftung-spezifisch>
           <n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>50</n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>
         </n1:Energietraeger-Liste>
+        
         <n1:Endenergiebedarf-Waerme-AN>20</n1:Endenergiebedarf-Waerme-AN>
         <n1:Endenergiebedarf-Hilfsenergie-AN>10</n1:Endenergiebedarf-Hilfsenergie-AN>
         <n1:Endenergiebedarf-Gesamt>100</n1:Endenergiebedarf-Gesamt>

@@ -17,7 +17,7 @@ abstract class DataEnev {
      */
     protected Energieausweis $energieausweis;
 
-    private string $MISSING = 'DATEN NEU!'; // @todo Remove later
+    protected string $MISSING = 'DATEN NEU!'; // @todo Remove later
     
     /**
      * Registriernummer

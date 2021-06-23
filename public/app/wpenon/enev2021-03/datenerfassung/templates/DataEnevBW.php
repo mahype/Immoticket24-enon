@@ -5,6 +5,7 @@ use WPENON\Model\Energieausweis;
 require dirname( __FILE__ ) . '/DataEnev.php';
 require dirname( __FILE__ ) . '/Bauteil.php';
 require dirname( __FILE__ ) . '/Heizungsanlage.php';
+require dirname( __FILE__ ) . '/Trinkwasseranlage.php';
 
 /**
  * Bedarfsausweis-Spezifische Daten für Enev
@@ -167,7 +168,7 @@ class DataEnevBW extends DataEnev {
         $bauteile = [];
         foreach( $this->calculations( 'bauteile' ) AS $key => $bauteil )
         {
-            if( $bauteil['modus'] === 'transparent' )
+            if( $bauteil['modus'] === 'dach' )
             {
                 $bauteile[] = new Bauteil( $key, $bauteil );
             }
@@ -264,7 +265,7 @@ class DataEnevBW extends DataEnev {
         $anlagen = [];
         foreach( $this->calculations( 'anlagendaten' ) AS $anlage )
         {
-            if( $anlagen['modus'] === 'opak' )
+            if( $anlagen['art'] === 'heizung' )
             {
                 $anlagen[] = new Heizungsanlage( $anlage );
             }
@@ -327,5 +328,141 @@ class DataEnevBW extends DataEnev {
         }
 
         return 'false';
+    }
+
+    /**
+     * Trinkwasseranlagen
+     * 
+     * @return Trinkwasseranlage[]
+     * 
+     * @since 1.0.0
+     */
+    public function Trinkwasseranlagen() : array
+    {
+        $anlagen = [];
+        foreach( $this->calculations( 'anlagendaten' ) AS $anlage )
+        {
+            if( $anlagen['art'] === 'warmwasser' )
+            {
+                $anlagen[] = new Trinkwasseranlage( $anlage );
+            }
+        }
+
+        return $anlagen;
+    }
+
+    /**
+     * Trinkwarmwasserspeicher-Nenninhalt
+     * 
+     * @return int
+     * 
+     * @since 1.0.0
+     */
+    public function TrinkwarmwasserspeicherNenninhalt() : int
+    {
+        return 0;
+    }
+
+    /**
+     * Trinkwarmwasserverteilung-Zirkulation
+     * 
+     * @return int
+     * 
+     * @since 1.0.0
+     */
+    public function TrinkwarmwasserverteilungZirkulation()
+    {
+        if ( $this->energieausweis->verteilung_versorgung == 'mit' ) {
+            return 'true';
+        }
+
+        return 'false';
+    }
+
+    /**
+     * Vereinfachte-Datenaufnahme
+     * 
+     * @return int
+     * 
+     * @since 1.0.0
+     */
+    public function VereinfachteDatenaufnahme()
+    {
+        return 'true';
+    }
+
+    /**
+     * spezifischer-Transmissionswaermeverlust-Ist
+     * 
+     * @return float
+     * 
+     * @since 1.0.0
+     */
+    public function SpezifischerTransmissionswaermeverlustIst()
+    {
+        return round( (float) $this->calculations('ht_b'), 2 );
+    }
+
+    /**
+     * Innovationsklausel
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Innovationsklausel()
+    {
+        return $this->MISSING; // Neu - Bool
+    }
+
+    /**
+     * Quartiersregelung
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Quartiersregelung()
+    {
+        return $this->MISSING; // Neu - Bool
+    }
+    
+
+    /**
+     * Primaerenergiebedarf-Hoechstwert-Bestand
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function PrimaerenergiebedarfHoechstwertBestand()
+    {
+        return 0; // Neu - Float
+    }
+    
+
+    /**
+     * Endenergiebedarf-Hoechstwert-Bestand
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function EndenergiebedarfHoechstwertBestand()
+    {
+        return 0; // Neu - Float
+    }
+    
+
+    /**
+     * Treibhausgasemissionen-Hoechstwert-Bestand
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function TreibhausgasemissionenHoechstwertBestand()
+    {
+        return 0; // Neu - Float
     }
 }
