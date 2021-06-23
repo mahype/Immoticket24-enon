@@ -1,11 +1,13 @@
 <?php
 
+use Enev\Schema202103\Modernizations\BW_Modernizations;
 use WPENON\Model\Energieausweis;
 
 require dirname( __FILE__ ) . '/DataEnev.php';
 require dirname( __FILE__ ) . '/Bauteil.php';
 require dirname( __FILE__ ) . '/Heizungsanlage.php';
 require dirname( __FILE__ ) . '/Trinkwasseranlage.php';
+require dirname( __FILE__ ) . '/Moderniserungsempfehlung.php';
 
 /**
  * Bedarfsausweis-Spezifische Daten für Enev
@@ -464,5 +466,98 @@ class DataEnevBW extends DataEnev {
     public function TreibhausgasemissionenHoechstwertBestand()
     {
         return 0; // Neu - Float
+    }
+
+    /**
+     * Endenergiebedarf-Waerme-AN
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function EndenergiebedarfWaermeAN()
+    {
+        return round( (float) $this->calculations( 'qh_e_b' ) + $this->calculations( 'qw_e_b' ), 1 );
+    }
+
+    /**
+     * Endenergiebedarf-Hilfsenergie-AN
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function EndenergiebedarfHilfsenergieAN()
+    {
+        return round( (float) $this->calculations( 'qh_e_b' ), 1 );
+    }
+
+    /**
+     * Endenergiebedarf-Gesamt
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function EndenergiebedarfGesamt()
+    {
+        return $this->MISSING; // NEU
+    }
+
+    /**
+     * Primaerenergiebedarf
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Primaerenergiebedarf()
+    {
+        return round( (float) $this->calculations( 'primaerenergie' ), 1 );
+    }
+
+    /**
+     * Energieeffizienzklasse
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Energieeffizienzklasse()
+    {
+        return wpenon_get_class( $this->calculations( 'primaerenergie' ), 'bw' );
+    }
+    
+    /**
+     * Empfehlungen-moeglich
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function EmpfehlungenMoeglich()
+    {
+        $empfehlungen = new BW_Modernizations();
+        return $empfehlungen->get_modernizations( array(), $this->energieausweis ) > 0 ? true : false;
+    }
+
+    /**
+     * Modernisierungsempfehlungen
+     * 
+     * @return Moderniserungsempfehlung[]
+     * 
+     * @since 1.0.0
+     */
+    public function Modernisierungsempfehlungen()
+    {
+        $modernisierungen = new BW_Modernizations();
+
+        $empfehlungen = [];
+        foreach( $modernisierungen->get_modernizations( array(), $this->energieausweis ) AS $empfehlung )
+        {
+            $empfehlungen[] = new Moderniserungsempfehlung( $empfehlung );
+        }
+
+        return $empfehlungen;
     }
 }

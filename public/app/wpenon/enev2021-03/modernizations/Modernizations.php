@@ -35,8 +35,7 @@ abstract class Modernizations {
 	 */
 	public function __construct() {
 		$this->load_data();
-
-		add_filter( 'enon_filter_modernization_recommendations', array( $this, 'set_modernizations' ), 10, 2 );
+		add_filter( 'enon_filter_modernization_recommendations', array( $this, 'get_modernizations' ), 10, 2 );
 	}
 
 	/**
@@ -140,13 +139,8 @@ abstract class Modernizations {
 	 *
 	 * @since 1.0.0
 	 */
-	public function set_modernizations( array $modernizations, \WPENON\Model\Energieausweis $energieausweis ): array {
+	public function get_modernizations( array $modernizations, \WPENON\Model\Energieausweis $energieausweis ): array {
 		$this->energieausweis = $energieausweis;
-
-		// Stopping scripts in bedarfsausweis energy certificates before 2020-03-16 1pm. Need to be removed in next schema.
-		if ( $this->use_until_2020_03_16() ) {
-			return $modernizations;
-		}
 
 		// Remove modernizations which are checked afterwards. // Todo: Have to leave
 		$slugs_to_remove = [ 'wand', 'decke', 'boden', 'dach', 'rohrleitungssystem', 'solarthermie', 'heizung', 'fenster' ];
@@ -191,60 +185,6 @@ abstract class Modernizations {
 		}
 
 		return $modernizations;
-	}
-
-	/**
-	 * Hotfix for changes on modernization before 2020-03-16.
-	 *
-	 * @return bool
-	 *
-	 * @todo Remove on next Schema update.
-	 */
-	protected function use_until_2020_03_16() {
-		$stop_time = strtotime( '2020-03-16 14:15' );
-		$ec_time   = strtotime( $this->energieausweis->date );
-
-		if ( $ec_time < $stop_time && 'b' === $this->energieausweis->mode ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Hotfix for changes on modernization before 2020-03-16.
-	 *
-	 * @return bool
-	 *
-	 * @todo Remove on next Schema update.
-	 */
-	protected function use_until_2020_03_18() {
-		$stop_time = strtotime( '2020-03-18 15:30' );
-		$ec_time   = strtotime( $this->energieausweis->date );
-
-		if ( $ec_time < $stop_time && 'v' === $this->energieausweis->mode ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Hotfix for changes on modernization before 2020-03-16.
-	 *
-	 * @return bool
-	 *
-	 * @todo Remove on next Schema update.
-	 */
-	protected function use_until_2020_03_19() {
-		$stop_time = strtotime( '2020-03-19 19:45' );
-		$ec_time   = strtotime( $this->energieausweis->date );
-
-		if ( $ec_time < $stop_time && 'b' === $this->energieausweis->mode ) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**

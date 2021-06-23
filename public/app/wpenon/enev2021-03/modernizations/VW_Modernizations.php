@@ -84,9 +84,7 @@ class VW_Modernizations extends Modernizations {
 	protected function needs_windows() {
 		return $this->check_window( $this->energieausweis->fenster_baujahr, $this->energieausweis->fenster_bauart );
 	}
-
-
-
+	
 	/**
 	 * Needs rohrleitungssystem.
 	 *
@@ -105,14 +103,8 @@ class VW_Modernizations extends Modernizations {
 			'oelofenverdampfungsbrenner',
 		);
 
-		if ( $this->use_until_2020_03_18() ) {
-			if ( intval( $this->energieausweis->baujahr ) < 1995 && ! $this->energieausweis->verteilung_gedaemmt && ! in_array( $this->energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
-				return true;
-			}
-		} else {
-			if ( intval( $this->energieausweis->verteilung_baujahr ) < 1995 && ! $this->energieausweis->verteilung_gedaemmt && ! in_array( $this->energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
-				return true;
-			}
+		if ( intval( $this->energieausweis->verteilung_baujahr ) < 1995 && ! $this->energieausweis->verteilung_gedaemmt && ! in_array( $this->energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
+			return true;
 		}
 
 		return false;
