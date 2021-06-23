@@ -83,25 +83,28 @@ $data = new DataEnevBW( $energieausweis );
         <n1:Lueftungswaermeverlust><?php echo $data->Lueftungswaermeverlust(); ?></n1:Lueftungswaermeverlust>
         <n1:Solare-Waermegewinne><?php echo $data->SolareWaermegewinne(); ?></n1:Solare-Waermegewinne>
         <n1:Interne-Waermegewinne><?php echo $data->InterneWaermegewinne(); ?></n1:Interne-Waermegewinne>
-        
+        <?php foreach( $data->Heizungsanlagen() AS $heizungsanlage ): ?>
         <n1:Heizungsanlage>
-          <n1:Waermeerzeuger-Bauweise-4701>Standard-Heizkessel als Gas-Spezial-Heizkessel</n1:Waermeerzeuger-Bauweise-4701>
-          <n1:Nennleistung>100</n1:Nennleistung>
-          <n1:Waermeerzeuger-Baujahr>1989</n1:Waermeerzeuger-Baujahr>
-          <n1:Anzahl-baugleiche>0</n1:Anzahl-baugleiche>
-          <n1:Energietraeger>Bioöl</n1:Energietraeger>
-          <n1:Primaerenergiefaktor>1.2</n1:Primaerenergiefaktor>
-          <n1:Emissionsfaktor>1</n1:Emissionsfaktor>
+          <n1:Waermeerzeuger-Bauweise-4701><?php echo $heizungsanlage->WaermeerzeugerBauweise4701(); ?></n1:Waermeerzeuger-Bauweise-4701>
+          <n1:Nennleistung><?php echo $heizungsanlage->Nennleistung(); ?></n1:Nennleistung>
+          <n1:Waermeerzeuger-Baujahr><?php echo $heizungsanlage->WaermeerzeugerBaujahr(); ?></n1:Waermeerzeuger-Baujahr>
+          <n1:Anzahl-baugleiche><?php echo $heizungsanlage->AnzahlBaugleiche(); ?></n1:Anzahl-baugleiche>
+          <n1:Energietraeger><?php echo $heizungsanlage->Energietraeger(); ?></n1:Energietraeger>
+          <n1:Primaerenergiefaktor><?php echo $heizungsanlage->WaermeerzeugerBauweise4701(); ?></n1:Primaerenergiefaktor>
+          <n1:Emissionsfaktor><?php echo $heizungsanlage->Emissionsfaktor(); ?></n1:Emissionsfaktor>
         </n1:Heizungsanlage>
+        <?php endforeach; ?>
+
+        <n1:Pufferspeicher-Nenninhalt><?php echo $data->PufferspeicherNenninhalt(); ?></n1:Pufferspeicher-Nenninhalt>
+        <n1:Heizkreisauslegungstemperatur><?php echo $data->Heizkreisauslegungstemperatur(); ?></n1:Heizkreisauslegungstemperatur>
+        <n1:Heizungsanlage-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizungsanlage-innerhalb-Huelle>
         
-        <n1:Pufferspeicher-Nenninhalt>100</n1:Pufferspeicher-Nenninhalt>
-        <n1:Heizkreisauslegungstemperatur>55/45</n1:Heizkreisauslegungstemperatur>
-        <n1:Heizungsanlage-innerhalb-Huelle>true</n1:Heizungsanlage-innerhalb-Huelle>
         <n1:Trinkwarmwasseranlage>
           <n1:Trinkwarmwassererzeuger-Bauweise-4701>Elektro-Durchlauferhitzer</n1:Trinkwarmwassererzeuger-Bauweise-4701>
           <n1:Trinkwarmwassererzeuger-Baujahr>1989</n1:Trinkwarmwassererzeuger-Baujahr>
           <n1:Anzahl-baugleiche>0</n1:Anzahl-baugleiche>
         </n1:Trinkwarmwasseranlage>
+
         <n1:Trinkwarmwasserspeicher-Nenninhalt>50</n1:Trinkwarmwasserspeicher-Nenninhalt>
         <n1:Trinkwarmwasserverteilung-Zirkulation>true</n1:Trinkwarmwasserverteilung-Zirkulation>
         <n1:Vereinfachte-Datenaufnahme>false</n1:Vereinfachte-Datenaufnahme>

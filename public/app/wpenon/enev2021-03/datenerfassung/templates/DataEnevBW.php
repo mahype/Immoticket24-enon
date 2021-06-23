@@ -262,14 +262,70 @@ class DataEnevBW extends DataEnev {
     public function Heizungsanlagen() : array
     {
         $anlagen = [];
-        foreach( $this->calculations( 'anlagendaten' ) AS $key => $anlage )
+        foreach( $this->calculations( 'anlagendaten' ) AS $anlage )
         {
             if( $anlagen['modus'] === 'opak' )
             {
-                $anlagen[] = new Heizung( $key, $anlagen );
+                $anlagen[] = new Heizungsanlage( $anlage );
             }
         }
 
         return $anlagen;
+    }
+
+    /**
+     * Pufferspeicher-Nenninhalt
+     * 
+     * @return int
+     * 
+     * @since 1.0.0
+     */
+    public function PufferspeicherNenninhalt() : int
+    {
+        return 0;
+    }
+
+    /**
+     * Heizkreisauslegungstemperatur
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Heizkreisauslegungstemperatur() : string
+    {
+        $anteil_max   = 0;
+        $hktemp       = '';
+        foreach( $this->calculations( 'anlagendaten' ) AS $key => $anlage )
+        {
+            if ( $anlage['art'] == 'heizung' ) {
+                if ( $anlage['deckungsanteil'] > $anteil_max ) {
+                    $anteil_max = $anlage['deckungsanteil'];
+                    $hktemp     = $anlage['heizkreistemperatur'];
+                }
+            }
+        }
+
+        if ( $hktemp == '70/55°' ) {
+            return $hktemp;
+        }
+
+		return '55/45';
+    }
+
+    /**
+     * Heizungsanlage-innerhalb-Huelle
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function HeizungsanlageInnerhalbHuelle() : string
+    {
+        if ( $this->energieausweis->speicherung_standort == 'innerhalb' ) {
+            return 'true';
+        }
+
+        return 'false';
     }
 }

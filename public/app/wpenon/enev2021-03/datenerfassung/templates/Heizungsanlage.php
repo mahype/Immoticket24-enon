@@ -1,6 +1,6 @@
 <?php
 
-class Heizung {
+class Heizungsanlage {
     protected array $data;
 
     public function __construct( $dataHeizungsanlage )
@@ -60,5 +60,73 @@ class Heizung {
     public function AnzahlBaugleiche()
     {
         return 1;
+    }
+
+    public function Energietraeger()
+    {
+        array(
+            'heizoel'                  => 0,
+            'biooel'                   => 2,
+            'erdgas'                   => 3,
+            'erdgasbiogas'             => 4,
+            'biogas'                   => 5,
+            'fluessiggas'              => 6,
+            'steinkohle'               => 7,
+            'koks'                     => - 1,
+            'braunkohle'               => 8,
+            'stueckholz'               => 9,
+            'holzhackschnitzel'        => 9,
+            'holzpellets'              => 9,
+            'strom'                    => 14,
+            'fernwaermehzwfossil'      => 12,
+            'fernwaermehzwregenerativ' => 13,
+            'fernwaermekwkfossil'      => 10,
+            'fernwaermekwkregenerativ' => 11,
+            'sonneneinstrahlung'       => 15,
+        );
+
+        switch ( $this->data['energietraeger_slug'] )
+        {
+            case 'heizoel':
+                return 'Heizöl';
+            case 'biooel':
+                return 'Bioöl';
+            case 'erdgas':
+                return 'Erdgas'; 
+            case 'erdgasbiogas':
+                return 'biogenes Flüssiggas'; // Neu
+            case 'biogas':
+                return 'Biogas';
+            case 'fluessiggas':
+                return 'Flüssiggas';
+            case 'steinkohle':
+                return 'Steinkohle';                                                     
+            case 'braunkohle':
+                return 'Braunkohle';
+            case 'stueckholz':
+                return 'Holz';
+            case 'holzhackschnitzel':
+                return 'Holz';
+            case 'holzpellets':
+                return 'Holz';
+            case 'strom':
+                return 'Strom netzbezogen'; // NEU
+            case 'fernwaermehzwfossil':
+                return 'Nah-/Fernwärme aus Heizwerken, fossiler Brennstoff (Gasförmige und flüssige Brennstoffe) bzw. Energieträger'; // NEU
+            case 'sonneneinstrahlung':
+                return 'Wärme (Erdwärme, Geothermie, Solarthermie, Umgebungswärme)'; // NEU
+            case 'koks':
+                return 'Sonstiges';                                         
+        }
+    }
+
+    public function Primaerenergiefaktor()
+    {
+        return (float) $this->data['energietraeger_primaer'];
+    }
+
+    public function Emissionsfaktor()
+    {
+        return (float) $this->data['energietraeger_co2']; // Neu
     }
 }
