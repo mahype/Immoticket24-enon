@@ -1,6 +1,6 @@
 <?php
 
-require dirname( __FILE__ ) . '/DataEnevVW.php';
+require dirname( dirname( __FILE__ ) ) . '/data/DataEnevVW.php';
 
 $data = new DataEnevVW( $energieausweis );
 
