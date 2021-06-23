@@ -48,91 +48,44 @@ $data = new DataEnevBW( $energieausweis );
         <n1:Wohngebaeude-Anbaugrad><?php $data->WohngebaeudeAnbaugrad();?></n1:Wohngebaeude-Anbaugrad>
         <n1:Bruttovolumen><?php $data->Bruttovolumen();?></n1:Bruttovolumen>
         <n1:durchschnittliche-Geschosshoehe><?php $data->DurchschnittlicheGeschosshoehe();?></n1:durchschnittliche-Geschosshoehe>
+        <?php foreach( $data->BauteileOpak() AS $bauteil ): ?>
         <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Nord-Wand</n1:Flaechenbezeichnung>
-          <n1:Flaeche>15</n1:Flaeche>
-          <n1:U-Wert>1.2</n1:U-Wert>
-          <n1:Ausrichtung>N</n1:Ausrichtung>
-          <n1:grenztAn>Aussenluft</n1:grenztAn>
+          <n1:Flaechenbezeichnung><?php echo $bauteil->Flaechenbezeichnung(); ?></n1:Flaechenbezeichnung>
+          <n1:Flaeche><?php echo $bauteil->Flaeche(); ?></n1:Flaeche>
+          <n1:U-Wert><?php echo $bauteil->Uwert(); ?></n1:U-Wert>
+          <n1:Ausrichtung><?php echo $bauteil->Ausrichtung(); ?></n1:Ausrichtung>
+          <n1:grenztAn><?php echo $bauteil->GrenztAn(); ?></n1:grenztAn>
           <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
           <n1:Vorhangfassade>false</n1:Vorhangfassade>
         </n1:Bauteil-Opak>
-        <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Ost-Wand</n1:Flaechenbezeichnung>
-          <n1:Flaeche>25</n1:Flaeche>
-          <n1:U-Wert>1.2</n1:U-Wert>
-          <n1:Ausrichtung>O</n1:Ausrichtung>
-          <n1:grenztAn>Aussenluft</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
-        <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Süd-Wand</n1:Flaechenbezeichnung>
-          <n1:Flaeche>15</n1:Flaeche>
-          <n1:U-Wert>1.2</n1:U-Wert>
-          <n1:Ausrichtung>S</n1:Ausrichtung>
-          <n1:grenztAn>Aussenluft</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
-        <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>West-Wand</n1:Flaechenbezeichnung>
-          <n1:Flaeche>25</n1:Flaeche>
-          <n1:U-Wert>1.0</n1:U-Wert>
-          <n1:Ausrichtung>W</n1:Ausrichtung>
-          <n1:grenztAn>Aussenluft</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
-        <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Boden</n1:Flaechenbezeichnung>
-          <n1:Flaeche>100</n1:Flaeche>
-          <n1:U-Wert>0.6</n1:U-Wert>
-          <n1:Ausrichtung>HOR</n1:Ausrichtung>
-          <n1:grenztAn>Erdreich</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
+        <?php endforeach; ?>  
+        <?php foreach( $data->BauteileTransparent() AS $bauteil ): ?>
         <n1:Bauteil-Transparent>
-          <n1:Flaechenbezeichnung>Nord-Fenster</n1:Flaechenbezeichnung>
-          <n1:Flaeche>10</n1:Flaeche>
-          <n1:U-Wert>2.5</n1:U-Wert>
-          <n1:g-Wert>0.75</n1:g-Wert>
-          <n1:Ausrichtung>N</n1:Ausrichtung>
+          <n1:Flaechenbezeichnung><?php echo $bauteil->Flaechenbezeichnung(); ?></n1:Flaechenbezeichnung>
+          <n1:Flaeche><?php echo $bauteil->Flaeche(); ?></n1:Flaeche>
+          <n1:U-Wert><?php echo $bauteil->Uwert(); ?></n1:U-Wert>
+          <n1:g-Wert><?php echo $bauteil->GWert(); ?></n1:g-Wert>
+          <n1:Ausrichtung><?php echo $bauteil->Ausrichtung(); ?></n1:Ausrichtung>
           <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
           <n1:Vorhangfassade>false</n1:Vorhangfassade>
         </n1:Bauteil-Transparent>
-        <n1:Bauteil-Transparent>
-          <n1:Flaechenbezeichnung>Süd-Fenster</n1:Flaechenbezeichnung>
-          <n1:Flaeche>10</n1:Flaeche>
-          <n1:U-Wert>2.5</n1:U-Wert>
-          <n1:g-Wert>0.75</n1:g-Wert>
-          <n1:Ausrichtung>S</n1:Ausrichtung>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Transparent>
-        <n1:Bauteil-Transparent>
-          <n1:Flaechenbezeichnung>Dach-Fenster</n1:Flaechenbezeichnung>
-          <n1:Flaeche>10</n1:Flaeche>
-          <n1:U-Wert>2.5</n1:U-Wert>
-          <n1:g-Wert>0.75</n1:g-Wert>
-          <n1:Ausrichtung>HOR</n1:Ausrichtung>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Transparent>
+        <?php endforeach; ?>
+        <?php foreach( $data->BauteileTransparent() AS $bauteil ): ?>
         <n1:Bauteil-Dach>
-          <n1:Flaechenbezeichnung>Dach</n1:Flaechenbezeichnung>
-          <n1:Flaeche>90</n1:Flaeche>
-          <n1:U-Wert>1.2</n1:U-Wert>
+          <n1:Flaechenbezeichnung><?php echo $bauteil->Flaechenbezeichnung(); ?></n1:Flaechenbezeichnung>
+          <n1:Flaeche><?php echo $bauteil->Flaeche(); ?></n1:Flaeche>
+          <n1:U-Wert><?php echo $bauteil->Uwert(); ?></n1:U-Wert>
         </n1:Bauteil-Dach>
-        <n1:Waermebrueckenzuschlag>0.03</n1:Waermebrueckenzuschlag>
-        <n1:Transmissionswaermeverlust>1500</n1:Transmissionswaermeverlust>
-        <n1:Luftdichtheit>geprüft</n1:Luftdichtheit>
-        <n1:Lueftungswaermeverlust>2690</n1:Lueftungswaermeverlust>
-        <n1:Solare-Waermegewinne>2410</n1:Solare-Waermegewinne>
-        <n1:Interne-Waermegewinne>1337</n1:Interne-Waermegewinne>
+        <?php endforeach; ?>
+        <n1:Waermebrueckenzuschlag><?php echo $data->Waermebrueckenzuschlag(); ?></n1:Waermebrueckenzuschlag>
+        <n1:Transmissionswaermeverlust><?php echo $data->Transmissionswaermeverlust(); ?></n1:Transmissionswaermeverlust>
+        <n1:Luftdichtheit><?php echo $data->Luftdichtheit(); ?></n1:Luftdichtheit>
+        <n1:Lueftungswaermeverlust><?php echo $data->Lueftungswaermeverlust(); ?></n1:Lueftungswaermeverlust>
+        <n1:Solare-Waermegewinne><?php echo $data->SolareWaermegewinne(); ?></n1:Solare-Waermegewinne>
+        <n1:Interne-Waermegewinne><?php echo $data->InterneWaermegewinne(); ?></n1:Interne-Waermegewinne>
+        
         <n1:Heizungsanlage>
-          <n1:Waermeerzeuger-Bauweise-18599>Standard-Heizkessel als Gas-Spezial-Heizkessel</n1:Waermeerzeuger-Bauweise-18599>
+          <n1:Waermeerzeuger-Bauweise-4701>Standard-Heizkessel als Gas-Spezial-Heizkessel</n1:Waermeerzeuger-Bauweise-4701>
           <n1:Nennleistung>100</n1:Nennleistung>
           <n1:Waermeerzeuger-Baujahr>1989</n1:Waermeerzeuger-Baujahr>
           <n1:Anzahl-baugleiche>0</n1:Anzahl-baugleiche>
@@ -140,6 +93,7 @@ $data = new DataEnevBW( $energieausweis );
           <n1:Primaerenergiefaktor>1.2</n1:Primaerenergiefaktor>
           <n1:Emissionsfaktor>1</n1:Emissionsfaktor>
         </n1:Heizungsanlage>
+        
         <n1:Pufferspeicher-Nenninhalt>100</n1:Pufferspeicher-Nenninhalt>
         <n1:Heizkreisauslegungstemperatur>55/45</n1:Heizkreisauslegungstemperatur>
         <n1:Heizungsanlage-innerhalb-Huelle>true</n1:Heizungsanlage-innerhalb-Huelle>
