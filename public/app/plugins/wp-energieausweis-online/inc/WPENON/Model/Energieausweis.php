@@ -67,6 +67,13 @@ class Energieausweis {
 	public $schema = null;
 
 	/**
+	 * Schema name
+	 * 
+	 * @var string
+	 */
+	public $schema_name;
+
+	/**
 	 * Calculation data.
 	 *
 	 * @var array
@@ -96,9 +103,9 @@ class Energieausweis {
 		 */
 		$date = new DateTime( date('Y-m-d' ) );
 		$dateSwitch = new DateTime('2021-05-17');
-		$schema = get_post_meta( $this->id, 'wpenon_standard', true );
+		$this->schema_name = get_post_meta( $this->id, 'wpenon_standard', true );
 
-		if( $date >= $dateSwitch && $schema !== 'enev2021-03' && ! $this->isOrdered() ) {
+		if( $date >= $dateSwitch && $this->schema_name !== 'enev2021-03' && ! $this->isOrdered() ) {
 			update_post_meta( $this->id, '_finalized', false );
 			update_post_meta( $this->id, 'wpenon_standard', 'enev2021-02' );
 		}
