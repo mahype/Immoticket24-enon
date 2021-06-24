@@ -4,7 +4,8 @@ require dirname( dirname( __FILE__ ) ) . '/data/DataEnevBW.php';
 
 $data = new DataEnevBW( $energieausweis );
 
-?><n1:GEG-Energieausweis xmlns:n1="https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd">
+?><?xml version="1.0" encoding="UTF-8"?>
+<n1:GEG-Energieausweis xmlns:n1="https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd">
   <n1:Energieausweis-Daten Gesetzesgrundlage="GEG-2020" Rechtsstand-Grund="<?php echo $data->RechtsstandGrund(); ?>" Rechtsstand="2020-08-08">
     <n1:Registriernummer><?php echo $data->Registriernummer(); ?></n1:Registriernummer>
     <n1:Ausstellungsdatum><?php echo $data->Ausstellungsdatum(); ?></n1:Ausstellungsdatum>
@@ -124,7 +125,7 @@ $data = new DataEnevBW( $energieausweis );
     </n1:Wohngebaeude>
     <n1:Empfehlungen-moeglich><?php echo $data->EmpfehlungenMoeglich(); ?></n1:Empfehlungen-moeglich>
     <n1:Keine-Modernisierung-Erweiterung-Vorhaben>true</n1:Keine-Modernisierung-Erweiterung-Vorhaben>
-    <?php if(  $data->EmpfehlungenMoeglich() == 'true' ): ?>  
+    <?php if(  $data->EmpfehlungenMoeglich() == 'true' ): ?>
       <?php foreach( $data->Modernisierungsempfehlungen() AS $key => $modernisierungsempfehlung ): ?>  
       <n1:Modernisierungsempfehlungen>
         <n1:Nummer><?php echo $key + 1; ?></n1:Nummer>

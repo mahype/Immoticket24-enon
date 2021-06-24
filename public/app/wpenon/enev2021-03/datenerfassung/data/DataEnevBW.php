@@ -1,13 +1,14 @@
 <?php
 
-use Enev\Schema202103\Modernizations\BW_Modernizations;
-use WPENON\Model\Energieausweis;
-
 require dirname( __FILE__ ) . '/DataEnev.php';
 require dirname( __FILE__ ) . '/Bauteil.php';
+require dirname( __FILE__ ) . '/BauteilTransparent.php';
 require dirname( __FILE__ ) . '/Heizungsanlage.php';
 require dirname( __FILE__ ) . '/Trinkwasseranlage.php';
 require dirname( __FILE__ ) . '/Moderniserungsempfehlung.php';
+require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/modernizations/BW_Modernizations.php';
+
+use Enev\Schema202103\Modernizations\BW_Modernizations;
 
 /**
  * Bedarfsausweis-Spezifische Daten für Enev
@@ -38,7 +39,7 @@ class DataEnevBW extends DataEnev {
             $this->calculations = $this->energieausweis->calculate();
         }
 
-        $this->calculations( $slug );
+        return $this->calculations[ $slug ];
     }
 
     /**

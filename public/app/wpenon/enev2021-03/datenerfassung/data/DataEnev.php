@@ -49,6 +49,7 @@ abstract class DataEnev {
      */
     public function RechtsstandGrund() : string
     {
+        return $this->MISSING;
     }
 
     /**
@@ -62,7 +63,7 @@ abstract class DataEnev {
     {
         if( empty( $this->registriernummer ) )
         {
-
+            $this->registriernummer = $this->MISSING;
         }
 
         return $this->registriernummer;
@@ -118,7 +119,7 @@ abstract class DataEnev {
      */
     public function BaujahrGebaeude() : string
     {
-        return $$this->energieausweis->baujahr;
+        return $this->energieausweis->baujahr;
     }
 
     /**

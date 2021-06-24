@@ -75,12 +75,69 @@ class Standards_Config extends Config {
 	}
 
 	/**
+	 * Get standards before given date
+	 * 
+	 * @param string Date
+	 * 
+	 * @return array
+	 * 
+	 * @since 1.0.0
+	 */
+	public function getStandardsBefore( string $date )
+	{
+		$standards = [];
+		foreach( $this->config_data AS $key => $standard )
+		{
+			if( strtotime( $standard['start_date'] ) < strtotime( $date ) ) {
+				$standards[ $key ] = $standard;
+			} 
+		}
+		
+		return $standards;
+	}
+
+	/**
+	 * Standards path
+	 * 
+	 * @param string 
+	 */
+	public function getStandardsPath( string $standardName = null )
+	{
+		if( empty( $standardName ) ) {
+			$standardName = $this->getCurrent();
+		}
+		return WPENON_DATA_PATH . '/' . $standardName;
+	}
+
+	/**
+	 * Get Enev XML Template file
+	 * 
+	 * @param string Energieausweis mode (bw or vw)
+	 * @param string XML mode (datenerfassung or zusatzdatenerfassung)
+	 * @param string Schema name e.g. enev2021-03
+	 * 
+	 * @since 1.0.0
+	 */
+	public function getEnevXMLTemplatefile( string $mode, string $xmlMode, $schemaName = null )
+	{
+		if( empty( $schemaName ) ) {
+			$schemaName = $this->getCurrent();
+		}
+
+
+		$XMLTemplateFilename = ucfirst( $xmlMode ) . ucwords( $mode ) . 'W.php';
+		$XMLTemplateFile     = $this->getStandardsPath( $schemaName ) . '/datenerfassung/templates/' . $XMLTemplateFilename;
+
+		return $XMLTemplateFile;
+	}
+
+	/**
 	 * Get standard key by time.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $timestamp Timestamp.
-	 * @return string Standard key.
+	 * @param int $timestamp Timestamp
+	 * @return string Standard key
 	 */
 	public function getByTime( $timestamp ) {
 		foreach ( $this->config_data as $key => $standard ) {
@@ -88,10 +145,10 @@ class Standards_Config extends Config {
 				break;
 			}
 
-			$found_standard = $key;
+			$standardName = $key;
 		}
 
-		return $found_standard;
+		return $standardName;
 	}
 
 	/**
@@ -99,7 +156,7 @@ class Standards_Config extends Config {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string Standard key.
+	 * @return string Standard name.
 	 */
 	public function getCurrent() {
 		return $this->getByTime( time() );

@@ -8,6 +8,7 @@
 namespace WPENON\Model;
 
 use DateTime;
+use Enon\Enon\Standards_Config;
 
 class Energieausweis {
 	/**
@@ -328,15 +329,25 @@ class Energieausweis {
 	}
 
 	public function getXML( $mode, $output_mode = 'I', $raw = false ) {
-		$xml = new \WPENON\Model\EnergieausweisXML( $mode, sprintf( __( 'Energieausweis-%1$s-%2$s', 'wpenon' ), $this->post->post_title, ucfirst( $mode ) ), $this->type, $this->standard );
-		if ( $this->isFinalized() ) {
-			$this->calculate();
-			$xml->create( $this, $raw );
-		} else {
-			$xml->create( null, $raw );
+		$standardsConfig = new Standards_Config();
+		$old_schemas = array_keys( $standardsConfig->getStandardsBefore( '2021-05-17' ) );
+
+		/** XML until Enev GEG update */
+		if( in_array( $this->schema_name, $old_schemas ) ) {
+			$xml = new \WPENON\Model\EnergieausweisXML( $mode, sprintf( __( 'Energieausweis-%1$s-%2$s', 'wpenon' ), $this->post->post_title, ucfirst( $mode ) ), $this->type, $this->standard );
+			if ( $this->isFinalized() ) {
+				$this->calculate();
+				$xml->create( $this, $raw );
+			} else {
+				$xml->create( null, $raw );
+			}
+
+			return $xml->finalize( $output_mode );
 		}
 
-		return $xml->finalize( $output_mode );
+		/** XML stating with GEG 2020 */
+		$energieausweis = $this; // Data needed for Template
+		require $standardsConfig->getEnevXMLTemplatefile( $this->mode, $mode );
 	}
 
 	public function getFieldOptionLabels( $field_slug ) {

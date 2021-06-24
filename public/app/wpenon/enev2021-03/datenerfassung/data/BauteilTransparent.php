@@ -1,8 +1,5 @@
 <?php
 
-
-require_once dirname( __FILE__ ) . '/Bauteil.php';
-
 /**
  * Bauteil transparent Klasse
  * 
