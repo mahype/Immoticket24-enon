@@ -6,14 +6,14 @@ $data = new DataEnevBW( $energieausweis );
 
 ?><?xml version="1.0" encoding="UTF-8"?>
 <n1:GEG-Energieausweis xmlns:n1="https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd">
-  <n1:Energieausweis-Daten Gesetzesgrundlage="GEG-2020" Rechtsstand-Grund="<?php echo $data->RechtsstandGrund(); ?>" Rechtsstand="2020-08-08">
+  <n1:Energieausweis-Daten Gesetzesgrundlage="GEG-2020" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2020-08-08">
     <n1:Registriernummer><?php echo $data->Registriernummer(); ?></n1:Registriernummer>
     <n1:Ausstellungsdatum><?php echo $data->Ausstellungsdatum(); ?></n1:Ausstellungsdatum>
     <n1:Bundesland><?php echo $data->Bundesland(); ?></n1:Bundesland>
     <n1:Postleitzahl><?php echo $data->PLZ(); ?></n1:Postleitzahl>
     <n1:Gebaeudeteil><?php echo $data->Gebauedeteil(); ?></n1:Gebaeudeteil>
     <n1:Baujahr-Gebaeude><?php echo $data->BaujahrGebaeude(); ?></n1:Baujahr-Gebaeude>
-    <n1:Altersklasse-Gebaeude><?php echo $data->AltersklasseGebaeude(); ?><</n1:Altersklasse-Gebaeude>
+    <n1:Altersklasse-Gebaeude><?php echo $data->AltersklasseGebaeude(); ?></n1:Altersklasse-Gebaeude>
     <n1:Baujahr-Waermeerzeuger><?php echo $data->BaujahrWaermeerzeuger(); ?></n1:Baujahr-Waermeerzeuger>
     <n1:Altersklasse-Waermeerzeuger><?php echo $data->AltersklasseWaermeerzeuger(); ?></n1:Altersklasse-Waermeerzeuger>
     <n1:wesentliche-Energietraeger-Heizung><?php echo $data->WesentlicheEnergietraegerHeizung(); ?></n1:wesentliche-Energietraeger-Heizung>
@@ -24,10 +24,10 @@ $data = new DataEnevBW( $energieausweis );
     <n1:Lueftungsart-Schachtlueftung><?php echo $data->LueftungsartSchachtlueftung(); ?></n1:Lueftungsart-Schachtlueftung>
     <n1:Lueftungsart-Anlage-o-WRG><?php echo $data->LueftungsartAnlageOWRG(); ?></n1:Lueftungsart-Anlage-o-WRG>
     <n1:Lueftungsart-Anlage-m-WRG><?php echo $data->LueftungsartAnlageMWRG(); ?></n1:Lueftungsart-Anlage-m-WRG>
-    <n1:Kuehlungsart-passive-Kuehlung><?php echo $data->KuehlungsartPassiveKuehlung(); ?></n1:Kuehlungsart-passive-Kuehlung>
+    <n1:Kuehlungsart-passive-Kuehlung>false</n1:Kuehlungsart-passive-Kuehlung>
     <n1:Kuehlungsart-Strom><?php echo $data->KuehlungsartStrom(); ?></n1:Kuehlungsart-Strom>
-    <n1:Kuehlungsart-Waerme><?php echo $data->KuehlungsartWaerme(); ?></n1:Kuehlungsart-Waerme>
-    <n1:Kuehlungsart-gelieferte-Kaelte><?php echo $data->KuehlungsartGelieferteKaelte(); ?></n1:Kuehlungsart-gelieferte-Kaelte>
+    <n1:Kuehlungsart-Waerme>false</n1:Kuehlungsart-Waerme>
+    <n1:Kuehlungsart-gelieferte-Kaelte>false</n1:Kuehlungsart-gelieferte-Kaelte>
     <?php if ( $data->KlimaanlageVorhanden() ) : ?>
       <n1:Anzahl-Klimanlagen><?php echo $data->AnzahlKlimaanlagen(); ?></n1:Anzahl-Klimanlagen>
       <n1:Anlage-groesser-12kW-ohneGA><?php echo $data->AnlageGroesser12kWohneGA(); ?></n1:Anlage-groesser-12kW-ohneGA>
@@ -35,7 +35,7 @@ $data = new DataEnevBW( $energieausweis );
       <n1:Anlage-groesser-70kW><?php echo $data->AnlageGroesser70kW(); ?></n1:Anlage-groesser-70kW>
       <n1:Faelligkeitsdatum-Inspektion><?php echo $data->FaelligkeitsdatumInspektion(); ?></n1:Faelligkeitsdatum-Inspektion>
     <?php else: ?>
-      <n1:Keine-inspektionspflichtige-Anlage>true</n1:Faelligkeitsdatum-Inspektion>
+      <n1:Keine-inspektionspflichtige-Anlage>true</n1:Keine-inspektionspflichtige-Anlage>
     <?php endif; ?>
     <n1:Treibhausgasemissionen><?php echo $data->Treibhausgasemissionen(); ?></n1:Treibhausgasemissionen>
     <n1:Ausstellungsanlass><?php echo $data->Ausstellungsanlass(); ?></n1:Ausstellungsanlass>
@@ -54,7 +54,9 @@ $data = new DataEnevBW( $energieausweis );
           <n1:Flaechenbezeichnung><?php echo $bauteil->Flaechenbezeichnung(); ?></n1:Flaechenbezeichnung>
           <n1:Flaeche><?php echo $bauteil->Flaeche(); ?></n1:Flaeche>
           <n1:U-Wert><?php echo $bauteil->Uwert(); ?></n1:U-Wert>
+          <?php if( $bauteil->Ausrichtung() !== false ): ?>
           <n1:Ausrichtung><?php echo $bauteil->Ausrichtung(); ?></n1:Ausrichtung>
+          <?php endif; ?>
           <n1:grenztAn><?php echo $bauteil->GrenztAn(); ?></n1:grenztAn>
           <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
           <n1:Vorhangfassade>false</n1:Vorhangfassade>
@@ -95,7 +97,6 @@ $data = new DataEnevBW( $energieausweis );
           <n1:Emissionsfaktor><?php echo $heizungsanlage->Emissionsfaktor(); ?></n1:Emissionsfaktor>
         </n1:Heizungsanlage>
         <?php endforeach; ?>
-
         <n1:Pufferspeicher-Nenninhalt><?php echo $data->PufferspeicherNenninhalt(); ?></n1:Pufferspeicher-Nenninhalt>
         <n1:Heizkreisauslegungstemperatur><?php echo $data->Heizkreisauslegungstemperatur(); ?></n1:Heizkreisauslegungstemperatur>
         <n1:Heizungsanlage-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizungsanlage-innerhalb-Huelle>        
@@ -110,17 +111,17 @@ $data = new DataEnevBW( $energieausweis );
         <n1:Trinkwarmwasserverteilung-Zirkulation><?php echo $data->TrinkwarmwasserverteilungZirkulation(); ?></n1:Trinkwarmwasserverteilung-Zirkulation>
         <n1:Vereinfachte-Datenaufnahme><?php echo $data->VereinfachteDatenaufnahme(); ?></n1:Vereinfachte-Datenaufnahme>
         <n1:spezifischer-Transmissionswaermeverlust-Ist><?php echo $data->SpezifischerTransmissionswaermeverlustIst(); ?></n1:spezifischer-Transmissionswaermeverlust-Ist>
-        <n1:Innovationsklausel><?php echo $data->Innovationsklausel(); ?></n1:Innovationsklausel>
-        <n1:Quartiersregelung><?php echo $data->Quartiersregelung(); ?></n1:Quartiersregelung>
+        <n1:Innovationsklausel>false</n1:Innovationsklausel>
+        <n1:Quartiersregelung>false</n1:Quartiersregelung>
         <n1:Primaerenergiebedarf-Hoechstwert-Bestand><?php echo $data->PrimaerenergiebedarfHoechstwertBestand(); ?></n1:Primaerenergiebedarf-Hoechstwert-Bestand>
         <n1:Endenergiebedarf-Hoechstwert-Bestand><?php echo $data->EndenergiebedarfHoechstwertBestand(); ?></n1:Endenergiebedarf-Hoechstwert-Bestand>
-        <n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php echo $data->TreibhausgasemissionenHoechstwertBestand(); ?><</n1:Treibhausgasemissionen-Hoechstwert-Bestand>      
+        <n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php echo $data->TreibhausgasemissionenHoechstwertBestand(); ?></n1:Treibhausgasemissionen-Hoechstwert-Bestand>      
         <n1:Endenergiebedarf-Waerme-AN><?php echo $data->EndenergiebedarfWaermeAN(); ?></n1:Endenergiebedarf-Waerme-AN>
         <n1:Endenergiebedarf-Hilfsenergie-AN><?php echo $data->EndenergiebedarfHilfsenergieAN(); ?></n1:Endenergiebedarf-Hilfsenergie-AN>
         <n1:Endenergiebedarf-Gesamt><?php echo $data->EndenergiebedarfGesamt(); ?></n1:Endenergiebedarf-Gesamt>
-        <n1:Primaerenergiebedarf><?php echo $data->PrimaerenergiebedarfHoechstwertBestand(); ?></n1:Primaerenergiebedarf>
+        <n1:Primaerenergiebedarf><?php echo $data->Primaerenergiebedarf(); ?></n1:Primaerenergiebedarf>
         <n1:Energieeffizienzklasse><?php echo $data->Energieeffizienzklasse(); ?></n1:Energieeffizienzklasse>
-        <n1:Nicht-verschaerft-nach-GEG-34>true</n1:verschaerft-nach-GEG-34>
+        <n1:Nicht-verschaerft-nach-GEG-34>true</n1:Nicht-verschaerft-nach-GEG-34>
       </n1:Bedarfswerte-4108-4701>
     </n1:Wohngebaeude>
     <n1:Empfehlungen-moeglich><?php echo $data->EmpfehlungenMoeglich(); ?></n1:Empfehlungen-moeglich>

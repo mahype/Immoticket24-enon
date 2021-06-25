@@ -1,6 +1,7 @@
 <?php
 
 use WPENON\Model\Energieausweis;
+use WPENON\Model\EnergieausweisManager;
 
 /**
  * Base data for Enev XML
@@ -41,18 +42,6 @@ abstract class DataEnev {
     }
 
     /**
-     * Rechtsstand Grund
-     * 
-     * @return string
-     * 
-     * @since 1.0.0
-     */
-    public function RechtsstandGrund() : string
-    {
-        return $this->MISSING;
-    }
-
-    /**
      * Registriernummer
      * 
      * @return string
@@ -61,12 +50,11 @@ abstract class DataEnev {
      */
     public function Registriernummer() : string
     {
-        if( empty( $this->registriernummer ) )
-        {
-            $this->registriernummer = $this->MISSING;
+        if ( ! empty( $this->energieausweis->registriernummer ) ) {
+            return $this->energieausweis->registriernummer;
         }
 
-        return $this->registriernummer;
+        return 'AA-' . date( 'Y' ) . '-000000000';
     }
 
     /**
@@ -78,12 +66,7 @@ abstract class DataEnev {
      */
     public function Ausstellungsdatum() : string
     {
-        if( empty( $this->registriernummer ) )
-        {
-
-        }
-
-        return $this->registriernummer;
+        return EnergieausweisManager::instance()->getReferenceDate( 'Y-m-d', $this->energieausweis );
     }
 
     /**
@@ -298,10 +281,7 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function WesentlicheEnergietraegerHeizung() : string
-    {        
-        return $this->MISSING;
-    }
+    abstract function WesentlicheEnergietraegerHeizung() : string;
 
     /**
      * Wesentliche Energieträger Heizunbg
@@ -310,10 +290,7 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function WesentlicheEnergietraegerWarmWasser() : string
-    {        
-        return $this->MISSING;
-    }
+    abstract public function WesentlicheEnergietraegerWarmWasser() : string;
 
     /**
      * Erneuerbare Art
@@ -444,7 +421,7 @@ abstract class DataEnev {
      */
     public function KuehlungsartStrom() : string
     {        
-        return $this->MISSING; // BOOL
+        return $this->KlimaanlageVorhanden() ? 'true' : 'false';
     }
 
     /**
@@ -481,7 +458,7 @@ abstract class DataEnev {
      */
     public function KlimaanlageVorhanden() : bool
     {
-        return $this->MISSING; // BOOL
+        return $this->energieausweis->k_info == 'vorhanden' ? true: false;
     }
 
     /**
@@ -493,7 +470,7 @@ abstract class DataEnev {
      */
     public function AnzahlKlimaanlagen() : string
     {        
-        return $this->MISSING; // INT
+        return 1;
     }
 
     /**
@@ -505,7 +482,12 @@ abstract class DataEnev {
      */
     public function AnlageGroesser12kWohneGA() : string
     {        
-        return $this->MISSING; // BOOL
+        if( $this->energieausweis->k_leistung == 'groesser' & $this->energieausweis->k_automation == 'no' )
+        {
+            return 'true';
+        }
+
+        return 'false';
     }
 
     /**
@@ -517,7 +499,12 @@ abstract class DataEnev {
      */
     public function AnlageGroesser12kWmitGA() : string
     {        
-        return $this->MISSING; // BOOL
+        if( $this->energieausweis->k_leistung == 'groesser' & $this->energieausweis->k_automation == 'yes' )
+        {
+            return 'true';
+        }
+
+        return 'false';
     }
 
     /**
@@ -529,7 +516,7 @@ abstract class DataEnev {
      */
     public function AnlageGroesser70kW() : string
     {        
-        return $this->MISSING; // BOOL
+        return 'false'; // BOOL
     }
 
     /**
@@ -551,10 +538,7 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Treibhausgasemissionen() : string
-    {        
-        return $this->MISSING; // DATE
-    }
+    abstract public function Treibhausgasemissionen() : float;
 
     /**
      * Ausstellungsanlass
@@ -665,7 +649,7 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function KellerBeheizt() : int
+    public function KellerBeheizt() : string
     {        
         if ( $this->energieausweis->keller == 'beheizt' ) {
             return 'true';

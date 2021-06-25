@@ -51,7 +51,62 @@ class DataEnevBW extends DataEnev {
      */
     public function Gebaeudenutzflaeche()
     {
-        return $this->calculations( 'nutzflaeche' );
+        return round( $this->calculations( 'nutzflaeche' ), 2 );
+    }
+
+    /**
+     * Wesentliche Energieträger Heizunbg
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function WesentlicheEnergietraegerHeizung() : string
+    {        
+        $energietraeger = array();
+
+        $energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->h_energietraeger );
+        if ( $this->energieausweis->h2_info ) {
+            $energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->h2_energietraeger );
+            if ( $this->energieausweis->h3_info ) {
+                $energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->h3_energietraeger );
+            }
+        }
+
+        return implode( ', ', array_unique( $energietraeger ) );
+    }
+
+    /**
+     * Wesentliche Energieträger Heizunbg
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function WesentlicheEnergietraegerWarmWasser() : string
+    {
+        if ( $this->energieausweis->ww_info == 'ww' ) {
+            return wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->ww_energietraeger );
+        } else if ( $this->energieausweis->ww_info == 'h'  ) {
+            if( ! wpenon_is_water_independend_heater( $this->energieausweis->h_erzeugung ) ) 
+            {
+                $energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->h_energietraeger );
+            }
+            if ( $this->energieausweis->h2_info ) {
+                if( ! wpenon_is_water_independend_heater( $this->energieausweis->h2_erzeugung ) )
+                {
+                    $energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->h2_energietraeger );
+                }
+                if ( $this->energieausweis->h3_info ) {
+                    if( ! wpenon_is_water_independend_heater( $this->energieausweis->h3_erzeugung ) ) {
+                        $energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->h3_energietraeger );
+                    }
+                }
+            }
+            return implode( ', ', array_unique( $energietraeger ) );
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -268,7 +323,7 @@ class DataEnevBW extends DataEnev {
         $anlagen = [];
         foreach( $this->calculations( 'anlagendaten' ) AS $anlage )
         {
-            if( $anlagen['art'] === 'heizung' )
+            if( $anlage['art'] === 'heizung' )
             {
                 $anlagen[] = new Heizungsanlage( $anlage );
             }
@@ -345,7 +400,7 @@ class DataEnevBW extends DataEnev {
         $anlagen = [];
         foreach( $this->calculations( 'anlagendaten' ) AS $anlage )
         {
-            if( $anlagen['art'] === 'warmwasser' )
+            if( $anlage['art'] === 'warmwasser' )
             {
                 $anlagen[] = new Trinkwasseranlage( $anlage );
             }
@@ -404,32 +459,7 @@ class DataEnevBW extends DataEnev {
     public function SpezifischerTransmissionswaermeverlustIst()
     {
         return round( (float) $this->calculations('ht_b'), 2 );
-    }
-
-    /**
-     * Innovationsklausel
-     * 
-     * @return string
-     * 
-     * @since 1.0.0
-     */
-    public function Innovationsklausel()
-    {
-        return $this->MISSING; // Neu - Bool
-    }
-
-    /**
-     * Quartiersregelung
-     * 
-     * @return string
-     * 
-     * @since 1.0.0
-     */
-    public function Quartiersregelung()
-    {
-        return $this->MISSING; // Neu - Bool
-    }
-    
+    }    
 
     /**
      * Primaerenergiebedarf-Hoechstwert-Bestand
@@ -500,11 +530,11 @@ class DataEnevBW extends DataEnev {
      * 
      * @since 1.0.0
      */
-    public function EndenergiebedarfGesamt()
+    public function EndenergiebedarfGesamt() : float
     {
-        return $this->MISSING; // NEU
+        return round( $this->calculations( 'endenergie' ), 2 );
     }
-
+    
     /**
      * Primaerenergiebedarf
      * 
@@ -512,9 +542,21 @@ class DataEnevBW extends DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Primaerenergiebedarf()
+    public function Primaerenergiebedarf() : float
     {
         return round( (float) $this->calculations( 'primaerenergie' ), 1 );
+    }
+
+    /**
+     * Treibhausgasemissionen
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Treibhausgasemissionen() : float
+    {        
+        return round( $this->calculations( 'co2_emissionen' ), 2 );
     }
 
     /**

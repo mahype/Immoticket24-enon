@@ -12,6 +12,7 @@ class Bauteil {
     public function __construct( string $key, array $bauteilDaten )
     {
         $this->data = $bauteilDaten;
+        $this->key  = $key;
     }
 
     public function Flaechenbezeichnung()
@@ -31,6 +32,10 @@ class Bauteil {
 
     public function Ausrichtung()
     {
+        if( ! isset( $this->data['richtung'] ) )
+        {
+            return false;
+        }
         return strtoupper( $this->data['richtung'] );
     }
 

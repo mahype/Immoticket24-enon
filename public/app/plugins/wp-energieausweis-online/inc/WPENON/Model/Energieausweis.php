@@ -345,9 +345,31 @@ class Energieausweis {
 			return $xml->finalize( $output_mode );
 		}
 
-		/** XML stating with GEG 2020 */
+		/** 
+		 * XML output with GEG 2020 
+		 */
 		$energieausweis = $this; // Data needed for Template
-		require $standardsConfig->getEnevXMLTemplatefile( $this->mode, $mode );
+		$xmlFile        = $standardsConfig->getEnevXMLTemplatefile( $this->mode, $mode );#
+
+		ob_start();		
+		require $xmlFile;
+		$xml = ob_get_clean();
+
+		switch ( $output_mode ) {
+			case 'S':
+				return $xml;
+			case 'D':
+			case 'I':
+			default:
+				$disposition = 'inline';
+				if ( $output_mode == 'D' ) {
+					$disposition = 'attachment';
+				}
+				header( 'Content-Type: text/xml; charset=utf-8' );
+				header( 'Content-Disposition: ' . $disposition . '; filename="' . $this->title . '.xml"' );
+				echo $xml;
+				exit;
+		}		
 	}
 
 	public function getFieldOptionLabels( $field_slug ) {

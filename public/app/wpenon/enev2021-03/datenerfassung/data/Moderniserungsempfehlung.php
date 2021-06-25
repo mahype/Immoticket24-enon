@@ -20,7 +20,7 @@ class Moderniserungsempfehlung {
 
     public function Massnahmenbeschreibung()
     {
-        return $this->data['beschreibung'];
+        return html_entity_decode( $this->data['beschreibung'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
 
     public function Modernisierungskombination()

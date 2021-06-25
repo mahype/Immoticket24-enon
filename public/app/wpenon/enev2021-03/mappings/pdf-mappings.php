@@ -236,7 +236,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 		case 'endenergie':
 			if( $energieausweis->mode == 'v') {
 				return $calcCC->getBuilding()->getFinalEnergy();
-			}#
+			}
 
 			$calculations = $energieausweis->calculate();
 			if ( isset( $calculations['endenergie'] ) ) {

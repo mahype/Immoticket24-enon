@@ -586,12 +586,16 @@ class CalculationsCC {
             )
         ), array(), true );
 
+        $energySourceArr = explode( '_', $energySourceId );
+        $unit            = $energySourceArr[1];
+
         $energySource = [
             'id'                  => $energySourceValues->bezeichnung,
             'name'                => $energySourceValues->name,
             'kWhMultiplicator'    => $conversions->mpk,
             'primaryEnergyFactor' => $energySourceValues->primaer,
-            'co2EmissionFactor'   => $energySourceValues->co2
+            'co2EmissionFactor'   => $energySourceValues->co2,
+            'unit'                => $unit
         ];
 
         return $energySource;
