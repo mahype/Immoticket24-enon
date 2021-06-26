@@ -24,7 +24,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -69,7 +68,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -85,7 +83,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -101,8 +98,9 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
+						'holzpellets'  => __( 'Holzpellets', 'wpenon' ),
+						'stueckholz'   => __( 'Stückholz', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -117,7 +115,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -334,7 +331,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -379,8 +375,9 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
+						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
+						'stueckholz' => __( 'Stückholz', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
@@ -395,7 +392,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -415,7 +411,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -431,7 +426,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -668,7 +662,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -713,8 +706,9 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
+						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
+						'stueckholz' => __( 'Stückholz', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
@@ -729,7 +723,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -749,7 +742,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
@@ -765,7 +757,6 @@ $anlage = array(
 						'heizoel'      => __( 'Heizöl', 'wpenon' ),
 						'erdgas'       => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
-						'erdgasbiogas' => __( 'Erdgas-Biogas-Gemisch', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
