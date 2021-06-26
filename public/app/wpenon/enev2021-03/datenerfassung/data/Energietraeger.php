@@ -34,14 +34,10 @@ class Energietraeger {
          * 
     'heizoel_l'                   => 0,
     'heizoel_kwh'                 => array( 1, 2 ),
-    'heizoelbiooel_l'             => 3,
-    'heizoelbiooel_kwh'           => array( 4, 5 ),
     'biooel_l'                    => 6,
     'biooel_kwh'                  => array( 7, 8 ),
     'erdgas_m3'                   => 9,
     'erdgas_kwh'                  => array( 10, 11 ),
-    'erdgasbiogas_m3'             => 12,
-    'erdgasbiogas_kwh'            => array( 13, 14 ),
     'biogas_m3'                   => 15,
     'biogas_kwh'                  => array( 16, 17 ),
     'fluessiggas_l'               => 19,
@@ -71,25 +67,25 @@ class Energietraeger {
                 return 'Heizöl in Liter';
             case 'heizoel_kwh':
                 return $this->EnergietraegerIsBurned() ? 'Heizöl in kWh Brennwert' : 'Heizöl in kWh Heizwert';
-            case 'heizoelbiooel_l':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
+            case 'erdgas_m3':
+                return 'Erdgas in m³';            
+            case 'erdgas_kwh':
+                return $this->EnergietraegerIsBurned() ? 'Erdgas in kWh Brennwert' : 'Erdgas in kWh Heizwert';
+            case 'biooel_l':
+                return 'Bioöl in Liter';
+            case 'biooel_kwh':
+                return $this->EnergietraegerIsBurned() ? 'Bioöl in kWh Brennwert' : 'Bioöl in kWh Heizwert';
+            case 'biogas_m3':
+                return 'Biogas in m³';
+            case 'biogas_kwh':
+                return $this->EnergietraegerIsBurned() ? 'Biogas in kWh Brennwert' : 'Biogas in kWh Heizwert';
+            case 'fluessiggas_l':
+                return 'Flüssiggas in Liter flüssig';
+            case 'fluessiggas_m3':
+                return 'Flüssiggas in m³ gasförmig';
+            case 'fluessiggas_kg':
+                return 'Flüssiggas in kg';
+            case 'fluessiggas_kwh':
                 return 'XXX';
             case 'xxx':
                 return 'XXX';
