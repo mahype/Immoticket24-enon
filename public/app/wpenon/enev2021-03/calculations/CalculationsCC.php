@@ -105,6 +105,18 @@ class CalculationsCC {
     }
 
     /**
+     * Get hot water
+     * 
+     * @return string 'separate', 'heater' or 'unknown'
+     * 
+     * @since 1.0.0
+     */
+    public function getHotWater() : string
+    {
+        return $this->hotWater;
+    }
+
+    /**
      * Prepares the consumption data list for PDF
      * 
      * @return array Consumption data list

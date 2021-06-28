@@ -55,64 +55,80 @@ $data = new DataEnevVW( $energieausweis );
           <n1:Unterer-Heizwert><?php echo $energietraeger->UntererHeizwert(); ?></n1:Unterer-Heizwert>
           <n1:Primaerenergiefaktor><?php echo $energietraeger->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
           <n1:Emissionsfaktor><?php echo $energietraeger->Emissionsfaktor(); ?></n1:Emissionsfaktor>
+          <?php for( $i = 0; $i < 3; $i++ ): ?>
           <n1:Zeitraum>
-            <n1:Startdatum>2018-01-01</n1:Startdatum>
-            <n1:Enddatum>2018-12-31</n1:Enddatum>
-            <n1:Verbrauchte-Menge>60979</n1:Verbrauchte-Menge>
-            <n1:Energieverbrauch>20000</n1:Energieverbrauch>
-            <n1:Energieverbrauchsanteil-Warmwasser-zentral>50</n1:Energieverbrauchsanteil-Warmwasser-zentral>
-            <n1:Warmwasserwertermittlung>Rechenwert nach Heizkostenverordnung (Wohngebäude)</n1:Warmwasserwertermittlung>
-            <n1:Energieverbrauchsanteil-Heizung>20</n1:Energieverbrauchsanteil-Heizung>
-            <n1:Klimafaktor>1.24</n1:Klimafaktor>
-            <n1:Verbrauchswert-kWh-Strom>20000</n1:Verbrauchswert-kWh-Strom>
+            <n1:Startdatum><?php echo $energietraeger->Startdatum( $i ); ?></n1:Startdatum>
+            <n1:Enddatum><?php echo $energietraeger->Enddatum( $i ); ?></n1:Enddatum>
+            <n1:Verbrauchte-Menge><?php echo $energietraeger->VerbrauchteMenge( $i ); ?></n1:Verbrauchte-Menge>
+            <n1:Energieverbrauch><?php echo $energietraeger->Energieverbrauch( $i ); ?></n1:Energieverbrauch>
+            <n1:Energieverbrauchsanteil-Warmwasser-zentral><?php echo $energietraeger->EnergieverbrauchsanteilWarmwasserZentral( $i ); ?></n1:Energieverbrauchsanteil-Warmwasser-zentral>
+            <n1:Warmwasserwertermittlung><?php echo $energietraeger->Warmwasserwertermittlung( $i ); ?></n1:Warmwasserwertermittlung>
+            <n1:Energieverbrauchsanteil-Heizung><?php echo $energietraeger->EnergieverbrauchsanteilHeizung( $i ); ?></n1:Energieverbrauchsanteil-Heizung>
+            <n1:Klimafaktor><?php echo $energietraeger->Klimafaktor( $i ); ?></n1:Klimafaktor>
           </n1:Zeitraum>
-          <n1:Zeitraum>
-            <n1:Startdatum>2019-01-01</n1:Startdatum>
-            <n1:Enddatum>2019-12-31</n1:Enddatum>
-            <n1:Verbrauchte-Menge>64003</n1:Verbrauchte-Menge>
-            <n1:Energieverbrauch>20000</n1:Energieverbrauch>
-            <n1:Energieverbrauchsanteil-Warmwasser-zentral>0</n1:Energieverbrauchsanteil-Warmwasser-zentral>
-            <n1:Warmwasserwertermittlung>keine Warmwasserbereitung enthalten</n1:Warmwasserwertermittlung>
-            <n1:Energieverbrauchsanteil-Heizung>20</n1:Energieverbrauchsanteil-Heizung>
-            <n1:Klimafaktor>1.24</n1:Klimafaktor>
-            <n1:Verbrauchswert-kWh-Strom>20000</n1:Verbrauchswert-kWh-Strom>
-          </n1:Zeitraum>
-          <n1:Zeitraum>
-            <n1:Startdatum>2020-01-01</n1:Startdatum>
-            <n1:Enddatum>2020-12-31</n1:Enddatum>
-            <n1:Verbrauchte-Menge>51426</n1:Verbrauchte-Menge>
-            <n1:Energieverbrauch>20000</n1:Energieverbrauch>
-            <n1:Energieverbrauchsanteil-Warmwasser-zentral>0</n1:Energieverbrauchsanteil-Warmwasser-zentral>
-            <n1:Warmwasserwertermittlung>keine Warmwasserbereitung enthalten</n1:Warmwasserwertermittlung>
-            <n1:Energieverbrauchsanteil-Heizung>20</n1:Energieverbrauchsanteil-Heizung>
-            <n1:Klimafaktor>1.24</n1:Klimafaktor>
-            <n1:Verbrauchswert-kWh-Strom>20000</n1:Verbrauchswert-kWh-Strom>
-          </n1:Zeitraum>
+          <?php endfor; ?>
         </n1:Energietraeger>
         <?php endforeach; ?>
         <n1:Leerstandszuschlag-Heizung>
-          <n1:kein-Leerstand>Kein längerer Leerstand Heizung zu berücksichtigen.</n1:kein-Leerstand>
+          <?php if( $data->LeerstandszuschlagHeizung() > 0 ): ?>
+            <?php foreach( $data->ConsumptionPeriods() AS $consumptionperiod ): ?>
+            <?php if ( $consumptionperiod->Leerstandsfaktor() > 0 ): ?>
+            <n1:Leerstandszuschlag-nach-Bekanntmachung>
+              <n1:Leerstandsfaktor><?php echo $consumptionperiod->Leerstandsfaktor(); ?></n1:Leerstandsfaktor>
+              <n1:Startdatum><?php echo $consumptionperiod->Startdatum(); ?></n1:Startdatum>
+              <n1:Enddatum><?php echo $consumptionperiod->Enddatum(); ?></n1:Enddatum>
+              <n1:Leerstandszuschlag-kWh><?php echo $consumptionperiod->LeerstandszuschlagKwh(); ?></n1:Leerstandszuschlag-kWh>
+              <n1:Primaerenergiefaktor><?php echo $consumptionperiod->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
+            </n1:Leerstandszuschlag-nach-Bekanntmachung>
+            <?php endif; ?>
+            <?php endforeach; ?>
+            <n1:Zuschlagsfaktor><?php echo $data->Zuschlagsfaktor(); ?></n1:Zuschlagsfaktor>
+            <n1:witterungsbereinigter-Endenergieverbrauchsanteil-fuer-Heizung><?php echo $data->LeerstandszuschlagHeizung(); ?></n1:witterungsbereinigter-Endenergieverbrauchsanteil-fuer-Heizung>
+          <?php else: ?>
+            <n1:kein-Leerstand>Kein längerer Leerstand Heizung zu berücksichtigen.</n1:kein-Leerstand>
+          <?php endif; ?>
         </n1:Leerstandszuschlag-Heizung>
         
         <n1:Leerstandszuschlag-Warmwasser>
-          <n1:keine-Nutzung-von-WW>true</n1:keine-Nutzung-von-WW>
-          <n1:kein-Leerstand>Kein längerer Leerstand Warmwasser zu berücksichtigen.</n1:kein-Leerstand>
+          <n1:keine-Nutzung-von-WW>false</n1:keine-Nutzung-von-WW>
+         <?php if( $data->LeerstandszuschlagWarmWasser() > 0 ): ?>
+            <?php foreach( $data->ConsumptionPeriods() AS $consumptionperiod ): ?>
+            <?php if ( $consumptionperiod->LeerstandsfaktorWW() > 0 ): ?>
+            <n1:Leerstandszuschlag-nach-Bekanntmachung>
+              <n1:Leerstandsfaktor><?php echo $consumptionperiod->LeerstandsfaktorWW(); ?></n1:Leerstandsfaktor>
+              <n1:Startdatum><?php echo $consumptionperiod->Startdatum(); ?></n1:Startdatum>
+              <n1:Enddatum><?php echo $consumptionperiod->Enddatum(); ?></n1:Enddatum>
+              <n1:Leerstandszuschlag-kWh><?php echo $consumptionperiod->LeerstandszuschlagWWKwh(); ?></n1:Leerstandszuschlag-kWh>
+              <n1:Primaerenergiefaktor><?php echo $consumptionperiod->PrimaerenergiefaktorWW(); ?></n1:Primaerenergiefaktor>
+            </n1:Leerstandszuschlag-nach-Bekanntmachung>
+            <?php endif; ?>
+            <?php endforeach; ?>
+            <n1:Zuschlagsfaktor><?php echo $data->Zuschlagsfaktor(); ?></n1:Zuschlagsfaktor>
+            <n1:witterungsbereinigter-Endenergieverbrauchsanteil-fuer-Heizung><?php echo $data->LeerstandszuschlagHeizung(); ?></n1:witterungsbereinigter-Endenergieverbrauchsanteil-fuer-Heizung>
+          <?php else: ?>
+            
+            <n1:kein-Leerstand>Kein längerer Leerstand Warmwasser zu berücksichtigen.</n1:kein-Leerstand>
+          <?php endif; ?>
         </n1:Leerstandszuschlag-Warmwasser>
-
-        <n1:Warmwasserzuschlag>
-          <n1:Startdatum>2018-04-01</n1:Startdatum>
-          <n1:Enddatum>2018-06-30</n1:Enddatum>
-          <n1:Primaerenergiefaktor>1.1</n1:Primaerenergiefaktor>
-          <n1:Warmwasserzuschlag-kWh>21672</n1:Warmwasserzuschlag-kWh>
-        </n1:Warmwasserzuschlag>
         
+        <?php if( $data->Warmwasserzuschlag() > 0 ): ?>
+        <n1:Warmwasserzuschlag>
+          <n1:Startdatum><?php echo $data->Startdatum(); ?></n1:Startdatum>
+          <n1:Enddatum><?php echo $data->Enddatum(); ?></n1:Enddatum>
+          <n1:Primaerenergiefaktor><?php echo $data->WarmwasserPrimaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
+          <n1:Warmwasserzuschlag-kWh><?php echo $data->Warmwasserzuschlag(); ?></n1:Warmwasserzuschlag-kWh>
+        </n1:Warmwasserzuschlag>
+        <?php endif; ?>
+        
+        <?php if( $data->Kuehlzuschlag() > 0 ): ?>
         <n1:Kuehlzuschlag>
-          <n1:Startdatum>2018-07-01</n1:Startdatum>
-          <n1:Enddatum>2018-07-15</n1:Enddatum>
-          <n1:Gebaeudenutzflaeche-gekuehlt>100</n1:Gebaeudenutzflaeche-gekuehlt>
-          <n1:Primaerenergiefaktor>1.3</n1:Primaerenergiefaktor>
-          <n1:Kuehlzuschlag-kWh>600</n1:Kuehlzuschlag-kWh>
+          <n1:Startdatum><?php echo $data->Startdatum(); ?></n1:Startdatum>
+          <n1:Enddatum><?php echo $data->Enddatum(); ?></n1:Enddatum>
+          <n1:Gebaeudenutzflaeche-gekuehlt><?php echo $data->GebaeudenutzflaecheGekuehlt(); ?></n1:Gebaeudenutzflaeche-gekuehlt>
+          <n1:Primaerenergiefaktor><?php echo $data->KuehlerPrimaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
+          <n1:Kuehlzuschlag-kWh><?php echo $data->Kuehlzuschlag(); ?></n1:Kuehlzuschlag-kWh>
         </n1:Kuehlzuschlag>
+        <?php endif; ?>
 
         <n1:Mittlerer-Endenergieverbrauch><?php echo $data->MittlererEndenergieverbrauch(); ?></n1:Mittlerer-Endenergieverbrauch>
         <n1:Mittlerer-Primaerenergieverbrauch><?php echo $data->MittlererPrimaerenergieverbrauch(); ?></n1:Mittlerer-Primaerenergieverbrauch>

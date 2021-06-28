@@ -1,6 +1,7 @@
 <?php
 
 use AWSM\LibEstate\Calculations\Heater;
+use AWSM\LibEstate\Calculations\HotWaterHeaters;
 
 /**
  * Energietraeger Klasse
@@ -8,16 +9,22 @@ use AWSM\LibEstate\Calculations\Heater;
  * Vorrübergehend bis zur neuen Berechnng
  */
 class Energietraeger {
-    protected Heater $data;
+    protected array $consumptionPeriods;
+    protected Heater          $heater;
+    protected HotWaterHeaters $hotWaterHeaters;
+    protected string          $hotWater;
 
-    public function __construct( Heater $heater )
+    public function __construct( array $consumptionPeriods, Heater $heater, HotWaterHeaters $hotWaterHeaters, string $hotWater )
     {
-        $this->data = $heater;
+        $this->consumptionPeriods = $consumptionPeriods;
+        $this->heater             = $heater;
+        $this->hotWaterHeaters    = $hotWaterHeaters;
+        $this->hotWater           = $hotWater;
     }
 
     private function EnergietraegerIsBurned() : bool
     {
-        if ( strpos ( $this->data->getEnergySource()->getId(), 'brennewert' ) === false ) {
+        if ( strpos ( $this->heater->getEnergySource()->getId(), 'brennwert' ) === false ) {
             return false;
         }
 
@@ -26,9 +33,9 @@ class Energietraeger {
 
     public function EnergietraegerVerbrauch()
     {
-        $id = $this->data->getEnergySource()->getId() . '-' . $this->data->getEnergySource()->getUnit();
+        $id = $this->heater->getEnergySource()->getId() . '-' . $this->heater->getEnergySource()->getUnit();
 
-        $this->data->getHeatingSystem()->getId();
+        $this->heater->getHeatingSystem()->getId();
 
         /**
          * 
@@ -85,49 +92,101 @@ class Energietraeger {
                 return 'Flüssiggas in m³ gasförmig';
             case 'fluessiggas_kg':
                 return 'Flüssiggas in kg';
-            case 'fluessiggas_kwh':
+            case 'steinkohle_kg':
+                return 'Steinkohle in kg';
+            case 'steinkohle_kwh':
+                return 'Steinkohle in kWh Heizwert';
+            case 'braunkohle_kg':
+                return 'Braunkohle in kg';
+            case 'braunkohle_kwh':
+                return 'Braunkohle in kWh Heizwert';
+            case 'stueckholz_m3':
+                return 'Holz in Raummeter';
+            case 'stueckholz_kg':
+                return 'Holz in kg';
+            case 'stueckholz_kwh':
+                return $this->EnergietraegerIsBurned() ? 'Holz in kWh Brennwert' : 'Holz in kWh Heizwert';
+            case 'holzpellets_kg': // ?
+                return 'Holz in kg';
+            case 'holzpellets_kwh':
+                return $this->EnergietraegerIsBurned() ? 'Holz in kWh Brennwert' : 'Holz in kWh Heizwert';
+            case 'strom_kwh':
+                return 'Strom netzbezogen in kWh';
+            case 'fernwaermehzwfossil_kwh':
                 return 'XXX';
-            case 'xxx':
+            case 'fernwaermehzwregenerativ_kwh':
                 return 'XXX';
-            case 'xxx':
+            case 'fernwaermekwkfossil_kwh':
                 return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
-                return 'XXX';
-            case 'xxx':
+            case 'fernwaermekwkregenerativ_kwh':
                 return 'XXX';
         }
     }
 
     public function UntererHeizwert()
     {
-        return $this->data->getEnergySource()->getKWhMultiplicator();
+        return $this->heater->getEnergySource()->getKWhMultiplicator();
     }
 
     public function Primaerenergiefaktor()
     {
-        return $this->data->getEnergySource()->getPrimaryEnergyFactor();
+        return $this->heater->getEnergySource()->getPrimaryEnergyFactor();
     }
 
     public function Emissionsfaktor()
     {
-        return $this->data->getEnergySource()->getCo2EmissionFactor();
+        return $this->heater->getEnergySource()->getCo2EmissionFactor();
+    }
+
+    public function Startdatum( int $period )
+    {
+        return date( 'Y-m-d', strtotime( $this->consumptionPeriods[ $period ][ 'start' ] ) );
+    }
+
+    public function Enddatum( int $period )
+    {
+        return date( 'Y-m-d', strtotime( $this->consumptionPeriods[ $period ][ 'end' ] ) );
+    }
+
+    public function VerbrauchteMenge( int $period ) 
+    {
+        return $this->heater->getEnergyConsumptionOfPeriod( $period );
+    }
+
+    public function Energieverbrauch( int $period ) 
+    {
+        return $this->heater->getKWhOfPeriod( $period );
+    }
+
+    public function Warmwasserwertermittlung( ) 
+    {
+        switch( $this->hotWater ) {
+            case 'heater':
+                return 'Pauschale für dezentrale Warmwasserbereitung (Wohngebäude)';
+            case 'hotwater':
+                return 'Rechenwert nach Heizkostenverordnung (Wohngebäude)';
+            case 'unknown':
+                return 'Pauschale für dezentrale Warmwasserbereitung (Wohngebäude)';
+        }
+    }
+
+    public function EnergieverbrauchsanteilWarmwasserZentral( $period )
+    {
+        if( $this->hotWater == 'heater' )
+        {
+            return $this->hotWaterHeaters->getEnergyConsumptionOfPeriod( $period );
+        }
+
+        return 0;
+    }
+
+    public function EnergieverbrauchsanteilHeizung( $period )
+    {
+        return $this->heater->getEnergyConsumptionOfPeriod( $period );
+    }
+
+    public function Klimafaktor( int $period )
+    {
+        return $this->heater->getClimateFactorOfPeriod( $period );
     }
 }
