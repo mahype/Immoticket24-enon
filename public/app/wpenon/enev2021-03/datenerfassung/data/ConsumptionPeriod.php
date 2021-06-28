@@ -64,7 +64,7 @@ class ConsumptionPeriod {
             $leerstandszuschlagKwh = $heater->getVacancySurchargeOfPeriod( $this->period );
         }
 
-        return $leerstandszuschlagKwh;
+        return round( $leerstandszuschlagKwh, 0 );
     }
 
     public function LeerstandszuschlagWWKwh()
@@ -75,7 +75,7 @@ class ConsumptionPeriod {
             $leerstandszuschlagKwh = $heater->getVacancySurchargeOfPeriod( $this->period );
         }
 
-        return $leerstandszuschlagKwh;
+        return round( $leerstandszuschlagKwh, 0 );
     }
 
     public function Primaerenergiefaktor()

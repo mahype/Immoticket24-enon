@@ -1,0 +1,33 @@
+<?php
+
+if( ! defined( 'ABSPATH' ) ) exit;
+
+if( defined( 'WPENON_DEBUG' ) )
+{
+    $id   = WPENON_DIBT_DEBUG_USER;
+    $pass = md5( WPENON_DIBT_DEBUG_PASSWORD );
+} else {
+    $id   = WPENON_DIBT_USER;
+    $pass = md5( WPENON_DIBT_PASSWORD );
+}
+
+$art = $energieausweis->mode == 'b' ? 'Energiebedarfsausweis' : 'Energieverbrauchsausweis';
+
+?><?xml version='1.0' encoding='UTF-8'?>
+<root>
+    <Authentifizierung>
+        <Aussteller_ID_DIBT><?php echo $id; ?></Aussteller_ID_DIBT>
+        <Aussteller_PWD_DIBT><?php echo $pass; ?></Aussteller_PWD_DIBT>
+    </Authentifizierung>
+    <EnEV-Nachweis>
+        <Ausstellungsdatum><?php echo date('d.m.Y' ); ?></Ausstellungsdatum>
+        <Bundesland><?php echo $energieausweis->adresse_bundesland; ?></Bundesland>
+        <Postleitzahl><?php echo $energieausweis->adresse_plz; ?></Postleitzahl>
+        <Gesetzesgrundlage>GEG-2020</Gesetzesgrundlage>
+    </EnEV-Nachweis>
+    <Energieausweis-Daten>
+        <Gebaeudeart>Wohngebäude</Gebaeudeart>
+        <Art><?php echo $art; ?></Art>
+        <Neubau>0</Neubau>
+    </Energieausweis-Daten>
+</root>

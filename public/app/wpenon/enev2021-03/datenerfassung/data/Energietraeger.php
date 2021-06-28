@@ -33,40 +33,9 @@ class Energietraeger {
 
     public function EnergietraegerVerbrauch()
     {
-        $id = $this->heater->getEnergySource()->getId() . '-' . $this->heater->getEnergySource()->getUnit();
+        $id = $this->heater->getEnergySource()->getId() . '_' . $this->heater->getEnergySource()->getUnit();
 
         $this->heater->getHeatingSystem()->getId();
-
-        /**
-         * 
-    'heizoel_l'                   => 0,
-    'heizoel_kwh'                 => array( 1, 2 ),
-    'biooel_l'                    => 6,
-    'biooel_kwh'                  => array( 7, 8 ),
-    'erdgas_m3'                   => 9,
-    'erdgas_kwh'                  => array( 10, 11 ),
-    'biogas_m3'                   => 15,
-    'biogas_kwh'                  => array( 16, 17 ),
-    'fluessiggas_l'               => 19,
-    'fluessiggas_m3'              => 18,
-    'fluessiggas_kg'              => 20,
-    'fluessiggas_kwh'             => array( 21, 22 ),
-    'steinkohle_kg'               => 23,
-    'steinkohle_kwh'              => 24,
-    'braunkohle_kg'               => 27,
-    'braunkohle_kwh'              => 28,
-    'stueckholz_m3'               => 29,
-    'stueckholz_kg'               => 30,
-    'stueckholz_kwh'              => array( 31, 32 ),
-    'holzpellets_kg'              => 38,
-    'holzpellets_kwh'             => array( 39, 40 ),
-    'strom_kwh'                   => 43,
-    'fernwaermehzwfossil_kwh'     => -1,
-    'fernwaermehzwregenerativ_kwh'=> -1,
-    'fernwaermekwkfossil_kwh'     => -1,
-    'fernwaermekwkregenerativ_kwh'=> -1,
-         * 
-         */
 
         switch( $id )
         {
@@ -113,13 +82,13 @@ class Energietraeger {
             case 'strom_kwh':
                 return 'Strom netzbezogen in kWh';
             case 'fernwaermehzwfossil_kwh':
-                return 'XXX';
+                return 'Nah-/Fernwärme aus Heizwerken, fossiler Brennstoff (Stein-/Braunkohle) bzw. Energieträger in kWh';
             case 'fernwaermehzwregenerativ_kwh':
-                return 'XXX';
+                return 'Nah-/Fernwärme aus Heizwerken, erneuerbarer Brennstoff bzw. Energieträger in kWh';
             case 'fernwaermekwkfossil_kwh':
-                return 'XXX';
+                return 'Nah-/Fernwärme aus KWK, fossiler Brennstoff (Stein-/Braunkohle) bzw. Energieträger in kWh';
             case 'fernwaermekwkregenerativ_kwh':
-                return 'XXX';
+                return 'Nah-/Fernwärme aus KWK, erneuerbarer Brennstoff bzw. Energieträger in kWh';
         }
     }
 
@@ -135,7 +104,7 @@ class Energietraeger {
 
     public function Emissionsfaktor()
     {
-        return $this->heater->getEnergySource()->getCo2EmissionFactor();
+        return $this->heater->getEnergySource()->getCo2EmissionFactor() * 1000;
     }
 
     public function Startdatum( int $period )
@@ -163,7 +132,7 @@ class Energietraeger {
         switch( $this->hotWater ) {
             case 'heater':
                 return 'Pauschale für dezentrale Warmwasserbereitung (Wohngebäude)';
-            case 'hotwater':
+            case 'separate':
                 return 'Rechenwert nach Heizkostenverordnung (Wohngebäude)';
             case 'unknown':
                 return 'Pauschale für dezentrale Warmwasserbereitung (Wohngebäude)';

@@ -78,7 +78,7 @@ abstract class DataEnev {
      */
     public function PLZ() : string
     {
-        return $this->energieausweis->adresse_plz;
+        return substr( $this->energieausweis->adresse_plz, 0, 3 ) . 'XX';
     }
 
     /**
@@ -149,16 +149,11 @@ abstract class DataEnev {
      */
     public function Gebauedeteil() : string
     {
-        $gemischt = $this->energieausweis->gebaeudeteil === 'gemischt';
-        if ( $gemischt ) {
-            if (  $this->energieausweis->building == 'n' ) {
-                return __( 'Gewerbeteil gemischt genutztes Gebäude', 'wpenon' );
-            }
-
-            return __( 'Wohnteil gemischt genutztes Gebäude', 'wpenon' );
+        if ($this->energieausweis->gebaeudeteil === 'gemischt' ) {
+            return __( 'Teil des Wohngebäudes', 'wpenon' );
         }
 
-        return __( 'Gesamt', 'wpenon' );
+        return __( 'Ganzes Gebäude', 'wpenon' );
     }
 
     /**
@@ -527,8 +522,38 @@ abstract class DataEnev {
      * @since 1.0.0
      */
     public function FaelligkeitsdatumInspektion() : string
-    {        
-        return $this->MISSING; // DATE
+    {
+        if( $this->energieausweis->k_leistung !== 'groesser' )
+        {
+            return '';				
+        }
+
+        $k_baujahr = explode( '/', $this->energieausweis->k_baujahr );
+        $k_baujahr = $k_baujahr[1] . '-' . $k_baujahr[0];
+        $k_baujahr = new DateTime( $k_baujahr );
+
+        $baujahr_limit = new DateTime( '2008-10' );			
+
+        if ( $k_baujahr < $baujahr_limit ) {
+            return '12/2022';
+        }
+
+        if( $this->energieausweis->k_automation === 'yes' )
+        {
+            return '2100-01-01';			
+        }
+
+        if( ! empty ( $this->energieausweis->k_inspektion ) ) {
+            $k_inspektion = explode( '/', $this->energieausweis->k_inspektion );
+            $k_inspektion = $k_inspektion[1] . '-' . $k_inspektion[0];
+            $k_inspektion = new DateTime( $k_inspektion );
+            $k_inspektion->add( new DateInterval('P10Y') );
+
+            return $k_inspektion->format('Y-m-d');
+        }
+        
+        $k_baujahr->add( new DateInterval('P10Y') );
+        return $k_baujahr->format('Y-m-d') . '/01';
     }
 
     /**

@@ -125,7 +125,12 @@ class Standards_Config extends Config {
 		}
 
 
-		$XMLTemplateFilename = ucfirst( $xmlMode ) . ucwords( $mode ) . 'W.php';
+		if( $xmlMode == 'datenerfassung')
+		{
+			$XMLTemplateFilename = ucfirst( $xmlMode ) . '.php';
+		} else {
+			$XMLTemplateFilename = ucfirst( $xmlMode ) . ucwords( $mode ) . 'W.php';
+		}
 		$XMLTemplateFile     = $this->getStandardsPath( $schemaName ) . '/datenerfassung/templates/' . $XMLTemplateFilename;
 
 		return $XMLTemplateFile;

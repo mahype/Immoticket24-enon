@@ -1,5 +1,7 @@
 <?php
 
+if( ! defined( 'ABSPATH' ) ) exit;
+
 require dirname( dirname( __FILE__ ) ) . '/data/DataEnevVW.php';
 
 $data = new DataEnevVW( $energieausweis );
@@ -62,7 +64,7 @@ $data = new DataEnevVW( $energieausweis );
             <n1:Verbrauchte-Menge><?php echo $energietraeger->VerbrauchteMenge( $i ); ?></n1:Verbrauchte-Menge>
             <n1:Energieverbrauch><?php echo $energietraeger->Energieverbrauch( $i ); ?></n1:Energieverbrauch>
             <n1:Energieverbrauchsanteil-Warmwasser-zentral><?php echo $energietraeger->EnergieverbrauchsanteilWarmwasserZentral( $i ); ?></n1:Energieverbrauchsanteil-Warmwasser-zentral>
-            <n1:Warmwasserwertermittlung><?php echo $energietraeger->Warmwasserwertermittlung( $i ); ?></n1:Warmwasserwertermittlung>
+            <n1:Warmwasserwertermittlung><?php echo $energietraeger->Warmwasserwertermittlung(); ?></n1:Warmwasserwertermittlung>
             <n1:Energieverbrauchsanteil-Heizung><?php echo $energietraeger->EnergieverbrauchsanteilHeizung( $i ); ?></n1:Energieverbrauchsanteil-Heizung>
             <n1:Klimafaktor><?php echo $energietraeger->Klimafaktor( $i ); ?></n1:Klimafaktor>
           </n1:Zeitraum>
@@ -72,15 +74,15 @@ $data = new DataEnevVW( $energieausweis );
         <n1:Leerstandszuschlag-Heizung>
           <?php if( $data->LeerstandszuschlagHeizung() > 0 ): ?>
             <?php foreach( $data->ConsumptionPeriods() AS $consumptionperiod ): ?>
-            <?php if ( $consumptionperiod->Leerstandsfaktor() > 0 ): ?>
-            <n1:Leerstandszuschlag-nach-Bekanntmachung>
-              <n1:Leerstandsfaktor><?php echo $consumptionperiod->Leerstandsfaktor(); ?></n1:Leerstandsfaktor>
-              <n1:Startdatum><?php echo $consumptionperiod->Startdatum(); ?></n1:Startdatum>
-              <n1:Enddatum><?php echo $consumptionperiod->Enddatum(); ?></n1:Enddatum>
-              <n1:Leerstandszuschlag-kWh><?php echo $consumptionperiod->LeerstandszuschlagKwh(); ?></n1:Leerstandszuschlag-kWh>
-              <n1:Primaerenergiefaktor><?php echo $consumptionperiod->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
-            </n1:Leerstandszuschlag-nach-Bekanntmachung>
-            <?php endif; ?>
+              <?php if ( $consumptionperiod->Leerstandsfaktor() > 0 ): ?>
+              <n1:Leerstandszuschlag-nach-Bekanntmachung>
+                <n1:Leerstandsfaktor><?php echo $consumptionperiod->Leerstandsfaktor(); ?></n1:Leerstandsfaktor>
+                <n1:Startdatum><?php echo $consumptionperiod->Startdatum(); ?></n1:Startdatum>
+                <n1:Enddatum><?php echo $consumptionperiod->Enddatum(); ?></n1:Enddatum>
+                <n1:Leerstandszuschlag-kWh><?php echo $consumptionperiod->LeerstandszuschlagKwh(); ?></n1:Leerstandszuschlag-kWh>
+                <n1:Primaerenergiefaktor><?php echo $consumptionperiod->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
+              </n1:Leerstandszuschlag-nach-Bekanntmachung>
+              <?php endif; ?>
             <?php endforeach; ?>
             <n1:Zuschlagsfaktor><?php echo $data->Zuschlagsfaktor(); ?></n1:Zuschlagsfaktor>
             <n1:witterungsbereinigter-Endenergieverbrauchsanteil-fuer-Heizung><?php echo $data->LeerstandszuschlagHeizung(); ?></n1:witterungsbereinigter-Endenergieverbrauchsanteil-fuer-Heizung>
@@ -103,8 +105,6 @@ $data = new DataEnevVW( $energieausweis );
             </n1:Leerstandszuschlag-nach-Bekanntmachung>
             <?php endif; ?>
             <?php endforeach; ?>
-            <n1:Zuschlagsfaktor><?php echo $data->Zuschlagsfaktor(); ?></n1:Zuschlagsfaktor>
-            <n1:witterungsbereinigter-Endenergieverbrauchsanteil-fuer-Heizung><?php echo $data->LeerstandszuschlagHeizung(); ?></n1:witterungsbereinigter-Endenergieverbrauchsanteil-fuer-Heizung>
           <?php else: ?>
             
             <n1:kein-Leerstand>Kein längerer Leerstand Warmwasser zu berücksichtigen.</n1:kein-Leerstand>

@@ -1,5 +1,7 @@
 <?php
 
+if( ! defined( 'ABSPATH' ) ) exit;
+
 require dirname( dirname( __FILE__ ) ) . '/data/DataEnevBW.php';
 
 $data = new DataEnevBW( $energieausweis );
