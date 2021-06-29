@@ -355,12 +355,12 @@ class Energieausweis {
 		 * XML output with GEG 2020 
 		 */
 		$energieausweis = $this; // Data needed for Template
-		$xmlFile        = $standardsConfig->getEnevXMLTemplatefile( $this->mode, $mode );#
+		$xmlFile        = $standardsConfig->getEnevXMLTemplatefile( $this->mode, $mode );
 
 		ob_start();		
 		require $xmlFile;
 		$xml = ob_get_clean();
-		$xml = preg_replace('~\s*(<([^>]*)>[^<]*</\2>|<[^>]*>)\s*~','$1',$xml); // Removing empty spaces
+		// $xml = preg_replace('~\s*(<([^>]*)>[^<]*</\2>|<[^>]*>)\s*~','$1',$xml); // Removing empty spaces
 
 		switch ( $output_mode ) {
 			case 'S':
