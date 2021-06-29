@@ -328,6 +328,12 @@ class Energieausweis {
 		return $pdf->finalize( $output_mode );
 	}
 
+	public function getSchemaPath()
+	{
+		$standardsConfig = new Standards_Config();
+		return $standardsConfig->getStandardsPath();
+	}
+
 	public function getXML( $mode, $output_mode = 'I', $raw = false ) {
 		$standardsConfig = new Standards_Config();
 		$old_schemas = array_keys( $standardsConfig->getStandardsBefore( '2021-05-17' ) );
