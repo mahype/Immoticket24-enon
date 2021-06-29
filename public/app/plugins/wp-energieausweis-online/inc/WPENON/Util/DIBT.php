@@ -69,9 +69,11 @@ class DIBT {
 		if ( $energieausweis->isFinalized() && $energieausweis->isRegistered() ) {
 			if ( ! $energieausweis->isDataSent() ) {
 				$credentials = self::getCredentials();
+				
+				$doc = $energieausweis->getXML( 'zusatzdatenerfassung', 'S', true );
 
 				$response = self::request( 'ZusatzdatenErfassung', array(
-					'doc'           => $energieausweis->getXML( 'zusatzdatenerfassung', 'S', true ),
+					'doc'           => $doc,
 					'ausweisnummer' => $energieausweis->registriernummer,
 					'username'      => $credentials['user'],
 					'passwort'      => $credentials['password'],
