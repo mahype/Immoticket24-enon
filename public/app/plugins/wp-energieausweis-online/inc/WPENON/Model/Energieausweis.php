@@ -354,6 +354,7 @@ class Energieausweis {
 		ob_start();		
 		require $xmlFile;
 		$xml = ob_get_clean();
+		$xml = preg_replace('~\s*(<([^>]*)>[^<]*</\2>|<[^>]*>)\s*~','$1',$xml); // Removing empty spaces
 
 		switch ( $output_mode ) {
 			case 'S':
