@@ -158,7 +158,9 @@ class DIBT {
 	}
 
 	public static function processResponse( $response, $energieausweis_name ) {
-		$response = json_decode( json_encode( simplexml_load_string( $response ) ), true );
+		$response = json_decode( json_encode( $response ), true );
+		$response = $response['WEB_Service_Antwort'];
+
 		if ( is_array( $response ) && isset( $response['Rueckgabewert'] ) && is_array( $response['Rueckgabewert'] ) ) {
 			if ( isset( $response['Restkontingent'] ) ) {
 				set_transient( 'wpenon_restkontingent', absint( $response['Restkontingent'] ), HOUR_IN_SECONDS );
