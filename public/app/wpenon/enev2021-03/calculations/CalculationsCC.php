@@ -479,13 +479,13 @@ class CalculationsCC {
      */
     public function getConsumptionPeriods() : array
     {
-        $maxPeriods = 3;
-
         $timePerdiods = [];
-        for( $i = 0; $i < $maxPeriods; $i++ )
+        for( $i = 0; $i < 3; $i++ )
         {
-            $startDate       = $this->getConsumptionPeriodDate( $this->ec->verbrauch_zeitraum, $i, false, 'data' );
-	        $endDate         = $this->getConsumptionPeriodDate( $this->ec->verbrauch_zeitraum, $i, true, 'data' );
+            $startDate        = $this->getConsumptionPeriodDate( $this->ec->verbrauch_zeitraum, $i, false, 'data' );
+	        $endDate          = $this->getConsumptionPeriodDate( $this->ec->verbrauch_zeitraum, $i, true, 'data' );
+            $vacancyValueName = 'verbrauch' . ( $i + 1 ) . '_leerstand';
+            $vacancy          = $this->ec->$vacancyValueName;
 
             $timePerdiods[] = array(
                 'start' => $startDate,
@@ -495,6 +495,43 @@ class CalculationsCC {
         }
         
         return $timePerdiods;
+    }
+
+    /**
+     * Vacancies
+     * 
+     * @return array
+     * 
+     * @since 1.0.0 
+     */
+    public function getVacancies()
+    {
+        $vacancies = [];
+        for( $i = 0; $i < 3; $i++ )
+        {
+            $vacancyValueName = 'verbrauch' . ( $i + 1 ) . '_leerstand';
+            $vacancies[]      = $this->ec->$vacancyValueName;
+        }       
+
+        return $vacancies;
+    }
+
+    /**
+     * Vacancy average of the years
+     * 
+     * @return float
+     * 
+     * @since 1.0.0 
+     */
+    public function getVacancyAverage() : float
+    {
+        $vacancySum = 0;
+        foreach( $this->getVacancies() AS $vacancy )
+        {
+            $vacancySum += $vacancy;
+        }
+
+        return $vacancySum / 3;
     }
 
     /**
