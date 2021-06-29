@@ -13,8 +13,7 @@ if( defined( 'WPENON_DEBUG' ) )
 
 $art = $energieausweis->mode == 'b' ? 'Energiebedarfsausweis' : 'Energieverbrauchsausweis';
 
-?><?xml version='1.0' encoding='UTF-8'?>
-<root>
+?><root xmlns="https://energieausweis.dibt.de/schema/SchemaDatenErfassung.xsd">
     <Authentifizierung>
         <Aussteller_ID_DIBT><?php echo $id; ?></Aussteller_ID_DIBT>
         <Aussteller_PWD_DIBT><?php echo $pass; ?></Aussteller_PWD_DIBT>
