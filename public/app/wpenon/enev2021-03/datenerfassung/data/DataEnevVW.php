@@ -226,7 +226,19 @@ class DataEnevVW extends DataEnev {
      */
     public function LeerstandszuschlagHeizung()
     {
-        return $this->calculations()->getBuilding()->getHeaters()->getVacancySurcharge();
+        return round( $this->calculations()->getBuilding()->getHeaters()->getVacancySurcharge(), 0 );
+    }
+
+     /**
+     * Leerstandsfaktor
+     * 
+     * @return float
+     * 
+     * @since 1.0.0
+     */
+    public function Leerstandsfaktor()
+    {
+       return round( $this->calculations()->getVacancyAverage() / 100, 2 );
     }
 
     /**
@@ -238,7 +250,7 @@ class DataEnevVW extends DataEnev {
      */
     public function LeerstandszuschlagWarmWasser()
     {
-        return $this->calculations()->getBuilding()->getHotWaterHeaters()->getVacancySurcharge();
+        return round( $this->calculations()->getBuilding()->getHotWaterHeaters()->getVacancySurcharge(),0 );
     }
 
     /**
@@ -257,7 +269,19 @@ class DataEnevVW extends DataEnev {
             $zuschlagsfaktor += $heater->getVacancySurchargeMultiplicator();
         }
 
-        return $zuschlagsfaktor / $this->calculations()->getBuilding()->getHeaters()->count();
+        return round ( $zuschlagsfaktor / $this->calculations()->getBuilding()->getHeaters()->count(), 2 );
+    }
+
+    /**
+     * Primaerenergiefaktor
+     * 
+     * @return float
+     * 
+     * @since 1.0.0
+     */
+    public function Primaerenergiefaktor()
+    {
+        return $this->calculations()->getBuilding()->getHeaters()->getHeaterByHighestEnergyValue()->getEnergySource()->getPrimaryEnergyFactor();
     }
 
     /**     

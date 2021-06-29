@@ -42,7 +42,7 @@ class ConsumptionPeriod {
             $leerstandsfaktor = $heater->getVacancyMultiplicatorOfPeriod( $this->period );
         }
 
-        return $leerstandsfaktor / $this->heaters->count();
+        return round( $leerstandsfaktor / $this->heaters->count(), 2 );
     }
 
     public function LeerstandsfaktorWW()

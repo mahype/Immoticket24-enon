@@ -72,17 +72,13 @@ $data = new DataEnevVW( $energieausweis );
         <?php endforeach; ?>
         <n1:Leerstandszuschlag-Heizung>
           <?php if( $data->LeerstandszuschlagHeizung() > 0 ): ?>
-            <?php foreach( $data->ConsumptionPeriods() AS $consumptionperiod ): ?>
-              <?php if ( $consumptionperiod->Leerstandsfaktor() > 0 ): ?>
               <n1:Leerstandszuschlag-nach-Bekanntmachung>
-                <n1:Leerstandsfaktor><?php echo $consumptionperiod->Leerstandsfaktor(); ?></n1:Leerstandsfaktor>
-                <n1:Startdatum><?php echo $consumptionperiod->Startdatum(); ?></n1:Startdatum>
-                <n1:Enddatum><?php echo $consumptionperiod->Enddatum(); ?></n1:Enddatum>
-                <n1:Leerstandszuschlag-kWh><?php echo $consumptionperiod->LeerstandszuschlagKwh(); ?></n1:Leerstandszuschlag-kWh>
-                <n1:Primaerenergiefaktor><?php echo $consumptionperiod->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
+                <n1:Leerstandsfaktor><?php echo $data->Leerstandsfaktor(); ?></n1:Leerstandsfaktor>
+                <n1:Startdatum><?php echo $data->Startdatum(); ?></n1:Startdatum>
+                <n1:Enddatum><?php echo $data->Enddatum(); ?></n1:Enddatum>
+                <n1:Leerstandszuschlag-kWh><?php echo $data->LeerstandszuschlagHeizung(); ?></n1:Leerstandszuschlag-kWh>
+                <n1:Primaerenergiefaktor><?php echo $data->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
               </n1:Leerstandszuschlag-nach-Bekanntmachung>
-              <?php endif; ?>
-            <?php endforeach; ?>
             <n1:Zuschlagsfaktor><?php echo $data->Zuschlagsfaktor(); ?></n1:Zuschlagsfaktor>
             <n1:witterungsbereinigter-Endenergieverbrauchsanteil-fuer-Heizung><?php echo $data->LeerstandszuschlagHeizung(); ?></n1:witterungsbereinigter-Endenergieverbrauchsanteil-fuer-Heizung>
           <?php else: ?>
@@ -93,17 +89,13 @@ $data = new DataEnevVW( $energieausweis );
         <n1:Leerstandszuschlag-Warmwasser>
           <n1:keine-Nutzung-von-WW>false</n1:keine-Nutzung-von-WW>
          <?php if( $data->LeerstandszuschlagWarmWasser() > 0 ): ?>
-            <?php foreach( $data->ConsumptionPeriods() AS $consumptionperiod ): ?>
-            <?php if ( $consumptionperiod->LeerstandsfaktorWW() > 0 ): ?>
-            <n1:Leerstandszuschlag-nach-Bekanntmachung>
-              <n1:Leerstandsfaktor><?php echo $consumptionperiod->LeerstandsfaktorWW(); ?></n1:Leerstandsfaktor>
-              <n1:Startdatum><?php echo $consumptionperiod->Startdatum(); ?></n1:Startdatum>
-              <n1:Enddatum><?php echo $consumptionperiod->Enddatum(); ?></n1:Enddatum>
-              <n1:Leerstandszuschlag-kWh><?php echo $consumptionperiod->LeerstandszuschlagWWKwh(); ?></n1:Leerstandszuschlag-kWh>
-              <n1:Primaerenergiefaktor><?php echo $consumptionperiod->PrimaerenergiefaktorWW(); ?></n1:Primaerenergiefaktor>
-            </n1:Leerstandszuschlag-nach-Bekanntmachung>
-            <?php endif; ?>
-            <?php endforeach; ?>
+          <n1:Leerstandszuschlag-nach-Bekanntmachung>
+                <n1:Leerstandsfaktor><?php echo $data->Leerstandsfaktor(); ?></n1:Leerstandsfaktor>
+                <n1:Startdatum><?php echo $data->Startdatum(); ?></n1:Startdatum>
+                <n1:Enddatum><?php echo $data->Enddatum(); ?></n1:Enddatum>
+                <n1:Leerstandszuschlag-kWh><?php echo $data->LeerstandszuschlagWarmWasser(); ?></n1:Leerstandszuschlag-kWh>
+                <n1:Primaerenergiefaktor><?php echo $data->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
+          </n1:Leerstandszuschlag-nach-Bekanntmachung>
           <?php else: ?>
             
             <n1:kein-Leerstand>Kein längerer Leerstand Warmwasser zu berücksichtigen.</n1:kein-Leerstand>
