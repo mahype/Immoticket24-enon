@@ -1,6 +1,6 @@
 <?php
 
-require dirname( dirname( dirname( __FILE__ ) ) ) . '/calculations/CalculationsCC.php';
+require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/calculations/CalculationsCC.php';
 
 require dirname( __FILE__ ) . '/DataEnev.php';
 require dirname( __FILE__ ) . '/ConsumptionPeriod.php';
