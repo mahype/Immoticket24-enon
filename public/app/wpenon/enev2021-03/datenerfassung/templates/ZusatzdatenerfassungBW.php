@@ -6,8 +6,7 @@ require dirname( dirname( __FILE__ ) ) . '/data/DataEnevBW.php';
 
 $data = new DataEnevBW( $energieausweis );
 
-?><?xml version="1.0" encoding="UTF-8"?>
-<n1:GEG-Energieausweis xmlns:n1="https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd">
+?><n1:GEG-Energieausweis xmlns:n1="https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd">
   <n1:Energieausweis-Daten Gesetzesgrundlage="GEG-2020" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2020-08-08">
     <n1:Registriernummer><?php echo $data->Registriernummer(); ?></n1:Registriernummer>
     <n1:Ausstellungsdatum><?php echo $data->Ausstellungsdatum(); ?></n1:Ausstellungsdatum>
