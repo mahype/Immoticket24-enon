@@ -146,8 +146,11 @@ class DIBT {
 		$response = $request->getResponse();
 
 		if ( $response !== null ) {
+			self::log( sprintf("Response:\r\n%s",  var_export( $args, true ) ), true );
 			return $response;
 		}
+
+		self::log( sprintf("Response: failed\r\n %s",  var_export( $request, true ) ), true );
 
 		return false;
 	}
