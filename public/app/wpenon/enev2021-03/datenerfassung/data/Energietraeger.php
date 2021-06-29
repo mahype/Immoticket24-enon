@@ -119,7 +119,7 @@ class Energietraeger {
 
     public function VerbrauchteMenge( int $period ) 
     {
-        return $this->heater->getEnergyConsumptionOfPeriod( $period );
+        return round( $this->heater->getEnergyConsumptionOfPeriod( $period ), 0 );
     }
 
     public function Energieverbrauch( int $period ) 
@@ -143,7 +143,7 @@ class Energietraeger {
     {
         if( $this->hotWater == 'heater' )
         {
-            return $this->hotWaterHeaters->getEnergyConsumptionOfPeriod( $period );
+            return round( $this->hotWaterHeaters->getEnergyConsumptionOfPeriod( $period ), 0 );
         }
 
         return 0;
@@ -151,7 +151,7 @@ class Energietraeger {
 
     public function EnergieverbrauchsanteilHeizung( $period )
     {
-        return $this->heater->getEnergyConsumptionOfPeriod( $period );
+        return round( $this->heater->getEnergyConsumptionOfPeriod( $period ), 0 );
     }
 
     public function Klimafaktor( int $period )
