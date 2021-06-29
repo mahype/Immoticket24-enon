@@ -47,9 +47,9 @@ $data = new DataEnevBW( $energieausweis );
       <n1:Anzahl-Wohneinheiten><?php echo $data->AnzahlWohneinheiten(); ?></n1:Anzahl-Wohneinheiten>
       <n1:Gebaeudenutzflaeche><?php echo $data->Gebaeudenutzflaeche(); ?></n1:Gebaeudenutzflaeche>
       <n1:Bedarfswerte-4108-4701>
-        <n1:Wohngebaeude-Anbaugrad><?php $data->WohngebaeudeAnbaugrad();?></n1:Wohngebaeude-Anbaugrad>
-        <n1:Bruttovolumen><?php $data->Bruttovolumen();?></n1:Bruttovolumen>
-        <n1:durchschnittliche-Geschosshoehe><?php $data->DurchschnittlicheGeschosshoehe();?></n1:durchschnittliche-Geschosshoehe>
+        <n1:Wohngebaeude-Anbaugrad><?php echo $data->WohngebaeudeAnbaugrad();?></n1:Wohngebaeude-Anbaugrad>
+        <n1:Bruttovolumen><?php echo$data->Bruttovolumen();?></n1:Bruttovolumen>
+        <n1:durchschnittliche-Geschosshoehe><?php echo $data->DurchschnittlicheGeschosshoehe();?></n1:durchschnittliche-Geschosshoehe>
         <?php foreach( $data->BauteileOpak() AS $bauteil ): ?>
         <n1:Bauteil-Opak>
           <n1:Flaechenbezeichnung><?php echo $bauteil->Flaechenbezeichnung(); ?></n1:Flaechenbezeichnung>
@@ -94,7 +94,7 @@ $data = new DataEnevBW( $energieausweis );
           <n1:Waermeerzeuger-Baujahr><?php echo $heizungsanlage->WaermeerzeugerBaujahr(); ?></n1:Waermeerzeuger-Baujahr>
           <n1:Anzahl-baugleiche><?php echo $heizungsanlage->AnzahlBaugleiche(); ?></n1:Anzahl-baugleiche>
           <n1:Energietraeger><?php echo $heizungsanlage->Energietraeger(); ?></n1:Energietraeger>
-          <n1:Primaerenergiefaktor><?php echo $heizungsanlage->WaermeerzeugerBauweise4701(); ?></n1:Primaerenergiefaktor>
+          <n1:Primaerenergiefaktor><?php echo $heizungsanlage->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
           <n1:Emissionsfaktor><?php echo $heizungsanlage->Emissionsfaktor(); ?></n1:Emissionsfaktor>
         </n1:Heizungsanlage>
         <?php endforeach; ?>
@@ -116,7 +116,8 @@ $data = new DataEnevBW( $energieausweis );
         <n1:Quartiersregelung>false</n1:Quartiersregelung>
         <n1:Primaerenergiebedarf-Hoechstwert-Bestand><?php echo $data->PrimaerenergiebedarfHoechstwertBestand(); ?></n1:Primaerenergiebedarf-Hoechstwert-Bestand>
         <n1:Endenergiebedarf-Hoechstwert-Bestand><?php echo $data->EndenergiebedarfHoechstwertBestand(); ?></n1:Endenergiebedarf-Hoechstwert-Bestand>
-        <n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php echo $data->TreibhausgasemissionenHoechstwertBestand(); ?></n1:Treibhausgasemissionen-Hoechstwert-Bestand>      
+        <n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php echo $data->TreibhausgasemissionenHoechstwertBestand(); ?></n1:Treibhausgasemissionen-Hoechstwert-Bestand>
+         
         <n1:Endenergiebedarf-Waerme-AN><?php echo $data->EndenergiebedarfWaermeAN(); ?></n1:Endenergiebedarf-Waerme-AN>
         <n1:Endenergiebedarf-Hilfsenergie-AN><?php echo $data->EndenergiebedarfHilfsenergieAN(); ?></n1:Endenergiebedarf-Hilfsenergie-AN>
         <n1:Endenergiebedarf-Gesamt><?php echo $data->EndenergiebedarfGesamt(); ?></n1:Endenergiebedarf-Gesamt>

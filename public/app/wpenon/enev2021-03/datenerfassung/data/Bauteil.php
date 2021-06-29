@@ -22,7 +22,7 @@ class Bauteil {
 
     public function Flaeche()
     {
-        return round( $this->data['a'], 3 );
+        return round( $this->data['a'], 0 );
     }
 
     public function Uwert()
@@ -34,8 +34,9 @@ class Bauteil {
     {
         if( ! isset( $this->data['richtung'] ) )
         {
-            return false;
+            return 'HOR';
         }
+
         return strtoupper( $this->data['richtung'] );
     }
 

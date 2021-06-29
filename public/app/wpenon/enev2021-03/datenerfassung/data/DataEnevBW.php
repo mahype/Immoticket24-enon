@@ -51,7 +51,7 @@ class DataEnevBW extends DataEnev {
      */
     public function Gebaeudenutzflaeche()
     {
-        return round( $this->calculations( 'nutzflaeche' ), 2 );
+        return round( $this->calculations( 'nutzflaeche' ), 0 );
     }
 
     /**

@@ -127,6 +127,6 @@ class Heizungsanlage {
 
     public function Emissionsfaktor()
     {
-        return (float) $this->data['energietraeger_co2']; // Neu
+        return $this->data['energietraeger_co2'] * 1000; // Neu
     }
 }
