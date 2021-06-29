@@ -22,7 +22,7 @@ class DIBTSoapRequest
         if (WPENON_DEBUG) {
             $slug = 'sandbox';
         }
-        $this->api_url = 'https://energieausweis.dibt.de/'.$slug.'/WebServiceEnergieausweis/DibtEnergieAusweisService.asmx';
+        $this->api_url = 'https://energieausweis.dibt.de/'.$slug.'/WebServiceEnergieausweis/DibtEnergieAusweisServiceEx03.wsdl';
 
         $actions = $this->getValidActions();
         if (isset($actions[$action])) {
