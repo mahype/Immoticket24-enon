@@ -79,7 +79,7 @@ class CustomerMeta {
 		return true;
 	}
 
-	public function deleteCustomerMeta( $customer_id, $confirm = true, $remove_data = false ) {
+	public static function deleteCustomerMeta( $customer_id, $confirm = true, $remove_data = false ) {
 		foreach ( self::_getFields() as $field => $title ) {
 			self::delete( $customer_id, $field );
 		}
@@ -87,7 +87,7 @@ class CustomerMeta {
 		return true;
 	}
 
-	public function getCustomerMeta( $customer_id ) {
+	public static function getCustomerMeta( $customer_id ) {
 		$meta = array();
 
 		foreach ( self::_getFields() as $field => $title ) {
