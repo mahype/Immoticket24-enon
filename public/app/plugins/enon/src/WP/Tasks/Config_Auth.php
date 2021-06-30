@@ -36,7 +36,13 @@ class Config_Auth implements Filters, Task {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-        add_filter( 'auth_cookie_expiration', [ $this, 'set_auth_cookie_expiration' ] );
+		$no_cookie_timout_domains = [ 'enon.test', 'staging.energieausweis-online-erstellen.de', '2021.energieausweis-online-erstellen.de' ];
+		$current_domain           = $_SERVER['SERVER_NAME'];
+
+		if( ! in_array( $current_domain, $no_cookie_timout_domains ) )
+		{
+			add_filter( 'auth_cookie_expiration', [ $this, 'set_auth_cookie_expiration' ] );
+		}        
 	}
 
 	/**

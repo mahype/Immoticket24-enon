@@ -252,8 +252,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 						$this->Rect( 161.5, 53.8, 41, 49.2, 'F' );
 						$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-energieausweiss-image' ), 161.2, 53.3, 41.8, 50.4 );
 						$this->SetPageFillColor( 'background' );
-					}
-					
+					}					
 					
 					if ( substr( $this->wpenon_type, 0, 1 ) == 'b' ) {
 						$this->CheckBox( 9.8, 185.0 );
@@ -265,9 +264,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 						$this->CheckBox( 123.7, 206.1 );
 					} else {
 						$this->CheckBox( 78.8, 206.1 );
-					}
-					
-					
+					}										
 
 					if ( $this->GetData( 'zusatzinformationen_beigefuegt' ) ) {
 						$this->CheckBox( 10.0, 211.9 );
@@ -541,7 +538,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 		}
 
 		if ( $this->wpenon_preview ) {
-			$this->DrawPreviewText();
+			// $this->DrawPreviewText();
 		}
 	}
 

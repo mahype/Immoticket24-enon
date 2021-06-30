@@ -8,6 +8,7 @@
 namespace WPENON\Model;
 
 use DateTime;
+use Enon\Enon\Standards_Config;
 
 class Energieausweis {
 	/**
@@ -67,6 +68,13 @@ class Energieausweis {
 	public $schema = null;
 
 	/**
+	 * Schema name
+	 * 
+	 * @var string
+	 */
+	public $schema_name;
+
+	/**
 	 * Calculation data.
 	 *
 	 * @var array
@@ -95,12 +103,12 @@ class Energieausweis {
 		 * Switching to new GEG if needed
 		 */
 		$date = new DateTime( date('Y-m-d' ) );
-		$dateSwitch = new DateTime('2021-05-13');
-		$schema = get_post_meta( $this->id, 'wpenon_standard', true );
+		$dateSwitch = new DateTime('2021-06-30');
+		$this->schema_name = get_post_meta( $this->id, 'wpenon_standard', true );
 
-		if( $date >= $dateSwitch && $schema !== 'enev2021-02' && ! $this->isOrdered() ) {
+		if( $date >= $dateSwitch && $this->schema_name !== 'enev2021-03' && ! $this->isOrdered() ) {
 			update_post_meta( $this->id, '_finalized', false );
-			update_post_meta( $this->id, 'wpenon_standard', 'enev2021-02' );
+			update_post_meta( $this->id, 'wpenon_standard', 'enev2021-03' );
 		}
 
 		$this->_loadSchema();
@@ -320,16 +328,55 @@ class Energieausweis {
 		return $pdf->finalize( $output_mode );
 	}
 
+	public function getSchemaPath()
+	{
+		$standardsConfig = new Standards_Config();
+		return $standardsConfig->getStandardsPath();
+	}
+
 	public function getXML( $mode, $output_mode = 'I', $raw = false ) {
-		$xml = new \WPENON\Model\EnergieausweisXML( $mode, sprintf( __( 'Energieausweis-%1$s-%2$s', 'wpenon' ), $this->post->post_title, ucfirst( $mode ) ), $this->type, $this->standard );
-		if ( $this->isFinalized() ) {
-			$this->calculate();
-			$xml->create( $this, $raw );
-		} else {
-			$xml->create( null, $raw );
+		$standardsConfig = new Standards_Config();
+		$old_schemas = array_keys( $standardsConfig->getStandardsBefore( '2021-05-17' ) );
+
+		/** XML until Enev GEG update */
+		if( in_array( $this->schema_name, $old_schemas ) ) {
+			$xml = new \WPENON\Model\EnergieausweisXML( $mode, sprintf( __( 'Energieausweis-%1$s-%2$s', 'wpenon' ), $this->post->post_title, ucfirst( $mode ) ), $this->type, $this->standard );
+			if ( $this->isFinalized() ) {
+				$this->calculate();
+				$xml->create( $this, $raw );
+			} else {
+				$xml->create( null, $raw );
+			}
+
+			return $xml->finalize( $output_mode );
 		}
 
-		return $xml->finalize( $output_mode );
+		/** 
+		 * XML output with GEG 2020 
+		 */
+		$energieausweis = $this; // Data needed for Template
+		$xmlFile        = $standardsConfig->getEnevXMLTemplatefile( $this->mode, $mode );
+
+		ob_start();		
+		require $xmlFile;
+		$xml = ob_get_clean();
+		// $xml = preg_replace('~\s*(<([^>]*)>[^<]*</\2>|<[^>]*>)\s*~','$1',$xml); // Removing empty spaces
+
+		switch ( $output_mode ) {
+			case 'S':
+				return $xml;
+			case 'D':
+			case 'I':
+			default:
+				$disposition = 'inline';
+				if ( $output_mode == 'D' ) {
+					$disposition = 'attachment';
+				}
+				header( 'Content-Type: text/xml; charset=utf-8' );
+				header( 'Content-Disposition: ' . $disposition . '; filename="' . $this->title . '.xml"' );
+				echo $xml;
+				exit;
+		}		
 	}
 
 	public function getFieldOptionLabels( $field_slug ) {
