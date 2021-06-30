@@ -1894,13 +1894,21 @@ foreach ( $calculations['anlagendaten'] as $slug => $data ) {
     default:
       continue 2;
   }
+  $energietraeger_slug = $data['energietraeger_slug'];
+  $energietraeger = $data['energietraeger'];
   $deckungsanteil = $data['deckungsanteil'] * 0.01;
   $aufwandszahl = isset( $data['aufwandszahl'] ) ? $data['aufwandszahl'] : 1.0;
   $primaerfaktor = isset( $data['energietraeger_primaer'] ) ? $data['energietraeger_primaer'] : 1.0;
   $co2faktor = isset( $data['energietraeger_co2'] ) ? $data['energietraeger_co2'] : 0.0;
   $result = $calculations[ $aslug ] * $deckungsanteil * $aufwandszahl;
+  $calculations['energietraeger'][ $energietraeger_slug ]['name'] = $energietraeger;
+  $calculations['energietraeger'][ $energietraeger_slug ]['q_e_b'] += $result;
+  $calculations['energietraeger'][ $energietraeger_slug ][ $eslug ] += $result;
   $calculations[ $eslug ] += $result;
+  $calculations['energietraeger'][ $energietraeger_slug ]['primaerfaktor'] = $primaerfaktor;
+  $calculations['energietraeger'][ $energietraeger_slug ]['primaerenergie'] += $result * $primaerfaktor;
   $calculations[ $pslug ] += $result * $primaerfaktor;
+  $calculations['energietraeger'][ $energietraeger_slug ]['co2'] += $result * $co2faktor;
   $calculations[ $cslug ] += $result * $co2faktor;
 }
 unset( $data );
