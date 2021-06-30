@@ -239,7 +239,7 @@ class CalculationsCC {
                 break;
         }
 
-        switch( $this->ec->regenerativ_nutzung ) {
+        switch( $this->ec->regenerativ_nutzung && $this->ec->regenerativ_art !== 'keine' ) {
             case 'warmwasser':
                 $solarHeater = new SolarHeater( false, true );
                 $this->building->setSolarHeater( $solarHeater );
