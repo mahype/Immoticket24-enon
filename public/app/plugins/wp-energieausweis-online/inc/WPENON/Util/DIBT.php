@@ -7,6 +7,9 @@
 
 namespace WPENON\Util;
 
+use DOMDocument;
+use Enon\Enon\Standards_Config;
+
 class DIBT {
 	public static function assignRegistryID( $energieausweis ) {
 		self::log( sprintf( 'Energieausweis #%s: Trying assigning registration.', $energieausweis->id ) );
@@ -71,6 +74,31 @@ class DIBT {
 				$credentials = self::getCredentials();
 				
 				$doc = $energieausweis->getXML( 'zusatzdatenerfassung', 'S', true );
+
+				libxml_use_internal_errors(true);
+				$standard = new Standards_Config();				
+				$xsdFile = $standard->getStandardsPath() . '/datenerfassung/xsd/zusatzdatenerfassung.xsd';
+
+				$domDoc = new DOMDocument();
+				$domDoc->loadXML( $doc );
+
+				if( ! $domDoc->schemaValidate( $xsdFile ) ) {
+					$url = get_edit_post_link( $energieausweis->id );
+
+					$errorMailContent = sprintf( "<h1>Energieausweis %s</h1>", $energieausweis->post_title );
+					$errorMailContent.= sprintf( "<a href=\"%s\">%s</a>", $url, $url );
+
+					foreach( libxml_get_errors() AS $key => $error ) 
+					{
+						$errorMailContent.= '<div style="margin-top:20px">';
+						$errorMailContent.= sprintf( "<b>Fehler %d:</b> %s", $key + 1, $error->message );
+						$errorMailContent.= sprintf( "<br />On line %d column %d", $error->line, $error->column );
+						$errorMailContent.= '</div>';
+					}
+
+					wp_mail( 'sven@awesome.ug', 'XML Validierungsfehler', $errorMailContent );
+					return false;
+				}
 
 				$response = self::request( 'ZusatzdatenErfassung', array(
 					'doc'           => $doc,
