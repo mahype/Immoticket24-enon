@@ -14,7 +14,37 @@ class EndenergieEnergietraeger {
     }
 
     public function Energietraegerbezeichnung(){
-        return $this->data['name'];
+        switch( $this->data['slug'] )
+        {
+            case 'heizoel':
+                return 'Heizöl';
+            case 'erdgas':
+                return 'Erdgas';            
+            case 'biooel':
+                return 'Bioöl';
+            case 'biogas':
+                return 'Biogas';
+            case 'fluessiggas':
+                return 'Flüssiggas';
+            case 'steinkohle':
+                return 'Steinkohle';
+            case 'braunkohle':
+                return 'Braunkohle';
+            case 'stueckholz':
+                return 'Holz';
+            case 'holzpellets': // ?
+                return 'Holz';
+            case 'strom':
+                return 'Strom netzbezogen';
+            case 'fernwaermehzwfossil':
+                return 'Nah-/Fernwärme aus Heizwerken, fossiler Brennstoff (Stein-/Braunkohle) bzw. Energieträger';
+            case 'fernwaermehzwregenerativ':
+                return 'Nah-/Fernwärme aus Heizwerken, erneuerbarer Brennstoff bzw. Energieträger';
+            case 'fernwaermekwkfossil':
+                return 'Nah-/Fernwärme aus KWK, fossiler Brennstoff (Stein-/Braunkohle) bzw. Energieträger';
+            case 'fernwaermekwkregenerativ':
+                return 'Nah-/Fernwärme aus KWK, erneuerbarer Brennstoff bzw. Energieträger in kWh';
+        }
     }
 
     public function Primaerenergiefaktor(){
