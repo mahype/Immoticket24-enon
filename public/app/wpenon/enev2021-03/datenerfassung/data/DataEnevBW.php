@@ -3,6 +3,7 @@
 require dirname( __FILE__ ) . '/DataEnev.php';
 require dirname( __FILE__ ) . '/Bauteil.php';
 require dirname( __FILE__ ) . '/BauteilTransparent.php';
+require dirname( __FILE__ ) . '/EndenergieEnergietraeger.php';
 require dirname( __FILE__ ) . '/Heizungsanlage.php';
 require dirname( __FILE__ ) . '/Trinkwasseranlage.php';
 require dirname( __FILE__ ) . '/Moderniserungsempfehlung.php';
@@ -497,6 +498,24 @@ class DataEnevBW extends DataEnev {
     public function TreibhausgasemissionenHoechstwertBestand()
     {
         return 0; // Neu - Float
+    }
+
+    /**
+     * Endenergie-Energietraeger
+     * 
+     * @return EndenergieEnergietraeger[]
+     * 
+     * @since 1.0.0
+     */
+    public function EndenergieEnergietraeger()
+    {
+        $daten = [];
+        foreach( $this->calculations('energietraeger') AS $energietraeger )
+        {
+            $daten[] = new EndenergieEnergietraeger( $energietraeger );
+        }
+
+        return $daten;
     }
 
     /**
