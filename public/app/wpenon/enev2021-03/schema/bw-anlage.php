@@ -300,7 +300,7 @@ $anlage = array(
 				'h_typenschild'                                     => array(
 					'type'                  => 'image',
 					'label'                 => __( 'Foto des Typenschilds der Heizungsanlage', 'wpenon' ),
-					'required'              => false,
+					'required'              => true,
 					'filetypes' => array(
 						'image/png',
 						'image/jpeg'
@@ -1237,7 +1237,7 @@ $anlage = array(
 				'k_typenschild'                                     => array(
 					'type'                  => 'image',
 					'label'                 => __( 'Foto des Typenschilds der Klimaanlage', 'wpenon' ),
-					'required'              => false,
+					'required'              => true,
 					'filetypes' => array(
 						'image/png',
 						'image/jpeg'
