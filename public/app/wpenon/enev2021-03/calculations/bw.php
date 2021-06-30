@@ -1902,6 +1902,7 @@ foreach ( $calculations['anlagendaten'] as $slug => $data ) {
   $co2faktor = isset( $data['energietraeger_co2'] ) ? $data['energietraeger_co2'] : 0.0;
   $result = $calculations[ $aslug ] * $deckungsanteil * $aufwandszahl;
   $calculations['energietraeger'][ $energietraeger_slug ]['name'] = $energietraeger;
+  $calculations['energietraeger'][ $energietraeger_slug ]['slug'] = $energietraeger_slug;
   $calculations['energietraeger'][ $energietraeger_slug ]['q_e_b'] += $result;
   $calculations['energietraeger'][ $energietraeger_slug ][ $eslug ] += $result;
   $calculations[ $eslug ] += $result;
