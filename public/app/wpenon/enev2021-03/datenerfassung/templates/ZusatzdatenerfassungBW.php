@@ -117,26 +117,18 @@ $data = new DataEnevBW( $energieausweis );
         <n1:Primaerenergiebedarf-Hoechstwert-Bestand><?php echo $data->PrimaerenergiebedarfHoechstwertBestand(); ?></n1:Primaerenergiebedarf-Hoechstwert-Bestand>
         <n1:Endenergiebedarf-Hoechstwert-Bestand><?php echo $data->EndenergiebedarfHoechstwertBestand(); ?></n1:Endenergiebedarf-Hoechstwert-Bestand>
         <n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php echo $data->TreibhausgasemissionenHoechstwertBestand(); ?></n1:Treibhausgasemissionen-Hoechstwert-Bestand>
+        <?php foreach( $data->EndenergieEnergietraeger() AS $energietraeger ): ?>
         <n1:Energietraeger-Liste>
-          <n1:Energietraegerbezeichnung>Biogas</n1:Energietraegerbezeichnung>
-          <n1:Primaerenergiefaktor>1.2</n1:Primaerenergiefaktor>
-          <n1:Endenergiebedarf-Heizung-spezifisch>20</n1:Endenergiebedarf-Heizung-spezifisch>
-          <n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>10</n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>
-          <n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>0</n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>
-          <n1:Endenergiebedarf-Beleuchtung-spezifisch>5</n1:Endenergiebedarf-Beleuchtung-spezifisch>
-          <n1:Endenergiebedarf-Lueftung-spezifisch>6</n1:Endenergiebedarf-Lueftung-spezifisch>
-          <n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>50</n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>
+          <n1:Energietraegerbezeichnung><?php echo $energietraeger->Energietraegerbezeichnung(); ?></n1:Energietraegerbezeichnung>
+          <n1:Primaerenergiefaktor><?php echo $energietraeger->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
+          <n1:Endenergiebedarf-Heizung-spezifisch><?php echo $energietraeger->EndenergiebedarfHeizungspezifisch(); ?></n1:Endenergiebedarf-Heizung-spezifisch>
+          <n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch><?php echo $energietraeger->EndenergiebedarfKuehlungBefeuchtungspezifisch(); ?></n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>
+          <n1:Endenergiebedarf-Trinkwarmwasser-spezifisch><?php echo $energietraeger->EndenergiebedarfTrinkwarmwasserspezifisch(); ?></n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>
+          <n1:Endenergiebedarf-Beleuchtung-spezifisch><?php echo $energietraeger->EndenergiebedarfBeleuchtungspezifisch(); ?></n1:Endenergiebedarf-Beleuchtung-spezifisch>
+          <n1:Endenergiebedarf-Lueftung-spezifisch><?php echo $energietraeger->EndenergiebedarfLueftungspezifisch(); ?></n1:Endenergiebedarf-Lueftung-spezifisch>
+          <n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch><?php echo $energietraeger->EndenergiebedarfEnergietraegerGesamtgebaeudespezifisch(); ?></n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>
         </n1:Energietraeger-Liste>
-        <n1:Energietraeger-Liste>
-          <n1:Energietraegerbezeichnung>Biogas</n1:Energietraegerbezeichnung>
-          <n1:Primaerenergiefaktor>1.2</n1:Primaerenergiefaktor>
-          <n1:Endenergiebedarf-Heizung-spezifisch>20</n1:Endenergiebedarf-Heizung-spezifisch>
-          <n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>10</n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>
-          <n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>0</n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>
-          <n1:Endenergiebedarf-Beleuchtung-spezifisch>5</n1:Endenergiebedarf-Beleuchtung-spezifisch>
-          <n1:Endenergiebedarf-Lueftung-spezifisch>6</n1:Endenergiebedarf-Lueftung-spezifisch>
-          <n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>50</n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>
-        </n1:Energietraeger-Liste>
+        <?php endforeach; ?>
         <n1:Endenergiebedarf-Waerme-AN><?php echo $data->EndenergiebedarfWaermeAN(); ?></n1:Endenergiebedarf-Waerme-AN>
         <n1:Endenergiebedarf-Hilfsenergie-AN><?php echo $data->EndenergiebedarfHilfsenergieAN(); ?></n1:Endenergiebedarf-Hilfsenergie-AN>
         <n1:Endenergiebedarf-Gesamt><?php echo $data->EndenergiebedarfGesamt(); ?></n1:Endenergiebedarf-Gesamt>
