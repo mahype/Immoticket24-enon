@@ -12,6 +12,8 @@ class Heizungsanlage {
     {
         switch ( $this->data['slug'] )
         {
+            case 'direktheizgeraet':
+                return 'Dezentrales elektrisches Direktheizgerät';
             case 'standardkessel':
                 return $this->data['baujahr'] >=  1995 ? 'Standard-Heizkessel (ab 1995)': 'Standard-Heizkessel als Gas-Spezial-Heizkessel';
             case 'niedertemperaturkessel':
@@ -36,13 +38,11 @@ class Heizungsanlage {
                 return 'Kachelofen';
             case 'nachtspeicher':
                 return 'Zentral elektrisch beheizte Wärmeerzeuger';
-            case 'direktheizgeraet':
-                return 'Dezentrales elektrisches Direktheizgerät';
             case 'solaranlage':
                 return 'Solare Heizungsunterstützung';
             case 'kleinthermeniedertemperatur':
             case 'kleinthermebrennwert':
-            case 'elektrospeicher':
+            default:
                 return 'Sonstiges';
         }
     }
