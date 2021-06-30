@@ -96,7 +96,7 @@ class DIBT {
 						$errorMailContent.= '</div>';
 					}
 
-					wp_mail( 'sven@awesome.ug', 'XML Validierungsfehler', $errorMailContent );
+					wp_mail( 'sven@awesome.ug', 'XML Validierungsfehler', $errorMailContent, array('Content-Type: text/html; charset=UTF-8') );
 					return false;
 				}
 
