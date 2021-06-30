@@ -117,13 +117,32 @@ $data = new DataEnevBW( $energieausweis );
         <n1:Primaerenergiebedarf-Hoechstwert-Bestand><?php echo $data->PrimaerenergiebedarfHoechstwertBestand(); ?></n1:Primaerenergiebedarf-Hoechstwert-Bestand>
         <n1:Endenergiebedarf-Hoechstwert-Bestand><?php echo $data->EndenergiebedarfHoechstwertBestand(); ?></n1:Endenergiebedarf-Hoechstwert-Bestand>
         <n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php echo $data->TreibhausgasemissionenHoechstwertBestand(); ?></n1:Treibhausgasemissionen-Hoechstwert-Bestand>
-         
+        <n1:Energietraeger-Liste>
+          <n1:Energietraegerbezeichnung>Biogas</n1:Energietraegerbezeichnung>
+          <n1:Primaerenergiefaktor>1.2</n1:Primaerenergiefaktor>
+          <n1:Endenergiebedarf-Heizung-spezifisch>20</n1:Endenergiebedarf-Heizung-spezifisch>
+          <n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>10</n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>
+          <n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>0</n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>
+          <n1:Endenergiebedarf-Beleuchtung-spezifisch>5</n1:Endenergiebedarf-Beleuchtung-spezifisch>
+          <n1:Endenergiebedarf-Lueftung-spezifisch>6</n1:Endenergiebedarf-Lueftung-spezifisch>
+          <n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>50</n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>
+        </n1:Energietraeger-Liste>
+        <n1:Energietraeger-Liste>
+          <n1:Energietraegerbezeichnung>Biogas</n1:Energietraegerbezeichnung>
+          <n1:Primaerenergiefaktor>1.2</n1:Primaerenergiefaktor>
+          <n1:Endenergiebedarf-Heizung-spezifisch>20</n1:Endenergiebedarf-Heizung-spezifisch>
+          <n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>10</n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>
+          <n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>0</n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>
+          <n1:Endenergiebedarf-Beleuchtung-spezifisch>5</n1:Endenergiebedarf-Beleuchtung-spezifisch>
+          <n1:Endenergiebedarf-Lueftung-spezifisch>6</n1:Endenergiebedarf-Lueftung-spezifisch>
+          <n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>50</n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>
+        </n1:Energietraeger-Liste>
         <n1:Endenergiebedarf-Waerme-AN><?php echo $data->EndenergiebedarfWaermeAN(); ?></n1:Endenergiebedarf-Waerme-AN>
         <n1:Endenergiebedarf-Hilfsenergie-AN><?php echo $data->EndenergiebedarfHilfsenergieAN(); ?></n1:Endenergiebedarf-Hilfsenergie-AN>
         <n1:Endenergiebedarf-Gesamt><?php echo $data->EndenergiebedarfGesamt(); ?></n1:Endenergiebedarf-Gesamt>
         <n1:Primaerenergiebedarf><?php echo $data->Primaerenergiebedarf(); ?></n1:Primaerenergiebedarf>
         <n1:Energieeffizienzklasse><?php echo $data->Energieeffizienzklasse(); ?></n1:Energieeffizienzklasse>
-        <n1:Nicht-verschaerft-nach-GEG-34>true</n1:Nicht-verschaerft-nach-GEG-34>
+        <n1:nicht-verschaerft-nach-GEG-34>true</n1:nicht-verschaerft-nach-GEG-34>
       </n1:Bedarfswerte-4108-4701>
     </n1:Wohngebaeude>
     <n1:Empfehlungen-moeglich><?php echo $data->EmpfehlungenMoeglich(); ?></n1:Empfehlungen-moeglich>
