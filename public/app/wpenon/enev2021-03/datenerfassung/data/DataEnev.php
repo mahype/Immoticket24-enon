@@ -535,7 +535,7 @@ abstract class DataEnev {
         $baujahr_limit = new DateTime( '2008-10' );			
 
         if ( $k_baujahr < $baujahr_limit ) {
-            return '12/2022';
+            return '2022-12-01';
         }
 
         if( $this->energieausweis->k_automation === 'yes' )
