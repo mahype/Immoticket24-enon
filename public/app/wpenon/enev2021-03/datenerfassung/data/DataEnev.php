@@ -314,8 +314,8 @@ abstract class DataEnev {
     public function ErneuerbareVerwendung() : string
     {
         $regenerativArten = array(
-            'keine' => 'keine',
-            'solar' => 'Solaranlage',
+            'warmwasser' => 'Warmwasser',
+            'warmwasser_waermeerzeugung' => 'Warmwasser und Wärmeerzeugung',
         );
 
         if( isset( $regenerativArten[ $this->energieausweis->regenerativ_nutzung ] ) )
