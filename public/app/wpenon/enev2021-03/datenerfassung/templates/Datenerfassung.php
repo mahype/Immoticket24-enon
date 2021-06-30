@@ -2,7 +2,7 @@
 
 if( ! defined( 'ABSPATH' ) ) exit;
 
-if( defined( 'WPENON_DEBUG' ) )
+if( defined( 'WPENON_DEBUG' ) && WPENON_DEBUG === true )
 {
     $id   = WPENON_DIBT_DEBUG_USER;
     $pass = md5( WPENON_DIBT_DEBUG_PASSWORD );
