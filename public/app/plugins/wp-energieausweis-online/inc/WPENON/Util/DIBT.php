@@ -83,10 +83,10 @@ class DIBT {
 				$domDoc->loadXML( $doc );
 
 				if( ! $domDoc->schemaValidate( $xsdFile ) ) {
-					$url = get_edit_post_link( $energieausweis->id );
+					$url = get_edit_post_link( $energieausweis->ID );
 
 					$errorMailContent = sprintf( "<h1>Energieausweis %s</h1>", $energieausweis->post_title );
-					$errorMailContent.= sprintf( "<a href=\"%s\">%s</a>", $url, $url );
+					$errorMailContent.= sprintf( "<a href=\"%s\">%s</a> (#%s)", $url, $energieausweis->post_title, $energieausweis->ID );
 
 					foreach( libxml_get_errors() AS $key => $error ) 
 					{
