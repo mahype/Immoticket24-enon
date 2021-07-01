@@ -119,12 +119,19 @@ class Energietraeger {
 
     public function VerbrauchteMenge( int $period ) 
     {
-        return round( $this->heater->getEnergyConsumptionOfPeriod( $period ), 0 );
+        return round( $this->heater->getKWhOfPeriod( $period ), 0 );
     }
 
     public function Energieverbrauch( int $period ) 
     {
-        return round( $this->heater->getKWhOfPeriod( $period ), 0 );
+        $hotWater = 0;
+
+        if( $this->hotWater == 'heater' )
+        {
+             $hotWater = $this->hotWaterHeaters->getEnergyConsumptionOfPeriod( $period );
+        }
+
+        return round( $this->heater->getKWhOfPeriod( $period ) + $hotWater, 0 );
     }
 
     public function Warmwasserwertermittlung( ) 
