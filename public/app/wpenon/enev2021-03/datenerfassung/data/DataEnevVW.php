@@ -293,7 +293,7 @@ class DataEnevVW extends DataEnev {
      */
     public function Warmwasserzuschlag() : float
     {
-        return round( $this->calculations->getBuilding()->getHotWaterSurcharge(), 0 );
+        return round( $this->calculations->getBuilding()->getHotWaterSurcharge() * 3, 0 );
     }
 
     /**
