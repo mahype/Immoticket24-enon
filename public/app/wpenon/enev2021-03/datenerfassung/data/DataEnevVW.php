@@ -128,7 +128,7 @@ class DataEnevVW extends DataEnev {
      */
     public function Gebaeudenutzflaeche()
     {
-        return $this->calculations()->getBuilding()->getUsefulArea();
+        return round( $this->calculations()->getBuilding()->getUsefulArea(), 0 );
     }
 
     /**
@@ -293,7 +293,7 @@ class DataEnevVW extends DataEnev {
      */
     public function Warmwasserzuschlag() : float
     {
-        return $this->calculations->getBuilding()->getHotWaterSurcharge();
+        return round( $this->calculations->getBuilding()->getHotWaterSurcharge(), 0 );
     }
 
     /**

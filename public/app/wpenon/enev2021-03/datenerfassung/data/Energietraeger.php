@@ -124,7 +124,7 @@ class Energietraeger {
 
     public function Energieverbrauch( int $period ) 
     {
-        return $this->heater->getKWhOfPeriod( $period );
+        return round( $this->heater->getKWhOfPeriod( $period ), 0 );
     }
 
     public function Warmwasserwertermittlung( ) 
