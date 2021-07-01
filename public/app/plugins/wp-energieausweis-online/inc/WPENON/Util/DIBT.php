@@ -96,7 +96,7 @@ class DIBT {
 						$errorMailContent.= '</div>';
 					}
 
-					wp_mail( 'sven@awesome.ug', 'XML Validierungsfehler', $errorMailContent, array('Content-Type: text/html; charset=UTF-8') );
+					wp_mail( 'sven@awesome.ug', sprintf( 'XML Validierungsfehler: %s', $energieausweis->post_title ), $errorMailContent, array('Content-Type: text/html; charset=UTF-8') );
 					return false;
 				}
 
