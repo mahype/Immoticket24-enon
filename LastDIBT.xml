@@ -1,0 +1,107 @@
+<n1:GEG-Energieausweis xmlns:n1="https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd">
+  <n1:Energieausweis-Daten Gesetzesgrundlage="GEG-2020" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2020-08-08">
+    <n1:Registriernummer>NW-2021-992488970</n1:Registriernummer>
+    <n1:Ausstellungsdatum>2021-06-29</n1:Ausstellungsdatum>
+    <n1:Bundesland>Nordrhein-Westfalen</n1:Bundesland>
+    <n1:Postleitzahl>407XX</n1:Postleitzahl>
+    <n1:Gebaeudeteil>Ganzes Gebäude</n1:Gebaeudeteil>
+    <n1:Baujahr-Gebaeude>2000</n1:Baujahr-Gebaeude>
+    <n1:Altersklasse-Gebaeude>1995...2002</n1:Altersklasse-Gebaeude>
+    <n1:Baujahr-Waermeerzeuger>2000</n1:Baujahr-Waermeerzeuger>
+    <n1:Altersklasse-Waermeerzeuger>1995...2002</n1:Altersklasse-Waermeerzeuger>
+    <n1:wesentliche-Energietraeger-Heizung>Heizöl</n1:wesentliche-Energietraeger-Heizung>
+    <n1:wesentliche-Energietraeger-Warmwasser>Heizöl</n1:wesentliche-Energietraeger-Warmwasser>
+    <n1:Erneuerbare-Art>keine</n1:Erneuerbare-Art>
+    <n1:Erneuerbare-Verwendung>keine</n1:Erneuerbare-Verwendung>
+    <n1:Lueftungsart-Fensterlueftung>true</n1:Lueftungsart-Fensterlueftung>
+    <n1:Lueftungsart-Schachtlueftung>false</n1:Lueftungsart-Schachtlueftung>
+    <n1:Lueftungsart-Anlage-o-WRG>false</n1:Lueftungsart-Anlage-o-WRG>
+    <n1:Lueftungsart-Anlage-m-WRG>false</n1:Lueftungsart-Anlage-m-WRG>
+    <n1:Kuehlungsart-passive-Kuehlung>false</n1:Kuehlungsart-passive-Kuehlung>
+    <n1:Kuehlungsart-Strom>false</n1:Kuehlungsart-Strom>
+    <n1:Kuehlungsart-Waerme>false</n1:Kuehlungsart-Waerme>
+    <n1:Kuehlungsart-gelieferte-Kaelte>false</n1:Kuehlungsart-gelieferte-Kaelte>
+          <n1:Keine-inspektionspflichtige-Anlage>true</n1:Keine-inspektionspflichtige-Anlage>
+        <n1:Treibhausgasemissionen>92.23</n1:Treibhausgasemissionen>
+    <n1:Ausstellungsanlass>Vermietung-Verkauf</n1:Ausstellungsanlass>
+    <n1:Datenerhebung-Aussteller>false</n1:Datenerhebung-Aussteller>
+    <n1:Datenerhebung-Eigentuemer>true</n1:Datenerhebung-Eigentuemer>
+    <n1:Wohngebaeude>
+      <n1:Gebaeudetyp>Zweifamilienhaus</n1:Gebaeudetyp>
+      <n1:Anzahl-Wohneinheiten>1</n1:Anzahl-Wohneinheiten>
+      <n1:Gebaeudenutzflaeche>216</n1:Gebaeudenutzflaeche>
+      <n1:Verbrauchswerte>
+        <n1:Flaechenermittlung-AN-aus-Wohnflaeche>true</n1:Flaechenermittlung-AN-aus-Wohnflaeche>
+        <n1:Wohnflaeche>180</n1:Wohnflaeche>
+        <n1:Keller-beheizt>false</n1:Keller-beheizt>      
+                <n1:Energietraeger>
+          <n1:Energietraeger-Verbrauch>Heizöl in Liter</n1:Energietraeger-Verbrauch>
+          <n1:Unterer-Heizwert>10</n1:Unterer-Heizwert>
+          <n1:Primaerenergiefaktor>1.1</n1:Primaerenergiefaktor>
+          <n1:Emissionsfaktor>310</n1:Emissionsfaktor>
+                    <n1:Zeitraum>
+            <n1:Startdatum>2018-03-01</n1:Startdatum>
+            <n1:Enddatum>2019-02-28</n1:Enddatum>
+            <n1:Verbrauchte-Menge>58927</n1:Verbrauchte-Menge>
+            <n1:Energieverbrauch>45680</n1:Energieverbrauch>
+            <n1:Energieverbrauchsanteil-Warmwasser-zentral>4320</n1:Energieverbrauchsanteil-Warmwasser-zentral>
+            <n1:Warmwasserwertermittlung>Pauschale für dezentrale Warmwasserbereitung (Wohngebäude)</n1:Warmwasserwertermittlung>
+            <n1:Energieverbrauchsanteil-Heizung>58927</n1:Energieverbrauchsanteil-Heizung>
+            <n1:Klimafaktor>1.29</n1:Klimafaktor>
+          </n1:Zeitraum>
+                    <n1:Zeitraum>
+            <n1:Startdatum>2019-03-01</n1:Startdatum>
+            <n1:Enddatum>2020-02-29</n1:Enddatum>
+            <n1:Verbrauchte-Menge>57557</n1:Verbrauchte-Menge>
+            <n1:Energieverbrauch>45680</n1:Energieverbrauch>
+            <n1:Energieverbrauchsanteil-Warmwasser-zentral>4320</n1:Energieverbrauchsanteil-Warmwasser-zentral>
+            <n1:Warmwasserwertermittlung>Pauschale für dezentrale Warmwasserbereitung (Wohngebäude)</n1:Warmwasserwertermittlung>
+            <n1:Energieverbrauchsanteil-Heizung>57557</n1:Energieverbrauchsanteil-Heizung>
+            <n1:Klimafaktor>1.26</n1:Klimafaktor>
+          </n1:Zeitraum>
+                    <n1:Zeitraum>
+            <n1:Startdatum>2020-03-01</n1:Startdatum>
+            <n1:Enddatum>2021-02-28</n1:Enddatum>
+            <n1:Verbrauchte-Menge>63350</n1:Verbrauchte-Menge>
+            <n1:Energieverbrauch>50680</n1:Energieverbrauch>
+            <n1:Energieverbrauchsanteil-Warmwasser-zentral>4320</n1:Energieverbrauchsanteil-Warmwasser-zentral>
+            <n1:Warmwasserwertermittlung>Pauschale für dezentrale Warmwasserbereitung (Wohngebäude)</n1:Warmwasserwertermittlung>
+            <n1:Energieverbrauchsanteil-Heizung>63350</n1:Energieverbrauchsanteil-Heizung>
+            <n1:Klimafaktor>1.25</n1:Klimafaktor>
+          </n1:Zeitraum>
+                  </n1:Energietraeger>
+                <n1:Leerstandszuschlag-Heizung>
+                      <n1:kein-Leerstand>Kein längerer Leerstand Heizung zu berücksichtigen.</n1:kein-Leerstand>
+                  </n1:Leerstandszuschlag-Heizung>
+        
+        <n1:Leerstandszuschlag-Warmwasser>
+          <n1:keine-Nutzung-von-WW>false</n1:keine-Nutzung-von-WW>
+                     
+            <n1:kein-Leerstand>Kein längerer Leerstand Warmwasser zu berücksichtigen.</n1:kein-Leerstand>
+                  </n1:Leerstandszuschlag-Warmwasser>
+        
+                <n1:Warmwasserzuschlag>
+          <n1:Startdatum>2018-03-01</n1:Startdatum>
+          <n1:Enddatum>2021-02-28</n1:Enddatum>
+          <n1:Primaerenergiefaktor>1.1</n1:Primaerenergiefaktor>
+          <n1:Warmwasserzuschlag-kWh>4320</n1:Warmwasserzuschlag-kWh>
+        </n1:Warmwasserzuschlag>
+                
+        
+        <n1:Mittlerer-Endenergieverbrauch>297.52</n1:Mittlerer-Endenergieverbrauch>
+        <n1:Mittlerer-Primaerenergieverbrauch>327.27</n1:Mittlerer-Primaerenergieverbrauch>
+        <n1:Energieeffizienzklasse>H</n1:Energieeffizienzklasse>
+
+      </n1:Verbrauchswerte>
+    </n1:Wohngebaeude>
+    <n1:Empfehlungen-moeglich>1</n1:Empfehlungen-moeglich>
+    <n1:Keine-Modernisierung-Erweiterung-Vorhaben>true</n1:Keine-Modernisierung-Erweiterung-Vorhaben>
+            
+      <n1:Modernisierungsempfehlungen>
+        <n1:Nummer>1</n1:Nummer>
+        <n1:Bauteil-Anlagenteil>Sonstiges</n1:Bauteil-Anlagenteil>
+        <n1:Massnahmenbeschreibung>Solare Unterstützung für Warmwasser und Heizung</n1:Massnahmenbeschreibung>
+        <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>
+      </n1:Modernisierungsempfehlungen>
+            </n1:Energieausweis-Daten>
+</n1:GEG-Energieausweis>
