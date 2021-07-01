@@ -275,7 +275,7 @@ class CalculationsCC {
         }
 
         $dataHotWaterHeaters = $dataHeaters;
-        $hotWaterSurcharge   = $hotWaterSurchargeInHeater = $this->building->getHotWaterSurcharge() * 3;
+        $hotWaterSurcharge   = $hotWaterSurchargeInHeater = $this->building->getHotWaterSurcharge();
 
         switch( $this->hotWater )
         {
