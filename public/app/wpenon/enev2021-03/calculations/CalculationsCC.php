@@ -143,9 +143,9 @@ class CalculationsCC {
                 'ende'           => $period['end'],
                 'energietraeger' => implode( ', ', $this->getBuilding()->getHeaters()->getEnergySourceNames() ),
                 'primaer'        => $this->getBuilding()->getHeaters()->getPrimaryEnergyFactorAverage(),
-                'gesamt'         => $this->getBuilding()->getHeaters()->getKWhOfPeriod( $key ) + $hotWater,
+                'gesamt'         => $this->getBuilding()->getHeaters()->getEnergyConsumptionOfPeriod( $key ) + $hotWater,
                 'warmwasser'     => $hotWater,
-                'heizung'        => $this->getBuilding()->getHeaters()->getKWhOfPeriod( $key ),
+                'heizung'        => $this->getBuilding()->getHeaters()->getEnergyConsumptionOfPeriod( $key ),
                 'klima'          => $this->getBuilding()->getHeaters()->current()->getClimateFactorOfPeriod( $key ),
             ];
         }
