@@ -177,7 +177,7 @@ class CalculationsCC {
                 'energietraeger' => 'Warmwasserzuschlag',                
                 'primaer'        => $this->getBuilding()->getHeaters()->getHeaterByHighestEnergyValue()->getEnergySource()->getPrimaryEnergyFactor(),
                 'gesamt'         => $this->getBuilding()->getHotWaterSurCharge() * 3,
-                'warmwasser'     => 0,
+                'warmwasser'     => $this->getBuilding()->getHotWaterSurCharge() * 3,
                 'heizung'        => 0,
                 'klima'          => '',
             ];
