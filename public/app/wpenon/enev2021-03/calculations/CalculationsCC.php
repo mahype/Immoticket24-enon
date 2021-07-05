@@ -130,23 +130,42 @@ class CalculationsCC {
         $start = $consumptionPeriods[ 0 ]['start'];
         $end   = $consumptionPeriods[ count( $consumptionPeriods ) - 1 ]['end'];
 
-        foreach( $consumptionPeriods AS $key => $period )
+        $highestConsumptionHeaterKey = $this->getBuilding()->getHeaters()->getHeaterKeyByHighestEnergyValue();
+
+        foreach ( $this->getBuilding()->getHeaters() AS $key => $heater )
         {
             $hotWater = 0;
-            if( $this->hotWater == 'heater' )
+
+            $kWhSum = $heater->getKWh();
+            if( $this->hotWater == 'heizung' && $key == $highestConsumptionHeaterKey )
             {
-                $hotWater = $this->getBuilding()->getHotWaterHeaters()->getEnergyConsumptionOfPeriod( $key );
-            }            
+                $hotWater = $heater->getHotWaterHeaters()->getKWh();
+                $kWhSum += $hotWater;
+            }
 
             $data[] = [
-                'start'          => $period['start'],
-                'ende'           => $period['end'],
-                'energietraeger' => implode( ', ', $this->getBuilding()->getHeaters()->getEnergySourceNames() ),
-                'primaer'        => $this->getBuilding()->getHeaters()->getPrimaryEnergyFactorAverage(),
-                'gesamt'         => $this->getBuilding()->getHeaters()->getEnergyConsumptionOfPeriod( $key ) + $hotWater * $this->getBuilding()->getHeaters()->count() ,
+                'start'          => $start,
+                'ende'           => $end,
+                'energietraeger' => $heater->getEnergySource()->getName(),
+                'primaer'        => $heater->getEnergySource()->getPrimaryEnergyFactor(),
+                'gesamt'         => $kWhSum,
                 'warmwasser'     => $hotWater,
-                'heizung'        => $this->getBuilding()->getHeaters()->getEnergyConsumptionOfPeriod( $key ),
-                'klima'          => $this->getBuilding()->getHeaters()->current()->getClimateFactorOfPeriod( $key ),
+                'heizung'        => $heater->getKWh(),
+                'klima'          => $heater->getClimateFactorAverage(),
+            ];
+        } 
+
+        if( $this->hotWater == 'separate' )
+        {
+            $data[] = [
+                'start'          => $start,
+                'ende'           => $end,
+                'energietraeger' => $this->getBuilding()->getHotWaterHeaters()->current()->getEnergySource()->getName(),                
+                'primaer'        => $this->getBuilding()->getHotWaterHeaters()->current()->getEnergySource()->getPrimaryEnergyFactor(),
+                'gesamt'         => $this->getBuilding()->getHotWaterHeaters()->current()->getKWh(),
+                'warmwasser'     => $this->getBuilding()->getHotWaterHeaters()->current()->getKWh(),
+                'heizung'        => 0,
+                'klima'          => '',
             ];
         }
 
