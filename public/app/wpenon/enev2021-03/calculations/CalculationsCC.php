@@ -137,7 +137,7 @@ class CalculationsCC {
             $hotWater = 0;
 
             $kWhSum = $heater->getKWh();
-            if( $this->hotWater == 'heizung' && $key == $highestConsumptionHeaterKey )
+            if( $this->getHotWater() == 'heater' && $key == $highestConsumptionHeaterKey )
             {
                 $hotWater = $heater->getHotWaterHeaters()->getKWh();
                 $kWhSum += $hotWater;
