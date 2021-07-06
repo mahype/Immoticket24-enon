@@ -286,9 +286,9 @@ class CalculationsCC {
             $dataHeaters[ $i ] = $this->getHeater( $i );            
         }
 
-        $heaters = new Heaters( $this->building->getUsefulArea(), $dataHeaters );
+        $heaters = new Heaters( $this->building->getUsefulArea(), $dataHeaters, $this->hotWater == 'heater' );
         $this->building->setHeaters( $heaters );
-
+        
         if( $this->hotWater == 'separate' )
         {
             $hotWaterHeaters = new HotWaterHeaters( $this->building->getUsefulArea(), [ $this->getHotWaterHeater() ]);
