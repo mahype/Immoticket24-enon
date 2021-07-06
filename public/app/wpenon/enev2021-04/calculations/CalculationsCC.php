@@ -136,21 +136,14 @@ class CalculationsCC {
         {
             $hotWater = 0;
 
-            $kWhSum = $heater->getKWh();
-            if( $this->getHotWater() == 'heater' && $key == $highestConsumptionHeaterKey )
-            {
-                $hotWater = $this->getBuilding()->getHotWaterHeaters()->getKWh();
-                $kWhSum += $hotWater;
-            }
-
             $data[] = [
                 'start'          => $start,
                 'ende'           => $end,
                 'energietraeger' => $heater->getEnergySource()->getName(),
                 'primaer'        => $heater->getEnergySource()->getPrimaryEnergyFactor(),
-                'gesamt'         => $kWhSum,
-                'warmwasser'     => $hotWater,
-                'heizung'        => $heater->getKWh(),
+                'gesamt'         => $heater->getKWh(),
+                'warmwasser'     => $heater->getHotWaterKwh(),
+                'heizung'        => $heater->getHeaterKwh(),
                 'klima'          => $heater->getClimateFactorAverage(),
             ];
         } 
@@ -174,10 +167,10 @@ class CalculationsCC {
             $data[] = [
                 'start'          => $start,
                 'ende'           => $end,
-                'energietraeger' => 'Warmwasserzuschlag',                
+                'energietraeger' => 'Warmwasserzuschlag',  
                 'primaer'        => $this->getBuilding()->getHeaters()->getHeaterByHighestEnergyValue()->getEnergySource()->getPrimaryEnergyFactor(),
-                'gesamt'         => $this->getBuilding()->getHotWaterSurCharge() * 3,
-                'warmwasser'     => $this->getBuilding()->getHotWaterSurCharge() * 3,
+                'gesamt'         => $this->getBuilding()->getHotWaterSurCharge(),
+                'warmwasser'     => $this->getBuilding()->getHotWaterSurCharge(),
                 'heizung'        => 0,
                 'klima'          => '',
             ];
@@ -204,7 +197,7 @@ class CalculationsCC {
                 'ende'           => $end,
                 'energietraeger' => 'Kühlungszuschlag',
                 'primaer'        => $this->getBuilding()->getCoolers()->current()->getEnergySource()->getPrimaryEnergyFactor(),
-                'gesamt'         => $this->getBuilding()->getFinalEnergy( $key ),
+                'gesamt'         => $this->getBuilding()->getCoolerSurCharge(),
                 'warmwasser'     => 0,
                 'heizung'        => 0,
                 'klima'          => '',
@@ -293,26 +286,14 @@ class CalculationsCC {
             $dataHeaters[ $i ] = $this->getHeater( $i );            
         }
 
-        $dataHotWaterHeaters = $dataHeaters;
-        $hotWaterSurcharge   = $hotWaterSurchargeInHeater = $this->building->getHotWaterSurcharge();
-
-        switch( $this->hotWater )
-        {
-            case 'separate':
-                $hotWaterSurcharge = 0;
-                $hotWaterSurchargeInHeater = 0;
-                $dataHotWaterHeaters = [ $this->getHotWaterHeater() ];
-                break;
-            case 'unknown':
-                $hotWaterSurchargeInHeater = 0;
-                break;
-        }
-
-        $heaters = new Heaters( $this->building->getUsefulArea(), $dataHeaters, $hotWaterSurchargeInHeater );
+        $heaters = new Heaters( $this->building->getUsefulArea(), $dataHeaters );
         $this->building->setHeaters( $heaters );
-        
-        $hotWaterHeaters = new HotWaterHeaters( $this->building->getUsefulArea(), $this->building->getFlatCount(), $dataHotWaterHeaters, $hotWaterSurcharge );
-        $this->building->setHotWaterHeaters( $hotWaterHeaters );
+
+        if( $this->hotWater == 'separate' )
+        {
+            $hotWaterHeaters = new HotWaterHeaters( $this->building->getUsefulArea(), [ $this->getHotWaterHeater() ]);
+            $this->building->setHotWaterHeaters( $hotWaterHeaters );
+        }
     }
     
     /**
