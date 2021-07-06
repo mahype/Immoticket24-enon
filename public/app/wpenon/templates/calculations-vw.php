@@ -59,12 +59,12 @@ if( $building->issetHotWaterHeaters() ) {
         <td><?php echo $heater->getClimateFactorOfPeriod( $key ); ?></td>        
         <td><?php echo $heater->getHeaterEnergyConsumptionOfPeriod( $key ); ?></td>
         <td><?php echo $heater->getHotWaterEnergyConsumptionOfPeriod( $key ); ?></td>
-        <td><?php echo ( $heater->getEnergyConsumptionOfPeriod( $key ) ); ?></td>        
+        <td><?php echo round( $heater->getEnergyConsumptionOfPeriod( $key ), 2 ); ?></td>        
         <td><?php echo round( $heater->getVacancySurchargeOfPeriod( $key ), 2 ); ?></td>
         <td><?php echo isset( $hotWaterHeater ) ? round( $hotWaterHeater->getVacancySurchargeOfPeriod( $key ), 2 ) : 0; ?></td>
         <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
         <td><?php echo isset( $hotWaterHeater ) ? round( $hotWaterHeater->getFinalEnergyOfPeriod( $key ), 2 ) : 0; ?></td>
-        <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ) + $hotWaterHeater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
+        <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
       </tr>
     <?php endforeach; ?>
   </table>
