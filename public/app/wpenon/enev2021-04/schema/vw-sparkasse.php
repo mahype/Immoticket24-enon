@@ -1,10 +1,10 @@
 <?php
 
-namespace Enev\Schema202103\Schema;
+namespace Enev\Schema202104\Schema;
 
 require_once( dirname( __FILE__ ) . '/vw.php' );
 
-if ( ! class_exists( '\Enev\Schema202103\Schema\Verbrauchsausweis_Schema_Sparkasse' ) ) :
+if ( ! class_exists( '\Enev\Schema202104\Schema\Verbrauchsausweis_Schema_Sparkasse' ) ) :
 
 	/**
 	 * Class Verbrauchsausweis_Schema_Sparkasse

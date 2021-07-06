@@ -1,15 +1,15 @@
 <?php
 
-namespace Enev\Schema202103\Schema;
+namespace Enev\Schema202104\Schema;
 
 require_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/schema.php' );
 require_once( dirname( __DIR__ ) . '/Standard_Options.php' );
 require_once( dirname( __DIR__ ) . '/modernizations/VW_Modernizations.php' );
 
-use Enev\Schema202103\Modernizations\VW_Modernizations;
+use Enev\Schema202104\Modernizations\VW_Modernizations;
 use Enev\Schema\Schema;
 
-if ( ! class_exists( '\Enev\Schema202103\Schema\Verbrauchsausweis_Schema' ) ) :
+if ( ! class_exists( '\Enev\Schema202104\Schema\Verbrauchsausweis_Schema' ) ) :
 
 	/**
 	 * Class Verbrauchsausweis_Schema

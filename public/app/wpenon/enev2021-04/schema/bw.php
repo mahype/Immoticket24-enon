@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202103\Schema;
+namespace Enev\Schema202104\Schema;
 
 use Enev\Schema\Schema;
 
@@ -8,10 +8,10 @@ require_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/schema.php' );
 require_once( dirname( __DIR__ ) . '/Standard_Options.php' );
 require_once( dirname( __DIR__ ) . '/modernizations/BW_Modernizations.php' );
 
-use Enev\Schema202103\Modernizations\BW_Modernizations;
+use Enev\Schema202104\Modernizations\BW_Modernizations;
 
 
-if ( ! class_exists( '\Enev\Schema202103\Schema\Bedarfsausweis_Schema' ) ) :
+if ( ! class_exists( '\Enev\Schema202104\Schema\Bedarfsausweis_Schema' ) ) :
 	/**
 	 * Class Bedarfsausweis_Schema
 	 *
