@@ -10,7 +10,11 @@
 
 $calc = $data['object']; 
 $building = $data['object']->getBuilding(); 
-$hotWaterHeater = $building->getHotWaterHeaters()->current();
+
+$hotWaterHeater = '';
+if( $building->issetHotWaterHeaters() ) {
+  $hotWaterHeater = $building->getHotWaterHeaters()->current();
+}
 
 ?>
 
@@ -53,13 +57,13 @@ $hotWaterHeater = $building->getHotWaterHeaters()->current();
         <td><?php echo $period['end']; ?></td>
         <td><?php echo $heater->getKWhOfPeriod( $key ); ?></td>
         <td><?php echo $heater->getClimateFactorOfPeriod( $key ); ?></td>        
-        <td><?php echo $heater->getEnergyConsumptionOfPeriod( $key ); ?></td>
-        <td><?php echo $hotWaterHeater->getEnergyConsumptionOfPeriod( $key ); ?></td>
-        <td><?php echo ( $heater->getEnergyConsumptionOfPeriod( $key ) + $hotWaterHeater->getEnergyConsumptionOfPeriod( $key ) ); ?></td>        
+        <td><?php echo $heater->getHeaterEnergyConsumptionOfPeriod( $key ); ?></td>
+        <td><?php echo $heater->getHotWaterEnergyConsumptionOfPeriod( $key ); ?></td>
+        <td><?php echo ( $heater->getEnergyConsumptionOfPeriod( $key ) ); ?></td>        
         <td><?php echo round( $heater->getVacancySurchargeOfPeriod( $key ), 2 ); ?></td>
-        <td><?php echo round( $hotWaterHeater->getVacancySurchargeOfPeriod( $key ), 2 ); ?></td>
+        <td><?php echo isset( $hotWaterHeater ) ? round( $hotWaterHeater->getVacancySurchargeOfPeriod( $key ), 2 ) : 0; ?></td>
         <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
-        <td><?php echo round( $hotWaterHeater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
+        <td><?php echo isset( $hotWaterHeater ) ? round( $hotWaterHeater->getFinalEnergyOfPeriod( $key ), 2 ) : 0; ?></td>
         <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ) + $hotWaterHeater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
       </tr>
     <?php endforeach; ?>
