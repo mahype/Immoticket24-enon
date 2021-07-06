@@ -52,19 +52,27 @@ if( $building->issetHotWaterHeaters() ) {
       <th>e</th>
     </tr>
     <?php foreach( $calc->getConsumptionPeriods() AS $key => $period ): ?>
+    <?php
+
+      $hotWaterHeaterVacancySurcharge    = isset( $hotWaterHeater ) ? $hotWaterHeater->getVacancySurchargeOfPeriod( $key ) : 0; 
+      $hotWaterHeaterFinalEnergyOfPeriod = isset( $hotWaterHeater ) ? $hotWaterHeater->getFinalEnergyOfPeriod( $key ) : 0;
+      $heaterFinalEnergyOfPeriod         = $heater->getFinalEnergyOfPeriod( $key );
+      $finalEnergy                       = $heaterFinalEnergyOfPeriod + $hotWaterHeaterFinalEnergyOfPeriod;
+      
+    ?>
       <tr>
         <td><?php echo $period['start']; ?></td>
         <td><?php echo $period['end']; ?></td>
         <td><?php echo $heater->getKWhOfPeriod( $key ); ?></td>
-        <td><?php echo $heater->getClimateFactorOfPeriod( $key ); ?></td>        
-        <td><?php echo $heater->getHeaterEnergyConsumptionOfPeriod( $key ); ?></td>
-        <td><?php echo $heater->getHotWaterEnergyConsumptionOfPeriod( $key ); ?></td>
+        <td><?php echo round( $heater->getClimateFactorOfPeriod( $key ), 2 ); ?></td>        
+        <td><?php echo round( $heater->getHeaterEnergyConsumptionOfPeriod( $key ), 2 ); ?></td>
+        <td><?php echo round( $heater->getHotWaterEnergyConsumptionOfPeriod( $key ), 2 ); ?></td>
         <td><?php echo round( $heater->getEnergyConsumptionOfPeriod( $key ), 2 ); ?></td>        
         <td><?php echo round( $heater->getVacancySurchargeOfPeriod( $key ), 2 ); ?></td>
-        <td><?php echo isset( $hotWaterHeater ) ? round( $hotWaterHeater->getVacancySurchargeOfPeriod( $key ), 2 ) : 0; ?></td>
+        <td><?php echo round( $hotWaterHeaterVacancySurcharge, 2 ); ?></td>
         <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
-        <td><?php echo isset( $hotWaterHeater ) ? round( $hotWaterHeater->getFinalEnergyOfPeriod( $key ), 2 ) : 0; ?></td>
-        <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
+        <td><?php echo round( $hotWaterHeaterFinalEnergyOfPeriod, 2); ?></td>
+        <td><?php echo round( $finalEnergy, 2 ); ?></td>
       </tr>
     <?php endforeach; ?>
   </table>
