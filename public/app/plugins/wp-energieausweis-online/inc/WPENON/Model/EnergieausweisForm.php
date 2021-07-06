@@ -7,6 +7,8 @@
 
 namespace WPENON\Model;
 
+use CalculationsCC;
+
 class EnergieausweisForm {
 	private static $instance;
 
@@ -70,15 +72,31 @@ class EnergieausweisForm {
 		); 
 		$data['thumbnail']                 = $thumbnail;
 		$data['calculations']              = $energieausweis->calculate();
-		$data['energy_bar']                = array(
-			array(
-				'mode'         => $energieausweis->mode,
-				'building'     => $energieausweis->building,
-				'reference'    => isset( $data['calculations']['reference'] ) ? $data['calculations']['reference'] : 125,
-				'value_top'    => isset( $data['calculations']['endenergie'] ) ? $data['calculations']['endenergie'] : false,
-				'value_bottom' => isset( $data['calculations']['primaerenergie'] ) ? $data['calculations']['primaerenergie'] : false,
-			)
-		);
+
+		if( $energieausweis->mode == 'v' )
+		{
+			$calcCC = new CalculationsCC( $energieausweis );
+			$data['energy_bar']                = array(
+				array(
+					'mode'         => $energieausweis->mode,
+					'building'     => $energieausweis->building,
+					'reference'    => 125,
+					'value_top'    => $energieausweis->isFinalized() ? $calcCC->getBuilding()->getFinalEnergy() : false,
+					'value_bottom' => $energieausweis->isFinalized() ? $calcCC->getBuilding()->getPrimaryEnergy() : false,
+				)
+			);
+		} else  {
+			$data['energy_bar']                = array(
+				array(
+					'mode'         => $energieausweis->mode,
+					'building'     => $energieausweis->building,
+					'reference'    => isset( $data['calculations']['reference'] ) ? $data['calculations']['reference'] : 125,
+					'value_top'    => isset( $data['calculations']['endenergie'] ) ? $data['calculations']['endenergie'] : false,
+					'value_bottom' => isset( $data['calculations']['primaerenergie'] ) ? $data['calculations']['primaerenergie'] : false,
+				)
+			);
+
+		}
 		if ( $energieausweis->building == 'n' ) {
 			$data['energy_bar'][] = array(
 				'mode'         => $energieausweis->mode . 's',
