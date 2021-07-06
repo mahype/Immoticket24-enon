@@ -178,13 +178,19 @@ class CalculationsCC {
 
         if ( $this->getBuilding()->getVacancySurcharge() > 0 ) 
         {
+            $hotWaterVacancySurcharge = 0;
+            if( $this->getBuilding()->issetHotWaterHeaters() )
+            {
+                $hotWaterVacancySurcharge = $this->getBuilding()->getHotWaterHeaters()->getVacancySurcharge();
+            }
+
             $data[] = [
                 'start'          => $start,
                 'ende'           => $end,
                 'energietraeger' => 'Leerstandszuschlag',                
                 'primaer'        => $this->getBuilding()->getHeaters()->getHeaterByHighestEnergyValue()->getEnergySource()->getPrimaryEnergyFactor(),
                 'gesamt'         => $this->getBuilding()->getVacancySurcharge(),
-                'warmwasser'     => $this->getBuilding()->getHotWaterHeaters()->getVacancySurcharge(),
+                'warmwasser'     => $hotWaterVacancySurcharge,
                 'heizung'        => $this->getBuilding()->getHeaters()->getVacancySurcharge(),
                 'klima'          => '',
             ];
