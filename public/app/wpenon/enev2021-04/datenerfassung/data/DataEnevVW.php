@@ -192,7 +192,7 @@ class DataEnevVW extends DataEnev {
 
         foreach( $this->calculations()->getBuilding()->getHeaters() AS $heater )
         {
-            $energietraeger[] = new Energietraeger( $this->calculations()->getConsumptionPeriods(),  $heater, $this->calculations()->getBuilding()->getHotWaterHeaters(),$this->calculations()->getHotWater() );
+            $energietraeger[] = new Energietraeger( $this->calculations()->getConsumptionPeriods(),  $heater,$this->calculations()->getHotWater() );
         }
         
         return $energietraeger;

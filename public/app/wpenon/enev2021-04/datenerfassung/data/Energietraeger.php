@@ -1,7 +1,6 @@
 <?php
 
 use AWSM\LibEstate\Calculations\Heater;
-use AWSM\LibEstate\Calculations\HotWaterHeaters;
 
 /**
  * Energietraeger Klasse
@@ -11,14 +10,12 @@ use AWSM\LibEstate\Calculations\HotWaterHeaters;
 class Energietraeger {
     protected array $consumptionPeriods;
     protected Heater          $heater;
-    protected HotWaterHeaters $hotWaterHeaters;
     protected string          $hotWater;
 
-    public function __construct( array $consumptionPeriods, Heater $heater, HotWaterHeaters $hotWaterHeaters, string $hotWater )
+    public function __construct( array $consumptionPeriods, Heater $heater, string $hotWater )
     {
         $this->consumptionPeriods = $consumptionPeriods;
         $this->heater             = $heater;
-        $this->hotWaterHeaters    = $hotWaterHeaters;
         $this->hotWater           = $hotWater;
     }
 
@@ -124,14 +121,7 @@ class Energietraeger {
 
     public function Energieverbrauch( int $period ) 
     {
-        $hotWater = 0;
-
-        if( $this->hotWater == 'heater' )
-        {
-             $hotWater = $this->hotWaterHeaters->getEnergyConsumptionOfPeriod( $period );
-        }
-
-        return round( $this->heater->getEnergyConsumptionOfPeriod( $period ) + $hotWater, 0 );
+        return round( $this->heater->getEnergyConsumptionOfPeriod( $period ), 0 );
     }
 
     public function Warmwasserwertermittlung( ) 
@@ -148,17 +138,12 @@ class Energietraeger {
 
     public function EnergieverbrauchsanteilWarmwasserZentral( $period )
     {
-        if( $this->hotWater == 'heater' )
-        {
-            return round( $this->hotWaterHeaters->getEnergyConsumptionOfPeriod( $period ), 0 );
-        }
-
-        return 0;
+        return round( $this->heater->getHotWaterKwhOfPeriod( $period ) );
     }
 
     public function EnergieverbrauchsanteilHeizung( $period )
     {
-        return round( $this->heater->getEnergyConsumptionOfPeriod( $period ), 0 );
+        return round( $this->heater->getHeaterKwhOfPeriod( $period ), 0 );
     }
 
     public function Klimafaktor( int $period )
