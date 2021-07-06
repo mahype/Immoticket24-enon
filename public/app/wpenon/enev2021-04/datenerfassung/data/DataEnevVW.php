@@ -250,6 +250,11 @@ class DataEnevVW extends DataEnev {
      */
     public function LeerstandszuschlagWarmWasser()
     {
+        if ( ! $this->calculations()->getBuilding()->issetHotWaterHeaters() )
+        {
+            return 0;
+        }
+
         return round( $this->calculations()->getBuilding()->getHotWaterHeaters()->getVacancySurcharge(),0 );
     }
 
@@ -305,6 +310,11 @@ class DataEnevVW extends DataEnev {
      */
     public function WarmwasserPrimaerenergiefaktor() : float
     {
+        if( ! $this->calculations()->getBuilding()->issetHotWaterHeaters() )
+        {
+            return 0;
+        }
+        
         return $this->calculations->getBuilding()->getHotWaterHeaters()->getPrimaryEnergyFactorAverage();
     }
 
