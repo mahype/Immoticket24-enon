@@ -150,7 +150,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 					}
 					return implode( ', ', array_unique( $energietraeger ) );
 				} else if ( $energieausweis->ww_info == 'unbekannt' ) {
-					return $calcCC->getBuilding()->getHeaters()->getHeaterByHighestEnergyValue()->getEnergySource()->getName();;
+					return '';
 				}
 			}
 			return '';
