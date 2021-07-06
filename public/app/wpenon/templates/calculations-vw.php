@@ -11,7 +11,7 @@
 $calc = $data['object']; 
 $building = $data['object']->getBuilding(); 
 
-$hotWaterHeater = '';
+$hotWaterHeater = null;
 if( $building->issetHotWaterHeaters() ) {
   $hotWaterHeater = $building->getHotWaterHeaters()->current();
 }
