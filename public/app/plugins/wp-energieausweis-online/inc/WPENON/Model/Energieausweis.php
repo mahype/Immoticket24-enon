@@ -343,7 +343,7 @@ class Energieausweis {
 
 	public function getCalcCC() : CalculationsCC
 	{
-		require $this->getSchemaPath() . '/calculations/CalculationsCC.php';
+		require_once $this->getSchemaPath() . '/calculations/CalculationsCC.php';
 		return new CalculationsCC( $this );
 	}
 

@@ -71,10 +71,10 @@ class EnergieausweisForm {
 		$data['thumbnail']                 = $thumbnail;
 		$data['calculations']              = $energieausweis->calculate();
 		
-		if( $energieausweis->mode == 'v' && $energieausweis->isSchemaOlderThenDate('2021-07-05') && $energieausweis->isFinalized() )
+		if( $energieausweis->mode == 'v' && ! $energieausweis->isSchemaOlderThenDate('2021-07-05') && $energieausweis->isFinalized() )
 		{
 			$calcCC = $energieausweis->getCalcCC();
-			$data['energy_bar']                = array(
+			$data['energy_bar'] = array(
 				array(
 					'mode'         => $energieausweis->mode,
 					'building'     => $energieausweis->building,
