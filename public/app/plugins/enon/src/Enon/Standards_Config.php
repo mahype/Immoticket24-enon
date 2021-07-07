@@ -80,6 +80,35 @@ class Standards_Config extends Config {
 	}
 
 	/**
+	 * is this an old standard
+	 * 
+	 * @since 1.0.0
+	 * 
+	 * @return bool
+	 */
+	public function isOldStandard( $standardKey ) : bool
+	{
+		if ( $this->getCurrent() !== $standardKey )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Is standard older then
+	 * 
+	 * @since 1.0.0
+	 * 
+	 * @return bool
+	 */
+	public function isStandardOlderThenDate( string $standard, string $date )
+	{
+		return in_array( $standard, $this->getStandardsBefore( $date ) );
+	}
+
+	/**
 	 * Get standards before given date
 	 * 
 	 * @param string Date

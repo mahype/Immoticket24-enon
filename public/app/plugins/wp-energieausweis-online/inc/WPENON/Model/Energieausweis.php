@@ -335,6 +335,12 @@ class Energieausweis {
 		return $standardsConfig->getStandardsPath();
 	}
 
+	public function isSchemaOlderThenDate( string $date )
+	{
+		$standardsConfig = new Standards_Config();
+		return $standardsConfig->isStandardOlderThenDate( $this->schema_name, $date );
+	}
+
 	public function getCalcCC() : CalculationsCC
 	{
 		require $this->getSchemaPath() . '/calculations/CalculationsCC.php';
