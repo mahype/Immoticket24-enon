@@ -7,8 +7,6 @@
 
 namespace WPENON\Model;
 
-use CalculationsCC;
-
 class EnergieausweisForm {
 	private static $instance;
 
@@ -75,7 +73,7 @@ class EnergieausweisForm {
 
 		if( $energieausweis->mode == 'v' )
 		{
-			$calcCC = new CalculationsCC( $energieausweis );
+			$calcCC = $energieausweis->getCalcCC();
 			$data['energy_bar']                = array(
 				array(
 					'mode'         => $energieausweis->mode,

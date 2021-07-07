@@ -7,6 +7,7 @@
 
 namespace WPENON\Model;
 
+use CalculationsCC;
 use DateTime;
 use Enon\Enon\Standards_Config;
 
@@ -332,6 +333,12 @@ class Energieausweis {
 	{
 		$standardsConfig = new Standards_Config();
 		return $standardsConfig->getStandardsPath();
+	}
+
+	public function getCalcCC() : CalculationsCC
+	{
+		require $this->getSchemaPath() . '/calculations/CalculationsCC.php';
+		return new CalculationsCC( $this );
 	}
 
 	public function getXML( $mode, $output_mode = 'I', $raw = false ) {
