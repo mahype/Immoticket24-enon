@@ -538,7 +538,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 		}
 
 		if ( $this->wpenon_preview ) {
-			// $this->DrawPreviewText();
+			$this->DrawPreviewText();
 		}
 	}
 
