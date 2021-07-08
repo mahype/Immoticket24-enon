@@ -351,8 +351,13 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 		exit;
 	}
 
-	$setQuality = $imageEditor->set_quality( 35 );	
-	$resized = $imageEditor->resize( 800, 800 );	
+	$setQuality = $imageEditor->set_quality( 35 );
+
+	$size = $imageEditor->get_size();
+	if( $size[0] > 800 || $size[1] > 800  )
+	{
+		$resized = $imageEditor->resize( 800, 800 );	
+	}	
 
 	if( is_wp_error( $resized ) ) {
 		echo json_encode( ['error' => $resized->get_error_message() ] );
