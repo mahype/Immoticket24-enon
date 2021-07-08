@@ -16,6 +16,11 @@ if( $building->issetHotWaterHeaters() ) {
   $hotWaterHeater = $building->getHotWaterHeaters()->current();
 }
 
+$consumptionPeriods = $calc->getConsumptionPeriods();
+
+$start = $consumptionPeriods[ 0 ]['start'];
+$end   = $consumptionPeriods[ count( $consumptionPeriods ) - 1 ]['end'];
+
 ?>
 
 <?php foreach( $building->getHeaters() AS $heater ): ?>
@@ -75,8 +80,15 @@ if( $building->issetHotWaterHeaters() ) {
         <td><?php echo round( $finalEnergy, 2 ); ?></td>
       </tr>
     <?php endforeach; ?>
-  </table>
+    </table>
+
 <?php endforeach; ?>
+<?php if( $$this->getHotWaterSurCharge() > 0 ): ?>
+      <div><?php echo sprintf( 'Warmwasserzuschlag: %s', $building->getHotWaterSurChargeAverage() ); ?> </div>
+<?php endif; ?>
+<?php if( $$this->getCoolerSurCharge() > 0 ): ?>
+      <div><?php echo sprintf( 'Warmwasserzuschlag: %s', $building->getCoolerSurChargeAverage() ); ?> </div>
+<?php endif; ?>
 
 <p class="lead">
 <?php printf( __( 'Spez. Endenergieverbrauch q<sub>E</sub>: %s kWh/m&sup2;', 'wpenon' ),round( $building->getFinalEnergy(), 2 ) ); ?>
