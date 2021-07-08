@@ -1228,8 +1228,8 @@ $anlage = array(
 					'required'              => true,				
 					'required'    => true,
 					'display'               => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::k_leistung', 'groesser' ),
+						'callback'      => 'wpenon_immoticket24_show_k_baujahr',
+						'callback_args' => array( 'field::k_info', 'field::k_leistung' ),
 					),
 					'validate'              => 'wpenon_immoticket24_validate_month_year',
 					'placeholder'			=> 'MM/JJJJ'

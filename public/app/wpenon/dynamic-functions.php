@@ -625,6 +625,14 @@ function wpenon_immoticket24_show_verteilung_gedaemmt( $erzeugung, $blacklist, $
 	return true;
 }
 
+function wpenon_immoticket24_show_k_baujahr( $k_info, $k_leistung = false ) {
+	if( $k_info == 'vorhanden' && $k_leistung == 'groesser'  ) {
+		return true;
+	}
+
+	return false;
+}
+
 function wpenon_immoticket24_show_k_automation( $k_info, $k_leistung = false ) {
 	if( $k_info == 'vorhanden' && $k_leistung == 'groesser'  ) {
 		return true;
