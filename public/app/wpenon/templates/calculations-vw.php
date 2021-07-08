@@ -84,10 +84,10 @@ $end   = $consumptionPeriods[ count( $consumptionPeriods ) - 1 ]['end'];
 
 <?php endforeach; ?>
 <?php if( $building->getHotWaterSurCharge() > 0 ): ?>
-      <p class="lead"><?php echo sprintf( 'Warmwasserzuschlag (%s - %s): %s', $start, $end, $building->getHotWaterSurChargeAverage() ); ?> </p>
+      <p class="lead"><?php echo sprintf( 'Warmwasserzuschlag (%s - %s): %s', $start, $end, $building->getHotWaterSurCharge()  / $building->getUsefulArea() ); ?> </p>
 <?php endif; ?>
 <?php if( $building->getCoolerSurCharge() > 0 ): ?>
-      <p class="lead"><?php echo sprintf( 'Kühlzuschlag (%s - %s): %s', $start, $end, $building->getCoolerSurChargeAverage() ); ?> </p>
+      <p class="lead"><?php echo sprintf( 'Kühlzuschlag (%s - %s): %s', $start, $end, $building->getCoolerSurCharge() / $building->getUsefulArea() ); ?> </p>
 <?php endif; ?>
 
 <p class="lead">
