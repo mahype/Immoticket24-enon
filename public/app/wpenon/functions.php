@@ -1117,7 +1117,9 @@ function wpenon_immoticket24_get_klimafaktoren_zeitraeume202101() {
 
 	$_daten = \WPENON\Util\DB::getTableColumns( \WPENON\Util\Format::prefix( 'klimafaktoren202001' ) );
 
-	$_daten = array_slice( $_daten, 13, 15 ); // - 32 month + 1 for table header
+	$start = count( $_daten ) - 40;
+
+	$_daten = array_slice( $_daten, $start, 16 ); // - 32 month + 1 for table header
 
 	$daten = array();
 	foreach ( $_daten as $_datum ) {
