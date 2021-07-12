@@ -34,6 +34,7 @@ use Enon_Reseller\Tasks\Filters\Filter_Template;
 use Enon_Reseller\Tasks\Setup_Edd;
 
 use Enon_Reseller\Tasks\Sparkasse\Add_CSV_Export as Sparkasse_CSV_Export;
+use Enon_Reseller\Tasks\EVM\Add_Discounts as EVM_Discounts;
 use Enon_Reseller\Tasks\Sparkasse\Add_Discounts as Sparkasse_Discounts;
 
 /**
@@ -51,7 +52,8 @@ class Loader extends Task_Loader {
 	 */
 	public function run() {
 		$this->add_task( Add_CPT_Reseller::class );
-        $this->add_task( Filter_Payment_Fee_Email::class );  
+        $this->add_task( Filter_Payment_Fee_Email::class );
+        $this->add_task( EVM_Discounts::class, $this->logger() );
 
 		if ( is_admin() && ! wp_doing_ajax() ) {
             $this->add_backend_tasks();
