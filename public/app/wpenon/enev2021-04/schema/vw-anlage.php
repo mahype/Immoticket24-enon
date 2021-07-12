@@ -323,7 +323,7 @@ $anlage = array(
 				),
 				'h_typenschild'                                     => array(
 					'type'                  => 'image',
-					'label'                 => __( 'Foto des Typenschilds der Heizungsanlage', 'wpenon' ),
+					'label'                 => __( 'Foto des Typenschilds der Heizungsanlage oder Foto der Heizungsanlage', 'wpenon' ),
 					'required'              => false,
 					'filetypes' => array(
 						'image/png',
@@ -709,7 +709,7 @@ $anlage = array(
 				
 				'h2_typenschild'                                     => array(
 					'type'                  => 'image',
-					'label'                 => __( 'Foto des Typenschilds der Heizungsanlage', 'wpenon' ),
+					'label'                 => __( 'Foto des Typenschilds der Heizungsanlage oder Foto der Heizungsanlage', 'wpenon' ),
 					'filetypes' => array(
 						'image/png',
 						'image/jpeg'
@@ -1067,7 +1067,7 @@ $anlage = array(
 				),
 				'h3_typenschild'                                     => array(
 					'type'                  => 'image',
-					'label'                 => __( 'Foto des Typenschilds der Heizungsanlage', 'wpenon' ),
+					'label'                 => __( 'Foto des Typenschilds der Heizungsanlage oder Foto der Heizungsanlage', 'wpenon' ),
 					'filetypes' => array(
 						'image/png',
 						'image/jpeg'
