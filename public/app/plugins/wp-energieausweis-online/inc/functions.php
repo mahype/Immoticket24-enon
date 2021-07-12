@@ -354,7 +354,7 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 	$setQuality = $imageEditor->set_quality( 35 );
 
 	$size = $imageEditor->get_size();
-	if( $size[0] > 800 || $size[1] > 800  )
+	if( $size[0] > 800 || $size[1] > 800 || ( isset( $size['width'] ) && $size['width'] > 800 ) || ( isset( $size['height'] ) && $size['width'] > 800 ) )
 	{
 		$resized = $imageEditor->resize( 800, 800 );	
 	}	
