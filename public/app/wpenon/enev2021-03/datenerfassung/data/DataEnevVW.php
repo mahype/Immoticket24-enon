@@ -317,8 +317,9 @@ class DataEnevVW extends DataEnev {
      */
     public function Kuehlzuschlag() : float
     {
-        return $this->calculations->getBuilding()->getCoolerSurcharge();
+        return round( $this->calculations->getBuilding()->getCoolerSurcharge(), 0 );
     }
+    
     /**
      * Kuehler Primaerenergiefaktor
      * 

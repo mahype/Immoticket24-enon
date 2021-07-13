@@ -444,7 +444,7 @@ abstract class DataEnev {
     }
 
     /**
-     * Klimaanlage vorhanden?
+     * Inspektionspflichtige Klimaanlage vorhanden?
      * 
      * @return bool
      * 
@@ -453,7 +453,12 @@ abstract class DataEnev {
      */
     public function KlimaanlageVorhanden() : bool
     {
-        return $this->energieausweis->k_info == 'vorhanden' ? true: false;
+        if( $this->energieausweis->k_info == 'vorhanden' && $this->energieausweis->k_leistung === 'groesser' )
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -523,11 +528,6 @@ abstract class DataEnev {
      */
     public function FaelligkeitsdatumInspektion() : string
     {
-        if( $this->energieausweis->k_leistung !== 'groesser' )
-        {
-            return '';				
-        }
-
         $k_baujahr = explode( '/', $this->energieausweis->k_baujahr );
         $k_baujahr = $k_baujahr[1] . '-' . $k_baujahr[0];
         $k_baujahr = new DateTime( $k_baujahr );
