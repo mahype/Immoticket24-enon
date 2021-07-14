@@ -105,7 +105,7 @@ class Standards_Config extends Config {
 	 */
 	public function isStandardOlderThenDate( string $standard, string $date )
 	{
-		return in_array( $standard, $this->getStandardsBefore( $date ) );
+		return in_array( $standard, array_keys( $this->getStandardsBefore( $date ) ) );
 	}
 
 	/**
