@@ -32,7 +32,6 @@ $basisdaten = array(
 						'image/png',
 						'image/jpeg'
 					),
-					'validate' => 'wpenon_immoticket24_validate_house_image_upload'
 				),
 				'gebaeudetyp'  => array(
 					'type'             => 'select',
