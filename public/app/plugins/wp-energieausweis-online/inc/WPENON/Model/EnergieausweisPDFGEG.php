@@ -245,12 +245,22 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 							break;
 					}
 					
-					$image = $this->GetData( 'thumbnail_id', 0, true );
+					$imageOld = $this->GetData( 'thumbnail_id', 0, true );
+					$imageNew = $this->GetData( 'gebauedefoto', 0, true );
+
+					$image = '';
+
+					if( ! empty( $imageNew ) )
+					{
+						$image = $imageNew;
+					} elseif( $imageOld ) {
+						$image = \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-energieausweiss-image' );
+					}
 
 					if ( $image ) {
 						$this->SetPageFillColor( 'bright' );
 						$this->Rect( 161.5, 53.8, 41, 49.2, 'F' );
-						$this->WriteBoundedImage( \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-energieausweiss-image' ), 161.2, 53.3, 41.8, 50.4 );
+						$this->WriteBoundedImage( $image, 161.2, 53.3, 41.8, 50.4 );
 						$this->SetPageFillColor( 'background' );
 					}					
 					
