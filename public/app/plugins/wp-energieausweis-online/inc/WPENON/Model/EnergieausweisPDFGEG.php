@@ -258,6 +258,8 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 					}
 
 					if ( $image ) {
+						echo  $image;
+						exit;
 						$this->SetPageFillColor( 'bright' );
 						$this->Rect( 161.5, 53.8, 41, 49.2, 'F' );
 						$this->WriteBoundedImage( $image, 161.2, 53.3, 41.8, 50.4 );
