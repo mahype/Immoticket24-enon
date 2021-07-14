@@ -253,8 +253,10 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 					if( ! empty( $imageNew ) )
 					{
 						$image = $imageNew;
-					} elseif( $imageOld ) {
-						$image = \WPENON\Util\ThumbnailHandler::getImagePath( $image, 'enon-energieausweiss-image' );
+					} 
+					elseif( $imageOld ) 
+					{
+						$image = \WPENON\Util\ThumbnailHandler::getImagePath( $imageOld, 'enon-energieausweiss-image' );
 					}
 
 					if ( $image ) {
