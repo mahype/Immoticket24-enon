@@ -252,7 +252,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 
 					if( ! empty( $imageNew ) )
 					{
-						$image = $imageNew;
+						$image = \WPENON\Util\ThumbnailHandler::urlToPath( $imageNew );
 					} 
 					elseif( $imageOld ) 
 					{

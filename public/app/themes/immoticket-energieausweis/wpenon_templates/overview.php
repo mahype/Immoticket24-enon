@@ -16,7 +16,7 @@ if ( function_exists( 'edd_get_download_price' ) ) {
 }
 
 $standard = new Standards_Config();
-$oldStandard = $standard->isStandardOlderThenDate( $data['meta']['standard_unformatted'], '2021-07-13' );
+$oldStandard = $standard->isStandardOlderThenDate( $data['meta']['standard_unformatted'], '2021-07-08' );
 
 if( $oldStandard )
 {
@@ -78,7 +78,7 @@ if( $oldStandard )
       </h4>
       <p>
         <small>
-          <?php _e( 'Wenn Sie ein Bild im Formular hochladen, wird dieses im Energieausweis angezeigt.', 'wpenon' ); ?>
+          <?php _e( 'Wenn Sie ein Bild hochladen, wird dieses im Energieausweis angezeigt.', 'wpenon' ); ?>
         </small>
       </p>
      
