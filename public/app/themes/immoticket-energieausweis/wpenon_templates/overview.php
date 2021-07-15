@@ -23,12 +23,14 @@ if( $oldStandard )
   $image = isset( $data['thumbnail']['id'] ) &&  $data['thumbnail']['id'] > 0 ? wpenon_get_image_url( $data['thumbnail']['id'], 'enon-energieausweiss-image' ) : ''; 
 } else {
   $image = isset( $data['meta']['gebauedefoto'] ) ? $data['meta']['gebauedefoto']: ''; 
-} 
+}
+
+$showImage = $oldStandard || ! empty ( $image ) ? true : false;
 
 ?>
 
 <div class="row">
-  <div class="col-sm-8">
+  <div class="<?php if ( $showImage ): ?>col-sm-8<?php else: ?>col-sm-12<?php endif; ?>">
     <div class="overview-meta well">
       <h4>
         <?php _e( 'Energieausweis-Basisdaten', 'wpenon' ); ?>
@@ -71,6 +73,8 @@ if( $oldStandard )
       ?>
     </div>
   </div>
+
+  <?php if ( $showImage ): ?>
   <div class="col-sm-4">
     <div class="overview-thumbnail">      
       <h4>
@@ -114,6 +118,7 @@ if( $oldStandard )
       <?php endif; ?>
     </div>
   </div>
+  <?php endif; ?>
 </div>
 
 <?php wpenon_get_view()->displaySubTemplate( 'access-box', '', $data['access_link'] ); ?>
