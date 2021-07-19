@@ -71,12 +71,30 @@ class Standards_Config extends Config {
 				'date'       => '2020-08-08',
 				'start_date' => '2021-06-30',
 			),
-			'enev2021-04' => array(
-				'name'       => __( 'GEG 2021 (ab 09.07.2021)', 'wpenon' ),
+			'enev2021-05' => array(
+				'name'       => __( 'GEG 2021 (ab 19.07.2021)', 'wpenon' ),
 				'date'       => '2020-08-08',
-				'start_date' => '2021-07-09',
+				'start_date' => '2021-07-19',
 			),
 		);
+	}
+
+	/**
+	 * Get standard start date
+	 * 
+	 * @param string $standard Name of standard (e.g. enev2021-05)
+	 * 
+	 * @return string Start date (leave empty for current standard)
+	 * 
+	 * @since 1.0.0
+	 */
+	public function getStandardStartDate( string $standard = '' ) : string
+	{
+		if( empty( $standard ) ) {
+			$standard = $this->getCurrent();
+		}
+
+		return $this->config_data[ $standard ]['start_date'];
 	}
 
 	/**
