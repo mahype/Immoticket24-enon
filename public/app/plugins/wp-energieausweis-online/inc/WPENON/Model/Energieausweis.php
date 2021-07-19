@@ -100,16 +100,18 @@ class Energieausweis {
 
 		add_action( 'edd_update_payment_status', array( $this, '_checkOrderedPaidStatus' ) );
 
+		$standardsConfig = new Standards_Config();
+
 		/**
 		 * Switching to new GEG if needed
 		 */
 		$date = new DateTime( date('Y-m-d' ) );
-		$dateSwitch = new DateTime('2021-07-09');
+		$dateSwitch = new DateTime( $standardsConfig->getStandardStartDate() );
 		$this->schema_name = get_post_meta( $this->id, 'wpenon_standard', true );
 
-		if( $date >= $dateSwitch && $this->schema_name !== 'enev2021-04' && ! $this->isOrdered() ) {
+		if( $date >= $dateSwitch && $this->schema_name !== $standardsConfig->getCurrent() && ! $this->isOrdered() ) {
 			update_post_meta( $this->id, '_finalized', false );
-			update_post_meta( $this->id, 'wpenon_standard', 'enev2021-04' );
+			update_post_meta( $this->id, 'wpenon_standard', $standardsConfig->getCurrent() );
 		}
 
 		$this->_loadSchema();
