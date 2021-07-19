@@ -248,8 +248,7 @@ class CalculationsCC {
             case 'vorhanden':
                 $dataCoolers = [
                     0 => [
-                        'energySource' => $this->getEnergySource( 'strom_kwh' ),
-                        'percentage'   => 100 / $this->ec->flaeche * $this->ec->k_flaeche
+                        'energySource' => $this->getEnergySource( 'strom_kwh' )
                     ]
                  ];
 
