@@ -203,7 +203,7 @@ class CalculationsCC {
                 'ende'           => $end,
                 'energietraeger' => 'Kühlungszuschlag',
                 'primaer'        => $this->getBuilding()->getCoolers()->current()->getEnergySource()->getPrimaryEnergyFactor(),
-                'gesamt'         => $this->getBuilding()->getCoolerSurCharge(),
+                'gesamt'         => $this->getBuilding()->getCoolers()->current()->getKWh(),
                 'warmwasser'     => 0,
                 'heizung'        => 0,
                 'klima'          => '',

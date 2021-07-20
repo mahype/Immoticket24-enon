@@ -327,7 +327,7 @@ class DataEnevVW extends DataEnev {
      */
     public function Kuehlzuschlag() : int
     {
-        return round( $this->calculations->getBuilding()->getCoolerSurcharge(), 0 );
+        return round( $this->calculations->getBuilding()->getCoolers()->getKWh(), 0 );
     }
     /**
      * Kuehler Primaerenergiefaktor
@@ -350,7 +350,7 @@ class DataEnevVW extends DataEnev {
      */
     public function GebaeudenutzflaecheGekuehlt() : int
     {
-        return $this->calculations->getBuilding()->getUsefulArea();
+        return $this->energieausweis->k_flaeche;
     }
     
     /**
