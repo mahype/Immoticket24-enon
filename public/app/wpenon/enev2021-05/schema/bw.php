@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202104\Schema;
+namespace Enev\Schema202105\Schema;
 
 use Enev\Schema\Schema;
 

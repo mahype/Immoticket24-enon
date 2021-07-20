@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202104\Schema;
+namespace Enev\Schema202105\Schema;
 
 require_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/schema.php' );
 require_once( dirname( __DIR__ ) . '/Standard_Options.php' );
