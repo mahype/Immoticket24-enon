@@ -87,7 +87,7 @@ $end   = $consumptionPeriods[ count( $consumptionPeriods ) - 1 ]['end'];
       <p class="lead"><?php echo sprintf( 'Warmwasserzuschlag (%s - %s): %s', $start, $end, $building->getHotWaterSurCharge()  / $building->getUsefulArea() ); ?> </p>
 <?php endif; ?>
 <?php if( $building->getCoolerSurCharge() > 0 && $building->issetCoolers() ): ?>
-      <p class="lead"><?php echo sprintf( 'Kühlzuschlag (%s - %s): %s', $start, $end, $building->getCoolers()->getFinalEnergy() ); ?> </p>
+      <p class="lead"><?php echo sprintf( 'Kühlzuschlag (%s - %s): %s', $start, $end, $building->getCoolers()->getFinalEnergy() * 3 ); ?> </p>
 <?php endif; ?>
 
 <p class="lead">

@@ -11,7 +11,7 @@ $gebaeude = array(
 					'type'        => 'select',
 					'label'       => __( 'Form des Grundrisses', 'wpenon' ),
 					'description' => __( 'Wählen Sie hier die Form aus (Draufsicht), die auf den Grundriss Ihres Gebäudes zutrifft.', 'wpenon' ),
-					'options'     => \Enev\Schema202104\Schema\Standard_Options::get_grundriss_formen(),
+					'options'     => \Enev\Schema202105\Schema\Standard_Options::get_grundriss_formen(),
 					'required'    => true,
 				),
 				'grundriss_richtung' => array(
@@ -30,7 +30,7 @@ $gebaeude = array(
 					'type'        => 'select',
 					'label'       => __( 'Form des Anbaus', 'wpenon' ),
 					'description' => __( 'Wählen Sie hier die Form aus (Draufsicht), die auf den Anbau Ihres Gebäudes zutrifft.', 'wpenon' ),
-					'options'     => \Enev\Schema202104\Schema\Standard_Options::get_anbau_formen(),
+					'options'     => \Enev\Schema202105\Schema\Standard_Options::get_anbau_formen(),
 					'required'    => true,
 					'display'     => array(
 						'callback'      => 'wpenon_show_on_bool_compare',

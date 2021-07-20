@@ -8,7 +8,7 @@ require dirname( __FILE__ ) . '/Energietraeger.php';
 require dirname( __FILE__ ) . '/Moderniserungsempfehlung.php';
 require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/modernizations/VW_Modernizations.php';
 
-use Enev\Schema202104\Modernizations\VW_Modernizations;
+use Enev\Schema202105\Modernizations\VW_Modernizations;
 
 /**
  * Data Enev Bedarsausweis
@@ -327,7 +327,7 @@ class DataEnevVW extends DataEnev {
      */
     public function Kuehlzuschlag() : int
     {
-        return round( $this->calculations->getBuilding()->getCoolerSurcharge(), 0 );
+        return round( $this->calculations->getBuilding()->getCoolers()->getKWh(), 0 );
     }
     /**
      * Kuehler Primaerenergiefaktor
@@ -350,7 +350,7 @@ class DataEnevVW extends DataEnev {
      */
     public function GebaeudenutzflaecheGekuehlt() : int
     {
-        return $this->calculations->getBuilding()->getUsefulArea();
+        return $this->energieausweis->k_flaeche;
     }
     
     /**
