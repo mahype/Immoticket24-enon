@@ -66,6 +66,15 @@ $basisdaten = array(
 					'validate'	  => 'wpenon_validate_buildingyear',
 					'placeholder' => 'Bitte wählen...'
 				),
+				'gebauedefoto'              => array(
+					'type'                  => 'image',
+					'label'                 => __( 'Foto des Gebäudes', 'wpenon' ),
+					'required'              => false,
+					'filetypes' => array(
+						'image/png',
+						'image/jpeg'
+					),
+				),
 				'flaeche'      => array(
 					'type'        => 'float',
 					'label'       => __( 'Wohnfläche', 'wpenon' ),

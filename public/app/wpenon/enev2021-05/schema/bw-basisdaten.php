@@ -78,6 +78,16 @@ $basisdaten = array(
 					'required'    => true,
 					'placeholder' => 'Bitte wählen...'
 				),
+				'gebauedefoto'              => array(
+					'type'                  => 'image',
+					'label'                 => __( 'Foto des Gebäudes', 'wpenon' ),
+					'required'              => true,
+					'filetypes' => array(
+						'image/png',
+						'image/jpeg'
+					),
+					'validate' => 'wpenon_immoticket24_validate_house_image_upload'
+				),
 			),
 		),
 		'regenerativ'    => array(
