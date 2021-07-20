@@ -174,7 +174,9 @@
               <?php endif; ?>
             </div>
 
-            <button id="file-delete-<?php echo $field_slug; ?>" class="file-delete <?php echo empty( $field['value'] ) ? ' hidden': ''; ?>" data-image_name="<?php echo $field_slug; ?>">Bild entfernen</button><br /><br />
+            <div id="file-delete-<?php echo $field_slug; ?>"> 
+              <button class="file-delete <?php echo empty( $field['value'] ) ? ' hidden': ''; ?>" data-image_name="<?php echo $field_slug; ?>">Bild entfernen</button><br /><br />
+            </div>
 
             <?php 
                 if ( isset( $field['filetypes'] ) ) {
