@@ -307,7 +307,7 @@ add_action('edd_after_cc_fields', function(){
 });
 
 
-function wpenon_register_rest_api_endpoint() {
+function wpenon_register_rest_api_endpoint_image_upload() {
 	register_rest_route( 'ec', '/image_upload/', array(
 		'methods' => 'POST',
 		'callback' => 'wpenon_image_upload',
@@ -315,7 +315,32 @@ function wpenon_register_rest_api_endpoint() {
 	) );
 }
 
-add_action( 'rest_api_init', 'wpenon_register_rest_api_endpoint' );
+add_action( 'rest_api_init', 'wpenon_register_rest_api_endpoint_image_upload' );
+
+function wpenon_register_rest_api_endpoint_image_delete() {
+	register_rest_route( 'ec', '/image_delete/', array(
+		'methods' => 'POST',
+		'callback' => 'wpenon_image_delete',
+		'permission_callback' => '__return_true'
+	) );
+}
+
+add_action( 'rest_api_init', 'wpenon_register_rest_api_endpoint_image_delete' );
+
+function wpenon_image_delete( \WP_REST_Request $request )
+{
+	$ecId  = $request->get_param( 'ecId' );
+	$field = $request->get_param( 'field' );
+
+	$postMetaUrl      = $field. '_image';
+	$postMetaFileName = $field. '_image_file';
+
+	$fileName = get_post_meta( $ecId, $postMetaFileName, true );
+	@unlink( $fileName );
+
+	delete_post_meta( $ecId, $postMetaUrl );
+	delete_post_meta( $ecId, $postMetaFileName );
+}
 
 /**
  * AJAX uploads in frontend
@@ -388,7 +413,7 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 	update_post_meta( $ecId, $postMetaName, $fileUrl );
 
 	if( ! empty( $oldFile ) && file_exists( $oldFile ) ) {
-		unlink( $oldFile );
+		@unlink( $oldFile );
 	}
 
 	echo json_encode( ['url' => $fileUrl ] );
