@@ -210,6 +210,7 @@ class CalculationsCC {
                 break;
         }
 
+        $this->formData->solar = false;
         if( $this->ec->regenerativ_art !== 'keine' )
         {
             $this->formData->solar = true;

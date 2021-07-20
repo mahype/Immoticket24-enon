@@ -4,83 +4,88 @@
  * @version 1.0.0
  * @author Felix Arntz <felix-arntz@leaves-webdesign.com>
  */
-?>
 
-<?php 
+use Enon\Enon\Standards_Config;
 
-$calc = $data['object']; 
-$building = $data['object']->getBuilding(); 
+$standard = new Standards_Config();
 
-$hotWaterHeater = null;
-if( $building->issetHotWaterHeaters() ) {
-  $hotWaterHeater = $building->getHotWaterHeaters()->current();
+if( isset( $data['object'] ) ) 
+{
+  $calc = $data['object']; 
+  $building = $data['object']->getBuilding(); 
+  
+  $hotWaterHeater = null;
+  if( $building->issetHotWaterHeaters() ) {
+    $hotWaterHeater = $building->getHotWaterHeaters()->current();
+  }
+  
+  $consumptionPeriods = $calc->getConsumptionPeriods();
+  
+  $start = $consumptionPeriods[ 0 ]['start'];
+  $end   = $consumptionPeriods[ count( $consumptionPeriods ) - 1 ]['end'];
 }
 
-$consumptionPeriods = $calc->getConsumptionPeriods();
-
-$start = $consumptionPeriods[ 0 ]['start'];
-$end   = $consumptionPeriods[ count( $consumptionPeriods ) - 1 ]['end'];
-
 ?>
 
-<?php foreach( $building->getHeaters() AS $heater ): ?>
-  <table class="table">
-    <tr>
-      <th>Heizungssytem</th>
-      <th>Energieträger</th>
-      <th>kWh-Multiplikator</th>
-      <th>Primärenergiefaktor</th>
-      <th>CO2-Emissionsfaktor</th>
-    </tr>  
+<?php if( isset( $data['object'] ) ) : ?>
+  <?php foreach( $building->getHeaters() AS $heater ): ?>
+    <table class="table">
       <tr>
-        <td><?php echo $heater->getHeatingSystem()->getName(); ?></td>
-        <td><?php echo $heater->getEnergySource()->getName(); ?></td>
-        <td><?php echo $heater->getEnergySource()->getKWhMultiplicator(); ?></td>
-        <td><?php echo $heater->getEnergySource()->getPrimaryEnergyFactor(); ?></td>
-        <td><?php echo $heater->getEnergySource()->getCo2EmissionFactor(); ?></td>
+        <th>Heizungssytem</th>
+        <th>Energieträger</th>
+        <th>kWh-Multiplikator</th>
+        <th>Primärenergiefaktor</th>
+        <th>CO2-Emissionsfaktor</th>
       </tr>  
-  </table>
-
-  <table class="table">
-    <tr>
-      <th>Startdatum</th>
-      <th>Enddatum</th>
-      <th>kWh</th>
-      <th>f<sub>k</sub></th>
-      <th>E<sub>vb,h</sub></th>
-      <th>E<sub>vb,ww</sub></th>
-      <th>E<sub>vb</sub></th>
-      <th>E<sub>leer,h</sub></th>
-      <th>E<sub>leer,ww</sub></th>
-      <th>e<sub>h</sub></th>
-      <th>e<sub>ww</sub></th>
-      <th>e</th>
-    </tr>
-    <?php foreach( $calc->getConsumptionPeriods() AS $key => $period ): ?>
-    <?php
-
-      $hotWaterHeaterVacancySurcharge    = isset( $hotWaterHeater ) ? $hotWaterHeater->getVacancySurchargeOfPeriod( $key ) : 0; 
-      $hotWaterHeaterFinalEnergyOfPeriod = isset( $hotWaterHeater ) ? $hotWaterHeater->getFinalEnergyOfPeriod( $key ) : 0;
-      $heaterFinalEnergyOfPeriod         = $heater->getFinalEnergyOfPeriod( $key );
-      $finalEnergy                       = $heaterFinalEnergyOfPeriod + $hotWaterHeaterFinalEnergyOfPeriod;
-      
-    ?>
-      <tr>
-        <td><?php echo $period['start']; ?></td>
-        <td><?php echo $period['end']; ?></td>
-        <td><?php echo $heater->getKWhOfPeriod( $key ); ?></td>
-        <td><?php echo round( $heater->getClimateFactorOfPeriod( $key ), 2 ); ?></td>        
-        <td><?php echo round( $heater->getHeaterEnergyConsumptionOfPeriod( $key ), 2 ); ?></td>
-        <td><?php echo round( $heater->getHotWaterEnergyConsumptionOfPeriod( $key ), 2 ); ?></td>
-        <td><?php echo round( $heater->getEnergyConsumptionOfPeriod( $key ), 2 ); ?></td>        
-        <td><?php echo round( $heater->getVacancySurchargeOfPeriod( $key ), 2 ); ?></td>
-        <td><?php echo round( $hotWaterHeaterVacancySurcharge, 2 ); ?></td>
-        <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
-        <td><?php echo round( $hotWaterHeaterFinalEnergyOfPeriod, 2); ?></td>
-        <td><?php echo round( $finalEnergy, 2 ); ?></td>
-      </tr>
-    <?php endforeach; ?>
+        <tr>
+          <td><?php echo $heater->getHeatingSystem()->getName(); ?></td>
+          <td><?php echo $heater->getEnergySource()->getName(); ?></td>
+          <td><?php echo $heater->getEnergySource()->getKWhMultiplicator(); ?></td>
+          <td><?php echo $heater->getEnergySource()->getPrimaryEnergyFactor(); ?></td>
+          <td><?php echo $heater->getEnergySource()->getCo2EmissionFactor(); ?></td>
+        </tr>  
     </table>
+
+    <table class="table">
+      <tr>
+        <th>Startdatum</th>
+        <th>Enddatum</th>
+        <th>kWh</th>
+        <th>f<sub>k</sub></th>
+        <th>E<sub>vb,h</sub></th>
+        <th>E<sub>vb,ww</sub></th>
+        <th>E<sub>vb</sub></th>
+        <th>E<sub>leer,h</sub></th>
+        <th>E<sub>leer,ww</sub></th>
+        <th>e<sub>h</sub></th>
+        <th>e<sub>ww</sub></th>
+        <th>e</th>
+      </tr>
+      <?php foreach( $calc->getConsumptionPeriods() AS $key => $period ): ?>
+      <?php
+
+        $hotWaterHeaterVacancySurcharge    = isset( $hotWaterHeater ) ? $hotWaterHeater->getVacancySurchargeOfPeriod( $key ) : 0; 
+        $hotWaterHeaterFinalEnergyOfPeriod = isset( $hotWaterHeater ) ? $hotWaterHeater->getFinalEnergyOfPeriod( $key ) : 0;
+        $heaterFinalEnergyOfPeriod         = $heater->getFinalEnergyOfPeriod( $key );
+        $finalEnergy                       = $heaterFinalEnergyOfPeriod + $hotWaterHeaterFinalEnergyOfPeriod;
+        
+      ?>
+        <tr>
+          <td><?php echo $period['start']; ?></td>
+          <td><?php echo $period['end']; ?></td>
+          <td><?php echo $heater->getKWhOfPeriod( $key ); ?></td>
+          <td><?php echo round( $heater->getClimateFactorOfPeriod( $key ), 2 ); ?></td>        
+          <td><?php echo round( $heater->getHeaterEnergyConsumptionOfPeriod( $key ), 2 ); ?></td>
+          <td><?php echo round( $heater->getHotWaterEnergyConsumptionOfPeriod( $key ), 2 ); ?></td>
+          <td><?php echo round( $heater->getEnergyConsumptionOfPeriod( $key ), 2 ); ?></td>        
+          <td><?php echo round( $heater->getVacancySurchargeOfPeriod( $key ), 2 ); ?></td>
+          <td><?php echo round( $hotWaterHeaterVacancySurcharge, 2 ); ?></td>
+          <td><?php echo round( $heater->getFinalEnergyOfPeriod( $key ), 2 ); ?></td>
+          <td><?php echo round( $hotWaterHeaterFinalEnergyOfPeriod, 2); ?></td>
+          <td><?php echo round( $finalEnergy, 2 ); ?></td>
+        </tr>
+      <?php endforeach; ?>
+      </table>
 
 <?php endforeach; ?>
 <?php if( $building->getHotWaterSurCharge() > 0 && $calc->getHotWater() === 'unknown' ): ?>
@@ -101,7 +106,7 @@ $end   = $consumptionPeriods[ count( $consumptionPeriods ) - 1 ]['end'];
 <p class="lead">
   <?php printf( __( 'CO2 Emissionen: %s kg/(m²·a) ', 'wpenon' ), round( $building->getCo2Emissions(), 2 ) ); ?>
 </p>
-
+<?php endif; ?>
 
 <div style="background:#ccc;">
 Alte Berechnungen
