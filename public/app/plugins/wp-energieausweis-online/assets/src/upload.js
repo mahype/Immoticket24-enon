@@ -1,6 +1,7 @@
 const axios = require('axios');
 
-let fileInputs = document.querySelectorAll('.file-control');
+let fileInputs        = document.querySelectorAll('.file-control');
+let fileDeleteButtons = document.querySelectorAll('.file-delete');
 
 fileInputs.forEach( ( fileInput )=> {
     fileInput.addEventListener( 'change', ( event ) => {
@@ -19,6 +20,22 @@ fileInputs.forEach( ( fileInput )=> {
         data.append('file', file );
         
         sendUpload( data, field );
+    });
+});
+
+fileDeleteButtons.forEach( ( fileDeleteButton ) => {
+    fileDeleteButton.addEventListener( 'click', ( event ) => {
+        event.preventDefault();
+        let ecId  = _wpenon_data.energieausweis_id;
+        let field = event.target.dataset.image_name;
+        let data  = new FormData();
+
+        data.append('action', 'ec_image_delete');
+        data.append('field', field  );
+        data.append('ecId', ecId ); 
+
+        sendDelete( data, field );
+        event.target.classList.add('hidden');
     });
 });
 
@@ -49,10 +66,22 @@ const sendUpload = ( data, field ) => {
             }
         }
     ).then( ( response ) => {
-       console.log( 'test' );
-       console.log( response );
        setPercentage( field, 0 );
        document.getElementById( field + "_field" ).value = response.data.url;
        document.getElementById( field + "_image" ).innerHTML = `<img src="${response.data.url}" />`;
+       document.getElementById( "file-delete-" + field ).classList.remove('hidden');
+    });
+}
+
+const sendDelete = ( data, field ) => {
+    return axios.post(
+        _wpenon_data.rest_url + 'ec/image_delete', 
+        data,
+        {
+            headers: {'X-WP-Nonce': _wpenon_data.upload_nonce},
+        }
+    ).then( ( response ) => {
+       document.getElementById( field + "_field" ).value = '';
+       document.getElementById( field + "_image" ).innerHTML = '';
     });
 }

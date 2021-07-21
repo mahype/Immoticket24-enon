@@ -5,6 +5,8 @@
  * @author Felix Arntz <felix-arntz@leaves-webdesign.com>
  */
 
+use Enon\Enon\Standards_Config;
+
 $prefix = '';
 if ( function_exists( 'edd_get_download_price' ) ) {
   $price = edd_get_download_price( get_the_ID() );
@@ -13,12 +15,22 @@ if ( function_exists( 'edd_get_download_price' ) ) {
   }
 }
 
-$is_old_standard = ( (int) substr( $data['meta']['standard_unformatted'], 4, 4) < 2021 ) ? true : false;
+$standard = new Standards_Config();
+$oldStandard = $standard->isStandardOlderThenDate( $data['meta']['standard_unformatted'], '2021-07-08' );
+
+if( $oldStandard )
+{
+  $image = isset( $data['thumbnail']['id'] ) &&  $data['thumbnail']['id'] > 0 ? wpenon_get_image_url( $data['thumbnail']['id'], 'enon-energieausweiss-image' ) : ''; 
+} else {
+  $image = isset( $data['meta']['gebauedefoto'] ) ? $data['meta']['gebauedefoto']: ''; 
+}
+
+$showImage = $oldStandard || ! empty ( $image ) ? true : false;
 
 ?>
 
 <div class="row">
-  <div class="col-sm-8">
+  <div class="<?php if ( $showImage ): ?>col-sm-8<?php else: ?>col-sm-12<?php endif; ?>">
     <div class="overview-meta well">
       <h4>
         <?php _e( 'Energieausweis-Basisdaten', 'wpenon' ); ?>
@@ -61,6 +73,8 @@ $is_old_standard = ( (int) substr( $data['meta']['standard_unformatted'], 4, 4) 
       ?>
     </div>
   </div>
+
+  <?php if ( $showImage ): ?>
   <div class="col-sm-4">
     <div class="overview-thumbnail">      
       <h4>
@@ -68,16 +82,19 @@ $is_old_standard = ( (int) substr( $data['meta']['standard_unformatted'], 4, 4) 
       </h4>
       <p>
         <small>
-          <?php _e( 'Wenn Sie hier ein Bild hochladen, wird dieses im Energieausweis angezeigt.', 'wpenon' ); ?>
+          <?php _e( 'Wenn Sie ein Bild hochladen, wird dieses im Energieausweis angezeigt.', 'wpenon' ); ?>
         </small>
       </p>
+     
       <div class="thumbnail-wrapper">
-        <?php if ( $data['thumbnail']['id'] > 0 ) : ?>
-	        <img src="<?php echo wpenon_get_image_url( $data['thumbnail']['id'], 'enon-energieausweiss-image' ); ?>">
+        <?php if ( ! empty ( $image ) ) : ?>
+	        <img src="<?php echo $image; ?>">
         <?php else : ?>
           <span class="glyphicon glyphicon-picture"></span>
         <?php endif; ?>
       </div>
+
+      <?php if ( $oldStandard ): ?>
       <?php if ( $data['thumbnail']['error'] ) : ?>
         <div class="alert alert-danger">
           <p>
@@ -85,6 +102,7 @@ $is_old_standard = ( (int) substr( $data['meta']['standard_unformatted'], 4, 4) 
           </p>
         </div>
       <?php endif; ?>
+      
       <form id="wpenon-thumbnail-form" role="form" action="<?php echo $data['action_url']; ?>" method="post" enctype="multipart/form-data" novalidate>
         <p>
           <input type="file" name="<?php echo $data['thumbnail']['file_field_name']; ?>">
@@ -97,8 +115,10 @@ $is_old_standard = ( (int) substr( $data['meta']['standard_unformatted'], 4, 4) 
           <?php endif; ?>
         </p>
       </form>
+      <?php endif; ?>
     </div>
   </div>
+  <?php endif; ?>
 </div>
 
 <?php wpenon_get_view()->displaySubTemplate( 'access-box', '', $data['access_link'] ); ?>

@@ -170,9 +170,11 @@
             
             <div id="<?php echo $field_slug; ?>_image">
               <?php if( ! empty( $field['value'] ) ): ?>
-                <img src="<?php echo $field['value']; ?>" />
+                <img src="<?php echo $field['value']; ?>" /><br /><br />
               <?php endif; ?>
             </div>
+            
+            <button id="file-delete-<?php echo $field_slug; ?>" class="file-delete <?php echo empty( $field['value'] ) ? ' hidden': ''; ?>" data-image_name="<?php echo $field_slug; ?>" style="margin:20px 0;">Bild entfernen</button>
 
             <?php 
                 if ( isset( $field['filetypes'] ) ) {
