@@ -327,8 +327,13 @@ class DataEnevVW extends DataEnev {
      */
     public function Kuehlzuschlag() : int
     {
+        if( ! $this->calculations()->getBuilding()->issetCoolers() )
+        {
+            return 0;
+        }
         return round( $this->calculations->getBuilding()->getCoolers()->getKWh(), 0 );
     }
+
     /**
      * Kuehler Primaerenergiefaktor
      * 
@@ -338,6 +343,10 @@ class DataEnevVW extends DataEnev {
      */
     public function KuehlerPrimaerenergiefaktor() : float
     {
+        if( ! $this->calculations()->getBuilding()->issetCoolers() )
+        {
+            return 0;
+        }
         return $this->calculations->getBuilding()->getCoolers()->getPrimaryEnergyFactorAverage();
     }
 
@@ -350,6 +359,9 @@ class DataEnevVW extends DataEnev {
      */
     public function GebaeudenutzflaecheGekuehlt() : int
     {
+        if( empty( $this->energieausweis->k_flaeche ) ) {
+            return 0;
+        }
         return $this->energieausweis->k_flaeche;
     }
     
