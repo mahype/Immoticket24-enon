@@ -280,7 +280,7 @@ class CalculationsCC {
 
             $date = str_replace( '_', '-', $date );
 
-            $climateFactors->add( new ClimateFactor( new DateTime( $date ), $value )  );
+            $climateFactors->add( new ClimateFactor( new \DateTime( $date ), $value )  );
         }
 
         return $climateFactors;
@@ -301,7 +301,7 @@ class CalculationsCC {
             $start = wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $this->formData->startDate, $i, false, 'data' );
             $end   = wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $this->formData->startDate, $i, true, 'data' );
 
-            $timePerdiod = new TimePeriod( new DateTime( $start ), new DateTime( $end ) );
+            $timePerdiod = new TimePeriod( new \DateTime( $start ), new \DateTime( $end ) );
             $timePerdiods->add( $timePerdiod );
         }
 
