@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema202101\Calculations;
+
 require( dirname( dirname(__FILE__) ) .'/vendor/autoload.php' );
 
 use AWSM\LibEstate\Calculations\ConsumptionCalculations;
@@ -61,7 +63,7 @@ class CalculationsCC {
     /**
      * Table names
      */
-    protected stdClass $tableNames;
+    protected \stdClass $tableNames;
 
     /**
      * Mapped form data varables
@@ -70,7 +72,7 @@ class CalculationsCC {
      * 
      * @since 1.0.0
      */
-    protected stdClass $formData;
+    protected \stdClass $formData;
 
     /**
      * Constructor
@@ -83,7 +85,7 @@ class CalculationsCC {
     {
         $this->ec = $ec;
 
-        $this->tableNames = new stdClass();
+        $this->tableNames = new \stdClass();
 
         $this->tableNames->h_erzeugung                 = 'h_erzeugung2019';
         $this->tableNames->ww_erzeugung                = 'ww_erzeugung202001';
@@ -147,7 +149,7 @@ class CalculationsCC {
      */
     public function loadformData() 
     {
-        $this->formData = new stdClass();
+        $this->formData = new \stdClass();
 
         $this->formData->postcode  = $this->ec->adresse_plz;
 

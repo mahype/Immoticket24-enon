@@ -10,7 +10,7 @@ $tableNames->energietraeger              = 'energietraeger2021';
 $tableNames->energietraeger_umrechnungen = 'energietraeger_umrechnungen';
 $tableNames->klimafaktoren               = 'klimafaktoren202001';
 
-$calcCC = new CalculationsCC( $energieausweis );
+$calcCC = new Enev\Schema202102\Calculations\CalculationsCC( $energieausweis );
 $calculations['co2_emissionen'] = $calcCC->calculation()->getCo2Emissions();
 
 foreach( $calcCC->calculation()->heaters AS $heater ) {

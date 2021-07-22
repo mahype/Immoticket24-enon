@@ -23,7 +23,7 @@ class DataEnevVW extends DataEnev {
      * 
      * @since 1.0.0
      */
-    private CalculationsCC $calculations;
+    private Enev\Schema202105\Calculations\CalculationsCC $calculations;
 
     /**
      * Berechnungen Bedarfsausweis
@@ -32,11 +32,11 @@ class DataEnevVW extends DataEnev {
      * 
      * @since 1.0.0
      */
-    public function calculations() : CalculationsCC
+    public function calculations() : Enev\Schema202105\Calculations\CalculationsCC
     {
         if ( empty( $this->calculations ) )
         {
-            $this->calculations = new CalculationsCC( $this->energieausweis );
+            $this->calculations = new Enev\Schema202105\Calculations\CalculationsCC( $this->energieausweis );
         }
 
         return $this->calculations;

@@ -5,7 +5,7 @@ require_once dirname( dirname( __FILE__ ) ) . '/calculations/CalculationsCC.php'
 function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null, $data = array() ) {
 	if( isset( $energieausweis ) && $energieausweis->mode == 'v' )
 	{		
-		$calcCC = new CalculationsCC( $energieausweis );
+		$calcCC = new Enev\Schema202105\Calculations\CalculationsCC( $energieausweis );
 	}
 
 	switch ( $context ) {
@@ -18,7 +18,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 				if ( 2 === $wohnungen ) {
 					return __( 'freistehendes Zweifamilienhaus', 'wpenon' );
 				}
-
+				
 				return __( 'freistehendes Einfamilienhaus', 'wpenon' );
 			}
 			if ( 'sonstiges' === $energieausweis->gebaeudetyp && 'gesamt' === $energieausweis->gebaeudeteil ) {

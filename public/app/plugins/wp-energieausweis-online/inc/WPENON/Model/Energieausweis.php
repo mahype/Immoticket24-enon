@@ -343,10 +343,29 @@ class Energieausweis {
 		return $standardsConfig->isStandardOlderThenDate( $this->schema_name, $date );
 	}
 
-	public function getCalcCC() : CalculationsCC
+	public function getCalcCC()
 	{
 		require_once $this->getSchemaPath() . '/calculations/CalculationsCC.php';
-		return new CalculationsCC( $this );
+
+		switch( $this->schema_name )
+		{
+			case 'enev2021-01':
+				$calculations = new \Enev\Schema202101\Calculations\CalculationsCC( $this );
+				break;
+			case 'enev2021-02':
+				$calculations = new \Enev\Schema202102\Calculations\CalculationsCC( $this );
+				break;
+			case 'enev2021-03':
+				$calculations = new \Enev\Schema202103\Calculations\CalculationsCC( $this );
+				break;
+			case 'enev2021-04':
+				$calculations = new \Enev\Schema202104\Calculations\CalculationsCC( $this );
+				break;
+			case 'enev2021-05':
+				$calculations = new \Enev\Schema202105\Calculations\CalculationsCC( $this );
+				break;
+		}
+		return $calculations;
 	}
 
 	public function getXML( $mode, $output_mode = 'I', $raw = false ) {
