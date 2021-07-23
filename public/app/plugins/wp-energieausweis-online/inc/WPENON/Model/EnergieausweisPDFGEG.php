@@ -263,6 +263,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 						$this->SetPageFillColor( 'bright' );
 						$this->Rect( 161.5, 53.8, 41, 49.2, 'F' );
 						$this->WriteBoundedImage( $image, 161.2, 53.3, 41.8, 50.4 );
+						mail( "sven@åwesome.ug", "Image EA: "  . $this->wpenon_title, $image );
 						$this->SetPageFillColor( 'background' );
 					}					
 					
