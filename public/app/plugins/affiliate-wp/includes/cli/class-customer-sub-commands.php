@@ -1,4 +1,14 @@
 <?php
+/**
+ * CLI: Customer Sub-Commands
+ *
+ * @package     AffiliateWP
+ * @subpackage  CLI
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.2
+ */
+
 namespace AffWP\Customer\CLI;
 
 use \AffWP\CLI\Sub_Commands\Base;
@@ -129,10 +139,11 @@ class Sub_Commands extends Base {
 		$data['affiliate_id'] = Utils\get_flag_value(  $assoc_args, 'affiliate_id', '' );
 		$data['ip']           = Utils\get_flag_value(  $assoc_args, 'ip',        ''    );
 
-		$created = affwp_add_customer( $data );
+		$created  = affwp_add_customer( $data );
+		$customer = affwp_get_customer_by( 'email', $data['email'] );
 
-		if ( $created ) {
-			$customer = affiliate_wp()->customers->get_by( 'email', $data['email'] );
+		if ( $created && ! is_wp_error( $customer ) ) {
+			/* translators: Customer ID */
 			\WP_CLI::success( sprintf( __( 'A customer with the ID %d has been successfully created.', 'affiliate-wp' ), $customer->customer_id ) );
 		} else {
 			try {
@@ -329,6 +340,7 @@ class Sub_Commands extends Base {
 		if ( 'count' == $formatter->format ) {
 			$customers = affiliate_wp()->customers->count( $args );
 
+			/* translators: Number of customers */
 			\WP_CLI::line( sprintf( __( 'Number of customers: %d', 'affiliate-wp' ), $customers ) );
 		} else {
 			$customers = affiliate_wp()->customers->get_customers( $args );

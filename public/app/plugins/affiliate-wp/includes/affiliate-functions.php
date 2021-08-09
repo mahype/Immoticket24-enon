@@ -1,5 +1,15 @@
 <?php
 /**
+ * Affiliate Functions
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core/Functions
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
+
+/**
  * Determines if the specified user ID is an affiliate.
  *
  * If no user ID is given, it will check the currently logged in user
@@ -241,9 +251,9 @@ function affwp_get_affiliate( $affiliate = 0 ) {
 		$affiliate_id = absint( $affiliate );
 	} elseif ( is_string( $affiliate ) ) {
 		if ( $user = get_user_by( 'login', $affiliate ) ) {
-			if ( $affiliate = affiliate_wp()->affiliates->get_by( 'user_id', $user->ID ) ) {
-				$affiliate_id = $affiliate->affiliate_id;
-			} else {
+			$affiliate_id = affiliate_wp()->affiliates->get_column_by( 'affiliate_id', 'user_id', $user->ID );
+
+			if ( ! $affiliate_id ) {
 				return false;
 			}
 		} else {
@@ -604,6 +614,7 @@ function affwp_get_affiliate_rate_types() {
 	// Allowed types
 	$types = array(
 		'percentage' => __( 'Percentage (%)', 'affiliate-wp' ),
+		/* translators: Currency name */
 		'flat'       => sprintf( __( 'Flat %s', 'affiliate-wp' ), affwp_get_currency() )
 	);
 
@@ -1415,15 +1426,15 @@ function affwp_update_affiliate( $data = array() ) {
 
 		// If it's a new user ID and not already associated with an affiliate, replace it.
 		if ( $affiliate->user_id !== $new_user_id
-			&& ! affiliate_wp()->affiliates->get_by( 'user_id', $new_user_id )
+			&& is_wp_error( affwp_get_affiliate_by( 'user_id', $new_user_id ) )
 		) {
 			$user_id = $new_user_id;
 		}
 	}
 
 	$args['payment_email']   = ! empty( $data['payment_email'] ) && is_email( $data['payment_email'] ) ? sanitize_text_field( $data['payment_email'] ) : $affiliate->payment_email;
-	$args['rate']            = ( isset( $data['rate'] ) && '' !== $data['rate'] ) ? sanitize_text_field( $data['rate'] ) : $affiliate->rate;
-	$args['rate_type']       = ! empty( $data['rate_type'] ) ? sanitize_text_field( $data['rate_type'] ) : $affiliate->rate_type;
+	$args['rate']            = isset( $data['rate'] ) ? sanitize_text_field( $data['rate'] ) : $affiliate->rate;
+	$args['rate_type']       = isset( $data['rate_type'] ) ? sanitize_text_field( $data['rate_type'] ) : $affiliate->rate_type;
 	$args['earnings']        = ( isset( $data['earnings'] ) && is_numeric( $data['earnings'] ) ) ? floatval( $data['earnings'] ) : $affiliate->earnings;
 	$args['unpaid_earnings'] = ( isset( $data['unpaid_earnings'] ) && is_numeric( $data['unpaid_earnings'] ) ) ? floatval( $data['unpaid_earnings'] ) : $affiliate->unpaid_earnings;
 	$args['status']          = ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : $affiliate->status;
@@ -1474,7 +1485,7 @@ function affwp_update_affiliate( $data = array() ) {
 	if ( ! empty( $data['coupon_code'] ) ) {
 		$coupon_code = affwp_sanitize_coupon_code( $data['coupon_code'] );
 
-		if ( ! affiliate_wp()->affiliates->coupons->get_by( 'coupon_code', $coupon_code ) ) {
+		if ( is_wp_error( affwp_get_coupon_by( 'coupon_code', $coupon_code ) ) ) {
 			$coupon_args['coupon_code'] = $coupon_code;
 		}
 	}
@@ -2057,4 +2068,28 @@ function affwp_get_payouts_service_account( $affiliate_id = 0 ) {
  */
 function affwp_is_affiliate_area() {
 	return get_the_ID() === affwp_get_affiliate_area_page_id();
+}
+
+/**
+ * Retrieves an affiliate by a given field and value.
+ *
+ * @since 2.7
+ *
+ * @param string $field Affiliate object field.
+ * @param mixed  $value Field value.
+ * @return \AffWP\Affiliate|\WP_Error Affiliate object if found, otherwise a WP_Error object.
+ */
+function affwp_get_affiliate_by( $field, $value ) {
+	$result = affiliate_wp()->affiliates->get_by( $field, $value );
+
+	if ( is_object( $result ) ) {
+		$affiliate = affwp_get_affiliate( intval( $result->affiliate_id ) );
+	} else {
+		$affiliate = new \WP_Error(
+			'invalid_affiliate_field',
+			sprintf( 'No affiliate could be retrieved with a(n) \'%1$s\' field value of %2$s.', $field, $value )
+		);
+	}
+
+	return $affiliate;
 }

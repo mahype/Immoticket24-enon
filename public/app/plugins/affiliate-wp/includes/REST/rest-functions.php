@@ -1,10 +1,20 @@
 <?php
 /**
+ * REST: Functions
+ *
+ * @package     AffiliateWP
+ * @subpackage  REST
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
+/**
  * Retrieves a REST consumer object.
  *
  * @since 1.9
  *
- * @param int|AffWP\REST\Consumer $consumer Consumer ID or object.
+ * @param int|\AffWP\REST\Consumer $consumer Consumer ID or object.
  * @return \AffWP\REST\Consumer|false Consumer object, otherwise false.
  */
 function affwp_get_rest_consumer( $consumer = null ) {
@@ -15,9 +25,9 @@ function affwp_get_rest_consumer( $consumer = null ) {
 		$consumer_id = absint( $consumer );
 	} elseif ( is_string( $consumer ) ) {
 		if ( $user = get_user_by( 'login', $consumer ) ) {
-			if ( $consumer = affiliate_wp()->REST->consumers->get_by( 'user_id', $user->ID ) ) {
-				$consumer_id = $consumer->consumer_id;
-			} else {
+			$consumer_id = affiliate_wp()->REST->consumers->get_column_by( 'consumer_id', 'user_id', $user->ID );
+
+			if ( ! $consumer_id ) {
 				return false;
 			}
 		} else {
@@ -35,7 +45,6 @@ function affwp_get_rest_consumer( $consumer = null ) {
  *
  * Note: This is primary used in the REST component and should not be used by itself.
  * It's used to re-hash already-hashed tokens used for REST authentication.
- *
  *
  * @since 1.9
  *
@@ -71,7 +80,7 @@ function affwp_auth_hash( $data, $key, $add_auth_key = true ) {
 }
 
 /**
- * Registers a new field on an existing AffiliateWP object type.
+ * Registers a new REST field on an existing AffiliateWP object type.
  *
  * Intended to be forward-compatible with register_rest_field().
  *
@@ -212,4 +221,28 @@ function affwp_rest_put( $route, $params = array() ) {
  */
 function affwp_rest_post( $route, $params = array() ) {
 	return affwp_rest_request( 'POST', $route, $params );
+}
+
+/**
+ * Retrieves a REST consumer by a given field and value.
+ *
+ * @since 2.7
+ *
+ * @param string $field REST consumer object field.
+ * @param mixed  $value Field value.
+ * @return \AffWP\REST\Consumer|\WP_Error Consumer object if found, otherwise a WP_Error object.
+ */
+function affwp_get_rest_consumer_by( $field, $value ) {
+	$result = affiliate_wp()->REST->consumers->get_by( $field, $value );
+
+	if ( is_object( $result ) ) {
+		$consumer = affwp_get_rest_consumer( intval( $result->consumer_id ) );
+	} else {
+		$consumer = new \WP_Error(
+			'invalid_rest_consumer_field',
+			sprintf( 'No REST consumer could be retrieved with a(n) \'%1$s\' field value of %2$s.', $field, $value )
+		);
+	}
+
+	return $consumer;
 }

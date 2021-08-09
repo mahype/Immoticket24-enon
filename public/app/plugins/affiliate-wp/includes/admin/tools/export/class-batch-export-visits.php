@@ -1,4 +1,14 @@
 <?php
+/**
+ * Tools: Visits Export Batch Processor
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools/Export
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 use AffWP\Utils\Batch_Process as Batch;
@@ -187,6 +197,7 @@ class Export_Visits extends Batch\Export\CSV implements Batch\With_PreFetch {
 				$affiliate = sprintf( '%s (#%d)', affwp_get_affiliate_name( $visit->affiliate_id ), $visit->affiliate_id );
 
 				if ( $visit->referral_id ) {
+					/* translators: Visit referral ID */
 					$referral_status = sprintf( __( 'Yes (Ref: #%s)', 'affiliate-wp' ), $visit->referral_id );
 				} else {
 					$referral_status = _x( 'No', 'visit not converted', 'affiliate-wp' );
@@ -254,7 +265,9 @@ class Export_Visits extends Batch\Export\CSV implements Batch\With_PreFetch {
 
 				$message = sprintf(
 					_n(
+						/* translators: Singular visit number */
 						'%s visit was successfully exported.',
+						/*  translators: Plural visits number */
 						'%s visits were successfully exported.',
 						$final_count,
 						'affiliate-wp'

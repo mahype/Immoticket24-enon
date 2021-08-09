@@ -1,4 +1,13 @@
 <?php
+/**
+ * Utilities: Logging API
+ *
+ * @package     AffiliateWP
+ * @subpackage  Utilities
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
 
 class Affiliate_WP_Logging {
 
@@ -25,11 +34,14 @@ class Affiliate_WP_Logging {
 	 */
 	public function init() {
 
-		$upload_dir       = wp_upload_dir( null, false );
-		$this->filename   = 'affwp-debug.log';
-		$this->file       = trailingslashit( $upload_dir['basedir'] ) . $this->filename;
+		$upload_dir     = wp_upload_dir( null, false );
+		$hash           = affwp_get_hash( $upload_dir, AUTH_SALT );
+		$this->filename = sprintf( 'affwp-debug-log__%s.log', $hash );
 
-		if ( ! is_writeable( $upload_dir['basedir'] ) ) {
+		$base_dir   = isset( $upload_dir['basedir'] ) ? $upload_dir['basedir'] : ABSPATH;
+		$this->file = trailingslashit( $base_dir ) . $this->filename;
+
+		if ( ! is_writeable( $base_dir ) ) {
 			$this->is_writable = false;
 		}
 

@@ -1,4 +1,14 @@
 <?php
+/**
+ * CLI: Affiliate Sub-Commands
+ *
+ * @package     AffiliateWP
+ * @subpackage  CLI
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\Affiliate\CLI;
 
 use \AffWP\CLI\Sub_Commands\Base;
@@ -159,6 +169,7 @@ class Sub_Commands extends Base {
 			if ( ! $user = get_user_by( $field, $args[0] ) ) {
 				try {
 
+					/* translators: Affiliate username */
 					\WP_CLI::error( sprintf( __( 'A user with the ID or username "%s" does not exist. See wp help user create for registering new users.', 'affiliate-wp' ), $args[0] ) );
 
 				} catch( \Exception $exception ) {
@@ -170,7 +181,7 @@ class Sub_Commands extends Base {
 		}
 
 		// Bail if this user already has an affiliate account.
-		if ( affiliate_wp()->affiliates->get_by( 'user_id', $user->ID ) ) {
+		if ( ! is_wp_error( affwp_get_affiliate_by( 'user_id', $user->ID ) ) ) {
 			try {
 
 				\WP_CLI::error( __( 'An affiliate already exists for this user account.', 'affiliate-wp' ) );
@@ -197,6 +208,7 @@ class Sub_Commands extends Base {
 		$affiliate = affwp_add_affiliate( $data );
 
 		if ( $affiliate ) {
+			/* translators: Affiliate username */
 			\WP_CLI::success( sprintf( __( 'An affiliate with the username "%s" has been created.', 'affiliate-wp' ), $user->user_login ) );
  		} else {
 			try {
@@ -492,6 +504,7 @@ class Sub_Commands extends Base {
 		if ( 'count' == $formatter->format ) {
 			$affiliates = affiliate_wp()->affiliates->count( $args );
 
+			/* translators: Number of affiliates */
 			\WP_CLI::line( sprintf( __( 'Number of affiliates: %d', 'affiliate-wp' ), $affiliates ) );
 		} else {
 			$affiliates = affiliate_wp()->affiliates->get_affiliates( $args );

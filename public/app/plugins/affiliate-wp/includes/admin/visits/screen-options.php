@@ -1,4 +1,13 @@
 <?php
+/**
+ * Admin: Visits Screen Options
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Visits
+ * @copyright   Copyright (c) 2015, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.7
+ */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;

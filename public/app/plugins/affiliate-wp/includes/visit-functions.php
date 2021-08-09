@@ -1,11 +1,21 @@
 <?php
 /**
+ * Visits Functions
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
+
+/**
  * Retrieves a visit object.
  *
  * @since 1.9
  *
- * @param int|AffWP\Visit $visit Visit ID or object.
- * @return AffWP\Visit|false Visit object, otherwise false.
+ * @param int|\AffWP\Visit $visit Visit ID or object.
+ * @return \AffWP\Visit|false Visit object, otherwise false.
  */
 function affwp_get_visit( $visit = null ) {
 
@@ -23,11 +33,11 @@ function affwp_get_visit( $visit = null ) {
 /**
  * Counts the number of visits logged for a given affiliate.
  *
- * @since
+ * @since 1.9
  *
- * @param int|AffWP\Affiliate $affiliate Optional. Affiliate ID or object. Default is the current affiliate.
- * @param array|string        $date      Optional. Array of date data with 'start' and 'end' key/value pairs,
- *                                       or a timestamp. Default empty array.
+ * @param int|\AffWP\Affiliate $affiliate Optional. Affiliate ID or object. Default is the current affiliate.
+ * @param array|string         $date      Optional. Array of date data with 'start' and 'end' key/value pairs,
+ *                                        or a timestamp. Default empty array.
  * @return int|false Number of visits, otherwise 0|false.
  */
 function affwp_count_visits( $affiliate = 0, $date = array() ) {
@@ -53,7 +63,7 @@ function affwp_count_visits( $affiliate = 0, $date = array() ) {
  *
  * @since 1.2
  *
- * @param int|AffWP\Visit $visit Visit ID or object.
+ * @param int|\AffWP\Visit $visit Visit ID or object.
  * @return bool True if the visit was successfully deleted, otherwise false.
  */
 function affwp_delete_visit( $visit ) {
@@ -123,4 +133,28 @@ function affwp_validate_visit_id( $visit_id ) {
 	}
 
 	return $valid;
+}
+
+/**
+ * Retrieves a visit by a given field and value.
+ *
+ * @since 2.7
+ *
+ * @param string $field Visit object field.
+ * @param mixed  $value Field value.
+ * @return \AffWP\Visit|\WP_Error Visit object if found, otherwise a WP_Error object.
+ */
+function affwp_get_visit_by( $field, $value ) {
+	$result = affiliate_wp()->visits->get_by( $field, $value );
+
+	if ( is_object( $result ) ) {
+		$visit = affwp_get_visit( intval( $result->visit_id ) );
+	} else {
+		$visit = new \WP_Error(
+			'invalid_visit_field',
+			sprintf( 'No visit could be retrieved with a(n) \'%1$s\' field value of %2$s.', $field, $value )
+		);
+	}
+
+	return $visit;
 }

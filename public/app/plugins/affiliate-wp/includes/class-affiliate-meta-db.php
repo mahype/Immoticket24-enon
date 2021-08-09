@@ -1,5 +1,15 @@
 <?php
 /**
+ * Affiliate Meta Database Abstraction Layer
+ *
+ * @package     AffiliateWP
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2015, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.6
+ */
+
+/**
  * Core class used to implement affiliate meta.
  *
  * @since 1.6

@@ -4,7 +4,7 @@
  *
  * @package     AffiliateWP
  * @subpackage  Functions/Formatting
- * @copyright   Copyright (c) 2017, AffiliateWP, LLC
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.1.9
  */

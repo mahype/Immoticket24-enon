@@ -22,9 +22,19 @@ $dynamic_coupons_enabled = affiliate_wp()->settings->get( 'dynamic_coupons' );
 		?>
 
 		<?php if ( $user ): ?>
-			<p><?php printf( __( 'Use this form to add %1$s (%2$s) as a new affiliate.', 'affiliate-wp' ), esc_attr( $user->user_login ), esc_attr( $user->user_email ) ); ?></p>
+			<p>
+				<?php
+				/* translators: 1: user login, 2: user email */
+				printf( __( 'Use this form to add %1$s (%2$s) as a new affiliate.', 'affiliate-wp' ), esc_attr( $user->user_login ), esc_attr( $user->user_email ) );
+				?>
+			</p>
 		<?php else: ?>
-			<p><?php printf( __( 'Use this form to create a new affiliate account. Each affiliate is tied directly to a user account, so if the user account for the affiliate does not yet exist, <a href="%s" target="_blank">create one</a>.', 'affiliate-wp' ), admin_url( 'user-new.php' ) ); ?></p>
+			<p>
+				<?php
+				/* translators: URL to create a new user */
+				printf( __( 'Use this form to create a new affiliate account. Each affiliate is tied directly to a user account, so if the user account for the affiliate does not yet exist, <a href="%s" target="_blank">create one</a>.', 'affiliate-wp' ), admin_url( 'user-new.php' ) );
+				?>
+			</p>
 		<?php endif; ?>
 
 		<table class="form-table">

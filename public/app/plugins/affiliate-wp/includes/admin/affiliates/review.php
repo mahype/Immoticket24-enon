@@ -1,4 +1,14 @@
 <?php
+/**
+ * Admin: Review Affiliate View
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Affiliates
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
+
 $affiliate               = affwp_get_affiliate( absint( $_GET['affiliate_id'] ) );
 $affiliate_id            = $affiliate->affiliate_id;
 $name                    = affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id );
@@ -19,7 +29,7 @@ $dynamic_coupons         = affwp_get_dynamic_affiliate_coupons( $affiliate_id, f
 		/**
 		 * Fires at the top of the review-affiliate admin screen, just inside of the form element.
 		 *
-		 * @since 1.0
+		 * @since 1.2
 		 *
 		 * @param \AffWP\Affiliate $affiliate Affiliate object.
 		 */
@@ -142,7 +152,7 @@ $dynamic_coupons         = affwp_get_dynamic_affiliate_coupons( $affiliate_id, f
 			/**
 			 * Fires at the end of the review-affiliate admin screen, prior to the closing table element tag.
 			 *
-			 * @since 1.0
+			 * @since 1.2
 			 *
 			 * @param \AffWP\Affiliate $affiliate Affiliate object.
 			 */
@@ -155,7 +165,7 @@ $dynamic_coupons         = affwp_get_dynamic_affiliate_coupons( $affiliate_id, f
 		/**
 		 * Fires at the bottom of the review-affiliate admin screen, just prior to the submit button.
 		 *
-		 * @since 1.0
+		 * @since 1.2
 		 *
 		 * @param \AffWP\Affiliate $affiliate Affiliate object.
 		 */

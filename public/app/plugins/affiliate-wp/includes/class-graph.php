@@ -5,7 +5,7 @@
  * This class handles building pretty report graphs
  *
  * @package     AffiliateWP
- * @copyright   Copyright (c) 2012, Pippin Williamson
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
  */

@@ -1,9 +1,12 @@
 <?php
 /**
- * Payout functions
+ * Payout Functions
  *
- * @since 1.9
- * @package Affiliate_WP
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
  */
 
 /**
@@ -11,8 +14,8 @@
  *
  * @since 1.9
  *
- * @param int|AffWP\Affiliate\Payout $payout Payout ID or object.
- * @return AffWP\Affiliate\Payout|false Payout object if found, otherwise false.
+ * @param int|\AffWP\Affiliate\Payout $payout Payout ID or object.
+ * @return \AffWP\Affiliate\Payout|false Payout object if found, otherwise false.
  */
 function affwp_get_payout( $payout = 0 ) {
 
@@ -119,7 +122,7 @@ function affwp_delete_payout( $payout ) {
  *
  * @since 1.9
  *
- * @param int|AffWP\Affiliate\Payout $payout Payout ID or object.
+ * @param int|\AffWP\Affiliate\Payout $payout Payout ID or object.
  * @return array|false List of referral objects associated with the payout, otherwise false.
  */
 function affwp_get_payout_referrals( $payout = 0 ) {
@@ -139,7 +142,7 @@ function affwp_get_payout_referrals( $payout = 0 ) {
  * @since 2.6.1 The `$payout` parameter was renamed to `$payout_or_status` and now also accepts
  *              a payout status.
  *
- * @param int|AffWP\Affiliate\Payout|string $payout_or_status Payout ID, object, or status.
+ * @param int|\AffWP\Affiliate\Payout|string $payout_or_status Payout ID, object, or status.
  * @return string|false The localized version of the payout status label, otherwise false.
  */
 function affwp_get_payout_status_label( $payout_or_status ) {
@@ -166,9 +169,9 @@ function affwp_get_payout_status_label( $payout_or_status ) {
 	 * @since 1.9
 	 * @since 2.6.1 Added the `$status` parameter
 	 *
-	 * @param string                 $label  A localized version of the payout status label.
-	 * @param AffWP\Affiliate\Payout $payout Payout object.
-	 * @param string                 $status Payout status.
+	 * @param string                  $label  A localized version of the payout status label.
+	 * @param \AffWP\Affiliate\Payout $payout Payout object.
+	 * @param string                  $status Payout status.
 	 */
 	return apply_filters( 'affwp_payout_status_label', $label, $payout, $status );
 }
@@ -216,7 +219,7 @@ function affwp_get_payout_methods() {
  *
  * @since 2.4
  *
- * @param string $payout_method Optional, default is manual. Payout method.
+ * @param string $payout_method Optional. Payout method. Default empty.
  * @return string $label The localized version of the payout method label. If the payout method
  *                       isn't registered, the default 'Manual Payout' label will be returned.
  */
@@ -397,6 +400,7 @@ function affwp_is_payouts_service_enabled() {
  * Retrieve the headers to be sent for HTTP request to the Payouts Service.
  *
  * @since 2.6.8
+ *
  * @param bool $add_authorization_header Optional. Whether to return the Authorization header.
  *                                       Default true.
  * @return array HTTP headers.
@@ -417,4 +421,28 @@ function affwp_get_payouts_service_http_headers( $add_authorization_header = tru
 	}
 
 	return $headers;
+}
+
+/**
+ * Retrieves a payout by a given field and value.
+ *
+ * @since 2.7
+ *
+ * @param string $field Payout object field.
+ * @param mixed  $value Field value.
+ * @return \AffWP\Affiliate\Payout|\WP_Error Payout object if found, otherwise a WP_Error object.
+ */
+function affwp_get_payout_by( $field, $value ) {
+	$result = affiliate_wp()->affiliates->payouts->get_by( $field, $value );
+
+	if ( is_object( $result ) ) {
+		$payout = affwp_get_payout( intval( $result->payout_id ) );
+	} else {
+		$payout = new \WP_Error(
+			'invalid_payout_field',
+			sprintf( 'No payout could be retrieved with a(n) \'%1$s\' field value of %2$s.', $field, $value )
+		);
+	}
+
+	return $payout;
 }

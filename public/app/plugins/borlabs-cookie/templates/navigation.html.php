@@ -41,9 +41,26 @@
             <?php
             if ($multilanguagePluginIsActive) {
                 ?>
-                <a class="navbar-brand" href="#">
-                    <span data-toggle="tooltip" title="<?php echo $currentLanguageTooltipText; ?>"><?php echo $currentFlag; ?></span>
-                </a>
+
+                <?php
+                    if($needsLanguageChooser) {
+                ?>
+                       <select id="borlabsCookieLanguageChooser" class="form-control form-control-sm w-auto pr-4">
+                           <?php foreach($availableLanguagesForChooser as $availableLanguageForChooser) { ?>
+                           <option value="<?php echo $availableLanguageForChooser['code'] ?>" <?php echo $availableLanguageForChooser['code'] == $currentLanguageCode ? 'selected' : '' ?>>
+                               <?php echo $availableLanguageForChooser['name']; ?>
+                           </option>
+                           <?php } ?>
+                       </select>
+                        <?php
+                    } else {
+                        ?>
+                        <a class="navbar-brand" href="#">
+                            <span data-toggle="tooltip" title="<?php echo $currentLanguageTooltipText; ?>"><?php echo $currentFlag; ?></span>
+                        </a>
+                        <?php
+                    }
+                        ?>
                 <?php
             }
             ?>

@@ -1,4 +1,14 @@
 <?php
+/**
+ * Referral Type Registry
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2018, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.2
+ */
+
 namespace AffWP\Utils\Referral_Types;
 
 use AffWP\Utils;

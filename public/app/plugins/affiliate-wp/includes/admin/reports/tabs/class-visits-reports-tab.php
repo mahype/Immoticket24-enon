@@ -67,6 +67,7 @@ class Tab extends Reports\Tab {
 					'affiliate_id' => $this->affiliate_id,
 					'date'         => $this->date_query
 				) ),
+				/* translators: 1: Affiliate results URL, 2: Affiliate name, 3: Date comparison label for context */
 				'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | %3$s', 'affiliate-wp' ),
 					esc_url( $affiliate_link ),
 					$affiliate_name,
@@ -92,6 +93,7 @@ class Tab extends Reports\Tab {
 				'type'            => 'number',
 				'context'         => 'tertiary',
 				'data'            => $converted_date,
+				/* translators: 1: Affiliate results URL, 2: Affiliate name, 3: Date comparison label for context */
 				'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | %3$s', 'affiliate-wp' ),
 					esc_url( $affiliate_link ),
 					$affiliate_name,
@@ -124,6 +126,7 @@ class Tab extends Reports\Tab {
 				'type'            => 'rate',
 				'context'         => 'secondary',
 				'data'            => $total_visits_date > 0 ? round( ( $converted_date / $total_visits_date ), 2 ) : 0,
+				/* translators: 1: Affiliate results URL, 2: Affiliate name, 3: Date comparison label for context */
 				'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | %3$s', 'affiliate-wp' ),
 					esc_url( $affiliate_link ),
 					$affiliate_name,
@@ -229,6 +232,7 @@ class Tab extends Reports\Tab {
 
 			if ( $this->affiliate_id ) {
 
+				/* translators: 1: Affiliate results URL, 2: Affiliate name, 3: Date comparison label for context */
 				$comparison_data = sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | %3$s', 'affiliate-wp' ),
 					esc_url( $affiliate_link ),
 					$affiliate_name,
@@ -253,6 +257,7 @@ class Tab extends Reports\Tab {
 
 			if ( $this->affiliate_id ) {
 
+				/* translators: 1: Affiliate results URL, 2: Affiliate name, 3: Date comparison label for context */
 				$comparison_data = sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | %3$s', 'affiliate-wp' ),
 					esc_url( $affiliate_link ),
 					$affiliate_name,

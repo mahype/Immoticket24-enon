@@ -1,6 +1,20 @@
 <?php
+/**
+ * Integrations: Opt-In Platform Bootstrap
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2018, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.2
+ */
 namespace AFFWP\Integrations;
 
+/**
+ * Bootstraps the ability to register and integrate with opt-in platforms.
+ *
+ * @since 2.2
+ */
 class Opt_In {
 
 	public $contact = array();

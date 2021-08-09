@@ -614,6 +614,45 @@ form .spinner {
 	clear: both;
 }
 
+.affwp-admin-notice-top-of-page {
+	font-size: 15px;
+	line-height: 1.5;
+	color: #fff;
+	margin-left: -20px;
+	padding: 13px 20px;
+	background: #60b9b3;
+	display: none;
+	position: relative;
+	text-align: center;
+}
+
+.affwp-admin-notice-top-of-page a {
+	color: #fff;
+	font-weight: bold;
+}
+
+.affwp-admin-notice-top-of-page a:hover {
+	text-decoration: none;
+}
+
+.affwp-admin-notice-top-of-page .button-link {
+	position: absolute;
+	top: calc(50% - 18px);
+	right: 0;
+	font-size: 20px;
+	color: #fff;
+	font-weight: bold;
+	text-decoration: none;
+	margin-left: 5px;
+	padding: 8px 12px;
+	line-height: 1;
+}
+
+.affwp-admin-notice-top-of-page .button-link:hover, .affwp-admin-notice-top-of-page .button-link:active, .affwp-admin-notice-top-of-page .button-link:focus {
+	color: #fff;
+	text-decoration: none;
+}
+
 /* Media Queries */
 @media screen and ( max-width: 1024px ) {
 
@@ -632,6 +671,15 @@ form .spinner {
 	#affwp-reports-widgets-wrap #dashboard-widgets .postbox {
 		min-height: 0;
 	}
+
+	.affwp-admin-notice-top-of-page {
+		text-align: center;
+	}
+
+	.affwp-admin-notice-top-of-page {
+		padding: 10px 46px 10px 22px;
+	}
+
 }
 
 @media screen and ( max-width: 782px ) {
@@ -668,10 +716,17 @@ form .spinner {
 	#affwp-payouts-filter .column-status {
 		width: 10%;
 	}
+
 }
 
 @media screen and ( min-width: 680px ) {
 	#affwp-referrals-filter-form .column-actions {
 		width: 24%;
+	}
+}
+
+@media screen and ( min-width: 782px ) {
+	.affwp-admin-notice-top-of-page .button-link {
+		right: 8px;
 	}
 }

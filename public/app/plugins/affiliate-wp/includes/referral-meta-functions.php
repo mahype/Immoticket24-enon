@@ -1,4 +1,13 @@
 <?php
+/**
+ * Referral Meta Functions
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2019, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.4
+ */
 
 /**
  * Retrieves meta from a referral.

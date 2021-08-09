@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: s2Member
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
+/**
+ * Implements an integration for s2Member.
+ *
+ * @since 1.2
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_S2Member extends Affiliate_WP_Base {
 
 	/**
@@ -221,10 +237,11 @@ class Affiliate_WP_S2Member extends Affiliate_WP_Base {
 	 * @param \Affiliate_WP_Tracking $tracking     Tracking class instance.
 	 */
 	public function set_affiliate_id( $affiliate_id, $tracking ) {
-		$affwp_ref = ! empty( $_COOKIE['affwp_ref'] ) ? $_COOKIE['affwp_ref'] : false;
+		$cookie_name = $tracking->get_cookie_name( 'referral' );
+		$affwp_ref   = ! empty( $_COOKIE[ $cookie_name ] ) ? $_COOKIE[ $cookie_name ] : false;
 
 		if ( empty( $affwp_ref ) ) {
-			$_COOKIE['affwp_ref'] = $affiliate_id;
+			$_COOKIE[ $cookie_name ] = $affiliate_id;
 		}
 	}
 
@@ -238,10 +255,11 @@ class Affiliate_WP_S2Member extends Affiliate_WP_Base {
 	 * @param \Affiliate_WP_Tracking $tracking Tracking class instance.
 	 */
 	public function set_visit_id( $visit_id, $tracking ) {
-		$affwp_ref_visit_id = ! empty( $_COOKIE['affwp_ref_visit_id'] ) ? $_COOKIE['affwp_ref_visit_id'] : false;
+		$cookie_name        = $tracking->get_cookie_name( 'visit' );
+		$affwp_ref_visit_id = ! empty( $_COOKIE[ $cookie_name ] ) ? $_COOKIE[ $cookie_name ] : false;
 
 		if ( empty( $affwp_ref_visit_id ) ) {
-			$_COOKIE['affwp_ref_visit_id'] = $visit_id;
+			$_COOKIE[ $cookie_name ] = $visit_id;
 		}
 	}
 
@@ -255,10 +273,11 @@ class Affiliate_WP_S2Member extends Affiliate_WP_Base {
 	 * @param \Affiliate_WP_Tracking $tracking Tracking class instance.
 	 */
 	public function set_campaign( $campaign, $tracking ) {
-		$affwp_campaign = ! empty( $_COOKIE['affwp_campaign'] ) ? $_COOKIE['affwp_campaign'] : false;
+		$cookie_name    = $tracking->get_cookie_name( 'campaign' );
+		$affwp_campaign = ! empty( $_COOKIE[ $cookie_name ] ) ? $_COOKIE[ $cookie_name ] : false;
 
 		if ( empty( $affwp_campaign ) ) {
-			$_COOKIE['affwp_campaign'] = $campaign;
+			$_COOKIE[ $cookie_name ] = $campaign;
 		}
 	}
 

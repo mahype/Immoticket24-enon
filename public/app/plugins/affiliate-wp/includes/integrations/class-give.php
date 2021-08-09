@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: Give
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
+/**
+ * Implements an integration for Give.
+ *
+ * @since 1.2
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_Give extends Affiliate_WP_Base {
 
 	/**
@@ -164,9 +180,11 @@ class Affiliate_WP_Give extends Affiliate_WP_Base {
 	*/
 	public function insert_payment_note( $form_id, $payment_id = 0, $payment_meta ) {
 
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $payment_id, $this->context );
+		$referral = affwp_get_referral_by( 'reference', $payment_id, $this->context );
 
-		if ( empty( $referral ) ) {
+		if ( is_wp_error( $referral ) ) {
+			affiliate_wp()->utils->log( 'insert_payment_note: The referral could not be found.', $referral );
+
 			return;
 		}
 
@@ -174,7 +192,8 @@ class Affiliate_WP_Give extends Affiliate_WP_Base {
 		$affiliate_id = $referral->affiliate_id;
 		$name         = affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id );
 
-		give_insert_payment_note( $payment_id, sprintf( __( 'Referral #%d for %s recorded for %s', 'affiliate-wp' ), $referral->referral_id, $amount, $name ) );
+		/* translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name */
+		give_insert_payment_note( $payment_id, sprintf( __( 'Referral #%1$d for %2$s recorded for %3$s', 'affiliate-wp' ), $referral->referral_id, $amount, $name ) );
 
 	}
 

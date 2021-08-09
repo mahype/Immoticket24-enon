@@ -1,4 +1,14 @@
 <?php
+/**
+ * Admin: Notices Registry
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.4
+ */
+
 namespace AffWP\Admin;
 
 use AffWP\Utils;
@@ -54,7 +64,11 @@ class Notices_Registry extends Utils\Registry {
 	public function add_notice( $notice_id, $notice_args ) {
 		// Bail if the notice is already registered.
 		if ( $this->offsetExists( $notice_id ) ) {
-			return new \WP_Error( 'notice_exists', sprintf( __( 'The %s notice already exists and could not be added.', 'affiliate-wp' ), $notice_id ) );
+			return new \WP_Error(
+				'notice_exists',
+				/* translators: Notice ID */
+				sprintf( __( 'The %s notice already exists and could not be added.', 'affiliate-wp' ), $notice_id )
+			);
 		}
 
 		$errors = new \WP_Error;

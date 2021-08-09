@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: Sprout Invoices
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
+/**
+ * Implements an integration for Sprout Invoices.
+ *
+ * @since 1.2
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_Sprout_Invoices extends Affiliate_WP_Base {
 
 	/**
@@ -50,12 +66,16 @@ class Affiliate_WP_Sprout_Invoices extends Affiliate_WP_Base {
 	public function mark_referral_complete( SI_Payment $payment ) {
 		$payment_id = $payment->get_id();
 		$this->complete_referral( $payment_id );
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $payment_id, $this->context );
-		if ( !is_object( $referral ) ) {
+		$referral = affwp_get_referral_by( 'reference', $payment_id, $this->context );
+
+		if ( is_wp_error( $referral ) ) {
+			affiliate_wp()->utils->log( 'mark_referral_complete: The referral could not be found.', $referral );
+
 			return;
 		}
 		$amount   = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
 		$name     = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
+		/* translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name, 4: Referral affiliate ID  */
 		$note     = sprintf( __( 'Referral #%1$d for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
 			$referral->referral_id,
 			$amount,
@@ -81,14 +101,19 @@ class Affiliate_WP_Sprout_Invoices extends Affiliate_WP_Base {
 
 		$this->reject_referral( $payment_id );
 
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $payment_id, $this->context );
-		$amount   = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
-		$name     = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
-		$note     = sprintf( __( 'Referral #%d for %s for %s rejected', 'affiliate-wp' ), $referral->referral_id, $amount, $name );
+		$referral = affwp_get_referral_by( 'reference', $payment_id, $this->context );
 
-		$payment  = SI_Payment::get_instance( $payment_id );
-		$new_data = wp_parse_args( $payment->get_data(), array( 'affwp_notes' => $note ) );
-		$payment->set_data( $new_data );
+		if ( ! is_wp_error( $referral ) ) {
+			$amount = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
+			$name   = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
+			$note   = sprintf( __( 'Referral #%d for %s for %s rejected', 'affiliate-wp' ), $referral->referral_id, $amount, $name );
+
+			$payment  = SI_Payment::get_instance( $payment_id );
+			$new_data = wp_parse_args( $payment->get_data(), array( 'affwp_notes' => $note ) );
+			$payment->set_data( $new_data );
+		} else {
+			affiliate_wp()->utils->log( 'revoke_referral_on_refund: The referral could not be found.', $referral );
+		}
 	}
 
 	/**

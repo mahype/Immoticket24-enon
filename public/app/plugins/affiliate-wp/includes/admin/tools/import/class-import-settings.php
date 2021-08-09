@@ -1,13 +1,14 @@
 <?php
 /**
- * Export Settings Class.
+ * Tools: Settings Import Batch Processor
  *
  * @package     AffiliateWP
- * @subpackage  Admin/Export
- * @copyright   Copyright (c) 2016, Pippin Williamson
+ * @subpackage  Tools/Import
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.0
  */
+
 namespace AffWP\Utils\Importer;
 
 use AffWP\Utils\Importer;

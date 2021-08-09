@@ -1,8 +1,12 @@
 <?php
 /**
- * Sales functions
+ * Sale Functions
  *
- * @since 2.5
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2020, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.5
  */
 
 /**
@@ -10,7 +14,7 @@
  *
  * @since 2.5
  *
- * @param int|AffWP\Referral\Sale $referral referral ID or object.
+ * @param int|\AffWP\Referral\Sale $referral Referral ID or object.
  * @return \AffWP\Referral\Sale|false Commission object if it exists, otherwise false.
  */
 function affwp_get_sale( $referral = null ) {
@@ -42,4 +46,28 @@ function affwp_get_sales_referrals_counts_cache_key( $context ) {
 	}
 
 	return $key;
+}
+
+/**
+ * Retrieves a sale by a given field and value.
+ *
+ * @since 2.7
+ *
+ * @param string $field Sale object field.
+ * @param mixed  $value Field value.
+ * @return \AffWP\Referral\Sale|\WP_Error Sale object if found, otherwise a WP_Error object.
+ */
+function affwp_get_sale_by( $field, $value ) {
+	$result = affiliate_wp()->referrals->sales->get_by( $field, $value );
+
+	if ( is_object( $result ) ) {
+		$sale = affwp_get_sale( intval( $result->referral_id ) );
+	} else {
+		$sale = new \WP_Error(
+			'invalid_sale_field',
+			sprintf( 'No sale could be retrieved with a(n) \'%1$s\' field value of %2$s.', $field, $value )
+		);
+	}
+
+	return $sale;
 }

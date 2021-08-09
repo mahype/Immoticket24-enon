@@ -1,4 +1,14 @@
 <?php
+/**
+ * Batch Process Base Interface
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core/Interfaces
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 /**

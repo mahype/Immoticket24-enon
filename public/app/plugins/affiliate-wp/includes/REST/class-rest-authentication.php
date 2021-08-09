@@ -1,4 +1,14 @@
 <?php
+/**
+ * REST: Authentication
+ *
+ * @package     AffiliateWP
+ * @subpackage  REST
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\REST;
 
 /**
@@ -26,7 +36,7 @@ final class Authentication {
 	 * @access public
 	 * @since  1.9
 	 *
-	 * @param int $user ID for the current user.
+	 * @param int $user_id ID for the current user.
 	 * @return int API consumer user ID if authenticated.
 	 */
 	public function authenticate( $user_id ) {
@@ -41,7 +51,9 @@ final class Authentication {
 		// Prevent recursion.
 		remove_filter( 'determine_current_user', array( $this, 'authenticate' ), 20 );
 
-		if ( $consumer = affiliate_wp()->REST->consumers->get_by( 'public_key', $public_key ) ) {
+		$consumer = affwp_get_rest_consumer_by( 'public_key', $public_key );
+
+		if ( ! is_wp_error( $consumer ) ) {
 			if ( hash_equals( affwp_auth_hash( $public_key, $consumer->secret_key, false ), $token ) ) {
 				/**
 				 * Fires immediately after a REST consumer has been successfully authenticated.

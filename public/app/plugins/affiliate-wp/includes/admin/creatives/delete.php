@@ -1,4 +1,14 @@
 <?php
+/**
+ * Admin: Delete Creative View
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Creatives
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
+
 if ( ! empty( $_GET['creative_id'] ) && is_array( $_GET['creative_id'] ) ) {
 	$to_delete = array_map( 'affwp_get_creative', $_GET['creative_id'] );
 } else {
@@ -28,7 +38,10 @@ if ( ! empty( $_GET['creative_id'] ) && is_array( $_GET['creative_id'] ) ) {
 		<?php foreach ( $to_delete as $creative ) :
 			?>
 			<li>
-				<?php printf( _x( 'Creative ID #%d: %s', 'Creative ID, creative name', 'affiliate-wp' ), $creative->ID, $creative->name ); ?>
+				<?php
+				/* translators: 1: Creative ID, 2: Creative name */
+				printf( _x( 'Creative ID #%1$d: %2$s', 'Creative ID, creative name', 'affiliate-wp' ), $creative->ID, $creative->name );
+				?>
 				<input type="hidden" name="affwp_creative_ids[]" value="<?php echo esc_attr( $creative->ID ); ?>"/>
 			</li>
 		<?php endforeach; ?>

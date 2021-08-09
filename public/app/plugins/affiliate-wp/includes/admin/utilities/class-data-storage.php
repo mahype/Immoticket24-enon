@@ -1,4 +1,14 @@
 <?php
+/**
+ * Utilities: Data Storage API
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Utilites
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils;
 
 /**

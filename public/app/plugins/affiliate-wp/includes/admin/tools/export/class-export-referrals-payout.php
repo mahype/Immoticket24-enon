@@ -1,12 +1,12 @@
 <?php
 /**
- * Export Class
+ * Tools: Payouts Export Class
  *
- * This is the base class for all export methods. Each data export type (referrals, affiliates, visits) extends this class.
+ * This class handles exporting referral payout data.
  *
  * @package     AffiliateWP
- * @subpackage  Admin/Export
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @subpackage  Tools/Export
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
  */

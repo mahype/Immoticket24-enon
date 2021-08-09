@@ -18,12 +18,21 @@ $affiliate_id = affwp_get_affiliate_id();
 
 	<p>
 		<?php if ( 'id' == affwp_get_referral_format() ) : ?>
-			<?php printf( __( 'Your affiliate ID is: <strong>%s</strong>', 'affiliate-wp' ), $affiliate_id ); ?>
+			<?php
+			/* translators: Affiliate ID */
+			printf( __( 'Your affiliate ID is: <strong>%s</strong>', 'affiliate-wp' ), $affiliate_id );
+			?>
 		<?php elseif ( 'username' == affwp_get_referral_format() ) : ?>
-			<?php printf( __( 'Your affiliate username is: <strong>%s</strong>', 'affiliate-wp' ), affwp_get_affiliate_username() ); ?>
+			<?php
+			/* translators: Affiliate username */
+			printf( __( 'Your affiliate username is: <strong>%s</strong>', 'affiliate-wp' ), affwp_get_affiliate_username() );
+			?>
 		<?php endif; ?>
 		<br>
-		<?php printf( __( 'Your referral URL is: <strong>%s</strong>', 'affiliate-wp' ), esc_url( urldecode( affwp_get_affiliate_referral_url() ) ) ); ?>
+		<?php
+		/* translators: Affiliate referral URL */
+		printf( __( 'Your referral URL is: <strong>%s</strong>', 'affiliate-wp' ), esc_url( urldecode( affwp_get_affiliate_referral_url() ) ) );
+		?>
 	</p>
 
 	<?php

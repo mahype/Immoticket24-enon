@@ -109,6 +109,7 @@ class View
 
             $multilanguagePluginIsActive = true;
             $currentFlag = '';
+            $currentLanguageCode = Multilanguage::getInstance()->getCurrentLanguageCode();
             $currentLanguage = Multilanguage::getInstance()->getCurrentLanguageName();
             $currentFlagURL = Multilanguage::getInstance()->getCurrentLanguageFlag();
 
@@ -119,6 +120,11 @@ class View
             }
 
             $currentLanguageTooltipText = sprintf(_x('You are seeing the settings for the language <strong>%s</strong>.', 'Backend / Global / Tooltip', 'borlabs-cookie'), $currentLanguage);
+        }
+
+        $needsLanguageChooser = Multilanguage::getInstance()->needsLanguageChooser();
+        if($needsLanguageChooser) {
+            $availableLanguagesForChooser = Multilanguage::getInstance()->getAvailableLanguagesForChooser();
         }
 
         include Backend::getInstance()->templatePath . '/navigation.html.php';

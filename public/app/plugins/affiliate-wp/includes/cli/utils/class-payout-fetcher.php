@@ -1,4 +1,14 @@
 <?php
+/**
+ * CLI: Payout Object Fetcher
+ *
+ * @package     AffiliateWP
+ * @subpackage  CLI/Utils
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\Affiliate\Payout\CLI;
 
 use \WP_CLI\Fetchers\Base;

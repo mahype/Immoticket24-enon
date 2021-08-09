@@ -6,7 +6,8 @@
     aria-describedby="CookieBoxTextDescription"
     aria-modal="true"
 >
-    <div class="<?php echo $cookieBoxPosition; ?>" style="display: none;">
+    <div class="<?php
+    echo $cookieBoxPosition; ?>" style="display: none;">
         <div class="_brlbs-box-wrap">
             <div class="_brlbs-box">
                 <div class="cookie-box">
@@ -14,35 +15,52 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="_brlbs-flex-center">
-                                    <?php if ($cookieBoxShowLogo) { ?>
+                                    <?php
+                                    if ($cookieBoxShowLogo) { ?>
                                         <img
+                                            width="32"
+                                            height="32"
                                             class="cookie-logo"
-                                            src="<?php echo $cookieBoxLogo; ?>"
-                                            srcset="<?php echo implode(', ', $cookieBoxLogoSrcSet); ?>"
-                                            alt="<?php echo esc_attr($cookieBoxTextHeadline); ?>"
+                                            src="<?php
+                                            echo $cookieBoxLogo; ?>"
+                                            srcset="<?php
+                                            echo implode(', ', $cookieBoxLogoSrcSet); ?>"
+                                            alt="<?php
+                                            echo esc_attr($cookieBoxTextHeadline); ?>"
                                             aria-hidden="true"
                                         >
-                                    <?php } ?>
+                                    <?php
+                                    } ?>
 
-                                    <span role="heading" aria-level="3" class="_brlbs-h3" id="CookieBoxTextHeadline"><?php echo $cookieBoxTextHeadline; ?></span>
+                                    <span role="heading" aria-level="3" class="_brlbs-h3" id="CookieBoxTextHeadline"><?php
+                                        echo $cookieBoxTextHeadline; ?></span>
                                 </div>
 
-                                <p id="CookieBoxTextDescription"><?php echo do_shortcode($cookieBoxTextDescription); ?></p>
+                                <p id="CookieBoxTextDescription"><?php
+                                    echo do_shortcode($cookieBoxTextDescription); ?></p>
 
-                                <?php if (!empty($cookieGroups)) { ?>
+                                <?php
+                                if (! empty($cookieGroups)) { ?>
                                     <ul>
-                                        <?php foreach ($cookieGroups as $groupData) {
-                                            if (!empty($groupData->hasCookies)) {?>
+                                        <?php
+                                        foreach ($cookieGroups as $groupData) {
+                                            if (! empty($groupData->hasCookies)) { ?>
                                                 <li
-                                                    <?php echo $groupData->displayCookieGroup === false ? ' class="borlabs-hide"' : ''; ?>
-                                                    data-borlabs-cookie-group="<?php echo $groupData->group_id; ?>"
+                                                    <?php
+                                                    echo $groupData->displayCookieGroup === false
+                                                        ? ' class="borlabs-hide"' : ''; ?>
+                                                    data-borlabs-cookie-group="<?php
+                                                    echo $groupData->group_id; ?>"
                                                 >
-                                                    <?php echo $groupData->name; ?>
+                                                    <?php
+                                                    echo $groupData->name; ?>
                                                 </li>
-                                            <?php }
+                                            <?php
+                                            }
                                         } ?>
                                     </ul>
-                                <?php } ?>
+                                <?php
+                                } ?>
 
                                 <p class="_brlbs-accept">
                                     <a
@@ -50,26 +68,36 @@
                                         tabindex="0"
                                         role="button"
                                         id="CookieBoxSaveButton"
-                                        class="_brlbs-btn<?php echo $cookieBoxShowAcceptAllButton ? ' _brlbs-btn-accept-all' : ''; ?> _brlbs-cursor"
+                                        class="_brlbs-btn<?php
+                                        echo $cookieBoxShowAcceptAllButton ? ' _brlbs-btn-accept-all'
+                                            : ''; ?> _brlbs-cursor"
                                         data-cookie-accept
                                     >
-                                        <?php echo $cookieBoxTextAcceptButton; ?>
+                                        <?php
+                                        echo $cookieBoxTextAcceptButton; ?>
                                     </a>
                                 </p>
 
-                                <?php if ($cookieBoxHideRefuseOption === false) { ?>
-                                    <p class="<?php echo $cookieBoxRefuseOptionType === 'link' ? '_brlbs-refuse' : '_brlbs-refuse-btn'; ?>">
+                                <?php
+                                if ($cookieBoxHideRefuseOption === false) { ?>
+                                    <p class="<?php
+                                    echo $cookieBoxRefuseOptionType === 'link' ? '_brlbs-refuse'
+                                        : '_brlbs-refuse-btn'; ?>">
                                         <a
                                             href="#"
                                             tabindex="0"
                                             role="button"
-                                            class="<?php echo $cookieBoxRefuseOptionType === 'button' ? '_brlbs-btn ' : ''; ?>_brlbs-cursor"
+                                            class="<?php
+                                            echo $cookieBoxRefuseOptionType === 'button' ? '_brlbs-btn '
+                                                : ''; ?>_brlbs-cursor"
                                             data-cookie-refuse
                                         >
-                                            <?php echo $cookieBoxTextRefuseLink; ?>
+                                            <?php
+                                            echo $cookieBoxTextRefuseLink; ?>
                                         </a>
                                     </p>
-                                <?php } ?>
+                                <?php
+                                } ?>
 
                                 <p class="_brlbs-manage">
                                     <a
@@ -79,7 +107,8 @@
                                         class="_brlbs-cursor"
                                         data-cookie-individual
                                     >
-                                        <?php echo $cookieBoxTextManageLink; ?>
+                                        <?php
+                                        echo $cookieBoxTextManageLink; ?>
                                     </a>
                                 </p>
 
@@ -91,35 +120,45 @@
                                         class="_brlbs-cursor"
                                         data-cookie-individual
                                     >
-                                        <?php echo $cookieBoxTextCookieDetailsLink; ?>
+                                        <?php
+                                        echo $cookieBoxTextCookieDetailsLink; ?>
                                     </a>
 
-                                    <?php if (!empty($cookieBoxPrivacyLink)) { ?>
+                                    <?php
+                                    if (! empty($cookieBoxPrivacyLink)) { ?>
                                         <span class="_brlbs-separator"></span>
                                         <a
                                             tabindex="0"
-                                            href="<?php echo $cookieBoxPrivacyLink; ?>"
+                                            href="<?php
+                                            echo $cookieBoxPrivacyLink; ?>"
                                         >
-                                            <?php echo $cookieBoxTextPrivacyLink; ?>
+                                            <?php
+                                            echo $cookieBoxTextPrivacyLink; ?>
                                         </a>
-                                    <?php } ?>
+                                    <?php
+                                    } ?>
 
-                                    <?php if (!empty($cookieBoxImprintLink)) { ?>
+                                    <?php
+                                    if (! empty($cookieBoxImprintLink)) { ?>
                                         <span class="_brlbs-separator"></span>
                                         <a
                                             tabindex="0"
-                                            href="<?php echo $cookieBoxImprintLink; ?>"
+                                            href="<?php
+                                            echo $cookieBoxImprintLink; ?>"
                                         >
-                                            <?php echo $cookieBoxTextImprintLink; ?>
+                                            <?php
+                                            echo $cookieBoxTextImprintLink; ?>
                                         </a>
-                                    <?php } ?>
+                                    <?php
+                                    } ?>
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <?php if (!empty($cookiePreferenceTemplateFile)) {
+                <?php
+                if (! empty($cookiePreferenceTemplateFile)) {
                     include $cookiePreferenceTemplateFile;
                 } ?>
             </div>

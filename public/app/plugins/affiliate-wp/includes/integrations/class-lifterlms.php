@@ -1,5 +1,15 @@
 <?php
 /**
+ * Integrations: Lifter LMS
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.8.3
+ */
+
+/**
  * LifterLMS integration.
  *
  * @since 1.8.3
@@ -96,7 +106,7 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 	 * @access public
 	 * @since  1.8.3
 	 *
-	 * @param stdClass $order LLMS_Order instance.
+	 * @param \LLMS_Order $order LLMS_Order instance.
 	 */
 	public function complete_pending_referral( $order ) {
 
@@ -106,12 +116,15 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 
 		$this->complete_referral( $order->get( 'id' ) );
 
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $order->get( 'id' ), $this->context );
+		$referral = affwp_get_referral_by( 'reference', $order->get( 'id' ), $this->context );
 
-		if ( ! $referral ) {
+		if ( is_wp_error( $referral ) ) {
+			affiliate_wp()->utils->log( 'complete_pending_referral: The referral could not be found.', $referral );
+
 			return;
 		}
 
+		/* translators: Referral ID */
 		$note = sprintf( __( 'Referral #%d completed', 'affiliate-wp' ), $referral->referral_id );
 
 		$order->add_note( $note );
@@ -158,10 +171,10 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 			}
 
 			// Check for an existing referral.
-			$existing = affiliate_wp()->referrals->get_by( 'reference', $order_id, $this->context );
+			$existing = affwp_get_referral_by( 'reference', $order_id, $this->context );
 
 			// If an existing referral exists and it is paid or unpaid exit.
-			if ( $existing && ( 'paid' === $existing->status || 'unpaid' === $existing->status ) ) {
+			if ( ! is_wp_error( $existing ) && ( 'paid' === $existing->status || 'unpaid' === $existing->status ) ) {
 				return;
 			}
 
@@ -210,7 +223,7 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 			 *
 			 * This isn't currently ever going to happen with LifterLMS but leaving it here for future use.
 			 */
-			if ( $existing ) {
+			if ( ! is_wp_error( $existing ) ) {
 
 				// Update the previously created referral.
 				affiliate_wp()->referrals->update_referral( $existing->referral_id, array(
@@ -230,6 +243,7 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 				 */
 				$this->complete_referral( $order->id );
 
+				/* translators: Referral ID */
 				$this->log( sprintf( __( 'LifterLMS Referral #%d updated successfully.', 'affiliate-wp' ), $existing->referral_id ) );
 
 			} else { // No referral exists, so create a new one.
@@ -254,6 +268,7 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 					 */
 					$this->complete_referral( $order->id );
 
+					/* translators: Referral ID */
 					$this->log( sprintf( __( 'Referral #%d created successfully.', 'affiliate-wp' ), $referral_id ) );
 
 				} else {
@@ -294,10 +309,10 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 			}
 
 			// Check for an existing referral.
-			$existing = affiliate_wp()->referrals->get_by( 'reference', $order_id, $this->context );
+			$existing = affwp_get_referral_by( 'reference', $order_id, $this->context );
 
 			// If an existing referral exists and it is paid or unpaid exit.
-			if ( $existing && ( 'paid' === $existing->status || 'unpaid' === $existing->status ) ) {
+			if ( ! is_wp_error( $existing ) && ( 'paid' === $existing->status || 'unpaid' === $existing->status ) ) {
 				return;
 			}
 
@@ -334,7 +349,7 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 			$visit_id    = affiliate_wp()->tracking->get_visit_id();
 
 			// Update existing referral if it exists
-			if ( $existing ) {
+			if ( ! is_wp_error( $existing ) ) {
 
 				// Update the previously created referral.
 				affiliate_wp()->referrals->update_referral( $existing->referral_id, array(
@@ -348,6 +363,7 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 					'context'      => $this->context
 				) );
 
+				/* translators: Referral ID */
 				$note = sprintf( __( 'Referral #%d updated successfully.', 'affiliate-wp' ), $existing->referral_id );;
 
 				$order->add_note( $note );
@@ -370,6 +386,7 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 
 				if ( $referral_id ) {
 
+					/* translators: Referral ID */
 					$note = sprintf( __( 'Pending referral #%d created successfully.', 'affiliate-wp' ), $referral_id );;
 
 					$order->add_note( $note );
@@ -644,9 +661,11 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 
 		global $post;
 
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $post->ID, $this->context );
+		$referral = affwp_get_referral_by( 'reference', $post->ID, $this->context );
 
-		if ( ! $referral ) {
+		if ( is_wp_error( $referral ) ) {
+			affiliate_wp()->utils->log( 'order_meta_output: The referral could not be found.', $referral );
+
 			return;
 		}
 
@@ -740,6 +759,7 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 				array(
 					'type'		 => 'checkbox',
 					'label'		 => __( 'Disable Referrals', 'affiliate-wp' ),
+					/* translators: Product type */
 					'desc' 		 => sprintf( __( 'Check this box to prevent orders for this %s from generating referral commissions for affiliates.', 'affiliate-wp' ), $product_type ),
 					'desc_class' => 'd-3of4 t-3of4 m-1of2',
 					'id' 		 => '_affwp_disable_referrals',
@@ -748,6 +768,7 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 				),
 				array(
 					'type'		 => 'checkbox',
+					/* translators: Product type */
 					'label'		 => sprintf( __( 'Enable %s Referral Rate', 'affiliate-wp' ), ucfirst( $product_type ) ),
 					'desc' 		 => sprintf( __( 'Check this box to enable %s referral rate overrides', 'affiliate-wp' ), $product_type ),
 					'desc_class' => 'd-3of4 t-3of4 m-1of2',
@@ -757,7 +778,9 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 				),
 				array(
 					'type'		 => 'number',
+					/* translators: Product type */
 					'label'		 => sprintf( __( '%s Referral Rate', 'affiliate-wp' ), ucfirst( $product_type ) ),
+					/* translators: Product type */
 					'desc' 		 => sprintf( __( 'Enter a referral rate for this %s', 'affiliate-wp' ), $product_type ),
 					'id' 		 => '_affwp_' . $this->context . '_product_rate',
 					'class'  	 => 'input-full',
@@ -852,7 +875,7 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 	 * @access public
 	 * @since  1.8.3
 	 *
-	 * @param LLMS_Order $order LifterLMS order object.
+	 * @param \LLMS_Order $order LifterLMS order object.
 	 */
 	public function revoke_referral( $order ) {
 
@@ -866,12 +889,15 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 
 		$this->reject_referral( $order->get( 'id' ) );
 
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $order->get( 'id' ), $this->context );
+		$referral = affwp_get_referral_by( 'reference', $order->get( 'id' ), $this->context );
 
-		if ( ! $referral ) {
+		if ( is_wp_error( $referral ) ) {
+			affiliate_wp()->utils->log( 'revoke_referral: The referral could not be found.', $referral );
+
 			return;
 		}
 
+		/* translators: Referral ID */
 		$note = sprintf( __( 'Referral #%d rejected', 'affiliate-wp' ), $referral->referral_id );
 		$order->add_note( $note );
 

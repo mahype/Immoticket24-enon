@@ -1,10 +1,10 @@
 <?php
 /**
- * Dashboard Widgets
+ * Admin: Dashboard Widgets
  *
  * @package     AffiliateWP
  * @subpackage  Admin/Dashboard
- * @copyright   Copyright (c) 2019, AffiliateWP, LLC
+ * @copyright   Copyright (c) 2019, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.3
  */

@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: Shopp
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
+/**
+ * Implements an integration for Shopp.
+ *
+ * @since 1.2
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_Shopp extends Affiliate_WP_Base {
 
 	/**
@@ -78,24 +94,30 @@ class Affiliate_WP_Shopp extends Affiliate_WP_Base {
 
 			$this->insert_pending_referral( $referral_total, $order_id->order, $description );
 
-			$referral = affiliate_wp()->referrals->get_by( 'reference', $order_id->order, 'shopp' );
-			$amount   = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
-			$name     = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
+			$referral = affwp_get_referral_by( 'reference', $order_id->order, 'shopp' );
 
-			$user                 = wp_get_current_user();
-			$Note                 = new ShoppMetaObject();
-			$Note->parent         = $order_id->order;
-			$Note->context        = 'purchase';
-			$Note->type           = 'order_note';
-			$Note->value          = new stdClass();
-			$Note->value->author  = $user->ID;
-			$Note->value->message = sprintf( __( 'Referral #%1$d for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
-				$referral->referral_id,
-				$amount,
-				$name,
-				$referral->affiliate_id
-			);
-			$Note->save();
+			if ( ! is_wp_error( $referral ) ) {
+				$amount   = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
+				$name     = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
+
+				$user                 = wp_get_current_user();
+				$Note                 = new ShoppMetaObject();
+				$Note->parent         = $order_id->order;
+				$Note->context        = 'purchase';
+				$Note->type           = 'order_note';
+				$Note->value          = new stdClass();
+				$Note->value->author  = $user->ID;
+				/* translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name, 4: Referral affiliate ID  */
+				$Note->value->message = sprintf( __( 'Referral #%1$d for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
+					$referral->referral_id,
+					$amount,
+					$name,
+					$referral->affiliate_id
+				);
+				$Note->save();
+			} else {
+				affiliate_wp()->utils->log( 'add_pending_referral: The referral could not be found.', $referral );
+			}
 		}
 
 	}

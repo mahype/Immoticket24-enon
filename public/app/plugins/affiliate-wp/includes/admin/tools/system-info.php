@@ -1,5 +1,15 @@
 <?php
 /**
+ * Tools: System Info File
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.8.7
+ */
+
+/**
  * Displays the system info report.
  *
  * @since 1.8.7
@@ -222,6 +232,7 @@ function affwp_tools_system_info_report() {
 	$return .= 'MySQL Version:            ' . $wpdb->db_version() . "\n";
 	$return .= 'Webserver Info:           ' . $_SERVER['SERVER_SOFTWARE'] . "\n";
 	$return .= 'SSL Configured:           ' . ( is_ssl() ? 'Yes' : 'No' ) . "\n";
+	$return .= 'Pantheon:                 ' . ( affiliate_wp()->tracking->is_pantheon ? 'Yes' : 'No' ) . "\n";
 
 	// PHP configuration
 	$return .= "\n" . '-- PHP Configuration' . "\n\n";

@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: WooCommerce
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
 
+/**
+ * Implements an integration for WooCommerce.
+ *
+ * @since 1.0
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 	/**
@@ -167,7 +183,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 			$affiliate_id = $this->get_affiliate_id( $order_id );
 
 			if ( false !== $coupon_affiliate_id ) {
-				$affiliate_id = $coupon_affiliate_id;
+				$affiliate_id = intval( $coupon_affiliate_id );
 			}
 
 			if ( true === version_compare( WC()->version, '3.0.0', '>=' ) ) {
@@ -185,10 +201,10 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 			}
 
 			// Check for an existing referral
-			$existing = affiliate_wp()->referrals->get_by( 'reference', $order_id, $this->context );
+			$existing = affwp_get_referral_by( 'reference', $order_id, $this->context );
 
 			// If an existing referral exists and it is paid or unpaid exit.
-			if ( $existing && ( 'paid' == $existing->status || 'unpaid' == $existing->status ) ) {
+			if ( ! is_wp_error( $existing ) && ( 'paid' == $existing->status || 'unpaid' == $existing->status ) ) {
 				return false; // Completed Referral already created for this reference
 			}
 
@@ -282,7 +298,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 			$visit_id = affiliate_wp()->tracking->get_visit_id();
 
-			if ( $existing ) {
+			if ( ! is_wp_error( $existing ) ) {
 
 				// Update the previously created referral
 				affiliate_wp()->referrals->update_referral( $existing->referral_id, array(
@@ -427,6 +443,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 			}
 
 			if( ! empty( $product['variation_id'] ) ) {
+				/* translators: Variation ID */
 				$product['name'] .= ' ' . sprintf( __( '(Variation ID %d)', 'affiliate-wp' ), $product['variation_id'] );
 			}
 
@@ -629,17 +646,22 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		$template_id = affiliate_wp()->settings->get( 'coupon_template_woocommerce', 0 );
 ?>
 		<p class="form-field affwp-woo-coupon-field">
-			<label for="user_name"><?php _e( 'Affiliate Discount?', 'affiliate-wp' ); ?></label>
+			<label for="user_name"><?php _e( 'Affiliate discount?', 'affiliate-wp' ); ?></label>
 			<span class="affwp-ajax-search-wrap">
 				<span class="affwp-woo-coupon-input-wrap">
+					<?php
+					echo wc_help_tip( __( 'If you would like to connect this discount to an affiliate, enter the name of the affiliate it belongs to.', 'affiliate-wp' ) );
+					?>
 					<input type="text" name="user_name" id="user_name" <?php disabled( (int) $post->ID, (int) $template_id ); ?> value="<?php echo esc_attr( $user_name ); ?>" class="affwp-user-search" data-affwp-status="active" autocomplete="off" />
 				</span>
-				<img class="help_tip" data-tip='<?php _e( 'If you would like to connect this discount to an affiliate, enter the name of the affiliate it belongs to.', 'affiliate-wp' ); ?>' src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16" />
 			</span>
 			<?php if ( (int) $post->ID === (int) $template_id ) : ?>
 				<br />
 				<span class="howto">
-					<?php printf( __( 'This setting is disabled because this coupon is designated as a dynamic coupon template. Visit <a href="%s" target="_blank">Settings &rarr; Coupons</a> to configure dynamic coupons.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'settings', array( 'tab' => 'coupons' ) ) ) ); ?>
+					<?php
+					/* translators: Coupons settings URL */
+					printf( __( 'This setting is disabled because this coupon is designated as a dynamic coupon template. Visit <a href="%s" target="_blank">Settings &rarr; Coupons</a> to configure dynamic coupons.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'settings', array( 'tab' => 'coupons' ) ) ) );
+					?>
 				</span>
 			<?php endif; ?>
 		</p>
@@ -705,7 +727,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 			// Check for global affiliate coupon.
 			if ( empty( $coupon_affiliate_id ) ) {
-				$coupon = affiliate_wp()->affiliates->coupons->get_by( 'coupon_code', $code );
+				$coupon = affwp_get_coupon_by( 'coupon_code', $code );
 
 				if ( isset( $coupon->affiliate_id ) ) {
 					$affiliate_id = $coupon->affiliate_id;
@@ -745,6 +767,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 			}
 
 			if( ! empty( $item['variation_id'] ) ) {
+				/* translators: Variation ID */
 				$item['name'] .= ' ' . sprintf( __( '(Variation ID %d)', 'affiliate-wp' ), $item['variation_id'] );
 			}
 
@@ -1044,6 +1067,13 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 			return $referral_amount;
 
+		}
+
+		// Check if the current referral amount is from an affiliate rate.
+		$affiliate_rate = affiliate_wp()->affiliates->get_column( 'rate', $affiliate_id );
+		$affiliate_rate = affwp_abs_number_round( $affiliate_rate );
+		if ( null !== $affiliate_rate ) {
+			return $referral_amount;
 		}
 
 		$rate = '';
@@ -1530,9 +1560,9 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		if ( get_post_type( $order_id ) == 'shop_order' && 'referral' === $column_name ) {
 
-			$referral = affiliate_wp()->referrals->get_by( 'reference', $order_id, $this->context );
+			$referral = affwp_get_referral_by( 'reference', $order_id, $this->context );
 
-			if ( $referral ) {
+			if ( ! is_wp_error( $referral ) ) {
 				echo '<a href="' . affwp_admin_url( 'referrals', array( 'referral_id' => $referral->referral_id, 'action' => 'edit_referral' ) ) . '">#' . $referral->referral_id . '</a>';
 			} else {
 				echo '<span aria-hidden="true">&mdash;</span>';
@@ -1557,9 +1587,9 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		$order_id = method_exists( $order, 'get_id' ) ? $order->get_id() : $order->id;
 
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $order_id, $this->context );
+		$referral = affwp_get_referral_by( 'reference', $order_id, $this->context );
 
-		if( $referral ) {
+		if ( ! is_wp_error( $referral ) ) {
 
 			$referral_html = '<div class="wc-order-preview-affwp-referral">';
 			$referral_html .= '<strong>'. __( 'Affiliate Referral', 'affiliate-wp' ) . '</strong>';
@@ -1571,7 +1601,6 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		}
 
 		return $order_details;
-
 	}
 
 	/**
@@ -1800,9 +1829,9 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 */
 	public function maybe_inject_dynamic_coupon( $manual_coupon, $code ) {
 
-		$coupon = affiliate_wp()->affiliates->coupons->get_by( 'coupon_code', $code );
+		$coupon = affwp_get_coupon_by( 'coupon_code', $code );
 
-		if ( $coupon ) {
+		if ( ! is_wp_error( $coupon ) ) {
 
 			$template_id = affiliate_wp()->settings->get( 'coupon_template_woocommerce', 0 );
 
@@ -1842,9 +1871,9 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		$coupon_code = $coupon->get_code();
 
-		$affiliate_coupon = affiliate_wp()->affiliates->coupons->get_by( 'coupon_code', $coupon_code );
+		$affiliate_coupon = affwp_get_coupon_by( 'coupon_code', $coupon_code );
 
-		if ( ! $affiliate_coupon ) {
+		if ( is_wp_error( $affiliate_coupon ) ) {
 			return $is_valid;
 		}
 

@@ -1,9 +1,12 @@
 <?php
 /**
- * AffiliateWP Jigoshop Integration
+ * Integrations: Jigoshop
  *
- * This integrates support for Jigoshop.
- * @since version: 1.0.2
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0.2
  */
 
 class Affiliate_WP_Jigoshop extends Affiliate_WP_Base {
@@ -110,16 +113,22 @@ class Affiliate_WP_Jigoshop extends Affiliate_WP_Base {
 
 			$this->insert_pending_referral( $referral_total, $order_id, $description );
 
-			$referral = affiliate_wp()->referrals->get_by( 'reference', $order_id, $this->context );
-			$amount   = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
-			$name     = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
+			$referral = affwp_get_referral_by( 'reference', $order_id, $this->context );
 
-			$this->order->add_order_note( sprintf( __( 'Referral #%1$d for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
-				$referral->referral_id,
-				$amount,
-				$name,
-				$referral->affiliate_id
-			) );
+			if ( ! is_wp_error( $referral ) ) {
+				$amount = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
+				$name   = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
+
+				/* translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name, 4: Referral affiliate ID  */
+				$this->order->add_order_note( sprintf( __( 'Referral #%1$d for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
+					$referral->referral_id,
+					$amount,
+					$name,
+					$referral->affiliate_id
+				) );
+			} else {
+				affiliate_wp()->utils->log( 'add_pending_referral: The referral could not be found.', $referral );
+			}
 
 		}
 
@@ -158,10 +167,10 @@ class Affiliate_WP_Jigoshop extends Affiliate_WP_Base {
 			}
 
 			// Check for an existing referral
-			$existing = affiliate_wp()->referrals->get_by( 'reference', $order_id, $this->context );
+			$existing = affwp_get_referral_by( 'reference', $order_id, $this->context );
 
 			// If an existing referral exists and it is paid or unpaid exit.
-			if ( $existing && ( 'paid' == $existing->status || 'unpaid' == $existing->status ) ) {
+			if ( ! is_wp_error( $existing ) && ( 'paid' == $existing->status || 'unpaid' == $existing->status ) ) {
 				return false; // Referral already created for this reference
 			}
 
@@ -192,7 +201,7 @@ class Affiliate_WP_Jigoshop extends Affiliate_WP_Base {
 
 			$visit_id    = affiliate_wp()->tracking->get_visit_id();
 
-			if ( $existing ) {
+			if ( ! is_wp_error( $existing ) ) {
 
 				// Update the previously created referral
 				affiliate_wp()->referrals->update_referral( $existing->referral_id, array(

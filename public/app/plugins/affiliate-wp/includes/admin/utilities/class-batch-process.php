@@ -1,4 +1,14 @@
 <?php
+/**
+ * Utilities: Batch Processing API
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Utilites
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils;
 
 use AffWP\Utils\Batch_Process as Batch;
@@ -141,7 +151,9 @@ abstract class Batch_Process implements Batch\Base {
 
 				$message = sprintf(
 					_n(
+						/* translators: Singular item number */
 						'%s item was successfully processed.',
+						/* translators: Plural items number */
 						'%s items were successfully processed.',
 						$final_count,
 						'affiliate-wp'

@@ -1,10 +1,10 @@
 <?php
 /**
- * Contextual Help
+ * Admin: Referrals Contextual Help
  *
  * @package     AffiliateWP
  * @subpackage  Admin/Referrals
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
  */
@@ -27,6 +27,7 @@ function affwp_referrals_contextual_help() {
 		return;
 
 	$sidebar_text = '<p><strong>' . __( 'For more information:', 'affiliate-wp' ) . '</strong></p>';
+	/* translators: Documentation URL */
 	$sidebar_text .= '<p>' . sprintf( __( 'Visit the <a href="%s">documentation</a> on the AffiliateWP website.', 'affiliate-wp' ), esc_url( 'https://docs.affiliatewp.com/' ) ) . '</p>';
 
 	$screen->set_help_sidebar( $sidebar_text );

@@ -1,4 +1,14 @@
 <?php
+/**
+ * Integrations: Mailchimp Platform Bootstrap
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations/Opt_In
+ * @copyright   Copyright (c) 2018, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.2
+ */
+
 namespace AffWP\Integrations\Opt_In;
 
 use AffWP\Integrations\Opt_In;
@@ -49,6 +59,7 @@ class Mailchimp extends Opt_In\Platform {
 
 		if( $exists ) {
 
+			/* translators: Email address */
 			$this->add_error( 'already_subscribed', sprintf( __( '%s is already subscribed to this list.', 'affiliate-wp' ), $this->contact['email'] ) );
 			return;
 

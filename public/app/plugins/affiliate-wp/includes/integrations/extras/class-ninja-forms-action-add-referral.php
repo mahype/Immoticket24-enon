@@ -1,4 +1,15 @@
-<?php if ( ! defined( 'ABSPATH' ) || ! class_exists( 'NF_Abstracts_Action' ) ) exit;
+<?php
+/**
+ * Integrations: Ninja Forms Add Referral
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations/Extras
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.8.6
+ */
+
+if ( ! defined( 'ABSPATH' ) || ! class_exists( 'NF_Abstracts_Action' ) ) exit;
 
 /**
  * The Affiliate_WP_Ninja_Forms_Add_Referral class.

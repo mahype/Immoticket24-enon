@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: Zippy Courses
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
+/**
+ * Implements an integration for Zippy Courses.
+ *
+ * @since 1.2
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_ZippyCourses extends Affiliate_WP_Base {
 
 	/**
@@ -261,14 +277,18 @@ class Affiliate_WP_ZippyCourses extends Affiliate_WP_Base {
 
 			$order = $event->order;
 
-			$referral   = affiliate_wp()->referrals->get_by( 'reference', $order->getId(), $this->context );
-			if( !$referral ) {
+			$referral   = affwp_get_referral_by( 'reference', $order->getId(), $this->context );
+
+			if ( is_wp_error( $referral ) ) {
+				affiliate_wp()->utils->log( 'mark_referral_complete: The referral could not be found.', $referral );
+
 				return;
 			}
 
 			$this->complete_referral( $order->getId() );
 			$amount     = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
 			$name       = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
+			/* translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name, 4: Referral affiliate ID  */
 			$note       = sprintf( __( 'Referral #%1$d for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
 				$referral->referral_id,
 				$amount,
@@ -317,7 +337,7 @@ class Affiliate_WP_ZippyCourses extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   1.7
 	*/
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if( empty( $referral->context ) || 'zippycourses' != $referral->context ) {
 

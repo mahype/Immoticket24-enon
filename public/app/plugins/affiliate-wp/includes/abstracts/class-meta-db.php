@@ -1,5 +1,15 @@
 <?php
 /**
+ * Meta Database Model
+ *
+ * @package     AffiliateWP
+ * @subpackage  Database/Meta
+ * @copyright   Copyright (c) 2021, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.4
+ */
+
+/**
  * Core middleware class used to implement object meta.
  *
  * @since 2.4

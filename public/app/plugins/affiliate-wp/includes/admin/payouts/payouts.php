@@ -1,13 +1,13 @@
 <?php
 /**
- * 'Payouts' Admin
+ * Admin: Payouts Overview
  *
- * @package    AffiliateWP\Admin\Payouts
- * @copyright  Copyright (c) 2014, Pippin Williamson
- * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since      1.9
+ * @package     AffiliateWP
+ * @subpackage  Admin/Payouts
+ * @copyright   Copyright (c) 2021, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
  */
-
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -15,6 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/payouts/screen-options.php';
 require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/payouts/class-list-table.php';
 
+/**
+ * Loads the Payouts admin screen.
+ *
+ * @since 1.9
+ */
 function affwp_payouts_admin() {
 
 	$action = null;

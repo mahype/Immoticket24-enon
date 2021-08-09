@@ -1,5 +1,19 @@
 <?php
+/**
+ * Upgrades API
+ *
+ * @package     AffiliateWP
+ * @subpackage  Utilities
+ * @copyright   Copyright (c) 2021, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0.0
+ */
 
+/**
+ * Core class for handling upgrade operations.
+ *
+ * @since 1.0.0
+ */
 class Affiliate_WP_Upgrades {
 
 	/**
@@ -183,6 +197,14 @@ class Affiliate_WP_Upgrades {
 			$this->v26_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.7', '<' ) ) {
+			$this->v27_upgrade();
+		}
+
+		if ( version_compare( $this->version, '2.7.4', '<' ) ) {
+			$this->v274_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -254,6 +276,17 @@ class Affiliate_WP_Upgrades {
 				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/upgrades/class-batch-upgrade-db-utf8mb4.php',
 			),
 		) );
+
+		$this->add_routine( 'upgrade_v27_calculate_campaigns', array(
+			'version' => '2.7',
+			'compare' => '<',
+		) );
+
+		$this->add_routine( 'upgrade_v274_calculate_campaigns', array(
+			'version' => '2.7.4',
+			'compare' => '<',
+		) );
+
 	}
 
 	/**
@@ -995,6 +1028,48 @@ class Affiliate_WP_Upgrades {
 		@affiliate_wp()->settings->set( array(
 			'affiliate_coupons'  => true,
 		), $save = true );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Performs database upgrades for 2.7
+	 *
+	 * @since 2.7
+	 */
+	private function v27_upgrade() {
+		global $wpdb;
+
+		$dropped = $wpdb->query( "DROP VIEW IF EXISTS {$wpdb->prefix}affiliate_wp_campaigns" );
+
+		if ( true === $dropped ) {
+			@affiliate_wp()->utils->log( 'Upgrade: The campaigns view has been dropped.' );
+		} else {
+			@affiliate_wp()->utils->log( 'Upgrade: The campaigns view was not dropped.', $wpdb->last_error );
+		}
+
+		@affiliate_wp()->campaigns->create_table();
+		@affiliate_wp()->utils->log( 'Upgrade: The campaigns table has been created.' );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Performs database upgrades for 2.7.4
+	 *
+	 * @since 2.7.4
+	 */
+	private function v274_upgrade() {
+		$upload_dir = wp_upload_dir( null, false );
+		$base_dir   = isset( $upload_dir['basedir'] ) ? $upload_dir['basedir'] : ABSPATH;
+
+		$old_file = trailingslashit( $base_dir ) . 'affwp-debug.log';
+
+		if ( file_exists( $old_file ) && is_writeable( $old_file ) && is_writeable( $base_dir ) ) {
+			$hash     = affwp_get_hash( $upload_dir, AUTH_SALT );
+			$new_file = trailingslashit( $base_dir ) . sprintf( 'affwp-debug-log__%s.log', $hash );
+			@rename( $old_file, $new_file );
+		}
 
 		$this->upgraded = true;
 	}

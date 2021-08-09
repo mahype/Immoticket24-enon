@@ -4,7 +4,7 @@
  *
  * @package     AffiliateWP
  * @subpackage  Core/Coupons
- * @copyright   Copyright (c) 2019, AffiliateWP, LLC
+ * @copyright   Copyright (c) 2019, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.6
  */
@@ -24,11 +24,9 @@ function affwp_get_coupon( $coupon ) {
 	} elseif ( is_int( $coupon ) ) {
 		$coupon_id = $coupon;
 	} elseif ( is_string( $coupon ) ) {
-		$coupon = affiliate_wp()->affiliates->coupons->get_by( 'coupon_code', $coupon );
+		$coupon_id = affiliate_wp()->affiliates->coupons->get_column_by( 'coupon_id', 'coupon_code', $coupon );
 
-		if ( $coupon ) {
-			$coupon_id = $coupon->coupon_id;
-		} else {
+		if ( ! $coupon_id ) {
 			return false;
 		}
 	} else {
@@ -373,4 +371,28 @@ function affwp_get_coupon_type_labels() {
 		'manual' => __( 'Manual', 'affiliate-wp' ),
 		'dynamic' => __( 'Dynamic', 'affiliate-wp' ),
 	);
+}
+
+/**
+ * Retrieves a coupon by a given field and value.
+ *
+ * @since 2.7
+ *
+ * @param string $field Coupon object field.
+ * @param mixed  $value Field value.
+ * @return \AffWP\Affiliate\Coupon|\WP_Error Coupon object if found, otherwise a WP_Error object.
+ */
+function affwp_get_coupon_by( $field, $value ) {
+	$result = affiliate_wp()->affiliates->coupons->get_by( $field, $value );
+
+	if ( is_object( $result ) ) {
+		$coupon = affwp_get_coupon( intval( $result->coupon_id ) );
+	} else {
+		$coupon = new \WP_Error(
+			'invalid_coupon_field',
+			sprintf( 'No coupon could be retrieved with a(n) \'%1$s\' field value of %2$s.', $field, $value )
+		);
+	}
+
+	return $coupon;
 }

@@ -1,12 +1,12 @@
 <?php
 /**
- * Affiiates Admin
+ * Admin: Affiliates Overview
  *
  * @package     AffiliateWP
  * @subpackage  Admin/Affiliates
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       1.0
+ * @since       1.0.0
  */
 
 

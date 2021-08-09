@@ -1,4 +1,14 @@
 <?php
+/**
+ * Meta boxes: Recent Referral Visits
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Overview
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\Admin\Overview\Meta_Box;
 
 use AffWP\Admin\Meta_Box;
@@ -77,8 +87,16 @@ class Recent_Referral_Visits extends Meta_Box implements Meta_Box\Base {
 							<td><?php echo affiliate_wp()->affiliates->get_affiliate_name( $visit->affiliate_id ); ?></td>
 							<td><a href="<?php echo esc_url( $visit->url ); ?>"><?php echo esc_html( $visit->url ); ?></a></td>
 							<td>
-								<?php $converted = ! empty( $visit->referral_id ) ? 'yes' : 'no'; ?>
-								<span class="visit-converted <?php echo esc_attr( $converted ); ?>" aria-label="<?php printf( esc_attr__( 'Visit converted: %s', 'affiliate-wp' ), $converted ); ?>"><i></i></span>
+								<?php
+								$converted = ! empty( $visit->referral_id ) ? 'yes' : 'no';
+
+								if ( 'yes' === $converted ) {
+									$aria_label = __( 'Visit converted', 'affiliate-wp' );
+								} else {
+									$aria_label = __( 'Visit not converted', 'affiliate-wp' );
+								}
+								?>
+								<span class="visit-converted <?php echo esc_attr( $converted ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"><i></i></span>
 							</td>
 						</tr>
 					<?php endforeach; ?>

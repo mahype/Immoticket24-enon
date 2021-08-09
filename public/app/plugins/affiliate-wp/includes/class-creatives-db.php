@@ -1,5 +1,15 @@
 <?php
 /**
+ * Creatives Database Abstraction Layer
+ *
+ * @package     AffiliateWP
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
+/**
  * Class Affiliate_WP_Creatives_DB
  *
  * @see Affiliate_WP_DB
@@ -298,14 +308,14 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$sql = "CREATE TABLE {$this->table_name} (
-			creative_id bigint(20) NOT NULL AUTO_INCREMENT,
-			name tinytext NOT NULL,
-			description longtext NOT NULL,
-			url varchar(255) NOT NULL,
-			text tinytext NOT NULL,
-			image varchar(255) NOT NULL,
-			status tinytext NOT NULL,
-			date datetime NOT NULL,
+			creative_id bigint(20)   NOT NULL AUTO_INCREMENT,
+			name        tinytext     NOT NULL,
+			description longtext     NOT NULL,
+			url         varchar(255) NOT NULL,
+			text        tinytext     NOT NULL,
+			image       varchar(255) NOT NULL,
+			status      tinytext     NOT NULL,
+			date        datetime     NOT NULL,
 			PRIMARY KEY  (creative_id),
 			KEY creative_id (creative_id)
 			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";

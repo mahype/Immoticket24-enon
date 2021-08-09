@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: MemberPress
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
+/**
+ * Implements an integration for MemberPress.
+ *
+ * @since 1.2
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_MemberPress extends Affiliate_WP_Base {
 
 	/**
@@ -58,9 +74,9 @@ class Affiliate_WP_MemberPress extends Affiliate_WP_Base {
 				$this->affiliate_id = $affiliate_id;
 			}
 
-			$referral = affiliate_wp()->referrals->get_by( 'reference', $txn->id, $this->context );
+			$referral = affwp_get_referral_by( 'reference', $txn->id, $this->context );
 
-			if ( ! empty( $referral ) ) {
+			if ( ! is_wp_error( $referral ) ) {
 				return;
 			}
 

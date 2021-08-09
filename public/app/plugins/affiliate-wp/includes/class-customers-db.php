@@ -1,9 +1,12 @@
 <?php
 /**
- * Customer database
+ * Customers Database Abstraction Layer
  *
- * @since 2.2
- * @package Affiliate_WP
+ * @package     AffiliateWP
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2019, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.2
  */
 
 /**
@@ -470,13 +473,13 @@ class Affiliate_WP_Customers_DB extends Affiliate_WP_DB {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$sql = "CREATE TABLE {$this->table_name} (
-			customer_id bigint(20) NOT NULL AUTO_INCREMENT,
-			user_id bigint(20) NOT NULL,
-			email varchar(100) NOT NULL,
-			first_name varchar(250) NOT NULL,
-			last_name varchar(250) NOT NULL,
-			ip varchar(250) NOT NULL,
-			date_created datetime NOT NULL,
+			customer_id  bigint(20)   NOT NULL AUTO_INCREMENT,
+			user_id      bigint(20)   NOT NULL,
+			email        varchar(100) NOT NULL,
+			first_name   varchar(250) NOT NULL,
+			last_name    varchar(250) NOT NULL,
+			ip           varchar(250) NOT NULL,
+			date_created datetime     NOT NULL,
 			PRIMARY KEY  (customer_id),
 			KEY user_id (user_id),
 			KEY email (email)

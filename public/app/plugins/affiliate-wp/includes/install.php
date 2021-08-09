@@ -1,5 +1,15 @@
 <?php
 /**
+ * Installation Bootstrap
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
+
+/**
  * Installs AffiliateWP.
  *
  * @since 0.1
@@ -32,7 +42,7 @@ function affiliate_wp_install() {
 	$affiliate_wp_install->referrals->create_table();
 	$affiliate_wp_install->referral_meta->create_table();
 	$affiliate_wp_install->visits->create_table();
-	$affiliate_wp_install->campaigns->create_view();
+	$affiliate_wp_install->campaigns->create_table();
 	$affiliate_wp_install->creatives->create_table();
 	$affiliate_wp_install->sales->create_table();
 	$affiliate_wp_install->affiliates->payouts->create_table();
@@ -93,6 +103,8 @@ function affiliate_wp_install() {
 		'upgrade_v245_create_customer_affiliate_relationship_records',
 		'upgrade_v26_create_dynamic_coupons',
 		'upgrade_v261_utf8mb4_compat',
+		'upgrade_v27_calculate_campaigns',
+		'upgrade_v274_calculate_campaigns',
 	);
 
 	// Set past upgrade routines complete for all sites.

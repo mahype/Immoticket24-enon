@@ -1,4 +1,13 @@
 <?php
+/**
+ * Shortcodes Bootstrap
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
 
 class Affiliate_WP_Shortcodes {
 
@@ -31,8 +40,6 @@ class Affiliate_WP_Shortcodes {
 			return;
 		}
 
-		affwp_enqueue_style( 'affwp-datatables-styles', 'affiliate_area' );
-		affwp_enqueue_script( 'affwp-datatables-js', 'affiliate_area' );
 		affwp_enqueue_script( 'affwp-frontend', 'affiliate_area' );
 
 		/**

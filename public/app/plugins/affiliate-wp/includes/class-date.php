@@ -1,4 +1,14 @@
 <?php
+/**
+ * Utilities: Date API
+ *
+ * @package     AffiliateWP
+ * @subpackage  Utilities
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.1.9
+ */
+
 namespace AffWP\Utils;
 
 /**

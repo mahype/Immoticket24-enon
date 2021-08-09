@@ -1,4 +1,14 @@
 <?php
+/**
+ * CLI: Sub-Command Base Model
+ *
+ * @package     AffiliateWP
+ * @subpackage  CLI
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\CLI\Sub_Commands;
 
 // Exit if accessed directly

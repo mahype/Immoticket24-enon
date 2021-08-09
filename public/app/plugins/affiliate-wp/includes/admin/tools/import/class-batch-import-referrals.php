@@ -1,4 +1,14 @@
 <?php
+/**
+ * Tools: Referrals Import Batch Processor
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools/Import
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 use AffWP\Utils\Batch_Process as Batch;
@@ -232,7 +242,9 @@ class Import_Referrals extends Batch\Import\CSV implements Batch\With_PreFetch {
 
 			if ( $user_id ) {
 				// Check for an existing affiliate for this user.
-				if ( $affiliate = affiliate_wp()->affiliates->get_by( 'user_id', $user_id ) ) {
+				$affiliate = affwp_get_affiliate_by( 'user_id', $user_id );
+
+				if ( ! is_wp_error( $affiliate ) ) {
 					$affiliate_id = $affiliate->affiliate_id;
 				} else {
 					$args['user_id'] = $user_id;
@@ -274,7 +286,9 @@ class Import_Referrals extends Batch\Import\CSV implements Batch\With_PreFetch {
 
 					$message = sprintf(
 						_n(
+							/* translators: Singular referral number */
 							'%s referral was successfully imported.',
+							/*  translators: Plural referrals number */
 							'%s referrals were successfully imported.',
 							$final_count,
 							'affiliate-wp'
@@ -287,7 +301,9 @@ class Import_Referrals extends Batch\Import\CSV implements Batch\With_PreFetch {
 				if ( $skipped > 0 ) {
 					$message .= sprintf( ' ' .
 						_n(
+							/* translators: Singular referral number */
 							'%s other existing referral or invalid row was skipped.',
+							/* translators: Plural referrals number */
 							'%s other existing referrals or invalid rows were skipped.',
 							$skipped,
 							'affiliate-wp'

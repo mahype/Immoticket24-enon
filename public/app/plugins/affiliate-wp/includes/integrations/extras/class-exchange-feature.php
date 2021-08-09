@@ -1,4 +1,13 @@
 <?php
+/**
+ * Integrations: Exchange Per Product Feature
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations/Extras
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.5
+ */
 
 /**
  * Class Affiliate_WP_Exchange_Per_Product_Feature

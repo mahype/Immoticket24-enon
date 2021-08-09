@@ -1,9 +1,9 @@
 <?php
 /**
- * Batch Processing: Sales data sync
+ * Tools: Sync Integration Sales Batch Processor
  *
  * @package     AffiliateWP
- * @subpackage  Utilities/Batch_Process
+ * @subpackage  Tools
  * @copyright   Copyright (c) 2020, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.5

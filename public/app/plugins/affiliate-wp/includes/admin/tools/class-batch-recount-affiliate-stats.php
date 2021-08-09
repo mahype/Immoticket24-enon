@@ -1,4 +1,14 @@
 <?php
+/**
+ * Tools: Recount Affiliate Stats Batch Processor
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 use AffWP\Utils;
@@ -315,6 +325,7 @@ class Recount_Affiliate_Stats extends Utils\Batch_Process implements Batch\With_
 					switch( $this->type ) {
 						case 'earnings':
 							if ( $filtered ) {
+								/* translators: Affiliate username */
 								$message = sprintf( __( 'Earnings have been successfully recounted for %s.', 'affiliate-wp' ), $username );
 							} else {
 								$message = __( 'Earnings have been successfully recounted for all matching affiliates.', 'affiliate-wp' );
@@ -323,6 +334,7 @@ class Recount_Affiliate_Stats extends Utils\Batch_Process implements Batch\With_
 
 						case 'unpaid-earnings':
 							if ( $filtered ) {
+								/* translators: Affiliate username */
 								$message = sprintf( __( 'Unpaid earnings have been successfully recounted for %s.', 'affiliate-wp' ), $username );
 							} else {
 								$message = __( 'Unpaid earnings have been successfully recounted for all matching affiliates.', 'affiliate-wp' );
@@ -331,6 +343,7 @@ class Recount_Affiliate_Stats extends Utils\Batch_Process implements Batch\With_
 
 						case 'referrals':
 							if ( $filtered ) {
+								/* translators: Affiliate username */
 								$message = sprintf( __( 'Referrals have been successfully recounted for %s.', 'affiliate-wp' ), $username );
 							} else {
 								$message = __( 'Referrals have been successfully recounted for all matching affiliates.', 'affiliate-wp' );
@@ -339,6 +352,7 @@ class Recount_Affiliate_Stats extends Utils\Batch_Process implements Batch\With_
 
 						case 'visits':
 							if ( $filtered ) {
+								/* translators: Affiliate username */
 								$message = sprintf( __( 'Visits have been successfully recounted for %s.', 'affiliate-wp' ), $username );
 							} else {
 								$message = __( 'Visits have been successfully recounted for all matching affiliates.', 'affiliate-wp' );

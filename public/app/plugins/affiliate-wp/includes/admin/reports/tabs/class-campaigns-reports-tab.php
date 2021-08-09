@@ -63,6 +63,7 @@ class Tab extends Reports\Tab {
 			$this->register_tile( 'best_converting_campaign', array(
 				'label'           => __( 'Best Converting Campaign (All Time)', 'affiliate-wp' ),
 				'data'            => empty( $campaign->campaign ) ? __( 'n/a', 'affiliate-wp' ) : $campaign->campaign,
+				/* translators: 1: Affiliate referrals URL, 2: Affiliate name, 3: Number of visits for the campaign */
 				'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | Visits: %3$d', 'affiliate-wp' ),
 					esc_url( $affiliate_link ),
 					$affiliate_name,
@@ -85,6 +86,7 @@ class Tab extends Reports\Tab {
 					'order'        => 'ASC',
 				) );
 
+				/* translators: 1: Affiliate referrals URL, 2: Affiliate name */
 				$comparison_data = sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a>', 'affiliate-wp' ),
 					esc_url( $affiliate_link ),
 					$affiliate_name
@@ -182,6 +184,7 @@ class Tab extends Reports\Tab {
 			}
 
 			$this->register_tile( 'best_converting_campaign_date', array(
+				/* translators: Date comparison label for context */
 				'label'           => sprintf( __( 'Best Converting Campaign (%s)', 'affiliate-wp' ),
 					$this->get_date_comparison_label( __( 'Custom', 'affiliate-wp' ) )
 				),
@@ -228,6 +231,7 @@ class Tab extends Reports\Tab {
 			) );
 
 			$this->register_tile( 'most_active_campaign', array(
+				/* translators: Date comparison label for context */
 				'label'           => sprintf( __( 'Most Active Campaign (%s)', 'affiliate-wp' ),
 					$this->get_date_comparison_label( __( 'Custom', 'affiliate-wp' ) )
 				),

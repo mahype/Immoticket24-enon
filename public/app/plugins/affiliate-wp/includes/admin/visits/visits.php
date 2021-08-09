@@ -1,14 +1,13 @@
 <?php
 /**
- * Affiiates Admin
+ * Admin: Visits Overview
  *
  * @package     AffiliateWP
- * @subpackage  Admin/Affiliates
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @subpackage  Admin/Visits
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
  */
-
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -17,6 +16,11 @@ include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/visits/screen-options.php';
 include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/visits/contextual-help.php';
 require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/visits/class-list-table.php';
 
+/**
+ * Loads the Visits admin screen.
+ *
+ * @since 1.0
+ */
 function affwp_visits_admin() {
 
 

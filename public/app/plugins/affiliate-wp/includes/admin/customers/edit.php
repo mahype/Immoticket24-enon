@@ -1,6 +1,6 @@
 <?php
 /**
- * Customers Admin: Edit Customer
+ * Admin: Edit Customer View
  *
  * @package    AffiliateWP
  * @subpackage Admin/Customers
@@ -8,6 +8,7 @@
  * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since      2.5.7
  */
+
 $customer_id = isset( $_REQUEST['customer_id'] ) ? intval( $_REQUEST['customer_id'] ) : 0;
 $customer    = affwp_get_customer( $customer_id );
 ?>

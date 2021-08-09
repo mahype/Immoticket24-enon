@@ -1,4 +1,14 @@
 <?php
+/**
+ * REST: Affiliates Endpoints
+ *
+ * @package     AffiliateWP
+ * @subpackage  REST
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\Affiliate\REST\v1;
 
 use AffWP\REST\v1\Controller;
@@ -97,6 +107,8 @@ class Endpoints extends Controller {
 	 *
 	 * @since 1.9
 	 * @since 2.6.1 Added support for the 'response_callback' parameter.
+	 * @since 2.7   Items are only processed for output if retrieving all fields. Added support for
+	 *              retrieving multiple fields.
 	 *
 	 * @param \WP_REST_Request $request Request arguments.
 	 * @return \WP_REST_Response|\WP_Error Affiliates response object or \WP_Error object if not found.
@@ -115,15 +127,15 @@ class Endpoints extends Controller {
 		$args['order']        = isset( $request['order'] )        ? $request['order'] : 'ASC';
 		$args['orderby']      = isset( $request['orderby'] )      ? $request['orderby'] : '';
 		$args['search']       = isset( $request['search'] )       ? $request['search'] : '';
-		$args['fields']       = isset( $request['fields'] )       ? $request['fields'] : '*';
 
 		if ( is_array( $request['filter'] ) ) {
 			$args = array_merge( $args, $request['filter'] );
 			unset( $request['filter'] );
 		}
 
-		$args['user'] = $user = ! empty( $request['user'] );
-		$args['meta'] = $meta = ! empty( $request['meta'] );
+		$args['fields'] = $this->parse_fields_for_request( $request );
+		$args['user']   = $user = ! empty( $request['user'] );
+		$args['meta']   = $meta = ! empty( $request['meta'] );
 
 		/**
 		 * Filters the query arguments used to retrieve affiliates in a REST request.
@@ -143,10 +155,9 @@ class Endpoints extends Controller {
 				'No affiliates were found.',
 				array( 'status' => 404 )
 			);
-		} else {
-			$inst = $this;
-			array_map( function( $affiliate ) use ( $user, $meta, $inst, $request ) {
-				$affiliate = $inst->process_for_output( $affiliate, $request, $user, $meta );
+		} elseif ( '*' === $args['fields'] ) {
+			array_map( function( $affiliate ) use ( $user, $meta, $request ) {
+				$affiliate = $this->process_for_output( $affiliate, $request, $user, $meta );
 				return $affiliate;
 			}, $affiliates );
 		}
@@ -249,26 +260,30 @@ class Endpoints extends Controller {
 		 * /affiliates/?status=pending&order=desc
 		 */
 		$params['affiliate_id'] = array(
-			'description'       => __( 'The affiliate ID or array of IDs to query for.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
+			'description' => __( 'The affiliate ID or array of IDs to query for.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['user_id'] = array(
-			'description'       => __( 'The user ID or array of IDs to query payouts for.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
+			'description' => __( 'The user ID or array of IDs to query payouts for.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['exclude'] = array(
-			'description'       => __( 'Affiliate ID or array of IDs to exclude from the query.', 'affiliate-wp' ),
-			'sanitize_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param ) || is_array( $param );
-			},
+			'description' => __( 'Affiliate ID or array of IDs to exclude from the query.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['search'] = array(

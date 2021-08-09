@@ -5,7 +5,7 @@
  * This template is used to display the link to add a payout method after creating a Payouts Service account.
  *
  * @package     AffiliateWP
- * @copyright   Copyright (c) 2019, AffiliateWP, LLC
+ * @copyright   Copyright (c) 2019, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.4
  */
@@ -28,4 +28,9 @@ affiliate_wp()->affiliates->payouts->service_register->print_errors();
 
 <h4><?php _e( 'Add Payout Method', 'affiliate-wp' ); ?></h4>
 
-<p><?php printf( __( 'Click <a href="%s">here</a> to add a payout method where you will receive your affiliate earnings.', 'affiliate-wp' ), esc_url( $url ) ); ?></p>
+<p>
+	<?php
+	/* translators: Payouts Service account URL */
+	printf( __( 'Click <a href="%s">here</a> to add a payout method where you will receive your affiliate earnings.', 'affiliate-wp' ), esc_url( $url ) );
+	?>
+</p>

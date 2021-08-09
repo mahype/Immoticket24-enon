@@ -1,4 +1,14 @@
 <?php
+/**
+ * CLI: Commands
+ *
+ * @package     AffiliateWP
+ * @subpackage  CLI
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\CLI;
 
 // Exit if accessed directly
@@ -30,6 +40,7 @@ class Command extends \WP_CLI_Command {
 
 		// Version.
 		if ( defined( 'AFFILIATEWP_VERSION' ) ) {
+			/* translators: AffiliateWP version */
 			self::format_line( __( 'You are running AffiliateWP version: %s', 'affiliate-wp' ), AFFILIATEWP_VERSION, '%_' );
 		}
 
@@ -42,6 +53,7 @@ class Command extends \WP_CLI_Command {
 				$license_status = '%R' . _x( 'Invalid', 'license status', 'affiliate-wp' ) . '%N';
 			}
 
+			/* translators: License status */
 			self::format_line( __( 'License status is: %s', 'affiliate-wp' ), $license_status );
 
 			// Debug Mode.
@@ -51,6 +63,7 @@ class Command extends \WP_CLI_Command {
 				$debug_mode = '%R' . _x( 'Disabled', 'debug mode', 'affiliate-wp' ) . '%N';
 			}
 
+			/* translators: Debug Mode status */
 			self::format_line( __( 'Debug mode is: %s', 'affiliate-wp' ), $debug_mode );
 
 			// Affiliates Require Approval.
@@ -60,6 +73,7 @@ class Command extends \WP_CLI_Command {
 				$require_approval = '%R' . _x( 'Disabled', 'affiliates require approval', 'affiliate-wp' ) . '%N';
 			}
 
+			/* translators: Enabled or Disabled (translated) */
 			self::format_line( __( 'Affiliates require approval: %s', 'affiliate-wp' ), $require_approval );
 
 			/*
@@ -73,6 +87,7 @@ class Command extends \WP_CLI_Command {
 				$notifications_disabled = '%R' . _x( 'Disabled', 'emails disabled', 'affiliate-wp' ) . '%N';
 			}
 
+			/* translators: Enabled or Disabled (translated) */
 			self::format_line( __( 'Email notifications are: %s', 'affiliate-wp' ), $notifications_disabled );
 
 		// Integrations, global referral rate and rate type, and currency (+ line break).
@@ -86,19 +101,20 @@ class Command extends \WP_CLI_Command {
 				$integrations = implode( ', ', array_values( $integrations ) );
 			}
 
+			/* translators: None or comma-separated list of enabled integrations */
 			self::format_line( __( 'Integrations: %s', 'affiliate-wp' ), $integrations, '%_' );
 
 			// Referral rate and type.
 			$global_rate = affiliate_wp()->settings->get( 'referral_rate', 20 );
 			$global_rate_type = affiliate_wp()->settings->get( 'referral_rate_type', 'percentage' );
 
-			// Global referral rate.
+			/* translators: Global referral rate */
 			self::format_line( __( 'Global referral rate: %s', 'affiliate-wp' ), $global_rate, '%_' );
 
-			// Global referral rate type.
+			/* translators: Global referral rate type */
 			self::format_line( __( 'Global referral rate type: %s', 'affiliate-wp' ), $global_rate_type, '%_' );
 
-			// Currency.
+			/* translators: Currency label */
 			self::format_line( __( 'Currency: %s', 'affiliate-wp' ), affwp_get_currency(), '%_' );
 
 		// Referral Variable (+ line break).
@@ -106,6 +122,7 @@ class Command extends \WP_CLI_Command {
 
 			$referral_var = affiliate_wp()->settings->get( 'referral_var', 'ref' );
 
+			/* translators: Referral variable */
 			self::format_line( __( 'Referral variable: %s', 'affiliate-wp' ), $referral_var, '%_' );
 
 			// Show pretty referrals.
@@ -115,6 +132,7 @@ class Command extends \WP_CLI_Command {
 				$show_pretty_referrals = '%R' . _x( 'Disabled', 'show pretty referral URLs', 'affiliate-wp' ) . '%N';
 			}
 
+			/* translators: Enabled or Disabled (translated) */
 			self::format_line( __( 'Show pretty referral URLs: %s', 'affiliate-wp' ), $show_pretty_referrals );
 
 			// Referral URLs.
@@ -126,20 +144,22 @@ class Command extends \WP_CLI_Command {
 				$referral_url_username = "https://example.org/?{$referral_var}=username";
 			}
 
-			// ID referral URL.
+			/* translators: Referral URL example with affiliate ID */
 			self::format_line( __( 'Referral URL (ID): %s', 'affiliate-wp' ), $referral_url_id, '%_' );
 
-			// Username referral URL.
+		/* translators: Referral URL example with affiliate username */
 			self::format_line( __( 'Referral URL (Username): %s', 'affiliate-wp' ), $referral_url_username, '%_' );
 
 		// Affiliate Area URL (+ line break).
 		\WP_CLI::line();
 
+			/* translators: Affiliate Area page URL */
 			self::format_line( __( 'Affiliate Area URL: %s', 'affiliate-wp' ), affwp_get_affiliate_area_page_url(), '%_' );
 
 			// Terms of Use page URL.
 			$terms_of_use_page_id = affiliate_wp()->settings->get( 'terms_of_use' );
 			if ( $terms_of_use_url = get_permalink( $terms_of_use_page_id ) ) {
+				/* translators: Terms of Use URL */
 				self::format_line( __( 'Terms of Use URL: %s', 'affiliate-wp' ), $terms_of_use_url, '%_' );
 			}
 
@@ -172,6 +192,7 @@ class Command extends \WP_CLI_Command {
 		$count = count( $sites );
 
 		if ( $count > 1 ) {
+			/* translators: Number of sites */
 			self::format_line( __( 'Found %s sites. Retrieving stats ...', 'affiliate-wp' ), $count, '%_' );
 		}
 
@@ -193,25 +214,25 @@ class Command extends \WP_CLI_Command {
 			}
 		}
 
-		// Affiliates.
+		/* translators: Affiliates count */
 		self::format_line( __( 'Total Affiliates: %s', 'affiliate-wp' ), $affiliate_count, '%_' );
 
-		// Creatives.
+		/* translators: Creatives count */
 		self::format_line( __( 'Total Creatives: %s', 'affiliate-wp' ), $creative_count, '%_' );
 
-		// Customers.
+		/* translators: Customers count */
 		self::format_line( __( 'Total Customers: %s', 'affiliate-wp' ), $customer_count, '%_' );
 
-		// Payouts.
+		/* translators: Payouts count */
 		self::format_line( __( 'Total Payouts: %s', 'affiliate-wp' ), $payout_count, '%_' );
 
-		// Referrals.
+		/* translators: Referrals count */
 		self::format_line( __( 'Total Referrals: %s', 'affiliate-wp' ), $referral_count, '%_' );
 
-		// Sales.
+		/* translators: Sales count */
 		self::format_line( __( 'Total Sales: %s', 'affiliate-wp' ), $sales_count, '%_' );
 
-		// Visits.
+		/* translators: Visits count */
 		self::format_line( __( 'Total Visits: %s', 'affiliate-wp' ), $visit_count, '%_' );
 	}
 

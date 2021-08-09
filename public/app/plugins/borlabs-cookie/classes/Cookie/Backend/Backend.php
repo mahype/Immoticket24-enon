@@ -43,7 +43,7 @@ class Backend
     public function __construct()
     {
         /* Load textdomain */
-        add_action('plugins_loaded', [$this, 'loadTextdomain']);
+        add_action('init', [$this, 'loadTextdomain']);
 
         /* Add menu */
         add_action('admin_menu', [$this, 'addMenu']);
@@ -101,6 +101,24 @@ class Backend
     public function loadTextdomain()
     {
         load_plugin_textdomain('borlabs-cookie', false, BORLABS_COOKIE_SLUG . '/languages/');
+
+        // WeGlot special
+        if (Multilanguage::getInstance()->isLanguagePluginWeglotActive()) {
+            $langFileMap = [
+                'de' => 'borlabs-cookie-de_DE.mo',
+                'es' => 'borlabs-cookie-es_ES.mo',
+                'fr' => 'borlabs-cookie-fr_FR.mo',
+                'it' => 'borlabs-cookie-it_IT.mo',
+                'nl' => 'borlabs-cookie-nl_NL.mo',
+                'pl' => 'borlabs-cookie-pl_PL.mo',
+            ];
+
+            if (isset($langFileMap[Multilanguage::getInstance()->getCurrentLanguageCode()])) {
+                load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/'.$langFileMap[Multilanguage::getInstance()->getCurrentLanguageCode()]);
+
+                return;
+            }
+        }
 
         // Load correct DE language file if any DE language was selected
         if (

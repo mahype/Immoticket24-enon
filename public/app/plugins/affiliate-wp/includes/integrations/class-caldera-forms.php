@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: Caldera Forms
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.2
+ */
 
+/**
+ * Implements the Caldera Forms integration.
+ *
+ * @since 2.2
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_Caldera_Forms extends Affiliate_WP_Base {
 
 	/**
@@ -214,9 +230,9 @@ class Affiliate_WP_Caldera_Forms extends Affiliate_WP_Base {
 			$entry_id = $submission_data['_entry_id'];
 
 			// Get the newly created referral based on the process ID
-			$existing = affiliate_wp()->referrals->get_by( 'reference', $process_id, $this->context );
+			$existing = affwp_get_referral_by( 'reference', $process_id, $this->context );
 
-			if( $existing ) {
+			if( ! is_wp_error( $existing ) ) {
 
 				// Swap our the processs ID for the entry ID
 				affiliate_wp()->referrals->update( $existing->referral_id, array( 'reference' => $entry_id ) );

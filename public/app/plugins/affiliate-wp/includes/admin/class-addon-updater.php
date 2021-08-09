@@ -305,6 +305,7 @@ class AffWP_AddOn_Updater {
 
 			if ( empty( $version_info->download_link ) ) {
 				printf(
+					/* translators: 1: Plugin name, 2: Changelog URL, 3: New plugin version */
 					__( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.', 'affiliate-wp' ),
 					esc_html( $version_info->name ),
 					esc_url( $changelog_link ),
@@ -312,6 +313,7 @@ class AffWP_AddOn_Updater {
 				);
 			} else {
 				printf(
+					/* translators: 1: Plugin name, 2: Changelog URL, 3: New plugin version, 4: Update URL */
 					__( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.', 'affiliate-wp' ),
 					esc_html( $version_info->name ),
 					esc_url( $changelog_link ),
@@ -359,11 +361,14 @@ class AffWP_AddOn_Updater {
 		}
 
 		$api_params = array(
-			'affwp_action' 	=> 'get_version',
-			'license' 		=> $data['license'],
-			'id' 			=> $data['addon_id'],
-			'slug' 			=> $data['slug'],
-			'url'           => home_url()
+			'affwp_action'  => 'get_version',
+			'license'       => $data['license'],
+			'id'            => $data['addon_id'],
+			'slug'          => $data['slug'],
+			'url'           => home_url(),
+			'php_version'   => phpversion(),
+			'affwp_version' => get_option( 'affwp_version' ),
+			'wp_version'    => $wp_version,
 		);
 
 		$request = wp_remote_post( $this->api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );

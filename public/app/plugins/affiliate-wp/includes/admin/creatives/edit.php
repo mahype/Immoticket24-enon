@@ -1,4 +1,14 @@
 <?php
+/**
+ * Admin: Edit Creative View
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Creatives
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
+
 $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 ?>
 <div class="wrap">

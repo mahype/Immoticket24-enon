@@ -1,4 +1,14 @@
 <?php
+/**
+ * Utilities: WP Affiliate Migration Batch Processor
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Utilites
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 use AffWP\Utils;
@@ -207,7 +217,9 @@ class Migrate_WP_Affiliate extends Utils\Batch_Process implements Batch\With_Pre
 
 				$message = sprintf(
 					_n(
+						/* translators: Singular affiliate number */
 						'%s affiliate was successfully converted.',
+						/* translators: Plural affiliates number */
 						'%s affiliates were successfully converted.',
 						$final_count,
 						'affiliate-wp'

@@ -5,7 +5,7 @@
  * This template is used to display the payout method for the affiliate on the Payouts Service.
  *
  * @package     AffiliateWP
- * @copyright   Copyright (c) 2019, AffiliateWP, LLC
+ * @copyright   Copyright (c) 2019, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.4
  */
@@ -37,7 +37,12 @@ affiliate_wp()->affiliates->payouts->service_register->print_errors();
 
 	<?php $email = ! empty( $_REQUEST['email'] ) ? sanitize_text_field( $_REQUEST['email'] ) : ''; ?>
 
-	<p class="affwp-notice"><?php printf( __( 'An email has been sent to %s with a link to change the payout method', 'affiliate-wp' ), $email ); ?></p>
+	<p class="affwp-notice">
+		<?php
+		/* translators: Payouts Service account email */
+		printf( __( 'An email has been sent to %s with a link to change the payout method', 'affiliate-wp' ), $email );
+		?>
+	</p>
 
 <?php endif; ?>
 
@@ -58,4 +63,7 @@ affiliate_wp()->affiliates->payouts->service_register->print_errors();
 
 <?php endif; ?>
 
-<?php printf( __( 'Want to change your payout method? Do that <a href="%s">here</a>.', 'affiliate-wp' ), esc_url( $change_payout_method_url ) ); ?>
+<?php
+/* translators: Payouts Service change payout method URL */
+printf( __( 'Want to change your payout method? Do that <a href="%s">here</a>.', 'affiliate-wp' ), esc_url( $change_payout_method_url ) );
+?>

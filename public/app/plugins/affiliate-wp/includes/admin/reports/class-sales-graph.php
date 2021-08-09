@@ -1,6 +1,6 @@
 <?php
 /**
- * Reports: Sales graph
+ * Admin: Sales Graph for Reports
  *
  * @package     AffiliateWP
  * @subpackage  Admin/Reports

@@ -1,11 +1,13 @@
 <?php
 /**
- * Reports Admin class.
+ * Admin: Reports Bootstrap
  *
- * This class renders the Reports screen of AffiliateWP.
+ * This class bootstraps rendering of the Reports screen.
  *
  * @package     AffiliateWP
  * @subpackage  Admin/Affiliates
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.9
  */
 

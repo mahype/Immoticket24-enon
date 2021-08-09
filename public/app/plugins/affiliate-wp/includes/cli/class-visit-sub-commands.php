@@ -1,4 +1,14 @@
 <?php
+/**
+ * CLI: Visit Sub-Commands
+ *
+ * @package     AffiliateWP
+ * @subpackage  CLI
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\Visit\CLI;
 
 use \AffWP\CLI\Sub_Commands\Base;
@@ -125,6 +135,7 @@ class Sub_Commands extends Base {
 		}
 
 		if ( ! $affiliate = affwp_get_affiliate( $args[0] ) ) {
+			/* translators: Affiliate ID or username */
 			\WP_CLI::error( sprintf( __( 'An affiliate with the ID or username "%s" does not exist. See wp affwp affiliate create for adding affiliates.', 'affiliate-wp' ), $args[0] ) );
 		} else {
 			$data['affiliate_id'] = $affiliate->affiliate_id;
@@ -424,6 +435,7 @@ class Sub_Commands extends Base {
 		if ( 'count' == $formatter->format ) {
 			$visits = affiliate_wp()->visits->count( $args );
 
+			/* translators: Number of visits */
 			\WP_CLI::line( sprintf( __( 'Number of visits: %d', 'affiliate-wp' ), $visits ) );
 		} else {
 			$visits = affiliate_wp()->visits->get_visits( $args );

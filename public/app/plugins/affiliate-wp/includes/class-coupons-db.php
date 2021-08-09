@@ -1,10 +1,10 @@
 <?php
 /**
- * Coupons database abstraction layer
+ * Coupons Database Abstraction Layer
  *
  * @package     AffiliateWP
- * @subpackage  Core/Database
- * @copyright   Copyright (c) 2019, AffiliateWP, LLC
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2020, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.3
  */
@@ -321,12 +321,12 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 	 *
 	 * @since 2.6
 	 *
-	 * @param int   $affiliate_id Affiliate ID for the coupon to update.
-	 * @param array $data         Optional. Coupon data to update.
+	 * @param int   $coupon_id ID for the coupon to update.
+	 * @param array $data      Optional. Coupon data to update.
 	 * @return bool True if the coupon was successfully updated, otherwise false.
 	 */
-	public function update_coupon( $affiliate_id, $data = array() ) {
-		if ( ! $coupon = affwp_get_coupon( $affiliate_id ) ) {
+	public function update_coupon( $coupon_id, $data = array() ) {
+		if ( ! $coupon = affwp_get_coupon( $coupon_id ) ) {
 			return false;
 		}
 
@@ -336,7 +336,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			$args['coupon_code'] = affwp_sanitize_coupon_code( $data['coupon_code'] );
 		}
 
-		$updated = parent::update( $affiliate_id, $args, '', 'coupon' );
+		$updated = parent::update( $coupon_id, $args, '', 'coupon' );
 
 		/**
 		 * Fires immediately after a coupon update has been attempted.
@@ -348,7 +348,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 		 * @param \AffWP\Affiliate\Coupon $coupon         Original coupon object.
 		 * @param bool                    $updated        Whether the coupon was successfully updated.
 		 */
-		do_action( 'affwp_updated_coupon', affwp_get_coupon( $affiliate_id ), $coupon, $updated );
+		do_action( 'affwp_updated_coupon', affwp_get_coupon( $coupon_id ), $coupon, $updated );
 
 		return $updated;
 	}
@@ -418,9 +418,9 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$sql = "CREATE TABLE {$this->table_name} (
-			coupon_id bigint(20) NOT NULL AUTO_INCREMENT,
-			affiliate_id bigint(20) NOT NULL,
-			coupon_code varchar(50) NOT NULL,
+			coupon_id    bigint(20)  NOT NULL AUTO_INCREMENT,
+			affiliate_id bigint(20)  NOT NULL,
+			coupon_code  varchar(50) NOT NULL,
 			PRIMARY KEY (coupon_id),
 			KEY coupon_code (coupon_code)
 			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";

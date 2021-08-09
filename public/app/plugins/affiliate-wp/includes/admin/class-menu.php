@@ -1,12 +1,35 @@
 <?php
+/**
+ * Admin: Menu
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin
+ * @copyright   Copyright (c) 2021, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0.0
+ */
 
+/**
+ * Sets up the Affiliates menu and core submenu pages in the WordPress admin.
+ *
+ * @since 1.0.0
+ */
 class Affiliate_WP_Admin_Menu {
 
-
+	/**
+	 * Registers any needed hook callbacks for the component.
+	 *
+	 * @since 1.0.0
+	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_menus' ) );
 	}
 
+	/**
+	 * Registers the Affiliates admin menu and submenu pages.
+	 *
+	 * @since 1.0.0
+	 */
 	public function register_menus() {
 		add_menu_page( __( 'Affiliates', 'affiliate-wp' ), __( 'Affiliates', 'affiliate-wp' ), 'view_affiliate_reports', 'affiliate-wp', 'affwp_affiliates_dashboard' );
 

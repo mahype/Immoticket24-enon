@@ -1,5 +1,15 @@
 <?php
 /**
+ * Referrals Database Abstraction Layer
+ *
+ * @package     AffiliateWP
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
+/**
  * Class Affiliate_WP_Referrals_DB
  *
  * @see Affiliate_WP_DB
@@ -1208,10 +1218,10 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 
 		if( ! $existing && is_array( $args['customer'] ) && ! empty( $args['customer']['email'] ) ) {
 
-			$customer = affiliate_wp()->customers->get_by( 'email', $args['customer']['email'] );
+			$customer = affwp_get_customer_by( 'email', $args['customer']['email'] );
 
-			if( $customer ) {
-				$existing = true;
+			if ( ! is_wp_error( $customer ) ) {
+				$existing    = true;
 				$customer_id = $customer->customer_id;
 			}
 
@@ -1258,24 +1268,24 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$sql = "CREATE TABLE " . $this->table_name . " (
-		referral_id bigint(20) NOT NULL AUTO_INCREMENT,
-		affiliate_id bigint(20) NOT NULL,
-		visit_id bigint(20) NOT NULL,
-		rest_id mediumtext NOT NULL,
-		customer_id bigint(20) NOT NULL,
-		parent_id bigint(20) NOT NULL,
-		description longtext NOT NULL,
-		status tinytext NOT NULL,
-		amount mediumtext NOT NULL,
-		currency char(3) NOT NULL,
-		custom longtext NOT NULL,
-		context tinytext NOT NULL,
-		campaign varchar(50) NOT NULL,
-		type varchar(30) NOT NULL,
-		reference mediumtext NOT NULL,
-		products mediumtext NOT NULL,
-		payout_id bigint(20) NOT NULL,
-		date datetime NOT NULL,
+		referral_id  bigint(20)  NOT NULL AUTO_INCREMENT,
+		affiliate_id bigint(20)  NOT NULL,
+		visit_id     bigint(20)  NOT NULL,
+		rest_id      mediumtext  NOT NULL,
+		customer_id  bigint(20)  NOT NULL,
+		parent_id    bigint(20)  NOT NULL,
+		description  longtext    NOT NULL,
+		status       tinytext    NOT NULL,
+		amount       mediumtext  NOT NULL,
+		currency     char(3)     NOT NULL,
+		custom       longtext    NOT NULL,
+		context      tinytext    NOT NULL,
+		campaign     varchar(50) NOT NULL,
+		type         varchar(30) NOT NULL,
+		reference    mediumtext  NOT NULL,
+		products     mediumtext  NOT NULL,
+		payout_id    bigint(20)  NOT NULL,
+		date         datetime    NOT NULL,
 		PRIMARY KEY  (referral_id),
 		KEY affiliate_id (affiliate_id)
 		) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";

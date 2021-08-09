@@ -1,12 +1,12 @@
 <?php
 /**
- * Affiliates Export Class
+ * Tools: Affiliates Export Class
  *
  * This class handles exporting affiliate data.
  *
  * @package     AffiliateWP
- * @subpackage  Admin/Export
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @subpackage  Tools/Export
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.3
  */

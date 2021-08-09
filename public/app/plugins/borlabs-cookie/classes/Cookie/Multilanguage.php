@@ -52,13 +52,16 @@ class Multilanguage
      * isMultilanguagePluginActive function.
      *
      * @access public
-     * @return void
+     * @return bool
      */
     public function isMultilanguagePluginActive()
     {
         $status = false;
 
-        if (defined('ICL_LANGUAGE_CODE') || defined('POLYLANG_FILE')) {
+        if (
+            defined('ICL_LANGUAGE_CODE') || defined('POLYLANG_FILE')
+            || $this->isLanguagePluginWeglotActive()
+        ) {
             $status = true;
         }
 
@@ -79,6 +82,9 @@ class Multilanguage
             // Polylang
             if (function_exists('pll_default_language')) {
                 $defaultLanguage = pll_default_language();
+            } elseif ($this->isLanguagePluginWeglotActive()) {
+                // Weglot
+                $defaultLanguage = weglot_get_original_language();
             } else {
                 // WPML
                 $null = null;
@@ -104,7 +110,6 @@ class Multilanguage
         if ($this->isMultilanguagePluginActive()) {
             // Polylang
             if (function_exists('pll_current_language')) {
-
                 $currentLanguage = pll_current_language();
 
                 // If currentLanguage is still empty, we have to get the default language
@@ -115,6 +120,25 @@ class Multilanguage
                     if (is_admin() === false) {
                         add_action('pll_language_defined', [$this, 'polylangLanguageDefined']);
                     }
+                }
+            } elseif ($this->isLanguagePluginWeglotActive()) {
+                // Weglot
+                if (is_admin()) {
+                    if (empty(session_id())) {
+                        session_start();
+                    }
+                    if (isset($_GET['borlabsLang'])) {
+                        if (isset(weglot_get_languages_available()[$_GET['borlabsLang']])) {
+                            $_SESSION['borlabsLang'] = $_GET['borlabsLang'];
+                            $currentLanguage = $_GET['borlabsLang'];
+                        }
+                    } elseif (isset($_SESSION['borlabsLang'])) {
+                        $currentLanguage = $_SESSION['borlabsLang'];
+                    } else {
+                        $currentLanguage = weglot_get_original_language();
+                    }
+                } else {
+                    $currentLanguage = weglot_get_current_language();
                 }
             } else {
                 // WPML
@@ -133,6 +157,11 @@ class Multilanguage
         return $currentLanguage;
     }
 
+    public function isLanguagePluginWeglotActive()
+    {
+        return function_exists('weglot_get_current_language');
+    }
+
     /**
      * getLanguageName function.
      *
@@ -146,16 +175,47 @@ class Multilanguage
 
         // WPML & Polylang
         if ($this->isMultilanguagePluginActive()) {
+            if ($this->isLanguagePluginWeglotActive()) {
+                // Weglot
+                if(isset(weglot_get_languages_available()[$languageCode])) {
+                    $languageName = weglot_get_languages_available()[$languageCode]->getLocalName();
+                }
+            } else {
+                $null = null;
+                $languages = apply_filters('wpml_active_languages', $null, []);
 
-            $null = null;
-            $languages = apply_filters('wpml_active_languages', $null, []);
-
-            if (!empty($languages[$languageCode])) {
-                $languageName = $languages[$languageCode]['native_name'];
+                if (!empty($languages[$languageCode])) {
+                    $languageName = $languages[$languageCode]['native_name'];
+                }
             }
         }
 
         return $languageName;
+    }
+
+    public function needsLanguageChooser()
+    {
+        return $this->isLanguagePluginWeglotActive();
+    }
+
+    public function getAvailableLanguagesForChooser()
+    {
+        if($this->isLanguagePluginWeglotActive()) {
+            $languages = [];
+            array_push($languages, [
+                'code' => weglot_get_original_language(),
+                'name' => $this->getLanguageName(weglot_get_original_language()),
+            ]);
+            foreach (weglot_get_destination_languages() as $destination) {
+                array_push($languages, [
+                    'code' => $destination['language_to'],
+                    'name' => $this->getLanguageName($destination['language_to']),
+                ]);
+            }
+            return $languages;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -177,7 +237,11 @@ class Multilanguage
             if (empty($currentLanguageName)) {
                 $currentLanguageName = pll_default_language('name');
             }
-
+        } elseif ($this->isLanguagePluginWeglotActive()) {
+            // Weglot
+            if(isset(weglot_get_languages_available()[weglot_get_current_language()])) {
+                $currentLanguageName = weglot_get_languages_available()[weglot_get_current_language()]->getLocalName();
+            }
         } elseif (defined('ICL_LANGUAGE_NAME')) {
             // WPML
             $currentLanguageName = ICL_LANGUAGE_NAME;
@@ -193,7 +257,7 @@ class Multilanguage
      *
      * @access public
      * @param mixed $languageCode
-     * @return void
+     * @return string
      */
     public function getLanguageFlag($languageCode)
     {
@@ -201,12 +265,13 @@ class Multilanguage
 
         // Get the flag, works with WPML & Polylang
         if ($this->isMultilanguagePluginActive()) {
+            if(!$this->isLanguagePluginWeglotActive()) {
+                $null = null;
+                $listOfActiveLanguages = apply_filters('wpml_active_languages', $null);
 
-            $null = null;
-            $listOfActiveLanguages = apply_filters('wpml_active_languages', $null);
-
-            if (!empty($listOfActiveLanguages[$languageCode]['country_flag_url'])) {
-                $languageFlag = $listOfActiveLanguages[$languageCode]['country_flag_url'];
+                if (!empty($listOfActiveLanguages[$languageCode]['country_flag_url'])) {
+                    $languageFlag = $listOfActiveLanguages[$languageCode]['country_flag_url'];
+                }
             }
         }
 

@@ -1,4 +1,14 @@
 <?php
+/**
+ * REST: Referrals Endpoints
+ *
+ * @package     AffiliateWP
+ * @subpackage  REST
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\Referral\REST\v1;
 
 use \AffWP\REST\v1\Controller;
@@ -83,6 +93,8 @@ class Endpoints extends Controller {
 	 *
 	 * @since 1.9
 	 * @since 2.6.1 Added support for the 'response_callback' parameter.
+	 * @since 2.7   Items are only processed for output if retrieving all fields. Added support
+	 *              for retrieving one or more specific fields.
 	 *
 	 * @param \WP_REST_Request $request Request arguments.
 	 * @return \WP_REST_Response|\WP_Error Referrals query response, otherwise \WP_Error.
@@ -111,6 +123,8 @@ class Endpoints extends Controller {
 			unset( $request['filter'] );
 		}
 
+		$args['fields'] = $this->parse_fields_for_request( $request );
+
 		/**
 		 * Filters the query arguments used to retrieve referrals in a REST request.
 		 *
@@ -129,10 +143,9 @@ class Endpoints extends Controller {
 				'No referrals were found.',
 				array( 'status' => 404 )
 			);
-		} else {
-			$inst = $this;
-			array_map( function( $referral ) use ( $inst, $request ) {
-				$referral = $inst->process_for_output( $referral, $request );
+		} elseif ( '*' === $args['fields'] ) {
+			array_map( function( $referral ) use ( $request ) {
+				$referral = $this->process_for_output( $referral, $request );
 				return $referral;
 			}, $referrals );
 		}
@@ -185,19 +198,21 @@ class Endpoints extends Controller {
 		 * /referrals/?status=pending&order=desc
 		 */
 		$params['referral_id'] = array(
-			'description'       => __( 'The referral ID or array of IDs to query for.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
+			'description' => __( 'The referral ID or array of IDs to query for.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['affiliate_id'] = array(
-			'description'       => __( 'The affiliate ID or array of IDs to query for.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
+			'description' => __( 'The affiliate ID or array of IDs to query for.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['reference'] = array(
@@ -257,11 +272,12 @@ class Endpoints extends Controller {
 		);
 
 		$params['parent_id'] = array(
-			'description'       => __( 'The parent referral ID or array of IDs to query for.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
+			'description' => __( 'The parent referral ID or array of IDs to query for.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		/*

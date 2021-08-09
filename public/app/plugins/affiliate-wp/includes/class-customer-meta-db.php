@@ -1,9 +1,12 @@
 <?php
 /**
- * Customer meta database
+ * Customer Meta Database Abstraction Layer
  *
- * @since 2.2
- * @package Affiliate_WP
+ * @package     AffiliateWP
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2019, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.2
  */
 
  /**

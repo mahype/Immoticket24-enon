@@ -1,4 +1,13 @@
 <?php
+/**
+ * Plugin Compatibility Actions
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
 
 /**
  *  Prevents OptimizeMember from intefering with our ajax user search

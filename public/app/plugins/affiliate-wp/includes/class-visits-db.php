@@ -1,5 +1,15 @@
 <?php
 /**
+ * Visits Database Abstraction Layer
+ *
+ * @package     AffiliateWP
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
+
+/**
  * Class Affiliate_WP_Visits_DB
  *
  * @since 1.0
@@ -500,6 +510,8 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 
 			affwp_increase_affiliate_visit_count( $data['affiliate_id'] );
 
+			affiliate_wp()->campaigns->update_campaign( $visit_id );
+
 			if ( false !== $rest_id_error ) {
 				affiliate_wp()->utils->log( sprintf( 'REST ID %1$s for new visit #%2$d is invalid.',
 					$rest_id_error,
@@ -512,13 +524,37 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 	}
 
 	/**
+	 * Deletes a record from the database.
+	 *
+	 * Please note: successfully deleting a record flushes the cache.
+	 *
+	 * @access public
+	 * @since  1.1
+	 * @since  2.7 Also updates campaign counts on deletion.
+	 *
+	 * @param int|string $row_id Row ID.
+	 *
+	 * @return bool               False if the record could not be deleted, true otherwise.
+	 */
+	public function delete( $row_id = 0, $type = '' ) {
+		$visit   = affwp_get_visit( $row_id );
+		$deleted = parent::delete( $row_id, $type );
+
+		// If the record was deleted, update the campaign object.
+		if ( true === $deleted ) {
+			affiliate_wp()->campaigns->update_campaign( $visit );
+		}
+		return $deleted;
+	}
+
+	/**
 	 * Updates a visit.
 	 *
-	 * @since 1.9
+	 * @since  1.9
 	 * @access public
 	 *
-	 * @param int|AffWP\Visit $visit_id Visit ID or object.
-	 * @param array           $data     {
+	 * @param int|AffWP\Visit $visit_id     Visit ID or object.
+	 * @param array           $data         {
 	 *     Arguments for updating a new visit.
 	 *
 	 *     @type int    $affiliate_id Affiliate to associate the visit with. Ignored if invalid.
@@ -545,6 +581,8 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 			// If the passed affiliate ID is invalid, ignore the new value.
 			if ( ! affwp_get_referral( $data['referral_id'] ) ) {
 				$args['referral_id'] = $visit->referral_id;
+			} else {
+				$args['referral_id'] = $data['referral_id'];
 			}
 		}
 
@@ -587,14 +625,99 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 		if ( $this->update( $visit->ID, $args, '', 'visit' ) ) {
 			$updated_visit = affwp_get_visit( $visit->ID );
 
+			// If the campaign updated, update it.
+			if ( $visit->url !== $updated_visit->url || $visit->referral_id !== $updated_visit->referral_id ) {
+				affiliate_wp()->campaigns->update_campaign( $updated_visit );
+			}
+
 			// Handle visit counts if the affiliate was changed.
 			if ( $updated_visit->affiliate_id !== $visit->affiliate_id ) {
+
 				affwp_decrease_affiliate_visit_count( $visit->affiliate_id );
 				affwp_increase_affiliate_visit_count( $updated_visit->affiliate_id );
 			}
 			return $visit->ID;
 		}
 		return false;
+	}
+
+	/**
+	 * Fetches the unique campaigns found in visit data.
+	 *
+	 * Used for batch processes to ensure campaign counts are correct. It is generally better to query the campaigns table
+	 * directly instead of using this method.
+	 *
+	 * @since  2.7
+	 * @access public
+	 *
+	 * @param array    $args         {
+	 *     Optional. Arguments to retrieve visits. Default empty array.
+	 *
+	 *     @type int       $number       Number of visits to retrieve. Accepts -1 for all. Default 20.
+	 *     @type int       $offset       Number of visits to offset in the query. Default 0.
+	 *     @type int|array $affiliate_id Specific affiliate ID or array of IDs to query visits for.
+	 *                                   Default 0 (all).
+	 * }
+	 *
+	 * @return array|int
+	 */
+	public function get_unique_campaigns( $args = array(), $count = false ) {
+		global $wpdb;
+
+		$defaults = array(
+			'offset'       => 0,
+			'affiliate_id' => 0,
+			'number'       => 20,
+		);
+
+		$args = wp_parse_args( $args, $defaults );
+
+		if ( $args['number'] < 1 ) {
+			$args['number'] = 999999999999;
+		}
+
+		$where = 'WHERE campaign != "" ';
+
+		if ( ! empty( $args['affiliate_id'] ) ) {
+
+			if ( is_array( $args['affiliate_id'] ) ) {
+				$affiliate_ids = implode( ',', array_map( 'intval', $args['affiliate_id'] ) );
+			} else {
+				$affiliate_ids = intval( $args['affiliate_id'] );
+			}
+
+			$where .= "AND affiliate_id IN( {$affiliate_ids} ) ";
+
+		} else {
+			$where .= "AND affiliate_id > 0";
+		}
+
+		$table_name = $this->table_name;
+
+		if ( true === $count ) {
+			$prepared = "SELECT COUNT(DISTINCT campaign) AS count FROM {$table_name} {$where}";
+		} else {
+			$sql      = "SELECT campaign, affiliate_id FROM {$table_name} {$where} GROUP BY campaign, affiliate_id LIMIT %d OFFSET %d";
+			$prepared = $wpdb->prepare( $sql, $args['number'], $args['offset'] );
+		}
+
+		$result = $wpdb->get_results( $prepared );
+
+		if ( false === $result ) {
+			affiliate_wp()->utils->log( 'An error occurred when counting unique campaigns', $wpdb->last_error );
+			return true === $count ? 0 : array();
+		}
+
+		// Convert result to int if this is a count.
+		if ( true === $count ) {
+			if ( isset( $result[0] ) && isset( $result[0]->count ) ) {
+				$result = (int) $result[0]->count;
+			} else {
+				$result = 0;
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -608,17 +731,17 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$sql = "CREATE TABLE {$this->table_name} (
-			visit_id bigint(20) NOT NULL AUTO_INCREMENT,
-			affiliate_id bigint(20) NOT NULL,
-			referral_id bigint(20) NOT NULL,
-			rest_id mediumtext NOT NULL,
-			url mediumtext NOT NULL,
-			referrer mediumtext NOT NULL,
-			campaign varchar(50) NOT NULL,
-			context varchar(50) NOT NULL,
-			ip tinytext NOT NULL,
-			date datetime NOT NULL,
-			PRIMARY KEY  (visit_id),
+			visit_id     bigint(20)  NOT NULL AUTO_INCREMENT,
+			affiliate_id bigint(20)  NOT NULL,
+			referral_id  bigint(20)  NOT NULL,
+			rest_id      mediumtext  NOT NULL,
+			url          mediumtext  NOT NULL,
+			referrer     mediumtext  NOT NULL,
+			campaign     varchar(50) NOT NULL,
+			context      varchar(50) NOT NULL,
+			ip           tinytext    NOT NULL,
+			date         datetime    NOT NULL,
+			PRIMARY KEY (visit_id),
 			KEY affiliate_id (affiliate_id)
 			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 
