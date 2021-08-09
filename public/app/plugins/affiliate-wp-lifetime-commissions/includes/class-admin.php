@@ -28,6 +28,148 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 
 		// Add link icon to the referral id column to indicate a lifetime referral.
 		add_filter( 'affwp_referral_table_referral_id', array( $this, 'affwp_custom_referral_id_column' ), 10, 2 );
+
+		// add user profile field
+		add_action( 'show_user_profile', array( $this, 'profile_field' ) );
+		add_action( 'edit_user_profile', array( $this, 'profile_field' ) );
+
+		// save user profile field
+		add_action( 'personal_options_update', array( $this, 'save_profile_field' ) );
+		add_action( 'edit_user_profile_update', array( $this, 'save_profile_field' ) );
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_js' ) );
+
+		// Add the default global rate to LC referral rate if empty.
+		add_filter( 'affwp_settings_sanitize_number', array( $this, 'sanitize_referral_rate' ), 1, 2 );
+	}
+
+	/**
+	 * Enqueues AffiliateWP admin JS on user edit screen
+	 *
+	 * @since 1.5
+	 *
+	 * @param string $hook The current admin page
+	 */
+	public function enqueue_admin_js( $hook ) {
+		if ( $hook === 'user-edit.php' ) {
+			affwp_enqueue_admin_js();
+		}
+	}
+
+	/**
+	 * Add Lifetime Commissions section to user's WP profile
+	 * Allows an admin to link an affiliate to the user.
+	 *
+	 * @since  1.5
+	 * @param WP_User $user The WP User to use.
+	 */
+	public function profile_field( $user ) {
+
+		// return if not admin
+		if ( ! current_user_can( 'manage_affiliate_options' ) ) {
+			return;
+		}
+
+		$customer = affiliate_wp()->customers->get_by( 'user_id', $user->ID );
+
+		$username         = $affiliate_url = '';
+		$linked_affiliate = false;
+
+		if ( $customer ) {
+			$lifetime_customer = affiliate_wp_lifetime_commissions()->lifetime_customers->get_by( 'affwp_customer_id', $customer->customer_id );
+			if ( $lifetime_customer ) {
+				$linked_affiliate = affwp_get_affiliate( $lifetime_customer->affiliate_id );
+
+				if ( false !== $linked_affiliate ) {
+					$user          = $linked_affiliate->get_user();
+					$username      = false !== $user ? $user->user_nicename : '';
+					$affiliate_url = affwp_admin_url( 'affiliates', array(
+						'action'       => 'edit_affiliate',
+						'affiliate_id' => $linked_affiliate->ID,
+					) );
+				}
+			}
+		}
+
+		?>
+		<h3><?php _e( 'Lifetime Commissions', 'affiliate-wp-lifetime-commissions' ); ?></h3>
+
+		<table class="form-table">
+			<tr>
+				<th>
+					<label for="lifetime-affiliate"><?php _e( 'Linked Affiliate', 'affiliate-wp-lifetime-commissions' ); ?></label>
+				</th>
+				<td>
+					<span class="affwp-ajax-search-wrap">
+						<input type="text" name="lifetime_affiliate" id="lifetime-affiliate" value="<?php echo esc_attr( $username ); ?>" class="affwp-user-search regular-text" data-affwp-status="active"/>
+					</span>
+					<p class="description"><?php _e( 'The affiliate linked to this customer.', 'affiliate-wp-lifetime-commissions' ) ?>
+						<?php
+						if ( false !== $linked_affiliate ): ?>
+							<a href="<?php echo esc_url( $affiliate_url ) ?>"><?php _e( 'View Affiliate', 'affiliate-wp-lifetime-commissions' ) ?></a>
+						<?php endif; ?>
+					</p>
+				</td>
+			</tr>
+		</table>
+	<?php }
+
+	/**
+	 * Action to save user profile fields related to this plugin.
+	 *
+	 * @since 1.5
+	 * @param int $user_id The User ID to save against
+	 */
+	public function save_profile_field( $user_id ) {
+
+		$lifetime_user_name = isset( $_POST['lifetime_affiliate'] ) ? $_POST['lifetime_affiliate'] : '';
+		$affiliate_user     = get_user_by( 'login', $lifetime_user_name );
+
+		// Prevent affiliates from setting themselves as a lifetime customer.
+		if ( $affiliate_user->ID === $user_id ) {
+			return;
+		}
+
+		$customer = affiliate_wp()->customers->get_by( 'user_id', $user_id );
+
+		// If the customer does not exist, create it.
+		if ( ! $customer ) {
+			$user = get_user_by( 'id', $user_id );
+
+			$customer = affwp_get_customer( affwp_add_customer( array(
+				'user_id' => $user_id,
+				'email'   => $user->user_email,
+			) ) );
+		}
+
+		$lifetime_customer = affiliate_wp_lifetime_commissions()->lifetime_customers->get_by( 'affwp_customer_id', $customer->customer_id );
+		$affiliate         = '';
+
+		if ( $affiliate_user ) {
+			$affiliate = affiliate_wp()->affiliates->get_by( 'user_id', $affiliate_user->ID );
+		}
+
+		// If the affiliate was unset, and this user is currently a customer, delink the affiliate and bail.
+		if ( $lifetime_customer && ! $affiliate ) {
+			affiliate_wp_lifetime_commissions()->lifetime_customers->delete( $lifetime_customer->lifetime_customer_id );
+
+			return;
+		}
+
+		// Add a new lifetime customer if the provided lifetime customer does not exist
+		if ( ! $lifetime_customer ) {
+			affiliate_wp_lifetime_commissions()->lifetime_customers->add( array(
+				'affwp_customer_id' => $customer->customer_id,
+				'affiliate_id'      => $affiliate->affiliate_id,
+			) );
+
+			// Otherwise, confirm the affiliate is actually a new affiliate before changing.
+		} elseif ( $affiliate->affiliate_id !== $lifetime_customer->affiliate_id ) {
+			affiliate_wp_lifetime_commissions()->lifetime_customers->update( $lifetime_customer->affwp_customer_id, array(
+				'affiliate_id' => $affiliate->affiliate_id,
+			) );
+		}
+
 	}
 
 	/**
@@ -318,7 +460,7 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 						if ( $linked_customers && $lc_enabled ) :
 							foreach ( $linked_customers as $customer ) :
 
-								if( ! $customer ) {
+								if ( ! $customer ) {
 									continue;
 								}
 
@@ -449,7 +591,6 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 								);
 
 								affiliate_wp_lifetime_commissions()->lifetime_customers->add( $args );
-
 							}
 						}
 					}
@@ -743,24 +884,76 @@ class Affiliate_WP_Lifetime_Commissions_Admin {
 			echo sprintf( __( '<a href="%1$s">%2$s (%3$s)</a>' ), esc_url( $edit_user_link ), $customer->get_name(), $customer->email );
 
 		} else {
-
+      
 			echo $customer->get_name() . ' (' . $customer->email . ')';
-
+      
 		}
 
-		$delink_url = add_query_arg( array(
-			'affwp_action' => 'lc_delink_customer',
-			'affiliate_id' => $affiliate_id,
-			'customer'     => $customer->customer_id,
-		) );
-
-		$delink_url = wp_nonce_url( $delink_url, 'affwp-lc-delink-customer-nonce' );
-
-		echo ' | <a href="' . esc_url( $delink_url ) . '">' . __( 'Unlink customer', 'affiliate-wp-lifetime-commissions' ) . '</a>';
+		echo ' | ' . $this->delink_url( $affiliate_id, $customer_id );
 
 		echo '</li>';
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Retrieves the displayed name and email combination for templates.
+	 *
+	 * @since 1.5
+	 *
+	 * @param $customer int|\AffWP\Customer The customer from which the name should be retrieved.
+	 * @return string output of the name, and email address if both exist. If the customer has no name, just the email.
+	 */
+	private function get_display_name( $customer ) {
+		$customer      = affwp_get_customer( $customer );
+		$name_or_email = $customer->get_name();
+
+		// If get_name returns the email address, just return the email address.
+		if ( $customer->email === $name_or_email ) {
+			return $name_or_email;
+
+			// Otherwise, return the name and email.
+		} else {
+			return $name_or_email . ' (' . $customer->email . ')';
+		}
+	}
+
+	/**
+	 * Generates the HTML to create the delink URL
+	 *
+	 * @since 1.5
+	 *
+	 * @param $affiliate_id int The affiliate ID to delink
+	 * @param $customer_id  int The customer ID to delink
+	 * @return string The HTML output of the delink URL.
+	 */
+	private function delink_url( $affiliate_id, $customer_id ) {
+
+		$unlink_url = wp_nonce_url( add_query_arg( array(
+			'affwp_action' => 'lc_delink_customer',
+			'affiliate_id' => $affiliate_id,
+			'customer'     => $customer_id,
+		) ), 'affwp-lc-delink-customer-nonce' );
+
+		return '<a href="' . esc_url( $unlink_url ) . '">' . __( 'Unlink', 'affiliate-wp-lifetime-commissions' ) . '</a>';
+	}
+
+	/**
+	 * Sanitizes referral rate.
+	 * If empty, returns the global rate.
+	 *
+	 * @since 1.5
+	 *
+	 * @param mixed  $val Setting value.
+	 * @param string $key Setting key.
+	 * @return mixed The sanitized setting value.
+	 */
+	public function sanitize_referral_rate( $val, $key ) {
+		if ( 'lifetime_commissions_lifetime_referral_rate' === $key && '' === $val ) {
+			$val = affiliate_wp()->settings->get( 'referral_rate' );
+		}
+
+		return $val;
 	}
 
 }

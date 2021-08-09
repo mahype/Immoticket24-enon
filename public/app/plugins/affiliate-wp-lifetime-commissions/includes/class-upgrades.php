@@ -50,17 +50,11 @@ class Affiliate_WP_Lifetime_Commissions_Upgrades {
 	 */
 	public function init() {
 
-		if ( empty( get_option( 'affwp_lc_version' ) ) ) {
-			$this->version = '1.4.1'; // last version that didn't have the version option set.
-		}
+		$this->version = get_option( 'affwp_lc_version' );
 
 		// Delete affwp_lc_migrate_customers option so that the upgrade notice can be displayed again.
 		if ( version_compare( $this->version, '1.4.1', '=' ) && get_option( 'affwp_lc_migrate_customers' ) ) {
 			delete_option( 'affwp_lc_migrate_customers' );
-		}
-
-		if ( version_compare( $this->version, '1.4.2', '<' ) ) {
-			$this->v142_upgrade();
 		}
 
 		// Inconsistency between current and saved version.
@@ -148,21 +142,6 @@ class Affiliate_WP_Lifetime_Commissions_Upgrades {
 			</div>
 		<?php
 		endif;
-	}
-
-	/**
-	 * Performs database upgrades for version 1.4.2
-	 *
-	 * @access private
-	 * @since 1.4.2
-	 */
-	private function v142_upgrade() {
-
-		affiliate_wp_lifetime_commissions_install();
-
-		// Upgraded!
-		$this->upgraded = true;
-
 	}
 
 }
