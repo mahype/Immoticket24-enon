@@ -1,16 +1,15 @@
 <?php
-namespace AffWP\Admin;
-
 /**
  * AffiliateWP Admin Meta Box Base class.
  * Provides a base structure for AffiliateWP content meta boxes.
  *
  * @package     AffiliateWP
  * @subpackage  Admin/Metaboxes
- * @copyright   Copyright (c) 2016, Pippin Williamson
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.9
  */
+namespace AffWP\Admin;
 
 // Exit if accessed directly
 if ( ! defined('ABSPATH') ) {

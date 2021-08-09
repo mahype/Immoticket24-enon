@@ -1,13 +1,14 @@
 <?php
 /**
- * Affiliates Admin
+ * Admin: Reports Overview
  *
  * @package     AffiliateWP
- * @subpackage  Admin/Affiliates
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @subpackage  Admin/Reports
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       1.0
+ * @since       1.9
  */
+
 namespace AffWP\Admin;
 
 // Exit if accessed directly
@@ -23,6 +24,11 @@ include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/reports/tabs/class-visits-repor
 include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/reports/tabs/class-campaigns-reports-tab.php';
 include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/reports/tabs/class-sales-reports-tab.php';
 
+/**
+ * Core class that implements the contents of the Reports admin screen.
+ *
+ * @since 1.9
+ */
 class Reports {
 
 	/**

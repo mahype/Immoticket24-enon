@@ -1,4 +1,14 @@
 <?php
+/**
+ * Tools: Batch Processor Import Middleware
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools/Import
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.1
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 if ( ! class_exists( '\Affiliate_WP_Import' ) ) {

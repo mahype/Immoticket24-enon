@@ -1,4 +1,13 @@
 <?php
+/**
+ * Referrals Graph for Reports
+ *
+ * @package     AffiliateWP
+ * @subpackage  Reports
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
 
 class Affiliate_WP_Referrals_Graph extends Affiliate_WP_Graph {
 

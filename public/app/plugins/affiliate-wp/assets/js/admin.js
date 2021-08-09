@@ -307,6 +307,54 @@ jQuery(document).ready(function($) {
 
 	} );
 
+	// Dismiss promo notices.
+	$( '.affwp-promo-notice' ).each( function () {
+		const notice = $( this );
+		const noticeId = notice.data( 'id' );
+		const nonce = notice.data( 'nonce' );
+		const lifespan = notice.data( 'lifespan' );
+
+		notice.on( 'click', '.notice-dismiss, .affwp-notice-dismiss', function( event ) {
+			wp.ajax.send( 'affwp_dismiss_promo', {
+				data: {
+					notice_id: noticeId,
+					nonce: nonce,
+					lifespan: lifespan,
+				},
+				success: function() {
+					notice.slideUp( 'fast' );
+
+					// Remove previously set "seen" local storage.
+					const uid = userSettings.uid ? userSettings.uid : 0;
+					const seenKey = 'affwp-notice-' + noticeId + '-seen-' + uid;
+					window.localStorage.removeItem( seenKey );
+				},
+			} );
+		} );
+	} );
+
+	// Move "Top of Page" promos to the top of content (before Help/Screen Options).
+	const topOfPageNotice = jQuery( '.affwp-admin-notice-top-of-page' );
+
+	if ( topOfPageNotice.length > 0 ) {
+		const topOfPageNoticeEl = topOfPageNotice.detach();
+
+		jQuery( '#wpbody-content' ).prepend( topOfPageNoticeEl );
+
+		const uid = userSettings.uid ? userSettings.uid : 0;
+		const noticeId = topOfPageNoticeEl.data( 'id' );
+		const seenKey = 'affwp-notice-' + noticeId + '-seen-' + uid;
+
+		if ( window.localStorage.getItem( seenKey ) ) {
+			topOfPageNoticeEl.show();
+		} else {
+			setTimeout( function() {
+				window.localStorage.setItem( seenKey, true );
+				topOfPageNotice.slideDown();
+			}, 1500 );
+		}
+	}
+
 	/**
 	 * Support to show/hide the Referral basis based on the affiliate rate type.
 	 * Used in Affiliate WP Settings, edit affiliate admin page, and new affiliate admin page.

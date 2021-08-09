@@ -1,14 +1,13 @@
 <?php
 /**
- * Referrals Admin
+ * Admin: Referrals Overview
  *
  * @package     AffiliateWP
  * @subpackage  Admin/Referrals
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
  */
-
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -17,6 +16,11 @@ include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/referrals/screen-options.php';
 include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/referrals/contextual-help.php';
 require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/referrals/class-list-table.php';
 
+/**
+ * Loads the Referrals admin screen.
+ *
+ * @since 1.0
+ */
 function affwp_referrals_admin() {
 
 	$action = isset( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : null;

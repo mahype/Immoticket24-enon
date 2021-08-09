@@ -82,6 +82,7 @@ class Tab extends Reports\Tab {
 				'data'            => affiliate_wp()->affiliates->payouts->count( array(
 					'affiliate_id' => $this->affiliate_id,
 				) ),
+				/* translators: 1: Affiliate results URL, 2: Affiliate name, 3: Affiliate payouts URL, 4: Payouts view label */
 				'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | <a href="%3$s">%4$s</a>', 'affiliate-wp' ),
 					esc_url( $affiliate_link ),
 					$affiliate_name,
@@ -120,6 +121,7 @@ class Tab extends Reports\Tab {
 					'first_value'  => affiliate_wp()->referrals->count_by_status( 'paid', $this->affiliate_id, $this->date_query ),
 					'second_value' => affiliate_wp()->referrals->count_by_status( 'unpaid', $this->affiliate_id, $this->date_query ),
 				),
+				/* translators: 1: Affiliate results URL, 2: Affiliate name, 3: Date comparison label for context */
 				'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | %3$s', 'affiliate-wp' ),
 					esc_url( $affiliate_link ),
 					$affiliate_name,
@@ -135,6 +137,7 @@ class Tab extends Reports\Tab {
 					'first_value'  => affiliate_wp()->referrals->count_by_status( 'pending', $this->affiliate_id, $this->date_query ),
 					'second_value' => affiliate_wp()->referrals->count_by_status( 'rejected', $this->affiliate_id, $this->date_query ),
 				),
+				/* translators: 1: Affiliate results URL, 2: Affiliate name, 3: Date comparison label for context */
 				'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | %3$s', 'affiliate-wp' ),
 					esc_url( $affiliate_link ),
 					$affiliate_name,

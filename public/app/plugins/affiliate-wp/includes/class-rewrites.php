@@ -1,5 +1,15 @@
 <?php
 /**
+ * Rewrite Rules Bootstrap
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2015, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.7.8
+ */
+
+/**
  * Core class to handle setting up AffiliateWP rewrites logic.
  *
  * @since 1.7.8

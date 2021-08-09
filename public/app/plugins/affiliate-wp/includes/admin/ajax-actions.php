@@ -1,6 +1,19 @@
 <?php
+/**
+ * Admin: Ajax Action Handlers
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin
+ * @copyright   Copyright (c) 2021, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0.0
+ */
 
-// retrieves a list of users via live search
+/**
+ * Handles ajax for retrieving a list of users via live search.
+ *
+ * @since 1.0.0
+ */
 function affwp_search_users() {
 	if ( empty( $_REQUEST['term'] ) ) {
 		wp_die( -1 );
@@ -44,7 +57,8 @@ function affwp_search_users() {
 
 		foreach ( $found_users as $user ) {
 
-			$label = empty( $user->user_email ) ? $user->user_login : "{$user->user_login} ({$user->user_email})";
+			$label     = empty( $user->user_email ) ? $user->user_login : "{$user->user_login} ({$user->user_email})";
+			$affiliate = affwp_get_affiliate_by( 'user_id', $user->ID );
 
 			if ( 'bypass' !== $status ) {
 
@@ -52,7 +66,7 @@ function affwp_search_users() {
 
 					case 'none':
 
-						if ( ! affiliate_wp()->affiliates->get_by( 'user_id', $user->ID ) ) {
+						if ( is_wp_error( $affiliate ) ) {
 
 							$user_list[] = array(
 								'label'   => $label,
@@ -65,7 +79,7 @@ function affwp_search_users() {
 						break;
 					case 'any':
 
-						if ( affiliate_wp()->affiliates->get_by( 'user_id', $user->ID ) ) {
+						if ( ! is_wp_error( $affiliate ) ) {
 
 							$user_list[] = array(
 								'label'   => $label,
@@ -78,9 +92,7 @@ function affwp_search_users() {
 						break;
 					default:
 
-						$affiliate = affiliate_wp()->affiliates->get_by( 'user_id', $user->ID );
-
-						if ( $affiliate && $status == $affiliate->status ) {
+						if ( ! is_wp_error( $affiliate ) && $status == $affiliate->status ) {
 
 							$user_list[] = array(
 								'label'   => $label,
@@ -109,7 +121,7 @@ function affwp_search_users() {
 add_action( 'wp_ajax_affwp_search_users', 'affwp_search_users' );
 
 /**
- * Handles Ajax for processing a single batch request.
+ * Handles ajax for processing a single batch request.
  *
  * @since 2.0
  */
@@ -135,6 +147,7 @@ function affwp_process_batch_request() {
 	// Attempt to retrieve the batch attributes from memory.
 	if ( $batch_id && false === $batch = affiliate_wp()->utils->batch->get( $batch_id ) ) {
 		wp_send_json_error( array(
+			/* translators: Batch process ID */
 			'error' => sprintf( __( '%s is an invalid batch process ID.', 'affiliate-wp' ), esc_html( $_REQUEST['batch_id'] ) )
 		) );
 	}
@@ -144,6 +157,7 @@ function affwp_process_batch_request() {
 
 	if ( empty( $class_file ) ) {
 		wp_send_json_error( array(
+			/* translators: Formatted batch process ID */
 			'error' => sprintf( __( 'An invalid file path is registered for the %1$s batch process handler.', 'affiliate-wp' ), "<code>{$batch_id}</code>" )
 		) );
 	} else {
@@ -152,6 +166,7 @@ function affwp_process_batch_request() {
 
 	if ( empty( $class ) || ! class_exists( $class ) ) {
 		wp_send_json_error( array(
+			/* translators: 1: Formatted batch processor class name, 2: Formatted batch process ID */
 			'error' => sprintf( __( '%1$s is an invalid handler for the %2$s batch process. Please try again.', 'affiliate-wp' ),
 				"<code>{$class}</code>",
 				"<code>{$batch_id}</code>"
@@ -245,7 +260,7 @@ function affwp_process_batch_request() {
 add_action( 'wp_ajax_process_batch_request', 'affwp_process_batch_request' );
 
 /**
- * Handles Ajax for processing the upload step in single batch import request.
+ * Handles ajax for processing the upload step in single batch import request.
  *
  * @since 2.1
  */
@@ -304,6 +319,7 @@ function affwp_process_batch_import() {
 		// Attempt to retrieve the batch attributes from memory.
 		if ( $batch_id && false === $batch = affiliate_wp()->utils->batch->get( $batch_id ) ) {
 			wp_send_json_error( array(
+				/* translators: Batch process ID */
 				'error' => sprintf( __( '%s is an invalid batch process ID.', 'affiliate-wp' ), esc_html( $_REQUEST['batch_id'] ) )
 			) );
 		}
@@ -313,6 +329,7 @@ function affwp_process_batch_import() {
 
 		if ( empty( $class_file ) ) {
 			wp_send_json_error( array(
+				/* translators: Formatted batch process ID */
 				'error' => sprintf( __( 'An invalid file path is registered for the %1$s batch process handler.', 'affiliate-wp' ), "<code>{$batch_id}</code>" )
 			) );
 		} else {
@@ -321,6 +338,7 @@ function affwp_process_batch_import() {
 
 		if ( ! class_exists( $class ) ) {
 			wp_send_json_error( array(
+				/* translators: 1: Formatted batch processor class name, 2: Formatted batch process ID */
 				'error' => sprintf( __( '%1$s is an invalid handler for the %2$s batch process. Please try again.', 'affiliate-wp' ),
 					"<code>{$class}</code>",
 					"<code>{$batch_id}</code>"
@@ -360,7 +378,7 @@ add_action( 'wp_ajax_process_batch_import', 'affwp_process_batch_import' );
 
 
 /**
- * Handles Ajax for determining if a user log in name is valid
+ * Handles ajax for determining if a user log in name is valid
  *
  * @since 2.1.4
  * @since 2.3   Added support for user_email parameter

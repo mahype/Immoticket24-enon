@@ -1,9 +1,10 @@
 <?php
 /**
- * 'View Payout' admin template
+ * Admin: View Payout View
  *
- * @package    AffiliateWP\Admin\Payouts
- * @copyright  Copyright (c) 2014, Pippin Williamson
+ * @package    AffiliateWP
+ * @subpackage Admin/Payouts
+ * @copyright  Copyright (c) 2016, Sandhills Development, LLC
  * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since      1.9
  */
@@ -13,7 +14,12 @@ $payout = affwp_get_payout( intval( $_GET['payout_id'] ) );
 
 <div class="wrap">
 
-	<h2><?php printf( __( 'Payout: #%d', 'affiliate-wp' ), $payout->ID ); ?></h2>
+	<h2>
+		<?php
+		/* translators: Payout ID */
+		printf( __( 'Payout: #%d', 'affiliate-wp' ), $payout->ID );
+		?>
+	</h2>
 
 	<?php
 	/**
@@ -83,6 +89,7 @@ $payout = affwp_get_payout( intval( $_GET['payout_id'] ) );
 						printf( '<a href="%1$s">%2$s</a> %3$s',
 							esc_url( get_edit_user_link( $payout->owner ) ),
 							esc_html( $user->data->display_name ),
+							/* translators: Payout owner ID */
 							sprintf( _x( '(User ID: %d)', 'payout owner ID', 'affiliate-wp' ),
 								esc_html( $payout->owner )
 							)

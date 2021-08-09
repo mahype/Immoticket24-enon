@@ -1,12 +1,12 @@
 <?php
 /**
- * Affiiates Admin List Table
+ * Admin: Visits List Table
  *
  * @package     AffiliateWP
- * @subpackage  Admin/Affiliates
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @subpackage  Admin/Visits
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       1.9
+ * @since       1.0
  */
 
 use AffWP\Admin\List_Table;

@@ -1,10 +1,24 @@
 <?php
+/**
+ * Admin: View Affiliate View
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Affiliates
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
 $affiliate_id = isset( $_GET['affiliate_id'] ) ? absint( $_GET['affiliate_id'] ) : 0;
 
 ?>
 <div class="wrap">
-	<h2><?php printf( __( 'Affiliate: #%d %s', 'affiliate-wp' ), $affiliate_id, affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id ) ); ?></h2>
+	<h2>
+		<?php
+		/* translators: 1: Affiliate ID, 2: Affiliate name */
+		printf( __( 'Affiliate: #%1$d %2$s', 'affiliate-wp' ), $affiliate_id, affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id ) );
+		?>
+	</h2>
 
 	<?php
 	/**

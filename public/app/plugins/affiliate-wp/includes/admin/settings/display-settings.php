@@ -1,13 +1,13 @@
 <?php
 /**
- * Admin Options Page
+ * Admin: Settings
  *
  * @package     AffiliateWP
  * @subpackage  Admin/Settings
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
-*/
+ */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -35,7 +35,7 @@ function affwp_settings_admin() {
 				<table class="form-table">
 				<?php
 				settings_fields( 'affwp_settings' );
-				do_settings_fields( 'affwp_settings_' . $active_tab, 'affwp_settings_' . $active_tab );
+				affwp_do_settings_fields( 'affwp_settings_' . $active_tab, 'affwp_settings_' . $active_tab );
 				?>
 				</table>
 				<?php submit_button(); ?>

@@ -1,4 +1,14 @@
 <?php
+/**
+ * Utilities: Batch Process Registry
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Utilites
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 use AffWP\Utils;
@@ -146,6 +156,11 @@ class Registry extends Utils\Registry {
 		$this->register_process( 'recount-affiliate-stats', array(
 			'class' => 'AffWP\Utils\Batch_Process\Recount_Affiliate_Stats',
 			'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-recount-affiliate-stats.php',
+		) );
+
+		$this->register_process( 'recalculate-campaigns', array(
+			'class' => 'AffWP\Utils\Batch_Process\Batch_Recalculate_Campaigns',
+			'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-recalculate-campaigns.php',
 		) );
 
 		// Create dynamic coupons for all affiliates.

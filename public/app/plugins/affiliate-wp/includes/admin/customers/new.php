@@ -1,6 +1,6 @@
 <?php
 /**
- * Customers Admin: Add Customer
+ * Admin: Add Customer View
  *
  * @package    AffiliateWP
  * @subpackage Admin/Customers

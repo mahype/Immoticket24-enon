@@ -120,6 +120,7 @@ class Tab extends Reports\Tab {
 				'type'            => 'amount',
 				'context'         => 'secondary',
 				'data'            => ! empty( $payouts ) ? array_sum( $payouts ) : 0,
+				/* translators: 1: Affiliate results URL, 2: Affiliate name, 3: Date comparison label for context */
 				'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | %3$s', 'affiliate-wp' ),
 					esc_url( $this->affiliate_link ),
 					$this->affiliate_name,
@@ -170,6 +171,7 @@ class Tab extends Reports\Tab {
 				'type'            => 'amount',
 				'context'         => 'tertiary',
 				'data'            => $total_earnings,
+				/* translators: 1: Affiliate results URL, 2: Affiliate name, 3: Date comparison label for context */
 				'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | %3$s', 'affiliate-wp' ),
 					esc_url( $this->affiliate_link ),
 					$this->affiliate_name,
@@ -252,6 +254,7 @@ class Tab extends Reports\Tab {
 					'type'            => 'amount',
 					'context'         => 'secondary',
 					'data'            => array_sum( $payouts ) / count( $payouts ),
+					/* translators: 1: Affiliate results URL, 2: Affiliate name, 3: Date comparison label for context */
 					'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | %3$s', 'affiliate-wp' ),
 						esc_url( $this->affiliate_link ),
 						$this->affiliate_name,

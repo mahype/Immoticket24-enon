@@ -1,4 +1,14 @@
 <?php
+/**
+ * REST: Database Abstraction Layer
+ *
+ * @package     AffiliateWP
+ * @subpackage  REST
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\REST\Consumer;
 
 /**
@@ -333,13 +343,13 @@ class Database extends \Affiliate_WP_DB {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$sql = "CREATE TABLE {$this->table_name} (
-			consumer_id bigint(20) NOT NULL AUTO_INCREMENT,
-			user_id bigint(20) NOT NULL,
-			token varchar(32) NOT NULL,
-			public_key varchar(32) NOT NULL,
-			secret_key varchar(32) NOT NULL,
-			status tinytext NOT NULL,
-			date datetime NOT NULL,
+			consumer_id bigint(20)  NOT NULL AUTO_INCREMENT,
+			user_id     bigint(20)  NOT NULL,
+			token       varchar(32) NOT NULL,
+			public_key  varchar(32) NOT NULL,
+			secret_key  varchar(32) NOT NULL,
+			status      tinytext    NOT NULL,
+			date        datetime    NOT NULL,
 			PRIMARY KEY  (consumer_id),
 			KEY user_id (user_id)
 			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";

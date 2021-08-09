@@ -1,6 +1,6 @@
 <?php
 /**
- * Customers Admin: Actions
+ * Admin: Customers Action Callbacks
  *
  * @package    AffiliateWP
  * @subpackage Admin/Customers

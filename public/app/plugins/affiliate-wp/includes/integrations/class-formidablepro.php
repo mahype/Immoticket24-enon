@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: Formidable Pro
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
+/**
+ * Implements an integration for Formidable Forms Pro.
+ *
+ * @since 1.2
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_Formidable_Pro extends Affiliate_WP_Base {
 
 	/**
@@ -225,17 +241,23 @@ class Affiliate_WP_Formidable_Pro extends Affiliate_WP_Base {
 
 		$this->complete_referral( $atts['entry_id'] );
 
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $atts['entry_id'], $this->context );
-		$amount   = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
-		$name     = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
-		$note     = sprintf( __( 'AffiliateWP: Referral #%1$d for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
-			$referral->referral_id,
-			$amount,
-			$name,
-			$referral->affiliate_id
-		);
+		$referral = affwp_get_referral_by( 'reference', $atts['entry_id'], $this->context );
 
-		FrmEntryMeta::add_entry_meta( $atts['entry_id'], 0, '', array( 'comment' => $note, 'user_id' => 0 ) );
+		if ( ! is_wp_error( $referral ) ) {
+			$amount = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
+			$name   = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
+			/* translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name, 4: Referral affiliate ID  */
+			$note   = sprintf( __( 'AffiliateWP: Referral #%1$d for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
+				$referral->referral_id,
+				$amount,
+				$name,
+				$referral->affiliate_id
+			);
+
+			FrmEntryMeta::add_entry_meta( $atts['entry_id'], 0, '', array( 'comment' => $note, 'user_id' => 0 ) );
+		} else {
+			affiliate_wp()->utils->log( 'mark_referral_complete: Referral could not be found.', $referral );
+		}
 
 	}
 
@@ -256,12 +278,18 @@ class Affiliate_WP_Formidable_Pro extends Affiliate_WP_Base {
 
 				$this->complete_referral( $entry_id );
 
-				$referral = affiliate_wp()->referrals->get_by( 'reference', $entry_id, $this->context );
-				$amount   = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
-				$name     = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
-				$note     = sprintf( __( 'AffiliateWP: Referral #%d for %s recorded for %s', 'affiliate-wp' ), $referral->referral_id, $amount, $name );
+				$referral = affwp_get_referral_by( 'reference', $entry_id, $this->context );
 
-				FrmEntryMeta::add_entry_meta( $entry_id, 0, '', array( 'comment' => $note, 'user_id' => 0 ) );
+				if ( ! is_wp_error( $referral ) ) {
+					$amount = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
+					$name   = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
+					/* translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name */
+					$note   = sprintf( __( 'AffiliateWP: Referral #%1$d for %2$s recorded for %3$s', 'affiliate-wp' ), $referral->referral_id, $amount, $name );
+
+					FrmEntryMeta::add_entry_meta( $entry_id, 0, '', array( 'comment' => $note, 'user_id' => 0 ) );
+				} else {
+					affiliate_wp()->utils->log( 'mark_referral_complete_paypal: The referral could not be found.', $referral );
+				}
 
 			}
 
@@ -282,12 +310,18 @@ class Affiliate_WP_Formidable_Pro extends Affiliate_WP_Base {
 
 		$this->reject_referral( $atts['entry_id'] );
 
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $atts['entry_id'], $this->context );
-		$amount   = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
-		$name     = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
-		$note     = sprintf( __( 'AffiliateWP: Referral #%d for %s for %s rejected', 'affiliate-wp' ), $referral->referral_id, $amount, $name );
+		$referral = affwp_get_referral_by( 'reference', $atts['entry_id'], $this->context );
 
-		FrmEntryMeta::add_entry_meta( $atts['entry_id'], 0, '', array( 'comment' => $note, 'user_id' => 0 ) );
+		if ( ! is_wp_error( $referral ) ) {
+			$amount = affwp_currency_filter( affwp_format_amount( $referral->amount ) );
+			$name   = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
+			/* translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name */
+			$note   = sprintf( __( 'AffiliateWP: Referral #%1$d for %2$s for %3$s rejected', 'affiliate-wp' ), $referral->referral_id, $amount, $name );
+
+			FrmEntryMeta::add_entry_meta( $atts['entry_id'], 0, '', array( 'comment' => $note, 'user_id' => 0 ) );
+		} else {
+			affiliate_wp()->utils->log( 'revoke_referral_on_refund: The referral could not be found.', $referral );
+		}
 
 	}
 

@@ -1,4 +1,14 @@
 <?php
+/**
+ * Admin: Edit Referral View
+ *
+ * @package    AffiliateWP
+ * @subpackage Admin/Referrals
+ * @copyright  Copyright (c) 2015, Sandhills Development, LLC
+ * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since      1.5
+ */
+
 $referral  = affwp_get_referral( absint( $_GET['referral_id'] ) );
 $payout    = affwp_get_payout( $referral->payout_id );
 $visit     = affwp_get_visit( $referral->visit_id );
@@ -53,7 +63,7 @@ $disabled = disabled( (bool) $payout, true, false );
 
 						if ( $affiliate && $affiliate_name ) {
 							/* translators: 1: Affiliate link, 2: Affiliate ID */
-							printf( __( '%1$s (ID: #%2$s)', 'affiliate-wp' ),
+							printf( _x( '%1$s (ID: #%2$s)', 'affiliate info', 'affiliate-wp' ),
 								affwp_admin_link( 'affiliates', $affiliate_name, array(
 									'action'       => 'view_affiliate',
 									'affiliate_id' => $affiliate->ID
@@ -92,7 +102,7 @@ $disabled = disabled( (bool) $payout, true, false );
 								);
 
 								/* translators: 1: Payout link with total, 2: Payout ID */
-								printf( __( '%1$s (ID: #%2$s)', 'affiliate-wp' ),
+								printf( _x( '%1$s (ID: #%2$s)', 'payout info', 'affiliate-wp' ),
 									$payout_total_link,
 									esc_html( $payout->ID )
 								);

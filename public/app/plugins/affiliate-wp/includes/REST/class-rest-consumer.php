@@ -2,10 +2,11 @@
 /**
  * Objects: REST API Consumer
  *
- * @package AffiliateWP\REST
- * @category Core
- *
- * @since 1.9
+ * @package     AffiliateWP
+ * @subpackage  REST
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
  */
 
 namespace AffWP\REST;

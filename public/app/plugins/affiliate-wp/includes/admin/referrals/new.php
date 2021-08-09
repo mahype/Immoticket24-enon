@@ -1,3 +1,14 @@
+<?php
+/**
+ * Admin: New Referral View
+ *
+ * @package    AffiliateWP
+ * @subpackage Admin/Referrals
+ * @copyright  Copyright (c) 2014, Sandhills Development, LLC
+ * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since      1.2
+ */
+?>
 <div class="wrap">
 
 	<h2><?php _e( 'New Referral', 'affiliate-wp' ); ?></h2>

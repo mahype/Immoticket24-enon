@@ -1,13 +1,13 @@
 <?php
 /**
- * 'New Payout' admin template
+ * Admin: New Payout View
  *
- * @package    AffiliateWP\Admin\Payouts
- * @copyright  Copyright (c) 2019, AffiliateWP, LLC
+ * @package    AffiliateWP
+ * @subpackage Admin/Payouts
+ * @copyright  Copyright (c) 2019, Sandhills Development, LLC
  * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since      2.4
  */
-
 ?>
 
 <div class="wrap">

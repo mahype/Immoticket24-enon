@@ -1,4 +1,14 @@
 <?php
+/**
+ * REST: Visits Endpoints
+ *
+ * @package     AffiliateWP
+ * @subpackage  REST
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\Visit\REST\v1;
 
 use \AffWP\REST\v1\Controller;
@@ -82,7 +92,8 @@ class Endpoints extends Controller {
 	 * Base endpoint to retrieve all visits.
 	 *
 	 * @since 1.9
-	 * @access public
+	 * @since 2.7 Items are only processed for output if retrieving all fields. Added support for
+	 *            retrieving multiple fields.
 	 *
 	 * @param \WP_REST_Request $request Request arguments.
 	 * @return \WP_REST_Response|\WP_Error Array of visits, otherwise WP_Error.
@@ -103,13 +114,14 @@ class Endpoints extends Controller {
 		$args['date']            = isset( $request['date'] )            ? $request['date'] : '';
 		$args['order']           = isset( $request['order'] )           ? $request['order'] : 'ASC';
 		$args['orderby']         = isset( $request['orderby'] )         ? $request['orderby'] : '';
-		$args['fields']          = isset( $request['fields'] )          ? $request['fields'] : '*';
 		$args['search']          = isset( $request['search'] )          ? $request['search'] : '';
 
 		if ( is_array( $request['filter'] ) ) {
 			$args = array_merge( $args, $request['filter'] );
 			unset( $request['filter'] );
 		}
+
+		$args['fields'] = $this->parse_fields_for_request( $request );
 
 		/**
 		 * Filters the query arguments used to retrieve visits in a REST request.
@@ -130,10 +142,9 @@ class Endpoints extends Controller {
 				'No visits were found.',
 				array( 'status' => 404 )
 			);
-		} else {
-			$inst = $this;
-			array_map( function( $visit ) use ( $inst, $request ) {
-				$visit = $inst->process_for_output( $visit, $request );
+		} elseif ( '*' === $args['fields'] ) {
+			array_map( function( $visit ) use ( $request ) {
+				$visit = $this->process_for_output( $visit, $request );
 				return $visit;
 			}, $visits );
 		}
@@ -186,27 +197,30 @@ class Endpoints extends Controller {
 		 * /visits/?referral_status=pending&order=desc
 		 */
 		$params['visit_id'] = array(
-			'description'       => __( 'The visit ID or array of IDs to query visits for.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
+			'description' => __( 'The visit ID or array of IDs to query visits for.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['affiliate_id'] = array(
-			'description'       => __( 'The affiliate ID or array of IDs to query visits for.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
+			'description' => __( 'The affiliate ID or array of IDs to query visits for.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['referral_id'] = array(
-			'description'       => __( 'The referral ID or array of IDs to query visits for.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
+			'description' => __( 'The referral ID or array of IDs to query visits for.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['referral_status'] = array(

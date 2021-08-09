@@ -1,4 +1,14 @@
 <?php
+/**
+ * Upgrades: utf8mb4 Database Compat Batch Processor
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools/Upgrades
+ * @copyright   Copyright (c) 2020, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.6.1
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 use AffWP\Utils;
@@ -158,6 +168,7 @@ class Upgrade_Database_ut8mb4_Compat extends Utils\Batch_Process implements Batc
 		switch( $code ) {
 
 			case 'done':
+				/* translators: Dismiss Notice link markup */
 				$message = sprintf( __( 'Your database tables have been successfully upgraded. %s', 'affiliate-wp' ),
 					sprintf( '<a href="">%s</a>', __( 'Dismiss Notice', 'affiliate-wp' ) )
 				);

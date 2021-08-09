@@ -5,24 +5,27 @@
  * For use by AffiliateWP and its add-ons.
  *
  * @package     AffiliateWP
- * @subpackage  Core/Database
- * @copyright   Copyright (c) 2020, AffiliateWP, LLC
+ * @subpackage  Tools
+ * @copyright   Copyright (c) 2021, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       2.6
+ * @version     1.0.0
  */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Class used by AffiliateWP to enforce minimum requirements for itself and its add-ons.
  *
- * @since 2.6
+ * @since 1.0.0
  * @abstract
  */
-abstract class Affiliate_WP_Requirements_Check {
+abstract class AffiliateWP_Requirements_Check {
 
 	/**
 	 * Plugin base file.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 * @var   string
 	 */
 	private $file = '';
@@ -30,7 +33,7 @@ abstract class Affiliate_WP_Requirements_Check {
 	/**
 	 * Plugin basename.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 * @var   string
 	 */
 	private $base = '';
@@ -38,7 +41,7 @@ abstract class Affiliate_WP_Requirements_Check {
 	/**
 	 * Plugin slug.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 * @var   string
 	 */
 	protected $slug = 'affiliate-wp';
@@ -46,7 +49,7 @@ abstract class Affiliate_WP_Requirements_Check {
 	/**
 	 * Requirements array.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 * @var   array[]
 	 */
 	protected $requirements = array(
@@ -62,7 +65,7 @@ abstract class Affiliate_WP_Requirements_Check {
 
 		// WordPress.
 		'wp' => array(
-			'minimum' => '4.9.0',
+			'minimum' => '5.0.0',
 			'name'    => 'WordPress',
 			'exists'  => true,
 			'current' => false,
@@ -74,7 +77,7 @@ abstract class Affiliate_WP_Requirements_Check {
 	/**
 	 * Add-on requirements array.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 * @var   array
 	 */
 	protected $addon_requirements = array();
@@ -82,7 +85,7 @@ abstract class Affiliate_WP_Requirements_Check {
 	/**
 	 * Sets up the plugin requirements class.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @param string $file Main plugin file.
 	 */
@@ -101,7 +104,8 @@ abstract class Affiliate_WP_Requirements_Check {
 	/**
 	 * Retrieves the main plugin file.
 	 *
-	 * @since  2.6
+	 * @since 1.0.0
+	 *
 	 * @return string Main plugin file.
 	 */
 	public function get_file() {
@@ -111,7 +115,7 @@ abstract class Affiliate_WP_Requirements_Check {
 	/**
 	 * (Maybe) loads the plugin.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 */
 	public function maybe_load() {
 		// Load or quit.
@@ -121,9 +125,38 @@ abstract class Affiliate_WP_Requirements_Check {
 	/**
 	 * Getter for requirements.
 	 *
-	 * Add-ons can set the` `$addon_requirements` property to append additional requirements.
+	 * The requirements class automatically supports checking 'wp', 'php', and 'affwp' keyed requirements.
 	 *
-	 * @since 2.6
+	 * Add-ons can register custom requirements (or override defaults outlined in `$requirements`) by
+	 * defining the `$addon_requirements` property in its own sub-class. If overriding default requirements,
+	 * the same keys and metadata - save for the new version numbers - should be used.
+	 *
+	 * Custom requirement example:
+	 *
+	 *     protected $addon_requirements = array(
+	 *         // AffiliateWP - Affiliate Portal.
+	 *         'affwp_portal' => array(
+	 *             'minimum' => '1.0.0',
+	 *             'name'    => 'AffiliateWP - Affiliate Portal',
+	 *             'exists'  => true,
+	 *             'current' => false,
+	 *             'checked' => false,
+	 *             'met'     => false
+	 *         ),
+	 *     );
+	 *
+	 * To hook up the version check, a corresponding method for each custom requirement MUST be added.
+	 * The simplify this, the requirements class will automatically look for a method named
+	 * "check_{requirement_name}".
+	 *
+	 * For example, for the 'affwp_portal' requirement:
+	 *
+	 *     public function check_affwp_portal() {
+	 *         return get_option( 'affwp_ap_version' );
+	 *     }
+	 *
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return array Plugin requirements.
 	 */
@@ -132,9 +165,9 @@ abstract class Affiliate_WP_Requirements_Check {
 	}
 
 	/**
-	 * Quit without loading the plugin.
+	 * Quits without loading the plugin.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 */
 	protected function quit() {
 		add_action( 'admin_head',                        array( $this, 'admin_head'        ) );
@@ -142,50 +175,54 @@ abstract class Affiliate_WP_Requirements_Check {
 		add_action( "after_plugin_row_{$this->base}",    array( $this, 'plugin_row_notice' ) );
 	}
 
-	/* Specific Methods ******************************************************/
+	//
+	// Specific Methods
+	//
 
 	/**
 	 * Handles actually loading the plugin.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 */
 	abstract protected function load();
 
 	/**
 	 * Install, usually on an activation hook.
 	 *
-	 * @since 2.6
+	 * Note: A sub-class extension of this method is typically a good place to call a relevant
+	 * install function or set the add-on version option directly.
+	 *
+	 * @since 1.0.0
 	 */
 	public function install() {
 		// Bootstrap to include all of the necessary files
 		$this->bootstrap();
-
 	}
 
 	/**
-	 * Bootstrap everything.
+	 * Bootstraps everything.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 */
 	public function bootstrap() {
 		\Affiliate_WP::instance( $this->get_file() );
 	}
 
 	/**
-	 * Plugin specific URL for an external requirements page.
+	 * Sets the plugin-specific URL for an external requirements page.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @return string Unmet requirements URL.
 	 */
-	private function unmet_requirements_url() {
+	protected function unmet_requirements_url() {
 		return '';
 	}
 
 	/**
-	 * Plugin specific text to quickly explain what's wrong.
+	 * Sets the plugin-specific text to quickly explain what's wrong.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @return string Unmet requirements text.
 	 */
@@ -194,9 +231,9 @@ abstract class Affiliate_WP_Requirements_Check {
 	}
 
 	/**
-	 * Plugin-specific text to describe a single unmet requirement.
+	 * Sets the plugin-specific text to describe a single unmet requirement.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @return string Unment requirements description text.
 	 */
@@ -205,9 +242,9 @@ abstract class Affiliate_WP_Requirements_Check {
 	}
 
 	/**
-	 * Plugin-specific text to describe a single missing requirement.
+	 * Sets the plugin-specific text to describe a single missing requirement.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @return string Unmet missing requirements text.
 	 */
@@ -216,9 +253,9 @@ abstract class Affiliate_WP_Requirements_Check {
 	}
 
 	/**
-	 * Plugin-specific text used to link to an external requirements page.
+	 * Sets the plugin-specific text used to link to an external requirements page.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @return string Unmet requirements link text.
 	 */
@@ -227,9 +264,9 @@ abstract class Affiliate_WP_Requirements_Check {
 	}
 
 	/**
-	 * Plugin-specific aria label text to describe the requirements link.
+	 * Sets the plugin-specific aria label text to describe the requirements link.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @return string Aria label text.
 	 */
@@ -238,9 +275,9 @@ abstract class Affiliate_WP_Requirements_Check {
 	}
 
 	/**
-	 * Plugin-specific text used in CSS to identify attribute IDs and classes.
+	 * Sets the plugin-specific text used in CSS to identify attribute IDs and classes.
 	 *
-	 * @since  2.6
+	 * @since  1.0.0
 	 *
 	 * @return string CSS selector.
 	 */
@@ -248,12 +285,14 @@ abstract class Affiliate_WP_Requirements_Check {
 		return 'affwp-requirements';
 	}
 
-	/* Agnostic Methods ******************************************************/
+	//
+	// Agnostic Methods
+	//
 
 	/**
-	 * Plugin-agnostic method to output the additional plugin row.
+	 * Sets up the plugin-agnostic method to output the additional plugin row.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 */
 	public function plugin_row_notice() {
 		?><tr class="active <?php echo esc_attr( $this->unmet_requirements_name() ); ?>-row">
@@ -270,9 +309,9 @@ abstract class Affiliate_WP_Requirements_Check {
 	}
 
 	/**
-	 * Plugin-agnostic method used to output all unmet requirement information.
+	 * Sets up the plugin-agnostic method used to output all unmet requirement information.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 */
 	private function unmet_requirements_description() {
 		foreach ( $this->requirements as $properties ) {
@@ -283,9 +322,9 @@ abstract class Affiliate_WP_Requirements_Check {
 	}
 
 	/**
-	 * Plugin agnostic method to output specific unmet requirement information
+	 * Sets up the plugin-agnostic method to output specific unmet requirement information
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @param array $requirement Requirements array.
 	 */
@@ -314,9 +353,9 @@ abstract class Affiliate_WP_Requirements_Check {
 	}
 
 	/**
-	 * Plugin-agnostic method to output unmet requirements styling
+	 * Sets up the plugin-agnostic method to output unmet requirements styling
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 */
 	public function admin_head() {
 
@@ -353,9 +392,9 @@ abstract class Affiliate_WP_Requirements_Check {
 	}
 
 	/**
-	 * Plugin-agnostic method to add the "Requirements" link to row actions
+	 * Sets up the plugin-agnostic method to add the "Requirements" link to row actions
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @param array $links Requirement links.
 	 * @return array Requirement links with markup.
@@ -372,12 +411,14 @@ abstract class Affiliate_WP_Requirements_Check {
 		return $links;
 	}
 
-	/* Checkers **************************************************************/
+	//
+	// Checkers
+	//
 
 	/**
-	 * Plugin-specific requirements checker.
+	 * Sets up the plugin-specific requirements checker.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 */
 	private function check() {
 
@@ -404,7 +445,7 @@ abstract class Affiliate_WP_Requirements_Check {
 	/**
 	 * Checks the PHP version.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @return string PHP version.
 	 */
@@ -415,7 +456,7 @@ abstract class Affiliate_WP_Requirements_Check {
 	/**
 	 * Checks the WordPress version.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @return string WordPress version.
 	 */
@@ -429,7 +470,7 @@ abstract class Affiliate_WP_Requirements_Check {
 	 * Add-ons can use this built-in check for the AffiliateWP version by defining
 	 * an 'affwp' requirement via the `$addon_requirements` property.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @return string AffiliateWP version.
 	 */
@@ -440,7 +481,7 @@ abstract class Affiliate_WP_Requirements_Check {
 	/**
 	 * Determines if all requirements been met.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @return bool True if met, otherwise false.
 	 */
@@ -465,12 +506,14 @@ abstract class Affiliate_WP_Requirements_Check {
 		return $retval;
 	}
 
-	/* Translations **********************************************************/
+	//
+	// Translations
+	//
 
 	/**
-	 * Plugin specific text-domain loader.
+	 * Handles loading the plugin-specific text-domain.
 	 *
-	 * @since 2.6
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
@@ -479,7 +522,7 @@ abstract class Affiliate_WP_Requirements_Check {
 		$lang_dir = dirname( plugin_basename( $this->get_file() ) ) . '/languages/';
 
 		/**
-		 * Filters the languages directory for AffiliateWP - Affiliate Dashboard plugin.
+		 * Filters the languages directory for AffiliateWP - Affiliate Portal plugin.
 		 *
 		 * @since 1.0
 		 *

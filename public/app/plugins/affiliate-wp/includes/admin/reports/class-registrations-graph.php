@@ -1,5 +1,21 @@
 <?php
+/**
+ * Admin: Registrations Graph for Reports
+ *
+ * @package    AffiliateWP
+ * @subpackage Admin/Reports
+ * @copyright  Copyright (c) 2017, Sandhills Development, LLC
+ * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since      2.1
+ */
 
+/**
+ * Implements logic to display an affiliat eregistrations graph in the Affiliates reports tab.
+ *
+ * @since 2.1
+ *
+ * @see \Affiliate_WP_Graph
+ */
 class Affiliate_WP_Registrations_Graph extends Affiliate_WP_Graph {
 
 	/**

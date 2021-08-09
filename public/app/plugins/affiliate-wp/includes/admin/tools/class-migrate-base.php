@@ -1,4 +1,13 @@
 <?php
+/**
+ * Tools: Migrator Model
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.8.8
+ */
 
 class Affiliate_WP_Migrate_Base {
 

@@ -1,15 +1,16 @@
 <?php
 /**
- * Email actions
+ * Emails: Action Callbacks
  *
- * @package AffiliateWP\Emails\Actions
- * @since 1.6
+ * @package     AffiliateWP
+ * @subpackage  Emails
+ * @copyright   Copyright (c) 2015, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.6
  */
-
 
 // Exit if accessed directly
 if( ! defined( 'ABSPATH' ) ) exit;
-
 
 /**
  * Sends an admin email on affiliate registration
@@ -53,17 +54,21 @@ function affwp_notify_on_registration( $affiliate_id = 0, $status = '', $args = 
 	if( empty( $message ) ) {
 
 		$message  = __( 'A new affiliate has registered on your site, ', 'affiliate-wp' ) . home_url() . "\n\n";
+		/* translators: Affiliate display name */
 		$message .= sprintf( __( 'Name: %s', 'affiliate-wp' ), $args['display_name'] ) . "\n\n";
 
 		if( $user_url ) {
+			/* translators: User URL */
 			$message .= sprintf( __( 'Website URL: %s', 'affiliate-wp' ), esc_url( $user_url ) ) . "\n\n";
 		}
 
 		if( $promotion_method ) {
+			/* translators: Promotion method */
 			$message .= sprintf( __( 'Promotion method: %s', 'affiliate-wp' ), esc_attr( $promotion_method ) ) . "\n\n";
 		}
 
 		if( affiliate_wp()->settings->get( 'require_approval' ) ) {
+			/* translators: Pending affiliates URL */
 			$message .= sprintf( __( 'Review pending applications: %s', 'affiliate-wp' ), affwp_admin_url( 'affiliates', array( 'status' => 'pending' ) ) ) . "\n\n";
 		}
 
@@ -146,8 +151,11 @@ function affwp_notify_on_approval( $affiliate_id = 0, $status = '', $old_status 
 	$message      = affiliate_wp()->settings->get( 'accepted_email', '' );
 
 	if( empty( $message ) ) {
+		/* translators: Affiliate name */
 		$message  = sprintf( __( 'Congratulations %s!', 'affiliate-wp' ), affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id ) ) . "\n\n";
+		/* translators: Home URL */
 		$message .= sprintf( __( 'Your affiliate application on %s has been accepted!', 'affiliate-wp' ), home_url() ) . "\n\n";
+		/* translators: Login URL */
 		$message .= sprintf( __( 'Log into your affiliate area at %s', 'affiliate-wp' ), affiliate_wp()->login->get_login_url() ) . "\n\n";
 	}
 
@@ -244,6 +252,7 @@ function affwp_notify_on_pending_affiliate_registration( $affiliate_id = 0, $sta
 	$message      = affiliate_wp()->settings->get( 'pending_email', '' );
 
 	if ( empty( $message ) ) {
+		/* translators: Affiliate name */
 		$message  = sprintf( __( 'Hi %s!', 'affiliate-wp' ), affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id ) ) . "\n\n";
 		$message .= __( 'Thanks for your recent affiliate registration on {site_name}.', 'affiliate-wp' ) . "\n\n";
 		$message .= __( 'We&#8217;re currently reviewing your affiliate application and will be in touch soon!', 'affiliate-wp' ) . "\n\n";
@@ -305,6 +314,7 @@ function affwp_notify_on_rejected_affiliate_registration( $affiliate_id = 0, $st
 	$message      = affiliate_wp()->settings->get( 'rejection_email', '' );
 
 	if ( empty( $message ) ) {
+		/* translators: Affiliate name */
 		$message  = sprintf( __( 'Hi %s,', 'affiliate-wp' ), affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id ) ) . "\n\n";
 		$message .= __( 'We regret to inform you that your recent affiliate registration on {site_name} was rejected.', 'affiliate-wp' ) . "\n\n";
 	}
@@ -360,8 +370,11 @@ function affwp_notify_on_new_referral( $affiliate_id = 0, $referral ) {
 	$amount  = html_entity_decode( affwp_currency_filter( $referral->amount ), ENT_COMPAT, 'UTF-8' );
 
 	if( ! $message ) {
+		/* translators: Affiliate name */
 		$message  = sprintf( __( 'Congratulations %s!', 'affiliate-wp' ), affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id ) ) . "\n\n";
-		$message .= sprintf( __( 'You have been awarded a new referral of %s on %s!', 'affiliate-wp' ), $amount, home_url() ) . "\n\n";
+		/* translators: 1: Formatted referral amount, 2: Home URL */
+		$message .= sprintf( __( 'You have been awarded a new referral of %1$s on %2$s!', 'affiliate-wp' ), $amount, home_url() ) . "\n\n";
+		/* translators: Login URL */
 		$message .= sprintf( __( 'log into your affiliate area to view your earnings or disable these notifications: %s', 'affiliate-wp' ), affiliate_wp()->login->get_login_url() ) . "\n\n";
 	}
 

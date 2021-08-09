@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: (iThemes) Exchange
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.3
+ */
 
+/**
+ * Implements an integration for (iThemes) Exchange.
+ *
+ * @since 1.3
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_Exchange extends Affiliate_WP_Base {
 
 	/**

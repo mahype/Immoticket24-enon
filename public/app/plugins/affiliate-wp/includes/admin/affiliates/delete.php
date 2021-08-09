@@ -1,4 +1,14 @@
 <?php
+/**
+ * Admin: Delete Affiliate View
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Affiliates
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
@@ -92,7 +102,10 @@ $have_users_to_delete      = $to_delete_count > $total_invalid_count;
 			<?php foreach ( $affiliate_names as $affiliate_id => $name ) : ?>
 
 			<li>
-				<?php printf( _x( 'ID #%d: %s', 'Affiliate ID, affiliate name', 'affiliate-wp' ), $affiliate_id, $name ); ?>
+				<?php
+				/* translators: 1: Affiliate ID, 2: Affiliate name */
+				printf( _x( 'ID #%1$d: %1$s', 'Affiliate ID, affiliate name', 'affiliate-wp' ), $affiliate_id, $name );
+				?>
 				<input type="hidden" name="affwp_affiliate_ids[]" value="<?php echo esc_attr( $affiliate_id ); ?>"/>
 			</li>
 

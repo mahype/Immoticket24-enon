@@ -1,4 +1,14 @@
 <?php
+/**
+ * Upgrades: Customer/Affiliate Relationship Creation Batch Processor
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools/Upgrades
+ * @copyright   Copyright (c) 2020, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.4.5
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 use AffWP\Utils;
@@ -133,6 +143,7 @@ class Upgrade_Create_Customer_Affiliate_Relationship extends Utils\Batch_Process
 		switch ( $code ) {
 
 			case 'done':
+				/* translators: Dismiss Notice link markup */
 				$message = sprintf( __( 'Your database has been successfully upgraded. %s', 'affiliate-wp' ),
 					sprintf( '<a href="">%s</a>', __( 'Dismiss Notice', 'affiliate-wp' ) )
 				);

@@ -1,5 +1,15 @@
 <?php
 /**
+ * Tracking Bootstrap
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
+
+/**
  * The Affiliate_WP_Tracking class.
  *
  * This class defines all primary methods by which
@@ -15,6 +25,14 @@ class Affiliate_WP_Tracking {
 	private $expiration_time;
 
 	public $referral;
+
+	/**
+	 * Is on Pantheon platform?
+	 *
+	 * @since 2.7.1
+	 * @var bool
+	 */
+	public $is_pantheon = false;
 
 	private $debug;
 
@@ -34,6 +52,11 @@ class Affiliate_WP_Tracking {
 	 * @since 1.0
 	 */
 	public function __construct() {
+
+		// Detect if on Pantheon platform.
+		if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
+			$this->is_pantheon = true;
+		}
 
 		$this->set_expiration_time();
 		$this->set_referral_var();
@@ -192,12 +215,15 @@ class Affiliate_WP_Tracking {
 		 */
 		do_action( 'affwp_before_conversion_tracking_script', $args, $md5 );
 
+		$ref_cookie   = $this->get_cookie_name( 'referral' );
+		$visit_cookie = $this->get_cookie_name( 'visit' );
+
 ?>
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
 
-			var ref   = $.cookie( 'affwp_ref' );
-			var visit = $.cookie( 'affwp_ref_visit_id' );
+			var ref   = $.cookie( '<?php echo esc_js( $ref_cookie ); ?>' );
+			var visit = $.cookie( '<?php echo esc_js( $visit_cookie ); ?>' );
 
 			// If a referral var is present and a referral cookie is not already set
 			if( ref && visit ) {
@@ -263,15 +289,21 @@ class Affiliate_WP_Tracking {
 	 */
 	public function js_debug_data() {
 
-		$integrations  = affiliate_wp()->integrations->get_enabled_integrations();
-		$affwp_version = defined( 'AFFILIATEWP_VERSION' ) ? AFFILIATEWP_VERSION : 'undefined';
-		$currency      = affwp_get_currency();
+		$integrations    = affiliate_wp()->integrations->get_enabled_integrations();
+		$affwp_version   = defined( 'AFFILIATEWP_VERSION' ) ? AFFILIATEWP_VERSION : 'undefined';
+		$currency        = affwp_get_currency();
+		$ref_cookie      = $this->get_cookie_name( 'referral' );
+		$visit_cookie    = $this->get_cookie_name( 'visit' );
+		$campaign_cookie = $this->get_cookie_name( 'campaign' );
 
 
 		$data = array (
-			'integrations' => $integrations,
-			'version'      => $affwp_version,
-			'currency'     => $currency
+			'integrations'    => $integrations,
+			'version'         => $affwp_version,
+			'currency'        => $currency,
+			'ref_cookie'      => $ref_cookie,
+			'visit_cookie'    => $visit_cookie,
+			'campaign_cookie' => $campaign_cookie,
 		);
 
 		/**
@@ -422,9 +454,9 @@ class Affiliate_WP_Tracking {
 				die( '-7' ); // Ignore a referral with an invalid visit ID
 			}
 
-			$referral = affiliate_wp()->referrals->get_by( 'visit_id', $visit_id );
+			$referral = affwp_get_referral_by( 'visit_id', $visit_id );
 
-			if( $referral ) {
+			if ( ! is_wp_error( $referral ) ) {
 
 				affiliate_wp()->utils->log( sprintf( 'Referral already generated for visit #%d.', $visit_id ) );
 
@@ -620,7 +652,8 @@ class Affiliate_WP_Tracking {
 	 * @since 1.7
 	 */
 	public function get_campaign() {
-		$campaign = isset( $_COOKIE['affwp_campaign'] ) ? sanitize_text_field( $_COOKIE['affwp_campaign'] ) : '';
+		$campaign_cookie = $this->get_cookie_name( 'campaign' );
+		$campaign = isset( $_COOKIE[ $campaign_cookie ] ) ? sanitize_text_field( $_COOKIE[ $campaign_cookie ] ) : '';
 
 		if( empty( $campaign ) ) {
 
@@ -705,7 +738,8 @@ class Affiliate_WP_Tracking {
 	 * @since 1.0
 	 */
 	public function was_referred() {
-		$was_referred = isset( $_COOKIE['affwp_ref'] ) && $this->is_valid_affiliate( $_COOKIE['affwp_ref'] );
+		$ref_cookie = $this->get_cookie_name( 'referral' );
+		$was_referred = isset( $_COOKIE[ $ref_cookie ] ) && $this->is_valid_affiliate( $_COOKIE[ $ref_cookie ] );
 
 		/**
 		 * Filters whether the current visit was referred.
@@ -727,7 +761,8 @@ class Affiliate_WP_Tracking {
 	 * @return int|false Visit ID from the cookie or false.
 	 */
 	public function get_visit_id() {
-		return ! empty( $_COOKIE['affwp_ref_visit_id'] ) ? intval( $_COOKIE['affwp_ref_visit_id'] ) : false;
+		$visit_cookie = $this->get_cookie_name( 'visit' );
+		return ! empty( $_COOKIE[ $visit_cookie ] ) ? intval( $_COOKIE[ $visit_cookie ] ) : false;
 	}
 
 	/**
@@ -736,7 +771,8 @@ class Affiliate_WP_Tracking {
 	 * @since 1.0
 	 */
 	public function set_visit_id( $visit_id = 0 ) {
-		setcookie( 'affwp_ref_visit_id', $visit_id, strtotime( '+' . $this->get_expiration_time() . ' days' ), COOKIEPATH, $this->get_cookie_domain() );
+		$visit_cookie = $this->get_cookie_name( 'visit' );
+		setcookie( $visit_cookie, $visit_id, strtotime( '+' . $this->get_expiration_time() . ' days' ), COOKIEPATH, $this->get_cookie_domain() );
 
 		/**
 		 * Fires immediately after the affwp_ref_visit_id cookie is set
@@ -756,7 +792,9 @@ class Affiliate_WP_Tracking {
 	 */
 	public function get_affiliate_id() {
 
-		$affiliate_id = ! empty( $_COOKIE['affwp_ref'] ) ? $_COOKIE['affwp_ref'] : false;
+		$ref_cookie = $this->get_cookie_name( 'referral' );
+
+		$affiliate_id = ! empty( $_COOKIE[ $ref_cookie ] ) ? $_COOKIE[ $ref_cookie ] : false;
 
 		if ( ! empty( $affiliate_id ) ) {
 
@@ -836,7 +874,8 @@ class Affiliate_WP_Tracking {
 	 * @since 1.0
 	 */
 	public function set_affiliate_id( $affiliate_id = 0 ) {
-		setcookie( 'affwp_ref', $affiliate_id, strtotime( '+' . $this->get_expiration_time() . ' days' ), COOKIEPATH, $this->get_cookie_domain() );
+		$ref_cookie = $this->get_cookie_name( 'referral' );
+		setcookie( $ref_cookie, $affiliate_id, strtotime( '+' . $this->get_expiration_time() . ' days' ), COOKIEPATH, $this->get_cookie_domain() );
 
 		/**
 		 * Fires immediately after the affwp_ref cookie is set
@@ -855,7 +894,8 @@ class Affiliate_WP_Tracking {
 	 * @since 2.1.15
 	 */
 	public function set_campaign( $campaign = '' ) {
-		setcookie( 'affwp_campaign', $campaign, strtotime( '+' . $this->get_expiration_time() . ' days' ), COOKIEPATH, $this->get_cookie_domain() );
+		$campaign_cookie = $this->get_cookie_name( 'campaign' );
+		setcookie( $campaign_cookie, $campaign, strtotime( '+' . $this->get_expiration_time() . ' days' ), COOKIEPATH, $this->get_cookie_domain() );
 
 		/**
 		 * Fires immediately after the affwp_campaign cookie is set
@@ -895,6 +935,55 @@ class Affiliate_WP_Tracking {
 		 * @param string $cookie_domain cookie domain
 		 */
 		return apply_filters( 'affwp_tracking_cookie_domain', $cookie_domain );
+	}
+
+	/**
+	 * Gets the cookie name.
+	 *
+	 * @since 2.7.1
+	 *
+	 * @param string $cookie_type Optional. The cookie type. Accepts 'referral', 'visit', 'campaign',
+	 *                            or a custom type handled by setting a cookie name for the type
+	 *                            via the {@see 'affwp_get_cookie_name'} filter. Default 'referral'.
+	 * @return string The cookie name to use. If the Pantheon network is detected, the cookie name will
+	 *                be prefixed with 'wp_'.
+	 */
+	public function get_cookie_name( $cookie_type = 'referral' ) {
+
+		// Get cookie name from cookie type.
+		$cookie_name = '';
+
+		switch ( $cookie_type ) {
+			case 'referral':
+				$cookie_name = 'affwp_ref';
+				break;
+
+			case 'visit':
+				$cookie_name = 'affwp_ref_visit_id';
+				break;
+			
+			case 'campaign':
+				$cookie_name = 'affwp_campaign';
+				break;
+
+			default:
+				/**
+				 * Filters the cookie name for custom cookie types.
+				 *
+				 * @since 2.7.1
+				 *
+				 * @param string $cookie_name The cookie name.
+				 * @param string $cookie_type The cookie type.
+				 */
+				$cookie_name = apply_filters( 'affwp_get_cookie_name', $cookie_name, $cookie_type );
+		}
+
+		// Check if on Pantheon.
+		if ( $this->is_pantheon && ! empty( $cookie_name ) ) {
+			$cookie_name = 'wp-' . $cookie_name;
+		}
+
+		return $cookie_name;
 	}
 
 	/**

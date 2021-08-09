@@ -1,5 +1,15 @@
 <?php
 /**
+ * Admin: Payouts Graph for Reports
+ *
+ * @package    AffiliateWP
+ * @subpackage Admin/Reports
+ * @copyright  Copyright (c) 2017, Sandhills Development, LLC
+ * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since      2.1
+ */
+
+/**
  * Implements logic to display an earnings vs payouts graph in the Payouts reports tab.
  *
  * @since 2.1

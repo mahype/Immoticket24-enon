@@ -1,4 +1,14 @@
 <?php
+/**
+ * Upgrades: Recount Affiliate Stats Batch Processor
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools/Upgrades
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 if ( ! class_exists( 'Recount_Affiliate_Stats' ) ) {
@@ -54,6 +64,7 @@ class Upgrade_Recount_Stats extends Recount_Affiliate_Stats {
 		switch( $code ) {
 
 			case 'done':
+				/* translators: Dismiss Notice link markup */
 				$message = sprintf( __( 'Your database has been successfully upgraded. %s', 'affiliate-wp' ),
 					sprintf( '<a href="">%s</a>', __( 'Dismiss Notice', 'affiliate-wp' ) )
 				);

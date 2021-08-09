@@ -2,10 +2,11 @@
 /**
  * Objects: Creative
  *
- * @package AffiliateWP
- * @category Core
- *
- * @since 1.9
+ * @package     AffiliateWP
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
  */
 
 namespace AffWP;

@@ -1,4 +1,14 @@
 <?php
+/**
+ * Tools: Referrals Export Batch Processor
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools/Export
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 use AffWP\Utils\Batch_Process as Batch;
@@ -247,7 +257,9 @@ class Export_Referrals extends Batch\Export\CSV implements Batch\With_PreFetch {
 
 				$message = sprintf(
 					_n(
+						/* translators: Singular referral number */
 						'%s referral was successfully exported.',
+						/* translators: Plural referrals number */
 						'%s referrals were successfully exported.',
 						$final_count,
 						'affiliate-wp'

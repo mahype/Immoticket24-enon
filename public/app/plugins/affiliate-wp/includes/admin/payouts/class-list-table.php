@@ -1,9 +1,9 @@
 <?php
 /**
- * 'Payouts' Admin List Table
+ * Admin: Payouts List Table
  *
  * @package    AffiliateWP\Admin\Payouts
- * @copyright  Copyright (c) 2014, Pippin Williamson
+ * @copyright  Copyright (c) 2016, Sandhills Development, LLC
  * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since      1.9
  */
@@ -358,6 +358,7 @@ class AffWP_Payouts_Table extends List_Table {
 			if ( $user ) {
 				$value = sprintf( '%1$s %2$s',
 					affwp_admin_link( 'payouts', esc_html( $user->data->display_name ), array( 'owner' => $payout->owner ) ),
+					/* translators: Payout owner ID */
 					sprintf( _x( '(User ID: %d)', 'payout owner ID', 'affiliate-wp' ),
 						esc_html( $payout->owner )
 					)

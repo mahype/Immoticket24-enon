@@ -1,5 +1,15 @@
 <?php
 /**
+ * Integrations: Contact Form 7 Extras
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations/Extras
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
+/**
  * Procedural functions for the contactform7 integration.
  * @since 2.0
  * @see   Affiliate_WP_Contact_Form_7

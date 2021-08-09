@@ -1,6 +1,16 @@
 <?php
 /**
- * Retrieves the creative object
+ * Creatives Functions
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.1
+ */
+
+/**
+ * Retrieves the creative object.
  *
  * @since 1.1.4
  *
@@ -52,7 +62,8 @@ function affwp_add_creative( $data = array() ) {
  * Updates a creative
  *
  * @since 1.1.4
- * @return bool
+ *
+ * @return bool True if the creative was updated, otherwise false.
  */
 function affwp_update_creative( $data = array() ) {
 
@@ -80,11 +91,12 @@ function affwp_update_creative( $data = array() ) {
 }
 
 /**
- * Deletes a creative
+ * Deletes a creative record.
  *
  * @since 1.2
- * @param $delete_data bool
- * @return bool
+ *
+ * @param int|\AffWP\Creative $creative Creative to delete.
+ * @return bool True if the record was deleted, otherwise false.
  */
 function affwp_delete_creative( $creative ) {
 
@@ -100,8 +112,8 @@ function affwp_delete_creative( $creative ) {
  *
  * @since 1.0
  *
- * @param int|AffWP\Creative $creative Creative ID or object.
- * @param string             $status   Optional. Status to give the creative. Default empty.
+ * @param int|\AffWP\Creative $creative Creative ID or object.
+ * @param string              $status   Optional. Status to give the creative. Default empty.
  * @return bool True if the creative was updated with the new status, otherwise false.
  */
 function affwp_set_creative_status( $creative, $status = '' ) {
@@ -127,4 +139,28 @@ function affwp_set_creative_status( $creative, $status = '' ) {
 		return true;
 	}
 
+}
+
+/**
+ * Retrieves a creative by a given field and value.
+ *
+ * @since 2.7
+ *
+ * @param string $field Creative object field.
+ * @param mixed  $value Field value.
+ * @return \AffWP\Creative|\WP_Error Creative object if found, otherwise a WP_Error object.
+ */
+function affwp_get_creative_by( $field, $value ) {
+	$result = affiliate_wp()->creatives->get_by( $field, $value );
+
+	if ( is_object( $result ) ) {
+		$creative = affwp_get_creative( intval( $result->creative_id ) );
+	} else {
+		$creative = new \WP_Error(
+			'invalid_creative_field',
+			sprintf( 'No creative could be retrieved with a(n) \'%1$s\' field value of %2$s.', $field, $value )
+		);
+	}
+
+	return $creative;
 }

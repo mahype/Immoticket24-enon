@@ -1,7 +1,24 @@
 <?php
+/**
+ * Admin: User Profile Adjustments
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Dashboard
+ * @copyright   Copyright (c) 2021, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.8
+ */
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Outputs custom AffiliateWP fields in the user profile editor.
+ *
+ * @since 1.8
+ *
+ * @param \WP_User $user Current user object.
+ */
 function affwp_user_profile_fields( $user ) {
   
 	if( ! current_user_can( 'manage_affiliates' ) ) {
@@ -95,7 +112,7 @@ add_action( 'show_user_profile', 'affwp_user_profile_fields' );
 add_action( 'edit_user_profile', 'affwp_user_profile_fields' );
 
 /**
- * Save AffWP user settings.
+ * Handles saving the custom AffiliateWP user settings fields.
  *
  * @since 1.9.5
  *
@@ -114,12 +131,12 @@ add_action( 'personal_options_update',  'affwp_user_profile_update' );
 add_action( 'edit_user_profile_update', 'affwp_user_profile_update' );
 
 /**
- * Adds an Add Affiliate link to the user row actions.
+ * Adds an 'Add Affiliate' link to the user row actions.
  *
  * @since 2.2.2
  *
- * @param array   $actions An array of current action links.
- * @param WP_User $user    WP_User object for the currently-listed user.
+ * @param array    $actions An array of current action links.
+ * @param \WP_User $user    WP_User object for the currently-listed user.
  */
 function affwp_user_row_add_affiliate_action( $actions, $user ) {
 	if ( ! affwp_is_affiliate( $user->ID ) ) {

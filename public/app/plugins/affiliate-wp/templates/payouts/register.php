@@ -5,7 +5,7 @@
  * This template is used to display the Payouts Service registration form.
  *
  * @package     AffiliateWP
- * @copyright   Copyright (c) 2019, AffiliateWP, LLC
+ * @copyright   Copyright (c) 2019, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.4
  */

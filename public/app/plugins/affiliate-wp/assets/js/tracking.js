@@ -1,8 +1,9 @@
+/* global affwp_debug_vars */
 jQuery(document).ready( function($) {
 
-	var ref_cookie = $.cookie( 'affwp_ref' );
-	var visit_cookie = $.cookie( 'affwp_ref_visit_id' );
-	var campaign_cookie = $.cookie( 'affwp_campaign' );
+	var ref_cookie = $.cookie( affwp_debug_vars.ref_cookie );
+	var visit_cookie = $.cookie( affwp_debug_vars.visit_cookie );
+	var campaign_cookie = $.cookie( affwp_debug_vars.campaign_cookie );
 	var credit_last = AFFWP.referral_credit_last;
 
 	/*
@@ -130,10 +131,10 @@ jQuery(document).ready( function($) {
 		function affwp_debug_inline_vars() {
 			var vars = {
 				ajax_url        : affwp_scripts.ajaxurl.length ? JSON.stringify( affwp_scripts.ajaxurl ) : 'unavailable',
-				ref             : JSON.stringify( AFFWP.referral_var ? AFFWP.referral_var : affwp_get_cookie_item( 'affwp_ref' ) ),
-				visit_cookie    : affwp_get_cookie_item( 'affwp_ref_visit_id' ) ? JSON.stringify( affwp_get_cookie_item( 'affwp_ref_visit_id' ) ) : 'unavailable',
+				ref             : JSON.stringify( AFFWP.referral_var ? AFFWP.referral_var : affwp_get_cookie_item( affwp_debug_vars.ref_cookie ) ),
+				visit_cookie    : affwp_get_cookie_item( affwp_debug_vars.visit_cookie ) ? JSON.stringify( affwp_get_cookie_item( affwp_debug_vars.visit_cookie ) ) : 'unavailable',
 				credit_last     : AFFWP.referral_credit_last ? JSON.stringify( AFFWP.referral_credit_last ) : 'unavailable',
-				campaign        : JSON.stringify( affwp_get_query_vars()['campaign'] ? affwp_get_query_vars()['campaign'] : affwp_get_cookie_item( 'affwp_campaign' ) ),
+				campaign        : JSON.stringify( affwp_get_query_vars()['campaign'] ? affwp_get_query_vars()['campaign'] : affwp_get_cookie_item( affwp_debug_vars.campaign_cookie ) ),
 				currency        : affwp_debug_vars.currency.length ? JSON.stringify( affwp_debug_vars.currency ) : 'unavailable',
 				version         : affwp_debug_vars.version.length ? JSON.stringify( affwp_debug_vars.version ) : 'unavailable'
 			}
@@ -300,7 +301,7 @@ jQuery(document).ready( function($) {
 				if( '1' == response.data.success ) {
 
 					if( '1' == credit_last && ref_cookie && ref_cookie != response.data.affiliate_id ) {
-						$.removeCookie( 'affwp_ref' );
+						$.removeCookie( affwp_debug_vars.ref_cookie );
 					}
 
 					if( ( '1' == credit_last && ref_cookie && ref_cookie != response.data.affiliate_id ) || ! ref_cookie ) {
@@ -322,7 +323,7 @@ jQuery(document).ready( function($) {
 		if( ref && ! ref_cookie ) {
 			affwp_track_visit( ref, campaign );
 		} else if( '1' == credit_last && ref && ref_cookie && ref !== ref_cookie ) {
-			$.removeCookie( 'affwp_ref' );
+			$.removeCookie( affwp_debug_vars.ref_cookie );
 			affwp_track_visit( ref, campaign );
 		}
 
@@ -341,7 +342,7 @@ jQuery(document).ready( function($) {
 	function affwp_track_visit( affiliate_id, url_campaign ) {
 
 		// Set the cookie and expire it after 24 hours
-		affwp_set_cookie( 'affwp_ref', affiliate_id );
+		affwp_set_cookie( affwp_debug_vars.ref_cookie, affiliate_id );
 
 		// Fire an ajax request to log the hit
 		$.ajax({
@@ -355,8 +356,8 @@ jQuery(document).ready( function($) {
 			},
 			url: affwp_scripts.ajaxurl,
 			success: function (response) {
-				affwp_set_cookie( 'affwp_ref_visit_id', response );
-				affwp_set_cookie( 'affwp_campaign', url_campaign );
+				affwp_set_cookie( affwp_debug_vars.visit_cookie, response );
+				affwp_set_cookie( affwp_debug_vars.campaign_cookie, url_campaign );
 			}
 
 		}).fail(function (response) {

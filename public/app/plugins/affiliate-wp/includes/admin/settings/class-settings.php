@@ -1,7 +1,27 @@
 <?php
+/**
+ * Admin: Settings Bootstrap
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Settings
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
 
+/**
+ * Sets up the Settings component.
+ *
+ * @since 1.0
+ */
 class Affiliate_WP_Settings {
 
+	/**
+	 * Saved settings.
+	 *
+	 * @since 1.0
+	 * @var   array
+	 */
 	private $options;
 
 	/**
@@ -460,7 +480,8 @@ class Affiliate_WP_Settings {
 
 		$emails_tags_list = affwp_get_emails_tags_list();
 
-		$referral_pretty_urls_desc = sprintf( __( 'Show pretty affiliate referral URLs to affiliates. For example: <strong>%s or %s</strong>', 'affiliate-wp' ),
+		/* translators: 1: Referral variable example affiliate URL, 2: Username example affiliate URL */
+		$referral_pretty_urls_desc = sprintf( __( 'Show pretty affiliate referral URLs to affiliates. For example: <strong>%1$s or %2$s</strong>', 'affiliate-wp' ),
 			home_url( '/' ) . affiliate_wp()->tracking->get_referral_var() . '/1',
 			home_url( '/' ) . trailingslashit( affiliate_wp()->tracking->get_referral_var() ) . $username
 		);
@@ -490,6 +511,7 @@ class Affiliate_WP_Settings {
 					),
 					'license_key' => array(
 						'name' => __( 'License Key', 'affiliate-wp' ),
+						/* translators: Support page URL */
 						'desc' => sprintf( __( 'Please enter your license key. An active license key is needed for automatic plugin updates and <a href="%s" target="_blank">support</a>.', 'affiliate-wp' ), 'https://affiliatewp.com/support/' ),
 						'type' => 'license',
 						'sanitize_callback' => 'sanitize_text_field'
@@ -526,13 +548,15 @@ class Affiliate_WP_Settings {
 					),
 					'referral_var' => array(
 						'name' => __( 'Referral Variable', 'affiliate-wp' ),
+						/* translators: Affiliate URL example text */
 						'desc' => sprintf( __( 'The URL variable for referral URLs. For example: <strong>%s</strong>.', 'affiliate-wp' ), esc_url( add_query_arg( affiliate_wp()->tracking->get_referral_var(), '1', home_url( '/' ) ) ) ),
 						'type' => 'text',
 						'std' => 'ref'
 					),
 					'referral_format' => array(
 						'name' => __( 'Default Referral Format', 'affiliate-wp' ),
-						'desc' => sprintf( __( 'Show referral URLs to affiliates with either their affiliate ID or Username appended.<br/> For example: <strong>%s or %s</strong>.', 'affiliate-wp' ), esc_url( add_query_arg( affiliate_wp()->tracking->get_referral_var(), '1', home_url( '/' ) ) ), esc_url( add_query_arg( affiliate_wp()->tracking->get_referral_var(), $username, home_url( '/' ) ) ) ),
+						/* translators: 1: Affiliate URL example with referral variable, 2: Affiliate URL example with username */
+						'desc' => sprintf( __( 'Show referral URLs to affiliates with either their affiliate ID or Username appended.<br/> For example: <strong>%1$s or %2$s</strong>.', 'affiliate-wp' ), esc_url( add_query_arg( affiliate_wp()->tracking->get_referral_var(), '1', home_url( '/' ) ) ), esc_url( add_query_arg( affiliate_wp()->tracking->get_referral_var(), $username, home_url( '/' ) ) ) ),
 						'type' => 'select',
 
 						/**
@@ -645,6 +669,7 @@ class Affiliate_WP_Settings {
 					),
 					'affiliate_area_forms' => array(
 						'name' => __( 'Affiliate Area Forms', 'affiliate-wp' ),
+						/* translators: Miscellaneous settings screen URL */
 						'desc' => sprintf( __( 'Select which form(s) to show on the Affiliate Area page. The affiliate registration form will only show if <a href="%s">Allow Affiliate Registration</a> is enabled.', 'affiliate-wp' ), admin_url( 'admin.php?page=affiliate-wp-settings&tab=misc' ) ),
 						'type' => 'select',
 						'options' => array(
@@ -786,6 +811,7 @@ class Affiliate_WP_Settings {
 						'name' => __( 'Registration Email Content', 'affiliate-wp' ),
 						'desc' => __( 'Enter the email to send when a new affiliate registers. HTML is accepted. Available template tags:', 'affiliate-wp' ) . '<br />' . $emails_tags_list,
 						'type' => 'rich_editor',
+						/* translators: Registration email content */
 						'std' => sprintf( __( 'A new affiliate has registered on your site, %s', 'affiliate-wp' ), home_url() ) . "\n\n" . __( 'Name: ', 'affiliate-wp' ) . "{name}\n\n{website}\n\n{promo_method}"
 					),
 					'new_admin_referral_options_header' => array(
@@ -820,6 +846,7 @@ class Affiliate_WP_Settings {
 						'name' => __( 'New Referral Email Content', 'affiliate-wp' ),
 						'desc' => __( 'Enter the email to send on new referrals. HTML is accepted. Available template tags:', 'affiliate-wp' ) . '<br />' . $emails_tags_list,
 						'type' => 'rich_editor',
+						/* translators: Home URL */
 						'std' => __( 'Congratulations {name}!', 'affiliate-wp' ) . "\n\n" . __( 'You have been awarded a new referral of', 'affiliate-wp' ) . ' {amount} ' . sprintf( __( 'on %s!', 'affiliate-wp' ), home_url() ) . "\n\n" . __( 'Log into your affiliate area to view your earnings or disable these notifications:', 'affiliate-wp' ) . ' {login_url}'
 					),
 					'accepted_options_header' => array(
@@ -837,6 +864,7 @@ class Affiliate_WP_Settings {
 						'name' => __( 'Application Accepted Email Content', 'affiliate-wp' ),
 						'desc' => __( 'Enter the email to send when an application is accepted. HTML is accepted. Available template tags:', 'affiliate-wp' ) . '<br />' . $emails_tags_list,
 						'type' => 'rich_editor',
+						/* translators: Website URL */
 						'std' => __( 'Congratulations {name}!', 'affiliate-wp' ) . "\n\n" . sprintf( __( 'Your affiliate application on %s has been accepted!', 'affiliate-wp' ), home_url() ) . "\n\n" . __( 'Log into your affiliate area at', 'affiliate-wp' ) . ' {login_url}'
 					)
 				)
@@ -914,7 +942,8 @@ class Affiliate_WP_Settings {
 					),
 					'debug_mode' => array(
 						'name' => __( 'Enable Debug Mode', 'affiliate-wp' ),
-						'desc' => sprintf( __( 'Enable debug mode. This will turn on error logging for the referral process to help identify issues. Logs are kept in <a href="%s">Affiliates &rarr; Tools</a>.', 'affiliate-wp' ), affwp_admin_url( 'tools', array( 'tab' => 'system_info' ) ) ),
+						/* translators: Tools screen URL */
+						'desc' => sprintf( __( 'Enable debug mode. This will turn on error logging for the referral process to help identify issues. Logs are kept in <a href="%s">Affiliates &rarr; Tools</a>.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'tools', array( 'tab' => 'system_info' ) ) ) ),
 						'type' => 'checkbox'
 					),
 					'referral_url_blacklist' => array(
@@ -923,8 +952,8 @@ class Affiliate_WP_Settings {
 						'type' => 'textarea'
 					),
 					'betas' => array(
-						'name' => __( 'Opt into Beta Versions', 'affiliate-wp' ),
-						'desc' => __( 'Receive update notifications for beta releases. When beta versions are available, an update notification will be shown on your Plugins page.', 'affiliate-wp' ),
+						'name' => __( 'Opt into development versions', 'affiliate-wp' ),
+						'desc' => __( 'Receive update notifications for development releases. When development versions are available, an update notification will be shown on your Plugins page.', 'affiliate-wp' ),
 						'type' => 'checkbox'
 					),
 					'uninstall_on_delete' => array(
@@ -994,6 +1023,7 @@ class Affiliate_WP_Settings {
 					),
 					'dynamic_coupons'            => array(
 						'name' => __( 'Automatically Generate Coupons', 'affiliate-wp' ),
+						/* translators: Tools screen URL */
 						'desc' => sprintf( __( 'Automatically generate a coupon code for each registered affiliate.<p class="description">To bulk generate coupons for existing affiliates visit the <a href="%s">Tools</a> screen.</p>', 'affiliate-wp' ), esc_url( affwp_admin_url( 'tools', array( 'tab' => 'coupons' ) ) ) ),
 						'type' => 'checkbox',
 					),
@@ -1414,6 +1444,7 @@ class Affiliate_WP_Settings {
 	 * @return void
 	 */
 	function missing_callback($args) {
+		/* translators: Setting ID */
 		printf( __( 'The callback function used for the <strong>%s</strong> setting is missing.', 'affiliate-wp' ), $args['id'] );
 	}
 
@@ -1624,6 +1655,7 @@ class Affiliate_WP_Settings {
 
 			add_filter( 'affwp_settings_general', function ( $general_settings ) {
 				$general_settings['license_key']['disabled'] = true;
+				/* translators: Support URL */
 				$general_settings['license_key']['desc']     = sprintf( __( 'Your license key is globally defined via <code>AFFILIATEWP_LICENSE_KEY</code> set in <code>wp-config.php</code>.<br />It cannot be modified from this screen.<br />An active license key is needed for automatic plugin updates and <a href="%s" target="_blank">support</a>.', 'affiliate-wp' ), 'https://affiliatewp.com/support/' );
 
 				return $general_settings;
@@ -1644,6 +1676,7 @@ class Affiliate_WP_Settings {
 			// Globally enabled.
 			add_filter( 'affwp_settings_misc', function( $misc_settings ) {
 				$misc_settings['debug_mode']['disabled'] = true;
+				/* translators: System Info screen URL */
 				$misc_settings['debug_mode']['desc']     = sprintf( __( 'Debug mode is globally enabled via <code>AFFILIATE_WP_DEBUG</code> set in <code>wp-config.php</code>. This setting cannot be modified from this screen. Logs are kept in <a href="%s">Affiliates > Tools</a>.', 'affiliate-wp' ), affwp_admin_url( 'tools', array( 'tab' => 'system_info' ) ) );
 
 				return $misc_settings;

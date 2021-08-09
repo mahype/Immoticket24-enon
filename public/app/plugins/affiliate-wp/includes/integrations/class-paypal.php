@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: PayPal Buttons
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
+/**
+ * Implements an integration for PayPal Buttons.
+ *
+ * @since 1.2
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 
 	/**
@@ -304,9 +320,9 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 				return;
 			}
 
-			$referral = affiliate_wp()->referrals->get_by( 'reference', $ipn_data['parent_txn_id'] );
+			$referral = affwp_get_referral_by( 'reference', $ipn_data['parent_txn_id'] );
 
-			if ( $referral ) {
+			if ( ! is_wp_error( $referral ) ) {
 
 				$this->reject_referral( $referral->reference );
 

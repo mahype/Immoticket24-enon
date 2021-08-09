@@ -1,4 +1,13 @@
 <?php
+/**
+ * Integrations: Contact Form 7
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
 
 /**
  * Contact Form 7 integration class.
@@ -139,6 +148,7 @@ class Affiliate_WP_Contact_Form_7 extends Affiliate_WP_Base {
 		$settings[ 'contactform7' ] = array(
 			'affwp_cf7_enable_all_forms' => array(
 				'name' => __( 'Enable referrals on all Contact Form 7 forms', 'affiliate-wp' ),
+				/* translators: 1: Contact Form 7 docs URL, 2: External link icon markup, 3: Info icon markup */
 				'desc' => sprintf( __( 'Check this box to enable referrals on all Contact Form 7 forms.<ul><li>%3$s Once enabled, referrals will be generated for all valid Contact Form 7 forms.</li><li>%2$s <a href="%1$s" target="_blank">Documentation for this integration</a></li></ul>', 'affiliate-wp' ),
 					/**
 					 * The Contact Form 7 Help Scout docs url displayed within plugin settings.
@@ -171,7 +181,8 @@ class Affiliate_WP_Contact_Form_7 extends Affiliate_WP_Base {
 			foreach( $forms as $form_id => $title ) {
 
 				$settings[ 'contactform7' ][ 'cf7_referral_type_' . $form_id ] = array(
-					'name'     => sprintf( __( 'Referral type for %s (Form ID: %d)', 'affiliate-wp' ), $title, $form_id ),
+					/* translators: 1: Form title, 2: Form ID */
+					'name'     => sprintf( __( 'Referral type for %1$s (Form ID: %2$d)', 'affiliate-wp' ), $title, $form_id ),
 					'type'     => 'select',
 					'options'  => $types,
 					'selected' => affiliate_wp()->settings->get( 'cf7_referral_type_' . $form_id ) 

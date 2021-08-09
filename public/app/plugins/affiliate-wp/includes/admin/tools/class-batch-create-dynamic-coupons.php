@@ -1,4 +1,14 @@
 <?php
+/**
+ * Tools: Dynamic Coupon Creation Batch Processor
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools
+ * @copyright   Copyright (c) 2020, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.6
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 use AffWP\Utils;
@@ -181,7 +191,9 @@ class Create_Dynamic_Coupons extends Utils\Batch_Process implements Batch\With_P
 
 					$message = sprintf(
 						_n(
+							/* translators: Singular coupon for singular affiliate */
 							'Coupon successfully generated for %s affiliate.',
+							/* translators: Plural coupons for plural affiliates */
 							'Coupons successfully generated for %s affiliates.',
 							$final_count,
 							'affiliate-wp'

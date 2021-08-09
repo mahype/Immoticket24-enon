@@ -1,18 +1,18 @@
 <?php
-use AffWP\Admin\Overview\Meta_Box;
-
 /**
- * Affiiates Overview
+ * Admin: Affiliates Overview
  *
  * @package     AffiliateWP
  * @subpackage  Admin/Overview
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
  */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
+
+use AffWP\Admin\Overview\Meta_Box;
 
 // Overview Metaboxes.
 require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/overview/metaboxes/class-metabox-overview-totals.php';

@@ -1,10 +1,10 @@
 <?php
 /**
- * Affiiates Admin List Table
+ * Affiliates Admin List Table
  *
  * @package     AffiliateWP
  * @subpackage  Admin/Affiliates
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.9
  */
@@ -620,6 +620,18 @@ class AffWP_Affiliates_Table extends List_Table {
 		 * @param \AffWP\Affiliate $affiliate The current affiliate object.
 		 */
 		return apply_filters( 'affwp_affiliate_table_kyc_status', $value, $affiliate );
+	}
+
+	/**
+	 * Renders the Status column in the affiliates list table.
+	 *
+	 * @since 2.7
+	 *
+	 * @param \AffWP\Affiliate $affiliate The current affiliate object.
+	 * @return string Status label.
+	 */
+	public function column_status( $affiliate ) {
+		return affwp_get_affiliate_status_label( $affiliate );
 	}
 
 	/**

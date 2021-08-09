@@ -1,4 +1,13 @@
 <?php
+/**
+ * Scripts and Styles Bootstrap
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
 
 /**
  * Determines whether the current admin page is an AffiliateWP admin page.
@@ -99,6 +108,9 @@ function affwp_admin_styles() {
 	// Dashicons and our main admin CSS need to be on all pages for the menu icon
 	wp_enqueue_style( 'affwp-admin', AFFILIATEWP_PLUGIN_URL . 'assets/css/admin' . $suffix . '.css', array( 'dashicons' ), AFFILIATEWP_VERSION );
 
+	// Register select2 CSS.
+	wp_register_style( 'affwp-select2', AFFILIATEWP_PLUGIN_URL . 'assets/css/select2' . $suffix . '.css', array(), AFFILIATEWP_VERSION );
+
 	if( ! affwp_is_admin_page() ) {
 		return;
 	}
@@ -143,9 +155,13 @@ function affwp_enqueue_admin_js() {
 		'user_and_affiliate_input' => __( 'Add User & Affiliate', 'affiliate-wp' ),
 		'valid_user_selected'      => __( 'You have selected a valid user account and may continue adding this user as an affiliate.', 'affiliate-wp' ),
 		'existing_affiliate'       => __( 'An affiliate already exists for this username.', 'affiliate-wp' ),
+		/* translators: Affiliate username */
 		'user_email_exists'        => __( 'A user already exists for this email address, however they are not currently an affiliate. Their username is %s', 'affiliate-wp' ),
 		'view_affiliate'           => __( 'View Affiliate', 'affiliate-wp' ),
 	) );
+
+	// Register select2 JS lib.
+	wp_register_script( 'affwp-select2', AFFILIATEWP_PLUGIN_URL . 'assets/js/select2' . $suffix . '.js', array( 'jquery' ), AFFILIATEWP_VERSION );
 }
 
 /**

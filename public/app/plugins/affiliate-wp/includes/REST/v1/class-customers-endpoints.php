@@ -1,4 +1,14 @@
 <?php
+/**
+ * REST: Customers Endpoints
+ *
+ * @package     AffiliateWP
+ * @subpackage  REST
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\Customer\REST\v1;
 
 use AffWP\REST\v1\Controller;
@@ -86,6 +96,8 @@ class Endpoints extends Controller {
 	 *
 	 * @since 2.3
 	 * @since 2.6.1 Added support for the 'response_callback' parameter.
+	 * @since 2.7   Items are only processed for output if retrieving all fields. Added support for
+	 *              retrieving multiple fields.
 	 *
 	 * @param \WP_REST_Request $request Request arguments.
 	 * @return \WP_REST_Response|\WP_Error Customers response object or \WP_Error object if not found.
@@ -103,13 +115,14 @@ class Endpoints extends Controller {
 		$args['offset']      = isset( $request['offset'] )      ? $request['offset']      : 0;
 		$args['order']       = isset( $request['order'] )       ? $request['order']       : 'ASC';
 		$args['orderby']     = isset( $request['orderby'] )     ? $request['orderby']     : '';
-		$args['fields']      = isset( $request['fields'] )      ? $request['fields']      : '*';
 		$args['search']      = isset( $request['search'] )      ? $request['search']      : false;
 
 		if ( is_array( $request['filter'] ) ) {
 			$args = array_merge( $args, $request['filter'] );
 			unset( $request['filter'] );
 		}
+
+		$args['fields'] = $this->parse_fields_for_request( $request );
 
 		/**
 		 * Filters the query arguments used to retrieve customers in a REST request.
@@ -129,10 +142,9 @@ class Endpoints extends Controller {
 				'No customers were found.',
 				array( 'status' => 404 )
 			);
-		} else {
-			$inst = $this;
-			array_map( function( $customer ) use ( $inst, $request ) {
-				$customer = $inst->process_for_output( $customer, $request );
+		} elseif ( '*' === $args['fields'] ) {
+			array_map( function( $customer ) use ( $request ) {
+				$customer = $this->process_for_output( $customer, $request );
 				return $customer;
 			}, $customers );
 		}
@@ -238,26 +250,30 @@ class Endpoints extends Controller {
 		 * /customers/?status=paid&order=desc
 		 */
 		$params['customer_id'] = array(
-			'description'       => __( 'The customer ID or comma-separated list of IDs to query for.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
+			'description' => __( 'The customer ID or comma-separated list of IDs to query for.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['user_id'] = array(
-			'description'       => __( 'The user ID or comma-separated list of IDs to query customers for.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
+			'description' => __( 'The user ID or comma-separated list of IDs to query customers for.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['exclude'] = array(
-			'description'       => __( 'Customer ID or comma-separated list of IDs to exclude.', 'affiliate-wp' ),
-			'sanitize_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param ) || is_array( $param );
-			},
+			'description' => __( 'Customer ID or comma-separated list of IDs to exclude.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['email'] = array(

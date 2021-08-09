@@ -1,5 +1,20 @@
 <?php
+/**
+ * Integrations: Integration Base Model
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
+/**
+ * Core superclass used as the basis for all integrations.
+ *
+ * @since 1.2
+ * @abstract
+ */
 abstract class Affiliate_WP_Base {
 
 	/**
@@ -562,7 +577,9 @@ abstract class Affiliate_WP_Base {
 			return false; // Referral is invalid
 		}
 
-		if ( affiliate_wp()->referrals->get_by( 'reference', $reference, $this->context ) ) {
+		$referral = affwp_get_referral_by( 'reference', $reference, $this->context );
+
+		if ( ! is_wp_error( $referral ) ) {
 
 			affiliate_wp()->utils->log( sprintf( 'Referral for Reference %s already created', $reference ) );
 
@@ -674,9 +691,9 @@ abstract class Affiliate_WP_Base {
 
 		} else {
 
-			$referral = affiliate_wp()->referrals->get_by( 'reference', $reference_or_referral, $this->context );
+			$referral = affwp_get_referral_by( 'reference', $reference_or_referral, $this->context );
 
-			if ( empty( $referral ) ) {
+			if ( is_wp_error( $referral ) ) {
 				// Bail: This is a non-referral sale.
 				affiliate_wp()->utils->log( 'Referral could not be retrieved by reference during complete_referral(). Reference value given: ' . print_r( $reference_or_referral, true ) );
 				return false;
@@ -694,10 +711,12 @@ abstract class Affiliate_WP_Base {
 		 * Filters whether to allows referrals to be auto-completed.
 		 *
 		 * @since 1.0
+		 * @since 2.7.1 Added the `$referral` parameter.
 		 *
-		 * @param bool $allow Whether to allow referrals to be auto-completed.
+		 * @param bool            $allow    Whether to allow referrals to be auto-completed.
+		 * @param \AffWP\Referral $referral The current referral object.
 		 */
-		if ( ! apply_filters( 'affwp_auto_complete_referral', true ) ) {
+		if ( ! apply_filters( 'affwp_auto_complete_referral', true, $referral ) ) {
 
 			affiliate_wp()->utils->log( 'Referral not marked as complete because of affwp_auto_complete_referral filter' );
 
@@ -755,11 +774,11 @@ abstract class Affiliate_WP_Base {
 
 		} else {
 
-			$referral = affiliate_wp()->referrals->get_by( 'reference', $reference_or_referral, $this->context );
+			$referral = affwp_get_referral_by( 'reference', $reference_or_referral, $this->context );
 
 		}
 
-		if ( empty( $referral ) ) {
+		if ( empty( $referral ) || is_wp_error( $referral ) ) {
 
 			affiliate_wp()->utils->log( 'Referral could not be retrieved during reject_referral(). Value given: ' . print_r( $reference_or_referral, true ) );
 

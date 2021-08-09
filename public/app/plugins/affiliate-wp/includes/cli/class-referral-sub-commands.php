@@ -1,4 +1,14 @@
 <?php
+/**
+ * CLI: Referral Sub-Commands
+ *
+ * @package     AffiliateWP
+ * @subpackage  CLI
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\Referral\CLI;
 
 use \AffWP\CLI\Sub_Commands\Base;
@@ -128,6 +138,7 @@ class Sub_Commands extends Base {
 		if ( ! $affiliate = affwp_get_affiliate( $args[0] ) ) {
 			try {
 
+				/* translators: Affiliate ID or username */
 				\WP_CLI::error( sprintf( __( 'An affiliate with the ID or username "%s" does not exist. See wp affwp affiliate create for adding affiliates.', 'affiliate-wp' ), $args[0] ) );
 
 			} catch( \Exception $exception ) {}
@@ -150,6 +161,7 @@ class Sub_Commands extends Base {
 
 		if ( $referral_id ) {
 			$referral = affwp_get_referral( $referral_id );
+			/* translators: Referral ID */
 			\WP_CLI::success( sprintf( __( 'A referral with the ID "%d" has been created.', 'affiliate-wp' ), $referral->referral_id ) );
 		} else {
 			try {
@@ -400,6 +412,7 @@ class Sub_Commands extends Base {
 		if ( 'count' == $formatter->format ) {
 			$referrals = affiliate_wp()->referrals->count( $args );
 
+			/* translators: Number of referrals */
 			\WP_CLI::line( sprintf( __( 'Number of referrals: %d', 'affiliate-wp' ), $referrals ) );
 		} else {
 			$referrals = affiliate_wp()->referrals->get_referrals( $args );

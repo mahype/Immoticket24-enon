@@ -1,4 +1,14 @@
 <?php
+/**
+ * Integrations: ConvertKit Platform Bootstrap
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations/Opt_In
+ * @copyright   Copyright (c) 2018, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.2
+ */
+
 namespace AffWP\Integrations\Opt_In;
 
 use AffWP\Integrations\Opt_In;

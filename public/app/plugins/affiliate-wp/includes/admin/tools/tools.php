@@ -1,10 +1,10 @@
 <?php
 /**
- * Admin Tools Page
+ * Admin: Tools Bootstrap
  *
  * @package     AffiliateWP
  * @subpackage  Admin/Tools
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
 */
@@ -173,6 +173,28 @@ function affwp_recount_tab() {
 				</div><!-- .inside -->
 			</div><!-- .postbox -->
 		</div><!-- .metabox-holder -->
+
+		<div class="metabox-holder">
+			<div class="postbox">
+				<h3><span><?php esc_html_e( 'Recount Campaigns', 'affiliate-wp' ); ?></span></h3>
+				<div class="inside">
+					<p><?php esc_html_e( 'Use this tool to recount campaigns for one or all affiliates.', 'affiliate-wp' ); ?></p>
+					<form method="post" enctype="multipart/form-data" class="affwp-batch-form" data-batch_id="recalculate-campaigns" data-nonce="<?php echo esc_attr( wp_create_nonce( 'recalculate-campaigns_step_nonce' ) ); ?>">
+						<p>
+							<span class="affwp-ajax-search-wrap">
+								<input type="text" name="user_name" id="user_name" class="affwp-user-search" data-affwp-status="any" autocomplete="off" placeholder="<?php esc_html_e( 'Affiliate name', 'affiliate-wp' ); ?>"/>
+							</span>
+							<div class="description"><?php esc_html_e( 'Enter the name of the affiliate or begin typing to perform a search based on the affiliate&#8217;s name.', 'affiliate-wp' ); ?></div>
+						</p>
+						<p>
+							<input type="hidden" name="affwp_action" value="recalculate_campaigns"/>
+							<?php submit_button( __( 'Recount', 'affiliate-wp' ), 'secondary', 'recalculate-campaigns-submit', false ); ?>
+						</p>
+					</form>
+				</div><!-- .inside -->
+			</div><!-- .postbox -->
+		</div><!-- .metabox-holder -->
+
 	</div><!-- #affwp-dashboard-widgets-wrap -->
 <?php
 }
@@ -446,6 +468,7 @@ function affwp_export_import_tab() {
 							<p>
 								<?php
 								printf(
+									/* translators: Documentation URL */
 									__( 'Each column loaded from the CSV may be mapped to an affiliate field. Select the column that should be mapped to each field below. Any columns not needed can be ignored. See <a href="%s" target="_blank">this guide</a> for assistance with importing affiliate records.', 'affiliate-wp' ),
 									esc_url( 'http://docs.affiliatewp.com/article/1893-importing-affiliates-from-csv' )
 								);
@@ -493,6 +516,7 @@ function affwp_export_import_tab() {
 							<p>
 								<?php
 								printf(
+									/* translators: Documentation URL */
 									__( 'Each column loaded from the CSV may be mapped to a referral field. Select the column that should be mapped to each field below. Any columns not needed can be ignored. Any affiliates that don&#8217;t exist will be created. See <a href="%s" target="_blank">this guide</a> for assistance with importing referral records.', 'affiliate-wp' ),
 									esc_url( 'http://docs.affiliatewp.com/article/1896-importing-referrals-from-csv' )
 								);
@@ -641,7 +665,12 @@ function affwp_coupons_tab() {
 							</p>
 						</form>
 					<?php else: ?>
-						<p class="description"><?php printf( __( 'Generating coupons requires a <a href="%s" target="_blank">Coupon Template</a> to be selected.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'settings', array( 'tab' => 'coupons' ) ) ) ); ?></p>
+						<p class="description">
+							<?php
+							/* translators: Coupons settings screen URL */
+							printf( __( 'Generating coupons requires a <a href="%s" target="_blank">Coupon Template</a> to be selected.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'settings', array( 'tab' => 'coupons' ) ) ) );
+							?>
+						</p>
 					<?php endif; ?>
 				</div><!-- .inside -->
 			</div><!-- .postbox -->

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Tools: Affiliates Pro Migrator
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
 
 if ( ! class_exists( 'Affiliate_WP_Migrate_Base' ) ) {
 	require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-migrate-base.php';
@@ -114,7 +123,7 @@ class Affiliate_WP_Migrate_Affiliates_Pro extends Affiliate_WP_Migrate_Base {
 				$args = wp_parse_args( $data, $defaults );
 
 				//try to get an existing affiliate based on the user_id
-				$existing_affiliate = affiliate_wp()->affiliates->get_by( 'user_id', $user_id );
+				$existing_affiliate = affwp_get_affiliate_by( 'user_id', $user_id );
 
 				//insert a new affiliate - we need to always insert to make sure the affiliate_ids will match
 				$id = affiliate_wp()->affiliates->insert( $args, 'affiliate' );
@@ -122,7 +131,7 @@ class Affiliate_WP_Migrate_Affiliates_Pro extends Affiliate_WP_Migrate_Base {
 				$inserted[] = $id;
 
 				//if we have a duplicate affiliate based on user_id then we need to clean things up! (also ignore the 'direct' affiliate)
-				if ( 'direct' != $affiliate->type && $existing_affiliate ) {
+				if ( 'direct' != $affiliate->type && ! is_wp_error( $existing_affiliate ) ) {
 
 					if ( 'deleted' == $existing_affiliate->status ) {
 						//if our original affiliate has a deleted status, then delete the original affiliate

@@ -1,11 +1,20 @@
 <?php
+/**
+ * Database Model
+ *
+ * @package     AffiliateWP
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2021, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
 
 /**
  * Affiliate_WP_DB base class.
  *
  * The base class for all core objects.
  *
- * @since  1.9
+ * @since 1.9
  */
 abstract class Affiliate_WP_DB {
 

@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: MarketPress
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
+/**
+ * Implements an integration for MarketPress.
+ *
+ * @since 1.2
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_MarketPress extends Affiliate_WP_Base {
 
 	var $is_version_3 = true;
@@ -159,13 +175,13 @@ class Affiliate_WP_MarketPress extends Affiliate_WP_Base {
 
 		$order_id = $order->ID;
 
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $order_id, $this->context );
+		$referral = affwp_get_referral_by( 'reference', $order_id, $this->context );
 
 		/*
 		 * Add pending referral if referral not yet created because mp_order_paid hook is executed before
 		 * mp_order_paid, this prevent completed referral being marked as pending
 		 */
-		if ( empty( $referral ) ) {
+		if ( is_wp_error( $referral ) ) {
 
 			$this->add_pending_referral( $order );
 

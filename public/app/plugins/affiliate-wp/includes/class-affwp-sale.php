@@ -2,10 +2,11 @@
 /**
  * Objects: Sale
  *
- * @package  AffiliateWP
- * @category Core
- *
- * @since    2.5
+ * @package     AffiliateWP
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2019, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.5
  */
 
 namespace AffWP\Referral;

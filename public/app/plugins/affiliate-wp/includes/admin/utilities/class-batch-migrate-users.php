@@ -1,4 +1,14 @@
 <?php
+/**
+ * Utilities: User Migration Batch Processor
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Utilites
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 use AffWP\Utils;
@@ -160,7 +170,9 @@ class Migrate_Users extends Utils\Batch_Process implements Batch\With_PreFetch {
 
 				$message = sprintf(
 					_n(
+						/* translators: Singular affiliate number */
 						'%s affiliate was added successfully.',
+						/* translators: Plural affiliates number */
 						'%s affiliates were added successfully.',
 						$final_count,
 						'affiliate-wp'

@@ -1,4 +1,14 @@
 <?php
+/**
+ * Tools: Batch Processor Export Middleware
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools/Export
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils\Batch_Process;
 
 if ( ! class_exists( '\Affiliate_WP_Export' ) ) {
@@ -99,9 +109,11 @@ class Export extends \Affiliate_WP_Export {
 
 		$upload_dir     = wp_upload_dir();
 		$this->filename = 'affiliate-wp-export-' . $this->export_type . '-' . date( 'm-d-Y' ) . $this->filetype;
-		$this->file     = trailingslashit( $upload_dir['basedir'] ) . $this->filename;
 
-		if ( ! is_writeable( $upload_dir['basedir'] ) ) {
+		$base_dir   = isset( $upload_dir['basedir'] ) ? $upload_dir['basedir'] : ABSPATH;
+		$this->file = trailingslashit( $base_dir ) . $this->filename;
+
+		if ( ! is_writeable( $base_dir ) ) {
 			$this->is_writable = false;
 		}
 

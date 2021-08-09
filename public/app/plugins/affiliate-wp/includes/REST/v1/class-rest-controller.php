@@ -1,4 +1,14 @@
 <?php
+/**
+ * REST: Controller
+ *
+ * @package     AffiliateWP
+ * @subpackage  REST
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\REST\v1;
 
 /**
@@ -61,6 +71,7 @@ abstract class Controller {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ), 15 );
 
 		if ( null === $this->object_type ) {
+			/* translators: PHP class name */
 			$message = sprintf( __( 'object_type must be defined by the extending class: %s', 'affiliate-wp' ), get_called_class() );
 			_doing_it_wrong( 'object_type', $message, '1.9.5' );
 		}
@@ -271,6 +282,24 @@ abstract class Controller {
 	 */
 	public function get_object_type() {
 		return $this->object_type;
+	}
+
+	/**
+	 * Parses the fields parameter for a given request.
+	 *
+	 * @since 2.7
+	 *
+	 * @param \WP_REST_Request $request Request object.
+	 * @param string|string[] Field or array of fields.
+	 */
+	public function parse_fields_for_request( $request ) {
+		$fields = isset( $request['fields'] ) ? $request['fields'] : '*';
+
+		if ( '*' !== $fields && 'ids' !== $fields ) {
+			$fields = wp_parse_slug_list( $fields );
+		}
+
+		return $fields;
 	}
 
 	/**

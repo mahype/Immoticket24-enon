@@ -77,6 +77,7 @@ class Tab extends Reports\Tab {
 					'affiliate_id' => $affiliate->ID,
 					'action'       => 'view_affiliate',
 				) ) ),
+				/* translators: Affiliate ID */
 				empty( $name ) ? sprintf( __( 'Affiliate #%d', 'affiliate-wp' ), $affiliate->ID ) : $name
 			);
 
@@ -140,10 +141,13 @@ class Tab extends Reports\Tab {
 					'orderby'      => 'status',
 					'order'        => 'ASC',
 				) ) ),
+				/* translators: Affiliate ID */
 				empty( $name ) ? sprintf( __( 'Affiliate #%d', 'affiliate-wp' ), $affiliate->ID ) : $name
 			);
 
 			$referrals_count = affiliate_wp()->referrals->count_by_status( 'paid', $affiliate->ID, $this->date_query );
+
+			/* translators: Referrals count */
 			$referrals_data = sprintf( _n( '%s referral', '%s referrals', $referrals_count, 'affiliate-wp' ),
 				number_format_i18n( $referrals_count )
 			);

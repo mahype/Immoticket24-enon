@@ -1,4 +1,14 @@
 <?php
+/**
+ * CLI: Creative Sub-Commands
+ *
+ * @package     AffiliateWP
+ * @subpackage  CLI
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\Creative\CLI;
 
 use \AffWP\CLI\Sub_Commands\Base;
@@ -130,10 +140,11 @@ class Sub_Commands extends Base {
 		$data['image']       = Utils\get_flag_value(  $assoc_args, 'image',       ''       );
 		$data['status']      = Utils\get_flag_value(  $assoc_args, 'status',      'active' );
 
-		$created = affwp_add_creative( $data );
+		$created  = affwp_add_creative( $data );
+		$creative = affwp_get_creative_by( 'name', $data['name'] );
 
-		if ( $created ) {
-			$creative = affiliate_wp()->creatives->get_by( 'name', $data['name'] );
+		if ( $created && ! is_wp_error( $creative ) ) {
+			/* translators: Creative ID */
 			\WP_CLI::success( sprintf( __( 'A creative with the ID %d has been successfully created.', 'affiliate-wp' ), $creative->creative_id ) );
 		} else {
 			try {
@@ -343,6 +354,7 @@ class Sub_Commands extends Base {
 		if ( 'count' == $formatter->format ) {
 			$creatives = affiliate_wp()->creatives->count( $args );
 
+			/* translators: Number of creatives */
 			\WP_CLI::line( sprintf( __( 'Number of creatives: %d', 'affiliate-wp' ), $creatives ) );
 		} else {
 			$creatives = affiliate_wp()->creatives->get_creatives( $args );

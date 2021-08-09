@@ -4,7 +4,7 @@
  *
  * @package     AffiliateWP
  * @subpackage  Uninstall
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
  */
@@ -12,19 +12,20 @@
 // Exit if accessed directly
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit;
 
-// Load AffiliateWP file
-include_once( 'affiliate-wp.php' );
+// Load required classes.
+require_once plugin_dir_path( __FILE__ ) . 'includes/admin/settings/class-settings.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-capabilities.php';
 
 global $wp_roles;
 
 $affiliate_wp_settings = new Affiliate_WP_Settings;
 
-if( $affiliate_wp_settings->get( 'uninstall_on_delete' ) ) {
+if ( $affiliate_wp_settings->get( 'uninstall_on_delete' ) ) {
 
-	// Remove the affiliate area page
+	// Remove the affiliate area page.
 	wp_delete_post( $affiliate_wp_settings->get( 'affiliates_page' ) );
 
-	// Remove all capabilities and roles
+	// Remove all capabilities and roles.
 	$caps = new Affiliate_WP_Capabilities;
 	$caps->remove_caps();
 
@@ -36,7 +37,7 @@ if( $affiliate_wp_settings->get( 'uninstall_on_delete' ) ) {
 			$sites = get_sites( array( 'fields' => 'ids' ) );
 		}
 
-		// Remove all database tables
+		// Remove all database tables.
 		foreach ( $sites as $site_id ) {
 
 			switch_to_blog( $site_id );
@@ -46,7 +47,6 @@ if( $affiliate_wp_settings->get( 'uninstall_on_delete' ) ) {
 			restore_current_blog();
 
 		}
-
 	} else {
 
 		affiliate_wp_uninstall_tables();
@@ -76,7 +76,7 @@ function affiliate_wp_uninstall_tables() {
 		'affiliate_wp_referrals',
 		'affiliate_wp_rest_consumers',
 		'affiliate_wp_sales',
-		'affiliate_wp_visits'
+		'affiliate_wp_visits',
 	);
 
 	// Remove all affwp_ options.

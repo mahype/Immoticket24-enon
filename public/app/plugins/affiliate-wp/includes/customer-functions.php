@@ -1,9 +1,12 @@
 <?php
 /**
- * Customer functions
+ * Customer Functions
  *
- * @since 2.2
- * @package Affiliate_WP
+ * @package     AffiliateWP
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.2
  */
 
 /**
@@ -11,8 +14,8 @@
  *
  * @since 2.2
  *
- * @param int|AffWP\Customer $creative Customer ID or object.
- * @return AffWP\Customer|false Customer object, otherwise false.
+ * @param int|\AffWP\Customer $creative Customer ID or object.
+ * @return \AffWP\Customer|false Customer object, otherwise false.
  */
 function affwp_get_customer( $customer = null ) {
 
@@ -22,7 +25,8 @@ function affwp_get_customer( $customer = null ) {
 		$customer_id = absint( $customer );
 	} elseif( is_string( $customer ) && is_email( $customer ) ) {
 		$customer_id = affiliate_wp()->customers->get_column_by( 'customer_id', 'email', $customer );
-		if( ! $customer_id ) {
+
+		if ( ! $customer_id ) {
 			return false;
 		}
 	} else {
@@ -33,12 +37,12 @@ function affwp_get_customer( $customer = null ) {
 }
 
 /**
- * Adds a new customer to the database.
+ * Adds a new customer record to the database.
  *
  * @since 2.2
  *
  * @param array $data {
- *     Arguments for setting up the customer record.
+ *     Optional. Arguments for setting up the customer record. Default empty array.
  *
  *     @type string       $first_name     First name for the customer.
  *     @type string       $last_name      Last  anme for the customer.
@@ -60,11 +64,13 @@ function affwp_add_customer( $data = array() ) {
 }
 
 /**
- * Updates a customer.
+ * Updates a customer record.
  *
  * @since 2.2
  *
- * @return bool
+ * @param array $data Customer data to update. Default empty array. Passing a `customer_id`
+ *                    value is required.
+ * @return bool True if the customer was updated, otherwise false.
  */
 function affwp_update_customer( $data = array() ) {
 
@@ -83,11 +89,11 @@ function affwp_update_customer( $data = array() ) {
 }
 
 /**
- * Deletes a customer.
+ * Deletes a customer record.
  *
  * @since 2.2
  *
- * @param AffWP\Customer|int Customer ID or object.
+ * @param \AffWP\Customer|int Customer ID or object.
  * @return bool True if the customer was successfully deleted, otherwise false.
  */
 function affwp_delete_customer( $customer ) {
@@ -97,4 +103,28 @@ function affwp_delete_customer( $customer ) {
 	}
 
 	return affiliate_wp()->customers->delete( $customer->ID, 'customer' );
+}
+
+/**
+ * Retrieves a customer by a given field and value.
+ *
+ * @since 2.7
+ *
+ * @param string $field Customer object field.
+ * @param mixed  $value Field value.
+ * @return \AffWP\Customer|\WP_Error Customer object if found, otherwise a WP_Error object.
+ */
+function affwp_get_customer_by( $field, $value ) {
+	$result = affiliate_wp()->customers->get_by( $field, $value );
+
+	if ( is_object( $result ) ) {
+		$customer = affwp_get_customer( intval( $result->customer_id ) );
+	} else {
+		$customer = new \WP_Error(
+			'invalid_customer_field',
+			sprintf( 'No customer could be retrieved with a(n) \'%1$s\' field value of %2$s.', $field, $value )
+		);
+	}
+
+	return $customer;
 }

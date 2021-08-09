@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: Easy Digital Downloads
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
+/**
+ * Implements an integration for Easy Digital Downloads (EDD).
+ *
+ * @since 1.2
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_EDD extends Affiliate_WP_Base {
 
 	/**
@@ -131,10 +147,10 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 			}
 
 			// Check for an existing referral
-			$existing = affiliate_wp()->referrals->get_by( 'reference', $payment_id, $this->context );
+			$existing = affwp_get_referral_by( 'reference', $payment_id, $this->context );
 
 			// If an existing referral exists and it is paid or unpaid exit.
-			if ( $existing && ( 'paid' == $existing->status || 'unpaid' == $existing->status ) ) {
+			if ( ! is_wp_error( $existing ) && ( 'paid' == $existing->status || 'unpaid' == $existing->status ) ) {
 				return false; // Completed Referral already created for this reference
 			}
 
@@ -185,7 +201,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 				return;
 			}
 
-			if ( $existing ) {
+			if ( ! is_wp_error( $existing ) ) {
 
 				// Update the previously created referral
 				affiliate_wp()->referrals->update_referral( $existing->referral_id, array(
@@ -253,10 +269,10 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 			}
 
 			// Check for an existing referral.
-			$existing = affiliate_wp()->referrals->get_by( 'reference', $payment_id, $this->context );
+			$existing = affwp_get_referral_by( 'reference', $payment_id, $this->context );
 
 			// If an existing referral exists and it is paid or unpaid exit.
-			if ( $existing && ( 'paid' == $existing->status || 'unpaid' == $existing->status ) ) {
+			if ( ! is_wp_error( $existing ) && ( 'paid' == $existing->status || 'unpaid' == $existing->status ) ) {
 				return false; // Completed Referral already created for this reference
 			}
 
@@ -273,7 +289,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 				return false;
 			}
 
-			if ( $existing ) {
+			if ( ! is_wp_error( $existing ) ) {
 
 				$referral_id = $existing->referral_id;
 
@@ -370,7 +386,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 					continue;
 				}
 
-				$existing = affiliate_wp()->referrals->get_by( 'reference', $payment_id, $this->context );
+				$existing = affwp_get_referral_by( 'reference', $payment_id, $this->context );
 
 				// calculate the referral total
 				$referral_total = $this->get_referral_total( $payment_id, $this->affiliate_id );
@@ -598,9 +614,11 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	*/
 	public function insert_payment_note( $payment_id = 0 ) {
 
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $payment_id, $this->context );
+		$referral = affwp_get_referral_by( 'reference', $payment_id, $this->context );
 
-		if ( empty( $referral ) ) {
+		if ( is_wp_error( $referral ) ) {
+			affiliate_wp()->utils->log( 'insert_payment_note: The referral could not be found.', $referral );
+
 			return;
 		}
 
@@ -841,7 +859,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 			return $amount;
 		}
 
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $args['payment_id']  );
+		$referral = affwp_get_referral_by( 'reference', $args['payment_id']  );
 
 		if( ! empty( $referral->products ) ) {
 			$products = maybe_unserialize( maybe_unserialize( $referral->products ) );
@@ -943,7 +961,10 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 		<p>
 			<label for="affwp_disable_referrals">
 				<input type="checkbox" name="_affwp_edd_referrals_disabled" id="affwp_disable_referrals" value="1"<?php checked( $disabled, true ); ?> />
-				<?php printf( __( 'Disable referrals on this %s', 'affiliate-wp' ), edd_get_label_singular() ); ?>
+				<?php
+				/* translators: EDD singular product label */
+				printf( __( 'Disable referrals on this %s', 'affiliate-wp' ), edd_get_label_singular() );
+				?>
 			</label>
 		</p>
 
@@ -975,7 +996,12 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 		<div class="form-field">
 			<label for="download-category-rate"><?php _e( 'Referral Rate', 'affiliate-wp' ); ?></label>
 			<input type="text" class="small-text" name="_affwp_<?php echo $this->context; ?>_category_rate" id="download-category-rate">
-			<p class="description"><?php printf( __( 'The referral rate for this %s category.', 'affiliate-wp' ), strtolower( edd_get_label_singular() ) ); ?></p>
+			<p class="description">
+				<?php
+				/* translators: EDD singular category label */
+				printf( __( 'The referral rate for this %s category.', 'affiliate-wp' ), strtolower( edd_get_label_singular() ) );
+				?>
+			</p>
 		</div>
 	<?php
 	}

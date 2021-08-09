@@ -1,4 +1,13 @@
 <?php
+/**
+ * Admin: Referrals Action Callbacks
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Referrals
+ * @copyright   Copyright (c) 2021, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
 /**
  * Process the add referral request

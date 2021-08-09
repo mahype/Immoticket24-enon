@@ -1,4 +1,14 @@
 <?php
+/**
+ * REST: Creatives Endpoints
+ *
+ * @package     AffiliateWP
+ * @subpackage  REST
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\Creative\REST\v1;
 
 use \AffWP\REST\v1\Controller;
@@ -72,6 +82,8 @@ class Endpoints extends Controller {
 	 *
 	 * @since 1.9
 	 * @since 2.6.1 Added support for the 'response_callback' parameter.
+	 * @since 2.7   Items are only processed for output if retrieving all fields. Added support for
+	 *              retrieving multiple fields.
 	 *
 	 * @param \WP_REST_Request $request Request arguments.
 	 * @return \WP_REST_Response|\WP_Error Creatives response, otherwise WP_Error.
@@ -86,7 +98,8 @@ class Endpoints extends Controller {
 		$args['status']       = isset( $request['status'] )       ? $request['status'] : '';
 		$args['order']        = isset( $request['order'] )        ? $request['order'] : 'ASC';
 		$args['orderby']      = isset( $request['orderby'] )      ? $request['orderby'] : '';
-		$args['fields']       = isset( $request['fields'] )       ? $request['fields'] : '*';
+
+		$args['fields'] = $this->parse_fields_for_request( $request );
 
 		if ( is_array( $request['filter'] ) ) {
 			$args = array_merge( $args, $request['filter'] );
@@ -111,10 +124,9 @@ class Endpoints extends Controller {
 				'No creatives were found.',
 				array( 'status' => 404 )
 			);
-		} else {
-			$inst = $this;
-			array_map( function( $creative ) use ( $inst, $request ) {
-				$creative = $inst->process_for_output( $creative, $request );
+		} elseif ( '*' === $args['fields'] ) {
+			array_map( function( $creative ) use ( $request ) {
+				$creative = $this->process_for_output( $creative, $request );
 				return $creative;
 			}, $creatives );
 		}
@@ -172,11 +184,12 @@ class Endpoints extends Controller {
 		 * /creatives/?status=inactive&order=desc
 		 */
 		$params['creative_id'] = array(
-			'description'       => __( 'The creative ID or array of IDs to query for.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
+			'description' => __( 'The creative ID or array of IDs to query for.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['status'] = array(

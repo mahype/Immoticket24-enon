@@ -1,4 +1,13 @@
 <?php
+/**
+ * Integrations: Caldera Forms Processor
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations/Extras
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
 
 class AffiliateWP_Caldera_Forms_Processor extends Caldera_Forms_Processor_Processor {
 

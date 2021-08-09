@@ -1,4 +1,13 @@
 <?php
+/**
+ * Tools: WP Affiliate Migrator
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.3.1
+ */
 
 if ( ! class_exists( 'Affiliate_WP_Migrate_Base' ) ) {
 	require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-migrate-base.php';
@@ -85,9 +94,9 @@ class Affiliate_WP_Migrate_WP_Affiliate extends Affiliate_WP_Migrate_Base {
 				);
 
 				// Try to get an existing affiliate based on the user_id
-				$existing_affiliate = affiliate_wp()->affiliates->get_by( 'user_id', $user_id );
+				$existing_affiliate = affwp_get_affiliate_by( 'user_id', $user_id );
 
-				if( $existing_affiliate ) {
+				if ( ! is_wp_error( $existing_affiliate ) ) {
 					continue;
 				}
 

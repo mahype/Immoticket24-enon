@@ -1,4 +1,14 @@
 <?php
+/**
+ * REST: Campaigns Endpoints
+ *
+ * @package     AffiliateWP
+ * @subpackage  REST
+ * @copyright   Copyright (c) 2020, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.6.2
+ */
+
 namespace AffWP\Campaign\REST\v1;
 
 use \AffWP\REST\v1\Controller;
@@ -62,6 +72,8 @@ class Endpoints extends Controller {
 	 * Base endpoint to retrieve all campaigns.
 	 *
 	 * @since 2.6.2
+	 * @since 2.7   Items are only processed for output if retrieving all fields. Added support for
+	 *              retrieving multiple fields.
 	 *
 	 * @param \WP_REST_Request $request Request arguments.
 	 * @return \WP_REST_Response|\WP_Error Array of campaigns, otherwise WP_Error.
@@ -76,15 +88,18 @@ class Endpoints extends Controller {
 		$args['campaign']         = isset( $request['campaign'] )         ? $request['campaign'] : 0;
 		$args['campaign_compare'] = isset( $request['campaign_compare'] ) ? $request['campaign_compare'] : '';
 		$args['conversion_rate']  = isset( $request['conversion_rate'] )  ? $request['conversion_rate'] : '';
+		$args['hash']             = isset( $request['hash'] )             ? $request['hash'] : '';
+		$args['rest_id']          = isset( $request['rest_id'] )          ? $request['rest_id'] : '';
 		$args['rate_compare']     = isset( $request['rate_compare'] )     ? $request['rate_compare'] : '';
 		$args['order']            = isset( $request['order'] )            ? $request['order'] : 'ASC';
 		$args['orderby']          = isset( $request['orderby'] )          ? $request['orderby'] : '';
-		$args['fields']           = isset( $request['fields'] )           ? $request['fields'] : '*';
 
 		if ( is_array( $request['filter'] ) ) {
 			$args = array_merge( $args, $request['filter'] );
 			unset( $request['filter'] );
 		}
+
+		$args['fields'] = $this->parse_fields_for_request( $request );
 
 		/**
 		 * Filters the query arguments used to retrieve campaigns in a REST request.
@@ -104,10 +119,9 @@ class Endpoints extends Controller {
 				'No campaigns were found.',
 				array( 'status' => 404 )
 			);
-		} else {
-			$inst = $this;
-			array_map( function( $campaign ) use ( $inst, $request ) {
-				$campaign = $inst->process_for_output( $campaign, $request );
+		} elseif ( '*' === $args['fields'] ) {
+			array_map( function( $campaign ) use ( $request ) {
+				$campaign = $this->process_for_output( $campaign, $request );
 				return $campaign;
 			}, $campaigns );
 		}
@@ -136,11 +150,12 @@ class Endpoints extends Controller {
 		 * /campaigns/?campaign=foo&order=desc
 		 */
 		$params['affiliate_id'] = array(
-			'description'       => __( 'The affiliate ID the campaign belongs to.', 'affiliate-wp' ),
-			'sanitize_callback' => 'absint',
-			'validate_callback' => function( $param, $request, $key ) {
-				return is_numeric( $param );
-			},
+			'description' => __( 'The affiliate ID the campaign belongs to.', 'affiliate-wp' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default' => array(),
 		);
 
 		$params['visits'] = array(
@@ -164,6 +179,14 @@ class Endpoints extends Controller {
 			'sanitize_callback' => 'absint',
 			'validate_callback' => function( $param, $request, $key ) {
 				return is_numeric( $param );
+			},
+		);
+
+		$params['hash'] = array(
+			'description'       => __( 'The unique hash for this campaign.', 'affiliate-wp' ),
+			'sanitize_callback' => 'sanitize_text_field',
+			'validate_callback' => function( $param, $request, $key ) {
+				return is_string( $param );
 			},
 		);
 
@@ -222,6 +245,10 @@ class Endpoints extends Controller {
 				),
 				'referrals'       => array(
 					'description' => __( 'The number of referrals recorded against the campaign.', 'affiliate-wp' ),
+					'type'        => 'integer',
+				),
+				'hash'       => array(
+					'description' => __( 'The unique hash for this campaign.', 'affiliate-wp' ),
 					'type'        => 'integer',
 				),
 				'conversion_rate' => array(

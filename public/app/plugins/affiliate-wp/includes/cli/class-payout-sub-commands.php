@@ -1,4 +1,14 @@
 <?php
+/**
+ * CLI: Payout Sub-Commands
+ *
+ * @package     AffiliateWP
+ * @subpackage  CLI
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
 namespace AffWP\Affiliate\Payout\CLI;
 
 use \AffWP\CLI\Sub_Commands\Base;
@@ -186,11 +196,13 @@ class Sub_Commands extends Base {
 					'referrals'     => $payout_data['referrals'],
 					'payout_method' => $data['payout_method'],
 				) ) ) {
+					/* translators: 1: Affiliate ID, 2: Formatted payout amount */
 					\WP_CLI::success( sprintf( __( 'A payout has been created for Affiliate #%1$d for %2$s.', 'affiliate-wp' ),
 						$affiliate_id,
 						html_entity_decode( affwp_currency_filter( affwp_format_amount( $payout_data['amount'] ) ) )
 					) );
 				} else {
+					/* translators: 1: Affiliate ID, 2: Formatted payout amount */
 					\WP_CLI::warning( sprintf( __( 'There was a problem generating a payout for Affiliate #%1$d for %2$s.', 'affiliate-wp' ),
 						$affiliate_id,
 						html_entity_decode( affwp_currency_filter( affwp_format_amount( $payout_data['amount'] ) ) )
@@ -292,12 +304,14 @@ class Sub_Commands extends Base {
 					if ( empty( $referral->payout_id ) ) {
 						$confirmed[] = $referral_id;
 					} else {
-						\WP_CLI::warning( sprintf( __( "Referral #%d is already associated with payout #%d and has been skipped.", 'affiliate-wp' ),
+						/* translators: 1: Referral ID, 2: Referral payout ID */
+						\WP_CLI::warning( sprintf( __( 'Referral #%1$d is already associated with payout #%2$d and has been skipped.', 'affiliate-wp' ),
 							$referral_id,
 							$referral->payout_id
 						) );
 					}
 				} else {
+					/* translators: Referral ID */
 					\WP_CLI::warning( sprintf( __( "Referral #%d is not valid and has been skipped.", 'affiliate-wp' ), $referral_id ) );
 				}
 			}
@@ -340,10 +354,12 @@ class Sub_Commands extends Base {
 		}
 
 		if ( $updated ) {
+			/* translators: Payout ID */
 			\WP_CLI::success( sprintf( __( "Payout #%d has been updated successfully.", 'affiliate-wp' ), $payout->ID ) );
 		} else {
 			try {
 
+				/* translators: Payout ID */
 				\WP_CLI::error( sprintf( __( "Payout #%d could not be updated due to an error.", 'affiliate-wp' ), $payout->ID ) );
 
 			} catch( \Exception $exception ) {}
@@ -483,6 +499,7 @@ class Sub_Commands extends Base {
 		if ( 'count' == $formatter->format ) {
 			$payouts = affiliate_wp()->affiliates->payouts->count( $args );
 
+			/* translators: Number of payouts */
 			\WP_CLI::line( sprintf( __( 'Number of payouts: %d', 'affiliate-wp' ), $payouts ) );
 		} else {
 			$payouts = affiliate_wp()->affiliates->payouts->get_payouts( $args );

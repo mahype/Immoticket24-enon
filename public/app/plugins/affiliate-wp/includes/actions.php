@@ -1,4 +1,13 @@
 <?php
+/**
+ * Core Action Callbacks
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
 
 /**
  * Hooks AffiliateWP actions, when present in the $_REQUEST superglobal. Every affwp_action
@@ -178,3 +187,33 @@ function affwp_show_affiliate_coupons_remove_template_redirect() {
 
 }
 add_action( 'template_redirect', 'affwp_show_affiliate_coupons_remove_template_redirect', 5 );
+
+/**
+ * Handles a custom affwp_is_affiliate argument when passed to WP_User_Query
+ * to filter affiliates in or out.
+ *
+ * `$query` is passed from the core hook by reference.
+ *
+ * @since 2.3.1
+ * @since 2.7.1 Relocated for use outside admin contexts.
+ *
+ * @param \WP_User_Query $query WP_User_Query instance.
+ */
+function affwp_handle_wp_user_query( $query ) {
+	// Bail if the argument isn't set.
+	if ( ! isset( $query->query_vars['affwp_is_affiliate'] ) ) {
+		return;
+	}
+	global $wpdb;
+
+	$affiliates_table = affiliate_wp()->affiliates->table_name;
+
+	if ( true === $query->query_vars['affwp_is_affiliate'] ) {
+		$where = ' AND ID IN (SELECT user_id FROM ' . $affiliates_table . ')';
+	} else {
+		$where = ' AND ID NOT IN (SELECT user_id FROM ' . $affiliates_table . ')';
+	}
+
+	$query->query_where .= $where;
+}
+add_action( 'pre_user_query', 'affwp_handle_wp_user_query' );

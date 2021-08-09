@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: WP Easy Cart
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.2
+ */
 
+/**
+ * Implements an integration for WP Easy Cart.
+ *
+ * @since 1.2
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_EasyCart extends Affiliate_WP_Base {
 
 	/**
@@ -49,7 +65,9 @@ class Affiliate_WP_EasyCart extends Affiliate_WP_Base {
 				return false; // Customers cannot refer themselves
 			}
 
-			if( affiliate_wp()->referrals->get_by( 'reference', $order_id, $this->context ) ) {
+			$referral = affwp_get_referral_by( 'reference', $order_id, $this->context );
+
+			if ( ! is_wp_error( $referral ) ) {
 				return false; // Referral already created for this reference
 			}
 

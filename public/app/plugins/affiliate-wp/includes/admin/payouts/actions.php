@@ -1,5 +1,15 @@
 <?php
 /**
+ * Admin: Payouts Action Callbacks
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Payouts
+ * @copyright   Copyright (c) 2021, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.4
+ */
+
+/**
  * Processes the preview payout request.
  *
  * @since 2.4
@@ -138,7 +148,12 @@ function affwp_manual_payout_preview_payout_note() {
 	?>
 	<h2><?php esc_html_e( 'Note', 'affiliate-wp' ); ?></h2>
 	<p><?php esc_html_e( 'A CSV file will be generated containing the payout details for each affiliate.', 'affiliate-wp' ); ?></p>
-	<p><?php printf( __( 'This will mark all unpaid referrals in this timeframe as paid. To export referrals with a status other than <em>unpaid</em>, go to the <a href="%s">Tools &rarr; Export</a> page.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'tools', array( 'tab' => 'export_import' ) ) ) ); ?></p>
+	<p>
+		<?php
+		/* translators: Import/Export Tools screen URL */
+		printf( __( 'This will mark all unpaid referrals in this timeframe as paid. To export referrals with a status other than <em>unpaid</em>, go to the <a href="%s">Tools &rarr; Export</a> page.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'tools', array( 'tab' => 'export_import' ) ) ) );
+		?>
+	</p>
 	<?php
 }
 add_action( 'affwp_preview_payout_note_manual', 'affwp_manual_payout_preview_payout_note' );

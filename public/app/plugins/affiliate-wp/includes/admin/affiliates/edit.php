@@ -1,4 +1,14 @@
 <?php
+/**
+ * Admin: Edit Affiliate View
+ *
+ * @package     AffiliateWP
+ * @subpackage  Admin/Affiliates
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
+
 $affiliate                    = affwp_get_affiliate( absint( $_GET['affiliate_id'] ) );
 $user_info                    = get_userdata( $affiliate->user_id );
 $rate_type                    = ! empty( $affiliate->rate_type ) ? $affiliate->rate_type : '';
@@ -85,10 +95,13 @@ if ( isset( $_REQUEST['generate_coupon'] ) && 1 == absint( $_REQUEST['generate_c
 				<td>
 					<input class="regular-text" type="text" name="affiliate_first_last" id="affiliate_first_last" value="<?php echo esc_attr( affwp_get_affiliate_name( $affiliate->affiliate_id ) ); ?>" disabled="1" />
 					<p class="description">
-						<?php echo sprintf( __( 'The affiliate&#8217;s first and/or last name. Will be empty if no name is specified. This can be changed on the <a href="%1$s" alt="%2$s">user edit screen</a>.', 'affiliate-wp' ),
+						<?php
+						/* translators: 1: edit user link for the affiliate, 2: descriptive alt text for the user edit link */
+						echo sprintf( __( 'The affiliate&#8217;s first and/or last name. Will be empty if no name is specified. This can be changed on the <a href="%1$s" alt="%2$s">user edit screen</a>.', 'affiliate-wp' ),
 							esc_url( get_edit_user_link( $affiliate->user_id ) ),
 							esc_attr__( 'A link to the user edit screen for this user.', 'affiliate-wp' )
-						); ?>
+						);
+						?>
 					</p>
 				</td>
 
@@ -199,10 +212,13 @@ if ( isset( $_REQUEST['generate_coupon'] ) && 1 == absint( $_REQUEST['generate_c
 				<td>
 					<input class="medium-text" type="text" name="website" id="website" value="<?php echo esc_attr( $user_info->user_url ); ?>" disabled="disabled" />
 					<p class="description">
-						<?php echo wp_sprintf( __( 'The affiliate&#8217;s website. Will be empty if no website is specified. This can be changed on the <a href="%1$s" alt="%2$s">user edit screen</a>.', 'affiliate-wp' ),
+						<?php
+						/* translators: 1: edit user link for the affiliate, 2: descriptive alt text for the user edit link */
+						echo wp_sprintf( __( 'The affiliate&#8217;s website. Will be empty if no website is specified. This can be changed on the <a href="%1$s" alt="%2$s">user edit screen</a>.', 'affiliate-wp' ),
 							esc_url( get_edit_user_link( $affiliate->user_id ) ),
 							esc_attr__( 'A link to the user edit screen for this user.', 'affiliate-wp' )
-						); ?>
+						);
+						?>
 					</p>
 				</td>
 			</tr>
@@ -340,14 +356,39 @@ if ( isset( $_REQUEST['generate_coupon'] ) && 1 == absint( $_REQUEST['generate_c
 
 							<?php if ( 'bank_account' === $payout_service_payout_method['payout_method'] ) : ?>
 
-								<p><?php printf( __( '<strong>Bank Name: </strong> %s', 'affiliate-wp' ), $payout_service_payout_method['bank_name'] ); ?></p>
-								<p><?php printf( __( '<strong>Account Holder Name: </strong> %s', 'affiliate-wp' ), $payout_service_payout_method['account_name'] ); ?></p>
-								<p><?php printf( __( '<strong>Account Number: </strong> %s', 'affiliate-wp' ), $payout_service_payout_method['account_no'] ); ?></p>
+								<p>
+									<?php
+									/* translators: Bank name */
+									printf( __( '<strong>Bank Name: </strong> %s', 'affiliate-wp' ), $payout_service_payout_method['bank_name'] );
+									?>
+								</p>
+								<p>
+									<?php
+									/* translators: Account name */
+									printf( __( '<strong>Account Holder Name: </strong> %s', 'affiliate-wp' ), $payout_service_payout_method['account_name'] );
+									?>
+								</p>
+								<p>
+									<?php
+									/* translators: Account number */
+									printf( __( '<strong>Account Number: </strong> %s', 'affiliate-wp' ), $payout_service_payout_method['account_no'] );
+									?>
+								</p>
 
 							<?php else: ?>
 
-								<p><?php printf( __( '<strong>Card: </strong> %s', 'affiliate-wp' ), $payout_service_payout_method['card'] ); ?></p>
-								<p><?php printf( __( '<strong>Expiry: </strong> %s', 'affiliate-wp' ), $payout_service_payout_method['expiry'] ); ?></p>
+								<p>
+									<?php
+									/* translators: Credit card used */
+									printf( __( '<strong>Card: </strong> %s', 'affiliate-wp' ), $payout_service_payout_method['card'] );
+									?>
+								</p>
+								<p>
+									<?php
+									/* translators: Credit card expiration date */
+									printf( __( '<strong>Expiry: </strong> %s', 'affiliate-wp' ), $payout_service_payout_method['expiry'] );
+									?>
+								</p>
 
 							<?php endif; ?>
 
@@ -386,6 +427,8 @@ if ( isset( $_REQUEST['generate_coupon'] ) && 1 == absint( $_REQUEST['generate_c
 						<?php
 						if ( $payout_service_account && isset( $payout_service_account['kyc_link'] ) ) {
 							$kyc_link = $payout_service_account['kyc_link'];
+
+							/* translators: 1: KYC URL, 2: descriptive alt text for the KYC link, 3: KYC link URL to be displayed */
 							echo wp_sprintf( __( '<a href="%1$s" target="_blank" alt="%2$s">%3$s</a>', 'affiliate-wp' ),
 								esc_url( $kyc_link ),
 								esc_attr__( 'A link to the identity verification page on the Payouts Service', 'affiliate-wp' ),

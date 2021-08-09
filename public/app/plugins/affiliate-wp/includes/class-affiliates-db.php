@@ -1,7 +1,18 @@
 <?php
+/**
+ * Affiliate Database Abstraction Layer
+ *
+ * @package     AffiliateWP
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
 
 /**
- * Class Affiliate_WP_DB_Affiliates
+ * Implements a database abstraction layer for querying affiliates.
+ *
+ * @since 1.0
  *
  * @property-read \AffWP\Affiliate\REST\v1\Endpoints $REST Affiliates REST endpoints.
  */
@@ -504,7 +515,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 
 		$args = wp_parse_args( $data, $defaults );
 
-		if(  ! empty( $args['user_id'] ) && affiliate_wp()->affiliates->get_by( 'user_id', $args['user_id'] ) ) {
+		if(  ! empty( $args['user_id'] ) && ! is_wp_error( affwp_get_affiliate_by( 'user_id', $args['user_id'] ) ) ) {
 			return false;
 		}
 
@@ -596,18 +607,18 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$sql = "CREATE TABLE {$this->table_name} (
-			affiliate_id bigint(20) NOT NULL AUTO_INCREMENT,
-			rest_id mediumtext NOT NULL,
-			user_id bigint(20) NOT NULL,
-			rate tinytext NOT NULL,
-			rate_type tinytext NOT NULL,
-  			flat_rate_basis tinytext NOT NULL,
-			payment_email mediumtext NOT NULL,
-			status tinytext NOT NULL,
-			earnings mediumtext NOT NULL,
+			affiliate_id    bigint(20) NOT NULL AUTO_INCREMENT,
+			rest_id         mediumtext NOT NULL,
+			user_id         bigint(20) NOT NULL,
+			rate            tinytext   NOT NULL,
+			rate_type       tinytext   NOT NULL,
+			flat_rate_basis tinytext   NOT NULL,
+			payment_email   mediumtext NOT NULL,
+			status          tinytext   NOT NULL,
+			earnings        mediumtext NOT NULL,
 			unpaid_earnings mediumtext NOT NULL,
-			referrals bigint(20) NOT NULL,
-			visits bigint(20) NOT NULL,
+			referrals       bigint(20) NOT NULL,
+			visits          bigint(20) NOT NULL,
 			date_registered datetime NOT NULL,
 			PRIMARY KEY  (affiliate_id),
 			KEY user_id (user_id)

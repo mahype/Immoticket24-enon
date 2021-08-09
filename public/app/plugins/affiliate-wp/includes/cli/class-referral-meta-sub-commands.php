@@ -1,4 +1,14 @@
 <?php
+/**
+ * CLI: Referral Meta Sub-Commands
+ *
+ * @package     AffiliateWP
+ * @subpackage  CLI
+ * @copyright   Copyright (c) 2020, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.4.3
+ */
+
 namespace AffWP\Referral\Meta\CLI;
 
 use WP_CLI\CommandWithMeta;

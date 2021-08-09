@@ -1,5 +1,15 @@
 <?php
 /**
+ * Payouts Database Abstraction Layer
+ *
+ * @package     AffiliateWP
+ * @subpackage  Database
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.9
+ */
+
+/**
  * Core class that implements a database layer for payouts.
  *
  * @since 1.9
@@ -710,18 +720,18 @@ class Affiliate_WP_Payouts_DB extends Affiliate_WP_DB {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$sql = "CREATE TABLE " . $this->table_name . " (
-			payout_id bigint(20) NOT NULL AUTO_INCREMENT,
-			affiliate_id bigint(20) NOT NULL,
-			referrals mediumtext NOT NULL,
-			amount mediumtext NOT NULL,
-			owner bigint(20) NOT NULL,
-			payout_method tinytext NOT NULL,
-			service_account tinytext NOT NULL,
-			service_id bigint(20) NOT NULL,
+			payout_id            bigint(20)   NOT NULL AUTO_INCREMENT,
+			affiliate_id         bigint(20)   NOT NULL,
+			referrals            mediumtext   NOT NULL,
+			amount               mediumtext   NOT NULL,
+			owner                bigint(20)   NOT NULL,
+			payout_method        tinytext     NOT NULL,
+			service_account      tinytext     NOT NULL,
+			service_id           bigint(20)   NOT NULL,
 			service_invoice_link varchar(255) NOT NULL,
-			description longtext NOT NULL,
-			status tinytext NOT NULL,
-			date datetime NOT NULL,
+			description          longtext     NOT NULL,
+			status               tinytext     NOT NULL,
+			date                 datetime     NOT NULL,
 			PRIMARY KEY  (payout_id),
 			KEY affiliate_id (affiliate_id),
 			KEY service_id (service_id)

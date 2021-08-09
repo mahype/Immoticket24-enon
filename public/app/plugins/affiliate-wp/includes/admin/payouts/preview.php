@@ -1,9 +1,10 @@
 <?php
 /**
- * 'Preview Payout' Admin Template
+ * Admin: Preview Payout View
  *
- * @package    AffiliateWP\Admin\Payouts
- * @copyright  Copyright (c) 2019, AffiliateWP, LLC
+ * @package    AffiliateWP
+ * @subpackage Admin/Payouts
+ * @copyright  Copyright (c) 2019, Sandhills Development, LLC
  * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since      2.4
  */
@@ -290,7 +291,9 @@ if ( $referrals ) {
 			<?php
 			echo sprintf(
 				_n(
+					/* translators: Payout method label single affiliate */
 					'Affiliate to be paid via %s',
+					/* translators: Payout method label plural affiliates */
 					'Affiliates to be paid via %s',
 					count( $payouts ),
 					'affiliate-wp'
@@ -361,7 +364,9 @@ if ( $referrals ) {
 				<?php
 				echo sprintf(
 					_n(
+						/* translators: Payment method label for single affiliate */
 						'Affiliate who cannot be paid via %s',
+						/* translators: Payout method label for multiple affiliates */
 						'Affiliates who cannot be paid via %s',
 						count( $invalid_affiliates ),
 						'affiliate-wp'
@@ -446,7 +451,9 @@ if ( $referrals ) {
 			<script>
 				jQuery(document).ready(function($) {
 					$('#affwp-new-payout-form').submit(function() {
-						if ( ! confirm( "<?php printf( __( 'Are you sure you want to payout referrals for the specified time frame via %s?', 'affiliate-wp' ), $payout_method_label ); ?>" ) ) {
+						if ( ! confirm( "<?php
+							/* translators: Payout method label */
+							printf( __( 'Are you sure you want to payout referrals for the specified time frame via %s?', 'affiliate-wp' ), $payout_method_label ); ?>" ) ) {
 							return false;
 						}
 						$("#new-payout-submit").attr("disabled", true);
@@ -546,7 +553,12 @@ if ( $referrals ) {
 
 		<?php else : ?>
 
-			<p><?php printf( __( 'No referrals are available to be paid out. View all <a href="%s">referrals</a>.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'referrals' ) ) ); ?></p>
+			<p>
+				<?php
+				/* translators: Referrals screen URL */
+				printf( __( 'No referrals are available to be paid out. View all <a href="%s">referrals</a>.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'referrals' ) ) );
+				?>
+			</p>
 
 		<?php endif; ?>
 

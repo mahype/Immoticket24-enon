@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * Integrations Bootstrap
+ *
+ * @package     AffiliateWP
+ * @subpackage  Core
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0
+ */
 use AffWP\Integrations_Registry;
 
 /**
@@ -43,6 +51,7 @@ class Affiliate_WP_Integrations {
 
 		// Because integrations runs fairly early, we have to manually load an instance the logger here.
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-logging.php';
+
 		$this->logger = new Affiliate_WP_Logging;
 
 		$this->load();
@@ -115,6 +124,24 @@ class Affiliate_WP_Integrations {
 	 */
 	public function get_enabled_integrations() {
 		return $this->query( array( 'fields' => 'name' ) );
+	}
+
+	/**
+	 * Retrieves the list of discontinued integrations.
+	 *
+	 * @since 2.7
+	 *
+	 * @return array List of discontinued integrations where the key is the integration slug and the value
+	 *               is the label.
+	 */
+	public function get_discontinued_integrations() {
+		return array(
+			'exchange'    => __( 'Exchange', 'affiliate-wp' ),
+			'jigoshop'    => __( 'Jigoshop', 'affiliate-wp' ),
+			'marketpress' => __( 'MarketPress', 'affiliate-wp' ),
+			'shopp'       => __( 'Shopp', 'affiliate-wp' ),
+			'wpec'        => __( 'WP eCommerce', 'affiliate-wp' ),
+		);
 	}
 
 	/**

@@ -222,6 +222,7 @@ class AFFWP_Plugin_Updater {
 
 			if ( empty( $version_info->download_link ) ) {
 				printf(
+					/* translators: 1: Plugin name, 2: Opening HTML for the changelog link, 3: Plugin version, 4: Closing HTML for the changelog link */
 					__( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s.', 'affiliate-wp' ),
 					esc_html( $version_info->name ),
 					'<a target="_blank" class="thickbox" href="' . esc_url( $changelog_link ) . '">',
@@ -230,6 +231,7 @@ class AFFWP_Plugin_Updater {
 				);
 			} else {
 				printf(
+					/* translators: 1: Plugin name, 2: Opening HTML for the changelog link, 3: Plugin version, 4: Closing HTML for the changelog link, 5: Opening HTML for the upgrade link, 6: Closing HTML for the upgrade link */
 					__( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s.', 'affiliate-wp' ),
 					esc_html( $version_info->name ),
 					'<a target="_blank" class="thickbox" href="' . esc_url( $changelog_link ) . '">',
@@ -405,15 +407,17 @@ class AFFWP_Plugin_Updater {
 		}
 
 		$api_params = array(
-			'edd_action' => 'get_version',
-			'license'    => ! empty( $data['license'] ) ? $data['license'] : '',
-			'item_name'  => isset( $data['item_name'] ) ? $data['item_name'] : false,
-			'item_id'    => isset( $data['item_id'] ) ? $data['item_id'] : false,
-			'version'    => isset( $data['version'] ) ? $data['version'] : false,
-			'slug'       => $data['slug'],
-			'author'     => $data['author'],
-			'url'        => home_url(),
-			'beta'       => ! empty( $data['beta'] ),
+			'edd_action'  => 'get_version',
+			'license'     => ! empty( $data['license'] ) ? $data['license'] : '',
+			'item_name'   => isset( $data['item_name'] ) ? $data['item_name'] : false,
+			'item_id'     => isset( $data['item_id'] ) ? $data['item_id'] : false,
+			'version'     => isset( $data['version'] ) ? $data['version'] : false,
+			'php_version' => phpversion(),
+			'wp_version'  => $wp_version,
+			'slug'        => $data['slug'],
+			'author'      => $data['author'],
+			'url'         => home_url(),
+			'beta'        => ! empty( $data['beta'] ),
 		);
 
 		$verify_ssl = $this->verify_ssl();

@@ -4,21 +4,21 @@
  *
  * @package     AffiliateWP
  * @subpackage  Functions/Formatting
- * @copyright   Copyright (c) 2014, Pippin Williamson
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
-*/
+ */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
-
-
 
 /**
  * Get Currencies
  *
  * @since 1.0
- * @return array $currencies A list of the available currencies
+ *
+ * @return array Key/value pairs of currencies where the key is the currency slug
+ *               and the value is the translatable labels.
  */
 function affwp_get_currencies() {
 
@@ -92,10 +92,11 @@ function affwp_get_currencies() {
 
 
 /**
- * Get the store's set currency
+ * Retrieves the store's set currency.
  *
  * @since 1.0
- * @return string The currency code
+ *
+ * @return string The currency code.
  */
 function affwp_get_currency() {
 	$currency = affiliate_wp()->settings->get( 'currency', 'USD' );
@@ -111,13 +112,14 @@ function affwp_get_currency() {
 }
 
 /**
- * Sanitize Amount
+ * Sanitizes an amount.
  *
  * Returns a sanitized amount by stripping out thousands separators.
  *
  * @since 1.0
- * @param string $amount amount amount to format
- * @return string $amount Newly sanitized amount
+ *
+ * @param string $amount Amount to format.
+ * @return string Newly sanitized amount.
  */
 function affwp_sanitize_amount( $amount ) {
 
@@ -149,7 +151,7 @@ function affwp_sanitize_amount( $amount ) {
 	 *
 	 * @since 1.0
 	 *
-	 * @param int $number Number of decimals
+	 * @param int        $number Number of decimals
 	 * @param int|string $amount Price
 	 */
 	$decimals = apply_filters( 'affwp_sanitize_amount_decimals', affwp_get_decimal_count(), $amount );
@@ -171,13 +173,12 @@ function affwp_sanitize_amount( $amount ) {
 }
 
 /**
- * Returns a nicely formatted amount.
+ * Formats an amount.
  *
  * @since 1.0
  *
  * @param string $amount   Price amount to format
  * @param string $decimals Whether or not to use decimals.  Useful when set to false for non-currency numbers.
- *
  * @return string $amount Newly formatted amount or Price Not Available
  */
 function affwp_format_amount( $amount, $decimals = true ) {
@@ -233,10 +234,11 @@ function affwp_format_amount( $amount, $decimals = true ) {
 }
 
 /**
- * Retrieves the number of decimals to round to
+ * Retrieves the number of decimals to round to.
  *
  * @since 1.8
- * @return int Number of decimal places
+ *
+ * @return int Number of decimal places.
  */
 function affwp_get_decimal_count() {
 	/**
@@ -277,11 +279,11 @@ function affwp_format_rate( $rate, $type = 'percentage' ) {
 }
 
 /**
- * Formats the currency display
+ * Formats the currency display.
  *
  * @since 1.0
- * @param string $amount amount
- * @return array $currency Currencies displayed correctly
+ * @param string $amount Amount.
+ * @return array Correctly-formatted currency.
  */
 function affwp_currency_filter( $amount ) {
 
@@ -409,11 +411,12 @@ function affwp_currency_filter( $amount ) {
 }
 
 /**
- * Set the number of decimal places per currency
+ * Sets the number of decimal places per currency.
  *
  * @since 1.4.2
- * @param int $decimals Number of decimal places
- * @return int $decimals
+ *
+ * @param int $decimals Optional. Number of decimal places. Default 2.
+ * @return int Currency filtered for the number of decimals.
 */
 function affwp_currency_decimal_filter( $decimals = 2 ) {
 	global $affwp_options;
@@ -435,9 +438,9 @@ function affwp_currency_decimal_filter( $decimals = 2 ) {
 add_filter( 'affwp_decimal_count', 'affwp_currency_decimal_filter' );
 
 /**
- * Convert an object to an associative array.
+ * Converts an object to an associative array.
  *
- * Can handle multidimensional arrays
+ * Can handle multidimensional arrays.
  *
  * @since 1.0
  *
@@ -456,14 +459,15 @@ function affwp_object_to_array( $data ) {
 }
 
 /**
- * Month Num To Name
+ * Outputs the localized month name for a given month number.
  *
  * Takes a month number and returns the name three letter name of it.
  *
  * @since 1.0
  *
- * @param unknown $n
- * @return string Short month name
+ * @param int $n Month number. Use 1 through 12 for the current year, or 0 through -11
+ *               for the previous year.
+ * @return string Short month name.
  */
 function affwp_month_num_to_name( $n ) {
 	$timestamp = mktime( 0, 0, 0, $n, 1, 2005 );
@@ -472,12 +476,12 @@ function affwp_month_num_to_name( $n ) {
 }
 
 /**
- * Checks whether function is disabled.
+ * Checks whether a given PHP function is disabled.
  *
  * @since 1.0
  *
- * @param string  $function Name of the function.
- * @return bool Whether or not function is disabled.
+ * @param string $function Name of the function.
+ * @return bool Whether or not the PHP function is disabled.
  */
 function affwp_is_func_disabled( $function ) {
 	$disabled = explode( ',',  ini_get( 'disable_functions' ) );
@@ -493,14 +497,17 @@ if ( ! function_exists( 'cal_days_in_month' ) ) {
 	}
 }
 
-
-
 /**
- * Get the referral format value
+ * Gets the value of the referral variable.
+ *
+ * If no format is specified, the default will be used.
  *
  * @since 1.6
- * @param string $format referral format passed in via [affiliate_referral_url] shortcode
- * @return string affiliate ID or username
+ *
+ * @param string $format       Optional. Referral format passed in via the `[affiliate_referral_url]`
+ *                             shortcode. Default empty.
+ * @param int    $affiliate_id Optional. Affiliate ID or username. Default 0 (current affiliate).
+ * @return string Value of the referral variable.
  */
 function affwp_get_referral_format_value( $format = '', $affiliate_id = 0 ) {
 
@@ -537,24 +544,25 @@ function affwp_get_referral_format_value( $format = '', $affiliate_id = 0 ) {
 }
 
 /**
- * Gets the referral format from Affiliates -> Settings -> General
+ * Gets the referral format from Affiliates -> Settings -> General.
  *
- * @since  1.6
- * @return string "id" or "username"
+ * @since 1.6
+ *
+ * @return string Value of the global referral format setting. Will be either 'id' or 'username'.
  */
 function affwp_get_referral_format() {
 
 	$referral_format = affiliate_wp()->settings->get( 'referral_format', 'id' );
 
 	return $referral_format;
-
 }
 
 /**
- * Checks whether pretty referral URLs is enabled from Affiliates -> Settings -> General
+ * Checks whether displaying pretty referral URLs is enabled from Affiliates -> Settings -> General.
  *
- * @since  1.6
- * @return boolean
+ * @since 1.6
+ *
+ * @return bool True if displaying pretty referral URLs is enabled otherwise false.
  */
 function affwp_is_pretty_referral_urls() {
 
@@ -571,8 +579,9 @@ function affwp_is_pretty_referral_urls() {
 /**
  * Checks whether reCAPTCHA is enabled since it requires three options
  *
- * @since  1.7
- * @return boolean
+ * @since 1.7
+ *
+ * @return bool True if reCAPTCHA is enabled, otherwise false.
  */
 function affwp_is_recaptcha_enabled() {
 
@@ -582,18 +591,18 @@ function affwp_is_recaptcha_enabled() {
 	$enabled    = ( ! empty( $checkbox ) && ! empty( $site_key ) && ! empty( $secret_key ) );
 
 	/**
-	 * Filters whether ReCpatcha is enabled.
+	 * Filters whether reCAPTCHA is enabled.
 	 *
 	 * @since 1.7
 	 *
-	 * @param bool $enabled Whether ReCaptch is enabled.
+	 * @param bool $enabled Whether reCAPTCHA is enabled.
 	 */
 	return (bool) apply_filters( 'affwp_recaptcha_enabled', $enabled );
 
 }
 
 /**
- * Sanitize values to an absolute number, rounded to the required decimal place
+ * Sanitizes values to an absolute number, rounded to the required decimal place.
  *
  * Allows zero values, but ignores truly empty values.
  *
@@ -612,9 +621,11 @@ function affwp_is_recaptcha_enabled() {
  * 1.10  => (string) 1.10
  * 1.199 => (string) 1.20
  *
- * @param  mixed  $val
- * @param  int    $precision  Number of required decimal places (optional)
- * @return mixed              Returns an int, float or string on success, null when empty
+ * @since 1.7
+ *
+ * @param mixed $val       Value to normalize and round.
+ * @param int   $precision Optional. Number of decimal places to round to. Default 2.
+ * @return mixed Returns an int, float or string on success, null when empty.
  */
 function affwp_abs_number_round( $val, $precision = 2 ) {
 
@@ -673,7 +684,7 @@ function affwp_abs_number_round( $val, $precision = 2 ) {
 }
 
 /**
- * Makes a URL more human readable by removing unnecessary elements.
+ * Makes a URL more "human-readable" by removing unnecessary elements.
  *
  * @since 1.8
  *
@@ -734,7 +745,7 @@ function affwp_make_url_human_readable( $url ) {
  *
  * @since 1.9
  *
- * @param AffWP\Base_Object $object Base_Object.
+ * @param \AffWP\Base_Object $object Base_Object.
  * @return bool True if the item cache was cleaned, false otherwise.
  */
 function affwp_clean_item_cache( $object ) {
@@ -769,12 +780,9 @@ function affwp_clean_item_cache( $object ) {
 }
 
 /**
- * Adds AffiliateWP postbox nonces, which are used
- * to save the position of AffiliateWP meta boxes.
+ * Outputs AffiliateWP postbox nonces used for visual positioning.
  *
- * @since  1.9
- *
- * @return void
+ * @since 1.9
  */
 function affwp_add_screen_options_nonces() {
 
@@ -789,11 +797,12 @@ function affwp_add_screen_options_nonces() {
 }
 add_action( 'admin_footer', 'affwp_add_screen_options_nonces' );
 
-/*
- * Get the logout URL
+/**
+ * Retrieves the logout URL.
  *
- * @since  1.8.8
- * @return string logout URL
+ * @since 1.8.8
+ *
+ * @return string Logout URL.
  */
 function affwp_get_logout_url() {
 
@@ -808,16 +817,21 @@ function affwp_get_logout_url() {
 }
 
 /**
- * Retrieve a list of all published pages
+ * Retrieves a list of all published pages.
  *
- * On large sites this can be expensive, so only load if on the settings page or $force is set to true
+ * On large sites this can be expensive, so only load if on the settings page
+ * or `$force` is set to true.
+ *
+ * @internal See #1431 and #1038 for more information.
  *
  * @since 1.0
- * @since 1.8.8 Moved to misc-functions.php to prevent fatal errors with other plugins incorrectly loading admin code without actually loading WP admin.
- *        See https://github.com/AffiliateWP/AffiliateWP/issues/1431
- *        See https://github.com/AffiliateWP/AffiliateWP/issues/1038
- * @param bool $force Force the pages to be loaded even if not on settings
- * @return array $pages_options An array of the pages
+ * @since 1.8.8 Moved to `misc-functions.php` to prevent fatal errors with other plugins
+ *              incorrectly loading admin code without actually loading WP admin.
+ *
+ * @param bool $force Optional. Force the pages to be loaded even if not on settings.
+ *                    Default false.
+ * @return array A keyed array of published pages where the key is the page ID
+ *               and the value is the page title.
  */
 function affwp_get_pages( $force = false ) {
 
@@ -839,11 +853,11 @@ function affwp_get_pages( $force = false ) {
 }
 
 /**
- * Returns the current AffiliateWP admin screen
+ * Retrieves the current AffiliateWP admin screen.
  *
- * @since  1.9.1
+ * @since 1.9.1
  *
- * @return bool|string  Returns
+ * @return string|false Current admin page slug, otherwise false.
  */
 function affwp_get_current_screen() {
 
@@ -880,7 +894,7 @@ function affwp_navigation_tabs( $tabs, $active_tab, $query_args = array() ) {
 	 *
 	 * @since 1.9.5
 	 *
-	 * @param array  $tabs Tabs array.
+	 * @param array  $tabs       Tabs array.
 	 * @param string $active_tab Active tab slug.
 	 * @param array  $query_args Query arguments used to build the tab URLs.
 	 */
@@ -917,6 +931,7 @@ function affwp_navigation_tabs( $tabs, $active_tab, $query_args = array() ) {
  *
  * @param string $handle  Registered stylesheet handle.
  * @param string $context Optional. Context under which to enqueue the stylesheet.
+ *                        Default empty.
  */
 function affwp_enqueue_style( $handle, $context = '' ) {
 	/**
@@ -929,7 +944,7 @@ function affwp_enqueue_style( $handle, $context = '' ) {
 	 * @see wp_enqueue_style()
 	 *
 	 * @param bool   $enqueue Whether to enqueue the stylesheet. Default true.
-	 * @param string $context Context under which to enqueue the stylesheet.
+	 * @param string $context Context (if set) under which to enqueue the stylesheet.
 	 */
 	if ( true === apply_filters( "affwp_enqueue_style_{$handle}", true, $context ) ) {
 		wp_enqueue_style( $handle );
@@ -955,7 +970,7 @@ function affwp_enqueue_script( $handle, $context = '' ) {
 	 * @see wp_enqueue_script()
 	 *
 	 * @param bool   $enqueue Whether to enqueue the script. Default true.
-	 * @param string $context Context under which to enqueue the script.
+	 * @param string $context Context (if set) under which to enqueue the script.
 	 */
 	if ( true === apply_filters( "affwp_enqueue_script_{$handle}", true, $context ) ) {
 		wp_enqueue_script( $handle );
@@ -965,8 +980,7 @@ function affwp_enqueue_script( $handle, $context = '' ) {
 /**
  * Controls what forms are shown on the Affiliate Area page.
  *
- * @since  2.0
- * @return void
+ * @since 2.0
  */
 function affwp_filter_shown_affiliate_area_forms() {
 
@@ -1048,7 +1062,9 @@ function affwp_admin_url( $type = '', $query_args = array() ) {
  * @param string $type       Admin link type.
  * @param string $label      Link label.
  * @param array  $query_args Optional. Query arguments used to build the admin URL.
+ *                           Default empty array.
  * @param array  $attributes Optional. Link attributes as key/value pairs.
+ *                           Default empty array.
  * @return string HTML markup for the admin link.
  */
 function affwp_admin_link( $type, $label, $query_args = array(), $attributes = array() ) {
@@ -1091,7 +1107,7 @@ function affwp_admin_link( $type, $label, $query_args = array(), $attributes = a
  * @since 2.0
  *
  * @param string $upgrade_action The action to add to the completed upgrades array.
- * @return bool Whether the action was successfully added.
+ * @return bool True if the action was successfully added, otherwise false.
  */
 function affwp_set_upgrade_complete( $upgrade_action ) {
 
@@ -1115,8 +1131,8 @@ function affwp_set_upgrade_complete( $upgrade_action ) {
  *
  * @since  2.0
  *
- * @param  string $upgrade_action The upgrade action to check completion for.
- * @return bool Whether the upgrade action has been completed.
+ * @param string $upgrade_action The upgrade action to check completion for.
+ * @return bool True if the upgrade action has been completed, otherwise false.
  */
 function affwp_has_upgrade_completed( $upgrade_action ) {
 
@@ -1211,7 +1227,7 @@ function affwp_get_affiliate_import_fields() {
  * Retrieves the list of referral import fields.
  *
  * @since 2.1
- * @since 2.6.4 Added support for mapping referral types
+ * @since 2.6.4 Added support for mapping referral types.
  *
  * @return array Array of referral import fields and associated labels.
  */
@@ -1307,7 +1323,7 @@ function affwp_do_import_fields( $type ) {
  * @since 2.1
  *
  * @param string $field Registration field to check.
- * @return string An HTML5 required attribute if required, otherwise an empty string.
+ * @return string An HTML5 'required' attribute if required, otherwise an empty string.
  */
 function affwp_required_field_attr( $field ) {
 	$required_fields = affiliate_wp()->settings->get( 'required_registration_fields', array() );
@@ -1322,8 +1338,8 @@ function affwp_required_field_attr( $field ) {
  *
  * @since 2.1.4.2
  *
- * @param string $original  Maybe unserialized original, if is needed.
- * @return mixed Unserialized data can be any type.
+ * @param string $original Maybe unserialized original, if is needed.
+ * @return mixed Unserialized data of any type.
  */
 function affwp_maybe_unserialize( $original ) {
 	$value = $original;
@@ -1360,10 +1376,11 @@ function affwp_get_current_page_number() {
 }
 
 /**
- * Get SEPA countries
+ * Retrieves Single Euro Payments Area (SEPA) countries.
  *
  * @since 2.4
- * @return array $sepa_countries A list of SEPA countries.
+ *
+ * @return array A list of SEPA countries.
  */
 function affwp_get_sepa_countries() {
 
@@ -1390,10 +1407,11 @@ function affwp_get_sepa_countries() {
 }
 
 /**
- * Get Payouts Service Country List
+ * Retrieves the list of countries serviced by the Payouts Service.
  *
  * @since 2.4
- * @return array $countries A list of the countries support by the payouts service.
+ *
+ * @return array A list of the countries supported by the Payouts Service.
  */
 function affwp_get_payouts_service_country_list() {
 
@@ -1454,7 +1472,7 @@ function affwp_get_payouts_service_country_list() {
  * @since 2.5
  *
  * @param mixed $element Element to check.
- * @return bool Whether or not the element is an instance of Affiliate_WP_DB.
+ * @return bool Whether or not the element is an instance of `Affiliate_WP_DB`.
  */
 function affwp_is_db( $element ) {
 	return $element instanceof \Affiliate_WP_DB;
@@ -1467,8 +1485,8 @@ function affwp_is_db( $element ) {
  *
  * @since 2.5
  *
- * @param float  $value      The base value to get percentage from.
- * @param float  $divided_by What to divide the value by to get the percent.
+ * @param float $value      The base value to get percentage from.
+ * @param float $divided_by What to divide the value by to get the percent.
  * @return float The percentage, as a float. Will return INF if `$divided_by` is 0.
  */
 function affwp_calculate_percentage( $value, $divided_by ) {
@@ -1506,12 +1524,11 @@ function affwp_format_percentage( $percentage, $precision = 0 ) {
 	$percentage = round( $percentage, $precision );
 
 	/* translators: Formatted percentage value. If using '%' to format percentage, must be expressed as '%%' to avoid errors */
-
 	return sprintf( __( '%s%%', 'affiliate-wp' ), $percentage );
 }
 
 /**
- * Determines if the provided amount is something that can be converted to an amount.
+ * Determines if the given amount is something that can be converted to an amount.
  *
  * @since 2.5.5
  *
@@ -1555,7 +1572,7 @@ function affwp_is_valid_amount( $amount ) {
 }
 
 /**
- * Helper function to determine whether the given integration is active.
+ * Determines whether the given integration is active.
  *
  * @since 2.6
  *
@@ -1573,3 +1590,133 @@ function affwp_is_integration_active( $integration_slug ) {
 
 	return $is_active;
 }
+
+/**
+ * Renders the settings fields for a particular settings section.
+ *
+ * Copied mostly verbatim from `do_settings_section()` with the addition of
+ * setting a unique id attribute for the table row elements.
+ *
+ * @global array $wp_settings_fields Storage array of settings fields and their pages/sections.
+ *
+ * @since 2.7
+ *
+ * @param string $page    Slug title of the admin page whose settings fields you want to show.
+ * @param string $section Slug title of the settings section whose fields you want to show.
+ */
+function affwp_do_settings_fields( $page, $section ) {
+	global $wp_settings_fields;
+
+	if ( ! isset( $wp_settings_fields[ $page ][ $section ] ) ) {
+		return;
+	}
+
+	foreach ( (array) $wp_settings_fields[ $page ][ $section ] as $field ) {
+		$class = $id = '';
+
+		if ( ! empty( $field['args']['id'] ) ) {
+			$id = ' id="' . esc_attr( $field['args']['id'] ) . '"';
+		}
+
+		if ( ! empty( $field['args']['class'] ) ) {
+			$class = ' class="' . esc_attr( $field['args']['class'] ) . '"';
+		}
+
+		echo "<tr{$id}{$class}>";
+
+		if ( ! empty( $field['args']['label_for'] ) ) {
+			echo '<th scope="row"><label for="' . esc_attr( $field['args']['label_for'] ) . '">' . $field['title'] . '</label></th>';
+		} else {
+			echo '<th scope="row">' . $field['title'] . '</th>';
+		}
+
+		echo '<td>';
+		call_user_func( $field['callback'], $field['args'] );
+		echo '</td>';
+		echo '</tr>';
+	}
+}
+
+/**
+ * Creates a 32 character hash from the provided value.
+ *
+ * @since 2.7
+ *
+ * @param mixed        $data The value to hash.
+ * @param false|string $key  Optional. The secret key to provide. Required if hash needs to be secure.
+ *
+ * @return string a 32 character hash from the provided value.
+ */
+function affwp_get_hash( $data, $key = false ) {
+
+	// If object, convert to array.
+	if ( is_object( $data ) ) {
+		$data = (array) $data;
+	}
+
+	// Normalize the array
+	if ( is_array( $data ) ) {
+		$data = affwp_normalize_array( $data );
+	}
+
+	if ( false === $key ) {
+		return hash( 'md5', maybe_serialize( $data ) );
+	} else {
+		return hash_hmac( 'md5', maybe_serialize( $data ), $key );
+	}
+}
+
+/**
+ * Recursively sorts, and optionally mutates an array of arrays.
+ *
+ * @since 2.7
+ *
+ * @param array $array The array to sort.
+ * @param array $args {
+ *     Optional. List of arguments to pass
+ *     @type bool $convert_closures If true, closures will be converted to an identifiable string. Default true.
+ * }
+ *
+ * @return array The normalized array
+ */
+function affwp_normalize_array( array $array, $args = array() ) {
+	$defaults = array(
+		'convert_closures' => true,
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	foreach ( $array as $key => $value ) {
+		if ( is_array( $value ) ) {
+			$array[ $key ] = affwp_normalize_array( $value, $args );
+		}
+
+		// If closures need converted, and this is a closure, transform this into an identifiable string.
+		if ( true === $args['convert_closures'] && $value instanceof Closure ) {
+			$ref  = new ReflectionFunction( $value );
+			$file = new SplFileObject( $ref->getFileName() );
+			$file->seek( $ref->getStartLine() - 1 );
+			$content = '';
+			while ( $file->key() < $ref->getEndLine() ) {
+				$content .= $file->current();
+				$file->next();
+			}
+			$array[ $key ] = array(
+				$content,
+				$ref->getStaticVariables(),
+			);
+		}
+	}
+
+	// Sorting behavior depends on if the array is associative, or not.
+	$is_assoc = count( array_filter( array_keys( $array ), 'is_string' ) ) > 0;
+
+	if ( $is_assoc ) {
+		ksort( $array );
+	} else {
+		sort( $array );
+	}
+
+	return $array;
+}
+

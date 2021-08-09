@@ -1,4 +1,14 @@
 <?php
+/**
+ * Tools: Batch Processor CSV Import Middleware
+ *
+ * @package     AffiliateWP
+ * @subpackage  Tools
+ * @copyright   Copyright (c) 2017, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.0
+ */
+
 namespace AffWP\Utils\Batch_Process\Import;
 
 use AffWP\Utils\Batch_Process as Batch;
@@ -68,7 +78,7 @@ class CSV extends Batch\Import implements Importer\CSV {
 		$this->step = $_step;
 		$this->file = $_file;
 		$this->done = false;
-		$this->csv = new \parseCSV();
+		$this->csv = new \ParseCsv\Csv();
 		$this->csv->auto( $this->file );
 
 		$this->total = count( $this->csv->data );

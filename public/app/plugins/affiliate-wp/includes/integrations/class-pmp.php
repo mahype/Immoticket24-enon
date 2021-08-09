@@ -1,5 +1,21 @@
 <?php
+/**
+ * Integrations: Paid Memberships Pro
+ *
+ * @package     AffiliateWP
+ * @subpackage  Integrations
+ * @copyright   Copyright (c) 2016, Sandhills Development, LLC
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.8
+ */
 
+/**
+ * Implements an integration for Paid Memberships Pro.
+ *
+ * @since 1.8
+ *
+ * @see Affiliate_WP_Base
+ */
 class Affiliate_WP_PMP extends Affiliate_WP_Base {
 
 	/**
@@ -169,29 +185,35 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 
 		$this->complete_referral( $order->id );
 
-		$referral = affiliate_wp()->referrals->get_by( 'reference', $order->id, $this->context );
-		$order    = new MemberOrder( $order->id );
+		$referral = affwp_get_referral_by( 'reference', $order->id, $this->context );
 
-		// Prevent infinite loop
-		remove_action( 'pmpro_updated_order', array( $this, 'mark_referral_complete' ), 10 );
+		if ( ! is_wp_error( $referral ) ) {
+			$order    = new MemberOrder( $order->id );
 
-		$order->affiliate_id = $referral->affiliate_id;
-		$amount              = html_entity_decode( affwp_currency_filter( affwp_format_amount( $referral->amount ) ), ENT_QUOTES, 'UTF-8' );
-		$name                = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
-		$note                = sprintf( __( 'Referral #%1$d for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
-			$referral->referral_id,
-			$amount,
-			$name,
-			$referral->affiliate_id
-		);
+			// Prevent infinite loop
+			remove_action( 'pmpro_updated_order', array( $this, 'mark_referral_complete' ), 10 );
 
-		if( empty( $order->notes ) ) {
-			$order->notes = $note;
+			$order->affiliate_id = $referral->affiliate_id;
+			$amount              = html_entity_decode( affwp_currency_filter( affwp_format_amount( $referral->amount ) ), ENT_QUOTES, 'UTF-8' );
+			$name                = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
+			/* translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name, 4: Referral affiliate ID  */
+			$note                = sprintf( __( 'Referral #%1$d for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
+				$referral->referral_id,
+				$amount,
+				$name,
+				$referral->affiliate_id
+			);
+
+			if( empty( $order->notes ) ) {
+				$order->notes = $note;
+			} else {
+				$order->notes = $order->notes . "\n\n" . $note;
+			}
+
+			$order->saveOrder();
 		} else {
-			$order->notes = $order->notes . "\n\n" . $note;
+			affiliate_wp()->utils->log( 'mark_referral_complete: The referral could not be found.', $referral );
 		}
-
-		$order->saveOrder();
 	}
 
 	public function revoke_referral_on_refund_and_cancel() {
@@ -382,7 +404,12 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 					</th>
 					<td>
 						<input id="affwp_pmp_referral_rate" class="regular-text" name="affwp_pmp_referral_rate" type="number" min="0" max="999999999" step="0.01" placeholder="<?php echo esc_attr( $default_rate ); ?>" value="<?php echo esc_attr( $rate ); ?>" />
-						<p class="description"><?php printf( __( 'The membership-level referral rate, such as 20 for 20%%. Affiliate-level referral rates will override this value. If left blank, the site default value of %s will be used.', 'affiliate-wp' ), esc_html( $default_rate ) ); ?></p>
+						<p class="description">
+							<?php
+							/* translators: Referral rate */
+							printf( __( 'The membership-level referral rate, such as 20 for 20%%. Affiliate-level referral rates will override this value. If left blank, the site default value of %s will be used.', 'affiliate-wp' ), esc_html( $default_rate ) );
+							?>
+						</p>
 					</td>
 				</tr>
 				<tr>
