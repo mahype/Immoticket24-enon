@@ -63,6 +63,10 @@ class Upgrade
             'upgradeVersion_2_2_8' => '2.2.8',
             'upgradeVersion_2_2_9' => '2.2.9',
             'upgradeVersion_2_2_26' => '2.2.26',
+            'upgradeVersion_2_2_27' => '2.2.27',
+            'upgradeVersion_2_2_28' => '2.2.28',
+            'upgradeVersion_2_2_29' => '2.2.29',
+            'upgradeVersion_2_2_30' => '2.2.30',
         ];
 
     private $currentBlogId = '';
@@ -849,8 +853,57 @@ class Upgrade
 
     public function upgradeVersion_2_2_26()
     {
+    }
+
+    public function upgradeVersion_2_2_27()
+    {
+    }
+
+    public function upgradeVersion_2_2_28()
+    {
+    }
+
+    public function upgradeVersion_2_2_29()
+    {
+        global $wpdb;
+
+        $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_cookies';
+        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameCookies)) {
+            $wpdb->query(
+                "
+                UPDATE
+                    `" . $tableNameCookies . "`
+                SET
+                    `privacy_policy_url` = 'https://wiki.osmfoundation.org/wiki/Privacy_Policy'
+                WHERE
+                    `privacy_policy_url` = 'https://wiki.osmfoundation.org/wiki/Privacy_Politik'
+            "
+            );
+        }
+
+        $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_content_blocker';
+        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameCookies)) {
+            $wpdb->query(
+                "
+                UPDATE
+                    `" . $tableNameCookies . "`
+                SET
+                    `privacy_policy_url` = 'https://wiki.osmfoundation.org/wiki/Privacy_Policy'
+                WHERE
+                    `privacy_policy_url` = 'https://wiki.osmfoundation.org/wiki/Privacy_Politik'
+            "
+            );
+        }
+
         update_option('BorlabsCookieClearCache', true, 'no');
-        update_option('BorlabsCookieVersion', '2.2.26', 'no');
+        update_option('BorlabsCookieVersion', '2.2.29', 'no');
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_30()
+    {
+        update_option('BorlabsCookieClearCache', true, 'no');
+        update_option('BorlabsCookieVersion', '2.2.30', 'yes');
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 }

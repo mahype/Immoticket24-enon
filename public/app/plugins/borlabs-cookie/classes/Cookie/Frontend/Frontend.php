@@ -139,6 +139,11 @@ class Frontend
                     [ThirdParty\Themes\Avada::getInstance(), 'adminHeadCSS'],
                     100
                 );
+                add_action(
+                    'wp_footer',
+                    [ThirdParty\Themes\Avada::getInstance(), 'disableBuffer'],
+                    1
+                );
             }
 
             // Bricks

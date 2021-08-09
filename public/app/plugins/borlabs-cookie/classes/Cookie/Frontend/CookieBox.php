@@ -75,22 +75,22 @@ class CookieBox
         // Privacy Policy Link
         $cookieBoxPrivacyLink = '';
 
-        if (!empty(Config::getInstance()->get('privacyPageURL'))) {
+        if (! empty(Config::getInstance()->get('privacyPageURL'))) {
             $cookieBoxPrivacyLink = Config::getInstance()->get('privacyPageURL');
         }
 
-        if (!empty(Config::getInstance()->get('privacyPageCustomURL'))) {
+        if (! empty(Config::getInstance()->get('privacyPageCustomURL'))) {
             $cookieBoxPrivacyLink = Config::getInstance()->get('privacyPageCustomURL');
         }
 
         // Imprint Link
         $cookieBoxImprintLink = '';
 
-        if (!empty(Config::getInstance()->get('imprintPageURL'))) {
+        if (! empty(Config::getInstance()->get('imprintPageURL'))) {
             $cookieBoxImprintLink = Config::getInstance()->get('imprintPageURL');
         }
 
-        if (!empty(Config::getInstance()->get('imprintPageCustomURL'))) {
+        if (! empty(Config::getInstance()->get('imprintPageCustomURL'))) {
             $cookieBoxImprintLink = Config::getInstance()->get('imprintPageCustomURL');
         }
 
@@ -99,7 +99,6 @@ class CookieBox
         $supportBorlabsCookieLogo = '';
 
         if ($supportBorlabsCookie) {
-
             $bgColorHSL = Tools::getInstance()->hexToHsl(Config::getInstance()->get('cookieBoxBgColor'));
 
             if (isset($bgColorHSL[2]) && $bgColorHSL[2] <= 50) {
@@ -122,7 +121,7 @@ class CookieBox
         $cookieBoxLogoSrcSet = [];
         $cookieBoxLogoSrcSet[] = $cookieBoxLogo;
 
-        if (!empty($cookieBoxLogoHD)) {
+        if (! empty($cookieBoxLogoHD)) {
             $cookieBoxLogoSrcSet[] = $cookieBoxLogoHD . ' 2x';
         }
 
@@ -142,8 +141,12 @@ class CookieBox
         $cookieBoxPreferenceTextAcceptAllButton = Config::getInstance()->get('cookieBoxPreferenceTextAcceptAllButton');
         $cookieBoxPreferenceTextRefuseLink = Config::getInstance()->get('cookieBoxPreferenceTextRefuseLink');
         $cookieBoxPreferenceTextBackLink = Config::getInstance()->get('cookieBoxPreferenceTextBackLink');
-        $cookieBoxPreferenceTextSwitchStatusActive = Config::getInstance()->get('cookieBoxPreferenceTextSwitchStatusActive');
-        $cookieBoxPreferenceTextSwitchStatusInactive = Config::getInstance()->get('cookieBoxPreferenceTextSwitchStatusInactive');
+        $cookieBoxPreferenceTextSwitchStatusActive = Config::getInstance()->get(
+            'cookieBoxPreferenceTextSwitchStatusActive'
+        );
+        $cookieBoxPreferenceTextSwitchStatusInactive = Config::getInstance()->get(
+            'cookieBoxPreferenceTextSwitchStatusInactive'
+        );
         $cookieBoxPreferenceTextShowCookieLink = Config::getInstance()->get('cookieBoxPreferenceTextShowCookieLink');
         $cookieBoxPreferenceTextHideCookieLink = Config::getInstance()->get('cookieBoxPreferenceTextHideCookieLink');
 
@@ -151,24 +154,30 @@ class CookieBox
         $cookieBoxCookieDetailsTableName = Config::getInstance()->get('cookieBoxCookieDetailsTableName');
         $cookieBoxCookieDetailsTableProvider = Config::getInstance()->get('cookieBoxCookieDetailsTableProvider');
         $cookieBoxCookieDetailsTablePurpose = Config::getInstance()->get('cookieBoxCookieDetailsTablePurpose');
-        $cookieBoxCookieDetailsTablePrivacyPolicy = Config::getInstance()->get('cookieBoxCookieDetailsTablePrivacyPolicy');
+        $cookieBoxCookieDetailsTablePrivacyPolicy = Config::getInstance()->get(
+            'cookieBoxCookieDetailsTablePrivacyPolicy'
+        );
         $cookieBoxCookieDetailsTableHosts = Config::getInstance()->get('cookieBoxCookieDetailsTableHosts');
         $cookieBoxCookieDetailsTableCookieName = Config::getInstance()->get('cookieBoxCookieDetailsTableCookieName');
-        $cookieBoxCookieDetailsTableCookieExpiry = Config::getInstance()->get('cookieBoxCookieDetailsTableCookieExpiry');
+        $cookieBoxCookieDetailsTableCookieExpiry = Config::getInstance()->get(
+            'cookieBoxCookieDetailsTableCookieExpiry'
+        );
 
         // Cookie Groups
         $cookieGroups = Cookies::getInstance()->getAllCookieGroups();
 
-        if (!empty($cookieGroups)) {
+        if (! empty($cookieGroups)) {
             foreach ($cookieGroups as $key => $groupData) {
-                $cookieGroups[$key]->hasCookies = !empty($groupData->cookies) ? true : false;
-                $cookieGroups[$key]->displayCookieGroup = !empty($groupData->pre_selected) ? true : false;
+                $cookieGroups[$key]->hasCookies = ! empty($groupData->cookies) ? true : false;
+                $cookieGroups[$key]->displayCookieGroup = ! empty($groupData->pre_selected) ? true : false;
                 $cookieGroups[$key]->description = nl2br($groupData->description);
             }
         }
 
         if (Config::getInstance()->get('testEnvironment') === true) {
-            $cookieBoxTextDescription .= "<span class=\"text-center\" style=\"display: block !important;background: #fff;color: #f00;\">" . _x('Borlabs Cookie - Test Environment active!', 'Frontend / Global / Alert Message', 'borlabs-cookie') . "</span>";
+            $cookieBoxTextDescription .= "<span class=\"text-center\" style=\"display: block !important;background: #fff;color: #f00;\">"
+                . _x('Borlabs Cookie - Test Environment active!', 'Frontend / Global / Alert Message', 'borlabs-cookie')
+                . "</span>";
         }
 
         // Cookie Box Layout
@@ -183,12 +192,18 @@ class CookieBox
 
         // Check if custom template file exists
         if (file_exists($themePath . '/plugins/' . dirname(BORLABS_COOKIE_BASENAME) . '/' . $cookieBoxTemplate)) {
-            $cookieBoxTemplateFile = $themePath . '/plugins/' . dirname(BORLABS_COOKIE_BASENAME) . '/' . $cookieBoxTemplate;
+            $cookieBoxTemplateFile = $themePath . '/plugins/' . dirname(BORLABS_COOKIE_BASENAME) . '/'
+                . $cookieBoxTemplate;
         }
 
         // Check if custom preference template file exists
-        if (file_exists($themePath . '/plugins/' . dirname(BORLABS_COOKIE_BASENAME) . '/' . $cookiePreferenceTemplate)) {
-            $cookiePreferenceTemplateFile = $themePath . '/plugins/' . dirname(BORLABS_COOKIE_BASENAME) . '/' . $cookiePreferenceTemplate;
+        if (
+        file_exists(
+            $themePath . '/plugins/' . dirname(BORLABS_COOKIE_BASENAME) . '/' . $cookiePreferenceTemplate
+        )
+        ) {
+            $cookiePreferenceTemplateFile = $themePath . '/plugins/' . dirname(BORLABS_COOKIE_BASENAME) . '/'
+                . $cookiePreferenceTemplate;
         }
 
         // Disable indexing of Borlabs Cookie data

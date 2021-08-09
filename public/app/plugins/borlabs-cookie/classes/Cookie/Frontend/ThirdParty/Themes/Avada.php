@@ -20,6 +20,7 @@
 
 namespace BorlabsCookie\Cookie\Frontend\ThirdParty\Themes;
 
+use BorlabsCookie\Cookie\Frontend\Buffer;
 use BorlabsCookie\Cookie\Frontend\ContentBlocker;
 use BorlabsCookie\Cookie\Frontend\JavaScript;
 
@@ -65,5 +66,21 @@ class Avada
     public function adminHeadCSS()
     {
         echo "<style>#BorlabsCookieBox { display: none !important; }</style>";
+    }
+
+    /**
+     * Disable buffer while Avada Live Builder is active. Is required due a bug in Avada.
+     */
+    public function disableBuffer()
+    {
+        if (strpos($_SERVER['REQUEST_URI'], 'fb-edit') === false) {
+            return;
+        }
+        if (Buffer::getInstance()->isBufferActive() === false) {
+            return;
+        }
+
+        $void = Buffer::getInstance()->getBuffer();
+        Buffer::getInstance()->endBuffering();
     }
 }

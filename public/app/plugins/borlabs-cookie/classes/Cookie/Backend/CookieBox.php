@@ -131,8 +131,8 @@ class CookieBox
         $optionCookieBoxPositionBC = Config::getInstance()->get('cookieBoxPosition') === 'bottom-center' ? ' selected' : '';
         $optionCookieBoxPositionBR = Config::getInstance()->get('cookieBoxPosition') === 'bottom-right' ? ' selected' : '';
 
-        $optionCookieBoxCookieGroupJustificationSA = Config::getInstance()->get('cookieBoxGroupJustification') === 'space-around' ? ' selected' : '';
-        $optionCookieBoxCookieGroupJustificationSB = Config::getInstance()->get('cookieBoxGroupJustification') === 'space-between' ? ' selected' : '';
+        $optionCookieBoxCookieGroupJustificationSA = Config::getInstance()->get('cookieBoxCookieGroupJustification') === 'space-around' ? ' selected' : '';
+        $optionCookieBoxCookieGroupJustificationSB = Config::getInstance()->get('cookieBoxCookieGroupJustification') === 'space-between' ? ' selected' : '';
 
         $inputCookieBoxAnimation = !empty(Config::getInstance()->get('cookieBoxAnimation')) ? 1 : 0;
         $switchCookieBoxAnimation = $inputCookieBoxAnimation ? ' active' : '';
