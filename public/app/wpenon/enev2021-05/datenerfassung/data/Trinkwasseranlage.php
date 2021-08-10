@@ -22,6 +22,8 @@ class Trinkwasseranlage {
                 return 'über Heizungsanlage beheizter Speicher'; 
             case 'fernwaerme':
                 return 'über Heizungsanlage beheizter Speicher';
+            case 'pelletfeuerung':
+                return 'über Heizungsanlage beheizter Speicher';
             case 'waermepumpeluft':
                 return 'über Heizungsanlage beheizter Speicher';
             case 'waermepumpewasser':
