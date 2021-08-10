@@ -45,7 +45,9 @@ class Trinkwasseranlage {
             case 'gasspeicher':
                 return 'Direkt beheizter Trinkwarmwasserspeicher (Gas)';                                    
             case 'solaranlage':
-                return 'Solare Trinkwarmwasserbereitung';                                
+                return 'Solare Trinkwarmwasserbereitung';
+            default:
+                return 'Sonstiges: ' . $this->data['slug'];                             
         }
     }
     
