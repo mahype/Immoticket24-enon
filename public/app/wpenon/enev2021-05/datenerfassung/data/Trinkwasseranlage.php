@@ -22,8 +22,6 @@ class Trinkwasseranlage {
                 return 'über Heizungsanlage beheizter Speicher'; 
             case 'fernwaerme':
                 return 'über Heizungsanlage beheizter Speicher';
-            case 'pelletfeuerung':
-                return 'über Heizungsanlage beheizter Speicher';
             case 'waermepumpeluft':
                 return 'über Heizungsanlage beheizter Speicher';
             case 'waermepumpewasser':
@@ -45,9 +43,7 @@ class Trinkwasseranlage {
             case 'gasspeicher':
                 return 'Direkt beheizter Trinkwarmwasserspeicher (Gas)';                                    
             case 'solaranlage':
-                return 'Solare Trinkwarmwasserbereitung';
-            default:
-                return 'Sonstiges: ' . $this->data['slug'];                             
+                return 'Solare Trinkwarmwasserbereitung';                           
         }
     }
     
