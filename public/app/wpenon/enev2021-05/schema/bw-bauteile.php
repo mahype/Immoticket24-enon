@@ -88,7 +88,7 @@ $bauteile = array(
 				),
 				'wand_a_nachbar'            => array(
 					'type'    => 'checkbox',
-					'label'   => sprintf( __( 'Wand %s grenzt an Nachbargebäude?', 'wpenon' ), 'a' ),
+					'label'   => sprintf( __( 'Wand %s an Nachbargebäude angebaut?', 'wpenon' ), 'a' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_wand',
 						'callback_args' => array( 'field::grundriss_form', 'a' ),
@@ -156,7 +156,7 @@ $bauteile = array(
 				),
 				'wand_b_nachbar'            => array(
 					'type'    => 'checkbox',
-					'label'   => sprintf( __( 'Wand %s grenzt an Nachbargebäude?', 'wpenon' ), 'b' ),
+					'label'   => sprintf( __( 'Wand %s an Nachbargebäude angebaut?', 'wpenon' ), 'b' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_wand',
 						'callback_args' => array( 'field::grundriss_form', 'b' ),
@@ -224,7 +224,7 @@ $bauteile = array(
 				),
 				'wand_c_nachbar'            => array(
 					'type'    => 'checkbox',
-					'label'   => sprintf( __( 'Wand %s grenzt an Nachbargebäude?', 'wpenon' ), 'c' ),
+					'label'   => sprintf( __( 'Wand %s an Nachbargebäude angebaut?', 'wpenon' ), 'c' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_wand',
 						'callback_args' => array( 'field::grundriss_form', 'c' ),
@@ -292,7 +292,7 @@ $bauteile = array(
 				),
 				'wand_d_nachbar'            => array(
 					'type'    => 'checkbox',
-					'label'   => sprintf( __( 'Wand %s grenzt an Nachbargebäude?', 'wpenon' ), 'd' ),
+					'label'   => sprintf( __( 'Wand %s an Nachbargebäude angebaut?', 'wpenon' ), 'd' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_wand',
 						'callback_args' => array( 'field::grundriss_form', 'd' ),
@@ -360,7 +360,7 @@ $bauteile = array(
 				),
 				'wand_e_nachbar'            => array(
 					'type'    => 'checkbox',
-					'label'   => sprintf( __( 'Wand %s grenzt an Nachbargebäude?', 'wpenon' ), 'e' ),
+					'label'   => sprintf( __( 'Wand %s an Nachbargebäude angebaut?', 'wpenon' ), 'e' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_wand',
 						'callback_args' => array( 'field::grundriss_form', 'e' ),
@@ -428,7 +428,7 @@ $bauteile = array(
 				),
 				'wand_f_nachbar'            => array(
 					'type'    => 'checkbox',
-					'label'   => sprintf( __( 'Wand %s grenzt an Nachbargebäude?', 'wpenon' ), 'f' ),
+					'label'   => sprintf( __( 'Wand %s an Nachbargebäude angebaut?', 'wpenon' ), 'f' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_wand',
 						'callback_args' => array( 'field::grundriss_form', 'f' ),
@@ -496,7 +496,7 @@ $bauteile = array(
 				),
 				'wand_g_nachbar'            => array(
 					'type'    => 'checkbox',
-					'label'   => sprintf( __( 'Wand %s grenzt an Nachbargebäude?', 'wpenon' ), 'g' ),
+					'label'   => sprintf( __( 'Wand %s an Nachbargebäude angebaut?', 'wpenon' ), 'g' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_wand',
 						'callback_args' => array( 'field::grundriss_form', 'g' ),
@@ -563,7 +563,7 @@ $bauteile = array(
 				),
 				'wand_h_nachbar'            => array(
 					'type'    => 'checkbox',
-					'label'   => sprintf( __( 'Wand %s grenzt an Nachbargebäude?', 'wpenon' ), 'h' ),
+					'label'   => sprintf( __( 'Wand %s an Nachbargebäude angebaut?', 'wpenon' ), 'h' ),
 					'display' => array(
 						'callback'      => 'wpenon_immoticket24_show_wand',
 						'callback_args' => array( 'field::grundriss_form', 'h' ),
