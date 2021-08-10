@@ -53,6 +53,7 @@ $anlage = array(
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
+						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
 						'stueckholz' => __( 'Stückholz', 'wpenon' ),
 					),
 					'display'  => array(
@@ -360,6 +361,7 @@ $anlage = array(
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
+						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
 						'stueckholz' => __( 'Stückholz', 'wpenon' ),
 					),
 					'display'  => array(
@@ -691,6 +693,7 @@ $anlage = array(
 						'fluessiggas'  => __( 'Flüssiggas', 'wpenon' ),
 						'biogas'       => __( 'Biogas', 'wpenon' ),
 						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
+						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
 						'stueckholz' => __( 'Stückholz', 'wpenon' ),
 					),
 					'display'  => array(
