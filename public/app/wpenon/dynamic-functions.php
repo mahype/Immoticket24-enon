@@ -337,6 +337,7 @@ function wpenon_immoticket24_show_specific_anbaufenster( $fenster_manuell, $anba
 function wpenon_get_water_independend_heaters() {
 	return array(
 		'oelofenverdampfungsbrenner',
+		'pelletfeuerung',
 		'kohleholzofen',
 		'gasraumheizer',
 		'elektronachtspeicherheizung',
