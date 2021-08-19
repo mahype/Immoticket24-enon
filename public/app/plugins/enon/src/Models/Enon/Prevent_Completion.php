@@ -23,7 +23,8 @@ class Prevent_Completion {
         'check_end_energy',
         'check_heater_consumption',
         'check_heater_type',
-        'check_building_year_wall_insulation',    
+        'check_building_year_wall_insulation',
+        'check_double_heater_including_hotwater'
     ];
 
     /**
@@ -280,6 +281,43 @@ class Prevent_Completion {
         }
 
         return true;
+    }
+
+    /**
+     * Checking vw heaters if more than one used and including hot water.
+     * 
+     * @since 1.0.0
+     * 
+     * @return bool|array True if passed, array with errors on failure.
+     */
+    private function check_double_heater_including_hotwater() {
+        // Only check verbrauchsausweis
+        if ( 'v' !== $this->energy_certificate->mode ) {
+            return true;
+        }
+
+        $heaters = [
+            'h_erzeugung',
+            'h2_erzeugung',
+            'h3_erzeugung',
+        ];
+
+        $count = 0;
+        foreach( $heaters AS $heater ) {
+            if ( ! empty( $this->energy_certificate->$heater ) ) {
+                $count++;
+            }
+        }
+
+        if ( $count < 2 ) {
+            return true;
+        }
+
+        if ( $this->energy_certificate->ww_info !== 'h' ) {
+            return true;
+        }
+        
+        return 'Es wurden zwei Heizungsanlagen ausgewählt mit Warmwasser pauschal in der Heizungsanlage enthalten.';
     }
 
     /**
