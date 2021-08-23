@@ -376,6 +376,7 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 		exit;
 	}
 
+	$imageEditor->maybe_exif_rotate();
 	$setQuality = $imageEditor->set_quality( 35 );
 
 	$size = $imageEditor->get_size();
