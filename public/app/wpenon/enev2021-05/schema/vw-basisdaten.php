@@ -69,7 +69,7 @@ $basisdaten = array(
 				'gebauedefoto'              => array(
 					'type'                  => 'image',
 					'label'                 => __( 'Foto des Gebäudes', 'wpenon' ),
-					'required'              => false,
+					'required'              => true,
 					'filetypes' => array(
 						'image/png',
 						'image/jpeg'
