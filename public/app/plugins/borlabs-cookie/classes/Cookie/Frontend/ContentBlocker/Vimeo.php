@@ -107,6 +107,7 @@ class Vimeo
             'settings' => [
                 'executeGlobalCodeBeforeUnblocking' => false,
                 'saveThumbnails' => false,
+                'autoplay' => false,
                 'videoWrapper' => false,
             ],
             'status' => true,
@@ -143,6 +144,41 @@ class Vimeo
             if (!empty($videoId[2])) {
                 $thumbnail = $this->getThumbnail($videoId[2]);
             }
+        }
+
+        // Check if autoplay parameter should be added
+        if (!empty($contentBlockerData['settings']['autoplay'])) {
+            $content = preg_replace_callback(
+                '/(\<p\>)?(<iframe.+?(?=<\/iframe>)<\/iframe>){1}(\<\/p\>)?/i',
+                function ($tags) {
+                    $srcMatch = [];
+                    preg_match('/src=("|\')([^"\']{1,})(\1)/i', $tags[2], $srcMatch);
+                    if (empty($srcMatch[2])) {
+                        return $tags[0];
+                    }
+
+                    $urlInfo = parse_url($srcMatch[2]);
+                    $query = [];
+                    if (isset($urlInfo['query'])) {
+                        parse_str($urlInfo['query'], $query);
+                    }
+                    if (!isset($query['autoplay'])) {
+                        $query['autoplay'] = '1';
+                    }
+
+                    $tags[0] = str_replace(
+                        $srcMatch[2],
+                        $urlInfo['scheme'] . '://' . $urlInfo['host'] . $urlInfo['path'] . '?' . http_build_query($query),
+                        $tags[0]
+                    );
+
+                    return $tags[0];
+                },
+                $content
+            );
+
+            // Overwrite the old blocked content with the modified version
+            ContentBlocker::getInstance()->setCurrentBlockedContent($content);
         }
 
         // Fluid width video wrapper
@@ -259,6 +295,9 @@ class Vimeo
         $inputSaveThumbnails = !empty($data->settings['saveThumbnails']) ? 1 : 0;
         $switchSaveThumbnails = $inputSaveThumbnails ? ' active' : '';
 
+        $inputAutplay = !empty($data->settings['autoplay']) ? 1 : 0;
+        $switchAutoplay = $inputAutplay ? ' active' : '';
+
         $inputVideoWrapper = !empty($data->settings['videoWrapper']) ? 1 : 0;
         $switchVideoWrapper = $inputVideoWrapper ? ' active' : '';
         ?>
@@ -275,6 +314,23 @@ class Vimeo
                        value="<?php echo $inputSaveThumbnails; ?>">
                 <span data-toggle="tooltip"
                       title="<?php _ex('Attempts to get the thumbnail of the Vimeo video to save it locally. Your visitor\'s IP-address will not be transferred to Vimeo during this process.', 'Backend / Content Blocker / Vimeo / Tooltip', 'borlabs-cookie'); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
+            </div>
+        </div>
+
+        <div class="form-group row align-items-center">
+            <label for="autoplay"
+                   class="col-sm-4 col-form-label"><?php _ex('Autoplay', 'Backend / Content Blocker / Vimeo / Label', 'borlabs-cookie'); ?></label>
+            <div class="col-sm-8">
+                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchAutoplay; ?>"
+                        data-toggle="button" data-switch-target="autoplay" aria-pressed="false"
+                        autocomplete="off">
+                    <div class="handle"></div>
+                </button>
+                <input type="hidden" name="settings[autoplay]" id="autoplay"
+                       value="<?php echo $inputAutplay; ?>">
+                <span data-toggle="tooltip"
+                      title="<?php _ex('The video will play automatically after unlocking. <strong>Warning:</strong> Not recommended when embedding multiple videos on one page.', 'Backend / Content Blocker / Vimeo / Tooltip', 'borlabs-cookie'); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>

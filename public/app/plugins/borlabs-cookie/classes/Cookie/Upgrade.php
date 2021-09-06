@@ -67,6 +67,7 @@ class Upgrade
             'upgradeVersion_2_2_28' => '2.2.28',
             'upgradeVersion_2_2_29' => '2.2.29',
             'upgradeVersion_2_2_30' => '2.2.30',
+            'upgradeVersion_2_2_31' => '2.2.31',
         ];
 
     private $currentBlogId = '';
@@ -273,9 +274,9 @@ class Upgrade
         if (defined('POLYLANG_VERSION')) {
             $polylangLanguages = get_terms('language', ['hide_empty' => false]);
 
-            if (! empty($polylangLanguages)) {
+            if (!empty($polylangLanguages)) {
                 foreach ($polylangLanguages as $languageData) {
-                    if (! empty($languageData->slug) && is_string($languageData->slug)) {
+                    if (!empty($languageData->slug) && is_string($languageData->slug)) {
                         $languageCodes[$languageData->slug] = $languageData->slug;
                     }
                 }
@@ -286,16 +287,16 @@ class Upgrade
         if (defined('ICL_LANGUAGE_CODE')) {
             $wpmlLanguages = apply_filters('wpml_active_languages', null, []);
 
-            if (! empty($wpmlLanguages)) {
+            if (!empty($wpmlLanguages)) {
                 foreach ($wpmlLanguages as $languageData) {
-                    if (! empty($languageData['code'])) {
+                    if (!empty($languageData['code'])) {
                         $languageCodes[$languageData['code']] = $languageData['code'];
                     }
                 }
             }
         }
 
-        if (! empty($languageCodes)) {
+        if (!empty($languageCodes)) {
             foreach ($languageCodes as $languageCode) {
                 // Load config
                 \BorlabsCookie\Cookie\Config::getInstance()->loadConfig($languageCode);
@@ -411,7 +412,7 @@ class Upgrade
             "
             );
 
-            if (! $checkNewKey) {
+            if (!$checkNewKey) {
                 // Add key
                 $wpdb->query(
                     "
@@ -531,9 +532,9 @@ class Upgrade
         if (defined('POLYLANG_VERSION')) {
             $polylangLanguages = get_terms('language', ['hide_empty' => false]);
 
-            if (! empty($polylangLanguages)) {
+            if (!empty($polylangLanguages)) {
                 foreach ($polylangLanguages as $languageData) {
-                    if (! empty($languageData->slug) && is_string($languageData->slug)) {
+                    if (!empty($languageData->slug) && is_string($languageData->slug)) {
                         $languageCodes[$languageData->slug] = $languageData->slug;
                     }
                 }
@@ -544,16 +545,16 @@ class Upgrade
         if (defined('ICL_LANGUAGE_CODE')) {
             $wpmlLanguages = apply_filters('wpml_active_languages', null, []);
 
-            if (! empty($wpmlLanguages)) {
+            if (!empty($wpmlLanguages)) {
                 foreach ($wpmlLanguages as $languageData) {
-                    if (! empty($languageData['code'])) {
+                    if (!empty($languageData['code'])) {
                         $languageCodes[$languageData['code']] = $languageData['code'];
                     }
                 }
             }
         }
 
-        if (! empty($languageCodes)) {
+        if (!empty($languageCodes)) {
             foreach ($languageCodes as $languageCode) {
                 Log::getInstance()->info(
                     __METHOD__,
@@ -792,9 +793,9 @@ class Upgrade
         if (defined('POLYLANG_VERSION')) {
             $polylangLanguages = get_terms('language', ['hide_empty' => false]);
 
-            if (! empty($polylangLanguages)) {
+            if (!empty($polylangLanguages)) {
                 foreach ($polylangLanguages as $languageData) {
-                    if (! empty($languageData->slug) && is_string($languageData->slug)) {
+                    if (!empty($languageData->slug) && is_string($languageData->slug)) {
                         $languageCodes[$languageData->slug] = $languageData->slug;
                     }
                 }
@@ -805,16 +806,16 @@ class Upgrade
         if (defined('ICL_LANGUAGE_CODE')) {
             $wpmlLanguages = apply_filters('wpml_active_languages', null, []);
 
-            if (! empty($wpmlLanguages)) {
+            if (!empty($wpmlLanguages)) {
                 foreach ($wpmlLanguages as $languageData) {
-                    if (! empty($languageData['code'])) {
+                    if (!empty($languageData['code'])) {
                         $languageCodes[$languageData['code']] = $languageData['code'];
                     }
                 }
             }
         }
 
-        if (! empty($languageCodes)) {
+        if (!empty($languageCodes)) {
             foreach ($languageCodes as $languageCode) {
                 Log::getInstance()->info(
                     __METHOD__,
@@ -902,8 +903,12 @@ class Upgrade
 
     public function upgradeVersion_2_2_30()
     {
+    }
+
+    public function upgradeVersion_2_2_31()
+    {
         update_option('BorlabsCookieClearCache', true, 'no');
-        update_option('BorlabsCookieVersion', '2.2.30', 'yes');
+        update_option('BorlabsCookieVersion', '2.2.31', 'yes');
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 }

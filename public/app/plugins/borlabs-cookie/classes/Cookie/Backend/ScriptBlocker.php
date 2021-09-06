@@ -397,7 +397,7 @@ class ScriptBlocker
      */
     public function displayWizardStep_1($formData = [])
     {
-        $borlabsCookieStatus = !empty(Config::getInstance()->get('cookieStatus')) ? true : false;
+        $borlabsCookieStatus = !empty(Config::getInstance()->get('cookieStatus')) || !empty(Config::getInstance()->get('setupMode')) ? true : false;
         $inputScanPageId = esc_attr(!empty($formData['scanPageId']) ? intval($formData['scanPageId']) : 0);
         $inputScanCustomURL = esc_attr(!empty($formData['scanCustomURL']) ? stripslashes($formData['scanCustomURL']) : '');
         $inputSearchPhrases = esc_attr(!empty($formData['searchPhrases']) ? stripslashes($formData['searchPhrases']) : '');

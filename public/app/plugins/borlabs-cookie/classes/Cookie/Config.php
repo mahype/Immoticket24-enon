@@ -104,6 +104,7 @@ class Config
 
         $defaultConfig = [
             'cookieStatus' => false,
+            'setupMode' => false,
             'cookieBeforeConsent' => false,
             'aggregateCookieConsent' => false,
             'cookiesForBots' => true,

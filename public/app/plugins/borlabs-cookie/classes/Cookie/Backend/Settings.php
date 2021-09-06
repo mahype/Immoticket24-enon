@@ -94,6 +94,8 @@ class Settings
 
         $inputCookieStatus = !empty(Config::getInstance()->get('cookieStatus')) ? 1 : 0;
         $switchCookieStatus = $inputCookieStatus ? ' active' : '';
+        $inputSetupModeStatus = !empty(Config::getInstance()->get('setupMode')) ? 1 : 0;
+        $switchSetupModeStatus = $inputSetupModeStatus ? ' active' : '';
         $cookieVersion = esc_html(get_site_option('BorlabsCookieCookieVersion', 1));
         $inputCookieBeforeConsent = !empty(Config::getInstance()->get('cookieBeforeConsent')) ? 1 : 0;
         $switchCookieBeforeConsent = $inputCookieBeforeConsent ? ' active' : '';
@@ -183,6 +185,7 @@ class Settings
         $updatedConfig = Config::getInstance()->get();
 
         $updatedConfig['cookieStatus'] = !empty($formData['cookieStatus']) ? true : false;
+        $updatedConfig['setupMode'] = !empty($formData['setupMode']) ? true : false;
 
         if (!empty($formData['updateCookieVersion'])) {
             $currentVersion = get_site_option('BorlabsCookieCookieVersion', 1);

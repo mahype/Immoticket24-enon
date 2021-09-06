@@ -110,6 +110,7 @@ class YouTube
                 'executeGlobalCodeBeforeUnblocking' => false,
                 'changeURLToNoCookie' => true,
                 'saveThumbnails' => false,
+                'autoplay' => false,
                 'thumbnailQuality' => 'maxresdefault',
                 'videoWrapper' => false,
             ],
@@ -139,6 +140,41 @@ class YouTube
             // Replace the host with the www.youtube-nocookie.com host
             // The host is not the oEmbed host like youtu.be - it is always www.youtube.com
             $content = str_replace('www.youtube.com', 'www.youtube-nocookie.com', $content);
+
+            // Overwrite the old blocked content with the modified version
+            ContentBlocker::getInstance()->setCurrentBlockedContent($content);
+        }
+
+        // Check if autoplay parameter should be added
+        if (!empty($contentBlockerData['settings']['autoplay'])) {
+            $content = preg_replace_callback(
+                '/(\<p\>)?(<iframe.+?(?=<\/iframe>)<\/iframe>){1}(\<\/p\>)?/i',
+                function ($tags) {
+                    $srcMatch = [];
+                    preg_match('/src=("|\')([^"\']{1,})(\1)/i', $tags[2], $srcMatch);
+                    if (empty($srcMatch[2])) {
+                        return $tags[0];
+                    }
+
+                    $urlInfo = parse_url($srcMatch[2]);
+                    $query = [];
+                    if (isset($urlInfo['query'])) {
+                        parse_str($urlInfo['query'], $query);
+                    }
+                    if (!isset($query['autoplay'])) {
+                        $query['autoplay'] = '1';
+                    }
+
+                    $tags[0] = str_replace(
+                        $srcMatch[2],
+                        $urlInfo['scheme'] . '://' . $urlInfo['host'] . $urlInfo['path'] . '?' . http_build_query($query),
+                        $tags[0]
+                    );
+
+                    return $tags[0];
+                },
+                $content
+            );
 
             // Overwrite the old blocked content with the modified version
             ContentBlocker::getInstance()->setCurrentBlockedContent($content);
@@ -299,6 +335,9 @@ class YouTube
         $inputChangeURLToNoCookie = !empty($data->settings['changeURLToNoCookie']) ? 1 : 0;
         $switchChangeURLToNoCookie = $inputChangeURLToNoCookie ? ' active' : '';
 
+        $inputAutplay = !empty($data->settings['autoplay']) ? 1 : 0;
+        $switchAutoplay = $inputAutplay ? ' active' : '';
+
         $inputVideoWrapper = !empty($data->settings['videoWrapper']) ? 1 : 0;
         $switchVideoWrapper = $inputVideoWrapper ? ' active' : '';
         ?>
@@ -353,6 +392,23 @@ class YouTube
                        value="<?php echo $inputChangeURLToNoCookie; ?>">
                 <span data-toggle="tooltip"
                       title="<?php _ex('The YouTube URL of the iframe will be changed to www.youtube-nocookie.com.', 'Backend / Content Blocker / YouTube / Tooltip', 'borlabs-cookie'); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
+            </div>
+        </div>
+
+        <div class="form-group row align-items-center">
+            <label for="autoplay"
+                   class="col-sm-4 col-form-label"><?php _ex('Autoplay', 'Backend / Content Blocker / YouTube / Label', 'borlabs-cookie'); ?></label>
+            <div class="col-sm-8">
+                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchAutoplay; ?>"
+                        data-toggle="button" data-switch-target="autoplay" aria-pressed="false"
+                        autocomplete="off">
+                    <div class="handle"></div>
+                </button>
+                <input type="hidden" name="settings[autoplay]" id="autoplay"
+                       value="<?php echo $inputAutplay; ?>">
+                <span data-toggle="tooltip"
+                      title="<?php _ex('The video will play automatically after unlocking. <strong>Warning:</strong> Not recommended when embedding multiple videos on one page.', 'Backend / Content Blocker / YouTube / Tooltip', 'borlabs-cookie'); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>

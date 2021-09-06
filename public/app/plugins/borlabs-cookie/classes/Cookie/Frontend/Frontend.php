@@ -62,7 +62,7 @@ class Frontend
      */
     public function init()
     {
-        if (Config::getInstance()->get('cookieStatus') === true) {
+        if (Config::getInstance()->get('cookieStatus') === true || (current_user_can('manage_borlabs_cookie') && Config::getInstance()->get('setupMode') === true)) {
             /* Load textdomain */
             $this->loadTextdomain();
 
@@ -122,7 +122,7 @@ class Frontend
             // Cron
             add_action('borlabsCookieCron', [Maintenance::getInstance(), 'cleanUp']);
 
-            if (! wp_next_scheduled('borlabsCookieCron')) {
+            if (!wp_next_scheduled('borlabsCookieCron')) {
                 wp_schedule_event(time(), 'daily', 'borlabsCookieCron');
             }
 
@@ -216,6 +216,11 @@ class Frontend
                 ThirdParty\Plugins\Oxygen::getInstance()->register();
             }
 
+            // The Events Calendar
+            if (defined('TRIBE_EVENTS_FILE')) {
+                ThirdParty\Plugins\TheEventsCalendar::getInstance()->register();
+            }
+
             // Backwards Compatibility
             add_shortcode(
                 'borlabs_cookie_blocked_content',
@@ -236,10 +241,10 @@ class Frontend
 
         // Load correct DE language file if any DE language was selected
         if (
-        in_array(
-            Multilanguage::getInstance()->getCurrentLanguageCode(),
-            ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal']
-        )
+            in_array(
+                Multilanguage::getInstance()->getCurrentLanguageCode(),
+                ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal']
+            )
         ) {
             // Load german language pack
             load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo');

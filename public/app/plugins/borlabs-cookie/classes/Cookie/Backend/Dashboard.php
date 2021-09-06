@@ -37,6 +37,11 @@ class Dashboard
      */
     private $imagePath;
 
+    public function __construct()
+    {
+        $this->imagePath = plugins_url('images', realpath(__DIR__ . '/../../'));
+    }
+
     public static function getInstance()
     {
         if (null === self::$instance) {
@@ -54,11 +59,6 @@ class Dashboard
     public function __wakeup()
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
-    public function __construct()
-    {
-        $this->imagePath = plugins_url('images', realpath(__DIR__ . '/../../'));
     }
 
     /**
@@ -106,7 +106,54 @@ class Dashboard
 
         $latestUIDData = $this->getLatestUID();
 
+        $statsActive6h = false;
+        $statsActive7d = false;
+        $statsActiveAll = false;
+        if (!empty($_GET['borlabsCookieStats'])) {
+            if ($_GET['borlabsCookieStats'] === '6h') {
+                $statsActive6h = true;
+            } elseif ($_GET['borlabsCookieStats'] === '7d') {
+                $statsActive7d = true;
+            }
+        } else {
+            $statsActiveAll = true;
+        }
+
         include Backend::getInstance()->templatePath . '/dashboard.html.php';
+    }
+
+    /**
+     * getNews function.
+     *
+     * @access public
+     * @return void
+     */
+    public function getNews()
+    {
+        $newsData = [];
+
+        $lastCheck = intval(get_site_option('BorlabsCookieNewsLastCheck', 0));
+
+        if (empty($lastCheck) || $lastCheck < intval(date('Ymd', mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 3)))) {
+            $responseNews = API::getInstance()->getNews();
+        }
+
+        $borlabsCookieNews = get_site_option('BorlabsCookieNews');
+
+        if (!empty($borlabsCookieNews)) {
+
+            $currentLanguageCode = Multilanguage::getInstance()->getCurrentLanguageCode();
+
+            if (!empty($borlabsCookieNews->{$currentLanguageCode})) {
+                $newsData = $borlabsCookieNews->{$currentLanguageCode};
+            } else {
+                if (!empty($borlabsCookieNews->en)) {
+                    $newsData = $borlabsCookieNews->en;
+                }
+            }
+        }
+
+        return $newsData;
     }
 
     /**
@@ -134,45 +181,93 @@ class Dashboard
 
         // Get Chart data
         $tableCookieConsentLog = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix) . "borlabs_cookie_consent_log";
-
         $cookieVersion = get_site_option('BorlabsCookieCookieVersion', 1);
 
         // Get last 10000 entries
-        $consentsLogs = $wpdb->get_results("
-            SELECT
-                `uid`,
-                `consents`
-            FROM
-                `" . $tableCookieConsentLog . "`
-            WHERE
-                `is_latest` = 1
-                AND
-                `cookie_version` = '" . esc_sql($cookieVersion) . "'
-            ORDER BY
-                `stamp` DESC
-            LIMIT
-                0, 10000
-        ");
+        $stack = false;
+        if (!empty($_GET['borlabsCookieStats']) && ($_GET['borlabsCookieStats'] === '6h' || $_GET['borlabsCookieStats'] === '7d')) {
+            if ($_GET['borlabsCookieStats'] === '6h') {
+                $consentsLogs = $wpdb->get_results("
+                    SELECT
+                        `uid`,
+                        `consents`,
+                        `stamp`
+                    FROM
+                        `" . $tableCookieConsentLog . "`
+                    WHERE
+                        `is_latest` = 1
+                        AND
+                        `cookie_version` = '" . esc_sql($cookieVersion) . "'
+                        AND
+                        `stamp` >= NOW() - INTERVAL 6 HOUR
+                    ORDER BY
+                        `stamp` DESC
+                ");
+                $stack = true;
+            } elseif ($_GET['borlabsCookieStats'] === '7d') {
+                $consentsLogs = $wpdb->get_results("
+                    SELECT
+                        `uid`,
+                        `consents`,
+                        `stamp`
+                    FROM
+                        `" . $tableCookieConsentLog . "`
+                    WHERE
+                        `is_latest` = 1
+                        AND
+                        `cookie_version` = '" . esc_sql($cookieVersion) . "'
+                        AND
+                        `stamp` >= NOW() - INTERVAL 7 DAY
+                    ORDER BY
+                        `stamp` DESC
+                ");
+                $stack = true;
+            }
+        } else {
+            $consentsLogs = $wpdb->get_results("
+                SELECT
+                    `uid`,
+                    `consents`
+                FROM
+                    `" . $tableCookieConsentLog . "`
+                WHERE
+                    `is_latest` = 1
+                    AND
+                    `cookie_version` = '" . esc_sql($cookieVersion) . "'
+                ORDER BY
+                    `stamp` DESC
+                LIMIT
+                    0, 10000
+            ");
+        }
 
         $chartDataValues = [];
 
         foreach ($consentsLogs as $logData) {
-
             $consentData = unserialize($logData->consents);
-
-            foreach ($consentData as $cookieGroup => $cookies) {
-
-                if (empty($chartDataValues[$cookieGroup])) {
-                    $chartDataValues[$cookieGroup] = 0;
+            if ($stack === true) {
+                $stamp = trim(Tools::getInstance()->formatTimestamp($logData->stamp, 'Y-m-d', '00:00'));
+                if ($_GET['borlabsCookieStats'] === '6h') {
+                    $stamp = Tools::getInstance()->formatTimestamp($logData->stamp, 'Y-m-d', 'H:00');
                 }
-
-                $chartDataValues[$cookieGroup]++;
+            }
+            foreach ($consentData as $cookieGroup => $cookies) {
+                if ($stack === true) {
+                    if (empty($chartDataValues[$cookieGroup][$stamp])) {
+                        $chartDataValues[$cookieGroup][$stamp] = 0;
+                    }
+                    $chartDataValues[$cookieGroup][$stamp]++;
+                } else {
+                    if (empty($chartDataValues[$cookieGroup])) {
+                        $chartDataValues[$cookieGroup] = 0;
+                    }
+                    $chartDataValues[$cookieGroup]++;
+                }
             }
         }
 
         // Get all Cookie Groups
         $tableCookieGroup = $wpdb->prefix . 'borlabs_cookie_groups';
-
         $cookieGroups = $wpdb->get_results("
             SELECT
                 `group_id`,
@@ -187,15 +282,41 @@ class Dashboard
                 `position` ASC
         ");
 
-        $index = 0;
+        if ($stack === true) {
+            if (!empty($chartDataValues)) {
+                $index = 0;
+                $chartData['labels'] = array_keys($chartDataValues['essential']);
 
-        foreach ($cookieGroups as $data) {
-            $chartData['labels'][] = $data->name;
-            $chartData['datasets'][0]['backgroundColor'][$index] = $this->getColor($index, 0.8);
-            $chartData['datasets'][0]['borderColor'][$index] = $this->getColor($index, 1);
-            $chartData['datasets'][0]['data'][$index] = isset($chartDataValues[$data->group_id]) ? $chartDataValues[$data->group_id] : 0;
+                foreach ($chartData['labels'] as $key => $stamp) {
+                    if ($_GET['borlabsCookieStats'] === '6h') {
+                        $chartData['labels'][$key] = Tools::getInstance()->formatTimestamp($stamp, '', null);
+                    } else {
+                        $chartData['labels'][$key] = Tools::getInstance()->formatTimestamp($stamp, null, '');
+                    }
+                }
 
-            $index++;
+                $cookieGroupMap = array_column($cookieGroups, 'name', 'group_id');
+                foreach ($chartDataValues as $cookieGroup => $data) {
+                    $chartData['datasets'][$index] = [
+                        'borderColor' => $this->getColor($index, 1),
+                        'data' => array_values($data),
+                        'label' => isset($cookieGroupMap[$cookieGroup]) ? $cookieGroupMap[$cookieGroup] : $cookieGroup,
+                    ];
+
+                    $index++;
+                }
+            }
+
+        } else {
+            $index = 0;
+            foreach ($cookieGroups as $data) {
+                $chartData['labels'][] = $data->name;
+                $chartData['datasets'][0]['backgroundColor'][$index] = $this->getColor($index, 0.8);
+                $chartData['datasets'][0]['borderColor'][$index] = $this->getColor($index, 1);
+                $chartData['datasets'][0]['data'][$index] = isset($chartDataValues[$data->group_id]) ? $chartDataValues[$data->group_id] : 0;
+
+                $index++;
+            }
         }
 
         return $chartData;
@@ -252,39 +373,5 @@ class Dashboard
         ");
 
         return $consentLogs;
-    }
-
-    /**
-     * getNews function.
-     *
-     * @access public
-     * @return void
-     */
-    public function getNews()
-    {
-        $newsData = [];
-
-        $lastCheck = intval(get_site_option('BorlabsCookieNewsLastCheck', 0));
-
-        if (empty($lastCheck) || $lastCheck < intval(date('Ymd', mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 3)))) {
-            $responseNews = API::getInstance()->getNews();
-        }
-
-        $borlabsCookieNews = get_site_option('BorlabsCookieNews');
-
-        if (!empty($borlabsCookieNews)) {
-
-            $currentLanguageCode = Multilanguage::getInstance()->getCurrentLanguageCode();
-
-            if (!empty($borlabsCookieNews->{$currentLanguageCode})) {
-                $newsData = $borlabsCookieNews->{$currentLanguageCode};
-            } else {
-                if (!empty($borlabsCookieNews->en)) {
-                    $newsData = $borlabsCookieNews->en;
-                }
-            }
-        }
-
-        return $newsData;
     }
 }
