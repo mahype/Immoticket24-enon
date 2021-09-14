@@ -34,6 +34,8 @@ class EndenergieEnergietraeger {
                 return 'Holz';
             case 'holzpellets': // ?
                 return 'Holz';
+            case 'holzhackschnitzel': // ?
+                return 'Holz';
             case 'strom':
                 return 'Strom netzbezogen';
             case 'fernwaermehzwfossil':
