@@ -53,7 +53,7 @@
     "wpackagist-plugin/shariff": "4.6.7",
     "wpackagist-plugin/vaultpress": "2.1.4",
     "wpackagist-plugin/wordpress-importer":"0.7",
-    "wpackagist-plugin/wordpress-seo": "17.0",
+    "wpackagist-plugin/wordpress-seo": "17.1",
     "wpackagist-plugin/wp-postratings": "1.89",    
     "felixarntz/plugin-lib": "dev-master",
     "awsmug/edd-payment-stripe-sepa": "dev-master"
