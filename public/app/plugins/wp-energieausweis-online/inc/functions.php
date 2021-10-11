@@ -410,6 +410,11 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 	
 	$fileUrl =  trailingslashit( $upload_dir['url'] ) . basename( $filename );
 
+	if( 'undefined' == $fileUrl || 'undefined' == trailingslashit( $upload_dir['path'] ) ) {
+		echo json_encode( ['error' => 'Probleme bei Dateiupload, bitte laden Sie eine andere Datei hoch.' ] );
+		exit;
+	}
+
 	update_post_meta( $ecId, $postMetaName . '_file', trailingslashit( $upload_dir['path'] ) . $filename  );
 	update_post_meta( $ecId, $postMetaName, $fileUrl );
 
