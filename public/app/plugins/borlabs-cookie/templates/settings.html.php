@@ -409,6 +409,21 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                             </div>
 
                             <div class="form-group row">
+                                <label for="cookieLifetimeEssentialOnly"
+                                       class="col-sm-4 col-form-label"><?php _ex('Cookie Lifetime in Days - Essential Only', 'Backend / Settings / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2"
+                                           id="cookieLifetimeEssentialOnly" name="cookieLifetimeEssentialOnly"
+                                           value="<?php echo $inputCookieLifetimeEssentialOnly; ?>" required>
+                                    <span data-toggle="tooltip"
+                                          title="<?php echo esc_attr_x('Number of days until the visitor will be asked again to choose their cookie preference, if the user has only given consent to essential cookies. Remember to adjust the <strong>Cookie Expiry</strong> information of the Borlabs Cookie under <strong>Cookies &gt; Borlabs Cookie</strong>.', 'Backend / Settings / Tooltip', 'borlabs-cookie'); ?>"><i
+                                            class="fas fa-lg fa-question-circle text-dark"></i></span>
+                                    <div
+                                        class="invalid-feedback"><?php _ex('This is a required field and cannot be empty.', 'Backend / Global / Validation Message', 'borlabs-cookie'); ?></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="crossDomainCookie"
                                        class="col-sm-4 col-form-label"><?php _ex('Cross Domain Cookie', 'Backend / Settings / Label', 'borlabs-cookie'); ?></label>
                                 <div class="col-sm-8">

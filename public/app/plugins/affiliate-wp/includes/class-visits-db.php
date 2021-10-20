@@ -262,10 +262,12 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 
 			} else {
 
+				$campaign = esc_sql( $args['campaign'] );
+
 				if ( empty( $args['campaign'] ) ) {
 					$where .= "`campaign` {$campaign_compare} '' ";
 				} else {
-					$where .= "`campaign` {$campaign_compare} '{$args['campaign']}' ";
+					$where .= "`campaign` {$campaign_compare} '{$campaign}' ";
 				}
 			}
 
@@ -308,10 +310,12 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 
 			} else {
 
+				$context = esc_sql( $args['context'] );
+
 				if ( empty( $args['context'] ) ) {
 					$where .= "`context` {$context_compare} '' ";
 				} else {
-					$where .= "`context` {$context_compare} '{$args['context']}' ";
+					$where .= "`context` {$context_compare} '{$context}' ";
 				}
 			}
 

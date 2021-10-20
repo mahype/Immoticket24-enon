@@ -28,6 +28,7 @@ class Elementor
     private static $instance;
 
     public $blockedYouTubeURL = '';
+    public $settings = [];
 
     public static function getInstance()
     {
@@ -63,7 +64,7 @@ class Elementor
      *
      * @access public
      *
-     * @param  mixed  $elementBaseObj
+     * @param mixed $elementBaseObj
      *
      * @return void
      */
@@ -83,7 +84,7 @@ class Elementor
             $frontendSettings = $elementBaseObj->get_frontend_settings();
 
             if (
-                ! empty($frontendSettings) && ! empty($frontendSettings['video_type'])
+                !empty($frontendSettings) && !empty($frontendSettings['video_type'])
                 && $frontendSettings['video_type'] === 'youtube'
             ) {
                 if (isset($frontendSettings['lightbox']) && $frontendSettings['lightbox'] === 'yes') {
@@ -93,6 +94,7 @@ class Elementor
                 ob_start();
                 $elementBaseObj->remove_render_attribute('_wrapper', 'data-settings', null);
                 $this->blockedYouTubeURL = $frontendSettings['youtube_url'];
+                $this->settings = $frontendSettings;
 
                 add_action(
                     'elementor/frontend/widget/after_render',
@@ -107,16 +109,54 @@ class Elementor
 
     public function modifyYouTubeVideoWidget()
     {
-        if (! empty($this->blockedYouTubeURL)) {
+        if (!empty($this->blockedYouTubeURL)) {
             $widgetHTML = ob_get_contents();
             ob_end_clean();
 
+            $atts = [];
+            $atts['rel'] = 0;
+            $atts['enablejsapi'] = 1;
+            $atts['origin'] = get_site_url();
+
+            if (isset($this->settings['controls'])) {
+                $atts['controls'] = $this->settings['controls'] === 'yes' ? 1 : 0;
+            }
+            if (isset($this->settings['play_on_mobile'])) {
+                $atts['playsinline'] = $this->settings['play_on_mobile'] === 'yes' ? 1 : 0;
+            }
+            if (isset($this->settings['modestbranding'])) {
+                $atts['modestbranding'] = $this->settings['modestbranding'] === 'yes' ? 1 : 0;
+            }
+            if (isset($this->settings['autoplay'])) {
+                $atts['autoplay'] = $this->settings['autoplay'] === 'yes' ? 1 : 0;
+            }
+            if (isset($this->settings['mute'])) {
+                $atts['mute'] = $this->settings['mute'] === 'yes' ? 1 : 0;
+            }
+            if (isset($this->settings['loop'])) {
+                $atts['loop'] = $this->settings['loop'] === 'yes' ? 1 : 0;
+            }
+            if (isset($this->settings['start'])) {
+                $atts['start'] = intval($this->settings['start']);
+            }
+            if (isset($this->settings['end'])) {
+                $atts['end'] = intval($this->settings['end']);
+            }
+            if (!empty($this->settings['image_overlay']['url'])) {
+                $atts['thumbnail'] = $this->settings['image_overlay']['url'];
+                $widgetHTML = str_replace('elementor-custom-embed-image-overlay', 'borlabs-hide', $widgetHTML);
+            }
+            if (isset($this->settings['yt_privacy'])) {
+                $atts['changeURLToNoCookie'] = $this->settings['yt_privacy'] === 'yes' ? 1 : 0;
+            }
+
             $videoIframe = wp_oembed_get($this->blockedYouTubeURL);
-            $blockedIframe = \BorlabsCookie\Cookie\Frontend\ContentBlocker::getInstance()->handleOembed(
+            $blockedIframe = \BorlabsCookie\Cookie\Frontend\ContentBlocker::getInstance()->handleContentBlocking(
                 $videoIframe,
                 $this->blockedYouTubeURL,
-                [],
-                []
+                '',
+                '',
+                $atts
             );
 
             echo str_replace(
@@ -126,6 +166,7 @@ class Elementor
             );
 
             $this->blockedYouTubeURL = '';
+            $this->settings = [];
 
             remove_action(
                 'elementor/frontend/widget/after_render',
@@ -139,7 +180,7 @@ class Elementor
      *
      * @access public
      *
-     * @param  mixed  $content
+     * @param mixed $content
      *
      * @return void
      */
@@ -175,8 +216,8 @@ class Elementor
      *
      * @access public
      *
-     * @param  mixed  $content
-     * @param  mixed  $widget
+     * @param mixed $content
+     * @param mixed $widget
      *
      * @return void
      */

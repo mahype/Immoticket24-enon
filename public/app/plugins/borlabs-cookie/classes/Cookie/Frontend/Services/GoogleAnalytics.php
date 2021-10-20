@@ -72,7 +72,7 @@ class GoogleAnalytics
             'privacyPolicyURL' => _x('https://policies.google.com/privacy?hl=en', 'Frontend / Cookie / Google Analytics / Text', 'borlabs-cookie'),
             'hosts' => [],
             'cookieName' => '_ga,_gat,_gid',
-            'cookieExpiry' => _x('2 Years', 'Frontend / Cookie / Google Analytics / Text', 'borlabs-cookie'),
+            'cookieExpiry' => _x('2 Months', 'Frontend / Cookie / Google Analytics / Text', 'borlabs-cookie'),
             'optInJS' => $this->optInJS(),
             'optOutJS' => '',
             'fallbackJS' => '',

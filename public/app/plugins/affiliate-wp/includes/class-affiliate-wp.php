@@ -57,7 +57,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.7.4';
+	private $version = '2.7.6';
 
 	/**
 	 * Main plugin file.
@@ -382,7 +382,7 @@ final class Affiliate_WP {
 
 		// Make sure PAYOUTS_SERVICE_URL is defined.
 		if ( ! defined( 'PAYOUTS_SERVICE_URL' ) ) {
-			define( 'PAYOUTS_SERVICE_URL', 'https://payouts.sandhillsdev.com' );
+			define( 'PAYOUTS_SERVICE_URL', 'https://payouts.sandhillsplugins.com/' );
 		}
 
 		// Make sure PAYOUTS_SERVICE_DOCS_URL is defined.

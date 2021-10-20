@@ -135,7 +135,7 @@ class YouTube
         $contentBlockerData = ContentBlocker::getInstance()->getContentBlockerData('youtube');
 
         // Check if the URL should be changed to youtube-nocookie.com
-        if (!empty($contentBlockerData['settings']['changeURLToNoCookie'])) {
+        if (!empty($contentBlockerData['settings']['changeURLToNoCookie']) || !empty($atts['changeURLToNoCookie'])) {
 
             // Replace the host with the www.youtube-nocookie.com host
             // The host is not the oEmbed host like youtu.be - it is always www.youtube.com
@@ -145,11 +145,56 @@ class YouTube
             ContentBlocker::getInstance()->setCurrentBlockedContent($content);
         }
 
-        // Check if autoplay parameter should be added
+        $youTubeURLQuery = [];
+        // Third Party support
+        if (isset($atts['rel'])) {
+            $youTubeURLQuery['rel'] = intval($atts['rel']);
+        }
+        if (isset($atts['enablejsapi'])) {
+            $youTubeURLQuery['enablejsapi'] = intval($atts['enablejsapi']);
+        }
+        if (isset($atts['origin'])) {
+            $youTubeURLQuery['origin'] = urlencode($atts['origin']);
+        }
+        if (isset($atts['controls'])) {
+            $youTubeURLQuery['controls'] = intval($atts['controls']);
+        }
+        if (isset($atts['playsinline'])) {
+            $youTubeURLQuery['playsinline'] = intval($atts['playsinline']);
+        }
+        if (isset($atts['modestbranding'])) {
+            $youTubeURLQuery['modestbranding'] = intval($atts['modestbranding']);
+        }
         if (!empty($contentBlockerData['settings']['autoplay'])) {
+            $youTubeURLQuery['autoplay'] = $contentBlockerData['settings']['autoplay'];
+        }
+        if (isset($atts['autoplay'])) {
+            $youTubeURLQuery['autoplay'] = intval($atts['autoplay']);
+        }
+        if (isset($atts['loop'])) {
+            $youTubeURLQuery['loop'] = intval($atts['loop']);
+            $urlInfo = parse_url(ContentBlocker::getInstance()->getCurrentURL());
+            if (!empty($urlInfo['query'])) {
+                $query = [];
+                parse_str($urlInfo['query'], $query);
+                if (!empty($query['v'])) {
+                    $youTubeURLQuery['playlist'] = $query['v'];
+                    $query = [];
+                }
+            }
+        }
+        if (isset($atts['start'])) {
+            $youTubeURLQuery['start'] = intval($atts['start']);
+        }
+        if (isset($atts['end'])) {
+            $youTubeURLQuery['end'] = intval($atts['end']);
+        }
+
+        // Check if autoplay parameter should be added
+        if (count($youTubeURLQuery)) {
             $content = preg_replace_callback(
                 '/(\<p\>)?(<iframe.+?(?=<\/iframe>)<\/iframe>){1}(\<\/p\>)?/i',
-                function ($tags) {
+                function ($tags) use ($youTubeURLQuery) {
                     $srcMatch = [];
                     preg_match('/src=("|\')([^"\']{1,})(\1)/i', $tags[2], $srcMatch);
                     if (empty($srcMatch[2])) {
@@ -161,9 +206,7 @@ class YouTube
                     if (isset($urlInfo['query'])) {
                         parse_str($urlInfo['query'], $query);
                     }
-                    if (!isset($query['autoplay'])) {
-                        $query['autoplay'] = '1';
-                    }
+                    $query = array_merge($query, $youTubeURLQuery);
 
                     $tags[0] = str_replace(
                         $srcMatch[2],
@@ -216,7 +259,6 @@ class YouTube
 
         // Replace text variables
         if (!empty($atts)) {
-
             foreach ($atts as $key => $value) {
                 $contentBlockerData['previewHTML'] = str_replace('%%' . $key . '%%', $value, $contentBlockerData['previewHTML']);
             }

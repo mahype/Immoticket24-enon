@@ -55,6 +55,10 @@ class HTML {
 		'/ewww-image-optimizer/includes/check-webp(\.min)?.js', // EWWW WebP check external script.
 		'ewww_webp_supported', // EWWW WebP inline scripts.
 		'/dist/js/browser-redirect/app.js', // WPML browser redirect script.
+		'/perfmatters/js/lazyload.min.js',
+		'lazyLoadInstance',
+		'scripts.mediavine.com/tags/', // allows mediavine-video schema to be accessible by search engines.
+		'initCubePortfolio', // Cube Portfolio show images.
 	];
 
 	/**
@@ -199,5 +203,56 @@ class HTML {
 		}
 
 		return preg_replace( '/<script/i', '<script type="rocketlazyloadscript"', $delay_js, 1 );
+	}
+
+	/**
+	 * Move meta charset to head if not found to the top of page content.
+	 *
+	 * @since 3.9.4
+	 *
+	 * @param string $html Html content.
+	 *
+	 * @return string
+	 */
+	public function move_meta_charset_to_head( $html ): string {
+		$meta_pattern = "#<meta[^h]*(http-equiv[^=]*=[^\'\"]*[\'\" ]Content-Type[\'\"][ ]*[^>]*|)(charset[^=]*=[ ]*[\'\" ]*[^\'\"> ][^\'\">]+[^\'\"> ][\'\" ]*|charset[^=]*=*[^\'\"> ][^\'\">]+[^\'\"> ])([^>]*|)>(?=.*</head>)#Usmi";
+
+		if ( ! preg_match( $meta_pattern, $html, $matches ) ) {
+			return $html;
+		}
+
+		$replaced_html = preg_replace( "$meta_pattern", '', $html );
+
+		if ( empty( $replaced_html ) ) {
+			return $html;
+		}
+
+		if ( preg_match( '/<head\b/i', $replaced_html ) ) {
+			$replaced_html = preg_replace( '/(<head\b[^>]*?>)/i', "\${1}${matches[0]}", $replaced_html, 1 );
+
+			if ( empty( $replaced_html ) ) {
+				return $html;
+			}
+
+			return $replaced_html;
+		}
+
+		if ( preg_match( '/<html\b/i', $replaced_html ) ) {
+			$replaced_html = preg_replace( '/(<html\b[^>]*?>)/i', "\${1}${matches[0]}", $replaced_html, 1 );
+
+			if ( empty( $replaced_html ) ) {
+				return $html;
+			}
+
+			return $replaced_html;
+		}
+
+		$replaced_html = preg_replace( '/(<\w+)/', "${matches[0]}\${1}", $replaced_html, 1 );
+
+		if ( empty( $replaced_html ) ) {
+			return $html;
+		}
+
+		return $replaced_html;
 	}
 }

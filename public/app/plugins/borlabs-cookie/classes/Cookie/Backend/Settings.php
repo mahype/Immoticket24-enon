@@ -115,6 +115,7 @@ class Settings
         $inputCookieDomain = esc_attr(!empty(Config::getInstance()->get('cookieDomain')) ? Config::getInstance()->get('cookieDomain') : $networkDomain);
         $inputCookiePath = esc_attr(!empty(Config::getInstance()->get('cookiePath')) ? Config::getInstance()->get('cookiePath') : '');
         $inputCookieLifetime = esc_attr(!empty(Config::getInstance()->get('cookieLifetime')) ? Config::getInstance()->get('cookieLifetime') : 365);
+        $inputCookieLifetimeEssentialOnly = esc_attr(!empty(Config::getInstance()->get('cookieLifetimeEssentialOnly')) ? Config::getInstance()->get('cookieLifetimeEssentialOnly') : 365);
         $textareaCrossDomainCookie = esc_textarea(!empty(Config::getInstance()->get('crossDomainCookie')) ? implode("\n", Config::getInstance()->get('crossDomainCookie')) : '');
 
         // Check if Do Not Track is enabled
@@ -216,6 +217,7 @@ class Settings
         $updatedConfig['cookieDomain'] = !empty($formData['cookieDomain']) ? stripslashes($formData['cookieDomain']) : $networkDomain;
         $updatedConfig['cookiePath'] = !empty($formData['cookiePath']) ? stripslashes($formData['cookiePath']) : '/';
         $updatedConfig['cookieLifetime'] = !empty($formData['cookieLifetime']) ? intval($formData['cookieLifetime']) : 365;
+        $updatedConfig['cookieLifetimeEssentialOnly'] = !empty($formData['cookieLifetimeEssentialOnly']) ? intval($formData['cookieLifetimeEssentialOnly']) : 365;
 
         // Clean hosts
         $updatedConfig['crossDomainCookie'] = Tools::getInstance()->cleanHostList($formData['crossDomainCookie'], true);

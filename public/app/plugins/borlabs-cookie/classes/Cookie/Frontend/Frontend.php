@@ -109,6 +109,7 @@ class Frontend
             add_filter('embed_oembed_html', [ContentBlocker::getInstance(), 'handleOembed'], 100, 4);
             add_filter('widget_custom_html_content', [ContentBlocker::getInstance(), 'detectIframes'], 100, 1);
             add_filter('widget_text_content', [ContentBlocker::getInstance(), 'detectIframes'], 100, 1);
+            add_filter('widget_block_content', [ContentBlocker::getInstance(), 'detectIframes'], 100, 1);
 
             // Register Cookie Box for login page
             if (Config::getInstance()->get('showCookieBoxOnLoginPage') === true) {

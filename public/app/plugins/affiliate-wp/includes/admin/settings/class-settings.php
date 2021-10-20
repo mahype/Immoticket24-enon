@@ -1589,7 +1589,7 @@ class Affiliate_WP_Settings {
 		/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
 		$payouts_service_about = '<p>' . sprintf( __( '%s allows you, as the site owner, to pay your affiliates directly from a credit or debit card and the funds for each recipient will be automatically deposited into their bank accounts. To use this service, connect your site to the service below. You will log into the service using your username and password from AffiliateWP.com.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME ) . '</p>';
 		/* translators: 1: Payouts Service URL */
-		$payouts_service_about .= '<p>' . sprintf( __( '<a href="%s" target="_blank">Learn more and view pricing.</a>', 'affiliate-wp' ), 'https://payouts.sandhillsdev.com' ) . '</p>';
+		$payouts_service_about .= '<p>' . sprintf( __( '<a href="%s" target="_blank">Learn more and view pricing.</a>', 'affiliate-wp' ), PAYOUTS_SERVICE_URL ) . '</p>';
 
 
 		return $payouts_service_about;
