@@ -1,7 +1,7 @@
 <?php
 /**
  * @package WPENON
- * @version 1.0.2
+ * @version 1.0.0
  * @author Felix Arntz <felix-arntz@leaves-webdesign.com>
  */
 ?>
@@ -11,12 +11,9 @@
 <p>
   <?php
   if ( $data['finalized'] && ! $data['ordered'] ) :
+    echo '<span class="wpenon-finalized-message">';
     _e( 'Die Angaben für Ihren Energieausweis sind nun vollständig, sodass Sie diesen nun auf dieser Seite bestellen können.', 'wpenon' ) . ' ';
-    if ( $data['allow_changes_after_order'] ) {
-      _e( 'Beachten Sie bitte, dass Sie aus Sicherheitsgründen nach Aufgabe der Bestellung Ihre Eingaben bis zur Zahlung nicht mehr bearbeiten können. Nach Zahlungseingang können Sie dann bei Bedarf wieder Korrekturen vornehmen.', 'wpenon' );
-    } else {
-      _e( 'Beachten Sie bitte, dass Sie nach Aufgabe der Bestellung Ihre Eingaben nicht mehr bearbeiten können.', 'wpenon' );
-    }
+    echo '</span>';
   elseif ( $data['ordered'] ) :
     _e( 'Auf dieser Seite sehen Sie die Rechnungsübersicht für diesen Energieausweis.', 'wpenon' );
   else :
@@ -50,12 +47,12 @@
     <h4>
       <?php _e( 'PDF-Rechnung', 'wpenon' ); ?>
     </h4>
-    <div class="embed-responsive" style="padding-bottom:140.48%;">
+    <div class="embed-responsive" style="margin-bottom:20px;padding-bottom:140.48%;">
       <iframe src="<?php echo $data['receipt_url']; ?>"></iframe>
     </div>
   <?php endif; ?>
 
-  <?php if ( $data['receipt_function'] ) : ?>
+  <?php if ( /*$data['receipt_function']*/ false ) : ?>
     <h4>
       <?php _e( 'Zahlungsdetails', 'wpenon' ); ?>
     </h4>
@@ -67,9 +64,18 @@
 
 <?php else: ?>
 
-  <?php if ( $data['purchase_function'] ) : ?>
-    <?php echo call_user_func( $data['purchase_function'], array() ); ?>
-  <?php endif; ?>
+  <?php if ( $data['purchase_function'] ) :
+    $ausweistyp = __( 'Verbrauchsausweis', 'immoticketenergieausweis' );
+    if ( substr( $data['template_suffix'], 0, 1 ) == 'b' ) {
+      $ausweistyp = __( 'Bedarfsausweis', 'immoticketenergieausweis' );
+    }
+    echo call_user_func( $data['purchase_function'], array(
+      'class'         => 'btn btn-lg',
+      'price'         => true,
+      'direct'        => true,
+      'text'          => sprintf( __( '%s in den Warenkorb legen', 'immoticketenergieausweis' ), $ausweistyp ),
+    ) );
+  endif; ?>
 
 <?php endif; ?>
 

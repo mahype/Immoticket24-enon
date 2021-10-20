@@ -32,6 +32,7 @@ define( 'WPENON_URL', untrailingslashit( plugin_dir_url( WPENON_MAINFILE ) ) );
 define( 'WPENON_DATA_PATH', WP_CONTENT_DIR . '/wpenon' );
 define( 'WPENON_DATA_URL', WP_CONTENT_URL . '/wpenon' );
 
+require_once WPENON_PATH . '/theme-legacy.php';
 require_once WPENON_PATH . '/inc/functions.php';
 
 define( 'WPENON_VERSION_CHECK', wpenon_version_check() );

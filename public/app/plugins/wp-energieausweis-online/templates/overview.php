@@ -1,13 +1,36 @@
 <?php
 /**
  * @package WPENON
- * @version 1.0.2
+ * @version 1.0.0
  * @author Felix Arntz <felix-arntz@leaves-webdesign.com>
  */
+
+use Enon\Enon\Standards_Config;
+
+$prefix = '';
+if ( function_exists( 'edd_get_download_price' ) ) {
+  $price = edd_get_download_price( get_the_ID() );
+  if ( $price ) {
+    $prefix = edd_currency_filter( edd_format_amount( $price ) ) . '&nbsp;&ndash;&nbsp;';
+  }
+}
+
+$standard = new Standards_Config();
+$oldStandard = $standard->isStandardOlderThenDate( $data['meta']['standard_unformatted'], '2021-07-08' );
+
+if( $oldStandard )
+{
+  $image = isset( $data['thumbnail']['id'] ) &&  $data['thumbnail']['id'] > 0 ? wpenon_get_image_url( $data['thumbnail']['id'], 'enon-energieausweiss-image' ) : ''; 
+} else {
+  $image = isset( $data['meta']['gebauedefoto'] ) ? $data['meta']['gebauedefoto']: ''; 
+}
+
+$showImage = $oldStandard || ! empty ( $image ) ? true : false;
+
 ?>
 
 <div class="row">
-  <div class="col-sm-8">
+  <div class="<?php if ( $showImage ): ?>col-sm-8<?php else: ?>col-sm-12<?php endif; ?>">
     <div class="overview-meta well">
       <h4>
         <?php _e( 'Energieausweis-Basisdaten', 'wpenon' ); ?>
@@ -50,23 +73,28 @@
       ?>
     </div>
   </div>
+
+  <?php if ( $showImage ): ?>
   <div class="col-sm-4">
-    <div class="overview-thumbnail">
+    <div class="overview-thumbnail">      
       <h4>
         <?php _e( 'Bild des Gebäudes', 'wpenon' ); ?>
       </h4>
       <p>
         <small>
-          <?php _e( 'Wenn Sie hier ein Bild hochladen, wird dieses im Energieausweis angezeigt.', 'wpenon' ); ?>
+          <?php _e( 'Wenn Sie ein Bild hochladen, wird dieses im Energieausweis angezeigt.', 'wpenon' ); ?>
         </small>
       </p>
+     
       <div class="thumbnail-wrapper">
-        <?php if ( $data['thumbnail']['id'] > 0 ) : ?>
-          <img src="<?php echo wpenon_get_image_url( $data['thumbnail']['id'], 'enon-object-image-preview' ); ?>">
+        <?php if ( ! empty ( $image ) ) : ?>
+	        <img src="<?php echo $image; ?>">
         <?php else : ?>
           <span class="glyphicon glyphicon-picture"></span>
         <?php endif; ?>
       </div>
+
+      <?php if ( $oldStandard ): ?>
       <?php if ( $data['thumbnail']['error'] ) : ?>
         <div class="alert alert-danger">
           <p>
@@ -74,6 +102,7 @@
           </p>
         </div>
       <?php endif; ?>
+      
       <form id="wpenon-thumbnail-form" role="form" action="<?php echo $data['action_url']; ?>" method="post" enctype="multipart/form-data" novalidate>
         <p>
           <input type="file" name="<?php echo $data['thumbnail']['file_field_name']; ?>">
@@ -86,8 +115,10 @@
           <?php endif; ?>
         </p>
       </form>
+      <?php endif; ?>
     </div>
   </div>
+  <?php endif; ?>
 </div>
 
 <?php wpenon_get_view()->displaySubTemplate( 'access-box', '', $data['access_link'] ); ?>
@@ -156,9 +187,13 @@
     <strong><?php _e( 'Status:', 'wpenon' ); ?></strong>
     <?php
     if ( $data['finalized'] ) :
+      echo '<span class="wpenon-finalized-message">';
       _e( 'Angaben vollständig', 'wpenon' );
+      echo '</span>';
     else :
+      echo '<span class="wpenon-not-finalized-message">';
       _e( 'Angaben noch unvollständig', 'wpenon' );
+      echo '</span>';
     endif;
     ?>
   </p>
@@ -178,11 +213,19 @@
     <?php wpenon_get_view()->displaySubTemplate( 'energy-bar', '', $data['energy_bar'] ); ?>
   </div>
 
-  <?php if ( $data['efficiency_class'] ) : ?>
+  <?php if ( $data['efficiency_class'] ) :
+    $image = IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/media/klasse_' . strtolower( str_replace( '+', '_plus', $data['efficiency_class'] ) ) . '.jpg';
+    ?>
     <p class="lead text-center">
-      <?php printf( __( 'Energieeffizienzklasse: %s', 'wpenon' ), '<strong>' . $data['efficiency_class'] . '</strong>' ); ?>
+      <?php printf( __( 'Energieeffizienzklasse: %s', 'wpenon' ), '<img src="' . $image . '" alt="' . sprintf( __( 'Energieeffizienzklasse: %s', 'wpenon' ), $data['efficiency_class'] ) . '">' ); ?>
     </p>
   <?php endif; ?>
+
+	<?php if( $data['calculations']['co2_emissionen'] ) : ?>
+	<p>
+		<?php printf( __( 'CO2 Emissionen: %s kg/m²⋅a', 'wpenon' ), \WPENON\Util\Format::pdfEncode( $data['calculations']['co2_emissionen'] ) ) ?>
+	</p>
+	<?php endif; ?>
 </div>
 
 <?php if ( count( $data['calculations'] ) > 0 && is_user_logged_in() && current_user_can( WPENON_CERTIFICATE_CAP ) ) : ?>

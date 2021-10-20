@@ -1,7 +1,7 @@
 <?php
 /**
  * @package WPENON
- * @version 1.0.2
+ * @version 1.0.0
  * @author Felix Arntz <felix-arntz@leaves-webdesign.com>
  */
 
@@ -21,5 +21,8 @@ if ( count( $data ) > 0 ) : ?>
         </li>
       <?php endforeach; ?>
     </ul>
+    <p>
+      <?php _e( 'Klicken Sie auf den jeweiligen Punkt um den Fehler zu korrigieren.', 'wpenon' ); ?>
+    </p>
   </div>
 <?php endif;
