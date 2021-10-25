@@ -566,24 +566,6 @@ class GF_Field_Consent extends GF_Field {
 		return $value;
 	}
 
-	/**
-	 * Get field label class.
-	 *
-	 * @since unknown
-	 * @since 2.5     Added `screen-reader-text` if the label hasn't been set; added `gfield_label_before_complex` if the field has inputs.
-	 * @since 2.5.13  Added `gform_consent_field` class to differentiate the required indicator placement when label is hidden.
-	 *
-	 * @return string
-	 */
-	public function get_field_label_class() {
-
-		$class = parent::get_field_label_class();
-
-		$class .= ' gform_consent_field';
-
-		return $class;
-	}
-
 }
 
 GF_Fields::register( new GF_Field_Consent() );

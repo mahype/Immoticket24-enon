@@ -1,3 +1,8 @@
+### 2.5.14 | 2021-10-21
+- Fixed an issue which causes No Conflict mode to break Media Uploads for some WYSIWYG editors.
+- Reverted required indicator for hidden labels change made in 2.5.13 which introduced UI issues.
+
+
 ### 2.5.13 | 2021-10-19
 - Added security enhancements.
 - Added support for Visibility settings for the HTML Field.

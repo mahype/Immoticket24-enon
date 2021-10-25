@@ -3,7 +3,7 @@
 Plugin Name: Gravity Forms
 Plugin URI: https://gravityforms.com
 Description: Easily create web forms and manage form entries within the WordPress admin.
-Version: 2.5.13
+Version: 2.5.14
 Requires at least: 4.0
 Requires PHP: 5.6
 Author: Gravity Forms
@@ -225,7 +225,7 @@ class GFForms {
 	 *
 	 * @var string $version The version number.
 	 */
-	public static $version = '2.5.13';
+	public static $version = '2.5.14';
 
 	/**
 	 * Handles background upgrade tasks.
@@ -1052,7 +1052,15 @@ class GFForms {
 
 		global $wp_scripts;
 
-		$wp_required_scripts = array( 'admin-bar', 'common', 'jquery-color', 'utils', 'svg-painter' );
+		$wp_required_scripts = array(
+			'admin-bar',
+			'common',
+			'jquery-color',
+			'utils',
+			'svg-painter',
+			'mce-view' // added in 2.5.13 to support Media Uploads in no-conflict mode
+		);
+
 		$gf_required_scripts = array(
 			'common'                     => array( 'gform_tooltip_init', 'sack' ),
 			'gf_edit_forms'              => array(
