@@ -17,6 +17,7 @@ use Enon\WP\Tasks\Config_Auth;
 use Enon\WP\Tasks\Add_Admin_Pages;
 use Enon\WP\Tasks\Add_Translations;
 use Enon\WP\Tasks\Setup_Gutenberg;
+use Enon\WP\Tasks\Setup_Post_Types;
 use Enon\WP\Tasks\Setup_Uploads;
 use Enon\WP\Tasks\Setup_WP_Nav;
 use Enon\WP\Tasks\Stop_Heartbeat;
@@ -56,6 +57,7 @@ class Loader extends Task_Loader {
 
 		$this->add_task( Add_Admin_Pages::class, $this->logger() );
 		$this->add_task( Setup_Gutenberg::class );
+		$this->add_task( Setup_Post_Types::class );		
 		$this->add_task( Setup_Uploads::class );
 	}
 
