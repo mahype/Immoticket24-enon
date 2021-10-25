@@ -56,6 +56,7 @@
     "wpackagist-plugin/login-lockdown": "v1.8.1",
     "wpackagist-plugin/really-simple-captcha": "2.1",
     "wpackagist-plugin/shariff": "4.6.7",
+    "wpackagist-plugin/simple-page-ordering": "2.3.4",
     "wpackagist-plugin/vaultpress": "2.2.0",
     "wpackagist-plugin/ootb-openstreetmap": "1.3.2",
     "wpackagist-plugin/wordpress-seo": "17.4",
