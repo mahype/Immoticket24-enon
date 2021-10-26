@@ -39,7 +39,7 @@ class Setup_Post_Types implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-        add_action( 'init', 'post_type_supprt');		
+        add_action( 'init', [ $this, 'post_type_supprt' ] );		
 	}
 
     /**
