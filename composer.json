@@ -51,6 +51,7 @@
     "wpackagist-plugin/acf-code-field": "1.8",
     "wpackagist-plugin/backwpup": "3.10.0",
     "wpackagist-plugin/easy-digital-downloads": "2.11.2.1",
+    "wpackagist-plugin/enable-jquery-migrate-helper": "1.3.0",
     "wpackagist-plugin/imagify": "1.10",
     "wpackagist-plugin/ninjafirewall": "4.4.2",
     "wpackagist-plugin/login-lockdown": "v1.8.1",
