@@ -31,9 +31,9 @@ class FrontendBase extends TemplateBase {
 	public function displayTemplate() {
 		$file = $this->locateTemplate( $this->template_slug, $this->template_suffix );
 		if ( $file ) {
-			echo '<div class="wpenon-wrapper">';
+			echo '<div class="wp-block-group"><div class="wp-block-group__inner-container"><div class="wpenon-wrapper">';
 			$this->loadTemplate( $file, $this->data );
-			echo '</div>';
+			echo '</div></div></div>';
 		}
 	}
 
