@@ -1,12 +1,6 @@
 <?php
 
-function wpenon_register_rest_api_endpoint_image_delete() {
-	register_rest_route( 'ec', '/image_delete/', array(
-		'methods' => 'POST',
-		'callback' => 'wpenon_image_delete',
-		'permission_callback' => '__return_true'
-	) );
-}
+if( ! defined( 'ABSPATH' ) ) exit;
 
 add_action( 'rest_api_init', 'wpenon_register_rest_api_endpoint_image_delete' );
 
