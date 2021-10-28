@@ -11,6 +11,7 @@ class AffWP_AddOn_Updater {
 	private $slug       = '';
 	private $version    = '';
 	private $cache_key  = '';
+	private $failed_request_cache_key;
 
 	/**
 	 * Class constructor.
@@ -30,6 +31,8 @@ class AffWP_AddOn_Updater {
 		$this->slug       = basename( $_plugin_file, '.php');
 		$this->version    = $_version;
 		$this->cache_key  = 'edd_sl_' . md5( serialize( $this->slug . $this->addon_id ) );
+
+		$this->failed_request_cache_key = 'edd_sl_failed_http_' . md5( $this->api_url );
 
 		// Set up hooks.
 		$this->hook();
@@ -338,7 +341,7 @@ class AffWP_AddOn_Updater {
 	 *
 	 * @param string $_action The requested action.
 	 * @param array $_data Parameters for the API action.
-	 * @return false||object
+	 * @return false|object|void
 	 */
 	private function api_request( $_action, $_data ) {
 
@@ -360,6 +363,10 @@ class AffWP_AddOn_Updater {
 			return;
 		}
 
+		if ( $this->request_recently_failed() ) {
+			return false;
+		}
+
 		$api_params = array(
 			'affwp_action'  => 'get_version',
 			'license'       => $data['license'],
@@ -373,7 +380,7 @@ class AffWP_AddOn_Updater {
 
 		$request = wp_remote_post( $this->api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
 
-		if ( ! is_wp_error( $request ) ) {
+		if ( ! is_wp_error( $request ) && ( 200 === wp_remote_retrieve_response_code( $request ) ) ) {
 			$request = json_decode( wp_remote_retrieve_body( $request ) );
 			if( $request && isset( $request->sections ) ) {
 				$request->sections = maybe_unserialize( $request->sections );
@@ -382,11 +389,45 @@ class AffWP_AddOn_Updater {
 			return $request;
 
 		} else {
+			$this->log_failed_request();
 
 			return false;
 
 		}
 
+	}
+
+	/**
+	 * Determines if a request has recently failed.
+	 *
+	 * @return bool
+	 */
+	private function request_recently_failed() {
+		$failed_request_details = get_option( $this->failed_request_cache_key );
+
+		// Request has never failed.
+		if ( empty( $failed_request_details ) || ! is_numeric( $failed_request_details ) ) {
+			return false;
+		}
+
+		/*
+		 * Request previously failed, but the timeout has expired.
+		 * This means we're allowed to try again.
+		 */
+		if ( time() > $failed_request_details ) {
+			delete_option( $this->failed_request_cache_key );
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Logs a failed HTTP request for this API URL.
+	 */
+	private function log_failed_request() {
+		update_option( $this->failed_request_cache_key, strtotime( '+1 hour' ) );
 	}
 
 	public function show_changelog() {
