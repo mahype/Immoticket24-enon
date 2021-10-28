@@ -64,7 +64,7 @@ class TheEventsCalendar
     public function register()
     {
         add_filter('tribe_get_embedded_map', function ($content) {
-            $content = ContentBlocker::getInstance()->detectIframes(str_replace("\n", ' ', $content));
+            $content = ContentBlocker::getInstance()->detectIframes($content);
 
             return $content;
         }, 100, 1);

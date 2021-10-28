@@ -242,6 +242,7 @@ class JavaScript
             'cookieDomain' => Config::getInstance()->get('cookieDomain'),
             'cookiePath' => $this->cookiePath,
             'cookieLifetime' => Config::getInstance()->get('cookieLifetime'),
+            'cookieLifetimeEssentialOnly' => Config::getInstance()->get('cookieLifetimeEssentialOnly'),
             'crossDomainCookie' => Config::getInstance()->get('crossDomainCookie'),
 
             'cookieBeforeConsent' => Config::getInstance()->get('cookieBeforeConsent'),
