@@ -18,6 +18,7 @@ class AFFWP_Plugin_Updater {
 	private $version     = '';
 	private $wp_override = false;
 	private $cache_key   = '';
+	private $failed_request_cache_key;
 
 	private $health_check_timeout = 5;
 
@@ -43,6 +44,8 @@ class AFFWP_Plugin_Updater {
 		$this->wp_override = isset( $_api_data['wp_override'] ) ? (bool) $_api_data['wp_override'] : false;
 		$this->beta        = ! empty( $this->api_data['beta'] ) ? true : false;
 		$this->cache_key   = 'edd_sl_' . md5( serialize( $this->slug . $this->api_data['license'] . $this->beta ) );
+
+		$this->failed_request_cache_key = 'edd_sl_failed_http_' . md5( $this->api_url );
 
 		$edd_plugin_data[ $this->slug ] = $this->api_data;
 
@@ -368,33 +371,10 @@ class AFFWP_Plugin_Updater {
 	 *
 	 * @param string  $_action The requested action.
 	 * @param array   $_data   Parameters for the API action.
-	 * @return false|object
+	 * @return false|object|void
 	 */
 	private function api_request( $_action, $_data ) {
-
-		global $wp_version, $edd_plugin_url_available;
-
-		// Do a quick status check on this domain if we haven't already checked it.
-		$store_hash = md5( $this->api_url );
-		if ( ! is_array( $edd_plugin_url_available ) || ! isset( $edd_plugin_url_available[ $store_hash ] ) ) {
-			$test_url_parts = parse_url( $this->api_url );
-
-			$scheme = ! empty( $test_url_parts['scheme'] ) ? $test_url_parts['scheme']     : 'http';
-			$host   = ! empty( $test_url_parts['host'] )   ? $test_url_parts['host']       : '';
-			$port   = ! empty( $test_url_parts['port'] )   ? ':' . $test_url_parts['port'] : '';
-
-			if ( empty( $host ) ) {
-				$edd_plugin_url_available[ $store_hash ] = false;
-			} else {
-				$test_url = $scheme . '://' . $host . $port;
-				$response = wp_remote_get( $test_url, array( 'timeout' => $this->health_check_timeout, 'sslverify' => true ) );
-				$edd_plugin_url_available[ $store_hash ] = is_wp_error( $response ) ? false : true;
-			}
-		}
-
-		if ( false === $edd_plugin_url_available[ $store_hash ] ) {
-			return;
-		}
+		global $wp_version;
 
 		$data = array_merge( $this->api_data, $_data );
 
@@ -404,6 +384,10 @@ class AFFWP_Plugin_Updater {
 
 		if( $this->api_url == trailingslashit ( home_url() ) ) {
 			return false; // Don't allow a plugin to ping itself
+		}
+
+		if ( $this->request_recently_failed() ) {
+			return false;
 		}
 
 		$api_params = array(
@@ -423,8 +407,11 @@ class AFFWP_Plugin_Updater {
 		$verify_ssl = $this->verify_ssl();
 		$request    = wp_remote_post( $this->api_url, array( 'timeout' => 15, 'sslverify' => $verify_ssl, 'body' => $api_params ) );
 
-		if ( ! is_wp_error( $request ) ) {
+		if ( ! is_wp_error( $request ) && ( 200 === wp_remote_retrieve_response_code( $request ) ) ) {
 			$request = json_decode( wp_remote_retrieve_body( $request ) );
+		} else {
+			$this->log_failed_request();
+			$request = false;
 		}
 
 		if ( $request && isset( $request->sections ) ) {
@@ -448,6 +435,39 @@ class AFFWP_Plugin_Updater {
 		}
 
 		return $request;
+	}
+
+	/**
+	 * Determines if a request has recently failed.
+	 *
+	 * @return bool
+	 */
+	private function request_recently_failed() {
+		$failed_request_details = get_option( $this->failed_request_cache_key );
+
+		// Request has never failed.
+		if ( empty( $failed_request_details ) || ! is_numeric( $failed_request_details ) ) {
+			return false;
+		}
+
+		/*
+		 * Request previously failed, but the timeout has expired.
+		 * This means we're allowed to try again.
+		 */
+		if ( time() > $failed_request_details ) {
+			delete_option( $this->failed_request_cache_key );
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Logs a failed HTTP request for this API URL.
+	 */
+	private function log_failed_request() {
+		update_option( $this->failed_request_cache_key, strtotime( '+1 hour' ) );
 	}
 
 	public function show_changelog() {

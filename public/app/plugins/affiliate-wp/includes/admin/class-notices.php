@@ -543,8 +543,8 @@ class Affiliate_WP_Admin_Notices {
 		$message = '<p><strong>' . __( 'Effortlessly pay your affiliates', 'affiliate-wp' ) . '</strong></p>';
 
 		$message .= sprintf(
-			__( 'With the Payouts Service provided by AffiliateWP, you can easily pay affiliates in 31 countries using any debit or credit card. Learn more at <a href="%s" target="_blank">payouts.sandhillsdev.com</a>.', 'affiliate-wp' ),
-			'https://payouts.sandhillsdev.com'
+			__( 'With the Payouts Service provided by AffiliateWP, you can easily pay affiliates in 31 countries using any debit or credit card. Learn more at <a href="%s" target="_blank">payouts.sandhillsplugins.com</a>.', 'affiliate-wp' ),
+			PAYOUTS_SERVICE_URL
 		);
 
 		$added = $this->add_notice( 'payouts_service', array(

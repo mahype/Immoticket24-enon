@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the AffiliateWP plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: AffiliateWP 2.7.4\n"
+"Project-Id-Version: AffiliateWP 2.7.7\n"
 "Report-Msgid-Bugs-To: https://affiliatewp.com/support/\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-07-28T08:46:40+00:00\n"
-"PO-Revision-Date: 2021-07-28T08:46:40+00:00\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"POT-Creation-Date: 2021-10-26T16:31:33+00:00\n"
+"PO-Revision-Date: 2021-10-26T16:31:33+00:00\n"
+"X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: affiliate-wp\n"
 
 #. Plugin Name of the plugin
@@ -192,8 +192,8 @@ msgstr ""
 #: includes/admin/affiliates/actions.php:199
 #: includes/admin/affiliates/actions.php:230
 #: includes/admin/affiliates/actions.php:234
-#: includes/admin/AFFWP_Plugin_Updater.php:470
-#: includes/admin/class-addon-updater.php:407
+#: includes/admin/AFFWP_Plugin_Updater.php:488
+#: includes/admin/class-addon-updater.php:448
 #: includes/admin/class-notices.php:1172
 #: includes/admin/creatives/actions.php:25
 #: includes/admin/creatives/actions.php:53
@@ -931,17 +931,17 @@ msgid "Recent Payouts"
 msgstr ""
 
 #. translators: 1: Plugin name, 2: Opening HTML for the changelog link, 3: Plugin version, 4: Closing HTML for the changelog link
-#: includes/admin/AFFWP_Plugin_Updater.php:226
+#: includes/admin/AFFWP_Plugin_Updater.php:229
 msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
 msgstr ""
 
 #. translators: 1: Plugin name, 2: Opening HTML for the changelog link, 3: Plugin version, 4: Closing HTML for the changelog link, 5: Opening HTML for the upgrade link, 6: Closing HTML for the upgrade link
-#: includes/admin/AFFWP_Plugin_Updater.php:235
+#: includes/admin/AFFWP_Plugin_Updater.php:238
 msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s."
 msgstr ""
 
-#: includes/admin/AFFWP_Plugin_Updater.php:470
-#: includes/admin/class-addon-updater.php:407
+#: includes/admin/AFFWP_Plugin_Updater.php:488
+#: includes/admin/class-addon-updater.php:448
 msgid "You do not have permission to install plugin updates"
 msgstr ""
 
@@ -995,12 +995,12 @@ msgid "You do not have permission to import data"
 msgstr ""
 
 #. translators: 1: Plugin name, 2: Changelog URL, 3: New plugin version
-#: includes/admin/class-addon-updater.php:309
+#: includes/admin/class-addon-updater.php:312
 msgid "There is a new version of %1$s available. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
 msgstr ""
 
 #. translators: 1: Plugin name, 2: Changelog URL, 3: New plugin version, 4: Update URL
-#: includes/admin/class-addon-updater.php:317
+#: includes/admin/class-addon-updater.php:320
 msgid "There is a new version of %1$s available. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s\">update now</a>."
 msgstr ""
 
@@ -1238,7 +1238,7 @@ msgid "Effortlessly pay your affiliates"
 msgstr ""
 
 #: includes/admin/class-notices.php:546
-msgid "With the Payouts Service provided by AffiliateWP, you can easily pay affiliates in 31 countries using any debit or credit card. Learn more at <a href=\"%s\" target=\"_blank\">payouts.sandhillsdev.com</a>."
+msgid "With the Payouts Service provided by AffiliateWP, you can easily pay affiliates in 31 countries using any debit or credit card. Learn more at <a href=\"%s\" target=\"_blank\">payouts.sandhillsplugins.com</a>."
 msgstr ""
 
 #: includes/admin/class-notices.php:554
