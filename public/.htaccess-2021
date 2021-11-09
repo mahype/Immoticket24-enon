@@ -166,6 +166,8 @@ RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
+
+Redirect 301 /energieausweis-service-2 /haeufige-fragen
 </IfModule>
 # END WordPress
 <IfModule mod_expires.c>

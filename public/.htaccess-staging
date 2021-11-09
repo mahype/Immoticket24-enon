@@ -281,3 +281,4 @@ Header set Cache-Control "max-age=2592000, public"
   </IfModule>
   FileETag None
 </IfModule>
+Redirect 301 /energieausweis-service-2 /haeufige-fragen
