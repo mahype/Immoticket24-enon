@@ -40,6 +40,7 @@ public/app/nfwlog/*
 !public/app/plugins/optimizePressPlusPack
 !public/app/plugins/options-definitely
 !public/app/plugins/real-category-library
+
 !public/app/plugins/wp-energieausweis-online
 !public/app/plugins/wp-postratings-migrate
 !public/app/plugins/wp-rocket
@@ -79,6 +80,7 @@ public/app/plugins/wp-rocket/licence-data.php
 !public/app/plugins/edd-stripe/vendor
 !public/app/plugins/edd-payment-gateway-stripe-sepa/vendor
 !public/app/plugins/borlabs-cookie/vendor
+!public/app/plugins/real-category-library/vendor
 #!public/app/wpenon/enev*/vendor
 
 # Node Package Manager
