@@ -282,7 +282,7 @@ class Prevent_Completion {
             }
         }
 
-        // Check for 000 at end
+        // Check for 00 at end
         $count_hundrets = 0;
         foreach ( $values AS $value ) {
             $string = (string) $value;
@@ -290,7 +290,6 @@ class Prevent_Completion {
                 $count_hundrets++;
             }
         }
-
 
         if ( $count_thousands === 3 || $count_hundrets === 3 ) {
             return 'Die Verbrauchsmengen wurden vermutlich geschätzt eingegeben';
