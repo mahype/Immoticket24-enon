@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/5.8.2" created="2021-11-11 12:33" -->
+<!-- generator="WordPress/5.8.2" created="2021-11-11 15:03" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Energieausweis online erstellen</title>
 <link>https://enon.test</link>
 <description>Jetzt Ihren Energieausweis nach EnEV 2014 anfordern!</description>
-<pubDate>Thu, 11 Nov 2021 12:33:13 +0000</pubDate>
+<pubDate>Thu, 11 Nov 2021 15:03:09 +0000</pubDate>
 <language>de-DE</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>https://enon.test</wp:base_site_url>
@@ -9409,19 +9409,23 @@ https://youtu.be/jAtqxRzaR_Y
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://www.energieausweis-online-erstellen.de/?page_id=386928</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:image {"align":"center","id":387021,"sizeSlug":"large","className":"scroll-enhancer"} -->
-<div class="wp-block-image scroll-enhancer"><figure class="aligncenter size-large"><a href="#profi-tipps"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2020/08/scroll_enhancer.png" alt="" class="wp-image-387021"/></a></figure></div>
+  <content:encoded><![CDATA[<!-- wp:group {"style":{"color":{"background":"#ffffff"}},"className":"wave-block-1"} -->
+<div class="wp-block-group wave-block-1 has-background" style="background-color:#ffffff"></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"style":{"color":{"background":"#ffffff"}}} -->
+<div class="wp-block-group has-background" style="background-color:#ffffff"><!-- wp:image {"align":"center","id":387021,"sizeSlug":"large","className":"scroll-enhancer mb-6"} -->
+<div class="wp-block-image scroll-enhancer mb-6"><figure class="aligncenter size-large"><a href="#profi-tipps"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2020/08/scroll_enhancer.png" alt="" class="wp-image-387021"/></a></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center" id="profi-tipps">8 Profi-Tipps zur sichersten Immobilien-Vermietung</h2>
+<!-- wp:heading {"textAlign":"center","className":"mb-6"} -->
+<h2 class="has-text-align-center mb-6" id="profi-tipps"><strong>8 Profi-Tipps</strong> zur sichersten Immobilien-Vermietung</h2>
 <!-- /wp:heading -->
 
 <!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:columns {"className":"has-2-columns"} -->
-<div class="wp-block-columns has-2-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:image {"align":"center","id":70693,"width":300,"height":429,"sizeSlug":"large"} -->
+<div class="wp-block-group"><!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"400px"} -->
+<div class="wp-block-column" style="flex-basis:400px"><!-- wp:image {"align":"center","id":70693,"width":300,"height":429,"sizeSlug":"large"} -->
 <div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/07/tipps-zur-sichersten-vermietung.jpg" alt="" class="wp-image-70693" width="300" height="429"/></figure></div>
 <!-- /wp:image -->
 
@@ -9436,66 +9440,60 @@ https://youtu.be/jAtqxRzaR_Y
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:heading -->
-<h2>Sie erfahren:</h2>
+<h2 id="sie-erfahren">Sie erfahren:</h2>
 <!-- /wp:heading -->
 
-<!-- wp:list {"className":"checkmark"} -->
-<ul class="checkmark"><li>Wie Sie Problem-Mieter frühzeitig erkennen</li><li>Was Sie beim Mietvertrag beachten sollten</li><li>Wie Sie optimal die Übergabe und Abnahme der Wohnung durchführen</li><li>Wie Sie mit Schönheitsreparaturen, Haustieren und Untervermietung umgehen</li><li>Wie einfach Sie Betriebskosten, Grundsteuer und Arbeitsleistungen auf den Mieter umlegen können</li><li>Checklisten und Schritt-für-Schritt-Anleitungen zur optimalen Vorgehensweise aus über 20 Jahren Erfahrung</li></ul>
+<!-- wp:list {"className":"list-checkboxes mb-6"} -->
+<ul class="list-checkboxes mb-6"><li>Wie Sie Problem-Mieter frühzeitig erkennen</li><li>Was Sie beim Mietvertrag beachten sollten</li><li>Wie Sie optimal die Übergabe und Abnahme der Wohnung durchführen</li><li>Wie Sie mit Schönheitsreparaturen, Haustieren und Untervermietung umgehen</li><li>Wie einfach Sie Betriebskosten, Grundsteuer und Arbeitsleistungen auf den Mieter umlegen können</li><li>Checklisten und Schritt-für-Schritt-Anleitungen zur optimalen Vorgehensweise aus über 20 Jahren Erfahrung</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:block {"ref":295011} /-->
-
-<!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white","align":"center"} -->
-<div class="wp-block-button aligncenter"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="https://www.digistore24.com/product/153559" style="border-radius:5px" target="_blank" rel="noreferrer noopener">Hier bestellen &gt;&gt;</a></div>
+<!-- wp:button {"backgroundColor":"green","textColor":"white","align":"left","style":{"border":{"radius":"5px"}}} -->
+<div class="wp-block-button alignleft"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="https://www.digistore24.com/product/153559" style="border-radius:5px" target="_blank" rel="noreferrer noopener">Hier bestellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns --></div></div>
-<!-- /wp:group --></div></div>
+<!-- /wp:columns --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center"><strong>5 wichtige Inhalte, die Ihnen schnell mehrere Tausend Euro pro Jahr sparen:</strong></h2>
+<!-- wp:group {"gradient":"white-green-to-green-white"} -->
+<div class="wp-block-group has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="5-wichtige-inhalte-die-ihnen-schnell-mehrere-tausend-euro-pro-jahr-sparen"><strong>5 wichtige Inhalte, die Ihnen schnell mehrere Tausend Euro pro Jahr sparen:</strong></h2>
 <!-- /wp:heading -->
 
-<!-- wp:spacer {"height":20} -->
-<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
-<!-- wp:image {"align":"center","id":70691,"sizeSlug":"large"} -->
-<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/07/profi-tipps-zur-sichersten-vermietung.jpg" alt="" class="wp-image-70691"/></figure></div>
+<!-- wp:image {"align":"center","id":70691,"sizeSlug":"large","className":"mb-6"} -->
+<div class="wp-block-image mb-6"><figure class="aligncenter size-large"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/07/profi-tipps-zur-sichersten-vermietung.jpg" alt="" class="wp-image-70691"/></figure></div>
 <!-- /wp:image -->
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:image {"align":"center","id":387042,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
+<div class="wp-block-group"><!-- wp:image {"align":"center","id":387042,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
 <div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2020/08/icon-tools.png" alt="Schönheitsreparaturen" class="wp-image-387042" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"align":"center","level":3} -->
-<h3 class="has-text-align-center">1. Schönheitsreparaturen</h3>
+<!-- wp:heading {"textAlign":"center","level":3} -->
+<h3 class="has-text-align-center" id="1-schonheitsreparaturen">1. Schönheitsreparaturen</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">Sie erfahren, welche Schönheitsreparaturen der Vermieter zu zahlen hat und welche Sie zu zahlen haben? Sowie, wie Sie Schönheitsreparaturen auf den Mieter abwälzen.</p>
-<!-- /wp:paragraph --></div></div>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:image {"align":"center","id":387045,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
+<div class="wp-block-group"><!-- wp:image {"align":"center","id":387045,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
 <div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2020/08/icon-key.png" alt="Kaution" class="wp-image-387045" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"align":"center","level":3} -->
-<h3 class="has-text-align-center">2. Kaution</h3>
+<!-- wp:heading {"textAlign":"center","level":3} -->
+<h3 class="has-text-align-center" id="2-kaution">2. Kaution</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">Sie erfahren, wie Sie am einfachsten mit der Mietkaution verfahren – ohne dass Sie durch die Erhebung einer Kaution Mieter abschrecken.</p>
-<!-- /wp:paragraph --></div></div>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -9503,74 +9501,72 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:image {"align":"center","id":300073,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
+<div class="wp-block-group"><!-- wp:image {"align":"center","id":300073,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
 <div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2019/09/icon-zahnrad.png" alt="Wohnungsabnahme" class="wp-image-300073" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"align":"center","level":3} -->
-<h3 class="has-text-align-center">3. Wohnungsabnahme</h3>
+<!-- wp:heading {"textAlign":"center","level":3} -->
+<h3 class="has-text-align-center" id="3-wohnungsabnahme">3. Wohnungsabnahme</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">So erhalten Sie Ihre Immobilie in einem ordentlichen und ordnungsgemäßen Zustand pünktlich zurück und ersparen sich viel Ärger, Zeit und Geld.</p>
-<!-- /wp:paragraph --></div></div>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:image {"align":"center","id":387044,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
+<div class="wp-block-group"><!-- wp:image {"align":"center","id":387044,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
 <div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2020/08/icon-arrows-square.png" alt="Kostenumlage" class="wp-image-387044" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"align":"center","level":3} -->
-<h3 class="has-text-align-center">4. Kostenumlage</h3>
+<!-- wp:heading {"textAlign":"center","level":3} -->
+<h3 class="has-text-align-center" id="4-kostenumlage">4. Kostenumlage</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">Diese Kosten (z. B. Grundsteuer, Pflege der Außenanlagen, Betriebskosten) können Sie auf die Mieter umlegen und so Jahr für Jahr hunderte an Euro zusätzlich sparen. Wie Sie das machen, erfahren Sie im eBook.</p>
-<!-- /wp:paragraph --></div></div>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
 <!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:image {"align":"center","id":387043,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
+<div class="wp-block-group"><!-- wp:image {"align":"center","id":387043,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
 <div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2020/08/icon-page.png" alt="Mietvetrag" class="wp-image-387043" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"align":"center","level":3} -->
-<h3 class="has-text-align-center">5. Mietvertrag</h3>
+<!-- wp:heading {"textAlign":"center","level":3} -->
+<h3 class="has-text-align-center" id="5-mietvertrag">5. Mietvertrag</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">Sie erhalten einen rechtssicherern Mietvertrag nach aktuellem Mietrecht, den Sie für Ihre Wohnraumvermietung verwenden können.</p>
-<!-- /wp:paragraph --></div></div>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
-<!-- wp:block {"ref":295011} /-->
-
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/8-profi-tipps_probelesen.pdf" style="border-radius:5px">Jetzt Probe lesen und selbst überzeugen &gt;&gt;</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons --></div></div>
+<!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center"><strong>Außerdem erhalten Sie perfekte Schritt-für-Schritt-Anleitungen:</strong></h2>
+<!-- wp:group {"gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-group has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="ausserdem-erhalten-sie-perfekte-schritt-fur-schritt-anleitungen"><strong>Außerdem erhalten Sie perfekte Schritt-für-Schritt-Anleitungen:</strong></h2>
 <!-- /wp:heading -->
 
-<!-- wp:list {"className":"checkmark"} -->
-<ul class="checkmark"><li>für die ideale Abwicklung eines bisherigen Mietverhältnisses</li><li>für die optimale Vorgehensweise bei der Mietersuche</li><li>für die sicherste Auswahl des besten Mietinteressenten</li><li>für die rechtsicherste Abwicklung des Mietvertrages zu Gunsten des Vermieters</li></ul>
+<!-- wp:list {"className":"list-checkboxes text-center mb-6"} -->
+<ul class="list-checkboxes text-center mb-6"><li>für die ideale Abwicklung eines bisherigen Mietverhältnisses</li><li>für die optimale Vorgehensweise bei der Mietersuche</li><li>für die sicherste Auswahl des besten Mietinteressenten</li><li>für die rechtsicherste Abwicklung des Mietvertrages zu Gunsten des Vermieters</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:image {"align":"center","width":708,"height":1024,"sizeSlug":"large"} -->
-<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-abwicklung-bisheriges-mietverhaeltnis-2-708x1024.jpg" alt="" width="708" height="1024"/></figure></div>
+<!-- wp:image {"align":"center","width":708,"height":1024,"sizeSlug":"large","className":"mb-6"} -->
+<div class="wp-block-image mb-6"><figure class="aligncenter size-large is-resized"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-abwicklung-bisheriges-mietverhaeltnis-2-708x1024.jpg" alt="" width="708" height="1024"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:gallery {"ids":[73162,73166,73165,73167],"columns":4,"linkTo":"media","sizeSlug":"full"} -->
+<!-- wp:gallery {"ids":[73162,73166,73165,73167],"columns":4,"linkTo":"file","sizeSlug":"full"} -->
 <figure class="wp-block-gallery columns-4 is-cropped"><ul class="blocks-gallery-grid"><li class="blocks-gallery-item"><figure><a href="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-abwicklung-bisheriges-mietverhaeltnis-2.jpg"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-abwicklung-bisheriges-mietverhaeltnis-2.jpg" alt="Checkliste Abwicklung bisheriges Mietverhaeltnis" data-id="73162" data-full-url="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-abwicklung-bisheriges-mietverhaeltnis-2.jpg" data-link="https://www.energieausweis-online-erstellen.de/checkliste-abwicklung-bisheriges-mietverhaeltnis-2/" class="wp-image-73162"/></a></figure></li><li class="blocks-gallery-item"><figure><a href="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-mietersuche.jpg"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-mietersuche.jpg" alt="Checkliste Mietersuche" data-id="73166" data-full-url="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-mietersuche.jpg" data-link="https://www.energieausweis-online-erstellen.de/checkliste-mietersuche/" class="wp-image-73166"/></a></figure></li><li class="blocks-gallery-item"><figure><a href="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-mieterauswahl.jpg"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-mieterauswahl.jpg" alt="Checkliste Mieterauswahl" data-id="73165" data-full-url="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-mieterauswahl.jpg" data-link="https://www.energieausweis-online-erstellen.de/checkliste-mieterauswahl/" class="wp-image-73165"/></a></figure></li><li class="blocks-gallery-item"><figure><a href="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-mietvertrag.jpg"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-mietvertrag.jpg" alt="Checkliste Mietvertrag" data-id="73167" data-full-url="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/checkliste-mietvertrag.jpg" data-link="https://www.energieausweis-online-erstellen.de/checkliste-mietvertrag/" class="wp-image-73167"/></a></figure></li></ul></figure>
 <!-- /wp:gallery -->
 
@@ -9578,40 +9574,36 @@ https://youtu.be/jAtqxRzaR_Y
 <p class="has-text-align-center"><em>- Ihre Checklisten zur maximalen Sicherheit - Anklicken zum Vergrößern! -</em></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="" style="border-radius:5px" target="_blank" rel="noreferrer noopener">Hier eBook bestellen &gt;&gt;</a></div>
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"style":{"border":{"radius":"5px"}}} -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="" style="border-radius:5px" target="_blank" rel="noreferrer noopener">Hier eBook bestellen &gt;&gt;</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons --></div></div>
+<!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
 <!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center"><strong>Zusätzliches Bonus-Material, dass Ihnen die Arbeit erleichtert und Geld spart</strong></h2>
+<div class="wp-block-group"><!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="zusatzliches-bonus-material-dass-ihnen-die-arbeit-erleichtert-und-geld-spart"><strong>Zusätzliches Bonus-Material, dass Ihnen die Arbeit erleichtert und Geld spart</strong></h2>
 <!-- /wp:heading -->
 
-<!-- wp:list {"className":"checkmark"} -->
-<ul class="checkmark"><li>Muster-Vordruck Wohnungsgeber-Bestätigung</li><li>Muster-Vordruck Mieterselbstauskunft</li><li>Muster-Vordruck Übergabe-Protokoll</li><li>Muster-Vordruck Abnahme-Protokoll</li><li>Muster-Vordruck Mietvertrag</li></ul>
+<!-- wp:list {"className":"list-checkboxes"} -->
+<ul class="list-checkboxes"><li>Muster-Vordruck Wohnungsgeber-Bestätigung</li><li>Muster-Vordruck Mieterselbstauskunft</li><li>Muster-Vordruck Übergabe-Protokoll</li><li>Muster-Vordruck Abnahme-Protokoll</li><li>Muster-Vordruck Mietvertrag</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:spacer {"height":20} -->
-<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
-<!-- wp:advgb/images-slider {"images":[{"id":73171,"url":"https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/mieterselbstauskunft-1.jpg","title":"1. Muster-Vordruck Wohnungsgeber-Bestätigung","text":"Als Wohnungsgeber sind Sie durch § 19 BMG verpflichtet, beim Ein- und zum Teil auch beim Auszug eine Wohnungsgeberbestätigung an den Wohnungsnehmer bzw. für den Fall der elektronischen Meldung, die zurzeit noch nicht möglich ist, an die Meldebehörde zu senden. Den Muster-Vordruck hierzu erhalten Sie im eBook."},{"url":"https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/wohnungsgeber-bestaetigung_1.jpg","id":73175,"title":"2. Muster Vordruck Mieterselbstauskunft","text":"Weiter erhalten Sie einen Muster-Vordruck zur Einholung einer Mieterselbstauskunft, damit Sie nur an jene Mieter Ihren Wohnraum vermieten, der sich diesen auch tatsächlich leisten kann. Einfach ausdrucken, ausfüllen und Auskunft zum Mietinteressenten einholen."},{"id":73174,"url":"https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/wohnungs-uebergabe-protokoll.jpg","text":"\nEin aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprotokoll genannt – beugt Konflikten vor. So halten Sie als Vermieter sämtliche Mängel fest, die bei Einzug des Mieters bekannt sind. Zieht nach einiger Zeit der Mieter aus und Sie stellen als Vermieter bei der Abnahme des Mieters bei Auszug weitere Mängel fest, haben Sie somit Klarheit, dass der Mieter diese verursacht hat.","title":"3. Muster-Vordruck Übergabe-Protokoll"},{"id":73173,"url":"https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/muster-wohnungsabnahme-protokoll.jpg","text":"Damit können Sie gegenüber der Situation bei Einzug des Mieters und den damit verbundenen Inhalten im Übergabeprotokoll schnell neue Mängel feststellen. Wenn im Abnahmeprotokoll keine Mängel festgehalten sind, steht der Auszahlung der Kaution an den Mieter nichts mehr im Wege, andernfalls haben Sie bei neuen Mängel die Möglichkeit diese beseitigen zu lassen oder die Kaution in entsprechender Höhe einzubehalten.","title":"4. Muster-Vordruck Abnahmeprotokoll"},{"id":73211,"url":"https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/mietvertrag.jpg","text":"Last but not least erhalten Sie einen aktuellen rechtssicheren Mietvertrag vom Vermieterverein e. V., der Ihre Recht als Vermieter ideal absichert. Diesen brauchen Sie nur ausdrucken und bei jeder Vermietung auszufüllen, so sparen Sie sich die regelmäßige Anschaffung von neuen Mietverträgen, die auch schnell einmal 15,- Euro je Stück betragen.","title":"5. Muster-Vordruck Mietvertrag"}],"fullWidth":false,"width":470,"alwaysShowOverlay":true,"titleColor":"#000000","textColor":"#000000","vAlign":"flex-start","hAlign":"flex-start","changed":true,"className":"custom-slider-style1"} -->
-<div class="wp-block-advgb-images-slider advgb-images-slider-block custom-slider-style1"><div class="advgb-images-slider" data-slick="{&quot;rtl&quot;: false}"><div class="advgb-image-slider-item"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/mieterselbstauskunft-1.jpg" class="advgb-image-slider-img" alt="Slider image" style="width:470px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:#000000">1. Muster-Vordruck Wohnungsgeber-Bestätigung</h4><p class="advgb-image-slider-text" style="color:#000000">Als Wohnungsgeber sind Sie durch § 19 BMG verpflichtet, beim Ein- und zum Teil auch beim Auszug eine Wohnungsgeberbestätigung an den Wohnungsnehmer bzw. für den Fall der elektronischen Meldung, die zurzeit noch nicht möglich ist, an die Meldebehörde zu senden. Den Muster-Vordruck hierzu erhalten Sie im eBook.</p></div></div><div class="advgb-image-slider-item"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/wohnungsgeber-bestaetigung_1.jpg" class="advgb-image-slider-img" alt="Slider image" style="width:470px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:#000000">2. Muster Vordruck Mieterselbstauskunft</h4><p class="advgb-image-slider-text" style="color:#000000">Weiter erhalten Sie einen Muster-Vordruck zur Einholung einer Mieterselbstauskunft, damit Sie nur an jene Mieter Ihren Wohnraum vermieten, der sich diesen auch tatsächlich leisten kann. Einfach ausdrucken, ausfüllen und Auskunft zum Mietinteressenten einholen.</p></div></div><div class="advgb-image-slider-item"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/wohnungs-uebergabe-protokoll.jpg" class="advgb-image-slider-img" alt="Slider image" style="width:470px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:#000000">3. Muster-Vordruck Übergabe-Protokoll</h4><p class="advgb-image-slider-text" style="color:#000000">
-Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprotokoll genannt – beugt Konflikten vor. So halten Sie als Vermieter sämtliche Mängel fest, die bei Einzug des Mieters bekannt sind. Zieht nach einiger Zeit der Mieter aus und Sie stellen als Vermieter bei der Abnahme des Mieters bei Auszug weitere Mängel fest, haben Sie somit Klarheit, dass der Mieter diese verursacht hat.</p></div></div><div class="advgb-image-slider-item"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/muster-wohnungsabnahme-protokoll.jpg" class="advgb-image-slider-img" alt="Slider image" style="width:470px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:#000000">4. Muster-Vordruck Abnahmeprotokoll</h4><p class="advgb-image-slider-text" style="color:#000000">Damit können Sie gegenüber der Situation bei Einzug des Mieters und den damit verbundenen Inhalten im Übergabeprotokoll schnell neue Mängel feststellen. Wenn im Abnahmeprotokoll keine Mängel festgehalten sind, steht der Auszahlung der Kaution an den Mieter nichts mehr im Wege, andernfalls haben Sie bei neuen Mängel die Möglichkeit diese beseitigen zu lassen oder die Kaution in entsprechender Höhe einzubehalten.</p></div></div><div class="advgb-image-slider-item"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/mietvertrag.jpg" class="advgb-image-slider-img" alt="Slider image" style="width:470px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:#000000">5. Muster-Vordruck Mietvertrag</h4><p class="advgb-image-slider-text" style="color:#000000">Last but not least erhalten Sie einen aktuellen rechtssicheren Mietvertrag vom Vermieterverein e. V., der Ihre Recht als Vermieter ideal absichert. Diesen brauchen Sie nur ausdrucken und bei jeder Vermietung auszufüllen, so sparen Sie sich die regelmäßige Anschaffung von neuen Mietverträgen, die auch schnell einmal 15,- Euro je Stück betragen.</p></div></div></div></div>
+<!-- wp:advgb/images-slider {"images":[{"id":73171,"url":"https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/mieterselbstauskunft-1.jpg","title":"1. Muster-Vordruck Wohnungsgeber-Bestätigung","text":"Als Wohnungsgeber sind Sie durch § 19 BMG verpflichtet, beim Ein- und zum Teil auch beim Auszug eine Wohnungsgeberbestätigung an den Wohnungsnehmer bzw. für den Fall der elektronischen Meldung, die zurzeit noch nicht möglich ist, an die Meldebehörde zu senden. Den Muster-Vordruck hierzu erhalten Sie im eBook."},{"url":"https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/wohnungsgeber-bestaetigung_1.jpg","id":73175,"title":"2. Muster Vordruck Mieterselbstauskunft","text":"Weiter erhalten Sie einen Muster-Vordruck zur Einholung einer Mieterselbstauskunft, damit Sie nur an jene Mieter Ihren Wohnraum vermieten, der sich diesen auch tatsächlich leisten kann. Einfach ausdrucken, ausfüllen und Auskunft zum Mietinteressenten einholen."},{"id":73174,"url":"https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/wohnungs-uebergabe-protokoll.jpg","text":"\nEin aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprotokoll genannt – beugt Konflikten vor. So halten Sie als Vermieter sämtliche Mängel fest, die bei Einzug des Mieters bekannt sind. Zieht nach einiger Zeit der Mieter aus und Sie stellen als Vermieter bei der Abnahme des Mieters bei Auszug weitere Mängel fest, haben Sie somit Klarheit, dass der Mieter diese verursacht hat.","title":"3. Muster-Vordruck Übergabe-Protokoll"},{"id":73173,"url":"https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/muster-wohnungsabnahme-protokoll.jpg","text":"Damit können Sie gegenüber der Situation bei Einzug des Mieters und den damit verbundenen Inhalten im Übergabeprotokoll schnell neue Mängel feststellen. Wenn im Abnahmeprotokoll keine Mängel festgehalten sind, steht der Auszahlung der Kaution an den Mieter nichts mehr im Wege, andernfalls haben Sie bei neuen Mängel die Möglichkeit diese beseitigen zu lassen oder die Kaution in entsprechender Höhe einzubehalten.","title":"4. Muster-Vordruck Abnahmeprotokoll"},{"id":73211,"url":"https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/mietvertrag.jpg","text":"Last but not least erhalten Sie einen aktuellen rechtssicheren Mietvertrag vom Vermieterverein e. V., der Ihre Recht als Vermieter ideal absichert. Diesen brauchen Sie nur ausdrucken und bei jeder Vermietung auszufüllen, so sparen Sie sich die regelmäßige Anschaffung von neuen Mietverträgen, die auch schnell einmal 15,- Euro je Stück betragen.","title":"5. Muster-Vordruck Mietvertrag"}],"fullWidth":false,"width":450,"alwaysShowOverlay":true,"titleColor":"rgba( 0, 0, 0, 0.8 )","textColor":"#000000","vAlign":"flex-start","hAlign":"flex-start","changed":true} -->
+<div class="wp-block-advgb-images-slider advgb-images-slider-block"><div class="advgb-images-slider" dir="ltr"><div class="advgb-image-slider-item"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/mieterselbstauskunft-1.jpg" class="advgb-image-slider-img" alt="1. Muster-Vordruck Wohnungsgeber-Bestätigung" style="width:450px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">1. Muster-Vordruck Wohnungsgeber-Bestätigung</h4><p class="advgb-image-slider-text" style="color:#000000">Als Wohnungsgeber sind Sie durch § 19 BMG verpflichtet, beim Ein- und zum Teil auch beim Auszug eine Wohnungsgeberbestätigung an den Wohnungsnehmer bzw. für den Fall der elektronischen Meldung, die zurzeit noch nicht möglich ist, an die Meldebehörde zu senden. Den Muster-Vordruck hierzu erhalten Sie im eBook.</p></div></div><div class="advgb-image-slider-item"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/wohnungsgeber-bestaetigung_1.jpg" class="advgb-image-slider-img" alt="2. Muster Vordruck Mieterselbstauskunft" style="width:450px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">2. Muster Vordruck Mieterselbstauskunft</h4><p class="advgb-image-slider-text" style="color:#000000">Weiter erhalten Sie einen Muster-Vordruck zur Einholung einer Mieterselbstauskunft, damit Sie nur an jene Mieter Ihren Wohnraum vermieten, der sich diesen auch tatsächlich leisten kann. Einfach ausdrucken, ausfüllen und Auskunft zum Mietinteressenten einholen.</p></div></div><div class="advgb-image-slider-item"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/wohnungs-uebergabe-protokoll.jpg" class="advgb-image-slider-img" alt="3. Muster-Vordruck Übergabe-Protokoll" style="width:450px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">3. Muster-Vordruck Übergabe-Protokoll</h4><p class="advgb-image-slider-text" style="color:#000000">
+Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprotokoll genannt – beugt Konflikten vor. So halten Sie als Vermieter sämtliche Mängel fest, die bei Einzug des Mieters bekannt sind. Zieht nach einiger Zeit der Mieter aus und Sie stellen als Vermieter bei der Abnahme des Mieters bei Auszug weitere Mängel fest, haben Sie somit Klarheit, dass der Mieter diese verursacht hat.</p></div></div><div class="advgb-image-slider-item"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/muster-wohnungsabnahme-protokoll.jpg" class="advgb-image-slider-img" alt="4. Muster-Vordruck Abnahmeprotokoll" style="width:450px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">4. Muster-Vordruck Abnahmeprotokoll</h4><p class="advgb-image-slider-text" style="color:#000000">Damit können Sie gegenüber der Situation bei Einzug des Mieters und den damit verbundenen Inhalten im Übergabeprotokoll schnell neue Mängel feststellen. Wenn im Abnahmeprotokoll keine Mängel festgehalten sind, steht der Auszahlung der Kaution an den Mieter nichts mehr im Wege, andernfalls haben Sie bei neuen Mängel die Möglichkeit diese beseitigen zu lassen oder die Kaution in entsprechender Höhe einzubehalten.</p></div></div><div class="advgb-image-slider-item"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/08/mietvertrag.jpg" class="advgb-image-slider-img" alt="5. Muster-Vordruck Mietvertrag" style="width:450px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">5. Muster-Vordruck Mietvertrag</h4><p class="advgb-image-slider-text" style="color:#000000">Last but not least erhalten Sie einen aktuellen rechtssicheren Mietvertrag vom Vermieterverein e. V., der Ihre Recht als Vermieter ideal absichert. Diesen brauchen Sie nur ausdrucken und bei jeder Vermietung auszufüllen, so sparen Sie sich die regelmäßige Anschaffung von neuen Mietverträgen, die auch schnell einmal 15,- Euro je Stück betragen.</p></div></div></div></div>
 <!-- /wp:advgb/images-slider -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="" style="border-radius:5px" target="_blank" rel="noreferrer noopener">Jetzt eBook bestellen &gt;&gt;</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons --></div></div>
+<!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:columns {"className":"has-2-columns"} -->
+<!-- wp:group {"gradient":"white-green-to-green-white"} -->
+<div class="wp-block-group has-white-green-to-green-white-gradient-background has-background"><!-- wp:columns {"className":"has-2-columns"} -->
 <div class="wp-block-columns has-2-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"align":"center","id":70693,"width":300,"height":429,"sizeSlug":"large"} -->
 <div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2017/07/tipps-zur-sichersten-vermietung.jpg" alt="" class="wp-image-70693" width="300" height="429"/></figure></div>
@@ -9628,7 +9620,7 @@ Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprot
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:heading -->
-<h2>Geballtes Know-How als PDF:</h2>
+<h2 id="geballtes-know-how-als-pdf">Geballtes Know-How als PDF:</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -9647,22 +9639,22 @@ Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprot
 <div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2019/08/pfeile-nach-unten.png" alt="" class="wp-image-294900"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white","align":"center"} -->
+<!-- wp:button {"backgroundColor":"green","textColor":"white","align":"center","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button aligncenter"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="https://www.digistore24.com/product/153559" style="border-radius:5px" target="_blank" rel="noreferrer noopener">Hier eBook bestellen &gt;&gt;</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns --></div></div>
+<!-- /wp:columns --></div>
 <!-- /wp:group -->
 
 <!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">Mit Geld-zurück-Garantie: </h2>
+<div class="wp-block-group"><!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="mit-geld-zuruck-garantie">Mit Geld-zurück-Garantie: </h2>
 <!-- /wp:heading -->
 
 <!-- wp:block {"ref":295011} /-->
 
 <!-- wp:columns -->
-<div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":33.33} -->
+<div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":"33.33%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:33.33%"><!-- wp:image {"align":"center","id":37,"sizeSlug":"large"} -->
 <div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://www.energieausweis-online-erstellen.de/app/uploads/2014/12/christian-esch.png" alt="Christian Esch, Geschäftsführer" class="wp-image-37"/><figcaption>Christian Esch</figcaption></figure></div>
 <!-- /wp:image -->
@@ -9672,14 +9664,14 @@ Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprot
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
-<!-- wp:column {"verticalAlignment":"center","width":66.66} -->
+<!-- wp:column {"verticalAlignment":"center","width":"66.66%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:66.66%"><!-- wp:paragraph {"align":"left"} -->
 <p class="has-text-align-left"><em>Wenn Ihnen die im Buch vermittelten Kniffe nicht innerhalb von 14 Tagen mindestens den Buchpreis in Ihren täglichen Verhandlungen in Zeit oder Geld wieder einsparen, erstatten wir Ihnen den vollen Kaufpreis!</em></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:button {"style":{"color":{"background":"#3da81d"}},"align":"center"} -->
+<!-- wp:button {"align":"center","style":{"color":{"background":"#3da81d"}}} -->
 <div class="wp-block-button aligncenter"><a class="wp-block-button__link has-background" href="https://www.digistore24.com/product/153559" style="background-color:#3da81d" target="_blank" rel="noreferrer noopener">Jetzt eBook "8 Profi-Tipps" bestellen &gt;&gt;</a></div>
 <!-- /wp:button -->
 
@@ -9687,14 +9679,14 @@ Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprot
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website:<br>[ratings]</p>
-<!-- /wp:paragraph --></div></div>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>386928</wp:post_id>
   <wp:post_date>2020-08-02 03:59:40</wp:post_date>
   <wp:post_date_gmt>2020-08-02 01:59:40</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:30</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:30</wp:post_modified_gmt>
+  <wp:post_modified>2021-11-11 15:39:54</wp:post_modified>
+  <wp:post_modified_gmt>2021-11-11 14:39:54</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>8-profi-tipps-zur-sichersten-immobilien-vermietung</wp:post_name>
@@ -9763,6 +9755,14 @@ Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprot
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_users</wp:meta_key>
+    <wp:meta_value><![CDATA[8]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
     <wp:meta_value><![CDATA[8]]></wp:meta_value>
   </wp:postmeta>
 </item>
@@ -12491,16 +12491,16 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->
 
-<!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center" id="so-geht-s"><strong>So geht´s:</strong></h2>
+<!-- wp:heading {"textAlign":"center","className":"mb-1"} -->
+<h2 class="has-text-align-center mb-1" id="so-geht-s"><strong>So geht´s:</strong></h2>
 <!-- /wp:heading -->
 
-<!-- wp:list {"ordered":true,"className":"list-checkboxes"} -->
-<ol class="list-checkboxes"><li>Einfach den entsprechenden Energieausweistyp (Bedarfs- oder Verbrauchsausweis) auswählen</li><li>Angaben zur Immobilie eingeben</li><li>Bestellung abschließen</li><li>Fertig</li></ol>
+<!-- wp:list {"ordered":true,"className":"list-checkboxes text-center mb-5"} -->
+<ol class="list-checkboxes text-center mb-5"><li>Einfach den entsprechenden Energieausweistyp (Bedarfs- oder Verbrauchsausweis) auswählen</li><li>Angaben zur Immobilie eingeben</li><li>Bestellung abschließen</li><li>Fertig</li></ol>
 <!-- /wp:list -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Energieausweis-Erstellung ausprobieren &gt;&gt;</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
@@ -12509,60 +12509,72 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:group {"gradient":"white-green-to-green-white"} -->
 <div class="wp-block-group has-white-green-to-green-white-gradient-background has-background"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:shortcode -->
-[energieausweis_box typ="verbrauch"]
-<ul>
- 	<li>Rechtsgültiger Verbrauchsausweis nach der aktuellen EnEV 2014</li>
- 	<li>Erstellt vom geprüften Energieberater</li>
- 	<li>Bearbeitung der Energieausweis-Daten zu jeder Zeit</li>
- 	<li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li>
- 	<li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li>
-</ul>
-[/energieausweis_box]
-<!-- /wp:shortcode --></div>
-<!-- /wp:column -->
-
-<!-- wp:column -->
-<div class="wp-block-column"><!-- wp:shortcode -->
-[energieausweis_box typ="bedarf"]
-<ul>
- 	<li>Rechtsgültiger Bedarfsausweis nach der aktuellen EnEV 2014</li>
- 	<li>Erstellt vom geprüften Energieberater</li>
- 	<li>Bearbeitung der Energieausweis-Daten zu jeder Zeit</li>
- 	<li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li>
- 	<li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li>
-</ul>
-[/energieausweis_box]
-<!-- /wp:shortcode --></div>
-<!-- /wp:column --></div>
-<!-- /wp:columns -->
-
-<!-- wp:spacer {"height":20,"className":"clearfix"} -->
-<div style="height:20px" aria-hidden="true" class="wp-block-spacer clearfix"></div>
-<!-- /wp:spacer -->
-
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Energieausweis-Erstellung beginnen &gt;&gt;</a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons --></div>
-<!-- /wp:group -->
-
-<!-- wp:group {"gradient":"green-neon-to-green-mint"} -->
-<div class="wp-block-group has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center" id="6-grunde-die-fur-energieausweis-online-erstellen-de-sprechen">6 Gründe, die für Energieausweis-online-erstellen.de sprechen:</h2>
+<div class="wp-block-column"><!-- wp:heading -->
+<h2 id="verbrauchsausweis"><a href="https://www.energieausweis-online-erstellen.de/energieausweis2/verbrauchsausweis-wohngebaeude/">Verbrauchsausweis</a></h2>
 <!-- /wp:heading -->
 
+<!-- wp:image {"sizeSlug":"large"} -->
+<figure class="wp-block-image size-large"><img src="https://www.energieausweis-online-erstellen.de/app/themes/immoticket-energieausweis/assets/media/verbrauchsausweis-online-erstellen.jpg" alt=""/></figure>
+<!-- /wp:image -->
+
 <!-- wp:list {"className":"list-checkboxes"} -->
-<ul class="list-checkboxes"><li><strong>Sofortige Verfügbarkeit</strong><br>Weil Sie sofort auf Ihren Energieausweis zugreifen können (Eingeben, ausdrucken, fertig!).</li><li><strong>Zuverlässigkeit bestätigt</strong><br>Weil über 870 Onlinebewertungen sowie die Trusted Shops Zertifizierung unseren guten Service belegen.</li><li><strong>Einfache Energieausweis-Erstellung</strong><br>Weil Sie hier spielerisch einfach Ihren Energieausweise erstellen können.</li><li><strong>100% rechtsgültig</strong><br>Weil unsere Energieausweise genauso gültig sind, wie „vor Ort“ ausgestellte Energieausweise.</li><li><strong>Hohe Ersparnis</strong><br>Weil Sie bis zu 300 Euro gegenüber der „vor-Ort-Erstellung“ sparen</li></ul>
+<ul class="list-checkboxes"><li>Rechtsgültiger Verbrauchsausweis nach der aktuellen EnEV 2014</li><li>Erstellt vom geprüften Energieberater</li><li>Bearbeitung der Energieausweis-Daten zu jeder Zeit</li><li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li><li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li></ul>
 <!-- /wp:list -->
 
 <!-- wp:spacer {"height":50} -->
 <div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
+<!-- wp:paragraph {"fontSize":"huge"} -->
+<p class="has-huge-font-size"><strong>49,95€</strong></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading -->
+<h2 id="bedarfsausweis">Bedarfsausweis</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large"} -->
+<figure class="wp-block-image size-large"><img src="https://www.energieausweis-online-erstellen.de/app/themes/immoticket-energieausweis/assets/media/bedarfsausweis-online-erstellen.jpg" alt=""/></figure>
+<!-- /wp:image -->
+
+<!-- wp:list {"className":"list-checkboxes"} -->
+<ul class="list-checkboxes"><li>Rechtsgültiger Bedarfsausweis nach der aktuellen EnEV 2014</li><li>Erstellt vom geprüften Energieberater</li><li>Bearbeitung der Energieausweis-Daten zu jeder Zeit</li><li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li><li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:spacer {"height":50} -->
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:paragraph {"fontSize":"huge"} -->
+<p class="has-huge-font-size"><strong>99,95€</strong></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
+<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Energieausweis-Erstellung beginnen &gt;&gt;</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"gradient":"green-neon-to-green-mint"} -->
+<div class="wp-block-group has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"left"} -->
+<h2 class="has-text-align-left" id="6-grundedie-fur-energieausweis-online-erstellen-de-sprechen"><strong>6 Gründe</strong><br>die für Energieausweis-online-erstellen.de sprechen:</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list {"className":"list-checkboxes text-center"} -->
+<ul class="list-checkboxes text-center"><li><strong>Sofortige Verfügbarkeit</strong><br>Weil Sie sofort auf Ihren Energieausweis zugreifen können (Eingeben, ausdrucken, fertig!).</li><li><strong>Zuverlässigkeit bestätigt</strong><br>Weil über 870 Onlinebewertungen sowie die Trusted Shops Zertifizierung unseren guten Service belegen.</li><li><strong>Einfache Energieausweis-Erstellung</strong><br>Weil Sie hier spielerisch einfach Ihren Energieausweise erstellen können.</li><li><strong>100% rechtsgültig</strong><br>Weil unsere Energieausweise genauso gültig sind, wie „vor Ort“ ausgestellte Energieausweise.</li><li><strong>Hohe Ersparnis</strong><br>Weil Sie bis zu 300 Euro gegenüber der „vor-Ort-Erstellung“ sparen</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:spacer {"height":50} -->
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Jetzt bis zu 300 Euro sparen &gt;&gt;</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
@@ -12572,8 +12584,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <hr class="wp-block-separator"/>
 <!-- /wp:separator -->
 
-<!-- wp:group {"gradient":"white-green-to-green-white"} -->
-<div class="wp-block-group has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading -->
+<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"}}} -->
+<div class="wp-block-group has-background" style="background:linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"><!-- wp:heading -->
 <h2 id="das-sagen-unsere-kundenzufriedene-kunden-sind-fur-uns-das-wichtigste"><strong>Das sagen unsere Kunden</strong><br>zufriedene Kunden sind für uns das wichtigste!</h2>
 <!-- /wp:heading -->
 
@@ -12739,22 +12751,28 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p class="has-text-align-center mt-4" style="font-size:12px"><em>Ausgewählte Top-Bewertungen für www.energieausweis-online-erstellen.de powered by TrustedShops</em></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"contentJustification":"center","className":"uppercase"} -->
-<div class="wp-block-buttons is-content-justification-center uppercase"><!-- wp:button -->
+<!-- wp:buttons {"className":"uppercase","layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons uppercase"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt Energieausweis erstellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings"} -->
+<div class="wp-block-group group-ratings has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
+<!-- /wp:paragraph -->
+
 <!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website:<br>[ratings]</p>
-<!-- /wp:paragraph -->]]></content:encoded>
+<p class="has-text-align-center">[ratings]</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>387271</wp:post_id>
   <wp:post_date>2020-08-03 00:06:06</wp:post_date>
   <wp:post_date_gmt>2020-08-02 22:06:06</wp:post_date_gmt>
-  <wp:post_modified>2021-11-10 17:03:24</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-10 16:03:24</wp:post_modified_gmt>
+  <wp:post_modified>2021-11-11 14:44:32</wp:post_modified>
+  <wp:post_modified_gmt>2021-11-11 13:44:32</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>energieausweis-erstellen</wp:post_name>
@@ -12791,7 +12809,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
-    <wp:meta_value><![CDATA[5]]></wp:meta_value>
+    <wp:meta_value><![CDATA[6]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_0f5ff64cb1b6eeb8bd8e089e01126c31</wp:meta_key>
@@ -12807,7 +12825,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_72a75aa365390a1a6b1191fa0ee62a14</wp:meta_key>
-    <wp:meta_value><![CDATA[1636560704]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1636636031]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_701d7f0ae8eaec30d3a2f17fb5606a31</wp:meta_key>
@@ -12823,7 +12841,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[66]]></wp:meta_value>
+    <wp:meta_value><![CDATA[70]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_score</wp:meta_key>
@@ -16584,21 +16602,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings"} -->
-<div class="wp-block-group group-ratings has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">[ratings]</p>
-<!-- /wp:paragraph --></div>
-<!-- /wp:group -->]]></content:encoded>
+<!-- wp:block {"ref":465516} /-->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465251</wp:post_id>
   <wp:post_date>2021-10-25 12:15:05</wp:post_date>
   <wp:post_date_gmt>2021-10-25 10:15:05</wp:post_date_gmt>
-  <wp:post_modified>2021-11-11 13:30:53</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-11 12:30:53</wp:post_modified_gmt>
+  <wp:post_modified>2021-11-11 13:39:58</wp:post_modified>
+  <wp:post_modified_gmt>2021-11-11 12:39:58</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>startseite</wp:post_name>
@@ -16627,7 +16637,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_72a75aa365390a1a6b1191fa0ee62a14</wp:meta_key>
-    <wp:meta_value><![CDATA[1636633980]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1636634403]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_users</wp:meta_key>
@@ -16643,7 +16653,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_72a75aa365390a1a6b1191fa0ee62a14</wp:meta_key>
-    <wp:meta_value><![CDATA[1636633980]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1636634403]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_72a75aa365390a1a6b1191fa0ee62a14</wp:meta_key>
@@ -16782,8 +16792,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link">Energieausweis-erstellung beginnen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
@@ -16948,8 +16958,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link">Überzeugen Sie sich selbst!</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
@@ -17122,8 +17132,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p class="has-text-align-center mt-4" style="font-size:12px"><em>Ausgewählte Top-Bewertungen für www.energieausweis-online-erstellen.de powered by TrustedShops</em></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"contentJustification":"center","className":"uppercase"} -->
-<div class="wp-block-buttons is-content-justification-center uppercase"><!-- wp:button -->
+<!-- wp:buttons {"className":"uppercase","layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons uppercase"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt Energieausweis erstellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
@@ -17160,18 +17170,28 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link">Hier Energieausweis beginnen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings"} -->
+<div class="wp-block-group group-ratings has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">[ratings]</p>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465252</wp:post_id>
   <wp:post_date>2021-10-26 12:39:55</wp:post_date>
   <wp:post_date_gmt>2021-10-26 10:39:55</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:30</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:30</wp:post_modified_gmt>
+  <wp:post_modified>2021-11-11 13:43:02</wp:post_modified>
+  <wp:post_modified_gmt>2021-11-11 12:43:02</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>ihre-vorteile</wp:post_name>
@@ -17301,7 +17321,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:image -->
 
 <!-- wp:heading {"textAlign":"center","textColor":"green-moss"} -->
-<h2 class="has-text-align-center has-green-moss-color has-text-color">Bedarfs-ausweis</h2>
+<h2 class="has-text-align-center has-green-moss-color has-text-color" id="bedarfs-ausweis">Bedarfs-ausweis</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center","className":"label-green shadow rotate-2 font-bold"} -->
@@ -17373,7 +17393,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:group {"className":"text-center p-4"} -->
 <div class="wp-block-group text-center p-4"><!-- wp:heading {"textAlign":"center","level":3} -->
-<h3 class="has-text-align-center">Bedarfsausweis</h3>
+<h3 class="has-text-align-center" id="bedarfsausweis">Bedarfsausweis</h3>
 <!-- /wp:heading -->
 
 <!-- wp:image {"align":"center","id":761,"sizeSlug":"full","linkDestination":"none"} -->
@@ -17384,8 +17404,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p class="label-white mt-4 font-bold">Beispiel ansehen</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link">Bedarfsausweis erstellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
@@ -17399,7 +17419,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:image -->
 
 <!-- wp:heading {"textAlign":"center","textColor":"green-moss"} -->
-<h2 class="has-text-align-center has-green-moss-color has-text-color"><meta charset="utf-8">Verbrauchs-ausweis</h2>
+<h2 class="has-text-align-center has-green-moss-color has-text-color" id="verbrauchs-ausweis"><meta charset="utf-8">Verbrauchs-ausweis</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center","className":"label-green shadow rotate-2 font-bold"} -->
@@ -17471,7 +17491,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:group {"className":"text-center p-4"} -->
 <div class="wp-block-group text-center p-4"><!-- wp:heading {"textAlign":"center","level":3} -->
-<h3 class="has-text-align-center">Verbrauchsausweis</h3>
+<h3 class="has-text-align-center" id="verbrauchsausweis">Verbrauchsausweis</h3>
 <!-- /wp:heading -->
 
 <!-- wp:image {"align":"center","id":762,"sizeSlug":"full","linkDestination":"none"} -->
@@ -17482,8 +17502,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p class="label-white mt-4 font-bold"> Beispiel ansehen</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link">Verbauchsausweis erstellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
@@ -17496,17 +17516,17 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"white-green-to-green-white"} -->
-<div class="wp-block-group has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading -->
-<h2><strong>Das sagen unsere Kunden</strong><br>zufriedene Kunden sind für uns das wichtigste!</h2>
+<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"}}} -->
+<div class="wp-block-group has-background" style="background:linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"><!-- wp:heading -->
+<h2 id="das-sagen-unsere-kundenzufriedene-kunden-sind-fur-uns-das-wichtigste"><strong>Das sagen unsere Kunden</strong><br>zufriedene Kunden sind für uns das wichtigste!</h2>
 <!-- /wp:heading -->
 
 <!-- wp:columns {"className":"testimonials"} -->
 <div class="wp-block-columns testimonials"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
-<div class="wp-block-columns testimonial"><!-- wp:column {"width":"","className":"flex-image-start pr-2"} -->
-<div class="wp-block-column flex-image-start pr-2"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
-<div class="wp-block-image"><figure class="aligncenter size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
@@ -17522,31 +17542,31 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:columns {"className":"stars ml-2"} -->
 <div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
@@ -17556,9 +17576,9 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
-<div class="wp-block-columns testimonial"><!-- wp:column {"width":"","className":"flex-image-start pr-2"} -->
-<div class="wp-block-column flex-image-start pr-2"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
-<div class="wp-block-image"><figure class="aligncenter size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
@@ -17574,31 +17594,31 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:columns {"className":"stars ml-2"} -->
 <div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
@@ -17608,9 +17628,9 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
-<div class="wp-block-columns testimonial"><!-- wp:column {"width":"","className":"flex-image-start pr-2"} -->
-<div class="wp-block-column flex-image-start pr-2"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
-<div class="wp-block-image"><figure class="aligncenter size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
@@ -17626,31 +17646,31 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:columns {"className":"stars ml-2"} -->
 <div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
@@ -17663,9 +17683,9 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p class="has-text-align-center mt-4" style="font-size:12px"><em>Ausgewählte Top-Bewertungen für www.energieausweis-online-erstellen.de powered by TrustedShops</em></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"contentJustification":"center","className":"uppercase"} -->
-<div class="wp-block-buttons is-content-justification-center uppercase"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link">Jetzt Energieausweis erstellen</a></div>
+<!-- wp:buttons {"className":"uppercase","layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons uppercase"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt Energieausweis erstellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
@@ -17676,7 +17696,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"textColor":"white"} -->
-<h2 class="has-white-color has-text-color"><strong>Geld-zurück-Garantie</strong><br>und unser Bestpreis-Versprechen für Sie</h2>
+<h2 class="has-white-color has-text-color" id="geld-zuruck-garantieund-unser-bestpreis-versprechen-fur-sie"><strong>Geld-zurück-Garantie</strong><br>und unser Bestpreis-Versprechen für Sie</h2>
 <!-- /wp:heading -->
 
 <!-- wp:columns -->
@@ -17709,8 +17729,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link">Hier Energieausweis beginnen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
@@ -17718,13 +17738,23 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:paragraph {"className":"banner-content-bottom"} -->
 <p class="banner-content-bottom">unser<br>bestpreis-versprechen</p>
 <!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings"} -->
+<div class="wp-block-group group-ratings has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">[ratings]</p>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465253</wp:post_id>
   <wp:post_date>2021-10-26 12:58:03</wp:post_date>
   <wp:post_date_gmt>2021-10-26 10:58:03</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:30</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:30</wp:post_modified_gmt>
+  <wp:post_modified>2021-11-11 13:44:41</wp:post_modified>
+  <wp:post_modified_gmt>2021-11-11 12:44:41</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>preise</wp:post_name>
@@ -17921,13 +17951,23 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:ootb/openstreetmap {"mapHeight":550,"markers":[{"lat":"50.3312695","lng":"7.320933","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eKrufter Straße 5, \u003cbr\u003e56753 Welling\u003cbr\u003e\u003cbr\u003eTel.: 02654 / 8801199\u003c/p\u003e"},{"lat":"50.5457043","lng":"7.1362166","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eTelegrafenstraße 2\u003cbr\u003eBad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"},{"lat":"50.540312","lng":"7.0908392","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eAltenbaustraße 2\u003cbr\u003e53474 Bad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"}],"zoom":10,"dragging":false,"touchZoom":false,"doubleClickZoom":false,"scrollWheelZoom":false,"bounds":[["50.540312","7.0908392"],["50.3312695","7.320933"],["50.5457043","7.1362166"]]} -->
 <div class="wp-block-ootb-openstreetmap"><div class="ootb-openstreetmap--map" data-provider="openstreetmap" data-markers="%5B%7B%22lat%22%3A%2250.3312695%22%2C%22lng%22%3A%227.320933%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EKrufter%20Stra%DFe%205%2C%20%3Cbr%3E56753%20Welling%3Cbr%3E%3Cbr%3ETel.%3A%2002654%20/%208801199%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.5457043%22%2C%22lng%22%3A%227.1362166%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3ETelegrafenstra%DFe%202%3Cbr%3EBad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.540312%22%2C%22lng%22%3A%227.0908392%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EAltenbaustra%DFe%202%3Cbr%3E53474%20Bad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%5D" data-bounds="[50.4384869,7.2058861]" data-zoom="10" data-minzoom="2" data-maxzoom="18" data-dragging="false" data-touchzoom="false" data-doubleclickzoom="false" data-scrollwheelzoom="false" data-marker="%7B%22iconUrl%22%3A%22https%3A//enon.test/app/plugins/ootb-openstreetmap/assets/vendor/leaflet/images/marker-icon.png%22%2C%22iconAnchor%22%3A%5B12%2C41%5D%2C%22popupAnchor%22%3A%5B0%2C-41%5D%7D" style="height:550px"></div></div>
-<!-- /wp:ootb/openstreetmap -->]]></content:encoded>
+<!-- /wp:ootb/openstreetmap -->
+
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings"} -->
+<div class="wp-block-group group-ratings has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">[ratings]</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465254</wp:post_id>
   <wp:post_date>2021-10-26 13:30:07</wp:post_date>
   <wp:post_date_gmt>2021-10-26 11:30:07</wp:post_date_gmt>
-  <wp:post_modified>2021-11-11 09:47:52</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-11 08:47:52</wp:post_modified_gmt>
+  <wp:post_modified>2021-11-11 13:45:46</wp:post_modified>
+  <wp:post_modified_gmt>2021-11-11 12:45:46</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>firmenportrait</wp:post_name>
@@ -18008,7 +18048,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2><strong>Häufige Fragen</strong><br>zu ihrem energieausweis</h2>
+<h2 id="haufige-fragenzu-ihrem-energieausweis"><strong>Häufige Fragen</strong><br>zu ihrem energieausweis</h2>
 <!-- /wp:heading -->
 
 <!-- wp:group {"className":"faq-item"} -->
@@ -18021,7 +18061,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column {"width":""} -->
 <div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color"><strong>Welche Angaben werden zur Erstellung<br>eines Energieausweises benötigt?</strong></h4>
+<h4 class="has-green-moss-color has-text-color" id="welche-angaben-werden-zur-erstellungeines-energieausweises-benotigt"><strong>Welche Angaben werden zur Erstellung<br>eines Energieausweises benötigt?</strong></h4>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18077,7 +18117,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column {"width":""} -->
 <div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color"><strong>WelchWas mache ich bei einem Mischgebäude?<br>Wohnen und Gewerbe in einem Gebäude</strong></h4>
+<h4 class="has-green-moss-color has-text-color" id="welchwas-mache-ich-bei-einem-mischgebaude-wohnen-und-gewerbe-in-einem-gebaude"><strong>WelchWas mache ich bei einem Mischgebäude?<br>Wohnen und Gewerbe in einem Gebäude</strong></h4>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18109,7 +18149,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column {"width":""} -->
 <div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color"><strong>Welche Angaben werden zur Erstellung<br>eines Energieausweises benötigt?</strong></h4>
+<h4 class="has-green-moss-color has-text-color" id="welche-angaben-werden-zur-erstellungeines-energieausweises-benotigt"><strong>Welche Angaben werden zur Erstellung<br>eines Energieausweises benötigt?</strong></h4>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18149,7 +18189,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column {"width":"66.66%"} -->
 <div class="wp-block-column" style="flex-basis:66.66%"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color"><strong>Angaben Verbrauchsausweis<br>Nicht-wohngebäude</strong></h4>
+<h4 class="has-green-moss-color has-text-color" id="angaben-verbrauchsausweisnicht-wohngebaude"><strong>Angaben Verbrauchsausweis<br>Nicht-wohngebäude</strong></h4>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
@@ -18167,7 +18207,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column {"width":""} -->
 <div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color"><strong>Ist ein auf dieser Website erstellter </strong><br><strong>Energieausweis rechtsgültig?</strong></h4>
+<h4 class="has-green-moss-color has-text-color" id="ist-ein-auf-dieser-website-erstellter-energieausweis-rechtsgultig"><strong>Ist ein auf dieser Website erstellter </strong><br><strong>Energieausweis rechtsgültig?</strong></h4>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18195,7 +18235,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column {"width":""} -->
 <div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color"><strong>Wird ein Energieausweis </strong><br><strong>für alle Immobilien benötigt?</strong></h4>
+<h4 class="has-green-moss-color has-text-color" id="wird-ein-energieausweis-fur-alle-immobilien-benotigt"><strong>Wird ein Energieausweis </strong><br><strong>für alle Immobilien benötigt?</strong></h4>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18223,7 +18263,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column {"width":""} -->
 <div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color"><strong>Kann ich eine Immobilienanzeige auch </strong><br><strong>ohne Energieausweis veröffentlichen?</strong></h4>
+<h4 class="has-green-moss-color has-text-color" id="kann-ich-eine-immobilienanzeige-auch-ohne-energieausweis-veroffentlichen"><strong>Kann ich eine Immobilienanzeige auch </strong><br><strong>ohne Energieausweis veröffentlichen?</strong></h4>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18251,7 +18291,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column {"width":""} -->
 <div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color"><strong>Beinhaltet der Energieausweis </strong><br><strong>eine Registriernummer?</strong></h4>
+<h4 class="has-green-moss-color has-text-color" id="beinhaltet-der-energieausweis-eine-registriernummer"><strong>Beinhaltet der Energieausweis </strong><br><strong>eine Registriernummer?</strong></h4>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18279,7 +18319,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column {"width":""} -->
 <div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color"><strong>Welche Angaben werden zur Erstellung<br>eines Energieausweises benötigt?</strong></h4>
+<h4 class="has-green-moss-color has-text-color" id="welche-angaben-werden-zur-erstellungeines-energieausweises-benotigt"><strong>Welche Angaben werden zur Erstellung<br>eines Energieausweises benötigt?</strong></h4>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18312,7 +18352,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:group {"gradient":"white-green-to-green-white","className":"wave2"} -->
 <div class="wp-block-group wave2 has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textColor":"green-moss"} -->
-<h2 class="has-green-moss-color has-text-color"><strong>unser qualitätsversprechen<br></strong>für ihren energieausweis</h2>
+<h2 class="has-green-moss-color has-text-color" id="unser-qualitatsversprechenfur-ihren-energieausweis"><strong>unser qualitätsversprechen<br></strong>für ihren energieausweis</h2>
 <!-- /wp:heading -->
 
 <!-- wp:columns {"className":"list-images-with-text"} -->
@@ -18322,7 +18362,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:image -->
 
 <!-- wp:heading {"textAlign":"center","level":3,"textColor":"green-moss","className":"mb-0 text-s"} -->
-<h3 class="has-text-align-center mb-0 text-s has-green-moss-color has-text-color">TrustedShops<br>zertifiziert</h3>
+<h3 class="has-text-align-center mb-0 text-s has-green-moss-color has-text-color" id="trustedshopszertifiziert">TrustedShops<br>zertifiziert</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center","textColor":"green-moss"} -->
@@ -18336,7 +18376,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:image -->
 
 <!-- wp:heading {"textAlign":"center","level":3,"textColor":"green-moss","className":"mb-0"} -->
-<h3 class="has-text-align-center mb-0 has-green-moss-color has-text-color">97%<br>Kundenzufriedenheit</h3>
+<h3 class="has-text-align-center mb-0 has-green-moss-color has-text-color" id="97-kundenzufriedenheit">97%<br>Kundenzufriedenheit</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center","textColor":"green-moss"} -->
@@ -18350,7 +18390,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:image -->
 
 <!-- wp:heading {"textAlign":"center","level":3,"textColor":"green-moss","className":"mb-0"} -->
-<h3 class="has-text-align-center mb-0 has-green-moss-color has-text-color">Mitglied im<br>Immobilienverband</h3>
+<h3 class="has-text-align-center mb-0 has-green-moss-color has-text-color" id="mitglied-imimmobilienverband">Mitglied im<br>Immobilienverband</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center","textColor":"green-moss"} -->
@@ -18359,8 +18399,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link">Energieausweis-erstellung beginnen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
@@ -18370,17 +18410,17 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:spacer --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(261deg,#f0f6d1 0%,#bdd3a0 100%)"}},"className":"wave2"} -->
-<div class="wp-block-group wave2 has-background" style="background:linear-gradient(261deg,#f0f6d1 0%,#bdd3a0 100%)"><!-- wp:heading -->
-<h2><strong>Das sagen unsere Kunden</strong><br>zufriedene Kunden sind für uns das wichtigste!</h2>
+<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"}}} -->
+<div class="wp-block-group has-background" style="background:linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"><!-- wp:heading -->
+<h2 id="das-sagen-unsere-kundenzufriedene-kunden-sind-fur-uns-das-wichtigste"><strong>Das sagen unsere Kunden</strong><br>zufriedene Kunden sind für uns das wichtigste!</h2>
 <!-- /wp:heading -->
 
 <!-- wp:columns {"className":"testimonials"} -->
 <div class="wp-block-columns testimonials"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
-<div class="wp-block-columns testimonial"><!-- wp:column {"width":"","className":"flex-image-start pr-2"} -->
-<div class="wp-block-column flex-image-start pr-2"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
-<div class="wp-block-image"><figure class="aligncenter size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
@@ -18396,31 +18436,31 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:columns {"className":"stars ml-2"} -->
 <div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
@@ -18430,9 +18470,9 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
-<div class="wp-block-columns testimonial"><!-- wp:column {"width":"","className":"flex-image-start pr-2"} -->
-<div class="wp-block-column flex-image-start pr-2"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
-<div class="wp-block-image"><figure class="aligncenter size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
@@ -18448,31 +18488,31 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:columns {"className":"stars ml-2"} -->
 <div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
@@ -18482,9 +18522,9 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
-<div class="wp-block-columns testimonial"><!-- wp:column {"width":"","className":"flex-image-start pr-2"} -->
-<div class="wp-block-column flex-image-start pr-2"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
-<div class="wp-block-image"><figure class="aligncenter size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
@@ -18500,31 +18540,31 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:columns {"className":"stars ml-2"} -->
 <div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://2021.energieausweis-online-erstellen.de/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<figure class="wp-block-image size-full"><img src="https://enon.test/app/themes/enon-theme/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
@@ -18537,18 +18577,28 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p class="has-text-align-center mt-4" style="font-size:12px"><em>Ausgewählte Top-Bewertungen für www.energieausweis-online-erstellen.de powered by TrustedShops</em></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"contentJustification":"center","className":"uppercase"} -->
-<div class="wp-block-buttons is-content-justification-center uppercase"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link">Jetzt Energieausweis erstellen</a></div>
+<!-- wp:buttons {"className":"uppercase","layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons uppercase"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt Energieausweis erstellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings"} -->
+<div class="wp-block-group group-ratings has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">[ratings]</p>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465255</wp:post_id>
   <wp:post_date>2021-10-26 13:42:21</wp:post_date>
   <wp:post_date_gmt>2021-10-26 11:42:21</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:30</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:30</wp:post_modified_gmt>
+  <wp:post_modified>2021-11-11 13:48:03</wp:post_modified>
+  <wp:post_modified_gmt>2021-11-11 12:48:03</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>haeufige-fragen</wp:post_name>
@@ -18732,7 +18782,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <description/>
   <content:encoded><![CDATA[<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(283deg,#b8e530 0%,#65e58d 100%)"}},"className":"wave1"} -->
 <div class="wp-block-group wave1 has-background" style="background:linear-gradient(283deg,#b8e530 0%,#65e58d 100%)"><!-- wp:heading -->
-<h2><strong>Kontakt</strong><br>Wir freuen uns auf Sie!</h2>
+<h2 id="kontaktwir-freuen-uns-auf-sie"><strong>Kontakt</strong><br>Wir freuen uns auf Sie!</h2>
 <!-- /wp:heading -->
 
 <!-- wp:gravityforms/form {"formId":"1","title":false,"description":false} /--></div>
@@ -18740,13 +18790,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:group {"gradient":"green-neon-to-green-mint"} -->
 <div class="wp-block-group has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
-<h2><strong>Unsere</strong><br>Geschäftsstellen</h2>
+<h2 id="unseregeschaftsstellen"><strong>Unsere</strong><br>Geschäftsstellen</h2>
 <!-- /wp:heading -->
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:heading {"textAlign":"center","level":4,"textColor":"green-moss"} -->
-<h4 class="has-text-align-center has-green-moss-color has-text-color"><strong>Bad Neuenahr-Ahrweiler</strong></h4>
+<h4 class="has-text-align-center has-green-moss-color has-text-color" id="bad-neuenahr-ahrweiler"><strong>Bad Neuenahr-Ahrweiler</strong></h4>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
@@ -18760,7 +18810,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:heading {"textAlign":"center","level":4,"textColor":"green-moss"} -->
-<h4 class="has-text-align-center has-green-moss-color has-text-color"><strong>Bad Neuenahr</strong></h4>
+<h4 class="has-text-align-center has-green-moss-color has-text-color" id="bad-neuenahr"><strong>Bad Neuenahr</strong></h4>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
@@ -18774,7 +18824,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:heading {"textAlign":"center","level":4,"textColor":"green-moss"} -->
-<h4 class="has-text-align-center has-green-moss-color has-text-color"><strong>Welling</strong></h4>
+<h4 class="has-text-align-center has-green-moss-color has-text-color" id="welling"><strong>Welling</strong></h4>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
@@ -18789,14 +18839,24 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:group -->
 
 <!-- wp:ootb/openstreetmap {"mapHeight":550,"markers":[{"lat":"50.3312695","lng":"7.320933","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eKrufter Straße 5, \u003cbr\u003e56753 Welling\u003cbr\u003e\u003cbr\u003eTel.: 02654 / 8801199\u003c/p\u003e"},{"lat":"50.5457043","lng":"7.1362166","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eTelegrafenstraße 2\u003cbr\u003eBad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"},{"lat":"50.540312","lng":"7.0908392","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eAltenbaustraße 2\u003cbr\u003e53474 Bad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"}],"zoom":10,"dragging":false,"touchZoom":false,"doubleClickZoom":false,"scrollWheelZoom":false,"bounds":[["50.540312","7.0908392"],["50.3312695","7.320933"],["50.5457043","7.1362166"]]} -->
-<div class="wp-block-ootb-openstreetmap"><div class="ootb-openstreetmap--map" data-provider="openstreetmap" data-markers="%5B%7B%22lat%22%3A%2250.3312695%22%2C%22lng%22%3A%227.320933%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EKrufter%20Stra%DFe%205%2C%20%3Cbr%3E56753%20Welling%3Cbr%3E%3Cbr%3ETel.%3A%2002654%20/%208801199%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.5457043%22%2C%22lng%22%3A%227.1362166%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3ETelegrafenstra%DFe%202%3Cbr%3EBad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.540312%22%2C%22lng%22%3A%227.0908392%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EAltenbaustra%DFe%202%3Cbr%3E53474%20Bad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%5D" data-bounds="[50.4384869,7.2058861]" data-zoom="10" data-minzoom="2" data-maxzoom="18" data-dragging="false" data-touchzoom="false" data-doubleclickzoom="false" data-scrollwheelzoom="false" data-marker="%7B%22iconUrl%22%3A%22https%3A//2021.energieausweis-online-erstellen.de/app/plugins/ootb-openstreetmap/assets/vendor/leaflet/images/marker-icon.png%22%2C%22iconAnchor%22%3A%5B12%2C41%5D%2C%22popupAnchor%22%3A%5B0%2C-41%5D%7D" style="height:550px"></div></div>
-<!-- /wp:ootb/openstreetmap -->]]></content:encoded>
+<div class="wp-block-ootb-openstreetmap"><div class="ootb-openstreetmap--map" data-provider="openstreetmap" data-markers="%5B%7B%22lat%22%3A%2250.3312695%22%2C%22lng%22%3A%227.320933%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EKrufter%20Stra%DFe%205%2C%20%3Cbr%3E56753%20Welling%3Cbr%3E%3Cbr%3ETel.%3A%2002654%20/%208801199%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.5457043%22%2C%22lng%22%3A%227.1362166%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3ETelegrafenstra%DFe%202%3Cbr%3EBad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.540312%22%2C%22lng%22%3A%227.0908392%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EAltenbaustra%DFe%202%3Cbr%3E53474%20Bad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%5D" data-bounds="[50.4384869,7.2058861]" data-zoom="10" data-minzoom="2" data-maxzoom="18" data-dragging="false" data-touchzoom="false" data-doubleclickzoom="false" data-scrollwheelzoom="false" data-marker="%7B%22iconUrl%22%3A%22https%3A//enon.test/app/plugins/ootb-openstreetmap/assets/vendor/leaflet/images/marker-icon.png%22%2C%22iconAnchor%22%3A%5B12%2C41%5D%2C%22popupAnchor%22%3A%5B0%2C-41%5D%7D" style="height:550px"></div></div>
+<!-- /wp:ootb/openstreetmap -->
+
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings"} -->
+<div class="wp-block-group group-ratings has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">[ratings]</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465257</wp:post_id>
   <wp:post_date>2021-10-27 13:26:40</wp:post_date>
   <wp:post_date_gmt>2021-10-27 11:26:40</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:30</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:30</wp:post_modified_gmt>
+  <wp:post_modified>2021-11-11 13:50:01</wp:post_modified>
+  <wp:post_modified_gmt>2021-11-11 12:50:01</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>kontakt</wp:post_name>
