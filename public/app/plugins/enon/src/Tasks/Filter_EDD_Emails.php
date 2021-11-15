@@ -153,6 +153,7 @@ class Filter_EDD_Emails implements Task, Actions {
 			'sendung_per_post'           => 'postversand@energieausweis-online-erstellen.de',			
 			'energieausweis_besprechung' => 'angabencheck@energieausweis-online-erstellen.de',
 			'premium_bewertung'          => 'premiumbewertung@energieausweis-online-erstellen.de',
+			'check_evm'                  => 'modernisierungen@immoticket24.de'
 		];
 
 		foreach ( $this->payment_fees as $payment_fee ) {
