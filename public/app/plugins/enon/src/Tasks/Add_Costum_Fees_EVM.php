@@ -85,7 +85,7 @@ class Add_Costum_Fees_EVM implements Filters, Task {
 	public function postcoce_allowed() {
 		$energy_certificate_ids = $this->get_cart_energy_certificate_ids();
 
-		$allowed_postcodes = [ 53, 54, 55, 56, 57, 58, 42 ];
+		$allowed_postcodes = [ 53, 54, 55, 56, 57, 58 ];
 
 		foreach( $energy_certificate_ids AS $energy_certificate_id ) {
 			$ec = new Energieausweis( $energy_certificate_id );
