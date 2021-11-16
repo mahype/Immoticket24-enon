@@ -49,7 +49,7 @@ class Add_Costum_Fees_EVM implements Filters, Task {
 	 * @since 1.0.0
 	 */
 	public function filter_fees( $fees ) {
-		if ( ! $this->postcoce_allowed() ) {
+		if ( ! $this->postcoce_allowed() || ! $this->reason_allowed() ) {
 			return $fees;
 		}
 
@@ -76,16 +76,39 @@ class Add_Costum_Fees_EVM implements Filters, Task {
 	}
 
 	/**
+	 * Checks if reason is allowed for showing custom fee
+	 * 
+	 * @return bool True if reason matches, false if not.
+	 * 
+	 * @since 1.0.0
+	 */
+	private function reason_allowed() {
+		$energy_certificate_ids = $this->get_cart_energy_certificate_ids();
+
+		$allowed_reasons = [ 'modernisierung', 'vermietung' ];
+
+		foreach( $energy_certificate_ids AS $energy_certificate_id ) {
+			$ec = new Energieausweis( $energy_certificate_id );
+
+			if ( in_array( $ec->anlass, $allowed_reasons ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Checks if postcode is allowed for showing custom fee
 	 * 
 	 * @return bool True if postcode matches, false if not.
 	 * 
 	 * @since 1.0.0
 	 */
-	public function postcoce_allowed() {
+	private function postcoce_allowed() {
 		$energy_certificate_ids = $this->get_cart_energy_certificate_ids();
 
-		$allowed_postcodes = [ 53, 54, 55, 56, 57, 58 ];
+		$allowed_postcodes = [ 53, 54, 55, 56, 57, 58, 42 ];
 
 		foreach( $energy_certificate_ids AS $energy_certificate_id ) {
 			$ec = new Energieausweis( $energy_certificate_id );
