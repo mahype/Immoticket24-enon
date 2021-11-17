@@ -115,9 +115,21 @@ abstract class List_Table extends \WP_List_Table {
 			'hide_column_controls' => false,
 		);
 
-		if ( ! empty( $args['query_args'] ) ) {
-			$this->query_args = $args['query_args'];
+		$query_args = ! empty( $args['query_args'] ) ? $args['query_args'] : array();
+		$screen_id  = isset( $this->screen->id ) ? $this->screen->id : '';
 
+		/**
+		 * Filters the list table query args.
+		 *
+		 * @since 2.8
+		 *
+		 * @param array  $query_args Optional arguments to pass when preparing items.
+		 * @param string $screen_id  Screen ID.
+		 */
+		$query_args = apply_filters( 'affwp_list_table_query_args', $query_args, $screen_id );
+
+		if ( ! empty( $query_args ) ) {
+			$this->query_args = $query_args;
 			unset( $args['query_args'] );
 		}
 

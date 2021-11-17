@@ -46,6 +46,20 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 	public $query_object_type = 'AffWP\Affiliate\Coupon';
 
 	/**
+	 * Container for storing all tags
+	 *
+	 * @since 2.8
+	 */
+	private $tags;
+
+	/**
+	 * Coupon used to set up the coupon format.
+	 *
+	 * @since 2.8
+	 */
+	public $coupon;
+
+	/**
 	 * Get things started.
 	 *
 	 * @since 2.6
@@ -60,7 +74,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_coupons';
 		}
 		$this->primary_key = 'coupon_id';
-		$this->version     = '1.1';
+		$this->version     = '1.3';
 	}
 
 	/**
@@ -87,6 +101,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			'coupon_id'    => '%d',
 			'affiliate_id' => '%d',
 			'coupon_code'  => '%s',
+			'type'         => '%s',
 		);
 	}
 
@@ -106,6 +121,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 	 * Retrieves coupons from the database.
 	 *
 	 * @since 2.6
+	 * @since 2.8 Added the `$type` and `$no_type_only` arguments.
 	 *
 	 * @param array $args {
 	 *     Optional. Arguments for querying coupons. Default empty array.
@@ -115,6 +131,8 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 	 *     @type int|array    $coupon_id    Coupon ID or array of IDs to explicitly retrieve. Default 0 (all).
 	 *     @type int|array    $affiliate_id Affiliate ID or array of IDs to explicitly retrieve. Default empty.
 	 *     @type string|array $coupon_code  Coupon code or array of coupon codes to explicitly retrieve. Default empty.
+	 *     @type string|array $type         Coupon type, array of types, or empty for all. Default empty.
+	 *     @type bool         $no_type_only Whether to only query for coupons with no type. Default true.
 	 *     @type string       $order        How to order returned results. Accepts 'ASC' or 'DESC'. Default 'DESC'.
 	 *     @type string       $orderby      Coupons table column to order results by. Accepts any AffWP\Affiliate\Coupon
 	 *                                      field. Default 'affiliate_id'.
@@ -133,6 +151,8 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			'coupon_id'    => 0,
 			'affiliate_id' => 0,
 			'coupon_code'  => 0,
+			'type'         => '',
+			'no_type_only' => true,
 			'orderby'      => $this->primary_key,
 			'order'        => 'ASC',
 			'fields'       => '',
@@ -142,6 +162,11 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 
 		if ( $args['number'] < 1 ) {
 			$args['number'] = 999999999999;
+		}
+
+		// Ignore no_type_only if querying for specific type or types.
+		if ( ! empty( $args['type'] ) ) {
+			$args['no_type_only'] = false;
 		}
 
 		$where = $join = '';
@@ -185,6 +210,23 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			} else {
 				$coupons = affwp_sanitize_coupon_code( $args['coupon_code'] );
 				$where .= "`coupon_code` = '" . $coupons . "' ";
+			}
+		}
+
+		// Coupon types.
+		if ( ! empty( $args['type'] ) || true === $args['no_type_only'] ) {
+
+			$where .= empty( $where ) ? "WHERE " : "AND ";
+
+			if ( true === $args['no_type_only'] ) {
+				$args['type'] = '';
+			}
+
+			if ( is_array( $args['type'] ) ) {
+				$where .= "`type` IN('" . implode( "','", array_map( 'sanitize_key', $args['type'] ) ) . "') ";
+			} else {
+				$type = sanitize_key( $args['type'] );
+				$where .= "`type` = '" . $type . "' ";
 			}
 		}
 
@@ -272,9 +314,11 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 		$defaults = array(
 			'coupon_code'  => '',
 			'affiliate_id' => 0,
+			'type'         => '',
 		);
 
 		$args = wp_parse_args( $data, $defaults );
+		$coupon_format = affiliate_wp()->settings->get( 'coupon_format' );
 
 		// Bail if the coupon template is not set.
 		$woocommerce_coupon_template = affiliate_wp()->settings->get( 'coupon_template_woocommerce', 0 );
@@ -290,12 +334,31 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 
 		if ( empty( $args['coupon_code'] ) ) {
 			$args['coupon_code'] = $this->generate_code( array( 'affiliate_id' => $args['affiliate_id'] ) );
-		} else {
-			$args['coupon_code'] = affwp_sanitize_coupon_code( $args['coupon_code'] );
 		}
 
-		// Store coupon codes in caps.
-		$args['coupon_code'] = strtoupper( $args['coupon_code'] );
+		// Use coupon format to set the coupon code.
+		if ( false !== $coupon_format && ! empty( $coupon_format ) ) {
+			// Make Affiliate ID, coupon code, and integration available for coupon parsing functions.
+			$args['integration'] = 'coupon_template_woocommerce';
+
+			$this->coupon = $args;
+
+			$coupon_code = $this->parse_tags( $coupon_format );
+
+			$coupon_code = affwp_sanitize_coupon_code( $coupon_code );
+
+			// Only update if valid. Otherwise defaults to generated code.
+			if ( true === affwp_validate_coupon_code( $coupon_code ) ) {
+				$args['coupon_code'] = $coupon_code;
+			}
+		} else {
+			$this->coupon = $args;
+		}
+
+		// Sanitize and store coupon code in caps.
+		$args['coupon_code'] = affwp_sanitize_coupon_code( $args['coupon_code'] );
+
+		$args['type'] = sanitize_key( $args['type'] );
 
 		$added = $this->insert( $args, 'coupon' );
 
@@ -336,6 +399,10 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			$args['coupon_code'] = affwp_sanitize_coupon_code( $data['coupon_code'] );
 		}
 
+		if ( ! empty( $data['type'] ) ) {
+			$args['type'] = sanitize_key( $data['type'] );
+		}
+
 		$updated = parent::update( $coupon_id, $args, '', 'coupon' );
 
 		/**
@@ -361,7 +428,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 	 *
 	 * @param  string $column Column name. See get_columns().
 	 * @param  mixed  $value  Column value.
-	 * @return object|false Database query result object or false on failure.
+	 * @return object|null Database query result object or null on failure.
 	 */
 	public function get_by( $column, $value ) {
 		if ( 'coupon_code' === $column ) {
@@ -413,14 +480,16 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 	 * Routine that creates the coupons table.
 	 *
 	 * @since 2.6
+	 * @since 2.8 The coupon_code column was increased from 50 to 191 characters.
 	 */
 	public function create_table() {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$sql = "CREATE TABLE {$this->table_name} (
-			coupon_id    bigint(20)  NOT NULL AUTO_INCREMENT,
-			affiliate_id bigint(20)  NOT NULL,
-			coupon_code  varchar(50) NOT NULL,
+			coupon_id    bigint(20)   NOT NULL AUTO_INCREMENT,
+			affiliate_id bigint(20)   NOT NULL,
+			coupon_code  varchar(191) NOT NULL,
+			type         tinytext     NOT NULL,
 			PRIMARY KEY (coupon_id),
 			KEY coupon_code (coupon_code)
 			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
@@ -428,5 +497,127 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 		dbDelta( $sql );
 
 		update_option( $this->table_name . '_db_version', $this->version );
+	}
+
+	/**
+	 * Retrieves all registered coupon merge tags.
+	 *
+	 * @since 2.8
+	 *	 
+	 * @return array {
+	 *     Coupon tags and their attributes
+	 *
+	 *     @type array Coupon tag slug {
+	 *         @type string   $description Translatable description for what the coupon tag represents.
+	 *         @type callable $function    Callback function for rendering the coupon tag.
+	 *     }
+	 * }
+	 */
+	public function get_tags() {
+
+		// Setup default tags array.
+		$coupon_tags = array(
+			'coupon_code'   => array(
+				'description' => __( 'The coupon code.', 'affiliate-wp' ),
+				'function'    => 'affwp_coupon_tag_coupon_code',
+			),
+			'coupon_amount' => array(
+				'description' => __( 'The coupon&#8217;s amount.', 'affiliate-wp' ),
+				'function'    => 'affwp_coupon_tag_coupon_amount',
+			),
+			'user_name'     => array(
+				'description' => __( 'The affiliate&#8217;s WordPress username.', 'affiliate-wp' ),
+				'function'    => 'affwp_coupon_tag_user_name',
+			),
+			'first_name'    => array(
+				'description' => __( 'The affiliate&#8217;s first name.', 'affiliate-wp' ),
+				'function'    => 'affwp_coupon_tag_first_name',
+			),
+			'custom_text'   => array(
+				'description' => __( 'Custom text', 'affiliate-wp', 'affiliate-wp' ),
+				'function'    => 'affwp_coupon_tag_custom_text',
+			),
+		);
+
+		return $coupon_tags;
+	}
+
+	/**
+	 * Sets up all registered coupon tags.
+	 *
+	 * @since 2.8
+	 *
+	 * @return void
+	 */
+	private function setup_coupon_tags() {
+
+		$tags = $this->get_tags();
+
+		foreach ( $tags as $tag => $atts ) {
+			if ( isset( $atts['function'] ) && is_callable( $atts['function'] ) ) {
+				$this->tags[ $tag ] = $atts;
+			}
+		}
+
+	}
+
+	/**
+	 * Searches the content for coupon tags and filter coupon tags through their hooks.
+	 *
+	 * @since 2.8
+	 *
+	 * @param string                          $content Content to search for coupon tags.
+	 * @param null|AffWP\Affiliate\Coupon|int $coupon  Optional. Coupon ID or object. Default null (unused).
+	 * @return string Filtered content.
+	 */
+	public function parse_tags( $content, $coupon = null ) {
+		$this->setup_coupon_tags();
+
+		if ( $coupon = affwp_get_coupon( $coupon ) ) {
+			$this->coupon = $coupon->to_array();
+		}
+
+		$tags = $this->get_tags();
+
+		// Make sure there's at least one tag.
+		if ( empty( $tags ) || ! is_array( $tags ) ) {
+			return $content;
+		}
+
+		$new_content = preg_replace_callback( '/{([A-z0-9\-\_]+)}/s', array( $this, 'do_tag' ), $content );
+
+		return $new_content;
+	}
+
+	/**
+	 * Parses a specific tag.
+	 *
+	 * @since 2.8
+	 *
+	 * @param array $merge_tag Merge tag.
+	 */
+	private function do_tag( $merge_tag ) {
+		// Get tag.
+		$tag  = $merge_tag[1];
+		$tags = $this->get_tags();
+
+		// Return tag if not set.
+		if ( ! $this->coupon_tag_exists( $tag ) ) {
+			return $merge_tag[0];
+		}
+
+		return call_user_func( $tags[ $tag ]['function'], $this->coupon, $tag );
+	}
+
+	/**
+	 * Checks if the given tag is registered.
+	 *
+	 * @since 2.8
+	 *
+	 * @param string $tag Coupon tag that will be searched.
+	 * @return bool True if exists, false otherwise.
+	 */
+	public function coupon_tag_exists( $tag ) {
+		return array_key_exists( $tag, $this->get_tags() );
 	}
 }

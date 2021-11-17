@@ -87,6 +87,8 @@ function affiliate_wp_install() {
 			'email_notifications' => $affiliate_wp_install->settings->email_notifications( true )
 		), $save = true );
 
+		update_option( 'affwp_migrated_meta_fields',affwp_get_pending_migrated_user_meta_fields() );
+
 	}
 
 	// 3 equals unchecked

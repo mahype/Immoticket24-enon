@@ -205,6 +205,10 @@ class Affiliate_WP_Upgrades {
 			$this->v274_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.8', '<' ) ) {
+			$this->v28_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -287,6 +291,15 @@ class Affiliate_WP_Upgrades {
 			'compare' => '<',
 		) );
 
+		$this->add_routine( 'migrate_affiliate_user_meta', array(
+			'version'       => '2.8',
+			'compare'       => '<',
+			'batch_process' => array(
+				'id'    => 'migrate-user-meta',
+				'class' => 'AffWP\Utils\Batch_Process\Batch_Migrate_Affiliate_User_Meta',
+				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-migrate-affwp-user-meta.php',
+			),
+		) );
 	}
 
 	/**
@@ -1070,6 +1083,32 @@ class Affiliate_WP_Upgrades {
 			$new_file = trailingslashit( $base_dir ) . sprintf( 'affwp-debug-log__%s.log', $hash );
 			@rename( $old_file, $new_file );
 		}
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Performs database upgrades for 2.8.
+	 *
+	 * @since 2.8
+	 */
+	private function v28_upgrade() {
+		global $wpdb;
+
+		$table_name = affiliate_wp()->affiliates->coupons->table_name;
+
+		// Update the length of the coupon_code column to 191 characters.
+		affiliate_wp()->affiliates->coupons->create_table();
+
+		affiliate_wp()->utils->log( 'Upgrade: The coupons table has been updated to support lengthier coupon codes and types.' );
+
+		// Set default coupon format and hyphen delimeter.
+		$coupons_settings = array(
+		    'coupon_format'           => '{coupon_code}',
+		    'coupon_hyphen_delimiter' => 1,
+		);
+
+		affiliate_wp()->settings->set( $coupons_settings, $save = true );
 
 		$this->upgraded = true;
 	}

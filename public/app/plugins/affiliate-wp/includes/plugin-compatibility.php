@@ -223,3 +223,28 @@ function affwp_user_switching_switch_to_affiliate( $row_actions, $affiliate ) {
 	return $row_actions;
 }
 add_filter( 'affwp_affiliate_row_actions', 'affwp_user_switching_switch_to_affiliate', 100, 2 );
+
+/**
+ * Deactivates the AffiliateWP Blocks add-on in AffiliateWP 2.8+.
+ *
+ * @since 2.8
+ */
+function affwp_deactivate_affiliatewp_blocks() {
+	if ( class_exists( 'AffiliateWP_Blocks' ) ) {
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		$plugin_paths = array_keys( get_plugins() );
+
+		$found = preg_grep( "/\/affiliatewp-blocks.php$/", $plugin_paths );
+
+		if ( ! empty( $found ) ) {
+			$path = reset( $found );
+
+			// Deactivate AffiliateWP Blocks.
+			deactivate_plugins( $path );
+		}
+	}
+}
+add_action( 'admin_init', 'affwp_deactivate_affiliatewp_blocks' );

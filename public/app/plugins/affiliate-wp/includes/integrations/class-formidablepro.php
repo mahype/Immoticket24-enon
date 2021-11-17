@@ -199,31 +199,56 @@ class Affiliate_WP_Formidable_Pro extends Affiliate_WP_Base {
 	 */
 	public function add_pending_referral( $entry_id, $form_id ) {
 
-		if ( $this->was_referred() ) {
+		// Check if referred.
+		if ( ! $this->was_referred() ) {
+			return; // Referral not created because affiliate was not referred.
+		}
 
-			$form = FrmForm::getOne( $form_id );
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$this->affiliate_id,
+			array(
+				'reference' => $entry_id,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
+			return;
+		}
 
-			$this->referral_type = isset( $form->options['affiliatewp']['referral_type'] ) ? $form->options['affiliatewp']['referral_type'] : 'sale';
+		$form = FrmForm::getOne( $form_id );
 
-			$field_referral_description = $form->options['affiliatewp']['referral_description_field'];
-			$field_purchase_amount      = $form->options['affiliatewp']['purchase_amount_field'];
+		$this->referral_type = isset( $form->options['affiliatewp']['referral_type'] ) ? $form->options['affiliatewp']['referral_type'] : 'sale';
 
-			// Return if the "Referral description" and "Purchase Amount" options were not configured in the form settings.
-			if ( empty( $field_referral_description ) || empty( $field_purchase_amount ) ) {
-				return;
-			}
+		$field_referral_description = $form->options['affiliatewp']['referral_description_field'];
+		$field_purchase_amount      = $form->options['affiliatewp']['purchase_amount_field'];
 
-			$description     = FrmEntryMeta::get_entry_meta_by_field( $entry_id, $field_referral_description );
-			$description     = ! empty( $description ) ? $description : '';
-			$purchase_amount = floatval( FrmEntryMeta::get_entry_meta_by_field( $entry_id, $field_purchase_amount ) );
+		// Return if the "Referral description" and "Purchase Amount" options were not configured in the form settings.
+		if ( empty( $field_referral_description ) || empty( $field_purchase_amount ) ) {
+			$this->log( 'Referral not created because "Referral description" and "Purchase Amount" options were not configured in the form settings.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
 
-			$referral_total  = $this->calculate_referral_amount( $purchase_amount, $entry_id );
+		$description     = FrmEntryMeta::get_entry_meta_by_field( $entry_id, $field_referral_description );
+		$description     = ! empty( $description ) ? $description : '';
+		$purchase_amount = floatval( FrmEntryMeta::get_entry_meta_by_field( $entry_id, $field_purchase_amount ) );
 
-			$this->insert_pending_referral( $referral_total, $entry_id, $description );
+		$referral_total  = $this->calculate_referral_amount( $purchase_amount, $entry_id );
 
-			if ( empty( $referral_total ) ) {
-				$this->mark_referral_complete( array( 'entry_id' => $entry_id ) );
-			}
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'      => 'pending',
+				'amount'      => $referral_total,
+				'description' => $description,
+			)
+		);
+		$this->log( sprintf( 'Formidable Pro referral #%d updated to pending successfully.', $referral_id ) );
+
+		if ( empty( $referral_total ) ) {
+			$this->mark_referral_complete( array( 'entry_id' => $entry_id ) );
 		}
 
 	}

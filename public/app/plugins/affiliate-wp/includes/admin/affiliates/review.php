@@ -18,6 +18,7 @@ $promotion_method        = get_user_meta( $affiliate->user_id, 'affwp_promotion_
 $payment_email           = $affiliate->payment_email;
 $dynamic_coupons_enabled = affiliate_wp()->settings->get( 'dynamic_coupons' );
 $dynamic_coupons         = affwp_get_dynamic_affiliate_coupons( $affiliate_id, false );
+$custom_fields           = affwp_get_custom_registration_fields( $affiliate_id, true );
 ?>
 <div class="wrap">
 
@@ -115,6 +116,26 @@ $dynamic_coupons         = affwp_get_dynamic_affiliate_coupons( $affiliate_id, f
 
 				</tr>
 			<?php endif; ?>
+
+			<?php foreach ( $custom_fields as $custom_field ):
+				if( 'checkbox' === $custom_field['type'] ) {
+						$value = (bool) $custom_field['meta_value'];
+						$custom_field['meta_value'] = true === $value ? _x( 'Yes', 'registration checkbox enabled', 'affiliate-wp' ) : _x( 'No', 'registration checkbox disabled', 'affiliate-wp' );
+				}
+			?>
+				<tr class="form-row">
+
+					<th scope="row">
+						<?php echo wp_strip_all_tags( $custom_field['name'] ) ?>
+					</th>
+
+					<td>
+						<?php echo esc_html( $custom_field['meta_value'] ) ?>
+					</td>
+
+				</tr>
+			<?php endforeach; ?>
+
 
 			<tr class="form-row" id="affwp-rejection-reason">
 

@@ -59,9 +59,10 @@ function affwp_update_affiliate_meta( $affiliate_id = 0, $meta_key = '', $meta_v
 /**
  * Remove metadata matching criteria from a affiliate.
  *
- * @param   int    $affiliate_id  Affiliate ID.
- * @param   string $meta_key      Metadata name.
- * @param   mixed  $meta_value    Optional. Metadata value.
+ * @param int    $affiliate_id Affiliate ID.
+ * @param string $meta_key     Metadata name.
+ * @param mixed  $meta_value   Optional. Metadata value.
+ *
  * @return  bool                  False for failure. True for success.
  *
  * @access  public
@@ -69,4 +70,37 @@ function affwp_update_affiliate_meta( $affiliate_id = 0, $meta_key = '', $meta_v
  */
 function affwp_delete_affiliate_meta( $affiliate_id = 0, $meta_key = '', $meta_value = '' ) {
 	return affiliate_wp()->affiliate_meta->delete_meta( $affiliate_id, $meta_key, $meta_value );
+}
+
+/**
+ * Retrieve all custom fields submitted by the affiliate on registration.
+ *
+ * @since   2.8
+ *
+ * @param int  $affiliate_id Affiliate ID.
+ * @param bool $single       Whether to return a single value for each retrieved field. Default false.
+ *
+ * @return  array            List of custom meta values keyed by the meta key.
+ */
+function affwp_get_custom_registration_fields( $affiliate_id, $single = false ) {
+	$fields = affwp_get_affiliate_meta( $affiliate_id, '_submitted_custom_registration_fields', true );
+	$result = array();
+	if ( ! empty( $fields ) ) {
+		foreach ( $fields as $field ) {
+			$default = array(
+				'meta_key' => '',
+				'name'     => '',
+				'type'     => false,
+			);
+			$field   = wp_parse_args( $field, $default );
+
+			$result[ $field['meta_key'] ] = array(
+				'meta_value' => affwp_get_affiliate_meta( $affiliate_id, $field['meta_key'], $single ),
+				'name'       => $field['name'],
+				'type'       => $field['type'],
+			);
+		}
+	}
+
+	return $result;
 }

@@ -75,6 +75,7 @@ function affwp_tools_system_info_report() {
 	$return .= 'Currency:                         ' . ( $settings->get( 'currency' ) ? $settings->get( 'currency' ) . "\n" : "Default\n" );
 	$return .= 'Currency Position:                ' . ( $settings->get( 'currency_position' ) ? $settings->get( 'currency_position' ) . "\n" : "Default\n" );
 	$return .= 'Cookie Expiration:                ' . ( $settings->get( 'cookie_exp' ) ? $settings->get( 'cookie_exp' ) . " day(s)\n" : "Default\n" );
+	$return .= 'Cookie Compat Mode Enabled:       ' . ( affiliate_wp()->tracking->cookie_compat_mode ? 'Yes' : 'No' ) . "\n";
 	$return .= 'Network-wide DB Tables:           ' . ( defined( 'AFFILIATE_WP_NETWORK_WIDE' ) ? AFFILIATE_WP_NETWORK_WIDE ? 'Enabled' : 'Disabled' : 'Not set' ) . "\n";
 
 	// Environment.

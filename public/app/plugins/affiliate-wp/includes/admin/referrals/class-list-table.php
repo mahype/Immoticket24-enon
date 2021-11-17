@@ -795,30 +795,37 @@ class AffWP_Referrals_Table extends List_Table {
 			$affiliate_id = absint( $affiliate_id );
 		}
 
+		$this->draft_count = affiliate_wp()->referrals->count(
+			array_merge( $this->query_args, array(
+				'affiliate_id' => $affiliate_id,
+				'status'       => 'draft',
+			) )
+		);
+
 		$this->paid_count = affiliate_wp()->referrals->count(
 			array_merge( $this->query_args, array(
 				'affiliate_id' => $affiliate_id,
-				'status'       => 'paid'
+				'status'       => 'paid',
 			) )
 		);
 
 		$this->unpaid_count = affiliate_wp()->referrals->count(
 			array_merge( $this->query_args, array(
 				'affiliate_id' => $affiliate_id,
-				'status'       => 'unpaid'
+				'status'       => 'unpaid',
 			) )
 		);
 		$this->pending_count = affiliate_wp()->referrals->count(
 			array_merge( $this->query_args, array(
 				'affiliate_id' => $affiliate_id,
-				'status'       => 'pending'
+				'status'       => 'pending',
 			) )
 		);
 
 		$this->rejected_count = affiliate_wp()->referrals->count(
 			array_merge( $this->query_args, array(
 				'affiliate_id' => $affiliate_id,
-				'status'       => 'rejected'
+				'status'       => 'rejected',
 			) )
 		);
 
@@ -945,6 +952,9 @@ class AffWP_Referrals_Table extends List_Table {
 		$status = isset( $_GET['status'] ) ? $_GET['status'] : 'any';
 
 		switch( $status ) {
+			case 'draft':
+				$total_items = $this->draft_count;
+				break;
 			case 'paid':
 				$total_items = $this->paid_count;
 				break;

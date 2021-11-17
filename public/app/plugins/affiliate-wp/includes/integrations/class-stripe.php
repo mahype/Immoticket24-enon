@@ -95,6 +95,21 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 			return;
 		}
 
+		// Assign email.
+		$this->email = $object->customer->email;
+
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$affiliate_id,
+			array(
+				'reference' => $object->id,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
+			return;
+		}
+
 		$visit_id = isset( $object->metadata->affwp_visit_id )
 			? intval( $object->metadata->affwp_visit_id )
 			: false;
@@ -142,40 +157,36 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 
 		$amount = $this->calculate_referral_amount( $amount, $object->id, 0, $affiliate_id );
 
-		// Assign email.
-		$this->email = $object->customer->email;
-
 		if ( $this->is_affiliate_email( $this->email, $affiliate_id ) ) {
 			$this->log( 'Referral not created because affiliate\'s own account was used.' );
-
+			$this->mark_referral_failed( $referral_id );
 			return;
 		}
 
-		$referral_id = $this->insert_pending_referral(
-			$amount,
-			$object->id,
-			$description,
-			array(),
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
 			array(
-				'affiliate_id' => $affiliate_id,
-				'visit_id'     => $visit_id,
-				'livemode'     => $mode,
+				'status'      => 'pending',
+				'amount'      => $amount,
+				'description' => $description,
+				'visit_id'    => $visit_id,
+				'custom'      => array(
+					'affiliate_id' => $affiliate_id,
+					'visit_id'     => $visit_id,
+					'livemode'     => $mode,
+				),
 			)
 		);
 
-		if ( $referral_id ) {
-			$this->log( 'Pending referral created successfully during Stripe webhook processing.' );
+		$this->log( 'Pending referral created successfully during Stripe webhook processing.' );
 
-			$completed = $this->complete_referral( $object->id );
+		$completed = $this->complete_referral( $object->id );
 
-			if ( true === $completed ) {
-				$this->log( 'Referral completed successfully during Stripe webhook processing.' );
-			} else{
-				$this->log( 'Referral failed to be set to completed with complete_referral() during Stripe webhook processing.', $object );
-			}
-
-		} else {
-			$this->log( 'Pending referral failed to be created during Stripe webhook processing.', $object );
+		if ( true === $completed ) {
+			$this->log( 'Referral completed successfully during Stripe webhook processing.' );
+		} else{
+			$this->log( 'Referral failed to be set to completed with complete_referral() during Stripe webhook processing.', $object );
 		}
 	}
 
@@ -189,104 +200,120 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 	*/
 	public function insert_referral( $object ) {
 
-		if( $this->was_referred() ) {
+		// Check if it was referred.
+		if( ! $this->was_referred() ) {
+			return false; // Referral not created because affiliate was not referred.
+		}
 
-			global $simpay_form;
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$this->affiliate_id,
+			array(
+				'reference' => $object->id,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
+			return;
+		}
 
-			switch( $object->object ) {
+		global $simpay_form;
 
-				case 'subscription' :
+		switch( $object->object ) {
 
-					$this->log( 'Processing referral for Stripe subscription.' );
+			case 'subscription' :
 
-					$stripe_amount = ! empty( $object->plan->trial_period_days ) ? 0 : $object->plan->amount;
-					$currency      = $object->plan->currency;
-					$description   = $object->plan->nickname;
-					$mode          = $object->plan->livemode;
+				$this->log( 'Processing referral for Stripe subscription.' );
 
-					break;
+				$stripe_amount = ! empty( $object->plan->trial_period_days ) ? 0 : $object->plan->amount;
+				$currency      = $object->plan->currency;
+				$description   = $object->plan->nickname;
+				$mode          = $object->plan->livemode;
 
-				case 'charge' :
-				default :
+				break;
 
-					if( did_action( 'simpay_subscription_created' ) ) {
+			case 'charge' :
+			default :
 
-						$this->log( 'insert_referral() short circuited because simpay_subscription_created already fired.' );
+				if( did_action( 'simpay_subscription_created' ) ) {
 
-						return; // This was a subscription purchase and we've already processed the referral creation
-					}
+					$this->log( 'insert_referral() short circuited because simpay_subscription_created already fired.' );
 
-
-					$this->log( 'Processing referral for Stripe charge.' );
-
-					$stripe_amount = $object->amount;
-					$currency      = $object->currency;
-					$description   = ! empty( $object->description ) ? $object->description : '';
-					$mode          = $object->livemode;
-
-					break;
-
-			}
-
-			if ( empty( $description ) && isset( $simpay_form->post->post_title ) ) {
-
-				$description = $simpay_form->post->post_title;
-
-			}
-
-			if( $this->is_zero_decimal( $currency ) ) {
-				$amount = $stripe_amount;
-			} else {
-				$amount = round( $stripe_amount / 100, 2 );
-			}
-
-			if( is_object( $object->customer ) && ! empty( $object->customer->email ) ) {
-				$this->email = $object->customer->email;
-			} else {
-				if ( isset( $_POST['stripeEmail'] ) ) {
-
-					// WP Simple Pay < 3.0
-					$this->email = sanitize_text_field( $_POST['stripeEmail'] );
-				} elseif ( isset( $_POST['simpay_stripe_email'] ) ) {
-
-					// WP Simple Pay >= 3.0
-					$this->email = sanitize_text_field( $_POST['simpay_stripe_email'] );
-				}
-			}
-
-			if( $this->is_affiliate_email( $this->email, $this->affiliate_id ) ) {
-
-				$this->log( 'Referral not created because affiliate\'s own account was used.' );
-
-				return;
-
-			}
-
-			$referral_total = $this->calculate_referral_amount( $amount, $object->id );
-			$referral_id    = $this->insert_pending_referral( $referral_total, $object->id, $description, array(), array( 'livemode' => $mode ) );
-
-			if( $referral_id ) {
-
-				$this->log( 'Pending referral created successfully during insert_referral()' );
-
-				if( $this->complete_referral( $object->id ) ) {
-
-					$this->log( 'Referral completed successfully during insert_referral()' );
-
-					return;
-
+					return; // This was a subscription purchase and we've already processed the referral creation
 				}
 
-				$this->log( 'Referral failed to be set to completed with complete_referral()' );
 
-			} else {
+				$this->log( 'Processing referral for Stripe charge.' );
 
-				$this->log( 'Pending referral failed to be created during insert_referral()' );
+				$stripe_amount = $object->amount;
+				$currency      = $object->currency;
+				$description   = ! empty( $object->description ) ? $object->description : '';
+				$mode          = $object->livemode;
 
-			}
+				break;
 
 		}
 
+		if ( empty( $description ) && isset( $simpay_form->post->post_title ) ) {
+
+			$description = $simpay_form->post->post_title;
+
+		}
+
+		if( $this->is_zero_decimal( $currency ) ) {
+			$amount = $stripe_amount;
+		} else {
+			$amount = round( $stripe_amount / 100, 2 );
+		}
+
+		if( is_object( $object->customer ) && ! empty( $object->customer->email ) ) {
+			$this->email = $object->customer->email;
+		} else {
+			if ( isset( $_POST['stripeEmail'] ) ) {
+
+				// WP Simple Pay < 3.0
+				$this->email = sanitize_text_field( $_POST['stripeEmail'] );
+			} elseif ( isset( $_POST['simpay_stripe_email'] ) ) {
+
+				// WP Simple Pay >= 3.0
+				$this->email = sanitize_text_field( $_POST['simpay_stripe_email'] );
+			}
+		}
+
+		if( $this->is_affiliate_email( $this->email, $this->affiliate_id ) ) {
+
+			$this->log( 'Referral not created because affiliate\'s own account was used.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
+
+		}
+
+		$referral_total = $this->calculate_referral_amount( $amount, $object->id );
+		
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'      => 'pending',
+				'amount'      => $referral_total,
+				'description' => $description,
+				'custom'      => array(
+					'livemode'     => $mode,
+				),
+			)
+		);
+
+		$this->log( 'Pending referral created successfully during insert_referral()' );
+
+		if( $this->complete_referral( $object->id ) ) {
+
+			$this->log( 'Referral completed successfully during insert_referral()' );
+
+			return;
+
+		}
+
+		$this->log( 'Referral failed to be set to completed with complete_referral()' );
 	}
 
 	/**

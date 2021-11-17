@@ -53,35 +53,57 @@ class Affiliate_WP_Ninja_Forms extends Affiliate_WP_Base {
 	/**
 	 * Record referral on submission
 	 *
-	 * @access  public
 	 * @since   1.8.6
-	 * @param   $total
-	 * @param   $reference
-	 * @param   $description
+	 *
+	 * @param array $args Referral arguments.
 	 */
 	public function add_referral( $args ) {
 
-		$customer_email = ( $args[ 'customer_email' ]) ? $args[ 'customer_email' ] : '';
-		$total          = ( $args[ 'total' ]) ? $args[ 'total' ] : '';
-		$reference      = ( $args[ 'reference' ] )     ? $args[ 'reference' ]      : '';
-		$description    = ( $args[ 'description' ])    ? $args[ 'description' ]    : '';
+		$customer_email = ( $args['customer_email'] ) ? $args['customer_email'] : '';
+		$total          = ( $args['total'] ) ? $args['total'] : '';
+		$reference      = ( $args['reference'] ) ? $args['reference'] : '';
+		$description    = ( $args['description'] ) ? $args['description'] : '';
 
+		// Check if referred.
 		if ( ! $this->was_referred() ) {
+			return; // Referral not created because affiliate was not referred.
+		}
+
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$this->affiliate_id,
+			array(
+				'reference'   => $reference,
+				'description' => $description,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
 			return;
 		}
 
-		// Customers cannot refer themselves
+		// Customers cannot refer themselves.
 		if ( $this->is_affiliate_email( $customer_email ) ) {
-
 			$this->log( 'Referral not created because affiliate\'s own account was used.' );
-
+			$this->mark_referral_failed( $referral_id );
 			return;
 		}
 
+		// Get referral type and total.
 		$this->referral_type = isset( $args['type'] ) ? $args['type'] : 'sale';
-		$referral_total = $this->calculate_referral_amount( $total, $reference );
+		$referral_total      = $this->calculate_referral_amount( $total, $reference );
 
-		$this->insert_pending_referral( $referral_total, $reference, $description );
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status' => 'pending',
+				'amount' => $referral_total,
+			)
+		);
+		$this->log( sprintf( 'Ninja Forms referral #%d updated to pending successfully.', $referral_id ) );
+
+		// Complete referral.
 		$this->complete_referral( $reference );
 	}
 

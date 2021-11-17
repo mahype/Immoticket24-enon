@@ -115,32 +115,45 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 	 *
 	 * @access  public
 	 * @since   1.9
-	*/
+	 */
 	public function maybe_insert_referral() {
 
 		$response = array();
 
-		if( $this->was_referred() ) {
+		if ( $this->was_referred() ) {
 
-			$reference   = affiliate_wp()->tracking->get_visit_id() . '|' . $this->affiliate_id . '|' . time();
-			$referral_id = $this->insert_pending_referral( 0.01, $reference, __( 'Pending PayPal referral', 'affiliate-wp' ) );
+			$reference = affiliate_wp()->tracking->get_visit_id() . '|' . $this->affiliate_id . '|' . time();
 
-			if( $referral_id ) {
+			// Create draft referral.
+			$referral_id = $this->insert_draft_referral(
+				$this->affiliate_id,
+				array(
+					'reference' => $reference,
+				)
+			);
 
-				$this->log( 'Pending referral created successfully during maybe_insert_referral()' );
+			if ( $referral_id ) {
+
+				// Hydrates the previously created referral.
+				$this->hydrate_referral(
+					$referral_id,
+					array(
+						'status' => 'pending',
+						'amount' => 0.01,
+					)
+				);
+				$this->log( 'Draft referral updated to pending successfully during maybe_insert_referral()' );
 
 			} else {
 
-				$this->log( 'Pending referral failed to be created during maybe_insert_referral()' );
+				$this->log( 'Draft referral creation failed.' );
 
 			}
 
 			$response['ref'] = affiliate_wp()->tracking->get_visit_id() . '|' . $this->affiliate_id . '|' . $referral_id;
-
 		}
 
 		wp_send_json_success( $response );
-
 	}
 
 	/**

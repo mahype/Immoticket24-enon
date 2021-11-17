@@ -5,7 +5,7 @@
  * Description: Affiliate Plugin for WordPress
  * Author: Sandhills Development, LLC
  * Author URI: https://sandhillsdev.com
- * Version: 2.7.7
+ * Version: 2.8
  * Text Domain: affiliate-wp
  * Domain Path: languages
  * GitHub Plugin URI: affiliatewp/affiliatewp
@@ -25,11 +25,11 @@
  * @package AffiliateWP
  * @category Core
  * @author Pippin Williamson
- * @version 2.7.7
+ * @version 2.8
  */
 
-if ( ! class_exists( 'AffiliateWP_Requirements_Check' ) ) {
-	require_once dirname( __FILE__ ) . '/includes/libraries/affwp/class-affiliatewp-requirements-check.php';
+if ( ! class_exists( 'AffiliateWP_Requirements_Check_v1_1' ) ) {
+	require_once dirname( __FILE__ ) . '/includes/libraries/affwp/class-affiliatewp-requirements-check-v1-1.php';
 }
 
 /**
@@ -39,7 +39,7 @@ if ( ! class_exists( 'AffiliateWP_Requirements_Check' ) ) {
  *
  * @see Affiliate_WP_Requirements_Check
  */
-class AffiliateWP_Core_Requirements_Check extends AffiliateWP_Requirements_Check {
+class AffiliateWP_Core_Requirements_Check extends AffiliateWP_Requirements_Check_v1_1 {
 
 	/**
 	 * Plugin slug.
@@ -56,16 +56,6 @@ class AffiliateWP_Core_Requirements_Check extends AffiliateWP_Requirements_Check
 	 * @var   array[]
 	 */
 	protected $addon_requirements = array(
-		// WordPress.
-		'wp' => array(
-			'minimum' => '5.0',
-			'name'    => 'WordPress',
-			'exists'  => true,
-			'current' => false,
-			'checked' => false,
-			'met'     => false
-		),
-
 		// PHP.
 		'php' => array(
 			'minimum' => '5.6',
@@ -73,7 +63,7 @@ class AffiliateWP_Core_Requirements_Check extends AffiliateWP_Requirements_Check
 			'exists'  => true,
 			'current' => false,
 			'checked' => false,
-			'met'     => false
+			'met'     => false,
 		),
 	);
 

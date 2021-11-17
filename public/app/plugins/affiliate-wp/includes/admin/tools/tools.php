@@ -630,11 +630,130 @@ function affwp_debug_tab() {
 					</form>
 				</div><!-- .inside -->
 			</div><!-- .postbox -->
+			<?php if ( isset( $_REQUEST['advanced'] ) ) : ?>
+				<div class="postbox">
+					<h3><span><?php esc_html_e( 'Options', 'affiliate-wp' ); ?></span></h3>
+					<div class="inside">
+						<table class="widefat affwp_repeatable_table striped" width="100%" cellpadding="0" cellspacing="0">
+							<thead>
+							<tr>
+								<th width="50%"><strong><?php _ex( 'Key', 'Option key', 'affiliate-wp' ); ?></strong></th>
+								<th><strong><?php _ex( 'Value', 'Option value', 'affiliate-wp' ); ?></strong></th>
+							</tr>
+							</thead>
+							<tbody>
+								<?php foreach ( affwp_debug_get_option_keys() as $key ) :
+									$value = get_option( $key, '' );
+
+									if ( 'affwp_last_checkin' === $key ) {
+										$value = affwp_date_i18n( $value, 'datetime' );
+									}
+									?>
+									<tr>
+										<td><code><?php echo esc_html( $key ); ?></code></td>
+										<td><code><?php echo esc_html( $value ); ?></code></td>
+									</tr>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+					</div><!-- .inside -->
+				</div><!-- .postbox -->
+
+				<div class="postbox">
+					<h3><span><?php esc_html_e( 'Constants', 'affiliate-wp' ); ?></span></h3>
+					<div class="inside">
+						<table class="widefat affwp_repeatable_table striped" width="100%" cellpadding="0" cellspacing="0">
+							<thead>
+							<tr>
+								<th width="50%"><strong><?php _ex( 'Name', 'Constant name', 'affiliate-wp' ); ?></strong></th>
+								<th><strong><?php _ex( 'Value', 'Constant value', 'affiliate-wp' ); ?></strong></th>
+							</tr>
+							</thead>
+							<tbody>
+							<?php foreach ( affwp_debug_get_constants() as $name ) :
+								$value = defined( $name ) ? constant( $name ) : '(undefined)';
+								?>
+								<tr>
+									<td><code><?php echo esc_html( $name ); ?></code></td>
+									<td><code><?php echo esc_html( $value ); ?></code></td>
+								</tr>
+							<?php endforeach; ?>
+							</tbody>
+						</table>
+					</div><!-- .inside -->
+				</div><!-- .postbox -->
+			<?php endif; ?>
 		</div><!-- .metabox-holder -->
 	</div><!-- #affwp-dashboard-widgets-wrap -->
 <?php
 }
 add_action( 'affwp_tools_tab_debug', 'affwp_debug_tab' );
+
+/**
+ * Retrieves options keys to display in the advanced section of the debug assistant.
+ *
+ * @since 2.8
+ *
+ * @return string[] List of options keys.
+ */
+function affwp_debug_get_option_keys() {
+
+	$keys = array(
+		'affwp_version',
+		'affwp_version_upgraded_from',
+		'affwp_last_checkin',
+		'affwp_js_works',
+		'affwp_is_installed',
+		'affwp_alltime_earnings',
+	);
+
+	$tables = array(
+		affiliate_wp()->affiliates->table_name,
+		affiliate_wp()->affiliate_meta->table_name,
+		affiliate_wp()->campaigns->table_name,
+		affiliate_wp()->affiliates->coupons->table_name,
+		affiliate_wp()->creatives->table_name,
+		affiliate_wp()->customers->table_name,
+		affiliate_wp()->customer_meta->table_name,
+		affiliate_wp()->affiliates->payouts->table_name,
+		affiliate_wp()->referrals->table_name,
+		affiliate_wp()->referrals->sales->table_name,
+		affiliate_wp()->REST->consumers->table_name,
+		affiliate_wp()->visits->table_name,
+	);
+
+	foreach ( $tables as $table ) {
+		$keys[] = $table . '_db_version';
+	}
+
+	return $keys;
+}
+
+/**
+ * Retrieves a list of core AffiliateWP constants.
+ *
+ * @since 2.8
+ *
+ * @return string[] List of constants to display the values for.
+ */
+function affwp_debug_get_constants() {
+	return array(
+		'AFFILIATEWP_VERSION',
+		'AFFILIATE_WP_NETWORK_WIDE',
+		'AFFILIATE_WP_DEBUG',
+		'AFFILIATEWP_LICENSE_KEY',
+		'AFFILIATEWP_PLUGIN_DIR',
+		'AFFILIATEWP_PLUGIN_URL',
+		'AFFILIATEWP_PLUGIN_DIR_NAME',
+		'AFFILIATEWP_PLUGIN_FILE',
+		'AFFILIATEWP_PLUGIN_LIB_DIR',
+		'AFFILIATE_WP_EXPORT_CHARSET',
+		'AFFILIATEWP_PAYPAL_IPN',
+		'PAYOUTS_SERVICE_NAME',
+		'PAYOUTS_SERVICE_URL',
+		'PAYOUTS_SERVICE_DOCS_URL',
+	);
+}
 
 /**
  * Generate Coupons Tab

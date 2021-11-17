@@ -227,31 +227,47 @@ class Affiliate_WP_OptimizeMember extends Affiliate_WP_Base {
 	public function add_pending_referral( $args ){
 
 		if ( affiliate_wp()->tracking->is_valid_affiliate( $args['affiliate_id'] ) ) {
+			$this->affiliate_id = $args['affiliate_id'];
 
-			$user           = get_userdata( $args['user_id'] );
-			$customer_email = $user->user_email;
-
-			if ( $this->is_affiliate_email( $customer_email ) ) {
-
-				$this->log( 'Referral not created because affiliate\'s own account was used.' );
-
-				return; // Customers cannot refer themselves
-
-			}
-
-			$amount      = $args['amount'];
 			$order_id    = $args['txn_id'];
 			$description = $args['desc'];
 
-			if( affiliate_wp()->settings->get( 'exclude_tax' ) ) {
+			$user           = get_userdata( $args['user_id'] );
+			$customer_email = $user->user_email;
+			$this->email    = $customer_email;
 
+			// Create draft referral.
+			$referral_id = $this->insert_draft_referral(
+				$this->affiliate_id,
+				array(
+					'reference'   => $order_id,
+					'description' => $description,
+				)
+			);
+			if ( ! $referral_id ) {
+				$this->log( 'Draft referral creation failed.' );
+				return;
 			}
 
-			$this->affiliate_id = $args['affiliate_id'];
+			// Customers cannot refer themselves.
+			if ( $this->is_affiliate_email( $customer_email ) ) {
+				$this->log( 'Referral not created because affiliate\'s own account was used.' );
+				$this->mark_referral_failed( $referral_id );
+				return;
+			}
 
+			$amount         = $args['amount'];
 			$referral_total = $this->calculate_referral_amount( $amount, $order_id );
 
-			$this->insert_pending_referral( $referral_total, $order_id, $description );
+			// Hydrates the previously created referral.
+			$this->hydrate_referral(
+				$referral_id,
+				array(
+					'status' => 'pending',
+					'amount' => $referral_total,
+				)
+			);
+			$this->log( sprintf( 'OptimizeMember referral #%d updated to pending successfully.', $referral_id ) );
 		}
 	}
 

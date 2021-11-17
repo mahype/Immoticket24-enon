@@ -160,43 +160,62 @@ class Affiliate_WP_Caldera_Forms extends Affiliate_WP_Base {
 		$this->form   = $form;
 		$affiliate_id = $this->affiliate_id;
 		$entry_id     = $args['entry_id'];
+		$this->email  = $this->get_field_value( 'email', $form );
 
-		// Return if the customer was not referred or the affiliate ID is empty
+		// Return if the customer was not referred or the affiliate ID is empty.
 		if ( ! $this->was_referred() && empty( $affiliate_id ) ) {
+			return; // Referral not created because affiliate was not referred.
+		}
+
+		// Use form title as description.
+		$description = $form['name'];
+
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$this->affiliate_id,
+			array(
+				'reference'   => $entry_id,
+				'description' => $description,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
 			return;
 		}
 
-		// Prevent referral creation unless referrals enabled for the form
+		// Prevent referral creation unless referrals enabled for the form.
 		if ( empty( $form['affwp_allow_referrals'] ) ) {
+			$this->log( 'Referral not created because referrals not enabled for this form.' );
+			$this->mark_referral_failed( $referral_id );
 			return;
 		}
 
-		// get customer email
-		$this->email = $this->get_field_value( 'email', $form );
-
-		// Customers cannot refer themselves
+		// Customers cannot refer themselves.
 		if ( $this->is_affiliate_email( $this->email, $affiliate_id ) ) {
-
 			$this->log( 'Referral not created because affiliate\'s own account was used.' );
-
+			$this->mark_referral_failed( $referral_id );
 			return false;
 		}
 
-		// Get the referral type we are creating
+		// Get the referral type we are creating.
 		$this->referral_type = ! empty( $form['affwp_referral_type'] ) ? $form['affwp_referral_type'] : 'sale'; 
 
-		// Referral total
+		// Referral total.
 		$referral_total = floatval( $args['referral_total'] );
 
-		// Use form title as description
-		$description = $form['name'];
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status' => 'pending',
+				'amount' => $referral_total,
+			)
+		);
+		$this->log( sprintf( 'Caldera Forms referral #%d updated to pending successfully.', $referral_id ) );
 
-		// Insert a pending referral
-		$referral_id = $this->insert_pending_referral( $referral_total, $entry_id, $description );
-
-		// Mark referral complete (set to "unpaid" status)
+		// Mark referral complete (set to "unpaid" status).
 		if ( ! empty( $args['mark_referral_complete'] ) && true === $args['mark_referral_complete'] ) {
-			$this->mark_referral_complete( $entry_id );
+			$this->mark_referral_complete( $entry_id, $form );
 		}
 
 	}

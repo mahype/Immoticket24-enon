@@ -47,6 +47,7 @@ class Affiliate_WP_Settings {
 		// Sanitization.
 		add_filter( 'affwp_settings_sanitize',             array( $this, 'sanitize_referral_variable'  ), 10, 2 );
 		add_filter( 'affwp_settings_sanitize',             array( $this, 'sanitize_coupon_template'    ), 10, 2 );
+		add_filter( 'affwp_settings_sanitize',             array( $this, 'sanitize_coupon_custom_text' ), 10, 2 );
 		add_filter( 'affwp_settings_sanitize_text',        array( $this, 'sanitize_text_fields'        ), 10, 2 );
 		add_filter( 'affwp_settings_sanitize_url',         array( $this, 'sanitize_url_fields'         ), 10, 2 );
 		add_filter( 'affwp_settings_sanitize_checkbox',    array( $this, 'sanitize_cb_fields'          ), 10, 2 );
@@ -398,6 +399,24 @@ class Affiliate_WP_Settings {
 	}
 
 	/**
+	 * Sanitizes the coupon custom text setting.
+	 * Only alphanumeric characters allowed. Max length default is 50.
+	 *
+	 * @since 2.8
+	 *
+	 * @param mixed  $value Setting value.
+	 * @param string $key   Setting key.
+	 * @return mixed Sanitized coupon custom text value.
+	 */
+	public function sanitize_coupon_custom_text( $value, $key ) {
+		if ( 'coupon_custom_text' === $key ) {
+			$value = affwp_sanitize_coupon_custom_text( $value );
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Sanitize text fields
 	 *
 	 * @since 1.7
@@ -530,14 +549,14 @@ class Affiliate_WP_Settings {
 					),
 					'terms_of_use' => array(
 						'name' => __( 'Terms of Use', 'affiliate-wp' ),
-						'desc' => __( 'Select the page that shows the terms of use for Affiliate Registration.', 'affiliate-wp' ),
+						'desc' => __( 'Select the page that shows the terms of use for Affiliate Registration. This only affects the [affiliate_area] and [affiliate_registration] shortcodes.', 'affiliate-wp' ),
 						'type' => 'select',
 						'options' => affwp_get_pages(),
 						'sanitize_callback' => 'absint'
 					),
 					'terms_of_use_label' => array(
 						'name' => __( 'Terms of Use Label', 'affiliate-wp' ),
-						'desc' => __( 'Enter the text you would like shown for the Terms of Use checkbox.', 'affiliate-wp' ),
+						'desc' => __( 'Enter the text you would like shown for the Terms of Use checkbox. This only affects the [affiliate_area] and [affiliate_registration] shortcodes.', 'affiliate-wp' ),
 						'type' => 'text',
 						'std' => __( 'Agree to our Terms of Use and Privacy Policy', 'affiliate-wp' )
 					),
@@ -664,13 +683,13 @@ class Affiliate_WP_Settings {
 						'std' => '.'
 					),
 					'form_settings' => array(
-						'name' => '<strong>' . __( 'Affiliate Form Settings', 'affiliate-wp' ) . '</strong>',
+						'name' => '<strong>' . __( 'Affiliate Form Shortcode Settings', 'affiliate-wp' ) . '</strong>',
 						'type' => 'header'
 					),
 					'affiliate_area_forms' => array(
 						'name' => __( 'Affiliate Area Forms', 'affiliate-wp' ),
 						/* translators: Miscellaneous settings screen URL */
-						'desc' => sprintf( __( 'Select which form(s) to show on the Affiliate Area page. The affiliate registration form will only show if <a href="%s">Allow Affiliate Registration</a> is enabled.', 'affiliate-wp' ), admin_url( 'admin.php?page=affiliate-wp-settings&tab=misc' ) ),
+						'desc' => sprintf( __( 'Select which form(s) to show on the Affiliate Area page. This only affects the [affiliate_area] shortcode. The affiliate registration form will only show if <a href="%s">Allow Affiliate Registration</a> is enabled.', 'affiliate-wp' ), admin_url( 'admin.php?page=affiliate-wp-settings&tab=misc' ) ),
 						'type' => 'select',
 						'options' => array(
 							'both'         => __( 'Affiliate Registration Form and Affiliate Login Form', 'affiliate-wp' ),
@@ -1011,20 +1030,40 @@ class Affiliate_WP_Settings {
 			 */
 			'coupons' => apply_filters( 'affwp_settings_coupons',
 				array(
-					'dynamic_coupons_header'     => array(
+					'dynamic_coupons_header'       => array(
 						'name' => __( 'Dynamic Coupons', 'affiliate-wp' ),
 						'type' => 'header',
 					),
-					'coupon_template_woocommerce' => array(
+					'coupon_template_woocommerce'  => array(
 						'name'             => __( 'Coupon Template', 'affiliate-wp' ),
 						'desc'             => __( 'All dynamic coupons will use the settings from the selected coupon template.', 'affiliate-wp' ),
 						'type'             => 'select',
 						'options_callback' => $this->get_integration_callback( 'woocommerce', 'coupon_templates', 'options' ),
 					),
-					'dynamic_coupons'            => array(
+					'dynamic_coupons'              => array(
 						'name' => __( 'Automatically Generate Coupons', 'affiliate-wp' ),
 						/* translators: Tools screen URL */
 						'desc' => sprintf( __( 'Automatically generate a coupon code for each registered affiliate.<p class="description">To bulk generate coupons for existing affiliates visit the <a href="%s">Tools</a> screen.</p>', 'affiliate-wp' ), esc_url( affwp_admin_url( 'tools', array( 'tab' => 'coupons' ) ) ) ),
+						'type' => 'checkbox',
+					),
+					'dynamic_coupon_customization' => array(
+						'name' => __( 'Dynamic Coupon Customization', 'affiliate-wp' ),
+						'type' => 'header',
+					),
+					'coupon_format'                => array(
+						'name'    => __( 'Coupon Format', 'affiliate-wp' ),
+						'desc'    => __( 'Select a coupon format for dynamically generated coupons.', 'affiliate-wp' ),
+						'type'    => 'select',
+						'options' => $this->list_coupon_format_options(),
+					),
+					'coupon_custom_text'           => array(
+						'name' => __( 'Custom Text', 'affiliate-wp' ),
+						'desc' => __( 'Text to use within the {custom_text} merge tag of the Coupon Format option.', 'affiliate-wp' ),
+						'type' => 'text',
+					),
+					'coupon_hyphen_delimiter'      => array(
+						'name' => __( 'Hyphen Delimiter', 'affiliate-wp' ),
+						'desc' => __( 'Add a hyphen between each merge tag.', 'affiliate-wp' ),
 						'type' => 'checkbox',
 					),
 				)
@@ -1057,7 +1096,7 @@ class Affiliate_WP_Settings {
 		$new_general_settings = array(
 			'required_registration_fields' => array(
 				'name' => __( 'Required Registration Fields', 'affiliate-wp' ),
-				'desc' => __( 'Select which fields should be required for affiliate registration. The <strong>Username</strong> and <strong>Account Email</strong> form fields are always required. The <strong>Password</strong> form field will be removed if not required.', 'affiliate-wp' ),
+				'desc' => __( 'Select which fields should be required for affiliate registration. This only affects the [affiliate_area] and [affiliate_registration] shortcodes. The <strong>Username</strong> and <strong>Account Email</strong> form fields are always required. The <strong>Password</strong> form field will be removed if not required.', 'affiliate-wp' ),
 				'type' => 'multicheck',
 				'options' => array(
 					'password'         => __( 'Password', 'affiliate-wp' ),
@@ -1871,17 +1910,21 @@ class Affiliate_WP_Settings {
 
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
+			if ( isset( $license_data->license ) ) {
+				$status = $license_data->license;
+			} else {
+				$status = 'invalid';
+			}
+
 			$this->save( array( 'license_status' => $license_data ) );
 
-			set_transient( 'affwp_license_check', $license_data->license, DAY_IN_SECONDS );
+			set_transient( 'affwp_license_check', $status, DAY_IN_SECONDS );
 
 			if( ! empty( $api_params['site_data'] ) ) {
 
 				update_option( 'affwp_last_checkin', current_time( 'timestamp' ) );
 
 			}
-
-			$status = $license_data->license;
 
 		}
 
@@ -1991,6 +2034,36 @@ class Affiliate_WP_Settings {
 		$data['rate_type']        = $this->get( 'referral_rate_type' );
 
 		return $data;
+	}
+
+	/**
+	 * Lists coupon format options.
+	 *
+	 * @since 2.8
+	 *
+	 * @return array Coupon format options.
+	 */
+	public function list_coupon_format_options() {
+		$coupon_formats = array(
+			'{coupon_code}'                             => '{coupon_code}',
+			'{user_name}'                               => '{user_name}',
+			'{coupon_code}-{coupon_amount}'             => '{coupon_code}-{coupon_amount}',
+			'{coupon_amount}-{coupon_code}'             => '{coupon_amount}-{coupon_code}',
+			'{coupon_amount}-{user_name}'               => '{coupon_amount}-{user_name}',
+			'{user_name}-{coupon_amount}'               => '{user_name}-{coupon_amount}',
+			'{custom_text}-{user_name}'                 => '{custom_text}-{user_name}',
+			'{user_name}-{custom_text}'                 => '{user_name}-{custom_text}',
+			'{custom_text}-{user_name}-{coupon_amount}' => '{custom_text}-{user_name}-{coupon_amount}',
+			'{custom_text}-{coupon_amount}-{user_name}' => '{custom_text}-{coupon_amount}-{user_name}',
+			'{user_name}-{custom_text}-{coupon_amount}' => '{user_name}-{custom_text}-{coupon_amount}',
+			'{user_name}-{coupon_amount}-{custom_text}' => '{user_name}-{coupon_amount}-{custom_text}',
+			'{coupon_amount}-{user_name}-{custom_text}' => '{coupon_amount}-{user_name}-{custom_text}',
+			'{coupon_amount}-{custom_text}-{user_name}' => '{coupon_amount}-{custom_text}-{user_name}',
+			'{first_name}-{user_name}'                  => '{first_name}-{user_name}',
+			'{user_name}-{first_name}'                  => '{user_name}-{first_name}',
+		);
+
+		return $coupon_formats;
 	}
 
 }

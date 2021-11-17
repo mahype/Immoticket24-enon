@@ -58,49 +58,67 @@ class Affiliate_WP_Give extends Affiliate_WP_Base {
 	*/
 	public function add_pending_referral( $payment_id = 0, $payment_data = array() ) {
 
+		// Check if referred.
 		if ( ! $this->was_referred() ) {
 			return false;
 		}
 
-		// Block referral if donation form does not allow it
-		if ( ! get_post_meta( $payment_data['give_form_id'], '_affwp_give_allow_referrals', true ) ) {
-			return false;
-		}
-
-		// Get Affiliate ID
+		// Get Affiliate ID.
 		$affiliate_id = $this->get_affiliate_id( $payment_id );
 
-		// Get customer email
+		// Get customer email.
 		$customer_email = give_get_payment_user_email( $payment_id );
+		$this->email    = $customer_email;
 
-		// Customers cannot refer themselves
-		if ( $this->is_affiliate_email( $customer_email, $affiliate_id ) ) {
-
-			$this->log( 'Referral not created because affiliate\'s own account was used.' );
-
-			return false;
-		}
-
-		// Referral rate
-		$give_rate  = get_post_meta( $payment_data['give_form_id'], '_affwp_give_product_rate', true );
-		$rate       = ! empty( $give_rate ) ? affwp_abs_number_round( $give_rate ) : affwp_get_affiliate_rate( $affiliate_id );
-
-		// Get referral total
-		$referral_total = $this->get_referral_total( $payment_id, $affiliate_id );
-
-		// Get referral description
+		// Get referral description.
 		$desc = $this->get_referral_description( $payment_id );
 
-		if ( empty( $desc ) ) {
-
-			$this->log( 'Referral not created due to empty description.' );
-
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$this->affiliate_id,
+			array(
+				'reference'   => $payment_id,
+				'description' => $desc,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
 			return;
 		}
 
-		// Insert a pending referral
-		$referral_id = $this->insert_pending_referral( $referral_total, $payment_id, $desc );
+		// Block referral if donation form does not allow it.
+		if ( ! get_post_meta( $payment_data['give_form_id'], '_affwp_give_allow_referrals', true ) ) {
+			$this->log( 'Draft referral rejected because donation form does not allow it.' );
+			$this->mark_referral_failed( $referral_id );
+			return false;
+		}
 
+		// Customers cannot refer themselves.
+		if ( $this->is_affiliate_email( $customer_email, $affiliate_id ) ) {
+			$this->log( 'Referral not created because affiliate\'s own account was used.' );
+			$this->mark_referral_failed( $referral_id );
+			return false;
+		}
+
+		// Check if it has description.
+		if ( empty( $desc ) ) {
+			$this->log( 'Referral not created due to empty description.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		// Get referral total.
+		$referral_total = $this->get_referral_total( $payment_id, $affiliate_id );
+
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'             => 'pending',
+				'amount'             => $referral_total,
+			)
+		);
+		$this->log( sprintf( 'Give referral #%d updated to pending successfully.', $referral_id ) );
 	}
 
 	/**

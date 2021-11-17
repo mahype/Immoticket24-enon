@@ -151,133 +151,107 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 			return;
 		}
 
-		// if this was a referral or we have a coupon and a coupon affiliate id.
-		if ( $this->was_referred() || ( $order->coupon_id && $order->coupon_affiliate_id ) ) {
-
-			/*
-			 * If WooCommerce is being use as the LLMS payment method for the order skip referrals
-			 * for the order because WooCommerce methods will handle the affiliate stuff.
-			 */
-			if ( 'woocommerce' === $order->payment_type ) {
-
-				$this->log( __( 'Referral not created because WooCommerce was used for payment.', 'affiliate-wp' ) );
-
-				return;
-			}
-
-			// If referrals are disabled for the LLMS product, don't create a referral.
-			if ( get_post_meta( $order->product_id, '_affwp_disable_referrals', true ) ) {
-				return;
-			}
-
-			// Check for an existing referral.
-			$existing = affwp_get_referral_by( 'reference', $order_id, $this->context );
-
-			// If an existing referral exists and it is paid or unpaid exit.
-			if ( ! is_wp_error( $existing ) && ( 'paid' === $existing->status || 'unpaid' === $existing->status ) ) {
-				return;
-			}
-
-			// Get the referring affiliate's affiliate id.
-			$affiliate_id = $this->get_affiliate_id( $order_id );
-
-			// Use the coupon affiliate if there is one.
-			if ( false !== $order->coupon_affiliate_id ) {
-				$affiliate_id = $order->coupon_affiliate_id;
-			}
-
-			$this->email = $order->user_data->user_email;
-
-			// Customers cannot refer themselves.
-			if ( $this->is_affiliate_email( $this->email, $affiliate_id ) ) {
-
-				$this->log( __( 'Referral not created because affiliate\'s own account was used.', 'affiliate-wp' ) );
-
-				return;
-			}
-
-			$amount = $this->calculate_referral_amount( $order->total, $order->id, $order->product_id, $affiliate_id );
-
-			// Ignore a zero amount referral.
-			if ( 0 == $amount && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
-
-				$this->log( __( 'Referral not created due to 0.00 amount.', 'affiliate-wp' ) );
-
-				return;
-			}
-
-			/**
-			 * Filters the referral description from the LifterLMS product title.
-			 *
-			 * @since 1.8.3
-			 *
-			 * @param string $description  Referral description (as derived from the product title).
-			 * @param object $order        LifterLMS order object.
-			 * @param int    $affiliate_id Affiliate ID
-			 */
-			$description = apply_filters( 'affwp_llms_get_referral_description', $order->product_title, $order, $affiliate_id );
-			$visit_id    = affiliate_wp()->tracking->get_visit_id();
-
-			/*
-			 * Update existing referral if it exists.
-			 *
-			 * This isn't currently ever going to happen with LifterLMS but leaving it here for future use.
-			 */
-			if ( ! is_wp_error( $existing ) ) {
-
-				// Update the previously created referral.
-				affiliate_wp()->referrals->update_referral( $existing->referral_id, array(
-					'amount'       => $amount,
-					'reference'    => $order->id,
-					'description'  => $description,
-					'campaign'     => affiliate_wp()->tracking->get_campaign(),
-					'affiliate_id' => $affiliate_id,
-					'visit_id'     => $visit_id,
-					'products'     => $this->get_products( $order->id ),
-					'context'      => $this->context
-				) );
-
-				/*
-				 * Complete the referral automatically because we don't have a pending status
-				 * will update in the future when / if the status becomes available
-				 */
-				$this->complete_referral( $order->id );
-
-				/* translators: Referral ID */
-				$this->log( sprintf( __( 'LifterLMS Referral #%d updated successfully.', 'affiliate-wp' ), $existing->referral_id ) );
-
-			} else { // No referral exists, so create a new one.
-
-				// Create a new referral.
-				$referral_id = $this->insert_pending_referral(
-					$amount,
-					$order->id,
-					$description,
-					$this->get_products( $order->id ),
-					array(
-							'affiliate_id'       => $affiliate_id,
-							'is_coupon_referral' => $order->coupon_id && $order->coupon_affiliate_id,
-					)
-				);
-
-				if ( $referral_id ) {
-
-					/*
-					 * Complete referral automatically because we don't have pending status
-					 * will update in the future when / if the status becomes available
-					 */
-					$this->complete_referral( $order->id );
-
-					/* translators: Referral ID */
-					$this->log( sprintf( __( 'Referral #%d created successfully.', 'affiliate-wp' ), $referral_id ) );
-
-				} else {
-
-					$this->log( __( 'Referral failed to be created.', 'affiliate-wp' ) );
-
-				}
-			}
+		// Check if referred or coupon.
+		if ( ! $this->was_referred() && ! ( $order->coupon_id || ! $order->coupon_affiliate_id ) ) {
+			return; // Referral not created because affiliate was not referred.
 		}
+
+		// Get the referring affiliate's affiliate id.
+		$affiliate_id = $this->get_affiliate_id( $order_id );
+
+		// Use the coupon affiliate if there is one.
+		if ( false !== $order->coupon_affiliate_id ) {
+			$affiliate_id = $order->coupon_affiliate_id;
+		}
+
+		$this->email = $order->user_data->user_email;
+
+		/**
+		 * Filters the referral description from the LifterLMS product title.
+		 *
+		 * @since 1.8.3
+		 *
+		 * @param string $description  Referral description (as derived from the product title).
+		 * @param object $order        LifterLMS order object.
+		 * @param int    $affiliate_id Affiliate ID
+		 */
+		$description = apply_filters( 'affwp_llms_get_referral_description', $order->product_title, $order, $affiliate_id );
+
+		// Check for an existing referral.
+		$existing = affwp_get_referral_by( 'reference', $order_id, $this->context );
+
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$affiliate_id,
+			array(
+				'reference'   => $order_id,
+				'description' => $description,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
+			return;
+		}
+
+		/**
+		 * If WooCommerce is being use as the LLMS payment method for the order skip referrals
+		 * for the order because WooCommerce methods will handle the affiliate stuff.
+		 */
+		if ( 'woocommerce' === $order->payment_type ) {
+			$this->log( __( 'Referral not created because WooCommerce was used for payment.', 'affiliate-wp' ) );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		// If referrals are disabled for the LLMS product, don't create a referral.
+		if ( get_post_meta( $order->product_id, '_affwp_disable_referrals', true ) ) {
+			$this->log( 'Referral not created because referrals are disabled for the LLMS product.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		// If an existing referral exists and it is paid or unpaid exit.
+		if ( ! is_wp_error( $existing ) && ( 'paid' === $existing->status || 'unpaid' === $existing->status ) ) {
+			$this->log( 'Referral rejected because an existing referral exists and it is paid or unpaid.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		// Customers cannot refer themselves.
+		if ( $this->is_affiliate_email( $this->email, $affiliate_id ) ) {
+			$this->log( __( 'Referral not created because affiliate\'s own account was used.', 'affiliate-wp' ) );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		$amount = $this->calculate_referral_amount( $order->total, $order->id, $order->product_id, $affiliate_id );
+
+		// Ignore a zero amount referral.
+		if ( 0 == $amount && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
+			$this->log( __( 'Referral not created due to 0.00 amount.', 'affiliate-wp' ) );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		$visit_id = affiliate_wp()->tracking->get_visit_id();
+
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'      => 'pending',
+				'amount'      => $amount,
+				'campaign'    => affiliate_wp()->tracking->get_campaign(),
+				'visit_id'    => $visit_id,
+				'order_total' => $this->get_order_total(),
+				'products'    => $this->get_products( $order->id ),
+				'context'     => $this->context,
+			)
+		);
+
+		$this->log( sprintf( 'LifterLMS referral #%d updated to pending successfully.', $referral_id ) );
+
+		$this->complete_referral( $order->id );
 	}
 
 
@@ -297,110 +271,97 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 			return;
 		}
 
-		$order_id = $order->get( 'id' );
+		$order_id            = $order->get( 'id' );
 		$coupon_affiliate_id = ( $order->has_coupon() ) ? $this->get_order_coupon_affiliate_id( $order->get( 'coupon_id' ) ) : false;
 
-		// If this was a referral or we have a coupon and a coupon affiliate id.
-		if ( $this->was_referred() || $coupon_affiliate_id ) {
-
-			// If referrals are disabled for the LLMS product, don't create a referral.
-			if ( get_post_meta( $order->get( 'product_id' ), '_affwp_disable_referrals', true ) ) {
-				return;
-			}
-
-			// Check for an existing referral.
-			$existing = affwp_get_referral_by( 'reference', $order_id, $this->context );
-
-			// If an existing referral exists and it is paid or unpaid exit.
-			if ( ! is_wp_error( $existing ) && ( 'paid' === $existing->status || 'unpaid' === $existing->status ) ) {
-				return;
-			}
-
-			// Get the referring affiliate's affiliate id.
-			$affiliate_id = $this->get_affiliate_id( $order_id );
-
-			// Use our coupon affiliate if we have one.
-			if ( false !== $coupon_affiliate_id ) {
-				$affiliate_id = $coupon_affiliate_id;
-			}
-
-			$this->email = $order->get( 'billing_email' );
-
-			// Customers cannot refer themselves.
-			if ( $this->is_affiliate_email( $this->email, $affiliate_id ) ) {
-
-				$this->log( __( 'Referral not created because affiliate\'s own account was used.', 'affiliate-wp' ) );
-
-				return;
-			}
-
-			$amount = $this->calculate_referral_amount( $order->get( 'total' ), $order_id, $order->get( 'product_id' ), $affiliate_id );
-
-			// Ignore a zero amount referral.
-			if ( 0 == $amount && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
-
-				$this->log( __( 'Referral not created due to 0.00 amount.', 'affiliate-wp' ) );
-
-				return;
-			}
-
-			/** This filter is documented in includes/integrations/class-lifterlms.php */
-			$description = apply_filters( 'affwp_llms_get_referral_description', $order->get( 'product_title' ), $order, $affiliate_id );
-			$visit_id    = affiliate_wp()->tracking->get_visit_id();
-
-			// Update existing referral if it exists
-			if ( ! is_wp_error( $existing ) ) {
-
-				// Update the previously created referral.
-				affiliate_wp()->referrals->update_referral( $existing->referral_id, array(
-					'amount'       => $amount,
-					'reference'    => $order_id,
-					'description'  => $description,
-					'campaign'     => affiliate_wp()->tracking->get_campaign(),
-					'affiliate_id' => $affiliate_id,
-					'visit_id'     => $visit_id,
-					'products'     => $this->get_products( $order ),
-					'context'      => $this->context
-				) );
-
-				/* translators: Referral ID */
-				$note = sprintf( __( 'Referral #%d updated successfully.', 'affiliate-wp' ), $existing->referral_id );;
-
-				$order->add_note( $note );
-
-				$this->log( $note );
-
-			} else { // No referral exists, so create a new one.
-
-				// Create a new referral.
-				$referral_id = $this->insert_pending_referral(
-					$amount,
-					$order_id,
-					$description,
-					$this->get_products( $order->id ),
-					array(
-							'affiliate_id'       => $affiliate_id,
-							'is_coupon_referral' => $order->has_coupon(),
-					)
-				);
-
-				if ( $referral_id ) {
-
-					/* translators: Referral ID */
-					$note = sprintf( __( 'Pending referral #%d created successfully.', 'affiliate-wp' ), $referral_id );;
-
-					$order->add_note( $note );
-
-					$this->log( $note );
-
-				} else {
-
-					$this->log( __( 'LifterLMS Referral failed to be created.', 'affiliate-wp' ) );
-
-				}
-			}
+		// Check if referred or coupon.
+		if ( ! $this->was_referred() && ! $coupon_affiliate_id ) {
+			return; // Referral not created because affiliate was not referred.
 		}
 
+		// Get the referring affiliate's affiliate id.
+		$affiliate_id = $this->get_affiliate_id( $order_id );
+
+		// Use our coupon affiliate if we have one.
+		if ( false !== $coupon_affiliate_id ) {
+			$affiliate_id = $coupon_affiliate_id;
+		}
+
+		// Set customer email.
+		$this->email = $order->get( 'billing_email' );
+
+		/** This filter is documented in includes/integrations/class-lifterlms.php */
+		$description = apply_filters( 'affwp_llms_get_referral_description', $order->get( 'product_title' ), $order, $affiliate_id );
+
+		// Check for an existing referral.
+		$existing = affwp_get_referral_by( 'reference', $order_id, $this->context );
+
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$affiliate_id,
+			array(
+				'reference'   => $order_id,
+				'description' => $description,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
+			return;
+		}
+
+		// If referrals are disabled for the LLMS product, don't create a referral.
+		if ( get_post_meta( $order->get( 'product_id' ), '_affwp_disable_referrals', true ) ) {
+			$this->log( 'Referral not created because referrals are disabled for the LLMS product.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		// If an existing referral exists and it is paid or unpaid exit.
+		if ( ! is_wp_error( $existing ) && ( 'paid' === $existing->status || 'unpaid' === $existing->status ) ) {
+			$this->log( 'Referral rejected because an existing referral exists and it is paid or unpaid.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		// Customers cannot refer themselves.
+		if ( $this->is_affiliate_email( $this->email, $affiliate_id ) ) {
+			$this->log( __( 'Referral not created because affiliate\'s own account was used.', 'affiliate-wp' ) );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		$amount = $this->calculate_referral_amount( $order->get( 'total' ), $order_id, $order->get( 'product_id' ), $affiliate_id );
+
+		// Ignore a zero amount referral.
+		if ( 0 == $amount && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
+			$this->log( __( 'Referral not created due to 0.00 amount.', 'affiliate-wp' ) );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		$visit_id = affiliate_wp()->tracking->get_visit_id();
+
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'      => 'pending',
+				'amount'      => $amount,
+				'campaign'    => affiliate_wp()->tracking->get_campaign(),
+				'visit_id'    => $visit_id,
+				'order_total' => $this->get_order_total(),
+				'products'    => $this->get_products( $order ),
+				'context'     => $this->context,
+			)
+		);
+
+		// Update order note.
+
+		/* translators: Referral ID */
+		$note = sprintf( __( 'LifterLMS referral #%d updated to pending successfully.', 'affiliate-wp' ), $referral_id );
+		$order->add_note( $note );
+
+		$this->log( $note );
 	}
 
 

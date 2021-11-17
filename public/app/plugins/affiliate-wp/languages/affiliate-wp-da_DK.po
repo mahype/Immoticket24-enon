@@ -2,20 +2,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AffiliateWP\n"
 "Report-Msgid-Bugs-To: https://affiliatewp.com/support/\n"
-"POT-Creation-Date: 2021-05-11 15:58:55+00:00\n"
-"PO-Revision-Date: 2021-10-08 14:17-0600\n"
 "Last-Translator: AffiliateWP <support@affiliatewp.com>\n"
 "Language-Team: AffiliateWP <support@affiliatewp.com>\n"
-"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-05-11 15:58:55+00:00\n"
+"PO-Revision-Date: 2021-11-11 22:45-0700\n"
+"Language: da\n"
 "X-Generator: Poedit 2.4.3\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: templates\n"
@@ -87,27 +85,19 @@ msgstr "Affiliate-id'et eller rækken af id'er, der skal forespørges på."
 
 #: includes/REST/v1/class-affiliates-endpoints.php:270
 msgid "The user ID or array of IDs to query payouts for."
-msgstr ""
-"Det bruger-id eller den matrix af id'er, der skal forespørges om "
-"udbetalinger for."
+msgstr "Det bruger-id eller den matrix af id'er, der skal forespørges om udbetalinger for."
 
 #: includes/REST/v1/class-affiliates-endpoints.php:278
 msgid "Affiliate ID or array of IDs to exclude from the query."
-msgstr ""
-"Affiliate-ID eller array af id'er, der skal udelades fra forespørgslen."
+msgstr "Affiliate-ID eller array af id'er, der skal udelades fra forespørgslen."
 
 #: includes/REST/v1/class-affiliates-endpoints.php:285
 msgid "Terms to search for affiliates. Accepts an affiliate ID or a string."
-msgstr ""
-"Vilkår for at søge efter associerede selskaber. Accepterer et affiliate-id "
-"eller en streng."
+msgstr "Vilkår for at søge efter associerede selskaber. Accepterer et affiliate-id eller en streng."
 
 #: includes/REST/v1/class-affiliates-endpoints.php:292
-msgid ""
-"The affiliate status. Accepts 'active', 'inactive', 'pending', or 'rejected'."
-msgstr ""
-"Affiliate status. Accepterer ' aktiv ', ' inaktiv ', ' afventer ' eller ' "
-"afvist '."
+msgid "The affiliate status. Accepts 'active', 'inactive', 'pending', or 'rejected'."
+msgstr "Affiliate status. Accepterer ' aktiv ', ' inaktiv ', ' afventer ' eller ' afvist '."
 
 #: includes/REST/v1/class-affiliates-endpoints.php:301
 msgid "Affiliates table column to order by."
@@ -115,9 +105,7 @@ msgstr "Affilierede tabelkolonne at bestille efter."
 
 #: includes/REST/v1/class-affiliates-endpoints.php:308
 msgid "The date array or string to query affiliate registrations within."
-msgstr ""
-"Det dato array eller den streng, der skal forespørge affiliate-"
-"registreringer inden for."
+msgstr "Det dato array eller den streng, der skal forespørge affiliate-registreringer inden for."
 
 #: includes/REST/v1/class-affiliates-endpoints.php:319
 msgid "Use any get_affiliates() arguments to modify the response."
@@ -180,12 +168,8 @@ msgid "The affiliate payment email address, as it exists in the database"
 msgstr "Den affiliate betaling e-mail-adresse, som den findes i databasen"
 
 #: includes/REST/v1/class-affiliates-endpoints.php:408
-msgid ""
-"The affiliate payment email address, as inherited from the user email "
-"address."
-msgstr ""
-"Den affiliate betaling e-mail-adresse, som arvet fra brugerens e-mail-"
-"adresse."
+msgid "The affiliate payment email address, as inherited from the user email address."
+msgstr "Den affiliate betaling e-mail-adresse, som arvet fra brugerens e-mail-adresse."
 
 #: includes/REST/v1/class-affiliates-endpoints.php:414
 msgid "The affiliate status."
@@ -238,8 +222,7 @@ msgstr "Den tilknyttede kampagne."
 
 #: includes/REST/v1/class-campaigns-endpoints.php:191
 #: includes/REST/v1/class-campaigns-endpoints.php:252
-msgid ""
-"The conversion rate for the campaign (ratio of visits divided by referrals)."
+msgid "The conversion rate for the campaign (ratio of visits divided by referrals)."
 msgstr ""
 
 #: includes/REST/v1/class-campaigns-endpoints.php:199
@@ -308,9 +291,7 @@ msgstr "Det kreative ID eller den matrix af id'er, der skal forespørges efter."
 
 #: includes/REST/v1/class-customers-endpoints.php:259
 msgid "The user ID or comma-separated list of IDs to query customers for."
-msgstr ""
-"Det bruger-id eller den matrix af id'er, der skal forespørges om "
-"udbetalinger for."
+msgstr "Det bruger-id eller den matrix af id'er, der skal forespørges om udbetalinger for."
 
 #: includes/REST/v1/class-customers-endpoints.php:267
 msgid "Customer ID or comma-separated list of IDs to exclude."
@@ -318,9 +299,7 @@ msgstr ""
 
 #: includes/REST/v1/class-customers-endpoints.php:274
 msgid "The customer email or array of emails to query customers for."
-msgstr ""
-"Det bruger-id eller den matrix af id'er, der skal forespørges om "
-"udbetalinger for."
+msgstr "Det bruger-id eller den matrix af id'er, der skal forespørges om udbetalinger for."
 
 #: includes/REST/v1/class-customers-endpoints.php:281
 msgid "Customers table column to order by."
@@ -328,9 +307,7 @@ msgstr "Besøgs tabelkolonne, der skal rækkefølge efter."
 
 #: includes/REST/v1/class-customers-endpoints.php:288
 msgid "The date array or string to query customers within."
-msgstr ""
-"Det dato array eller den streng, der skal forespørge på udbetalinger inden "
-"for."
+msgstr "Det dato array eller den streng, der skal forespørge på udbetalinger inden for."
 
 #: includes/REST/v1/class-customers-endpoints.php:299
 msgid "Use any get_customers() arguments to modify the response."
@@ -354,7 +331,7 @@ msgstr "Brugerdefinerede henvisnings data."
 
 #: includes/REST/v1/class-customers-endpoints.php:337
 msgid "Customer email."
-msgstr "Kundens Email"
+msgstr "Kundens Email."
 
 #: includes/REST/v1/class-customers-endpoints.php:341
 msgid "Customer IP address."
@@ -374,29 +351,19 @@ msgstr "Affiliate ID eller array af id'er til at forespørge udbetalinger for."
 
 #: includes/REST/v1/class-payouts-endpoints.php:221
 msgid "Referral ID or array of referral IDs to retrieve payouts for."
-msgstr ""
-"Henvisnings-id eller en matrix af henvisnings-id'er til hentning af "
-"udbetalinger for."
+msgstr "Henvisnings-id eller en matrix af henvisnings-id'er til hentning af udbetalinger for."
 
 #: includes/REST/v1/class-payouts-endpoints.php:228
 msgid "Payout amount (float) or min/max range (array) to retrieve payouts for."
-msgstr ""
-"Udbetalingsbeløb (float) eller min/maks rækkevidde (array) for at hente "
-"udbetalinger for."
+msgstr "Udbetalingsbeløb (float) eller min/maks rækkevidde (array) for at hente udbetalinger for."
 
 #: includes/REST/v1/class-payouts-endpoints.php:235
-msgid ""
-"Comparison operator used with 'amount'. Accepts '>', '<', '>=', '<=', '=', "
-"or '!='."
-msgstr ""
-"Sammenligningsoperator, der bruges sammen med ' beløb '. Accepterer ' > ', ' "
-"< ', ' > = ', ' < = ', ' = ' eller '! = '."
+msgid "Comparison operator used with 'amount'. Accepts '>', '<', '>=', '<=', '=', or '!='."
+msgstr "Sammenligningsoperator, der bruges sammen med ' beløb '. Accepterer ' > ', ' < ', ' > = ', ' < = ', ' = ' eller '! = '."
 
 #: includes/REST/v1/class-payouts-endpoints.php:242
 msgid "ID or array of IDs for users who generated payouts. Default empty."
-msgstr ""
-"ID eller en array af id'er for brugere, der genererede udbetalinger. "
-"Standard er tom."
+msgstr "ID eller en array af id'er for brugere, der genererede udbetalinger. Standard er tom."
 
 #: includes/REST/v1/class-payouts-endpoints.php:249
 msgid "The payout status. Accepts 'paid' or 'failed'."
@@ -408,9 +375,7 @@ msgstr "Udbetalingstabel kolonne, der skal rækkefølge efter."
 
 #: includes/REST/v1/class-payouts-endpoints.php:263
 msgid "The date array or string to query payouts within."
-msgstr ""
-"Det dato array eller den streng, der skal forespørge på udbetalinger inden "
-"for."
+msgstr "Det dato array eller den streng, der skal forespørge på udbetalinger inden for."
 
 #: includes/REST/v1/class-payouts-endpoints.php:274
 msgid "Use any get_payouts() arguments to modify the response."
@@ -477,13 +442,11 @@ msgstr "Henvisnings tabelkolonne, der skal rækkefølge efter."
 
 #: includes/REST/v1/class-referrals-endpoints.php:255
 msgid "A referral ID or the search string to query for referrals with."
-msgstr ""
-"Et henvisnings-ID eller søgestrengen til at forespørge om henvisninger med."
+msgstr "Et henvisnings-ID eller søgestrengen til at forespørge om henvisninger med."
 
 #: includes/REST/v1/class-referrals-endpoints.php:263
 msgid "The date array or string to query referrals within."
-msgstr ""
-"Det dato array eller den streng, der skal forespørge om henvisninger i."
+msgstr "Det dato array eller den streng, der skal forespørge om henvisninger i."
 
 #: includes/REST/v1/class-referrals-endpoints.php:270
 #: includes/REST/v1/class-sales-endpoints.php:265
@@ -532,10 +495,8 @@ msgid "Custom referral data."
 msgstr "Brugerdefinerede henvisnings data."
 
 #: includes/REST/v1/class-referrals-endpoints.php:341
-msgid ""
-"Context under which the referral was generated (usually the ontegration)."
-msgstr ""
-"Kontekst, hvorunder henvisningen blev genereret (sædvanligvis ontegration)."
+msgid "Context under which the referral was generated (usually the ontegration)."
+msgstr "Kontekst, hvorunder henvisningen blev genereret (sædvanligvis ontegration)."
 
 #: includes/REST/v1/class-referrals-endpoints.php:345
 msgid "Campaign associated with the referral."
@@ -572,15 +533,11 @@ msgstr "Det antal elementer, der skal udlignes i forespørgslen."
 
 #: includes/REST/v1/class-rest-controller.php:119
 msgid "How to order results. Accepts ASC (ascending) or DESC (descending)."
-msgstr ""
-"Sådan bestiller du resultater. Accepterer ASC (stigende) eller DESC "
-"(faldende)."
+msgstr "Sådan bestiller du resultater. Accepterer ASC (stigende) eller DESC (faldende)."
 
 #: includes/REST/v1/class-rest-controller.php:125
 msgid "Fields to limit the selection for. Accepts 'ids'. Default '*' for all."
-msgstr ""
-"Felter, som markeringen skal begrænses for. Accepterer ' id'er '. Standard ' "
-"* ' for alle."
+msgstr "Felter, som markeringen skal begrænses for. Accepterer ' id'er '. Standard ' * ' for alle."
 
 #: includes/REST/v1/class-rest-controller.php:132
 msgid "The rest ID (site:object ID combination)"
@@ -591,11 +548,8 @@ msgid "A callback to pass the response through before returning."
 msgstr ""
 
 #: includes/REST/v1/class-rest-controller.php:168
-msgid ""
-"Scope under which the request is made; determines fields present in response."
-msgstr ""
-"AnvendelsesOmråde, som anmodningen er indgivet til bestemmer de felter, der "
-"findes som svar."
+msgid "Scope under which the request is made; determines fields present in response."
+msgstr "AnvendelsesOmråde, som anmodningen er indgivet til bestemmer de felter, der findes som svar."
 
 #: includes/REST/v1/class-sales-endpoints.php:209
 msgid "Reference information (product ID) for the sale."
@@ -611,17 +565,15 @@ msgstr "Henvisnings status eller matrix af statusser."
 
 #: includes/REST/v1/class-sales-endpoints.php:243
 msgid "sales table column to order by."
-msgstr "Besøgs tabelkolonne, der skal rækkefølge efter."
+msgstr "besøgs tabelkolonne, der skal rækkefølge efter."
 
 #: includes/REST/v1/class-sales-endpoints.php:250
 msgid "A referral ID or the search string to query for sales with."
-msgstr ""
-"Et henvisnings-ID eller søgestrengen til at forespørge om henvisninger med."
+msgstr "Et henvisnings-ID eller søgestrengen til at forespørge om henvisninger med."
 
 #: includes/REST/v1/class-sales-endpoints.php:258
 msgid "The date array or string to query sales within."
-msgstr ""
-"Det dato array eller den streng, der skal forespørge om henvisninger i."
+msgstr "Det dato array eller den streng, der skal forespørge om henvisninger i."
 
 #: includes/REST/v1/class-sales-endpoints.php:277
 msgid "Use any get_sales() arguments to modify the response."
@@ -649,8 +601,7 @@ msgstr "Det henvisnings-id eller den matrix af id'er, der skal forespørges på.
 
 #: includes/REST/v1/class-visits-endpoints.php:223
 msgid "The referral status or array of statuses to retrieve visits for."
-msgstr ""
-"Henvisnings status eller en matrix af statusser, der skal hentes besøg for."
+msgstr "Henvisnings status eller en matrix af statusser, der skal hentes besøg for."
 
 #: includes/REST/v1/class-visits-endpoints.php:231
 msgid "The context under which the visit was created."
@@ -805,21 +756,15 @@ msgstr "Affiliate-område"
 #. translators: 1: Plugin name, 2: Opening HTML for the changelog link, 3:
 #. Plugin version, 4: Closing HTML for the changelog link
 #: includes/admin/AFFWP_Plugin_Updater.php:226
-msgid ""
-"There is a new version of %1$s available. %2$sView version %3$s details%4$s."
-msgstr ""
-"Der er en ny version af %1$s til rådighed. %2$sVis version %3$s detaljer%4$s."
+msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
+msgstr "Der er en ny version af %1$s til rådighed. %2$sVis version %3$s detaljer%4$s."
 
 #. translators: 1: Plugin name, 2: Opening HTML for the changelog link, 3:
 #. Plugin version, 4: Closing HTML for the changelog link, 5: Opening HTML for
 #. the upgrade link, 6: Closing HTML for the upgrade link
 #: includes/admin/AFFWP_Plugin_Updater.php:235
-msgid ""
-"There is a new version of %1$s available. %2$sView version %3$s details%4$s "
-"or %5$supdate now%6$s."
-msgstr ""
-"Der findes en ny version af %1$s tilgængelig. %2$sVis version %3$s detaljer "
-"%4$s eller %5$sopdater nu %6$s."
+msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s."
+msgstr "Der findes en ny version af %1$s tilgængelig. %2$sVis version %3$s detaljer %4$s eller %5$sopdater nu %6$s."
 
 #: includes/admin/AFFWP_Plugin_Updater.php:468
 #: includes/admin/class-addon-updater.php:404
@@ -835,46 +780,26 @@ msgid "Browse all add-ons"
 msgstr "Se alle addons"
 
 #: includes/admin/add-ons.php:44
-msgid ""
-"These add-ons <em><strong>add functionality</strong></em> to your "
-"AffiliateWP-powered site."
-msgstr ""
-"Disse tilføjelsesprogrammer <em> <strong> tilføje funktionalitet </strong> </"
-"em> til dit AffiliateWP-drevne websted."
+msgid "These add-ons <em><strong>add functionality</strong></em> to your AffiliateWP-powered site."
+msgstr "Disse tilføjelsesprogrammer <em> <strong> tilføje funktionalitet </strong> </em> til dit AffiliateWP-drevne websted."
 
 #. translators: URL to account page on affiliatewp.com
 #: includes/admin/add-ons.php:54
-msgid ""
-"Pro add-ons are only available with a Professional or Ultimate license. If "
-"you already have one of these licenses, simply <a href=\"%s\">log in to your "
-"account</a> to download any of these add-ons."
-msgstr ""
-"Pro add-ons er kun tilgængelige med en Professional eller Ultimate licens. "
-"Hvis du allerede har en af disse licenser, skal du blot < a href = \" %s\" > "
-"logge ind på din konto </a> for at downloade et af disse "
-"tilføjelsesprogrammer."
+msgid "Pro add-ons are only available with a Professional or Ultimate license. If you already have one of these licenses, simply <a href=\"%s\">log in to your account</a> to download any of these add-ons."
+msgstr "Pro add-ons er kun tilgængelige med en Professional eller Ultimate licens. Hvis du allerede har en af disse licenser, skal du blot <a href=\"%s\">logge ind på din konto</a> for at downloade et af disse tilføjelsesprogrammer."
 
 #. translators: URL to account page on affiliatewp.com
 #: includes/admin/add-ons.php:60
-msgid ""
-"If you have a Personal or Plus license, you can easily upgrade from your "
-"account page to <a href=\"%s\">get access to all of these add-ons</a>!"
-msgstr ""
-"Hvis du har en Personal-eller plus-licens, kan du nemt opgradere fra din "
-"kontoside til at < a href = \" %s\" > få adgang til alle disse add-ons </a>!"
+msgid "If you have a Personal or Plus license, you can easily upgrade from your account page to <a href=\"%s\">get access to all of these add-ons</a>!"
+msgstr "Hvis du har en Personal-eller plus-licens, kan du nemt opgradere fra din kontoside til at <a href=\"%s\">få adgang til alle disse add-ons</a>!"
 
 #: includes/admin/add-ons.php:64
 msgid "Our official free add-ons are available to all license holders!"
-msgstr ""
-"Vores officielle gratis add-ons er tilgængelige for alle licensindehavere!"
+msgstr "Vores officielle gratis add-ons er tilgængelige for alle licensindehavere!"
 
 #: includes/admin/add-ons.php:105
-msgid ""
-"There was an error retrieving the add-ons list from the server. Please try "
-"again later."
-msgstr ""
-"Der opstod en fejl under hentning af listen over Udvidelser fra serveren. "
-"Prøv igen senere."
+msgid "There was an error retrieving the add-ons list from the server. Please try again later."
+msgstr "Der opstod en fejl under hentning af listen over Udvidelser fra serveren. Prøv igen senere."
 
 #: includes/admin/affiliates/actions.php:38
 #: includes/admin/affiliates/actions.php:199
@@ -883,8 +808,7 @@ msgid "You do not have permission to manage affiliates"
 msgstr "Du har ikke tilladelse til at administrere associerede selskaber"
 
 #: includes/admin/affiliates/actions.php:42
-msgid ""
-"Invalid user login name. User login name must include at least one letter"
+msgid "Invalid user login name. User login name must include at least one letter"
 msgstr "Ugyldigt brugernavn. Brugernavne skal indeholde mindst ét bogstav"
 
 #: includes/admin/affiliates/actions.php:46
@@ -1145,23 +1069,15 @@ msgstr[1] "Du har angivet følgende associerede selskaber til sletning:"
 
 #: includes/admin/affiliates/delete.php:118
 msgid "Deleting this affiliate will also delete their referral and visit data."
-msgid_plural ""
-"Deleting these affiliates will also delete their referral and visit data."
-msgstr[0] ""
-"Sletning af denne affiliate vil også slette deres henvisning og besøge data."
-msgstr[1] ""
-"Sletning af disse associerede selskaber vil også slette deres henvisning og "
-"besøge data."
+msgid_plural "Deleting these affiliates will also delete their referral and visit data."
+msgstr[0] "Sletning af denne affiliate vil også slette deres henvisning og besøge data."
+msgstr[1] "Sletning af disse associerede selskaber vil også slette deres henvisning og besøge data."
 
 #: includes/admin/affiliates/delete.php:132
-msgid ""
-"Proceed to the user management page to remove the user account associated "
-"with this affiliate?"
-msgid_plural ""
-"Proceed to the user management page to remove the user accounts associated "
-"with these affiliates?"
-msgstr[0] "ID for den brugerkonto, der er tilknyttet affiliate."
-msgstr[1] "ID for den brugerkonto, der er tilknyttet affiliate."
+msgid "Proceed to the user management page to remove the user account associated with this affiliate?"
+msgid_plural "Proceed to the user management page to remove the user accounts associated with these affiliates?"
+msgstr[0] "ID for den brugerkonto, der er tilknyttet affiliate?"
+msgstr[1] "ID for den brugerkonto, der er tilknyttet affiliate?"
 
 #: includes/admin/affiliates/delete.php:156
 msgid "Confirm Deletion"
@@ -1188,14 +1104,8 @@ msgstr "Affiliate navn"
 #. translators: 1: edit user link for the affiliate, 2: descriptive alt text
 #. for the user edit link
 #: includes/admin/affiliates/edit.php:100
-msgid ""
-"The affiliate&#8217;s first and/or last name. Will be empty if no name is "
-"specified. This can be changed on the <a href=\"%1$s\" alt=\"%2$s\">user "
-"edit screen</a>."
-msgstr ""
-"Affiliate & #8217; s fornavn og/eller efter navn. Vil være tom, hvis der "
-"ikke er angivet et navn. Dette kan ændres på < a href = \"%1$s\" alt = \"%2$s"
-"\" > bruger redigerings skærm </a>."
+msgid "The affiliate&#8217;s first and/or last name. Will be empty if no name is specified. This can be changed on the <a href=\"%1$s\" alt=\"%2$s\">user edit screen</a>."
+msgstr "Affiliate&#8217;s fornavn og/eller efter navn. Vil være tom, hvis der ikke er angivet et navn. Dette kan ændres på <a href=\"%1$s\" alt=\"%2$s\">bruger redigerings skærm</a>."
 
 #: includes/admin/affiliates/edit.php:102
 #: includes/admin/affiliates/edit.php:219
@@ -1212,9 +1122,7 @@ msgstr "Affiliate-webadresse"
 
 #: includes/admin/affiliates/edit.php:131
 msgid "The affiliate&#8217;s referral URL. This is based on global settings."
-msgstr ""
-"Den affiliate & #8217; s henvisning URL. Dette er baseret på globale "
-"indstillinger."
+msgstr "Den affiliate & #8217; s henvisning URL. Dette er baseret på globale indstillinger."
 
 #: includes/admin/affiliates/edit.php:139
 msgid "User ID"
@@ -1242,12 +1150,8 @@ msgid "Affiliate Status"
 msgstr "Affiliate status"
 
 #: includes/admin/affiliates/edit.php:201
-msgid ""
-"The status assigned to the affiliate&#8217;s account. Updating the status "
-"could trigger account related events, such as email notifications."
-msgstr ""
-"Den status, der er tildelt affiliate & #8217; s-kontoen. Opdatering af "
-"status kan udløse kontorelaterede hændelser, såsom e-mail-notifikationer."
+msgid "The status assigned to the affiliate&#8217;s account. Updating the status could trigger account related events, such as email notifications."
+msgstr "Den status, der er tildelt affiliate & #8217; s-kontoen. Opdatering af status kan udløse kontorelaterede hændelser, såsom e-mail-notifikationer."
 
 #: includes/admin/affiliates/edit.php:209 includes/misc-functions.php:1214
 #: tests/misc/test-misc-functions.php:397
@@ -1257,14 +1161,8 @@ msgstr "Website"
 #. translators: 1: edit user link for the affiliate, 2: descriptive alt text
 #. for the user edit link
 #: includes/admin/affiliates/edit.php:217
-msgid ""
-"The affiliate&#8217;s website. Will be empty if no website is specified. "
-"This can be changed on the <a href=\"%1$s\" alt=\"%2$s\">user edit screen</"
-"a>."
-msgstr ""
-"Affiliate & #8217; s hjemmeside. Vil være tom, hvis ingen hjemmeside er "
-"angivet. Dette kan ændres på < a href = \"%1$s\" alt = \"%2$s\" > bruger "
-"redigerings skærm </a>."
+msgid "The affiliate&#8217;s website. Will be empty if no website is specified. This can be changed on the <a href=\"%1$s\" alt=\"%2$s\">user edit screen</a>."
+msgstr "Affiliate & #8217; s hjemmeside. Vil være tom, hvis ingen hjemmeside er angivet. Dette kan ændres på <a href=\"%1$s\" alt=\"%2$s\">bruger redigerings skærm</a>."
 
 #: includes/admin/affiliates/edit.php:229
 #: includes/admin/affiliates/edit.php:234 includes/admin/affiliates/new.php:115
@@ -1293,7 +1191,7 @@ msgstr "Nylige henvisnings besøg"
 
 #: includes/admin/affiliates/edit.php:268 includes/admin/affiliates/new.php:155
 msgid "The affiliate&#8217;s flat rate referral basis."
-msgstr "Den affiliate & #8217; s henvisning sats"
+msgstr "Den affiliate & #8217; s henvisning sats."
 
 #: includes/admin/affiliates/edit.php:277 includes/admin/affiliates/new.php:164
 #: includes/admin/settings/class-settings.php:603
@@ -1312,12 +1210,8 @@ msgid "Referral Rate"
 msgstr "Henvisnings rate"
 
 #: includes/admin/affiliates/edit.php:282 includes/admin/affiliates/new.php:169
-msgid ""
-"The affiliate&#8217;s referral rate, such as 20 for 20%. If left blank, the "
-"site default will be used."
-msgstr ""
-"Den affiliate & #8217; s henvisning sats, såsom 20 for 20%. Hvis feltet ikke "
-"udfyldes, bruges webstedets standard."
+msgid "The affiliate&#8217;s referral rate, such as 20 for 20%. If left blank, the site default will be used."
+msgstr "Den affiliate & #8217; s henvisning sats, såsom 20 for 20%. Hvis feltet ikke udfyldes, bruges webstedets standard."
 
 #: includes/admin/affiliates/edit.php:292 includes/admin/affiliates/new.php:227
 #: includes/admin/affiliates/review.php:137 includes/class-register.php:570
@@ -1334,9 +1228,7 @@ msgstr "Generer webadresse"
 
 #. translators: Coupon settings tab URL
 #: includes/admin/affiliates/edit.php:311
-msgid ""
-"The affiliate&#8217;s dynamic coupon will use the settings from the selected "
-"<a href=\"%s\">coupon template</a>."
+msgid "The affiliate&#8217;s dynamic coupon will use the settings from the selected <a href=\"%s\">coupon template</a>."
 msgstr ""
 
 #: includes/admin/affiliates/edit.php:324 templates/register.php:80
@@ -1344,12 +1236,8 @@ msgid "Account Email"
 msgstr "Konto email"
 
 #: includes/admin/affiliates/edit.php:329
-msgid ""
-"The affiliate&#8217;s account email. Updating this will change the email "
-"address shown on the user&#8217;s profile page."
-msgstr ""
-"Den affiliate & #8217; s konto e-mail. Hvis du opdaterer dette, ændres den e-"
-"mailadresse, der vises på bruger & #8217; s-profilsiden."
+msgid "The affiliate&#8217;s account email. Updating this will change the email address shown on the user&#8217;s profile page."
+msgstr "Den affiliate & #8217; s konto e-mail. Hvis du opdaterer dette, ændres den e-mailadresse, der vises på bruger & #8217; s-profilsiden."
 
 #: includes/admin/affiliates/edit.php:337 includes/admin/affiliates/new.php:177
 #: includes/admin/affiliates/review.php:81
@@ -1367,12 +1255,8 @@ msgstr "Betalings-e-mail"
 
 #: includes/admin/affiliates/edit.php:342 includes/admin/affiliates/new.php:183
 #: includes/admin/affiliates/new.php:188
-msgid ""
-"Affiliate&#8217;s payment email for systems such as PayPal, Moneybookers, or "
-"others. Leave blank to use the affiliate&#8217;s user email."
-msgstr ""
-"Affiliate & #8217; s betaling e-mail til systemer som PayPal, Moneybookers, "
-"eller andre. Efterlad blank for at bruge affiliate & #8217; s bruger e-mail."
+msgid "Affiliate&#8217;s payment email for systems such as PayPal, Moneybookers, or others. Leave blank to use the affiliate&#8217;s user email."
+msgstr "Affiliate & #8217; s betaling e-mail til systemer som PayPal, Moneybookers, eller andre. Efterlad blank for at bruge affiliate & #8217; s bruger e-mail."
 
 #: includes/admin/affiliates/edit.php:352
 #: includes/admin/payouts/class-list-table.php:164
@@ -1430,9 +1314,7 @@ msgstr ""
 #. link URL to be displayed
 #: includes/admin/affiliates/edit.php:432
 msgid "<a href=\"%1$s\" target=\"_blank\" alt=\"%2$s\">%3$s</a>"
-msgstr ""
-"Accepter vores < a href = \" %s\" target = \"_blank\" > vilkår for "
-"anvendelse </a>"
+msgstr "Accepter vores <a href=\"%s\" target=\"_blank\">vilkår for anvendelse</a>"
 
 #: includes/admin/affiliates/edit.php:434
 msgid "A link to the identity verification page on the Payouts Service"
@@ -1455,11 +1337,8 @@ msgid "Affiliate Notes"
 msgstr "Affilierede noter"
 
 #: includes/admin/affiliates/edit.php:467 includes/admin/affiliates/new.php:202
-msgid ""
-"Enter any notes for this affiliate. Notes are only visible to the admin."
-msgstr ""
-"Indtast eventuelle noter til denne affiliate. Noter er kun synlige for "
-"administratoren."
+msgid "Enter any notes for this affiliate. Notes are only visible to the admin."
+msgstr "Indtast eventuelle noter til denne affiliate. Noter er kun synlige for administratoren."
 
 #: includes/admin/affiliates/edit.php:476
 #: includes/admin/affiliates/review.php:122
@@ -1481,26 +1360,16 @@ msgstr ""
 
 #. translators: URL to create a new user
 #: includes/admin/affiliates/new.php:35
-msgid ""
-"Use this form to create a new affiliate account. Each affiliate is tied "
-"directly to a user account, so if the user account for the affiliate does "
-"not yet exist, <a href=\"%s\" target=\"_blank\">create one</a>."
-msgstr ""
-"Brug denne formular til at registrere en ny affiliate. Hver affiliate er "
-"bundet direkte til en brugerkonto, så hvis brugerkontoen for affiliate endnu "
-"ikke eksisterer, < a href = \" %s\" target = \"_blank\" > oprette en </a>."
+msgid "Use this form to create a new affiliate account. Each affiliate is tied directly to a user account, so if the user account for the affiliate does not yet exist, <a href=\"%s\" target=\"_blank\">create one</a>."
+msgstr "Brug denne formular til at registrere en ny affiliate. Hver affiliate er bundet direkte til en brugerkonto, så hvis brugerkontoen for affiliate endnu ikke eksisterer, <a href=\"%s\" target=\"_blank\">oprette en</a>."
 
 #: includes/admin/affiliates/new.php:45
 msgid "User login name"
 msgstr "Brugernavn"
 
 #: includes/admin/affiliates/new.php:57
-msgid ""
-"Begin typing the name of the affiliate to perform a search for their "
-"associated user account."
-msgstr ""
-"Begynd at skrive navnet på den affilierede til at udføre en søgning efter "
-"deres tilknyttede brugerkonto."
+msgid "Begin typing the name of the affiliate to perform a search for their associated user account."
+msgstr "Begynd at skrive navnet på den affilierede til at udføre en søgning efter deres tilknyttede brugerkonto."
 
 #: includes/admin/affiliates/new.php:66
 msgid "User email"
@@ -1508,16 +1377,14 @@ msgstr "Kundens Email"
 
 #: includes/admin/affiliates/new.php:71
 msgid "Enter an email address for the new user."
-msgstr "Angiv en henvisnings procent for denne %s"
+msgstr "Angiv en henvisnings procent for denne."
 
 #: includes/admin/affiliates/new.php:79
 msgid "User Password"
 msgstr "Adgangskode"
 
 #: includes/admin/affiliates/new.php:83
-msgid ""
-"The password will be auto-generated and can be reset by the user or an "
-"administrator after the account is created."
+msgid "The password will be auto-generated and can be reset by the user or an administrator after the account is created."
 msgstr ""
 
 #: includes/admin/affiliates/new.php:107
@@ -1535,7 +1402,7 @@ msgstr "Send velkomstmail efter tilmelding affiliate?"
 #: includes/admin/affiliates/new.php:233
 #: includes/admin/affiliates/review.php:143 includes/class-register.php:575
 msgid "Create dynamic coupon for affiliate?"
-msgstr "Tilslut denne kupon med en affiliate."
+msgstr "Tilslut denne kupon med en affiliate?"
 
 #: includes/admin/affiliates/new.php:270 includes/admin/user-profile.php:144
 msgid "Add Affiliate"
@@ -1591,12 +1458,8 @@ msgid "A batch process ID must be present to continue."
 msgstr "Der skal være et batchproces-id til stede for at fortsætte."
 
 #: includes/admin/ajax-actions.php:143
-msgid ""
-"You do not have permission to initiate this request. Contact an "
-"administrator for more information."
-msgstr ""
-"Du har ikke tilladelse til at starte denne anmodning. Kontakt en "
-"administrator for at få flere oplysninger."
+msgid "You do not have permission to initiate this request. Contact an administrator for more information."
+msgstr "Du har ikke tilladelse til at starte denne anmodning. Kontakt en administrator for at få flere oplysninger."
 
 #. translators: Batch process ID
 #: includes/admin/ajax-actions.php:151 includes/admin/ajax-actions.php:323
@@ -1611,8 +1474,7 @@ msgstr "Der er registreret en ugyldig filsti for batchproces handleren%1$s."
 #. translators: 1: Formatted batch processor class name, 2: Formatted batch
 #. process ID
 #: includes/admin/ajax-actions.php:170 includes/admin/ajax-actions.php:342
-msgid ""
-"%1$s is an invalid handler for the %2$s batch process. Please try again."
+msgid "%1$s is an invalid handler for the %2$s batch process. Please try again."
 msgstr "%1$s er en ugyldig handler for batchprocessen%2$s. Prøv venligst igen."
 
 #: includes/admin/ajax-actions.php:279
@@ -1629,28 +1491,18 @@ msgstr ""
 
 #: includes/admin/ajax-actions.php:354
 msgid "You do not have permission to import data"
-msgstr "Du har ikke tilladelse til at eksportere data."
+msgstr "Du har ikke tilladelse til at eksportere data"
 
 #. translators: 1: Plugin name, 2: Changelog URL, 3: New plugin version
 #: includes/admin/class-addon-updater.php:309
-msgid ""
-"There is a new version of %1$s available. <a target=\"_blank\" class="
-"\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
-msgstr ""
-"Der er en ny version af %1$s tilgængelig. <a target=\"_blank\" class="
-"\"thickbox\" href=\"%2$s\">Vis versions %3$s detaljer</a>."
+msgid "There is a new version of %1$s available. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
+msgstr "Der er en ny version af %1$s tilgængelig. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">Vis versions %3$s detaljer</a>."
 
 #. translators: 1: Plugin name, 2: Changelog URL, 3: New plugin version, 4:
 #. Update URL
 #: includes/admin/class-addon-updater.php:317
-msgid ""
-"There is a new version of %1$s available. <a target=\"_blank\" class="
-"\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s"
-"\">update now</a>."
-msgstr ""
-"Der er en ny version af %1$s til rådighed. <a target=\"_blank\" class="
-"\"thickbox\" href=\"%2$s\">Se version %3$s detaljer</a>,  eller <a href="
-"\"%4$s\">opdater nu</a>."
+msgid "There is a new version of %1$s available. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s\">update now</a>."
+msgstr "Der er en ny version af %1$s til rådighed. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">Se version %3$s detaljer</a>,  eller <a href=\"%4$s\">opdater nu</a>."
 
 #: includes/admin/class-menu.php:36 includes/admin/overview/overview.php:56
 #: includes/admin/referrals/contextual-help.php:37
@@ -1727,7 +1579,7 @@ msgstr "Affiliate opdateret med succes"
 #. translators: URL to the affiliates screen
 #: includes/admin/class-notices.php:275
 msgid "<a href=\"%s\">Back to Affiliates</a>."
-msgstr "<a href=\"%s\">Tilbage til Affiliates</a>"
+msgstr "<a href=\"%s\">Tilbage til Affiliates</a>."
 
 #: includes/admin/class-notices.php:283
 msgid "Affiliate update failed, please try again"
@@ -1763,7 +1615,7 @@ msgstr "Besøget blev oprettet."
 
 #: includes/admin/class-notices.php:317
 msgid "Dynamic coupon creation failed, please try again."
-msgstr "Henvisnings sletningen mislykkedes, prøv igen"
+msgstr "Henvisnings sletningen mislykkedes, prøv igen."
 
 #: includes/admin/class-notices.php:321
 msgid "Dynamic coupon successfully deleted."
@@ -1771,7 +1623,7 @@ msgstr "Annonceindholdet er blevet slettet."
 
 #: includes/admin/class-notices.php:326
 msgid "Dynamic coupon deletion failed, please try again."
-msgstr "Henvisnings sletningen mislykkedes, prøv igen"
+msgstr "Henvisnings sletningen mislykkedes, prøv igen."
 
 #: includes/admin/class-notices.php:337
 msgid "The API keys were successfully generated."
@@ -1836,11 +1688,11 @@ msgstr "Der er oprettet en udbetaling."
 
 #: includes/admin/class-notices.php:423
 msgid "Payout deleted successfully."
-msgstr "Creative er blevet slettet"
+msgstr "Creative er blevet slettet."
 
 #: includes/admin/class-notices.php:427
 msgid "Payout deletion failed, please try again."
-msgstr "Affiliate sletning mislykkedes, prøv venligst igen"
+msgstr "Affiliate sletning mislykkedes, prøv venligst igen."
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME
 #. constant
@@ -1865,10 +1717,7 @@ msgid "Effortlessly pay your affiliates"
 msgstr ""
 
 #: includes/admin/class-notices.php:450
-msgid ""
-"With the Payouts Service provided by AffiliateWP, you can easily pay "
-"affiliates in 31 countries using any debit or credit card. Learn more at <a "
-"href=\"%s\" target=\"_blank\">payouts.sandhillsplugins.com</a>."
+msgid "With the Payouts Service provided by AffiliateWP, you can easily pay affiliates in 31 countries using any debit or credit card. Learn more at <a href=\"%s\" target=\"_blank\">payouts.sandhillsplugins.com</a>."
 msgstr ""
 
 #: includes/admin/class-notices.php:469
@@ -1881,7 +1730,7 @@ msgstr "Affiliate wasn & #8217; t tilføjet, prøv venligst igen."
 
 #: includes/admin/class-notices.php:479
 msgid "Referral not created because affiliate is invalid"
-msgstr "Henvisning ikke oprettet, fordi affiliate egen konto blev brugt."
+msgstr "Henvisning ikke oprettet, fordi affiliate egen konto blev brugt"
 
 #: includes/admin/class-notices.php:483
 msgid "Referral updated successfully"
@@ -1900,9 +1749,8 @@ msgid "Referral deletion failed, please try again"
 msgstr "Henvisnings sletningen mislykkedes, prøv igen"
 
 #: includes/admin/class-notices.php:511
-msgid ""
-"Your database needs to be upgraded following the AffiliateWP v2.0 update"
-msgstr "Din database skal opgraderes efter den seneste AffiliateWP-opdatering."
+msgid "Your database needs to be upgraded following the AffiliateWP v2.0 update"
+msgstr "Din database skal opgraderes efter den seneste AffiliateWP-opdatering"
 
 #: includes/admin/class-notices.php:521 includes/admin/class-notices.php:543
 #: includes/admin/class-notices.php:566 includes/admin/class-notices.php:589
@@ -1910,28 +1758,19 @@ msgid "Upgrade Database"
 msgstr "OpgraderingsDatabasen"
 
 #: includes/admin/class-notices.php:533
-msgid ""
-"Your database needs to be upgraded following the AffiliateWP v2.2 update. "
-"Depending on the size of your database, this upgrade could take some time."
+msgid "Your database needs to be upgraded following the AffiliateWP v2.2 update. Depending on the size of your database, this upgrade could take some time."
 msgstr "Din database skal opgraderes efter den seneste AffiliateWP-opdatering."
 
 #: includes/admin/class-notices.php:556
-msgid ""
-"Your database needs to be upgraded following the AffiliateWP v2.4.5 update. "
-"Depending on the size of your database, this upgrade could take some time."
+msgid "Your database needs to be upgraded following the AffiliateWP v2.4.5 update. Depending on the size of your database, this upgrade could take some time."
 msgstr "Din database skal opgraderes efter den seneste AffiliateWP-opdatering."
 
 #: includes/admin/class-notices.php:579
-msgid ""
-"Your database needs to be upgraded following the AffiliateWP v2.6 update. "
-"Depending on the size of your database, this upgrade could take some time."
+msgid "Your database needs to be upgraded following the AffiliateWP v2.6 update. Depending on the size of your database, this upgrade could take some time."
 msgstr "Din database skal opgraderes efter den seneste AffiliateWP-opdatering."
 
 #: includes/admin/class-notices.php:602
-msgid ""
-"Your database tables need to be upgraded following the AffiliateWP v2.6.1 "
-"update. Depending on the size of your database, this upgrade could take some "
-"time."
+msgid "Your database tables need to be upgraded following the AffiliateWP v2.6.1 update. Depending on the size of your database, this upgrade could take some time."
 msgstr "Din database skal opgraderes efter den seneste AffiliateWP-opdatering."
 
 #: includes/admin/class-notices.php:612 includes/admin/class-notices.php:635
@@ -1939,28 +1778,17 @@ msgid "Upgrade Database Tables"
 msgstr "OpgraderingsDatabasen"
 
 #: includes/admin/class-notices.php:625
-msgid ""
-"Your database tables need to be upgraded following the AffiliateWP v2.7 "
-"update. Depending on the size of your database, this upgrade could take some "
-"time."
+msgid "Your database tables need to be upgraded following the AffiliateWP v2.7 update. Depending on the size of your database, this upgrade could take some time."
 msgstr "Din database skal opgraderes efter den seneste AffiliateWP-opdatering."
 
 #. translators: URL to the Integrations settings screen
 #: includes/admin/class-notices.php:659
-msgid ""
-"There are currently no AffiliateWP <a href=\"%s\">integrations</a> enabled. "
-"If you are using AffiliateWP without any integrations, you may disregard "
-"this message."
-msgstr ""
-"Der er i øjeblikket ingen AffiliateWP < a href = \" %s\" > integrationer </"
-"a> aktiveret. Hvis du bruger AffiliateWP uden integrationer, kan du se bort "
-"fra denne meddelelse."
+msgid "There are currently no AffiliateWP <a href=\"%s\">integrations</a> enabled. If you are using AffiliateWP without any integrations, you may disregard this message."
+msgstr "Der er i øjeblikket ingen AffiliateWP <a href=\"%s\">integrationer</a> aktiveret. Hvis du bruger AffiliateWP uden integrationer, kan du se bort fra denne meddelelse."
 
 #. translators: Integration name
 #: includes/admin/class-notices.php:678
-msgid ""
-"AffiliateWP needs to import %s sales data. This will ensure AffiliateWP "
-"sales reports are accurate."
+msgid "AffiliateWP needs to import %s sales data. This will ensure AffiliateWP sales reports are accurate."
 msgstr ""
 
 #: includes/admin/class-notices.php:689
@@ -1970,48 +1798,28 @@ msgstr ""
 #. translators: 1: Integration name, 2: URL to the discontinued integrations
 #. guide
 #: includes/admin/class-notices.php:705
-msgid ""
-"AffiliateWP is ending official support for the <strong>%1$s</strong> "
-"integration beginning September 2021. See <a href=\"%2$s\" target=\"_blank"
-"\">this guide</a> for more information."
+msgid "AffiliateWP is ending official support for the <strong>%1$s</strong> integration beginning September 2021. See <a href=\"%2$s\" target=\"_blank\">this guide</a> for more information."
 msgstr ""
 
 #. translators: 1: Date the license expired, 2: URL to renew the license key
 #: includes/admin/class-notices.php:736
-msgid ""
-"Your license key expired on %1$s. Please <a href=\"%2$s\" target=\"_blank"
-"\">renew your license key</a>."
-msgstr ""
-"Din licens nøgle udløb den %s. Du skal < a href = \" %s\" target = \"_blank"
-"\" > forny din licens nøgle </a>."
+msgid "Your license key expired on %1$s. Please <a href=\"%2$s\" target=\"_blank\">renew your license key</a>."
+msgstr "Din licens nøgle udløb den %1$s. Du skal <a href=“%2$s” target=\"_blank\">forny din licens nøgle</a>."
 
 #. translators: URL to contact support
 #: includes/admin/class-notices.php:747
-msgid ""
-"Your license key has been disabled. Please <a href=\"%s\" target=\"_blank"
-"\">contact support</a> for more information."
-msgstr ""
-"Din licens nøgle er blevet deaktiveret. Du skal < a href = \" %s\" target = "
-"\"_blank\" > kontakte support </a> for at få flere oplysninger."
+msgid "Your license key has been disabled. Please <a href=\"%s\" target=\"_blank\">contact support</a> for more information."
+msgstr "Din licens nøgle er blevet deaktiveret. Du skal <a href=\"%s\" target=\"_blank\">kontakte support</a> for at få flere oplysninger."
 
 #. translators: URL to the affiliatewp.com account page
 #: includes/admin/class-notices.php:756
-msgid ""
-"Invalid license. Please <a href=\"%s\" target=\"_blank\">visit your account "
-"page</a> and verify it."
-msgstr ""
-"Ugyldig licens. Du skal < a href = \" %s\" target = \"_blank\" > besøge din "
-"kontoside </a> og bekræfte den."
+msgid "Invalid license. Please <a href=\"%s\" target=\"_blank\">visit your account page</a> and verify it."
+msgstr "Ugyldig licens. Du skal <a href=\"%s\" target=\"_blank\">besøge din kontoside</a> og bekræfte den."
 
 #. translators: URL to the affiliatewp.com account page
 #: includes/admin/class-notices.php:766
-msgid ""
-"Your license key is not active for this URL. Please <a href=\"%s\" target="
-"\"_blank\">visit your account page</a> to manage your license key URLs."
-msgstr ""
-"%s er ikke aktiv for denne webadresse. Du skal < a href = \" %s\" target = "
-"\"_blank\" > besøge din kontoside for </a> at administrere dine licens nøgle-"
-"webadresser."
+msgid "Your license key is not active for this URL. Please <a href=\"%s\" target=\"_blank\">visit your account page</a> to manage your license key URLs."
+msgstr "Din licensnøgle er ikke aktiv for denne webadresse. Du skal <a href=\"%s\" target=\"_blank\"> besøge din kontoside for </a> at administrere dine licens nøgle-webadresser."
 
 #: includes/admin/class-notices.php:773
 msgid "This appears to be an invalid license key."
@@ -2019,29 +1827,17 @@ msgstr "Dette synes at være en ugyldig licensnøgle for %s."
 
 #. translators: URL to the affiliatewp.com account page
 #: includes/admin/class-notices.php:780
-msgid ""
-"Your license key has reached its activation limit. <a href=\"%s\">View "
-"possible upgrades</a> now."
-msgstr ""
-"Din licens nøgle har nået sin aktiveringsgrænse. < a href = \" %s\" > Se "
-"mulige opgraderinger </a> nu."
+msgid "Your license key has reached its activation limit. <a href=\"%s\">View possible upgrades</a> now."
+msgstr "Din licens nøgle har nået sin aktiveringsgrænse. <a href=\"%s\">Se mulige opgraderinger</a> nu."
 
 #: includes/admin/class-notices.php:793
-msgid ""
-"Your license key for AffiliateWP has expired. Please renew your license to "
-"re-enable automatic updates."
-msgstr ""
-"Din licens nøgle til AffiliateWP er udløbet. Forny licensen for at "
-"genaktivere automatiske opdateringer."
+msgid "Your license key for AffiliateWP has expired. Please renew your license to re-enable automatic updates."
+msgstr "Din licens nøgle til AffiliateWP er udløbet. Forny licensen for at genaktivere automatiske opdateringer."
 
 #. translators: Settings screen URL
 #: includes/admin/class-notices.php:809
-msgid ""
-"Please <a href=\"%s\">enter and activate</a> your license key for "
-"AffiliateWP to enable automatic updates."
-msgstr ""
-"Du skal < a href = \" %s\" > indtaste og aktivere </a> din licens nøgle til "
-"AffiliateWP for at aktivere automatiske opdateringer."
+msgid "Please <a href=\"%s\">enter and activate</a> your license key for AffiliateWP to enable automatic updates."
+msgstr "Du skal <a href=\"%s\">indtaste og aktivere</a> din licens nøgle til AffiliateWP for at aktivere automatiske opdateringer."
 
 #: includes/admin/class-notices.php:849
 #: includes/admin/settings/class-settings.php:349
@@ -2059,9 +1855,7 @@ msgstr "Indstillingerne er blevet importeret"
 
 #. translators: Insecure PHP version
 #: includes/admin/class-notices.php:922
-msgid ""
-"AffiliateWP has detected that your site is running on an insecure version of "
-"PHP (%s)."
+msgid "AffiliateWP has detected that your site is running on an insecure version of PHP (%s)."
 msgstr ""
 
 #: includes/admin/class-notices.php:928
@@ -2069,11 +1863,7 @@ msgid "What is PHP and how does it affect my site?"
 msgstr ""
 
 #: includes/admin/class-notices.php:929
-msgid ""
-"PHP is the programming language used to build and maintain WordPress and "
-"plugins like AffiliateWP. Newer versions of PHP are both faster and more "
-"secure, so updating will have a positive effect on your site&#8217;s "
-"performance."
+msgid "PHP is the programming language used to build and maintain WordPress and plugins like AffiliateWP. Newer versions of PHP are both faster and more secure, so updating will have a positive effect on your site&#8217;s performance."
 msgstr ""
 
 #: includes/admin/class-notices.php:931
@@ -2081,15 +1871,11 @@ msgid "Why it matters for AffiliateWP"
 msgstr "Tilføjelser til AffiliateWP"
 
 #: includes/admin/class-notices.php:932
-msgid ""
-"As we evolve over time, the ability to tap into more modern PHP features "
-"means we can continue to deliver a superior product to you."
+msgid "As we evolve over time, the ability to tap into more modern PHP features means we can continue to deliver a superior product to you."
 msgstr ""
 
 #: includes/admin/class-notices.php:933
-msgid ""
-"<strong>Starting in February 2021, we&#8217;ll require PHP 5.6 or newer to "
-"use AffiliateWP.</strong>"
+msgid "<strong>Starting in February 2021, we&#8217;ll require PHP 5.6 or newer to use AffiliateWP.</strong>"
 msgstr ""
 
 #: includes/admin/class-notices.php:940
@@ -2110,11 +1896,11 @@ msgstr "Dit navn"
 
 #: includes/admin/class-upgrades.php:828
 msgid "Notify site admin when a new affiliate has registered"
-msgstr "Giv webstedsadministratoren besked om nye affilierede registreringer."
+msgstr "Giv webstedsadministratoren besked om nye affilierede registreringer"
 
 #: includes/admin/class-upgrades.php:836
 msgid "Notify site admin when new referrals are earned"
-msgstr "Giv webstedsadministratoren besked om nye affilierede registreringer."
+msgstr "Giv webstedsadministratoren besked om nye affilierede registreringer"
 
 #: includes/admin/creatives/actions.php:25
 #: includes/admin/creatives/actions.php:89
@@ -2205,21 +1991,12 @@ msgid "Description"
 msgstr "Beskrivelse"
 
 #: includes/admin/creatives/edit.php:59 includes/admin/creatives/new.php:58
-msgid ""
-"An optional description for this creative. This is visible to affiliates and "
-"is displayed above the creative."
-msgstr ""
-"En valgfri beskrivelse af dette annonceindhold. Dette er synligt for "
-"datterselskaber og vises under det kreative."
+msgid "An optional description for this creative. This is visible to affiliates and is displayed above the creative."
+msgstr "En valgfri beskrivelse af dette annonceindhold. Dette er synligt for datterselskaber og vises under det kreative."
 
 #: includes/admin/creatives/edit.php:72 includes/admin/creatives/new.php:71
-msgid ""
-"The URL this creative should link to. Based on your Referral Settings, the "
-"affiliate&#8217;s ID or username will be automatically appended."
-msgstr ""
-"Den webadresse, som dette annonceindhold skal linke til. Baseret på dine "
-"henvisnings indstillinger vil affiliate & #8217; s ID eller Brugernavn "
-"automatisk blive tilføjet."
+msgid "The URL this creative should link to. Based on your Referral Settings, the affiliate&#8217;s ID or username will be automatically appended."
+msgstr "Den webadresse, som dette annonceindhold skal linke til. Baseret på dine henvisnings indstillinger vil affiliate & #8217; s ID eller Brugernavn automatisk blive tilføjet."
 
 #: includes/admin/creatives/edit.php:80 includes/admin/creatives/new.php:79
 msgid "Text"
@@ -2234,12 +2011,8 @@ msgid "Image"
 msgstr "Billede"
 
 #: includes/admin/creatives/edit.php:99
-msgid ""
-"Select your image. You can also enter an image URL if your image is hosted "
-"elsewhere."
-msgstr ""
-"Vælg dit billede. Du kan også indtaste en billed-URL, hvis dit billede er "
-"hostet andetsteds."
+msgid "Select your image. You can also enter an image URL if your image is hosted elsewhere."
+msgstr "Vælg dit billede. Du kan også indtaste en billed-URL, hvis dit billede er hostet andetsteds."
 
 #: includes/admin/creatives/edit.php:118
 msgid "Created"
@@ -2262,26 +2035,16 @@ msgid "New Creative"
 msgstr "Nyt kreativt"
 
 #: includes/admin/creatives/new.php:27
-msgid ""
-"Use this screen to add a new creative, such as a text link or image banner."
-msgstr ""
-"Brug dette skærmbillede til at tilføje en ny annonce, såsom et tekst link "
-"eller et billed banner."
+msgid "Use this screen to add a new creative, such as a text link or image banner."
+msgstr "Brug dette skærmbillede til at tilføje en ny annonce, såsom et tekst link eller et billed banner."
 
 #: includes/admin/creatives/new.php:84
-msgid ""
-"Text for this creative. To make this a text-only creative, do not add an "
-"image below."
+msgid "Text for this creative. To make this a text-only creative, do not add an image below."
 msgstr ""
 
 #: includes/admin/creatives/new.php:98
-msgid ""
-"Select an image if you would like an image banner. You can also enter an "
-"image URL if your image is hosted elsewhere. Leave blank if you wish to "
-"create a text-only creative."
-msgstr ""
-"Vælg et billede, hvis du vil have et billed banner. Du kan også indtaste en "
-"billed-URL, hvis dit billede er hostet andetsteds."
+msgid "Select an image if you would like an image banner. You can also enter an image URL if your image is hosted elsewhere. Leave blank if you wish to create a text-only creative."
+msgstr "Vælg et billede, hvis du vil have et billed banner. Du kan også indtaste en billed-URL, hvis dit billede er hostet andetsteds."
 
 #: includes/admin/creatives/new.php:135
 msgid "Add Creative"
@@ -2394,7 +2157,7 @@ msgstr "Højeste konvertering affiliate"
 #: includes/admin/overview/metaboxes/class-metabox-overview-highest-converting-urls.php:108
 #: includes/admin/overview/metaboxes/class-metabox-overview-highest-converting-urls.php:114
 msgid "No highest converting urls recorded yet."
-msgstr "Ingen henvisninger registreret endnu"
+msgstr "Ingen henvisninger registreret endnu."
 
 #: includes/admin/overview/metaboxes/class-metabox-overview-most-valuable.php:49
 msgid "Most Valuable Affiliates"
@@ -2438,7 +2201,7 @@ msgstr "Ingen affiliate registreringer endnu"
 
 #: includes/admin/payouts/actions.php:39 includes/admin/payouts/actions.php:96
 msgid "You do not have permission to process payouts"
-msgstr "Du har ikke tilladelse til at eksportere data."
+msgstr "Du har ikke tilladelse til at eksportere data"
 
 #: includes/admin/payouts/actions.php:48 includes/admin/payouts/actions.php:108
 msgid "Invalid payout method"
@@ -2450,21 +2213,13 @@ msgid "Note"
 msgstr ""
 
 #: includes/admin/payouts/actions.php:150
-msgid ""
-"A CSV file will be generated containing the payout details for each "
-"affiliate."
+msgid "A CSV file will be generated containing the payout details for each affiliate."
 msgstr ""
 
 #. translators: Import/Export Tools screen URL
 #: includes/admin/payouts/actions.php:154
-msgid ""
-"This will mark all unpaid referrals in this timeframe as paid. To export "
-"referrals with a status other than <em>unpaid</em>, go to the <a href=\"%s"
-"\">Tools &rarr; Export</a> page."
-msgstr ""
-"Dette vil markere alle ubetalte henvisninger i denne tidsperiode som betalt. "
-"Hvis du vil eksportere henvisninger med en anden status end <em> ubetalte </"
-"em>, skal du gå til < a href = \" %s\" > Tools &rarr; Eksporter </a> side."
+msgid "This will mark all unpaid referrals in this timeframe as paid. To export referrals with a status other than <em>unpaid</em>, go to the <a href=\"%s\">Tools &rarr; Export</a> page."
+msgstr "Dette vil markere alle ubetalte henvisninger i denne tidsperiode som betalt. Hvis du vil eksportere henvisninger med en anden status end <em> ubetalte </em>, skal du gå til <a href=\"%s\">Tools &rarr; Eksporter</a> side."
 
 #: includes/admin/payouts/class-list-table.php:140
 #: includes/admin/tools/tools.php:382
@@ -2524,9 +2279,7 @@ msgstr "Ingen udbetalinger fundet."
 
 #. translators: 1: Payouts Service settings link
 #: includes/admin/payouts/class-payouts-service.php:57
-msgid ""
-"Payouts Service - <a href=\"%s\">Register and/or connect</a> your account to "
-"enable this payout method"
+msgid "Payouts Service - <a href=\"%s\">Register and/or connect</a> your account to enable this payout method"
 msgstr ""
 
 #: includes/admin/payouts/class-payouts-service.php:59
@@ -2557,37 +2310,29 @@ msgstr ""
 #. translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME
 #. constant, 2: Payouts service settings URL
 #: includes/admin/payouts/class-payouts-service.php:502
-msgid ""
-"There was an error connecting to the %1$s. Please <a href=\"%2$s\">try "
-"again</a>. If you continue to have this problem, please contact support."
+msgid "There was an error connecting to the %1$s. Please <a href=\"%2$s\">try again</a>. If you continue to have this problem, please contact support."
 msgstr ""
 
 #: includes/admin/payouts/class-payouts-service.php:541
 #: includes/admin/payouts/class-payouts-service.php:597
-msgid ""
-"You do not have permission to disconnect the site from the Payouts Service "
-"payments"
+msgid "You do not have permission to disconnect the site from the Payouts Service payments"
 msgstr "Du har ikke tilladelse til at slette affilierede konti"
 
 #. translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME
 #. constant, 2: Payouts service settings URL
 #: includes/admin/payouts/class-payouts-service.php:570
-msgid ""
-"Unable to reconnect to the %1$s. Please <a href=\"%2$s\">try again</a>. If "
-"you continue to have this problem, please contact support."
+msgid "Unable to reconnect to the %1$s. Please <a href=\"%2$s\">try again</a>. If you continue to have this problem, please contact support."
 msgstr ""
 
 #. translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME
 #. constant, 2: Payouts service settings URL
 #: includes/admin/payouts/class-payouts-service.php:625
-msgid ""
-"Unable to disconnect from the %1$s. Please <a href=\"%2$s\">try again</a>. "
-"If you continue to have this problem, please contact support."
+msgid "Unable to disconnect from the %1$s. Please <a href=\"%2$s\">try again</a>. If you continue to have this problem, please contact support."
 msgstr ""
 
 #: includes/admin/payouts/class-payouts-service.php:658
 msgid "Error:"
-msgstr "Fejl"
+msgstr "Fejl:"
 
 #: includes/admin/payouts/new.php:15 includes/admin/payouts/payouts.php:56
 #: includes/admin/referrals/referrals.php:52
@@ -2595,19 +2340,12 @@ msgid "Pay Affiliates"
 msgstr "Partnere"
 
 #: includes/admin/payouts/new.php:26
-msgid ""
-"Pay your affiliates via the chosen payout method for all their unpaid "
-"referrals in the specified timeframe."
+msgid "Pay your affiliates via the chosen payout method for all their unpaid referrals in the specified timeframe."
 msgstr ""
 
 #: includes/admin/payouts/new.php:42
-msgid ""
-"To pay a specific affiliate, enter the affiliate&#8217;s login name, first "
-"name, or last name. Leave blank to pay all affiliates."
-msgstr ""
-"Hvis du vil generere en udbetaling for en bestemt affiliate, skal du "
-"indtaste affiliate & #8217; s login-navn, fornavn eller efter navn. Efterlad "
-"blank for at generere en udbetaling for eventuelle associerede selskaber."
+msgid "To pay a specific affiliate, enter the affiliate&#8217;s login name, first name, or last name. Leave blank to pay all affiliates."
+msgstr "Hvis du vil generere en udbetaling for en bestemt affiliate, skal du indtaste affiliate & #8217; s login-navn, fornavn eller efter navn. Efterlad blank for at generere en udbetaling for eventuelle associerede selskaber."
 
 #: includes/admin/payouts/new.php:50
 msgid "Start Date"
@@ -2623,7 +2361,7 @@ msgstr "Fra-mm/dd/åååå"
 
 #: includes/admin/payouts/new.php:55
 msgid "Referrals start date"
-msgstr "Henvisnings statusser:"
+msgstr "Henvisnings statusser"
 
 #: includes/admin/payouts/new.php:63
 msgid "End Date"
@@ -2705,12 +2443,8 @@ msgid "Reason"
 msgstr ""
 
 #: includes/admin/payouts/preview.php:438
-msgid ""
-"Are you sure you want to generate the payout file? All included referrals "
-"will be marked as Paid."
-msgstr ""
-"Er du sikker på, at du vil generere udbetalings filen? Alle inkluderede "
-"henvisninger vil blive markeret som betalt."
+msgid "Are you sure you want to generate the payout file? All included referrals will be marked as Paid."
+msgstr "Er du sikker på, at du vil generere udbetalings filen? Alle inkluderede henvisninger vil blive markeret som betalt."
 
 #: includes/admin/payouts/preview.php:444
 msgid "Generate CSV File"
@@ -2723,9 +2457,7 @@ msgstr ""
 
 #. translators: Payout method label
 #: includes/admin/payouts/preview.php:456
-msgid ""
-"Are you sure you want to payout referrals for the specified time frame via "
-"%s?"
+msgid "Are you sure you want to payout referrals for the specified time frame via %s?"
 msgstr "Er du sikker på, at du vil overskrive denne udbetalings henvisninger?"
 
 #: includes/admin/payouts/preview.php:474
@@ -2740,9 +2472,7 @@ msgstr[1] ""
 
 #. translators: Referrals screen URL
 #: includes/admin/payouts/preview.php:559
-msgid ""
-"No referrals are available to be paid out. View all <a href=\"%s"
-"\">referrals</a>."
+msgid "No referrals are available to be paid out. View all <a href=\"%s\">referrals</a>."
 msgstr ""
 
 #: includes/admin/payouts/screen-options.php:35
@@ -2756,19 +2486,14 @@ msgstr "Antal udbetalinger pr. side:"
 
 #: includes/admin/payouts/submitted.php:18
 msgid "Payout submitted successfully!"
-msgstr "Udbetalingen #% d er blevet opdateret."
+msgstr "Udbetalingen #% d er blevet opdateret!"
 
 #: includes/admin/payouts/submitted.php:32
-msgid ""
-"Your payout request is now being processed and your affiliates will be "
-"notified once the funds have been deposited."
+msgid "Your payout request is now being processed and your affiliates will be notified once the funds have been deposited."
 msgstr ""
 
 #: includes/admin/payouts/submitted.php:36
-msgid ""
-"For affiliates located in the United States, it takes 3-7 days for the funds "
-"transfer to be completed. For affiliates not located in the United States, "
-"it can take 1-2 weeks to complete the transfer of funds."
+msgid "For affiliates located in the United States, it takes 3-7 days for the funds transfer to be completed. For affiliates not located in the United States, it can take 1-2 weeks to complete the transfer of funds."
 msgstr ""
 
 #: includes/admin/payouts/submitted.php:54
@@ -2776,10 +2501,7 @@ msgid "Affiliates Paid"
 msgstr "Partnere"
 
 #: includes/admin/payouts/submitted.php:119
-msgid ""
-"An email will be sent to you and your affiliates when the payouts have been "
-"completed. You have also been sent an email with a confirmation of the "
-"payout details and a link to the paid invoice for your records."
+msgid "An email will be sent to you and your affiliates when the payouts have been completed. You have also been sent an email with a confirmation of the payout details and a link to the paid invoice for your records."
 msgstr ""
 
 #. translators: Payout ID
@@ -2805,11 +2527,7 @@ msgstr "Generelle indstillinger"
 
 #: includes/admin/plugins.php:53
 msgid "Changelog"
-msgstr ""
-"Der er en ny version af %1$s tilgængelig. <a href=\"%2$s\" class=\"thickbox "
-"yit-changelog-button open-plugin-details-modal\" title=\"%3$s\">Vis version "
-"%4$s detaljer</a>. <em>Du skal aktiverer udvidelsen på en enkelt side af "
-"netværket, for at få fordele af automatiske opdateringer.</em>"
+msgstr "Der er en ny version af %1$s tilgængelig. <a href=\"%2$s\" class=\"thickbox yit-changelog-button open-plugin-details-modal\" title=\"%3$s\">Vis version %4$s detaljer</a>. <em>Du skal aktiverer udvidelsen på en enkelt side af netværket, for at få fordele af automatiske opdateringer.</em>"
 
 #: includes/admin/referrals/actions.php:27
 #: includes/admin/referrals/actions.php:78
@@ -2900,58 +2618,35 @@ msgstr "For mere information:"
 #: includes/admin/referrals/contextual-help.php:31
 #: includes/admin/visits/contextual-help.php:31
 msgid "Visit the <a href=\"%s\">documentation</a> on the AffiliateWP website."
-msgstr ""
-"Gå til dokumentationen til < a href = \" %s\" > </a> på webstedet for "
-"AffiliateWP."
+msgstr "Gå til <a href=“%s”>dokumentationen</a> til på webstedet for AffiliateWP."
 
 #: includes/admin/referrals/contextual-help.php:39
 msgid "This screen provides access to your site&#8217;s referral history."
-msgstr ""
-"Dette skærmbillede giver adgang til dit websted & #8217; s henvisnings "
-"historik."
+msgstr "Dette skærmbillede giver adgang til dit websted & #8217; s henvisnings historik."
 
 #: includes/admin/referrals/contextual-help.php:40
-msgid ""
-"<strong>Reference</strong>: this refers to the order number (or similar) "
-"that created this referral."
-msgstr ""
-"<strong> Reference </strong>: Dette refererer til det ordrenummer (eller "
-"lignende), der oprettede denne henvisning."
+msgid "<strong>Reference</strong>: this refers to the order number (or similar) that created this referral."
+msgstr "<strong> Reference </strong>: Dette refererer til det ordrenummer (eller lignende), der oprettede denne henvisning."
 
 #: includes/admin/referrals/contextual-help.php:41
 msgid "Referral statuses:"
 msgstr "Henvisnings statusser:"
 
 #: includes/admin/referrals/contextual-help.php:43
-msgid ""
-"<strong>Paid</strong> - this is a referral that has been paid to the "
-"affiliate"
-msgstr ""
-"<strong> betalt </strong>-dette er en henvisning, der er blevet betalt til "
-"affiliate"
+msgid "<strong>Paid</strong> - this is a referral that has been paid to the affiliate"
+msgstr "<strong> betalt </strong>-dette er en henvisning, der er blevet betalt til affiliate"
 
 #: includes/admin/referrals/contextual-help.php:44
-msgid ""
-"<strong>Unpaid</strong> - this is a referral that has been accepted but not "
-"yet paid to the affiliate"
-msgstr ""
-"<strong> ubetalte </strong>-dette er en henvisning, der er blevet "
-"accepteret, men endnu ikke betalt til affiliate"
+msgid "<strong>Unpaid</strong> - this is a referral that has been accepted but not yet paid to the affiliate"
+msgstr "<strong> ubetalte </strong>-dette er en henvisning, der er blevet accepteret, men endnu ikke betalt til affiliate"
 
 #: includes/admin/referrals/contextual-help.php:45
-msgid ""
-"<strong>Pending</strong> - this is a referral that is waiting to be accepted"
-msgstr ""
-"<strong> verserende </strong>-dette er en henvisning, der venter på at blive "
-"accepteret"
+msgid "<strong>Pending</strong> - this is a referral that is waiting to be accepted"
+msgstr "<strong> verserende </strong>-dette er en henvisning, der venter på at blive accepteret"
 
 #: includes/admin/referrals/contextual-help.php:46
-msgid ""
-"<strong>Rejected</strong> - this is a referral that has been rejected and "
-"will not be paid to the affiliate"
-msgstr ""
-"<strong> afvist </strong>-dette er en henvisning, der er blevet afvist og "
-"vil ikke blive udbetalt til affiliate"
+msgid "<strong>Rejected</strong> - this is a referral that has been rejected and will not be paid to the affiliate"
+msgstr "<strong> afvist </strong>-dette er en henvisning, der er blevet afvist og vil ikke blive udbetalt til affiliate"
 
 #: includes/admin/referrals/contextual-help.php:52
 msgid "Searching Referrals"
@@ -2967,62 +2662,37 @@ msgstr "Du kan indtaste henvisnings & #8217; s ID-nummer"
 
 #: includes/admin/referrals/contextual-help.php:57
 msgid "You can enter the referral reference prefixed by &#8220;ref:&#8221;"
-msgstr ""
-"Du kan angive den henvisnings reference, der er forudrettet af & #8220; Ref: "
-"& #8221;"
+msgstr "Du kan angive den henvisnings reference, der er forudrettet af & #8220; Ref: & #8221;"
 
 #: includes/admin/referrals/contextual-help.php:58
 msgid "You can enter the referral context prefixed by &#8220;context:&#8221;"
-msgstr ""
-"Du kan angive henvisnings konteksten, der er forudfastsat af & #8220; "
-"kontekst: & #8221;"
+msgstr "Du kan angive henvisnings konteksten, der er forudfastsat af & #8220; kontekst: & #8221;"
 
 #: includes/admin/referrals/contextual-help.php:59
 #: includes/admin/visits/contextual-help.php:61
-msgid ""
-"You can enter the affiliate&#8217;s ID number prefixed by &#8220;affiliate:"
-"&#8221;"
-msgstr ""
-"Du kan indtaste affiliate & #8217; s id-nummer, der er forudfastsat af & "
-"#8220; affiliate: & #8221;"
+msgid "You can enter the affiliate&#8217;s ID number prefixed by &#8220;affiliate:&#8221;"
+msgstr "Du kan indtaste affiliate & #8217; s id-nummer, der er forudfastsat af & #8220; affiliate: & #8221;"
 
 #: includes/admin/referrals/contextual-help.php:60
 #: includes/admin/visits/contextual-help.php:62
 msgid "You can enter a URL campaign prefixed by &#8220;campaign:&#8221;"
-msgstr ""
-"Du kan angive en URL-kampagne med forudfastsatte & #8220; kampagne: & #8221;"
+msgstr "Du kan angive en URL-kampagne med forudfastsatte & #8220; kampagne: & #8221;"
 
 #: includes/admin/referrals/contextual-help.php:61
-msgid ""
-"You can enter a word or phrase in the referral&#8217;s description prefixed "
-"by &#8220;desc:&#8221;"
-msgstr ""
-"Du kan indtaste henvisnings & #8217; s ID-nummer, der er forudfastsat af & "
-"#8220; henvisning: & #8221;"
+msgid "You can enter a word or phrase in the referral&#8217;s description prefixed by &#8220;desc:&#8221;"
+msgstr "Du kan indtaste henvisnings & #8217; s ID-nummer, der er forudfastsat af & #8220; henvisning: & #8221;"
 
 #: includes/admin/referrals/contextual-help.php:67
 msgid "Exporting Referrals"
 msgstr "Eksport af henvisninger"
 
 #: includes/admin/referrals/contextual-help.php:69
-msgid ""
-"Referrals can be exported directly to a CSV file in order to make it easier "
-"for your own accounting needs and for you to payout your affiliates&#8217;s "
-"earnings."
-msgstr ""
-"Henvisninger kan eksporteres direkte til en CSV-fil for at gøre det lettere "
-"for dine egne regnskabsmæssige behov og for dig at udbetale dine associerede "
-"selskaber & #8217; s indtjening."
+msgid "Referrals can be exported directly to a CSV file in order to make it easier for your own accounting needs and for you to payout your affiliates&#8217;s earnings."
+msgstr "Henvisninger kan eksporteres direkte til en CSV-fil for at gøre det lettere for dine egne regnskabsmæssige behov og for dig at udbetale dine associerede selskaber & #8217; s indtjening."
 
 #: includes/admin/referrals/contextual-help.php:70
-msgid ""
-"The CSV file generated is structured properly for PayPal&#8217;s Mass "
-"Payment system so you can easily payout all of your affiliates at once via "
-"PayPal."
-msgstr ""
-"Den CSV-fil genereret er struktureret korrekt for PayPal & #8217; s masse "
-"betalingssystem, så du nemt kan udbetale alle dine datterselskaber på én "
-"gang via PayPal."
+msgid "The CSV file generated is structured properly for PayPal&#8217;s Mass Payment system so you can easily payout all of your affiliates at once via PayPal."
+msgstr "Den CSV-fil genereret er struktureret korrekt for PayPal & #8217; s masse betalingssystem, så du nemt kan udbetale alle dine datterselskaber på én gang via PayPal."
 
 #: includes/admin/referrals/edit.php:22
 msgid "Edit Referral"
@@ -3033,12 +2703,8 @@ msgid "The referral ID. This cannot be changed."
 msgstr "Henvisnings-id'et. Dette kan ikke ændres."
 
 #: includes/admin/referrals/edit.php:79
-msgid ""
-"The name and ID of the affiliate who generated this referral. This "
-"association cannot be changed."
-msgstr ""
-"Navn og ID på den affiliate, der genererede denne henvisning. Denne "
-"tilknytning kan ikke ændres."
+msgid "The name and ID of the affiliate who generated this referral. This association cannot be changed."
+msgstr "Navn og ID på den affiliate, der genererede denne henvisning. Denne tilknytning kan ikke ændres."
 
 #: includes/admin/referrals/edit.php:88
 msgid "Payout"
@@ -3065,10 +2731,8 @@ msgid "None"
 msgstr "Ingen"
 
 #: includes/admin/referrals/edit.php:150
-msgid ""
-"The referral amount cannot be changed once it has been included in a payout."
-msgstr ""
-"Henvisnings beløbet kan ikke ændres, når det er medtaget i en udbetaling."
+msgid "The referral amount cannot be changed once it has been included in a payout."
+msgstr "Henvisnings beløbet kan ikke ændres, når det er medtaget i en udbetaling."
 
 #: includes/admin/referrals/edit.php:152 includes/admin/referrals/new.php:54
 msgid "The amount of the referral, such as 15."
@@ -3103,12 +2767,8 @@ msgid "Enter a description for this referral."
 msgstr "Angiv en beskrivelse af denne henvisning."
 
 #: includes/admin/referrals/edit.php:253 includes/admin/referrals/new.php:110
-msgid ""
-"Enter a reference for this referral (optional). Usually this would be the "
-"transaction ID of the associated purchase."
-msgstr ""
-"Angiv en reference til denne henvisning (valgfrit). Normalt ville det være "
-"transaktionens ID for det tilknyttede køb."
+msgid "Enter a reference for this referral (optional). Usually this would be the transaction ID of the associated purchase."
+msgstr "Angiv en reference til denne henvisning (valgfrit). Normalt ville det være transaktionens ID for det tilknyttede køb."
 
 #: includes/admin/referrals/edit.php:261 includes/admin/referrals/new.php:118
 #: includes/admin/tools/export/class-batch-export-referrals.php:163
@@ -3119,13 +2779,8 @@ msgid "Context"
 msgstr "Kontekst"
 
 #: includes/admin/referrals/edit.php:266
-msgid ""
-"Context for this referral (optional). Usually this is used to identify the "
-"payment system or integration that was used for the transaction."
-msgstr ""
-"Konteksten for denne henvisning (valgfrit). Dette bruges normalt til at "
-"identificere det betalingssystem eller den integration, der blev brugt til "
-"transaktionen."
+msgid "Context for this referral (optional). Usually this is used to identify the payment system or integration that was used for the transaction."
+msgstr "Konteksten for denne henvisning (valgfrit). Dette bruges normalt til at identificere det betalingssystem eller den integration, der blev brugt til transaktionen."
 
 #: includes/admin/referrals/edit.php:277 includes/admin/referrals/new.php:131
 #: includes/admin/reports/tabs/class-campaigns-reports-tab.php:149
@@ -3141,10 +2796,8 @@ msgid "Custom data stored for this referral (optional)."
 msgstr "Angiv en beskrivelse af denne henvisning."
 
 #: includes/admin/referrals/edit.php:304
-msgid ""
-"The referral status cannot be changed once it has been included in a payout."
-msgstr ""
-"Henvisnings statussen kan ikke ændres, når den er medtaget i en udbetaling."
+msgid "The referral status cannot be changed once it has been included in a payout."
+msgstr "Henvisnings statussen kan ikke ændres, når den er medtaget i en udbetaling."
 
 #: includes/admin/referrals/edit.php:306 includes/admin/referrals/new.php:158
 msgid "Select the status of the referral."
@@ -3159,32 +2812,20 @@ msgid "New Referral"
 msgstr "Ny henvisning"
 
 #: includes/admin/referrals/new.php:27
-msgid ""
-"Use this screen to manually create a new referral record for an affiliate."
-msgstr ""
-"Brug dette skærmbillede til manuelt at oprette en ny henvisnings post for en "
-"affiliate."
+msgid "Use this screen to manually create a new referral record for an affiliate."
+msgstr "Brug dette skærmbillede til manuelt at oprette en ny henvisnings post for en affiliate."
 
 #: includes/admin/referrals/new.php:41
-msgid ""
-"Enter the name of the affiliate or enter a partial name or email to perform "
-"a search."
-msgstr ""
-"Indtast navnet på affiliate eller Indtast et delvist navn eller e-mail for "
-"at udføre en søgning."
+msgid "Enter the name of the affiliate or enter a partial name or email to perform a search."
+msgstr "Indtast navnet på affiliate eller Indtast et delvist navn eller e-mail for at udføre en søgning."
 
 #: includes/admin/referrals/new.php:84
 msgid "Select or enter a date for this referral."
 msgstr "Vælg statussen for henvisningen."
 
 #: includes/admin/referrals/new.php:123
-msgid ""
-"Enter a context for this referral (optional). Usually this is used to help "
-"identify the payment system that was used for the transaction."
-msgstr ""
-"Angiv en kontekst for denne henvisning (valgfri). Dette bruges normalt til "
-"at hjælpe med at identificere det betalingssystem, der blev brugt til "
-"transaktionen."
+msgid "Enter a context for this referral (optional). Usually this is used to help identify the payment system that was used for the transaction."
+msgstr "Angiv en kontekst for denne henvisning (valgfri). Dette bruges normalt til at hjælpe med at identificere det betalingssystem, der blev brugt til transaktionen."
 
 #: includes/admin/referrals/new.php:136
 msgid "Any custom data that should be stored with the referral (optional)."
@@ -3228,7 +2869,7 @@ msgstr ""
 #: includes/admin/reports/class-sales-graph.php:205
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:133
 msgid "Total Affiliate Sales Earnings"
-msgstr "Affiliate indtjening."
+msgstr "Affiliate indtjening"
 
 #: includes/admin/reports/class-sales-graph.php:206
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:98
@@ -3299,7 +2940,7 @@ msgstr "n/a"
 #: includes/admin/reports/tabs/class-campaigns-reports-tab.php:153
 #: includes/admin/reports/tabs/class-campaigns-reports-tab.php:240
 msgid "Affiliate: <a href=\"%1$s\">%2$s</a> | Visits: %3$d"
-msgstr "Affiliate: < a href = \"%1$s\" >%2$s </a> | Besøg:% 3 $ d"
+msgstr "Affiliate: <a href=\"%1$s\">%2$s</a> | Besøg: %3$d"
 
 #. translators: 1: Affiliate referrals URL, 2: Affiliate name
 #: includes/admin/reports/tabs/class-campaigns-reports-tab.php:90
@@ -3314,7 +2955,7 @@ msgstr "Affiliate: < a href = \"%1$s\" >%2$s </a> | Besøg:% 3 $ d"
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:56
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:118
 msgid "Affiliate: <a href=\"%1$s\">%2$s</a>"
-msgstr "Affiliate: < a href = \"%1$s\" >%2$s </a> | Besøg:% 3 $ d"
+msgstr "Affiliate: <a href=\"%1$s\">%2$s</a> | Besøg: %3$d"
 
 #. translators: Date comparison label for context
 #: includes/admin/reports/tabs/class-campaigns-reports-tab.php:148
@@ -3351,7 +2992,7 @@ msgstr "Samlet indtjening"
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:236
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:261
 msgid "Affiliate: <a href=\"%1$s\">%2$s</a> | %3$s"
-msgstr "Affiliate: < a href = \"%1$s\" >%2$s </a> | Besøg:% 3 $ d"
+msgstr "Affiliate: <a href=\"%1$s\">%2$s</a> | Besøg: %3$d"
 
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:170
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:185
@@ -3395,7 +3036,7 @@ msgstr "Altid"
 #. payouts URL, 4: Payouts view label
 #: includes/admin/reports/tabs/class-referrals-reports-tab.php:86
 msgid "Affiliate: <a href=\"%1$s\">%2$s</a> | <a href=\"%3$s\">%4$s</a>"
-msgstr "Affiliate: < a href = \"%1$s\" >%2$s </a> | Besøg:% 3 $ d"
+msgstr "Affiliate: <a href=\"%1$s\">%2$s</a> | <a href=“%3$s”>%4$s</a>"
 
 #: includes/admin/reports/tabs/class-referrals-reports-tab.php:105
 msgid "Average Referral Amount (All Time)"
@@ -3415,9 +3056,7 @@ msgid "Average Referral Amount"
 msgstr "Gennemsnitlig henvisnings beløb"
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:100
-msgid ""
-"Total revenue earned as a result of affiliate-generated sales, with "
-"affiliate earnings deducted."
+msgid "Total revenue earned as a result of affiliate-generated sales, with affiliate earnings deducted."
 msgstr ""
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:111
@@ -3435,14 +3074,11 @@ msgid "Total revenue earned as a result of affiliate-generated sales."
 msgstr ""
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:134
-msgid ""
-"Total amount earned by affiliates as a result of affiliate-generated sales."
+msgid "Total amount earned by affiliates as a result of affiliate-generated sales."
 msgstr ""
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:149
-msgid ""
-"The net revenue generated by the affiliate channel after deducting affiliate "
-"earnings."
+msgid "The net revenue generated by the affiliate channel after deducting affiliate earnings."
 msgstr ""
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:161
@@ -3459,7 +3095,7 @@ msgstr "Affiliate kupon"
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:180
 msgid "Total number of affiliate-generated sales."
-msgstr "Antal associerede selskaber pr. side:"
+msgstr "Antal associerede selskaber pr. side."
 
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:53
 msgid "Total Visits (All Time)"
@@ -3504,17 +3140,11 @@ msgstr "Direkte trafik"
 #. translators: 1: Referral variable example affiliate URL, 2: Username example
 #. affiliate URL
 #: includes/admin/settings/class-settings.php:484
-msgid ""
-"Show pretty affiliate referral URLs to affiliates. For example: <strong>%1$s "
-"or %2$s</strong>"
-msgstr ""
-"Vis temmelig affiliate henvisning webadresser til associerede selskaber. F. "
-"eks.: <strong> %s eller %s </strong>"
+msgid "Show pretty affiliate referral URLs to affiliates. For example: <strong>%1$s or %2$s</strong>"
+msgstr "Vis temmelig affiliate henvisning webadresser til associerede selskaber. F. eks.: <strong> %s eller %s </strong>"
 
 #: includes/admin/settings/class-settings.php:494
-msgid ""
-"Note: Pretty affiliate URLs may not always work as expected when using "
-"AffiliateWP in combination with WooCommerce and Polylang."
+msgid "Note: Pretty affiliate URLs may not always work as expected when using AffiliateWP in combination with WooCommerce and Polylang."
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:508
@@ -3527,13 +3157,8 @@ msgstr "Licensnøgle"
 
 #. translators: Support page URL
 #: includes/admin/settings/class-settings.php:515
-msgid ""
-"Please enter your license key. An active license key is needed for automatic "
-"plugin updates and <a href=\"%s\" target=\"_blank\">support</a>."
-msgstr ""
-"Indtast venligst din licens nøgle. Der kræves en aktiv licens nøgle til "
-"automatiske plugin-opdateringer og < a href = \" %s\" target = \"_blank\" > "
-"support </a>."
+msgid "Please enter your license key. An active license key is needed for automatic plugin updates and <a href=\"%s\" target=\"_blank\">support</a>."
+msgstr "Indtast venligst din licens nøgle. Der kræves en aktiv licens nøgle til automatiske plugin-opdateringer og <a href=\"%s\" target=\"_blank\">support</a>."
 
 #: includes/admin/settings/class-settings.php:520
 msgid "Pages"
@@ -3545,9 +3170,7 @@ msgstr "Affiliate-område"
 
 #: includes/admin/settings/class-settings.php:526
 msgid "This is the page where affiliates will manage their affiliate account."
-msgstr ""
-"Dette er den side, hvor associerede selskaber vil forvalte deres affiliate "
-"konto."
+msgstr "Dette er den side, hvor associerede selskaber vil forvalte deres affiliate konto."
 
 #: includes/admin/settings/class-settings.php:532
 msgid "Terms of Use"
@@ -3555,7 +3178,7 @@ msgstr "Betingelser"
 
 #: includes/admin/settings/class-settings.php:533
 msgid "Select the page that shows the terms of use for Affiliate Registration."
-msgstr "Vælg den side, der viser vilkårene for brug af affiliate Registration"
+msgstr "Vælg den side, der viser vilkårene for brug af Affiliate Registration."
 
 #: includes/admin/settings/class-settings.php:539
 msgid "Terms of Use Label"
@@ -3581,8 +3204,7 @@ msgstr "Henvisnings variabel"
 #. translators: Affiliate URL example text
 #: includes/admin/settings/class-settings.php:552
 msgid "The URL variable for referral URLs. For example: <strong>%s</strong>."
-msgstr ""
-"URL-variablen til henvisnings-webadresser. F. eks.: <strong> %s </strong>."
+msgstr "URL-variablen til henvisnings-webadresser. F. eks.: <strong> %s </strong>."
 
 #: includes/admin/settings/class-settings.php:557
 msgid "Default Referral Format"
@@ -3591,13 +3213,8 @@ msgstr "Standard henvisnings format"
 #. translators: 1: Affiliate URL example with referral variable, 2: Affiliate
 #. URL example with username
 #: includes/admin/settings/class-settings.php:559
-msgid ""
-"Show referral URLs to affiliates with either their affiliate ID or Username "
-"appended.<br/> For example: <strong>%1$s or %2$s</strong>."
-msgstr ""
-"Vis henvisning webadresser til associerede selskaber med enten deres "
-"affiliate ID eller Brugernavn vedlagt. <br/> F. eks.: <strong> %s eller %s </"
-"strong>."
+msgid "Show referral URLs to affiliates with either their affiliate ID or Username appended.<br/> For example: <strong>%1$s or %2$s</strong>."
+msgstr "Vis henvisning webadresser til associerede selskaber med enten deres affiliate ID eller Brugernavn vedlagt. <br/> F. eks.: <strong> %s eller %s </strong>."
 
 #: includes/admin/settings/class-settings.php:571
 #: includes/admin/tools/export/class-export.php:84
@@ -3617,30 +3234,16 @@ msgid "Credit the last affiliate who referred the customer."
 msgstr "Kreditere den sidste affiliate, der henviste kunden."
 
 #: includes/admin/settings/class-settings.php:589
-msgid ""
-"Choose a referral rate type. Referrals can be based on either a percentage "
-"or a flat rate amount."
-msgstr ""
-"Vælg en henvisnings satstype. Henvisninger kan være baseret på enten en "
-"procentsats eller et fast beløb."
+msgid "Choose a referral rate type. Referrals can be based on either a percentage or a flat rate amount."
+msgstr "Vælg en henvisnings satstype. Henvisninger kan være baseret på enten en procentsats eller et fast beløb."
 
 #: includes/admin/settings/class-settings.php:596
-msgid ""
-"Flat rate referrals can be calculated on either a per product or per order "
-"basis."
-msgstr ""
-"Vælg en henvisnings satstype. Henvisninger kan være baseret på enten en "
-"procentsats eller et fast beløb."
+msgid "Flat rate referrals can be calculated on either a per product or per order basis."
+msgstr "Vælg en henvisnings satstype. Henvisninger kan være baseret på enten en procentsats eller et fast beløb."
 
 #: includes/admin/settings/class-settings.php:604
-msgid ""
-"The default referral rate. A percentage if the Referral Rate Type is set to "
-"Percentage, a flat amount otherwise. Referral rates can also be set for each "
-"individual affiliate."
-msgstr ""
-"Standard henvisnings satsen. En procentdel, hvis henvisnings sats typen er "
-"angivet til procent, et fladt beløb ellers. Der kan også fastsættes "
-"henvisnings procenter for hver enkelt affiliate."
+msgid "The default referral rate. A percentage if the Referral Rate Type is set to Percentage, a flat amount otherwise. Referral rates can also be set for each individual affiliate."
+msgstr "Standard henvisnings satsen. En procentdel, hvis henvisnings sats typen er angivet til procent, et fladt beløb ellers. Der kan også fastsættes henvisnings procenter for hver enkelt affiliate."
 
 #: includes/admin/settings/class-settings.php:611
 msgid "Exclude Shipping"
@@ -3664,18 +3267,14 @@ msgstr "Udløb af cookies"
 
 #: includes/admin/settings/class-settings.php:622
 msgid "Enter how many days the referral tracking cookie should be valid for."
-msgstr ""
-"Angiv, hvor mange dage henvisnings sporings cookien skal være gyldig for."
+msgstr "Angiv, hvor mange dage henvisnings sporings cookien skal være gyldig for."
 
 #: includes/admin/settings/class-settings.php:628
 msgid "Cookie Sharing"
 msgstr "Udløb af cookies"
 
 #: includes/admin/settings/class-settings.php:629
-msgid ""
-"Share tracking cookies with sub-domains in a multisite install. When "
-"enabled, tracking cookies created on domain.com will also be available on "
-"sub.domain.com. Note: this only applies to WordPress Multisite installs."
+msgid "Share tracking cookies with sub-domains in a multisite install. When enabled, tracking cookies created on domain.com will also be available on sub.domain.com. Note: this only applies to WordPress Multisite installs."
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:633
@@ -3696,11 +3295,8 @@ msgid "Currency"
 msgstr "Valuta"
 
 #: includes/admin/settings/class-settings.php:639
-msgid ""
-"Choose your currency. Note that some payment gateways have currency "
-"restrictions."
-msgstr ""
-"Vælg din valuta. Bemærk, at nogle betalingsgateways har valuta begrænsninger."
+msgid "Choose your currency. Note that some payment gateways have currency restrictions."
+msgstr "Vælg din valuta. Bemærk, at nogle betalingsgateways har valuta begrænsninger."
 
 #: includes/admin/settings/class-settings.php:644
 msgid "Currency Symbol Position"
@@ -3744,14 +3340,8 @@ msgstr "Formularer til affiliate-områder"
 
 #. translators: Miscellaneous settings screen URL
 #: includes/admin/settings/class-settings.php:673
-msgid ""
-"Select which form(s) to show on the Affiliate Area page. The affiliate "
-"registration form will only show if <a href=\"%s\">Allow Affiliate "
-"Registration</a> is enabled."
-msgstr ""
-"Vælg den eller de formularer, der skal vises på siden affiliate Area. Den "
-"affiliate tilmeldingsblanket vil kun vise, hvis < a href = \" %s\" > Tillad "
-"affiliate Registration </a> er aktiveret."
+msgid "Select which form(s) to show on the Affiliate Area page. The affiliate registration form will only show if <a href=\"%s\">Allow Affiliate Registration</a> is enabled."
+msgstr "Vælg den eller de formularer, der skal vises på siden affiliate Area. Den affiliate tilmeldingsblanket vil kun vise, hvis <a href=\"%s\">Tillad affiliate Registration</a> er aktiveret."
 
 #: includes/admin/settings/class-settings.php:676
 msgid "Affiliate Registration Form and Affiliate Login Form"
@@ -3776,17 +3366,15 @@ msgstr "Vælg valuta symbolets placering."
 
 #: includes/admin/settings/class-settings.php:716
 msgid "Opt-In Referral Amount"
-msgstr "Henvisnings beløb."
+msgstr "Henvisnings Beløb"
 
 #: includes/admin/settings/class-settings.php:721
-msgid ""
-"Enter the amount affiliates should receive for each opt-in referral. Default "
-"is 0.00."
+msgid "Enter the amount affiliates should receive for each opt-in referral. Default is 0.00."
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:724
 msgid "Opt-In Referral Status"
-msgstr "Henvisnings statusser:"
+msgstr "Henvisnings Statusser"
 
 #: includes/admin/settings/class-settings.php:727
 #: includes/affiliate-functions.php:382 includes/referral-functions.php:111
@@ -3802,8 +3390,7 @@ msgid "Unpaid"
 msgstr "Ikke betalt"
 
 #: includes/admin/settings/class-settings.php:731
-msgid ""
-"Select the status that should be assigned to opt-in referrals by default."
+msgid "Select the status that should be assigned to opt-in referrals by default."
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:734
@@ -3811,9 +3398,7 @@ msgid "Message shown upon opt-in success"
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:737
-msgid ""
-"Enter the message you would like to show subscribers after they have opted-"
-"in successfully."
+msgid "Enter the message you would like to show subscribers after they have opted-in successfully."
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:740
@@ -3821,11 +3406,7 @@ msgid "Platform"
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:741
-msgid ""
-"Select the opt-in platform provider you wish to use then click Save Changes "
-"to configure the settings. The opt-in form can be displayed on any page "
-"using the [opt_in] shortcode. <a href=\"https://docs.affiliatewp.com/"
-"article/2034-optin-opt-in-form\">Learn more</a>."
+msgid "Select the opt-in platform provider you wish to use then click Save Changes to configure the settings. The opt-in form can be displayed on any page using the [opt_in] shortcode. <a href=\"https://docs.affiliatewp.com/article/2034-optin-opt-in-form\">Learn more</a>."
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:743
@@ -3866,12 +3447,8 @@ msgid "From Email"
 msgstr "Fra email"
 
 #: includes/admin/settings/class-settings.php:783
-msgid ""
-"The email address to send emails from. This will act as the \"from\" and "
-"\"reply-to\" address."
-msgstr ""
-"E-mail-adresse til at sende e-mails fra. Dette vil fungere som \"fra\" og "
-"\"svar til\" adresse."
+msgid "The email address to send emails from. This will act as the \"from\" and \"reply-to\" address."
+msgstr "E-mail-adresse til at sende e-mails fra. Dette vil fungere som \"fra\" og \"svar til\" adresse."
 
 #: includes/admin/settings/class-settings.php:788
 msgid "Email Notifications"
@@ -3886,10 +3463,7 @@ msgid "Affiliate Manager Email"
 msgstr "Affiliate navn"
 
 #: includes/admin/settings/class-settings.php:795
-msgid ""
-"The email address(es) to receive affiliate manager notifications. Separate "
-"multiple email addresses with a comma (,). The admin email address will be "
-"used unless overridden."
+msgid "The email address(es) to receive affiliate manager notifications. Separate multiple email addresses with a comma (,). The admin email address will be used unless overridden."
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:800
@@ -3901,12 +3475,8 @@ msgid "Registration Email Subject"
 msgstr "Tilmelding email emne"
 
 #: includes/admin/settings/class-settings.php:806
-msgid ""
-"Enter the subject line for the registration email sent to affiliate managers "
-"when new affiliates register. Supports template tags."
-msgstr ""
-"Postere den emne kø nemlig den registrering email afsendte hen til admins "
-"hvor ny affilierede indskrive."
+msgid "Enter the subject line for the registration email sent to affiliate managers when new affiliates register. Supports template tags."
+msgstr "Postere den emne kø nemlig den registrering email afsendte hen til admins hvor ny affilierede indskrive."
 
 #: includes/admin/settings/class-settings.php:808
 #: includes/emails/actions.php:51
@@ -3918,12 +3488,8 @@ msgid "Registration Email Content"
 msgstr "Tilmelding email indhold"
 
 #: includes/admin/settings/class-settings.php:812
-msgid ""
-"Enter the email to send when a new affiliate registers. HTML is accepted. "
-"Available template tags:"
-msgstr ""
-"Indtast den e-mail, der skal sendes, når en ny affiliate registre. HTML "
-"accepteres. Tilgængelige skabelon Tags:"
+msgid "Enter the email to send when a new affiliate registers. HTML is accepted. Available template tags:"
+msgstr "Indtast den e-mail, der skal sendes, når en ny affiliate registre. HTML accepteres. Tilgængelige skabelon Tags:"
 
 #. translators: Registration email content
 #: includes/admin/settings/class-settings.php:815
@@ -3944,12 +3510,8 @@ msgid "New Referral Email Subject"
 msgstr "Ny henvisning email emne"
 
 #: includes/admin/settings/class-settings.php:824
-msgid ""
-"Enter the subject line for the email sent to site the site affiliate manager "
-"when affiliates earn referrals. Supports template tags."
-msgstr ""
-"Angiv emnelinjen for nye henvisnings mails, der sendes, når associerede "
-"selskaber optjener henvisninger."
+msgid "Enter the subject line for the email sent to site the site affiliate manager when affiliates earn referrals. Supports template tags."
+msgstr "Angiv emnelinjen for nye henvisnings mails, der sendes, når associerede selskaber optjener henvisninger."
 
 #: includes/admin/settings/class-settings.php:826
 #: includes/emails/actions.php:456
@@ -3962,28 +3524,20 @@ msgid "New Referral Email Content"
 msgstr "Nyt henvisnings-e-mailIndhold"
 
 #: includes/admin/settings/class-settings.php:830
-msgid ""
-"Enter the email to send to site affiliate managers when new referrals are "
-"earned. HTML is accepted. Available template tags:"
-msgstr ""
-"Indtast den e-mail, der skal sendes på nye henvisninger. HTML accepteres. "
-"Tilgængelige skabelon Tags:"
+msgid "Enter the email to send to site affiliate managers when new referrals are earned. HTML is accepted. Available template tags:"
+msgstr "Indtast den e-mail, der skal sendes på nye henvisninger. HTML accepteres. Tilgængelige skabelon Tags:"
 
 #: includes/admin/settings/class-settings.php:832
 msgid "{name} has been awarded a new referral of {amount} on {site_name}."
-msgstr "Du er blevet tildelt en ny henvisning til %s på %s!"
+msgstr "{name} du er blevet tildelt en ny henvisning til {amount} på {site_name}."
 
 #: includes/admin/settings/class-settings.php:835
 msgid "New Referral Email Options For Affiliate"
 msgstr "Nyt henvisnings-e-mailIndhold"
 
 #: includes/admin/settings/class-settings.php:841
-msgid ""
-"Enter the subject line for new referral emails sent when affiliates earn "
-"referrals. Supports template tags."
-msgstr ""
-"Angiv emnelinjen for nye henvisnings mails, der sendes, når associerede "
-"selskaber optjener henvisninger."
+msgid "Enter the subject line for new referral emails sent when affiliates earn referrals. Supports template tags."
+msgstr "Angiv emnelinjen for nye henvisnings mails, der sendes, når associerede selskaber optjener henvisninger."
 
 #: includes/admin/settings/class-settings.php:843
 #: includes/emails/actions.php:368
@@ -3991,12 +3545,8 @@ msgid "Referral Awarded!"
 msgstr "Henvisning tildelt!"
 
 #: includes/admin/settings/class-settings.php:847
-msgid ""
-"Enter the email to send on new referrals. HTML is accepted. Available "
-"template tags:"
-msgstr ""
-"Indtast den e-mail, der skal sendes på nye henvisninger. HTML accepteres. "
-"Tilgængelige skabelon Tags:"
+msgid "Enter the email to send on new referrals. HTML is accepted. Available template tags:"
+msgstr "Indtast den e-mail, der skal sendes på nye henvisninger. HTML accepteres. Tilgængelige skabelon Tags:"
 
 #. translators: Home URL
 #. translators: Website URL
@@ -4014,12 +3564,8 @@ msgid "on %s!"
 msgstr "%s for!"
 
 #: includes/admin/settings/class-settings.php:850
-msgid ""
-"Log into your affiliate area to view your earnings or disable these "
-"notifications:"
-msgstr ""
-"Log ind i dit affiliate område for at se din indtjening eller deaktivere "
-"disse meddelelser:"
+msgid "Log into your affiliate area to view your earnings or disable these notifications:"
+msgstr "Log ind i dit affiliate område for at se din indtjening eller deaktivere disse meddelelser:"
 
 #: includes/admin/settings/class-settings.php:853
 msgid "Application Accepted Email Options For Affiliate"
@@ -4030,12 +3576,8 @@ msgid "Application Accepted Email Subject"
 msgstr "Ansøgning accepteret email emne"
 
 #: includes/admin/settings/class-settings.php:859
-msgid ""
-"Enter the subject line for accepted application emails sent to affiliates "
-"when their account is approved. Supports template tags."
-msgstr ""
-"Indtast emnelinjen for accepterede applikations mails, der sendes til "
-"associerede selskaber, når deres konto er godkendt."
+msgid "Enter the subject line for accepted application emails sent to affiliates when their account is approved. Supports template tags."
+msgstr "Indtast emnelinjen for accepterede applikations mails, der sendes til associerede selskaber, når deres konto er godkendt."
 
 #: includes/admin/settings/class-settings.php:861
 #: includes/emails/actions.php:150
@@ -4047,12 +3589,8 @@ msgid "Application Accepted Email Content"
 msgstr "Ansøgning accepteret email indhold"
 
 #: includes/admin/settings/class-settings.php:865
-msgid ""
-"Enter the email to send when an application is accepted. HTML is accepted. "
-"Available template tags:"
-msgstr ""
-"Indtast den e-mail, der skal sendes, når et program accepteres. HTML "
-"accepteres. Tilgængelige skabelon Tags:"
+msgid "Enter the email to send when an application is accepted. HTML is accepted. Available template tags:"
+msgstr "Indtast den e-mail, der skal sendes, når et program accepteres. HTML accepteres. Tilgængelige skabelon Tags:"
 
 #. translators: Home URL
 #: includes/admin/settings/class-settings.php:868
@@ -4077,12 +3615,8 @@ msgid "Require Approval"
 msgstr "Kræv godkendelse"
 
 #: includes/admin/settings/class-settings.php:890
-msgid ""
-"Require that Pending affiliate accounts must be approved before they can "
-"begin earning referrals."
-msgstr ""
-"Kræv, at ventende affilierede konti skal godkendes, før de kan begynde at "
-"optjene henvisninger."
+msgid "Require that Pending affiliate accounts must be approved before they can begin earning referrals."
+msgstr "Kræv, at ventende affilierede konti skal godkendes, før de kan begynde at optjene henvisninger."
 
 #: includes/admin/settings/class-settings.php:894
 msgid "Auto Register New Users"
@@ -4105,23 +3639,16 @@ msgid "Default Referral URL"
 msgstr "Standard URL til henvisning"
 
 #: includes/admin/settings/class-settings.php:905
-msgid ""
-"The default referral URL shown in the Affiliate Area. Also changes the URL "
-"shown in the Referral URL Generator and the {referral_url} email tag."
-msgstr ""
-"Den standard henvisnings-webadresse, der vises i affiliate-området. Ændrer "
-"også den webadresse, der vises i henvisnings-URL-generator og e-mail-tagget "
-"{referral_url}."
+msgid "The default referral URL shown in the Affiliate Area. Also changes the URL shown in the Referral URL Generator and the {referral_url} email tag."
+msgstr "Den standard henvisnings-webadresse, der vises i affiliate-området. Ændrer også den webadresse, der vises i henvisnings-URL-generator og e-mail-tagget {referral_url}."
 
 #: includes/admin/settings/class-settings.php:909
 msgid "Enable reCAPTCHA"
 msgstr "Aktivér reCAPTCHA"
 
 #: includes/admin/settings/class-settings.php:910
-msgid ""
-"Prevent bots from registering affiliate accounts using Google reCAPTCHA."
-msgstr ""
-"Forhindre bots i at registrere affiliate konti ved hjælp af Google reCAPTCHA."
+msgid "Prevent bots from registering affiliate accounts using Google reCAPTCHA."
+msgstr "Forhindre bots i at registrere affiliate konti ved hjælp af Google reCAPTCHA."
 
 #: includes/admin/settings/class-settings.php:914
 msgid "reCAPTCHA Site Key"
@@ -4136,54 +3663,32 @@ msgid "reCAPTCHA Secret Key"
 msgstr "hemmelig reCAPTCHA-nøgle"
 
 #: includes/admin/settings/class-settings.php:920
-msgid ""
-"This is used for communication between your site and Google reCAPTCHA. Be "
-"sure to keep it a secret."
-msgstr ""
-"Dette bruges til kommunikation mellem dit websted og Google reCAPTCHA. Sørg "
-"for at holde det hemmeligt."
+msgid "This is used for communication between your site and Google reCAPTCHA. Be sure to keep it a secret."
+msgstr "Dette bruges til kommunikation mellem dit websted og Google reCAPTCHA. Sørg for at holde det hemmeligt."
 
 #: includes/admin/settings/class-settings.php:924
 msgid "Reject Unpaid Referrals on Refund"
 msgstr "Afvis ubetalte henvisninger på refusion"
 
 #: includes/admin/settings/class-settings.php:925
-msgid ""
-"Automatically reject Unpaid referrals when the originating purchase is "
-"refunded or revoked."
-msgstr ""
-"Afvis automatisk ubetalte henvisninger, når det oprindelige køb refunderes "
-"eller tilbagekaldes."
+msgid "Automatically reject Unpaid referrals when the originating purchase is refunded or revoked."
+msgstr "Afvis automatisk ubetalte henvisninger, når det oprindelige køb refunderes eller tilbagekaldes."
 
 #: includes/admin/settings/class-settings.php:929
 msgid "Use Fallback Referral Tracking Method"
 msgstr "Brug fallback henvisnings sporingsmetode"
 
 #: includes/admin/settings/class-settings.php:930
-msgid ""
-"The method used to track referral links can fail on sites that have jQuery "
-"errors. Enable Fallback Tracking if referrals are not being tracked properly."
-msgstr ""
-"Den metode, der bruges til at spore henvisningslinks, kan mislykkes på "
-"websteder med jQuery-fejl. Aktivér fallback-sporing, hvis henvisninger ikke "
-"spores korrekt."
+msgid "The method used to track referral links can fail on sites that have jQuery errors. Enable Fallback Tracking if referrals are not being tracked properly."
+msgstr "Den metode, der bruges til at spore henvisningslinks, kan mislykkes på websteder med jQuery-fejl. Aktivér fallback-sporing, hvis henvisninger ikke spores korrekt."
 
 #: includes/admin/settings/class-settings.php:934
 msgid "Ignore Referrals with Zero Amount"
 msgstr "Ignorer henvisninger med nulbeløb"
 
 #: includes/admin/settings/class-settings.php:935
-msgid ""
-"Ignore referrals with a zero amount. This can be useful for multi-price "
-"products that start at zero, or if a discount was used which resulted in a "
-"zero amount. NOTE: If this setting is enabled and a visit results in a zero "
-"referral, the visit will be considered not converted."
-msgstr ""
-"Ignorer henvisninger med et nulbeløb. Dette kan være nyttigt for produkter "
-"med flere priser, der starter ved nul, eller hvis der blev anvendt en rabat, "
-"som resulterede i et nulbeløb. Bemærk: Hvis denne indstilling er aktiveret, "
-"og et besøg resulterer i en nulhenvisning, vil besøget blive betragtet som "
-"ikke konverteret."
+msgid "Ignore referrals with a zero amount. This can be useful for multi-price products that start at zero, or if a discount was used which resulted in a zero amount. NOTE: If this setting is enabled and a visit results in a zero referral, the visit will be considered not converted."
+msgstr "Ignorer henvisninger med et nulbeløb. Dette kan være nyttigt for produkter med flere priser, der starter ved nul, eller hvis der blev anvendt en rabat, som resulterede i et nulbeløb. Bemærk: Hvis denne indstilling er aktiveret, og et besøg resulterer i en nulhenvisning, vil besøget blive betragtet som ikke konverteret."
 
 #: includes/admin/settings/class-settings.php:939
 msgid "Disable IP Address Logging"
@@ -4199,41 +3704,24 @@ msgstr "Aktiver debug tilstand"
 
 #. translators: Tools screen URL
 #: includes/admin/settings/class-settings.php:946
-msgid ""
-"Enable debug mode. This will turn on error logging for the referral process "
-"to help identify issues. Logs are kept in <a href=\"%s\">Affiliates &rarr; "
-"Tools</a>."
-msgstr ""
-"Aktivér fejlfindingstilstand. Dette vil aktivere fejllogføring for "
-"henvisningsprocessen for at hjælpe med at identificere problemer."
+msgid "Enable debug mode. This will turn on error logging for the referral process to help identify issues. Logs are kept in <a href=\"%s\">Affiliates &rarr; Tools</a>."
+msgstr "Aktivér fejlfindingstilstand. Dette vil aktivere fejllogføring for henvisningsprocessen for at hjælpe med at identificere problemer."
 
 #: includes/admin/settings/class-settings.php:950
 msgid "Referral URL Blacklist"
 msgstr "Sort liste for henvisnings webadresse"
 
 #: includes/admin/settings/class-settings.php:951
-msgid ""
-"URLs placed here will be blocked from generating referrals. Enter one URL "
-"per line. NOTE: This will only apply to new visits after the URL has been "
-"saved."
-msgstr ""
-"Webadresser, der er placeret her, blokeres fra generering af henvisninger. "
-"Angiv én webadresse pr. linje. Bemærk: Dette gælder kun for nye besøg, når "
-"WEBADRESSEN er blevet gemt."
+msgid "URLs placed here will be blocked from generating referrals. Enter one URL per line. NOTE: This will only apply to new visits after the URL has been saved."
+msgstr "Webadresser, der er placeret her, blokeres fra generering af henvisninger. Angiv én webadresse pr. linje. Bemærk: Dette gælder kun for nye besøg, når WEBADRESSEN er blevet gemt."
 
 #: includes/admin/settings/class-settings.php:955
 msgid "Opt into development versions"
 msgstr "Tilmeld dig beta versioner"
 
 #: includes/admin/settings/class-settings.php:956
-msgid ""
-"Receive update notifications for development releases. When development "
-"versions are available, an update notification will be shown on your Plugins "
-"page."
-msgstr ""
-"Modtag opdaterings notifikationer for betaudgivelser. Når der er "
-"tilgængelige betaversioner, vises der en meddelelse om opdatering på siden "
-"plugins.\n"
+msgid "Receive update notifications for development releases. When development versions are available, an update notification will be shown on your Plugins page."
+msgstr "Modtag opdaterings notifikationer for betaudgivelser. Når der er tilgængelige betaversioner, vises der en meddelelse om opdatering på siden plugins."
 
 #: includes/admin/settings/class-settings.php:960
 msgid "Remove Data on Uninstall"
@@ -4262,10 +3750,7 @@ msgid "Registration Form Description"
 msgstr "Tilmelding email emne"
 
 #: includes/admin/settings/class-settings.php:994
-msgid ""
-"This will be displayed above the Payouts Service registration form fields. "
-"Here you can explain to your affiliates how/why to register for the Payouts "
-"Service."
+msgid "This will be displayed above the Payouts Service registration form fields. Here you can explain to your affiliates how/why to register for the Payouts Service."
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:998
@@ -4273,9 +3758,7 @@ msgid "Payouts Service Notice"
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:999
-msgid ""
-"This will be displayed at the top of each tab of the Affiliate Area for "
-"affiliates that have not registered their payout account."
+msgid "This will be displayed at the top of each tab of the Affiliate Area for affiliates that have not registered their payout account."
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:1015
@@ -4288,8 +3771,7 @@ msgid "Coupon Template"
 msgstr "Brug standardskabelon"
 
 #: includes/admin/settings/class-settings.php:1020
-msgid ""
-"All dynamic coupons will use the settings from the selected coupon template."
+msgid "All dynamic coupons will use the settings from the selected coupon template."
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:1025
@@ -4298,10 +3780,7 @@ msgstr ""
 
 #. translators: Tools screen URL
 #: includes/admin/settings/class-settings.php:1027
-msgid ""
-"Automatically generate a coupon code for each registered affiliate.<p class="
-"\"description\">To bulk generate coupons for existing affiliates visit the "
-"<a href=\"%s\">Tools</a> screen.</p>"
+msgid "Automatically generate a coupon code for each registered affiliate.<p class=\"description\">To bulk generate coupons for existing affiliates visit the <a href=\"%s\">Tools</a> screen.</p>"
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:1059
@@ -4309,15 +3788,8 @@ msgid "Required Registration Fields"
 msgstr "Påkrævede registrerings felter"
 
 #: includes/admin/settings/class-settings.php:1060
-msgid ""
-"Select which fields should be required for affiliate registration. The "
-"<strong>Username</strong> and <strong>Account Email</strong> form fields are "
-"always required. The <strong>Password</strong> form field will be removed if "
-"not required."
-msgstr ""
-"Vælg, hvilke felter der skal kræves til affiliate-registrering. "
-"Formularfelterne <strong> Brugernavn </strong>, <strong> konto mail </"
-"strong> og <strong> adgangskode </strong> er altid påkrævede."
+msgid "Select which fields should be required for affiliate registration. The <strong>Username</strong> and <strong>Account Email</strong> form fields are always required. The <strong>Password</strong> form field will be removed if not required."
+msgstr "Vælg, hvilke felter der skal kræves til affiliate-registrering. Formularfelterne <strong> Brugernavn </strong>, <strong> konto mail </strong> og <strong> adgangskode </strong> er altid påkrævede."
 
 #: includes/admin/settings/class-settings.php:1063 templates/login.php:34
 #: templates/register.php:102
@@ -4330,11 +3802,11 @@ msgstr "Hvordan vil du fremme os?"
 
 #: includes/admin/settings/class-settings.php:1088
 msgid "Notify affiliate manager when a new affiliate has registered"
-msgstr "Giv webstedsadministratoren besked om nye affilierede registreringer."
+msgstr "Giv webstedsadministratoren besked om nye affilierede registreringer"
 
 #: includes/admin/settings/class-settings.php:1089
 msgid "Notify affiliate manager when a new referral has been created"
-msgstr "Der er oprettet en affiliate med brugernavnet \" %s\"."
+msgstr "Der er oprettet en affiliate med brugernavnet"
 
 #: includes/admin/settings/class-settings.php:1090
 msgid "Notify affiliate when they earn a new referral"
@@ -4342,7 +3814,7 @@ msgstr ""
 
 #: includes/admin/settings/class-settings.php:1091
 msgid "Notify affiliate when their affiliate application is accepted"
-msgstr "Dit affiliate-program på %s er blevet accepteret!"
+msgstr "Dit affiliate-program på %s er blevet accepteret"
 
 #: includes/admin/settings/class-settings.php:1095
 msgid "Notify affiliate when their affiliate application is pending"
@@ -4361,9 +3833,7 @@ msgid "Application Pending Email Subject"
 msgstr "Ansøgning afventer e-mail-emne"
 
 #: includes/admin/settings/class-settings.php:1126
-msgid ""
-"Enter the subject line for pending affiliate application emails. Supports "
-"template tags."
+msgid "Enter the subject line for pending affiliate application emails. Supports template tags."
 msgstr "Indtast emnelinjen for ventende affiliate ansøgning emails."
 
 #: includes/admin/settings/class-settings.php:1128
@@ -4376,12 +3846,8 @@ msgid "Application Pending Email Content"
 msgstr "Ansøgning afventer e-mail-indhold"
 
 #: includes/admin/settings/class-settings.php:1132
-msgid ""
-"Enter the email to send when an application is pending. HTML is accepted. "
-"Available template tags:"
-msgstr ""
-"Indtast den e-mail, der skal sendes, når et program afventer. HTML "
-"accepteres. Tilgængelige skabelon Tags:"
+msgid "Enter the email to send when an application is pending. HTML is accepted. Available template tags:"
+msgstr "Indtast den e-mail, der skal sendes, når et program afventer. HTML accepteres. Tilgængelige skabelon Tags:"
 
 #: includes/admin/settings/class-settings.php:1134
 msgid "Hi {name}!"
@@ -4394,12 +3860,8 @@ msgstr "Tak for din seneste affiliate registrering på {SITE_NAME}."
 
 #: includes/admin/settings/class-settings.php:1134
 #: includes/emails/actions.php:258
-msgid ""
-"We&#8217;re currently reviewing your affiliate application and will be in "
-"touch soon!"
-msgstr ""
-"Vi & #8217; re i øjeblikket gennemgå din affiliate ansøgning og vil være i "
-"kontakt snart!"
+msgid "We&#8217;re currently reviewing your affiliate application and will be in touch soon!"
+msgstr "Vi & #8217; re i øjeblikket gennemgå din affiliate ansøgning og vil være i kontakt snart!"
 
 #: includes/admin/settings/class-settings.php:1137
 msgid "Application Rejection Email Options For Affiliate"
@@ -4410,9 +3872,7 @@ msgid "Application Rejection Email Subject"
 msgstr "Ansøgning afvisning email emne"
 
 #: includes/admin/settings/class-settings.php:1143
-msgid ""
-"Enter the subject line for rejected affiliate application emails. Supports "
-"template tags."
+msgid "Enter the subject line for rejected affiliate application emails. Supports template tags."
 msgstr "Indtast emnelinjen for afviste affiliate ansøgning emails."
 
 #: includes/admin/settings/class-settings.php:1145
@@ -4425,12 +3885,8 @@ msgid "Application Rejection Email Content"
 msgstr "Ansøgning afvisning email indhold"
 
 #: includes/admin/settings/class-settings.php:1149
-msgid ""
-"Enter the email to send when an application is rejected. HTML is accepted. "
-"Available template tags:"
-msgstr ""
-"Indtast den e-mail, der skal sendes, når et program afvises. HTML "
-"accepteres. Tilgængelige skabelon Tags:"
+msgid "Enter the email to send when an application is rejected. HTML is accepted. Available template tags:"
+msgstr "Indtast den e-mail, der skal sendes, når et program afvises. HTML accepteres. Tilgængelige skabelon Tags:"
 
 #: includes/admin/settings/class-settings.php:1151
 msgid "Hi {name},"
@@ -4438,27 +3894,16 @@ msgstr "Hej {Name},"
 
 #: includes/admin/settings/class-settings.php:1151
 #: includes/emails/actions.php:319
-msgid ""
-"We regret to inform you that your recent affiliate registration on "
-"{site_name} was rejected."
-msgstr ""
-"Vi beklager at måtte meddele dig, at din seneste affiliate registrering på "
-"{SITE_NAME} blev afvist."
+msgid "We regret to inform you that your recent affiliate registration on {site_name} was rejected."
+msgstr "Vi beklager at måtte meddele dig, at din seneste affiliate registrering på {SITE_NAME} blev afvist."
 
 #: includes/admin/settings/class-settings.php:1328
-msgid ""
-"Your license key is globally defined via <code>AFFILIATEWP_LICENSE_KEY</"
-"code> set in <code>wp-config.php</code>.<br />It cannot be modified from "
-"this screen."
-msgstr ""
-"Din licens nøgle er globalt defineret via <code> AFFILIATEWP_LICENSE_KEY </"
-"code>, der er angivet i <code> wp-config. php </code>. < br/> det kan ikke "
-"ændres fra denne skærm."
+msgid "Your license key is globally defined via <code>AFFILIATEWP_LICENSE_KEY</code> set in <code>wp-config.php</code>.<br />It cannot be modified from this screen."
+msgstr "Din licens nøgle er globalt defineret via <code>AFFILIATEWP_LICENSE_KEY</code>, der er angivet i <code>wp-config.php</code>. <br /> det kan ikke ændres fra denne skærm."
 
 #: includes/admin/settings/class-settings.php:1330
 msgid "Deactivate your license key to make changes to this setting."
-msgstr ""
-"Deaktiver din licens nøgle for at foretage ændringer i denne indstilling."
+msgstr "Deaktiver din licens nøgle for at foretage ændringer i denne indstilling."
 
 #: includes/admin/settings/class-settings.php:1341
 msgid "Deactivate License"
@@ -4473,12 +3918,8 @@ msgid "Renew Your License"
 msgstr "Forny din licens nu"
 
 #: includes/admin/settings/class-settings.php:1346
-msgid ""
-"Your license has expired, renew today to continue getting updates and "
-"support!"
-msgstr ""
-"Din licens er udløbet, forny i dag for at fortsætte med at få opdateringer "
-"og support!"
+msgid "Your license has expired, renew today to continue getting updates and support!"
+msgstr "Din licens er udløbet, forny i dag for at fortsætte med at få opdateringer og support!"
 
 #: includes/admin/settings/class-settings.php:1348
 msgid "Activate License"
@@ -4486,11 +3927,8 @@ msgstr "Aktiver Licens"
 
 #. translators: Setting ID
 #: includes/admin/settings/class-settings.php:1448
-msgid ""
-"The callback function used for the <strong>%s</strong> setting is missing."
-msgstr ""
-"Den tilbagekaldsfunktion, der bruges til </strong> indstillingen <strong> "
-"%s, mangler."
+msgid "The callback function used for the <strong>%s</strong> setting is missing."
+msgstr "Den tilbagekaldsfunktion, der bruges til </strong> indstillingen <strong> %s, mangler."
 
 #: includes/admin/settings/class-settings.php:1527
 msgid "Upload File"
@@ -4499,20 +3937,13 @@ msgstr "Upload fil (er)"
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME
 #. constant
 #: includes/admin/settings/class-settings.php:1590
-msgid ""
-"%s allows you, as the site owner, to pay your affiliates directly from a "
-"credit or debit card and the funds for each recipient will be automatically "
-"deposited into their bank accounts. To use this service, connect your site "
-"to the service below. You will log into the service using your username and "
-"password from AffiliateWP.com."
+msgid "%s allows you, as the site owner, to pay your affiliates directly from a credit or debit card and the funds for each recipient will be automatically deposited into their bank accounts. To use this service, connect your site to the service below. You will log into the service using your username and password from AffiliateWP.com."
 msgstr ""
 
 #. translators: 1: Payouts Service URL
 #: includes/admin/settings/class-settings.php:1592
 msgid "<a href=\"%s\" target=\"_blank\">Learn more and view pricing.</a>"
-msgstr ""
-"Accepter vores < a href = \" %s\" target = \"_blank\" > vilkår for "
-"anvendelse </a>"
+msgstr "Accepter vores <a href=\"%s\" target=\"_blank\">vilkår for anvendelse</a>"
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME
 #. constant
@@ -4530,15 +3961,13 @@ msgstr ""
 #. constant
 #: includes/admin/settings/class-settings.php:1623
 msgid "Reconnect to the %s."
-msgstr "Recount statistik"
+msgstr "Recount statistik %s."
 
 #. translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME
 #. constant, 2: Payouts service documentation URL
 #: includes/admin/settings/class-settings.php:1625
 #: includes/admin/settings/class-settings.php:1639
-msgid ""
-"Have questions about connecting with the %1$s? See the <a href=\"%2$s\" "
-"target=\"_blank\" rel=\"noopener noreferrer\">documentation</a>."
+msgid "Have questions about connecting with the %1$s? See the <a href=\"%2$s\" target=\"_blank\" rel=\"noopener noreferrer\">documentation</a>."
 msgstr ""
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME
@@ -4549,28 +3978,13 @@ msgstr ""
 
 #. translators: Support URL
 #: includes/admin/settings/class-settings.php:1659
-msgid ""
-"Your license key is globally defined via <code>AFFILIATEWP_LICENSE_KEY</"
-"code> set in <code>wp-config.php</code>.<br />It cannot be modified from "
-"this screen.<br />An active license key is needed for automatic plugin "
-"updates and <a href=\"%s\" target=\"_blank\">support</a>."
-msgstr ""
-"Din licens nøgle er globalt defineret via <code> AFFILIATEWP_LICENSE_KEY </"
-"code>, der er angivet i <code> wp-config. php </code>. < br/> det kan ikke "
-"ændres fra denne skærm. < br/> der kræves en aktiv licens nøgle til "
-"automatiske plugin-opdateringer og < a href = \" %s\" target = \"_blank\" > "
-"understøtter </a>."
+msgid "Your license key is globally defined via <code>AFFILIATEWP_LICENSE_KEY</code> set in <code>wp-config.php</code>.<br />It cannot be modified from this screen.<br />An active license key is needed for automatic plugin updates and <a href=\"%s\" target=\"_blank\">support</a>."
+msgstr "Din licens nøgle er globalt defineret via <code>AFFILIATEWP_LICENSE_KEY</code>, der er angivet i <code>wp-config.php</code>. <br /> det kan ikke ændres fra denne skærm. <br /> der kræves en aktiv licens nøgle til automatiske plugin-opdateringer og <a href=\"%s\" target=\"_blank\">understøtter</a>."
 
 #. translators: System Info screen URL
 #: includes/admin/settings/class-settings.php:1680
-msgid ""
-"Debug mode is globally enabled via <code>AFFILIATE_WP_DEBUG</code> set in "
-"<code>wp-config.php</code>. This setting cannot be modified from this "
-"screen. Logs are kept in <a href=\"%s\">Affiliates > Tools</a>."
-msgstr ""
-"Debug mode er globalt aktiveret via <code> AFFILIATE_WP_DEBUG </code>, der "
-"er angivet i <code> wp-config. php </code>. Denne indstilling kan ikke "
-"ændres fra denne skærm."
+msgid "Debug mode is globally enabled via <code>AFFILIATE_WP_DEBUG</code> set in <code>wp-config.php</code>. This setting cannot be modified from this screen. Logs are kept in <a href=\"%s\">Affiliates > Tools</a>."
+msgstr "Debug mode er globalt aktiveret via <code> AFFILIATE_WP_DEBUG </code>, der er angivet i <code> wp-config. php </code>. Denne indstilling kan ikke ændres fra denne skærm."
 
 #: includes/admin/settings/display-settings.php:60
 msgid "General"
@@ -4617,8 +4031,7 @@ msgid "Unpaid earnings have been successfully recounted for %s."
 msgstr "Besøget er blevet slettet."
 
 #: includes/admin/tools/class-batch-recount-affiliate-stats.php:340
-msgid ""
-"Unpaid earnings have been successfully recounted for all matching affiliates."
+msgid "Unpaid earnings have been successfully recounted for all matching affiliates."
 msgstr ""
 
 #. translators: Affiliate username
@@ -4776,8 +4189,7 @@ msgstr "Du har ikke tilladelse til at eksportere data."
 
 #: includes/admin/tools/export/class-batch-generate-payouts.php:316
 msgid "No unpaid referrals were found matching your criteria."
-msgstr ""
-"Der blev ikke fundet nogen ubetalte henvisninger, der matcher dine kriterier."
+msgstr "Der blev ikke fundet nogen ubetalte henvisninger, der matcher dine kriterier."
 
 #: includes/admin/tools/import/class-batch-import-affiliates.php:121
 #: includes/admin/tools/import/class-batch-import-referrals.php:113
@@ -4791,16 +4203,16 @@ msgstr "Ingen Affiliates fundet."
 #. translators: Plural affiliate number
 #: includes/admin/tools/import/class-batch-import-affiliates.php:265
 msgid "Manage your affiliates."
-msgstr "Administrer associerede selskaber"
+msgstr "Administrer associerede selskaber."
 
 #: includes/admin/tools/import/class-batch-import-referrals.php:283
 msgid "No new referrals were imported."
-msgstr "Ingen henvisninger registreret endnu"
+msgstr "Ingen henvisninger registreret endnu."
 
 #. translators: Plural referrals number
 #: includes/admin/tools/import/class-batch-import-referrals.php:315
 msgid "Manage your referrals."
-msgstr "Administrer henvisninger"
+msgstr "Administrer henvisninger."
 
 #: includes/admin/tools/import/import.php:34
 msgid "Please upload a valid .json file"
@@ -4811,12 +4223,8 @@ msgid "Please upload a file to import"
 msgstr "Venligst upload en fil til import"
 
 #: includes/admin/tools/migration.php:28
-msgid ""
-"The upgrade process is running, please be patient. This could take several "
-"minutes to complete while affiliate records are upgraded in batches of 100."
-msgstr ""
-"Opgraderingsprocessen kører, vær tålmodig. Dette kan tage flere minutter at "
-"fuldføre, mens affiliate Records opgraderes i batches af 100."
+msgid "The upgrade process is running, please be patient. This could take several minutes to complete while affiliate records are upgraded in batches of 100."
+msgstr "Opgraderingsprocessen kører, vær tålmodig. Dette kan tage flere minutter at fuldføre, mens affiliate Records opgraderes i batches af 100."
 
 #. translators: Step number
 #: includes/admin/tools/migration.php:33
@@ -4852,12 +4260,8 @@ msgid "Use this tool to recount statistics for one or all affiliates."
 msgstr "Brug dette værktøj til at fortælle affiliate statistik."
 
 #: includes/admin/tools/tools.php:166 includes/admin/tools/tools.php:187
-msgid ""
-"Enter the name of the affiliate or begin typing to perform a search based on "
-"the affiliate&#8217;s name."
-msgstr ""
-"Indtast navnet på affiliate eller begynde at skrive for at udføre en søgning "
-"baseret på affiliate & #8217; s navn."
+msgid "Enter the name of the affiliate or begin typing to perform a search based on the affiliate&#8217;s name."
+msgstr "Indtast navnet på affiliate eller begynde at skrive for at udføre en søgning baseret på affiliate & #8217; s navn."
 
 #: includes/admin/tools/tools.php:170 includes/admin/tools/tools.php:191
 msgid "Recount"
@@ -4872,32 +4276,20 @@ msgid "Use this tool to recount campaigns for one or all affiliates."
 msgstr "Brug dette værktøj til at fortælle affiliate statistik."
 
 #: includes/admin/tools/tools.php:242
-msgid ""
-"These tools assist in migrating affiliate and referral data from existing "
-"platforms."
-msgstr ""
-"Disse værktøjer hjælper med at migrere affiliate-og henvisnings data fra "
-"eksisterende platforme."
+msgid "These tools assist in migrating affiliate and referral data from existing platforms."
+msgstr "Disse værktøjer hjælper med at migrere affiliate-og henvisnings data fra eksisterende platforme."
 
 #: includes/admin/tools/tools.php:247
 msgid "User Accounts"
 msgstr "Brugerkonti"
 
 #: includes/admin/tools/tools.php:250
-msgid ""
-"Use this tool to create affiliate accounts for each of your existing "
-"WordPress user accounts that belong to the selected roles below."
-msgstr ""
-"Brug dette værktøj til at oprette affiliate konti for hver af dine "
-"eksisterende WordPress brugerkonti, der hører til de valgte roller nedenfor."
+msgid "Use this tool to create affiliate accounts for each of your existing WordPress user accounts that belong to the selected roles below."
+msgstr "Brug dette værktøj til at oprette affiliate konti for hver af dine eksisterende WordPress brugerkonti, der hører til de valgte roller nedenfor."
 
 #: includes/admin/tools/tools.php:251
-msgid ""
-"NOTE: Users that already have affiliate accounts will be skipped. Duplicate "
-"accounts will not be created."
-msgstr ""
-"<strong> Bemærk: </strong> Brugere, der allerede har affilierede konti, "
-"springes over. Der oprettes ikke dublerede konti."
+msgid "NOTE: Users that already have affiliate accounts will be skipped. Duplicate accounts will not be created."
+msgstr "<strong> Bemærk: </strong> Brugere, der allerede har affilierede konti, springes over. Der oprettes ikke dublerede konti."
 
 #: includes/admin/tools/tools.php:253
 msgid "Select User Roles"
@@ -4908,51 +4300,28 @@ msgid "Create Affiliate Accounts for Users"
 msgstr "Opret affilierede konti for brugere"
 
 #: includes/admin/tools/tools.php:268
-msgid ""
-"<strong>NOTE:</strong> WordPress 4.5 or newer is required to use the User "
-"Accounts migration tool. <a href=\"%s\" aria-label=\"Update WordPress now"
-"\">Update WordPress now</a>."
-msgstr ""
-"<strong> Bemærk: </strong> WordPress 4,4 eller nyere er forpligtet til at "
-"bruge brugerkonti migration værktøj. < a href = \" %s\" aria-label = "
-"\"Opdater WordPress nu\" > Update WordPress nu </a>."
+msgid "<strong>NOTE:</strong> WordPress 4.5 or newer is required to use the User Accounts migration tool. <a href=\"%s\" aria-label=\"Update WordPress now\">Update WordPress now</a>."
+msgstr "<strong> Bemærk: </strong> WordPress 4,4 eller nyere er forpligtet til at bruge brugerkonti migration værktøj. <a href=\"%s\" aria-label=\"Opdater WordPress nu\">Update WordPress nu</a>."
 
 #: includes/admin/tools/tools.php:270
-msgid ""
-"<strong>NOTE:</strong> WordPress 4.5 or newer is required to use the User "
-"Accounts migration tool."
-msgstr ""
-"<strong> Bemærk: </strong> WordPress 4,4 eller nyere er forpligtet til at "
-"bruge brugerkonti migration værktøj."
+msgid "<strong>NOTE:</strong> WordPress 4.5 or newer is required to use the User Accounts migration tool."
+msgstr "<strong> Bemærk: </strong> WordPress 4,4 eller nyere er forpligtet til at bruge brugerkonti migration værktøj."
 
 #: includes/admin/tools/tools.php:279
-msgid ""
-"Use this tool to migrate existing affiliate / referral data from Affiliates "
-"Pro to AffiliateWP."
-msgstr ""
-"Brug dette værktøj til at migrere eksisterende affiliate/henvisnings data "
-"fra Affiliates Pro til AffiliateWP."
+msgid "Use this tool to migrate existing affiliate / referral data from Affiliates Pro to AffiliateWP."
+msgstr "Brug dette værktøj til at migrere eksisterende affiliate/henvisnings data fra Affiliates Pro til AffiliateWP."
 
 #: includes/admin/tools/tools.php:280
-msgid ""
-"NOTE: This tool should only ever be used on a fresh install. If you have "
-"already collected affiliate or referral data, do not use this tool."
-msgstr ""
-"<strong> Bemærk: </strong> Indeværende værktøj burde bare aldrig nogen sinde "
-"være anvendte oven på en nylavet oprette. Hvis du allerede har indsamlet "
-"affiliate eller henvisnings data, skal du ikke bruge dette værktøj."
+msgid "NOTE: This tool should only ever be used on a fresh install. If you have already collected affiliate or referral data, do not use this tool."
+msgstr "<strong> Bemærk: </strong> Indeværende værktøj burde bare aldrig nogen sinde være anvendte oven på en nylavet oprette. Hvis du allerede har indsamlet affiliate eller henvisnings data, skal du ikke bruge dette værktøj."
 
 #: includes/admin/tools/tools.php:286
 msgid "Migrate Data from Affiliates Pro"
 msgstr "Overfør data fra Affiliates Pro"
 
 #: includes/admin/tools/tools.php:295
-msgid ""
-"Use this tool to migrate existing affiliate accounts from WP Affiliate to "
-"AffiliateWP."
-msgstr ""
-"Brug dette værktøj til at migrere eksisterende affiliate konti fra WP "
-"affiliate til AffiliateWP."
+msgid "Use this tool to migrate existing affiliate accounts from WP Affiliate to AffiliateWP."
+msgstr "Brug dette værktøj til at migrere eksisterende affiliate konti fra WP affiliate til AffiliateWP."
 
 #: includes/admin/tools/tools.php:298
 msgid "Migrate Data from WP Affiliate"
@@ -4985,13 +4354,8 @@ msgid "Export referrals to a CSV file."
 msgstr "Eksporter henvisninger til en CSV-fil."
 
 #: includes/admin/tools/tools.php:361
-msgid ""
-"To search for an affiliate, enter the affiliate&#8217;s login name, first "
-"name, or last name. Leave blank to export referrals for all affiliates."
-msgstr ""
-"Hvis du vil søge efter en affiliate, skal du indtaste affiliate & #8217; s "
-"login-navn, fornavn eller efter navn. Efterlad blank for at eksportere "
-"henvisninger for alle associerede selskaber."
+msgid "To search for an affiliate, enter the affiliate&#8217;s login name, first name, or last name. Leave blank to export referrals for all affiliates."
+msgstr "Hvis du vil søge efter en affiliate, skal du indtaste affiliate & #8217; s login-navn, fornavn eller efter navn. Efterlad blank for at eksportere henvisninger for alle associerede selskaber."
 
 #: includes/admin/tools/tools.php:371
 msgid "Export Payouts"
@@ -5002,13 +4366,8 @@ msgid "Export payouts to a CSV file."
 msgstr "Eksporter udbetalinger til en CSV-fil."
 
 #: includes/admin/tools/tools.php:386
-msgid ""
-"To search for an affiliate, enter the affiliate&#8217;s login name, first "
-"name, or last name. Leave blank to export payouts for all affiliates."
-msgstr ""
-"Hvis du vil søge efter en affiliate, skal du indtaste affiliate & #8217; s "
-"login-navn, fornavn eller efter navn. Efterlad blank for at eksportere "
-"henvisninger for alle associerede selskaber."
+msgid "To search for an affiliate, enter the affiliate&#8217;s login name, first name, or last name. Leave blank to export payouts for all affiliates."
+msgstr "Hvis du vil søge efter en affiliate, skal du indtaste affiliate & #8217; s login-navn, fornavn eller efter navn. Efterlad blank for at eksportere henvisninger for alle associerede selskaber."
 
 #: includes/admin/tools/tools.php:396
 msgid "Export Visits"
@@ -5023,39 +4382,24 @@ msgid "Unconverted"
 msgstr "Konverterede"
 
 #: includes/admin/tools/tools.php:411
-msgid ""
-"To search for an affiliate, enter the affiliate&#8217;s login name, first "
-"name, or last name. Leave blank to export visits for all affiliates."
-msgstr ""
-"Hvis du vil søge efter en affiliate, skal du indtaste affiliate & #8217; s "
-"login-navn, fornavn eller efter navn. Efterlad blank for at eksportere "
-"henvisninger for alle associerede selskaber."
+msgid "To search for an affiliate, enter the affiliate&#8217;s login name, first name, or last name. Leave blank to export visits for all affiliates."
+msgstr "Hvis du vil søge efter en affiliate, skal du indtaste affiliate & #8217; s login-navn, fornavn eller efter navn. Efterlad blank for at eksportere henvisninger for alle associerede selskaber."
 
 #: includes/admin/tools/tools.php:421
 msgid "Export Settings"
 msgstr "Eksportindstillinger"
 
 #: includes/admin/tools/tools.php:423
-msgid ""
-"Export the AffiliateWP settings for this site as a .json file. This allows "
-"you to easily import the configuration into another site."
-msgstr ""
-"Eksportér indstillingerne for AffiliateWP for dette websted som en. JSON-"
-"fil. Dette giver dig mulighed for nemt at importere konfigurationen til et "
-"andet websted."
+msgid "Export the AffiliateWP settings for this site as a .json file. This allows you to easily import the configuration into another site."
+msgstr "Eksportér indstillingerne for AffiliateWP for dette websted som en. JSON-fil. Dette giver dig mulighed for nemt at importere konfigurationen til et andet websted."
 
 #: includes/admin/tools/tools.php:435
 msgid "Import Settings"
 msgstr "Importer Indstillinger"
 
 #: includes/admin/tools/tools.php:437
-msgid ""
-"Import the AffiliateWP settings from a .json file. This file can be obtained "
-"by exporting the settings on another site using the form above."
-msgstr ""
-"Importer indstillingerne for AffiliateWP fra en. JSON-fil. Denne fil kan fås "
-"ved at eksportere indstillingerne på et andet websted ved hjælp af "
-"formularen ovenfor."
+msgid "Import the AffiliateWP settings from a .json file. This file can be obtained by exporting the settings on another site using the form above."
+msgstr "Importer indstillingerne for AffiliateWP fra en. JSON-fil. Denne fil kan fås ved at eksportere indstillingerne på et andet websted ved hjælp af formularen ovenfor."
 
 #: includes/admin/tools/tools.php:445
 msgid "Import"
@@ -5075,11 +4419,7 @@ msgstr "Importer"
 
 #. translators: Documentation URL
 #: includes/admin/tools/tools.php:472
-msgid ""
-"Each column loaded from the CSV may be mapped to an affiliate field. Select "
-"the column that should be mapped to each field below. Any columns not needed "
-"can be ignored. See <a href=\"%s\" target=\"_blank\">this guide</a> for "
-"assistance with importing affiliate records."
+msgid "Each column loaded from the CSV may be mapped to an affiliate field. Select the column that should be mapped to each field below. Any columns not needed can be ignored. See <a href=\"%s\" target=\"_blank\">this guide</a> for assistance with importing affiliate records."
 msgstr ""
 
 #: includes/admin/tools/tools.php:481
@@ -5108,12 +4448,7 @@ msgstr ""
 
 #. translators: Documentation URL
 #: includes/admin/tools/tools.php:520
-msgid ""
-"Each column loaded from the CSV may be mapped to a referral field. Select "
-"the column that should be mapped to each field below. Any columns not needed "
-"can be ignored. Any affiliates that don&#8217;t exist will be created. See "
-"<a href=\"%s\" target=\"_blank\">this guide</a> for assistance with "
-"importing referral records."
+msgid "Each column loaded from the CSV may be mapped to a referral field. Select the column that should be mapped to each field below. Any columns not needed can be ignored. Any affiliates that don&#8217;t exist will be created. See <a href=\"%s\" target=\"_blank\">this guide</a> for assistance with importing referral records."
 msgstr ""
 
 #: includes/admin/tools/tools.php:529
@@ -5121,12 +4456,8 @@ msgid "Referral Field"
 msgstr "Betalte henvisninger"
 
 #: includes/admin/tools/tools.php:565
-msgid ""
-"To copy the system info, click below then press Ctrl + C (PC) or Cmd + C "
-"(Mac)."
-msgstr ""
-"Hvis du vil kopiere systemoplysningerne, skal du klikke nedenfor og derefter "
-"trykke på CTRL + C (PC) eller cmd + C (Mac)."
+msgid "To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac)."
+msgstr "Hvis du vil kopiere systemoplysningerne, skal du klikke nedenfor og derefter trykke på CTRL + C (PC) eller cmd + C (Mac)."
 
 #: includes/admin/tools/tools.php:617
 msgid "Debug Log"
@@ -5134,9 +4465,7 @@ msgstr "Fejlsøge Log"
 
 #: includes/admin/tools/tools.php:620
 msgid "Use this tool to help debug referral tracking."
-msgstr ""
-"Brug dette værktøj til at hjælpe med at foretage fejlfinding af forskellige "
-"handlinger i AffiliateWP."
+msgstr "Brug dette værktøj til at hjælpe med at foretage fejlfinding af forskellige handlinger i AffiliateWP."
 
 #: includes/admin/tools/tools.php:625
 msgid "Download Debug Log File"
@@ -5156,12 +4485,8 @@ msgstr "Generer webadresse"
 
 #. translators: Coupons settings screen URL
 #: includes/admin/tools/tools.php:671
-msgid ""
-"Generating coupons requires a <a href=\"%s\" target=\"_blank\">Coupon "
-"Template</a> to be selected."
-msgstr ""
-"Ugyldig licens. Du skal < a href = \" %s\" target = \"_blank\" > besøge din "
-"kontoside </a> og bekræfte den."
+msgid "Generating coupons requires a <a href=\"%s\" target=\"_blank\">Coupon Template</a> to be selected."
+msgstr "Ugyldig licens. Du skal <a href=\"%s\" target=\"_blank\">besøge din kontoside</a> og bekræfte den."
 
 #: includes/admin/tools/tools.php:764
 msgid "Invalid batch ID."
@@ -5265,11 +4590,11 @@ msgstr "Opdater Creative"
 #: includes/admin/utilities/class-privacy-tools.php:137
 #: includes/admin/utilities/class-privacy-tools.php:200
 msgid "No records found"
-msgstr "Ingen henvisninger fundet."
+msgstr "Ingen henvisninger fundet"
 
 #: includes/admin/utilities/class-privacy-tools.php:243
 msgid "Affiliate record has been deleted."
-msgstr "Din affiliate profil er blevet opdateret"
+msgstr "Din affiliate profil er blevet opdateret."
 
 #: includes/admin/utilities/class-privacy-tools.php:276
 msgid "Affiliate customer record has been deleted."
@@ -5299,61 +4624,35 @@ msgstr "Ingen besøg fundet."
 
 #: includes/admin/visits/contextual-help.php:39
 msgid "This screen provides access to your site&#8217;s visit history."
-msgstr ""
-"Dette skærmbillede giver adgang til dit websted & #8217; s besøgshistorik."
+msgstr "Dette skærmbillede giver adgang til dit websted & #8217; s besøgshistorik."
 
 #: includes/admin/visits/contextual-help.php:40
-msgid ""
-"<strong>Landing Page</strong>: this is the page on your site that the "
-"visitor first landed on. It is the URL that the affiliate link pointed to."
-msgstr ""
-"<strong> landingsside </strong>: Dette er den side på dit websted, som den "
-"besøgende først landede på. Det er den webadresse, som affiliate link pegede "
-"på."
+msgid "<strong>Landing Page</strong>: this is the page on your site that the visitor first landed on. It is the URL that the affiliate link pointed to."
+msgstr "<strong> landingsside </strong>: Dette er den side på dit websted, som den besøgende først landede på. Det er den webadresse, som affiliate link pegede på."
 
 #: includes/admin/visits/contextual-help.php:41
-msgid ""
-"<strong>Referring URL</strong>: this is the source URL of the affiliate "
-"link. It is the web page that the visitor found a link to your site on."
-msgstr ""
-"<strong> refererende webadresse </strong>: Dette er kilde-URL-adressen til "
-"affiliate-linket. Det er den webside, som den besøgende fandt et link til "
-"dit websted på."
+msgid "<strong>Referring URL</strong>: this is the source URL of the affiliate link. It is the web page that the visitor found a link to your site on."
+msgstr "<strong> refererende webadresse </strong>: Dette er kilde-URL-adressen til affiliate-linket. Det er den webside, som den besøgende fandt et link til dit websted på."
 
 #: includes/admin/visits/contextual-help.php:42
-msgid ""
-"<strong>Affiliate</strong>: this the affiliate that the visit was attributed "
-"to."
-msgstr ""
-"<strong> affiliate </strong>: dette affiliate, at besøget blev tilskrevet."
+msgid "<strong>Affiliate</strong>: this the affiliate that the visit was attributed to."
+msgstr "<strong> affiliate </strong>: dette affiliate, at besøget blev tilskrevet."
 
 #: includes/admin/visits/contextual-help.php:43
-msgid ""
-"<strong>Referral ID</strong>: this is the ID of the referral that was "
-"created from this visit, if any."
-msgstr ""
-"<strong> henvisnings-ID </strong>: Dette er ID'ET for den henvisning, der "
-"blev oprettet ud fra dette besøg, hvis der er nogen."
+msgid "<strong>Referral ID</strong>: this is the ID of the referral that was created from this visit, if any."
+msgstr "<strong> henvisnings-ID </strong>: Dette er ID'ET for den henvisning, der blev oprettet ud fra dette besøg, hvis der er nogen."
 
 #: includes/admin/visits/contextual-help.php:44
-msgid ""
-"<strong>Context</strong>: this is the context of how the visit was "
-"generated, if set."
-msgstr ""
-"<strong> Context </strong>: Dette er konteksten for, hvordan besøget blev "
-"genereret, hvis det er angivet."
+msgid "<strong>Context</strong>: this is the context of how the visit was generated, if set."
+msgstr "<strong> Context </strong>: Dette er konteksten for, hvordan besøget blev genereret, hvis det er angivet."
 
 #: includes/admin/visits/contextual-help.php:45
 msgid "<strong>IP</strong>: this is the IP address of the visitor."
 msgstr "<strong> IP </strong>: Dette er den besøgendes IP-adresse."
 
 #: includes/admin/visits/contextual-help.php:46
-msgid ""
-"<strong>Converted</strong>: this is a Yes / No status for whether the visit "
-"turned into a successful converstion."
-msgstr ""
-"<strong> konverteret </strong>: Dette er en ja/nej-status for, om besøget "
-"blev til en vellykket konverstion."
+msgid "<strong>Converted</strong>: this is a Yes / No status for whether the visit turned into a successful converstion."
+msgstr "<strong> konverteret </strong>: Dette er en ja/nej-status for, om besøget blev til en vellykket konverstion."
 
 #: includes/admin/visits/contextual-help.php:51
 msgid "Searching Visits"
@@ -5365,45 +4664,27 @@ msgstr "Besøg poster kan søges på flere forskellige måder:"
 
 #: includes/admin/visits/contextual-help.php:55
 msgid "You can enter an IP address to find all visits from a specific IP"
-msgstr ""
-"Du kan indtaste en IP-adresse for at finde alle besøg fra en bestemt IP"
+msgstr "Du kan indtaste en IP-adresse for at finde alle besøg fra en bestemt IP"
 
 #: includes/admin/visits/contextual-help.php:56
-msgid ""
-"You can enter a complete URL to find all visits that landed on or came from "
-"a specific URL"
-msgstr ""
-"Du kan indtaste en komplet webadresse for at finde alle besøg, der landede "
-"på eller kom fra en bestemt webadresse"
+msgid "You can enter a complete URL to find all visits that landed on or came from a specific URL"
+msgstr "Du kan indtaste en komplet webadresse for at finde alle besøg, der landede på eller kom fra en bestemt webadresse"
 
 #: includes/admin/visits/contextual-help.php:57
-msgid ""
-"You can enter a partial URL to find all visits that landed on or came from a "
-"specific site"
-msgstr ""
-"Du kan indtaste en delvis webadresse for at finde alle besøg, der landede på "
-"eller kom fra et bestemt websted"
+msgid "You can enter a partial URL to find all visits that landed on or came from a specific site"
+msgstr "Du kan indtaste en delvis webadresse for at finde alle besøg, der landede på eller kom fra et bestemt websted"
 
 #: includes/admin/visits/contextual-help.php:58
-msgid ""
-"You can enter the visit&#8217;s ID number prefixed by &#8220;visit:&#8221;"
-msgstr ""
-"Du kan indtaste affiliate & #8217; s id-nummer, der er forudfastsat af & "
-"#8220; affiliate: & #8221;"
+msgid "You can enter the visit&#8217;s ID number prefixed by &#8220;visit:&#8221;"
+msgstr "Du kan indtaste affiliate & #8217; s id-nummer, der er forudfastsat af & #8220; affiliate: & #8221;"
 
 #: includes/admin/visits/contextual-help.php:59
-msgid ""
-"You can enter the referral&#8217;s ID number prefixed by &#8220;referral:"
-"&#8221;"
-msgstr ""
-"Du kan indtaste henvisnings & #8217; s ID-nummer, der er forudfastsat af & "
-"#8220; henvisning: & #8221;"
+msgid "You can enter the referral&#8217;s ID number prefixed by &#8220;referral:&#8221;"
+msgstr "Du kan indtaste henvisnings & #8217; s ID-nummer, der er forudfastsat af & #8220; henvisning: & #8221;"
 
 #: includes/admin/visits/contextual-help.php:60
 msgid "You can enter a visit context prefixed by &#8220;context:&#8221;"
-msgstr ""
-"Du kan angive en besøgs kontekst, der er forudfastsat af & #8220; kontekst: "
-"& #8221;"
+msgstr "Du kan angive en besøgs kontekst, der er forudfastsat af & #8220; kontekst: & #8221;"
 
 #: includes/admin/visits/screen-options.php:33
 msgid "Number of visits per page:"
@@ -5456,14 +4737,8 @@ msgid "Cheatin&#8217; huh?"
 msgstr "Snyder &#8217;  du?"
 
 #: includes/class-affiliate-wp.php:339
-msgid ""
-"Your version of PHP is below the minimum version of PHP required by "
-"AffiliateWP. Please contact your host and request that your version be "
-"upgraded to 5.3 or later."
-msgstr ""
-"Din version af PHP er under den mindste version af PHP kræves af "
-"AffiliateWP. Kontakt din vært, og Anmod om, at din version opgraderes til "
-"5,3 eller nyere."
+msgid "Your version of PHP is below the minimum version of PHP required by AffiliateWP. Please contact your host and request that your version be upgraded to 5.3 or later."
+msgstr "Din version af PHP er under den mindste version af PHP kræves af AffiliateWP. Kontakt din vært, og Anmod om, at din version opgraderes til 5,3 eller nyere."
 
 #: includes/class-integrations.php:139
 msgid "Exchange"
@@ -5552,10 +4827,7 @@ msgstr "Vær indforstået med vores vilkår for anvendelse"
 #. translators: 1: Email, 2: Connect existing Payouts Service account URL, 3:
 #. Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
 #: includes/class-payouts-service-register.php:170
-msgid ""
-"Your email address %1$s is already registered on the %3$s. Click <a href="
-"\"%2$s\">here</a> to continue registering to be paid for this site using the "
-"same email address."
+msgid "Your email address %1$s is already registered on the %3$s. Click <a href=\"%2$s\">here</a> to continue registering to be paid for this site using the same email address."
 msgstr ""
 
 #. translators: 1: Credit card brand, 2: Last four digits of the card number
@@ -5680,12 +4952,8 @@ msgstr "Et gyldigt brugernavn skal angives som det første argument."
 
 #. translators: Affiliate username
 #: includes/cli/class-affiliate-sub-commands.php:173
-msgid ""
-"A user with the ID or username \"%s\" does not exist. See wp help user "
-"create for registering new users."
-msgstr ""
-"En bruger med ID'ET eller brugernavnet \" %s\" findes ikke. Se WP hjælp "
-"bruger oprette til registrering af nye brugere."
+msgid "A user with the ID or username \"%s\" does not exist. See wp help user create for registering new users."
+msgstr "En bruger med ID'ET eller brugernavnet \" %s\" findes ikke. Se WP hjælp bruger oprette til registrering af nye brugere."
 
 #: includes/cli/class-affiliate-sub-commands.php:187
 msgid "An affiliate already exists for this user account."
@@ -5718,12 +4986,8 @@ msgid "The affiliate account could not be updated."
 msgstr "Affiliate-kontoen kunne ikke opdateres."
 
 #: includes/cli/class-affiliate-sub-commands.php:386
-msgid ""
-"Are you sure you want to delete this affiliate, all its data and its "
-"associated user account?"
-msgstr ""
-"Er du sikker på, at du vil slette denne affiliate, alle dens data og dens "
-"tilknyttede brugerkonto?"
+msgid "Are you sure you want to delete this affiliate, all its data and its associated user account?"
+msgstr "Er du sikker på, at du vil slette denne affiliate, alle dens data og dens tilknyttede brugerkonto?"
 
 #: includes/cli/class-affiliate-sub-commands.php:388
 msgid "Are you sure you want to delete this affiliate and all its data?"
@@ -5734,8 +4998,7 @@ msgid "Are you sure you want to delete this affiliate?"
 msgstr "Er du sikker på, at du vil slette denne affiliate?"
 
 #: includes/cli/class-affiliate-sub-commands.php:408
-msgid ""
-"The affiliate and its associated user account have been successfully deleted."
+msgid "The affiliate and its associated user account have been successfully deleted."
 msgstr "Den affiliate og dens tilknyttede brugerkonto er blevet slettet."
 
 #: includes/cli/class-affiliate-sub-commands.php:411
@@ -5962,17 +5225,11 @@ msgstr "Antal besøg:% d"
 
 #: includes/cli/class-payout-sub-commands.php:162
 msgid "No referrals were found matching your criteria. Please try again."
-msgstr ""
-"Der blev ikke fundet henvisninger, der matcher dine kriterier. Prøv venligst "
-"igen."
+msgstr "Der blev ikke fundet henvisninger, der matcher dine kriterier. Prøv venligst igen."
 
 #: includes/cli/class-payout-sub-commands.php:191
-msgid ""
-"No affiliates matched the minimum earnings amount in order to generate a "
-"payout."
-msgstr ""
-"Ingen datterselskaber matchede den mindste indtjening beløb for at generere "
-"en udbetaling."
+msgid "No affiliates matched the minimum earnings amount in order to generate a payout."
+msgstr "Ingen datterselskaber matchede den mindste indtjening beløb for at generere en udbetaling."
 
 #. translators: 1: Affiliate ID, 2: Formatted payout amount
 #: includes/cli/class-payout-sub-commands.php:200
@@ -5982,23 +5239,17 @@ msgstr "Der er oprettet en udbetaling for affiliate #% 1 $ d for%2$s."
 #. translators: 1: Affiliate ID, 2: Formatted payout amount
 #: includes/cli/class-payout-sub-commands.php:206
 msgid "There was a problem generating a payout for Affiliate #%1$d for %2$s."
-msgstr ""
-"Der opstod et problem under generering af en udbetaling for affiliate #% 1 $ "
-"d for%2$s."
+msgstr "Der opstod et problem under generering af en udbetaling for affiliate #% 1 $ d for%2$s."
 
 #: includes/cli/class-payout-sub-commands.php:255
 #: includes/cli/class-payout-sub-commands.php:263
 msgid "A valid payout ID must be supplied to update a payout"
-msgstr ""
-"Der skal angives et gyldigt udbetalings-id for at opdatere en udbetaling"
+msgstr "Der skal angives et gyldigt udbetalings-id for at opdatere en udbetaling"
 
 #. translators: 1: Referral ID, 2: Referral payout ID
 #: includes/cli/class-payout-sub-commands.php:308
-msgid ""
-"Referral #%1$d is already associated with payout #%2$d and has been skipped."
-msgstr ""
-"Henvisningsnummer% d er allerede knyttet til udbetaling #% d og er blevet "
-"sprunget over."
+msgid "Referral #%1$d is already associated with payout #%2$d and has been skipped."
+msgstr "Henvisningsnummer% d er allerede knyttet til udbetaling #% d og er blevet sprunget over."
 
 #. translators: Referral ID
 #: includes/cli/class-payout-sub-commands.php:315
@@ -6014,25 +5265,16 @@ msgid "All values passed via the --referrals argument are invalid."
 msgstr "Alle værdier, der overføres via argumentet--henvisninger, er ugyldige."
 
 #: includes/cli/class-payout-sub-commands.php:338
-msgid ""
-"Are you sure you want to overwrite the affiliate associated with this payout?"
-msgstr ""
-"Er du sikker på, at du vil overskrive den affiliate, der er tilknyttet denne "
-"udbetaling?"
+msgid "Are you sure you want to overwrite the affiliate associated with this payout?"
+msgstr "Er du sikker på, at du vil overskrive den affiliate, der er tilknyttet denne udbetaling?"
 
 #: includes/cli/class-payout-sub-commands.php:344
 msgid "The supplied affiliate ID or username is invalid and has been ignored."
-msgstr ""
-"Det medfølgende affiliate-id eller Brugernavn er ugyldigt og er blevet "
-"ignoreret."
+msgstr "Det medfølgende affiliate-id eller Brugernavn er ugyldigt og er blevet ignoreret."
 
 #: includes/cli/class-payout-sub-commands.php:353
-msgid ""
-"No fields were specified for updating. For more information, see wp help "
-"affwp payout update."
-msgstr ""
-"Der blev ikke angivet nogen felter til opdatering. For mere information, se "
-"WP hjælp affwp udbetaling opdatering."
+msgid "No fields were specified for updating. For more information, see wp help affwp payout update."
+msgstr "Der blev ikke angivet nogen felter til opdatering. For mere information, se WP hjælp affwp udbetaling opdatering."
 
 #. translators: Payout ID
 #: includes/cli/class-payout-sub-commands.php:358
@@ -6068,21 +5310,14 @@ msgstr "Antal udbetalinger:% d"
 
 #: includes/cli/class-referral-sub-commands.php:133
 #: includes/cli/class-visit-sub-commands.php:134
-msgid ""
-"A valid affiliate username or ID must be specified as the first argument."
-msgstr ""
-"Et gyldigt affiliate-Brugernavn eller-id skal angives som det første "
-"argument."
+msgid "A valid affiliate username or ID must be specified as the first argument."
+msgstr "Et gyldigt affiliate-Brugernavn eller-id skal angives som det første argument."
 
 #. translators: Affiliate ID or username
 #: includes/cli/class-referral-sub-commands.php:142
 #: includes/cli/class-visit-sub-commands.php:139
-msgid ""
-"An affiliate with the ID or username \"%s\" does not exist. See wp affwp "
-"affiliate create for adding affiliates."
-msgstr ""
-"Et associeret selskab med ID'ET eller brugernavnet \" %s\" findes ikke. Se "
-"WP affwp affiliate oprette for at tilføje associerede selskaber."
+msgid "An affiliate with the ID or username \"%s\" does not exist. See wp affwp affiliate create for adding affiliates."
+msgstr "Et associeret selskab med ID'ET eller brugernavnet \" %s\" findes ikke. Se WP affwp affiliate oprette for at tilføje associerede selskaber."
 
 #. translators: Referral ID
 #: includes/cli/class-referral-sub-commands.php:165
@@ -6131,8 +5366,7 @@ msgstr "En URL-adresse skal angives som det andet argument for at fortsætte."
 
 #: includes/cli/class-visit-sub-commands.php:156
 msgid "An invalid referral ID was specified. Using 0 (none) instead."
-msgstr ""
-"Der blev angivet et ugyldigt henvisnings-id. Bruger 0 (ingen) i stedet."
+msgstr "Der blev angivet et ugyldigt henvisnings-id. Bruger 0 (ingen) i stedet."
 
 #: includes/cli/class-visit-sub-commands.php:176
 msgid "A valid date string must be supplied. Using the current time."
@@ -6188,10 +5422,7 @@ msgstr ""
 
 #. translators: %s: Default Update PHP page URL.
 #: includes/core-compatibility.php:222
-msgid ""
-"This resource is provided by your web host, and is specific to your site. "
-"For more information, <a href=\"%s\" target=\"_blank\">see the official "
-"WordPress documentation</a>."
+msgid "This resource is provided by your web host, and is specific to your site. For more information, <a href=\"%s\" target=\"_blank\">see the official WordPress documentation</a>."
 msgstr ""
 
 #: includes/coupon-functions.php:51
@@ -6272,12 +5503,8 @@ msgstr "Du er blevet tildelt en ny henvisning til %s på %s!"
 
 #. translators: Login URL
 #: includes/emails/actions.php:378
-msgid ""
-"log into your affiliate area to view your earnings or disable these "
-"notifications: %s"
-msgstr ""
-"log ind i dit affilierede område for at se din indtjening eller deaktivere "
-"disse meddelelser: %s"
+msgid "log into your affiliate area to view your earnings or disable these notifications: %s"
+msgstr "log ind i dit affilierede område for at se din indtjening eller deaktivere disse meddelelser: %s"
 
 #: includes/emails/class-affwp-emails.php:222
 msgid "Default Template"
@@ -6288,15 +5515,11 @@ msgid "No template, plain text only"
 msgstr "Ingen skabelon, kun almindelig tekst"
 
 #: includes/emails/class-affwp-emails.php:350
-msgid ""
-"You cannot send emails with AffWP_Emails until init/admin_init has been "
-"reached"
-msgstr ""
-"Du kan ikke sende e-mails med AffWP_Emails, før init/admin_init er nået"
+msgid "You cannot send emails with AffWP_Emails until init/admin_init has been reached"
+msgstr "Du kan ikke sende e-mails med AffWP_Emails, før init/admin_init er nået"
 
 #: includes/emails/class-affwp-emails.php:492
-msgid ""
-"The display name of the affiliate, as set on the affiliate's user profile"
+msgid "The display name of the affiliate, as set on the affiliate's user profile"
 msgstr "Brugernavnet på den affiliate på sitet"
 
 #: includes/emails/class-affwp-emails.php:497
@@ -6349,14 +5572,11 @@ msgstr "WEBADRESSEN til gennemgangssiden for en ventende affiliate"
 
 #: includes/emails/class-affwp-emails.php:557
 msgid "The URL the customer landed on that led to a referral being created"
-msgstr ""
-"Den webadresse, som kunden landede på, som førte til, at der blev oprettet "
-"en henvisning"
+msgstr "Den webadresse, som kunden landede på, som førte til, at der blev oprettet en henvisning"
 
 #: includes/emails/class-affwp-emails.php:562
 msgid "The name of the campaign associated with the referral (if any)"
-msgstr ""
-"Navnet på den kampagne, der er tilknyttet henvisningen (hvis der er nogen)."
+msgstr "Navnet på den kampagne, der er tilknyttet henvisningen (hvis der er nogen)."
 
 #: includes/emails/class-affwp-emails.php:567
 msgid "The affiliate registration coupon (if any)"
@@ -6371,14 +5591,8 @@ msgid "Total"
 msgstr "Total"
 
 #: includes/integrations/class-caldera-forms.php:105
-msgid ""
-"This total will be used to calculate the referral amount. For example, if "
-"the referral rate is 10% and the total here is $100, the referral will be "
-"created at $10."
-msgstr ""
-"Dette beløb vil blive brugt til at beregne henvisnings beløbet. For "
-"eksempel, hvis henvisnings procenten er 10% og totalen her er $100, vil "
-"henvisningen blive oprettet på $10."
+msgid "This total will be used to calculate the referral amount. For example, if the referral rate is 10% and the total here is $100, the referral will be created at $10."
+msgstr "Dette beløb vil blive brugt til at beregne henvisnings beløbet. For eksempel, hvis henvisnings procenten er 10% og totalen her er $100, vil henvisningen blive oprettet på $10."
 
 #: includes/integrations/class-caldera-forms.php:285
 #: includes/integrations/class-give.php:268
@@ -6394,7 +5608,7 @@ msgstr "Aktivér oprettelse af affiliate-henvisning for denne formular"
 #: includes/integrations/class-caldera-forms.php:300
 #: includes/integrations/class-formidablepro.php:162
 msgid "Select the referral type for this form."
-msgstr "Aktivér oprettelse af affiliate-henvisning for denne formular"
+msgstr "Aktivér oprettelse af affiliate-henvisning for denne formular."
 
 #: includes/integrations/class-contactform7.php:131
 msgid "Contact Form 7"
@@ -6407,17 +5621,8 @@ msgstr "Aktivér henvisninger på alle formularer i kontakt formular 7"
 #. translators: 1: Contact Form 7 docs URL, 2: External link icon markup, 3:
 #. Info icon markup
 #: includes/integrations/class-contactform7.php:152
-msgid ""
-"Check this box to enable referrals on all Contact Form 7 forms.<ul><li>%3$s "
-"Once enabled, referrals will be generated for all valid Contact Form 7 forms."
-"</li><li>%2$s <a href=\"%1$s\" target=\"_blank\">Documentation for this "
-"integration</a></li></ul>"
-msgstr ""
-"Markér dette felt for at aktivere henvisninger på alle formularer i kontakt "
-"formular 7. <ul> <li>%3$s når den er aktiveret, genereres der henvisninger "
-"for alle gyldige formularer i kontakt formular 7. </li> <li>%2$s < a href = "
-"\"%1$s\" target = \"_blank\" > dokumentation til denne integrations </a> </"
-"li> </ul>"
+msgid "Check this box to enable referrals on all Contact Form 7 forms.<ul><li>%3$s Once enabled, referrals will be generated for all valid Contact Form 7 forms.</li><li>%2$s <a href=\"%1$s\" target=\"_blank\">Documentation for this integration</a></li></ul>"
+msgstr "Markér dette felt for at aktivere henvisninger på alle formularer i kontakt formular 7. <ul> <li>%3$s når den er aktiveret, genereres der henvisninger for alle gyldige formularer i kontakt formular 7. </li><li>%2$s <a href=\"%1$s\" target=\"_blank\">dokumentation til denne integrations</a></li></ul>"
 
 #: includes/integrations/class-contactform7.php:167
 msgid "Enable referrals for specific Contact Form 7 forms"
@@ -6436,7 +5641,7 @@ msgstr "Formular-id: "
 #: includes/integrations/class-edd.php:631
 #: includes/integrations/class-woocommerce.php:342
 msgid "Referral %1$s for %2$s recorded for %3$s (ID: %4$d)."
-msgstr "Henvisningsnummer% d for %s registreret for %s"
+msgstr "Henvisningsnummer %1$s for %2$s registreret for %3$s (ID: %4$d)."
 
 #: includes/integrations/class-edd.php:766
 #: includes/integrations/class-pmp.php:307
@@ -6453,50 +5658,32 @@ msgstr "Affiliate rabat?"
 #: includes/integrations/class-pms.php:132
 #: includes/integrations/class-rcp.php:361
 #: includes/integrations/class-woocommerce.php:654
-msgid ""
-"If you would like to connect this discount to an affiliate, enter the name "
-"of the affiliate it belongs to."
-msgstr ""
-"Hvis du gerne vil forbinde denne rabat til en affiliate, skal du indtaste "
-"navnet på den affiliate, den tilhører."
+msgid "If you would like to connect this discount to an affiliate, enter the name of the affiliate it belongs to."
+msgstr "Hvis du gerne vil forbinde denne rabat til en affiliate, skal du indtaste navnet på den affiliate, den tilhører."
 
 #: includes/integrations/class-edd.php:902
 msgid "Adjust EDD Commissions"
 msgstr "Juster EDD-kommissioner"
 
 #: includes/integrations/class-edd.php:903
-msgid ""
-"Should AffiliateWP adjust the commission amounts recorded for purchases that "
-"include affiliate referrals? This will subtract the referral amount from the "
-"base amount used to calculate the commission total."
-msgstr ""
-"Skal AffiliateWP justere provisions beløbene, der er registreret for køb, "
-"der omfatter affilierede henvisninger? Dette trækker henvisnings beløbet fra "
-"det grundbeløb, der bruges til at beregne provisions totalen."
+msgid "Should AffiliateWP adjust the commission amounts recorded for purchases that include affiliate referrals? This will subtract the referral amount from the base amount used to calculate the commission total."
+msgstr "Skal AffiliateWP justere provisions beløbene, der er registreret for køb, der omfatter affilierede henvisninger? Dette trækker henvisnings beløbet fra det grundbeløb, der bruges til at beregne provisions totalen."
 
 #: includes/integrations/class-edd.php:923
 msgid "Disable Renewal Referrals"
 msgstr "Deaktiver henvisninger til fornyelse"
 
 #: includes/integrations/class-edd.php:924
-msgid ""
-"Should AffiliateWP prevent referral commissions from being recorded on "
-"renewal purchases with EDD Software Licensing?"
-msgstr ""
-"Skal AffiliateWP forhindre, at henvisnings kommissioner registreres på "
-"fornyelses køb med EDD-software licenser?"
+msgid "Should AffiliateWP prevent referral commissions from being recorded on renewal purchases with EDD Software Licensing?"
+msgstr "Skal AffiliateWP forhindre, at henvisnings kommissioner registreres på fornyelses køb med EDD-software licenser?"
 
 #: includes/integrations/class-edd.php:929
 msgid "Disable Referrals on Upgrades"
 msgstr "Deaktiver henvisninger på opgraderinger"
 
 #: includes/integrations/class-edd.php:930
-msgid ""
-"Should AffiliateWP prevent referral commissions from being recorded on "
-"license upgrade purchases with EDD Software Licensing?"
-msgstr ""
-"Skal AffiliateWP forhindre henvisnings kommissioner i at blive optaget på "
-"licens opgraderings køb med EDD Software Licensing?"
+msgid "Should AffiliateWP prevent referral commissions from being recorded on license upgrade purchases with EDD Software Licensing?"
+msgstr "Skal AffiliateWP forhindre henvisnings kommissioner i at blive optaget på licens opgraderings køb med EDD Software Licensing?"
 
 #: includes/integrations/class-edd.php:951
 #: includes/integrations/class-zippycourses.php:92
@@ -6512,30 +5699,22 @@ msgstr "Deaktiver henvisninger på denne %s"
 #: includes/integrations/class-edd.php:971
 #: includes/integrations/class-memberpress.php:213
 #: includes/integrations/class-zippycourses.php:109
-msgid ""
-"These settings will be used to calculate affiliate earnings per-sale. Leave "
-"blank to use the site default referral rate."
-msgstr ""
-"Disse indstillinger vil blive brugt til at beregne affiliate indtjening per-"
-"salg. Lad feltet være tomt for at bruge webstedets standard henvisnings sats."
+msgid "These settings will be used to calculate affiliate earnings per-sale. Leave blank to use the site default referral rate."
+msgstr "Disse indstillinger vil blive brugt til at beregne affiliate indtjening per-salg. Lad feltet være tomt for at bruge webstedets standard henvisnings sats."
 
 #. translators: EDD singular category label
 #: includes/integrations/class-edd.php:1002
 #: includes/integrations/class-edd.php:1023
 msgid "The referral rate for this %s category."
-msgstr "Angiv en henvisnings procent for denne %s"
+msgstr "Angiv en henvisnings procent for denne %s."
 
 #: includes/integrations/class-exchange.php:355
 msgid "Affiliate coupon?"
 msgstr "Affiliate kupon?"
 
 #: includes/integrations/class-exchange.php:361
-msgid ""
-"If you would like to connect this coupon to an affiliate, enter the name of "
-"the affiliate it belongs to."
-msgstr ""
-"Hvis du gerne vil forbinde denne kupon til en affiliate, skal du indtaste "
-"navnet på den affiliate, den tilhører."
+msgid "If you would like to connect this coupon to an affiliate, enter the name of the affiliate it belongs to."
+msgstr "Hvis du gerne vil forbinde denne kupon til en affiliate, skal du indtaste navnet på den affiliate, den tilhører."
 
 #: includes/integrations/class-formidablepro.php:102
 msgid "Referral description"
@@ -6554,7 +5733,7 @@ msgstr "KøbsBeløb"
 #. name, 4: Referral affiliate ID
 #: includes/integrations/class-formidablepro.php:250
 msgid "AffiliateWP: Referral #%1$d for %2$s recorded for %3$s (ID: %4$d)."
-msgstr "AffiliateWP: henvisning #% d for %s registreret for %s"
+msgstr "AffiliateWP: henvisning #%1$d for %2$s registreret for %3$s (ID: %4$d)."
 
 #. translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name
 #: includes/integrations/class-formidablepro.php:287
@@ -6577,8 +5756,7 @@ msgstr "Henvisningsnummer% d for %s registreret for %s"
 
 #: includes/integrations/class-give.php:269
 msgid "Enable affiliate referral creation for this donation form"
-msgstr ""
-"Aktivér oprettelse af affiliate-henvisning for denne donations formular"
+msgstr "Aktivér oprettelse af affiliate-henvisning for denne donations formular"
 
 #: includes/integrations/class-give.php:274
 #: includes/integrations/class-memberpress.php:180
@@ -6589,12 +5767,8 @@ msgid "Affiliate Rate"
 msgstr "Affiliate rate"
 
 #: includes/integrations/class-give.php:275
-msgid ""
-"This setting will be used to calculate affiliate earnings per-donation. "
-"Leave blank to use default affiliate rates."
-msgstr ""
-"Denne indstilling vil blive brugt til at beregne affiliate indtjening per-"
-"donation. Efterlad blank for at bruge standard affiliate satser."
+msgid "This setting will be used to calculate affiliate earnings per-donation. Leave blank to use default affiliate rates."
+msgstr "Denne indstilling vil blive brugt til at beregne affiliate indtjening per-donation. Efterlad blank for at bruge standard affiliate satser."
 
 #. translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate
 #. name, 4: Referral affiliate ID
@@ -6605,7 +5779,7 @@ msgstr ""
 #: includes/integrations/class-sproutinvoices.php:79
 #: includes/integrations/class-zippycourses.php:292
 msgid "Referral #%1$d for %2$s recorded for %3$s (ID: %4$d)."
-msgstr "Henvisningsnummer% d for %s registreret for %s"
+msgstr "Henvisningsnummer #%1$d for %2$s registreret for %3$s (ID: %4$d)."
 
 #: includes/integrations/class-gravityforms.php:198
 #: includes/integrations/class-sproutinvoices.php:109
@@ -6622,14 +5796,8 @@ msgid "Affiliate Coupon"
 msgstr "Affiliate kupon"
 
 #: includes/integrations/class-gravityforms.php:421
-msgid ""
-"To connect this coupon to an affiliate, enter the username of the affiliate. "
-"Anytime this coupon is redeemed, the connected affiliate will receive a "
-"referral commission."
-msgstr ""
-"For at forbinde denne kupon til en affiliate, indtaste brugernavn af "
-"affiliate. Når som helst denne kupon er indløst, vil den tilsluttede "
-"affiliate modtage en henvisnings provision."
+msgid "To connect this coupon to an affiliate, enter the username of the affiliate. Anytime this coupon is redeemed, the connected affiliate will receive a referral commission."
+msgstr "For at forbinde denne kupon til en affiliate, indtaste brugernavn af affiliate. Når som helst denne kupon er indløst, vil den tilsluttede affiliate modtage en henvisnings provision."
 
 #. translators: 1: Referral link, 2: Amount, 3: Affiliate Name
 #: includes/integrations/class-jigoshop.php:244
@@ -6647,9 +5815,7 @@ msgstr "Henvisningsnummer% d er fuldført"
 
 #: includes/integrations/class-lifterlms.php:163
 msgid "Referral not created because WooCommerce was used for payment."
-msgstr ""
-"Der blev ikke oprettet en henvisning, fordi WooCommerce blev brugt til "
-"betaling."
+msgstr "Der blev ikke oprettet en henvisning, fordi WooCommerce blev brugt til betaling."
 
 #: includes/integrations/class-lifterlms.php:194
 #: includes/integrations/class-lifterlms.php:332
@@ -6714,12 +5880,8 @@ msgstr "Deaktiver henvisninger"
 
 #. translators: Product type
 #: includes/integrations/class-lifterlms.php:763
-msgid ""
-"Check this box to prevent orders for this %s from generating referral "
-"commissions for affiliates."
-msgstr ""
-"Markér dette afkrydsningsfelt for at forhindre, at ordrer på denne %s "
-"genererer henvisnings provisioner for associerede selskaber."
+msgid "Check this box to prevent orders for this %s from generating referral commissions for affiliates."
+msgstr "Markér dette afkrydsningsfelt for at forhindre, at ordrer på denne %s genererer henvisnings provisioner for associerede selskaber."
 
 #. translators: Product type
 #: includes/integrations/class-lifterlms.php:772
@@ -6728,9 +5890,7 @@ msgstr "Aktivér %s henvisnings hyppighed"
 
 #: includes/integrations/class-lifterlms.php:773
 msgid "Check this box to enable %s referral rate overrides"
-msgstr ""
-"Markér dette felt for at aktivere %s tilsidesættelser af henvisnings "
-"hastigheden"
+msgstr "Markér dette felt for at aktivere %s tilsidesættelser af henvisnings hastigheden"
 
 #. translators: Product type
 #: includes/integrations/class-lifterlms.php:782
@@ -6757,9 +5917,7 @@ msgstr "Aktivér oprettelse af affiliate-henvisning for denne formular?"
 
 #: includes/integrations/class-opt-in.php:80
 #: includes/integrations/class-opt-in.php:114
-msgid ""
-"No opt-in platform has been configured. Please configure a platform in "
-"settings."
+msgid "No opt-in platform has been configured. Please configure a platform in settings."
 msgstr ""
 
 #: includes/integrations/class-opt-in.php:126
@@ -6781,38 +5939,21 @@ msgstr "Affiliate-indstillinger"
 
 #. translators: Referral rate
 #: includes/integrations/class-pmp.php:410
-msgid ""
-"The membership-level referral rate, such as 20 for 20%%. Affiliate-level "
-"referral rates will override this value. If left blank, the site default "
-"value of %s will be used."
-msgstr ""
-"Henvisnings procenten på medlemskabsniveau, såsom 20% for 20%. Henvisnings "
-"satser på affiliate-niveau tilsidesætter denne værdi. Hvis feltet ikke er "
-"udfyldt, bruges webstedets standardværdi %s."
+msgid "The membership-level referral rate, such as 20 for 20%%. Affiliate-level referral rates will override this value. If left blank, the site default value of %s will be used."
+msgstr "Henvisnings procenten på medlemskabsniveau, såsom 20% for 20%. Henvisnings satser på affiliate-niveau tilsidesætter denne værdi. Hvis feltet ikke er udfyldt, bruges webstedets standardværdi %s."
 
 #: includes/integrations/class-pmp.php:419
 msgid "Check to disable per-membership referrals."
 msgstr "Marker for at deaktivere henvisninger pr. medlemsskab."
 
 #: includes/integrations/class-pms.php:76
-msgid ""
-"This rate will be used to calculate affiliate earnings when members register "
-"their account with this subscription. Leave blank to use the site default "
-"referral rate."
-msgstr ""
-"Denne sats vil blive brugt til at beregne affiliate indtjening, når "
-"medlemmerne registrerer deres konto med dette abonnement. Lad feltet være "
-"tomt for at bruge webstedets standard henvisnings sats."
+msgid "This rate will be used to calculate affiliate earnings when members register their account with this subscription. Leave blank to use the site default referral rate."
+msgstr "Denne sats vil blive brugt til at beregne affiliate indtjening, når medlemmerne registrerer deres konto med dette abonnement. Lad feltet være tomt for at bruge webstedets standard henvisnings sats."
 
 #: includes/integrations/class-rcp.php:468
 #: includes/integrations/class-rcp.php:499
-msgid ""
-"This rate will be used to calculate affiliate earnings when members "
-"subscribe to this level. Leave blank to use the site default referral rate."
-msgstr ""
-"Denne sats vil blive brugt til at beregne affiliate indtjening, når "
-"medlemmerne abonnerer på dette niveau. Lad feltet være tomt for at bruge "
-"webstedets standard henvisnings sats."
+msgid "This rate will be used to calculate affiliate earnings when members subscribe to this level. Leave blank to use the site default referral rate."
+msgstr "Denne sats vil blive brugt til at beregne affiliate indtjening, når medlemmerne abonnerer på dette niveau. Lad feltet være tomt for at bruge webstedets standard henvisnings sats."
 
 #: includes/integrations/class-rcp.php:510
 msgid "Disable referrals on this subscription level."
@@ -6831,19 +5972,12 @@ msgstr "(Variations-id% d)"
 
 #. translators: Coupons settings URL
 #: includes/integrations/class-woocommerce.php:661
-msgid ""
-"This setting is disabled because this coupon is designated as a dynamic "
-"coupon template. Visit <a href=\"%s\" target=\"_blank\">Settings &rarr; "
-"Coupons</a> to configure dynamic coupons."
+msgid "This setting is disabled because this coupon is designated as a dynamic coupon template. Visit <a href=\"%s\" target=\"_blank\">Settings &rarr; Coupons</a> to configure dynamic coupons."
 msgstr ""
 
 #: includes/integrations/class-woocommerce.php:815
-msgid ""
-"Configure affiliate rates for this product. These settings will be used to "
-"calculate affiliate earnings per-sale."
-msgstr ""
-"Disse indstillinger vil blive brugt til at beregne affiliate indtjening per-"
-"salg. Efterlad blank for at bruge standard affiliate satser."
+msgid "Configure affiliate rates for this product. These settings will be used to calculate affiliate earnings per-sale."
+msgstr "Disse indstillinger vil blive brugt til at beregne affiliate indtjening per-salg. Efterlad blank for at bruge standard affiliate satser."
 
 #: includes/integrations/class-woocommerce.php:819
 msgid "Affiliate Rate Type"
@@ -6851,9 +5985,7 @@ msgstr "Affiliate rate"
 
 #: includes/integrations/class-woocommerce.php:822
 msgid "Earnings can be based on either a percentage or a flat rate amount."
-msgstr ""
-"Vælg en henvisnings satstype. Henvisninger kan være baseret på enten en "
-"procentsats eller et fast beløb."
+msgstr "Vælg en henvisnings satstype. Henvisninger kan være baseret på enten en procentsats eller et fast beløb."
 
 #: includes/integrations/class-woocommerce.php:828
 msgid "Leave blank to use default affiliate rates."
@@ -6864,12 +5996,8 @@ msgid "Disable referrals"
 msgstr "Deaktiver henvisninger"
 
 #: includes/integrations/class-woocommerce.php:841
-msgid ""
-"This will prevent this product from generating referral commissions for "
-"affiliates."
-msgstr ""
-"Dette vil forhindre ordrer af dette produkt fra at generere henvisning "
-"kommissioner for associerede selskaber."
+msgid "This will prevent this product from generating referral commissions for affiliates."
+msgstr "Dette vil forhindre ordrer af dette produkt fra at generere henvisning kommissioner for associerede selskaber."
 
 #: includes/integrations/class-woocommerce.php:883
 msgid "Configure affiliate rates for this product variation"
@@ -6885,7 +6013,7 @@ msgstr "Deaktiver henvisninger for denne produkt variation"
 
 #: includes/integrations/class-woocommerce.php:1443
 msgid "AffiliateWP settings for the My Account page."
-msgstr "Affiliate statistik er blevet fortalt!"
+msgstr "Affiliate statistik er blevet fortalt."
 
 #: includes/integrations/class-woocommerce.php:1449
 msgid "Affiliate Area Link"
@@ -6898,7 +6026,7 @@ msgstr ""
 #: includes/integrations/class-woocommerce.php:1480
 #: includes/integrations/class-woocommerce.php:1500
 msgid "The referral rate for this category."
-msgstr "Angiv en henvisnings procent for denne %s"
+msgstr "Angiv en henvisnings procent for denne."
 
 #: includes/integrations/class-woocommerce.php:1537
 #: includes/integrations/class-woocommerce.php:1586
@@ -6914,12 +6042,8 @@ msgid "Referral type"
 msgstr "Henvisnings rate"
 
 #: includes/integrations/extras/class-exchange-feature.php:36
-msgid ""
-"These settings will be used to calculate affiliate earnings per-sale. Leave "
-"blank to use default affiliate rates."
-msgstr ""
-"Disse indstillinger vil blive brugt til at beregne affiliate indtjening per-"
-"salg. Efterlad blank for at bruge standard affiliate satser."
+msgid "These settings will be used to calculate affiliate earnings per-sale. Leave blank to use default affiliate rates."
+msgstr "Disse indstillinger vil blive brugt til at beregne affiliate indtjening per-salg. Efterlad blank for at bruge standard affiliate satser."
 
 #: includes/integrations/extras/class-exchange-feature.php:48
 msgid "Disable referrals on this product"
@@ -7008,9 +6132,7 @@ msgid "Double Opt-In"
 msgstr ""
 
 #: includes/integrations/opt-in-platforms/class-opt-in-platform-mailchimp.php:157
-msgid ""
-"Should subscribers need to verify their subscription through a double opt-in "
-"email?"
+msgid "Should subscribers need to verify their subscription through a double opt-in email?"
 msgstr ""
 
 #: includes/integrations/opt-in-platforms/class-opt-in-platform-registry.php:98
@@ -7252,7 +6374,7 @@ msgstr ""
 
 #: includes/misc-functions.php:1211 tests/misc/test-misc-functions.php:394
 msgid "Referral Count"
-msgstr "Henvisnings beløb."
+msgstr "Henvisnings Beløb"
 
 #: includes/misc-functions.php:1212 tests/misc/test-misc-functions.php:395
 msgid "Visit Count"
@@ -7514,7 +6636,7 @@ msgstr ""
 #: tests/payouts/test-payout-functions.php:432
 #: tests/payouts/test-payout-functions.php:457
 msgid "No referrals within the specified date range"
-msgstr "Der er oprettet en henvisning med ID'ET \"% d\"."
+msgstr "Der er oprettet en henvisning med ID'ET"
 
 #: includes/payout-functions.php:301
 #: tests/payouts/test-payout-functions.php:433
@@ -7545,9 +6667,7 @@ msgid "Switch To"
 msgstr ""
 
 #: includes/scripts.php:137
-msgid ""
-"We are sorry but your browser is not compatible with this kind of file "
-"upload. Please upgrade your browser."
+msgid "We are sorry but your browser is not compatible with this kind of file upload. Please upgrade your browser."
 msgstr ""
 
 #: includes/scripts.php:138
@@ -7555,15 +6675,11 @@ msgid "This field must be mapped for the import to proceed."
 msgstr "En URL-adresse skal angives som det andet argument for at fortsætte."
 
 #: includes/scripts.php:150
-msgid ""
-"The user you entered does not exist. To create a new user and affiliate, "
-"continue filling out the form and click Add User & Affiliate."
+msgid "The user you entered does not exist. To create a new user and affiliate, continue filling out the form and click Add User & Affiliate."
 msgstr ""
 
 #: includes/scripts.php:151
-msgid ""
-"No user account is associated with this email address. To create a new user "
-"and affiliate, continue filling out the form and click Add User & Affiliate."
+msgid "No user account is associated with this email address. To create a new user and affiliate, continue filling out the form and click Add User & Affiliate."
 msgstr ""
 
 #: includes/scripts.php:152
@@ -7571,9 +6687,7 @@ msgid "Add User & Affiliate"
 msgstr "Tilføj som affiliate"
 
 #: includes/scripts.php:153
-msgid ""
-"You have selected a valid user account and may continue adding this user as "
-"an affiliate."
+msgid "You have selected a valid user account and may continue adding this user as an affiliate."
 msgstr ""
 
 #: includes/scripts.php:154
@@ -7582,9 +6696,7 @@ msgstr "Der findes allerede en affiliate for denne brugerkonto."
 
 #. translators: Affiliate username
 #: includes/scripts.php:156
-msgid ""
-"A user already exists for this email address, however they are not currently "
-"an affiliate. Their username is %s"
+msgid "A user already exists for this email address, however they are not currently an affiliate. Their username is %s"
 msgstr ""
 
 #: includes/scripts.php:157
@@ -7675,8 +6787,7 @@ msgstr "Intet sæt"
 
 #: templates/dashboard-tab-stats.php:109
 msgid "You have no referrals or visits that included a campaign name."
-msgstr ""
-"Du har ingen henvisninger eller besøg, der inkluderede et kampagnenavn."
+msgstr "Du har ingen henvisninger eller besøg, der inkluderede et kampagnenavn."
 
 #. translators: Affiliate ID
 #: templates/dashboard-tab-urls.php:23
@@ -7698,12 +6809,8 @@ msgid "Referral URL Generator"
 msgstr "Henvisning URL generator"
 
 #: templates/dashboard-tab-urls.php:50
-msgid ""
-"Enter any URL from this website in the form below to generate a referral "
-"link!"
-msgstr ""
-"Indsæt en valgfri URL fra dette website i formlen under, for at generere et "
-"henvisningslink!"
+msgid "Enter any URL from this website in the form below to generate a referral link!"
+msgstr "Indsæt en valgfri URL fra dette website i formlen under, for at generere et henvisningslink!"
 
 #: templates/dashboard-tab-urls.php:54
 msgid "Page URL"
@@ -7730,13 +6837,8 @@ msgid "Referral URL Visits"
 msgstr "Henvisning URL besøg"
 
 #: templates/dashboard-tab-visits.php:6
-msgid ""
-"Column one lists the visit URL in relative format, column two lists the "
-"referrer, and column three indicates whether the visit converted into a "
-"referral."
-msgstr ""
-"Kolonne et viser besøg URL i relative format, kolonne to lister henvisende, "
-"og kolonne tre angiver, om besøget konverteret til en henvisning."
+msgid "Column one lists the visit URL in relative format, column two lists the referrer, and column three indicates whether the visit converted into a referral."
+msgstr "Kolonne et viser besøg URL i relative format, kolonne to lister henvisende, og kolonne tre angiver, om besøget konverteret til en henvisning."
 
 #: templates/dashboard-tab-visits.php:47
 msgid "Visit converted: %s"
@@ -7783,17 +6885,12 @@ msgid "Lost your password?"
 msgstr "Glemt dit Password / Brugernavn?"
 
 #: templates/no-access.php:2
-msgid ""
-"To see the Affiliate Area, log in as an existing affiliate, or add your "
-"account as an affiliate."
-msgstr ""
-"For at se affiliate Area, logge ind som en eksisterende affiliate, eller "
-"tilføje din konto som en affiliate."
+msgid "To see the Affiliate Area, log in as an existing affiliate, or add your account as an affiliate."
+msgstr "For at se affiliate Area, logge ind som en eksisterende affiliate, eller tilføje din konto som en affiliate."
 
 #: templates/no-access.php:4
 msgid "The affiliate area is available only for registered affiliates."
-msgstr ""
-"Affiliate-området er kun tilgængeligt for registrerede datterselskaber."
+msgstr "Affiliate-området er kun tilgængeligt for registrerede datterselskaber."
 
 #: templates/opt-in.php:9
 msgid "You have subscribed successfully."
@@ -7809,9 +6906,7 @@ msgstr "Udbetalingsmetode"
 
 #. translators: Payouts Service account URL
 #: templates/payouts/add-payout-method.php:34
-msgid ""
-"Click <a href=\"%s\">here</a> to add a payout method where you will receive "
-"your affiliate earnings."
+msgid "Click <a href=\"%s\">here</a> to add a payout method where you will receive your affiliate earnings."
 msgstr ""
 
 #. translators: Payouts Service account email
@@ -8189,15 +7284,12 @@ msgstr "(Ingen)"
 
 #: includes/admin/payouts/class-payouts-service.php:99
 msgctxt "Note shown on the preview payout page for a Payouts Service payout"
-msgid ""
-"It takes approximately two weeks for each payout to be deposited into each "
-"affiliates bank account when the Payouts Service invoice has been paid."
+msgid "It takes approximately two weeks for each payout to be deposited into each affiliates bank account when the Payouts Service invoice has been paid."
 msgstr ""
 
 #: includes/admin/payouts/class-payouts-service.php:100
 msgctxt "Note shown on the preview payout page for a Payouts Service payout"
-msgid ""
-"For affiliates located in the United States, it takes approximately a week."
+msgid "For affiliates located in the United States, it takes approximately a week."
 msgstr ""
 
 #: includes/admin/payouts/class-payouts-service.php:172
@@ -8342,157 +7434,3 @@ msgstr "Deaktiveret"
 msgctxt "direct traffic"
 msgid "Direct"
 msgstr "Direkte"
-
-#: includes/core-compatibility.php:100
-msgctxt "localized PHP upgrade information page"
-msgid "https://wordpress.org/support/update-php/"
-msgstr ""
-
-#~ msgid "%d affiliate was added successfully."
-#~ msgid_plural "%d affiliates were added successfully"
-#~ msgstr[0] "% d affiliate blev tilføjet."
-#~ msgstr[1] "% d associerede selskaber blev tilføjet med succes"
-
-#~ msgid "%d affiliate from WP Affiliate was added successfully."
-#~ msgid_plural "%d affiliates from WP Affiliate were added successfully"
-#~ msgstr[0] "% d affiliate fra WP affiliate blev tilføjet med succes."
-#~ msgstr[1] "% d datterselskaber fra WP affiliate blev tilføjet med succes"
-
-#~ msgid "%d affiliate from Affiliates Pro was added successfully."
-#~ msgid_plural "%d affiliates from Affiliates Pro were added successfully"
-#~ msgstr[0] "% d affiliate fra Affiliates Pro blev tilføjet med succes."
-#~ msgstr[1] "% d datterselskaber fra Affiliates Pro blev tilføjet med succes"
-
-#~ msgid "Affiliate to be paid via %s"
-#~ msgid_plural "Affiliates to be paid via %s"
-#~ msgstr[0] "WEBADRESSE til affiliate område: %s"
-#~ msgstr[1] "WEBADRESSE til affiliate område: %s"
-
-#~ msgid "%s affiliate was successfully exported."
-#~ msgid_plural "%s affiliates were successfully exported."
-#~ msgstr[0] "%s associeret selskab blev eksporteret."
-#~ msgstr[1] "%s associerede selskaber blev eksporteret."
-
-#~ msgid "%s payout log was successfully exported."
-#~ msgid_plural "%s payout logs were successfully exported."
-#~ msgstr[0] "%s udbetalings logfilen blev eksporteret."
-#~ msgstr[1] "%s udbetalings logfiler blev eksporteret."
-
-#~ msgid "%s referral was successfully exported."
-#~ msgid_plural "%s referrals were successfully exported."
-#~ msgstr[0] "%s-henvisningen blev eksporteret."
-#~ msgstr[1] "%s henvisninger blev eksporteret."
-
-#~ msgid "%s visit was successfully exported."
-#~ msgid_plural "%s visits were successfully exported."
-#~ msgstr[0] "%s associeret selskab blev eksporteret."
-#~ msgstr[1] "%s associerede selskaber blev eksporteret."
-
-#~ msgid "A payout log for %s affiliate was successfully generated."
-#~ msgid_plural "A payout log for %s affiliates was successfully generated."
-#~ msgstr[0] "Der blev oprettet en udbetalings logfil for %s affiliate."
-#~ msgstr[1] ""
-#~ "Der blev oprettet en udbetalings logfil for %s associerede selskaber."
-
-#~ msgid "%s affiliate was successfully imported."
-#~ msgid_plural "%s affiliates were successfully imported."
-#~ msgstr[0] "%s associeret selskab blev eksporteret."
-#~ msgstr[1] "%s associerede selskaber blev eksporteret."
-
-#~ msgid "%s referral was successfully imported."
-#~ msgid_plural "%s referrals were successfully imported."
-#~ msgstr[0] "%s-henvisningen blev eksporteret."
-#~ msgstr[1] "%s henvisninger blev eksporteret."
-
-#~ msgid "%s affiliate was added successfully."
-#~ msgid_plural "%s affiliates were added successfully."
-#~ msgstr[0] "%s affiliate blev tilføjet."
-#~ msgstr[1] "%s associerede selskaber blev tilføjet."
-
-#~ msgid "%s affiliate was successfully converted."
-#~ msgid_plural "%s affiliates were successfully converted."
-#~ msgstr[0] "%s affiliate blev konverteret."
-#~ msgstr[1] "%s associerede selskaber blev konverteret."
-
-#~ msgid "%s item was successfully processed."
-#~ msgid_plural "%s items were successfully processed."
-#~ msgstr[0] "%s-elementet blev behandlet korrekt."
-#~ msgstr[1] "%s elementer er blevet behandlet."
-
-#~ msgid "Referral #%d for %s recorded for %s"
-#~ msgstr "Henvisningsnummer% d for %s registreret for %s"
-
-#~ msgid ""
-#~ "Choose the integrations to enable. If you are not using any of these, you "
-#~ "may use the <strong>[affiliate_conversion_script]</strong> shortcode to "
-#~ "track and create referrals. Refer to the <a href=\"%s\" target=\"_blank"
-#~ "\">documentation</a> for help using this."
-#~ msgstr ""
-#~ "Vælg de integrationer, der skal aktiveres. Hvis du ikke bruger nogen af "
-#~ "disse, kan du bruge <strong> [affiliate_conversion_script] </strong> kort "
-#~ "kode til at spore og oprette henvisninger. Du kan finde hjælp til dette i "
-#~ "dokumentationen til < a href = \" %s\" target = \"_blank\" > </a>."
-
-#~ msgid ""
-#~ "The affiliate account email. Synced with the associated user account."
-#~ msgstr ""
-#~ "Den affiliate konto e-mail. Synkroniseret med den tilknyttede brugerkonto."
-
-#~ msgid "Date Filters"
-#~ msgstr "Datofiltre"
-
-#~ msgid "(The current user will not be deleted)"
-#~ msgstr "(Den aktuelle bruger vil ikke blive slettet)"
-
-#~ msgid "User"
-#~ msgstr "Bruger"
-
-#~ msgid "Total paid referrals"
-#~ msgstr "Samlet antal betalte henvisninger"
-
-#~ msgid "Total unpaid referrals"
-#~ msgstr "Samlede ubetalte henvisninger"
-
-#~ msgid "Total pending referrals"
-#~ msgstr "Samlet antal ventende henvisninger"
-
-#~ msgid "Total rejected referrals"
-#~ msgstr "Afviste henvisninger i alt"
-
-#~ msgid "<a href=\"%s\">Post an issue</a> on <a href=\"%s\">GitHub</a>."
-#~ msgstr ""
-#~ "< a href = \" %s\" > sende et problem </a> på < a href = \" %s\" > GitHub "
-#~ "</a>."
-
-#~ msgid "Close"
-#~ msgstr "Luk"
-
-#~ msgid "Disable All Emails"
-#~ msgstr "Deaktiver alle E-mails"
-
-#~ msgid "Disable all email notifications."
-#~ msgstr "Deaktiver alle e-mail-meddelelser."
-
-#~ msgid "Notify Admin"
-#~ msgstr "Underret Admin"
-
-#~ msgid "%s affiliate&#8217;s was successfully processed."
-#~ msgid_plural "%s affiliates&#8217; were successfully processed."
-#~ msgstr[0] "%s affiliate & #8217; s er blevet behandlet."
-#~ msgstr[1] "%s associerede selskaber & #8217; er blevet behandlet."
-
-#~ msgid "The full name of the affiliate"
-#~ msgstr "Det fulde navn på affiliate"
-
-#~ msgid "No reason provided"
-#~ msgstr "Der er ikke angivet nogen årsag"
-
-#~ msgid " AffiliateWP"
-#~ msgstr " AffiliateWP"
-
-#~ msgid "Configure affiliate rates for this product"
-#~ msgstr "Konfigurer affiliate-priser for dette produkt"
-
-#~ msgctxt "visit context"
-#~ msgid "None"
-#~ msgstr "Ingen"

@@ -261,6 +261,11 @@ class Affiliate_WP_Campaigns_DB extends Affiliate_WP_DB {
 	public function update( $row_id, $data = array(), $where = '', $type = '' ) {
 		$campaign = affwp_get_campaign( $row_id );
 
+		// Don't allow the conversion rate to be set directly.
+		if ( isset( $data['conversion_rate'] ) ) {
+			unset( $data['conversion_rate'] );
+		}
+
 		// Maybe calculate Conversion Rate
 		if ( isset( $data['visits'] ) || isset( $data['referrals'] ) ) {
 			$defaults = array();

@@ -742,9 +742,13 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			}
 		}
 
-		if( ! empty( $args['status'] ) ) {
+		// Status.
+		$where .= empty( $where ) ? "WHERE " : "AND ";
+		if( empty( $args['status'] ) ) {
 
-			$where .= empty( $where ) ? "WHERE " : "AND ";
+			$where .= "`status` != 'draft' ";
+
+		} else {
 
 			if( is_array( $args['status'] ) ) {
 				$where .= "`status` IN('" . implode( "','", array_map( 'esc_sql', $args['status'] ) ) . "') ";

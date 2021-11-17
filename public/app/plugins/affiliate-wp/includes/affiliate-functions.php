@@ -2093,3 +2093,39 @@ function affwp_get_affiliate_by( $field, $value ) {
 
 	return $affiliate;
 }
+
+/**
+ * Retrieves the list of fields that are in user meta, but should be in affiliate meta.
+ *
+ * @since 2.8
+ *
+ * @return string[] Array of meta field keys.
+ */
+function affwp_get_pending_migrated_user_meta_fields() {
+	/**
+	 * Filters the pending migrated user meta fields.
+	 *
+	 * Any meta that once used user meta instead of affiliate meta can be added to this filter. This will trigger
+	 * AffiliateWP to automatically display a notice to migrate this data to affiliate meta.
+	 *
+	 * @since 2.8
+	 *
+	 * @param array $fields list of meta keys to migrate.
+	 */
+	return apply_filters( 'affwp_pending_migrated_user_meta_fields', array(
+		'affwp_promotion_method',
+		'affwp_disable_affiliate_email',
+		'affwp_referral_notifications',
+	) );
+}
+
+/**
+ * Retrieves the list of fields that were once in user meta, but have been moved to affiliate meta.
+ *
+ * @since 2.8
+ *
+ * @return string[] Array of meta field keys.
+ */
+function affwp_get_current_migrated_user_meta_fields() {
+	return get_option( 'affwp_migrated_meta_fields', array() );
+}

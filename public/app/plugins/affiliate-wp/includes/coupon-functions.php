@@ -101,14 +101,104 @@ function affwp_get_affiliate_coupon_code( $affiliate, $coupon_id ) {
  * Sanitizes a global affiliate coupon code.
  *
  * @since 2.6
+ * @since 2.8 Modifed for scenarios using the coupon format setting.
  *
  * @param string $code Raw coupon code.
  * @return string Sanitized coupon code.
  */
 function affwp_sanitize_coupon_code( $code ) {
-	$code = strtoupper( sanitize_key( $code ) );
+	// Remove special characters.
+	$code = sanitize_key( $code );
 
-	return $code;
+	// Remove underscores.
+	$code = str_replace( '_', '', $code );
+
+	$use_hyphens = boolval( affiliate_wp()->settings->get( 'coupon_hyphen_delimiter' ) );
+
+	if ( true === $use_hyphens ){
+		// Replace multiple hyphens with a single. For example if the affiliate has no first name.
+		$code = preg_replace( '(-{2,})', '-', $code );
+
+		// Remove hyphen from beginning and end.
+		$code = trim( $code, '-' );
+	} else {
+		// Remove all hyphens.
+		$code = str_replace( '-', '', $code );
+	}
+
+	// Return capitalized code.
+	return strtoupper( $code );
+}
+
+/**
+ * Sanitizes a coupon's custom text.
+ *
+ * @since 2.8
+ *
+ * @param string $custom_text Custom text.
+ * @return string Sanitized custom text.
+ */
+function affwp_sanitize_coupon_custom_text( $custom_text ) {
+	/**
+	 * Filters the max character limit for dynamic coupon custom text.
+	 *
+	 * @since 2.8
+	 *
+	 * @param int $max_length Max char limit default is 50.
+	 */
+	$max_length =  apply_filters( 'affwp_coupons_custom_text_limit', 50 );
+
+	if ( ! is_int ( $max_length ) || $max_length > 191 ) {
+		return new \WP_Error(
+			'invalid_coupon_max_length',
+			'Max length must be an integer and less than 191 characters.'
+		);
+	}
+
+	$custom_text = sanitize_key( $custom_text );
+
+	// Remove underscores and hyphens.
+	$special_char = array( '_', '-');
+
+	$custom_text = str_replace( $special_char, '', $custom_text );
+
+	// If greater than max length, shorten the string.
+	if ( strlen( $custom_text ) > $max_length ) {
+		$custom_text = substr( $custom_text, 0, $max_length );
+	}
+
+	// Return capitalized custom text.
+	return strtoupper( $custom_text );
+}
+  
+/**
+ * Validates an affiliate coupon code.
+ *
+ * @since 2.8
+ *
+ * @param string $code Coupon code.
+ *
+ * @return bool Return true if unique and not over char limit. Otherwise false.
+ */
+function affwp_validate_coupon_code( $code ) {
+	if ( empty( $code ) ) {
+		return false;
+	}
+	// Check if unique. If not, return false.
+	$coupon_exists = affwp_get_coupon( $code );
+
+	if ( ! empty( $coupon_exists ) ) {
+		return false;
+	}
+
+	// If the code is over the char limit 191, return false.
+	$max_char_limit_for_coupon = 191;
+
+	if ( strlen( $code ) > $max_char_limit_for_coupon  ) {
+		return false;
+	}
+
+	return true;
 }
 
 /**
@@ -395,4 +485,133 @@ function affwp_get_coupon_by( $field, $value ) {
 	}
 
 	return $coupon;
+}
+
+/**
+ * Replaces the given coupon code merge tag.
+ *
+ * @since 2.8
+ *
+ * @param array $coupon Optional. Coupon creation arguments usually including: affiliate_id, coupon_code, and integration.
+ * @return string Coupon code or preview coupon code.
+ */
+function affwp_coupon_tag_coupon_code( $coupon = array() ) {
+	if ( ! empty( $coupon ) && isset( $coupon['coupon_code'] ) ) {
+		return $coupon['coupon_code'];
+	} else {
+		return 'FGFUVCQOK1';
+	}
+}
+
+/**
+ *  Replaces the given coupon amount merge tag.
+ *
+ * @since 2.8
+ *
+ * @param array $coupon Optional coupon creation arguments usually include: affiliate_id, coupon_code, and integration.
+ * @return string Coupon amount or empty string or '10' for the preview if the coupon template is not set.
+ */
+function affwp_coupon_tag_coupon_amount( $coupon = array() ) {
+	if ( ! empty( $coupon ) && isset( $coupon['integration'] ) ) {
+		// Use coupon's integration type. TODO: Abstract this out for any dynamic coupons integration.
+		if ( 'coupon_template_woocommerce' === $coupon['integration'] ) {
+			// Get coupon template ID.
+			$woocomerce_template_id = affiliate_wp()->settings->get( $coupon['integration'] );
+
+			// Use the ID to get the coupon amount.
+			$coupon_amount = get_post_meta( $woocomerce_template_id, 'coupon_amount', true );
+
+			return affwp_sanitize_coupon_code( $coupon_amount );
+		}
+		// Invalid integration type returns empty string.
+		return '';
+	}
+
+	// For coupon preview: currently uses amount from Woocommerce Coupon Template if set.
+	if ( false !== affiliate_wp()->settings->get( 'coupon_template_woocommerce' ) ) {
+		$woocomerce_template_id = affiliate_wp()->settings->get( 'coupon_template_woocommerce' );
+
+		$coupon_amount = get_post_meta( $woocomerce_template_id, 'coupon_amount', true );
+
+		return affwp_sanitize_coupon_code( $coupon_amount );
+	}
+	// Default to 10 if no integration is set.
+	return '10';
+}
+
+/**
+ * Replaces the given user name merge tag.
+ *
+ * @since 2.8
+ *
+ * @param array $coupon Optional. Coupon creation arguments usually include: affiliate_id, coupon_code, and integration.
+ * @return string The affiliate or current logged in user's user name.
+ */
+function affwp_coupon_tag_user_name( $coupon = array() ) {
+	if ( ! empty( $coupon ) && isset( $coupon['affiliate_id'] ) ) {
+		if ( ! empty( $coupon['affiliate_id'] ) ) {
+			$user_name = affwp_get_affiliate_username( $coupon['affiliate_id'] );
+		} else {
+			return '';
+		}
+	} else {
+		// Get current logged in user's username.
+		$user_info = get_userdata( get_current_user_id() );
+		$user_name = ! empty ( $user_info->user_login ) ? esc_html( $user_info->user_login ) : '';
+	}
+
+	// Limit username length to 10 char.
+	if ( strlen( $user_name ) > 10 ) {
+		$user_name = substr( $user_name, 0, 10 );
+	}
+
+	return affwp_sanitize_coupon_code( $user_name );
+}
+
+/**
+ * Replaces the given first name merge tag.
+ *
+ * @since 2.8
+ *
+ * @param array $coupon Optional. Coupon creation arguments usually include: affiliate_id, coupon_code, and integration.
+ * @return string The affiliate or current logged in user's first name or 'Bob' for the preview.
+ */
+function affwp_coupon_tag_first_name( $coupon = array() ) {
+	if ( ! empty( $coupon ) && isset( $coupon['affiliate_id'] ) ) {
+		if ( $coupon['affiliate_id'] ) {
+			$first_name = affwp_get_affiliate_first_name( $coupon['affiliate_id'] );
+		} else {
+			return '';
+		}
+	} else {
+		// Get current logged in user's first name or default to Bob.
+		$user_info  = get_userdata( get_current_user_id() );
+		$first_name = ! empty( $user_info->first_name ) ? esc_html( $user_info->first_name ) : 'Bob';
+	}
+
+	// Limit first name length to 10 char.
+	if ( strlen( $first_name ) > 10 ) {
+		$first_name = substr( $first_name, 0, 10 );
+	}
+
+	return affwp_sanitize_coupon_code( $first_name );
+}
+
+/**
+ * Replaces the given custom text merge tag.
+ *
+ * @since 2.8
+ *
+ * @param array $coupon Optional. Coupon creation arguments usually include: affiliate_id, coupon_code, and integration.
+ * @return string Text from the coupon custom text setting or empty string defaults to 'text' for the preview.
+ */
+function affwp_coupon_tag_custom_text( $coupon = array() ) {
+	$custom_text = affiliate_wp()->settings->get( 'coupon_custom_text' );
+
+	// For preview, default to 'Text'.
+	if ( empty( $coupon ) && ! is_array( $coupon ) && empty( $custom_text ) ) {
+		$custom_text = 'text';
+	}
+
+	return affwp_sanitize_coupon_custom_text( $custom_text );
 }

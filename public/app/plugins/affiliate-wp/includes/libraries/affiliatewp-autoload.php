@@ -29,6 +29,8 @@
 
 $autoload = array(
 	// Classes.
+	'AffWP\Core\Registration\Form_Container',
+	'AffWP\Core\Registration\Form_Field_Container',
 );
 
 spl_autoload_register( function( $filename ) use ( $autoload ) {
