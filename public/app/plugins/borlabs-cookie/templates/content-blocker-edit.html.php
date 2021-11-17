@@ -67,7 +67,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                         <div class="form-group row align-items-center">
                             <label class="col-sm-4 col-form-label"><?php _ex('Status', 'Backend / Content Blocker / Label', 'borlabs-cookie'); ?></label>
                             <div class="col-sm-8">
-                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchStatus; ?>" data-toggle="button" data-switch-target="status" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
+                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchStatus; ?>" data-toggle="button" data-switch-target="status" aria-pressed="<?php echo $inputStatus ? 'true' : 'false'; ?>" autocomplete="off"><span class="handle"></span></button>
                                 <input type="hidden" name="status" id="status" value="<?php echo $inputStatus; ?>">
                                 <span data-toggle="tooltip" title="<?php echo esc_attr_x('The status of this <strong>Content Blocker</strong>. If active (Status: ON) it does block content (iframes) of the configured hosts.', 'Backend / Content Blocker / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
                             </div>
@@ -181,7 +181,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                 <?php
                                 } else {
                                     ?>
-                                    <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchSettingsUnblockAll; ?>" data-toggle="button" data-switch-target="settingsUnblockAll" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
+                                    <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchSettingsUnblockAll; ?>" data-toggle="button" data-switch-target="settingsUnblockAll" aria-pressed="<?php echo $inputSettingsUnblockAll ? 'true' : 'false'; ?>" autocomplete="off"><span class="handle"></span></button>
                                     <input type="hidden" name="settings[unblockAll]" id="settingsUnblockAll" value="<?php echo $inputSettingsUnblockAll; ?>">
                                     <span data-toggle="tooltip" title="<?php echo esc_attr_x('Once the visitor unblocks content blocked by this <strong>Content Blocker</strong>, all content blocked by it will be automatically unblocked too. Please see the <strong>Tips</strong> section on how to link this setting with a <strong>Cookie</strong>.', 'Backend / Content Blocker / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
                                 <?php
@@ -265,7 +265,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                         <div class="form-group row align-items-center">
                             <label class="col-sm-4 col-form-label"><?php _ex('Execute Global code first', 'Backend / Content Blocker / Label', 'borlabs-cookie'); ?></label>
                             <div class="col-sm-8">
-                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchSettingsExecuteGlobalCodeBeforeUnblocking; ?>" data-toggle="button" data-switch-target="executeGlobalCodeBeforeUnblocking" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
+                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchSettingsExecuteGlobalCodeBeforeUnblocking; ?>" data-toggle="button" data-switch-target="executeGlobalCodeBeforeUnblocking" aria-pressed="<?php echo $inputSettingsExecuteGlobalCodeBeforeUnblocking ? 'true' : 'false'; ?>" autocomplete="off"><span class="handle"></span></button>
                                 <input type="hidden" name="settings[executeGlobalCodeBeforeUnblocking]" id="executeGlobalCodeBeforeUnblocking" value="<?php echo $inputSettingsExecuteGlobalCodeBeforeUnblocking; ?>">
                                 <span data-toggle="tooltip" title="<?php echo esc_attr_x('If this option is enabled (Status: ON) and a visitor unblocks the content, the JavaScript in the <strong>Global</strong> field will be executed before the blocked content is loaded.', 'Backend / Content Blocker / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
                             </div>

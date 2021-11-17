@@ -130,102 +130,108 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	 */
 	public function add_pending_referral( $payment_id = 0, $payment_data = array() ) {
 
-		if ( $this->was_referred() ) {
+		if ( ! $this->was_referred() ) {
+			return; // Referral not created because affiliate not referred.
+		}
 
-			// get affiliate ID
-			$affiliate_id = $this->get_affiliate_id( $payment_id );
+		// get affiliate ID.
+		$affiliate_id = $this->get_affiliate_id( $payment_id );
 
-			// get customer email
-			$customer_email = edd_get_payment_user_email( $payment_id );
+		// get customer email.
+		$customer_email = edd_get_payment_user_email( $payment_id );
 
-			// Customers cannot refer themselves
-			if ( $this->is_affiliate_email( $customer_email, $affiliate_id ) ) {
+		// Referral description.
+		$desc = $this->get_referral_description( $payment_id );
 
-				$this->log( 'Referral not created because affiliate\'s own account was used.' );
+		// Check for an existing referral.
+		$existing = affwp_get_referral_by( 'reference', $payment_id, $this->context );
+
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$affiliate_id,
+			array(
+				'reference'   => $payment_id,
+				'description' => $desc,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
+			return;
+		}
+
+		// Customers cannot refer themselves.
+		if ( $this->is_affiliate_email( $customer_email, $affiliate_id ) ) {
+			$this->log( 'Draft referral rejected because affiliate\'s own account was used.' );
+			$this->mark_referral_failed( $referral_id );
+
+			return false;
+		}
+
+		// If an existing referral exists and it is paid or unpaid exit.
+		if ( ! is_wp_error( $existing ) && ( 'paid' == $existing->status || 'unpaid' == $existing->status ) ) {
+			$this->log( 'Draft referral rejected because completed referral was already created for this reference.' );
+			$this->mark_referral_failed( $referral_id );
+
+			return false; // Completed Referral already created for this reference.
+		}
+
+		if ( affiliate_wp()->settings->get( 'edd_disable_on_renewals' ) ) {
+
+			$was_renewal = get_post_meta( $payment_id, '_edd_sl_is_renewal', true );
+
+			if ( $was_renewal ) {
+
+				$this->log( 'Draft referral rejected because order was a renewal and renewals are disabled.' );
+				$this->mark_referral_failed( $referral_id );
 
 				return false;
 			}
 
-			// Check for an existing referral
-			$existing = affwp_get_referral_by( 'reference', $payment_id, $this->context );
-
-			// If an existing referral exists and it is paid or unpaid exit.
-			if ( ! is_wp_error( $existing ) && ( 'paid' == $existing->status || 'unpaid' == $existing->status ) ) {
-				return false; // Completed Referral already created for this reference
-			}
-
-			if ( affiliate_wp()->settings->get( 'edd_disable_on_renewals' ) ) {
-
-				$was_renewal = get_post_meta( $payment_id, '_edd_sl_is_renewal', true );
-
-				if ( $was_renewal ) {
-
-					$this->log( 'Referral not created because order was a renewal.' );
-
-					return false;
-				}
-
-			}
-
-			if ( affiliate_wp()->settings->get( 'edd_disable_on_upgrades' ) ) {
-
-				$cart_contents = edd_get_cart_contents();
-
-				if ( is_array( $cart_contents ) ) {
-
-					foreach ( $cart_contents as $item ) {
-
-						if ( ! empty( $item['options']['is_upgrade'] ) ) {
-
-							$this->log( 'Referral not created because order was an upgrade.' );
-
-							return;
-						}
-
-					}
-
-				}
-
-			}
-
-			// get referral total
-			$referral_total = $this->get_referral_total( $payment_id, $affiliate_id );
-
-			// Referral description
-			$desc = $this->get_referral_description( $payment_id );
-
-			if ( empty( $desc ) ) {
-
-				$this->log( 'Referral not created due to empty description.' );
-
-				return;
-			}
-
-			if ( ! is_wp_error( $existing ) ) {
-
-				// Update the previously created referral
-				affiliate_wp()->referrals->update_referral( $existing->referral_id, array(
-					'amount'      => $referral_total,
-					'reference'   => $payment_id,
-					'description' => $desc,
-					'currency'    => $existing->currency,
-					'order_total' => $this->get_order_total( $payment_id ),
-					'campaign'    => affiliate_wp()->tracking->get_campaign(),
-					'products'    => $this->get_products( $payment_id ),
-					'context'     => $this->context,
-				) );
-
-				$this->log( sprintf( 'EDD Referral #%d updated successfully.', $existing->referral_id ) );
-
-			} else {
-
-				// insert a pending referral
-				$referral_id = $this->insert_pending_referral( $referral_total, $payment_id, $desc, $this->get_products( $payment_id ) );
-
-			}
-
 		}
 
+		if ( affiliate_wp()->settings->get( 'edd_disable_on_upgrades' ) ) {
+
+			$cart_contents = edd_get_cart_contents();
+
+			if ( is_array( $cart_contents ) ) {
+
+				foreach ( $cart_contents as $item ) {
+
+					if ( ! empty( $item['options']['is_upgrade'] ) ) {
+
+						$this->log( 'Draft referral rejected because order was an upgrade and upgrades are disabled.' );
+						$this->mark_referral_failed( $referral_id );
+
+						return;
+					}
+				}
+			}
+		}
+
+		// get referral total.
+		$referral_total = $this->get_referral_total( $payment_id, $affiliate_id );
+
+		if ( empty( $desc ) ) {
+			$this->log( 'Draft referral rejected due to empty description.' );
+			$this->mark_referral_failed( $referral_id );
+
+			return;
+		}
+
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'      => 'pending',
+				'amount'      => $referral_total,
+				'order_total' => $this->get_order_total( $payment_id ),
+				'campaign'    => affiliate_wp()->tracking->get_campaign(),
+				'products'    => $this->get_products( $payment_id ),
+				'context'     => $this->context,
+			)
+		);
+
+		$this->log( sprintf( 'EDD referral #%d updated to pending successfully.', $referral_id ) );
 	}
 
 	/**
@@ -805,6 +811,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	 * Retrieves coupons of a given type.
 	 *
 	 * @since 2.6
+	 * @since 2.8 Added integration type to details array.
 	 *
 	 * @param string               $type         Coupon type.
 	 * @param int|\AffWP\Affiliate $affiliate    Optional. Affiliate ID or object to retrieve coupons for.
@@ -830,8 +837,9 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 				if ( ! empty( $ids ) ) {
 					foreach ( $ids as $id ) {
 						if ( true === $details_only ) {
-							$coupons[ $id ]['code']   = edd_get_discount_code( $id );
-							$coupons[ $id ]['amount'] = edd_format_discount_rate( edd_get_discount_type( $id ), edd_get_discount_amount( $id ) );
+							$coupons[ $id ]['code']        = edd_get_discount_code( $id );
+							$coupons[ $id ]['amount']      = edd_format_discount_rate( edd_get_discount_type( $id ), edd_get_discount_amount( $id ) );
+							$coupons[ $id ]['integration'] = $this->context;
 						} else {
 							$coupons[ $id ] = get_post( $id );
 						}

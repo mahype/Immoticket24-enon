@@ -33,16 +33,6 @@ class EzoicMarketing
         return self::$instance;
     }
 
-    public function __clone()
-    {
-        trigger_error('Cloning is not allowed.', E_USER_ERROR);
-    }
-
-    public function __wakeup()
-    {
-        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
     /**
      * __construct function.
      *
@@ -51,6 +41,16 @@ class EzoicMarketing
      */
     public function __construct()
     {
+    }
+
+    public function __clone()
+    {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
+    }
+
+    public function __wakeup()
+    {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -66,8 +66,16 @@ class EzoicMarketing
             'service' => 'EzoicMarketing',
             'name' => 'Ezoic - Marketing',
             'provider' => 'Ezoic Inc.',
-            'purpose' => _x('Are used to track visitors across websites. The intent is to display ads that are relevant and appealing to the individual user.', 'Frontend / Cookie / Ezoic - Marketing / Text', 'borlabs-cookie'),
-            'privacyPolicyURL' => _x('https://www.ezoic.com/privacy-policy/', 'Frontend / Cookie / Ezoic - Marketing / Text', 'borlabs-cookie'),
+            'purpose' => _x(
+                'Are used to track visitors across websites. The intent is to display ads that are relevant and appealing to the individual user.',
+                'Frontend / Cookie / Ezoic - Marketing / Text',
+                'borlabs-cookie'
+            ),
+            'privacyPolicyURL' => _x(
+                'https://www.ezoic.com/privacy-policy/',
+                'Frontend / Cookie / Ezoic - Marketing / Text',
+                'borlabs-cookie'
+            ),
             'hosts' => [],
             'cookieName' => 'ez*, _sm_au, cto*, __gads, mind*, _ym_uid, GoogleAdServingTest',
             'cookieExpiry' => _x('1 Year', 'Frontend / Cookie / Ezoic - Marketing / Text', 'borlabs-cookie'),
@@ -100,6 +108,7 @@ if (typeof window.BorlabsEZConsentCategories == 'object') {
 }
 </script>
 EOT;
+
         return $code;
     }
 
@@ -118,6 +127,7 @@ if (typeof window.BorlabsEZConsentCategories == 'object') {
 }
 </script>
 EOT;
+
         return $code;
     }
 }

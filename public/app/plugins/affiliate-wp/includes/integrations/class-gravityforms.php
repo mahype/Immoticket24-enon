@@ -58,66 +58,80 @@ class Affiliate_WP_Gravity_Forms extends Affiliate_WP_Base {
 	 * @uses GFCommon::get_product_fields()
 	 * @uses GFCommon::to_number()
 	 *
-	 * @param array $entry
-	 * @param array $form
+	 * @param array $entry GF entry.
+	 * @param array $form  GF form.
 	 */
 	public function add_pending_referral( $entry, $form ) {
-
-		// Block referral if form does not allow them
+		// Block referral if form does not allow them.
 		if ( ! rgar( $form, 'affwp_allow_referrals' ) ) {
 			return;
 		}
 
-		// Check if an affiliate coupon was included
+		$reference    = $entry['id'];
+		$affiliate_id = $this->get_affiliate_id( $reference );
+
+		// Check if an affiliate coupon was included.
 		$is_coupon_referral = $this->check_coupons( $form, $entry );
 
-		// Block referral if not referred or affiliate ID is empty
-		if ( ! $this->was_referred() && empty( $this->affiliate_id ) ) {
+		// Block referral if not referred or affiliate ID is empty.
+		if ( ! $this->was_referred() && empty( $affiliate_id ) ) {
+			return; // Referral not created because affiliate not referred and not a coupon.
+		}
+
+		// create draft referral.
+		$desc        = isset( $form['title'] ) ? $form['title'] : '';
+		$referral_id = $this->insert_draft_referral(
+			$affiliate_id,
+			array(
+				'reference'          => $reference,
+				'description'        => $desc,
+				'is_coupon_referral' => $is_coupon_referral,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
 			return;
 		}
 
-		// Get the referral type we are creating
+		// Get the referral type we are creating.
 		$type = rgar( $form, 'affwp_referral_type' );
 		$type = empty( $type ) ? 'sale' : $type;
 
 		$this->referral_type = $type;
 
-		// Get all emails from submitted form
+		// Get all emails from submitted form.
 		$emails = $this->get_emails( $entry, $form );
 
-		// Block referral if any of the affiliate's emails have been submitted
+		// Block referral if any of the affiliate's emails have been submitted.
 		if ( $emails ) {
 			foreach ( $emails as $customer_email ) {
 				if ( $this->is_affiliate_email( $customer_email, $this->affiliate_id ) ) {
-
-					$this->log( 'Referral not created because affiliate\'s own account was used.' );
+					$this->log( 'Draft referral rejected because affiliate\'s own account was used.' );
+					$this->mark_referral_failed( $referral_id );
 
 					return false;
-
 				}
 			}
 		}
 
-		// Do some craziness to determine the price (this should be easy but is not)
+		// Do some craziness to determine the price (this should be easy but is not).
 
-		$desc      = isset( $form['title'] ) ? $form['title'] : '';
-		$entry     = GFFormsModel::get_lead( $entry['id'] );
-		$products  = GFCommon::get_product_fields( $form, $entry );
-		$total     = 0;
+		$desc     = isset( $form['title'] ) ? $form['title'] : '';
+		$entry    = GFFormsModel::get_lead( $entry['id'] );
+		$products = GFCommon::get_product_fields( $form, $entry );
+		$total    = 0;
 
 		foreach ( $products['products'] as $key => $product ) {
 
 			$price = GFCommon::to_number( $product['price'] );
 
 			if ( is_array( rgar( $product,'options' ) ) ) {
-
-				$count = sizeof( $product['options'] );
+				$count = count( $product['options'] );
 				$index = 1;
 
 				foreach ( $product['options'] as $option ) {
 					$price += GFCommon::to_number( $option['price'] );
 				}
-
 			}
 
 			$subtotal = floatval( $product['quantity'] ) * $price;
@@ -126,22 +140,30 @@ class Affiliate_WP_Gravity_Forms extends Affiliate_WP_Base {
 
 		}
 
-		// replace description if there are products
+		// replace description if there are products.
 		if ( ! empty( $products['products'] ) ) {
 			$product_names = wp_list_pluck( $products['products'], 'name' );
-			$desc = implode( ', ', $product_names );
+			$desc          = implode( ', ', $product_names );
 		}
 
 		$total += floatval( $products['shipping']['price'] );
 
 		$referral_total = $this->calculate_referral_amount( $total, $entry['id'] );
 
-		$this->insert_pending_referral( $referral_total, $entry['id'], $desc, array(), array( 'is_coupon_referral' => $is_coupon_referral ) );
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'      => 'pending',
+				'amount'      => $referral_total,
+				'description' => $desc,
+			)
+		);
 
-		if( empty( $total ) ) {
+		$this->log( sprintf( 'Referral #%d updated successfully.', $referral_id ) );
+
+		if ( empty( $total ) ) {
 			$this->mark_referral_complete( $entry, array() );
 		}
-
 	}
 
 	/**

@@ -79,111 +79,182 @@ class Affiliate_WP_Register {
 		 * @since 1.0
 		 */
 		do_action( 'affwp_pre_process_register_form' );
+		$block_form = false;
 
-		if ( ! is_user_logged_in() ) {
+		if ( isset( $_POST['affwp_post_id'] ) && isset( $_POST['affwp_block_hash'] ) ) {
+			$block_form = affiliate_wp()->editor->get_submission_form( $_POST['affwp_post_id'], $_POST['affwp_block_hash'] );
 
-			// Loop through required fields and show error message
-			foreach ( $this->required_fields() as $field_name => $value ) {
+			if ( is_wp_error( $block_form ) ) {
+				$this->add_error( 'invalid_form', __( 'Something went wrong when submitting this form, please contact an administrator.', 'affiliate-wp' ) );
+			} else {
 
-				$field = sanitize_text_field( $_POST[ $field_name ] );
+				foreach ( $block_form->fields as $field ) {
 
-				if ( empty( $field ) ) {
-					$this->add_error( $value['error_id'], $value['error_message'] );
-				}
+					// Ignore legacy fields. The logic for these is handled downstream.
+					if ( ! $field->is_legacy_field() ) {
 
-				if ( 'affwp_user_url' === $field_name && false === filter_var( esc_url( $field ), FILTER_VALIDATE_URL ) ) {
-					$this->add_error( 'invalid_url', __( 'Please enter a valid website URL', 'affiliate-wp' ) );
-				}
+						$is_valid = $field->validate( $_POST[ $field->name ] );
 
-			}
-
-			$user_login = sanitize_text_field( $data['affwp_user_login'] );
-
-			if ( username_exists( $user_login ) ) {
-				$this->add_error( 'username_unavailable', __( 'Username already taken', 'affiliate-wp' ) );
-			}
-
-			if ( ! validate_username( $user_login ) || strstr( $user_login, ' ' ) ) {
-				if ( is_multisite() ) {
-					$this->add_error( 'username_invalid', __( 'Invalid username. Only lowercase letters (a-z) and numbers are allowed', 'affiliate-wp' ) );
-				} else {
-					$this->add_error( 'username_invalid', __( 'Invalid username', 'affiliate-wp' ) );
+						if ( is_wp_error( $is_valid ) ) {
+							foreach ( $is_valid->get_error_codes() as $error_code ) {
+								$this->add_error( $error_code, $is_valid->get_error_message( $error_code ) );
+							}
+						}
+					}
 				}
 			}
-
-			if ( strlen( $user_login ) > 60 ) {
-				$this->add_error( 'username_invalid_length', __( 'Invalid username. Must be between 1 and 60 characters.', 'affiliate-wp' ) );
-			}
-
-			if ( is_numeric( $user_login ) ) {
-				$this->add_error( 'username_invalid_numeric', __( 'Invalid username. Usernames must include at least one letter', 'affiliate-wp' ) );
-			}
-
-			if ( email_exists( $data['affwp_user_email'] ) ) {
-				$this->add_error( 'email_unavailable', __( 'Email address already taken', 'affiliate-wp' ) );
-			}
-
-			if ( empty( $data['affwp_user_email'] ) || ! is_email( $data['affwp_user_email'] ) ) {
-				$this->add_error( 'email_invalid', __( 'Invalid account email', 'affiliate-wp' ) );
-			}
-
-			if ( ! empty( $data['affwp_payment_email'] ) && $data['affwp_payment_email'] != $data['affwp_user_email'] && ! is_email( $data['affwp_payment_email'] ) ) {
-				$this->add_error( 'payment_email_invalid', __( 'Invalid payment email', 'affiliate-wp' ) );
-			}
-
-			$required_registration_fields = affiliate_wp()->settings->get( 'required_registration_fields' );
-
-			if( isset( $required_registration_fields['password'] ) ) {
-				if ( ( ! empty( $data['affwp_user_pass'] ) && empty( $data['affwp_user_pass2'] ) ) || ( $data['affwp_user_pass'] !== $data['affwp_user_pass2'] ) ) {
-					$this->add_error( 'password_mismatch', __( 'Passwords do not match', 'affiliate-wp' ) );
-				}
-			}
-
-		} else {
-
-			// Loop through required fields and show error message
-			foreach ( $this->required_fields() as $field_name => $value ) {
-
-				if ( ! empty( $value['logged_out'] ) ) {
-					continue;
-				}
-
-				$field = sanitize_text_field( $data[ $field_name ] );
-
-				if ( empty( $field ) ) {
-					$this->add_error( $value['error_id'], $value['error_message'] );
-				}
-			}
-
 		}
 
-		$terms_of_use = affiliate_wp()->settings->get( 'terms_of_use' );
-		if ( ! empty( $terms_of_use ) && empty( $data['affwp_tos'] ) ) {
-			$this->add_error( 'empty_tos', __( 'Please agree to our terms of use', 'affiliate-wp' ) );
-		}
+		if ( ! is_wp_error( $block_form ) ) {
 
-		if ( affwp_is_recaptcha_enabled() && ! $this->recaptcha_response_is_valid( $data ) ) {
-			$this->add_error( 'recaptcha_required', __( 'Please verify that you are not a robot', 'affiliate-wp' ) );
-		}
+			if ( ! is_user_logged_in() ) {
 
-		if ( ! empty( $data['affwp_honeypot'] ) ) {
-			$this->add_error( 'spam', __( 'Nice try honey bear, don&#8217;t touch our honey', 'affiliate-wp' ) );
-		}
+				if ( false === $block_form ) {
+					// Loop through required fields and show error message
+					foreach ( $this->required_fields() as $field_name => $value ) {
 
-		if ( affwp_is_affiliate() ) {
-			$this->add_error( 'already_registered', __( 'You are already registered as an affiliate', 'affiliate-wp' ) );
-		}
+						// Skip field if it doesn't exist.
+						if ( ! isset( $_POST[ $field_name ] ) ) {
+							$this->add_error( $value['error_id'], $value['error_message'] );
+							continue;
+						}
 
-		/**
-		 * Fires after processing an affiliate registration form.
-		 *
-		 * @since 1.0
-		 */
-		do_action( 'affwp_process_register_form' );
+						$field = sanitize_text_field( $_POST[ $field_name ] );
+
+						if ( empty( $field ) ) {
+							$this->add_error( $value['error_id'], $value['error_message'] );
+						}
+
+						if ( 'affwp_user_url' === $field_name && false === filter_var( esc_url( $field ), FILTER_VALIDATE_URL ) ) {
+							$this->add_error( 'invalid_url', __( 'Please enter a valid website URL', 'affiliate-wp' ) );
+						}
+
+					}
+				}
+
+				$user_login = sanitize_text_field( $data['affwp_user_login'] );
+
+				if ( username_exists( $user_login ) ) {
+					$this->add_error( 'username_unavailable', __( 'Username already taken', 'affiliate-wp' ) );
+				}
+
+				if ( ! validate_username( $user_login ) || strstr( $user_login, ' ' ) ) {
+					if ( is_multisite() ) {
+						$this->add_error( 'username_invalid', __( 'Invalid username. Only lowercase letters (a-z) and numbers are allowed', 'affiliate-wp' ) );
+					} else {
+						$this->add_error( 'username_invalid', __( 'Invalid username', 'affiliate-wp' ) );
+					}
+				}
+
+				if ( strlen( $user_login ) > 60 ) {
+					$this->add_error( 'username_invalid_length', __( 'Invalid username. Must be between 1 and 60 characters.', 'affiliate-wp' ) );
+				}
+
+				if ( is_numeric( $user_login ) ) {
+					$this->add_error( 'username_invalid_numeric', __( 'Invalid username. Usernames must include at least one letter', 'affiliate-wp' ) );
+				}
+
+				if ( email_exists( $data['affwp_user_email'] ) ) {
+					$this->add_error( 'email_unavailable', __( 'Email address already taken', 'affiliate-wp' ) );
+				}
+
+				if ( empty( $data['affwp_user_email'] ) || ! is_email( $data['affwp_user_email'] ) ) {
+					$this->add_error( 'email_invalid', __( 'Invalid account email', 'affiliate-wp' ) );
+				}
+
+				if ( ! empty( $data['affwp_payment_email'] ) && $data['affwp_payment_email'] != $data['affwp_user_email'] && ! is_email( $data['affwp_payment_email'] ) ) {
+					$this->add_error( 'payment_email_invalid', __( 'Invalid payment email', 'affiliate-wp' ) );
+				}
+
+				$required_registration_fields = affiliate_wp()->settings->get( 'required_registration_fields' );
+
+				if( isset( $required_registration_fields['password'] ) ) {
+					if ( ( ! empty( $data['affwp_user_pass'] ) && empty( $data['affwp_user_pass2'] ) ) || ( $data['affwp_user_pass'] !== $data['affwp_user_pass2'] ) ) {
+						$this->add_error( 'password_mismatch', __( 'Passwords do not match', 'affiliate-wp' ) );
+					}
+				}
+
+			} else {
+
+				if ( false === $block_form ) {
+					// Loop through required fields and show error message
+					foreach ( $this->required_fields() as $field_name => $value ) {
+						// Skip field if it doesn't exist.
+						if ( ! isset( $data[ $field_name ] ) ) {
+							$this->add_error( $value['error_id'], $value['error_message'] );
+							continue;
+						}
+
+						if ( ! empty( $value['logged_out'] ) ) {
+							continue;
+						}
+
+						$field = sanitize_text_field( $data[ $field_name ] );
+
+						if ( empty( $field ) ) {
+							$this->add_error( $value['error_id'], $value['error_message'] );
+						}
+					}
+				}
+
+			}
+
+			/*
+			 * Only check terms of use when the block form is not set.
+			 *
+			 * The block-based form can, and should, add its own terms of use checkbox, which is validated before this.
+			 */
+			if ( false === $block_form ) {
+				$terms_of_use = affiliate_wp()->settings->get( 'terms_of_use' );
+
+				if ( ! empty( $terms_of_use ) && empty( $data['affwp_tos'] ) ) {
+					$this->add_error( 'empty_tos', __( 'Please agree to our terms of use', 'affiliate-wp' ) );
+				}
+			}
+
+			if ( affwp_is_recaptcha_enabled() && ! $this->recaptcha_response_is_valid( $data ) ) {
+				$this->add_error( 'recaptcha_required', __( 'Please verify that you are not a robot', 'affiliate-wp' ) );
+			}
+
+			if ( ! empty( $data['affwp_honeypot'] ) ) {
+				$this->add_error( 'spam', __( 'Nice try honey bear, don&#8217;t touch our honey', 'affiliate-wp' ) );
+			}
+
+			if ( affwp_is_affiliate() ) {
+				$this->add_error( 'already_registered', __( 'You are already registered as an affiliate', 'affiliate-wp' ) );
+			}
+
+			/**
+			 * Fires after processing an affiliate registration form.
+			 *
+			 * @since 1.0
+			 */
+			do_action( 'affwp_process_register_form' );
+		}
 
 		// only log the user in if there are no errors
 		if ( empty( $this->errors ) ) {
-			$this->register_user();
+			$affiliate_id = $this->register_user();
+
+			if ( $block_form instanceof \AffWP\Core\Registration\Form_Container ) {
+				$custom_fields = array();
+
+				foreach ( $block_form->fields as $field ) {
+					// Ignore legacy fields.
+					if ( ! $field->is_legacy_field() ) {
+						$custom_fields[] = array(
+							'meta_key' => $field->meta_field,
+							'name'     => $field->label,
+							'type'     => $field->field_type
+						);
+						affwp_update_affiliate_meta( $affiliate_id, $field->meta_field, $field->sanitize( $_POST[ $field->name ] ) );
+					}
+				}
+
+				if ( ! empty( $custom_fields ) ) {
+					affwp_update_affiliate_meta( $affiliate_id, '_submitted_custom_registration_fields', $custom_fields );
+				}
+			}
 
 			$redirect = empty( $data['affwp_redirect'] ) ? affwp_get_affiliate_area_page_url() : $data['affwp_redirect'];
 
@@ -194,10 +265,11 @@ class Affiliate_WP_Register {
 			 *
 			 * @param string $redirect Redirect URL.
 			 */
-			$redirect = apply_filters( 'affwp_register_redirect', $data['affwp_redirect'] );
+			$redirect = apply_filters( 'affwp_register_redirect', $redirect );
 
 			if ( $redirect ) {
-				wp_redirect( $redirect ); exit;
+				wp_redirect( $redirect );
+				exit;
 			}
 
 		}
@@ -367,12 +439,16 @@ class Affiliate_WP_Register {
 				'display_name'  => $user_first . ' ' . $user_last
 			);
 
+			$new_user = true;
+
 			$user_id = wp_insert_user( $args );
 
 			// Enable referral notifications by default for new users.
 			update_user_meta( $user_id, 'affwp_referral_notifications', true );
 
 		} else {
+
+			$new_user = false;
 
 			$user_id = get_current_user_id();
 			$user    = (array) get_userdata( $user_id );
@@ -383,19 +459,12 @@ class Affiliate_WP_Register {
 		// update first and last name
 		wp_update_user( array( 'ID' => $user_id, 'first_name' => $user_first, 'last_name' => $user_last ) );
 
-		// promotion method
-		$promotion_method = isset( $_POST['affwp_promotion_method'] ) ? sanitize_text_field( $_POST['affwp_promotion_method'] ) : '';
-
-		if ( $promotion_method ) {
-			update_user_meta( $user_id, 'affwp_promotion_method', $promotion_method );
-		}
-
 		// website URL
 		$website_url = isset( $_POST['affwp_user_url'] ) ? sanitize_text_field( $_POST['affwp_user_url'] ) : '';
 
 		$status = affiliate_wp()->settings->get( 'require_approval' ) ? 'pending' : 'active';
 
-		$affiliate_id = affwp_add_affiliate( array(
+		affwp_add_affiliate( array(
 			'user_id'        => $user_id,
 			'payment_email'  => ! empty( $_POST['affwp_payment_email'] ) ? sanitize_text_field( $_POST['affwp_payment_email'] ) : '',
 			'status'         => $status,
@@ -410,6 +479,18 @@ class Affiliate_WP_Register {
 		// Retrieve affiliate ID. Resolves issues with caching on some hosts, such as GoDaddy
 		$affiliate_id = affwp_get_affiliate_id( $user_id );
 
+		if ( true === $new_user ) {
+			// Enable referral notifications by default for new users.
+			affwp_update_affiliate_meta( $affiliate_id, 'referral_notifications', true );
+		}
+
+		// promotion method
+		$promotion_method = isset( $_POST['affwp_promotion_method'] ) ? sanitize_text_field( $_POST['affwp_promotion_method'] ) : '';
+
+		if ( $promotion_method ) {
+			affwp_update_affiliate_meta( $affiliate_id, 'promotion_method', $promotion_method );
+		}
+
 		/**
 		 * Fires immediately after registering a user.
 		 *
@@ -420,6 +501,8 @@ class Affiliate_WP_Register {
 		 * @param array  $args         Data arguments used when registering the user.
 		 */
 		do_action( 'affwp_register_user', $affiliate_id, $status, $args );
+
+		return (int) $affiliate_id;
 	}
 
 	/**

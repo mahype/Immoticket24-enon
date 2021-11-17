@@ -20,10 +20,6 @@
 
 namespace BorlabsCookie\Cookie\Frontend\ThirdParty\Themes;
 
-use BorlabsCookie\Cookie\Frontend\ContentBlocker;
-use BorlabsCookie\Cookie\Frontend\JavaScript;
-use BorlabsCookie\Cookie\Frontend\Shortcode;
-
 class Enfold
 {
     private static $instance;
@@ -61,36 +57,38 @@ class Enfold
      * modifyVideoOutput function.
      *
      * @access public
-     * @param mixed $output
-     * @param mixed $atts
-     * @param mixed $content
-     * @param mixed $shortcodename
-     * @param mixed $meta
-     * @param mixed $video_html_raw
+     *
+     * @param  mixed  $output
+     * @param  mixed  $atts
+     * @param  mixed  $content
+     * @param  mixed  $shortcodename
+     * @param  mixed  $meta
+     * @param  mixed  $video_html_raw
+     *
      * @return void
      */
     public function modifyVideoOutput($output, $atts, $content, $shortcodename, $meta, $video_html_raw)
     {
-        if (!empty($atts['src'])) {
-
+        if (! empty($atts['src'])) {
             $style = [];
 
-            if (!empty($atts['format']) && $atts['format'] == 'custom') {
+            if (! empty($atts['format']) && $atts['format'] == 'custom') {
                 $height = intval($atts['height']);
                 $width = intval($atts['width']);
                 $ratio = (100 / $width) * $height;
                 $style[] = "padding-bottom:" . $ratio . "%";
             }
 
-            if (!empty($atts['mobile_image'])) {
+            if (! empty($atts['mobile_image'])) {
                 $style[] = "background-image: url('" . $atts['mobile_image'] . "')";
-
             }
 
-            if (!empty($atts['conditional_play']) && $atts['conditional_play'] === 'lightbox') {
+            if (! empty($atts['conditional_play']) && $atts['conditional_play'] === 'lightbox') {
                 // Nothing for now - can not be supported
             } else {
-                $output = '<div class="avia-video avia-video-' . $atts['format'] . '" style="' . implode(';', $style) . '" itemprop="video" itemtype="https://schema.org/VideoObject" data-original_url="' . $atts['src'] . '">' . $video_html_raw . '</div>';
+                $output = '<div class="avia-video avia-video-' . $atts['format'] . '" style="' . implode(';', $style)
+                    . '" itemprop="video" itemtype="https://schema.org/VideoObject" data-original_url="' . $atts['src']
+                    . '">' . $video_html_raw . '</div>';
             }
         }
 

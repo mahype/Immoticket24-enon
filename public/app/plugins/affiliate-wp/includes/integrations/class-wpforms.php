@@ -86,65 +86,82 @@ class Affiliate_WP_WPForms extends Affiliate_WP_Base {
 
 		$affiliate_id = $this->affiliate_id;
 
-		// Return if the customer was not referred or the affiliate ID is empty
+		// Return if the customer was not referred or the affiliate ID is empty.
 		if ( ! $this->was_referred() && empty( $affiliate_id ) ) {
-			return;
+			return; // Referral not created because affiliate was not referred.
 		}
 
-		// prevent referral creation unless referrals enabled for the form
-		if ( ! isset( $form_data['settings']['affwp_allow_referrals'] ) || ! $form_data['settings']['affwp_allow_referrals'] ) {
-
-			$this->log( 'Referral not created because referrals are not enabled onform.' );
-
-			return;
+		// Entry ID.
+		if ( ! $entry_id ) {
+			$entry_id = strtolower( md5( uniqid() ) );
 		}
 
-		// get the customer email
+		// get the customer email.
 		foreach ( $fields as $field ) {
-			if ( $field['type'] === 'email' ) {
+			if ( 'email' === $field['type'] ) {
 				$this->email = $field['value'];
 				break;
 			}
 		}
 
-		// Customers cannot refer themselves
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$this->affiliate_id,
+			array(
+				'reference' => $entry_id,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
+			return;
+		}
+
+		// prevent referral creation unless referrals enabled for the form.
+		if ( ! isset( $form_data['settings']['affwp_allow_referrals'] ) || ! $form_data['settings']['affwp_allow_referrals'] ) {
+			$this->log( 'Referral not created because referrals are not enabled onform.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		// Customers cannot refer themselves.
 		if ( $this->is_affiliate_email( $this->email, $affiliate_id ) ) {
-
 			$this->log( 'Referral not created because affiliate\'s own account was used.' );
-
+			$this->mark_referral_failed( $referral_id );
 			return;
 		}
 
 		$this->referral_type = isset( $form_data['settings']['affwp_referral_type'] ) ? $form_data['settings']['affwp_referral_type'] : 'sale';
 
-		// get referral total
+		// get referral total.
 		$total = 0;
-		if( function_exists( 'wpforms_get_total_payment' ) ) {
+		if ( function_exists( 'wpforms_get_total_payment' ) ) {
 			$total = wpforms_get_total_payment( $fields );
 		}
-
 		$referral_total = $this->calculate_referral_amount( $total, $entry_id );
 
-		// use form title as description
+		// use form title as description.
 		$description = $form_data['settings']['form_title'];
 
-		// use products purchased as description
+		// use products purchased as description.
 		if ( $this->get_product_description( $fields ) ) {
 			$description = $this->get_product_description( $fields );
 		}
 
-		if ( ! $entry_id ) {
-			$entry_id = strtolower( md5( uniqid() ) );
-		}
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'      => 'pending',
+				'amount'      => $referral_total,
+				'description' => $description,
+			)
+		);
+		$this->log( sprintf( 'WPForms referral #%d updated to pending successfully.', $referral_id ) );
 
-		// insert a pending referral
-		$referral_id = $this->insert_pending_referral( $referral_total, $entry_id, $description );
-
-		// set the referral to "unpaid" if there's no total
+		// set the referral to "unpaid" if there's no total.
 		if ( empty( $referral_total ) || 0 == $total ) {
 			$this->complete_referral( $entry_id );
 		}
-
 	}
 
 	/**

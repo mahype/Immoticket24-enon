@@ -30,9 +30,17 @@ class Affiliate_WP_Tracking {
 	 * Is on Pantheon platform?
 	 *
 	 * @since 2.7.1
-	 * @var bool
+	 * @var   bool
 	 */
 	public $is_pantheon = false;
+
+	/**
+	 * Whether to enable 'compat mode' for cookie names.
+	 *
+	 * @since 2.7.8
+	 * @var   bool
+	 */
+	public $cookie_compat_mode = false;
 
 	private $debug;
 
@@ -53,10 +61,7 @@ class Affiliate_WP_Tracking {
 	 */
 	public function __construct() {
 
-		// Detect if on Pantheon platform.
-		if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
-			$this->is_pantheon = true;
-		}
+		$this->is_pantheon = isset( $_ENV['PANTHEON_ENVIRONMENT'] );
 
 		$this->set_expiration_time();
 		$this->set_referral_var();
@@ -950,6 +955,23 @@ class Affiliate_WP_Tracking {
 	 */
 	public function get_cookie_name( $cookie_type = 'referral' ) {
 
+		/**
+		 * Whether to use compat mode for cookie handling.
+		 *
+		 * If enabled, cooke names will be prefixed with 'wp-'.
+		 *
+		 * @since 2.7.8
+		 *
+		 * @param bool                   $enable Whether to enable cookie compat mode. Default false.
+		 * @param \Affiliate_WP_Tracking $this   Tracking class instance.
+		 */
+		$cookie_compat_mode = (bool) apply_filters( 'affwp_tracking_cookie_compat_mode', false, $this );
+
+		// Determine whether to enable cookie compat mode.
+		if ( true === $this->is_pantheon || true === $cookie_compat_mode ) {
+			$this->cookie_compat_mode = true;
+		}
+
 		// Get cookie name from cookie type.
 		$cookie_name = '';
 
@@ -978,8 +1000,8 @@ class Affiliate_WP_Tracking {
 				$cookie_name = apply_filters( 'affwp_get_cookie_name', $cookie_name, $cookie_type );
 		}
 
-		// Check if on Pantheon.
-		if ( $this->is_pantheon && ! empty( $cookie_name ) ) {
+		// Check if using cookie compat mode.
+		if ( $this->cookie_compat_mode && ! empty( $cookie_name ) ) {
 			$cookie_name = 'wp-' . $cookie_name;
 		}
 

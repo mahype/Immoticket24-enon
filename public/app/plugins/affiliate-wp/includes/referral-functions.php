@@ -79,8 +79,12 @@ function affwp_get_referral_status_label( $referral_or_status ) {
 		}
 	}
 
-	$statuses = affwp_get_referral_statuses();
-	$label    = array_key_exists( $status, $statuses ) ? $statuses[ $status ] : $statuses['pending'];
+	if ( 'draft' === $status ) {
+		$label = __( 'Draft', 'affiliate-wp' );
+	} else {
+		$statuses = affwp_get_referral_statuses();
+		$label    = array_key_exists( $status, $statuses ) ? $statuses[ $status ] : $statuses['pending'];	
+	}
 
 	/**
 	 * Filters the referral status label.

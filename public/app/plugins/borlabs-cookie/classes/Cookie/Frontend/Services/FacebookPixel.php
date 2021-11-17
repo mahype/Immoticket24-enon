@@ -33,6 +33,18 @@ class FacebookPixel
         return self::$instance;
     }
 
+    /**
+     * __construct function.
+     *
+     * @access public
+     * @return void
+     */
+    public function __construct()
+    {
+        add_action('borlabsCookie/cookie/edit/template/settings/FacebookPixel', [$this, 'additionalSettingsTemplate']);
+        add_action('borlabsCookie/cookie/save', [$this, 'save']);
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -44,15 +56,47 @@ class FacebookPixel
     }
 
     /**
-     * __construct function.
+     * additionalSettingsTemplate function.
      *
      * @access public
+     *
+     * @param  mixed  $data
+     *
      * @return void
      */
-    public function __construct()
+    public function additionalSettingsTemplate($data)
     {
-        add_action('borlabsCookie/cookie/edit/template/settings/FacebookPixel', [$this, 'additionalSettingsTemplate']);
-        add_action('borlabsCookie/cookie/save', [$this, 'save']);
+        $inputPixelId = esc_html(! empty($data->settings['pixelId']) ? $data->settings['pixelId'] : '');
+        ?>
+        <div class="form-group row">
+            <label for="pixelId"
+                   class="col-sm-4 col-form-label"><?php
+                _ex('Pixel ID', 'Backend / Cookie / Facebook Pixel / Label', 'borlabs-cookie'); ?></label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="pixelId"
+                       name="settings[pixelId]" value="<?php
+                echo $inputPixelId; ?>"
+                       placeholder="<?php
+                       _ex('Example', 'Backend / Global / Input Placeholder', 'borlabs-cookie'); ?>: 123456789"
+                       required>
+                <span data-toggle="tooltip"
+                      title="<?php
+                      echo esc_attr_x(
+                          'Enter your Facebook Pixel ID.',
+                          'Backend / Cookie / Facebook Pixel / Tooltip',
+                          'borlabs-cookie'
+                      ); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <div
+                    class="invalid-feedback"><?php
+                    _ex(
+                        'This is a required field and cannot be empty.',
+                        'Backend / Global / Validation Message',
+                        'borlabs-cookie'
+                    ); ?></div>
+            </div>
+        </div>
+        <?php
     }
 
     /**
@@ -68,8 +112,16 @@ class FacebookPixel
             'service' => 'FacebookPixel',
             'name' => 'Facebook Pixel',
             'provider' => 'Facebook Ireland Limited',
-            'purpose' => _x('Cookie by Facebook used for website analytics, ad targeting, and ad measurement.', 'Frontend / Cookie / Facebook Pixel / Text', 'borlabs-cookie'),
-            'privacyPolicyURL' => _x('https://www.facebook.com/policies/cookies', 'Frontend / Cookie / Facebook Pixel / Text', 'borlabs-cookie'),
+            'purpose' => _x(
+                'Cookie by Facebook used for website analytics, ad targeting, and ad measurement.',
+                'Frontend / Cookie / Facebook Pixel / Text',
+                'borlabs-cookie'
+            ),
+            'privacyPolicyURL' => _x(
+                'https://www.facebook.com/policies/cookies',
+                'Frontend / Cookie / Facebook Pixel / Text',
+                'borlabs-cookie'
+            ),
             'hosts' => [],
             'cookieName' => '_fbp,act,c_user,datr,fr,m_pixel_ration,pl,presence,sb,spin,wd,xs',
             'cookieExpiry' => _x('Session / 1 Year', 'Frontend / Cookie / Facebook Pixel / Text', 'borlabs-cookie'),
@@ -89,32 +141,23 @@ class FacebookPixel
     }
 
     /**
-     * additionalSettingsTemplate function.
+     * save function.
      *
      * @access public
-     * @param mixed $data
+     *
+     * @param  mixed  $formData
+     *
      * @return void
      */
-    public function additionalSettingsTemplate($data)
+    public function save($formData)
     {
-        $inputPixelId = esc_html(!empty($data->settings['pixelId']) ? $data->settings['pixelId'] : '');
-        ?>
-        <div class="form-group row">
-            <label for="pixelId"
-                   class="col-sm-4 col-form-label"><?php _ex('Pixel ID', 'Backend / Cookie / Facebook Pixel / Label', 'borlabs-cookie'); ?></label>
-            <div class="col-sm-8">
-                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="pixelId"
-                       name="settings[pixelId]" value="<?php echo $inputPixelId; ?>"
-                       placeholder="<?php _ex('Example', 'Backend / Global / Input Placeholder', 'borlabs-cookie'); ?>: 123456789"
-                       required>
-                <span data-toggle="tooltip"
-                      title="<?php _ex('Enter your Facebook Pixel ID.', 'Backend / Cookie / Facebook Pixel / Tooltip', 'borlabs-cookie'); ?>"><i
-                        class="fas fa-lg fa-question-circle text-dark"></i></span>
-                <div
-                    class="invalid-feedback"><?php _ex('This is a required field and cannot be empty.', 'Backend / Global / Validation Message', 'borlabs-cookie'); ?></div>
-            </div>
-        </div>
-        <?php
+        if (! empty($formData['service']) && $formData['service'] === 'FacebookPixel') {
+            if (! empty($formData['settings']['pixelId'])) {
+                $formData['settings']['pixelId'] = trim($formData['settings']['pixelId']);
+            }
+        }
+
+        return $formData;
     }
 
     /**
@@ -141,27 +184,7 @@ class FacebookPixel
 </script>
 <!-- End Facebook Pixel Code -->
 EOT;
+
         return $code;
-    }
-
-    /**
-     * save function.
-     *
-     * @access public
-     * @param mixed $formData
-     * @return void
-     */
-    public function save($formData)
-    {
-        if (!empty($formData['service']) && $formData['service'] === 'FacebookPixel') {
-
-            if (!empty($formData['settings']['pixelId'])) {
-
-                $formData['settings']['pixelId'] = trim($formData['settings']['pixelId']);
-
-            }
-        }
-
-        return $formData;
     }
 }

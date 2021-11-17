@@ -114,32 +114,53 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 	public function add_pending_referral( $post_data, $user_id, $price ) {
 
 		global $rcp_levels_db;
+		global $wpdb;
 
-		$affiliate_discount = false;
+		$member = new RCP_Member( $user_id );
 
-		$member           = new RCP_Member( $user_id );
-		$subscription_key = rcp_get_subscription_key( $user_id );
-		$subscription     = rcp_get_subscription( $user_id );
-
-		$key = $member->get_pending_subscription_key();
-		if( empty( $key ) ) {
-			$key = $subscription_key;
+		// Get affiliate ID.
+		$is_discount = ! empty( $_POST['rcp_discount'] );
+		if ( $is_discount ) {
+			$rcp_discounts      = new RCP_Discounts;
+			$discount_obj       = $rcp_discounts->get_by( 'code', $_POST['rcp_discount'] );
+			$this->affiliate_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->usermeta WHERE meta_key = %s", 'affwp_discount_rcp_' . $discount_obj->id ) );
 		}
 
+		// Get referral reference.
+		$key = $member->get_pending_subscription_key();
+		if ( empty( $key ) ) {
+			$key = rcp_get_subscription_key( $user_id );
+		}
+
+		// Get referral description.
+		$subscription         = rcp_get_subscription( $user_id );
 		$pending_subscription = $member->get_pending_subscription_name();
-		if( ! empty( $pending_subscription ) ) {
+		if ( ! empty( $pending_subscription ) ) {
 			$subscription = $pending_subscription;
 		}
 
-		if( function_exists( 'rcp_get_registration' ) ) {
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$this->affiliate_id,
+			array(
+				'reference'   => $key,
+				'description' => $subscription,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
+			return;
+		}
+
+		if ( function_exists( 'rcp_get_registration' ) ) {
 
 			$subscription_id = rcp_get_registration()->get_subscription();
 
-			// Bail if referrals are disabled on this subscription
-			if( $rcp_levels_db->get_meta( $subscription_id, 'affwp_rcp_disable_referrals', true ) ) {
-
+			// Bail if referrals are disabled on this subscription.
+			if ( $rcp_levels_db->get_meta( $subscription_id, 'affwp_rcp_disable_referrals', true ) ) {
+				$this->log( 'Referral not created because referrals are disabled on this subscription.' );
+				$this->mark_referral_failed( $referral_id );
 				return;
-
 			}
 
 			$price = rcp_get_registration()->get_total( true, true );
@@ -150,44 +171,47 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 
 		}
 
-		if( ! empty( $_POST['rcp_discount'] ) ) {
+		// Check if discount.
+		$aff_user_id  = affwp_get_affiliate_user_id( $this->affiliate_id );
+		$discount_aff = get_user_meta( $aff_user_id, 'affwp_discount_rcp_' . $discount_obj->id, true );
+		if ( $is_discount &&
+					$discount_aff &&
+					affiliate_wp()->tracking->is_valid_affiliate( $this->affiliate_id ) ) {
 
-			global $wpdb;
+			// Discount Referral.
 
-			$rcp_discounts = new RCP_Discounts;
-			$discount_obj  = $rcp_discounts->get_by( 'code', $_POST['rcp_discount'] );
-			$affiliate_id  = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->usermeta WHERE meta_key = %s", 'affwp_discount_rcp_' . $discount_obj->id ) );
-			$aff_user_id   = affwp_get_affiliate_user_id( $affiliate_id );
-			$discount_aff  = get_user_meta( $aff_user_id, 'affwp_discount_rcp_' . $discount_obj->id, true );
+			$subscription_level = $rcp_levels_db->get_level( $subscription_id );
 
-			if( $discount_aff && affiliate_wp()->tracking->is_valid_affiliate( $affiliate_id ) ) {
-
-				$affiliate_discount = true;
-
-				$this->affiliate_id = $affiliate_id;
-
-				$subscription_level = $rcp_levels_db->get_level( $subscription_id );
-
-				if ( ! empty( $subscription_level->trial_duration ) && ! $member->has_trialed() ) {
-					$total = 0;
-				} else {
-					$total = $this->calculate_referral_amount( $price, $key, absint( $subscription_level ) );
-				}
-
-				$this->insert_pending_referral( $total, $key, $subscription, array(), array( 'is_coupon_referral' => false !== $affiliate_discount ) );
-
+			if ( ! empty( $subscription_level->trial_duration ) && ! $member->has_trialed() ) {
+				$total = 0;
+			} else {
+				$total = $this->calculate_referral_amount( $price, $key, absint( $subscription_level ) );
 			}
 
-		}
+			// Hydrates the previously created referral.
+			$this->hydrate_referral(
+				$referral_id,
+				array(
+					'status'             => 'pending',
+					'amount'             => $total,
+					'is_coupon_referral' => true,
+					'custom' => array(
+						'is_coupon_referral' => true,
+					),
+				)
+			);
+			$this->log( sprintf( 'DISCOUNT RCP referral #%d updated to pending successfully.', $referral_id ) );
 
-		if( $this->was_referred() && ! $affiliate_discount ) {
+		} elseif ( $this->was_referred() ) {
+
+			// Not discount referral.
 
 			$user = get_userdata( $user_id );
 
+			// Customers cannot refer themselves.
 			if ( $this->is_affiliate_email( $user->user_email ) ) {
-
 				$this->log( 'Referral not created because affiliate\'s own account was used.' );
-
+				$this->mark_referral_failed( $referral_id );
 				return; // Customers cannot refer themselves
 			}
 
@@ -199,8 +223,22 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 				$total = $this->calculate_referral_amount( $price, $key, $subscription_id );
 			}
 
-			$this->insert_pending_referral( $total, $key, $subscription, array(), array( 'is_coupon_referral' => false !== $affiliate_discount ) );
+			$this->hydrate_referral(
+				$referral_id,
+				array(
+					'status'             => 'pending',
+					'amount'             => $total,
+					'is_coupon_referral' => false,
+					'custom' => array(
+						'is_coupon_referral' => false,
+					),
+				)
+			);
+			$this->log( sprintf( 'RCP referral #%d updated to pending successfully.', $referral_id ) );
 
+		} else {
+			$this->log( 'Referral not created because affiliate not referred and not a RCP discount.' );
+			$this->mark_referral_failed( $referral_id );
 		}
 	}
 

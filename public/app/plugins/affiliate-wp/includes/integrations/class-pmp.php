@@ -62,25 +62,62 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 		add_action( 'pmpro_save_membership_level', array( $this, 'save_membership_level_setting' ) );
 	}
 
+	/**
+	 * Add a pending referral
+	 *
+	 * @since   1.5
+	 *
+	 * @param MemberOrder $order PMP order.
+	 */
 	public function add_pending_referral( $order ) {
-
 		global $wpdb;
 
+		// Check if an affiliate coupon was used.
 		$coupon_affiliate_id = false;
-
-		// Check if an affiliate coupon was used
-		if( ! empty( $order->discount_code ) ) {
-
+		if ( ! empty( $order->discount_code ) ) {
 			$coupon_affiliate_id = $this->get_coupon_affiliate_id( $order->discount_code );
-
 		}
 
-		$membership_level = isset( $order->membership_id ) ? (int) $order->membership_id : 0;
+		// Check if referred or coupon.
+		if ( ! $this->was_referred() && ! $coupon_affiliate_id ) {
+			return; // Referral not created because affiliate not referred and not a coupon.
+		}
 
+		// get affiliate ID.
+		$affiliate_id = $this->get_affiliate_id( $order->id );
+		if ( false !== $coupon_affiliate_id ) {
+			$affiliate_id = $coupon_affiliate_id;
+		}
+
+		// Get description.
+		if ( isset( $order->membership_name ) ) {
+			// paid membership level.
+			$membership_name = $order->membership_name;
+		} else {
+			// free membership.
+			$membership_name = $wpdb->get_var( $wpdb->prepare( "SELECT name FROM $wpdb->pmpro_membership_levels WHERE id = %d LIMIT 1", $order->membership_id ) );
+		}
+
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$affiliate_id,
+			array(
+				'reference'   => $order->id,
+				'description' => $membership_name,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
+			return;
+		}
+
+		// Check membership level.
+		$membership_level               = isset( $order->membership_id ) ? (int) $order->membership_id : 0;
 		$this->level_referrals_settings = get_option( "_affwp_pmp_product_settings_{$membership_level}", array() );
-
-		if( ! empty( $this->level_referrals_settings['disabled'] ) ) {
-			return; // Referrals have been disabled for this level
+		if ( ! empty( $this->level_referrals_settings['disabled'] ) ) {
+			$this->log( 'Draft referral rejected because referrals have been disabled for this level.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
 		}
 
 		// If the membership-level rate is empty, it's effectively disabled (default rate).
@@ -91,62 +128,44 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 			$this->level_referrals_enabled = ( isset( $this->level_referrals_settings['disabled'] ) && false == $this->level_referrals_settings['disabled'] );
 		}
 
-		if ( $this->was_referred() || $coupon_affiliate_id ) {
-
-			// get affiliate ID
-			$affiliate_id = $this->get_affiliate_id( $order->id );
-
-			if ( false !== $coupon_affiliate_id ) {
-				$affiliate_id = $coupon_affiliate_id;
-			}
-
-			$user = get_userdata( $order->user_id );
-
-			if ( $user instanceof WP_User && $this->is_affiliate_email( $user->user_email, $affiliate_id ) ) {
-
-				$this->log( 'Referral not created because affiliate\'s own account was used.' );
-
-				return; // Customers cannot refer themselves
-			}
-
-			$referral_total = $this->calculate_referral_amount( $order->subtotal, $order->id, $membership_level, $affiliate_id );
-
-			if ( isset( $order->membership_name ) ) {
-				// paid membership level
-				$membership_name = $order->membership_name;
-			} else {
-				// free membership
-				$membership_name = $wpdb->get_var( $wpdb->prepare( "SELECT name FROM $wpdb->pmpro_membership_levels WHERE id = %d LIMIT 1", $order->membership_id ) );
-			}
-
-			$referral_id = $this->insert_pending_referral(
-					$referral_total,
-					$order->id,
-					$membership_name,
-					'',
-					array(
-							'affiliate_id'       => $affiliate_id,
-							'is_coupon_referral' => false !== $coupon_affiliate_id,
-					)
-			);
-
-			if ( 'success' === strtolower( $order->status ) ) {
-
-				if( $referral_id ) {
-					affiliate_wp()->referrals->update( $referral_id, array( 'custom' => $order->id ), '', 'referral' );
-				}
-
-				$this->mark_referral_complete( $order );
-
-			}
-			
-			if ( 0 == $order->subtotal ) {
-
-				$this->complete_referral( $order->id );
-
-			}
+		// Customers cannot refer themselves.
+		$user = get_userdata( $order->user_id );
+		if ( $user instanceof WP_User && $this->is_affiliate_email( $user->user_email, $affiliate_id ) ) {
+			$this->log( 'Referral not created because affiliate\'s own account was used.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
 		}
 
+		// Get referral total.
+		$referral_total = $this->calculate_referral_amount( $order->subtotal, $order->id, $membership_level, $affiliate_id );
+
+		// Set referral custom var.
+		$custom = array();
+		if ( 'success' === strtolower( $order->status ) ) {
+			$custom = $order->id;
+		}
+
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'             => 'pending',
+				'amount'             => $referral_total,
+				'is_coupon_referral' => false !== $coupon_affiliate_id,
+				'custom'             => $custom,
+			)
+		);
+		$this->log( sprintf( 'Paid Membership Pro referral #%d updated to pending successfully.', $referral_id ) );
+
+		// Check if referral can be marked complete.
+		if ( 'success' === strtolower( $order->status ) ) {
+			$this->mark_referral_complete( $order );
+		}
+
+		// Complete referral if subtotal is zero.
+		if ( 0 == $order->subtotal ) {
+			$this->complete_referral( $order->id );
+		}
 	}
 
 	/**

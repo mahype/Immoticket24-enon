@@ -22,10 +22,7 @@ namespace BorlabsCookie\Cookie;
 
 class Tools
 {
-
     private static $instance;
-
-    private $generatedStrings = [];
 
     public static function getInstance()
     {
@@ -34,6 +31,11 @@ class Tools
         }
 
         return self::$instance;
+    }
+    private $generatedStrings = [];
+
+    public function __construct()
+    {
     }
 
     public function __clone()
@@ -46,10 +48,6 @@ class Tools
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
-    {
-    }
-
     /**
      * arrayFlat function.
      *
@@ -57,8 +55,10 @@ class Tools
      * Found at: https://stackoverflow.com/questions/9546181/flatten-multidimensional-array-concatenating-keys
      *
      * @access public
-     * @param mixed $array
-     * @param mixed $prefix (default: '')
+     *
+     * @param  mixed  $array
+     * @param  mixed  $prefix  (default: '')
+     *
      * @return void
      */
     public function arrayFlat($array, $prefix = '')
@@ -66,8 +66,7 @@ class Tools
         $result = [];
 
         foreach ($array as $key => $value) {
-
-            $newKey = $prefix . (!empty($prefix) ? '.' : '') . $key;
+            $newKey = $prefix . (! empty($prefix) ? '.' : '') . $key;
 
             if (is_array($value)) {
                 $result = array_merge($result, $this->arrayFlat($value, $newKey));
@@ -83,8 +82,10 @@ class Tools
      * cleanHostList function.
      *
      * @access public
-     * @param mixed $hosts
-     * @param bool $allowURL (default: false)
+     *
+     * @param  mixed  $hosts
+     * @param  bool  $allowURL  (default: false)
+     *
      * @return void
      */
     public function cleanHostList($hosts, $allowURL = false)
@@ -105,9 +106,8 @@ class Tools
             foreach ($hosts as $host) {
                 $host = trim($host);
 
-                if (!empty($host)) {
+                if (! empty($host)) {
                     if (filter_var($host, FILTER_VALIDATE_URL)) {
-
                         if ($allowURL == false) {
                             $urlInfo = parse_url($host);
                             $host = $urlInfo['host'];
@@ -128,8 +128,10 @@ class Tools
      * formatTimestamp function.
      *
      * @access public
-     * @param mixed $timestamp
-     * @param mixed $dateFormat (default: null)
+     *
+     * @param  mixed  $timestamp
+     * @param  mixed  $dateFormat  (default: null)
+     *
      * @return void
      */
     public function formatTimestamp($timestamp, $dateFormat = null, $timeFormat = null)
@@ -138,11 +140,11 @@ class Tools
             $timestamp = strtotime($timestamp);
         }
 
-        if (!isset($dateFormat)) {
+        if (! isset($dateFormat)) {
             $dateFormat = get_option('date_format');
         }
 
-        if (!isset($timeFormat)) {
+        if (! isset($timeFormat)) {
             $timeFormat = get_option('time_format');
         }
 
@@ -155,7 +157,9 @@ class Tools
      * generateRandomString function.
      *
      * @access public
-     * @param int $stringLength (default: 32)
+     *
+     * @param  int  $stringLength  (default: 32)
+     *
      * @return void
      */
     public function generateRandomString($stringLength = 32)
@@ -197,30 +201,14 @@ class Tools
      * hexToHsl function.
      *
      * @access public
-     * @param mixed $hex
+     *
+     * @param  mixed  $hex
+     *
      * @return void
      */
     public function hexToHsl($hex)
     {
-
-        $hex = str_replace('#', '', $hex);
-
-        if (strlen($hex) == 3) {
-            $hex .= $hex;
-        }
-
-        $hex = [
-            $hex[0] . $hex[1],
-            $hex[2] . $hex[3],
-            $hex[4] . $hex[5]
-        ];
-
-        $rgb = array_map(
-            function ($part) {
-                return hexdec($part) / 255;
-            },
-            $hex
-        );
+        $rgb = $this->hexToRgb($hex);
 
         $max = max($rgb);
         $min = min($rgb);
@@ -234,14 +222,14 @@ class Tools
             $s = $l > 0.5 ? $diff / (2 - $max - $min) : $diff / ($max + $min);
 
             switch ($max) {
-                case $rgb[0]:
-                    $h = ($rgb[1] - $rgb[2]) / $diff + ($rgb[1] < $rgb[2] ? 6 : 0);
+                case $rgb['r']:
+                    $h = ($rgb['g'] - $rgb['b']) / $diff + ($rgb['g'] < $rgb['b'] ? 6 : 0);
                     break;
-                case $rgb[1]:
-                    $h = ($rgb[2] - $rgb[0]) / $diff + 2;
+                case $rgb['g']:
+                    $h = ($rgb['b'] - $rgb['r']) / $diff + 2;
                     break;
-                case $rgb[2]:
-                    $h = ($rgb[0] - $rgb[1]) / $diff + 4;
+                case $rgb['b']:
+                    $h = ($rgb['r'] - $rgb['g']) / $diff + 4;
                     break;
             }
 
@@ -252,10 +240,58 @@ class Tools
     }
 
     /**
+     * hexToRgb function.
+     *
+     * @access public
+     *
+     * @param  mixed  $hex
+     *
+     * @return void
+     */
+    public function hexToRgb($hex)
+    {
+        $hex = str_replace('#', '', $hex);
+
+        if (strlen($hex) == 3) {
+            $hex .= $hex;
+        }
+
+        $hex = [
+            $hex[0] . $hex[1],
+            $hex[2] . $hex[3],
+            $hex[4] . $hex[5],
+        ];
+
+        $rgb = array_map(
+            function ($part) {
+                return hexdec($part) / 255;
+            },
+            $hex
+        );
+
+        return [
+            'r' => $rgb[0],
+            'g' => $rgb[1],
+            'b' => $rgb[2],
+        ];
+    }
+
+    public function isObjectEmpty($obj)
+    {
+        foreach ($obj as $property) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * isStringJSON function.
      *
      * @access public
-     * @param mixed $string
+     *
+     * @param  mixed  $string
+     *
      * @return void
      */
     public function isStringJSON($string)
@@ -269,7 +305,9 @@ class Tools
      * validateHexColor function.
      *
      * @access public
-     * @param mixed $color
+     *
+     * @param  mixed  $color
+     *
      * @return void
      */
     public function validateHexColor($color)

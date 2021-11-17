@@ -140,14 +140,38 @@ class Create_Dynamic_Coupons extends Utils\Batch_Process implements Batch\With_P
 			if ( $this->override_coupon && $coupons ) {
 
 				foreach( $coupons as $coupon ) {
-					$added = affiliate_wp()->affiliates->coupons->update( $coupon->ID, array(
-						'affiliate_id' => $affiliate_id,
-						'coupon_code'  => affiliate_wp()->affiliates->coupons->generate_code( array(
-							'affiliate_id' => $affiliate_id,
-						) ),
-					) );
-				}
+					$coupon_args = array();
 
+					$coupon_args['affiliate_id'] = $affiliate_id;
+					$coupon_args['coupon_code']  = affiliate_wp()->affiliates->coupons->generate_code( $coupon_args );
+
+					$coupon_format = affiliate_wp()->settings->get( 'coupon_format' );
+
+					// Use coupon format to set the coupon code.
+					if ( false !== $coupon_format && ! empty( $coupon_format ) ) {
+						// TO DO: Update this to get appropriate integration when we have multiple dynamic coupons.
+						// Make Affiliate ID, coupon code, and integration available for coupon parsing functions.
+						$coupon_args['integration'] = 'coupon_template_woocommerce';
+
+						affiliate_wp()->affiliates->coupons->coupon = $coupon_args;
+
+						$coupon_code = affiliate_wp()->affiliates->coupons->parse_tags( $coupon_format );
+
+						$coupon_code = affwp_sanitize_coupon_code( $coupon_code );
+
+						// If coupon code is unchanged, no need to validate.
+						if ( $coupon->coupon_code === $coupon_code ){
+							$coupon_args['coupon_code'] = $coupon_code;
+						} else {
+							// Otherwise, only update if valid. If not, it defaults to the generated code.
+							if ( true === affwp_validate_coupon_code( $coupon_code ) ) {
+								$coupon_args['coupon_code'] = $coupon_code;
+							}
+						}
+					}
+
+					$added = affiliate_wp()->affiliates->coupons->update_coupon( $coupon->ID, $coupon_args );
+				}
 			} else {
 
 				$added = affiliate_wp()->affiliates->coupons->add( array(

@@ -36,67 +36,94 @@ class Affiliate_WP_Membermouse extends Affiliate_WP_Base {
 	}
 
 	public function add_referral_on_free( $member_data ) {
-
-		if( $this->was_referred() ) {
-
-			$membership = new MM_MembershipLevel( $member_data['membership_level'] );
-
-			if( ! $membership->isFree() ) {
-				
-				$this->log( 'Referral not created because membership is free.' );
-
-				return;
-			}
-
-			if ( $this->is_affiliate_email( $member_data['email'] ) ) {
-
-				$this->log( 'Referral not created because affiliate\'s own account was used.' );
-
-				return; // Customers cannot refer themselves
-			}
-
-			// Just a fake order number so we can explode it and get the user ID later
-			$reference = $member_data['member_id'] . '|0';
-
-			$this->insert_pending_referral( 0, $reference, $member_data['membership_level_name'] );
+		// Check if it was referred.
+		if( ! $this->was_referred() ) {
+			return;
 		}
 
+		// Just a fake order number so we can explode it and get the user ID later
+		$reference = $member_data['member_id'] . '|0';
+
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$this->affiliate_id,
+			array(
+				'reference' => $reference,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
+			return;
+		}
+
+		// Confirm it's a free membership.
+		$membership = new MM_MembershipLevel( $member_data['membership_level'] );
+		if( ! $membership->isFree() ) {
+			$this->log( 'Referral not created because membership is not free.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		// Customers cannot refer themselves.
+		if ( $this->is_affiliate_email( $member_data['email'] ) ) {
+			$this->log( 'Referral not created because affiliate\'s own account was used.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'      => 'pending',
+				'amount'      => 0,
+				'description' => $member_data['membership_level_name'],
+			)
+		);
+		$this->log( sprintf( 'Membermouse referral #%d updated to pending successfully.', $referral_id ) );
 	}
 
 	public function add_referral( $affiliate_data ) {
 
+		// get affiliate.
 		$this->affiliate_id = $affiliate_data['order_affiliate_id'];
-
 		if ( ! absint( $this->affiliate_id ) && is_string( $this->affiliate_id ) ) {
 			$this->affiliate_id = affiliate_wp()->tracking->get_affiliate_id_from_login( $affiliate_data['order_affiliate_id'] );
 		}
 
-		if ( ! affiliate_wp()->tracking->is_valid_affiliate( $this->affiliate_id ) ) {
+		// get reference.
+		$reference = $affiliate_data['member_id'] . '|' . $affiliate_data['order_number'];
 
-			$this->log( 'Referral not created because affiliate is invalid.' );
-
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$this->affiliate_id,
+			array(
+				'reference' => $reference,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
 			return;
 		}
 
+		// Customers cannot refer themselves.
 		$user_info = get_userdata( $affiliate_data['member_id'] );
-
 		if ( $this->is_affiliate_email( $user_info->user_email ) ) {
-
 			$this->log( 'Referral not created because affiliate\'s own account was used.' );
-
-			return; // Customers cannot refer themselves
+			$this->mark_referral_failed( $referral_id );
+			return;
 		}
 
 		$products = json_decode( stripslashes( $affiliate_data['order_products'] ) );
 
 		$description = '';
 
-		if( is_array( $products ) ) {
+		if ( is_array( $products ) ) {
 
 			$key   = 0;
 			$count = count( $products );
 
-			foreach( $products as $product ) {
+			foreach ( $products as $product ) {
 
 				$product = (array) $product;
 
@@ -110,11 +137,20 @@ class Affiliate_WP_Membermouse extends Affiliate_WP_Base {
 
 		}
 
-		$reference = $affiliate_data['member_id'] . '|' . $affiliate_data['order_number'];
-
 		$referral_total = $this->calculate_referral_amount( $affiliate_data['order_total'], $reference );
 
-		$this->insert_pending_referral( $referral_total, $reference, $description );
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'      => 'pending',
+				'amount'      => $referral_total,
+				'description' => $description,
+			)
+		);
+		$this->log( sprintf( 'Membermouse referral #%d updated to pending successfully.', $referral_id ) );
+
+		// Complete referral.
 		$this->complete_referral( $reference );
 
 	}

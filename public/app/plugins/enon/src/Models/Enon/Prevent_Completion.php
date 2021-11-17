@@ -22,6 +22,7 @@ class Prevent_Completion {
         'check_energy',
         'check_end_energy',
         'check_heater_consumption',
+        'check_heater_consumption_for_estimation',
         'check_heater_type',
         'check_building_year_wall_insulation',
         'check_double_heater_including_hotwater'
@@ -255,6 +256,43 @@ class Prevent_Completion {
         // True if percentag difference is under treshold
         if ( $percentage_diff >= $percentage_treshold ) {
             return 'Der Abstand der Verbrauchsmengen zwischen dem Mindest- und dem Höchstverbrauch liegt über 30%';
+        }
+
+        return true;
+    }
+
+    public function check_heater_consumption_for_estimation() {
+        // Only check verbrauchsausweis
+        if ( 'v' !== $this->energy_certificate->mode ) {
+            return true;
+        }
+
+        $values = [
+            $this->energy_certificate->verbrauch1_h,
+            $this->energy_certificate->verbrauch2_h,
+            $this->energy_certificate->verbrauch3_h,
+        ];
+
+        // Check for 000 at end
+        $count_thousands = 0;
+        foreach ( $values AS $value ) {
+            $string = (string) $value;
+            if( substr( $string, strlen( $string ) - 3, 3 ) === '000' ) {
+                $count_thousands++;
+            }
+        }
+
+        // Check for 00 at end
+        $count_hundrets = 0;
+        foreach ( $values AS $value ) {
+            $string = (string) $value;
+            if( substr( $string, strlen( $string ) - 2, 2 ) === '00' ) {
+                $count_hundrets++;
+            }
+        }
+
+        if ( $count_thousands === 3 || $count_hundrets === 3 ) {
+            return 'Die Verbrauchsmengen wurden vermutlich geschätzt eingegeben';
         }
 
         return true;

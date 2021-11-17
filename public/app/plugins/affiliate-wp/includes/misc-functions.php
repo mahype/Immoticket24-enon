@@ -1139,17 +1139,34 @@ function affwp_has_upgrade_completed( $upgrade_action ) {
 	$completed_upgrades = affwp_get_completed_upgrades();
 
 	$has_completed = in_array( $upgrade_action, $completed_upgrades, true );
-
 	// (Maybe) force an upgrade action to show.
-	if ( ! empty( $_REQUEST['affwp_force_notice'] ) ) {
-		$foced_upgrade_action = sanitize_key( $_REQUEST['affwp_force_notice'] );
-
-		if ( $foced_upgrade_action === $upgrade_action ) {
-			$has_completed = false;
-		}
+	if ( true === affwp_is_upgrade_forced( $upgrade_action ) ) {
+		$has_completed = false;
 	}
 
 	return $has_completed;
+}
+
+/**
+ * Returns true if the specified upgrade action is being forced.
+ *
+ * @since 2.8
+ *
+ * @param string $upgrade_action The upgrade action to check.
+ *
+ * @return bool True if forced, otherwise false.
+ */
+function affwp_is_upgrade_forced( $upgrade_action ) {
+	$is_forced = false;
+	if ( isset( $_REQUEST['affwp_force_notice'] ) ) {
+		$forced_upgrade_action = sanitize_key( $_REQUEST['affwp_force_notice'] );
+
+		if ( $forced_upgrade_action === $upgrade_action ) {
+			$is_forced = true;
+		}
+	}
+
+	return $is_forced;
 }
 
 /**
@@ -1720,3 +1737,15 @@ function affwp_normalize_array( array $array, $args = array() ) {
 	return $array;
 }
 
+/**
+ * Strips common AffiliateWP prefixes from a given string.
+ *
+ * @since 2.8
+ *
+ * @param string $prefixed_string The prefixed string to remove.
+ *
+ * @return array|string|string[]|null The unprefixed string.
+ */
+function affwp_remove_prefix( $prefixed_string ) {
+	return preg_replace( "/^(affwp|affiliate_wp|affiliate-wp|affiliatewp)[-_]/i", '', $prefixed_string );
+}

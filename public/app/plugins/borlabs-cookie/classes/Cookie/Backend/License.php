@@ -23,13 +23,22 @@ namespace BorlabsCookie\Cookie\Backend;
 use BorlabsCookie\Cookie\API;
 use BorlabsCookie\Cookie\Config;
 use BorlabsCookie\Cookie\Tools;
+use DateTime;
 
 class License
 {
     private static $instance;
 
-    private $licenseData;
+    public static function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new self;
+        }
 
+        return self::$instance;
+    }
+
+    private $licenseData;
     private $validLicenseTypes
         = [
             'borlabs-cookie-legacy',
@@ -43,13 +52,8 @@ class License
             'borlabs-cookie-agency-small',
         ];
 
-    public static function getInstance()
+    public function __construct()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
     }
 
     public function __clone()
@@ -57,22 +61,17 @@ class License
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    public function __wakeup()
+    public function __wakeup(): void
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
-    public function __construct()
-    {
     }
 
     /**
      * display function.
      *
      * @access public
-     * @return void
      */
-    public function display()
+    public function display(): void
     {
         $action = false;
 
@@ -90,6 +89,20 @@ class License
                 } else {
                     Messages::getInstance()->add($responseRegisterLicense->errorMessage, 'error');
                 }
+            }
+
+            // Refresh
+            if ($action === 'refresh' && check_admin_referer('borlabs_cookie_license_refresh')) {
+                $this->refreshLicense();
+
+                Messages::getInstance()->add(
+                    _x(
+                        'License information refreshed successfully.',
+                        'Backend / License / Alert Message',
+                        'borlabs-cookie'
+                    ),
+                    'success'
+                );
             }
 
             // Remove
@@ -120,17 +133,16 @@ class License
      * displayOverview function.
      *
      * @access public
-     * @return void
      */
-    public function displayOverview()
+    public function displayOverview(): void
     {
         // Validate license
         $this->validateLicense();
 
         // License information
         $licenseData = $this->getLicenseData();
-        $validUntil = ! empty($licenseData->validUntil) ? new \DateTime($licenseData->validUntil) : null;
-        $supportUntil = ! empty($licenseData->supportUntil) ? new \DateTime($licenseData->supportUntil) : null;
+        $validUntil = ! empty($licenseData->validUntil) ? new DateTime($licenseData->validUntil) : null;
+        $supportUntil = ! empty($licenseData->supportUntil) ? new DateTime($licenseData->supportUntil) : null;
 
         $licenseStatus = $this->isLicenseValid() ? 'valid' : 'expired';
         $licenseStatusMessage = $this->getLicenseMessageStatus($licenseStatus);
@@ -152,18 +164,15 @@ class License
 
         if (
             ! empty($licenseData->licenseType)
-            && false === in_array(
-                $licenseData->licenseType,
-                [
-                    'borlabs-cookie-personal',
-                    'borlabs-cookie-business',
-                    'borlabs-cookie-professional',
-                    'borlabs-cookie-agency',
-                    'borlabs-cookie-business-small',
-                    'borlabs-cookie-business-medium',
-                    'borlabs-cookie-agency-small',
-                ]
-            )
+            && false === in_array($licenseData->licenseType, [
+                'borlabs-cookie-personal',
+                'borlabs-cookie-business',
+                'borlabs-cookie-professional',
+                'borlabs-cookie-agency',
+                'borlabs-cookie-business-small',
+                'borlabs-cookie-business-medium',
+                'borlabs-cookie-agency-small',
+            ])
         ) {
             if (! empty($licenseMaxSites)) {
                 $licenseMaxSites .= " Multisite";
@@ -195,7 +204,6 @@ class License
      * getLicenseData function.
      *
      * @access public
-     * @return void
      */
     public function getLicenseData()
     {
@@ -226,7 +234,6 @@ class License
      * getLicenseKey function.
      *
      * @access public
-     * @return void
      */
     public function getLicenseKey()
     {
@@ -249,7 +256,6 @@ class License
      * getLicenseMessageActivateKey function.
      *
      * @access public
-     * @return void
      */
     public function getLicenseMessageActivateKey()
     {
@@ -268,9 +274,8 @@ class License
      * getLicenseMessageEnterKey function.
      *
      * @access public
-     * @return void
      */
-    public function getLicenseMessageEnterKey()
+    public function getLicenseMessageEnterKey(): string
     {
         return _ex(
             'Please enter your license key to receive updates.',
@@ -283,9 +288,8 @@ class License
      * getLicenseMessageKeyExpired function.
      *
      * @access public
-     * @return void
      */
-    public function getLicenseMessageKeyExpired()
+    public function getLicenseMessageKeyExpired(): string
     {
         return _x(
             'Please renew your license key to receive updates. <a href="https://borlabs.io/account/" target="_blank" rel="nofollow noopener noreferrer">Click here</a> to log into your account and purchase a license renewal.',
@@ -301,9 +305,8 @@ class License
      *
      * @param  mixed  $status
      *
-     * @return void
      */
-    public function getLicenseMessageStatus($status)
+    public function getLicenseMessageStatus($status): string
     {
         $message = '';
 
@@ -323,9 +326,8 @@ class License
      *
      * @param  mixed  $licenseType
      *
-     * @return void
      */
-    public function getLicenseTypeTitle($licenseType)
+    public function getLicenseTypeTitle($licenseType): string
     {
         $licenseType = strtolower($licenseType);
 
@@ -366,9 +368,8 @@ class License
      * handleLicenseExpiredMessage function.
      *
      * @access public
-     * @return void
      */
-    public function handleLicenseExpiredMessage()
+    public function handleLicenseExpiredMessage(): void
     {
         if (! empty($this->getLicenseData()->validUntil) && $this->isLicenseValid() === false) {
             // Try to re-validate
@@ -385,9 +386,8 @@ class License
      * isLicenseValid function.
      *
      * @access public
-     * @return void
      */
-    public function isLicenseValid()
+    public function isLicenseValid(): bool
     {
         // Such license system, much secure, wow.
         // Just kidding, you want all the trouble with updates, just to save some bucks?
@@ -407,9 +407,8 @@ class License
      * isPluginUnlocked function.
      *
      * @access public
-     * @return void
      */
-    public function isPluginUnlocked()
+    public function isPluginUnlocked(): bool
     {
         // Such license system, much secure, wow.
         // Just kidding, you want all the trouble with updates, just to save some bucks?
@@ -431,12 +430,25 @@ class License
     }
 
     /**
+     * refreshLicense function.
+     *
+     * @access public
+     */
+    public function refreshLicense(): void
+    {
+        $licenseKey = $this->getLicenseKey();
+
+        if (! empty($licenseKey)) {
+            $responseRegisterLicense = API::getInstance()->registerLicense($licenseKey);
+        }
+    }
+
+    /**
      * removeLicense function.
      *
      * @access public
-     * @return void
      */
-    public function removeLicense()
+    public function removeLicense(): void
     {
         // Check if blog or network key should be removed
         $licenseKeyNetwork = get_site_option('BorlabsCookieLicenseKey');
@@ -465,10 +477,8 @@ class License
      * @access public
      *
      * @param  mixed  $formData
-     *
-     * @return void
      */
-    public function save($formData)
+    public function save($formData): void
     {
         $updatedConfig = Config::getInstance()->get();
 
@@ -484,10 +494,8 @@ class License
      * @access public
      *
      * @param  mixed  $licenseData
-     *
-     * @return void
      */
-    public function saveLicenseData($licenseData)
+    public function saveLicenseData($licenseData): void
     {
         if (! empty($licenseData->licenseKey)) {
             if (
@@ -509,9 +517,8 @@ class License
      * validateLicense function.
      *
      * @access public
-     * @return void
      */
-    public function validateLicense()
+    public function validateLicense(): void
     {
         $lastCheck = intval(get_option('BorlabsCookieLicenseLastCheck', 0));
         $licenseKey = $this->getLicenseKey();

@@ -35,6 +35,10 @@ class Fallback
         return self::$instance;
     }
 
+    public function __construct()
+    {
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -43,10 +47,6 @@ class Fallback
     public function __wakeup()
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
-    public function __construct()
-    {
     }
 
     /**
@@ -60,13 +60,25 @@ class Fallback
         $data = [
             'contentBlockerId' => 'default',
             'name' => _x('Default', 'Frontend / Content Blocker / Default / Text', 'borlabs-cookie'),
-            'description' => _x('The <strong><em>Default</em> Content Blocker</strong> is a special type that is always used when no specific <strong>Content Blocker</strong> was found.<br>Therefore it is not possible to use the <strong>Unblock all</strong> feature.', 'Frontend / Content Blocker / Default / Alert Message', 'borlabs-cookie'),
+            'description' => _x(
+                'The <strong><em>Default</em> Content Blocker</strong> is a special type that is always used when no specific <strong>Content Blocker</strong> was found.<br>Therefore it is not possible to use the <strong>Unblock all</strong> feature.',
+                'Frontend / Content Blocker / Default / Alert Message',
+                'borlabs-cookie'
+            ),
             'privacyPolicyURL' => '',
             'hosts' => [],
             'previewHTML' => '<div class="_brlbs-content-blocker">
     <div class="_brlbs-default">
-        <p>' . _x("Click on the button to load the content from %%name%%.", 'Frontend / Content Blocker / Default / Text', 'borlabs-cookie') . '</p>
-        <p><a class="_brlbs-btn" href="#" data-borlabs-cookie-unblock role="button">' . _x('Load content', 'Frontend / Content Blocker / Default / Text', 'borlabs-cookie') . '</a></p>
+        <p>' . _x(
+                    "Click on the button to load the content from %%name%%.",
+                    'Frontend / Content Blocker / Default / Text',
+                    'borlabs-cookie'
+                ) . '</p>
+        <p><a class="_brlbs-btn" href="#" data-borlabs-cookie-unblock role="button">' . _x(
+                    'Load content',
+                    'Frontend / Content Blocker / Default / Text',
+                    'borlabs-cookie'
+                ) . '</a></p>
     </div>
 </div>',
             'previewCSS' => '',
@@ -86,8 +98,10 @@ class Fallback
      * modify function.
      *
      * @access public
-     * @param mixed $content
-     * @param mixed $atts (default: [])
+     *
+     * @param  mixed  $content
+     * @param  mixed  $atts  (default: [])
+     *
      * @return void
      */
     public function modify($content, $atts = [])
@@ -104,10 +118,13 @@ class Fallback
         }
 
         // Replace text variables
-        if (!empty($atts)) {
-
+        if (! empty($atts)) {
             foreach ($atts as $key => $value) {
-                $contentBlockerData['previewHTML'] = str_replace('%%' . $key . '%%', $value, $contentBlockerData['previewHTML']);
+                $contentBlockerData['previewHTML'] = str_replace(
+                    '%%' . $key . '%%',
+                    $value,
+                    $contentBlockerData['previewHTML']
+                );
             }
         }
 

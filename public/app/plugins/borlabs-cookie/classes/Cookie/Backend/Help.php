@@ -22,13 +22,10 @@ namespace BorlabsCookie\Cookie\Backend;
 
 use BorlabsCookie\Cookie\Config;
 use BorlabsCookie\Cookie\Multilanguage;
-use BorlabsCookie\Cookie\Tools;
 
 class Help
 {
     private static $instance;
-
-    private $imagePath;
 
     public static function getInstance()
     {
@@ -37,6 +34,12 @@ class Help
         }
 
         return self::$instance;
+    }
+    private $imagePath;
+
+    public function __construct()
+    {
+        $this->imagePath = plugins_url('assets/images', realpath(__DIR__ . '/../../'));
     }
 
     public function __clone()
@@ -47,11 +50,6 @@ class Help
     public function __wakeup()
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
-    public function __construct()
-    {
-        $this->imagePath = plugins_url('images', realpath(__DIR__ . '/../../'));
     }
 
     /**

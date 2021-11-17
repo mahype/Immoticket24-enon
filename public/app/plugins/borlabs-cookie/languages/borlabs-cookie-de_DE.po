@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Borlabs Cookie - Cookie Opt-in\n"
-"POT-Creation-Date: 2021-10-01 11:35+0200\n"
-"PO-Revision-Date: 2021-10-01 11:37+0200\n"
+"POT-Creation-Date: 2021-11-15 12:50+0100\n"
+"PO-Revision-Date: 2021-11-15 12:50+0100\n"
 "Last-Translator: Borlabs - Benjamin Bornschein <contact@borlabs.io>\n"
 "Language-Team: Borlabs - Benjamin Bornschein <contact@borlabs.io>\n"
 "Language: de_DE\n"
@@ -227,8 +227,8 @@ msgstr ""
 #: classes/Cookie/Backend/ContentBlocker.php:304
 #: classes/Cookie/Backend/CookieBox.php:78
 #: classes/Cookie/Backend/CookieGroups.php:253
-#: classes/Cookie/Backend/Cookies.php:292
-#: classes/Cookie/Backend/License.php:110
+#: classes/Cookie/Backend/Cookies.php:294
+#: classes/Cookie/Backend/License.php:117
 #: classes/Cookie/Backend/ScriptBlocker.php:240
 #: classes/Cookie/Backend/ScriptBlocker.php:254
 #: classes/Cookie/Backend/Settings.php:75
@@ -238,7 +238,7 @@ msgstr "Erfolgreich gespeichert."
 
 #: classes/Cookie/Backend/ContentBlocker.php:284
 #: classes/Cookie/Backend/CookieGroups.php:261
-#: classes/Cookie/Backend/Cookies.php:300
+#: classes/Cookie/Backend/Cookies.php:302
 #: classes/Cookie/Backend/ScriptBlocker.php:262
 msgctxt "Backend / Global / Alert Message"
 msgid "Changed status successfully."
@@ -246,7 +246,7 @@ msgstr "Status wurde erfolgreich geändert."
 
 #: classes/Cookie/Backend/ContentBlocker.php:294
 #: classes/Cookie/Backend/CookieGroups.php:267
-#: classes/Cookie/Backend/Cookies.php:307
+#: classes/Cookie/Backend/Cookies.php:309
 #: classes/Cookie/Backend/ScriptBlocker.php:269
 msgctxt "Backend / Global / Alert Message"
 msgid "Deleted successfully."
@@ -291,7 +291,7 @@ msgstr ""
 
 #: classes/Cookie/Backend/ContentBlocker.php:1024
 #: classes/Cookie/Backend/CookieGroups.php:681
-#: classes/Cookie/Backend/Cookies.php:882
+#: classes/Cookie/Backend/Cookies.php:884
 #: classes/Cookie/Backend/ScriptBlocker.php:751
 msgctxt "Backend / Global / Alert Message"
 msgid "Please fill out the field <strong>Name</strong>."
@@ -321,7 +321,7 @@ msgstr ""
 "Sprache nicht verfügbar."
 
 #: classes/Cookie/Backend/CookieGroups.php:669
-#: classes/Cookie/Backend/Cookies.php:870
+#: classes/Cookie/Backend/Cookies.php:872
 #: classes/Cookie/Backend/ScriptBlocker.php:711
 msgctxt "Backend / Global / Alert Message"
 msgid ""
@@ -332,24 +332,24 @@ msgstr ""
 "Zeichen lang sein und darf nur enthalten: <strong><em>a-z - _</em></strong>"
 
 #: classes/Cookie/Backend/CookieGroups.php:674
-#: classes/Cookie/Backend/Cookies.php:875
+#: classes/Cookie/Backend/Cookies.php:877
 #: classes/Cookie/Backend/ScriptBlocker.php:716
 msgctxt "Backend / Global / Alert Message"
 msgid "The <strong>ID</strong> already exists."
 msgstr "Die <strong>ID</strong> existiert bereits."
 
-#: classes/Cookie/Backend/Cookies.php:314
+#: classes/Cookie/Backend/Cookies.php:316
 msgctxt "Backend / Cookies / Alert Message"
 msgid "Default <strong>Cookies</strong> successfully reset."
 msgstr "Standard <strong>Cookie Gruppen</strong> erfolgreich zurückgesetzt."
 
-#: classes/Cookie/Backend/Cookies.php:342
-#: classes/Cookie/Backend/Cookies.php:463
+#: classes/Cookie/Backend/Cookies.php:344
+#: classes/Cookie/Backend/Cookies.php:465
 msgctxt "Backend / Cookies / Alert Message"
 msgid "Selected <strong>Cookie Group</strong> does not exist."
 msgstr "Die ausgewählte <strong>Cookie Gruppe</strong> existiert nicht."
 
-#: classes/Cookie/Backend/Cookies.php:394
+#: classes/Cookie/Backend/Cookies.php:396
 msgctxt "Backend / Cookies / Alert Message"
 msgid ""
 "The selected <strong>Cookie</strong> is not available in the current "
@@ -359,7 +359,7 @@ msgstr ""
 "verfügbar. Die Daten des ursprünglichen <strong>Cookie</strong> wurden "
 "geklont."
 
-#: classes/Cookie/Backend/Cookies.php:405
+#: classes/Cookie/Backend/Cookies.php:407
 msgctxt "Backend / Cookies / Alert Message"
 msgid ""
 "<strong>Cookie Group</strong> of selected <strong>Cookie</strong> is not "
@@ -421,12 +421,17 @@ msgstr ""
 "Importieren der <strong>Script Blocker</strong> ist fehlgeschlagen. "
 "Ungültige Daten."
 
-#: classes/Cookie/Backend/License.php:100
+#: classes/Cookie/Backend/License.php:99
+msgctxt "Backend / License / Alert Message"
+msgid "License information refreshed successfully."
+msgstr "Die Lizenzinformationen wurden erfolgreich aktualisiert."
+
+#: classes/Cookie/Backend/License.php:107
 msgctxt "Backend / License / Alert Message"
 msgid "License removed successfully."
 msgstr "Lizenz erfolgreich entfernt."
 
-#: classes/Cookie/Backend/License.php:183
+#: classes/Cookie/Backend/License.php:190
 msgctxt "Backend / License / Alert Message"
 msgid ""
 "You can not find your license key? No problem! <a href=\"https://borlabs.io/"
@@ -440,7 +445,7 @@ msgstr ""
 "noreferrer\" target=\"_blank\">Klicken Sie hier</a> und melden Sie sich bei "
 "Ihrem Konto an, um Ihren Lizenzschlüssel zu erhalten."
 
-#: classes/Cookie/Backend/License.php:258
+#: classes/Cookie/Backend/License.php:265
 msgctxt "Backend / License / Alert Message"
 msgid ""
 "Please activate your license key first. <a href=\"?page=borlabs-cookie-"
@@ -449,12 +454,12 @@ msgstr ""
 "Bitte aktivieren Sie zuerst Ihren Lizenzschlüssel. <a href=\"?page=borlabs-"
 "cookie-license\">Klicken Sie hier</a>, um Ihren Lizenzschlüssel einzugeben."
 
-#: classes/Cookie/Backend/License.php:276
+#: classes/Cookie/Backend/License.php:283
 msgctxt "Backend / License / Alert Message"
 msgid "Please enter your license key to receive updates."
 msgstr "Bitte geben Sie Ihren Lizenzschlüssel ein, um Updates zu erhalten."
 
-#: classes/Cookie/Backend/License.php:291
+#: classes/Cookie/Backend/License.php:298
 msgctxt "Backend / License / Alert Message"
 msgid ""
 "Please renew your license key to receive updates. <a href=\"https://borlabs."
@@ -466,57 +471,57 @@ msgstr ""
 "noreferrer\">Klicken Sie hier</a>, um sich in Ihr Konto einzuloggen und eine "
 "Lizenzverlängerung zu erwerben."
 
-#: classes/Cookie/Backend/License.php:311
+#: classes/Cookie/Backend/License.php:318
 msgctxt "Backend / License / Text"
 msgid "Your license is valid."
 msgstr "Ihre Lizenz ist gültig."
 
-#: classes/Cookie/Backend/License.php:313
+#: classes/Cookie/Backend/License.php:320
 msgctxt "Backend / License / Text"
 msgid "Your license has expired."
 msgstr "Ihre Lizenz ist abgelaufen."
 
-#: classes/Cookie/Backend/License.php:334
+#: classes/Cookie/Backend/License.php:341
 msgctxt "Backend / License / Text"
 msgid "Personal"
 msgstr "Personal"
 
-#: classes/Cookie/Backend/License.php:337
+#: classes/Cookie/Backend/License.php:344
 msgctxt "Backend / License / Text"
 msgid "Business"
 msgstr "Business"
 
-#: classes/Cookie/Backend/License.php:340
+#: classes/Cookie/Backend/License.php:347
 msgctxt "Backend / License / Text"
 msgid "Professional"
 msgstr "Professional"
 
-#: classes/Cookie/Backend/License.php:343
+#: classes/Cookie/Backend/License.php:350
 msgctxt "Backend / License / Text"
 msgid "Agency"
 msgstr "Agency"
 
-#: classes/Cookie/Backend/License.php:346
+#: classes/Cookie/Backend/License.php:353
 msgctxt "Backend / License / Text"
 msgid "Agency (Legacy)"
 msgstr "Agency (Legacy)"
 
-#: classes/Cookie/Backend/License.php:349
+#: classes/Cookie/Backend/License.php:356
 msgctxt "Backend / License / Text"
 msgid "Business - Small"
 msgstr "Business - Small"
 
-#: classes/Cookie/Backend/License.php:352
+#: classes/Cookie/Backend/License.php:359
 msgctxt "Backend / License / Text"
 msgid "Business - Medium"
 msgstr "Business - Medium"
 
-#: classes/Cookie/Backend/License.php:355
+#: classes/Cookie/Backend/License.php:362
 msgctxt "Backend / License / Text"
 msgid "Agency - Small"
 msgstr "Agency - Small"
 
-#: classes/Cookie/Backend/License.php:359
+#: classes/Cookie/Backend/License.php:366
 msgctxt "Backend / License / Text"
 msgid "Classic (Legacy)"
 msgstr "Classic (Legacy)"
@@ -914,8 +919,8 @@ msgid "Enter your Google API Key."
 msgstr "Geben Sie Ihren Google API-Schlüssel ein."
 
 #: classes/Cookie/Frontend/ContentBlocker/GoogleMaps.php:217
-#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:368
-#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:488
+#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:366
+#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:487
 #: classes/Cookie/Frontend/Services/GoogleAdSense.php:135
 #: classes/Cookie/Frontend/Services/Hotjar.php:135
 #: classes/Cookie/Frontend/Services/HubSpot.php:135
@@ -926,13 +931,13 @@ msgstr "Geben Sie Ihren Google API-Schlüssel ein."
 #: templates/content-blocker-overview.html.php:93
 #: templates/content-blocker-overview.html.php:169
 #: templates/content-blocker-overview.html.php:354
-#: templates/cookie-box.html.php:290 templates/cookie-box.html.php:444
-#: templates/cookie-box.html.php:589 templates/cookie-box.html.php:1259
+#: templates/cookie-box.html.php:293 templates/cookie-box.html.php:449
+#: templates/cookie-box.html.php:594 templates/cookie-box.html.php:1261
 #: templates/cookie-groups-edit.html.php:157
 #: templates/cookie-groups-overview.html.php:95
 #: templates/cookies-edit.html.php:134 templates/cookies-edit.html.php:250
 #: templates/cookies-overview.html.php:103 templates/import-export.html.php:67
-#: templates/license.html.php:96 templates/script-blocker-edit.html.php:106
+#: templates/license.html.php:107 templates/script-blocker-edit.html.php:106
 #: templates/script-blocker-edit.html.php:169
 #: templates/script-blocker-overview.html.php:93
 #: templates/script-blocker-wizard-step-1.html.php:85
@@ -941,7 +946,7 @@ msgstr "Geben Sie Ihren Google API-Schlüssel ein."
 #: templates/script-blocker-wizard-step-3.html.php:185
 #: templates/script-blocker-wizard-step-3.html.php:371
 #: templates/script-blocker-wizard-step-3.html.php:438
-#: templates/settings.html.php:263 templates/settings.html.php:456
+#: templates/settings.html.php:262 templates/settings.html.php:455
 msgctxt "Backend / Global / Tips / Headline"
 msgid "Tips"
 msgstr "Tipps"
@@ -1087,7 +1092,7 @@ msgctxt "Backend / Content Blocker / Vimeo / Label"
 msgid "Save thumbnails locally"
 msgstr "Thumbnails lokal speichern"
 
-#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:316
+#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:315
 msgctxt "Backend / Content Blocker / Vimeo / Tooltip"
 msgid ""
 "Attempts to get the thumbnail of the Vimeo video to save it locally. Your "
@@ -1096,12 +1101,12 @@ msgstr ""
 "Versucht das Thumbnail (Vorschaubild) des Vimeo Videos lokal zu speichern. "
 "Die IP-Adresse des Besuchers wird dafür nicht an Vimeo übermittelt."
 
-#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:323
+#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:322
 msgctxt "Backend / Content Blocker / Vimeo / Label"
 msgid "Autoplay"
 msgstr "Autoplay"
 
-#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:333
+#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:331
 msgctxt "Backend / Content Blocker / Vimeo / Tooltip"
 msgid ""
 "The video will play automatically after unlocking. <strong>Warning:</strong> "
@@ -1111,12 +1116,12 @@ msgstr ""
 "</strong> Nicht zu empfehlen, wenn mehrere Videos auf einer Seite "
 "eingebunden werden."
 
-#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:340
+#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:338
 msgctxt "Backend / Content Blocker / Vimeo / Label"
 msgid "Video Wrapper"
 msgstr "Video Wrapper"
 
-#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:349
+#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:347
 msgctxt "Backend / Content Blocker / Vimeo / Tooltip"
 msgid ""
 "Enable this option if the video is displayed too small, with incorrect "
@@ -1125,12 +1130,12 @@ msgstr ""
 "Aktiviere diese Option, wenn das Video zu klein, mit falschen "
 "Seitenverhältnissen, oder mit großem Abstand nach oben angezeigt wird."
 
-#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:369
+#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:367
 msgctxt "Backend / Content Blocker / Vimeo / Tips / Headline"
 msgid "Video Wrapper"
 msgstr "Video Wrapper"
 
-#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:370
+#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:368
 msgctxt "Backend / Content Blocker / Vimeo / Tips / Text"
 msgid ""
 "If the <strong>Video Wrapper</strong> option is enabled, the iframe of the "
@@ -1142,7 +1147,7 @@ msgstr ""
 "B. zu kleines Video, falsche Seitenverhältnisse oder großer Abstand nach "
 "oben zu verhindern."
 
-#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:371
+#: classes/Cookie/Frontend/ContentBlocker/Vimeo.php:369
 msgctxt "Backend / Content Blocker / Vimeo / Tips / Text"
 msgid ""
 "For themes that do not load the default Gutenberg CSS, this option must "
@@ -1243,7 +1248,7 @@ msgctxt "Backend / Content Blocker / YouTube / Label"
 msgid "Autoplay"
 msgstr "Autoplay"
 
-#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:453
+#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:452
 msgctxt "Backend / Content Blocker / YouTube / Tooltip"
 msgid ""
 "The video will play automatically after unlocking. <strong>Warning:</strong> "
@@ -1253,12 +1258,12 @@ msgstr ""
 "</strong> Nicht zu empfehlen, wenn mehrere Videos auf einer Seite "
 "eingebunden werden."
 
-#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:460
+#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:459
 msgctxt "Backend / Content Blocker / YouTube / Label"
 msgid "Video Wrapper"
 msgstr "Video Wrapper"
 
-#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:469
+#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:468
 msgctxt "Backend / Content Blocker / YouTube / Tooltip"
 msgid ""
 "Enable this option if the video is displayed too small, with incorrect "
@@ -1267,12 +1272,12 @@ msgstr ""
 "Aktiviere diese Option, wenn das Video zu klein, mit falschen "
 "Seitenverhältnissen, oder mit großem Abstand nach oben angezeigt wird."
 
-#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:489
+#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:488
 msgctxt "Backend / Content Blocker / YouTube / Tips / Headline"
 msgid "Thumbnail Sizes"
 msgstr "Thumbnail Größe"
 
-#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:490
+#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:489
 msgctxt "Backend / Content Blocker / YouTube / Tips / Text"
 msgid ""
 "<strong>High Quality</strong>: 480 x 360 px. This size is available in most "
@@ -1281,27 +1286,27 @@ msgstr ""
 "<strong>Hohe Qualität</strong>: 480 x 360 px. Diese Größe ist in den meisten "
 "Fällen verfügbar."
 
-#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:492
+#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:491
 msgctxt "Backend / Content Blocker / YouTube / Tips / Text"
 msgid "<strong>Medium Quality</strong>: 320 x 180 px."
 msgstr "<strong>Mittlere Qualität</strong>: 320 x 180 px."
 
-#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:494
+#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:493
 msgctxt "Backend / Content Blocker / YouTube / Tips / Text"
 msgid "<strong>Standard Quality</strong>: 640 x 480 px."
 msgstr "<strong>Standard Qualität</strong>: 640 x 480 px."
 
-#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:496
+#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:495
 msgctxt "Backend / Content Blocker / YouTube / Tips / Text"
 msgid "<strong>Maximum Resolution</strong>: 1280 x 720 px."
 msgstr "<strong>Maximale Auflösung</strong>: 1280 x 720 px."
 
-#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:498
+#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:497
 msgctxt "Backend / Content Blocker / YouTube / Tips / Headline"
 msgid "Video Wrapper"
 msgstr "Video Wrapper"
 
-#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:499
+#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:498
 msgctxt "Backend / Content Blocker / YouTube / Tips / Text"
 msgid ""
 "If the <strong>Video Wrapper</strong> option is enabled, the iframe of the "
@@ -1313,7 +1318,7 @@ msgstr ""
 "B. zu kleines Video, falsche Seitenverhältnisse oder großer Abstand nach "
 "oben zu verhindern."
 
-#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:500
+#: classes/Cookie/Frontend/ContentBlocker/YouTube.php:499
 msgctxt "Backend / Content Blocker / YouTube / Tips / Text"
 msgid ""
 "For themes that do not load the default Gutenberg CSS, this option must "
@@ -1433,8 +1438,10 @@ msgstr "Pixel ID"
 
 #: classes/Cookie/Frontend/Services/FacebookPixel.php:108
 #: classes/Cookie/Frontend/Services/GoogleAdSense.php:111
-#: classes/Cookie/Frontend/Services/GoogleAnalytics.php:108
-#: classes/Cookie/Frontend/Services/GoogleTagManager.php:108
+#: classes/Cookie/Frontend/Services/GoogleAds.php:110
+#: classes/Cookie/Frontend/Services/GoogleAnalytics.php:111
+#: classes/Cookie/Frontend/Services/GoogleTagManager.php:111
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:115
 #: classes/Cookie/Frontend/Services/Hotjar.php:111
 #: classes/Cookie/Frontend/Services/HubSpot.php:111
 #: classes/Cookie/Frontend/Services/Matomo.php:123
@@ -1453,8 +1460,10 @@ msgstr "Geben Sie ihre Facebook Pixel ID ein."
 
 #: classes/Cookie/Frontend/Services/FacebookPixel.php:114
 #: classes/Cookie/Frontend/Services/GoogleAdSense.php:117
-#: classes/Cookie/Frontend/Services/GoogleAnalytics.php:114
-#: classes/Cookie/Frontend/Services/GoogleTagManager.php:114
+#: classes/Cookie/Frontend/Services/GoogleAds.php:116
+#: classes/Cookie/Frontend/Services/GoogleAnalytics.php:117
+#: classes/Cookie/Frontend/Services/GoogleTagManager.php:117
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:121
 #: classes/Cookie/Frontend/Services/Hotjar.php:117
 #: classes/Cookie/Frontend/Services/HubSpot.php:117
 #: classes/Cookie/Frontend/Services/Matomo.php:129
@@ -1465,12 +1474,12 @@ msgstr "Geben Sie ihre Facebook Pixel ID ein."
 #: templates/content-blocker-edit.html.php:81
 #: templates/cookie-groups-edit.html.php:90 templates/cookies-edit.html.php:154
 #: templates/cookies-edit.html.php:163 templates/cookies-edit.html.php:196
-#: templates/cookies-edit.html.php:232 templates/license.html.php:76
+#: templates/cookies-edit.html.php:232 templates/license.html.php:87
 #: templates/script-blocker-edit.html.php:36
 #: templates/script-blocker-wizard-step-3.html.php:39
-#: templates/settings.html.php:216 templates/settings.html.php:369
-#: templates/settings.html.php:392 templates/settings.html.php:407
-#: templates/settings.html.php:422
+#: templates/settings.html.php:215 templates/settings.html.php:368
+#: templates/settings.html.php:391 templates/settings.html.php:406
+#: templates/settings.html.php:421
 msgctxt "Backend / Global / Validation Message"
 msgid "This is a required field and cannot be empty."
 msgstr "Dies ist ein Pflichtfeld und darf nicht leer sein."
@@ -1513,6 +1522,47 @@ msgid "Copy this code to the place where you want the banner to appear: %s"
 msgstr ""
 "Kopieren Sie diesen Code an die Stelle, an der das Banner erscheinen soll: %s"
 
+#: classes/Cookie/Frontend/Services/GoogleAds.php:71
+msgctxt "Frontend / Cookie / Google Ads / Text"
+msgid "Cookie by Google used for conversion tracking of Google Ads."
+msgstr ""
+"Cookie von Google, das für das Conversion-Tracking von Google Ads verwendet "
+"wird."
+
+#: classes/Cookie/Frontend/Services/GoogleAds.php:72
+msgctxt "Frontend / Cookie / Google Ads / Text"
+msgid "https://policies.google.com/privacy?hl=en"
+msgstr "https://policies.google.com/privacy?hl=de"
+
+#: classes/Cookie/Frontend/Services/GoogleAds.php:106
+msgctxt "Backend / Cookie / Google Ads / Label"
+msgid "Conversion ID"
+msgstr "Conversion ID"
+
+#: classes/Cookie/Frontend/Services/GoogleAds.php:113
+msgctxt "Backend / Cookie / Google Ads / Tooltip"
+msgid "Enter your Google Ads Conversion ID."
+msgstr "Geben Sie Ihre Google Ads Conversion ID ein."
+
+#: classes/Cookie/Frontend/Services/GoogleAds.php:121
+msgctxt "Backend / Cookie / Google Ads / Label"
+msgid "Use Consent Mode"
+msgstr "Consent Mode verwenden"
+
+#: classes/Cookie/Frontend/Services/GoogleAds.php:130
+msgctxt "Backend / Cookie / Google Analytics / Tooltip"
+msgid ""
+"The Google Ads code is always loaded via the <strong>Fallback Code</strong> "
+"field with Google Consent Mode defaults set to denied. If the user accepts "
+"the Google Ads Cookie, Google will be informed about your consent to ads. Be "
+"aware that the consent mode only allows consents for categories not services."
+msgstr ""
+"Der Google Ads-Code wird immer über das Feld <strong>Fallback Code</strong> "
+"geladen, wobei der Consent Mode standardmäßig auf \"verweigert\" eingestellt "
+"ist. Wenn der Nutzer das Google Ads Cookie akzeptiert, wird Google über Ihre "
+"Zustimmung zu Anzeigen informiert. Beachten Sie, dass der Consent Mode nur "
+"Zustimmungen für Kategorien und nicht für Dienste zulässt."
+
 #: classes/Cookie/Frontend/Services/GoogleAnalytics.php:71
 msgctxt "Frontend / Cookie / Google Analytics / Text"
 msgid ""
@@ -1532,17 +1582,39 @@ msgctxt "Frontend / Cookie / Google Analytics / Text"
 msgid "2 Months"
 msgstr "2 Monate"
 
-#: classes/Cookie/Frontend/Services/GoogleAnalytics.php:104
+#: classes/Cookie/Frontend/Services/GoogleAnalytics.php:107
 msgctxt "Backend / Cookie / Google Analytics / Label"
 msgid "Tracking ID"
 msgstr "Tracking ID"
 
-#: classes/Cookie/Frontend/Services/GoogleAnalytics.php:111
+#: classes/Cookie/Frontend/Services/GoogleAnalytics.php:114
 msgctxt "Backend / Cookie / Google Analytics / Tooltip"
 msgid "Enter your Google Analytics Tracking ID."
 msgstr "Geben Sie Ihre Google Analytics Tracking ID ein."
 
+#: classes/Cookie/Frontend/Services/GoogleAnalytics.php:122
+msgctxt "Backend / Cookie / Google Analytics / Label"
+msgid "Use Consent Mode"
+msgstr "Consent Mode verwenden"
+
+#: classes/Cookie/Frontend/Services/GoogleAnalytics.php:131
+msgctxt "Backend / Cookie / Google Analytics / Tooltip"
+msgid ""
+"The Google Analytics code is always loaded via the <strong>Fallback Code</"
+"strong> field with Google Consent Mode defaults set to denied. If the user "
+"accepts the Google Analytics Cookie, Google will be informed about your "
+"consent to analytics. Be aware that the consent mode only allows consents "
+"for categories not services."
+msgstr ""
+"Der Google Analytics-Code wird immer über das Feld <strong>Fallback Code</"
+"strong> geladen, wobei der Consent Mode standardmäßig auf \"verweigert\" "
+"eingestellt ist. Wenn der Nutzer das Google Analytics Cookie akzeptiert, "
+"wird Google über Ihre Zustimmung zu Analytics informiert. Beachten Sie, dass "
+"der Consent Mode nur Zustimmungen für Kategorien und nicht für Dienste "
+"zulässt."
+
 #: classes/Cookie/Frontend/Services/GoogleTagManager.php:71
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:71
 msgctxt "Frontend / Cookie / Google Tag Manager / Text"
 msgid "Cookie by Google used to control advanced script and event handling."
 msgstr ""
@@ -1550,24 +1622,85 @@ msgstr ""
 "Ereignisbehandlung."
 
 #: classes/Cookie/Frontend/Services/GoogleTagManager.php:72
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:72
 msgctxt "Frontend / Cookie / Google Tag Manager / Text"
 msgid "https://policies.google.com/privacy?hl=en"
 msgstr "https://policies.google.com/privacy?hl=de"
 
 #: classes/Cookie/Frontend/Services/GoogleTagManager.php:75
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:75
 msgctxt "Frontend / Cookie / Google Tag Manager / Text"
 msgid "2 Years"
 msgstr "2 Jahre"
 
-#: classes/Cookie/Frontend/Services/GoogleTagManager.php:104
+#: classes/Cookie/Frontend/Services/GoogleTagManager.php:107
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:111
 msgctxt "Backend / Cookie / Google Tag Manager / Label"
 msgid "GTM ID"
 msgstr "GTM ID"
 
-#: classes/Cookie/Frontend/Services/GoogleTagManager.php:111
+#: classes/Cookie/Frontend/Services/GoogleTagManager.php:114
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:118
 msgctxt "Backend / Cookie / Google Tag Manager / Tooltip"
 msgid "Enter your Google Tag Manager ID."
 msgstr "Geben Sie Ihre Google Tag Manager ID ein."
+
+#: classes/Cookie/Frontend/Services/GoogleTagManager.php:122
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:126
+msgctxt "Backend / Cookie / Google Tag Manager / Label"
+msgid "Load before Consent"
+msgstr "Cookie vor Einwilligung"
+
+#: classes/Cookie/Frontend/Services/GoogleTagManager.php:131
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:135
+msgctxt "Backend / Cookie / Google Tag Manager / Tooltip"
+msgid ""
+"The Google Tag Manager code is always loaded via the <strong>Fallback Code</"
+"strong> field."
+msgstr ""
+"Der Google Tag Manager-Code wird immer über das Feld <strong>Fallback Code</"
+"strong> geladen."
+
+#: classes/Cookie/Frontend/Services/GoogleTagManager.php:141
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:145
+msgctxt "Backend / Cookie / Alert Message"
+msgid "<strong>Load before Consent</strong> may violate applicable laws."
+msgstr ""
+"Die Einstellung <strong>Cookie vor Einwilligung</strong> kann gegen "
+"geltendes Recht verstoßen."
+
+#: classes/Cookie/Frontend/Services/GoogleTagManager.php:142
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:146
+msgctxt "Backend / Cookie / Alert Message"
+msgid ""
+"The code is loaded via the <strong>Fallback Code</strong> field, from which "
+"a visitor cannot opt-out."
+msgstr ""
+"Der Code wird über das Feld <strong>Fallback Code</strong> geladen, aus dem "
+"sich ein Besucher nicht ausklinken kann."
+
+#: classes/Cookie/Frontend/Services/GoogleTagManager.php:143
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:147
+msgctxt "Backend / Cookie / Alert Message"
+msgid ""
+"Please inform yourself in advance about the legal situation that applies to "
+"you."
+msgstr ""
+"Bitte informieren Sie sich im Voraus über die für Sie geltende Rechtslage."
+
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:156
+msgctxt "Backend / Cookie / Google Tag Manager / Label"
+msgid "Consent Mode"
+msgstr "Consent Mode"
+
+#: classes/Cookie/Frontend/Services/GoogleTagManagerConsent.php:177
+msgctxt "Backend / Cookie / Google Tag Manager / Tooltip"
+msgid ""
+"Select the Consent Mode for which you want to obtain consent. For more "
+"information, see the Google Analytics Help."
+msgstr ""
+"Wählen Sie den Consent Mode, für den Sie die Zustimmung einholen möchten. "
+"Weitere Informationen finden Sie in der Google Analytics-Hilfe."
 
 #: classes/Cookie/Frontend/Services/Hotjar.php:72
 msgctxt "Frontend / Cookie / Hotjar / Text"
@@ -2218,18 +2351,19 @@ msgstr ""
 #: templates/content-blocker-edit.html.php:289
 #: templates/content-blocker-overview.html.php:161
 #: templates/content-blocker-overview.html.php:346
-#: templates/cookie-box.html.php:282 templates/cookie-box.html.php:436
-#: templates/cookie-box.html.php:581 templates/cookie-box.html.php:1001
-#: templates/cookie-box.html.php:1111 templates/cookie-box.html.php:1251
-#: templates/cookie-box.html.php:1410 templates/cookie-box.html.php:1694
-#: templates/cookie-box.html.php:1819 templates/cookie-box.html.php:1914
-#: templates/cookie-box.html.php:2014 templates/cookie-box.html.php:2142
-#: templates/cookie-box.html.php:2248 templates/cookie-box.html.php:2300
-#: templates/cookie-box.html.php:2336 templates/cookie-groups-edit.html.php:148
+#: templates/cookie-box.html.php:285 templates/cookie-box.html.php:441
+#: templates/cookie-box.html.php:586 templates/cookie-box.html.php:1002
+#: templates/cookie-box.html.php:1113 templates/cookie-box.html.php:1253
+#: templates/cookie-box.html.php:1412 templates/cookie-box.html.php:1672
+#: templates/cookie-box.html.php:1797 templates/cookie-box.html.php:1892
+#: templates/cookie-box.html.php:1992 templates/cookie-box.html.php:2120
+#: templates/cookie-box.html.php:2226 templates/cookie-box.html.php:2278
+#: templates/cookie-box.html.php:2309 templates/cookie-box.html.php:2345
+#: templates/cookie-groups-edit.html.php:148
 #: templates/cookies-edit.html.php:125 templates/cookies-edit.html.php:241
 #: templates/cookies-edit.html.php:291 templates/cookies-edit.html.php:342
-#: templates/script-blocker-edit.html.php:97 templates/settings.html.php:254
-#: templates/settings.html.php:448
+#: templates/script-blocker-edit.html.php:97 templates/settings.html.php:253
+#: templates/settings.html.php:447
 msgctxt "Backend / Global / Button Title"
 msgid "Save all settings"
 msgstr "Alle Einstellungen speichern"
@@ -2685,7 +2819,7 @@ msgid "Appearance Settings"
 msgstr "Darstellungs Einstellungen"
 
 #: templates/content-blocker-overview.html.php:185
-#: templates/cookie-box.html.php:1127
+#: templates/cookie-box.html.php:1129
 msgctxt "Backend / Global / Styling / Label"
 msgid "Font Family"
 msgstr "Font Family"
@@ -2704,7 +2838,7 @@ msgid "Enter custom font family"
 msgstr "Benutzerdefinierte Font Family eingeben"
 
 #: templates/content-blocker-overview.html.php:202
-#: templates/cookie-box.html.php:1150
+#: templates/cookie-box.html.php:1152
 msgctxt "Backend / Global / Styling / Label"
 msgid "Font Size (Base)"
 msgstr "Schriftgröße (Basis)"
@@ -2724,16 +2858,16 @@ msgid "Overlay"
 msgstr "Overlay"
 
 #: templates/content-blocker-overview.html.php:224
-#: templates/cookie-box.html.php:1180 templates/cookie-box.html.php:1205
-#: templates/cookie-box.html.php:1230 templates/cookie-box.html.php:1718
-#: templates/cookie-box.html.php:1744 templates/cookie-box.html.php:1770
+#: templates/cookie-box.html.php:1182 templates/cookie-box.html.php:1207
+#: templates/cookie-box.html.php:1232 templates/cookie-box.html.php:1696
+#: templates/cookie-box.html.php:1722 templates/cookie-box.html.php:1748
 msgctxt "Backend / Global / Styling / Label"
 msgid "Background Color"
 msgstr "Hintergrundfarbe"
 
 #: templates/content-blocker-overview.html.php:230
-#: templates/cookie-box.html.php:1188 templates/cookie-box.html.php:1213
-#: templates/cookie-box.html.php:1238
+#: templates/cookie-box.html.php:1190 templates/cookie-box.html.php:1215
+#: templates/cookie-box.html.php:1240
 msgctxt "Backend / Global / Styling / Label"
 msgid "Text Color"
 msgstr "Textfarbe"
@@ -2755,19 +2889,19 @@ msgid "Overlay"
 msgstr "Overlay"
 
 #: templates/content-blocker-overview.html.php:260
-#: templates/cookie-box.html.php:1323
+#: templates/cookie-box.html.php:1325
 msgctxt "Backend / Global / Styling / Label"
 msgid "Border Radius"
 msgstr "Rahmen Radius"
 
 #: templates/content-blocker-overview.html.php:271
-#: templates/cookie-box.html.php:1351
+#: templates/cookie-box.html.php:1353
 msgctxt "Backend / Global / Styling / Label"
 msgid "Button"
 msgstr "Button"
 
 #: templates/content-blocker-overview.html.php:280
-#: templates/cookie-box.html.php:1444
+#: templates/cookie-box.html.php:1447
 msgctxt "Backend / Global / Styling / Label"
 msgid "Button Color"
 msgstr "Button Farbe"
@@ -2775,11 +2909,11 @@ msgstr "Button Farbe"
 #: templates/content-blocker-overview.html.php:286
 #: templates/content-blocker-overview.html.php:306
 #: templates/content-blocker-overview.html.php:326
-#: templates/cookie-box.html.php:1452 templates/cookie-box.html.php:1490
-#: templates/cookie-box.html.php:1515 templates/cookie-box.html.php:1540
-#: templates/cookie-box.html.php:1565 templates/cookie-box.html.php:1603
-#: templates/cookie-box.html.php:1843 templates/cookie-box.html.php:1868
-#: templates/cookie-box.html.php:1893
+#: templates/cookie-box.html.php:1455 templates/cookie-box.html.php:1480
+#: templates/cookie-box.html.php:1505 templates/cookie-box.html.php:1530
+#: templates/cookie-box.html.php:1555 templates/cookie-box.html.php:1580
+#: templates/cookie-box.html.php:1821 templates/cookie-box.html.php:1846
+#: templates/cookie-box.html.php:1871
 msgctxt "Backend / Global / Styling / Label"
 msgid "Default"
 msgstr "Standard"
@@ -2787,17 +2921,17 @@ msgstr "Standard"
 #: templates/content-blocker-overview.html.php:292
 #: templates/content-blocker-overview.html.php:312
 #: templates/content-blocker-overview.html.php:332
-#: templates/cookie-box.html.php:1460 templates/cookie-box.html.php:1498
-#: templates/cookie-box.html.php:1523 templates/cookie-box.html.php:1548
-#: templates/cookie-box.html.php:1573 templates/cookie-box.html.php:1612
-#: templates/cookie-box.html.php:1851 templates/cookie-box.html.php:1876
-#: templates/cookie-box.html.php:1901
+#: templates/cookie-box.html.php:1463 templates/cookie-box.html.php:1488
+#: templates/cookie-box.html.php:1513 templates/cookie-box.html.php:1538
+#: templates/cookie-box.html.php:1563 templates/cookie-box.html.php:1589
+#: templates/cookie-box.html.php:1829 templates/cookie-box.html.php:1854
+#: templates/cookie-box.html.php:1879
 msgctxt "Backend / Global / Styling / Label"
 msgid "Hover"
 msgstr "Hover"
 
 #: templates/content-blocker-overview.html.php:300
-#: templates/cookie-box.html.php:1482
+#: templates/cookie-box.html.php:1472
 msgctxt "Backend / Global / Styling / Label"
 msgid "Button Text Color"
 msgstr "Button Text Farbe"
@@ -2839,7 +2973,7 @@ msgstr "Zurücksetzen bestätigen"
 
 #: templates/content-blocker-overview.html.php:375
 #: templates/cookie-groups-overview.html.php:140
-#: templates/cookies-overview.html.php:151 templates/license.html.php:131
+#: templates/cookies-overview.html.php:151 templates/license.html.php:142
 msgctxt "Backend / Global / Text"
 msgid "Confirmed"
 msgstr "Bestätigt"
@@ -2889,12 +3023,12 @@ msgctxt "Backend / Cookie Box / Headline"
 msgid "General Settings"
 msgstr "Allgemeine Einstellungen"
 
-#: templates/cookie-box.html.php:26
+#: templates/cookie-box.html.php:25
 msgctxt "Backend / Cookie Box / Label"
 msgid "Show Cookie Box"
 msgstr "Cookie Box anzeigen"
 
-#: templates/cookie-box.html.php:37
+#: templates/cookie-box.html.php:36
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "If activated the <strong>Cookie Box</strong> is shown, in which the visitor "
@@ -2903,7 +3037,7 @@ msgstr ""
 "Wenn aktiviert, wird die <strong>Cookie Box</strong> angezeigt, in der der "
 "Besucher seine Cookie-Einstellungen wählen kann."
 
-#: templates/cookie-box.html.php:44
+#: templates/cookie-box.html.php:43
 msgctxt "Backend / Cookie Box / Label"
 msgid "Show Cookie Box on Login Page"
 msgstr "Cookie Box auf der Login-Seite anzeigen"
@@ -2947,7 +3081,7 @@ msgctxt "Backend / Cookie Box / Label"
 msgid "Block Content"
 msgstr "Inhalt blockieren"
 
-#: templates/cookie-box.html.php:90
+#: templates/cookie-box.html.php:91
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "The content below the <strong>Cookie Box</strong> will be inaccessible until "
@@ -2956,22 +3090,22 @@ msgstr ""
 "Auf den Inhalt unterhalb der <strong>Cookie Box</strong> kann nicht "
 "zugegriffen werden, bis der Besucher eine Option ausgewählt hat."
 
-#: templates/cookie-box.html.php:97
+#: templates/cookie-box.html.php:98
 msgctxt "Backend / Cookie Box / Label"
 msgid "Refuse Option"
 msgstr "Verweigern Option"
 
-#: templates/cookie-box.html.php:102
+#: templates/cookie-box.html.php:103
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Button"
 msgstr "Button"
 
-#: templates/cookie-box.html.php:104
+#: templates/cookie-box.html.php:105
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Link"
 msgstr "Link"
 
-#: templates/cookie-box.html.php:107
+#: templates/cookie-box.html.php:108
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "Choose the display option of the <strong>Refuse</strong> option. We "
@@ -2980,12 +3114,12 @@ msgstr ""
 "Wählen Sie die Darstellungsoption der <strong>Verweigern</strong>-Option. "
 "Wir empfehlen die Verwendung der <strong>Button</strong>-Option."
 
-#: templates/cookie-box.html.php:114
+#: templates/cookie-box.html.php:115
 msgctxt "Backend / Cookie Box / Label"
 msgid "Hide Refuse Option"
 msgstr "Verweigern Option ausblenden"
 
-#: templates/cookie-box.html.php:125
+#: templates/cookie-box.html.php:127
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "If activated the <strong>Refuse Link</strong> will not be shown to the "
@@ -2994,7 +3128,7 @@ msgstr ""
 "Wenn aktiviert, wird dem Besucher der <strong>Verweigern Link</strong> nicht "
 "angezeigt."
 
-#: templates/cookie-box.html.php:145
+#: templates/cookie-box.html.php:147
 msgctxt "Backend / Cookie Box / Alert Message"
 msgid ""
 "Depending on applicable law, this option may not be allowed to be turned on."
@@ -3002,49 +3136,49 @@ msgstr ""
 "Je nach geltendem Recht darf diese Option möglicherweise nicht aktiviert "
 "werden."
 
-#: templates/cookie-box.html.php:154
+#: templates/cookie-box.html.php:156
 msgctxt "Backend / Cookie Box / Label"
 msgid "Privacy Page"
 msgstr "Datenschutzseite"
 
-#: templates/cookie-box.html.php:163 templates/cookie-box.html.php:209
+#: templates/cookie-box.html.php:165 templates/cookie-box.html.php:211
 #: templates/script-blocker-wizard-step-1.html.php:39
 msgctxt "Backend / Global / Default Select Option"
 msgid "-- Please select --"
 msgstr "-- Bitte wählen --"
 
-#: templates/cookie-box.html.php:176 templates/cookie-box.html.php:222
+#: templates/cookie-box.html.php:178 templates/cookie-box.html.php:224
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid "Click to add page to <strong>Hide Cookie Box on Page</strong> list."
 msgstr ""
 "Klicken Sie hier, um eine Seite zur <strong>Cookie Box auszublenden auf der "
 "Seite</strong> Liste hinzuzufügen."
 
-#: templates/cookie-box.html.php:179
+#: templates/cookie-box.html.php:181
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid "Choose your privacy page or add a custom URL."
 msgstr ""
 "Wählen Sie Ihre Datenschutzseite oder fügen Sie eine benutzerdefinierte URL "
 "hinzu."
 
-#: templates/cookie-box.html.php:200
+#: templates/cookie-box.html.php:202
 msgctxt "Backend / Cookie Box / Label"
 msgid "Imprint Page"
 msgstr "Impressumseite"
 
-#: templates/cookie-box.html.php:225
+#: templates/cookie-box.html.php:227
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid "Choose your imprint page or add a custom URL."
 msgstr ""
 "Wählen Sie Ihre Impressumseite oder fügen Sie eine benutzerdefinierte URL "
 "hinzu."
 
-#: templates/cookie-box.html.php:246
+#: templates/cookie-box.html.php:248
 msgctxt "Backend / Cookie Box / Label"
 msgid "Hide Cookie Box on Page"
 msgstr "Cookie Box ausblenden auf der Seite"
 
-#: templates/cookie-box.html.php:253
+#: templates/cookie-box.html.php:255
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "Add one URL per line. The <strong>Cookie Box</strong> will not be shown on "
@@ -3053,12 +3187,12 @@ msgstr ""
 "Fügen Sie eine URL pro Zeile hinzu. Die <strong>Cookie Box</strong> wird auf "
 "diesen Seiten nicht angezeigt."
 
-#: templates/cookie-box.html.php:260
+#: templates/cookie-box.html.php:262
 msgctxt "Backend / Cookie Box / Label"
 msgid "Support Borlabs Cookie"
 msgstr "Supporte Borlabs Cookie"
 
-#: templates/cookie-box.html.php:271
+#: templates/cookie-box.html.php:274
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "The <strong>Cookie Box</strong> contains a reference to Borlabs Cookie. "
@@ -3067,12 +3201,12 @@ msgstr ""
 "Die <strong>Cookie Box</strong> enthält einen Verweis auf Borlabs Cookie. "
 "Aktivieren Sie diese Option, um dieses Plugin zu unterstützen."
 
-#: templates/cookie-box.html.php:296
+#: templates/cookie-box.html.php:299
 msgctxt "Backend / Cookie Box / Tips / Headline"
 msgid "How can the visitor change selections?"
 msgstr "Wie kann der Besucher seine Auswahl ändern?"
 
-#: templates/cookie-box.html.php:301
+#: templates/cookie-box.html.php:304
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
 "To give him this option, enter the following shortcode to your privacy page. "
@@ -3082,22 +3216,22 @@ msgstr ""
 "diese Option zu geben. Dadurch wird ein Button erstellt, der die "
 "<strong>Cookie Box</strong> wieder öffnet."
 
-#: templates/cookie-box.html.php:304
+#: templates/cookie-box.html.php:307
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Button"
 msgstr "Button"
 
-#: templates/cookie-box.html.php:308
+#: templates/cookie-box.html.php:311
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Link"
 msgstr "Link"
 
-#: templates/cookie-box.html.php:315
+#: templates/cookie-box.html.php:318
 msgctxt "Backend / Cookie Box / Tips / Headline"
 msgid "How can the visitor perform an opt-out?"
 msgstr "Wie kann der Besucher ein Opt-out durchführen?"
 
-#: templates/cookie-box.html.php:321
+#: templates/cookie-box.html.php:324
 #, php-format
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
@@ -3108,7 +3242,7 @@ msgstr ""
 "eine Opt-out-Button erstellt, der es dem Besucher ermöglicht, eine Opt-out "
 "durchzuführen. %s"
 
-#: templates/cookie-box.html.php:330
+#: templates/cookie-box.html.php:333
 msgctxt "Backend / Cookie Box / Tips / Headline"
 msgid ""
 "How to display User ID, Consent History and Cookie & Cookie Groups Overview."
@@ -3116,7 +3250,7 @@ msgstr ""
 "So zeigen Sie Benutzer-ID, Einwilligungs-Historie und Cookie & Cookie "
 "Gruppen an."
 
-#: templates/cookie-box.html.php:336
+#: templates/cookie-box.html.php:339
 #, php-format
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
@@ -3127,7 +3261,7 @@ msgstr ""
 "folgenden Shortcode. Dies ermöglicht es dem Besucher, die persönliche "
 "<strong>Benutzer-ID</strong> einzusehen. %s"
 
-#: templates/cookie-box.html.php:343
+#: templates/cookie-box.html.php:346
 #, php-format
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
@@ -3139,7 +3273,7 @@ msgstr ""
 "folgenden Shortcode. Dies ermöglicht es dem Besucher, die persönliche "
 "<strong>Einwilligungs-Historie</strong> einzusehen. %s"
 
-#: templates/cookie-box.html.php:350
+#: templates/cookie-box.html.php:353
 #, php-format
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
@@ -3152,12 +3286,12 @@ msgstr ""
 "aktiven <strong>Cookies</strong> und <strong>Cookie Gruppen</strong> "
 "erstellt. %s"
 
-#: templates/cookie-box.html.php:359
+#: templates/cookie-box.html.php:362
 msgctxt "Backend / Cookie Box / Tips / Headline"
 msgid "Why does a Password prompt appear after the Cookie Box?"
 msgstr "Warum erscheint nach der Cookie Box eine Passwortabfrage?"
 
-#: templates/cookie-box.html.php:364
+#: templates/cookie-box.html.php:367
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
 "If a password prompt appears after sending the <strong>Cookie Box</strong>, "
@@ -3172,12 +3306,12 @@ msgstr ""
 "<strong><em>admin-ajax.php</em></strong> ist für die Kommunikation zwischen "
 "Front- und Backend über AJAX unerlässlich."
 
-#: templates/cookie-box.html.php:370
+#: templates/cookie-box.html.php:373
 msgctxt "Backend / Cookie Box / Tips / Headline"
 msgid "What method of Integration should I use?"
 msgstr "Welche Methode der Integration sollte ich verwenden?"
 
-#: templates/cookie-box.html.php:375
+#: templates/cookie-box.html.php:378
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
 "We recommend the integration via JavaScript, as this avoids effects on the "
@@ -3189,17 +3323,17 @@ msgstr ""
 "JavaScript-Minifizierung aktiviert ist, müssen die HTML-Integration "
 "auswählen, da es einen Fehler im W3 Total Cache gibt."
 
-#: templates/cookie-box.html.php:388
+#: templates/cookie-box.html.php:391
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Additional Settings"
 msgstr "Zusätzliche Einstellungen"
 
-#: templates/cookie-box.html.php:394
+#: templates/cookie-box.html.php:397
 msgctxt "Backend / Cookie Box / Label"
 msgid "Show Accept all Button"
 msgstr "Alle Cookies akzeptieren Button anzeigen"
 
-#: templates/cookie-box.html.php:406
+#: templates/cookie-box.html.php:410
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "Shows a second button in the <strong>Cookie Preferences</strong>, with which "
@@ -3208,12 +3342,12 @@ msgstr ""
 "Zeigt in den <strong>Cookie Einstellungen</strong> einen zweiten Button an, "
 "über den der Besucher alle <strong>Cookies</strong> akzeptieren kann."
 
-#: templates/cookie-box.html.php:413
+#: templates/cookie-box.html.php:417
 msgctxt "Backend / Cookie Box / Label"
 msgid "Ignore Pre-selected Status"
 msgstr "Vorausgewählt Status ignorieren"
 
-#: templates/cookie-box.html.php:425
+#: templates/cookie-box.html.php:430
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "If enabled, no <strong>Cookie Group</strong> is pre-selected in the "
@@ -3224,7 +3358,7 @@ msgstr ""
 "<strong>Cookie Einstellungen</strong> vorausgewählt. Gilt nicht für die "
 "<strong>Cookie Box</strong>."
 
-#: templates/cookie-box.html.php:446
+#: templates/cookie-box.html.php:451
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
 "These settings affect the <strong>Cookie Settings</strong> and "
@@ -3233,12 +3367,12 @@ msgstr ""
 "Diese Einstellungen gelten für <strong>Cookie Einstellungen</strong> und "
 "<strong>Layouts</strong> mit dem Wort <strong>Advanced</strong> im Namen."
 
-#: templates/cookie-box.html.php:452
+#: templates/cookie-box.html.php:457
 msgctxt "Backend / Cookie Box / Tips / Headline"
 msgid "Show Accept all Button"
 msgstr "Alle Cookies akzeptieren Button anzeigen"
 
-#: templates/cookie-box.html.php:457
+#: templates/cookie-box.html.php:462
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
 "Borlabs Cookie shows a second button in the <strong>Cookie Preferences</"
@@ -3249,7 +3383,7 @@ msgstr ""
 "zweiten Button an, über den der Besucher alle <strong>Cookies</strong> "
 "akzeptieren kann. Der Button <strong>Speichern</strong> bleibt erhalten."
 
-#: templates/cookie-box.html.php:458
+#: templates/cookie-box.html.php:463
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
 "If the visitor clicks on the <strong>Accept all</strong> button, all "
@@ -3260,12 +3394,12 @@ msgstr ""
 "alle <strong>Cookie Gruppen</strong> ausgewählt, die Auswahl wird "
 "gespeichert und das Fenster wird geschlossen."
 
-#: templates/cookie-box.html.php:463
+#: templates/cookie-box.html.php:468
 msgctxt "Backend / Cookie Box / Tips / Headline"
 msgid "Ignore Pre-selected Status"
 msgstr "Vorausgewählt Status ignorieren"
 
-#: templates/cookie-box.html.php:468
+#: templates/cookie-box.html.php:473
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
 "If this option is enabled, no <strong>Cookie Group</strong> will be pre-"
@@ -3282,7 +3416,7 @@ msgstr ""
 "Gruppen &gt; <em>Ihre Cookie Gruppe</em> &gt; Vorausgewählt</strong> "
 "aktivierten <strong>Cookie Gruppen</strong> gesetzt."
 
-#: templates/cookie-box.html.php:469
+#: templates/cookie-box.html.php:474
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
 "If the visitor instead clicks on the individual <strong>Cookie Preferences</"
@@ -3296,120 +3430,120 @@ msgstr ""
 "<strong>Zurück</strong> Link wird seine Auswahl auch für die <strong>Cookie "
 "Box</strong> übernommen."
 
-#: templates/cookie-box.html.php:480
+#: templates/cookie-box.html.php:485
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Layout Settings"
 msgstr "Layout Einstellungen"
 
-#: templates/cookie-box.html.php:486
+#: templates/cookie-box.html.php:491
 msgctxt "Backend / Cookie Box / Label"
 msgid "Layout"
 msgstr "Layout"
 
-#: templates/cookie-box.html.php:491
+#: templates/cookie-box.html.php:496
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Bar"
 msgstr "Bar"
 
-#: templates/cookie-box.html.php:493
+#: templates/cookie-box.html.php:498
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Bar - Advanced"
 msgstr "Bar - Advanced"
 
-#: templates/cookie-box.html.php:495
+#: templates/cookie-box.html.php:500
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Bar - Slim"
 msgstr "Bar - Slim"
 
-#: templates/cookie-box.html.php:497
+#: templates/cookie-box.html.php:502
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Box"
 msgstr "Box"
 
-#: templates/cookie-box.html.php:499
+#: templates/cookie-box.html.php:504
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Box - Advanced"
 msgstr "Box - Advanced"
 
-#: templates/cookie-box.html.php:501
+#: templates/cookie-box.html.php:506
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Box - Slim"
 msgstr "Box - Slim"
 
-#: templates/cookie-box.html.php:504
+#: templates/cookie-box.html.php:509
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid "Choose the layout of the <strong>Cookie Box</strong>."
 msgstr "Wählen Sie das Layout der <strong>Cookie Box</strong>."
 
-#: templates/cookie-box.html.php:517
+#: templates/cookie-box.html.php:522
 msgctxt "Backend / Cookie Box / Alert Message"
 msgid "Depending on applicable law, this layout may not be allowed to be used."
 msgstr ""
 "Je nach geltendem Recht darf dieses Layout möglicherweise nicht verwendet "
 "werden."
 
-#: templates/cookie-box.html.php:526
+#: templates/cookie-box.html.php:531
 msgctxt "Backend / Cookie Box / Label"
 msgid "Position"
 msgstr "Position"
 
-#: templates/cookie-box.html.php:531
+#: templates/cookie-box.html.php:536
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Top Left"
 msgstr "Oben links"
 
-#: templates/cookie-box.html.php:533
+#: templates/cookie-box.html.php:538
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Top Center"
 msgstr "Oben zentriert"
 
-#: templates/cookie-box.html.php:535
+#: templates/cookie-box.html.php:540
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Top Right"
 msgstr "Oben rechts"
 
-#: templates/cookie-box.html.php:537
+#: templates/cookie-box.html.php:542
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Middle Left"
 msgstr "Mitte links"
 
-#: templates/cookie-box.html.php:539
+#: templates/cookie-box.html.php:544
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Middle Center"
 msgstr "Mitte zentriert"
 
-#: templates/cookie-box.html.php:541
+#: templates/cookie-box.html.php:546
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Middle Right"
 msgstr "Mitte rechts"
 
-#: templates/cookie-box.html.php:543
+#: templates/cookie-box.html.php:548
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Bottom Left"
 msgstr "Unten links"
 
-#: templates/cookie-box.html.php:545
+#: templates/cookie-box.html.php:550
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Bottom Center"
 msgstr "Unten zentriert"
 
-#: templates/cookie-box.html.php:547
+#: templates/cookie-box.html.php:552
 msgctxt "Backend / Cookie Box / Select Option"
 msgid "Bottom Right"
 msgstr "Unten rechts"
 
-#: templates/cookie-box.html.php:550
+#: templates/cookie-box.html.php:555
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid "Choose the position in which the <strong>Cookie Box</strong> appears."
 msgstr ""
 "Wählen Sie die Position, an der die <strong>Cookie Box</strong> erscheint."
 
-#: templates/cookie-box.html.php:557
+#: templates/cookie-box.html.php:562
 msgctxt "Backend / Cookie Box / Label"
 msgid "Cookie Groups Justification"
 msgstr "Cookie Gruppen Blocksatz"
 
-#: templates/cookie-box.html.php:570
+#: templates/cookie-box.html.php:575
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "Choose the justification of the <strong>Cookie Group</strong> items (list "
@@ -3418,12 +3552,12 @@ msgstr ""
 "Wählen Sie den Blocksatz der <strong>Cookie Gruppe</strong> Einträge "
 "(Listenelemente oder Checkboxen) in der <strong>Cookie Box</strong>."
 
-#: templates/cookie-box.html.php:590
+#: templates/cookie-box.html.php:595
 msgctxt "Backend / Cookie Box / Tips / Headline"
 msgid "Cookie Groups Justification"
 msgstr "Cookie Gruppen Blocksatz"
 
-#: templates/cookie-box.html.php:591
+#: templates/cookie-box.html.php:596
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
 "<strong>space-around</strong>: The spacing between each pair of adjacent "
@@ -3434,7 +3568,7 @@ msgstr ""
 "gleich. Der Leerraum vor dem ersten und nach dem letzten Eintrag entspricht "
 "der Hälfte des Leerraums zwischen zwei angrenzenden Einträgen."
 
-#: templates/cookie-box.html.php:592
+#: templates/cookie-box.html.php:597
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
 "<strong>space-between</strong>: The spacing between each pair of adjacent "
@@ -3445,27 +3579,27 @@ msgstr ""
 "gleich, wobei der erste Eintrag bündig mit dem Anfang und der letzte bündig "
 "mit dem Ende ist."
 
-#: templates/cookie-box.html.php:601
+#: templates/cookie-box.html.php:606
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Animation Settings"
 msgstr "Animation Einstellungen"
 
-#: templates/cookie-box.html.php:607
+#: templates/cookie-box.html.php:612
 msgctxt "Backend / Cookie Box / Label"
 msgid "Animation"
 msgstr "Animation"
 
-#: templates/cookie-box.html.php:618
+#: templates/cookie-box.html.php:624
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid "If activated the <strong>Cookie Box</strong> is animated."
 msgstr "Wenn aktiviert, wird die <strong>Cookie Box</strong> animiert."
 
-#: templates/cookie-box.html.php:625
+#: templates/cookie-box.html.php:631
 msgctxt "Backend / Cookie Box / Label"
 msgid "Animation Delay"
 msgstr "Animation Verzögern"
 
-#: templates/cookie-box.html.php:636
+#: templates/cookie-box.html.php:643
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "If activated the animation and appearance of the <strong>Cookie Box</strong> "
@@ -3474,62 +3608,62 @@ msgstr ""
 "Wenn aktiviert, wird die Animation und das Auftauchen der <strong>Cookie "
 "Box</strong> um eine Sekunde verzögert."
 
-#: templates/cookie-box.html.php:643
+#: templates/cookie-box.html.php:650
 msgctxt "Backend / Cookie Box / Label"
 msgid "Animation In"
 msgstr "Animation Einblenden"
 
-#: templates/cookie-box.html.php:649
+#: templates/cookie-box.html.php:656
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Attention Seekers"
 msgstr "Attention Seekers"
 
-#: templates/cookie-box.html.php:678
+#: templates/cookie-box.html.php:684
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Bouncing Entrances"
 msgstr "Bouncing Entrances"
 
-#: templates/cookie-box.html.php:697
+#: templates/cookie-box.html.php:703
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Fading Entrances"
 msgstr "Fading Entrances"
 
-#: templates/cookie-box.html.php:728 templates/cookie-box.html.php:881
+#: templates/cookie-box.html.php:734 templates/cookie-box.html.php:884
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Flippers"
 msgstr "Flippers"
 
-#: templates/cookie-box.html.php:740 templates/cookie-box.html.php:891
+#: templates/cookie-box.html.php:746 templates/cookie-box.html.php:894
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Lightspeed"
 msgstr "Lightspeed"
 
-#: templates/cookie-box.html.php:747
+#: templates/cookie-box.html.php:753
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Rotating Entrances"
 msgstr "Rotating Entrances"
 
-#: templates/cookie-box.html.php:766
+#: templates/cookie-box.html.php:772
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Sliding Entrances"
 msgstr "Sliding Entrances"
 
-#: templates/cookie-box.html.php:783
+#: templates/cookie-box.html.php:788
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Zoom Entrances"
 msgstr "Zoom Entrances"
 
-#: templates/cookie-box.html.php:802 templates/cookie-box.html.php:954
+#: templates/cookie-box.html.php:807 templates/cookie-box.html.php:955
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Specials"
 msgstr "Specials"
 
-#: templates/cookie-box.html.php:812 templates/cookie-box.html.php:963
+#: templates/cookie-box.html.php:817 templates/cookie-box.html.php:964
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid "Repeat animation."
 msgstr "Animation wiederholen."
 
-#: templates/cookie-box.html.php:815
+#: templates/cookie-box.html.php:820
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "Choose the animation with which the <strong>Cookie Box</strong> appears."
@@ -3537,37 +3671,37 @@ msgstr ""
 "Wählen Sie die Animation, mit der die <strong>Cookie Box</strong> angezeigt "
 "wird."
 
-#: templates/cookie-box.html.php:822
+#: templates/cookie-box.html.php:827
 msgctxt "Backend / Cookie Box / Label"
 msgid "Animation Out"
 msgstr "Animation Ausblenden"
 
-#: templates/cookie-box.html.php:829
+#: templates/cookie-box.html.php:834
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Bouncing Exits"
 msgstr "Bouncing Exits"
 
-#: templates/cookie-box.html.php:849
+#: templates/cookie-box.html.php:853
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Fading Exits"
 msgstr "Fading Exits"
 
-#: templates/cookie-box.html.php:898
+#: templates/cookie-box.html.php:901
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Rotating Exits"
 msgstr "Rotating Exits"
 
-#: templates/cookie-box.html.php:918
+#: templates/cookie-box.html.php:920
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Sliding Exits"
 msgstr "Sliding Exits"
 
-#: templates/cookie-box.html.php:934
+#: templates/cookie-box.html.php:936
 msgctxt "Backend / Cookie Box / Select Option Group"
 msgid "Zoom Exits"
 msgstr "Zoom Exits"
 
-#: templates/cookie-box.html.php:966
+#: templates/cookie-box.html.php:967
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "Choose the animation with which the <strong>Cookie Box</strong> disappears."
@@ -3575,22 +3709,22 @@ msgstr ""
 "Wählen Sie die Animation, mit der die <strong>Cookie Box</strong> "
 "verschwindet."
 
-#: templates/cookie-box.html.php:973
+#: templates/cookie-box.html.php:974
 msgctxt "Backend / Cookie Box / Label"
 msgid "Animation Preview"
 msgstr "Animationsvorschau"
 
-#: templates/cookie-box.html.php:1011
+#: templates/cookie-box.html.php:1012
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Logo Settings"
 msgstr "Logo Einstellungen"
 
-#: templates/cookie-box.html.php:1017
+#: templates/cookie-box.html.php:1018
 msgctxt "Backend / Cookie Box / Label"
 msgid "Show Logo"
 msgstr "Zeige Logo"
 
-#: templates/cookie-box.html.php:1028
+#: templates/cookie-box.html.php:1030
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "If activated the selected Logo is displayed in the <strong>Cookie Box</"
@@ -3599,33 +3733,33 @@ msgstr ""
 "Wenn aktiviert, wird das ausgewählte Logo in der <strong>Cookie Box</strong> "
 "angezeigt."
 
-#: templates/cookie-box.html.php:1035
+#: templates/cookie-box.html.php:1037
 msgctxt "Backend / Cookie Box / Label"
 msgid "Logo"
 msgstr "Logo"
 
-#: templates/cookie-box.html.php:1037
+#: templates/cookie-box.html.php:1039
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid "Choose a logo you want to appear in the <strong>Cookie Box</strong>."
 msgstr ""
 "Wählen Sie ein Logo, das in der <strong>Cookie Box</strong> erscheinen soll."
 
-#: templates/cookie-box.html.php:1047 templates/cookie-box.html.php:1083
+#: templates/cookie-box.html.php:1049 templates/cookie-box.html.php:1085
 msgctxt "Backend / Cookie Box / Button Title"
 msgid "Select or Upload Logo"
 msgstr "Logo auswählen oder hochladen"
 
-#: templates/cookie-box.html.php:1048 templates/cookie-box.html.php:1084
+#: templates/cookie-box.html.php:1050 templates/cookie-box.html.php:1086
 msgctxt "Backend / Global / Button Title"
 msgid "Use this media"
 msgstr "Dieses Medium verwenden"
 
-#: templates/cookie-box.html.php:1070
+#: templates/cookie-box.html.php:1072
 msgctxt "Backend / Cookie Box / Label"
 msgid "Logo - HD"
 msgstr "Logo - HD"
 
-#: templates/cookie-box.html.php:1072
+#: templates/cookie-box.html.php:1074
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "Choose the HD version of the logo you want to appear in the <strong>Cookie "
@@ -3634,12 +3768,12 @@ msgstr ""
 "Wählen Sie die HD-Version des Logos, das Sie in der <strong>Cookie Box</"
 "strong> anzeigen möchten. Es wird für hochauflösende Displays verwendet."
 
-#: templates/cookie-box.html.php:1121
+#: templates/cookie-box.html.php:1123
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Appearance Settings"
 msgstr "Darstellungs Einstellungen"
 
-#: templates/cookie-box.html.php:1129
+#: templates/cookie-box.html.php:1131
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "Usually the theme font is used. To use a custom font family select the "
@@ -3649,12 +3783,12 @@ msgstr ""
 "benutzerdefinierte Font Family zu verwenden, aktivieren Sie das "
 "Kontrollkästchen und geben Sie eine benutzerdefinierte Schriftart ein."
 
-#: templates/cookie-box.html.php:1143
+#: templates/cookie-box.html.php:1145
 msgctxt "Backend / Cookie Box / Input Placeholder"
 msgid "Enter custom font family"
 msgstr "Benutzerdefinierte Font Family eingeben"
 
-#: templates/cookie-box.html.php:1152
+#: templates/cookie-box.html.php:1154
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "Based on the base font size, the font sizes of all elements are "
@@ -3663,39 +3797,39 @@ msgstr ""
 "Ausgehend von der Basisschriftgröße werden die Schriftgrößen aller Elemente "
 "automatisch proportional angepasst."
 
-#: templates/cookie-box.html.php:1172
+#: templates/cookie-box.html.php:1174
 msgctxt "Backend / Cookie Box / Label"
 msgid "Cookie Box"
 msgstr "Cookie Box"
 
-#: templates/cookie-box.html.php:1197
+#: templates/cookie-box.html.php:1199
 msgctxt "Backend / Cookie Box / Label"
 msgid "Accordion"
 msgstr "Akkordeon"
 
-#: templates/cookie-box.html.php:1222
+#: templates/cookie-box.html.php:1224
 msgctxt "Backend / Cookie Box / Label"
 msgid "Table"
 msgstr "Tabelle"
 
-#: templates/cookie-box.html.php:1265
+#: templates/cookie-box.html.php:1267
 msgctxt "Backend / Cookie Box / Tips / Headline"
 msgid ""
 "Where's what? Overview of all elements in the <strong>Cookie Box</strong>."
 msgstr ""
 "Wo ist was? Übersicht über alle Elemente in der <strong>Cookie Box</strong>."
 
-#: templates/cookie-box.html.php:1276 templates/cookie-box.html.php:1294
+#: templates/cookie-box.html.php:1278 templates/cookie-box.html.php:1296
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Click for more information"
 msgstr "Klicken Sie hier für weitere Informationen"
 
-#: templates/cookie-box.html.php:1282
+#: templates/cookie-box.html.php:1284
 msgctxt "Backend / Cookie Box / Tips / Headline"
 msgid "Where's what? Overview of all elements in the Cookie Preferences."
 msgstr "Wo ist was? Übersicht über alle Elemente in den Cookie Einstellungen."
 
-#: templates/cookie-box.html.php:1296
+#: templates/cookie-box.html.php:1298
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid ""
 "The <strong>Cookie Preferences</strong> is displayed when the visitor clicks "
@@ -3706,47 +3840,47 @@ msgstr ""
 "auf den Link für die individuelle <strong>Cookie Einstellung</strong> in der "
 "<strong>Cookie Box</strong> klickt."
 
-#: templates/cookie-box.html.php:1306
+#: templates/cookie-box.html.php:1308
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Border Settings"
 msgstr "Rahmen Einstellungen"
 
-#: templates/cookie-box.html.php:1312
+#: templates/cookie-box.html.php:1314
 msgctxt "Backend / Global / Styling / Label"
 msgid "Table Border Color"
 msgstr "Tabelle Rahmen Farbe"
 
-#: templates/cookie-box.html.php:1337
+#: templates/cookie-box.html.php:1339
 msgctxt "Backend / Global / Styling / Label"
 msgid "Box"
 msgstr "Box"
 
-#: templates/cookie-box.html.php:1366
+#: templates/cookie-box.html.php:1368
 msgctxt "Backend / Global / Styling / Label"
 msgid "Checkbox"
 msgstr "Checkbox"
 
-#: templates/cookie-box.html.php:1381
+#: templates/cookie-box.html.php:1383
 msgctxt "Backend / Global / Styling / Label"
 msgid "Accordion"
 msgstr "Akkordeon"
 
-#: templates/cookie-box.html.php:1397
+#: templates/cookie-box.html.php:1399
 msgctxt "Backend / Global / Styling / Label"
 msgid "Table"
 msgstr "Tabelle"
 
-#: templates/cookie-box.html.php:1420
+#: templates/cookie-box.html.php:1422
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Button Settings"
 msgstr "Button Einstellungen"
 
-#: templates/cookie-box.html.php:1426
+#: templates/cookie-box.html.php:1428
 msgctxt "Backend / Global / Styling / Label"
 msgid "Button Full Width"
 msgstr "Button volle Breite"
 
-#: templates/cookie-box.html.php:1437
+#: templates/cookie-box.html.php:1440
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid ""
 "Choose if the button is full width (Status: ON) or not (Status: OFF). Only "
@@ -3757,392 +3891,393 @@ msgstr ""
 "(Status: AUS). Wird nur auf Buttons in der <strong>Cookie Box</strong> und "
 "nicht auf Buttons in den <strong>Cookie Einstellungen</strong> angewendet."
 
-#: templates/cookie-box.html.php:1473 templates/cookie-box.html.php:1586
-msgctxt "Backend / Cookie Box / Alert Message"
-msgid ""
-"Buttons with different colours may violate applicable laws. Please inform "
-"yourself in advance about the legal situation that applies to you."
-msgstr ""
-"Buttons mit unterschiedlichen Farben können gegen geltende Gesetze "
-"verstoßen. Bitte informiere dich vorab über die für dich geltende Rechtslage."
-
-#: templates/cookie-box.html.php:1507
+#: templates/cookie-box.html.php:1497
 msgctxt "Backend / Cookie Box / Label"
 msgid "Refuse Button Color"
 msgstr "Verweigern Button Farbe"
 
-#: templates/cookie-box.html.php:1532
+#: templates/cookie-box.html.php:1522
 msgctxt "Backend / Cookie Box / Label"
 msgid "Refuse Button Text Color"
 msgstr "Verweigern Button Text Farbe"
 
-#: templates/cookie-box.html.php:1557
+#: templates/cookie-box.html.php:1547
 msgctxt "Backend / Cookie Box / Label"
 msgid "Accept all Button Color"
 msgstr "Alle Cookies akzeptieren Button Farbe"
 
-#: templates/cookie-box.html.php:1595
+#: templates/cookie-box.html.php:1572
 msgctxt "Backend / Cookie Box / Label"
 msgid "Accept all Button Text Color"
 msgstr "Alle Cookies akzeptieren Button Text Farbe"
 
-#: templates/cookie-box.html.php:1621
+#: templates/cookie-box.html.php:1598
 msgctxt "Backend / Global / Styling / Label"
 msgid "Switch Button Background Color"
 msgstr "Switch Button Hintergrundfarbe"
 
-#: templates/cookie-box.html.php:1629 templates/cookie-box.html.php:1655
-#: templates/cookie-box.html.php:1797
+#: templates/cookie-box.html.php:1606 templates/cookie-box.html.php:1632
+#: templates/cookie-box.html.php:1775
 msgctxt "Backend / Global / Styling / Label"
 msgid "Active"
 msgstr "Aktiv"
 
-#: templates/cookie-box.html.php:1638 templates/cookie-box.html.php:1663
+#: templates/cookie-box.html.php:1615 templates/cookie-box.html.php:1640
 msgctxt "Backend / Global / Styling / Label"
 msgid "Inactive"
 msgstr "Inaktiv"
 
-#: templates/cookie-box.html.php:1647
+#: templates/cookie-box.html.php:1624
 msgctxt "Backend / Global / Styling / Label"
 msgid "Switch Button Color"
 msgstr "Switch Button Farbe"
 
-#: templates/cookie-box.html.php:1672
+#: templates/cookie-box.html.php:1649
 msgctxt "Backend / Global / Styling / Label"
 msgid "Switch Button Round"
 msgstr "Switch Button Rund"
 
-#: templates/cookie-box.html.php:1683
+#: templates/cookie-box.html.php:1661
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid "Choose if the button is round (Status: ON) or squared (Status: OFF)."
 msgstr ""
 "Wählen Sie, ob der Button rund (Status: AN) oder quadratisch (Status: AUS) "
 "ist."
 
-#: templates/cookie-box.html.php:1704
+#: templates/cookie-box.html.php:1682
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Checkbox Settings"
 msgstr "Checkbox Einstellungen"
 
-#: templates/cookie-box.html.php:1710
+#: templates/cookie-box.html.php:1688
 msgctxt "Backend / Global / Styling / Label"
 msgid "Checkbox Active"
 msgstr "Checkbox Aktiv"
 
-#: templates/cookie-box.html.php:1727 templates/cookie-box.html.php:1753
-#: templates/cookie-box.html.php:1779
+#: templates/cookie-box.html.php:1705 templates/cookie-box.html.php:1731
+#: templates/cookie-box.html.php:1757
 msgctxt "Backend / Global / Styling / Label"
 msgid "Border Color"
 msgstr "Rahmen Farbe"
 
-#: templates/cookie-box.html.php:1736
+#: templates/cookie-box.html.php:1714
 msgctxt "Backend / Global / Styling / Label"
 msgid "Checkbox Inactive"
 msgstr "Checkbox Inaktiv"
 
-#: templates/cookie-box.html.php:1762
+#: templates/cookie-box.html.php:1740
 msgctxt "Backend / Global / Styling / Label"
 msgid "Checkbox Disabled"
 msgstr "Checkbox Deaktiviert"
 
-#: templates/cookie-box.html.php:1788
+#: templates/cookie-box.html.php:1766
 msgctxt "Backend / Global / Styling / Label"
 msgid "Check Mark"
 msgstr "Häkchen"
 
-#: templates/cookie-box.html.php:1806
+#: templates/cookie-box.html.php:1784
 msgctxt "Backend / Global / Styling / Label"
 msgid "Disabled"
 msgstr "Deaktiviert"
 
-#: templates/cookie-box.html.php:1829
+#: templates/cookie-box.html.php:1807
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Link Settings"
 msgstr "Link Einstellungen"
 
-#: templates/cookie-box.html.php:1835
+#: templates/cookie-box.html.php:1813
 msgctxt "Backend / Cookie Box / Label"
 msgid "Primary Link Color"
 msgstr "Primäre Link Farbe"
 
-#: templates/cookie-box.html.php:1860
+#: templates/cookie-box.html.php:1838
 msgctxt "Backend / Cookie Box / Label"
 msgid "Secondary Link Color"
 msgstr "Sekundäre Link Farbe"
 
-#: templates/cookie-box.html.php:1885
+#: templates/cookie-box.html.php:1863
 msgctxt "Backend / Cookie Box / Label"
 msgid "Refuse Link Color"
 msgstr "Verweigern Link Farbe"
 
-#: templates/cookie-box.html.php:1924
+#: templates/cookie-box.html.php:1902
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Text Settings - Cookie Box"
 msgstr "Text Einstellungen - Cookie Box"
 
-#: templates/cookie-box.html.php:1930 templates/cookie-box.html.php:2030
+#: templates/cookie-box.html.php:1908 templates/cookie-box.html.php:2008
 msgctxt "Backend / Cookie Box / Label"
 msgid "Headline"
 msgstr "Überschrift"
 
-#: templates/cookie-box.html.php:1940 templates/cookie-box.html.php:2040
+#: templates/cookie-box.html.php:1918 templates/cookie-box.html.php:2018
 msgctxt "Backend / Cookie Box / Label"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: templates/cookie-box.html.php:1950
+#: templates/cookie-box.html.php:1928
 msgctxt "Backend / Cookie Box / Label"
 msgid "Accept Cookie Button Text"
 msgstr "Cookies akzeptieren Button Text"
 
-#: templates/cookie-box.html.php:1960
+#: templates/cookie-box.html.php:1938
 msgctxt "Backend / Cookie Box / Label"
 msgid "Individual Cookie Preferences Link Text"
 msgstr "Individuelle Cookie Einstellungen Link Text"
 
-#: templates/cookie-box.html.php:1970 templates/cookie-box.html.php:2073
+#: templates/cookie-box.html.php:1948 templates/cookie-box.html.php:2051
 msgctxt "Backend / Cookie Box / Label"
 msgid "Refuse Link Text"
 msgstr "Verweigern Link Text"
 
-#: templates/cookie-box.html.php:1980
+#: templates/cookie-box.html.php:1958
 msgctxt "Backend / Cookie Box / Label"
 msgid "Cookie Details Link Text"
 msgstr "Cookie Details Link Text"
 
-#: templates/cookie-box.html.php:1990
+#: templates/cookie-box.html.php:1968
 msgctxt "Backend / Cookie Box / Label"
 msgid "Privacy Link Text"
 msgstr "Datenschutz Link Text"
 
-#: templates/cookie-box.html.php:2000
+#: templates/cookie-box.html.php:1978
 msgctxt "Backend / Cookie Box / Label"
 msgid "Imprint Link Text"
 msgstr "Impressum Link Text"
 
-#: templates/cookie-box.html.php:2024
+#: templates/cookie-box.html.php:2002
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Text Settings - Cookie Preferences"
 msgstr "Text Einstellungen - Cookie Einstellungen"
 
-#: templates/cookie-box.html.php:2051
+#: templates/cookie-box.html.php:2029
 msgctxt "Backend / Cookie Box / Label"
 msgid "Save Preference Button Text"
 msgstr "Einstellungen speichern Button Text"
 
-#: templates/cookie-box.html.php:2062
+#: templates/cookie-box.html.php:2040
 msgctxt "Backend / Cookie Box / Label"
 msgid "Accept all Button Text"
 msgstr "Alle Cookies akzeptieren Button Text"
 
-#: templates/cookie-box.html.php:2084
+#: templates/cookie-box.html.php:2062
 msgctxt "Backend / Cookie Box / Label"
 msgid "Back Link Text"
 msgstr "Zurück Link Text"
 
-#: templates/cookie-box.html.php:2094
+#: templates/cookie-box.html.php:2072
 msgctxt "Backend / Cookie Box / Label"
 msgid "Switch Button Status Active"
 msgstr "Switch Button Status Aktiv"
 
-#: templates/cookie-box.html.php:2105
+#: templates/cookie-box.html.php:2083
 msgctxt "Backend / Cookie Box / Label"
 msgid "Switch Button Status Inactive"
 msgstr "Switch Button Status Inaktiv"
 
-#: templates/cookie-box.html.php:2116
+#: templates/cookie-box.html.php:2094
 msgctxt "Backend / Cookie Box / Label"
 msgid "Show Cookie Information"
 msgstr "Cookie-Informationen anzeigen"
 
-#: templates/cookie-box.html.php:2127
+#: templates/cookie-box.html.php:2105
 msgctxt "Backend / Cookie Box / Label"
 msgid "Hide Cookie Information"
 msgstr "Cookie-Informationen ausblenden"
 
-#: templates/cookie-box.html.php:2152
+#: templates/cookie-box.html.php:2130
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Text Settings - Cookie Details Table"
 msgstr "Text Einstellungen - Cookie Details Tabelle"
 
-#: templates/cookie-box.html.php:2158
+#: templates/cookie-box.html.php:2136
 msgctxt "Backend / Cookie Box / Label"
 msgid "Accept"
 msgstr "Akzeptieren"
 
-#: templates/cookie-box.html.php:2169
+#: templates/cookie-box.html.php:2147
 msgctxt "Backend / Cookie Box / Label"
 msgid "Name"
 msgstr "Name"
 
-#: templates/cookie-box.html.php:2179
+#: templates/cookie-box.html.php:2157
 msgctxt "Backend / Cookie Box / Label"
 msgid "Provider"
 msgstr "Anbieter"
 
-#: templates/cookie-box.html.php:2190
+#: templates/cookie-box.html.php:2168
 msgctxt "Backend / Cookie Box / Label"
 msgid "Purpose"
 msgstr "Zweck"
 
-#: templates/cookie-box.html.php:2201
+#: templates/cookie-box.html.php:2179
 msgctxt "Backend / Cookie Box / Label"
 msgid "Privacy Policy"
 msgstr "Datenschutzerklärung"
 
-#: templates/cookie-box.html.php:2212
+#: templates/cookie-box.html.php:2190
 msgctxt "Backend / Cookie Box / Label"
 msgid "Host(s)"
 msgstr "Host(s)"
 
-#: templates/cookie-box.html.php:2222
+#: templates/cookie-box.html.php:2200
 msgctxt "Backend / Cookie Box / Label"
 msgid "Cookie Name"
 msgstr "Cookie Name"
 
-#: templates/cookie-box.html.php:2233
+#: templates/cookie-box.html.php:2211
 msgctxt "Backend / Cookie Box / Label"
 msgid "Cookie Expiry"
 msgstr "Cookie Laufzeit"
 
-#: templates/cookie-box.html.php:2258
+#: templates/cookie-box.html.php:2236
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Text Settings - Consent History Table"
 msgstr "Text Einstellungen - Einwilligungs-Historie Tabelle"
 
-#: templates/cookie-box.html.php:2264
+#: templates/cookie-box.html.php:2242
 msgctxt "Backend / Cookie Box / Label"
 msgid "Date"
 msgstr "Datum"
 
-#: templates/cookie-box.html.php:2274
+#: templates/cookie-box.html.php:2252
 msgctxt "Backend / Cookie Box / Label"
 msgid "Version"
 msgstr "Version"
 
-#: templates/cookie-box.html.php:2285
+#: templates/cookie-box.html.php:2263
 msgctxt "Backend / Cookie Box / Label"
 msgid "Consents"
 msgstr "Einwilligungen"
 
-#: templates/cookie-box.html.php:2310
+#: templates/cookie-box.html.php:2289
+msgctxt "Backend / Cookie Box / Headline"
+msgid "Text Settings - Accessibility"
+msgstr "Texteinstellungen - Barrierefreiheit"
+
+#: templates/cookie-box.html.php:2295
+msgctxt "Backend / Cookie Box / Label"
+msgid "Service Group List Explanation"
+msgstr "Service Gruppen Erklärung"
+
+#: templates/cookie-box.html.php:2319
 msgctxt "Backend / Cookie Box / Headline"
 msgid "Custom CSS"
 msgstr "Benutzerdefiniertes CSS"
 
-#: templates/cookie-box.html.php:2317
+#: templates/cookie-box.html.php:2326
 msgctxt "Backend / Cookie Box / Label"
 msgid "CSS"
 msgstr "CSS"
 
-#: templates/cookie-box.html.php:2319
+#: templates/cookie-box.html.php:2328
 msgctxt "Backend / Cookie Box / Tooltip"
 msgid "Add your custom CSS to customize the <strong>Cookie Box</strong>."
 msgstr ""
 "Fügen Sie Ihr eigenes CSS hinzu, um die <strong>Cookie Box</strong> "
 "anzupassen."
 
-#: templates/cookie-box.html.php:2350
+#: templates/cookie-box.html.php:2359
 msgctxt "Backend / Cookie Box / Tips / Headline"
 msgid "Cookie Box"
 msgstr "Cookie Box"
 
-#: templates/cookie-box.html.php:2364
+#: templates/cookie-box.html.php:2373
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Cookie Box - Background Color"
 msgstr "Cookie Box - Hintergrundfarbe"
 
-#: templates/cookie-box.html.php:2367 templates/cookie-box.html.php:2420
+#: templates/cookie-box.html.php:2376 templates/cookie-box.html.php:2429
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Cookie Box - Text Color"
 msgstr "Cookie Box - Text Farbe"
 
-#: templates/cookie-box.html.php:2370
+#: templates/cookie-box.html.php:2379
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Border Radius - Box"
 msgstr "Rahmen Radius - Box"
 
-#: templates/cookie-box.html.php:2373
+#: templates/cookie-box.html.php:2382
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Border Radius - Button"
 msgstr "Rahmen Radius - Button"
 
-#: templates/cookie-box.html.php:2376
+#: templates/cookie-box.html.php:2385
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Button Background Color - Default / Hover"
 msgstr "Button Hintergrundfarbe - Standard / Hover"
 
-#: templates/cookie-box.html.php:2379 templates/cookie-box.html.php:2426
+#: templates/cookie-box.html.php:2388 templates/cookie-box.html.php:2435
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Button Text Color - Default / Hover"
 msgstr "Button Text Farbe - Standard / Hover"
 
-#: templates/cookie-box.html.php:2382 templates/cookie-box.html.php:2429
+#: templates/cookie-box.html.php:2391 templates/cookie-box.html.php:2438
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Primary Link Color - Default / Hover"
 msgstr "Primäre Link Farbe - Standard / Hover"
 
-#: templates/cookie-box.html.php:2385
+#: templates/cookie-box.html.php:2394
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Refuse Link Color - Default / Hover"
 msgstr "Verweigern Link Farbe - Standard / Hover"
 
-#: templates/cookie-box.html.php:2388
+#: templates/cookie-box.html.php:2397
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Secondary Link Color - Default / Hover"
 msgstr "Sekundäre Link Farbe - Standard / Hover"
 
-#: templates/cookie-box.html.php:2391 templates/cookie-box.html.php:2450
+#: templates/cookie-box.html.php:2400 templates/cookie-box.html.php:2459
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Logo / Logo - HD"
 msgstr "Logo / Logo - HD"
 
-#: templates/cookie-box.html.php:2406
+#: templates/cookie-box.html.php:2415
 msgctxt "Backend / Cookie Box / Tips / Headline"
 msgid "Cookie Preferences"
 msgstr "Cookie Einstellungen"
 
-#: templates/cookie-box.html.php:2423
+#: templates/cookie-box.html.php:2432
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Background Text Color - Default / Hover"
 msgstr "Hintergrund Text Farbe - Standard / Hover"
 
-#: templates/cookie-box.html.php:2432
+#: templates/cookie-box.html.php:2441
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Accordion - Background Color"
 msgstr "Akkordeon - Hintergrundfarbe"
 
-#: templates/cookie-box.html.php:2435
+#: templates/cookie-box.html.php:2444
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Accordion - Text Color"
 msgstr "Akkordeon - Text Farbe"
 
-#: templates/cookie-box.html.php:2438
+#: templates/cookie-box.html.php:2447
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Border Radius - Accordion"
 msgstr "Rahmen Radius - Akkordeon"
 
-#: templates/cookie-box.html.php:2441
+#: templates/cookie-box.html.php:2450
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Border Radius - Table"
 msgstr "Rahmen Radius - Tabelle"
 
-#: templates/cookie-box.html.php:2444
+#: templates/cookie-box.html.php:2453
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Switch Button Background Color - Active / Inactive"
 msgstr "Switch Button Hintergrundfarbe - Active / Inactive"
 
-#: templates/cookie-box.html.php:2447
+#: templates/cookie-box.html.php:2456
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Switch Button Color - Active / Inactive"
 msgstr "Switch Button Farbe - Active / Inactive"
 
-#: templates/cookie-box.html.php:2453
+#: templates/cookie-box.html.php:2462
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Table - Background Color"
 msgstr "Tabelle - Hintergrundfarbe"
 
-#: templates/cookie-box.html.php:2456
+#: templates/cookie-box.html.php:2465
 msgctxt "Backend / Cookie Box / Tips / Text"
 msgid "Table - Text Color"
 msgstr "Tabelle - Text Farbe"
@@ -5561,32 +5696,37 @@ msgctxt "Backend / License / Label"
 msgid "Max Websites"
 msgstr "Max. Websites"
 
-#: templates/license.html.php:67
+#: templates/license.html.php:56
+msgctxt "Backend / Global / Button Title"
+msgid "Refresh License Information"
+msgstr "Lizenzinformationen aktualisieren"
+
+#: templates/license.html.php:78
 msgctxt "Backend / License / Headline"
 msgid "Your License"
 msgstr "Ihre Lizenz"
 
-#: templates/license.html.php:72
+#: templates/license.html.php:83
 msgctxt "Backend / License / Label"
 msgid "License Key"
 msgstr "Lizenzschlüssel"
 
-#: templates/license.html.php:75
+#: templates/license.html.php:86
 msgctxt "Backend / License / Tooltip"
 msgid "Enter your License Key."
 msgstr "Geben Sie Ihren Lizenzschlüssel ein."
 
-#: templates/license.html.php:84 templates/license.html.php:176
+#: templates/license.html.php:95 templates/license.html.php:187
 msgctxt "Backend / Global / Button Title"
 msgid "Save"
 msgstr "Speichern"
 
-#: templates/license.html.php:101
+#: templates/license.html.php:112
 msgctxt "Backend / License / Tips / Headline"
 msgid "Transferring a license key to a new website"
 msgstr "Übertragung eines Lizenzschlüssels auf eine neue Website"
 
-#: templates/license.html.php:106
+#: templates/license.html.php:117
 msgctxt "Backend / License / Tips / Text"
 msgid ""
 "If you decide to use your license on a new website, you can just enter your "
@@ -5598,17 +5738,17 @@ msgstr ""
 "Sie erhalten die Möglichkeit, Ihre alte Website zu entkoppeln und die Lizenz "
 "auf der neuen Website zu nutzen."
 
-#: templates/license.html.php:122
+#: templates/license.html.php:133
 msgctxt "Backend / License / Headline"
 msgid "Remove License"
 msgstr "Lizenz löschen"
 
-#: templates/license.html.php:127
+#: templates/license.html.php:138
 msgctxt "Backend / License / Label"
 msgid "Confirmation"
 msgstr "Bestätigung"
 
-#: templates/license.html.php:132
+#: templates/license.html.php:143
 msgctxt "Backend / License / Tooltip"
 msgid ""
 "Please confirm that you want to remove your license data from this website. "
@@ -5618,22 +5758,22 @@ msgstr ""
 "möchten. Nachdem die Lizenzdaten entfernt wurden, können Sie Ihren neuen "
 "Lizenzschlüssel eingeben."
 
-#: templates/license.html.php:141
+#: templates/license.html.php:152
 msgctxt "Backend / Global / Button Title"
 msgid "Remove License"
 msgstr "Lizenz entfernen"
 
-#: templates/license.html.php:159
+#: templates/license.html.php:170
 msgctxt "Backend / License / Headline"
 msgid "Test Environment"
 msgstr "Testumgebung"
 
-#: templates/license.html.php:164
+#: templates/license.html.php:175
 msgctxt "Backend / License / Label"
 msgid "Status"
 msgstr "Status"
 
-#: templates/license.html.php:168
+#: templates/license.html.php:179
 msgctxt "Backend / License / Tooltip"
 msgid ""
 "Mark this installation as a test environment to continue using Borlabs "
@@ -6424,7 +6564,7 @@ msgctxt "Backend / Settings / Label"
 msgid "Borlabs Cookie Status"
 msgstr "Borlabs Cookie Status"
 
-#: templates/settings.html.php:37
+#: templates/settings.html.php:36
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "Activates Borlabs Cookie on your website. Displays the <strong>Cookie Box</"
@@ -6433,12 +6573,12 @@ msgstr ""
 "Aktiviert Borlabs Cookie auf Ihrer Website. Zeigt die <strong>Cookie Box</"
 "strong> an und blockiert iframes und andere externe Medien."
 
-#: templates/settings.html.php:43
+#: templates/settings.html.php:42
 msgctxt "Backend / Settings / Label"
 msgid "Setup Mode"
 msgstr "Einrichtungsmodus"
 
-#: templates/settings.html.php:54
+#: templates/settings.html.php:53
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "With Setup Mode enabled, you can test your setup without having to enable "
@@ -6449,17 +6589,17 @@ msgstr ""
 "testen, ohne <strong>Borlabs Cookie Status</strong> aktivieren zu müssen. "
 "Nur Sie sehen die Cookie Box auf Ihrer Website."
 
-#: templates/settings.html.php:61
+#: templates/settings.html.php:60
 msgctxt "Backend / Settings / Label"
 msgid "Cookie Version"
 msgstr "Cookie Version"
 
-#: templates/settings.html.php:63
+#: templates/settings.html.php:62
 msgctxt "Backend / Settings / Text"
 msgid "Version"
 msgstr "Version"
 
-#: templates/settings.html.php:65
+#: templates/settings.html.php:64
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "Shows the version of the cookie of Borlabs Cookie. Increases with activating "
@@ -6468,12 +6608,12 @@ msgstr ""
 "Zeigt die Borlabs Cookie Version an. Erhöht sich mit der Aktivierung von "
 "<strong>Update Cookie Version &amp; Neuwahl erzwingen</strong>."
 
-#: templates/settings.html.php:72
+#: templates/settings.html.php:71
 msgctxt "Backend / Settings / Label"
 msgid "Update Cookie Version &amp; Force Re-Selection"
 msgstr "Update Cookie Version &amp; Neuauswahl erzwingen"
 
-#: templates/settings.html.php:81
+#: templates/settings.html.php:80
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "Updates the version of the cookie of Borlabs Cookie. This will cause the "
@@ -6484,12 +6624,12 @@ msgstr ""
 "Box</strong> für Besucher, die bereits eine Option ausgewählt haben, wieder "
 "angezeigt."
 
-#: templates/settings.html.php:88
+#: templates/settings.html.php:87
 msgctxt "Backend / Settings / Label"
 msgid "Cookie before Consent"
 msgstr "Cookie vor Einwilligung"
 
-#: templates/settings.html.php:99
+#: templates/settings.html.php:98
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "A cookie is set before the visitor's consent. Thus even if a visitor does "
@@ -6502,36 +6642,36 @@ msgstr ""
 "sein Besuch protokolliert und ihm in der Einwilligungs-Historie seine "
 "spätere Auswahl zugeordnet."
 
-#: templates/settings.html.php:106
+#: templates/settings.html.php:105
 msgctxt "Backend / Settings / Label"
 msgid "Aggregate Cookie Consent"
 msgstr "Einwilligungen zusammenführen"
 
-#: templates/settings.html.php:117
+#: templates/settings.html.php:116
 msgctxt "Backend / Settings / Tooltip"
 msgid "Aggregate the cookie consents of all WordPress sites in one table."
 msgstr ""
 "Zusammenfassen der Cookie-Einwilligungen aller WordPress-Seiten in einer "
 "Tabelle."
 
-#: templates/settings.html.php:124
+#: templates/settings.html.php:123
 msgctxt "Backend / Settings / Label"
 msgid "Cookies for Bots/Crawlers"
 msgstr "Cookies für Bots/Crawler"
 
-#: templates/settings.html.php:135
+#: templates/settings.html.php:134
 msgctxt "Backend / Settings / Tooltip"
 msgid "A bot/crawler is treated like a visitor who accepted all cookies."
 msgstr ""
 "Ein Bot/Crawler wird wie ein Besucher behandelt, der alle Cookies akzeptiert "
 "hat."
 
-#: templates/settings.html.php:142
+#: templates/settings.html.php:141
 msgctxt "Backend / Settings / Label"
 msgid "Respect \"Do Not Track\""
 msgstr "Respektiere \"Do Not Track\""
 
-#: templates/settings.html.php:153
+#: templates/settings.html.php:152
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "A visitor with active <strong>\"Do Not Track\"</strong> setting will not see "
@@ -6542,7 +6682,7 @@ msgstr ""
 "sieht die <strong>Cookie Box</strong> nicht und Borlabs Cookie wählt "
 "automatisch die <strong>Verweigern Link</strong> Option."
 
-#: templates/settings.html.php:164
+#: templates/settings.html.php:163
 msgctxt "Backend / Settings / Alert Message"
 msgid ""
 "You have enabled <strong>Do Not Track</strong> in your browser therefore you "
@@ -6551,12 +6691,12 @@ msgstr ""
 "Sie haben in Ihrem Browser <strong>Do Not Track</strong> aktiviert, daher "
 "sehen Sie die <strong>Cookie Box</strong> auf Ihrer Website nicht."
 
-#: templates/settings.html.php:173
+#: templates/settings.html.php:172
 msgctxt "Backend / Settings / Label"
 msgid "Reload After Consent"
 msgstr "Nach Einwilligung neu laden"
 
-#: templates/settings.html.php:184
+#: templates/settings.html.php:183
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "If activated the website will be reloaded after the visitor saves their "
@@ -6565,7 +6705,7 @@ msgstr ""
 "Wenn aktiviert, wird die Website neu geladen, nachdem der Besucher seine "
 "Einwilligung gespeichert hat."
 
-#: templates/settings.html.php:195
+#: templates/settings.html.php:194
 msgctxt "Backend / Settings / Alert Message"
 msgid ""
 "If this option is active, most likely all visits will be counted as \"Direct "
@@ -6576,7 +6716,7 @@ msgstr ""
 "als \"Direkte Aufrufe\" gewertet und die Herkunft geht verloren. Wir "
 "empfehlen daher, diese Option nicht zu aktivieren!"
 
-#: templates/settings.html.php:197
+#: templates/settings.html.php:196
 msgctxt "Backend / Settings / Alert Message"
 msgid ""
 "Only activate this option if you need to reload your page after consent. "
@@ -6588,12 +6728,12 @@ msgstr ""
 "diese Option aktivieren. Wenn Sie nicht wissen, ob Sie diese Option "
 "benötigen, werden Sie sie nicht benötigen."
 
-#: templates/settings.html.php:206
+#: templates/settings.html.php:205
 msgctxt "Backend / Settings / Label"
 msgid "jQuery Handle"
 msgstr "jQuery Handle"
 
-#: templates/settings.html.php:213
+#: templates/settings.html.php:212
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "If you are not using the default WordPress jQuery library, define the jQuery "
@@ -6603,12 +6743,12 @@ msgstr ""
 "definieren Sie die jQuery-Bibliothek, die Borlabs Cookie verwenden soll, "
 "indem Sie das jQuery-Handle angeben."
 
-#: templates/settings.html.php:222
+#: templates/settings.html.php:221
 msgctxt "Backend / Settings / Label"
 msgid "Display Meta Box"
 msgstr "Meta-Box anzeigen"
 
-#: templates/settings.html.php:224
+#: templates/settings.html.php:223
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "Display the Borlabs Cookie <strong>Meta Box</strong> on the selected post "
@@ -6619,12 +6759,12 @@ msgstr ""
 "Post Types an. Die <strong>Meta-Box</strong> ermöglicht es Ihnen, "
 "benutzerdefiniertes JavaScript auf bestimmten Seiten hinzuzufügen."
 
-#: templates/settings.html.php:269
+#: templates/settings.html.php:268
 msgctxt "Backend / Settings / Tips / Headline"
 msgid "What is the Cookie Version?"
 msgstr "Was ist die Cookie Version?"
 
-#: templates/settings.html.php:275
+#: templates/settings.html.php:274
 msgctxt "Backend / Settings / Tips / Text"
 msgid ""
 "The cookie of Borlabs Cookie is assigned a version number. It is used to ask "
@@ -6638,12 +6778,12 @@ msgstr ""
 "Cookie von der aktuellen Versionsnummer abweicht, erscheint dem Besucher die "
 "<strong>Cookie Box</strong>."
 
-#: templates/settings.html.php:281
+#: templates/settings.html.php:280
 msgctxt "Backend / Settings / Tips / Headline"
 msgid "What is the Meta Box?"
 msgstr "Was ist die Meta-Box?"
 
-#: templates/settings.html.php:286
+#: templates/settings.html.php:285
 msgctxt "Backend / Settings / Tips / Text"
 msgid ""
 "If active the <strong>Meta Box</strong> is displayed in the selected post "
@@ -6654,12 +6794,12 @@ msgstr ""
 "Typen angezeigt. So können Sie Code (JavaScript, HTML, Shortcodes) auf der "
 "Seite ausführen und z.B. ein Conversion-Pixel auslösen."
 
-#: templates/settings.html.php:292
+#: templates/settings.html.php:291
 msgctxt "Backend / Settings / Tips / Headline"
 msgid "Aggregate Cookie Consent"
 msgstr "Einwilligungen zusammenführen"
 
-#: templates/settings.html.php:301
+#: templates/settings.html.php:300
 msgctxt "Backend / Settings / Tips / Alert Message"
 msgid ""
 "Your WordPress is not a Multisite Network, therefore you do not have do "
@@ -6668,7 +6808,7 @@ msgstr ""
 "Ihr WordPress ist kein Multisite-Netzwerk, daher müssen Sie diese "
 "Einstellungen in den meisten Fällen nicht ändern."
 
-#: templates/settings.html.php:307
+#: templates/settings.html.php:306
 msgctxt "Backend / Settings / Tips / Text"
 msgid ""
 "Depending on your Multisite Network settings you can separate the cookie "
@@ -6678,12 +6818,12 @@ msgstr ""
 "Einwilligungen trennen oder müssen sie zusammenführen, um eine vollständige "
 "Cookie Einwilligungs-Historie zu erhalten."
 
-#: templates/settings.html.php:310
+#: templates/settings.html.php:309
 msgctxt "Backend / Settings / Tips / Text"
 msgid "When you have to aggregate the cookie consent:"
 msgstr "Wann Sie die Cookie Einwilligung zusammenführen müssen:"
 
-#: templates/settings.html.php:312
+#: templates/settings.html.php:311
 msgctxt "Backend / Settings / Tips / Text"
 msgid ""
 "- if one site is using only the domain (e.g. <strong><em>example.com</em></"
@@ -6694,7 +6834,7 @@ msgstr ""
 "strong>) und die andere Seite eine Subdomain (z.B <strong><em>shop.example."
 "com</em></strong>)"
 
-#: templates/settings.html.php:314
+#: templates/settings.html.php:313
 msgctxt "Backend / Settings / Tips / Text"
 msgid ""
 "- if one site is using the root folder <strong>/</strong> and the other site "
@@ -6703,12 +6843,12 @@ msgstr ""
 "- wenn eine Seite den Stammordner <strong>/</strong> und die andere Seite "
 "einen Unterordner verwendet (z.B. <strong>/shop</strong>)."
 
-#: templates/settings.html.php:317
+#: templates/settings.html.php:316
 msgctxt "Backend / Settings / Tips / Text"
 msgid "When you can seperate the cookie consent:"
 msgstr "Wann Sie die Cookie Einwilligung trennen können:"
 
-#: templates/settings.html.php:319
+#: templates/settings.html.php:318
 msgctxt "Backend / Settings / Tips / Text"
 msgid ""
 "- if all sites are using different domains (e.g. <strong><em>example.com</"
@@ -6721,7 +6861,7 @@ msgstr ""
 "strong>) oder verschiedene Subdomains (z.B <strong><em>www.example.com</em></"
 "strong> und <strong><em>shop.example.com</em></strong>)"
 
-#: templates/settings.html.php:321
+#: templates/settings.html.php:320
 msgctxt "Backend / Settings / Tips / Text"
 msgid ""
 "- if all sites are using different subfolders (e.g. <strong>/en</strong> and "
@@ -6730,27 +6870,27 @@ msgstr ""
 "- wenn alle Seiten unterschiedliche Unterordner verwenden (z.B. <strong>/en</"
 "strong> und <strong>/de</strong>)"
 
-#: templates/settings.html.php:333
+#: templates/settings.html.php:332
 msgctxt "Backend / Settings / Headline"
 msgid "Cookie Settings"
 msgstr "Cookie Einstellungen"
 
-#: templates/settings.html.php:339
+#: templates/settings.html.php:338
 msgctxt "Backend / Settings / Label"
 msgid "Automatic Domain and Path Detection"
 msgstr "Automatische Domain- und Pfaderkennung"
 
-#: templates/settings.html.php:352
+#: templates/settings.html.php:351
 msgctxt "Backend / Settings / Tooltip"
 msgid "Borlabs Cookie tries to automatically detect domain and path."
 msgstr "Borlabs Cookie versucht, Domain und Pfad automatisch zu erkennen."
 
-#: templates/settings.html.php:359
+#: templates/settings.html.php:358
 msgctxt "Backend / Settings / Label"
 msgid "Domain"
 msgstr "Domain"
 
-#: templates/settings.html.php:366
+#: templates/settings.html.php:365
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "Specify the domain scheme for which the cookie is valid. Example: If you "
@@ -6761,7 +6901,7 @@ msgstr ""
 "<strong><em>example.com</em></strong> eingeben, gilt das Cookie auch für "
 "Subdomains wie <strong><em>shop.example.com</em></strong>."
 
-#: templates/settings.html.php:374
+#: templates/settings.html.php:373
 msgctxt "Backend / Settings / Alert Message"
 msgid ""
 "Your configured domain is different from the website domain. The setting may "
@@ -6771,12 +6911,12 @@ msgstr ""
 "Einstellung ist möglicherweise falsch und bewirkt, dass die Cookie Box auf "
 "jeder Seite wieder erscheint."
 
-#: templates/settings.html.php:383
+#: templates/settings.html.php:382
 msgctxt "Backend / Settings / Label"
 msgid "Path"
 msgstr "Pfad"
 
-#: templates/settings.html.php:389
+#: templates/settings.html.php:388
 #, php-format
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
@@ -6784,12 +6924,12 @@ msgid ""
 msgstr ""
 "Der Pfad, für den das Cookie gültig ist. Standard-Pfad: <strong>%s</strong>"
 
-#: templates/settings.html.php:398
+#: templates/settings.html.php:397
 msgctxt "Backend / Settings / Label"
 msgid "Cookie Lifetime in Days"
 msgstr "Cookie Laufzeit in Tagen"
 
-#: templates/settings.html.php:404
+#: templates/settings.html.php:403
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "Number of days until the visitor will be asked again to choose their cookie "
@@ -6802,12 +6942,12 @@ msgstr ""
 "des Borlabs Cookies unter <strong>Cookies &gt; Borlabs Cookie</strong> "
 "anzupassen."
 
-#: templates/settings.html.php:413
+#: templates/settings.html.php:412
 msgctxt "Backend / Settings / Label"
 msgid "Cookie Lifetime in Days - Essential Only"
 msgstr "Cookie Laufzeit in Tagen - Nur Essenziell"
 
-#: templates/settings.html.php:419
+#: templates/settings.html.php:418
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "Number of days until the visitor will be asked again to choose their cookie "
@@ -6821,12 +6961,12 @@ msgstr ""
 "des Borlabs Cookies unter <strong>Cookies &gt; Borlabs Cookie</strong> "
 "anzupassen."
 
-#: templates/settings.html.php:428
+#: templates/settings.html.php:427
 msgctxt "Backend / Settings / Label"
 msgid "Cross Domain Cookie"
 msgstr "Cross Domain Cookie"
 
-#: templates/settings.html.php:435
+#: templates/settings.html.php:434
 msgctxt "Backend / Settings / Tooltip"
 msgid ""
 "Add one URL per line. Insert WordPress Address (URL). URL must end with "
@@ -6836,12 +6976,12 @@ msgstr ""
 "URL muss mit <strong>/</strong> enden. Die Cookie-Auswahlen werden zwischen "
 "den Websites geteilt."
 
-#: templates/settings.html.php:458
+#: templates/settings.html.php:457
 msgctxt "Backend / Settings / Tips / Headline"
 msgid "Cross Domain Cookie"
 msgstr "Cross Domain Cookie"
 
-#: templates/settings.html.php:459
+#: templates/settings.html.php:458
 msgctxt "Backend / Settings / Tips / Text"
 msgid ""
 "The visitor's selection is transferred to all specified domains and "
@@ -6857,7 +6997,7 @@ msgstr ""
 "übereinstimmen). Jede Einwilligung oder Änderung durch den Besucher wird mit "
 "den angegebenen Domains geteilt."
 
-#: templates/settings.html.php:461
+#: templates/settings.html.php:460
 msgctxt "Backend / Settings / Tips / URL"
 msgid ""
 "https://borlabs.io/kb/set-up-cross-domain-cookie/?utm_source=Borlabs"
@@ -6866,7 +7006,7 @@ msgstr ""
 "https://de.borlabs.io/kb/cross-domain-cookie-einrichten/?utm_source=Borlabs"
 "+Cookie&utm_medium=Cross+Domain+Cookie+Link&utm_campaign=Analysis"
 
-#: templates/settings.html.php:463
+#: templates/settings.html.php:462
 msgctxt "Backend / Settings / Tips / Text"
 msgid "More information about Cross Domain Cookie"
 msgstr "Weitere Informationen zu Cross Domain Cookie"
@@ -6936,7 +7076,7 @@ msgstr "Tabelle Content Blocker"
 
 #: templates/system-check.html.php:71
 msgctxt "Backend / System Check / Table Headline"
-msgid "Table Consent Log"
+msgid "Table Consent ConsentLog"
 msgstr "Tabelle Einwilligungs-Logs"
 
 #: templates/system-check.html.php:86
@@ -9277,8 +9417,8 @@ msgstr "https://de.borlabs.io"
 #~ msgstr "Opt-Out erfolgreich Text"
 
 #~ msgctxt "Headline of a fieldset"
-#~ msgid "Log table texts"
-#~ msgstr "Log-Tabelle Texte"
+#~ msgid "ConsentLog table texts"
+#~ msgstr "ConsentLog-Tabelle Texte"
 
 #~ msgctxt "Table"
 #~ msgid "Column title: User action"

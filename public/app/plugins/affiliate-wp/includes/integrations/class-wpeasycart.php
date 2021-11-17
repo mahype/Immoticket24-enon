@@ -51,87 +51,110 @@ class Affiliate_WP_EasyCart extends Affiliate_WP_Base {
 	 */
 	public function add_pending_referral( $order_id, $cart, $order_totals, $user, $payment_type ){
 
-		if( $this->was_referred() ) {
+		// Check if referred.
+		if ( ! $this->was_referred() ) {
+			return; // Referral not created because affiliate was not referred.
+		}
 
-      	// get affiliate ID
-      	$affiliate_id = $this->get_affiliate_id( $order_id );
+		// Get affiliate ID.
+		$affiliate_id = $this->get_affiliate_id( $order_id );
 
-			$this->email = $user->email;
+		// Get customer email.
+		$this->email = $user->email;
 
-			if ( $this->email === affwp_get_affiliate_email( $affiliate_id ) ) {
+		// Get description.
+		$description = $this->get_referral_description( $cart->cart );
 
-				$this->log( 'Referral not created because affiliate\'s own account was used.' );
+		// Check if referral already exists.
+		$referral = affwp_get_referral_by( 'reference', $order_id, $this->context );
 
-				return false; // Customers cannot refer themselves
-			}
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$affiliate_id,
+			array(
+				'reference'   => $order_id,
+				'description' => $description,
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
+			return;
+		}
 
-			$referral = affwp_get_referral_by( 'reference', $order_id, $this->context );
+		// Customers cannot refer themselves.
+		if ( $this->email === affwp_get_affiliate_email( $affiliate_id ) ) {
+			$this->log( 'Referral not created because affiliate\'s own account was used.' );
+			$this->mark_referral_failed( $referral_id );
+			return false; // Customers cannot refer themselves.
+		}
 
-			if ( ! is_wp_error( $referral ) ) {
-				return false; // Referral already created for this reference
-			}
+		// Check if referral already existed before.
+		if ( ! is_wp_error( $referral ) ) {
+			$this->log( 'Referral rejected because referral already created for this reference.' );
+			$this->mark_referral_failed( $referral_id );
+			return false;
+		}
 
-			$cart_shipping = $order_totals->shipping_total;
-			$cart_tax      = $order_totals->tax_total;
-			$items         = $cart->cart;
+		$cart_shipping = $order_totals->shipping_total;
+		$cart_tax      = $order_totals->tax_total;
+		$items         = $cart->cart;
 
-			// Calculate the referral amount based on product prices
-			if ( affwp_is_per_order_rate( $affiliate_id ) ) {
-				$amount = $this->calculate_referral_amount();
-			} else {
-				$amount = 0.00;
-				foreach ( $items as $cart_item ) {
+		// Calculate the referral amount based on product prices.
+		if ( affwp_is_per_order_rate( $affiliate_id ) ) {
+			$amount = $this->calculate_referral_amount();
+		} else {
+			$amount = 0.00;
+			foreach ( $items as $cart_item ) {
 
-					if ( $cart_item->has_affiliate_rule ) {
-						continue; // Referrals are disabled on this product
-					}
+				if ( $cart_item->has_affiliate_rule ) {
+					continue; // Referrals are disabled on this product.
+				}
 
-					// The order discount has to be divided across the items
+				// The order discount has to be divided across the items.
 
-					$product_total = $cart_item->total_price;
-					$shipping      = 0;
+				$product_total = $cart_item->total_price;
+				$shipping      = 0;
 
-					if ( $cart_shipping > 0 && ! affiliate_wp()->settings->get( 'exclude_shipping' ) ) {
+				if ( $cart_shipping > 0 && ! affiliate_wp()->settings->get( 'exclude_shipping' ) ) {
 
-						$shipping      = $cart_shipping / count( $items );
-						$product_total += $shipping;
-
-					}
-
-					if ( $cart_tax > 0 && ! affiliate_wp()->settings->get( 'exclude_tax' ) ) {
-
-						$tax           = $cart_tax / count( $items );
-						$product_total += $tax;
-
-					}
-
-					if ( $product_total <= 0 ) {
-						continue;
-					}
-
-					$amount += $this->calculate_referral_amount( $product_total, $order_id, $cart_item->product_id );
+					$shipping       = $cart_shipping / count( $items );
+					$product_total += $shipping;
 
 				}
+
+				if ( $cart_tax > 0 && ! affiliate_wp()->settings->get( 'exclude_tax' ) ) {
+
+					$tax            = $cart_tax / count( $items );
+					$product_total += $tax;
+
+				}
+
+				if ( $product_total <= 0 ) {
+					continue;
+				}
+
+				$amount += $this->calculate_referral_amount( $product_total, $order_id, $cart_item->product_id );
+
 			}
-			if( 0 == $amount && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
-			
-				$this->log( 'Referral not created due to 0.00 amount.' );
-
-				return false; // Ignore a zero amount referral
-			}
-
-			$description = $this->get_referral_description( $cart->cart );
-
-			$this->insert_pending_referral(
-					$amount,
-					$order_id,
-					$description,
-					$items,
-					array(
-							'affiliate_id' => $affiliate_id,
-					)
-			);
 		}
+
+		// Check zero referrals.
+		if( 0 == $amount && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
+			$this->log( 'Referral not created due to 0.00 amount.' );
+			$this->mark_referral_failed( $referral_id );
+			return false; // Ignore a zero amount referral.
+		}
+
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'   => 'pending',
+				'amount'   => $amount,
+				'products' => $items,
+			)
+		);
+		$this->log( sprintf( 'WP EasyCart referral #%d updated successfully.', $referral_id ) );
 	}
 
 	/**

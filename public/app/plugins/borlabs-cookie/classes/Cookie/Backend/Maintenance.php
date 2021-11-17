@@ -21,7 +21,6 @@
 namespace BorlabsCookie\Cookie\Backend;
 
 use BorlabsCookie\Cookie\Config;
-use BorlabsCookie\Cookie\Tools;
 
 class Maintenance
 {
@@ -36,6 +35,10 @@ class Maintenance
         return self::$instance;
     }
 
+    public function __construct()
+    {
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -46,31 +49,32 @@ class Maintenance
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
-    {
-    }
-
     /**
      * cleanUp function.
      *
      * @access public
-     * @param bool $optimizeTable (default: false)
+     *
+     * @param  bool  $optimizeTable  (default: false)
+     *
      * @return void
      */
     public function cleanUp($optimizeTable = false)
     {
         global $wpdb;
 
-        $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix) . "borlabs_cookie_consent_log";
+        $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)
+            . "borlabs_cookie_consent_log";
         $cookieLifetime = Config::getInstance()->get('cookieLifetime');
 
         // Delete old entries
-        $wpdb->query("
+        $wpdb->query(
+            "
             DELETE FROM
                 `" . $table . "`
             WHERE
                 `stamp` < NOW() - INTERVAL " . intval($cookieLifetime) . " DAY
-        ");
+        "
+        );
 
         // Optimize
         if ($optimizeTable === true) {

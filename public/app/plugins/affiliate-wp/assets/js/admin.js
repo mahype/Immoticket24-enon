@@ -307,6 +307,153 @@ jQuery(document).ready(function($) {
 
 	} );
 
+	// Live preview functionality for the coupon tab settings.
+	if ( '?page=affiliate-wp-settings&tab=coupons' === window.location.search ) {
+		/**
+		 * Gets and sanitizes the current value of the custom text field.
+		 *
+		 * @since 2.8
+		 *
+		 * @return {string} Returns sanitized custom text value. If empty, defaults to 'TEXT'.
+		 */
+		const getCustomText = function () {
+			var customText = document.getElementById( 'affwp_settings[coupon_custom_text]' ).value;
+
+			if ( '' === customText ) {
+				return 'TEXT';
+			} else {
+				// Only display alphanumeric.
+				return customText.replace(/[^0-9a-z]/gi, '');
+			}
+		}
+
+		/**
+		 * Returns the live preview version of a given coupon format text.
+		 *
+		 * This replaces merge tags with preview defaults, capitalizes it, and removes hyphens if necessary.
+		 *
+		 * @since 2.8
+		 *
+		 * @param  {string} text Coupon format option text.
+		 * @return {string}      Return coupon format live preview text.
+		 */
+		const returnLivePreviewText = function ( text ) {
+			// Replace coupon code, username, first name, coupon amount, and custom text merge tags.
+			var previewText = text;
+			previewText     = previewText.replace( '{coupon_code}',   'FGFUVCQOK1' );
+			previewText     = previewText.replace( '{user_name}',     'CREATIVELABS' );
+			previewText     = previewText.replace( '{first_name}',    'BOB' );
+			previewText     = previewText.replace( '{coupon_amount}', '10' );
+			previewText     = previewText.replace( '{custom_text}',    getCustomText() );
+
+			// Capitalize preview.
+			previewText = previewText.toUpperCase();
+
+			// Keep or remove hyphens.
+			var keepHyphens = checkHyphenDelimiterSetting();
+			if ( true === keepHyphens ) {
+				return previewText;
+			} else {
+				return previewText.replace( /-/g, '' );
+			}
+		}
+
+		/**
+		 * Updates coupon format options with live preview options.
+		 * Also, adds/removes hyphens as necessary.
+		 *
+		 * @since  2.8
+		 *
+		 * @return void.
+		 */
+		const updateCouponFormatOptions = function () {
+			var hyphenSettingChecked = checkHyphenDelimiterSetting();
+			var formatOptions        = document.getElementById('affwp_settings[coupon_format]').options;
+
+			if ( true === hyphenSettingChecked ) {
+				// Add hyphens.
+				for ( var index = 0; index < formatOptions.length; index++ ) {
+					formatOptions[index].text = returnLivePreviewText( couponFormatOptions[index] );
+				}
+			} else {
+				// Remove hyphens.
+				for ( var index = 0; index < formatOptions.length; index++ ) {
+				    formatOptions[index].text = formatOptions[index].text.replace( /-/g, '' );
+				}
+			}
+
+		}
+
+		/**
+		 * Checks if the Coupon Hyphen Delimiter setting is enabled.
+		 *
+		 * @since  2.8
+		 *
+		 * @return {boolean} True if Coupon Hyphen Delimiter setting is checked, otherwise, false.
+		 */
+		const checkHyphenDelimiterSetting = function () {
+			return $( "input[id='affwp_settings[coupon_hyphen_delimiter]']" ).is( ':checked' );
+		}
+
+		/**
+		 * Resets the currently selected coupon format option to be the coupon format value with merge tags.
+		 *
+		 * @since  2.8
+		 *
+		 * @return void.
+		 */
+		const resetCFSelectedOption = function () {
+			// Get the currently selected coupon format option's value.
+			var formatValue = $( "select[id='affwp_settings[coupon_format]'] option:selected" )[0].value;
+
+			// Remove hyphen if hyphen delimiter setting is false.
+			if ( false === checkHyphenDelimiterSetting() ) {
+				formatValue = formatValue.replace( /-/g, '' );
+			}
+
+			// Make the selected option display the coupon format value.
+			$( "select[id='affwp_settings[coupon_format]'] option:selected" )[0].text = formatValue;
+		}
+
+		// Setup format options.
+		var formatOptions       = document.getElementById('affwp_settings[coupon_format]').options;
+		var couponFormatOptions = [];
+
+		for ( var option = 0; option < formatOptions.length; option++ ) {
+			// Add options for live preview.
+		    couponFormatOptions.push( formatOptions[option].text );
+			// Change Coupon Format options to live preview.
+		    formatOptions[option].text = returnLivePreviewText( couponFormatOptions[option] );
+		};
+
+		// Update the selected option to display coupon format value
+		resetCFSelectedOption();
+
+		// On coupon format setting change, return options to live preview and the selected option as the coupon format.
+		$( "select[id='affwp_settings[coupon_format]']" ).on( 'change', function ( event ) {
+			// Make options display preview values.
+			updateCouponFormatOptions();
+			// Make the current selected option display as the coupon format with merge tags.
+			resetCFSelectedOption();
+		});
+
+		// Add or remove hyphens in the coupon format live preview based on the Hyphen Delimiter setting.
+		$( "input[id='affwp_settings[coupon_hyphen_delimiter]']" ).on( 'click', function ( event ) {
+			// Update options display preview values with or without hyphens.
+			updateCouponFormatOptions();
+			// Make the current selected option display as the coupon format with merge tags.
+			resetCFSelectedOption();
+		});
+
+		// Update live preview as you edit the custom text field.
+		$( "input[id='affwp_settings[coupon_custom_text]']" ).on( 'keyup', function () {
+			// Change Coupon Format options to live preview.
+			for ( var i = 0; i < formatOptions.length; i++ ) {
+			    formatOptions[i].text = returnLivePreviewText( couponFormatOptions[i] );
+			}
+		});
+	};
+
 	// Dismiss promo notices.
 	$( '.affwp-promo-notice' ).each( function () {
 		const notice = $( this );

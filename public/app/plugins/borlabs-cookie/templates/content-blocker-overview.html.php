@@ -147,7 +147,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                         <div class="form-group row align-items-center">
                             <label for="removeIframesInFeeds" class="col-sm-4 col-form-label"><?php _ex('Remove Iframes and more in Feeds', 'Backend / Content Blocker / Label', 'borlabs-cookie'); ?></label>
                             <div class="col-sm-8">
-                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchRemoveIframesInFeeds; ?>" data-toggle="button" data-switch-target="removeIframesInFeeds" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
+                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchRemoveIframesInFeeds; ?>" data-toggle="button" data-switch-target="removeIframesInFeeds" aria-pressed="<?php echo $inputRemoveIframesInFeeds ? 'true' : 'false'; ?>" autocomplete="off"><span class="handle"></span></button>
                                 <input type="hidden" name="removeIframesInFeeds" id="removeIframesInFeeds" value="<?php echo $inputRemoveIframesInFeeds; ?>">
                                 <span data-toggle="tooltip" title="<?php echo esc_attr_x('Removes iframes, blocked content and all output of Borlabs Cookie\'s shortcodes in feeds. Due technical limitations it is not possible to provide the click-to-load functionality in feeds.', 'Backend / Content Blocker / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
                             </div>

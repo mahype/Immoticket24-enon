@@ -217,3 +217,95 @@ function affwp_handle_wp_user_query( $query ) {
 	$query->query_where .= $where;
 }
 add_action( 'pre_user_query', 'affwp_handle_wp_user_query' );
+
+/**
+ * Forces a specific set of user meta fields to fetch data from the affiliate meta table, instead.
+ *
+ * @since 2.8
+ *
+ * @param mixed  $value     The value to return, either a single metadata value or an array
+ *                          of values depending on the value of `$single`. Default null.
+ * @param int    $object_id ID of the object metadata is for.
+ * @param string $meta_key  Metadata key.
+ * @param bool   $single    Whether to return only the first value of the specified `$meta_key`.
+ *
+ * @return mixed Single metadata value, or array of values. Null if the value does not exist.
+ *               False if there's a problem with the parameters passed to the function.
+ */
+function affwp_intercept_migrated_user_meta_fields( $value, $object_id, $meta_key, $single ) {
+	if ( in_array( $meta_key, affwp_get_current_migrated_user_meta_fields() ) ) {
+		$affiliate_id = affwp_get_affiliate_id( $object_id );
+		$value        = affwp_get_affiliate_meta( $affiliate_id, affwp_remove_prefix( $meta_key ), $single );
+	}
+
+	return $value;
+}
+
+add_filter( 'get_user_metadata', 'affwp_intercept_migrated_user_meta_fields', 2, 5 );
+
+/**
+ * Forces a specific set of user meta fields to update from affiliate meta.
+ *
+ * @since 2.8
+ *
+ * @param null|bool $value      Whether to allow updating metadata for the given type.
+ * @param int       $object_id  ID of the object metadata is for.
+ * @param string    $meta_key   Metadata key.
+ * @param mixed     $meta_value Metadata value. Must be serializable if non-scalar.
+ * @param mixed     $prev_value Optional. Previous value to check before updating.
+ *                              If specified, only update existing metadata entries with
+ *                              this value. Otherwise, update all entries.
+ */
+function affwp_intercept_migrated_user_meta_field_updates( $value, $object_id, $meta_key, $meta_value, $prev_value ) {
+
+	if ( in_array( $meta_key, affwp_get_current_migrated_user_meta_fields() ) ) {
+		$affiliate_id = affwp_get_affiliate_id( $object_id );
+		$value        = affwp_update_affiliate_meta( $affiliate_id, affwp_remove_prefix( $meta_key ), $meta_value, $prev_value );
+	}
+
+	return $value;
+}
+
+add_filter( 'update_user_metadata', 'affwp_intercept_migrated_user_meta_field_updates', 2, 5 );
+
+/**
+ * Forces a specific set of user meta fields to be added to affiliate meta instead of user meta.
+ *
+ * @since 2.8
+ *
+ * @param null|bool $value      Whether to allow adding metadata for the given type.
+ * @param int       $object_id  ID of the object metadata is for.
+ * @param string    $meta_key   Metadata key.
+ * @param mixed     $meta_value Metadata value. Must be serializable if non-scalar.
+ * @param bool      $unique     Whether the specified meta key should be unique for the object.
+ */
+function affwp_intercept_migrated_user_meta_field_add( $value, $object_id, $meta_key, $meta_value, $unique ) {
+
+	if ( in_array( $meta_key, affwp_get_current_migrated_user_meta_fields() ) ) {
+		$affiliate_id = affwp_get_affiliate_id( $object_id );
+		$value        = affwp_add_affiliate_meta( $affiliate_id, affwp_remove_prefix( $meta_key ), $meta_value, $unique );
+	}
+
+	return $value;
+}
+
+add_filter( 'add_user_metadata', 'affwp_intercept_migrated_user_meta_field_add', 2, 5 );
+
+/**
+ * Delete related affiliate meta when migrated user meta is deleted.
+ *
+ * @since 2.8
+ *
+ * @param string[] $meta_ids    An array of metadata entry IDs to delete.
+ * @param int      $object_id   ID of the object metadata is for.
+ * @param string   $meta_key    Metadata key.
+ * @param mixed    $_meta_value Metadata value. Serialized if non-scalar.
+ */
+function affwp_delete_affiliate_meta_when_migrated_user_meta_is_deleted( $meta_ids, $object_id, $meta_key, $_meta_value ) {
+	if ( in_array( $meta_key, affwp_get_current_migrated_user_meta_fields() ) ) {
+		$affiliate_id = affwp_get_affiliate_id( $object_id );
+		affwp_delete_affiliate_meta( $affiliate_id, affwp_remove_prefix( $meta_key ) );
+	}
+}
+
+add_action( "delete_user_metadata", 'affwp_delete_affiliate_meta_when_migrated_user_meta_is_deleted', 2, 4 );

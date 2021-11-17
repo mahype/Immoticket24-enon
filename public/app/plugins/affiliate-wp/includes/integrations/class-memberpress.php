@@ -64,62 +64,78 @@ class Affiliate_WP_MemberPress extends Affiliate_WP_Base {
 	 */
 	public function add_pending_referral( $txn ) {
 
-		// Check if an affiliate coupon was used
+		// Check if an affiliate coupon was used.
 		$affiliate_id = $this->get_coupon_affiliate_id( $txn );
-
-		// Pending referrals are only created for one-time purchases
-		if ( $this->was_referred() || $affiliate_id ) {
-
-			if( false !== $affiliate_id ) {
-				$this->affiliate_id = $affiliate_id;
-			}
-
-			$referral = affwp_get_referral_by( 'reference', $txn->id, $this->context );
-
-			if ( ! is_wp_error( $referral ) ) {
-				return;
-			}
-
-			$user = get_userdata( $txn->user_id );
-
-			// Customers cannot refer themselves
-			if ( ! empty( $user->user_email ) && $this->is_affiliate_email( $user->user_email ) ) {
-
-				$this->log( 'Referral not created because affiliate\'s own account was used.' );
-
-				return;
-			}
-
-			if( get_post_meta( $txn->product_id, '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
-				return; // Referrals are disabled on this membership
-			}
-
-			$this->email = $user->user_email;
-
-			// Set the base amount from the transaction at the top of the stack.
-			$amount = $txn->amount;
-
-			// If there's a subscription and the subscription has a trial, override $amount.
-			if( $txn->subscription() && $txn->subscription()->trial ) {
-				$amount = $txn->subscription()->trial_amount;
-			}
-
-			// get referral total
-			$referral_total = $this->calculate_referral_amount( $amount, $txn->id, $txn->product_id );
-
-			// insert a pending referral
-			$this->insert_pending_referral(
-					$referral_total,
-					$txn->id,
-					get_the_title( $txn->product_id ),
-					array(),
-					array(
-							'subscription_id'    => $txn->subscription_id,
-							'is_coupon_referral' => false !== $this->get_coupon_affiliate_id( $txn ),
-					)
-			);
-
+		if ( false !== $affiliate_id ) {
+			$this->affiliate_id = $affiliate_id;
 		}
+
+		// Check if referred or coupon.
+		if ( ! $this->was_referred() && ! $affiliate_id ) {
+			return; // Referral not created because affiliate not referred and not a coupon.
+		}
+
+		// Check for an existing referral.
+		$existing = affwp_get_referral_by( 'reference', $txn->id, $this->context );
+		if ( ! is_wp_error( $existing ) ) {  // Payment enters here again.
+			return;
+		}
+
+		// Get user email.
+		$user        = get_userdata( $txn->user_id );
+		$this->email = ! empty( $user->user_email ) ? $user->user_email : '';
+
+		// Create draft referral.
+		$referral_id = $this->insert_draft_referral(
+			$this->affiliate_id,
+			array(
+				'reference'   => $txn->id,
+				'description' => get_the_title( $txn->product_id ),
+			)
+		);
+		if ( ! $referral_id ) {
+			$this->log( 'Draft referral creation failed.' );
+			return;
+		}
+
+		// Customers cannot refer themselves.
+		if ( ! empty( $user->user_email ) && $this->is_affiliate_email( $user->user_email ) ) {
+			$this->log( 'Draft referral rejected because affiliate\'s own account was used.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		// Check if referrals are disabled for this membership.
+		if ( get_post_meta( $txn->product_id, '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
+			$this->log( 'Draft referral rejected because referrals are disabled on this membership.' );
+			$this->mark_referral_failed( $referral_id );
+			return;
+		}
+
+		// Set the base amount from the transaction at the top of the stack.
+		$amount = $txn->amount;
+		// If there's a subscription and the subscription has a trial, override $amount.
+		if ( $txn->subscription() && $txn->subscription()->trial ) {
+			$amount = $txn->subscription()->trial_amount;
+		}
+
+		// get referral total.
+		$referral_total = $this->calculate_referral_amount( $amount, $txn->id, $txn->product_id );
+
+		// Hydrates the previously created referral.
+		$this->hydrate_referral(
+			$referral_id,
+			array(
+				'status'             => 'pending',
+				'amount'             => $referral_total,
+				'is_coupon_referral' => false !== $this->get_coupon_affiliate_id( $txn ),
+				'custom'             => array(
+					'subscription_id' => $txn->subscription_id,
+				),
+			)
+		);
+
+		$this->log( sprintf( 'Memberpress referral #%d updated to pending successfully.', $referral_id ) );
 	}
 
 	/**
@@ -374,6 +390,7 @@ class Affiliate_WP_MemberPress extends Affiliate_WP_Base {
 	 * Retrieves coupons of a given type.
 	 *
 	 * @since 2.6
+	 * @since 2.8 Added integration type to details array.
 	 *
 	 * @param string               $type         Coupon type.
 	 * @param int|\AffWP\Affiliate $affiliate    Optional. Affiliate ID or object to retrieve coupons for.
@@ -410,8 +427,9 @@ class Affiliate_WP_MemberPress extends Affiliate_WP_Base {
 								$amount        = $currency_code . affwp_format_amount( $amount );
 							}
 
-							$coupons[ $id ]['code']   = get_the_title( $id );
-							$coupons[ $id ]['amount'] = esc_html( $amount );
+							$coupons[ $id ]['code']        = get_the_title( $id );
+							$coupons[ $id ]['amount']      = esc_html( $amount );
+							$coupons[ $id ]['integration'] = $this->context;
 						} else {
 							$coupons[ $id ] = get_post( $id );
 						}

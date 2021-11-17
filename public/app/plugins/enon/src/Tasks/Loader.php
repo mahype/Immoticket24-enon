@@ -40,6 +40,7 @@ class Loader extends Task_Loader {
         $this->add_task( Setup_Edd::class, $this->logger() );
 		$this->add_task( Setup_Edd_Stripe_Sepa_Payment::class );
 		$this->add_task( Filter_EDD_Emails::class );
+		$this->add_task( Add_Costum_Fees_EVM::class );
 
 		if ( is_admin() && ! wp_doing_ajax() ) {
 			$this->add_admin_tasks();

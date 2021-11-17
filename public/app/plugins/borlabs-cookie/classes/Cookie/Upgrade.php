@@ -20,61 +20,16 @@
 
 namespace BorlabsCookie\Cookie;
 
-use BorlabsCookie\Cookie\Log;
+use BorlabsCookie\Cookie\Backend\CSS;
+use BorlabsCookie\Cookie\Frontend\Services\Ezoic;
+use BorlabsCookie\Cookie\Frontend\Services\EzoicMarketing;
+use BorlabsCookie\Cookie\Frontend\Services\EzoicPreferences;
+use BorlabsCookie\Cookie\Frontend\Services\EzoicStatistics;
 
 class Upgrade
 {
 
     private static $instance;
-
-    private $versionUpgrades
-        = [
-            'upgradeVersion_2_0_2' => '2.0.2',
-            'upgradeVersion_2_0_3' => '2.0.3',
-            'upgradeVersion_2_0_4' => '2.0.4',
-            'upgradeVersion_2_0_5' => '2.0.5',
-            'upgradeVersion_2_0_6' => '2.0.6',
-            'upgradeVersion_2_1_0' => '2.1.0',
-            'upgradeVersion_2_1_1' => '2.1.1',
-            'upgradeVersion_2_1_1_1' => '2.1.1.1',
-            'upgradeVersion_2_1_2' => '2.1.2',
-            'upgradeVersion_2_1_3' => '2.1.3',
-            'upgradeVersion_2_1_4' => '2.1.4',
-            'upgradeVersion_2_1_5' => '2.1.5',
-            'upgradeVersion_2_1_6' => '2.1.6',
-            'upgradeVersion_2_1_7' => '2.1.7',
-            'upgradeVersion_2_1_8' => '2.1.8',
-            'upgradeVersion_2_1_9' => '2.1.9',
-            'upgradeVersion_2_1_10' => '2.1.10',
-            'upgradeVersion_2_1_10_1' => '2.1.10_1',
-            'upgradeVersion_2_1_11' => '2.1.11',
-            'upgradeVersion_2_1_12' => '2.1.12',
-            'upgradeVersion_2_1_13' => '2.1.13',
-            'upgradeVersion_2_1_14' => '2.1.14',
-            'upgradeVersion_2_1_15' => '2.1.15',
-            'upgradeVersion_2_2_0' => '2.2.0',
-            'upgradeVersion_2_2_1' => '2.2.1',
-            'upgradeVersion_2_2_2' => '2.2.2',
-            'upgradeVersion_2_2_3' => '2.2.3',
-            'upgradeVersion_2_2_4' => '2.2.4',
-            'upgradeVersion_2_2_5' => '2.2.5',
-            'upgradeVersion_2_2_6' => '2.2.6',
-            'upgradeVersion_2_2_7' => '2.2.7',
-            'upgradeVersion_2_2_8' => '2.2.8',
-            'upgradeVersion_2_2_9' => '2.2.9',
-            'upgradeVersion_2_2_26' => '2.2.26',
-            'upgradeVersion_2_2_27' => '2.2.27',
-            'upgradeVersion_2_2_28' => '2.2.28',
-            'upgradeVersion_2_2_29' => '2.2.29',
-            'upgradeVersion_2_2_30' => '2.2.30',
-            'upgradeVersion_2_2_31' => '2.2.31',
-            'upgradeVersion_2_2_32' => '2.2.32',
-            'upgradeVersion_2_2_33' => '2.2.33',
-            'upgradeVersion_2_2_34' => '2.2.34',
-            'upgradeVersion_2_2_35' => '2.2.35',
-        ];
-
-    private $currentBlogId = '';
 
     public static function getInstance()
     {
@@ -85,6 +40,26 @@ class Upgrade
         return self::$instance;
     }
 
+    private $currentBlogId = '';
+    private $versionUpgrades
+        = [
+            'upgradeVersion_2_1_0' => '2.1.0',
+            'upgradeVersion_2_1_8' => '2.1.8',
+            'upgradeVersion_2_1_9' => '2.1.9',
+            'upgradeVersion_2_1_13' => '2.1.13',
+            'upgradeVersion_2_2_0' => '2.2.0',
+            'upgradeVersion_2_2_2' => '2.2.2',
+            'upgradeVersion_2_2_3' => '2.2.3',
+            'upgradeVersion_2_2_6' => '2.2.6',
+            'upgradeVersion_2_2_9' => '2.2.9',
+            'upgradeVersion_2_2_29' => '2.2.29',
+            'upgradeVersion_2_2_37' => '2.2.37',
+        ];
+
+    public function __construct()
+    {
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -93,10 +68,6 @@ class Upgrade
     public function __wakeup()
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
-    public function __construct()
-    {
     }
 
     /**
@@ -166,31 +137,6 @@ class Upgrade
         return $this->versionUpgrades;
     }
 
-    public function upgradeVersion_2_0_2()
-    {
-        update_option('BorlabsCookieVersion', '2.0.2', 'no');
-    }
-
-    public function upgradeVersion_2_0_3()
-    {
-        update_option('BorlabsCookieVersion', '2.0.3', 'no');
-    }
-
-    public function upgradeVersion_2_0_4()
-    {
-        update_option('BorlabsCookieVersion', '2.0.4', 'no');
-    }
-
-    public function upgradeVersion_2_0_5()
-    {
-        update_option('BorlabsCookieVersion', '2.0.5', 'no');
-    }
-
-    public function upgradeVersion_2_0_6()
-    {
-        update_option('BorlabsCookieVersion', '2.0.6', 'no');
-    }
-
     public function upgradeVersion_2_1_0()
     {
         global $wpdb;
@@ -201,15 +147,15 @@ class Upgrade
         $tableNameContentBlocker = $wpdb->prefix
             . 'borlabs_cookie_content_blocker'; // ->prefix contains base_prefix + blog id
 
-        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameCookies)) {
+        if (Install::getInstance()->checkIfTableExists($tableNameCookies)) {
             $wpdb->query("ALTER TABLE `" . $tableNameCookies . "` MODIFY `language` varchar(16);");
         }
 
-        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameCookieGroups)) {
+        if (Install::getInstance()->checkIfTableExists($tableNameCookieGroups)) {
             $wpdb->query("ALTER TABLE `" . $tableNameCookieGroups . "` MODIFY `language` varchar(16);");
         }
 
-        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameContentBlocker)) {
+        if (Install::getInstance()->checkIfTableExists($tableNameContentBlocker)) {
             $wpdb->query("ALTER TABLE `" . $tableNameContentBlocker . "` MODIFY `language` varchar(16);");
         }
 
@@ -218,158 +164,17 @@ class Upgrade
         $tableNameScriptBlocker = $wpdb->prefix
             . 'borlabs_cookie_script_blocker'; // ->prefix contains base_prefix + blog id
 
-        $sqlCreateTableScriptBlocker = \BorlabsCookie\Cookie\Install::getInstance()
-            ->getCreateTableStatementScriptBlocker($tableNameScriptBlocker, $charsetCollate);
+        $sqlCreateTableScriptBlocker = Install::getInstance()->getCreateTableStatementScriptBlocker(
+            $tableNameScriptBlocker,
+            $charsetCollate
+        );
 
         $wpdb->query($sqlCreateTableScriptBlocker);
 
         // Add user capabilities
-        \BorlabsCookie\Cookie\Install::getInstance()->addUserCapabilities();
+        Install::getInstance()->addUserCapabilities();
 
         update_option('BorlabsCookieVersion', '2.1.0', 'no');
-    }
-
-    public function upgradeVersion_2_1_1()
-    {
-        update_option('BorlabsCookieVersion', '2.1.1', 'no');
-    }
-
-    public function upgradeVersion_2_1_1_1()
-    {
-        update_option('BorlabsCookieVersion', '2.1.1.1', 'no');
-    }
-
-    public function upgradeVersion_2_1_2()
-    {
-        update_option('BorlabsCookieVersion', '2.1.2', 'no');
-    }
-
-    public function upgradeVersion_2_1_3()
-    {
-        update_option('BorlabsCookieVersion', '2.1.3', 'no');
-    }
-
-    public function upgradeVersion_2_1_4()
-    {
-        update_option('BorlabsCookieVersion', '2.1.4', 'no');
-    }
-
-    public function upgradeVersion_2_1_5()
-    {
-        update_option('BorlabsCookieVersion', '2.1.5', 'no');
-    }
-
-    public function upgradeVersion_2_1_6()
-    {
-        update_option('BorlabsCookieVersion', '2.1.6', 'no');
-    }
-
-    public function upgradeVersion_2_1_7()
-    {
-        update_option('BorlabsCookieVersion', '2.1.7', 'no');
-    }
-
-    public function upgradeVersion_2_1_8()
-    {
-        // Update Multilanguage
-        $languageCodes = [];
-
-        // Polylang
-        if (defined('POLYLANG_VERSION')) {
-            $polylangLanguages = get_terms('language', ['hide_empty' => false]);
-
-            if (!empty($polylangLanguages)) {
-                foreach ($polylangLanguages as $languageData) {
-                    if (!empty($languageData->slug) && is_string($languageData->slug)) {
-                        $languageCodes[$languageData->slug] = $languageData->slug;
-                    }
-                }
-            }
-        }
-
-        // WPML
-        if (defined('ICL_LANGUAGE_CODE')) {
-            $wpmlLanguages = apply_filters('wpml_active_languages', null, []);
-
-            if (!empty($wpmlLanguages)) {
-                foreach ($wpmlLanguages as $languageData) {
-                    if (!empty($languageData['code'])) {
-                        $languageCodes[$languageData['code']] = $languageData['code'];
-                    }
-                }
-            }
-        }
-
-        if (!empty($languageCodes)) {
-            foreach ($languageCodes as $languageCode) {
-                // Load config
-                \BorlabsCookie\Cookie\Config::getInstance()->loadConfig($languageCode);
-
-                // Save CSS
-                \BorlabsCookie\Cookie\Backend\CSS::getInstance()->save($languageCode);
-
-                // Update style version
-                $styleVersion = get_option('BorlabsCookieStyleVersion_' . $languageCode, 1);
-                $styleVersion = intval($styleVersion) + 1;
-
-                update_option('BorlabsCookieStyleVersion_' . $languageCode, $styleVersion, false);
-            }
-        } else {
-            // Load config
-            \BorlabsCookie\Cookie\Config::getInstance()->loadConfig();
-
-            // Save CSS
-            \BorlabsCookie\Cookie\Backend\CSS::getInstance()->save();
-        }
-
-        update_option('BorlabsCookieVersion', '2.1.8', 'no');
-    }
-
-    public function upgradeVersion_2_1_9()
-    {
-        global $wpdb;
-
-        $charsetCollate = $wpdb->get_charset_collate();
-        $tableNameScriptBlocker = $wpdb->prefix
-            . 'borlabs_cookie_script_blocker'; // ->prefix contains base_prefix + blog id
-
-        // Check if Script Blocker table is wrong schema
-        $columnStatus = \BorlabsCookie\Cookie\Install::getInstance()->checkIfColumnExists(
-            $tableNameScriptBlocker,
-            'content_blocker_id'
-        );
-
-        if ($columnStatus === true) {
-            // Fix Script Blocker Table
-            $wpdb->query("DROP TABLE IF EXISTS `" . $tableNameScriptBlocker . "`");
-
-            $sqlCreateTableScriptBlocker = \BorlabsCookie\Cookie\Install::getInstance()
-                ->getCreateTableStatementScriptBlocker($tableNameScriptBlocker, $charsetCollate);
-
-            $wpdb->query($sqlCreateTableScriptBlocker);
-        }
-
-        update_option('BorlabsCookieVersion', '2.1.9', 'no');
-    }
-
-    public function upgradeVersion_2_1_10()
-    {
-        update_option('BorlabsCookieVersion', '2.1.10', 'no');
-    }
-
-    public function upgradeVersion_2_1_10_1()
-    {
-        update_option('BorlabsCookieVersion', '2.1.10.1', 'no');
-    }
-
-    public function upgradeVersion_2_1_11()
-    {
-        update_option('BorlabsCookieVersion', '2.1.11', 'no');
-    }
-
-    public function upgradeVersion_2_1_12()
-    {
-        update_option('BorlabsCookieVersion', '2.1.12', 'no');
     }
 
     public function upgradeVersion_2_1_13()
@@ -379,7 +184,7 @@ class Upgrade
         // Change cookie log table
         $tableName = $wpdb->prefix . 'borlabs_cookie_consent_log';
 
-        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableName)) {
+        if (Install::getInstance()->checkIfTableExists($tableName)) {
             // Check if key exists
             $checkOldKey = $wpdb->query(
                 "
@@ -416,7 +221,7 @@ class Upgrade
             "
             );
 
-            if (!$checkNewKey) {
+            if (! $checkNewKey) {
                 // Add key
                 $wpdb->query(
                     "
@@ -432,7 +237,7 @@ class Upgrade
         // Change column of cookie_expiry
         $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_cookies';
 
-        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameCookies)) {
+        if (Install::getInstance()->checkIfTableExists($tableNameCookies)) {
             $wpdb->query(
                 "
                 ALTER TABLE
@@ -446,14 +251,89 @@ class Upgrade
         update_option('BorlabsCookieVersion', '2.1.13', 'no');
     }
 
-    public function upgradeVersion_2_1_14()
+    public function upgradeVersion_2_1_8()
     {
-        update_option('BorlabsCookieVersion', '2.1.14', 'no');
+        // Update Multilanguage
+        $languageCodes = [];
+
+        // Polylang
+        if (defined('POLYLANG_VERSION')) {
+            $polylangLanguages = get_terms('language', ['hide_empty' => false]);
+
+            if (! empty($polylangLanguages)) {
+                foreach ($polylangLanguages as $languageData) {
+                    if (! empty($languageData->slug) && is_string($languageData->slug)) {
+                        $languageCodes[$languageData->slug] = $languageData->slug;
+                    }
+                }
+            }
+        }
+
+        // WPML
+        if (defined('ICL_LANGUAGE_CODE')) {
+            $wpmlLanguages = apply_filters('wpml_active_languages', null, []);
+
+            if (! empty($wpmlLanguages)) {
+                foreach ($wpmlLanguages as $languageData) {
+                    if (! empty($languageData['code'])) {
+                        $languageCodes[$languageData['code']] = $languageData['code'];
+                    }
+                }
+            }
+        }
+
+        if (! empty($languageCodes)) {
+            foreach ($languageCodes as $languageCode) {
+                // Load config
+                Config::getInstance()->loadConfig($languageCode);
+
+                // Save CSS
+                CSS::getInstance()->save($languageCode);
+
+                // Update style version
+                $styleVersion = get_option('BorlabsCookieStyleVersion_' . $languageCode, 1);
+                $styleVersion = intval($styleVersion) + 1;
+
+                update_option('BorlabsCookieStyleVersion_' . $languageCode, $styleVersion, false);
+            }
+        } else {
+            // Load config
+            Config::getInstance()->loadConfig();
+
+            // Save CSS
+            CSS::getInstance()->save();
+        }
+
+        update_option('BorlabsCookieVersion', '2.1.8', 'no');
     }
 
-    public function upgradeVersion_2_1_15()
+    public function upgradeVersion_2_1_9()
     {
-        update_option('BorlabsCookieVersion', '2.1.15', 'no');
+        global $wpdb;
+
+        $charsetCollate = $wpdb->get_charset_collate();
+        $tableNameScriptBlocker = $wpdb->prefix
+            . 'borlabs_cookie_script_blocker'; // ->prefix contains base_prefix + blog id
+
+        // Check if Script Blocker table is wrong schema
+        $columnStatus = Install::getInstance()->checkIfColumnExists(
+            $tableNameScriptBlocker,
+            'content_blocker_id'
+        );
+
+        if ($columnStatus === true) {
+            // Fix Script Blocker Table
+            $wpdb->query("DROP TABLE IF EXISTS `" . $tableNameScriptBlocker . "`");
+
+            $sqlCreateTableScriptBlocker = Install::getInstance()->getCreateTableStatementScriptBlocker(
+                $tableNameScriptBlocker,
+                $charsetCollate
+            );
+
+            $wpdb->query($sqlCreateTableScriptBlocker);
+        }
+
+        update_option('BorlabsCookieVersion', '2.1.9', 'no');
     }
 
     public function upgradeVersion_2_2_0()
@@ -463,7 +343,7 @@ class Upgrade
         // Update tables
         $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_cookies';
 
-        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameCookies)) {
+        if (Install::getInstance()->checkIfTableExists($tableNameCookies)) {
             $wpdb->query(
                 "
                 ALTER TABLE
@@ -486,11 +366,6 @@ class Upgrade
         update_option('BorlabsCookieVersion', '2.2.0', 'no');
     }
 
-    public function upgradeVersion_2_2_1()
-    {
-        update_option('BorlabsCookieVersion', '2.2.1', 'no');
-    }
-
     public function upgradeVersion_2_2_2()
     {
         global $wpdb;
@@ -499,14 +374,14 @@ class Upgrade
 
         $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_cookies';
 
-        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameCookies)) {
+        if (Install::getInstance()->checkIfTableExists($tableNameCookies)) {
             $wpdb->query(
                 "
                 UPDATE
                     `" . $tableNameCookies . "`
                 SET
                     `fallback_js` = '" . esc_sql(
-                    \BorlabsCookie\Cookie\Frontend\Services\Ezoic::getInstance()->getDefault()['fallbackJS']
+                    Ezoic::getInstance()->getDefault()['fallbackJS']
                 ) . "'
                 WHERE
                     `service` = 'Ezoic'
@@ -536,9 +411,9 @@ class Upgrade
         if (defined('POLYLANG_VERSION')) {
             $polylangLanguages = get_terms('language', ['hide_empty' => false]);
 
-            if (!empty($polylangLanguages)) {
+            if (! empty($polylangLanguages)) {
                 foreach ($polylangLanguages as $languageData) {
-                    if (!empty($languageData->slug) && is_string($languageData->slug)) {
+                    if (! empty($languageData->slug) && is_string($languageData->slug)) {
                         $languageCodes[$languageData->slug] = $languageData->slug;
                     }
                 }
@@ -549,28 +424,25 @@ class Upgrade
         if (defined('ICL_LANGUAGE_CODE')) {
             $wpmlLanguages = apply_filters('wpml_active_languages', null, []);
 
-            if (!empty($wpmlLanguages)) {
+            if (! empty($wpmlLanguages)) {
                 foreach ($wpmlLanguages as $languageData) {
-                    if (!empty($languageData['code'])) {
+                    if (! empty($languageData['code'])) {
                         $languageCodes[$languageData['code']] = $languageData['code'];
                     }
                 }
             }
         }
 
-        if (!empty($languageCodes)) {
+        if (! empty($languageCodes)) {
             foreach ($languageCodes as $languageCode) {
-                Log::getInstance()->info(
-                    __METHOD__,
-                    'Update CSS of language {languageCode}',
-                    ['languageCode' => $languageCode]
-                );
+                Log::getInstance()->info(__METHOD__, 'Update CSS of language {languageCode}',
+                    ['languageCode' => $languageCode]);
 
                 // Load config
-                \BorlabsCookie\Cookie\Config::getInstance()->loadConfig($languageCode);
+                Config::getInstance()->loadConfig($languageCode);
 
                 // Save CSS
-                \BorlabsCookie\Cookie\Backend\CSS::getInstance()->save($languageCode);
+                CSS::getInstance()->save($languageCode);
 
                 // Update style version
                 $styleVersion = get_option('BorlabsCookieStyleVersion_' . $languageCode, 1);
@@ -582,10 +454,10 @@ class Upgrade
             Log::getInstance()->info(__METHOD__, 'Update CSS');
 
             // Load config
-            \BorlabsCookie\Cookie\Config::getInstance()->loadConfig();
+            Config::getInstance()->loadConfig();
 
             // Save CSS
-            \BorlabsCookie\Cookie\Backend\CSS::getInstance()->save();
+            CSS::getInstance()->save();
         }
 
         update_option('BorlabsCookieClearCache', true, 'no');
@@ -595,285 +467,12 @@ class Upgrade
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
-    public function upgradeVersion_2_2_3()
-    {
-        global $wpdb;
-
-        Log::getInstance()->info(__METHOD__, 'Update Ezoic setup');
-
-        $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_cookies';
-
-        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameCookies)) {
-            $wpdb->query(
-                "
-                UPDATE
-                    `" . $tableNameCookies . "`
-                SET
-                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
-                    `opt_in_js` = '" . esc_sql(
-                    \BorlabsCookie\Cookie\Frontend\Services\Ezoic::getInstance()->getDefault()['optInJS']
-                ) . "',
-                    `fallback_js` = ''
-                WHERE
-                    `service` = 'Ezoic'
-            "
-            );
-
-            $wpdb->query(
-                "
-                UPDATE
-                    `" . $tableNameCookies . "`
-                SET
-                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
-                    `opt_out_js` = '" . esc_sql(
-                    \BorlabsCookie\Cookie\Frontend\Services\EzoicMarketing::getInstance()->getDefault()['optOutJS']
-                ) . "'
-                WHERE
-                    `service` = 'EzoicMarketing'
-            "
-            );
-
-            $wpdb->query(
-                "
-                UPDATE
-                    `" . $tableNameCookies . "`
-                SET
-                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
-                    `opt_out_js` = '" . esc_sql(
-                    \BorlabsCookie\Cookie\Frontend\Services\EzoicPreferences::getInstance()->getDefault()['optOutJS']
-                ) . "'
-                WHERE
-                    `service` = 'EzoicPreferences'
-            "
-            );
-
-            $wpdb->query(
-                "
-                UPDATE
-                    `" . $tableNameCookies . "`
-                SET
-                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
-                    `opt_out_js` = '" . esc_sql(
-                    \BorlabsCookie\Cookie\Frontend\Services\EzoicStatistics::getInstance()->getDefault()['optOutJS']
-                ) . "'
-                WHERE
-                    `service` = 'EzoicStatistics'
-            "
-            );
-        }
-
-        update_option('BorlabsCookieClearCache', true, 'no');
-
-        update_option('BorlabsCookieVersion', '2.2.3', 'no');
-
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
-    public function upgradeVersion_2_2_4()
-    {
-        update_option('BorlabsCookieClearCache', true, 'no');
-
-        update_option('BorlabsCookieVersion', '2.2.4', 'no');
-
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
-    public function upgradeVersion_2_2_5()
-    {
-        update_option('BorlabsCookieClearCache', true, 'no');
-
-        update_option('BorlabsCookieVersion', '2.2.5', 'no');
-
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
-    public function upgradeVersion_2_2_6()
-    {
-        global $wpdb;
-
-        Log::getInstance()->info(__METHOD__, 'Update Ezoic setup');
-
-        $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_cookies';
-
-        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameCookies)) {
-            $wpdb->query(
-                "
-                UPDATE
-                    `" . $tableNameCookies . "`
-                SET
-                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
-                    `opt_in_js` = '" . esc_sql(
-                    \BorlabsCookie\Cookie\Frontend\Services\Ezoic::getInstance()->getDefault()['optInJS']
-                ) . "',
-                    `fallback_js` = ''
-                WHERE
-                    `service` = 'Ezoic'
-            "
-            );
-
-            $wpdb->query(
-                "
-                UPDATE
-                    `" . $tableNameCookies . "`
-                SET
-                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
-                    `opt_in_js` = '" . esc_sql(
-                    \BorlabsCookie\Cookie\Frontend\Services\EzoicMarketing::getInstance()->getDefault()['optInJS']
-                ) . "',
-                    `opt_out_js` = '" . esc_sql(
-                    \BorlabsCookie\Cookie\Frontend\Services\EzoicMarketing::getInstance()->getDefault()['optOutJS']
-                ) . "'
-                WHERE
-                    `service` = 'EzoicMarketing'
-            "
-            );
-
-            $wpdb->query(
-                "
-                UPDATE
-                    `" . $tableNameCookies . "`
-                SET
-                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
-                    `opt_in_js` = '" . esc_sql(
-                    \BorlabsCookie\Cookie\Frontend\Services\EzoicPreferences::getInstance()->getDefault()['optInJS']
-                ) . "',
-                    `opt_out_js` = '" . esc_sql(
-                    \BorlabsCookie\Cookie\Frontend\Services\EzoicPreferences::getInstance()->getDefault()['optOutJS']
-                ) . "'
-                WHERE
-                    `service` = 'EzoicPreferences'
-            "
-            );
-
-            $wpdb->query(
-                "
-                UPDATE
-                    `" . $tableNameCookies . "`
-                SET
-                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
-                    `opt_in_js` = '" . esc_sql(
-                    \BorlabsCookie\Cookie\Frontend\Services\EzoicStatistics::getInstance()->getDefault()['optInJS']
-                ) . "',
-                    `opt_out_js` = '" . esc_sql(
-                    \BorlabsCookie\Cookie\Frontend\Services\EzoicStatistics::getInstance()->getDefault()['optOutJS']
-                ) . "'
-                WHERE
-                    `service` = 'EzoicStatistics'
-            "
-            );
-        }
-
-        update_option('BorlabsCookieClearCache', true, 'no');
-
-        update_option('BorlabsCookieVersion', '2.2.6', 'no');
-
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
-    public function upgradeVersion_2_2_7()
-    {
-        update_option('BorlabsCookieClearCache', true, 'no');
-
-        update_option('BorlabsCookieVersion', '2.2.7', 'no');
-
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
-    public function upgradeVersion_2_2_8()
-    {
-        update_option('BorlabsCookieClearCache', true, 'no');
-
-        update_option('BorlabsCookieVersion', '2.2.8', 'no');
-
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
-    public function upgradeVersion_2_2_9()
-    {
-        // Update Multilanguage
-        $languageCodes = [];
-
-        // Polylang
-        if (defined('POLYLANG_VERSION')) {
-            $polylangLanguages = get_terms('language', ['hide_empty' => false]);
-
-            if (!empty($polylangLanguages)) {
-                foreach ($polylangLanguages as $languageData) {
-                    if (!empty($languageData->slug) && is_string($languageData->slug)) {
-                        $languageCodes[$languageData->slug] = $languageData->slug;
-                    }
-                }
-            }
-        }
-
-        // WPML
-        if (defined('ICL_LANGUAGE_CODE')) {
-            $wpmlLanguages = apply_filters('wpml_active_languages', null, []);
-
-            if (!empty($wpmlLanguages)) {
-                foreach ($wpmlLanguages as $languageData) {
-                    if (!empty($languageData['code'])) {
-                        $languageCodes[$languageData['code']] = $languageData['code'];
-                    }
-                }
-            }
-        }
-
-        if (!empty($languageCodes)) {
-            foreach ($languageCodes as $languageCode) {
-                Log::getInstance()->info(
-                    __METHOD__,
-                    'Update CSS of language {languageCode}',
-                    ['languageCode' => $languageCode]
-                );
-
-                // Load config
-                \BorlabsCookie\Cookie\Config::getInstance()->loadConfig($languageCode);
-
-                // Save CSS
-                \BorlabsCookie\Cookie\Backend\CSS::getInstance()->save($languageCode);
-
-                // Update style version
-                $styleVersion = get_option('BorlabsCookieStyleVersion_' . $languageCode, 1);
-                $styleVersion = intval($styleVersion) + 1;
-
-                update_option('BorlabsCookieStyleVersion_' . $languageCode, $styleVersion, false);
-            }
-        } else {
-            Log::getInstance()->info(__METHOD__, 'Update CSS');
-
-            // Load config
-            \BorlabsCookie\Cookie\Config::getInstance()->loadConfig();
-
-            // Save CSS
-            \BorlabsCookie\Cookie\Backend\CSS::getInstance()->save();
-        }
-
-        update_option('BorlabsCookieClearCache', true, 'no');
-
-        update_option('BorlabsCookieVersion', '2.2.9', 'no');
-
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
-    public function upgradeVersion_2_2_26()
-    {
-    }
-
-    public function upgradeVersion_2_2_27()
-    {
-    }
-
-    public function upgradeVersion_2_2_28()
-    {
-    }
-
     public function upgradeVersion_2_2_29()
     {
         global $wpdb;
 
         $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_cookies';
-        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameCookies)) {
+        if (Install::getInstance()->checkIfTableExists($tableNameCookies)) {
             $wpdb->query(
                 "
                 UPDATE
@@ -887,7 +486,7 @@ class Upgrade
         }
 
         $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_content_blocker';
-        if (\BorlabsCookie\Cookie\Install::getInstance()->checkIfTableExists($tableNameCookies)) {
+        if (Install::getInstance()->checkIfTableExists($tableNameCookies)) {
             $wpdb->query(
                 "
                 UPDATE
@@ -905,30 +504,232 @@ class Upgrade
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
-    public function upgradeVersion_2_2_30()
+    public function upgradeVersion_2_2_3()
     {
+        global $wpdb;
+
+        Log::getInstance()->info(__METHOD__, 'Update Ezoic setup');
+
+        $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_cookies';
+
+        if (Install::getInstance()->checkIfTableExists($tableNameCookies)) {
+            $wpdb->query(
+                "
+                UPDATE
+                    `" . $tableNameCookies . "`
+                SET
+                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
+                    `opt_in_js` = '" . esc_sql(
+                    Ezoic::getInstance()->getDefault()['optInJS']
+                ) . "',
+                    `fallback_js` = ''
+                WHERE
+                    `service` = 'Ezoic'
+            "
+            );
+
+            $wpdb->query(
+                "
+                UPDATE
+                    `" . $tableNameCookies . "`
+                SET
+                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
+                    `opt_out_js` = '" . esc_sql(
+                    EzoicMarketing::getInstance()->getDefault()['optOutJS']
+                ) . "'
+                WHERE
+                    `service` = 'EzoicMarketing'
+            "
+            );
+
+            $wpdb->query(
+                "
+                UPDATE
+                    `" . $tableNameCookies . "`
+                SET
+                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
+                    `opt_out_js` = '" . esc_sql(
+                    EzoicPreferences::getInstance()->getDefault()['optOutJS']
+                ) . "'
+                WHERE
+                    `service` = 'EzoicPreferences'
+            "
+            );
+
+            $wpdb->query(
+                "
+                UPDATE
+                    `" . $tableNameCookies . "`
+                SET
+                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
+                    `opt_out_js` = '" . esc_sql(
+                    EzoicStatistics::getInstance()->getDefault()['optOutJS']
+                ) . "'
+                WHERE
+                    `service` = 'EzoicStatistics'
+            "
+            );
+        }
+
+        update_option('BorlabsCookieClearCache', true, 'no');
+
+        update_option('BorlabsCookieVersion', '2.2.3', 'no');
+
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
-    public function upgradeVersion_2_2_31()
-    {
-    }
-
-    public function upgradeVersion_2_2_32()
-    {
-    }
-
-    public function upgradeVersion_2_2_33()
-    {
-    }
-
-    public function upgradeVersion_2_2_34()
-    {
-    }
-
-    public function upgradeVersion_2_2_35()
+    public function upgradeVersion_2_2_37()
     {
         update_option('BorlabsCookieClearCache', true, 'no');
-        update_option('BorlabsCookieVersion', '2.2.35', 'yes');
+        update_option('BorlabsCookieVersion', '2.2.37', 'yes');
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_6()
+    {
+        global $wpdb;
+
+        Log::getInstance()->info(__METHOD__, 'Update Ezoic setup');
+
+        $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_cookies';
+
+        if (Install::getInstance()->checkIfTableExists($tableNameCookies)) {
+            $wpdb->query(
+                "
+                UPDATE
+                    `" . $tableNameCookies . "`
+                SET
+                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
+                    `opt_in_js` = '" . esc_sql(
+                    Ezoic::getInstance()->getDefault()['optInJS']
+                ) . "',
+                    `fallback_js` = ''
+                WHERE
+                    `service` = 'Ezoic'
+            "
+            );
+
+            $wpdb->query(
+                "
+                UPDATE
+                    `" . $tableNameCookies . "`
+                SET
+                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
+                    `opt_in_js` = '" . esc_sql(
+                    EzoicMarketing::getInstance()->getDefault()['optInJS']
+                ) . "',
+                    `opt_out_js` = '" . esc_sql(
+                    EzoicMarketing::getInstance()->getDefault()['optOutJS']
+                ) . "'
+                WHERE
+                    `service` = 'EzoicMarketing'
+            "
+            );
+
+            $wpdb->query(
+                "
+                UPDATE
+                    `" . $tableNameCookies . "`
+                SET
+                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
+                    `opt_in_js` = '" . esc_sql(
+                    EzoicPreferences::getInstance()->getDefault()['optInJS']
+                ) . "',
+                    `opt_out_js` = '" . esc_sql(
+                    EzoicPreferences::getInstance()->getDefault()['optOutJS']
+                ) . "'
+                WHERE
+                    `service` = 'EzoicPreferences'
+            "
+            );
+
+            $wpdb->query(
+                "
+                UPDATE
+                    `" . $tableNameCookies . "`
+                SET
+                    `settings` = 'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"1\";}',
+                    `opt_in_js` = '" . esc_sql(
+                    EzoicStatistics::getInstance()->getDefault()['optInJS']
+                ) . "',
+                    `opt_out_js` = '" . esc_sql(
+                    EzoicStatistics::getInstance()->getDefault()['optOutJS']
+                ) . "'
+                WHERE
+                    `service` = 'EzoicStatistics'
+            "
+            );
+        }
+
+        update_option('BorlabsCookieClearCache', true, 'no');
+
+        update_option('BorlabsCookieVersion', '2.2.6', 'no');
+
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_9()
+    {
+        // Update Multilanguage
+        $languageCodes = [];
+
+        // Polylang
+        if (defined('POLYLANG_VERSION')) {
+            $polylangLanguages = get_terms('language', ['hide_empty' => false]);
+
+            if (! empty($polylangLanguages)) {
+                foreach ($polylangLanguages as $languageData) {
+                    if (! empty($languageData->slug) && is_string($languageData->slug)) {
+                        $languageCodes[$languageData->slug] = $languageData->slug;
+                    }
+                }
+            }
+        }
+
+        // WPML
+        if (defined('ICL_LANGUAGE_CODE')) {
+            $wpmlLanguages = apply_filters('wpml_active_languages', null, []);
+
+            if (! empty($wpmlLanguages)) {
+                foreach ($wpmlLanguages as $languageData) {
+                    if (! empty($languageData['code'])) {
+                        $languageCodes[$languageData['code']] = $languageData['code'];
+                    }
+                }
+            }
+        }
+
+        if (! empty($languageCodes)) {
+            foreach ($languageCodes as $languageCode) {
+                Log::getInstance()->info(__METHOD__, 'Update CSS of language {languageCode}',
+                    ['languageCode' => $languageCode]);
+
+                // Load config
+                Config::getInstance()->loadConfig($languageCode);
+
+                // Save CSS
+                CSS::getInstance()->save($languageCode);
+
+                // Update style version
+                $styleVersion = get_option('BorlabsCookieStyleVersion_' . $languageCode, 1);
+                $styleVersion = intval($styleVersion) + 1;
+
+                update_option('BorlabsCookieStyleVersion_' . $languageCode, $styleVersion, false);
+            }
+        } else {
+            Log::getInstance()->info(__METHOD__, 'Update CSS');
+
+            // Load config
+            Config::getInstance()->loadConfig();
+
+            // Save CSS
+            CSS::getInstance()->save();
+        }
+
+        update_option('BorlabsCookieClearCache', true, 'no');
+
+        update_option('BorlabsCookieVersion', '2.2.9', 'no');
+
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 }

@@ -24,6 +24,7 @@ $notes                        = affwp_get_affiliate_meta( $affiliate->affiliate_
 $payout_service_account       = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'payouts_service_account', true );
 $payout_service_payout_method = affwp_get_affiliate_meta( $affiliate->affiliate_id, 'payouts_service_payout_method', true );
 $dynamic_coupons              = affwp_get_dynamic_affiliate_coupons( $affiliate->ID, false );
+$custom_fields                = affwp_get_custom_registration_fields( $affiliate->ID, true );
 
 if ( isset( $_REQUEST['delete_coupon'] ) && 1 == absint( $_REQUEST['delete_coupon'] ) && isset( $_REQUEST['coupon_id'] ) ) {
 	$coupon = affwp_get_affiliate_coupon( $affiliate->ID, absint( $_REQUEST['coupon_id'] ) );
@@ -455,6 +456,33 @@ if ( isset( $_REQUEST['generate_coupon'] ) && 1 == absint( $_REQUEST['generate_c
 				</td>
 
 			</tr>
+
+			<?php if ( ! empty( $custom_fields ) ) : ?>
+
+				<tr>
+
+					<th scope="row">
+						<label><?php _e( 'Additional Registration Info', 'affiliate-wp' ); ?></label>
+					</th>
+
+					<td>
+						<ul style="margin-top:7px;">
+						<?php foreach ( $custom_fields as $custom_field ) : ?>
+							<?php
+							if ( 'checkbox' === $custom_field['type'] ) {
+								$value                      = (bool) $custom_field['meta_value'];
+								$custom_field['meta_value'] = true === $value ? _x( 'Yes', 'registration checkbox enabled', 'affiliate-wp' ) : _x( 'No', 'registration checkbox disabled', 'affiliate-wp' );
+							}
+							?>
+							<li>
+								<strong><?php echo esc_html( wp_strip_all_tags( $custom_field['name'] ) ); ?></strong> – <?php echo esc_html( $custom_field['meta_value'] ); ?>
+							</li>
+						<?php endforeach; ?>
+						</ul>
+					</td>
+
+				</tr>
+			<?php endif; // $custom_fields ?>
 
 			<tr class="form-row">
 

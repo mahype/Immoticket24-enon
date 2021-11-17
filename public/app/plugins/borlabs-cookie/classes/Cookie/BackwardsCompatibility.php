@@ -29,12 +29,15 @@ class BackwardsCompatibility
 
     public static function getInstance()
     {
-
         if (null === self::$instance) {
             self::$instance = new self;
         }
 
         return self::$instance;
+    }
+
+    public function __construct()
+    {
     }
 
     public function __clone()
@@ -47,21 +50,19 @@ class BackwardsCompatibility
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
-    {
-    }
-
     /**
      * shortcodeBlockedContent function.
      *
      * @access public
-     * @param mixed $atts
-     * @param mixed $content
+     *
+     * @param  mixed  $atts
+     * @param  mixed  $content
+     *
      * @return void
      */
     public function shortcodeBlockedContent($atts, $content)
     {
-        if (!empty($atts['type'])) {
+        if (! empty($atts['type'])) {
             $atts['id'] = $atts['type'];
         }
 

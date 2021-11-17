@@ -25,7 +25,7 @@
  * @package AffiliateWP
  * @category Core
  * @author Pippin Williamson
- * @version 2.7
+ * @version 2.8
  */
 
 // Exit if accessed directly
@@ -57,7 +57,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.7.7';
+	private $version = '2.8';
 
 	/**
 	 * Main plugin file.
@@ -265,6 +265,14 @@ final class Affiliate_WP {
 	public $utils;
 
 	/**
+	 * The editor class instance variable.
+	 *
+	 * @since 2.8
+	 * @var   Affiliate_WP_Editor
+	 */
+	public $editor;
+
+	/**
 	 * Main Affiliate_WP Instance
 	 *
 	 * Insures that only one instance of Affiliate_WP exists in memory at any one
@@ -425,6 +433,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-sales-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-capabilities.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-utilities.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-editor.php';
 
 		if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
 
@@ -580,6 +589,7 @@ final class Affiliate_WP {
 		self::$instance->rewrites       = new Affiliate_WP_Rewrites;
 		self::$instance->capabilities   = new Affiliate_WP_Capabilities;
 		self::$instance->utils          = new Affiliate_WP_Utilities;
+		self::$instance->editor         = new Affiliate_WP_Editor;
 
 		self::$instance->updater();
 	}

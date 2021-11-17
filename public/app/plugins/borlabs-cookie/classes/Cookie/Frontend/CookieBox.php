@@ -21,7 +21,6 @@
 namespace BorlabsCookie\Cookie\Frontend;
 
 use BorlabsCookie\Cookie\Config;
-use BorlabsCookie\Cookie\Multilanguage;
 use BorlabsCookie\Cookie\Tools;
 
 class CookieBox
@@ -94,6 +93,13 @@ class CookieBox
             $cookieBoxImprintLink = Config::getInstance()->get('imprintPageCustomURL');
         }
 
+        $brightBackground = false;
+        $bgColorHSL = Tools::getInstance()->hexToHsl(Config::getInstance()->get('cookieBoxBgColor'));
+
+        if (isset($bgColorHSL[2]) && $bgColorHSL[2] <= 50) {
+            $brightBackground = true;
+        }
+
         // Support Borlabs Cookie
         $supportBorlabsCookie = Config::getInstance()->get('supportBorlabsCookie');
         $supportBorlabsCookieLogo = '';
@@ -101,10 +107,10 @@ class CookieBox
         if ($supportBorlabsCookie) {
             $bgColorHSL = Tools::getInstance()->hexToHsl(Config::getInstance()->get('cookieBoxBgColor'));
 
-            if (isset($bgColorHSL[2]) && $bgColorHSL[2] <= 50) {
-                $supportBorlabsCookieLogo = BORLABS_COOKIE_PLUGIN_URL . 'images/borlabs-cookie-icon-white.svg';
+            if ($brightBackground) {
+                $supportBorlabsCookieLogo = BORLABS_COOKIE_PLUGIN_URL . 'assets/images/borlabs-cookie-icon-white.svg';
             } else {
-                $supportBorlabsCookieLogo = BORLABS_COOKIE_PLUGIN_URL . 'images/borlabs-cookie-icon-black.svg';
+                $supportBorlabsCookieLogo = BORLABS_COOKIE_PLUGIN_URL . 'assets/images/borlabs-cookie-icon-black.svg';
             }
         }
 
@@ -176,8 +182,11 @@ class CookieBox
 
         if (Config::getInstance()->get('testEnvironment') === true) {
             $cookieBoxTextDescription .= "<span class=\"text-center\" style=\"display: block !important;background: #fff;color: #f00;\">"
-                . _x('Borlabs Cookie - Test Environment active!', 'Frontend / Global / Alert Message', 'borlabs-cookie')
-                . "</span>";
+                . _x(
+                    'Borlabs Cookie - Test Environment active!',
+                    'Frontend / Global / Alert Message',
+                    'borlabs-cookie'
+                ) . "</span>";
         }
 
         // Cookie Box Layout
@@ -198,9 +207,9 @@ class CookieBox
 
         // Check if custom preference template file exists
         if (
-        file_exists(
-            $themePath . '/plugins/' . dirname(BORLABS_COOKIE_BASENAME) . '/' . $cookiePreferenceTemplate
-        )
+            file_exists(
+                $themePath . '/plugins/' . dirname(BORLABS_COOKIE_BASENAME) . '/' . $cookiePreferenceTemplate
+            )
         ) {
             $cookiePreferenceTemplateFile = $themePath . '/plugins/' . dirname(BORLABS_COOKIE_BASENAME) . '/'
                 . $cookiePreferenceTemplate;

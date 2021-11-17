@@ -21,8 +21,6 @@
 namespace BorlabsCookie\Cookie\Frontend\ThirdParty\Themes;
 
 use BorlabsCookie\Cookie\Frontend\Buffer;
-use BorlabsCookie\Cookie\Frontend\ContentBlocker;
-use BorlabsCookie\Cookie\Frontend\JavaScript;
 
 class Avada
 {
