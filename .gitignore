@@ -81,6 +81,7 @@ public/app/plugins/wp-rocket/licence-data.php
 !public/app/plugins/edd-payment-gateway-stripe-sepa/vendor
 !public/app/plugins/borlabs-cookie/vendor
 !public/app/plugins/real-category-library/vendor
+!public/app/plugins/options-definitely/vendor
 #!public/app/wpenon/enev*/vendor
 
 # Node Package Manager
