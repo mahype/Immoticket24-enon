@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.11.3 (2021-11-11)
+
+
+### chore
+
+* remove not-finished translations from feature branches to avoid huge ZIP size (CU-1rgn5h3)
+
+
+
+
+
 ## 1.11.2 (2021-11-03)
 
 **Note:** This package (@devowl-wp/utils) has been updated because a dependency, which is also shipped with this package, has changed.
