@@ -37,6 +37,7 @@ class Add_Costum_Fees_EVM implements Filters, Task {
 	 */
 	public function add_filters() {
 		add_filter( 'eddcf_custom_fees', [ $this, 'filter_fees' ] );
+		add_filter( 'wpenon_zusatzoptionen_settings', [ $this, 'filter_options' ] );
 	}
 
 	/**
@@ -55,13 +56,84 @@ class Add_Costum_Fees_EVM implements Filters, Task {
 
 		$fees[] = [
 			'id' => 'check_evm',
-            'label' => 'NEU! Überprüfung Energieverträge auf Einsparpotenzial Sparen Sie Energiekosten.',
-            'amount' => 0.00,
-            'description_cb' => [ $this, 'get_description' ],
+            'label' => $this->get_label(),
+            'amount' => $this->get_price(),
+            'description_cb' => [ $this, 'get_description_cb' ],
             'email_note' =>  ''
 		];
 
 		return $fees;
+	}
+
+	public function filter_options( $options ) {
+		$options['check_evm'] = array(
+			'title'  => 'Überprüfung Energieverträge',
+			'fields' => array(
+				'check_evm_label'       => array(
+					'title'    => 'Name',
+					'type'     => 'text',
+					'default'  => $this->get_default_label(),
+					'required' => true,
+				),
+				'check_evm_description' => array(
+					'title'    => 'Beschreibung',
+					'type'     => 'wysiwyg',
+					'default'  => $this->get_default_description(),
+					'required' => true,
+					'rows'     => 8,
+				),
+				'check_evm_price'       => array(
+					'title'   => 'Preis',
+					'type'    => 'number',
+					'default' => 0,
+					'step'    => 0.01,
+				),
+				'check_evm_order'       => array(
+					'title'       => 'Reihenfolge',
+					'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
+					'type'        => 'number',
+					'default'     => 7,
+					'required'    => true,
+					'min'         => 1,
+					'step'        => 1,
+				),
+			),
+		);
+
+		return $options;
+	}
+
+	public function get_default_label() {
+		return 'NEU! Überprüfung Energieverträge auf Einsparpotenzial Sparen Sie Energiekosten.';
+	}
+
+	public function get_default_description() {
+		return 'Mit unserem Partner vor Ort, der EVM, überprüfen wir Ihre Energieverträge, ob sich hierbei Einsparungen für Sie ermöglichen.';
+	}
+
+	public function get_default_price() {
+		return 0;
+	}
+
+	public function get_default_order() {
+		return 7;
+	}
+
+	/**
+	 * Label callback.
+	 * 
+	 * @return string Label callback for fee.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function get_label() {
+		$settings = get_option( 'energieausweis_zusatzoptionen', array() );
+
+		if ( isset( $settings['check_evm_label'] ) ) {
+			return $settings['check_evm_label'];
+		} else {
+			return $this->get_default_label();
+		}
 	}
 
 	/**
@@ -72,7 +144,37 @@ class Add_Costum_Fees_EVM implements Filters, Task {
 	 * @since 1.0.0
 	 */
 	public function get_description() {
-		return 'Mit unserem Partner vor Ort, der EVM, überprüfen wir Ihre Energieverträge, ob sich hierbei Einsparungen für Sie ermöglichen.';
+		$settings = get_option( 'energieausweis_zusatzoptionen', array() );
+
+		if ( isset( $settings['check_evm_description'] ) ) {
+			return $settings['check_evm_description'];
+		} else {
+			return $this->get_default_description();
+		}
+	}
+
+	public function get_description_cb() {
+		echo wpautop( $this->get_description() );
+	}
+
+	public function get_price() {
+		$settings = get_option( 'energieausweis_zusatzoptionen', array() );
+
+		if ( isset( $settings['check_evm_price'] ) ) {
+			return $settings['check_evm_price'];
+		} else {
+			return $this->get_default_price();
+		}
+	}
+
+	public function get_order() {
+		$settings = get_option( 'energieausweis_zusatzoptionen', array() );
+
+		if ( isset( $settings['check_evm_order'] ) ) {
+			return $settings['check_evm_order'];
+		} else {
+			return $this->get_default_order();
+		}
 	}
 
 	/**
@@ -108,7 +210,7 @@ class Add_Costum_Fees_EVM implements Filters, Task {
 	private function postcoce_allowed() {
 		$energy_certificate_ids = $this->get_cart_energy_certificate_ids();
 
-		$allowed_postcodes = [ 53, 54, 55, 56, 57, 58 ];
+		$allowed_postcodes = [ 53, 54, 55, 56, 57, 58, 42 ];
 
 		foreach( $energy_certificate_ids AS $energy_certificate_id ) {
 			$ec = new Energieausweis( $energy_certificate_id );

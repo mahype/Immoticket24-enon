@@ -151,6 +151,217 @@ function energieausweis_zusatzoptionen_filter_custom_fees( $fees, $cart ) {
 add_filter( 'eddcf_filter_custom_fees', 'energieausweis_zusatzoptionen_filter_custom_fees', 10, 2 );
 
 function energieausweis_zusatzoptionen_settings( $wpod ) {
+	$options = array(
+		'experten_check'                 => array(
+			'title'  => 'Experten-Check',
+			'fields' => array(
+				'experten_check_label'       => array(
+					'title'    => 'Name',
+					'type'     => 'text',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'experten_check_label' ),
+					'required' => true,
+				),
+				'experten_check_description' => array(
+					'title'    => 'Beschreibung',
+					'type'     => 'wysiwyg',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'experten_check_description' ),
+					'required' => true,
+					'rows'     => 8,
+				),
+				'experten_check_price'       => array(
+					'title'    => 'Preis',
+					'type'     => 'number',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'experten_check_price' ),
+					'required' => true,
+					'min'      => 0.01,
+					'step'     => 0.01,
+				),
+				'experten_check_order'       => array(
+					'title'       => 'Reihenfolge',
+					'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
+					'type'        => 'number',
+					'default'     => energieausweis_zusatzoptionen_get_default( 'experten_check_order' ),
+					'required'    => true,
+					'min'         => 1,
+					'step'        => 1,
+				),
+			),
+		),
+		'sendung_per_post'               => array(
+			'title'  => 'Sendung per Post',
+			'fields' => array(
+				'sendung_per_post_label'       => array(
+					'title'    => 'Name',
+					'type'     => 'text',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'sendung_per_post_label' ),
+					'required' => true,
+				),
+				'sendung_per_post_description' => array(
+					'title'    => 'Beschreibung',
+					'type'     => 'wysiwyg',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'sendung_per_post_description' ),
+					'required' => true,
+					'rows'     => 8,
+				),
+				'sendung_per_post_price'       => array(
+					'title'    => 'Preis',
+					'type'     => 'number',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'sendung_per_post_price' ),
+					'required' => true,
+					'min'      => 0.01,
+					'step'     => 0.01,
+				),
+				'sendung_per_post_order'       => array(
+					'title'       => 'Reihenfolge',
+					'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
+					'type'        => 'number',
+					'default'     => energieausweis_zusatzoptionen_get_default( 'sendung_per_post_order' ),
+					'required'    => true,
+					'min'         => 1,
+					'step'        => 1,
+				),
+			),
+		),
+		'energieausweis_besprechung'     => array(
+			'title'  => 'Energieausweis-Besprechung',
+			'fields' => array(
+				'energieausweis_besprechung_label'       => array(
+					'title'    => 'Name',
+					'type'     => 'text',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'energieausweis_besprechung_label' ),
+					'required' => true,
+				),
+				'energieausweis_besprechung_description' => array(
+					'title'    => 'Beschreibung',
+					'type'     => 'wysiwyg',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'energieausweis_besprechung_description' ),
+					'required' => true,
+					'rows'     => 8,
+				),
+				'energieausweis_besprechung_price'       => array(
+					'title'    => 'Preis',
+					'type'     => 'number',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'energieausweis_besprechung_price' ),
+					'required' => true,
+					'min'      => 0.01,
+					'step'     => 0.01,
+				),
+				'energieausweis_besprechung_order'       => array(
+					'title'       => 'Reihenfolge',
+					'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
+					'type'        => 'number',
+					'default'     => energieausweis_zusatzoptionen_get_default( 'energieausweis_besprechung_order' ),
+					'required'    => true,
+					'min'         => 1,
+					'step'        => 1,
+				),
+			),
+		),
+		'kostenlose_korrektur'           => array(
+			'title'  => 'Kostenlose Korrektur',
+			'fields' => array(
+				'kostenlose_korrektur_label'       => array(
+					'title'    => 'Name',
+					'type'     => 'text',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'kostenlose_korrektur_label' ),
+					'required' => true,
+				),
+				'kostenlose_korrektur_description' => array(
+					'title'    => 'Beschreibung',
+					'type'     => 'wysiwyg',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'kostenlose_korrektur_description' ),
+					'required' => true,
+					'rows'     => 8,
+				),
+				'kostenlose_korrektur_price'       => array(
+					'title'    => 'Preis',
+					'type'     => 'number',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'kostenlose_korrektur_price' ),
+					'required' => true,
+					'min'      => 0.01,
+					'step'     => 0.01,
+				),
+				'kostenlose_korrektur_order'       => array(
+					'title'       => 'Reihenfolge',
+					'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
+					'type'        => 'number',
+					'default'     => energieausweis_zusatzoptionen_get_default( 'kostenlose_korrektur_order' ),
+					'required'    => true,
+					'min'         => 1,
+					'step'        => 1,
+				),
+			),
+		),
+		'premium_bewertung'              => array(
+			'title'  => 'Premium-Bewertung',
+			'fields' => array(
+				'premium_bewertung_label'       => array(
+					'title'    => 'Name',
+					'type'     => 'text',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'premium_bewertung_label' ),
+					'required' => true,
+				),
+				'premium_bewertung_description' => array(
+					'title'    => 'Beschreibung',
+					'type'     => 'wysiwyg',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'premium_bewertung_description' ),
+					'required' => true,
+					'rows'     => 8,
+				),
+				'premium_bewertung_price'       => array(
+					'title'   => 'Preis',
+					'type'    => 'number',
+					'default' => energieausweis_zusatzoptionen_get_default( 'premium_bewertung_price' ),
+					'step'    => 0.01,
+				),
+				'premium_bewertung_order'       => array(
+					'title'       => 'Reihenfolge',
+					'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
+					'type'        => 'number',
+					'default'     => energieausweis_zusatzoptionen_get_default( 'premium_bewertung_order' ),
+					'required'    => true,
+					'min'         => 1,
+					'step'        => 1,
+				),
+			),
+		),
+		'eingabesupport' => array(
+			'title'  => 'Professioneller Eingabesupport',
+			'fields' => array(
+				'premium_bewertung_label'       => array(
+					'title'    => 'Name',
+					'type'     => 'text',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'eingabesupport_label' ),
+					'required' => true,
+				),
+				'premium_bewertung_description' => array(
+					'title'    => 'Beschreibung',
+					'type'     => 'wysiwyg',
+					'default'  => energieausweis_zusatzoptionen_get_default( 'eingabesupport_description' ),
+					'required' => true,
+					'rows'     => 8,
+				),
+				'premium_bewertung_price'       => array(
+					'title'   => 'Preis',
+					'type'    => 'number',
+					'default' => energieausweis_zusatzoptionen_get_default( 'eingabesupport_price' ),
+					'step'    => 0.01,
+				),
+				'premium_bewertung_order'       => array(
+					'title'       => 'Reihenfolge',
+					'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
+					'type'        => 'number',
+					'default'     => energieausweis_zusatzoptionen_get_default( 'eingabesupport_order' ),
+					'required'    => true,
+					'min'         => 1,
+					'step'        => 1,
+				),
+			),
+		)
+	);
+
+	$options = apply_filters( 'wpenon_zusatzoptionen_settings', $options );
+
 	$wpod->add_components( array(
 		'download' => array(
 			'screens' => array(
@@ -164,215 +375,7 @@ function energieausweis_zusatzoptionen_settings( $wpod ) {
 							'description' => 'Hier können Sie die Texte bearbeiten, welche als Beschreibung für die Zusatzoptionen bei der Energieausweis-Bestellung dienen.',
 							'mode'        => 'draggable',
 							'capability'  => 'manage_options',
-							'sections'    =>
-								apply_filters( 'wpenon_zusatzoptionen_settings', array(
-									'experten_check'                 => array(
-										'title'  => 'Experten-Check',
-										'fields' => array(
-											'experten_check_label'       => array(
-												'title'    => 'Name',
-												'type'     => 'text',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'experten_check_label' ),
-												'required' => true,
-											),
-											'experten_check_description' => array(
-												'title'    => 'Beschreibung',
-												'type'     => 'wysiwyg',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'experten_check_description' ),
-												'required' => true,
-												'rows'     => 8,
-											),
-											'experten_check_price'       => array(
-												'title'    => 'Preis',
-												'type'     => 'number',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'experten_check_price' ),
-												'required' => true,
-												'min'      => 0.01,
-												'step'     => 0.01,
-											),
-											'experten_check_order'       => array(
-												'title'       => 'Reihenfolge',
-												'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
-												'type'        => 'number',
-												'default'     => energieausweis_zusatzoptionen_get_default( 'experten_check_order' ),
-												'required'    => true,
-												'min'         => 1,
-												'step'        => 1,
-											),
-										),
-									),
-									'sendung_per_post'               => array(
-										'title'  => 'Sendung per Post',
-										'fields' => array(
-											'sendung_per_post_label'       => array(
-												'title'    => 'Name',
-												'type'     => 'text',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'sendung_per_post_label' ),
-												'required' => true,
-											),
-											'sendung_per_post_description' => array(
-												'title'    => 'Beschreibung',
-												'type'     => 'wysiwyg',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'sendung_per_post_description' ),
-												'required' => true,
-												'rows'     => 8,
-											),
-											'sendung_per_post_price'       => array(
-												'title'    => 'Preis',
-												'type'     => 'number',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'sendung_per_post_price' ),
-												'required' => true,
-												'min'      => 0.01,
-												'step'     => 0.01,
-											),
-											'sendung_per_post_order'       => array(
-												'title'       => 'Reihenfolge',
-												'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
-												'type'        => 'number',
-												'default'     => energieausweis_zusatzoptionen_get_default( 'sendung_per_post_order' ),
-												'required'    => true,
-												'min'         => 1,
-												'step'        => 1,
-											),
-										),
-									),
-									'energieausweis_besprechung'     => array(
-										'title'  => 'Energieausweis-Besprechung',
-										'fields' => array(
-											'energieausweis_besprechung_label'       => array(
-												'title'    => 'Name',
-												'type'     => 'text',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'energieausweis_besprechung_label' ),
-												'required' => true,
-											),
-											'energieausweis_besprechung_description' => array(
-												'title'    => 'Beschreibung',
-												'type'     => 'wysiwyg',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'energieausweis_besprechung_description' ),
-												'required' => true,
-												'rows'     => 8,
-											),
-											'energieausweis_besprechung_price'       => array(
-												'title'    => 'Preis',
-												'type'     => 'number',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'energieausweis_besprechung_price' ),
-												'required' => true,
-												'min'      => 0.01,
-												'step'     => 0.01,
-											),
-											'energieausweis_besprechung_order'       => array(
-												'title'       => 'Reihenfolge',
-												'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
-												'type'        => 'number',
-												'default'     => energieausweis_zusatzoptionen_get_default( 'energieausweis_besprechung_order' ),
-												'required'    => true,
-												'min'         => 1,
-												'step'        => 1,
-											),
-										),
-									),
-									'kostenlose_korrektur'           => array(
-										'title'  => 'Kostenlose Korrektur',
-										'fields' => array(
-											'kostenlose_korrektur_label'       => array(
-												'title'    => 'Name',
-												'type'     => 'text',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'kostenlose_korrektur_label' ),
-												'required' => true,
-											),
-											'kostenlose_korrektur_description' => array(
-												'title'    => 'Beschreibung',
-												'type'     => 'wysiwyg',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'kostenlose_korrektur_description' ),
-												'required' => true,
-												'rows'     => 8,
-											),
-											'kostenlose_korrektur_price'       => array(
-												'title'    => 'Preis',
-												'type'     => 'number',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'kostenlose_korrektur_price' ),
-												'required' => true,
-												'min'      => 0.01,
-												'step'     => 0.01,
-											),
-											'kostenlose_korrektur_order'       => array(
-												'title'       => 'Reihenfolge',
-												'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
-												'type'        => 'number',
-												'default'     => energieausweis_zusatzoptionen_get_default( 'kostenlose_korrektur_order' ),
-												'required'    => true,
-												'min'         => 1,
-												'step'        => 1,
-											),
-										),
-									),
-									'premium_bewertung'              => array(
-										'title'  => 'Premium-Bewertung',
-										'fields' => array(
-											'premium_bewertung_label'       => array(
-												'title'    => 'Name',
-												'type'     => 'text',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'premium_bewertung_label' ),
-												'required' => true,
-											),
-											'premium_bewertung_description' => array(
-												'title'    => 'Beschreibung',
-												'type'     => 'wysiwyg',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'premium_bewertung_description' ),
-												'required' => true,
-												'rows'     => 8,
-											),
-											'premium_bewertung_price'       => array(
-												'title'   => 'Preis',
-												'type'    => 'number',
-												'default' => energieausweis_zusatzoptionen_get_default( 'premium_bewertung_price' ),
-												'step'    => 0.01,
-											),
-											'premium_bewertung_order'       => array(
-												'title'       => 'Reihenfolge',
-												'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
-												'type'        => 'number',
-												'default'     => energieausweis_zusatzoptionen_get_default( 'premium_bewertung_order' ),
-												'required'    => true,
-												'min'         => 1,
-												'step'        => 1,
-											),
-										),
-									),
-									'eingabesupport' => array(
-										'title'  => 'Professioneller Eingabesupport',
-										'fields' => array(
-											'premium_bewertung_label'       => array(
-												'title'    => 'Name',
-												'type'     => 'text',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'eingabesupport_label' ),
-												'required' => true,
-											),
-											'premium_bewertung_description' => array(
-												'title'    => 'Beschreibung',
-												'type'     => 'wysiwyg',
-												'default'  => energieausweis_zusatzoptionen_get_default( 'eingabesupport_description' ),
-												'required' => true,
-												'rows'     => 8,
-											),
-											'premium_bewertung_price'       => array(
-												'title'   => 'Preis',
-												'type'    => 'number',
-												'default' => energieausweis_zusatzoptionen_get_default( 'eingabesupport_price' ),
-												'step'    => 0.01,
-											),
-											'premium_bewertung_order'       => array(
-												'title'       => 'Reihenfolge',
-												'description' => 'Je kleiner die Nummer, desto höher die Priorität der Zusatzoption in der Auflistung.',
-												'type'        => 'number',
-												'default'     => energieausweis_zusatzoptionen_get_default( 'eingabesupport_order' ),
-												'required'    => true,
-												'min'         => 1,
-												'step'        => 1,
-											),
-										),
-									),
-								) ),
+							'sections'    => $options,
 						),
 					),
 				),
