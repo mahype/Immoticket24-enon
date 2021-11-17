@@ -21,10 +21,10 @@
 namespace BorlabsCookie\Cookie\Frontend;
 
 use BorlabsCookie\Cookie\API;
+use BorlabsCookie\Cookie\Backend\Maintenance;
 use BorlabsCookie\Cookie\BackwardsCompatibility;
 use BorlabsCookie\Cookie\Config;
 use BorlabsCookie\Cookie\Multilanguage;
-use BorlabsCookie\Cookie\Backend\Maintenance;
 
 class Frontend
 {
@@ -62,7 +62,11 @@ class Frontend
      */
     public function init()
     {
-        if (Config::getInstance()->get('cookieStatus') === true || (current_user_can('manage_borlabs_cookie') && Config::getInstance()->get('setupMode') === true)) {
+        if (
+            Config::getInstance()->get('cookieStatus') === true
+            || (current_user_can('manage_borlabs_cookie')
+                && Config::getInstance()->get('setupMode') === true)
+        ) {
             /* Load textdomain */
             $this->loadTextdomain();
 
@@ -123,7 +127,7 @@ class Frontend
             // Cron
             add_action('borlabsCookieCron', [Maintenance::getInstance(), 'cleanUp']);
 
-            if (!wp_next_scheduled('borlabsCookieCron')) {
+            if (! wp_next_scheduled('borlabsCookieCron')) {
                 wp_schedule_event(time(), 'daily', 'borlabsCookieCron');
             }
 
@@ -223,10 +227,8 @@ class Frontend
             }
 
             // Backwards Compatibility
-            add_shortcode(
-                'borlabs_cookie_blocked_content',
-                [BackwardsCompatibility::getInstance(), 'shortcodeBlockedContent']
-            );
+            add_shortcode('borlabs_cookie_blocked_content',
+                [BackwardsCompatibility::getInstance(), 'shortcodeBlockedContent']);
         }
     }
 
@@ -242,10 +244,8 @@ class Frontend
 
         // Load correct DE language file if any DE language was selected
         if (
-            in_array(
-                Multilanguage::getInstance()->getCurrentLanguageCode(),
-                ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal']
-            )
+            in_array(Multilanguage::getInstance()->getCurrentLanguageCode(),
+                ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'])
         ) {
             // Load german language pack
             load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo');

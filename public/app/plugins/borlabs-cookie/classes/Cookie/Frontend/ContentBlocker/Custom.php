@@ -35,6 +35,10 @@ class Custom
         return self::$instance;
     }
 
+    public function __construct()
+    {
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -45,17 +49,15 @@ class Custom
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
-    {
-    }
-
     /**
      * modify function.
      *
      * @access public
-     * @param mixed $content
-     * @param mixed $contentBlockerId
-     * @param mixed $atts (default: [])
+     *
+     * @param  mixed  $content
+     * @param  mixed  $contentBlockerId
+     * @param  mixed  $atts  (default: [])
+     *
      * @return void
      */
     public function modify($content, $contentBlockerId, $atts = [])
@@ -72,10 +74,13 @@ class Custom
         }
 
         // Replace text variables
-        if (!empty($atts)) {
-
+        if (! empty($atts)) {
             foreach ($atts as $key => $value) {
-                $contentBlockerData['previewHTML'] = str_replace('%%' . $key . '%%', $value, $contentBlockerData['previewHTML']);
+                $contentBlockerData['previewHTML'] = str_replace(
+                    '%%' . $key . '%%',
+                    $value,
+                    $contentBlockerData['previewHTML']
+                );
             }
         }
 

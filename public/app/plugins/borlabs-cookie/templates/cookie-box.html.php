@@ -20,16 +20,15 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                     <h3 class="border-bottom mb-3"><?php _ex('General Settings', 'Backend / Cookie Box / Headline', 'borlabs-cookie'); ?></h3>
                     <div class="row">
                         <div class="col-12">
-
                             <div class="form-group row align-items-center">
                                 <label for="showCookieBox"
                                        class="col-sm-4 col-form-label"><?php _ex('Show Cookie Box', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
                                 <div class="col-sm-8">
                                     <button type="button"
                                             class="btn btn-sm btn-toggle mr-2<?php echo $switchShowCookieBox; ?>"
-                                            data-toggle="button" data-switch-target="showCookieBox" aria-pressed="false"
-                                            autocomplete="off">
-                                        <div class="handle"></div>
+                                            data-toggle="button" data-switch-target="showCookieBox"
+                                            aria-pressed="<?php echo $inputShowCookieBox ? 'true' : 'false'; ?>">
+                                        <span class="handle"></span>
                                     </button>
                                     <input type="hidden" id="showCookieBox" name="showCookieBox"
                                            value="<?php echo $inputShowCookieBox; ?>">
@@ -46,8 +45,9 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     <button type="button"
                                             class="btn btn-sm btn-toggle mr-2<?php echo $switchShowCookieBoxOnLoginPage; ?>"
                                             data-toggle="button" data-switch-target="showCookieBoxOnLoginPage"
-                                            aria-pressed="false" autocomplete="off">
-                                        <div class="handle"></div>
+                                            aria-pressed="<?php echo $inputShowCookieBoxOnLoginPage ? 'true' : 'false'; ?>"
+                                            autocomplete="off">
+                                        <span class="handle"></span>
                                     </button>
                                     <input type="hidden" id="showCookieBoxOnLoginPage" name="showCookieBoxOnLoginPage"
                                            value="<?php echo $inputShowCookieBoxOnLoginPage; ?>">
@@ -81,8 +81,9 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     <button type="button"
                                             class="btn btn-sm btn-toggle mr-2<?php echo $switchCookieBoxBlocksContent; ?>"
                                             data-toggle="button" data-switch-target="cookieBoxBlocksContent"
-                                            aria-pressed="false" autocomplete="off">
-                                        <div class="handle"></div>
+                                            aria-pressed="<?php echo $inputCookieBoxBlocksContent ? 'true' : 'false'; ?>"
+                                            autocomplete="off">
+                                        <span class="handle"></span>
                                     </button>
                                     <input type="hidden" id="cookieBoxBlocksContent" name="cookieBoxBlocksContent"
                                            value="<?php echo $inputCookieBoxBlocksContent; ?>">
@@ -116,8 +117,9 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     <button type="button"
                                             class="btn btn-sm btn-toggle mr-2<?php echo $switchCookieBoxHideRefuseOption; ?>"
                                             data-toggle="button" data-switch-target="cookieBoxHideRefuseOption"
-                                            aria-pressed="false" autocomplete="off">
-                                        <div class="handle"></div>
+                                            aria-pressed="<?php echo $inputCookieBoxHideRefuseOption ? 'true' : 'false'; ?>"
+                                            autocomplete="off">
+                                        <span class="handle"></span>
                                     </button>
                                     <input type="hidden" id="cookieBoxHideRefuseOption" name="cookieBoxHideRefuseOption"
                                            value="<?php echo $inputCookieBoxHideRefuseOption; ?>">
@@ -262,8 +264,9 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     <button type="button"
                                             class="btn btn-sm btn-toggle mr-2<?php echo $switchSupportBorlabsCookie; ?>"
                                             data-toggle="button" data-switch-target="supportBorlabsCookie"
-                                            aria-pressed="false" autocomplete="off">
-                                        <div class="handle"></div>
+                                            aria-pressed="<?php echo $inputSupportBorlabsCookie ? 'true' : 'false'; ?>"
+                                            autocomplete="off">
+                                        <span class="handle"></span>
                                     </button>
                                     <input type="hidden" id="supportBorlabsCookie" name="supportBorlabsCookie"
                                            value="<?php echo $inputSupportBorlabsCookie; ?>">
@@ -396,8 +399,9 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     <button type="button"
                                             class="btn btn-sm btn-toggle mr-2<?php echo $switchCookieBoxShowAcceptAllButton; ?>"
                                             data-toggle="button" data-switch-target="cookieBoxShowAcceptAllButton"
-                                            aria-pressed="false" autocomplete="off">
-                                        <div class="handle"></div>
+                                            aria-pressed="<?php echo $inputCookieBoxShowAcceptAllButton ? 'true' : 'false'; ?>"
+                                            autocomplete="off">
+                                        <span class="handle"></span>
                                     </button>
                                     <input type="hidden" id="cookieBoxShowAcceptAllButton"
                                            name="cookieBoxShowAcceptAllButton"
@@ -415,8 +419,9 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     <button type="button"
                                             class="btn btn-sm btn-toggle mr-2<?php echo $switchCookieBoxIgnorePreSelectStatus; ?>"
                                             data-toggle="button" data-switch-target="cookieBoxIgnorePreSelectStatus"
-                                            aria-pressed="false" autocomplete="off">
-                                        <div class="handle"></div>
+                                            aria-pressed="<?php echo $inputCookieBoxIgnorePreSelectStatus ? 'true' : 'false'; ?>"
+                                            autocomplete="off">
+                                        <span class="handle"></span>
                                     </button>
                                     <input type="hidden" id="cookieBoxIgnorePreSelectStatus"
                                            name="cookieBoxIgnorePreSelectStatus"
@@ -609,8 +614,9 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     <button type="button"
                                             class="btn btn-sm btn-toggle mr-2<?php echo $switchCookieBoxAnimation; ?>"
                                             data-toggle="button" data-switch-target="cookieBoxAnimation"
-                                            aria-pressed="false" autocomplete="off">
-                                        <div class="handle"></div>
+                                            aria-pressed="<?php echo $inputCookieBoxAnimation ? 'true' : 'false'; ?>"
+                                            autocomplete="off">
+                                        <span class="handle"></span>
                                     </button>
                                     <input type="hidden" id="cookieBoxAnimation" name="cookieBoxAnimation"
                                            value="<?php echo $inputCookieBoxAnimation; ?>">
@@ -627,8 +633,9 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     <button type="button"
                                             class="btn btn-sm btn-toggle mr-2<?php echo $switchCookieBoxAnimationDelay; ?>"
                                             data-toggle="button" data-switch-target="cookieBoxAnimationDelay"
-                                            aria-pressed="false" autocomplete="off">
-                                        <div class="handle"></div>
+                                            aria-pressed="<?php echo $inputCookieBoxAnimationDelay ? 'true' : 'false'; ?>"
+                                            autocomplete="off">
+                                        <span class="handle"></span>
                                     </button>
                                     <input type="hidden" id="cookieBoxAnimationDelay" name="cookieBoxAnimationDelay"
                                            value="<?php echo $inputCookieBoxAnimationDelay; ?>">
@@ -668,8 +675,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                             </option>
                                             <option<?php echo $optionCookieBoxAnimationInJello; ?> value="jello">jello
                                             </option>
-                                            <option<?php echo $optionCookieBoxAnimationInHeartBeat; ?>value
-                                            ="heartBeat">
+                                            <option<?php echo $optionCookieBoxAnimationInHeartBeat; ?> value="heartBeat">
                                             heartBeat
                                             </option>
                                         </optgroup>
@@ -764,8 +770,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
 
                                         <optgroup
                                             label="<?php _ex('Sliding Entrances', 'Backend / Cookie Box / Select Option Group', 'borlabs-cookie'); ?>">
-                                            <option<?php echo $optionCookieBoxAnimationInSlideInUp; ?>value
-                                            ="slideInUp">
+                                            <option<?php echo $optionCookieBoxAnimationInSlideInUp; ?> value="slideInUp">
                                             slideInUp
                                             </option>
                                             <option<?php echo $optionCookieBoxAnimationInSlideInDown; ?>
@@ -827,8 +832,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
 
                                         <optgroup
                                             label="<?php _ex('Bouncing Exits', 'Backend / Cookie Box / Select Option Group', 'borlabs-cookie'); ?>">
-                                            <option<?php echo $optionCookieBoxAnimationOnBounceOut; ?>value
-                                            ="bounceOut">
+                                            <option<?php echo $optionCookieBoxAnimationOnBounceOut; ?> value="bounceOut">
                                             bounceOut
                                             </option>
                                             <option<?php echo $optionCookieBoxAnimationOnBounceOutDown; ?>
@@ -868,8 +872,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                             <option<?php echo $optionCookieBoxAnimationOnFadeOutRightBig; ?>
                                                 value="fadeOutRightBig">fadeOutRightBig
                                             </option>
-                                            <option<?php echo $optionCookieBoxAnimationOnFadeOutUp; ?>value
-                                            ="fadeOutUp">
+                                            <option<?php echo $optionCookieBoxAnimationOnFadeOutUp; ?> value="fadeOutUp">
                                             fadeOutUp
                                             </option>
                                             <option<?php echo $optionCookieBoxAnimationOnFadeOutUpBig; ?>
@@ -896,8 +899,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
 
                                         <optgroup
                                             label="<?php _ex('Rotating Exits', 'Backend / Cookie Box / Select Option Group', 'borlabs-cookie'); ?>">
-                                            <option<?php echo $optionCookieBoxAnimationOnRotateOut; ?>value
-                                            ="rotateOut">
+                                            <option<?php echo $optionCookieBoxAnimationOnRotateOut; ?> value="rotateOut">
                                             rotateOut
                                             </option>
                                             <option<?php echo $optionCookieBoxAnimationOnRotateOutDownLeft; ?>
@@ -944,8 +946,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                             <option<?php echo $optionCookieBoxAnimationOnZoomOutRight; ?>
                                                 value="zoomOutRight">zoomOutRight
                                             </option>
-                                            <option<?php echo $optionCookieBoxAnimationOnZoomOutUp; ?>value
-                                            ="zoomOutUp">
+                                            <option<?php echo $optionCookieBoxAnimationOnZoomOutUp; ?> value"zoomOutUp">
                                             zoomOutUp
                                             </option>
                                         </optgroup>
@@ -1019,8 +1020,9 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     <button type="button"
                                             class="btn btn-sm btn-toggle mr-2<?php echo $switchCookieBoxShowLogo; ?>"
                                             data-toggle="button" data-switch-target="cookieBoxShowLogo"
-                                            aria-pressed="false" autocomplete="off">
-                                        <div class="handle"></div>
+                                            aria-pressed="<?php echo $inputCookieBoxShowLogo ? 'true' : 'false'; ?>"
+                                            autocomplete="off">
+                                        <span class="handle"></span>
                                     </button>
                                     <input type="hidden" id="cookieBoxShowLogo" name="cookieBoxShowLogo"
                                            value="<?php echo $inputCookieBoxShowLogo; ?>">
@@ -1428,8 +1430,9 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     <button type="button"
                                             class="btn btn-sm btn-toggle mr-2<?php echo $switchCookieBoxBtnFullWidth; ?>"
                                             data-toggle="button" data-switch-target="cookieBoxBtnFullWidth"
-                                            aria-pressed="false" autocomplete="off">
-                                        <div class="handle"></div>
+                                            aria-pressed="<?php echo $inputCookieBoxBtnFullWidth ? 'true' : 'false'; ?>"
+                                            autocomplete="off">
+                                        <span class="handle"></span>
                                     </button>
                                     <input type="hidden" id="cookieBoxBtnFullWidth" name="cookieBoxBtnFullWidth"
                                            value="<?php echo $inputCookieBoxBtnFullWidth; ?>">
@@ -1463,19 +1466,6 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     </div>
                                 </div>
                             </div>
-
-                            <?php
-                            if ($inputCookieBoxBtnColor !== $inputCookieBoxRefuseBtnColor) {
-                                ?>
-                                <div class="form-group row align-items-center">
-                                    <div class="col-sm-8 offset-4">
-                                        <div
-                                            class="alert alert-danger mt-2"><?php _ex('Buttons with different colours may violate applicable laws. Please inform yourself in advance about the legal situation that applies to you.', 'Backend / Cookie Box / Alert Message', 'borlabs-cookie'); ?></div>
-                                    </div>
-                                </div>
-                                <?php
-                            }
-                            ?>
 
                             <div class="form-group row">
                                 <label
@@ -1577,19 +1567,6 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                 </div>
                             </div>
 
-                            <?php
-                            if ($inputCookieBoxAcceptAllBtnColor !== $inputCookieBoxRefuseBtnColor) {
-                                ?>
-                                <div class="form-group row align-items-center">
-                                    <div class="col-sm-8 offset-4">
-                                        <div
-                                            class="alert alert-danger mt-2"><?php _ex('Buttons with different colours may violate applicable laws. Please inform yourself in advance about the legal situation that applies to you.', 'Backend / Cookie Box / Alert Message', 'borlabs-cookie'); ?></div>
-                                    </div>
-                                </div>
-                                <?php
-                            }
-                            ?>
-
                             <div class="form-group row">
                                 <label
                                     class="col-sm-4 col-form-label"><?php _ex('Accept all Button Text Color', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
@@ -1674,8 +1651,9 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     <button type="button"
                                             class="btn btn-sm btn-toggle mr-2<?php echo $switchCookieBoxBtnSwitchRound; ?>"
                                             data-toggle="button" data-switch-target="cookieBoxBtnSwitchRound"
-                                            aria-pressed="false" autocomplete="off">
-                                        <div class="handle"></div>
+                                            aria-pressed="<?php echo $inputCookieBoxBtnSwitchRound ? 'true' : 'false'; ?>"
+                                            autocomplete="off">
+                                        <span class="handle"></span>
                                     </button>
                                     <input type="hidden" id="cookieBoxBtnSwitchRound" name="cookieBoxBtnSwitchRound"
                                            value="<?php echo $inputCookieBoxBtnSwitchRound; ?>">
@@ -2291,6 +2269,37 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                 </div>
                             </div>
 
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-8 offset-sm-4">
+                            <button type="submit"
+                                    class="btn btn-primary btn-sm"><?php _ex('Save all settings', 'Backend / Global / Button Title', 'borlabs-cookie'); ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row no-gutters mb-4">
+            <div class="col-12 col-md-8 rounded bg-light shadow-sm">
+                <div class="px-3 pt-3 pb-4">
+                    <h3 class="border-bottom mb-3"><?php _ex('Text Settings - Accessibility', 'Backend / Cookie Box / Headline', 'borlabs-cookie'); ?></h3>
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="form-group row">
+                                <label for="cookieBoxA11YServiceGroupListExplained"
+                                       class="col-sm-4 col-form-label"><?php _ex('Service Group List Explanation', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2"
+                                           id="cookieBoxA11YServiceGroupListExplained"
+                                           name="cookieBoxA11YServiceGroupListExplained"
+                                           value="<?php echo $inputCookieBoxA11YServiceGroupListExplained; ?>">
+                                </div>
+                            </div>
                         </div>
                     </div>
 

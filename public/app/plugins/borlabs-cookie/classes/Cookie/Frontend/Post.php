@@ -20,13 +20,9 @@
 
 namespace BorlabsCookie\Cookie\Frontend;
 
-use BorlabsCookie\Cookie\Config;
-
 class Post
 {
     private static $instance;
-
-    public $customCode = '';
 
     public static function getInstance()
     {
@@ -35,6 +31,11 @@ class Post
         }
 
         return self::$instance;
+    }
+    public $customCode = '';
+
+    public function __construct()
+    {
     }
 
     public function __clone()
@@ -47,10 +48,6 @@ class Post
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
-    {
-    }
-
     /**
      * embedCustomCode function.
      *
@@ -59,7 +56,7 @@ class Post
      */
     public function embedCustomCode()
     {
-        if (!empty($this->customCode)) {
+        if (! empty($this->customCode)) {
             echo $this->customCode;
         }
     }
@@ -68,7 +65,9 @@ class Post
      * getCustomCode function.
      *
      * @access public
-     * @param mixed $query
+     *
+     * @param  mixed  $query
+     *
      * @return void
      */
     public function getCustomCode($query)
@@ -77,7 +76,7 @@ class Post
 
         $postId = null;
 
-        if (!empty($post->ID)) {
+        if (! empty($post->ID)) {
             if (is_front_page()) {
                 $postId = $post->ID;
             } elseif (is_single()) {
@@ -86,10 +85,10 @@ class Post
                 $postId = $post->ID;
             }
 
-            if (!empty($postId)) {
+            if (! empty($postId)) {
                 $customCode = get_post_meta($postId, '_borlabs-cookie-custom-code', true);
 
-                if (!empty($customCode)) {
+                if (! empty($customCode)) {
                     $this->customCode = do_shortcode($customCode);
                 }
             }

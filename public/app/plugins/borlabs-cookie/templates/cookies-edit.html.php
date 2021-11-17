@@ -96,7 +96,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                         <div class="form-group row align-items-center">
                             <label class="col-sm-4 col-form-label"><?php _ex('Status', 'Backend / Cookies / Label', 'borlabs-cookie'); ?></label>
                             <div class="col-sm-8">
-                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchStatus; ?>" data-toggle="button" data-switch-target="status" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
+                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchStatus; ?>" data-toggle="button" data-switch-target="status" aria-pressed="<?php echo $inputStatus ? 'true' : 'false'; ?>" autocomplete="off"><span class="handle"></span></button>
                                 <input type="hidden" name="status" id="status" value="<?php echo $inputStatus; ?>">
                                 <span data-toggle="tooltip" title="<?php echo esc_attr_x('The status of this <strong>Cookie</strong>. If active (Status: ON) it is displayed to the visitor in the <strong>Cookie Box</strong>.', 'Backend / Cookies / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
                             </div>
@@ -203,7 +203,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                         <div class="form-group row align-items-center">
                             <label class="col-sm-4 col-form-label"><?php _ex('Block Cookies before Consent', 'Backend / Cookies / Label', 'borlabs-cookie'); ?></label>
                             <div class="col-sm-8">
-                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchBlockCookiesBeforeConsent; ?>" data-toggle="button" data-switch-target="blockCookiesBeforeConsent" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
+                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchBlockCookiesBeforeConsent; ?>" data-toggle="button" data-switch-target="blockCookiesBeforeConsent" aria-pressed="<?php echo $inputBlockCookiesBeforeConsent ? 'true' : 'false'; ?>" autocomplete="off"><span class="handle"></span></button>
                                 <input type="hidden" name="settings[blockCookiesBeforeConsent]" id="blockCookiesBeforeConsent" value="<?php echo $inputBlockCookiesBeforeConsent; ?>">
                                 <span data-toggle="tooltip" title="<?php echo esc_attr_x('If active (Status: ON) Borlabs Cookie tries to block cookies with the names from <strong>Cookie Name</strong> until consent is given.', 'Backend / Cookies / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
                             </div>
@@ -272,7 +272,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                         <div class="form-group row align-items-center">
                             <label class="col-sm-4 col-form-label"><?php _ex('Prioritize', 'Backend / Cookies / Label', 'borlabs-cookie'); ?></label>
                             <div class="col-sm-8">
-                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchSettingsPrioritize; ?>" data-toggle="button" data-switch-target="settingsPrioritize" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
+                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchSettingsPrioritize; ?>" data-toggle="button" data-switch-target="settingsPrioritize" aria-pressed="<?php echo $inputSettingsPrioritize ? 'true' : 'false'; ?>" autocomplete="off"><span class="handle"></span></button>
                                 <input type="hidden" name="settings[prioritize]" id="settingsPrioritize" value="<?php echo $inputSettingsPrioritize; ?>">
                                 <span data-toggle="tooltip" title="<?php echo esc_attr_x('The <strong>Opt-in Code</strong> is loaded in &amp;lt;head&amp;gt; and is executed before the page is fully loaded.', 'Backend / Cookies / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
                             </div>

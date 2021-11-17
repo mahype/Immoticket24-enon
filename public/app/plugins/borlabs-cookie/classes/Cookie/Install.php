@@ -20,6 +20,9 @@
 
 namespace BorlabsCookie\Cookie;
 
+use BorlabsCookie\Cookie\Backend\ContentBlocker;
+use WP_Roles;
+
 class Install
 {
 
@@ -34,6 +37,10 @@ class Install
         return self::$instance;
     }
 
+    public function __construct()
+    {
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -44,219 +51,270 @@ class Install
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
+    /**
+     * addUserCapabilities function.
+     *
+     * @access public
+     */
+    public function addUserCapabilities()
     {
+        global $wp_roles;
+
+        if (! isset($wp_roles)) {
+            $wp_roles = new WP_Roles();
+        }
+
+        $capabilities = $this->getCapabilities();
+
+        foreach ($capabilities as $cap) {
+            $wp_roles->add_cap('administrator', $cap);
+        }
     }
 
     /**
-     * installPlugin function.
+     * checkIfColumnExists function.
      *
      * @access public
-     * @return void
+     *
+     * @param  mixed  $tableName
+     * @param  mixed  $columnName
+     *
      */
-    public function installPlugin()
+    public function checkIfColumnExists($tableName, $columnName)
     {
         global $wpdb;
 
-        $tableNameCookies = $wpdb->base_prefix . 'borlabs_cookie_cookies';
-        $tableNameCookieGroups = $wpdb->base_prefix . 'borlabs_cookie_groups';
-        $tableNameCookieConsentLog = $wpdb->base_prefix . 'borlabs_cookie_consent_log';
-        $tableNameContentBlocker = $wpdb->base_prefix . 'borlabs_cookie_content_blocker';
-        $tableNameScriptBlocker = $wpdb->base_prefix . 'borlabs_cookie_script_blocker';
-        $charsetCollate = $wpdb->get_charset_collate();
+        $dbName = $wpdb->dbname;
 
-        $sqlCreateTableCookies = $this->getCreateTableStatementCookies($tableNameCookies, $charsetCollate);
-        $sqlCreateTableCookieGroups = $this->getCreateTableStatementCookieGroups(
-            $tableNameCookieGroups,
-            $charsetCollate
-        );
-        $sqlCreateTableCookieLog = $this->getCreateTableStatementCookieConsentLog(
-            $tableNameCookieConsentLog,
-            $charsetCollate
-        );
-        $sqlCreateTableContentBlocker = $this->getCreateTableStatementContentBlocker(
-            $tableNameContentBlocker,
-            $charsetCollate
-        );
-        $sqlCreateTableScriptBlocker = $this->getCreateTableStatementScriptBlocker(
-            $tableNameScriptBlocker,
-            $charsetCollate
-        );
-
-        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-
-        dbDelta($sqlCreateTableCookieGroups);
-        dbDelta($sqlCreateTableCookies);
-        dbDelta($sqlCreateTableCookieLog);
-        dbDelta($sqlCreateTableContentBlocker);
-        dbDelta($sqlCreateTableScriptBlocker);
-
-        // Load language package
-        load_plugin_textdomain('borlabs-cookie', false, BORLABS_COOKIE_SLUG . '/languages/');
-
-        // Get language of the blog
-        if (defined('BORLABS_COOKIE_IGNORE_ISO_639_1') === false) {
-            $defaultBlogLanguage = substr(get_option('WPLANG', 'en_US'), 0, 2);
+        // HyperDB workaround
+        if (empty($dbName) && defined('DB_NAME')) {
+            $dbName = DB_NAME;
         }
 
-        // Fallback for the case when WPLANG is empty and default value doesn't work
-        if (empty($defaultBlogLanguage)) {
-            $defaultBlogLanguage = 'en';
-        }
-
-        // Load correct DE language file if any DE language was selected
-        if (in_array($defaultBlogLanguage, ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'])) {
-            // Load german language pack
-            load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo');
-        }
-
-        // Default entries
-        $sqlDefaultEntriesCookieGroups = $this->getDefaultEntriesCookieGroups(
-            $tableNameCookieGroups,
-            $defaultBlogLanguage
-        );
-        $wpdb->query($sqlDefaultEntriesCookieGroups);
-
-        $sqlDefaultEntriesCookies = $this->getDefaultEntriesCookies(
-            $tableNameCookies,
-            $defaultBlogLanguage,
-            $tableNameCookieGroups
-        );
-        $wpdb->query($sqlDefaultEntriesCookies);
-
-        // Add user capabilities
-        $this->addUserCapabilities();
-
-        update_option('BorlabsCookieVersion', BORLABS_COOKIE_VERSION, 'yes');
-
-        // Add cache folder
-        if (! file_exists(WP_CONTENT_DIR . '/cache')) {
-            if (is_writable(WP_CONTENT_DIR)) {
-                mkdir(WP_CONTENT_DIR . '/cache');
-            }
-        }
-
-        if (! file_exists(WP_CONTENT_DIR . '/cache/borlabs-cookie')) {
-            if (is_writable(WP_CONTENT_DIR . '/cache')) {
-                mkdir(WP_CONTENT_DIR . '/cache/borlabs-cookie');
-            }
-        }
-
-        if (is_multisite()) {
-            $allBlogs = $wpdb->get_results(
-                "
-                SELECT
-                    `blog_id`
-                FROM
-                    `" . $wpdb->base_prefix . "blogs`
+        $tableResult = $wpdb->get_results(
             "
-            );
+            SELECT
+                `COLUMN_NAME`
+            FROM
+                `information_schema`.`COLUMNS`
+            WHERE
+                `TABLE_SCHEMA` = '" . esc_sql($dbName) . "'
+                AND
+                `TABLE_NAME` = '" . esc_sql($tableName) . "'
+                AND
+                `COLUMN_NAME` = '" . esc_sql($columnName) . "'
+        "
+        );
 
-            if (! empty($allBlogs)) {
-                $originalBlogId = get_current_blog_id();
+        if (! empty($tableResult[0]->COLUMN_NAME)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-                foreach ($allBlogs as $blogData) {
-                    if ($blogData->blog_id != 1) {
-                        switch_to_blog($blogData->blog_id);
+    /**
+     * checkIfIndexExists function.
+     *
+     * @access public
+     *
+     * @param  mixed  $tableName
+     * @param  mixed  $indexName
+     */
+    public function checkIfIndexExists($tableName, $indexName)
+    {
+        global $wpdb;
 
-                        $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_cookies';
-                        $tableNameCookieGroups = $wpdb->prefix
-                            . 'borlabs_cookie_groups'; // ->prefix contains base_prefix + blog id
-                        $tableNameCookieConsentLog = $wpdb->prefix
-                            . 'borlabs_cookie_consent_log'; // ->prefix contains base_prefix + blog id
-                        $tableNameContentBlocker = $wpdb->prefix
-                            . 'borlabs_cookie_content_blocker'; // ->prefix contains base_prefix + blog id
-                        $tableNameScriptBlocker = $wpdb->prefix
-                            . 'borlabs_cookie_script_blocker'; // ->prefix contains base_prefix + blog id
+        $tableResult = $wpdb->get_results(
+            "
+            SHOW
+                INDEXES
+            FROM
+                `" . $tableName . "`
+            WHERE
+                `Key_name` = '" . esc_sql($indexName) . "'
+        "
+        );
 
-                        $sqlCreateTableCookies = $this->getCreateTableStatementCookies(
-                            $tableNameCookies,
-                            $charsetCollate
-                        );
-                        $sqlCreateTableCookieGroups = $this->getCreateTableStatementCookieGroups(
-                            $tableNameCookieGroups,
-                            $charsetCollate
-                        );
-                        $sqlCreateTableCookieLog = $this->getCreateTableStatementCookieConsentLog(
-                            $tableNameCookieConsentLog,
-                            $charsetCollate
-                        );
-                        $sqlCreateTableContentBlocker = $this->getCreateTableStatementContentBlocker(
-                            $tableNameContentBlocker,
-                            $charsetCollate
-                        );
-                        $sqlCreateTableScriptBlocker = $this->getCreateTableStatementScriptBlocker(
-                            $tableNameScriptBlocker,
-                            $charsetCollate
-                        );
+        if (! empty($tableResult[0]->Key_name)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-                        dbDelta($sqlCreateTableCookieGroups);
-                        dbDelta($sqlCreateTableCookies);
-                        dbDelta($sqlCreateTableCookieLog);
-                        dbDelta($sqlCreateTableContentBlocker);
-                        dbDelta($sqlCreateTableScriptBlocker);
+    /**
+     * checkIfTableExists function.
+     *
+     * @access public
+     *
+     * @param  mixed  $tableName
+     */
+    public function checkIfTableExists($tableName)
+    {
+        global $wpdb;
 
-                        // Get language of the blog
-                        if (defined('BORLABS_COOKIE_IGNORE_ISO_639_1') === false) {
-                            $blogLanguage = substr(get_option('WPLANG', 'en_US'), 0, 2);
-                        }
+        $dbName = $wpdb->dbname;
 
-                        // Fallback for the case when WPLANG is empty and default value doesn't work
-                        if (empty($blogLanguage)) {
-                            $blogLanguage = 'en';
-                        }
-
-                        if (
-                        in_array(
-                            $blogLanguage,
-                            ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal']
-                        )
-                        ) {
-                            // Load german language pack
-                            load_textdomain(
-                                'borlabs-cookie',
-                                BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo'
-                            );
-                        } else {
-                            // Load unload language pack
-                            unload_textdomain('borlabs-cookie');
-                        }
-
-                        // Default entries
-                        $sqlDefaultEntriesCookieGroups = $this->getDefaultEntriesCookieGroups(
-                            $tableNameCookieGroups,
-                            $blogLanguage
-                        );
-                        $wpdb->query($sqlDefaultEntriesCookieGroups);
-
-                        $sqlDefaultEntriesCookies = $this->getDefaultEntriesCookies(
-                            $tableNameCookies,
-                            $defaultBlogLanguage,
-                            $tableNameCookieGroups
-                        );
-                        $wpdb->query($sqlDefaultEntriesCookies);
-
-                        // Default Content Blocker
-                        \BorlabsCookie\Cookie\Backend\ContentBlocker::getInstance()->initDefault();
-
-                        // Add user capabilities
-                        $this->addUserCapabilities();
-
-                        update_option('BorlabsCookieVersion', BORLABS_COOKIE_VERSION, 'yes');
-                    }
-                }
-
-                switch_to_blog($originalBlogId);
-            }
+        // HyperDB workaround
+        if (empty($dbName) && defined('DB_NAME')) {
+            $dbName = DB_NAME;
         }
 
-        // On Multisite Networks the ContentBlocker class will have the table of the current
-        // instance and not of the main instance. Because of that, the table which is used by
-        // this class if available during the is_multisite() install routine so we have to wait
-        // for its creation first.
+        $tableResult = $wpdb->get_results(
+            "
+            SELECT
+                `TABLE_NAME`
+            FROM
+                `information_schema`.`TABLES`
+            WHERE
+                `TABLE_SCHEMA` = '" . esc_sql($dbName) . "'
+                AND
+                `TABLE_NAME` = '" . esc_sql($tableName) . "'
+        "
+        );
 
-        // Default Content Blocker
-        \BorlabsCookie\Cookie\Backend\ContentBlocker::getInstance()->initDefault();
+        if (! empty($tableResult[0]->TABLE_NAME)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * checkTypeOfColumn function.
+     *
+     * @access public
+     *
+     * @param  mixed  $tableName
+     * @param  mixed  $columnName
+     * @param  mixed  $expectedType
+     */
+    public function checkTypeOfColumn($tableName, $columnName, $expectedType)
+    {
+        global $wpdb;
+
+        $dbName = $wpdb->dbname;
+
+        // HyperDB workaround
+        if (empty($dbName) && defined('DB_NAME')) {
+            $dbName = DB_NAME;
+        }
+
+        $tableResult = $wpdb->get_results(
+            "
+            SELECT
+                `DATA_TYPE`
+            FROM
+                `information_schema`.`COLUMNS`
+            WHERE
+                `TABLE_SCHEMA` = '" . esc_sql($dbName) . "'
+                AND
+                `TABLE_NAME` = '" . esc_sql($tableName) . "'
+                AND
+                `COLUMN_NAME` = '" . esc_sql($columnName) . "'
+        "
+        );
+
+        if (
+            ! empty($tableResult[0]->DATA_TYPE)
+            && strtolower($tableResult[0]->DATA_TYPE) == strtolower(
+                $expectedType
+            )
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * getCapabilities function.
+     *
+     * @access public
+     */
+    public function getCapabilities()
+    {
+        $capabilities = ['manage_borlabs_cookie'];
+
+        return $capabilities;
+    }
+
+    /**
+     * getCreateTableStatementContentBlocker function.
+     *
+     * @access public
+     *
+     * @param  mixed  $tableName
+     * @param  mixed  $charsetCollate
+     */
+    public function getCreateTableStatementContentBlocker($tableName, $charsetCollate)
+    {
+        return "CREATE TABLE IF NOT EXISTS " . $tableName . " (
+            `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            `content_blocker_id` varchar(35) NOT NULL DEFAULT '',
+            `language` varchar(16) NOT NULL DEFAULT '',
+            `name` varchar(100) NOT NULL DEFAULT '',
+            `description` text NOT NULL,
+            `privacy_policy_url` varchar(255) NOT NULL DEFAULT '',
+            `hosts` TEXT NOT NULL,
+            `preview_html` TEXT NOT NULL,
+            `preview_css` TEXT NOT NULL,
+            `global_js` TEXT NOT NULL,
+            `init_js` TEXT NOT NULL,
+            `settings` TEXT NOT NULL,
+            `status` int(1) unsigned NOT NULL DEFAULT '0',
+            `undeletable` int(1) unsigned NOT NULL DEFAULT '0',
+            PRIMARY KEY (`id`),
+            UNIQUE KEY (`content_blocker_id`, `language`)
+        ) " . $charsetCollate . ";";
+    }
+
+    /**
+     * getCreateTableStatementCookieConsentLog function.
+     *
+     * @access public
+     *
+     * @param  mixed  $tableName
+     * @param  mixed  $charsetCollate
+     */
+    public function getCreateTableStatementCookieConsentLog($tableName, $charsetCollate)
+    {
+        return "CREATE TABLE IF NOT EXISTS " . $tableName . " (
+            `log_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            `uid` varchar(35) NOT NULL DEFAULT '',
+            `cookie_version` int(11) unsigned DEFAULT NULL,
+            `consents` text,
+            `is_latest` int(11) unsigned DEFAULT '0',
+            `stamp` datetime DEFAULT NULL,
+            PRIMARY KEY (`log_id`),
+            KEY `uid` (`uid`, `is_latest`)
+        ) " . $charsetCollate . ";";
+    }
+
+    /**
+     * getCreateTableStatementCookieGroups function.
+     *
+     * @access public
+     *
+     * @param  mixed  $tableName
+     * @param  mixed  $charsetCollate
+     */
+    public function getCreateTableStatementCookieGroups($tableName, $charsetCollate)
+    {
+        return "CREATE TABLE IF NOT EXISTS " . $tableName . " (
+            `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            `group_id` varchar(35) NOT NULL,
+            `language` varchar(16) NOT NULL DEFAULT '',
+            `name` varchar(100) NOT NULL DEFAULT '',
+            `description` text NOT NULL,
+            `pre_selected` int(1) NOT NULL DEFAULT '0',
+            `position` int(11) unsigned NOT NULL DEFAULT '0',
+            `status` int(1) unsigned NOT NULL DEFAULT '0',
+            `undeletable` int(1) unsigned NOT NULL DEFAULT '0',
+            PRIMARY KEY (`id`),
+            UNIQUE KEY `group_id` (`group_id`,`language`)
+        ) " . $charsetCollate . ";";
     }
 
     /**
@@ -266,8 +324,6 @@ class Install
      *
      * @param  mixed  $tableName
      * @param  mixed  $charsetCollate
-     *
-     * @return void
      */
     public function getCreateTableStatementCookies($tableName, $charsetCollate)
     {
@@ -298,89 +354,6 @@ class Install
     }
 
     /**
-     * getCreateTableStatementCookieGroups function.
-     *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $charsetCollate
-     *
-     * @return void
-     */
-    public function getCreateTableStatementCookieGroups($tableName, $charsetCollate)
-    {
-        return "CREATE TABLE IF NOT EXISTS " . $tableName . " (
-            `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-            `group_id` varchar(35) NOT NULL,
-            `language` varchar(16) NOT NULL DEFAULT '',
-            `name` varchar(100) NOT NULL DEFAULT '',
-            `description` text NOT NULL,
-            `pre_selected` int(1) NOT NULL DEFAULT '0',
-            `position` int(11) unsigned NOT NULL DEFAULT '0',
-            `status` int(1) unsigned NOT NULL DEFAULT '0',
-            `undeletable` int(1) unsigned NOT NULL DEFAULT '0',
-            PRIMARY KEY (`id`),
-            UNIQUE KEY `group_id` (`group_id`,`language`)
-        ) " . $charsetCollate . ";";
-    }
-
-    /**
-     * getCreateTableStatementCookieConsentLog function.
-     *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $charsetCollate
-     *
-     * @return void
-     */
-    public function getCreateTableStatementCookieConsentLog($tableName, $charsetCollate)
-    {
-        return "CREATE TABLE IF NOT EXISTS " . $tableName . " (
-            `log_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-            `uid` varchar(35) NOT NULL DEFAULT '',
-            `cookie_version` int(11) unsigned DEFAULT NULL,
-            `consents` text,
-            `is_latest` int(11) unsigned DEFAULT '0',
-            `stamp` datetime DEFAULT NULL,
-            PRIMARY KEY (`log_id`),
-            KEY `uid` (`uid`, `is_latest`)
-        ) " . $charsetCollate . ";";
-    }
-
-    /**
-     * getCreateTableStatementContentBlocker function.
-     *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $charsetCollate
-     *
-     * @return void
-     */
-    public function getCreateTableStatementContentBlocker($tableName, $charsetCollate)
-    {
-        return "CREATE TABLE IF NOT EXISTS " . $tableName . " (
-            `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-            `content_blocker_id` varchar(35) NOT NULL DEFAULT '',
-            `language` varchar(16) NOT NULL DEFAULT '',
-            `name` varchar(100) NOT NULL DEFAULT '',
-            `description` text NOT NULL,
-            `privacy_policy_url` varchar(255) NOT NULL DEFAULT '',
-            `hosts` TEXT NOT NULL,
-            `preview_html` TEXT NOT NULL,
-            `preview_css` TEXT NOT NULL,
-            `global_js` TEXT NOT NULL,
-            `init_js` TEXT NOT NULL,
-            `settings` TEXT NOT NULL,
-            `status` int(1) unsigned NOT NULL DEFAULT '0',
-            `undeletable` int(1) unsigned NOT NULL DEFAULT '0',
-            PRIMARY KEY (`id`),
-            UNIQUE KEY (`content_blocker_id`, `language`)
-        ) " . $charsetCollate . ";";
-    }
-
-    /**
      * getCreateTableStatementScriptBlocker function.
      *
      * @access public
@@ -388,7 +361,6 @@ class Install
      * @param  mixed  $tableName
      * @param  mixed  $charsetCollate
      *
-     * @return void
      */
     public function getCreateTableStatementScriptBlocker($tableName, $charsetCollate)
     {
@@ -413,7 +385,6 @@ class Install
      * @param  mixed  $tableName
      * @param  mixed  $language
      *
-     * @return void
      */
     public function getDefaultEntriesCookieGroups($tableName, $language)
     {
@@ -507,7 +478,6 @@ class Install
      * @param  mixed  $language
      * @param  mixed  $tableNameCookieGroups
      *
-     * @return void
      */
     public function getDefaultEntriesCookies($tableName, $language, $tableNameCookieGroups)
     {
@@ -762,202 +732,223 @@ class Install
     }
 
     /**
-     * checkIfTableExists function.
+     * installPlugin function.
      *
      * @access public
-     *
-     * @param  mixed  $tableName
-     *
-     * @return void
      */
-    public function checkIfTableExists($tableName)
+    public function installPlugin()
     {
         global $wpdb;
 
-        $dbName = $wpdb->dbname;
+        $tableNameCookies = $wpdb->base_prefix . 'borlabs_cookie_cookies';
+        $tableNameCookieGroups = $wpdb->base_prefix . 'borlabs_cookie_groups';
+        $tableNameCookieConsentLog = $wpdb->base_prefix . 'borlabs_cookie_consent_log';
+        $tableNameContentBlocker = $wpdb->base_prefix . 'borlabs_cookie_content_blocker';
+        $tableNameScriptBlocker = $wpdb->base_prefix . 'borlabs_cookie_script_blocker';
+        $charsetCollate = $wpdb->get_charset_collate();
 
-        // HyperDB workaround
-        if (empty($dbName) && defined('DB_NAME')) {
-            $dbName = DB_NAME;
-        }
-
-        $tableResult = $wpdb->get_results(
-            "
-            SELECT
-                `TABLE_NAME`
-            FROM
-                `information_schema`.`TABLES`
-            WHERE
-                `TABLE_SCHEMA` = '" . esc_sql($dbName) . "'
-                AND
-                `TABLE_NAME` = '" . esc_sql($tableName) . "'
-        "
+        $sqlCreateTableCookies = $this->getCreateTableStatementCookies($tableNameCookies, $charsetCollate);
+        $sqlCreateTableCookieGroups = $this->getCreateTableStatementCookieGroups(
+            $tableNameCookieGroups,
+            $charsetCollate
+        );
+        $sqlCreateTableCookieLog = $this->getCreateTableStatementCookieConsentLog(
+            $tableNameCookieConsentLog,
+            $charsetCollate
+        );
+        $sqlCreateTableContentBlocker = $this->getCreateTableStatementContentBlocker(
+            $tableNameContentBlocker,
+            $charsetCollate
+        );
+        $sqlCreateTableScriptBlocker = $this->getCreateTableStatementScriptBlocker(
+            $tableNameScriptBlocker,
+            $charsetCollate
         );
 
-        if (! empty($tableResult[0]->TABLE_NAME)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-    /**
-     * checkIfColumnExists function.
-     *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $columnName
-     *
-     * @return void
-     */
-    public function checkIfColumnExists($tableName, $columnName)
-    {
-        global $wpdb;
+        dbDelta($sqlCreateTableCookieGroups);
+        dbDelta($sqlCreateTableCookies);
+        dbDelta($sqlCreateTableCookieLog);
+        dbDelta($sqlCreateTableContentBlocker);
+        dbDelta($sqlCreateTableScriptBlocker);
 
-        $dbName = $wpdb->dbname;
+        // Load language package
+        load_plugin_textdomain('borlabs-cookie', false, BORLABS_COOKIE_SLUG . '/languages/');
 
-        // HyperDB workaround
-        if (empty($dbName) && defined('DB_NAME')) {
-            $dbName = DB_NAME;
+        // Get language of the blog
+        if (defined('BORLABS_COOKIE_IGNORE_ISO_639_1') === false) {
+            $defaultBlogLanguage = substr(get_option('WPLANG', 'en_US'), 0, 2);
         }
 
-        $tableResult = $wpdb->get_results(
-            "
-            SELECT
-                `COLUMN_NAME`
-            FROM
-                `information_schema`.`COLUMNS`
-            WHERE
-                `TABLE_SCHEMA` = '" . esc_sql($dbName) . "'
-                AND
-                `TABLE_NAME` = '" . esc_sql($tableName) . "'
-                AND
-                `COLUMN_NAME` = '" . esc_sql($columnName) . "'
-        "
+        // Fallback for the case when WPLANG is empty and default value doesn't work
+        if (empty($defaultBlogLanguage)) {
+            $defaultBlogLanguage = 'en';
+        }
+
+        // Load correct DE language file if any DE language was selected
+        if (in_array($defaultBlogLanguage, ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'])) {
+            // Load german language pack
+            load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo');
+        }
+
+        // Default entries
+        $sqlDefaultEntriesCookieGroups = $this->getDefaultEntriesCookieGroups(
+            $tableNameCookieGroups,
+            $defaultBlogLanguage
         );
+        $wpdb->query($sqlDefaultEntriesCookieGroups);
 
-        if (! empty($tableResult[0]->COLUMN_NAME)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * checkIfIndexExists function.
-     *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $indexName
-     *
-     * @return void
-     */
-    public function checkIfIndexExists($tableName, $indexName)
-    {
-        global $wpdb;
-
-        $tableResult = $wpdb->get_results(
-            "
-            SHOW
-                INDEXES
-            FROM
-                `" . $tableName . "`
-            WHERE
-                `Key_name` = '" . esc_sql($indexName) . "'
-        "
+        $sqlDefaultEntriesCookies = $this->getDefaultEntriesCookies(
+            $tableNameCookies,
+            $defaultBlogLanguage,
+            $tableNameCookieGroups
         );
+        $wpdb->query($sqlDefaultEntriesCookies);
 
-        if (! empty($tableResult[0]->Key_name)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+        // Add user capabilities
+        $this->addUserCapabilities();
 
-    /**
-     * checkTypeOfColumn function.
-     *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $columnName
-     * @param  mixed  $expectedType
-     *
-     * @return void
-     */
-    public function checkTypeOfColumn($tableName, $columnName, $expectedType)
-    {
-        global $wpdb;
+        update_option('BorlabsCookieVersion', BORLABS_COOKIE_VERSION, 'yes');
 
-        $dbName = $wpdb->dbname;
-
-        // HyperDB workaround
-        if (empty($dbName) && defined('DB_NAME')) {
-            $dbName = DB_NAME;
+        // Add cache folder
+        if (! file_exists(WP_CONTENT_DIR . '/cache')) {
+            if (is_writable(WP_CONTENT_DIR)) {
+                mkdir(WP_CONTENT_DIR . '/cache');
+            }
         }
 
-        $tableResult = $wpdb->get_results(
+        if (! file_exists(WP_CONTENT_DIR . '/cache/borlabs-cookie')) {
+            if (is_writable(WP_CONTENT_DIR . '/cache')) {
+                mkdir(WP_CONTENT_DIR . '/cache/borlabs-cookie');
+            }
+        }
+
+        if (is_multisite()) {
+            $allBlogs = $wpdb->get_results(
+                "
+                SELECT
+                    `blog_id`
+                FROM
+                    `" . $wpdb->base_prefix . "blogs`
             "
-            SELECT
-                `DATA_TYPE`
-            FROM
-                `information_schema`.`COLUMNS`
-            WHERE
-                `TABLE_SCHEMA` = '" . esc_sql($dbName) . "'
-                AND
-                `TABLE_NAME` = '" . esc_sql($tableName) . "'
-                AND
-                `COLUMN_NAME` = '" . esc_sql($columnName) . "'
-        "
-        );
+            );
 
-        if (
-            ! empty($tableResult[0]->DATA_TYPE)
-            && strtolower($tableResult[0]->DATA_TYPE) == strtolower(
-                $expectedType
-            )
-        ) {
-            return true;
-        } else {
-            return false;
+            if (! empty($allBlogs)) {
+                $originalBlogId = get_current_blog_id();
+
+                foreach ($allBlogs as $blogData) {
+                    if ($blogData->blog_id != 1) {
+                        switch_to_blog($blogData->blog_id);
+
+                        $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_cookies';
+                        $tableNameCookieGroups = $wpdb->prefix
+                            . 'borlabs_cookie_groups'; // ->prefix contains base_prefix + blog id
+                        $tableNameCookieConsentLog = $wpdb->prefix
+                            . 'borlabs_cookie_consent_log'; // ->prefix contains base_prefix + blog id
+                        $tableNameContentBlocker = $wpdb->prefix
+                            . 'borlabs_cookie_content_blocker'; // ->prefix contains base_prefix + blog id
+                        $tableNameScriptBlocker = $wpdb->prefix
+                            . 'borlabs_cookie_script_blocker'; // ->prefix contains base_prefix + blog id
+
+                        $sqlCreateTableCookies = $this->getCreateTableStatementCookies(
+                            $tableNameCookies,
+                            $charsetCollate
+                        );
+                        $sqlCreateTableCookieGroups = $this->getCreateTableStatementCookieGroups(
+                            $tableNameCookieGroups,
+                            $charsetCollate
+                        );
+                        $sqlCreateTableCookieLog = $this->getCreateTableStatementCookieConsentLog(
+                            $tableNameCookieConsentLog,
+                            $charsetCollate
+                        );
+                        $sqlCreateTableContentBlocker = $this->getCreateTableStatementContentBlocker(
+                            $tableNameContentBlocker,
+                            $charsetCollate
+                        );
+                        $sqlCreateTableScriptBlocker = $this->getCreateTableStatementScriptBlocker(
+                            $tableNameScriptBlocker,
+                            $charsetCollate
+                        );
+
+                        dbDelta($sqlCreateTableCookieGroups);
+                        dbDelta($sqlCreateTableCookies);
+                        dbDelta($sqlCreateTableCookieLog);
+                        dbDelta($sqlCreateTableContentBlocker);
+                        dbDelta($sqlCreateTableScriptBlocker);
+
+                        // Get language of the blog
+                        if (defined('BORLABS_COOKIE_IGNORE_ISO_639_1') === false) {
+                            $blogLanguage = substr(get_option('WPLANG', 'en_US'), 0, 2);
+                        }
+
+                        // Fallback for the case when WPLANG is empty and default value doesn't work
+                        if (empty($blogLanguage)) {
+                            $blogLanguage = 'en';
+                        }
+
+                        if (
+                            in_array($blogLanguage, ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'])
+                        ) {
+                            // Load german language pack
+                            load_textdomain(
+                                'borlabs-cookie',
+                                BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo'
+                            );
+                        } else {
+                            // Load unload language pack
+                            unload_textdomain('borlabs-cookie');
+                        }
+
+                        // Default entries
+                        $sqlDefaultEntriesCookieGroups = $this->getDefaultEntriesCookieGroups(
+                            $tableNameCookieGroups,
+                            $blogLanguage
+                        );
+                        $wpdb->query($sqlDefaultEntriesCookieGroups);
+
+                        $sqlDefaultEntriesCookies = $this->getDefaultEntriesCookies(
+                            $tableNameCookies,
+                            $defaultBlogLanguage,
+                            $tableNameCookieGroups
+                        );
+                        $wpdb->query($sqlDefaultEntriesCookies);
+
+                        // Default Content Blocker
+                        ContentBlocker::getInstance()->initDefault();
+
+                        // Add user capabilities
+                        $this->addUserCapabilities();
+
+                        update_option('BorlabsCookieVersion', BORLABS_COOKIE_VERSION, 'yes');
+                    }
+                }
+
+                switch_to_blog($originalBlogId);
+            }
         }
-    }
 
-    /**
-     * addUserCapabilities function.
-     *
-     * @access public
-     * @return void
-     */
-    public function addUserCapabilities()
-    {
-        global $wp_roles;
+        // On Multisite Networks the ContentBlocker class will have the table of the current
+        // instance and not of the main instance. Because of that, the table which is used by
+        // this class if available during the is_multisite() install routine so we have to wait
+        // for its creation first.
 
-        if (! isset($wp_roles)) {
-            $wp_roles = new \WP_Roles();
-        }
-
-        $capabilities = $this->getCapabilities();
-
-        foreach ($capabilities as $cap) {
-            $wp_roles->add_cap('administrator', $cap);
-        }
+        // Default Content Blocker
+        ContentBlocker::getInstance()->initDefault();
     }
 
     /**
      * removeUserCapabilities function.
      *
      * @access public
-     * @return void
      */
     public function removeUserCapabilities()
     {
         global $wp_roles;
 
         if (! isset($wp_roles)) {
-            $wp_roles = new \WP_Roles();
+            $wp_roles = new WP_Roles();
         }
 
         $capabilities = $this->getCapabilities();
@@ -965,18 +956,5 @@ class Install
         foreach ($capabilities as $cap) {
             $wp_roles->remove_cap('administrator', $cap);
         }
-    }
-
-    /**
-     * getCapabilities function.
-     *
-     * @access public
-     * @return void
-     */
-    public function getCapabilities()
-    {
-        $capabilities = ['manage_borlabs_cookie'];
-
-        return $capabilities;
     }
 }

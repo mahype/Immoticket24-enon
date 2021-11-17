@@ -21,8 +21,6 @@
 namespace BorlabsCookie\Cookie\Backend;
 
 use BorlabsCookie\Cookie\Config;
-use BorlabsCookie\Cookie\Multilanguage;
-use BorlabsCookie\Cookie\Tools;
 
 class MetaBox
 {
@@ -37,6 +35,10 @@ class MetaBox
         return self::$instance;
     }
 
+    public function __construct()
+    {
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -45,10 +47,6 @@ class MetaBox
     public function __wakeup()
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
-    public function __construct()
-    {
     }
 
     /**
@@ -61,7 +59,14 @@ class MetaBox
     {
         $currentScreenData = get_current_screen();
 
-        if (!empty($currentScreenData->post_type) && !empty(Config::getInstance()->get('metaBox')[$currentScreenData->post_type])) {
+        if (
+            ! empty($currentScreenData->post_type)
+            && ! empty(
+            Config::getInstance()->get(
+                'metaBox'
+            )[$currentScreenData->post_type]
+            )
+        ) {
             add_meta_box(
                 'borlabs-cookie-meta-box',
                 _x('Borlabs Cookie', 'Backend / Meta Box / Headline', 'borlabs-cookie'),
@@ -78,7 +83,9 @@ class MetaBox
      * display function.
      *
      * @access public
-     * @param mixed $post
+     *
+     * @param  mixed  $post
+     *
      * @return void
      */
     public function display($post)
@@ -104,15 +111,21 @@ class MetaBox
      * save function.
      *
      * @access public
-     * @param mixed $postId
-     * @param mixed $post (default: null)
-     * @param mixed $update (default: null)
+     *
+     * @param  mixed  $postId
+     * @param  mixed  $post  (default: null)
+     * @param  mixed  $update  (default: null)
+     *
      * @return void
      */
     public function save($postId, $post = null, $update = null)
     {
         if (isset($_POST['borlabs-cookie']['custom-code'])) {
-            update_post_meta($postId, '_borlabs-cookie-custom-code', stripslashes($_POST['borlabs-cookie']['custom-code']));
+            update_post_meta(
+                $postId,
+                '_borlabs-cookie-custom-code',
+                stripslashes($_POST['borlabs-cookie']['custom-code'])
+            );
         }
     }
 }

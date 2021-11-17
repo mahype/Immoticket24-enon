@@ -20,13 +20,11 @@
 
 namespace BorlabsCookie\Cookie\Backend;
 
-use BorlabsCookie\Cookie\Multilanguage;
+use function esc_attr;
 
 class Messages
 {
     private static $instance;
-
-    private $messages = [];
 
     public static function getInstance()
     {
@@ -35,6 +33,11 @@ class Messages
         }
 
         return self::$instance;
+    }
+    private $messages = [];
+
+    public function __construct()
+    {
     }
 
     public function __clone()
@@ -47,8 +50,33 @@ class Messages
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
+    /**
+     * add function.
+     *
+     * @access public
+     *
+     * @param  mixed  $message
+     * @param  mixed  $type
+     *
+     * @return void
+     */
+    public function add($message, $type)
     {
+        if ($type === 'error') {
+            $type = 'alert-danger';
+        } elseif ($type === 'success') {
+            $type = 'alert-success';
+        } elseif ($type === 'info') {
+            $type = 'alert-info';
+        } elseif ($type === 'warning') {
+            $type = 'alert-warning';
+        } elseif ($type === 'offer') {
+            $type = 'alert-offer';
+        } elseif ($type === 'critical') {
+            $type = 'alert-critical';
+        }
+
+        $this->messages[] = '<div class="alert ' . esc_attr($type) . '" role="alert">' . $message . '</div>';
     }
 
     /**
@@ -60,37 +88,5 @@ class Messages
     public function getAll()
     {
         return implode("\n", $this->messages);
-    }
-
-    /**
-     * add function.
-     *
-     * @access public
-     * @param mixed $message
-     * @param mixed $type
-     * @return void
-     */
-    public function add($message, $type)
-    {
-        if ($type === 'error') {
-            $type = 'alert-danger';
-
-        } elseif ($type === 'success') {
-            $type = 'alert-success';
-
-        } elseif ($type === 'info') {
-            $type = 'alert-info';
-
-        } elseif ($type === 'warning') {
-            $type = 'alert-warning';
-
-        } elseif ($type === 'offer') {
-            $type = 'alert-offer';
-
-        } elseif ($type === 'critical') {
-            $type = 'alert-critical';
-        }
-
-        $this->messages[] = '<div class="alert ' . \esc_attr($type) . '" role="alert">' . $message . '</div>';
     }
 }

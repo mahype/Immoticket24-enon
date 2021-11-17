@@ -64,7 +64,6 @@ class Oxygen
     public function register()
     {
         add_action('ct_builder_end', function () {
-
             global $template_content;
 
             $template_content = ContentBlocker::getInstance()->detectIframes($template_content);

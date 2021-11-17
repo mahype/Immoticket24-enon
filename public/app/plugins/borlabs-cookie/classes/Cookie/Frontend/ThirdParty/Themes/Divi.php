@@ -60,40 +60,85 @@ class Divi
      * detectGoogleMaps function.
      *
      * @access public
-     * @param mixed $content
+     *
+     * @param  mixed  $content
+     *
      * @return void
      */
     public function detectGoogleMaps($content)
     {
         if (strpos($content, 'et_pb_map_container') !== false) {
-
             $googleApiSettings = get_option('et_google_api_settings');
 
-            if (!empty($googleApiSettings['api_key'])) {
-
+            if (! empty($googleApiSettings['api_key'])) {
                 // Get settings of the Content Blocker
                 $contentBlockerData = ContentBlocker::getInstance()->getContentBlockerData('googlemaps');
 
                 // Only modify when Google Maps Content Blocker is active
-                if (!empty($contentBlockerData)) {
-
+                if (! empty($contentBlockerData)) {
                     // Overwrite setting and always execute global code before unblocking the content
                     $contentBlockerData['settings']['executeGlobalCodeBeforeUnblocking'] = "1";
 
                     // Add updated settings, global js, and init js of the Content Blocker
                     JavaScript::getInstance()->addContentBlocker(
                         $contentBlockerData['content_blocker_id'],
-                        $contentBlockerData['globalJS'] . ' jQuery("body").append("<" + "script type=\'text/javascript\' src=\'https://maps.googleapis.com/maps/api/js?v=3&#038;key=' . urlencode($googleApiSettings['api_key']) . '&#038;ver=' . ET_BUILDER_PRODUCT_VERSION . '\'"+"><"+"/script>"); ',
-                        $contentBlockerData['initJS'] . ' var borlabsDiviGoogleMaps = setInterval(function () { if (typeof google !== "undefined" && typeof google.maps !== "undefined") { clearInterval(borlabsDiviGoogleMaps); jQuery(".et_pb_map_container").each(function () { if (jQuery(this).children(".et_pb_map").length) { window.et_pb_map_init(jQuery(this)); }}); } }, 125); ',
+                        $contentBlockerData['globalJS']
+                        . ' jQuery("body").append("<" + "script type=\'text/javascript\' src=\'https://maps.googleapis.com/maps/api/js?v=3&#038;key='
+                        . urlencode($googleApiSettings['api_key']) . '&#038;ver=' . ET_BUILDER_PRODUCT_VERSION
+                        . '\'"+"><"+"/script>"); ',
+                        $contentBlockerData['initJS']
+                        . ' var borlabsDiviGoogleMaps = setInterval(function () { if (typeof google !== "undefined" && typeof google.maps !== "undefined") { clearInterval(borlabsDiviGoogleMaps); jQuery(".et_pb_map_container").each(function () { if (jQuery(this).children(".et_pb_map").length) { window.et_pb_map_init(jQuery(this)); }}); } }, 125); ',
                         $contentBlockerData['settings']
                     );
 
-                    $content = preg_replace_callback('/(<div class="et_pb_map.+?(?=<\/div>)<\/div>){1}/i', [$this, 'replaceGoogleMapsElement'], $content);
+                    $content = preg_replace_callback(
+                        '/(<div class="et_pb_map.+?(?=<\/div>)<\/div>){1}/i',
+                        [$this, 'replaceGoogleMapsElement'],
+                        $content
+                    );
                 }
             }
         }
 
         return $content;
+    }
+
+    /**
+     * isBuilderModeActive function.
+     *
+     * @access public
+     * @return void
+     */
+    public function isBuilderModeActive()
+    {
+        $hideCookieBox = false;
+
+        if (function_exists('et_fb_enabled') && ! is_admin() && et_fb_enabled()) {
+            $hideCookieBox = true;
+        }
+
+        if ($hideCookieBox) {
+            add_filter("borlabsCookie/settings", function ($jsConfig) {
+                $jsConfig['showCookieBox'] = false;
+
+                return $jsConfig;
+            });
+        }
+    }
+
+    /**
+     * loadGoogleMapsAPI function.
+     *
+     * @access public
+     * @return void
+     */
+    public function loadGoogleMapsAPI()
+    {
+        add_action('wp_head', function () {
+            $googleApiSettings = get_option('et_google_api_settings');
+            echo '<script type=\'text/javascript\' src=\'https://maps.googleapis.com/maps/api/js?v=3&#038;key='
+                . urlencode($googleApiSettings['api_key']) . '&#038;ver=' . ET_BUILDER_PRODUCT_VERSION . '\'></script>';
+        });
     }
 
     /**
@@ -104,11 +149,11 @@ class Divi
      */
     public function modifyDiviSettings()
     {
-        if (function_exists('et_fb_enabled') && !is_admin() && et_fb_enabled()) {
+        if (function_exists('et_fb_enabled') && ! is_admin() && et_fb_enabled()) {
             $this->loadGoogleMapsAPI();
         } else {
             // Only modify when Google Maps Content Blocker is active
-            if (!empty(ContentBlocker::getInstance()->getContentBlockerData('googlemaps'))) {
+            if (! empty(ContentBlocker::getInstance()->getContentBlockerData('googlemaps'))) {
                 $googleApiSettings = get_option('et_google_api_settings');
                 $googleApiSettings['enqueue_google_maps_script'] = false;
                 update_option('et_google_api_settings', $googleApiSettings);
@@ -123,24 +168,12 @@ class Divi
     }
 
     /**
-     * loadGoogleMapsAPI function.
-     *
-     * @access public
-     * @return void
-     */
-    public function loadGoogleMapsAPI()
-    {
-        add_action('wp_head', function () {
-            $googleApiSettings = get_option('et_google_api_settings');
-            echo '<script type=\'text/javascript\' src=\'https://maps.googleapis.com/maps/api/js?v=3&#038;key=' . urlencode($googleApiSettings['api_key']) . '&#038;ver=' . ET_BUILDER_PRODUCT_VERSION . '\'></script>';
-        });
-    }
-
-    /**
      * replaceGoogleMapsElement function.
      *
      * @access public
-     * @param mixed $mapElement
+     *
+     * @param  mixed  $mapElement
+     *
      * @return void
      */
     public function replaceGoogleMapsElement($mapElement)
@@ -148,28 +181,5 @@ class Divi
         $mapElement[0] = ContentBlocker::getInstance()->handleContentBlocking($mapElement[0], '', 'googlemaps');
 
         return $mapElement[0];
-    }
-
-    /**
-     * isBuilderModeActive function.
-     *
-     * @access public
-     * @return void
-     */
-    public function isBuilderModeActive()
-    {
-        $hideCookieBox = false;
-
-        if (function_exists('et_fb_enabled') && !is_admin() && et_fb_enabled()) {
-            $hideCookieBox = true;
-        }
-
-        if ($hideCookieBox) {
-            add_filter("borlabsCookie/settings", function ($jsConfig) {
-                $jsConfig['showCookieBox'] = false;
-
-                return $jsConfig;
-            });
-        }
     }
 }

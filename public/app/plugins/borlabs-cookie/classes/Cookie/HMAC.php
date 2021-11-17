@@ -20,10 +20,18 @@
 
 namespace BorlabsCookie\Cookie;
 
+/**
+ * Class HMAC
+ *
+ * @package BorlabsCookie\Cookie
+ */
 class HMAC
 {
     private static $instance = null;
 
+    /**
+     * @return HMAC|null
+     */
     public static function getInstance()
     {
         if (null === self::$instance) {
@@ -31,6 +39,10 @@ class HMAC
         }
 
         return self::$instance;
+    }
+
+    public function __construct()
+    {
     }
 
     public function __clone()
@@ -43,52 +55,50 @@ class HMAC
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
+    /**
+     * hash function.
+     *
+     * @access public
+     *
+     * @param  mixed  $data
+     * @param  mixed  $salt
+     *
+     * @return string
+     */
+    public function hash($data, $salt)
     {
+        if (! is_string($data)) {
+            $data = json_encode($data);
+        }
+
+        return hash_hmac('sha256', $data, $salt);
     }
 
     /**
      * isValid function.
      *
      * @access public
-     * @param mixed $data
-     * @param mixed $salt
-     * @param mixed $hash
-     * @return void
+     *
+     * @param  mixed  $data
+     * @param  mixed  $salt
+     * @param  mixed  $hash
+     *
+     * @return bool
      */
     public function isValid($data, $salt, $hash)
     {
-        $isValid = false;
+        $is_valid = false;
 
-        if (!is_string($data)) {
+        if (! is_string($data)) {
             $data = json_encode($data);
         }
 
-        $dataHash = hash_hmac('sha256', $data, $salt);
+        $data_hash = hash_hmac('sha256', $data, $salt);
 
-        if ($dataHash == $hash) {
-            $isValid = true;
+        if ($data_hash == $hash) {
+            $is_valid = true;
         }
 
-        return $isValid;
-    }
-
-    /**
-     * hash function.
-     *
-     * @access public
-     * @param mixed $data
-     * @param mixed $salt
-     * @return void
-     */
-    public function hash($data, $salt)
-    {
-        if (!is_string($data)) {
-            $data = json_encode($data);
-        }
-
-        $hash = hash_hmac('sha256', $data, $salt);
-
-        return $hash;
+        return $is_valid;
     }
 }

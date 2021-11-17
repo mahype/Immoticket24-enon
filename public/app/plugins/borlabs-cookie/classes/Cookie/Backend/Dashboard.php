@@ -29,6 +29,14 @@ class Dashboard
 {
     private static $instance;
 
+    public static function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
+    }
     /**
      * imagePath
      *
@@ -39,16 +47,7 @@ class Dashboard
 
     public function __construct()
     {
-        $this->imagePath = plugins_url('images', realpath(__DIR__ . '/../../'));
-    }
-
-    public static function getInstance()
-    {
-        if (null === self::$instance) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
+        $this->imagePath = plugins_url('assets/images', realpath(__DIR__ . '/../../'));
     }
 
     public function __clone()
@@ -109,7 +108,7 @@ class Dashboard
         $statsActive6h = false;
         $statsActive7d = false;
         $statsActiveAll = false;
-        if (!empty($_GET['borlabsCookieStats'])) {
+        if (! empty($_GET['borlabsCookieStats'])) {
             if ($_GET['borlabsCookieStats'] === '6h') {
                 $statsActive6h = true;
             } elseif ($_GET['borlabsCookieStats'] === '7d') {
@@ -120,40 +119,6 @@ class Dashboard
         }
 
         include Backend::getInstance()->templatePath . '/dashboard.html.php';
-    }
-
-    /**
-     * getNews function.
-     *
-     * @access public
-     * @return void
-     */
-    public function getNews()
-    {
-        $newsData = [];
-
-        $lastCheck = intval(get_site_option('BorlabsCookieNewsLastCheck', 0));
-
-        if (empty($lastCheck) || $lastCheck < intval(date('Ymd', mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 3)))) {
-            $responseNews = API::getInstance()->getNews();
-        }
-
-        $borlabsCookieNews = get_site_option('BorlabsCookieNews');
-
-        if (!empty($borlabsCookieNews)) {
-
-            $currentLanguageCode = Multilanguage::getInstance()->getCurrentLanguageCode();
-
-            if (!empty($borlabsCookieNews->{$currentLanguageCode})) {
-                $newsData = $borlabsCookieNews->{$currentLanguageCode};
-            } else {
-                if (!empty($borlabsCookieNews->en)) {
-                    $newsData = $borlabsCookieNews->en;
-                }
-            }
-        }
-
-        return $newsData;
     }
 
     /**
@@ -175,19 +140,25 @@ class Dashboard
                     'borderColor' => [],
                     'borderWidth' => 1,
                     'data' => [],
-                ]
-            ]
+                ],
+            ],
         ];
 
         // Get Chart data
-        $tableCookieConsentLog = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix) . "borlabs_cookie_consent_log";
+        $tableCookieConsentLog = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix
+                : $wpdb->prefix) . "borlabs_cookie_consent_log";
         $cookieVersion = get_site_option('BorlabsCookieCookieVersion', 1);
 
         // Get last 10000 entries
         $stack = false;
-        if (!empty($_GET['borlabsCookieStats']) && ($_GET['borlabsCookieStats'] === '6h' || $_GET['borlabsCookieStats'] === '7d')) {
+        if (
+            ! empty($_GET['borlabsCookieStats'])
+            && ($_GET['borlabsCookieStats'] === '6h'
+                || $_GET['borlabsCookieStats'] === '7d')
+        ) {
             if ($_GET['borlabsCookieStats'] === '6h') {
-                $consentsLogs = $wpdb->get_results("
+                $consentsLogs = $wpdb->get_results(
+                    "
                     SELECT
                         `uid`,
                         `consents`,
@@ -202,10 +173,12 @@ class Dashboard
                         `stamp` >= NOW() - INTERVAL 6 HOUR
                     ORDER BY
                         `stamp` DESC
-                ");
+                "
+                );
                 $stack = true;
             } elseif ($_GET['borlabsCookieStats'] === '7d') {
-                $consentsLogs = $wpdb->get_results("
+                $consentsLogs = $wpdb->get_results(
+                    "
                     SELECT
                         `uid`,
                         `consents`,
@@ -220,11 +193,13 @@ class Dashboard
                         `stamp` >= NOW() - INTERVAL 7 DAY
                     ORDER BY
                         `stamp` DESC
-                ");
+                "
+                );
                 $stack = true;
             }
         } else {
-            $consentsLogs = $wpdb->get_results("
+            $consentsLogs = $wpdb->get_results(
+                "
                 SELECT
                     `uid`,
                     `consents`
@@ -238,7 +213,8 @@ class Dashboard
                     `stamp` DESC
                 LIMIT
                     0, 10000
-            ");
+            "
+            );
         }
 
         $chartDataValues = [];
@@ -268,7 +244,8 @@ class Dashboard
 
         // Get all Cookie Groups
         $tableCookieGroup = $wpdb->prefix . 'borlabs_cookie_groups';
-        $cookieGroups = $wpdb->get_results("
+        $cookieGroups = $wpdb->get_results(
+            "
             SELECT
                 `group_id`,
                 `name`
@@ -280,10 +257,11 @@ class Dashboard
                 `status` = 1
             ORDER BY
                 `position` ASC
-        ");
+        "
+        );
 
         if ($stack === true) {
-            if (!empty($chartDataValues)) {
+            if (! empty($chartDataValues)) {
                 $index = 0;
                 $chartData['labels'] = array_keys($chartDataValues['essential']);
 
@@ -306,14 +284,14 @@ class Dashboard
                     $index++;
                 }
             }
-
         } else {
             $index = 0;
             foreach ($cookieGroups as $data) {
                 $chartData['labels'][] = $data->name;
                 $chartData['datasets'][0]['backgroundColor'][$index] = $this->getColor($index, 0.8);
                 $chartData['datasets'][0]['borderColor'][$index] = $this->getColor($index, 1);
-                $chartData['datasets'][0]['data'][$index] = isset($chartDataValues[$data->group_id]) ? $chartDataValues[$data->group_id] : 0;
+                $chartData['datasets'][0]['data'][$index] = isset($chartDataValues[$data->group_id])
+                    ? $chartDataValues[$data->group_id] : 0;
 
                 $index++;
             }
@@ -326,8 +304,10 @@ class Dashboard
      * getColor function.
      *
      * @access public
-     * @param mixed $index
-     * @param int $opacity (default: 1)
+     *
+     * @param  mixed  $index
+     * @param  int  $opacity  (default: 1)
+     *
      * @return void
      */
     public function getColor($index, $opacity = 1)
@@ -355,9 +335,11 @@ class Dashboard
     {
         global $wpdb;
 
-        $tableCookieConsentLog = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix) . "borlabs_cookie_consent_log";
+        $tableCookieConsentLog = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix
+                : $wpdb->prefix) . "borlabs_cookie_consent_log";
 
-        $consentLogs = $wpdb->get_results("
+        $consentLogs = $wpdb->get_results(
+            "
             SELECT
                 `uid`,
                 `cookie_version`,
@@ -370,8 +352,47 @@ class Dashboard
                 `stamp` DESC
             LIMIT
                 0, 5
-        ");
+        "
+        );
 
         return $consentLogs;
+    }
+
+    /**
+     * getNews function.
+     *
+     * @access public
+     * @return void
+     */
+    public function getNews()
+    {
+        $newsData = [];
+
+        $lastCheck = intval(get_site_option('BorlabsCookieNewsLastCheck', 0));
+
+        if (
+            empty($lastCheck)
+            || $lastCheck < intval(
+                date('Ymd', mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 3))
+            )
+        ) {
+            $responseNews = API::getInstance()->getNews();
+        }
+
+        $borlabsCookieNews = get_site_option('BorlabsCookieNews');
+
+        if (! empty($borlabsCookieNews)) {
+            $currentLanguageCode = Multilanguage::getInstance()->getCurrentLanguageCode();
+
+            if (! empty($borlabsCookieNews->{$currentLanguageCode})) {
+                $newsData = $borlabsCookieNews->{$currentLanguageCode};
+            } else {
+                if (! empty($borlabsCookieNews->en)) {
+                    $newsData = $borlabsCookieNews->en;
+                }
+            }
+        }
+
+        return $newsData;
     }
 }

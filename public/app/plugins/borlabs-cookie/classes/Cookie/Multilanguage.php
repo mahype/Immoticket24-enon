@@ -34,6 +34,10 @@ class Multilanguage
         return self::$instance;
     }
 
+    public function __construct()
+    {
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -44,57 +48,25 @@ class Multilanguage
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
+    public function getAvailableLanguagesForChooser()
     {
-    }
-
-    /**
-     * isMultilanguagePluginActive function.
-     *
-     * @access public
-     * @return bool
-     */
-    public function isMultilanguagePluginActive()
-    {
-        $status = false;
-
-        if (
-            defined('ICL_LANGUAGE_CODE') || defined('POLYLANG_FILE')
-            || $this->isLanguagePluginWeglotActive()
-        ) {
-            $status = true;
-        }
-
-        return $status;
-    }
-
-    /**
-     * getDefaultLanguageCode function.
-     *
-     * @access public
-     * @return void
-     */
-    public function getDefaultLanguageCode()
-    {
-        $defaultLanguage = null;
-
-        if ($this->isMultilanguagePluginActive()) {
-            // Polylang
-            if (function_exists('pll_default_language')) {
-                $defaultLanguage = pll_default_language();
-            } elseif ($this->isLanguagePluginWeglotActive()) {
-                // Weglot
-                $defaultLanguage = weglot_get_original_language();
-            } else {
-                // WPML
-                $null = null;
-                $defaultLanguage = apply_filters('wpml_default_language', $null);
+        if ($this->isLanguagePluginWeglotActive()) {
+            $languages = [];
+            array_push($languages, [
+                'code' => weglot_get_original_language(),
+                'name' => $this->getLanguageName(weglot_get_original_language()),
+            ]);
+            foreach (weglot_get_destination_languages() as $destination) {
+                array_push($languages, [
+                    'code' => $destination['language_to'],
+                    'name' => $this->getLanguageName($destination['language_to']),
+                ]);
             }
-        } else {
-            $defaultLanguage = BORLABS_COOKIE_DEFAULT_LANGUAGE;
-        }
 
-        return $defaultLanguage;
+            return $languages;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -157,65 +129,24 @@ class Multilanguage
         return $currentLanguage;
     }
 
-    public function isLanguagePluginWeglotActive()
-    {
-        return function_exists('weglot_get_current_language');
-    }
-
     /**
-     * getLanguageName function.
+     * getCurrentLanguageFlag function.
      *
      * @access public
-     * @param mixed $languageCode
      * @return void
      */
-    public function getLanguageName($languageCode)
+    public function getCurrentLanguageFlag()
     {
-        $languageName = '';
+        $currentLanguageFlag = '';
 
-        // WPML & Polylang
+        // Get the flag, works with WPML & Polylang
         if ($this->isMultilanguagePluginActive()) {
-            if ($this->isLanguagePluginWeglotActive()) {
-                // Weglot
-                if(isset(weglot_get_languages_available()[$languageCode])) {
-                    $languageName = weglot_get_languages_available()[$languageCode]->getLocalName();
-                }
-            } else {
-                $null = null;
-                $languages = apply_filters('wpml_active_languages', $null, []);
+            $currentLanguageCode = $this->getCurrentLanguageCode();
 
-                if (!empty($languages[$languageCode])) {
-                    $languageName = $languages[$languageCode]['native_name'];
-                }
-            }
+            $currentLanguageFlag = $this->getLanguageFlag($currentLanguageCode);
         }
 
-        return $languageName;
-    }
-
-    public function needsLanguageChooser()
-    {
-        return $this->isLanguagePluginWeglotActive();
-    }
-
-    public function getAvailableLanguagesForChooser()
-    {
-        if($this->isLanguagePluginWeglotActive()) {
-            $languages = [];
-            array_push($languages, [
-                'code' => weglot_get_original_language(),
-                'name' => $this->getLanguageName(weglot_get_original_language()),
-            ]);
-            foreach (weglot_get_destination_languages() as $destination) {
-                array_push($languages, [
-                    'code' => $destination['language_to'],
-                    'name' => $this->getLanguageName($destination['language_to']),
-                ]);
-            }
-            return $languages;
-        } else {
-            return null;
-        }
+        return $currentLanguageFlag;
     }
 
     /**
@@ -239,7 +170,7 @@ class Multilanguage
             }
         } elseif ($this->isLanguagePluginWeglotActive()) {
             // Weglot
-            if(isset(weglot_get_languages_available()[weglot_get_current_language()])) {
+            if (isset(weglot_get_languages_available()[weglot_get_current_language()])) {
                 $currentLanguageName = weglot_get_languages_available()[weglot_get_current_language()]->getLocalName();
             }
         } elseif (defined('ICL_LANGUAGE_NAME')) {
@@ -253,10 +184,41 @@ class Multilanguage
     }
 
     /**
+     * getDefaultLanguageCode function.
+     *
+     * @access public
+     * @return void
+     */
+    public function getDefaultLanguageCode()
+    {
+        $defaultLanguage = null;
+
+        if ($this->isMultilanguagePluginActive()) {
+            // Polylang
+            if (function_exists('pll_default_language')) {
+                $defaultLanguage = pll_default_language();
+            } elseif ($this->isLanguagePluginWeglotActive()) {
+                // Weglot
+                $defaultLanguage = weglot_get_original_language();
+            } else {
+                // WPML
+                $null = null;
+                $defaultLanguage = apply_filters('wpml_default_language', $null);
+            }
+        } else {
+            $defaultLanguage = BORLABS_COOKIE_DEFAULT_LANGUAGE;
+        }
+
+        return $defaultLanguage;
+    }
+
+    /**
      * getLanguageFlag function.
      *
      * @access public
-     * @param mixed $languageCode
+     *
+     * @param  mixed  $languageCode
+     *
      * @return string
      */
     public function getLanguageFlag($languageCode)
@@ -265,11 +227,11 @@ class Multilanguage
 
         // Get the flag, works with WPML & Polylang
         if ($this->isMultilanguagePluginActive()) {
-            if(!$this->isLanguagePluginWeglotActive()) {
+            if (! $this->isLanguagePluginWeglotActive()) {
                 $null = null;
                 $listOfActiveLanguages = apply_filters('wpml_active_languages', $null);
 
-                if (!empty($listOfActiveLanguages[$languageCode]['country_flag_url'])) {
+                if (! empty($listOfActiveLanguages[$languageCode]['country_flag_url'])) {
                     $languageFlag = $listOfActiveLanguages[$languageCode]['country_flag_url'];
                 }
             }
@@ -279,30 +241,75 @@ class Multilanguage
     }
 
     /**
-     * getCurrentLanguageFlag function.
+     * getLanguageName function.
      *
      * @access public
+     *
+     * @param  mixed  $languageCode
+     *
      * @return void
      */
-    public function getCurrentLanguageFlag()
+    public function getLanguageName($languageCode)
     {
-        $currentLanguageFlag = '';
+        $languageName = '';
 
-        // Get the flag, works with WPML & Polylang
+        // WPML & Polylang
         if ($this->isMultilanguagePluginActive()) {
-            $currentLanguageCode = $this->getCurrentLanguageCode();
+            if ($this->isLanguagePluginWeglotActive()) {
+                // Weglot
+                if (isset(weglot_get_languages_available()[$languageCode])) {
+                    $languageName = weglot_get_languages_available()[$languageCode]->getLocalName();
+                }
+            } else {
+                $null = null;
+                $languages = apply_filters('wpml_active_languages', $null, []);
 
-            $currentLanguageFlag = $this->getLanguageFlag($currentLanguageCode);
+                if (! empty($languages[$languageCode])) {
+                    $languageName = $languages[$languageCode]['native_name'];
+                }
+            }
         }
 
-        return $currentLanguageFlag;
+        return $languageName;
+    }
+
+    public function isLanguagePluginWeglotActive()
+    {
+        return function_exists('weglot_get_current_language');
+    }
+
+    /**
+     * isMultilanguagePluginActive function.
+     *
+     * @access public
+     * @return bool
+     */
+    public function isMultilanguagePluginActive()
+    {
+        $status = false;
+
+        if (
+            defined('ICL_LANGUAGE_CODE') || defined('POLYLANG_FILE')
+            || $this->isLanguagePluginWeglotActive()
+        ) {
+            $status = true;
+        }
+
+        return $status;
+    }
+
+    public function needsLanguageChooser()
+    {
+        return $this->isLanguagePluginWeglotActive();
     }
 
     /**
      * polylangLanguageDefined function.
      *
      * @access public
-     * @param mixed $languageCode
+     *
+     * @param  mixed  $languageCode
+     *
      * @return void
      */
     public function polylangLanguageDefined($languageCode)

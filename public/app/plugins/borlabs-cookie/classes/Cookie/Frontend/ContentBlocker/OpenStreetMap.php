@@ -35,16 +35,6 @@ class OpenStreetMap
         return self::$instance;
     }
 
-    public function __clone()
-    {
-        trigger_error('Cloning is not allowed.', E_USER_ERROR);
-    }
-
-    public function __wakeup()
-    {
-        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
     /**
      * __construct function.
      *
@@ -53,6 +43,16 @@ class OpenStreetMap
      */
     public function __construct()
     {
+    }
+
+    public function __clone()
+    {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
+    }
+
+    public function __wakeup()
+    {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -67,7 +67,11 @@ class OpenStreetMap
             'contentBlockerId' => 'openstreetmap',
             'name' => 'OpenStreetMap',
             'description' => '',
-            'privacyPolicyURL' => _x('https://wiki.osmfoundation.org/wiki/Privacy_Policy', 'Frontend / Content Blocker / OpenStreetMap / URL', 'borlabs-cookie'),
+            'privacyPolicyURL' => _x(
+                'https://wiki.osmfoundation.org/wiki/Privacy_Policy',
+                'Frontend / Content Blocker / OpenStreetMap / URL',
+                'borlabs-cookie'
+            ),
             'hosts' => [
                 'www.openstreetmap.org',
             ],
@@ -75,9 +79,25 @@ class OpenStreetMap
 	<div class="_brlbs-embed">
     	<img class="_brlbs-thumbnail" src="%%thumbnail%%" alt="%%name%%">
 		<div class="_brlbs-caption">
-			<p>' . _x("By loading the map, you agree to OpenStreetMap Foundation's privacy policy.", 'Frontend / Content Blocker / OpenStreetMap / Text', 'borlabs-cookie') . '<br><a href="%%privacy_policy_url%%" target="_blank" rel="nofollow noopener noreferrer">' . _x('Learn more', 'Frontend / Content Blocker / OpenStreetMap / Text', 'borlabs-cookie') . '</a></p>
-			<p><a class="_brlbs-btn" href="#" data-borlabs-cookie-unblock role="button">' . _x('Load map', 'Frontend / Content Blocker / OpenStreetMap / Text', 'borlabs-cookie') . '</a></p>
-			<p><label><input type="checkbox" name="unblockAll" value="1" checked> <small>' . _x('Always unblock OpenStreetMap', 'Frontend / Content Blocker / OpenStreetMap / Text', 'borlabs-cookie') . '</small></label></p>
+			<p>' . _x(
+                    "By loading the map, you agree to OpenStreetMap Foundation's privacy policy.",
+                    'Frontend / Content Blocker / OpenStreetMap / Text',
+                    'borlabs-cookie'
+                ) . '<br><a href="%%privacy_policy_url%%" target="_blank" rel="nofollow noopener noreferrer">' . _x(
+                    'Learn more',
+                    'Frontend / Content Blocker / OpenStreetMap / Text',
+                    'borlabs-cookie'
+                ) . '</a></p>
+			<p><a class="_brlbs-btn" href="#" data-borlabs-cookie-unblock role="button">' . _x(
+                    'Load map',
+                    'Frontend / Content Blocker / OpenStreetMap / Text',
+                    'borlabs-cookie'
+                ) . '</a></p>
+			<p><label><input type="checkbox" name="unblockAll" value="1" checked> <small>' . _x(
+                    'Always unblock OpenStreetMap',
+                    'Frontend / Content Blocker / OpenStreetMap / Text',
+                    'borlabs-cookie'
+                ) . '</small></label></p>
 		</div>
 	</div>
 </div>',
@@ -98,8 +118,10 @@ class OpenStreetMap
      * modify function.
      *
      * @access public
-     * @param mixed $content
-     * @param mixed $atts (default: [])
+     *
+     * @param  mixed  $content
+     * @param  mixed  $atts  (default: [])
+     *
      * @return void
      */
     public function modify($content, $atts = [])
@@ -108,7 +130,7 @@ class OpenStreetMap
         $contentBlockerData = ContentBlocker::getInstance()->getContentBlockerData('openstreetmap');
 
         // Default thumbnail
-        $thumbnail = BORLABS_COOKIE_PLUGIN_URL . 'images/cb-maps.png';
+        $thumbnail = BORLABS_COOKIE_PLUGIN_URL . 'assets/images/cb-maps.png';
 
         // Get the title which was maybe set via title-attribute in a shortcode
         $title = ContentBlocker::getInstance()->getCurrentTitle();
@@ -119,10 +141,13 @@ class OpenStreetMap
         }
 
         // Replace text variables
-        if (!empty($atts)) {
-
+        if (! empty($atts)) {
             foreach ($atts as $key => $value) {
-                $contentBlockerData['previewHTML'] = str_replace('%%' . $key . '%%', $value, $contentBlockerData['previewHTML']);
+                $contentBlockerData['previewHTML'] = str_replace(
+                    '%%' . $key . '%%',
+                    $value,
+                    $contentBlockerData['previewHTML']
+                );
             }
         }
 

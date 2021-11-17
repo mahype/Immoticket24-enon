@@ -20,6 +20,8 @@
 
 namespace BorlabsCookie\Cookie;
 
+use DirectoryIterator;
+
 class Uninstall
 {
 
@@ -34,6 +36,10 @@ class Uninstall
         return self::$instance;
     }
 
+    public function __construct()
+    {
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -44,8 +50,55 @@ class Uninstall
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
+    /**
+     * deleteFilesInDirectory function.
+     *
+     * @access public
+     *
+     * @param  mixed  $dir
+     *
+     * @return void
+     */
+    public function deleteFilesInDirectory($dir)
     {
+        if (file_exists($dir)) {
+            foreach (new DirectoryIterator($dir) as $fileInfo) {
+                // Ignore . and ..
+                if (! $fileInfo->isDot()) {
+                    // If folder, delete files in folder
+                    if (! $fileInfo->isDir()) {
+                        unlink($fileInfo->getPathname());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * isDirectoryEmpty function.
+     *
+     * @access public
+     *
+     * @param  mixed  $dir
+     *
+     * @return void
+     */
+    public function isDirectoryEmpty($dir)
+    {
+        $isEmpty = true;
+
+        if (file_exists($dir)) {
+            foreach (new DirectoryIterator($dir) as $fileInfo) {
+                if (! $fileInfo->isDot()) {
+                    $isEmpty = false;
+                }
+            }
+        } else {
+            // In case something bad happens
+            $isEmpty = false;
+        }
+
+        return $isEmpty;
     }
 
     /**
@@ -68,20 +121,19 @@ class Uninstall
         }
 
         if (is_multisite()) {
-
-            $allBlogs = $wpdb->get_results("
+            $allBlogs = $wpdb->get_results(
+                "
                 SELECT
                     `blog_id`
                 FROM
                     `" . $wpdb->prefix . "blogs`
-            ");
+            "
+            );
 
-            if (!empty($allBlogs)) {
-
+            if (! empty($allBlogs)) {
                 $originalBlogId = get_current_blog_id();
 
                 foreach ($allBlogs as $blogData) {
-
                     $tableNameCookies = $wpdb->prefix . $blogData->blog_id . '_borlabs_cookie_cookies';
                     $tableNameCookieGroups = $wpdb->prefix . $blogData->blog_id . '_borlabs_cookie_groups';
                     $tableNameCookieConsentLog = $wpdb->prefix . $blogData->blog_id . '_borlabs_cookie_consent_log';
@@ -97,16 +149,18 @@ class Uninstall
                     switch_to_blog($blogData->blog_id);
 
                     // Find Borlabs Cookie Options and delete them
-                    $borlabsCookieOptions = $wpdb->get_results("
+                    $borlabsCookieOptions = $wpdb->get_results(
+                        "
                         SELECT
                             `option_name`
                         FROM
                             `" . $wpdb->options . "`
                         WHERE
                             `option_name` LIKE 'BorlabsCookie%'
-                    ");
+                    "
+                    );
 
-                    if (!empty($borlabsCookieOptions)) {
+                    if (! empty($borlabsCookieOptions)) {
                         foreach ($borlabsCookieOptions as $optionData) {
                             delete_option($optionData->option_name);
                         }
@@ -123,34 +177,36 @@ class Uninstall
             }
 
             // Find Borlabs Cookie Options in sitemeta and delete them
-            $borlabsCookieOptions = $wpdb->get_results("
+            $borlabsCookieOptions = $wpdb->get_results(
+                "
                 SELECT
                     `meta_key`
                 FROM
                     `" . $wpdb->sitemeta . "`
                 WHERE
                     `meta_key` LIKE 'BorlabsCookie%'
-            ");
+            "
+            );
 
-            if (!empty($borlabsCookieOptions)) {
+            if (! empty($borlabsCookieOptions)) {
                 foreach ($borlabsCookieOptions as $optionData) {
                     delete_site_option($optionData->meta_key);
                 }
             }
-
         } else {
-
             // Find Borlabs Cookie Options and delete them
-            $borlabsCookieOptions = $wpdb->get_results("
+            $borlabsCookieOptions = $wpdb->get_results(
+                "
                 SELECT
                     `option_name`
                 FROM
                     `" . $wpdb->options . "`
                 WHERE
                     `option_name` LIKE 'BorlabsCookie%'
-            ");
+            "
+            );
 
-            if (!empty($borlabsCookieOptions)) {
+            if (! empty($borlabsCookieOptions)) {
                 foreach ($borlabsCookieOptions as $optionData) {
                     delete_option($optionData->option_name);
                 }
@@ -174,52 +230,5 @@ class Uninstall
         $wpdb->query("DROP TABLE IF EXISTS `" . $tableNameCookieConsentLog . "`");
         $wpdb->query("DROP TABLE IF EXISTS `" . $tableNameContentBlocker . "`");
         $wpdb->query("DROP TABLE IF EXISTS `" . $tableNameScriptBlocker . "`");
-    }
-
-    /**
-     * deleteFilesInDirectory function.
-     *
-     * @access public
-     * @param mixed $dir
-     * @return void
-     */
-    public function deleteFilesInDirectory($dir)
-    {
-        if (file_exists($dir)) {
-            foreach (new \DirectoryIterator($dir) as $fileInfo) {
-                // Ignore . and ..
-                if (!$fileInfo->isDot()) {
-                    // If folder, delete files in folder
-                    if (!$fileInfo->isDir()) {
-                        unlink($fileInfo->getPathname());
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * isDirectoryEmpty function.
-     *
-     * @access public
-     * @param mixed $dir
-     * @return void
-     */
-    public function isDirectoryEmpty($dir)
-    {
-        $isEmpty = true;
-
-        if (file_exists($dir)) {
-            foreach (new \DirectoryIterator($dir) as $fileInfo) {
-                if (!$fileInfo->isDot()) {
-                    $isEmpty = false;
-                }
-            }
-        } else {
-            // In case something bad happens
-            $isEmpty = false;
-        }
-
-        return $isEmpty;
     }
 }

@@ -33,6 +33,17 @@ class Tidio
         return self::$instance;
     }
 
+    /**
+     * __construct function.
+     *
+     * @access public
+     * @return void
+     */
+    public function __construct()
+    {
+        add_action('borlabsCookie/cookie/edit/template/settings/Tidio', [$this, 'additionalSettingsTemplate']);
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -44,14 +55,32 @@ class Tidio
     }
 
     /**
-     * __construct function.
+     * additionalSettingsTemplate function.
      *
      * @access public
+     *
+     * @param  mixed  $data
+     *
      * @return void
      */
-    public function __construct()
+    public function additionalSettingsTemplate($data)
     {
-        add_action('borlabsCookie/cookie/edit/template/settings/Tidio', [$this, 'additionalSettingsTemplate']);
+        ?>
+        <div class="form-group row">
+            <label
+                class="col-sm-4 col-form-label"><?php
+                _ex('Integration', 'Backend / Cookie / Tidio / Label', 'borlabs-cookie'); ?></label>
+            <div class="col-sm-8">
+                <div
+                    class="alert alert-info mt-2"><?php
+                    _ex(
+                        'In Tidio click on <strong>Channels &gt; Live chat &gt; Integration &gt; JavaScript</strong>, copy the JavaScript and paste it into the <strong>Opt-in Code</strong> field below.',
+                        'Backend / Cookie / Tidio / Text',
+                        'borlabs-cookie'
+                    ); ?></div>
+            </div>
+        </div>
+        <?php
     }
 
     /**
@@ -67,13 +96,25 @@ class Tidio
             'service' => 'Tidio',
             'name' => 'Tidio',
             'provider' => 'Tidio LLC',
-            'purpose' => _x('This website is using Tidio, a chat platform that connects users with the customer support of our website. The personal data you enter within the chat are stored within the Tidio application.', 'Frontend / Cookie / Tidio / Text', 'borlabs-cookie'),
-            'privacyPolicyURL' => _x('https://www.tidio.com/privacy-policy/', 'Frontend / Cookie / Tidio / Text', 'borlabs-cookie'),
+            'purpose' => _x(
+                'This website is using Tidio, a chat platform that connects users with the customer support of our website. The personal data you enter within the chat are stored within the Tidio application.',
+                'Frontend / Cookie / Tidio / Text',
+                'borlabs-cookie'
+            ),
+            'privacyPolicyURL' => _x(
+                'https://www.tidio.com/privacy-policy/',
+                'Frontend / Cookie / Tidio / Text',
+                'borlabs-cookie'
+            ),
             'hosts' => [
                 '*.tidio.co, *.tidiochat.com',
             ],
             'cookieName' => 'tidio_state_*',
-            'cookieExpiry' => _x('Until the user deletes the local storage.', 'Frontend / Cookie / Tidio / Text', 'borlabs-cookie'),
+            'cookieExpiry' => _x(
+                'Until the user deletes the local storage.',
+                'Frontend / Cookie / Tidio / Text',
+                'borlabs-cookie'
+            ),
             'optInJS' => '',
             'optOutJS' => '',
             'fallbackJS' => '',
@@ -86,26 +127,5 @@ class Tidio
         ];
 
         return $data;
-    }
-
-    /**
-     * additionalSettingsTemplate function.
-     *
-     * @access public
-     * @param mixed $data
-     * @return void
-     */
-    public function additionalSettingsTemplate($data)
-    {
-        ?>
-        <div class="form-group row">
-            <label
-                class="col-sm-4 col-form-label"><?php _ex('Integration', 'Backend / Cookie / Tidio / Label', 'borlabs-cookie'); ?></label>
-            <div class="col-sm-8">
-                <div
-                    class="alert alert-info mt-2"><?php _ex('In Tidio click on <strong>Channels &gt; Live chat &gt; Integration &gt; JavaScript</strong>, copy the JavaScript and paste it into the <strong>Opt-in Code</strong> field below.', 'Backend / Cookie / Tidio / Text', 'borlabs-cookie'); ?></div>
-            </div>
-        </div>
-        <?php
     }
 }

@@ -35,38 +35,6 @@ class ImportExport
 {
     private static $instance;
 
-    /**
-     * tableContentBlocker
-     *
-     * @var mixed
-     * @access private
-     */
-    private $tableContentBlocker;
-
-    /**
-     * tableCookie
-     *
-     * @var mixed
-     * @access private
-     */
-    private $tableCookie;
-
-    /**
-     * tableCookieGroup
-     *
-     * @var mixed
-     * @access private
-     */
-    private $tableCookieGroup;
-
-    /**
-     * tableScriptBlocker
-     *
-     * @var mixed
-     * @access private
-     */
-    private $tableScriptBlocker;
-
     public static function getInstance()
     {
         if (null === self::$instance) {
@@ -76,15 +44,34 @@ class ImportExport
         return self::$instance;
     }
 
-    public function __clone()
-    {
-        trigger_error('Cloning is not allowed.', E_USER_ERROR);
-    }
-
-    public function __wakeup()
-    {
-        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
+    /**
+     * tableContentBlocker
+     *
+     * @var mixed
+     * @access private
+     */
+    private $tableContentBlocker;
+    /**
+     * tableCookie
+     *
+     * @var mixed
+     * @access private
+     */
+    private $tableCookie;
+    /**
+     * tableCookieGroup
+     *
+     * @var mixed
+     * @access private
+     */
+    private $tableCookieGroup;
+    /**
+     * tableScriptBlocker
+     *
+     * @var mixed
+     * @access private
+     */
+    private $tableScriptBlocker;
 
     public function __construct()
     {
@@ -97,6 +84,16 @@ class ImportExport
         $this->tableScriptBlocker = $wpdb->prefix . 'borlabs_cookie_script_blocker';
     }
 
+    public function __clone()
+    {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
+    }
+
+    public function __wakeup()
+    {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
+    }
+
     /**
      * display function.
      *
@@ -107,39 +104,93 @@ class ImportExport
     {
         $action = false;
 
-        if (!empty($_POST['action'])) {
+        if (! empty($_POST['action'])) {
             $action = $_POST['action'];
         }
 
         if ($action !== false) {
-
             // Import Settings
             if ($action === 'import' && check_admin_referer('borlabs_cookie_import')) {
-
                 $importStatus = $this->import($_POST);
 
                 if ($importStatus['config'] === true) {
-                    Messages::getInstance()->add(_x('Import <strong>General Settings & Appearance Settings</strong> successfully.', 'Backend / Import Export / Alert Message', 'borlabs-cookie'), 'success');
+                    Messages::getInstance()->add(
+                        _x(
+                            'Import <strong>General Settings & Appearance Settings</strong> successfully.',
+                            'Backend / Import Export / Alert Message',
+                            'borlabs-cookie'
+                        ),
+                        'success'
+                    );
                 } elseif ($importStatus['config'] === false) {
-                    Messages::getInstance()->add(_x('Import <strong>General Settings & Appearance Settings</strong> failed. Invalid data.', 'Backend / Import Export / Alert Message', 'borlabs-cookie'), 'error');
+                    Messages::getInstance()->add(
+                        _x(
+                            'Import <strong>General Settings & Appearance Settings</strong> failed. Invalid data.',
+                            'Backend / Import Export / Alert Message',
+                            'borlabs-cookie'
+                        ),
+                        'error'
+                    );
                 }
 
                 if ($importStatus['cookiesAndGroups'] === true) {
-                    Messages::getInstance()->add(_x('Import <strong>Cookies & Cookie Groups</strong> successfully.', 'Backend / Import Export / Alert Message', 'borlabs-cookie'), 'success');
+                    Messages::getInstance()->add(
+                        _x(
+                            'Import <strong>Cookies & Cookie Groups</strong> successfully.',
+                            'Backend / Import Export / Alert Message',
+                            'borlabs-cookie'
+                        ),
+                        'success'
+                    );
                 } elseif ($importStatus['cookiesAndGroups'] === false) {
-                    Messages::getInstance()->add(_x('Import <strong>Cookies & Cookie Groups</strong> failed. Invalid data.', 'Backend / Import Export / Alert Message', 'borlabs-cookie'), 'error');
+                    Messages::getInstance()->add(
+                        _x(
+                            'Import <strong>Cookies & Cookie Groups</strong> failed. Invalid data.',
+                            'Backend / Import Export / Alert Message',
+                            'borlabs-cookie'
+                        ),
+                        'error'
+                    );
                 }
 
                 if ($importStatus['contentBlocker'] === true) {
-                    Messages::getInstance()->add(_x('Import <strong>Content Blocker</strong> successfully.', 'Backend / Import Export / Alert Message', 'borlabs-cookie'), 'success');
+                    Messages::getInstance()->add(
+                        _x(
+                            'Import <strong>Content Blocker</strong> successfully.',
+                            'Backend / Import Export / Alert Message',
+                            'borlabs-cookie'
+                        ),
+                        'success'
+                    );
                 } elseif ($importStatus['contentBlocker'] === false) {
-                    Messages::getInstance()->add(_x('Import <strong>Content Blocker</strong> failed. Invalid data.', 'Backend / Import Export / Alert Message', 'borlabs-cookie'), 'error');
+                    Messages::getInstance()->add(
+                        _x(
+                            'Import <strong>Content Blocker</strong> failed. Invalid data.',
+                            'Backend / Import Export / Alert Message',
+                            'borlabs-cookie'
+                        ),
+                        'error'
+                    );
                 }
 
                 if ($importStatus['scriptBlocker'] === true) {
-                    Messages::getInstance()->add(_x('Import <strong>Script Blocker</strong> successfully.', 'Backend / Import Export / Alert Message', 'borlabs-cookie'), 'success');
+                    Messages::getInstance()->add(
+                        _x(
+                            'Import <strong>Script Blocker</strong> successfully.',
+                            'Backend / Import Export / Alert Message',
+                            'borlabs-cookie'
+                        ),
+                        'success'
+                    );
                 } elseif ($importStatus['contentBlocker'] === false) {
-                    Messages::getInstance()->add(_x('Import <strong>Script Blocker</strong> failed. Invalid data.', 'Backend / Import Export / Alert Message', 'borlabs-cookie'), 'error');
+                    Messages::getInstance()->add(
+                        _x(
+                            'Import <strong>Script Blocker</strong> failed. Invalid data.',
+                            'Backend / Import Export / Alert Message',
+                            'borlabs-cookie'
+                        ),
+                        'error'
+                    );
                 }
             }
         }
@@ -158,6 +209,47 @@ class ImportExport
     }
 
     /**
+     * getAllContentBlocker function.
+     *
+     * @access public
+     * @return void
+     */
+    public function getAllContentBlocker()
+    {
+        global $wpdb;
+
+        $data = [];
+
+        $contentBlockerData = $wpdb->get_results(
+            "
+            SELECT
+                `id`,
+                `content_blocker_id`,
+                `language`,
+                `name`,
+                `description`,
+                `privacy_policy_url`,
+                `hosts`,
+                `preview_html`,
+                `preview_css`,
+                `global_js`,
+                `init_js`,
+                `settings`,
+                `status`,
+                `undeletable`
+            FROM
+                `" . $this->tableContentBlocker . "`
+            WHERE
+                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
+        "
+        );
+
+        $data['contentBlocker'] = $contentBlockerData;
+
+        return $data;
+    }
+
+    /**
      * getAllCookiesAndGroups function.
      *
      * @access public
@@ -169,7 +261,8 @@ class ImportExport
 
         $data = [];
 
-        $cookieGroupsData = $wpdb->get_results("
+        $cookieGroupsData = $wpdb->get_results(
+            "
             SELECT
                 `id`,
                 `group_id`,
@@ -184,11 +277,13 @@ class ImportExport
                 `" . $this->tableCookieGroup . "`
             WHERE
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
-        ");
+        "
+        );
 
         $data['cookieGroups'] = $cookieGroupsData;
 
-        $cookiesData = $wpdb->get_results("
+        $cookiesData = $wpdb->get_results(
+            "
             SELECT
                 `cookie_id`,
                 `language`,
@@ -212,48 +307,10 @@ class ImportExport
                 `" . $this->tableCookie . "`
             WHERE
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
-        ");
+        "
+        );
 
         $data['cookies'] = $cookiesData;
-
-        return $data;
-    }
-
-    /**
-     * getAllContentBlocker function.
-     *
-     * @access public
-     * @return void
-     */
-    public function getAllContentBlocker()
-    {
-        global $wpdb;
-
-        $data = [];
-
-        $contentBlockerData = $wpdb->get_results("
-            SELECT
-                `id`,
-                `content_blocker_id`,
-                `language`,
-                `name`,
-                `description`,
-                `privacy_policy_url`,
-                `hosts`,
-                `preview_html`,
-                `preview_css`,
-                `global_js`,
-                `init_js`,
-                `settings`,
-                `status`,
-                `undeletable`
-            FROM
-                `" . $this->tableContentBlocker . "`
-            WHERE
-                `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
-        ");
-
-        $data['contentBlocker'] = $contentBlockerData;
 
         return $data;
     }
@@ -270,7 +327,8 @@ class ImportExport
 
         $data = [];
 
-        $scriptBlockerData = $wpdb->get_results("
+        $scriptBlockerData = $wpdb->get_results(
+            "
             SELECT
                 `id`,
                 `script_blocker_id`,
@@ -281,7 +339,8 @@ class ImportExport
                 `undeletable`
             FROM
                 `" . $this->tableScriptBlocker . "`
-        ");
+        "
+        );
 
         $data['scriptBlocker'] = $scriptBlockerData;
 
@@ -292,7 +351,9 @@ class ImportExport
      * import function.
      *
      * @access public
-     * @param mixed $formData
+     *
+     * @param  mixed  $formData
+     *
      * @return void
      */
     public function import($formData)
@@ -305,21 +366,17 @@ class ImportExport
         ];
 
         // Test import config data
-        if (!empty($formData['importConfig'])) {
-
+        if (! empty($formData['importConfig'])) {
             $formData['importConfig'] = stripslashes($formData['importConfig']);
 
             if (Tools::getInstance()->isStringJSON($formData['importConfig'])) {
-
                 $importConfig = json_decode($formData['importConfig'], true);
 
                 // Check what kind of import data was sent
-                if (!empty($importConfig['config'])) {
-
+                if (! empty($importConfig['config'])) {
                     $this->importConfig($importConfig['config']);
 
                     $importStatus['config'] = true;
-
                 } else {
                     $importStatus['config'] = false;
                 }
@@ -329,21 +386,17 @@ class ImportExport
         }
 
         // Test import cookies and groups data
-        if (!empty($formData['importCookiesAndGroups'])) {
-
+        if (! empty($formData['importCookiesAndGroups'])) {
             $formData['importCookiesAndGroups'] = stripslashes($formData['importCookiesAndGroups']);
 
             if (Tools::getInstance()->isStringJSON($formData['importCookiesAndGroups'])) {
-
                 $importCookiesAndGroups = json_decode($formData['importCookiesAndGroups'], true);
 
                 // Check what kind of import data was sent
-                if (!empty($importCookiesAndGroups['cookieGroups']) && !empty($importCookiesAndGroups['cookies'])) {
-
+                if (! empty($importCookiesAndGroups['cookieGroups']) && ! empty($importCookiesAndGroups['cookies'])) {
                     $this->importCookiesAndGroups($importCookiesAndGroups);
 
                     $importStatus['cookiesAndGroups'] = true;
-
                 } else {
                     $importStatus['cookiesAndGroups'] = false;
                 }
@@ -353,21 +406,17 @@ class ImportExport
         }
 
         // Test import content blocker data
-        if (!empty($formData['importContentBlocker'])) {
-
+        if (! empty($formData['importContentBlocker'])) {
             $formData['importContentBlocker'] = stripslashes($formData['importContentBlocker']);
 
             if (Tools::getInstance()->isStringJSON($formData['importContentBlocker'])) {
-
                 $importContentBlocker = json_decode($formData['importContentBlocker'], true);
 
                 // Check what kind of import data was sent
-                if (!empty($importContentBlocker['contentBlocker'])) {
-
+                if (! empty($importContentBlocker['contentBlocker'])) {
                     $this->importContentBlocker($importContentBlocker['contentBlocker']);
 
                     $importStatus['contentBlocker'] = true;
-
                 } else {
                     $importStatus['contentBlocker'] = false;
                 }
@@ -377,21 +426,17 @@ class ImportExport
         }
 
         // Test import script blocker data
-        if (!empty($formData['importScriptBlocker'])) {
-
+        if (! empty($formData['importScriptBlocker'])) {
             $formData['importScriptBlocker'] = stripslashes($formData['importScriptBlocker']);
 
             if (Tools::getInstance()->isStringJSON($formData['importScriptBlocker'])) {
-
                 $importScriptBlocker = json_decode($formData['importScriptBlocker'], true);
 
                 // Check what kind of import data was sent
-                if (!empty($importScriptBlocker['scriptBlocker'])) {
-
+                if (! empty($importScriptBlocker['scriptBlocker'])) {
                     $this->importScriptBlocker($importScriptBlocker['scriptBlocker']);
 
                     $importStatus['scriptBlocker'] = true;
-
                 } else {
                     $importStatus['scriptBlocker'] = false;
                 }
@@ -407,38 +452,48 @@ class ImportExport
      * importConfig function.
      *
      * @access public
-     * @param mixed $data
+     *
+     * @param  mixed  $data
+     *
      * @return void
      */
     public function importConfig($data)
     {
         // Obtain data type
-        $data['cookieStatus'] = !empty($data['cookieStatus']) ? true : false;
-        $data['cookieBeforeConsent'] = !empty($data['cookieBeforeConsent']) ? true : false;
-        $data['aggregateCookieConsent'] = !empty($data['aggregateCookieConsent']) ? true : false;
-        $data['cookiesForBots'] = !empty($data['cookiesForBots']) ? true : false;
-        $data['respectDoNotTrack'] = !empty($data['respectDoNotTrack']) ? true : false;
-        $data['automaticCookieDomainAndPath'] = !empty($data['automaticCookieDomainAndPath']) ? true : false;
+        $data['cookieStatus'] = ! empty($data['cookieStatus']) ? true : false;
+        $data['setupMode'] = ! empty($data['setupMode']) ? true : false;
+        $data['cookieBeforeConsent'] = ! empty($data['cookieBeforeConsent']) ? true : false;
+        $data['aggregateCookieConsent'] = ! empty($data['aggregateCookieConsent']) ? true : false;
+        $data['cookiesForBots'] = ! empty($data['cookiesForBots']) ? true : false;
+        $data['respectDoNotTrack'] = ! empty($data['respectDoNotTrack']) ? true : false;
+        $data['reloadAfterConsent'] = ! empty($data['reloadAfterConsent']) ? true : false;
+        $data['automaticCookieDomainAndPath'] = ! empty($data['automaticCookieDomainAndPath']) ? true : false;
         $data['cookieLifetime'] = intval($data['cookieLifetime']);
-        $data['showCookieBox'] = !empty($data['showCookieBox']) ? true : false;
-        $data['cookieBoxBlocksContent'] = !empty($data['cookieBoxBlocksContent']) ? true : false;
-        $data['cookieBoxHideRefuseOption'] = !empty($data['cookieBoxHideRefuseOption']) ? true : false;
+        $data['cookieLifetimeEssentialOnly'] = intval($data['cookieLifetimeEssentialOnly']);
+        $data['showCookieBox'] = ! empty($data['showCookieBox']) ? true : false;
+        $data['showCookieBoxOnLoginPage'] = ! empty($data['showCookieBoxOnLoginPage']) ? true : false;
+        $data['cookieBoxBlocksContent'] = ! empty($data['cookieBoxBlocksContent']) ? true : false;
+        $data['cookieBoxHideRefuseOption'] = ! empty($data['cookieBoxHideRefuseOption']) ? true : false;
         $data['privacyPageId'] = intval($data['privacyPageId']);
         $data['imprintPageId'] = intval($data['imprintPageId']);
-        $data['supportBorlabsCookie'] = !empty($data['supportBorlabsCookie']) ? true : false;
-        $data['cookieBoxAnimation'] = !empty($data['cookieBoxAnimation']) ? true : false;
-        $data['cookieBoxShowLogo'] = !empty($data['cookieBoxShowLogo']) ? true : false;
+        $data['supportBorlabsCookie'] = ! empty($data['supportBorlabsCookie']) ? true : false;
+        $data['cookieBoxShowAcceptAllButton'] = ! empty($data['cookieBoxShowAcceptAllButton']) ? true : false;
+        $data['cookieBoxIgnorePreSelectStatus'] = ! empty($data['cookieBoxIgnorePreSelectStatus']) ? true : false;
+        $data['cookieBoxAnimation'] = ! empty($data['cookieBoxAnimation']) ? true : false;
+        $data['cookieBoxAnimationDelay'] = ! empty($data['cookieBoxAnimationDelay']) ? true : false;
+        $data['cookieBoxShowLogo'] = ! empty($data['cookieBoxShowLogo']) ? true : false;
         $data['cookieBoxFontSize'] = intval($data['cookieBoxFontSize']);
         $data['cookieBoxBorderRadius'] = intval($data['cookieBoxBorderRadius']);
         $data['cookieBoxBtnBorderRadius'] = intval($data['cookieBoxBtnBorderRadius']);
         $data['cookieBoxAccordionBorderRadius'] = intval($data['cookieBoxAccordionBorderRadius']);
         $data['cookieBoxTableBorderRadius'] = intval($data['cookieBoxTableBorderRadius']);
-        $data['cookieBoxBtnSwitchRound'] = !empty($data['cookieBoxBtnSwitchRound']) ? true : false;
-        $data['removeIframesInFeeds'] = !empty($data['removeIframesInFeeds']) ? true : false;
+        $data['cookieBoxBtnFullWidth'] = ! empty($data['cookieBoxBtnFullWidth']) ? true : false;
+        $data['cookieBoxBtnSwitchRound'] = ! empty($data['cookieBoxBtnSwitchRound']) ? true : false;
+        $data['removeIframesInFeeds'] = ! empty($data['removeIframesInFeeds']) ? true : false;
         $data['contentBlockerFontSize'] = intval($data['contentBlockerFontSize']);
         $data['contentBlockerBgOpacity'] = intval($data['contentBlockerBgOpacity']);
         $data['contentBlockerBtnBorderRadius'] = intval($data['contentBlockerBtnBorderRadius']);
-        $data['testEnvironment'] = !empty($data['testEnvironment']) ? true : false;
+        $data['testEnvironment'] = ! empty($data['testEnvironment']) ? true : false;
 
         // Save config
         Config::getInstance()->saveConfig($data);
@@ -451,7 +506,9 @@ class ImportExport
      * importContentBlocker function.
      *
      * @access public
-     * @param mixed $data
+     *
+     * @param  mixed  $data
+     *
      * @return void
      */
     public function importContentBlocker($data)
@@ -461,8 +518,8 @@ class ImportExport
         $language = Multilanguage::getInstance()->getCurrentLanguageCode();
 
         foreach ($data as $contentBlockerData) {
-
-            $wpdb->query("
+            $wpdb->query(
+                "
                 INSERT INTO
                     `" . $this->tableContentBlocker . "`
                     (
@@ -508,7 +565,8 @@ class ImportExport
                     `settings` = VALUES(`settings`),
                     `status` = VALUES(`status`),
                     `undeletable` = VALUES(`undeletable`)
-            ");
+            "
+            );
         }
     }
 
@@ -516,7 +574,9 @@ class ImportExport
      * importCookiesAndGroups function.
      *
      * @access public
-     * @param mixed $data
+     *
+     * @param  mixed  $data
+     *
      * @return void
      */
     public function importCookiesAndGroups($data)
@@ -529,10 +589,10 @@ class ImportExport
 
         // Import cookie groups
         foreach ($data['cookieGroups'] as $groupData) {
-
             $importedCookieGroupIds[$groupData['id']] = $groupData['group_id'];
 
-            $wpdb->query("
+            $wpdb->query(
+                "
                 INSERT INTO
                     `" . $this->tableCookieGroup . "`
                     (
@@ -563,13 +623,15 @@ class ImportExport
                     `position` = VALUES(`position`),
                     `status` = VALUES(`status`),
                     `undeletable` = VALUES(`undeletable`)
-            ");
+            "
+            );
         }
 
         // Get all group ids of current language
         $currentCookieGroupIds = [];
 
-        $cookieGroups = $wpdb->get_results("
+        $cookieGroups = $wpdb->get_results(
+            "
             SELECT
                 `id`,
                 `group_id`
@@ -577,7 +639,8 @@ class ImportExport
                 `" . $this->tableCookieGroup . "`
             WHERE
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
-        ");
+        "
+        );
 
         foreach ($cookieGroups as $groupData) {
             $currentCookieGroupIds[$groupData->group_id] = $groupData->id;
@@ -585,10 +648,10 @@ class ImportExport
 
         // Import cookies
         foreach ($data['cookies'] as $cookieData) {
-
             $newCookieGroupId = $currentCookieGroupIds[$importedCookieGroupIds[$cookieData['cookie_group_id']]];
 
-            $wpdb->query("
+            $wpdb->query(
+                "
                 INSERT INTO
                     `" . $this->tableCookie . "`
                     (
@@ -649,7 +712,8 @@ class ImportExport
                     `position` = VALUES(`position`),
                     `status` = VALUES(`status`),
                     `undeletable` = VALUES(`undeletable`)
-            ");
+            "
+            );
         }
     }
 
@@ -657,7 +721,9 @@ class ImportExport
      * importScriptBlocker function.
      *
      * @access public
-     * @param mixed $data
+     *
+     * @param  mixed  $data
+     *
      * @return void
      */
     public function importScriptBlocker($data)
@@ -665,8 +731,8 @@ class ImportExport
         global $wpdb;
 
         foreach ($data as $scriptBlockerData) {
-
-            $wpdb->query("
+            $wpdb->query(
+                "
                 INSERT INTO
                     `" . $this->tableScriptBlocker . "`
                     (
@@ -692,7 +758,8 @@ class ImportExport
                     `js_block_phrases` = VALUES(`js_block_phrases`),
                     `status` = VALUES(`status`),
                     `undeletable` = VALUES(`undeletable`)
-            ");
+            "
+            );
         }
     }
 }

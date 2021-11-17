@@ -24,9 +24,6 @@ class Buffer
 {
     private static $instance;
 
-    private $buffer = '';
-    private $bufferActive = false;
-
     public static function getInstance()
     {
         if (null === self::$instance) {
@@ -34,6 +31,12 @@ class Buffer
         }
 
         return self::$instance;
+    }
+    private $buffer = '';
+    private $bufferActive = false;
+
+    public function __construct()
+    {
     }
 
     public function __clone()
@@ -44,10 +47,6 @@ class Buffer
     public function __wakeup()
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
-    public function __construct()
-    {
     }
 
     /**

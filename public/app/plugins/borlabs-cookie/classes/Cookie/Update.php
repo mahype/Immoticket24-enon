@@ -20,12 +20,12 @@
 
 namespace BorlabsCookie\Cookie;
 
+use stdClass;
+
 class Update
 {
 
     private static $instance;
-
-    private $currentBlogId = '';
 
     public static function getInstance()
     {
@@ -34,6 +34,11 @@ class Update
         }
 
         return self::$instance;
+    }
+    private $currentBlogId = '';
+
+    public function __construct()
+    {
     }
 
     public function __clone()
@@ -46,22 +51,20 @@ class Update
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
-    {
-    }
-
     /**
      * handlePluginAPI function.
      *
      * @access public
-     * @param mixed $result Default is false
-     * @param string $action Type of information
-     * @param object $args Plugin API arguments
+     *
+     * @param  mixed  $result  Default is false
+     * @param  string  $action  Type of information
+     * @param  object  $args  Plugin API arguments
+     *
      * @return void
      */
     public function handlePluginAPI($result, $action, $args)
     {
-        if (!empty($action) && $action == 'plugin_information' && !empty($args->slug)) {
+        if (! empty($action) && $action == 'plugin_information' && ! empty($args->slug)) {
             if ($args->slug == BORLABS_COOKIE_SLUG) {
                 // Return alternative API URL
                 $result = API::getInstance()->getPluginInformation();
@@ -75,7 +78,9 @@ class Update
      * handleTransientUpdatePlugins function.
      *
      * @access public
-     * @param mixed $transient
+     *
+     * @param  mixed  $transient
+     *
      * @return void
      */
     public function handleTransientUpdatePlugins($transient)
@@ -88,30 +93,18 @@ class Update
         // Check for updates
         $updateInformation = API::getInstance()->getLatestVersion();
 
-        if (!empty($updateInformation)) {
+        if (! empty($updateInformation)) {
             if (version_compare(BORLABS_COOKIE_VERSION, $updateInformation->new_version, '<')) {
+                // $transient can be null if third party plugins force a plugin refresh an kill the object
+                if (! is_object($transient) && ! isset($transient->response)) {
+                    $transient = new stdClass;
+                    $transient->response = [];
+                }
                 $transient->response[BORLABS_COOKIE_BASENAME] = $updateInformation;
             }
         }
-        return $transient;
-    }
 
-    /**
-     * upgradeComplete function.
-     *
-     * @access public
-     * @param mixed $upgraderObject
-     * @param mixed $options
-     * @return void
-     */
-    public function upgradeComplete($upgraderObject, $options)
-    {
-        if ($options['action'] == 'update' && $options['type'] == 'plugin' && !empty($options['plugins'])) {
-            // Check if Borlabs Cookie was updated
-            if (in_array(BORLABS_COOKIE_BASENAME, $options['plugins'])) {
-                $this->processUpgrade();
-            }
-        }
+        return $transient;
     }
 
     /**
@@ -127,26 +120,27 @@ class Update
         $lastVersion = get_option('BorlabsCookieVersion', false);
 
         if (is_multisite()) {
-            $allBlogs = $wpdb->get_results("
+            $allBlogs = $wpdb->get_results(
+                "
                 SELECT
                     `blog_id`
                 FROM
                     `" . $wpdb->base_prefix . "blogs`
-            ");
+            "
+            );
         }
 
         $versionUpgrades = Upgrade::getInstance()->getVersionUpgrades();
 
-        if (!empty($lastVersion)) {
+        if (! empty($lastVersion)) {
             foreach ($versionUpgrades as $upgradeFunction => $version) {
                 if (version_compare($lastVersion, $version, '<')) {
                     if (method_exists(Upgrade::getInstance(), $upgradeFunction)) {
-
                         // Call upgrade function
                         call_user_func([Upgrade::getInstance(), $upgradeFunction]);
 
                         // Upgrade multisites
-                        if (is_multisite() && !empty($allBlogs)) {
+                        if (is_multisite() && ! empty($allBlogs)) {
                             $originalBlogId = get_current_blog_id();
 
                             foreach ($allBlogs as $blogData) {
@@ -166,6 +160,26 @@ class Update
                         }
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * upgradeComplete function.
+     *
+     * @access public
+     *
+     * @param  mixed  $upgraderObject
+     * @param  mixed  $options
+     *
+     * @return void
+     */
+    public function upgradeComplete($upgraderObject, $options)
+    {
+        if ($options['action'] == 'update' && $options['type'] == 'plugin' && ! empty($options['plugins'])) {
+            // Check if Borlabs Cookie was updated
+            if (in_array(BORLABS_COOKIE_BASENAME, $options['plugins'])) {
+                $this->processUpgrade();
             }
         }
     }

@@ -20,35 +20,47 @@
 
 namespace BorlabsCookie\Cookie\Backend;
 
-use BorlabsCookie\Cookie\Config;
+use BorlabsCookie\Cookie\Install;
 use BorlabsCookie\Cookie\Multilanguage;
 use BorlabsCookie\Cookie\Tools;
+use stdClass;
 
 class Cookies
 {
     private static $instance;
 
-    private $defaultServices = [
-        'custom' => 'Custom',
-        'ezoic' => 'Ezoic',
-        'ezoic-marketing' => 'EzoicMarketing',
-        'ezoic-preferences' => 'EzoicPreferences',
-        'ezoic-statistics' => 'EzoicStatistics',
-        'facebook-pixel' => 'FacebookPixel',
-        'google-adsense' => 'GoogleAdSense',
-        'google-analytics' => 'GoogleAnalytics',
-        'google-tag-manager' => 'GoogleTagManager',
-        'hotjar' => 'Hotjar',
-        'hubspot' => 'HubSpot',
-        'matomo' => 'Matomo',
-        'matomo-tag-manager' => 'MatomoTagManager',
-        'polylang' => 'Polylang',
-        'tidio' => 'Tidio',
-        'userlike' => 'Userlike',
-        'woocommerce' => 'WooCommerce',
-        'wpml' => 'WPML',
-    ];
+    public static function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new self;
+        }
 
+        return self::$instance;
+    }
+
+    private $defaultServices
+        = [
+            'custom' => 'Custom',
+            'ezoic' => 'Ezoic',
+            'ezoic-marketing' => 'EzoicMarketing',
+            'ezoic-preferences' => 'EzoicPreferences',
+            'ezoic-statistics' => 'EzoicStatistics',
+            'facebook-pixel' => 'FacebookPixel',
+            'google-ads' => 'GoogleAds',
+            'google-adsense' => 'GoogleAdSense',
+            'google-analytics' => 'GoogleAnalytics',
+            'google-tag-manager' => 'GoogleTagManager',
+            'google-tag-manager-consent' => 'GoogleTagManagerConsent',
+            'hotjar' => 'Hotjar',
+            'hubspot' => 'HubSpot',
+            'matomo' => 'Matomo',
+            'matomo-tag-manager' => 'MatomoTagManager',
+            'polylang' => 'Polylang',
+            'tidio' => 'Tidio',
+            'userlike' => 'Userlike',
+            'woocommerce' => 'WooCommerce',
+            'wpml' => 'WPML',
+        ];
     /**
      * tableCookie
      *
@@ -58,7 +70,6 @@ class Cookies
      * @access private
      */
     private $tableCookie = '';
-
     /**
      * tableCookieGroup
      *
@@ -69,13 +80,66 @@ class Cookies
      */
     private $tableCookieGroup = '';
 
-    public static function getInstance()
+    public function __construct()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        global $wpdb;
+
+        $this->tableCookie = $wpdb->prefix . 'borlabs_cookie_cookies';
+        $this->tableCookieGroup = $wpdb->prefix . 'borlabs_cookie_groups';
+    }
+
+    /**
+     * get function.
+     *
+     * @access public
+     *
+     * @param  mixed  $id
+     *
+     * @return void
+     */
+    public function get($id)
+    {
+        global $wpdb;
+
+        $data = false;
+
+        $cookieData = $wpdb->get_results(
+            "
+            SELECT
+                `id`,
+                `cookie_id`,
+                `language`,
+                `cookie_group_id`,
+                `service`,
+                `name`,
+                `provider`,
+                `purpose`,
+                `privacy_policy_url`,
+                `hosts`,
+                `cookie_name`,
+                `cookie_expiry`,
+                `opt_in_js`,
+                `opt_out_js`,
+                `fallback_js`,
+                `settings`,
+                `position`,
+                `status`,
+                `undeletable`
+            FROM
+                `" . $this->tableCookie . "`
+            WHERE
+                `id` = '" . esc_sql($id) . "'
+        "
+        );
+
+        if (! empty($cookieData[0]->id)) {
+            $data = $cookieData[0];
+
+            $data->hosts = unserialize($data->hosts);
+            $data->settings = unserialize($data->settings);
         }
 
-        return self::$instance;
+        return $data;
     }
 
     public function __clone()
@@ -88,19 +152,13 @@ class Cookies
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
-    {
-        global $wpdb;
-
-        $this->tableCookie = $wpdb->prefix . 'borlabs_cookie_cookies';
-        $this->tableCookieGroup = $wpdb->prefix . 'borlabs_cookie_groups';
-    }
-
     /**
      * add function.
      *
      * @access public
-     * @param mixed $data
+     *
+     * @param  mixed  $data
+     *
      * @return void
      */
     public function add($data)
@@ -135,8 +193,8 @@ class Cookies
         }
 
         if ($this->checkIdExists($data['cookieId'], $data['language']) === false) {
-
-            $wpdb->query("
+            $wpdb->query(
+                "
                 INSERT INTO
                     `" . $this->tableCookie . "`
                     (
@@ -180,9 +238,10 @@ class Cookies
                         '" . (intval($data['status']) ? 1 : 0) . "',
                         '" . (intval($data['undeletable']) ? 1 : 0) . "'
                     )
-            ");
+            "
+            );
 
-            if (!empty($wpdb->insert_id)) {
+            if (! empty($wpdb->insert_id)) {
                 return $wpdb->insert_id;
             }
         }
@@ -194,8 +253,10 @@ class Cookies
      * checkIdExists function.
      *
      * @access public
-     * @param mixed $cookieId
-     * @param mixed $language (default: null)
+     *
+     * @param  mixed  $cookieId
+     * @param  mixed  $language  (default: null)
+     *
      * @return void
      */
     public function checkIdExists($cookieId, $language = null)
@@ -206,7 +267,8 @@ class Cookies
             $language = Multilanguage::getInstance()->getCurrentLanguageCode();
         }
 
-        $checkId = $wpdb->get_results("
+        $checkId = $wpdb->get_results(
+            "
             SELECT
                 `cookie_id`
             FROM
@@ -215,9 +277,10 @@ class Cookies
                 `cookie_id` = '" . esc_sql($cookieId) . "'
                 AND
                 `language` = '" . esc_sql($language) . "'
-        ");
+        "
+        );
 
-        if (!empty($checkId[0]->cookie_id)) {
+        if (! empty($checkId[0]->cookie_id)) {
             return true;
         } else {
             return false;
@@ -228,21 +291,25 @@ class Cookies
      * delete function.
      *
      * @access public
-     * @param mixed $id
+     *
+     * @param  mixed  $id
+     *
      * @return void
      */
     public function delete($id)
     {
         global $wpdb;
 
-        $wpdb->query("
+        $wpdb->query(
+            "
             DELETE FROM
                 `" . $this->tableCookie . "`
             WHERE
                 `id` = '" . intval($id) . "'
                 AND
                 `undeletable` = 0
-        ");
+        "
+        );
 
         return true;
     }
@@ -257,27 +324,25 @@ class Cookies
     {
         $id = null;
 
-        if (!empty($_POST['id'])) {
+        if (! empty($_POST['id'])) {
             $id = $_POST['id'];
-        } elseif (!empty($_GET['id'])) {
+        } elseif (! empty($_GET['id'])) {
             $id = $_GET['id'];
         }
 
         $action = false;
 
-        if (!empty($_POST['action'])) {
+        if (! empty($_POST['action'])) {
             $action = $_POST['action'];
-        } elseif (!empty($_GET['action'])) {
+        } elseif (! empty($_GET['action'])) {
             $action = $_GET['action'];
         }
 
         if ($action !== false) {
-
             // Validate and save Cookie
-            if ($action === 'save' && !empty($id) && check_admin_referer('borlabs_cookie_cookies_save')) {
-
+            if ($action === 'save' && ! empty($id) && check_admin_referer('borlabs_cookie_cookies_save')) {
                 // Load service and register hooks and filters
-                if (!empty($_POST['service']) && in_array($_POST['service'], $this->defaultServices)) {
+                if (! empty($_POST['service']) && in_array($_POST['service'], $this->defaultServices)) {
                     $Service = '\BorlabsCookie\Cookie\Frontend\Services\\' . $_POST['service'];
                     $serviceData = $Service::getInstance();
                 }
@@ -289,29 +354,51 @@ class Cookies
                 if ($errorStatus === false) {
                     $id = $this->save($_POST);
 
-                    Messages::getInstance()->add(_x('Saved successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'success');
+                    Messages::getInstance()->add(
+                        _x('Saved successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'),
+                        'success'
+                    );
                 }
             }
 
             // Switch status of Cookie
-            if ($action === 'switchStatus' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'switchStatus_' . $id)) {
+            if (
+                $action === 'switchStatus' && ! empty($id)
+                && wp_verify_nonce(
+                    $_GET['_wpnonce'],
+                    'switchStatus_' . $id
+                )
+            ) {
                 $this->switchStatus($id);
 
-                Messages::getInstance()->add(_x('Changed status successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'success');
+                Messages::getInstance()->add(
+                    _x('Changed status successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'),
+                    'success'
+                );
             }
 
             // Delete Cookie
-            if ($action === 'delete' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_' . $id)) {
+            if ($action === 'delete' && ! empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_' . $id)) {
                 $this->delete($id);
 
-                Messages::getInstance()->add(_x('Deleted successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'success');
+                Messages::getInstance()->add(
+                    _x('Deleted successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'),
+                    'success'
+                );
             }
 
             // Reset default Cookie
             if ($action === 'resetDefault' && check_admin_referer('borlabs_cookie_cookies_reset_default')) {
                 $this->resetDefault();
 
-                Messages::getInstance()->add(_x('Default <strong>Cookies</strong> successfully reset.', 'Backend / Cookies / Alert Message', 'borlabs-cookie'), 'success');
+                Messages::getInstance()->add(
+                    _x(
+                        'Default <strong>Cookies</strong> successfully reset.',
+                        'Backend / Cookies / Alert Message',
+                        'borlabs-cookie'
+                    ),
+                    'success'
+                );
             }
         }
 
@@ -328,7 +415,9 @@ class Cookies
      * displayCookieServices function.
      *
      * @access public
-     * @param mixed $id
+     *
+     * @param  mixed  $id
+     *
      * @return void
      */
     public function displayCookieServices($id)
@@ -337,18 +426,24 @@ class Cookies
 
         $cookieGroupData = CookieGroups::getInstance()->get($id);
 
-        if (empty($cookieGroupData) || $cookieGroupData->language !== Multilanguage::getInstance()->getCurrentLanguageCode()) {
-
-            Messages::getInstance()->add(_x('Selected <strong>Cookie Group</strong> does not exist.', 'Backend / Cookies / Alert Message', 'borlabs-cookie'), 'error');
+        if (
+            empty($cookieGroupData)
+            || $cookieGroupData->language !== Multilanguage::getInstance()->getCurrentLanguageCode()
+        ) {
+            Messages::getInstance()->add(
+                _x(
+                    'Selected <strong>Cookie Group</strong> does not exist.',
+                    'Backend / Cookies / Alert Message',
+                    'borlabs-cookie'
+                ),
+                'error'
+            );
 
             $this->displayOverview();
-
         } else {
-
             $cookieServices = [];
 
             foreach ($this->defaultServices as $class) {
-
                 $Service = '\BorlabsCookie\Cookie\Frontend\Services\\' . $class;
                 $serviceData = $Service::getInstance()->getDefault();
 
@@ -367,31 +462,37 @@ class Cookies
      * displayEdit function.
      *
      * @access public
-     * @param int $id (default: 0)
-     * @param mixed $formData (default: [])
+     *
+     * @param  int  $id  (default: 0)
+     * @param  mixed  $formData  (default: [])
+     *
      * @return void
      */
     public function displayEdit($id = 0, $formData = [])
     {
-        $cookieData = new \stdClass();
-        $cookieGroupData = new \stdClass();
+        $cookieData = new stdClass();
+        $cookieGroupData = new stdClass();
 
-        if (!empty($id) && $id !== 'new') {
-
+        if (! empty($id) && $id !== 'new') {
             $cookieData = $this->get($id);
             $cookieGroupData = CookieGroups::getInstance()->get($cookieData->cookie_group_id);
 
             // Check if the language was switched during editing
             if ($cookieData->language !== Multilanguage::getInstance()->getCurrentLanguageCode()) {
-
                 // Try to get the id for the switched language
                 $previousCookieId = $cookieData->cookie_id;
                 $cookieData = $this->getByCookieId($cookieData->cookie_id);
 
                 // If not found
                 if (empty($cookieData->id)) {
-
-                    Messages::getInstance()->add(_x('The selected <strong>Cookie</strong> is not available in the current language. The data of the original <strong>Cookie</strong> was cloned.', 'Backend / Cookies / Alert Message', 'borlabs-cookie'), 'error');
+                    Messages::getInstance()->add(
+                        _x(
+                            'The selected <strong>Cookie</strong> is not available in the current language. The data of the original <strong>Cookie</strong> was cloned.',
+                            'Backend / Cookies / Alert Message',
+                            'borlabs-cookie'
+                        ),
+                        'error'
+                    );
 
                     $cookieData = $this->get($id);
                     $cookieData->id = null;
@@ -402,28 +503,33 @@ class Cookies
 
                     // If not found
                     if (empty($cookieGroupData->id)) {
-                        Messages::getInstance()->add(_x('<strong>Cookie Group</strong> of selected <strong>Cookie</strong> is not available in the current language.', 'Backend / Cookies / Alert Message', 'borlabs-cookie'), 'error');
+                        Messages::getInstance()->add(
+                            _x(
+                                '<strong>Cookie Group</strong> of selected <strong>Cookie</strong> is not available in the current language.',
+                                'Backend / Cookies / Alert Message',
+                                'borlabs-cookie'
+                            ),
+                            'error'
+                        );
 
-                        $cookieGroupData = new \stdClass;
+                        $cookieGroupData = new stdClass;
                     } else {
                         $cookieData->cookie_group_id = $cookieGroupData->id;
                     }
-
                 } else {
                     $cookieGroupData = CookieGroups::getInstance()->get($cookieData->cookie_group_id);
                 }
             }
         } else {
-
-            if (!empty($formData['cookieGroupId'])) {
+            if (! empty($formData['cookieGroupId'])) {
                 $cookieGroupData = CookieGroups::getInstance()->get($formData['cookieGroupId']);
             }
         }
 
         // Load service
-        if (!empty($formData['service'])) {
+        if (! empty($formData['service'])) {
             $Service = '\BorlabsCookie\Cookie\Frontend\Services\\' . $formData['service'];
-        } elseif (!empty($cookieData->service)) {
+        } elseif (! empty($cookieData->service)) {
             $Service = '\BorlabsCookie\Cookie\Frontend\Services\\' . $cookieData->service;
         } else {
             $Service = '\BorlabsCookie\Cookie\Frontend\Services\Custom';
@@ -439,7 +545,7 @@ class Cookies
         $serviceDefaultData = apply_filters('borlabsCookie/cookie/service/defaultData', $serviceDefaultData, $formData);
 
         // Only add default data for unsaved Cookie
-        if (!empty($serviceDefaultData) && $id === 'new') {
+        if (! empty($serviceDefaultData) && $id === 'new') {
             $cookieData->cookie_id = $serviceDefaultData['cookieId'];
             $cookieData->service = $serviceDefaultData['service'];
             $cookieData->name = $serviceDefaultData['name'];
@@ -459,11 +565,16 @@ class Cookies
 
         // If no Cookie Group was selected or not available (due language switch) load overview again
         if (empty($cookieGroupData->id)) {
-
-            Messages::getInstance()->add(_x('Selected <strong>Cookie Group</strong> does not exist.', 'Backend / Cookies / Alert Message', 'borlabs-cookie'), 'error');
+            Messages::getInstance()->add(
+                _x(
+                    'Selected <strong>Cookie Group</strong> does not exist.',
+                    'Backend / Cookies / Alert Message',
+                    'borlabs-cookie'
+                ),
+                'error'
+            );
 
             $this->displayOverview();
-
         } else {
             // Re-insert data
             if (isset($formData['cookieId'])) {
@@ -503,8 +614,11 @@ class Cookies
             }
 
             if (isset($formData['hosts'])) {
-                $cookieData->hosts = implode("\n", Tools::getInstance()->cleanHostList(stripslashes($formData['hosts'])));
-            } elseif (!empty($cookieData->hosts)) {
+                $cookieData->hosts = implode(
+                    "\n",
+                    Tools::getInstance()->cleanHostList(stripslashes($formData['hosts']))
+                );
+            } elseif (! empty($cookieData->hosts)) {
                 $cookieData->hosts = implode("\n", $cookieData->hosts);
             }
 
@@ -517,7 +631,9 @@ class Cookies
             }
 
             if (isset($formData['settings']['blockCookiesBeforeConsent'])) {
-                $cookieData->settings['blockCookiesBeforeConsent'] = stripslashes($formData['settings']['blockCookiesBeforeConsent']);
+                $cookieData->settings['blockCookiesBeforeConsent'] = stripslashes(
+                    $formData['settings']['blockCookiesBeforeConsent']
+                );
             }
 
             if (isset($formData['settings']['prioritize'])) {
@@ -537,35 +653,41 @@ class Cookies
             }
 
             // Preparing data for form mask
-            $inputId = !empty($cookieData->id) ? intval($cookieData->id) : 'new';
-            $inputCookieId = esc_attr(!empty($cookieData->cookie_id) ? $cookieData->cookie_id : '');
-            $inputCookieGroupId = esc_attr(!empty($cookieData->cookie_group_id) ? $cookieData->cookie_group_id : '');
-            $inputService = esc_attr(!empty($cookieData->service) ? $cookieData->service : '');
-            $inputStatus = !empty($cookieData->status) ? 1 : 0;
+            $inputId = ! empty($cookieData->id) ? intval($cookieData->id) : 'new';
+            $inputCookieId = esc_attr(! empty($cookieData->cookie_id) ? $cookieData->cookie_id : '');
+            $inputCookieGroupId = esc_attr(! empty($cookieData->cookie_group_id) ? $cookieData->cookie_group_id : '');
+            $inputService = esc_attr(! empty($cookieData->service) ? $cookieData->service : '');
+            $inputStatus = ! empty($cookieData->status) ? 1 : 0;
             $switchStatus = $inputStatus ? ' active' : '';
-            $inputPosition = intval(!empty($cookieData->position) ? $cookieData->position : '1');
+            $inputPosition = intval(! empty($cookieData->position) ? $cookieData->position : '1');
 
-            $inputName = esc_attr(!empty($cookieData->name) ? $cookieData->name : '');
-            $inputProvider = esc_attr(!empty($cookieData->provider) ? $cookieData->provider : '');
-            $textareaPurpose = esc_textarea(!empty($cookieData->purpose) ? $cookieData->purpose : '');
-            $inputPrivacyPolicyURL = esc_url(!empty($cookieData->privacy_policy_url) ? $cookieData->privacy_policy_url : '');
-            $textareaHosts = esc_textarea(!empty($cookieData->hosts) ? $cookieData->hosts : '');
-            $inputCookieName = esc_attr(!empty($cookieData->cookie_name) ? $cookieData->cookie_name : '');
+            $inputName = esc_attr(! empty($cookieData->name) ? $cookieData->name : '');
+            $inputProvider = esc_attr(! empty($cookieData->provider) ? $cookieData->provider : '');
+            $textareaPurpose = esc_textarea(! empty($cookieData->purpose) ? $cookieData->purpose : '');
+            $inputPrivacyPolicyURL = esc_url(
+                ! empty($cookieData->privacy_policy_url) ? $cookieData->privacy_policy_url : ''
+            );
+            $textareaHosts = esc_textarea(! empty($cookieData->hosts) ? $cookieData->hosts : '');
+            $inputCookieName = esc_attr(! empty($cookieData->cookie_name) ? $cookieData->cookie_name : '');
 
-            $inputBlockCookiesBeforeConsent = !empty($cookieData->settings['blockCookiesBeforeConsent']) ? 1 : 0;
+            $inputBlockCookiesBeforeConsent = ! empty($cookieData->settings['blockCookiesBeforeConsent']) ? 1 : 0;
             $switchBlockCookiesBeforeConsent = $inputBlockCookiesBeforeConsent ? ' active' : '';
 
-            $inputCookieExpiry = esc_attr(!empty($cookieData->cookie_expiry) ? $cookieData->cookie_expiry : '');
+            $inputCookieExpiry = esc_attr(! empty($cookieData->cookie_expiry) ? $cookieData->cookie_expiry : '');
 
-            $inputSettingsPrioritize = !empty($cookieData->settings['prioritize']) ? 1 : 0;
+            $inputSettingsPrioritize = ! empty($cookieData->settings['prioritize']) ? 1 : 0;
             $switchSettingsPrioritize = $inputSettingsPrioritize ? ' active' : '';
 
-            $textareaOptInJS = esc_textarea(!empty($cookieData->opt_in_js) ? $cookieData->opt_in_js : '');
-            $textareaOptOutJS = esc_textarea(!empty($cookieData->opt_out_js) ? $cookieData->opt_out_js : '');
-            $textareaFallbackJS = esc_textarea(!empty($cookieData->fallback_js) ? $cookieData->fallback_js : '');
+            $textareaOptInJS = esc_textarea(! empty($cookieData->opt_in_js) ? $cookieData->opt_in_js : '');
+            $textareaOptOutJS = esc_textarea(! empty($cookieData->opt_out_js) ? $cookieData->opt_out_js : '');
+            $textareaFallbackJS = esc_textarea(! empty($cookieData->fallback_js) ? $cookieData->fallback_js : '');
 
-            $languageFlag = !empty($cookieData->language) ? Multilanguage::getInstance()->getLanguageFlag($cookieData->language) : '';
-            $languageName = !empty($cookieData->language) ? Multilanguage::getInstance()->getLanguageName($cookieData->language) : '';
+            $languageFlag = ! empty($cookieData->language) ? Multilanguage::getInstance()->getLanguageFlag(
+                $cookieData->language
+            ) : '';
+            $languageName = ! empty($cookieData->language) ? Multilanguage::getInstance()->getLanguageName(
+                $cookieData->language
+            ) : '';
 
             include Backend::getInstance()->templatePath . '/cookies-edit.html.php';
         }
@@ -581,7 +703,8 @@ class Cookies
     {
         global $wpdb;
 
-        $cookieGroups = $wpdb->get_results("
+        $cookieGroups = $wpdb->get_results(
+            "
             SELECT
                 `id`,
                 `name`,
@@ -594,13 +717,13 @@ class Cookies
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
             ORDER BY
                 `name` ASC
-        ");
+        "
+        );
 
-        if (!empty($cookieGroups)) {
-
+        if (! empty($cookieGroups)) {
             foreach ($cookieGroups as $key => $cookieGroupData) {
-
-                $cookies = $wpdb->get_results("
+                $cookies = $wpdb->get_results(
+                    "
                     SELECT
                         `id`,
                         `cookie_id`,
@@ -616,11 +739,11 @@ class Cookies
                         `cookie_group_id` = '" . intval($cookieGroupData->id) . "'
                     ORDER BY
                         `name` ASC
-                ");
+                "
+                );
 
-                if (!empty($cookies)) {
+                if (! empty($cookies)) {
                     foreach ($cookies as $cookieData) {
-
                         $cookieData->undeletable = intval($cookieData->undeletable);
 
                         $cookieGroups[$key]->cookies[] = $cookieData;
@@ -633,60 +756,12 @@ class Cookies
     }
 
     /**
-     * get function.
-     *
-     * @access public
-     * @param mixed $id
-     * @return void
-     */
-    public function get($id)
-    {
-        global $wpdb;
-
-        $data = false;
-
-        $cookieData = $wpdb->get_results("
-            SELECT
-                `id`,
-                `cookie_id`,
-                `language`,
-                `cookie_group_id`,
-                `service`,
-                `name`,
-                `provider`,
-                `purpose`,
-                `privacy_policy_url`,
-                `hosts`,
-                `cookie_name`,
-                `cookie_expiry`,
-                `opt_in_js`,
-                `opt_out_js`,
-                `fallback_js`,
-                `settings`,
-                `position`,
-                `status`,
-                `undeletable`
-            FROM
-                `" . $this->tableCookie . "`
-            WHERE
-                `id` = '" . esc_sql($id) . "'
-        ");
-
-        if (!empty($cookieData[0]->id)) {
-            $data = $cookieData[0];
-
-            $data->hosts = unserialize($data->hosts);
-            $data->settings = unserialize($data->settings);
-        }
-
-        return $data;
-    }
-
-    /**
      * getByCookieId function.
      *
      * @access public
-     * @param mixed $cookieId
+     *
+     * @param  mixed  $cookieId
+     *
      * @return void
      */
     public function getByCookieId($cookieId)
@@ -698,7 +773,8 @@ class Cookies
         $language = Multilanguage::getInstance()->getCurrentLanguageCode();
 
         // Get cookie id for the current language
-        $cookieId = $wpdb->get_results("
+        $cookieId = $wpdb->get_results(
+            "
             SELECT
                 `id`
             FROM
@@ -707,9 +783,10 @@ class Cookies
                 `language` = '" . esc_sql($language) . "'
                 AND
                 `cookie_id` = '" . esc_sql($cookieId) . "'
-        ");
+        "
+        );
 
-        if (!empty($cookieId[0]->id)) {
+        if (! empty($cookieId[0]->id)) {
             $data = $this->get($cookieId[0]->id);
         }
 
@@ -720,8 +797,10 @@ class Cookies
      * modify function.
      *
      * @access public
-     * @param mixed $id
-     * @param mixed $data
+     *
+     * @param  mixed  $id
+     * @param  mixed  $data
+     *
      * @return void
      */
     public function modify($id, $data)
@@ -746,7 +825,8 @@ class Cookies
 
         $data = array_merge($default, $data);
 
-        $wpdb->query("
+        $wpdb->query(
+            "
             UPDATE
                 `" . $this->tableCookie . "`
             SET
@@ -765,7 +845,8 @@ class Cookies
                 `status` = '" . (intval($data['status']) ? 1 : 0) . "'
             WHERE
                 `id` = '" . intval($id) . "'
-        ");
+        "
+        );
 
         return $id;
     }
@@ -782,18 +863,23 @@ class Cookies
 
         $language = Multilanguage::getInstance()->getCurrentLanguageCode();
 
-
         // Delete default Cookies
-        $wpdb->query("
+        $wpdb->query(
+            "
             DELETE FROM
                 `" . $this->tableCookie . "`
             WHERE
                 `language` = '" . esc_sql($language) . "'
                 AND
                 `cookie_id` IN ('borlabs-cookie', 'facebook', 'googlemaps', 'instagram', 'openstreetmap', 'twitter', 'vimeo', 'youtube')
-        ");
+        "
+        );
 
-        $sqlDefaultEntriesCookies = \BorlabsCookie\Cookie\Install::getInstance()->getDefaultEntriesCookies($this->tableCookie, $language, $this->tableCookieGroup);
+        $sqlDefaultEntriesCookies = Install::getInstance()->getDefaultEntriesCookies(
+            $this->tableCookie,
+            $language,
+            $this->tableCookieGroup
+        );
 
         $wpdb->query($sqlDefaultEntriesCookies);
     }
@@ -802,7 +888,9 @@ class Cookies
      * save function.
      *
      * @access public
-     * @param mixed $formData
+     *
+     * @param  mixed  $formData
+     *
      * @return void
      */
     public function save($formData)
@@ -814,7 +902,7 @@ class Cookies
 
         $id = 0;
 
-        if (!empty($formData['id']) && $formData['id'] !== 'new') {
+        if (! empty($formData['id']) && $formData['id'] !== 'new') {
             // Edit
             $id = $this->modify($formData['id'], $formData);
         } else {
@@ -829,14 +917,17 @@ class Cookies
      * switchStatus function.
      *
      * @access public
-     * @param mixed $id
+     *
+     * @param  mixed  $id
+     *
      * @return void
      */
     public function switchStatus($id)
     {
         global $wpdb;
 
-        $wpdb->query("
+        $wpdb->query(
+            "
             UPDATE
                 `" . $this->tableCookie . "`
             SET
@@ -845,7 +936,8 @@ class Cookies
                 `id` = '" . intval($id) . "'
                 AND
                 `cookie_id` != 'borlabs-cookie'
-        ");
+        "
+        );
 
         return true;
     }
@@ -854,7 +946,9 @@ class Cookies
      * validate function.
      *
      * @access public
-     * @param mixed $formData
+     *
+     * @param  mixed  $formData
+     *
      * @return void
      */
     public function validate($formData)
@@ -863,23 +957,35 @@ class Cookies
 
         // Check id if a new cookie is about to be added
         if (empty($formData['id']) || $formData['id'] === 'new') {
-
             if (empty($formData['cookieId']) || preg_match('/^[a-z\-\_]{3,}$/', $formData['cookieId']) === 0) {
-
                 $errorStatus = true;
-                Messages::getInstance()->add(_x('Please fill out the field <strong>ID</strong>. The ID must be at least 3 characters long and may only contain: <strong><em>a-z - _</em></strong>', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'error');
-
+                Messages::getInstance()->add(
+                    _x(
+                        'Please fill out the field <strong>ID</strong>. The ID must be at least 3 characters long and may only contain: <strong><em>a-z - _</em></strong>',
+                        'Backend / Global / Alert Message',
+                        'borlabs-cookie'
+                    ),
+                    'error'
+                );
             } elseif ($this->checkIdExists($formData['cookieId'])) {
-
                 $errorStatus = true;
-                Messages::getInstance()->add(_x('The <strong>ID</strong> already exists.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'error');
-
+                Messages::getInstance()->add(
+                    _x('The <strong>ID</strong> already exists.', 'Backend / Global / Alert Message', 'borlabs-cookie'),
+                    'error'
+                );
             }
         }
 
         if (empty($formData['name'])) {
             $errorStatus = true;
-            Messages::getInstance()->add(_x('Please fill out the field <strong>Name</strong>.', 'Backend / Global / Alert Message', 'borlabs-cookie'), 'error');
+            Messages::getInstance()->add(
+                _x(
+                    'Please fill out the field <strong>Name</strong>.',
+                    'Backend / Global / Alert Message',
+                    'borlabs-cookie'
+                ),
+                'error'
+            );
         }
 
         $errorStatus = apply_filters('borlabsCookie/cookie/validate', $errorStatus, $formData);

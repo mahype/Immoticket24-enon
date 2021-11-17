@@ -21,13 +21,23 @@
 namespace BorlabsCookie\Cookie\Backend;
 
 use BorlabsCookie\Cookie\Config;
+use BorlabsCookie\Cookie\Frontend\ContentBlocker\Fallback;
 use BorlabsCookie\Cookie\Multilanguage;
 use BorlabsCookie\Cookie\Tools;
-use BorlabsCookie\Cookie\Frontend\ContentBlocker\Fallback;
+use stdClass;
 
 class ContentBlocker
 {
     private static $instance;
+
+    public static function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
+    }
 
     /**
      * defaultContentBlocker
@@ -46,7 +56,6 @@ class ContentBlocker
             'vimeo' => 'Vimeo',
             'youtube' => 'YouTube',
         ];
-
     /**
      * table
      *
@@ -57,13 +66,71 @@ class ContentBlocker
      */
     private $table = '';
 
-    public static function getInstance()
+    public function __construct()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        global $wpdb;
+
+        $this->table = $wpdb->prefix . 'borlabs_cookie_content_blocker';
+    }
+
+    /**
+     * get function.
+     *
+     * @access public
+     *
+     * @param  mixed  $id
+     *
+     * @return void
+     */
+    public function get($id)
+    {
+        global $wpdb;
+
+        $data = false;
+
+        $contentBlockerData = $wpdb->get_results(
+            "
+            SELECT
+                `id`,
+                `content_blocker_id`,
+                `language`,
+                `name`,
+                `description`,
+                `privacy_policy_url`,
+                `hosts`,
+                `preview_html`,
+                `preview_css`,
+                `global_js`,
+                `init_js`,
+                `settings`,
+                `status`
+            FROM
+                `" . $this->table . "`
+            WHERE
+                `id` = '" . esc_sql($id) . "'
+        "
+        );
+
+        if (! empty($contentBlockerData[0]->id)) {
+            $data = $contentBlockerData[0];
+
+            $data->hosts = unserialize($data->hosts);
+            $data->settings = unserialize($data->settings);
+
+            $data->description = wp_kses($data->description, [
+                'a' => [],
+                'br' => [],
+                'div' => [],
+                'em' => [],
+                'pre' => [],
+                'span' => [],
+                'strong' => [],
+            ], [
+                'https',
+            ]);
         }
 
-        return self::$instance;
+        return $data;
     }
 
     public function __clone()
@@ -74,13 +141,6 @@ class ContentBlocker
     public function __wakeup()
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
-    public function __construct()
-    {
-        global $wpdb;
-
-        $this->table = $wpdb->prefix . 'borlabs_cookie_content_blocker';
     }
 
     /**
@@ -341,7 +401,7 @@ class ContentBlocker
      */
     public function displayEdit($id = 0, $formData = [])
     {
-        $contentBlockerData = new \stdClass();
+        $contentBlockerData = new stdClass();
 
         // Default data
         $contentBlockerData->preview_html = Fallback::getInstance()->getDefault()['previewHTML'];
@@ -379,7 +439,7 @@ class ContentBlocker
                         'error'
                     );
 
-                    $contentBlockerData = new \stdClass;
+                    $contentBlockerData = new stdClass;
                     $contentBlockerData->content_blocker_id = $previousContentBlockerId;
                 }
             }
@@ -584,70 +644,6 @@ class ContentBlocker
     }
 
     /**
-     * get function.
-     *
-     * @access public
-     *
-     * @param  mixed  $id
-     *
-     * @return void
-     */
-    public function get($id)
-    {
-        global $wpdb;
-
-        $data = false;
-
-        $contentBlockerData = $wpdb->get_results(
-            "
-            SELECT
-                `id`,
-                `content_blocker_id`,
-                `language`,
-                `name`,
-                `description`,
-                `privacy_policy_url`,
-                `hosts`,
-                `preview_html`,
-                `preview_css`,
-                `global_js`,
-                `init_js`,
-                `settings`,
-                `status`
-            FROM
-                `" . $this->table . "`
-            WHERE
-                `id` = '" . esc_sql($id) . "'
-        "
-        );
-
-        if (! empty($contentBlockerData[0]->id)) {
-            $data = $contentBlockerData[0];
-
-            $data->hosts = unserialize($data->hosts);
-            $data->settings = unserialize($data->settings);
-
-            $data->description = wp_kses(
-                $data->description,
-                [
-                    'a' => [],
-                    'br' => [],
-                    'div' => [],
-                    'em' => [],
-                    'pre' => [],
-                    'span' => [],
-                    'strong' => [],
-                ],
-                [
-                    'https',
-                ]
-            );
-        }
-
-        return $data;
-    }
-
-    /**
      * getByContentBlockerId function.
      *
      * @access public
@@ -683,6 +679,44 @@ class ContentBlocker
         }
 
         return $data;
+    }
+
+    /**
+     * initDefault function.
+     *
+     * @access public
+     * @return void
+     */
+    public function initDefault()
+    {
+        global $wpdb;
+
+        $language = Multilanguage::getInstance()->getCurrentLanguageCode();
+
+        // Checks if default content blocker does not exist and add them with default settings
+        foreach ($this->defaultContentBlocker as $contentBlockerId => $class) {
+            $contentBlocker = $wpdb->get_row(
+                "
+                SELECT `content_blocker_id` FROM
+                    `" . $this->table . "`
+                WHERE
+                    `language` = '" . esc_sql($language) . "'
+                    AND
+                    `content_blocker_id` = '" . esc_sql($contentBlockerId) . "'
+            "
+            );
+
+            if (empty($contentBlocker->content_blocker_id)) {
+                // Add
+                $ContentBlocker = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\' . $class;
+                $defaultData = $ContentBlocker::getInstance()->getDefault();
+
+                $this->add($defaultData);
+            }
+        }
+
+        // Update CSS File
+        CSS::getInstance()->save($language);
     }
 
     /**
@@ -767,44 +801,6 @@ class ContentBlocker
             $defaultData = $ContentBlocker::getInstance()->getDefault();
 
             $this->add($defaultData);
-        }
-
-        // Update CSS File
-        CSS::getInstance()->save($language);
-    }
-
-    /**
-     * initDefault function.
-     *
-     * @access public
-     * @return void
-     */
-    public function initDefault()
-    {
-        global $wpdb;
-
-        $language = Multilanguage::getInstance()->getCurrentLanguageCode();
-
-        // Checks if default content blocker does not exist and add them with default settings
-        foreach ($this->defaultContentBlocker as $contentBlockerId => $class) {
-            $contentBlocker = $wpdb->get_row(
-                "
-                SELECT `content_blocker_id` FROM
-                    `" . $this->table . "`
-                WHERE
-                    `language` = '" . esc_sql($language) . "'
-                    AND
-                    `content_blocker_id` = '" . esc_sql($contentBlockerId) . "'
-            "
-            );
-
-            if (empty($contentBlocker->content_blocker_id)) {
-                // Add
-                $ContentBlocker = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\' . $class;
-                $defaultData = $ContentBlocker::getInstance()->getDefault();
-
-                $this->add($defaultData);
-            }
         }
 
         // Update CSS File

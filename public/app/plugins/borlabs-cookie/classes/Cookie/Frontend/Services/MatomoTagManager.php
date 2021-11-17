@@ -35,6 +35,19 @@ class MatomoTagManager
         return self::$instance;
     }
 
+    /**
+     * __construct function.
+     *
+     * @access public
+     * @return void
+     */
+    public function __construct()
+    {
+        add_action('borlabsCookie/cookie/edit/template/settings/MatomoTagManager', [$this, 'additionalSettingsTemplate']
+        );
+        add_action('borlabsCookie/cookie/save', [$this, 'save']);
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -46,15 +59,81 @@ class MatomoTagManager
     }
 
     /**
-     * __construct function.
+     * additionalSettingsTemplate function.
      *
      * @access public
+     *
+     * @param  mixed  $data
+     *
      * @return void
      */
-    public function __construct()
+    public function additionalSettingsTemplate($data)
     {
-        add_action('borlabsCookie/cookie/edit/template/settings/MatomoTagManager', [$this, 'additionalSettingsTemplate']);
-        add_action('borlabsCookie/cookie/save', [$this, 'save']);
+        $inputMatomoUrl = esc_html(! empty($data->settings['matomoUrl']) ? $data->settings['matomoUrl'] : '');
+        $inputContainerId = esc_html(! empty($data->settings['containerId']) ? $data->settings['containerId'] : '');
+        ?>
+        <div class="form-group row">
+            <label for="matomoUrl"
+                   class="col-sm-4 col-form-label"><?php
+                _ex('Matomo URL', 'Backend / Cookie / Matomo Tag Manager / Label', 'borlabs-cookie'); ?></label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="matomoUrl"
+                       name="settings[matomoUrl]" value="<?php
+                echo $inputMatomoUrl; ?>"
+                       placeholder="<?php
+                       _ex(
+                           'Example',
+                           'Backend / Global / Input Placeholder',
+                           'borlabs-cookie'
+                       ); ?>: https://analytics.example.com/matomo/"
+                       required>
+                <span data-toggle="tooltip"
+                      title="<?php
+                      echo esc_attr_x(
+                          'Enter the URL of your Matomo installation.',
+                          'Backend / Cookie / Matomo Tag Manager / Tooltip',
+                          'borlabs-cookie'
+                      ); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <div
+                    class="invalid-feedback"><?php
+                    _ex(
+                        'This is a required field and cannot be empty.',
+                        'Backend / Global / Validation Message',
+                        'borlabs-cookie'
+                    ); ?></div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="containerId"
+                   class="col-sm-4 col-form-label"><?php
+                _ex('Container ID', 'Backend / Cookie / Matomo Tag Manager / Label', 'borlabs-cookie'); ?></label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="containerId"
+                       name="settings[containerId]" value="<?php
+                echo $inputContainerId; ?>"
+                       placeholder="<?php
+                       _ex('Example', 'Backend / Global / Input Placeholder', 'borlabs-cookie'); ?>: O3NBs12ab"
+                       required>
+                <span data-toggle="tooltip"
+                      title="<?php
+                      echo esc_attr_x(
+                          'Enter the container ID.',
+                          'Backend / Cookie / Matomo Tag Manager / Tooltip',
+                          'borlabs-cookie'
+                      ); ?>"><i
+                        class="fas fa-lg fa-question-circle text-dark"></i></span>
+                <div
+                    class="invalid-feedback"><?php
+                    _ex(
+                        'This is a required field and cannot be empty.',
+                        'Backend / Global / Validation Message',
+                        'borlabs-cookie'
+                    ); ?></div>
+            </div>
+        </div>
+        <?php
     }
 
     /**
@@ -67,11 +146,11 @@ class MatomoTagManager
     {
         $privacyPolicyURL = '';
 
-        if (!empty(Config::getInstance()->get('privacyPageURL'))) {
+        if (! empty(Config::getInstance()->get('privacyPageURL'))) {
             $privacyPolicyURL = Config::getInstance()->get('privacyPageURL');
         }
 
-        if (!empty(Config::getInstance()->get('privacyPageCustomURL'))) {
+        if (! empty(Config::getInstance()->get('privacyPageCustomURL'))) {
             $privacyPolicyURL = Config::getInstance()->get('privacyPageCustomURL');
         }
 
@@ -80,7 +159,11 @@ class MatomoTagManager
             'service' => 'MatomoTagManager',
             'name' => 'Matomo Tag Manager',
             'provider' => get_bloginfo('name', 'raw'),
-            'purpose' => _x('Matomo Tag Manager is used to control advanced script and event handling.', 'Frontend / Cookie / Matomo Tag Manager / Text', 'borlabs-cookie'),
+            'purpose' => _x(
+                'Matomo Tag Manager is used to control advanced script and event handling.',
+                'Frontend / Cookie / Matomo Tag Manager / Text',
+                'borlabs-cookie'
+            ),
             'privacyPolicyURL' => $privacyPolicyURL,
             'hosts' => [],
             'cookieName' => '',
@@ -102,49 +185,38 @@ class MatomoTagManager
     }
 
     /**
-     * additionalSettingsTemplate function.
+     * save function.
      *
      * @access public
-     * @param mixed $data
+     *
+     * @param  mixed  $formData
+     *
      * @return void
      */
-    public function additionalSettingsTemplate($data)
+    public function save($formData)
     {
-        $inputMatomoUrl = esc_html(!empty($data->settings['matomoUrl']) ? $data->settings['matomoUrl'] : '');
-        $inputContainerId = esc_html(!empty($data->settings['containerId']) ? $data->settings['containerId'] : '');
-        ?>
-        <div class="form-group row">
-            <label for="matomoUrl"
-                   class="col-sm-4 col-form-label"><?php _ex('Matomo URL', 'Backend / Cookie / Matomo Tag Manager / Label', 'borlabs-cookie'); ?></label>
-            <div class="col-sm-8">
-                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="matomoUrl"
-                       name="settings[matomoUrl]" value="<?php echo $inputMatomoUrl; ?>"
-                       placeholder="<?php _ex('Example', 'Backend / Global / Input Placeholder', 'borlabs-cookie'); ?>: https://analytics.example.com/matomo/"
-                       required>
-                <span data-toggle="tooltip"
-                      title="<?php _ex('Enter the URL of your Matomo installation.', 'Backend / Cookie / Matomo Tag Manager / Tooltip', 'borlabs-cookie'); ?>"><i
-                        class="fas fa-lg fa-question-circle text-dark"></i></span>
-                <div
-                    class="invalid-feedback"><?php _ex('This is a required field and cannot be empty.', 'Backend / Global / Validation Message', 'borlabs-cookie'); ?></div>
-            </div>
-        </div>
+        if (! empty($formData['service']) && $formData['service'] === 'MatomoTagManager') {
+            if (! empty($formData['settings']['matomoUrl'])) {
+                $formData['settings']['matomoUrl'] = trim($formData['settings']['matomoUrl']);
 
-        <div class="form-group row">
-            <label for="containerId"
-                   class="col-sm-4 col-form-label"><?php _ex('Container ID', 'Backend / Cookie / Matomo Tag Manager / Label', 'borlabs-cookie'); ?></label>
-            <div class="col-sm-8">
-                <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2" id="containerId"
-                       name="settings[containerId]" value="<?php echo $inputContainerId; ?>"
-                       placeholder="<?php _ex('Example', 'Backend / Global / Input Placeholder', 'borlabs-cookie'); ?>: O3NBs12ab"
-                       required>
-                <span data-toggle="tooltip"
-                      title="<?php _ex('Enter the container ID.', 'Backend / Cookie / Matomo Tag Manager / Tooltip', 'borlabs-cookie'); ?>"><i
-                        class="fas fa-lg fa-question-circle text-dark"></i></span>
-                <div
-                    class="invalid-feedback"><?php _ex('This is a required field and cannot be empty.', 'Backend / Global / Validation Message', 'borlabs-cookie'); ?></div>
-            </div>
-        </div>
-        <?php
+                $urlInfo = parse_url($formData['settings']['matomoUrl']);
+
+                $formData['settings']['matomoUrl'] = (! empty($urlInfo['scheme']) ? $urlInfo['scheme'] . '://' : '//')
+                    . $urlInfo['host'];
+
+                if (! empty($urlInfo['path'])) {
+                    $formData['settings']['matomoUrl'] .= rtrim($urlInfo['path'], '/') . '/';
+                } else {
+                    $formData['settings']['matomoUrl'] .= '/';
+                }
+            }
+
+            if (! empty($formData['settings']['containerId'])) {
+                $formData['settings']['containerId'] = trim($formData['settings']['containerId']);
+            }
+        }
+
+        return $formData;
     }
 
     /**
@@ -165,42 +237,7 @@ g.type='text/javascript'; g.async=true; g.defer=true; g.src='%%matomoUrl%%/js/co
 </script>
 <!-- End Matomo Tag Manager -->
 EOT;
+
         return $code;
-    }
-
-    /**
-     * save function.
-     *
-     * @access public
-     * @param mixed $formData
-     * @return void
-     */
-    public function save($formData)
-    {
-        if (!empty($formData['service']) && $formData['service'] === 'MatomoTagManager') {
-
-            if (!empty($formData['settings']['matomoUrl'])) {
-
-                $formData['settings']['matomoUrl'] = trim($formData['settings']['matomoUrl']);
-
-                $urlInfo = parse_url($formData['settings']['matomoUrl']);
-
-                $formData['settings']['matomoUrl'] = (!empty($urlInfo['scheme']) ? $urlInfo['scheme'] . '://' : '//') . $urlInfo['host'];
-
-                if (!empty($urlInfo['path'])) {
-                    $formData['settings']['matomoUrl'] .= rtrim($urlInfo['path'], '/') . '/';
-                } else {
-                    $formData['settings']['matomoUrl'] .= '/';
-                }
-            }
-
-            if (!empty($formData['settings']['containerId'])) {
-
-                $formData['settings']['containerId'] = trim($formData['settings']['containerId']);
-
-            }
-        }
-
-        return $formData;
     }
 }

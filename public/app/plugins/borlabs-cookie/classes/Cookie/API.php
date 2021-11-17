@@ -20,16 +20,11 @@
 
 namespace BorlabsCookie\Cookie;
 
-use BorlabsCookie\Cookie\HMAC;
 use BorlabsCookie\Cookie\Backend\License;
 
 class API
 {
     private static $instance;
-
-    private $apiURL = 'https://api.cookie.borlabs.io/v3';
-    private $updateURL = 'https://update.borlabs.io/v2';
-    private $response = [];
 
     public static function getInstance()
     {
@@ -40,6 +35,14 @@ class API
         return self::$instance;
     }
 
+    private $apiURL = 'https://api.cookie.borlabs.io/v3';
+    private $response = [];
+    private $updateURL = 'https://update.borlabs.io/v2';
+
+    public function __construct()
+    {
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -48,10 +51,6 @@ class API
     public function __wakeup()
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
-    public function __construct()
-    {
     }
 
     /**
@@ -82,9 +81,7 @@ class API
 
         if (! empty($wp->query_vars['__borlabsCookieCall'])) {
             $data = json_decode(file_get_contents("php://input"));
-
             $this->handleRequest($wp->query_vars['__borlabsCookieCall'], $data);
-
             exit;
         }
     }
@@ -142,14 +139,11 @@ class API
         $licenseData = License::getInstance()->getLicenseData();
 
         // Get latest news
-        $response = $this->restPostRequest(
-            '/news',
-            [
-                'licenseKey' => ! empty($licenseData->licenseKey) ? $licenseData->licenseKey : '',
-                'product' => BORLABS_COOKIE_SLUG,
-                'version' => BORLABS_COOKIE_VERSION,
-            ]
-        );
+        $response = $this->restPostRequest('/news', [
+            'licenseKey' => ! empty($licenseData->licenseKey) ? $licenseData->licenseKey : '',
+            'product' => BORLABS_COOKIE_SLUG,
+            'version' => BORLABS_COOKIE_VERSION,
+        ]);
 
         if (! empty($response->success)) {
             update_site_option('BorlabsCookieNews', $response->news);
@@ -315,6 +309,28 @@ class API
     }
 
     /**
+     * updateLicense function.
+     *
+     * @access public
+     *
+     * @param  mixed  $data
+     *
+     * @return void
+     */
+    public function updateLicense($data)
+    {
+        if (! empty($data->licenseKey)) {
+            License::getInstance()->saveLicenseData($data);
+        } elseif (! empty($data->removeLicense)) {
+            License::getInstance()->removeLicense();
+        }
+
+        echo json_encode([
+            'success' => true,
+        ]);
+    }
+
+    /**
      * restPostRequest function.
      *
      * @access private
@@ -433,29 +449,5 @@ class API
         }
 
         return $errorMessage;
-    }
-
-    /**
-     * updateLicense function.
-     *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
-     */
-    public function updateLicense($data)
-    {
-        if (! empty($data->licenseKey)) {
-            License::getInstance()->saveLicenseData($data);
-        } elseif (! empty($data->removeLicense)) {
-            License::getInstance()->removeLicense();
-        }
-
-        echo json_encode(
-            [
-                'success' => true,
-            ]
-        );
     }
 }

@@ -69,7 +69,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                         <div class="form-group row align-items-center">
                             <label class="col-sm-4 col-form-label"><?php _ex('Status', 'Backend / Cookie Groups / Label', 'borlabs-cookie'); ?></label>
                             <div class="col-sm-8">
-                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchStatus; ?>" data-toggle="button" data-switch-target="status" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
+                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchStatus; ?>" data-toggle="button" data-switch-target="status" aria-pressed="<?php echo $inputStatus ? 'true' : 'false'; ?>" autocomplete="off"><span class="handle"></span></button>
                                 <input type="hidden" name="status" id="status" value="<?php echo $inputStatus; ?>">
                                 <span data-toggle="tooltip" title="<?php echo esc_attr_x('The status of this <strong>Cookie Group</strong>. If active (Status: ON) it is displayed to the visitor in the <strong>Cookie Box</strong>.', 'Backend / Cookie Groups / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
                             </div>
@@ -105,7 +105,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                         <div class="form-group row align-items-center">
                             <label class="col-sm-4 col-form-label"><?php _ex('Pre-selected', 'Backend / Cookie Groups / Label', 'borlabs-cookie'); ?></label>
                             <div class="col-sm-8">
-                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchPreSelected; ?>" data-toggle="button" data-switch-target="preSelected" aria-pressed="false" autocomplete="off"><div class="handle"></div></button>
+                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchPreSelected; ?>" data-toggle="button" data-switch-target="preSelected" aria-pressed="<?php echo $inputPreSelected ? 'true' : 'false'; ?>" autocomplete="off"><span class="handle"></span></button>
                                 <input type="hidden" name="preSelected" id="preSelected" value="<?php echo $inputPreSelected; ?>">
                                 <span data-toggle="tooltip" title="<?php echo esc_attr_x('If activated (Status: ON) this <strong>Cookie Group</strong> is pre-selected in the <strong>Cookie Box</strong>. The visitor can de-select it.', 'Backend / Cookie Groups / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
                             </div>

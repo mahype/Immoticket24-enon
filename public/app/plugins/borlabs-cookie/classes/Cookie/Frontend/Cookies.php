@@ -20,17 +20,12 @@
 
 namespace BorlabsCookie\Cookie\Frontend;
 
-use BorlabsCookie\Cookie\Config;
 use BorlabsCookie\Cookie\Multilanguage;
 use BorlabsCookie\Cookie\Tools;
 
 class Cookies
 {
     private static $instance;
-
-    private $cookieGroups = [];
-    private $allCookieGroupsByLanguage = [];
-    private $allCookiesByLanguage = [];
 
     public static function getInstance()
     {
@@ -40,6 +35,9 @@ class Cookies
 
         return self::$instance;
     }
+    private $allCookieGroupsByLanguage = [];
+    private $allCookiesByLanguage = [];
+    private $cookieGroups = [];
 
     public function __construct()
     {
@@ -59,18 +57,19 @@ class Cookies
      * checkConsent function.
      *
      * @access public
-     * @param mixed $cookieId
+     *
+     * @param  mixed  $cookieId
+     *
      * @return void
      */
     public function checkConsent($cookieId)
     {
         $consent = false;
 
-        if (!empty($_COOKIE['borlabs-cookie'])) {
-
+        if (! empty($_COOKIE['borlabs-cookie'])) {
             $borlabsCookie = json_decode(stripslashes($_COOKIE['borlabs-cookie']));
 
-            if (!empty($borlabsCookie->consents)) {
+            if (! empty($borlabsCookie->consents)) {
                 foreach ($borlabsCookie->consents as $cookiesOfGroup) {
                     if (in_array($cookieId, $cookiesOfGroup)) {
                         $consent = true;
@@ -94,8 +93,8 @@ class Cookies
         global $wpdb;
 
         if (empty($this->cookieGroups)) {
-
-            $cookieGroupData = $wpdb->get_results("
+            $cookieGroupData = $wpdb->get_results(
+                "
                 SELECT
                     `id`,
                     `group_id`,
@@ -111,10 +110,10 @@ class Cookies
                     `status` = 1
                 ORDER BY
                     `position` ASC
-            ");
+            "
+            );
 
-            if (!empty($cookieGroupData)) {
-
+            if (! empty($cookieGroupData)) {
                 foreach ($cookieGroupData as $groupData) {
                     $this->cookieGroups[$groupData->id] = $groupData;
                     $this->cookieGroups[$groupData->id]->cookies = $this->getAllCookiesOfGroup($groupData->id);
@@ -126,10 +125,52 @@ class Cookies
     }
 
     /**
+     * getAllCookieGroups function.
+     *
+     * @access public
+     *
+     * @param  mixed  $language
+     *
+     * @return void
+     */
+    public function getAllCookieGroupsOfLanguage($language)
+    {
+        global $wpdb;
+
+        if (empty($this->allCookieGroupsByLanguage[$language])) {
+            $this->allCookieGroupsByLanguage[$language] = [];
+
+            $cookieGroupData = $wpdb->get_results(
+                "
+                SELECT
+                    `group_id`,
+                    `name`
+                FROM
+                    `" . $wpdb->prefix . "borlabs_cookie_groups`
+                WHERE
+                    `language` = '" . esc_sql($language) . "'
+                    AND
+                    `status` = 1
+            "
+            );
+
+            if (! empty($cookieGroupData)) {
+                foreach ($cookieGroupData as $groupData) {
+                    $this->allCookieGroupsByLanguage[$language][$groupData->group_id] = $groupData->name;
+                }
+            }
+        }
+
+        return $this->allCookieGroupsByLanguage[$language];
+    }
+
+    /**
      * getAllCookiesOfGroup function.
      *
      * @access public
-     * @param mixed $id
+     *
+     * @param  mixed  $id
+     *
      * @return void
      */
     public function getAllCookiesOfGroup($id)
@@ -138,7 +179,8 @@ class Cookies
 
         $data = [];
 
-        $cookiesData = $wpdb->get_results("
+        $cookiesData = $wpdb->get_results(
+            "
             SELECT
                 `cookie_id`,
                 `name`,
@@ -162,18 +204,16 @@ class Cookies
                 `status` = 1
             ORDER BY
                 `position` ASC
-        ");
+        "
+        );
 
-        if (!empty($cookiesData)) {
-
+        if (! empty($cookiesData)) {
             foreach ($cookiesData as $cookieData) {
-
                 $data[$cookieData->cookie_id] = $cookieData;
                 $data[$cookieData->cookie_id]->hosts = unserialize($cookieData->hosts);
                 $data[$cookieData->cookie_id]->settings = unserialize($cookieData->settings);
 
-                if (!empty($data[$cookieData->cookie_id]->settings)) {
-
+                if (! empty($data[$cookieData->cookie_id]->settings)) {
                     $settings = Tools::getInstance()->arrayFlat($data[$cookieData->cookie_id]->settings);
 
                     $searchKeys = array_keys($settings);
@@ -183,9 +223,21 @@ class Cookies
 
                     $replaceValues = array_values($settings);
 
-                    $data[$cookieData->cookie_id]->opt_in_js = str_replace($searchKeys, $replaceValues, $data[$cookieData->cookie_id]->opt_in_js);
-                    $data[$cookieData->cookie_id]->opt_out_js = str_replace($searchKeys, $replaceValues, $data[$cookieData->cookie_id]->opt_out_js);
-                    $data[$cookieData->cookie_id]->fallback_js = str_replace($searchKeys, $replaceValues, $data[$cookieData->cookie_id]->fallback_js);
+                    $data[$cookieData->cookie_id]->opt_in_js = str_replace(
+                        $searchKeys,
+                        $replaceValues,
+                        $data[$cookieData->cookie_id]->opt_in_js
+                    );
+                    $data[$cookieData->cookie_id]->opt_out_js = str_replace(
+                        $searchKeys,
+                        $replaceValues,
+                        $data[$cookieData->cookie_id]->opt_out_js
+                    );
+                    $data[$cookieData->cookie_id]->fallback_js = str_replace(
+                        $searchKeys,
+                        $replaceValues,
+                        $data[$cookieData->cookie_id]->fallback_js
+                    );
                 }
             }
         }
@@ -194,47 +246,12 @@ class Cookies
     }
 
     /**
-     * getAllCookieGroups function.
-     *
-     * @access public
-     * @param mixed $language
-     * @return void
-     */
-    public function getAllCookieGroupsOfLanguage($language)
-    {
-        global $wpdb;
-
-        if (empty($this->allCookieGroupsByLanguage[$language])) {
-
-            $this->allCookieGroupsByLanguage[$language] = [];
-
-            $cookieGroupData = $wpdb->get_results("
-                SELECT
-                    `group_id`,
-                    `name`
-                FROM
-                    `" . $wpdb->prefix . "borlabs_cookie_groups`
-                WHERE
-                    `language` = '" . esc_sql($language) . "'
-                    AND
-                    `status` = 1
-            ");
-
-            if (!empty($cookieGroupData)) {
-                foreach ($cookieGroupData as $groupData) {
-                    $this->allCookieGroupsByLanguage[$language][$groupData->group_id] = $groupData->name;
-                }
-            }
-        }
-
-        return $this->allCookieGroupsByLanguage[$language];
-    }
-
-    /**
      * getAllCookies function.
      *
      * @access public
-     * @param mixed $language
+     *
+     * @param  mixed  $language
+     *
      * @return void
      */
     public function getAllCookiesOfLanguage($language)
@@ -242,10 +259,10 @@ class Cookies
         global $wpdb;
 
         if (empty($this->allCookiesByLanguage[$language])) {
-
             $this->allCookiesByLanguage[$language] = [];
 
-            $cookiesData = $wpdb->get_results("
+            $cookiesData = $wpdb->get_results(
+                "
                 SELECT
                     `cookie_id`,
                     `name`
@@ -255,9 +272,10 @@ class Cookies
                     `language` = '" . esc_sql($language) . "'
                     AND
                     `status` = 1
-            ");
+            "
+            );
 
-            if (!empty($cookiesData)) {
+            if (! empty($cookiesData)) {
                 foreach ($cookiesData as $cookieData) {
                     $this->allCookiesByLanguage[$language][$cookieData->cookie_id] = $cookieData->name;
                 }
@@ -271,7 +289,9 @@ class Cookies
      * getCookieData function.
      *
      * @access public
-     * @param mixed $cookieId
+     *
+     * @param  mixed  $cookieId
+     *
      * @return void
      */
     public function getCookieData($cookieId)
@@ -280,7 +300,8 @@ class Cookies
 
         $data = [];
 
-        $cookieData = $wpdb->get_results("
+        $cookieData = $wpdb->get_results(
+            "
             SELECT
                 c.`cookie_id`,
                 c.`name`,
@@ -302,10 +323,10 @@ class Cookies
                     AND
                     cg.`language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                 )
-        ");
+        "
+        );
 
-
-        if (!empty($cookieData[0]->cookie_id)) {
+        if (! empty($cookieData[0]->cookie_id)) {
             $data = $cookieData[0];
         }
 

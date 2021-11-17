@@ -26,8 +26,6 @@ class View
 {
     private static $instance;
 
-    private $imagePath;
-
     public static function getInstance()
     {
         if (null === self::$instance) {
@@ -36,28 +34,21 @@ class View
 
         return self::$instance;
     }
-
-    public function __clone()
-    {
-        trigger_error('Cloning is not allowed.', E_USER_ERROR);
-    }
-
-    public function __wakeup()
-    {
-        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
+    private $imagePath;
 
     public function __construct()
     {
-        $this->imagePath = plugins_url('images', realpath(__DIR__ . '/../../'));
+        $this->imagePath = plugins_url('assets/images', realpath(__DIR__ . '/../../'));
     }
 
     /**
      * __call function.
      *
      * @access public
-     * @param mixed $moduleClass
-     * @param mixed $args
+     *
+     * @param  mixed  $moduleClass
+     * @param  mixed  $args
+     *
      * @return void
      */
     public function __call($moduleClass, $args)
@@ -80,6 +71,27 @@ class View
         $this->displayFooter();
     }
 
+    public function __clone()
+    {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
+    }
+
+    public function __wakeup()
+    {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
+    }
+
+    /**
+     * displayFooter function.
+     *
+     * @access public
+     * @return void
+     */
+    public function displayFooter()
+    {
+        include Backend::getInstance()->templatePath . '/footer.html.php';
+    }
+
     /**
      * displayHeader function.
      *
@@ -97,7 +109,9 @@ class View
      * displayNavigation function.
      *
      * @access public
-     * @param string $activeModule (default: 'Dashboard')
+     *
+     * @param  string  $activeModule  (default: 'Dashboard')
+     *
      * @return void
      */
     public function displayNavigation($activeModule = 'Dashboard')
@@ -106,38 +120,33 @@ class View
         $multilanguagePluginIsActive = false;
 
         if (Multilanguage::getInstance()->isMultilanguagePluginActive()) {
-
             $multilanguagePluginIsActive = true;
             $currentFlag = '';
             $currentLanguageCode = Multilanguage::getInstance()->getCurrentLanguageCode();
             $currentLanguage = Multilanguage::getInstance()->getCurrentLanguageName();
             $currentFlagURL = Multilanguage::getInstance()->getCurrentLanguageFlag();
 
-            if (!empty($currentFlagURL)) {
+            if (! empty($currentFlagURL)) {
                 $currentFlag = '<img src="' . $currentFlagURL . '" alt="' . $currentLanguage . '">';
             } else {
                 $currentFlag = '<i class="fas fa-language"></i>';
             }
 
-            $currentLanguageTooltipText = sprintf(_x('You are seeing the settings for the language <strong>%s</strong>.', 'Backend / Global / Tooltip', 'borlabs-cookie'), $currentLanguage);
+            $currentLanguageTooltipText = sprintf(
+                _x(
+                    'You are seeing the settings for the language <strong>%s</strong>.',
+                    'Backend / Global / Tooltip',
+                    'borlabs-cookie'
+                ),
+                $currentLanguage
+            );
         }
 
         $needsLanguageChooser = Multilanguage::getInstance()->needsLanguageChooser();
-        if($needsLanguageChooser) {
+        if ($needsLanguageChooser) {
             $availableLanguagesForChooser = Multilanguage::getInstance()->getAvailableLanguagesForChooser();
         }
 
         include Backend::getInstance()->templatePath . '/navigation.html.php';
-    }
-
-    /**
-     * displayFooter function.
-     *
-     * @access public
-     * @return void
-     */
-    public function displayFooter()
-    {
-        include Backend::getInstance()->templatePath . '/footer.html.php';
     }
 }

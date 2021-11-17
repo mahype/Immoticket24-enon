@@ -24,8 +24,6 @@ class Config
 {
     private static $instance;
 
-    private $config;
-
     public static function getInstance()
     {
         if (null === self::$instance) {
@@ -33,6 +31,46 @@ class Config
         }
 
         return self::$instance;
+    }
+
+    private $config;
+
+    public function __construct()
+    {
+        // Get all config values
+        $this->loadConfig();
+    }
+
+    /**
+     * get function.
+     *
+     * @access public
+     *
+     * @param  mixed  $configKey  (default: null)
+     *
+     * @return void
+     */
+    public function get($configKey = null)
+    {
+        // Get complete config
+        if (empty($configKey)) {
+            if (! empty($this->config)) {
+                return $this->config;
+            } else {
+                return false;
+            }
+        } else {
+            if (isset($this->config[$configKey])) {
+                return $this->config[$configKey];
+            } else {
+                // Fallback
+                if (isset($this->defaultConfig()[$configKey])) {
+                    return $this->defaultConfig()[$configKey];
+                } else {
+                    return false;
+                }
+            }
+        }
     }
 
     public function __clone()
@@ -45,62 +83,18 @@ class Config
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
-    public function __construct()
-    {
-        // Get all config values
-        $this->loadConfig();
-    }
-
-    /**
-     * loadConfig function.
-     *
-     * @access public
-     * @param mixed $language (default: null)
-     * @return void
-     */
-    public function loadConfig($language = null)
-    {
-        $this->config = $this->getConfig($language);
-
-        return $this->config;
-    }
-
-    /**
-     * getConfig function.
-     *
-     * @access public
-     * @param mixed $language (default: null)
-     * @return void
-     */
-    public function getConfig($language = null)
-    {
-        $config = [];
-
-        if (empty($language)) {
-            $configLanguage = Multilanguage::getInstance()->getCurrentLanguageCode();
-        } else {
-            $configLanguage = strtolower($language);
-        }
-
-        $config = get_option('BorlabsCookieConfig_' . $configLanguage, 'does not exist');
-
-        if ($config === 'does not exist') {
-            $config = $this->defaultConfig();
-        }
-
-        return $config;
-    }
-
     /**
      * defaultConfig function.
      *
      * @access public
-     * @param bool $installRoutine (default: false)
+     *
+     * @param  bool  $installRoutine  (default: false)
+     *
      * @return void
      */
     public function defaultConfig()
     {
-        $imagePath = plugins_url('images', realpath(__DIR__ . '/../'));
+        $imagePath = plugins_url('assets/images', realpath(__DIR__ . '/../'));
 
         $defaultConfig = [
             'cookieStatus' => false,
@@ -110,14 +104,14 @@ class Config
             'cookiesForBots' => true,
             'respectDoNotTrack' => false,
             'reloadAfterConsent' => false,
-            'jQueryHandle' => 'jquery',
+            'jQueryHandle' => 'jquery-core',
             'metaBox' => [],
 
             'automaticCookieDomainAndPath' => false,
             'cookieDomain' => '',
             'cookiePath' => '/',
-            'cookieLifetime' => 365,
-            'cookieLifetimeEssentialOnly' => 365,
+            'cookieLifetime' => 182,
+            'cookieLifetimeEssentialOnly' => 182,
             'crossDomainCookie' => [],
 
             'showCookieBox' => true,
@@ -199,36 +193,124 @@ class Config
             'cookieBoxRejectionLinkHoverColor' => '#262626',
             'cookieBoxCustomCSS' => '',
             'cookieBoxTextHeadline' => _x('Privacy Preference', 'Frontend / Cookie Box / Headline', 'borlabs-cookie'),
-            'cookieBoxTextDescription' => _x('We use cookies on our website. Some of them are essential, while others help us to improve this website and your experience.', 'Frontend / Cookie Box / Text', 'borlabs-cookie'),
+            'cookieBoxTextDescription' => _x(
+                'We use cookies on our website. Some of them are essential, while others help us to improve this website and your experience.',
+                'Frontend / Cookie Box / Text',
+                'borlabs-cookie'
+            ),
             'cookieBoxTextAcceptButton' => _x('I accept', 'Frontend / Cookie Box / Button Title', 'borlabs-cookie'),
-            'cookieBoxTextManageLink' => _x('Individual Privacy Preferences', 'Frontend / Cookie Box / Link Text', 'borlabs-cookie'),
-            'cookieBoxTextRefuseLink' => _x('Accept only essential cookies', 'Frontend / Cookie Box / Link Text', 'borlabs-cookie'),
-            'cookieBoxTextCookieDetailsLink' => _x('Cookie Details', 'Frontend / Cookie Box / Link Text', 'borlabs-cookie'),
+            'cookieBoxTextManageLink' => _x(
+                'Individual Privacy Preferences',
+                'Frontend / Cookie Box / Link Text',
+                'borlabs-cookie'
+            ),
+            'cookieBoxTextRefuseLink' => _x(
+                'Accept only essential cookies',
+                'Frontend / Cookie Box / Link Text',
+                'borlabs-cookie'
+            ),
+            'cookieBoxTextCookieDetailsLink' => _x(
+                'Cookie Details',
+                'Frontend / Cookie Box / Link Text',
+                'borlabs-cookie'
+            ),
             'cookieBoxTextPrivacyLink' => _x('Privacy Policy', 'Frontend / Cookie Box / Link Text', 'borlabs-cookie'),
             'cookieBoxTextImprintLink' => _x('Imprint', 'Frontend / Cookie Box / Link Text', 'borlabs-cookie'),
-            'cookieBoxPreferenceTextHeadline' => _x('Privacy Preference', 'Frontend / Cookie Box / Headline', 'borlabs-cookie'),
-            'cookieBoxPreferenceTextDescription' => _x('Here you will find an overview of all cookies used. You can give your consent to whole categories or display further information and select certain cookies.', 'Frontend / Cookie Box / Text', 'borlabs-cookie'),
+            'cookieBoxPreferenceTextHeadline' => _x(
+                'Privacy Preference',
+                'Frontend / Cookie Box / Headline',
+                'borlabs-cookie'
+            ),
+            'cookieBoxPreferenceTextDescription' => _x(
+                'Here you will find an overview of all cookies used. You can give your consent to whole categories or display further information and select certain cookies.',
+                'Frontend / Cookie Box / Text',
+                'borlabs-cookie'
+            ),
             'cookieBoxPreferenceTextSaveButton' => _x('Save', 'Frontend / Cookie Box / Button Title', 'borlabs-cookie'),
-            'cookieBoxPreferenceTextAcceptAllButton' => _x('Accept all', 'Frontend / Cookie Box / Button Title', 'borlabs-cookie'),
-            'cookieBoxPreferenceTextRefuseLink' => _x('Accept only essential cookies', 'Frontend / Cookie Box / Link Text', 'borlabs-cookie'),
+            'cookieBoxPreferenceTextAcceptAllButton' => _x(
+                'Accept all',
+                'Frontend / Cookie Box / Button Title',
+                'borlabs-cookie'
+            ),
+            'cookieBoxPreferenceTextRefuseLink' => _x(
+                'Accept only essential cookies',
+                'Frontend / Cookie Box / Link Text',
+                'borlabs-cookie'
+            ),
             'cookieBoxPreferenceTextBackLink' => _x('Back', 'Frontend / Cookie Box / Link Text', 'borlabs-cookie'),
-            'cookieBoxPreferenceTextSwitchStatusActive' => _x('On', 'Frontend / Cookie Box / Switch Button Status', 'borlabs-cookie'),
-            'cookieBoxPreferenceTextSwitchStatusInactive' => _x('Off', 'Frontend / Cookie Box / Switch Button Status', 'borlabs-cookie'),
-            'cookieBoxPreferenceTextShowCookieLink' => _x('Show Cookie Information', 'Frontend / Cookie Box / Link Text', 'borlabs-cookie'),
-            'cookieBoxPreferenceTextHideCookieLink' => _x('Hide Cookie Information', 'Frontend / Cookie Box / Link Text', 'borlabs-cookie'),
+            'cookieBoxPreferenceTextSwitchStatusActive' => _x(
+                'On',
+                'Frontend / Cookie Box / Switch Button Status',
+                'borlabs-cookie'
+            ),
+            'cookieBoxPreferenceTextSwitchStatusInactive' => _x(
+                'Off',
+                'Frontend / Cookie Box / Switch Button Status',
+                'borlabs-cookie'
+            ),
+            'cookieBoxPreferenceTextShowCookieLink' => _x(
+                'Show Cookie Information',
+                'Frontend / Cookie Box / Link Text',
+                'borlabs-cookie'
+            ),
+            'cookieBoxPreferenceTextHideCookieLink' => _x(
+                'Hide Cookie Information',
+                'Frontend / Cookie Box / Link Text',
+                'borlabs-cookie'
+            ),
 
-            'cookieBoxCookieDetailsTableAccept' => _x('Accept', 'Frontend / Cookie Box / Table Headline', 'borlabs-cookie'),
+            'cookieBoxCookieDetailsTableAccept' => _x(
+                'Accept',
+                'Frontend / Cookie Box / Table Headline',
+                'borlabs-cookie'
+            ),
             'cookieBoxCookieDetailsTableName' => _x('Name', 'Frontend / Cookie Box / Table Headline', 'borlabs-cookie'),
-            'cookieBoxCookieDetailsTableProvider' => _x('Provider', 'Frontend / Cookie Box / Table Headline', 'borlabs-cookie'),
-            'cookieBoxCookieDetailsTablePurpose' => _x('Purpose', 'Frontend / Cookie Box / Table Headline', 'borlabs-cookie'),
-            'cookieBoxCookieDetailsTablePrivacyPolicy' => _x('Privacy Policy', 'Frontend / Cookie Box / Table Headline', 'borlabs-cookie'),
-            'cookieBoxCookieDetailsTableHosts' => _x('Host(s)', 'Frontend / Cookie Box / Table Headline', 'borlabs-cookie'),
-            'cookieBoxCookieDetailsTableCookieName' => _x('Cookie Name', 'Frontend / Cookie Box / Table Headline', 'borlabs-cookie'),
-            'cookieBoxCookieDetailsTableCookieExpiry' => _x('Cookie Expiry', 'Frontend / Cookie Box / Table Headline', 'borlabs-cookie'),
+            'cookieBoxCookieDetailsTableProvider' => _x(
+                'Provider',
+                'Frontend / Cookie Box / Table Headline',
+                'borlabs-cookie'
+            ),
+            'cookieBoxCookieDetailsTablePurpose' => _x(
+                'Purpose',
+                'Frontend / Cookie Box / Table Headline',
+                'borlabs-cookie'
+            ),
+            'cookieBoxCookieDetailsTablePrivacyPolicy' => _x(
+                'Privacy Policy',
+                'Frontend / Cookie Box / Table Headline',
+                'borlabs-cookie'
+            ),
+            'cookieBoxCookieDetailsTableHosts' => _x(
+                'Host(s)',
+                'Frontend / Cookie Box / Table Headline',
+                'borlabs-cookie'
+            ),
+            'cookieBoxCookieDetailsTableCookieName' => _x(
+                'Cookie Name',
+                'Frontend / Cookie Box / Table Headline',
+                'borlabs-cookie'
+            ),
+            'cookieBoxCookieDetailsTableCookieExpiry' => _x(
+                'Cookie Expiry',
+                'Frontend / Cookie Box / Table Headline',
+                'borlabs-cookie'
+            ),
 
-            'cookieBoxConsentHistoryTableDate' => _x('Date', 'Frontend / Consent History / Table Headline', 'borlabs-cookie'),
-            'cookieBoxConsentHistoryTableVersion' => _x('Version', 'Frontend / Consent History / Table Headline', 'borlabs-cookie'),
-            'cookieBoxConsentHistoryTableConsents' => _x('Consents', 'Frontend / Consent History / Table Headline', 'borlabs-cookie'),
+            'cookieBoxConsentHistoryTableDate' => _x(
+                'Date',
+                'Frontend / Consent History / Table Headline',
+                'borlabs-cookie'
+            ),
+            'cookieBoxConsentHistoryTableVersion' => _x(
+                'Version',
+                'Frontend / Consent History / Table Headline',
+                'borlabs-cookie'
+            ),
+            'cookieBoxConsentHistoryTableConsents' => _x(
+                'Consents',
+                'Frontend / Consent History / Table Headline',
+                'borlabs-cookie'
+            ),
 
             'contentBlockerHostWhitelist' => [],
             'removeIframesInFeeds' => true,
@@ -253,40 +335,56 @@ class Config
     }
 
     /**
-     * get function.
+     * getConfig function.
      *
      * @access public
-     * @param mixed $configKey (default: null)
+     *
+     * @param  mixed  $language  (default: null)
+     *
      * @return void
      */
-    public function get($configKey = null)
+    public function getConfig($language = null)
     {
-        // Get complete config
-        if (empty($configKey)) {
-            if (!empty($this->config)) {
-                return $this->config;
-            } else {
-                return false;
-            }
+        $config = [];
+
+        if (empty($language)) {
+            $configLanguage = Multilanguage::getInstance()->getCurrentLanguageCode();
         } else {
-            if (isset($this->config[$configKey])) {
-                return $this->config[$configKey];
-            } else {
-                // Fallback
-                if (isset($this->defaultConfig()[$configKey])) {
-                    return $this->defaultConfig()[$configKey];
-                } else {
-                    return false;
-                }
-            }
+            $configLanguage = strtolower($language);
         }
+
+        $config = get_option('BorlabsCookieConfig_' . $configLanguage, 'does not exist');
+
+        if ($config === 'does not exist' || is_array($config) === false) {
+            $config = $this->defaultConfig();
+        }
+
+        return $config;
+    }
+
+    /**
+     * loadConfig function.
+     *
+     * @access public
+     *
+     * @param  mixed  $language  (default: null)
+     *
+     * @return void
+     */
+    public function loadConfig($language = null)
+    {
+        $this->config = $this->getConfig($language);
+
+        return $this->config;
     }
 
     /**
      * saveConfig function.
      *
      * @access public
-     * @param mixed $configData
+     *
+     * @param  mixed  $configData
+     *
      * @return void
      */
     public function saveConfig($configData)

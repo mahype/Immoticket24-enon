@@ -35,6 +35,10 @@ class Instagram
         return self::$instance;
     }
 
+    public function __construct()
+    {
+    }
+
     public function __clone()
     {
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
@@ -43,10 +47,6 @@ class Instagram
     public function __wakeup()
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
-    public function __construct()
-    {
     }
 
     /**
@@ -61,7 +61,11 @@ class Instagram
             'contentBlockerId' => 'instagram',
             'name' => 'Instagram',
             'description' => '',
-            'privacyPolicyURL' => _x('https://www.instagram.com/legal/privacy/', 'Frontend / Content Blocker / Instagram / URL', 'borlabs-cookie'),
+            'privacyPolicyURL' => _x(
+                'https://www.instagram.com/legal/privacy/',
+                'Frontend / Content Blocker / Instagram / URL',
+                'borlabs-cookie'
+            ),
             'hosts' => [
                 'instagram.com',
             ],
@@ -69,9 +73,25 @@ class Instagram
 	<div class="_brlbs-embed _brlbs-instagram">
     	<img class="_brlbs-thumbnail" src="%%thumbnail%%" alt="%%name%%">
 		<div class="_brlbs-caption">
-			<p>' . _x("By loading the post, you agree to Instagram's privacy policy.", 'Frontend / Content Blocker / Instagram / Text', 'borlabs-cookie') . '<br><a href="%%privacy_policy_url%%" target="_blank" rel="nofollow noopener noreferrer">' . _x('Learn more', 'Frontend / Content Blocker / Instagram / Text', 'borlabs-cookie') . '</a></p>
-			<p><a class="_brlbs-btn" href="#" data-borlabs-cookie-unblock role="button">' . _x('Load post', 'Frontend / Content Blocker / Instagram / Text', 'borlabs-cookie') . '</a></p>
-			<p><label><input type="checkbox" name="unblockAll" value="1" checked> <small>' . _x('Always unblock Instagram posts', 'Frontend / Content Blocker / Instagram / Text', 'borlabs-cookie') . '</small></label></p>
+			<p>' . _x(
+                    "By loading the post, you agree to Instagram's privacy policy.",
+                    'Frontend / Content Blocker / Instagram / Text',
+                    'borlabs-cookie'
+                ) . '<br><a href="%%privacy_policy_url%%" target="_blank" rel="nofollow noopener noreferrer">' . _x(
+                    'Learn more',
+                    'Frontend / Content Blocker / Instagram / Text',
+                    'borlabs-cookie'
+                ) . '</a></p>
+			<p><a class="_brlbs-btn" href="#" data-borlabs-cookie-unblock role="button">' . _x(
+                    'Load post',
+                    'Frontend / Content Blocker / Instagram / Text',
+                    'borlabs-cookie'
+                ) . '</a></p>
+			<p><label><input type="checkbox" name="unblockAll" value="1" checked> <small>' . _x(
+                    'Always unblock Instagram posts',
+                    'Frontend / Content Blocker / Instagram / Text',
+                    'borlabs-cookie'
+                ) . '</small></label></p>
 		</div>
 	</div>
 </div>',
@@ -108,8 +128,10 @@ class Instagram
      * modify function.
      *
      * @access public
-     * @param mixed $content
-     * @param mixed $atts (default: [])
+     *
+     * @param  mixed  $content
+     * @param  mixed  $atts  (default: [])
+     *
      * @return void
      */
     public function modify($content, $atts = [])
@@ -118,7 +140,7 @@ class Instagram
         $contentBlockerData = ContentBlocker::getInstance()->getContentBlockerData('instagram');
 
         // Default thumbnail
-        $thumbnail = BORLABS_COOKIE_PLUGIN_URL . 'images/cb-instagram.png';
+        $thumbnail = BORLABS_COOKIE_PLUGIN_URL . 'assets/images/cb-instagram.png';
 
         // Get the title which was maybe set via title-attribute in a shortcode
         $title = ContentBlocker::getInstance()->getCurrentTitle();
@@ -129,10 +151,13 @@ class Instagram
         }
 
         // Replace text variables
-        if (!empty($atts)) {
-
+        if (! empty($atts)) {
             foreach ($atts as $key => $value) {
-                $contentBlockerData['previewHTML'] = str_replace('%%' . $key . '%%', $value, $contentBlockerData['previewHTML']);
+                $contentBlockerData['previewHTML'] = str_replace(
+                    '%%' . $key . '%%',
+                    $value,
+                    $contentBlockerData['previewHTML']
+                );
             }
         }
 

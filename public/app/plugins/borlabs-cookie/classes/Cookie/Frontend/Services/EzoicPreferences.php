@@ -33,16 +33,6 @@ class EzoicPreferences
         return self::$instance;
     }
 
-    public function __clone()
-    {
-        trigger_error('Cloning is not allowed.', E_USER_ERROR);
-    }
-
-    public function __wakeup()
-    {
-        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
-    }
-
     /**
      * __construct function.
      *
@@ -51,6 +41,16 @@ class EzoicPreferences
      */
     public function __construct()
     {
+    }
+
+    public function __clone()
+    {
+        trigger_error('Cloning is not allowed.', E_USER_ERROR);
+    }
+
+    public function __wakeup()
+    {
+        trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
 
     /**
@@ -66,8 +66,16 @@ class EzoicPreferences
             'service' => 'EzoicPreferences',
             'name' => 'Ezoic - Preferences',
             'provider' => 'Ezoic Inc.',
-            'purpose' => _x('Remember information that changes the behavior or appearance of the site, such as your preferred language or the region in which you are located.', 'Frontend / Cookie / Ezoic - Preferences / Text', 'borlabs-cookie'),
-            'privacyPolicyURL' => _x('https://www.ezoic.com/privacy-policy/', 'Frontend / Cookie / Ezoic - Preferences / Text', 'borlabs-cookie'),
+            'purpose' => _x(
+                'Remember information that changes the behavior or appearance of the site, such as your preferred language or the region in which you are located.',
+                'Frontend / Cookie / Ezoic - Preferences / Text',
+                'borlabs-cookie'
+            ),
+            'privacyPolicyURL' => _x(
+                'https://www.ezoic.com/privacy-policy/',
+                'Frontend / Cookie / Ezoic - Preferences / Text',
+                'borlabs-cookie'
+            ),
             'hosts' => [],
             'cookieName' => 'ez*, sitespeed_preview, FTNT*, SITESERVER, SL*, speed_no_process, GED_PLAYLIST_ACTIVITY, __guid',
             'cookieExpiry' => _x('1 Year', 'Frontend / Cookie / Ezoic - Preferences / Text', 'borlabs-cookie'),
@@ -100,6 +108,7 @@ if (typeof window.BorlabsEZConsentCategories == 'object') {
 }
 </script>
 EOT;
+
         return $code;
     }
 
@@ -118,6 +127,7 @@ if (typeof window.BorlabsEZConsentCategories == 'object') {
 }
 </script>
 EOT;
+
         return $code;
     }
 }
