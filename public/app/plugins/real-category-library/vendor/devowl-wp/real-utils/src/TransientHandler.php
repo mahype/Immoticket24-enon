@@ -19,7 +19,21 @@ final class TransientHandler {
     const TRANSIENT_NEXT_CROSS_SELLING = 'ncs';
     const TRANSIENT_CROSS_SKIP = 'cs';
     const TRANSIENT_CROSS_COUNTER = 'cc';
+    /**
+     * Note: E.g WPML does creation of the settings `_icl_sitepress_settings` option when entering the plugins
+     * page again. Real Cookie Banners' taxonomies are not registered to the ICL cache if we do a redirect
+     * at plugin activation time.
+     *
+     * Possible values:
+     *
+     * - `false` = Default, no redirection registered, yet (backwards-compatibility, instead of another number)
+     * - `1` = Plugin got activated, we can redirect
+     * - `true` = Redirection done for this plugin (backwards-compatibility, instead of another number)
+     */
     const TRANSIENT_REDIRECT_AFTER_ACTIVATE = 'raa';
+    const TRANSIENT_REDIRECT_AFTER_ACTIVATE_NOT_REGISTERED = \false;
+    const TRANSIENT_REDIRECT_AFTER_ACTIVATE_AWAITING_REDIRECT = 0;
+    const TRANSIENT_REDIRECT_AFTER_ACTIVATE_REDIRECTED = \true;
     const TRANSIENT_NEXT_RATING = 'nr';
     /**
      * Set a value for a given plugin.

@@ -1,5 +1,5 @@
 <?php
-/* This file was automatically generated (Thu Nov 11 2021 12:08:13 GMT+0000 (Coordinated Universal Time)). */
+/* This file was automatically generated (Wed Nov 24 2021 13:39:27 GMT+0000 (Coordinated Universal Time)). */
 return [
     'src/public/dist/admin.lite.js' => '2204edc28d95cf93a5f8ebc3d7152ef3',
     'src/public/dist/admin.pro.js' => '54f1128b3f05b8bb066db55bf089c49e',

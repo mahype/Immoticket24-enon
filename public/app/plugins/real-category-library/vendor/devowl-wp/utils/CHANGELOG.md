@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.11.4 (2021-11-18)
+
+
+### fix
+
+* automatically refresh rest nonce if it got invalid (CU-8cu90g)
+* compatibility with wordpress.com private sites (CU-1td2p11)
+
+
+
+
+
 ## 1.11.3 (2021-11-11)
 
 

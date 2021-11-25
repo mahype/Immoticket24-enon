@@ -73,18 +73,48 @@ class WelcomePage {
         $fromBulkAction = isset($_POST['action']) && $_POST['action'] === 'activate-selected';
         $isWpCli = \defined('WP_CLI') && \constant('WP_CLI');
         if (!$fromBulkAction && !$isWpCli && $plugin === plugin_basename($this->getInitiator()->getPluginFile())) {
-            $alreadyRedirected = \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::get(
+            $redirectState = \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::get(
                 $this->getInitiator(),
                 \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::TRANSIENT_REDIRECT_AFTER_ACTIVATE,
-                \false
+                \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::TRANSIENT_REDIRECT_AFTER_ACTIVATE_NOT_REGISTERED
             );
-            if (!$alreadyRedirected && wp_safe_redirect($this->getWelcomePageLink())) {
+            if (
+                $redirectState ===
+                \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::TRANSIENT_REDIRECT_AFTER_ACTIVATE_NOT_REGISTERED
+            ) {
                 \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::set(
                     $this->getInitiator(),
                     \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::TRANSIENT_REDIRECT_AFTER_ACTIVATE,
-                    \true
+                    \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::TRANSIENT_REDIRECT_AFTER_ACTIVATE_AWAITING_REDIRECT
                 );
-                exit();
+            }
+        }
+    }
+    /**
+     * Do the redirection if necessary. This does a client-side redirection to avoid output buffer issues
+     * with already-sent output (e.g. PHP warnings and HTTP header `Location`).
+     */
+    public function admin_head_probably_redirect() {
+        if (
+            \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\Core::getInstance()
+                ->getAssets()
+                ->isScreenBase('plugins')
+        ) {
+            $redirectState = \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::get(
+                $this->getInitiator(),
+                \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::TRANSIENT_REDIRECT_AFTER_ACTIVATE,
+                \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::TRANSIENT_REDIRECT_AFTER_ACTIVATE_NOT_REGISTERED
+            );
+            if (
+                $redirectState ===
+                \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::TRANSIENT_REDIRECT_AFTER_ACTIVATE_AWAITING_REDIRECT
+            ) {
+                \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::set(
+                    $this->getInitiator(),
+                    \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::TRANSIENT_REDIRECT_AFTER_ACTIVATE,
+                    \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\TransientHandler::TRANSIENT_REDIRECT_AFTER_ACTIVATE_REDIRECTED
+                );
+                echo \sprintf('<meta http-equiv="refresh" content="0; URL=%s" />', $this->getWelcomePageLink());
             }
         }
     }

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 4.1.5 (2021-11-24)
+
+**Note:** This package (@devowl-wp/real-category-library) has been updated because a dependency, which is also shipped with this package, has changed.
+
+
+
+
+
+## 4.1.4 (2021-11-18)
+
+**Note:** This package (@devowl-wp/real-category-library) has been updated because a dependency, which is also shipped with this package, has changed.
+
+
+
+
+
 ## 4.1.3 (2021-11-11)
 
 

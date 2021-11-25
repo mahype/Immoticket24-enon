@@ -102,6 +102,7 @@ abstract class AbstractInitiator {
         $this->welcomePage = \DevOwl\RealCategoryLibrary\Vendor\DevOwl\RealUtils\WelcomePage::instance($this);
         add_filter('plugin_row_meta', [$this->welcomePage, 'plugin_row_meta'], 10, 2);
         add_action('activated_plugin', [$this->welcomePage, 'activated_plugin'], \PHP_INT_MAX);
+        add_action('admin_head', [$this->welcomePage, 'admin_head_probably_redirect']);
         add_action('admin_menu', [$this->welcomePage, 'admin_menu']);
     }
     // Self-explaining

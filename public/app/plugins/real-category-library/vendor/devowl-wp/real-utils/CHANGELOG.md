@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.7.3 (2021-11-24)
+
+
+### fix
+
+* do not redirect server-side after plugin activation, use client-side to avoid issues with WPML (CU-1u9tb19)
+
+
+
+
+
 ## 1.7.2 (2021-11-11)
 
 

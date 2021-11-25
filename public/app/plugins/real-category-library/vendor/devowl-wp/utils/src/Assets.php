@@ -87,6 +87,7 @@ trait Assets {
                 '_locale' => 'user'
             ],
             'restNonce' => wp_installing() && !is_multisite() ? '' : wp_create_nonce('wp_rest'),
+            'restRecreateNonceEndpoint' => admin_url('admin-ajax.php?action=rest-nonce'),
             'publicUrl' => trailingslashit(
                 plugins_url(
                     'public',
