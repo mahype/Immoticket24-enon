@@ -53,7 +53,7 @@ class Upgrade
             'upgradeVersion_2_2_6' => '2.2.6',
             'upgradeVersion_2_2_9' => '2.2.9',
             'upgradeVersion_2_2_29' => '2.2.29',
-            'upgradeVersion_2_2_37' => '2.2.37',
+            'upgradeVersion_2_2_40' => '2.2.40',
         ];
 
     public function __construct()
@@ -435,8 +435,11 @@ class Upgrade
 
         if (! empty($languageCodes)) {
             foreach ($languageCodes as $languageCode) {
-                Log::getInstance()->info(__METHOD__, 'Update CSS of language {languageCode}',
-                    ['languageCode' => $languageCode]);
+                Log::getInstance()->info(
+                    __METHOD__,
+                    'Update CSS of language {languageCode}',
+                    ['languageCode' => $languageCode]
+                );
 
                 // Load config
                 Config::getInstance()->loadConfig($languageCode);
@@ -578,10 +581,10 @@ class Upgrade
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
-    public function upgradeVersion_2_2_37()
+    public function upgradeVersion_2_2_40()
     {
         update_option('BorlabsCookieClearCache', true, 'no');
-        update_option('BorlabsCookieVersion', '2.2.37', 'yes');
+        update_option('BorlabsCookieVersion', '2.2.40', 'yes');
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
@@ -701,8 +704,11 @@ class Upgrade
 
         if (! empty($languageCodes)) {
             foreach ($languageCodes as $languageCode) {
-                Log::getInstance()->info(__METHOD__, 'Update CSS of language {languageCode}',
-                    ['languageCode' => $languageCode]);
+                Log::getInstance()->info(
+                    __METHOD__,
+                    'Update CSS of language {languageCode}',
+                    ['languageCode' => $languageCode]
+                );
 
                 // Load config
                 Config::getInstance()->loadConfig($languageCode);

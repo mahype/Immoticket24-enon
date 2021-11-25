@@ -1,4 +1,5 @@
 <?php
+echo \BorlabsCookie\Cookie\Backend\Messages::getInstance()->getAll();
 
 if (!empty($licenseData->licenseKey)) {
     ?>
