@@ -39,6 +39,10 @@
     {
       "type": "vcs",
       "url" : "git@github.com:awsmug/jason.git"
+    },
+    {
+      "type": "vcs",
+      "url" : "git@github.com:awsmug/block-wave-separator.git"
     }
   ],
   "require": {
@@ -50,6 +54,7 @@
     "awsmug/edd-payment-stripe-sepa": "dev-master",
     "awsmug/enon-theme": "dev-main",
     "awsmug/jason": "dev-master",
+    "awsmug/block-wave-separator": "dev-master",
     "felixarntz/plugin-lib": "dev-master",
     
     "wpackagist-plugin/akismet": "4.2.1",
