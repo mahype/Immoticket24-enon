@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/5.8.2" created="2021-12-01 15:25" -->
+<!-- generator="WordPress/5.8.2" created="2021-12-01 17:20" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Energieausweis online erstellen</title>
 <link>https://enon.test</link>
 <description>Jetzt Ihren Energieausweis nach EnEV 2014 anfordern!</description>
-<pubDate>Wed, 01 Dec 2021 15:25:48 +0000</pubDate>
+<pubDate>Wed, 01 Dec 2021 17:20:12 +0000</pubDate>
 <language>de-DE</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>https://enon.test</wp:base_site_url>
@@ -16551,8 +16551,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465251</wp:post_id>
   <wp:post_date>2021-10-25 12:15:05</wp:post_date>
   <wp:post_date_gmt>2021-10-25 10:15:05</wp:post_date_gmt>
-  <wp:post_modified>2021-11-30 14:31:44</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-30 13:31:44</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-01 17:42:45</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-01 16:42:45</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>startseite</wp:post_name>
@@ -17370,13 +17370,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <h3 class="has-text-align-center has-green-moss-color has-text-color" id="bedarfsausweis">Bedarfsausweis</h3>
 <!-- /wp:heading -->
 
-<!-- wp:image {"align":"center","id":761,"sizeSlug":"full","linkDestination":"none"} -->
-<div id="shadow" class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/layout/bedarfsausweis-klein.webp" alt="" class="wp-image-761"/></figure></div>
+<!-- wp:image {"align":"center","id":761,"sizeSlug":"full","linkDestination":"custom"} -->
+<div id="shadow" class="wp-block-image"><figure class="aligncenter size-full"><a href="/app/themes/Jason/assets/downloads/muster-bedarfsausweis.pdf"><img src="/app/themes/jason/assets/img/layout/bedarfsausweis-klein.webp" alt="" class="wp-image-761"/></a></figure></div>
 <!-- /wp:image -->
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"is-style-button-white"} -->
-<div class="wp-block-button is-style-button-white"><a class="wp-block-button__link">Beispiel ansehen</a></div>
+<div class="wp-block-button is-style-button-white"><a class="wp-block-button__link" href="/app/themes/Jason/assets/downloads/muster-bedarfsausweis.pdf">Beispiel ansehen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
@@ -17470,13 +17470,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <h3 class="has-text-align-center has-green-moss-color has-text-color" id="verbrauchsausweis">Verbrauchsausweis</h3>
 <!-- /wp:heading -->
 
-<!-- wp:image {"align":"center","id":762,"sizeSlug":"full","linkDestination":"none"} -->
-<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/layout/verbrauchsausweis-klein.webp" alt="" class="wp-image-762"/></figure></div>
+<!-- wp:image {"align":"center","id":762,"sizeSlug":"full","linkDestination":"custom"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><a href="/app/themes/Jason/assets/downloads/muster-verbrauchsausweis.pdf"><img src="/app/themes/jason/assets/img/layout/verbrauchsausweis-klein.webp" alt="" class="wp-image-762"/></a></figure></div>
 <!-- /wp:image -->
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"is-style-button-white"} -->
-<div class="wp-block-button is-style-button-white"><a class="wp-block-button__link">Beispiel ansehen</a></div>
+<div class="wp-block-button is-style-button-white"><a class="wp-block-button__link" href="/app/themes/Jason/assets/downloads/muster-verbrauchsausweis.pdf">Beispiel ansehen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
@@ -17731,8 +17731,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465253</wp:post_id>
   <wp:post_date>2021-10-26 12:58:03</wp:post_date>
   <wp:post_date_gmt>2021-10-26 10:58:03</wp:post_date_gmt>
-  <wp:post_modified>2021-12-01 15:59:21</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-01 14:59:21</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-01 16:31:44</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-01 15:31:44</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>preise</wp:post_name>
@@ -18024,8 +18024,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=450954</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:group {"gradient":"yellow-neon-to-green-mint"} -->
-<div class="wp-block-group has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:paragraph -->
+  <content:encoded><![CDATA[<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:paragraph -->
 <p></p>
 <!-- /wp:paragraph -->
 
@@ -18036,14 +18036,14 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:group {"className":"faq-item"} -->
 <div class="wp-block-group faq-item"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
-<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"textColor":"white","className":"number-round"} -->
-<p class="number-round has-white-color has-text-color">1</p>
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">1</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":""} -->
-<div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color" id="welche-angaben-werden-zur-erstellungeines-energieausweises-benotigt"><strong>Welche Angaben werden zur Erstellung<br>eines Energieausweises benötigt?</strong></h4>
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="welche-angaben-werden-zur-erstellungeines-energieausweises-benotigt"><strong>Welche Angaben werden zur Erstellung<br>eines Energieausweises benötigt?</strong></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18092,14 +18092,14 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:group {"className":"faq-item"} -->
 <div class="wp-block-group faq-item"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
-<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"textColor":"white","className":"number-round"} -->
-<p class="number-round has-white-color has-text-color">2</p>
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">2</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":""} -->
-<div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color" id="welchwas-mache-ich-bei-einem-mischgebaude-wohnen-und-gewerbe-in-einem-gebaude"><strong>WelchWas mache ich bei einem Mischgebäude?<br>Wohnen und Gewerbe in einem Gebäude</strong></h4>
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="was-mache-ich-bei-einem-mischgebaude-wohnen-und-gewerbe-in-einem-gebaude"><strong>Was mache ich bei einem Mischgebäude?<br>Wohnen und Gewerbe in einem Gebäude</strong></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18124,14 +18124,14 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:group {"className":"faq-item"} -->
 <div class="wp-block-group faq-item"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
-<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"textColor":"white","className":"number-round"} -->
-<p class="number-round has-white-color has-text-color">3</p>
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">3</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":""} -->
-<div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color" id="welche-angaben-werden-zur-erstellungeines-energieausweises-benotigt"><strong>Welche Angaben werden zur Erstellung<br>eines Energieausweises benötigt?</strong></h4>
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="welche-angaben-werden-zur-erstellungeines-energieausweises-benotigt"><strong>Welche Angaben werden zur Erstellung<br>eines Energieausweises benötigt?</strong></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18182,14 +18182,14 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:group {"className":"faq-item"} -->
 <div class="wp-block-group faq-item"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
-<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"textColor":"white","className":"number-round"} -->
-<p class="number-round has-white-color has-text-color">4</p>
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">4</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":""} -->
-<div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color" id="ist-ein-auf-dieser-website-erstellter-energieausweis-rechtsgultig"><strong>Ist ein auf dieser Website erstellter </strong><br><strong>Energieausweis rechtsgültig?</strong></h4>
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="ist-ein-auf-dieser-website-erstellter-energieausweis-rechtsgultig"><strong>Ist ein auf dieser Website erstellter </strong><br><strong>Energieausweis rechtsgültig?</strong></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18210,14 +18210,14 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:group {"className":"faq-item"} -->
 <div class="wp-block-group faq-item"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
-<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"textColor":"white","className":"number-round"} -->
-<p class="number-round has-white-color has-text-color">5</p>
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">5</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":""} -->
-<div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color" id="wird-ein-energieausweis-fur-alle-immobilien-benotigt"><strong>Wird ein Energieausweis </strong><br><strong>für alle Immobilien benötigt?</strong></h4>
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="wird-ein-energieausweis-fur-alle-immobilien-benotigt"><strong>Wird ein Energieausweis </strong><br><strong>für alle Immobilien benötigt?</strong></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18238,14 +18238,14 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:group {"className":"faq-item"} -->
 <div class="wp-block-group faq-item"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
-<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"textColor":"white","className":"number-round"} -->
-<p class="number-round has-white-color has-text-color">6</p>
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">6</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":""} -->
-<div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color" id="kann-ich-eine-immobilienanzeige-auch-ohne-energieausweis-veroffentlichen"><strong>Kann ich eine Immobilienanzeige auch </strong><br><strong>ohne Energieausweis veröffentlichen?</strong></h4>
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="kann-ich-eine-immobilienanzeige-auch-ohne-energieausweis-veroffentlichen"><strong>Kann ich eine Immobilienanzeige auch </strong><br><strong>ohne Energieausweis veröffentlichen?</strong></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18266,14 +18266,14 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:group {"className":"faq-item"} -->
 <div class="wp-block-group faq-item"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
-<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"textColor":"white","className":"number-round"} -->
-<p class="number-round has-white-color has-text-color">7</p>
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">7</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":""} -->
-<div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color" id="beinhaltet-der-energieausweis-eine-registriernummer"><strong>Beinhaltet der Energieausweis </strong><br><strong>eine Registriernummer?</strong></h4>
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="beinhaltet-der-energieausweis-eine-registriernummer"><strong>Beinhaltet der Energieausweis </strong><br><strong>eine Registriernummer?</strong></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18294,14 +18294,14 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:group {"className":"faq-item"} -->
 <div class="wp-block-group faq-item"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
-<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"textColor":"white","className":"number-round"} -->
-<p class="number-round has-white-color has-text-color">8</p>
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">8</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":""} -->
-<div class="wp-block-column"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color" id="welche-angaben-werden-zur-erstellungeines-energieausweises-benotigt"><strong>Welche Angaben werden zur Erstellung<br>eines Energieausweises benötigt?</strong></h4>
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="welche-angaben-werden-zur-erstellungeines-energieausweises-benotigt"><strong>Welche Angaben werden zur Erstellung<br>eines Energieausweises benötigt?</strong></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -18322,18 +18322,14 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:paragraph -->
 <p><strong>Beispiel:</strong><br>Sie haben Ihr Haus 1974 gebaut und 2001 energetische Maßnahmen durchgeführt, die belegbar sind.<br>Dann reicht hier auch ein Verbrauchsausweis.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:spacer {"height":50} -->
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer --></div>
+<!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"white-green-to-green-white","className":"wave2"} -->
-<div class="wp-block-group wave2 has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textColor":"green-moss"} -->
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"wave2 is-style-group-main"} -->
+<div class="wp-block-group wave2 is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textColor":"green-moss"} -->
 <h2 class="has-green-moss-color has-text-color" id="unser-qualitatsversprechenfur-ihren-energieausweis"><strong>unser qualitätsversprechen<br></strong>für ihren energieausweis</h2>
 <!-- /wp:heading -->
 
@@ -18385,15 +18381,11 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <div class="wp-block-buttons"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link">Energieausweis-erstellung beginnen</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->
-
-<!-- wp:spacer -->
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer --></div>
+<!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"}}} -->
-<div class="wp-block-group has-background" style="background:linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"><!-- wp:heading -->
+<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"}},"className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-background" style="background:linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"><!-- wp:heading -->
 <h2 id="das-sagen-unsere-kundenzufriedene-kunden-sind-fur-uns-das-wichtigste"><strong>Das sagen unsere Kunden</strong><br>zufriedene Kunden sind für uns das wichtigste!</h2>
 <!-- /wp:heading -->
 
@@ -18411,12 +18403,12 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:quote -->
-<blockquote class="wp-block-quote"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
 <!-- /wp:quote -->
 
-<!-- wp:columns {"className":"stars ml-2"} -->
-<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<!-- wp:columns {"isStackedOnMobile":false,"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns is-not-stacked-on-mobile stars ml-2"><!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
 <figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
 <!-- /wp:image --></div>
@@ -18463,12 +18455,12 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:quote -->
-<blockquote class="wp-block-quote"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
 <!-- /wp:quote -->
 
-<!-- wp:columns {"className":"stars ml-2"} -->
-<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<!-- wp:columns {"isStackedOnMobile":false,"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns is-not-stacked-on-mobile stars ml-2"><!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
 <figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
 <!-- /wp:image --></div>
@@ -18515,12 +18507,12 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:quote -->
-<blockquote class="wp-block-quote"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
 <!-- /wp:quote -->
 
-<!-- wp:columns {"className":"stars ml-2"} -->
-<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<!-- wp:columns {"isStackedOnMobile":false,"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns is-not-stacked-on-mobile stars ml-2"><!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
 <figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
 <!-- /wp:image --></div>
@@ -18566,8 +18558,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings"} -->
-<div class="wp-block-group group-ratings has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings is-style-group-main"} -->
+<div class="wp-block-group group-ratings is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
 <!-- /wp:paragraph -->
 
@@ -18579,8 +18571,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465255</wp:post_id>
   <wp:post_date>2021-10-26 13:42:21</wp:post_date>
   <wp:post_date_gmt>2021-10-26 11:42:21</wp:post_date_gmt>
-  <wp:post_modified>2021-11-11 13:48:03</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-11 12:48:03</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-01 17:20:20</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-01 16:20:20</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>haeufige-fragen</wp:post_name>
@@ -18642,6 +18634,10 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
     <wp:meta_key>_edit_last</wp:meta_key>
     <wp:meta_value><![CDATA[74]]></wp:meta_value>
   </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
 </item>
 <item>
   <title><![CDATA[Blog]]></title>
@@ -18650,18 +18646,16 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=450973</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:group {"gradient":"green-neon-to-green-mint","className":"wave-block-1"} -->
-<div class="wp-block-group wave-block-1 has-green-neon-to-green-mint-gradient-background has-background"></div>
-<!-- /wp:group -->
+  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"green-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-green-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"}}} -->
-<div class="wp-block-group has-background" style="background:linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"><!-- wp:heading -->
+<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"},"spacing":{"padding":{"top":"0px"}}},"className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-background" style="background:linear-gradient(90deg,#b8e530 0%,#65e58d 100%);padding-top:0px"><!-- wp:heading -->
 <h2 id="unser-blogneuigkeiten-wissenswertes-und-mehr"><strong>Unser Blog</strong><br>Neuigkeiten, wissenswertes und mehr</h2>
-<!-- /wp:heading --></div>
-<!-- /wp:group -->
+<!-- /wp:heading -->
 
-<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"}}} -->
-<div class="wp-block-group has-background" style="background:linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"><!-- wp:query {"queryId":1,"query":{"perPage":"16","pages":0,"offset":0,"postType":"post","categoryIds":[],"tagIds":[],"order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false},"displayLayout":{"type":"flex","columns":2}} -->
+<!-- wp:query {"queryId":1,"query":{"perPage":"16","pages":0,"offset":0,"postType":"post","categoryIds":[],"tagIds":[],"order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false},"displayLayout":{"type":"flex","columns":2}} -->
 <div class="wp-block-query"><!-- wp:post-template -->
 <!-- wp:post-date /-->
 
@@ -18680,17 +18674,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:query-pagination-next {"label":"Nächste Seite"} /-->
 <!-- /wp:query-pagination --></div>
 <!-- /wp:query --></div>
-<!-- /wp:group -->
-
-<!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph -->]]></content:encoded>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465256</wp:post_id>
   <wp:post_date>2021-10-26 14:00:21</wp:post_date>
   <wp:post_date_gmt>2021-10-26 12:00:21</wp:post_date_gmt>
-  <wp:post_modified>2021-11-10 13:44:41</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-10 12:44:41</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-01 17:33:43</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-01 16:33:43</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>blog</wp:post_name>
@@ -18752,6 +18742,10 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
     <wp:meta_key>_edit_last</wp:meta_key>
     <wp:meta_value><![CDATA[74]]></wp:meta_value>
   </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
 </item>
 <item>
   <title><![CDATA[Kontakt]]></title>
@@ -18764,16 +18758,20 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <div class="wp-block-create-block-block-wave-separator wave-1 has-background" style="background:linear-gradient(90deg,#b8e530 0%,#65e58d 100%);height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
 <!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"}},"className":"wave1 is-style-main-group"} -->
-<div class="wp-block-group wave1 is-style-main-group has-background" style="background:linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"><!-- wp:heading -->
+<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"},"spacing":{"padding":{"bottom":"160px"}}},"className":"wave1 is-style-main-group is-style-group-main"} -->
+<div class="wp-block-group wave1 is-style-main-group is-style-group-main has-background" style="background:linear-gradient(90deg,#b8e530 0%,#65e58d 100%);padding-bottom:160px"><!-- wp:heading -->
 <h2 id="kontaktwir-freuen-uns-auf-sie"><strong>Kontakt</strong><br>Wir freuen uns auf Sie!</h2>
 <!-- /wp:heading -->
 
 <!-- wp:gravityforms/form {"formId":"1","title":false,"description":false} /--></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-main-group"} -->
-<div class="wp-block-group is-style-main-group has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
+<!-- wp:create-block/block-wave-separator {"waveId":"wave-2","gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-2 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-2" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,5.8c9.8,5,17.3,13.6,56.2,8.8c41.7-5.1,83.2-18.5,178.2-6.7c34.8,4.3,49.1-7.9,49.1-7.9l0,17H0V5.8z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-main-group is-style-group-main"} -->
+<div class="wp-block-group is-style-main-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
 <h2 id="unseregeschaftsstellen"><strong>Unsere</strong><br>Geschäftsstellen</h2>
 <!-- /wp:heading -->
 
@@ -18822,12 +18820,12 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:ootb/openstreetmap {"mapHeight":550,"markers":[{"lat":"50.3312695","lng":"7.320933","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eKrufter Straße 5, \u003cbr\u003e56753 Welling\u003cbr\u003e\u003cbr\u003eTel.: 02654 / 8801199\u003c/p\u003e"},{"lat":"50.5457043","lng":"7.1362166","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eTelegrafenstraße 2\u003cbr\u003eBad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"},{"lat":"50.540312","lng":"7.0908392","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eAltenbaustraße 2\u003cbr\u003e53474 Bad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"}],"zoom":9,"dragging":false,"touchZoom":false,"doubleClickZoom":false,"scrollWheelZoom":false,"bounds":[["50.540312","7.0908392"],["50.3312695","7.320933"],["50.5457043","7.1362166"]]} -->
-<div class="wp-block-ootb-openstreetmap"><div class="ootb-openstreetmap--map" data-provider="openstreetmap" data-markers="%5B%7B%22lat%22%3A%2250.3312695%22%2C%22lng%22%3A%227.320933%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EKrufter%20Stra%DFe%205%2C%20%3Cbr%3E56753%20Welling%3Cbr%3E%3Cbr%3ETel.%3A%2002654%20/%208801199%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.5457043%22%2C%22lng%22%3A%227.1362166%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3ETelegrafenstra%DFe%202%3Cbr%3EBad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.540312%22%2C%22lng%22%3A%227.0908392%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EAltenbaustra%DFe%202%3Cbr%3E53474%20Bad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%5D" data-bounds="[50.4384869,7.2058861]" data-zoom="9" data-minzoom="2" data-maxzoom="18" data-dragging="false" data-touchzoom="false" data-doubleclickzoom="false" data-scrollwheelzoom="false" data-marker="%7B%22iconUrl%22%3A%22https%3A//enon.test/app/plugins/ootb-openstreetmap/assets/vendor/leaflet/images/marker-icon.png%22%2C%22iconAnchor%22%3A%5B12%2C41%5D%2C%22popupAnchor%22%3A%5B0%2C-41%5D%7D" style="height:550px"></div></div>
+<!-- wp:ootb/openstreetmap {"mapHeight":550,"markers":[{"lat":"50.3312695","lng":"7.320933","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eKrufter Straße 5, \u003cbr\u003e56753 Welling\u003cbr\u003e\u003cbr\u003eTel.: 02654 / 8801199\u003c/p\u003e"},{"lat":"50.5457043","lng":"7.1362166","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eTelegrafenstraße 2\u003cbr\u003eBad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"},{"lat":"50.540312","lng":"7.0908392","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eAltenbaustraße 2\u003cbr\u003e53474 Bad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"}],"zoom":10,"dragging":false,"touchZoom":false,"doubleClickZoom":false,"scrollWheelZoom":false,"bounds":[["50.540312","7.0908392"],["50.3312695","7.320933"],["50.5457043","7.1362166"]]} -->
+<div class="wp-block-ootb-openstreetmap"><div class="ootb-openstreetmap--map" data-provider="openstreetmap" data-markers="%5B%7B%22lat%22%3A%2250.3312695%22%2C%22lng%22%3A%227.320933%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EKrufter%20Stra%DFe%205%2C%20%3Cbr%3E56753%20Welling%3Cbr%3E%3Cbr%3ETel.%3A%2002654%20/%208801199%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.5457043%22%2C%22lng%22%3A%227.1362166%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3ETelegrafenstra%DFe%202%3Cbr%3EBad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.540312%22%2C%22lng%22%3A%227.0908392%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EAltenbaustra%DFe%202%3Cbr%3E53474%20Bad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%5D" data-bounds="[50.4384869,7.2058861]" data-zoom="10" data-minzoom="2" data-maxzoom="18" data-dragging="false" data-touchzoom="false" data-doubleclickzoom="false" data-scrollwheelzoom="false" data-marker="%7B%22iconUrl%22%3A%22https%3A//enon.test/app/plugins/ootb-openstreetmap/assets/vendor/leaflet/images/marker-icon.png%22%2C%22iconAnchor%22%3A%5B12%2C41%5D%2C%22popupAnchor%22%3A%5B0%2C-41%5D%7D" style="height:550px"></div></div>
 <!-- /wp:ootb/openstreetmap -->
 
-<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings is-style-main-group"} -->
-<div class="wp-block-group group-ratings is-style-main-group has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings is-style-main-group is-style-group-main"} -->
+<div class="wp-block-group group-ratings is-style-main-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
 <!-- /wp:paragraph -->
 
@@ -18839,8 +18837,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465257</wp:post_id>
   <wp:post_date>2021-10-27 13:26:40</wp:post_date>
   <wp:post_date_gmt>2021-10-27 11:26:40</wp:post_date_gmt>
-  <wp:post_modified>2021-11-29 16:49:02</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-29 15:49:02</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-01 18:05:39</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-01 17:05:39</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>kontakt</wp:post_name>
