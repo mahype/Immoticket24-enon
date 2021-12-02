@@ -243,7 +243,7 @@ class Endpoints extends Controller {
 		$params['status'] = array(
 			'description'       => __( 'The referral status or array of statuses.', 'affiliate-wp' ),
 			'validate_callback' => function( $param, $request, $key ) {
-				$statuses = array_keys( affwp_get_referral_statuses() );
+				$statuses = array_keys( affwp_get_referral_statuses( true ) );
 
 				return in_array( $param, $statuses );
 			},

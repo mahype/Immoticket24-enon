@@ -32,29 +32,52 @@ function affwp_process_add_referral( $data ) {
 	}
 
 	if ( false === affwp_get_affiliate( $data['user_name'] ) ) {
-		$errors[ 'invalid_affiliate'] = __( 'Referral not created because affiliate is invalid.', 'affiliate-wp' );
+		$errors['invalid_affiliate'] = true;
+	}
+
+	if ( $data['amount'] < 0 ) {
+		$errors['invalid_amount'] = true;
 	}
 
 	if ( empty( $errors ) ) {
 
 		if ( affwp_add_referral( $data ) ) {
-			wp_safe_redirect( affwp_admin_url( 'referrals', array( 'affwp_notice' => 'referral_added' ) ) );
+			wp_safe_redirect( affwp_admin_url( 'referrals', array(
+				'affwp_notice' => 'referral_added'
+			) ) );
 			exit;
 		} else {
-			wp_safe_redirect( affwp_admin_url( 'referrals', array( 'affwp_notice' => 'referral_add_failed' ) ) );
+			wp_safe_redirect( affwp_admin_url( 'referrals', array(
+				'affwp_notice' => 'referral_add_failed'
+			) ) );
 			exit;
 		}
 
 	} else {
 
-		if ( isset( $errors[ 'invalid_affiliate'] ) ) {
+		if ( isset( $errors['invalid_affiliate'] ) ) {
 
-			wp_safe_redirect( affwp_admin_url( 'referrals', array( 'action' => 'add_referral', 'affwp_notice' => 'referral_add_invalid_affiliate' ) ) );
+			wp_safe_redirect( affwp_admin_url( 'referrals', array(
+				'action'       => 'add_referral',
+				'affwp_notice' => 'referral_add_invalid_affiliate'
+			) ) );
 			exit;
 
 		}
 
-		wp_safe_redirect( affwp_admin_url( 'referrals', array( 'affwp_notice' => 'referral_add_failed' ) ) );
+		if ( isset( $errors['invalid_amount'] ) ){
+
+			wp_safe_redirect( affwp_admin_url( 'referrals', array(
+				'action'       => 'add_referral',
+				'affwp_notice' => 'referral_invalid_amount'
+			) ) );
+			exit;
+
+		}
+
+		wp_safe_redirect( affwp_admin_url( 'referrals', array(
+			'affwp_notice' => 'referral_add_failed'
+		) ) );
 		exit;
 
 	}
@@ -82,12 +105,35 @@ function affwp_process_update_referral( $data ) {
 		wp_die( __( 'Security check failed', 'affiliate-wp' ), array( 'response' => 403 ) );
 	}
 
-	if ( affiliate_wp()->referrals->update_referral( $data['referral_id'], $data ) ) {
-		wp_safe_redirect( affwp_admin_url( 'referrals', array( 'affwp_notice' => 'referral_updated' ) ) );
-		exit;
+
+	if ( $data['amount'] < 0 ) {
+		$errors['invalid_amount'] = true;
+	}
+
+	if ( empty( $errors ) ) {
+
+		if ( affiliate_wp()->referrals->update_referral( $data['referral_id'], $data ) ) {
+			wp_safe_redirect( affwp_admin_url( 'referrals', array( 'affwp_notice' => 'referral_updated' ) ) );
+			exit;
+		} else {
+			wp_safe_redirect( affwp_admin_url( 'referrals', array( 'affwp_notice' => 'referral_update_failed' ) ) );
+			exit;
+		}
+
 	} else {
+
+		if ( isset( $errors['invalid_amount'] ) ){
+			wp_safe_redirect( affwp_admin_url( 'referrals', array(
+				'referral_id'  => $data['referral_id'],
+				'action'       => 'edit_referral',
+				'affwp_notice' => 'referral_invalid_amount'
+			) ) );
+			exit;
+		}
+
 		wp_safe_redirect( affwp_admin_url( 'referrals', array( 'affwp_notice' => 'referral_update_failed' ) ) );
 		exit;
+
 	}
 
 }

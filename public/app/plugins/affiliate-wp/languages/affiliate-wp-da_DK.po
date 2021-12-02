@@ -22,13 +22,16 @@ msgstr ""
 msgid "AffiliateWP Requirements"
 msgstr "Affiliate registreringer"
 
-#: includes/REST/class-rest.php:72 includes/admin/ajax-actions.php:275
+#: includes/REST/class-rest.php:72
+#: includes/admin/ajax-actions.php:275
 #: includes/admin/tools/tools.php:756
 msgid "Nonce verification failed"
 msgstr "Verificering mislykkedes"
 
-#: includes/REST/class-rest.php:72 includes/REST/class-rest.php:78
-#: includes/REST/class-rest.php:91 includes/REST/class-rest.php:94
+#: includes/REST/class-rest.php:72
+#: includes/REST/class-rest.php:78
+#: includes/REST/class-rest.php:91
+#: includes/REST/class-rest.php:94
 #: includes/admin/AFFWP_Plugin_Updater.php:468
 #: includes/admin/affiliates/actions.php:38
 #: includes/admin/affiliates/actions.php:127
@@ -54,8 +57,10 @@ msgstr "Verificering mislykkedes"
 #: includes/admin/tools/import/class-batch-import-affiliates.php:121
 #: includes/admin/tools/import/class-batch-import-referrals.php:113
 #: includes/admin/tools/import/import.php:34
-#: includes/admin/tools/import/import.php:40 includes/admin/tools/tools.php:757
-#: includes/admin/tools/tools.php:765 includes/admin/tools/tools.php:775
+#: includes/admin/tools/import/import.php:40
+#: includes/admin/tools/tools.php:757
+#: includes/admin/tools/tools.php:765
+#: includes/admin/tools/tools.php:775
 msgid "Error"
 msgstr "Fejl"
 
@@ -64,7 +69,8 @@ msgid "User ID Required"
 msgstr "Bruger ID påkrævet"
 
 #. translators: 1: Generate, regenerate, or revoke
-#: includes/REST/class-rest.php:91 includes/REST/class-rest.php:94
+#: includes/REST/class-rest.php:91
+#: includes/REST/class-rest.php:94
 msgid "You do not have permission to %s API keys for this user."
 msgstr "Du har ikke tilladelse til %s API-nøgler for denne bruger."
 
@@ -669,7 +675,8 @@ msgstr "Filter"
 
 #: includes/abstracts/class-affwp-reports-tab.php:160
 #: includes/admin/referrals/class-list-table.php:670
-#: includes/admin/visits/visits.php:73 includes/class-graph.php:454
+#: includes/admin/visits/visits.php:73
+#: includes/class-graph.php:454
 msgid "Filter"
 msgstr "Filter"
 
@@ -686,7 +693,8 @@ msgid "No data for the current date range."
 msgstr "Der er ingen data for det aktuelle datointerval."
 
 #: includes/abstracts/class-affwp-reports-tab.php:461
-#: includes/admin/dashboard-widgets.php:106 includes/class-graph.php:387
+#: includes/admin/dashboard-widgets.php:106
+#: includes/class-graph.php:387
 msgid "Today"
 msgstr "I dag"
 
@@ -711,7 +719,8 @@ msgid "This Month"
 msgstr "Denne måned"
 
 #: includes/abstracts/class-affwp-reports-tab.php:466
-#: includes/admin/dashboard-widgets.php:117 includes/class-graph.php:392
+#: includes/admin/dashboard-widgets.php:117
+#: includes/class-graph.php:392
 msgid "Last Month"
 msgstr "Sidste måned"
 
@@ -743,9 +752,12 @@ msgstr "%1$s af %2$s"
 #: includes/abstracts/class-affwp-reports-tab.php:527
 #: includes/admin/payouts/new.php:40
 #: includes/admin/referrals/class-list-table.php:645
-#: includes/admin/tools/tools.php:158 includes/admin/tools/tools.php:185
-#: includes/admin/tools/tools.php:350 includes/admin/tools/tools.php:377
-#: includes/admin/tools/tools.php:402 includes/admin/visits/visits.php:61
+#: includes/admin/tools/tools.php:158
+#: includes/admin/tools/tools.php:185
+#: includes/admin/tools/tools.php:350
+#: includes/admin/tools/tools.php:377
+#: includes/admin/tools/tools.php:402
+#: includes/admin/visits/visits.php:61
 msgid "Affiliate name"
 msgstr "Affiliate navn"
 
@@ -775,7 +787,8 @@ msgstr "Du har ikke tilladelser til at installere opdateringer til tilføjelser"
 msgid "Add-ons for AffiliateWP"
 msgstr "Tilføjelser til AffiliateWP"
 
-#: includes/admin/add-ons.php:41 includes/admin/add-ons.php:69
+#: includes/admin/add-ons.php:41
+#: includes/admin/add-ons.php:69
 msgid "Browse all add-ons"
 msgstr "Se alle addons"
 
@@ -819,7 +832,8 @@ msgstr "Ugyldigt brugernavn. Skal være mellem 1 og 60 tegn."
 msgid "Invalid user email"
 msgstr "Ugyldig konto-e-mail"
 
-#: includes/admin/affiliates/actions.php:54 includes/class-register.php:131
+#: includes/admin/affiliates/actions.php:54
+#: includes/class-register.php:131
 msgid "Invalid payment email"
 msgstr "Ugyldig betalings-e-mail"
 
@@ -843,7 +857,8 @@ msgstr "Sikkerheds tjek mislykkedes"
 msgid "No affiliate IDs specified for deletion"
 msgstr "Ingen affiliate-ID'er angivet til sletning"
 
-#: includes/admin/affiliates/affiliates.php:79 includes/admin/class-menu.php:34
+#: includes/admin/affiliates/affiliates.php:79
+#: includes/admin/class-menu.php:34
 #: includes/admin/class-menu.php:37
 #: includes/admin/reports/tabs/class-affiliates-reports-tab.php:23
 msgid "Affiliates"
@@ -865,14 +880,16 @@ msgstr "Søg %s"
 #: includes/admin/affiliates/class-list-table.php:148
 #: includes/admin/creatives/class-list-table.php:98
 #: includes/admin/referrals/class-list-table.php:150
-#: includes/admin/tools/tools.php:407 includes/admin/visits/visits.php:69
+#: includes/admin/tools/tools.php:407
+#: includes/admin/visits/visits.php:69
 msgid "All"
 msgstr "Alle"
 
 #: includes/admin/affiliates/class-list-table.php:168
 #: includes/admin/affiliates/review.php:44
 #: includes/admin/creatives/class-list-table.php:116
-#: includes/admin/creatives/edit.php:35 includes/admin/creatives/new.php:34
+#: includes/admin/creatives/edit.php:35
+#: includes/admin/creatives/new.php:34
 #: includes/admin/tools/export/class-batch-export-referrals.php:155
 #: includes/admin/tools/export/class-export-affiliates.php:51
 #: includes/admin/tools/export/class-export-referrals.php:66
@@ -898,8 +915,11 @@ msgstr "Affiliate ID"
 #: includes/admin/tools/export/class-batch-export-referrals.php:157
 #: includes/admin/tools/export/class-export-affiliates.php:53
 #: includes/admin/tools/export/class-export-referrals.php:68
-#: includes/misc-functions.php:1202 templates/login.php:29
-#: templates/login.php:30 templates/register.php:75 templates/register.php:76
+#: includes/misc-functions.php:1202
+#: templates/login.php:29
+#: templates/login.php:30
+#: templates/register.php:75
+#: templates/register.php:76
 #: tests/misc/test-misc-functions.php:385
 msgid "Username"
 msgstr "Brugernavn"
@@ -907,7 +927,8 @@ msgstr "Brugernavn"
 #: includes/admin/affiliates/class-list-table.php:171
 #: includes/admin/reports/tabs/class-referrals-reports-tab.php:152
 #: includes/admin/reports/tabs/class-referrals-reports-tab.php:163
-#: includes/admin/tools/tools.php:161 templates/dashboard-tab-stats.php:46
+#: includes/admin/tools/tools.php:161
+#: templates/dashboard-tab-stats.php:46
 #: templates/dashboard-tab-stats.php:54
 msgid "Paid Earnings"
 msgstr "Betalt indtjening"
@@ -915,8 +936,10 @@ msgstr "Betalt indtjening"
 #: includes/admin/affiliates/class-list-table.php:172
 #: includes/admin/reports/tabs/class-referrals-reports-tab.php:171
 #: includes/admin/tools/export/class-batch-export-affiliates.php:112
-#: includes/admin/tools/tools.php:162 includes/misc-functions.php:1210
-#: templates/dashboard-tab-stats.php:45 templates/dashboard-tab-stats.php:53
+#: includes/admin/tools/tools.php:162
+#: includes/misc-functions.php:1210
+#: templates/dashboard-tab-stats.php:45
+#: templates/dashboard-tab-stats.php:53
 #: tests/misc/test-misc-functions.php:393
 msgid "Unpaid Earnings"
 msgstr "Ulønnet indtjening"
@@ -924,17 +947,20 @@ msgstr "Ulønnet indtjening"
 #: includes/admin/affiliates/class-list-table.php:173
 #: includes/admin/tools/export/class-batch-export-affiliates.php:108
 #: includes/admin/tools/export/class-export-affiliates.php:54
-#: includes/misc-functions.php:1206 tests/misc/test-misc-functions.php:389
+#: includes/misc-functions.php:1206
+#: tests/misc/test-misc-functions.php:389
 msgid "Rate"
 msgstr "Takst"
 
 #: includes/admin/affiliates/class-list-table.php:174
-#: templates/dashboard-tab-stats.php:11 templates/dashboard-tab-stats.php:20
+#: templates/dashboard-tab-stats.php:11
+#: templates/dashboard-tab-stats.php:20
 msgid "Unpaid Referrals"
 msgstr "Ubetalte henvisninger"
 
 #: includes/admin/affiliates/class-list-table.php:175
-#: templates/dashboard-tab-stats.php:12 templates/dashboard-tab-stats.php:21
+#: templates/dashboard-tab-stats.php:12
+#: templates/dashboard-tab-stats.php:21
 msgid "Paid Referrals"
 msgstr "Betalte henvisninger"
 
@@ -943,9 +969,12 @@ msgstr "Betalte henvisninger"
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:23
 #: includes/admin/tools/export/class-batch-export-affiliates.php:114
 #: includes/admin/tools/export/class-export-affiliates.php:58
-#: includes/admin/tools/tools.php:164 includes/admin/visits/visits.php:45
-#: includes/affiliate-functions.php:1805 templates/dashboard-tab-stats.php:13
-#: templates/dashboard-tab-stats.php:22 templates/dashboard-tab-stats.php:89
+#: includes/admin/tools/tools.php:164
+#: includes/admin/visits/visits.php:45
+#: includes/affiliate-functions.php:1805
+#: templates/dashboard-tab-stats.php:13
+#: templates/dashboard-tab-stats.php:22
+#: templates/dashboard-tab-stats.php:89
 #: templates/dashboard-tab-stats.php:101
 #: tests/affiliates/test-affiliate-functions.php:2976
 msgid "Visits"
@@ -958,15 +987,19 @@ msgstr "Integrationer"
 
 #: includes/admin/affiliates/class-list-table.php:178
 #: includes/admin/creatives/class-list-table.php:119
-#: includes/admin/creatives/edit.php:131 includes/admin/creatives/new.php:108
-#: includes/admin/dashboard-widgets.php:160 includes/admin/payouts/view.php:155
+#: includes/admin/creatives/edit.php:131
+#: includes/admin/creatives/new.php:108
+#: includes/admin/dashboard-widgets.php:160
+#: includes/admin/payouts/view.php:155
 #: includes/admin/referrals/class-list-table.php:178
-#: includes/admin/referrals/edit.php:290 includes/admin/referrals/new.php:144
+#: includes/admin/referrals/edit.php:290
+#: includes/admin/referrals/new.php:144
 #: includes/admin/tools/export/class-batch-export-affiliates.php:116
 #: includes/admin/tools/export/class-batch-export-referrals.php:164
 #: includes/admin/tools/export/class-export-affiliates.php:60
 #: includes/admin/tools/export/class-export-referrals.php:75
-#: includes/misc-functions.php:1213 includes/misc-functions.php:1257
+#: includes/misc-functions.php:1213
+#: includes/misc-functions.php:1257
 #: templates/dashboard-tab-payouts.php:42
 #: templates/dashboard-tab-payouts.php:77
 #: templates/dashboard-tab-referrals.php:42
@@ -983,7 +1016,8 @@ msgstr "Status"
 #: includes/admin/payouts/preview.php:335
 #: includes/admin/payouts/preview.php:408
 #: includes/admin/payouts/preview.php:528
-#: includes/admin/payouts/submitted.php:92 includes/admin/payouts/view.php:99
+#: includes/admin/payouts/submitted.php:92
+#: includes/admin/payouts/view.php:99
 #: includes/admin/referrals/edit.php:74
 msgid "(user deleted)"
 msgstr "(bruger slettet)"
@@ -1136,7 +1170,8 @@ msgstr "Affiliate & #8217; s bruger-id. Dette kan ikke ændres."
 msgid "The affiliate&#8217;s username. This cannot be changed."
 msgstr "Affiliate & #8217; s Brugernavn. Dette kan ikke ændres."
 
-#: includes/admin/affiliates/edit.php:165 includes/misc-functions.php:1215
+#: includes/admin/affiliates/edit.php:165
+#: includes/misc-functions.php:1215
 #: tests/misc/test-misc-functions.php:398
 msgid "Registration Date"
 msgstr "Registreringsdato"
@@ -1145,7 +1180,8 @@ msgstr "Registreringsdato"
 msgid "The affiliate&#8217;s registration date. This cannot be changed."
 msgstr "Den affiliate & #8217; s registreringsdato. Dette kan ikke ændres."
 
-#: includes/admin/affiliates/edit.php:178 includes/admin/affiliates/new.php:91
+#: includes/admin/affiliates/edit.php:178
+#: includes/admin/affiliates/new.php:91
 msgid "Affiliate Status"
 msgstr "Affiliate status"
 
@@ -1153,7 +1189,8 @@ msgstr "Affiliate status"
 msgid "The status assigned to the affiliate&#8217;s account. Updating the status could trigger account related events, such as email notifications."
 msgstr "Den status, der er tildelt affiliate & #8217; s-kontoen. Opdatering af status kan udløse kontorelaterede hændelser, såsom e-mail-notifikationer."
 
-#: includes/admin/affiliates/edit.php:209 includes/misc-functions.php:1214
+#: includes/admin/affiliates/edit.php:209
+#: includes/misc-functions.php:1214
 #: tests/misc/test-misc-functions.php:397
 msgid "Website"
 msgstr "Website"
@@ -1165,35 +1202,41 @@ msgid "The affiliate&#8217;s website. Will be empty if no website is specified. 
 msgstr "Affiliate & #8217; s hjemmeside. Vil være tom, hvis ingen hjemmeside er angivet. Dette kan ændres på <a href=\"%1$s\" alt=\"%2$s\">bruger redigerings skærm</a>."
 
 #: includes/admin/affiliates/edit.php:229
-#: includes/admin/affiliates/edit.php:234 includes/admin/affiliates/new.php:115
+#: includes/admin/affiliates/edit.php:234
+#: includes/admin/affiliates/new.php:115
 #: includes/admin/affiliates/new.php:120
 #: includes/admin/settings/class-settings.php:588
 #: includes/integrations/class-woocommerce.php:887
 msgid "Referral Rate Type"
 msgstr "Henvisnings sats type"
 
-#: includes/admin/affiliates/edit.php:236 includes/admin/affiliates/new.php:123
+#: includes/admin/affiliates/edit.php:236
+#: includes/admin/affiliates/new.php:123
 #: includes/integrations/class-woocommerce.php:820
 #: includes/integrations/class-woocommerce.php:889
 msgid "Site Default"
 msgstr "Standard for websted"
 
-#: includes/admin/affiliates/edit.php:246 includes/admin/affiliates/new.php:133
+#: includes/admin/affiliates/edit.php:246
+#: includes/admin/affiliates/new.php:133
 msgid "The affiliate&#8217;s referral rate type."
 msgstr "Den affiliate & #8217; s henvisning satstype."
 
 #: includes/admin/affiliates/edit.php:255
-#: includes/admin/affiliates/edit.php:260 includes/admin/affiliates/new.php:142
+#: includes/admin/affiliates/edit.php:260
+#: includes/admin/affiliates/new.php:142
 #: includes/admin/affiliates/new.php:147
 #: includes/admin/settings/class-settings.php:595
 msgid "Flat Rate Referral Basis"
 msgstr "Nylige henvisnings besøg"
 
-#: includes/admin/affiliates/edit.php:268 includes/admin/affiliates/new.php:155
+#: includes/admin/affiliates/edit.php:268
+#: includes/admin/affiliates/new.php:155
 msgid "The affiliate&#8217;s flat rate referral basis."
 msgstr "Den affiliate & #8217; s henvisning sats."
 
-#: includes/admin/affiliates/edit.php:277 includes/admin/affiliates/new.php:164
+#: includes/admin/affiliates/edit.php:277
+#: includes/admin/affiliates/new.php:164
 #: includes/admin/settings/class-settings.php:603
 #: includes/integrations/class-edd.php:957
 #: includes/integrations/class-edd.php:997
@@ -1209,12 +1252,15 @@ msgstr "Den affiliate & #8217; s henvisning sats."
 msgid "Referral Rate"
 msgstr "Henvisnings rate"
 
-#: includes/admin/affiliates/edit.php:282 includes/admin/affiliates/new.php:169
+#: includes/admin/affiliates/edit.php:282
+#: includes/admin/affiliates/new.php:169
 msgid "The affiliate&#8217;s referral rate, such as 20 for 20%. If left blank, the site default will be used."
 msgstr "Den affiliate & #8217; s henvisning sats, såsom 20 for 20%. Hvis feltet ikke udfyldes, bruges webstedets standard."
 
-#: includes/admin/affiliates/edit.php:292 includes/admin/affiliates/new.php:227
-#: includes/admin/affiliates/review.php:137 includes/class-register.php:570
+#: includes/admin/affiliates/edit.php:292
+#: includes/admin/affiliates/new.php:227
+#: includes/admin/affiliates/review.php:137
+#: includes/class-register.php:570
 msgid "Dynamic Coupon"
 msgstr ""
 
@@ -1231,7 +1277,8 @@ msgstr "Generer webadresse"
 msgid "The affiliate&#8217;s dynamic coupon will use the settings from the selected <a href=\"%s\">coupon template</a>."
 msgstr ""
 
-#: includes/admin/affiliates/edit.php:324 templates/register.php:80
+#: includes/admin/affiliates/edit.php:324
+#: templates/register.php:80
 msgid "Account Email"
 msgstr "Konto email"
 
@@ -1239,7 +1286,8 @@ msgstr "Konto email"
 msgid "The affiliate&#8217;s account email. Updating this will change the email address shown on the user&#8217;s profile page."
 msgstr "Den affiliate & #8217; s konto e-mail. Hvis du opdaterer dette, ændres den e-mailadresse, der vises på bruger & #8217; s-profilsiden."
 
-#: includes/admin/affiliates/edit.php:337 includes/admin/affiliates/new.php:177
+#: includes/admin/affiliates/edit.php:337
+#: includes/admin/affiliates/new.php:177
 #: includes/admin/affiliates/review.php:81
 #: includes/admin/settings/class-settings.php:1066
 #: includes/admin/tools/export/class-batch-export-affiliates.php:106
@@ -1247,20 +1295,24 @@ msgstr "Den affiliate & #8217; s konto e-mail. Hvis du opdaterer dette, ændres 
 #: includes/admin/tools/export/class-export-affiliates.php:52
 #: includes/admin/tools/export/class-export-referrals.php:67
 #: includes/admin/utilities/class-privacy-tools.php:112
-#: includes/misc-functions.php:1205 includes/misc-functions.php:1251
-#: templates/register.php:85 tests/misc/test-misc-functions.php:388
+#: includes/misc-functions.php:1205
+#: includes/misc-functions.php:1251
+#: templates/register.php:85
+#: tests/misc/test-misc-functions.php:388
 #: tests/misc/test-misc-functions.php:426
 msgid "Payment Email"
 msgstr "Betalings-e-mail"
 
-#: includes/admin/affiliates/edit.php:342 includes/admin/affiliates/new.php:183
+#: includes/admin/affiliates/edit.php:342
+#: includes/admin/affiliates/new.php:183
 #: includes/admin/affiliates/new.php:188
 msgid "Affiliate&#8217;s payment email for systems such as PayPal, Moneybookers, or others. Leave blank to use the affiliate&#8217;s user email."
 msgstr "Affiliate & #8217; s betaling e-mail til systemer som PayPal, Moneybookers, eller andre. Efterlad blank for at bruge affiliate & #8217; s bruger e-mail."
 
 #: includes/admin/affiliates/edit.php:352
 #: includes/admin/payouts/class-list-table.php:164
-#: includes/admin/payouts/new.php:89 includes/admin/payouts/preview.php:255
+#: includes/admin/payouts/new.php:89
+#: includes/admin/payouts/preview.php:255
 #: includes/admin/payouts/view.php:110
 #: includes/admin/tools/export/class-batch-export-payouts.php:159
 #: templates/dashboard-tab-payouts.php:38
@@ -1332,11 +1384,13 @@ msgstr "Salgsfremmende metoder"
 msgid "Promotion methods entered by the affiliate during registration."
 msgstr "Salgsfremmende metoder indtastet af affiliate under registreringen."
 
-#: includes/admin/affiliates/edit.php:462 includes/admin/affiliates/new.php:197
+#: includes/admin/affiliates/edit.php:462
+#: includes/admin/affiliates/new.php:197
 msgid "Affiliate Notes"
 msgstr "Affilierede noter"
 
-#: includes/admin/affiliates/edit.php:467 includes/admin/affiliates/new.php:202
+#: includes/admin/affiliates/edit.php:467
+#: includes/admin/affiliates/new.php:202
 msgid "Enter any notes for this affiliate. Notes are only visible to the admin."
 msgstr "Indtast eventuelle noter til denne affiliate. Noter er kun synlige for administratoren."
 
@@ -1400,11 +1454,13 @@ msgid "Send welcome email after registering affiliate?"
 msgstr "Send velkomstmail efter tilmelding affiliate?"
 
 #: includes/admin/affiliates/new.php:233
-#: includes/admin/affiliates/review.php:143 includes/class-register.php:575
+#: includes/admin/affiliates/review.php:143
+#: includes/class-register.php:575
 msgid "Create dynamic coupon for affiliate?"
 msgstr "Tilslut denne kupon med en affiliate?"
 
-#: includes/admin/affiliates/new.php:270 includes/admin/user-profile.php:144
+#: includes/admin/affiliates/new.php:270
+#: includes/admin/user-profile.php:144
 msgid "Add Affiliate"
 msgstr "Tilføje affiliate"
 
@@ -1416,15 +1472,19 @@ msgstr "Anmeld affiliate"
 msgid "Go Back"
 msgstr "Gå tilbage"
 
-#: includes/admin/affiliates/review.php:68 templates/opt-in.php:45
-#: templates/opt-in.php:46 templates/register.php:81
+#: includes/admin/affiliates/review.php:68
+#: templates/opt-in.php:45
+#: templates/opt-in.php:46
+#: templates/register.php:81
 msgid "Email Address"
 msgstr "E-mail Adresse"
 
 #: includes/admin/affiliates/review.php:95
 #: includes/admin/class-upgrades.php:710
-#: includes/admin/settings/class-settings.php:1065 includes/install.php:85
-#: templates/register.php:90 templates/register.php:91
+#: includes/admin/settings/class-settings.php:1065
+#: includes/install.php:85
+#: templates/register.php:90
+#: templates/register.php:91
 msgid "Website URL"
 msgstr "Hjemmeside URL"
 
@@ -1453,7 +1513,8 @@ msgstr "Associeret virksomhed: #% d %s"
 msgid "Recent Payouts"
 msgstr "Seneste udbetalinger"
 
-#: includes/admin/ajax-actions.php:132 includes/admin/ajax-actions.php:313
+#: includes/admin/ajax-actions.php:132
+#: includes/admin/ajax-actions.php:313
 msgid "A batch process ID must be present to continue."
 msgstr "Der skal være et batchproces-id til stede for at fortsætte."
 
@@ -1462,18 +1523,21 @@ msgid "You do not have permission to initiate this request. Contact an administr
 msgstr "Du har ikke tilladelse til at starte denne anmodning. Kontakt en administrator for at få flere oplysninger."
 
 #. translators: Batch process ID
-#: includes/admin/ajax-actions.php:151 includes/admin/ajax-actions.php:323
+#: includes/admin/ajax-actions.php:151
+#: includes/admin/ajax-actions.php:323
 msgid "%s is an invalid batch process ID."
 msgstr "%s er et ugyldigt batchproces-id."
 
 #. translators: Formatted batch process ID
-#: includes/admin/ajax-actions.php:161 includes/admin/ajax-actions.php:333
+#: includes/admin/ajax-actions.php:161
+#: includes/admin/ajax-actions.php:333
 msgid "An invalid file path is registered for the %1$s batch process handler."
 msgstr "Der er registreret en ugyldig filsti for batchproces handleren%1$s."
 
 #. translators: 1: Formatted batch processor class name, 2: Formatted batch
 #. process ID
-#: includes/admin/ajax-actions.php:170 includes/admin/ajax-actions.php:342
+#: includes/admin/ajax-actions.php:170
+#: includes/admin/ajax-actions.php:342
 msgid "%1$s is an invalid handler for the %2$s batch process. Please try again."
 msgstr "%1$s er en ugyldig handler for batchprocessen%2$s. Prøv venligst igen."
 
@@ -1504,7 +1568,8 @@ msgstr "Der er en ny version af %1$s tilgængelig. <a target=\"_blank\" class=\"
 msgid "There is a new version of %1$s available. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s\">update now</a>."
 msgstr "Der er en ny version af %1$s til rådighed. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">Se version %3$s detaljer</a>,  eller <a href=\"%4$s\">opdater nu</a>."
 
-#: includes/admin/class-menu.php:36 includes/admin/overview/overview.php:56
+#: includes/admin/class-menu.php:36
+#: includes/admin/overview/overview.php:56
 #: includes/admin/referrals/contextual-help.php:37
 #: includes/admin/visits/contextual-help.php:37
 msgid "Overview"
@@ -1517,20 +1582,23 @@ msgstr "Quiz/undersøgelse oversigt"
 #: includes/admin/tools/export/class-batch-export-affiliates.php:113
 #: includes/admin/tools/export/class-batch-export-payouts.php:156
 #: includes/admin/tools/export/class-export-affiliates.php:57
-#: includes/admin/tools/tools.php:163 includes/affiliate-functions.php:1803
+#: includes/admin/tools/tools.php:163
+#: includes/affiliate-functions.php:1803
 #: templates/dashboard-tab-referrals.php:7
 #: tests/affiliates/test-affiliate-functions.php:2974
 msgid "Referrals"
 msgstr "Henvisninger"
 
-#: includes/admin/class-menu.php:39 includes/admin/payouts/payouts.php:48
+#: includes/admin/class-menu.php:39
+#: includes/admin/payouts/payouts.php:48
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:45
 #: includes/affiliate-functions.php:1804
 #: tests/affiliates/test-affiliate-functions.php:2975
 msgid "Payouts"
 msgstr "Udbetalinger"
 
-#: includes/admin/class-menu.php:41 includes/admin/creatives/creatives.php:43
+#: includes/admin/class-menu.php:41
+#: includes/admin/creatives/creatives.php:43
 #: includes/affiliate-functions.php:1807
 #: templates/dashboard-tab-creatives.php:3
 #: tests/affiliates/test-affiliate-functions.php:2977
@@ -1541,12 +1609,14 @@ msgstr "Annoncer"
 msgid "Tools"
 msgstr "Værktøjer"
 
-#: includes/admin/class-menu.php:44 includes/affiliate-functions.php:1808
+#: includes/admin/class-menu.php:44
+#: includes/affiliate-functions.php:1808
 #: tests/affiliates/test-affiliate-functions.php:2978
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: includes/admin/class-menu.php:45 includes/admin/tools/migration.php:26
+#: includes/admin/class-menu.php:45
+#: includes/admin/tools/migration.php:26
 msgid "AffiliateWP Migration"
 msgstr "OverFlytning af AffiliateWP"
 
@@ -1752,8 +1822,10 @@ msgstr "Henvisnings sletningen mislykkedes, prøv igen"
 msgid "Your database needs to be upgraded following the AffiliateWP v2.0 update"
 msgstr "Din database skal opgraderes efter den seneste AffiliateWP-opdatering"
 
-#: includes/admin/class-notices.php:521 includes/admin/class-notices.php:543
-#: includes/admin/class-notices.php:566 includes/admin/class-notices.php:589
+#: includes/admin/class-notices.php:521
+#: includes/admin/class-notices.php:543
+#: includes/admin/class-notices.php:566
+#: includes/admin/class-notices.php:589
 msgid "Upgrade Database"
 msgstr "OpgraderingsDatabasen"
 
@@ -1773,7 +1845,8 @@ msgstr "Din database skal opgraderes efter den seneste AffiliateWP-opdatering."
 msgid "Your database tables need to be upgraded following the AffiliateWP v2.6.1 update. Depending on the size of your database, this upgrade could take some time."
 msgstr "Din database skal opgraderes efter den seneste AffiliateWP-opdatering."
 
-#: includes/admin/class-notices.php:612 includes/admin/class-notices.php:635
+#: includes/admin/class-notices.php:612
+#: includes/admin/class-notices.php:635
 msgid "Upgrade Database Tables"
 msgstr "OpgraderingsDatabasen"
 
@@ -1883,13 +1956,16 @@ msgid "Learn more about updating PHP"
 msgstr ""
 
 #. translators: Accessibility text.
-#: includes/admin/class-notices.php:942 includes/core-compatibility.php:191
+#: includes/admin/class-notices.php:942
+#: includes/core-compatibility.php:191
 msgid "(opens in a new tab)"
 msgstr ""
 
 #: includes/admin/class-upgrades.php:709
-#: includes/admin/settings/class-settings.php:1064 includes/install.php:84
-#: templates/register.php:70 templates/register.php:71
+#: includes/admin/settings/class-settings.php:1064
+#: includes/install.php:84
+#: templates/register.php:70
+#: templates/register.php:71
 #: tests/misc/test-misc-functions.php:504
 msgid "Your Name"
 msgstr "Dit navn"
@@ -1916,23 +1992,27 @@ msgid "No creative IDs specified for deletion"
 msgstr "Der er ikke angivet nogen kreative id'er til sletning"
 
 #: includes/admin/creatives/class-list-table.php:99
-#: includes/admin/creatives/edit.php:136 includes/admin/creatives/new.php:113
+#: includes/admin/creatives/edit.php:136
+#: includes/admin/creatives/new.php:113
 #: includes/affiliate-functions.php:380
 #: tests/affiliates/test-affiliate-functions.php:646
 msgid "Active"
 msgstr "Aktiver"
 
 #: includes/admin/creatives/class-list-table.php:100
-#: includes/admin/creatives/edit.php:137 includes/admin/creatives/new.php:114
+#: includes/admin/creatives/edit.php:137
+#: includes/admin/creatives/new.php:114
 #: includes/affiliate-functions.php:381
 #: tests/affiliates/test-affiliate-functions.php:647
 msgid "Inactive"
 msgstr "Inaktiv"
 
 #: includes/admin/creatives/class-list-table.php:117
-#: includes/admin/creatives/edit.php:67 includes/admin/creatives/new.php:66
+#: includes/admin/creatives/edit.php:67
+#: includes/admin/creatives/new.php:66
 #: includes/admin/tools/export/class-batch-export-visits.php:159
-#: templates/dashboard-tab-visits.php:27 templates/dashboard-tab-visits.php:39
+#: templates/dashboard-tab-visits.php:27
+#: templates/dashboard-tab-visits.php:39
 msgid "URL"
 msgstr "URL"
 
@@ -1973,32 +2053,39 @@ msgstr "Er du sikker på, at du vil slette dette annonceindhold?"
 msgid "Edit Creative"
 msgstr "Rediger kreativ"
 
-#: includes/admin/creatives/edit.php:40 includes/admin/creatives/new.php:39
+#: includes/admin/creatives/edit.php:40
+#: includes/admin/creatives/new.php:39
 msgid "The name of this creative. For your identification only."
 msgstr "Navnet på dette kreative. Kun til identifikation."
 
-#: includes/admin/creatives/edit.php:48 includes/admin/creatives/new.php:47
+#: includes/admin/creatives/edit.php:48
+#: includes/admin/creatives/new.php:47
 #: includes/admin/payouts/view.php:173
 #: includes/admin/referrals/class-list-table.php:174
-#: includes/admin/referrals/edit.php:235 includes/admin/referrals/new.php:92
+#: includes/admin/referrals/edit.php:235
+#: includes/admin/referrals/new.php:92
 #: includes/admin/tools/export/class-batch-export-referrals.php:160
 #: includes/admin/tools/export/class-export-referrals.php:71
 #: includes/integrations/extras/class-ninja-forms-action-add-referral.php:96
-#: includes/misc-functions.php:1253 templates/dashboard-tab-referrals.php:41
+#: includes/misc-functions.php:1253
+#: templates/dashboard-tab-referrals.php:41
 #: templates/dashboard-tab-referrals.php:62
 #: tests/misc/test-misc-functions.php:428
 msgid "Description"
 msgstr "Beskrivelse"
 
-#: includes/admin/creatives/edit.php:59 includes/admin/creatives/new.php:58
+#: includes/admin/creatives/edit.php:59
+#: includes/admin/creatives/new.php:58
 msgid "An optional description for this creative. This is visible to affiliates and is displayed above the creative."
 msgstr "En valgfri beskrivelse af dette annonceindhold. Dette er synligt for datterselskaber og vises under det kreative."
 
-#: includes/admin/creatives/edit.php:72 includes/admin/creatives/new.php:71
+#: includes/admin/creatives/edit.php:72
+#: includes/admin/creatives/new.php:71
 msgid "The URL this creative should link to. Based on your Referral Settings, the affiliate&#8217;s ID or username will be automatically appended."
 msgstr "Den webadresse, som dette annonceindhold skal linke til. Baseret på dine henvisnings indstillinger vil affiliate & #8217; s ID eller Brugernavn automatisk blive tilføjet."
 
-#: includes/admin/creatives/edit.php:80 includes/admin/creatives/new.php:79
+#: includes/admin/creatives/edit.php:80
+#: includes/admin/creatives/new.php:79
 msgid "Text"
 msgstr "Tekst"
 
@@ -2006,7 +2093,8 @@ msgstr "Tekst"
 msgid "Text for this creative."
 msgstr "Tekst til dette annonceindhold."
 
-#: includes/admin/creatives/edit.php:93 includes/admin/creatives/new.php:92
+#: includes/admin/creatives/edit.php:93
+#: includes/admin/creatives/new.php:92
 msgid "Image"
 msgstr "Billede"
 
@@ -2022,7 +2110,8 @@ msgstr "Kreativ"
 msgid "The date the creative was created. This cannot be changed."
 msgstr "Den dato, hvor annonceindholdet blev oprettet."
 
-#: includes/admin/creatives/edit.php:139 includes/admin/creatives/new.php:116
+#: includes/admin/creatives/edit.php:139
+#: includes/admin/creatives/new.php:116
 msgid "Select the status of the creative."
 msgstr "Vælg status for annoncen."
 
@@ -2105,16 +2194,19 @@ msgstr "Se"
 #. translators: Payout method label for multiple affiliates
 #: includes/admin/dashboard-widgets.php:159
 #: includes/admin/payouts/class-list-table.php:161
-#: includes/admin/payouts/new.php:35 includes/admin/payouts/preview.php:309
+#: includes/admin/payouts/new.php:35
+#: includes/admin/payouts/preview.php:309
 #: includes/admin/payouts/preview.php:352
 #: includes/admin/payouts/preview.php:382
 #: includes/admin/payouts/preview.php:425
 #: includes/admin/payouts/preview.php:502
 #: includes/admin/payouts/preview.php:545
 #: includes/admin/payouts/submitted.php:60
-#: includes/admin/payouts/submitted.php:109 includes/admin/payouts/view.php:40
+#: includes/admin/payouts/submitted.php:109
+#: includes/admin/payouts/view.php:40
 #: includes/admin/referrals/class-list-table.php:172
-#: includes/admin/referrals/edit.php:56 includes/admin/referrals/new.php:34
+#: includes/admin/referrals/edit.php:56
+#: includes/admin/referrals/new.php:34
 #: includes/admin/tools/export/class-batch-export-payouts.php:155
 #: includes/admin/tools/export/class-batch-export-visits.php:156
 #: includes/admin/visits/class-list-table.php:109
@@ -2128,9 +2220,11 @@ msgstr "Affiliate ID"
 #: includes/admin/payouts/preview.php:312
 #: includes/admin/payouts/preview.php:355
 #: includes/admin/payouts/submitted.php:61
-#: includes/admin/payouts/submitted.php:110 includes/admin/payouts/view.php:66
+#: includes/admin/payouts/submitted.php:110
+#: includes/admin/payouts/view.php:66
 #: includes/admin/referrals/class-list-table.php:171
-#: includes/admin/referrals/edit.php:144 includes/admin/referrals/new.php:49
+#: includes/admin/referrals/edit.php:144
+#: includes/admin/referrals/new.php:49
 #: includes/admin/tools/export/class-batch-export-referrals.php:158
 #: includes/admin/tools/export/class-batch-generate-payouts.php:236
 #: includes/admin/tools/export/class-export-referrals-payout.php:73
@@ -2199,11 +2293,13 @@ msgstr "Vis rapport"
 msgid "No affiliate registrations yet"
 msgstr "Ingen affiliate registreringer endnu"
 
-#: includes/admin/payouts/actions.php:39 includes/admin/payouts/actions.php:96
+#: includes/admin/payouts/actions.php:39
+#: includes/admin/payouts/actions.php:96
 msgid "You do not have permission to process payouts"
 msgstr "Du har ikke tilladelse til at eksportere data"
 
-#: includes/admin/payouts/actions.php:48 includes/admin/payouts/actions.php:108
+#: includes/admin/payouts/actions.php:48
+#: includes/admin/payouts/actions.php:108
 msgid "Invalid payout method"
 msgstr "Ugyldig betalings-e-mail"
 
@@ -2227,13 +2323,15 @@ msgid "Processing"
 msgstr ""
 
 #: includes/admin/payouts/class-list-table.php:141
-#: includes/admin/tools/tools.php:383 includes/referral-functions.php:108
+#: includes/admin/tools/tools.php:383
+#: includes/referral-functions.php:108
 #: tests/referrals/test-referral-functions.php:402
 msgid "Paid"
 msgstr "Betalt"
 
 #: includes/admin/payouts/class-list-table.php:142
-#: includes/admin/tools/tools.php:384 includes/payout-functions.php:190
+#: includes/admin/tools/tools.php:384
+#: includes/payout-functions.php:190
 #: tests/payouts/test-payout-functions.php:300
 msgid "Failed"
 msgstr "Fejlet"
@@ -2253,7 +2351,8 @@ msgstr "Generet af"
 
 #: includes/admin/payouts/class-list-table.php:165
 #: includes/admin/payouts/submitted.php:62
-#: includes/admin/payouts/submitted.php:111 includes/admin/payouts/view.php:122
+#: includes/admin/payouts/submitted.php:111
+#: includes/admin/payouts/view.php:122
 #: includes/admin/tools/export/class-batch-export-payouts.php:160
 #: templates/dashboard-tab-payouts.php:40
 #: templates/dashboard-tab-payouts.php:73
@@ -2334,7 +2433,8 @@ msgstr ""
 msgid "Error:"
 msgstr "Fejl:"
 
-#: includes/admin/payouts/new.php:15 includes/admin/payouts/payouts.php:56
+#: includes/admin/payouts/new.php:15
+#: includes/admin/payouts/payouts.php:56
 #: includes/admin/referrals/referrals.php:52
 msgid "Pay Affiliates"
 msgstr "Partnere"
@@ -2353,8 +2453,10 @@ msgstr "Udbetalings dato"
 
 #: includes/admin/payouts/new.php:54
 #: includes/admin/referrals/class-list-table.php:652
-#: includes/admin/tools/tools.php:352 includes/admin/tools/tools.php:379
-#: includes/admin/tools/tools.php:404 includes/admin/visits/visits.php:64
+#: includes/admin/tools/tools.php:352
+#: includes/admin/tools/tools.php:379
+#: includes/admin/tools/tools.php:404
+#: includes/admin/visits/visits.php:64
 #: includes/class-graph.php:445
 msgid "From - mm/dd/yyyy"
 msgstr "Fra-mm/dd/åååå"
@@ -2369,8 +2471,10 @@ msgstr "Dato"
 
 #: includes/admin/payouts/new.php:67
 #: includes/admin/referrals/class-list-table.php:653
-#: includes/admin/tools/tools.php:353 includes/admin/tools/tools.php:380
-#: includes/admin/tools/tools.php:405 includes/admin/visits/visits.php:65
+#: includes/admin/tools/tools.php:353
+#: includes/admin/tools/tools.php:380
+#: includes/admin/tools/tools.php:405
+#: includes/admin/visits/visits.php:65
 #: includes/class-graph.php:447
 msgid "To - mm/dd/yyyy"
 msgstr "Til-mm/dd/åååå"
@@ -2550,12 +2654,14 @@ msgid "Referral ID"
 msgstr "Henvisnings-id"
 
 #: includes/admin/referrals/class-list-table.php:173
-#: includes/admin/referrals/edit.php:248 includes/admin/referrals/new.php:105
+#: includes/admin/referrals/edit.php:248
+#: includes/admin/referrals/new.php:105
 #: includes/admin/tools/export/class-batch-export-referrals.php:162
 #: includes/admin/tools/export/class-export-referrals.php:73
 #: includes/integrations/class-lifterlms.php:694
 #: includes/integrations/class-lifterlms.php:719
-#: includes/misc-functions.php:1255 templates/dashboard-tab-referrals.php:39
+#: includes/misc-functions.php:1255
+#: templates/dashboard-tab-referrals.php:39
 #: templates/dashboard-tab-referrals.php:60
 #: tests/misc/test-misc-functions.php:430
 msgid "Reference"
@@ -2564,21 +2670,25 @@ msgstr "Reference"
 #: includes/admin/referrals/class-list-table.php:175
 #: includes/admin/tools/export/class-batch-export-referrals.php:165
 #: includes/admin/tools/export/class-export-referrals.php:76
-#: includes/misc-functions.php:1258 tests/misc/test-misc-functions.php:433
+#: includes/misc-functions.php:1258
+#: tests/misc/test-misc-functions.php:433
 msgid "Type"
 msgstr "Pris type"
 
 #: includes/admin/referrals/class-list-table.php:176
-#: includes/admin/referrals/edit.php:178 includes/admin/referrals/new.php:79
+#: includes/admin/referrals/edit.php:178
+#: includes/admin/referrals/new.php:79
 #: includes/admin/tools/export/class-batch-export-referrals.php:166
 #: includes/admin/tools/export/class-export-referrals.php:77
 #: includes/admin/tools/export/class-export.php:85
 #: includes/admin/visits/class-list-table.php:110
-#: includes/misc-functions.php:1259 templates/dashboard-tab-payouts.php:36
+#: includes/misc-functions.php:1259
+#: templates/dashboard-tab-payouts.php:36
 #: templates/dashboard-tab-payouts.php:63
 #: templates/dashboard-tab-referrals.php:43
 #: templates/dashboard-tab-referrals.php:64
-#: templates/dashboard-tab-visits.php:30 templates/dashboard-tab-visits.php:51
+#: templates/dashboard-tab-visits.php:30
+#: templates/dashboard-tab-visits.php:51
 #: tests/misc/test-misc-functions.php:434
 msgid "Date"
 msgstr "Dato"
@@ -2724,7 +2834,8 @@ msgstr "Ingen | %1$s"
 msgid "Pay Out"
 msgstr "Betal ud"
 
-#: includes/admin/referrals/edit.php:129 includes/admin/referrals/edit.php:200
+#: includes/admin/referrals/edit.php:129
+#: includes/admin/referrals/edit.php:200
 #: includes/admin/reports/tabs/class-referrals-reports-tab.php:71
 #: includes/admin/settings/class-settings.php:679
 msgid "None"
@@ -2734,18 +2845,21 @@ msgstr "Ingen"
 msgid "The referral amount cannot be changed once it has been included in a payout."
 msgstr "Henvisnings beløbet kan ikke ændres, når det er medtaget i en udbetaling."
 
-#: includes/admin/referrals/edit.php:152 includes/admin/referrals/new.php:54
+#: includes/admin/referrals/edit.php:152
+#: includes/admin/referrals/new.php:54
 msgid "The amount of the referral, such as 15."
 msgstr "Størrelsen af henvisningen, såsom 15."
 
-#: includes/admin/referrals/edit.php:161 includes/admin/referrals/new.php:62
+#: includes/admin/referrals/edit.php:161
+#: includes/admin/referrals/new.php:62
 #: includes/integrations/class-formidablepro.php:154
 #: includes/integrations/class-gravityforms.php:379
 #: includes/integrations/extras/class-ninja-forms-action-add-referral.php:112
 msgid "Referral Type"
 msgstr "Henvisnings sats type"
 
-#: includes/admin/referrals/edit.php:170 includes/admin/referrals/new.php:71
+#: includes/admin/referrals/edit.php:170
+#: includes/admin/referrals/new.php:71
 msgid "Select the type of the referral."
 msgstr "Vælg statussen for henvisningen."
 
@@ -2762,19 +2876,23 @@ msgstr "Besøg Plugin Site for mere information"
 msgid "URL: %1$s (ID: #%2$s)"
 msgstr "URL-adresse:%1$s (ID: #%2$s)"
 
-#: includes/admin/referrals/edit.php:240 includes/admin/referrals/new.php:97
+#: includes/admin/referrals/edit.php:240
+#: includes/admin/referrals/new.php:97
 msgid "Enter a description for this referral."
 msgstr "Angiv en beskrivelse af denne henvisning."
 
-#: includes/admin/referrals/edit.php:253 includes/admin/referrals/new.php:110
+#: includes/admin/referrals/edit.php:253
+#: includes/admin/referrals/new.php:110
 msgid "Enter a reference for this referral (optional). Usually this would be the transaction ID of the associated purchase."
 msgstr "Angiv en reference til denne henvisning (valgfrit). Normalt ville det være transaktionens ID for det tilknyttede køb."
 
-#: includes/admin/referrals/edit.php:261 includes/admin/referrals/new.php:118
+#: includes/admin/referrals/edit.php:261
+#: includes/admin/referrals/new.php:118
 #: includes/admin/tools/export/class-batch-export-referrals.php:163
 #: includes/admin/tools/export/class-batch-export-visits.php:161
 #: includes/admin/tools/export/class-export-referrals.php:74
-#: includes/misc-functions.php:1256 tests/misc/test-misc-functions.php:431
+#: includes/misc-functions.php:1256
+#: tests/misc/test-misc-functions.php:431
 msgid "Context"
 msgstr "Kontekst"
 
@@ -2782,7 +2900,8 @@ msgstr "Kontekst"
 msgid "Context for this referral (optional). Usually this is used to identify the payment system or integration that was used for the transaction."
 msgstr "Konteksten for denne henvisning (valgfrit). Dette bruges normalt til at identificere det betalingssystem eller den integration, der blev brugt til transaktionen."
 
-#: includes/admin/referrals/edit.php:277 includes/admin/referrals/new.php:131
+#: includes/admin/referrals/edit.php:277
+#: includes/admin/referrals/new.php:131
 #: includes/admin/reports/tabs/class-campaigns-reports-tab.php:149
 #: includes/admin/reports/tabs/class-campaigns-reports-tab.php:189
 #: includes/admin/reports/tabs/class-campaigns-reports-tab.php:236
@@ -2799,7 +2918,8 @@ msgstr "Angiv en beskrivelse af denne henvisning."
 msgid "The referral status cannot be changed once it has been included in a payout."
 msgstr "Henvisnings statussen kan ikke ændres, når den er medtaget i en udbetaling."
 
-#: includes/admin/referrals/edit.php:306 includes/admin/referrals/new.php:158
+#: includes/admin/referrals/edit.php:306
+#: includes/admin/referrals/new.php:158
 msgid "Select the status of the referral."
 msgstr "Vælg statussen for henvisningen."
 
@@ -3118,8 +3238,10 @@ msgstr "Konverteringsrate"
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:177
 #: includes/admin/tools/export/class-batch-export-affiliates.php:115
 #: includes/admin/tools/export/class-export-affiliates.php:59
-#: templates/dashboard-tab-stats.php:14 templates/dashboard-tab-stats.php:23
-#: templates/dashboard-tab-stats.php:92 templates/dashboard-tab-stats.php:104
+#: templates/dashboard-tab-stats.php:14
+#: templates/dashboard-tab-stats.php:23
+#: templates/dashboard-tab-stats.php:92
+#: templates/dashboard-tab-stats.php:104
 msgid "Conversion Rate"
 msgstr "Konverteringsrate"
 
@@ -3164,7 +3286,8 @@ msgstr "Indtast venligst din licens nøgle. Der kræves en aktiv licens nøgle t
 msgid "Pages"
 msgstr "Sider"
 
-#: includes/admin/settings/class-settings.php:525 includes/install.php:65
+#: includes/admin/settings/class-settings.php:525
+#: includes/install.php:65
 msgid "Affiliate Area"
 msgstr "Affiliate-område"
 
@@ -3189,7 +3312,8 @@ msgid "Enter the text you would like shown for the Terms of Use checkbox."
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:542
-#: templates/payouts/register.php:192 templates/register.php:127
+#: templates/payouts/register.php:192
+#: templates/register.php:127
 msgid "Agree to our Terms of Use and Privacy Policy"
 msgstr ""
 
@@ -3290,7 +3414,8 @@ msgstr "Konfigurer valutaindstillingerne"
 #: includes/admin/tools/export/class-batch-generate-payouts.php:237
 #: includes/admin/tools/export/class-export-referrals-payout.php:74
 #: includes/admin/tools/export/class-export-referrals.php:70
-#: includes/misc-functions.php:1252 tests/misc/test-misc-functions.php:427
+#: includes/misc-functions.php:1252
+#: tests/misc/test-misc-functions.php:427
 msgid "Currency"
 msgstr "Valuta"
 
@@ -3377,7 +3502,8 @@ msgid "Opt-In Referral Status"
 msgstr "Henvisnings Statusser"
 
 #: includes/admin/settings/class-settings.php:727
-#: includes/affiliate-functions.php:382 includes/referral-functions.php:111
+#: includes/affiliate-functions.php:382
+#: includes/referral-functions.php:111
 #: tests/affiliates/test-affiliate-functions.php:648
 #: tests/referrals/test-referral-functions.php:405
 msgid "Pending"
@@ -3791,12 +3917,14 @@ msgstr "Påkrævede registrerings felter"
 msgid "Select which fields should be required for affiliate registration. The <strong>Username</strong> and <strong>Account Email</strong> form fields are always required. The <strong>Password</strong> form field will be removed if not required."
 msgstr "Vælg, hvilke felter der skal kræves til affiliate-registrering. Formularfelterne <strong> Brugernavn </strong>, <strong> konto mail </strong> og <strong> adgangskode </strong> er altid påkrævede."
 
-#: includes/admin/settings/class-settings.php:1063 templates/login.php:34
+#: includes/admin/settings/class-settings.php:1063
+#: templates/login.php:34
 #: templates/register.php:102
 msgid "Password"
 msgstr "Adgangskode"
 
-#: includes/admin/settings/class-settings.php:1067 templates/register.php:95
+#: includes/admin/settings/class-settings.php:1067
+#: templates/register.php:95
 msgid "How will you promote us?"
 msgstr "Hvordan vil du fremme os?"
 
@@ -4003,7 +4131,8 @@ msgid "Misc"
 msgstr "Div"
 
 #: includes/admin/settings/display-settings.php:68
-#: includes/admin/tools/tools.php:104 includes/affiliate-functions.php:1806
+#: includes/admin/tools/tools.php:104
+#: includes/affiliate-functions.php:1806
 #: templates/dashboard-tab-coupons.php:8
 msgid "Coupons"
 msgstr ""
@@ -4104,32 +4233,38 @@ msgid "Email"
 msgstr "Email"
 
 #: includes/admin/tools/export/class-batch-export-affiliates.php:104
-#: includes/admin/utilities/class-privacy-tools.php:177 templates/opt-in.php:35
+#: includes/admin/utilities/class-privacy-tools.php:177
+#: templates/opt-in.php:35
 #: templates/opt-in.php:36
 msgid "First Name"
 msgstr "Fra navn"
 
 #: includes/admin/tools/export/class-batch-export-affiliates.php:105
 #: includes/admin/utilities/class-privacy-tools.php:181
-#: includes/misc-functions.php:1204 templates/opt-in.php:40
-#: templates/opt-in.php:41 tests/misc/test-misc-functions.php:387
+#: includes/misc-functions.php:1204
+#: templates/opt-in.php:40
+#: templates/opt-in.php:41
+#: tests/misc/test-misc-functions.php:387
 msgid "Last Name"
 msgstr "Sidste uge"
 
 #: includes/admin/tools/export/class-batch-export-affiliates.php:109
 #: includes/admin/tools/export/class-export-affiliates.php:55
-#: includes/misc-functions.php:1207 tests/misc/test-misc-functions.php:390
+#: includes/misc-functions.php:1207
+#: tests/misc/test-misc-functions.php:390
 msgid "Rate Type"
 msgstr "Pris type"
 
 #: includes/admin/tools/export/class-batch-export-affiliates.php:110
-#: includes/misc-functions.php:1208 tests/misc/test-misc-functions.php:391
+#: includes/misc-functions.php:1208
+#: tests/misc/test-misc-functions.php:391
 msgid "Flat Rate Basis"
 msgstr ""
 
 #: includes/admin/tools/export/class-batch-export-affiliates.php:111
 #: includes/admin/tools/export/class-export-affiliates.php:56
-#: includes/misc-functions.php:1209 tests/misc/test-misc-functions.php:392
+#: includes/misc-functions.php:1209
+#: tests/misc/test-misc-functions.php:392
 msgid "Earnings"
 msgstr "Indtjeninger"
 
@@ -4149,8 +4284,10 @@ msgstr "Der blev ikke valgt en gyldig udbetalings status til eksport."
 #: includes/admin/tools/export/class-batch-export-referrals.php:161
 #: includes/admin/tools/export/class-batch-export-visits.php:158
 #: includes/admin/tools/export/class-export-referrals.php:72
-#: includes/misc-functions.php:1254 templates/dashboard-tab-stats.php:88
-#: templates/dashboard-tab-stats.php:100 tests/misc/test-misc-functions.php:429
+#: includes/misc-functions.php:1254
+#: templates/dashboard-tab-stats.php:88
+#: templates/dashboard-tab-stats.php:100
+#: tests/misc/test-misc-functions.php:429
 msgid "Campaign"
 msgstr "Kampagne"
 
@@ -4166,8 +4303,10 @@ msgstr "Besøg Plugin Site for mere information"
 #: includes/admin/tools/export/class-batch-export-visits.php:157
 #: includes/admin/tools/tools.php:408
 #: includes/admin/visits/class-list-table.php:107
-#: includes/admin/visits/visits.php:70 templates/dashboard-tab-stats.php:91
-#: templates/dashboard-tab-stats.php:103 templates/dashboard-tab-visits.php:29
+#: includes/admin/visits/visits.php:70
+#: templates/dashboard-tab-stats.php:91
+#: templates/dashboard-tab-stats.php:103
+#: templates/dashboard-tab-visits.php:29
 #: templates/dashboard-tab-visits.php:45
 msgid "Converted"
 msgstr "Konverteret"
@@ -4259,11 +4398,13 @@ msgstr "Recount affiliate statistik"
 msgid "Use this tool to recount statistics for one or all affiliates."
 msgstr "Brug dette værktøj til at fortælle affiliate statistik."
 
-#: includes/admin/tools/tools.php:166 includes/admin/tools/tools.php:187
+#: includes/admin/tools/tools.php:166
+#: includes/admin/tools/tools.php:187
 msgid "Enter the name of the affiliate or begin typing to perform a search based on the affiliate&#8217;s name."
 msgstr "Indtast navnet på affiliate eller begynde at skrive for at udføre en søgning baseret på affiliate & #8217; s navn."
 
-#: includes/admin/tools/tools.php:170 includes/admin/tools/tools.php:191
+#: includes/admin/tools/tools.php:170
+#: includes/admin/tools/tools.php:191
 msgid "Recount"
 msgstr "Fortælle"
 
@@ -4335,12 +4476,15 @@ msgstr "Eksporter associerede selskaber"
 msgid "Export affiliates to a CSV file."
 msgstr "Eksporter associerede selskaber til en CSV-fil."
 
-#: includes/admin/tools/tools.php:329 includes/admin/tools/tools.php:356
+#: includes/admin/tools/tools.php:329
+#: includes/admin/tools/tools.php:356
 msgid "All Statuses"
 msgstr "Alle statusser"
 
-#: includes/admin/tools/tools.php:337 includes/admin/tools/tools.php:364
-#: includes/admin/tools/tools.php:389 includes/admin/tools/tools.php:414
+#: includes/admin/tools/tools.php:337
+#: includes/admin/tools/tools.php:364
+#: includes/admin/tools/tools.php:389
+#: includes/admin/tools/tools.php:414
 #: includes/admin/tools/tools.php:428
 msgid "Export"
 msgstr "Eksporter"
@@ -4377,7 +4521,8 @@ msgstr "Eksporter associerede selskaber"
 msgid "Export visits to a CSV file."
 msgstr "Eksporter associerede selskaber til en CSV-fil."
 
-#: includes/admin/tools/tools.php:409 includes/admin/visits/visits.php:71
+#: includes/admin/tools/tools.php:409
+#: includes/admin/visits/visits.php:71
 msgid "Unconverted"
 msgstr "Konverterede"
 
@@ -4413,7 +4558,8 @@ msgstr "Eksporter associerede selskaber"
 msgid "Import a CSV of affiliate records."
 msgstr ""
 
-#: includes/admin/tools/tools.php:462 includes/admin/tools/tools.php:510
+#: includes/admin/tools/tools.php:462
+#: includes/admin/tools/tools.php:510
 msgid "Import CSV"
 msgstr "Importer"
 
@@ -4426,15 +4572,18 @@ msgstr ""
 msgid "Affiliate Field"
 msgstr "Affiliate #% d"
 
-#: includes/admin/tools/tools.php:482 includes/admin/tools/tools.php:530
+#: includes/admin/tools/tools.php:482
+#: includes/admin/tools/tools.php:530
 msgid "CSV Column"
 msgstr ""
 
-#: includes/admin/tools/tools.php:483 includes/admin/tools/tools.php:531
+#: includes/admin/tools/tools.php:483
+#: includes/admin/tools/tools.php:531
 msgid "Data Preview"
 msgstr "Billede forhåndsvisning"
 
-#: includes/admin/tools/tools.php:491 includes/admin/tools/tools.php:539
+#: includes/admin/tools/tools.php:491
+#: includes/admin/tools/tools.php:539
 msgid "Process Import"
 msgstr "Importer"
 
@@ -4529,15 +4678,18 @@ msgstr "Registreret"
 msgid "Affiliate Actions"
 msgstr "Affiliate handlinger"
 
-#: includes/admin/user-profile.php:91 templates/register.php:156
+#: includes/admin/user-profile.php:91
+#: templates/register.php:156
 msgid "Register"
 msgstr "Registrer"
 
-#: includes/admin/user-profile.php:102 includes/class-register.php:582
+#: includes/admin/user-profile.php:102
+#: includes/class-register.php:582
 msgid "Disable Affiliate Email"
 msgstr "Deaktiver affiliate email"
 
-#: includes/admin/user-profile.php:104 includes/class-register.php:584
+#: includes/admin/user-profile.php:104
+#: includes/class-register.php:584
 msgid "Disable the application accepted email sent to the affiliate."
 msgstr "Deaktiver programmet accepterede e-mail sendt til affiliate."
 
@@ -4605,7 +4757,8 @@ msgid "Landing Page"
 msgstr "Destinationsside"
 
 #: includes/admin/visits/class-list-table.php:105
-#: templates/dashboard-tab-visits.php:28 templates/dashboard-tab-visits.php:44
+#: templates/dashboard-tab-visits.php:28
+#: templates/dashboard-tab-visits.php:44
 msgid "Referring URL"
 msgstr "Refererende webadresse"
 
@@ -4694,7 +4847,8 @@ msgstr "Antal besøg pr. side:"
 msgid "Filter by status"
 msgstr "Filtrér efter status"
 
-#: includes/affiliate-functions.php:383 includes/referral-functions.php:110
+#: includes/affiliate-functions.php:383
+#: includes/referral-functions.php:110
 #: tests/affiliates/test-affiliate-functions.php:649
 #: tests/referrals/test-referral-functions.php:404
 msgid "Rejected"
@@ -4717,12 +4871,14 @@ msgstr ""
 msgid "Flat Rate Commission Per Order"
 msgstr ""
 
-#: includes/affiliate-functions.php:1800 templates/dashboard-tab-urls.php:6
+#: includes/affiliate-functions.php:1800
+#: templates/dashboard-tab-urls.php:6
 #: tests/affiliates/test-affiliate-functions.php:2971
 msgid "Affiliate URLs"
 msgstr "Affilierede webadresser"
 
-#: includes/affiliate-functions.php:1801 templates/dashboard-tab-stats.php:6
+#: includes/affiliate-functions.php:1801
+#: templates/dashboard-tab-stats.php:6
 #: tests/affiliates/test-affiliate-functions.php:2972
 msgid "Statistics"
 msgstr "Statistikker"
@@ -4732,7 +4888,8 @@ msgstr "Statistikker"
 msgid "Graphs"
 msgstr "Grafer"
 
-#: includes/class-affiliate-wp.php:315 includes/class-affiliate-wp.php:327
+#: includes/class-affiliate-wp.php:315
+#: includes/class-affiliate-wp.php:327
 msgid "Cheatin&#8217; huh?"
 msgstr "Snyder &#8217;  du?"
 
@@ -4760,7 +4917,8 @@ msgstr ""
 msgid "WP eCommerce"
 msgstr ""
 
-#: includes/class-login.php:77 includes/class-register.php:110
+#: includes/class-login.php:77
+#: includes/class-register.php:110
 msgid "Invalid username"
 msgstr "Forkert brugernavn"
 
@@ -4768,7 +4926,8 @@ msgstr "Forkert brugernavn"
 msgid "No such user"
 msgstr "Brugeren findes ikke"
 
-#: includes/class-login.php:105 includes/class-register.php:329
+#: includes/class-login.php:105
+#: includes/class-register.php:329
 msgid "Please enter a password"
 msgstr "Indtast venligst din adgangskode"
 
@@ -4886,7 +5045,8 @@ msgstr "Brugernavnet er optaget"
 msgid "Invalid username. Only lowercase letters (a-z) and numbers are allowed"
 msgstr "Ugyldigt brugernavn. Kun små bogstaver (a-z) og tal er tilladt"
 
-#: includes/class-register.php:115 includes/class-register.php:252
+#: includes/class-register.php:115
+#: includes/class-register.php:252
 msgid "Invalid username. Must be between 1 and 60 characters."
 msgstr "Ugyldigt brugernavn. Skal være mellem 1 og 60 tegn."
 
@@ -5343,7 +5503,8 @@ msgstr "Henvisningen blev opdateret."
 msgid "The referral could not be updated"
 msgstr "Henvisningen kunne ikke opdateres"
 
-#: includes/cli/class-referral-sub-commands.php:311 includes/scripts.php:149
+#: includes/cli/class-referral-sub-commands.php:311
+#: includes/scripts.php:149
 msgid "Are you sure you want to delete this referral?"
 msgstr "Er du sikker på, at du vil slette denne henvisning?"
 
@@ -5443,7 +5604,8 @@ msgstr ""
 msgid "Dynamic"
 msgstr ""
 
-#: includes/creative-functions.php:44 includes/creative-functions.php:77
+#: includes/creative-functions.php:44
+#: includes/creative-functions.php:77
 msgid "Creative"
 msgstr "Kreativ"
 
@@ -5472,7 +5634,8 @@ msgid "Review pending applications: %s"
 msgstr "Gennemse ventende programmer: %s"
 
 #. translators: Affiliate name
-#: includes/emails/actions.php:155 includes/emails/actions.php:374
+#: includes/emails/actions.php:155
+#: includes/emails/actions.php:374
 msgid "Congratulations %s!"
 msgstr "Tillykke %s!"
 
@@ -5481,7 +5644,8 @@ msgstr "Tillykke %s!"
 msgid "Log into your affiliate area at %s"
 msgstr "Log på dit affiliate-område på %s"
 
-#: includes/emails/actions.php:192 includes/emails/actions.php:205
+#: includes/emails/actions.php:192
+#: includes/emails/actions.php:205
 #: includes/emails/actions.php:268
 msgid "To set your password, visit the following address:"
 msgstr ""
@@ -6363,46 +6527,56 @@ msgstr "Ukrainske hryvnia"
 msgid "Vietnamese Dong"
 msgstr "Vietnamese Dong"
 
-#: includes/misc-functions.php:1201 includes/misc-functions.php:1220
+#: includes/misc-functions.php:1201
+#: includes/misc-functions.php:1220
 #: tests/misc/test-misc-functions.php:384
 msgid "Email (required)"
 msgstr ""
 
-#: includes/misc-functions.php:1203 tests/misc/test-misc-functions.php:386
+#: includes/misc-functions.php:1203
+#: tests/misc/test-misc-functions.php:386
 msgid "First/Full Name"
 msgstr ""
 
-#: includes/misc-functions.php:1211 tests/misc/test-misc-functions.php:394
+#: includes/misc-functions.php:1211
+#: tests/misc/test-misc-functions.php:394
 msgid "Referral Count"
 msgstr "Henvisnings Beløb"
 
-#: includes/misc-functions.php:1212 tests/misc/test-misc-functions.php:395
+#: includes/misc-functions.php:1212
+#: tests/misc/test-misc-functions.php:395
 msgid "Visit Count"
 msgstr "Besøg Plugin Site for mere information"
 
-#: includes/misc-functions.php:1245 includes/misc-functions.php:1264
+#: includes/misc-functions.php:1245
+#: includes/misc-functions.php:1264
 #: tests/misc/test-misc-functions.php:420
 msgid "Affiliate ID or Username (required)"
 msgstr ""
 
-#: includes/misc-functions.php:1246 includes/misc-functions.php:1268
+#: includes/misc-functions.php:1246
+#: includes/misc-functions.php:1268
 #: tests/misc/test-misc-functions.php:421
 msgid "Amount (required)"
 msgstr ""
 
-#: includes/misc-functions.php:1247 tests/misc/test-misc-functions.php:422
+#: includes/misc-functions.php:1247
+#: tests/misc/test-misc-functions.php:422
 msgid "Affiliate Email"
 msgstr "Deaktiver affiliate email"
 
-#: includes/misc-functions.php:1248 tests/misc/test-misc-functions.php:423
+#: includes/misc-functions.php:1248
+#: tests/misc/test-misc-functions.php:423
 msgid "Affiliate Username"
 msgstr "Affiliate navn"
 
-#: includes/misc-functions.php:1249 tests/misc/test-misc-functions.php:424
+#: includes/misc-functions.php:1249
+#: tests/misc/test-misc-functions.php:424
 msgid "Affiliate First/Full Name"
 msgstr "Affiliate navn"
 
-#: includes/misc-functions.php:1250 tests/misc/test-misc-functions.php:425
+#: includes/misc-functions.php:1250
+#: tests/misc/test-misc-functions.php:425
 msgid "Affiliate Last Name"
 msgstr "Affiliate navn"
 
@@ -6414,67 +6588,83 @@ msgstr ""
 msgid "- Select field to preview data -"
 msgstr ""
 
-#: includes/misc-functions.php:1388 includes/misc-functions.php:1424
+#: includes/misc-functions.php:1388
+#: includes/misc-functions.php:1424
 msgid "Austria"
 msgstr ""
 
-#: includes/misc-functions.php:1389 includes/misc-functions.php:1425
+#: includes/misc-functions.php:1389
+#: includes/misc-functions.php:1425
 msgid "Belgium"
 msgstr ""
 
-#: includes/misc-functions.php:1390 includes/misc-functions.php:1431
+#: includes/misc-functions.php:1390
+#: includes/misc-functions.php:1431
 msgid "Denmark"
 msgstr ""
 
-#: includes/misc-functions.php:1391 includes/misc-functions.php:1433
+#: includes/misc-functions.php:1391
+#: includes/misc-functions.php:1433
 msgid "Finland"
 msgstr ""
 
-#: includes/misc-functions.php:1392 includes/misc-functions.php:1434
+#: includes/misc-functions.php:1392
+#: includes/misc-functions.php:1434
 msgid "France"
 msgstr ""
 
-#: includes/misc-functions.php:1393 includes/misc-functions.php:1435
+#: includes/misc-functions.php:1393
+#: includes/misc-functions.php:1435
 msgid "Germany"
 msgstr ""
 
-#: includes/misc-functions.php:1394 includes/misc-functions.php:1442
+#: includes/misc-functions.php:1394
+#: includes/misc-functions.php:1442
 msgid "Ireland"
 msgstr ""
 
-#: includes/misc-functions.php:1395 includes/misc-functions.php:1443
+#: includes/misc-functions.php:1395
+#: includes/misc-functions.php:1443
 msgid "Italy"
 msgstr ""
 
-#: includes/misc-functions.php:1396 includes/misc-functions.php:1446
+#: includes/misc-functions.php:1396
+#: includes/misc-functions.php:1446
 msgid "Luxembourg"
 msgstr ""
 
-#: includes/misc-functions.php:1397 includes/misc-functions.php:1450
+#: includes/misc-functions.php:1397
+#: includes/misc-functions.php:1450
 msgid "Netherlands"
 msgstr ""
 
-#: includes/misc-functions.php:1398 includes/misc-functions.php:1452
+#: includes/misc-functions.php:1398
+#: includes/misc-functions.php:1452
 msgid "Norway"
 msgstr ""
 
-#: includes/misc-functions.php:1399 includes/misc-functions.php:1454
+#: includes/misc-functions.php:1399
+#: includes/misc-functions.php:1454
 msgid "Portugal"
 msgstr ""
 
-#: includes/misc-functions.php:1400 includes/misc-functions.php:1459
+#: includes/misc-functions.php:1400
+#: includes/misc-functions.php:1459
 msgid "Spain"
 msgstr ""
 
-#: includes/misc-functions.php:1401 includes/misc-functions.php:1460
+#: includes/misc-functions.php:1401
+#: includes/misc-functions.php:1460
 msgid "Sweden"
 msgstr ""
 
-#: includes/misc-functions.php:1402 includes/misc-functions.php:1461
+#: includes/misc-functions.php:1402
+#: includes/misc-functions.php:1461
 msgid "Switzerland"
 msgstr ""
 
-#: includes/misc-functions.php:1403 includes/misc-functions.php:1421
+#: includes/misc-functions.php:1403
+#: includes/misc-functions.php:1421
 msgid "United Kingdom"
 msgstr ""
 
@@ -6707,7 +6897,8 @@ msgstr "Nye affiliate"
 msgid "Please enter a valid URL for this site"
 msgstr "Angiv en gyldig URL-adresse til dette websted"
 
-#: includes/scripts.php:199 templates/payouts/register.php:120
+#: includes/scripts.php:199
+#: templates/payouts/register.php:120
 msgid "Your Country of Residence"
 msgstr ""
 
@@ -6773,11 +6964,13 @@ msgstr "Aktivér nye henvisnings notifikationer"
 msgid "Save Profile Settings"
 msgstr "Gem Profilindstillinger"
 
-#: templates/dashboard-tab-stats.php:47 templates/dashboard-tab-stats.php:55
+#: templates/dashboard-tab-stats.php:47
+#: templates/dashboard-tab-stats.php:55
 msgid "Commission Rate"
 msgstr "Provision sats"
 
-#: templates/dashboard-tab-stats.php:90 templates/dashboard-tab-stats.php:102
+#: templates/dashboard-tab-stats.php:90
+#: templates/dashboard-tab-stats.php:102
 msgid "Unique Links"
 msgstr "Unikke links"
 
@@ -6914,7 +7107,8 @@ msgstr ""
 msgid "An email has been sent to %s with a link to change the payout method"
 msgstr ""
 
-#: templates/payouts/payout-method.php:49 templates/payouts/register.php:94
+#: templates/payouts/payout-method.php:49
+#: templates/payouts/register.php:94
 msgid "Payout Settings"
 msgstr "Eksportindstillinger"
 
@@ -7093,7 +7287,8 @@ msgctxt "Integrations"
 msgid "Dismiss Notice"
 msgstr "Meddelelse om afvisning"
 
-#: includes/admin/class-notices.php:794 includes/admin/class-notices.php:810
+#: includes/admin/class-notices.php:794
+#: includes/admin/class-notices.php:810
 msgctxt "License"
 msgid "Dismiss Notice"
 msgstr "Meddelelse om afvisning"

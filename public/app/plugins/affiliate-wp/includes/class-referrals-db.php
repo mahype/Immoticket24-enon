@@ -746,7 +746,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 		$where .= empty( $where ) ? "WHERE " : "AND ";
 		if( empty( $args['status'] ) ) {
 
-			$where .= "`status` != 'draft' ";
+			$where .= "`status` != 'draft' AND `status` != 'failed' ";
 
 		} else {
 

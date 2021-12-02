@@ -195,6 +195,10 @@ class Affiliate_WP_Admin_Notices {
 			$output .= self::show_notice( 'migrate_affiliate_user_meta', false );
 		}
 
+		if ( false === affwp_has_upgrade_completed( 'upgrade_v281_convert_failed_referrals' ) ) {
+			$output .= self::show_notice( 'upgrade_v281_convert_failed_referrals', false );
+		}
+
 		// Payouts Service.
 		if ( in_array( affwp_get_current_screen(), array( 'affiliate-wp-referrals', 'affiliate-wp-payouts' ), true ) ) {
 			$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
@@ -571,7 +575,7 @@ class Affiliate_WP_Admin_Notices {
 	 */
 	private function referral_notices() {
 		$this->add_notice( 'referral_added', array(
-			'message' => __( 'Referral added successfully', 'affiliate-wp' ),
+			'message' => __( 'Referral added successfully.', 'affiliate-wp' ),
 		) );
 
 		$this->add_notice( 'referral_add_failed', array(
@@ -581,24 +585,29 @@ class Affiliate_WP_Admin_Notices {
 
 		$this->add_notice( 'referral_add_invalid_affiliate', array(
 			'class'   => 'error',
-			'message' => __( 'Referral not created because affiliate is invalid', 'affiliate-wp' ),
+			'message' => __( 'Referral not created because the affiliate is invalid, please try again.', 'affiliate-wp' ),
 		) );
 
+		$this->add_notice( 'referral_invalid_amount', array(
+            'class'   => 'error',
+            'message' => __( 'Referral amount cannot be negative, please try again.', 'affiliate-wp' ),
+        ) );
+
 		$this->add_notice( 'referral_updated', array(
-			'message' => __( 'Referral updated successfully', 'affiliate-wp' ),
+			'message' => __( 'Referral updated successfully.', 'affiliate-wp' ),
 		) );
 
 		$this->add_notice( 'referral_update_failed', array(
-			'message' => __( 'Referral update failed, please try again', 'affiliate-wp' ),
+			'message' => __( 'Referral update failed, please try again.', 'affiliate-wp' ),
 		) );
 
 		$this->add_notice( 'referral_deleted', array(
-			'message' => __( 'Referral deleted successfully', 'affiliate-wp' ),
+			'message' => __( 'Referral deleted successfully.', 'affiliate-wp' ),
 		) );
 
 		$this->add_notice( 'referral_delete_failed', array(
 			'class'   => 'error',
-			'message' => __( 'Referral deletion failed, please try again', 'affiliate-wp' ),
+			'message' => __( 'Referral deletion failed, please try again.', 'affiliate-wp' ),
 		) );
 	}
 
@@ -791,6 +800,30 @@ class Affiliate_WP_Admin_Notices {
 				},
 			)
 		);
+
+		$this->add_notice( 'upgrade_v281_convert_failed_referrals',
+			array(
+				'class' => 'notice notice-info is-dismissible',
+				'message' => function() {
+					$notice = __( 'Your database tables need to be upgraded following the AffiliateWP v2.8.1 update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
+					$nonce  = wp_create_nonce( 'upgrade-convert-failed-referrals_step_nonce' );
+
+					ob_start();
+					// Enqueue admin JS for the batch processor.
+					affwp_enqueue_admin_js();
+					?>
+					<p><?php echo $notice; ?></p>
+					<form method="post" class="affwp-batch-form" data-dismiss-when-complete="true" data-batch_id="upgrade-convert-failed-referrals" data-nonce="<?php echo esc_attr( $nonce ); ?>">
+						<p>
+							<?php submit_button( __( 'Upgrade Database Tables', 'affiliate-wp' ), 'secondary', 'upgrade-convert-failed-referrals', false ); ?>
+						</p>
+					</form>
+					<?php
+					return ob_get_clean();
+				},
+			)
+		);
+
 
 	}
 

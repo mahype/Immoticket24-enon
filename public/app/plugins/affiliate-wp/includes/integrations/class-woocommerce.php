@@ -302,14 +302,14 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		$amount = apply_filters( 'affwp_woocommerce_add_pending_referral_amount', $amount, $order_id, $affiliate_id, $this );
 
 		if ( 0 == $amount && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
-			$this->log( 'Draft referral rejected due to 0.00 amount.' );
+			$this->log( 'Draft referral failed due to 0.00 amount and ignore_zero_referrals setting.' );
 			$this->mark_referral_failed( $referral_id );
 
 			return false; // Ignore a zero amount referral.
 		}
 
 		if ( empty( $description ) ) {
-			$this->log( 'Draft referral rejected due to empty description.' );
+			$this->log( 'Draft referral failed due to empty description.' );
 			$this->mark_referral_failed( $referral_id );
 
 			return;
