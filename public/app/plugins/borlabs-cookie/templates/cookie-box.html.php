@@ -95,13 +95,30 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
 
                             <div class="form-group row align-items-center">
                                 <label for="cookieBoxRefuseOptionType"
-                                       class="col-sm-4 col-form-label"><?php _ex('Refuse Option', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                       class="col-sm-4 col-form-label"><?php _ex('Refuse Option - Cookie Box', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
                                 <div class="col-sm-8">
                                     <select class="form-control form-control form-control-sm d-inline-block w-75 mr-2"
                                             id="cookieBoxRefuseOptionType" name="cookieBoxRefuseOptionType">
                                         <option<?php echo $optionCookieBoxRefuseOptionTypeButton; ?>
                                             value="button"><?php _ex('Button', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
                                         <option<?php echo $optionCookieBoxRefuseOptionTypeLink; ?>
+                                            value="link"><?php _ex('Link', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
+                                    </select>
+                                    <span data-toggle="tooltip"
+                                          title="<?php echo esc_attr_x('Choose the display option of the <strong>Refuse</strong> option. We recommend using the <strong>Button</strong> option.', 'Backend / Cookie Box / Tooltip', 'borlabs-cookie'); ?>"><i
+                                            class="fas fa-lg fa-question-circle text-dark"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row align-items-center">
+                                <label for="cookieBoxPreferenceRefuseOptionType"
+                                       class="col-sm-4 col-form-label"><?php _ex('Refuse Option - Cookie Preferences', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control form-control form-control-sm d-inline-block w-75 mr-2"
+                                            id="cookieBoxPreferenceRefuseOptionType" name="cookieBoxPreferenceRefuseOptionType">
+                                        <option<?php echo $optionCookieBoxPreferenceRefuseOptionTypeButton; ?>
+                                            value="button"><?php _ex('Button', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
+                                        <option<?php echo $optionCookieBoxPreferenceRefuseOptionTypeLink; ?>
                                             value="link"><?php _ex('Link', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
                                     </select>
                                     <span data-toggle="tooltip"

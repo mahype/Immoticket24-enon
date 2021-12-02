@@ -53,7 +53,7 @@ class Upgrade
             'upgradeVersion_2_2_6' => '2.2.6',
             'upgradeVersion_2_2_9' => '2.2.9',
             'upgradeVersion_2_2_29' => '2.2.29',
-            'upgradeVersion_2_2_40' => '2.2.40',
+            'upgradeVersion_2_2_41' => '2.2.41',
         ];
 
     public function __construct()
@@ -435,11 +435,8 @@ class Upgrade
 
         if (! empty($languageCodes)) {
             foreach ($languageCodes as $languageCode) {
-                Log::getInstance()->info(
-                    __METHOD__,
-                    'Update CSS of language {languageCode}',
-                    ['languageCode' => $languageCode]
-                );
+                Log::getInstance()->info(__METHOD__, 'Update CSS of language {languageCode}',
+                    ['languageCode' => $languageCode]);
 
                 // Load config
                 Config::getInstance()->loadConfig($languageCode);
@@ -575,16 +572,14 @@ class Upgrade
         }
 
         update_option('BorlabsCookieClearCache', true, 'no');
-
         update_option('BorlabsCookieVersion', '2.2.3', 'no');
-
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
-    public function upgradeVersion_2_2_40()
+    public function upgradeVersion_2_2_41()
     {
         update_option('BorlabsCookieClearCache', true, 'no');
-        update_option('BorlabsCookieVersion', '2.2.40', 'yes');
+        update_option('BorlabsCookieVersion', '2.2.41', 'yes');
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
@@ -704,11 +699,8 @@ class Upgrade
 
         if (! empty($languageCodes)) {
             foreach ($languageCodes as $languageCode) {
-                Log::getInstance()->info(
-                    __METHOD__,
-                    'Update CSS of language {languageCode}',
-                    ['languageCode' => $languageCode]
-                );
+                Log::getInstance()->info(__METHOD__, 'Update CSS of language {languageCode}',
+                    ['languageCode' => $languageCode]);
 
                 // Load config
                 Config::getInstance()->loadConfig($languageCode);
