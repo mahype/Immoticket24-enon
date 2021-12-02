@@ -11,7 +11,7 @@ $site_title       = $this->template_suffix === 'bw' ? 'Bedarfsausweis': 'Verbrau
 
 ?>
 <?php if ( $show_title ) : ?>
-<h1><strong><?php echo $site_title; ?></strong> erstellen</h1>
+<h2><strong><?php echo $site_title; ?></strong> erstellen</h2>
 <?php endif; ?>
 <?php if ( $show_description ) : ?>
 <p>
