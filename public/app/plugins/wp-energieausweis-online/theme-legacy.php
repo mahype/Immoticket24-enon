@@ -46,18 +46,12 @@ function immoticketenergieausweis_comment_form_bottom() {
   echo '</div>';
 }
 
-/*
-define( 'IMMOTICKETENERGIEAUSWEIS_THEME_VERSION', '1.0.0' );
-define( 'IMMOTICKETENERGIEAUSWEIS_THEME_PATH', get_template_directory() );
-define( 'IMMOTICKETENERGIEAUSWEIS_THEME_URL', get_template_directory_uri() );
-
-require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/constants.php';
-require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/theme-setup.php';
-require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/backend.php';
-require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/frontend.php';
-require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/optimizepress-compat.php';
-require_once IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/inc/banner-widget.php';
- */
+require_once dirname( __FILE__ ) . '/theme-legacy/inc/constants.php';
+require_once dirname( __FILE__ ) . '/theme-legacy/inc/theme-setup.php';
+require_once dirname( __FILE__ ) . '/theme-legacy/inc/backend.php';
+require_once dirname( __FILE__ ) . '/theme-legacy/inc/frontend.php';
+require_once dirname( __FILE__ ) . '/theme-legacy/inc/optimizepress-compat.php';
+require_once dirname( __FILE__ ) . '/theme-legacy/inc/banner-widget.php';
 
 function immoticketenergieausweis_head_cleanup() {
   remove_action( 'wp_head', 'feed_links', 2 );
