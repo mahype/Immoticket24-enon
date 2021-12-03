@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/5.8.2" created="2021-12-03 07:34" -->
+<!-- generator="WordPress/5.8.2" created="2021-12-03 08:59" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Energieausweis online erstellen</title>
 <link>https://enon.test</link>
 <description>Jetzt Ihren Energieausweis nach EnEV 2014 anfordern!</description>
-<pubDate>Fri, 03 Dec 2021 07:34:29 +0000</pubDate>
+<pubDate>Fri, 03 Dec 2021 08:59:53 +0000</pubDate>
 <language>de-DE</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>https://enon.test</wp:base_site_url>
@@ -2202,80 +2202,321 @@ Zum Widerruf kopieren Sie den folgenden Inhalt in Ihr Email- oder Textverarbeitu
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/dup-energiebedarfsausweis-online-erstellen/</guid>
   <description/>
-  <content:encoded><![CDATA[<iframe src="https://www.youtube.com/embed/XEFZYkvt0nE?rel=0&amp;autoplay=1" width="520" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
-<h2>1. Darauf sollten Sie beim Erstellen des Bedarfsausweises achten</h2>
-Im Gebäudeenergiegesetz (GEG) ist festgelegt, dass Energieausweise zur Bewertung des energetischen Zustandes eines Gebäudes vorzulegen sind:
+  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
 
-Bei Neubauten, bei Vermietung oder dem Verkauf von Immobilien. Hier wird für alle Beteiligten (Eigentümer, Mieter oder Käufer) steckbriefartig und allgemeinverständlich der Energiestandard eines Wohngebäudes oder einer Gewerbeimmobilie dokumentiert.
+<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:embed {"url":"https://www.youtube.com/watch?v=XEFZYkvt0nE","type":"video","providerNameSlug":"youtube","responsive":true,"className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
+<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
+https://www.youtube.com/watch?v=XEFZYkvt0nE
+</div></figure>
+<!-- /wp:embed -->
 
-So werden grundsätzliche Angaben zu einem Gebäude, zu Gebäudesubstanz, zur Beheizungsart und dem verwendeten Energieträger (Gas, Öl etc.) verlangt. Wenn Sie die entsprechenden Unterlagen (Grundrisse, Baubeschreibung, etc.) zur Hand haben, sind Sie mit der Eingabe der Angaben innerhalb weniger Minuten fertig.
+<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px","top":"80px"}}}} -->
+<div class="wp-block-group" style="margin-top:80px;margin-bottom:80px"><!-- wp:heading -->
+<h2 id="1-darauf-sollten-sie-beim-erstellen-des-bedarfsausweises-achten">1. Darauf sollten Sie beim Erstellen des Bedarfsausweises achten</h2>
+<!-- /wp:heading -->
 
-<hr />
+<!-- wp:paragraph -->
+<p>Im Gebäudeenergiegesetz (GEG) ist festgelegt, dass Energieausweise zur Bewertung des energetischen Zustandes eines Gebäudes vorzulegen sind:</p>
+<!-- /wp:paragraph -->
 
-<h2>2. Wann erstellt man einen Bedarfsausweis, wann einen Verbrauchsausweis?</h2>
-<strong>Diesen benötigen Sie, wenn Ihr Gebäude unter 5 Wohneinheiten besitzt und vor dem Jahr 1978 gebaut wurde. Ein verbrauchsorientierter Ausweis (Verbrauchsausweis) wird dagegen bei Wohngebäuden ab 5 Wohneinheiten und einem Baujahr ab 1978 oder jünger benötigt. Diese Immobilien halten bereits die Wärmeschutzverordnung von 1978 ein.</strong>
+<!-- wp:paragraph -->
+<p>Bei Neubauten, bei Vermietung oder dem Verkauf von Immobilien. Hier wird für alle Beteiligten (Eigentümer, Mieter oder Käufer) steckbriefartig und allgemeinverständlich der Energiestandard eines Wohngebäudes oder einer Gewerbeimmobilie dokumentiert.</p>
+<!-- /wp:paragraph -->
 
-Ein Energieausweis wird auch für Nichtwohngebäude (gewerblich genutzte Objekte) verlangt. Beide Varianten bieten jene Informationen, die seit dem Jahr 2014 benötigt werden, um ein Gebäude nach seiner Energieeffizienzklasse zu beurteilen und einzustufen.
+<!-- wp:paragraph -->
+<p>So werden grundsätzliche Angaben zu einem Gebäude, zu Gebäudesubstanz, zur Beheizungsart und dem verwendeten Energieträger (Gas, Öl etc.) verlangt. Wenn Sie die entsprechenden Unterlagen (Grundrisse, Baubeschreibung, etc.) zur Hand haben, sind Sie mit der Eingabe der Angaben innerhalb weniger Minuten fertig.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 
-Im Prinzip kennen Sie das sicher von vielen Elektrogeräten. Die Skalierung reicht bei Wohnimmobilien von A+ bis H. Abhängig vom Gebäudetyp entsprechen die Klassen A/B dem Standard bei einem Neubau. Der durchschnittliche Wert für ein Wohngebäude wird in der Klasse E einzustufen sein.
-<p style="text-align: center;"><a class="btn btn-primary" href="https://enon.test/energieausweis2/bedarfsausweis-wohngebaeude/">Bedarfsausweis-Erstellung beginnen &gt;&gt;&gt;</a></p>
+<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}}} -->
+<div class="wp-block-group" style="margin-bottom:80px"><!-- wp:heading -->
+<h2 id="2-wann-erstellt-man-einen-bedarfsausweis-wann-einen-verbrauchsausweis">2. Wann erstellt man einen Bedarfsausweis, wann einen Verbrauchsausweis?</h2>
+<!-- /wp:heading -->
 
+<!-- wp:paragraph -->
+<p><strong>Diesen benötigen Sie, wenn Ihr Gebäude unter 5 Wohneinheiten besitzt und vor dem Jahr 1978 gebaut wurde. Ein verbrauchsorientierter Ausweis (Verbrauchsausweis) wird dagegen bei Wohngebäuden ab 5 Wohneinheiten und einem Baujahr ab 1978 oder jünger benötigt. Diese Immobilien halten bereits die Wärmeschutzverordnung von 1978 ein.</strong></p>
+<!-- /wp:paragraph -->
 
-<hr />
+<!-- wp:paragraph -->
+<p>Ein Energieausweis wird auch für Nichtwohngebäude (gewerblich genutzte Objekte) verlangt. Beide Varianten bieten jene Informationen, die seit dem Jahr 2014 benötigt werden, um ein Gebäude nach seiner Energieeffizienzklasse zu beurteilen und einzustufen.</p>
+<!-- /wp:paragraph -->
 
-<h2>3. Was ist der Unterschied zwischen Bedarfsausweis und Verbrauchsausweis?</h2>
-Grundsätzlich unterscheidet man bei der energetischen „Visitenkarte“ eines Gebäudes zwei Arten des Energieausweises:
+<!-- wp:paragraph -->
+<p>Im Prinzip kennen Sie das sicher von vielen Elektrogeräten. Die Skalierung reicht bei Wohnimmobilien von A+ bis H. Abhängig vom Gebäudetyp entsprechen die Klassen A/B dem Standard bei einem Neubau. Der durchschnittliche Wert für ein Wohngebäude wird in der Klasse E einzustufen sein.</p>
+<!-- /wp:paragraph -->
 
-Einen <strong>Bedarfsausweis</strong> (<a href="https://enon.test/">Energiebedarfsausweis</a>) und einen Verbrauchsausweis. Die bedarfsorientierte Variante orientiert sich an den Gebäudekenndaten (Heizung, Dämmung etc.), die als Grundlage zur Ermittlung des Energiebedarfs eines Hauses herangezogen werden.
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Bedarfsausweis erstellen</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
 
-Im Gegensatz dazu spricht man von einem <strong>Verbrauchsausweis</strong>, wenn lediglich der Energieverbrauch zugrunde gelegt wird. Hier werden die entsprechenden Kennwerte für den jährlichen Energieverbrauch in Kilowattstunden pro Quadratmeter Gebäudenutzfläche (Wohnläche + Nutzfläche) angegeben.
-<p style="text-align: center;"><a class="btn btn-primary" href="https://enon.test/energieausweis2/bedarfsausweis-wohngebaeude/">Jetzt Bedarfsausweis-Erstellung beginnen &gt;&gt;&gt;</a></p>
+<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"80px"}}}} -->
+<div class="wp-block-group" style="padding-bottom:80px"><!-- wp:heading -->
+<h2 id="3-was-ist-der-unterschied-zwischen-bedarfsausweis-und-verbrauchsausweis">3. Was ist der Unterschied zwischen Bedarfsausweis und Verbrauchsausweis?</h2>
+<!-- /wp:heading -->
 
+<!-- wp:paragraph -->
+<p>Grundsätzlich unterscheidet man bei der energetischen „Visitenkarte“ eines Gebäudes zwei Arten des Energieausweises:</p>
+<!-- /wp:paragraph -->
 
-<hr />
+<!-- wp:paragraph -->
+<p>Einen <strong>Bedarfsausweis</strong> (<a href="https://enon.test/">Energiebedarfsausweis</a>) und einen Verbrauchsausweis. Die bedarfsorientierte Variante orientiert sich an den Gebäudekenndaten (Heizung, Dämmung etc.), die als Grundlage zur Ermittlung des Energiebedarfs eines Hauses herangezogen werden.</p>
+<!-- /wp:paragraph -->
 
-<h2>4. Welche Angaben benötigen Sie zur Erstellung des Bedarfsausweises?</h2>
-[file_download style="2"][op_file_download_item title="Angaben%20Bedarfsausweis" icon="style2-thumb-dl-pdf.png" file="https://enon.test/app/uploads/2021/07/angaben_bedarfsausweis_2021.pdf" package="" level="" new_window="Y"]Diese%20Angaben%20ben%C3%B6tigen%20Sie%20zur%20Erstellung%20des%20Bedarfsausweises.%20Jetzt%20downloaden.[/op_file_download_item][/file_download]
+<!-- wp:paragraph -->
+<p>Im Gegensatz dazu spricht man von einem <strong>Verbrauchsausweis</strong>, wenn lediglich der Energieverbrauch zugrunde gelegt wird. Hier werden die entsprechenden Kennwerte für den jährlichen Energieverbrauch in Kilowattstunden pro Quadratmeter Gebäudenutzfläche (Wohnläche + Nutzfläche) angegeben.</p>
+<!-- /wp:paragraph -->
 
-<hr />
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Jetzt Bedarfsausweis-Erstellung beginnen</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
 
-<h2>5. Gründe warum Sie Ihren Bedarfsausweis online bei Energieausweis-online-erstellen.de erstellen sollten:</h2>
-<ul>
- 	<li>Weil Ihr Bedarfsausweis direkt verfügbar sein wird (Eingeben, ausdrucken, fertig!).</li>
- 	<li>Weil über 2.500 Online-Bewertungen bei eKomi und TrustedShops unseren guten Service belegen.</li>
- 	<li>Weil Sie bei Fragen rund ums Thema Energieausweis unseren telefonischen Support nutzen können.</li>
- 	<li>Weil Sie hier bis zu 300,- Euro gegenüber der vor-Ort-Erstellung sparen - bei gleicher Gültigkeit.</li>
- 	<li>Weil Sie hier eine 30 Tage Geld-zurück-Garantie haben.</li>
-</ul>
-<!-- Leerzeile -->
-<!-- Leerzeile -->
-<p style="text-align: center;"><a class="btn btn-primary" href="https://enon.test/energieausweis2/bedarfsausweis-wohngebaeude/">Überzeugen Sie sich selbst wie über 2.500 Kunden &gt;&gt;&gt;</a></p>
+<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}}} -->
+<div class="wp-block-group" style="margin-bottom:80px"><!-- wp:heading -->
+<h2 id="4-welche-angaben-benotigen-sie-zur-erstellung-des-bedarfsausweises">4. Welche Angaben benötigen Sie zur Erstellung des Bedarfsausweises?</h2>
+<!-- /wp:heading -->
 
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:image {"align":"center","id":436,"width":47,"height":60,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436" width="47" height="60"/></figure></div>
+<!-- /wp:image -->
 
-<hr />
+<!-- wp:heading {"textAlign":"center","level":3,"textColor":"green-moss","className":"text-center md:text-left"} -->
+<h3 class="has-text-align-center text-center md:text-left has-green-moss-color has-text-color" id="angaben-bedarfsausweis">Angaben Bedarfsausweis</h3>
+<!-- /wp:heading --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:group -->
 
-<h2>6. Unser Bestpreis-Versprechen an Sie:</h2>
-Falls Sie einen Energieausweis in gleicher Qualität zu günstigeren Preisen finden, informieren Sie uns.
+<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}}} -->
+<div class="wp-block-group" style="margin-bottom:80px"><!-- wp:heading -->
+<h2 id="5-grunde-warum-sie-ihren-bedarfsausweis-online-bei-energieausweis-online-erstellen-de-erstellen-sollten">5. Gründe warum Sie Ihren Bedarfsausweis online bei Energieausweis-online-erstellen.de erstellen sollten:</h2>
+<!-- /wp:heading -->
 
-Wir werden Ihnen dann den Differenzbetrag gut schreiben!
-<p style="text-align: center;"><a class="btn btn-primary" href="https://enon.test/energieausweis2/bedarfsausweis-wohngebaeude/">Jetzt bis zu 300,- Euro sparen &gt;&gt;&gt;</a></p>
+<!-- wp:list {"className":"is-style-checkmarks-neutral"} -->
+<ul class="is-style-checkmarks-neutral"><li>Weil Ihr Bedarfsausweis direkt verfügbar sein wird (Eingeben, ausdrucken, fertig!).</li><li>Weil über 2.500 Online-Bewertungen bei eKomi und TrustedShops unseren guten Service belegen.</li><li>Weil Sie bei Fragen rund ums Thema Energieausweis unseren telefonischen Support nutzen können.</li><li>Weil Sie hier bis zu 300,- Euro gegenüber der vor-Ort-Erstellung sparen - bei gleicher Gültigkeit.</li><li>Weil Sie hier eine 30 Tage Geld-zurück-Garantie haben.</li></ul>
+<!-- /wp:list -->
 
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Überzeugen Sie sich selbst wie über 2.500 Kunden >>></a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
 
-<hr />
+<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}}} -->
+<div class="wp-block-group" style="margin-bottom:80px"><!-- wp:heading -->
+<h2 id="6-unser-bestpreis-versprechen-an-sie">6. Unser Bestpreis-Versprechen an Sie:</h2>
+<!-- /wp:heading -->
 
-<h2 style="text-align: left;">7. Das sagen Kunden:</h2>
-[trusted_shops_badge]
-<!-- Leerzeile -->
-<h6>War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website:</h6>
-[ratings]
-<!-- Leerzeile -->
-<p style="text-align: center;"><a class="btn btn-primary" href="https://enon.test/energieausweis/">Jetzt Energieausweis online erstellen &gt;&gt;&gt;</a></p>]]></content:encoded>
+<!-- wp:paragraph -->
+<p>Falls Sie einen Energieausweis in gleicher Qualität zu günstigeren Preisen finden, informieren Sie uns.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Wir werden Ihnen dann den Differenzbetrag gut schreiben!</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Jetzt bis zu 300,- Euro sparen >>></a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
+
+<!-- wp:group -->
+<div class="wp-block-group"><!-- wp:heading {"align":"left"} -->
+<h2 id="7-das-sagen-kunden">7. Das sagen Kunden:</h2>
+<!-- /wp:heading -->
+
+<!-- wp:columns {"className":"testimonials"} -->
+<div class="wp-block-columns testimonials"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"12px"}},"className":"mt-4"} -->
+<p class="has-text-align-center mt-4" style="font-size:12px"><em>Ausgewählte Top-Bewertungen für enon.test powered by TrustedShops</em></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons {"className":"uppercase","layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons uppercase"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt Energieausweis erstellen</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:paragraph -->
+<p><br></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>105680</wp:post_id>
   <wp:post_date>2015-09-18 23:39:44</wp:post_date>
   <wp:post_date_gmt>2015-09-18 22:39:44</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:31</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:31</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 09:59:09</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 08:59:09</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>bedarfsausweis-erstellen</wp:post_name>
@@ -2302,6 +2543,14 @@ Wir werden Ihnen dann den Differenzbetrag gut schreiben!
     <wp:meta_value><![CDATA[default]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
+    <wp:meta_key>_oembed_time_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
+    <wp:meta_value><![CDATA[1638521923]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
     <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
     <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
   </wp:postmeta>
@@ -2311,7 +2560,7 @@ Wir werden Ihnen dann den Differenzbetrag gut schreiben!
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
-    <wp:meta_value><![CDATA[3]]></wp:meta_value>
+    <wp:meta_value><![CDATA[6]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>extra_js</wp:meta_key>
@@ -2347,7 +2596,7 @@ Wir werden Ihnen dann den Differenzbetrag gut schreiben!
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[58]]></wp:meta_value>
+    <wp:meta_value><![CDATA[64]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_title</wp:meta_key>
@@ -2408,6 +2657,10 @@ Wir werden Ihnen dann den Differenzbetrag gut schreiben!
   <wp:postmeta>
     <wp:meta_key>ratings_average</wp:meta_key>
     <wp:meta_value><![CDATA[4.4]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_oembed_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
+    <wp:meta_value><![CDATA[<iframe title="Energieausweis online erstellen - Unschlagbar einfach!" width="640" height="360" src="https://www.youtube.com/embed/XEFZYkvt0nE?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_focuskeywords</wp:meta_key>
@@ -9362,12 +9615,12 @@ https://youtu.be/jAtqxRzaR_Y
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=386621</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"wave-block-1"} -->
-<div class="wp-block-group wave-block-1 has-yellow-neon-to-green-mint-gradient-background has-background"></div>
-<!-- /wp:group -->
+  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group {"gradient":"yellow-neon-to-green-mint"} -->
-<div class="wp-block-group has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px","bottom":"120px"}}},"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:120px"><!-- wp:heading {"textAlign":"center"} -->
 <h2 class="has-text-align-center" id="1-aufnahmebogen-fur-wohngebaude-nach-geg2020">1. Aufnahmebögen für Wohngebäude nach GEG2020</h2>
 <!-- /wp:heading -->
 
@@ -9381,12 +9634,12 @@ https://youtu.be/jAtqxRzaR_Y
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":""} -->
-<div class="wp-block-column"><!-- wp:image {"align":"center","id":436,"width":47,"height":60,"sizeSlug":"full","linkDestination":"none"} -->
-<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436" width="47" height="60"/></figure></div>
+<div class="wp-block-column"><!-- wp:image {"align":"center","id":436,"width":47,"height":60,"sizeSlug":"full","linkDestination":"custom"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="/app/uploads/2021/07/angaben_verbrauchsausweis_whitelabel_2021.pdf"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436" width="47" height="60"/></a></figure></div>
 <!-- /wp:image -->
 
 <!-- wp:paragraph {"align":"center","className":"mb-0"} -->
-<p class="has-text-align-center mb-0" id="angaben-bedarfsausweis-2"><a style="font-weight: bold;" href="https://enon.test/app/uploads/2021/07/angaben_verbrauchsausweis_whitelabel_2021.pdf" target="_blank" rel="noreferrer noopener">Aufnahmebogen für </a> <b><a href="https://enon.test/app/uploads/2021/07/angaben_verbrauchsausweis_whitelabel_2021.pdf" target="_blank" rel="noreferrer noopener">Verbrauchsausweis</a> nach GEG2020</b> <br>(Whitelabel)</p>
+<p class="has-text-align-center mb-0" id="angaben-bedarfsausweis-2"><a href="/app/uploads/2021/07/angaben_verbrauchsausweis_whitelabel_2021.pdf" target="_blank" rel="noreferrer noopener"><strong>Aufnahmebogen für <b>Verbrauchsausweis nach GEG2020</b></strong></a> <br>(Whitelabel)</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"align":"center"} -->
@@ -9395,12 +9648,12 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- /wp:column -->
 
 <!-- wp:column {"verticalAlignment":"center","width":""} -->
-<div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"align":"center","id":436,"sizeSlug":"full","linkDestination":"none"} -->
-<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436"/></figure></div>
+<div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"align":"center","id":436,"sizeSlug":"full","linkDestination":"custom"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><a href="/app/uploads/2021/07/angaben_bedarfsausweis_whitelabel_2021.pdf"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436"/></a></figure></div>
 <!-- /wp:image -->
 
 <!-- wp:paragraph {"align":"center","className":"mb-0"} -->
-<p class="has-text-align-center mb-0" id="angaben-bedarfsausweis-1"><strong><b><a href="https://enon.test/app/uploads/2021/07/angaben_bedarfsausweis_whitelabel_2021.pdf" target="_blank" rel="noreferrer noopener">Aufnahmebogen für</a></b> <b><a href="https://enon.test/app/uploads/2021/07/angaben_bedarfsausweis_whitelabel_2021.pdf" target="_blank" rel="noreferrer noopener">Bedarfsausweis</a></b> nach GEG2020</strong><br>(Whitelabel)</p>
+<p class="has-text-align-center mb-0" id="angaben-bedarfsausweis-1"><a href="/app/uploads/2021/07/angaben_bedarfsausweis_whitelabel_2021.pdf"><strong><b>Aufnahmebogen für</b> <b>Bedarfsausweis</b> nach GEG2020</strong></a><br>(Whitelabel)</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"align":"center"} -->
@@ -9414,8 +9667,12 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- /wp:spacer --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"green-neon-to-green-mint","className":"wave2"} -->
-<div class="wp-block-group wave2 has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
+<!-- wp:create-block/block-wave-separator {"waveId":"wave-2","gradient":"green-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-2 has-green-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-2" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,5.8c9.8,5,17.3,13.6,56.2,8.8c41.7-5.1,83.2-18.5,178.2-6.7c34.8,4.3,49.1-7.9,49.1-7.9l0,17H0V5.8z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px"}}},"gradient":"green-neon-to-green-mint","className":"wave2 is-style-group-main"} -->
+<div class="wp-block-group wave2 is-style-group-main has-green-neon-to-green-mint-gradient-background has-background" style="padding-top:0px"><!-- wp:heading {"textAlign":"center"} -->
 <h2 class="has-text-align-center" id="2-aufnahmebogen-fur-nichtwohngebaude">2. Aufnahmebogen für Nichtwohngebäude</h2>
 <!-- /wp:heading -->
 
@@ -9425,12 +9682,12 @@ https://youtu.be/jAtqxRzaR_Y
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":""} -->
-<div class="wp-block-column"><!-- wp:image {"align":"center","id":436,"width":47,"height":60,"sizeSlug":"full","linkDestination":"none"} -->
-<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436" width="47" height="60"/></figure></div>
+<div class="wp-block-column"><!-- wp:image {"align":"center","id":436,"width":47,"height":60,"sizeSlug":"full","linkDestination":"custom"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="/app/uploads/2021/07/angaben_verbrauchsausweis_whitelabel_2021.pdf"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436" width="47" height="60"/></a></figure></div>
 <!-- /wp:image -->
 
 <!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center"><a style="font-weight: bold;" href="https://enon.test/app/uploads/2021/07/angaben_verbrauchsausweis_whitelabel_2021.pdf" target="_blank" rel="noreferrer noopener">Aufnahmebogen für </a> <b><a href="https://enon.test/app/uploads/2021/07/angaben_verbrauchsausweis_whitelabel_2021.pdf" target="_blank" rel="noreferrer noopener">Verbrauchsausweis</a></b> <br>(Whitelabel)</p>
+<p class="has-text-align-center"><strong><a href="/app/uploads/2021/07/angaben_verbrauchsausweis_whitelabel_2021.pdf">Aufnahmebogen für <b>Verbrauchsausweis</b></a></strong> <br>(Whitelabel)</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"align":"center"} -->
@@ -9446,8 +9703,8 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"white-green-to-green-white"} -->
-<div class="wp-block-group has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
 <h2 class="has-text-align-center" id="3-hinweis-zu-mischgebauden-wohnen-gewerbe-in-einem-gebaude">3. Hinweis zu Mischgebäuden<br>(Wohnen &amp; Gewerbe in einem Gebäude)</h2>
 <!-- /wp:heading -->
 
@@ -9472,8 +9729,8 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"green-neon-to-green-mint"} -->
-<div class="wp-block-group has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textColor":"green-moss"} -->
+<!-- wp:group {"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textColor":"green-moss"} -->
 <h2 class="has-green-moss-color has-text-color" id="unser-qualitatsversprechenfur-ihren-energieausweis-1"><strong>unser qualitätsversprechen<br></strong>für ihren energieausweis</h2>
 <!-- /wp:heading -->
 
@@ -9523,26 +9780,16 @@ https://youtu.be/jAtqxRzaR_Y
 
 <!-- wp:buttons {"className":"is-content-justification-center","layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons is-content-justification-center"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link">Energieausweis-erstellung beginnen</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Energieausweis-erstellung beginnen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
-<!-- /wp:group -->
-
-<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings"} -->
-<div class="wp-block-group group-ratings has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">[ratings]</p>
-<!-- /wp:paragraph --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>386621</wp:post_id>
   <wp:post_date>2020-07-31 01:11:01</wp:post_date>
   <wp:post_date_gmt>2020-07-30 23:11:01</wp:post_date_gmt>
-  <wp:post_modified>2021-11-11 12:12:14</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-11 11:12:14</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 09:32:11</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 08:32:11</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>aufnahmeformulare-fuer-energieausweise</wp:post_name>
@@ -9553,12 +9800,16 @@ https://youtu.be/jAtqxRzaR_Y
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
   <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
     <wp:meta_key>_edit_last</wp:meta_key>
     <wp:meta_value><![CDATA[74]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[62]]></wp:meta_value>
+    <wp:meta_value><![CDATA[56]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
@@ -10208,8 +10459,8 @@ https://youtu.be/DCxHKED_ycE
   <wp:post_id>387094</wp:post_id>
   <wp:post_date>2020-08-02 18:30:48</wp:post_date>
   <wp:post_date_gmt>2020-08-02 16:30:48</wp:post_date_gmt>
-  <wp:post_modified>2021-12-03 08:32:23</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-03 07:32:23</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 09:17:39</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 08:17:39</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>ankereffekte</wp:post_name>
