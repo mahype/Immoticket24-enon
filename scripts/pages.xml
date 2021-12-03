@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/5.8.2" created="2021-12-01 17:20" -->
+<!-- generator="WordPress/5.8.2" created="2021-12-03 07:34" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Energieausweis online erstellen</title>
 <link>https://enon.test</link>
 <description>Jetzt Ihren Energieausweis nach EnEV 2014 anfordern!</description>
-<pubDate>Wed, 01 Dec 2021 17:20:12 +0000</pubDate>
+<pubDate>Fri, 03 Dec 2021 07:34:29 +0000</pubDate>
 <language>de-DE</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>https://enon.test</wp:base_site_url>
@@ -50,7 +50,7 @@
   <wp:author_email>sven@awesome.ug</wp:author_email>
   <wp:author_display_name><![CDATA[Sven Wagener]]></wp:author_display_name>
   <wp:author_first_name><![CDATA[Sven]]></wp:author_first_name>
-  <wp:author_last_name><![CDATA[UG]]></wp:author_last_name>
+  <wp:author_last_name><![CDATA[Wagener]]></wp:author_last_name>
 </wp:author>
 <wp:author>
   <wp:author_id>17</wp:author_id>
@@ -265,13 +265,29 @@
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">http://enon.test/?page_id=9</guid>
   <description/>
-  <content:encoded><![CDATA[Aufgrund von Wartungsarbeiten ist es aktuell nicht möglich, einen neuen Bedarfsausweis zu erstellen. Unser Service wird in Kürze wieder verfügbar sein. Wir bitten um Ihr Verständnis.]]></content:encoded>
+  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"green-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-green-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:paragraph -->
+<p>Aufgrund von Wartungsarbeiten ist es aktuell nicht möglich, einen neuen Bedarfsausweis zu erstellen. Unser Service wird in Kürze wieder verfügbar sein. Wir bitten um Ihr Verständnis.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>9</wp:post_id>
   <wp:post_date>2014-12-01 17:59:20</wp:post_date>
   <wp:post_date_gmt>2014-12-01 16:59:20</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:31</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:31</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 06:50:42</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 05:50:42</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>bedarfsausweis-wohngebaeude</wp:post_name>
@@ -335,7 +351,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_wp_page_template</wp:meta_key>
-    <wp:meta_value><![CDATA[default]]></wp:meta_value>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>mashsb_shares</wp:meta_key>
@@ -397,6 +413,18 @@
     <wp:meta_key>mashsb_timestamp</wp:meta_key>
     <wp:meta_value><![CDATA[1490838233]]></wp:meta_value>
   </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[1]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
 </item>
 <item>
   <title><![CDATA[Verbrauchsausweis erstellen]]></title>
@@ -405,13 +433,15 @@
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">http://enon.test/?page_id=11</guid>
   <description/>
-  <content:encoded><![CDATA[Aufgrund von Wartungsarbeiten ist es aktuell nicht möglich, einen neuen Verbrauchsausweis zu erstellen. Unser Service wird in Kürze wieder verfügbar sein. Wir bitten um Ihr Verständnis.]]></content:encoded>
+  <content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Aufgrund von Wartungsarbeiten ist es aktuell nicht möglich, einen neuen Verbrauchsausweis zu erstellen. Unser Service wird in Kürze wieder verfügbar sein. Wir bitten um Ihr Verständnis.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>11</wp:post_id>
   <wp:post_date>2014-12-01 17:59:49</wp:post_date>
   <wp:post_date_gmt>2014-12-01 16:59:49</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:31</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:31</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 06:53:53</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 05:53:53</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>verbrauchsausweis-wohngebaeude</wp:post_name>
@@ -428,6 +458,14 @@
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
     <wp:meta_value><![CDATA[43]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_metadesc</wp:meta_key>
@@ -448,6 +486,10 @@
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_focuskw</wp:meta_key>
     <wp:meta_value><![CDATA[verbrauchsausweis]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[1]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_extra_js</wp:meta_key>
@@ -495,7 +537,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_wp_page_template</wp:meta_key>
-    <wp:meta_value><![CDATA[default]]></wp:meta_value>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>extra_css</wp:meta_key>
@@ -1422,97 +1464,103 @@ Zum Widerruf kopieren Sie den folgenden Inhalt in Ihr Email- oder Textverarbeitu
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=80</guid>
   <description/>
-  <content:encoded><![CDATA[<em>- Stand: 10.03.2020 -</em>
+  <content:encoded><![CDATA[<!-- wp:paragraph -->
+<p><em>- Stand: 10.03.2020 -</em></p>
+<!-- /wp:paragraph -->
 
-<strong>1. Geltungsbereich
-</strong>Für alle Bestellungen über unseren Online-Shop durch Verbraucher und Unternehmer gelten die nachfolgenden AGB.
+<!-- wp:paragraph -->
+<p><strong>1. Geltungsbereich<br></strong>Für alle Bestellungen über unseren Online-Shop durch Verbraucher und Unternehmer gelten die nachfolgenden AGB.</p>
+<!-- /wp:paragraph -->
 
-Verbraucher ist jede natürliche Person, die ein Rechtsgeschäft zu Zwecken abschließt, die überwiegend weder ihrer gewerblichen noch ihrer selbständigen beruflichen Tätigkeit zugerechnet werden können. Unternehmer ist eine natürliche oder juristische Person oder eine rechtsfähige Personengesellschaft, die bei Abschluss eines Rechtsgeschäfts in Ausübung ihrer gewerblichen oder selbständigen beruflichen Tätigkeit handelt.
+<!-- wp:paragraph -->
+<p>Verbraucher ist jede natürliche Person, die ein Rechtsgeschäft zu Zwecken abschließt, die überwiegend weder ihrer gewerblichen noch ihrer selbständigen beruflichen Tätigkeit zugerechnet werden können. Unternehmer ist eine natürliche oder juristische Person oder eine rechtsfähige Personengesellschaft, die bei Abschluss eines Rechtsgeschäfts in Ausübung ihrer gewerblichen oder selbständigen beruflichen Tätigkeit handelt.</p>
+<!-- /wp:paragraph -->
 
-Gegenüber Unternehmern gelten diese AGB auch für künftige Geschäftsbeziehungen, ohne dass wir nochmals auf sie hinweisen müssten. Verwendet der Unternehmer entgegenstehende oder ergänzende Allgemeine Geschäftsbedingungen, wird deren Geltung hiermit widersprochen; sie werden nur dann Vertragsbestandteil, wenn wir dem ausdrücklich zugestimmt haben.
+<!-- wp:paragraph -->
+<p>Gegenüber Unternehmern gelten diese AGB auch für künftige Geschäftsbeziehungen, ohne dass wir nochmals auf sie hinweisen müssten. Verwendet der Unternehmer entgegenstehende oder ergänzende Allgemeine Geschäftsbedingungen, wird deren Geltung hiermit widersprochen; sie werden nur dann Vertragsbestandteil, wenn wir dem ausdrücklich zugestimmt haben.</p>
+<!-- /wp:paragraph -->
 
-<strong>2. Vertragspartner, Vertragsschluss
-</strong>Der Kaufvertrag kommt zustande mit Immoticket24.de GmbH.
+<!-- wp:paragraph -->
+<p><strong>2. Vertragspartner, Vertragsschluss<br></strong>Der Kaufvertrag kommt zustande mit Immoticket24.de GmbH.</p>
+<!-- /wp:paragraph -->
 
-Mit Einstellung der Angebote auf unserer Website geben wir ein verbindliches Angebot zum Vertragsschluss über diese Artikel ab. Sie können unsere Produkte zunächst unverbindlich in den Warenkorb legen und Ihre Eingaben vor Absenden Ihrer verbindlichen Bestellung jederzeit korrigieren, indem Sie die hierfür im Bestellablauf vorgesehenen und erläuterten Korrekturhilfen nutzen. Der Vertrag kommt zustande, indem Sie durch Anklicken des Bestellbuttons das Angebot über die im Warenkorb enthaltenen Waren annehmen. Unmittelbar nach dem Absenden der Bestellung erhalten Sie noch einmal eine Bestätigung per E-Mail.
+<!-- wp:paragraph -->
+<p>Mit Einstellung der Angebote auf unserer Website geben wir ein verbindliches Angebot zum Vertragsschluss über diese Artikel ab. Sie können unsere Produkte zunächst unverbindlich in den Warenkorb legen und Ihre Eingaben vor Absenden Ihrer verbindlichen Bestellung jederzeit korrigieren, indem Sie die hierfür im Bestellablauf vorgesehenen und erläuterten Korrekturhilfen nutzen. Der Vertrag kommt zustande, indem Sie durch Anklicken des Bestellbuttons das Angebot über die im Warenkorb enthaltenen Waren annehmen. Unmittelbar nach dem Absenden der Bestellung erhalten Sie noch einmal eine Bestätigung per E-Mail.</p>
+<!-- /wp:paragraph -->
 
-<strong>3. Vertragssprache, Vertragstextspeicherung</strong>
-Die für den Vertragsschluss zur Verfügung stehende Sprache ist Deutsch. Wir speichern den Vertragstext und senden Ihnen die Bestelldaten per E-Mail zu.
+<!-- wp:paragraph -->
+<p><strong>3. Vertragssprache, Vertragstextspeicherung</strong><br>Die für den Vertragsschluss zur Verfügung stehende Sprache ist Deutsch. Wir speichern den Vertragstext und senden Ihnen die Bestelldaten per E-Mail zu.</p>
+<!-- /wp:paragraph -->
 
-<strong>4. Lieferbedingungen
-</strong>Wir liefern den Energieausweis als PDF-Download per Email. Kunden, die den Energieausweis auf dem Postweg erhalten möchten, haben die Möglichkeit gegen einen Aufpreis von 9,95 Euro die Zusatzoption "Postversand" zu wählen.  Eine Selbstabholung der Ware ist leider nicht möglich. Wir liefern nicht an Packstationen.
+<!-- wp:paragraph -->
+<p><strong>4. Lieferbedingungen<br></strong>Wir liefern den Energieausweis als PDF-Download per Email. Kunden, die den Energieausweis auf dem Postweg erhalten möchten, haben die Möglichkeit gegen einen Aufpreis von 9,95 Euro die Zusatzoption "Postversand" zu wählen.&nbsp; Eine Selbstabholung der Ware ist leider nicht möglich. Wir liefern nicht an Packstationen.</p>
+<!-- /wp:paragraph -->
 
-<strong>5. Bezahlung
-</strong>In unserem Shop stehen Ihnen grundsätzlich die folgenden Zahlungsarten zur Verfügung:
+<!-- wp:paragraph -->
+<p><strong>5. Bezahlung<br></strong>In unserem Shop stehen Ihnen grundsätzlich die folgenden Zahlungsarten zur Verfügung:</p>
+<!-- /wp:paragraph -->
 
-<strong>SEPA-Lastschriftverfahren</strong>
-Mit Abgabe der Bestellung erteilen Sie uns ein SEPA-Lastschriftmandat. Über das Datum der Kontobelastung werden wir Sie informieren (sog. Prenotification). Mit Einreichung des SEPA-Lastschriftmandats fordern wir unsere Bank zur Einleitung der Zahlungstransaktion auf. Die Zahlungstransaktion wird automatisch durchgeführt und Ihr Konto belastet.
-Die Kontobelastung erfolgt nach Versand. Die Frist für die Vorabankündigung über das Datum der Kontobelastung (sog. Prenotification-Frist) beträgt 1 Tag.
+<!-- wp:paragraph -->
+<p><strong>SEPA-Lastschriftverfahren</strong><br>Mit Abgabe der Bestellung erteilen Sie uns ein SEPA-Lastschriftmandat. Über das Datum der Kontobelastung werden wir Sie informieren (sog. Prenotification). Mit Einreichung des SEPA-Lastschriftmandats fordern wir unsere Bank zur Einleitung der Zahlungstransaktion auf. Die Zahlungstransaktion wird automatisch durchgeführt und Ihr Konto belastet.<br>Die Kontobelastung erfolgt nach Versand. Die Frist für die Vorabankündigung über das Datum der Kontobelastung (sog. Prenotification-Frist) beträgt 1 Tag.</p>
+<!-- /wp:paragraph -->
 
-<strong>PayPal</strong>
-Im Bestellprozess werden Sie auf die Webseite des Online-Anbieters PayPal weitergeleitet. Um den Rechnungsbetrag über PayPal bezahlen zu können, müssen Sie dort registriert sein bzw. sich erst registrieren, mit Ihren Zugangsdaten legitimieren und die Zahlungsanweisung an uns bestätigen. Nach Abgabe der Bestellung im Shop fordern wir PayPal zur Einleitung der Zahlungstransaktion auf.
-Die Zahlungstransaktion wird durch PayPal unmittelbar danach automatisch durchgeführt. Weitere Hinweise erhalten Sie beim Bestellvorgang.
+<!-- wp:paragraph -->
+<p><strong>PayPal</strong><br>Im Bestellprozess werden Sie auf die Webseite des Online-Anbieters PayPal weitergeleitet. Um den Rechnungsbetrag über PayPal bezahlen zu können, müssen Sie dort registriert sein bzw. sich erst registrieren, mit Ihren Zugangsdaten legitimieren und die Zahlungsanweisung an uns bestätigen. Nach Abgabe der Bestellung im Shop fordern wir PayPal zur Einleitung der Zahlungstransaktion auf.<br>Die Zahlungstransaktion wird durch PayPal unmittelbar danach automatisch durchgeführt. Weitere Hinweise erhalten Sie beim Bestellvorgang.</p>
+<!-- /wp:paragraph -->
 
-<strong>Sofort</strong>
-Nach Abgabe der Bestellung werden Sie auf die Webseite des Online-Anbieters Sofort GmbH weitergeleitet. Um den Rechnungsbetrag über Sofort bezahlen zu können, müssen Sie über ein für die Teilnahme an Sofort freigeschaltetes Online-Banking-Konto mit PIN/TAN-Verfahren verfügen, sich entsprechend legitimieren und die Zahlungsanweisung an uns bestätigen. Weitere Hinweise erhalten Sie beim Bestellvorgang. Die Zahlungstransaktion wird unmittelbar danach von Sofort durchgeführt und Ihr Konto belastet.
+<!-- wp:paragraph -->
+<p><strong>Sofort</strong><br>Nach Abgabe der Bestellung werden Sie auf die Webseite des Online-Anbieters Sofort GmbH weitergeleitet. Um den Rechnungsbetrag über Sofort bezahlen zu können, müssen Sie über ein für die Teilnahme an Sofort freigeschaltetes Online-Banking-Konto mit PIN/TAN-Verfahren verfügen, sich entsprechend legitimieren und die Zahlungsanweisung an uns bestätigen. Weitere Hinweise erhalten Sie beim Bestellvorgang. Die Zahlungstransaktion wird unmittelbar danach von Sofort durchgeführt und Ihr Konto belastet.</p>
+<!-- /wp:paragraph -->
 
-<strong>Banküberweisung </strong>
-Sie erhalten unmittelbar nach Bestellabschluss die Zahlungsanforderung per Email übersendet. In der Mail finden Sie die Rechnung sowie die Bankverbindung zur Überweisung des Rechnungsbetrages. Nach Zahlungseingang schalten wir Ihren Energieausweis frei. Alternativ können Sie uns nach Überweisung auch den Beleg per Email übersenden, damit Ihr Energieausweis direkt freigegeben wird.
+<!-- wp:paragraph -->
+<p><strong>Banküberweisung </strong><br>Sie erhalten unmittelbar nach Bestellabschluss die Zahlungsanforderung per Email übersendet. In der Mail finden Sie die Rechnung sowie die Bankverbindung zur Überweisung des Rechnungsbetrages. Nach Zahlungseingang schalten wir Ihren Energieausweis frei. Alternativ können Sie uns nach Überweisung auch den Beleg per Email übersenden, damit Ihr Energieausweis direkt freigegeben wird.</p>
+<!-- /wp:paragraph -->
 
-<strong>6. Gewährleistung und Garantien
-</strong>Soweit nicht nachstehend ausdrücklich anders vereinbart, gilt das gesetzliche Mängelhaftungsrecht. Für Verbraucher beträgt die Verjährungsfrist für Mängelansprüche bei gebrauchten Sachen ein Jahr ab Ablieferung der Ware.
-Für Unternehmer beträgt die Verjährungsfrist für Mängelansprüche ein Jahr ab Gefahrübergang; die gesetzlichen Verjährungsfristen für den Rückgriffsanspruch nach § 478 BGB bleiben unberührt.
-Gegenüber Unternehmern gelten als Vereinbarung über die Beschaffenheit der Ware nur unsere eigenen Angaben und die Produktbeschreibungen des Herstellers, die in den Vertrag einbezogen wurden; für öffentliche Äußerungen des Herstellers oder sonstige Werbeaussagen übernehmen wir keine Haftung.
-Ist die gelieferte Sache mangelhaft, leisten wir gegenüber Unternehmern zunächst nach unserer Wahl Gewähr durch Beseitigung des Mangels (Nachbesserung) oder durch Lieferung einer mangelfreien Sache (Ersatzlieferung).
-Die vorstehenden Einschränkungen und Fristverkürzungen gelten nicht für Ansprüche aufgrund von Schäden, die durch uns, unsere gesetzlichen Vertreter oder Erfüllungsgehilfen verursacht wurden
-<ul>
- 	<li>bei Verletzung des Lebens, des Körpers oder der Gesundheit</li>
- 	<li>bei vorsätzlicher oder grob fahrlässiger Pflichtverletzung sowie Arglist</li>
- 	<li>bei Verletzung wesentlicher Vertragspflichten, deren Erfüllung die ordnungsgemäße Durchführung des Vertrages überhaupt erst ermöglicht und auf deren Einhaltung der Vertragspartner regelmäßig vertrauen darf (Kardinalpflichten)</li>
- 	<li>im Rahmen eines Garantieversprechens, soweit vereinbart</li>
- 	<li>soweit der Anwendungsbereich des Produkthaftungsgesetzes eröffnet ist.</li>
-</ul>
-Informationen zu gegebenenfalls geltenden zusätzlichen Garantien und deren genaue Bedingungen finden Sie jeweils beim Produkt und auf besonderen Informationsseiten im Onlineshop.
+<!-- wp:paragraph -->
+<p><strong>6. Gewährleistung und Garantien<br></strong>Soweit nicht nachstehend ausdrücklich anders vereinbart, gilt das gesetzliche Mängelhaftungsrecht. Für Verbraucher beträgt die Verjährungsfrist für Mängelansprüche bei gebrauchten Sachen ein Jahr ab Ablieferung der Ware.<br>Für Unternehmer beträgt die Verjährungsfrist für Mängelansprüche ein Jahr ab Gefahrübergang; die gesetzlichen Verjährungsfristen für den Rückgriffsanspruch nach § 478 BGB bleiben unberührt.<br>Gegenüber Unternehmern gelten als Vereinbarung über die Beschaffenheit der Ware nur unsere eigenen Angaben und die Produktbeschreibungen des Herstellers, die in den Vertrag einbezogen wurden; für öffentliche Äußerungen des Herstellers oder sonstige Werbeaussagen übernehmen wir keine Haftung.<br>Ist die gelieferte Sache mangelhaft, leisten wir gegenüber Unternehmern zunächst nach unserer Wahl Gewähr durch Beseitigung des Mangels (Nachbesserung) oder durch Lieferung einer mangelfreien Sache (Ersatzlieferung).<br>Die vorstehenden Einschränkungen und Fristverkürzungen gelten nicht für Ansprüche aufgrund von Schäden, die durch uns, unsere gesetzlichen Vertreter oder Erfüllungsgehilfen verursacht wurden</p>
+<!-- /wp:paragraph -->
 
-Kundendienst: Sie erreichen unseren Support für Fragen, Reklamationen und Beanstandungen werktags von 10:00 Uhr bis 18:00 Uhr unter der Telefonnummer 0 26 54 - 8 80 11 99 sowie per E-Mail unter support@immoticket24.de
+<!-- wp:list -->
+<ul><li>bei Verletzung des Lebens, des Körpers oder der Gesundheit</li><li>bei vorsätzlicher oder grob fahrlässiger Pflichtverletzung sowie Arglist</li><li>bei Verletzung wesentlicher Vertragspflichten, deren Erfüllung die ordnungsgemäße Durchführung des Vertrages überhaupt erst ermöglicht und auf deren Einhaltung der Vertragspartner regelmäßig vertrauen darf (Kardinalpflichten)</li><li>im Rahmen eines Garantieversprechens, soweit vereinbart</li><li>soweit der Anwendungsbereich des Produkthaftungsgesetzes eröffnet ist.</li></ul>
+<!-- /wp:list -->
 
-<strong>
-7. Haftung
-</strong>Für Ansprüche aufgrund von Schäden, die durch uns, unsere gesetzlichen Vertreter oder Erfüllungsgehilfen verursacht wurden, haften wir stets unbeschränkt
-<ul>
- 	<li>bei Verletzung des Lebens, des Körpers oder der Gesundheit,</li>
- 	<li>bei vorsätzlicher oder grob fahrlässiger Pflichtverletzung,</li>
- 	<li>bei Garantieversprechen, soweit vereinbart, oder</li>
- 	<li>soweit der Anwendungsbereich des Produkthaftungsgesetzes eröffnet ist.</li>
-</ul>
-Bei Verletzung wesentlicher Vertragspflichten, deren Erfüllung die ordnungsgemäße Durchführung des Vertrages überhaupt erst ermöglicht und auf deren Einhaltung der Vertragspartner regelmäßig vertrauen darf, (Kardinalpflichten) durch leichte Fahrlässigkeit von uns, unseren gesetzlichen Vertretern oder Erfüllungsgehilfen ist die Haftung der Höhe nach auf den bei Vertragsschluss vorhersehbaren Schaden begrenzt, mit dessen Entstehung typischerweise gerechnet werden muss. Im Übrigen sind Ansprüche auf Schadensersatz ausgeschlossen.
+<!-- wp:paragraph -->
+<p>Informationen zu gegebenenfalls geltenden zusätzlichen Garantien und deren genaue Bedingungen finden Sie jeweils beim Produkt und auf besonderen Informationsseiten im Onlineshop.</p>
+<!-- /wp:paragraph -->
 
-<strong>
-8. Verhaltenskodex
-</strong>Folgenden Verhaltenskodizes haben wir uns unterworfen:
-Trusted Shops Qualitätskriterien
-<a href="http://www.trustedshops.com/tsdocument/TS_QUALITY_CRITERIA_de.pdf">http://www.trustedshops.com/tsdocument/TS_QUALITY_CRITERIA_de.pdf</a>
+<!-- wp:paragraph -->
+<p>Kundendienst: Sie erreichen unseren Support für Fragen, Reklamationen und Beanstandungen werktags von 10:00 Uhr bis 18:00 Uhr unter der Telefonnummer 0 26 54 - 8 80 11 99 sowie per E-Mail unter support@immoticket24.de</p>
+<!-- /wp:paragraph -->
 
-<strong>
-9. Streitbeilegung</strong>
-Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie hier finden <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="nofollow noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>.
-Wir sind bereit, an einem außergerichtlichen Schlichtungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
-Zuständig ist die Allgemeine Verbraucherschlichtungsstelle des Zentrums für Schlichtung e.V., Straßburger Straße 8, 77694 Kehl am Rhein, <a href="http://www.verbraucher-schlichter.de" target="_blank" rel="nofollow noopener noreferrer">www.verbraucher-schlichter.de</a>.
-<div>
+<!-- wp:paragraph -->
+<p><strong><br>7. Haftung<br></strong>Für Ansprüche aufgrund von Schäden, die durch uns, unsere gesetzlichen Vertreter oder Erfüllungsgehilfen verursacht wurden, haften wir stets unbeschränkt</p>
+<!-- /wp:paragraph -->
 
-<strong>
-10. Schlussbestimmungen
-</strong>Sind Sie Unternehmer, dann gilt deutsches Recht unter Ausschluss des UN-Kaufrechts.
+<!-- wp:list -->
+<ul><li>bei Verletzung des Lebens, des Körpers oder der Gesundheit,</li><li>bei vorsätzlicher oder grob fahrlässiger Pflichtverletzung,</li><li>bei Garantieversprechen, soweit vereinbart, oder</li><li>soweit der Anwendungsbereich des Produkthaftungsgesetzes eröffnet ist.</li></ul>
+<!-- /wp:list -->
 
-Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffentlichen Rechts oder öffentlich-rechtliches Sondervermögen, ist ausschließlicher Gerichtsstand für alle Streitigkeiten aus Vertragsverhältnissen zwischen uns und Ihnen unser Geschäftssitz.
+<!-- wp:paragraph -->
+<p>Bei Verletzung wesentlicher Vertragspflichten, deren Erfüllung die ordnungsgemäße Durchführung des Vertrages überhaupt erst ermöglicht und auf deren Einhaltung der Vertragspartner regelmäßig vertrauen darf, (Kardinalpflichten) durch leichte Fahrlässigkeit von uns, unseren gesetzlichen Vertretern oder Erfüllungsgehilfen ist die Haftung der Höhe nach auf den bei Vertragsschluss vorhersehbaren Schaden begrenzt, mit dessen Entstehung typischerweise gerechnet werden muss. Im Übrigen sind Ansprüche auf Schadensersatz ausgeschlossen.</p>
+<!-- /wp:paragraph -->
 
-</div>]]></content:encoded>
+<!-- wp:paragraph -->
+<p><strong><br>8. Verhaltenskodex<br></strong>Folgenden Verhaltenskodizes haben wir uns unterworfen:<br>Trusted Shops Qualitätskriterien<br><a href="http://www.trustedshops.com/tsdocument/TS_QUALITY_CRITERIA_de.pdf">http://www.trustedshops.com/tsdocument/TS_QUALITY_CRITERIA_de.pdf</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong><br>9. Streitbeilegung</strong><br>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie hier finden <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="nofollow noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>.<br>Wir sind bereit, an einem außergerichtlichen Schlichtungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.<br>Zuständig ist die Allgemeine Verbraucherschlichtungsstelle des Zentrums für Schlichtung e.V., Straßburger Straße 8, 77694 Kehl am Rhein, <a href="http://www.verbraucher-schlichter.de" target="_blank" rel="nofollow noopener noreferrer">www.verbraucher-schlichter.de</a>.1</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>10. Schlussbestimmungen</strong><br>Sind Sie Unternehmer, dann gilt deutsches Recht unter Ausschluss des UN-Kaufrechts. Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffentlichen Rechts oder öffentlich-rechtliches Sondervermögen, ist ausschließlicher Gerichtsstand für alle Streitigkeiten aus Vertragsverhältnissen zwischen uns und Ihnen unser Geschäftssitz.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>80</wp:post_id>
   <wp:post_date>2015-07-13 13:06:45</wp:post_date>
   <wp:post_date_gmt>2015-07-13 12:06:45</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:30</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:30</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 08:12:53</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 07:12:53</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>agb</wp:post_name>
@@ -1522,6 +1570,18 @@ Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffe
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
+    <wp:meta_value><![CDATA[30]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>extra_js</wp:meta_key>
     <wp:meta_value><![CDATA[]]></wp:meta_value>
@@ -1560,7 +1620,7 @@ Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffe
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[60]]></wp:meta_value>
+    <wp:meta_value><![CDATA[63]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>extra_css</wp:meta_key>
@@ -1587,8 +1647,8 @@ Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffe
     <wp:meta_value><![CDATA[agb]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
-    <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
-    <wp:meta_value><![CDATA[30]]></wp:meta_value>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[5]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>mashsb_twitter_handle</wp:meta_key>
@@ -1608,7 +1668,7 @@ Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffe
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_wp_page_template</wp:meta_key>
-    <wp:meta_value><![CDATA[default]]></wp:meta_value>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>mashsb_shares</wp:meta_key>
@@ -1622,13 +1682,21 @@ Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffe
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/checkout/</guid>
   <description/>
-  <content:encoded><![CDATA[[download_checkout]]]></content:encoded>
+  <content:encoded><![CDATA[<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-default"} -->
+<div class="wp-block-group is-style-default has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:spacer {"height":41} -->
+<div style="height:41px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer --></div>
+<!-- /wp:group -->
+
+<!-- wp:shortcode -->
+[download_checkout]
+<!-- /wp:shortcode -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>84</wp:post_id>
   <wp:post_date>2015-07-16 10:26:32</wp:post_date>
   <wp:post_date_gmt>2015-07-16 09:26:32</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:31</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:31</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 07:18:10</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 06:18:10</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>checkout</wp:post_name>
@@ -1638,6 +1706,70 @@ Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffe
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[1]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_extra_js</wp:meta_key>
+    <wp:meta_value><![CDATA[field_extra_js]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>extra_css</wp:meta_key>
+    <wp:meta_value><![CDATA[]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_extra_css</wp:meta_key>
+    <wp:meta_value><![CDATA[field_extra_css]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>extra_js</wp:meta_key>
+    <wp:meta_value><![CDATA[jQuery( document ).ready( function ( $ ) {
+  let get_document_height = function () {
+    var body = document.body,
+        html = document.documentElement;
+
+    var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+    return height;
+  }
+
+  let get_wrapper_height = function() {
+     return $(".wrapper").height() + 100;
+  }
+
+  let send_document_height = function () {
+    var height = get_wrapper_height();
+    parent.postMessage( JSON.stringify( {'frame_height': height} ), '*' );
+  }
+
+  send_document_height();
+
+  $( document ).on('wpenon.update_active_tab', function (e) {
+     setTimeout( function(){ send_document_height(); }, 100 );
+  });
+
+  $( document ).on('edd_gateway_loaded', function (e) {
+     setTimeout( function(){ send_document_height(); }, 100 );
+  });
+});
+]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_wp_page_template</wp:meta_key>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
+    <wp:meta_value><![CDATA[60]]></wp:meta_value>
+  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_users</wp:meta_key>
     <wp:meta_value><![CDATA[0]]></wp:meta_value>
@@ -1683,8 +1815,8 @@ Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffe
   <wp:post_id>86</wp:post_id>
   <wp:post_date>2015-07-16 10:26:32</wp:post_date>
   <wp:post_date_gmt>2015-07-16 09:26:32</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:31</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:31</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 06:53:16</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 05:53:16</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>kauf-fehlgeschlagen</wp:post_name>
@@ -1694,6 +1826,70 @@ Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffe
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>extra_js</wp:meta_key>
+    <wp:meta_value><![CDATA[jQuery( document ).ready( function ( $ ) {
+  let get_document_height = function () {
+    var body = document.body,
+        html = document.documentElement;
+
+    var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+    return height;
+  }
+
+  let get_wrapper_height = function() {
+     return $(".wrapper").height() + 100;
+  }
+
+  let send_document_height = function () {
+    var height = get_wrapper_height();
+    parent.postMessage( JSON.stringify( {'frame_height': height} ), '*' );
+  }
+
+  send_document_height();
+
+  $( document ).on('wpenon.update_active_tab', function (e) {
+     setTimeout( function(){ send_document_height(); }, 100 );
+  });
+
+  $( document ).on('edd_gateway_loaded', function (e) {
+     setTimeout( function(){ send_document_height(); }, 100 );
+  });
+});
+]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>extra_css</wp:meta_key>
+    <wp:meta_value><![CDATA[]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_extra_css</wp:meta_key>
+    <wp:meta_value><![CDATA[field_extra_css]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_wp_page_template</wp:meta_key>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
+    <wp:meta_value><![CDATA[90]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[1]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_extra_js</wp:meta_key>
+    <wp:meta_value><![CDATA[field_extra_js]]></wp:meta_value>
+  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yst_prominent_words_version</wp:meta_key>
     <wp:meta_value><![CDATA[1]]></wp:meta_value>
@@ -1739,8 +1935,8 @@ Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffe
   <wp:post_id>87</wp:post_id>
   <wp:post_date>2015-07-16 10:26:32</wp:post_date>
   <wp:post_date_gmt>2015-07-16 09:26:32</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:31</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:31</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 06:53:34</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 05:53:34</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>kaufarchiv</wp:post_name>
@@ -1750,6 +1946,66 @@ Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffe
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[1]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_extra_js</wp:meta_key>
+    <wp:meta_value><![CDATA[field_extra_js]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>extra_css</wp:meta_key>
+    <wp:meta_value><![CDATA[]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_extra_css</wp:meta_key>
+    <wp:meta_value><![CDATA[field_extra_css]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>extra_js</wp:meta_key>
+    <wp:meta_value><![CDATA[jQuery( document ).ready( function ( $ ) {
+  let get_document_height = function () {
+    var body = document.body,
+        html = document.documentElement;
+
+    var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+    return height;
+  }
+
+  let get_wrapper_height = function() {
+     return $(".wrapper").height() + 100;
+  }
+
+  let send_document_height = function () {
+    var height = get_wrapper_height();
+    parent.postMessage( JSON.stringify( {'frame_height': height} ), '*' );
+  }
+
+  send_document_height();
+
+  $( document ).on('wpenon.update_active_tab', function (e) {
+     setTimeout( function(){ send_document_height(); }, 100 );
+  });
+
+  $( document ).on('edd_gateway_loaded', function (e) {
+     setTimeout( function(){ send_document_height(); }, 100 );
+  });
+});
+]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_wp_page_template</wp:meta_key>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
+  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_users</wp:meta_key>
     <wp:meta_value><![CDATA[0]]></wp:meta_value>
@@ -2044,6 +2300,10 @@ Wir werden Ihnen dann den Differenzbetrag gut schreiben!
   <wp:postmeta>
     <wp:meta_key>_wp_page_template</wp:meta_key>
     <wp:meta_value><![CDATA[default]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_extra_js</wp:meta_key>
@@ -8177,25 +8437,22 @@ https://youtu.be/jAtqxRzaR_Y
   <guid isPermaLink="false">https://enon.test/?page_id=386045</guid>
   <description/>
   <content:encoded><![CDATA[<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:paragraph {"align":"center"} -->
+<div class="wp-block-group"><!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"160px","top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:160px"><!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">Vielen Dank für Ihren Einkauf!</p>
 <!-- /wp:paragraph -->
+
+<!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="danke-fur-ihr-vertrauen">Danke für Ihr Vertrauen!</h2>
+<!-- /wp:heading -->
 
 <!-- wp:shortcode -->
 [edd_receipt]
 <!-- /wp:shortcode -->
-
-<!-- wp:shortcode -->
-[trusted_shops_checkout]
-<!-- /wp:shortcode -->
-
-<!-- wp:shortcode -->
-[adcell_tracking_script]
-<!-- /wp:shortcode -->
-
-<!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center">Danke für Ihr Vertrauen!</h2>
-<!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">Hinweis für Kunden, die per "Banküberweisung" zahlen:</p>
@@ -8205,17 +8462,23 @@ https://youtu.be/jAtqxRzaR_Y
 <p class="has-text-align-center">Sie erhalten die Zahlungsaufforderung innerhalb der nächsten Minuten per Email. Falls Sie den Energieausweis dringend benötigen, senden Sie uns den Zahlungsbeleg per Email. Wir schalten den Energieausweis dann bereits vor Zahlungseingang frei.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph --></div></div>
+<!-- wp:shortcode -->
+[trusted_shops_checkout]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[adcell_tracking_script]
+<!-- /wp:shortcode --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center">Das sagen Kunden:</h2>
-<!-- /wp:heading -->
+<!-- wp:create-block/block-wave-separator {"waveId":"wave-2","gradient":"green-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-2 has-green-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-2" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,5.8c9.8,5,17.3,13.6,56.2,8.8c41.7-5.1,83.2-18.5,178.2-6.7c34.8,4.3,49.1-7.9,49.1-7.9l0,17H0V5.8z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:block {"ref":295011} /-->
+<!-- wp:group {"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="das-sagen-kunden">Das sagen Kunden:</h2>
+<!-- /wp:heading -->
 
 <!-- wp:image {"align":"center","width":500,"height":349} -->
 <div class="wp-block-image"><figure class="aligncenter is-resized"><a href="https://www.ekomi.de/bewertungen-immoticket24de.html"><img src="https://enon.test/app/uploads/2016/09/bewertungen_gesammelt.png" alt="" width="500" height="349"/></a></figure></div>
@@ -8223,26 +8486,15 @@ https://youtu.be/jAtqxRzaR_Y
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">- Über 900 Kundenmeinungen finden Sie im Internet -</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:block {"ref":295011} /-->
-
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"></div>
-<!-- /wp:buttons --></div></div>
-<!-- /wp:group -->
-
-<!-- wp:block {"ref":312266} /-->
-
-<!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph -->]]></content:encoded>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>386045</wp:post_id>
   <wp:post_date>2020-07-29 18:49:15</wp:post_date>
   <wp:post_date_gmt>2020-07-29 16:49:15</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:31</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:31</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 07:26:58</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 06:26:58</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>vermarktungspaket-immoticket24-2</wp:post_name>
@@ -8252,6 +8504,14 @@ https://youtu.be/jAtqxRzaR_Y
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_title</wp:meta_key>
     <wp:meta_value><![CDATA[Danke für Ihr Vertrauen!]]></wp:meta_value>
@@ -8290,7 +8550,7 @@ https://youtu.be/jAtqxRzaR_Y
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
-    <wp:meta_value><![CDATA[60]]></wp:meta_value>
+    <wp:meta_value><![CDATA[90]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_4b7aef5bf13103be932ae51b6ce054c9</wp:meta_key>
@@ -9376,12 +9636,12 @@ https://youtu.be/jAtqxRzaR_Y
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=386928</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:group {"style":{"color":{"background":"#ffffff"}},"className":"wave-block-1"} -->
-<div class="wp-block-group wave-block-1 has-background" style="background-color:#ffffff"></div>
-<!-- /wp:group -->
+  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"white-green-to-green-white"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-white-green-to-green-white-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group {"style":{"color":{"background":"#ffffff"}}} -->
-<div class="wp-block-group has-background" style="background-color:#ffffff"><!-- wp:image {"align":"center","id":387021,"sizeSlug":"large","className":"scroll-enhancer mb-6"} -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px","bottom":"160px"}}},"gradient":"white-green-to-green-white","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-white-green-to-green-white-gradient-background has-background" style="padding-top:0px;padding-bottom:160px"><!-- wp:image {"align":"center","id":387021,"sizeSlug":"large","className":"scroll-enhancer mb-6"} -->
 <div class="wp-block-image scroll-enhancer mb-6"><figure class="aligncenter size-large"><a href="#profi-tipps"><img src="https://enon.test/app/uploads/2020/08/scroll_enhancer.png" alt="" class="wp-image-387021"/></a></figure></div>
 <!-- /wp:image -->
 
@@ -9422,8 +9682,12 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- /wp:group --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"white-green-to-green-white"} -->
-<div class="wp-block-group has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
+<!-- wp:create-block/block-wave-separator {"gradient":"green-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-green-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"40px"}}},"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background" style="padding-top:40px"><!-- wp:heading {"textAlign":"center"} -->
 <h2 class="has-text-align-center" id="5-wichtige-inhalte-die-ihnen-schnell-mehrere-tausend-euro-pro-jahr-sparen"><strong>5 wichtige Inhalte, die Ihnen schnell mehrere Tausend Euro pro Jahr sparen:</strong></h2>
 <!-- /wp:heading -->
 
@@ -9431,7 +9695,7 @@ https://youtu.be/jAtqxRzaR_Y
 <div class="wp-block-image mb-6"><figure class="aligncenter size-large"><img src="https://enon.test/app/uploads/2017/07/profi-tipps-zur-sichersten-vermietung.jpg" alt="" class="wp-image-70691"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:columns -->
+<!-- wp:columns {"style":{"spacing":{"blockGap":"80px"}}} -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group -->
 <div class="wp-block-group"><!-- wp:image {"align":"center","id":387042,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
@@ -9465,7 +9729,7 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:columns -->
+<!-- wp:columns {"style":{"spacing":{"blockGap":"80px"}}} -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group -->
 <div class="wp-block-group"><!-- wp:image {"align":"center","id":300073,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
@@ -9499,8 +9763,8 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><!-- wp:image {"align":"center","id":387043,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"80px","bottom":"80px"}}}} -->
+<div class="wp-block-group" style="margin-top:80px;margin-bottom:80px"><!-- wp:image {"align":"center","id":387043,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
 <div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2020/08/icon-page.png" alt="Mietvetrag" class="wp-image-387043" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
@@ -9520,8 +9784,8 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"yellow-neon-to-green-mint"} -->
-<div class="wp-block-group has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
+<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
 <h2 class="has-text-align-center" id="ausserdem-erhalten-sie-perfekte-schritt-fur-schritt-anleitungen"><strong>Außerdem erhalten Sie perfekte Schritt-für-Schritt-Anleitungen:</strong></h2>
 <!-- /wp:heading -->
 
@@ -9548,8 +9812,8 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><!-- wp:heading {"textAlign":"center"} -->
+<!-- wp:group {"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
 <h2 class="has-text-align-center" id="zusatzliches-bonus-material-dass-ihnen-die-arbeit-erleichtert-und-geld-spart"><strong>Zusätzliches Bonus-Material, dass Ihnen die Arbeit erleichtert und Geld spart</strong></h2>
 <!-- /wp:heading -->
 
@@ -9558,8 +9822,8 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- /wp:list -->
 
 <!-- wp:advgb/images-slider {"images":[{"id":73171,"url":"https://enon.test/app/uploads/2017/08/mieterselbstauskunft-1.jpg","title":"1. Muster-Vordruck Wohnungsgeber-Bestätigung","text":"Als Wohnungsgeber sind Sie durch § 19 BMG verpflichtet, beim Ein- und zum Teil auch beim Auszug eine Wohnungsgeberbestätigung an den Wohnungsnehmer bzw. für den Fall der elektronischen Meldung, die zurzeit noch nicht möglich ist, an die Meldebehörde zu senden. Den Muster-Vordruck hierzu erhalten Sie im eBook."},{"url":"https://enon.test/app/uploads/2017/08/wohnungsgeber-bestaetigung_1.jpg","id":73175,"title":"2. Muster Vordruck Mieterselbstauskunft","text":"Weiter erhalten Sie einen Muster-Vordruck zur Einholung einer Mieterselbstauskunft, damit Sie nur an jene Mieter Ihren Wohnraum vermieten, der sich diesen auch tatsächlich leisten kann. Einfach ausdrucken, ausfüllen und Auskunft zum Mietinteressenten einholen."},{"id":73174,"url":"https://enon.test/app/uploads/2017/08/wohnungs-uebergabe-protokoll.jpg","text":"\nEin aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprotokoll genannt – beugt Konflikten vor. So halten Sie als Vermieter sämtliche Mängel fest, die bei Einzug des Mieters bekannt sind. Zieht nach einiger Zeit der Mieter aus und Sie stellen als Vermieter bei der Abnahme des Mieters bei Auszug weitere Mängel fest, haben Sie somit Klarheit, dass der Mieter diese verursacht hat.","title":"3. Muster-Vordruck Übergabe-Protokoll"},{"id":73173,"url":"https://enon.test/app/uploads/2017/08/muster-wohnungsabnahme-protokoll.jpg","text":"Damit können Sie gegenüber der Situation bei Einzug des Mieters und den damit verbundenen Inhalten im Übergabeprotokoll schnell neue Mängel feststellen. Wenn im Abnahmeprotokoll keine Mängel festgehalten sind, steht der Auszahlung der Kaution an den Mieter nichts mehr im Wege, andernfalls haben Sie bei neuen Mängel die Möglichkeit diese beseitigen zu lassen oder die Kaution in entsprechender Höhe einzubehalten.","title":"4. Muster-Vordruck Abnahmeprotokoll"},{"id":73211,"url":"https://enon.test/app/uploads/2017/08/mietvertrag.jpg","text":"Last but not least erhalten Sie einen aktuellen rechtssicheren Mietvertrag vom Vermieterverein e. V., der Ihre Recht als Vermieter ideal absichert. Diesen brauchen Sie nur ausdrucken und bei jeder Vermietung auszufüllen, so sparen Sie sich die regelmäßige Anschaffung von neuen Mietverträgen, die auch schnell einmal 15,- Euro je Stück betragen.","title":"5. Muster-Vordruck Mietvertrag"}],"fullWidth":false,"width":450,"alwaysShowOverlay":true,"titleColor":"rgba( 0, 0, 0, 0.8 )","textColor":"#000000","vAlign":"flex-start","hAlign":"flex-start","changed":true} -->
-<div class="wp-block-advgb-images-slider advgb-images-slider-block"><div class="advgb-images-slider" dir="ltr"><div class="advgb-image-slider-item"><img src="https://enon.test/app/uploads/2017/08/mieterselbstauskunft-1.jpg" class="advgb-image-slider-img" alt="1. Muster-Vordruck Wohnungsgeber-Bestätigung" style="width:450px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">1. Muster-Vordruck Wohnungsgeber-Bestätigung</h4><p class="advgb-image-slider-text" style="color:#000000">Als Wohnungsgeber sind Sie durch § 19 BMG verpflichtet, beim Ein- und zum Teil auch beim Auszug eine Wohnungsgeberbestätigung an den Wohnungsnehmer bzw. für den Fall der elektronischen Meldung, die zurzeit noch nicht möglich ist, an die Meldebehörde zu senden. Den Muster-Vordruck hierzu erhalten Sie im eBook.</p></div></div><div class="advgb-image-slider-item"><img src="https://enon.test/app/uploads/2017/08/wohnungsgeber-bestaetigung_1.jpg" class="advgb-image-slider-img" alt="2. Muster Vordruck Mieterselbstauskunft" style="width:450px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">2. Muster Vordruck Mieterselbstauskunft</h4><p class="advgb-image-slider-text" style="color:#000000">Weiter erhalten Sie einen Muster-Vordruck zur Einholung einer Mieterselbstauskunft, damit Sie nur an jene Mieter Ihren Wohnraum vermieten, der sich diesen auch tatsächlich leisten kann. Einfach ausdrucken, ausfüllen und Auskunft zum Mietinteressenten einholen.</p></div></div><div class="advgb-image-slider-item"><img src="https://enon.test/app/uploads/2017/08/wohnungs-uebergabe-protokoll.jpg" class="advgb-image-slider-img" alt="3. Muster-Vordruck Übergabe-Protokoll" style="width:450px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">3. Muster-Vordruck Übergabe-Protokoll</h4><p class="advgb-image-slider-text" style="color:#000000">
-Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprotokoll genannt – beugt Konflikten vor. So halten Sie als Vermieter sämtliche Mängel fest, die bei Einzug des Mieters bekannt sind. Zieht nach einiger Zeit der Mieter aus und Sie stellen als Vermieter bei der Abnahme des Mieters bei Auszug weitere Mängel fest, haben Sie somit Klarheit, dass der Mieter diese verursacht hat.</p></div></div><div class="advgb-image-slider-item"><img src="https://enon.test/app/uploads/2017/08/muster-wohnungsabnahme-protokoll.jpg" class="advgb-image-slider-img" alt="4. Muster-Vordruck Abnahmeprotokoll" style="width:450px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">4. Muster-Vordruck Abnahmeprotokoll</h4><p class="advgb-image-slider-text" style="color:#000000">Damit können Sie gegenüber der Situation bei Einzug des Mieters und den damit verbundenen Inhalten im Übergabeprotokoll schnell neue Mängel feststellen. Wenn im Abnahmeprotokoll keine Mängel festgehalten sind, steht der Auszahlung der Kaution an den Mieter nichts mehr im Wege, andernfalls haben Sie bei neuen Mängel die Möglichkeit diese beseitigen zu lassen oder die Kaution in entsprechender Höhe einzubehalten.</p></div></div><div class="advgb-image-slider-item"><img src="https://enon.test/app/uploads/2017/08/mietvertrag.jpg" class="advgb-image-slider-img" alt="5. Muster-Vordruck Mietvertrag" style="width:450px;height:auto"/><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">5. Muster-Vordruck Mietvertrag</h4><p class="advgb-image-slider-text" style="color:#000000">Last but not least erhalten Sie einen aktuellen rechtssicheren Mietvertrag vom Vermieterverein e. V., der Ihre Recht als Vermieter ideal absichert. Diesen brauchen Sie nur ausdrucken und bei jeder Vermietung auszufüllen, so sparen Sie sich die regelmäßige Anschaffung von neuen Mietverträgen, die auch schnell einmal 15,- Euro je Stück betragen.</p></div></div></div></div>
+<div class="wp-block-advgb-images-slider advgb-images-slider-block"><div class="advgb-images-slider" dir="ltr"><div class="advgb-image-slider-item"><img src="https://enon.test/app/uploads/2017/08/mieterselbstauskunft-1.jpg" class="advgb-image-slider-img" alt="1. Muster-Vordruck Wohnungsgeber-Bestätigung" style="width:450px;height:auto"><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">1. Muster-Vordruck Wohnungsgeber-Bestätigung</h4><p class="advgb-image-slider-text" style="color:#000000">Als Wohnungsgeber sind Sie durch § 19 BMG verpflichtet, beim Ein- und zum Teil auch beim Auszug eine Wohnungsgeberbestätigung an den Wohnungsnehmer bzw. für den Fall der elektronischen Meldung, die zurzeit noch nicht möglich ist, an die Meldebehörde zu senden. Den Muster-Vordruck hierzu erhalten Sie im eBook.</p></div></div><div class="advgb-image-slider-item"><img src="https://enon.test/app/uploads/2017/08/wohnungsgeber-bestaetigung_1.jpg" class="advgb-image-slider-img" alt="2. Muster Vordruck Mieterselbstauskunft" style="width:450px;height:auto"><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">2. Muster Vordruck Mieterselbstauskunft</h4><p class="advgb-image-slider-text" style="color:#000000">Weiter erhalten Sie einen Muster-Vordruck zur Einholung einer Mieterselbstauskunft, damit Sie nur an jene Mieter Ihren Wohnraum vermieten, der sich diesen auch tatsächlich leisten kann. Einfach ausdrucken, ausfüllen und Auskunft zum Mietinteressenten einholen.</p></div></div><div class="advgb-image-slider-item"><img src="https://enon.test/app/uploads/2017/08/wohnungs-uebergabe-protokoll.jpg" class="advgb-image-slider-img" alt="3. Muster-Vordruck Übergabe-Protokoll" style="width:450px;height:auto"><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">3. Muster-Vordruck Übergabe-Protokoll</h4><p class="advgb-image-slider-text" style="color:#000000">
+Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprotokoll genannt – beugt Konflikten vor. So halten Sie als Vermieter sämtliche Mängel fest, die bei Einzug des Mieters bekannt sind. Zieht nach einiger Zeit der Mieter aus und Sie stellen als Vermieter bei der Abnahme des Mieters bei Auszug weitere Mängel fest, haben Sie somit Klarheit, dass der Mieter diese verursacht hat.</p></div></div><div class="advgb-image-slider-item"><img src="https://enon.test/app/uploads/2017/08/muster-wohnungsabnahme-protokoll.jpg" class="advgb-image-slider-img" alt="4. Muster-Vordruck Abnahmeprotokoll" style="width:450px;height:auto"><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">4. Muster-Vordruck Abnahmeprotokoll</h4><p class="advgb-image-slider-text" style="color:#000000">Damit können Sie gegenüber der Situation bei Einzug des Mieters und den damit verbundenen Inhalten im Übergabeprotokoll schnell neue Mängel feststellen. Wenn im Abnahmeprotokoll keine Mängel festgehalten sind, steht der Auszahlung der Kaution an den Mieter nichts mehr im Wege, andernfalls haben Sie bei neuen Mängel die Möglichkeit diese beseitigen zu lassen oder die Kaution in entsprechender Höhe einzubehalten.</p></div></div><div class="advgb-image-slider-item"><img src="https://enon.test/app/uploads/2017/08/mietvertrag.jpg" class="advgb-image-slider-img" alt="5. Muster-Vordruck Mietvertrag" style="width:450px;height:auto"><div class="advgb-image-slider-item-info" style="justify-content:flex-start;align-items:flex-start"><a class="advgb-image-slider-overlay" rel="noopener noreferrer" href="#" style="opacity:0.5"></a><h4 class="advgb-image-slider-title" style="color:rgba( 0, 0, 0, 0.8 )">5. Muster-Vordruck Mietvertrag</h4><p class="advgb-image-slider-text" style="color:#000000">Last but not least erhalten Sie einen aktuellen rechtssicheren Mietvertrag vom Vermieterverein e. V., der Ihre Recht als Vermieter ideal absichert. Diesen brauchen Sie nur ausdrucken und bei jeder Vermietung auszufüllen, so sparen Sie sich die regelmäßige Anschaffung von neuen Mietverträgen, die auch schnell einmal 15,- Euro je Stück betragen.</p></div></div></div></div>
 <!-- /wp:advgb/images-slider -->
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
@@ -9569,8 +9833,8 @@ Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprot
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"white-green-to-green-white"} -->
-<div class="wp-block-group has-white-green-to-green-white-gradient-background has-background"><!-- wp:columns {"className":"has-2-columns"} -->
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:columns {"className":"has-2-columns"} -->
 <div class="wp-block-columns has-2-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"align":"center","id":70693,"width":300,"height":429,"sizeSlug":"large"} -->
 <div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2017/07/tipps-zur-sichersten-vermietung.jpg" alt="" class="wp-image-70693" width="300" height="429"/></figure></div>
@@ -9598,8 +9862,8 @@ Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprot
 <p>Ideal um sofort und überall mit dem Lesen zu beginnen - ob am Desktop oder unterwegs am Tablet oder Smartphone.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph {"style":{"color":{"background":"#fafafa"}}} -->
-<p class="has-background" style="background-color:#fafafa"><strong>Format:</strong> PDF-Datei<br><strong>Dateigröße:</strong> 635 KB<br><strong>Seitenzahl:</strong> 98 Seiten<br><strong>Sprache:</strong> Deutsch</p>
+<!-- wp:paragraph {"backgroundColor":"black-10"} -->
+<p class="has-black-10-background-color has-background"><strong>Format:</strong> PDF-Datei<br><strong>Dateigröße:</strong> 635 KB<br><strong>Seitenzahl:</strong> 98 Seiten<br><strong>Sprache:</strong> Deutsch</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"align":"center","id":294900,"sizeSlug":"large"} -->
@@ -9613,12 +9877,10 @@ Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprot
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><!-- wp:heading {"textAlign":"center"} -->
+<!-- wp:group {"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
 <h2 class="has-text-align-center" id="mit-geld-zuruck-garantie">Mit Geld-zurück-Garantie: </h2>
 <!-- /wp:heading -->
-
-<!-- wp:block {"ref":295011} /-->
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":"33.33%"} -->
@@ -9640,20 +9902,14 @@ Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprot
 
 <!-- wp:button {"align":"center","style":{"color":{"background":"#3da81d"}}} -->
 <div class="wp-block-button aligncenter"><a class="wp-block-button__link has-background" href="https://www.digistore24.com/product/153559" style="background-color:#3da81d" target="_blank" rel="noreferrer noopener">Jetzt eBook "8 Profi-Tipps" bestellen &gt;&gt;</a></div>
-<!-- /wp:button -->
-
-<!-- wp:block {"ref":295011} /-->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website:<br>[ratings]</p>
-<!-- /wp:paragraph --></div>
+<!-- /wp:button --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>386928</wp:post_id>
   <wp:post_date>2020-08-02 03:59:40</wp:post_date>
   <wp:post_date_gmt>2020-08-02 01:59:40</wp:post_date_gmt>
-  <wp:post_modified>2021-11-11 15:39:54</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-11 14:39:54</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 08:10:42</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 07:10:42</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>8-profi-tipps-zur-sichersten-immobilien-vermietung</wp:post_name>
@@ -9663,6 +9919,10 @@ Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprot
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>classic-editor-remember</wp:meta_key>
     <wp:meta_value><![CDATA[block-editor]]></wp:meta_value>
@@ -9739,65 +9999,71 @@ Ein aussagekräftiges Übergabeprotokoll für die Immobilie – auch Abnahmeprot
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=387094</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:image {"align":"center","id":387021,"sizeSlug":"large","className":"scroll-enhancer"} -->
+  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px","bottom":"160px"}}},"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:160px"><!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="7-Tricks"><strong>7 Tricks</strong>, wie Sie alle Arten von Verhandlungen <br>zu Ihren Gunsten beeinflussen</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"align":"center","id":387021,"sizeSlug":"large","className":"scroll-enhancer"} -->
 <div class="wp-block-image scroll-enhancer"><figure class="aligncenter size-large"><a href="#7-Tricks"><img src="https://enon.test/app/uploads/2020/08/scroll_enhancer.png" alt="" class="wp-image-387021"/></a></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center" id="7-Tricks">7 Tricks, wie Sie alle Arten von Verhandlungen zu Ihren Gunsten beeinflussen</h2>
-<!-- /wp:heading -->
-
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:columns {"className":"has-2-columns"} -->
-<div class="wp-block-columns has-2-columns"><!-- wp:column {"width":55} -->
+<!-- wp:columns {"className":"has-2-columns"} -->
+<div class="wp-block-columns has-2-columns"><!-- wp:column {"width":"55%"} -->
 <div class="wp-block-column" style="flex-basis:55%"><!-- wp:heading -->
-<h2><strong>Sie erfahren:</strong></h2>
+<h2 id="sie-erfahren"><strong>Sie erfahren:</strong></h2>
 <!-- /wp:heading -->
 
-<!-- wp:list {"className":"checkmark"} -->
-<ul class="checkmark"><li>Wie einfach Ihre Verhandlungsziele durchsetzbar sind.</li><li>Wie Sie mehr Fachkompetenz ausstrahlen, selbst wenn Sie diese nicht besitzen.</li><li>Wie Sie die Reue Ihrer Verhandlungspartner auf ein Minimum reduzieren.</li><li>Wie Sie belanglose Aussagen Ihrer Gesprächspartern zu Ihrem Vorteil nutzen</li><li>Wofür Sie stets ein Ass im Ärmel behalten sollten uvm.</li></ul>
+<!-- wp:list {"className":"checkmark is-style-checkmarks-formatted"} -->
+<ul class="checkmark is-style-checkmarks-formatted"><li>Wie einfach Ihre Verhandlungsziele durchsetzbar sind.</li><li>Wie Sie mehr Fachkompetenz ausstrahlen, selbst wenn Sie diese nicht besitzen.</li><li>Wie Sie die Reue Ihrer Verhandlungspartner auf ein Minimum reduzieren.</li><li>Wie Sie belanglose Aussagen Ihrer Gesprächspartern zu Ihrem Vorteil nutzen</li><li>Wofür Sie stets ein Ass im Ärmel behalten sollten uvm.</li></ul>
 <!-- /wp:list --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:core-embed/youtube {"url":"https://youtu.be/DCxHKED_ycE","type":"video","providerNameSlug":"youtube","align":"center","className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
-<figure class="wp-block-embed-youtube aligncenter wp-block-embed is-type-video is-provider-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
+<div class="wp-block-column"><!-- wp:embed {"url":"https://youtu.be/DCxHKED_ycE","type":"video","providerNameSlug":"youtube","responsive":true,"align":"center","className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
+<figure class="wp-block-embed aligncenter is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
 https://youtu.be/DCxHKED_ycE
 </div></figure>
-<!-- /wp:core-embed/youtube -->
+<!-- /wp:embed -->
 
 <!-- wp:spacer {"height":20} -->
 <div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->
 
-<!-- wp:image {"align":"center","id":294900,"width":367,"height":151} -->
-<div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://enon.test/app/uploads/2019/08/pfeile-nach-unten.png" alt="" class="wp-image-294900" width="367" height="151"/></figure></div>
-<!-- /wp:image -->
-
-<!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white","align":"center"} -->
+<!-- wp:button {"backgroundColor":"green","textColor":"white","align":"center","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button aligncenter"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="https://enon.test/app/uploads/2017/07/ankereffekt_probelesen.pdf" style="border-radius:5px">Jetzt Probe lesen &gt;&gt;</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns --></div></div>
+<!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">5 Fähigkeiten, die Ihnen das "Ankereffekte"-eBook vermitteln wird:</h2>
+<!-- wp:create-block/block-wave-separator {"gradient":"green-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-green-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px"}}},"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background" style="padding-top:0px"><!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="5-fahigkeiten-die-ihnen-das-ankereffekte-ebook-vermitteln-wird">5 Fähigkeiten, die Ihnen das <br>"Ankereffekte"-eBook vermitteln wird:</h2>
 <!-- /wp:heading -->
 
-<!-- wp:image {"align":"center","id":59533,"sizeSlug":"large","className":"separator-stars"} -->
-<div class="wp-block-image separator-stars"><figure class="aligncenter size-large"><img src="https://enon.test/app/uploads/2017/05/ankereffekte-3d-cover-2.png" alt="" class="wp-image-59533"/></figure></div>
-<!-- /wp:image -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"80px"}}}} -->
+<div class="wp-block-group" style="margin-top:80px"><!-- wp:image {"align":"center","id":59533,"sizeSlug":"full","className":"separator-stars"} -->
+<div class="wp-block-image separator-stars"><figure class="aligncenter size-full"><img src="https://enon.test/app/uploads/2017/05/ankereffekte-3d-cover-2.png" alt="" class="wp-image-59533"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
 
-<!-- wp:columns -->
+<!-- wp:columns {"style":{"spacing":{"blockGap":"80px"}}} -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"align":"center","id":387117,"width":50,"height":50,"sizeSlug":"large","className":"custom-rounded is-style-rounded"} -->
 <div class="wp-block-image custom-rounded is-style-rounded"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2020/08/icon-speech-bubble.png" alt="" class="wp-image-387117" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">Verhandlungsgeschick</h2>
+<!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="verhandlungsgeschick">Verhandlungsgeschick</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
@@ -9810,8 +10076,8 @@ https://youtu.be/DCxHKED_ycE
 <div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2020/08/icon-suitcase.png" alt="" class="wp-image-387116" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">Manipulationsfähigkeit</h2>
+<!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="manipulationsfahigkeit">Manipulationsfähigkeit</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
@@ -9824,8 +10090,8 @@ https://youtu.be/DCxHKED_ycE
 <div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2020/07/icon-person-pair.png" alt="" class="wp-image-386463" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">Empathie</h2>
+<!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="empathie">Empathie</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
@@ -9834,14 +10100,14 @@ https://youtu.be/DCxHKED_ycE
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:columns -->
+<!-- wp:columns {"style":{"spacing":{"blockGap":"80px"}}} -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"align":"center","id":300081,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
 <div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2019/09/icon-hat.png" alt="" class="wp-image-300081" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">Überzeugungskunst</h2>
+<!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="uberzeugungskunst">Überzeugungskunst</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
@@ -9854,8 +10120,8 @@ https://youtu.be/DCxHKED_ycE
 <div class="wp-block-image custom-rounded is-style-rounded"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2020/08/icon-book.png" alt="" class="wp-image-387115" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">Wissen</h2>
+<!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="wissen">Wissen</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
@@ -9864,26 +10130,22 @@ https://youtu.be/DCxHKED_ycE
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:image {"align":"center","id":295008,"sizeSlug":"large","className":"separator-stars"} -->
-<div class="wp-block-image separator-stars"><figure class="aligncenter size-large"><img src="https://enon.test/app/uploads/2019/08/shadow-ornament.png" alt="" class="wp-image-295008"/></figure></div>
-<!-- /wp:image -->
-
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"},"style":{"spacing":{"margin":{"top":"80px"}}}} -->
+<div class="wp-block-buttons" style="margin-top:80px"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="https://enon.test/app/uploads/2017/07/ankereffekt_probelesen.pdf" style="border-radius:5px">Jetzt Probe lesen und selbst überzeugen &gt;&gt;</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons --></div></div>
+<!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">Überall lesbar - Das "Ankereffekte"-eBook als PDF:</h2>
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="uberall-lesbar-das-ankereffekte-ebook-als-pdf">Überall lesbar - Das "Ankereffekte"-eBook als PDF:</h2>
 <!-- /wp:heading -->
 
 <!-- wp:columns {"className":"has-2-columns"} -->
 <div class="wp-block-columns has-2-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:image {"align":"center","id":68739,"width":460,"height":302,"sizeSlug":"large"} -->
-<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2017/07/ankereffekte-3d-cover-1.png" alt="" class="wp-image-68739" width="460" height="302"/></figure></div>
+<div class="wp-block-column"><!-- wp:image {"align":"center","id":68739,"sizeSlug":"large"} -->
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://enon.test/app/uploads/2017/07/ankereffekte-3d-cover-1.png" alt="" class="wp-image-68739"/></figure></div>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -9893,7 +10155,7 @@ https://youtu.be/DCxHKED_ycE
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:heading {"level":3} -->
-<h3>Lesespaß auch unterwegs</h3>
+<h3 id="lesespass-auch-unterwegs">Lesespaß auch unterwegs</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -9908,54 +10170,46 @@ https://youtu.be/DCxHKED_ycE
 <div class="wp-block-image"><figure class="aligncenter size-large"><a href="https://www.digistore24.com/product/150947" target="_blank" rel="noopener noreferrer"><img src="https://enon.test/app/uploads/2017/07/etikett_ankereffekte.jpg" alt="" class="wp-image-68750"/></a></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white","align":"center"} -->
+<!-- wp:button {"backgroundColor":"green","textColor":"white","align":"center","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button aligncenter"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="https://www.digistore24.com/product/150947" style="border-radius:5px" target="_blank" rel="noreferrer noopener">Hier eBook bestellen &gt;&gt;</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns --></div></div>
+<!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">Mit Geld-zurück-Garantie:</h2>
+<!-- wp:group {"backgroundColor":"green-lime","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-lime-background-color has-background"><!-- wp:heading {"textAlign":"center","textColor":"white"} -->
+<h2 class="has-text-align-center has-white-color has-text-color" id="mit-geld-zuruck-garantie"><strong>Mit Geld-zurück-Garantie</strong></h2>
 <!-- /wp:heading -->
 
-<!-- wp:block {"ref":295011} /-->
-
 <!-- wp:columns -->
-<div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":33.33} -->
-<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:33.33%"><!-- wp:image {"align":"center","id":37,"sizeSlug":"large"} -->
-<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://enon.test/app/uploads/2014/12/christian-esch.png" alt="Christian Esch, Geschäftsführer" class="wp-image-37"/><figcaption>Christian Esch</figcaption></figure></div>
-<!-- /wp:image -->
-
-<!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph --></div>
+<div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":"33.33%"} -->
+<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:33.33%"><!-- wp:image {"align":"center","id":421,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/layout/christian-esch-kopf-rand.webp" alt="" class="wp-image-421"/></figure></div>
+<!-- /wp:image --></div>
 <!-- /wp:column -->
 
-<!-- wp:column {"verticalAlignment":"center","width":66.66} -->
-<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:66.66%"><!-- wp:paragraph -->
-<p>Wenn Ihnen die im Buch vermittelten Kniffe nicht innerhalb von 14 Tagen mindestens den Buchpreis in Ihren täglichen Verhandlungen in Zeit oder Geld wieder einsparen, erstatten wir Ihnen den vollen Kaufpreis!</p>
+<!-- wp:column {"verticalAlignment":"center","width":"66.66%"} -->
+<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:66.66%"><!-- wp:paragraph {"textColor":"white"} -->
+<p class="has-white-color has-text-color">Wenn Ihnen die im Buch vermittelten Kniffe nicht innerhalb von 14 Tagen mindestens den Buchpreis in Ihren täglichen Verhandlungen in Zeit oder Geld wieder einsparen, erstatten wir Ihnen den vollen Kaufpreis!</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"textColor":"white"} -->
+<p class="has-white-color has-text-color"><em>Christian Esch<br>Geschäsftsführer</em></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white","align":"center"} -->
-<div class="wp-block-button aligncenter"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="https://www.digistore24.com/product/150947" style="border-radius:5px" target="_blank" rel="noreferrer noopener">Jetzt "Ankereffekte" bestellen &gt;&gt;</a></div>
-<!-- /wp:button -->
-
-<!-- wp:block {"ref":295011} /-->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website:<br>[ratings]</p>
-<!-- /wp:paragraph --></div></div>
+<!-- wp:button {"backgroundColor":"green-lime","textColor":"white","align":"center","style":{"border":{"radius":"5px"}}} -->
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link has-white-color has-green-lime-background-color has-text-color has-background" href="https://www.digistore24.com/product/150947" style="border-radius:5px" target="_blank" rel="noreferrer noopener">Jetzt "Ankereffekte" bestellen &gt;&gt;</a></div>
+<!-- /wp:button --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>387094</wp:post_id>
   <wp:post_date>2020-08-02 18:30:48</wp:post_date>
   <wp:post_date_gmt>2020-08-02 16:30:48</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:31</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:31</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 08:32:23</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 07:32:23</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>ankereffekte</wp:post_name>
@@ -9966,6 +10220,18 @@ https://youtu.be/DCxHKED_ycE
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
   <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[4]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_metadesc</wp:meta_key>
     <wp:meta_value><![CDATA[Innerhalb von 7 Minuten zum gültigen Energieausweis - über 1.130 Bewertungen bestätigen den guten Service. Einfach Angaben eingeben, ausdrucken, fertig.]]></wp:meta_value>
   </wp:postmeta>
@@ -9975,11 +10241,11 @@ https://youtu.be/DCxHKED_ycE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_484185d06e6a02fa9ddd5f3bb667ee82</wp:meta_key>
-    <wp:meta_value><![CDATA[<iframe title="Ankereffekte - 7 Tricks, wie Sie alle Arten von Verhandlungen zu Ihren Gunsten beeinflussen" width="640" height="360" src="https://www.youtube.com/embed/DCxHKED_ycE?feature=oembed" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></wp:meta_value>
+    <wp:meta_value><![CDATA[<iframe title="Ankereffekte - 7 Tricks, wie Sie alle Arten von Verhandlungen zu Ihren Gunsten beeinflussen" width="640" height="360" src="https://www.youtube.com/embed/DCxHKED_ycE?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_484185d06e6a02fa9ddd5f3bb667ee82</wp:meta_key>
-    <wp:meta_value><![CDATA[1596387606]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1638516582]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_title</wp:meta_key>
@@ -12423,16 +12689,12 @@ https://youtu.be/XEFZYkvt0nE
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=387271</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph -->
+  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"wave-block-1"} -->
-<div class="wp-block-group wave-block-1 has-yellow-neon-to-green-mint-gradient-background has-background"></div>
-<!-- /wp:group -->
-
-<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"wp-embed-responsive"} -->
-<div class="wp-block-group wp-embed-responsive has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px","bottom":"160px"}}},"gradient":"yellow-neon-to-green-mint","className":"wp-embed-responsive is-style-group-main"} -->
+<div class="wp-block-group wp-embed-responsive is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:160px"><!-- wp:heading -->
 <h2 id="4-einfache-schritte-zur-energieausweis-erstellung">4 einfache Schritte <br><strong>zur Energieausweis-Erstellung</strong></h2>
 <!-- /wp:heading -->
 
@@ -12465,86 +12727,74 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"white-green-to-green-white"} -->
-<div class="wp-block-group has-white-green-to-green-white-gradient-background has-background"><!-- wp:columns -->
+<!-- wp:create-block/block-wave-separator {"gradient":"white-green-to-green-white"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-white-green-to-green-white-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px"}}},"gradient":"white-green-to-green-white","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-white-green-to-green-white-gradient-background has-background" style="padding-top:0px"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:heading -->
-<h2 id="verbrauchsausweis"><a href="/energieausweis2/verbrauchsausweis-wohngebaeude/">Verbrauchsausweis</a></h2>
+<div class="wp-block-column"><!-- wp:heading {"textColor":"green-moss"} -->
+<h2 class="has-green-moss-color has-text-color" id="verbrauchsausweis"><strong>Verbrauchsausweis</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:image {"sizeSlug":"large"} -->
 <figure class="wp-block-image size-large"><img src="https://enon.test/app/themes/immoticket-energieausweis/assets/media/verbrauchsausweis-online-erstellen.jpg" alt=""/></figure>
 <!-- /wp:image -->
 
-<!-- wp:list {"className":"list-checkboxes"} -->
-<ul class="list-checkboxes"><li>Rechtsgültiger Verbrauchsausweis nach der aktuellen EnEV 2014</li><li>Erstellt vom geprüften Energieberater</li><li>Bearbeitung der Energieausweis-Daten zu jeder Zeit</li><li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li><li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li></ul>
+<!-- wp:list {"className":"list-checkboxes is-style-checkmarks-formatted"} -->
+<ul class="list-checkboxes is-style-checkmarks-formatted"><li>Rechtsgültiger Verbrauchsausweis nach der aktuellen EnEV 2014</li><li>Erstellt vom geprüften Energieberater</li><li>Bearbeitung der Energieausweis-Daten zu jeder Zeit</li><li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li><li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:spacer {"height":50} -->
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
-<!-- wp:paragraph {"fontSize":"huge"} -->
-<p class="has-huge-font-size"><strong>49,95€</strong></p>
+<!-- wp:paragraph {"align":"center","fontSize":"huge"} -->
+<p class="has-text-align-center has-huge-font-size"><strong>49,95€</strong></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:heading -->
-<h2 id="bedarfsausweis">Bedarfsausweis</h2>
+<div class="wp-block-column"><!-- wp:heading {"textColor":"green-moss"} -->
+<h2 class="has-green-moss-color has-text-color" id="bedarfsausweis"><strong>Bedarfsausweis</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:image {"sizeSlug":"large"} -->
 <figure class="wp-block-image size-large"><img src="https://enon.test/app/themes/immoticket-energieausweis/assets/media/bedarfsausweis-online-erstellen.jpg" alt=""/></figure>
 <!-- /wp:image -->
 
-<!-- wp:list {"className":"list-checkboxes"} -->
-<ul class="list-checkboxes"><li>Rechtsgültiger Bedarfsausweis nach der aktuellen EnEV 2014</li><li>Erstellt vom geprüften Energieberater</li><li>Bearbeitung der Energieausweis-Daten zu jeder Zeit</li><li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li><li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li></ul>
+<!-- wp:list {"className":"list-checkboxes is-style-checkmarks-formatted"} -->
+<ul class="list-checkboxes is-style-checkmarks-formatted"><li>Rechtsgültiger Bedarfsausweis nach der aktuellen EnEV 2014</li><li>Erstellt vom geprüften Energieberater</li><li>Bearbeitung der Energieausweis-Daten zu jeder Zeit</li><li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li><li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:spacer {"height":50} -->
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
-<!-- wp:paragraph {"fontSize":"huge"} -->
-<p class="has-huge-font-size"><strong>99,95€</strong></p>
+<!-- wp:paragraph {"align":"center","fontSize":"huge"} -->
+<p class="has-text-align-center has-huge-font-size"><strong>99,95€</strong></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Energieausweis-Erstellung beginnen &gt;&gt;</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Energieausweis-Erstellung beginnen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"gradient":"green-neon-to-green-mint"} -->
-<div class="wp-block-group has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"left"} -->
+<!-- wp:group {"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"left"} -->
 <h2 class="has-text-align-left" id="6-grundedie-fur-energieausweis-online-erstellen-de-sprechen"><strong>6 Gründe</strong><br>die für Energieausweis-online-erstellen.de sprechen:</h2>
 <!-- /wp:heading -->
 
-<!-- wp:list {"className":"list-checkboxes text-center"} -->
-<ul class="list-checkboxes text-center"><li><strong>Sofortige Verfügbarkeit</strong><br>Weil Sie sofort auf Ihren Energieausweis zugreifen können (Eingeben, ausdrucken, fertig!).</li><li><strong>Zuverlässigkeit bestätigt</strong><br>Weil über 870 Onlinebewertungen sowie die Trusted Shops Zertifizierung unseren guten Service belegen.</li><li><strong>Einfache Energieausweis-Erstellung</strong><br>Weil Sie hier spielerisch einfach Ihren Energieausweise erstellen können.</li><li><strong>100% rechtsgültig</strong><br>Weil unsere Energieausweise genauso gültig sind, wie „vor Ort“ ausgestellte Energieausweise.</li><li><strong>Hohe Ersparnis</strong><br>Weil Sie bis zu 300 Euro gegenüber der „vor-Ort-Erstellung“ sparen</li></ul>
+<!-- wp:list {"className":"list-checkboxes text-center is-style-checkmarks-formatted"} -->
+<ul class="list-checkboxes text-center is-style-checkmarks-formatted"><li><strong>Sofortige Verfügbarkeit</strong><br>Weil Sie sofort auf Ihren Energieausweis zugreifen können (Eingeben, ausdrucken, fertig!).</li><li><strong>Zuverlässigkeit bestätigt</strong><br>Weil über 870 Onlinebewertungen sowie die Trusted Shops Zertifizierung unseren guten Service belegen.</li><li><strong>Einfache Energieausweis-Erstellung</strong><br>Weil Sie hier spielerisch einfach Ihren Energieausweise erstellen können.</li><li><strong>100% rechtsgültig</strong><br>Weil unsere Energieausweise genauso gültig sind, wie „vor Ort“ ausgestellte Energieausweise.</li><li><strong>Hohe Ersparnis</strong><br>Weil Sie bis zu 300 Euro gegenüber der „vor-Ort-Erstellung“ sparen</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:spacer {"height":50} -->
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
-<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
-<div class="wp-block-buttons"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Jetzt bis zu 300 Euro sparen &gt;&gt;</a></div>
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"},"style":{"spacing":{"margin":{"top":"80px"}}}} -->
+<div class="wp-block-buttons" style="margin-top:80px"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
+<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Jetzt bis zu 300 Euro sparen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator -->
-
-<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"}}} -->
-<div class="wp-block-group has-background" style="background:linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"><!-- wp:heading -->
+<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"}},"className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-background" style="background:linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"><!-- wp:heading -->
 <h2 id="das-sagen-unsere-kundenzufriedene-kunden-sind-fur-uns-das-wichtigste"><strong>Das sagen unsere Kunden</strong><br>zufriedene Kunden sind für uns das wichtigste!</h2>
 <!-- /wp:heading -->
 
@@ -12562,12 +12812,12 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:quote -->
-<blockquote class="wp-block-quote"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
 <!-- /wp:quote -->
 
-<!-- wp:columns {"className":"stars ml-2"} -->
-<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<!-- wp:columns {"isStackedOnMobile":false,"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns is-not-stacked-on-mobile stars ml-2"><!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
 <figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
 <!-- /wp:image --></div>
@@ -12614,12 +12864,12 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:quote -->
-<blockquote class="wp-block-quote"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
 <!-- /wp:quote -->
 
-<!-- wp:columns {"className":"stars ml-2"} -->
-<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<!-- wp:columns {"isStackedOnMobile":false,"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns is-not-stacked-on-mobile stars ml-2"><!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
 <figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
 <!-- /wp:image --></div>
@@ -12666,12 +12916,12 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:quote -->
-<blockquote class="wp-block-quote"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
 <!-- /wp:quote -->
 
-<!-- wp:columns {"className":"stars ml-2"} -->
-<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<!-- wp:columns {"isStackedOnMobile":false,"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns is-not-stacked-on-mobile stars ml-2"><!-- wp:column {"width":"22px"} -->
 <div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
 <figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
 <!-- /wp:image --></div>
@@ -12714,24 +12964,18 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <div class="wp-block-buttons uppercase"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt Energieausweis erstellen</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons --></div>
-<!-- /wp:group -->
+<!-- /wp:buttons -->
 
-<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings"} -->
-<div class="wp-block-group group-ratings has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">[ratings]</p>
+<!-- wp:paragraph -->
+<p></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>387271</wp:post_id>
   <wp:post_date>2020-08-03 00:06:06</wp:post_date>
   <wp:post_date_gmt>2020-08-02 22:06:06</wp:post_date_gmt>
-  <wp:post_modified>2021-11-11 14:44:32</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-11 13:44:32</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 07:59:28</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 06:59:28</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>energieausweis-erstellen</wp:post_name>
@@ -12756,6 +13000,18 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:postmeta>
     <wp:meta_key>_oembed_49b28fc99f5b0b6b4d37cfe431cfc51c</wp:meta_key>
     <wp:meta_value><![CDATA[<iframe title="Energieausweis online erstellen - Unschlagbar einfach!" width="500" height="281" src="https://www.youtube.com/embed/XEFZYkvt0nE?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_oembed_time_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
+    <wp:meta_value><![CDATA[1638514657]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_oembed_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
+    <wp:meta_value><![CDATA[<iframe title="Energieausweis online erstellen - Unschlagbar einfach!" width="640" height="360" src="https://www.youtube.com/embed/XEFZYkvt0nE?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_49b28fc99f5b0b6b4d37cfe431cfc51c</wp:meta_key>
@@ -12799,7 +13055,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[70]]></wp:meta_value>
+    <wp:meta_value><![CDATA[66]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_score</wp:meta_key>
@@ -13054,7 +13310,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <guid isPermaLink="false">https://enon.test/dup-affiliate-nutzungsvereinbarung/</guid>
   <description/>
   <content:encoded><![CDATA[<!-- wp:heading -->
-<h2>Nutzungsvereinbarung unseres Affiliate-Programmes</h2>
+<h2 id="nutzungsvereinbarung-unseres-affiliate-programmes">Nutzungsvereinbarung unseres Affiliate-Programmes</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13066,7 +13322,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>I. Vertragsschluss</h3>
+<h3 id="i-vertragsschluss">I. Vertragsschluss</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13090,7 +13346,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>II. Vertragsgegenstand</h3>
+<h3 id="ii-vertragsgegenstand">II. Vertragsgegenstand</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13122,7 +13378,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>III. Teilnahme an dem Immoticket24-Affiliate-Programm</h3>
+<h3 id="iii-teilnahme-an-dem-immoticket24-affiliate-programm">III. Teilnahme an dem Immoticket24-Affiliate-Programm</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13142,7 +13398,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>IV. Leistungen des Publishers</h3>
+<h3 id="iv-leistungen-des-publishers">IV. Leistungen des Publishers</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13194,7 +13450,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>V. Missbrauch</h3>
+<h3 id="v-missbrauch">V. Missbrauch</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13226,7 +13482,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>VI. Vergütung</h3>
+<h3 id="vi-vergutung">VI. Vergütung</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13270,7 +13526,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>VII. Laufzeit und Kündigung</h3>
+<h3 id="vii-laufzeit-und-kundigung">VII. Laufzeit und Kündigung</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13290,7 +13546,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>VIII. Beendigung der Teilnahme durch Immoticket aufgrund von Inaktivität / Verjährung</h3>
+<h3 id="viii-beendigung-der-teilnahme-durch-immoticket-aufgrund-von-inaktivitat-verjahrung">VIII. Beendigung der Teilnahme durch Immoticket aufgrund von Inaktivität / Verjährung</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13306,7 +13562,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>IX. Datenschutz</h3>
+<h3 id="ix-datenschutz">IX. Datenschutz</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13334,7 +13590,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>X. Nutzungsrechte</h3>
+<h3 id="x-nutzungsrechte">X. Nutzungsrechte</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13358,7 +13614,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>XI. Freistellung bei Vertragsverletzung</h3>
+<h3 id="xi-freistellung-bei-vertragsverletzung">XI. Freistellung bei Vertragsverletzung</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13366,7 +13622,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>XII. Haftung und Haftungsbeschränkung</h3>
+<h3 id="xii-haftung-und-haftungsbeschrankung">XII. Haftung und Haftungsbeschränkung</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13394,7 +13650,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>VIII. Änderung dieser Nutzungsvereinbarung</h3>
+<h3 id="viii-anderung-dieser-nutzungsvereinbarung">VIII. Änderung dieser Nutzungsvereinbarung</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13406,7 +13662,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>XIV. Schlussbestimmungen</h3>
+<h3 id="xiv-schlussbestimmungen">XIV. Schlussbestimmungen</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13436,8 +13692,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>387293</wp:post_id>
   <wp:post_date>2015-11-17 10:01:22</wp:post_date>
   <wp:post_date_gmt>2015-11-17 09:01:22</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:30</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:30</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 08:11:03</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 07:11:03</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>affiliate-nutzungsvereinbarung</wp:post_name>
@@ -13447,6 +13703,18 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_wp_page_template</wp:meta_key>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_average</wp:meta_key>
     <wp:meta_value><![CDATA[0]]></wp:meta_value>
@@ -13488,8 +13756,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
     <wp:meta_value><![CDATA[field_extra_js]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
-    <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
-    <wp:meta_value><![CDATA[30]]></wp:meta_value>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[14]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_score</wp:meta_key>
@@ -14474,159 +14742,344 @@ https://youtu.be/XEFZYkvt0nE
   <guid isPermaLink="false">https://enon.test/?page_id=387357</guid>
   <description/>
   <content:encoded><![CDATA[<!-- wp:group -->
-<div class="wp-block-group"><!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center">Welchen Energieausweis benötige ich?</h2>
+<div class="wp-block-group"><!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px","bottom":"220px"}}},"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:220px"><!-- wp:heading {"textAlign":"left"} -->
+<h2 class="has-text-align-left" id="welchen-energieausweis-benotige-ich"><strong>Welchen Energieausweis</strong> benötige ich?</h2>
 <!-- /wp:heading -->
 
-<!-- wp:html -->
-<figure class="wp-block-table aligncenter">
-  <div id="b250c2e936a1c180fb34b9d336fc52ff" class="op-comparison-table op-comparison-table-style1 op-comparison-table-4col clearfix">
-    <div class="comparison-table-content">
-      <div class="op-comparison-table-features-column op-comparison-table-empty-header">
-        <div class="op-comparison-table-header"> </div>
-        <div class="op-comparison-table-features">
-          <div class="op-comparison-table-feature">
-            <div class="op-comparison-table-feature-cell">Bis zu 4 Wohneinheiten</div>
-          </div>
-          <div class="op-comparison-table-feature">
-            <div class="op-comparison-table-feature-cell">Ab 5 Wohneinheiten</div>
-          </div>
-        </div>
-      </div>
-      <div class="op-comparison-table-column">
-        <div class="op-comparison-table-header">
-          <h3 class="op-comparison-table-title">Baujahr bis 1977</h3>
-          <p class="op-comparison-table-description"> </p>
-          <div class="op-comparison-table-package-description"> </div>
-        </div>
-        <ul class="op-comparison-table-features">
-          <li class="op-comparison-table-feature">
-            <div class="op-comparison-table-feature-cell"><span class="op-comparison-table-feature-title">Bis zu 4 Wohneinheiten</span><span class="op-comparison-table-feature-text">Bedarfsausweis</span></div>
-          </li>
-          <li class="op-comparison-table-feature">
-            <div class="op-comparison-table-feature-cell"><span class="op-comparison-table-feature-title">Ab 5 Wohneinheiten</span><span class="op-comparison-table-feature-text">Freie Wahl</span></div>
-          </li>
-        </ul>
-        <div class="op-comparison-table-btn-container">
-          <div class="op-comparison-table-feature-cell"><a class="wp-block-button__link has-text-color has-white-color has-background" style="color:#fff;background-color:#3da81d;border-radius:5px" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Bedarfsausweis erstellen &gt;&gt;</a></div>
-        </div>
-      </div>
-      <div class="op-comparison-table-column">
-        <div class="op-comparison-table-header">
-          <h3 class="op-comparison-table-title">Baujahr ab 1978</h3>
-          <p class="op-comparison-table-description"> </p>
-          <div class="op-comparison-table-package-description"> </div>
-        </div>
-        <ul class="op-comparison-table-features">
-          <li class="op-comparison-table-feature">
-            <div class="op-comparison-table-feature-cell"><span class="op-comparison-table-feature-title">Bis zu 4 Wohneinheiten</span><span class="op-comparison-table-feature-text">Freie Wahl</span></div>
-          </li>
-          <li class="op-comparison-table-feature">
-            <div class="op-comparison-table-feature-cell"><span class="op-comparison-table-feature-title">Ab 5 Wohneinheiten</span><span class="op-comparison-table-feature-text">Freie Wahl</span></div>
-          </li>
-        </ul>
-        <div class="op-comparison-table-btn-container">
-          <div class="op-comparison-table-feature-cell"><a class="wp-block-button__link has-text-color has-white-color has-background" style="color:#fff;background-color:#3da81d;border-radius:5px" href="/energieausweis2/verbrauchsausweis-wohngebaeude/">Verbrauchsausweis erstellen &gt;&gt;</a></div>
-        </div>
-      </div>
-      <div class="op-comparison-table-column">
-        <div class="op-comparison-table-header">
-          <h3 class="op-comparison-table-title">Neubau</h3>
-          <p class="op-comparison-table-description"> </p>
-          <div class="op-comparison-table-package-description"> </div>
-        </div>
-        <ul class="op-comparison-table-features">
-          <li class="op-comparison-table-feature">
-            <div class="op-comparison-table-feature-cell"><span class="op-comparison-table-feature-title">Bis zu 4 Wohneinheiten</span><span class="op-comparison-table-feature-text">Bedarfsausweis</span></div>
-          </li>
-          <li class="op-comparison-table-feature">
-            <div class="op-comparison-table-feature-cell"><span class="op-comparison-table-feature-title">Ab 5 Wohneinheiten</span><span class="op-comparison-table-feature-text">Bedarfsausweis</span></div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</figure>
-<!-- /wp:html -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"80px","bottom":"40px"}}}} -->
+<div class="wp-block-group" style="margin-top:80px;margin-bottom:40px"><!-- wp:columns {"className":"col-table"} -->
+<div class="wp-block-columns col-table"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:spacer {"height":80} -->
+<div style="height:80px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:paragraph {"className":"hide-on-mobile"} -->
+<p class="hide-on-mobile"><strong>Bis zu 4 Wohneinheiten</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"hide-on-mobile"} -->
+<p class="hide-on-mobile"><strong>Ab 5 Wohneinheiten</strong></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading {"textAlign":"center","backgroundColor":"black-20","textColor":"white"} -->
+<h2 class="has-text-align-center has-white-color has-black-20-background-color has-text-color has-background" id="baujahr-bis-1977">Baujahr Bis 1977</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"align":"center","className":"hide-on-screen"} -->
+<p class="has-text-align-center hide-on-screen"><strong>Bis zu 4 Wohneinheiten</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">Bedarfsausweis</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center","className":"hide-on-screen"} -->
+<p class="has-text-align-center hide-on-screen"><strong>Ab 5 Wohneinheiten</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">Freie Wahl</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading {"textAlign":"center","backgroundColor":"black-20","textColor":"white"} -->
+<h2 class="has-text-align-center has-white-color has-black-20-background-color has-text-color has-background" id="baujahr-ab-1978">Baujahr ab 1978</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"align":"center","className":"hide-on-screen"} -->
+<p class="has-text-align-center hide-on-screen"><strong>Bis zu 4 Wohneinheiten</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">Freie Wahl</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center","className":"hide-on-screen"} -->
+<p class="has-text-align-center hide-on-screen"><strong>Ab 5 Wohneinheiten</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">Freie Wahl</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading {"textAlign":"center","backgroundColor":"black-20","textColor":"white"} -->
+<h2 class="has-text-align-center has-white-color has-black-20-background-color has-text-color has-background" id="neubau">Neubau</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"align":"center","className":"hide-on-screen"} -->
+<p class="has-text-align-center hide-on-screen"><strong>Bis zu 4 Wohneinheiten</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">Bedarfsausweis</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center","className":"hide-on-screen"} -->
+<p class="has-text-align-center hide-on-screen"><strong>Ab 5 Wohneinheiten</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">Bedarfsausweis</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:group -->
+
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"},"style":{"spacing":{"blockGap":"80px","margin":{"top":"0px","bottom":"80px"}}}} -->
+<div class="wp-block-buttons" style="margin-top:0px;margin-bottom:80px"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Bedarfsausweis erstellen</a></div>
+<!-- /wp:button -->
+
+<!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/verbrauchsausweis-wohngebaeude/">Verbrauchsausweis erstellen</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">Freie Wahl bedeutet, dass Sie selber auswählen können, ob Sie lieber einen Verbrauchs- oder Bedarfsausweis erstellen.&nbsp;<br><strong>Bei Fragen können Sie uns auch jederzeit unter folgender Rufnummer kontaktieren: 0 26 54 – 8 80 11 99.</strong></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center"><strong><strong>Diese Angaben benötigen Sie zur Erstellung eines Energieausweises</strong></strong></h2>
+<!-- wp:create-block/block-wave-separator {"waveId":"wave-2","gradient":"white-green-to-green-white"} -->
+<div class="wp-block-create-block-block-wave-separator wave-2 has-white-green-to-green-white-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-2" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,5.8c9.8,5,17.3,13.6,56.2,8.8c41.7-5.1,83.2-18.5,178.2-6.7c34.8,4.3,49.1-7.9,49.1-7.9l0,17H0V5.8z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
+<h2 class="has-text-align-center" id="diese-angaben-benotigen-sie-zur-erstellung-eines-energieausweises">Diese Angaben benötigen Sie zur Erstellung eines Energieausweises</h2>
 <!-- /wp:heading -->
 
-<!-- wp:image {"align":"center","id":295008,"sizeSlug":"large","className":"separator-stars"} -->
-<div class="wp-block-image separator-stars"><figure class="aligncenter size-large"><img src="https://enon.test/app/uploads/2019/08/shadow-ornament.png" alt="" class="wp-image-295008"/></figure></div>
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:image {"align":"center","id":436,"width":47,"height":60,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436" width="47" height="60"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading {"textAlign":"center","level":3} -->
-<h3 class="has-text-align-center">Downloads</h3>
-<!-- /wp:heading -->
+<!-- wp:heading {"textAlign":"center","level":3,"textColor":"green-moss","className":"text-center md:text-left"} -->
+<h3 class="has-text-align-center text-center md:text-left has-green-moss-color has-text-color" id="angaben-bedarfsausweis">Angaben Bedarfsausweis</h3>
+<!-- /wp:heading --></div>
+<!-- /wp:column -->
 
-<!-- wp:paragraph {"className":"has-text-align-left"} -->
-<p class="has-text-align-left">
-<a href="https://enon.test/app/uploads/2021/07/angaben_bedarfsausweis_2021.pdf" target="_blank" style="display:inline-block;margin-right:20px" rel="noopener noreferrer"><img class="wp-image-337160" src="https://enon.test/app/uploads/2019/09/icon-pdf.png" alt=""></a>
-<a href="https://enon.test/app/uploads/2021/07/angaben_bedarfsausweis_2021.pdf" style="display:inline-block;vertical-align:middle"><b>Angaben Bedarfsausweis</b><br><span style="color:#444">Diese Angaben benötigen Sie zur Erstellung des Bedarfsausweises.</span></a></p>
-<!-- /wp:paragraph -->
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:image {"align":"center","id":436,"width":47,"height":60,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436" width="47" height="60"/></figure></div>
+<!-- /wp:image -->
 
-<!-- wp:paragraph {"className":"has-text-align-left"} -->
-<p class="has-text-align-left">
-<a href="https://enon.test/app/uploads/2021/07/angaben_verbrauchsausweis_2021.pdf" target="_blank" style="display:inline-block;margin-right:20px" rel="noopener noreferrer"><img class="wp-image-337160" src="https://enon.test/app/uploads/2019/09/icon-pdf.png" alt=""></a>
-<a href="https://enon.test/app/uploads/2021/07/angaben_verbrauchsausweis_2021.pdf" style="display:inline-block;vertical-align:middle"><b>Angaben Verbrauchsausweis</b><br><span style="color:#444">Diese Angaben benötigen Sie zur Erstellung des Verbrauchsausweises.</span></a></p>
-<!-- /wp:paragraph -->
+<!-- wp:heading {"textAlign":"center","level":3,"textColor":"green-moss","className":"text-center md:text-left"} -->
+<h3 class="has-text-align-center text-center md:text-left has-green-moss-color has-text-color" id="angaben-verbrauchsausweis">Angaben Verbrauchsausweis</h3>
+<!-- /wp:heading --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":5}}} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis2/bedarfsausweis-wohngebaeude/" style="border-radius:5px">Bedarfsausweis erstellen >></a></div>
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Bedarfsausweis erstellen</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":5}}} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis2/verbrauchsausweis-wohngebaeude/" style="border-radius:5px">Verbrauchsausweis erstellen &gt;&gt;</a></div>
+<!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/verbrauchsausweis-wohngebaeude/">Verbrauchsausweis erstellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center">Das sagen Kunden:</h2>
+<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
+<h2 id="das-sagen-unsere-kundenzufriedene-kunden-sind-fur-uns-das-wichtigste"><strong>Das sagen unsere Kunden</strong><br>zufriedene Kunden sind für uns das wichtigste!</h2>
 <!-- /wp:heading -->
 
-<!-- wp:block {"ref":295011} /-->
+<!-- wp:columns {"className":"testimonials"} -->
+<div class="wp-block-columns testimonials"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
 
-<!-- wp:block {"ref":296312} /-->
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
 
-<!-- wp:block {"ref":295011} /-->
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":5}}} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis2/bedarfsausweis-wohngebaeude/" style="border-radius:5px">Jetzt Bedarfsausweis erstellen >></a></div>
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"12px"}},"className":"mt-4"} -->
+<p class="has-text-align-center mt-4" style="font-size:12px"><em>Ausgewählte Top-Bewertungen für enon.test powered by TrustedShops</em></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Jetzt Bedarfsausweis erstellen</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":5}}} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis2/verbrauchsausweis-wohngebaeude/" style="border-radius:5px">Jetzt Verbrauchsausweis erstellen &gt;&gt;</a></div>
+<!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/verbrauchsausweis-wohngebaeude/">Jetzt Verbrauchsausweis erstellen</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->
-
-<!-- wp:block {"ref":295011} /--></div>
-<!-- /wp:group -->
-
-<!-- wp:spacer {"height":20} -->
-<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website:<br>[ratings]</p>
-<!-- /wp:paragraph -->]]></content:encoded>
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>387357</wp:post_id>
   <wp:post_date>2020-08-03 08:49:35</wp:post_date>
   <wp:post_date_gmt>2020-08-03 06:49:35</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:31</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:31</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-02 17:57:25</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-02 16:57:25</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>energieausweis</wp:post_name>
@@ -14637,12 +15090,20 @@ https://youtu.be/XEFZYkvt0nE
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
   <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_metadesc</wp:meta_key>
     <wp:meta_value><![CDATA[Auf dieser Seite können Sie Ihren Energieausweis bequem online erstellen. Achten Sie darauf, welche Art von Energieausweis für Ihr Gebäude die richtige ist.]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[51]]></wp:meta_value>
+    <wp:meta_value><![CDATA[49]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
@@ -14650,7 +15111,7 @@ https://youtu.be/XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
-    <wp:meta_value><![CDATA[2]]></wp:meta_value>
+    <wp:meta_value><![CDATA[5]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_title</wp:meta_key>
@@ -15920,8 +16381,8 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 <div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
 <!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"160px"}}},"gradient":"yellow-neon-to-green-mint","className":"pt-0 is-style-wave-top-bottom is-style-main-group is-style-group-main"} -->
-<div class="wp-block-group pt-0 is-style-wave-top-bottom is-style-main-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-bottom:160px"><!-- wp:heading {"textAlign":"center"} -->
+<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"160px","top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"pt-0 is-style-wave-top-bottom is-style-main-group is-style-group-main"} -->
+<div class="wp-block-group pt-0 is-style-wave-top-bottom is-style-main-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:160px"><!-- wp:heading {"textAlign":"center"} -->
 <h2 class="has-text-align-center" id="welchen-energieausweis-benotigen-sie">Welchen Energieausweis benötigen Sie?</h2>
 <!-- /wp:heading -->
 
@@ -16544,15 +17005,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt Energieausweis erstellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
-<!-- /wp:group -->
-
-<!-- wp:block {"ref":465516} /-->]]></content:encoded>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465251</wp:post_id>
   <wp:post_date>2021-10-25 12:15:05</wp:post_date>
   <wp:post_date_gmt>2021-10-25 10:15:05</wp:post_date_gmt>
-  <wp:post_modified>2021-12-01 17:42:45</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-01 16:42:45</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-02 15:09:26</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-02 14:09:26</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>startseite</wp:post_name>
@@ -16565,6 +17024,10 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:postmeta>
     <wp:meta_key>_oembed_time_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
     <wp:meta_value><![CDATA[1636970971]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_wp_page_template</wp:meta_key>
+    <wp:meta_value><![CDATA[default]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_users</wp:meta_key>
@@ -16584,7 +17047,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_72a75aa365390a1a6b1191fa0ee62a14</wp:meta_key>
-    <wp:meta_value><![CDATA[1638278700]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1638446348]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_users</wp:meta_key>
@@ -16600,7 +17063,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_72a75aa365390a1a6b1191fa0ee62a14</wp:meta_key>
-    <wp:meta_value><![CDATA[1638278700]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1638446348]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_72a75aa365390a1a6b1191fa0ee62a14</wp:meta_key>
@@ -16683,7 +17146,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"pb-5"} -->
-<div class="wp-block-button pb-5"><a class="wp-block-button__link">Jetzt ausprobieren!</a></div>
+<div class="wp-block-button pb-5"><a class="wp-block-button__link" href="/energieausweis/">Jetzt ausprobieren!</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:column -->
@@ -17142,23 +17605,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <div class="wp-block-button"><a class="wp-block-button__link">Hier Energieausweis beginnen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
-<!-- /wp:group -->
-
-<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings is-style-main-group is-style-group-main"} -->
-<div class="wp-block-group group-ratings is-style-main-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">[ratings]</p>
-<!-- /wp:paragraph --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465252</wp:post_id>
   <wp:post_date>2021-10-26 12:39:55</wp:post_date>
   <wp:post_date_gmt>2021-10-26 10:39:55</wp:post_date_gmt>
-  <wp:post_modified>2021-11-30 15:21:42</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-30 14:21:42</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-02 15:08:41</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-02 14:08:41</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>ihre-vorteile</wp:post_name>
@@ -17168,6 +17621,14 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
+  <wp:postmeta>
+    <wp:meta_key>_oembed_time_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
+    <wp:meta_value><![CDATA[1638515939]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_oembed_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
+    <wp:meta_value><![CDATA[<iframe title="Energieausweis online erstellen - Unschlagbar einfach!" width="640" height="360" src="https://www.youtube.com/embed/XEFZYkvt0nE?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></wp:meta_value>
+  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_72a75aa365390a1a6b1191fa0ee62a14</wp:meta_key>
     <wp:meta_value><![CDATA[1638282103]]></wp:meta_value>
@@ -17382,7 +17843,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
 <div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link">Bedarfsausweis erstellen</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Bedarfsausweis erstellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group --></div>
@@ -17482,7 +17943,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
 <div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link">Verbauchsausweis erstellen</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/verbrauchsausweis-wohngebaeude/">Verbauchsausweis erstellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group --></div>
@@ -17709,30 +18170,20 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
 <div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link">Hier Energieausweis beginnen</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Hier Energieausweis beginnen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
 <!-- wp:paragraph {"className":"banner-content-bottom"} -->
 <p class="banner-content-bottom">unser<br>bestpreis-versprechen</p>
 <!-- /wp:paragraph --></div>
-<!-- /wp:group -->
-
-<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings is-style-group-main"} -->
-<div class="wp-block-group group-ratings is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">[ratings]</p>
-<!-- /wp:paragraph --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465253</wp:post_id>
   <wp:post_date>2021-10-26 12:58:03</wp:post_date>
   <wp:post_date_gmt>2021-10-26 10:58:03</wp:post_date_gmt>
-  <wp:post_modified>2021-12-01 16:31:44</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-01 15:31:44</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-02 15:09:46</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-02 14:09:46</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>preise</wp:post_name>
@@ -17928,25 +18379,15 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:ootb/openstreetmap {"mapHeight":550,"markers":[{"lat":"50.3312695","lng":"7.320933","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eKrufter Straße 5, \u003cbr\u003e56753 Welling\u003cbr\u003e\u003cbr\u003eTel.: 02654 / 8801199\u003c/p\u003e"},{"lat":"50.5457043","lng":"7.1362166","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eTelegrafenstraße 2\u003cbr\u003eBad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"},{"lat":"50.540312","lng":"7.0908392","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eAltenbaustraße 2\u003cbr\u003e53474 Bad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"}],"zoom":10,"dragging":false,"touchZoom":false,"doubleClickZoom":false,"scrollWheelZoom":false,"bounds":[["50.540312","7.0908392"],["50.3312695","7.320933"],["50.5457043","7.1362166"]],"className":"no-gap"} -->
-<div class="wp-block-ootb-openstreetmap no-gap"><div class="ootb-openstreetmap--map" data-provider="openstreetmap" data-markers="%5B%7B%22lat%22%3A%2250.3312695%22%2C%22lng%22%3A%227.320933%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EKrufter%20Stra%DFe%205%2C%20%3Cbr%3E56753%20Welling%3Cbr%3E%3Cbr%3ETel.%3A%2002654%20/%208801199%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.5457043%22%2C%22lng%22%3A%227.1362166%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3ETelegrafenstra%DFe%202%3Cbr%3EBad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.540312%22%2C%22lng%22%3A%227.0908392%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EAltenbaustra%DFe%202%3Cbr%3E53474%20Bad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%5D" data-bounds="[50.4384869,7.2058861]" data-zoom="10" data-minzoom="2" data-maxzoom="18" data-dragging="false" data-touchzoom="false" data-doubleclickzoom="false" data-scrollwheelzoom="false" data-marker="%7B%22iconUrl%22%3A%22https%3A//enon.test/app/plugins/ootb-openstreetmap/assets/vendor/leaflet/images/marker-icon.png%22%2C%22iconAnchor%22%3A%5B12%2C41%5D%2C%22popupAnchor%22%3A%5B0%2C-41%5D%7D" style="height:550px"></div></div>
-<!-- /wp:ootb/openstreetmap -->
-
-<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings is-style-group-main"} -->
-<div class="wp-block-group group-ratings is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">[ratings]</p>
-<!-- /wp:paragraph --></div>
-<!-- /wp:group -->]]></content:encoded>
+<!-- wp:ootb/openstreetmap {"mapHeight":550,"markers":[{"lat":"50.3312695","lng":"7.320933","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eKrufter Straße 5, \u003cbr\u003e56753 Welling\u003cbr\u003e\u003cbr\u003eTel.: 02654 / 8801199\u003c/p\u003e"},{"lat":"50.5457043","lng":"7.1362166","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eTelegrafenstraße 2\u003cbr\u003eBad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"},{"lat":"50.540312","lng":"7.0908392","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eAltenbaustraße 2\u003cbr\u003e53474 Bad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"}],"zoom":5,"dragging":false,"touchZoom":false,"doubleClickZoom":false,"scrollWheelZoom":false,"bounds":[["50.540312","7.0908392"],["50.3312695","7.320933"],["50.5457043","7.1362166"]],"className":"no-gap"} -->
+<div class="wp-block-ootb-openstreetmap no-gap"><div class="ootb-openstreetmap--map" data-provider="openstreetmap" data-markers="%5B%7B%22lat%22%3A%2250.3312695%22%2C%22lng%22%3A%227.320933%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EKrufter%20Stra%DFe%205%2C%20%3Cbr%3E56753%20Welling%3Cbr%3E%3Cbr%3ETel.%3A%2002654%20/%208801199%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.5457043%22%2C%22lng%22%3A%227.1362166%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3ETelegrafenstra%DFe%202%3Cbr%3EBad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.540312%22%2C%22lng%22%3A%227.0908392%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EAltenbaustra%DFe%202%3Cbr%3E53474%20Bad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%5D" data-bounds="[50.4384869,7.2058861]" data-zoom="5" data-minzoom="2" data-maxzoom="18" data-dragging="false" data-touchzoom="false" data-doubleclickzoom="false" data-scrollwheelzoom="false" data-marker="%7B%22iconUrl%22%3A%22https%3A//enon.test/app/plugins/ootb-openstreetmap/assets/vendor/leaflet/images/marker-icon.png%22%2C%22iconAnchor%22%3A%5B12%2C41%5D%2C%22popupAnchor%22%3A%5B0%2C-41%5D%7D" style="height:550px"></div></div>
+<!-- /wp:ootb/openstreetmap -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465254</wp:post_id>
   <wp:post_date>2021-10-26 13:30:07</wp:post_date>
   <wp:post_date_gmt>2021-10-26 11:30:07</wp:post_date_gmt>
-  <wp:post_modified>2021-11-30 15:32:09</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-30 14:32:09</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-02 15:10:09</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-02 14:10:09</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>firmenportrait</wp:post_name>
@@ -18024,12 +18465,12 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=450954</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
-<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph -->
+  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:heading -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px"><!-- wp:heading -->
 <h2 id="haufige-fragenzu-ihrem-energieausweis"><strong>Häufige Fragen</strong><br>zu ihrem energieausweis</h2>
 <!-- /wp:heading -->
 
@@ -18556,23 +18997,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt Energieausweis erstellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
-<!-- /wp:group -->
-
-<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings is-style-group-main"} -->
-<div class="wp-block-group group-ratings is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">[ratings]</p>
-<!-- /wp:paragraph --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465255</wp:post_id>
   <wp:post_date>2021-10-26 13:42:21</wp:post_date>
   <wp:post_date_gmt>2021-10-26 11:42:21</wp:post_date_gmt>
-  <wp:post_modified>2021-12-01 17:20:20</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-01 16:20:20</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-02 15:10:35</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-02 14:10:35</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>haeufige-fragen</wp:post_name>
@@ -18822,23 +19253,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:ootb/openstreetmap {"mapHeight":550,"markers":[{"lat":"50.3312695","lng":"7.320933","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eKrufter Straße 5, \u003cbr\u003e56753 Welling\u003cbr\u003e\u003cbr\u003eTel.: 02654 / 8801199\u003c/p\u003e"},{"lat":"50.5457043","lng":"7.1362166","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eTelegrafenstraße 2\u003cbr\u003eBad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"},{"lat":"50.540312","lng":"7.0908392","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eAltenbaustraße 2\u003cbr\u003e53474 Bad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"}],"zoom":10,"dragging":false,"touchZoom":false,"doubleClickZoom":false,"scrollWheelZoom":false,"bounds":[["50.540312","7.0908392"],["50.3312695","7.320933"],["50.5457043","7.1362166"]]} -->
 <div class="wp-block-ootb-openstreetmap"><div class="ootb-openstreetmap--map" data-provider="openstreetmap" data-markers="%5B%7B%22lat%22%3A%2250.3312695%22%2C%22lng%22%3A%227.320933%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EKrufter%20Stra%DFe%205%2C%20%3Cbr%3E56753%20Welling%3Cbr%3E%3Cbr%3ETel.%3A%2002654%20/%208801199%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.5457043%22%2C%22lng%22%3A%227.1362166%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3ETelegrafenstra%DFe%202%3Cbr%3EBad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.540312%22%2C%22lng%22%3A%227.0908392%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EAltenbaustra%DFe%202%3Cbr%3E53474%20Bad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%5D" data-bounds="[50.4384869,7.2058861]" data-zoom="10" data-minzoom="2" data-maxzoom="18" data-dragging="false" data-touchzoom="false" data-doubleclickzoom="false" data-scrollwheelzoom="false" data-marker="%7B%22iconUrl%22%3A%22https%3A//enon.test/app/plugins/ootb-openstreetmap/assets/vendor/leaflet/images/marker-icon.png%22%2C%22iconAnchor%22%3A%5B12%2C41%5D%2C%22popupAnchor%22%3A%5B0%2C-41%5D%7D" style="height:550px"></div></div>
-<!-- /wp:ootb/openstreetmap -->
-
-<!-- wp:group {"gradient":"white-green-to-green-white","className":"group-ratings is-style-main-group is-style-group-main"} -->
-<div class="wp-block-group group-ratings is-style-main-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website: </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">[ratings]</p>
-<!-- /wp:paragraph --></div>
-<!-- /wp:group -->]]></content:encoded>
+<!-- /wp:ootb/openstreetmap -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465257</wp:post_id>
   <wp:post_date>2021-10-27 13:26:40</wp:post_date>
   <wp:post_date_gmt>2021-10-27 11:26:40</wp:post_date_gmt>
-  <wp:post_modified>2021-12-01 18:05:39</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-01 17:05:39</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-02 17:57:43</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-02 16:57:43</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>kontakt</wp:post_name>
