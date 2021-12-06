@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/5.8.2" created="2021-12-06 14:41" -->
+<!-- generator="WordPress/5.8.2" created="2021-12-06 15:14" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Energieausweis online erstellen</title>
 <link>https://enon.test</link>
 <description>Jetzt Ihren Energieausweis nach EnEV 2014 anfordern!</description>
-<pubDate>Mon, 06 Dec 2021 14:41:03 +0000</pubDate>
+<pubDate>Mon, 06 Dec 2021 15:14:56 +0000</pubDate>
 <language>de-DE</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>https://enon.test</wp:base_site_url>
@@ -587,50 +587,59 @@
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=70</guid>
   <description/>
-  <content:encoded><![CDATA[Dieser Onlineservice wird betrieben und herausgegeben von der Immoticket24.de GmbH.
+  <content:encoded><![CDATA[<!-- wp:heading -->
+<h2 id="impressum">Impressum</h2>
+<!-- /wp:heading -->
 
-Immoticket24.de GmbH
-Krufter Straße 5
-56753 Welling
+<!-- wp:paragraph -->
+<p>Dieser Onlineservice wird betrieben und herausgegeben von der Immoticket24.de GmbH.</p>
+<!-- /wp:paragraph -->
 
-Fon: 0 26 54 - 8 80 11 99
-Email: christian@immoticket24.de
+<!-- wp:paragraph -->
+<p>Immoticket24.de GmbH<br>Krufter Straße 5<br>56753 Welling</p>
+<!-- /wp:paragraph -->
 
-USt-IdNr. DE292996626
+<!-- wp:paragraph -->
+<p>Fon: 0 26 54 - 8 80 11 99<br>Email: christian@immoticket24.de</p>
+<!-- /wp:paragraph -->
 
-Geschäftsführer: Christian Esch, Karl-Werner Esch
+<!-- wp:paragraph -->
+<p>USt-IdNr. DE292996626</p>
+<!-- /wp:paragraph -->
 
-Handelsregister: Amtsgericht Koblenz, HRB 23918
+<!-- wp:paragraph -->
+<p>Geschäftsführer: Christian Esch, Karl-Werner Esch</p>
+<!-- /wp:paragraph -->
 
-Sitz der Gesellschaft: Welling
+<!-- wp:paragraph -->
+<p>Handelsregister: Amtsgericht Koblenz, HRB 23918</p>
+<!-- /wp:paragraph -->
 
-Berufsaufsichtsbehörde: Verbandsgemeinde Maifeld, Marktplatz 4 – 6, 56751 Polch
-Zugelassen gemäß § 34c der GewO.
-<!-- Leerzeile -->
-<!-- Leerzeile -->
-Verantwortlich gemäß § 55 RStV:
-Christian Esch
-Krufter Straße 5
-56753 Welling
-<!-- Leerzeile -->
-Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie unter <a title="Online-Streitbeilegung der Europäischen Kommision" href="http://ec.europa.eu/consumers/odr/" target="_blank" rel="nofollow noopener">http://ec.europa.eu/consumers/odr/</a> finden.
-<!-- Leerzeile -->
-<!-- Leerzeile -->
-<h4>Agentur-Bildnachweis</h4>
-<h6>Nachstehende Bilder können zurzeit auf dieser Website in Verwendung sein oder in Zukunft auf dieser Website verwendet werden.</h6>
-<h6 class="h-strong content-title truncate"><em>Haus und Energieausweis © Eisenhans - fotolia.de</em>
-<em> Energiepass © vege - fotolia.de</em>
-<em> Energieklasse Haus © Coloures-pic - fotolia.de</em>
-<em> Energieeffizienz Icons © Jan Engel - fotolia.de</em>
-<em> Energieausweis © Dreadlock - fotolia.de</em>
-<em> Portrait of student in front of desktop-computer © goodluz - fotolia.de</em>
-<em> Build a house © FotoMacht - shutterstock.com</em></h6>]]></content:encoded>
+<!-- wp:paragraph -->
+<p>Sitz der Gesellschaft: Welling</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Berufsaufsichtsbehörde: Verbandsgemeinde Maifeld, Marktplatz 4 – 6, 56751 Polch<br>Zugelassen gemäß § 34c der GewO.<br><!-- Leerzeile --><br><!-- Leerzeile --><br>Verantwortlich gemäß § 55 RStV:<br>Christian Esch<br>Krufter Straße 5<br>56753 Welling<br><!-- Leerzeile --><br>Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie unter <a title="Online-Streitbeilegung der Europäischen Kommision" href="http://ec.europa.eu/consumers/odr/" target="_blank" rel="nofollow noopener">http://ec.europa.eu/consumers/odr/</a> finden.<br><!-- Leerzeile --><br><!-- Leerzeile --></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4 id="agentur-bildnachweis">Agentur-Bildnachweis</h4>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":6} -->
+<h6 id="nachstehende-bilder-konnen-zurzeit-auf-dieser-website-in-verwendung-sein-oder-in-zukunft-auf-dieser-website-verwendet-werden">Nachstehende Bilder können zurzeit auf dieser Website in Verwendung sein oder in Zukunft auf dieser Website verwendet werden.</h6>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":6} -->
+<h6 id="haus-und-energieausweis-eisenhans-fotolia-de-energiepass-vege-fotolia-de-energieklasse-haus-coloures-pic-fotolia-de-energieeffizienz-icons-jan-engel-fotolia-de-energieausweis-dreadlock-fotolia-de-portrait-of-student-in-front-of-desktop-computer-goodluz-fotolia-de-build-a-house-fotomacht-shutterstock-com"><em>Haus und Energieausweis © Eisenhans - fotolia.de</em><br><em> Energiepass © vege - fotolia.de</em><br><em> Energieklasse Haus © Coloures-pic - fotolia.de</em><br><em> Energieeffizienz Icons © Jan Engel - fotolia.de</em><br><em> Energieausweis © Dreadlock - fotolia.de</em><br><em> Portrait of student in front of desktop-computer © goodluz - fotolia.de</em><br><em> Build a house © FotoMacht - shutterstock.com</em></h6>
+<!-- /wp:heading -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>70</wp:post_id>
   <wp:post_date>2015-07-01 10:41:14</wp:post_date>
   <wp:post_date_gmt>2015-07-01 09:41:14</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:32</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:32</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 15:47:30</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 14:47:30</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>impressum</wp:post_name>
@@ -641,12 +650,72 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
   <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>extra_css</wp:meta_key>
+    <wp:meta_value><![CDATA[]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_extra_css</wp:meta_key>
+    <wp:meta_value><![CDATA[field_extra_css]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>extra_js</wp:meta_key>
+    <wp:meta_value><![CDATA[jQuery( document ).ready( function ( $ ) {
+  let get_document_height = function () {
+    var body = document.body,
+        html = document.documentElement;
+
+    var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+    return height;
+  }
+
+  let get_wrapper_height = function() {
+     return $(".wrapper").height() + 100;
+  }
+
+  let send_document_height = function () {
+    var height = get_wrapper_height();
+    parent.postMessage( JSON.stringify( {'frame_height': height} ), '*' );
+  }
+
+  send_document_height();
+
+  $( document ).on('wpenon.update_active_tab', function (e) {
+     setTimeout( function(){ send_document_height(); }, 100 );
+  });
+
+  $( document ).on('edd_gateway_loaded', function (e) {
+     setTimeout( function(){ send_document_height(); }, 100 );
+  });
+});
+]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_focuskw</wp:meta_key>
     <wp:meta_value><![CDATA[impressum]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_metadesc</wp:meta_key>
     <wp:meta_value><![CDATA[Auf dieser Seite finden Sie das Impressum für die Website enon.test.]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
+    <wp:meta_value><![CDATA[90]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[1]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_wp_page_template</wp:meta_key>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_average</wp:meta_key>
@@ -694,7 +763,11 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[56]]></wp:meta_value>
+    <wp:meta_value><![CDATA[52]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_extra_js</wp:meta_key>
+    <wp:meta_value><![CDATA[field_extra_js]]></wp:meta_value>
   </wp:postmeta>
 </item>
 <item>
@@ -704,7 +777,11 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=74</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:paragraph -->
+  <content:encoded><![CDATA[<!-- wp:heading -->
+<h2 id="datenschutzerklarung">Datenschutzerklärung</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
 <p>Stand: 12.02.2021</p>
 <!-- /wp:paragraph -->
 
@@ -717,7 +794,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:shortcode -->
 
 <!-- wp:heading -->
-<h2>1. Zugriffsdaten und Hosting</h2>
+<h2 id="1-zugriffsdaten-und-hosting">1. Zugriffsdaten und Hosting</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -729,7 +806,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>2. Datenerhebung und -verwendung zur Vertragsabwicklung</h2>
+<h2 id="2-datenerhebung-und-verwendung-zur-vertragsabwicklung">2. Datenerhebung und -verwendung zur Vertragsabwicklung</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -737,7 +814,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>3. Datenweitergabe</h2>
+<h2 id="3-datenweitergabe">3. Datenweitergabe</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -749,7 +826,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>4. Zusatzoption "Premium-Bewertung"</h2>
+<h2 id="4-zusatzoption-premium-bewertung">4. Zusatzoption "Premium-Bewertung"</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -761,11 +838,11 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>5. E-Mail-Newsletter und Postwerbung</h2>
+<h2 id="5-e-mail-newsletter-und-postwerbung">5. E-Mail-Newsletter und Postwerbung</h2>
 <!-- /wp:heading -->
 
 <!-- wp:heading {"level":3} -->
-<h3>5.1 E-Mail-Werbung ohne Anmeldung zum Newsletter und Ihr Widerspruchsrecht</h3>
+<h3 id="5-1-e-mail-werbung-ohne-anmeldung-zum-newsletter-und-ihr-widerspruchsrecht">5.1 E-Mail-Werbung ohne Anmeldung zum Newsletter und Ihr Widerspruchsrecht</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -773,7 +850,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>5.2 Postwerbung und Ihr Widerspruchsrecht</h3>
+<h3 id="5-2-postwerbung-und-ihr-widerspruchsrecht">5.2 Postwerbung und Ihr Widerspruchsrecht</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -781,7 +858,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>6. Integration des Trusted Shops Trustbadge</h2>
+<h2 id="6-integration-des-trusted-shops-trustbadge">6. Integration des Trusted Shops Trustbadge</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -793,7 +870,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>7. Cookies und Webanalyse</h2>
+<h2 id="7-cookies-und-webanalyse">7. Cookies und Webanalyse</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -833,11 +910,11 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>8. Werbung über Marketing-Netzwerke</h2>
+<h2 id="8-werbung-uber-marketing-netzwerke">8. Werbung über Marketing-Netzwerke</h2>
 <!-- /wp:heading -->
 
 <!-- wp:heading {"level":3} -->
-<h3><strong>8.1&nbsp; Adcell</strong></h3>
+<h3 id="8-1-adcell"><strong>8.1&nbsp; Adcell</strong></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -853,7 +930,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3><strong>8.2 Bing Ads</strong></h3>
+<h3 id="8-2-bing-ads"><strong>8.2 Bing Ads</strong></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -869,7 +946,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3><strong>8.3 Google AdWords mit Conversion Tracking</strong></h3>
+<h3 id="8-3-google-adwords-mit-conversion-tracking"><strong>8.3 Google AdWords mit Conversion Tracking</strong></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -917,7 +994,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3><strong>8.4 Google Remarketing oder "Ähnliche Zielgruppen"-Komponente von Google</strong></h3>
+<h3 id="8-4-google-remarketing-oder-ahnliche-zielgruppen-komponente-von-google"><strong>8.4 Google Remarketing oder "Ähnliche Zielgruppen"-Komponente von Google</strong></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -953,11 +1030,11 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3><strong>8.5 Facebook</strong></h3>
+<h3 id="8-5-facebook"><strong>8.5 Facebook</strong></h3>
 <!-- /wp:heading -->
 
 <!-- wp:heading {"level":4} -->
-<h4>Pixel</h4>
+<h4 id="pixel">Pixel</h4>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -965,7 +1042,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":4} -->
-<h4>Custom Audience über Pixel-Verfahren</h4>
+<h4 id="custom-audience-uber-pixel-verfahren">Custom Audience über Pixel-Verfahren</h4>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -973,7 +1050,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":4} -->
-<h4>Audience Network</h4>
+<h4 id="audience-network">Audience Network</h4>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -993,11 +1070,11 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2><strong>9. Social Media PlugIns</strong></h2>
+<h2 id="9-social-media-plugins"><strong>9. Social Media PlugIns</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:heading {"level":3} -->
-<h3><strong>9.1 Facebook-Plugin</strong></h3>
+<h3 id="9-1-facebook-plugin"><strong>9.1 Facebook-Plugin</strong></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -1017,7 +1094,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3><strong>9.2 Twitter-Plugin</strong></h3>
+<h3 id="9-2-twitter-plugin"><strong>9.2 Twitter-Plugin</strong></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -1037,7 +1114,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3>9.3 Xing-Plugin</h3>
+<h3 id="9-3-xing-plugin">9.3 Xing-Plugin</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -1057,7 +1134,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3><strong>9.4 Youtube Video Plugins</strong></h3>
+<h3 id="9-4-youtube-video-plugins"><strong>9.4 Youtube Video Plugins</strong></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -1073,7 +1150,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2><strong>10. Verwendung von Uptain-Plugin</strong></h2>
+<h2 id="10-verwendung-von-uptain-plugin"><strong>10. Verwendung von Uptain-Plugin</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -1085,11 +1162,11 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2><strong>11. Versand von Bewertungserinnerungen per E-Mail</strong></h2>
+<h2 id="11-versand-von-bewertungserinnerungen-per-e-mail"><strong>11. Versand von Bewertungserinnerungen per E-Mail</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:heading {"level":3} -->
-<h3>11.1 Bewertungserinnerung durch Trusted Shops</h3>
+<h3 id="11-1-bewertungserinnerung-durch-trusted-shops">11.1 Bewertungserinnerung durch Trusted Shops</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -1101,7 +1178,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3><strong>11.2 Bewertungserinnerung durch eKomi</strong></h3>
+<h3 id="11-2-bewertungserinnerung-durch-ekomi"><strong>11.2 Bewertungserinnerung durch eKomi</strong></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -1113,7 +1190,7 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>12. Kontaktmöglichkeiten und Ihre Rechte</h2>
+<h2 id="12-kontaktmoglichkeiten-und-ihre-rechte">12. Kontaktmöglichkeiten und Ihre Rechte</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -1143,8 +1220,8 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
   <wp:post_id>74</wp:post_id>
   <wp:post_date>2015-07-13 13:00:54</wp:post_date>
   <wp:post_date_gmt>2015-07-13 12:00:54</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:31</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:31</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 15:45:39</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 14:45:39</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>datenschutz</wp:post_name>
@@ -1228,6 +1305,14 @@ Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommissio
   <wp:postmeta>
     <wp:meta_key>_oembed_1fa0c9f618323e3c3646a0aecbd749a2</wp:meta_key>
     <wp:meta_value><![CDATA[{{unknown}}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_metadesc</wp:meta_key>
@@ -1343,7 +1428,7 @@ Die Verarbeitung dieser Daten ermöglicht es uns auch:<br />
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_wp_page_template</wp:meta_key>
-    <wp:meta_value><![CDATA[default]]></wp:meta_value>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_wp_suggested_privacy_policy_content</wp:meta_key>
@@ -1358,43 +1443,71 @@ Zusätzlich zu einer Auflistung, wohin die Daten übertragen werden, solltest du
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=76</guid>
   <description/>
-  <content:encoded><![CDATA[Verbraucher haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.
+  <content:encoded><![CDATA[<!-- wp:heading -->
+<h2 id="widerrufsbelehrung">Widerrufsbelehrung</h2>
+<!-- /wp:heading -->
 
-Die Widerrufsfrist beträgt dreißig Tage ab dem Tag des Vertragsabschlusses.
+<!-- wp:paragraph -->
+<p>Verbraucher haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.</p>
+<!-- /wp:paragraph -->
 
-Um Ihr Widerrufsrecht auszuüben, müssen Sie uns
+<!-- wp:paragraph -->
+<p>Die Widerrufsfrist beträgt dreißig Tage ab dem Tag des Vertragsabschlusses.</p>
+<!-- /wp:paragraph -->
 
-Immoticket24.de GmbH
-Krufter Straße 5
-56753 Welling
-Tel: 0 26 54 – 8 80 11 99
-E-Mail: info@immoticket24.de
+<!-- wp:paragraph -->
+<p>Um Ihr Widerrufsrecht auszuüben, müssen Sie uns</p>
+<!-- /wp:paragraph -->
 
-mittels einer eindeutigen Erklärung (z. B. ein mit der Post versandter Brief, Telefax oder E-Mail) über Ihren Entschluss, diesen Vertrag zu widerrufen, informieren.
+<!-- wp:paragraph -->
+<p>Immoticket24.de GmbH<br>Krufter Straße 5<br>56753 Welling<br>Tel: 0 26 54 – 8 80 11 99<br>E-Mail: info@immoticket24.de</p>
+<!-- /wp:paragraph -->
 
-Zur Wahrung der Widerrufsfrist reicht es aus, dass Sie die Mitteilung über die Ausübung des Widerrufsrechts vor Ablauf der Widerrufsfrist absenden. Sie können dafür das beigefügte Muster-Widerrufsformular verwenden, das jedoch nicht vorgeschrieben ist.
+<!-- wp:paragraph -->
+<p>mittels einer eindeutigen Erklärung (z. B. ein mit der Post versandter Brief, Telefax oder E-Mail) über Ihren&nbsp;Entschluss, diesen Vertrag zu widerrufen, informieren.</p>
+<!-- /wp:paragraph -->
 
-<strong>Folgen des Widerrufs</strong>
+<!-- wp:paragraph -->
+<p>Zur Wahrung der Widerrufsfrist reicht es aus, dass Sie die Mitteilung über die Ausübung des Widerrufsrechts&nbsp;vor Ablauf der Widerrufsfrist absenden. Sie können dafür das beigefügte Muster-Widerrufsformular verwenden, das jedoch nicht vorgeschrieben ist.</p>
+<!-- /wp:paragraph -->
 
-Wenn Sie diesen Vertrag widerrufen, haben wir Ihnen alle Zahlungen, die wir von Ihnen erhalten haben, einschließlich der Lieferkosten (mit Ausnahme der zusätzlichen Kosten, die sich daraus ergeben, dass Sie eine andere Art der Lieferung als die von uns angebotene, günstigste Standardlieferung gewählt haben), unverzüglich und spätestens binnen vierzehn Tagen ab dem Tag zurückzuzahlen, an dem die Mitteilung über Ihren Widerruf dieses Vertrags bei uns eingegangen ist. Für diese Rückzahlung verwenden wir dasselbe Zahlungsmittel, das Sie bei der ursprünglichen Transaktion eingesetzt haben, es sei denn, mit Ihnen wurde ausdrücklich etwas anderes vereinbart; in keinem Fall werden Ihnen wegen dieser Rückzahlung Entgelte berechnet.
+<!-- wp:paragraph -->
+<p><strong>Folgen des Widerrufs</strong></p>
+<!-- /wp:paragraph -->
 
-Haben Sie verlangt, dass die Dienstleistungen während der Widerrufsfrist beginnen soll, so haben Sie uns einen angemessenen Betrag zu zahlen, der dem Anteil der bis zu dem Zeitpunkt, zu dem Sie uns von der Ausübung des Widerrufsrechts hinsichtlich dieses Vertrags unterrichten, bereits erbrachten Dienstleistungen im Vergleich zum Gesamtumfang der im Vertrag vorgesehenen Dienstleistungen entspricht.
+<!-- wp:paragraph -->
+<p>Wenn Sie diesen Vertrag widerrufen, haben wir Ihnen alle Zahlungen, die wir von Ihnen erhalten haben,&nbsp;einschließlich der Lieferkosten (mit Ausnahme der zusätzlichen Kosten, die sich daraus ergeben, dass Sie&nbsp;eine andere Art der Lieferung als die von uns angebotene, günstigste Standardlieferung gewählt haben),&nbsp;unverzüglich und spätestens binnen vierzehn Tagen ab dem Tag zurückzuzahlen,&nbsp;an dem die Mitteilung über Ihren Widerruf dieses Vertrags bei uns eingegangen ist. Für diese Rückzahlung&nbsp;verwenden wir dasselbe Zahlungsmittel, das Sie bei der ursprünglichen Transaktion eingesetzt haben, es sei&nbsp;denn, mit Ihnen wurde ausdrücklich etwas anderes vereinbart; in keinem Fall werden Ihnen wegen dieser&nbsp;Rückzahlung Entgelte berechnet.</p>
+<!-- /wp:paragraph -->
 
-<strong>Datum des Vertragsbeginns</strong>
+<!-- wp:paragraph -->
+<p>Haben Sie verlangt, dass die Dienstleistungen während der Widerrufsfrist beginnen soll, so haben Sie uns&nbsp;einen angemessenen Betrag zu zahlen, der dem Anteil der bis zu dem Zeitpunkt, zu dem Sie uns von der&nbsp;Ausübung des Widerrufsrechts hinsichtlich dieses Vertrags unterrichten, bereits erbrachten Dienstleistungen&nbsp;im Vergleich zum Gesamtumfang der im Vertrag vorgesehenen Dienstleistungen entspricht.</p>
+<!-- /wp:paragraph -->
 
-Zur Wahrung der Widerrufsfrist genügt die rechtzeitige Absendung des Widerrufs.
+<!-- wp:paragraph -->
+<p><strong>Datum des Vertragsbeginns</strong></p>
+<!-- /wp:paragraph -->
 
-<strong>Muster-Widerrufsformular</strong>
+<!-- wp:paragraph -->
+<p>Zur Wahrung der Widerrufsfrist genügt die rechtzeitige&nbsp;Absendung des Widerrufs.</p>
+<!-- /wp:paragraph -->
 
-Zum Widerruf kopieren Sie den folgenden Inhalt in Ihr Email- oder Textverarbeitungsprogramm, passen Sie ihn entsprechend an und senden Sie ihn uns per Email oder per Post zu.
+<!-- wp:paragraph -->
+<p><strong>Muster-Widerrufsformular</strong></p>
+<!-- /wp:paragraph -->
 
-[widerrufsformular]]]></content:encoded>
+<!-- wp:paragraph -->
+<p>Zum Widerruf kopieren Sie den folgenden Inhalt in Ihr Email- oder Textverarbeitungsprogramm, passen Sie ihn entsprechend an und senden Sie ihn uns per Email oder per Post zu.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[widerrufsformular]
+<!-- /wp:shortcode -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>76</wp:post_id>
   <wp:post_date>2015-07-13 13:03:58</wp:post_date>
   <wp:post_date_gmt>2015-07-13 12:03:58</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:33</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:33</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 15:50:25</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 14:50:25</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>widerrufsrecht</wp:post_name>
@@ -1405,8 +1518,72 @@ Zum Widerruf kopieren Sie den folgenden Inhalt in Ihr Email- oder Textverarbeitu
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
   <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[2]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
+    <wp:meta_value><![CDATA[60]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>extra_js</wp:meta_key>
+    <wp:meta_value><![CDATA[jQuery( document ).ready( function ( $ ) {
+  let get_document_height = function () {
+    var body = document.body,
+        html = document.documentElement;
+
+    var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+    return height;
+  }
+
+  let get_wrapper_height = function() {
+     return $(".wrapper").height() + 100;
+  }
+
+  let send_document_height = function () {
+    var height = get_wrapper_height();
+    parent.postMessage( JSON.stringify( {'frame_height': height} ), '*' );
+  }
+
+  send_document_height();
+
+  $( document ).on('wpenon.update_active_tab', function (e) {
+     setTimeout( function(){ send_document_height(); }, 100 );
+  });
+
+  $( document ).on('edd_gateway_loaded', function (e) {
+     setTimeout( function(){ send_document_height(); }, 100 );
+  });
+});
+]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_metadesc</wp:meta_key>
     <wp:meta_value><![CDATA[Auf dieser Seite können Sie sich über das Widerrufsrecht für die Energieausweis-Bestellung informieren.]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_extra_js</wp:meta_key>
+    <wp:meta_value><![CDATA[field_extra_js]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_wp_page_template</wp:meta_key>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>extra_css</wp:meta_key>
+    <wp:meta_value><![CDATA[]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_extra_css</wp:meta_key>
+    <wp:meta_value><![CDATA[field_extra_css]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_focuskw</wp:meta_key>
@@ -1454,7 +1631,7 @@ Zum Widerruf kopieren Sie den folgenden Inhalt in Ihr Email- oder Textverarbeitu
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[72]]></wp:meta_value>
+    <wp:meta_value><![CDATA[50]]></wp:meta_value>
   </wp:postmeta>
 </item>
 <item>
@@ -1464,7 +1641,11 @@ Zum Widerruf kopieren Sie den folgenden Inhalt in Ihr Email- oder Textverarbeitu
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=80</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:paragraph -->
+  <content:encoded><![CDATA[<!-- wp:heading -->
+<h2 id="allgemeine-geschaftsbedingungen-agb">Allgemeine Geschäftsbedingungen (AGB)</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
 <p><em>- Stand: 10.03.2020 -</em></p>
 <!-- /wp:paragraph -->
 
@@ -1559,8 +1740,8 @@ Zum Widerruf kopieren Sie den folgenden Inhalt in Ihr Email- oder Textverarbeitu
   <wp:post_id>80</wp:post_id>
   <wp:post_date>2015-07-13 13:06:45</wp:post_date>
   <wp:post_date_gmt>2015-07-13 12:06:45</wp:post_date_gmt>
-  <wp:post_modified>2021-12-03 08:12:53</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-03 07:12:53</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 15:44:13</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 14:44:13</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>agb</wp:post_name>
@@ -1620,7 +1801,7 @@ Zum Widerruf kopieren Sie den folgenden Inhalt in Ihr Email- oder Textverarbeitu
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[63]]></wp:meta_value>
+    <wp:meta_value><![CDATA[65]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>extra_css</wp:meta_key>
@@ -2207,7 +2388,11 @@ Zum Widerruf kopieren Sie den folgenden Inhalt in Ihr Email- oder Textverarbeitu
 <!-- /wp:create-block/block-wave-separator -->
 
 <!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
-<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:embed {"url":"https://www.youtube.com/watch?v=XEFZYkvt0nE","type":"video","providerNameSlug":"youtube","responsive":true,"className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
+<h2 id="bedarfsausweis-erstellen"><strong>Bedarfsausweis</strong> erstellen</h2>
+<!-- /wp:heading -->
+
+<!-- wp:embed {"url":"https://www.youtube.com/watch?v=XEFZYkvt0nE","type":"video","providerNameSlug":"youtube","responsive":true,"className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
 <figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
 https://www.youtube.com/watch?v=XEFZYkvt0nE
 </div></figure>
@@ -2511,8 +2696,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>105680</wp:post_id>
   <wp:post_date>2015-09-18 23:39:44</wp:post_date>
   <wp:post_date_gmt>2015-09-18 22:39:44</wp:post_date_gmt>
-  <wp:post_modified>2021-12-03 13:27:16</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-03 12:27:16</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 15:53:09</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 14:53:09</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>bedarfsausweis-erstellen</wp:post_name>
@@ -13253,9 +13438,11 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <ul class="list-checkboxes is-style-checkmarks-formatted"><li>Rechtsgültiger Verbrauchsausweis nach der aktuellen EnEV 2014</li><li>Erstellt vom geprüften Energieberater</li><li>Bearbeitung der Energieausweis-Daten zu jeder Zeit</li><li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li><li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:paragraph {"align":"center","fontSize":"huge"} -->
-<p class="has-text-align-center has-huge-font-size"><strong>49,95€</strong></p>
+<!-- wp:group {"className":"is-style-label-green"} -->
+<div class="wp-block-group is-style-label-green"><!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">49,95€</p>
 <!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
@@ -13271,9 +13458,11 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <ul class="list-checkboxes is-style-checkmarks-formatted"><li>Rechtsgültiger Bedarfsausweis nach der aktuellen EnEV 2014</li><li>Erstellt vom geprüften Energieberater</li><li>Bearbeitung der Energieausweis-Daten zu jeder Zeit</li><li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li><li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:paragraph {"align":"center","fontSize":"huge"} -->
-<p class="has-text-align-center has-huge-font-size"><strong>99,95€</strong></p>
+<!-- wp:group {"className":"is-style-label-green"} -->
+<div class="wp-block-group is-style-label-green"><!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">119,95€</p>
 <!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
@@ -13481,8 +13670,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>387271</wp:post_id>
   <wp:post_date>2020-08-03 00:06:06</wp:post_date>
   <wp:post_date_gmt>2020-08-02 22:06:06</wp:post_date_gmt>
-  <wp:post_modified>2021-12-03 07:59:28</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-03 06:59:28</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 16:13:59</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 15:13:59</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>energieausweis-erstellen</wp:post_name>
@@ -13510,7 +13699,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
-    <wp:meta_value><![CDATA[1638514657]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1638803640]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
@@ -13628,12 +13817,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=387288</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:image {"align":"center","sizeSlug":"large"} -->
-<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://enon.test/app/uploads/2015/10/fotolia_71218464_s.jpg" alt=""/></figure></div>
-<!-- /wp:image -->
-
-<!-- wp:heading {"level":3} -->
-<h3>Das Lexikon von Energieausweis-online-erstellen.de von A bis Z</h3>
+  <content:encoded><![CDATA[<!-- wp:heading -->
+<h2 id="das-lexikon-von-energieausweis-online-erstellen-de-von-a-bis-z">Das <strong>Lexikon</strong> von Energieausweis-online-erstellen.de von A bis Z</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -13722,15 +13907,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:paragraph -->
 <p><a href="https://enon.test/wie-sie-kosten-beim-energieausweis-sparen/">Wie Sie Kosten beim Energieausweis sparen</a><br><br><br>X<br><br><br>Y<br><br><br>Z</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:block {"ref":312266} /-->]]></content:encoded>
+<!-- /wp:paragraph -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>387288</wp:post_id>
   <wp:post_date>2020-08-03 00:26:33</wp:post_date>
   <wp:post_date_gmt>2020-08-02 22:26:33</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:33</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:33</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 15:55:55</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 14:55:55</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>lexikon</wp:post_name>
@@ -13740,6 +13923,18 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[1]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_average</wp:meta_key>
     <wp:meta_value><![CDATA[0]]></wp:meta_value>
@@ -13766,7 +13961,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_wp_page_template</wp:meta_key>
-    <wp:meta_value><![CDATA[default]]></wp:meta_value>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_users</wp:meta_key>
@@ -13806,7 +14001,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
-    <wp:meta_value><![CDATA[30]]></wp:meta_value>
+    <wp:meta_value><![CDATA[60]]></wp:meta_value>
   </wp:postmeta>
 </item>
 <item>
@@ -14294,14 +14489,23 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=387296</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:core-embed/youtube {"url":"https://youtu.be/ot3GuSkNdnA","type":"video","providerNameSlug":"youtube","className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
-<figure class="wp-block-embed-youtube wp-block-embed is-type-video is-provider-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
+  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"160px","top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:160px"><!-- wp:heading -->
+<h2 id="energieausweis-fur-ihr-haus-oder-ein-gewerblich-genutztes-objekt-online-erstellenschnell-zuverlassig-aussagekraftig-rechtsverbindlich"><strong>Energieausweis für Ihr Haus oder ein gewerblich genutztes Objekt online erstellen</strong><br>schnell, zuverlässig, aussagekräftig &amp; rechtsverbindlich</h2>
+<!-- /wp:heading -->
+
+<!-- wp:embed {"url":"https://youtu.be/ot3GuSkNdnA","type":"video","providerNameSlug":"youtube","responsive":true,"className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
+<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
 https://youtu.be/ot3GuSkNdnA
 </div></figure>
-<!-- /wp:core-embed/youtube -->
+<!-- /wp:embed -->
 
-<!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">So sollten Sie einen Energieausweis für Ihr Haus erstellen! Hier erhalten Sie Expertise zu einem überzeugenden Preis-Leistungs- Verhältnis!</h2>
+<!-- wp:heading {"textAlign":"left","level":3} -->
+<h3 class="has-text-align-left" id="so-sollten-sie-einen-energieausweis-fur-ihr-haus-erstellen-hier-erhalten-sie-expertise-zu-einem-uberzeugenden-preis-leistungs-verhaltnis">So sollten Sie einen Energieausweis für Ihr Haus erstellen! Hier erhalten Sie Expertise zu einem überzeugenden Preis-Leistungs- Verhältnis!</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -14316,8 +14520,8 @@ https://youtu.be/ot3GuSkNdnA
 <p>Je nachdem, welches Baujahr für Ihr Wohngebäude oder ein gewerblich genutztes Objekt zutrifft, benötigen wir lediglich noch einige Angaben, die wir zur professionellen Erstellung eines Energieausweises heranziehen, um den energetischen „Fingerabdruck“ Ihres Gebäudes genau bestimmen zu können.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:heading {"align":"center","level":3} -->
-<h3 class="has-text-align-center">Die Energieeffizienzklasse als energetischer Fingerabdruck Ihres Gebäudes</h3>
+<!-- wp:heading {"textAlign":"left","level":3} -->
+<h3 class="has-text-align-left" id="die-energieeffizienzklasse-als-energetischer-fingerabdruck-ihres-gebaudes">Die Energieeffizienzklasse als energetischer Fingerabdruck Ihres Gebäudes</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -14328,97 +14532,270 @@ https://youtu.be/ot3GuSkNdnA
 <p>Nähere Informationen zu allen Angaben, die wir von Ihnen benötigen, um den Energieausweis für Ihre Immobilie auch sachgerecht ausstellen zu können, erhalten Sie auf unserer Service-Seite „<a href="https://enon.test/energieausweis-service-2/">Häufige Fragen</a>“ für Sie zum Download. Ob Angaben zu einem&nbsp;<a href="https://enon.test/energieausweis2/bedarfsausweis-wohngebaeude/">Bedarfsausweis</a>&nbsp;oder einem&nbsp;<a href="/energieausweis2/verbrauchsausweis-wohngebaeude/">Verbrauchsausweis</a>&nbsp;erforderlich sind , hängt in erster Linie vom Baujahr Ihrer Immobilie ab.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:quote -->
-<blockquote class="wp-block-quote"><p><em><strong>«Hier&nbsp;erstellte Energieausweise sind genauso gültig, wie vom Energieberater persönlich ausgestellte Energieausweise!»</strong></em>&nbsp;</p><cite>(Christian Esch, Geschäftsführer)</cite></blockquote>
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p><em><strong>«Hier&nbsp;erstellte Energieausweise sind genauso gültig, wie vom Energieberater persönlich ausgestellte Energieausweise!»</strong></em>&nbsp;</p><cite>(Christian Esch, Geschäftsführer)</cite></blockquote>
 <!-- /wp:quote -->
 
 <!-- wp:paragraph -->
 <p>Im Vergleich zur Beauftragung eines Energieberaters sparen Sie so bis zu 65,- Euro bei der Erstellung eines Verbrauchsausweises bzw. bis zu 300,- Euro bei Erstellung eines Bedarfsausweises. Überzeugen Sie sich selbst, wie es bereits über 2.500 Kunden vor Ihnen gemacht haben.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"},"style":{"spacing":{"margin":{"top":"80px"}}}} -->
+<div class="wp-block-buttons" style="margin-top:80px"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Jetzt Energieausweis online erstellen und bis zu 300,- Euro sparen</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
 
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator -->
+<!-- wp:create-block/block-wave-separator {"waveId":"wave-2","gradient":"green-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-2 has-green-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-2" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,5.8c9.8,5,17.3,13.6,56.2,8.8c41.7-5.1,83.2-18.5,178.2-6.7c34.8,4.3,49.1-7.9,49.1-7.9l0,17H0V5.8z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">Ihre Vorteile:</h2>
+<!-- wp:group {"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"left"} -->
+<h2 class="has-text-align-left" id="ihre-vorteile"><strong>Ihre Vorteile</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:list -->
 <ul><li>Direkter Zugriff auf den Energieausweis für Ihr Haus (Eingeben, ausdrucken, fertig!)</li><li>Sie sparen bis zu 300,- Euro gegenüber der Beauftragung eines Energieberaters</li><li>Einfachster Eingabevorgang</li><li>Der Energieausweis ist genauso gültig wie vom Energieberater persönlich erstellt</li><li>NEU! Inklusive Trusted Shops-Käuferschutz und somit 30 Tage Geld-zurück-Garantie</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"},"style":{"spacing":{"margin":{"top":"80px"}}}} -->
+<div class="wp-block-buttons" style="margin-top:80px"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Jetzt Energieausweis online erstellen</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->
-
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator --></div></div>
+<!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">Unsere Bestpreis-Garantie an Sie:</h2>
+<!-- wp:group {"backgroundColor":"green-lime","className":"banner"} -->
+<div class="wp-block-group banner has-green-lime-background-color has-background"><!-- wp:paragraph {"className":"banner-content-top"} -->
+<p class="banner-content-top">30 tage<br>geld-zurück-garantie</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"textColor":"white"} -->
+<h2 class="has-white-color has-text-color" id="geld-zuruck-garantieund-unser-bestpreis-versprechen-fur-sie"><strong>Geld-zurück-Garantie</strong><br>und unser Bestpreis-Versprechen für Sie</h2>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph -->
-<p>Wenn Sie auf einer anderen Website einen Verbrauchsausweis bzw. Bedarfsausweis in gleicher Qualität zu günstigeren Kosten finden, teilen Sie uns dies bitte mit!</p>
-<!-- /wp:paragraph -->
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"169px"} -->
+<div class="wp-block-column" style="flex-basis:169px"><!-- wp:image {"align":"center","id":421,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/layout/christian-esch-kopf-rand.webp" alt="" class="wp-image-421"/></figure></div>
+<!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p>Wir werden Ihnen dann den Differenzbetrag gut schreiben!</p>
+<p></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:paragraph {"textColor":"white"} -->
+<p class="has-white-color has-text-color">Wenn Sie auf einer anderen Website einen Verbrauchsausweis bzw. Bedarfsausweis in gleicher Qualität zu günstigeren Kosten finden, teilen Sie uns dies bitte mit!</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph -->
-<p><img src="https://www.immoticket24.de/public/grafik/zufriedenheits-garantie/unterschrift-christian-esch.jpg" alt=""><br>Geschäftsführer</p>
+<!-- wp:paragraph {"textColor":"white"} -->
+<p class="has-white-color has-text-color">Wir werden Ihnen dann den Differenzbetrag gut schreiben!</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Jetzt selbst überzeugen wie bereits 870 Kunden vor Ihnen und Energieausweis online erstellen</a></div>
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}},"textColor":"white"} -->
+<p class="has-white-color has-text-color" style="font-size:14px"><em>Christian Esch<br>Geschäsftsführer</em></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt selbst überzeugen wie bereits 870 Kunden vor Ihnen und Energieausweis online erstellen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator --></div></div>
+<!-- wp:paragraph {"className":"banner-content-bottom"} -->
+<p class="banner-content-bottom">unser<br>bestpreis-versprechen</p>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center"} -->
-<h2 class="has-text-align-center">Kundenmeinungen:</h2>
+<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
+<h2 id="das-sagen-unsere-kundenzufriedene-kunden-sind-fur-uns-das-wichtigste"><strong>Das sagen unsere Kunden</strong><br>zufriedene Kunden sind für uns das wichtigste!</h2>
 <!-- /wp:heading -->
 
-<!-- wp:block {"ref":296312} /-->
+<!-- wp:columns {"className":"testimonials"} -->
+<div class="wp-block-columns testimonials"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
 
-<!-- wp:spacer {"height":20} -->
-<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Jetzt Energieausweis online erstellen und bis zu 300,- Euro sparen</a></div>
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"12px"}},"className":"mt-4"} -->
+<p class="has-text-align-center mt-4" style="font-size:12px"><em>Ausgewählte Top-Bewertungen für enon.test powered by TrustedShops</em></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons {"className":"uppercase","layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons uppercase"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt Energieausweis online erstellen und bis zu 300,- Euro sparen</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons --></div></div>
-<!-- /wp:group -->
-
-<!-- wp:block {"ref":312266} /-->]]></content:encoded>
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>387296</wp:post_id>
   <wp:post_date>2020-08-03 00:41:47</wp:post_date>
   <wp:post_date_gmt>2020-08-02 22:41:47</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:32</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:32</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 16:12:05</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 15:12:05</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>sie-benoetigen-einen-energieausweis-fuer-ihr-haus</wp:post_name>
@@ -14428,6 +14805,18 @@ https://youtu.be/ot3GuSkNdnA
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[6]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_score</wp:meta_key>
     <wp:meta_value><![CDATA[0]]></wp:meta_value>
@@ -14466,7 +14855,7 @@ https://youtu.be/ot3GuSkNdnA
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[69]]></wp:meta_value>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
@@ -14486,11 +14875,11 @@ https://youtu.be/ot3GuSkNdnA
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_e34e440e4717e97cb010eee6eaa7c8a7</wp:meta_key>
-    <wp:meta_value><![CDATA[<iframe title="NEU! Energieausweis online erstellen - So einfach gehts!" width="640" height="360" src="https://www.youtube.com/embed/ot3GuSkNdnA?feature=oembed" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></wp:meta_value>
+    <wp:meta_value><![CDATA[<iframe title="NEU! Energieausweis online erstellen - So einfach gehts!" width="640" height="360" src="https://www.youtube.com/embed/ot3GuSkNdnA?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_e34e440e4717e97cb010eee6eaa7c8a7</wp:meta_key>
-    <wp:meta_value><![CDATA[1596408047]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1638803452]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_b5bc3a7c08cd770abbc3c9b9ab3846c9</wp:meta_key>
