@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/5.8.2" created="2021-12-06 14:17" -->
+<!-- generator="WordPress/5.8.2" created="2021-12-06 14:41" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Energieausweis online erstellen</title>
 <link>https://enon.test</link>
 <description>Jetzt Ihren Energieausweis nach EnEV 2014 anfordern!</description>
-<pubDate>Mon, 06 Dec 2021 14:17:49 +0000</pubDate>
+<pubDate>Mon, 06 Dec 2021 14:41:03 +0000</pubDate>
 <language>de-DE</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>https://enon.test</wp:base_site_url>
@@ -14516,143 +14516,343 @@ https://youtu.be/ot3GuSkNdnA
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=387305</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:embed {"url":"https://youtu.be/XEFZYkvt0nE","type":"video","providerNameSlug":"youtube","responsive":true,"className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
+  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px","bottom":"160px"}}},"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:160px"><!-- wp:heading -->
+<h2 id="energiebedarfsausweis-online-erstellen"><strong>Energiebedarfsausweis</strong> online erstellen</h2>
+<!-- /wp:heading -->
+
+<!-- wp:embed {"url":"https://youtu.be/XEFZYkvt0nE","type":"video","providerNameSlug":"youtube","responsive":true,"className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
 <figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
 https://youtu.be/XEFZYkvt0nE
 </div></figure>
 <!-- /wp:embed -->
 
-<!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center">Wie Sie beim Energieausweis Kosten sparen können!</h2>
+<!-- wp:heading {"textAlign":"left"} -->
+<h2 class="has-text-align-left" id="wie-sie-beim-energieausweis-kosten-sparen-konnen">Wie Sie beim Energieausweis <strong>Kosten sparen</strong> können!</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
 <p>Nehmen Energieberater für den Verbrauchsausweis zwischen 60,00 und 100,00 Euro, bekommen Sie diesen bei uns online für 39,95. Beim Bedarfsausweis ist die Ersparnis sogar noch höher: Zahlen Sie beim Energieberater zwischen 250,00 und 400,00 Euro, so kostet der Bedarfsausweis bei uns nur 99,95.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:quote -->
-<blockquote class="wp-block-quote"><p><em><strong>«Sie sparen bis zu 300,00 Euro gegenüber der „vor Ort-Erstellung“ des Energieausweises</strong></em><em><strong>»</strong></em></p></blockquote>
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p><em><strong>«Sie sparen bis zu 300,00 Euro gegenüber der „vor Ort-Erstellung“ des Energieausweises</strong></em><em><strong>»</strong></em></p></blockquote>
 <!-- /wp:quote -->
 
 <!-- wp:paragraph -->
 <p>Sie brauchen auf unserer Website nur die Angaben zu tätigen, der Rest wird im Hintergrund automatisch berechnet, so dass Sie innerhalb weniger Minuten Ihren rechtsgültigen Energieausweis zu wesentlich niedrigeren Preisen in Ihrem Email-Postfach haben.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"},"style":{"spacing":{"margin":{"top":"80px"}}}} -->
+<div class="wp-block-buttons" style="margin-top:80px"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Energieausweis-Erstellung beginnen &gt;&gt;</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
 
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator -->
+<!-- wp:create-block/block-wave-separator {"waveId":"wave-2","gradient":"green-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-2 has-green-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-2" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,5.8c9.8,5,17.3,13.6,56.2,8.8c41.7-5.1,83.2-18.5,178.2-6.7c34.8,4.3,49.1-7.9,49.1-7.9l0,17H0V5.8z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:shortcode -->
-[energieausweis_box typ="verbrauch"]
-<ul>
- 	<li>rechtsgültiger Verbrauchsausweis nach der aktuellen EnEV 2014</li>
- 	<li>persönliche Übersichtsseite für Ihren Energieausweis</li>
- 	<li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li>
- 	<li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li>
-</ul>
-[/energieausweis_box]
-<!-- /wp:shortcode -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px"}}},"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background" style="padding-top:0px"><!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading -->
+<h2 id="verbrauchsausweis">Verbrauchsausweis</h2>
+<!-- /wp:heading -->
 
-<!-- wp:shortcode -->
-[energieausweis_box typ="bedarf"]
-<ul>
- 	<li>rechtsgültiger Bedarfsausweis nach der aktuellen EnEV 2014</li>
- 	<li>persönliche Übersichtsseite für Ihren Energieausweis</li>
- 	<li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li>
- 	<li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li>
-</ul>
-[/energieausweis_box]
-<!-- /wp:shortcode -->
+<!-- wp:image {"sizeSlug":"large"} -->
+<figure class="wp-block-image size-large"><img src="/app/themes/jason/assets/img/layout/verbrauchsausweis-symbolbild.jpg" alt=""/></figure>
+<!-- /wp:image -->
 
-<!-- wp:spacer {"height":20,"className":"clearfix"} -->
-<div style="height:20px" aria-hidden="true" class="wp-block-spacer clearfix"></div>
-<!-- /wp:spacer -->
+<!-- wp:list {"className":"is-style-checkmarks-formatted"} -->
+<ul class="is-style-checkmarks-formatted"><li>rechtsgültiger Verbrauchsausweis nach der aktuellen EnEV 2014</li><li>persönliche Übersichtsseite für Ihren Energieausweis</li><li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li><li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li></ul>
+<!-- /wp:list -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
+<!-- wp:group {"className":"is-style-label-green"} -->
+<div class="wp-block-group is-style-label-green"><!-- wp:paragraph {"className":"is-style-price-label-green"} -->
+<p class="is-style-price-label-green">49,95 €</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading -->
+<h2 id="bedarfsausweis">Bedarfsausweis</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large"} -->
+<figure class="wp-block-image size-large"><img src="/app/themes/jason/assets/img/layout/bedarfsausweis-symbolbild.jpg" alt=""/></figure>
+<!-- /wp:image -->
+
+<!-- wp:list {"className":"is-style-checkmarks-formatted"} -->
+<ul class="is-style-checkmarks-formatted"><li>rechtsgültiger Bedarfsausweis nach der aktuellen EnEV 2014</li><li>persönliche Übersichtsseite für Ihren Energieausweis</li><li>PDF-Vorschau Ihres späteren Energieausweises mit den aktuellen Eingabedaten</li><li>Abbildung des Gebäudes im Energieausweis möglich – Einfach Foto hochladen</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:group {"className":"is-style-label-green"} -->
+<div class="wp-block-group is-style-label-green"><!-- wp:paragraph {"className":"is-style-price-label-green"} -->
+<p class="is-style-price-label-green">99,95 €</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"},"style":{"spacing":{"margin":{"top":"80px"}}}} -->
+<div class="wp-block-buttons" style="margin-top:80px"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Jetzt Energieausweis-Erstellung beginnen &gt;&gt;</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
 
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator -->
-
-<!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center">5 Gründe warum Sie Ihren Energieausweis bei Energieausweis-online-erstellen.de erstellen sollten:</h2>
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textAlign":"left"} -->
+<h2 class="has-text-align-left" id="5-grunde-warum-sie-ihren-energieausweis-bei-energieausweis-online-erstellen-de-erstellen-sollten"><strong>5 Gründe</strong> warum Sie Ihren Energieausweis bei Energieausweis-online-erstellen.de erstellen sollten:</h2>
 <!-- /wp:heading -->
 
 <!-- wp:list -->
 <ul><li>Weil Sie direkten Zugriff auf Ihren Energieausweis erhalten (Eingeben, ausdrucken, fertig!)</li><li>Weil Ihnen über 2.500 Online-Bewertungen unseren guten Service empfehlen</li><li>Weil Sie hier spielerisch einfach Ihren Energieausweis erstellen können</li><li>Weil Sie hier bis zu 300,- Euro im Vergleich zur Beauftragung eines Energieberaters sparen</li><li>Weil Sie hier den Trusted Shops Käuferschutz sowie eine 30 Tage Geld-zurück-Garantie genießen</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"},"style":{"spacing":{"margin":{"top":"80px"}}}} -->
+<div class="wp-block-buttons" style="margin-top:80px"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Überzeugen Sie sich selbst wie schon 870 Kunden</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
 
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator -->
+<!-- wp:group {"backgroundColor":"green-lime","className":"banner"} -->
+<div class="wp-block-group banner has-green-lime-background-color has-background"><!-- wp:paragraph {"className":"banner-content-top"} -->
+<p class="banner-content-top">30 tage<br>geld-zurück-garantie</p>
+<!-- /wp:paragraph -->
 
-<!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center">Unser Bestpreis-Versprechen an Sie:</h2>
+<!-- wp:heading {"textColor":"white"} -->
+<h2 class="has-white-color has-text-color" id="geld-zuruck-garantieund-unser-bestpreis-versprechen-fur-sie"><strong>Geld-zurück-Garantie</strong><br>und unser Bestpreis-Versprechen für Sie</h2>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph -->
-<p>Für den Fall, dass Sie irgendwo einen Verbrauchsausweis bzw. Bedarfsausweis in gleicher Qualität zu günstigeren Kosten finden, kontaktieren Sie uns!</p>
-<!-- /wp:paragraph -->
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"169px"} -->
+<div class="wp-block-column" style="flex-basis:169px"><!-- wp:image {"align":"center","id":421,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/layout/christian-esch-kopf-rand.webp" alt="" class="wp-image-421"/></figure></div>
+<!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p>Wir werden Ihnen dann den Differenzbetrag gut schreiben!</p>
+<p></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:paragraph {"textColor":"white"} -->
+<p class="has-white-color has-text-color">Um Ihnen höchste Sicherheit zum bestmöglichen Preis zu bieten, erhalten Sie bei uns neben einer 30 Tage Geld-zurück-Garantie zusätzlich noch unser Bestpreis-Versprechen:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph -->
-<p><img src="https://www.immoticket24.de/public/grafik/zufriedenheits-garantie/unterschrift-christian-esch.jpg" alt=""><br>Geschäftsführer</p>
+<!-- wp:paragraph {"textColor":"white"} -->
+<p class="has-white-color has-text-color">Wenn Sie irgendwo im Internet eine Webseite finden, bei der Sie einen Energieausweis in gleicher Qualität zu einem günstigeren Preis finden, kontaktieren Sie uns! Wir schreiben Ihnen dann den Differenzbetrag gut.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Jetzt bis zu 300 Euro sparen &gt;&gt;</a></div>
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}},"textColor":"white"} -->
+<p class="has-white-color has-text-color" style="font-size:14px"><em>Christian Esch<br>Geschäsftsführer</em></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt bis zu 300 Euro sparen >></a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator -->
+<!-- wp:paragraph {"className":"banner-content-bottom"} -->
+<p class="banner-content-bottom">unser<br>bestpreis-versprechen</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 
-<!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center">Das sagen Kunden:</h2>
+<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
+<h2 id="das-sagen-unsere-kundenzufriedene-kunden-sind-fur-uns-das-wichtigste"><strong>Das sagen unsere Kunden</strong><br>zufriedene Kunden sind für uns das wichtigste!</h2>
 <!-- /wp:heading -->
 
-<!-- wp:block {"ref":296312} /-->
+<!-- wp:columns {"className":"testimonials"} -->
+<div class="wp-block-columns testimonials"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
 
-<!-- wp:spacer {"height":20} -->
-<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website:<br>[ratings]<br></p>
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"contentJustification":"center"} -->
-<div class="wp-block-buttons is-content-justification-center"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweis/" style="border-radius:5px">Jetzt Energieausweis online erstellen</a></div>
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"12px"}},"className":"mt-4"} -->
+<p class="has-text-align-center mt-4" style="font-size:12px"><em>Ausgewählte Top-Bewertungen für enon.test powered by TrustedShops</em></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons {"className":"uppercase","layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons uppercase"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt Energieausweis erstellen</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->]]></content:encoded>
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>387305</wp:post_id>
   <wp:post_date>2020-08-03 00:55:36</wp:post_date>
   <wp:post_date_gmt>2020-08-02 22:55:36</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:32</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:32</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 15:40:39</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 14:40:39</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>energiebedarfsausweis-online-erstellen</wp:post_name>
@@ -14663,8 +14863,16 @@ https://youtu.be/XEFZYkvt0nE
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
   <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
     <wp:meta_key>_oembed_time_701d7f0ae8eaec30d3a2f17fb5606a31</wp:meta_key>
-    <wp:meta_value><![CDATA[1596409239]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1638801644]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
@@ -14672,7 +14880,7 @@ https://youtu.be/XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
-    <wp:meta_value><![CDATA[2]]></wp:meta_value>
+    <wp:meta_value><![CDATA[6]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_users</wp:meta_key>
@@ -14700,11 +14908,11 @@ https://youtu.be/XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[54]]></wp:meta_value>
+    <wp:meta_value><![CDATA[56]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_701d7f0ae8eaec30d3a2f17fb5606a31</wp:meta_key>
-    <wp:meta_value><![CDATA[<iframe title="Energieausweis online erstellen - Unschlagbar einfach!" width="640" height="360" src="https://www.youtube.com/embed/XEFZYkvt0nE?feature=oembed" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></wp:meta_value>
+    <wp:meta_value><![CDATA[<iframe title="Energieausweis online erstellen - Unschlagbar einfach!" width="640" height="360" src="https://www.youtube.com/embed/XEFZYkvt0nE?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_extra_js</wp:meta_key>
@@ -18272,7 +18480,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:is_sticky>0</wp:is_sticky>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
-    <wp:meta_value><![CDATA[1638792408]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1638800768]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_wp_page_template</wp:meta_key>
