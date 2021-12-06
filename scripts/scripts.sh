@@ -3,3 +3,5 @@ wp search-replace "wp.test" "2021.energieausweis-online-erstellen.de"
 wp search-replace "wp-content/" "app/"
 
 wp post delete $(wp post list --post_type=page --format=ids) --force
+
+wp post list --post-type=page --format=csv > pages.csv 
