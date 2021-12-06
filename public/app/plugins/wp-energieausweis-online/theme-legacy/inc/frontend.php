@@ -53,63 +53,6 @@ function immoticketenergieausweis_is_distraction_free() {
   return false;
 }
 
-function immoticketenergieausweis_after_content( $content ) {
-  global $wp_embed, $shortcode_tags;
-
-  if ( ! is_singular() ) {
-    return $content;
-  }
-
-  if ( 'post' !== get_post_type() ) {
-    return $content;
-  }
-
-  if ( shortcode_exists( 'shariff' ) ) {
-    $content .= '<p style="margin-top:11px;margin-bottom:0;">' . __( 'Wenn Ihnen der Artikel gefällt, würden wir uns über ein Teilen des Artikels mit Ihren Freunden freuen. Damit helfen Sie uns, unsere Website bekannter zu machen!', 'immoticketenergieausweis' ) . '</p>';
-    $content .= do_shortcode( '[shariff]' );
-  }
-
-  $post_id = get_the_ID();
-
-  $post_thumbnail_source = get_post_meta( $post_id, 'immoticketenergieausweis_post_thumbnail_source', true );
-  if ( ! empty( $post_thumbnail_source ) ) {
-    $content .= '<p class="post-thumbnail-source">' . __( 'Titelbild:', 'immoticketenergieausweis' ) . ' ' . esc_html( $post_thumbnail_source ) . '</p>';
-  }
-
-  $content .= '<hr>';
-
-  $ad_heading = get_post_meta( $post_id, 'immoticketenergieausweis_ad_heading', true );
-  if ( ! empty( $ad_heading ) ) {
-    $content .= '<h3>' . esc_html( $ad_heading ) . '</h3>';
-  }
-
-  $ad_content = get_post_meta( $post_id, 'immoticketenergieausweis_ad_content', true );
-  if ( ! empty( $ad_content ) ) {
-    $orig_shortcode_tags = $shortcode_tags;
-    $shortcode_tags = array();
-    add_shortcode( 'button', 'immoticketenergieausweis_button_shortcode' );
-
-    $content .= wpautop( do_shortcode( $wp_embed->autoembed( $ad_content ) ) );
-
-    $shortcode_tags = $orig_shortcode_tags;
-  }
-
-  if ( ! empty( $ad_heading ) || ! empty( $ad_content ) ) {
-    $content .= '<hr>';
-  }
-
-  if ( false === strpos( $content, '[ratings]' ) ) {
-    $content .= '<p>' . __( 'War der Seiteninhalt hilfreich? Dann bewerten Sie doch einfach den Artikel auf dieser Website:', 'immoticketenergieausweis' ) . '</p>' . '[ratings]';
-  }
-
-  if ( false === strpos( $content, '[trusted_shops_badge]' ) ) {
-    $content .= '<h3>' . __( 'Das sagen Kunden:', 'immoticketenergieausweis' ) . '</h3>' . '[trusted_shops_badge]';
-  }
-
-  return $content;
-}
-add_filter( 'the_content', 'immoticketenergieausweis_after_content', 4, 1 );
-
 function immoticketenergieausweis_button_shortcode( $atts, $content ) {
   $href = ! empty( $atts['href'] ) ? $atts['href'] : home_url( '/' );
 
