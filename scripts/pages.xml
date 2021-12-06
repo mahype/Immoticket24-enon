@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/5.8.2" created="2021-12-03 09:14" -->
+<!-- generator="WordPress/5.8.2" created="2021-12-06 11:23" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Energieausweis online erstellen</title>
 <link>https://enon.test</link>
 <description>Jetzt Ihren Energieausweis nach EnEV 2014 anfordern!</description>
-<pubDate>Fri, 03 Dec 2021 09:14:32 +0000</pubDate>
+<pubDate>Mon, 06 Dec 2021 11:23:12 +0000</pubDate>
 <language>de-DE</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>https://enon.test</wp:base_site_url>
@@ -1682,21 +1682,21 @@ Zum Widerruf kopieren Sie den folgenden Inhalt in Ihr Email- oder Textverarbeitu
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/checkout/</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-default"} -->
-<div class="wp-block-group is-style-default has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:spacer {"height":41} -->
-<div style="height:41px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer --></div>
-<!-- /wp:group -->
+  <content:encoded><![CDATA[<!-- wp:group {"style":{"spacing":{"margin":{"top":"0px"},"padding":{"top":"80px"}}}} -->
+<div class="wp-block-group" style="margin-top:0px;padding-top:80px"><!-- wp:heading -->
+<h2 id="ihre-bestellung"><strong>Ihre Bestellung</strong></h2>
+<!-- /wp:heading -->
 
 <!-- wp:shortcode -->
 [download_checkout]
-<!-- /wp:shortcode -->]]></content:encoded>
+<!-- /wp:shortcode --></div>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>84</wp:post_id>
   <wp:post_date>2015-07-16 10:26:32</wp:post_date>
   <wp:post_date_gmt>2015-07-16 09:26:32</wp:post_date_gmt>
-  <wp:post_modified>2021-12-03 07:18:10</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-03 06:18:10</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 14:06:49</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 13:06:49</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>checkout</wp:post_name>
@@ -2213,8 +2213,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 </div></figure>
 <!-- /wp:embed -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px","top":"80px"}}}} -->
-<div class="wp-block-group" style="margin-top:80px;margin-bottom:80px"><!-- wp:heading -->
+<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px","top":"80px"}}},"className":"is-style-group-card"} -->
+<div class="wp-block-group is-style-group-card" style="margin-top:80px;margin-bottom:80px"><!-- wp:heading -->
 <h2 id="1-darauf-sollten-sie-beim-erstellen-des-bedarfsausweises-achten">1. Darauf sollten Sie beim Erstellen des Bedarfsausweises achten</h2>
 <!-- /wp:heading -->
 
@@ -2231,8 +2231,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}}} -->
-<div class="wp-block-group" style="margin-bottom:80px"><!-- wp:heading -->
+<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}},"className":"is-style-group-card"} -->
+<div class="wp-block-group is-style-group-card" style="margin-bottom:80px"><!-- wp:heading -->
 <h2 id="2-wann-erstellt-man-einen-bedarfsausweis-wann-einen-verbrauchsausweis">2. Wann erstellt man einen Bedarfsausweis, wann einen Verbrauchsausweis?</h2>
 <!-- /wp:heading -->
 
@@ -2255,8 +2255,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"80px"}}}} -->
-<div class="wp-block-group" style="padding-bottom:80px"><!-- wp:heading -->
+<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}},"className":"is-style-group-card"} -->
+<div class="wp-block-group is-style-group-card" style="margin-bottom:80px"><!-- wp:heading -->
 <h2 id="3-was-ist-der-unterschied-zwischen-bedarfsausweis-und-verbrauchsausweis">3. Was ist der Unterschied zwischen Bedarfsausweis und Verbrauchsausweis?</h2>
 <!-- /wp:heading -->
 
@@ -2279,8 +2279,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}}} -->
-<div class="wp-block-group" style="margin-bottom:80px"><!-- wp:heading -->
+<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}},"className":"is-style-group-card"} -->
+<div class="wp-block-group is-style-group-card" style="margin-bottom:80px"><!-- wp:heading -->
 <h2 id="4-welche-angaben-benotigen-sie-zur-erstellung-des-bedarfsausweises">4. Welche Angaben benötigen Sie zur Erstellung des Bedarfsausweises?</h2>
 <!-- /wp:heading -->
 
@@ -2297,8 +2297,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}}} -->
-<div class="wp-block-group" style="margin-bottom:80px"><!-- wp:heading -->
+<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}},"className":"is-style-group-card"} -->
+<div class="wp-block-group is-style-group-card" style="margin-bottom:80px"><!-- wp:heading -->
 <h2 id="5-grunde-warum-sie-ihren-bedarfsausweis-online-bei-energieausweis-online-erstellen-de-erstellen-sollten">5. Gründe warum Sie Ihren Bedarfsausweis online bei Energieausweis-online-erstellen.de erstellen sollten:</h2>
 <!-- /wp:heading -->
 
@@ -2308,13 +2308,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Überzeugen Sie sich selbst wie über 2.500 Kunden >>></a></div>
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Überzeugen Sie sich selbst wie über 2.500 Kunden &gt;&gt;&gt;</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}}} -->
-<div class="wp-block-group" style="margin-bottom:80px"><!-- wp:heading -->
+<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"80px"}}},"className":"is-style-group-card"} -->
+<div class="wp-block-group is-style-group-card" style="margin-bottom:80px"><!-- wp:heading -->
 <h2 id="6-unser-bestpreis-versprechen-an-sie">6. Unser Bestpreis-Versprechen an Sie:</h2>
 <!-- /wp:heading -->
 
@@ -2328,13 +2328,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Jetzt bis zu 300,- Euro sparen >>></a></div>
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Jetzt bis zu 300,- Euro sparen &gt;&gt;&gt;</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group -->
-<div class="wp-block-group"><!-- wp:heading {"align":"left"} -->
+<!-- wp:group {"className":"is-style-group-card"} -->
+<div class="wp-block-group is-style-group-card"><!-- wp:heading {"align":"left"} -->
 <h2 id="7-das-sagen-kunden">7. Das sagen Kunden:</h2>
 <!-- /wp:heading -->
 
@@ -2504,19 +2504,15 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <div class="wp-block-buttons uppercase"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt Energieausweis erstellen</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->
-
-<!-- wp:paragraph -->
-<p><br></p>
-<!-- /wp:paragraph --></div>
+<!-- /wp:buttons --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>105680</wp:post_id>
   <wp:post_date>2015-09-18 23:39:44</wp:post_date>
   <wp:post_date_gmt>2015-09-18 22:39:44</wp:post_date_gmt>
-  <wp:post_modified>2021-12-03 09:59:09</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-03 08:59:09</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-03 13:27:16</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-03 12:27:16</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>bedarfsausweis-erstellen</wp:post_name>
@@ -2544,7 +2540,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
-    <wp:meta_value><![CDATA[1638521923]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1638530966]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_edit_last</wp:meta_key>
@@ -15872,21 +15868,23 @@ https://youtu.be/OAZirYJNHNw
   <guid isPermaLink="false">https://enon.test/?page_id=422255</guid>
   <description/>
   <content:encoded><![CDATA[<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center"><strong>Damit Sie noch mehr Makler-Aufträge erhalten:</strong></h2>
+<div class="wp-block-group"><!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px","bottom":"160px"}}},"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:160px"><!-- wp:heading {"textAlign":"left"} -->
+<h2 class="has-text-align-left" id="damit-sie-noch-mehr-makler-auftrage-erhalten">Damit Sie <strong>noch mehr Makler-Aufträge</strong> erhalten</h2>
 <!-- /wp:heading -->
 
-<!-- wp:block {"ref":295011} /-->
-
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:columns {"className":"has-2-columns"} -->
-<div class="wp-block-columns has-2-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:heading {"level":3} -->
-<h3>Ihre Vorteile</h3>
+<!-- wp:heading {"level":3} -->
+<h3 id="ihre-vorteile-1">Ihre Vorteile</h3>
 <!-- /wp:heading -->
 
-<!-- wp:list {"className":"checkmark"} -->
-<ul class="checkmark"><li>Vorqualifizierte Eigentümer-Leads</li><li>Keine Mindestabnahme</li><li>Freie Gebietsauswahl</li><li>Keine Konkurrenz durch andere Makler (pro Gebiet nur ein (!) Makler)</li></ul>
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:list {"className":"is-style-checkmarks-formatted"} -->
+<ul class="is-style-checkmarks-formatted"><li>Vorqualifizierte Eigentümer-Leads</li><li>Keine Mindestabnahme</li><li>Freie Gebietsauswahl</li><li>Keine Konkurrenz durch andere Makler (pro Gebiet nur ein (!) Makler)</li></ul>
 <!-- /wp:list --></div>
 <!-- /wp:column -->
 
@@ -15897,166 +15895,206 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 </div></figure>
 <!-- /wp:embed -->
 
-<!-- wp:image {"align":"center","id":294900,"width":367,"height":151} -->
-<div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://enon.test/app/uploads/2019/08/pfeile-nach-unten.png" alt="" class="wp-image-294900" width="367" height="151"/></figure></div>
-<!-- /wp:image -->
-
-<!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white","align":"center"} -->
-<div class="wp-block-button aligncenter"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/leads/verkaeufer-leads-erhalten-2/" style="border-radius:5px">Mehr dazu &gt;&gt;</a></div>
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/leads/verkaeufer-leads-erhalten-2/">Mehr dazu</a></div>
 <!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns --></div></div>
+<!-- /wp:columns --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group -->
 
-<!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph -->
+<!-- wp:create-block/block-wave-separator {"gradient":"green-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-green-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:block {"ref":295011} /--></div></div>
-<!-- /wp:group -->
-
-<!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph -->
-
-<!-- wp:group {"className":"full-width-grey"} -->
-<div class="wp-block-group full-width-grey"><div class="wp-block-group__inner-container"><!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center"><strong>Ihre 4 unschlagbaren Vorteile:</strong></h2>
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px"}}},"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background" style="padding-top:0px"><!-- wp:heading {"textAlign":"left"} -->
+<h2 class="has-text-align-left" id="ihre-4-unschlagbaren-vorteile"><strong>Ihre 4 unschlagbaren Vorteile:</strong></h2>
 <!-- /wp:heading -->
 
-<!-- wp:columns -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"80px","bottom":"80px"}}}} -->
+<div class="wp-block-group" style="margin-top:80px;margin-bottom:80px"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:image {"align":"center","id":386461,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
-<div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2020/07/icon-lock.png" alt="" class="wp-image-386461" width="50" height="50"/></figure></div>
-<!-- /wp:image -->
-
-<!-- wp:heading {"textAlign":"center","level":3} -->
-<h3 class="has-text-align-center">Vorqualifizierte Leads</h3>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">Sie erhalten Eigentümer-Kontakte, die bei uns einen Energieausweis zwecks Hausverkauf erworben haben und einen Experten zur Verkaufsunterstützung suchen.</p>
-<!-- /wp:paragraph --></div></div>
-<!-- /wp:group --></div>
-<!-- /wp:column -->
-
-<!-- wp:column -->
-<div class="wp-block-column"><!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:image {"align":"center","id":386462,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
-<div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2020/07/icon-person-add.png" alt="" class="wp-image-386462" width="50" height="50"/></figure></div>
-<!-- /wp:image -->
-
-<!-- wp:heading {"textAlign":"center","level":3} -->
-<h3 class="has-text-align-center">Keine Mindestabnahme</h3>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">Egal, ob 1, 2, 3 oder 4 Kontakte. Sie entscheiden, wie viele Kontakte Sie maximal pro Monat erhalten möchten.</p>
-<!-- /wp:paragraph --></div></div>
-<!-- /wp:group --></div>
-<!-- /wp:column --></div>
-<!-- /wp:columns -->
-
-<!-- wp:columns -->
-<div class="wp-block-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:image {"align":"center","id":386460,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
+<div class="wp-block-group"><!-- wp:image {"align":"center","id":386460,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
 <div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2020/07/icon-directions.png" alt="" class="wp-image-386460" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
 <!-- wp:heading {"textAlign":"center","level":3} -->
-<h3 class="has-text-align-center">Freie Gebietsauswahl</h3>
+<h3 class="has-text-align-center" id="freie-gebietsauswahl">Freie Gebietsauswahl</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">Sie suchen das Gebiet aus, aus dem Sie Eigentümer-Kontakte haben möchten.</p>
-<!-- /wp:paragraph --></div></div>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:image {"align":"center","id":386463,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
+<div class="wp-block-group"><!-- wp:image {"align":"center","id":386463,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
 <div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2020/07/icon-person-pair.png" alt="" class="wp-image-386463" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
 <!-- wp:heading {"textAlign":"center","level":3} -->
-<h3 class="has-text-align-center">Keine Konkurrenz</h3>
+<h3 class="has-text-align-center" id="keine-konkurrenz">Keine Konkurrenz</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">Werden Sie in Ihrer Region „Platzhirsch“. Sie erhalten exklusiv als einziger Makler den Eigentümer-Lead</p>
-<!-- /wp:paragraph --></div></div>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns -->
-
-<!-- wp:block {"ref":295011} /--></div></div>
-<!-- /wp:group --></div></div>
+<!-- /wp:columns --></div>
 <!-- /wp:group -->
-
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center"><strong>Häufige Fragen</strong></h2>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center"><em>- Zum Betrachten der Antworten einfach auf die entsprechende Frage klicken -</em></p>
-<!-- /wp:paragraph -->
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:image {"align":"center","id":75746,"width":467,"height":239,"sizeSlug":"large"} -->
-<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2017/08/bewertungen_bei_ekomi.jpg" alt="" class="wp-image-75746" width="467" height="239"/></figure></div>
+<div class="wp-block-column"><!-- wp:group -->
+<div class="wp-block-group"><!-- wp:image {"align":"center","id":386461,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
+<div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2020/07/icon-lock.png" alt="" class="wp-image-386461" width="50" height="50"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:spacer -->
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
+<!-- wp:heading {"textAlign":"center","level":3} -->
+<h3 class="has-text-align-center" id="vorqualifizierte-leads">Vorqualifizierte Leads</h3>
+<!-- /wp:heading -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":5,"backgroundColor":"green","textColor":"white"} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/leads/verkaeufer-leads-erhalten-2/" style="border-radius:5px">Ausprobieren &gt;&gt;</a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons --></div>
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">Sie erhalten Eigentümer-Kontakte, die bei uns einen Energieausweis zwecks Hausverkauf erworben haben und einen Experten zur Verkaufsunterstützung suchen.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:advgb/accordions {"headerBgColor":"#FFFFFF","headerTextColor":"#21759b","headerIcon":"arrowDown","headerIconColor":"#21759b","changed":true,"rootBlockId":"525e35f2-7da7-455e-84f6-e601e1395770"} -->
-<div class="wp-block-advgb-accordions advgb-accordion-wrapper"><!-- wp:advgb/accordion-item {"header":"1. An wie viele Makler wird jeder Kontakt vermittelt?","headerBgColor":"#FFFFFF","headerTextColor":"#21759b","headerIcon":"arrowDown","headerIconColor":"#21759b","borderWidth":0,"changed":true,"rootBlockId":"525e35f2-7da7-455e-84f6-e601e1395770"} -->
-<div class="wp-block-advgb-accordion-item advgb-accordion-item" style="margin-bottom:15px"><div class="advgb-accordion-header" style="background-color:#FFFFFF;color:#21759b;border-style:solid;border-width:0px;border-radius:2px"><span class="advgb-accordion-header-icon"><svg fill="#21759b" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path opacity="0.87" fill="none" d="M24,24H0L0,0l24,0V24z"></path><path d="M16.59,8.59L12,13.17L7.41,8.59L6,10l6,6l6-6L16.59,8.59z"></path></svg></span><h4 class="advgb-accordion-header-title" style="color:inherit">1. An wie viele Makler wird jeder Kontakt vermittelt?</h4></div><div class="advgb-accordion-body" style="border-style:solid !important;border-width:0px !important;border-color:undefined !important;border-top:none !important;border-radius:2px !important"><!-- wp:paragraph -->
+<div class="wp-block-column"><!-- wp:group -->
+<div class="wp-block-group"><!-- wp:image {"align":"center","id":386462,"width":50,"height":50,"sizeSlug":"large","className":"is-style-rounded custom-rounded"} -->
+<div class="wp-block-image is-style-rounded custom-rounded"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2020/07/icon-person-add.png" alt="" class="wp-image-386462" width="50" height="50"/></figure></div>
+<!-- /wp:image -->
+
+<!-- wp:heading {"textAlign":"center","level":3} -->
+<h3 class="has-text-align-center" id="keine-mindestabnahme">Keine Mindestabnahme</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">Egal, ob 1, 2, 3 oder 4 Kontakte. Sie entscheiden, wie viele Kontakte Sie maximal pro Monat erhalten möchten.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"full-width-grey is-style-group-main"} -->
+<div class="wp-block-group full-width-grey is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textAlign":"left","textColor":"green-moss"} -->
+<h2 class="has-text-align-left has-green-moss-color has-text-color" id="haufige-fragen"><strong>Häufige Fragen</strong></h2>
+<!-- /wp:heading -->
+
+<!-- wp:group -->
+<div class="wp-block-group"><!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">1</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="an-wie-viele-makler-wird-jeder-kontakt-vermittelt"><strong>An wie viele Makler wird jeder Kontakt vermittelt?</strong></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
 <p>Jeder Kontakt wird an nur einen (!) Makler vermittelt. Unser Ziel ist es, dass Sie mit diesem Kunden einen Maklerauftrag abschließen können, daher empfehlen wir unseren Kunden in jeder Region nur einen Makler.</p>
-<!-- /wp:paragraph --></div></div>
-<!-- /wp:advgb/accordion-item -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
 
-<!-- wp:advgb/accordion-item {"header":"2. Kann ich mir ein beliebiges Gebiet auswählen?","headerBgColor":"#FFFFFF","headerTextColor":"#21759b","headerIcon":"arrowDown","headerIconColor":"#21759b","borderWidth":0,"changed":true,"rootBlockId":"525e35f2-7da7-455e-84f6-e601e1395770"} -->
-<div class="wp-block-advgb-accordion-item advgb-accordion-item" style="margin-bottom:15px"><div class="advgb-accordion-header" style="background-color:#FFFFFF;color:#21759b;border-style:solid;border-width:0px;border-radius:2px"><span class="advgb-accordion-header-icon"><svg fill="#21759b" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path opacity="0.87" fill="none" d="M24,24H0L0,0l24,0V24z"></path><path d="M16.59,8.59L12,13.17L7.41,8.59L6,10l6,6l6-6L16.59,8.59z"></path></svg></span><h4 class="advgb-accordion-header-title" style="color:inherit">2. Kann ich mir ein beliebiges Gebiet auswählen?</h4></div><div class="advgb-accordion-body" style="border-style:solid !important;border-width:0px !important;border-color:undefined !important;border-top:none !important;border-radius:2px !important"><!-- wp:paragraph -->
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">2</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="an-wie-viele-makler-wird-jeder-kontakt-vermittelt"><strong>Kann ich mir ein beliebiges Gebiet auswählen?</strong></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
 <p>Ja, im Moment können Sie sich noch jeden beliebigen Landkreis auswählen, aus dem Sie Eigentümer-Kontakte erhalten möchten. Sobald wir für einen Landkreis bereits einen Makler haben, können Sie sich auf die Warteliste setzen zu lassen, damit Sie den Platz erhalten, falls der Makler ausscheiden sollte oder nur wenige Leads abnehmen möchte.</p>
-<!-- /wp:paragraph --></div></div>
-<!-- /wp:advgb/accordion-item -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:group -->
 
-<!-- wp:advgb/accordion-item {"header":"3. Kann ich auch nur einen Kontakt im Monat abnehmen?","headerBgColor":"#FFFFFF","headerTextColor":"#21759b","headerIcon":"arrowDown","headerIconColor":"#21759b","borderWidth":0,"changed":true,"rootBlockId":"525e35f2-7da7-455e-84f6-e601e1395770"} -->
-<div class="wp-block-advgb-accordion-item advgb-accordion-item" style="margin-bottom:15px"><div class="advgb-accordion-header" style="background-color:#FFFFFF;color:#21759b;border-style:solid;border-width:0px;border-radius:2px"><span class="advgb-accordion-header-icon"><svg fill="#21759b" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path opacity="0.87" fill="none" d="M24,24H0L0,0l24,0V24z"></path><path d="M16.59,8.59L12,13.17L7.41,8.59L6,10l6,6l6-6L16.59,8.59z"></path></svg></span><h4 class="advgb-accordion-header-title" style="color:inherit">3. Kann ich auch nur einen Kontakt im Monat abnehmen?</h4></div><div class="advgb-accordion-body" style="border-style:solid !important;border-width:0px !important;border-color:undefined !important;border-top:none !important;border-radius:2px !important"><!-- wp:paragraph -->
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">3</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="an-wie-viele-makler-wird-jeder-kontakt-vermittelt"><strong>Kann ich auch nur einen Kontakt im Monat abnehmen?</strong></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
 <p>Ja, das ist möglich. Wie viele Kontakte Sie pro Monat abnehmen möchten, entscheiden Sie!</p>
-<!-- /wp:paragraph --></div></div>
-<!-- /wp:advgb/accordion-item -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
 
-<!-- wp:advgb/accordion-item {"header":"4. Wie lange ist die Vertragslaufzeit?","headerBgColor":"#FFFFFF","headerTextColor":"#21759b","headerIcon":"arrowDown","headerIconColor":"#21759b","borderWidth":0,"changed":true,"rootBlockId":"525e35f2-7da7-455e-84f6-e601e1395770"} -->
-<div class="wp-block-advgb-accordion-item advgb-accordion-item" style="margin-bottom:15px"><div class="advgb-accordion-header" style="background-color:#FFFFFF;color:#21759b;border-style:solid;border-width:0px;border-radius:2px"><span class="advgb-accordion-header-icon"><svg fill="#21759b" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path opacity="0.87" fill="none" d="M24,24H0L0,0l24,0V24z"></path><path d="M16.59,8.59L12,13.17L7.41,8.59L6,10l6,6l6-6L16.59,8.59z"></path></svg></span><h4 class="advgb-accordion-header-title" style="color:inherit">4. Wie lange ist die Vertragslaufzeit?</h4></div><div class="advgb-accordion-body" style="border-style:solid !important;border-width:0px !important;border-color:undefined !important;border-top:none !important;border-radius:2px !important"><!-- wp:paragraph -->
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">4</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="an-wie-viele-makler-wird-jeder-kontakt-vermittelt"><strong>Wie lange ist die Vertragslaufzeit?</strong></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
 <p>Die Vertragslaufzeit ist stets 6 Monate. Sofern Sie nicht kündigen, verlängert sich der Vertrag stets automatisch um weitere 6 Monate.</p>
-<!-- /wp:paragraph --></div></div>
-<!-- /wp:advgb/accordion-item -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
 
-<!-- wp:advgb/accordion-item {"header":"5. Wie hoch sind die Kosten pro Lead?","headerBgColor":"#FFFFFF","headerTextColor":"#21759b","headerIcon":"arrowDown","headerIconColor":"#21759b","borderWidth":0,"changed":true,"rootBlockId":"525e35f2-7da7-455e-84f6-e601e1395770"} -->
-<div class="wp-block-advgb-accordion-item advgb-accordion-item" style="margin-bottom:15px"><div class="advgb-accordion-header" style="background-color:#FFFFFF;color:#21759b;border-style:solid;border-width:0px;border-radius:2px"><span class="advgb-accordion-header-icon"><svg fill="#21759b" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path opacity="0.87" fill="none" d="M24,24H0L0,0l24,0V24z"></path><path d="M16.59,8.59L12,13.17L7.41,8.59L6,10l6,6l6-6L16.59,8.59z"></path></svg></span><h4 class="advgb-accordion-header-title" style="color:inherit">5. Wie hoch sind die Kosten pro Lead?</h4></div><div class="advgb-accordion-body" style="border-style:solid !important;border-width:0px !important;border-color:undefined !important;border-top:none !important;border-radius:2px !important"><!-- wp:paragraph -->
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">5</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="an-wie-viele-makler-wird-jeder-kontakt-vermittelt"><strong>Wie hoch sind die Kosten pro Lead?</strong></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
 <p>Die Leads kosten keinen festen Betrag, sondern Sie erhalten diese gegen eine Provisionsbeteiligung. Diese Provisionsbeteiligung beträgt 10 Prozent an der gesamt vereinnahmten Provision.</p>
-<!-- /wp:paragraph --></div></div>
-<!-- /wp:advgb/accordion-item -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
 
-<!-- wp:advgb/accordion-item {"header":"6. Wie ist der Ablauf?","headerBgColor":"#FFFFFF","headerTextColor":"#21759b","headerIcon":"arrowDown","headerIconColor":"#21759b","borderWidth":0,"changed":true,"rootBlockId":"525e35f2-7da7-455e-84f6-e601e1395770"} -->
-<div class="wp-block-advgb-accordion-item advgb-accordion-item" style="margin-bottom:15px"><div class="advgb-accordion-header" style="background-color:#FFFFFF;color:#21759b;border-style:solid;border-width:0px;border-radius:2px"><span class="advgb-accordion-header-icon"><svg fill="#21759b" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path opacity="0.87" fill="none" d="M24,24H0L0,0l24,0V24z"></path><path d="M16.59,8.59L12,13.17L7.41,8.59L6,10l6,6l6-6L16.59,8.59z"></path></svg></span><h4 class="advgb-accordion-header-title" style="color:inherit">6. Wie ist der Ablauf?</h4></div><div class="advgb-accordion-body" style="border-style:solid !important;border-width:0px !important;border-color:undefined !important;border-top:none !important;border-radius:2px !important"><!-- wp:paragraph -->
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
+<div class="wp-block-column" style="flex-basis:50px"><!-- wp:paragraph {"className":"bg-circle"} -->
+<p class="bg-circle">6</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:heading {"level":3,"textColor":"green-moss"} -->
+<h3 class="has-green-moss-color has-text-color" id="an-wie-viele-makler-wird-jeder-kontakt-vermittelt"><strong>Wie ist der Ablauf?</strong></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
 <p>Zunächst erhalten Sie von uns eine Auftragsbestätigung, welche Sie uns ausgefüllt zurück senden. Sobald wir einen Lead für Sie haben, melden wir uns bei Ihnen. Sobald Sie mit diesem Lead den Maklervertrag abgeschlossen haben, senden Sie uns diesen in Kopie zu. Sie teilen uns dann mit, für welche Variante Sie sich entscheiden möchte:</p>
 <!-- /wp:paragraph -->
 
@@ -16066,32 +16104,208 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 
 <!-- wp:paragraph -->
 <p>b) 15 Prozent Umsatzprovisionbeteiligung und Sie können die Online-Vermarktung über unsere Immoticket24-Plattform betreiben (kostenlose Veröffentlichung bei Immobilienscout24, etc.)</p>
-<!-- /wp:paragraph --></div></div>
-<!-- /wp:advgb/accordion-item --></div>
-<!-- /wp:advgb/accordions -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:image {"align":"center","id":75746,"width":467,"height":239,"sizeSlug":"large"} -->
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2017/08/bewertungen_bei_ekomi.jpg" alt="" class="wp-image-75746" width="467" height="239"/></figure></div>
+<!-- /wp:image -->
+
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"},"style":{"spacing":{"margin":{"top":"80px"}}}} -->
+<div class="wp-block-buttons" style="margin-top:80px"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link">Ausprobieren</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
+<h2 id="das-sagen-unsere-kundenzufriedene-kunden-sind-fur-uns-das-wichtigste"><strong>Das sagen unsere Kunden</strong><br>zufriedene Kunden sind für uns das wichtigste!</h2>
+<!-- /wp:heading -->
+
+<!-- wp:columns {"className":"testimonials"} -->
+<div class="wp-block-columns testimonials"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
 
 <!-- wp:paragraph -->
 <p></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns --></div></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"12px"}},"className":"mt-4"} -->
+<p class="has-text-align-center mt-4" style="font-size:12px"><em>Ausgewählte Top-Bewertungen für enon.test powered by TrustedShops</em></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons {"className":"uppercase","layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons uppercase"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Jetzt Energieausweis erstellen</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"className":"full-width-grey"} -->
-<div class="wp-block-group full-width-grey"><div class="wp-block-group__inner-container"><!-- wp:block {"ref":312230} /-->
-
-<!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph --></div></div>
-<!-- /wp:group -->
-
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:heading {"textAlign":"center","level":1} -->
-<h1 class="has-text-align-center"><strong><u>Preis:</u></strong></h1>
+<!-- wp:group {"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading -->
+<h2 id="preis-1"><strong>Preis</strong></h2>
 <!-- /wp:heading -->
 
-<!-- wp:heading -->
-<h2><strong>NEU ab sofort: Leads gegen Umsatzprovisionsbeteiligung</strong></h2>
+<!-- wp:heading {"level":3} -->
+<h3 id="neu-ab-sofort-leads-gegen-umsatzprovisionsbeteiligung"><strong>NEU ab sofort: Leads gegen Umsatzprovisionsbeteiligung</strong></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -16103,8 +16317,14 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><em><strong>a) 10 Prozent Umsatzbeteiligung an der gesamt vereinnahmten Provision und Sie machen den kompletten Vertrieb selbst</strong></em></p>
+<p></p>
 <!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><em><strong>a) 10 Prozent Umsatzbeteiligung an der gesamt vereinnahmten Provision und Sie machen den kompletten Vertrieb selbst</strong></em></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
 
 <!-- wp:paragraph -->
 <p>oder</p>
@@ -16118,8 +16338,8 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 <div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img src="https://enon.test/app/uploads/2020/11/portale-1024x529.jpg" alt="" class="wp-image-422259" width="512" height="265"/></figure></div>
 <!-- /wp:image -->
 
-<!-- wp:heading -->
-<h2>So gehts:</h2>
+<!-- wp:heading {"level":3} -->
+<h3 id="so-gehts"><strong>So gehts:</strong></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -16130,20 +16350,18 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 <p>Klicken Sie einfach auf einen der Buttons "Ausprobieren", "selbst überzeugen", etc. und teilen uns Ihre Kontaktdaten mit.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"backgroundColor":"green","textColor":"white"} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"},"style":{"spacing":{"margin":{"top":"80px"}}}} -->
+<div class="wp-block-buttons" style="margin-top:80px"><!-- wp:button {"backgroundColor":"green","textColor":"white"} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/leads/verkaeufer-leads-erhalten-2/">Selbst überzeugen</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons --></div></div>
-<!-- /wp:group -->
-
-<!-- wp:block {"ref":312266} /-->]]></content:encoded>
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>422255</wp:post_id>
   <wp:post_date>2020-11-27 08:16:49</wp:post_date>
   <wp:post_date_gmt>2020-11-27 07:16:49</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:31</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:31</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 12:22:21</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 11:22:21</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>eigentuemer-leads</wp:post_name>
@@ -16154,12 +16372,20 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
   <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
     <wp:meta_key>_oembed_time_44c54e0711a03c5fcc6d4c743791279e</wp:meta_key>
-    <wp:meta_value><![CDATA[1617883407]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1638789749]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
-    <wp:meta_value><![CDATA[4]]></wp:meta_value>
+    <wp:meta_value><![CDATA[8]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_44c54e0711a03c5fcc6d4c743791279e</wp:meta_key>
@@ -16171,7 +16397,7 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
-    <wp:meta_value><![CDATA[60]]></wp:meta_value>
+    <wp:meta_value><![CDATA[90]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_wp_page_template</wp:meta_key>
@@ -16265,15 +16491,23 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=422292</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:contact-form-7/contact-form-selector {"id":422296,"title":"Lead-Generator-Formular"} -->
-<div class="wp-block-contact-form-7-contact-form-selector">[contact-form-7 id="422296" title="Lead-Generator-Formular"]</div>
-<!-- /wp:contact-form-7/contact-form-selector -->]]></content:encoded>
+  <content:encoded><![CDATA[<!-- wp:group -->
+<div class="wp-block-group"><!-- wp:heading -->
+<h2 id="mehr-informationen-zum-leadgenerator-erhalten">Mehr Informationen zum <strong>Leadgenerator</strong> erhalten</h2>
+<!-- /wp:heading -->
+
+<!-- wp:gravityforms/form {"formId":"3","title":false,"description":false} /--></div>
+<!-- /wp:group -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>422292</wp:post_id>
   <wp:post_date>2020-11-27 09:22:25</wp:post_date>
   <wp:post_date_gmt>2020-11-27 08:22:25</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:32</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:32</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 11:34:53</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 10:34:53</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>leadgenerator</wp:post_name>
@@ -16284,12 +16518,24 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
   <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
+    <wp:meta_value><![CDATA[1]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
     <wp:meta_key>ratings_average</wp:meta_key>
     <wp:meta_value><![CDATA[0]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_wp_page_template</wp:meta_key>
-    <wp:meta_value><![CDATA[default]]></wp:meta_value>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_score</wp:meta_key>
@@ -16329,7 +16575,7 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
-    <wp:meta_value><![CDATA[30]]></wp:meta_value>
+    <wp:meta_value><![CDATA[60]]></wp:meta_value>
   </wp:postmeta>
 </item>
 <item>
@@ -16340,32 +16586,28 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   <guid isPermaLink="false">https://enon.test/?page_id=430044</guid>
   <description/>
   <content:encoded><![CDATA[<!-- wp:group -->
-<div class="wp-block-group"><!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">Vielen Dank für Ihren Einkauf!</p>
-<!-- /wp:paragraph -->
+<div class="wp-block-group"><!-- wp:heading -->
+<h2 id="vielen-dank-fur-ihren-einkauf">Vielen Dank für Ihren Einkauf!</h2>
+<!-- /wp:heading -->
 
 <!-- wp:shortcode -->
 [edd_receipt]
 <!-- /wp:shortcode -->
 
-<!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center">Danke für Ihr Vertrauen!</h2>
+<!-- wp:heading {"textAlign":"left"} -->
+<h2 class="has-text-align-left" id="danke-fur-ihr-vertrauen">Danke für Ihr Vertrauen!</h2>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">Sofern Sie Banküberweisung als Zahlart ausgewählt haben erhalten die Zahlungsaufforderung per Email. Senden Sie uns nach Bezahlung den Beleg per Mail, wir schalten den Energieausweis dann bereits vor Zahlungseingang frei </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator --></div>
+<!-- wp:paragraph {"align":"left"} -->
+<p class="has-text-align-left">Sofern Sie Banküberweisung als Zahlart ausgewählt haben erhalten die Zahlungsaufforderung per Email. Senden Sie uns nach Bezahlung den Beleg per Mail, wir schalten den Energieausweis dann bereits vor Zahlungseingang frei </p>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>430044</wp:post_id>
   <wp:post_date>2020-12-23 11:34:27</wp:post_date>
   <wp:post_date_gmt>2020-12-23 10:34:27</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:31</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:31</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 11:08:41</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 10:08:41</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>danke-fuer-ihr-vertrauen</wp:post_name>
@@ -16375,6 +16617,14 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_extra_js</wp:meta_key>
     <wp:meta_value><![CDATA[field_extra_js]]></wp:meta_value>
@@ -16413,7 +16663,7 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_wp_page_template</wp:meta_key>
-    <wp:meta_value><![CDATA[default]]></wp:meta_value>
+    <wp:meta_value><![CDATA[content]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>extra_css</wp:meta_key>
@@ -16463,32 +16713,37 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=454742</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:image {"align":"center","sizeSlug":"large"} -->
+  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"200px","top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:200px"><!-- wp:heading -->
+<h2 id="immobilienbewertung-bad-neuenahr-ahrweiler"><strong>Immobilienbewertung</strong> Bad Neuenahr-Ahrweiler</h2>
+<!-- /wp:heading -->
+
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"80px","bottom":"80px"}}}} -->
+<div class="wp-block-group" style="margin-top:80px;margin-bottom:80px"><!-- wp:image {"align":"center","sizeSlug":"large"} -->
 <div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://www.immoticket24.de/app/uploads/2021/03/immobilienbewertung-bad-neuenahr-ahrweiler.png" alt=""/></figure></div>
-<!-- /wp:image -->
+<!-- /wp:image --></div>
+<!-- /wp:group -->
 
 <!-- wp:paragraph -->
 <p>Immobilienbewertung in Bad Neuenahr-Ahrweiler und Umgebung. Über 2.500 Kundenmeinungen im Internet ⭐️⭐️⭐️⭐️⭐️ - Jetzt selbst überzeugen!</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph -->
-
 <!-- wp:shortcode -->
 [immorating]
-<!-- /wp:shortcode -->
+<!-- /wp:shortcode --></div>
+<!-- /wp:group -->
 
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator -->
+<!-- wp:create-block/block-wave-separator {"waveId":"wave-2","gradient":"green-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-2 has-green-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-2" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,5.8c9.8,5,17.3,13.6,56.2,8.8c41.7-5.1,83.2-18.5,178.2-6.7c34.8,4.3,49.1-7.9,49.1-7.9l0,17H0V5.8z"/></clipPath></svg></div>
+<!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph -->
-
-<!-- wp:heading -->
-<h2><strong>Wie viel ist meine Immobilie in Bad Neuenahr-Ahrweiler wert?</strong></h2>
+<!-- wp:group {"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
+<h2 id="wie-viel-ist-meine-immobilie-in-bad-neuenahr-ahrweiler-wert"><strong>Wie viel ist meine Immobilie in Bad Neuenahr-Ahrweiler wert?</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -16496,29 +16751,27 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p></p>
+<p><strong>Freistehende Ein- und Zweifamilienhäuser</strong> erzielen je nach Ausstattung und Lage Preise zwischen 250.000 und 1.200.000 Euro.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Freistehende Ein- und Zweifamilienhäuser</strong> erzielen je nach Ausstattung und Lage Preise zwischen 250.000 und 1.200.000 Euro. <strong>Reihenhäuser</strong> zwischen 200.000 und 420.000 Euro. Mehrfamilienhäuser erzielen im Schnitt das 16fache der Jahresnettokaltmiete.</p>
+<p><strong>Reihenhäuser</strong> zwischen 200.000 und 420.000 Euro. Mehrfamilienhäuser erzielen im Schnitt das 16fache der Jahresnettokaltmiete.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
 <p><strong>Eigentumswohnungen im Bestand</strong> erzielen je nach Ausstattung Preise zwischen 1.200 und 3.500 Euro je qm Wohnfläche. <strong>Neubau-Wohnungen </strong>sogar zwischen 3.000 und 4.500 Euro je qm Wohnfläche.<br></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":3,"style":{"color":{"background":"#41a62a"}}} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"background":"#41a62a"},"border":{"radius":"3px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-background" href="https://www.immoticket24.de/immobilienwertermittlung/" style="border-radius:3px;background-color:#41a62a">Hier Immobilie bewerten</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
 
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator -->
-
-<!-- wp:heading -->
-<h2>Immobilienbewertung Bad Neuenahr-Ahrweiler: Aktuelle Mietpreise vor Ort</h2>
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading -->
+<h2 id="immobilienbewertung-bad-neuenahr-ahrweiler-aktuelle-mietpreise-vor-ort">Immobilienbewertung Bad Neuenahr-Ahrweiler: Aktuelle Mietpreise vor Ort</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -16549,18 +16802,16 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 <p><strong>Praxistipp:</strong> Gute Immobilienmakler überprüfen ermittelte Immobilienwerte, in dem sie mindestens zwei der Bewertungsverfahren anwenden. So lässt sich der Wert der Immobilie genauer eingrenzen.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":3,"style":{"color":{"background":"#41a62a"}}} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"background":"#41a62a"},"border":{"radius":"3px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-background" href="https://www.immoticket24.de/immobilienwertermittlung/" style="border-radius:3px;background-color:#41a62a">Immobilie bewerten</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
 
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator -->
-
-<!-- wp:heading -->
-<h2><strong>Bad Neuenahr-Ahrweiler als Perle des Ahrtals</strong></h2>
+<!-- wp:group {"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
+<h2 id="bad-neuenahr-ahrweiler-als-perle-des-ahrtal"><strong>Bad Neuenahr-Ahrweiler als Perle des Ahrtal</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -16575,16 +16826,192 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 <p>Deutschlandweit zählt es zu den Städten, die über eine überdurchschnittliche Kaufkraft verfügen und genau deswegen ist es im Immobiliensektor besonders für Anleger interessant.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":3,"style":{"color":{"background":"#41a62a"}}} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"background":"#41a62a"},"border":{"radius":"3px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-background" href="https://www.immoticket24.de/immobilienwertermittlung/" style="border-radius:3px;background-color:#41a62a">Immobilie bewerten</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
 
-<!-- wp:block {"ref":312230} /-->
+<!-- wp:group {"gradient":"white-green-to-green-white","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading -->
+<h2 id="das-sagen-unsere-kundenzufriedene-kunden-sind-fur-uns-das-wichtigste"><strong>Das sagen unsere Kunden</strong><br>zufriedene Kunden sind für uns das wichtigste!</h2>
+<!-- /wp:heading -->
 
-<!-- wp:heading -->
-<h2>Sie benötigen neben der Wertermittlung einen Energieausweis?</h2>
+<!-- wp:columns {"className":"testimonials"} -->
+<div class="wp-block-columns testimonials"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:columns {"className":"testimonial"} -->
+<div class="wp-block-columns testimonial"><!-- wp:column {"width":"72px","className":"flex-image-start pr-2"} -->
+<div class="wp-block-column flex-image-start pr-2" style="flex-basis:72px"><!-- wp:image {"align":"center","id":585,"sizeSlug":"full","linkDestination":"none"} -->
+<div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/unbekanntes-testimonial.webp" alt="" class="wp-image-585"/></figure></div>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"className":"mb-1 text-sm ml-2"} -->
+<p class="mb-1 text-sm ml-2">11.02.2020 um 16:11 Uhr</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-blockqote-border-left"} -->
+<blockquote class="wp-block-quote is-style-blockqote-border-left"><p>Sehr gutes Portal , Änderungen Sonder wünsche werden umgehend umgesetzt, seit Jahren zufriedener Kunde!</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":"0px"}},"className":"stars ml-2"} -->
+<div class="wp-block-columns stars ml-2"><!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":586,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-586"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":587,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-587"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":588,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-588"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":590,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-590"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"22px"} -->
+<div class="wp-block-column" style="flex-basis:22px"><!-- wp:image {"id":591,"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="/app/themes/jason/assets/img/icons/stern.webp" alt="" class="wp-image-591"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"12px"}},"className":"mt-4"} -->
+<p class="has-text-align-center mt-4" style="font-size:12px"><em>Ausgewählte Top-Bewertungen für enon.test powered by TrustedShops</em></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons {"className":"uppercase","layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-buttons uppercase"><!-- wp:button /--></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
+<h2 id="sie-benotigen-neben-der-wertermittlung-einen-energieausweis">Sie benötigen neben der Wertermittlung einen <strong>Energieausweis</strong>?</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -16595,35 +17022,28 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 <p>Welchen Energieausweis Sie für Ihre Immobilie benötigen und wie einfach Sie diesen online erstellen können, erfahren Sie unter folgendem Link:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button {"borderRadius":3,"style":{"color":{"background":"#41a62a"}}} -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"background":"#41a62a"},"border":{"radius":"3px"}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-background" href="https://enon.test/energieausweis/" style="border-radius:3px;background-color:#41a62a">Diesen Energieausweis benötigen Sie</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons -->
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->
 
-<!-- wp:buttons {"align":"center"} -->
-<div class="wp-block-buttons aligncenter"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link"></a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons -->
-
-<!-- wp:separator -->
-<hr class="wp-block-separator"/>
-<!-- /wp:separator -->
-
-<!-- wp:heading {"level":4} -->
-<h4>Weitergehende Informationen finden Sie auch unter folgenden Links:</h4>
+<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"}},"className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-background" style="background:linear-gradient(180deg,#f0f6d1 0%,#bdd3a0 100%)"><!-- wp:heading {"level":4} -->
+<h4 id="weitergehende-informationen-finden-sie-auch-unter-folgenden-links">Weitergehende Informationen finden Sie auch unter folgenden Links:</h4>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
 <p><a href="https://de.wikipedia.org/wiki/Sachwertverfahren">Sachwertverfahren:</a> https://de.wikipedia.org/wiki/Sachwertverfahren<br><a href="https://de.wikipedia.org/wiki/Ertragswertverfahren">Ertragswertverfahren</a>: https://de.wikipedia.org/wiki/Ertragswertverfahren<br><a href="https://de.wikipedia.org/wiki/Vergleichswertverfahren">Vergleichswertverfahren</a>: https://de.wikipedia.org/wiki/Vergleichswertverfahren</p>
-<!-- /wp:paragraph -->]]></content:encoded>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>454742</wp:post_id>
   <wp:post_date>2021-03-05 10:56:57</wp:post_date>
   <wp:post_date_gmt>2021-03-05 09:56:57</wp:post_date_gmt>
-  <wp:post_modified>2021-11-08 15:34:32</wp:post_modified>
-  <wp:post_modified_gmt>2021-11-08 14:34:32</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 11:04:58</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 10:04:58</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>immobilienbewertung-bad-neuenahr-ahrweiler</wp:post_name>
@@ -16633,6 +17053,14 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
+  <wp:postmeta>
+    <wp:meta_key>affwp_affiliate_submission_forms</wp:meta_key>
+    <wp:meta_value><![CDATA[a:0:{}]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[74]]></wp:meta_value>
+  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_extra_js</wp:meta_key>
     <wp:meta_value><![CDATA[field_extra_js]]></wp:meta_value>
@@ -16651,7 +17079,7 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[80]]></wp:meta_value>
+    <wp:meta_value><![CDATA[81]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
@@ -16659,7 +17087,7 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
-    <wp:meta_value><![CDATA[3]]></wp:meta_value>
+    <wp:meta_value><![CDATA[6]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>ratings_score</wp:meta_key>
@@ -16737,8 +17165,8 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 <div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
 <!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"160px","top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"pt-0 is-style-wave-top-bottom is-style-main-group is-style-group-main"} -->
-<div class="wp-block-group pt-0 is-style-wave-top-bottom is-style-main-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:160px"><!-- wp:heading {"textAlign":"center"} -->
+<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"200px","top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"pt-0 is-style-wave-top-bottom is-style-main-group is-style-group-main"} -->
+<div class="wp-block-group pt-0 is-style-wave-top-bottom is-style-main-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:200px"><!-- wp:heading {"textAlign":"center"} -->
 <h2 class="has-text-align-center" id="welchen-energieausweis-benotigen-sie">Welchen Energieausweis benötigen Sie?</h2>
 <!-- /wp:heading -->
 
@@ -17366,8 +17794,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465251</wp:post_id>
   <wp:post_date>2021-10-25 12:15:05</wp:post_date>
   <wp:post_date_gmt>2021-10-25 10:15:05</wp:post_date_gmt>
-  <wp:post_modified>2021-12-02 15:09:26</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-02 14:09:26</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 10:29:50</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 09:29:50</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>startseite</wp:post_name>
@@ -17379,7 +17807,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:is_sticky>0</wp:is_sticky>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
-    <wp:meta_value><![CDATA[1636970971]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1638782994]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_wp_page_template</wp:meta_key>
@@ -17489,8 +17917,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
 <!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"160px","top":"0px"}}},"textColor":"green-deep","gradient":"yellow-neon-to-green-mint","className":"wave1 is-style-main-group is-style-group-main"} -->
-<div class="wp-block-group wave1 is-style-main-group is-style-group-main has-green-deep-color has-yellow-neon-to-green-mint-gradient-background has-text-color has-background" style="padding-top:0px;padding-bottom:160px"><!-- wp:heading -->
+<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"200px","top":"0px"}}},"textColor":"green-deep","gradient":"yellow-neon-to-green-mint","className":"wave1 is-style-main-group is-style-group-main"} -->
+<div class="wp-block-group wave1 is-style-main-group is-style-group-main has-green-deep-color has-yellow-neon-to-green-mint-gradient-background has-text-color has-background" style="padding-top:0px;padding-bottom:200px"><!-- wp:heading -->
 <h2 id="ihr-energieausweis-onlineso-erhalten-sie-in-wenigen-minuten"><strong>Ihr Energieausweis online</strong><br>So erhalten Sie in wenigen Minuten</h2>
 <!-- /wp:heading -->
 
@@ -17572,7 +18000,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
 <div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link">Energieausweis-erstellung beginnen</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Energieausweis-erstellung beginnen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
@@ -17742,7 +18170,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
 <div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link">Überzeugen Sie sich selbst!</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Überzeugen Sie sich selbst!</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
@@ -17958,7 +18386,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
 <div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link">Hier Energieausweis beginnen</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link" href="/energieausweis/">Hier Energieausweis beginnen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->]]></content:encoded>
@@ -17966,8 +18394,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465252</wp:post_id>
   <wp:post_date>2021-10-26 12:39:55</wp:post_date>
   <wp:post_date_gmt>2021-10-26 10:39:55</wp:post_date_gmt>
-  <wp:post_modified>2021-12-02 15:08:41</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-02 14:08:41</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 10:33:40</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 09:33:40</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>ihre-vorteile</wp:post_name>
@@ -17979,7 +18407,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:is_sticky>0</wp:is_sticky>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
-    <wp:meta_value><![CDATA[1638515939]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1638783212]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
@@ -18617,8 +19045,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
 <!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"160px","top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"wave1 is-style-group-main"} -->
-<div class="wp-block-group wave1 is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:160px"><!-- wp:heading -->
+<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"200px","top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"wave1 is-style-group-main"} -->
+<div class="wp-block-group wave1 is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:200px"><!-- wp:heading -->
 <h2 id="unserfirmenportrait"><strong>Unser</strong><br>Firmenportrait</h2>
 <!-- /wp:heading -->
 
@@ -18742,8 +19170,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465254</wp:post_id>
   <wp:post_date>2021-10-26 13:30:07</wp:post_date>
   <wp:post_date_gmt>2021-10-26 11:30:07</wp:post_date_gmt>
-  <wp:post_modified>2021-12-02 15:10:09</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-02 14:10:09</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 10:27:40</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 09:27:40</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>firmenportrait</wp:post_name>
@@ -19545,8 +19973,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <div class="wp-block-create-block-block-wave-separator wave-1 has-background" style="background:linear-gradient(90deg,#b8e530 0%,#65e58d 100%);height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
 <!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"},"spacing":{"padding":{"bottom":"160px"}}},"className":"wave1 is-style-main-group is-style-group-main"} -->
-<div class="wp-block-group wave1 is-style-main-group is-style-group-main has-background" style="background:linear-gradient(90deg,#b8e530 0%,#65e58d 100%);padding-bottom:160px"><!-- wp:heading -->
+<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"},"spacing":{"padding":{"bottom":"160px","top":"0px"}}},"className":"wave1 is-style-main-group is-style-group-main"} -->
+<div class="wp-block-group wave1 is-style-main-group is-style-group-main has-background" style="background:linear-gradient(90deg,#b8e530 0%,#65e58d 100%);padding-top:0px;padding-bottom:160px"><!-- wp:heading -->
 <h2 id="kontaktwir-freuen-uns-auf-sie"><strong>Kontakt</strong><br>Wir freuen uns auf Sie!</h2>
 <!-- /wp:heading -->
 
@@ -19614,8 +20042,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465257</wp:post_id>
   <wp:post_date>2021-10-27 13:26:40</wp:post_date>
   <wp:post_date_gmt>2021-10-27 11:26:40</wp:post_date_gmt>
-  <wp:post_modified>2021-12-02 17:57:43</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-02 16:57:43</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-06 11:46:14</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-06 10:46:14</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>kontakt</wp:post_name>
