@@ -280,24 +280,24 @@ function immoticketenergieausweis_payment_icons() {
   <div class="immoticket24-payment-buttons">
     <button type="button" id="it24-paypal-button" class="btn btn-default">
       <span class="sr-only"><?php _e( 'PayPal', 'immoticketenergieausweis' ); ?></span>
-      <img src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/paypal.png">
+      <img src="<?php echo get_template_directory_uri(); ?>/assets/img/payment/paypal.webp">
     </button>
     <button type="button" id="it24-sofortueberweisung-button" class="btn btn-default">
       <span class="sr-only"><?php _e( 'Sofortüberweisung', 'immoticketenergieausweis' ); ?></span>
-      <img src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/sofortueberweisung.png">
+      <img src="<?php echo get_template_directory_uri(); ?>/assets/img/payment/sofort.webp">
     </button>
     <button type="button" id="it24-lastschrift-button" class="btn btn-default">
       <span class="sr-only"><?php _e( 'Lastschrift', 'immoticketenergieausweis' ); ?></span>
-      <img src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/lastschrift.png">
+      <img src="<?php echo get_template_directory_uri(); ?>/assets/img/payment/sepa.webp">
     </button>
     <button type="button" id="it24-deposit-button" class="btn btn-default">
       <span class="sr-only"><?php _e( 'Banküberweisung', 'immoticketenergieausweis' ); ?></span>
-      <img src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/deposit.png">
+      <img src="<?php echo get_template_directory_uri(); ?>/assets/img/payment/ueberweisung.webp">
     </button>
 
 	<button type="button" id="it24-stripe-button" class="btn btn-default">
 		<span class="sr-only"><?php _e( 'Kreditkarte', 'immoticketenergieausweis' ); ?></span>
-		<img src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/stripe.png">
+		<img src="<?php echo get_template_directory_uri(); ?>/assets/img/payment/stripe.webp">
 	</button>
 
   </div>
