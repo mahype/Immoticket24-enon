@@ -49,13 +49,20 @@ class DIBTSoapRequest
         }
         $xml .= '</'.$function.'>';
 
+        $context = stream_context_create(
+            array( 
+                "ssl" => array (     
+                    "verify_peer"=> false,     
+                    "verify_peer_name"=> false, 
+                ),
+                'http' => array(     
+                    'timeout' => 30     
+                )
+            )       
+        );
+
         try {
-            $soap = new \SoapClient($this->api_url.'?WSDL', array(
-                'cache_wsdl' => WSDL_CACHE_NONE,
-                'trace' => 1,
-                'verifypeer' => false,
-                'verifyhost' => false,
-            ));
+            $soap = new \SoapClient($this->api_url.'?WSDL', [ 'stream_context' => $context ] );
 
             $request_body = new \SoapVar($xml, XSD_ANYXML);
             $response = $soap->$function($request_body);
