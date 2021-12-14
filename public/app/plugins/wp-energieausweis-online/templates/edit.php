@@ -57,7 +57,7 @@ if ( function_exists( 'edd_get_download_price' ) ) {
     <?php
     if ( $data['finalized'] ) :
       _e( 'Ihre Angaben für diesen Energieausweis sind vollständig, sodass dieser nun berechnet und bestellt werden kann.', 'wpenon' );
-      _e( 'Beachten Sie, dass Sie die Angaben im Nachhinein nicht mehr ändern können. Achten Sie also auf die Korrektheit der Angaben.', 'wpenon' );
+      _e( ' Beachten Sie, dass Sie die Angaben im Nachhinein nicht mehr ändern können. Achten Sie also auf die Korrektheit der Angaben.', 'wpenon' );
     else :
       _e( 'Ihre Angaben für diesen Energieausweis sind noch unvollständig. Erst bei vollständigen Daten kann der Energieausweis berechnet und bestellt werden.', 'wpenon' );
     endif;

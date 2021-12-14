@@ -8,20 +8,22 @@
 function immoticketenergieausweis_enqueue_scripts()
 {
   $dependencies = apply_filters( 'immoticketenergieausweis_stylesheet_dependencies', array() );
-
   $inline_style = apply_filters( 'immoticketenergieausweis_inline_style', '.site-title, .site-description { position: absolute; clip: rect(1px, 1px, 1px, 1px); }' );
 
-  wp_enqueue_style( 'immoticketenergieausweis', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dist/immoticketenergieausweis.min.css', $dependencies, IMMOTICKETENERGIEAUSWEIS_THEME_VERSION );
-  wp_add_inline_style( 'immoticketenergieausweis', $inline_style );
+  $script_url = esc_url( plugins_url( '', dirname( __FILE__ ) ) );
 
-  if( file_exists( IMMOTICKETENERGIEAUSWEIS_THEME_PATH . '/assets/dev/fancybox/source/jquery.fancybox.pack.js' ) )
-  {
-    wp_enqueue_style( 'jquery-fancybox', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dev/fancybox/source/jquery.fancybox.css', array(), '2.1.5' );
-    wp_enqueue_script( 'jquery-fancybox', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dev/fancybox/source/jquery.fancybox.pack.js', array( 'jquery' ), '2.1.5', true );
-  }
+  // wp_enqueue_style( 'immoticketenergieausweis', $script_url . '/assets/dist/immoticketenergieausweis.min.css', $dependencies, IMMOTICKETENERGIEAUSWEIS_THEME_VERSION );
+  // wp_add_inline_style( 'immoticketenergieausweis', $inline_style );
+  // wp_enqueue_script( 'immoticketenergieausweis', $script_url . '/immoticketenergieausweis.min.js', array( 'jquery' ), IMMOTICKETENERGIEAUSWEIS_THEME_VERSION, true );
 
-  wp_enqueue_script( 'jquery-are-you-sure', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dev/jquery/dist/jquery.are-you-sure.js', array( 'jquery' ), '1.9.0', true );
-  wp_enqueue_script( 'immoticketenergieausweis', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/dist/immoticketenergieausweis.min.js', array( 'jquery' ), IMMOTICKETENERGIEAUSWEIS_THEME_VERSION, true );
+  wp_enqueue_script( 'enon-frontend-script', $script_url . '/js/frontend.js', array( 'jquery' ), '2.1.5', true );
+  wp_enqueue_script( 'enon-general-script', $script_url . '/js/general.js', array( 'jquery' ), '2.1.5', true );
+  wp_enqueue_style( 'enon-frontend-style', $script_url . '/css/frontend.css', array(), '2.1.5' );
+
+  wp_enqueue_style( 'jquery-fancybox', $script_url . '/js/fancybox/source/jquery.fancybox.css', array(), '2.1.5' );
+  wp_enqueue_script( 'jquery-fancybox', $script_url . '/js/fancybox/source/jquery.fancybox.pack.js', array( 'jquery' ), '2.1.5', true );
+
+  wp_enqueue_script( 'jquery-are-you-sure', $script_url . '/js/jquery/dist/jquery.are-you-sure.js', array( 'jquery' ), '1.9.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'immoticketenergieausweis_enqueue_scripts' );
 
