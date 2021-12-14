@@ -27,11 +27,11 @@ if ( isset( $data['class'] ) ) {
       <?php $i=0; ?>
       <?php foreach ( $data['fields'] as &$field ) :
       $field = wp_parse_args( $field, array( 'key' => '', 'headline' => '', 'format' => 'string' ) ); ?>
-        <div style="display:flex;flex-wrap: wrap; border-top: 1px solid #ddd;">          
-          <div style="flex-basis: 50%; font-weight:bold; padding: 8px"><?php echo $field['headline']; ?></div>
+        <div style="display:flex;flex-wrap: wrap;">          
+          <div style="flex-basis: 30%; font-weight:bold; padding: 8px 0"><?php echo $field['headline']; ?></div>
           
           <?php foreach ( $data['data'] as $col ) : ?>            
-            <div style="word-wrap: break-word; padding: 8px;">
+            <div style="word-wrap: break-word; padding: 8px 0;">
               <?php
               if ( isset( $col[ $field['key'] ] ) ) {
                 $value = $col[ $field['key'] ];
