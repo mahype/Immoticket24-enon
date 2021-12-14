@@ -207,7 +207,7 @@ $showImage = $oldStandard || ! empty ( $image ) ? true : false;
   </div>
 
   <?php if ( $data['efficiency_class'] ) :
-    $image = IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/media/klasse_' . strtolower( str_replace( '+', '_plus', $data['efficiency_class'] ) ) . '.jpg';
+    $image = get_template_directory_uri() . '/assets/img/layout/klasse_' . strtolower( str_replace( '+', '_plus', $data['efficiency_class'] ) ) . '.jpg';
     ?>
     <p class="lead text-center">
       <?php printf( __( 'Energieeffizienzklasse: %s', 'wpenon' ), '<img src="' . $image . '" alt="' . sprintf( __( 'Energieeffizienzklasse: %s', 'wpenon' ), $data['efficiency_class'] ) . '">' ); ?>
