@@ -6,11 +6,7 @@
  */
 ?>
 <div class="access-box well well-sm">
-  <p>
-    <small>
-      <?php _e( 'Sie können Ihren Energieausweis jederzeit auch zu einem späteren Zeitpunkt aufrufen, um ihn anzusehen oder die Arbeit daran fortzusetzen. Speichern Sie sich dazu einfach den hier angezeigten Link ab und rufen Sie ihn später wieder auf.', 'wpenon' ); ?>
-    </small>
-  </p>
+  <p><?php _e( 'Sie können Ihren Energieausweis jederzeit auch zu einem späteren Zeitpunkt aufrufen, um ihn anzusehen oder die Arbeit daran fortzusetzen. Speichern Sie sich dazu einfach den hier angezeigten Link ab und rufen Sie ihn später wieder auf.', 'wpenon' ); ?></p>
   <input type="text" class="form-control input-lg" value="<?php echo $data; ?>" onClick="this.select();" readonly>
   <p style="margin-top:11px;">
     <small><strong><em>

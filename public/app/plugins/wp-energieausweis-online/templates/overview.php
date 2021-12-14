@@ -32,14 +32,7 @@ $showImage = $oldStandard || ! empty ( $image ) ? true : false;
 <div class="row">
   <div class="<?php if ( $showImage ): ?>col-sm-8<?php else: ?>col-sm-12<?php endif; ?>">
     <div class="overview-meta well">
-      <h4>
-        <?php _e( 'Energieausweis-Basisdaten', 'wpenon' ); ?>
-      </h4>
-      <p>
-        <small>
-          <?php _e( 'Dies sind allgemeine Daten zu Ihrem Energieausweis. Diese Informationen sind, einmal festgelegt, nicht mehr veränderlich. Beachten Sie, dass einige Daten erst nach Bezahlung festgelegt werden.', 'wpenon' ); ?>
-        </small>
-      </p>
+      <p><?php _e( 'Dies sind allgemeine Daten zu Ihrem Energieausweis. Diese Informationen sind, einmal festgelegt, nicht mehr veränderlich.<br />Beachten Sie, dass einige Daten erst nach Bezahlung festgelegt werden.', 'wpenon' ); ?></p>
       <?php
       $table_data = array(
         'fields'    => array(
