@@ -736,6 +736,8 @@ $bauteile = array(
 						),
 						'callback_hard' => true,
 					),
+					'validate' => 'wpenon_validate_anbau_s1',
+					'validate_dependencies' => array( 'anbau_form', 'anbauwand_t_laenge' ),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_anbauwand',
 						'callback_args' => array( 'field::anbau_form', 's1', 'field::anbau' ),
@@ -758,6 +760,8 @@ $bauteile = array(
 						),
 						'callback_hard' => true,
 					),
+					'validate' => 'wpenon_validate_anbau_s2',
+					'validate_dependencies' => array( 'anbau_form', 'anbauwand_b_laenge' ),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_anbauwand',
 						'callback_args' => array( 'field::anbau_form', 's2', 'field::anbau' ),

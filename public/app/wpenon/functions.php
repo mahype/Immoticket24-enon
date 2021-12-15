@@ -1285,6 +1285,45 @@ function wpenon_immoticket24_validate_daemmung_baujahr( $value, $field ) {
 	return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
 }
 
+function wpenon_validate_anbau_s1( $value, $field ) {
+	$anbau_form = $field['validate_dependencies'][0];
+	$anbauwand_t_laenge = $field['validate_dependencies'][1];
+	$anbauwand_s1_laenge = $value;
+
+	switch( $anbau_form ) {
+		case 'a':
+			if( $anbauwand_s1_laenge > $anbauwand_t_laenge ) {
+				$error = __( 'Die Wandlänge s1 kann nicht größer als die Wandlänge t sein.', 'wpenon' );
+			}
+			break;
+		case 'b':
+			if( $anbauwand_s1_laenge >= $anbauwand_t_laenge ) {
+				$error = __( 'Die Wandlänge s1 kann nicht größer/gleich als die Wandlänge t sein', 'wpenon' );
+			}
+			break;
+	}
+
+	return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
+}
+
+function wpenon_validate_anbau_s2( $value, $field ) {
+	$anbau_form = $field['validate_dependencies'][0];
+	$anbauwand_b_laenge = $field['validate_dependencies'][1];
+	$anbauwand_s2_laenge = $value;
+
+	switch( $anbau_form ) {
+		case 'a':
+			break;
+		case 'b':
+			if( $anbauwand_s2_laenge >= $anbauwand_b_laenge ) {
+				$error = __( 'Die Wandlänge s2 kann nicht größer/gleich als die Wandlänge b sein', 'wpenon' );
+			}
+			break;
+	}
+
+	return \WPENON\Util\Validate::formatResponse( $value, $field, $error );
+}
+
 function wpenon_immoticket24_validate_house_image_upload( $value, $field ) {
 	if( empty( $value ) ) {
 		$error = __( 'Bitte laden Sie ein Foto der Außenansicht vom Gebäude hoch. Die Aufnahmen sind durch das Gebäudeenergiegesetz (GEG) gefordert, da ohne diese Aufnahmen keine Ausstellung erfolgen darf.', 'wpenon' );
