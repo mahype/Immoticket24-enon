@@ -295,6 +295,7 @@ $anlage = array(
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
+					'placeholder' => 'Bitte wählen...',
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
