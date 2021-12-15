@@ -309,17 +309,15 @@ $anlage = array(
 					),
 				),
 				'h_baujahr'                                     => array(
-					'type'                  => 'int',
+					'type'                  => 'text',
 					'label'                 => __( 'Baujahr der Heizungsanlage', 'wpenon' ),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'placeholder' => 'Bitte wählen...',
 					'validate_dependencies' => array( 'baujahr' ),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::h_baujahr' ),
-					),
+					
 				),
 				'h_typenschild'                                     => array(
 					'type'                  => 'image',
@@ -341,7 +339,7 @@ $anlage = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'value'                 => array(
 						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::verteilung_baujahr' ),
+						'callback_args' => array( 'field::h_baujahr', 'field::verteilung_baujahr' ),
 					),
 					'display'               => array(
 						'callback'      => 'wpenon_show_on_array_blacklist',
@@ -690,7 +688,7 @@ $anlage = array(
 					),
 				),
 				'h2_baujahr'                                    => array(
-					'type'                  => 'int',
+					'type'                  => 'text',
 					'label'                 => __( 'Baujahr der 2. Heizungsanlage', 'wpenon' ),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date( 'Y' ),
@@ -701,10 +699,7 @@ $anlage = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::verteilung_baujahr' ),
-					),
+					'placeholder' => 'Bitte wählen...'
 				),
 				
 				'h2_typenschild'                                     => array(
@@ -1049,7 +1044,7 @@ $anlage = array(
 					),
 				),
 				'h3_baujahr'                                    => array(
-					'type'                  => 'int',
+					'type'                  => 'text',
 					'label'                 => __( 'Baujahr der 3. Heizungsanlage', 'wpenon' ),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date( 'Y' ),
@@ -1060,10 +1055,7 @@ $anlage = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::verteilung_baujahr' ),
-					),
+					'placeholder' => 'Bitte wählen...'
 				),
 				'h3_typenschild'                                     => array(
 					'type'                  => 'image',
