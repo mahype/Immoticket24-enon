@@ -87,9 +87,6 @@ class General {
 		}
 
 		$register_status = \WPENON\Util\DIBT::assignRegistryID( $energieausweis );
-		if ( $register_status && ! is_wp_error( $register_status ) ) {
-			$datasent_status = \WPENON\Util\DIBT::sendData( $energieausweis );
-		}
 	}
 
 	public function _enqueueScripts( $energieausweis = null, $schema = null, $admin = false ) {
