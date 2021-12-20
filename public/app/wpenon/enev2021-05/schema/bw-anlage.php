@@ -944,7 +944,7 @@ $anlage = array(
 					),
 				),
 				'h3_baujahr'                                    => array(
-					'type'                  => 'int',
+					'type'                  => 'text',
 					'label'                 => __( 'Baujahr der 3. Heizungsanlage', 'wpenon' ),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date( 'Y' ),
