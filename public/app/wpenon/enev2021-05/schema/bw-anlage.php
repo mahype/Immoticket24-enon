@@ -290,11 +290,12 @@ $anlage = array(
 					),
 				),
 				'h_baujahr'                                     => array(
-					'type'                  => 'int',
+					'type'                  => 'text',
 					'label'                 => __( 'Baujahr der Heizungsanlage', 'wpenon' ),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
+					'placeholder' => 'Bitte wählen...',
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
@@ -610,7 +611,7 @@ $anlage = array(
 					),
 				),
 				'h2_baujahr'                                    => array(
-					'type'                  => 'int',
+					'type'                  => 'text',
 					'label'                 => __( 'Baujahr der 2. Heizungsanlage', 'wpenon' ),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date( 'Y' ),
@@ -621,6 +622,7 @@ $anlage = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
+					'placeholder' => 'Bitte wählen...',
 				),
 				'h2_typenschild'                                     => array(
 					'type'                  => 'image',
@@ -942,7 +944,7 @@ $anlage = array(
 					),
 				),
 				'h3_baujahr'                                    => array(
-					'type'                  => 'int',
+					'type'                  => 'text',
 					'label'                 => __( 'Baujahr der 3. Heizungsanlage', 'wpenon' ),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date( 'Y' ),
@@ -953,6 +955,7 @@ $anlage = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
+					'placeholder' => 'Bitte wählen...',
 				),
 				'h3_typenschild'                                     => array(
 					'type'                  => 'image',
