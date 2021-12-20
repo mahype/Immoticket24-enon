@@ -93,17 +93,11 @@ class VW_Modernizations extends Modernizations {
 	 * @since 1.0.0
 	 */
 	protected function needs_rohrleitungssystem() {
-		$irrelevant_heaters = array(
-			'elektronachtspeicherheizung',
-			'elektrodirektheizgeraet',
-			'kohleholzofen',
-			'kleinthermeniedertemperatur',
-			'kleinthermebrennwert',
-			'gasraumheizer',
-			'oelofenverdampfungsbrenner',
-		);
-
-		if ( intval( $this->energieausweis->verteilung_baujahr ) < 1995 && ! $this->energieausweis->verteilung_gedaemmt && ! in_array( $this->energieausweis->h_erzeugung, $irrelevant_heaters ) ) {
+		if ( 
+				intval( $this->energieausweis->verteilung_baujahr ) < 1995 && 
+				! $this->energieausweis->verteilung_gedaemmt && 
+				! in_array( $this->energieausweis->h_erzeugung, wpenon_get_heaters_without_piping() ) 
+			) {
 			return true;
 		}
 
