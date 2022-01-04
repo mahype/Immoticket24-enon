@@ -199,6 +199,11 @@
           <?php if( !empty( $field['unit'] ) ) : ?>
             <span id="<?php echo $field_slug; ?>-unit" class="unit"><?php echo str_replace( 'm3', 'm&sup3;', $field['unit'] ); ?></span>
           <?php endif; ?>
+
+          <?php if( !empty( $field['text'] ) ) : ?>
+            <span class="input-text"><?php echo $field['text']; ?></span>
+          <?php endif; ?>
+
         <?php endif; ?>
 
         <?php if( !empty( $field['error'] ) ) : ?>
