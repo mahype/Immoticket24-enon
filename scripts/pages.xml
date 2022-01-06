@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/5.8.2" created="2021-12-15 11:13" -->
+<!-- generator="WordPress/5.8.2" created="2022-01-06 11:59" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Energieausweis online erstellen</title>
 <link>https://enon.test</link>
 <description>Jetzt Ihren Energieausweis nach EnEV 2014 anfordern!</description>
-<pubDate>Wed, 15 Dec 2021 11:13:15 +0000</pubDate>
+<pubDate>Thu, 06 Jan 2022 11:59:40 +0000</pubDate>
 <language>de-DE</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>https://enon.test</wp:base_site_url>
@@ -24561,20 +24561,6 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:heading {"textAlign":"center","level":4,"textColor":"green-moss"} -->
-<h4 class="has-text-align-center has-green-moss-color has-text-color" id="bad-neuenahr"><strong>Bad Neuenahr</strong></h4>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">Telegrafenstraße 19<br>53474 Bad Neuenahr</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">Tel.: 0 26 41 – 9 05</p>
-<!-- /wp:paragraph --></div>
-<!-- /wp:column -->
-
-<!-- wp:column -->
-<div class="wp-block-column"><!-- wp:heading {"textAlign":"center","level":4,"textColor":"green-moss"} -->
 <h4 class="has-text-align-center has-green-moss-color has-text-color" id="welling"><strong>Welling</strong></h4>
 <!-- /wp:heading -->
 
@@ -24589,15 +24575,15 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:ootb/openstreetmap {"mapHeight":550,"markers":[{"lat":"50.3312695","lng":"7.320933","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eKrufter Straße 5, \u003cbr\u003e56753 Welling\u003cbr\u003e\u003cbr\u003eTel.: 02654 / 8801199\u003c/p\u003e"},{"lat":"50.5457043","lng":"7.1362166","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eTelegrafenstraße 2\u003cbr\u003eBad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"},{"lat":"50.540312","lng":"7.0908392","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eAltenbaustraße 2\u003cbr\u003e53474 Bad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"}],"zoom":5,"dragging":false,"touchZoom":false,"doubleClickZoom":false,"scrollWheelZoom":false,"bounds":[["50.540312","7.0908392"],["50.3312695","7.320933"],["50.5457043","7.1362166"]],"className":"no-gap"} -->
-<div class="wp-block-ootb-openstreetmap no-gap"><div class="ootb-openstreetmap--map" data-provider="openstreetmap" data-markers="%5B%7B%22lat%22%3A%2250.3312695%22%2C%22lng%22%3A%227.320933%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EKrufter%20Stra%DFe%205%2C%20%3Cbr%3E56753%20Welling%3Cbr%3E%3Cbr%3ETel.%3A%2002654%20/%208801199%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.5457043%22%2C%22lng%22%3A%227.1362166%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3ETelegrafenstra%DFe%202%3Cbr%3EBad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.540312%22%2C%22lng%22%3A%227.0908392%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EAltenbaustra%DFe%202%3Cbr%3E53474%20Bad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%5D" data-bounds="[50.4384869,7.2058861]" data-zoom="5" data-minzoom="2" data-maxzoom="18" data-dragging="false" data-touchzoom="false" data-doubleclickzoom="false" data-scrollwheelzoom="false" data-marker="%7B%22iconUrl%22%3A%22https%3A//enon.test/app/plugins/ootb-openstreetmap/assets/vendor/leaflet/images/marker-icon.png%22%2C%22iconAnchor%22%3A%5B12%2C41%5D%2C%22popupAnchor%22%3A%5B0%2C-41%5D%7D" style="height:550px"></div></div>
+<!-- wp:ootb/openstreetmap {"mapHeight":550,"markers":[{"lat":"50.3312695","lng":"7.320933","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eKrufter Straße 5, \u003cbr\u003e56753 Welling\u003cbr\u003e\u003cbr\u003eTel.: 02654 / 8801199\u003c/p\u003e"},{"lat":"50.540312","lng":"7.0908392","text":"\u003cp\u003e\u003cstrong\u003eImmoticket 24 GmbH\u003c/strong\u003e\u003cbr\u003eAltenbaustraße 2\u003cbr\u003e53474 Bad Neuenahr-Ahrweiler\u003cbr\u003e\u003cbr\u003eTel.: 02641 - 905\u003c/p\u003e"}],"zoom":10,"dragging":false,"touchZoom":false,"doubleClickZoom":false,"scrollWheelZoom":false,"bounds":[["50.3312695","7.320933"],["50.5457043","7.1362166"],["50.540312","7.0908392"]],"className":"no-gap"} -->
+<div class="wp-block-ootb-openstreetmap no-gap"><div class="ootb-openstreetmap--map" data-provider="openstreetmap" data-markers="%5B%7B%22lat%22%3A%2250.3312695%22%2C%22lng%22%3A%227.320933%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EKrufter%20Stra%DFe%205%2C%20%3Cbr%3E56753%20Welling%3Cbr%3E%3Cbr%3ETel.%3A%2002654%20/%208801199%3C/p%3E%22%7D%2C%7B%22lat%22%3A%2250.540312%22%2C%22lng%22%3A%227.0908392%22%2C%22text%22%3A%22%3Cp%3E%3Cstrong%3EImmoticket%2024%20GmbH%3C/strong%3E%3Cbr%3EAltenbaustra%DFe%202%3Cbr%3E53474%20Bad%20Neuenahr-Ahrweiler%3Cbr%3E%3Cbr%3ETel.%3A%2002641%20-%20905%3C/p%3E%22%7D%5D" data-bounds="[50.4384869,7.2058861]" data-zoom="10" data-minzoom="2" data-maxzoom="18" data-dragging="false" data-touchzoom="false" data-doubleclickzoom="false" data-scrollwheelzoom="false" data-marker="%7B%22iconUrl%22%3A%22https%3A//enon.test/app/plugins/ootb-openstreetmap/assets/vendor/leaflet/images/marker-icon.png%22%2C%22iconAnchor%22%3A%5B12%2C41%5D%2C%22popupAnchor%22%3A%5B0%2C-41%5D%7D" style="height:550px"></div></div>
 <!-- /wp:ootb/openstreetmap -->]]></content:encoded>
   <excerpt:encoded><![CDATA[]]></excerpt:encoded>
   <wp:post_id>465254</wp:post_id>
   <wp:post_date>2021-10-26 13:30:07</wp:post_date>
   <wp:post_date_gmt>2021-10-26 11:30:07</wp:post_date_gmt>
-  <wp:post_modified>2021-12-06 10:27:40</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-06 09:27:40</wp:post_modified_gmt>
+  <wp:post_modified>2021-12-20 14:52:49</wp:post_modified>
+  <wp:post_modified_gmt>2021-12-20 13:52:49</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>firmenportrait</wp:post_name>
@@ -25433,20 +25419,6 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:heading {"textAlign":"center","level":4,"textColor":"green-moss"} -->
-<h4 class="has-text-align-center has-green-moss-color has-text-color" id="bad-neuenahr"><strong>Bad Neuenahr</strong></h4>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">Telegrafenstraße 19<br>53474 Bad Neuenahr</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">Tel.: 0 26 41 – 9 05</p>
-<!-- /wp:paragraph --></div>
-<!-- /wp:column -->
-
-<!-- wp:column -->
-<div class="wp-block-column"><!-- wp:heading {"textAlign":"center","level":4,"textColor":"green-moss"} -->
 <h4 class="has-text-align-center has-green-moss-color has-text-color" id="welling"><strong>Welling</strong></h4>
 <!-- /wp:heading -->
 
@@ -25468,8 +25440,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465257</wp:post_id>
   <wp:post_date>2021-10-27 13:26:40</wp:post_date>
   <wp:post_date_gmt>2021-10-27 11:26:40</wp:post_date_gmt>
-  <wp:post_modified>2021-12-07 15:01:15</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-07 14:01:15</wp:post_modified_gmt>
+  <wp:post_modified>2022-01-06 12:58:08</wp:post_modified>
+  <wp:post_modified_gmt>2022-01-06 11:58:08</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>kontakt</wp:post_name>
