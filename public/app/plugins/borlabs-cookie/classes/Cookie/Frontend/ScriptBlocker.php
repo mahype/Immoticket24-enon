@@ -21,7 +21,7 @@
 namespace BorlabsCookie\Cookie\Frontend;
 
 use BorlabsCookie\Cookie\Tools;
-use StdClass;
+use stdClass;
 
 class ScriptBlocker
 {
@@ -35,6 +35,7 @@ class ScriptBlocker
 
         return self::$instance;
     }
+
     /**
      * detectedHandles
      *
@@ -452,7 +453,7 @@ class ScriptBlocker
 
         if (! empty($scriptBlocker)) {
             foreach ($scriptBlocker as $key => $data) {
-                $this->scriptBlocker[$key] = new StdClass;
+                $this->scriptBlocker[$key] = new stdClass;
                 $this->scriptBlocker[$key]->scriptBlockerId = $scriptBlocker[$key]->script_blocker_id;
                 $this->scriptBlocker[$key]->handles = unserialize($scriptBlocker[$key]->handles);
                 $this->scriptBlocker[$key]->blockPhrases = unserialize($scriptBlocker[$key]->js_block_phrases);

@@ -61,7 +61,7 @@ class License
         trigger_error('Cloning is not allowed.', E_USER_ERROR);
     }
 
-    public function __wakeup(): void
+    public function __wakeup()
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
     }
@@ -71,7 +71,7 @@ class License
      *
      * @access public
      */
-    public function display(): void
+    public function display()
     {
         $action = false;
 
@@ -134,7 +134,7 @@ class License
      *
      * @access public
      */
-    public function displayOverview(): void
+    public function displayOverview()
     {
         // Validate license
         $this->validateLicense();
@@ -275,7 +275,7 @@ class License
      *
      * @access public
      */
-    public function getLicenseMessageEnterKey(): string
+    public function getLicenseMessageEnterKey()
     {
         return _ex(
             'Please enter your license key to receive updates.',
@@ -289,7 +289,7 @@ class License
      *
      * @access public
      */
-    public function getLicenseMessageKeyExpired(): string
+    public function getLicenseMessageKeyExpired()
     {
         return _x(
             'Please renew your license key to receive updates. <a href="https://borlabs.io/account/" target="_blank" rel="nofollow noopener noreferrer">Click here</a> to log into your account and purchase a license renewal.',
@@ -306,7 +306,7 @@ class License
      * @param  mixed  $status
      *
      */
-    public function getLicenseMessageStatus($status): string
+    public function getLicenseMessageStatus($status)
     {
         $message = '';
 
@@ -327,7 +327,7 @@ class License
      * @param  mixed  $licenseType
      *
      */
-    public function getLicenseTypeTitle($licenseType): string
+    public function getLicenseTypeTitle($licenseType)
     {
         $licenseType = strtolower($licenseType);
 
@@ -369,7 +369,7 @@ class License
      *
      * @access public
      */
-    public function handleLicenseExpiredMessage(): void
+    public function handleLicenseExpiredMessage()
     {
         if (! empty($this->getLicenseData()->validUntil) && $this->isLicenseValid() === false) {
             // Try to re-validate
@@ -387,7 +387,7 @@ class License
      *
      * @access public
      */
-    public function isLicenseValid(): bool
+    public function isLicenseValid()
     {
         // Such license system, much secure, wow.
         // Just kidding, you want all the trouble with updates, just to save some bucks?
@@ -408,7 +408,7 @@ class License
      *
      * @access public
      */
-    public function isPluginUnlocked(): bool
+    public function isPluginUnlocked()
     {
         // Such license system, much secure, wow.
         // Just kidding, you want all the trouble with updates, just to save some bucks?
@@ -434,7 +434,7 @@ class License
      *
      * @access public
      */
-    public function refreshLicense(): void
+    public function refreshLicense()
     {
         $licenseKey = $this->getLicenseKey();
 
@@ -448,7 +448,7 @@ class License
      *
      * @access public
      */
-    public function removeLicense(): void
+    public function removeLicense()
     {
         // Check if blog or network key should be removed
         $licenseKeyNetwork = get_site_option('BorlabsCookieLicenseKey');
@@ -478,7 +478,7 @@ class License
      *
      * @param  mixed  $formData
      */
-    public function save($formData): void
+    public function save($formData)
     {
         $updatedConfig = Config::getInstance()->get();
 
@@ -495,7 +495,7 @@ class License
      *
      * @param  mixed  $licenseData
      */
-    public function saveLicenseData($licenseData): void
+    public function saveLicenseData($licenseData)
     {
         if (! empty($licenseData->licenseKey)) {
             if (
@@ -518,7 +518,7 @@ class License
      *
      * @access public
      */
-    public function validateLicense(): void
+    public function validateLicense()
     {
         $lastCheck = intval(get_option('BorlabsCookieLicenseLastCheck', 0));
         $licenseKey = $this->getLicenseKey();

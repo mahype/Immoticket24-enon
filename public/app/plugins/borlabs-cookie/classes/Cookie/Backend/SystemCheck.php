@@ -36,6 +36,7 @@ class SystemCheck
 
         return self::$instance;
     }
+
     public $templatePath;
     private $messages = [];
 
@@ -489,26 +490,34 @@ class SystemCheck
         // Check if HTTPS settings are correct
         $contentURL = parse_url(WP_CONTENT_URL);
 
-        if ($contentURL['scheme'] !== 'https') {
-            if ((! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || $_SERVER['SERVER_PORT'] === '443') {
-                $data['success'] = false;
-                $data['message'] = _x(
-                    'Your SSL configuration is not correct. Please go to <strong>Settings &gt; General</strong> and replace <strong><em>http://</em></strong> with <strong><em>https://</em></strong> in the settings <strong>WordPress Address (URL)</strong> and <strong>Site Address (URL)</strong>.',
-                    'Backend / System Check / Alert Message',
-                    'borlabs-cookie'
-                );
-                $data['message'] .= "<br>WP_CONTENT_URL: " . WP_CONTENT_URL;
-                $data['message'] .= "<br>\$_SERVER['HTTPS']: " . $_SERVER['HTTPS'];
-                $data['message'] .= "<br>\$_SERVER['SERVER_PORT']: " . $_SERVER['SERVER_PORT'];
-            } else {
-                $data['success'] = false;
-                $data['message'] = _x(
-                    'Your website is not using a SSL certification.',
-                    'Backend / System Check / Alert Message',
-                    'borlabs-cookie'
-                );
-            }
+        if ($contentURL['scheme'] === 'https') {
+            return $data;
         }
+
+        if (
+            empty($_SERVER['SERVER_PORT']) || empty($_SERVER['HTTPS'])
+            || ($_SERVER['SERVER_PORT'] !== '443'
+                && ! isset($_SERVER['HTTP_X_FORWARDED_PORT']))
+        ) {
+            $data['success'] = false;
+            $data['message'] = _x(
+                'Your website is not using a SSL certification.',
+                'Backend / System Check / Alert Message',
+                'borlabs-cookie'
+            );
+
+            return $data;
+        }
+
+        $data['success'] = false;
+        $data['message'] = _x(
+            'Your SSL configuration is not correct. Please go to <strong>Settings &gt; General</strong> and replace <strong><em>http://</em></strong> with <strong><em>https://</em></strong> in the settings <strong>WordPress Address (URL)</strong> and <strong>Site Address (URL)</strong>.',
+            'Backend / System Check / Alert Message',
+            'borlabs-cookie'
+        );
+        $data['message'] .= "<br>WP_CONTENT_URL: " . WP_CONTENT_URL;
+        $data['message'] .= "<br>\$_SERVER['HTTPS']: " . $_SERVER['HTTPS'];
+        $data['message'] .= "<br>\$_SERVER['SERVER_PORT']: " . $_SERVER['SERVER_PORT'];
 
         return $data;
     }

@@ -95,13 +95,30 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
 
                             <div class="form-group row align-items-center">
                                 <label for="cookieBoxRefuseOptionType"
-                                       class="col-sm-4 col-form-label"><?php _ex('Refuse Option', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                       class="col-sm-4 col-form-label"><?php _ex('Refuse Option - Cookie Box', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
                                 <div class="col-sm-8">
                                     <select class="form-control form-control form-control-sm d-inline-block w-75 mr-2"
                                             id="cookieBoxRefuseOptionType" name="cookieBoxRefuseOptionType">
                                         <option<?php echo $optionCookieBoxRefuseOptionTypeButton; ?>
                                             value="button"><?php _ex('Button', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
                                         <option<?php echo $optionCookieBoxRefuseOptionTypeLink; ?>
+                                            value="link"><?php _ex('Link', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
+                                    </select>
+                                    <span data-toggle="tooltip"
+                                          title="<?php echo esc_attr_x('Choose the display option of the <strong>Refuse</strong> option. We recommend using the <strong>Button</strong> option.', 'Backend / Cookie Box / Tooltip', 'borlabs-cookie'); ?>"><i
+                                            class="fas fa-lg fa-question-circle text-dark"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row align-items-center">
+                                <label for="cookieBoxPreferenceRefuseOptionType"
+                                       class="col-sm-4 col-form-label"><?php _ex('Refuse Option - Cookie Preferences', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control form-control form-control-sm d-inline-block w-75 mr-2"
+                                            id="cookieBoxPreferenceRefuseOptionType" name="cookieBoxPreferenceRefuseOptionType">
+                                        <option<?php echo $optionCookieBoxPreferenceRefuseOptionTypeButton; ?>
+                                            value="button"><?php _ex('Button', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
+                                        <option<?php echo $optionCookieBoxPreferenceRefuseOptionTypeLink; ?>
                                             value="link"><?php _ex('Link', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
                                     </select>
                                     <span data-toggle="tooltip"
@@ -2269,37 +2286,6 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                 </div>
                             </div>
 
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-8 offset-sm-4">
-                            <button type="submit"
-                                    class="btn btn-primary btn-sm"><?php _ex('Save all settings', 'Backend / Global / Button Title', 'borlabs-cookie'); ?></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row no-gutters mb-4">
-            <div class="col-12 col-md-8 rounded bg-light shadow-sm">
-                <div class="px-3 pt-3 pb-4">
-                    <h3 class="border-bottom mb-3"><?php _ex('Text Settings - Accessibility', 'Backend / Cookie Box / Headline', 'borlabs-cookie'); ?></h3>
-                    <div class="row">
-                        <div class="col-12">
-
-                            <div class="form-group row">
-                                <label for="cookieBoxA11YServiceGroupListExplained"
-                                       class="col-sm-4 col-form-label"><?php _ex('Service Group List Explanation', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm d-inline-block w-75 mr-2"
-                                           id="cookieBoxA11YServiceGroupListExplained"
-                                           name="cookieBoxA11YServiceGroupListExplained"
-                                           value="<?php echo $inputCookieBoxA11YServiceGroupListExplained; ?>">
-                                </div>
-                            </div>
                         </div>
                     </div>
 

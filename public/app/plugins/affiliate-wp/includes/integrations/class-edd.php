@@ -212,7 +212,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 		$referral_total = $this->get_referral_total( $payment_id, $affiliate_id );
 
 		if ( empty( $desc ) ) {
-			$this->log( 'Draft referral rejected due to empty description.' );
+			$this->log( 'Draft referral failed due to empty description.' );
 			$this->mark_referral_failed( $referral_id );
 
 			return;

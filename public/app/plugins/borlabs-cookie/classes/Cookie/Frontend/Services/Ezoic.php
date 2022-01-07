@@ -41,6 +41,7 @@ class Ezoic
      */
     public function __construct()
     {
+        add_action('borlabsCookie/cookie/edit/template/settings/Ezoic', [$this, 'additionalSettingsTemplate']);
     }
 
     public function __clone()
@@ -51,6 +52,33 @@ class Ezoic
     public function __wakeup()
     {
         trigger_error('Unserialize is forbidden.', E_USER_ERROR);
+    }
+
+    public function additionalSettingsTemplate($data)
+    {
+        ?>
+        <div class="form-group row">
+            <div class="col-sm-8 offset-4">
+                <div
+                    class="alert alert-warning mt-2"><?php
+                    $kbLink = _x(
+                        'https://borlabs.io/kb/ezoic/',
+                        'Backend / Cookie / Ezoic / Alert Message',
+                        'borlabs-cookie'
+                    );
+                    printf(
+                        _x(
+                            'Your cookie description needs to be updated. Please read <a href="%s" target="_blank" rel="nofollow noopener noreferrer">%s</a>.',
+                            'Backend / Cookie / Ezoic / Alert Message',
+                            'borlabs-cookie'
+                        ),
+                        $kbLink,
+                        $kbLink
+                    ); ?></div>
+
+            </div>
+        </div>
+        <?php
     }
 
     /**

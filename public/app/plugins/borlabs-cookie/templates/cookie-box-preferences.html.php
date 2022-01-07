@@ -38,7 +38,7 @@
                         </p>
 
                         <div class="row no-gutters align-items-center">
-                            <div class="col-12 col-sm-7">
+                            <div class="col-12 <?php echo ($cookieBoxHideRefuseOption === false && $cookieBoxPreferenceRefuseOptionType === 'button') ? 'col-sm-9' : 'col-sm-7'; ?>">
                                 <p class="_brlbs-accept">
                                     <?php
                                     if ($cookieBoxShowAcceptAllButton) { ?>
@@ -66,10 +66,26 @@
                                         <?php
                                         echo $cookieBoxPreferenceTextSaveButton; ?>
                                     </a>
+
+                                    <?php
+                                    if ($cookieBoxHideRefuseOption === false && $cookieBoxPreferenceRefuseOptionType === 'button') { ?>
+                                        <a
+                                            href="#"
+                                            class="_brlbs-btn _brlbs-refuse-btn _brlbs-cursor"
+                                            tabindex="0"
+                                            role="button"
+                                            data-cookie-refuse
+                                        >
+                                            <?php
+                                            echo $cookieBoxPreferenceTextRefuseLink; ?>
+                                        </a>
+                                    <?php
+                                    }
+                                    ?>
                                 </p>
                             </div>
 
-                            <div class="col-12 col-sm-5">
+                            <div class="col-12 <?php echo ($cookieBoxHideRefuseOption === false && $cookieBoxPreferenceRefuseOptionType === 'button') ? 'col-sm-3' : 'col-sm-5'; ?>">
                                 <p class="_brlbs-refuse">
                                     <a
                                         href="#"
@@ -83,7 +99,7 @@
                                     </a>
 
                                     <?php
-                                    if ($cookieBoxHideRefuseOption === false) { ?>
+                                    if ($cookieBoxHideRefuseOption === false && $cookieBoxPreferenceRefuseOptionType === 'link') { ?>
                                         <span class="_brlbs-separator"></span>
                                         <a
                                             href="#"

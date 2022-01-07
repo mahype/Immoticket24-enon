@@ -74,6 +74,14 @@ class AffWP_Referrals_Table extends List_Table {
 	public $rejected_count;
 
 	/**
+	 * Number of failed referrals found.
+	 *
+	 * @var   int
+	 * @since 2.8.1
+	 */
+	public $failed_count;
+
+	/**
 	 * Get things started
 	 *
 	 * @access public
@@ -137,14 +145,14 @@ class AffWP_Referrals_Table extends List_Table {
 		$affiliate_id   = isset( $_GET['affiliate_id'] ) ? absint( $_GET['affiliate_id'] ) : '';
 		$base           = affwp_admin_url( 'referrals' );
 		$base           = $affiliate_id ? add_query_arg( 'affiliate_id', $affiliate_id, $base ) : $base;
-		$current        = isset( $_GET['status'] ) ? $_GET['status'] : '';
+		$current        = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : '';
 		$total_count    = '&nbsp;<span class="count">(' . $this->total_count    . ')</span>';
 		$paid_count     = '&nbsp;<span class="count">(' . $this->paid_count . ')</span>';
 		$unpaid_count   = '&nbsp;<span class="count">(' . $this->unpaid_count . ')</span>';
 		$pending_count  = '&nbsp;<span class="count">(' . $this->pending_count . ')</span>';
 		$rejected_count = '&nbsp;<span class="count">(' . $this->rejected_count . ')</span>';
 
-		$labels = affwp_get_referral_statuses();
+		$labels = affwp_get_referral_statuses( true );
 
 		$views = array(
 			'all'      => sprintf( '<a href="%s"%s>%s</a>', esc_url( remove_query_arg( 'status', $base ) ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'affiliate-wp' ) . $total_count ),
@@ -153,6 +161,13 @@ class AffWP_Referrals_Table extends List_Table {
 			'pending'  => sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'pending', $base ) ), $current === 'pending' ? ' class="current"' : '', $labels['pending'] . $pending_count ),
 			'rejected' => sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'rejected', $base ) ), $current === 'rejected' ? ' class="current"' : '', $labels['rejected'] . $rejected_count ),
 		);
+
+		// Only display the Failed view if currently filtering by that status.
+		if ( isset( $_REQUEST['status'] ) && 'failed' === $_REQUEST['status'] ) {
+			$failed_count   = '&nbsp;<span class="count">(' . $this->failed_count . ')</span>';
+
+			$views['failed'] = sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'status', 'failed', $base ) ), $current === 'failed' ? ' class="current"' : '', $labels['failed'] . $failed_count );
+		}
 
 		return $views;
 	}
@@ -505,7 +520,7 @@ class AffWP_Referrals_Table extends List_Table {
 
 			}
 
-			if( 'rejected' != $referral->status ) {
+			if( 'rejected' !== $referral->status && 'failed' !== $referral->status ) {
 
 				// Reject.
 				$row_actions['reject'] = $this->get_row_action_link(
@@ -603,8 +618,14 @@ class AffWP_Referrals_Table extends List_Table {
 			$two = '2';
 		}
 
-		if ( empty( $this->_actions ) )
+		if ( empty( $this->_actions ) ) {
 			return;
+		}
+
+		// Only allow bulk delete when filtered by failed status.
+		if ( isset( $_GET['status'] ) && 'failed' === $_GET['status'] ) {
+			$this->_actions = array( 'delete' => __( 'Delete', 'affiliate-wp' ) );
+		}
 
 		echo "<select name='action$two'>\n";
 		echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions', 'affiliate-wp' ) . "</option>\n";
@@ -829,6 +850,14 @@ class AffWP_Referrals_Table extends List_Table {
 			) )
 		);
 
+		$this->failed_count = affiliate_wp()->referrals->count(
+			array_merge( $this->query_args, array(
+				'affiliate_id' => $affiliate_id,
+				'status'       => 'failed',
+			) )
+		);
+
+		// Failed referrals count is not included in the total by design.
 		$this->total_count = $this->paid_count + $this->unpaid_count + $this->pending_count + $this->rejected_count;
 	}
 
@@ -949,7 +978,7 @@ class AffWP_Referrals_Table extends List_Table {
 
 		$data = $this->referrals_data();
 
-		$status = isset( $_GET['status'] ) ? $_GET['status'] : 'any';
+		$status = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : 'any';
 
 		switch( $status ) {
 			case 'draft':
@@ -966,6 +995,9 @@ class AffWP_Referrals_Table extends List_Table {
 				break;
 			case 'rejected':
 				$total_items = $this->rejected_count;
+				break;
+			case 'failed':
+				$total_items = $this->failed_count;
 				break;
 			case 'any':
 				$total_items = $this->current_count;

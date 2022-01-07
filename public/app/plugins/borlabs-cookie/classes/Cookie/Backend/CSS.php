@@ -164,7 +164,7 @@ class CSS
      *
      * @access public
      */
-    public function getCookieBoxCSS(): string
+    public function getCookieBoxCSS()
     {
         $bgColorHSL = Tools::getInstance()->hexToHsl(Config::getInstance()->get('cookieBoxBgColor'));
         $brandingColor = '#000';
@@ -406,7 +406,7 @@ class CSS
         update_option('BorlabsCookieStyleVersion_' . $language, $styleVersion, false);
     }
 
-    private function findAnimateCSSFilepath(string $animation): string
+    private function findAnimateCSSFilepath(string $animation)
     {
         $filepath = '';
         $iterator = new RecursiveIteratorIterator(
@@ -427,7 +427,7 @@ class CSS
      * Performs cleanups and css specificity transformations to make animate.css code
      * integrate with the borlabs cookie box
      */
-    private function transformAnimationCSS(string $animationName, string $animationFilePath): string
+    private function transformAnimationCSS(string $animationName, string $animationFilePath)
     {
         // remove redundant .animated selector which exists on at least one animate.css animation (flip.css)
         $css = str_replace('.animated.', '.', file_get_contents($animationFilePath));

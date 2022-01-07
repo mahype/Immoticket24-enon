@@ -302,14 +302,14 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		$amount = apply_filters( 'affwp_woocommerce_add_pending_referral_amount', $amount, $order_id, $affiliate_id, $this );
 
 		if ( 0 == $amount && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
-			$this->log( 'Draft referral rejected due to 0.00 amount.' );
+			$this->log( 'Draft referral failed due to 0.00 amount and ignore_zero_referrals setting.' );
 			$this->mark_referral_failed( $referral_id );
 
 			return false; // Ignore a zero amount referral.
 		}
 
 		if ( empty( $description ) ) {
-			$this->log( 'Draft referral rejected due to empty description.' );
+			$this->log( 'Draft referral failed due to empty description.' );
 			$this->mark_referral_failed( $referral_id );
 
 			return;
@@ -1537,7 +1537,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 			$referral = affwp_get_referral_by( 'reference', $order_id, $this->context );
 
-			if ( ! is_wp_error( $referral ) ) {
+			if ( ! is_wp_error( $referral ) && 'failed' !== $referral->status ) {
 				echo '<a href="' . affwp_admin_url( 'referrals', array( 'referral_id' => $referral->referral_id, 'action' => 'edit_referral' ) ) . '">#' . $referral->referral_id . '</a>';
 			} else {
 				echo '<span aria-hidden="true">&mdash;</span>';
@@ -1564,7 +1564,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		$referral = affwp_get_referral_by( 'reference', $order_id, $this->context );
 
-		if ( ! is_wp_error( $referral ) ) {
+		if ( ! is_wp_error( $referral ) && 'failed' !== $referral->status ) {
 
 			$referral_html = '<div class="wc-order-preview-affwp-referral">';
 			$referral_html .= '<strong>'. __( 'Affiliate Referral', 'affiliate-wp' ) . '</strong>';

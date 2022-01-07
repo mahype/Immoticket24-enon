@@ -56,8 +56,10 @@ function affwp_get_referral_status( $referral ) {
  * Retrieves the status label for a referral.
  *
  * @since 1.6
- * @since 2.3 The `$referral` parameter was renamed to `$referral_or_status` and now also accepts
- *            a referral status.
+ * @since 2.3   The `$referral` parameter was renamed to `$referral_or_status` and now also accepts
+ *              a referral status.
+ * @since 2.8   Compatibility for a 'Draft' status label was added.
+ * @since 2.8.1 Compatibility for a 'Failed' status label was added.
  *
  * @param int|\AffWP\Referral|string $referral_or_status Referral ID, object, or referral status.
  * @return string|false The localized version of the referral status, otherwise false. If the status
@@ -79,12 +81,8 @@ function affwp_get_referral_status_label( $referral_or_status ) {
 		}
 	}
 
-	if ( 'draft' === $status ) {
-		$label = __( 'Draft', 'affiliate-wp' );
-	} else {
-		$statuses = affwp_get_referral_statuses();
-		$label    = array_key_exists( $status, $statuses ) ? $statuses[ $status ] : $statuses['pending'];	
-	}
+	$statuses = affwp_get_referral_statuses( true );
+	$label    = array_key_exists( $status, $statuses ) ? $statuses[ $status ] : $statuses['pending'];
 
 	/**
 	 * Filters the referral status label.
@@ -104,16 +102,27 @@ function affwp_get_referral_status_label( $referral_or_status ) {
  * Retrieves the list of referral statuses and corresponding labels.
  *
  * @since 2.3
+ * @since 2.8.1 The optional `$include_internal` parameter was added.
  *
+ * @param array $include_internal Optional. Whether to include internal-only statuses. Default false.
  * @return array Key/value pairs of statuses where key is the status and the value is the label.
  */
-function affwp_get_referral_statuses() {
-	return array(
+function affwp_get_referral_statuses( $include_internal = false ) {
+	$statuses = array(
 		'paid'     => __( 'Paid', 'affiliate-wp' ),
 		'unpaid'   => __( 'Unpaid', 'affiliate-wp' ),
 		'rejected' => __( 'Rejected', 'affiliate-wp' ),
 		'pending'  => __( 'Pending', 'affiliate-wp' ),
 	);
+
+	if ( true === $include_internal ) {
+		$statuses = array_merge( $statuses, array(
+			'draft'  => __( 'Draft', 'affiliate-wp' ),
+			'failed' => __( 'Failed', 'affiliate-wp' ),
+		) );
+	}
+
+	return $statuses;
 }
 
 /**
@@ -168,7 +177,7 @@ function affwp_set_referral_status( $referral, $new_status = '' ) {
 
 			affwp_increase_affiliate_unpaid_earnings( $referral->affiliate_id, $referral->amount );
 
-			if ( 'pending' === $old_status || 'rejected' === $old_status ) {
+			if ( in_array( $old_status, array( 'pending', 'rejected', 'failed' ) ) ) {
 				// Update the visit ID that spawned this referral
 				affiliate_wp()->visits->update_visit( $referral->visit_id, array( 'referral_id' => $referral->ID ) );
 

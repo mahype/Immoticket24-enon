@@ -300,6 +300,16 @@ class Affiliate_WP_Upgrades {
 				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-migrate-affwp-user-meta.php',
 			),
 		) );
+
+		$this->add_routine( 'upgrade_v281_convert_failed_referrals', array(
+			'version'       => '2.8.1',
+			'compare'       => '<',
+			'batch_process' => array(
+				'id'    => 'upgrade-convert-failed-referrals',
+				'class' => 'AffWP\Utils\Batch_Process\Batch_Upgrade_Convert_Failed_Referrals',
+				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/upgrades/class-batch-upgrade-convert-failed-referrals.php',
+			),
+		) );
 	}
 
 	/**
@@ -809,7 +819,7 @@ class Affiliate_WP_Upgrades {
 	 * @since  2.2
 	 */
 	private function v22_upgrade() {
-		
+
 		global $wpdb;
 
 		// Add type column to referrals database.
@@ -1148,7 +1158,7 @@ class Affiliate_WP_Upgrades {
 			if( is_multisite() ) {
 
 				switch_to_blog( $site_id );
-				
+
 			}
 
 			if ( ! in_array( $plugin, get_option( 'active_plugins', array() ) ) ) {

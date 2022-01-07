@@ -85,7 +85,7 @@ class Batch_Migrate_Affiliate_User_Meta extends Utils\Batch_Process implements B
 		// Remove hooks that prevent user meta from being accessed directly
 		remove_filter( 'get_user_metadata', 'affwp_intercept_migrated_user_meta_fields', 2 );
 		remove_filter( 'update_user_metadata', 'affwp_intercept_migrated_user_meta_field_updates', 2 );
-		remove_action( "delete_user_meta", 'affwp_delete_affiliate_meta_when_migrated_user_meta_is_deleted', 2 );
+		remove_action( 'delete_user_metadata', 'affwp_delete_affiliate_meta_when_migrated_user_meta_is_deleted', 2 );
 	}
 
 	/**

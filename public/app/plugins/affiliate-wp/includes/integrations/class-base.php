@@ -712,6 +712,9 @@ abstract class Affiliate_WP_Base {
 			$args['customer']['ip'] = '';
 		}
 
+		// Log referrals->add() args.
+		affiliate_wp()->utils->log( 'Arguments sent to the DB when creating the draft referral:', $args );
+
 		$referral_id = affiliate_wp()->referrals->add( $args );
 
 		if ( $referral_id ) {
@@ -751,25 +754,27 @@ abstract class Affiliate_WP_Base {
 	/**
 	 * Marks a referral failed.
 	 *
-	 * @access  public
-	 * @since   2.8
+	 * @since 2.8
+	 * @since 2.8.1 Refactored to transition referrals to the 'failed' status instead of 'rejected'.
 	 *
-	 * @param  int $referral_id The referral ID.
-	 * @return bool
+	 * @param int $referral_id The referral ID.
+	 * @return bool Whether the referral was marked failed.
 	 */
 	public function mark_referral_failed( $referral_id ) {
 		$referral = affwp_get_referral( $referral_id );
-		$rejected = $this->reject_referral( $referral );
-		if ( $rejected ) {
+		$failed   = $this->fail_referral( $referral );
+
+		if ( $failed ) {
 			affiliate_wp()->utils->log( sprintf( 'Referral #%d marked as failed.', $referral_id ) );
-			affwp_update_referral_meta( $referral_id, 'referral_has_failed', true );
 		}
 
-		return $rejected;
+		return $failed;
 	}
 
 	/**
-	 * Hydrates a referral. Completes a referral with the missing data.
+	 * Hydrates a draft referral.
+	 *
+	 * Completes a referral with the missing data.
 	 *
 	 * @since 2.8
 	 *
@@ -791,6 +796,15 @@ abstract class Affiliate_WP_Base {
 
 		$data['custom'] = isset( $data['custom'] ) ? maybe_serialize( $data['custom'] ) : $referral->custom;
 
+		$referral_args = array(
+			'affiliate_id' => $this->affiliate_id,
+			'amount'       => $amount,
+			'reference'    => $reference,
+			'description'  => $description,
+			'products'     => $products,
+			'data'         => $data
+		);
+
 		/**
 		 * Filters whether to allow referrals to be hydrated for the current integration.
 		 *
@@ -798,12 +812,13 @@ abstract class Affiliate_WP_Base {
 		 * @since 2.8 Moved the affwp_integration_create_referral hook from insert_pending_referral
 		 *            function to here so that it's still possible to bypass the referral "creation".
 		 *
-		 * @param bool $allow Whether to allow referrals to be created.
-		 * @param array $args Many of the arguments for generating the referral.
+		 * @param bool  $allow         Whether to allow referrals to be created.
+		 * @param array $referral_args Many of the arguments for generating the referral.
 		 */
-		if ( ! (bool) apply_filters( 'affwp_integration_create_referral', true, array( 'affiliate_id' => $this->affiliate_id, 'amount' => $amount, 'reference' => $reference, 'description' => $description, 'products' => $products, 'data' => $data ) ) ) {
+		if ( ! (bool) apply_filters( 'affwp_integration_create_referral', true, $referral_args ) ) {
 
-			affiliate_wp()->utils->log( 'Referral not hydrated because integration is disabled via filter' );
+			affiliate_wp()->utils->log( 'Referral not hydrated because integration is disabled via filter.' );
+
 			$this->mark_referral_failed( $referral_id );
 
 			return false; // Allow extensions to prevent referrals from being created.
@@ -816,7 +831,7 @@ abstract class Affiliate_WP_Base {
 		 * @since 2.8 Moved the affwp_insert_pending_referral hook from insert_pending_referral
 		 *            function to here so that it's still possible to filter the referral arguments.
 		 *
-		 * @param array  $args         Arguments sent to referrals->add() to insert a pending referral.
+		 * @param array  $data         Arguments sent to update_referral() to update a draft referral to pending.
 		 * @param float  $amount       Calculated referral amount.
 		 * @param string $reference    Referral reference (usually the order or entry number).
 		 * @param string $description  Referral description.
@@ -826,6 +841,9 @@ abstract class Affiliate_WP_Base {
 		 * @param string $context      Context for creating the referral (typically the integration slug).
 		 */
 		$data = apply_filters( 'affwp_insert_pending_referral', $data, $amount, $reference, $description, $this->affiliate_id, $visit_id, $data, $this->context );
+
+		// Log referrals->update_referral() args.
+		affiliate_wp()->utils->log( 'Arguments sent to the DB during referral hydration:', $data );
 
 		$success = affiliate_wp()->referrals->update_referral( $referral_id, $data );
 
@@ -948,7 +966,7 @@ abstract class Affiliate_WP_Base {
 
 		if ( empty( $reference_or_referral ) ) {
 
-			$this->log( 'Empty $reference_or_referral parameter given during complete_referral()' );
+			$this->log( 'Empty $reference_or_referral parameter given during reject_referral()' );
 
 			return false;
 		}
@@ -996,6 +1014,63 @@ abstract class Affiliate_WP_Base {
 
 		return false;
 
+	}
+
+	/**
+	 * Fails a referral.
+	 *
+	 * Used when a draft referral has disqualifying factors preventing it from becoming pending.
+	 *
+	 * @since 2.8.1
+	 *
+	 * @param string|\AffWP\Referral $reference_or_referral Referral object or reference value.
+	 * @return bool Whether the referral was successfully rejected.
+	 */
+	public function fail_referral( $reference_or_referral ) {
+
+		if ( empty( $reference_or_referral ) ) {
+
+			$this->log( 'Empty $reference_or_referral parameter given during fail_referral()' );
+
+			return false;
+		}
+
+		if( is_object( $reference_or_referral ) ) {
+
+			$referral = affwp_get_referral( $reference_or_referral );
+
+		} else {
+
+			$referral = affwp_get_referral_by( 'reference', $reference_or_referral, $this->context );
+
+		}
+
+		if ( empty( $referral ) || is_wp_error( $referral ) ) {
+
+			$this->log( 'Referral could not be retrieved during fail_referral(). Value given: ' . print_r( $reference_or_referral, true ) );
+
+			return false;
+		}
+
+		$this->log( 'Referral retrieved successfully during fail_referral()' );
+
+		if ( is_object( $referral ) && 'draft' !== $referral->status ) {
+			// This referral must be a draft to fail.
+			$this->log( sprintf( 'Referral #%d not failed because it is not a draft.', $referral->referral_id ) );
+			return false;
+		}
+
+		if ( affwp_set_referral_status( $referral->referral_id, 'failed' ) ) {
+
+			$this->log( sprintf( 'Referral #%d set to Failed successfully', $referral->referral_id ) );
+
+			return true;
+
+		}
+
+		$this->log( sprintf( 'Referral #%d could not be set to Failed', $referral->referral_id ) );
+
+		return false;
 	}
 
 	/**
@@ -1265,7 +1340,7 @@ abstract class Affiliate_WP_Base {
 		if ( ! empty( $this->context ) ) {
 			$message = "{$this->context}: {$message}";
 		}
-		
+
 		affiliate_wp()->utils->log( $message, $data );
 
 	}
