@@ -104,6 +104,12 @@ class CookieBox
             ? ' selected' : '';
         $optionCookieBoxRefuseOptionTypeLink = Config::getInstance()->get('cookieBoxRefuseOptionType') === 'link'
             ? ' selected' : '';
+        $optionCookieBoxPreferenceRefuseOptionTypeButton = Config::getInstance()->get(
+            'cookieBoxPreferenceRefuseOptionType'
+        ) === 'button' ? ' selected' : '';
+        $optionCookieBoxPreferenceRefuseOptionTypeLink = Config::getInstance()->get(
+            'cookieBoxPreferenceRefuseOptionType'
+        ) === 'link' ? ' selected' : '';
         $inputCookieBoxHideRefuseOption = ! empty(Config::getInstance()->get('cookieBoxHideRefuseOption')) ? 1 : 0;
         $switchCookieBoxHideRefuseOption = $inputCookieBoxHideRefuseOption ? ' active' : '';
         $privacyPageId = ! empty(Config::getInstance()->get('privacyPageId'))
@@ -760,6 +766,14 @@ class CookieBox
         if (! empty($formData['cookieBoxRefuseOptionType'])) {
             if ($formData['cookieBoxRefuseOptionType'] === 'link') {
                 $updatedConfig['cookieBoxRefuseOptionType'] = 'link';
+            }
+        }
+
+        $updatedConfig['cookieBoxPreferenceRefuseOptionType'] = 'button';
+
+        if (! empty($formData['cookieBoxPreferenceRefuseOptionType'])) {
+            if ($formData['cookieBoxPreferenceRefuseOptionType'] === 'link') {
+                $updatedConfig['cookieBoxPreferenceRefuseOptionType'] = 'link';
             }
         }
 

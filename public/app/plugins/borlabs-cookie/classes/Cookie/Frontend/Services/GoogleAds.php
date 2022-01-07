@@ -212,7 +212,7 @@ if('%%consentMode%%' === '1') {
         j = d.createElement(s);
     j.async = true;
     j.src =
-        "https://www.googletagmanager.com/gtm.js?id=" + i;
+        "https://www.googletagmanager.com/gtag/js?id=" + i;
     f.parentNode.insertBefore(j, f);
     })(window, document, "script", "%%conversionId%%");
 }
@@ -242,7 +242,7 @@ if('%%consentMode%%' === '1') {
         j = d.createElement(s);
     j.async = true;
     j.src =
-        "https://www.googletagmanager.com/gtm.js?id=" + i;
+        "https://www.googletagmanager.com/gtag/js?id=" + i;
     f.parentNode.insertBefore(j, f);
     })(window, document, "script", "%%conversionId%%");
 

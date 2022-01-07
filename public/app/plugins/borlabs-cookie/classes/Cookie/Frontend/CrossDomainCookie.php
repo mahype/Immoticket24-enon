@@ -66,12 +66,19 @@ class CrossDomainCookie
             // Validate referer
             $refererURLInfo = parse_url($_SERVER['HTTP_REFERER']);
 
-            if (
-                in_array(
-                    $refererURLInfo['scheme'] . '://' . $refererURLInfo['host'] . '/',
-                    Config::getInstance()->get('crossDomainCookie')
-                ) === false
-            ) {
+            $isValidRequest = false;
+            foreach (Config::getInstance()->get('crossDomainCookie') as $url) {
+                if (
+                    strpos(
+                        $refererURLInfo['scheme'] . '://' . $refererURLInfo['host'] . ($refererURLInfo['path'] ?? '/'),
+                        $url
+                    ) !== false
+                ) {
+                    $isValidRequest = true;
+                }
+            }
+
+            if ($isValidRequest === false) {
                 return;
             }
 

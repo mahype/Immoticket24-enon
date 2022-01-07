@@ -65,8 +65,11 @@ class CookieBox
             $integration = 'html';
         }
 
-        // Refuse option type
+        // Refuse option type - Cookie Box
         $cookieBoxRefuseOptionType = Config::getInstance()->get('cookieBoxRefuseOptionType');
+
+        // Refuse option type - Cookie Preferences
+        $cookieBoxPreferenceRefuseOptionType = Config::getInstance()->get('cookieBoxPreferenceRefuseOptionType');
 
         // Hide Refuse option
         $cookieBoxHideRefuseOption = Config::getInstance()->get('cookieBoxHideRefuseOption');
