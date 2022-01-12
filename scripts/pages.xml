@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/5.8.3" created="2022-01-11 14:24" -->
+<!-- generator="WordPress/5.8.3" created="2022-01-12 14:14" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Energieausweis online erstellen</title>
 <link>https://enon.test</link>
 <description>Jetzt Ihren Energieausweis nach EnEV 2014 anfordern!</description>
-<pubDate>Tue, 11 Jan 2022 14:24:21 +0000</pubDate>
+<pubDate>Wed, 12 Jan 2022 14:14:06 +0000</pubDate>
 <language>de-DE</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>https://enon.test</wp:base_site_url>
@@ -22622,36 +22622,20 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:group {"style":{"spacing":{"padding":{"top":"40px","right":"40px","bottom":"40px","left":"40px"}},"border":{"style":"solid","width":"1px","radius":"5px"}},"borderColor":"white","className":"white-box center md:ml-auto md:mr-0 is-style-white-box is-style-default"} -->
-<div class="wp-block-group white-box center md:ml-auto md:mr-0 is-style-white-box is-style-default has-border-color has-white-border-color" style="border-radius:5px;border-style:solid;border-width:1px;padding-top:40px;padding-right:40px;padding-bottom:40px;padding-left:40px"><!-- wp:image {"align":"center","id":15,"width":124,"height":108,"sizeSlug":"full","linkDestination":"none"} -->
-<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><img src="/app/themes/jason/assets/img/icons/haus-temperatur.webp" alt="Haus Icon" class="wp-image-15" width="124" height="108"/></figure></div>
-<!-- /wp:image -->
-
-<!-- wp:heading {"textAlign":"center","level":3,"textColor":"green-deep"} -->
-<h3 class="has-text-align-center has-green-deep-color has-text-color" id="bedarfsausweis"><strong>BedarfsAusweis</strong></h3>
-<!-- /wp:heading -->
-
-<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-column"><!-- wp:group {"style":{"spacing":{"padding":{"top":"40px","right":"40px","bottom":"40px","left":"40px"}},"border":{"style":"none","width":"0px","radius":"5px"}},"className":"white-box center md:ml-auto md:mr-0 is-style-white-box is-style-default"} -->
+<div class="wp-block-group white-box center md:ml-auto md:mr-0 is-style-white-box is-style-default" style="border-radius:5px;border-style:none;border-width:0px;padding-top:40px;padding-right:40px;padding-bottom:40px;padding-left:40px"><!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"width":100} -->
-<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Hier beginnen</a></div>
+<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Bedarfsausweis</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:group {"style":{"border":{"width":"1px","style":"solid","radius":"5px"},"spacing":{"padding":{"top":"40px","right":"40px","bottom":"40px","left":"40px"}}},"borderColor":"white","className":"white-box center md:mr-auto md:ml-0 is-style-white-box"} -->
-<div class="wp-block-group white-box center md:mr-auto md:ml-0 is-style-white-box has-border-color has-white-border-color" style="border-radius:5px;border-style:solid;border-width:1px;padding-top:40px;padding-right:40px;padding-bottom:40px;padding-left:40px"><!-- wp:image {"align":"center","id":15,"width":124,"height":108,"sizeSlug":"full","linkDestination":"none"} -->
-<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><img src="/app/themes/jason/assets/img/icons/haus-temperatur.webp" alt="Haus Icon" class="wp-image-15" width="124" height="108"/></figure></div>
-<!-- /wp:image -->
-
-<!-- wp:heading {"textAlign":"center","level":3,"textColor":"green-deep"} -->
-<h3 class="has-text-align-center has-green-deep-color has-text-color" id="verbrauchsausweis"><strong>VerbrauchsAusweis</strong></h3>
-<!-- /wp:heading -->
-
-<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-column"><!-- wp:group {"style":{"border":{"width":"0px","style":"none","radius":"5px"},"spacing":{"padding":{"top":"40px","right":"40px","bottom":"40px","left":"40px"}}},"className":"white-box center md:mr-auto md:ml-0 is-style-white-box"} -->
+<div class="wp-block-group white-box center md:mr-auto md:ml-0 is-style-white-box" style="border-radius:5px;border-style:none;border-width:0px;padding-top:40px;padding-right:40px;padding-bottom:40px;padding-left:40px"><!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"width":100} -->
-<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link" href="https://enon.test/energieausweis2/verbrauchsausweis-wohngebaeude/">Hier beginnen</a></div>
+<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link" href="https://enon.test/energieausweis2/verbrauchsausweis-wohngebaeude/">Verbrauchsausweis</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group --></div>
@@ -23244,8 +23228,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465251</wp:post_id>
   <wp:post_date>2021-10-25 12:15:05</wp:post_date>
   <wp:post_date_gmt>2021-10-25 10:15:05</wp:post_date_gmt>
-  <wp:post_modified>2022-01-10 15:53:15</wp:post_modified>
-  <wp:post_modified_gmt>2022-01-10 14:53:15</wp:post_modified_gmt>
+  <wp:post_modified>2022-01-12 14:49:43</wp:post_modified>
+  <wp:post_modified_gmt>2022-01-12 13:49:43</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>startseite</wp:post_name>
@@ -23257,7 +23241,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:is_sticky>0</wp:is_sticky>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_dc926cf59b02d4e388423fdc4046334b</wp:meta_key>
-    <wp:meta_value><![CDATA[1641826397]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1641995366]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_wp_page_template</wp:meta_key>
@@ -23313,7 +23297,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
-    <wp:meta_value><![CDATA[14]]></wp:meta_value>
+    <wp:meta_value><![CDATA[13]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_focuskw</wp:meta_key>
