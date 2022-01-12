@@ -62,7 +62,7 @@ $gebaeude = array(
 					'label'       => __( 'Anzahl der Vollgeschosse', 'wpenon' ),
 					'description' => __( 'Geben Sie die Anzahl der Vollgeschosse ein, also die Anzahl aller Geschosse ohne eventuelle Dach- oder Kellergeschosse.', 'wpenon' ),
 					'min'         => 1,
-					'max'         => 10,
+					'max'         => 100,
 					'required'    => true,
 				),
 				'geschoss_hoehe' => array(

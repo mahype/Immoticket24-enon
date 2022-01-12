@@ -837,8 +837,8 @@ $bauteile = array(
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
 					'display'               => array(
-						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr',
-						'callback_args' => array( 'field::dach_daemmung', 'field::baujahr' ),
+						'callback'      => 'wpenon_immoticket24_show_daemmung_baujahr_dach',
+						'callback_args' => array( 'field::dach', 'field::dach_daemmung', 'field::baujahr' ),
 					),
 					'validate'              => 'wpenon_immoticket24_validate_daemmung_baujahr',
 					'validate_dependencies' => array( 'baujahr' ),

@@ -1,6 +1,5 @@
 <?php
-
-define( 'WP_CACHE', true ); // Added by WP Rocket
+define( 'WP_CACHE', false ); // Added by WP Rocket
 define( 'VULN_API_TOKEN', 'c5vbPoMq2nCp1GRgujkqEnfxeaenNZctgOigYKGR2ww' );
 
 /**

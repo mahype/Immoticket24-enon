@@ -29,6 +29,9 @@ $showImage = $oldStandard || ! empty ( $image ) ? true : false;
 
 ?>
 
+<script>dataLayer.push({'event':'ausweis-erstellen', 'email': '<?php echo $data['meta']['email']; ?>'});</script>
+<script> var object_email = '<?php echo $data['meta']['email']; ?>';</script>
+
 <div class="row">
   <div class="<?php if ( $showImage ): ?>col-sm-8<?php else: ?>col-sm-12<?php endif; ?>">
     <div class="overview-meta well">

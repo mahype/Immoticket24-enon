@@ -80,6 +80,17 @@ function wpenon_immoticket24_show_daemmung_baujahr( $daemmung, $baujahr_haus ) {
 	return false;
 }
 
+function wpenon_immoticket24_show_daemmung_baujahr_dach( $dach, $daemmung, $baujahr_haus ) {
+	$daemmung = filter_var( $daemmung, FILTER_VALIDATE_FLOAT );
+	$baujahr_haus = filter_var( $baujahr_haus, FILTER_VALIDATE_INT );
+	
+	if ( $daemmung > 0 && $baujahr_haus > 2003 && $dach == 'beheizt' ) {
+		return true;
+	}
+
+	return false;
+}
+
 function wpenon_immoticket24_show_daemmung_baujahr_anbau( $daemmung, $baujahr ) {
 	$daemmung = filter_var( $daemmung, FILTER_VALIDATE_FLOAT );
 	$baujahr = filter_var( $baujahr, FILTER_VALIDATE_INT );

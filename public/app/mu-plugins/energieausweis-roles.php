@@ -166,6 +166,7 @@ function energieausweis_roles_get_caps( $role_slug ) {
 				'delete_product',
 				'edit_products',
 				'edit_others_products',
+				'edit_others_items',
 				'edit_published_products',
 				'read_shop_payment',
 				'edit_shop_payment',
@@ -173,7 +174,7 @@ function energieausweis_roles_get_caps( $role_slug ) {
 				'edit_shop_customer',
 				'manage_shop_discounts',
 			) );
-			case 'wpenon_reseller':
+		case 'wpenon_reseller':
 			$caps = array_merge( $caps, array(
 				'view_reseller_leads',
 			) );
@@ -291,11 +292,7 @@ function energieausweis_grant_owner_capabilities( $allcaps, $caps, $args, $user 
 	$global_caps = energieausweis_roles_get_global_admin_caps();
 
 	$admin_user = [
-		'felixarntz',
-		'svenwagener',
-		'reimren',
-		'balzsve',
-		'svebal'
+		'svenwagener'
 	];
 
 	if ( in_array( $user->user_login, $admin_user ) || ( 'development' === WP_ENV && 'admin' === $user->user_login ) ) {

@@ -82,7 +82,7 @@ class Admin
                     add_filter('manage_edit-download_sortable_columns', array($this, '_getSortableColumns'), 10, 1);
                     add_action('manage_posts_custom_column', array($this, '_renderColumn'), 10, 2);
                     add_filter('post_row_actions', array($this, '_getRowActions'), 10, 2);
-                    add_filter('request', array($this, '_adjustQueryVars'), 10, 1);
+                    add_filter('request', array($this, '_adjustQueryVars'), 1000, 1);
                     add_action('admin_notices', array($this, '_showFrontendActionMessages'));
                     break;
                 case 'download_page_edd-payment-history':
@@ -296,6 +296,11 @@ class Admin
             $vars = array_merge_recursive($vars, $custom_vars);
         }
 
+        // @todo Workaround should be done on place it is added
+        if( current_user_can( 'manage_options' ) || current_user_can( 'edit_products' ) ) {
+            unset( $vars['author'] );
+        }
+        
         return $vars;
     }
 

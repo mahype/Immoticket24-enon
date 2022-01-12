@@ -13,6 +13,7 @@ namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
+use WPENON\Model\Energieausweis;
 
 /**
  * Class Google_Tag_Manager
@@ -48,6 +49,8 @@ class Add_Google_Tag_Manager implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
+		// Commented scripts are done with Borlabs
+
 		// add_action( 'wp_head', array( __CLASS__, 'head_script' ), 1 );
 		// add_action( 'wp_body_open', array( __CLASS__, 'body_script' ), 1 );
 		add_action( 'edd_payment_receipt_after_table', array( __CLASS__, 'edd_purchase_conversions' ), 10, 2 );
@@ -116,34 +119,40 @@ class Add_Google_Tag_Manager implements Actions, Task {
 		}
 		$purchase          = json_decode( $_SESSION['edd']['edd_purchase'] );
 		$energieausweis_id = $purchase->downloads[0]->id;
+		$energieausweis    = new Energieausweis( $energieausweis_id );		
 		$type              = get_post_meta( $energieausweis_id, 'wpenon_type', true );
+		
 		if ( 'bw' === $type ) {
-			self::conversion_bedarfsausweis();
+			self::conversion_bedarfsausweis( $energieausweis );
 		}
 		if ( 'vw' === $type ) {
-			self::conversion_verbrauchsausweis();
+			self::conversion_verbrauchsausweis( $energieausweis );
 		}
 	}
 
 	/**
 	 * Loads the scripts after a bedarfsausweis had a conversion.
+	 * 
+	 * @param Energieausweis $energieausweis
 	 *
 	 * @since 1.0.0
 	 */
-	private static function conversion_bedarfsausweis() {
+	private static function conversion_bedarfsausweis( $energieausweis) {
 		?>
-		<script>dataLayer.push({'event':'conversion-bedarfsausweis'});</script>
+		<script>dataLayer.push({'event':'conversion-bedarfsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
 		<?php
 	}
 
 	/**
 	 * Loads the scripts after a verbrauchsausweis had a conversion.
+	 * 
+	 * @param Energieausweis $energieausweis
 	 *
 	 * @since 1.0.0
 	 */
-	private static function conversion_verbrauchsausweis() {
+	private static function conversion_verbrauchsausweis( $energieausweis ) {
 		?>
-		<script>dataLayer.push({'event':'conversion-verbrauchsausweis'});</script>
+		<script>dataLayer.push({'event':'conversion-verbrauchsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
 		<?php
 	}
 }

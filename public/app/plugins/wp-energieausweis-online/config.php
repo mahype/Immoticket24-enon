@@ -87,7 +87,7 @@ if ( ! defined( 'WPENON_MENU_POSITION' ) ) {
 
 /* CAPABILITIES */
 if ( ! defined( 'WPENON_CERTIFICATE_CAP' ) ) {
-  define( 'WPENON_CERTIFICATE_CAP', 'manage_options' );
+  define( 'WPENON_CERTIFICATE_CAP', 'edit_products' );
 }
 if ( ! defined( 'WPENON_TABLE_CAP' ) ) {
   define( 'WPENON_TABLE_CAP', 'manage_options' );

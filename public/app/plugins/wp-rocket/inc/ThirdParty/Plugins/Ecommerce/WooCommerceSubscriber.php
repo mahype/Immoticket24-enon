@@ -70,6 +70,7 @@ class WooCommerceSubscriber implements Event_Manager_Aware_Subscriber_Interface 
 			$events['rocket_cache_query_strings']         = 'cache_geolocation_query_string';
 			$events['rocket_cpcss_excluded_taxonomies']   = 'exclude_product_attributes_cpcss';
 			$events['nonce_user_logged_out']              = [ 'maybe_revert_uid_for_nonce_actions', PHP_INT_MAX, 2 ];
+			$events['rocket_exclude_post_taxonomy']       = 'exclude_product_shipping_taxonomy';
 
 			/**
 			 * Filters activation of WooCommerce empty cart caching
@@ -84,7 +85,7 @@ class WooCommerceSubscriber implements Event_Manager_Aware_Subscriber_Interface 
 				$events['switch_theme']      = 'delete_cache_empty_cart';
 			}
 
-			$events['wp_enqueue_scripts']         = 'show_empty_product_gallery_with_delayJS';
+			$events['wp_head']                    = 'show_empty_product_gallery_with_delayJS';
 			$events['rocket_delay_js_exclusions'] = 'show_notempty_product_gallery_with_delayJS';
 		}
 
@@ -505,6 +506,21 @@ class WooCommerceSubscriber implements Event_Manager_Aware_Subscriber_Interface 
 	}
 
 	/**
+	 * Exclude product_shipping_class taxonomy from post purge
+	 *
+	 * @since 3.9.1
+	 *
+	 * @param array $excluded_taxonomies Array of excluded taxonomies names.
+	 *
+	 * @return array
+	 */
+	public function exclude_product_shipping_taxonomy( $excluded_taxonomies ) {
+		$excluded_taxonomies[] = 'product_shipping_class';
+
+		return $excluded_taxonomies;
+	}
+
+	/**
 	 * Check if current product page has images in gallery.
 	 *
 	 * @since 3.9.1
@@ -537,8 +553,7 @@ class WooCommerceSubscriber implements Event_Manager_Aware_Subscriber_Interface 
 			return;
 		}
 
-		$custom_css = '.woocommerce-product-gallery{ opacity: 1 !important; }';
-		wp_add_inline_style( 'woocommerce-layout', $custom_css );
+		echo '<style>.woocommerce-product-gallery{ opacity: 1 !important; }</style>';
 	}
 
 	/**
