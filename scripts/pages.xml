@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/5.8.3" created="2022-01-12 15:04" -->
+<!-- generator="WordPress/5.8.3" created="2022-01-13 11:38" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Energieausweis online erstellen</title>
 <link>https://enon.test</link>
 <description>Jetzt Ihren Energieausweis nach EnEV 2014 anfordern!</description>
-<pubDate>Wed, 12 Jan 2022 15:04:23 +0000</pubDate>
+<pubDate>Thu, 13 Jan 2022 11:38:01 +0000</pubDate>
 <language>de-DE</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>https://enon.test</wp:base_site_url>
@@ -22611,19 +22611,15 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=450906</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
-<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
-<!-- /wp:create-block/block-wave-separator -->
-
-<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"200px","top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"pt-0 is-style-wave-top-bottom is-style-main-group is-style-group-main"} -->
-<div class="wp-block-group pt-0 is-style-wave-top-bottom is-style-main-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:200px"><!-- wp:heading {"textAlign":"center"} -->
+  <content:encoded><![CDATA[<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"100px","top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"pt-0 is-style-wave-top-bottom is-style-main-group is-style-group-main"} -->
+<div class="wp-block-group pt-0 is-style-wave-top-bottom is-style-main-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:100px"><!-- wp:heading {"textAlign":"center"} -->
 <h2 class="has-text-align-center" id="welchen-energieausweis-benotigen-sie">Welchen Energieausweis benötigen Sie?</h2>
 <!-- /wp:heading -->
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:group {"style":{"spacing":{"padding":{"top":"40px","right":"40px","bottom":"40px","left":"40px"}},"border":{"style":"none","width":"0px","radius":"5px"}},"className":"white-box center md:ml-auto md:mr-0 is-style-white-box is-style-default"} -->
-<div class="wp-block-group white-box center md:ml-auto md:mr-0 is-style-white-box is-style-default" style="border-radius:5px;border-style:none;border-width:0px;padding-top:40px;padding-right:40px;padding-bottom:40px;padding-left:40px"><!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-column"><!-- wp:group {"style":{"spacing":{"padding":{"top":"20px","right":"20px","bottom":"20px","left":"20px"}},"border":{"style":"none","width":"0px","radius":"5px"}},"className":"white-box center md:ml-auto md:mr-0 is-style-white-box is-style-default"} -->
+<div class="wp-block-group white-box center md:ml-auto md:mr-0 is-style-white-box is-style-default" style="border-radius:5px;border-style:none;border-width:0px;padding-top:20px;padding-right:20px;padding-bottom:20px;padding-left:20px"><!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"width":100} -->
 <div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link" href="/energieausweis2/bedarfsausweis-wohngebaeude/">Bedarfsausweis</a></div>
 <!-- /wp:button --></div>
@@ -22632,8 +22628,8 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:group {"style":{"border":{"width":"0px","style":"none","radius":"5px"},"spacing":{"padding":{"top":"40px","right":"40px","bottom":"40px","left":"40px"}}},"className":"white-box center md:mr-auto md:ml-0 is-style-white-box"} -->
-<div class="wp-block-group white-box center md:mr-auto md:ml-0 is-style-white-box" style="border-radius:5px;border-style:none;border-width:0px;padding-top:40px;padding-right:40px;padding-bottom:40px;padding-left:40px"><!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+<div class="wp-block-column"><!-- wp:group {"style":{"border":{"width":"0px","style":"none","radius":"5px"},"spacing":{"padding":{"top":"20px","right":"20px","bottom":"20px","left":"20px"}}},"className":"white-box center md:mr-auto md:ml-0 is-style-white-box"} -->
+<div class="wp-block-group white-box center md:mr-auto md:ml-0 is-style-white-box" style="border-radius:5px;border-style:none;border-width:0px;padding-top:20px;padding-right:20px;padding-bottom:20px;padding-left:20px"><!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"width":100} -->
 <div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link" href="https://enon.test/energieausweis2/verbrauchsausweis-wohngebaeude/">Verbrauchsausweis</a></div>
 <!-- /wp:button --></div>
@@ -22642,21 +22638,27 @@ https://www.youtube.com/watch?v=QrC74ZPu-ig
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:image {"align":"center","id":178,"sizeSlug":"full","linkDestination":"none"} -->
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"45px"} -->
+<div class="wp-block-column" style="flex-basis:45px"><!-- wp:image {"align":"center","id":178,"sizeSlug":"full","linkDestination":"none"} -->
 <div class="wp-block-image"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/icons/lampe.webp" alt="Glühbirne Icon" class="wp-image-178"/></figure></div>
-<!-- /wp:image -->
+<!-- /wp:image --></div>
+<!-- /wp:column -->
 
-<!-- wp:paragraph {"align":"center","style":{"elements":{"link":{"color":{"text":"var:preset|color|black-80"}}}}} -->
-<p class="has-text-align-center has-link-color">Unterschied zwischen Bedarfsausweis und Verbrauchsausweis <br><strong><a href="/energieausweis/">HIER</a></strong> einfach erklärt</p>
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"><!-- wp:paragraph {"align":"left"} -->
+<p class="has-text-align-left">Unterschied zwischen Bedarfsausweis und Verbrauchsausweis <strong>HIER</strong> einfach erklärt</p>
 <!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:create-block/block-wave-separator {"waveId":"wave-2","gradient":"green-neon-to-green-mint"} -->
-<div class="wp-block-create-block-block-wave-separator wave-2 has-green-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-2" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,5.8c9.8,5,17.3,13.6,56.2,8.8c41.7-5.1,83.2-18.5,178.2-6.7c34.8,4.3,49.1-7.9,49.1-7.9l0,17H0V5.8z"/></clipPath></svg></div>
+<!-- wp:create-block/block-wave-separator {"waveHeight":"80px","gradient":"green-neon-to-green-mint"} -->
+<div class="wp-block-create-block-block-wave-separator wave-1 has-green-neon-to-green-mint-gradient-background has-background" style="height:80px;margin-top:-80px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
 <!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group {"textColor":"green-deep","gradient":"green-neon-to-green-mint","className":"is-style-main-group is-style-group-main"} -->
-<div class="wp-block-group is-style-main-group is-style-group-main has-green-deep-color has-green-neon-to-green-mint-gradient-background has-text-color has-background"><!-- wp:heading -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"40px"}}},"textColor":"green-deep","gradient":"green-neon-to-green-mint","className":"is-style-main-group is-style-group-main"} -->
+<div class="wp-block-group is-style-main-group is-style-group-main has-green-deep-color has-green-neon-to-green-mint-gradient-background has-text-color has-background" style="padding-top:40px"><!-- wp:heading -->
 <h2 id="so-erhalten-sie-in-wenigen-minutenihren-energieausweis-online">So erhalten Sie in wenigen Minuten<br><strong>Ihren Energieausweis online</strong></h2>
 <!-- /wp:heading -->
 
@@ -23228,8 +23230,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465251</wp:post_id>
   <wp:post_date>2021-10-25 12:15:05</wp:post_date>
   <wp:post_date_gmt>2021-10-25 10:15:05</wp:post_date_gmt>
-  <wp:post_modified>2022-01-12 16:04:09</wp:post_modified>
-  <wp:post_modified_gmt>2022-01-12 15:04:09</wp:post_modified_gmt>
+  <wp:post_modified>2022-01-13 10:24:06</wp:post_modified>
+  <wp:post_modified_gmt>2022-01-13 09:24:06</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>startseite</wp:post_name>
