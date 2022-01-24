@@ -23,6 +23,7 @@ public/app/nfwlog/*
 # Ignore Exception
 !public/app/mu-plugins/energieausweis-*/
 !public/app/mu-plugins/energieausweis-*.php
+!public/app/plugins/acf-code-field
 !public/app/plugins/advanced-custom-fields-pro
 !public/app/plugins/affiliate-wp
 !public/app/plugins/affiliate-wp-lifetime-commissions
