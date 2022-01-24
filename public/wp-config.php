@@ -140,6 +140,9 @@ switch ( WP_ENV ) {
 		break;
 }
 
+define( 'TS_CLIENT_ID', '27a217e4f24c__energieausweis-online-erstellen.de' );
+define( 'TS_CLIENT_SECRET', '36edc1b0-1299-492c-9f7f-c0f848ab124d' );
+
 define( 'DISABLE_WP_CRON', true );
 
 define( 'CF7_MAILCHIMP_API_KEY', '97915031f990d58d79191ac983402b40-us10' );

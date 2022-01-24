@@ -43,6 +43,10 @@
     {
       "type": "vcs",
       "url" : "git@github.com:awsmug/block-wave-separator.git"
+    },
+    {
+      "type": "vcs",
+      "url" : "git@github.com:awsmug/block-trusted-shops.git"
     }
   ],
   "require": {
@@ -55,6 +59,7 @@
     "awsmug/enon-theme": "dev-main",
     "awsmug/jason": "dev-master",
     "awsmug/block-wave-separator": "dev-master",
+    "awsmug/block-trusted-shops": "dev-main",
     "felixarntz/plugin-lib": "dev-master",
     
     "wpackagist-plugin/akismet": "4.2.1",
