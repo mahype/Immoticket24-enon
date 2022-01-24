@@ -170,7 +170,7 @@ class GoogleTagManager
             'cookieId' => 'google-tag-manager',
             'service' => 'GoogleTagManager',
             'name' => 'Google Tag Manager',
-            'provider' => 'Google LLC',
+            'provider' => 'Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland',
             'purpose' => _x(
                 'Cookie by Google used to control advanced script and event handling.',
                 'Frontend / Cookie / Google Tag Manager / Text',

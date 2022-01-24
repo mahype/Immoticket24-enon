@@ -195,10 +195,59 @@ class Config
             'cookieBoxCustomCSS' => '',
             'cookieBoxTextHeadline' => _x('Privacy Preference', 'Frontend / Cookie Box / Headline', 'borlabs-cookie'),
             'cookieBoxTextDescription' => _x(
-                'We use cookies on our website. Some of them are essential, while others help us to improve this website and your experience.',
+                'We need your consent before you can continue on our website.',
                 'Frontend / Cookie Box / Text',
                 'borlabs-cookie'
             ),
+            'cookieBoxShowTextDescriptionConfirmAge' => true,
+            'cookieBoxTextDescriptionConfirmAge' => _x(
+                'If you are under 16 and wish to give consent to optional services, you must ask your legal guardians for permission.',
+                'Frontend / Cookie Box / Text',
+                'borlabs-cookie'
+            ),
+            'cookieBoxShowTextDescriptionTechnology' => true,
+            'cookieBoxTextDescriptionTechnology' => _x(
+                'We use cookies and other technologies on our website. Some of them are essential, while others help us to improve this website and your experience.',
+                'Frontend / Cookie Box / Text',
+                'borlabs-cookie'
+            ),
+            'cookieBoxShowTextDescriptionPersonalData' => true,
+            'cookieBoxTextDescriptionPersonalData' => _x(
+                'Personal data may be processed (e.g. IP addresses), for example for personalized ads and content or ad and content measurement.',
+                'Frontend / Cookie Box / Text',
+                'borlabs-cookie'
+            ),
+            'cookieBoxShowDescriptionMoreInformation' => true,
+            'cookieBoxTextDescriptionMoreInformation' => _x(
+                'You can find more information about the use of your data in our <a class="_brlbs-cursor" href="{privacyPageURL}">privacy policy</a>.',
+                'Frontend / Cookie Box / Text',
+                'borlabs-cookie'
+            ),
+            'cookieBoxShowTextDescriptionNoObligation' => false,
+            'cookieBoxTextDescriptionNoObligation' => _x(
+                'There is no obligation to consent to the processing of your data in order to use this offer.',
+                'Frontend / Cookie Box / Text',
+                'borlabs-cookie'
+            ),
+            'cookieBoxShowTextDescriptionRevoke' => true,
+            'cookieBoxTextDescriptionRevoke' => _x(
+                'You can revoke or adjust your selection at any time under <a class="_brlbs-cursor" href="#" data-cookie-individual>Settings</a>.',
+                'Frontend / Cookie Box / Text',
+                'borlabs-cookie'
+            ),
+            'cookieBoxShowTextDescriptionIndividualSettings' => false,
+            'cookieBoxTextDescriptionIndividualSettings' => _x(
+                'Please note that based on individual settings not all functions of the site may be available.',
+                'Frontend / Cookie Box / Text',
+                'borlabs-cookie'
+            ),
+            'cookieBoxShowTextDescriptionNonEUDataTransfer' => false,
+            'cookieBoxTextDescriptionNonEUDataTransfer' => _x(
+                'Some services process personal data in the USA. With your consent to use these services, you also consent to the processing of your data in the USA pursuant to Art. 49 (1) lit. a GDPR. The ECJ classifies the USA as a country with insufficient data protection according to EU standards. For example, there is a risk that U.S. authorities will process personal data in surveillance programs without any existing possibility of legal action for Europeans.',
+                'Frontend / Cookie Box / Text',
+                'borlabs-cookie'
+            ),
+
             'cookieBoxTextAcceptButton' => _x('I accept', 'Frontend / Cookie Box / Button Title', 'borlabs-cookie'),
             'cookieBoxTextManageLink' => _x(
                 'Individual Privacy Preferences',

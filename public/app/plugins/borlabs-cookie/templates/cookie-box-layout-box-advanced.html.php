@@ -41,37 +41,42 @@
 
                                 <?php
                                 if (! empty($cookieGroups)) { ?>
-                                    <ul>
-                                        <?php
-                                        foreach ($cookieGroups as $groupData) {
-                                            if (! empty($groupData->hasCookies)) { ?>
-                                                <li>
-                                                    <label class="_brlbs-checkbox">
-                                                        <?php
-                                                        echo $groupData->name; ?>
-                                                        <input
-                                                            id="checkbox-<?php
-                                                            echo $groupData->group_id; ?>"
-                                                            tabindex="0"
-                                                            type="checkbox"
-                                                            name="cookieGroup[]"
-                                                            value="<?php
-                                                            echo $groupData->group_id; ?>"
-                                                            <?php
-                                                            echo ! empty($groupData->pre_selected) ? ' checked' : ''; ?>
-                                                            <?php
-                                                            echo $groupData->group_id === 'essential' ? ' disabled'
-                                                                : ''; ?>
-                                                            data-borlabs-cookie-checkbox
-                                                        >
-                                                        <span class="_brlbs-checkbox-indicator"></span>
-                                                    </label>
-                                                </li>
+                                    <fieldset>
+                                        <legend class="sr-only"><?php
+                                            echo $cookieBoxTextHeadline; ?></legend>
+                                        <ul>
                                             <?php
-                                            }
-                                        } ?>
-                                    </ul>
-                                <?php
+                                            foreach ($cookieGroups as $groupData) {
+                                                if (! empty($groupData->hasCookies)) { ?>
+                                                    <li>
+                                                        <label class="_brlbs-checkbox">
+                                                            <?php
+                                                            echo $groupData->name; ?>
+                                                            <input
+                                                                id="checkbox-<?php
+                                                                echo $groupData->group_id; ?>"
+                                                                tabindex="0"
+                                                                type="checkbox"
+                                                                name="cookieGroup[]"
+                                                                value="<?php
+                                                                echo $groupData->group_id; ?>"
+                                                                <?php
+                                                                echo ! empty($groupData->pre_selected) ? ' checked' : ''; ?>
+                                                                <?php
+                                                                echo $groupData->group_id === 'essential' ? ' disabled'
+                                                                    : ''; ?>
+                                                                data-borlabs-cookie-checkbox
+                                                            >
+                                                            <span class="_brlbs-checkbox-indicator"></span>
+                                                        </label>
+                                                    </li>
+                                                <?php
+                                                }
+                                            } ?>
+                                        </ul>
+                                    </fieldset>
+
+                                    <?php
                                 } ?>
 
                                 <?php

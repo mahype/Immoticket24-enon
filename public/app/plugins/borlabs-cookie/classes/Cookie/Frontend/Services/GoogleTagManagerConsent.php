@@ -41,10 +41,8 @@ class GoogleTagManagerConsent
      */
     public function __construct()
     {
-        add_action(
-            'borlabsCookie/cookie/edit/template/settings/GoogleTagManagerConsent',
-            [$this, 'additionalSettingsTemplate']
-        );
+        add_action('borlabsCookie/cookie/edit/template/settings/GoogleTagManagerConsent',
+            [$this, 'additionalSettingsTemplate']);
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
     }
 
@@ -222,7 +220,7 @@ class GoogleTagManagerConsent
             'cookieId' => 'google-tag-manager-consent',
             'service' => 'GoogleTagManagerConsent',
             'name' => 'Google Tag Manager - Consent',
-            'provider' => 'Google LLC',
+            'provider' => 'Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland',
             'purpose' => _x(
                 'Cookie by Google used to control advanced script and event handling.',
                 'Frontend / Cookie / Google Tag Manager / Text',
@@ -284,7 +282,7 @@ class GoogleTagManagerConsent
 <script>
 if ('%%loadBeforeConsent%%' === '1' && typeof window.google_tag_manager==='undefined' && !document.querySelector('#brlbs-gtm')) {
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){window.dataLayer.push(arguments);}
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'analytics_storage': 'denied',
@@ -322,7 +320,7 @@ EOT;
 <script>
 if ('%%loadBeforeConsent%%' !== '1' && typeof window.google_tag_manager==='undefined' && !document.querySelector('#brlbs-gtm')) {
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){window.dataLayer.push(arguments);}
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'analytics_storage': 'denied',
@@ -340,8 +338,13 @@ if ('%%loadBeforeConsent%%' !== '1' && typeof window.google_tag_manager==='undef
     "https://www.googletagmanager.com/gtm.js?id="+i+dl;j.id='brlbs-gtm';f.parentNode.insertBefore(j,f);
     })(window,document,"script","dataLayer","%%gtmId%%");
 }
+window.dataLayer = window.dataLayer || [];
+function gtag(){window.dataLayer.push(arguments);}
 gtag('consent', 'update', {
     '%%consentMode%%': 'granted'
+});
+dataLayer.push({
+	'event': 'borlabsCookieOptIn'
 });
 </script>
 <!-- End Google Tag Manager -->

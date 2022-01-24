@@ -353,7 +353,7 @@ class Shortcode
 
                         $content .= "<tr>";
                         $content .= "<th>" . $cookieBoxCookieDetailsTableProvider . "</th>";
-                        $content .= "<td>" . esc_html($cookieData->provider) . "</td>";
+                        $content .= "<td>" . $cookieData->provider . "</td>";
                         $content .= "</tr>";
 
                         if (! empty($cookieData->purpose)) {

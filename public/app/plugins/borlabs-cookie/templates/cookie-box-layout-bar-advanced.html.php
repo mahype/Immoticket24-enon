@@ -15,31 +15,29 @@
                         <div class="row align-items-center">
                             <div class="col-12 col-sm-9">
                                 <div class="row">
-                                    <?php
-                                    if ($cookieBoxShowLogo) { ?>
-                                        <div class="col-2 text-center _brlbs-no-padding-right">
-                                            <img
-                                                width="32"
-                                                height="32"
-                                                class="cookie-logo"
-                                                src="<?php
-                                                echo $cookieBoxLogo; ?>"
-                                                srcset="<?php
-                                                echo implode(', ', $cookieBoxLogoSrcSet); ?>"
-                                                alt="<?php
-                                                echo esc_attr($cookieBoxTextHeadline); ?>"
-                                                aria-hidden="true"
-                                            >
-                                        </div>
-                                    <?php
-                                    } ?>
-
-                                    <div class="<?php
-                                    echo $cookieBoxShowLogo ? 'col-10' : 'col-12'; ?>">
-                                        <span role="heading" aria-level="3" class="_brlbs-h3" id="CookieBoxTextHeadline">
+                                    <div class="col-12">
+                                        <div class="_brlbs-flex-left">
                                             <?php
-                                            echo $cookieBoxTextHeadline; ?>
-                                        </span>
+                                            if ($cookieBoxShowLogo) { ?>
+                                                <img
+                                                    width="32"
+                                                    height="32"
+                                                    class="cookie-logo"
+                                                    src="<?php
+                                                    echo $cookieBoxLogo; ?>"
+                                                    srcset="<?php
+                                                    echo implode(', ', $cookieBoxLogoSrcSet); ?>"
+                                                    alt="<?php
+                                                    echo esc_attr($cookieBoxTextHeadline); ?>"
+                                                    aria-hidden="true"
+                                                >
+                                            <?php } ?>
+                                            <span role="heading" aria-level="3" class="_brlbs-h3" id="CookieBoxTextHeadline">
+                                                <?php
+                                                echo $cookieBoxTextHeadline; ?>
+                                            </span>
+                                        </div>
+
                                         <p id="CookieBoxTextDescription">
                                             <?php
                                             echo do_shortcode($cookieBoxTextDescription); ?>
@@ -49,42 +47,46 @@
 
                                 <?php
                                 if (! empty($cookieGroups)) { ?>
-                                    <ul
-                                        <?php
-                                        echo $cookieBoxShowLogo ? ' class="show-cookie-logo"' : ''; ?>
-                                    >
-                                        <?php
-                                        foreach ($cookieGroups as $groupData) { ?>
+                                    <fieldset>
+                                        <legend class="sr-only"><?php
+                                            echo $cookieBoxTextHeadline; ?></legend>
+                                        <ul
                                             <?php
-                                            if (! empty($groupData->hasCookies)) { ?>
-                                                <li>
-                                                    <label class="_brlbs-checkbox">
-                                                        <?php
-                                                        echo $groupData->name; ?>
-                                                        <input
-                                                            id="checkbox-<?php
-                                                            echo $groupData->group_id; ?>"
-                                                            tabindex="0"
-                                                            type="checkbox"
-                                                            name="cookieGroup[]"
-                                                            value="<?php
-                                                            echo $groupData->group_id; ?>"
+                                            echo $cookieBoxShowLogo ? ' class="show-cookie-logo"' : ''; ?>
+                                        >
+                                            <?php
+                                            foreach ($cookieGroups as $groupData) { ?>
+                                                <?php
+                                                if (! empty($groupData->hasCookies)) { ?>
+                                                    <li>
+                                                        <label class="_brlbs-checkbox">
                                                             <?php
-                                                            echo ! empty($groupData->pre_selected) ? ' checked' : ''; ?>
-                                                            <?php
-                                                            echo $groupData->group_id === 'essential' ? ' disabled'
-                                                                : ''; ?>
-                                                            data-borlabs-cookie-checkbox
-                                                        >
-                                                        <span class="_brlbs-checkbox-indicator"></span>
-                                                    </label>
-                                                </li>
+                                                            echo $groupData->name; ?>
+                                                            <input
+                                                                id="checkbox-<?php
+                                                                echo $groupData->group_id; ?>"
+                                                                tabindex="0"
+                                                                type="checkbox"
+                                                                name="cookieGroup[]"
+                                                                value="<?php
+                                                                echo $groupData->group_id; ?>"
+                                                                <?php
+                                                                echo ! empty($groupData->pre_selected) ? ' checked' : ''; ?>
+                                                                <?php
+                                                                echo $groupData->group_id === 'essential' ? ' disabled'
+                                                                    : ''; ?>
+                                                                data-borlabs-cookie-checkbox
+                                                            >
+                                                            <span class="_brlbs-checkbox-indicator"></span>
+                                                        </label>
+                                                    </li>
+                                                <?php
+                                                } ?>
                                             <?php
                                             } ?>
-                                        <?php
-                                        } ?>
-                                    </ul>
-                                <?php
+                                        </ul>
+                                    </fieldset>
+                                    <?php
                                 } ?>
                             </div>
 

@@ -103,6 +103,17 @@ class Divi
         return $content;
     }
 
+    public function disableBuffer()
+    {
+        if (strpos($_SERVER['REQUEST_URI'], 'et_fb') === false) {
+            return;
+        }
+
+        add_filter('borlabsCookie/buffer/active', function ($status) {
+            return false;
+        });
+    }
+
     /**
      * isBuilderModeActive function.
      *

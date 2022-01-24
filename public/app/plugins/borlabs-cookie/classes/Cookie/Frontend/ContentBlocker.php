@@ -35,6 +35,7 @@ class ContentBlocker
 
         return self::$instance;
     }
+
     private $cacheFolder = '';
     private $contentBlocker = [];
     private $currentBlockedContent = '';
@@ -216,9 +217,9 @@ class ContentBlocker
                     $detectedContentBlockerId = $contentBlockerId;
                 } else {
                     // Detect Content Blocker by Host
-                    if (! empty($this->hosts) && ! empty($this->currentURL)) {
+                    if (! empty($this->hosts) && ! empty($this->currentURL) && ! empty($currentURLData['host'])) {
                         $levenshtein = 0;
-                        $currentHost = $currentURLData['host'] . (isset($currentURLData['path'])
+                        $currentHost = strtolower($currentURLData['host']) . (isset($currentURLData['path'])
                                 ? $currentURLData['path'] : '');
 
                         foreach ($this->hosts as $host => $contentBlocker) {
@@ -244,7 +245,13 @@ class ContentBlocker
                 }
 
                 // Do not block oEmbed of own blog
-                if (! empty($this->currentURL) && strpos($currentURLData['host'], $this->siteHost) !== false) {
+                if (
+                    ! empty($this->currentURL) && ! empty($currentURLData['host'])
+                    && strpos(
+                        $currentURLData['host'],
+                        $this->siteHost
+                    ) !== false
+                ) {
                     $detectedContentBlockerId = null;
                 }
 
@@ -415,7 +422,7 @@ class ContentBlocker
                 // Build list of available hosts => Content Blocker Ids for faster detection
                 if (! empty($contentBlocker[$key]->hosts)) {
                     foreach ($contentBlocker[$key]->hosts as $host) {
-                        $this->hosts[$host] = $data->content_blocker_id;
+                        $this->hosts[strtolower($host)] = $data->content_blocker_id;
                     }
                 }
 
@@ -481,7 +488,7 @@ class ContentBlocker
 
         if (! empty($this->hostWhitelist)) {
             foreach ($this->hostWhitelist as $whitelistHost) {
-                if (strpos($host, $whitelistHost) !== false) {
+                if (strpos(strtolower($host), strtolower($whitelistHost)) !== false) {
                     $status = true;
                 }
             }

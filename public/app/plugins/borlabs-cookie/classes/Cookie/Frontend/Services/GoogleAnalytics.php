@@ -138,7 +138,7 @@ class GoogleAnalytics
             'cookieId' => 'google-analytics',
             'service' => 'GoogleAnalytics',
             'name' => 'Google Analytics',
-            'provider' => 'Google LLC',
+            'provider' => 'Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland',
             'purpose' => _x(
                 'Cookie by Google used for website analytics. Generates statistical data on how the visitor uses the website.',
                 'Frontend / Cookie / Google Analytics / Text',

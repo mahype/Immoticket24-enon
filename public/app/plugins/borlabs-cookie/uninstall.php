@@ -18,12 +18,11 @@
  *
  */
 
-if (!defined('WP_UNINSTALL_PLUGIN')) {
+if (! defined('WP_UNINSTALL_PLUGIN')) {
     die;
 }
 
-if (version_compare(phpversion(), '5.6', '>=')) {
-
+if (version_compare(phpversion(), '7.2', '>=')) {
     $borlabsCookieWPLANG = get_option('WPLANG', 'en_US');
 
     if (empty($borlabsCookieWPLANG) || strlen($borlabsCookieWPLANG) <= 1) {

@@ -20,8 +20,6 @@
 
 namespace BorlabsCookie\Cookie\Frontend\ThirdParty\Themes;
 
-use BorlabsCookie\Cookie\Frontend\Buffer;
-
 class Avada
 {
     private static $instance;
@@ -74,11 +72,9 @@ class Avada
         if (strpos($_SERVER['REQUEST_URI'], 'fb-edit') === false) {
             return;
         }
-        if (Buffer::getInstance()->isBufferActive() === false) {
-            return;
-        }
 
-        $void = Buffer::getInstance()->getBuffer();
-        Buffer::getInstance()->endBuffering();
+        add_filter('borlabsCookie/buffer/active', function ($status) {
+            return false;
+        });
     }
 }

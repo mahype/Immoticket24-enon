@@ -146,7 +146,7 @@ class Hotjar
             'cookieId' => 'hotjar',
             'service' => 'Hotjar',
             'name' => 'Hotjar',
-            'provider' => 'Hotjar Ltd.',
+            'provider' => 'Hotjar Ltd., Dragonara Business Centre, 5th Floor, Dragonara Road, Paceville St Julian\'s STJ 3141 Malta',
             'purpose' => _x(
                 'Hotjar is an user behavior analytic tool by Hotjar Ltd.. We use Hotjar to understand how users interact with our website.',
                 'Frontend / Cookie / Hotjar / Text',

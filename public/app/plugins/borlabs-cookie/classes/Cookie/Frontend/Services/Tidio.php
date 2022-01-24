@@ -95,7 +95,7 @@ class Tidio
             'cookieId' => 'tidio',
             'service' => 'Tidio',
             'name' => 'Tidio',
-            'provider' => 'Tidio LLC',
+            'provider' => 'Tidio LLC, 220C Blythe Road, London W14 0HH, United Kingdom',
             'purpose' => _x(
                 'This website is using Tidio, a chat platform that connects users with the customer support of our website. The personal data you enter within the chat are stored within the Tidio application.',
                 'Frontend / Cookie / Tidio / Text',

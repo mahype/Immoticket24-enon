@@ -169,32 +169,34 @@ class ScriptBlocker
      */
     public function blockHandles($tag, $handle, $src)
     {
-        if (! empty($this->scriptBlocker)) {
-            foreach ($this->scriptBlocker as $data) {
-                if (! empty($data->handles)) {
-                    if (
-                        $handle !== 'borlabs-cookie' && $handle !== 'borlabs-cookie-prioritize'
-                        && in_array(
-                            $handle,
-                            $data->handles
-                        )
-                    ) {
-                        $tag = str_replace(
-                            [
-                                'text/javascript',
-                                'application/javascript',
-                                '<script',
-                                'src=',
-                            ],
-                            [
-                                'text/template',
-                                'text/template',
-                                '<script data-borlabs-script-blocker-js-handle="' . $handle
-                                . '" data-borlabs-script-blocker-id="' . $data->scriptBlockerId . '"',
-                                'data-borlabs-script-blocker-src=',
-                            ],
-                            $tag
-                        );
+        if (Buffer::getInstance()->isBufferActive()) {
+            if (! empty($this->scriptBlocker)) {
+                foreach ($this->scriptBlocker as $data) {
+                    if (! empty($data->handles)) {
+                        if (
+                            $handle !== 'borlabs-cookie' && $handle !== 'borlabs-cookie-prioritize'
+                            && in_array(
+                                $handle,
+                                $data->handles
+                            )
+                        ) {
+                            $tag = str_replace(
+                                [
+                                    'text/javascript',
+                                    'application/javascript',
+                                    '<script',
+                                    'src=',
+                                ],
+                                [
+                                    'text/template',
+                                    'text/template',
+                                    '<script data-borlabs-script-blocker-js-handle="' . $handle
+                                    . '" data-borlabs-script-blocker-id="' . $data->scriptBlockerId . '"',
+                                    'data-borlabs-script-blocker-src=',
+                                ],
+                                $tag
+                            );
+                        }
                     }
                 }
             }

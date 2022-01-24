@@ -136,7 +136,59 @@ class CookieBox
 
         // Texts
         $cookieBoxTextHeadline = Config::getInstance()->get('cookieBoxTextHeadline');
-        $cookieBoxTextDescription = nl2br(Config::getInstance()->get('cookieBoxTextDescription'));
+
+        $cookieBoxDescriptionParts = [];
+        $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-description">' . nl2br(
+                Config::getInstance()->get('cookieBoxTextDescription')
+            ) . '</span>';
+        if (Config::getInstance()->get('cookieBoxShowTextDescriptionConfirmAge')) {
+            $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-confirm-age">' . nl2br(
+                    Config::getInstance()->get('cookieBoxTextDescriptionConfirmAge')
+                ) . '</span>';
+        }
+        if (Config::getInstance()->get('cookieBoxShowTextDescriptionTechnology')) {
+            $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-technology">' . nl2br(
+                    Config::getInstance()->get('cookieBoxTextDescriptionTechnology')
+                ) . '</span>';
+        }
+        if (Config::getInstance()->get('cookieBoxShowTextDescriptionPersonalData')) {
+            $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-personal-data">' . nl2br(
+                    Config::getInstance()->get('cookieBoxTextDescriptionPersonalData')
+                ) . '</span>';
+        }
+        if (Config::getInstance()->get('cookieBoxShowDescriptionMoreInformation')) {
+            $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-more-information">' . nl2br(
+                    Config::getInstance()->get('cookieBoxTextDescriptionMoreInformation')
+                ) . '</span>';
+        }
+        if (Config::getInstance()->get('cookieBoxShowTextDescriptionNoObligation')) {
+            $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-no-commitment">' . nl2br(
+                    Config::getInstance()->get('cookieBoxTextDescriptionNoObligation')
+                ) . '</span>';
+        }
+        if (Config::getInstance()->get('cookieBoxShowTextDescriptionRevoke')) {
+            $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-revoke">' . nl2br(
+                    Config::getInstance()->get('cookieBoxTextDescriptionRevoke')
+                ) . '</span>';
+        }
+        if (Config::getInstance()->get('cookieBoxShowTextDescriptionIndividualSettings')) {
+            $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-individual-settings">' . nl2br(
+                    Config::getInstance()->get('cookieBoxTextDescriptionIndividualSettings')
+                ) . '</span>';
+        }
+        if (Config::getInstance()->get('cookieBoxShowTextDescriptionNonEUDataTransfer')) {
+            $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-non-eu-data-transfer">' . nl2br(
+                    Config::getInstance()->get('cookieBoxTextDescriptionNonEUDataTransfer')
+                ) . '</span>';
+        }
+
+        $cookieBoxTextDescription = implode(' ', $cookieBoxDescriptionParts);
+        $cookieBoxTextDescription = str_replace(
+            '{privacyPageURL}',
+            $cookieBoxPrivacyLink,
+            $cookieBoxTextDescription
+        );
+
         $cookieBoxTextAcceptButton = Config::getInstance()->get('cookieBoxTextAcceptButton');
         $cookieBoxTextManageLink = Config::getInstance()->get('cookieBoxTextManageLink');
         $cookieBoxTextRefuseLink = Config::getInstance()->get('cookieBoxTextRefuseLink');
@@ -145,7 +197,17 @@ class CookieBox
         $cookieBoxTextImprintLink = Config::getInstance()->get('cookieBoxTextImprintLink');
 
         $cookieBoxPreferenceTextHeadline = Config::getInstance()->get('cookieBoxPreferenceTextHeadline');
-        $cookieBoxPreferenceTextDescription = nl2br(Config::getInstance()->get('cookieBoxPreferenceTextDescription'));
+        $cookieBoxDescriptionParts = array_slice($cookieBoxDescriptionParts, 1);
+        $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-description">' . nl2br(
+                Config::getInstance()->get('cookieBoxPreferenceTextDescription')
+            ) . '</span>';
+        $cookieBoxPreferenceTextDescription = implode(' ', $cookieBoxDescriptionParts);
+        $cookieBoxPreferenceTextDescription = str_replace(
+            '{privacyPageURL}',
+            $cookieBoxPrivacyLink,
+            $cookieBoxPreferenceTextDescription
+        );
+
         $cookieBoxPreferenceTextSaveButton = Config::getInstance()->get('cookieBoxPreferenceTextSaveButton');
         $cookieBoxPreferenceTextAcceptAllButton = Config::getInstance()->get('cookieBoxPreferenceTextAcceptAllButton');
         $cookieBoxPreferenceTextRefuseLink = Config::getInstance()->get('cookieBoxPreferenceTextRefuseLink');

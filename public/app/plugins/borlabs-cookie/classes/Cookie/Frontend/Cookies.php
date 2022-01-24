@@ -20,6 +20,7 @@
 
 namespace BorlabsCookie\Cookie\Frontend;
 
+use BorlabsCookie\Cookie\Config;
 use BorlabsCookie\Cookie\Multilanguage;
 use BorlabsCookie\Cookie\Tools;
 
@@ -35,6 +36,7 @@ class Cookies
 
         return self::$instance;
     }
+
     private $allCookieGroupsByLanguage = [];
     private $allCookiesByLanguage = [];
     private $cookieGroups = [];
@@ -210,6 +212,15 @@ class Cookies
         if (! empty($cookiesData)) {
             foreach ($cookiesData as $cookieData) {
                 $data[$cookieData->cookie_id] = $cookieData;
+
+                if ($cookieData->cookie_id === 'borlabs-cookie') {
+                    $data[$cookieData->cookie_id]->provider .= sprintf(
+                        '<span>, </span><a href="%s">%s</a>',
+                        Config::getInstance()->get('imprintPageURL'),
+                        Config::getInstance()->get('cookieBoxTextImprintLink')
+                    );
+                }
+
                 $data[$cookieData->cookie_id]->hosts = unserialize($cookieData->hosts);
                 $data[$cookieData->cookie_id]->settings = unserialize($cookieData->settings);
 

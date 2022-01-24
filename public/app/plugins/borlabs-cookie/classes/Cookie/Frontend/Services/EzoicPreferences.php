@@ -94,7 +94,7 @@ class EzoicPreferences
             'cookieId' => 'ezoic-preferences',
             'service' => 'EzoicPreferences',
             'name' => 'Ezoic - Preferences',
-            'provider' => 'Ezoic Inc.',
+            'provider' => 'Ezoic Inc, 6023 Innovation Way 2nd Floor, Carlsbad, CA 92009, USA',
             'purpose' => _x(
                 'Remember information that changes the behavior or appearance of the site, such as your preferred language or the region in which you are located.',
                 'Frontend / Cookie / Ezoic - Preferences / Text',
