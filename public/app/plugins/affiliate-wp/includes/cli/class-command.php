@@ -81,7 +81,7 @@ class Command extends \WP_CLI_Command {
 			 *
 			 * Remember, it's backward logic.
 			 */
-			if ( ! affiliate_wp()->emails->is_email_disabled() ) {	
+			if ( ! affiliate_wp()->emails->is_email_disabled() ) {
 				$notifications_disabled = '%G' . _x( 'Enabled', 'emails disabled', 'affiliate-wp' ) . '%N';
 			} else {
 				$notifications_disabled = '%R' . _x( 'Disabled', 'emails disabled', 'affiliate-wp' ) . '%N';
@@ -244,13 +244,23 @@ class Command extends \WP_CLI_Command {
 	 * [--clear]
 	 * : Whether to clear the debug log. Requires confirmation.
 	 *
+	 * [--enable]
+	 * : Enable Debug Mode.
+	 *
+	 * [--disable]
+	 * : Disable Debug Mode.
+	 *
 	 * @subcommand debug
 	 */
 	public function debug_log( $_, $assoc_args ) {
 		// Retain the logger instance for back-compat.
 		$logger = affiliate_wp()->utils->logs;
 
-		$clear  = \WP_CLI\Utils\get_flag_value( $assoc_args, 'clear', false );
+		$clear   = \WP_CLI\Utils\get_flag_value( $assoc_args, 'clear', false );
+		$enable  = \WP_CLI\Utils\get_flag_value( $assoc_args, 'enable', false );
+		$disable = \WP_CLI\Utils\get_flag_value( $assoc_args, 'disable', false );
+
+		$display_log = true;
 
 		if ( $clear ) {
 			\WP_CLI::confirm( __( 'Are you sure you want to clear the debug log?', 'affiliate-wp' ), $assoc_args );
@@ -259,8 +269,34 @@ class Command extends \WP_CLI_Command {
 			affiliate_wp()->utils->logs->clear_log();
 
 			\WP_CLI::success( __( 'The debug log has been cleared.', 'affiliate-wp' ) );
+
+			$display_log = false;
 		}
-		echo "\n" . $logger->get_log();
+
+		if ( $enable ) {
+			// Prevent attempting to enable and disable at once. Shrug.
+			$disable = false;
+
+			// Enable Debug Mode.
+			affiliate_wp()->settings->set( array( 'debug_mode' => true ), true );
+
+			\WP_CLI::success( __( 'AffiliateWP Debug Mode has been enabled.', 'affiliate-wp' ) );
+
+			$display_log = false;
+		}
+
+		if ( $disable ) {
+			// Disable Debug Mode.
+			affiliate_wp()->settings->set( array( 'debug_mode' => false ), true );
+
+			\WP_CLI::success( __( 'AffiliateWP Debug Mode has been disabled.', 'affiliate-wp' ) );
+
+			$display_log = false;
+		}
+
+		if ( true === $display_log ) {
+			echo "\n" . $logger->get_log();
+		}
 	}
 
 	/**

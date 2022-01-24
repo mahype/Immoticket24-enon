@@ -118,12 +118,16 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 
 		$member = new RCP_Member( $user_id );
 
-		// Get affiliate ID.
+		// Check if an affiliate coupon was used.
 		$is_discount = ! empty( $_POST['rcp_discount'] );
 		if ( $is_discount ) {
-			$rcp_discounts      = new RCP_Discounts;
-			$discount_obj       = $rcp_discounts->get_by( 'code', $_POST['rcp_discount'] );
-			$this->affiliate_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->usermeta WHERE meta_key = %s", 'affwp_discount_rcp_' . $discount_obj->id ) );
+			$rcp_discounts       = new RCP_Discounts;
+			$discount_obj        = $rcp_discounts->get_by( 'code', $_POST['rcp_discount'] );
+			$coupon_affiliate_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->usermeta WHERE meta_key = %s", 'affwp_discount_rcp_' . $discount_obj->id ) );
+
+			if ( $coupon_affiliate_id ) {
+				$this->affiliate_id = $coupon_affiliate_id;
+			}
 		}
 
 		// Get referral reference.
