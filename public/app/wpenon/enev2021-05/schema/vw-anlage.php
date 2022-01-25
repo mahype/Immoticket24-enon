@@ -337,10 +337,6 @@ $anlage = array(
 					'required'              => true,
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::h_baujahr', 'field::verteilung_baujahr' ),
-					),
 					'display'               => array(
 						'callback'      => 'wpenon_show_on_array_blacklist',
 						'callback_args' => array(
