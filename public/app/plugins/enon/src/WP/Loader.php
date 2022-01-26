@@ -19,6 +19,7 @@ use Enon\WP\Tasks\Add_Translations;
 use Enon\WP\Tasks\Setup_Gutenberg;
 use Enon\WP\Tasks\Setup_Post_Types;
 use Enon\WP\Tasks\Setup_Uploads;
+use Enon\WP\Tasks\Setup_WP;
 use Enon\WP\Tasks\Setup_WP_Nav;
 use Enon\WP\Tasks\Stop_Heartbeat;
 
@@ -37,6 +38,7 @@ class Loader extends Task_Loader {
 	 */
 	public function run() {
 		$this->add_task( Config_Auth::class );
+		$this->add_task( Setup_WP::class );
 
 		if ( is_admin() ) {
 			$this->add_admin_tasks();
