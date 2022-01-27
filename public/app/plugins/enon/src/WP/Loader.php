@@ -59,7 +59,7 @@ class Loader extends Task_Loader {
 
 		$this->add_task( Add_Admin_Pages::class, $this->logger() );
 		// $this->add_task( Setup_Gutenberg::class ); // Made by new theme on relaunch 2021
-		// $this->add_task( Setup_Post_Types::class );		
+		// $this->add_task( Setup_Post_Types::class );
 		$this->add_task( Setup_Uploads::class );
 	}
 
