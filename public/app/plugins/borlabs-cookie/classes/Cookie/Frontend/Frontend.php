@@ -234,6 +234,9 @@ class Frontend
             // Backwards Compatibility
             add_shortcode('borlabs_cookie_blocked_content',
                 [BackwardsCompatibility::getInstance(), 'shortcodeBlockedContent']);
+        } elseif (Config::getInstance()->get('setupMode') === true) {
+            // Hide shortcodes when setup mode is active but user does not have 'manage_borlabs_cookie' capability.
+            add_shortcode('borlabs-cookie', function ($atts, $content = null) { return ''; });
         }
     }
 

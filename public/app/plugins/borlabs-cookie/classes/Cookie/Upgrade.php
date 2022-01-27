@@ -55,6 +55,7 @@ class Upgrade
             'upgradeVersion_2_2_29' => '2.2.29',
             'upgradeVersion_2_2_43' => '2.2.43',
             'upgradeVersion_2_2_44' => '2.2.44',
+            'upgradeVersion_2_2_45' => '2.2.45',
         ];
 
     public function __construct()
@@ -742,6 +743,36 @@ class Upgrade
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
+    public function upgradeVersion_2_2_45()
+    {
+        $languageCodes = $this->getLanguageCodes();
+        if (! empty($languageCodes)) {
+            foreach ($languageCodes as $languageCode) {
+                Log::getInstance()
+                    ->info(__METHOD__, 'Update CSS of language {languageCode}', ['languageCode' => $languageCode]);
+
+                // Load config
+                Config::getInstance()->loadConfig($languageCode);
+                // Save CSS
+                CSS::getInstance()->save($languageCode);
+                // Update style version
+                $styleVersion = get_option('BorlabsCookieStyleVersion_' . $languageCode, 1);
+                $styleVersion = intval($styleVersion) + 1;
+                update_option('BorlabsCookieStyleVersion_' . $languageCode, $styleVersion, false);
+            }
+        } else {
+            Log::getInstance()->info(__METHOD__, 'Update CSS');
+            // Load config
+            Config::getInstance()->loadConfig();
+            // Save CSS
+            CSS::getInstance()->save();
+        }
+
+        update_option('BorlabsCookieClearCache', true, 'no');
+        update_option('BorlabsCookieVersion', '2.2.45', 'yes');
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
 
     public function upgradeVersion_2_2_6()
     {
@@ -910,11 +941,11 @@ class Upgrade
         // Weglot
         if (function_exists('weglot_get_original_language') && function_exists('weglot_get_destination_languages')) {
             $originalLanguageCode = weglot_get_original_language();
-            array_push($languageCodes, [
+            $languageCodes = array_merge($languageCodes, [
                 $originalLanguageCode => $originalLanguageCode,
             ]);
             foreach (weglot_get_destination_languages() as $destination) {
-                array_push($languageCodes, [
+                $languageCodes = array_merge($languageCodes, [
                     $destination['language_to'] => $destination['language_to'],
                 ]);
             }
