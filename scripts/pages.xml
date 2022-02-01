@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/5.9" created="2022-02-01 13:47" -->
+<!-- generator="WordPress/5.9" created="2022-02-01 16:03" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Energieausweis online erstellen</title>
 <link>https://enon.test</link>
 <description>Jetzt Ihren Energieausweis nach EnEV 2014 anfordern!</description>
-<pubDate>Tue, 01 Feb 2022 13:47:30 +0000</pubDate>
+<pubDate>Tue, 01 Feb 2022 16:03:17 +0000</pubDate>
 <language>de-DE</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>https://enon.test</wp:base_site_url>
@@ -4497,10 +4497,6 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_type>page</wp:post_type>
   <wp:post_password/>
   <wp:is_sticky>0</wp:is_sticky>
-  <wp:postmeta>
-    <wp:meta_key>_yoast_wpseo_linkdex</wp:meta_key>
-    <wp:meta_value><![CDATA[23]]></wp:meta_value>
-  </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_estimated-reading-time-minutes</wp:meta_key>
     <wp:meta_value><![CDATA[7]]></wp:meta_value>
@@ -13697,11 +13693,7 @@ https://youtu.be/XEFZYkvt0nE
   <description/>
   <content:encoded><![CDATA[<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px","bottom":"160px"}}},"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
 <div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:160px"><!-- wp:heading -->
-<h2 id="neu-fur-immobilienprofis"><strong>NEU! Für Immobilienprofis</strong></h2>
-<!-- /wp:heading -->
-
-<!-- wp:heading {"level":3} -->
-<h3 id="sofort-verfugbar-eingeben-ausdrucken-fertig">Sofort verfügbar! Eingeben, ausdrucken, fertig!</h3>
+<h2 id="neu-fur-immobilienprofissofort-verfugbar-eingeben-ausdrucken-fertig"><strong>NEU! Für Immobilienprofis</strong><br>Sofort Verfügbar! Eingeben, ausdrucken, Fertig!</h2>
 <!-- /wp:heading -->
 
 <!-- wp:columns {"className":"has-2-columns"} -->
@@ -13786,8 +13778,8 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- /wp:group -->
 
 <!-- wp:group {"gradient":"white-green-to-green-white","className":"is-style-group-main"} -->
-<div class="wp-block-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center" id="so-sehen-unsere-energieausweise-aus">So sehen unsere <strong>Energieausweise</strong> aus</h2>
+<div class="wp-block-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textAlign":"left"} -->
+<h2 class="has-text-align-left" id="so-sehen-unsere-energieausweise-aus">So sehen unsere <strong>Energieausweise</strong> aus</h2>
 <!-- /wp:heading -->
 
 <!-- wp:image {"align":"center","sizeSlug":"large"} -->
@@ -13862,8 +13854,8 @@ https://youtu.be/jAtqxRzaR_Y
 <!-- /wp:group -->
 
 <!-- wp:group {"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
-<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"center"} -->
-<h2 class="has-text-align-center" id="6-grunde-warum-energieausweis-online-erstellen-de">6 Gründe, warum energieausweis-online-erstellen.de:</h2>
+<div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background"><!-- wp:heading {"textAlign":"left"} -->
+<h2 class="has-text-align-left" id="6-grundewarum-energieausweis-online-erstellen-de"><strong>6 Gründe</strong><br>warum energieausweis-online-erstellen.de:</h2>
 <!-- /wp:heading -->
 
 <!-- wp:columns -->
@@ -13967,7 +13959,7 @@ https://youtu.be/jAtqxRzaR_Y
 
 <!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
 <div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
-<h2 id="checklisten-zur-erstellungund-aufnahme-der-angaben-beim-kunden"><strong>Checklisten </strong>zur Erstellung<br>und Aufnahme der Angaben beim Kunden</h2>
+<h2 id="checklisten-zur-erstellungund-aufnahme-der-angaben-beim-kunden"><strong>Checklisten zur Erstellung</strong><br>und Aufnahme der Angaben beim Kunden</h2>
 <!-- /wp:heading -->
 
 <!-- wp:columns -->
@@ -14032,8 +14024,8 @@ https://youtu.be/jAtqxRzaR_Y
   <wp:post_id>387247</wp:post_id>
   <wp:post_date>2020-08-02 22:52:36</wp:post_date>
   <wp:post_date_gmt>2020-08-02 20:52:36</wp:post_date_gmt>
-  <wp:post_modified>2022-02-01 14:17:20</wp:post_modified>
-  <wp:post_modified_gmt>2022-02-01 13:17:20</wp:post_modified_gmt>
+  <wp:post_modified>2022-02-01 16:57:45</wp:post_modified>
+  <wp:post_modified_gmt>2022-02-01 15:57:45</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>energieausweise-fuer-immobilienmakler-und-hausverwalter</wp:post_name>
@@ -14049,7 +14041,7 @@ https://youtu.be/jAtqxRzaR_Y
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_oembed_time_46b9daef4a5e96bc9a08e75e1982f432</wp:meta_key>
-    <wp:meta_value><![CDATA[1641902431]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1643731051]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_yoast_wpseo_content_score</wp:meta_key>
@@ -19447,7 +19439,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"is-style-button-white"} -->
-<div class="wp-block-button is-style-button-white"><a class="wp-block-button__link" href="/app/themes/Jason/assets/downloads/muster-bedarfsausweis.pdf">Beispiel ansehen</a></div>
+<div class="wp-block-button is-style-button-white"><a class="wp-block-button__link" href="/app/themes/Jason/assets/downloads/muster-bedarfsausweis.pdf" target="_blank" rel="noreferrer noopener">Beispiel ansehen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
@@ -19547,7 +19539,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"is-style-button-white"} -->
-<div class="wp-block-button is-style-button-white"><a class="wp-block-button__link" href="/app/themes/Jason/assets/downloads/muster-verbrauchsausweis.pdf">Beispiel ansehen</a></div>
+<div class="wp-block-button is-style-button-white"><a class="wp-block-button__link" href="/app/themes/Jason/assets/downloads/muster-verbrauchsausweis.pdf" target="_blank" rel="noreferrer noopener">Beispiel ansehen</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
@@ -19638,8 +19630,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465253</wp:post_id>
   <wp:post_date>2021-10-26 12:58:03</wp:post_date>
   <wp:post_date_gmt>2021-10-26 10:58:03</wp:post_date_gmt>
-  <wp:post_modified>2022-02-01 12:52:22</wp:post_modified>
-  <wp:post_modified_gmt>2022-02-01 11:52:22</wp:post_modified_gmt>
+  <wp:post_modified>2022-02-01 16:00:48</wp:post_modified>
+  <wp:post_modified_gmt>2022-02-01 15:00:48</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>preise</wp:post_name>
@@ -19940,13 +19932,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
 <div class="wp-block-column" style="flex-basis:50px"><!-- wp:image {"id":436,"sizeSlug":"full","linkDestination":"custom"} -->
-<figure class="wp-block-image size-full"><a href="/app/themes/jason/assets/downloads/angaben-bedarfsausweis.pdf"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436"/></a></figure>
+<figure class="wp-block-image size-full"><a href="/app/themes/jason/assets/downloads/angaben-bedarfsausweis.pdf" target="_blank" rel="noopener"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436"/></a></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"66.66%"} -->
 <div class="wp-block-column" style="flex-basis:66.66%"><!-- wp:paragraph {"textColor":"green-moss","className":"line-height-60"} -->
-<p class="line-height-60 has-green-moss-color has-text-color"><strong><a href="/app/themes/jason/assets/downloads/angaben-bedarfsausweis.pdf">Angaben Bedarfsausweis</a></strong></p>
+<p class="line-height-60 has-green-moss-color has-text-color"><strong><a href="/app/themes/jason/assets/downloads/angaben-bedarfsausweis.pdf" target="_blank" rel="noreferrer noopener">Angaben Bedarfsausweis</a></strong></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -19954,13 +19946,13 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"50px"} -->
 <div class="wp-block-column" style="flex-basis:50px"><!-- wp:image {"id":436,"sizeSlug":"full","linkDestination":"custom"} -->
-<figure class="wp-block-image size-full"><a href="/app/themes/jason/assets/downloads/angaben-verbrauchsausweis.pdf"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436"/></a></figure>
+<figure class="wp-block-image size-full"><a href="/app/themes/jason/assets/downloads/angaben-verbrauchsausweis.pdf" target="_blank" rel="noopener"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436"/></a></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"66.66%"} -->
 <div class="wp-block-column" style="flex-basis:66.66%"><!-- wp:paragraph {"textColor":"green-moss","className":"line-height-60"} -->
-<p class="line-height-60 has-green-moss-color has-text-color"><strong><a href="/app/themes/jason/assets/downloads/angaben-verbrauchsausweis.pdf">Angaben Verbrauchsausweis</a></strong></p>
+<p class="line-height-60 has-green-moss-color has-text-color"><strong><a href="/app/themes/jason/assets/downloads/angaben-verbrauchsausweis.pdf" target="_blank" rel="noreferrer noopener">Angaben Verbrauchsausweis</a></strong></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
@@ -20041,16 +20033,16 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <p>Der Energieausweis für Nichtwohngebäude kostet 99,95 Euro.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:columns {"verticalAlignment":null} -->
+<!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":"50px"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:50px"><!-- wp:image {"id":436,"sizeSlug":"full","linkDestination":"custom"} -->
-<figure class="wp-block-image size-full"><a href="/app/themes/jason/assets/downloads/angaben-nichtwohngebaeude.pdf"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436"/></a></figure>
+<figure class="wp-block-image size-full"><a href="/app/themes/jason/assets/downloads/angaben-nichtwohngebaeude.pdf" target="_blank" rel="noopener"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436"/></a></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"verticalAlignment":"center","width":"66.66%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:66.66%"><!-- wp:heading {"level":4,"textColor":"green-moss"} -->
-<h4 class="has-green-moss-color has-text-color" id="angaben-verbrauchsausweis-nicht-wohngebaude"><strong><a href="/app/themes/jason/assets/downloads/angaben-nichtwohngebaeude.pdf">Angaben Verbrauchsausweis Nicht-wohngebäude</a></strong></h4>
+<h4 class="has-green-moss-color has-text-color" id="angaben-verbrauchsausweis-nicht-wohngebaude"><strong><a href="/app/themes/jason/assets/downloads/angaben-nichtwohngebaeude.pdf" target="_blank" rel="noreferrer noopener">Angaben Verbrauchsausweis Nicht-wohngebäude</a></strong></h4>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
@@ -20286,8 +20278,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465255</wp:post_id>
   <wp:post_date>2021-10-26 13:42:21</wp:post_date>
   <wp:post_date_gmt>2021-10-26 11:42:21</wp:post_date_gmt>
-  <wp:post_modified>2022-02-01 13:18:28</wp:post_modified>
-  <wp:post_modified_gmt>2022-02-01 12:18:28</wp:post_modified_gmt>
+  <wp:post_modified>2022-02-01 15:58:09</wp:post_modified>
+  <wp:post_modified_gmt>2022-02-01 14:58:09</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>haeufige-fragen</wp:post_name>
@@ -20520,8 +20512,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465257</wp:post_id>
   <wp:post_date>2021-10-27 13:26:40</wp:post_date>
   <wp:post_date_gmt>2021-10-27 11:26:40</wp:post_date_gmt>
-  <wp:post_modified>2022-01-27 14:42:35</wp:post_modified>
-  <wp:post_modified_gmt>2022-01-27 13:42:35</wp:post_modified_gmt>
+  <wp:post_modified>2022-02-01 17:00:59</wp:post_modified>
+  <wp:post_modified_gmt>2022-02-01 16:00:59</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>kontakt</wp:post_name>
