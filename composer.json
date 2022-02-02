@@ -56,7 +56,6 @@
     "johnpbloch/wordpress-core": "5.9.0",
 
     "awsmug/edd-payment-stripe-sepa": "dev-master",
-    "awsmug/enon-theme": "dev-main",
     "awsmug/jason": "dev-master",
     "awsmug/block-wave-separator": "dev-master",
     "awsmug/block-trusted-shops": "dev-main",
