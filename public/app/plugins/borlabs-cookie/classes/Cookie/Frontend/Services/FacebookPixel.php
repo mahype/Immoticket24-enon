@@ -111,7 +111,7 @@ class FacebookPixel
             'cookieId' => 'facebook-pixel',
             'service' => 'FacebookPixel',
             'name' => 'Facebook Pixel',
-            'provider' => 'Facebook Ireland Limited',
+            'provider' => 'Meta Platforms Ireland Limited, 4 Grand Canal Square, Dublin 2, Ireland',
             'purpose' => _x(
                 'Cookie by Facebook used for website analytics, ad targeting, and ad measurement.',
                 'Frontend / Cookie / Facebook Pixel / Text',

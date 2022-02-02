@@ -23,6 +23,7 @@ public/app/nfwlog/*
 # Ignore Exception
 !public/app/mu-plugins/energieausweis-*/
 !public/app/mu-plugins/energieausweis-*.php
+!public/app/plugins/acf-code-field
 !public/app/plugins/advanced-custom-fields-pro
 !public/app/plugins/affiliate-wp
 !public/app/plugins/affiliate-wp-lifetime-commissions
@@ -35,10 +36,12 @@ public/app/nfwlog/*
 !public/app/plugins/edd-stripe/vendor
 !public/app/plugins/enon
 !public/app/plugins/enon-reseller
+!public/app/plugins/gravityforms
 !public/app/plugins/immo-rating
-!public/app/plugins/optimizePressPlugin
 !public/app/plugins/optimizePressPlusPack
 !public/app/plugins/options-definitely
+!public/app/plugins/real-category-library
+
 !public/app/plugins/wp-energieausweis-online
 !public/app/plugins/wp-postratings-migrate
 !public/app/plugins/wp-rocket
@@ -78,10 +81,15 @@ public/app/plugins/wp-rocket/licence-data.php
 !public/app/plugins/edd-stripe/vendor
 !public/app/plugins/edd-payment-gateway-stripe-sepa/vendor
 !public/app/plugins/borlabs-cookie/vendor
+!public/app/plugins/real-category-library/vendor
+!public/app/plugins/options-definitely/vendor
+!public/app/plugins/gravityformscli
 #!public/app/wpenon/enev*/vendor
 
 # Node Package Manager
 node_modules
+
+!public/app/plugins/borlabs-cookie/node_modules
 
 # Vagrant
 bin

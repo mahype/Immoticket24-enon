@@ -32,6 +32,7 @@ class Buffer
 
         return self::$instance;
     }
+
     private $buffer = '';
     private $bufferActive = false;
 
@@ -111,8 +112,8 @@ class Buffer
     {
         if (ScriptBlocker::getInstance()->isScanActive() || ScriptBlocker::getInstance()->hasScriptBlocker()) {
             ob_start();
-
-            $this->bufferActive = true;
+            // Allow to disable the buffering when a Page Builder is active
+            $this->bufferActive = apply_filters('borlabsCookie/buffer/active', true);
         }
     }
 }

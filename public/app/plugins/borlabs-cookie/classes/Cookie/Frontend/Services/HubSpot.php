@@ -146,7 +146,7 @@ class HubSpot
             'cookieId' => 'hubspot',
             'service' => 'HubSpot',
             'name' => 'HubSpot',
-            'provider' => 'HubSpot Inc.',
+            'provider' => 'HubSpot Inc., 25 First Street, 2nd Floor, Cambridge, MA 02141, USA',
             'purpose' => _x(
                 'HubSpot is a user database management service provided by HubSpot, Inc. We use HubSpot on this website for our online marketing activities.',
                 'Frontend / Cookie / HubSpot / Text',

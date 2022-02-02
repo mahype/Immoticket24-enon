@@ -18,7 +18,8 @@ import {
 	InspectorControls,
 	useBlockProps,
 	RichText,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps as __stableUseInnerBlocksProps,
+	__experimentalUseInnerBlocksProps,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
 
@@ -98,6 +99,10 @@ function AffiliateRegistration( { name, attributes, setAttributes, isSelected, c
 	const blockProps = useBlockProps( {
 		className: classes,
 	} );
+
+	const useInnerBlocksProps = __stableUseInnerBlocksProps
+		? __stableUseInnerBlocksProps
+		: __experimentalUseInnerBlocksProps;
 
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {
 		template,

@@ -195,6 +195,8 @@ class License
                 ),
                 'info'
             );
+
+            $this->handleLicenseNotValidForCurrentBuildMessage();
         }
 
         include Backend::getInstance()->templatePath . '/license.html.php';
@@ -299,6 +301,18 @@ class License
     }
 
     /**
+     * getLicenseMessageNotValidForCurrentBuild function.
+     */
+    public function getLicenseMessageNotValidForCurrentBuild()
+    {
+        return _x(
+            'Your license key is not valid for this version. This version of Borlabs Cookie was released after your license has expired, therefore you have to <a href="https://borlabs.io/account/" target="_blank" rel="nofollow noopener noreferrer">click here</a> to log into your account and purchase a license renewal.',
+            'Backend / License / Alert Message',
+            'borlabs-cookie'
+        );
+    }
+
+    /**
      * getLicenseMessageStatus function.
      *
      * @access public
@@ -383,6 +397,16 @@ class License
     }
 
     /**
+     * handleLicenseNotValidForCurrentBuildMessage function.
+     */
+    public function handleLicenseNotValidForCurrentBuildMessage()
+    {
+        if (! empty($this->getLicenseData()->validUntil) && $this->isLicenseValidForCurrentBuild() === false) {
+            Messages::getInstance()->add($this->getLicenseMessageNotValidForCurrentBuild(), 'error');
+        }
+    }
+
+    /**
      * isLicenseValid function.
      *
      * @access public
@@ -404,6 +428,20 @@ class License
     }
 
     /**
+     * The method checks if the current build was created before the license date expired.
+     *
+     * @return bool
+     */
+    public function isLicenseValidForCurrentBuild()
+    {
+        if (BORLABS_COOKIE_BUILD <= date('ymd', strtotime($this->getLicenseData()->validUntil))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * isPluginUnlocked function.
      *
      * @access public
@@ -417,7 +455,7 @@ class License
 
         if (! empty($this->getLicenseData()->licenseType)) {
             if (in_array($this->getLicenseData()->licenseType, $this->validLicenseTypes)) {
-                $unlocked = true;
+                $unlocked = $this->isLicenseValidForCurrentBuild();
             }
         }
 

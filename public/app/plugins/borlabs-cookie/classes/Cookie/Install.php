@@ -71,6 +71,44 @@ class Install
         }
     }
 
+    public function checkFullTypeOfColumn($tableName, $columnName, $expectedType)
+    {
+        global $wpdb;
+
+        $dbName = $wpdb->dbname;
+
+        // HyperDB workaround
+        if (empty($dbName) && defined('DB_NAME')) {
+            $dbName = DB_NAME;
+        }
+
+        $tableResult = $wpdb->get_results(
+            "
+            SELECT
+                `COLUMN_TYPE`
+            FROM
+                `information_schema`.`COLUMNS`
+            WHERE
+                `TABLE_SCHEMA` = '" . esc_sql($dbName) . "'
+                AND
+                `TABLE_NAME` = '" . esc_sql($tableName) . "'
+                AND
+                `COLUMN_NAME` = '" . esc_sql($columnName) . "'
+        "
+        );
+
+        if (
+            ! empty($tableResult[0]->COLUMN_TYPE)
+            && strtolower($tableResult[0]->COLUMN_TYPE) == strtolower(
+                $expectedType
+            )
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * checkIfColumnExists function.
      *
@@ -250,7 +288,7 @@ class Install
      */
     public function getCreateTableStatementContentBlocker($tableName, $charsetCollate)
     {
-        return "CREATE TABLE IF NOT EXISTS " . $tableName . " (
+        return "CREATE TABLE " . $tableName . " (
             `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `content_blocker_id` varchar(35) NOT NULL DEFAULT '',
             `language` varchar(16) NOT NULL DEFAULT '',
@@ -266,7 +304,7 @@ class Install
             `status` int(1) unsigned NOT NULL DEFAULT '0',
             `undeletable` int(1) unsigned NOT NULL DEFAULT '0',
             PRIMARY KEY (`id`),
-            UNIQUE KEY (`content_blocker_id`, `language`)
+            UNIQUE KEY `content_blocker_id` (`content_blocker_id`, `language`)
         ) " . $charsetCollate . ";";
     }
 
@@ -280,7 +318,7 @@ class Install
      */
     public function getCreateTableStatementCookieConsentLog($tableName, $charsetCollate)
     {
-        return "CREATE TABLE IF NOT EXISTS " . $tableName . " (
+        return "CREATE TABLE " . $tableName . " (
             `log_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `uid` varchar(35) NOT NULL DEFAULT '',
             `cookie_version` int(11) unsigned DEFAULT NULL,
@@ -302,7 +340,7 @@ class Install
      */
     public function getCreateTableStatementCookieGroups($tableName, $charsetCollate)
     {
-        return "CREATE TABLE IF NOT EXISTS " . $tableName . " (
+        return "CREATE TABLE " . $tableName . " (
             `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `group_id` varchar(35) NOT NULL,
             `language` varchar(16) NOT NULL DEFAULT '',
@@ -327,14 +365,14 @@ class Install
      */
     public function getCreateTableStatementCookies($tableName, $charsetCollate)
     {
-        return "CREATE TABLE IF NOT EXISTS " . $tableName . " (
+        return "CREATE TABLE " . $tableName . " (
             `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `cookie_id` varchar(35) NOT NULL DEFAULT '',
             `language` varchar(16) NOT NULL,
             `cookie_group_id` int(11) unsigned NOT NULL DEFAULT '1',
             `service` varchar(35) NOT NULL,
             `name` varchar(100) NOT NULL DEFAULT '',
-            `provider` varchar(100) NOT NULL DEFAULT '',
+            `provider` varchar(255) NOT NULL DEFAULT '',
             `purpose` text NOT NULL COMMENT 'Track everything',
             `privacy_policy_url` varchar(255) NOT NULL,
             `hosts` text NOT NULL,
@@ -364,7 +402,7 @@ class Install
      */
     public function getCreateTableStatementScriptBlocker($tableName, $charsetCollate)
     {
-        return "CREATE TABLE IF NOT EXISTS " . $tableName . " (
+        return "CREATE TABLE " . $tableName . " (
             `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `script_blocker_id` varchar(35) NOT NULL DEFAULT '',
             `name` varchar(100) NOT NULL DEFAULT '',
@@ -552,7 +590,7 @@ class Install
             '" . esc_sql($cookieGroupIds['external-media']) . "',
             'Custom',
             'Facebook',
-            'Facebook',
+            'Meta Platforms Ireland Limited, 4 Grand Canal Square, Dublin 2, Ireland',
             '" . esc_sql(
                 _x('Used to unblock Facebook content.', 'Frontend / Cookie / Facebook / Name', 'borlabs-cookie')
             ) . "',
@@ -580,7 +618,7 @@ class Install
             '" . esc_sql($cookieGroupIds['external-media']) . "',
             'Custom',
             'Google Maps',
-            'Google',
+            'Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland',
             '" . esc_sql(
                 _x('Used to unblock Google Maps content.', 'Frontend / Cookie / Google Maps / Name', 'borlabs-cookie')
             ) . "',
@@ -608,7 +646,7 @@ class Install
             '" . esc_sql($cookieGroupIds['external-media']) . "',
             'Custom',
             'Instagram',
-            'Facebook',
+            'Meta Platforms Ireland Limited, 4 Grand Canal Square, Dublin 2, Ireland',
             '" . esc_sql(
                 _x('Used to unblock Instagram content.', 'Frontend / Cookie / Instagram / Name', 'borlabs-cookie')
             ) . "',
@@ -632,7 +670,7 @@ class Install
             '" . esc_sql($cookieGroupIds['external-media']) . "',
             'Custom',
             'OpenStreetMap',
-            'OpenStreetMap Foundation',
+            'Openstreetmap Foundation, St John’s Innovation Centre, Cowley Road, Cambridge CB4 0WS, United Kingdom',
             '" . esc_sql(
                 _x(
                     'Used to unblock OpenStreetMap content.',
@@ -664,7 +702,7 @@ class Install
             '" . esc_sql($cookieGroupIds['external-media']) . "',
             'Custom',
             'Twitter',
-            'Twitter',
+            'Twitter International Company, One Cumberland Place, Fenian Street, Dublin 2, D02 AX07, Ireland',
             '" . esc_sql(_x('Used to unblock Twitter content.', 'Frontend / Cookie / Twitter / Name', 'borlabs-cookie'))
             . "',
             '" . esc_sql(_x('https://twitter.com/privacy', 'Frontend / Cookie / Twitter / Text', 'borlabs-cookie')) . "',
@@ -685,7 +723,7 @@ class Install
             '" . esc_sql($cookieGroupIds['external-media']) . "',
             'Custom',
             'Vimeo',
-            'Vimeo',
+            'Vimeo Inc., 555 West 18th Street, New York, New York 10011, USA',
             '" . esc_sql(_x('Used to unblock Vimeo content.', 'Frontend / Cookie / Twitter / Name', 'borlabs-cookie')) . "',
             '" . esc_sql(_x('https://vimeo.com/privacy', 'Frontend / Cookie / Twitter / Text', 'borlabs-cookie')) . "',
             '" . esc_sql(serialize(['player.vimeo.com'])) . "',
@@ -705,7 +743,7 @@ class Install
             '" . esc_sql($cookieGroupIds['external-media']) . "',
             'Custom',
             'YouTube',
-            'YouTube',
+            'Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland',
             '" . esc_sql(_x('Used to unblock YouTube content.', 'Frontend / Cookie / YouTube / Name', 'borlabs-cookie'))
             . "',
             '" . esc_sql(
@@ -767,11 +805,36 @@ class Install
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-        dbDelta($sqlCreateTableCookieGroups);
-        dbDelta($sqlCreateTableCookies);
-        dbDelta($sqlCreateTableCookieLog);
-        dbDelta($sqlCreateTableContentBlocker);
-        dbDelta($sqlCreateTableScriptBlocker);
+        // Because WordPress is not yet PHP 8.1 ready
+        if ($this->checkIfTableExists($tableNameCookieGroups)) {
+            dbDelta($sqlCreateTableCookieGroups);
+        } else {
+            $wpdb->query($sqlCreateTableCookieGroups);
+        }
+
+        if ($this->checkIfTableExists($tableNameCookies)) {
+            dbDelta($sqlCreateTableCookies);
+        } else {
+            $wpdb->query($sqlCreateTableCookies);
+        }
+
+        if ($this->checkIfTableExists($tableNameCookieConsentLog)) {
+            dbDelta($sqlCreateTableCookieLog);
+        } else {
+            $wpdb->query($sqlCreateTableCookieLog);
+        }
+
+        if ($this->checkIfTableExists($tableNameContentBlocker)) {
+            dbDelta($sqlCreateTableContentBlocker);
+        } else {
+            $wpdb->query($sqlCreateTableContentBlocker);
+        }
+
+        if ($this->checkIfTableExists($tableNameScriptBlocker)) {
+            dbDelta($sqlCreateTableScriptBlocker);
+        } else {
+            $wpdb->query($sqlCreateTableScriptBlocker);
+        }
 
         // Load language package
         load_plugin_textdomain('borlabs-cookie', false, BORLABS_COOKIE_SLUG . '/languages/');
@@ -871,12 +934,37 @@ class Install
                             $tableNameScriptBlocker,
                             $charsetCollate
                         );
+                        
+                        // Because WordPress is not yet PHP 8.1 ready
+                        if ($this->checkIfTableExists($tableNameCookieGroups)) {
+                            dbDelta($sqlCreateTableCookieGroups);
+                        } else {
+                            $wpdb->query($sqlCreateTableCookieGroups);
+                        }
 
-                        dbDelta($sqlCreateTableCookieGroups);
-                        dbDelta($sqlCreateTableCookies);
-                        dbDelta($sqlCreateTableCookieLog);
-                        dbDelta($sqlCreateTableContentBlocker);
-                        dbDelta($sqlCreateTableScriptBlocker);
+                        if ($this->checkIfTableExists($tableNameCookies)) {
+                            dbDelta($sqlCreateTableCookies);
+                        } else {
+                            $wpdb->query($sqlCreateTableCookies);
+                        }
+
+                        if ($this->checkIfTableExists($tableNameCookieConsentLog)) {
+                            dbDelta($sqlCreateTableCookieLog);
+                        } else {
+                            $wpdb->query($sqlCreateTableCookieLog);
+                        }
+
+                        if ($this->checkIfTableExists($tableNameContentBlocker)) {
+                            dbDelta($sqlCreateTableContentBlocker);
+                        } else {
+                            $wpdb->query($sqlCreateTableContentBlocker);
+                        }
+
+                        if ($this->checkIfTableExists($tableNameScriptBlocker)) {
+                            dbDelta($sqlCreateTableScriptBlocker);
+                        } else {
+                            $wpdb->query($sqlCreateTableScriptBlocker);
+                        }
 
                         // Get language of the blog
                         if (defined('BORLABS_COOKIE_IGNORE_ISO_639_1') === false) {

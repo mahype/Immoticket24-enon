@@ -576,6 +576,85 @@ class CookieBox
             ) : ''
         );
 
+        $inputCookieBoxShowTextDescriptionConfirmAge = ! empty(
+        Config::getInstance()->get(
+            'cookieBoxShowTextDescriptionConfirmAge'
+        )
+        ) ? 1 : 0;
+        $textareaCookieBoxTextDescriptionConfirmAge = esc_textarea(
+            ! empty(Config::getInstance()->get('cookieBoxTextDescriptionConfirmAge')) ? Config::getInstance()->get(
+                'cookieBoxTextDescriptionConfirmAge'
+            ) : ''
+        );
+        $inputCookieBoxShowTextDescriptionTechnology = ! empty(
+        Config::getInstance()->get(
+            'cookieBoxShowTextDescriptionTechnology'
+        )
+        ) ? 1 : 0;
+        $textareaCookieBoxTextDescriptionTechnology = esc_textarea(
+            ! empty(Config::getInstance()->get('cookieBoxTextDescriptionTechnology')) ? Config::getInstance()->get(
+                'cookieBoxTextDescriptionTechnology'
+            ) : ''
+        );
+        $inputCookieBoxShowTextDescriptionPersonalData = ! empty(
+        Config::getInstance()->get(
+            'cookieBoxShowTextDescriptionPersonalData'
+        )
+        ) ? 1 : 0;
+        $textareaCookieBoxTextDescriptionPersonalData = esc_textarea(
+            ! empty(Config::getInstance()->get('cookieBoxTextDescriptionPersonalData')) ? Config::getInstance()->get(
+                'cookieBoxTextDescriptionPersonalData'
+            ) : ''
+        );
+        $inputCookieBoxShowDescriptionMoreInformation = ! empty(
+        Config::getInstance()->get(
+            'cookieBoxShowDescriptionMoreInformation'
+        )
+        ) ? 1 : 0;
+        $textareaCookieBoxTextDescriptionMoreInformation = esc_textarea(
+            ! empty(Config::getInstance()->get('cookieBoxTextDescriptionMoreInformation')) ? Config::getInstance()->get(
+                'cookieBoxTextDescriptionMoreInformation'
+            ) : ''
+        );
+        $inputCookieBoxShowTextDescriptionNoObligation = ! empty(
+        Config::getInstance()->get(
+            'cookieBoxShowTextDescriptionNoObligation'
+        )
+        ) ? 1 : 0;
+        $textareaCookieBoxTextDescriptionNoObligation = esc_textarea(
+            ! empty(Config::getInstance()->get('cookieBoxTextDescriptionNoObligation')) ? Config::getInstance()->get(
+                'cookieBoxTextDescriptionNoObligation'
+            ) : ''
+        );
+        $inputCookieBoxShowTextDescriptionRevoke = ! empty(
+        Config::getInstance()->get(
+            'cookieBoxShowTextDescriptionRevoke'
+        )
+        ) ? 1 : 0;
+        $textareaCookieBoxTextDescriptionRevoke = esc_textarea(
+            ! empty(Config::getInstance()->get('cookieBoxTextDescriptionRevoke')) ? Config::getInstance()->get(
+                'cookieBoxTextDescriptionRevoke'
+            ) : ''
+        );
+        $inputCookieBoxShowTextDescriptionIndividualSettings = ! empty(
+        Config::getInstance()->get(
+            'cookieBoxShowTextDescriptionIndividualSettings'
+        )
+        ) ? 1 : 0;
+        $textareaCookieBoxTextDescriptionIndividualSettings = esc_textarea(
+            ! empty(Config::getInstance()->get('cookieBoxTextDescriptionIndividualSettings')) ? Config::getInstance()
+                ->get('cookieBoxTextDescriptionIndividualSettings') : ''
+        );
+        $inputCookieBoxShowTextDescriptionNonEUDataTransfer = ! empty(
+        Config::getInstance()->get(
+            'cookieBoxShowTextDescriptionNonEUDataTransfer'
+        )
+        ) ? 1 : 0;
+        $textareaCookieBoxTextDescriptionNonEUDataTransfer = esc_textarea(
+            ! empty(Config::getInstance()->get('cookieBoxTextDescriptionNonEUDataTransfer')) ? Config::getInstance()
+                ->get('cookieBoxTextDescriptionNonEUDataTransfer') : ''
+        );
+
         $inputCookieBoxTextHeadline = esc_attr(
             ! empty(Config::getInstance()->get('cookieBoxTextHeadline')) ? Config::getInstance()->get(
                 'cookieBoxTextHeadline'
@@ -1188,6 +1267,80 @@ class CookieBox
             $formData['cookieBoxCheckboxCheckMarkDisabledColor']
         ) ? $formData['cookieBoxCheckboxCheckMarkDisabledColor']
             : $defaultConfig['cookieBoxCheckboxCheckMarkDisabledColor'];
+
+        // Legal Texts
+        // Age
+        $updatedConfig['cookieBoxShowTextDescriptionConfirmAge']
+            = ! empty($formData['cookieBoxShowTextDescriptionConfirmAge']) ? true : false;
+        if (! empty($updatedConfig['cookieBoxShowTextDescriptionConfirmAge'])) {
+            $updatedConfig['cookieBoxTextDescriptionConfirmAge']
+                = ! empty($formData['cookieBoxTextDescriptionConfirmAge']) ? stripslashes(
+                $formData['cookieBoxTextDescriptionConfirmAge']
+            ) : $defaultConfig['cookieBoxTextDescriptionConfirmAge'];
+        }
+        // Technology
+        $updatedConfig['cookieBoxShowTextDescriptionTechnology']
+            = ! empty($formData['cookieBoxShowTextDescriptionTechnology']) ? true : false;
+        if (! empty($updatedConfig['cookieBoxShowTextDescriptionTechnology'])) {
+            $updatedConfig['cookieBoxTextDescriptionTechnology']
+                = ! empty($formData['cookieBoxTextDescriptionTechnology']) ? stripslashes(
+                $formData['cookieBoxTextDescriptionTechnology']
+            ) : $defaultConfig['cookieBoxTextDescriptionTechnology'];
+        }
+        // Personal Data
+        $updatedConfig['cookieBoxShowTextDescriptionPersonalData']
+            = ! empty($formData['cookieBoxShowTextDescriptionPersonalData']) ? true : false;
+        if (! empty($updatedConfig['cookieBoxShowTextDescriptionPersonalData'])) {
+            $updatedConfig['cookieBoxTextDescriptionPersonalData']
+                = ! empty($formData['cookieBoxTextDescriptionPersonalData']) ? stripslashes(
+                $formData['cookieBoxTextDescriptionPersonalData']
+            ) : $defaultConfig['cookieBoxTextDescriptionPersonalData'];
+        }
+        // More Information
+        $updatedConfig['cookieBoxShowDescriptionMoreInformation']
+            = ! empty($formData['cookieBoxShowDescriptionMoreInformation']) ? true : false;
+        if (! empty($updatedConfig['cookieBoxShowDescriptionMoreInformation'])) {
+            $updatedConfig['cookieBoxTextDescriptionMoreInformation']
+                = ! empty($formData['cookieBoxTextDescriptionMoreInformation']) ? stripslashes(
+                $formData['cookieBoxTextDescriptionMoreInformation']
+            ) : $defaultConfig['cookieBoxTextDescriptionMoreInformation'];
+        }
+        // No Commitment
+        $updatedConfig['cookieBoxShowTextDescriptionNoObligation']
+            = ! empty($formData['cookieBoxShowTextDescriptionNoObligation']) ? true : false;
+        if (! empty($updatedConfig['cookieBoxShowTextDescriptionNoObligation'])) {
+            $updatedConfig['cookieBoxTextDescriptionNoObligation']
+                = ! empty($formData['cookieBoxTextDescriptionNoObligation']) ? stripslashes(
+                $formData['cookieBoxTextDescriptionNoObligation']
+            ) : $defaultConfig['cookieBoxTextDescriptionNoObligation'];
+        }
+        // Revoke
+        $updatedConfig['cookieBoxShowTextDescriptionRevoke']
+            = ! empty($formData['cookieBoxShowTextDescriptionRevoke']) ? true : false;
+        if (! empty($updatedConfig['cookieBoxShowTextDescriptionRevoke'])) {
+            $updatedConfig['cookieBoxTextDescriptionRevoke']
+                = ! empty($formData['cookieBoxTextDescriptionRevoke']) ? stripslashes(
+                $formData['cookieBoxTextDescriptionRevoke']
+            ) : $defaultConfig['cookieBoxTextDescriptionRevoke'];
+        }
+        // Inidividual Settings
+        $updatedConfig['cookieBoxShowTextDescriptionIndividualSettings']
+            = ! empty($formData['cookieBoxShowTextDescriptionIndividualSettings']) ? true : false;
+        if (! empty($updatedConfig['cookieBoxShowTextDescriptionIndividualSettings'])) {
+            $updatedConfig['cookieBoxTextDescriptionIndividualSettings']
+                = ! empty($formData['cookieBoxTextDescriptionIndividualSettings']) ? stripslashes(
+                $formData['cookieBoxTextDescriptionIndividualSettings']
+            ) : $defaultConfig['cookieBoxTextDescriptionIndividualSettings'];
+        }
+        // Non-EU Data Transfer
+        $updatedConfig['cookieBoxShowTextDescriptionNonEUDataTransfer']
+            = ! empty($formData['cookieBoxShowTextDescriptionNonEUDataTransfer']) ? true : false;
+        if (! empty($updatedConfig['cookieBoxShowTextDescriptionNonEUDataTransfer'])) {
+            $updatedConfig['cookieBoxTextDescriptionNonEUDataTransfer']
+                = ! empty($formData['cookieBoxTextDescriptionNonEUDataTransfer']) ? stripslashes(
+                $formData['cookieBoxTextDescriptionNonEUDataTransfer']
+            ) : $defaultConfig['cookieBoxTextDescriptionNonEUDataTransfer'];
+        }
 
         // Texts
         $updatedConfig['cookieBoxTextHeadline'] = ! empty($formData['cookieBoxTextHeadline']) ? stripslashes(

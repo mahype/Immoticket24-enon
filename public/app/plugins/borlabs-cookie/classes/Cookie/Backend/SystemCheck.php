@@ -130,6 +130,22 @@ class SystemCheck
             "
             );
         }
+
+        $cookieProviderColumnType = Install::getInstance()->checkFullTypeOfColumn(
+            $tableNameCookies,
+            'provider',
+            'varchar(255)'
+        );
+        if ($cookieProviderColumnType === false) {
+            $wpdb->query(
+                "
+                ALTER TABLE
+                    `" . $tableNameCookies . "`
+                MODIFY
+                    `provider` varchar(255) NOT NULL DEFAULT ''
+            "
+            );
+        }
     }
 
     /**

@@ -94,7 +94,7 @@ class EzoicStatistics
             'cookieId' => 'ezoic-statistics',
             'service' => 'EzoicStatistics',
             'name' => 'Ezoic - Statistics',
-            'provider' => 'Ezoic Inc.',
+            'provider' => 'Ezoic Inc, 6023 Innovation Way 2nd Floor, Carlsbad, CA 92009, USA',
             'purpose' => _x(
                 'Helping to understand how visitors interact with websites by collecting and reporting information anonymously.',
                 'Frontend / Cookie / Ezoic - Statistics / Text',

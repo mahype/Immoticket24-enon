@@ -361,6 +361,7 @@ class Backend
             /* Check if license is expired */
             if ($currentScreenData->id !== "borlabs-cookie_page_borlabs-cookie-license") {
                 License::getInstance()->handleLicenseExpiredMessage();
+                License::getInstance()->handleLicenseNotValidForCurrentBuildMessage();
             }
 
             /* Check if cache should be cleared after upgrade */

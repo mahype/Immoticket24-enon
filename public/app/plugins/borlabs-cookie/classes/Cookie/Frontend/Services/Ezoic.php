@@ -93,7 +93,7 @@ class Ezoic
             'cookieId' => 'ezoic',
             'service' => 'Ezoic',
             'name' => 'Ezoic',
-            'provider' => 'Ezoic Inc.',
+            'provider' => 'Ezoic Inc, 6023 Innovation Way 2nd Floor, Carlsbad, CA 92009, USA',
             'purpose' => _x(
                 'Necessary for the basic functions of the website.',
                 'Frontend / Cookie / Ezoic / Text',

@@ -1914,6 +1914,197 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
         </div>
 
         <div class="row no-gutters mb-4">
+            <div class="col-12 col-md-8 rounded-left bg-light shadow-sm">
+                <div class="px-3 pt-3 pb-4">
+                    <h3 class="border-bottom mb-3"><?php _ex('Text Settings - Legal Information', 'Backend / Cookie Box / Headline', 'borlabs-cookie'); ?></h3>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="cookieBoxTextDescriptionConfirmAge"
+                                       class="col-sm-4 col-form-label"><?php _ex('Age', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-group-sm w-75">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <input type="checkbox" name="cookieBoxShowTextDescriptionConfirmAge" value="1"
+                                                   data-enable-target="cookieBoxTextDescriptionConfirmAge"
+                                                <?php echo !empty($inputCookieBoxShowTextDescriptionConfirmAge) ? ' checked' : ''; ?>>
+                                        </span>
+                                        </div>
+                                        <textarea class="form-control d-inline-block align-top w-75 mr-2"
+                                                  id="cookieBoxTextDescriptionConfirmAge" name="cookieBoxTextDescriptionConfirmAge"
+                                                  rows="5"<?php echo empty($inputCookieBoxShowTextDescriptionConfirmAge) ? ' disabled' : ''; ?>><?php echo $textareaCookieBoxTextDescriptionConfirmAge; ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cookieBoxTextDescriptionTechnology"
+                                       class="col-sm-4 col-form-label"><?php _ex('Technology', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-group-sm w-75">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <input type="checkbox" name="cookieBoxShowTextDescriptionTechnology" value="1"
+                                                   data-enable-target="cookieBoxTextDescriptionTechnology"
+                                                <?php echo !empty($inputCookieBoxShowTextDescriptionTechnology) ? ' checked' : ''; ?>>
+                                        </span>
+                                        </div>
+                                        <textarea class="form-control d-inline-block align-top w-75 mr-2"
+                                                  id="cookieBoxTextDescriptionTechnology" name="cookieBoxTextDescriptionTechnology"
+                                                  rows="5"<?php echo empty($inputCookieBoxShowTextDescriptionTechnology) ? ' disabled' : ''; ?>><?php echo $textareaCookieBoxTextDescriptionTechnology; ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cookieBoxTextDescriptionPersonalData"
+                                       class="col-sm-4 col-form-label"><?php _ex('Personal Data', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-group-sm w-75">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <input type="checkbox" name="cookieBoxShowTextDescriptionPersonalData" value="1"
+                                                   data-enable-target="cookieBoxTextDescriptionPersonalData"
+                                                <?php echo !empty($inputCookieBoxShowTextDescriptionPersonalData) ? ' checked' : ''; ?>>
+                                        </span>
+                                        </div>
+                                        <textarea class="form-control d-inline-block align-top w-75 mr-2"
+                                                  id="cookieBoxTextDescriptionPersonalData" name="cookieBoxTextDescriptionPersonalData"
+                                                  rows="5"<?php echo empty($inputCookieBoxShowTextDescriptionPersonalData) ? ' disabled' : ''; ?>><?php echo $textareaCookieBoxTextDescriptionPersonalData; ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cookieBoxTextDescriptionMoreInformation"
+                                       class="col-sm-4 col-form-label"><?php _ex('More Information', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-group-sm w-75">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <input type="checkbox" name="cookieBoxShowDescriptionMoreInformation" value="1"
+                                                   data-enable-target="cookieBoxTextDescriptionMoreInformation"
+                                                <?php echo !empty($inputCookieBoxShowDescriptionMoreInformation) ? ' checked' : ''; ?>>
+                                        </span>
+                                        </div>
+                                        <textarea class="form-control d-inline-block align-top w-75 mr-2"
+                                                  id="cookieBoxTextDescriptionMoreInformation" name="cookieBoxTextDescriptionMoreInformation"
+                                                  rows="5"<?php echo empty($inputCookieBoxShowDescriptionMoreInformation) ? ' disabled' : ''; ?>><?php echo $textareaCookieBoxTextDescriptionMoreInformation; ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cookieBoxTextDescriptionNoObligation"
+                                       class="col-sm-4 col-form-label"><?php _ex('No Obligation', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-group-sm w-75">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <input type="checkbox" name="cookieBoxShowTextDescriptionNoObligation" value="1"
+                                                   data-enable-target="cookieBoxTextDescriptionNoObligation"
+                                                <?php echo !empty($inputCookieBoxShowTextDescriptionNoObligation) ? ' checked' : ''; ?>>
+                                        </span>
+                                        </div>
+                                        <textarea class="form-control d-inline-block align-top w-75 mr-2"
+                                                  id="cookieBoxTextDescriptionNoObligation" name="cookieBoxTextDescriptionNoObligation"
+                                                  rows="5"<?php echo empty($inputCookieBoxShowTextDescriptionNoObligation) ? ' disabled' : ''; ?>><?php echo $textareaCookieBoxTextDescriptionNoObligation; ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cookieBoxTextDescriptionRevoke"
+                                       class="col-sm-4 col-form-label"><?php _ex('Revoke', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-group-sm w-75">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <input type="checkbox" name="cookieBoxShowTextDescriptionRevoke" value="1"
+                                                   data-enable-target="cookieBoxTextDescriptionRevoke"
+                                                <?php echo !empty($inputCookieBoxShowTextDescriptionRevoke) ? ' checked' : ''; ?>>
+                                        </span>
+                                        </div>
+                                        <textarea class="form-control d-inline-block align-top w-75 mr-2"
+                                                  id="cookieBoxTextDescriptionRevoke" name="cookieBoxTextDescriptionRevoke"
+                                                  rows="5"<?php echo empty($inputCookieBoxShowTextDescriptionRevoke) ? ' disabled' : ''; ?>><?php echo $textareaCookieBoxTextDescriptionRevoke; ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cookieBoxTextDescriptionIndividualSettings"
+                                       class="col-sm-4 col-form-label"><?php _ex('Individual Settings', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-group-sm w-75">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <input type="checkbox" name="cookieBoxShowTextDescriptionIndividualSettings" value="1"
+                                                   data-enable-target="cookieBoxTextDescriptionIndividualSettings"
+                                                <?php echo !empty($inputCookieBoxShowTextDescriptionIndividualSettings) ? ' checked' : ''; ?>>
+                                        </span>
+                                        </div>
+                                        <textarea class="form-control d-inline-block align-top w-75 mr-2"
+                                                  id="cookieBoxTextDescriptionIndividualSettings" name="cookieBoxTextDescriptionIndividualSettings"
+                                                  rows="5"<?php echo empty($inputCookieBoxShowTextDescriptionIndividualSettings) ? ' disabled' : ''; ?>><?php echo $textareaCookieBoxTextDescriptionIndividualSettings; ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cookieBoxTextDescriptionNonEUDataTransfer"
+                                       class="col-sm-4 col-form-label"><?php _ex('Non-EU Data Transfer', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-group-sm w-75">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <input type="checkbox" name="cookieBoxShowTextDescriptionNonEUDataTransfer" value="1"
+                                                   data-enable-target="cookieBoxTextDescriptionNonEUDataTransfer"
+                                                <?php echo !empty($inputCookieBoxShowTextDescriptionNonEUDataTransfer) ? ' checked' : ''; ?>>
+                                        </span>
+                                        </div>
+                                        <textarea class="form-control d-inline-block align-top w-75 mr-2"
+                                                  id="cookieBoxTextDescriptionNonEUDataTransfer" name="cookieBoxTextDescriptionNonEUDataTransfer"
+                                                  rows="5"<?php echo empty($inputCookieBoxShowTextDescriptionNonEUDataTransfer) ? ' disabled' : ''; ?>><?php echo $textareaCookieBoxTextDescriptionNonEUDataTransfer; ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-8 offset-sm-4">
+                            <button type="submit"
+                                    class="btn btn-primary btn-sm"><?php _ex('Save all settings', 'Backend / Global / Button Title', 'borlabs-cookie'); ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 rounded-right shadow-sm bg-tips text-light">
+                <div class="px-3 pt-3 pb-3 mb-4">
+                    <h3 class="border-bottom mb-3"><?php _ex('Tips', 'Backend / Global / Tips / Headline', 'borlabs-cookie'); ?></h3>
+                    <h4><?php _ex('Legal Information', 'Backend / Cookie Box / Tips / Headline', 'borlabs-cookie'); ?></h4>
+                    <p>
+                        <?php _ex('You can select which legal information topics you want to show to a visitor.', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?>
+                        <?php _ex('If you disable a text, make sure that its message appears or is part of another text displayed to a visitor.', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?>
+                    </p>
+                    <p>
+                        <?php _ex('You have to inform a visitor about the following topics:', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?>
+                    </p>
+                    <ul class="unordered-list">
+                        <li><?php _ex('A minimum age of 16 is required to consent to non-optional services.', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?></li>
+                        <li><?php _ex('The used technologies, for example: Cookies.', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?></li>
+                        <li><?php _ex('What type of personal data is used and for what purpose.', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?></li>
+                        <li><?php _ex('Where more information about each service can be found.', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?></li>
+                        <li><?php _ex('<sup>1</sup> That no consent is required to visit your website.', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?></li>
+                        <li><?php _ex('The visitor can revoke the consent any time.', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?></li>
+                        <li><?php _ex('<sup>1</sup> What happens when individual settings are applied.', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?></li>
+                        <li><?php _ex('<sup>2</sup> That personal data can be transferred to non-eu countries with insufficient data protection.', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?></li>
+                    </ul>
+                    <p>
+                        <?php _ex('<sup>1</sup> It is recommended to display this information.', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?>
+                        <br>
+                        <?php _ex('<sup>2</sup> You must display the &quot;Non-EU Data Transfer&quot; information if you use a service whose company is based in the USA.', 'Backend / Cookie Box / Tips / Text', 'borlabs-cookie'); ?>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row no-gutters mb-4">
             <div class="col-12 col-md-8 rounded bg-light shadow-sm">
                 <div class="px-3 pt-3 pb-4">
                     <h3 class="border-bottom mb-3"><?php _ex('Text Settings - Cookie Box', 'Backend / Cookie Box / Headline', 'borlabs-cookie'); ?></h3>
@@ -2334,7 +2525,6 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                 </div>
             </div>
         </div>
-
     </form>
 
     <!-- Tip Modal -->

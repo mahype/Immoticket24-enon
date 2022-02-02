@@ -42,10 +42,8 @@ class Userlike
     public function __construct()
     {
         add_action('borlabsCookie/cookie/edit/template/settings/Userlike', [$this, 'additionalSettingsTemplate']);
-        add_action(
-            'borlabsCookie/cookie/edit/template/settings/help/Userlike',
-            [$this, 'additionalSettingsHelpTemplate']
-        );
+        add_action('borlabsCookie/cookie/edit/template/settings/help/Userlike',
+            [$this, 'additionalSettingsHelpTemplate']);
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
     }
 
@@ -148,7 +146,7 @@ class Userlike
             'cookieId' => 'userlike',
             'service' => 'Userlike',
             'name' => 'Userlike',
-            'provider' => 'Userlike UG',
+            'provider' => 'Userlike UG, Probsteigasse 44-46, 50670 Köln',
             'purpose' => _x(
                 'In order for the Userlike Widget to work, cookies are stored in the user browser. These cookies are technically necessary and are only filled with data when the chat is used. Before that, they have a purely technical task, in order to enable the offer of a service chat.',
                 'Frontend / Cookie / Userlike / Text',

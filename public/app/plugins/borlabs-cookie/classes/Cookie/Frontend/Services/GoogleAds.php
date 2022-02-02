@@ -137,7 +137,7 @@ class GoogleAds
             'cookieId' => 'google-ads',
             'service' => 'GoogleAds',
             'name' => 'Google Ads',
-            'provider' => 'Google LLC',
+            'provider' => 'Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland',
             'purpose' => _x(
                 'Cookie by Google used for conversion tracking of Google Ads.',
                 'Frontend / Cookie / Google Ads / Text',

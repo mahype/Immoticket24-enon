@@ -93,7 +93,7 @@ class EzoicMarketing
             'cookieId' => 'ezoic-marketing',
             'service' => 'EzoicMarketing',
             'name' => 'Ezoic - Marketing',
-            'provider' => 'Ezoic Inc.',
+            'provider' => 'Ezoic Inc, 6023 Innovation Way 2nd Floor, Carlsbad, CA 92009, USA',
             'purpose' => _x(
                 'Are used to track visitors across websites. The intent is to display ads that are relevant and appealing to the individual user.',
                 'Frontend / Cookie / Ezoic - Marketing / Text',

@@ -145,7 +145,7 @@ class Frontend
                     100
                 );
                 add_action(
-                    'wp_footer',
+                    'template_redirect',
                     [ThirdParty\Themes\Avada::getInstance(), 'disableBuffer'],
                     1
                 );
@@ -162,6 +162,11 @@ class Frontend
 
             // Divi
             if (function_exists('et_divi_builder_init_plugin') || function_exists('et_setup_theme')) {
+                add_action(
+                    'template_redirect',
+                    [ThirdParty\Themes\Divi::getInstance(), 'disableBuffer'],
+                    1
+                );
                 add_action('wp', [ThirdParty\Themes\Divi::getInstance(), 'modifyDiviSettings']);
                 add_action('wp', [ThirdParty\Themes\Divi::getInstance(), 'isBuilderModeActive']);
                 add_filter('the_content', [ThirdParty\Themes\Divi::getInstance(), 'detectGoogleMaps'], 100, 1);
@@ -229,6 +234,9 @@ class Frontend
             // Backwards Compatibility
             add_shortcode('borlabs_cookie_blocked_content',
                 [BackwardsCompatibility::getInstance(), 'shortcodeBlockedContent']);
+        } elseif (Config::getInstance()->get('setupMode') === true) {
+            // Hide shortcodes when setup mode is active but user does not have 'manage_borlabs_cookie' capability.
+            add_shortcode('borlabs-cookie', function ($atts, $content = null) { return ''; });
         }
     }
 

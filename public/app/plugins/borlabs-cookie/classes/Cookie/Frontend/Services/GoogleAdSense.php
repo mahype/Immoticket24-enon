@@ -155,7 +155,7 @@ class GoogleAdSense
             'cookieId' => 'google-adsense',
             'service' => 'GoogleAdSense',
             'name' => 'Google AdSense',
-            'provider' => 'Google LLC',
+            'provider' => 'Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland',
             'purpose' => _x(
                 'Cookie by Google used for ad targeting and ad measurement.',
                 'Frontend / Cookie / Google AdSense / Text',

@@ -1,5 +1,4 @@
 <?php
-
 define( 'WP_CACHE', true ); // Added by WP Rocket
 define( 'VULN_API_TOKEN', 'c5vbPoMq2nCp1GRgujkqEnfxeaenNZctgOigYKGR2ww' );
 
@@ -140,6 +139,9 @@ switch ( WP_ENV ) {
 		define( 'DISALLOW_FILE_EDIT', true );
 		break;
 }
+
+define( 'TS_CLIENT_ID', '27a217e4f24c__energieausweis-online-erstellen.de' );
+define( 'TS_CLIENT_SECRET', '36edc1b0-1299-492c-9f7f-c0f848ab124d' );
 
 define( 'DISABLE_WP_CRON', true );
 

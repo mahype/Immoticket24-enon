@@ -78,7 +78,7 @@ function eddcf_show_fees_selection() {
 
 	?>
 	<fieldset id="edd_custom_fees_selection">
-		<span><legend><?php echo $headline ?></legend></span>
+		<legend><?php echo $headline ?></legend>
 		<p><?php echo $description; ?></p>
 		<?php foreach ( $fees as $fee ) : ?>
 			<p>

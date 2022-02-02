@@ -28,7 +28,7 @@ use RecursiveIteratorIterator;
 
 class CSS
 {
-    public const ANIMATE_CSS_SOURCE_FOLDER = '/node_modules/animate.css/source';
+    public const ANIMATE_CSS_SOURCE_FOLDER = 'node_modules/animate.css/source';
 
     private static $instance;
 
@@ -85,7 +85,8 @@ class CSS
             // Animation vars
             $animationVars = $this->findAnimateCSSFilepath('_vars');
             if (file_exists($animationVars)) {
-                $css .= file_get_contents($animationVars);
+                $animationVarsCSS = file_get_contents($animationVars);
+                $css .= str_replace('.animated', '._brlbs-animated', $animationVarsCSS);
             }
 
             // Animation in
@@ -183,8 +184,8 @@ class CSS
         $css .= '#BorlabsCookieBox a:hover { color: %cookieBoxPrimaryLinkHoverColor%; }';
         $css .= '#BorlabsCookieBox ._brlbs-btn { background: %cookieBoxBtnColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxBtnTxtColor%; }';
         $css .= '#BorlabsCookieBox ._brlbs-btn:hover { background: %cookieBoxBtnHoverColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxBtnHoverTxtColor%; }';
-        $css .= '#BorlabsCookieBox ._brlbs-refuse-btn a { background: %cookieBoxRefuseBtnColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxRefuseBtnTxtColor%; }';
-        $css .= '#BorlabsCookieBox ._brlbs-refuse-btn a:hover { background: %cookieBoxRefuseBtnHoverColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxRefuseBtnHoverTxtColor%; }';
+        $css .= '#BorlabsCookieBox ._brlbs-refuse-btn a, #BorlabsCookieBox a._brlbs-refuse-btn { background: %cookieBoxRefuseBtnColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxRefuseBtnTxtColor%; }';
+        $css .= '#BorlabsCookieBox ._brlbs-refuse-btn a:hover, #BorlabsCookieBox a._brlbs-refuse-btn:hover { background: %cookieBoxRefuseBtnHoverColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxRefuseBtnHoverTxtColor%; }';
         $css .= '#BorlabsCookieBox ._brlbs-btn-accept-all { background: %cookieBoxAcceptAllBtnColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxAcceptAllBtnTxtColor%; }';
         $css .= '#BorlabsCookieBox ._brlbs-btn-accept-all:hover { background: %cookieBoxAcceptAllBtnHoverColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxAcceptAllBtnHoverTxtColor%; }';
         $css .= '#BorlabsCookieBox ._brlbs-btn-accept-all { background: %cookieBoxAcceptAllBtnColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxAcceptAllBtnTxtColor%; }';
@@ -429,11 +430,11 @@ class CSS
      */
     private function transformAnimationCSS(string $animationName, string $animationFilePath)
     {
-        // remove redundant .animated selector which exists on at least one animate.css animation (flip.css)
-        $css = str_replace('.animated.', '.', file_get_contents($animationFilePath));
+        // Rename animation
+        $css = str_replace($animationName, '_brlbs-' . $animationName, file_get_contents($animationFilePath));
 
         // Animation classes need to be scoped in #BorlabsCookieBox because all: revert is
         // set on the element to prevent unwanted style overrides from the theme
-        return str_replace('.' . $animationName, '#BorlabsCookieBox .' . $animationName, $css);
+        return str_replace('._brlbs-' . $animationName, '#BorlabsCookieBox ._brlbs-' . $animationName, $css);
     }
 }

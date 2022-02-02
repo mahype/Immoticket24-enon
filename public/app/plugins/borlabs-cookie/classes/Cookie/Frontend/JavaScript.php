@@ -159,8 +159,8 @@ class JavaScript
 
             'animation' => Config::getInstance()->get('cookieBoxAnimation'),
             'animationDelay' => Config::getInstance()->get('cookieBoxAnimationDelay'),
-            'animationIn' => Config::getInstance()->get('cookieBoxAnimationIn'),
-            'animationOut' => Config::getInstance()->get('cookieBoxAnimationOut'),
+            'animationIn' => '_brlbs-' . Config::getInstance()->get('cookieBoxAnimationIn'),
+            'animationOut' => '_brlbs-' . Config::getInstance()->get('cookieBoxAnimationOut'),
             'blockContent' => Config::getInstance()->get('cookieBoxBlocksContent'),
             'boxLayout' => str_replace(['-slim', '-advanced'], '', Config::getInstance()->get('cookieBoxLayout')),
             'boxLayoutAdvanced' => strpos(Config::getInstance()->get('cookieBoxLayout'), '-advanced') !== false ? true

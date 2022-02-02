@@ -226,12 +226,10 @@
         <?php endif; ?>
       <?php else : ?>
         <div class="field-info col-md-1 col-sm-1 col-xs-1">
-          <p>
             <span class="is-done-checkmark label label-success">&#10004;</span>
             <?php if( ! empty( $field['description'] ) ) : ?>
               <span class="label label-info" data-toggle="tooltip" data-placement="top" data-html="true" data-original-title="<?php echo $field['description']; ?>"></span>
             <?php endif; ?>
-          </p>
         </div>
       <?php endif; ?>
 

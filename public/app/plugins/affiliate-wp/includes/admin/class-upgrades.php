@@ -295,7 +295,7 @@ class Affiliate_WP_Upgrades {
 			'version'       => '2.8',
 			'compare'       => '<',
 			'batch_process' => array(
-				'id'    => 'migrate-user-meta',
+				'id'    => 'migrate-affiliate-user-meta',
 				'class' => 'AffWP\Utils\Batch_Process\Batch_Migrate_Affiliate_User_Meta',
 				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-migrate-affwp-user-meta.php',
 			),
