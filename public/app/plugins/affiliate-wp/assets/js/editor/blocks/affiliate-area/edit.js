@@ -16,7 +16,8 @@ import { __ } from '@wordpress/i18n';
 
 import {
 	useBlockProps,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps as __stableUseInnerBlocksProps,
+	__experimentalUseInnerBlocksProps,
 } from '@wordpress/block-editor';
 
 const allowedBlocks = [
@@ -40,6 +41,10 @@ const template = [
  * @returns {JSX.Element} The rendered component.
  */
 function AffiliateArea() {
+
+	const useInnerBlocksProps = __stableUseInnerBlocksProps
+		? __stableUseInnerBlocksProps
+		: __experimentalUseInnerBlocksProps;
 
 	const blockProps = useBlockProps({
 		className: classnames(

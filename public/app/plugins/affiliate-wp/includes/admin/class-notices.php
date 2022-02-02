@@ -783,16 +783,16 @@ class Affiliate_WP_Admin_Notices {
 				'class' => 'notice notice-info is-dismissible',
 				'message' => function() {
 					$notice = __( 'Your database tables need to be upgraded following the AffiliateWP v2.8 update. Depending on the size of your database, this upgrade could take some time.', 'affiliate-wp' );
-					$nonce  = wp_create_nonce( 'migrate-user-meta_step_nonce' );
+					$nonce  = wp_create_nonce( 'migrate-affiliate-user-meta_step_nonce' );
 
 					ob_start();
 					// Enqueue admin JS for the batch processor.
 					affwp_enqueue_admin_js();
 					?>
 					<p><?php echo $notice; ?></p>
-					<form method="post" class="affwp-batch-form" data-dismiss-when-complete="true" data-batch_id="migrate-user-meta" data-nonce="<?php echo esc_attr( $nonce ); ?>">
+					<form method="post" class="affwp-batch-form" data-dismiss-when-complete="true" data-batch_id="migrate-affiliate-user-meta" data-nonce="<?php echo esc_attr( $nonce ); ?>">
 						<p>
-							<?php submit_button( __( 'Upgrade Database Tables', 'affiliate-wp' ), 'secondary', 'migrate-user-meta_step_nonce', false ); ?>
+							<?php submit_button( __( 'Upgrade Database Tables', 'affiliate-wp' ), 'secondary', 'migrate-affiliate-user-meta_step_nonce', false ); ?>
 						</p>
 					</form>
 					<?php
