@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/5.9" created="2022-02-01 16:03" -->
+<!-- generator="WordPress/5.9" created="2022-02-02 17:10" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Energieausweis online erstellen</title>
 <link>https://enon.test</link>
 <description>Jetzt Ihren Energieausweis nach EnEV 2014 anfordern!</description>
-<pubDate>Tue, 01 Feb 2022 16:03:17 +0000</pubDate>
+<pubDate>Wed, 02 Feb 2022 17:10:10 +0000</pubDate>
 <language>de-DE</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>https://enon.test</wp:base_site_url>
@@ -19705,11 +19705,7 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <dc:creator>svenwagener</dc:creator>
   <guid isPermaLink="false">https://enon.test/?page_id=450948</guid>
   <description/>
-  <content:encoded><![CDATA[<!-- wp:create-block/block-wave-separator {"gradient":"yellow-neon-to-green-mint"} -->
-<div class="wp-block-create-block-block-wave-separator wave-1 has-yellow-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-1" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,0c11,3,31.4,6.9,55,8.7c38.5,2.9,40.7-2,78.3-0.6c59.5,2.2,91.3,9,125.3,8.7c22.7-0.2,24.9-2.5,24.9-2.5l0,2.8H0L0,0z"/></clipPath></svg></div>
-<!-- /wp:create-block/block-wave-separator -->
-
-<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"200px","top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"wave1 is-style-group-main"} -->
+  <content:encoded><![CDATA[<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"200px","top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"wave1 is-style-group-main"} -->
 <div class="wp-block-group wave1 is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px;padding-bottom:200px"><!-- wp:heading -->
 <h2 id="unserfirmenportrait"><strong>Unser</strong><br>Firmenportrait</h2>
 <!-- /wp:heading -->
@@ -19720,8 +19716,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <!-- /wp:quote --></div>
 <!-- /wp:group -->
 
-<!-- wp:columns {"style":{"spacing":{"margin":{"top":"80px","bottom":"80px"}}}} -->
-<div class="wp-block-columns" style="margin-top:80px;margin-bottom:80px"><!-- wp:column -->
+<!-- wp:columns {"style":{"spacing":{"margin":{"bottom":"40px"}}}} -->
+<div class="wp-block-columns" style="margin-bottom:40px"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"align":"center","id":809,"sizeSlug":"full","linkDestination":"none","className":"uppercase"} -->
 <div class="wp-block-image uppercase"><figure class="aligncenter size-full"><img src="/app/themes/jason/assets/img/layout/christian-esch-kopf-rand.webp" alt="" class="wp-image-809"/></figure></div>
 <!-- /wp:image -->
@@ -19777,8 +19773,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
 <div class="wp-block-create-block-block-wave-separator wave-2 has-green-neon-to-green-mint-gradient-background has-background" style="height:160px;margin-top:-160px"><svg viewBox="0 0 283.5 17" height="0" width="0"><clipPath id="wave-2" clipPathUnits="objectBoundingBox" transform="scale(0.00352733686067 0.058823529411765)"><path d="M0,5.8c9.8,5,17.3,13.6,56.2,8.8c41.7-5.1,83.2-18.5,178.2-6.7c34.8,4.3,49.1-7.9,49.1-7.9l0,17H0V5.8z"/></clipPath></svg></div>
 <!-- /wp:create-block/block-wave-separator -->
 
-<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"}},"className":"is-style-group-main"} -->
-<div class="wp-block-group is-style-group-main has-background" style="background:linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"><!-- wp:heading -->
+<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(90deg,#b8e530 0%,#65e58d 100%)"},"spacing":{"padding":{"top":"0px"}}},"className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-background" style="background:linear-gradient(90deg,#b8e530 0%,#65e58d 100%);padding-top:0px"><!-- wp:heading -->
 <h2 id="unseregeschaftsstellen"><strong>Unsere</strong><br>Geschäftsstellen</h2>
 <!-- /wp:heading -->
 
@@ -19820,8 +19816,8 @@ https://www.youtube.com/watch?v=XEFZYkvt0nE
   <wp:post_id>465254</wp:post_id>
   <wp:post_date>2021-10-26 13:30:07</wp:post_date>
   <wp:post_date_gmt>2021-10-26 11:30:07</wp:post_date_gmt>
-  <wp:post_modified>2021-12-20 14:52:49</wp:post_modified>
-  <wp:post_modified_gmt>2021-12-20 13:52:49</wp:post_modified_gmt>
+  <wp:post_modified>2022-02-02 18:09:31</wp:post_modified>
+  <wp:post_modified_gmt>2022-02-02 17:09:31</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>firmenportrait</wp:post_name>
