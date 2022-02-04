@@ -390,7 +390,7 @@ function immoticketenergieausweis_energy_box_shortcode( $atts, $content = null )
     }
   }
 
-  $image = IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/media/';
+  $image = IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/img/';
   if ( 'bedarf' === $atts['typ'] ) {
     $image .= 'bedarfsausweis-online-erstellen.jpg';
   } else {
@@ -492,17 +492,6 @@ function immoticketenergieausweis_display_contact_form( $id )
   $contact_form = wpcf7_contact_form( $id );
   echo '<h3>' . __( 'Kontakt', 'immoticketenergieausweis' ) . '</h3>';
   echo $contact_form->form_html( array( 'id' => $id ) );
-}
-
-function immoticketenergieausweis_display_bezahlmethoden() {
-  $output = '<h3>' . __( 'Wir akzeptieren', 'immoticketenergieausweis' ) . '</h3>';
-  $output .= '<img src="' . IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/media/akzeptierte-bezahlmethoden.png">';
-
-  if ( class_exists( 'LazyLoad_Images' ) ) {
-    $output = LazyLoad_Images::add_image_placeholders( $output );
-  }
-
-  echo $output;
 }
 
 function immoticketenergieausweis_display_map( $data )
