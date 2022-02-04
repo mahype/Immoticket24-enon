@@ -41,18 +41,3 @@ function immoticketenergieausweis_header_carousel( $id )
   <?php
   }
 }
-
-function immoticketenergieausweis_header_homeday( $id ) {
-  ?>
-  <div id="<?php echo $id; ?>" class="homeday-header">
-    <div class="homeday-iframe-wrap">
-      <iframe src="https://app.homeday.de/properties/new/?utm_medium=Partner&amp;utm_source=immoticket24&amp;landing_page=energieausweis" class="do-not-wrap" width="100%" height="100%" border="0" frameborder="0"></iframe>
-    </div>
-    <div class="homeday-badges">
-      <img class="homeday-badge" src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/homeday-tuev-saarland.jpg" alt="Homeday: ausgezeichnet durch TÜV Saarland">
-      <img class="homeday-badge" src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/homeday-trustpilot.jpg" alt="Homeday: ausgezeichnet durch Trustpilot">
-      <img class="homeday-badge" src="<?php echo IMMOTICKETENERGIEAUSWEIS_THEME_URL; ?>/assets/media/homeday-maklervermittlungsportale.jpg" alt="Homeday: ausgezeichnet durch Maklervermittlungsportale">
-    </div>
-  </div>
-  <?php
-}
