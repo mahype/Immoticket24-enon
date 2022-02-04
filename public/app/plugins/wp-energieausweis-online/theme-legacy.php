@@ -51,7 +51,6 @@ require_once dirname( __FILE__ ) . '/theme-legacy/inc/theme-setup.php';
 require_once dirname( __FILE__ ) . '/theme-legacy/inc/backend.php';
 require_once dirname( __FILE__ ) . '/theme-legacy/inc/frontend.php';
 require_once dirname( __FILE__ ) . '/theme-legacy/inc/optimizepress-compat.php';
-require_once dirname( __FILE__ ) . '/theme-legacy/inc/banner-widget.php';
 
 function immoticketenergieausweis_head_cleanup() {
   remove_action( 'wp_head', 'feed_links', 2 );

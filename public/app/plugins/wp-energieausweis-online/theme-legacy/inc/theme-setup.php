@@ -5,10 +5,7 @@
  * @package immoticketenergieausweis
  */
 
-if( !isset( $content_width ) )
-{
-  $content_width = 640;
-}
+define( 'IMMOTICKETENERGIEAUSWEIS_THEME_URL', dirname( __FILE__ ) . '/' )
 
 function immoticketenergieausweis_setup()
 {
@@ -40,32 +37,6 @@ function immoticketenergieausweis_setup()
   ) );
 }
 add_action( 'after_setup_theme', 'immoticketenergieausweis_setup' );
-
-function immoticketenergieausweis_widgets_init()
-{
-  register_sidebar( array(
-    'name'          => __( 'Seitenleiste', 'immoticketenergieausweis' ),
-    'id'            => 'primary',
-    'description'   => __( 'Diese Seitenleiste wird rechts neben dem Inhalt (ausgenommen des Blogs) angezeigt.', 'immoticketenergieausweis' ),
-    'before_widget' => '<aside id="%1$s" class="panel panel-primary widget %2$s">',
-    'after_widget'  => '</div></aside>',
-    'before_title'  => '<div class="panel-heading"><h3 class="widget-title">',
-    'after_title'   => '</h3></div><div class="panel-body">',
-  ) );
-
-  register_sidebar( array(
-    'name'          => __( 'Blog-Seitenleiste', 'immoticketenergieausweis' ),
-    'id'            => 'blog',
-    'description'   => __( 'Diese Seitenleiste wird rechts neben Inhalten des Blogs angezeigt.', 'immoticketenergieausweis' ),
-    'before_widget' => '<aside id="%1$s" class="panel panel-primary widget %2$s">',
-    'after_widget'  => '</div></aside>',
-    'before_title'  => '<div class="panel-heading"><h3 class="widget-title">',
-    'after_title'   => '</h3></div><div class="panel-body">',
-  ) );
-
-  register_widget( 'Immoticketenergieausweis_Banner_Widget' );
-}
-add_action( 'widgets_init', 'immoticketenergieausweis_widgets_init' );
 
 function immoticketenergieausweis_get_wpenon_firmendaten_mappings() {
   $mappings = array(

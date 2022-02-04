@@ -381,10 +381,3 @@ function immoticketenergieausweis_customize_register( $wp_customize ) {
   $wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 }
 add_action( 'customize_register', 'immoticketenergieausweis_customize_register', 11, 1 );
-
-/*
-function immoticketenergieausweis_customize_preview_init() {
-  wp_enqueue_script( 'immoticketenergieausweis-customize-preview', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/customize-preview.js', array( 'customize-preview' ), IMMOTICKETENERGIEAUSWEIS_THEME_VERSION, true );
-}
-add_action( 'customize_preview_init', 'immoticketenergieausweis_customize_preview_init' );
-*/
