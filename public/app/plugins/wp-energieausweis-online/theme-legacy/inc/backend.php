@@ -52,18 +52,7 @@ function immoticketenergieausweis_add_options( $wpod ) {
                       'label'                 => __( 'Link in neuem Tab öffnen?', 'immoticketenergieausweis' ),
                     ),
                   ),
-                ),
-                'footer'                => array(
-                  'title'                 => __( 'Fußbereich', 'immoticketenergieausweis' ),
-                  'fields'                => array(
-                    'footer-contactform'    => array(
-                      'title'                 => __( 'Kontaktformular', 'immoticketenergieausweis' ),
-                      'description'           => __( 'Wählen Sie das Kontaktformular aus, welches im Fußbereich angezeigt werden soll.', 'immoticketenergieausweis' ),
-                      'type'                  => 'select',
-                      'options'               => immoticketenergieausweis_get_contact_forms(),
-                    ),
-                  ),
-                ),
+                ),                
                 'special_pages'         => array(
                   'title'                 => __( 'Spezielle Seiten', 'immoticketenergieausweis' ),
                   'fields'                => array(
@@ -110,51 +99,7 @@ function immoticketenergieausweis_add_options( $wpod ) {
                   ),
                 ),
               ),
-            ),
-            /*'it-slider'             => array(
-              'title'                 => __( 'Slider', 'immoticketenergieausweis' ),
-              'description'           => __( 'Hier können Sie den Slider im Header der Website bearbeiten.', 'immoticketenergieausweis' ),
-              'capability'            => 'edit_theme_options',
-              'mode'                  => 'draggable',
-              'sections'              => array(
-                'contents'              => array(
-                  'title'                 => __( 'Inhalt', 'immoticketenergieausweis' ),
-                  'fields'                => array(
-                    'data'                  => array(
-                      'title'                 => __( 'Bilder und Beschriftung', 'immoticketenergieausweis' ),
-                      'description'           => __( 'Legen Sie Bilder, die jeweilige Beschriftung und Links (optional) fest. Maximal sind 10 Inhalte möglich.', 'immoticketenergieausweis' ),
-                      'type'                  => 'repeatable',
-                      'repeatable'            => array(
-                        'limit'                 => 10,
-                        'fields'                => array(
-                          'image'                 => array(
-                            'title'                 => __( 'Bild', 'immoticketenergieausweis' ),
-                            'type'                  => 'media',
-                          ),
-                          'caption'               => array(
-                            'title'                 => __( 'Beschriftung', 'immoticketenergieausweis' ),
-                            'type'                  => 'text',
-                          ),
-                          'url'                   => array(
-                            'title'                 => __( 'Link-URL', 'immoticketenergieausweis' ),
-                            'type'                  => 'url',
-                          ),
-                          'anchor'                => array(
-                            'title'                 => __( 'Link-Beschriftung', 'immoticketenergieausweis' ),
-                            'type'                  => 'text',
-                          ),
-                          'new_tab'               => array(
-                            'title'                 => __( 'Link-Ziel', 'immoticketenergieausweis' ),
-                            'type'                  => 'checkbox',
-                            'label'                 => __( 'Link in neuem Tab öffnen?', 'immoticketenergieausweis' ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),*/
+            ),            
             'it-iframe'             => array(
               'title'                 => __( 'IFrame', 'immoticketenergieausweis' ),
               'description'           => __( 'Hier können Sie die Einstellungen zum Energieausweis-IFrame verwalten.', 'immoticketenergieausweis' ),
@@ -388,24 +333,6 @@ function immoticketenergieausweis_add_options( $wpod ) {
 }
 add_action( 'wpod', 'immoticketenergieausweis_add_options', 10, 1 );
 
-function immoticketenergieausweis_get_contact_forms()
-{
-  $posts = get_posts( array(
-    'post_type'       => 'wpcf7_contact_form',
-    'post_status'     => 'any',
-    'posts_per_page'  => -1,
-    'offset'          => 0,
-    'orderby'         => 'title',
-    'order'           => 'ASC',
-  ) );
-  $forms = array();
-  foreach( $posts as $post )
-  {
-    $forms[ $post->ID ] = get_the_title( $post->ID );
-  }
-  return $forms;
-}
-
 function immoticketenergieausweis_add_post_meta_box( $post_type ) {
   if ( 'post' !== $post_type ) {
     return;
@@ -455,32 +382,9 @@ function immoticketenergieausweis_customize_register( $wp_customize ) {
 }
 add_action( 'customize_register', 'immoticketenergieausweis_customize_register', 11, 1 );
 
+/*
 function immoticketenergieausweis_customize_preview_init() {
   wp_enqueue_script( 'immoticketenergieausweis-customize-preview', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/customize-preview.js', array( 'customize-preview' ), IMMOTICKETENERGIEAUSWEIS_THEME_VERSION, true );
 }
 add_action( 'customize_preview_init', 'immoticketenergieausweis_customize_preview_init' );
-
-function immoticketenergieausweis_before_tinymce( $settings ) {
-  ob_start();
-}
-add_action( 'wp_tiny_mce_init', 'immoticketenergieausweis_before_tinymce', 10, 1 );
-
-function immoticketenergieausweis_after_tinymce( $settings ) {
-  $output = ob_get_clean();
-
-  $add = '<div class="link-target"><label><span></span><input type="checkbox" id="wp-link-is-button" /> ' . __( 'Link als Button einfügen', 'immoticketenergieausweis' ) . '</label></div>';
-  $search = '<div class="link-target">';
-
-  if ( false !== strpos( $output, $search ) ) {
-    $output = str_replace( $search, $add . $search, $output );
-  }
-
-  echo $output;
-}
-add_action( 'after_wp_tiny_mce', 'immoticketenergieausweis_after_tinymce', 10, 1 );
-
-function immoticketenergieausweis_tinymce_scripts( $data ) {
-  wp_enqueue_script( 'immoticketenergieausweis-wplink', IMMOTICKETENERGIEAUSWEIS_THEME_URL . '/assets/wplink.js', array( 'wplink' ), IMMOTICKETENERGIEAUSWEIS_THEME_VERSION );
-}
-add_action( 'wp_enqueue_editor', 'immoticketenergieausweis_tinymce_scripts', 10, 1 );
-
+*/
