@@ -48,7 +48,7 @@
       <?php _e( 'PDF-Rechnung', 'wpenon' ); ?>
     </h4>
     <div class="embed-responsive" style="margin-bottom:20px;padding-bottom:140.48%;">
-      <iframe src="<?php echo $data['receipt_url']; ?>"></iframe>
+      <iframe src="<?php echo $data['receipt_url']; ?>" style="width:100%; height: 800px;"></iframe>
     </div>
   <?php endif; ?>
 
