@@ -5,7 +5,7 @@
  * @package immoticketenergieausweis
  */
 
-define( 'IMMOTICKETENERGIEAUSWEIS_THEME_URL', dirname( __FILE__ ) . '/' )
+define( 'IMMOTICKETENERGIEAUSWEIS_THEME_URL', dirname( __FILE__ ) . '/' );
 
 function immoticketenergieausweis_setup()
 {
