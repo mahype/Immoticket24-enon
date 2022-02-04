@@ -5,6 +5,12 @@
  * @package immoticketenergieausweis
  */
 
+function immoticketenergieausweis_enqueue_admin_scripts() {
+  $script_url = esc_url( plugins_url( '', dirname( __FILE__ ) ) );
+  wp_enqueue_script( 'enon-general-script', $script_url . '/js/general.js', array( 'jquery' ), '2.1.5', true );
+}
+add_action( 'admin_enqueue_scripts', 'immoticketenergieausweis_enqueue_admin_scripts' );
+
 function immoticketenergieausweis_add_options( $wpod ) {
   $wpod->add_components( array(
     'theme'                 => array(
