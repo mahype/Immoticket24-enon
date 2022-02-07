@@ -81,6 +81,8 @@ abstract class Script_Loader implements Actions, Task {
         if ( Enon_Location::failed() ) {
             $this->failed();
         }
+
+        echo $this->base_script();
     }
 
     /**
@@ -93,7 +95,7 @@ abstract class Script_Loader implements Actions, Task {
         $js_files      = '';
         $js            = '';
 
-        if ( count( $this->script_files() ) > 0 ) {
+        if ( count( $this->script_files() ) > 0 ) {            
             foreach( $this->script_files()  AS $file ) {
                 $js_files.= sprintf( 'var %s = document.createElement("script");', $function_name );
                 $js_files.= sprintf( '%s.src = \'%s\';', $function_name, $file );
@@ -105,6 +107,8 @@ abstract class Script_Loader implements Actions, Task {
         if ( ! empty( $this->script() ) || count( $this->script_files() ) > 0 ) {
             $js = sprintf( '<script>window.load_%s=function(){%s}</script>', $function_name, $this->script() . $js_files );
         }
+
+        $js = '<!-- Start scripts for ' . get_class( $this ) . ' //-->' . $js . '<!-- End scripts for ' . get_class( $this ) . ' //-->';
         
         return $js;
     }
@@ -189,6 +193,13 @@ abstract class Script_Loader implements Actions, Task {
      * @since 2020-09-11.
      */
     protected function failed() {}
+    
+    /**
+    * Everywhere.
+    * 
+    * @since 2020-09-11.
+    */
+   protected function whole_page() {}
 
     /**
 	 * Get current ec (works on funnel pages)
@@ -256,9 +267,72 @@ abstract class Script_Loader implements Actions, Task {
         $ec_id = $payment->get_energieausweis_id();
 
         return new Energieausweis( $ec_id );
-    }
+    }	
+
+    /**
+	 * Success page
+	 * 
+	 * @since 2022-02-07
+	 */
+	protected function is_success() {
+		global $edd_receipt_args;
+
+		if( ! Enon_Location::success() || ! array_key_exists( 'id', $edd_receipt_args ) ) {
+			return false;
+		}
+
+		$payment = get_post( $edd_receipt_args['id'] );
+		$status = edd_get_payment_status( $payment );
+
+		switch( $status ) {
+			case 'publish':
+			case 'pending':
+				return true;
+				break;
+			case 'failed':
+			case 'abandoned':
+			case 'revoked':
+			case 'processing':
+			default:
+				return false;
+				break;
+		}
+	}
 
 	/**
+	 * Get price of ec.
+	 * 
+	 * @return float Price
+	 * 
+	 * @since 2020-09-11
+	 */
+	protected function ec_mail() : string {
+		return $this->ec()->wpenon_email;
+    }
+
+    /**
+	 * Get order date of ec.
+	 * 
+	 * @return float Price
+	 * 
+	 * @since 2022-02-07
+	 */
+    protected function ec_date() {
+        return $this->ec()->post_date;
+    }
+
+    /**
+	 * Get name of ec.
+	 * 
+	 * @return float Price
+	 * 
+	 * @since 2022-02-07
+	 */
+    protected function ec_name() {
+        return $this->ec()->post_title;
+    }
+
+    /**
 	 * Get price of ec.
 	 * 
 	 * @return float Price
@@ -268,27 +342,14 @@ abstract class Script_Loader implements Actions, Task {
 	protected function ec_price( ) : float {
 		switch( $this->ec()->type ) {
 			case 'bw':
-				return 89.95;
+				return 99.95;
 				break;
 			case 'vw':
-				return 39.95;
+				return 49.95;
 				break;
 			default:
 				return 0;
 		}
-    }
-
-
-
-	/**
-	 * Get price of ec.
-	 * 
-	 * @return float Price
-	 * 
-	 * @since 2020-09-11
-	 */
-	protected function ec_mail( Energieausweis $ec = null ) : string {
-		return $this->ec()->wpenon_email;
     }
 
 	/**

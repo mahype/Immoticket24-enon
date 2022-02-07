@@ -150,7 +150,7 @@ class Filter_EDD_Emails implements Task, Actions {
 	public function add_emails_for_payment_fees( $emails ) {
 		$payment_fee_emails = [
 			'experten_check'             => 'angabencheck@energieausweis-online-erstellen.de',
-			'sendung_per_post'           => 'postversand@energieausweis-online-erstellen.de',			
+			'sendung_per_post'           => 'postversand@energieausweis-online-erstellen.de',
 			'energieausweis_besprechung' => 'angabencheck@energieausweis-online-erstellen.de',
 			'premium_bewertung'          => 'premiumbewertung@energieausweis-online-erstellen.de',
 			'check_evm'                  => 'modernisierungen@immoticket24.de'

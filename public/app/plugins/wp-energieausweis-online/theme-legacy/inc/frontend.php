@@ -130,24 +130,6 @@ function immoticketenergieausweis_trusted_badge_shortcode( $atts ) {
 }
 add_shortcode( 'trusted_shops_badge', 'immoticketenergieausweis_trusted_badge_shortcode' );
 
-function immoticketenergieausweis_trusted_checkout_shortcode( $atts ) {
-  $session = edd_get_purchase_session();
-  if ( isset( $_GET['payment_key'] ) ) {
-    $payment_key = urldecode( $_GET['payment_key'] );
-  } elseif ( $session ) {
-    $payment_key = $session['purchase_key'];
-  }
-
-  if ( ! isset( $payment_key ) || ! $payment_key ) {
-    return '';
-  }
-
-  $payment_id = edd_get_purchase_id_by_key( $payment_key );
-
-  return immoticketenergieausweis_send_order_to_trustedshops( $payment_id );
-}
-add_shortcode( 'trusted_shops_checkout', 'immoticketenergieausweis_trusted_checkout_shortcode' );
-
 function immoticketenergieausweis_adcell_tracking_script() {
 	/**
 	 * Set if adcell scripts have to be shown.

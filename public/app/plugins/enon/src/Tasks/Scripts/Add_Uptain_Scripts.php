@@ -33,8 +33,6 @@ class Add_Uptain_Scripts extends Script_Loader {
 			'scv'     => $this->ec_price(),
 			'success' => $this->is_success() ? 1 : 0,
 		] );
-
-		echo $this->base_script();
 	}
 
 	/**

@@ -15,7 +15,9 @@ use Enon\Task_Loader;
 use Enon\Tasks\Scripts\Add_Scripts;
 use Enon\Tasks\Scripts\Add_Page_Scripts;
 use Enon\Tasks\Scripts\Add_Uptain_Scripts;
+use Enon\Tasks\Scripts\Add_Trusted_Shops_Scripts;
 use Enon\Tasks\Filter_EDD_Emails;
+
 
 /**
  * Tasks loader.
@@ -76,6 +78,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Add_Scripts::class );
 		$this->add_task( Add_Page_Scripts::class );
 		$this->add_task( Add_Uptain_Scripts::class );
+		$this->add_task( Add_Trusted_Shops_Scripts::class );
 
 		$this->add_task( Add_Google_Tag_Manager::class );
 	}
