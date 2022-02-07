@@ -891,6 +891,24 @@ function immoticketenergieausweis_send_order_to_ekomi( $post_id, $payment_id, $d
 }
 add_action( 'edd_complete_download_purchase', 'immoticketenergieausweis_send_order_to_ekomi', 100, 5 );
 
+function immoticketenergieausweis_trusted_checkout_shortcode( $atts ) {
+  $session = edd_get_purchase_session();
+  if ( isset( $_GET['payment_key'] ) ) {
+    $payment_key = urldecode( $_GET['payment_key'] );
+  } elseif ( $session ) {
+    $payment_key = $session['purchase_key'];
+  }
+
+  if ( ! isset( $payment_key ) || ! $payment_key ) {
+    return '';
+  }
+
+  $payment_id = edd_get_purchase_id_by_key( $payment_key );
+
+  return immoticketenergieausweis_send_order_to_trustedshops( $payment_id );
+}
+add_shortcode( 'trusted_shops_checkout', 'immoticketenergieausweis_trusted_checkout_shortcode' );
+
 function immoticketenergieausweis_send_order_to_trustedshops( $payment_id ) {
   $payment = get_post( $payment_id );
 
