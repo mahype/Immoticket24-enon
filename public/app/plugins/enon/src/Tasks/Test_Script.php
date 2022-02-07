@@ -44,8 +44,6 @@ class Test_Script implements Task {
 			'number' => 1000
 		];
 
-		print_r( $args );
-
 		$payment_query = new \EDD_Payments_Query( $args );
 		$payments      = $payment_query->get_payments();
 		$filtered      = [];
@@ -61,7 +59,7 @@ class Test_Script implements Task {
 			}
 
 			if( $found ) {
-				$url = get_site_url() . '/core/wp-admin/edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment->ID;
+				$url = get_site_url() . '/wp-admin/edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment->ID;
 
 				$filtered[] = [
 					'payment_id' => $payment->ID,
