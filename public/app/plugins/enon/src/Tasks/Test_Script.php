@@ -41,7 +41,7 @@ class Test_Script implements Task {
 	public function dododo() {
 		$args =  [
 			'status' => 'publish',
-			'number' => 1000
+			'number' => 2000
 		];
 
 		$payment_query = new \EDD_Payments_Query( $args );
