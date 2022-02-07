@@ -41,7 +41,8 @@ class Test_Script implements Task {
 	public function dododo() {
 		$args =  [
 			'status'     => 'publish',
-			'start_date' => '2022-02-02 22:00:00'
+			'start_date' => '2022-02-02 22:00:00',
+			'end_date'   => date( 'Y-m-d H:i:s', time() ),
 		];
 
 		$payment_query = new \EDD_Payments_Query( $args );
