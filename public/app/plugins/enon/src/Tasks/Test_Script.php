@@ -40,16 +40,38 @@ class Test_Script implements Task {
 
 	public function dododo() {
 		$args =  [
-			'number'     => 20,
 			'status'     => 'publish',
 			'start_date' => '2022-02-02 22:00:00'
 		];
+
+		$payment_query = new \EDD_Payments_Query( $args );
+		$payments      = $payment_query->get_payments();
+		$filtered      = [];
+
+		foreach( $payments AS $payment ) {
+			$fees = $payment->get_fees();
+			$found = false;
+
+			foreach( $fees as $fee ) {
+				if( $fee['id'] == 'sendung_per_post' ) {
+					$found = true;
+				}
+			}
+
+			if( $found ) {
+				$url = get_site_url() . '/core/wp-admin/edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment->ID;
+
+				$filtered[] = [
+					'payment_id' => $payment->ID,
+					'url'        => $url,
+				];
+
+				// print_r( $payment );
+
+				echo $payment->date . ' - <a href="' . $url . '"></a>' . $url . '<br />' . chr(13);
+			}
+		}		
 		
-		$payments     = new \EDD_Payments_Query( $args );
-		$last_payment = $payments->get_payments();
-        
-        print_r( $args );
-		print_r( $last_payment );
 		exit;
 	}
 }
