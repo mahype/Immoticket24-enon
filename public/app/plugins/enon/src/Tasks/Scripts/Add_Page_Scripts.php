@@ -1,6 +1,6 @@
 <?php
 /**
- * Loading ACF Options.
+ * Loading Scripts
  *
  * @category Class
  * @package  Enon\ACF
@@ -40,8 +40,8 @@ class Add_Page_Scripts implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-		add_action( 'enon_page_js', [ $this, 'add_js' ] );
-		add_action( 'enon_iframe_css', [ $this, 'add_css' ] );
+		add_action( 'wp_head',   [ $this, 'add_css' ] );
+		add_action( 'wp_footer', [ $this, 'add_js' ] );	
 	}
 
 	/**
