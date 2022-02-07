@@ -68,7 +68,7 @@ class Test_Script implements Task {
 
 				// print_r( $payment );
 
-				echo $payment->date . ' - <a href="' . $url . '"></a>' . $url . '<br />' . chr(13);
+				echo $payment->date . ' - <a href="' . $url . '" target="_blank">' . $url . '</a><br />' . chr(13);
 			}
 		}		
 		
