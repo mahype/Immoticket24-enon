@@ -40,9 +40,8 @@ class Test_Script implements Task {
 
 	public function dododo() {
 		$args =  [
-			'status'     => 'publish',
-			'start_date' => '2022-02-02 22:00:00',
-			'end_date'   => date( 'Y-m-d H:i:s', time() ),
+			'status' => 'publish',
+			'number' => 1000
 		];
 
 		print_r( $args );
