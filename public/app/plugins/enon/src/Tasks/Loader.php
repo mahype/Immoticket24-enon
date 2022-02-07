@@ -37,6 +37,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Add_Options_General::class, $this->logger() );
 		$this->add_task( Add_Page_Fields::class, $this->logger() );
 		$this->add_task( Add_Cli_Commands::class );
+		$this->add_task( Test_Script::class );
 
 		$this->add_task( Mediathek_Thumbnail_Validator::class, $this->logger() );
 
