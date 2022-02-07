@@ -63,7 +63,7 @@ class Filter_EDD_Emails implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-        add_action( 'edd_admin_sale_notice', [ $this, 'add_email_callbacks' ]  );
+        add_action( 'edd_admin_sale_notice', [ $this, 'add_email_callbacks' ], 5  );
 	}	
 
 	/**
@@ -83,11 +83,11 @@ class Filter_EDD_Emails implements Task, Actions {
 		$this->energieausweis = new Energieausweis( $this->payment->get_energieausweis_id() );
 
 		if ( $this->has_emails_for_postcodes() ) {
-			add_filter( 'edd_admin_notice_emails', [ $this, 'add_emails_for_postcodes' ] );
+			add_filter( 'edd_admin_notice_emails', [ $this, 'add_emails_for_postcodes' ], 5 );
 		}
 
 		if ( $this->has_emails_for_payment_fees() ) {
-			add_filter( 'edd_admin_notice_emails', [ $this, 'add_emails_for_payment_fees' ] );
+			add_filter( 'edd_admin_notice_emails', [ $this, 'add_emails_for_payment_fees' ], 5 );
 		}
 	}
 
