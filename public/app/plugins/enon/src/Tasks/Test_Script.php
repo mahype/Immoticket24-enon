@@ -45,6 +45,8 @@ class Test_Script implements Task {
 			'end_date'   => date( 'Y-m-d H:i:s', time() ),
 		];
 
+		print_r( $args );
+
 		$payment_query = new \EDD_Payments_Query( $args );
 		$payments      = $payment_query->get_payments();
 		$filtered      = [];
