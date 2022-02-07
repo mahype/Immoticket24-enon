@@ -12,12 +12,14 @@
 namespace Enon\Tasks;
 
 use Enon\Task_Loader;
+
 use Enon\Tasks\Scripts\Add_Scripts;
 use Enon\Tasks\Scripts\Add_Page_Scripts;
 use Enon\Tasks\Scripts\Add_Uptain_Scripts;
 use Enon\Tasks\Scripts\Add_Trusted_Shops_Scripts;
-use Enon\Tasks\Filter_EDD_Emails;
+use Enon\Tasks\Scripts\Add_Google_Tag_Manager;
 
+use Enon\Tasks\Filter_EDD_Emails;
 
 /**
  * Tasks loader.

@@ -9,7 +9,7 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Tasks;
+namespace Enon\Tasks\Scripts;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
