@@ -35,7 +35,6 @@ function immoticketenergieausweis_get_option($option, $key = null)
   return false;
 }
 
-require_once dirname(__FILE__) . '/theme-legacy/inc/constants.php';
 require_once dirname(__FILE__) . '/theme-legacy/inc/theme-setup.php';
 require_once dirname(__FILE__) . '/theme-legacy/inc/backend.php';
 require_once dirname(__FILE__) . '/theme-legacy/inc/frontend.php';
@@ -68,7 +67,7 @@ function immoticketenergieausweis_the_title($title, $id)
 
   return sprintf(__('Mein Energieausweis %s', 'immoticketenergieausweis'), '<small>(' . $title . ')</small>');
 }
-add_filter('the_title', 'immoticketenergieausweis_the_title', 10, 2);
+add_filter( 'the_title', 'immoticketenergieausweis_the_title', 10, 2);
 
 function immoticketenergieausweis_email_signature($text)
 {
