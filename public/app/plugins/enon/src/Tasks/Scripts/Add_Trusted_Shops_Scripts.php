@@ -11,6 +11,7 @@
 
 namespace Enon\Tasks\Scripts;
 
+use Enon\Models\Enon\Energieausweis;
 use Enon\Models\Enon\Enon_Location;
 use Enon\Models\Scripts\Script_Loader;
 
@@ -68,6 +69,13 @@ class Add_Trusted_Shops_Scripts extends Script_Loader {
 	 * @since 2022-02-07
 	 */
 	public function success() {
+    $id = $this->ec()->ID;
+    $ec = new Energieausweis( $id );
+
+    if( ! $ec->contacting_allowed() ) {
+      return;
+    }
+
     $tag = '<div id="trustedShopsCheckout" style="display: none;">';
     $tag.= '<span id="tsCheckoutOrderNr">' . $this->ec_name() . '</span>';
     $tag.= '<span id="tsCheckoutBuyerEmail">' . $this->ec_mail() . '</span>';

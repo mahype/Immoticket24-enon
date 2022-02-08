@@ -889,52 +889,6 @@ function immoticketenergieausweis_set_klicktipp_agreement($result, $customer)
 }
 add_filter('eddkti_agreed_to_subscribe', 'immoticketenergieausweis_set_klicktipp_agreement', 10, 2);
 
-function immoticketenergieausweis_send_order_to_ekomi($post_id, $payment_id, $download_type = 'default', $download = null, $cart_index = 0)
-{
-  if (!function_exists('EDD')) {
-    return;
-  }
-
-  if (!$payment_id) {
-    return;
-  }
-
-  // Has the user agreed to receive an email from eKomi?
-  if (!(bool) get_post_meta($payment_id, 'it24_agree_to_ekomi_terms', true)) {
-    return;
-  }
-
-  $sent_to_ekomi = get_post_meta($payment_id, 'it24_sent_to_ekomi', true);
-  if ($sent_to_ekomi) {
-    return;
-  }
-
-  $user_info = edd_get_payment_meta_user_info($payment_id);
-
-  $order_no = get_the_title($payment_id);
-  $order_name = $user_info['first_name'] . ' ' . $user_info['last_name'];
-  $order_email = $user_info['email'];
-
-  $emails = EDD()->emails;
-
-  $to = '81266-energieausweis-online@connect.ekomi.de';
-  $subject = 'Neue Bestellung';
-  $message = "Hier finden sich die Daten zur neuen Bestellung:\n\n";
-  $message .= "Vorgangskennung: " . $order_no . "\n";
-  $message .= "Mailadresse des Kunden: " . $order_email . "\n";
-  $message .= "Name des Kunden: " . $order_name . "\n";
-
-  $emails->__set('heading', $subject);
-
-  $result = $emails->send($to, $subject, $message);
-  if (!$result) {
-    edd_record_log('', sprintf('Payment %d eKomi email could not be sent.', $payment_id), 0, 'templog');
-  }
-
-  update_post_meta($payment_id, 'it24_sent_to_ekomi', true);
-}
-// add_action('edd_complete_download_purchase', 'immoticketenergieausweis_send_order_to_ekomi', 100, 5);
-
 function immoticketenergieausweis_trusted_checkout_shortcode($atts)
 {
   $session = edd_get_purchase_session();
