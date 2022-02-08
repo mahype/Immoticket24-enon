@@ -933,7 +933,7 @@ function immoticketenergieausweis_send_order_to_ekomi($post_id, $payment_id, $do
 
   update_post_meta($payment_id, 'it24_sent_to_ekomi', true);
 }
-add_action('edd_complete_download_purchase', 'immoticketenergieausweis_send_order_to_ekomi', 100, 5);
+// add_action('edd_complete_download_purchase', 'immoticketenergieausweis_send_order_to_ekomi', 100, 5);
 
 function immoticketenergieausweis_trusted_checkout_shortcode($atts)
 {

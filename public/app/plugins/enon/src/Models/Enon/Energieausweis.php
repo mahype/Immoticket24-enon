@@ -13,6 +13,8 @@
 
 namespace Enon\Models\Enon;
 
+use WP_Post;
+
 /**
  * Class Energieausweis
  *
@@ -40,6 +42,15 @@ class Energieausweis {
 	private $post;
 
 	/**
+	 * Post meta values.
+	 * 
+	 * @var array
+	 * 
+	 * @since 2022-02-08
+	 */
+	private $post_meta;
+
+	/**
 	 * Type.
 	 *
 	 * @since 1.0.0
@@ -64,13 +75,14 @@ class Energieausweis {
 	 *
 	 * @param int $id Energieausweis id.
 	 */
-	public function __construct( $id ) {
+	public function __construct( int $id ) {
 		$this->id = $id;
+
+		$this->post = get_post( $id );
+		$this->post_meta = get_post_meta( $id );
 
 		$this->type     = get_post_meta( $this->id, 'wpenon_type', true );
 		$this->standard = get_post_meta( $this->id, 'wpenon_standard', true );
-
-		$this->post = get_post( $id );
 	}
 
 	/**
@@ -80,7 +92,7 @@ class Energieausweis {
 	 *
 	 * @return int Energieausweis id.
 	 */
-	public function get_id() {
+	public function get_id() : int {
 		return $this->id;
 	}
 
@@ -91,7 +103,7 @@ class Energieausweis {
 	 *
 	 * @since 1.0.0
 	 */
-	public function get_post() {
+	public function get_post() : WP_Post {
 		return $this->post;
 	}
 
@@ -100,7 +112,7 @@ class Energieausweis {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string Energieausweis type.
+	 * @return string Energieausweis type bw or vw.
 	 */
 	public function get_type() {
 		return $this->type;
@@ -147,5 +159,14 @@ class Energieausweis {
 		$access_token  = md5( $wpenon_email ) . '-' . $wpenon_secret;
 
 		return $access_token;
+	}
+
+	/**
+	 * Has the user allowed to contact?
+	 * 
+	 * @return bool True if contacting is allowed, false if not.
+	 */
+	public function contacting_allowed() : bool {
+		return $this->post_meta['contact_acceptance'][0] == 1 ? true : false;
 	}
 }

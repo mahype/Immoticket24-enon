@@ -20,6 +20,7 @@ use Enon\Tasks\Scripts\Add_Trusted_Shops_Scripts;
 use Enon\Tasks\Scripts\Add_Google_Tag_Manager;
 
 use Enon\Tasks\Filter_EDD_Emails;
+use Enon\Tasks\Scripts\Add_Ekomi;
 
 /**
  * Tasks loader.
@@ -40,6 +41,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Test_Script::class );
 
 		$this->add_task( Mediathek_Thumbnail_Validator::class, $this->logger() );
+		$this->add_task( Add_Ekomi::class );
 
 		$this->add_task( Setup_Wonolog::class, $this->logger() );
         $this->add_task( Setup_Edd::class, $this->logger() );
@@ -82,7 +84,6 @@ class Loader extends Task_Loader {
 		$this->add_task( Add_Page_Scripts::class );
 		$this->add_task( Add_Uptain_Scripts::class );
 		$this->add_task( Add_Trusted_Shops_Scripts::class );
-
 		$this->add_task( Add_Google_Tag_Manager::class );
 	}
 }
