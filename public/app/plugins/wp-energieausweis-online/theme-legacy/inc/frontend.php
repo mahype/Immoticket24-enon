@@ -7,14 +7,7 @@
 
 function immoticketenergieausweis_enqueue_scripts()
 {
-  $dependencies = apply_filters( 'immoticketenergieausweis_stylesheet_dependencies', array() );
-  $inline_style = apply_filters( 'immoticketenergieausweis_inline_style', '.site-title, .site-description { position: absolute; clip: rect(1px, 1px, 1px, 1px); }' );
-
   $script_url = esc_url( plugins_url( '', dirname( __FILE__ ) ) );
-
-  // wp_enqueue_style( 'immoticketenergieausweis', $script_url . '/assets/dist/immoticketenergieausweis.min.css', $dependencies, IMMOTICKETENERGIEAUSWEIS_THEME_VERSION );
-  // wp_add_inline_style( 'immoticketenergieausweis', $inline_style );
-  // wp_enqueue_script( 'immoticketenergieausweis', $script_url . '/immoticketenergieausweis.min.js', array( 'jquery' ), IMMOTICKETENERGIEAUSWEIS_THEME_VERSION, true );
 
   wp_enqueue_script( 'enon-frontend-script', $script_url . '/js/frontend.js', array( 'jquery' ), '2.1.5', true );
   wp_enqueue_script( 'enon-general-script', $script_url . '/js/general.js', array( 'jquery' ), '2.1.5', true );
