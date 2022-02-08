@@ -594,5 +594,3 @@ function wpenon_alert_leave( $data ) { ?>
 }
 
 add_action('wpenon_form_end', 'wpenon_alert_leave' );
-
-require_once dirname( __FILE__ ) . '/navigation.php';
