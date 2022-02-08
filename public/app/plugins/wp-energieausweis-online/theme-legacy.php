@@ -889,67 +889,6 @@ function immoticketenergieausweis_set_klicktipp_agreement($result, $customer)
 }
 add_filter('eddkti_agreed_to_subscribe', 'immoticketenergieausweis_set_klicktipp_agreement', 10, 2);
 
-function immoticketenergieausweis_trusted_checkout_shortcode($atts)
-{
-  $session = edd_get_purchase_session();
-  if (isset($_GET['payment_key'])) {
-    $payment_key = urldecode($_GET['payment_key']);
-  } elseif ($session) {
-    $payment_key = $session['purchase_key'];
-  }
-
-  if (!isset($payment_key) || !$payment_key) {
-    return '';
-  }
-
-  $payment_id = edd_get_purchase_id_by_key($payment_key);
-
-  return immoticketenergieausweis_send_order_to_trustedshops($payment_id);
-}
-add_shortcode('trusted_shops_checkout', 'immoticketenergieausweis_trusted_checkout_shortcode');
-
-function immoticketenergieausweis_send_order_to_trustedshops($payment_id)
-{
-  $payment = get_post($payment_id);
-
-  if (empty($payment)) {
-    return '';
-  }
-
-  // Has the user agreed to receive an email from TrustedShops?
-  if (!(bool) get_post_meta($payment->ID, 'it24_agree_to_trustedshops_terms', true)) {
-    return '';
-  }
-
-  $sent_to_trustedshops = get_post_meta($payment_id, 'it24_sent_to_trustedshops', true);
-  if ($sent_to_trustedshops) {
-    return '';
-  }
-
-  $order_number = get_the_title($payment->ID);
-  $buyer_email_address = edd_get_payment_user_email($payment->ID);
-  $shopping_basket_total = edd_get_payment_amount($payment->ID);
-  $order_currency = edd_get_currency();
-  $payment_method = edd_get_gateway_checkout_label(edd_get_payment_gateway($payment->ID));
-  $completed_date = date_i18n('Y-m-d', strtotime(edd_get_payment_completed_date($payment->ID)));
-
-  $output = '
-<div id="trustedShopsCheckout" style="display: none;">
-  <span id="tsCheckoutOrderNr">' . $order_number . '</span>
-  <span id="tsCheckoutBuyerEmail">' . $buyer_email_address . '</span>
-  <span id="tsCheckoutOrderAmount">' . $shopping_basket_total . '</span>
-  <span id="tsCheckoutOrderCurrency">' . $order_currency . '</span>
-  <span id="tsCheckoutOrderPaymentType">' . $payment_method . '</span>
-  <span id="tsCheckoutOrderEstDeliveryDate">' . $completed_date . '</span>
-</div>';
-
-  $output .= '<div id="trusted-shops-warranty"></div>';
-
-  update_post_meta($payment_id, 'it24_sent_to_trustedshops', true);
-
-  return $output;
-}
-
 function immoticketenergieausweis_hack_iframe_ajax_url($vars)
 {
   if (!function_exists('edd_is_checkout') || !edd_is_checkout()) {
