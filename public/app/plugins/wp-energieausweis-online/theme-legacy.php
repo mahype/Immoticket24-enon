@@ -35,58 +35,11 @@ function immoticketenergieausweis_get_option($option, $key = null)
   return false;
 }
 
-function immoticketenergieausweis_remove_width_attribute($html)
-{
-  $html = preg_replace('/(width|height)="\d*"\s/', "", $html);
-  return $html;
-}
-add_filter('post_thumbnail_html', 'immoticketenergieausweis_remove_width_attribute', 10);
-
-function immoticketenergieausweis_comment_form_top()
-{
-  echo '<div class="form-horizontal">';
-}
-
-function immoticketenergieausweis_comment_form_bottom()
-{
-  echo '</div>';
-}
-
 require_once dirname(__FILE__) . '/theme-legacy/inc/constants.php';
 require_once dirname(__FILE__) . '/theme-legacy/inc/theme-setup.php';
 require_once dirname(__FILE__) . '/theme-legacy/inc/backend.php';
 require_once dirname(__FILE__) . '/theme-legacy/inc/frontend.php';
 require_once dirname(__FILE__) . '/theme-legacy/inc/optimizepress-compat.php';
-
-function immoticketenergieausweis_head_cleanup()
-{
-  remove_action('wp_head', 'feed_links', 2);
-  remove_action('wp_head', 'feed_links_extra', 3);
-  remove_action('wp_head', 'rsd_link');
-  remove_action('wp_head', 'wlwmanifest_link');
-  remove_action('wp_head', 'wp_generator');
-  remove_action('wp_head', 'rest_output_link_wp_head', 10);
-  remove_action('wp_head', 'wp_oembed_add_discovery_links');
-  remove_action('wp_head', 'wp_oembed_add_host_js');
-  remove_action('admin_print_styles', 'print_emoji_styles');
-  remove_action('wp_head', 'print_emoji_detection_script', 7);
-  remove_action('admin_print_scripts', 'print_emoji_detection_script');
-  remove_action('wp_print_styles', 'print_emoji_styles');
-  remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
-  remove_filter('the_content_feed', 'wp_staticize_emoji');
-  remove_filter('comment_text_rss', 'wp_staticize_emoji');
-
-  add_filter('style_loader_src', 'immoticketenergieausweis_strip_version_arg', 10, 2);
-  add_filter('script_loader_src', 'immoticketenergieausweis_strip_version_arg', 10, 2);
-}
-add_action('wp_loaded', 'immoticketenergieausweis_head_cleanup');
-
-function immoticketenergieausweis_strip_version_arg($src, $handle)
-{
-  return remove_query_arg('ver', $src);
-}
-
-add_filter('xmlrpc_enabled', '__return_false');
 
 function immoticketenergieausweis_the_title($title, $id)
 {
