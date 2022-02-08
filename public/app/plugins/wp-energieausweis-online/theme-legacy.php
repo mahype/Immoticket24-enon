@@ -38,7 +38,6 @@ function immoticketenergieausweis_get_option($option, $key = null)
 require_once dirname(__FILE__) . '/theme-legacy/inc/theme-setup.php';
 require_once dirname(__FILE__) . '/theme-legacy/inc/backend.php';
 require_once dirname(__FILE__) . '/theme-legacy/inc/frontend.php';
-require_once dirname(__FILE__) . '/theme-legacy/inc/optimizepress-compat.php';
 
 function immoticketenergieausweis_the_title($title, $id)
 {
