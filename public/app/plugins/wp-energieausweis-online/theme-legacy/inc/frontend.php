@@ -82,47 +82,6 @@ function immoticketenergieausweis_header_image() {
   <?php
 }
 
-function immoticketenergieausweis_trusted_badge_shortcode( $atts ) {
-  $atts = shortcode_atts( array(
-    'variant'   => 'skyscraper_horizontal',
-    'theme'     => 'light',
-    'border'    => '#aabbcc',
-  ), $atts, 'trusted_shops_badge' );
-
-  ob_start();
-  ?>
-  <script type="text/javascript">
-    _tsRatingConfig = {
-      tsid: 'X509FCF5891E8A90932F2A46F02AD28DE',
-      variant: '<?php echo $atts['variant']; ?>',
-      // valid values: 'skyscraper_vertical', 'skyscraper_horizontal', vertical
-      theme: '<?php echo $atts['theme']; ?>',
-      reviews: 10,
-      // default = 10
-      borderColor: '<?php echo $atts['border']; ?>',
-      // optional - override the border
-      colorclassName: 'test',
-      // optional - override the whole sticker style with your own css class
-      introtext: 'What our customers say about us:',
-      // optional, not used in skyscraper variants
-      richSnippets: 'off'
-    };
-    var scripts = document.getElementsByTagName('SCRIPT'),
-    me = scripts[scripts.length - 1];
-    var _ts = document.createElement('SCRIPT');
-    _ts.type = 'text/javascript';
-    _ts.async = true;
-    _ts.charset = 'utf-8';
-    _ts.src ='//widgets.trustedshops.com/reviews/tsSticker/tsSticker.js';
-    me.parentNode.insertBefore(_ts, me);
-    _tsRatingConfig.script = _ts;
-  </script>
-  <?php
-
-  return ob_get_clean();
-}
-add_shortcode( 'trusted_shops_badge', 'immoticketenergieausweis_trusted_badge_shortcode' );
-
 function immoticketenergieausweis_adcell_tracking_script() {
 	/**
 	 * Set if adcell scripts have to be shown.
