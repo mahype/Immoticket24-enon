@@ -7,14 +7,7 @@
 
 function immoticketenergieausweis_enqueue_scripts()
 {
-  $dependencies = apply_filters( 'immoticketenergieausweis_stylesheet_dependencies', array() );
-  $inline_style = apply_filters( 'immoticketenergieausweis_inline_style', '.site-title, .site-description { position: absolute; clip: rect(1px, 1px, 1px, 1px); }' );
-
   $script_url = esc_url( plugins_url( '', dirname( __FILE__ ) ) );
-
-  // wp_enqueue_style( 'immoticketenergieausweis', $script_url . '/assets/dist/immoticketenergieausweis.min.css', $dependencies, IMMOTICKETENERGIEAUSWEIS_THEME_VERSION );
-  // wp_add_inline_style( 'immoticketenergieausweis', $inline_style );
-  // wp_enqueue_script( 'immoticketenergieausweis', $script_url . '/immoticketenergieausweis.min.js', array( 'jquery' ), IMMOTICKETENERGIEAUSWEIS_THEME_VERSION, true );
 
   wp_enqueue_script( 'enon-frontend-script', $script_url . '/js/frontend.js', array( 'jquery' ), '2.1.5', true );
   wp_enqueue_script( 'enon-general-script', $script_url . '/js/general.js', array( 'jquery' ), '2.1.5', true );
@@ -88,47 +81,6 @@ function immoticketenergieausweis_header_image() {
   </div>
   <?php
 }
-
-function immoticketenergieausweis_trusted_badge_shortcode( $atts ) {
-  $atts = shortcode_atts( array(
-    'variant'   => 'skyscraper_horizontal',
-    'theme'     => 'light',
-    'border'    => '#aabbcc',
-  ), $atts, 'trusted_shops_badge' );
-
-  ob_start();
-  ?>
-  <script type="text/javascript">
-    _tsRatingConfig = {
-      tsid: 'X509FCF5891E8A90932F2A46F02AD28DE',
-      variant: '<?php echo $atts['variant']; ?>',
-      // valid values: 'skyscraper_vertical', 'skyscraper_horizontal', vertical
-      theme: '<?php echo $atts['theme']; ?>',
-      reviews: 10,
-      // default = 10
-      borderColor: '<?php echo $atts['border']; ?>',
-      // optional - override the border
-      colorclassName: 'test',
-      // optional - override the whole sticker style with your own css class
-      introtext: 'What our customers say about us:',
-      // optional, not used in skyscraper variants
-      richSnippets: 'off'
-    };
-    var scripts = document.getElementsByTagName('SCRIPT'),
-    me = scripts[scripts.length - 1];
-    var _ts = document.createElement('SCRIPT');
-    _ts.type = 'text/javascript';
-    _ts.async = true;
-    _ts.charset = 'utf-8';
-    _ts.src ='//widgets.trustedshops.com/reviews/tsSticker/tsSticker.js';
-    me.parentNode.insertBefore(_ts, me);
-    _tsRatingConfig.script = _ts;
-  </script>
-  <?php
-
-  return ob_get_clean();
-}
-add_shortcode( 'trusted_shops_badge', 'immoticketenergieausweis_trusted_badge_shortcode' );
 
 function immoticketenergieausweis_adcell_tracking_script() {
 	/**
@@ -594,7 +546,3 @@ function wpenon_alert_leave( $data ) { ?>
 }
 
 add_action('wpenon_form_end', 'wpenon_alert_leave' );
-
-
-require_once dirname( __FILE__ ) . '/navigation.php';
-require_once dirname( __FILE__ ) . '/carousel.php';

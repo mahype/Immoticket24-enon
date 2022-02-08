@@ -75,6 +75,7 @@ class Setup_Uploads implements Filters, Task {
      */
     public static function wpse_mime_types_webp( $mimes ) {
         $mimes['webp'] = 'image/webp';
+        $mimes['csv']  = 'text/plain';
         return $mimes;
     }
 }

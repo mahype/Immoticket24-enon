@@ -35,58 +35,9 @@ function immoticketenergieausweis_get_option($option, $key = null)
   return false;
 }
 
-function immoticketenergieausweis_remove_width_attribute($html)
-{
-  $html = preg_replace('/(width|height)="\d*"\s/', "", $html);
-  return $html;
-}
-add_filter('post_thumbnail_html', 'immoticketenergieausweis_remove_width_attribute', 10);
-
-function immoticketenergieausweis_comment_form_top()
-{
-  echo '<div class="form-horizontal">';
-}
-
-function immoticketenergieausweis_comment_form_bottom()
-{
-  echo '</div>';
-}
-
-require_once dirname(__FILE__) . '/theme-legacy/inc/constants.php';
 require_once dirname(__FILE__) . '/theme-legacy/inc/theme-setup.php';
 require_once dirname(__FILE__) . '/theme-legacy/inc/backend.php';
 require_once dirname(__FILE__) . '/theme-legacy/inc/frontend.php';
-require_once dirname(__FILE__) . '/theme-legacy/inc/optimizepress-compat.php';
-
-function immoticketenergieausweis_head_cleanup()
-{
-  remove_action('wp_head', 'feed_links', 2);
-  remove_action('wp_head', 'feed_links_extra', 3);
-  remove_action('wp_head', 'rsd_link');
-  remove_action('wp_head', 'wlwmanifest_link');
-  remove_action('wp_head', 'wp_generator');
-  remove_action('wp_head', 'rest_output_link_wp_head', 10);
-  remove_action('wp_head', 'wp_oembed_add_discovery_links');
-  remove_action('wp_head', 'wp_oembed_add_host_js');
-  remove_action('admin_print_styles', 'print_emoji_styles');
-  remove_action('wp_head', 'print_emoji_detection_script', 7);
-  remove_action('admin_print_scripts', 'print_emoji_detection_script');
-  remove_action('wp_print_styles', 'print_emoji_styles');
-  remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
-  remove_filter('the_content_feed', 'wp_staticize_emoji');
-  remove_filter('comment_text_rss', 'wp_staticize_emoji');
-
-  add_filter('style_loader_src', 'immoticketenergieausweis_strip_version_arg', 10, 2);
-  add_filter('script_loader_src', 'immoticketenergieausweis_strip_version_arg', 10, 2);
-}
-add_action('wp_loaded', 'immoticketenergieausweis_head_cleanup');
-
-function immoticketenergieausweis_strip_version_arg($src, $handle)
-{
-  return remove_query_arg('ver', $src);
-}
-
-add_filter('xmlrpc_enabled', '__return_false');
 
 function immoticketenergieausweis_the_title($title, $id)
 {
@@ -115,7 +66,7 @@ function immoticketenergieausweis_the_title($title, $id)
 
   return sprintf(__('Mein Energieausweis %s', 'immoticketenergieausweis'), '<small>(' . $title . ')</small>');
 }
-add_filter('the_title', 'immoticketenergieausweis_the_title', 10, 2);
+add_filter( 'the_title', 'immoticketenergieausweis_the_title', 10, 2);
 
 function immoticketenergieausweis_email_signature($text)
 {
@@ -889,67 +840,6 @@ function immoticketenergieausweis_set_klicktipp_agreement($result, $customer)
 }
 add_filter('eddkti_agreed_to_subscribe', 'immoticketenergieausweis_set_klicktipp_agreement', 10, 2);
 
-function immoticketenergieausweis_trusted_checkout_shortcode($atts)
-{
-  $session = edd_get_purchase_session();
-  if (isset($_GET['payment_key'])) {
-    $payment_key = urldecode($_GET['payment_key']);
-  } elseif ($session) {
-    $payment_key = $session['purchase_key'];
-  }
-
-  if (!isset($payment_key) || !$payment_key) {
-    return '';
-  }
-
-  $payment_id = edd_get_purchase_id_by_key($payment_key);
-
-  return immoticketenergieausweis_send_order_to_trustedshops($payment_id);
-}
-add_shortcode('trusted_shops_checkout', 'immoticketenergieausweis_trusted_checkout_shortcode');
-
-function immoticketenergieausweis_send_order_to_trustedshops($payment_id)
-{
-  $payment = get_post($payment_id);
-
-  if (empty($payment)) {
-    return '';
-  }
-
-  // Has the user agreed to receive an email from TrustedShops?
-  if (!(bool) get_post_meta($payment->ID, 'it24_agree_to_trustedshops_terms', true)) {
-    return '';
-  }
-
-  $sent_to_trustedshops = get_post_meta($payment_id, 'it24_sent_to_trustedshops', true);
-  if ($sent_to_trustedshops) {
-    return '';
-  }
-
-  $order_number = get_the_title($payment->ID);
-  $buyer_email_address = edd_get_payment_user_email($payment->ID);
-  $shopping_basket_total = edd_get_payment_amount($payment->ID);
-  $order_currency = edd_get_currency();
-  $payment_method = edd_get_gateway_checkout_label(edd_get_payment_gateway($payment->ID));
-  $completed_date = date_i18n('Y-m-d', strtotime(edd_get_payment_completed_date($payment->ID)));
-
-  $output = '
-<div id="trustedShopsCheckout" style="display: none;">
-  <span id="tsCheckoutOrderNr">' . $order_number . '</span>
-  <span id="tsCheckoutBuyerEmail">' . $buyer_email_address . '</span>
-  <span id="tsCheckoutOrderAmount">' . $shopping_basket_total . '</span>
-  <span id="tsCheckoutOrderCurrency">' . $order_currency . '</span>
-  <span id="tsCheckoutOrderPaymentType">' . $payment_method . '</span>
-  <span id="tsCheckoutOrderEstDeliveryDate">' . $completed_date . '</span>
-</div>';
-
-  $output .= '<div id="trusted-shops-warranty"></div>';
-
-  update_post_meta($payment_id, 'it24_sent_to_trustedshops', true);
-
-  return $output;
-}
-
 function immoticketenergieausweis_hack_iframe_ajax_url($vars)
 {
   if (!function_exists('edd_is_checkout') || !edd_is_checkout()) {
@@ -1021,11 +911,3 @@ function immoticketenergieausweis_special_affiliate_email_notice($payment_id = 0
 }
 remove_action('edd_admin_sale_notice', 'edd_admin_email_notice', 10);
 add_action('edd_admin_sale_notice', 'immoticketenergieausweis_special_affiliate_email_notice', 10, 2);
-
-function immoticketenergieausweis_enable_extended_upload($mime_types = array())
-{
-  $mime_types['csv'] = 'text/plain';
-  return $mime_types;
-}
-
-add_filter('upload_mimes', 'immoticketenergieausweis_enable_extended_upload');
