@@ -960,11 +960,3 @@ function immoticketenergieausweis_special_affiliate_email_notice($payment_id = 0
 }
 remove_action('edd_admin_sale_notice', 'edd_admin_email_notice', 10);
 add_action('edd_admin_sale_notice', 'immoticketenergieausweis_special_affiliate_email_notice', 10, 2);
-
-function immoticketenergieausweis_enable_extended_upload($mime_types = array())
-{
-  $mime_types['csv'] = 'text/plain';
-  return $mime_types;
-}
-
-add_filter('upload_mimes', 'immoticketenergieausweis_enable_extended_upload');
