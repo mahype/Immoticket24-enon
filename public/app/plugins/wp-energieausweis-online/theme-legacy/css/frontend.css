@@ -250,7 +250,8 @@
   background-repeat: no-repeat;
 }
 
-#gebauedefoto_image img {
+#gebauedefoto_image img,
+#h_typenschild_image img {
   max-width: 100%;
 }
 
