@@ -249,6 +249,11 @@
   background-size: 100%;
   background-repeat: no-repeat;
 }
+
+#gebauedefoto_image img {
+  max-width: 100%;
+}
+
 @-webkit-keyframes wpenon-preloader-spin {
   0% {
     -webkit-transform: rotate(0deg);
