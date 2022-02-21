@@ -35,7 +35,7 @@
 }
 .wpenon-wrapper .has-unit .form-control {
   display: inline-block;
-  width: 90%;
+  width: 90% !important;
   margin-right: 5px;
 }
 .wpenon-wrapper .form-control.select2-container {
