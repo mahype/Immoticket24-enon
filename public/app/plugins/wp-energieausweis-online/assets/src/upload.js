@@ -70,6 +70,8 @@ const sendUpload = ( data, field ) => {
        document.getElementById( field + "_field" ).value = response.data.url;
        document.getElementById( field + "_image" ).innerHTML = `<img src="${response.data.url}" />`;
        document.getElementById( "file-delete-" + field ).classList.remove('hidden');
+    }).catch( function ( error ) { 
+        console.log( error );
     });
 }
 
