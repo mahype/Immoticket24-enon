@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 window.addEventListener("message", function(event) {
-    if (event.origin != "https://www.energieausweis-online-erstellen.de") return;
+    if ( event.origin != "https://www.energieausweis-online-erstellen.de" && event.origin !== 'https://enon.test' ) return;
     var data = JSON.parse(event.data);
     document.getElementById("iframe-energieausweis-online").setAttribute("style","width:100%;height:" + data.frame_height + "px");
 }, false) ;
