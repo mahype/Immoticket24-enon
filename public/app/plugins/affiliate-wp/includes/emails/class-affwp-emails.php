@@ -279,6 +279,7 @@ class Affiliate_WP_Emails {
 	 * Build the email
 	 *
 	 * @since 1.6
+	 * @since 2.8.2 Refactored text_to_html() to recieve the email body instead of the entire message.
 	 * @param string $message The email message
 	 * @return string
 	 */
@@ -327,6 +328,7 @@ class Affiliate_WP_Emails {
 		do_action( 'affwp_email_footer', $this );
 
 		$body	 = ob_get_clean();
+		$message = $this->text_to_html( $message );
 		$message = str_replace( '{email}', $message, $body );
 
 		/** This filter is documented in includes/emails/class-affwp-emails.php */
@@ -368,8 +370,6 @@ class Affiliate_WP_Emails {
 		$message = $this->build_email( $message );
 
 		$message = $this->parse_tags( $message );
-
-		$message = $this->text_to_html( $message );
 
 		/**
 		 * Filters the attachments for the current email (if any).

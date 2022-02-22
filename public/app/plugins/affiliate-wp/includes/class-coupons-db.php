@@ -74,7 +74,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_coupons';
 		}
 		$this->primary_key = 'coupon_id';
-		$this->version     = '1.3';
+		$this->version     = '1.4';
 	}
 
 	/**
@@ -102,6 +102,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			'affiliate_id' => '%d',
 			'coupon_code'  => '%s',
 			'type'         => '%s',
+			'locked'       => '%d',
 		);
 	}
 
@@ -114,6 +115,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 	public function get_column_defaults() {
 		return array(
 			'affiliate_id' => 0,
+			'type'         => 'dynamic',
 		);
 	}
 
@@ -122,6 +124,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 	 *
 	 * @since 2.6
 	 * @since 2.8 Added the `$type` and `$no_type_only` arguments.
+	 * @since 2.9 The `$type` argument now defaults to 'dynamic'. Added the `$lock_status` argument.
 	 *
 	 * @param array $args {
 	 *     Optional. Arguments for querying coupons. Default empty array.
@@ -131,8 +134,10 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 	 *     @type int|array    $coupon_id    Coupon ID or array of IDs to explicitly retrieve. Default 0 (all).
 	 *     @type int|array    $affiliate_id Affiliate ID or array of IDs to explicitly retrieve. Default empty.
 	 *     @type string|array $coupon_code  Coupon code or array of coupon codes to explicitly retrieve. Default empty.
-	 *     @type string|array $type         Coupon type, array of types, or empty for all. Default empty.
-	 *     @type bool         $no_type_only Whether to only query for coupons with no type. Default true.
+	 *     @type string|array $type         Coupon type, array of types, or empty for all. Default 'dynamic'.
+	 *     @type bool         $no_type_only Whether to only query for coupons with no type. Default false.
+	 *     @type string       $lock_status  Lock status(es) to query for. Accepts 'locked', 'unlocked', or empty for any.
+	 *                                      Default empty.
 	 *     @type string       $order        How to order returned results. Accepts 'ASC' or 'DESC'. Default 'DESC'.
 	 *     @type string       $orderby      Coupons table column to order results by. Accepts any AffWP\Affiliate\Coupon
 	 *                                      field. Default 'affiliate_id'.
@@ -151,8 +156,9 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			'coupon_id'    => 0,
 			'affiliate_id' => 0,
 			'coupon_code'  => 0,
-			'type'         => '',
-			'no_type_only' => true,
+			'type'         => 'dynamic',
+			'no_type_only' => false,
+			'lock_status'  => '',
 			'orderby'      => $this->primary_key,
 			'order'        => 'ASC',
 			'fields'       => '',
@@ -227,6 +233,19 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			} else {
 				$type = sanitize_key( $args['type'] );
 				$where .= "`type` = '" . $type . "' ";
+			}
+		}
+
+		// Lock status.
+		if ( ! empty( $args['lock_status'] ) ) {
+			if ( in_array( $args['lock_status'], array( 'locked', 'unlocked' ), true ) ) {
+				$where .= empty( $where ) ? "WHERE " : "AND ";
+
+				if ( 'locked' === $args['lock_status'] ) {
+					$where .= "`locked` = true ";
+				} elseif ( 'unlocked' === $args['lock_status'] ) {
+					$where .= "`locked` = false ";
+				}
 			}
 		}
 
@@ -314,7 +333,8 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 		$defaults = array(
 			'coupon_code'  => '',
 			'affiliate_id' => 0,
-			'type'         => '',
+			'type'         => 'dynamic',
+			'locked'       => false,
 		);
 
 		$args = wp_parse_args( $data, $defaults );
@@ -358,7 +378,8 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 		// Sanitize and store coupon code in caps.
 		$args['coupon_code'] = affwp_sanitize_coupon_code( $args['coupon_code'] );
 
-		$args['type'] = sanitize_key( $args['type'] );
+		$args['type']   = sanitize_key( $args['type'] );
+		$args['locked'] = boolval( $args['locked'] );
 
 		$added = $this->insert( $args, 'coupon' );
 
@@ -401,6 +422,10 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 
 		if ( ! empty( $data['type'] ) ) {
 			$args['type'] = sanitize_key( $data['type'] );
+		}
+
+		if ( isset( $data['locked'] ) ) {
+			$args['locked'] = boolval( $data['locked'] );
 		}
 
 		$updated = parent::update( $coupon_id, $args, '', 'coupon' );
@@ -480,7 +505,9 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 	 * Routine that creates the coupons table.
 	 *
 	 * @since 2.6
-	 * @since 2.8 The coupon_code column was increased from 50 to 191 characters.
+	 * @since 2.8   The coupon_code column was increased from 50 to 191 characters.
+	 * @since 2.8.1 The type column was added.
+	 * @since 2.9   The locked column was added.
 	 */
 	public function create_table() {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -490,6 +517,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 			affiliate_id bigint(20)   NOT NULL,
 			coupon_code  varchar(191) NOT NULL,
 			type         tinytext     NOT NULL,
+			locked       boolean      NOT NULL,
 			PRIMARY KEY (coupon_id),
 			KEY coupon_code (coupon_code)
 			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
@@ -503,7 +531,7 @@ class Affiliate_WP_Coupons_DB extends Affiliate_WP_DB {
 	 * Retrieves all registered coupon merge tags.
 	 *
 	 * @since 2.8
-	 *	 
+	 *
 	 * @return array {
 	 *     Coupon tags and their attributes
 	 *

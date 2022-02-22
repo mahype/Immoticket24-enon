@@ -131,63 +131,113 @@ class Create_Dynamic_Coupons extends Utils\Batch_Process implements Batch\With_P
 
 		foreach ( $affiliates as $affiliate_id ) {
 
-			$coupons = affwp_get_dynamic_affiliate_coupons( $affiliate_id, false );
+			// Get all dynamic type coupons for the given affiliate.
+			$coupons = affwp_get_dynamic_affiliate_coupons( $affiliate_id, false, false );
 
-			if ( ! ( ! $coupons || $this->override_coupon ) ) {
-				continue;
-			}
+			// Handle if the affiliate has coupons.
+			if ( $coupons ) {
 
-			if ( $this->override_coupon && $coupons ) {
+				// If override setting is false, don't update. Continue to next affiliate.
+				if ( ! $this->override_coupon ) {
+					continue;
+				}
 
+				// Check each coupon.
 				foreach( $coupons as $coupon ) {
-					$coupon_args = array();
 
-					$coupon_args['affiliate_id'] = $affiliate_id;
-					$coupon_args['coupon_code']  = affiliate_wp()->affiliates->coupons->generate_code( $coupon_args );
+					$updated = false;
 
-					$coupon_format = affiliate_wp()->settings->get( 'coupon_format' );
-
-					// Use coupon format to set the coupon code.
-					if ( false !== $coupon_format && ! empty( $coupon_format ) ) {
-						// TO DO: Update this to get appropriate integration when we have multiple dynamic coupons.
-						// Make Affiliate ID, coupon code, and integration available for coupon parsing functions.
-						$coupon_args['integration'] = 'coupon_template_woocommerce';
-
-						affiliate_wp()->affiliates->coupons->coupon = $coupon_args;
-
-						$coupon_code = affiliate_wp()->affiliates->coupons->parse_tags( $coupon_format );
-
-						$coupon_code = affwp_sanitize_coupon_code( $coupon_code );
-
-						// If coupon code is unchanged, no need to validate.
-						if ( $coupon->coupon_code === $coupon_code ){
-							$coupon_args['coupon_code'] = $coupon_code;
-						} else {
-							// Otherwise, only update if valid. If not, it defaults to the generated code.
-							if ( true === affwp_validate_coupon_code( $coupon_code ) ) {
-								$coupon_args['coupon_code'] = $coupon_code;
-							}
-						}
+					// If coupon is locked, don't update. Continue to next coupon.
+					if ( true === $coupon->locked ) {
+						continue;
 					}
 
-					$added = affiliate_wp()->affiliates->coupons->update_coupon( $coupon->ID, $coupon_args );
+					// Update the dynamic coupon.
+					$updated = $this->update_coupon( $affiliate_id, $coupon );
+
+					// If successfully updated, increment the inserted count by 1.
+					if ( false !== $updated ) {
+						$inserted++;
+					}
+
 				}
+
 			} else {
 
+				// If the affiliate does not have coupons, add a dynamic coupon.
 				$added = affiliate_wp()->affiliates->coupons->add( array(
 					'affiliate_id' => $affiliate_id,
 				) );
 
+				// If successfully added, increment the inserted count by 1.
+				if ( false !== $added ) {
+					$inserted++;
+				}
+
 			}
 
-			if ( false !== $added ) {
-				$inserted++;
-			}
 		}
 
 		$this->set_current_count( absint( $current_count ) + $inserted );
 
 		return ++$this->step;
+	}
+
+	/**
+	 * Updates coupon.
+	 *
+	 * @access public
+	 * @since  2.9
+	 *
+	 * @param string $affiliate_id Affiliate ID.
+	 * @param object $coupon       Coupon.
+	 * @return bool True if the coupon was successfully updated, otherwise false.
+	 */
+	public function update_coupon( $affiliate_id, $coupon ) {
+
+		// Bail if empty.
+		if ( empty( $affiliate_id ) || empty( $coupon ) ) {
+			return false;
+		}
+
+		// Bail if coupon isn't an object.
+		if ( ! is_object( $coupon ) ) {
+			return false;
+		}
+
+		// Set up coupon arguments.
+		$coupon_args = array();
+
+		$coupon_args['affiliate_id'] = $affiliate_id;
+		$coupon_args['coupon_code']  = affiliate_wp()->affiliates->coupons->generate_code( $coupon_args );
+
+		// Get the coupon format setting.
+		$coupon_format = affiliate_wp()->settings->get( 'coupon_format' );
+
+		// Use coupon format to set the coupon code.
+		if ( false !== $coupon_format && ! empty( $coupon_format ) ) {
+			// TO DO: Update this to get appropriate integration when we have multiple dynamic coupons.
+			// Make Affiliate ID, coupon code, and integration available for coupon parsing functions.
+			$coupon_args['integration'] = 'coupon_template_woocommerce';
+
+			affiliate_wp()->affiliates->coupons->coupon = $coupon_args;
+
+			$coupon_code = affiliate_wp()->affiliates->coupons->parse_tags( $coupon_format );
+
+			$coupon_code = affwp_sanitize_coupon_code( $coupon_code );
+
+			// If coupon code is unchanged, no need to validate.
+			if ( $coupon->coupon_code === $coupon_code ){
+				$coupon_args['coupon_code'] = $coupon_code;
+			} else {
+				// Otherwise, only update if valid. If not, it defaults to the generated code.
+				if ( true === affwp_validate_coupon_code( $coupon_code ) ) {
+					$coupon_args['coupon_code'] = $coupon_code;
+				}
+			}
+		}
+
+		return affiliate_wp()->affiliates->coupons->update_coupon( $coupon->ID, $coupon_args );
 	}
 
 	/**

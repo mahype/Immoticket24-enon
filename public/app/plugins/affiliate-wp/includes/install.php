@@ -84,7 +84,7 @@ function affiliate_wp_install() {
 				'your_name'   => __( 'Your Name', 'affiliate-wp' ),
 				'website_url' => __( 'Website URL', 'affiliate-wp' )
 			),
-			'email_notifications' => $affiliate_wp_install->settings->email_notifications( true )
+			'email_notifications' => $affiliate_wp_install->settings->email_notifications( true ),
 		), $save = true );
 
 		update_option( 'affwp_migrated_meta_fields',affwp_get_pending_migrated_user_meta_fields() );
@@ -95,6 +95,11 @@ function affiliate_wp_install() {
 	update_option( 'affwp_js_works', 3 );
 	update_option( 'affwp_is_installed', '1' );
 	update_option( 'affwp_version', AFFILIATEWP_VERSION );
+
+	// check if needs to trigger wizard.
+	if ( ! get_option( 'affwp_has_run_wizard' ) ) {
+		update_option( 'affwp_trigger_wizard', true );
+	}
 
 	// Clear rewrite rules
 	$affiliate_wp_install->rewrites->flush_rewrites();
@@ -107,6 +112,7 @@ function affiliate_wp_install() {
 		'upgrade_v261_utf8mb4_compat',
 		'upgrade_v27_calculate_campaigns',
 		'upgrade_v274_calculate_campaigns',
+		'upgrade_v281_convert_failed_referrals',
 	);
 
 	// Set past upgrade routines complete for all sites.

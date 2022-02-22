@@ -111,7 +111,7 @@ class Upgrade_Create_Dynamic_Coupons extends Utils\Batch_Process implements Batc
 
 		foreach ( $affiliates as $affiliate_id ) {
 
-			$coupons = affwp_get_dynamic_affiliate_coupons( $affiliate_id, false );
+			$coupons = affwp_get_dynamic_affiliate_coupons( $affiliate_id, false, false );
 
 			if ( $coupons ) {
 				continue;

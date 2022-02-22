@@ -154,7 +154,11 @@ class Affiliate_WP_Settings {
 	protected function save( $options = array() ) {
 		$all_options = $this->get_all();
 
-		if ( ! empty( $options ) ) {
+		if ( empty( $all_options ) ) {
+			$all_options = array();
+		}
+
+		if ( ! empty( $options ) && is_array( $all_options ) ) {
 			$all_options = array_merge( $all_options, $options );
 		}
 
@@ -163,7 +167,8 @@ class Affiliate_WP_Settings {
 		// Refresh the options array available in memory (prevents unexpected race conditions).
 		$this->options = get_option( 'affwp_settings', array() );
 
-		return $updated;	}
+		return $updated;	
+	}
 
 	/**
 	 * Get all settings
@@ -596,7 +601,8 @@ class Affiliate_WP_Settings {
 					'referral_pretty_urls' => array(
 						'name' => __( 'Pretty Affiliate URLs', 'affiliate-wp' ),
 						'desc' => $referral_pretty_urls_desc,
-						'type' => 'checkbox'
+						'type' => 'checkbox',
+						'std'  => '1',
 					),
 					'referral_credit_last' => array(
 						'name' => __( 'Credit Last Referrer', 'affiliate-wp' ),
@@ -641,7 +647,7 @@ class Affiliate_WP_Settings {
 							'desc' => __( 'Enter how many days the referral tracking cookie should be valid for.', 'affiliate-wp' ),
 							'type' => 'number',
 							'size' => 'small',
-							'std'  => '1',
+							'std'  => '30',
 					),
 					'cookie_sharing' => array(
 						'name' => __( 'Cookie Sharing', 'affiliate-wp' ),
@@ -902,12 +908,14 @@ class Affiliate_WP_Settings {
 					'allow_affiliate_registration' => array(
 						'name' => __( 'Allow Affiliate Registration', 'affiliate-wp' ),
 						'desc' => __( 'Allow users to register affiliate accounts for themselves.', 'affiliate-wp' ),
-						'type' => 'checkbox'
+						'type' => 'checkbox',
+						'std'  => '1',
 					),
 					'require_approval' => array(
 						'name' => __( 'Require Approval', 'affiliate-wp' ),
 						'desc' => __( 'Require that Pending affiliate accounts must be approved before they can begin earning referrals.', 'affiliate-wp' ),
-						'type' => 'checkbox'
+						'type' => 'checkbox',
+						'std'  => '1',
 					),
 					'auto_register' => array(
 						'name' => __( 'Auto Register New Users', 'affiliate-wp' ),
@@ -1220,7 +1228,12 @@ class Affiliate_WP_Settings {
 	 */
 	function checkbox_callback( $args ) {
 
-		$checked  = isset( $this->options[ $args['id'] ] ) ? checked( 1, $this->options[ $args['id'] ], false) : '';
+		$checked = '';
+		if ( isset( $this->options[ $args['id'] ] ) ) {
+			$checked = checked( 1, $this->options[ $args['id'] ], false );
+		} elseif ( ! empty( $args['std'] ) ) {
+			$checked = checked( true, true, false );
+		}
 		$disabled = $this->is_setting_disabled( $args ) ? disabled( $args['disabled'], true, false ) : '';
 
 		$html = '<label for="affwp_settings[' . $args['id'] . ']">';
@@ -1793,11 +1806,14 @@ class Affiliate_WP_Settings {
 			'license_key'    => $license_key
 		) );
 
-		set_transient( 'affwp_license_check', $license_data->license, DAY_IN_SECONDS );
+		if ( isset( $license_data->license ) ) {
+			set_transient( 'affwp_license_check', $license_data->license, DAY_IN_SECONDS );
+		}
 
-		if( 'valid' !== $license_data->license || empty( $license_data->success ) ) {
+		if( ! isset( $license_data->license ) || 'valid' !== $license_data->license || empty( $license_data->success ) ) {
 
-			wp_safe_redirect( affwp_admin_url( 'settings', array( 'affwp_notice' => 'license-' . $license_data->error, 'affwp_success' => 'no' ) ) );
+			$error = isset( $license_data->error ) ? $license_data->error : 'missing';
+			wp_safe_redirect( affwp_admin_url( 'settings', array( 'affwp_notice' => 'license-' . $error, 'affwp_success' => 'no' ) ) );
 			exit;
 
 		}

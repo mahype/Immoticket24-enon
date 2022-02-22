@@ -10,6 +10,8 @@
  * @since       1.0
  */
 
+use AffWP\Components\Wizard;
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -39,7 +41,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.8.4';
+	private $version = '2.9.1';
 
 	/**
 	 * Main plugin file.
@@ -572,6 +574,9 @@ final class Affiliate_WP {
 		self::$instance->capabilities   = new Affiliate_WP_Capabilities;
 		self::$instance->utils          = new Affiliate_WP_Utilities;
 		self::$instance->editor         = new Affiliate_WP_Editor;
+
+		// Onboarding wizard.
+		new Wizard\Bootstrap();
 
 		self::$instance->updater();
 	}

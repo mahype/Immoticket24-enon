@@ -56,6 +56,14 @@ final class Coupon extends \AffWP\Base_Object {
 	public $type;
 
 	/**
+	 * Lock status.
+	 *
+	 * @since 2.9
+	 * @var   bool
+	 */
+	public $locked;
+
+	/**
 	 * Coupon Template
 	 *
 	 * @since 2.6
@@ -157,6 +165,10 @@ final class Coupon extends \AffWP\Base_Object {
 
 		if ( 'type' === $field ) {
 			$value = sanitize_key( $value );
+		}
+
+		if ( 'locked' === $field ) {
+			$value = boolval( $value );
 		}
 
 		return $value;

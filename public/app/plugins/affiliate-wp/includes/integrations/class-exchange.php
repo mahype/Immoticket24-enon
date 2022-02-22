@@ -393,17 +393,20 @@ class Affiliate_WP_Exchange extends Affiliate_WP_Base {
 	 * Retrieves coupons of a given type.
 	 *
 	 * @since 2.6
+	 * @since 2.9 Added `$unlocked_only` parameter.
 	 *
-	 * @param string               $type         Coupon type.
-	 * @param int|\AffWP\Affiliate $affiliate    Optional. Affiliate ID or object to retrieve coupons for.
-	 *                                           Default null (ignored).
-	 * @param bool                 $details_only Optional. Whether to retrieve the coupon details only (for display).
-	 *                                           Default true. If false, the full coupon objects will be retrieved.
+	 * @param string               $type          Coupon type.
+	 * @param int|\AffWP\Affiliate $affiliate     Optional. Affiliate ID or object to retrieve coupons for.
+	 *                                            Default null (ignored).
+	 * @param bool                 $details_only  Optional. Whether to retrieve the coupon details only (for display).
+	 *                                            Default true. If false, the full coupon objects will be retrieved.
+	 * @param bool                 $unlocked_only Optional. Whether to retrieve only unlocked dynamic coupons if supported.
+	 *                                            Default false (retrieve all dynamic coupons).
 	 * @return array|\AffWP\Affiliate\Coupon[]|\WP_Post[] An array of arrays of coupon details if `$details_only` is
 	 *                                                    true or an array of coupon or post objects if false, depending
 	 *                                                    on whether dynamic or manual coupons, otherwise an empty array.
 	 */
-	public function get_coupons_of_type( $type, $affiliate = null, $details_only = true ) {
+	public function get_coupons_of_type( $type, $affiliate = null, $details_only = true, $unlocked_only = false ) {
 		if ( ! $this->is_active() ) {
 			return array();
 		}

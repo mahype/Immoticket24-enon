@@ -45,7 +45,9 @@ function affwp_is_admin_page( $page = '' ) {
 		'affiliate-wp-settings',
 		'affwp-getting-started',
 		'affwp-what-is-new',
-		'affwp-credits'
+		'affwp-credits',
+		'affiliate-wp-add-ons',
+		'affiliate-wp-wizard',
 	);
 
 	if ( ! empty( $page ) && in_array( $page, $pages ) ) {

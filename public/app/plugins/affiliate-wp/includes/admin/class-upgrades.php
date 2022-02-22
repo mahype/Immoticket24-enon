@@ -209,6 +209,10 @@ class Affiliate_WP_Upgrades {
 			$this->v28_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.9', '<' ) ) {
+			$this->v29_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -1119,6 +1123,40 @@ class Affiliate_WP_Upgrades {
 		);
 
 		affiliate_wp()->settings->set( $coupons_settings, $save = true );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Performs database upgrades for 2.9.
+	 *
+	 * @since 2.9
+	 */
+	private function v29_upgrade() {
+		global $wpdb;
+
+		$table_name = affiliate_wp()->affiliates->coupons->table_name;
+
+		// Add the 'locked' column.
+		affiliate_wp()->affiliates->coupons->create_table();
+
+		affiliate_wp()->utils->log( 'Upgrade: The locked column has been added to the coupons table.' );
+
+		// Update type field of existing coupons.
+		$old_type = '';
+		$new_type = 'dynamic';
+
+		$wpdb->query(
+				$wpdb->prepare(
+					"UPDATE $table_name SET type = %s where type = %s;",
+					$new_type,
+					$old_type
+				)
+			);
+
+		affiliate_wp()->utils->log( 'Upgrade: All dynamic coupons now have a "dynamic" type in the coupons table.' );
+
+		wp_cache_set( 'last_changed', microtime(), 'coupons' );
 
 		$this->upgraded = true;
 	}

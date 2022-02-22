@@ -170,7 +170,7 @@ function affwp_sanitize_coupon_custom_text( $custom_text ) {
 	// Return capitalized custom text.
 	return strtoupper( $custom_text );
 }
-  
+
 /**
  * Validates an affiliate coupon code.
  *
@@ -381,15 +381,18 @@ function affwp_get_manual_affiliate_coupons( $affiliate, $details_only = true ) 
  * Retrieves all dynamic coupons associated with an affiliate.
  *
  * @since 2.6
+ * @since 2.9 Added an `$unlocked_only` parameter.
  *
- * @param int|\AffWP\Affiliate $affiliate    Affiliate ID or object.
- * @param bool                 $details_only Optional. Whether to retrieve the coupon details only (for display).
- *                                           Default true. If false, the full coupon objects will be retrieved.
+ * @param int|\AffWP\Affiliate $affiliate     Affiliate ID or object.
+ * @param bool                 $details_only  Optional. Whether to retrieve the coupon details only (for display).
+ *                                            Default true. If false, the full coupon objects will be retrieved.
+ * @param bool                 $unlocked_only Optional. Whether to retrieve only unlocked dynamic coupons if supported.
+ *                                            Default false (retrieve all dynamic coupons).
  * @return array[]|\AffWP\Affiliate\Coupon[]|array Array of arrays of coupon details, an array of coupon objects,
  *                                                 dependent upon whether `$details_only` is true or false,
  *                                                 respectively, otherwise an empty array.
  */
-function affwp_get_dynamic_affiliate_coupons( $affiliate, $details_only = true ) {
+function affwp_get_dynamic_affiliate_coupons( $affiliate, $details_only = true, $unlocked_only = false ) {
 	$coupons = array();
 
 	if ( ! $affiliate = affwp_get_affiliate( $affiliate ) ) {
@@ -408,7 +411,7 @@ function affwp_get_dynamic_affiliate_coupons( $affiliate, $details_only = true )
 				$integration = affiliate_wp()->integrations->get( $integration );
 
 				if ( ! is_wp_error( $integration ) && $integration->is_active() ) {
-					$integration_coupons = $integration->get_coupons_of_type( 'dynamic', $affiliate, $details_only );
+					$integration_coupons = $integration->get_coupons_of_type( 'dynamic', $affiliate, $details_only, $unlocked_only );
 
 					if ( ! empty( $integration_coupons ) ) {
 						foreach ( $integration_coupons as $coupon_id => $coupon ) {
@@ -430,12 +433,13 @@ function affwp_get_dynamic_affiliate_coupons( $affiliate, $details_only = true )
 	 * Filters the list of dynamic coupons associated with an affiliate.
 	 *
 	 * @since 2.6
+	 * @since 2.9 Added `$unlocked_only` parameter.
 	 *
 	 * @param array $coupons      The affiliate's coupons.
 	 * @param int   $affiliate_id Affiliate ID.
 	 * @param bool  $details_only Whether only details (for display use) were retrieved or not.
 	 */
-	return apply_filters( 'affwp_get_dynamic_affiliate_coupons', $coupons, $affiliate->ID, $details_only );
+	return apply_filters( 'affwp_get_dynamic_affiliate_coupons', $coupons, $affiliate->ID, $details_only, $unlocked_only );
 }
 
 /**

@@ -90,6 +90,6 @@ function affiliate_wp_uninstall_tables() {
 		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '%$segment%'" );
 	}
 
-	$wpdb->query( "DROP VIEW " . $wpdb->prefix . "affiliate_wp_campaigns" );
+	$wpdb->query( "DROP VIEW IF EXISTS {$wpdb->prefix}affiliate_wp_campaigns" );
 
 }
