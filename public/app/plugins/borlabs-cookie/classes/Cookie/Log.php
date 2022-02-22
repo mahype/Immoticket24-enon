@@ -22,17 +22,18 @@ namespace BorlabsCookie\Cookie;
 
 class Log
 {
-    private static $instance = null;
+    private static $instance;
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
-    private $token = null;
+
+    private $token;
 
     public function __construct()
     {
@@ -54,14 +55,10 @@ class Log
      *
      * Example: Database down
      *
-     * @access public
-     *
-     * @param  mixed  $process
-     * @param  mixed  $message
-     * @param  array  $context  (default: [])
-     * @param  array  $data  (default: [])
-     *
-     * @return void
+     * @param mixed $process
+     * @param mixed $message
+     * @param array $context (default: [])
+     * @param array $data    (default: [])
      */
     public function alert($process, $message, array $context = [], array $data = [])
     {
@@ -73,14 +70,10 @@ class Log
      *
      * Example: Unexpected condition
      *
-     * @access public
-     *
-     * @param  mixed  $process
-     * @param  mixed  $message
-     * @param  array  $context  (default: [])
-     * @param  array  $data  (default: [])
-     *
-     * @return void
+     * @param mixed $process
+     * @param mixed $message
+     * @param array $context (default: [])
+     * @param array $data    (default: [])
      */
     public function critical($process, $message, array $context = [], array $data = [])
     {
@@ -90,14 +83,10 @@ class Log
     /**
      * Detailed debug information.
      *
-     * @access public
-     *
-     * @param  mixed  $process
-     * @param  mixed  $message
-     * @param  array  $context  (default: [])
-     * @param  array  $data  (default: [])
-     *
-     * @return void
+     * @param mixed $process
+     * @param mixed $message
+     * @param array $context (default: [])
+     * @param array $data    (default: [])
      */
     public function debug($process, $message, array $context = [], array $data = [])
     {
@@ -107,14 +96,10 @@ class Log
     /**
      * System is unusable.
      *
-     * @access public
-     *
-     * @param  mixed  $process
-     * @param  mixed  $message
-     * @param  array  $context  (default: [])
-     * @param  array  $data  (default: [])
-     *
-     * @return void
+     * @param mixed $process
+     * @param mixed $message
+     * @param array $context (default: [])
+     * @param array $data    (default: [])
      */
     public function emergency($process, $message, array $context = [], array $data = [])
     {
@@ -125,14 +110,10 @@ class Log
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
      *
-     * @access public
-     *
-     * @param  mixed  $process
-     * @param  mixed  $message
-     * @param  array  $context  (default: [])
-     * @param  array  $data  (default: [])
-     *
-     * @return void
+     * @param mixed $process
+     * @param mixed $message
+     * @param array $context (default: [])
+     * @param array $data    (default: [])
      */
     public function error($process, $message, array $context = [], array $data = [])
     {
@@ -149,14 +130,10 @@ class Log
      *
      * Example: User logs in, SQL logs
      *
-     * @access public
-     *
-     * @param  mixed  $process
-     * @param  mixed  $message
-     * @param  array  $context  (default: [])
-     * @param  array  $data  (default: [])
-     *
-     * @return void
+     * @param mixed $process
+     * @param mixed $message
+     * @param array $context (default: [])
+     * @param array $data    (default: [])
      */
     public function info($process, $message, array $context = [], array $data = [])
     {
@@ -166,19 +143,15 @@ class Log
     /**
      * interpolate function.
      *
-     * @access public
-     *
-     * @param  mixed  $message
-     * @param  array  $context  (default: [])
-     *
-     * @return void
+     * @param mixed $message
+     * @param array $context (default: [])
      */
     public function interpolate($message, array $context = [])
     {
         $replace = [];
 
         foreach ($context as $key => $val) {
-            if (! is_array($val) && (! is_object($val) || method_exists($val, '__toString'))) {
+            if (!is_array($val) && (!is_object($val) || method_exists($val, '__toString'))) {
                 $replace['{' . $key . '}'] = $val;
             }
         }
@@ -189,14 +162,10 @@ class Log
     /**
      * Normal but significant events.
      *
-     * @access public
-     *
-     * @param  mixed  $process
-     * @param  mixed  $message
-     * @param  array  $context  (default: [])
-     * @param  array  $data  (default: [])
-     *
-     * @return void
+     * @param mixed $process
+     * @param mixed $message
+     * @param array $context (default: [])
+     * @param array $data    (default: [])
      */
     public function notice($process, $message, array $context = [], array $data = [])
     {
@@ -206,14 +175,10 @@ class Log
     /**
      * Exceptional occurrences that are not errors.
      *
-     * @access public
-     *
-     * @param  mixed  $process
-     * @param  mixed  $message
-     * @param  array  $context  (default: [])
-     * @param  array  $data  (default: [])
-     *
-     * @return void
+     * @param mixed $process
+     * @param mixed $message
+     * @param array $context (default: [])
+     * @param array $data    (default: [])
      */
     public function warning($process, $message, array $context = [], array $data = [])
     {
@@ -223,20 +188,16 @@ class Log
     /**
      * log function.
      *
-     * @access private
-     *
-     * @param  mixed  $level
-     * @param  mixed  $process
-     * @param  mixed  $message
-     * @param  array  $context  (default: [])
-     * @param  array  $data  (default: [])
-     *
-     * @return void
+     * @param mixed $level
+     * @param mixed $process
+     * @param mixed $message
+     * @param array $context (default: [])
+     * @param array $data    (default: [])
      */
     private function log($level, $process, $message, array $context = [], array $data = [])
     {
         if (defined('BORLABS_COOKIE_DEBUG') && BORLABS_COOKIE_DEBUG === true) {
-            if (! is_array($data) && ! is_object($data)) {
+            if (!is_array($data) && !is_object($data)) {
                 $data = [$data];
             }
 

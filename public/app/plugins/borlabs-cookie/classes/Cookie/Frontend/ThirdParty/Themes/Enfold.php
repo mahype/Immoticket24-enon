@@ -26,8 +26,8 @@ class Enfold
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,9 +35,6 @@ class Enfold
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -56,34 +53,30 @@ class Enfold
     /**
      * modifyVideoOutput function.
      *
-     * @access public
-     *
-     * @param  mixed  $output
-     * @param  mixed  $atts
-     * @param  mixed  $content
-     * @param  mixed  $shortcodename
-     * @param  mixed  $meta
-     * @param  mixed  $video_html_raw
-     *
-     * @return void
+     * @param mixed $output
+     * @param mixed $atts
+     * @param mixed $content
+     * @param mixed $shortcodename
+     * @param mixed $meta
+     * @param mixed $video_html_raw
      */
     public function modifyVideoOutput($output, $atts, $content, $shortcodename, $meta, $video_html_raw)
     {
-        if (! empty($atts['src'])) {
+        if (!empty($atts['src'])) {
             $style = [];
 
-            if (! empty($atts['format']) && $atts['format'] == 'custom') {
-                $height = intval($atts['height']);
-                $width = intval($atts['width']);
+            if (!empty($atts['format']) && $atts['format'] == 'custom') {
+                $height = (int) ($atts['height']);
+                $width = (int) ($atts['width']);
                 $ratio = (100 / $width) * $height;
-                $style[] = "padding-bottom:" . $ratio . "%";
+                $style[] = 'padding-bottom:' . $ratio . '%';
             }
 
-            if (! empty($atts['mobile_image'])) {
+            if (!empty($atts['mobile_image'])) {
                 $style[] = "background-image: url('" . $atts['mobile_image'] . "')";
             }
 
-            if (! empty($atts['conditional_play']) && $atts['conditional_play'] === 'lightbox') {
+            if (!empty($atts['conditional_play']) && $atts['conditional_play'] === 'lightbox') {
                 // Nothing for now - can not be supported
             } else {
                 $output = '<div class="avia-video avia-video-' . $atts['format'] . '" style="' . implode(';', $style)

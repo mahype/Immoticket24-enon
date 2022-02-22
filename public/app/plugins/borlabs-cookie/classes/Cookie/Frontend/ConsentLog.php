@@ -28,8 +28,8 @@ class ConsentLog
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -52,25 +52,20 @@ class ConsentLog
     /**
      * add function.
      *
-     * @access public
-     *
-     * @param  mixed  $cookieData
-     *
-     * @return void
+     * @param mixed $cookieData
+     * @param mixed $language
+     * @param mixed $essentialStatistic
      */
-    public function add($cookieData, $language)
+    public function add($cookieData, $language, $essentialStatistic = false)
     {
         global $wpdb;
 
-        $allowedCookieGroups = [];
-        $allowedCookies = [];
         $consents = [];
-
         $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)
-            . "borlabs_cookie_consent_log";
+            . 'borlabs_cookie_consent_log';
 
         // Validate cookie data
-        if (! empty($cookieData['uid'])) {
+        if (!empty($cookieData['uid'])) {
             // Validate uid
             if (preg_match('/[0-9a-z]{8}\-[0-9a-z]{8}\-[0-9a-z]{8}\-[0-9a-z]{8}/', $cookieData['uid'])) {
                 // Sanitize language
@@ -81,14 +76,14 @@ class ConsentLog
                 $allowedCookies = Cookies::getInstance()->getAllCookiesOfLanguage($language);
 
                 // Validate consents
-                if (! empty($cookieData['consents'])) {
+                if (!empty($cookieData['consents'])) {
                     foreach ($cookieData['consents'] as $cookieGroup => $cookies) {
-                        if (! empty($allowedCookieGroups[$cookieGroup])) {
+                        if (!empty($allowedCookieGroups[$cookieGroup])) {
                             $consents[$cookieGroup] = [];
 
-                            if (! empty($cookies)) {
+                            if (!empty($cookies)) {
                                 foreach ($cookies as $cookie) {
-                                    if (! empty($allowedCookies[$cookie])) {
+                                    if (!empty($allowedCookies[$cookie])) {
                                         $consents[$cookieGroup][] = $cookie;
                                     }
                                 }
@@ -99,12 +94,12 @@ class ConsentLog
 
                 // Get last log
                 $lastLog = $wpdb->get_results(
-                    "
+                    '
                     SELECT
                         `cookie_version`,
                         `consents`
                     FROM
-                        `" . $table . "`
+                        `' . $table . "`
                     WHERE
                         `uid` = '" . esc_sql($cookieData['uid']) . "'
                         AND
@@ -112,40 +107,41 @@ class ConsentLog
                 "
                 );
 
-                $cookieVersion = null;
-
-                if (! empty($cookieData['version'])) {
-                    $cookieVersion = intval($cookieData['version']);
+                if (!empty($cookieData['version'])) {
+                    $cookieVersion = (int) ($cookieData['version']);
                 } else {
-                    $cookieVersion = intval(get_site_option('BorlabsCookieCookieVersion', 1));
+                    $cookieVersion = (int) (get_site_option('BorlabsCookieCookieVersion', 1));
                 }
 
-                $consents = serialize($consents);
+                $newConsents = serialize($consents);
 
                 if (
                     empty($lastLog[0]->consents)
-                    || ($lastLog[0]->consents !== $consents
+                    || ($lastLog[0]->consents !== $newConsents
                         && $lastLog[0]->cookie_version !== $cookieVersion)
                 ) {
-                    if (! empty($lastLog[0]->consents)) {
+                    $countEssential = true;
+
+                    if (!empty($lastLog[0]->consents)) {
                         // Set "is_latest" of all old entries of the uid to 0
                         $wpdb->query(
-                            "
+                            '
                             UPDATE
-                                `" . $table . "`
+                                `' . $table . "`
                             SET
                                 `is_latest` = 0
                             WHERE
                                 `uid` = '" . esc_sql($cookieData['uid']) . "'
                         "
                         );
+                        $countEssential = false;
                     }
 
                     // Insert log
                     $wpdb->query(
-                        "
+                        '
                         INSERT INTO
-                            `" . $table . "`
+                            `' . $table . "`
                         (
                             `log_id`,
                             `uid`,
@@ -159,12 +155,58 @@ class ConsentLog
                             null,
                             '" . esc_sql($cookieData['uid']) . "',
                             '" . $cookieVersion . "',
-                            '" . esc_sql($consents) . "',
+                            '" . esc_sql($newConsents) . "',
                             '1',
                             NOW()
                         )
                     "
                     );
+
+                    $tableStatistics = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)
+                        . 'borlabs_cookie_statistics';
+                    $stats = [];
+                    $lastConsents = !empty($lastLog[0]->consents) ? unserialize($lastLog[0]->consents) : [];
+
+                    if ($countEssential && $essentialStatistic === true) {
+                        $stats[] = "('essential', NOW())";
+                    }
+
+                    foreach ($consents as $cookieGroup => $cookie) {
+                        if ($cookieGroup !== 'essential' && !isset($lastConsents[$cookieGroup])) {
+                            $stats[] = "('" . esc_sql($cookieGroup) . "', NOW())";
+                        }
+                    }
+
+                    if (!empty($stats)) {
+                        $wpdb->query('
+                            INSERT INTO
+                                `' . $tableStatistics . '`
+                            (
+                                `service_group`,
+                                `stamp`
+                            )
+                            VALUES
+                            ' . implode(',', $stats) . '
+                        ');
+                    }
+                }
+            } elseif ($cookieData['uid'] === 'anonymous') {
+                if ($essentialStatistic === true) {
+                    $tableStatistics = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)
+                        . 'borlabs_cookie_statistics';
+                    $wpdb->query('
+                        INSERT INTO
+                            `' . $tableStatistics . "`
+                        (
+                            `service_group`,
+                            `stamp`
+                        )
+                        VALUES
+                        (
+                            'essential',
+                            NOW()
+                        )
+                    ");
                 }
             }
         }
@@ -175,12 +217,8 @@ class ConsentLog
     /**
      * getHistory function.
      *
-     * @access public
-     *
-     * @param  mixed  $uid
-     * @param  mixed  $language
-     *
-     * @return void
+     * @param mixed $uid
+     * @param mixed $language
      */
     public function getConsentHistory($uid, $language)
     {
@@ -191,7 +229,7 @@ class ConsentLog
         $uid = trim(strtolower($uid));
 
         $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)
-            . "borlabs_cookie_consent_log";
+            . 'borlabs_cookie_consent_log';
 
         if (preg_match('/[0-9a-z]{8}\-[0-9a-z]{8}\-[0-9a-z]{8}\-[0-9a-z]{8}/', $uid)) {
             // Sanitize language
@@ -201,14 +239,14 @@ class ConsentLog
             $availableCookies = Cookies::getInstance()->getAllCookiesOfLanguage($language);
 
             $logs = $wpdb->get_results(
-                "
+                '
                 SELECT
                     `log_id`,
                     `cookie_version`,
                     `consents`,
                     `stamp`
                 FROM
-                    `" . $table . "`
+                    `' . $table . "`
                 WHERE
                     `uid` = '" . esc_sql($uid) . "'
                 ORDER BY
@@ -222,14 +260,14 @@ class ConsentLog
 
                 $consents = unserialize($logItem->consents);
 
-                if (! empty($consents)) {
+                if (!empty($consents)) {
                     foreach ($consents as $cookieGroup => $cookies) {
-                        if (! empty($availableCookieGroups[$cookieGroup])) {
+                        if (!empty($availableCookieGroups[$cookieGroup])) {
                             $consentsTranslated[$cookieGroup]['cookieGroup'] = $availableCookieGroups[$cookieGroup];
 
-                            if (! empty($cookies)) {
+                            if (!empty($cookies)) {
                                 foreach ($cookies as $cookie) {
-                                    if (! empty($availableCookies[$cookie])) {
+                                    if (!empty($availableCookies[$cookie])) {
                                         $consentsTranslated[$cookieGroup]['cookies'][] = $availableCookies[$cookie];
                                     }
                                 }
@@ -238,10 +276,10 @@ class ConsentLog
                     }
 
                     foreach ($consentsTranslated as $data) {
-                        $finalConsentList[] = $data['cookieGroup'] . (! empty($data['cookies']) ? ': ' . implode(
-                                    ', ',
-                                    $data['cookies']
-                                ) : '');
+                        $finalConsentList[] = $data['cookieGroup'] . (!empty($data['cookies']) ? ': ' . implode(
+                            ', ',
+                            $data['cookies']
+                        ) : '');
                     }
                 }
 

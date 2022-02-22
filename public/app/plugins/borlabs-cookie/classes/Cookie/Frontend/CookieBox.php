@@ -29,8 +29,8 @@ class CookieBox
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -66,6 +66,9 @@ class CookieBox
         }
 
         // Refuse option type - Cookie Box
+        $cookieBoxManageOptionType = Config::getInstance()->get('cookieBoxManageOptionType');
+
+        // Refuse option type - Cookie Box
         $cookieBoxRefuseOptionType = Config::getInstance()->get('cookieBoxRefuseOptionType');
 
         // Refuse option type - Cookie Preferences
@@ -77,22 +80,22 @@ class CookieBox
         // Privacy Policy Link
         $cookieBoxPrivacyLink = '';
 
-        if (! empty(Config::getInstance()->get('privacyPageURL'))) {
+        if (!empty(Config::getInstance()->get('privacyPageURL'))) {
             $cookieBoxPrivacyLink = Config::getInstance()->get('privacyPageURL');
         }
 
-        if (! empty(Config::getInstance()->get('privacyPageCustomURL'))) {
+        if (!empty(Config::getInstance()->get('privacyPageCustomURL'))) {
             $cookieBoxPrivacyLink = Config::getInstance()->get('privacyPageCustomURL');
         }
 
         // Imprint Link
         $cookieBoxImprintLink = '';
 
-        if (! empty(Config::getInstance()->get('imprintPageURL'))) {
+        if (!empty(Config::getInstance()->get('imprintPageURL'))) {
             $cookieBoxImprintLink = Config::getInstance()->get('imprintPageURL');
         }
 
-        if (! empty(Config::getInstance()->get('imprintPageCustomURL'))) {
+        if (!empty(Config::getInstance()->get('imprintPageCustomURL'))) {
             $cookieBoxImprintLink = Config::getInstance()->get('imprintPageCustomURL');
         }
 
@@ -130,7 +133,7 @@ class CookieBox
         $cookieBoxLogoSrcSet = [];
         $cookieBoxLogoSrcSet[] = $cookieBoxLogo;
 
-        if (! empty($cookieBoxLogoHD)) {
+        if (!empty($cookieBoxLogoHD)) {
             $cookieBoxLogoSrcSet[] = $cookieBoxLogoHD . ' 2x';
         }
 
@@ -139,47 +142,55 @@ class CookieBox
 
         $cookieBoxDescriptionParts = [];
         $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-description">' . nl2br(
-                Config::getInstance()->get('cookieBoxTextDescription')
-            ) . '</span>';
+            Config::getInstance()->get('cookieBoxTextDescription')
+        ) . '</span>';
+
         if (Config::getInstance()->get('cookieBoxShowTextDescriptionConfirmAge')) {
             $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-confirm-age">' . nl2br(
-                    Config::getInstance()->get('cookieBoxTextDescriptionConfirmAge')
-                ) . '</span>';
+                Config::getInstance()->get('cookieBoxTextDescriptionConfirmAge')
+            ) . '</span>';
         }
+
         if (Config::getInstance()->get('cookieBoxShowTextDescriptionTechnology')) {
             $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-technology">' . nl2br(
-                    Config::getInstance()->get('cookieBoxTextDescriptionTechnology')
-                ) . '</span>';
+                Config::getInstance()->get('cookieBoxTextDescriptionTechnology')
+            ) . '</span>';
         }
+
         if (Config::getInstance()->get('cookieBoxShowTextDescriptionPersonalData')) {
             $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-personal-data">' . nl2br(
-                    Config::getInstance()->get('cookieBoxTextDescriptionPersonalData')
-                ) . '</span>';
+                Config::getInstance()->get('cookieBoxTextDescriptionPersonalData')
+            ) . '</span>';
         }
+
         if (Config::getInstance()->get('cookieBoxShowDescriptionMoreInformation')) {
             $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-more-information">' . nl2br(
-                    Config::getInstance()->get('cookieBoxTextDescriptionMoreInformation')
-                ) . '</span>';
+                Config::getInstance()->get('cookieBoxTextDescriptionMoreInformation')
+            ) . '</span>';
         }
+
         if (Config::getInstance()->get('cookieBoxShowTextDescriptionNoObligation')) {
             $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-no-commitment">' . nl2br(
-                    Config::getInstance()->get('cookieBoxTextDescriptionNoObligation')
-                ) . '</span>';
+                Config::getInstance()->get('cookieBoxTextDescriptionNoObligation')
+            ) . '</span>';
         }
+
         if (Config::getInstance()->get('cookieBoxShowTextDescriptionRevoke')) {
             $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-revoke">' . nl2br(
-                    Config::getInstance()->get('cookieBoxTextDescriptionRevoke')
-                ) . '</span>';
+                Config::getInstance()->get('cookieBoxTextDescriptionRevoke')
+            ) . '</span>';
         }
+
         if (Config::getInstance()->get('cookieBoxShowTextDescriptionIndividualSettings')) {
             $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-individual-settings">' . nl2br(
-                    Config::getInstance()->get('cookieBoxTextDescriptionIndividualSettings')
-                ) . '</span>';
+                Config::getInstance()->get('cookieBoxTextDescriptionIndividualSettings')
+            ) . '</span>';
         }
+
         if (Config::getInstance()->get('cookieBoxShowTextDescriptionNonEUDataTransfer')) {
             $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-non-eu-data-transfer">' . nl2br(
-                    Config::getInstance()->get('cookieBoxTextDescriptionNonEUDataTransfer')
-                ) . '</span>';
+                Config::getInstance()->get('cookieBoxTextDescriptionNonEUDataTransfer')
+            ) . '</span>';
         }
 
         $cookieBoxTextDescription = implode(' ', $cookieBoxDescriptionParts);
@@ -199,8 +210,8 @@ class CookieBox
         $cookieBoxPreferenceTextHeadline = Config::getInstance()->get('cookieBoxPreferenceTextHeadline');
         $cookieBoxDescriptionParts = array_slice($cookieBoxDescriptionParts, 1);
         $cookieBoxDescriptionParts[] = '<span class="_brlbs-paragraph _brlbs-text-description">' . nl2br(
-                Config::getInstance()->get('cookieBoxPreferenceTextDescription')
-            ) . '</span>';
+            Config::getInstance()->get('cookieBoxPreferenceTextDescription')
+        ) . '</span>';
         $cookieBoxPreferenceTextDescription = implode(' ', $cookieBoxDescriptionParts);
         $cookieBoxPreferenceTextDescription = str_replace(
             '{privacyPageURL}',
@@ -237,22 +248,27 @@ class CookieBox
         // Cookie Groups
         $cookieGroups = Cookies::getInstance()->getAllCookieGroups();
 
-        if (! empty($cookieGroups)) {
+        if (!empty($cookieGroups)) {
             foreach ($cookieGroups as $key => $groupData) {
-                $cookieGroups[$key]->hasCookies = ! empty($groupData->cookies) ? true : false;
-                $cookieGroups[$key]->displayCookieGroup = ! empty($groupData->pre_selected) ? true : false;
+                $cookieGroups[$key]->hasCookies = !empty($groupData->cookies) ? true : false;
+                $cookieGroups[$key]->displayCookieGroup = !empty($groupData->pre_selected) ? true : false;
                 $cookieGroups[$key]->description = nl2br($groupData->description);
             }
         }
 
         if (Config::getInstance()->get('testEnvironment') === true) {
-            $cookieBoxTextDescription .= "<span class=\"text-center\" style=\"display: block !important;background: #fff;color: #f00;\">"
+            $cookieBoxTextDescription .= '<span class="text-center" style="display: block !important;background: #fff;color: #f00;">'
                 . _x(
                     'Borlabs Cookie - Test Environment active!',
                     'Frontend / Global / Alert Message',
                     'borlabs-cookie'
-                ) . "</span>";
+                ) . '</span>';
         }
+
+        // Widget
+        $cookieBoxShowWidget = Config::getInstance()->get('cookieBoxShowWidget');
+        $cookieBoxWidgetLogo = BORLABS_COOKIE_PLUGIN_URL . 'assets/images/borlabs-cookie-icon-dynamic.svg';
+        $cookieBoxWidgetPosition = esc_attr(Config::getInstance()->get('cookieBoxWidgetPosition'));
 
         // Cookie Box Layout
         $cookieBoxLayout = Config::getInstance()->get('cookieBoxLayout');
@@ -281,13 +297,13 @@ class CookieBox
         }
 
         // Disable indexing of Borlabs Cookie data
-        echo "<!--googleoff: all-->";
-        echo "<div data-nosnippet>";
+        echo '<!--googleoff: all-->';
+        echo '<div data-nosnippet>';
 
         if ($integration === 'script') {
-            echo "<script id=\"BorlabsCookieBoxWrap\" type=\"text/template\">";
+            echo '<script id="BorlabsCookieBoxWrap" type="text/template">';
         } else {
-            echo "<div id=\"BorlabsCookieBoxWrap\">";
+            echo '<div id="BorlabsCookieBoxWrap">';
         }
 
         if (file_exists($cookieBoxTemplateFile)) {
@@ -295,13 +311,17 @@ class CookieBox
         }
 
         if ($integration === 'script') {
-            echo "</script>";
+            echo '</script>';
         } else {
-            echo "</div>";
+            echo '</div>';
+        }
+
+        if ($cookieBoxShowWidget) {
+            include $pluginTemplatePath . '/cookie-box-widget.html.php';
         }
 
         // Re-enable indexing
-        echo "</div>";
-        echo "<!--googleon: all-->";
+        echo '</div>';
+        echo '<!--googleon: all-->';
     }
 }

@@ -28,8 +28,8 @@ class Facebook
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -51,13 +51,10 @@ class Facebook
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'contentBlockerId' => 'facebook',
             'name' => 'Facebook',
             'description' => '',
@@ -75,24 +72,24 @@ class Facebook
     	<img class="_brlbs-thumbnail" src="%%thumbnail%%" alt="%%name%%">
 		<div class="_brlbs-caption">
 			<p>' . _x(
-                    "By loading the post, you agree to Facebook's privacy policy.",
-                    'Frontend / Content Blocker / Facebook / Text',
-                    'borlabs-cookie'
-                ) . '<br><a href="%%privacy_policy_url%%" target="_blank" rel="nofollow noopener noreferrer">' . _x(
-                    'Learn more',
-                    'Frontend / Content Blocker / Facebook / Text',
-                    'borlabs-cookie'
-                ) . '</a></p>
+                "By loading the post, you agree to Facebook's privacy policy.",
+                'Frontend / Content Blocker / Facebook / Text',
+                'borlabs-cookie'
+            ) . '<br><a href="%%privacy_policy_url%%" target="_blank" rel="nofollow noopener noreferrer">' . _x(
+                'Learn more',
+                'Frontend / Content Blocker / Facebook / Text',
+                'borlabs-cookie'
+            ) . '</a></p>
 			<p><a class="_brlbs-btn" href="#" data-borlabs-cookie-unblock role="button">' . _x(
-                    'Load post',
-                    'Frontend / Content Blocker / Facebook / Text',
-                    'borlabs-cookie'
-                ) . '</a></p>
+                'Load post',
+                'Frontend / Content Blocker / Facebook / Text',
+                'borlabs-cookie'
+            ) . '</a></p>
 			<p><label><input type="checkbox" name="unblockAll" value="1" checked> <small>' . _x(
-                    'Always unblock Facebook posts',
-                    'Frontend / Content Blocker / Facebook / Text',
-                    'borlabs-cookie'
-                ) . '</small></label></p>
+                'Always unblock Facebook posts',
+                'Frontend / Content Blocker / Facebook / Text',
+                'borlabs-cookie'
+            ) . '</small></label></p>
 		</div>
 	</div>
 </div>',
@@ -120,19 +117,13 @@ class Facebook
             'status' => true,
             'undeletable' => true,
         ];
-
-        return $data;
     }
 
     /**
      * modify function.
      *
-     * @access public
-     *
-     * @param  mixed  $content
-     * @param  mixed  $atts  (default: [])
-     *
-     * @return void
+     * @param mixed $content
+     * @param mixed $atts    (default: [])
      */
     public function modify($content, $atts = [])
     {
@@ -151,7 +142,7 @@ class Facebook
         }
 
         // Replace text variables
-        if (! empty($atts)) {
+        if (!empty($atts)) {
             foreach ($atts as $key => $value) {
                 $contentBlockerData['previewHTML'] = str_replace(
                     '%%' . $key . '%%',

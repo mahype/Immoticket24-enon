@@ -30,14 +30,15 @@ class SystemCheck
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
     public $templatePath;
+
     private $messages = [];
 
     public function __construct()
@@ -57,9 +58,6 @@ class SystemCheck
 
     /**
      * checkAndChangeCookieConsentLogIndex function.
-     *
-     * @access public
-     * @return void
      */
     public function checkAndChangeCookieConsentLogIndex()
     {
@@ -70,12 +68,12 @@ class SystemCheck
         if (Install::getInstance()->checkIfIndexExists($tableName, 'is_latest')) {
             // Remove key
             $wpdb->query(
-                "
+                '
                 ALTER TABLE
-                    `" . $tableName . "`
+                    `' . $tableName . '`
                 DROP INDEX
                     `is_latest`
-            "
+            '
             );
         }
 
@@ -83,21 +81,18 @@ class SystemCheck
         if (Install::getInstance()->checkIfIndexExists($tableName, 'uid') === false) {
             // Add key
             $wpdb->query(
-                "
+                '
                 ALTER TABLE
-                    `" . $tableName . "`
+                    `' . $tableName . '`
                 ADD KEY
                     `uid` (`uid`, `is_latest`)
-            "
+            '
             );
         }
     }
 
     /**
      * checkAndChangeCookiesTable function.
-     *
-     * @access public
-     * @return void
      */
     public function checkAndChangeCookiesTable()
     {
@@ -109,12 +104,12 @@ class SystemCheck
 
         if ($cookieNameColumnType === false) {
             $wpdb->query(
-                "
+                '
                 ALTER TABLE
-                    `" . $tableNameCookies . "`
+                    `' . $tableNameCookies . '`
                 MODIFY
                     `cookie_name` TEXT NOT NULL
-            "
+            '
             );
         }
 
@@ -122,12 +117,12 @@ class SystemCheck
 
         if ($cookieExpiryColumnType === false) {
             $wpdb->query(
-                "
+                '
                 ALTER TABLE
-                    `" . $tableNameCookies . "`
+                    `' . $tableNameCookies . '`
                 MODIFY
                     `cookie_expiry` TEXT NOT NULL
-            "
+            '
             );
         }
 
@@ -136,11 +131,12 @@ class SystemCheck
             'provider',
             'varchar(255)'
         );
+
         if ($cookieProviderColumnType === false) {
             $wpdb->query(
-                "
+                '
                 ALTER TABLE
-                    `" . $tableNameCookies . "`
+                    `' . $tableNameCookies . "`
                 MODIFY
                     `provider` varchar(255) NOT NULL DEFAULT ''
             "
@@ -149,10 +145,29 @@ class SystemCheck
     }
 
     /**
+     * checkAndChangeStatisticIndex function.
+     */
+    public function checkAndChangeStatisticIndex()
+    {
+        global $wpdb;
+
+        $tableName = $wpdb->prefix . 'borlabs_cookie_statistics';
+
+        if (Install::getInstance()->checkIfTableExists($tableName) === true) {
+            if (Install::getInstance()->checkIfIndexExists($tableName, 'service_group_stamp') === false) {
+                // Add key
+                $wpdb->query('
+                    ALTER TABLE
+                        `' . $tableName . '`
+                    ADD KEY
+                        `service_group_stamp` (`stamp`, `service_group`)
+                ');
+            }
+        }
+    }
+
+    /**
      * checkAndFixScriptBlockerTable function.
-     *
-     * @access public
-     * @return void
      */
     public function checkAndFixScriptBlockerTable()
     {
@@ -167,7 +182,7 @@ class SystemCheck
 
         if ($columnStatus === true) {
             // Fix Script Blocker Table
-            $wpdb->query("DROP TABLE IF EXISTS `" . $tableNameScriptBlocker . "`");
+            $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameScriptBlocker . '`');
 
             $sqlCreateTableScriptBlocker = Install::getInstance()->getCreateTableStatementScriptBlocker(
                 $tableNameScriptBlocker,
@@ -180,9 +195,6 @@ class SystemCheck
 
     /**
      * checkCacheFolders function.
-     *
-     * @access public
-     * @return void
      */
     public function checkCacheFolders()
     {
@@ -192,8 +204,8 @@ class SystemCheck
         ];
 
         // Check if cache folder exists
-        if (! file_exists(WP_CONTENT_DIR . '/cache')) {
-            if (! is_writable(WP_CONTENT_DIR)) {
+        if (!file_exists(WP_CONTENT_DIR . '/cache')) {
+            if (!is_writable(WP_CONTENT_DIR)) {
                 $data['success'] = false;
                 $data['message'] = sprintf(
                     _x(
@@ -209,7 +221,7 @@ class SystemCheck
             }
         }
 
-        if (file_exists(WP_CONTENT_DIR . '/cache') && ! is_writable(WP_CONTENT_DIR . '/cache')) {
+        if (file_exists(WP_CONTENT_DIR . '/cache') && !is_writable(WP_CONTENT_DIR . '/cache')) {
             $data['success'] = false;
             $data['message'] = sprintf(
                 _x(
@@ -223,7 +235,7 @@ class SystemCheck
 
         if (
             file_exists(WP_CONTENT_DIR . '/cache') && is_writable(WP_CONTENT_DIR . '/cache')
-            && ! file_exists(
+            && !file_exists(
                 WP_CONTENT_DIR . '/cache/borlabs-cookie'
             )
         ) {
@@ -232,7 +244,7 @@ class SystemCheck
 
         if (
             file_exists(WP_CONTENT_DIR . '/cache/borlabs-cookie')
-            && ! is_writable(
+            && !is_writable(
                 WP_CONTENT_DIR . '/cache/borlabs-cookie'
             )
         ) {
@@ -247,7 +259,7 @@ class SystemCheck
             );
         }
 
-        if (! file_exists(WP_CONTENT_DIR . '/cache/borlabs-cookie')) {
+        if (!file_exists(WP_CONTENT_DIR . '/cache/borlabs-cookie')) {
             $data['success'] = false;
             $data['message'] = sprintf(
                 _x(
@@ -263,10 +275,51 @@ class SystemCheck
     }
 
     /**
+     * checkDBVersion function.
+     */
+    public function checkDBVersion()
+    {
+        global $wpdb;
+
+        if (method_exists($wpdb, 'db_server_info')) {
+            $dbServerInfo = $wpdb->db_server_info() ? $wpdb->db_server_info() : '';
+        } else {
+            if ($wpdb->use_mysqli) {
+                $dbServerInfo = mysqli_get_server_info($wpdb->dbh);
+            } elseif (function_exists('mysql_get_server_info')) {
+                $dbServerInfo = mysql_get_server_info($wpdb->dbh);
+            }
+        }
+
+        $dbVersion = $wpdb->db_version();
+        $data = [
+            'success' => true,
+            'message' => $dbServerInfo,
+        ];
+
+        if ($dbVersion === null) {
+            return [
+                'success' => false,
+                'message' => $wpdb->db_server_info(),
+            ];
+        }
+
+        if (version_compare($dbVersion, '5.6', '<') && strpos(strtolower($dbServerInfo), 'mariadb') === false) {
+            $data['success'] = false;
+            $data['message'] = sprintf(_x(
+                'Your database version %s is outdated.',
+                'Backend / Global / Alert Message',
+                'borlabs-cookie'
+            ), $dbVersion);
+        } elseif (strpos(strtolower($dbServerInfo), 'mariadb') !== false) {
+            $data['message'] = $wpdb->get_var('SELECT VERSION()');
+        }
+
+        return $data;
+    }
+
+    /**
      * checkDefaultContentBlocker function.
-     *
-     * @access public
-     * @return void
      */
     public function checkDefaultContentBlocker()
     {
@@ -278,11 +331,11 @@ class SystemCheck
         ];
 
         $tableName = $wpdb->prefix . 'borlabs_cookie_content_blocker';
-        $sql = "
+        $sql = '
             SELECT
                 `content_blocker_id`
             FROM
-                `" . $tableName . "`
+                `' . $tableName . "`
             WHERE
                 `content_blocker_id` IN ('default', 'facebook', 'googlemaps', 'instagram', 'openstreetmap', 'twitter', 'vimeo', 'youtube')
                 AND
@@ -318,9 +371,6 @@ class SystemCheck
 
     /**
      * checkDefaultCookieGroups function.
-     *
-     * @access public
-     * @return void
      */
     public function checkDefaultCookieGroups()
     {
@@ -332,11 +382,11 @@ class SystemCheck
         ];
 
         $tableName = $wpdb->prefix . 'borlabs_cookie_groups';
-        $sql = "
+        $sql = '
             SELECT
                 `group_id`
             FROM
-                `" . $tableName . "`
+                `' . $tableName . "`
             WHERE
                 `group_id` IN ('essential', 'statistics', 'marketing', 'external-media')
                 AND
@@ -374,9 +424,9 @@ class SystemCheck
 
         // Change status of essential cookie group "essential"
         $wpdb->query(
-            "
+            '
             UPDATE
-                `" . $tableName . "`
+                `' . $tableName . "`
             SET
                 `status` = 1
             WHERE
@@ -391,9 +441,6 @@ class SystemCheck
 
     /**
      * checkDefaultCookies function.
-     *
-     * @access public
-     * @return void
      */
     public function checkDefaultCookies()
     {
@@ -405,11 +452,11 @@ class SystemCheck
         ];
 
         $tableName = $wpdb->prefix . 'borlabs_cookie_cookies';
-        $sql = "
+        $sql = '
             SELECT
                 `cookie_id`
             FROM
-                `" . $tableName . "`
+                `' . $tableName . "`
             WHERE
                 `cookie_id` IN ('borlabs-cookie')
                 AND
@@ -448,9 +495,9 @@ class SystemCheck
 
         // Change status of essential cookie "borlabs-cookie"
         $wpdb->query(
-            "
+            '
             UPDATE
-                `" . $tableName . "`
+                `' . $tableName . "`
             SET
                 `status` = 1
             WHERE
@@ -465,9 +512,6 @@ class SystemCheck
 
     /**
      * checkLanguageSettings function.
-     *
-     * @access public
-     * @return void
      */
     public function checkLanguageSettings()
     {
@@ -491,10 +535,29 @@ class SystemCheck
     }
 
     /**
+     * checkPHPVersion function.
+     */
+    public function checkPHPVersion()
+    {
+        $data = [
+            'success' => true,
+            'message' => phpversion(),
+        ];
+
+        if (version_compare(phpversion(), '7.4', '<')) {
+            $data['success'] = false;
+            $data['message'] = sprintf(_x(
+                'Your PHP version %s is <a href="http://php.net/supported-versions.php" rel="nofollow noopener noreferrer" target="_blank">outdated</a>.',
+                'Backend / Global / Alert Message',
+                'borlabs-cookie'
+            ), phpversion());
+        }
+
+        return $data;
+    }
+
+    /**
      * checkSettings function.
-     *
-     * @access public
-     * @return void
      */
     public function checkSSLSettings()
     {
@@ -513,7 +576,7 @@ class SystemCheck
         if (
             empty($_SERVER['SERVER_PORT']) || empty($_SERVER['HTTPS'])
             || ($_SERVER['SERVER_PORT'] !== '443'
-                && ! isset($_SERVER['HTTP_X_FORWARDED_PORT']))
+                && !isset($_SERVER['HTTP_X_FORWARDED_PORT']))
         ) {
             $data['success'] = false;
             $data['message'] = _x(
@@ -531,7 +594,7 @@ class SystemCheck
             'Backend / System Check / Alert Message',
             'borlabs-cookie'
         );
-        $data['message'] .= "<br>WP_CONTENT_URL: " . WP_CONTENT_URL;
+        $data['message'] .= '<br>WP_CONTENT_URL: ' . WP_CONTENT_URL;
         $data['message'] .= "<br>\$_SERVER['HTTPS']: " . $_SERVER['HTTPS'];
         $data['message'] .= "<br>\$_SERVER['SERVER_PORT']: " . $_SERVER['SERVER_PORT'];
 
@@ -541,12 +604,8 @@ class SystemCheck
     /**
      * checkTable function.
      *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $sqlCreateStatement
-     *
-     * @return void
+     * @param mixed $tableName
+     * @param mixed $sqlCreateStatement
      */
     public function checkTable($tableName, $sqlCreateStatement)
     {
@@ -557,12 +616,12 @@ class SystemCheck
             'message' => '',
         ];
 
-        if (! Install::getInstance()->checkIfTableExists($tableName)) {
+        if (!Install::getInstance()->checkIfTableExists($tableName)) {
             // Try to install the table
             dbDelta($sqlCreateStatement);
 
             // Check again
-            if (! Install::getInstance()->checkIfTableExists($tableName)) {
+            if (!Install::getInstance()->checkIfTableExists($tableName)) {
                 $data = [
                     'success' => false,
                     'message' => sprintf(
@@ -582,9 +641,6 @@ class SystemCheck
 
     /**
      * checkTableContentBlocker function.
-     *
-     * @access public
-     * @return void
      */
     public function checkTableContentBlocker()
     {
@@ -602,9 +658,6 @@ class SystemCheck
 
     /**
      * checkTableCookieConsentLog function.
-     *
-     * @access public
-     * @return void
      */
     public function checkTableCookieConsentLog()
     {
@@ -622,9 +675,6 @@ class SystemCheck
 
     /**
      * checkTableCookieGroups function.
-     *
-     * @access public
-     * @return void
      */
     public function checkTableCookieGroups()
     {
@@ -642,9 +692,6 @@ class SystemCheck
 
     /**
      * checkTables function.
-     *
-     * @access public
-     * @return void
      */
     public function checkTableCookies()
     {
@@ -662,9 +709,6 @@ class SystemCheck
 
     /**
      * checkTableScriptBlocker function.
-     *
-     * @access public
-     * @return void
      */
     public function checkTableScriptBlocker()
     {
@@ -681,17 +725,31 @@ class SystemCheck
     }
 
     /**
+     * checkTableStatistics function.
+     */
+    public function checkTableStatistics()
+    {
+        global $wpdb;
+
+        $charsetCollate = $wpdb->get_charset_collate();
+        $tableName = $wpdb->prefix . 'borlabs_cookie_statistics';
+
+        $sqlCreateTable = Install::getInstance()->getCreateTableStatementStatistics($tableName, $charsetCollate);
+
+        $data = $this->checkTable($tableName, $sqlCreateTable);
+
+        return $data;
+    }
+
+    /**
      * getConsentLogTableSize function.
-     *
-     * @access public
-     * @return void
      */
     public function getConsentLogTableSize()
     {
         global $wpdb;
 
         $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)
-            . "borlabs_cookie_consent_log";
+            . 'borlabs_cookie_consent_log';
 
         $dbName = $wpdb->dbname;
 
@@ -713,31 +771,28 @@ class SystemCheck
         "
         );
 
-        return ! empty($consentLogTableSize[0]->size_in_mb) ? $consentLogTableSize[0]->size_in_mb : 0;
+        return !empty($consentLogTableSize[0]->size_in_mb) ? $consentLogTableSize[0]->size_in_mb : 0;
     }
 
     /**
      * getTotalConsentLogs function.
-     *
-     * @access public
-     * @return void
      */
     public function getTotalConsentLogs()
     {
         global $wpdb;
 
         $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)
-            . "borlabs_cookie_consent_log";
+            . 'borlabs_cookie_consent_log';
 
         $totalConsentLogs = $wpdb->get_results(
-            "
+            '
             SELECT
                 COUNT(*) as `total`
             FROM
-                `" . $table . "`
-        "
+                `' . $table . '`
+        '
         );
 
-        return ! empty($totalConsentLogs[0]->total) ? $totalConsentLogs[0]->total : 0;
+        return !empty($totalConsentLogs[0]->total) ? $totalConsentLogs[0]->total : 0;
     }
 }

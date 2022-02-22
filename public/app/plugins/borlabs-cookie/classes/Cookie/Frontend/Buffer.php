@@ -26,14 +26,15 @@ class Buffer
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
     private $buffer = '';
+
     private $bufferActive = false;
 
     public function __construct()
@@ -51,10 +52,17 @@ class Buffer
     }
 
     /**
+     * getBuffer function.
+     */
+    public function &getBuffer()
+    {
+        $this->buffer = ob_get_contents();
+
+        return $this->buffer;
+    }
+
+    /**
      * endBuffering function.
-     *
-     * @access public
-     * @return void
      */
     public function endBuffering()
     {
@@ -68,23 +76,7 @@ class Buffer
     }
 
     /**
-     * getBuffer function.
-     *
-     * @access public
-     * @return void
-     */
-    public function &getBuffer()
-    {
-        $this->buffer = ob_get_contents();
-
-        return $this->buffer;
-    }
-
-    /**
      * handleBuffering function.
-     *
-     * @access public
-     * @return void
      */
     public function handleBuffering()
     {
@@ -93,9 +85,6 @@ class Buffer
 
     /**
      * isBufferActive function.
-     *
-     * @access public
-     * @return void
      */
     public function isBufferActive()
     {
@@ -104,9 +93,6 @@ class Buffer
 
     /**
      * startBuffering function.
-     *
-     * @access public
-     * @return void
      */
     public function startBuffering()
     {

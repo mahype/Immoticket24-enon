@@ -28,12 +28,13 @@ class View
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
+
     private $imagePath;
 
     public function __construct()
@@ -44,12 +45,8 @@ class View
     /**
      * __call function.
      *
-     * @access public
-     *
-     * @param  mixed  $moduleClass
-     * @param  mixed  $args
-     *
-     * @return void
+     * @param mixed $moduleClass
+     * @param mixed $args
      */
     public function __call($moduleClass, $args)
     {
@@ -83,9 +80,6 @@ class View
 
     /**
      * displayFooter function.
-     *
-     * @access public
-     * @return void
      */
     public function displayFooter()
     {
@@ -94,9 +88,6 @@ class View
 
     /**
      * displayHeader function.
-     *
-     * @access public
-     * @return void
      */
     public function displayHeader()
     {
@@ -108,11 +99,7 @@ class View
     /**
      * displayNavigation function.
      *
-     * @access public
-     *
-     * @param  string  $activeModule  (default: 'Dashboard')
-     *
-     * @return void
+     * @param string $activeModule (default: 'Dashboard')
      */
     public function displayNavigation($activeModule = 'Dashboard')
     {
@@ -126,7 +113,7 @@ class View
             $currentLanguage = Multilanguage::getInstance()->getCurrentLanguageName();
             $currentFlagURL = Multilanguage::getInstance()->getCurrentLanguageFlag();
 
-            if (! empty($currentFlagURL)) {
+            if (!empty($currentFlagURL)) {
                 $currentFlag = '<img src="' . $currentFlagURL . '" alt="' . $currentLanguage . '">';
             } else {
                 $currentFlag = '<i class="fas fa-language"></i>';
@@ -143,6 +130,7 @@ class View
         }
 
         $needsLanguageChooser = Multilanguage::getInstance()->needsLanguageChooser();
+
         if ($needsLanguageChooser) {
             $availableLanguagesForChooser = Multilanguage::getInstance()->getAvailableLanguagesForChooser();
         }

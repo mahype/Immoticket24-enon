@@ -26,8 +26,8 @@ class FacebookPixel
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,9 +35,6 @@ class FacebookPixel
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -58,16 +55,11 @@ class FacebookPixel
     /**
      * additionalSettingsTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputPixelId = esc_html(! empty($data->settings['pixelId']) ? $data->settings['pixelId'] : '');
-        ?>
+        $inputPixelId = esc_html(!empty($data->settings['pixelId']) ? $data->settings['pixelId'] : ''); ?>
         <div class="form-group row">
             <label for="pixelId"
                    class="col-sm-4 col-form-label"><?php
@@ -82,18 +74,18 @@ class FacebookPixel
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter your Facebook Pixel ID.',
-                          'Backend / Cookie / Facebook Pixel / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter your Facebook Pixel ID.',
+            'Backend / Cookie / Facebook Pixel / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <?php
@@ -101,13 +93,10 @@ class FacebookPixel
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'facebook-pixel',
             'service' => 'FacebookPixel',
             'name' => 'Facebook Pixel',
@@ -136,23 +125,17 @@ class FacebookPixel
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
-        if (! empty($formData['service']) && $formData['service'] === 'FacebookPixel') {
-            if (! empty($formData['settings']['pixelId'])) {
+        if (!empty($formData['service']) && $formData['service'] === 'FacebookPixel') {
+            if (!empty($formData['settings']['pixelId'])) {
                 $formData['settings']['pixelId'] = trim($formData['settings']['pixelId']);
             }
         }
@@ -162,13 +145,10 @@ class FacebookPixel
 
     /**
      * optInJS function.
-     *
-     * @access private
-     * @return void
      */
     private function optInJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <!-- Facebook Pixel Code -->
 <script>
   !function(f,b,e,v,n,t,s)
@@ -184,7 +164,5 @@ class FacebookPixel
 </script>
 <!-- End Facebook Pixel Code -->
 EOT;
-
-        return $code;
     }
 }

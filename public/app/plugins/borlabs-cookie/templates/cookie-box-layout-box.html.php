@@ -99,12 +99,12 @@
                                 <?php
                                 } ?>
 
-                                <p class="_brlbs-manage">
+                                <p class="<?php echo $cookieBoxManageOptionType === 'button' ? '_brlbs-manage-btn' : '_brlbs-manage'; ?> ">
                                     <a
                                         href="#"
                                         tabindex="0"
                                         role="button"
-                                        class="_brlbs-cursor"
+                                        class="_brlbs-cursor <?php echo $cookieBoxManageOptionType === 'button' ? '_brlbs-btn' : ''; ?> "
                                         data-cookie-individual
                                     >
                                         <?php

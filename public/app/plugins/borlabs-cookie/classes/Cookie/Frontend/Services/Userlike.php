@@ -26,8 +26,8 @@ class Userlike
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,15 +35,14 @@ class Userlike
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
         add_action('borlabsCookie/cookie/edit/template/settings/Userlike', [$this, 'additionalSettingsTemplate']);
-        add_action('borlabsCookie/cookie/edit/template/settings/help/Userlike',
-            [$this, 'additionalSettingsHelpTemplate']);
+        add_action(
+            'borlabsCookie/cookie/edit/template/settings/help/Userlike',
+            [$this, 'additionalSettingsHelpTemplate']
+        );
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
     }
 
@@ -60,11 +59,7 @@ class Userlike
     /**
      * additionalSettingsHelpTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsHelpTemplate($data)
     {
@@ -75,16 +70,16 @@ class Userlike
                     _ex('Tips', 'Backend / Global / Tips / Headline', 'borlabs-cookie'); ?></h3>
                 <h4><?php
                     _ex(
-                        'Where can I find the secret?',
-                        'Backend / Cookie / Userlike / Tips / Headline',
-                        'borlabs-cookie'
-                    ); ?></h4>
+            'Where can I find the secret?',
+            'Backend / Cookie / Userlike / Tips / Headline',
+            'borlabs-cookie'
+        ); ?></h4>
                 <p><?php
                     _ex(
-                        'In Userlike click on <strong>Live Chat &gt; Config &gt; Widgets &gt; <em>Your Widget</em> &gt; Edit Widget &gt; Install &gt; Credentials for Applications</strong>.',
-                        'Backend / Cookie / Userlike / Tips / Text',
-                        'borlabs-cookie'
-                    ); ?></p>
+            'In Userlike click on <strong>Live Chat &gt; Config &gt; Widgets &gt; <em>Your Widget</em> &gt; Edit Widget &gt; Install &gt; Credentials for Applications</strong>.',
+            'Backend / Cookie / Userlike / Tips / Text',
+            'borlabs-cookie'
+        ); ?></p>
             </div>
         </div>
         <?php
@@ -93,16 +88,11 @@ class Userlike
     /**
      * additionalSettingsTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputSecret = esc_html(! empty($data->settings['secret']) ? $data->settings['secret'] : '');
-        ?>
+        $inputSecret = esc_html(!empty($data->settings['secret']) ? $data->settings['secret'] : ''); ?>
         <div class="form-group row">
             <label for="secret"
                    class="col-sm-4 col-form-label"><?php
@@ -117,18 +107,18 @@ class Userlike
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter your Userlike secret.',
-                          'Backend / Cookie / Userlike / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter your Userlike secret.',
+            'Backend / Cookie / Userlike / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <?php
@@ -136,13 +126,10 @@ class Userlike
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'userlike',
             'service' => 'Userlike',
             'name' => 'Userlike',
@@ -173,23 +160,17 @@ class Userlike
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
-        if (! empty($formData['service']) && $formData['service'] === 'Userlike') {
-            if (! empty($formData['settings']['secret'])) {
+        if (!empty($formData['service']) && $formData['service'] === 'Userlike') {
+            if (!empty($formData['settings']['secret'])) {
                 $formData['settings']['secret'] = trim($formData['settings']['secret']);
             }
         }
@@ -199,16 +180,11 @@ class Userlike
 
     /**
      * optInJS function.
-     *
-     * @access private
-     * @return void
      */
     private function optInJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <script type="text/javascript" src="https://userlike-cdn-widgets.s3-eu-west-1.amazonaws.com/%%secret%%.js"></script>
 EOT;
-
-        return $code;
     }
 }

@@ -34,8 +34,8 @@ class ThirdPartyHelper
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -56,26 +56,22 @@ class ThirdPartyHelper
     }
 
     /**
-     * addBlockedContentType function. DEPRECATED
+     * addBlockedContentType function. DEPRECATED.
      *
      * This functions allows you to add a new Blocked Content Type (BCT) to Borlabs Cookie.
      * The function will add your BCT in every language, if the site is using a multilanguage plugin.
      * The function also ensures that your BCT will only be added when it does not exist.
      *
-     * @access public
-     *
-     * @param  string  $typeId  : only lowercase
-     * @param  string  $name  : title of your BCT
-     * @param  string  $description  : optional description
-     * @param  array  $hosts  : hosts for autodetection (for iframes or oEmbeds)
-     * @param  string  $previewHTML  : html code that is shown instead of the blocked content
-     * @param  string  $globalJS  : global JavaScript, loaded once
-     * @param  string  $initJS  : initialization JavaScript, executed everytime when a blocked content gets unblocked
-     * @param  array  $settings  (default: [])
-     * @param  bool  $status  (default: false)
-     * @param  bool  $undeletable  (default: false): if true the user can not delete your BCT
-     *
-     * @return void
+     * @param string $typeId      : only lowercase
+     * @param string $name        : title of your BCT
+     * @param string $description : optional description
+     * @param array  $hosts       : hosts for autodetection (for iframes or oEmbeds)
+     * @param string $previewHTML : html code that is shown instead of the blocked content
+     * @param string $globalJS    : global JavaScript, loaded once
+     * @param string $initJS      : initialization JavaScript, executed everytime when a blocked content gets unblocked
+     * @param array  $settings    (default: [])
+     * @param bool   $status      (default: false)
+     * @param bool   $undeletable (default: false): if true the user can not delete your BCT
      */
     public function addBlockedContentType(
         $typeId,
@@ -102,7 +98,7 @@ class ThirdPartyHelper
                 $settings = [];
             }
 
-            $status = $this->addContentBlocker(
+            return $this->addContentBlocker(
                 $typeId,
                 $name,
                 $description,
@@ -116,11 +112,9 @@ class ThirdPartyHelper
                 $status,
                 $undeletable
             );
-
-            return $status;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -130,22 +124,18 @@ class ThirdPartyHelper
      * The function will add your CB in every language, if the site is using a multilanguage plugin.
      * The function also ensures that your CB will only be added when it does not exist.
      *
-     * @access public
-     *
-     * @param  string  $contentBlockerId  : only lowercase, - and _
-     * @param  string  $name  : title of your CB
-     * @param  string  $description  : optional description
-     * @param  string  $privacyPolicyURL  : privacy policy URL description
-     * @param  array  $hosts  : hosts for autodetection (for iframes or oEmbeds)
-     * @param  string  $previewHTML  : html code that is shown instead of the blocked content
-     * @param  string  $previewCSS  : css code that is used by the content blocker
-     * @param  string  $globalJS  : global JavaScript, loaded once
-     * @param  string  $initJS  : initialization JavaScript, executed everytime when a blocked content gets unblocked
-     * @param  array  $settings  (default: [])
-     * @param  bool  $status  (default: false)
-     * @param  bool  $undeletable  (default: false): if true the user can not delete your CB
-     *
-     * @return void
+     * @param string $contentBlockerId : only lowercase, - and _
+     * @param string $name             : title of your CB
+     * @param string $description      : optional description
+     * @param string $privacyPolicyURL : privacy policy URL description
+     * @param array  $hosts            : hosts for autodetection (for iframes or oEmbeds)
+     * @param string $previewHTML      : html code that is shown instead of the blocked content
+     * @param string $previewCSS       : css code that is used by the content blocker
+     * @param string $globalJS         : global JavaScript, loaded once
+     * @param string $initJS           : initialization JavaScript, executed everytime when a blocked content gets unblocked
+     * @param array  $settings         (default: [])
+     * @param bool   $status           (default: false)
+     * @param bool   $undeletable      (default: false): if true the user can not delete your CB
      */
     public function addContentBlocker(
         $contentBlockerId,
@@ -185,9 +175,9 @@ class ThirdPartyHelper
             if (defined('POLYLANG_VERSION')) {
                 $polylangLanguages = get_terms('language', ['hide_empty' => false]);
 
-                if (! empty($polylangLanguages)) {
+                if (!empty($polylangLanguages)) {
                     foreach ($polylangLanguages as $languageData) {
-                        if (! empty($languageData->slug) && is_string($languageData->slug)) {
+                        if (!empty($languageData->slug) && is_string($languageData->slug)) {
                             $languageCodes[$languageData->slug] = $languageData->slug;
                         }
                     }
@@ -198,16 +188,16 @@ class ThirdPartyHelper
             if (defined('ICL_LANGUAGE_CODE')) {
                 $wpmlLanguages = apply_filters('wpml_active_languages', null, []);
 
-                if (! empty($wpmlLanguages)) {
+                if (!empty($wpmlLanguages)) {
                     foreach ($wpmlLanguages as $languageData) {
-                        if (! empty($languageData['code'])) {
+                        if (!empty($languageData['code'])) {
                             $languageCodes[$languageData['code']] = $languageData['code'];
                         }
                     }
                 }
             }
 
-            if (! empty($languageCodes)) {
+            if (!empty($languageCodes)) {
                 foreach ($languageCodes as $languageCode) {
                     $contentBlockerData['language'] = $languageCode;
 
@@ -224,9 +214,9 @@ class ThirdPartyHelper
             }
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -234,13 +224,9 @@ class ThirdPartyHelper
      *
      * Lets you block any content and returns the preview code for the Content Blocker
      *
-     * @access public
-     *
-     * @param  mixed  $content  : Your content you want to be blocked.
-     * @param  mixed  $contentBlockerId  : The Content Blocker id (content_blocker_id)
-     * @param  string  $title  (default: ''): You can change the title for your blocked content
-     *
-     * @return void
+     * @param mixed  $content          : Your content you want to be blocked
+     * @param mixed  $contentBlockerId : The Content Blocker id (content_blocker_id)
+     * @param string $title            (default: ''): You can change the title for your blocked content
      */
     public function blockContent($content, $contentBlockerId, $title = '')
     {
@@ -253,12 +239,8 @@ class ThirdPartyHelper
      * Lets you block code (HTML & JavaScript) which is associated with a cookie.
      * Will be unblocked when the user gives their consent for this cookie.
      *
-     * @access public
-     *
-     * @param  mixed  $content
-     * @param  mixed  $cookieId
-     *
-     * @return void
+     * @param mixed $content
+     * @param mixed $cookieId
      */
     public function blockCookie($content, $cookieId)
     {
@@ -271,12 +253,8 @@ class ThirdPartyHelper
      * Lets you block code (HTML & JavaScript) which is associated with a cookie group.
      * Will be unblocked when the user gives their consent for this cookie group.
      *
-     * @access public
-     *
-     * @param  mixed  $content
-     * @param  mixed  $cookieGroupId
-     *
-     * @return void
+     * @param mixed $content
+     * @param mixed $cookieGroupId
      */
     public function blockCookieGroup($content, $cookieGroupId)
     {
@@ -291,11 +269,7 @@ class ThirdPartyHelper
      *
      * Detects iframes within a content and blocks them.
      *
-     * @access public
-     *
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $content
      */
     public function blockIframes($content)
     {
@@ -307,11 +281,8 @@ class ThirdPartyHelper
      *
      * Deletes a Blocked Content Type by its typeId.
      *
-     * @access public
-     *
-     * @param  mixed  $typeId
-     *
-     * @return void
+     * @param mixed $typeId
+     * @param mixed $contentBlockerId
      */
     public function deleteBlockedContentType($contentBlockerId)
     {
@@ -325,11 +296,7 @@ class ThirdPartyHelper
      *
      * Delete a Content Blocker by its content blocker id (content_blocker_id)
      *
-     * @access public
-     *
-     * @param  mixed  $contentBlockerId
-     *
-     * @return void
+     * @param mixed $contentBlockerId
      */
     public function deleteContentBlocker($contentBlockerId)
     {
@@ -338,9 +305,9 @@ class ThirdPartyHelper
         $tableName = $wpdb->prefix . 'borlabs_cookie_content_blocker';
 
         $wpdb->query(
-            "
+            '
             DELETE FROM
-                `" . $tableName . "`
+                `' . $tableName . "`
             WHERE
                 `content_blocker_id` = '" . esc_sql($contentBlockerId) . "'
         "
@@ -352,11 +319,7 @@ class ThirdPartyHelper
     /**
      * gaveConsent function.
      *
-     * @access public
-     *
-     * @param  mixed  $cookieId
-     *
-     * @return void
+     * @param mixed $cookieId
      */
     public function gaveConsent($cookieId)
     {
@@ -368,11 +331,7 @@ class ThirdPartyHelper
      *
      * Get all information about a Blocked Content Type by its typeId
      *
-     * @access public
-     *
-     * @param  mixed  $typeId
-     *
-     * @return void
+     * @param mixed $typeId
      */
     public function getBlockedContentTypeDataByTypeId($typeId)
     {
@@ -382,11 +341,7 @@ class ThirdPartyHelper
     /**
      * getContentBlockerData function.
      *
-     * @access public
-     *
-     * @param  mixed  $contentBlockerId
-     *
-     * @return void
+     * @param mixed $contentBlockerId
      */
     public function getContentBlockerData($contentBlockerId)
     {
@@ -399,11 +354,8 @@ class ThirdPartyHelper
      * Get all information about a Content Blocker by its id.
      * Use this function during the validation process when a Content Blocker is being edited and about to be saved.
      *
-     * @access public
-     *
-     * @param  mixed  $Id
-     *
-     * @return void
+     * @param mixed $Id
+     * @param mixed $id
      */
     public function getContentBlockerDataById($id)
     {
@@ -426,11 +378,7 @@ class ThirdPartyHelper
     /**
      * getCookieData function.
      *
-     * @access public
-     *
-     * @param  mixed  $cookieId
-     *
-     * @return void
+     * @param mixed $cookieId
      */
     public function getCookieData($cookieId)
     {
@@ -438,7 +386,7 @@ class ThirdPartyHelper
 
         $cookieData = BackendCookies::getInstance()->getByCookieId($cookieId);
 
-        if (! empty($cookieData)) {
+        if (!empty($cookieData)) {
             $cookieData = [
                 'cookieId' => $cookieData->cookie_id,
                 'service' => $cookieData->service,
@@ -460,16 +408,13 @@ class ThirdPartyHelper
         return $cookieData;
     }
 
-    /* BACKWARDS COMPATIBILITY */
+    // BACKWARDS COMPATIBILITY
 
     /**
      * getCurrentTitleOfBlockedContentType function.
      *
      * This function returns the title of the current blocked content.
      * It is only available and should only be used within the filter "borlabsCookie/bct/modify_content/{typeId}".
-     *
-     * @access public
-     * @return void
      */
     public function getCurrentTitleOfBlockedContentType()
     {
@@ -478,9 +423,6 @@ class ThirdPartyHelper
 
     /**
      * getCurrentTitleOfContentBlocker function.
-     *
-     * @access public
-     * @return void
      */
     public function getCurrentTitleOfContentBlocker()
     {
@@ -490,11 +432,7 @@ class ThirdPartyHelper
     /**
      * setCurrentBlockedContent function.
      *
-     * @access public
-     *
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $content
      */
     public function setCurrentBlockedContent($content)
     {
@@ -508,14 +446,10 @@ class ThirdPartyHelper
      * WordPress delivers a page. This function does not update the JavaScript and settings of the Blocked Content Type
      * in general!
      *
-     * @access public
-     *
-     * @param  mixed  $typeId
-     * @param  string  $globalJS  (default: '')
-     * @param  string  $initJS  (default: '')
-     * @param  mixed  $settings  (default: [])
-     *
-     * @return void
+     * @param mixed  $typeId
+     * @param string $globalJS (default: '')
+     * @param string $initJS   (default: '')
+     * @param mixed  $settings (default: [])
      */
     public function updateBlockedContentTypeJavaScript($typeId, $globalJS = '', $initJS = '', $settings = [])
     {
@@ -525,14 +459,10 @@ class ThirdPartyHelper
     /**
      * updateContentBlockerJavaScript function.
      *
-     * @access public
-     *
-     * @param  mixed  $contentBlockerId
-     * @param  string  $globalJS  (default: '')
-     * @param  string  $initJS  (default: '')
-     * @param  mixed  $settings  (default: [])
-     *
-     * @return void
+     * @param mixed  $contentBlockerId
+     * @param string $globalJS         (default: '')
+     * @param string $initJS           (default: '')
+     * @param mixed  $settings         (default: [])
      */
     public function updateContentBlockerJavaScript($contentBlockerId, $globalJS = '', $initJS = '', $settings = [])
     {

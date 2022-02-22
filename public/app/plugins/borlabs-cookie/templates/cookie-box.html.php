@@ -94,6 +94,23 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                             </div>
 
                             <div class="form-group row align-items-center">
+                                <label for="cookieBoxManageOptionType"
+                                       class="col-sm-4 col-form-label"><?php _ex('Individual Cookie Preferences Option - Cookie Box', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control form-control form-control-sm d-inline-block w-75 mr-2"
+                                            id="cookieBoxManageOptionType" name="cookieBoxManageOptionType">
+                                        <option<?php echo $optionCookieBoxManageOptionTypeButton; ?>
+                                            value="button"><?php _ex('Button', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
+                                        <option<?php echo $optionCookieBoxManageOptionTypeLink; ?>
+                                            value="link"><?php _ex('Link', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
+                                    </select>
+                                    <span data-toggle="tooltip"
+                                          title="<?php echo esc_attr_x('Choose the display option of the <strong>Individual Cookie Preferences</strong> option.', 'Backend / Cookie Box / Tooltip', 'borlabs-cookie'); ?>"><i
+                                            class="fas fa-lg fa-question-circle text-dark"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row align-items-center">
                                 <label for="cookieBoxRefuseOptionType"
                                        class="col-sm-4 col-form-label"><?php _ex('Refuse Option - Cookie Box', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
                                 <div class="col-sm-8">
@@ -519,6 +536,8 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                             value="box"><?php _ex('Box', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
                                         <option<?php echo $optionCookieBoxLayoutBoxAdvanced; ?>
                                             value="box-advanced"><?php _ex('Box - Advanced', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
+                                        <option<?php echo $optionCookieBoxLayoutBoxPlus; ?>
+                                            value="box-plus"><?php _ex('Box - Plus', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
                                         <option<?php echo $optionCookieBoxLayoutBoxSlim; ?>
                                             value="box-slim"><?php _ex('Box - Slim', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
                                     </select>
@@ -530,7 +549,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
 
                             <?php
                             if (
-                                empty($optionCookieBoxLayoutBarAdvanced) && empty($optionCookieBoxLayoutBoxAdvanced)
+                                empty($optionCookieBoxLayoutBarAdvanced) && empty($optionCookieBoxLayoutBoxAdvanced) && empty($optionCookieBoxLayoutBoxPlus)
                             ) {
                                 ?>
                                 <div class="form-group row align-items-center">
@@ -1009,6 +1028,77 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-8 offset-sm-4">
+                            <button type="submit"
+                                    class="btn btn-primary btn-sm"><?php _ex('Save all settings', 'Backend / Global / Button Title', 'borlabs-cookie'); ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row no-gutters mb-4">
+            <div class="col-12 col-md-8 rounded bg-light shadow-sm">
+                <div class="px-3 pt-3 pb-4">
+                    <h3 class="border-bottom mb-3"><?php _ex('Widget Settings', 'Backend / Cookie Box / Headline', 'borlabs-cookie'); ?></h3>
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="form-group row align-items-center">
+                                <label for="cookieBoxShowWidget"
+                                       class="col-sm-4 col-form-label"><?php _ex('Show Widget', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <button type="button"
+                                            class="btn btn-sm btn-toggle mr-2<?php echo $switchCookieBoxShowWidget; ?>"
+                                            data-toggle="button" data-switch-target="cookieBoxShowWidget"
+                                            aria-pressed="<?php echo $inputCookieBoxShowWidget ? 'true' : 'false'; ?>"
+                                            autocomplete="off">
+                                        <span class="handle"></span>
+                                    </button>
+                                    <input type="hidden" id="cookieBoxShowWidget" name="cookieBoxShowWidget"
+                                           value="<?php echo $inputCookieBoxShowWidget; ?>">
+                                    <span data-toggle="tooltip"
+                                          title="<?php echo esc_attr_x('If activated a widget is displayed which can be used open the <strong>Privacy Preferences</strong>.', 'Backend / Cookie Box / Tooltip', 'borlabs-cookie'); ?>"><i
+                                            class="fas fa-lg fa-question-circle text-dark"></i></span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row align-items-center">
+                                <label for="cookieBoxWidgetPosition"
+                                       class="col-sm-4 col-form-label"><?php _ex('Position', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control form-control form-control-sm d-inline-block w-75 mr-2"
+                                            id="cookieBoxWidgetPosition" name="cookieBoxWidgetPosition">
+                                        <option<?php echo $optionCookieBoxWidgetPositionBL; ?>
+                                            value="bottom-left"><?php _ex('Bottom Left', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
+                                        <option<?php echo $optionCookieBoxWidgetPositionBR; ?>
+                                            value="bottom-right"><?php _ex('Bottom Right', 'Backend / Cookie Box / Select Option', 'borlabs-cookie'); ?></option>
+                                    </select>
+                                    <span data-toggle="tooltip"
+                                          title="<?php echo esc_attr_x('Choose the position in which the <strong>Widget</strong> appears.', 'Backend / Cookie Box / Tooltip', 'borlabs-cookie'); ?>"><i
+                                            class="fas fa-lg fa-question-circle text-dark"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row row align-items-center">
+                                <label for="cookieBoxWidgetColor"
+                                       class="col-sm-4 col-form-label"><?php _ex('Widget Color', 'Backend / Global / Styling / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="color-field" id="cookieBoxWidgetColor"
+                                           name="cookieBoxWidgetColor"
+                                           value="<?php echo $inputCookieBoxWidgetColor; ?>">
+
+                                </div>
+                            </div>
+
+
+
 
                         </div>
                     </div>
@@ -1602,6 +1692,57 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                                    id="cookieBoxAcceptAllBtnHoverTxtColor"
                                                    name="cookieBoxAcceptAllBtnHoverTxtColor"
                                                    value="<?php echo $inputCookieBoxAcceptAllBtnTxtHoverColor; ?>">
+                                            <div>
+                                                <?php _ex('Hover', 'Backend / Global / Styling / Label', 'borlabs-cookie'); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label
+                                    class="col-sm-4 col-form-label"><?php _ex('Individual Settings Button Color', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <input type="text" class="color-field" id="cookieBoxIndividualSettingsBtnColor"
+                                                   name="cookieBoxIndividualSettingsBtnColor"
+                                                   value="<?php echo $inputCookieBoxIndividualSettingsBtnColor; ?>">
+                                            <div>
+                                                <?php _ex('Default', 'Backend / Global / Styling / Label', 'borlabs-cookie'); ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="color-field" id="cookieBoxIndividualSettingsBtnHoverColor"
+                                                   name="cookieBoxIndividualSettingsBtnHoverColor"
+                                                   value="<?php echo $inputCookieBoxIndividualSettingsBtnHoverColor; ?>">
+                                            <div>
+                                                <?php _ex('Hover', 'Backend / Global / Styling / Label', 'borlabs-cookie'); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label
+                                    class="col-sm-4 col-form-label"><?php _ex('Individual Settings Button Text Color', 'Backend / Cookie Box / Label', 'borlabs-cookie'); ?></label>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <input type="text" class="color-field" id="cookieBoxIndividualSettingsBtnTxtColor"
+                                                   name="cookieBoxIndividualSettingsBtnTxtColor"
+                                                   value="<?php echo $inputCookieBoxIndividualSettingsBtnTxtColor; ?>">
+                                            <div>
+                                                <?php _ex('Default', 'Backend / Global / Styling / Label', 'borlabs-cookie'); ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="color-field"
+                                                   id="cookieBoxIndividualSettingsBtnHoverTxtColor"
+                                                   name="cookieBoxIndividualSettingsBtnHoverTxtColor"
+                                                   value="<?php echo $inputCookieBoxIndividualSettingsBtnTxtHoverColor; ?>">
                                             <div>
                                                 <?php _ex('Hover', 'Backend / Global / Styling / Label', 'borlabs-cookie'); ?>
                                             </div>

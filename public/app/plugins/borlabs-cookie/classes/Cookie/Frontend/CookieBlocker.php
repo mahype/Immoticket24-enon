@@ -26,8 +26,8 @@ class CookieBlocker
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -50,15 +50,12 @@ class CookieBlocker
     /**
      * deleteImpreciseCookie function.
      *
-     * @access public
-     *
-     * @param  mixed  $cookieName
-     *
-     * @return void
+     * @param mixed $cookieName
+     * @param mixed $impreciseCookieName
      */
     public function deleteImpreciseCookie($impreciseCookieName)
     {
-        if (! empty($_COOKIE)) {
+        if (!empty($_COOKIE)) {
             $impreciseCookieName = str_replace('*', '', $impreciseCookieName);
 
             foreach ($_COOKIE as $cookieName => $cookieData) {
@@ -74,15 +71,11 @@ class CookieBlocker
     /**
      * deletePreciseCookie function.
      *
-     * @access public
-     *
-     * @param  mixed  $cookieName
-     *
-     * @return void
+     * @param mixed $cookieName
      */
     public function deletePreciseCookie($cookieName)
     {
-        if (! empty($_COOKIE[$cookieName])) {
+        if (!empty($_COOKIE[$cookieName])) {
             unset($_COOKIE[$cookieName]);
 
             setcookie($cookieName, null, -1, '/');
@@ -91,27 +84,24 @@ class CookieBlocker
 
     /**
      * handleBlocking function.
-     *
-     * @access public
-     * @return void
      */
     public function handleBlocking()
     {
-        if (! empty($_COOKIE)) {
+        if (!empty($_COOKIE)) {
             // Get all Cookies were blocking is active
             $cookieGroups = Cookies::getInstance()->getAllCookieGroups();
 
-            if (! empty($cookieGroups)) {
+            if (!empty($cookieGroups)) {
                 foreach ($cookieGroups as $groupData) {
-                    if (! empty($groupData->cookies)) {
+                    if (!empty($groupData->cookies)) {
                         foreach ($groupData->cookies as $cookieData) {
-                            if (! empty($cookieData->settings['blockCookiesBeforeConsent'])) {
+                            if (!empty($cookieData->settings['blockCookiesBeforeConsent'])) {
                                 // Check if consent was given
                                 if (Cookies::getInstance()->checkConsent($cookieData->cookie_id) === false) {
                                     // Find and block/delete cookies
                                     $cookieNameList = $this->prepareCookieNamesList($cookieData->cookie_name);
 
-                                    if (! empty($cookieNameList)) {
+                                    if (!empty($cookieNameList)) {
                                         foreach ($cookieNameList as $cookieName) {
                                             if (strpos($cookieName, '*') !== false) {
                                                 $this->deleteImpreciseCookie($cookieName);
@@ -132,24 +122,20 @@ class CookieBlocker
     /**
      * prepareCookieNamesList function.
      *
-     * @access public
-     *
-     * @param  mixed  $cookieNames
-     *
-     * @return void
+     * @param mixed $cookieNames
      */
     public function prepareCookieNamesList($cookieNames)
     {
         $cookieNameList = [];
 
-        if (! empty($cookieNames) && is_string($cookieNames)) {
+        if (!empty($cookieNames) && is_string($cookieNames)) {
             $cookieNames = explode(',', $cookieNames);
 
-            if (! empty($cookieNames)) {
+            if (!empty($cookieNames)) {
                 foreach ($cookieNames as $cookieName) {
                     $cookieName = trim($cookieName);
 
-                    if (! empty($cookieName)) {
+                    if (!empty($cookieName)) {
                         $cookieNameList[$cookieName] = $cookieName;
                     }
                 }

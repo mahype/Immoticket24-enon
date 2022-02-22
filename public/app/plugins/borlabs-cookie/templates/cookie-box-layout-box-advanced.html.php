@@ -148,8 +148,8 @@
                                 <?php
                                 } ?>
 
-                                <p class="_brlbs-manage">
-                                    <a href="#" class="_brlbs-cursor" tabindex="0" role="button" data-cookie-individual>
+                                <p class="<?php echo $cookieBoxManageOptionType === 'button' ? '_brlbs-manage-btn' : '_brlbs-manage'; ?> ">
+                                    <a href="#" class="_brlbs-cursor <?php echo $cookieBoxManageOptionType === 'button' ? '_brlbs-btn' : ''; ?> " tabindex="0" role="button" data-cookie-individual>
                                         <?php
                                         echo $cookieBoxTextManageLink; ?>
                                     </a>

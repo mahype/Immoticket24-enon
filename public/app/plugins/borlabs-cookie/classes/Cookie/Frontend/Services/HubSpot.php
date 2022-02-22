@@ -26,8 +26,8 @@ class HubSpot
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,14 +35,13 @@ class HubSpot
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
         add_action('borlabsCookie/cookie/edit/template/settings/HubSpot', [$this, 'additionalSettingsTemplate']);
-        add_action('borlabsCookie/cookie/edit/template/settings/help/HubSpot', [$this, 'additionalSettingsHelpTemplate']
+        add_action(
+            'borlabsCookie/cookie/edit/template/settings/help/HubSpot',
+            [$this, 'additionalSettingsHelpTemplate']
         );
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
     }
@@ -60,11 +59,7 @@ class HubSpot
     /**
      * additionalSettingsHelpTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsHelpTemplate($data)
     {
@@ -75,16 +70,16 @@ class HubSpot
                     _ex('Tips', 'Backend / Global / Tips / Headline', 'borlabs-cookie'); ?></h3>
                 <h4><?php
                     _ex(
-                        'Where can I find the Hub id?',
-                        'Backend / Cookie / HubSpot / Tips / Headline',
-                        'borlabs-cookie'
-                    ); ?></h4>
+            'Where can I find the Hub id?',
+            'Backend / Cookie / HubSpot / Tips / Headline',
+            'borlabs-cookie'
+        ); ?></h4>
                 <p><?php
                     _ex(
-                        'In HubSpot click on <strong>Settings &gt; Tracking code &gt; WordPress installation &gt; <em>Your Hub id</em></strong>.',
-                        'Backend / Cookie / HubSpot / Tips / Text',
-                        'borlabs-cookie'
-                    ); ?></p>
+            'In HubSpot click on <strong>Settings &gt; Tracking code &gt; WordPress installation &gt; <em>Your Hub id</em></strong>.',
+            'Backend / Cookie / HubSpot / Tips / Text',
+            'borlabs-cookie'
+        ); ?></p>
             </div>
         </div>
         <?php
@@ -93,16 +88,11 @@ class HubSpot
     /**
      * additionalSettingsTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputHubId = esc_html(! empty($data->settings['hubId']) ? $data->settings['hubId'] : '');
-        ?>
+        $inputHubId = esc_html(!empty($data->settings['hubId']) ? $data->settings['hubId'] : ''); ?>
         <div class="form-group row">
             <label for="hubId"
                    class="col-sm-4 col-form-label"><?php
@@ -117,18 +107,18 @@ class HubSpot
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter your Hub id.',
-                          'Backend / Cookie / HubSpot / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter your Hub id.',
+            'Backend / Cookie / HubSpot / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <?php
@@ -136,13 +126,10 @@ class HubSpot
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'hubspot',
             'service' => 'HubSpot',
             'name' => 'HubSpot',
@@ -177,23 +164,17 @@ class HubSpot
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
-        if (! empty($formData['service']) && $formData['service'] === 'HubSpot') {
-            if (! empty($formData['settings']['hubId'])) {
+        if (!empty($formData['service']) && $formData['service'] === 'HubSpot') {
+            if (!empty($formData['settings']['hubId'])) {
                 $formData['settings']['hubId'] = trim($formData['settings']['hubId']);
             }
         }
@@ -203,18 +184,13 @@ class HubSpot
 
     /**
      * optInJS function.
-     *
-     * @access private
-     * @return void
      */
     private function optInJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" src="//js.hs-scripts.com/%%hubId%%.js"></script>
 <!-- End of HubSpot Embed Code -->
 EOT;
-
-        return $code;
     }
 }

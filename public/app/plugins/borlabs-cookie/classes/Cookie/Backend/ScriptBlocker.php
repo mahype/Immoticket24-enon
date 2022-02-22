@@ -28,27 +28,26 @@ class ScriptBlocker
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
     /**
-     * imagePath
+     * imagePath.
      *
      * @var mixed
-     * @access private
      */
     private $imagePath;
+
     /**
-     * tableScriptBlocker
+     * tableScriptBlocker.
      *
      * (default value: '')
      *
      * @var string
-     * @access private
      */
     private $tableScriptBlocker = '';
 
@@ -59,47 +58,6 @@ class ScriptBlocker
         $this->tableScriptBlocker = $wpdb->prefix . 'borlabs_cookie_script_blocker';
 
         $this->imagePath = plugins_url('assets/images', realpath(__DIR__ . '/../../'));
-    }
-
-    /**
-     * get function.
-     *
-     * @access public
-     *
-     * @param  mixed  $id
-     *
-     * @return void
-     */
-    public function get($id)
-    {
-        global $wpdb;
-
-        $data = false;
-
-        $scriptBlockerData = $wpdb->get_results(
-            "
-            SELECT
-                `id`,
-                `script_blocker_id`,
-                `name`,
-                `handles`,
-                `js_block_phrases`,
-                `status`
-            FROM
-                `" . $this->tableScriptBlocker . "`
-            WHERE
-                `id` = '" . esc_sql($id) . "'
-        "
-        );
-
-        if (! empty($scriptBlockerData[0]->id)) {
-            $data = $scriptBlockerData[0];
-
-            $data->handles = unserialize($data->handles);
-            $data->js_block_phrases = unserialize($data->js_block_phrases);
-        }
-
-        return $data;
     }
 
     public function __clone()
@@ -115,11 +73,7 @@ class ScriptBlocker
     /**
      * add function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function add($data)
     {
@@ -137,11 +91,11 @@ class ScriptBlocker
         $data = array_merge($default, $data);
 
         // Remove handles which should not be blocked
-        if (! empty($data['blockHandles'])) {
+        if (!empty($data['blockHandles'])) {
             $blockHandleList = [];
 
             foreach ($data['blockHandles'] as $handle => $status) {
-                if (! empty($status)) {
+                if (!empty($status)) {
                     $blockHandleList[$handle] = $handle;
                 }
             }
@@ -150,7 +104,7 @@ class ScriptBlocker
         }
 
         // Remove block phrase duplicates
-        if (! empty($data['blockPhrases'])) {
+        if (!empty($data['blockPhrases'])) {
             $blockPhrases = [];
 
             foreach ($data['blockPhrases'] as $phrase) {
@@ -161,9 +115,9 @@ class ScriptBlocker
         }
 
         $wpdb->query(
-            "
+            '
             INSERT INTO
-                `" . $this->tableScriptBlocker . "`
+                `' . $this->tableScriptBlocker . "`
                 (
                     `script_blocker_id`,
                     `name`,
@@ -178,13 +132,13 @@ class ScriptBlocker
                     '" . esc_sql(stripslashes($data['name'])) . "',
                     '" . esc_sql(serialize($data['blockHandles'])) . "',
                     '" . esc_sql(serialize($data['blockPhrases'])) . "',
-                    '" . (intval($data['status']) ? 1 : 0) . "',
-                    '" . (intval($data['undeletable']) ? 1 : 0) . "'
+                    '" . ((int) ($data['status']) ? 1 : 0) . "',
+                    '" . ((int) ($data['undeletable']) ? 1 : 0) . "'
                 )
         "
         );
 
-        if (! empty($wpdb->insert_id)) {
+        if (!empty($wpdb->insert_id)) {
             return $wpdb->insert_id;
         }
 
@@ -194,53 +148,41 @@ class ScriptBlocker
     /**
      * checkIdExists function.
      *
-     * @access public
-     *
-     * @param  mixed  $scriptBlockerId
-     *
-     * @return void
+     * @param mixed $scriptBlockerId
      */
     public function checkIdExists($scriptBlockerId)
     {
         global $wpdb;
 
         $checkId = $wpdb->get_results(
-            "
+            '
             SELECT
                 `script_blocker_id`
             FROM
-                `" . $this->tableScriptBlocker . "`
+                `' . $this->tableScriptBlocker . "`
             WHERE
                 `script_blocker_id` = '" . esc_sql($scriptBlockerId) . "'
         "
         );
 
-        if (! empty($checkId[0]->script_blocker_id)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (bool) (!empty($checkId[0]->script_blocker_id));
     }
 
     /**
      * delete function.
      *
-     * @access public
-     *
-     * @param  mixed  $id
-     *
-     * @return void
+     * @param mixed $id
      */
     public function delete($id)
     {
         global $wpdb;
 
         $wpdb->query(
-            "
+            '
             DELETE FROM
-                `" . $this->tableScriptBlocker . "`
+                `' . $this->tableScriptBlocker . "`
             WHERE
-                `id` = '" . intval($id) . "'
+                `id` = '" . (int) $id . "'
                 AND
                 `undeletable` = 0
         "
@@ -251,31 +193,28 @@ class ScriptBlocker
 
     /**
      * display function.
-     *
-     * @access public
-     * @return void
      */
     public function display()
     {
         $id = null;
 
-        if (! empty($_POST['id'])) {
+        if (!empty($_POST['id'])) {
             $id = $_POST['id'];
-        } elseif (! empty($_GET['id'])) {
+        } elseif (!empty($_GET['id'])) {
             $id = $_GET['id'];
         }
 
         $action = false;
 
-        if (! empty($_POST['action'])) {
+        if (!empty($_POST['action'])) {
             $action = $_POST['action'];
-        } elseif (! empty($_GET['action'])) {
+        } elseif (!empty($_GET['action'])) {
             $action = $_GET['action'];
         }
 
         if ($action !== false) {
             // Validate and create Script Blocker
-            if ($action === 'create' && ! empty($id) && check_admin_referer('borlabs_cookie_script_blocker_create')) {
+            if ($action === 'create' && !empty($id) && check_admin_referer('borlabs_cookie_script_blocker_create')) {
                 // Validate
                 $errorStatus = $this->validate($_POST);
 
@@ -291,7 +230,7 @@ class ScriptBlocker
             }
 
             // Validate and save Script Blocker
-            if ($action === 'save' && ! empty($id) && check_admin_referer('borlabs_cookie_script_blocker_save')) {
+            if ($action === 'save' && !empty($id) && check_admin_referer('borlabs_cookie_script_blocker_save')) {
                 // Validate
                 $errorStatus = $this->validate($_POST);
 
@@ -308,7 +247,7 @@ class ScriptBlocker
 
             // Switch status of Script Blocker
             if (
-                $action === 'switchStatus' && ! empty($id)
+                $action === 'switchStatus' && !empty($id)
                 && wp_verify_nonce(
                     $_GET['_wpnonce'],
                     'switchStatus_' . $id
@@ -323,7 +262,7 @@ class ScriptBlocker
             }
 
             // Delete Script Blocker
-            if ($action === 'delete' && ! empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_' . $id)) {
+            if ($action === 'delete' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_' . $id)) {
                 $this->delete($id);
 
                 Messages::getInstance()->add(
@@ -357,12 +296,8 @@ class ScriptBlocker
     /**
      * displayEdit function.
      *
-     * @access public
-     *
-     * @param  int  $id  (default: 0)
-     * @param  mixed  $formData  (default: [])
-     *
-     * @return void
+     * @param int   $id       (default: 0)
+     * @param mixed $formData (default: [])
      */
     public function displayEdit($id, $formData = [])
     {
@@ -386,15 +321,15 @@ class ScriptBlocker
             }
 
             if (isset($formData['status'])) {
-                $scriptBlockerData->status = intval($formData['status']);
+                $scriptBlockerData->status = (int) ($formData['status']);
             }
 
-            $inputId = intval($scriptBlockerData->id);
+            $inputId = (int) ($scriptBlockerData->id);
             $inputScriptBlockerId = esc_attr(
-                ! empty($scriptBlockerData->script_blocker_id) ? $scriptBlockerData->script_blocker_id : ''
+                !empty($scriptBlockerData->script_blocker_id) ? $scriptBlockerData->script_blocker_id : ''
             );
-            $inputName = esc_attr(! empty($scriptBlockerData->name) ? $scriptBlockerData->name : '');
-            $inputStatus = ! empty($scriptBlockerData->status) ? 1 : 0;
+            $inputName = esc_attr(!empty($scriptBlockerData->name) ? $scriptBlockerData->name : '');
+            $inputStatus = !empty($scriptBlockerData->status) ? 1 : 0;
             $switchStatus = $inputStatus ? ' active' : '';
 
             $blockedHandles = $scriptBlockerData->handles;
@@ -411,8 +346,8 @@ class ScriptBlocker
                 . $inputScriptBlockerId . '", "scriptBlockerId");'
             );
             $textareaUnblockScriptContentBlockerCode .= "\n" . esc_textarea(
-                    'window.BorlabsCookie.unblockScriptBlockerId("' . $inputScriptBlockerId . '");'
-                );
+                'window.BorlabsCookie.unblockScriptBlockerId("' . $inputScriptBlockerId . '");'
+            );
 
             include Backend::getInstance()->templatePath . '/script-blocker-edit.html.php';
         }
@@ -420,16 +355,13 @@ class ScriptBlocker
 
     /**
      * displayOverview function.
-     *
-     * @access public
-     * @return void
      */
     public function displayOverview()
     {
         global $wpdb;
 
         $scriptBlocker = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`,
                 `script_blocker_id`,
@@ -439,13 +371,13 @@ class ScriptBlocker
                 `status`,
                 `undeletable`
             FROM
-                `" . $this->tableScriptBlocker . "`
+                `' . $this->tableScriptBlocker . '`
             ORDER BY
                 `name` ASC
-        "
+        '
         );
 
-        if (! empty($scriptBlocker)) {
+        if (!empty($scriptBlocker)) {
             foreach ($scriptBlocker as $key => $data) {
                 $data->handles = unserialize($data->handles);
                 $data->js_block_phrases = unserialize($data->js_block_phrases);
@@ -455,7 +387,7 @@ class ScriptBlocker
 
                 $scriptBlocker[$key]->handles = implode(', ', $data->handles);
                 $scriptBlocker[$key]->js_block_phrases = implode(', ', $data->js_block_phrases);
-                $scriptBlocker[$key]->undeletable = intval($data->undeletable);
+                $scriptBlocker[$key]->undeletable = (int) ($data->undeletable);
             }
         }
 
@@ -465,24 +397,21 @@ class ScriptBlocker
     /**
      * displayWizardStep_1 function.
      *
-     * @access public
-     *
-     * @param  mixed  $id
-     *
-     * @return void
+     * @param mixed $id
+     * @param mixed $formData
      */
     public function displayWizardStep_1($formData = [])
     {
-        $borlabsCookieStatus = ! empty(Config::getInstance()->get('cookieStatus'))
-        || ! empty(
+        $borlabsCookieStatus = !empty(Config::getInstance()->get('cookieStatus'))
+        || !empty(
         Config::getInstance()->get('setupMode')
         ) ? true : false;
-        $inputScanPageId = esc_attr(! empty($formData['scanPageId']) ? intval($formData['scanPageId']) : 0);
+        $inputScanPageId = esc_attr(!empty($formData['scanPageId']) ? (int) ($formData['scanPageId']) : 0);
         $inputScanCustomURL = esc_attr(
-            ! empty($formData['scanCustomURL']) ? stripslashes($formData['scanCustomURL']) : ''
+            !empty($formData['scanCustomURL']) ? stripslashes($formData['scanCustomURL']) : ''
         );
         $inputSearchPhrases = esc_attr(
-            ! empty($formData['searchPhrases']) ? stripslashes($formData['searchPhrases']) : ''
+            !empty($formData['searchPhrases']) ? stripslashes($formData['searchPhrases']) : ''
         );
 
         include Backend::getInstance()->templatePath . '/script-blocker-wizard-step-1.html.php';
@@ -491,11 +420,7 @@ class ScriptBlocker
     /**
      * displayWizardStep_2 function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData  (default: [])
-     *
-     * @return void
+     * @param mixed $formData (default: [])
      */
     public function displayWizardStep_2($formData = [])
     {
@@ -510,7 +435,7 @@ class ScriptBlocker
             $errorStatus = true;
         }
 
-        if (! empty($formData['enableScanCustomURL'])) {
+        if (!empty($formData['enableScanCustomURL'])) {
             if (empty($formData['scanCustomURL'])) {
                 Messages::getInstance()->add(
                     _x('Please enter a URL.', 'Backend / Script Blocker / Alert Message', 'borlabs-cookie'),
@@ -535,10 +460,10 @@ class ScriptBlocker
         } else {
             $scanURL = '';
 
-            if (! empty($formData['scanPageId'])) {
+            if (!empty($formData['scanPageId'])) {
                 $postData = get_post($formData['scanPageId']);
 
-                if (! empty($postData->ID)) {
+                if (!empty($postData->ID)) {
                     $scanURL = get_permalink($postData->ID);
                 }
             } else {
@@ -552,7 +477,7 @@ class ScriptBlocker
 
             $inputScanURL = esc_attr($scanURL);
             $inputSearchPhrases = esc_attr(
-                ! empty($formData['searchPhrases']) ? stripslashes($formData['searchPhrases']) : ''
+                !empty($formData['searchPhrases']) ? stripslashes($formData['searchPhrases']) : ''
             );
 
             $loadingIcon = $this->imagePath . '/borlabs-cookie-icon-black.svg';
@@ -564,8 +489,7 @@ class ScriptBlocker
     /**
      * displayWizardStep_3 function.
      *
-     * @access public
-     * @return void
+     * @param mixed $formData
      */
     public function displayWizardStep_3($formData)
     {
@@ -586,10 +510,10 @@ class ScriptBlocker
             $this->displayWizardStep_1($formData);
         } else {
             $inputScriptBlockerId = esc_attr(
-                ! empty($formData['scriptBlockerId']) ? stripslashes($formData['scriptBlockerId']) : ''
+                !empty($formData['scriptBlockerId']) ? stripslashes($formData['scriptBlockerId']) : ''
             );
-            $inputName = esc_attr(! empty($formData['name']) ? stripslashes($formData['name']) : '');
-            $inputStatus = esc_attr(! empty($formData['status']) ? 1 : 0);
+            $inputName = esc_attr(!empty($formData['name']) ? stripslashes($formData['name']) : '');
+            $inputStatus = esc_attr(!empty($formData['status']) ? 1 : 0);
             $switchStatus = $inputStatus ? ' active' : '';
 
             // If an error occurred during saving, these variables are filled with the information,
@@ -598,15 +522,15 @@ class ScriptBlocker
             $blockedScriptTags = [];
             $blockedPhrases = [];
 
-            if (! empty($formData['blockHandles'])) {
+            if (!empty($formData['blockHandles'])) {
                 $blockHandles = $formData['blockHandles'];
             }
 
-            if (! empty($formData['blockScriptTags'])) {
+            if (!empty($formData['blockScriptTags'])) {
                 $blockedScriptTags = $formData['blockScriptTags'];
             }
 
-            if (! empty($formData['blockPhrases'])) {
+            if (!empty($formData['blockPhrases'])) {
                 $blockedPhrases = $formData['blockPhrases'];
             }
 
@@ -615,38 +539,66 @@ class ScriptBlocker
     }
 
     /**
-     * getDetectedJavaScripts function.
+     * get function.
      *
-     * @access public
-     * @return void
+     * @param mixed $id
+     */
+    public function get($id)
+    {
+        global $wpdb;
+
+        $data = false;
+
+        $scriptBlockerData = $wpdb->get_results(
+            '
+            SELECT
+                `id`,
+                `script_blocker_id`,
+                `name`,
+                `handles`,
+                `js_block_phrases`,
+                `status`
+            FROM
+                `' . $this->tableScriptBlocker . "`
+            WHERE
+                `id` = '" . esc_sql($id) . "'
+        "
+        );
+
+        if (!empty($scriptBlockerData[0]->id)) {
+            $data = $scriptBlockerData[0];
+
+            $data->handles = unserialize($data->handles);
+            $data->js_block_phrases = unserialize($data->js_block_phrases);
+        }
+
+        return $data;
+    }
+
+    /**
+     * getDetectedJavaScripts function.
      */
     public function getDetectedJavaScripts()
     {
-        $detectedJavaScripts = get_option('BorlabsCookieDetectedJavaScripts', []);
-
-        return $detectedJavaScripts;
+        return get_option('BorlabsCookieDetectedJavaScripts', []);
     }
 
     /**
      * handleScanRequest function.
      *
-     * @access public
-     *
-     * @param  mixed  $scanURL
-     * @param  string  $searchPhrases  (default: '')
-     *
-     * @return void
+     * @param mixed  $scanURL
+     * @param string $searchPhrases (default: '')
      */
     public function handleScanRequest($scanURL, $searchPhrases = '')
     {
         // Prepare search phrase
-        if (! empty($searchPhrases)) {
+        if (!empty($searchPhrases)) {
             $searchPhrases = explode(',', $searchPhrases);
 
             foreach ($searchPhrases as $index => $phrase) {
                 $phrase = trim($phrase);
 
-                if (! empty($phrase)) {
+                if (!empty($phrase)) {
                     $searchPhrases[$index] = $phrase;
                 }
             }
@@ -669,9 +621,10 @@ class ScriptBlocker
         );
 
         $status = false;
+
         if (
-            ! empty($response) && is_array($response) && $response['response']['code'] == 200
-            && ! empty($response['body'])
+            !empty($response) && is_array($response) && $response['response']['code'] == 200
+            && !empty($response['body'])
         ) {
             $status = true;
         }
@@ -682,12 +635,8 @@ class ScriptBlocker
     /**
      * modify function.
      *
-     * @access public
-     *
-     * @param  mixed  $id
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $id
+     * @param mixed $data
      */
     public function modify($id, $data)
     {
@@ -701,14 +650,14 @@ class ScriptBlocker
         $data = array_merge($default, $data);
 
         $wpdb->query(
-            "
+            '
             UPDATE
-                `" . $this->tableScriptBlocker . "`
+                `' . $this->tableScriptBlocker . "`
             SET
                 `name` = '" . esc_sql(stripslashes($data['name'])) . "',
-                `status` = '" . (intval($data['status']) ? 1 : 0) . "'
+                `status` = '" . ((int) ($data['status']) ? 1 : 0) . "'
             WHERE
-                `id` = '" . intval($id) . "'
+                `id` = '" . (int) $id . "'
         "
         );
 
@@ -718,17 +667,13 @@ class ScriptBlocker
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
         $id = 0;
 
-        if (! empty($formData['id']) && $formData['id'] !== 'new') {
+        if (!empty($formData['id']) && $formData['id'] !== 'new') {
             // Edit
             $id = $this->modify($formData['id'], $formData);
         } else {
@@ -742,24 +687,20 @@ class ScriptBlocker
     /**
      * switchStatus function.
      *
-     * @access public
-     *
-     * @param  mixed  $id
-     *
-     * @return void
+     * @param mixed $id
      */
     public function switchStatus($id)
     {
         global $wpdb;
 
         $wpdb->query(
-            "
+            '
             UPDATE
-                `" . $this->tableScriptBlocker . "`
+                `' . $this->tableScriptBlocker . "`
             SET
                 `status` = IF(`status` <> 0, 0, 1)
             WHERE
-                `id` = '" . intval($id) . "'
+                `id` = '" . (int) $id . "'
         "
         );
 
@@ -769,11 +710,7 @@ class ScriptBlocker
     /**
      * validate function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function validate($formData)
     {
@@ -805,9 +742,9 @@ class ScriptBlocker
             $isBlockHandlesEmpty = true;
             $isBlockPhrasesEmpty = true;
 
-            if (! empty($formData['blockHandles'])) {
+            if (!empty($formData['blockHandles'])) {
                 foreach ($formData['blockHandles'] as $status) {
-                    if ($status === "1") {
+                    if ($status === '1') {
                         $isBlockHandlesEmpty = false;
 
                         break;
@@ -815,7 +752,7 @@ class ScriptBlocker
                 }
             }
 
-            if (! empty($formData['blockPhrases'])) {
+            if (!empty($formData['blockPhrases'])) {
                 foreach ($formData['blockPhrases'] as $phrase) {
                     if (strlen($phrase) >= 5) {
                         $isBlockPhrasesEmpty = false;

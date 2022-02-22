@@ -29,8 +29,8 @@ class Divi
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -38,9 +38,6 @@ class Divi
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -59,25 +56,21 @@ class Divi
     /**
      * detectGoogleMaps function.
      *
-     * @access public
-     *
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $content
      */
     public function detectGoogleMaps($content)
     {
         if (strpos($content, 'et_pb_map_container') !== false) {
             $googleApiSettings = get_option('et_google_api_settings');
 
-            if (! empty($googleApiSettings['api_key'])) {
+            if (!empty($googleApiSettings['api_key'])) {
                 // Get settings of the Content Blocker
                 $contentBlockerData = ContentBlocker::getInstance()->getContentBlockerData('googlemaps');
 
                 // Only modify when Google Maps Content Blocker is active
-                if (! empty($contentBlockerData)) {
+                if (!empty($contentBlockerData)) {
                     // Overwrite setting and always execute global code before unblocking the content
-                    $contentBlockerData['settings']['executeGlobalCodeBeforeUnblocking'] = "1";
+                    $contentBlockerData['settings']['executeGlobalCodeBeforeUnblocking'] = '1';
 
                     // Add updated settings, global js, and init js of the Content Blocker
                     JavaScript::getInstance()->addContentBlocker(
@@ -116,20 +109,17 @@ class Divi
 
     /**
      * isBuilderModeActive function.
-     *
-     * @access public
-     * @return void
      */
     public function isBuilderModeActive()
     {
         $hideCookieBox = false;
 
-        if (function_exists('et_fb_enabled') && ! is_admin() && et_fb_enabled()) {
+        if (function_exists('et_fb_enabled') && !is_admin() && et_fb_enabled()) {
             $hideCookieBox = true;
         }
 
         if ($hideCookieBox) {
-            add_filter("borlabsCookie/settings", function ($jsConfig) {
+            add_filter('borlabsCookie/settings', function ($jsConfig) {
                 $jsConfig['showCookieBox'] = false;
 
                 return $jsConfig;
@@ -139,9 +129,6 @@ class Divi
 
     /**
      * loadGoogleMapsAPI function.
-     *
-     * @access public
-     * @return void
      */
     public function loadGoogleMapsAPI()
     {
@@ -154,17 +141,14 @@ class Divi
 
     /**
      * modifyDiviSettings function.
-     *
-     * @access public
-     * @return void
      */
     public function modifyDiviSettings()
     {
-        if (function_exists('et_fb_enabled') && ! is_admin() && et_fb_enabled()) {
+        if (function_exists('et_fb_enabled') && !is_admin() && et_fb_enabled()) {
             $this->loadGoogleMapsAPI();
         } else {
             // Only modify when Google Maps Content Blocker is active
-            if (! empty(ContentBlocker::getInstance()->getContentBlockerData('googlemaps'))) {
+            if (!empty(ContentBlocker::getInstance()->getContentBlockerData('googlemaps'))) {
                 $googleApiSettings = get_option('et_google_api_settings');
                 $googleApiSettings['enqueue_google_maps_script'] = false;
                 update_option('et_google_api_settings', $googleApiSettings);
@@ -181,11 +165,7 @@ class Divi
     /**
      * replaceGoogleMapsElement function.
      *
-     * @access public
-     *
-     * @param  mixed  $mapElement
-     *
-     * @return void
+     * @param mixed $mapElement
      */
     public function replaceGoogleMapsElement($mapElement)
     {

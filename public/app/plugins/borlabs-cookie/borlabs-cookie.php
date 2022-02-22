@@ -5,7 +5,7 @@ Plugin URI: https://borlabs.io/
 Description: Borlabs Cookie is an easy to use cookie opt-in and content block solution for WordPress. Create detailed descriptions for cookies and sort them in customizable 'Cookie Groups'. Create specific 'Content Blockers' and block everything from YouTube media to Facebook posts. Let your visitors choose which cookies they want to allow and what content they want to see. Borlabs Cookie helps you to make your website ready for GDPR & ePrivacy regulations.
 Author: Benjamin A. Bornschein, Borlabs
 Author URI: https://borlabs.io
-Version: 2.2.45
+Version: 2.2.49
 Text Domain: borlabs-cookie
 Domain Path: /languages
 */
@@ -16,8 +16,8 @@ if (empty($borlabsCookieWPLANG) || strlen($borlabsCookieWPLANG) <= 1) {
     $borlabsCookieWPLANG = 'en';
 }
 
-define('BORLABS_COOKIE_VERSION', '2.2.45');
-define('BORLABS_COOKIE_BUILD', '220126');
+define('BORLABS_COOKIE_VERSION', '2.2.49');
+define('BORLABS_COOKIE_BUILD', '220215');
 define('BORLABS_COOKIE_BASENAME', plugin_basename(__FILE__));
 define('BORLABS_COOKIE_SLUG', basename(BORLABS_COOKIE_BASENAME, '.php'));
 define('BORLABS_COOKIE_PLUGIN_PATH', plugin_dir_path(__FILE__));
@@ -27,6 +27,11 @@ if (defined('BORLABS_COOKIE_IGNORE_ISO_639_1') === false) {
     define('BORLABS_COOKIE_DEFAULT_LANGUAGE', substr($borlabsCookieWPLANG, 0, 2));
 } else {
     define('BORLABS_COOKIE_DEFAULT_LANGUAGE', $borlabsCookieWPLANG);
+}
+
+// Improving Docker performance on macOS during development
+if (BORLABS_COOKIE_BUILD === '000000' && !defined('DISABLE_WP_CRON')) {
+    define('DISABLE_WP_CRON', true);
 }
 
 // Prevent direct access

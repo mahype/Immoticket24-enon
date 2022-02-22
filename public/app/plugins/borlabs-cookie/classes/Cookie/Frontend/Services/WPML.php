@@ -26,8 +26,8 @@ class WPML
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,9 +35,6 @@ class WPML
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -55,13 +52,10 @@ class WPML
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'wpml',
             'service' => 'WPML',
             'name' => 'WPML',
@@ -81,7 +75,5 @@ class WPML
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 }

@@ -26,8 +26,8 @@ class GoogleAnalytics
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,13 +35,12 @@ class GoogleAnalytics
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
-        add_action('borlabsCookie/cookie/edit/template/settings/GoogleAnalytics', [$this, 'additionalSettingsTemplate']
+        add_action(
+            'borlabsCookie/cookie/edit/template/settings/GoogleAnalytics',
+            [$this, 'additionalSettingsTemplate']
         );
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
     }
@@ -59,18 +58,13 @@ class GoogleAnalytics
     /**
      * additionalSettingsTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputTrackingId = esc_html(! empty($data->settings['trackingId']) ? $data->settings['trackingId'] : '');
-        $inputConsentMode = ! empty($data->settings['consentMode']) ? 1 : 0;
-        $switchConsentMode = $inputConsentMode ? ' active' : '';
-        ?>
+        $inputTrackingId = esc_html(!empty($data->settings['trackingId']) ? $data->settings['trackingId'] : '');
+        $inputConsentMode = !empty($data->settings['consentMode']) ? 1 : 0;
+        $switchConsentMode = $inputConsentMode ? ' active' : ''; ?>
         <div class="form-group row">
             <label for="trackingId"
                    class="col-sm-4 col-form-label"><?php
@@ -85,18 +79,18 @@ class GoogleAnalytics
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter your Google Analytics Tracking ID.',
-                          'Backend / Cookie / Google Analytics / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter your Google Analytics Tracking ID.',
+            'Backend / Cookie / Google Analytics / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <div class="form-group row align-items-center">
@@ -116,10 +110,10 @@ class GoogleAnalytics
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'The Google Analytics code is always loaded via the <strong>Fallback Code</strong> field with Google Consent Mode defaults set to denied. If the user accepts the Google Analytics Cookie, Google will be informed about your consent to analytics. Be aware that the consent mode only allows consents for categories not services.',
-                          'Backend / Cookie / Google Analytics / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'The Google Analytics code is always loaded via the <strong>Fallback Code</strong> field with Google Consent Mode defaults set to denied. If the user accepts the Google Analytics Cookie, Google will be informed about your consent to analytics. Be aware that the consent mode only allows consents for categories not services.',
+            'Backend / Cookie / Google Analytics / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>
@@ -128,13 +122,10 @@ class GoogleAnalytics
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'google-analytics',
             'service' => 'GoogleAnalytics',
             'name' => 'Google Analytics',
@@ -164,23 +155,17 @@ class GoogleAnalytics
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
-        if (! empty($formData['service']) && $formData['service'] === 'GoogleAnalytics') {
-            if (! empty($formData['settings']['trackingId'])) {
+        if (!empty($formData['service']) && $formData['service'] === 'GoogleAnalytics') {
+            if (!empty($formData['settings']['trackingId'])) {
                 $formData['settings']['trackingId'] = trim($formData['settings']['trackingId']);
             }
         }
@@ -191,12 +176,11 @@ class GoogleAnalytics
     /**
      * optInJS function.
      *
-     * @access private
      * @return string
      */
     private function fallbackJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <script>
 if('%%consentMode%%' === '1') {
     window.dataLayer = window.dataLayer || [];
@@ -220,19 +204,16 @@ if('%%consentMode%%' === '1') {
 }
 </script>
 EOT;
-
-        return $code;
     }
 
     /**
      * optInJS function.
      *
-     * @access private
      * @return string
      */
     private function optInJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <script>
 if('%%consentMode%%' === '1') {
     window.dataLayer = window.dataLayer || [];
@@ -256,7 +237,5 @@ if('%%consentMode%%' === '1') {
 }
 </script>
 EOT;
-
-        return $code;
     }
 }

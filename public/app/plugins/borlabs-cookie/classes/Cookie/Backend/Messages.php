@@ -28,12 +28,13 @@ class Messages
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
+
     private $messages = [];
 
     public function __construct()
@@ -53,12 +54,8 @@ class Messages
     /**
      * add function.
      *
-     * @access public
-     *
-     * @param  mixed  $message
-     * @param  mixed  $type
-     *
-     * @return void
+     * @param mixed $message
+     * @param mixed $type
      */
     public function add($message, $type)
     {
@@ -81,9 +78,6 @@ class Messages
 
     /**
      * getAll function.
-     *
-     * @access public
-     * @return void
      */
     public function getAll()
     {

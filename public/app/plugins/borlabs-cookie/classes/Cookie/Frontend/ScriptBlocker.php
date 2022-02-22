@@ -29,96 +29,95 @@ class ScriptBlocker
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
     /**
-     * detectedHandles
+     * detectedHandles.
      *
      * (default value: [])
      *
      * @var mixed
-     * @access private
      */
     private $detectedHandles
         = [
             'matchedSearchPhrase' => [],
             'notMatchedSearchPhrase' => [],
         ];
+
     /**
-     * detectedJavaScriptTags
+     * detectedJavaScriptTags.
      *
      * @var mixed
-     * @access private
      */
     private $detectedJavaScriptTags
         = [
             'matchedSearchPhrase' => [],
             'notMatchedSearchPhrase' => [],
         ];
+
     /**
-     * scriptBlocker
+     * scriptBlocker.
      *
      * (default value: [])
      *
      * @var mixed
-     * @access private
      */
     private $scriptBlocker = [];
+
     /**
-     * searchPhrases
+     * searchPhrases.
      *
      * (default value: [])
      *
      * @var mixed
-     * @access private
      */
     private $searchPhrases = [];
+
     /**
-     * statusScanActive
+     * statusScanActive.
      *
      * (default value: false)
      *
      * @var bool
-     * @access private
      */
     private $statusScanActive = false;
+
     /**
-     * wordpressIncludesURL
+     * wordpressIncludesURL.
      *
      * (default value: '')
      *
      * @var string
-     * @access private
      */
     private $wordpressIncludesURL = '';
+
     /**
-     * wordpressPluginsURL
+     * wordpressPluginsURL.
      *
      * (default value: '')
      *
      * @var string
-     * @access private
      */
     private $wordpressPluginsURL = '';
+
     /**
-     * wordpressSiteURL
+     * wordpressSiteURL.
      *
      * @var mixed
-     * @access private
      */
     private $wordpressSiteURL = '';
+
     /**
-     * wordpressThemesURL
+     * wordpressThemesURL.
      *
      * (default value: '')
      *
      * @var string
-     * @access private
      */
     private $wordpressThemesURL = '';
 
@@ -128,8 +127,8 @@ class ScriptBlocker
         if (get_option('BorlabsCookieScanJavaScripts', false)) {
             // Only scan the selected page
             if (
-                ! empty($_POST['borlabsCookie']['scanJavaScripts'])
-                || ! empty($_GET['__borlabsCookieScanJavaScripts'])
+                !empty($_POST['borlabsCookie']['scanJavaScripts'])
+                || !empty($_GET['__borlabsCookieScanJavaScripts'])
             ) {
                 $this->statusScanActive = true;
 
@@ -159,25 +158,22 @@ class ScriptBlocker
     /**
      * blockHandles function.
      *
-     * @access public
-     *
-     * @param  mixed  $tag
-     * @param  mixed  $handle
-     * @param  mixed  $src
-     *
-     * @return void
+     * @param mixed $tag
+     * @param mixed $handle
+     * @param mixed $src
      */
     public function blockHandles($tag, $handle, $src)
     {
         if (Buffer::getInstance()->isBufferActive()) {
-            if (! empty($this->scriptBlocker)) {
+            if (!empty($this->scriptBlocker)) {
                 foreach ($this->scriptBlocker as $data) {
-                    if (! empty($data->handles)) {
+                    if (!empty($data->handles)) {
                         if (
                             $handle !== 'borlabs-cookie' && $handle !== 'borlabs-cookie-prioritize'
                             && in_array(
                                 $handle,
-                                $data->handles
+                                $data->handles,
+                                true
                             )
                         ) {
                             $tag = str_replace(
@@ -208,17 +204,13 @@ class ScriptBlocker
     /**
      * blockJavaScriptTag function.
      *
-     * @access public
-     *
-     * @param  mixed  $tag
-     *
-     * @return void
+     * @param mixed $tag
      */
     public function blockJavaScriptTag($tag)
     {
-        if (! empty($this->scriptBlocker)) {
+        if (!empty($this->scriptBlocker)) {
             foreach ($this->scriptBlocker as $data) {
-                if (! empty($data->blockPhrases)) {
+                if (!empty($data->blockPhrases)) {
                     foreach ($data->blockPhrases as $blockPhrase) {
                         if (
                             strpos($tag[0], $blockPhrase) !== false && strpos($tag[0], 'borlabsCookieConfig') === false
@@ -232,7 +224,7 @@ class ScriptBlocker
                             // Only <script>-tags without type attribute or with type attribute text/javascript are JavaScript
                             if (
                                 empty($scriptType)
-                                || ! empty($scriptType)
+                                || !empty($scriptType)
                                 && (strtolower($scriptType[3]) == 'text/javascript'
                                     || strtolower($scriptType[3]) == 'application/javascript')
                             ) {
@@ -269,11 +261,7 @@ class ScriptBlocker
     /**
      * checkDetectedJavaScriptTags function.
      *
-     * @access public
-     *
-     * @param  mixed  $tag
-     *
-     * @return void
+     * @param mixed $tag
      */
     public function checkDetectedJavaScriptTags($tag)
     {
@@ -284,7 +272,7 @@ class ScriptBlocker
         // Only <script>-tags without type attribute or with type attribute text/javascript are JavaScript
         if (
             empty($scriptType)
-            || ! empty($scriptType)
+            || !empty($scriptType)
             && (strtolower($scriptType[3]) == 'text/javascript'
                 || strtolower($scriptType[3]) == 'application/javascript')
         ) {
@@ -293,7 +281,7 @@ class ScriptBlocker
 
             $allDetectedHandles = Tools::getInstance()->arrayFlat($this->detectedHandles);
 
-            if (empty($scriptSrc[3]) || ! in_array($scriptSrc[3], $allDetectedHandles)) {
+            if (empty($scriptSrc[3]) || !in_array($scriptSrc[3], $allDetectedHandles, true)) {
                 $searchPhraseMatch = $this->checkForSearchPhraseMatch($tag[0]);
 
                 if ($searchPhraseMatch['matched']) {
@@ -308,18 +296,12 @@ class ScriptBlocker
                 }
             }
         }
-
-        return null;
     }
 
     /**
      * checkForSearchPhraseMatch function.
      *
-     * @access public
-     *
-     * @param  mixed  $source
-     *
-     * @return void
+     * @param mixed $source
      */
     public function checkForSearchPhraseMatch($source)
     {
@@ -328,7 +310,7 @@ class ScriptBlocker
             'matchedPhrase' => '',
         ];
 
-        if (! empty($this->searchPhrases)) {
+        if (!empty($this->searchPhrases)) {
             foreach ($this->searchPhrases as $phrase) {
                 if (strpos($source, $phrase) !== false) {
                     $data['matched'] = true;
@@ -345,13 +327,9 @@ class ScriptBlocker
     /**
      * detectHandles function.
      *
-     * @access public
-     *
-     * @param  mixed  $tag
-     * @param  mixed  $handle
-     * @param  mixed  $src
-     *
-     * @return void
+     * @param mixed $tag
+     * @param mixed $handle
+     * @param mixed $src
      */
     public function detectHandles($tag, $handle, $src)
     {
@@ -412,9 +390,6 @@ class ScriptBlocker
 
     /**
      * detectJavaScriptsTags function.
-     *
-     * @access public
-     * @return void
      */
     public function detectJavaScriptsTags()
     {
@@ -430,9 +405,6 @@ class ScriptBlocker
 
     /**
      * getScriptBlocker function.
-     *
-     * @access public
-     * @return void
      */
     public function getScriptBlocker()
     {
@@ -441,21 +413,21 @@ class ScriptBlocker
         $tableName = $wpdb->prefix . 'borlabs_cookie_script_blocker';
 
         $scriptBlocker = $wpdb->get_results(
-            "
+            '
             SELECT
                 `script_blocker_id`,
                 `handles`,
                 `js_block_phrases`
             FROM
-                `" . $tableName . "`
+                `' . $tableName . '`
             WHERE
                 `status` = 1
-        "
+        '
         );
 
-        if (! empty($scriptBlocker)) {
+        if (!empty($scriptBlocker)) {
             foreach ($scriptBlocker as $key => $data) {
-                $this->scriptBlocker[$key] = new stdClass;
+                $this->scriptBlocker[$key] = new stdClass();
                 $this->scriptBlocker[$key]->scriptBlockerId = $scriptBlocker[$key]->script_blocker_id;
                 $this->scriptBlocker[$key]->handles = unserialize($scriptBlocker[$key]->handles);
                 $this->scriptBlocker[$key]->blockPhrases = unserialize($scriptBlocker[$key]->js_block_phrases);
@@ -465,9 +437,6 @@ class ScriptBlocker
 
     /**
      * handleJavaScriptTagBlocking function.
-     *
-     * @access public
-     * @return void
      */
     public function handleJavaScriptTagBlocking()
     {
@@ -482,20 +451,14 @@ class ScriptBlocker
 
     /**
      * hasScriptBlocker function.
-     *
-     * @access public
-     * @return void
      */
     public function hasScriptBlocker()
     {
-        return ! empty($this->scriptBlocker) ? true : false;
+        return !empty($this->scriptBlocker) ? true : false;
     }
 
     /**
      * isScanActive function.
-     *
-     * @access public
-     * @return void
      */
     public function isScanActive()
     {
@@ -504,19 +467,16 @@ class ScriptBlocker
 
     /**
      * saveDetectedJavaScripts function.
-     *
-     * @access public
-     * @return void
      */
     public function saveDetectedJavaScripts()
     {
         // Check if scan is enabled
         if ($this->statusScanActive) {
             if (
-                ! empty($this->detectedHandles['matchedSearchPhrase'])
-                || ! empty($this->detectedHandles['notMatchedSearchPhrase'])
-                || ! empty($this->detectedJavaScripts['matchedSearchPhrase'])
-                || ! empty($this->detectedJavaScripts['notMatchedSearchPhrase'])
+                !empty($this->detectedHandles['matchedSearchPhrase'])
+                || !empty($this->detectedHandles['notMatchedSearchPhrase'])
+                || !empty($this->detectedJavaScripts['matchedSearchPhrase'])
+                || !empty($this->detectedJavaScripts['notMatchedSearchPhrase'])
             ) {
                 update_option(
                     'BorlabsCookieDetectedJavaScripts',

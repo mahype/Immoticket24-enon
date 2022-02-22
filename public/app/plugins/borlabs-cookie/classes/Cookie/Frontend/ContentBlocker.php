@@ -29,18 +29,23 @@ class ContentBlocker
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
     private $cacheFolder = '';
+
     private $contentBlocker = [];
+
     private $currentBlockedContent = '';
+
     private $currentTitle = '';
+
     private $currentURL = '';
+
     private $defaultClassMapping
         = [
             'facebook' => 'Facebook',
@@ -52,15 +57,15 @@ class ContentBlocker
             'vimeo' => 'Vimeo',
             'youtube' => 'YouTube',
         ];
-    private $hostWhitelist = [];
+
     private $hosts = [];
+
+    private $hostWhitelist = [];
+
     private $siteHost = '';
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -80,13 +85,9 @@ class ContentBlocker
     /**
      * detectIframes function.
      *
-     * @access public
-     *
-     * @param  mixed  $content
-     * @param  mixed  $postId  (default: null)
-     * @param  mixed  $field  (default: null)
-     *
-     * @return void
+     * @param mixed $content
+     * @param mixed $postId  (default: null)
+     * @param mixed $field   (default: null)
      */
     public function detectIframes($content, $postId = null, $field = null)
     {
@@ -107,9 +108,6 @@ class ContentBlocker
 
     /**
      * getCacheFolder function.
-     *
-     * @access public
-     * @return void
      */
     public function getCacheFolder()
     {
@@ -119,26 +117,19 @@ class ContentBlocker
     /**
      * getContentBlockerData function.
      *
-     * @access public
-     *
-     * @param  mixed  $contentBlockerId
-     *
-     * @return void
+     * @param mixed $contentBlockerId
      */
     public function getContentBlockerData($contentBlockerId)
     {
-        if (! empty($this->contentBlocker[$contentBlockerId])) {
+        if (!empty($this->contentBlocker[$contentBlockerId])) {
             return $this->contentBlocker[$contentBlockerId];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * getCurrentBlockedContent function.
-     *
-     * @access public
-     * @return void
      */
     public function getCurrentBlockedContent()
     {
@@ -146,26 +137,7 @@ class ContentBlocker
     }
 
     /**
-     * setCurrentBlockedContent function.
-     *
-     * @access public
-     *
-     * @param  mixed  $content
-     *
-     * @return void
-     */
-    public function setCurrentBlockedContent($content)
-    {
-        $this->currentBlockedContent = $content;
-
-        return true;
-    }
-
-    /**
      * getCurrentTitle function.
-     *
-     * @access public
-     * @return void
      */
     public function getCurrentTitle()
     {
@@ -174,9 +146,6 @@ class ContentBlocker
 
     /**
      * getCurrentURL function.
-     *
-     * @access public
-     * @return void
      */
     public function getCurrentURL()
     {
@@ -186,15 +155,11 @@ class ContentBlocker
     /**
      * handleContentBlocking function.
      *
-     * @access public
-     *
-     * @param  mixed  $content
-     * @param  string  $url  (default: '')
-     * @param  string  $contentBlockerId  (default: '')
-     * @param  string  $title  (default: '')
-     * @param  mixed  $atts  (default: [])
-     *
-     * @return void
+     * @param mixed  $content
+     * @param string $url              (default: '')
+     * @param string $contentBlockerId (default: '')
+     * @param string $title            (default: '')
+     * @param mixed  $atts             (default: [])
      */
     public function handleContentBlocking($content, $url = '', $contentBlockerId = '', $title = '', $atts = [])
     {
@@ -205,7 +170,7 @@ class ContentBlocker
             } else {
                 // Set currentContent for third party filter that needs the content unmodified
                 $this->currentBlockedContent = $content;
-                $this->currentURL = ! empty($url) ? $url : '';
+                $this->currentURL = !empty($url) ? $url : '';
                 $this->currentTitle = $title;
 
                 $currentURLData = parse_url($this->currentURL);
@@ -213,14 +178,13 @@ class ContentBlocker
                 $detectedContentBlockerId = null;
 
                 // When $contentBlockerId is set - overwrites the by URL detected content blocker
-                if (! empty($contentBlockerId) && ! empty($this->contentBlocker[$contentBlockerId])) {
+                if (!empty($contentBlockerId) && !empty($this->contentBlocker[$contentBlockerId])) {
                     $detectedContentBlockerId = $contentBlockerId;
                 } else {
                     // Detect Content Blocker by Host
-                    if (! empty($this->hosts) && ! empty($this->currentURL) && ! empty($currentURLData['host'])) {
+                    if (!empty($this->hosts) && !empty($this->currentURL) && !empty($currentURLData['host'])) {
                         $levenshtein = 0;
-                        $currentHost = strtolower($currentURLData['host']) . (isset($currentURLData['path'])
-                                ? $currentURLData['path'] : '');
+                        $currentHost = strtolower($currentURLData['host']) . ($currentURLData['path'] ?? '');
 
                         foreach ($this->hosts as $host => $contentBlocker) {
                             if (strpos($currentHost, $host) !== false) {
@@ -240,13 +204,13 @@ class ContentBlocker
                 }
 
                 // Fallback but only if Fallback was not disabled
-                if (empty($detectedContentBlockerId) && ! empty($this->contentBlocker['default'])) {
+                if (empty($detectedContentBlockerId) && !empty($this->contentBlocker['default'])) {
                     $detectedContentBlockerId = 'default';
                 }
 
                 // Do not block oEmbed of own blog
                 if (
-                    ! empty($this->currentURL) && ! empty($currentURLData['host'])
+                    !empty($this->currentURL) && !empty($currentURLData['host'])
                     && strpos(
                         $currentURLData['host'],
                         $this->siteHost
@@ -255,7 +219,7 @@ class ContentBlocker
                     $detectedContentBlockerId = null;
                 }
 
-                if (! empty($detectedContentBlockerId)) {
+                if (!empty($detectedContentBlockerId)) {
                     if (has_filter('borlabsCookie/contentBlocker/modify/content/' . $detectedContentBlockerId)) {
                         $content = apply_filters(
                             'borlabsCookie/contentBlocker/modify/content/' . $detectedContentBlockerId,
@@ -279,8 +243,8 @@ class ContentBlocker
 
                     if (Config::getInstance()->get('cookieBoxIntegration') === 'javascript') {
                         $blockedContent = '<script type="text/template">' . base64_encode(
-                                $this->getCurrentBlockedContent()
-                            ) . '</script>';
+                            $this->getCurrentBlockedContent()
+                        ) . '</script>';
                     } else {
                         $blockedContent = base64_encode($this->getCurrentBlockedContent());
                     }
@@ -301,11 +265,7 @@ class ContentBlocker
     /**
      * handleIframe function.
      *
-     * @access public
-     *
-     * @param  mixed  $tags
-     *
-     * @return void
+     * @param mixed $tags
      */
     public function handleIframe($tags)
     {
@@ -326,7 +286,7 @@ class ContentBlocker
             preg_match('/src=("|\')([^"\']{1,})(\1)/i', $tags[2], $srcMatch);
 
             // Skip iframes without src attribute of where src is about:blank
-            if (! empty($srcMatch[2]) && $srcMatch[2] !== 'about:blank') {
+            if (!empty($srcMatch[2]) && $srcMatch[2] !== 'about:blank') {
                 $content = $this->handleContentBlocking($tags[0], $srcMatch[2]);
             }
         }
@@ -337,14 +297,10 @@ class ContentBlocker
     /**
      * handleOembed function.
      *
-     * @access public
-     *
-     * @param  mixed  $html
-     * @param  mixed  $url
-     * @param  mixed  $atts
-     * @param  mixed  $postId
-     *
-     * @return void
+     * @param mixed $html
+     * @param mixed $url
+     * @param mixed $atts
+     * @param mixed $postId
      */
     public function handleOembed($html, $url, $atts, $postId)
     {
@@ -353,9 +309,6 @@ class ContentBlocker
 
     /**
      * init function.
-     *
-     * @access public
-     * @return void
      */
     public function init()
     {
@@ -367,9 +320,9 @@ class ContentBlocker
         $this->siteHost = parse_url(get_home_url(), PHP_URL_HOST);
 
         // Check if main cache folders exists
-        if (! file_exists($this->cacheFolder)) {
+        if (!file_exists($this->cacheFolder)) {
             // Check if /cache folder exists
-            if (! file_exists(WP_CONTENT_DIR . '/cache') && is_writable(WP_CONTENT_DIR)) {
+            if (!file_exists(WP_CONTENT_DIR . '/cache') && is_writable(WP_CONTENT_DIR)) {
                 mkdir(WP_CONTENT_DIR . '/cache');
             }
 
@@ -383,7 +336,7 @@ class ContentBlocker
 
         // Load active Content Blocker
         $contentBlocker = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`,
                 `content_blocker_id`,
@@ -395,7 +348,7 @@ class ContentBlocker
                 `init_js`,
                 `settings`
             FROM
-                `" . $tableName . "`
+                `' . $tableName . "`
             WHERE
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                 AND
@@ -403,7 +356,7 @@ class ContentBlocker
         "
         );
 
-        if (! empty($contentBlocker)) {
+        if (!empty($contentBlocker)) {
             foreach ($contentBlocker as $key => $data) {
                 $contentBlocker[$key]->hosts = unserialize($data->hosts);
 
@@ -420,7 +373,7 @@ class ContentBlocker
                 ];
 
                 // Build list of available hosts => Content Blocker Ids for faster detection
-                if (! empty($contentBlocker[$key]->hosts)) {
+                if (!empty($contentBlocker[$key]->hosts)) {
                     foreach ($contentBlocker[$key]->hosts as $host) {
                         $this->hosts[strtolower($host)] = $data->content_blocker_id;
                     }
@@ -435,7 +388,7 @@ class ContentBlocker
                 );
 
                 // Register action filter of default Content Blocker classes
-                if (! empty($this->defaultClassMapping[$data->content_blocker_id])) {
+                if (!empty($this->defaultClassMapping[$data->content_blocker_id])) {
                     $className = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\'
                         . $this->defaultClassMapping[$data->content_blocker_id];
                     add_filter(
@@ -450,11 +403,11 @@ class ContentBlocker
 
         // Add hosts of disabled Content Blocker to whitelist
         $disabledContentBlocker = $wpdb->get_results(
-            "
+            '
             SELECT
                 `hosts`
             FROM
-                `" . $tableName . "`
+                `' . $tableName . "`
             WHERE
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
                 AND
@@ -462,11 +415,11 @@ class ContentBlocker
         "
         );
 
-        if (! empty($disabledContentBlocker)) {
+        if (!empty($disabledContentBlocker)) {
             foreach ($disabledContentBlocker as $data) {
                 $hosts = unserialize($data->hosts);
 
-                if (! empty($hosts)) {
+                if (!empty($hosts)) {
                     $this->hostWhitelist = array_merge($this->hostWhitelist, unserialize($data->hosts));
                 }
             }
@@ -476,9 +429,7 @@ class ContentBlocker
     /**
      * isHostWhitelisted function.
      *
-     * @access public
-     *
-     * @param  mixed  $host
+     * @param mixed $host
      *
      * @return true: host is whitelisted, false: host is not whitelisted
      */
@@ -486,7 +437,7 @@ class ContentBlocker
     {
         $status = false;
 
-        if (! empty($this->hostWhitelist)) {
+        if (!empty($this->hostWhitelist)) {
             foreach ($this->hostWhitelist as $whitelistHost) {
                 if (strpos(strtolower($host), strtolower($whitelistHost)) !== false) {
                     $status = true;
@@ -495,5 +446,17 @@ class ContentBlocker
         }
 
         return $status;
+    }
+
+    /**
+     * setCurrentBlockedContent function.
+     *
+     * @param mixed $content
+     */
+    public function setCurrentBlockedContent($content)
+    {
+        $this->currentBlockedContent = $content;
+
+        return true;
     }
 }

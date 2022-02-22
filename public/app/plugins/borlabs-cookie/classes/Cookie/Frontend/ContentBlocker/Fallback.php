@@ -28,8 +28,8 @@ class Fallback
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -51,13 +51,10 @@ class Fallback
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'contentBlockerId' => 'default',
             'name' => _x('Default', 'Frontend / Content Blocker / Default / Text', 'borlabs-cookie'),
             'description' => _x(
@@ -70,15 +67,15 @@ class Fallback
             'previewHTML' => '<div class="_brlbs-content-blocker">
     <div class="_brlbs-default">
         <p>' . _x(
-                    "Click on the button to load the content from %%name%%.",
-                    'Frontend / Content Blocker / Default / Text',
-                    'borlabs-cookie'
-                ) . '</p>
+                'Click on the button to load the content from %%name%%.',
+                'Frontend / Content Blocker / Default / Text',
+                'borlabs-cookie'
+            ) . '</p>
         <p><a class="_brlbs-btn" href="#" data-borlabs-cookie-unblock role="button">' . _x(
-                    'Load content',
-                    'Frontend / Content Blocker / Default / Text',
-                    'borlabs-cookie'
-                ) . '</a></p>
+                'Load content',
+                'Frontend / Content Blocker / Default / Text',
+                'borlabs-cookie'
+            ) . '</a></p>
     </div>
 </div>',
             'previewCSS' => '',
@@ -90,19 +87,13 @@ class Fallback
             'status' => true,
             'undeletable' => true,
         ];
-
-        return $data;
     }
 
     /**
      * modify function.
      *
-     * @access public
-     *
-     * @param  mixed  $content
-     * @param  mixed  $atts  (default: [])
-     *
-     * @return void
+     * @param mixed $content
+     * @param mixed $atts    (default: [])
      */
     public function modify($content, $atts = [])
     {
@@ -118,7 +109,7 @@ class Fallback
         }
 
         // Replace text variables
-        if (! empty($atts)) {
+        if (!empty($atts)) {
             foreach ($atts as $key => $value) {
                 $contentBlockerData['previewHTML'] = str_replace(
                     '%%' . $key . '%%',

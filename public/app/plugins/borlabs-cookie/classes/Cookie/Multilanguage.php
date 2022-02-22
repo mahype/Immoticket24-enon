@@ -22,13 +22,12 @@ namespace BorlabsCookie\Cookie;
 
 class Multilanguage
 {
-
     private static $instance;
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -56,6 +55,7 @@ class Multilanguage
                 'code' => weglot_get_original_language(),
                 'name' => $this->getLanguageName(weglot_get_original_language()),
             ]);
+
             foreach (weglot_get_destination_languages() as $destination) {
                 array_push($languages, [
                     'code' => $destination['language_to'],
@@ -64,16 +64,11 @@ class Multilanguage
             }
 
             return $languages;
-        } else {
-            return null;
         }
     }
 
     /**
      * getCurrentLanguageCode function.
-     *
-     * @access public
-     * @return void
      */
     public function getCurrentLanguageCode()
     {
@@ -99,6 +94,7 @@ class Multilanguage
                     if (empty(session_id())) {
                         session_start();
                     }
+
                     if (isset($_GET['borlabsLang'])) {
                         if (isset(weglot_get_languages_available()[$_GET['borlabsLang']])) {
                             $_SESSION['borlabsLang'] = $_GET['borlabsLang'];
@@ -131,9 +127,6 @@ class Multilanguage
 
     /**
      * getCurrentLanguageFlag function.
-     *
-     * @access public
-     * @return void
      */
     public function getCurrentLanguageFlag()
     {
@@ -152,9 +145,6 @@ class Multilanguage
     /**
      * getCurrentLanguageName function.
      * Only returns the name when WPML/Polylang is active and loaded!
-     *
-     * @access public
-     * @return void
      */
     public function getCurrentLanguageName()
     {
@@ -185,9 +175,6 @@ class Multilanguage
 
     /**
      * getDefaultLanguageCode function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefaultLanguageCode()
     {
@@ -215,9 +202,7 @@ class Multilanguage
     /**
      * getLanguageFlag function.
      *
-     * @access public
-     *
-     * @param  mixed  $languageCode
+     * @param mixed $languageCode
      *
      * @return string
      */
@@ -227,11 +212,11 @@ class Multilanguage
 
         // Get the flag, works with WPML & Polylang
         if ($this->isMultilanguagePluginActive()) {
-            if (! $this->isLanguagePluginWeglotActive()) {
+            if (!$this->isLanguagePluginWeglotActive()) {
                 $null = null;
                 $listOfActiveLanguages = apply_filters('wpml_active_languages', $null);
 
-                if (! empty($listOfActiveLanguages[$languageCode]['country_flag_url'])) {
+                if (!empty($listOfActiveLanguages[$languageCode]['country_flag_url'])) {
                     $languageFlag = $listOfActiveLanguages[$languageCode]['country_flag_url'];
                 }
             }
@@ -243,11 +228,7 @@ class Multilanguage
     /**
      * getLanguageName function.
      *
-     * @access public
-     *
-     * @param  mixed  $languageCode
-     *
-     * @return void
+     * @param mixed $languageCode
      */
     public function getLanguageName($languageCode)
     {
@@ -264,7 +245,7 @@ class Multilanguage
                 $null = null;
                 $languages = apply_filters('wpml_active_languages', $null, []);
 
-                if (! empty($languages[$languageCode])) {
+                if (!empty($languages[$languageCode])) {
                     $languageName = $languages[$languageCode]['native_name'];
                 }
             }
@@ -281,7 +262,6 @@ class Multilanguage
     /**
      * isMultilanguagePluginActive function.
      *
-     * @access public
      * @return bool
      */
     public function isMultilanguagePluginActive()
@@ -306,11 +286,7 @@ class Multilanguage
     /**
      * polylangLanguageDefined function.
      *
-     * @access public
-     *
-     * @param  mixed  $languageCode
-     *
-     * @return void
+     * @param mixed $languageCode
      */
     public function polylangLanguageDefined($languageCode)
     {

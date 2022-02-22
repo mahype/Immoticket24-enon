@@ -26,8 +26,8 @@ class Hotjar
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,14 +35,13 @@ class Hotjar
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
         add_action('borlabsCookie/cookie/edit/template/settings/Hotjar', [$this, 'additionalSettingsTemplate']);
-        add_action('borlabsCookie/cookie/edit/template/settings/help/Hotjar', [$this, 'additionalSettingsHelpTemplate']
+        add_action(
+            'borlabsCookie/cookie/edit/template/settings/help/Hotjar',
+            [$this, 'additionalSettingsHelpTemplate']
         );
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
     }
@@ -60,11 +59,7 @@ class Hotjar
     /**
      * additionalSettingsHelpTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsHelpTemplate($data)
     {
@@ -75,16 +70,16 @@ class Hotjar
                     _ex('Tips', 'Backend / Global / Tips / Headline', 'borlabs-cookie'); ?></h3>
                 <h4><?php
                     _ex(
-                        'Where can I find the Site ID?',
-                        'Backend / Cookie / Hotjar / Tips / Headline',
-                        'borlabs-cookie'
-                    ); ?></h4>
+            'Where can I find the Site ID?',
+            'Backend / Cookie / Hotjar / Tips / Headline',
+            'borlabs-cookie'
+        ); ?></h4>
                 <p><?php
                     _ex(
-                        'In Hotjar, click <strong>Tracking</strong> in the upper right corner.',
-                        'Backend / Cookie / Hotjar / Tips / Text',
-                        'borlabs-cookie'
-                    ); ?></p>
+            'In Hotjar, click <strong>Tracking</strong> in the upper right corner.',
+            'Backend / Cookie / Hotjar / Tips / Text',
+            'borlabs-cookie'
+        ); ?></p>
             </div>
         </div>
         <?php
@@ -93,16 +88,11 @@ class Hotjar
     /**
      * additionalSettingsTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputSiteId = esc_html(! empty($data->settings['siteId']) ? $data->settings['siteId'] : '');
-        ?>
+        $inputSiteId = esc_html(!empty($data->settings['siteId']) ? $data->settings['siteId'] : ''); ?>
         <div class="form-group row">
             <label for="siteId"
                    class="col-sm-4 col-form-label"><?php
@@ -117,18 +107,18 @@ class Hotjar
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter your Site ID.',
-                          'Backend / Cookie / Hotjar / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter your Site ID.',
+            'Backend / Cookie / Hotjar / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <?php
@@ -136,13 +126,10 @@ class Hotjar
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'hotjar',
             'service' => 'Hotjar',
             'name' => 'Hotjar',
@@ -173,23 +160,17 @@ class Hotjar
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
-        if (! empty($formData['service']) && $formData['service'] === 'Hotjar') {
-            if (! empty($formData['settings']['siteId'])) {
+        if (!empty($formData['service']) && $formData['service'] === 'Hotjar') {
+            if (!empty($formData['settings']['siteId'])) {
                 $formData['settings']['siteId'] = trim($formData['settings']['siteId']);
             }
         }
@@ -199,13 +180,10 @@ class Hotjar
 
     /**
      * optInJS function.
-     *
-     * @access private
-     * @return void
      */
     private function optInJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <!-- Hotjar Tracking Code -->
 <script>
     (function(h,o,t,j,a,r){
@@ -218,7 +196,5 @@ class Hotjar
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
 EOT;
-
-        return $code;
     }
 }

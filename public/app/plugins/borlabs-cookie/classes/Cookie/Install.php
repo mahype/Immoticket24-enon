@@ -25,13 +25,12 @@ use WP_Roles;
 
 class Install
 {
-
     private static $instance;
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -53,14 +52,12 @@ class Install
 
     /**
      * addUserCapabilities function.
-     *
-     * @access public
      */
     public function addUserCapabilities()
     {
         global $wp_roles;
 
-        if (! isset($wp_roles)) {
+        if (!isset($wp_roles)) {
             $wp_roles = new WP_Roles();
         }
 
@@ -97,26 +94,19 @@ class Install
         "
         );
 
-        if (
-            ! empty($tableResult[0]->COLUMN_TYPE)
+        return (bool) (
+            !empty($tableResult[0]->COLUMN_TYPE)
             && strtolower($tableResult[0]->COLUMN_TYPE) == strtolower(
                 $expectedType
             )
-        ) {
-            return true;
-        } else {
-            return false;
-        }
+        );
     }
 
     /**
      * checkIfColumnExists function.
      *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $columnName
-     *
+     * @param mixed $tableName
+     * @param mixed $columnName
      */
     public function checkIfColumnExists($tableName, $columnName)
     {
@@ -144,49 +134,37 @@ class Install
         "
         );
 
-        if (! empty($tableResult[0]->COLUMN_NAME)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (bool) (!empty($tableResult[0]->COLUMN_NAME));
     }
 
     /**
      * checkIfIndexExists function.
      *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $indexName
+     * @param mixed $tableName
+     * @param mixed $indexName
      */
     public function checkIfIndexExists($tableName, $indexName)
     {
         global $wpdb;
 
         $tableResult = $wpdb->get_results(
-            "
+            '
             SHOW
                 INDEXES
             FROM
-                `" . $tableName . "`
+                `' . $tableName . "`
             WHERE
                 `Key_name` = '" . esc_sql($indexName) . "'
         "
         );
 
-        if (! empty($tableResult[0]->Key_name)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (bool) (!empty($tableResult[0]->Key_name));
     }
 
     /**
      * checkIfTableExists function.
      *
-     * @access public
-     *
-     * @param  mixed  $tableName
+     * @param mixed $tableName
      */
     public function checkIfTableExists($tableName)
     {
@@ -212,21 +190,15 @@ class Install
         "
         );
 
-        if (! empty($tableResult[0]->TABLE_NAME)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (bool) (!empty($tableResult[0]->TABLE_NAME));
     }
 
     /**
      * checkTypeOfColumn function.
      *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $columnName
-     * @param  mixed  $expectedType
+     * @param mixed $tableName
+     * @param mixed $columnName
+     * @param mixed $expectedType
      */
     public function checkTypeOfColumn($tableName, $columnName, $expectedType)
     {
@@ -254,41 +226,31 @@ class Install
         "
         );
 
-        if (
-            ! empty($tableResult[0]->DATA_TYPE)
+        return (bool) (
+            !empty($tableResult[0]->DATA_TYPE)
             && strtolower($tableResult[0]->DATA_TYPE) == strtolower(
                 $expectedType
             )
-        ) {
-            return true;
-        } else {
-            return false;
-        }
+        );
     }
 
     /**
      * getCapabilities function.
-     *
-     * @access public
      */
     public function getCapabilities()
     {
-        $capabilities = ['manage_borlabs_cookie'];
-
-        return $capabilities;
+        return ['manage_borlabs_cookie'];
     }
 
     /**
      * getCreateTableStatementContentBlocker function.
      *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $charsetCollate
+     * @param mixed $tableName
+     * @param mixed $charsetCollate
      */
     public function getCreateTableStatementContentBlocker($tableName, $charsetCollate)
     {
-        return "CREATE TABLE " . $tableName . " (
+        return 'CREATE TABLE ' . $tableName . " (
             `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `content_blocker_id` varchar(35) NOT NULL DEFAULT '',
             `language` varchar(16) NOT NULL DEFAULT '',
@@ -305,20 +267,18 @@ class Install
             `undeletable` int(1) unsigned NOT NULL DEFAULT '0',
             PRIMARY KEY (`id`),
             UNIQUE KEY `content_blocker_id` (`content_blocker_id`, `language`)
-        ) " . $charsetCollate . ";";
+        ) " . $charsetCollate . ';';
     }
 
     /**
      * getCreateTableStatementCookieConsentLog function.
      *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $charsetCollate
+     * @param mixed $tableName
+     * @param mixed $charsetCollate
      */
     public function getCreateTableStatementCookieConsentLog($tableName, $charsetCollate)
     {
-        return "CREATE TABLE " . $tableName . " (
+        return 'CREATE TABLE ' . $tableName . " (
             `log_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `uid` varchar(35) NOT NULL DEFAULT '',
             `cookie_version` int(11) unsigned DEFAULT NULL,
@@ -327,20 +287,18 @@ class Install
             `stamp` datetime DEFAULT NULL,
             PRIMARY KEY (`log_id`),
             KEY `uid` (`uid`, `is_latest`)
-        ) " . $charsetCollate . ";";
+        ) " . $charsetCollate . ';';
     }
 
     /**
      * getCreateTableStatementCookieGroups function.
      *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $charsetCollate
+     * @param mixed $tableName
+     * @param mixed $charsetCollate
      */
     public function getCreateTableStatementCookieGroups($tableName, $charsetCollate)
     {
-        return "CREATE TABLE " . $tableName . " (
+        return 'CREATE TABLE ' . $tableName . " (
             `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `group_id` varchar(35) NOT NULL,
             `language` varchar(16) NOT NULL DEFAULT '',
@@ -352,20 +310,18 @@ class Install
             `undeletable` int(1) unsigned NOT NULL DEFAULT '0',
             PRIMARY KEY (`id`),
             UNIQUE KEY `group_id` (`group_id`,`language`)
-        ) " . $charsetCollate . ";";
+        ) " . $charsetCollate . ';';
     }
 
     /**
      * getCreateTableStatementCookies function.
      *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $charsetCollate
+     * @param mixed $tableName
+     * @param mixed $charsetCollate
      */
     public function getCreateTableStatementCookies($tableName, $charsetCollate)
     {
-        return "CREATE TABLE " . $tableName . " (
+        return 'CREATE TABLE ' . $tableName . " (
             `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `cookie_id` varchar(35) NOT NULL DEFAULT '',
             `language` varchar(16) NOT NULL,
@@ -388,21 +344,18 @@ class Install
             PRIMARY KEY (`id`),
             UNIQUE KEY `cookie_id` (`cookie_id`,`language`),
             KEY `cookie_group_id` (`cookie_group_id`)
-        ) " . $charsetCollate . ";";
+        ) " . $charsetCollate . ';';
     }
 
     /**
      * getCreateTableStatementScriptBlocker function.
      *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $charsetCollate
-     *
+     * @param mixed $tableName
+     * @param mixed $charsetCollate
      */
     public function getCreateTableStatementScriptBlocker($tableName, $charsetCollate)
     {
-        return "CREATE TABLE " . $tableName . " (
+        return 'CREATE TABLE ' . $tableName . " (
             `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `script_blocker_id` varchar(35) NOT NULL DEFAULT '',
             `name` varchar(100) NOT NULL DEFAULT '',
@@ -412,21 +365,34 @@ class Install
             `undeletable` int(1) unsigned NOT NULL DEFAULT '0',
             PRIMARY KEY (`id`),
             UNIQUE KEY `script_blocker_id` (`script_blocker_id`)
-        ) " . $charsetCollate . ";";
+        ) " . $charsetCollate . ';';
+    }
+
+    /**
+     * getCreateTableStatementStatistics function.
+     *
+     * @param mixed $tableName
+     * @param mixed $charsetCollate
+     */
+    public function getCreateTableStatementStatistics($tableName, $charsetCollate)
+    {
+        return 'CREATE TABLE ' . $tableName . ' (
+            `service_group` varchar(100) NOT NULL,
+            `stamp` datetime DEFAULT NULL,
+            KEY `service_group` (`service_group`),
+            KEY `service_group_stamp` (`stamp`, `service_group`)
+        ) ' . $charsetCollate . ';';
     }
 
     /**
      * getDefaultEntriesCookieGroups function.
      *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $language
-     *
+     * @param mixed $tableName
+     * @param mixed $language
      */
     public function getDefaultEntriesCookieGroups($tableName, $language)
     {
-        return "INSERT INTO `" . $tableName . "`
+        return 'INSERT INTO `' . $tableName . "`
         (
             `group_id`,
             `language`,
@@ -443,12 +409,12 @@ class Install
             '" . esc_sql($language) . "',
             '" . esc_sql(_x('Essential', 'Frontend / Cookie Groups / Name', 'borlabs-cookie')) . "',
             '" . esc_sql(
-                _x(
-                    'Essential cookies enable basic functions and are necessary for the proper function of the website.',
-                    'Frontend / Cookie Groups / Text',
-                    'borlabs-cookie'
-                )
-            ) . "',
+            _x(
+                'Essential cookies enable basic functions and are necessary for the proper function of the website.',
+                'Frontend / Cookie Groups / Text',
+                'borlabs-cookie'
+            )
+        ) . "',
             1,
             1,
             1,
@@ -459,12 +425,12 @@ class Install
             '" . esc_sql($language) . "',
             '" . esc_sql(_x('Statistics', 'Frontend / Cookie Groups / Name', 'borlabs-cookie')) . "',
             '" . esc_sql(
-                _x(
-                    'Statistics cookies collect information anonymously. This information helps us to understand how our visitors use our website.',
-                    'Frontend / Cookie Groups / Text',
-                    'borlabs-cookie'
-                )
-            ) . "',
+            _x(
+                'Statistics cookies collect information anonymously. This information helps us to understand how our visitors use our website.',
+                'Frontend / Cookie Groups / Text',
+                'borlabs-cookie'
+            )
+        ) . "',
             1,
             2,
             1,
@@ -475,12 +441,12 @@ class Install
             '" . esc_sql($language) . "',
             '" . esc_sql(_x('Marketing', 'Frontend / Cookie Groups / Name', 'borlabs-cookie')) . "',
             '" . esc_sql(
-                _x(
-                    'Marketing cookies are used by third-party advertisers or publishers to display personalized ads. They do this by tracking visitors across websites.',
-                    'Frontend / Cookie Groups / Text',
-                    'borlabs-cookie'
-                )
-            ) . "',
+            _x(
+                'Marketing cookies are used by third-party advertisers or publishers to display personalized ads. They do this by tracking visitors across websites.',
+                'Frontend / Cookie Groups / Text',
+                'borlabs-cookie'
+            )
+        ) . "',
             1,
             3,
             1,
@@ -491,12 +457,12 @@ class Install
             '" . esc_sql($language) . "',
             '" . esc_sql(_x('External Media', 'Frontend / Cookie Groups / Name', 'borlabs-cookie')) . "',
             '" . esc_sql(
-                _x(
-                    'Content from video platforms and social media platforms is blocked by default. If External Media cookies are accepted, access to those contents no longer requires manual consent.',
-                    'Frontend / Cookie Groups / Text',
-                    'borlabs-cookie'
-                )
-            ) . "',
+            _x(
+                'Content from video platforms and social media platforms is blocked by default. If External Media cookies are accepted, access to those contents no longer requires manual consent.',
+                'Frontend / Cookie Groups / Text',
+                'borlabs-cookie'
+            )
+        ) . "',
             1,
             4,
             1,
@@ -510,12 +476,9 @@ class Install
     /**
      * getDefaultEntriesCookies function.
      *
-     * @access public
-     *
-     * @param  mixed  $tableName
-     * @param  mixed  $language
-     * @param  mixed  $tableNameCookieGroups
-     *
+     * @param mixed $tableName
+     * @param mixed $language
+     * @param mixed $tableNameCookieGroups
      */
     public function getDefaultEntriesCookies($tableName, $language, $tableNameCookieGroups)
     {
@@ -525,12 +488,12 @@ class Install
         $cookieGroupIds = [];
 
         $cookieGroups = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`,
                 `group_id`
             FROM
-                `" . $tableNameCookieGroups . "`
+                `' . $tableNameCookieGroups . "`
             WHERE
                 `language` = '" . esc_sql($language) . "'
         "
@@ -540,7 +503,7 @@ class Install
             $cookieGroupIds[$groupData->group_id] = $groupData->id;
         }
 
-        return "INSERT INTO `" . $tableName . "`
+        return 'INSERT INTO `' . $tableName . "`
         (
             `cookie_id`,
             `language`,
@@ -568,12 +531,12 @@ class Install
             'Borlabs Cookie',
             '" . esc_sql(_x('Owner of this website', 'Frontend / Cookie / Borlabs Cookie / Name', 'borlabs-cookie')) . "',
             '" . esc_sql(
-                _x(
-                    'Saves the visitors preferences selected in the Cookie Box of Borlabs Cookie.',
-                    'Frontend / Cookie / Borlabs Cookie / Text',
-                    'borlabs-cookie'
-                )
-            ) . "',
+            _x(
+                'Saves the visitors preferences selected in the Cookie Box of Borlabs Cookie.',
+                'Frontend / Cookie / Borlabs Cookie / Text',
+                'borlabs-cookie'
+            )
+        ) . "',
             '',
             '" . esc_sql(serialize([])) . "',
             'borlabs-cookie',
@@ -592,21 +555,21 @@ class Install
             'Facebook',
             'Meta Platforms Ireland Limited, 4 Grand Canal Square, Dublin 2, Ireland',
             '" . esc_sql(
-                _x('Used to unblock Facebook content.', 'Frontend / Cookie / Facebook / Name', 'borlabs-cookie')
-            ) . "',
+            _x('Used to unblock Facebook content.', 'Frontend / Cookie / Facebook / Name', 'borlabs-cookie')
+        ) . "',
             '" . esc_sql(
-                _x(
-                    'https://www.facebook.com/privacy/explanation',
-                    'Frontend / Cookie / Facebook / Text',
-                    'borlabs-cookie'
-                )
-            ) . "',
+            _x(
+                'https://www.facebook.com/privacy/explanation',
+                'Frontend / Cookie / Facebook / Text',
+                'borlabs-cookie'
+            )
+        ) . "',
             '" . esc_sql(serialize(['.facebook.com'])) . "',
             '',
             '',
             '" . esc_sql(
-                '<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("facebook"); }</script>'
-            ) . "',
+            '<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("facebook"); }</script>'
+        ) . "',
             'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"0\";}',
             1,
             1,
@@ -620,21 +583,21 @@ class Install
             'Google Maps',
             'Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland',
             '" . esc_sql(
-                _x('Used to unblock Google Maps content.', 'Frontend / Cookie / Google Maps / Name', 'borlabs-cookie')
-            ) . "',
+            _x('Used to unblock Google Maps content.', 'Frontend / Cookie / Google Maps / Name', 'borlabs-cookie')
+        ) . "',
             '" . esc_sql(
-                _x(
-                    'https://policies.google.com/privacy?hl=en&gl=en',
-                    'Frontend / Cookie / Google Maps / Text',
-                    'borlabs-cookie'
-                )
-            ) . "',
+            _x(
+                'https://policies.google.com/privacy?hl=en&gl=en',
+                'Frontend / Cookie / Google Maps / Text',
+                'borlabs-cookie'
+            )
+        ) . "',
             '" . esc_sql(serialize(['.google.com'])) . "',
             'NID',
             '" . esc_sql(_x('6 Month', 'Frontend / Cookie / Google Maps / Text', 'borlabs-cookie')) . "',
             '" . esc_sql(
-                '<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("googlemaps"); }</script>'
-            ) . "',
+            '<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("googlemaps"); }</script>'
+        ) . "',
             'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"0\";}',
             2,
             1,
@@ -648,17 +611,17 @@ class Install
             'Instagram',
             'Meta Platforms Ireland Limited, 4 Grand Canal Square, Dublin 2, Ireland',
             '" . esc_sql(
-                _x('Used to unblock Instagram content.', 'Frontend / Cookie / Instagram / Name', 'borlabs-cookie')
-            ) . "',
+            _x('Used to unblock Instagram content.', 'Frontend / Cookie / Instagram / Name', 'borlabs-cookie')
+        ) . "',
             '" . esc_sql(
-                _x('https://www.instagram.com/legal/privacy/', 'Frontend / Cookie / Instagram / Text', 'borlabs-cookie')
-            ) . "',
+            _x('https://www.instagram.com/legal/privacy/', 'Frontend / Cookie / Instagram / Text', 'borlabs-cookie')
+        ) . "',
             '" . esc_sql(serialize(['.instagram.com'])) . "',
             'pigeon_state',
             '" . esc_sql(_x('Session', 'Frontend / Cookie / Instagram / Text', 'borlabs-cookie')) . "',
             '" . esc_sql(
-                '<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("instagram"); }</script>'
-            ) . "',
+            '<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("instagram"); }</script>'
+        ) . "',
             'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"0\";}',
             3,
             1,
@@ -672,25 +635,25 @@ class Install
             'OpenStreetMap',
             'Openstreetmap Foundation, St John’s Innovation Centre, Cowley Road, Cambridge CB4 0WS, United Kingdom',
             '" . esc_sql(
-                _x(
-                    'Used to unblock OpenStreetMap content.',
-                    'Frontend / Cookie / OpenStreetMap / Name',
-                    'borlabs-cookie'
-                )
-            ) . "',
+            _x(
+                'Used to unblock OpenStreetMap content.',
+                'Frontend / Cookie / OpenStreetMap / Name',
+                'borlabs-cookie'
+            )
+        ) . "',
             '" . esc_sql(
-                _x(
-                    'https://wiki.osmfoundation.org/wiki/Privacy_Policy',
-                    'Frontend / Cookie / OpenStreetMap / Text',
-                    'borlabs-cookie'
-                )
-            ) . "',
+            _x(
+                'https://wiki.osmfoundation.org/wiki/Privacy_Policy',
+                'Frontend / Cookie / OpenStreetMap / Text',
+                'borlabs-cookie'
+            )
+        ) . "',
             '" . esc_sql(serialize(['.openstreetmap.org'])) . "',
             '_osm_location, _osm_session, _osm_totp_token, _osm_welcome, _pk_id., _pk_ref., _pk_ses., qos_token',
             '" . esc_sql(_x('1-10 Years', 'Frontend / Cookie / OpenStreetMap / Text', 'borlabs-cookie')) . "',
             '" . esc_sql(
-                '<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("openstreetmap"); }</script>'
-            ) . "',
+            '<script>if(typeof window.BorlabsCookie === "object") { window.BorlabsCookie.unblockContentId("openstreetmap"); }</script>'
+        ) . "',
             'a:2:{s:25:\"blockCookiesBeforeConsent\";s:1:\"0\";s:10:\"prioritize\";s:1:\"0\";}',
             4,
             1,
@@ -771,8 +734,6 @@ class Install
 
     /**
      * installPlugin function.
-     *
-     * @access public
      */
     public function installPlugin()
     {
@@ -783,6 +744,7 @@ class Install
         $tableNameCookieConsentLog = $wpdb->base_prefix . 'borlabs_cookie_consent_log';
         $tableNameContentBlocker = $wpdb->base_prefix . 'borlabs_cookie_content_blocker';
         $tableNameScriptBlocker = $wpdb->base_prefix . 'borlabs_cookie_script_blocker';
+        $tableNameStatistics = $wpdb->base_prefix . 'borlabs_cookie_statistics';
         $charsetCollate = $wpdb->get_charset_collate();
 
         $sqlCreateTableCookies = $this->getCreateTableStatementCookies($tableNameCookies, $charsetCollate);
@@ -800,6 +762,10 @@ class Install
         );
         $sqlCreateTableScriptBlocker = $this->getCreateTableStatementScriptBlocker(
             $tableNameScriptBlocker,
+            $charsetCollate
+        );
+        $sqlCreateTableStatistics = $this->getCreateTableStatementStatistics(
+            $tableNameStatistics,
             $charsetCollate
         );
 
@@ -836,6 +802,12 @@ class Install
             $wpdb->query($sqlCreateTableScriptBlocker);
         }
 
+        if ($this->checkIfTableExists($tableNameStatistics)) {
+            dbDelta($sqlCreateTableStatistics);
+        } else {
+            $wpdb->query($sqlCreateTableStatistics);
+        }
+
         // Load language package
         load_plugin_textdomain('borlabs-cookie', false, BORLABS_COOKIE_SLUG . '/languages/');
 
@@ -850,7 +822,7 @@ class Install
         }
 
         // Load correct DE language file if any DE language was selected
-        if (in_array($defaultBlogLanguage, ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'])) {
+        if (in_array($defaultBlogLanguage, ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'], true)) {
             // Load german language pack
             load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo');
         }
@@ -875,13 +847,13 @@ class Install
         update_option('BorlabsCookieVersion', BORLABS_COOKIE_VERSION, 'yes');
 
         // Add cache folder
-        if (! file_exists(WP_CONTENT_DIR . '/cache')) {
+        if (!file_exists(WP_CONTENT_DIR . '/cache')) {
             if (is_writable(WP_CONTENT_DIR)) {
                 mkdir(WP_CONTENT_DIR . '/cache');
             }
         }
 
-        if (! file_exists(WP_CONTENT_DIR . '/cache/borlabs-cookie')) {
+        if (!file_exists(WP_CONTENT_DIR . '/cache/borlabs-cookie')) {
             if (is_writable(WP_CONTENT_DIR . '/cache')) {
                 mkdir(WP_CONTENT_DIR . '/cache/borlabs-cookie');
             }
@@ -889,15 +861,15 @@ class Install
 
         if (is_multisite()) {
             $allBlogs = $wpdb->get_results(
-                "
+                '
                 SELECT
                     `blog_id`
                 FROM
-                    `" . $wpdb->base_prefix . "blogs`
-            "
+                    `' . $wpdb->base_prefix . 'blogs`
+            '
             );
 
-            if (! empty($allBlogs)) {
+            if (!empty($allBlogs)) {
                 $originalBlogId = get_current_blog_id();
 
                 foreach ($allBlogs as $blogData) {
@@ -905,14 +877,11 @@ class Install
                         switch_to_blog($blogData->blog_id);
 
                         $tableNameCookies = $wpdb->prefix . 'borlabs_cookie_cookies';
-                        $tableNameCookieGroups = $wpdb->prefix
-                            . 'borlabs_cookie_groups'; // ->prefix contains base_prefix + blog id
-                        $tableNameCookieConsentLog = $wpdb->prefix
-                            . 'borlabs_cookie_consent_log'; // ->prefix contains base_prefix + blog id
-                        $tableNameContentBlocker = $wpdb->prefix
-                            . 'borlabs_cookie_content_blocker'; // ->prefix contains base_prefix + blog id
-                        $tableNameScriptBlocker = $wpdb->prefix
-                            . 'borlabs_cookie_script_blocker'; // ->prefix contains base_prefix + blog id
+                        $tableNameCookieGroups = $wpdb->prefix . 'borlabs_cookie_groups'; // ->prefix contains base_prefix + blog id
+                        $tableNameCookieConsentLog = $wpdb->prefix . 'borlabs_cookie_consent_log'; // ->prefix contains base_prefix + blog id
+                        $tableNameContentBlocker = $wpdb->prefix . 'borlabs_cookie_content_blocker'; // ->prefix contains base_prefix + blog id
+                        $tableNameScriptBlocker = $wpdb->prefix . 'borlabs_cookie_script_blocker'; // ->prefix contains base_prefix + blog id
+                        $tableNameStatistics = $wpdb->prefix . 'borlabs_cookie_statistics'; // ->prefix contains base_prefix + blog id
 
                         $sqlCreateTableCookies = $this->getCreateTableStatementCookies(
                             $tableNameCookies,
@@ -934,7 +903,11 @@ class Install
                             $tableNameScriptBlocker,
                             $charsetCollate
                         );
-                        
+                        $sqlCreateTableStatistics = $this->getCreateTableStatementScriptBlocker(
+                            $tableNameStatistics,
+                            $charsetCollate
+                        );
+
                         // Because WordPress is not yet PHP 8.1 ready
                         if ($this->checkIfTableExists($tableNameCookieGroups)) {
                             dbDelta($sqlCreateTableCookieGroups);
@@ -966,6 +939,12 @@ class Install
                             $wpdb->query($sqlCreateTableScriptBlocker);
                         }
 
+                        if ($this->checkIfTableExists($tableNameStatistics)) {
+                            dbDelta($sqlCreateTableStatistics);
+                        } else {
+                            $wpdb->query($sqlCreateTableStatistics);
+                        }
+
                         // Get language of the blog
                         if (defined('BORLABS_COOKIE_IGNORE_ISO_639_1') === false) {
                             $blogLanguage = substr(get_option('WPLANG', 'en_US'), 0, 2);
@@ -977,7 +956,7 @@ class Install
                         }
 
                         if (
-                            in_array($blogLanguage, ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'])
+                            in_array($blogLanguage, ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'], true)
                         ) {
                             // Load german language pack
                             load_textdomain(
@@ -1028,14 +1007,12 @@ class Install
 
     /**
      * removeUserCapabilities function.
-     *
-     * @access public
      */
     public function removeUserCapabilities()
     {
         global $wp_roles;
 
-        if (! isset($wp_roles)) {
+        if (!isset($wp_roles)) {
             $wp_roles = new WP_Roles();
         }
 

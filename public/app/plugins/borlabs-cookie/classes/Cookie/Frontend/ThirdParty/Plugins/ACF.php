@@ -28,8 +28,8 @@ class ACF
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -37,9 +37,6 @@ class ACF
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -58,13 +55,9 @@ class ACF
     /**
      * handleOembed function.
      *
-     * @access public
-     *
-     * @param  mixed  $html
-     * @param  mixed  $id
-     * @param  mixed  $atts
-     *
-     * @return void
+     * @param mixed $html
+     * @param mixed $id
+     * @param mixed $atts
      */
     public function handleOembed($html = '', $id = null, $atts = [])
     {
@@ -72,11 +65,11 @@ class ACF
         $url = '';
         $match = [];
 
-        if (! empty($html)) {
+        if (!empty($html)) {
             preg_match_all('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $html, $match);
 
             // Let's just hope the first URL is the right one...
-            if (! empty($match[0][0])) {
+            if (!empty($match[0][0])) {
                 $url = $match[0][0];
             }
 
@@ -88,9 +81,6 @@ class ACF
 
     /**
      * register function.
-     *
-     * @access public
-     * @return void
      */
     public function register()
     {

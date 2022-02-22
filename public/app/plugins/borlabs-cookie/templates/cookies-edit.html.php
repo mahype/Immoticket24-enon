@@ -278,6 +278,15 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                             </div>
                         </div>
 
+                        <div class="form-group row align-items-center">
+                            <label class="col-sm-4 col-form-label"><?php _ex('Asynchronous Opt-Out Code', 'Backend / Cookies / Label', 'borlabs-cookie'); ?></label>
+                            <div class="col-sm-8">
+                                <button type="button" class="btn btn-sm btn-toggle mr-2<?php echo $switchSettingsAsyncOptOutCode; ?>" data-toggle="button" data-switch-target="settingsAsyncOptOutCode" aria-pressed="<?php echo $inputSettingsAsyncOptOutCode ? 'true' : 'false'; ?>" autocomplete="off"><span class="handle"></span></button>
+                                <input type="hidden" name="settings[asyncOptOutCode]" id="settingsAsyncOptOutCode" value="<?php echo $inputSettingsAsyncOptOutCode; ?>">
+                                <span data-toggle="tooltip" title="<?php echo esc_attr_x('The <strong>Opt-Out Code</strong> contains asynchronous JavaScript code that needs to executed to finish the Opt-Out.', 'Backend / Cookies / Tooltip', 'borlabs-cookie'); ?>"><i class="fas fa-lg fa-question-circle text-dark"></i></span>
+                            </div>
+                        </div>
+
                         <?php
                         if (!empty($cookieData->service) && has_action('borlabsCookie/cookie/edit/template/settings/'.$cookieData->service)) {
                             do_action('borlabsCookie/cookie/edit/template/settings/'.$cookieData->service, $cookieData);

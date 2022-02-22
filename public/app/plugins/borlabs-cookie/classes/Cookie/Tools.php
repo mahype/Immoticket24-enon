@@ -26,12 +26,13 @@ class Tools
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
+
     private $generatedStrings = [];
 
     public function __construct()
@@ -54,19 +55,15 @@ class Tools
      * By https://stackoverflow.com/users/370290/j-bruni
      * Found at: https://stackoverflow.com/questions/9546181/flatten-multidimensional-array-concatenating-keys
      *
-     * @access public
-     *
-     * @param  mixed  $array
-     * @param  mixed  $prefix  (default: '')
-     *
-     * @return void
+     * @param mixed $array
+     * @param mixed $prefix (default: '')
      */
     public function arrayFlat($array, $prefix = '')
     {
         $result = [];
 
         foreach ($array as $key => $value) {
-            $newKey = $prefix . (! empty($prefix) ? '.' : '') . $key;
+            $newKey = $prefix . (!empty($prefix) ? '.' : '') . $key;
 
             if (is_array($value)) {
                 $result = array_merge($result, $this->arrayFlat($value, $newKey));
@@ -81,12 +78,8 @@ class Tools
     /**
      * cleanHostList function.
      *
-     * @access public
-     *
-     * @param  mixed  $hosts
-     * @param  bool  $allowURL  (default: false)
-     *
-     * @return void
+     * @param mixed $hosts
+     * @param bool  $allowURL (default: false)
      */
     public function cleanHostList($hosts, $allowURL = false)
     {
@@ -106,7 +99,7 @@ class Tools
             foreach ($hosts as $host) {
                 $host = trim($host);
 
-                if (! empty($host)) {
+                if (!empty($host)) {
                     if (filter_var($host, FILTER_VALIDATE_URL)) {
                         if ($allowURL == false) {
                             $urlInfo = parse_url($host);
@@ -127,12 +120,9 @@ class Tools
     /**
      * formatTimestamp function.
      *
-     * @access public
-     *
-     * @param  mixed  $timestamp
-     * @param  mixed  $dateFormat  (default: null)
-     *
-     * @return void
+     * @param mixed      $timestamp
+     * @param mixed      $dateFormat (default: null)
+     * @param null|mixed $timeFormat
      */
     public function formatTimestamp($timestamp, $dateFormat = null, $timeFormat = null)
     {
@@ -140,11 +130,11 @@ class Tools
             $timestamp = strtotime($timestamp);
         }
 
-        if (! isset($dateFormat)) {
+        if (!isset($dateFormat)) {
             $dateFormat = get_option('date_format');
         }
 
-        if (! isset($timeFormat)) {
+        if (!isset($timeFormat)) {
             $timeFormat = get_option('time_format');
         }
 
@@ -156,11 +146,7 @@ class Tools
     /**
      * generateRandomString function.
      *
-     * @access public
-     *
-     * @param  int  $stringLength  (default: 32)
-     *
-     * @return void
+     * @param int $stringLength (default: 32)
      */
     public function generateRandomString($stringLength = 32)
     {
@@ -172,7 +158,7 @@ class Tools
             $stringLength = 32;
         }
 
-        for ($i = 0; $i < $stringLength; $i++) {
+        for ($i = 0; $i < $stringLength; ++$i) {
             $index = 0;
 
             // PHP 7
@@ -200,11 +186,7 @@ class Tools
     /**
      * hexToHsl function.
      *
-     * @access public
-     *
-     * @param  mixed  $hex
-     *
-     * @return void
+     * @param mixed $hex
      */
     public function hexToHsl($hex)
     {
@@ -224,12 +206,17 @@ class Tools
             switch ($max) {
                 case $rgb['r']:
                     $h = ($rgb['g'] - $rgb['b']) / $diff + ($rgb['g'] < $rgb['b'] ? 6 : 0);
+
                     break;
+
                 case $rgb['g']:
                     $h = ($rgb['b'] - $rgb['r']) / $diff + 2;
+
                     break;
+
                 case $rgb['b']:
                     $h = ($rgb['r'] - $rgb['g']) / $diff + 4;
+
                     break;
             }
 
@@ -242,11 +229,7 @@ class Tools
     /**
      * hexToRgb function.
      *
-     * @access public
-     *
-     * @param  mixed  $hex
-     *
-     * @return void
+     * @param mixed $hex
      */
     public function hexToRgb($hex)
     {
@@ -288,11 +271,7 @@ class Tools
     /**
      * isStringJSON function.
      *
-     * @access public
-     *
-     * @param  mixed  $string
-     *
-     * @return void
+     * @param mixed $string
      */
     public function isStringJSON($string)
     {
@@ -304,11 +283,7 @@ class Tools
     /**
      * validateHexColor function.
      *
-     * @access public
-     *
-     * @param  mixed  $color
-     *
-     * @return void
+     * @param mixed $color
      */
     public function validateHexColor($color)
     {

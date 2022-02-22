@@ -26,8 +26,8 @@ class GoogleTagManagerConsent
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,14 +35,13 @@ class GoogleTagManagerConsent
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
-        add_action('borlabsCookie/cookie/edit/template/settings/GoogleTagManagerConsent',
-            [$this, 'additionalSettingsTemplate']);
+        add_action(
+            'borlabsCookie/cookie/edit/template/settings/GoogleTagManagerConsent',
+            [$this, 'additionalSettingsTemplate']
+        );
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
     }
 
@@ -59,28 +58,23 @@ class GoogleTagManagerConsent
     /**
      * additionalSettingsTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputGtmId = esc_html(! empty($data->settings['gtmId']) ? $data->settings['gtmId'] : '');
-        $inputLoadBeforeConsent = ! empty($data->settings['loadBeforeConsent']) ? 1 : 0;
+        $inputGtmId = esc_html(!empty($data->settings['gtmId']) ? $data->settings['gtmId'] : '');
+        $inputLoadBeforeConsent = !empty($data->settings['loadBeforeConsent']) ? 1 : 0;
         $switchLoadBeforeConsent = $inputLoadBeforeConsent ? ' active' : '';
-        $optionConsentModeAdStorage = ! empty($data->settings['consentMode'])
+        $optionConsentModeAdStorage = !empty($data->settings['consentMode'])
         && $data->settings['consentMode'] === 'ad_storage' ? ' selected ' : '';
-        $optionConsentModeAnalyticsStorage = ! empty($data->settings['consentMode'])
+        $optionConsentModeAnalyticsStorage = !empty($data->settings['consentMode'])
         && $data->settings['consentMode'] === 'analytics_storage' ? ' selected ' : '';
-        $optionConsentModeFunctionalityStorage = ! empty($data->settings['consentMode'])
+        $optionConsentModeFunctionalityStorage = !empty($data->settings['consentMode'])
         && $data->settings['consentMode'] === 'functionality_storage' ? ' selected ' : '';
-        $optionConsentModePersonalizationStorage = ! empty($data->settings['consentMode'])
+        $optionConsentModePersonalizationStorage = !empty($data->settings['consentMode'])
         && $data->settings['consentMode'] === 'personalization_storage' ? ' selected ' : '';
-        $optionConsentModeSecurityStorage = ! empty($data->settings['consentMode'])
-        && $data->settings['consentMode'] === 'security_storage' ? ' selected ' : '';
-        ?>
+        $optionConsentModeSecurityStorage = !empty($data->settings['consentMode'])
+        && $data->settings['consentMode'] === 'security_storage' ? ' selected ' : ''; ?>
         <div class="form-group row">
             <label for="gtmId"
                    class="col-sm-4 col-form-label"><?php
@@ -95,28 +89,28 @@ class GoogleTagManagerConsent
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter your Google Tag Manager ID.',
-                          'Backend / Cookie / Google Tag Manager / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter your Google Tag Manager ID.',
+            'Backend / Cookie / Google Tag Manager / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <div class="form-group row align-items-center">
             <label for="loadBeforeConsent"
                    class="col-sm-4 col-form-label"><?php
                 _ex(
-                    'Load before Consent',
-                    'Backend / Cookie / Google Tag Manager / Label',
-                    'borlabs-cookie'
-                ); ?></label>
+            'Load before Consent',
+            'Backend / Cookie / Google Tag Manager / Label',
+            'borlabs-cookie'
+        ); ?></label>
             <div class="col-sm-8">
                 <button type="button" class="btn btn-sm btn-toggle mr-2<?php
                 echo $switchLoadBeforeConsent; ?>"
@@ -130,10 +124,10 @@ class GoogleTagManagerConsent
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'The Google Tag Manager code is always loaded via the <strong>Fallback Code</strong> field.',
-                          'Backend / Cookie / Google Tag Manager / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'The Google Tag Manager code is always loaded via the <strong>Fallback Code</strong> field.',
+            'Backend / Cookie / Google Tag Manager / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>
@@ -145,28 +139,27 @@ class GoogleTagManagerConsent
                     <div class="alert alert-danger mt-2">
                         <?php
                         _ex(
-                            '<strong>Load before Consent</strong> may violate applicable laws.',
-                            'Backend / Cookie / Alert Message',
-                            'borlabs-cookie'
-                        ); ?>
+                '<strong>Load before Consent</strong> may violate applicable laws.',
+                'Backend / Cookie / Alert Message',
+                'borlabs-cookie'
+            ); ?>
                         <?php
                         _ex(
-                            'The code is loaded via the <strong>Fallback Code</strong> field, from which a visitor cannot opt-out.',
-                            'Backend / Cookie / Alert Message',
-                            'borlabs-cookie'
-                        ); ?>
+                'The code is loaded via the <strong>Fallback Code</strong> field, from which a visitor cannot opt-out.',
+                'Backend / Cookie / Alert Message',
+                'borlabs-cookie'
+            ); ?>
                         <?php
                         _ex(
-                            'Please inform yourself in advance about the legal situation that applies to you.',
-                            'Backend / Cookie / Alert Message',
-                            'borlabs-cookie'
-                        ); ?>
+                'Please inform yourself in advance about the legal situation that applies to you.',
+                'Backend / Cookie / Alert Message',
+                'borlabs-cookie'
+            ); ?>
                     </div>
                 </div>
             </div>
             <?php
-        }
-        ?>
+        } ?>
         <div class="form-group row">
             <label for="consentMode"
                    class="col-sm-4 col-form-label"><?php
@@ -198,10 +191,10 @@ class GoogleTagManagerConsent
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Select the Consent Mode for which you want to obtain consent. For more information, see the Google Analytics Help.',
-                          'Backend / Cookie / Google Tag Manager / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+                'Select the Consent Mode for which you want to obtain consent. For more information, see the Google Analytics Help.',
+                'Backend / Cookie / Google Tag Manager / Tooltip',
+                'borlabs-cookie'
+            ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>
@@ -210,13 +203,10 @@ class GoogleTagManagerConsent
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'google-tag-manager-consent',
             'service' => 'GoogleTagManagerConsent',
             'name' => 'Google Tag Manager - Consent',
@@ -245,23 +235,17 @@ class GoogleTagManagerConsent
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
-        if (! empty($formData['service']) && $formData['service'] === 'GoogleTagManagerWithConsentMode') {
-            if (! empty($formData['settings']['gtmId'])) {
+        if (!empty($formData['service']) && $formData['service'] === 'GoogleTagManagerWithConsentMode') {
+            if (!empty($formData['settings']['gtmId'])) {
                 $formData['settings']['gtmId'] = trim($formData['settings']['gtmId']);
             }
         }
@@ -271,13 +255,10 @@ class GoogleTagManagerConsent
 
     /**
      * fallbackJS function.
-     *
-     * @access private
-     * @return void
      */
     private function fallbackJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <!-- Google Tag Manager -->
 <script>
 if ('%%loadBeforeConsent%%' === '1' && typeof window.google_tag_manager==='undefined' && !document.querySelector('#brlbs-gtm')) {
@@ -303,19 +284,14 @@ if ('%%loadBeforeConsent%%' === '1' && typeof window.google_tag_manager==='undef
 </script>
 <!-- End Google Tag Manager -->
 EOT;
-
-        return $code;
     }
 
     /**
      * optInJS function.
-     *
-     * @access private
-     * @return void
      */
     private function optInJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <!-- Google Tag Manager -->
 <script>
 if ('%%loadBeforeConsent%%' !== '1' && typeof window.google_tag_manager==='undefined' && !document.querySelector('#brlbs-gtm')) {
@@ -349,7 +325,5 @@ dataLayer.push({
 </script>
 <!-- End Google Tag Manager -->
 EOT;
-
-        return $code;
     }
 }

@@ -30,8 +30,8 @@ class Style
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -53,6 +53,10 @@ class Style
 
     public function register()
     {
+        if (defined('REST_REQUEST')) {
+            return;
+        }
+
         $language = Multilanguage::getInstance()->getCurrentLanguageCode();
 
         // Avoid cached styles

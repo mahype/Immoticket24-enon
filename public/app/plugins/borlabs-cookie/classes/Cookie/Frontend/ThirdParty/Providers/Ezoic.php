@@ -28,8 +28,8 @@ class Ezoic
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -39,25 +39,22 @@ class Ezoic
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
         $allCookiesGroups = Cookies::getInstance()->getAllCookieGroups();
 
-        if (! empty($allCookiesGroups)) {
+        if (!empty($allCookiesGroups)) {
             foreach ($allCookiesGroups as $cookieGroupData) {
                 if ($cookieGroupData->group_id === 'essential') {
-                    if (! empty($cookieGroupData->cookies['ezoic'])) {
+                    if (!empty($cookieGroupData->cookies['ezoic'])) {
                         $this->isEzoicActive = true;
                     }
 
                     break;
-                } else {
-                    continue;
                 }
+
+                continue;
             }
         }
     }
@@ -75,13 +72,9 @@ class Ezoic
     /**
      * addDataAttribute function.
      *
-     * @access public
-     *
-     * @param  mixed  $tag
-     * @param  mixed  $handle
-     * @param  mixed  $src
-     *
-     * @return void
+     * @param mixed $tag
+     * @param mixed $handle
+     * @param mixed $src
      */
     public function addDataAttribute($tag, $handle, $src)
     {

@@ -24,13 +24,12 @@ use BorlabsCookie\Cookie\Frontend\Shortcode;
 
 class BackwardsCompatibility
 {
-
     private static $instance;
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -53,21 +52,15 @@ class BackwardsCompatibility
     /**
      * shortcodeBlockedContent function.
      *
-     * @access public
-     *
-     * @param  mixed  $atts
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $atts
+     * @param mixed $content
      */
     public function shortcodeBlockedContent($atts, $content)
     {
-        if (! empty($atts['type'])) {
+        if (!empty($atts['type'])) {
             $atts['id'] = $atts['type'];
         }
 
-        $content = Shortcode::getInstance()->handleTypeContentBlocker($atts, $content);
-
-        return $content;
+        return Shortcode::getInstance()->handleTypeContentBlocker($atts, $content);
     }
 }

@@ -26,8 +26,8 @@ class Ezoic
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,9 +35,6 @@ class Ezoic
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -62,19 +59,19 @@ class Ezoic
                 <div
                     class="alert alert-warning mt-2"><?php
                     $kbLink = _x(
-                        'https://borlabs.io/kb/ezoic/',
-                        'Backend / Cookie / Ezoic / Alert Message',
-                        'borlabs-cookie'
-                    );
-                    printf(
-                        _x(
-                            'Your cookie description needs to be updated. Please read <a href="%s" target="_blank" rel="nofollow noopener noreferrer">%s</a>.',
-                            'Backend / Cookie / Ezoic / Alert Message',
-                            'borlabs-cookie'
-                        ),
-                        $kbLink,
-                        $kbLink
-                    ); ?></div>
+            'https://borlabs.io/kb/ezoic/',
+            'Backend / Cookie / Ezoic / Alert Message',
+            'borlabs-cookie'
+        );
+        printf(
+            _x(
+                'Your cookie description needs to be updated. Please read <a href="%s" target="_blank" rel="nofollow noopener noreferrer">%s</a>.',
+                'Backend / Cookie / Ezoic / Alert Message',
+                'borlabs-cookie'
+            ),
+            $kbLink,
+            $kbLink
+        ); ?></div>
 
             </div>
         </div>
@@ -83,13 +80,10 @@ class Ezoic
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'ezoic',
             'service' => 'Ezoic',
             'name' => 'Ezoic',
@@ -117,19 +111,14 @@ class Ezoic
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 
     /**
      * optInJS function.
-     *
-     * @access private
-     * @return void
      */
     private function optInJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <script>
 window.BorlabsEZConsentCategories = window.BorlabsEZConsentCategories || {};
 window.BorlabsCookieEzoicHandle = function (e) {
@@ -156,7 +145,5 @@ document.addEventListener("borlabs-cookie-prioritized-code-unblocked", window.Bo
 document.addEventListener("borlabs-cookie-code-unblocked-after-consent", window.BorlabsCookieEzoicHandle, false);
 </script>
 EOT;
-
-        return $code;
     }
 }

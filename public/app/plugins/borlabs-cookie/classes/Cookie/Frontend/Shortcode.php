@@ -28,13 +28,15 @@ class Shortcode
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
+
     private $wrapperEnd = '';
+
     private $wrapperStart = '';
 
     public function __construct()
@@ -58,31 +60,27 @@ class Shortcode
     /**
      * handleShortcode function.
      *
-     * @access public
-     *
-     * @param  mixed  $atts
-     * @param  mixed  $content  (default: null)
-     *
-     * @return void
+     * @param mixed $atts
+     * @param mixed $content (default: null)
      */
     public function handleShortcode($atts, $content = null)
     {
-        if (! empty($atts['type'])) {
-            if ($atts['type'] === "cookie-group") {
+        if (!empty($atts['type'])) {
+            if ($atts['type'] === 'cookie-group') {
                 $content = $this->handleTypeCookieGroup($atts, $content);
-            } elseif ($atts['type'] === "cookie") {
+            } elseif ($atts['type'] === 'cookie') {
                 $content = $this->handleTypeCookie($atts, $content);
-            } elseif ($atts['type'] === "content-blocker") {
+            } elseif ($atts['type'] === 'content-blocker') {
                 $content = $this->handleTypeContentBlocker($atts, $content);
-            } elseif ($atts['type'] === "consent-history") {
+            } elseif ($atts['type'] === 'consent-history') {
                 $content = $this->handleTypeConsentHistory($atts, $content);
-            } elseif ($atts['type'] === "uid") {
+            } elseif ($atts['type'] === 'uid') {
                 $content = $this->handleTypeUID($atts, $content);
-            } elseif ($atts['type'] === "btn-cookie-preference") {
+            } elseif ($atts['type'] === 'btn-cookie-preference') {
                 $content = $this->handleTypeBtnCookiePreference($atts, $content);
-            } elseif ($atts['type'] === "btn-switch-consent") {
+            } elseif ($atts['type'] === 'btn-switch-consent') {
                 $content = $this->handleTypeBtnSwitchConsent($atts, $content);
-            } elseif ($atts['type'] === "cookie-list") {
+            } elseif ($atts['type'] === 'cookie-list') {
                 $content = $this->handleTypeCookieList($atts, $content);
             }
         }
@@ -92,9 +90,9 @@ class Shortcode
         }
 
         if (Config::getInstance()->get('testEnvironment') === true) {
-            $content .= "<span style=\"display: block !important;background:#fff;color:#f00;text-align: center;\">"
+            $content .= '<span style="display: block !important;background:#fff;color:#f00;text-align: center;">'
                 . _x('Borlabs Cookie - Test Environment active!', 'Frontend / Global / Alert Message', 'borlabs-cookie')
-                . "</span>";
+                . '</span>';
         }
 
         return $content;
@@ -103,22 +101,18 @@ class Shortcode
     /**
      * handleTypeBtnCookiePreference function.
      *
-     * @access public
-     *
-     * @param  mixed  $atts
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $atts
+     * @param mixed $content
      */
     public function handleTypeBtnCookiePreference($atts, $content)
     {
         $title = _x('Open Cookie Preferences', 'Frontend / Cookie Box / Button Title', 'borlabs-cookie');
 
-        if (! empty($atts['title'])) {
+        if (!empty($atts['title'])) {
             $title = $atts['title'];
         }
 
-        if (! empty($atts['element']) && $atts['element'] === 'link') {
+        if (!empty($atts['element']) && $atts['element'] === 'link') {
             $content = '<a href="#" class="borlabs-cookie-preference">' . $title . '</a>';
         } else {
             $content = '<a href="#" class="_brlbs-btn-cookie-preference borlabs-cookie-preference">' . $title . '</a>';
@@ -130,22 +124,18 @@ class Shortcode
     /**
      * handleTypeBtnSwitchConsent function.
      *
-     * @access public
-     *
-     * @param  mixed  $atts
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $atts
+     * @param mixed $content
      */
     public function handleTypeBtnSwitchConsent($atts, $content)
     {
-        if (! empty($atts['id'])) {
+        if (!empty($atts['id'])) {
             $cookieData = Cookies::getInstance()->getCookieData($atts['id']);
 
-            if (! empty($cookieData)) {
+            if (!empty($cookieData)) {
                 $title = $cookieData->name;
 
-                if (! empty($atts['title'])) {
+                if (!empty($atts['title'])) {
                     $title = sprintf($atts['title'], $title);
                 }
 
@@ -179,12 +169,8 @@ class Shortcode
     /**
      * handleTypeConsentHistory function.
      *
-     * @access public
-     *
-     * @param  mixed  $atts
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $atts
+     * @param mixed $content
      */
     public function handleTypeConsentHistory($atts, $content)
     {
@@ -192,24 +178,17 @@ class Shortcode
         $cookieBoxConsentHistoryTableVersion = Config::getInstance()->get('cookieBoxConsentHistoryTableVersion');
         $cookieBoxConsentHistoryTableConsents = Config::getInstance()->get('cookieBoxConsentHistoryTableConsents');
 
-        $content
-            = '<div class="BorlabsCookie" data-borlabs-cookie-consent-history><div class="_brlbs-responsive-table"><table class="_brlbs-table"><thead><tr><th class="_brlbs-table-date">'
+        return '<div class="BorlabsCookie" data-borlabs-cookie-consent-history><div class="_brlbs-responsive-table"><table class="_brlbs-table"><thead><tr><th class="_brlbs-table-date">'
             . $cookieBoxConsentHistoryTableDate . '</th><th class="_brlbs-table-version">'
             . $cookieBoxConsentHistoryTableVersion . '</th><th class="_brlbs-table-consents">'
             . $cookieBoxConsentHistoryTableConsents . '</th></tr></thead></table></div></div>';
-
-        return $content;
     }
 
     /**
      * handleTypeContentBlocker function.
      *
-     * @access public
-     *
-     * @param  mixed  $atts
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $atts
+     * @param mixed $content
      */
     public function handleTypeContentBlocker($atts, $content)
     {
@@ -217,11 +196,11 @@ class Shortcode
         $contentBlockerId = '';
         $title = '';
 
-        if (! empty($atts['id'])) {
+        if (!empty($atts['id'])) {
             $contentBlockerId = $atts['id'];
         }
 
-        if (! empty($atts['title'])) {
+        if (!empty($atts['title'])) {
             $title = $atts['title'];
         }
 
@@ -237,83 +216,65 @@ class Shortcode
 
             preg_match('/<iframe.*<\/iframe>/i', $content, $iframeMatch);
 
-            if (! empty($iframeMatch[0])) {
+            if (!empty($iframeMatch[0])) {
                 // Detect host
 
                 $srcMatch = [];
 
                 preg_match('/src=("|\')([^"\']{1,})(\1)/i', $iframeMatch[0], $srcMatch);
 
-                if (! empty($srcMatch[2]) && $srcMatch[2] !== 'about:blank') {
+                if (!empty($srcMatch[2]) && $srcMatch[2] !== 'about:blank') {
                     $url = $srcMatch[2];
                 }
             }
         }
 
-        $content = ContentBlocker::getInstance()->handleContentBlocking(
+        return ContentBlocker::getInstance()->handleContentBlocking(
             $content,
             $url,
             $contentBlockerId,
             $title,
             $atts
         );
-
-        return $content;
     }
 
     /**
      * handleTypeCookie function.
      *
-     * @access public
-     *
-     * @param  mixed  $atts
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $atts
+     * @param mixed $content
      */
     public function handleTypeCookie($atts, $content)
     {
-        $content = '<div class="borlabs-hide" data-borlabs-cookie-type="' . $atts['type'] . '" data-borlabs-cookie-id="'
+        return '<div class="borlabs-hide" data-borlabs-cookie-type="' . $atts['type'] . '" data-borlabs-cookie-id="'
             . $atts['id'] . '">' . $this->wrapperStart . base64_encode(do_shortcode($content)) . $this->wrapperEnd
             . '</div>';
-
-        return $content;
     }
 
     /**
      * handleTypeCookieGroup function.
      *
-     * @access public
-     *
-     * @param  mixed  $atts
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $atts
+     * @param mixed $content
      */
     public function handleTypeCookieGroup($atts, $content)
     {
-        $content = '<div class="borlabs-hide" data-borlabs-cookie-type="' . $atts['type'] . '" data-borlabs-cookie-id="'
+        return '<div class="borlabs-hide" data-borlabs-cookie-type="' . $atts['type'] . '" data-borlabs-cookie-id="'
             . $atts['id'] . '">' . $this->wrapperStart . base64_encode(do_shortcode($content)) . $this->wrapperEnd
             . '</div>';
-
-        return $content;
     }
 
     /**
      * handleTypeCookieList function.
      *
-     * @access public
-     *
-     * @param  mixed  $atts
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $atts
+     * @param mixed $content
      */
     public function handleTypeCookieList($atts, $content)
     {
         $allCookies = Cookies::getInstance()->getAllCookieGroups();
 
-        if (! empty($allCookies)) {
+        if (!empty($allCookies)) {
             $cookieBoxCookieDetailsTableName = Config::getInstance()->get('cookieBoxCookieDetailsTableName');
             $cookieBoxCookieDetailsTableProvider = Config::getInstance()->get('cookieBoxCookieDetailsTableProvider');
             $cookieBoxCookieDetailsTablePurpose = Config::getInstance()->get('cookieBoxCookieDetailsTablePurpose');
@@ -331,75 +292,75 @@ class Shortcode
             $content = '<div class="BorlabsCookie">';
 
             foreach ($allCookies as $cookieGroupData) {
-                $content .= "<h3 class=\"_brlbs _brlbs-cg-" . esc_attr($cookieGroupData->group_id) . "\">" . esc_html(
-                        $cookieGroupData->name
-                    ) . "</h3>";
-                $content .= "<p class=\"_brlbs _brlbs-cg-" . esc_attr($cookieGroupData->group_id) . "\">" . esc_html(
-                        $cookieGroupData->description
-                    ) . "</p>";
+                $content .= '<h3 class="_brlbs _brlbs-cg-' . esc_attr($cookieGroupData->group_id) . '">' . esc_html(
+                    $cookieGroupData->name
+                ) . '</h3>';
+                $content .= '<p class="_brlbs _brlbs-cg-' . esc_attr($cookieGroupData->group_id) . '">' . esc_html(
+                    $cookieGroupData->description
+                ) . '</p>';
 
-                if (! empty($cookieGroupData->cookies)) {
+                if (!empty($cookieGroupData->cookies)) {
                     foreach ($cookieGroupData->cookies as $cookieData) {
-                        $content .= "<h4 class=\"_brlbs _brlbs-c-" . esc_attr($cookieData->cookie_id) . "\">"
-                            . esc_html($cookieData->name) . "</h4>";
-                        $content .= "<div class=\"_brlbs-responsive-table\"><table class=\"_brlbs _brlbs-c-" . esc_attr(
-                                $cookieData->cookie_id
-                            ) . "\">";
+                        $content .= '<h4 class="_brlbs _brlbs-c-' . esc_attr($cookieData->cookie_id) . '">'
+                            . esc_html($cookieData->name) . '</h4>';
+                        $content .= '<div class="_brlbs-responsive-table"><table class="_brlbs _brlbs-c-' . esc_attr(
+                            $cookieData->cookie_id
+                        ) . '">';
 
-                        $content .= "<tr>";
-                        $content .= "<th>" . $cookieBoxCookieDetailsTableName . "</th>";
-                        $content .= "<td>" . esc_html($cookieData->name) . "</td>";
-                        $content .= "</tr>";
+                        $content .= '<tr>';
+                        $content .= '<th>' . $cookieBoxCookieDetailsTableName . '</th>';
+                        $content .= '<td>' . esc_html($cookieData->name) . '</td>';
+                        $content .= '</tr>';
 
-                        $content .= "<tr>";
-                        $content .= "<th>" . $cookieBoxCookieDetailsTableProvider . "</th>";
-                        $content .= "<td>" . $cookieData->provider . "</td>";
-                        $content .= "</tr>";
+                        $content .= '<tr>';
+                        $content .= '<th>' . $cookieBoxCookieDetailsTableProvider . '</th>';
+                        $content .= '<td>' . $cookieData->provider . '</td>';
+                        $content .= '</tr>';
 
-                        if (! empty($cookieData->purpose)) {
-                            $content .= "<tr>";
-                            $content .= "<th>" . $cookieBoxCookieDetailsTablePurpose . "</th>";
-                            $content .= "<td>" . $cookieData->purpose . "</td>";
-                            $content .= "</tr>";
+                        if (!empty($cookieData->purpose)) {
+                            $content .= '<tr>';
+                            $content .= '<th>' . $cookieBoxCookieDetailsTablePurpose . '</th>';
+                            $content .= '<td>' . $cookieData->purpose . '</td>';
+                            $content .= '</tr>';
                         }
 
-                        if (! empty($cookieData->privacy_policy_url)) {
-                            $content .= "<tr>";
-                            $content .= "<th>" . $cookieBoxCookieDetailsTablePrivacyPolicy . "</th>";
-                            $content .= "<td><a href=\"" . esc_url($cookieData->privacy_policy_url)
-                                . "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">" . esc_url(
+                        if (!empty($cookieData->privacy_policy_url)) {
+                            $content .= '<tr>';
+                            $content .= '<th>' . $cookieBoxCookieDetailsTablePrivacyPolicy . '</th>';
+                            $content .= '<td><a href="' . esc_url($cookieData->privacy_policy_url)
+                                . '" target="_blank" rel="nofollow noopener noreferrer">' . esc_url(
                                     $cookieData->privacy_policy_url
-                                ) . "</a></td>";
-                            $content .= "</tr>";
+                                ) . '</a></td>';
+                            $content .= '</tr>';
                         }
 
-                        if (! empty($cookieData->hosts)) {
-                            $content .= "<tr>";
-                            $content .= "<th>" . $cookieBoxCookieDetailsTableHosts . "</th>";
-                            $content .= "<td>" . implode(', ', $cookieData->hosts) . "</td>";
-                            $content .= "</tr>";
+                        if (!empty($cookieData->hosts)) {
+                            $content .= '<tr>';
+                            $content .= '<th>' . $cookieBoxCookieDetailsTableHosts . '</th>';
+                            $content .= '<td>' . implode(', ', $cookieData->hosts) . '</td>';
+                            $content .= '</tr>';
                         }
 
-                        if (! empty($cookieData->cookie_name)) {
-                            $content .= "<tr>";
-                            $content .= "<th>" . $cookieBoxCookieDetailsTableCookieName . "</th>";
-                            $content .= "<td>" . esc_html($cookieData->cookie_name) . "</td>";
-                            $content .= "</tr>";
+                        if (!empty($cookieData->cookie_name)) {
+                            $content .= '<tr>';
+                            $content .= '<th>' . $cookieBoxCookieDetailsTableCookieName . '</th>';
+                            $content .= '<td>' . esc_html($cookieData->cookie_name) . '</td>';
+                            $content .= '</tr>';
                         }
 
-                        if (! empty($cookieData->cookie_expiry)) {
-                            $content .= "<tr>";
-                            $content .= "<th>" . $cookieBoxCookieDetailsTableCookieExpiry . "</th>";
-                            $content .= "<td>" . esc_html($cookieData->cookie_expiry) . "</td>";
-                            $content .= "</tr>";
+                        if (!empty($cookieData->cookie_expiry)) {
+                            $content .= '<tr>';
+                            $content .= '<th>' . $cookieBoxCookieDetailsTableCookieExpiry . '</th>';
+                            $content .= '<td>' . esc_html($cookieData->cookie_expiry) . '</td>';
+                            $content .= '</tr>';
                         }
 
-                        $content .= "</table></div>";
+                        $content .= '</table></div>';
                     }
                 }
             }
 
-            $content .= "</div>";
+            $content .= '</div>';
         }
 
         return $content;
@@ -408,17 +369,11 @@ class Shortcode
     /**
      * handleTypeUID function.
      *
-     * @access public
-     *
-     * @param  mixed  $atts
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $atts
+     * @param mixed $content
      */
     public function handleTypeUID($atts, $content)
     {
-        $content = '<span data-borlabs-cookie-uid></span>';
-
-        return $content;
+        return '<span data-borlabs-cookie-uid></span>';
     }
 }

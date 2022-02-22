@@ -28,8 +28,8 @@ class MetaBox
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -51,17 +51,14 @@ class MetaBox
 
     /**
      * add function.
-     *
-     * @access public
-     * @return void
      */
     public function add()
     {
         $currentScreenData = get_current_screen();
 
         if (
-            ! empty($currentScreenData->post_type)
-            && ! empty(
+            !empty($currentScreenData->post_type)
+            && !empty(
             Config::getInstance()->get(
                 'metaBox'
             )[$currentScreenData->post_type]
@@ -82,11 +79,7 @@ class MetaBox
     /**
      * display function.
      *
-     * @access public
-     *
-     * @param  mixed  $post
-     *
-     * @return void
+     * @param mixed $post
      */
     public function display($post)
     {
@@ -97,9 +90,6 @@ class MetaBox
 
     /**
      * register function.
-     *
-     * @access public
-     * @return void
      */
     public function register()
     {
@@ -110,13 +100,9 @@ class MetaBox
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $postId
-     * @param  mixed  $post  (default: null)
-     * @param  mixed  $update  (default: null)
-     *
-     * @return void
+     * @param mixed $postId
+     * @param mixed $post   (default: null)
+     * @param mixed $update (default: null)
      */
     public function save($postId, $post = null, $update = null)
     {

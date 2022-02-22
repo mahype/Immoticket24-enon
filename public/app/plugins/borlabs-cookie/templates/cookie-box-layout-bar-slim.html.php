@@ -39,23 +39,28 @@
                                 </p>
 
                                 <p class="_brlbs-actions">
-                                    <span class="_brlbs-manage">
-                                        <a
-                                            href="#"
-                                            tabindex="0"
-                                            role="button"
-                                            class="_brlbs-cursor"
-                                            data-cookie-individual
-                                        >
-                                            <?php
-                                            echo $cookieBoxTextManageLink; ?>
-                                        </a>
+                                    <?php if($cookieBoxManageOptionType === 'link'){ ?>
+
+                                        <span class="_brlbs-manage">
+                                            <a
+                                                href="#"
+                                                tabindex="0"
+                                                role="button"
+                                                class="_brlbs-cursor"
+                                                data-cookie-individual
+                                            >
+                                                <?php
+                                                echo $cookieBoxTextManageLink; ?>
+                                            </a>
+                                        <span class="_brlbs-separator"></span>
+
                                     </span>
+
+                                    <?php } ?>
 
                                     <?php
                                     if ($cookieBoxHideRefuseOption === false) { ?>
                                         <span class="_brlbs-refuse">
-                                            <span class="_brlbs-separator"></span>
                                             <a
                                                 href="#"
                                                 tabindex="0"
@@ -74,18 +79,21 @@
 
                             <div class="col-12 col-sm-3">
                                 <p class="_brlbs-actions-mobile">
-                                    <span class="_brlbs-manage">
-                                        <a
-                                            href="#"
-                                            tabindex="0"
-                                            role="button"
-                                            class="_brlbs-cursor"
-                                            data-cookie-individual
-                                        >
-                                            <?php
-                                            echo $cookieBoxTextManageLink; ?>
-                                        </a>
-                                    </span>
+                                    <?php if($cookieBoxManageOptionType === 'link'){ ?>
+
+                                        <span class="_brlbs-manage">
+                                            <a
+                                                href="#"
+                                                tabindex="0"
+                                                role="button"
+                                                class="_brlbs-cursor"
+                                                data-cookie-individual
+                                            >
+                                                <?php
+                                                echo $cookieBoxTextManageLink; ?>
+                                            </a>
+                                        </span>
+                                    <?php } ?>
 
                                     <?php
                                     if ($cookieBoxHideRefuseOption === false) { ?>
@@ -121,6 +129,24 @@
                                         echo $cookieBoxTextAcceptButton; ?>
                                     </a>
                                 </p>
+
+                                <?php if($cookieBoxManageOptionType === 'button'){ ?>
+
+                                    <p class="_brlbs-manage-btn">
+                                        <a
+                                            href="#"
+                                            tabindex="0"
+                                            role="button"
+                                            class="_brlbs-cursor _brlbs-btn"
+                                            data-cookie-individual
+                                        >
+                                            <?php
+                                            echo $cookieBoxTextManageLink; ?>
+                                        </a>
+
+                                    </p>
+
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

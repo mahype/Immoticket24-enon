@@ -26,8 +26,8 @@ class GoogleAds
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,9 +35,6 @@ class GoogleAds
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -58,18 +55,13 @@ class GoogleAds
     /**
      * additionalSettingsTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputConversionId = esc_html(! empty($data->settings['conversionId']) ? $data->settings['conversionId'] : '');
-        $inputConsentMode = ! empty($data->settings['consentMode']) ? 1 : 0;
-        $switchConsentMode = $inputConsentMode ? ' active' : '';
-        ?>
+        $inputConversionId = esc_html(!empty($data->settings['conversionId']) ? $data->settings['conversionId'] : '');
+        $inputConsentMode = !empty($data->settings['consentMode']) ? 1 : 0;
+        $switchConsentMode = $inputConsentMode ? ' active' : ''; ?>
         <div class="form-group row">
             <label for="conversionId"
                    class="col-sm-4 col-form-label"><?php
@@ -84,18 +76,18 @@ class GoogleAds
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter your Google Ads Conversion ID.',
-                          'Backend / Cookie / Google Ads / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter your Google Ads Conversion ID.',
+            'Backend / Cookie / Google Ads / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <div class="form-group row align-items-center">
@@ -115,10 +107,10 @@ class GoogleAds
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'The Google Ads code is always loaded via the <strong>Fallback Code</strong> field with Google Consent Mode defaults set to denied. If the user accepts the Google Ads Cookie, Google will be informed about your consent to ads. Be aware that the consent mode only allows consents for categories not services.',
-                          'Backend / Cookie / Google Analytics / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'The Google Ads code is always loaded via the <strong>Fallback Code</strong> field with Google Consent Mode defaults set to denied. If the user accepts the Google Ads Cookie, Google will be informed about your consent to ads. Be aware that the consent mode only allows consents for categories not services.',
+            'Backend / Cookie / Google Analytics / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>
@@ -127,13 +119,10 @@ class GoogleAds
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'google-ads',
             'service' => 'GoogleAds',
             'name' => 'Google Ads',
@@ -162,23 +151,17 @@ class GoogleAds
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
-        if (! empty($formData['service']) && $formData['service'] === 'GoogleAds') {
-            if (! empty($formData['settings']['conversionId'])) {
+        if (!empty($formData['service']) && $formData['service'] === 'GoogleAds') {
+            if (!empty($formData['settings']['conversionId'])) {
                 $formData['settings']['conversionId'] = trim($formData['settings']['conversionId']);
             }
         }
@@ -189,12 +172,11 @@ class GoogleAds
     /**
      * optInJS function.
      *
-     * @access private
      * @return string
      */
     private function fallbackJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <script>
 if('%%consentMode%%' === '1') {
     window.dataLayer = window.dataLayer || [];
@@ -218,19 +200,16 @@ if('%%consentMode%%' === '1') {
 }
 </script>
 EOT;
-
-        return $code;
     }
 
     /**
      * optInJS function.
      *
-     * @access private
      * @return string
      */
     private function optInJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <script>
 if('%%consentMode%%' === '1') {
     window.dataLayer = window.dataLayer || [];
@@ -253,7 +232,5 @@ if('%%consentMode%%' === '1') {
 }
 </script>
 EOT;
-
-        return $code;
     }
 }

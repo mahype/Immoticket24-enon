@@ -28,8 +28,8 @@ class MatomoTagManager
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -37,13 +37,12 @@ class MatomoTagManager
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
-        add_action('borlabsCookie/cookie/edit/template/settings/MatomoTagManager', [$this, 'additionalSettingsTemplate']
+        add_action(
+            'borlabsCookie/cookie/edit/template/settings/MatomoTagManager',
+            [$this, 'additionalSettingsTemplate']
         );
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
     }
@@ -61,17 +60,12 @@ class MatomoTagManager
     /**
      * additionalSettingsTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputMatomoUrl = esc_html(! empty($data->settings['matomoUrl']) ? $data->settings['matomoUrl'] : '');
-        $inputContainerId = esc_html(! empty($data->settings['containerId']) ? $data->settings['containerId'] : '');
-        ?>
+        $inputMatomoUrl = esc_html(!empty($data->settings['matomoUrl']) ? $data->settings['matomoUrl'] : '');
+        $inputContainerId = esc_html(!empty($data->settings['containerId']) ? $data->settings['containerId'] : ''); ?>
         <div class="form-group row">
             <label for="matomoUrl"
                    class="col-sm-4 col-form-label"><?php
@@ -82,26 +76,26 @@ class MatomoTagManager
                 echo $inputMatomoUrl; ?>"
                        placeholder="<?php
                        _ex(
-                           'Example',
-                           'Backend / Global / Input Placeholder',
-                           'borlabs-cookie'
-                       ); ?>: https://analytics.example.com/matomo/"
+            'Example',
+            'Backend / Global / Input Placeholder',
+            'borlabs-cookie'
+        ); ?>: https://analytics.example.com/matomo/"
                        required>
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter the URL of your Matomo installation.',
-                          'Backend / Cookie / Matomo Tag Manager / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter the URL of your Matomo installation.',
+            'Backend / Cookie / Matomo Tag Manager / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
 
@@ -119,18 +113,18 @@ class MatomoTagManager
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter the container ID.',
-                          'Backend / Cookie / Matomo Tag Manager / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter the container ID.',
+            'Backend / Cookie / Matomo Tag Manager / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <?php
@@ -138,23 +132,20 @@ class MatomoTagManager
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
         $privacyPolicyURL = '';
 
-        if (! empty(Config::getInstance()->get('privacyPageURL'))) {
+        if (!empty(Config::getInstance()->get('privacyPageURL'))) {
             $privacyPolicyURL = Config::getInstance()->get('privacyPageURL');
         }
 
-        if (! empty(Config::getInstance()->get('privacyPageCustomURL'))) {
+        if (!empty(Config::getInstance()->get('privacyPageCustomURL'))) {
             $privacyPolicyURL = Config::getInstance()->get('privacyPageCustomURL');
         }
 
-        $data = [
+        return [
             'cookieId' => 'matomo-tag-manager',
             'service' => 'MatomoTagManager',
             'name' => 'Matomo Tag Manager',
@@ -180,38 +171,32 @@ class MatomoTagManager
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
-        if (! empty($formData['service']) && $formData['service'] === 'MatomoTagManager') {
-            if (! empty($formData['settings']['matomoUrl'])) {
+        if (!empty($formData['service']) && $formData['service'] === 'MatomoTagManager') {
+            if (!empty($formData['settings']['matomoUrl'])) {
                 $formData['settings']['matomoUrl'] = trim($formData['settings']['matomoUrl']);
 
                 $urlInfo = parse_url($formData['settings']['matomoUrl']);
 
-                $formData['settings']['matomoUrl'] = (! empty($urlInfo['scheme']) ? $urlInfo['scheme'] . '://' : '//')
+                $formData['settings']['matomoUrl'] = (!empty($urlInfo['scheme']) ? $urlInfo['scheme'] . '://' : '//')
                     . $urlInfo['host'];
 
-                if (! empty($urlInfo['path'])) {
+                if (!empty($urlInfo['path'])) {
                     $formData['settings']['matomoUrl'] .= rtrim($urlInfo['path'], '/') . '/';
                 } else {
                     $formData['settings']['matomoUrl'] .= '/';
                 }
             }
 
-            if (! empty($formData['settings']['containerId'])) {
+            if (!empty($formData['settings']['containerId'])) {
                 $formData['settings']['containerId'] = trim($formData['settings']['containerId']);
             }
         }
@@ -221,13 +206,10 @@ class MatomoTagManager
 
     /**
      * optInJS function.
-     *
-     * @access private
-     * @return void
      */
     private function optInJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <!-- Matomo Tag Manager -->
 <script type="text/javascript">
 var _mtm = _mtm || [];
@@ -237,7 +219,5 @@ g.type='text/javascript'; g.async=true; g.defer=true; g.src='%%matomoUrl%%/js/co
 </script>
 <!-- End Matomo Tag Manager -->
 EOT;
-
-        return $code;
     }
 }

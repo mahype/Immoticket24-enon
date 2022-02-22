@@ -35,7 +35,7 @@
                         </p>
 
                         <div class="row no-gutters align-items-center">
-                            <div class="col-12 <?php echo ($cookieBoxHideRefuseOption === false && $cookieBoxPreferenceRefuseOptionType === 'button') ? 'col-sm-9' : 'col-sm-7'; ?>">
+                            <div class="col-12 <?php echo ($cookieBoxHideRefuseOption === false && $cookieBoxPreferenceRefuseOptionType === 'button') ? 'col-sm-10' : 'col-sm-7'; ?>">
                                 <p class="_brlbs-accept">
                                     <?php
                                     if ($cookieBoxShowAcceptAllButton) { ?>
@@ -82,7 +82,7 @@
                                 </p>
                             </div>
 
-                            <div class="col-12 <?php echo ($cookieBoxHideRefuseOption === false && $cookieBoxPreferenceRefuseOptionType === 'button') ? 'col-sm-3' : 'col-sm-5'; ?>">
+                            <div class="col-12 <?php echo ($cookieBoxHideRefuseOption === false && $cookieBoxPreferenceRefuseOptionType === 'button') ? 'col-sm-2' : 'col-sm-5'; ?>">
                                 <p class="_brlbs-refuse">
                                     <a
                                         href="#"

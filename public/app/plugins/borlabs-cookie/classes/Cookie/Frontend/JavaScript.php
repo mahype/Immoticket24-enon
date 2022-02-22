@@ -29,31 +29,32 @@ class JavaScript
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
     /**
-     * contentBlocker
+     * contentBlocker.
      *
      * (default value: [])
      *
      * @var mixed
-     * @access private
      */
     private $contentBlocker = [];
-    private $cookiePath = null;
-    private $cookieVersion = null;
+
+    private $cookiePath;
+
+    private $cookieVersion;
+
     /**
-     * fallbackCode
+     * fallbackCode.
      *
      * (default value: [])
      *
      * @var mixed
-     * @access private
      */
     private $fallbackCode = [];
 
@@ -62,13 +63,13 @@ class JavaScript
         // Domain information for javascript cookie
         $siteURL = get_home_url();
         $siteURLInfo = parse_url($siteURL);
-        $this->cookiePath = ! empty($siteURLInfo['path']) ? $siteURLInfo['path'] : "/";
+        $this->cookiePath = !empty($siteURLInfo['path']) ? $siteURLInfo['path'] : '/';
 
         if (Config::getInstance()->get('automaticCookieDomainAndPath') === false) {
             $this->cookiePath = Config::getInstance()->get('cookiePath');
         }
 
-        $this->cookieVersion = intval(get_site_option('BorlabsCookieCookieVersion', 1));
+        $this->cookieVersion = (int) (get_site_option('BorlabsCookieCookieVersion', 1));
     }
 
     public function __clone()
@@ -84,14 +85,10 @@ class JavaScript
     /**
      * addContentBlocker function.
      *
-     * @access public
-     *
-     * @param  mixed  $contentBlockerId
-     * @param  string  $globalJS  (default: '')
-     * @param  string  $initJS  (default: '')
-     * @param  mixed  $settings  (default: [])
-     *
-     * @return void
+     * @param mixed  $contentBlockerId
+     * @param string $globalJS         (default: '')
+     * @param string $initJS           (default: '')
+     * @param mixed  $settings         (default: [])
      */
     public function addContentBlocker($contentBlockerId, $globalJS = '', $initJS = '', $settings = [])
     {
@@ -109,15 +106,12 @@ class JavaScript
 
     /**
      * getContentBlockerScriptsData function.
-     *
-     * @access public
-     * @return void
      */
     public function getContentBlockerScriptsData()
     {
         $js = 'var borlabsCookieContentBlocker = {';
 
-        if (! empty($this->contentBlocker)) {
+        if (!empty($this->contentBlocker)) {
             foreach ($this->contentBlocker as $contentBlockerId => $data) {
                 $js .= '"' . $contentBlockerId . '": {';
                 $js .= '"id": "' . $contentBlockerId . '",';
@@ -137,12 +131,13 @@ class JavaScript
 
     /**
      * registerFooter function.
-     *
-     * @access public
-     * @return void
      */
     public function registerFooter()
     {
+        if (defined('REST_REQUEST')) {
+            return;
+        }
+
         wp_enqueue_script(
             'borlabs-cookie',
             BORLABS_COOKIE_PLUGIN_URL . 'assets/javascript/borlabs-cookie.min.js',
@@ -162,13 +157,14 @@ class JavaScript
             'animationIn' => '_brlbs-' . Config::getInstance()->get('cookieBoxAnimationIn'),
             'animationOut' => '_brlbs-' . Config::getInstance()->get('cookieBoxAnimationOut'),
             'blockContent' => Config::getInstance()->get('cookieBoxBlocksContent'),
-            'boxLayout' => str_replace(['-slim', '-advanced'], '', Config::getInstance()->get('cookieBoxLayout')),
-            'boxLayoutAdvanced' => strpos(Config::getInstance()->get('cookieBoxLayout'), '-advanced') !== false ? true
+            'boxLayout' => str_replace(['-slim', '-advanced', '-plus'], '', Config::getInstance()->get('cookieBoxLayout')),
+            'boxLayoutAdvanced' => strpos(Config::getInstance()->get('cookieBoxLayout'), '-advanced') || strpos(Config::getInstance()->get('cookieBoxLayout'), '-plus') !== false ? true
                 : false,
 
             'automaticCookieDomainAndPath' => Config::getInstance()->get('automaticCookieDomainAndPath'),
             'cookieDomain' => Config::getInstance()->get('cookieDomain'),
             'cookiePath' => $this->cookiePath,
+            'cookieSecure' => Config::getInstance()->get('cookieSecure'),
             'cookieLifetime' => Config::getInstance()->get('cookieLifetime'),
             'cookieLifetimeEssentialOnly' => Config::getInstance()->get('cookieLifetimeEssentialOnly'),
             'crossDomainCookie' => Config::getInstance()->get('crossDomainCookie'),
@@ -179,6 +175,7 @@ class JavaScript
             'hideCookieBoxOnPages' => Config::getInstance()->get('hideCookieBoxOnPages'),
             'respectDoNotTrack' => Config::getInstance()->get('respectDoNotTrack'),
             'reloadAfterConsent' => Config::getInstance()->get('reloadAfterConsent'),
+            'reloadAfterOptOut' => Config::getInstance()->get('reloadAfterOptOut'),
             'showCookieBox' => Config::getInstance()->get('showCookieBox'),
             'cookieBoxIntegration' => Config::getInstance()->get('cookieBoxIntegration'),
 
@@ -190,12 +187,12 @@ class JavaScript
         $allCookies = Cookies::getInstance()->getAllCookieGroups();
         $cookies = [];
 
-        if (! empty($allCookies)) {
+        if (!empty($allCookies)) {
             foreach ($allCookies as $cookieGroupData) {
                 // Add all cookie groups to the array which are needed by the JavaScript class
                 $jsConfig['cookies'][$cookieGroupData->group_id] = [];
 
-                if (! empty($cookieGroupData->cookies)) {
+                if (!empty($cookieGroupData->cookies)) {
                     foreach ($cookieGroupData->cookies as $cookieData) {
                         // Add all cookies to the array which are needed by the JavaScript class
                         $jsConfig['cookies'][$cookieGroupData->group_id][] = $cookieData->cookie_id;
@@ -213,13 +210,13 @@ class JavaScript
                         ];
 
                         if (
-                            ! empty($cookieData->opt_in_js) || ! empty($cookieData->opt_out_js)
-                            || ! empty($cookieData->fallback_js)
+                            !empty($cookieData->opt_in_js) || !empty($cookieData->opt_out_js)
+                            || !empty($cookieData->fallback_js)
                         ) {
                             $cookies[$cookieGroupData->group_id][$cookieData->cookie_id]['optInJS']
                                 = empty($cookieData->settings['prioritize']) ? base64_encode(
-                                do_shortcode($cookieData->opt_in_js)
-                            ) : '';
+                                    do_shortcode($cookieData->opt_in_js)
+                                ) : '';
                             $cookies[$cookieGroupData->group_id][$cookieData->cookie_id]['optOutJS'] = base64_encode(
                                 do_shortcode($cookieData->opt_out_js)
                             );
@@ -254,28 +251,25 @@ class JavaScript
 
 BorlabsCookieInitCheck();
 EOT;
-        $jsCode .= "});";
+        $jsCode .= '});';
 
         wp_add_inline_script('borlabs-cookie', $jsCode, 'after');
     }
 
     /**
      * registerHead function.
-     *
-     * @access public
-     * @return void
      */
     public function registerHead()
     {
         $allCookies = Cookies::getInstance()->getAllCookieGroups();
         $prioritizedCodes = [];
 
-        if (! empty($allCookies)) {
+        if (!empty($allCookies)) {
             foreach ($allCookies as $cookieGroupData) {
-                if (! empty($cookieGroupData->cookies)) {
+                if (!empty($cookieGroupData->cookies)) {
                     foreach ($cookieGroupData->cookies as $cookieData) {
-                        if (! empty($cookieData->opt_in_js) || ! empty($cookieData->fallback_js)) {
-                            if (! empty($cookieData->settings['prioritize'])) {
+                        if (!empty($cookieData->opt_in_js) || !empty($cookieData->fallback_js)) {
+                            if (!empty($cookieData->settings['prioritize'])) {
                                 $prioritizedCodes[$cookieGroupData->group_id][$cookieData->cookie_id] = base64_encode(
                                     do_shortcode($cookieData->opt_in_js)
                                 );
@@ -290,7 +284,11 @@ EOT;
             }
         }
 
-        if (! empty($prioritizedCodes)) {
+        if (!empty($prioritizedCodes)) {
+            if (defined('REST_REQUEST')) {
+                return;
+            }
+
             wp_enqueue_script(
                 'borlabs-cookie-prioritize',
                 BORLABS_COOKIE_PLUGIN_URL . 'assets/javascript/borlabs-cookie-prioritize.min.js',
@@ -310,14 +308,15 @@ EOT;
 
     /**
      * registerHeadFallback function.
-     *
-     * @access public
-     * @return void
      */
     public function registerHeadFallback()
     {
+        if (defined('REST_REQUEST')) {
+            return;
+        }
+
         // Fallback code is always executed
-        if (! empty($this->fallbackCode)) {
+        if (!empty($this->fallbackCode)) {
             foreach ($this->fallbackCode as $groupData) {
                 foreach ($groupData as $cookieFallbackCode) {
                     echo $cookieFallbackCode;

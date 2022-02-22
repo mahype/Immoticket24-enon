@@ -24,17 +24,17 @@ use stdClass;
 
 class Update
 {
-
     private static $instance;
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
+
     private $currentBlogId = '';
 
     public function __construct()
@@ -54,17 +54,13 @@ class Update
     /**
      * handlePluginAPI function.
      *
-     * @access public
-     *
-     * @param  mixed  $result  Default is false
-     * @param  string  $action  Type of information
-     * @param  object  $args  Plugin API arguments
-     *
-     * @return void
+     * @param mixed  $result Default is false
+     * @param string $action Type of information
+     * @param object $args   Plugin API arguments
      */
     public function handlePluginAPI($result, $action, $args)
     {
-        if (! empty($action) && $action == 'plugin_information' && ! empty($args->slug)) {
+        if (!empty($action) && $action == 'plugin_information' && !empty($args->slug)) {
             if ($args->slug == BORLABS_COOKIE_SLUG) {
                 // Return alternative API URL
                 $result = API::getInstance()->getPluginInformation();
@@ -77,11 +73,7 @@ class Update
     /**
      * handleTransientUpdatePlugins function.
      *
-     * @access public
-     *
-     * @param  mixed  $transient
-     *
-     * @return void
+     * @param mixed $transient
      */
     public function handleTransientUpdatePlugins($transient)
     {
@@ -93,11 +85,11 @@ class Update
         // Check for updates
         $updateInformation = API::getInstance()->getLatestVersion();
 
-        if (! empty($updateInformation)) {
+        if (!empty($updateInformation)) {
             if (version_compare(BORLABS_COOKIE_VERSION, $updateInformation->new_version, '<')) {
                 // $transient can be null if third party plugins force a plugin refresh an kill the object
-                if (! is_object($transient) && ! isset($transient->response)) {
-                    $transient = new stdClass;
+                if (!is_object($transient) && !isset($transient->response)) {
+                    $transient = new stdClass();
                     $transient->response = [];
                 }
                 $transient->response[BORLABS_COOKIE_BASENAME] = $updateInformation;
@@ -109,9 +101,6 @@ class Update
 
     /**
      * processUpgrade function.
-     *
-     * @access public
-     * @return void
      */
     public function processUpgrade()
     {
@@ -121,18 +110,18 @@ class Update
 
         if (is_multisite()) {
             $allBlogs = $wpdb->get_results(
-                "
+                '
                 SELECT
                     `blog_id`
                 FROM
-                    `" . $wpdb->base_prefix . "blogs`
-            "
+                    `' . $wpdb->base_prefix . 'blogs`
+            '
             );
         }
 
         $versionUpgrades = Upgrade::getInstance()->getVersionUpgrades();
 
-        if (! empty($lastVersion)) {
+        if (!empty($lastVersion)) {
             foreach ($versionUpgrades as $upgradeFunction => $version) {
                 if (version_compare($lastVersion, $version, '<')) {
                     if (method_exists(Upgrade::getInstance(), $upgradeFunction)) {
@@ -140,7 +129,7 @@ class Update
                         call_user_func([Upgrade::getInstance(), $upgradeFunction]);
 
                         // Upgrade multisites
-                        if (is_multisite() && ! empty($allBlogs)) {
+                        if (is_multisite() && !empty($allBlogs)) {
                             $originalBlogId = get_current_blog_id();
 
                             foreach ($allBlogs as $blogData) {
@@ -167,18 +156,14 @@ class Update
     /**
      * upgradeComplete function.
      *
-     * @access public
-     *
-     * @param  mixed  $upgraderObject
-     * @param  mixed  $options
-     *
-     * @return void
+     * @param mixed $upgraderObject
+     * @param mixed $options
      */
     public function upgradeComplete($upgraderObject, $options)
     {
-        if ($options['action'] == 'update' && $options['type'] == 'plugin' && ! empty($options['plugins'])) {
+        if ($options['action'] == 'update' && $options['type'] == 'plugin' && !empty($options['plugins'])) {
             // Check if Borlabs Cookie was updated
-            if (in_array(BORLABS_COOKIE_BASENAME, $options['plugins'])) {
+            if (in_array(BORLABS_COOKIE_BASENAME, $options['plugins'], true)) {
                 $this->processUpgrade();
             }
         }

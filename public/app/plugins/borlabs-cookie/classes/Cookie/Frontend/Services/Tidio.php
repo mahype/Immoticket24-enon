@@ -26,8 +26,8 @@ class Tidio
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,9 +35,6 @@ class Tidio
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -57,11 +54,7 @@ class Tidio
     /**
      * additionalSettingsTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsTemplate($data)
     {
@@ -74,10 +67,10 @@ class Tidio
                 <div
                     class="alert alert-info mt-2"><?php
                     _ex(
-                        'In Tidio click on <strong>Channels &gt; Live chat &gt; Integration &gt; JavaScript</strong>, copy the JavaScript and paste it into the <strong>Opt-in Code</strong> field below.',
-                        'Backend / Cookie / Tidio / Text',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'In Tidio click on <strong>Channels &gt; Live chat &gt; Integration &gt; JavaScript</strong>, copy the JavaScript and paste it into the <strong>Opt-in Code</strong> field below.',
+            'Backend / Cookie / Tidio / Text',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <?php
@@ -85,13 +78,10 @@ class Tidio
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'tidio',
             'service' => 'Tidio',
             'name' => 'Tidio',
@@ -125,7 +115,5 @@ class Tidio
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 }

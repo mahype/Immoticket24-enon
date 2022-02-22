@@ -32,8 +32,8 @@ class Frontend
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -56,9 +56,6 @@ class Frontend
 
     /**
      * init function.
-     *
-     * @access public
-     * @return void
      */
     public function init()
     {
@@ -67,7 +64,7 @@ class Frontend
             || (current_user_can('manage_borlabs_cookie')
                 && Config::getInstance()->get('setupMode') === true)
         ) {
-            /* Load textdomain */
+            // Load textdomain
             $this->loadTextdomain();
 
             // Handle API requests
@@ -127,7 +124,7 @@ class Frontend
             // Cron
             add_action('borlabsCookieCron', [Maintenance::getInstance(), 'cleanUp']);
 
-            if (! wp_next_scheduled('borlabsCookieCron')) {
+            if (!wp_next_scheduled('borlabsCookieCron')) {
                 wp_schedule_event(time(), 'daily', 'borlabsCookieCron');
             }
 
@@ -232,19 +229,20 @@ class Frontend
             }
 
             // Backwards Compatibility
-            add_shortcode('borlabs_cookie_blocked_content',
-                [BackwardsCompatibility::getInstance(), 'shortcodeBlockedContent']);
+            add_shortcode(
+                'borlabs_cookie_blocked_content',
+                [BackwardsCompatibility::getInstance(), 'shortcodeBlockedContent']
+            );
         } elseif (Config::getInstance()->get('setupMode') === true) {
             // Hide shortcodes when setup mode is active but user does not have 'manage_borlabs_cookie' capability.
-            add_shortcode('borlabs-cookie', function ($atts, $content = null) { return ''; });
+            add_shortcode('borlabs-cookie', function ($atts, $content = null) {
+                return '';
+            });
         }
     }
 
     /**
      * loadTextdomain function.
-     *
-     * @access public
-     * @return void
      */
     public function loadTextdomain()
     {
@@ -252,8 +250,11 @@ class Frontend
 
         // Load correct DE language file if any DE language was selected
         if (
-            in_array(Multilanguage::getInstance()->getCurrentLanguageCode(),
-                ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'])
+            in_array(
+                Multilanguage::getInstance()->getCurrentLanguageCode(),
+                ['de', 'de_DE', 'de_DE_formal', 'de_AT', 'de_CH', 'de_CH_informal'],
+                true
+            )
         ) {
             // Load german language pack
             load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo');

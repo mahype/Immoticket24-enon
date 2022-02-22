@@ -30,8 +30,8 @@ class CrossDomainCookie
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -54,19 +54,16 @@ class CrossDomainCookie
     /**
      * handleRequest function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function handleRequest($data)
     {
-        if (! empty($data['cookieData']) && ! empty($_SERVER['HTTP_REFERER'])) {
+        if (!empty($data['cookieData']) && !empty($_SERVER['HTTP_REFERER'])) {
             // Validate referer
             $refererURLInfo = parse_url($_SERVER['HTTP_REFERER']);
 
             $isValidRequest = false;
+
             foreach (Config::getInstance()->get('crossDomainCookie') as $url) {
                 if (
                     strpos(
@@ -86,7 +83,7 @@ class CrossDomainCookie
 
             if (Tools::getInstance()->isStringJSON($cookieData)) {
                 $cookieData = json_decode($cookieData, true);
-                $language = ! empty($_GET['cookieLang']) ? strtolower(
+                $language = !empty($_GET['cookieLang']) ? strtolower(
                     preg_replace('/[^a-z\-_]+/', '', $_GET['cookieLang'])
                 ) : 'en';
 
@@ -105,14 +102,14 @@ class CrossDomainCookie
                 }
 
                 // Validate consents
-                if (! empty($cookieData['consents'])) {
+                if (!empty($cookieData['consents'])) {
                     foreach ($cookieData['consents'] as $cookieGroup => $cookies) {
-                        if (! empty($allowedCookieGroups[$cookieGroup])) {
+                        if (!empty($allowedCookieGroups[$cookieGroup])) {
                             $consents[$cookieGroup] = [];
 
-                            if (! empty($cookies)) {
+                            if (!empty($cookies)) {
                                 foreach ($cookies as $cookie) {
-                                    if (! empty($allowedCookies[$cookie])) {
+                                    if (!empty($allowedCookies[$cookie])) {
                                         $consents[$cookieGroup][] = $cookie;
                                     }
                                 }
@@ -122,28 +119,23 @@ class CrossDomainCookie
                 }
 
                 $consents = apply_filters('borlabsCookie/crossDomainCookie/consents', $consents, $cookieData);
-
                 $cookieData['consents'] = $consents;
-
                 $siteURL = get_home_url();
                 $siteURLInfo = parse_url($siteURL);
-                $cookiePath = ! empty($siteURLInfo['path']) ? $siteURLInfo['path'] : "/";
+                $cookiePath = !empty($siteURLInfo['path']) ? $siteURLInfo['path'] : '/';
 
                 if (Config::getInstance()->get('automaticCookieDomainAndPath') === false) {
                     $cookiePath = Config::getInstance()->get('cookiePath');
                 }
 
                 $cookieData['domainPath'] = Config::getInstance()->get('cookieDomain') . $cookiePath;
-
-                ConsentLog::getInstance()->add($cookieData, $language);
-
+                ConsentLog::getInstance()->add($cookieData, $language, isset($data['essentialStatistic']) && $data['essentialStatistic'] === '1');
                 $cookieInformation = [];
-
                 $cookieInformation[] = 'borlabs-cookie=' . rawurlencode(json_encode($cookieData));
 
-                /* Cookie Domain */
+                // Cookie Domain
                 if (
-                    ! empty(Config::getInstance()->get('cookieDomain'))
+                    !empty(Config::getInstance()->get('cookieDomain'))
                     && empty(
                     Config::getInstance()->get(
                         'automaticCookieDomainAndPath'
@@ -153,22 +145,22 @@ class CrossDomainCookie
                     $cookieInformation[] = 'domain=' . Config::getInstance()->get('cookieDomain');
                 }
 
-                /* Cookie Path */
+                // Cookie Path
                 $cookieInformation[] = 'path=' . Config::getInstance()->get('cookiePath');
 
-                /* Expiration Date */
+                // Expiration Date
                 $cookieInformation[] = 'expires=' . $cookieData['expires'];
 
-                /* Set cookie */
+                // Set cookie
                 $javascript = '<script>document.cookie = "' . implode(';', $cookieInformation) . '";</script>';
 
-                /* Cross-Cookie workaround due SameSite Policy - Does not work in incognito mode because browsers block third party cookies in that mode by default */
+                // Cross-Cookie workaround due SameSite Policy - Does not work in incognito mode because browsers block third party cookies in that mode by default
                 header(
                     'Set-Cookie: borlabs-cookie=' . rawurlencode(json_encode($cookieData)) . '; SameSite=None; Secure'
                 );
 
-                echo "<html><head><meta name=\"robots\" content=\"noindex,nofollow,norarchive\"></head><body>"
-                    . $javascript . "</body></html>";
+                echo '<html><head><meta name="robots" content="noindex,nofollow,norarchive"></head><body>'
+                    . $javascript . '</body></html>';
             }
         }
     }

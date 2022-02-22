@@ -20,8 +20,8 @@ class Bricks
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -29,9 +29,6 @@ class Bricks
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -49,8 +46,6 @@ class Bricks
 
     public function detectIframes($output, $postId = 0)
     {
-        $output = ContentBlocker::getInstance()->detectIframes($output);
-
-        return $output;
+        return ContentBlocker::getInstance()->detectIframes($output);
     }
 }

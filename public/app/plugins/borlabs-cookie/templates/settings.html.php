@@ -157,6 +157,19 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                 </div>
                             </div>
 
+                            <?php
+                            if (!empty($inputCookieBeforeConsent)) {
+                                ?>
+                                <div class="form-group row align-items-center">
+                                    <div class="col-sm-8 offset-4">
+                                        <div
+                                            class="alert alert-danger mt-2"><?php _ex('Depending on applicable law, this option may not be allowed to be turned on.', 'Backend / Settings / Alert Message', 'borlabs-cookie'); ?></div>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                            ?>
+
                             <div class="form-group row align-items-center">
                                 <label for="aggregateCookieConsent"
                                        class="col-sm-4 col-form-label"><?php
@@ -323,6 +336,37 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                 <?php
                             }
                             ?>
+
+                            <div class="form-group row align-items-center">
+                                <label for="reloadAfterOptOut"
+                                       class="col-sm-4 col-form-label"><?php
+                                    _ex(
+                                        'Reload After Opt-Out',
+                                        'Backend / Settings / Label',
+                                        'borlabs-cookie'
+                                    ); ?></label>
+                                <div class="col-sm-8">
+                                    <button type="button"
+                                            class="btn btn-sm btn-toggle mr-2<?php
+                                            echo $switchReloadAfterOptOut; ?>"
+                                            data-toggle="button" data-switch-target="reloadAfterOptOut"
+                                            aria-pressed="<?php
+                                            echo $inputReloadAfterOptOut ? 'true' : 'false'; ?>">
+                                        <span class="handle"></span>
+                                    </button>
+                                    <input type="hidden" id="reloadAfterOptOut" name="reloadAfterOptOut"
+                                           value="<?php
+                                           echo $inputReloadAfterOptOut; ?>">
+                                    <span data-toggle="tooltip"
+                                          title="<?php
+                                          echo esc_attr_x(
+                                              'If activated the website will be reloaded after the visitor opts out of a service.',
+                                              'Backend / Settings / Tooltip',
+                                              'borlabs-cookie'
+                                          ); ?>"><i
+                                            class="fas fa-lg fa-question-circle text-dark"></i></span>
+                                </div>
+                            </div>
 
                             <div class="form-group row">
                                 <label for="jQueryHandle"
@@ -652,6 +696,41 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                             'Backend / Global / Validation Message',
                                             'borlabs-cookie'
                                         ); ?></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row align-items-center">
+                                <label for="cookieSecure"
+                                       class="col-sm-4 col-form-label"><?php
+                                    _ex(
+                                        'Secure Attribute',
+                                        'Backend / Settings / Label',
+                                        'borlabs-cookie'
+                                    ); ?></label>
+                                <div class="col-sm-8">
+                                    <button type="button"
+                                            class="btn btn-sm btn-toggle mr-2<?php
+                                            echo $switchCookieSecure; ?>"
+                                            data-toggle="button" data-switch-target="cookieSecure"
+                                            aria-pressed="<?php
+                                            echo $inputCookieSecure ? 'true' : 'false'; ?>">
+                                        <span class="handle"></span>
+                                    </button>
+                                    <input type="hidden" name="cookieSecure"
+                                           id="cookieSecure"
+                                           value="<?php
+                                           echo $inputCookieSecure; ?>">
+                                    <span data-toggle="tooltip"
+                                          title="<?php
+                                          echo sprintf(
+                                              _x(
+                                                  'A cookie with the Secure attribute is sent to the server only in case of an encrypted request via the HTTPS protocol.',
+                                                  'Backend / Settings / Tooltip',
+                                                  'borlabs-cookie'
+                                              ),
+                                              $networkPath
+                                          ); ?>"><i
+                                            class="fas fa-lg fa-question-circle text-dark"></i></span>
                                 </div>
                             </div>
 

@@ -28,8 +28,8 @@ class Custom
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -52,13 +52,9 @@ class Custom
     /**
      * modify function.
      *
-     * @access public
-     *
-     * @param  mixed  $content
-     * @param  mixed  $contentBlockerId
-     * @param  mixed  $atts  (default: [])
-     *
-     * @return void
+     * @param mixed $content
+     * @param mixed $contentBlockerId
+     * @param mixed $atts             (default: [])
      */
     public function modify($content, $contentBlockerId, $atts = [])
     {
@@ -74,7 +70,7 @@ class Custom
         }
 
         // Replace text variables
-        if (! empty($atts)) {
+        if (!empty($atts)) {
             foreach ($atts as $key => $value) {
                 $contentBlockerData['previewHTML'] = str_replace(
                     '%%' . $key . '%%',

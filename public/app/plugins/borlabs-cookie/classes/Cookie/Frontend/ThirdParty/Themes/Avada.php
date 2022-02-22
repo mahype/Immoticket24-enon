@@ -26,8 +26,8 @@ class Avada
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,9 +35,6 @@ class Avada
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -55,13 +52,10 @@ class Avada
 
     /**
      * adminHeadCSS function.
-     *
-     * @access public
-     * @return void
      */
     public function adminHeadCSS()
     {
-        echo "<style>#BorlabsCookieBox { display: none !important; }</style>";
+        echo '<style>#BorlabsCookieBox { display: none !important; }</style>';
     }
 
     /**

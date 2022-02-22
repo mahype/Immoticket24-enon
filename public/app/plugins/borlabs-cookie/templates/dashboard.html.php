@@ -25,8 +25,8 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked() ===
                            href="?page=borlabs-cookie&amp;borlabsCookieStats=6h"><?php _ex('6 hours', 'Backend / Global / Button Title', 'borlabs-cookie'); ?></a>
                         <a class="btn btn-sm <?php echo $statsActive7d ? 'btn-secondary' : 'btn-outline-secondary'; ?>"
                            href="?page=borlabs-cookie&amp;borlabsCookieStats=7d"><?php _ex('7 days', 'Backend / Global / Button Title', 'borlabs-cookie'); ?></a>
-                        <a class="btn btn-sm <?php echo $statsActiveAll ? 'btn-secondary' : 'btn-outline-secondary'; ?>"
-                           href="?page=borlabs-cookie"><?php _ex('Default', 'Backend / Global / Button Title', 'borlabs-cookie'); ?></a>
+                        <a class="btn btn-sm <?php echo $statsActive30d ? 'btn-secondary' : 'btn-outline-secondary'; ?>"
+                           href="?page=borlabs-cookie"><?php _ex('30 days', 'Backend / Global / Button Title', 'borlabs-cookie'); ?></a>
                     </div>
                 </div>
             </div>
@@ -38,13 +38,6 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked() ===
                         <div style="height: 200px;">
                             <canvas id="borlabsCookieChart"></canvas>
                         </div>
-                        <?php
-                        if ($statsActiveAll) {
-                            ?>
-                            <p class="text-center"><?php _ex('The chart shows the distribution of your visitors\' consents by the respective Cookie Groups. Shows the last up to 10.000 consents.', 'Backend / Dashboard / Text', 'borlabs-cookie'); ?></p>
-                            <?php
-                        }
-                        ?>
                         <?php
                     } else {
                         ?>
@@ -244,7 +237,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked() ===
                 var borlabsCookieChartCanvas = document.getElementById('borlabsCookieChart').getContext('2d');
 
                 window.borlabsCookieBarChart = new Chart(borlabsCookieChartCanvas, {
-                    type: <?php echo $statsActiveAll ? '\'bar\'' : '\'line\''; ?>,
+                    type: <?php echo $statsActive30d ? '\'bar\'' : '\'line\''; ?>,
                     data: barChartData,
                     options: {
                         responsive: true,
@@ -276,7 +269,7 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked() ===
                             }],
                         },
                         legend: {
-                            display: <?php echo $statsActiveAll ? 'false' : 'true'; ?>,
+                            display: <?php echo $statsActive30d ? 'false' : 'true'; ?>,
                             labels: {
                                 fontColor: "#fff",
                             }

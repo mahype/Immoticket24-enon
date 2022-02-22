@@ -28,8 +28,8 @@ class TheEventsCalendar
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -37,9 +37,6 @@ class TheEventsCalendar
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -57,16 +54,11 @@ class TheEventsCalendar
 
     /**
      * register function.
-     *
-     * @access public
-     * @return void
      */
     public function register()
     {
         add_filter('tribe_get_embedded_map', function ($content) {
-            $content = ContentBlocker::getInstance()->detectIframes($content);
-
-            return $content;
+            return ContentBlocker::getInstance()->detectIframes($content);
         }, 100, 1);
     }
 }

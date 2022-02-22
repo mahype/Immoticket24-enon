@@ -26,8 +26,8 @@ class Polylang
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,9 +35,6 @@ class Polylang
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -55,13 +52,10 @@ class Polylang
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'polylang',
             'service' => 'Polylang',
             'name' => 'Polylang',
@@ -81,7 +75,5 @@ class Polylang
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 }

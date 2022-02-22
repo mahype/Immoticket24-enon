@@ -26,8 +26,8 @@ class GoogleAdSense
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,15 +35,13 @@ class GoogleAdSense
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
         add_action('borlabsCookie/cookie/edit/template/settings/GoogleAdSense', [$this, 'additionalSettingsTemplate']);
         add_action(
-            'borlabsCookie/cookie/edit/template/settings/help/GoogleAdSense', [$this, 'additionalSettingsHelpTemplate']
+            'borlabsCookie/cookie/edit/template/settings/help/GoogleAdSense',
+            [$this, 'additionalSettingsHelpTemplate']
         );
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
     }
@@ -61,11 +59,7 @@ class GoogleAdSense
     /**
      * additionalSettingsHelpTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsHelpTemplate($data)
     {
@@ -76,24 +70,23 @@ class GoogleAdSense
                     _ex('Tips', 'Backend / Global / Tips / Headline', 'borlabs-cookie'); ?></h3>
                 <h4><?php
                     _ex(
-                        'How do I place an AdSense banner?',
-                        'Backend / Cookie / Google AdSense / Tips / Headline',
-                        'borlabs-cookie'
-                    ); ?></h4>
+            'How do I place an AdSense banner?',
+            'Backend / Cookie / Google AdSense / Tips / Headline',
+            'borlabs-cookie'
+        ); ?></h4>
                 <p><?php
                     printf(
-                        _x(
-                            'Copy this code to the place where you want the banner to appear: %s',
-                            'Backend / Cookie / Google AdSense / Tips / Text',
-                            'borlabs-cookie'
-                        ),
-                        sprintf(
-                            '<span class="code-example">&lt;ins class="adsbygoogle" style="display:inline-block;min-width:320px;max-width:1200px;width:100%%;height:100px" data-ad-client="%s"&gt;&lt;/ins&gt;&lt;script&gt;(adsbygoogle = window.adsbygoogle || []).push({});&lt;/script&gt;</span>',
-                            ! empty($data->settings['caPubId']) ? esc_html($data->settings['caPubId'])
+            _x(
+                'Copy this code to the place where you want the banner to appear: %s',
+                'Backend / Cookie / Google AdSense / Tips / Text',
+                'borlabs-cookie'
+            ),
+            sprintf(
+                '<span class="code-example">&lt;ins class="adsbygoogle" style="display:inline-block;min-width:320px;max-width:1200px;width:100%%;height:100px" data-ad-client="%s"&gt;&lt;/ins&gt;&lt;script&gt;(adsbygoogle = window.adsbygoogle || []).push({});&lt;/script&gt;</span>',
+                !empty($data->settings['caPubId']) ? esc_html($data->settings['caPubId'])
                                 : 'ca-pub-XXXXXXXXX'
-                        )
-                    );
-                    ?></p>
+            )
+        ); ?></p>
             </div>
         </div>
         <?php
@@ -102,16 +95,11 @@ class GoogleAdSense
     /**
      * additionalSettingsTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputCaPubId = esc_html(! empty($data->settings['caPubId']) ? $data->settings['caPubId'] : '');
-        ?>
+        $inputCaPubId = esc_html(!empty($data->settings['caPubId']) ? $data->settings['caPubId'] : ''); ?>
         <div class="form-group row">
             <label for="caPubId"
                    class="col-sm-4 col-form-label"><?php
@@ -126,18 +114,18 @@ class GoogleAdSense
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter your Publisher ID.',
-                          'Backend / Cookie / Google AdSense / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter your Publisher ID.',
+            'Backend / Cookie / Google AdSense / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <?php
@@ -145,13 +133,10 @@ class GoogleAdSense
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'google-adsense',
             'service' => 'GoogleAdSense',
             'name' => 'Google AdSense',
@@ -182,23 +167,17 @@ class GoogleAdSense
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
-        if (! empty($formData['service']) && $formData['service'] === 'GoogleAdSense') {
-            if (! empty($formData['settings']['caPubId'])) {
+        if (!empty($formData['service']) && $formData['service'] === 'GoogleAdSense') {
+            if (!empty($formData['settings']['caPubId'])) {
                 $formData['settings']['caPubId'] = trim($formData['settings']['caPubId']);
             }
         }
@@ -208,16 +187,11 @@ class GoogleAdSense
 
     /**
      * optInJS function.
-     *
-     * @access private
-     * @return void
      */
     private function optInJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <script data-ad-client="%%caPubId%%" async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 EOT;
-
-        return $code;
     }
 }

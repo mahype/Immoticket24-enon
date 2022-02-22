@@ -26,8 +26,8 @@ class Init
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -49,9 +49,6 @@ class Init
 
     /**
      * initBackend function.
-     *
-     * @access public
-     * @return void
      */
     public function initBackend()
     {
@@ -61,9 +58,6 @@ class Init
 
     /**
      * initFrontend function.
-     *
-     * @access public
-     * @return void
      */
     public function initFrontend()
     {
@@ -73,25 +67,19 @@ class Init
 
     /**
      * initUpdateHooks function.
-     *
-     * @access public
-     * @return void
      */
     public function initUpdateHooks()
     {
-        /* Overwrite API URL when request infos about Borlabs Cookie */
-        /* Changed priority to avoid a conflict when third-party-devs have a broken implementation for their plugin_information routine */
+        // Overwrite API URL when request infos about Borlabs Cookie
+        // Changed priority to avoid a conflict when third-party-devs have a broken implementation for their plugin_information routine
         add_action('plugins_api', [Update::getInstance(), 'handlePluginAPI'], 9001, 3);
 
-        /* Register Hook for checking for updates */
+        // Register Hook for checking for updates
         add_filter('pre_set_site_transient_update_plugins', [Update::getInstance(), 'handleTransientUpdatePlugins']);
     }
 
     /**
      * pluginActivated function.
-     *
-     * @access public
-     * @return void
      */
     public function pluginActivated()
     {
@@ -100,9 +88,6 @@ class Init
 
     /**
      * pluginDeactivated function.
-     *
-     * @access public
-     * @return void
      */
     public function pluginDeactivated()
     {

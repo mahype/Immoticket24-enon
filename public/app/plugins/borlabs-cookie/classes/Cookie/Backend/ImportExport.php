@@ -37,39 +37,38 @@ class ImportExport
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
     /**
-     * tableContentBlocker
+     * tableContentBlocker.
      *
      * @var mixed
-     * @access private
      */
     private $tableContentBlocker;
+
     /**
-     * tableCookie
+     * tableCookie.
      *
      * @var mixed
-     * @access private
      */
     private $tableCookie;
+
     /**
-     * tableCookieGroup
+     * tableCookieGroup.
      *
      * @var mixed
-     * @access private
      */
     private $tableCookieGroup;
+
     /**
-     * tableScriptBlocker
+     * tableScriptBlocker.
      *
      * @var mixed
-     * @access private
      */
     private $tableScriptBlocker;
 
@@ -96,15 +95,12 @@ class ImportExport
 
     /**
      * display function.
-     *
-     * @access public
-     * @return void
      */
     public function display()
     {
         $action = false;
 
-        if (! empty($_POST['action'])) {
+        if (!empty($_POST['action'])) {
             $action = $_POST['action'];
         }
 
@@ -210,9 +206,6 @@ class ImportExport
 
     /**
      * getAllContentBlocker function.
-     *
-     * @access public
-     * @return void
      */
     public function getAllContentBlocker()
     {
@@ -221,7 +214,7 @@ class ImportExport
         $data = [];
 
         $contentBlockerData = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`,
                 `content_blocker_id`,
@@ -238,7 +231,7 @@ class ImportExport
                 `status`,
                 `undeletable`
             FROM
-                `" . $this->tableContentBlocker . "`
+                `' . $this->tableContentBlocker . "`
             WHERE
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
         "
@@ -251,9 +244,6 @@ class ImportExport
 
     /**
      * getAllCookiesAndGroups function.
-     *
-     * @access public
-     * @return void
      */
     public function getAllCookiesAndGroups()
     {
@@ -262,7 +252,7 @@ class ImportExport
         $data = [];
 
         $cookieGroupsData = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`,
                 `group_id`,
@@ -274,7 +264,7 @@ class ImportExport
                 `status`,
                 `undeletable`
             FROM
-                `" . $this->tableCookieGroup . "`
+                `' . $this->tableCookieGroup . "`
             WHERE
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
         "
@@ -283,7 +273,7 @@ class ImportExport
         $data['cookieGroups'] = $cookieGroupsData;
 
         $cookiesData = $wpdb->get_results(
-            "
+            '
             SELECT
                 `cookie_id`,
                 `language`,
@@ -304,7 +294,7 @@ class ImportExport
                 `status`,
                 `undeletable`
             FROM
-                `" . $this->tableCookie . "`
+                `' . $this->tableCookie . "`
             WHERE
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
         "
@@ -317,9 +307,6 @@ class ImportExport
 
     /**
      * getAllScriptBlocker function.
-     *
-     * @access public
-     * @return void
      */
     public function getAllScriptBlocker()
     {
@@ -328,7 +315,7 @@ class ImportExport
         $data = [];
 
         $scriptBlockerData = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`,
                 `script_blocker_id`,
@@ -338,8 +325,8 @@ class ImportExport
                 `status`,
                 `undeletable`
             FROM
-                `" . $this->tableScriptBlocker . "`
-        "
+                `' . $this->tableScriptBlocker . '`
+        '
         );
 
         $data['scriptBlocker'] = $scriptBlockerData;
@@ -350,11 +337,7 @@ class ImportExport
     /**
      * import function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function import($formData)
     {
@@ -366,14 +349,14 @@ class ImportExport
         ];
 
         // Test import config data
-        if (! empty($formData['importConfig'])) {
+        if (!empty($formData['importConfig'])) {
             $formData['importConfig'] = stripslashes($formData['importConfig']);
 
             if (Tools::getInstance()->isStringJSON($formData['importConfig'])) {
                 $importConfig = json_decode($formData['importConfig'], true);
 
                 // Check what kind of import data was sent
-                if (! empty($importConfig['config'])) {
+                if (!empty($importConfig['config'])) {
                     $this->importConfig($importConfig['config']);
 
                     $importStatus['config'] = true;
@@ -386,14 +369,14 @@ class ImportExport
         }
 
         // Test import cookies and groups data
-        if (! empty($formData['importCookiesAndGroups'])) {
+        if (!empty($formData['importCookiesAndGroups'])) {
             $formData['importCookiesAndGroups'] = stripslashes($formData['importCookiesAndGroups']);
 
             if (Tools::getInstance()->isStringJSON($formData['importCookiesAndGroups'])) {
                 $importCookiesAndGroups = json_decode($formData['importCookiesAndGroups'], true);
 
                 // Check what kind of import data was sent
-                if (! empty($importCookiesAndGroups['cookieGroups']) && ! empty($importCookiesAndGroups['cookies'])) {
+                if (!empty($importCookiesAndGroups['cookieGroups']) && !empty($importCookiesAndGroups['cookies'])) {
                     $this->importCookiesAndGroups($importCookiesAndGroups);
 
                     $importStatus['cookiesAndGroups'] = true;
@@ -406,14 +389,14 @@ class ImportExport
         }
 
         // Test import content blocker data
-        if (! empty($formData['importContentBlocker'])) {
+        if (!empty($formData['importContentBlocker'])) {
             $formData['importContentBlocker'] = stripslashes($formData['importContentBlocker']);
 
             if (Tools::getInstance()->isStringJSON($formData['importContentBlocker'])) {
                 $importContentBlocker = json_decode($formData['importContentBlocker'], true);
 
                 // Check what kind of import data was sent
-                if (! empty($importContentBlocker['contentBlocker'])) {
+                if (!empty($importContentBlocker['contentBlocker'])) {
                     $this->importContentBlocker($importContentBlocker['contentBlocker']);
 
                     $importStatus['contentBlocker'] = true;
@@ -426,14 +409,14 @@ class ImportExport
         }
 
         // Test import script blocker data
-        if (! empty($formData['importScriptBlocker'])) {
+        if (!empty($formData['importScriptBlocker'])) {
             $formData['importScriptBlocker'] = stripslashes($formData['importScriptBlocker']);
 
             if (Tools::getInstance()->isStringJSON($formData['importScriptBlocker'])) {
                 $importScriptBlocker = json_decode($formData['importScriptBlocker'], true);
 
                 // Check what kind of import data was sent
-                if (! empty($importScriptBlocker['scriptBlocker'])) {
+                if (!empty($importScriptBlocker['scriptBlocker'])) {
                     $this->importScriptBlocker($importScriptBlocker['scriptBlocker']);
 
                     $importStatus['scriptBlocker'] = true;
@@ -451,49 +434,45 @@ class ImportExport
     /**
      * importConfig function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function importConfig($data)
     {
         // Obtain data type
-        $data['cookieStatus'] = ! empty($data['cookieStatus']) ? true : false;
-        $data['setupMode'] = ! empty($data['setupMode']) ? true : false;
-        $data['cookieBeforeConsent'] = ! empty($data['cookieBeforeConsent']) ? true : false;
-        $data['aggregateCookieConsent'] = ! empty($data['aggregateCookieConsent']) ? true : false;
-        $data['cookiesForBots'] = ! empty($data['cookiesForBots']) ? true : false;
-        $data['respectDoNotTrack'] = ! empty($data['respectDoNotTrack']) ? true : false;
-        $data['reloadAfterConsent'] = ! empty($data['reloadAfterConsent']) ? true : false;
-        $data['automaticCookieDomainAndPath'] = ! empty($data['automaticCookieDomainAndPath']) ? true : false;
-        $data['cookieLifetime'] = intval($data['cookieLifetime']);
-        $data['cookieLifetimeEssentialOnly'] = intval($data['cookieLifetimeEssentialOnly']);
-        $data['showCookieBox'] = ! empty($data['showCookieBox']) ? true : false;
-        $data['showCookieBoxOnLoginPage'] = ! empty($data['showCookieBoxOnLoginPage']) ? true : false;
-        $data['cookieBoxBlocksContent'] = ! empty($data['cookieBoxBlocksContent']) ? true : false;
-        $data['cookieBoxHideRefuseOption'] = ! empty($data['cookieBoxHideRefuseOption']) ? true : false;
-        $data['privacyPageId'] = intval($data['privacyPageId']);
-        $data['imprintPageId'] = intval($data['imprintPageId']);
-        $data['supportBorlabsCookie'] = ! empty($data['supportBorlabsCookie']) ? true : false;
-        $data['cookieBoxShowAcceptAllButton'] = ! empty($data['cookieBoxShowAcceptAllButton']) ? true : false;
-        $data['cookieBoxIgnorePreSelectStatus'] = ! empty($data['cookieBoxIgnorePreSelectStatus']) ? true : false;
-        $data['cookieBoxAnimation'] = ! empty($data['cookieBoxAnimation']) ? true : false;
-        $data['cookieBoxAnimationDelay'] = ! empty($data['cookieBoxAnimationDelay']) ? true : false;
-        $data['cookieBoxShowLogo'] = ! empty($data['cookieBoxShowLogo']) ? true : false;
-        $data['cookieBoxFontSize'] = intval($data['cookieBoxFontSize']);
-        $data['cookieBoxBorderRadius'] = intval($data['cookieBoxBorderRadius']);
-        $data['cookieBoxBtnBorderRadius'] = intval($data['cookieBoxBtnBorderRadius']);
-        $data['cookieBoxAccordionBorderRadius'] = intval($data['cookieBoxAccordionBorderRadius']);
-        $data['cookieBoxTableBorderRadius'] = intval($data['cookieBoxTableBorderRadius']);
-        $data['cookieBoxBtnFullWidth'] = ! empty($data['cookieBoxBtnFullWidth']) ? true : false;
-        $data['cookieBoxBtnSwitchRound'] = ! empty($data['cookieBoxBtnSwitchRound']) ? true : false;
-        $data['removeIframesInFeeds'] = ! empty($data['removeIframesInFeeds']) ? true : false;
-        $data['contentBlockerFontSize'] = intval($data['contentBlockerFontSize']);
-        $data['contentBlockerBgOpacity'] = intval($data['contentBlockerBgOpacity']);
-        $data['contentBlockerBtnBorderRadius'] = intval($data['contentBlockerBtnBorderRadius']);
-        $data['testEnvironment'] = ! empty($data['testEnvironment']) ? true : false;
+        $data['cookieStatus'] = !empty($data['cookieStatus']) ? true : false;
+        $data['setupMode'] = !empty($data['setupMode']) ? true : false;
+        $data['cookieBeforeConsent'] = !empty($data['cookieBeforeConsent']) ? true : false;
+        $data['aggregateCookieConsent'] = !empty($data['aggregateCookieConsent']) ? true : false;
+        $data['cookiesForBots'] = !empty($data['cookiesForBots']) ? true : false;
+        $data['respectDoNotTrack'] = !empty($data['respectDoNotTrack']) ? true : false;
+        $data['reloadAfterConsent'] = !empty($data['reloadAfterConsent']) ? true : false;
+        $data['automaticCookieDomainAndPath'] = !empty($data['automaticCookieDomainAndPath']) ? true : false;
+        $data['cookieLifetime'] = (int) ($data['cookieLifetime']);
+        $data['cookieLifetimeEssentialOnly'] = (int) ($data['cookieLifetimeEssentialOnly']);
+        $data['showCookieBox'] = !empty($data['showCookieBox']) ? true : false;
+        $data['showCookieBoxOnLoginPage'] = !empty($data['showCookieBoxOnLoginPage']) ? true : false;
+        $data['cookieBoxBlocksContent'] = !empty($data['cookieBoxBlocksContent']) ? true : false;
+        $data['cookieBoxHideRefuseOption'] = !empty($data['cookieBoxHideRefuseOption']) ? true : false;
+        $data['privacyPageId'] = (int) ($data['privacyPageId']);
+        $data['imprintPageId'] = (int) ($data['imprintPageId']);
+        $data['supportBorlabsCookie'] = !empty($data['supportBorlabsCookie']) ? true : false;
+        $data['cookieBoxShowAcceptAllButton'] = !empty($data['cookieBoxShowAcceptAllButton']) ? true : false;
+        $data['cookieBoxIgnorePreSelectStatus'] = !empty($data['cookieBoxIgnorePreSelectStatus']) ? true : false;
+        $data['cookieBoxAnimation'] = !empty($data['cookieBoxAnimation']) ? true : false;
+        $data['cookieBoxAnimationDelay'] = !empty($data['cookieBoxAnimationDelay']) ? true : false;
+        $data['cookieBoxShowLogo'] = !empty($data['cookieBoxShowLogo']) ? true : false;
+        $data['cookieBoxFontSize'] = (int) ($data['cookieBoxFontSize']);
+        $data['cookieBoxBorderRadius'] = (int) ($data['cookieBoxBorderRadius']);
+        $data['cookieBoxBtnBorderRadius'] = (int) ($data['cookieBoxBtnBorderRadius']);
+        $data['cookieBoxAccordionBorderRadius'] = (int) ($data['cookieBoxAccordionBorderRadius']);
+        $data['cookieBoxTableBorderRadius'] = (int) ($data['cookieBoxTableBorderRadius']);
+        $data['cookieBoxBtnFullWidth'] = !empty($data['cookieBoxBtnFullWidth']) ? true : false;
+        $data['cookieBoxBtnSwitchRound'] = !empty($data['cookieBoxBtnSwitchRound']) ? true : false;
+        $data['removeIframesInFeeds'] = !empty($data['removeIframesInFeeds']) ? true : false;
+        $data['contentBlockerFontSize'] = (int) ($data['contentBlockerFontSize']);
+        $data['contentBlockerBgOpacity'] = (int) ($data['contentBlockerBgOpacity']);
+        $data['contentBlockerBtnBorderRadius'] = (int) ($data['contentBlockerBtnBorderRadius']);
+        $data['testEnvironment'] = !empty($data['testEnvironment']) ? true : false;
 
         // Save config
         Config::getInstance()->saveConfig($data);
@@ -505,11 +484,7 @@ class ImportExport
     /**
      * importContentBlocker function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function importContentBlocker($data)
     {
@@ -519,9 +494,9 @@ class ImportExport
 
         foreach ($data as $contentBlockerData) {
             $wpdb->query(
-                "
+                '
                 INSERT INTO
-                    `" . $this->tableContentBlocker . "`
+                    `' . $this->tableContentBlocker . "`
                     (
                         `content_blocker_id`,
                         `language`,
@@ -550,8 +525,8 @@ class ImportExport
                         '" . esc_sql($contentBlockerData['global_js']) . "',
                         '" . esc_sql($contentBlockerData['init_js']) . "',
                         '" . esc_sql($contentBlockerData['settings']) . "',
-                        '" . (intval($contentBlockerData['status']) ? 1 : 0) . "',
-                        '" . (intval($contentBlockerData['undeletable']) ? 1 : 0) . "'
+                        '" . ((int) ($contentBlockerData['status']) ? 1 : 0) . "',
+                        '" . ((int) ($contentBlockerData['undeletable']) ? 1 : 0) . "'
                     )
                 ON DUPLICATE KEY UPDATE
                     `name` = VALUES(`name`),
@@ -573,11 +548,7 @@ class ImportExport
     /**
      * importCookiesAndGroups function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function importCookiesAndGroups($data)
     {
@@ -592,9 +563,9 @@ class ImportExport
             $importedCookieGroupIds[$groupData['id']] = $groupData['group_id'];
 
             $wpdb->query(
-                "
+                '
                 INSERT INTO
-                    `" . $this->tableCookieGroup . "`
+                    `' . $this->tableCookieGroup . "`
                     (
                         `group_id`,
                         `language`,
@@ -611,10 +582,10 @@ class ImportExport
                         '" . esc_sql($language) . "',
                         '" . esc_sql($groupData['name']) . "',
                         '" . esc_sql($groupData['description']) . "',
-                        '" . (intval($groupData['pre_selected']) ? 1 : 0) . "',
-                        '" . intval($groupData['position']) . "',
-                        '" . (intval($groupData['status']) ? 1 : 0) . "',
-                        '" . (intval($groupData['undeletable']) ? 1 : 0) . "'
+                        '" . ((int) ($groupData['pre_selected']) ? 1 : 0) . "',
+                        '" . (int) ($groupData['position']) . "',
+                        '" . ((int) ($groupData['status']) ? 1 : 0) . "',
+                        '" . ((int) ($groupData['undeletable']) ? 1 : 0) . "'
                     )
                 ON DUPLICATE KEY UPDATE
                     `name` = VALUES(`name`),
@@ -631,12 +602,12 @@ class ImportExport
         $currentCookieGroupIds = [];
 
         $cookieGroups = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`,
                 `group_id`
             FROM
-                `" . $this->tableCookieGroup . "`
+                `' . $this->tableCookieGroup . "`
             WHERE
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
         "
@@ -651,9 +622,9 @@ class ImportExport
             $newCookieGroupId = $currentCookieGroupIds[$importedCookieGroupIds[$cookieData['cookie_group_id']]];
 
             $wpdb->query(
-                "
+                '
                 INSERT INTO
-                    `" . $this->tableCookie . "`
+                    `' . $this->tableCookie . "`
                     (
                         `cookie_id`,
                         `language`,
@@ -678,7 +649,7 @@ class ImportExport
                     (
                         '" . esc_sql($cookieData['cookie_id']) . "',
                         '" . esc_sql($language) . "',
-                        '" . intval($newCookieGroupId) . "',
+                        '" . (int) $newCookieGroupId . "',
                         '" . esc_sql($cookieData['service']) . "',
                         '" . esc_sql($cookieData['name']) . "',
                         '" . esc_sql($cookieData['provider']) . "',
@@ -691,9 +662,9 @@ class ImportExport
                         '" . esc_sql($cookieData['opt_out_js']) . "',
                         '" . esc_sql($cookieData['fallback_js']) . "',
                         '" . esc_sql($cookieData['settings']) . "',
-                        '" . intval($cookieData['position']) . "',
-                        '" . (intval($cookieData['status']) ? 1 : 0) . "',
-                        '" . (intval($cookieData['undeletable']) ? 1 : 0) . "'
+                        '" . (int) ($cookieData['position']) . "',
+                        '" . ((int) ($cookieData['status']) ? 1 : 0) . "',
+                        '" . ((int) ($cookieData['undeletable']) ? 1 : 0) . "'
                     )
                 ON DUPLICATE KEY UPDATE
                     `cookie_group_id` = VALUES(`cookie_group_id`),
@@ -720,11 +691,7 @@ class ImportExport
     /**
      * importScriptBlocker function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function importScriptBlocker($data)
     {
@@ -732,9 +699,9 @@ class ImportExport
 
         foreach ($data as $scriptBlockerData) {
             $wpdb->query(
-                "
+                '
                 INSERT INTO
-                    `" . $this->tableScriptBlocker . "`
+                    `' . $this->tableScriptBlocker . "`
                     (
                         `script_blocker_id`,
                         `name`,
@@ -749,8 +716,8 @@ class ImportExport
                         '" . esc_sql($scriptBlockerData['name']) . "',
                         '" . esc_sql($scriptBlockerData['handles']) . "',
                         '" . esc_sql($scriptBlockerData['js_block_phrases']) . "',
-                        '" . (intval($scriptBlockerData['status']) ? 1 : 0) . "',
-                        '" . (intval($scriptBlockerData['undeletable']) ? 1 : 0) . "'
+                        '" . ((int) ($scriptBlockerData['status']) ? 1 : 0) . "',
+                        '" . ((int) ($scriptBlockerData['undeletable']) ? 1 : 0) . "'
                     )
                 ON DUPLICATE KEY UPDATE
                     `name` = VALUES(`name`),

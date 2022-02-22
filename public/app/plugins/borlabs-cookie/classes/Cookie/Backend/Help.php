@@ -29,12 +29,13 @@ class Help
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
+
     private $imagePath;
 
     public function __construct()
@@ -54,13 +55,12 @@ class Help
 
     /**
      * display function.
-     *
-     * @access public
-     * @return void
      */
     public function display()
     {
         $borlabsCookieStatus = Config::getInstance()->get('cookieStatus');
+        $statusPHPVersion = SystemCheck::getInstance()->checkPHPVersion();
+        $statusDBVersion = SystemCheck::getInstance()->checkDBVersion();
         $statusCacheFolder = SystemCheck::getInstance()->checkCacheFolders();
         $statusSSLSettings = SystemCheck::getInstance()->checkSSLSettings();
 
@@ -69,6 +69,7 @@ class Help
         $statusTableCookieGroups = SystemCheck::getInstance()->checkTableCookieGroups();
         $statusTableCookies = SystemCheck::getInstance()->checkTableCookies();
         $statusTableScriptBlocker = SystemCheck::getInstance()->checkTableScriptBlocker();
+        $statusTableStatistics = SystemCheck::getInstance()->checkTableStatistics();
 
         $statusDefaultContentBlocker = SystemCheck::getInstance()->checkDefaultContentBlocker();
         $statusDefaultCookieGroups = SystemCheck::getInstance()->checkDefaultCookieGroups();
@@ -82,6 +83,9 @@ class Help
 
         // Check and change columns of cookie table
         SystemCheck::getInstance()->checkAndChangeCookiesTable();
+
+        // Check and change index of statistic table
+        SystemCheck::getInstance()->checkAndChangeStatisticIndex();
 
         $totalConsentLogs = number_format_i18n(SystemCheck::getInstance()->getTotalConsentLogs());
         $consentLogTableSize = number_format_i18n(SystemCheck::getInstance()->getConsentLogTableSize(), 2);

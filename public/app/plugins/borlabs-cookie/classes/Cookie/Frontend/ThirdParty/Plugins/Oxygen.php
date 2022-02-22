@@ -28,8 +28,8 @@ class Oxygen
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -37,9 +37,6 @@ class Oxygen
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -57,9 +54,6 @@ class Oxygen
 
     /**
      * register function.
-     *
-     * @access public
-     * @return void
      */
     public function register()
     {

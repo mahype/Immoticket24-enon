@@ -26,8 +26,8 @@ class Config
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -39,38 +39,6 @@ class Config
     {
         // Get all config values
         $this->loadConfig();
-    }
-
-    /**
-     * get function.
-     *
-     * @access public
-     *
-     * @param  mixed  $configKey  (default: null)
-     *
-     * @return void
-     */
-    public function get($configKey = null)
-    {
-        // Get complete config
-        if (empty($configKey)) {
-            if (! empty($this->config)) {
-                return $this->config;
-            } else {
-                return false;
-            }
-        } else {
-            if (isset($this->config[$configKey])) {
-                return $this->config[$configKey];
-            } else {
-                // Fallback
-                if (isset($this->defaultConfig()[$configKey])) {
-                    return $this->defaultConfig()[$configKey];
-                } else {
-                    return false;
-                }
-            }
-        }
     }
 
     public function __clone()
@@ -86,23 +54,20 @@ class Config
     /**
      * defaultConfig function.
      *
-     * @access public
-     *
-     * @param  bool  $installRoutine  (default: false)
-     *
-     * @return void
+     * @param bool $installRoutine (default: false)
      */
     public function defaultConfig()
     {
         $imagePath = plugins_url('assets/images', realpath(__DIR__ . '/../'));
 
-        $defaultConfig = [
+        return [
             'cookieStatus' => false,
             'setupMode' => false,
-            'cookieBeforeConsent' => false,
+            'cookieBeforeConsent' => false, // Deprecated
             'aggregateCookieConsent' => false,
             'cookiesForBots' => true,
             'respectDoNotTrack' => false,
+            'reloadAfterOptOut' => true,
             'reloadAfterConsent' => false,
             'jQueryHandle' => 'jquery-core',
             'metaBox' => [],
@@ -110,6 +75,7 @@ class Config
             'automaticCookieDomainAndPath' => false,
             'cookieDomain' => '',
             'cookiePath' => '/',
+            'cookieSecure' => true,
             'cookieLifetime' => 182,
             'cookieLifetimeEssentialOnly' => 182,
             'crossDomainCookie' => [],
@@ -118,6 +84,7 @@ class Config
             'showCookieBoxOnLoginPage' => false,
             'cookieBoxIntegration' => 'javascript',
             'cookieBoxBlocksContent' => true,
+            'cookieBoxManageOptionType' => 'button',
             'cookieBoxRefuseOptionType' => 'button',
             'cookieBoxPreferenceRefuseOptionType' => 'button',
             'cookieBoxHideRefuseOption' => false,
@@ -133,13 +100,17 @@ class Config
             'cookieBoxShowAcceptAllButton' => true,
             'cookieBoxIgnorePreSelectStatus' => true,
 
-            'cookieBoxLayout' => 'box-advanced',
+            'cookieBoxLayout' => 'box-plus',
             'cookieBoxPosition' => 'top-center',
             'cookieBoxCookieGroupJustification' => 'space-between',
             'cookieBoxAnimation' => true,
             'cookieBoxAnimationDelay' => false,
             'cookieBoxAnimationIn' => 'fadeInDown',
             'cookieBoxAnimationOut' => 'flipOutX',
+
+            'cookieBoxWidgetColor' => '#0063e3',
+            'cookieBoxShowWidget' => true,
+            'cookieBoxWidgetPosition' => 'bottom-left',
             'cookieBoxShowLogo' => true,
             'cookieBoxLogo' => $imagePath . '/borlabs-cookie-logo.svg',
             'cookieBoxLogoHD' => $imagePath . '/borlabs-cookie-logo.svg',
@@ -171,6 +142,10 @@ class Config
             'cookieBoxAcceptAllBtnHoverColor' => '#262626',
             'cookieBoxAcceptAllBtnTxtColor' => '#fff',
             'cookieBoxAcceptAllBtnHoverTxtColor' => '#fff',
+            'cookieBoxIndividualSettingsBtnColor' => '#000',
+            'cookieBoxIndividualSettingsBtnHoverColor' => '#262626',
+            'cookieBoxIndividualSettingsBtnTxtColor' => '#fff',
+            'cookieBoxIndividualSettingsBtnHoverTxtColor' => '#fff',
             'cookieBoxBtnSwitchActiveBgColor' => '#0063e3',
             'cookieBoxBtnSwitchInactiveBgColor' => '#bdc1c8',
             'cookieBoxBtnSwitchActiveColor' => '#fff',
@@ -380,18 +355,39 @@ class Config
 
             'testEnvironment' => false,
         ];
+    }
 
-        return $defaultConfig;
+    /**
+     * get function.
+     *
+     * @param mixed $configKey (default: null)
+     */
+    public function get($configKey = null)
+    {
+        // Get complete config
+        if (empty($configKey)) {
+            if (!empty($this->config)) {
+                return $this->config;
+            }
+
+            return false;
+        }
+
+        if (isset($this->config[$configKey])) {
+            return $this->config[$configKey];
+        }
+        // Fallback
+        if (isset($this->defaultConfig()[$configKey])) {
+            return $this->defaultConfig()[$configKey];
+        }
+
+        return false;
     }
 
     /**
      * getConfig function.
      *
-     * @access public
-     *
-     * @param  mixed  $language  (default: null)
-     *
-     * @return void
+     * @param mixed $language (default: null)
      */
     public function getConfig($language = null)
     {
@@ -415,11 +411,7 @@ class Config
     /**
      * loadConfig function.
      *
-     * @access public
-     *
-     * @param  mixed  $language  (default: null)
-     *
-     * @return void
+     * @param mixed $language (default: null)
      */
     public function loadConfig($language = null)
     {
@@ -431,11 +423,7 @@ class Config
     /**
      * saveConfig function.
      *
-     * @access public
-     *
-     * @param  mixed  $configData
-     *
-     * @return void
+     * @param mixed $configData
      */
     public function saveConfig($configData)
     {

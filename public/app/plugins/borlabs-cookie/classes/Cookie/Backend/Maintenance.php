@@ -28,8 +28,8 @@ class Maintenance
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -52,33 +52,39 @@ class Maintenance
     /**
      * cleanUp function.
      *
-     * @access public
-     *
-     * @param  bool  $optimizeTable  (default: false)
-     *
-     * @return void
+     * @param bool $optimizeTable (default: false)
      */
     public function cleanUp($optimizeTable = false)
     {
         global $wpdb;
 
         $table = (Config::getInstance()->get('aggregateCookieConsent') ? $wpdb->base_prefix : $wpdb->prefix)
-            . "borlabs_cookie_consent_log";
+            . 'borlabs_cookie_consent_log';
         $cookieLifetime = Config::getInstance()->get('cookieLifetime');
 
         // Delete old entries
         $wpdb->query(
-            "
+            '
             DELETE FROM
-                `" . $table . "`
+                `' . $table . '`
             WHERE
-                `stamp` < NOW() - INTERVAL " . intval($cookieLifetime) . " DAY
-        "
+                `stamp` < NOW() - INTERVAL ' . (int) $cookieLifetime . ' DAY
+        '
         );
+
+        // Delete old statistic entries
+        $tableStatistics = $wpdb->prefix . 'borlabs_cookie_statistics';
+        $wpdb->query('
+            DELETE FROM
+                `' . $tableStatistics . '`
+            WHERE
+                `stamp` < NOW() - INTERVAL 60 DAY
+        ');
 
         // Optimize
         if ($optimizeTable === true) {
-            $wpdb->query("OPTIMIZE TABLE `" . $table . "`");
+            $wpdb->query('OPTIMIZE TABLE `' . $table . '`');
+            $wpdb->query('OPTIMIZE TABLE `' . $tableStatistics . '`');
         }
     }
 }

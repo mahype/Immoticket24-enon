@@ -28,8 +28,8 @@ class PixelYourSite
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -37,9 +37,6 @@ class PixelYourSite
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -57,26 +54,23 @@ class PixelYourSite
 
     /**
      * register function.
-     *
-     * @access public
-     * @return void
      */
     public function register()
     {
         add_filter('pys_disable_facebook_by_gdpr', static function () {
-            return ! Cookies::getInstance()->checkConsent('facebook-pixel');
+            return !Cookies::getInstance()->checkConsent('facebook-pixel');
         });
         add_filter('pys_disable_analytics_by_gdpr', static function () {
-            return ! Cookies::getInstance()->checkConsent('google-analytics');
+            return !Cookies::getInstance()->checkConsent('google-analytics');
         });
         add_filter('pys_disable_google_ads_by_gdpr', static function () {
-            return ! Cookies::getInstance()->checkConsent('google-adsense');
+            return !Cookies::getInstance()->checkConsent('google-adsense');
         });
         add_filter('pys_disable_pinterest_by_gdpr', static function () {
-            return ! Cookies::getInstance()->checkConsent('pinterest');
+            return !Cookies::getInstance()->checkConsent('pinterest');
         });
         add_filter('pys_disable_bing_by_gdpr', static function () {
-            return ! Cookies::getInstance()->checkConsent('bing');
+            return !Cookies::getInstance()->checkConsent('bing');
         });
     }
 }

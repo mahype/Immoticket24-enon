@@ -26,8 +26,8 @@ class GravityFormsIframe
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,9 +35,6 @@ class GravityFormsIframe
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -55,14 +52,11 @@ class GravityFormsIframe
 
     /**
      * register function.
-     *
-     * @access public
-     * @return void
      */
     public function register()
     {
         add_action('gfiframe_head', function ($formId, $form) {
-            echo "<style>#BorlabsCookieBox { display: none; }</style>";
+            echo '<style>#BorlabsCookieBox { display: none; }</style>';
         }, 10, 2);
     }
 }

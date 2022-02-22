@@ -28,8 +28,8 @@ class Matomo
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -37,14 +37,13 @@ class Matomo
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
         add_action('borlabsCookie/cookie/edit/template/settings/Matomo', [$this, 'additionalSettingsTemplate']);
-        add_action('borlabsCookie/cookie/edit/template/settings/help/Matomo', [$this, 'additionalSettingsHelpTemplate']
+        add_action(
+            'borlabsCookie/cookie/edit/template/settings/help/Matomo',
+            [$this, 'additionalSettingsHelpTemplate']
         );
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
     }
@@ -62,11 +61,7 @@ class Matomo
     /**
      * additionalSettingsHelpTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsHelpTemplate($data)
     {
@@ -79,16 +74,16 @@ class Matomo
                     _ex('Matomo Site ID', 'Backend / Cookie / Matomo / Tips / Headline', 'borlabs-cookie'); ?></h4>
                 <p><?php
                     _ex(
-                        'The <strong>Matomo Site ID</strong> is also called <strong>Website ID</strong> or <strong>ID Site</strong>.',
-                        'Backend / Cookie / Matomo / Tips / Text',
-                        'borlabs-cookie'
-                    ); ?></p>
+            'The <strong>Matomo Site ID</strong> is also called <strong>Website ID</strong> or <strong>ID Site</strong>.',
+            'Backend / Cookie / Matomo / Tips / Text',
+            'borlabs-cookie'
+        ); ?></p>
                 <p class="text-center"><?php
                     _ex(
-                        '<a href="https://matomo.org/faq/general/faq_19212/" target="_blank" rel="nofollow noopener noreferrer" class="text-light">More information about Matomo Site ID <i class="fas fa-external-link-alt"></i></a>.',
-                        'Backend / Cookie / Matomo / Tips / Text',
-                        'borlabs-cookie'
-                    ); ?></p>
+            '<a href="https://matomo.org/faq/general/faq_19212/" target="_blank" rel="nofollow noopener noreferrer" class="text-light">More information about Matomo Site ID <i class="fas fa-external-link-alt"></i></a>.',
+            'Backend / Cookie / Matomo / Tips / Text',
+            'borlabs-cookie'
+        ); ?></p>
             </div>
         </div>
         <?php
@@ -97,17 +92,12 @@ class Matomo
     /**
      * additionalSettingsTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputMatomoUrl = esc_html(! empty($data->settings['matomoUrl']) ? $data->settings['matomoUrl'] : '');
-        $inputMatomoSiteId = esc_html(! empty($data->settings['matomoSiteId']) ? $data->settings['matomoSiteId'] : '');
-        ?>
+        $inputMatomoUrl = esc_html(!empty($data->settings['matomoUrl']) ? $data->settings['matomoUrl'] : '');
+        $inputMatomoSiteId = esc_html(!empty($data->settings['matomoSiteId']) ? $data->settings['matomoSiteId'] : ''); ?>
         <div class="form-group row">
             <label for="matomoUrl"
                    class="col-sm-4 col-form-label"><?php
@@ -118,26 +108,26 @@ class Matomo
                 echo $inputMatomoUrl; ?>"
                        placeholder="<?php
                        _ex(
-                           'Example',
-                           'Backend / Global / Input Placeholder',
-                           'borlabs-cookie'
-                       ); ?>: https://analytics.example.com/matomo/"
+            'Example',
+            'Backend / Global / Input Placeholder',
+            'borlabs-cookie'
+        ); ?>: https://analytics.example.com/matomo/"
                        required>
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter the URL of your Matomo installation.',
-                          'Backend / Cookie / Matomo / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter the URL of your Matomo installation.',
+            'Backend / Cookie / Matomo / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <div class="form-group row">
@@ -154,18 +144,18 @@ class Matomo
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter the <strong>Site ID</strong> of the website from Matomo.',
-                          'Backend / Cookie / Matomo / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter the <strong>Site ID</strong> of the website from Matomo.',
+            'Backend / Cookie / Matomo / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <?php
@@ -173,23 +163,20 @@ class Matomo
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
         $privacyPolicyURL = '';
 
-        if (! empty(Config::getInstance()->get('privacyPageURL'))) {
+        if (!empty(Config::getInstance()->get('privacyPageURL'))) {
             $privacyPolicyURL = Config::getInstance()->get('privacyPageURL');
         }
 
-        if (! empty(Config::getInstance()->get('privacyPageCustomURL'))) {
+        if (!empty(Config::getInstance()->get('privacyPageCustomURL'))) {
             $privacyPolicyURL = Config::getInstance()->get('privacyPageCustomURL');
         }
 
-        $data = [
+        return [
             'cookieId' => 'matomo',
             'service' => 'Matomo',
             'name' => 'Matomo',
@@ -215,35 +202,29 @@ class Matomo
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
-        if (! empty($formData['service']) && $formData['service'] === 'Matomo') {
-            if (! empty($formData['settings']['matomoUrl'])) {
+        if (!empty($formData['service']) && $formData['service'] === 'Matomo') {
+            if (!empty($formData['settings']['matomoUrl'])) {
                 $formData['settings']['matomoUrl'] = trim($formData['settings']['matomoUrl']);
 
                 $urlInfo = parse_url($formData['settings']['matomoUrl']);
 
-                $formData['settings']['matomoUrl'] = (! empty($urlInfo['scheme']) ? $urlInfo['scheme'] . '://' : '//')
+                $formData['settings']['matomoUrl'] = (!empty($urlInfo['scheme']) ? $urlInfo['scheme'] . '://' : '//')
                     . $urlInfo['host'];
 
-                if (! empty($urlInfo['path'])) {
+                if (!empty($urlInfo['path'])) {
                     $pathInfo = pathinfo($urlInfo['path']);
 
                     // Remove filename like index.php
-                    if (! empty($pathInfo['extension'])) {
+                    if (!empty($pathInfo['extension'])) {
                         $urlInfo['path'] = dirname($urlInfo['path']);
                     }
 
@@ -253,7 +234,7 @@ class Matomo
                 }
             }
 
-            if (! empty($formData['settings']['matomoSiteId'])) {
+            if (!empty($formData['settings']['matomoSiteId'])) {
                 $formData['settings']['matomoSiteId'] = trim($formData['settings']['matomoSiteId']);
             }
         }
@@ -263,13 +244,10 @@ class Matomo
 
     /**
      * optInJS function.
-     *
-     * @access private
-     * @return void
      */
     private function optInJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <!-- Matomo -->
 <script type="text/javascript">
 var _paq = window._paq || [];
@@ -286,7 +264,5 @@ g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.par
 </script>
 <!-- End Matomo Code -->
 EOT;
-
-        return $code;
     }
 }

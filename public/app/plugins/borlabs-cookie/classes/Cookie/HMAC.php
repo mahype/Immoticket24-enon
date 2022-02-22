@@ -21,21 +21,19 @@
 namespace BorlabsCookie\Cookie;
 
 /**
- * Class HMAC
- *
- * @package BorlabsCookie\Cookie
+ * Class HMAC.
  */
 class HMAC
 {
-    private static $instance = null;
+    private static $instance;
 
     /**
-     * @return HMAC|null
+     * @return null|HMAC
      */
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -58,16 +56,14 @@ class HMAC
     /**
      * hash function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     * @param  mixed  $salt
+     * @param mixed $data
+     * @param mixed $salt
      *
      * @return string
      */
     public function hash($data, $salt)
     {
-        if (! is_string($data)) {
+        if (!is_string($data)) {
             $data = json_encode($data);
         }
 
@@ -77,11 +73,9 @@ class HMAC
     /**
      * isValid function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     * @param  mixed  $salt
-     * @param  mixed  $hash
+     * @param mixed $data
+     * @param mixed $salt
+     * @param mixed $hash
      *
      * @return bool
      */
@@ -89,7 +83,7 @@ class HMAC
     {
         $is_valid = false;
 
-        if (! is_string($data)) {
+        if (!is_string($data)) {
             $data = json_encode($data);
         }
 

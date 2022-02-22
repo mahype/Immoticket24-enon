@@ -26,12 +26,13 @@ class Post
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
+
     public $customCode = '';
 
     public function __construct()
@@ -50,13 +51,10 @@ class Post
 
     /**
      * embedCustomCode function.
-     *
-     * @access public
-     * @return void
      */
     public function embedCustomCode()
     {
-        if (! empty($this->customCode)) {
+        if (!empty($this->customCode)) {
             echo $this->customCode;
         }
     }
@@ -64,11 +62,7 @@ class Post
     /**
      * getCustomCode function.
      *
-     * @access public
-     *
-     * @param  mixed  $query
-     *
-     * @return void
+     * @param mixed $query
      */
     public function getCustomCode($query)
     {
@@ -76,7 +70,7 @@ class Post
 
         $postId = null;
 
-        if (! empty($post->ID)) {
+        if (!empty($post->ID)) {
             if (is_front_page()) {
                 $postId = $post->ID;
             } elseif (is_single()) {
@@ -85,10 +79,10 @@ class Post
                 $postId = $post->ID;
             }
 
-            if (! empty($postId)) {
+            if (!empty($postId)) {
                 $customCode = get_post_meta($postId, '_borlabs-cookie-custom-code', true);
 
-                if (! empty($customCode)) {
+                if (!empty($customCode)) {
                     $this->customCode = do_shortcode($customCode);
                 }
             }

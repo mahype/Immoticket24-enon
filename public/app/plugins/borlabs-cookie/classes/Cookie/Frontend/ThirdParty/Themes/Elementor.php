@@ -29,21 +29,19 @@ class Elementor
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
     public $blockedYouTubeURL = '';
+
     public $settings = [];
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -62,11 +60,8 @@ class Elementor
     /**
      * detectFacebook function.
      *
-     * @access public
-     *
-     * @param  mixed  $content
-     *
-     * @return void
+     * @param mixed $content
+     * @param mixed $widget
      */
     public function detectFacebook($content, $widget)
     {
@@ -85,7 +80,7 @@ class Elementor
                 $contentBlockerData['content_blocker_id'],
                 $contentBlockerData['globalJS'],
                 $contentBlockerData['initJS']
-                . " if (typeof elementorFrontend.init === \"function\") { elementorFrontend.init(); } ",
+                . ' if (typeof elementorFrontend.init === "function") { elementorFrontend.init(); } ',
                 $contentBlockerData['settings']
             );
 
@@ -98,28 +93,18 @@ class Elementor
     /**
      * detectIframes function.
      *
-     * @access public
-     *
-     * @param  mixed  $content
-     * @param  mixed  $widget
-     *
-     * @return void
+     * @param mixed $content
+     * @param mixed $widget
      */
     public function detectIframes($content, $widget)
     {
-        $content = ContentBlocker::getInstance()->detectIframes($content);
-
-        return $content;
+        return ContentBlocker::getInstance()->detectIframes($content);
     }
 
     /**
      * detectYouTubeVideoWidget function.
      *
-     * @access public
-     *
-     * @param  mixed  $elementBaseObj
-     *
-     * @return void
+     * @param mixed $elementBaseObj
      */
     public function detectYouTubeVideoWidget($elementBaseObj = null)
     {
@@ -137,7 +122,7 @@ class Elementor
             $frontendSettings = $elementBaseObj->get_frontend_settings();
 
             if (
-                ! empty($frontendSettings) && ! empty($frontendSettings['video_type'])
+                !empty($frontendSettings) && !empty($frontendSettings['video_type'])
                 && $frontendSettings['video_type'] === 'youtube'
             ) {
                 if (isset($frontendSettings['lightbox']) && $frontendSettings['lightbox'] === 'yes') {
@@ -159,7 +144,7 @@ class Elementor
 
     public function modifyYouTubeVideoWidget()
     {
-        if (! empty($this->blockedYouTubeURL)) {
+        if (!empty($this->blockedYouTubeURL)) {
             $widgetHTML = ob_get_contents();
             ob_end_clean();
 
@@ -171,31 +156,40 @@ class Elementor
             if (isset($this->settings['controls'])) {
                 $atts['controls'] = $this->settings['controls'] === 'yes' ? 1 : 0;
             }
+
             if (isset($this->settings['play_on_mobile'])) {
                 $atts['playsinline'] = $this->settings['play_on_mobile'] === 'yes' ? 1 : 0;
             }
+
             if (isset($this->settings['modestbranding'])) {
                 $atts['modestbranding'] = $this->settings['modestbranding'] === 'yes' ? 1 : 0;
             }
+
             if (isset($this->settings['autoplay'])) {
                 $atts['autoplay'] = $this->settings['autoplay'] === 'yes' ? 1 : 0;
             }
+
             if (isset($this->settings['mute'])) {
                 $atts['mute'] = $this->settings['mute'] === 'yes' ? 1 : 0;
             }
+
             if (isset($this->settings['loop'])) {
                 $atts['loop'] = $this->settings['loop'] === 'yes' ? 1 : 0;
             }
+
             if (isset($this->settings['start'])) {
-                $atts['start'] = intval($this->settings['start']);
+                $atts['start'] = (int) ($this->settings['start']);
             }
+
             if (isset($this->settings['end'])) {
-                $atts['end'] = intval($this->settings['end']);
+                $atts['end'] = (int) ($this->settings['end']);
             }
-            if (! empty($this->settings['image_overlay']['url'])) {
+
+            if (!empty($this->settings['image_overlay']['url'])) {
                 $atts['thumbnail'] = $this->settings['image_overlay']['url'];
                 $widgetHTML = str_replace('elementor-custom-embed-image-overlay', 'borlabs-hide', $widgetHTML);
             }
+
             if (isset($this->settings['yt_privacy'])) {
                 $atts['changeURLToNoCookie'] = $this->settings['yt_privacy'] === 'yes' ? 1 : 0;
             }

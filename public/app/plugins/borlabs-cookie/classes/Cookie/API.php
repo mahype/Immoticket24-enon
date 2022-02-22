@@ -28,15 +28,17 @@ class API
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
     private $apiURL = 'https://api.cookie.borlabs.io/v3';
+
     private $response = [];
+
     private $updateURL = 'https://update.borlabs.io/v2';
 
     public function __construct()
@@ -56,11 +58,7 @@ class API
     /**
      * addVars function.
      *
-     * @access public
-     *
-     * @param  mixed  $vars
-     *
-     * @return void
+     * @param mixed $vars
      */
     public function addVars($vars)
     {
@@ -71,26 +69,21 @@ class API
 
     /**
      * detectRequests function.
-     *
-     * @access public
-     * @return void
      */
     public function detectRequests()
     {
         global $wp;
 
-        if (! empty($wp->query_vars['__borlabsCookieCall'])) {
-            $data = json_decode(file_get_contents("php://input"));
+        if (!empty($wp->query_vars['__borlabsCookieCall'])) {
+            $data = json_decode(file_get_contents('php://input'));
             $this->handleRequest($wp->query_vars['__borlabsCookieCall'], $data);
+
             exit;
         }
     }
 
     /**
      * getLatestVersion function.
-     *
-     * @access public
-     * @return void
      */
     public function getLatestVersion()
     {
@@ -105,9 +98,9 @@ class API
                     'version' => BORLABS_COOKIE_VERSION,
                     'product' => BORLABS_COOKIE_SLUG,
                     'php_version' => phpversion(), // Used to distinguish between >=7.4 and <7.4 builds
-                    'licenseKey' => ! empty($licenseData->licenseKey) ? $licenseData->licenseKey : '',
-                    'securityPatchesForExpiredLicenses' => ! License::getInstance()->isLicenseValid(),
-                    'securityPatchesForTestEnvironmentLicenses' => ! empty(
+                    'licenseKey' => !empty($licenseData->licenseKey) ? $licenseData->licenseKey : '',
+                    'securityPatchesForExpiredLicenses' => !License::getInstance()->isLicenseValid(),
+                    'securityPatchesForTestEnvironmentLicenses' => !empty(
                     Config::getInstance()->get(
                         'testEnvironment'
                     )
@@ -119,10 +112,10 @@ class API
             ]
         );
 
-        if (! empty($response) && is_array($response) && ! empty($response['body'])) {
+        if (!empty($response) && is_array($response) && !empty($response['body'])) {
             $body = json_decode($response['body']);
 
-            if (! empty($body->success) && ! empty($body->updateInformation)) {
+            if (!empty($body->success) && !empty($body->updateInformation)) {
                 return unserialize($body->updateInformation);
             }
         }
@@ -130,9 +123,6 @@ class API
 
     /**
      * getNews function.
-     *
-     * @access public
-     * @return void
      */
     public function getNews()
     {
@@ -140,12 +130,12 @@ class API
 
         // Get latest news
         $response = $this->restPostRequest('/news', [
-            'licenseKey' => ! empty($licenseData->licenseKey) ? $licenseData->licenseKey : '',
+            'licenseKey' => !empty($licenseData->licenseKey) ? $licenseData->licenseKey : '',
             'product' => BORLABS_COOKIE_SLUG,
             'version' => BORLABS_COOKIE_VERSION,
         ]);
 
-        if (! empty($response->success)) {
+        if (!empty($response->success)) {
             update_site_option('BorlabsCookieNews', $response->news);
             // Update last check
             update_site_option('BorlabsCookieNewsLastCheck', date('Ymd'), 'no');
@@ -153,16 +143,13 @@ class API
             return (object) [
                 'success' => true,
             ];
-        } else {
-            return $response;
         }
+
+        return $response;
     }
 
     /**
      * getPluginInformation function.
-     *
-     * @access public
-     * @return void
      */
     public function getPluginInformation()
     {
@@ -177,16 +164,16 @@ class API
                     'version' => BORLABS_COOKIE_VERSION,
                     'product' => BORLABS_COOKIE_SLUG,
                     'php_version' => phpversion(), // Used to distinguish between >=7.4 and <7.4 builds
-                    'licenseKey' => ! empty($licenseData->licenseKey) ? $licenseData->licenseKey : '',
+                    'licenseKey' => !empty($licenseData->licenseKey) ? $licenseData->licenseKey : '',
                     'language' => get_locale(),
                 ],
             ]
         );
 
-        if (! empty($response) && is_array($response) && ! empty($response['body'])) {
+        if (!empty($response) && is_array($response) && !empty($response['body'])) {
             $body = json_decode($response['body']);
 
-            if (! empty($body->success) && ! empty($body->pluginInformation)) {
+            if (!empty($body->success) && !empty($body->pluginInformation)) {
                 return unserialize($body->pluginInformation);
             }
         }
@@ -195,13 +182,9 @@ class API
     /**
      * handleRequest function.
      *
-     * @access public
-     *
-     * @param  mixed  $call
-     * @param  mixed  $token
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $call
+     * @param mixed $token
+     * @param mixed $data
      */
     public function handleRequest($call, $data)
     {
@@ -221,11 +204,7 @@ class API
     /**
      * isAuthorized function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function isAuthorized($data)
     {
@@ -243,12 +222,12 @@ class API
 
         $hash = '';
 
-        if (! empty($allHeaders['X-Borlabs-Cookie-Auth'])) {
+        if (!empty($allHeaders['X-Borlabs-Cookie-Auth'])) {
             $hash = $allHeaders['X-Borlabs-Cookie-Auth'];
         }
 
         if (
-            ! empty(License::getInstance()->getLicenseData()->salt)
+            !empty(License::getInstance()->getLicenseData()->salt)
             && HMAC::getInstance()->isValid(
                 $data,
                 License::getInstance()->getLicenseData()->salt,
@@ -264,11 +243,7 @@ class API
     /**
      * registerLicense function.
      *
-     * @access public
-     *
-     * @param  mixed  $licenseKey
-     *
-     * @return void
+     * @param mixed $licenseKey
      */
     public function registerLicense($licenseKey)
     {
@@ -289,7 +264,7 @@ class API
         // Register site
         $response = $this->restPostRequest('/register', $data);
 
-        if (! empty($response->licenseKey)) {
+        if (!empty($response->licenseKey)) {
             // Save license data
             License::getInstance()->saveLicenseData($response);
 
@@ -301,27 +276,25 @@ class API
                     'borlabs-cookie'
                 ),
             ];
-        } elseif (! empty($response->unlink)) {
-            return $response;
-        } else {
+        }
+
+        if (!empty($response->unlink)) {
             return $response;
         }
+
+        return $response;
     }
 
     /**
      * updateLicense function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function updateLicense($data)
     {
-        if (! empty($data->licenseKey)) {
+        if (!empty($data->licenseKey)) {
             License::getInstance()->saveLicenseData($data);
-        } elseif (! empty($data->removeLicense)) {
+        } elseif (!empty($data->removeLicense)) {
             License::getInstance()->removeLicense();
         }
 
@@ -333,13 +306,9 @@ class API
     /**
      * restPostRequest function.
      *
-     * @access private
-     *
-     * @param  mixed  $route
-     * @param  mixed  $data
-     * @param  mixed  $salt  (default: null)
-     *
-     * @return void
+     * @param mixed $route
+     * @param mixed $data
+     * @param mixed $salt  (default: null)
      */
     private function restPostRequest($route, $data, $salt = null)
     {
@@ -349,7 +318,7 @@ class API
         ];
 
         // Add authentification header
-        if (! empty($salt)) {
+        if (!empty($salt)) {
             $args['headers'] = [
                 'X-Borlabs-Cookie-Auth' => HMAC::getInstance()->hash($data, $salt),
             ];
@@ -362,46 +331,41 @@ class API
         );
 
         if (
-            ! empty($response) && is_array($response) && $response['response']['code'] == 200
-            && ! empty($response['body'])
+            !empty($response) && is_array($response) && $response['response']['code'] == 200
+            && !empty($response['body'])
         ) {
             $responseBody = json_decode($response['body']);
 
             if (empty($responseBody->error)) {
                 return $responseBody;
-            } else {
-                // Borlabs Cookie API messages
-                $responseBody->errorMessage = $this->translateErrorCode(
-                    $responseBody->errorCode,
-                    $responseBody->message
-                );
+            }
+            // Borlabs Cookie API messages
+            $responseBody->errorMessage = $this->translateErrorCode(
+                $responseBody->errorCode,
+                $responseBody->message
+            );
 
-                return $responseBody;
-            }
-        } else {
-            if (empty($response->errors) && ! empty($response['response']['message'])) {
-                // Server message
-                return (object) [
-                    'errorMessage' => $response['response']['code'] . ' ' . $response['response']['message'],
-                ];
-            } else {
-                // WP_Error messages
-                return (object) [
-                    'serverError' => true,
-                    'errorMessage' => implode('<br>', $response->get_error_messages()),
-                ];
-            }
+            return $responseBody;
         }
+
+        if (empty($response->errors) && !empty($response['response']['message'])) {
+            // Server message
+            return (object) [
+                'errorMessage' => $response['response']['code'] . ' ' . $response['response']['message'],
+            ];
+        }
+        // WP_Error messages
+        return (object) [
+            'serverError' => true,
+            'errorMessage' => implode('<br>', $response->get_error_messages()),
+        ];
     }
 
     /**
      * translateErrorCode function.
      *
-     * @access private
-     *
-     * @param  mixed  $errorCode
-     *
-     * @return void
+     * @param mixed $errorCode
+     * @param mixed $message
      */
     private function translateErrorCode($errorCode, $message = '')
     {

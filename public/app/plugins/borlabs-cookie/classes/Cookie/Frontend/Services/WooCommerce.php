@@ -26,8 +26,8 @@ class WooCommerce
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,9 +35,6 @@ class WooCommerce
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -55,13 +52,10 @@ class WooCommerce
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'woocommerce',
             'service' => 'WooCommerce',
             'name' => 'WooCommerce',
@@ -85,7 +79,5 @@ class WooCommerce
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 }

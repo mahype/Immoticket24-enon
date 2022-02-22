@@ -26,8 +26,8 @@ class Custom
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -49,7 +49,7 @@ class Custom
 
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => '',
             'service' => 'Custom',
             'name' => _x('Custom', 'Frontend / Cookie / Custom / Text', 'borlabs-cookie'),
@@ -69,7 +69,5 @@ class Custom
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 }

@@ -32,18 +32,17 @@ class ContentBlocker
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
     /**
-     * defaultContentBlocker
+     * defaultContentBlocker.
      *
      * @var mixed
-     * @access private
      */
     private $defaultContentBlocker
         = [
@@ -56,13 +55,13 @@ class ContentBlocker
             'vimeo' => 'Vimeo',
             'youtube' => 'YouTube',
         ];
+
     /**
-     * table
+     * table.
      *
      * (default value: '')
      *
      * @var string
-     * @access private
      */
     private $table = '';
 
@@ -71,66 +70,6 @@ class ContentBlocker
         global $wpdb;
 
         $this->table = $wpdb->prefix . 'borlabs_cookie_content_blocker';
-    }
-
-    /**
-     * get function.
-     *
-     * @access public
-     *
-     * @param  mixed  $id
-     *
-     * @return void
-     */
-    public function get($id)
-    {
-        global $wpdb;
-
-        $data = false;
-
-        $contentBlockerData = $wpdb->get_results(
-            "
-            SELECT
-                `id`,
-                `content_blocker_id`,
-                `language`,
-                `name`,
-                `description`,
-                `privacy_policy_url`,
-                `hosts`,
-                `preview_html`,
-                `preview_css`,
-                `global_js`,
-                `init_js`,
-                `settings`,
-                `status`
-            FROM
-                `" . $this->table . "`
-            WHERE
-                `id` = '" . esc_sql($id) . "'
-        "
-        );
-
-        if (! empty($contentBlockerData[0]->id)) {
-            $data = $contentBlockerData[0];
-
-            $data->hosts = unserialize($data->hosts);
-            $data->settings = unserialize($data->settings);
-
-            $data->description = wp_kses($data->description, [
-                'a' => [],
-                'br' => [],
-                'div' => [],
-                'em' => [],
-                'pre' => [],
-                'span' => [],
-                'strong' => [],
-            ], [
-                'https',
-            ]);
-        }
-
-        return $data;
     }
 
     public function __clone()
@@ -146,11 +85,7 @@ class ContentBlocker
     /**
      * add function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function add($data)
     {
@@ -180,9 +115,9 @@ class ContentBlocker
 
         if ($this->checkIdExists($data['contentBlockerId'], $data['language']) === false) {
             $wpdb->query(
-                "
+                '
                 INSERT INTO
-                    `" . $this->table . "`
+                    `' . $this->table . "`
                     (
                         `content_blocker_id`,
                         `language`,
@@ -211,13 +146,13 @@ class ContentBlocker
                         '" . esc_sql(stripslashes($data['globalJS'])) . "',
                         '" . esc_sql(stripslashes($data['initJS'])) . "',
                         '" . esc_sql(serialize($data['settings'])) . "',
-                        '" . (intval($data['status']) ? 1 : 0) . "',
-                        '" . (intval($data['undeletable']) ? 1 : 0) . "'
+                        '" . ((int) ($data['status']) ? 1 : 0) . "',
+                        '" . ((int) ($data['undeletable']) ? 1 : 0) . "'
                     )
             "
             );
 
-            if (! empty($wpdb->insert_id)) {
+            if (!empty($wpdb->insert_id)) {
                 return $wpdb->insert_id;
             }
         }
@@ -227,14 +162,10 @@ class ContentBlocker
 
     /**
      * checkIdExists function.
-     * Checks if the contentBlockerId for the current language exists
+     * Checks if the contentBlockerId for the current language exists.
      *
-     * @access public
-     *
-     * @param  mixed  $contentBlockerId
-     * @param  mixed  $language
-     *
-     * @return void
+     * @param mixed $contentBlockerId
+     * @param mixed $language
      */
     public function checkIdExists($contentBlockerId, $language = null)
     {
@@ -245,11 +176,11 @@ class ContentBlocker
         }
 
         $checkId = $wpdb->get_results(
-            "
+            '
             SELECT
                 `content_blocker_id`
             FROM
-                `" . $this->table . "`
+                `' . $this->table . "`
             WHERE
                 `content_blocker_id` = '" . esc_sql($contentBlockerId) . "'
                 AND
@@ -257,32 +188,24 @@ class ContentBlocker
         "
         );
 
-        if (! empty($checkId[0]->content_blocker_id)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (bool) (!empty($checkId[0]->content_blocker_id));
     }
 
     /**
      * delete function.
      *
-     * @access public
-     *
-     * @param  mixed  $id
-     *
-     * @return void
+     * @param mixed $id
      */
     public function delete($id)
     {
         global $wpdb;
 
         $wpdb->query(
-            "
+            '
             DELETE FROM
-                `" . $this->table . "`
+                `' . $this->table . "`
             WHERE
-                `id` = '" . intval($id) . "'
+                `id` = '" . (int) $id . "'
         "
         );
 
@@ -291,31 +214,28 @@ class ContentBlocker
 
     /**
      * display function.
-     *
-     * @access public
-     * @return void
      */
     public function display()
     {
         $id = null;
 
-        if (! empty($_POST['id'])) {
+        if (!empty($_POST['id'])) {
             $id = $_POST['id'];
-        } elseif (! empty($_GET['id'])) {
+        } elseif (!empty($_GET['id'])) {
             $id = $_GET['id'];
         }
 
         $action = false;
 
-        if (! empty($_POST['action'])) {
+        if (!empty($_POST['action'])) {
             $action = $_POST['action'];
-        } elseif (! empty($_GET['action'])) {
+        } elseif (!empty($_GET['action'])) {
             $action = $_GET['action'];
         }
 
         if ($action !== false) {
             // Validate and save Content Blocker
-            if ($action === 'save' && ! empty($id) && check_admin_referer('borlabs_cookie_content_blocker_save')) {
+            if ($action === 'save' && !empty($id) && check_admin_referer('borlabs_cookie_content_blocker_save')) {
                 // Validate
                 $errorStatus = $this->validate($_POST);
 
@@ -332,7 +252,7 @@ class ContentBlocker
 
             // Switch status of Content Blocker
             if (
-                $action === 'switchStatus' && ! empty($id)
+                $action === 'switchStatus' && !empty($id)
                 && wp_verify_nonce(
                     $_GET['_wpnonce'],
                     'switchStatus_' . $id
@@ -347,7 +267,7 @@ class ContentBlocker
             }
 
             // Delete Content Blocker
-            if ($action === 'delete' && ! empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_' . $id)) {
+            if ($action === 'delete' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_' . $id)) {
                 $this->delete($id);
 
                 Messages::getInstance()->add(
@@ -392,12 +312,8 @@ class ContentBlocker
     /**
      * displayEdit function.
      *
-     * @access public
-     *
-     * @param  int  $id  (default: 0)
-     * @param  mixed  $formData  (default: [])
-     *
-     * @return void
+     * @param int   $id       (default: 0)
+     * @param mixed $formData (default: [])
      */
     public function displayEdit($id = 0, $formData = [])
     {
@@ -408,11 +324,11 @@ class ContentBlocker
         $contentBlockerData->preview_css = Fallback::getInstance()->getDefault()['previewCSS'];
 
         // Load settings
-        if (! empty($id) && $id !== 'new') {
+        if (!empty($id) && $id !== 'new') {
             $contentBlockerData = $this->get($id);
 
             // Load defaults
-            if (! empty($this->defaultContentBlocker[$contentBlockerData->content_blocker_id])) {
+            if (!empty($this->defaultContentBlocker[$contentBlockerData->content_blocker_id])) {
                 $contentBlockerClass = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\'
                     . $this->defaultContentBlocker[$contentBlockerData->content_blocker_id];
 
@@ -439,7 +355,7 @@ class ContentBlocker
                         'error'
                     );
 
-                    $contentBlockerData = new stdClass;
+                    $contentBlockerData = new stdClass();
                     $contentBlockerData->content_blocker_id = $previousContentBlockerId;
                 }
             }
@@ -451,7 +367,7 @@ class ContentBlocker
         }
 
         if (isset($formData['status'])) {
-            $contentBlockerData->status = intval($formData['status']);
+            $contentBlockerData->status = (int) ($formData['status']);
         }
 
         if (isset($formData['name'])) {
@@ -467,16 +383,16 @@ class ContentBlocker
                 "\n",
                 Tools::getInstance()->cleanHostList(stripslashes($formData['hosts']))
             );
-        } elseif (! empty($contentBlockerData->hosts)) {
+        } elseif (!empty($contentBlockerData->hosts)) {
             $contentBlockerData->hosts = implode("\n", $contentBlockerData->hosts);
         }
 
         if (isset($formData['settings']['unblockAll'])) {
-            $contentBlockerData->settings['unblockAll'] = intval($formData['settings']['unblockAll']);
+            $contentBlockerData->settings['unblockAll'] = (int) ($formData['settings']['unblockAll']);
         }
 
         // previewHTML is required and should never by empty
-        if (! empty($formData['previewHTML'])) {
+        if (!empty($formData['previewHTML'])) {
             $contentBlockerData->preview_html = stripslashes($formData['previewHTML']);
         }
 
@@ -493,40 +409,40 @@ class ContentBlocker
         }
 
         // Preparing data for form mask
-        $inputId = ! empty($contentBlockerData->id) ? intval($contentBlockerData->id) : 'new';
+        $inputId = !empty($contentBlockerData->id) ? (int) ($contentBlockerData->id) : 'new';
         $inputContentBlockerId = esc_attr(
-            ! empty($contentBlockerData->content_blocker_id) ? $contentBlockerData->content_blocker_id : ''
+            !empty($contentBlockerData->content_blocker_id) ? $contentBlockerData->content_blocker_id : ''
         );
-        $inputStatus = ! empty($contentBlockerData->status) ? 1 : 0;
+        $inputStatus = !empty($contentBlockerData->status) ? 1 : 0;
         $switchStatus = $inputStatus ? ' active' : '';
-        $inputName = esc_attr(! empty($contentBlockerData->name) ? $contentBlockerData->name : '');
+        $inputName = esc_attr(!empty($contentBlockerData->name) ? $contentBlockerData->name : '');
         $inputPrivacyPolicyURL = esc_url(
-            ! empty($contentBlockerData->privacy_policy_url) ? $contentBlockerData->privacy_policy_url : ''
+            !empty($contentBlockerData->privacy_policy_url) ? $contentBlockerData->privacy_policy_url : ''
         );
-        $textareaHosts = esc_textarea(! empty($contentBlockerData->hosts) ? $contentBlockerData->hosts : '');
+        $textareaHosts = esc_textarea(!empty($contentBlockerData->hosts) ? $contentBlockerData->hosts : '');
 
-        $inputSettingsUnblockAll = ! empty($contentBlockerData->settings['unblockAll']) ? 1 : 0;
+        $inputSettingsUnblockAll = !empty($contentBlockerData->settings['unblockAll']) ? 1 : 0;
         $switchSettingsUnblockAll = $inputSettingsUnblockAll ? ' active' : '';
 
         $inputSettingsExecuteGlobalCodeBeforeUnblocking
-            = ! empty($contentBlockerData->settings['executeGlobalCodeBeforeUnblocking']) ? 1 : 0;
+            = !empty($contentBlockerData->settings['executeGlobalCodeBeforeUnblocking']) ? 1 : 0;
         $switchSettingsExecuteGlobalCodeBeforeUnblocking = $inputSettingsExecuteGlobalCodeBeforeUnblocking ? ' active'
             : '';
 
         $textareaPreviewHTML = esc_textarea(
-            ! empty($contentBlockerData->preview_html) ? $contentBlockerData->preview_html : ''
+            !empty($contentBlockerData->preview_html) ? $contentBlockerData->preview_html : ''
         );
         $textareaPreviewCSS = esc_textarea(
-            ! empty($contentBlockerData->preview_css) ? $contentBlockerData->preview_css : ''
+            !empty($contentBlockerData->preview_css) ? $contentBlockerData->preview_css : ''
         );
 
-        $textareaGlobalJS = esc_textarea(! empty($contentBlockerData->global_js) ? $contentBlockerData->global_js : '');
-        $textareaInitJS = esc_textarea(! empty($contentBlockerData->init_js) ? $contentBlockerData->init_js : '');
+        $textareaGlobalJS = esc_textarea(!empty($contentBlockerData->global_js) ? $contentBlockerData->global_js : '');
+        $textareaInitJS = esc_textarea(!empty($contentBlockerData->init_js) ? $contentBlockerData->init_js : '');
 
-        $languageFlag = ! empty($contentBlockerData->language) ? Multilanguage::getInstance()->getLanguageFlag(
+        $languageFlag = !empty($contentBlockerData->language) ? Multilanguage::getInstance()->getLanguageFlag(
             $contentBlockerData->language
         ) : '';
-        $languageName = ! empty($contentBlockerData->language) ? Multilanguage::getInstance()->getLanguageName(
+        $languageName = !empty($contentBlockerData->language) ? Multilanguage::getInstance()->getLanguageName(
             $contentBlockerData->language
         ) : '';
 
@@ -535,9 +451,6 @@ class ContentBlocker
 
     /**
      * displayOverview function.
-     *
-     * @access public
-     * @return void
      */
     public function displayOverview()
     {
@@ -545,7 +458,7 @@ class ContentBlocker
 
         // Get all blocked content types for the current language
         $contentBlocker = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`,
                 `content_blocker_id`,
@@ -554,7 +467,7 @@ class ContentBlocker
                 `status`,
                 `undeletable`
             FROM
-                `" . $this->table . "`
+                `' . $this->table . "`
             WHERE
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
             ORDER BY
@@ -562,80 +475,80 @@ class ContentBlocker
         "
         );
 
-        if (! empty($contentBlocker)) {
+        if (!empty($contentBlocker)) {
             foreach ($contentBlocker as $key => $data) {
                 $hosts = unserialize($data->hosts);
 
-                if (! empty($hosts)) {
+                if (!empty($hosts)) {
                     $contentBlocker[$key]->hosts = esc_html(implode(', ', $hosts));
                 } else {
                     $contentBlocker[$key]->hosts = '';
                 }
 
-                $contentBlocker[$key]->undeletable = intval($data->undeletable);
+                $contentBlocker[$key]->undeletable = (int) ($data->undeletable);
             }
         }
 
         $textareaHostWhitelist = esc_textarea(
-            ! empty(Config::getInstance()->get('contentBlockerHostWhitelist')) ? implode(
+            !empty(Config::getInstance()->get('contentBlockerHostWhitelist')) ? implode(
                 "\n",
                 Config::getInstance()->get('contentBlockerHostWhitelist')
             ) : ''
         );
-        $inputRemoveIframesInFeeds = ! empty(Config::getInstance()->get('removeIframesInFeeds')) ? 1 : 0;
+        $inputRemoveIframesInFeeds = !empty(Config::getInstance()->get('removeIframesInFeeds')) ? 1 : 0;
         $switchRemoveIframesInFeeds = $inputRemoveIframesInFeeds ? ' active' : '';
 
         $inputContentBlockerFontFamily = esc_attr(
-            ! empty(Config::getInstance()->get('contentBlockerFontFamily'))
+            !empty(Config::getInstance()->get('contentBlockerFontFamily'))
             && Config::getInstance()->get('contentBlockerFontFamily') !== 'inherit' ? Config::getInstance()->get(
                 'contentBlockerFontFamily'
             ) : ''
         );
         $inputContentBlockerFontSize = esc_attr(
-            ! empty(Config::getInstance()->get('contentBlockerFontSize'))
+            !empty(Config::getInstance()->get('contentBlockerFontSize'))
             && Config::getInstance()->get('contentBlockerFontSize') ? Config::getInstance()->get(
                 'contentBlockerFontSize'
             ) : ''
         );
         $inputContentBlockerBgColor = esc_attr(
-            ! empty(Config::getInstance()->get('contentBlockerBgColor')) ? Config::getInstance()->get(
+            !empty(Config::getInstance()->get('contentBlockerBgColor')) ? Config::getInstance()->get(
                 'contentBlockerBgColor'
             ) : ''
         );
         $inputContentBlockerTxtColor = esc_attr(
-            ! empty(Config::getInstance()->get('contentBlockerTxtColor')) ? Config::getInstance()->get(
+            !empty(Config::getInstance()->get('contentBlockerTxtColor')) ? Config::getInstance()->get(
                 'contentBlockerTxtColor'
             ) : ''
         );
         $inputContentBlockerBgOpacity = esc_attr(Config::getInstance()->get('contentBlockerBgOpacity'));
         $inputContentBlockerBtnBorderRadius = esc_attr(Config::getInstance()->get('contentBlockerBtnBorderRadius'));
         $inputContentBlockerBtnColor = esc_attr(
-            ! empty(Config::getInstance()->get('contentBlockerBtnColor')) ? Config::getInstance()->get(
+            !empty(Config::getInstance()->get('contentBlockerBtnColor')) ? Config::getInstance()->get(
                 'contentBlockerBtnColor'
             ) : ''
         );
         $inputContentBlockerBtnHoverColor = esc_attr(
-            ! empty(Config::getInstance()->get('contentBlockerBtnHoverColor')) ? Config::getInstance()->get(
+            !empty(Config::getInstance()->get('contentBlockerBtnHoverColor')) ? Config::getInstance()->get(
                 'contentBlockerBtnHoverColor'
             ) : ''
         );
         $inputContentBlockerBtnTxtColor = esc_attr(
-            ! empty(Config::getInstance()->get('contentBlockerBtnTxtColor')) ? Config::getInstance()->get(
+            !empty(Config::getInstance()->get('contentBlockerBtnTxtColor')) ? Config::getInstance()->get(
                 'contentBlockerBtnTxtColor'
             ) : ''
         );
         $inputContentBlockerBtnTxtHoverColor = esc_attr(
-            ! empty(Config::getInstance()->get('contentBlockerBtnHoverTxtColor')) ? Config::getInstance()->get(
+            !empty(Config::getInstance()->get('contentBlockerBtnHoverTxtColor')) ? Config::getInstance()->get(
                 'contentBlockerBtnHoverTxtColor'
             ) : ''
         );
         $inputContentBlockerLinkColor = esc_attr(
-            ! empty(Config::getInstance()->get('contentBlockerLinkColor')) ? Config::getInstance()->get(
+            !empty(Config::getInstance()->get('contentBlockerLinkColor')) ? Config::getInstance()->get(
                 'contentBlockerLinkColor'
             ) : ''
         );
         $inputContentBlockerLinkHoverColor = esc_attr(
-            ! empty(Config::getInstance()->get('contentBlockerLinkHoverColor')) ? Config::getInstance()->get(
+            !empty(Config::getInstance()->get('contentBlockerLinkHoverColor')) ? Config::getInstance()->get(
                 'contentBlockerLinkHoverColor'
             ) : ''
         );
@@ -644,13 +557,65 @@ class ContentBlocker
     }
 
     /**
+     * get function.
+     *
+     * @param mixed $id
+     */
+    public function get($id)
+    {
+        global $wpdb;
+
+        $data = false;
+
+        $contentBlockerData = $wpdb->get_results(
+            '
+            SELECT
+                `id`,
+                `content_blocker_id`,
+                `language`,
+                `name`,
+                `description`,
+                `privacy_policy_url`,
+                `hosts`,
+                `preview_html`,
+                `preview_css`,
+                `global_js`,
+                `init_js`,
+                `settings`,
+                `status`
+            FROM
+                `' . $this->table . "`
+            WHERE
+                `id` = '" . esc_sql($id) . "'
+        "
+        );
+
+        if (!empty($contentBlockerData[0]->id)) {
+            $data = $contentBlockerData[0];
+
+            $data->hosts = unserialize($data->hosts);
+            $data->settings = unserialize($data->settings);
+
+            $data->description = wp_kses($data->description, [
+                'a' => [],
+                'br' => [],
+                'div' => [],
+                'em' => [],
+                'pre' => [],
+                'span' => [],
+                'strong' => [],
+            ], [
+                'https',
+            ]);
+        }
+
+        return $data;
+    }
+
+    /**
      * getByContentBlockerId function.
      *
-     * @access public
-     *
-     * @param  mixed  $contentBlockerId
-     *
-     * @return void
+     * @param mixed $contentBlockerId
      */
     public function getByContentBlockerId($contentBlockerId)
     {
@@ -662,11 +627,11 @@ class ContentBlocker
 
         // Get content blocker id for the current language
         $contentBlockerId = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`
             FROM
-                `" . $this->table . "`
+                `' . $this->table . "`
             WHERE
                 `language` = '" . esc_sql($language) . "'
                 AND
@@ -674,7 +639,7 @@ class ContentBlocker
         "
         );
 
-        if (! empty($contentBlockerId[0]->id)) {
+        if (!empty($contentBlockerId[0]->id)) {
             $data = $this->get($contentBlockerId[0]->id);
         }
 
@@ -683,9 +648,6 @@ class ContentBlocker
 
     /**
      * initDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function initDefault()
     {
@@ -696,9 +658,9 @@ class ContentBlocker
         // Checks if default content blocker does not exist and add them with default settings
         foreach ($this->defaultContentBlocker as $contentBlockerId => $class) {
             $contentBlocker = $wpdb->get_row(
-                "
+                '
                 SELECT `content_blocker_id` FROM
-                    `" . $this->table . "`
+                    `' . $this->table . "`
                 WHERE
                     `language` = '" . esc_sql($language) . "'
                     AND
@@ -722,12 +684,8 @@ class ContentBlocker
     /**
      * modify function.
      *
-     * @access public
-     *
-     * @param  mixed  $id
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $id
+     * @param mixed $data
      */
     public function modify($id, $data)
     {
@@ -749,9 +707,9 @@ class ContentBlocker
         $data = array_merge($default, $data);
 
         $wpdb->query(
-            "
+            '
             UPDATE
-                `" . $this->table . "`
+                `' . $this->table . "`
             SET
                 `name` = '" . esc_sql(stripslashes($data['name'])) . "',
                 `privacy_policy_url` = '" . esc_sql(stripslashes($data['privacyPolicyURL'])) . "',
@@ -761,9 +719,9 @@ class ContentBlocker
                 `global_js` = '" . esc_sql(stripslashes($data['globalJS'])) . "',
                 `init_js` = '" . esc_sql(stripslashes($data['initJS'])) . "',
                 `settings` = '" . esc_sql(serialize($data['settings'])) . "',
-                `status` = '" . (intval($data['status']) ? 1 : 0) . "'
+                `status` = '" . ((int) ($data['status']) ? 1 : 0) . "'
             WHERE
-                `id` = '" . intval($id) . "'
+                `id` = '" . (int) $id . "'
         "
         );
 
@@ -772,9 +730,6 @@ class ContentBlocker
 
     /**
      * resetDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function resetDefault()
     {
@@ -786,9 +741,9 @@ class ContentBlocker
         foreach ($this->defaultContentBlocker as $contentBlockerId => $class) {
             // Delete
             $contentBlocker = $wpdb->query(
-                "
+                '
                 DELETE FROM
-                    `" . $this->table . "`
+                    `' . $this->table . "`
                 WHERE
                     `language` = '" . esc_sql($language) . "'
                     AND
@@ -810,11 +765,7 @@ class ContentBlocker
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
@@ -833,12 +784,12 @@ class ContentBlocker
         // Check if previewHTML is empty
         if (empty($formData['previewHTML'])) {
             // If it is a default Content Blocker we load its default previewHTML
-            if (! empty($formData['id'])) {
+            if (!empty($formData['id'])) {
                 $contentBlockerData = $this->get($formData['id']);
 
                 if (
-                    ! empty($contentBlockerData->content_blocker_id)
-                    && ! empty($this->defaultContentBlocker[$contentBlockerData->content_blocker_id])
+                    !empty($contentBlockerData->content_blocker_id)
+                    && !empty($this->defaultContentBlocker[$contentBlockerData->content_blocker_id])
                 ) {
                     $className = '\BorlabsCookie\Cookie\Frontend\ContentBlocker\\'
                         . $this->defaultContentBlocker[$contentBlockerData->content_blocker_id];
@@ -855,7 +806,7 @@ class ContentBlocker
 
         $id = 0;
 
-        if (! empty($formData['id']) && $formData['id'] !== 'new') {
+        if (!empty($formData['id']) && $formData['id'] !== 'new') {
             // Edit
             $id = $this->modify($formData['id'], $formData);
         } else {
@@ -872,11 +823,7 @@ class ContentBlocker
     /**
      * saveSettings function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function saveSettings($formData)
     {
@@ -887,44 +834,44 @@ class ContentBlocker
         $updatedConfig['contentBlockerHostWhitelist'] = Tools::getInstance()->cleanHostList(
             $formData['contentBlockerHostWhitelist']
         );
-        $updatedConfig['removeIframesInFeeds'] = ! empty($formData['removeIframesInFeeds']) ? true : false;
+        $updatedConfig['removeIframesInFeeds'] = !empty($formData['removeIframesInFeeds']) ? true : false;
 
-        $updatedConfig['contentBlockerFontFamily'] = ! empty($formData['contentBlockerFontFamily']) ? stripslashes(
+        $updatedConfig['contentBlockerFontFamily'] = !empty($formData['contentBlockerFontFamily']) ? stripslashes(
             $formData['contentBlockerFontFamily']
         ) : $defaultConfig['contentBlockerFontFamily'];
-        $updatedConfig['contentBlockerFontSize'] = ! empty($formData['contentBlockerFontSize']) ? intval(
+        $updatedConfig['contentBlockerFontSize'] = !empty($formData['contentBlockerFontSize']) ? (int) (
             $formData['contentBlockerFontSize']
         ) : $defaultConfig['contentBlockerFontSize'];
 
         // Colors
-        $updatedConfig['contentBlockerBgColor'] = ! empty($formData['contentBlockerBgColor'])
+        $updatedConfig['contentBlockerBgColor'] = !empty($formData['contentBlockerBgColor'])
         && Tools::getInstance()->validateHexColor($formData['contentBlockerBgColor'])
             ? $formData['contentBlockerBgColor'] : $defaultConfig['contentBlockerBgColor'];
-        $updatedConfig['contentBlockerTxtColor'] = ! empty($formData['contentBlockerTxtColor'])
+        $updatedConfig['contentBlockerTxtColor'] = !empty($formData['contentBlockerTxtColor'])
         && Tools::getInstance()->validateHexColor($formData['contentBlockerTxtColor'])
             ? $formData['contentBlockerTxtColor'] : $defaultConfig['contentBlockerTxtColor'];
-        $updatedConfig['contentBlockerBgOpacity'] = isset($formData['contentBlockerBgOpacity']) ? intval(
+        $updatedConfig['contentBlockerBgOpacity'] = isset($formData['contentBlockerBgOpacity']) ? (int) (
             $formData['contentBlockerBgOpacity']
         ) : $defaultConfig['contentBlockerBgOpacity'];
-        $updatedConfig['contentBlockerBtnBorderRadius'] = isset($formData['contentBlockerBtnBorderRadius']) ? intval(
+        $updatedConfig['contentBlockerBtnBorderRadius'] = isset($formData['contentBlockerBtnBorderRadius']) ? (int) (
             $formData['contentBlockerBtnBorderRadius']
         ) : $defaultConfig['contentBlockerBtnBorderRadius'];
-        $updatedConfig['contentBlockerBtnColor'] = ! empty($formData['contentBlockerBtnColor'])
+        $updatedConfig['contentBlockerBtnColor'] = !empty($formData['contentBlockerBtnColor'])
         && Tools::getInstance()->validateHexColor($formData['contentBlockerBtnColor'])
             ? $formData['contentBlockerBtnColor'] : $defaultConfig['contentBlockerBtnColor'];
-        $updatedConfig['contentBlockerBtnHoverColor'] = ! empty($formData['contentBlockerBtnHoverColor'])
+        $updatedConfig['contentBlockerBtnHoverColor'] = !empty($formData['contentBlockerBtnHoverColor'])
         && Tools::getInstance()->validateHexColor($formData['contentBlockerBtnHoverColor'])
             ? $formData['contentBlockerBtnHoverColor'] : $defaultConfig['contentBlockerBtnHoverColor'];
-        $updatedConfig['contentBlockerBtnTxtColor'] = ! empty($formData['contentBlockerBtnTxtColor'])
+        $updatedConfig['contentBlockerBtnTxtColor'] = !empty($formData['contentBlockerBtnTxtColor'])
         && Tools::getInstance()->validateHexColor($formData['contentBlockerBtnTxtColor'])
             ? $formData['contentBlockerBtnTxtColor'] : $defaultConfig['contentBlockerBtnTxtColor'];
-        $updatedConfig['contentBlockerBtnHoverTxtColor'] = ! empty($formData['contentBlockerBtnHoverTxtColor'])
+        $updatedConfig['contentBlockerBtnHoverTxtColor'] = !empty($formData['contentBlockerBtnHoverTxtColor'])
         && Tools::getInstance()->validateHexColor($formData['contentBlockerBtnHoverTxtColor'])
             ? $formData['contentBlockerBtnHoverTxtColor'] : $defaultConfig['contentBlockerBtnHoverTxtColor'];
-        $updatedConfig['contentBlockerLinkColor'] = ! empty($formData['contentBlockerLinkColor'])
+        $updatedConfig['contentBlockerLinkColor'] = !empty($formData['contentBlockerLinkColor'])
         && Tools::getInstance()->validateHexColor($formData['contentBlockerLinkColor'])
             ? $formData['contentBlockerLinkColor'] : $defaultConfig['contentBlockerLinkColor'];
-        $updatedConfig['contentBlockerLinkHoverColor'] = ! empty($formData['contentBlockerLinkHoverColor'])
+        $updatedConfig['contentBlockerLinkHoverColor'] = !empty($formData['contentBlockerLinkHoverColor'])
         && Tools::getInstance()->validateHexColor($formData['contentBlockerLinkHoverColor'])
             ? $formData['contentBlockerLinkHoverColor'] : $defaultConfig['contentBlockerLinkHoverColor'];
 
@@ -938,24 +885,20 @@ class ContentBlocker
     /**
      * switchStatus function.
      *
-     * @access public
-     *
-     * @param  mixed  $id
-     *
-     * @return void
+     * @param mixed $id
      */
     public function switchStatus($id)
     {
         global $wpdb;
 
         $wpdb->query(
-            "
+            '
             UPDATE
-                `" . $this->table . "`
+                `' . $this->table . "`
             SET
                 `status` = IF(`status` <> 0, 0, 1)
             WHERE
-                `id` = '" . intval($id) . "'
+                `id` = '" . (int) $id . "'
         "
         );
 
@@ -965,11 +908,7 @@ class ContentBlocker
     /**
      * validate function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function validate($formData)
     {
@@ -1000,7 +939,7 @@ class ContentBlocker
                     ),
                     'error'
                 );
-            } elseif (in_array($formData['contentBlockerId'], ['all', 'cookie', 'thirdparty', 'firstparty'])) {
+            } elseif (in_array($formData['contentBlockerId'], ['all', 'cookie', 'thirdparty', 'firstparty'], true)) {
                 $errorStatus = true;
                 Messages::getInstance()->add(
                     _x(
@@ -1032,8 +971,6 @@ class ContentBlocker
             'borlabsCookie/contentBlocker/validate'
         );
 
-        $errorStatus = apply_filters('borlabsCookie/contentBlocker/validate', $errorStatus, $formData);
-
-        return $errorStatus;
+        return apply_filters('borlabsCookie/contentBlocker/validate', $errorStatus, $formData);
     }
 }

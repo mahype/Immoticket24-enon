@@ -40,6 +40,41 @@
                 </tr>
                 <tr>
                     <th class="w-50"><?php
+                        _ex('PHP Version', 'Backend / System Check / Table Headline', 'borlabs-cookie'); ?></th>
+                    <td><?php
+                        if ($statusPHPVersion['success']) {
+                            ?><span class="badge status badge-success"><?php
+                            _ex('OK', 'Backend / System Check / Text', 'borlabs-cookie'); ?></span><?php
+                            echo $statusPHPVersion['message'];
+                        } else {
+                            ?><span class="badge status badge-danger"><?php
+                            _ex('Error', 'Backend / System Check / Text', 'borlabs-cookie'); ?></span>
+                            <br>
+                            <?php
+                            echo $statusPHPVersion['message'];
+                        }
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="w-50"><?php
+                        _ex('Database Version', 'Backend / System Check / Table Headline', 'borlabs-cookie'); ?></th>
+                    <td><?php
+                        if ($statusDBVersion['success']) {
+                            ?><span class="badge status badge-success"><?php
+                            _ex('OK', 'Backend / System Check / Text', 'borlabs-cookie'); ?></span><?php
+                            echo $statusDBVersion['message'];
+                        } else {
+                            ?><span class="badge status badge-danger"><?php
+                            _ex('Error', 'Backend / System Check / Text', 'borlabs-cookie'); ?></span>
+                            <br>
+                            <?php
+                            echo $statusDBVersion['message'];
+                        }
+                        ?></td>
+                </tr>
+                <tr>
+                    <th class="w-50"><?php
                         _ex('SSL', 'Backend / System Check / Table Headline', 'borlabs-cookie'); ?></th>
                     <td>
                         <?php
@@ -172,6 +207,28 @@
                             <br>
                             <?php
                             echo $statusTableScriptBlocker['message'];
+                        }
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="w-50"><?php
+                        _ex(
+                            'Table Statistics',
+                            'Backend / System Check / Table Headline',
+                            'borlabs-cookie'
+                        ); ?></th>
+                    <td>
+                        <?php
+                        if ($statusTableStatistics['success']) {
+                            ?><span class="badge status badge-success"><?php
+                            _ex('OK', 'Backend / System Check / Text', 'borlabs-cookie'); ?></span><?php
+                        } else {
+                            ?><span class="badge status badge-danger"><?php
+                            _ex('Error', 'Backend / System Check / Text', 'borlabs-cookie'); ?></span>
+                            <br>
+                            <?php
+                            echo $statusTableStatistics['message'];
                         }
                         ?>
                     </td>

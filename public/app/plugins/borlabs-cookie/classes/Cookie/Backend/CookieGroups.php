@@ -31,28 +31,28 @@ class CookieGroups
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
+
     /**
-     * tableCookie
+     * tableCookie.
      *
      * (default value: '')
      *
      * @var string
-     * @access private
      */
     private $tableCookie = '';
+
     /**
-     * tableCookieGroup
+     * tableCookieGroup.
      *
      * (default value: '')
      *
      * @var string
-     * @access private
      */
     private $tableCookieGroup = '';
 
@@ -62,46 +62,6 @@ class CookieGroups
 
         $this->tableCookie = $wpdb->prefix . 'borlabs_cookie_cookies';
         $this->tableCookieGroup = $wpdb->prefix . 'borlabs_cookie_groups';
-    }
-
-    /**
-     * get function.
-     *
-     * @access public
-     *
-     * @param  mixed  $id
-     *
-     * @return void
-     */
-    public function get($id)
-    {
-        global $wpdb;
-
-        $data = false;
-
-        $cookieGroupData = $wpdb->get_results(
-            "
-            SELECT
-                `id`,
-                `group_id`,
-                `language`,
-                `name`,
-                `description`,
-                `pre_selected`,
-                `position`,
-                `status`
-            FROM
-                `" . $this->tableCookieGroup . "`
-            WHERE
-                `id` = '" . esc_sql($id) . "'
-        "
-        );
-
-        if (! empty($cookieGroupData[0]->id)) {
-            $data = $cookieGroupData[0];
-        }
-
-        return $data;
     }
 
     public function __clone()
@@ -117,11 +77,7 @@ class CookieGroups
     /**
      * add function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function add($data)
     {
@@ -146,9 +102,9 @@ class CookieGroups
 
         if ($this->checkIdExists($data['groupId'], $data['language']) === false) {
             $wpdb->query(
-                "
+                '
                 INSERT INTO
-                    `" . $this->tableCookieGroup . "`
+                    `' . $this->tableCookieGroup . "`
                     (
                         `group_id`,
                         `language`,
@@ -165,15 +121,15 @@ class CookieGroups
                         '" . esc_sql($data['language']) . "',
                         '" . esc_sql(stripslashes($data['name'])) . "',
                         '" . esc_sql(stripslashes($data['description'])) . "',
-                        '" . (intval($data['preSelected']) ? 1 : 0) . "',
-                        '" . intval($data['position']) . "',
-                        '" . (intval($data['status']) ? 1 : 0) . "',
-                        '" . (intval($data['undeletable']) ? 1 : 0) . "'
+                        '" . ((int) ($data['preSelected']) ? 1 : 0) . "',
+                        '" . (int) ($data['position']) . "',
+                        '" . ((int) ($data['status']) ? 1 : 0) . "',
+                        '" . ((int) ($data['undeletable']) ? 1 : 0) . "'
                     )
             "
             );
 
-            if (! empty($wpdb->insert_id)) {
+            if (!empty($wpdb->insert_id)) {
                 return $wpdb->insert_id;
             }
         }
@@ -184,12 +140,8 @@ class CookieGroups
     /**
      * checkIdExists function.
      *
-     * @access public
-     *
-     * @param  mixed  $groupId
-     * @param  mixed  $language  (default: null)
-     *
-     * @return void
+     * @param mixed $groupId
+     * @param mixed $language (default: null)
      */
     public function checkIdExists($groupId, $language = null)
     {
@@ -200,11 +152,11 @@ class CookieGroups
         }
 
         $checkId = $wpdb->get_results(
-            "
+            '
             SELECT
                 `group_id`
             FROM
-                `" . $this->tableCookieGroup . "`
+                `' . $this->tableCookieGroup . "`
             WHERE
                 `group_id` = '" . esc_sql($groupId) . "'
                 AND
@@ -212,21 +164,13 @@ class CookieGroups
         "
         );
 
-        if (! empty($checkId[0]->group_id)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (bool) (!empty($checkId[0]->group_id));
     }
 
     /**
      * delete function.
      *
-     * @access public
-     *
-     * @param  mixed  $id
-     *
-     * @return void
+     * @param mixed $id
      */
     public function delete($id)
     {
@@ -236,11 +180,11 @@ class CookieGroups
 
         // Check if no cookie is linked to this cookie group
         $checkCookies = $wpdb->get_results(
-            "
+            '
             SELECT
                 `cookie_id`
             FROM
-                `" . $this->tableCookie . "`
+                `' . $this->tableCookie . "`
             WHERE
                 `cookie_group_id` = '" . esc_sql($id) . "'
             LIMIT
@@ -250,11 +194,11 @@ class CookieGroups
 
         if (empty($checkCookies[0]->cookie_id)) {
             $wpdb->query(
-                "
+                '
                 DELETE FROM
-                    `" . $this->tableCookieGroup . "`
+                    `' . $this->tableCookieGroup . "`
                 WHERE
-                    `id` = '" . intval($id) . "'
+                    `id` = '" . (int) $id . "'
                     AND
                     `undeletable` = 0
             "
@@ -268,31 +212,28 @@ class CookieGroups
 
     /**
      * display function.
-     *
-     * @access public
-     * @return void
      */
     public function display()
     {
         $id = null;
 
-        if (! empty($_POST['id'])) {
+        if (!empty($_POST['id'])) {
             $id = $_POST['id'];
-        } elseif (! empty($_GET['id'])) {
+        } elseif (!empty($_GET['id'])) {
             $id = $_GET['id'];
         }
 
         $action = false;
 
-        if (! empty($_POST['action'])) {
+        if (!empty($_POST['action'])) {
             $action = $_POST['action'];
-        } elseif (! empty($_GET['action'])) {
+        } elseif (!empty($_GET['action'])) {
             $action = $_GET['action'];
         }
 
         if ($action !== false) {
             // Validate and save Cookie Group
-            if ($action === 'save' && ! empty($id) && check_admin_referer('borlabs_cookie_cookie_groups_save')) {
+            if ($action === 'save' && !empty($id) && check_admin_referer('borlabs_cookie_cookie_groups_save')) {
                 // Validate
                 $errorStatus = $this->validate($_POST);
 
@@ -309,7 +250,7 @@ class CookieGroups
 
             // Switch status of Cookie Group
             if (
-                $action === 'switchStatus' && ! empty($id)
+                $action === 'switchStatus' && !empty($id)
                 && wp_verify_nonce(
                     $_GET['_wpnonce'],
                     'switchStatus_' . $id
@@ -324,7 +265,7 @@ class CookieGroups
             }
 
             // Delete Cookie Group
-            if ($action === 'delete' && ! empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_' . $id)) {
+            if ($action === 'delete' && !empty($id) && wp_verify_nonce($_GET['_wpnonce'], 'delete_' . $id)) {
                 if ($this->delete($id)) {
                     Messages::getInstance()->add(
                         _x('Deleted successfully.', 'Backend / Global / Alert Message', 'borlabs-cookie'),
@@ -368,19 +309,15 @@ class CookieGroups
     /**
      * displayEdit function.
      *
-     * @access public
-     *
-     * @param  int  $id  (default: 0)
-     * @param  mixed  $formData  (default: [])
-     *
-     * @return void
+     * @param int   $id       (default: 0)
+     * @param mixed $formData (default: [])
      */
     public function displayEdit($id = 0, $formData = [])
     {
         $cookieGroupData = new stdClass();
 
         // Load settings
-        if (! empty($id) && $id !== 'new') {
+        if (!empty($id) && $id !== 'new') {
             $cookieGroupData = $this->get($id);
 
             // Check if the language was switched during editing
@@ -400,7 +337,7 @@ class CookieGroups
                         'error'
                     );
 
-                    $cookieGroupData = new stdClass;
+                    $cookieGroupData = new stdClass();
                     $cookieGroupData->group_id = $previousGroupId;
                 }
             }
@@ -420,34 +357,34 @@ class CookieGroups
         }
 
         if (isset($formData['preSelected'])) {
-            $cookieGroupData->pre_selected = intval($formData['preSelected']);
+            $cookieGroupData->pre_selected = (int) ($formData['preSelected']);
         }
 
         if (isset($formData['status'])) {
-            $cookieGroupData->status = intval($formData['status']);
+            $cookieGroupData->status = (int) ($formData['status']);
         }
 
         if (isset($formData['position'])) {
-            $cookieGroupData->position = intval($formData['position']);
+            $cookieGroupData->position = (int) ($formData['position']);
         }
 
         // Preparing data for form mask
-        $inputId = ! empty($cookieGroupData->id) ? intval($cookieGroupData->id) : 'new';
-        $inputGroupId = esc_attr(! empty($cookieGroupData->group_id) ? $cookieGroupData->group_id : '');
-        $inputStatus = ! empty($cookieGroupData->status) ? 1 : 0;
+        $inputId = !empty($cookieGroupData->id) ? (int) ($cookieGroupData->id) : 'new';
+        $inputGroupId = esc_attr(!empty($cookieGroupData->group_id) ? $cookieGroupData->group_id : '');
+        $inputStatus = !empty($cookieGroupData->status) ? 1 : 0;
         $switchStatus = $inputStatus ? ' active' : '';
-        $inputName = esc_attr(! empty($cookieGroupData->name) ? $cookieGroupData->name : '');
+        $inputName = esc_attr(!empty($cookieGroupData->name) ? $cookieGroupData->name : '');
         $textareaDescription = esc_textarea(
-            ! empty($cookieGroupData->description) ? $cookieGroupData->description : ''
+            !empty($cookieGroupData->description) ? $cookieGroupData->description : ''
         );
-        $inputPreSelected = ! empty($cookieGroupData->pre_selected) ? 1 : 0;
+        $inputPreSelected = !empty($cookieGroupData->pre_selected) ? 1 : 0;
         $switchPreSelected = $inputPreSelected ? ' active' : '';
-        $inputPosition = intval(! empty($cookieGroupData->position) ? $cookieGroupData->position : '1');
+        $inputPosition = (int) (!empty($cookieGroupData->position) ? $cookieGroupData->position : '1');
 
-        $languageFlag = ! empty($cookieGroupData->language) ? Multilanguage::getInstance()->getLanguageFlag(
+        $languageFlag = !empty($cookieGroupData->language) ? Multilanguage::getInstance()->getLanguageFlag(
             $cookieGroupData->language
         ) : '';
-        $languageName = ! empty($cookieGroupData->language) ? Multilanguage::getInstance()->getLanguageName(
+        $languageName = !empty($cookieGroupData->language) ? Multilanguage::getInstance()->getLanguageName(
             $cookieGroupData->language
         ) : '';
 
@@ -462,16 +399,13 @@ class CookieGroups
 
     /**
      * displayOverview function.
-     *
-     * @access public
-     * @return void
      */
     public function displayOverview()
     {
         global $wpdb;
 
         $cookieGroups = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`,
                 `group_id`,
@@ -480,7 +414,7 @@ class CookieGroups
                 `status`,
                 `undeletable`
             FROM
-                `" . $this->tableCookieGroup . "`
+                `' . $this->tableCookieGroup . "`
             WHERE
                 `language` = '" . esc_sql(Multilanguage::getInstance()->getCurrentLanguageCode()) . "'
             ORDER BY
@@ -488,9 +422,9 @@ class CookieGroups
         "
         );
 
-        if (! empty($cookieGroups)) {
+        if (!empty($cookieGroups)) {
             foreach ($cookieGroups as $key => $data) {
-                $cookieGroups[$key]->undeletable = intval($data->undeletable);
+                $cookieGroups[$key]->undeletable = (int) ($data->undeletable);
             }
         }
 
@@ -498,13 +432,45 @@ class CookieGroups
     }
 
     /**
+     * get function.
+     *
+     * @param mixed $id
+     */
+    public function get($id)
+    {
+        global $wpdb;
+
+        $data = false;
+
+        $cookieGroupData = $wpdb->get_results(
+            '
+            SELECT
+                `id`,
+                `group_id`,
+                `language`,
+                `name`,
+                `description`,
+                `pre_selected`,
+                `position`,
+                `status`
+            FROM
+                `' . $this->tableCookieGroup . "`
+            WHERE
+                `id` = '" . esc_sql($id) . "'
+        "
+        );
+
+        if (!empty($cookieGroupData[0]->id)) {
+            $data = $cookieGroupData[0];
+        }
+
+        return $data;
+    }
+
+    /**
      * getByGroupId function.
      *
-     * @access public
-     *
-     * @param  mixed  $groupId
-     *
-     * @return void
+     * @param mixed $groupId
      */
     public function getByGroupId($groupId)
     {
@@ -516,11 +482,11 @@ class CookieGroups
 
         // Get cookie group id for the current language
         $cookieGroupId = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`
             FROM
-                `" . $this->tableCookieGroup . "`
+                `' . $this->tableCookieGroup . "`
             WHERE
                 `language` = '" . esc_sql($language) . "'
                 AND
@@ -528,7 +494,7 @@ class CookieGroups
         "
         );
 
-        if (! empty($cookieGroupId[0]->id)) {
+        if (!empty($cookieGroupId[0]->id)) {
             $data = $this->get($cookieGroupId[0]->id);
         }
 
@@ -538,12 +504,8 @@ class CookieGroups
     /**
      * modify function.
      *
-     * @access public
-     *
-     * @param  mixed  $id
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $id
+     * @param mixed $data
      */
     public function modify($id, $data)
     {
@@ -560,17 +522,17 @@ class CookieGroups
         $data = array_merge($default, $data);
 
         $wpdb->query(
-            "
+            '
             UPDATE
-                `" . $this->tableCookieGroup . "`
+                `' . $this->tableCookieGroup . "`
             SET
                 `name` = '" . esc_sql(stripslashes($data['name'])) . "',
                 `description` = '" . esc_sql(stripslashes($data['description'])) . "',
-                `pre_selected` = '" . (intval($data['preSelected']) ? 1 : 0) . "',
-                `position` = '" . intval($data['position']) . "',
-                `status` = '" . (intval($data['status']) ? 1 : 0) . "'
+                `pre_selected` = '" . ((int) ($data['preSelected']) ? 1 : 0) . "',
+                `position` = '" . (int) ($data['position']) . "',
+                `status` = '" . ((int) ($data['status']) ? 1 : 0) . "'
             WHERE
-                `id` = '" . intval($id) . "'
+                `id` = '" . (int) $id . "'
         "
         );
 
@@ -579,9 +541,6 @@ class CookieGroups
 
     /**
      * resetDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function resetDefault()
     {
@@ -591,12 +550,12 @@ class CookieGroups
 
         // Get old cookie groups and their ids
         $cookieGroups = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`,
                 `group_id`
             FROM
-                `" . $this->tableCookieGroup . "`
+                `' . $this->tableCookieGroup . "`
             WHERE
                 `language` = '" . esc_sql($language) . "'
                 AND
@@ -606,9 +565,9 @@ class CookieGroups
 
         // Delete default Cookie Groups
         $wpdb->query(
-            "
+            '
             DELETE FROM
-                `" . $this->tableCookieGroup . "`
+                `' . $this->tableCookieGroup . "`
             WHERE
                 `language` = '" . esc_sql($language) . "'
                 AND
@@ -625,12 +584,12 @@ class CookieGroups
 
         // Get new cookie groups and their ids
         $cookieGroupsNew = $wpdb->get_results(
-            "
+            '
             SELECT
                 `id`,
                 `group_id`
             FROM
-                `" . $this->tableCookieGroup . "`
+                `' . $this->tableCookieGroup . "`
             WHERE
                 `language` = '" . esc_sql($language) . "'
                 AND
@@ -641,7 +600,7 @@ class CookieGroups
         // Match old / new
         $matchCookieGroups = [];
 
-        if (! empty($cookieGroups)) {
+        if (!empty($cookieGroups)) {
             foreach ($cookieGroups as $oldGroupData) {
                 $matchCookieGroups[$oldGroupData->group_id] = [
                     'old' => $oldGroupData->id,
@@ -649,7 +608,7 @@ class CookieGroups
                 ];
             }
 
-            if (! empty($cookieGroupsNew)) {
+            if (!empty($cookieGroupsNew)) {
                 foreach ($cookieGroupsNew as $newGroupData) {
                     if (isset($matchCookieGroups[$newGroupData->group_id])) {
                         $matchCookieGroups[$newGroupData->group_id]['new'] = $newGroupData->id;
@@ -658,13 +617,13 @@ class CookieGroups
             }
 
             // Fix Cookie <-> Cookie Group connection
-            if (! empty($matchCookieGroups)) {
+            if (!empty($matchCookieGroups)) {
                 foreach ($matchCookieGroups as $matchData) {
-                    if (! empty($matchData['new'])) {
+                    if (!empty($matchData['new'])) {
                         $wpdb->query(
-                            "
+                            '
                             UPDATE
-                                `" . $this->tableCookie . "`
+                                `' . $this->tableCookie . "`
                             SET
                                 `cookie_group_id` = '" . esc_sql($matchData['new']) . "'
                             WHERE
@@ -680,11 +639,7 @@ class CookieGroups
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
@@ -692,7 +647,7 @@ class CookieGroups
 
         $id = 0;
 
-        if (! empty($formData['id']) && $formData['id'] !== 'new') {
+        if (!empty($formData['id']) && $formData['id'] !== 'new') {
             // Edit
             $id = $this->modify($formData['id'], $formData);
         } else {
@@ -706,24 +661,20 @@ class CookieGroups
     /**
      * switchStatus function.
      *
-     * @access public
-     *
-     * @param  mixed  $id
-     *
-     * @return void
+     * @param mixed $id
      */
     public function switchStatus($id)
     {
         global $wpdb;
 
         $wpdb->query(
-            "
+            '
             UPDATE
-                `" . $this->tableCookieGroup . "`
+                `' . $this->tableCookieGroup . "`
             SET
                 `status` = IF(`status` <> 0, 0, 1)
             WHERE
-                `id` = '" . intval($id) . "'
+                `id` = '" . (int) $id . "'
                 AND
                 `group_id` != 'essential'
         "
@@ -735,11 +686,7 @@ class CookieGroups
     /**
      * validate function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function validate($formData)
     {
@@ -778,8 +725,6 @@ class CookieGroups
             );
         }
 
-        $errorStatus = apply_filters('borlabsCookie/cookieGroup/validate', $errorStatus, $formData);
-
-        return $errorStatus;
+        return apply_filters('borlabsCookie/cookieGroup/validate', $errorStatus, $formData);
     }
 }

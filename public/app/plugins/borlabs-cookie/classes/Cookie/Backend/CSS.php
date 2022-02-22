@@ -34,8 +34,8 @@ class CSS
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -58,11 +58,7 @@ class CSS
     /**
      * buildCSSFile function.
      *
-     * @access public
-     *
-     * @param  mixed  $language  (default: null)
-     *
-     * @return void
+     * @param mixed $language (default: null)
      */
     public function buildCSSFile($language = null)
     {
@@ -84,6 +80,7 @@ class CSS
 
             // Animation vars
             $animationVars = $this->findAnimateCSSFilepath('_vars');
+
             if (file_exists($animationVars)) {
                 $animationVarsCSS = file_get_contents($animationVars);
                 $css .= str_replace('.animated', '._brlbs-animated', $animationVarsCSS);
@@ -91,12 +88,14 @@ class CSS
 
             // Animation in
             $animationIn = $this->findAnimateCSSFilepath(Config::getInstance()->get('cookieBoxAnimationIn'));
+
             if (file_exists($animationIn)) {
                 $css .= $this->transformAnimationCSS(Config::getInstance()->get('cookieBoxAnimationIn'), $animationIn);
             }
 
             // Animation out
             $animationOut = $this->findAnimateCSSFilepath(Config::getInstance()->get('cookieBoxAnimationOut'));
+
             if (file_exists($animationOut)) {
                 $css .= $this->transformAnimationCSS(
                     Config::getInstance()->get('cookieBoxAnimationOut'),
@@ -111,7 +110,7 @@ class CSS
             file_put_contents(
                 WP_CONTENT_DIR . '/cache/borlabs-cookie/borlabs-cookie_' . get_current_blog_id() . '_' . $language
                 . '.css',
-                preg_replace("/[ \t]+/", " ", preg_replace("/\s*$^\s*/m", "\n", $css))
+                preg_replace("/[ \t]+/", ' ', preg_replace('/\\s*$^\\s*/m', "\n", $css))
             );
         }
     }
@@ -119,11 +118,7 @@ class CSS
     /**
      * getContentBlockerCSS function.
      *
-     * @access public
-     *
-     * @param  mixed  $language  (default: null)
-     *
-     * @return void
+     * @param mixed $language (default: null)
      */
     public function getContentBlockerCSS($language = null)
     {
@@ -139,11 +134,11 @@ class CSS
         $tableName = $wpdb->prefix . 'borlabs_cookie_content_blocker';
 
         $contentBlocker = $wpdb->get_results(
-            "
+            '
             SELECT
                 `preview_css`
             FROM
-                `" . $tableName . "`
+                `' . $tableName . "`
             WHERE
                 `language` = '" . esc_sql($language) . "'
                 AND
@@ -151,7 +146,7 @@ class CSS
         "
         );
 
-        if (! empty($contentBlocker)) {
+        if (!empty($contentBlocker)) {
             foreach ($contentBlocker as $key => $data) {
                 $css .= $data->preview_css;
             }
@@ -162,8 +157,6 @@ class CSS
 
     /**
      * getCookieBoxCSS function.
-     *
-     * @access public
      */
     public function getCookieBoxCSS()
     {
@@ -186,6 +179,8 @@ class CSS
         $css .= '#BorlabsCookieBox ._brlbs-btn:hover { background: %cookieBoxBtnHoverColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxBtnHoverTxtColor%; }';
         $css .= '#BorlabsCookieBox ._brlbs-refuse-btn a, #BorlabsCookieBox a._brlbs-refuse-btn { background: %cookieBoxRefuseBtnColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxRefuseBtnTxtColor%; }';
         $css .= '#BorlabsCookieBox ._brlbs-refuse-btn a:hover, #BorlabsCookieBox a._brlbs-refuse-btn:hover { background: %cookieBoxRefuseBtnHoverColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxRefuseBtnHoverTxtColor%; }';
+        $css .= '#BorlabsCookieBox ._brlbs-manage-btn a { background: %cookieBoxIndividualSettingsBtnColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxIndividualSettingsBtnTxtColor%; }';
+        $css .= '#BorlabsCookieBox ._brlbs-manage-btn a:hover { background: %cookieBoxIndividualSettingsBtnHoverColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxIndividualSettingsBtnHoverTxtColor%; }';
         $css .= '#BorlabsCookieBox ._brlbs-btn-accept-all { background: %cookieBoxAcceptAllBtnColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxAcceptAllBtnTxtColor%; }';
         $css .= '#BorlabsCookieBox ._brlbs-btn-accept-all:hover { background: %cookieBoxAcceptAllBtnHoverColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxAcceptAllBtnHoverTxtColor%; }';
         $css .= '#BorlabsCookieBox ._brlbs-btn-accept-all { background: %cookieBoxAcceptAllBtnColor%; border-radius: %cookieBoxBtnBorderRadius%px; color: %cookieBoxAcceptAllBtnTxtColor%; }';
@@ -241,12 +236,16 @@ class CSS
         $css .= '.BorlabsCookie ._brlbs-content-blocker { font-family: %contentBlockerFontFamily%; font-size: %contentBlockerFontSize%px; }';
         $css .= '.BorlabsCookie ._brlbs-content-blocker ._brlbs-caption { background: hsla(' . round($bgColorHSL[0])
             . ', ' . round($bgColorHSL[1]) . '%, ' . round($bgColorHSL[2]) . '%, ' . (Config::getInstance()->get(
-                    'contentBlockerBgOpacity'
-                ) / 100) . '); color: %contentBlockerTxtColor%; }';
+                'contentBlockerBgOpacity'
+            ) / 100) . '); color: %contentBlockerTxtColor%; }';
         $css .= '.BorlabsCookie ._brlbs-content-blocker ._brlbs-caption a { color: %contentBlockerLinkColor%; }';
         $css .= '.BorlabsCookie ._brlbs-content-blocker ._brlbs-caption a:hover { color: %contentBlockerLinkHoverColor%; }';
         $css .= '.BorlabsCookie ._brlbs-content-blocker a._brlbs-btn { background: %contentBlockerBtnColor%; border-radius: %contentBlockerBtnBorderRadius%px; color: %contentBlockerBtnTxtColor%; }';
         $css .= '.BorlabsCookie ._brlbs-content-blocker a._brlbs-btn:hover { background: %contentBlockerBtnHoverColor%; color: %contentBlockerBtnHoverTxtColor%; }';
+
+        // Widget
+
+        $css .= '#BorlabsCookieBoxWidget svg {color: %cookieBoxWidgetColor%;}';
 
         // Miscellaneous
         // Change CSS values if "Show Accept all Button" is active
@@ -258,7 +257,7 @@ class CSS
             $css .= 'a._brlbs-btn-cookie-preference:hover { background: %cookieBoxBtnHoverColor% !important; color: %cookieBoxBtnHoverTxtColor% !important; }';
         }
 
-        $css = str_replace(
+        return str_replace(
             [
                 '%cookieBoxCookieGroupJustification%',
                 '%cookieBoxFontFamily%',
@@ -283,6 +282,10 @@ class CSS
                 '%cookieBoxRefuseBtnHoverColor%',
                 '%cookieBoxRefuseBtnTxtColor%',
                 '%cookieBoxRefuseBtnHoverTxtColor%',
+                '%cookieBoxIndividualSettingsBtnColor%',
+                '%cookieBoxIndividualSettingsBtnHoverColor%',
+                '%cookieBoxIndividualSettingsBtnTxtColor%',
+                '%cookieBoxIndividualSettingsBtnHoverTxtColor%',
                 '%cookieBoxAcceptAllBtnColor%',
                 '%cookieBoxAcceptAllBtnHoverColor%',
                 '%cookieBoxAcceptAllBtnTxtColor%',
@@ -316,6 +319,7 @@ class CSS
                 '%contentBlockerBtnHoverTxtColor%',
                 '%contentBlockerLinkColor%',
                 '%contentBlockerLinkHoverColor%',
+                '%cookieBoxWidgetColor%'
             ],
             [
                 Config::getInstance()->get('cookieBoxCookieGroupJustification'),
@@ -341,6 +345,10 @@ class CSS
                 Config::getInstance()->get('cookieBoxRefuseBtnHoverColor'),
                 Config::getInstance()->get('cookieBoxRefuseBtnTxtColor'),
                 Config::getInstance()->get('cookieBoxRefuseBtnHoverTxtColor'),
+                Config::getInstance()->get('cookieBoxIndividualSettingsBtnColor'),
+                Config::getInstance()->get('cookieBoxIndividualSettingsBtnHoverColor'),
+                Config::getInstance()->get('cookieBoxIndividualSettingsBtnTxtColor'),
+                Config::getInstance()->get('cookieBoxIndividualSettingsBtnHoverTxtColor'),
                 Config::getInstance()->get('cookieBoxAcceptAllBtnColor'),
                 Config::getInstance()->get('cookieBoxAcceptAllBtnHoverColor'),
                 Config::getInstance()->get('cookieBoxAcceptAllBtnTxtColor'),
@@ -374,21 +382,16 @@ class CSS
                 Config::getInstance()->get('contentBlockerBtnHoverTxtColor'),
                 Config::getInstance()->get('contentBlockerLinkColor'),
                 Config::getInstance()->get('contentBlockerLinkHoverColor'),
+                Config::getInstance()->get('cookieBoxWidgetColor'),
             ],
             $css
         );
-
-        return $css;
     }
 
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $language  (default: null)
-     *
-     * @return void
+     * @param mixed $language (default: null)
      */
     public function save($language = null)
     {
@@ -402,7 +405,7 @@ class CSS
 
         // Update style version
         $styleVersion = get_option('BorlabsCookieStyleVersion_' . $language, 1);
-        $styleVersion = intval($styleVersion) + 1;
+        $styleVersion = (int) $styleVersion + 1;
 
         update_option('BorlabsCookieStyleVersion_' . $language, $styleVersion, false);
     }
@@ -417,6 +420,7 @@ class CSS
         foreach ($iterator as $fileData) {
             if (basename($fileData->getPathname()) === $animation . '.css') {
                 $filepath = $fileData->getPathname();
+
                 break;
             }
         }
@@ -426,7 +430,7 @@ class CSS
 
     /**
      * Performs cleanups and css specificity transformations to make animate.css code
-     * integrate with the borlabs cookie box
+     * integrate with the borlabs cookie box.
      */
     private function transformAnimationCSS(string $animationName, string $animationFilePath)
     {

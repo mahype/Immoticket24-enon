@@ -26,8 +26,8 @@ class GoogleTagManager
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -35,13 +35,12 @@ class GoogleTagManager
 
     /**
      * __construct function.
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
-        add_action('borlabsCookie/cookie/edit/template/settings/GoogleTagManager', [$this, 'additionalSettingsTemplate']
+        add_action(
+            'borlabsCookie/cookie/edit/template/settings/GoogleTagManager',
+            [$this, 'additionalSettingsTemplate']
         );
         add_action('borlabsCookie/cookie/save', [$this, 'save']);
     }
@@ -59,18 +58,13 @@ class GoogleTagManager
     /**
      * additionalSettingsTemplate function.
      *
-     * @access public
-     *
-     * @param  mixed  $data
-     *
-     * @return void
+     * @param mixed $data
      */
     public function additionalSettingsTemplate($data)
     {
-        $inputGtmId = esc_html(! empty($data->settings['gtmId']) ? $data->settings['gtmId'] : '');
-        $inputLoadBeforeConsent = ! empty($data->settings['loadBeforeConsent']) ? 1 : 0;
-        $switchLoadBeforeConsent = $inputLoadBeforeConsent ? ' active' : '';
-        ?>
+        $inputGtmId = esc_html(!empty($data->settings['gtmId']) ? $data->settings['gtmId'] : '');
+        $inputLoadBeforeConsent = !empty($data->settings['loadBeforeConsent']) ? 1 : 0;
+        $switchLoadBeforeConsent = $inputLoadBeforeConsent ? ' active' : ''; ?>
         <div class="form-group row">
             <label for="gtmId"
                    class="col-sm-4 col-form-label"><?php
@@ -85,28 +79,28 @@ class GoogleTagManager
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'Enter your Google Tag Manager ID.',
-                          'Backend / Cookie / Google Tag Manager / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'Enter your Google Tag Manager ID.',
+            'Backend / Cookie / Google Tag Manager / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
                 <div
                     class="invalid-feedback"><?php
                     _ex(
-                        'This is a required field and cannot be empty.',
-                        'Backend / Global / Validation Message',
-                        'borlabs-cookie'
-                    ); ?></div>
+            'This is a required field and cannot be empty.',
+            'Backend / Global / Validation Message',
+            'borlabs-cookie'
+        ); ?></div>
             </div>
         </div>
         <div class="form-group row align-items-center">
             <label for="loadBeforeConsent"
                    class="col-sm-4 col-form-label"><?php
                 _ex(
-                    'Load before Consent',
-                    'Backend / Cookie / Google Tag Manager / Label',
-                    'borlabs-cookie'
-                ); ?></label>
+            'Load before Consent',
+            'Backend / Cookie / Google Tag Manager / Label',
+            'borlabs-cookie'
+        ); ?></label>
             <div class="col-sm-8">
                 <button type="button" class="btn btn-sm btn-toggle mr-2<?php
                 echo $switchLoadBeforeConsent; ?>"
@@ -120,10 +114,10 @@ class GoogleTagManager
                 <span data-toggle="tooltip"
                       title="<?php
                       echo esc_attr_x(
-                          'The Google Tag Manager code is always loaded via the <strong>Fallback Code</strong> field.',
-                          'Backend / Cookie / Google Tag Manager / Tooltip',
-                          'borlabs-cookie'
-                      ); ?>"><i
+            'The Google Tag Manager code is always loaded via the <strong>Fallback Code</strong> field.',
+            'Backend / Cookie / Google Tag Manager / Tooltip',
+            'borlabs-cookie'
+        ); ?>"><i
                         class="fas fa-lg fa-question-circle text-dark"></i></span>
             </div>
         </div>
@@ -135,22 +129,22 @@ class GoogleTagManager
                     <div class="alert alert-danger mt-2">
                         <?php
                         _ex(
-                            '<strong>Load before Consent</strong> may violate applicable laws.',
-                            'Backend / Cookie / Alert Message',
-                            'borlabs-cookie'
-                        ); ?>
+                '<strong>Load before Consent</strong> may violate applicable laws.',
+                'Backend / Cookie / Alert Message',
+                'borlabs-cookie'
+            ); ?>
                         <?php
                         _ex(
-                            'The code is loaded via the <strong>Fallback Code</strong> field, from which a visitor cannot opt-out.',
-                            'Backend / Cookie / Alert Message',
-                            'borlabs-cookie'
-                        ); ?>
+                'The code is loaded via the <strong>Fallback Code</strong> field, from which a visitor cannot opt-out.',
+                'Backend / Cookie / Alert Message',
+                'borlabs-cookie'
+            ); ?>
                         <?php
                         _ex(
-                            'Please inform yourself in advance about the legal situation that applies to you.',
-                            'Backend / Cookie / Alert Message',
-                            'borlabs-cookie'
-                        ); ?>
+                'Please inform yourself in advance about the legal situation that applies to you.',
+                'Backend / Cookie / Alert Message',
+                'borlabs-cookie'
+            ); ?>
                     </div>
                 </div>
             </div>
@@ -160,13 +154,10 @@ class GoogleTagManager
 
     /**
      * getDefault function.
-     *
-     * @access public
-     * @return void
      */
     public function getDefault()
     {
-        $data = [
+        return [
             'cookieId' => 'google-tag-manager',
             'service' => 'GoogleTagManager',
             'name' => 'Google Tag Manager',
@@ -196,23 +187,17 @@ class GoogleTagManager
             'status' => true,
             'undeletetable' => false,
         ];
-
-        return $data;
     }
 
     /**
      * save function.
      *
-     * @access public
-     *
-     * @param  mixed  $formData
-     *
-     * @return void
+     * @param mixed $formData
      */
     public function save($formData)
     {
-        if (! empty($formData['service']) && $formData['service'] === 'GoogleTagManager') {
-            if (! empty($formData['settings']['gtmId'])) {
+        if (!empty($formData['service']) && $formData['service'] === 'GoogleTagManager') {
+            if (!empty($formData['settings']['gtmId'])) {
                 $formData['settings']['gtmId'] = trim($formData['settings']['gtmId']);
             }
         }
@@ -222,13 +207,10 @@ class GoogleTagManager
 
     /**
      * optInJS function.
-     *
-     * @access private
-     * @return void
      */
     private function fallbackJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <!-- Google Tag Manager -->
 <script>if('%%loadBeforeConsent%%'==='1'){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":
 new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],
@@ -237,19 +219,14 @@ j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src=
 })(window,document,"script","dataLayer","%%gtmId%%");}</script>
 <!-- End Google Tag Manager -->
 EOT;
-
-        return $code;
     }
 
     /**
      * optInJS function.
-     *
-     * @access private
-     * @return void
      */
     private function optInJS()
     {
-        $code = <<<EOT
+        return <<<EOT
 <!-- Google Tag Manager -->
 <script>if('%%loadBeforeConsent%%'!=='1'){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":
 new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],
@@ -258,7 +235,5 @@ j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src=
 })(window,document,"script","dataLayer","%%gtmId%%");}</script>
 <!-- End Google Tag Manager -->
 EOT;
-
-        return $code;
     }
 }
