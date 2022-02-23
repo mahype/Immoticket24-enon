@@ -40,7 +40,6 @@ class Setup_WP implements Filters, Actions, Task {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'styles_inline_size_limit', '__return_zero' );
 		add_filter( 'xmlrpc_enabled',           '__return_false');		
 	}
 

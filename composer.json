@@ -21,7 +21,12 @@
     "issues": "https://github.com/felixarntz/energieausweis-online-erstellen-network/issues"
   },
   "config": {
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "allow-plugins": {
+      "composer/installers": false,
+      "cweagans/composer-patches": true,
+      "johnpbloch/wordpress-core-installer": true
+    }
   },
   "repositories":[
     {
@@ -53,7 +58,7 @@
     "composer/installers": "~2.0.1",
     "cweagans/composer-patches": "~1.0",
     "johnpbloch/wordpress-core-installer": "~2.0",
-    "johnpbloch/wordpress-core": "5.9.0",
+    "johnpbloch/wordpress-core": "5.9.1",
 
     "awsmug/edd-payment-stripe-sepa": "dev-master",
     "awsmug/jason": "dev-master",
