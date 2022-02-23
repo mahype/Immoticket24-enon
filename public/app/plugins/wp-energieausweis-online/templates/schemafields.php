@@ -8,17 +8,6 @@
 ?>
 
 <?php foreach( $data as $field_slug => $field ) : ?>
-<!-- RAW Data
-<?php 
-global $post;
-print_r( $field_slug );
-print_r( $post ); 
-print_r( $field ); 
-print_r( get_post_meta( $post->ID, $field_slug, false ) )
-
-?>
--->
-
   <?php if( $field['type'] != 'hidden' ) : ?>
 
     <div id="<?php echo $field_slug; ?>-wrap" class="form-group<?php echo ( !empty( $field['unit'] ) ? ' has-unit' : '' ) . ( !empty( $field['warning'] ) ? ' has-warning' : '' ) . ( !empty( $field['error'] ) ? ' has-error' : '' ) . ( $field['done'] ? ' is-done' : '' ); ?>"<?php echo $field['display'] ? '' : ' style="display:none;"'; ?>>
@@ -179,6 +168,16 @@ print_r( get_post_meta( $post->ID, $field_slug, false ) )
             <?php break; ?>
             <?php case 'image': ?>
             
+<!-- RAW Data
+<?php 
+global $post;
+print_r( $field_slug );
+print_r( $post ); 
+print_r( $field ); 
+print_r( get_post_meta( $post->ID, $field_slug, false ) )
+
+?>
+-->
             <div id="<?php echo $field_slug; ?>_image">
               <?php if( ! empty( $field['value'] ) ): ?>
                 <img src="<?php echo $field['value']; ?>" /><br /><br />
