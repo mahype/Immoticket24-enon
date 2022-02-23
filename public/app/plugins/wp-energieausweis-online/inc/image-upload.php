@@ -116,6 +116,7 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 
 	update_post_meta( $ecId, $postMetaName . '_file', trailingslashit( $upload_dir['path'] ) . $filename  );
 	update_post_meta( $ecId, $postMetaName, $fileUrl );
+	update_post_meta( $ecId, $field, $fileUrl );
 
 	if( ! empty( $oldFile ) && file_exists( $oldFile ) ) {
 		@unlink( $oldFile );
