@@ -124,6 +124,17 @@
 
                 <?php break; ?>
                 <?php case 'image': ?>
+
+<!-- RAW Data
+<?php 
+global $post;
+print_r( $field_slug );
+print_r( $post ); 
+print_r( $field ); 
+print_r( get_post_meta( $post->ID, $field_slug, false ) )
+
+?>
+-->
             
                 <div id="<?php echo $field_slug; ?>_image">
                   <?php if( ! empty( $field['value'] ) ): ?>
