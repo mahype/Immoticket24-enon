@@ -132,7 +132,7 @@ print_r( $field_slug );
 print_r( $post ); 
 print_r( $field ); 
 print_r( get_post_meta( $post->ID, $field_slug, false ) );
-print_r( get_post_meta( $post->ID );
+print_r( get_post_meta( $post->ID ) );
 ?>
 -->
             
