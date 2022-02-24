@@ -7,7 +7,9 @@
 
 namespace WPENON\Util;
 
-class UFPDI extends \FPDI {
+use setasign\Fpdi\Fpdi;
+
+class UFPDI extends Fpdi {
 	protected $wpenon_colors = array();
 	protected $wpenon_fonts = array();
 	protected $wpenon_lineheight = 0;
