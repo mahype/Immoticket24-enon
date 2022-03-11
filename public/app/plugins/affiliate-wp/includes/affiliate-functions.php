@@ -1361,9 +1361,6 @@ function affwp_add_affiliate( $data = array() ) {
 		$user_id = absint( $data['user_id'] );
 	}
 
-	// Enable referral notifications by default for new users.
-	update_user_meta( $user_id, 'affwp_referral_notifications', true );
-
 	$args = array(
 		'user_id'          => $user_id,
 		'status'           => $status,
@@ -1387,6 +1384,9 @@ function affwp_add_affiliate( $data = array() ) {
 		if ( ! empty( $args['notes'] ) ) {
 			affwp_update_affiliate_meta( $affiliate_id, 'notes', $args['notes'] );
 		}
+
+		// Enable referral notifications by default for new affiliates.
+		affwp_update_affiliate_meta( $affiliate_id, 'referral_notifications', true );
 
 		return $affiliate_id;
 	}

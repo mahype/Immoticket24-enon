@@ -70,6 +70,7 @@ function affwp_tools_system_info_report() {
 	// General settings.
 	$return .= "\n" . '-- AffiliateWP Configuration' . "\n\n";
 	$return .= 'Version:                          ' . AFFILIATEWP_VERSION . "\n";
+	$return .= 'Upgraded From:                    ' . get_option( 'affwp_version_upgraded_from', 'None' ) . "\n";
 	$return .= 'License Key:                      ' . ( $settings->get( 'license_key' ) ? $settings->get( 'license_key' ) . "\n" : "Not set\n" );
 	$return .= 'Global License Key:               ' . ( defined( 'AFFILIATEWP_LICENSE_KEY' ) ? empty( AFFILIATEWP_LICENSE_KEY ) ? 'Set empty' : AFFILIATEWP_LICENSE_KEY : 'Not set' ) . "\n";
 	$return .= 'Currency:                         ' . ( $settings->get( 'currency' ) ? $settings->get( 'currency' ) . "\n" : "Default\n" );

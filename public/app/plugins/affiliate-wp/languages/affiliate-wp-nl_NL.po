@@ -2,19 +2,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AffiliateWP\n"
 "Report-Msgid-Bugs-To: https://affiliatewp.com/support/\n"
+"POT-Creation-Date: 2021-05-11 15:58:55+00:00\n"
+"PO-Revision-Date: 2022-03-03 18:00+0100\n"
 "Last-Translator: Leo Oosterloo <leo@pronamic.nl>\n"
 "Language-Team: Dutch\n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-05-11 15:58:55+00:00\n"
-"PO-Revision-Date: 2021-10-08 14:19-0600\n"
-"Language: nl_NL\n"
-"X-Generator: Poedit 2.4.3\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: affiliate-wp.php:132
@@ -7126,51 +7126,51 @@ msgstr ""
 
 #: templates/payouts/register.php:40
 msgid "January"
-msgstr ""
+msgstr "Januari"
 
 #: templates/payouts/register.php:41
 msgid "February"
-msgstr ""
+msgstr "Februari"
 
 #: templates/payouts/register.php:42
 msgid "March"
-msgstr "Zoeken"
+msgstr "Maart"
 
 #: templates/payouts/register.php:43
 msgid "April"
-msgstr ""
+msgstr "April"
 
 #: templates/payouts/register.php:44
 msgid "May"
-msgstr ""
+msgstr "Mei"
 
 #: templates/payouts/register.php:45
 msgid "June"
-msgstr ""
+msgstr "Juni"
 
 #: templates/payouts/register.php:46
 msgid "July"
-msgstr ""
+msgstr "Juli"
 
 #: templates/payouts/register.php:47
 msgid "August"
-msgstr ""
+msgstr "Augustus"
 
 #: templates/payouts/register.php:48
 msgid "September"
-msgstr "Onthoud me"
+msgstr "September"
 
 #: templates/payouts/register.php:49
 msgid "October"
-msgstr ""
+msgstr "Oktober"
 
 #: templates/payouts/register.php:50
 msgid "November"
-msgstr ""
+msgstr "November"
 
 #: templates/payouts/register.php:51
 msgid "December"
-msgstr "Onthoud me"
+msgstr "December"
 
 #. translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME
 #. constant, 2: Payouts service account connection URL

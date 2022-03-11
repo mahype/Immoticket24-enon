@@ -950,7 +950,8 @@ class Affiliate_WP_Settings {
 					'revoke_on_refund' => array(
 						'name' => __( 'Reject Unpaid Referrals on Refund', 'affiliate-wp' ),
 						'desc' => __( 'Automatically reject Unpaid referrals when the originating purchase is refunded or revoked.', 'affiliate-wp' ),
-						'type' => 'checkbox'
+						'type' => 'checkbox',
+						'std'  => '1'
 					),
 					'tracking_fallback' => array(
 						'name' => __( 'Use Fallback Referral Tracking Method', 'affiliate-wp' ),

@@ -169,7 +169,7 @@ class Bootstrap {
 		$data = array(
 			'currencies'         => affwp_get_currencies(),
 			'currency'           => affiliate_wp()->settings->get( 'currency', 'USD' ),
-			'revoke_on_refund'   => affiliate_wp()->settings->get( 'revoke_on_refund' ),
+			'revoke_on_refund'   => affiliate_wp()->settings->get( 'revoke_on_refund', 1 ),
 			'referral_rate'      => affiliate_wp()->settings->get( 'referral_rate', 20 ),
 			'referral_rate_type' => affiliate_wp()->settings->get( 'referral_rate_type', 'percentage' ),
 			'flat_rate_basis'    => affiliate_wp()->settings->get( 'flat_rate_basis', 'per_product' ),

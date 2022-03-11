@@ -85,8 +85,8 @@ function affwp_admin_scripts() {
 
 	affwp_enqueue_admin_js();
 
-	// only enqueue for creatives page
-	if ( isset( $_GET['action'] ) && ( $_GET['action'] == 'add_creative' || $_GET['action'] == 'edit_creative' ) ) {
+	// only enqueue for settings and creatives page
+	if ( 'affiliate-wp-settings' === affwp_get_current_screen() || ( isset( $_GET['action'] ) && ( $_GET['action'] == 'add_creative' || $_GET['action'] == 'edit_creative' ) ) ) {
 		wp_enqueue_media();
 	}
 
@@ -143,7 +143,7 @@ function affwp_enqueue_admin_js() {
 		'import_field_required' => __( 'This field must be mapped for the import to proceed.', 'affiliate-wp' ),
 	) );
 
-	$admin_deps = array( 'jquery', 'jquery-ui-autocomplete', 'affwp-batch' );
+	$admin_deps = array( 'jquery', 'jquery-ui-autocomplete', 'affwp-batch', 'wp-util' );
 
 	wp_enqueue_script( 'affwp-admin', AFFILIATEWP_PLUGIN_URL . 'assets/js/admin' . $suffix . '.js', $admin_deps, AFFILIATEWP_VERSION );
 	wp_localize_script( 'affwp-admin', 'affwp_vars', array(
