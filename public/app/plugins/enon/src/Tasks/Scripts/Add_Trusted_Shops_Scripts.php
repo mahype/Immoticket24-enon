@@ -70,6 +70,11 @@ class Add_Trusted_Shops_Scripts extends Script_Loader {
 	 */
 	public function success() {
     $id = $this->ec()->ID;
+
+    if ( ! isset( $id ) ) {
+      return;
+    }
+    
     $ec = new Energieausweis( $id );
 
     if( ! $ec->contacting_allowed() ) {
