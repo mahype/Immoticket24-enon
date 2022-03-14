@@ -250,7 +250,7 @@ class CalculationsCC {
 
             $date = str_replace( '_', '-', $date );
 
-            $climateFactors->add( new ClimateFactor( new DateTime( $date ), $value )  );
+            $climateFactors->add( new ClimateFactor( new \DateTime( $date ), $value )  );
         }
 
         return $climateFactors;
