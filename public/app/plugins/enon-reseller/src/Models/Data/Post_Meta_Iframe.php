@@ -71,6 +71,23 @@ class Post_Meta_Iframe extends Post_Meta {
 	}
 
 	/**
+	 * Checks if coupon code element is checked.
+	 *
+	 * @since 2022-03-23
+	 *
+	 * @return bool True if is checked.
+	 */
+	public function isset_element_coupon_code_field() {
+		$elements = $this->get( 'elements' );
+
+		if ( ! empty( $elements ) && in_array( 'show_coupon_code_field', $elements ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get newsletter terms.
 	 *
 	 * @since 1.0.0

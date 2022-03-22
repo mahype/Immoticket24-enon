@@ -80,6 +80,7 @@ class Filter_Iframe implements Task, Actions, Filters {
 	public function add_actions() {
 		add_action( 'enon_iframe_css', array( $this, 'add_css' ) );
 		add_action( 'enon_iframe_js', array( $this, 'add_js' ) );
+		add_action( 'edd_checkout_form_top', array( $this, 'setup_coupon_code_field' ), -2 );
 	}
 
 	/**
@@ -128,6 +129,17 @@ class Filter_Iframe implements Task, Actions, Filters {
         }
 
 		return $terms_checkboxes;
+    }
+
+	/**
+	 * Filtering if coupin code field will be shown on energieausweis creation.
+	 *
+	 * @since 2022-03-23
+	 */
+	public function setup_coupon_code_field() {
+		if ( ! $this->reseller->data()->iframe->isset_element_coupon_code_field() ) {
+			remove_action( 'edd_checkout_form_top', 'edd_discount_field', -1 );
+        }
     }
     
     /**
