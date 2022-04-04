@@ -89,7 +89,7 @@ class Bootstrap {
 	 * @since 2.9
 	 */
 	public function add_dashboard_page() {
-		add_dashboard_page( '', '', 'manage_affiliate_options', 'affiliatewp-onboarding', '' );
+		add_submenu_page( null, '', '', 'manage_affiliate_options', 'affiliatewp-onboarding' );
 	}
 
 	/**

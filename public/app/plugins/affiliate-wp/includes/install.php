@@ -80,6 +80,10 @@ function affiliate_wp_install() {
 
 		// Update settings.
 		$affiliate_wp_install->settings->set( array(
+			'require_approval'             => true,
+			'allow_affiliate_registration' => true,
+			'revoke_on_refund'             => true,
+			'referral_pretty_urls'         => true,
 			'required_registration_fields' => array(
 				'your_name'   => __( 'Your Name', 'affiliate-wp' ),
 				'website_url' => __( 'Website URL', 'affiliate-wp' )

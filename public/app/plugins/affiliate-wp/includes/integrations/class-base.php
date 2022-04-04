@@ -901,8 +901,7 @@ abstract class Affiliate_WP_Base {
 		$this->log( 'Referral retrieved successfully during complete_referral()' );
 
 		// Check if referral has failed.
-		$has_failed = affwp_get_referral_meta( $referral->referral_id, 'referral_has_failed', true );
-		if ( $has_failed ) {
+		if ( 'failed' === $referral->status ) {
 			affiliate_wp()->utils->log( 'Referral not marked as complete because it has failed before.' );
 			// This referral has failed.
 			return false;

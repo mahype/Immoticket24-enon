@@ -69,6 +69,9 @@ class Affiliate_WP_Ninja_Forms extends Affiliate_WP_Base {
 			return; // Referral not created because affiliate was not referred.
 		}
 
+		// Get the referral type.
+		$this->referral_type  = isset( $args['type'] ) ? $args['type'] : 'sale';
+
 		// Create draft referral.
 		$referral_id = $this->insert_draft_referral(
 			$this->affiliate_id,
@@ -89,9 +92,8 @@ class Affiliate_WP_Ninja_Forms extends Affiliate_WP_Base {
 			return;
 		}
 
-		// Get referral type and total.
-		$this->referral_type = isset( $args['type'] ) ? $args['type'] : 'sale';
-		$referral_total      = $this->calculate_referral_amount( $total, $reference );
+		// Get referral total.
+		$referral_total = $this->calculate_referral_amount( $total, $reference );
 
 		// Hydrates the previously created referral.
 		$this->hydrate_referral(

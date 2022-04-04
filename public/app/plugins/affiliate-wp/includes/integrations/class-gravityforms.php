@@ -72,11 +72,18 @@ class Affiliate_WP_Gravity_Forms extends Affiliate_WP_Base {
 
 		// Check if an affiliate coupon was included.
 		$is_coupon_referral = $this->check_coupons( $form, $entry );
+		if ( $is_coupon_referral && affiliate_wp()->tracking->is_valid_affiliate( $this->affiliate_id ) ) {
+			$affiliate_id = $this->affiliate_id;
+		}
 
 		// Block referral if not referred or affiliate ID is empty.
 		if ( ! $this->was_referred() && empty( $affiliate_id ) ) {
 			return; // Referral not created because affiliate not referred and not a coupon.
 		}
+
+		// Get the referral type.
+		$type                = rgar( $form, 'affwp_referral_type' );
+		$this->referral_type = empty( $type ) ? 'sale' : $type;
 
 		// create draft referral.
 		$desc        = isset( $form['title'] ) ? $form['title'] : '';
@@ -92,12 +99,6 @@ class Affiliate_WP_Gravity_Forms extends Affiliate_WP_Base {
 			$this->log( 'Draft referral creation failed.' );
 			return;
 		}
-
-		// Get the referral type we are creating.
-		$type = rgar( $form, 'affwp_referral_type' );
-		$type = empty( $type ) ? 'sale' : $type;
-
-		$this->referral_type = $type;
 
 		// Get all emails from submitted form.
 		$emails = $this->get_emails( $entry, $form );
