@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the AffiliateWP plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: AffiliateWP 2.9.2\n"
+"Project-Id-Version: AffiliateWP 2.9.3\n"
 "Report-Msgid-Bugs-To: https://affiliatewp.com/support\n"
 "Last-Translator: AffiliateWP <support@affiliatewp.com>\n"
 "Language-Team: AffiliateWP <support@affiliatewp.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-03-09T09:53:40+00:00\n"
-"PO-Revision-Date: 2022-03-09T09:53:40+00:00\n"
-"X-Generator: WP-CLI 2.5.0\n"
+"POT-Creation-Date: 2022-03-26T08:27:45+00:00\n"
+"PO-Revision-Date: 2022-03-26T08:27:45+00:00\n"
+"X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: affiliate-wp\n"
 
 #. Plugin Name of the plugin
@@ -20,8 +20,8 @@ msgstr ""
 #: includes/class-editor.php:501
 #: includes/integrations/class-formidablepro.php:97
 #: includes/integrations/class-give.php:301
-#: includes/integrations/class-woocommerce.php:768
-#: includes/integrations/class-woocommerce.php:1426
+#: includes/integrations/class-woocommerce.php:772
+#: includes/integrations/class-woocommerce.php:1430
 #: includes/integrations/extras/class-exchange-feature.php:204
 msgid "AffiliateWP"
 msgstr ""
@@ -334,6 +334,7 @@ msgstr ""
 #: assets/js/editor/blocks/affiliate-referral-url/edit.js:62
 #: assets/js/editor/blocks/login/edit.js:116
 #: assets/js/editor/blocks/login/edit.js:148
+#: assets/js/editor/blocks/registration/edit.js:54
 #: assets/js/editor/blocks/registration/fields/username/index.js:31
 #: assets/js/editor/blocks/registration/fields/username/index.js:38
 #: assets/js/editor/build/index.js:6
@@ -632,14 +633,14 @@ msgstr ""
 #: includes/admin/affiliates/new.php:115
 #: includes/admin/affiliates/new.php:120
 #: includes/admin/settings/class-settings.php:613
-#: includes/integrations/class-woocommerce.php:864
+#: includes/integrations/class-woocommerce.php:868
 msgid "Referral Rate Type"
 msgstr ""
 
 #: includes/admin/affiliates/edit.php:237
 #: includes/admin/affiliates/new.php:123
-#: includes/integrations/class-woocommerce.php:797
-#: includes/integrations/class-woocommerce.php:866
+#: includes/integrations/class-woocommerce.php:801
+#: includes/integrations/class-woocommerce.php:870
 #: assets/js/editor/blocks/affiliate-referral-url/edit.js:50
 #: assets/js/editor/blocks/affiliate-referral-url/edit.js:60
 #: assets/js/editor/build/index.js:6
@@ -670,12 +671,12 @@ msgstr ""
 #: includes/integrations/class-edd.php:968
 #: includes/integrations/class-edd.php:1008
 #: includes/integrations/class-edd.php:1031
-#: includes/integrations/class-memberpress.php:218
-#: includes/integrations/class-pmp.php:422
-#: includes/integrations/class-pms.php:74
-#: includes/integrations/class-woocommerce.php:874
-#: includes/integrations/class-woocommerce.php:1462
-#: includes/integrations/class-woocommerce.php:1480
+#: includes/integrations/class-memberpress.php:221
+#: includes/integrations/class-pmp.php:425
+#: includes/integrations/class-pms.php:77
+#: includes/integrations/class-woocommerce.php:878
+#: includes/integrations/class-woocommerce.php:1466
+#: includes/integrations/class-woocommerce.php:1484
 #: includes/integrations/class-zippycourses.php:98
 #: includes/integrations/extras/class-exchange-feature.php:40
 msgid "Referral Rate"
@@ -710,6 +711,7 @@ msgstr ""
 #: includes/admin/affiliates/edit.php:325
 #: includes/class-editor.php:336
 #: templates/register.php:80
+#: assets/js/editor/blocks/registration/edit.js:55
 #: assets/js/editor/blocks/registration/fields/account-email/index.js:32
 #: assets/js/editor/blocks/registration/fields/account-email/index.js:39
 #: assets/js/editor/build/index.js:6
@@ -736,6 +738,7 @@ msgstr ""
 #: templates/register.php:85
 #: tests/misc/test-misc-functions.php:388
 #: tests/misc/test-misc-functions.php:426
+#: assets/js/editor/blocks/registration/edit.js:56
 #: assets/js/editor/blocks/registration/fields/payment-email/index.js:32
 #: assets/js/editor/build/index.js:6
 msgid "Payment Email"
@@ -943,9 +946,10 @@ msgstr ""
 #: includes/admin/class-upgrades.php:746
 #: includes/admin/settings/class-settings.php:1113
 #: includes/class-editor.php:1154
-#: includes/install.php:85
+#: includes/install.php:89
 #: templates/register.php:90
 #: templates/register.php:91
+#: assets/js/editor/blocks/registration/edit.js:57
 #: assets/js/editor/build/index.js:6
 msgid "Website URL"
 msgstr ""
@@ -1505,10 +1509,11 @@ msgstr ""
 
 #: includes/admin/class-upgrades.php:745
 #: includes/admin/settings/class-settings.php:1112
-#: includes/install.php:84
+#: includes/install.php:88
 #: templates/register.php:70
 #: templates/register.php:71
 #: tests/misc/test-misc-functions.php:504
+#: assets/js/editor/blocks/registration/edit.js:53
 #: assets/js/editor/blocks/registration/fields/name/index.js:38
 #: assets/js/editor/build/index.js:6
 msgid "Your Name"
@@ -1781,9 +1786,9 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-payouts.php:155
 #: includes/admin/tools/export/class-batch-export-visits.php:156
 #: includes/admin/visits/class-list-table.php:109
-#: includes/integrations/class-lifterlms.php:650
-#: includes/integrations/class-lifterlms.php:676
-#: includes/integrations/class-memberpress.php:298
+#: includes/integrations/class-lifterlms.php:658
+#: includes/integrations/class-lifterlms.php:684
+#: includes/integrations/class-memberpress.php:301
 msgid "Affiliate"
 msgstr ""
 
@@ -1800,8 +1805,8 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-generate-payouts.php:236
 #: includes/admin/tools/export/class-export-referrals-payout.php:73
 #: includes/admin/tools/export/class-export-referrals.php:69
-#: includes/integrations/class-lifterlms.php:645
-#: includes/integrations/class-lifterlms.php:672
+#: includes/integrations/class-lifterlms.php:653
+#: includes/integrations/class-lifterlms.php:680
 #: templates/dashboard-tab-coupons.php:37
 #: templates/dashboard-tab-coupons.php:93
 #: templates/dashboard-tab-payouts.php:37
@@ -2421,8 +2426,8 @@ msgstr ""
 #: includes/admin/referrals/new.php:105
 #: includes/admin/tools/export/class-batch-export-referrals.php:162
 #: includes/admin/tools/export/class-export-referrals.php:73
-#: includes/integrations/class-lifterlms.php:655
-#: includes/integrations/class-lifterlms.php:680
+#: includes/integrations/class-lifterlms.php:663
+#: includes/integrations/class-lifterlms.php:688
 #: includes/misc-functions.php:1272
 #: templates/dashboard-tab-referrals.php:39
 #: templates/dashboard-tab-referrals.php:60
@@ -2628,7 +2633,7 @@ msgstr ""
 #: includes/admin/referrals/edit.php:161
 #: includes/admin/referrals/new.php:62
 #: includes/integrations/class-formidablepro.php:154
-#: includes/integrations/class-gravityforms.php:401
+#: includes/integrations/class-gravityforms.php:402
 #: includes/integrations/extras/class-ninja-forms-action-add-referral.php:112
 msgid "Referral Type"
 msgstr ""
@@ -3337,7 +3342,7 @@ msgid "Select the opt-in platform provider you wish to use then click Save Chang
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:768
-#: includes/integrations/class-woocommerce.php:1647
+#: includes/integrations/class-woocommerce.php:1651
 msgid "(select one)"
 msgstr ""
 
@@ -3768,6 +3773,7 @@ msgstr ""
 
 #: includes/admin/settings/class-settings.php:1115
 #: templates/register.php:95
+#: assets/js/editor/blocks/registration/edit.js:59
 #: assets/js/editor/build/index.js:6
 msgid "How will you promote us?"
 msgstr ""
@@ -3954,6 +3960,7 @@ msgstr ""
 
 #: includes/admin/settings/display-settings.php:87
 #: assets/js/editor/blocks/login/edit.js:83
+#: assets/js/editor/blocks/registration/edit.js:134
 #: assets/js/editor/build/index.js:6
 msgid "General"
 msgstr ""
@@ -4944,6 +4951,8 @@ msgstr ""
 
 #: includes/class-editor.php:248
 #: templates/register.php:58
+#: assets/js/editor/blocks/registration/edit.js:139
+#: assets/js/editor/blocks/registration/edit.js:179
 #: assets/js/editor/build/index.js:6
 msgid "Register a new affiliate account"
 msgstr ""
@@ -6023,12 +6032,12 @@ msgstr ""
 
 #: includes/integrations/class-caldera-forms.php:304
 #: includes/integrations/class-give.php:286
-#: includes/integrations/class-ninja-forms.php:282
+#: includes/integrations/class-ninja-forms.php:284
 msgid "Allow Referrals"
 msgstr ""
 
 #: includes/integrations/class-caldera-forms.php:309
-#: includes/integrations/class-gravityforms.php:394
+#: includes/integrations/class-gravityforms.php:395
 msgid "Enable affiliate referral creation for this form"
 msgstr ""
 
@@ -6069,19 +6078,19 @@ msgid "Referral %1$s for %2$s recorded for %3$s (ID: %4$d)."
 msgstr ""
 
 #: includes/integrations/class-edd.php:772
-#: includes/integrations/class-pmp.php:326
-#: includes/integrations/class-pms.php:130
-#: includes/integrations/class-rcp.php:397
+#: includes/integrations/class-pmp.php:329
+#: includes/integrations/class-pms.php:133
+#: includes/integrations/class-rcp.php:400
 msgid "Affiliate Discount?"
 msgstr ""
 
 #: includes/integrations/class-edd.php:778
 #: includes/integrations/class-jigoshop.php:370
-#: includes/integrations/class-memberpress.php:324
-#: includes/integrations/class-pmp.php:332
-#: includes/integrations/class-pms.php:132
-#: includes/integrations/class-rcp.php:403
-#: includes/integrations/class-woocommerce.php:628
+#: includes/integrations/class-memberpress.php:327
+#: includes/integrations/class-pmp.php:335
+#: includes/integrations/class-pms.php:135
+#: includes/integrations/class-rcp.php:406
+#: includes/integrations/class-woocommerce.php:632
 msgid "If you would like to connect this discount to an affiliate, enter the name of the affiliate it belongs to."
 msgstr ""
 
@@ -6121,7 +6130,7 @@ msgid "Disable referrals on this %s"
 msgstr ""
 
 #: includes/integrations/class-edd.php:982
-#: includes/integrations/class-memberpress.php:229
+#: includes/integrations/class-memberpress.php:232
 #: includes/integrations/class-zippycourses.php:109
 msgid "These settings will be used to calculate affiliate earnings per-sale. Leave blank to use the site default referral rate."
 msgstr ""
@@ -6154,17 +6163,17 @@ msgid "Purchase Amount"
 msgstr ""
 
 #. translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name, 4: Referral affiliate ID
-#: includes/integrations/class-formidablepro.php:275
+#: includes/integrations/class-formidablepro.php:276
 msgid "AffiliateWP: Referral #%1$d for %2$s recorded for %3$s (ID: %4$d)."
 msgstr ""
 
 #. translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name
-#: includes/integrations/class-formidablepro.php:312
+#: includes/integrations/class-formidablepro.php:313
 msgid "AffiliateWP: Referral #%1$d for %2$s recorded for %3$s"
 msgstr ""
 
 #. translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name
-#: includes/integrations/class-formidablepro.php:344
+#: includes/integrations/class-formidablepro.php:345
 msgid "AffiliateWP: Referral #%1$d for %2$s for %3$s rejected"
 msgstr ""
 
@@ -6182,10 +6191,10 @@ msgid "Enable affiliate referral creation for this donation form"
 msgstr ""
 
 #: includes/integrations/class-give.php:292
-#: includes/integrations/class-memberpress.php:196
-#: includes/integrations/class-rcp.php:506
-#: includes/integrations/class-rcp.php:537
-#: includes/integrations/class-woocommerce.php:803
+#: includes/integrations/class-memberpress.php:199
+#: includes/integrations/class-rcp.php:509
+#: includes/integrations/class-rcp.php:540
+#: includes/integrations/class-woocommerce.php:807
 msgid "Affiliate Rate"
 msgstr ""
 
@@ -6194,30 +6203,29 @@ msgid "This setting will be used to calculate affiliate earnings per-donation. L
 msgstr ""
 
 #. translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name, 4: Referral affiliate ID
-#: includes/integrations/class-gravityforms.php:188
+#: includes/integrations/class-gravityforms.php:189
 #: includes/integrations/class-jigoshop.php:123
-#: includes/integrations/class-pmp.php:219
+#: includes/integrations/class-pmp.php:222
 #: includes/integrations/class-shopp.php:111
 #: includes/integrations/class-sproutinvoices.php:79
 #: includes/integrations/class-zippycourses.php:292
 msgid "Referral #%1$d for %2$s recorded for %3$s (ID: %4$d)."
 msgstr ""
 
-#: includes/integrations/class-gravityforms.php:220
+#: includes/integrations/class-gravityforms.php:221
 #: includes/integrations/class-sproutinvoices.php:109
 msgid "Referral #%d for %s for %s rejected"
 msgstr ""
 
-#: includes/integrations/class-gravityforms.php:405
-#: includes/integrations/class-wpforms.php:64
+#: includes/integrations/class-gravityforms.php:406
 msgid "Allow referrals"
 msgstr ""
 
-#: includes/integrations/class-gravityforms.php:440
+#: includes/integrations/class-gravityforms.php:441
 msgid "Affiliate Coupon"
 msgstr ""
 
-#: includes/integrations/class-gravityforms.php:443
+#: includes/integrations/class-gravityforms.php:444
 msgid "To connect this coupon to an affiliate, enter the username of the affiliate. Anytime this coupon is redeemed, the connected affiliate will receive a referral commission."
 msgstr ""
 
@@ -6235,82 +6243,82 @@ msgstr ""
 msgid "Referral #%d completed"
 msgstr ""
 
-#: includes/integrations/class-lifterlms.php:201
+#: includes/integrations/class-lifterlms.php:205
 msgid "Referral not created because WooCommerce was used for payment."
 msgstr ""
 
-#: includes/integrations/class-lifterlms.php:222
-#: includes/integrations/class-lifterlms.php:328
+#: includes/integrations/class-lifterlms.php:226
+#: includes/integrations/class-lifterlms.php:336
 msgid "Referral not created because affiliate's own account was used."
 msgstr ""
 
-#: includes/integrations/class-lifterlms.php:231
-#: includes/integrations/class-lifterlms.php:337
+#: includes/integrations/class-lifterlms.php:235
+#: includes/integrations/class-lifterlms.php:345
 msgid "Referral not created due to 0.00 amount."
 msgstr ""
 
 #. translators: Referral ID
-#: includes/integrations/class-lifterlms.php:361
+#: includes/integrations/class-lifterlms.php:369
 msgid "LifterLMS referral #%d updated to pending successfully."
 msgstr ""
 
-#: includes/integrations/class-lifterlms.php:404
+#: includes/integrations/class-lifterlms.php:412
 msgid "Search for an affiliate by username or email."
 msgstr ""
 
-#: includes/integrations/class-lifterlms.php:412
+#: includes/integrations/class-lifterlms.php:420
 msgid "Affiliate Discount"
 msgstr ""
 
-#: includes/integrations/class-lifterlms.php:413
+#: includes/integrations/class-lifterlms.php:421
 msgid "Connect this coupon with an affiliate."
 msgstr ""
 
-#: includes/integrations/class-lifterlms.php:642
-#: includes/integrations/class-lifterlms.php:668
+#: includes/integrations/class-lifterlms.php:650
+#: includes/integrations/class-lifterlms.php:676
 msgid "Referral Details"
 msgstr ""
 
-#: includes/integrations/class-lifterlms.php:722
-#: includes/integrations/class-pmp.php:436
-#: includes/integrations/class-rcp.php:547
+#: includes/integrations/class-lifterlms.php:730
+#: includes/integrations/class-pmp.php:439
+#: includes/integrations/class-rcp.php:550
 msgid "Disable Referrals"
 msgstr ""
 
 #. translators: Product type
-#: includes/integrations/class-lifterlms.php:724
+#: includes/integrations/class-lifterlms.php:732
 msgid "Check this box to prevent orders for this %s from generating referral commissions for affiliates."
 msgstr ""
 
 #. translators: Product type
-#: includes/integrations/class-lifterlms.php:733
+#: includes/integrations/class-lifterlms.php:741
 msgid "Enable %s Referral Rate"
 msgstr ""
 
-#: includes/integrations/class-lifterlms.php:734
+#: includes/integrations/class-lifterlms.php:742
 msgid "Check this box to enable %s referral rate overrides"
 msgstr ""
 
 #. translators: Product type
-#: includes/integrations/class-lifterlms.php:743
+#: includes/integrations/class-lifterlms.php:751
 msgid "%s Referral Rate"
 msgstr ""
 
 #. translators: Product type
-#: includes/integrations/class-lifterlms.php:745
+#: includes/integrations/class-lifterlms.php:753
 msgid "Enter a referral rate for this %s"
 msgstr ""
 
 #. translators: Referral ID
-#: includes/integrations/class-lifterlms.php:862
+#: includes/integrations/class-lifterlms.php:870
 msgid "Referral #%d rejected"
 msgstr ""
 
-#: includes/integrations/class-memberpress.php:225
+#: includes/integrations/class-memberpress.php:228
 msgid "Disable referrals on this membership"
 msgstr ""
 
-#: includes/integrations/class-ninja-forms.php:283
+#: includes/integrations/class-ninja-forms.php:285
 msgid "Enable affiliate referral creation for this form?"
 msgstr ""
 
@@ -6327,113 +6335,117 @@ msgstr ""
 msgid "Please enter a valid email address"
 msgstr ""
 
-#: includes/integrations/class-pmp.php:417
+#: includes/integrations/class-pmp.php:420
 #: includes/integrations/class-zippycourses.php:77
 msgid "Affiliate Settings"
 msgstr ""
 
 #. translators: Referral rate
-#: includes/integrations/class-pmp.php:429
+#: includes/integrations/class-pmp.php:432
 msgid "The membership-level referral rate, such as 20 for 20%%. Affiliate-level referral rates will override this value. If left blank, the site default value of %s will be used."
 msgstr ""
 
-#: includes/integrations/class-pmp.php:438
+#: includes/integrations/class-pmp.php:441
 msgid "Check to disable per-membership referrals."
 msgstr ""
 
-#: includes/integrations/class-pms.php:76
+#: includes/integrations/class-pms.php:79
 msgid "This rate will be used to calculate affiliate earnings when members register their account with this subscription. Leave blank to use the site default referral rate."
 msgstr ""
 
-#: includes/integrations/class-rcp.php:510
-#: includes/integrations/class-rcp.php:541
+#: includes/integrations/class-rcp.php:513
+#: includes/integrations/class-rcp.php:544
 msgid "This rate will be used to calculate affiliate earnings when members subscribe to this level. Leave blank to use the site default referral rate."
 msgstr ""
 
-#: includes/integrations/class-rcp.php:552
+#: includes/integrations/class-rcp.php:555
 msgid "Disable referrals on this subscription level."
 msgstr ""
 
 #. translators: 1: Referral link, 2: Amount, 3: Affiliate Name
-#: includes/integrations/class-woocommerce.php:357
+#: includes/integrations/class-woocommerce.php:361
 msgid "Referral %1$s updated. Amount %2$s recorded for %3$s"
 msgstr ""
 
 #. translators: Variation ID
-#: includes/integrations/class-woocommerce.php:422
-#: includes/integrations/class-woocommerce.php:746
+#: includes/integrations/class-woocommerce.php:426
+#: includes/integrations/class-woocommerce.php:750
 msgid "(Variation ID %d)"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:624
+#: includes/integrations/class-woocommerce.php:628
 msgid "Affiliate discount?"
 msgstr ""
 
 #. translators: Coupons settings URL
-#: includes/integrations/class-woocommerce.php:638
+#: includes/integrations/class-woocommerce.php:642
 msgid "This setting is disabled because this coupon is designated as a dynamic coupon template. Visit <a href=\"%s\" target=\"_blank\">Settings &rarr; Coupons</a> to configure dynamic coupons."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:792
+#: includes/integrations/class-woocommerce.php:796
 msgid "Configure affiliate rates for this product. These settings will be used to calculate affiliate earnings per-sale."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:796
+#: includes/integrations/class-woocommerce.php:800
 msgid "Affiliate Rate Type"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:799
+#: includes/integrations/class-woocommerce.php:803
 msgid "Earnings can be based on either a percentage or a flat rate amount."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:805
+#: includes/integrations/class-woocommerce.php:809
 msgid "Leave blank to use default affiliate rates."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:817
+#: includes/integrations/class-woocommerce.php:821
 msgid "Disable referrals"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:818
+#: includes/integrations/class-woocommerce.php:822
 msgid "This will prevent this product from generating referral commissions for affiliates."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:860
+#: includes/integrations/class-woocommerce.php:864
 msgid "Configure affiliate rates for this product variation"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:875
+#: includes/integrations/class-woocommerce.php:879
 msgid "Referral rate (optional)"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:880
+#: includes/integrations/class-woocommerce.php:884
 msgid "Disable referrals for this product variation"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:1427
+#: includes/integrations/class-woocommerce.php:1431
 msgid "AffiliateWP settings for the My Account page."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:1433
+#: includes/integrations/class-woocommerce.php:1437
 msgid "Affiliate Area Link"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:1434
+#: includes/integrations/class-woocommerce.php:1438
 msgid "Display a link to the Affiliate Area in the My Account navigation."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:1464
-#: includes/integrations/class-woocommerce.php:1484
+#: includes/integrations/class-woocommerce.php:1468
+#: includes/integrations/class-woocommerce.php:1488
 msgid "The referral rate for this category."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:1521
-#: includes/integrations/class-woocommerce.php:1570
+#: includes/integrations/class-woocommerce.php:1525
+#: includes/integrations/class-woocommerce.php:1574
 msgid "Affiliate Referral"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:1883
+#: includes/integrations/class-woocommerce.php:1887
 msgid "This coupon can&#8217;t be used at the moment"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:64
+msgid "Enable referrals"
 msgstr ""
 
 #: includes/integrations/class-wpforms.php:72
@@ -8215,9 +8227,36 @@ msgstr ""
 msgid "Restrict"
 msgstr ""
 
+#: assets/js/editor/blocks/affiliate-creative/edit.js:133
+#: assets/js/editor/build/index.js:6
+msgid "- Select -"
+msgstr ""
+
+#: assets/js/editor/blocks/affiliate-creative/edit.js:148
+#: assets/js/editor/build/index.js:6
+msgid "Select the affiliate creative to display"
+msgstr ""
+
+#: assets/js/editor/blocks/affiliate-creative/edit.js:168
+#: assets/js/editor/build/index.js:6
+msgid "This creative is inactive."
+msgstr ""
+
+#: assets/js/editor/blocks/affiliate-creative/edit.js:178
+#: assets/js/editor/build/index.js:6
+msgid "This creative (id: %d) no longer exists."
+msgstr ""
+
+#: assets/js/editor/blocks/affiliate-creative/edit.js:203
+#: assets/js/editor/blocks/affiliate-creative/edit.js:231
 #: assets/js/editor/blocks/affiliate-creative/index.js:22
 #: assets/js/editor/build/index.js:6
 msgid "Affiliate Creative"
+msgstr ""
+
+#: assets/js/editor/blocks/affiliate-creative/edit.js:210
+#: assets/js/editor/build/index.js:6
+msgid "No creatives were found."
 msgstr ""
 
 #: assets/js/editor/blocks/affiliate-creative/index.js:23
@@ -8303,6 +8342,7 @@ msgid "Redirect"
 msgstr ""
 
 #: assets/js/editor/blocks/login/edit.js:92
+#: assets/js/editor/blocks/registration/edit.js:138
 #: assets/js/editor/build/index.js:6
 msgid "Form Title"
 msgstr ""
@@ -8314,6 +8354,7 @@ msgid "Button Text"
 msgstr ""
 
 #: assets/js/editor/blocks/login/edit.js:104
+#: assets/js/editor/blocks/registration/edit.js:144
 #: assets/js/editor/build/index.js:6
 msgid "Show Placeholder Text"
 msgstr ""
@@ -8456,6 +8497,11 @@ msgstr ""
 #: assets/js/editor/build/index.js:6
 msgctxt "Text field"
 msgid "Field Placeholder"
+msgstr ""
+
+#: assets/js/editor/blocks/registration/edit.js:157
+#: assets/js/editor/build/index.js:6
+msgid "Affiliates will not see this form as \"Allow Affiliate Registration\" is disabled."
 msgstr ""
 
 #: assets/js/editor/blocks/registration/fields/account-email/edit.js:53
@@ -8764,10 +8810,6 @@ msgid "Registration"
 msgstr ""
 
 #: assets/js/editor/build/index.js:6
-msgid "Affiliates will not see this form as \"Allow Affiliate Registration\" is disabled."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
 #: assets/js/editor/utils/referral-url.js:43
 msgid "123"
 msgstr ""
@@ -8775,24 +8817,4 @@ msgstr ""
 #: assets/js/editor/build/index.js:6
 #: assets/js/editor/utils/referral-url.js:49
 msgid "demoaffiliate"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Select the affiliate creative to display"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "- Select -"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "This creative is inactive."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "This creative (id: %d) no longer exists."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "No creatives were found."
 msgstr ""

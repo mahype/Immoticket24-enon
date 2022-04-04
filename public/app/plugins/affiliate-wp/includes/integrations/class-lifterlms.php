@@ -156,12 +156,15 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 			return; // Referral not created because affiliate was not referred.
 		}
 
+		$is_coupon_referral = false;
+
 		// Get the referring affiliate's affiliate id.
 		$affiliate_id = $this->get_affiliate_id( $order_id );
 
 		// Use the coupon affiliate if there is one.
 		if ( false !== $order->coupon_affiliate_id ) {
-			$affiliate_id = $order->coupon_affiliate_id;
+			$affiliate_id       = $order->coupon_affiliate_id;
+			$is_coupon_referral = true;
 		}
 
 		$this->email = $order->user_data->user_email;
@@ -184,8 +187,9 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 		$referral_id = $this->insert_draft_referral(
 			$affiliate_id,
 			array(
-				'reference'   => $order_id,
-				'description' => $description,
+				'reference'          => $order_id,
+				'description'        => $description,
+				'is_coupon_referral' => $is_coupon_referral,
 			)
 		);
 		if ( ! $referral_id ) {
@@ -279,12 +283,15 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 			return; // Referral not created because affiliate was not referred.
 		}
 
+		$is_coupon_referral = false;
+
 		// Get the referring affiliate's affiliate id.
 		$affiliate_id = $this->get_affiliate_id( $order_id );
 
 		// Use our coupon affiliate if we have one.
 		if ( false !== $coupon_affiliate_id ) {
-			$affiliate_id = $coupon_affiliate_id;
+			$affiliate_id       = $coupon_affiliate_id;
+			$is_coupon_referral = true;
 		}
 
 		// Set customer email.
@@ -300,8 +307,9 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 		$referral_id = $this->insert_draft_referral(
 			$affiliate_id,
 			array(
-				'reference'   => $order_id,
-				'description' => $description,
+				'reference'          => $order_id,
+				'description'        => $description,
+				'is_coupon_referral' => $is_coupon_referral,
 			)
 		);
 		if ( ! $referral_id ) {

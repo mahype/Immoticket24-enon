@@ -49,6 +49,9 @@ class Affiliate_WP_PMS extends Affiliate_WP_Base {
         add_action( 'pms_payment_updated', array( $this, 'complete_pending_referral_on_payment_complete' ), 10, 3 );
         add_action( 'pms_payment_updated', array( $this, 'reject_referral_on_payment_refunded' ), 10, 3 );
 
+	    add_action( 'pms_payment_update', array( $this, 'complete_pending_referral_on_payment_complete_new' ), 10, 3 );
+	    add_action( 'pms_payment_update', array( $this, 'reject_referral_on_payment_refunded_new' ), 10, 3 );
+
         // Add referral for a free membership plan.
         add_action( 'pms_after_checkout_is_processed', array( $this, 'add_referral_for_free_membership' ), 10, 2 );
 
@@ -222,8 +225,9 @@ class Affiliate_WP_PMS extends Affiliate_WP_Base {
 		$referral_id = $this->insert_draft_referral(
 			$this->affiliate_id,
 			array(
-				'reference'   => $payment_id,
-				'description' => $description,
+				'reference'          => $payment_id,
+				'description'        => $description,
+				'is_coupon_referral' => $affiliate_discount,
 			)
 		);
 		if ( ! $referral_id ) {
@@ -440,6 +444,68 @@ class Affiliate_WP_PMS extends Affiliate_WP_Base {
         }
 
     }
+
+	/**
+	 * Completes the referral when the payment is updated
+	 *
+	 * Compatible with Paid Member Subscriptions 1.6.2+
+	 *
+	 * @since  2.9.3
+	 * @access public
+	 *
+	 * @param  int $payment_id
+	 * @param  array $data
+	 * @param  array $old_data
+	 */
+	public function complete_pending_referral_on_payment_complete_new( $payment_id, $data, $old_data ) {
+
+		if ( ! $data ) {
+			return;
+		}
+
+		if ( empty( $data['status'] ) ) {
+			return;
+		}
+
+		if ( 'completed' === strtolower( $data['status'] ) ) {
+			$this->log( 'PMS: Referral for payment ID ' . $payment_id . ' about to be marked as complete' );
+			$this->complete_referral( $payment_id );
+		} else {
+			$this->log( 'PMS: Referral for payment ID ' . $payment_id . ' not marked as complete because payment status is not completed' );
+		}
+	}
+
+	/**
+	 * Rejects a referral when the status of the payment is set to refunded
+	 *
+	 * Compatible with Paid Member Subscriptions 1.6.2+
+	 *
+	 * @since  2.9.3
+	 * @access public
+	 *
+	 * @param  int $payment_id
+	 * @param  array $data
+	 * @param  array $old_data
+	 */
+	public function reject_referral_on_payment_refunded_new( $payment_id, $data, $old_data ) {
+
+		if ( ! affiliate_wp()->settings->get( 'revoke_on_refund' ) ) {
+			return;
+		}
+
+		if ( ! $data ) {
+			return;
+		}
+
+		if ( empty( $data['status'] ) ) {
+			return;
+		}
+
+		if ( 'refunded' === strtolower( $data['status'] ) ) {
+			$this->log( 'PMS: Referral for payment ID ' . $payment_id . ' about to be marked as rejected during refund' );
+			$this->reject_referral( $payment_id );
+		}
+	}
 
     /**
      * Creates a link to the payment referenced in the referral

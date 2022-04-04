@@ -204,6 +204,11 @@ class Affiliate_WP_Formidable_Pro extends Affiliate_WP_Base {
 			return; // Referral not created because affiliate was not referred.
 		}
 
+		$form = FrmForm::getOne( $form_id );
+
+		// Get referral type.
+		$this->referral_type = isset( $form->options['affiliatewp']['referral_type'] ) ? $form->options['affiliatewp']['referral_type'] : 'sale';
+
 		// Create draft referral.
 		$referral_id = $this->insert_draft_referral(
 			$this->affiliate_id,
@@ -215,10 +220,6 @@ class Affiliate_WP_Formidable_Pro extends Affiliate_WP_Base {
 			$this->log( 'Draft referral creation failed.' );
 			return;
 		}
-
-		$form = FrmForm::getOne( $form_id );
-
-		$this->referral_type = isset( $form->options['affiliatewp']['referral_type'] ) ? $form->options['affiliatewp']['referral_type'] : 'sale';
 
 		$field_referral_description = $form->options['affiliatewp']['referral_description_field'];
 		$field_purchase_amount      = $form->options['affiliatewp']['purchase_amount_field'];

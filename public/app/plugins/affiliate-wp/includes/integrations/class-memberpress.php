@@ -65,9 +65,11 @@ class Affiliate_WP_MemberPress extends Affiliate_WP_Base {
 	public function add_pending_referral( $txn ) {
 
 		// Check if an affiliate coupon was used.
-		$affiliate_id = $this->get_coupon_affiliate_id( $txn );
+		$is_coupon_referral = false;
+		$affiliate_id       = $this->get_coupon_affiliate_id( $txn );
 		if ( false !== $affiliate_id ) {
 			$this->affiliate_id = $affiliate_id;
+			$is_coupon_referral = true;
 		}
 
 		// Check if referred or coupon.
@@ -89,8 +91,9 @@ class Affiliate_WP_MemberPress extends Affiliate_WP_Base {
 		$referral_id = $this->insert_draft_referral(
 			$this->affiliate_id,
 			array(
-				'reference'   => $txn->id,
-				'description' => get_the_title( $txn->product_id ),
+				'reference'          => $txn->id,
+				'description'        => get_the_title( $txn->product_id ),
+				'is_coupon_referral' => $is_coupon_referral,
 			)
 		);
 		if ( ! $referral_id ) {

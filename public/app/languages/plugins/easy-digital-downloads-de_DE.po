@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Easy Digital Downloads &#8211; Simple eCommerce for Selling Digital Files - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-01-07 22:23:25+0000\n"
+"PO-Revision-Date: 2022-03-28 13:08:45+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,24 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: de\n"
 "Project-Id-Version: Plugins - Easy Digital Downloads &#8211; Simple eCommerce for Selling Digital Files - Stable (latest release)\n"
+
+#. translators: %1$s Opening anchor tag, do not translate. %2$s Closing anchor
+#. tag, do not translate.
+#: includes/login-register.php:158
+msgid "Invalid username or password. %1$sReset Password%2$s"
+msgstr "Falscher Benutzername oder Passwort. %1$sPasswort zurücksetzen%2$s"
+
+#: includes/deprecated-functions.php:792
+msgid "Install Jilt"
+msgstr "Jilt installieren"
+
+#: includes/deprecated-functions.php:782
+msgid "Connect to Jilt"
+msgstr "Mit Jilt verbinden"
+
+#: includes/admin/settings/display-settings.php:271
+msgid "Shop Now!"
+msgstr "Jetzt einkaufen!"
 
 #: includes/deprecated-functions.php:813 includes/deprecated-functions.php:892
 #: includes/deprecated-functions.php:921 includes/deprecated-functions.php:1067
@@ -62,19 +80,19 @@ msgstr "Entschuldigung, diese Datei kann nicht heruntergeladen werden."
 msgid "No download attached to this order"
 msgstr "Kein Download im Anhang zu dieser Bestellung"
 
-#: includes/gateways/paypal-standard.php:1008
+#: includes/gateways/paypal-standard.php:1011
 msgid "Payment could not be verified while validating PayPal PDT. Missing payment total fields."
 msgstr "Die Zahlung konnte mit der Validierung von PayPal PDT nicht verifiziert werden. Die Felder für die Gesamtsumme fehlen."
 
-#: includes/gateways/paypal-standard.php:1056
+#: includes/gateways/paypal-standard.php:1059
 msgid "PayPal PDT encountered an unexpected result, payment set to pending"
 msgstr "PayPal PDT lieferte ein unerwarteten Ergebnis zurück. Die Zahlung wurde auf den Status ausstehend gesetzt."
 
-#: includes/gateways/paypal-standard.php:1049
+#: includes/gateways/paypal-standard.php:1052
 msgid "Payment failed while validating PayPal PDT."
 msgstr "Die Zahlung schlug durch die Validierung von PayPal PDT fehl."
 
-#: includes/gateways/paypal-standard.php:1019
+#: includes/gateways/paypal-standard.php:1022
 msgid "Payment failed while validating PayPal PDT. Amount expected: %f. Amount Received: %f"
 msgstr "Die Zahlung schlug durch die Validierung von PayPal PDT fehl. Erwarteter Betrag: %f. Erhaltener Betrag: %f"
 
@@ -100,12 +118,12 @@ msgstr "Ein Kunde mit der E-Mail-Adresse %s existiert bereits. Bitte gehe zurüc
 msgid "Missing nonce when processing login during checkout. Please read the following for more information: https://easydigitaldownloads.com/development/2018/07/09/important-update-to-ajax-requests-in-easy-digital-downloads-2-9-4"
 msgstr "Fehlende Nonce beim Login auf der Checkout-Seite. Weitere Informationen findest du unter https://easydigitaldownloads.com/development/2018/07/09/important-update-to-ajax-requests-in-easy-digital-downloads-2-9-4"
 
-#: includes/gateways/stripe/includes/compat.php:227
+#: includes/gateways/stripe/includes/compat.php:235
 #: includes/process-purchase.php:51
 msgid "Error processing purchase. Please reload the page and try again."
 msgstr "Fehler bei der Durchführung des Einkaufs. Bitte lade die Seite neu und versuche es erneut."
 
-#: includes/gateways/stripe/includes/compat.php:220
+#: includes/gateways/stripe/includes/compat.php:228
 #: includes/process-purchase.php:44
 msgid "Missing nonce when processing checkout. Please read the following for more information: https://easydigitaldownloads.com/development/2018/07/05/important-update-to-ajax-requests-in-easy-digital-downloads-2-9-4"
 msgstr "Fehlende Nonce bei der Durchführung des Einkaufs. Weitere Informationen findest du unter https://easydigitaldownloads.com/development/2018/07/05/important-update-to-ajax-requests-in-easy-digital-downloads-2-9-4"
@@ -732,15 +750,15 @@ msgstr "Wenn sich ein Kunde mit dem [edd_login] shortcode anmeldet, ist dies die
 msgid "Activate Reviews"
 msgstr "Bewertungen aktivieren"
 
-#: includes/admin/downloads/metabox.php:826
+#: includes/admin/downloads/metabox.php:831
 msgid "Remove file %s"
 msgstr "Datei %s entfernen"
 
-#: includes/admin/downloads/metabox.php:821
+#: includes/admin/downloads/metabox.php:826
 msgid "Click and drag to re-order files"
 msgstr "Klicken und ziehen, um Dateien neu zu ordnen"
 
-#: includes/admin/extensions/product-education/class-reviews.php:120
+#: includes/admin/extensions/product-education/class-reviews.php:128
 msgid "Product Reviews"
 msgstr "Produkt-Bewertungen"
 
@@ -768,38 +786,38 @@ msgstr "Kauflimit-Einstellungen"
 msgid "Type to search all Users"
 msgstr "Tippe, um alle Nutzer zu durchsuchen"
 
-#: includes/admin/downloads/metabox.php:822
+#: includes/admin/downloads/metabox.php:827
 msgid "%1$s file ID: %2$s"
 msgstr "%1$s Datei ID: %2$s"
 
-#: includes/admin/downloads/metabox.php:620
-#: includes/admin/downloads/metabox.php:679
+#: includes/admin/downloads/metabox.php:623
+#: includes/admin/downloads/metabox.php:684
 msgid "Price assignment:"
 msgstr "Preiszuordnung:"
 
-#: includes/admin/downloads/metabox.php:606
-#: includes/admin/downloads/metabox.php:666
+#: includes/admin/downloads/metabox.php:609
+#: includes/admin/downloads/metabox.php:671
 msgid "Select %s:"
 msgstr "%s auswählen:"
 
-#: includes/admin/downloads/metabox.php:602
-#: includes/admin/downloads/metabox.php:662
+#: includes/admin/downloads/metabox.php:605
+#: includes/admin/downloads/metabox.php:667
 msgid "Click and drag to re-order bundled %s"
 msgstr "Klicke und ziehe, um %s neu zu ordnen."
 
-#: includes/admin/downloads/metabox.php:594
+#: includes/admin/downloads/metabox.php:597
 msgid "Bundled %s"
 msgstr "Gebündelte %s"
 
-#: includes/admin/downloads/metabox.php:436 includes/scripts.php:234
+#: includes/admin/downloads/metabox.php:439 includes/scripts.php:234
 msgid "Show advanced settings"
 msgstr "Erweiterte Einstellungen anzeigen"
 
-#: includes/admin/downloads/metabox.php:430
+#: includes/admin/downloads/metabox.php:433
 msgid "Price ID: %s"
 msgstr "Preis-ID: %s"
 
-#: includes/admin/downloads/metabox.php:429
+#: includes/admin/downloads/metabox.php:432
 msgid "Click and drag to re-order price options"
 msgstr "Klicke und ziehe, um die Preisoptionen neu zu ordnen."
 
@@ -877,12 +895,12 @@ msgstr "Wähle einen Kunden"
 msgid "API Request"
 msgstr "API Abfrage"
 
-#: includes/class-edd-discount.php:1449
+#: includes/class-edd-discount.php:1468
 msgctxt "error shown when attempting to use a discount before its start date"
 msgid "This discount is invalid."
 msgstr "Dieser Rabatt ist (noch) ungültig."
 
-#: includes/class-edd-discount.php:1819
+#: includes/class-edd-discount.php:1838
 msgctxt "error for when a discount is invalid based on its configuration"
 msgid "This discount is invalid."
 msgstr "Dieser Rabatt ist nicht gültig."
@@ -932,7 +950,7 @@ msgstr "Ausstehende und abgebrochene Zahlungen können vom Kunden über diese be
 msgid "Recovery URL"
 msgstr "Wiederherstellungs-URL"
 
-#: includes/admin/downloads/metabox.php:1015
+#: includes/admin/downloads/metabox.php:1020
 msgid "<strong>Item Quantities</strong>: if disabled, customers will not be provided an option to change the number they wish to purchase."
 msgstr "<strong>Produktanzahl</strong>: Wenn deaktiviert, wird den Kunden keine Option zum Ändern der Anzahl angeboten, die sie kaufen möchten."
 
@@ -946,11 +964,11 @@ msgctxt "payment details purchased item quantity - full screen"
 msgid " & Quantity"
 msgstr "& Anzahl"
 
-#: includes/admin/downloads/metabox.php:1007
+#: includes/admin/downloads/metabox.php:1012
 msgid "Item Quantities:"
 msgstr "Produktanzahl:"
 
-#: includes/admin/downloads/metabox.php:1013
+#: includes/admin/downloads/metabox.php:1018
 msgid "Disable quantity input for this product"
 msgstr "Mengeneingabe für dieses Produkt deaktivieren"
 
@@ -979,19 +997,19 @@ msgctxt "Customer Details tab title"
 msgid "Profile"
 msgstr "Profil"
 
-#: includes/admin/class-edd-notices.php:228
+#: includes/admin/class-edd-notices.php:231
 msgid "The reports have been refreshed."
 msgstr "Die Berichte wurden aktualisiert."
 
-#: includes/admin/class-edd-notices.php:207
+#: includes/admin/class-edd-notices.php:210
 msgid "The discount code entered is invalid; only alphanumeric characters are allowed, please try again."
 msgstr "Der eingegebene Rabattcode ist ungültig; es sind nur alphanumerische Zeichen erlaubt, bitte versuche es erneut."
 
-#: includes/admin/class-edd-notices.php:204
+#: includes/admin/class-edd-notices.php:207
 msgid "The discount code could not be added because one or more of the required fields was empty, please try again."
 msgstr "Der Rabattcode konnte nicht hinzugefügt werden, da eines oder mehrere der erforderlichen Felder leer waren, bitte versuche es erneut."
 
-#: includes/admin/class-edd-notices.php:56
+#: includes/admin/class-edd-notices.php:57
 msgid "Note: Test Mode is enabled. While in test mode no live transactions are processed. <a href=\"%s\">Settings</a>."
 msgstr "Hinweis: Der Testmodus ist aktiviert. Im Testmodus werden keine Live-Transaktionen verarbeitet. <a href=\"%s\">Einstellungen</a>."
 
@@ -1218,7 +1236,7 @@ msgstr "Der Schlüssel, den du eingegeben hast, gehört zu einem Paket. Bitte be
 msgid "Failed to attach user. The login or email address %s was not found."
 msgstr "Der Benutzer konnte nicht gebunden werden. Der Login oder die Email Adresse %s konnte nicht gefunden werden."
 
-#: includes/admin/downloads/metabox.php:1126
+#: includes/admin/downloads/metabox.php:1131
 msgid "<strong>Button Behavior</strong>: Add to Cart buttons follow a traditional eCommerce flow. Buy Now buttons are only available for stores that have a single supported gateway active and that do not use taxes."
 msgstr "<strong>Button-Verhalten</strong>: Die \"In den Warenkorb\" Buttons folgen einem traditionellen eCommerce-Ablauf. Die \"Sofort kaufen\" Buttons sind nur für Shops verfügbar, welche ein einziges Zahlungs-Gateway und keine Steuern verwenden."
 
@@ -1327,19 +1345,19 @@ msgstr "AJAX ist: %s"
 msgid "Your PayPal test API signature."
 msgstr "Deine PayPal Test API Signatur."
 
-#: includes/gateways/paypal-standard.php:1141
+#: includes/gateways/paypal-standard.php:1144
 msgid "Refund Payment in PayPal"
 msgstr "Rückerstattungszahlung in PayPal"
 
-#: includes/gateways/paypal-standard.php:1288
+#: includes/gateways/paypal-standard.php:1291
 msgid "PayPal refund failed for unknown reason."
 msgstr "PayPal Rückerstattung ist aus einem unbekannten Grund gescheitert."
 
-#: includes/gateways/paypal-standard.php:1298
+#: includes/gateways/paypal-standard.php:1301
 msgid "PayPal refund transaction ID: %s"
 msgstr "PayPal Transaktions-ID der Rückerstattung: %s"
 
-#: includes/gateways/paypal-standard.php:1302
+#: includes/gateways/paypal-standard.php:1305
 msgid "PayPal refund failed: %s"
 msgstr "PayPal Rückerstattung fehlgeschlagen: %s"
 
@@ -1851,7 +1869,7 @@ msgstr "Modus (Live | Test)"
 msgid "<strong>Refunded</strong>: the purchase amount is returned to the customer and access to items is disabled."
 msgstr "<strong>Rückerstattet</strong>: die Summe der Bestellung wurde dem Kunden rückerstattet und der Zugang zu den bestellten Artikeln deaktiviert."
 
-#: includes/admin/import/class-batch-import-payments.php:614
+#: includes/admin/import/class-batch-import-payments.php:621
 msgid "payments"
 msgstr "Zahlungen"
 
@@ -1859,15 +1877,15 @@ msgstr "Zahlungen"
 msgid "<strong>Revoked</strong>: access to purchased items is disabled, perhaps due to policy violation or fraud."
 msgstr "<strong>Widerrufen</strong>: Zugang zu den bestellten Artikeln ist deaktiviert, eventuell aufgrund eines Verstoßes gegen die Richtlinien oder Betruges."
 
-#: includes/admin/downloads/metabox.php:863
+#: includes/admin/downloads/metabox.php:868
 msgid "<strong>Price Assignment</strong>: With variable pricing enabled, you can choose to allow certain price variations access to specific files, or allow all price variations to access a file."
 msgstr "<strong>Preis Zuweisung</strong>: wenn variable Preise aktiviert sind, kannst du auswählen mit welchen Preisvarianten man Zugriff auf die verschiedenen Dateien erhält oder ob alle Variationen Zugriff auf eine Datei erhalten."
 
-#: includes/admin/downloads/metabox.php:943
+#: includes/admin/downloads/metabox.php:948
 msgid "<strong>File Download Limit</strong>: Limit the number of times a customer who purchased this product can access their download links."
 msgstr "<strong>Datei Download Limit</strong>: Limitiere wie oft ein Kunde, der einen Artikel gekauft hat, diesen über den Download Link herunterladen kann"
 
-#: includes/admin/downloads/metabox.php:1098
+#: includes/admin/downloads/metabox.php:1103
 msgid "<strong>Automatic Output</strong>: By default, the purchase buttons will be displayed at the bottom of the download, when disabled you will need to use the Purchase link shortcode below to output the ability to buy the product where you prefer."
 msgstr "<strong>Automatischer Output</strong>: Als Standardeinstellung werden die Einkaufen Buttons unterhalb eines Downloads angezeigt. Wenn diese Einstellung deaktiviert wird, musst du den Einkaufen Shortcode verwenden, um einen Einkaufen Link anzuzeigen."
 
@@ -1923,11 +1941,11 @@ msgstr "Keine Daten zu den Importparametern gefunden"
 msgid "Missing import parameters. Import class must be specified."
 msgstr "Fehlende Importparameter. Die Importklasse muss angegeben werden."
 
-#: includes/admin/downloads/metabox.php:1042
+#: includes/admin/downloads/metabox.php:1047
 msgid "<strong>Purchase Shortcode</strong>: Use this shortcode to output a purchase link for this product in the location of your choosing."
 msgstr "<strong>Purchase-Shortcode</strong>: Verwende diesen Shortcode, um einen Link zum Kauf dieses Produkts an einem Ort deiner Wahl auszugeben."
 
-#: includes/admin/downloads/metabox.php:1124
+#: includes/admin/downloads/metabox.php:1129
 msgid "<strong>Button Behavior</strong>: Add to Cart buttons follow a traditional eCommerce flow. A Buy Now button bypasses most of the process, taking the customer directly from button click to payment, greatly speeding up the process of buying the product."
 msgstr "<strong>Buttonverhalten</strong>: Die Buttons zum Hinzufügen in den Warenkorb folgen einem traditionellen eCommerce-Ablauf. Ein Sofort-Kaufen-Button umgeht den größten Teil des Prozesses und bringt den Kunden direkt vom Klick auf den Button zur Zahlung, was den Kaufprozess des Produkts erheblich beschleunigt."
 
@@ -1939,19 +1957,19 @@ msgstr "Kunden Emails"
 msgid "This customer can use any of the emails listed here when making new purchases."
 msgstr "Dieser Kunde kann für neue Einkäufe eine der hier aufgeführten E-Mail-Adressen verwenden."
 
-#: includes/admin/downloads/metabox.php:561
+#: includes/admin/downloads/metabox.php:564
 msgid "<strong>Product Type</strong>: Sell this item as a single product, or use the Bundle type to sell a collection of products."
 msgstr "<strong>Produkttyp</strong>: Verkaufe diesen Artikel als Einzelprodukt, oder benutze den Typ Produkteset (Bundle), um eine Sammlung von Produkten zu erstellen."
 
-#: includes/admin/class-edd-notices.php:285
+#: includes/admin/class-edd-notices.php:288
 msgid "Failed to remove customer email"
 msgstr "Entfernen der E-Mail-Adresse des Kunden fehlgeschlafen"
 
-#: includes/admin/class-edd-notices.php:288
+#: includes/admin/class-edd-notices.php:291
 msgid "Primary email updated for customer"
 msgstr "Haupt E-Mail-Adresse für den Kunden wurde aktualisiert"
 
-#: includes/admin/class-edd-notices.php:291
+#: includes/admin/class-edd-notices.php:294
 msgid "Failed to set primary email"
 msgstr "Festlegen der Haupt-E-Mail-Adresse ist fehlgeschlagen"
 
@@ -1997,11 +2015,11 @@ msgstr "Keine E-Mails gefunden"
 msgid "An error has occured. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte probiere es später nochmals."
 
-#: includes/admin/class-edd-notices.php:279
+#: includes/admin/class-edd-notices.php:282
 msgid "Customer email added"
 msgstr "Kunden-E-Mail-Adresse hinzugefügt"
 
-#: includes/admin/class-edd-notices.php:282
+#: includes/admin/class-edd-notices.php:285
 msgid "Customer email removed"
 msgstr "Kunden-E-Mail-Adresse entfernt"
 
@@ -2014,15 +2032,15 @@ msgstr "E-Mail-Adresse ist bereits mit diesem Kunden verknüpft."
 msgid "Select %s relevant to this discount. If left blank, this discount can be used on any product."
 msgstr "Wähle %s, die für diesen Rabatt relevant sind. Wenn du dieses Feld leer lässt, kann dieser Rabatt auf jedes Produkt angewendet werden."
 
-#: includes/admin/downloads/metabox.php:439
+#: includes/admin/downloads/metabox.php:442
 msgid "Remove price option %s"
 msgstr "Preis-Option %s entfernen"
 
-#: includes/admin/downloads/metabox.php:701
+#: includes/admin/downloads/metabox.php:706
 msgid "Remove bundle option 1"
 msgstr "Bundle-Option 1 entfernen"
 
-#: includes/admin/downloads/metabox.php:645
+#: includes/admin/downloads/metabox.php:650
 msgid "Remove bundle option %s"
 msgstr "Bundle-Option %s entfernen"
 
@@ -2054,7 +2072,7 @@ msgstr "Benutzername oder E-Mail-Adresse"
 msgid "Delete Payment"
 msgstr "Zahlung löschen"
 
-#: includes/admin/downloads/metabox.php:484
+#: includes/admin/downloads/metabox.php:487
 msgid "Set ID %s as default price"
 msgstr "ID %s als Standard-Preis setzen"
 
@@ -2403,7 +2421,7 @@ msgstr "Benutze dieses Tool um den Verkaufszähler und das Kundentotal neu zu be
 
 #: includes/admin/import/class-batch-import-downloads.php:65
 #: includes/admin/import/class-batch-import-payments.php:76
-#: includes/admin/import/class-batch-import.php:156
+#: includes/admin/import/class-batch-import.php:188
 msgid "You do not have permission to import data."
 msgstr "Du hast nicht die Berechtigung um Daten zu importieren."
 
@@ -2427,15 +2445,15 @@ msgstr "Download-Log"
 msgid "View"
 msgstr "Anzeige"
 
-#: includes/admin/class-edd-notices.php:84
+#: includes/admin/class-edd-notices.php:85
 msgid "The Easy Digital Downloads .htaccess file is missing from %s!"
 msgstr "Die Easy Digital Downloads .htaccess Datei von %s fehlt! "
 
-#: includes/admin/class-edd-notices.php:99
+#: includes/admin/class-edd-notices.php:100
 msgid "Easy Digital Downloads 2.5 contains a <a href=\"%s\">built in recount tool</a>. Please <a href=\"%s\">deactivate the Easy Digital Downloads - Recount Earnings plugin</a>"
 msgstr "Easy Digital Downloads 2.5 enthält ein <a href=\"%s\">eingebautes Werkzeug um Nachzuzählen</a>. Bitte <a href=\"%s\">deaktiviere das Easy Digital Downloads - Recount Earnings Plugin</a>"
 
-#: includes/admin/class-edd-notices.php:85
+#: includes/admin/class-edd-notices.php:86
 msgid "First, please resave the Misc settings tab a few times. If this warning continues to appear, create a file called \".htaccess\" in the %s directory, and copy the following into it:"
 msgstr "Speiche bitte zuerst die Einstellungen unter dem Tab Verschiedenes einige Male. Wenn diese Warnung weiter erscheint, erstelle eine Datei mit dem Namen \".htaccess\" im %s Verzeichnis und kopiere folgendes und füge es darin ein:"
 
@@ -2469,7 +2487,7 @@ msgstr "Konto verifizieren."
 msgid "(Pending Verification)"
 msgstr "(Verifizierung bevorstehend)"
 
-#: includes/admin/class-edd-notices.php:276
+#: includes/admin/class-edd-notices.php:279
 msgid "User successfully verified"
 msgstr "Benutzer erfolgreich verifiziert"
 
@@ -2561,8 +2579,6 @@ msgctxt "Abandoned payment status"
 msgid "Abandoned"
 msgstr "Nicht abgeschlossen"
 
-#. translators: %s Payment status count
-#. translators: %s Payment status count
 #. translators: %s Payment status count
 #: includes/gateways/stripe/includes/gateway-actions.php:17
 #: includes/gateways/stripe/includes/gateway-actions.php:26
@@ -3255,10 +3271,10 @@ msgstr "Ungarischer Forint"
 #: includes/gateways/amazon-payments.php:1148
 #: includes/gateways/paypal-standard.php:475
 #: includes/gateways/paypal-standard.php:482
-#: includes/gateways/paypal-standard.php:571
-#: includes/gateways/paypal-standard.php:581
-#: includes/gateways/paypal-standard.php:654
-#: includes/gateways/paypal-standard.php:663
+#: includes/gateways/paypal-standard.php:574
+#: includes/gateways/paypal-standard.php:584
+#: includes/gateways/paypal-standard.php:657
+#: includes/gateways/paypal-standard.php:666
 msgid "IPN Error"
 msgstr "Fehler bei Sofortiger Zahlungsbestätigung (IPN)"
 
@@ -3271,11 +3287,11 @@ msgstr "Indische Rupie (&#8377;)"
 msgid "Invalid IPN verification response. IPN data: %s"
 msgstr "Ungültige IPN-Prüfantwort. IPN-Daten: %s"
 
-#: includes/gateways/paypal-standard.php:571
+#: includes/gateways/paypal-standard.php:574
 msgid "Invalid business email in IPN response. IPN data: %s"
 msgstr "Ungültiges Geschäftsemail als IPN Antwort. IPN data: %s"
 
-#: includes/gateways/paypal-standard.php:581
+#: includes/gateways/paypal-standard.php:584
 msgid "Invalid currency in IPN response. IPN data: %s"
 msgstr "Ungültige Währung in IPN-Antwort. IPN-Daten: %s"
 
@@ -3284,11 +3300,11 @@ msgstr "Ungültige Währung in IPN-Antwort. IPN-Daten: %s"
 msgid "Invalid email"
 msgstr "Ungültige E-Mail-Adresse"
 
-#: includes/gateways/paypal-standard.php:654
+#: includes/gateways/paypal-standard.php:657
 msgid "Invalid payment amount in IPN response. IPN data: %s"
 msgstr "Ungültiger Zahlungsbetrag in IPN-Antwort. IPN-Daten: %s"
 
-#: includes/gateways/paypal-standard.php:663
+#: includes/gateways/paypal-standard.php:666
 msgid "Invalid purchase key in IPN response. IPN data: %s"
 msgstr "Ungültiger Kauf-Schlüssel in IPN-Antwort. IPN-Daten: %s"
 
@@ -3371,7 +3387,7 @@ msgstr "Norwegische Krone"
 msgid "PayPal"
 msgstr "PayPal"
 
-#: includes/gateways/paypal-standard.php:794
+#: includes/gateways/paypal-standard.php:797
 msgid "PayPal Refund Transaction ID: %s"
 msgstr "PayPal Rückerstattung Transaktions-ID: %s"
 
@@ -3380,7 +3396,7 @@ msgid "PayPal Standard"
 msgstr "PayPal Standard"
 
 #. Translators: %s - transaction ID
-#: includes/gateways/paypal-standard.php:671
+#: includes/gateways/paypal-standard.php:674
 #: includes/gateways/paypal/checkout-actions.php:399
 msgid "PayPal Transaction ID: %s"
 msgstr "PayPal-Transaktions-ID: %s"
@@ -3553,11 +3569,11 @@ msgstr "Bei Amazon registrieren"
 msgid "Nonce verification has failed"
 msgstr "Die Nonce-Verifizierung ist fehlgeschlagen"
 
-#: includes/gateways/paypal-standard.php:574
+#: includes/gateways/paypal-standard.php:577
 msgid "Payment failed due to invalid PayPal business email."
 msgstr "Zahlung fehlgeschlagen aufgrund einer ungültigen PayPal Business-Email-Adresse."
 
-#: includes/gateways/paypal-standard.php:584
+#: includes/gateways/paypal-standard.php:587
 msgid "Payment failed due to invalid currency in PayPal IPN."
 msgstr "Zahlung fehlgeschlagen aufgrund ungültiger Währung in der PayPal IPN"
 
@@ -3651,11 +3667,11 @@ msgstr "Erfassung in Amazon zurückgewiesen"
 msgid "New %s Category Name"
 msgstr "Neuer %s Kategoriename"
 
-#: includes/gateways/paypal-standard.php:788
+#: includes/gateways/paypal-standard.php:791
 msgid "Partial PayPal refund processed: %s"
 msgstr "PayPal Teil-Rückerstattung verarbeitet: %s"
 
-#: includes/gateways/paypal-standard.php:729
+#: includes/gateways/paypal-standard.php:732
 msgid "PayPal account is not verified. Verify account in order to accept this payment"
 msgstr "PayPal Account ist nicht verifiziert. Verifiziere den Account damit die Zahlung akzeptiert wird."
 
@@ -3667,11 +3683,11 @@ msgstr "Suche %s Kategorien"
 msgid "Update %s Category"
 msgstr "Aktualisiere %s Kategorie"
 
-#: includes/gateways/paypal-standard.php:723
+#: includes/gateways/paypal-standard.php:726
 msgid "PayPal account must be upgraded before this payment can be accepted"
 msgstr "PayPal Account muss aktualisiert werden bevor diese Zahlung akzeptiert werden kann"
 
-#: includes/gateways/paypal-standard.php:704
+#: includes/gateways/paypal-standard.php:707
 msgid "Payment received in non-shop currency and must be accepted manually through PayPal"
 msgstr "Die Bezahlung muss wegen einer nicht im Shop vorhandenen Währung manuell durch PayPal akzeptiert werden."
 
@@ -3683,39 +3699,39 @@ msgstr "Die IPN-URL, die in deinem MWS-Konto angegeben werden muss. Gib dies in 
 msgid "Found in the Integration settings. Also called a Merchant ID"
 msgstr "Kann in den Einstellungen zur Integration gefunden werden. Auch als Händler-ID bezeichnet"
 
-#: includes/gateways/paypal-standard.php:657
+#: includes/gateways/paypal-standard.php:660
 msgid "Payment failed due to invalid amount in PayPal IPN."
 msgstr "Bezahlung wegen ungültigem Betrag in PayPal IPN fehlgeschlagen."
 
-#: includes/gateways/paypal-standard.php:665
+#: includes/gateways/paypal-standard.php:668
 msgid "Payment failed due to invalid purchase key in PayPal IPN."
 msgstr "Bezahlung aufgrund ungültigem Bezahlungs-Schlüssel in PayPal IPN fehlgeschlagen."
 
-#: includes/gateways/paypal-standard.php:685
+#: includes/gateways/paypal-standard.php:688
 msgid "Payment made via eCheck and will clear automatically in 5-8 days"
 msgstr "Die Zahlung wurde via eCheck gemacht und wird in 5-8 Tagen automatisch gelöscht."
 
-#: includes/gateways/paypal-standard.php:692
+#: includes/gateways/paypal-standard.php:695
 msgid "Payment requires a confirmed customer address and must be accepted manually through PayPal"
 msgstr "Bezahlung benötigt eine bestätigte Kundenadresse und muss manuell durch PayPal akzeptiert sein."
 
-#: includes/gateways/paypal-standard.php:698
+#: includes/gateways/paypal-standard.php:701
 msgid "Payment must be accepted manually through PayPal due to international account regulations"
 msgstr "Bezahlung muss aufgrund internationalen Kontobestimmungen manuell durch PayPal akzeptiert werden "
 
-#: includes/gateways/paypal-standard.php:711
+#: includes/gateways/paypal-standard.php:714
 msgid "Payment is being reviewed by PayPal staff as high-risk or in possible violation of government regulations"
 msgstr "Zahlung wird von PayPal-Mitarbeitern aufgrund eines hohen Risikos oder wegen möglichen Verletzungen von Gesetzesbestimmungen überprüft"
 
-#: includes/gateways/paypal-standard.php:717
+#: includes/gateways/paypal-standard.php:720
 msgid "Payment was sent to non-confirmed or non-registered email address."
 msgstr "Zahlung wurde zu einer nicht bestätigten oder nicht registrierten E-Mail-Adresse gesendet."
 
-#: includes/gateways/paypal-standard.php:735
+#: includes/gateways/paypal-standard.php:738
 msgid "Payment is pending for unknown reasons. Contact PayPal support for assistance"
 msgstr "Zahlung steht aus unbekannten Gründen an. Kontaktiere den PayPal Support für Unterstützung."
 
-#: includes/gateways/paypal-standard.php:793
+#: includes/gateways/paypal-standard.php:796
 msgid "PayPal Payment #%s Refunded for reason: %s"
 msgstr "PayPal Zahlung #%s, zurückerstattet aufgrund: %s"
 
@@ -4249,23 +4265,23 @@ msgstr "Kunden-Benutzer-ID: %s"
 msgid "Purchases: %s"
 msgstr "Einkäufe: %s"
 
-#: includes/class-edd-discount.php:1850
+#: includes/class-edd-discount.php:1869
 msgid "This discount is expired."
 msgstr "Dieser Rabatt ist abgelaufen."
 
-#: includes/class-edd-discount.php:1855
+#: includes/class-edd-discount.php:1874
 msgid "This discount is not active."
 msgstr "Dieser Rabatt ist nicht aktiv."
 
-#: includes/class-edd-discount.php:1635 includes/class-edd-discount.php:1664
+#: includes/class-edd-discount.php:1654 includes/class-edd-discount.php:1683
 msgid "The product requirements for this discount are not met."
 msgstr "Die Produkt-Bedingungen für diesen Rabatt sind nicht eingehalten."
 
-#: includes/class-edd-discount.php:1682
+#: includes/class-edd-discount.php:1701
 msgid "This discount is not valid for the cart contents."
 msgstr "Dieser Rabatt ist nicht gültig für die Warenkorb-Inhalte."
 
-#: includes/class-edd-discount.php:1771
+#: includes/class-edd-discount.php:1790
 msgid "This discount has already been redeemed."
 msgstr "Dieser Rabatt wurde bereits eingelöst."
 
@@ -4321,7 +4337,7 @@ msgstr "Keine Aktion festgelegt, dachtest du"
 msgid "Invalid action specified, did you mean"
 msgstr "Ungültige Aktion festgelegt, dachtest du"
 
-#: includes/class-edd-discount.php:1549
+#: includes/class-edd-discount.php:1568
 msgid "Minimum order of %s not met."
 msgstr "Minimaler Bestellwert von %s nicht erreicht."
 
@@ -4349,7 +4365,7 @@ msgstr "Festgelegte ID ist kein Produkt"
 msgid "Created %s payments"
 msgstr "%s Zahlungen angelegt"
 
-#: includes/class-edd-customer.php:201 includes/class-edd-discount.php:253
+#: includes/class-edd-customer.php:201 includes/class-edd-discount.php:272
 #: includes/class-edd-download.php:196
 msgid "Can't get property %s"
 msgstr "Kann Eigenschaft %s nicht erhalten"
@@ -4518,7 +4534,7 @@ msgstr "Fügt einen Link hinzu, damit Benutzer Ihre Bestellbestätigung direkt a
 msgid "No payments matching your request were found."
 msgstr "Keine übereinstimmende Zahlungen konnten gefunden werden."
 
-#: includes/class-edd-discount.php:1516
+#: includes/class-edd-discount.php:1535
 msgid "This discount has reached its maximum usage."
 msgstr "Dieser Rabatt hat die maximale Anzahl Verwendungen erreicht."
 
@@ -5129,7 +5145,7 @@ msgid "The %s menu is your access point for all aspects of your Easy Digital Dow
 msgstr "Das %s Menu ist dein Zugang für alle Aspekte deiner Easy Digital Downloads Produkte. Um ein erstes Produkt zu erstellen, klicke einfach auf Neu und gebe die gefragten Produktinformaionen an."
 
 #: includes/cart/template.php:120
-#: includes/gateways/stripe/includes/compat.php:216
+#: includes/gateways/stripe/includes/compat.php:224
 msgid "Your cart is empty."
 msgstr "Dein Warenkorb ist leer."
 
@@ -6239,6 +6255,7 @@ msgstr "Exportiere den Download-Verlauf als CSV"
 #: includes/admin/customers/customer-actions.php:603
 #: includes/admin/import/import-functions.php:31
 #: includes/admin/import/import-functions.php:113
+#: includes/admin/payments/actions.php:331
 #: includes/admin/reporting/export/export-actions.php:23
 #: includes/admin/reporting/pdf-reports.php:33
 #: includes/api/class-edd-api.php:1980 includes/class-edd-api.php:1441
@@ -6435,6 +6452,10 @@ msgstr "<strong>Test-Zahlung</strong> - Diese Zahlungsmethode ist sehr nützlich
 msgid "PayPal Email"
 msgstr "PayPal-E-Mail-Adresse"
 
+#: includes/admin/settings/contextual-help.php:43
+msgid "This screen provides the most basic settings for configuring your store. You can set the currency, page templates, and general store settings."
+msgstr "Diese Ansicht bietet die meisten Basiseinstellungen zur Konfiguration deines Shops. Du kannst die Währung und Seiten-Templates festlegen sowie sowie allgemeine Shop-Einstellungen."
+
 #: includes/admin/payments/class-payments-table.php:372
 msgid "(unknown)"
 msgstr "(unbekannt)"
@@ -6469,6 +6490,7 @@ msgstr "API Version"
 msgid "Abandoned"
 msgstr "Aufgehoben"
 
+#: includes/admin/customers/customers.php:618
 #: includes/admin/payments/view-order-details.php:832
 msgid "Add Note"
 msgstr "Anmerkung hinzufügen"
@@ -6570,7 +6592,7 @@ msgid "Fees"
 msgstr "Gebühren"
 
 #: includes/admin/reporting/class-export-download-history.php:66
-#: includes/admin/reporting/class-file-downloads-logs-list-table.php:155
+#: includes/admin/reporting/class-file-downloads-logs-list-table.php:157
 #: includes/admin/reporting/export/class-batch-export-file-downloads.php:45
 msgid "File"
 msgstr "Datei"
@@ -6606,7 +6628,7 @@ msgid "Getting Started"
 msgstr "Jetzt loslegen"
 
 #: includes/admin/reporting/class-export-download-history.php:64
-#: includes/admin/reporting/class-file-downloads-logs-list-table.php:156
+#: includes/admin/reporting/class-file-downloads-logs-list-table.php:158
 #: includes/admin/reporting/export/class-batch-export-api-requests.php:41
 #: includes/admin/reporting/export/class-batch-export-file-downloads.php:43
 #: includes/admin/reporting/export/class-batch-export-payments.php:63
@@ -6638,7 +6660,7 @@ msgid "Last Name"
 msgstr "Nachname"
 
 #: includes/admin/reporting/class-api-requests-logs-list-table.php:87
-#: includes/admin/reporting/class-file-downloads-logs-list-table.php:151
+#: includes/admin/reporting/class-file-downloads-logs-list-table.php:153
 #: includes/admin/reporting/class-gateway-error-logs-list-table.php:126
 #: includes/admin/reporting/class-sales-logs-list-table.php:128
 #: includes/admin/reporting/export/class-batch-export-api-requests.php:39
@@ -6686,7 +6708,7 @@ msgstr "Zahlungs-Details"
 msgid "Payment Error"
 msgstr "Zahlungsfehler"
 
-#: includes/admin/reporting/class-file-downloads-logs-list-table.php:154
+#: includes/admin/reporting/class-file-downloads-logs-list-table.php:156
 #: includes/admin/reporting/class-gateway-error-logs-list-table.php:127
 #: includes/admin/reporting/class-sales-logs-list-table.php:132
 #: includes/admin/reporting/export/class-batch-export-payments.php:39
@@ -6749,10 +6771,10 @@ msgid "Recalculate Totals"
 msgstr "Total neukalkulieren"
 
 #: includes/admin/customers/customers.php:406
-#: includes/admin/downloads/metabox.php:439
-#: includes/admin/downloads/metabox.php:645
-#: includes/admin/downloads/metabox.php:701
-#: includes/admin/downloads/metabox.php:826
+#: includes/admin/downloads/metabox.php:442
+#: includes/admin/downloads/metabox.php:650
+#: includes/admin/downloads/metabox.php:706
+#: includes/admin/downloads/metabox.php:831
 #: includes/admin/payments/edit-payment.php:72
 #: includes/admin/payments/view-order-details.php:523
 #: includes/admin/settings/register-settings.php:2231 includes/scripts.php:227
@@ -7239,7 +7261,7 @@ msgstr "<em>button</em> | <em>text</em> - Der Stil des Kaufen-Links."
 msgid "<strong>Purchase Shortcode</strong> - If the automatic output of the purchase button has been disabled via the Download Configuration box, a shortcode can be used to output the button or link."
 msgstr "<strong>Kaufen-Shortcode</strong> - Wenn die automatische Ausgabe des Kaufen-Buttons über die Download-Konfiguration deaktiviert wurde, kann ein Shortcode verwendet werden, um den Button bzw. Link auszugeben."
 
-#: includes/admin/downloads/metabox.php:1063
+#: includes/admin/downloads/metabox.php:1068
 msgid "Accounting Options:"
 msgstr "Buchhaltungs-Optionen:"
 
@@ -7250,20 +7272,20 @@ msgstr "Aktivieren"
 
 #: includes/admin/discounts/class-discount-codes-table.php:126
 #: includes/admin/discounts/edit-discount.php:188
-#: includes/class-edd-discount.php:777
+#: includes/class-edd-discount.php:796
 msgid "Active"
 msgstr "Aktiv"
 
-#: includes/admin/downloads/metabox.php:711
-#: includes/admin/downloads/metabox.php:779
+#: includes/admin/downloads/metabox.php:716
+#: includes/admin/downloads/metabox.php:784
 msgid "Add New File"
 msgstr "Neue Datei hinzufügen"
 
-#: includes/admin/downloads/metabox.php:366
+#: includes/admin/downloads/metabox.php:369
 msgid "Add New Price"
 msgstr "Neuen Preis hinzufügen"
 
-#: includes/admin/downloads/metabox.php:1108
+#: includes/admin/downloads/metabox.php:1113
 #: includes/admin/settings/register-settings.php:813
 #: includes/admin/thickbox.php:101
 msgid "Add to Cart"
@@ -7271,7 +7293,7 @@ msgstr "In den Warenkorb"
 
 #: includes/admin/discounts/class-discount-codes-table.php:125
 #: includes/admin/payments/class-payments-table.php:247
-#: includes/admin/reporting/class-file-downloads-logs-list-table.php:320
+#: includes/admin/reporting/class-file-downloads-logs-list-table.php:322
 #: includes/admin/reporting/class-sales-logs-list-table.php:281
 msgid "All"
 msgstr "Alle"
@@ -7291,15 +7313,15 @@ msgstr "Rabatt auf ausgewählte %s anwenden?"
 msgid "Apply discount to entire purchase."
 msgstr "Rabatt auf gesamten Warenkorb anwenden."
 
-#: includes/admin/downloads/metabox.php:656
+#: includes/admin/downloads/metabox.php:661
 msgid "Bundled %s:"
 msgstr "Set %s"
 
-#: includes/admin/downloads/metabox.php:1090
+#: includes/admin/downloads/metabox.php:1095
 msgid "Button Options:"
 msgstr "Button-Optionen:"
 
-#: includes/admin/downloads/metabox.php:1109
+#: includes/admin/downloads/metabox.php:1114
 #: includes/admin/settings/register-settings.php:827
 #: includes/gateways/stripe/includes/payment-methods/buy-now/template.php:47
 #: includes/shortcodes.php:47 includes/template-functions.php:78
@@ -7331,7 +7353,7 @@ msgstr "Code"
 msgid "Deactivate"
 msgstr "Deaktivieren"
 
-#: includes/admin/downloads/metabox.php:481 includes/download-functions.php:523
+#: includes/admin/downloads/metabox.php:484 includes/download-functions.php:523
 #: includes/gateways/stripe/includes/template-functions.php:404
 msgid "Default"
 msgstr "Standard"
@@ -7348,11 +7370,11 @@ msgstr "Standard"
 msgid "Delete"
 msgstr "Löschen"
 
-#: includes/admin/downloads/metabox.php:1097
+#: includes/admin/downloads/metabox.php:1102
 msgid "Disable the automatic output of the purchase button"
 msgstr "Automatische Ausgabe des 'Kaufen'-Buttons deaktivieren"
 
-#: includes/admin/downloads/metabox.php:1196
+#: includes/admin/downloads/metabox.php:1201
 msgid "Earnings:"
 msgstr "Einnahmen:"
 
@@ -7360,7 +7382,7 @@ msgstr "Einnahmen:"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: includes/admin/downloads/metabox.php:307
+#: includes/admin/downloads/metabox.php:310
 msgid "Enable variable pricing"
 msgstr "Preis-Varianten aktivieren"
 
@@ -7368,7 +7390,7 @@ msgstr "Preis-Varianten aktivieren"
 msgid "End Date:"
 msgstr "Enddatum"
 
-#: includes/admin/downloads/metabox.php:1071
+#: includes/admin/downloads/metabox.php:1076
 msgid "Enter an SKU for this %s."
 msgstr "Eine Art.-Nr. für diesen %s angeben."
 
@@ -7396,7 +7418,7 @@ msgstr "Enddatum"
 msgid "Expiration date"
 msgstr "Verfallsdatum"
 
-#: includes/class-edd-discount.php:770
+#: includes/class-edd-discount.php:789
 #: includes/gateways/stripe/includes/template-functions.php:326
 msgid "Expired"
 msgstr "Verfallen"
@@ -7411,16 +7433,16 @@ msgstr "Exportieren"
 msgid "Export Settings"
 msgstr "Einstellungen exportieren"
 
-#: includes/admin/downloads/metabox.php:934
+#: includes/admin/downloads/metabox.php:939
 msgid "File Download Limit:"
 msgstr "Datei-Downloadlimit:"
 
-#: includes/admin/downloads/metabox.php:834
-#: includes/admin/downloads/metabox.php:840
+#: includes/admin/downloads/metabox.php:839
+#: includes/admin/downloads/metabox.php:845
 msgid "File Name"
 msgstr "Dateiname"
 
-#: includes/admin/downloads/metabox.php:846
+#: includes/admin/downloads/metabox.php:851
 msgid "File URL"
 msgstr "Datei-URL"
 
@@ -7464,19 +7486,19 @@ msgstr "Einstellungen importieren"
 
 #: includes/admin/discounts/class-discount-codes-table.php:127
 #: includes/admin/discounts/edit-discount.php:189
-#: includes/class-edd-discount.php:773
+#: includes/class-edd-discount.php:792
 msgid "Inactive"
 msgstr "Inaktiv"
 
-#: includes/admin/downloads/metabox.php:856
+#: includes/admin/downloads/metabox.php:861
 msgid "Insert"
 msgstr "Einfügen"
 
-#: includes/admin/downloads/metabox.php:856
+#: includes/admin/downloads/metabox.php:861
 msgid "Insert File"
 msgstr "Datei hinzufügen"
 
-#: includes/admin/downloads/metabox.php:941
+#: includes/admin/downloads/metabox.php:946
 msgid "Leave blank for global setting or 0 for unlimited"
 msgstr "Leer lassen für globale Einstellungen oder 0 für unlimitiert"
 
@@ -7485,7 +7507,7 @@ msgstr "Leer lassen für globale Einstellungen oder 0 für unlimitiert"
 msgid "Limit this discount to a single-use per customer?"
 msgstr "Diesen Rabatt auf einmalige Verwendung pro Kunde beschränken?"
 
-#: includes/admin/downloads/metabox.php:985
+#: includes/admin/downloads/metabox.php:990
 msgid "Mark this product as exclusive of tax"
 msgstr "Dieses Produkt als exklusiv Mwst. markieren"
 
@@ -7507,8 +7529,8 @@ msgstr "Kein Ablaufdatum"
 msgid "No start date"
 msgstr "Kein Startdatum"
 
-#: includes/admin/downloads/metabox.php:449
-#: includes/admin/downloads/metabox.php:453
+#: includes/admin/downloads/metabox.php:452
+#: includes/admin/downloads/metabox.php:456
 msgid "Option Name"
 msgstr "Optionsname"
 
@@ -7519,7 +7541,7 @@ msgstr "Prozentsatz"
 
 #: includes/admin/downloads/dashboard-columns.php:34
 #: includes/admin/downloads/dashboard-columns.php:286
-#: includes/admin/downloads/metabox.php:459
+#: includes/admin/downloads/metabox.php:462
 #: includes/admin/payments/view-order-details.php:543
 #: includes/admin/reporting/export/class-batch-export-downloads.php:51
 #: includes/admin/reporting/pdf-reports.php:69
@@ -7527,19 +7549,19 @@ msgstr "Prozentsatz"
 msgid "Price"
 msgstr "Preis"
 
-#: includes/admin/downloads/metabox.php:863
+#: includes/admin/downloads/metabox.php:868
 msgid "Price Assignment"
 msgstr "Preis-Zuordnung"
 
-#: includes/admin/downloads/metabox.php:301
+#: includes/admin/downloads/metabox.php:304
 msgid "Pricing Options:"
 msgstr "Preis-Optionen:"
 
-#: includes/admin/downloads/metabox.php:549
+#: includes/admin/downloads/metabox.php:552
 msgid "Product Type Options:"
 msgstr "Produkttyp-Optionen:"
 
-#: includes/admin/downloads/metabox.php:1034
+#: includes/admin/downloads/metabox.php:1039
 #: includes/admin/settings/register-settings.php:799
 #: includes/admin/thickbox.php:59 includes/checkout/template.php:1005
 #: includes/gateways/stripe/includes/payment-methods/buy-now/template.php:214
@@ -7565,7 +7587,7 @@ msgstr "Zurückerstattet"
 msgid "Revoked"
 msgstr "Widerrufen"
 
-#: includes/admin/downloads/metabox.php:1191
+#: includes/admin/downloads/metabox.php:1196
 msgid "Sales:"
 msgstr "Verkäufe:"
 
@@ -7575,7 +7597,7 @@ msgstr "Verkäufe:"
 msgid "Search"
 msgstr "Suchen"
 
-#: includes/admin/downloads/metabox.php:560
+#: includes/admin/downloads/metabox.php:563
 msgid "Select a product type"
 msgstr "Einen Produkttyp auswählen"
 
@@ -7590,7 +7612,7 @@ msgstr "Wähle eine oder mehrere %s"
 msgid "Something went wrong."
 msgstr "Etwas ging schief."
 
-#: includes/admin/downloads/metabox.php:1164
+#: includes/admin/downloads/metabox.php:1169
 msgid "Special notes or instructions for this product. These notes will be added to the purchase receipt."
 msgstr "Besondere Anmerkungen oder Instruktionen für dieses Produkt. Diese Anmerkungen werden der Bestellbestätigung hinzugefügt."
 
@@ -7634,11 +7656,11 @@ msgstr "Art"
 msgid "Unlimited"
 msgstr "Unbegrenzt"
 
-#: includes/admin/downloads/metabox.php:856
+#: includes/admin/downloads/metabox.php:861
 msgid "Upload a File"
 msgstr "Eine Datei hochladen"
 
-#: includes/admin/downloads/metabox.php:851
+#: includes/admin/downloads/metabox.php:856
 msgid "Upload or enter the file URL"
 msgstr "Datei URL hochladen oder eingeben"
 
@@ -7655,7 +7677,7 @@ msgstr "Verwendung"
 msgid "View All"
 msgstr "Zeige alle"
 
-#: includes/admin/downloads/metabox.php:1203
+#: includes/admin/downloads/metabox.php:1208
 msgid "View File Download Log"
 msgstr "Datei-Downloadprotokoll ansehen"
 
@@ -7675,15 +7697,15 @@ msgstr "Neue Kunden benötigen einen Namen und eine E-Mail-Adresse"
 msgid "Error Updating Payment"
 msgstr "Fehler bei der Aktualisierung der Bezahlung"
 
-#: includes/admin/downloads/metabox.php:908
+#: includes/admin/downloads/metabox.php:913
 msgid "Insert into %s"
 msgstr "Füge ein in %s"
 
-#: includes/admin/downloads/metabox.php:1041
+#: includes/admin/downloads/metabox.php:1046
 msgid "Purchase Shortcode:"
 msgstr "Kauf Shortcode:"
 
-#: includes/admin/downloads/metabox.php:337
+#: includes/admin/downloads/metabox.php:340
 msgid "Enable multi-option purchase mode. Allows multiple price options to be added to your cart at once"
 msgstr "Aktiviere den Multi-Optionen Einkaufsmodus. Erlaube das gleichzeitige Hinzufügen von mehrfachen Preisoptionen in deinen Warenkorb."
 
@@ -7727,7 +7749,7 @@ msgstr "Du hast nicht die Berechtigung, um diese Daten zu sehen."
 msgid "For more information, see <a href=\"%s\">using Shortcodes</a> on the WordPress.org Codex or <a href=\"%s\">Easy Digital Downloads Documentation</a>"
 msgstr "Für weitere Informationen, besuchen Sie bitte die Seite zum <a href=\"%s\">Verwenden von Shortcodes im WordPress.org Codex (Engl.)</a> oder die <a href=\"%s\">Dokumentation für Einfache Digitale Downloads (Engl.)</a>."
 
-#: includes/admin/downloads/metabox.php:979
+#: includes/admin/downloads/metabox.php:984
 msgid "Ignore Tax:"
 msgstr "Steuern ignorieren"
 
@@ -7824,9 +7846,9 @@ msgstr "Bitte lade eine Datei zum importieren hoch"
 
 #: includes/admin/payments/actions.php:25
 #: includes/admin/payments/actions.php:318
-#: includes/admin/payments/actions.php:334
-#: includes/admin/payments/actions.php:361
-#: includes/admin/payments/actions.php:381 includes/emails/actions.php:53
+#: includes/admin/payments/actions.php:338
+#: includes/admin/payments/actions.php:367
+#: includes/admin/payments/actions.php:387 includes/emails/actions.php:53
 msgid "You do not have permission to edit this payment record"
 msgstr "Du hast nicht die erforderlichen Rechte, um diese Zahlung bearbeiten zu können"
 
@@ -7897,7 +7919,7 @@ msgstr "Es wurden keine Rabatte gefunden."
 msgid "Show all %s"
 msgstr "Alle %s zeigen"
 
-#: includes/admin/downloads/metabox.php:1122
+#: includes/admin/downloads/metabox.php:1127
 msgid "Purchase button behavior"
 msgstr "Verhalten des Kaufbuttons"
 
@@ -7949,15 +7971,15 @@ msgstr "API-Schlüssel"
 msgid "API Keys"
 msgstr "API-Schlüssel"
 
-#: includes/admin/admin-notices.php:81 includes/admin/class-edd-notices.php:243
+#: includes/admin/admin-notices.php:81 includes/admin/class-edd-notices.php:246
 msgid "API keys successfully generated."
 msgstr "API-Schlüssel wurden erfolgreich generiert."
 
-#: includes/admin/admin-notices.php:89 includes/admin/class-edd-notices.php:249
+#: includes/admin/admin-notices.php:89 includes/admin/class-edd-notices.php:252
 msgid "API keys successfully regenerated."
 msgstr "API-Schlüssel wurden erfolgreich neu generiert."
 
-#: includes/admin/admin-notices.php:93 includes/admin/class-edd-notices.php:252
+#: includes/admin/admin-notices.php:93 includes/admin/class-edd-notices.php:255
 msgid "API keys successfully revoked."
 msgstr "API-Schlüssel wurden erfolgreich zurückgenommen."
 
@@ -8022,7 +8044,7 @@ msgstr "Aktueller Monat"
 #: includes/admin/customers/class-customer-table.php:72
 #: includes/admin/payments/class-payments-table.php:274
 #: includes/admin/reporting/class-customer-reports-table.php:64
-#: includes/admin/reporting/class-file-downloads-logs-list-table.php:153
+#: includes/admin/reporting/class-file-downloads-logs-list-table.php:155
 #: includes/admin/reporting/class-sales-logs-list-table.php:129
 msgid "Customer"
 msgstr "Kunde"
@@ -8036,7 +8058,7 @@ msgstr "Kundenadresse"
 msgid "Customer Details"
 msgstr "Kundendetails"
 
-#: includes/admin/class-edd-notices.php:273
+#: includes/admin/class-edd-notices.php:276
 msgid "Customer successfully deleted"
 msgstr "Kunde wurde erfolgreich gelöscht"
 
@@ -8055,7 +8077,7 @@ msgstr "Kunden"
 #: includes/admin/reporting/class-export-earnings.php:62
 #: includes/admin/reporting/class-export-payments.php:78
 #: includes/admin/reporting/class-export.php:67
-#: includes/admin/reporting/class-file-downloads-logs-list-table.php:157
+#: includes/admin/reporting/class-file-downloads-logs-list-table.php:159
 #: includes/admin/reporting/class-gateway-error-logs-list-table.php:131
 #: includes/admin/reporting/class-sales-logs-list-table.php:133
 #: includes/admin/reporting/export/class-batch-export-api-requests.php:46
@@ -8075,9 +8097,9 @@ msgid "Date Created"
 msgstr "Erstelldatum"
 
 #: includes/admin/admin-notices.php:64 includes/admin/admin-notices.php:104
-#: includes/admin/admin-notices.php:115 includes/admin/class-edd-notices.php:49
-#: includes/admin/class-edd-notices.php:70
-#: includes/admin/class-edd-notices.php:87
+#: includes/admin/admin-notices.php:115 includes/admin/class-edd-notices.php:50
+#: includes/admin/class-edd-notices.php:71
+#: includes/admin/class-edd-notices.php:88
 #: includes/gateways/paypal/admin/notices.php:58
 msgid "Dismiss Notice"
 msgstr "Anmerkung verwerfen"
@@ -8132,13 +8154,14 @@ msgstr "Fehler beim Löschen des Kunden."
 #: includes/admin/downloads/dashboard-columns.php:171
 #: includes/admin/import/class-batch-import-downloads.php:65
 #: includes/admin/import/class-batch-import-payments.php:76
-#: includes/admin/import/class-batch-import.php:156
+#: includes/admin/import/class-batch-import.php:188
 #: includes/admin/payments/actions.php:25
 #: includes/admin/payments/actions.php:295
 #: includes/admin/payments/actions.php:318
-#: includes/admin/payments/actions.php:334
-#: includes/admin/payments/actions.php:361
-#: includes/admin/payments/actions.php:381
+#: includes/admin/payments/actions.php:331
+#: includes/admin/payments/actions.php:338
+#: includes/admin/payments/actions.php:367
+#: includes/admin/payments/actions.php:387
 #: includes/admin/payments/view-order-details.php:22
 #: includes/admin/payments/view-order-details.php:32
 #: includes/admin/reporting/class-api-requests-logs-list-table.php:147
@@ -8345,27 +8368,27 @@ msgstr "Status"
 msgid "The User ID %d is already associated with a different customer."
 msgstr "Die Benutzer-ID ist bei einem anderen Kunden zugeteilt."
 
-#: includes/admin/admin-notices.php:46 includes/admin/class-edd-notices.php:219
+#: includes/admin/admin-notices.php:46 includes/admin/class-edd-notices.php:222
 msgid "The payment has been deleted."
 msgstr "Die Zahlung wurde gelöscht."
 
-#: includes/admin/admin-notices.php:77 includes/admin/class-edd-notices.php:264
+#: includes/admin/admin-notices.php:77 includes/admin/class-edd-notices.php:267
 msgid "The payment has been successfully updated."
 msgstr "Die Zahlung wurde erfolgreich aktualisiert."
 
-#: includes/admin/admin-notices.php:73 includes/admin/class-edd-notices.php:261
+#: includes/admin/admin-notices.php:73 includes/admin/class-edd-notices.php:264
 msgid "The payment note has been added successfully."
 msgstr "Die Zahlungsanmerkung wurde erfolgreich hinzugefügt."
 
-#: includes/admin/admin-notices.php:54 includes/admin/class-edd-notices.php:231
+#: includes/admin/admin-notices.php:54 includes/admin/class-edd-notices.php:234
 msgid "The payment note has been deleted."
 msgstr "Die Zahlung wurde gelöscht."
 
-#: includes/admin/admin-notices.php:69 includes/admin/class-edd-notices.php:240
+#: includes/admin/admin-notices.php:69 includes/admin/class-edd-notices.php:243
 msgid "The settings have been imported."
 msgstr "Die Einstellungen wurden importiert."
 
-#: includes/admin/class-edd-notices.php:246
+#: includes/admin/class-edd-notices.php:249
 msgid "The specified user already has API keys."
 msgstr "Der angegebene Benutzer hat bereits API-Schlüssel."
 
@@ -8416,7 +8439,7 @@ msgstr "Benutzername"
 
 #. translators: the plural Downloads label.
 #: includes/admin/customers/customers.php:486
-#: includes/admin/extensions/abstract-extension.php:308
+#: includes/admin/extensions/abstract-extension.php:315
 #: includes/admin/welcome.php:492
 msgid "View %s"
 msgstr "%s ansehen"
@@ -8454,7 +8477,7 @@ msgstr "Unbenannter Kunde"
 msgid "Reissue"
 msgstr "Neuausgabe"
 
-#: includes/admin/class-edd-notices.php:68
+#: includes/admin/class-edd-notices.php:69
 msgid "To protect them, you must add a redirect rule as explained in <a href=\"http://docs.easydigitaldownloads.com/article/682-protected-download-files-on-nginx\">this guide</a>."
 msgstr "Um sie zu schützen, musst du eine Weiterleitungsregel, wie in <a href=\"http://docs.easydigitaldownloads.com/article/682-protected-download-files-on-nginx\">dieser Anleitung</a> beschrieben, hinzufügen."
 
@@ -8496,7 +8519,7 @@ msgstr "Kürzliche Zahlungen"
 msgid "Delete all associated payments and records?"
 msgstr "Alle zugehörigen Zahlungen und Eintragungen löschen?"
 
-#: includes/admin/class-edd-notices.php:67
+#: includes/admin/class-edd-notices.php:68
 msgid "The download files in %s are not currently protected due to your site running on NGINX."
 msgstr "Die Download-Dateien in %s sind zurzeit nicht geschützt da die Website auf NGINX läuft."
 
@@ -8513,7 +8536,7 @@ msgstr "Die Verifizierung deines Accounts ist noch offen. Klicke bitte den Link 
 msgid "You are not permitted to view this data."
 msgstr "Es ist ihnen nicht erlaubt diese Daten zu sehen."
 
-#: includes/admin/admin-notices.php:50 includes/admin/class-edd-notices.php:222
+#: includes/admin/admin-notices.php:50 includes/admin/class-edd-notices.php:225
 msgid "The purchase receipt has been resent."
 msgstr "Die Bestellbestätigungs-E-Mail wurde erneut versandt."
 
@@ -8552,11 +8575,11 @@ msgstr "Kunden-E-Mail-Adresse"
 msgid "EDD Upgrades"
 msgstr "„Easy Digital Downloads“ Aktualisierungen"
 
-#: includes/admin/admin-notices.php:34 includes/admin/class-edd-notices.php:195
+#: includes/admin/admin-notices.php:34 includes/admin/class-edd-notices.php:198
 msgid "A discount with that code already exists, please use a different code."
 msgstr "Es existiert schon ein Rabatt mit diesem Code. Bitte nutze einen anderen Code."
 
-#: includes/admin/admin-notices.php:63 includes/admin/class-edd-notices.php:48
+#: includes/admin/admin-notices.php:63 includes/admin/class-edd-notices.php:49
 #: includes/template-functions.php:61
 msgid "No checkout page has been configured. Visit <a href=\"%s\">Settings</a> to set one."
 msgstr "Es wurde keine 'Kasse'-Seite eingerichtet. Gehe zu den <a href=\"%s\">Einstellungen</a>, um eine einzurichten."
@@ -8569,11 +8592,11 @@ msgstr "Als Erstes speichere bitte die Einstellungen im Reiter \"Sonstiges\" ein
 msgid "The Easy Digital Downloads .htaccess file is missing from <strong>%s</strong>!"
 msgstr "Die Easy Digital Downloads .htaccess Datei konnte unter <strong>%s</strong> nicht gefunden werden!"
 
-#: includes/admin/admin-notices.php:26 includes/admin/class-edd-notices.php:189
+#: includes/admin/admin-notices.php:26 includes/admin/class-edd-notices.php:192
 msgid "Discount code added."
 msgstr "Rabatt-Code hinzugefügt."
 
-#: includes/admin/admin-notices.php:38 includes/admin/class-edd-notices.php:198
+#: includes/admin/admin-notices.php:38 includes/admin/class-edd-notices.php:201
 #: includes/admin/discounts/edit-discount.php:33
 msgid "Discount code updated."
 msgstr "Rabatt-Code aktualisiert."
@@ -8583,11 +8606,11 @@ msgstr "Rabatt-Code aktualisiert."
 msgid "Discount Codes"
 msgstr "Rabatt-Codes"
 
-#: includes/admin/admin-notices.php:30 includes/admin/class-edd-notices.php:192
+#: includes/admin/admin-notices.php:30 includes/admin/class-edd-notices.php:195
 msgid "There was a problem adding your discount code, please try again."
 msgstr "Es gab ein Problem beim Hinzufügen deines Rabatt-Codes. Bitte versuche es erneut."
 
-#: includes/admin/admin-notices.php:42 includes/admin/class-edd-notices.php:201
+#: includes/admin/admin-notices.php:42 includes/admin/class-edd-notices.php:204
 msgid "There was a problem updating your discount code, please try again."
 msgstr "Es gab ein Problem beim Aktualisieren deines Rabatt-Codes. Bitte versuche es erneut."
 
@@ -8631,6 +8654,6 @@ msgstr "Diese <em><strong>fügen weitere Funktionen</strong></em> zu deinem Easy
 msgid "Customer since %s"
 msgstr "Kunde seit %s"
 
-#: includes/admin/class-edd-notices.php:69
+#: includes/admin/class-edd-notices.php:70
 msgid "If you have already added the redirect rule, you may safely dismiss this notice"
 msgstr "Wenn Sie die Umleitungsregel bereits hinzugefügt haben, können Sie diesen Hinweis verwerfen."

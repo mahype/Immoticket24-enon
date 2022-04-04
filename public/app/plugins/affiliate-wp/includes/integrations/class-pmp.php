@@ -74,6 +74,7 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 
 		// Check if an affiliate coupon was used.
 		$coupon_affiliate_id = false;
+		$is_coupon_referral  = false;
 		if ( ! empty( $order->discount_code ) ) {
 			$coupon_affiliate_id = $this->get_coupon_affiliate_id( $order->discount_code );
 		}
@@ -86,7 +87,8 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 		// get affiliate ID.
 		$affiliate_id = $this->get_affiliate_id( $order->id );
 		if ( false !== $coupon_affiliate_id ) {
-			$affiliate_id = $coupon_affiliate_id;
+			$affiliate_id       = $coupon_affiliate_id;
+			$is_coupon_referral = true;
 		}
 
 		// Get description.
@@ -102,8 +104,9 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 		$referral_id = $this->insert_draft_referral(
 			$affiliate_id,
 			array(
-				'reference'   => $order->id,
-				'description' => $membership_name,
+				'reference'          => $order->id,
+				'description'        => $membership_name,
+				'is_coupon_referral' => $is_coupon_referral,
 			)
 		);
 		if ( ! $referral_id ) {

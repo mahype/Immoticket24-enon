@@ -57,11 +57,11 @@ class Affiliate_WP_WPForms extends Affiliate_WP_Base {
 
 		//  Enable affiliate referral creation for this form
 		wpforms_panel_field(
-			'checkbox',
+			'toggle',
 			'settings',
 			'affwp_allow_referrals',
 			$instance->form_data,
-			__( 'Allow referrals', 'affiliate-wp' )
+			__( 'Enable referrals', 'affiliate-wp' )
 		);
 
 		wpforms_panel_field(
@@ -104,6 +104,9 @@ class Affiliate_WP_WPForms extends Affiliate_WP_Base {
 			}
 		}
 
+		// Get the referral type.
+		$this->referral_type = isset( $form_data['settings']['affwp_referral_type'] ) ? strval( $form_data['settings']['affwp_referral_type'] ) : 'sale';
+
 		// Create draft referral.
 		$referral_id = $this->insert_draft_referral(
 			$this->affiliate_id,
@@ -129,8 +132,6 @@ class Affiliate_WP_WPForms extends Affiliate_WP_Base {
 			$this->mark_referral_failed( $referral_id );
 			return;
 		}
-
-		$this->referral_type = isset( $form_data['settings']['affwp_referral_type'] ) ? $form_data['settings']['affwp_referral_type'] : 'sale';
 
 		// get referral total.
 		$total = 0;

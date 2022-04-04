@@ -175,12 +175,15 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		$this->set_order( $order_id );
 
 		// Check if an affiliate coupon was used.
+		$is_coupon_referral  = false;
 		$coupon_affiliate_id = $this->get_coupon_affiliate_id();
 
 		// get affiliate ID.
 		$affiliate_id = $this->get_affiliate_id( $order_id );
+
 		if ( false !== $coupon_affiliate_id ) {
-			$affiliate_id = intval( $coupon_affiliate_id );
+			$is_coupon_referral = true;
+			$affiliate_id       = intval( $coupon_affiliate_id );
 		}
 
 		// Check if it was either referred or a coupon.
@@ -205,8 +208,9 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		$referral_id = $this->insert_draft_referral(
 			$affiliate_id,
 			array(
-				'reference'   => $order_id,
-				'description' => $description,
+				'reference'          => $order_id,
+				'description'        => $description,
+				'is_coupon_referral' => $is_coupon_referral,
 			)
 		);
 		if ( ! $referral_id ) {

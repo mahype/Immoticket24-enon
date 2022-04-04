@@ -170,6 +170,9 @@ class Affiliate_WP_Caldera_Forms extends Affiliate_WP_Base {
 		// Use form title as description.
 		$description = $form['name'];
 
+		// Get the referral type.
+		$this->referral_type = ! empty( $form['affwp_referral_type'] ) ? $form['affwp_referral_type'] : 'sale';
+
 		// Create draft referral.
 		$referral_id = $this->insert_draft_referral(
 			$this->affiliate_id,
@@ -196,9 +199,6 @@ class Affiliate_WP_Caldera_Forms extends Affiliate_WP_Base {
 			$this->mark_referral_failed( $referral_id );
 			return false;
 		}
-
-		// Get the referral type we are creating.
-		$this->referral_type = ! empty( $form['affwp_referral_type'] ) ? $form['affwp_referral_type'] : 'sale'; 
 
 		// Referral total.
 		$referral_total = floatval( $args['referral_total'] );
