@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast SEO - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-03-08 11:42:42+0000\n"
+"PO-Revision-Date: 2022-03-27 08:44:06+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3099,7 +3099,7 @@ msgstr "Eingabe vom Typ Integer erwartet."
 
 #: inc/sitemaps/class-sitemaps-cache-validator.php:111
 msgid "Trying to build the sitemap cache key, but the postfix and prefix combination leaves too little room to do this. You are probably requesting a page that is way out of the expected range."
-msgstr "Der Versuch, einen sicheren Sitemap-Cache-Schlüssel zu generieren, ist fehlgeschlagen, da die Präfix- und Postfix-Kombination zu wenig Platz lässt. Du forderst wahrscheinlich eine Seite an, die die erwartete Bandbreite überschreitet. "
+msgstr "Der Versuch, einen sicheren Sitemap-Cache-Schlüssel zu generieren, ist fehlgeschlagen, da die Präfix- und Postfix-Kombination zu wenig Platz lässt. Du forderst wahrscheinlich eine Seite an, die die erwartete Bandbreite überschreitet."
 
 #: admin/views/tabs/metas/paper-content/breadcrumbs-content.php:27
 msgid "Regular"
@@ -3699,10 +3699,6 @@ msgstr "Füge den Meta-Tag hier ein, um deine %1$sWebsite mit Pinterest zu verif
 msgid "This feature is used to automatically add content to your RSS, more specifically, it's meant to add links back to your blog and your blog posts, so dumb scrapers will automatically add these links too, helping search engines identify you as the original source of the content."
 msgstr "Dieses Feature wird dazu benutzt, um automatisch Inhalt in deinen RSS-Feed einzufügen. Konkret bedeutet das, dass Verlinkungen zurück zu deiner Website und ihren Artikeln gesetzt werden. Dumme Inhalts-Diebe werden diese Links ebenfalls verwenden und dir damit helfen, dass die Suchmaschine dich als die Originalquelle des Inhaltes identifizieren kann."
 
-#: inc/class-wpseo-replace-vars.php:1483
-msgid "Replaced with a posts custom field value"
-msgstr "Ersetzt mit einem standardmäßigen Beitragsfeldwert."
-
 #: inc/class-wpseo-replace-vars.php:1473
 msgid "Replaced with the post/page modified time"
 msgstr "Wird ersetzt durch die Bearbeitungszeit des Artikels/der Seite"
@@ -3719,31 +3715,35 @@ msgstr "Twitter Card Metadaten hinzufügen"
 msgid "The default card type to use"
 msgstr "Der zu nutzende Standard-Kartentyp"
 
-#. Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search
-#. Appearance submenu item.
-#: src/presenters/meta-description-presenter.php:35
-msgid "Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template."
-msgstr "Nur für Administratoren: diese Seite zeigt keine Meta-Beschreibung, da bisher keine vorhanden ist. Verfasse entweder eine speziell für diese Seite oder gehe in das [%1$s - %2$s]  Menü und richte eine Vorlage ein."
-
 #: inc/class-wpseo-replace-vars.php:1484
 msgid "Replaced with a posts custom taxonomies, comma separated."
 msgstr "Mit individuellen Taxonomien eines Beitrags ersetzt, kommagetrennt."
-
-#: inc/class-wpseo-replace-vars.php:1438
-msgid "Replaced with the post categories (comma separated)"
-msgstr "Wird kommagetrennt ersetzt mit den Beitrags-Kategorien "
 
 #: admin/views/tabs/social/pinterest.php:20
 msgid "Pinterest uses Open Graph metadata just like Facebook, so be sure to keep the \"Add Open Graph meta data\" setting on the Facebook tab enabled if you want to optimize your site for Pinterest."
 msgstr "Pinterest nutzt Open-Graph-Metadaten - genau wie Facebook. Setze deshalb einen Haken im „Open-Graph-Meta-Kontrollkästchen“ im Facebook-Tab, um die Website auch für Pinterest zu optimieren."
 
-#: inc/class-wpseo-replace-vars.php:108
-msgid "A replacement variable can not start with \"%%cf_\" or \"%%ct_\" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique."
-msgstr "Eine Platzhalter-Variable kann nicht mit „%%cf_“ oder „%%ct_“ beginnen. Diese sind reserviert für die WPSEO Standard Variable, Variablen für benutzerdefinierte Felder und benutzerdefinierte Taxonomien. Versuche einen eindeutigen Variablen-Namen zu wählen. "
-
 #: inc/class-wpseo-replace-vars.php:122
 msgid "You cannot overrule a WPSEO standard variable replacement by registering a variable with the same name. Use the \"wpseo_replacements\" filter instead to adjust the replacement value."
-msgstr "Du kannst die Platzhalter der WPSEO Standard Variable nicht aufheben indem du eine Variable mit dem selben Namen wählst. Nutze die „wpseo_replacements“ Filter anstelle die Platzhalter Werte zu verändern. "
+msgstr "Du kannst die Platzhalter der WPSEO Standard Variable nicht aufheben indem du eine Variable mit dem selben Namen wählst. Nutze die „wpseo_replacements“ Filter anstelle die Platzhalter Werte zu verändern."
+
+#: inc/class-wpseo-replace-vars.php:108
+msgid "A replacement variable can not start with \"%%cf_\" or \"%%ct_\" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique."
+msgstr "Eine Platzhalter-Variable kann nicht mit „%%cf_“ oder „%%ct_“ beginnen. Diese sind reserviert für die WPSEO Standard Variable, Variablen für benutzerdefinierte Felder und benutzerdefinierte Taxonomien. Versuche einen eindeutigen Variablen-Namen zu wählen."
+
+#: inc/class-wpseo-replace-vars.php:1438
+msgid "Replaced with the post categories (comma separated)"
+msgstr "Wird kommagetrennt ersetzt mit den Beitrags-Kategorien"
+
+#. Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search
+#. Appearance submenu item.
+#: src/presenters/meta-description-presenter.php:35
+msgid "Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template."
+msgstr "Nur für Administratoren: diese Seite zeigt keine Meta-Beschreibung, da bisher keine vorhanden ist. Verfasse entweder eine speziell für diese Seite oder gehe in das [%1$s - %2$s]-Menü und richte eine Vorlage ein."
+
+#: inc/class-wpseo-replace-vars.php:1483
+msgid "Replaced with a posts custom field value"
+msgstr "Mit einem eigenen Feldwert eines Beitrags ersetzt"
 
 #. Translators: %s: expands to Yoast SEO Premium
 #: admin/google_search_console/views/gsc-redirect-nopremium.php:15
