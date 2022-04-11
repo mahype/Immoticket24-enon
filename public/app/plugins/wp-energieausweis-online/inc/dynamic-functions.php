@@ -181,6 +181,16 @@ if ( ! function_exists( 'wpenon_get_value_by_field' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wpenon_show_k_baujahr' ) ) {
+	function wpenon_show_k_baujahr( $k_info, $k_leistung = '' ) {
+		if ( $k_info === 'vorhanden' && $k_leistung === 'groesser' ) {
+			return true;
+		}
+
+		return false;
+	}
+}
+
 if ( ! function_exists( 'wpenon_get_value_by_whitelist' ) ) {
 	function wpenon_get_value_by_whitelist( $value, $whitelist, $parse_type = 'string' ) {
 		$whitelist = \WPENON\Util\Parse::arr( $whitelist );
