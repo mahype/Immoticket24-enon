@@ -49,7 +49,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 			'marker'     => array( 'Arial', 'B', 7, 6.64 ),
 			'enev_datum' => array( 'Arial', '', 11, 5 ),
 			'registrier' => array( 'Arial', '', 7, 5 ),
-			'aussteller' => array( 'Times', '', 12, 6 ),
+			'aussteller' => array( 'Arial', '', 11, 6 ),
 			'skala'      => array( 'Arial', 'B', 11, 7 ),
 			'klassen'    => array( 'Arial', '', 14, 6.64 ),
 			'klassen_b'  => array( 'Arial', 'B', 20, 6.64 ),
@@ -289,7 +289,7 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 
 					if ( ! $this->wpenon_preview ) {
 						$this->SetPageFont( 'aussteller' );
-						$this->SetXY( 25, 245 );
+						$this->SetXY( 25, 246 );
 						
 						$aussteller_firma = $this->GetData( 'sellermeta_firmenname' );
 						$aussteller_firma = apply_filters( 'wpenon_pdf_seller_company_name', $aussteller_firma, $this );

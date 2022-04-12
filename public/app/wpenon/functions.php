@@ -539,14 +539,6 @@ function wpenon_immoticket24_pdf_seller_meta( $meta, $pdf ) {
 
 add_filter( 'wpenon_pdf_seller_meta', 'wpenon_immoticket24_pdf_seller_meta', 10, 2 );
 
-function wpenon_immoticket24_pdf_fonts( $fonts ) {
-	$fonts['aussteller'] = array( 'Times', '', 10, 5 );
-
-	return $fonts;
-}
-
-add_filter( 'wpenon_pdf_fonts', 'wpenon_immoticket24_pdf_fonts', 10, 1 );
-
 function wpenon_immoticket24_make_anlagenkeys( $field_prefix, $field_suffix = '' ) {
 	if ( ! empty( $field_suffix ) ) {
 		$field_suffix = '_' . $field_suffix;

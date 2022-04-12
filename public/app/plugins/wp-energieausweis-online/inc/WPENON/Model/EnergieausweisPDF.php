@@ -49,7 +49,7 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 			'marker'     => array( 'Arial', 'B', 7, 6.64 ),
 			'enev_datum' => array( 'Arial', '', 11, 5 ),
 			'registrier' => array( 'Arial', '', 7, 5 ),
-			'aussteller' => array( 'Times', '', 12, 6 ),
+			'aussteller' => array( 'Arial', '', 12, 6 ),
 			'skala'      => array( 'Arial', 'B', 11, 7 ),
 			'klassen'    => array( 'Arial', '', 14, 6.64 ),
 			'klassen_b'  => array( 'Arial', 'B', 20, 6.64 ),
