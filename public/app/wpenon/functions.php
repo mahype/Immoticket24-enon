@@ -532,7 +532,7 @@ function wpenon_immoticket24_pdf_seller_company_name( $name, $pdf ) {
 add_filter( 'wpenon_pdf_seller_company_name', 'wpenon_immoticket24_pdf_seller_company_name', 10, 2 );
 
 function wpenon_immoticket24_pdf_seller_meta( $meta, $pdf ) {
-	$meta = 'Inh. Roland Harsche' . "\n" . \WPENON\Util\Format::pdfEncode( '(geprüfter Gebäudeenergieberater' . "\n" . 'Öko-Zentrum NRW)' . "\n" . 'Gartenstraße 25, 53498 Bad Breisig' );
+	$meta = 'Inh. Roland Harsche' . "\n" . \WPENON\Util\Format::pdfEncode( '(Energieberater)' . "\n" . 'Gartenstraße 25, 53498 Bad Breisig' );
 
 	return $meta;
 }
