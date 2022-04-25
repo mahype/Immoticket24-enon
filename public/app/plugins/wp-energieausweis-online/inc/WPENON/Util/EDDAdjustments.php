@@ -290,10 +290,13 @@ class EDDAdjustments {
 
 			$success_url = apply_filters( 'wpenon_payment_success_url', get_permalink( edd_get_option( 'success_page', false ) ), $payment );
 
+			$payment_key = edd_get_payment_key( $payment );
+
 			// Get the success url
 			$return_url = add_query_arg( array(
 				'payment-confirmation' => 'paypal',
-				'payment-id'           => $payment
+				'payment-id'           => $payment,
+				'payment-key'		   => $payment_key
 			), $success_url );
 
 			// Get the PayPal redirect uri
