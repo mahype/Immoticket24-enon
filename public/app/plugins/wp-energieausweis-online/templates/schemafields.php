@@ -26,7 +26,7 @@
         <?php endif; ?>
       <?php endif; ?>
 
-      <div class="col-md-7 col-sm-7 col-xs-11<?php echo ( empty( $field['label'] ) || $field['type'] == 'checkbox' ) ? 'col-md-offset-4 col-sm-offset-4' : ''; ?>">
+      <div class="col-md-7 col-sm-7 col-xs-12<?php echo ( empty( $field['label'] ) || $field['type'] == 'checkbox' ) ? 'col-md-offset-4 col-sm-offset-4' : ''; ?>">
 
         <?php do_action( 'wpenon_form_field_' . $field_slug . '_before', $field ); ?>
 
@@ -218,7 +218,7 @@
 
       <?php if ( $field['type'] == 'headline' ) : ?>
         <?php if( ! empty( $field['description'] ) ) : ?>
-          <div class="col-md-10 col-sm-10 col-xs-11 col-md-offset-1 col-sm-offset-1">
+          <div class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
             <p class="form-headline-description"><?php echo $field['description']; ?></p>
           </div>
         <?php endif; ?>
