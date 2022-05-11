@@ -213,37 +213,7 @@ class Add_Discounts implements Task, Actions, Filters {
 			return $is_valid;
 		}
 
-		foreach ( $energy_certificate_ids as $energy_certificate_id ) {
-			$energy_certificate = new \WPENON\Model\Energieausweis( $energy_certificate_id );
-
-			$allowed_zip_cities_merged = array();
-
-			foreach ( $this->allowed_zip_cities as $allowed_zip_city ) {
-				$allowed_zip_cities_merged = array_merge( $allowed_zip_cities_merged, $allowed_zip_city );
-			}
-
-			$zip = $energy_certificate->adresse_plz;
-
-			if ( in_array( $zip, $allowed_zip_cities_merged ) ) {
-				return true;
-			}
-
-			foreach ( $this->allowed_zip_areas as $allowed_zip_area ) {
-				if ( $zip >= $allowed_zip_area['from'] && $zip <= $allowed_zip_area['to'] ) {
-					return true;
-				}
-			}
-		}
-
-		$debug_values = array(
-			'energy_certificate_id' => $energy_certificate_id,
-			'energy_certificate_zip' => $energy_certificate->addresse_plz,
-		);
-
-		$this->logger->alert( 'Energy certificate not within allowed zip areas.', $debug_values );
-		\edd_set_error( 'edd-discount-error', _x( 'Energieausweis Gutschein-Code ist nicht innerhalb des erlaubten Postleitzahlen-Bereichs.', 'Energy certificate not within allowed zip areas.', 'enon-reseller' ) );
-
-		return false;
+		return true;
 	}
 
 	/**
