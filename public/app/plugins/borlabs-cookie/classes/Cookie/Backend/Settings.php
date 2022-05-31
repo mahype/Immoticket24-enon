@@ -3,18 +3,18 @@
  * ----------------------------------------------------------------------
  *
  *                          Borlabs Cookie
- *                      developed by Borlabs
+ *                    developed by Borlabs GmbH
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2022 Borlabs GmbH. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
  * ----------------- Borlabs Cookie IS NOT FREE SOFTWARE -----------------
  *
- * @copyright Borlabs - Benjamin A. Bornschein, https://borlabs.io
- * @author Benjamin A. Bornschein, Borlabs ben@borlabs.io
+ * @copyright Borlabs GmbH, https://borlabs.io
+ * @author Benjamin A. Bornschein
  *
  */
 
@@ -163,6 +163,13 @@ class Settings
             ) {
                 $cookieDomainIsDifferent = true;
             }
+        }
+
+        // No SSL but secure attribut is active
+        $secureAttributError = false;
+
+        if (!empty(Config::getInstance()->get('cookieSecure')) && SystemCheck::getInstance()->checkSSLSettings()['success'] === false) {
+            $secureAttributError = true;
         }
 
         include Backend::getInstance()->templatePath . '/settings.html.php';

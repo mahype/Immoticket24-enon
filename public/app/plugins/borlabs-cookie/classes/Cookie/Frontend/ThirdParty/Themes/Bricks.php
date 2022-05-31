@@ -1,12 +1,12 @@
 <?php
 /*
- *  Copyright (c) 2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ *  Copyright (c) 2021 Borlabs GmbH. All rights reserved.
  *  This file may not be redistributed in whole or significant part.
  *  Content of this file is protected by international copyright laws.
  *
  *  ----------------- Borlabs Cookie IS NOT FREE SOFTWARE -----------------
  *
- *  @copyright Borlabs - Benjamin A. Bornschein, https://borlabs.io
+ *  @copyright Borlabs GmbH, https://borlabs.io
  *  @author Benjamin A. Bornschein
  */
 

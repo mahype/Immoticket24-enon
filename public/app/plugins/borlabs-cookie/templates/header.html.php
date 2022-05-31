@@ -1,5 +1,18 @@
 <div id="BorlabsCookie" lang="<?php echo $language; ?>">
 
+    <div class="content-blocker-detection" style="
+        position: relative;
+        padding: .75rem 1.25rem;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border: 3px dotted #dc3545;
+        border-radius: .25rem;
+        background-color: #f8d7da;
+        color: #721c24;
+        font-weight: bold">
+        <?php _ex('Some files from Borlabs Cookie have been blocked, please disable your ad blocker.', 'Backend / Global / Alert Message', 'borlabs-cookie'); ?>
+    </div>
+
     <div class="container-fluid">
 
         <!-- HEAD -->

@@ -734,6 +734,24 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked()) {
                                 </div>
                             </div>
 
+                            <?php
+                            if ($secureAttributError === true) {
+                                ?>
+                                <div class="form-group row align-items-center">
+                                    <div class="col-sm-8 offset-4">
+                                        <div
+                                            class="alert alert-danger mt-2"><?php
+                                            _ex(
+                                                'Your website is not using a SSL certification, so you need to disable the <strong>Secure Attribute</strong> setting.',
+                                                'Backend / Settings / Alert Message',
+                                                'borlabs-cookie'
+                                            ); ?></div>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                            ?>
+
                             <div class="form-group row">
                                 <label for="cookieLifetime"
                                        class="col-sm-4 col-form-label"><?php

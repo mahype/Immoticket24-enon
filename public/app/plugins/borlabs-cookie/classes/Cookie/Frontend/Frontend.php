@@ -3,18 +3,18 @@
  * ----------------------------------------------------------------------
  *
  *                          Borlabs Cookie
- *                      developed by Borlabs
+ *                    developed by Borlabs GmbH
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2022 Borlabs GmbH. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
  * ----------------- Borlabs Cookie IS NOT FREE SOFTWARE -----------------
  *
- * @copyright Borlabs - Benjamin A. Bornschein, https://borlabs.io
- * @author Benjamin A. Bornschein, Borlabs ben@borlabs.io
+ * @copyright Borlabs GmbH, https://borlabs.io
+ * @author Benjamin A. Bornschein
  *
  */
 
@@ -223,6 +223,11 @@ class Frontend
                 ThirdParty\Plugins\Oxygen::getInstance()->register();
             }
 
+            // SiteOrigin Page Builder
+            if (defined('SITEORIGIN_PANELS_VERSION')) {
+                ThirdParty\Plugins\SiteOriginPageBuilder::getInstance()->register();
+            }
+
             // The Events Calendar
             if (defined('TRIBE_EVENTS_FILE')) {
                 ThirdParty\Plugins\TheEventsCalendar::getInstance()->register();
@@ -258,6 +263,17 @@ class Frontend
         ) {
             // Load german language pack
             load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo');
+        }
+        // Load correct NL language file if any NL language was selected
+        if (
+            in_array(
+                Multilanguage::getInstance()->getCurrentLanguageCode(),
+                ['nl', 'nl_NL', 'nl_NL_formal', 'nl_BE'],
+                true
+            )
+        ) {
+            // Load dutch language pack
+            load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-nl_NL.mo');
         }
     }
 }

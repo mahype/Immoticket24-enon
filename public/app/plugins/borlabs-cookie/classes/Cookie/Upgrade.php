@@ -3,18 +3,18 @@
  * ----------------------------------------------------------------------
  *
  *                          Borlabs Cookie
- *                      developed by Borlabs
+ *                    developed by Borlabs GmbH
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2022 Borlabs GmbH. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
  * ----------------- Borlabs Cookie IS NOT FREE SOFTWARE -----------------
  *
- * @copyright Borlabs - Benjamin A. Bornschein, https://borlabs.io
- * @author Benjamin A. Bornschein, Borlabs ben@borlabs.io
+ * @copyright Borlabs GmbH, https://borlabs.io
+ * @author Benjamin A. Bornschein
  *
  */
 
@@ -60,6 +60,8 @@ class Upgrade
             'upgradeVersion_2_2_46_1' => '2.2.46.1',
             'upgradeVersion_2_2_47' => '2.2.47',
             'upgradeVersion_2_2_49' => '2.2.49',
+            'upgradeVersion_2_2_50' => '2.2.50',
+            'upgradeVersion_2_2_51' => '2.2.51',
         ];
 
     public function __construct()
@@ -1007,6 +1009,32 @@ class Upgrade
     {
         update_option('BorlabsCookieClearCache', true, 'no');
         update_option('BorlabsCookieVersion', '2.2.49', 'yes');
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_50()
+    {
+        global $wpdb;
+
+        $tableNameStatistics = $wpdb->prefix . 'borlabs_cookie_statistics';
+        $columnStatus = Install::getInstance()->checkIfColumnExists(
+            $tableNameStatistics,
+            'id'
+        );
+
+        if ($columnStatus === false) {
+            $wpdb->query('ALTER TABLE `' . $tableNameStatistics . '` ADD `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);');
+        }
+
+        update_option('BorlabsCookieClearCache', true, 'no');
+        update_option('BorlabsCookieVersion', '2.2.50', 'yes');
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_51()
+    {
+        update_option('BorlabsCookieClearCache', true, 'no');
+        update_option('BorlabsCookieVersion', '2.2.51', 'yes');
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 

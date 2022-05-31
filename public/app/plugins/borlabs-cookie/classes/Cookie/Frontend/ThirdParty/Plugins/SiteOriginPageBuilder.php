@@ -18,18 +18,14 @@
  *
  */
 
-namespace BorlabsCookie\Cookie;
+namespace BorlabsCookie\Cookie\Frontend\ThirdParty\Plugins;
 
-/**
- * Class HMAC.
- */
-class HMAC
+use BorlabsCookie\Cookie\Frontend\ContentBlocker;
+
+class SiteOriginPageBuilder
 {
     private static $instance;
 
-    /**
-     * @return null|HMAC
-     */
     public static function getInstance()
     {
         if (self::$instance === null) {
@@ -39,6 +35,9 @@ class HMAC
         return self::$instance;
     }
 
+    /**
+     * __construct function.
+     */
     public function __construct()
     {
     }
@@ -54,45 +53,32 @@ class HMAC
     }
 
     /**
-     * hash function.
-     *
-     * @param mixed $data
-     * @param mixed $salt
-     *
-     * @return string
+     * register function.
      */
-    public function hash($data, $salt)
+    public function register()
     {
-        if (!is_string($data)) {
-            $data = json_encode($data);
-        }
+        add_filter('siteorigin_panels_the_widget_html', function ($empty, $the_widget, $args, $instance) {
+            if (!isset($the_widget->id_base) || $the_widget->id_base !== 'media_video') {
+                return '';
+            }
 
-        return hash_hmac('sha256', $data, $salt);
-    }
+            if (!isset($instance['url'])) {
+                return '';
+            }
+            $oEmbedHTML = wp_oembed_get($instance['url']);
 
-    /**
-     * isValid function.
-     *
-     * @param mixed $data
-     * @param mixed $salt
-     * @param mixed $hash
-     *
-     * @return bool
-     */
-    public function isValid($data, $salt, $hash)
-    {
-        $is_valid = false;
+            if (!isset($oEmbedHTML)) {
+                return '';
+            }
 
-        if (!is_string($data)) {
-            $data = json_encode($data);
-        }
+            $widgetHTML = $args['before_widget'];
+            $widgetHTML .= $args['before_title'];
+            $widgetHTML .= $instance['title'];
+            $widgetHTML .= $args['after_title'];
+            $widgetHTML .= ContentBlocker::getInstance()->detectIframes($oEmbedHTML);
+            $widgetHTML .= $args['after_widget'];
 
-        $data_hash = hash_hmac('sha256', $data, $salt);
-
-        if ($data_hash == $hash) {
-            $is_valid = true;
-        }
-
-        return $is_valid;
+            return $widgetHTML;
+        }, 100, 4);
     }
 }

@@ -3,18 +3,18 @@
  * ----------------------------------------------------------------------
  *
  *                          Borlabs Cookie
- *                      developed by Borlabs
+ *                    developed by Borlabs GmbH
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2022 Borlabs GmbH. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
  * ----------------- Borlabs Cookie IS NOT FREE SOFTWARE -----------------
  *
- * @copyright Borlabs - Benjamin A. Bornschein, https://borlabs.io
- * @author Benjamin A. Bornschein, Borlabs ben@borlabs.io
+ * @copyright Borlabs GmbH, https://borlabs.io
+ * @author Benjamin A. Bornschein
  *
  */
 
@@ -377,8 +377,10 @@ class Install
     public function getCreateTableStatementStatistics($tableName, $charsetCollate)
     {
         return 'CREATE TABLE ' . $tableName . ' (
+            `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             `service_group` varchar(100) NOT NULL,
             `stamp` datetime DEFAULT NULL,
+            PRIMARY KEY (`id`),
             KEY `service_group` (`service_group`),
             KEY `service_group_stamp` (`stamp`, `service_group`)
         ) ' . $charsetCollate . ';';
@@ -826,6 +828,11 @@ class Install
             // Load german language pack
             load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo');
         }
+        // Load correct NL language file if any NL language was selected
+        if (in_array($defaultBlogLanguage, ['nl', 'nl_NL', 'nl_NL_formal', 'nl_BE'], true)) {
+            // Load dutch language pack
+            load_textdomain('borlabs-cookie', BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-nl_NL.mo');
+        }
 
         // Default entries
         $sqlDefaultEntriesCookieGroups = $this->getDefaultEntriesCookieGroups(
@@ -962,6 +969,14 @@ class Install
                             load_textdomain(
                                 'borlabs-cookie',
                                 BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-de_DE.mo'
+                            );
+                        } elseif (
+                            in_array($blogLanguage, ['nl', 'nl_NL', 'nl_NL_formal', 'nl_BE'], true)
+                        ) {
+                            // Load german language pack
+                            load_textdomain(
+                                'borlabs-cookie',
+                                BORLABS_COOKIE_PLUGIN_PATH . 'languages/borlabs-cookie-nl_NL.mo'
                             );
                         } else {
                             // Load unload language pack

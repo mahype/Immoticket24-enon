@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Borlabs Cookie v2 package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-02-14 10:02:12+0000\n"
+"PO-Revision-Date: 2022-05-03 11:14:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,16 @@ msgstr ""
 "X-Generator: GlotPress/2.3.1\n"
 "Language: fr\n"
 "Project-Id-Version: Borlabs Cookie v2\n"
+
+#: src/templates/settings.html.php:744
+msgctxt "Backend / Settings / Alert Message"
+msgid "Your website is not using a SSL certification, so you need to disable the <strong>Secure Attribute</strong> setting."
+msgstr "Votre site Web n'utilise pas de certification SSL, vous devez donc désactiver le paramètre <strong>Attribut Secure</strong>."
+
+#: src/templates/header.html.php:13
+msgctxt "Backend / Global / Alert Message"
+msgid "Some files from Borlabs Cookie have been blocked, please disable your ad blocker."
+msgstr "Certains fichiers de Borlabs Cookie ont été bloqués, veuillez désactiver votre bloqueur de publicité."
 
 #: src/templates/settings.html.php:705
 msgctxt "Backend / Settings / Label"
@@ -21,12 +31,12 @@ msgctxt "Backend / Settings / Tooltip"
 msgid "A cookie with the Secure attribute is sent to the server only in case of an encrypted request via the HTTPS protocol."
 msgstr "Un cookie avec l'attribut Secure est envoyé au serveur uniquement en cas de demande cryptée via le protocole HTTPS."
 
-#: src/classes/Cookie/Backend/SystemCheck.php:300
+#: src/classes/Cookie/Backend/SystemCheck.php:309
 msgctxt "Backend / Global / Alert Message"
 msgid "Your database version %s is outdated."
 msgstr "La version de votre base de données %s est périmée."
 
-#: src/classes/Cookie/Backend/SystemCheck.php:540
+#: src/classes/Cookie/Backend/SystemCheck.php:549
 msgctxt "Backend / Global / Alert Message"
 msgid "Your PHP version %s is <a href=\"http://php.net/supported-versions.php\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">outdated</a>."
 msgstr "Votre version PHP %s est <a href=\"http://php.net/supported-versions.php\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">périmée</a>."
@@ -371,52 +381,52 @@ msgctxt "Backend / Settings / Tooltip"
 msgid "The path for which the cookie is valid. Default path: <strong>%s</strong>"
 msgstr "Le chemin pour lequel le cookie s'applique. Chemin par défaut: <strong>%s</strong>"
 
-#: src/templates/settings.html.php:740
+#: src/templates/settings.html.php:758
 msgctxt "Backend / Settings / Label"
 msgid "Cookie Lifetime in Days"
 msgstr "Durée de vie cookie en jours"
 
-#: src/templates/settings.html.php:752
+#: src/templates/settings.html.php:770
 msgctxt "Backend / Settings / Tooltip"
 msgid "Number of days until the visitor will be asked again to choose their cookie perference. Remember to adjust the <strong>Cookie Expiry</strong> information of the Borlabs Cookie under <strong>Cookies &gt; Borlabs Cookie</strong>."
 msgstr "Nombre de jours avant que le visiteur ne doive choisir à nouveau ses préférences en matière de cookies. Souvenez-vous de modifier l'information <strong>Expiration du cookie</strong> du Borlabs Cookie dans <strong>Cookies &gt; Borlabs Cookie</strong>."
 
-#: src/templates/settings.html.php:771
+#: src/templates/settings.html.php:789
 msgctxt "Backend / Settings / Label"
 msgid "Cookie Lifetime in Days - Essential Only"
 msgstr "Durée de vie cookie en jours - Essentiel uniquement"
 
-#: src/templates/settings.html.php:783
+#: src/templates/settings.html.php:801
 msgctxt "Backend / Settings / Tooltip"
 msgid "Number of days until the visitor will be asked again to choose their cookie preference, if the user has only given consent to essential cookies. Remember to adjust the <strong>Cookie Expiry</strong> information of the Borlabs Cookie under <strong>Cookies &gt; Borlabs Cookie</strong>."
 msgstr "Nombre de jours jusqu'à ce que le visiteur soit invité à nouveau à choisir ses préférences en matière de cookies, si l'utilisateur a seulement donné son accord pour les cookies essentiels. Souvenez-vous de modifier l'information <strong>Expiration du cookie</strong> du Borlabs Cookie dans <strong>Cookies &gt; Borlabs Cookie</strong>."
 
-#: src/templates/settings.html.php:802
+#: src/templates/settings.html.php:820
 msgctxt "Backend / Settings / Label"
 msgid "Cross Domain Cookie"
 msgstr "Cookie inter-domaines"
 
-#: src/templates/settings.html.php:815
+#: src/templates/settings.html.php:833
 msgctxt "Backend / Settings / Tooltip"
 msgid "Add one URL per line. Insert WordPress Address (URL). URL must end with <strong>/</strong>. Cookie selections will be shared between sites."
 msgstr "Ajoute une URL par ligne. Insère une adresse WordPress (URL). L'URL doit se terminer par <strong>/</strong>. Les sélections de cookies seront partagées entre les sites."
 
-#: src/templates/settings.html.php:850
+#: src/templates/settings.html.php:868
 msgctxt "Backend / Settings / Tips / Headline"
 msgid "Cross Domain Cookie"
 msgstr "Cookie inter-domaines"
 
-#: src/templates/settings.html.php:852
+#: src/templates/settings.html.php:870
 msgctxt "Backend / Settings / Tips / Text"
 msgid "The visitor's selection is transferred to all specified domains and WordPress installations, provided the websites are set up in the same way (<strong>Cookie Version</strong>, <strong>Cookie</strong> and <strong>Cookie Group</strong> IDs must match). Any consent or modification by the visitor will be shared with the specified domains."
 msgstr "La sélection du visiteur sera transférée à tous les domaines spécifiés et aux installations WordPress, si les sites web sont configurés de la même façon (Les IDs <strong>Version du cookie</strong>, <strong>Cookie</strong> et <strong>Groupe de Cookies</strong> doivent correspondre). Tout consentement donné ou modification faite par le visiteur sera partagé avec les domaines spécifiés."
 
-#: src/templates/settings.html.php:859
+#: src/templates/settings.html.php:877
 msgctxt "Backend / Settings / Tips / URL"
 msgid "https://borlabs.io/kb/set-up-cross-domain-cookie/?utm_source=Borlabs+Cookie&utm_medium=Cross+Domain+Cookie+Link&utm_campaign=Analysis"
 msgstr "https://borlabs.io/kb/set-up-cross-domain-cookie/?utm_source=Borlabs+Cookie&utm_medium=Cross+Domain+Cookie+Link&utm_campaign=Analysis"
 
-#: src/templates/settings.html.php:866
+#: src/templates/settings.html.php:884
 msgctxt "Backend / Settings / Tips / Text"
 msgid "More information about Cross Domain Cookie"
 msgstr "Plus d'informations sur le Cookie inter-domaines"
@@ -4118,157 +4128,157 @@ msgctxt "Frontend / Cookie Box / Button Title"
 msgid "Open Cookie Preferences"
 msgstr "Ouvrir les préférences de Cookie"
 
-#: src/classes/Cookie/Install.php:410
+#: src/classes/Cookie/Install.php:412
 msgctxt "Frontend / Cookie Groups / Name"
 msgid "Essential"
 msgstr "Essentiels"
 
-#: src/classes/Cookie/Install.php:412
+#: src/classes/Cookie/Install.php:414
 msgctxt "Frontend / Cookie Groups / Text"
 msgid "Essential cookies enable basic functions and are necessary for the proper function of the website."
 msgstr "Les cookies essentiels permettent des fonctions de base et sont nécessaires au bon fonctionnement du site Web."
 
-#: src/classes/Cookie/Install.php:426
+#: src/classes/Cookie/Install.php:428
 msgctxt "Frontend / Cookie Groups / Name"
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: src/classes/Cookie/Install.php:428
+#: src/classes/Cookie/Install.php:430
 msgctxt "Frontend / Cookie Groups / Text"
 msgid "Statistics cookies collect information anonymously. This information helps us to understand how our visitors use our website."
 msgstr "Les cookies de statistiques collectent des informations de façon anonyme. Ces informations nous aident à comprendre la façon dont les visiteurs utilisent notre site Web."
 
-#: src/classes/Cookie/Install.php:442
+#: src/classes/Cookie/Install.php:444
 msgctxt "Frontend / Cookie Groups / Name"
 msgid "Marketing"
 msgstr "Marketing"
 
-#: src/classes/Cookie/Install.php:444
+#: src/classes/Cookie/Install.php:446
 msgctxt "Frontend / Cookie Groups / Text"
 msgid "Marketing cookies are used by third-party advertisers or publishers to display personalized ads. They do this by tracking visitors across websites."
 msgstr "Les cookies de marketing sont utilisés par les publicitaires ou les éditeurs tiers pour afficher des publicités personnalisées. Ils font cela en pistant les visiteurs sur les sites Web."
 
-#: src/classes/Cookie/Install.php:458
+#: src/classes/Cookie/Install.php:460
 msgctxt "Frontend / Cookie Groups / Name"
 msgid "External Media"
 msgstr "Médias externes"
 
-#: src/classes/Cookie/Install.php:460
+#: src/classes/Cookie/Install.php:462
 msgctxt "Frontend / Cookie Groups / Text"
 msgid "Content from video platforms and social media platforms is blocked by default. If External Media cookies are accepted, access to those contents no longer requires manual consent."
 msgstr "Le contenu des plateformes vidéo et des réseaux sociaux est bloqué par défaut. Si les cookies de médias externes sont acceptés, l'accès à ces contenus ne nécessite plus un consentement manuel."
 
-#: src/classes/Cookie/Install.php:532
+#: src/classes/Cookie/Install.php:534
 msgctxt "Frontend / Cookie / Borlabs Cookie / Name"
 msgid "Owner of this website"
 msgstr "Propriétaire de ce site Web"
 
-#: src/classes/Cookie/Install.php:534
+#: src/classes/Cookie/Install.php:536
 msgctxt "Frontend / Cookie / Borlabs Cookie / Text"
 msgid "Saves the visitors preferences selected in the Cookie Box of Borlabs Cookie."
 msgstr "Sauvegarde les préférences des visiteurs sélectionnées dans la Cookie Box du Borlabs Cookie."
 
-#: src/classes/Cookie/Install.php:543
+#: src/classes/Cookie/Install.php:545
 msgctxt "Frontend / Cookie / Borlabs Cookie / Text"
 msgid "1 Year"
 msgstr "1 an"
 
-#: src/classes/Cookie/Install.php:558
+#: src/classes/Cookie/Install.php:560
 msgctxt "Frontend / Cookie / Facebook / Name"
 msgid "Used to unblock Facebook content."
 msgstr "Utilisé pour autoriser le contenu Facebook."
 
-#: src/classes/Cookie/Install.php:561
+#: src/classes/Cookie/Install.php:563
 msgctxt "Frontend / Cookie / Facebook / Text"
 msgid "https://www.facebook.com/privacy/explanation"
 msgstr "https://www.facebook.com/privacy/explanation"
 
-#: src/classes/Cookie/Install.php:586
+#: src/classes/Cookie/Install.php:588
 msgctxt "Frontend / Cookie / Google Maps / Name"
 msgid "Used to unblock Google Maps content."
 msgstr "Utilisé pour autoriser le contenu Google Maps."
 
-#: src/classes/Cookie/Install.php:589
+#: src/classes/Cookie/Install.php:591
 msgctxt "Frontend / Cookie / Google Maps / Text"
 msgid "https://policies.google.com/privacy?hl=en&gl=en"
 msgstr "https://policies.google.com/privacy?hl=en&gl=en"
 
-#: src/classes/Cookie/Install.php:597
+#: src/classes/Cookie/Install.php:599
 msgctxt "Frontend / Cookie / Google Maps / Text"
 msgid "6 Month"
 msgstr "6 mois"
 
-#: src/classes/Cookie/Install.php:614
+#: src/classes/Cookie/Install.php:616
 msgctxt "Frontend / Cookie / Instagram / Name"
 msgid "Used to unblock Instagram content."
 msgstr "Utilisé pour autoriser le contenu Instagram."
 
-#: src/classes/Cookie/Install.php:617
+#: src/classes/Cookie/Install.php:619
 msgctxt "Frontend / Cookie / Instagram / Text"
 msgid "https://www.instagram.com/legal/privacy/"
 msgstr "https://www.instagram.com/legal/privacy/"
 
-#: src/classes/Cookie/Install.php:621
+#: src/classes/Cookie/Install.php:623
 msgctxt "Frontend / Cookie / Instagram / Text"
 msgid "Session"
 msgstr "Session"
 
-#: src/classes/Cookie/Install.php:638
+#: src/classes/Cookie/Install.php:640
 msgctxt "Frontend / Cookie / OpenStreetMap / Name"
 msgid "Used to unblock OpenStreetMap content."
 msgstr "Utilisé pour autoriser le contenu OpenStreetMap."
 
-#: src/classes/Cookie/Install.php:645
+#: src/classes/Cookie/Install.php:647
 msgctxt "Frontend / Cookie / OpenStreetMap / Text"
 msgid "https://wiki.osmfoundation.org/wiki/Privacy_Policy"
 msgstr "https://wiki.osmfoundation.org/wiki/Privacy_Policy"
 
-#: src/classes/Cookie/Install.php:653
+#: src/classes/Cookie/Install.php:655
 msgctxt "Frontend / Cookie / OpenStreetMap / Text"
 msgid "1-10 Years"
 msgstr "1-10 ans"
 
-#: src/classes/Cookie/Install.php:669
+#: src/classes/Cookie/Install.php:671
 msgctxt "Frontend / Cookie / Twitter / Name"
 msgid "Used to unblock Twitter content."
 msgstr "Utilisé pour autoriser le contenu Twitter."
 
-#: src/classes/Cookie/Install.php:671
+#: src/classes/Cookie/Install.php:673
 msgctxt "Frontend / Cookie / Twitter / Text"
 msgid "https://twitter.com/privacy"
 msgstr "https://twitter.com/privacy"
 
-#: src/classes/Cookie/Install.php:674
+#: src/classes/Cookie/Install.php:676
 msgctxt "Frontend / Cookie / Twitter / Text"
 msgid "Unlimited"
 msgstr "Illimité"
 
-#: src/classes/Cookie/Install.php:690
+#: src/classes/Cookie/Install.php:692
 msgctxt "Frontend / Cookie / Twitter / Name"
 msgid "Used to unblock Vimeo content."
 msgstr "Utilisé pour autoriser le contenu Vimeo."
 
-#: src/classes/Cookie/Install.php:691
+#: src/classes/Cookie/Install.php:693
 msgctxt "Frontend / Cookie / Twitter / Text"
 msgid "https://vimeo.com/privacy"
 msgstr "https://vimeo.com/privacy"
 
-#: src/classes/Cookie/Install.php:694
+#: src/classes/Cookie/Install.php:696
 msgctxt "Frontend / Cookie / Twitter / Text"
 msgid "2 Years"
 msgstr "2 ans"
 
-#: src/classes/Cookie/Install.php:710
+#: src/classes/Cookie/Install.php:712
 msgctxt "Frontend / Cookie / YouTube / Name"
 msgid "Used to unblock YouTube content."
 msgstr "Utilisé pour autoriser le contenu YouTube."
 
-#: src/classes/Cookie/Install.php:713
+#: src/classes/Cookie/Install.php:715
 msgctxt "Frontend / Cookie / YouTube / Text"
 msgid "https://policies.google.com/privacy?hl=en&gl=en"
 msgstr "https://policies.google.com/privacy?hl=en&gl=en"
 
-#: src/classes/Cookie/Install.php:721
+#: src/classes/Cookie/Install.php:723
 msgctxt "Frontend / Cookie / YouTube / Text"
 msgid "6 Month"
 msgstr "6 mois"
@@ -4417,7 +4427,7 @@ msgstr "Un hôte par ligne. Lorsqu'un hôte est reconnu (par exemple dans l'attr
 #: src/templates/cookies-edit.html.php:300
 #: src/templates/cookies-edit.html.php:351
 #: src/templates/script-blocker-edit.html.php:97
-#: src/templates/settings.html.php:446 src/templates/settings.html.php:834
+#: src/templates/settings.html.php:446 src/templates/settings.html.php:852
 msgctxt "Backend / Global / Button Title"
 msgid "Save all settings"
 msgstr "Enregistrer tous les paramètres"
@@ -4828,7 +4838,7 @@ msgctxt "Frontend / Content Blocker / YouTube / Text"
 msgid "Always unblock YouTube"
 msgstr "Toujours autoriser YouTube"
 
-#: src/classes/Cookie/Frontend/CookieBox.php:261
+#: src/classes/Cookie/Frontend/CookieBox.php:268
 #: src/classes/Cookie/Frontend/Shortcode.php:94
 msgctxt "Frontend / Global / Alert Message"
 msgid "Borlabs Cookie - Test Environment active!"
@@ -4964,8 +4974,8 @@ msgstr "Saisissez votre ID Pixel ID Facebook."
 #: src/templates/script-blocker-edit.html.php:36
 #: src/templates/script-blocker-wizard-step-3.html.php:39
 #: src/templates/settings.html.php:391 src/templates/settings.html.php:650
-#: src/templates/settings.html.php:694 src/templates/settings.html.php:760
-#: src/templates/settings.html.php:791
+#: src/templates/settings.html.php:694 src/templates/settings.html.php:778
+#: src/templates/settings.html.php:809
 msgctxt "Backend / Global / Validation Message"
 msgid "This is a required field and cannot be empty."
 msgstr "Ceci est un champ obligatoire et il ne peut pas être vide."
@@ -5165,37 +5175,37 @@ msgctxt "Backend / Global / Alert Message"
 msgid "Your PHP version is <a href=\"http://php.net/supported-versions.php\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">outdated</a> and not supported by Borlabs Cookie. Please disable Borlabs Cookie, upgrade to PHP 7.2 or higher, and enable Borlabs Cookie again. It is necessary to follow these steps in the exact order described."
 msgstr "Votre version de PHP est <a href=\"http://php.net/supported-versions.php\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">obsolète</a> et elle n'est plus prise en charge par Borlabs Cookie. Veuillez désactiver Borlabs Cookie, passer à la version PHP 7.2 ou supérieure, puis réactiver Borlabs Cookie. Il est impératif de suivre les étapes dans l'ordre décrit."
 
-#: src/classes/Cookie/API.php:273
+#: src/classes/Cookie/API.php:281
 msgctxt "Backend / API / Alert Message"
 msgid "License registered successfully."
 msgstr "Licence enregistrée avec succès."
 
-#: src/classes/Cookie/API.php:375
+#: src/classes/Cookie/API.php:383
 msgctxt "Backend / API / Alert Message"
 msgid "The request was blocked. Please try again later."
 msgstr "La requête a été bloquée. Veuillez réessayer plus tard."
 
-#: src/classes/Cookie/API.php:381
+#: src/classes/Cookie/API.php:389
 msgctxt "Backend / API / Alert Message"
 msgid "Your license key is already being used by another website. Please visit <a href=\"https://borlabs.io/account/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">https://borlabs.io/account/</a> to remove the website from your license."
 msgstr "Votre clé de licence est déjà utilisée par un autre site Web. Veuillez vous rendre sur <a href=\"https://borlabs.io/account/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">https://borlabs.io/account/</a> pour supprimer le site Web de votre licence."
 
-#: src/classes/Cookie/API.php:388
+#: src/classes/Cookie/API.php:396
 msgctxt "Backend / API / Alert Message"
 msgid "The request to the API could not be validated. %s"
 msgstr "La requête à l'API n'a pas pu être validée. %s"
 
-#: src/classes/Cookie/API.php:396
+#: src/classes/Cookie/API.php:404
 msgctxt "Backend / API / Alert Message"
 msgid "Your license key is not valid."
 msgstr "Votre clé de licence n'est pas valide."
 
-#: src/classes/Cookie/API.php:398
+#: src/classes/Cookie/API.php:406
 msgctxt "Backend / API / Alert Message"
 msgid "Your license key is not valid for this major version. Please upgrade your license key."
 msgstr "Votre clé de licence n'est pas valide pour cette version majeure. Veuillez mettre à niveau votre clé de licence."
 
-#: src/classes/Cookie/API.php:406
+#: src/classes/Cookie/API.php:414
 msgctxt "Backend / API / Alert Message"
 msgid "An error occurred. Please contact the support. %s"
 msgstr "Une erreur s'est produite. Veuillez contacter l'assistance. %s"
@@ -5623,37 +5633,37 @@ msgctxt "Backend / System Check / Alert Message"
 msgid "The folder <strong>/%s/cache/borlabs-cookie</strong> does not exist. Please set the right permissions. See <a href=\"https://borlabs.io/folder-permissions/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">FAQ</a>."
 msgstr "Le dossier <strong>/%s/cache/borlabs-cookie</strong> n'existe pas. Veuillez définir les bonnes autorisations. Voir la <a href=\"https://borlabs.io/folder-permissions/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">FAQ</a>."
 
-#: src/classes/Cookie/Backend/SystemCheck.php:349
+#: src/classes/Cookie/Backend/SystemCheck.php:358
 msgctxt "Backend / System Check / Alert Message"
 msgid "Could not insert default <strong>Content Blocker</strong>."
 msgstr "Insertion du <strong>Content Blocker</strong> par défaut impossible."
 
-#: src/classes/Cookie/Backend/SystemCheck.php:405
+#: src/classes/Cookie/Backend/SystemCheck.php:414
 msgctxt "Backend / System Check / Alert Message"
 msgid "Could not insert default <strong>Cookie Groups</strong>."
 msgstr "Insertion des <strong>Groupes de cookies</strong> par défaut impossible."
 
-#: src/classes/Cookie/Backend/SystemCheck.php:476
+#: src/classes/Cookie/Backend/SystemCheck.php:485
 msgctxt "Backend / System Check / Alert Message"
 msgid "Could not insert default <strong>Cookies</strong>."
 msgstr "Insertion des <strong>Cookies</strong> par défaut impossible."
 
-#: src/classes/Cookie/Backend/SystemCheck.php:518
+#: src/classes/Cookie/Backend/SystemCheck.php:527
 msgctxt "Backend / System Check / Alert Message"
 msgid "Your language configuration is broken. Disable all plugins except <strong>Borlabs Cookie</strong> until this message disappears. When you have found the plugin that is causing this error, check if an update is available and install it."
 msgstr "La configuration de la langue est défectueuse. Désactivez tous les plugins sauf le <strong>Borlabs Cookie</strong> jusqu'à ce que le message disparaisse. Lorsque vous aurez trouvé le plugin qui cause cette erreur, vérifiez si une mise à jour est disponible et installez-la."
 
-#: src/classes/Cookie/Backend/SystemCheck.php:573
+#: src/classes/Cookie/Backend/SystemCheck.php:582
 msgctxt "Backend / System Check / Alert Message"
 msgid "Your website is not using a SSL certification."
 msgstr "Votre site Web n'utilise pas de certification SSL."
 
-#: src/classes/Cookie/Backend/SystemCheck.php:583
+#: src/classes/Cookie/Backend/SystemCheck.php:592
 msgctxt "Backend / System Check / Alert Message"
 msgid "Your SSL configuration is not correct. Please go to <strong>Settings &gt; General</strong> and replace <strong><em>http://</em></strong> with <strong><em>https://</em></strong> in the settings <strong>WordPress Address (URL)</strong> and <strong>Site Address (URL)</strong>."
 msgstr "Votre configuration SSL est incorrecte. Allez à <strong>Paramètres &gt; Général</strong> et remplacez <strong><em>http://</em></strong> par <strong><em>https://</em></strong> dans les paramètres <strong>Adresse WordPress (URL)</strong> et <strong>Adresse du site (URL)</strong>."
 
-#: src/classes/Cookie/Backend/SystemCheck.php:619
+#: src/classes/Cookie/Backend/SystemCheck.php:628
 msgctxt "Backend / System Check / Alert Message"
 msgid "The table <strong>%s</strong> could not be created, please check your server error logs for more details."
 msgstr "Création du tableau <strong>%s</strong> impossible, vérifiez les journaux d'erreur de votre serveur pour plus de détails."
@@ -5874,7 +5884,7 @@ msgstr "Charger le contenu"
 #: src/templates/script-blocker-wizard-step-3.html.php:185
 #: src/templates/script-blocker-wizard-step-3.html.php:371
 #: src/templates/script-blocker-wizard-step-3.html.php:438
-#: src/templates/settings.html.php:460 src/templates/settings.html.php:847
+#: src/templates/settings.html.php:460 src/templates/settings.html.php:865
 msgctxt "Backend / Global / Tips / Headline"
 msgid "Tips"
 msgstr "Conseils"

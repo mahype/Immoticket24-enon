@@ -3,18 +3,18 @@
  * ----------------------------------------------------------------------
  *
  *                          Borlabs Cookie
- *                      developed by Borlabs
+ *                    developed by Borlabs GmbH
  *
  * ----------------------------------------------------------------------
  *
- * Copyright 2018-2021 Borlabs - Benjamin A. Bornschein. All rights reserved.
+ * Copyright 2018-2022 Borlabs GmbH. All rights reserved.
  * This file may not be redistributed in whole or significant part.
  * Content of this file is protected by international copyright laws.
  *
  * ----------------- Borlabs Cookie IS NOT FREE SOFTWARE -----------------
  *
- * @copyright Borlabs - Benjamin A. Bornschein, https://borlabs.io
- * @author Benjamin A. Bornschein, Borlabs ben@borlabs.io
+ * @copyright Borlabs GmbH, https://borlabs.io
+ * @author Benjamin A. Bornschein
  *
  */
 
@@ -87,6 +87,8 @@ class API
      */
     public function getLatestVersion()
     {
+        $url = get_site_url();
+        $urlWordPress = get_home_url();
         $licenseData = License::getInstance()->getLicenseData();
 
         $response = wp_remote_post(
@@ -99,6 +101,8 @@ class API
                     'product' => BORLABS_COOKIE_SLUG,
                     'php_version' => phpversion(), // Used to distinguish between >=7.4 and <7.4 builds
                     'licenseKey' => !empty($licenseData->licenseKey) ? $licenseData->licenseKey : '',
+                    'urlWordPress' => $url != $urlWordPress ? $urlWordPress : '',
+                    'networkUrl' => is_multisite() ? network_site_url() : '',
                     'securityPatchesForExpiredLicenses' => !License::getInstance()->isLicenseValid(),
                     'securityPatchesForTestEnvironmentLicenses' => !empty(
                     Config::getInstance()->get(
@@ -153,6 +157,8 @@ class API
      */
     public function getPluginInformation()
     {
+        $url = get_site_url();
+        $urlWordPress = get_home_url();
         $licenseData = License::getInstance()->getLicenseData();
 
         $response = wp_remote_post(
@@ -165,6 +171,8 @@ class API
                     'product' => BORLABS_COOKIE_SLUG,
                     'php_version' => phpversion(), // Used to distinguish between >=7.4 and <7.4 builds
                     'licenseKey' => !empty($licenseData->licenseKey) ? $licenseData->licenseKey : '',
+                    'urlWordPress' => $url != $urlWordPress ? $urlWordPress : '',
+                    'networkUrl' => is_multisite() ? network_site_url() : '',
                     'language' => get_locale(),
                 ],
             ]
