@@ -41,6 +41,7 @@ public/app/nfwlog/*
 !public/app/plugins/optimizePressPlusPack
 !public/app/plugins/options-definitely
 !public/app/plugins/real-category-library
+!public/app/plugins/wp-mail-smtp-pro
 
 !public/app/plugins/wp-energieausweis-online
 !public/app/plugins/wp-postratings-migrate
