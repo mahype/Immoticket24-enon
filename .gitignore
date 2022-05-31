@@ -85,6 +85,7 @@ public/app/plugins/wp-rocket/licence-data.php
 !public/app/plugins/real-category-library/vendor
 !public/app/plugins/options-definitely/vendor
 !public/app/plugins/gravityformscli
+!public/app/plugins/wp-mail-smtp-pro/vendor
 #!public/app/wpenon/enev*/vendor
 
 # Node Package Manager
