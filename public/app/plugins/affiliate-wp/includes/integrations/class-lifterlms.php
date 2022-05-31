@@ -826,7 +826,7 @@ class Affiliate_WP_LifterLMS extends Affiliate_WP_Base {
 	 * @param \AffWP\Referral $referral  Referral object.
 	 * @return string Reference link HTML markup.
 	*/
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if( empty( $referral->context ) || 'lifterlms' != $referral->context ) {
 

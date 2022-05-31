@@ -66,6 +66,12 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 
 	public function get_affiliate_id( $affiliate_id, $reference, $context ) {
 
+		$referral = affiliate_wp()->referrals->get_by_with_context( 'reference', $reference, $context );
+
+		if ( $referral && 'draft' === $referral->status ) {
+			return $affiliate_id;
+		}
+
 		if ( $this->context !== $context ) {
 			return $affiliate_id;
 		}
@@ -310,7 +316,7 @@ class Affiliate_WP_Lifetime_Commissions_Base {
 		 */
 		$rate = apply_filters( 'affwp_lc_lifetime_referral_rate', $rate, $affiliate_id );
 
-		return affwp_abs_number_round( $rate );
+		return affwp_sanitize_referral_rate( $rate );
 	}
 
 	/**

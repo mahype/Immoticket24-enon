@@ -34,7 +34,7 @@ function affwp_get_referral_meta( $referral_id, $meta_key = '', $single = false 
  * @param bool   $unique      Optional. Whether the same key should not be added. Default false.
  * @return bool True on success, otherwise false.
  */
-function affwp_add_referral_meta( $referral_id, $meta_key = '', $meta_value, $unique = false ) {
+function affwp_add_referral_meta( $referral_id, $meta_key, $meta_value, $unique = false ) {
 	return affiliate_wp()->referral_meta->add_meta( $referral_id, $meta_key, $meta_value, $unique );
 }
 
@@ -49,7 +49,7 @@ function affwp_add_referral_meta( $referral_id, $meta_key = '', $meta_value, $un
  * @param mixed  $prev_value  Optional. Previous value to check before removing. Default empty.
  * @return bool True on success, otherwise false.
  */
-function affwp_update_referral_meta( $referral_id, $meta_key = '', $meta_value, $prev_value = '' ) {
+function affwp_update_referral_meta( $referral_id, $meta_key, $meta_value, $prev_value = '' ) {
 	return affiliate_wp()->referral_meta->update_meta( $referral_id, $meta_key, $meta_value, $prev_value );
 }
 

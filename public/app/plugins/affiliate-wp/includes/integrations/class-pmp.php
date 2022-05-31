@@ -272,7 +272,7 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 
 	}
 
-	public function revoke_referral_on_delete( $order_id = 0, $order ) {
+	public function revoke_referral_on_delete( $order_id, $order ) {
 
 		if( ! affiliate_wp()->settings->get( 'revoke_on_refund' ) ) {
 			return;
@@ -282,7 +282,7 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 
 	}
 
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if( empty( $referral->context ) || 'pmp' != $referral->context ) {
 

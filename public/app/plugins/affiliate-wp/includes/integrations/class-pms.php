@@ -512,7 +512,7 @@ class Affiliate_WP_PMS extends Affiliate_WP_Base {
      * @since  2.0
      * @access public
      */
-    public function reference_link( $reference = 0, $referral ) {
+    public function reference_link( $reference, $referral ) {
 
         if ( empty( $referral->context ) || 'pms' != $referral->context ) {
             return $reference;

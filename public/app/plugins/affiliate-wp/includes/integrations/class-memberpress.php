@@ -175,7 +175,7 @@ class Affiliate_WP_MemberPress extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   1.5
 	*/
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if( empty( $referral->context ) || 'memberpress' != $referral->context ) {
 

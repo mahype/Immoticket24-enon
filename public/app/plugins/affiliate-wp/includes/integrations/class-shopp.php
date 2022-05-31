@@ -149,7 +149,7 @@ class Affiliate_WP_Shopp extends Affiliate_WP_Base {
 
 	}
 
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if( empty( $referral->context ) || 'shopp' != $referral->context ) {
 			return $reference;

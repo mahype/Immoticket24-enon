@@ -117,16 +117,16 @@ class Affiliate_WP_Creatives {
 	 *
 	 * @since  1.2
 	 *
-	 * @param string $html             HTML output for the Creative.
+	 * @param string $id               Creative ID.
 	 * @param string $url              Creative URL.
 	 * @param string $image_link       The image URL. Either the URL from the image column in DB
 	 *                                 or external URL of image.
 	 * @param array  $image_attributes Image attributes.
 	 * @param string $preview          Creative's preview parameter. Usually 'yes' or 'no'.
 	 * @param string $text             Text description for the Creative.
-	 * @return string
+	 * @return string HTML output for the Creative.
 	 */
-	public function html( $id = '', $url, $image_link, $image_attributes, $preview, $text, $desc = '' ) {
+	public function html( $id, $url, $image_link, $image_attributes, $preview, $text, $desc = '' ) {
 
 		global $affwp_creative_atts;
 

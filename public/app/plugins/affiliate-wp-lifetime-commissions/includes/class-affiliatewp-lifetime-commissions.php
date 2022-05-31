@@ -42,7 +42,7 @@ final class AffiliateWP_Lifetime_Commissions {
 	 * @since 1.0
 	 * @var    string
 	 */
-	private $version = '1.6';
+	private $version = '1.6.1';
 
 	/**
 	 * The integrations handler instance variable.

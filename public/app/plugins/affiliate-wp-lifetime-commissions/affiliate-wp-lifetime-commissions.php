@@ -5,7 +5,7 @@
  * Description: Allow your affiliates to receive a commission on all future purchases by the customer
  * Author: Sandhills Development, LLC
  * Author URI: https://sandhillsdev.com
- * Version: 1.6
+ * Version: 1.6.1
  * Text Domain: affiliate-wp-lifetime-commissions
  * Domain Path: languages
  *
@@ -24,7 +24,7 @@
  * @package AffiliateWP Lifetime Commissions
  * @category Core
  * @author Andrew Munro
- * @version 1.6
+ * @version 1.6.1
  */
 
 // Exit if accessed directly
@@ -62,7 +62,7 @@ class AffiliateWP_LC_Requirements_Check extends AffiliateWP_Requirements_Check_v
 	protected $addon_requirements = array(
 		// AffiliateWP.
 		'affwp' => array(
-			'minimum' => '2.6',
+			'minimum' => '2.6.1',
 			'name'    => 'AffiliateWP',
 			'exists'  => true,
 			'current' => false,

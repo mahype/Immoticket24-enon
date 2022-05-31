@@ -155,7 +155,7 @@ class Affiliate_WP_Caldera_Forms extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   2.0
 	 */
-	public function add_pending_referral( $args = array(), $form ) {
+	public function add_pending_referral( $args, $form ) {
 
 		$this->form   = $form;
 		$affiliate_id = $this->affiliate_id;
@@ -226,7 +226,7 @@ class Affiliate_WP_Caldera_Forms extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   2.0
 	*/
-	public function mark_referral_complete( $entry_id = 0, $form, $process_id = null ) {
+	public function mark_referral_complete( $entry_id, $form, $process_id = null ) {
 
 		// Set entry ID to process ID so the referral can be completed
 		if ( $process_id ) {
@@ -268,7 +268,7 @@ class Affiliate_WP_Caldera_Forms extends Affiliate_WP_Base {
 	 * @access public
 	 * @since  2.0
 	 */
-	public function get_field_value( $type = '', $form ) {
+	public function get_field_value( $type, $form ) {
 
 		$fields          = $form['fields'];
 		$submission_data = Caldera_Forms::get_submission_data( $form );

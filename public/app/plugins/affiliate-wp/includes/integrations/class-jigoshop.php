@@ -322,7 +322,7 @@ class Affiliate_WP_Jigoshop extends Affiliate_WP_Base {
 	 * @function reference_link()
 	 * @access public
 	 */
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if( empty( $referral->context ) || 'jigoshop' != $referral->context ) {
 

@@ -232,7 +232,13 @@ class Bootstrap {
 		$license_data = $license_activation['license_data'];
 		$license_key  = $license_activation['license_key'];
 
-		if ( 'valid' !== $license_data->license || empty( $license_data->success ) ) {
+		if (
+			(
+				! isset( $license_data->license ) ||
+				'valid' !== $license_data->license
+			) ||
+			empty( $license_data->success )
+		) {
 			wp_send_json_error(
 				array(
 					'error' => __( 'This license key doesn&#8217;t appear to be valid. Try again?', 'affiliate-wp' ),
@@ -265,7 +271,11 @@ class Bootstrap {
 		check_ajax_referer( 'affwpwizard-admin-nonce', 'nonce' );
 
 		$status = affiliate_wp()->settings->get( 'license_status', '' );
-		$status = is_object( $status ) ? $status->license : $status;
+
+		$status = ( is_object( $status ) && isset( $status->license ) )
+			? $status->license
+			: $status;
+
 		$license_key = affiliate_wp()->settings->get_license_key();
 
 		$site_license = array(

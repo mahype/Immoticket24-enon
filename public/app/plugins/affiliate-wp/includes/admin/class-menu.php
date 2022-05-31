@@ -29,8 +29,11 @@ class Affiliate_WP_Admin_Menu {
 	 * Registers the Affiliates admin menu and submenu pages.
 	 *
 	 * @since 1.0.0
+	 * @since 2.9.4 Added our Affiliate Reports link to main Dashboard menu.
 	 */
 	public function register_menus() {
+		global $submenu;
+
 		add_menu_page( __( 'Affiliates', 'affiliate-wp' ), __( 'Affiliates', 'affiliate-wp' ), 'view_affiliate_reports', 'affiliate-wp', 'affwp_affiliates_dashboard' );
 
 		$overview   = add_submenu_page( 'affiliate-wp', __( 'Overview', 'affiliate-wp' ),    __( 'Overview', 'affiliate-wp' ),              'view_affiliate_reports',   'affiliate-wp',            'affwp_affiliates_dashboard' );
@@ -44,6 +47,13 @@ class Affiliate_WP_Admin_Menu {
 		$settings   = add_submenu_page( 'affiliate-wp', __( 'Settings', 'affiliate-wp' ),    __( 'Settings', 'affiliate-wp' ),              'manage_affiliate_options', 'affiliate-wp-settings',   'affwp_settings_admin'       );
 		$migration  = add_submenu_page( null, __( 'AffiliateWP Migration', 'affiliate-wp' ), __( 'AffiliateWP Migration', 'affiliate-wp' ), 'manage_affiliate_options', 'affiliate-wp-migrate',    'affwp_migrate_admin'        );
 		$add_ons    = add_submenu_page( 'affiliate-wp', __( 'Add-ons', 'affiliate-wp' ),     __( 'Add-ons', 'affiliate-wp' ),               'manage_affiliate_options', 'affiliate-wp-add-ons',    'affwp_add_ons_admin'        );
+
+		// Add our reports link in the main Dashboard menu.
+		$submenu['index.php'][] = array(
+			__( 'Affiliate Reports', 'affiliate-wp' ),
+			'view_affiliate_reports',
+			'admin.php?page=affiliate-wp-reports',
+		);
 
 		add_action( 'load-' . $affiliates, 'affwp_affiliates_screen_options' );
 		add_action( 'load-' . $referrals, 'affwp_referrals_screen_options' );

@@ -358,7 +358,7 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   1.0
 	*/
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if( empty( $referral->context ) || 'rcp' != $referral->context ) {
 
@@ -437,7 +437,7 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   1.1
 	*/
-	public function update_discount_affiliate( $discount_id = 0, $args ) {
+	public function update_discount_affiliate( $discount_id, $args ) {
 
 		global $wpdb;
 
@@ -566,7 +566,7 @@ class Affiliate_WP_RCP extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   1.7
 	*/
-	public function store_subscription_meta( $level_id = 0, $args ) {
+	public function store_subscription_meta( $level_id, $args ) {
 
 		global $rcp_levels_db;
 

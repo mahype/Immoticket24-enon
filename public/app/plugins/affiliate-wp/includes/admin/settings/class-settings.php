@@ -1357,13 +1357,22 @@ class Affiliate_WP_Settings {
 	 * Renders license key fields.
 	 *
 	 * @since 1.0
-	 * @param array $args Arguments passed by the setting
+	 *
 	 * @global $this->options Array of all the AffiliateWP Options
+	 *
+	 * @param array $args Arguments passed by the setting.
+	 *
 	 * @return void
 	 */
 	function license_callback( $args ) {
 		$status = $this->get( 'license_status' );
-		$status = is_object( $status ) ? $status->license : $status;
+
+		if (
+			is_object( $status ) &&
+			isset( $status->license )
+		) {
+			$status = $status->license;
+		}
 
 		if ( isset( $this->options[ $args['id'] ] ) ) {
 			$value = $this->options[ $args['id'] ];
@@ -1741,6 +1750,7 @@ class Affiliate_WP_Settings {
 	 * Determines whether a setting is disabled.
 	 *
 	 * @since 1.8.3
+	 *
 	 * @access public
 	 *
 	 * @param array $args Setting arguments.
@@ -1770,9 +1780,9 @@ class Affiliate_WP_Settings {
 		// Retrieve the license status from the database.
 		$status = $this->get( 'license_status' );
 
-		if( is_object( $status ) ) {
-			$status = $status->license;
-		}
+		$status = ( is_object( $status ) && isset( $status->license ) )
+			? $status->license
+			: $status;
 
 		if( 'valid' == $status ) {
 			return; // license already activated and valid

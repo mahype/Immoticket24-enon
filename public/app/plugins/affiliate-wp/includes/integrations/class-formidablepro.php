@@ -364,7 +364,7 @@ class Affiliate_WP_Formidable_Pro extends Affiliate_WP_Base {
 	 * @return string
 	 *
 	 */
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if ( empty( $referral->context ) || 'formidablepro' != $referral->context ) {
 

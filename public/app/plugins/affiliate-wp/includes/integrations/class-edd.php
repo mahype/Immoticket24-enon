@@ -660,7 +660,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   1.0
 	*/
-	public function revoke_referral_on_refund( $payment_id = 0, $new_status, $old_status ) {
+	public function revoke_referral_on_refund( $payment_id, $new_status, $old_status ) {
 
 		if( 'publish' != $old_status && 'revoked' != $old_status ) {
 			return;
@@ -700,7 +700,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   1.0
 	*/
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if ( empty( $referral->context ) || 'edd' != $referral->context ) {
 

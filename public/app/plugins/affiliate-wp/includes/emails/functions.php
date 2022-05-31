@@ -143,7 +143,7 @@ function affwp_email_tag_login_url() {
  *
  * @return string amount
  */
-function affwp_email_tag_amount( $affiliate_id = 0, $referral ) {
+function affwp_email_tag_amount( $affiliate_id, $referral ) {
 	return html_entity_decode( affwp_currency_filter( $referral->amount ), ENT_COMPAT, 'UTF-8' );
 }
 
@@ -229,7 +229,7 @@ function affwp_email_tag_registration_coupon( $affiliate_id = 0 ) {
  * @since 1.9
  * @return string URL to the landing page
  */
-function affwp_email_tag_get_landing_page( $affiliate_id = 0, $referral ) {
+function affwp_email_tag_get_landing_page( $affiliate_id, $referral ) {
     return esc_url( affiliate_wp()->visits->get_column_by( 'url', 'visit_id', $referral->visit_id ) );
 }
 
@@ -242,7 +242,7 @@ function affwp_email_tag_get_landing_page( $affiliate_id = 0, $referral ) {
  * @param \AffWP\Referral $referral     Referral object.
  * @return string Referral campaign, or (no campaign) if none.
  */
-function affwp_email_tag_campaign_name( $affiliate_id = 0, $referral ) {
+function affwp_email_tag_campaign_name( $affiliate_id, $referral ) {
 	return empty( $referral->campaign ) ? __( '(no campaign)', 'affiliate-wp' ) : esc_html( $referral->campaign );
 }
 

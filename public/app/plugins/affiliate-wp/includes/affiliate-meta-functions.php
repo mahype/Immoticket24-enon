@@ -36,7 +36,7 @@ function affwp_get_affiliate_meta( $affiliate_id = 0, $meta_key = '', $single = 
  * @access  public
  * @since   1.6
  */
-function affwp_add_affiliate_meta( $affiliate_id = 0, $meta_key = '', $meta_value, $unique = false ) {
+function affwp_add_affiliate_meta( $affiliate_id, $meta_key, $meta_value, $unique = false ) {
 	return affiliate_wp()->affiliate_meta->add_meta( $affiliate_id, $meta_key, $meta_value, $unique );
 }
 
@@ -52,7 +52,7 @@ function affwp_add_affiliate_meta( $affiliate_id = 0, $meta_key = '', $meta_valu
  * @access  public
  * @since   1.6
  */
-function affwp_update_affiliate_meta( $affiliate_id = 0, $meta_key = '', $meta_value, $prev_value = '' ) {
+function affwp_update_affiliate_meta( $affiliate_id, $meta_key, $meta_value, $prev_value = '' ) {
 	return affiliate_wp()->affiliate_meta->update_meta( $affiliate_id, $meta_key, $meta_value, $prev_value );
 }
 

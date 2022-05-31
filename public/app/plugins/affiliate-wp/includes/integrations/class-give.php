@@ -186,7 +186,7 @@ class Affiliate_WP_Give extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   2.0
 	*/
-	public function mark_referral_complete( $form_id, $payment_id = 0, $payment_meta ) {
+	public function mark_referral_complete( $form_id, $payment_id, $payment_meta ) {
 		$this->complete_referral( $payment_id );
 	}
 
@@ -196,7 +196,7 @@ class Affiliate_WP_Give extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   2.0
 	*/
-	public function insert_payment_note( $form_id, $payment_id = 0, $payment_meta ) {
+	public function insert_payment_note( $form_id, $payment_id, $payment_meta ) {
 
 		$referral = affwp_get_referral_by( 'reference', $payment_id, $this->context );
 
@@ -221,7 +221,7 @@ class Affiliate_WP_Give extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   2.0
 	*/
-	public function revoke_referral_on_refund( $payment_id = 0, $new_status, $old_status ) {
+	public function revoke_referral_on_refund( $payment_id, $new_status, $old_status ) {
 
 		if ( 'publish' != $old_status && 'revoked' != $old_status ) {
 			return;
@@ -261,7 +261,7 @@ class Affiliate_WP_Give extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   2.0
 	*/
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if ( empty( $referral->context ) || 'give' != $referral->context ) {
 			return $reference;

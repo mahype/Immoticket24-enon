@@ -237,7 +237,7 @@ class Affiliate_WP_Gravity_Forms extends Affiliate_WP_Base {
 	 * @param  object $referral
 	 * @return string
 	 */
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if ( empty( $referral->context ) || 'gravityforms' != $referral->context ) {
 			return $reference;

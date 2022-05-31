@@ -37,7 +37,7 @@ class Affiliate_WP_WPEC extends Affiliate_WP_Base {
 		add_action( 'init', array( $this, 'products_page_rewrite' ) );
 	}
 
-	public function add_pending_referral( $order_id = 0, $current_status, $previous_status, $order ) {
+	public function add_pending_referral( $order_id, $current_status, $previous_status, $order ) {
 
 
 		if( $this->was_referred() ) {
@@ -81,7 +81,7 @@ class Affiliate_WP_WPEC extends Affiliate_WP_Base {
 
 	}
 
-	public function mark_referral_complete( $order_id = 0, $current_status, $previous_status, $order ) {
+	public function mark_referral_complete( $order_id, $current_status, $previous_status, $order ) {
 
 		if( $order->is_transaction_completed() ) {
 
@@ -93,7 +93,7 @@ class Affiliate_WP_WPEC extends Affiliate_WP_Base {
 
 	}
 
-	public function revoke_referral_on_refund( $order_id = 0, $current_status, $previous_status, $order ) {
+	public function revoke_referral_on_refund( $order_id, $current_status, $previous_status, $order ) {
 
 		if( ! affiliate_wp()->settings->get( 'revoke_on_refund' ) ) {
 			return;
@@ -107,7 +107,7 @@ class Affiliate_WP_WPEC extends Affiliate_WP_Base {
 
 	}
 
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference, $referral ) {
 
 		if( empty( $referral->context ) || 'wpec' != $referral->context ) {
 

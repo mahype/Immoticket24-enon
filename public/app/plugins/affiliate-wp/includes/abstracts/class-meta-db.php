@@ -204,7 +204,7 @@ abstract class Affiliate_WP_Meta_DB extends Affiliate_WP_DB {
 
 		if ( ! $meta_cache ) {
 			$meta_cache = update_meta_cache( $this->meta_type(), array( $object_id ) );
-			$meta_cache = $meta_cache[ $object_id ];
+			$meta_cache = is_array( $meta_cache ) && isset( $meta_cache[ $object_id ] ) ? $meta_cache[ $object_id ] : null;
 		}
 
 		// Bail and let get_metadata() handle it if there's no cache.

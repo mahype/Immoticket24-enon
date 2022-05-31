@@ -230,13 +230,13 @@ add_action( 'affwp_set_affiliate_status', 'affwp_notify_on_approval', 10, 3 );
  * @param string $status
  * @param array $args
  */
-function affwp_notify_on_pending_affiliate_registration( $affiliate_id = 0, $status = '', $args ) {
+function affwp_notify_on_pending_affiliate_registration( $affiliate_id, $status, $args ) {
 
 	if ( ! affwp_email_notification_enabled( 'affiliate_application_pending_email' ) ) {
 		return;
 	}
 
-	if ( empty( $affiliate_id ) ) {
+	if ( empty( $affiliate_id ) || empty( $status ) ) {
 		return;
 	}
 
@@ -340,7 +340,15 @@ add_action( 'affwp_set_affiliate_status', 'affwp_notify_on_rejected_affiliate_re
  * @param int $affiliate_id The ID of the registered affiliate
  * @param array $referral
  */
-function affwp_notify_on_new_referral( $affiliate_id = 0, $referral ) {
+function affwp_notify_on_new_referral( $affiliate_id, $referral ) {
+
+	if( empty( $affiliate_id ) ) {
+		return;
+	}
+
+	if( empty( $referral ) ) {
+		return;
+	}
 
 	if ( ! affwp_email_notification_enabled( 'affiliate_new_referral_email', $affiliate_id ) ) {
 		return;
@@ -349,14 +357,6 @@ function affwp_notify_on_new_referral( $affiliate_id = 0, $referral ) {
 	$user_id = affwp_get_affiliate_user_id( $affiliate_id );
 
 	if( ! get_user_meta( $user_id, 'affwp_referral_notifications', true ) ) {
-		return;
-	}
-
-	if( empty( $affiliate_id ) ) {
-		return;
-	}
-
-	if( empty( $referral ) ) {
 		return;
 	}
 
@@ -425,7 +425,7 @@ add_action( 'affwp_referral_accepted', 'affwp_notify_on_new_referral', 10, 2 );
  * @param int             $affiliate_id The ID of the registered affiliate
  * @param \AffWP\Referral $referral     Referral object.
  */
-function affwp_notify_admin_on_new_referral( $affiliate_id = 0, $referral ) {
+function affwp_notify_admin_on_new_referral( $affiliate_id, $referral ) {
 
 	if( empty( $affiliate_id ) ) {
 		return;

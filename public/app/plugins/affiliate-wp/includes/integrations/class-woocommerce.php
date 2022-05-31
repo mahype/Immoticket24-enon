@@ -45,6 +45,12 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'add_pending_referral' ), 10 );
 
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '6.4.0', '>=' ) ) {
+			add_action( 'woocommerce_store_api_checkout_order_processed', array( $this, 'add_pending_referral_checkout_block' ) );
+		} else {
+			add_action( 'woocommerce_blocks_checkout_order_processed', array( $this, 'add_pending_referral_checkout_block' ) );
+		}
+
 		// Add an order note if a contained referral is updated.
 		add_action( 'affwp_updated_referral', array( $this, 'updated_referral_note' ), 10, 3 );
 
@@ -334,6 +340,27 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		);
 
 		$this->log( sprintf( 'WooCommerce referral #%d updated successfully.', $referral_id ) );
+	}
+
+	/**
+	 * Store a pending referral when a new order is created via WooCommerce checkout block.
+	 *
+	 * @since 2.9.4
+	 *
+	 * @param \WC_Order $order WooCommerce order object.
+	 * @return void
+	 */
+	public function add_pending_referral_checkout_block( $order ) {
+
+		if ( 'checkout-draft' !== $order->get_status() ) {
+			return;
+		}
+
+		if ( 'store-api' !== $order->get_created_via() ) {
+			return;
+		}
+
+		$this->add_pending_referral( $order->get_id() );
 	}
 
 	/**

@@ -1231,10 +1231,11 @@ final class Affiliate_WP_Editor {
 				break;
 
 			case 'account':
-				$label_slug = 'affwp-user-email';
-				$name       = 'affwp_user_email';
-				$value      = isset( $user['user_email'] ) ? $user['user_email'] : '';
-				$disabled   = is_user_logged_in() ? ' disabled="disabled"' : '';
+				$label_slug       = 'affwp-user-email';
+				$name             = 'affwp_user_email';
+				$value            = isset( $user['user_email'] ) ? $user['user_email'] : '';
+				$disabled         = is_user_logged_in() ? ' disabled="disabled"' : '';
+				$atts['required'] = true; // Account email is always required.
 				break;
 
 			default:
@@ -1242,7 +1243,6 @@ final class Affiliate_WP_Editor {
 				$name       = esc_attr( str_replace( '-', '_', $label_slug ) ) . '_email';
 				break;
 		}
-
 
 		$required_attr = isset( $atts['required'] ) && $atts['required'] ? 'required' : '';
 		$placeholder   = isset( $atts['placeholder'] ) && $show_placeholders ? ' placeholder="' . $atts['placeholder'] . '"' : '';

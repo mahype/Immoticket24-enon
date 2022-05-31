@@ -51,12 +51,26 @@ class Affiliate_WP_Lifetime_Commissions_WooCommerce extends Affiliate_WP_Lifetim
 	 * @return float|int Lifetime referral amount.
 	 */
 	public function calculate_lifetime_referral_amount( $amount, $order_id, $affiliate_id ) {
-		$order         = new \WC_Order( $order_id );
-		$lifetime_rate = false;
 
-		if ( $this->can_receive_lifetime_commissions( $affiliate_id ) && $this->is_lifetime_customer( $order_id ) ) {
-			$lifetime_rate = $this->get_lifetime_rate( $affiliate_id );
+		if ( empty( $this->customer ) ) {
+			return $amount;
 		}
+
+		if ( ! $this->can_receive_lifetime_commissions( $affiliate_id )  ) {
+			return $amount;
+		}
+
+		if ( ! $this->is_lifetime_customer( $order_id ) ) {
+			return $amount;
+		}
+
+		$order = wc_get_order( $order_id );
+
+		if ( ! $order instanceof \WC_Order ) {
+			return $amount;
+		}
+
+		$lifetime_rate = $this->get_lifetime_rate( $affiliate_id );
 
 		if ( is_numeric( $lifetime_rate ) ) {
 

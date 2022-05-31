@@ -2,15 +2,15 @@
 # This file is distributed under the same license as the AffiliateWP plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: AffiliateWP 2.9.3\n"
+"Project-Id-Version: AffiliateWP 2.9.4\n"
 "Report-Msgid-Bugs-To: https://affiliatewp.com/support\n"
 "Last-Translator: AffiliateWP <support@affiliatewp.com>\n"
 "Language-Team: AffiliateWP <support@affiliatewp.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-03-26T08:27:45+00:00\n"
-"PO-Revision-Date: 2022-03-26T08:27:45+00:00\n"
+"POT-Creation-Date: 2022-05-12T14:56:56+00:00\n"
+"PO-Revision-Date: 2022-05-12T14:56:56+00:00\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: affiliate-wp\n"
 
@@ -20,8 +20,8 @@ msgstr ""
 #: includes/class-editor.php:501
 #: includes/integrations/class-formidablepro.php:97
 #: includes/integrations/class-give.php:301
-#: includes/integrations/class-woocommerce.php:772
-#: includes/integrations/class-woocommerce.php:1430
+#: includes/integrations/class-woocommerce.php:799
+#: includes/integrations/class-woocommerce.php:1457
 #: includes/integrations/extras/class-exchange-feature.php:204
 msgid "AffiliateWP"
 msgstr ""
@@ -256,8 +256,8 @@ msgid "No affiliate IDs specified for deletion"
 msgstr ""
 
 #: includes/admin/affiliates/affiliates.php:79
-#: includes/admin/class-menu.php:34
 #: includes/admin/class-menu.php:37
+#: includes/admin/class-menu.php:40
 #: includes/admin/reports/tabs/class-affiliates-reports-tab.php:23
 msgid "Affiliates"
 msgstr ""
@@ -382,7 +382,7 @@ msgid "Paid Referrals"
 msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:176
-#: includes/admin/class-menu.php:40
+#: includes/admin/class-menu.php:43
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:23
 #: includes/admin/tools/export/class-batch-export-affiliates.php:114
 #: includes/admin/tools/export/class-export-affiliates.php:58
@@ -440,7 +440,7 @@ msgid "(user deleted)"
 msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:299
-#: includes/admin/class-menu.php:42
+#: includes/admin/class-menu.php:45
 #: includes/admin/reports/class-reports-admin.php:101
 #: includes/admin/user-profile.php:71
 msgid "Reports"
@@ -633,14 +633,14 @@ msgstr ""
 #: includes/admin/affiliates/new.php:115
 #: includes/admin/affiliates/new.php:120
 #: includes/admin/settings/class-settings.php:613
-#: includes/integrations/class-woocommerce.php:868
+#: includes/integrations/class-woocommerce.php:895
 msgid "Referral Rate Type"
 msgstr ""
 
 #: includes/admin/affiliates/edit.php:237
 #: includes/admin/affiliates/new.php:123
-#: includes/integrations/class-woocommerce.php:801
-#: includes/integrations/class-woocommerce.php:870
+#: includes/integrations/class-woocommerce.php:828
+#: includes/integrations/class-woocommerce.php:897
 #: assets/js/editor/blocks/affiliate-referral-url/edit.js:50
 #: assets/js/editor/blocks/affiliate-referral-url/edit.js:60
 #: assets/js/editor/build/index.js:6
@@ -674,9 +674,9 @@ msgstr ""
 #: includes/integrations/class-memberpress.php:221
 #: includes/integrations/class-pmp.php:425
 #: includes/integrations/class-pms.php:77
-#: includes/integrations/class-woocommerce.php:878
-#: includes/integrations/class-woocommerce.php:1466
-#: includes/integrations/class-woocommerce.php:1484
+#: includes/integrations/class-woocommerce.php:905
+#: includes/integrations/class-woocommerce.php:1493
+#: includes/integrations/class-woocommerce.php:1511
 #: includes/integrations/class-zippycourses.php:98
 #: includes/integrations/extras/class-exchange-feature.php:40
 msgid "Referral Rate"
@@ -733,6 +733,7 @@ msgstr ""
 #: includes/admin/tools/export/class-export-referrals.php:67
 #: includes/admin/utilities/class-privacy-tools.php:112
 #: includes/class-editor.php:332
+#: includes/install.php:68
 #: includes/misc-functions.php:1222
 #: includes/misc-functions.php:1268
 #: templates/register.php:85
@@ -946,7 +947,8 @@ msgstr ""
 #: includes/admin/class-upgrades.php:746
 #: includes/admin/settings/class-settings.php:1113
 #: includes/class-editor.php:1154
-#: includes/install.php:89
+#: includes/install.php:69
+#: includes/install.php:107
 #: templates/register.php:90
 #: templates/register.php:91
 #: assets/js/editor/blocks/registration/edit.js:57
@@ -1061,14 +1063,14 @@ msgstr ""
 msgid "There is a new version of %1$s available. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s\">update now</a>."
 msgstr ""
 
-#: includes/admin/class-menu.php:36
+#: includes/admin/class-menu.php:39
 #: includes/admin/overview/overview.php:56
 #: includes/admin/referrals/contextual-help.php:37
 #: includes/admin/visits/contextual-help.php:37
 msgid "Overview"
 msgstr ""
 
-#: includes/admin/class-menu.php:38
+#: includes/admin/class-menu.php:41
 #: includes/admin/payouts/class-list-table.php:162
 #: includes/admin/referrals/referrals.php:46
 #: includes/admin/reports/tabs/class-referrals-reports-tab.php:23
@@ -1082,7 +1084,7 @@ msgstr ""
 msgid "Referrals"
 msgstr ""
 
-#: includes/admin/class-menu.php:39
+#: includes/admin/class-menu.php:42
 #: includes/admin/payouts/payouts.php:48
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:45
 #: includes/affiliate-functions.php:1804
@@ -1090,7 +1092,7 @@ msgstr ""
 msgid "Payouts"
 msgstr ""
 
-#: includes/admin/class-menu.php:41
+#: includes/admin/class-menu.php:44
 #: includes/admin/creatives/creatives.php:43
 #: includes/affiliate-functions.php:1807
 #: templates/dashboard-tab-creatives.php:3
@@ -1098,23 +1100,27 @@ msgstr ""
 msgid "Creatives"
 msgstr ""
 
-#: includes/admin/class-menu.php:43
+#: includes/admin/class-menu.php:46
 msgid "Tools"
 msgstr ""
 
-#: includes/admin/class-menu.php:44
+#: includes/admin/class-menu.php:47
 #: includes/affiliate-functions.php:1808
 #: tests/affiliates/test-affiliate-functions.php:2978
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-menu.php:45
+#: includes/admin/class-menu.php:48
 #: includes/admin/tools/migration.php:26
 msgid "AffiliateWP Migration"
 msgstr ""
 
-#: includes/admin/class-menu.php:46
+#: includes/admin/class-menu.php:49
 msgid "Add-ons"
+msgstr ""
+
+#: includes/admin/class-menu.php:53
+msgid "Affiliate Reports"
 msgstr ""
 
 #. translators: Notice ID
@@ -1509,7 +1515,7 @@ msgstr ""
 
 #: includes/admin/class-upgrades.php:745
 #: includes/admin/settings/class-settings.php:1112
-#: includes/install.php:88
+#: includes/install.php:106
 #: templates/register.php:70
 #: templates/register.php:71
 #: tests/misc/test-misc-functions.php:504
@@ -3084,7 +3090,7 @@ msgid "Pages"
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:549
-#: includes/install.php:65
+#: includes/install.php:83
 #: assets/js/editor/blocks/affiliate-area/index.js:23
 #: assets/js/editor/blocks/affiliate-area/index.js:29
 #: assets/js/editor/build/index.js:6
@@ -3342,7 +3348,7 @@ msgid "Select the opt-in platform provider you wish to use then click Save Chang
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:768
-#: includes/integrations/class-woocommerce.php:1651
+#: includes/integrations/class-woocommerce.php:1678
 msgid "(select one)"
 msgstr ""
 
@@ -3772,6 +3778,7 @@ msgid "Password"
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:1115
+#: includes/install.php:70
 #: templates/register.php:95
 #: assets/js/editor/blocks/registration/edit.js:59
 #: assets/js/editor/build/index.js:6
@@ -3875,86 +3882,86 @@ msgstr ""
 msgid "We regret to inform you that your recent affiliate registration on {site_name} was rejected."
 msgstr ""
 
-#: includes/admin/settings/class-settings.php:1381
+#: includes/admin/settings/class-settings.php:1391
 msgid "Your license key is globally defined via <code>AFFILIATEWP_LICENSE_KEY</code> set in <code>wp-config.php</code>.<br />It cannot be modified from this screen."
 msgstr ""
 
-#: includes/admin/settings/class-settings.php:1383
+#: includes/admin/settings/class-settings.php:1393
 msgid "Deactivate your license key to make changes to this setting."
 msgstr ""
 
-#: includes/admin/settings/class-settings.php:1394
+#: includes/admin/settings/class-settings.php:1404
 msgid "Deactivate License"
 msgstr ""
 
-#: includes/admin/settings/class-settings.php:1395
+#: includes/admin/settings/class-settings.php:1405
 msgid "Your license is valid!"
 msgstr ""
 
-#: includes/admin/settings/class-settings.php:1398
+#: includes/admin/settings/class-settings.php:1408
 msgid "Renew Your License"
 msgstr ""
 
-#: includes/admin/settings/class-settings.php:1399
+#: includes/admin/settings/class-settings.php:1409
 msgid "Your license has expired, renew today to continue getting updates and support!"
 msgstr ""
 
-#: includes/admin/settings/class-settings.php:1401
+#: includes/admin/settings/class-settings.php:1411
 msgid "Activate License"
 msgstr ""
 
 #. translators: Setting ID
-#: includes/admin/settings/class-settings.php:1501
+#: includes/admin/settings/class-settings.php:1511
 msgid "The callback function used for the <strong>%s</strong> setting is missing."
 msgstr ""
 
-#: includes/admin/settings/class-settings.php:1580
+#: includes/admin/settings/class-settings.php:1590
 msgid "Upload File"
 msgstr ""
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
-#: includes/admin/settings/class-settings.php:1643
+#: includes/admin/settings/class-settings.php:1653
 msgid "%s allows you, as the site owner, to pay your affiliates directly from a credit or debit card and the funds for each recipient will be automatically deposited into their bank accounts. To use this service, connect your site to the service below. You will log into the service using your username and password from AffiliateWP.com."
 msgstr ""
 
 #. translators: 1: Payouts Service URL
-#: includes/admin/settings/class-settings.php:1645
+#: includes/admin/settings/class-settings.php:1655
 msgid "<a href=\"%s\" target=\"_blank\">Learn more and view pricing.</a>"
 msgstr ""
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
-#: includes/admin/settings/class-settings.php:1667
+#: includes/admin/settings/class-settings.php:1677
 msgid "Your website is connected to the %s."
 msgstr ""
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
-#: includes/admin/settings/class-settings.php:1669
+#: includes/admin/settings/class-settings.php:1679
 msgid "Disconnect from the %s."
 msgstr ""
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
-#: includes/admin/settings/class-settings.php:1676
+#: includes/admin/settings/class-settings.php:1686
 msgid "Reconnect to the %s."
 msgstr ""
 
 #. translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant, 2: Payouts service documentation URL
-#: includes/admin/settings/class-settings.php:1678
-#: includes/admin/settings/class-settings.php:1692
+#: includes/admin/settings/class-settings.php:1688
+#: includes/admin/settings/class-settings.php:1702
 msgid "Have questions about connecting with the %1$s? See the <a href=\"%2$s\" target=\"_blank\" rel=\"noopener noreferrer\">documentation</a>."
 msgstr ""
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
-#: includes/admin/settings/class-settings.php:1690
+#: includes/admin/settings/class-settings.php:1700
 msgid "Connect to the %s."
 msgstr ""
 
 #. translators: Support URL
-#: includes/admin/settings/class-settings.php:1712
+#: includes/admin/settings/class-settings.php:1722
 msgid "Your license key is globally defined via <code>AFFILIATEWP_LICENSE_KEY</code> set in <code>wp-config.php</code>.<br />It cannot be modified from this screen.<br />An active license key is needed for automatic plugin updates and <a href=\"%s\" target=\"_blank\">support</a>."
 msgstr ""
 
 #. translators: System Info screen URL
-#: includes/admin/settings/class-settings.php:1733
+#: includes/admin/settings/class-settings.php:1743
 msgid "Debug mode is globally enabled via <code>AFFILIATE_WP_DEBUG</code> set in <code>wp-config.php</code>. This setting cannot be modified from this screen. Logs are kept in <a href=\"%s\">Affiliates > Tools</a>."
 msgstr ""
 
@@ -5774,84 +5781,84 @@ msgstr ""
 msgid "Use our configuration wizard to properly set up AffiliateWP (with just a few clicks)."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:198
+#: includes/components/wizard/class-bootstrap.php:199
 msgid "Please enter a license key."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:207
+#: includes/components/wizard/class-bootstrap.php:208
 msgid "You are not allowed to verify a license key."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:219
+#: includes/components/wizard/class-bootstrap.php:220
 msgid "There was an error connecting to the remote key API. Please try again later."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:238
+#: includes/components/wizard/class-bootstrap.php:245
 msgid "This license key doesn&#8217;t appear to be valid. Try again?"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:252
+#: includes/components/wizard/class-bootstrap.php:259
 msgid "Congratulations! This site is now receiving automatic updates."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:295
+#: includes/components/wizard/class-bootstrap.php:307
 msgid "eCommerce integrations"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:300
+#: includes/components/wizard/class-bootstrap.php:312
 msgid "Membership integrations"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:305
+#: includes/components/wizard/class-bootstrap.php:317
 msgid "Form integrations"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:310
+#: includes/components/wizard/class-bootstrap.php:322
 msgid "Invoice integrations"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:315
+#: includes/components/wizard/class-bootstrap.php:327
 msgid "Course integrations"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:320
+#: includes/components/wizard/class-bootstrap.php:332
 msgid "Donation integrations"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:510
+#: includes/components/wizard/class-bootstrap.php:522
 msgid "AffiliateWP &rsaquo; Onboarding Wizard"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:527
+#: includes/components/wizard/class-bootstrap.php:539
 msgid "Return to Dashboard"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:581
+#: includes/components/wizard/class-bootstrap.php:593
 msgid "Ooops! It Appears JavaScript Didn’t Load"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:582
+#: includes/components/wizard/class-bootstrap.php:594
 msgid "There seems to be an issue running JavaScript on your website, which AffiliateWP is crafted in to give you the best experience possible."
 msgstr ""
 
 #. Translators: Placeholders make the text bold.
-#: includes/components/wizard/class-bootstrap.php:586
+#: includes/components/wizard/class-bootstrap.php:598
 msgid "If you are using an %1$sad blocker%2$s, please disable or whitelist the current page to load AffiliateWP correctly."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:600
+#: includes/components/wizard/class-bootstrap.php:612
 msgid "Copy the error message above and paste it in a message to the AffiliateWP support team."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:604
+#: includes/components/wizard/class-bootstrap.php:616
 msgid "Your browser version is not supported"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:605
+#: includes/components/wizard/class-bootstrap.php:617
 msgid "You are using a browser which is no longer supported by AffiliateWP. Please update or use another browser in order to access the plugin settings."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:607
+#: includes/components/wizard/class-bootstrap.php:619
 msgid "View supported browsers"
 msgstr ""
 
@@ -6090,7 +6097,7 @@ msgstr ""
 #: includes/integrations/class-pmp.php:335
 #: includes/integrations/class-pms.php:135
 #: includes/integrations/class-rcp.php:406
-#: includes/integrations/class-woocommerce.php:632
+#: includes/integrations/class-woocommerce.php:659
 msgid "If you would like to connect this discount to an affiliate, enter the name of the affiliate it belongs to."
 msgstr ""
 
@@ -6194,7 +6201,7 @@ msgstr ""
 #: includes/integrations/class-memberpress.php:199
 #: includes/integrations/class-rcp.php:509
 #: includes/integrations/class-rcp.php:540
-#: includes/integrations/class-woocommerce.php:807
+#: includes/integrations/class-woocommerce.php:834
 msgid "Affiliate Rate"
 msgstr ""
 
@@ -6363,84 +6370,84 @@ msgid "Disable referrals on this subscription level."
 msgstr ""
 
 #. translators: 1: Referral link, 2: Amount, 3: Affiliate Name
-#: includes/integrations/class-woocommerce.php:361
+#: includes/integrations/class-woocommerce.php:388
 msgid "Referral %1$s updated. Amount %2$s recorded for %3$s"
 msgstr ""
 
 #. translators: Variation ID
-#: includes/integrations/class-woocommerce.php:426
-#: includes/integrations/class-woocommerce.php:750
+#: includes/integrations/class-woocommerce.php:453
+#: includes/integrations/class-woocommerce.php:777
 msgid "(Variation ID %d)"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:628
+#: includes/integrations/class-woocommerce.php:655
 msgid "Affiliate discount?"
 msgstr ""
 
 #. translators: Coupons settings URL
-#: includes/integrations/class-woocommerce.php:642
+#: includes/integrations/class-woocommerce.php:669
 msgid "This setting is disabled because this coupon is designated as a dynamic coupon template. Visit <a href=\"%s\" target=\"_blank\">Settings &rarr; Coupons</a> to configure dynamic coupons."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:796
+#: includes/integrations/class-woocommerce.php:823
 msgid "Configure affiliate rates for this product. These settings will be used to calculate affiliate earnings per-sale."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:800
+#: includes/integrations/class-woocommerce.php:827
 msgid "Affiliate Rate Type"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:803
+#: includes/integrations/class-woocommerce.php:830
 msgid "Earnings can be based on either a percentage or a flat rate amount."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:809
+#: includes/integrations/class-woocommerce.php:836
 msgid "Leave blank to use default affiliate rates."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:821
+#: includes/integrations/class-woocommerce.php:848
 msgid "Disable referrals"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:822
+#: includes/integrations/class-woocommerce.php:849
 msgid "This will prevent this product from generating referral commissions for affiliates."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:864
+#: includes/integrations/class-woocommerce.php:891
 msgid "Configure affiliate rates for this product variation"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:879
+#: includes/integrations/class-woocommerce.php:906
 msgid "Referral rate (optional)"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:884
+#: includes/integrations/class-woocommerce.php:911
 msgid "Disable referrals for this product variation"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:1431
+#: includes/integrations/class-woocommerce.php:1458
 msgid "AffiliateWP settings for the My Account page."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:1437
+#: includes/integrations/class-woocommerce.php:1464
 msgid "Affiliate Area Link"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:1438
+#: includes/integrations/class-woocommerce.php:1465
 msgid "Display a link to the Affiliate Area in the My Account navigation."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:1468
-#: includes/integrations/class-woocommerce.php:1488
+#: includes/integrations/class-woocommerce.php:1495
+#: includes/integrations/class-woocommerce.php:1515
 msgid "The referral rate for this category."
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:1525
-#: includes/integrations/class-woocommerce.php:1574
+#: includes/integrations/class-woocommerce.php:1552
+#: includes/integrations/class-woocommerce.php:1601
 msgid "Affiliate Referral"
 msgstr ""
 
-#: includes/integrations/class-woocommerce.php:1887
+#: includes/integrations/class-woocommerce.php:1914
 msgid "This coupon can&#8217;t be used at the moment"
 msgstr ""
 

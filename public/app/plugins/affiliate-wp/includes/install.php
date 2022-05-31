@@ -60,14 +60,32 @@ function affiliate_wp_install() {
 		// Create the Affiliate Area page if it doesn't exist.
 		if ( empty( $affiliates_page ) ) {
 
+			$post_content = '<!-- wp:affiliatewp/affiliate-area -->
+				<!-- wp:affiliatewp/registration -->
+				<!-- wp:affiliatewp/field-name {"type":"name"} /-->
+				<!-- wp:affiliatewp/field-username {"required":true,"type":"username"} /-->
+				<!-- wp:affiliatewp/field-account-email {"type":"account"} /-->
+				<!-- wp:affiliatewp/field-payment-email {"label":"' . __( 'Payment Email', 'affiliate-wp' ) . '","type":"payment"} /-->
+				<!-- wp:affiliatewp/field-website {"label":"' . __( 'Website URL', 'affiliate-wp' ) . '","type":"websiteUrl"} /-->
+				<!-- wp:affiliatewp/field-textarea {"label":"' . __( 'How will you promote us?', 'affiliate-wp' ) . '","type":"promotionMethod"} /-->
+				<!-- wp:affiliatewp/field-register-button /-->
+				<!-- /wp:affiliatewp/registration -->
+				<!-- wp:affiliatewp/login /-->
+				<!-- /wp:affiliatewp/affiliate-area -->
+			';
+
+			if ( class_exists( 'Classic_Editor' ) && 'classic' === get_option( 'classic-editor-replace' ) ) {
+				$post_content = '[affiliate_area]';
+			}
+
 			$affiliate_area = wp_insert_post(
 				array(
 					'post_title'     => __( 'Affiliate Area', 'affiliate-wp' ),
-					'post_content'   => '[affiliate_area]',
+					'post_content'   => $post_content,
 					'post_status'    => 'publish',
 					'post_author'    => get_current_user_id(),
 					'post_type'      => 'page',
-					'comment_status' => 'closed'
+					'comment_status' => 'closed',
 				)
 			);
 
