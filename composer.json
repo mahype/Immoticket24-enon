@@ -77,7 +77,7 @@
     "wpackagist-plugin/user-switching": "1.5.8",
     "wpackagist-plugin/wordpress-importer":"0.7",
     "wpackagist-plugin/wordpress-seo": "19.0.0",
-    "wpackagist-plugin/better-wp-security": "8.1.2"
+    "wpackagist-plugin/defender-security": "2.8.3"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "3.*",
