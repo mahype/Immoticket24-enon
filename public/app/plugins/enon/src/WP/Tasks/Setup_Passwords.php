@@ -66,12 +66,12 @@ class Setup_Passwords implements Actions, Task
             $error = true;
         }
 
-        //!@#$%ß()*.,
+        //!@#$%ß()*.^,
 
         if ($error) {
             $errors->add(
                 'weak-password',
-                __('Das Passwort ist nicht sicher. Das Passwort muss Buchstaben, Zahlen und mindestens ein Sonderzeichen enthalten und aus 8 bis 32 Zeichen bestehen.', 'wpenon'),
+                __('Das Passwort ist nicht sicher. Das Passwort muss Buchstaben, Zahlen und mindestens ein Sonderzeichen (!@#$%ß()*.^) enthalten und aus 8 bis 32 Zeichen bestehen.', 'wpenon'),
                 array('form-field' => 'pass1')
             );
         }
