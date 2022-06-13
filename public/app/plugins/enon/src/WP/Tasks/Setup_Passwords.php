@@ -56,11 +56,17 @@ class Setup_Passwords implements Actions, Task
     {
         $password1 = isset($_POST['pass1']) ? $_POST['pass1'] : '';
 
+        if (empty($password1)) {
+            return;
+        }
+
         $error = false;
 
-        if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,32}$/', $password1)) {
+        if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%ß&\^\(\)\*\.,]{8,32}$/', $password1)) {
             $error = true;
         }
+
+        //!@#$%ß()*.,
 
         if ($error) {
             $errors->add(

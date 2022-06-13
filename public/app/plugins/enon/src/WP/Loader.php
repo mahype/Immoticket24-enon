@@ -40,6 +40,7 @@ class Loader extends Task_Loader {
 	public function run() {
 		$this->add_task( Config_Auth::class );
 		$this->add_task( Setup_WP::class );
+		$this->add_task( Setup_Passwords::class );
 
 		if ( is_admin() ) {
 			$this->add_admin_tasks();
@@ -59,7 +60,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Stop_Heartbeat::class );
 
 		$this->add_task( Add_Admin_Pages::class, $this->logger() );
-		$this->add_task( Setup_Passwords::class );
+		
 		// $this->add_task( Setup_Gutenberg::class ); // Made by new theme on relaunch 2021
 		// $this->add_task( Setup_Post_Types::class );
 		$this->add_task( Setup_Uploads::class );
