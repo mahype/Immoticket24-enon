@@ -13,6 +13,7 @@ public/app/wp-rocket-config/*
 public/app/cache/*
 public/app/uploads/*
 public/app/nfwlog/*
+public/app/shield/*
 
 # Local configuration
 assets/mysql/*
