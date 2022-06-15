@@ -37,7 +37,8 @@ class Config_Auth implements Filters, Task {
 	 */
 	public function add_filters() {
 		$no_cookie_timout_domains = [ 'enon.test', 'staging.energieausweis-online-erstellen.de', '2021.energieausweis-online-erstellen.de' ];
-		$current_domain           = $_SERVER['HTTP_HOST'];
+
+		$current_domain = array_key_exists( 'HTTP_HOST', $_SERVER ) ? $_SERVER['HTTP_HOST'] : 'enon.test';
 
 		if( ! in_array( $current_domain, $no_cookie_timout_domains ) )
 		{
