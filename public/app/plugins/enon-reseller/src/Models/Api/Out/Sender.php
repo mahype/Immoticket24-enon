@@ -40,9 +40,18 @@ abstract class Sender implements Sender_Interface
 	 *
 	 * @var Reseller
 	 *
-	 * @socne 1.0.0
+	 * @since 1.0.0
 	 */
 	protected Reseller $reseller;
+
+	/**
+	 * Payment id.
+	 * 
+	 * @var int
+	 * 
+	 * @since 1.0.0
+	 */
+	protected int $payment_id;
 
 	/**
 	 * Distrubutor schema constructor
@@ -51,11 +60,12 @@ abstract class Sender implements Sender_Interface
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct(Logger $logger, Energieausweis_Old $energieausweis, Reseller $reseller)
+	public function __construct(Logger $logger, Energieausweis_Old $energieausweis, Reseller $reseller, int $payment_id)
 	{
 		$this->logger = $logger;
 		$this->energieausweis = $energieausweis;
 		$this->reseller = $reseller;
+		$this->payment_id = $payment_id;
 	}
 
 	/**
@@ -108,7 +118,8 @@ abstract class Sender implements Sender_Interface
 	 * 
 	 * @since 1.0.0
 	 */
-	public function get_subject() : string {
+	public function get_subject(): string
+	{
 		return 'Neuer Energieausweis';
 	}
 
@@ -119,16 +130,9 @@ abstract class Sender implements Sender_Interface
 	 * 
 	 * @since 1.0.0
 	 */
-	public function get_content() {
-		$fields = $this->energieausweis->getSchema()->getFields();
-
-		$data = array();
-
-		foreach ( $fields as  $key => $field ) {
-			$data[ $key ] = $this->energieausweis->$key;
-		}
-
-		return print_r($data, true);
+	public function get_content()
+	{
+		return wpenon_immoticket24_email_tag_certificate_data($this->payment_id);
 	}
 
 	/**
@@ -138,28 +142,45 @@ abstract class Sender implements Sender_Interface
 	 * 
 	 * @since 1.0.0
 	 */
-	public function send() : bool {
+	public function send(): bool
+	{
 		$debug_values = array(
 			'energy_certificate_id' => (int) $this->energieausweis->id,
 			'reseller_id'           => (int) $this->energieausweis->reseller_id
 		);
 
-		if($this->is_sent()) {
-			$this->logger()->notice('Stopped sending data. Mail already sent.', $debug_values );
+		if ($this->is_sent()) {
+			$this->logger()->notice('Stopped sending data. Mail already sent.', $debug_values);
 			return false;
 		}
 
-		if(!$this->check()) {
-			$this->logger()->notice('Stopped sending data. Check not passed.', $debug_values );
+		if (!$this->check()) {
+			$this->logger()->notice('Stopped sending data. Check not passed.', $debug_values);
 			return false;
 		}
 
-		$recipient_email = $this->reseller->data()->confirmation_email;
+		$recipient_email = $this->reseller->data()->general->get_contact_email();
 
-		wp_mail( $recipient_email, $this->get_subject(), $this->get_content() );
+		$this->send_email($recipient_email, $this->get_subject(), $this->get_content());
 
 		$this->set_sent();
-		
+
 		return true;
+	}
+
+	/**
+	 * Send email function.
+	 * 
+	 * @param string $to
+	 * @param string subject
+	 * @param string $message
+	 * 
+	 * @since 1.0.0
+	 */
+	protected function send_email($to, $subject, $message)
+	{
+		$emails = \EDD()->emails;
+		$emails->__set('heading', $subject);
+		return $emails->send($to, $subject, $message);
 	}
 }

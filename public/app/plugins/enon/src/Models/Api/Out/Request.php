@@ -80,7 +80,7 @@ class Request {
 	 */
 	protected function setup_args() {
 		$this->args = array(
-			'body' => $this->body,
+			'body' => $this->content,
 			'timeout' => '5',
 			'redirection' => '5',
 			'httpversion' => '1.0',

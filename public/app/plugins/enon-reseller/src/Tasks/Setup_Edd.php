@@ -91,7 +91,7 @@ class Setup_Edd implements Actions, Task
 
 		$reseller = new Reseller($reseller_id);
 
-		$this->send_data($energieausweis, $reseller);
+		$this->send_data($energieausweis, $reseller, $payment_id);
 
 		$affiliate_id = $reseller->data()->general->get_affiliate_id();
 		if (!empty($affiliate_id)) {
@@ -108,7 +108,7 @@ class Setup_Edd implements Actions, Task
 	 *
 	 * @since 1.0.0
 	 */
-	public function send_data(Energieausweis_Old $energieausweis, Reseller $reseller)
+	public function send_data(Energieausweis_Old $energieausweis, Reseller $reseller, $payment_id )
 	{
 		$sender_name  = ucfirst($reseller->data()->general->get_company_id());
 		$sender_class = 'Enon_Reseller\\Models\\Api\\Out\\' . $sender_name;
@@ -118,7 +118,7 @@ class Setup_Edd implements Actions, Task
 			$sender_class = 'Enon_Reseller\\Models\\Api\\Out\\Standard';
 		}
 
-		$sender = new $sender_class($this->logger(), $energieausweis, $reseller);
+		$sender = new $sender_class($this->logger(), $energieausweis, $reseller, $payment_id);
 		$sender->send();
 	}
 }
