@@ -4,14 +4,14 @@ namespace Enev\Schema202105\Schema;
 
 require_once( dirname( __FILE__ ) . '/bw.php' );
 
-if ( ! class_exists( '\Enev\Schema202105\Schema\Bedarfsausweis_Schema_Sparkasse' ) ) :
+if ( ! class_exists( '\Enev\Schema202105\Schema\Bedarfsausweis_Schema_Immo_Rating' ) ) :
 
 	/**
 	 * Class Bedarfsausweis_Schema
 	 *
 	 * @since 1.0.0
 	 */
-	class Bedarfsausweis_Schema_Sparkasse extends Bedarfsausweis_Schema {
+	class Bedarfsausweis_Schema_Immo_Rating extends Bedarfsausweis_Schema {
 		/**
 		 * Bedarfsausweis_Schema_Sparkasse constructor.
 		 *
@@ -167,7 +167,7 @@ if ( ! class_exists( '\Enev\Schema202105\Schema\Bedarfsausweis_Schema_Sparkasse'
 		 * @since 1.0.0
 		 */
 		public function get_sonstiges() {
-			require( dirname( __FILE__ ) . '/bw-immo-rating-sonstiges.php' );
+			require( dirname( __FILE__ ) . '/bw-sonstiges-sparkasse.php' );
 
 			return $sonstiges;
 		}
@@ -193,6 +193,6 @@ if ( ! class_exists( '\Enev\Schema202105\Schema\Bedarfsausweis_Schema_Sparkasse'
 	}
 endif;
 
-$bedarfsausweis_schema = new Bedarfsausweis_Schema_Sparkasse();
+$bedarfsausweis_schema = new Bedarfsausweis_Schema_Immo_Rating();
 
 return $bedarfsausweis_schema->get();
