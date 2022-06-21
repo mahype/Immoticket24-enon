@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Sparkasse Schema.
  *
@@ -9,10 +10,9 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon_Reseller\Models\Api\Out\Distributor_Schemas;
+namespace Enon_Reseller\Models\Api\Out;
 
-use Enon\Models\Api\Out\Distributor_Schemas\Distributor_Schema;
-
+use Enon\Models\Api\Out\Request;
 use Enon\Models\Enon\Energieausweis;
 
 /**
@@ -20,7 +20,8 @@ use Enon\Models\Enon\Energieausweis;
  *
  * @since 1.0.0
  */
-class Sparkasse extends Distributor_Schema {
+class Sparkasse extends Sender
+{
 	/**
 	 * Checks if data can be sent.
 	 *
@@ -28,25 +29,26 @@ class Sparkasse extends Distributor_Schema {
 	 *
 	 * @since 1.0.0
 	 */
-	public function check() : bool {
-		if ( 321587 !== (int) $this->energieausweis->reseller_id ) {
+	public function check(): bool
+	{
+		if (321587 !== (int) $this->energieausweis->reseller_id) {
 			$debug_values = array(
 				'energy_certificate_id' => (int) $this->energieausweis->id,
 				'reseller_id'           => (int) $this->energieausweis->reseller_id,
 			);
 
-			$this->logger()->notice('Stopped sending data to sparkasse server. Reseller id is wrong.', $debug_values );
+			$this->logger()->notice('Stopped sending data to sparkasse server. Reseller id is wrong.', $debug_values);
 
 			return false;
 		}
 
-		if ( $this->already_sent() ) {
+		if ($this->is_sent()) {
 			$debug_values = array(
 				'energy_certificate_id' => (int) $this->energieausweis->id,
 				'reseller_id'           => (int) $this->energieausweis->reseller_id,
 			);
 
-			$this->logger()->notice('Stopped sending data to sparkasse server. Data already sent.', $debug_values );
+			$this->logger()->notice('Stopped sending data to sparkasse server. Data already sent.', $debug_values);
 
 			return false;
 		}
@@ -60,8 +62,8 @@ class Sparkasse extends Distributor_Schema {
 			'grundstuecksflaeche',
 		);
 
-		foreach ( $values_to_check as $value ) {
-			if ( ! empty( $this->energieausweis->$value ) ) {
+		foreach ($values_to_check as $value) {
+			if (!empty($this->energieausweis->$value)) {
 				return true;
 			}
 		}
@@ -72,36 +74,7 @@ class Sparkasse extends Distributor_Schema {
 			'values_to_check'       => $values_to_check,
 		);
 
-		$this->logger()->notice('Stopped sending data to sparkasse server. Value check not passed..', $debug_values );
-
-		return false;
-	}
-
-	/**
-	 * Set as sent.
-	 *
-	 * @return int|bool The new meta field ID if a field with the given key didn't exist and was
-     *                  therefore added, true on successful update, false on failure.
-	 *
-	 * @since 1.0.0
-	 */
-	public function set_sent() {
-		return update_post_meta( $this->energieausweis->id, 'sent_to_sparkasse', true );
-	}
-
-	/**
-	 * Checks if Engergieausweis was sent to sparkasse.
-	 *
-	 * @return bool True if was already sent to sparkasse, false if not.
-	 *
-	 * @since 1.0.0
-	 */
-	public function already_sent() {
-		$is_sent = (bool) get_post_meta( $this->energieausweis->id, 'sent_to_sparkasse' );
-
-		if ( true === $is_sent ) {
-			return true;
-		}
+		$this->logger()->notice('Stopped sending data to sparkasse server. Value check not passed..', $debug_values);
 
 		return false;
 	}
@@ -115,9 +88,10 @@ class Sparkasse extends Distributor_Schema {
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_data( array $estate_data ) : array {
-		$energy_certificate = new Energieausweis( $this->energieausweis->id );
-		$payment            = new \Edd_Payment( $energy_certificate->get_payment_id() );
+	private function filter_data(array $estate_data): array
+	{
+		$energy_certificate = new Energieausweis($this->energieausweis->id);
+		$payment            = new \Edd_Payment($energy_certificate->get_payment_id());
 
 		$imageID            = get_post_meta($this->energieausweis->ID, '_thumbnail_id', true);
 		$image              = wp_get_attachment_image_url($imageID, 'enon-energieausweiss-image');
@@ -142,34 +116,33 @@ class Sparkasse extends Distributor_Schema {
 			'sender'         => 'immoticket24', // Required by Sparkasse Immobilien Heidelberg.
 		);
 
-		// $data = $this->encode_data_recursive( 'utf8_encode', $data );
 		$debug_values = array(
 			'energy_certificate_id' => (int) $this->energieausweis->id,
 			'reseller_id'           => (int) $this->energieausweis->reseller_id,
 			'data'                  => $data,
 		);
 
-		$this->logger()->notice('Prepared data.', $debug_values );
+		$this->logger()->notice('Prepared data.', $debug_values);
 
 		return $data;
 	}
 
 	/**
-	 * Encoding data recursive.
-	 *
-	 * @param string $callback Callback function for encoding.
-	 * @param array  $data     Data to encode.
-	 *
-	 * @return array Encoded tata.
+	 * Preparing data.
 	 *
 	 * @since 1.0.0
 	 */
-	private function encode_data_recursive( $callback, $data ) {
-		$function = function ( $item ) use ( &$function, &$callback ) {
-			return is_array( $item ) ? array_map( $function, $item ) : call_user_func( $callback, $item );
-		};
+	public function get_content()
+	{
+		$fields = $this->energieausweis->getSchema()->getFields();
 
-		return array_map( $function, $data );
+		$data = array();
+
+		foreach ($fields as  $key => $field) {
+			$data[$key] = $this->energy_certificate->$key;
+		}
+
+		return $this->filter_data($data);
 	}
 
 	/**
@@ -179,14 +152,15 @@ class Sparkasse extends Distributor_Schema {
 	 *
 	 * @since 1.0.0
 	 */
-	public function get_endpoint() : string {
+	public function get_endpoint(): string
+	{
 		// phpcs:ignore
 		$server_name = $_SERVER['SERVER_NAME'];
 
-		switch( $server_name ) {
+		switch ($server_name) {
 			case 'enon.test':
-            case 'staging.energieausweis-online-erstellen.de':
-            case 'develop.energieausweis-online-erstellen.de':
+			case 'staging.energieausweis-online-erstellen.de':
+			case 'develop.energieausweis-online-erstellen.de':
 				$receipient_server = 'https://postman-echo.com/post';
 				break;
 			default:
@@ -195,5 +169,39 @@ class Sparkasse extends Distributor_Schema {
 		}
 
 		return $receipient_server;
+	}
+
+	/**
+	 * Send data to sparkasse endpoint.
+	 * 
+	 * @return bool True if sent, false if not.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function send(): bool
+	{
+		$debug_values = array(
+			'energy_certificate_id' => (int) $this->energieausweis->id,
+			'reseller_id'           => (int) $this->energieausweis->reseller_id
+		);
+
+		if($this->is_sent()) {
+			$this->logger()->notice('Stopped sending data. Mail already sent.', $debug_values );
+			return false;
+		}
+
+		if(!$this->check()) {
+			$this->logger()->notice('Stopped sending data. Check not passed.', $debug_values );
+			return false;
+		}
+
+		$request = new Request($this->get_endpoint(), $this->logger());
+		$request->set_content($this->get_content());
+
+		if(!$request->post()) {
+			return false;
+		}
+
+		return true;
 	}
 }

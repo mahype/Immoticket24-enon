@@ -167,7 +167,7 @@ if ( ! class_exists( '\Enev\Schema202105\Schema\Bedarfsausweis_Schema_Immo_Ratin
 		 * @since 1.0.0
 		 */
 		public function get_sonstiges() {
-			require( dirname( __FILE__ ) . '/bw-sonstiges-sparkasse.php' );
+			require( dirname( __FILE__ ) . '/bw-immo-rating-sonstiges.php' );
 
 			return $sonstiges;
 		}

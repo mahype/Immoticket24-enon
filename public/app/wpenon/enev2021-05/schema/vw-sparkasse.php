@@ -239,7 +239,7 @@ if ( ! class_exists( '\Enev\Schema202105\Schema\Verbrauchsausweis_Schema_Sparkas
 		 * @since 1.0.0
 		 */
 		public function get_sonstiges() {
-			require( dirname( __FILE__ ) . '/vw-sonstiges-sparkasse.php' );
+			require( dirname( __FILE__ ) . '/vw-immo-rating-sonstiges.php' );
 
 			return $sonstiges;
 		}

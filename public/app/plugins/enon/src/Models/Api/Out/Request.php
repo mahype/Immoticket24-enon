@@ -1,9 +1,9 @@
 <?php
 /**
- * Parent class for sending data.
+ * Class for sending data.
  *
  * @category Class
- * @package  Enon_Reseller\Models\Transfer
+ * @package  Enon\Models\Api\Out
  * @author   Sven Wagener
  * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://awesome.ug
@@ -19,7 +19,7 @@ use Awsm\WP_Wrapper\Tools\Logger_Trait;
  *
  * @since 1.0.0
  */
-abstract class Request {
+class Request {
 	use Logger_Trait;
 
 	/**
@@ -41,6 +41,15 @@ abstract class Request {
 	protected $endpoint;
 
 	/**
+	 * Content to send.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	protected $content;
+
+	/**
 	 * Send constructor.
 	 *
 	 * @since 1.0.0
@@ -54,11 +63,15 @@ abstract class Request {
 	}
 
 	/**
-	 * Get body to send to endpoint.
+	 * Set body content
 	 *
-	 * @return mixed
+	 * @param mixed
+	 * 
+	 * @since 1.0.0
 	 */
-	abstract protected function get_body();
+	public function set_content( $content ) {
+		$this->content = $content;
+	}
 
 	/**
 	 * Settuing up arguments.
@@ -66,10 +79,8 @@ abstract class Request {
 	 * @since 1.0.0
 	 */
 	protected function setup_args() {
-		$body = $this->get_body();
-
 		$this->args = array(
-			'body' => $body,
+			'body' => $this->body,
 			'timeout' => '5',
 			'redirection' => '5',
 			'httpversion' => '1.0',
@@ -109,7 +120,7 @@ abstract class Request {
 				}
 
 				$this->logger()->warning( 'Response failed.', $values );
-
+				return false;
 				break;
 		}
 	}
