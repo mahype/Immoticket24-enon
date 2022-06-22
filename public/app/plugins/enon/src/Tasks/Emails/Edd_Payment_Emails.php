@@ -72,7 +72,7 @@ class Edd_Payment_Emails implements Actions, Task
 		$ec_url = $ec->get_access_url();
 		$header = 'Zahlungseingang';
 		
-		$subject = sprintf( 'Zahlungseingang %s', $ec_title);
+		$subject = sprintf( 'Zahlungseingang' );
 		$message = sprintf('Sehr geehrter Kunde,
 		
 für den Energieausweis %s wurde ein Zahlungseingang festgestellt. Sie können den Ausweis ab sofort unter %s herunterladen.
