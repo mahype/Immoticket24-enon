@@ -1,4 +1,5 @@
 <?php
+
 /**
  * New Energieasweis class.
  *
@@ -22,7 +23,8 @@ use WP_Post;
  *
  * @package Enon\Reseller\Taks\Plugins
  */
-class Energieausweis {
+class Energieausweis
+{
 	/**
 	 * Energieausweis id.
 	 *
@@ -51,38 +53,36 @@ class Energieausweis {
 	private $post_meta;
 
 	/**
-	 * Type.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var string
-	 */
-	private $type;
-
-	/**
-	 * Standard.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var string
-	 */
-	private $standard;
-
-	/**
 	 * Energieausweis constructor.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param int $id Energieausweis id.
 	 */
-	public function __construct( int $id ) {
+	public function __construct(int $id)
+	{
 		$this->id = $id;
 
-		$this->post = get_post( $id );
-		$this->post_meta = get_post_meta( $id );
+		$this->post = get_post($id);
+		$this->post_meta = get_post_meta($id);
+	}
 
-		$this->type     = get_post_meta( $this->id, 'wpenon_type', true );
-		$this->standard = get_post_meta( $this->id, 'wpenon_standard', true );
+	/**
+	 * Get option value.
+	 * 
+	 * @since 1.0.0
+	 */
+	protected function get_option(string $name)
+	{
+		if (!array_key_exists($name, $this->post_meta)) {
+			return;
+		}
+
+		if( count($this->post_meta) > 1 ) {
+			$this->post_meta[$name];
+		}
+
+		return $this->post_meta[$name][0];
 	}
 
 	/**
@@ -92,7 +92,8 @@ class Energieausweis {
 	 *
 	 * @return int Energieausweis id.
 	 */
-	public function get_id() : int {
+	public function get_id(): int
+	{
 		return $this->id;
 	}
 
@@ -103,7 +104,8 @@ class Energieausweis {
 	 *
 	 * @since 1.0.0
 	 */
-	public function get_post() : WP_Post {
+	public function get_post(): WP_Post
+	{
 		return $this->post;
 	}
 
@@ -114,8 +116,9 @@ class Energieausweis {
 	 *
 	 * @return string Energieausweis type bw or vw.
 	 */
-	public function get_type() {
-		return $this->type;
+	public function get_type()
+	{
+		return $this->get_option('wpenon_type');
 	}
 
 	/**
@@ -125,8 +128,9 @@ class Energieausweis {
 	 *
 	 * @return string Energieausweis standard.
 	 */
-	public function get_standard() {
-		return $this->standard;
+	public function get_standard()
+	{
+		return $this->get_option('wpenon_standard');
 	}
 
 	/**
@@ -136,14 +140,75 @@ class Energieausweis {
 	 *
 	 * @since 1.0.0
 	 */
-	public function get_payment_id() {
-		$payment_ids = get_post_meta( $this->id, '_wpenon_attached_payment_id' );
+	public function get_payment_id()
+	{
+		$payment_ids = $this->get_option('_wpenon_attached_payment_id');
 
-		if ( count( $payment_ids ) < 1 ) {
+		if (count($payment_ids) < 1) {
 			return false;
 		}
 
 		return $payment_ids[0];
+	}
+
+	/**
+	 * Get contact email.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Contact email.
+	 */
+	public function get_contact_email()
+	{
+		return $this->get_option('wpenon_email');
+	}
+
+	/**
+	 * Get address street nr.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Address street nr.
+	 */
+	public function get_address_street()
+	{
+		return $this->get_option('addresse_strassenr');
+	}
+
+	/**
+	 * Get address plz.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Address street nr.
+	 */
+	public function get_address_postcode()
+	{
+		return $this->get_option('addresse_plz');
+	}
+
+	/**
+	 * Get address postcode.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Address street postcode.
+	 */
+	public function get_address_city()
+	{
+		return $this->get_option('addresse_ort');
+	}
+
+	/**
+	 * Get address state.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Address state.
+	 */
+	public function get_address_state()
+	{
+		return $this->get_option('addresse_bundesland');
 	}
 
 	/**
@@ -153,12 +218,33 @@ class Energieausweis {
 	 *
 	 * @return string $access_token      Token to use in URL.
 	 */
-	public function get_access_token() {
-		$wpenon_email  = get_post_meta( $this->get_id(), 'wpenon_email', true );
-		$wpenon_secret = get_post_meta( $this->get_id(), 'wpenon_secret', true );
-		$access_token  = md5( $wpenon_email ) . '-' . $wpenon_secret;
+	public function get_access_token()
+	{
+		$wpenon_email  = $this->get_option('wpenon_email');
+		$wpenon_secret = $this->get_option('wpenon_secret');
+		$access_token  = md5($wpenon_email) . '-' . $wpenon_secret;
 
 		return $access_token;
+	}
+
+	/**
+	 * Get access url.
+	 * 
+	 * @return string Accessible url for customer.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function get_access_url()
+	{
+		return add_query_arg(
+			'access_token',
+			$this->get_access_token(),
+			$this->get_url()
+		);
+	}
+
+	public function get_url() {
+		return get_permalink($this->id);
 	}
 
 	/**
@@ -166,7 +252,8 @@ class Energieausweis {
 	 * 
 	 * @return bool True if contacting is allowed, false if not.
 	 */
-	public function contacting_allowed() : bool {
+	public function contacting_allowed(): bool
+	{
 		return $this->post_meta['contact_acceptance'][0] == 1 ? true : false;
 	}
 }
