@@ -12,6 +12,7 @@
 namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Interfaces\Task;
+use Enon\Models\Enon\Energieausweis;
 
 /**
  * Class Test_Scrtipt.
@@ -30,7 +31,7 @@ class Test_Script implements Task {
 		if( isset( $_GET ) && array_key_exists( 'dododo', $_GET ) ) {
 			$dododo = $_GET['dododo'];
 			switch( $dododo ) {
-				case 'payments':
+				case 'ec':
 					add_action( 'init', [ $this, 'dododo' ] );
 					break;
 			}
@@ -39,38 +40,8 @@ class Test_Script implements Task {
 	}
 
 	public function dododo() {
-		$args =  [
-			'status' => 'publish',
-			'number' => 2000
-		];
-
-		$payment_query = new \EDD_Payments_Query( $args );
-		$payments      = $payment_query->get_payments();
-		$filtered      = [];
-
-		foreach( $payments AS $payment ) {
-			$fees = $payment->get_fees();
-			$found = false;
-
-			foreach( $fees as $fee ) {
-				if( $fee['id'] == 'sendung_per_post' ) {
-					$found = true;
-				}
-			}
-
-			if( $found ) {
-				$url = get_site_url() . '/wp-admin/edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment->ID;
-
-				$filtered[] = [
-					'payment_id' => $payment->ID,
-					'url'        => $url,
-				];
-
-				// print_r( $payment );
-
-				echo $payment->date . ' - <a href="' . $url . '" target="_blank">' . $url . '</a><br />' . chr(13);
-			}
-		}		
+		$ec = new Energieausweis(653050);
+		$url = $ec->get_access_url();
 		
 		exit;
 	}
