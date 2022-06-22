@@ -70,17 +70,18 @@ class Edd_Payment_Emails implements Actions, Task
 		$ec_email = $ec->get_contact_email();
 		$ec_title = $ec->get_post()->post_title;
 		$ec_url = $ec->get_access_url();
+		$header = 'Zahlungseingang';
 		
-		$subject = sprintf( 'Zahlungseingang Energieausweis %s ', $ec_title);
+		$subject = sprintf( 'Zahlungseingang %s', $ec_title);
 		$message = sprintf('Sehr geehrter Kunde,
 		
-für den Ausweis mit der Nummer %s wurde ein Zahlungseingang festgestellt. Sie können den Ausweis ab sofort unter %s herunterladen.
+für den Energieausweis %s wurde ein Zahlungseingang festgestellt. Sie können den Ausweis ab sofort unter %s herunterladen.
 
 Mit freundlichen Grüßen
 
 Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 
-		$this->send_email( $ec_email, $subject, $message);
+		$this->send_email( $ec_email, $subject, $header, $message);
 	}
 
 	/**
@@ -92,10 +93,10 @@ Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 	 * 
 	 * @since 1.0.0
 	 */
-	protected function send_email($to, $subject, $message)
+	protected function send_email($to, $subject, $header, $message)
 	{
 		$emails = \EDD()->emails;
-		$emails->__set('heading', $subject);
+		$emails->__set('heading', $header);
 		return $emails->send($to, $subject, $message);
 	}
 }

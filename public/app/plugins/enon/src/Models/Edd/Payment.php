@@ -12,7 +12,6 @@
 namespace Enon\Models\Edd;
 
 use Enon\Models\Enon\Energieausweis;
-
 use WPENON\Model\Energieausweis as Energieausweis_Old; // Old and have to be removed later.
 use WPENON\Util\PaymentMeta as Payment_Meta_Old;
 
@@ -98,7 +97,7 @@ class Payment {
 	 */
 	public function get_energieausweis() : Energieausweis {
 		$energieausweis_id = $this->get_energieausweis_id();
-		return Energieausweis( energieausweis_id );
+		return new Energieausweis( $energieausweis_id );
 	}
 
 	/**
