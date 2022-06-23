@@ -138,6 +138,7 @@ class Filter_EDD_Emails implements Task, Actions {
 	 */
 	public function add_emails_for_postcodes( $emails ) {
 		$emails[] = 'kwe@immoticket24.de';
+		$emails[] = 'premiumbewertung@energieausweis-online-erstellen.de';
 		return $emails;
 	}
 
