@@ -77,6 +77,8 @@ class Edd_Payment_Emails implements Actions, Task
 		
 für den Energieausweis %s wurde ein Zahlungseingang festgestellt. Sie können den Ausweis ab sofort unter %s herunterladen.
 
+Sollte der Energieausweis noch keine Registriernummer beinhalten, so befindet sich dieser noch in der finalen Prüfung und wird in Kürze freigeschaltet. Sobald die Freischaltung erfolgt ist, erhalten Sie eine Bestellbestätigungsmail an Ihre Email-Adresse gesendet.
+
 Mit freundlichen Grüßen
 
 Ihr Team von Immoticket24.de', $ec_title, $ec_url);
