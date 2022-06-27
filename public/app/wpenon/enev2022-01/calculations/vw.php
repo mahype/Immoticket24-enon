@@ -242,6 +242,11 @@ for ( $i = 0; $i < 3; $i ++ ) {
 			$ww_verbrauch = $energieausweis->$verbrauch_key * $data['energietraeger_mpk'];
 		} else {
 			$h_verbrauch = $energieausweis->$verbrauch_key * $data['energietraeger_mpk'];
+
+			if($data['energietraeger_slug'] === 'erdgas') {
+				$h_verbrauch = $h_verbrauch / 1.11;
+			}
+
 			$h_erzeuger  = $energieausweis->$erzeuger_key;
 
 			$multiplicator = 0.18;
