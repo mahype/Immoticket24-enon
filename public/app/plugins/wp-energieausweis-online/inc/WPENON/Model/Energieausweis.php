@@ -364,13 +364,16 @@ class Energieausweis {
 			case 'enev2021-05':
 				$calculations = new \Enev\Schema202105\Calculations\CalculationsCC( $this );
 				break;
+			case 'enev2022-01':
+				$calculations = new \Enev\Schema202201\Calculations\CalculationsCC( $this );
+				break;
 		}
 		return $calculations;
 	}
 
 	public function getXML( $mode, $output_mode = 'I', $raw = false ) {
 		$standardsConfig = new Standards_Config();
-		$old_schemas = array_keys( $standardsConfig->getStandardsBefore( '2021-05-17' ) );
+		$old_schemas = array_keys( $standardsConfig->getStandardsBefore( '2021-06-27' ) );
 
 		/** XML until Enev GEG update */
 		if( in_array( $this->schema_name, $old_schemas ) ) {
