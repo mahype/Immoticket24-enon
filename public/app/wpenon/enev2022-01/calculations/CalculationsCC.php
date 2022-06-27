@@ -431,7 +431,7 @@ class CalculationsCC {
        
         $consumptionPeriods = [];
         for( $i = 0; $i < 3; $i++ )
-        {            
+        {
             $consumptionValueName = 'verbrauch' . ( $i + 1 ) . '_ww';
             $consumption          = $this->ec->$consumptionValueName;
 

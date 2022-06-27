@@ -117,7 +117,7 @@
     ],
     "post-update-cmd": [
       "cd public/app/plugins/edd-payment-stripe-sepa; composer update --no-dev; cd ../../../..",
-      "cd public/app/wpenon/enev2021-01/; composer update --no-dev; cd ../../../..",
+      "cd public/app/wpenon/enev2022-01/; composer update --no-dev; cd ../../../..",
       "cd public/app/plugins/block-trusted-shops; composer update --no-dev; cd ../../../..",
       "cd public/app/plugins/immo-rating; composer update --no-dev; cd ../../../.."
     ],
