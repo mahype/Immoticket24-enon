@@ -147,6 +147,26 @@ function wpenon_immoticket24_print_no_consumption_modal
 		</div>
 	</div>
 
+	<div id="wpit_invalid_certificate_modal_leerstand" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document" style="margin-top:140px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><?php _e( 'Für dieses Gebäude kann kein Verbrauchsausweis erstellt werden', 'wpenon' ); ?></h4>
+				</div>
+				<div class="modal-body">
+					<?php _e( 'Für Gebäude mit einem Leerstand von mindestens 30% in allen drei Perioden der Verbrauchsdaten darf gemäß EnEV kein Verbrauchsausweis erstellt werden.', 'wpenon' ); ?>
+					<?php _e( 'Es ist jedoch möglich einen entsprechenden Bedarfsausweis zu erstellen. Klicken Sie den unten angezeigten Button, um Ihren Ausweis in einen Bedarfsausweis umzuwandeln.', 'wpenon' ); ?>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default"
+					        data-dismiss="modal"><?php _e( 'Angaben bearbeiten', 'wpenon' ); ?></button>
+					<button id="wpit_transfer_certificate" type="button"
+					        class="wpit_transfer_certificate btn btn-primary"><?php _e( 'In Bedarfsausweis umwandeln', 'wpenon' ); ?></button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div id="wpit_invalid_certificate_modal_climatefactors" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document" style="margin-top:140px;">
 			<div class="modal-content">
@@ -184,6 +204,9 @@ function wpenon_immoticket24_print_no_consumption_modal
 				var wand_staerke = jQuery('#wand_staerke').val();
 				var decke_daemmung_on = jQuery('#decke_daemmung_on').val();
 				var dach_daemmung_on = jQuery('#dach_daemmung_on').val();
+				var leerstand_1 = jQuery('#verbrauch1_leerstand').val();
+				var leerstand_2 = jQuery('#verbrauch2_leerstand').val();
+				var leerstand_3 = jQuery('#verbrauch3_leerstand').val();
 
 				if ( wohnungen >= 5 || baujahr > 1977 ) {
 					return true;
@@ -200,6 +223,11 @@ function wpenon_immoticket24_print_no_consumption_modal
 
 				if ( wand_daemmung_on === 'no' || ( dach === 'beheizt' && dach_daemmung_on === 'no' ) ) {
 					jQuery('#wpit_invalid_certificate_modal').modal('show');
+					return false;
+				}
+
+				if ( leerstand_1 >= 30  && leerstand_2 >= 30 && leerstand_3 >= 30 ) {
+					jQuery('#wpit_invalid_certificate_modal_leerstand').modal('show');
 					return false;
 				}
 			}
