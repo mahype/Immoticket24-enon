@@ -228,9 +228,8 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 					$this->WriteCell( $this->escape( __( 'Gemäß § 19 UStG wird wegen Kleinunternehmerstatus keine Mehrwertsteuer erhoben.', 'wpenon' ) ), 'L', 1, 0 );
 				}
 
-				if ( ! edd_is_payment_complete( $this->wpenon_payment->ID ) ) {
+				if ( edd_is_payment_complete( $this->wpenon_payment->ID ) ) {
 					$this->WriteCell( $this->escape( __( 'Die Rechnung wurde noch nicht beglichen.', 'wpenon' ) ), 'L', 1, 0 );
-				} else {
 					$payment_message = sprintf( __( 'Die Rechnung wurde am %1$s via %2$s beglichen.', 'wpenon' ), \WPENON\Util\Format::date( edd_get_payment_completed_date( $this->wpenon_payment->ID ) ), edd_get_gateway_checkout_label( edd_get_payment_gateway( $this->wpenon_payment->ID ) ) );
 					if ( get_post_meta( $this->wpenon_payment->ID, '_wpenon_deposit_refunded', true ) ) {
 						$payment_message .= ' ' . __( '(Lastschrift zurückgegangen)', 'wpenon' );

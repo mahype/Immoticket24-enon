@@ -319,7 +319,6 @@ class EDDAdjustments {
 				'return'        => $return_url,
 				'cancel_return' => edd_get_checkout_uri(),
 				'notify_url'    => $listener_url,
-				'page_style'    => edd_get_paypal_page_style(),
 				'cbt'           => get_bloginfo( 'name' ),
 				'bn'            => 'EasyDigitalDownloads_SP'
 			);
