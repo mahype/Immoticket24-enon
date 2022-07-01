@@ -196,6 +196,17 @@ function wpenon_immoticket24_print_no_consumption_modal
 			// Strict check if no parameter given (when form is submitted).
 			var strict = 'undefined' === typeof e;
 
+			var leerstand_1 = parseFloat( document.getElementById('verbrauch1_leerstand').value );
+			var leerstand_2 = parseFloat( document.getElementById('verbrauch2_leerstand').value );
+			var leerstand_3 = parseFloat( document.getElementById('verbrauch3_leerstand').value );
+
+			var leerstand_average = ( leerstand_1 + leerstand_2 + leerstand_3 ) / 3;
+
+			if ( leerstand_average >= 30 ) {
+				jQuery('#wpit_invalid_certificate_modal_leerstand').modal('show');
+				return false;
+			}
+
 			if ( ! jQuery('#wpit_transfer_certificate_input').length ) {
 				var wohnungen = parseInt(jQuery('#wohnungen').val(), 10);
 				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
@@ -204,10 +215,6 @@ function wpenon_immoticket24_print_no_consumption_modal
 				var wand_staerke = jQuery('#wand_staerke').val();
 				var decke_daemmung_on = jQuery('#decke_daemmung_on').val();
 				var dach_daemmung_on = jQuery('#dach_daemmung_on').val();
-				var leerstand_1 = jQuery('#verbrauch1_leerstand').val();
-				var leerstand_2 = jQuery('#verbrauch2_leerstand').val();
-				var leerstand_3 = jQuery('#verbrauch3_leerstand').val();
-				var leerstand_average = leerstand_1 + leerstand_2 + leerstand_3 / 3;
 
 				if ( wohnungen >= 5 || baujahr > 1977 ) {
 					return true;
@@ -224,13 +231,6 @@ function wpenon_immoticket24_print_no_consumption_modal
 
 				if ( wand_daemmung_on === 'no' || ( dach === 'beheizt' && dach_daemmung_on === 'no' ) ) {
 					jQuery('#wpit_invalid_certificate_modal').modal('show');
-					return false;
-				}
-
-				console.log('Avg: ' + leerstand_average);
-
-				if ( leerstand_average >= 30 ) {
-					jQuery('#wpit_invalid_certificate_modal_leerstand').modal('show');
 					return false;
 				}
 			}
@@ -260,8 +260,11 @@ function wpenon_immoticket24_print_no_consumption_modal
         jQuery(document).on('change', '#wohnungen', wpenon_immoticket24_check_certificate_valid );
 		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_valid );
 		jQuery(document).on('change', '#wand_daemmung', wpenon_immoticket24_check_certificate_valid );
-
 		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_climatefactors_valid );
+
+		jQuery(document).on('change', '#verbrauch1_leerstand', wpenon_immoticket24_check_certificate_valid );
+		jQuery(document).on('change', '#verbrauch2_leerstand', wpenon_immoticket24_check_certificate_valid );
+		jQuery(document).on('change', '#verbrauch3_leerstand', wpenon_immoticket24_check_certificate_valid );
 
 		jQuery('#wpenon-generate-form').on('submit', function (e) {
 			if ( ! wpenon_immoticket24_check_certificate_valid() || ! wpenon_immoticket24_check_certificate_climatefactors_valid() ) {
