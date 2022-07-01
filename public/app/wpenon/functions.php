@@ -205,6 +205,17 @@ function wpenon_immoticket24_print_no_consumption_modal
 				var decke_daemmung_on = jQuery('#decke_daemmung_on').val();
 				var dach_daemmung_on = jQuery('#dach_daemmung_on').val();
 
+				var leerstand_1 = parseFloat( document.getElementById('verbrauch1_leerstand').value );
+				var leerstand_2 = parseFloat( document.getElementById('verbrauch2_leerstand').value );
+				var leerstand_3 = parseFloat( document.getElementById('verbrauch3_leerstand').value );
+
+				var leerstand_average = ( leerstand_1 + leerstand_2 + leerstand_3 ) / 3;
+
+				if ( leerstand_average >= 30 ) {
+					jQuery('#wpit_invalid_certificate_modal_leerstand').modal('show');
+					return false;
+				}
+
 				if ( wohnungen >= 5 || baujahr > 1977 ) {
 					return true;
 				}
@@ -220,17 +231,6 @@ function wpenon_immoticket24_print_no_consumption_modal
 
 				if ( wand_daemmung_on === 'no' || ( dach === 'beheizt' && dach_daemmung_on === 'no' ) ) {
 					jQuery('#wpit_invalid_certificate_modal').modal('show');
-					return false;
-				}
-
-				var leerstand_1 = parseFloat( document.getElementById('verbrauch1_leerstand').value );
-				var leerstand_2 = parseFloat( document.getElementById('verbrauch2_leerstand').value );
-				var leerstand_3 = parseFloat( document.getElementById('verbrauch3_leerstand').value );
-
-				var leerstand_average = ( leerstand_1 + leerstand_2 + leerstand_3 ) / 3;
-
-				if ( leerstand_average >= 30 ) {
-					jQuery('#wpit_invalid_certificate_modal_leerstand').modal('show');
 					return false;
 				}
 			}
