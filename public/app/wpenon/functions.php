@@ -154,7 +154,7 @@ function wpenon_immoticket24_print_no_consumption_modal
 					<h4 class="modal-title"><?php _e( 'Für dieses Gebäude kann kein Verbrauchsausweis erstellt werden', 'wpenon' ); ?></h4>
 				</div>
 				<div class="modal-body">
-					<?php _e( 'Für Gebäude mit einem Leerstand von mindestens 30% in allen drei Perioden der Verbrauchsdaten darf gemäß EnEV kein Verbrauchsausweis erstellt werden.', 'wpenon' ); ?>
+					<?php _e( 'Für Gebäude mit einem Leerstand durchschnittlich mindestens 30%, darf gemäß EnEV kein Verbrauchsausweis erstellt werden.', 'wpenon' ); ?>
 					<?php _e( 'Es ist jedoch möglich einen entsprechenden Bedarfsausweis zu erstellen. Klicken Sie den unten angezeigten Button, um Ihren Ausweis in einen Bedarfsausweis umzuwandeln.', 'wpenon' ); ?>
 				</div>
 				<div class="modal-footer">
@@ -207,6 +207,7 @@ function wpenon_immoticket24_print_no_consumption_modal
 				var leerstand_1 = jQuery('#verbrauch1_leerstand').val();
 				var leerstand_2 = jQuery('#verbrauch2_leerstand').val();
 				var leerstand_3 = jQuery('#verbrauch3_leerstand').val();
+				var leerstand_average = leerstand_1 + leerstand_2 + leerstand_3 / 3;
 
 				if ( wohnungen >= 5 || baujahr > 1977 ) {
 					return true;
@@ -226,7 +227,9 @@ function wpenon_immoticket24_print_no_consumption_modal
 					return false;
 				}
 
-				if ( leerstand_1 >= 30  && leerstand_2 >= 30 && leerstand_3 >= 30 ) {
+				console.log('Avg: ' + leerstand_average);
+
+				if ( leerstand_average >= 30 ) {
 					jQuery('#wpit_invalid_certificate_modal_leerstand').modal('show');
 					return false;
 				}
