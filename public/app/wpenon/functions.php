@@ -196,17 +196,6 @@ function wpenon_immoticket24_print_no_consumption_modal
 			// Strict check if no parameter given (when form is submitted).
 			var strict = 'undefined' === typeof e;
 
-			var leerstand_1 = parseFloat( document.getElementById('verbrauch1_leerstand').value );
-			var leerstand_2 = parseFloat( document.getElementById('verbrauch2_leerstand').value );
-			var leerstand_3 = parseFloat( document.getElementById('verbrauch3_leerstand').value );
-
-			var leerstand_average = ( leerstand_1 + leerstand_2 + leerstand_3 ) / 3;
-
-			if ( leerstand_average >= 30 ) {
-				jQuery('#wpit_invalid_certificate_modal_leerstand').modal('show');
-				return false;
-			}
-
 			if ( ! jQuery('#wpit_transfer_certificate_input').length ) {
 				var wohnungen = parseInt(jQuery('#wohnungen').val(), 10);
 				var baujahr = parseInt(jQuery('#baujahr').val(), 10);
@@ -231,6 +220,17 @@ function wpenon_immoticket24_print_no_consumption_modal
 
 				if ( wand_daemmung_on === 'no' || ( dach === 'beheizt' && dach_daemmung_on === 'no' ) ) {
 					jQuery('#wpit_invalid_certificate_modal').modal('show');
+					return false;
+				}
+
+				var leerstand_1 = parseFloat( document.getElementById('verbrauch1_leerstand').value );
+				var leerstand_2 = parseFloat( document.getElementById('verbrauch2_leerstand').value );
+				var leerstand_3 = parseFloat( document.getElementById('verbrauch3_leerstand').value );
+
+				var leerstand_average = ( leerstand_1 + leerstand_2 + leerstand_3 ) / 3;
+
+				if ( leerstand_average >= 30 ) {
+					jQuery('#wpit_invalid_certificate_modal_leerstand').modal('show');
 					return false;
 				}
 			}
