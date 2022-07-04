@@ -52,6 +52,10 @@
     {
       "type": "vcs",
       "url" : "git@github.com:awsmug/block-trusted-shops.git"
+    },
+    {
+      "type": "composer",
+      "url": "https://borlabs-cookie.composer.borlabs.io/composer"
     }
   ],
   "require": {
@@ -63,6 +67,7 @@
     "awsmug/jason": "dev-master",
     "awsmug/block-wave-separator": "dev-master",
     "awsmug/block-trusted-shops": "dev-main",
+    "borlabs/borlabs-cookie": "*",
     "felixarntz/plugin-lib": "dev-master",
     "wpackagist-plugin/easy-digital-downloads": "2.11.7",
     "wpackagist-plugin/gutenberg": "13.5.2",

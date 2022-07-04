@@ -28,7 +28,6 @@ public/app/nfwlog/*
 !public/app/plugins/advanced-custom-fields-pro
 !public/app/plugins/affiliate-wp
 !public/app/plugins/affiliate-wp-lifetime-commissions
-!public/app/plugins/borlabs-cookie
 !public/app/plugins/cf7-mailchimp-integration
 !public/app/plugins/edd-custom-fees
 !public/app/plugins/edd-discount-code-generator
@@ -82,7 +81,6 @@ public/app/plugins/wp-rocket/licence-data.php
 !public/app/plugins/optimizePressPlugin/lib/vendor
 !public/app/plugins/edd-stripe/vendor
 !public/app/plugins/edd-payment-gateway-stripe-sepa/vendor
-!public/app/plugins/borlabs-cookie/vendor
 !public/app/plugins/real-category-library/vendor
 !public/app/plugins/options-definitely/vendor
 !public/app/plugins/gravityformscli
@@ -91,8 +89,6 @@ public/app/plugins/wp-rocket/licence-data.php
 
 # Node Package Manager
 node_modules
-
-!public/app/plugins/borlabs-cookie/node_modules
 
 # Vagrant
 bin
