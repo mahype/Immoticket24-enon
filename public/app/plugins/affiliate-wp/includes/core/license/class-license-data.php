@@ -48,6 +48,39 @@ class License_Data {
 	}
 
 	/**
+	 * Returns the license ID if it was verified recently.
+	 *
+	 * @since 2.9.5
+	 *
+	 * @return int|null
+	 */
+	public function get_license_id() {
+		// Get license data.
+		$license_data = affiliate_wp()->settings->get( 'license_status', array() );
+
+		if ( empty( $license_data ) && ! is_object( $license_data ) ) {
+			return;
+		}
+
+		/*
+		 * If this license was last verified more than 2 months ago, we're not using it.
+		 * This ensures we never deal with a "stale" record for a license that's no longer
+		 * actually activated, but still exists in our DB array for some reason.
+		 *
+		 * Our license data should always be updated with active data once per week.
+		 */
+		$last_checked = get_option( 'affwp_last_checkin', false );
+
+		if ( ! is_numeric( $last_checked ) || strtotime( '-2 months', current_time( 'timestamp' ) ) > $last_checked ) {
+			return;
+		}
+
+		$license_id = isset( $license_data->price_id ) ? intval( $license_data->price_id ) : null;
+
+		return $license_id;
+	}
+
+	/**
 	 * Returns the activation status for the given license key.
 	 *
 	 * @since 2.9 Adapted from the Settings class, save functionality extracted to other functions, and added license key param.

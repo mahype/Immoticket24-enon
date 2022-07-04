@@ -35,7 +35,7 @@ class Affiliate_WP_Logging {
 	public function init() {
 
 		$upload_dir     = wp_upload_dir( null, false );
-		$hash           = affwp_get_hash( $upload_dir, AUTH_SALT );
+		$hash           = affwp_get_hash( $upload_dir, defined( 'AUTH_SALT' ) ? AUTH_SALT : '' );
 		$this->filename = sprintf( 'affwp-debug-log__%s.log', $hash );
 
 		$base_dir   = isset( $upload_dir['basedir'] ) ? $upload_dir['basedir'] : ABSPATH;

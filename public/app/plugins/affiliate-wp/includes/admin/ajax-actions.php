@@ -429,3 +429,140 @@ function affwp_check_user_login() {
 
 }
 add_action( 'wp_ajax_affwp_check_user_login', 'affwp_check_user_login' );
+
+/**
+ * Activate plugin.
+ *
+ * @since 2.9.5
+ */
+function affwp_activate_plugin() {
+
+	// Run a security check.
+	check_ajax_referer( 'affiliate-wp-admin', 'nonce' );
+
+	// Check for permissions.
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+		wp_send_json_error( esc_html__( 'Plugin activation is disabled for you on this site.', 'affiliate-wp' ) );
+	}
+
+	if ( ! isset( $_POST['plugin'] ) || ! is_string( $_POST['plugin'] ) ) {
+		wp_send_json_error( esc_html__( 'Could not activate the plugin. Plugin slug is empty.', 'affiliate-wp' ) );
+	}
+
+	$activate = activate_plugins( sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) );
+
+	if ( ! is_wp_error( $activate ) ) {
+		wp_send_json_success( esc_html__( 'Plugin activated.', 'affiliate-wp' ) );
+	}
+
+	wp_send_json_error( esc_html__( 'Could not activate the plugin. Please activate it on the Plugins page.', 'affiliate-wp' ) );
+
+}
+add_action( 'wp_ajax_affwp_activate_plugin', 'affwp_activate_plugin' );
+
+/**
+ * Install addon.
+ *
+ * @since 2.9.5
+ */
+function affwp_install_plugin() {
+
+	// Run a security check.
+	check_ajax_referer( 'affiliate-wp-admin', 'nonce' );
+
+	$generic_error = esc_html__( 'There was an error while performing your request.', 'affiliate-wp' );
+
+	// Check if new installations are allowed.
+	if ( ! current_user_can( 'install_plugins' ) ) {
+		wp_send_json_error( $generic_error );
+	}
+
+	$error = esc_html__( 'Could not install the plugin. Please download and install it manually.', 'affiliate-wp' );
+
+	if ( empty( $_POST['plugin'] ) ) {
+		wp_send_json_error( $error );
+	}
+
+	// Set the current screen to avoid undefined notices.
+	set_current_screen( 'affiliates_page_affiliate-wp-settings' );
+
+	// Prepare variables.
+	$url = esc_url_raw( admin_url( 'plugins.php' ) );
+
+	ob_start();
+
+	$creds = request_filesystem_credentials( $url, '', false, false, null );
+
+	// Hide the filesystem credentials form.
+	ob_end_clean();
+
+	// Check for file system permissions.
+	if ( false === $creds || ! WP_Filesystem( $creds ) ) {
+		wp_send_json_error( $error );
+	}
+
+	/*
+	 * We do not need any extra credentials if we have gotten this far, so let's install the plugin.
+	 */
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
+	require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/class-plugin-silent-upgrader-skin.php';
+
+	// Do not allow WordPress to search/download translations, as this will break JS output.
+	remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
+
+	// Create the plugin upgrader with our custom skin.
+	$installer = new Plugin_Upgrader( new Affiliate_WP_Silent_Upgrader_Skin() );
+
+	// Error check.
+	if ( empty( $_POST['plugin'] ) || ! method_exists( $installer, 'install' ) ) {
+		wp_send_json_error( $error );
+	}
+
+	$installer->install( sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) );
+
+	// Flush the cache and return the newly installed plugin basename.
+	wp_cache_flush();
+
+	$plugin_basename = $installer->plugin_info();
+
+	if ( empty( $plugin_basename ) ) {
+		wp_send_json_error( $error );
+	}
+
+	// Check for permissions.
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+
+		wp_send_json_success(
+			array(
+				'msg'          => esc_html__( 'Plugin installed.', 'affiliate-wp' ),
+				'is_activated' => false,
+				'basename'     => $plugin_basename,
+			)
+		);
+	}
+
+	// Activate the plugin silently.
+	$activated = activate_plugin( $plugin_basename );
+
+	if ( ! is_wp_error( $activated ) ) {
+
+		wp_send_json_success(
+			array(
+				'is_activated' => true,
+				'msg'          => esc_html__( 'Plugin installed & activated.', 'affiliate-wp' ),
+				'basename'     => $plugin_basename,
+			)
+		);
+	}
+
+	// Fallback error just in case.
+	wp_send_json_error(
+		array(
+			'msg'          => $generic_error,
+			'is_activated' => false,
+			'basename'     => $plugin_basename,
+		)
+	);
+}
+add_action( 'wp_ajax_affwp_install_plugin', 'affwp_install_plugin' );

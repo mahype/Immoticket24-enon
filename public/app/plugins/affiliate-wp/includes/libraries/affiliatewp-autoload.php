@@ -33,6 +33,11 @@ $autoload = array(
 	'AffWP\Core\Registration\Form_Field_Container',
 	'AffWP\Core\License\License_Data',
 	'AffWP\Components\Wizard\Bootstrap',
+	'AffWP\Components\Notifications\Notifications_DB',
+	'AffWP\Components\Notifications\REST\v1\Notifications_Endpoints',
+	'AffWP\Components\Notifications\Notification',
+	'AffWP\Utils\Notification_Importer',
+	'AffWP\Utils\Environment_Checker',
 );
 
 spl_autoload_register( function( $filename ) use ( $autoload ) {

@@ -9,6 +9,8 @@
  * @since       1.0
  */
 
+use AffWP\Components\Notifications\Notifications_DB;
+
 /**
  * Installs AffiliateWP.
  *
@@ -34,6 +36,7 @@ function affiliate_wp_install() {
 	$affiliate_wp_install->settings       = new Affiliate_WP_Settings;
 	$affiliate_wp_install->rewrites       = new Affiliate_WP_Rewrites;
 	$affiliate_wp_install->REST           = new Affiliate_WP_REST;
+	$affiliate_wp_install->notifications  = new Notifications_DB;
 
 	$affiliate_wp_install->affiliates->create_table();
 	$affiliate_wp_install->affiliate_meta->create_table();
@@ -48,6 +51,7 @@ function affiliate_wp_install() {
 	$affiliate_wp_install->affiliates->payouts->create_table();
 	$affiliate_wp_install->affiliates->coupons->create_table();
 	$affiliate_wp_install->REST->consumers->create_table();
+	$affiliate_wp_install->notifications->create_table();
 
 	if ( ! get_option( 'affwp_is_installed' ) ) {
 

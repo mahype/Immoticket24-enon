@@ -172,7 +172,7 @@ class AffWP_Affiliates_Table extends List_Table {
 			'unpaid_earnings' => __( 'Unpaid Earnings', 'affiliate-wp' ),
 			'rate'            => __( 'Rate', 'affiliate-wp' ),
 			'unpaid'          => __( 'Unpaid Referrals', 'affiliate-wp' ),
-			'referrals'       => __( 'Paid Referrals', 'affiliate-wp' ),
+			'paid'            => __( 'Paid Referrals', 'affiliate-wp' ),
 			'visits'          => __( 'Visits', 'affiliate-wp' ),
 			'kyc_status'      => __( 'Identity Verification', 'affiliate-wp' ),
 			'status'          => __( 'Status', 'affiliate-wp' ),
@@ -210,7 +210,7 @@ class AffWP_Affiliates_Table extends List_Table {
 			'unpaid_earnings' => array( 'unpaid_earnings', false ),
 			'rate'            => array( 'rate',            false ),
 			'unpaid'          => array( 'unpaid',          false ),
-			'referrals'       => array( 'referrals',       false ),
+			'paid'            => array( 'paid',            false ),
 			'visits'          => array( 'visits',          false ),
 			'status'          => array( 'status',          false )
 		);
@@ -549,26 +549,30 @@ class AffWP_Affiliates_Table extends List_Table {
 
 
 	/**
-	 * Renders the referrals column in the affiliates list table.
+	 * Renders the paid referrals column in the affiliates list table.
 	 *
 	 * @access public
 	 * @since  1.0
+	 * @since 2.9.5 Renamed to 'column_paid' from 'column_referrals'.
 	 *
 	 * @param \AffWP\Affiliate $affiliate The current affiliate object.
 	 * @return string The affiliate referrals link.
 	 */
-	function column_referrals( $affiliate ) {
-		$value = affwp_admin_link( 'referrals', $affiliate->referrals, array( 'affiliate_id' => $affiliate->affiliate_id, 'status' => 'paid' ) );
+	function column_paid( $affiliate ) {
+		$paid_count = affiliate_wp()->referrals->paid_count( '', $affiliate->affiliate_id );
+
+		$value = affwp_admin_link( 'referrals', $paid_count, array( 'affiliate_id' => $affiliate->affiliate_id, 'status' => 'paid' ) );
 
 		/**
-		 * Filters the referrals column data for the affiliates list table.
+		 * Filters the paid referrals column data for the affiliates list table.
 		 *
-		 * @since 1.0
+		 * @since 1.0 as 'affwp_affiliate_table_referrals'
+		 * @since 2.9.5 Renamed to 'affwp_affiliate_table_paid'
 		 *
-		 * @param string $value     Data shown in the Referrals column.
+		 * @param string $value     Data shown in the Paid Referrals column.
 		 * @param array  $affiliate Contains all the data of the affiliate.
 		 */
-		return apply_filters( 'affwp_affiliate_table_referrals', $value, $affiliate );
+		return apply_filters( 'affwp_affiliate_table_paid', $value, $affiliate );
 	}
 
 	/**
