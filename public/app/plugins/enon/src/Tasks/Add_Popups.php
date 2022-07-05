@@ -63,7 +63,7 @@ class Add_Popups implements Actions, Task {
 	 *
 	 * @todo Have to go into a separate cart class.
 	 */
-	public function get_cart_energy_certificate_ids() {
+	public function get_cart_energy_certificate_ids(): array|bool {
 		$cart_contents     = EDD()->cart->get_contents();
 
 		$energy_certificate_ids = false;
@@ -87,6 +87,10 @@ class Add_Popups implements Actions, Task {
 		}
 
 		$certificate_ids = $this->get_cart_energy_certificate_ids();
+
+		if( false === $certificate_ids ) {
+			return;
+		}
 
 		if ( 0 === count( $certificate_ids ) ) {
 			return;
