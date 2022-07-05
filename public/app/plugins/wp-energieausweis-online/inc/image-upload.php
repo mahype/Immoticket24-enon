@@ -64,11 +64,14 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 		exit;
 	}
 
+	$type = $file['file']['type'] === 'image/jpeg' ? 'jpg': 'png' ;
+
 	try {
-		$tpdf = new Fpdi();
-		$tpdf->Image($file['file']);
+		$pdf = new Fpdi();
+		$pdf->AddPage();
+		$pdf->Image($file['file']['tmp_name'], null, null, 0, 0, $type );
 	}catch(Exception $e){
-		echo json_encode( ['error' => 'Bild kann nicht gelesen werden. Bitte laden Sie das Bild in einem anderen Format hoch.'] );
+		echo json_encode( ['error' => 'Bild kann nicht gelesen werden. Bitte laden Sie das Bild in einem anderen Format hoch.' ] );
 		exit;
 	}
 
