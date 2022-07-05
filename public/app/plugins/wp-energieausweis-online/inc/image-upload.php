@@ -60,7 +60,21 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 	if( $file['file']['type'] !== 'image/png' &&  $file['file']['type'] !== 'image/jpeg'  ) {		
 		echo json_encode( ['error' => 'Falscher Dateityp'] );
 		exit;
-	}	
+	}
+
+	if( $file['file']['type'] !== 'image/jpg' ) {
+		if( ! imagecreatefromjpeg($file['file']) ) {
+			echo json_encode( ['error' => 'Bild kann nicht gelesen werdne. Bitte laden Sie das Bild in einem anderen Format hoch.'] );
+			exit;
+		}
+	}
+
+	if( $file['file']['type'] !== 'image/png' ) {
+		if( ! imagecreatefrompng($file['file']) ) {
+			echo json_encode( ['error' => 'Bild kann nicht gelesen werdne. Bitte laden Sie das Bild in einem anderen Format hoch.'] );
+			exit;
+		}
+	}
 
 	$uploadedFile = wp_handle_upload( $file['file'], [ 'test_form' => FALSE ] );
 	
