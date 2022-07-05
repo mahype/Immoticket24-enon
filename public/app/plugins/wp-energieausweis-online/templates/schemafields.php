@@ -186,6 +186,8 @@
     	        <div class="percentage-bar" style="width:50%; height: 10px; background-color: #3da81d;"></div>
 	          </div>
 
+            <div id="<?php echo $field_slug; ?>_notice" class="field-notice" style="display:none; border: 2px solid red; background-color: white; padding:5px; margin-bottom:10px;"></div>
+
             <?php break; ?>
             <?php default: ?>
            
