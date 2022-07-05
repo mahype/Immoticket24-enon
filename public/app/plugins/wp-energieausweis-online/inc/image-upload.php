@@ -1,5 +1,7 @@
 <?php
 
+use setasign\Fpdi\Fpdi;
+
 if( ! defined( 'ABSPATH' ) ) exit;
 
 add_action( 'rest_api_init', 'wpenon_register_rest_api_endpoint_image_delete' );
@@ -62,18 +64,12 @@ function wpenon_image_upload( \WP_REST_Request $request ) {
 		exit;
 	}
 
-	if( $file['file']['type'] === 'image/jpg' ) {
-		if( ! @imagecreatefromjpeg($file['file']) ) {
-			echo json_encode( ['error' => 'Bild kann nicht gelesen werden. Bitte laden Sie das Bild in einem anderen Format hoch.'] );
-			exit;
-		}
-	}
-
-	if( $file['file']['type'] === 'image/png' ) {
-		if( ! @imagecreatefrompng($file['file']) ) {
-			echo json_encode( ['error' => 'Bild kann nicht gelesen werden. Bitte laden Sie das Bild in einem anderen Format hoch.'] );
-			exit;
-		}
+	try {
+		$tpdf = new Fpdi();
+		$tpdf->Image($file['file']);
+	}catch(Exception $e){
+		echo json_encode( ['error' => 'Bild kann nicht gelesen werden. Bitte laden Sie das Bild in einem anderen Format hoch.'] );
+		exit;
 	}
 
 	$uploadedFile = wp_handle_upload( $file['file'], [ 'test_form' => FALSE ] );
