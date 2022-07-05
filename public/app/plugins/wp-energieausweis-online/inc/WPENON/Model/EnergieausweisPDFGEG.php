@@ -8,6 +8,7 @@
 namespace WPENON\Model;
 
 use Enon\Enon\Standards\Schema;
+use Exception;
 
 class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 	private $wpenon_title = '';
@@ -262,7 +263,15 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 					if ( $image ) {
 						$this->SetPageFillColor( 'bright' );
 						$this->Rect( 161.5, 53.8, 41, 49.2, 'F' );
-						$this->WriteBoundedImage( $image, 161.2, 53.3, 41.8, 50.4 );
+						try {
+							$this->WriteBoundedImage( $image, 161.2, 53.3, 41.8, 50.4 );
+						} catch(Exception $e) {
+							$text = "Das Foto kann nicht geladen werden. Bitte laden Sie das Foto in einem anderen Format hoch.";
+							$this->SetY( 65.0 );
+							$this->SetX( 162.0 );
+							$this->WriteMultiCell( $text, 'C', 1, 40, 5 );
+						}
+						
 						$this->SetPageFillColor( 'background' );
 					}					
 					

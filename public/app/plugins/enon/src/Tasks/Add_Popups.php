@@ -88,6 +88,10 @@ class Add_Popups implements Actions, Task {
 
 		$certificate_ids = $this->get_cart_energy_certificate_ids();
 
+		if( false === $certificate_ids ) {
+			return;
+		}
+
 		if ( 0 === count( $certificate_ids ) ) {
 			return;
 		}
