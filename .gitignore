@@ -1,5 +1,6 @@
 # Application
 *.log
+.user.ini
 public/app/languages/*
 public/app/languages/plugins/*
 public/app/debug.log
