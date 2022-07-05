@@ -78,6 +78,7 @@ function affiliate_wp_uninstall_tables() {
 		'affiliate_wp_rest_consumers',
 		'affiliate_wp_sales',
 		'affiliate_wp_visits',
+		'affiliate_wp_notifications',
 	);
 
 	// Remove all affwp_ options.
@@ -93,4 +94,6 @@ function affiliate_wp_uninstall_tables() {
 
 	$wpdb->query( "DROP VIEW IF EXISTS {$wpdb->prefix}affiliate_wp_campaigns" );
 
+	// Cleanup Action Scheduler daily events.
+	as_unschedule_all_actions( 'affwp_daily_scheduled_events' );
 }

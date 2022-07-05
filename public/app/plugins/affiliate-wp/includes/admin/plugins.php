@@ -17,44 +17,24 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Plugins row action links
  *
- * @author Tunbosun Ayinla
  * @since 1.0
+ * @since 2.9.5 Updated links
  * @param array $links already defined action links
  * @param string $file plugin file path and name being processed
  * @return array $links
  */
 function affwp_plugin_action_links( $links, $file ) {
-	$affwp_links = affwp_admin_link( 'settings', __( 'General Settings', 'affiliate-wp' ) );
-	if ( $file == 'affiliate-wp/affiliate-wp.php' ) {
-		array_unshift( $links, $affwp_links );
+	// Bail if the file is not for affiliate-wp.
+	if ( $file !== 'affiliate-wp/affiliate-wp.php' ) {
+		return $links;
 	}
 
-	return $links;
-}
-add_filter( 'plugin_action_links', 'affwp_plugin_action_links', 10, 2 );
-
-
-/**
- * Plugin row meta links
- *
- * @author Tunbosun Ayinla
- * @since 1.0
- * @param array $input already defined meta links
- * @param string $file plugin file path and name being processed
- * @return array $input
- */
-function affwp_plugin_row_meta( $input, $file ) {
-
-	if ( $file != 'affiliate-wp/affiliate-wp.php' ) {
-		return $input;
-	}
-
-	$links = array(
-		'<a href="https://affiliatewp.com/changelog">' . esc_html__( 'Changelog', 'affiliate-wp' ) . '</a>'
+	$affwp_links = array(
+		affwp_admin_link( 'settings', __( 'Settings', 'affiliate-wp' ) ),
+		'<a href="https://docs.affiliatewp.com" target="_blank">' . esc_html__( 'Documentation', 'affiliate-wp' ) . '</a>',
+		'<a href="https://affiliatewp.com/support/?utm_source=WordPress&utm_campaign=affiliatewp&utm_medium=plugin-action-links&utm_content=Support" target="_blank">' . esc_html__( 'Support', 'affiliate-wp' ) . '</a>',
 	);
 
-	$input = array_merge( $input, $links );
-
-	return $input;
+	return array_merge( $affwp_links, $links );
 }
-add_filter( 'plugin_row_meta', 'affwp_plugin_row_meta', 10, 2 );
+add_filter( 'plugin_action_links', 'affwp_plugin_action_links', 10, 2 );

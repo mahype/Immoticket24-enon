@@ -9,6 +9,8 @@
  * @since       1.0
  */
 
+use AffWP\Components\Notifications\REST\v1\Notifications_Endpoints;
+
 /**
  * Determines whether the current admin page is an AffiliateWP admin page.
  *
@@ -94,8 +96,22 @@ function affwp_admin_scripts() {
 
 	// Enqueue postbox for core meta boxes.
 	wp_enqueue_script( 'postbox' );
+
 }
 add_action( 'admin_enqueue_scripts', 'affwp_admin_scripts' );
+
+/**
+ * Add `defer` to the script tag.
+ *
+ * @since 2.9.5
+ */
+function affwp_add_defer( $url ) {
+	// Add `defer` to the AlpineJS script tag.
+	return ( false !== strpos( $url, AFFILIATEWP_PLUGIN_URL . 'assets/js/alpine.min.js' ) )
+		? str_replace( ' src', ' defer src', $url )
+		: $url;
+}
+add_filter( 'script_loader_tag', 'affwp_add_defer' );
 
 /**
  *  Load the admin styles
@@ -120,6 +136,13 @@ function affwp_admin_styles() {
 	// jQuery UI styles are loaded on our admin pages only
 	$ui_style = ( 'classic' == get_user_option( 'admin_color' ) ) ? 'classic' : 'fresh';
 	wp_enqueue_style( 'jquery-ui-css', AFFILIATEWP_PLUGIN_URL . 'assets/css/jquery-ui-' . $ui_style . '.min.css' );
+
+	// In-plugin notifications.
+	wp_enqueue_script( 'affwp-admin-notifications' );
+	wp_localize_script( 'affwp-admin-notifications', 'affwp_notifications_vars', array(
+		'restBase'  => rest_url( ( new Notifications_Endpoints )->namespace ),
+		'restNonce' => wp_create_nonce( 'wp_rest' ),
+	) );
 }
 add_action( 'admin_enqueue_scripts', 'affwp_admin_styles' );
 
@@ -164,6 +187,10 @@ function affwp_enqueue_admin_js() {
 
 	// Register select2 JS lib.
 	wp_register_script( 'affwp-select2', AFFILIATEWP_PLUGIN_URL . 'assets/js/select2' . $suffix . '.js', array( 'jquery' ), AFFILIATEWP_VERSION );
+
+	// Alpine and in-plugin notifcations.
+	wp_register_script( 'alpinejs', AFFILIATEWP_PLUGIN_URL . 'assets/js/alpine.min.js', array(), '3.4.2', false );
+	wp_register_script( 'affwp-admin-notifications', AFFILIATEWP_PLUGIN_URL . 'assets/js/admin-notifications.js', array( 'alpinejs' ), AFFILIATEWP_VERSION, false );
 }
 
 /**

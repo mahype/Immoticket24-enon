@@ -213,6 +213,10 @@ class Affiliate_WP_Upgrades {
 			$this->v29_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.9.5', '<' ) ) {
+			$this->v295_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -1093,7 +1097,7 @@ class Affiliate_WP_Upgrades {
 		$old_file = trailingslashit( $base_dir ) . 'affwp-debug.log';
 
 		if ( file_exists( $old_file ) && is_writeable( $old_file ) && is_writeable( $base_dir ) ) {
-			$hash     = affwp_get_hash( $upload_dir, AUTH_SALT );
+			$hash     = affwp_get_hash( $upload_dir, defined( 'AUTH_SALT' ) ? AUTH_SALT : '' );
 			$new_file = trailingslashit( $base_dir ) . sprintf( 'affwp-debug-log__%s.log', $hash );
 			@rename( $old_file, $new_file );
 		}
@@ -1158,6 +1162,18 @@ class Affiliate_WP_Upgrades {
 
 		wp_cache_set( 'last_changed', microtime(), 'coupons' );
 
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Perform database upgrades for version 2.9.5
+	 *
+	 * @access  private
+	 * @since   2.9.5
+	*/
+	private function v295_upgrade() {
+		affiliate_wp()->notifications->create_table();
+		affiliate_wp()->utils->log( 'Upgrade: The in-plugin notifications table has been created.' );
 		$this->upgraded = true;
 	}
 

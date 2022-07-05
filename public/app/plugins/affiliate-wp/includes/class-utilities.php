@@ -77,6 +77,25 @@ class Affiliate_WP_Utilities {
 	public $debug_enabled;
 
 	/**
+	 * Notification importer.
+	 *
+	 * @access protected
+	 * @since  2.9.5
+	 * @var    \AffWP\Utils\Notification_Importer
+	 */
+	public $notification_importer;
+
+
+	/**
+	 * Environment checker.
+	 *
+	 * @access protected
+	 * @since  2.9.5
+	 * @var    \AffWP\Utils\Environment_Checker
+	 */
+	public $environment_checker;
+
+	/**
 	 * Instantiates the utilities class.
 	 *
 	 * @access public
@@ -106,6 +125,8 @@ class Affiliate_WP_Utilities {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/class-upgrades.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/utilities/class-privacy-tools.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/utilities/processors/class-sql-fields-processor.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/utilities/class-environment-checker.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/utilities/class-notification-importer.php';
 	}
 
 	/**
@@ -118,11 +139,13 @@ class Affiliate_WP_Utilities {
 		// Set the debug flag.
 		$this->debug_enabled = affiliate_wp()->settings->get( 'debug_mode', false );
 
-		$this->logs          = new Affiliate_WP_Logging;
-		$this->batch         = new Utils\Batch_Process\Registry;
-		$this->upgrades      = new Affiliate_WP_Upgrades( $this );
-		$this->data          = new Utils\Data_Storage;
-		$this->privacy_tools = new Utils\Privacy_Tools;
+		$this->logs                  = new Affiliate_WP_Logging;
+		$this->batch                 = new Utils\Batch_Process\Registry;
+		$this->upgrades              = new Affiliate_WP_Upgrades( $this );
+		$this->data                  = new Utils\Data_Storage;
+		$this->privacy_tools         = new Utils\Privacy_Tools;
+		$this->notification_importer = new Utils\Notification_Importer;
+		$this->environment_checker   = new Utils\Environment_Checker;
 
 		// Initialize batch registry after loading the upgrades class.
 		$this->batch->init();

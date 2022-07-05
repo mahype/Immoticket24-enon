@@ -100,7 +100,15 @@ table.affwp_table td a {
 	align-items: center;
 }
 
-#affwp-header-actions .round {
+button.affwp-round {
+	border: none;
+}
+
+#affwp-header-actions {
+	display: flex;
+}
+
+#affwp-header-actions .affwp-round {
 	position: relative;
 	background-color: #f3f4f5;
 	border-radius: 50%;
@@ -114,15 +122,184 @@ table.affwp_table td a {
 	transition: background-color 0.2s ease;
 }
 
-#affwp-header-actions .round svg,
-#affwp-header-actions .round a {
+#affwp-header-actions .affwp-round:hover {
+	background-color: #e5e5e5;
+}
+
+#affwp-header-actions .affwp-round svg,
+#affwp-header-actions .affwp-round a {
 	width: 20px;
 	height: 20px;
 	color: inherit;
+	box-shadow: none;
 }
 
-#affwp-header-actions .round:hover {
-	background-color: #e5e5e5;
+#affwp-header .affwp-number {
+	position: absolute;
+	background-color: #df2a4a;
+	width: 16px;
+	height: 16px;
+	font-weight: 600;
+	font-size: 10px;
+	color: #fff;
+	top: -8px;
+	left: 50%;
+	transform: translateX(-50%);
+	margin: 0;
+	-webkit-animation: affwp-bounce 10s 2s infinite;
+	animation: affwp-bounce 10s 2s infinite;
+}
+
+#affwp-header .affwp-number:hover {
+	background-color: #df2a4a;
+}
+
+#affwp-header .affwp-number.affwp-hidden {
+	display: none !important;
+}
+
+/* Notifications */
+.affwp-overlay {
+	position: fixed;
+	z-index: 1052;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 160px;
+	background-color: #141b38;
+	opacity: .5;
+	transition: .5s;
+}
+
+#affwp-notifications-panel.affwp-slide-in {
+	transform: translateX(100%);
+	-webkit-transform: translateX(100%);
+}
+
+#affwp-notifications-panel {
+	background-color: white;
+	height: 100%;
+	width: 100%;
+	max-width: 570px;
+	position: fixed;
+	z-index: 1053;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	overflow-x: hidden;
+	transition: .5s;
+
+	transform: translateX(0%);
+	-webkit-transform: translateX(0%);
+}
+
+body.admin-bar #affwp-notifications-panel {
+	top: 32px;
+}
+
+#affwp-notifications-header {
+	display: flex;
+	align-items: center;
+	padding: 0 30px;
+	color: #fff;
+	background-color: #44A2A7;
+}
+
+#affwp-notifications-header h3 {
+	color: #fff;
+	flex: 1;
+}
+
+#affwp-notifications-header .affwp-close {
+	background: none;
+	border: none;
+	color: #fff;
+	cursor: pointer;
+	padding: 0;
+}
+
+#affwp-notifications-body {
+	padding: 30px;
+}
+
+.affwp-notification {
+	display: flex;
+	gap: 20px;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #E8E8EB;
+}
+
+.affwp-notification:last-of-type {
+	border-bottom: none;
+}
+
+.affwp-notification--icon {
+	color: #109365;
+}
+
+.affwp-notification--icon.affwp-notification--icon-info {
+	color: #44A2A7;
+}
+
+.affwp-notification--icon.affwp-notification--icon-warning {
+	color: #F29100;
+}
+
+.affwp-notification--icon.affwp-notification--icon-error {
+	color: #DF2A4A;
+}
+
+.affwp-notification--body {
+	flex: 1;
+}
+
+.affwp-notification--header {
+	align-items: start;
+	display: flex;
+	justify-content: space-between;
+	gap: 5px;
+	margin-bottom: 7px;
+	line-height: 1.3;
+}
+
+.affwp-notification--title {
+	color: #141b38;
+	flex: 1;
+	font-size: 16px;
+	font-weight: 600;
+	margin: 0;
+}
+
+.affwp-notification--content {
+	max-width: 400px;
+}
+
+.affwp-notification--date {
+	color: #71747e;
+	font-size: 12px;
+}
+
+.affwp-notification--actions {
+	flex-wrap: wrap;
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	margin-top: 10px;
+}
+
+.affwp-notification--dismiss {
+	background: none;
+	border: none;
+	box-shadow: none;
+	color: #71747e;
+	cursor: pointer;
+	padding: 0 0px;
+	text-decoration: underline;
+}
+
+.affwp-notification--dismiss:hover {
+	text-decoration: none;
 }
 
 /* Affiliate Overview */
@@ -744,7 +921,11 @@ form .spinner {
 		padding: 10px 46px 10px 22px;
 	}
 }
-
+@media screen and (max-width: 960px) {
+	.affwp-overlay {
+		left: 36px;
+	}
+}
 @media screen and (max-width: 782px) {
 	#affwp-affiliates-filter .column-affiliate_id,
 	#affwp-affiliates-filter .column-rate,
@@ -767,11 +948,19 @@ form .spinner {
 		margin-left: 0;
 		margin-right: 0;
 	}
+	.affwp-overlay {
+		left: 0;
+	}
+	body.admin-bar #affwp-notifications-panel {
+		top: 46px;
+	}
 }
-
 @media screen and (max-width: 600px) {
 	#affwp-header {
 		position: relative;
+		top: 46px;
+	}
+	body.admin-bar #affwp-notifications-panel {
 		top: 46px;
 	}
 }
@@ -798,4 +987,11 @@ form .spinner {
 	.affwp-admin-notice-top-of-page .button-link {
 		right: 8px;
 	}
+}
+
+/* Keyframes for animation */
+@keyframes affwp-bounce {
+	/* These percentages cause the animation to occur for 1s, followed by 9s pause. */
+	0%, 5%, 9% { transform: translateX(-50%) translateY(0); }
+	2%, 7%  { transform: translateX(-50%) translateY(-3px); }
 }

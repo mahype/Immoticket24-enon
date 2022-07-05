@@ -11,6 +11,7 @@
  */
 
 use AffWP\Components\Wizard;
+use AffWP\Components\Notifications;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -41,7 +42,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.9.4';
+	private $version = '2.9.5.1';
 
 	/**
 	 * Main plugin file.
@@ -257,6 +258,14 @@ final class Affiliate_WP {
 	public $editor;
 
 	/**
+	 * The notifications class instance variable.
+	 *
+	 * @since 2.9.5
+	 * @var   Components\Notifications
+	 */
+	public $notifications;
+
+	/**
 	 * Main Affiliate_WP Instance
 	 *
 	 * Insures that only one instance of Affiliate_WP exists in memory at any one
@@ -394,6 +403,7 @@ final class Affiliate_WP {
 		// Libraries.
 		require_once AFFILIATEWP_PLUGIN_LIB_DIR . 'affiliatewp-autoload.php';
 		require_once AFFILIATEWP_PLUGIN_LIB_DIR . 'sandhills/persistent-dismissible/src/persistent-dismissible.php';
+		require_once AFFILIATEWP_PLUGIN_LIB_DIR . 'action-scheduler/action-scheduler.php';
 
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/abstracts/class-affwp-object.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-affiliate.php';
@@ -452,7 +462,8 @@ final class Affiliate_WP {
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-migrate.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/add-ons.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/user-profile.php';
-
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/pages/class-smtp.php';
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/pages/class-analytics.php';
 		}
 
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-shortcodes.php';
@@ -500,6 +511,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/core-compatibility.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/plugin-compatibility.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/scripts.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-scheduler.php';
 
 		// REST bootstrap.
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/rest-functions.php';
@@ -518,6 +530,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-referrals-endpoints.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-sales-endpoints.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/REST/v1/class-visits-endpoints.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/components/notifications/REST/v1/class-notifications-endpoints.php';
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/cli/class-command.php';
@@ -574,6 +587,7 @@ final class Affiliate_WP {
 		self::$instance->capabilities   = new Affiliate_WP_Capabilities;
 		self::$instance->utils          = new Affiliate_WP_Utilities;
 		self::$instance->editor         = new Affiliate_WP_Editor;
+		self::$instance->notifications  = new Notifications\Notifications_DB();
 
 		// Onboarding wizard.
 		new Wizard\Bootstrap();

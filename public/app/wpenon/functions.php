@@ -134,8 +134,27 @@ function wpenon_immoticket24_print_no_consumption_modal
 					<h4 class="modal-title"><?php _e( 'Für dieses Gebäude kann kein Verbrauchsausweis erstellt werden', 'wpenon' ); ?></h4>
 				</div>
 				<div class="modal-body">
-					<?php _e( 'Für vor 1978 errichtete Gebäude mit weniger als 5 Wohneinheiten ohne Wanddämmung darf gemäß EnEV kein Verbrauchsausweis erstellt werden.', 'wpenon' ); ?>
+					<?php _e( 'Für vor 1978 errichtete Gebäude mit weniger als 5 Wohneinheiten ohne Wanddämmung darf gemäß GEG kein Verbrauchsausweis erstellt werden.', 'wpenon' ); ?>
 					<?php _e( 'Es ist jedoch möglich einen entsprechenden Bedarfsausweis zu erstellen. Klicken Sie den unten angezeigten Button, um Ihren Ausweis in einen Bedarfsausweis umzuwandeln.', 'wpenon' ); ?>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default"
+					        data-dismiss="modal"><?php _e( 'Angaben bearbeiten', 'wpenon' ); ?></button>
+					<button id="wpit_transfer_certificate" type="button"
+					        class="wpit_transfer_certificate btn btn-primary"><?php _e( 'In Bedarfsausweis umwandeln', 'wpenon' ); ?></button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="wpit_invalid_certificate_modal_leerstand" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document" style="margin-top:140px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><?php _e( 'Für dieses Gebäude kann kein Verbrauchsausweis erstellt werden', 'wpenon' ); ?></h4>
+				</div>
+				<div class="modal-body">
+					<?php _e( 'Für Gebäude, die in den drei Verbrauchsjahren einen durchschnittlichen Leerstand von über 30 Prozent hatten, ist eine Verbrauchsausweis-Erstellung nicht möglich - in dem Fall kann nur ein Bedarfsausweis erstellt werden. Klicken Sie den unten angezeigten Button, um Ihre Angaben in einen Bedarfsausweis umzuwandeln.', 'wpenon' ); ?>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default"
@@ -185,6 +204,17 @@ function wpenon_immoticket24_print_no_consumption_modal
 				var decke_daemmung_on = jQuery('#decke_daemmung_on').val();
 				var dach_daemmung_on = jQuery('#dach_daemmung_on').val();
 
+				var leerstand_1 = parseFloat( document.getElementById('verbrauch1_leerstand').value );
+				var leerstand_2 = parseFloat( document.getElementById('verbrauch2_leerstand').value );
+				var leerstand_3 = parseFloat( document.getElementById('verbrauch3_leerstand').value );
+
+				var leerstand_average = ( leerstand_1 + leerstand_2 + leerstand_3 ) / 3;
+
+				if ( leerstand_average >= 30 ) {
+					jQuery('#wpit_invalid_certificate_modal_leerstand').modal('show');
+					return false;
+				}
+
 				if ( wohnungen >= 5 || baujahr > 1977 ) {
 					return true;
 				}
@@ -229,8 +259,11 @@ function wpenon_immoticket24_print_no_consumption_modal
         jQuery(document).on('change', '#wohnungen', wpenon_immoticket24_check_certificate_valid );
 		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_valid );
 		jQuery(document).on('change', '#wand_daemmung', wpenon_immoticket24_check_certificate_valid );
-
 		jQuery(document).on('change', '#baujahr', wpenon_immoticket24_check_certificate_climatefactors_valid );
+
+		jQuery(document).on('change', '#verbrauch1_leerstand', wpenon_immoticket24_check_certificate_valid );
+		jQuery(document).on('change', '#verbrauch2_leerstand', wpenon_immoticket24_check_certificate_valid );
+		jQuery(document).on('change', '#verbrauch3_leerstand', wpenon_immoticket24_check_certificate_valid );
 
 		jQuery('#wpenon-generate-form').on('submit', function (e) {
 			if ( ! wpenon_immoticket24_check_certificate_valid() || ! wpenon_immoticket24_check_certificate_climatefactors_valid() ) {
@@ -315,7 +348,7 @@ function wpenon_check_geg20() {
 				</div>
 				<div class="modal-body">
                     <p><?php _e( 'Sie benötigen einen Energieausweis nach dem neuen Gebäude-Energiegesetz 2020 (GEG20), da bei Energieausweisen für Bauanträge, die ab dem 01.11.2020 eingereicht werden, diese nach dem GEG20 vorgeschrieben sind. Den Energieausweis nach GEG20 können Sie auf dieser Website nicht erstellen.', 'wpenon' ); ?></p>
-                    <p><?php _e( 'Auf unserer Website können Sie nur Energieausweise nach der EnEV 2014 erstellen, welche für Verkauf/Vermietung, Modernisierung & Sonstiges (bei Bauantrag vor dem 01.11.2020) auch weiterhin gültig sind.', 'wpenon' ); ?></p>
+                    <p><?php _e( 'Auf unserer Website können Sie nur Energieausweise nach der GEG 2014 erstellen, welche für Verkauf/Vermietung, Modernisierung & Sonstiges (bei Bauantrag vor dem 01.11.2020) auch weiterhin gültig sind.', 'wpenon' ); ?></p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" id="geg20_creation_denied_button" class="btn btn-default" data-dismiss="modal"><?php _e( 'OK', 'wpenon' ); ?></button>
