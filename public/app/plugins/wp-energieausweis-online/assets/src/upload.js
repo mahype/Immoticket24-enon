@@ -66,10 +66,17 @@ const sendUpload = ( data, field ) => {
             }
         }
     ).then( ( response ) => {
-       setPercentage( field, 0 );
-       document.getElementById( field + "_field" ).value = response.data.url;
-       document.getElementById( field + "_image" ).innerHTML = `<img src="${response.data.url}" />`;
-       document.getElementById( "file-delete-" + field ).classList.remove('hidden');
+        console.log( response );
+        setPercentage( field, 0 );
+        if( response.data.error !== undefined ) {
+            document.getElementById( field + "_notice" ).innerHTML = response.data.error;
+            document.getElementById( field + "_notice" ).style.display = 'block';
+        } else {
+            document.getElementById( field + "_notice" ).style.display = 'none';
+            document.getElementById( field + "_field" ).value = response.data.url;
+            document.getElementById( field + "_image" ).innerHTML = `<img src="${response.data.url}" />`;
+            document.getElementById( "file-delete-" + field ).classList.remove('hidden');
+        }
     }).catch( function ( error ) { 
         console.log( error );
     });
