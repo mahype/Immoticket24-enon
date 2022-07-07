@@ -67,6 +67,8 @@ class Prevent_Completion {
     public function filter_should_update_payment_status ( bool $can_be_updated, int $payment_id,  string $new_status ) : bool {
         $this->set_energy_certificate( $payment_id );
 
+        $failure_mail_sent = get_post_meta( $payment_id, 'failure_mail_sent', true);
+
         if ( ! $this->can_we_update( $can_be_updated, $new_status ) ) {
             return $can_be_updated;
         }
@@ -80,8 +82,13 @@ class Prevent_Completion {
             }
         }
         
-        if ( ! empty( $fails ) ) {
+        if ( ! empty( $fails ) && $failure_mail_sent !== 'yes' ) {
             $this->send_failure_mail( $payment_id, $fails );
+            update_post_meta( $payment_id, 'failure_mail_sent', 'yes' );
+            return false;
+        }
+
+        if ( ! empty( $fails ) ) {
             return false;
         }
     
