@@ -43,10 +43,6 @@
     },
     {
       "type": "vcs",
-      "url" : "git@github.com:awsmug/jason.git"
-    },
-    {
-      "type": "vcs",
       "url" : "git@github.com:awsmug/block-wave-separator.git"
     },
     {
@@ -64,7 +60,6 @@
     "johnpbloch/wordpress-core-installer": "~2.0",
     "johnpbloch/wordpress-core": "6.0.0",
     "awsmug/edd-payment-stripe-sepa": "dev-master",
-    "awsmug/jason": "dev-master",
     "awsmug/block-wave-separator": "dev-master",
     "awsmug/block-trusted-shops": "dev-main",
     "borlabs/borlabs-cookie": "*",
