@@ -778,10 +778,6 @@ header .wp-block-navigation__submenu-container .has-medium-font-size {
   margin-top: 0 !important;
 }
 
-body {
-  background-image: url(../img/bg/leder.webp);
-}
-
 header {
   z-index: 999;
   position: relative;
@@ -950,4 +946,7 @@ a:hover {
     line-height: 42px;
     height: 42px;
   }
+}
+body {
+  padding: 50px;
 }

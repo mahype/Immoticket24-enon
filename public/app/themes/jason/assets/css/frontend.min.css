@@ -1038,10 +1038,6 @@ header .umbrella-seals .wp-block-column {
   border: 1px solid #CCC;
 }
 
-body {
-  background-image: url(../img/bg/leder.webp);
-}
-
 header {
   z-index: 999;
   position: relative;
@@ -1211,6 +1207,10 @@ a:hover {
     height: 42px;
   }
 }
+body {
+  background-image: url(../img/bg/leder.webp);
+}
+
 button.wp-block-navigation__responsive-container-open {
   padding: 10px;
   background-color: var(--wp--preset--color--red);
