@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the AffiliateWP plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: AffiliateWP 2.9.5.1\n"
+"Project-Id-Version: AffiliateWP 2.9.5.3\n"
 "Report-Msgid-Bugs-To: https://affiliatewp.com/support\n"
 "Last-Translator: AffiliateWP <support@affiliatewp.com>\n"
 "Language-Team: AffiliateWP <support@affiliatewp.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-07-01T19:50:05+00:00\n"
+"POT-Creation-Date: 2022-07-08T17:02:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: affiliate-wp\n"
@@ -671,9 +671,9 @@ msgstr ""
 #: includes/admin/affiliates/edit.php:278
 #: includes/admin/affiliates/new.php:164
 #: includes/admin/settings/class-settings.php:628
-#: includes/integrations/class-edd.php:968
 #: includes/integrations/class-edd.php:1008
-#: includes/integrations/class-edd.php:1031
+#: includes/integrations/class-edd.php:1048
+#: includes/integrations/class-edd.php:1071
 #: includes/integrations/class-memberpress.php:221
 #: includes/integrations/class-pmp.php:425
 #: includes/integrations/class-pms.php:77
@@ -6428,50 +6428,50 @@ msgstr ""
 msgid "If you would like to connect this discount to an affiliate, enter the name of the affiliate it belongs to."
 msgstr ""
 
-#: includes/integrations/class-edd.php:913
+#: includes/integrations/class-edd.php:953
 msgid "Adjust EDD Commissions"
 msgstr ""
 
-#: includes/integrations/class-edd.php:914
+#: includes/integrations/class-edd.php:954
 msgid "Should AffiliateWP adjust the commission amounts recorded for purchases that include affiliate referrals? This will subtract the referral amount from the base amount used to calculate the commission total."
 msgstr ""
 
-#: includes/integrations/class-edd.php:934
+#: includes/integrations/class-edd.php:974
 msgid "Disable Renewal Referrals"
 msgstr ""
 
-#: includes/integrations/class-edd.php:935
+#: includes/integrations/class-edd.php:975
 msgid "Should AffiliateWP prevent referral commissions from being recorded on renewal purchases with EDD Software Licensing?"
 msgstr ""
 
-#: includes/integrations/class-edd.php:940
+#: includes/integrations/class-edd.php:980
 msgid "Disable Referrals on Upgrades"
 msgstr ""
 
-#: includes/integrations/class-edd.php:941
+#: includes/integrations/class-edd.php:981
 msgid "Should AffiliateWP prevent referral commissions from being recorded on license upgrade purchases with EDD Software Licensing?"
 msgstr ""
 
-#: includes/integrations/class-edd.php:962
+#: includes/integrations/class-edd.php:1002
 #: includes/integrations/class-zippycourses.php:92
 msgid "Affiliate Rates:"
 msgstr ""
 
 #. translators: EDD singular product label
-#: includes/integrations/class-edd.php:977
+#: includes/integrations/class-edd.php:1017
 #: includes/integrations/class-zippycourses.php:105
 msgid "Disable referrals on this %s"
 msgstr ""
 
-#: includes/integrations/class-edd.php:982
+#: includes/integrations/class-edd.php:1022
 #: includes/integrations/class-memberpress.php:232
 #: includes/integrations/class-zippycourses.php:109
 msgid "These settings will be used to calculate affiliate earnings per-sale. Leave blank to use the site default referral rate."
 msgstr ""
 
 #. translators: EDD singular category label
-#: includes/integrations/class-edd.php:1013
-#: includes/integrations/class-edd.php:1034
+#: includes/integrations/class-edd.php:1053
+#: includes/integrations/class-edd.php:1074
 msgid "The referral rate for this %s category."
 msgstr ""
 

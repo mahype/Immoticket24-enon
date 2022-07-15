@@ -50,8 +50,20 @@ class Affiliate_WP_Scheduler {
 	 * @return void
 	 */
 	private function daily_events() {
-		// Bail if already scheduled.
-		if ( true === as_has_scheduled_action( 'affwp_daily_scheduled_events' ) ) {
+		if (
+			function_exists( 'as_has_scheduled_action' ) &&
+			true === as_has_scheduled_action( 'affwp_daily_scheduled_events' )
+		) {
+			// Bail if already scheduled and using the more efficient as_has_scheduled_action() function if available.
+			return;
+		} elseif ( false !== as_next_scheduled_action( 'affwp_daily_scheduled_events' )  ) {
+			/*
+			 * The function as_next_scheduled_action() returns an integer for an
+			 * already pending schedule or true for an in-progress one, and false if
+			 * there is no matching action scheduled.
+			 *
+			 * So we're bailing here if there is a pending or in-progress one already.
+			 */
 			return;
 		}
 
