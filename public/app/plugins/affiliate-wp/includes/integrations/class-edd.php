@@ -177,7 +177,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 
 		if ( affiliate_wp()->settings->get( 'edd_disable_on_renewals' ) ) {
 
-			$was_renewal = get_post_meta( $payment_id, '_edd_sl_is_renewal', true );
+			$was_renewal = $this->get_meta( 'order', $payment_id, '_edd_sl_is_renewal', true );
 
 			if ( $was_renewal ) {
 
@@ -344,7 +344,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 
 			if ( affiliate_wp()->settings->get( 'edd_disable_on_renewals' ) ) {
 
-				$was_renewal = get_post_meta( $payment_id, '_edd_sl_is_renewal', true );
+				$was_renewal = $this->get_meta( 'order', $payment_id, '_edd_sl_is_renewal', true );
 
 				if ( $was_renewal ) {
 
@@ -357,7 +357,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 
 			if ( affiliate_wp()->settings->get( 'edd_disable_on_upgrades' ) ) {
 
-				$was_upgrade = get_post_meta( $payment_id, '_edd_sl_upgraded_payment_id', true );
+				$was_upgrade = $this->get_meta( 'order', $payment_id, '_edd_sl_upgraded_payment_id', true );
 
 				if ( $was_upgrade ) {
 
@@ -377,7 +377,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 			foreach ( $discounts as $code ) {
 
 				$discount_id  = edd_get_discount_id_by_code( $code );
-				$affiliate_id = get_post_meta( $discount_id, 'affwp_discount_affiliate', true );
+				$affiliate_id = $this->get_meta( 'discount', $discount_id, 'affwp_discount_affiliate', true );
 
 				if ( ! $affiliate_id ) {
 					continue;
@@ -481,7 +481,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 					// Get the first category ID for the download.
 					$category_id = $categories && ! is_wp_error( $categories ) ? $categories[0]->term_id : 0;
 
-					if ( get_post_meta( $download['id'], '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
+					if ( $this->get_meta( 'download', $download['id'], '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
 						continue; // Referrals are disabled on this product
 					}
 
@@ -555,7 +555,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 		$downloads = edd_get_payment_meta_cart_details( $payment_id );
 		foreach( $downloads as $key => $item ) {
 
-			if( get_post_meta( $item['id'], '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
+			if ( $this->get_meta( 'download', $item['id'], '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
 				continue; // Referrals are disabled on this product
 			}
 
@@ -729,7 +729,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 			$download_id = $item['id'];
 			$download    = new EDD_Download( $download_id );
 
-			if ( get_post_meta( $download_id, '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
+			if ( $this->get_meta( 'download', $download_id, '_affwp_' . $this->context . '_referrals_disabled', true ) ) {
 				continue; // Referrals are disabled on this product
 			}
 
@@ -758,7 +758,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 
 		$user_name    = '';
 		$user_id      = 0;
-		$affiliate_id = get_post_meta( $discount_id, 'affwp_discount_affiliate', true );
+		$affiliate_id = $this->get_meta( 'discount', $discount_id, 'affwp_discount_affiliate', true );
 		if( $affiliate_id ) {
 			$user_id      = affwp_get_affiliate_user_id( $affiliate_id );
 			$user         = get_userdata( $user_id );
@@ -791,8 +791,22 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	*/
 	public function store_discount_affiliate( $details, $discount_id = 0 ) {
 
+		// Bail early if not admin
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['user_name'] ) ) {
+			return;
+		}
+
 		if ( empty( $_POST['user_name'] ) ) {
-			delete_post_meta( $discount_id, 'affwp_discount_affiliate' );
+			if ( function_exists( 'edd_delete_adjustment_meta' ) ) {
+				edd_delete_adjustment_meta( $discount_id, 'affwp_discount_affiliate' );
+			} else {
+				delete_post_meta( $discount_id, 'affwp_discount_affiliate' );
+			}
+
 			return;
 		}
 
@@ -804,7 +818,11 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 
 		$affiliate_id = affwp_get_affiliate_id( $data['user_id'] );
 
-		update_post_meta( $discount_id, 'affwp_discount_affiliate', $affiliate_id );
+		if ( function_exists( 'edd_update_adjustment_meta' ) ) {
+			edd_update_adjustment_meta( $discount_id, 'affwp_discount_affiliate', $affiliate_id );
+		} else {
+			update_post_meta( $discount_id, 'affwp_discount_affiliate', $affiliate_id );
+		}
 	}
 
 	/**
@@ -835,7 +853,29 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 
 		switch ( $type ) {
 			case 'manual':
-				$ids = $this->get_coupon_post_ids( 'edd_discount', 'active', $affiliate );
+				if ( function_exists( 'edd_get_adjustments' ) ) {
+					$ids = edd_get_adjustments( array(
+						'fields'     => 'id',
+						'number'     => 9999,
+						'type'       => 'discount',
+						'status'     => 'active',
+						'meta_query' => array(
+							array(
+								'relation' => 'OR',
+								array(
+									'key'   => 'affwp_discount_affiliate',
+									'value' => $affiliate->ID,
+								),
+								array(
+									'key'   => 'affwp_coupon_affiliate',
+									'value' => $affiliate->ID,
+								),
+							),
+						),
+					) );
+				} else {
+					$ids = $this->get_coupon_post_ids( 'edd_discount', 'active', $affiliate );
+				}
 
 				if ( ! empty( $ids ) ) {
 					foreach ( $ids as $id ) {
@@ -844,7 +884,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 							$coupons[ $id ]['amount']      = edd_format_discount_rate( edd_get_discount_type( $id ), edd_get_discount_amount( $id ) );
 							$coupons[ $id ]['integration'] = $this->context;
 						} else {
-							$coupons[ $id ] = get_post( $id );
+							$coupons[ $id ] = function_exists( 'edd_get_adjustment' ) ? edd_get_adjustment( $id ) : get_post( $id );
 						}
 					}
 				}
@@ -955,8 +995,8 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	*/
 	public function download_settings( $download_id = 0 ) {
 
-		$rate     = get_post_meta( $download_id, '_affwp_' . $this->context . '_product_rate', true );
-		$disabled = get_post_meta( $download_id, '_affwp_' . $this->context . '_referrals_disabled', true );
+		$rate     = $this->get_meta( 'download', $download_id, '_affwp_' . $this->context . '_product_rate', true );
+		$disabled = $this->get_meta( 'download', $download_id, '_affwp_' . $this->context . '_referrals_disabled', true );
 ?>
 		<p>
 			<strong><?php _e( 'Affiliate Rates:', 'affiliate-wp' ); ?></strong>
@@ -1084,6 +1124,50 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	}
 
 	/**
+	 * Retrieve the meta field for an object based on the object type.
+	 * Supports EDD 3.0.
+	 *
+	 * @since 2.9.5.2
+	 *
+	 * @param string $type    Object type.
+	 * @param int    $id      Object ID.
+	 * @param string $key     Optional. The meta key to retrieve. By default,
+	 *                        returns data for all keys. Default empty.
+	 * @param bool   $single  Optional. Whether to return a single value.
+	 *                        This parameter has no effect if `$key` is not specified.
+	 *                        Default false.
+	 * @return mixed An array of values if `$single` is false.
+	 *               The value of the meta field if `$single` is true.
+	 *               False for an invalid `$id` (non-numeric, zero, or negative value).
+	 *               An empty string if a valid but non-existing post ID is passed.
+	 */
+	private function get_meta( $type, $id, $key, $single = false ) {
+
+		if ( function_exists( 'edd_get_order' ) ) {
+
+			switch ( strtolower( $type ) ) {
+				case 'discount':
+					$value = edd_get_adjustment_meta( $id, $key, $single );
+					break;
+
+				case 'order':
+					$value = edd_get_order_meta( $id, $key, $single );
+					break;
+
+				default:
+					$value = get_post_meta( $id, $key, $single );
+					break;
+			}
+		} else {
+
+			$value = get_post_meta( $id, $key, $single );
+
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Runs the check necessary to confirm this plugin is active.
 	 *
 	 * @since 2.5
@@ -1094,5 +1178,4 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 		return class_exists( 'Easy_Digital_Downloads' );
 	}
 }
-
-	new Affiliate_WP_EDD;
+new Affiliate_WP_EDD;
