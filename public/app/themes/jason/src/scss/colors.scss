@@ -1,0 +1,31 @@
+$yellow-neon: #cff023;
+$green-light: #bdd3a0;
+$green-neon: #b8e530;
+$green-mint: #65e58d;
+$green-moss: #4b612e;
+$green-lime: #82a319;
+
+$red-light: #e11818;
+$red: #d03129;
+$red-dark: #b01313;
+
+$orange: rgba( 248, 167, 5, 1); // #f8a705 -> #f8b328
+
+$blue: rgba(63, 54, 138, 1);
+
+$white: #FFF;
+
+$black-10: rgba(0, 0, 0, 0.1);
+$black-20: rgba(0, 0, 0, 0.2);
+$black-40: rgba(0, 0, 0, 0.4);
+$black-60: rgba(0, 0, 0, 0.6);
+$black-80: rgba(0, 0, 0, 0.8);
+$black: #000;
+
+a {
+    color: $green-moss;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: $green-moss;
+}

@@ -1,0 +1,37 @@
+body {
+    background-image:  url(../img/bg/leder.webp);
+}
+
+header {
+    z-index: 999;
+    position: relative;
+}
+
+html :where(img) {
+    height:initial;
+    max-width: none;
+}
+
+a:hover {
+    text-decoration: underline !important;
+}
+
+.justify-start {
+    justify-content: center !important;
+}
+
+.justify-center {
+    justify-content: center !important;
+}
+
+.justify-end {
+    justify-content: end !important;
+}
+
+.no-gap {
+    margin: 0 !important;
+}
+
+.wp-site-blocks {
+    overflow: hidden;
+}

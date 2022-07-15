@@ -1,0 +1,23 @@
+.is-style-group-main {
+    margin: 0 !important;
+    @extend .main-container-padding;
+}
+
+.is-style-group-card {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--wp--preset--color--black-10) !important;
+}
+
+.is-style-label-green {
+    text-align: center;
+
+    p {
+        border-radius: 10px;
+        background-color: $green-moss;
+        color: #FFF;
+        padding: 20px;
+        font-size: 30px;
+        display:inline;
+    }
+}

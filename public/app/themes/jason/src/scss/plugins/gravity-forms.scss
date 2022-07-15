@@ -1,0 +1,15 @@
+.gform_wrapper {
+    .gfield_label {
+        .gfield_required {
+            color: black;
+        }
+    }
+
+    .gform_validation_container {
+        display: none;
+    }
+    
+    .validation_message {
+        color:#F00;
+    }
+}

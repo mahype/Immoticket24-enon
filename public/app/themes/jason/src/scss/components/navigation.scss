@@ -1,0 +1,152 @@
+/**
+ * WordPress CSS breakpoints
+ *
+ * Small  < 600
+ * Normal >= 600 
+ */
+header {
+    button .wp-block-navigation-item__label {
+        font-size: var( --wp--preset--font-size--medium ) !important;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .wp-block-navigation__submenu-container {        
+        min-width: 300px !important;
+
+        .has-medium-font-size {
+            font-size: var( --wp--preset--font-size--small ) !important;
+        }
+    }
+
+    @include sm-md {
+        /**
+         * Transform menu to a overlay menu.
+         */
+        nav.wp-block-navigation {
+            width: calc( 100% - 80px );
+            position: fixed;
+            z-index: 500;
+            background-color: $green-neon;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 100px 40px 40px 40px;            
+            height: 100vh;            
+            align-items: self-start;
+            transform: translateX(-100%);
+
+            ul {
+                flex-direction: column;
+                gap: 0;                
+
+                &> li.wp-block-navigation-item {
+                    display: block !important;
+                    border-bottom: 1px solid #000;
+                    width: 100% !important;
+                    margin: 0;
+                    padding: 10px 0 !important;
+                    display: flex !important;                
+                    align-items: flex-end;
+                }
+            }
+        }
+
+        .wp-block-navigation__submenu-container {
+            background-color: initial !important;
+            min-width: initial !important;            
+        }
+
+        .wp-block-cover__image-background {
+            object-position: 50% 60% !important;
+        }
+    }   
+}
+
+#hamburger-menu {
+    background-color: $red;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 5px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    transition: width 2s;
+
+    svg {
+        filter: invert(100%);
+        width: 100%;
+    }
+}
+
+.hide-menu {
+    display: none !important;
+}
+
+.menu-in {
+    -webkit-animation-name: slideInLeft;
+    animation-name: slideInLeft;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes slideInLeft {
+    0% {
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+        visibility: visible;
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    0% {
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+        visibility: visible;
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+.menu-out {
+    -webkit-animation-name: slideOutLeft;
+    animation-name: slideOutLeft;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes slideOutLeft {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+    100% {
+        visibility: hidden;
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
+}
+    
+@keyframes slideOutLeft {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+    100% {
+        visibility: hidden;
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
+}

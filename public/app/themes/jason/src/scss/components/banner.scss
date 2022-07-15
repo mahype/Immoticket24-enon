@@ -1,0 +1,77 @@
+.banner {
+    margin: 0 !important;
+    @extend .main-container-padding;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.banner-content-top,
+.banner-content-bottom {
+    display: none;
+}
+
+@include lg {
+    /**
+    * Components - Banner
+    */
+    .banner {
+        position: relative;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .banner::before {
+        content: url(../../assets/img/layout/banner-start.webp);
+        margin: auto;
+        width: 350px;
+        max-width: 100%;
+        height: 18px;
+        display: block;
+        transform: translateY(-13px);
+        position: relative;
+    }
+
+    .banner::after {
+        content: url(../../assets/img/layout/banner-start.webp);
+        margin: auto;
+        width: 350px;
+        height: 18px;
+        max-width: 100%;
+        display: block;
+        transform: translateY(13px) rotate(180deg);
+        position: relative;
+    }
+
+    .banner-content-top {
+        display: block;
+        margin: auto;
+        margin: 0 auto 40px auto;
+        background: linear-gradient(180deg, #728c49 0%, #556636 100%);
+        width: 272px;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        text-align: center;
+        color: var(--wp--preset--color--white);
+        transform: translateY(-14px);
+        text-transform: uppercase;
+        box-shadow: 0px 2px 1px black;
+        line-height: 17px;
+        padding-bottom: 10px;
+    }
+
+    .banner .banner-content-bottom {
+        display: block;
+        margin: 40px auto 0 auto;
+        background: linear-gradient(0deg, #728c49 0%, #556636 100%);
+        width: 272px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        text-align: center;
+        color: var(--wp--preset--color--white);
+        text-transform: uppercase;
+        box-shadow: 0px -2px 1px black;
+        line-height: 17px;
+        padding-top: 10px;
+        transform: translateY(14px);
+    }
+}

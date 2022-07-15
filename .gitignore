@@ -7,7 +7,6 @@ public/app/debug.log
 public/app/mu-plugins/*/
 public/app/mu-plugins/0-ninjafirewall.php
 public/app/plugins/*
-public/app/themes/*
 public/app/upgrade
 public/app/advanced-cache.php
 public/app/wp-rocket-config/*

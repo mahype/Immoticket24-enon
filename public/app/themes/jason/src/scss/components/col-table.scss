@@ -1,0 +1,20 @@
+.col-table {
+    flex-direction: column;
+    
+
+    @include lg {
+        flex-direction: row;
+    }
+
+    h1, h2, h3, h4, h5, h6, p{
+        height: 80px;
+        line-height: 80px;
+        padding: 0 20px;
+        margin: 0 !important;
+    }
+
+    /* Overwriting gap */
+    > .wp-block-column {
+        margin-left: 0 !important;
+    }
+}

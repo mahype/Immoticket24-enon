@@ -1,0 +1,70 @@
+.price-list {
+    flex-direction: column;
+
+    @include lg {
+        flex-direction: row;
+
+        .border-gradient-white-bottom-to-top {
+            border-style: solid;
+            border-width: 2px;
+            border-image: linear-gradient(0deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0) 100%) 1;
+        }
+
+        .border-bottom-white {
+            border-bottom: white 2px solid;
+            border-top: transparent 2px solid;
+        }
+    }
+
+    /* Overwriting gap */
+    > .wp-block-column {
+        margin-left: 0 !important;
+        margin-bottom: 80px;
+    }
+}
+
+.price-list-head {
+    height: 300px;
+    margin-top: 0;
+    text-align: center;
+}
+
+.price-list-cell {
+    height: 120px;
+    margin: 0 !important;
+    padding: 0 20px;
+}
+
+/* Text in left column under head */
+.price-list-descriptions {
+    display: none;
+
+    @include lg {
+        display: block;
+    }
+}
+
+// Show only on smaller screens
+.price-list-text {
+    margin: 0 !important;
+    text-align: center;
+
+    @include lg {
+        display: none;
+    }
+}
+
+// Show only on bigger screens
+.price-list-checkmark {
+    margin: 0 !important;
+    
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+
+    color: $red;
+
+    @include lg {
+        display: block;
+    }
+}

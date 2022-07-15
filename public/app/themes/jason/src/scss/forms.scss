@@ -1,0 +1,108 @@
+
+/**
+ * Old form - Legacy
+ **/
+ .wpenon-wrapper {
+    & > *,
+    & * {        
+        box-sizing: border-box;
+    }
+  
+    .is-done-checkmark {
+        top: initial;
+        left: initial;
+        position: initial;
+        vertical-align: super;
+        padding: 4px 5px;
+    }
+
+    .btn {
+        white-space: normal;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+/**
+ * All forms
+ */
+.page, .post, .single-download {
+    input[type=text],
+    input[type=email],
+    input[type=number],
+    input[type=file],
+    select,
+    textarea {
+        width:calc( 100% - 20px ) !important;
+        padding:10px  !important;
+
+        &.edd-input,
+        &.edd-select {
+            width:calc( 90% - 20px ) !important;
+        }
+    }
+
+    label {
+        margin-top: 8px !important;
+    }
+
+    input[type=submit],    
+    button,
+    .btn,
+    .wp-block-button a {
+        border: none;        
+        border-radius: 5px;
+        padding: 10px 20px;
+        
+        cursor: pointer;
+
+        &:hover,
+        &:focus  {
+            background-position: 0 -15px;
+        }
+
+        &:active,
+        &.active {
+            background-position: 0 -15px;
+            border-color: white;
+        }
+
+        &:disabled,
+        &[disabled] {
+            background-color: grey;
+            color: #FFF;
+        }
+    }
+
+    .btn-primary {
+        background: var(--wp--preset--gradient--red-light-to-red-dark);
+        color: white;
+    }
+
+    .btn-default {
+        background-color: gray;
+        color: white;
+
+        &:hover,
+        &:focus  {
+            background-position: 0 -15px;
+            color: #000;
+        }
+    }
+
+    .wp-block-button a {
+        padding: 20px 40px;
+    }
+
+    .back-to-overview-button {
+        margin-right: 10px;
+    }
+
+    .modal-dialog {
+        button {
+            text-transform: initial;
+            padding: 10px;
+        }
+    }
+}

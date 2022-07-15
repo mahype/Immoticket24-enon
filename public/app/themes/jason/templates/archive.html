@@ -1,0 +1,25 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:heading -->
+<h2 id="blogbeitrage">Blogbeiträge</h2>
+<!-- /wp:heading -->
+
+<!-- wp:query {"queryId":74,"query":{"perPage":"6","pages":0,"offset":0,"postType":"post","categoryIds":[],"tagIds":[],"order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false},"displayLayout":{"type":"flex","columns":2}} -->
+<div class="wp-block-query">
+    <!-- wp:post-template -->
+    <!-- wp:post-title {"isLink":true} /-->
+
+    <!-- wp:post-featured-image {"isLink":true,"align":"wide"} /-->
+
+    <!-- wp:post-excerpt /-->
+
+    <!-- wp:separator -->
+    <hr class="wp-block-separator" />
+    <!-- /wp:separator -->
+
+    <!-- wp:post-date /-->
+    <!-- /wp:post-template -->
+</div>
+<!-- /wp:query -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

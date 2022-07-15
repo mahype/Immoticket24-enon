@@ -1,0 +1,75 @@
+@import 'sizes';
+@import 'colors';
+
+@import 'forms';
+
+@import 'blocks';
+@import 'block-styles/core-button';
+@import 'block-styles/core-columns';
+@import 'block-styles/core-cover';
+@import 'block-styles/core-group';
+@import 'block-styles/core-list';
+@import 'block-styles/core-navigation';
+@import 'block-styles/core-paragraph';
+@import 'block-styles/core-quote';
+
+@import 'components/banner';
+@import 'components/bg-circle';
+@import 'components/col-table';
+@import 'components/enon-form';
+@import 'components/footer';
+@import 'components/faq-item';
+@import 'components/immorating';
+@import 'components/labels';
+@import 'components/logos';
+@import 'components/loop';
+@import 'components/navigation';
+@import 'components/price-list';
+@import 'components/testimonials';
+@import 'components/umbrella';
+
+@import 'plugins/gravity-forms';
+@import 'plugins/ootb-openstreetmaps';
+@import 'plugins/edd';
+
+@import 'general';
+@import 'helper';
+@import 'icons';
+
+button.wp-block-navigation__responsive-container-open {
+    padding: 10px;
+    background-color: var(--wp--preset--color--red);
+    border-radius: 5px;
+    color: var(--wp--preset--color--white);
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+@include sm-md {
+    .logo-menu {
+        flex-direction: column;
+        gap:20px;
+    }
+}
+
+.menu-footer a {
+    color: #FFF;
+}
+
+.sticky-header{
+    z-index: 9999;
+
+    &.sticky {
+        background: $green-neon;
+        position: fixed;
+        top:0;
+        padding-top: 40px;
+        padding-bottom: 20px;
+        box-shadow: 0 4px 2px -2px rgb(0 0 0 / 50%);
+    }
+}
+
+#it24-stripe-button {
+    display: none;
+}

@@ -1,0 +1,383 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/theme.json",
+    "version": 1,
+    "customTemplates": [
+        {
+			"name": "index",
+			"title": "Standard"
+		},
+		{
+			"name": "page",
+			"title": "Seite",
+			"postTypes": [
+				"page"
+			]
+		},
+        {
+			"name": "page-makler",
+			"title": "Seite - Makler",
+			"postTypes": [
+				"page"
+			]
+		},
+        {
+			"name": "page-short-header",
+			"title": "Seite - Kurzer Header",
+			"postTypes": [
+				"page"
+			]
+		},
+        {
+			"name": "single",
+			"title": "Beitrag",
+			"postTypes": [
+				"post"
+			]
+		},
+        {
+			"name": "single-download",
+			"title": "Energieausweis",
+			"postTypes": [
+				"download"
+			]
+		},
+        {
+			"name": "base",
+			"title": "Basis"
+		},
+        {
+			"name": "empty",
+			"title": "Leer"
+		},
+        {
+			"name": "content",
+			"title": "Inhalt"
+		},
+        {
+			"name": "content-short-header",
+			"title": "Inhalt - Kurzer Header"
+		}
+	],
+    "templateParts": [
+		{
+			"name": "header",
+			"title": "Header - Standard",
+			"area": "header"
+		},
+        {
+			"name": "header-makler",
+			"title": "Header - Makler",
+			"area": "header"
+		},
+        {
+			"name": "header-short",
+			"title": "Header - Kurz",
+			"area": "header"
+		},
+		{
+			"name": "footer",
+			"title": "Footer",
+			"area": "footer"
+		},
+		{
+			"name": "test",
+			"title": "Test",
+			"area": "test"
+		}
+
+	],
+    "settings": {
+        "layout": {
+            "contentSize": "1920px",
+            "wideSize": "1920px"
+        },
+        "spacing": {
+            "blockGap": true,
+            "margin": true,
+            "padding": true,
+            "units": [ "px", "em", "rem", "vh", "vw", "%" ]
+        },
+        "border": {
+            "color": true,
+            "radius": true,
+            "style": true,
+            "width": true
+        },
+        "color": {
+            "background": true,
+            "custom": true,
+            "customDuotone": true,
+            "customGradient": true,
+            "duotone": [],
+            "link": true,
+            "text": true,
+            "palette": [
+                {
+                    "name": "Black (10%)",
+                    "slug": "black-10",
+                    "color": "rgba( 0, 0, 0, 0.1 )"
+                },
+				{
+                    "name": "Black (20%)",
+                    "slug": "black-20",
+                    "color": "rgba( 0, 0, 0, 0.2 )"
+                },
+				{
+                    "name": "Black (40%)",
+                    "slug": "black-40",
+                    "color": "rgba( 0, 0, 0, 0.4 )"
+                },
+				{
+                    "name": "Black (60%)",
+                    "slug": "black-60",
+                    "color": "rgba( 0, 0, 0, 0.6 )"
+                },
+				{
+                    "name": "Black (80%)",
+                    "slug": "black-80",
+                    "color": "rgba( 0, 0, 0, 0.8 )"
+                },
+				{
+                    "name": "Black",
+                    "slug": "black",
+                    "color": "#000000"
+                },
+                {
+                    "name": "White",
+                    "slug": "white",
+                    "color": "#ffffff"
+                },
+				{
+                    "name": "Neongelb",
+                    "slug": "yellow-neon",
+                    "color": "#cff023"
+                },
+				{
+                    "name": "Hellgrün",
+                    "slug": "green-light",
+                    "color": "#bdd3a0"
+                },
+				{
+                    "name": "Neongrün",
+                    "slug": "green-neon",
+                    "color": "#b8e530"
+                },
+				{
+                    "name": "Minzgrün",
+                    "slug": "green-mint",
+                    "color": "#65e58d"
+                },
+				{
+                    "name": "Limettengrün",
+                    "slug": "green-lime",
+                    "color": "#82a319"
+                },
+				{
+                    "name": "Moosgrün",
+                    "slug": "green-moss",
+                    "color": "#4b612e"
+                },
+				{
+                    "name": "Hellrot",
+                    "slug": "red-light",
+                    "color": "#e11818"
+                },
+				{
+                    "name": "Rot",
+                    "slug": "red",
+                    "color": "#d03129"
+                },
+				{
+                    "name": "Dunkelrot",
+                    "slug": "red-dark",
+                    "color": "#b01313"
+                },
+				{
+                    "name": "Blau",
+                    "slug": "blue",
+                    "color": "#3f368a"
+                }
+            ],
+			"gradients": [
+                {
+					"name": "Neongelb zu Minzgrün",
+                    "slug": "yellow-neon-to-green-mint",
+                    "gradient": "linear-gradient(90deg, #cff023 0%, #65e58d 100%)"
+                },
+				{
+					"name": "Neongrün zu Minzgrün",
+                    "slug": "green-neon-to-green-mint",
+                    "gradient": "linear-gradient(90deg, #b8e530 0%, #65e58d 100%)"
+                },
+				{
+					"name": "Weissgrün zu Grünweiss",
+                    "slug": "white-green-to-green-white",
+                    "gradient": "linear-gradient(90deg, #f0f6d1 0%, #bdd3a0 100%)"
+                },
+				{
+					"name": "Rot zu Dunkelrot",
+                    "slug": "red-light-to-red-dark",
+                    "gradient": "linear-gradient(180deg, #b01313 0%, #d03129 33%, #b01313 100%)"
+                },
+				{
+					"name": "Orange zu Dunkelorange",
+                    "slug": "orange-light-to-orange-dark",
+                    "gradient": "linear-gradient(180deg, #f8b328 0%, #f8a705 33%, #f8b328 100%)"
+                },
+				{
+					"name": "Blau zu Dunkelblau",
+                    "slug": "blue-light-to-blue-dark",
+                    "gradient": "linear-gradient(180deg, #20138a 0%, #3f368a 33%, #20138a 100%)"
+                },
+				{
+					"name": "Hellgrün zu Dunkelgrün",
+                    "slug": "light-green-to-dark-green",
+                    "gradient": "linear-gradient(180deg, #74855e 0%, #4b612e 33%, #74855e 100%)"
+                }
+            ]
+        },        
+        "typography": {
+            "customFontSize": true,
+            "dropCap": true,
+            "fontFamilies": [
+				{
+					"fontFamily": "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif",
+					"name": "System Font",
+					"slug": "system-font"
+				}
+			],
+            "fontSizes": [
+				{
+					"name": "Huge",
+                    "slug": "huge",
+					"size": "clamp(2.5rem, 4vw, 3rem)"					
+				},
+				{
+                    "name": "Large",
+					"slug": "large",
+					"size": "clamp(1.75rem, 3vw, 2.25rem)"					
+				},
+				{
+                    "name": "Medium",
+					"slug": "medium",
+					"size": "1.25rem"					
+				},
+				{
+                    "name": "Normal",
+					"slug": "normal",
+					"size": "1.125rem"					
+				},
+				{
+                    "name": "Small",
+					"slug": "small",                    
+					"size": "1rem"					
+				},
+				{
+                    "name": "Mini",
+					"slug": "mini",
+					"size": "0.875rem"					
+				}
+            
+			],
+            "fontStyle": true,
+            "fontWeight": true,
+            "letterSpacing": true,
+            "lineHeight": true,
+            "textDecoration": true,
+            "textTransform": true
+        }
+    },
+    "styles": {
+        "typography": {
+            "fontFamily": "var(--wp--preset--font-family--system-font)",
+            "fontSize": "1rem"
+        },
+        "spacing": {
+            "blockGap": "20px"
+        },
+        "elements": {
+            "h1": {
+                "typography": {
+                    "fontSize": "36px",
+                    "textTransform": "uppercase",
+                    "fontWeight": "normal"
+                }
+            },
+            "h2": {
+                "typography": {
+                    "fontSize": "24px",
+                    "textTransform": "uppercase",
+                    "fontWeight": "normal"
+                }
+            },
+            "h3": {
+                "typography": {
+                    "fontSize": "20px",
+                    "textTransform": "uppercase",
+                    "fontWeight": "normal"
+                }
+            },
+            "h4": {
+                "typography": {
+                    "fontSize": "16px",
+                    "textTransform": "uppercase",
+                    "fontWeight": "normal"
+                }
+            },
+            "h5": {
+                "typography": {
+                    "fontSize": "14px",
+                    "textTransform": "uppercase",
+                    "fontWeight": "normal"
+                }
+            },
+            "h6": {
+                "typography": {
+                    "fontSize": "12px",
+                    "textTransform": "uppercase",
+                    "fontWeight": "normal"
+                }
+            },
+            "link": {
+                "typography": {
+                    "textDecoration": "none"
+                }
+            }
+        },
+        "blocks": {
+            "core/heading": {
+                "spacing": {
+                    "blockGap": "20px"
+                }
+            },
+            "core/group": {
+                "spacing": {
+                    "margin": {
+                        "top": "0",
+                        "bottom": "0"
+                    }
+                }
+            },
+            "core/button": {
+                "border": {
+                    "radius": "10px"
+                },
+                "spacing": {
+                    "padding": {
+                        "top": "20px",
+                        "bottom": "20px",
+                        "left": "40px",
+                        "right": "40px"
+                    }                    
+                },
+                "color": {
+                    "gradient": "var(--wp--preset--gradient--red-light-to-red-dark)"
+                },
+                "typography": {
+                    "textTransform": "uppercase",
+                    "fontWeight": "normal"
+                }
+            }
+        }
+    }
+}

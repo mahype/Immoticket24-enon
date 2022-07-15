@@ -1,0 +1,142 @@
+.wpenon-wrapper {
+  .text-left {
+    text-align: left;
+  }
+
+  .alert {
+    padding: 0px 20px;
+    border-radius: 5px;
+    background-color: #FFF;
+    border: 4px solid #ffb601;
+    margin-bottom: 20px;
+  }
+
+  .alert-danger {
+    border-color: #d9534f;
+
+    a {
+      color: #d9534f;
+      font-weight: bold;
+    }
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  .tab-content {
+    padding-top: 0 !important;
+  }
+
+  #group-basisdaten,
+  .overview-meta {
+    padding: 10px 15px;
+    background-color: #ffe29a;
+    border: 4px solid #ffb601;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  .calculations {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    overflow: hidden;
+    border: 4px solid #ffb601;
+    border-radius: 10px;
+    background-color: #FFF;
+    
+    > h3:first-child {
+      margin: -10px -15px 20px;
+      padding: 5px 10px;
+      background-color: #ffe29a;
+      border-bottom: 4px solid #ffb601;
+    }
+  }
+
+  .nav.nav-tabs {
+    margin-bottom: 0;
+    border-bottom: 4px solid #ffb601;
+    > li {
+      margin-bottom: -4px;
+      > a {
+        border: 4px solid transparent;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        &:hover {
+          background-color: lighten(#ffe29a, 5%);
+          border-color: lighten(#ffb601, 5%);
+          border-bottom-style: dashed;
+        }
+      }
+    }
+    > li.active {
+      > a {
+        &,
+        &:hover,
+        &:focus {
+          color: #555555;
+          background-color: #ffe29a;
+          border: 4px solid #ffb601;
+          border-bottom-color: #ffe29a;
+        }
+      }
+    }
+    & + .tab-content {
+      margin-bottom: 20px;
+      > .tab-pane.active {
+        background-color: #ffe29a;
+        border: 4px solid #ffb601;
+        border-top: 0;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        .well {
+          padding: 10px 15px;
+        }
+      }
+    }
+  }
+}
+
+.wpenon-finalized-message {
+  color: #5cb85c;
+}
+
+.wpenon-not-finalized-message {
+  color: #d9534f;
+}
+
+#edd_checkout_form_wrap span.edd-description {
+  display: none !important;
+}
+
+#edd_custom_fees_selection,
+#edd_checkout_user_info {
+  background-color: #f6f6f6;
+}
+
+.it24-terms-acceptance {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+#edd_checkout_wrap {
+	#edd_custom_fees_selection {
+	}
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+#modal_premiumbewertung-action,
+#modal_premiumbewertung-noaction {
+  width: 100%;
+  margin: 0 0 10px 0;
+}

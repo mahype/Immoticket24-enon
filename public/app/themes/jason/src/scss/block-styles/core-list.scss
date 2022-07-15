@@ -1,0 +1,20 @@
+/**
+ * List
+ */
+.is-style-checkmarks-neutral {
+    list-style-image: url(../../assets/img/icons/check-mark.webp);
+    font-size: var(--wp--preset--font-size--medium) !important;
+
+    li {
+        margin-bottom: 10px;
+    } 
+}
+
+.is-style-checkmarks-formatted {
+    list-style-image: url(../../assets/img/icons/check-mark.webp);
+    font-size: var(--wp--preset--font-size--medium) !important;
+
+    li {
+        margin-bottom: 10px;
+    } 
+}

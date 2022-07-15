@@ -1,0 +1,25 @@
+#immorating {
+
+    fieldset{
+        min-height: 560px;
+        background-color: #FFF;
+    } 
+
+    legend {
+        margin-bottom: 0;
+    }
+
+    label {
+        display: block;
+    }
+
+    input[type=text],
+    input[type=textarea] {
+        width: 100%;
+    }
+
+    .thank-you {
+        padding: 250px 0 auto;
+    }
+}
+

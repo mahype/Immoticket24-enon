@@ -1,0 +1,31 @@
+<!-- wp:template-part {"slug":"header","theme":"jason","tagName":"header"} /-->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px"}}},"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
+<div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background" style="padding-top:0px"><!-- wp:heading -->
+    <h2 id="unser-blogneuigkeiten-wissenswertes-und-mehr"><strong>Unser Blog</strong><br>Neuigkeiten, wissenswertes und mehr</h2>
+    <!-- /wp:heading -->
+    
+    <!-- wp:search {"label":"Blog durchsuchen","buttonText":"Suchen"} /-->
+    
+    <!-- wp:query {"queryId":0,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","categoryIds":[],"tagIds":[],"order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"tagName":"main","layout":{"inherit":true}} -->
+    <main class="wp-block-query"><!-- wp:post-template -->
+    <!-- wp:post-date /-->
+    
+    <!-- wp:post-title /-->
+    
+    <!-- wp:post-featured-image /-->
+    
+    <!-- wp:post-excerpt {"moreText":"Weiterlesen..."} /-->
+    <!-- /wp:post-template -->
+    
+    <!-- wp:query-pagination -->
+    <!-- wp:query-pagination-previous {"label":"Vorherige Seite"} /-->
+    
+    <!-- wp:query-pagination-numbers /-->
+    
+    <!-- wp:query-pagination-next {"label":"Nächste Seite"} /-->
+    <!-- /wp:query-pagination --></main>
+    <!-- /wp:query --></div>
+    <!-- /wp:group -->
+    
+    <!-- wp:template-part {"slug":"footer","theme":"jason","tagName":"footer"} /-->

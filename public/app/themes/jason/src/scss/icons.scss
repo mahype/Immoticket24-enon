@@ -1,0 +1,71 @@
+/**
+ * Icons
+ */
+ .icon-heart::before {
+    content: '';
+    background-image: url(../../assets/img/icons/heart.svg);
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    display:inline;
+    padding-left: 23px;
+    margin: auto;
+    filter: brightness(0) invert(1);
+}
+.icon-board::before {
+    content: '';
+    background-image: url(../../assets/img/icons/board.svg);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position-y: -3px;
+    display:inline;
+    padding-left: 23px;
+    margin: auto;
+    filter: brightness(0) invert(1);
+
+}
+.icon-phone::before {
+    content: '';
+    background-image: url(../../assets/img/icons/phone.svg);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position-y: -3px;
+    display:inline;
+    padding-left: 23px;
+    margin: auto;
+    filter: brightness(0) invert(1);
+}
+
+.icon-bulb strong::before {
+    content: "";
+    background-image: url(../../assets/img/icons/lampe.webp);
+    background-repeat: no-repeat;
+    background-size: 19px 20px;
+    padding-left: 20px;
+}
+
+@include lg {
+    .icon-bulb {
+        height: 42px;
+        line-height: 42px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .icon-bulb * {
+        margin: 0 5px;
+        height: 42px;
+        line-height: 42px;
+        display: inline-flex;
+    }
+    
+    .icon-bulb strong::before {
+        content: "";
+        background-image: url(../../assets/img/icons/lampe.webp);
+        background-repeat: no-repeat;
+        background-size: 39px 42px;
+        padding-left: 42px;
+        line-height: 42px;
+        height: 42px;
+    }
+}
+

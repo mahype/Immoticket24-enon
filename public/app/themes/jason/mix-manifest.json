@@ -1,0 +1,14 @@
+{
+    "/assets/js/_legacy.js": "/assets/js/_legacy.js",
+    "/assets/js/editor.js": "/assets/js/editor.js",
+    "/assets/js/frontend.js": "/assets/js/frontend.js",
+    "/assets/css/frontend.css": "/assets/css/frontend.css",
+    "/assets/css/editor.css": "/assets/css/editor.css",
+    "/assets/css/_legacy.css": "/assets/css/_legacy.css",
+    "/assets/css/editor.min.css": "/assets/css/editor.min.css",
+    "/assets/css/frontend.min.css": "/assets/css/frontend.min.css",
+    "/assets/js/editor.min.js": "/assets/js/editor.min.js",
+    "/assets/js/frontend.min.js": "/assets/js/frontend.min.js",
+    "/assets/js/_legacy.min.js": "/assets/js/_legacy.min.js",
+    "/assets/css/_legacy.min.css": "/assets/css/_legacy.min.css"
+}

@@ -1,0 +1,85 @@
+<?php
+
+register_block_pattern(
+    'enon/das-ist-ein-energieausweis',
+    array(
+        'title'       => __( 'Das ist ein Energieausweis', 'enon-patterns' ),
+        'description' => _x( 'Darstellung eines Beispiel-Energieausweis.', 'enon-patterns' ),
+        'categories'  => ['content'],
+        'content'     => pattern_replace_urls( '<!-- wp:group {"gradient":"white-green-to-green-white","className":"is-style-group-main"} -->
+        <div class="wp-block-group is-style-group-main has-white-green-to-green-white-gradient-background has-background"><!-- wp:heading {"textAlign":"left"} -->
+        <h2 class="has-text-align-left" id="so-sehen-unsere-energieausweise-aus">So sehen unsere <strong>Energieausweise</strong> aus</h2>
+        <!-- /wp:heading -->
+        
+        <!-- wp:image {"align":"center","sizeSlug":"large"} -->
+        <div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://enon.test/app/uploads/2017/01/bedarfsausweis_seite1-1.jpg" alt=""/></figure></div>
+        <!-- /wp:image -->
+        
+        <!-- wp:paragraph {"align":"center"} -->
+        <p class="has-text-align-center">So sieht der Bedarfsausweis aus.</p>
+        <!-- /wp:paragraph -->
+        
+        <!-- wp:gallery {"columns":5,"linkTo":"media"} -->
+        <figure class="wp-block-gallery has-nested-images columns-5 is-cropped"><!-- wp:image {"id":42011,"sizeSlug":"large","linkDestination":"media"} -->
+        <figure class="wp-block-image size-large"><a href="https://enon.test/app/uploads/2017/01/bedarfsausweis_seite1-1.jpg"><img src="https://energieausweis-online-erstellen.de/app/uploads/2017/01/bedarfsausweis_seite1-1.jpg" alt="Bedarfsausweis Seite 1" class="wp-image-42011"/></a></figure>
+        <!-- /wp:image -->
+        
+        <!-- wp:image {"id":42004,"sizeSlug":"large","linkDestination":"media"} -->
+        <figure class="wp-block-image size-large"><a href="https://enon.test/app/uploads/2017/01/bedarfsausweis_seite2.jpg"><img src="https://energieausweis-online-erstellen.de/app/uploads/2017/01/bedarfsausweis_seite2.jpg" alt="Bedarfsausweis Seite 2" class="wp-image-42004"/></a></figure>
+        <!-- /wp:image -->
+        
+        <!-- wp:image {"id":42006,"sizeSlug":"large","linkDestination":"media"} -->
+        <figure class="wp-block-image size-large"><a href="https://enon.test/app/uploads/2017/01/bedarfsausweis_seite3.jpg"><img src="https://energieausweis-online-erstellen.de/app/uploads/2017/01/bedarfsausweis_seite3.jpg" alt="Bedarfsausweis Seite 3" class="wp-image-42006"/></a></figure>
+        <!-- /wp:image -->
+        
+        <!-- wp:image {"id":42007,"sizeSlug":"large","linkDestination":"media"} -->
+        <figure class="wp-block-image size-large"><a href="https://enon.test/app/uploads/2017/01/bedarfsausweis_seite4.jpg"><img src="https://energieausweis-online-erstellen.de/app/uploads/2017/01/bedarfsausweis_seite4.jpg" alt="Bedarfsausweis Seite 4" class="wp-image-42007"/></a></figure>
+        <!-- /wp:image -->
+        
+        <!-- wp:image {"id":42008,"sizeSlug":"large","linkDestination":"media"} -->
+        <figure class="wp-block-image size-large"><a href="https://enon.test/app/uploads/2017/01/bedarfsausweis_seite5.jpg"><img src="https://energieausweis-online-erstellen.de/app/uploads/2017/01/bedarfsausweis_seite5.jpg" alt="Bedarfsausweis Seite 5" class="wp-image-42008"/></a></figure>
+        <!-- /wp:image --></figure>
+        <!-- /wp:gallery -->
+        
+        <!-- wp:heading {"textAlign":"center","level":3} -->
+        <h3 class="has-text-align-center" id="downloads">Downloads</h3>
+        <!-- /wp:heading -->
+        
+        <!-- wp:columns -->
+        <div class="wp-block-columns"><!-- wp:column -->
+        <div class="wp-block-column"><!-- wp:image {"align":"center","id":436,"width":47,"height":60,"sizeSlug":"full","linkDestination":"custom"} -->
+        <div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="/app/themes/jason/assets/logos/downloads/muster-verbrauchsausweis.pdf"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436" width="47" height="60"/></a></figure></div>
+        <!-- /wp:image -->
+        
+        <!-- wp:heading {"textAlign":"center","level":3,"textColor":"green-moss","className":"text-center md:text-left"} -->
+        <h3 class="has-text-align-center text-center md:text-left has-green-moss-color has-text-color" id="muster-verbrauchsausweis"><a href="/app/themes/jason/assets/logos/downloads/muster-verbrauchsausweis.pdf">Muster Verbrauchsausweis</a></h3>
+        <!-- /wp:heading -->
+        
+        <!-- wp:paragraph {"align":"center"} -->
+        <p class="has-text-align-center">So sieht ein Verbrauchsausweis aus.</p>
+        <!-- /wp:paragraph --></div>
+        <!-- /wp:column -->
+        
+        <!-- wp:column -->
+        <div class="wp-block-column"><!-- wp:image {"align":"center","id":436,"width":47,"height":60,"sizeSlug":"full","linkDestination":"custom"} -->
+        <div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="/app/themes/jason/assets/logos/downloads/muster-bedarfsausweis.pdf"><img src="/app/themes/jason/assets/img/icons/dokument-pdf.webp" alt="" class="wp-image-436" width="47" height="60"/></a></figure></div>
+        <!-- /wp:image -->
+        
+        <!-- wp:heading {"textAlign":"center","level":3,"textColor":"green-moss","className":"text-center md:text-left"} -->
+        <h3 class="has-text-align-center text-center md:text-left has-green-moss-color has-text-color" id="muster-verbrauchsausweis"><a href="/app/themes/jason/assets/logos/downloads/muster-bedarfsausweis.pdf">Muster Bedarfsausweis</a></h3>
+        <!-- /wp:heading -->
+        
+        <!-- wp:paragraph {"align":"center"} -->
+        <p class="has-text-align-center">So sieht ein Bedarfsausweis aus.</p>
+        <!-- /wp:paragraph --></div>
+        <!-- /wp:column --></div>
+        <!-- /wp:columns -->
+        
+        <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
+        <div class="wp-block-buttons"><!-- wp:button {"backgroundColor":"green","textColor":"white","style":{"border":{"radius":"5px"}}} -->
+        <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-green-background-color has-text-color has-background" href="/energieausweise-fuer-immobilienmakler-und-hausverwalter/gewerbeschein-senden/" style="border-radius:5px">Jetzt Gewerbeschein senden &gt;&gt;</a></div>
+        <!-- /wp:button --></div>
+        <!-- /wp:buttons --></div>
+        <!-- /wp:group -->' ),
+    )
+);

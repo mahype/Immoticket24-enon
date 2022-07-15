@@ -1,0 +1,90 @@
+#edd_custom_fees_selection {
+    .label-info {
+		background-image: url('../../assets/img/icons/icon-exclamation-mark.png');
+	}
+}
+
+#edd_checkout_cart {
+    border-spacing: 0;
+    color: $black !important;
+    margin: 0;
+
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+
+    .edd_cart_header_row {
+        th {
+            background: $green-neon !important;
+            color: $black !important;
+        }
+    }
+
+    .edd_cart_item {
+        &:first-child {
+            td {
+                border-top: 1px solid #CCC;
+            }
+        }
+        &:last-child {
+            td {
+                border-bottom: 1px solid #CCC;
+            }
+        }
+    }
+
+    td, th {
+        border:none;
+        color: #000;
+    }
+
+    td {
+        background-color: $white !important;
+        
+    }
+
+    th {
+        background-color: $white !important;
+    }
+}
+
+#edd_checkout_form_wrap {
+
+    fieldset {
+        background-color: #FFF;
+        border-radius: 5px;
+    
+        legend {
+            margin: 0 0 20px 0;
+            padding: 0;
+            float: left;
+        }
+    
+        #edd_show_discount {
+            border:none;
+            background: transparent;
+    
+            .edd_discount_link {
+                font-weight: bold;
+            }
+        }
+    
+        #edd-discount-code-wrap {
+            border:none;
+            background:none;
+        }
+    }
+
+    #edd_purchase_submit {
+        padding: 20px;
+    }
+}
+
+.immoticket24-payment-buttons {
+    .btn-default {
+        background-color: #FFF;
+        border: 1px solid #CCC;
+    }
+}
+
+    

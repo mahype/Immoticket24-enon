@@ -1,0 +1,115 @@
+.wpenon-wrapper .text-left {
+  text-align: left;
+}
+.wpenon-wrapper .alert {
+  padding: 0px 20px;
+  border-radius: 5px;
+  background-color: #FFF;
+  border: 4px solid #ffb601;
+  margin-bottom: 20px;
+}
+.wpenon-wrapper .alert-danger {
+  border-color: #d9534f;
+}
+.wpenon-wrapper .alert-danger a {
+  color: #d9534f;
+  font-weight: bold;
+}
+.wpenon-wrapper .text-right {
+  text-align: right;
+}
+.wpenon-wrapper .tab-content {
+  padding-top: 0 !important;
+}
+.wpenon-wrapper #group-basisdaten,
+.wpenon-wrapper .overview-meta {
+  padding: 10px 15px;
+  background-color: #ffe29a;
+  border: 4px solid #ffb601;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.wpenon-wrapper .calculations {
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  overflow: hidden;
+  border: 4px solid #ffb601;
+  border-radius: 10px;
+  background-color: #FFF;
+}
+.wpenon-wrapper .calculations > h3:first-child {
+  margin: -10px -15px 20px;
+  padding: 5px 10px;
+  background-color: #ffe29a;
+  border-bottom: 4px solid #ffb601;
+}
+.wpenon-wrapper .nav.nav-tabs {
+  margin-bottom: 0;
+  border-bottom: 4px solid #ffb601;
+}
+.wpenon-wrapper .nav.nav-tabs > li {
+  margin-bottom: -4px;
+}
+.wpenon-wrapper .nav.nav-tabs > li > a {
+  border: 4px solid transparent;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.wpenon-wrapper .nav.nav-tabs > li > a:hover {
+  background-color: #ffe9b4;
+  border-color: #ffbd1b;
+  border-bottom-style: dashed;
+}
+.wpenon-wrapper .nav.nav-tabs > li.active > a,
+.wpenon-wrapper .nav.nav-tabs > li.active > a:hover,
+.wpenon-wrapper .nav.nav-tabs > li.active > a:focus {
+  color: #555555;
+  background-color: #ffe29a;
+  border: 4px solid #ffb601;
+  border-bottom-color: #ffe29a;
+}
+.wpenon-wrapper .nav.nav-tabs + .tab-content {
+  margin-bottom: 20px;
+}
+.wpenon-wrapper .nav.nav-tabs + .tab-content > .tab-pane.active {
+  background-color: #ffe29a;
+  border: 4px solid #ffb601;
+  border-top: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.wpenon-wrapper .nav.nav-tabs + .tab-content > .tab-pane.active .well {
+  padding: 10px 15px;
+}
+.wpenon-finalized-message {
+  color: #5cb85c;
+}
+.wpenon-not-finalized-message {
+  color: #d9534f;
+}
+#edd_checkout_form_wrap span.edd-description {
+  display: none !important;
+}
+#edd_custom_fees_selection,
+#edd_checkout_user_info {
+  background-color: #f6f6f6;
+}
+.it24-terms-acceptance {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+#modal_premiumbewertung-action,
+#modal_premiumbewertung-noaction {
+  width: 100%;
+  margin: 0 0 10px 0;
+}

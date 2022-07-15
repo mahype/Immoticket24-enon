@@ -1,0 +1,97 @@
+/**
+ * Devices
+ */
+$screen-sm-max: 599px;
+
+$screen-md-min: 600px;
+$screen-md-max: 1079px;
+
+$screen-lg-min: 1080px;
+
+/**
+ * Content
+ */
+$max-page-width: 1920px;
+
+// Horizontal padding of content in main content
+$standard-horizontal-padding-sm: 5%;
+$standard-horizontal-padding-md: 10%;
+$standard-horizontal-padding-lg: 18.75%;
+
+// Standard vertical padding
+$standard-vertical-padding: 40px;
+
+/**
+ * Mixins for includes
+ */
+@mixin sm {
+    @media (max-width: $screen-sm-max) {
+        @content;
+    }
+}
+@mixin sm-md {
+    @media (max-width: $screen-md-max)  {
+        @content;
+    }
+}
+@mixin md {
+    @media (min-width: $screen-md-min) and (max-width: $screen-md-max)  {
+        @content;
+    }
+}
+@mixin lg {
+    @media (min-width: $screen-lg-min) {
+        @content;
+    }
+}
+
+/**
+ * Main container classes
+ *
+ * Use this clases in main containers which are direct children of main content wrapper (.wp-site-blocks).
+ * 
+ * Use with @extend .classname;
+ */
+.main-container-padding {
+    padding: $standard-vertical-padding $standard-horizontal-padding-md;
+
+    @include md {
+        padding: $standard-vertical-padding $standard-horizontal-padding-md;
+    }
+
+    @include lg {
+        padding: $standard-vertical-padding $standard-horizontal-padding-lg;
+    }
+}
+
+/**
+ * Hide helpers
+ */
+.hide-on-mobile {
+    @include sm-md {
+        display: none !important;
+    }
+}
+.hide-on-screen {   
+    @include lg {
+        display: none !important;
+    }
+}
+
+// Do not hide in admin
+.is-root-container {
+    .hide-on-mobile {
+        @include sm {
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(162, 162, 162, 0.3) 10px, rgba(162, 162, 162, 0.3) 20px );
+        }
+        @include md {
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(162, 162, 162, 0.3) 10px, rgba(162, 162, 162, 0.3) 20px );
+        }
+    }
+    
+    .hide-on-screen {
+        @include lg {
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(162, 162, 162, 0.3) 10px, rgba(162, 162, 162, 0.3) 20px );
+        }
+    }
+}

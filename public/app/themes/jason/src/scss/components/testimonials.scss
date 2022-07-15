@@ -1,0 +1,15 @@
+.testimonials {
+    flex-direction: column;
+
+    .testimonial {
+        margin-bottom: 20px;
+    }
+
+    @include lg {
+        flex-direction: row;
+
+        .testimonial {
+            margin-bottom: 0px;
+        }
+    }    
+}
