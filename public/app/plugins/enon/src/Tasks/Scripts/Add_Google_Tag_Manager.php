@@ -50,10 +50,27 @@ class Add_Google_Tag_Manager implements Actions, Task {
 	 */
 	public function add_actions() {
 		// Commented scripts are done with Borlabs
+		add_action( 'init',  array( __CLASS__, 'add_shortcode' ) );
+	}
 
-		// add_action( 'wp_head', array( __CLASS__, 'head_script' ), 1 );
-		// add_action( 'wp_body_open', array( __CLASS__, 'body_script' ), 1 );
-		add_action( 'edd_payment_receipt_after_table', array( __CLASS__, 'edd_purchase_conversions' ), 10, 2 );
+	/**
+	 * Add shortcode.
+	 * 
+	 * @since 1.0.0
+	 */
+	public static function add_shortcode() {
+		add_shortcode( 'google_conversion', array( __CLASS__, 'shortcode' ) );
+	}
+
+	/**
+	 * Shortcode function.
+	 * 
+	 * @since 1.0.0
+	 */
+	public static function shortcode() {
+		ob_start();
+		self::edd_purchase_conversions();
+		return ob_get_clean();
 	}
 
 	/**
