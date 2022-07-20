@@ -89,7 +89,7 @@ class Fieldset_Website implements Fieldset {
 					'id' => '',
 				),
 				'choices' => array(
-					'yes' => 'Direkt auf der Seite des Kunden',
+					'yes' => 'direkt auf der Seite des Kunden',
 					'no' => 'über den Iframe der Seite des Kunden',
 				),
 				'allow_null' => 0,
