@@ -97,6 +97,17 @@ class Post_Meta_Website extends Post_Meta {
 	}
 
 	/**
+	 * Redirect customer via JS.
+	 * 
+	 * @return bool True on redirect via JS, false if not.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function redirect_via_js() {
+		return $this->get( 'redirect_via_js' ) === 'yes' ? true : false ;
+	}
+
+	/**
 	 * Get privacy url.
 	 *
 	 * @since 1.0.0

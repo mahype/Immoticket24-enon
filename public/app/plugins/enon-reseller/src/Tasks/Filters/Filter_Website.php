@@ -106,6 +106,25 @@ class Filter_Website implements Task, Filters {
 	public function filter_success_url( $url ) {
 		$url = $this->reseller->data()->website->get_payment_successful_url();
 
+		if( $this->reseller->data()->website->redirect_via_js() && ! empty($url) ) {
+			echo '<html lang="en">
+			<head>
+				<meta charset="UTF-8">
+				<meta http-equiv="X-UA-Compatible" content="IE=edge">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>Document</title>
+			</head>
+			<body>				
+				<script>
+					var message = JSON.stringify( {"redirect_url": "' . $url . '"} );
+					console.log(message);
+					parent.postMessage( message, "*" );
+				</script>
+			</body>
+			</html>';
+			exit;
+		}
+
 		// Backup to standard value.
 		if ( empty( $url ) ) {
 			$url = home_url( '/danke-fuer-ihr-vertrauen/' );
