@@ -78,7 +78,7 @@ class Credentials implements \WPMailSMTP\Vendor\Aws\Credentials\CredentialsInter
     }
     public function extendExpiration()
     {
-        $extension = \mt_rand(5, 15);
+        $extension = \mt_rand(5, 10);
         $this->expires = \time() + $extension * 60;
         $message = <<<EOT
 Attempting credential expiration extension due to a credential service 

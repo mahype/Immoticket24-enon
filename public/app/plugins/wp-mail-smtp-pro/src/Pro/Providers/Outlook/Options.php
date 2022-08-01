@@ -42,7 +42,7 @@ class Options extends OptionsAbstract {
 							],
 						]
 					),
-					'https://wpmailsmtp.com/docs/how-to-set-up-the-outlook-mailer-in-wp-mail-smtp/'
+					esc_url( wp_mail_smtp()->get_utm_url( 'https://wpmailsmtp.com/docs/how-to-set-up-the-outlook-mailer-in-wp-mail-smtp/', 'Microsoft 365 / Outlook documentation' ) )
 				),
 				'notices'     => [
 					'educational' => wp_kses(

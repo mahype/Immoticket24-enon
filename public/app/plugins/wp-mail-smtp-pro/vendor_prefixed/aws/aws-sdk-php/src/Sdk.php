@@ -79,6 +79,8 @@ namespace WPMailSMTP\Vendor\Aws;
  * @method \Aws\MultiRegionClient createMultiRegionChime(array $args = [])
  * @method \Aws\ChimeSDKIdentity\ChimeSDKIdentityClient createChimeSDKIdentity(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionChimeSDKIdentity(array $args = [])
+ * @method \Aws\ChimeSDKMediaPipelines\ChimeSDKMediaPipelinesClient createChimeSDKMediaPipelines(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionChimeSDKMediaPipelines(array $args = [])
  * @method \Aws\ChimeSDKMeetings\ChimeSDKMeetingsClient createChimeSDKMeetings(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionChimeSDKMeetings(array $args = [])
  * @method \Aws\ChimeSDKMessaging\ChimeSDKMessagingClient createChimeSDKMessaging(array $args = [])
@@ -149,6 +151,8 @@ namespace WPMailSMTP\Vendor\Aws;
  * @method \Aws\MultiRegionClient createMultiRegionConfigService(array $args = [])
  * @method \Aws\Connect\ConnectClient createConnect(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionConnect(array $args = [])
+ * @method \Aws\ConnectCampaignService\ConnectCampaignServiceClient createConnectCampaignService(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionConnectCampaignService(array $args = [])
  * @method \Aws\ConnectContactLens\ConnectContactLensClient createConnectContactLens(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionConnectContactLens(array $args = [])
  * @method \Aws\ConnectParticipant\ConnectParticipantClient createConnectParticipant(array $args = [])
@@ -199,6 +203,8 @@ namespace WPMailSMTP\Vendor\Aws;
  * @method \Aws\MultiRegionClient createMultiRegionEKS(array $args = [])
  * @method \Aws\EMRContainers\EMRContainersClient createEMRContainers(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionEMRContainers(array $args = [])
+ * @method \Aws\EMRServerless\EMRServerlessClient createEMRServerless(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionEMRServerless(array $args = [])
  * @method \Aws\Ec2\Ec2Client createEc2(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionEc2(array $args = [])
  * @method \Aws\Ecr\EcrClient createEcr(array $args = [])
@@ -367,6 +373,8 @@ namespace WPMailSMTP\Vendor\Aws;
  * @method \Aws\MultiRegionClient createMultiRegionMacie(array $args = [])
  * @method \Aws\Macie2\Macie2Client createMacie2(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionMacie2(array $args = [])
+ * @method \Aws\MainframeModernization\MainframeModernizationClient createMainframeModernization(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionMainframeModernization(array $args = [])
  * @method \Aws\ManagedBlockchain\ManagedBlockchainClient createManagedBlockchain(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionManagedBlockchain(array $args = [])
  * @method \Aws\ManagedGrafana\ManagedGrafanaClient createManagedGrafana(array $args = [])
@@ -469,6 +477,8 @@ namespace WPMailSMTP\Vendor\Aws;
  * @method \Aws\MultiRegionClient createMultiRegionRedshift(array $args = [])
  * @method \Aws\RedshiftDataAPIService\RedshiftDataAPIServiceClient createRedshiftDataAPIService(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionRedshiftDataAPIService(array $args = [])
+ * @method \Aws\RedshiftServerless\RedshiftServerlessClient createRedshiftServerless(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionRedshiftServerless(array $args = [])
  * @method \Aws\Rekognition\RekognitionClient createRekognition(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionRekognition(array $args = [])
  * @method \Aws\ResilienceHub\ResilienceHubClient createResilienceHub(array $args = [])
@@ -479,6 +489,8 @@ namespace WPMailSMTP\Vendor\Aws;
  * @method \Aws\MultiRegionClient createMultiRegionResourceGroupsTaggingAPI(array $args = [])
  * @method \Aws\RoboMaker\RoboMakerClient createRoboMaker(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionRoboMaker(array $args = [])
+ * @method \Aws\RolesAnywhere\RolesAnywhereClient createRolesAnywhere(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionRolesAnywhere(array $args = [])
  * @method \Aws\Route53\Route53Client createRoute53(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionRoute53(array $args = [])
  * @method \Aws\Route53Domains\Route53DomainsClient createRoute53Domains(array $args = [])
@@ -603,6 +615,8 @@ namespace WPMailSMTP\Vendor\Aws;
  * @method \Aws\MultiRegionClient createMultiRegionfinspace(array $args = [])
  * @method \Aws\imagebuilder\imagebuilderClient createimagebuilder(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionimagebuilder(array $args = [])
+ * @method \Aws\ivschat\ivschatClient createivschat(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionivschat(array $args = [])
  * @method \Aws\kendra\kendraClient createkendra(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionkendra(array $args = [])
  * @method \Aws\mgn\mgnClient createmgn(array $args = [])
@@ -612,7 +626,7 @@ namespace WPMailSMTP\Vendor\Aws;
  */
 class Sdk
 {
-    const VERSION = '3.220.2';
+    const VERSION = '3.231.5';
     /** @var array Arguments for creating clients */
     private $args;
     /**

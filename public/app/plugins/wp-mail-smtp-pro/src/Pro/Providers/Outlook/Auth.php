@@ -3,6 +3,7 @@
 namespace WPMailSMTP\Pro\Providers\Outlook;
 
 use WPMailSMTP\Debug;
+use WPMailSMTP\Helpers\Helpers;
 use WPMailSMTP\Options as PluginOptions;
 use WPMailSMTP\Providers\AuthAbstract;
 use WPMailSMTP\Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -177,16 +178,15 @@ class Auth extends AuthAbstract {
 			$response = $e->getResponseBody();
 
 			Debug::set(
-				'Mailer: Outlook' . "\r\n" .
-				$response['error'] . "\r\n" .
-				$response['error_description']
+				'Mailer: Outlook' . WP::EOL .
+				Helpers::format_error_message( $response['error_description'], $response['error'] )
 			);
 
 			// Reset Auth code. It's valid for 5 minutes anyway.
 			$this->update_auth_code( '' );
 		} catch ( Exception $e ) { // Catch any other general exceptions just in case.
 			Debug::set(
-				'Mailer: Outlook' . "\r\n" .
+				'Mailer: Outlook' . WP::EOL .
 				$e->getMessage()
 			);
 
@@ -217,13 +217,12 @@ class Auth extends AuthAbstract {
 			$response = $e->getResponseBody();
 
 			Debug::set(
-				'Mailer: Outlook' . "\r\n" .
-				$response['error'] . "\r\n" .
-				$response['error_description']
+				'Mailer: Outlook' . WP::EOL .
+				Helpers::format_error_message( $response['error_description'], $response['error'] )
 			);
 		} catch ( Exception $e ) { // Catch any other general exception just in case.
 			Debug::set(
-				'Mailer: Outlook' . "\r\n" .
+				'Mailer: Outlook' . WP::EOL .
 				$e->getMessage()
 			);
 		}
@@ -345,9 +344,8 @@ class Auth extends AuthAbstract {
 			$response = $e->getResponseBody();
 
 			Debug::set(
-				'Mailer: Outlook (requesting user details)' . "\r\n" .
-				$response['error'] . "\r\n" .
-				$response['error_description']
+				'Mailer: Outlook (requesting user details)' . WP::EOL .
+				Helpers::format_error_message( $response['error_description'], $response['error'] )
 			);
 
 			// Reset Auth code. It's valid for 5 minutes anyway.
@@ -355,7 +353,7 @@ class Auth extends AuthAbstract {
 		} catch ( Exception $e ) {
 			// Catch general any other exception just in case.
 			Debug::set(
-				'Mailer: Outlook (requesting user details)' . "\r\n" .
+				'Mailer: Outlook (requesting user details)' . WP::EOL .
 				$e->getMessage()
 			);
 		}

@@ -172,7 +172,7 @@ class InstanceProfileProvider
             $isRetryable = \false;
         }
         if ($isRetryable && $this->attempts < $this->retries) {
-            \sleep(\pow(1.2, $this->attempts));
+            \sleep((int) \pow(1.2, $this->attempts));
         } else {
             throw new \WPMailSMTP\Vendor\Aws\Exception\CredentialsException($message);
         }

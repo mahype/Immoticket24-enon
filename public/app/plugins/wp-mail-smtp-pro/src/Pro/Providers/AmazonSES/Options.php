@@ -46,7 +46,7 @@ class Options extends OptionsAbstract {
 							                 ),
 						                 )
 					                 ),
-					                 'https://wpmailsmtp.com/docs/how-to-set-up-the-amazon-ses-mailer-in-wp-mail-smtp/'
+					                 esc_url( wp_mail_smtp()->get_utm_url( 'https://wpmailsmtp.com/docs/how-to-set-up-the-amazon-ses-mailer-in-wp-mail-smtp/', 'Amazon SES documentation' ) )
 				                 ),
 								// phpcs:enable
 				'notices'     => array(
