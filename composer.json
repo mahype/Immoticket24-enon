@@ -65,7 +65,6 @@
     "borlabs/borlabs-cookie": "*",
     "felixarntz/plugin-lib": "dev-master",
     "wpackagist-plugin/easy-digital-downloads": "2.11.7",
-    "wpackagist-plugin/gutenberg": "13.4.0",
     "wpackagist-plugin/imagify": "2.0",
     "wpackagist-plugin/login-lockdown": "v1.8.1",
     "wpackagist-plugin/really-simple-captcha": "2.1",
