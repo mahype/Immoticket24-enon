@@ -205,10 +205,8 @@ class Popup_Premiumbewertung {
 
 		self.jQuery( '#modal_premiumbewertung-action' ).on('click', function () {
 			self.jQuery( '#edd_custom_fee_premium_bewertung' ).trigger( 'click' );
-
-			let phone_label = document.querySelector('label[for="wpenon-telefon"]');
-			phone_label.innerHTML = phone_label.innerHTML.replace('(optional)', '<span class="edd-required-indicator">*</span>');
 			pb_popup.modal('hide');
+			self.send_purchase();
 		});
 
 		self.jQuery( '#modal_premiumbewertung-noaction' ).on('click', function () {
