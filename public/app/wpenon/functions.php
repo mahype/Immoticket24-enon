@@ -1930,7 +1930,9 @@ function wpenon_immoticket24_send_needs_review_email( $payment_id, $reason ) {
 	$emails->__set( 'headers', $headers );
 	$emails->__set( 'heading', __( 'Überprüfung benötigt', 'wpenon' ) );
 
-	$emails->send( edd_get_admin_notice_emails(), $subject, $message, array() );
+	$email_adresses = array_merge( edd_get_admin_notice_emails(), ['plausibilitaetscheck@immoticket24.de'] );
+
+	$emails->send( $email_adresses, $subject, $message, array() );
 }
 
 function wpenon_immoticket24_show_certificate_checked( $group ) {
