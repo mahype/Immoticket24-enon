@@ -976,8 +976,7 @@ class EDDAdjustments {
 			'card_address_2'  => __( 'Billing Address Line 2 (optional)', 'easy-digital-downloads' ),
 			'card_city'       => __( 'Billing City', 'easy-digital-downloads' ),
 			'card_zip'        => __( 'Billing Zip / Postal Code', 'easy-digital-downloads' ),
-			'billing_country' => __( 'Billing Country', 'easy-digital-downloads' ),
-			'card_state'      => __( 'Billing State / Province', 'easy-digital-downloads' ),
+			'billing_country' => __( 'Billing Country', 'easy-digital-downloads' )
 		);
 
 		$field_labels = apply_filters( 'wpenon_address_field_labels', $field_labels );
@@ -1062,33 +1061,6 @@ class EDDAdjustments {
 					}
 					?>
 				</select>
-			</p>
-			<p id="edd-card-state-wrap">
-				<label for="card_state" class="edd-label">
-					<?php echo $field_labels['card_state']; ?>
-					<?php if ( edd_field_is_required( 'card_state' ) ) { ?>
-						<span class="edd-required-indicator">*</span>
-					<?php } ?>
-				</label>
-				<span
-					class="edd-description"><?php _e( 'The state or province for your billing address.', 'easy-digital-downloads' ); ?></span>
-				<?php
-				$states = edd_get_shop_states( $selected_country );
-				if ( ! empty( $states ) ) : ?>
-					<select name="card_state" id="card_state"
-					        class="card_state edd-select<?php if ( edd_field_is_required( 'card_state' ) ) {
-						        echo ' required';
-					        } ?>">
-						<?php
-						foreach ( $states as $state_code => $state ) {
-							echo '<option value="' . $state_code . '">' . $state . '</option>';
-						}
-						?>
-					</select>
-				<?php else : ?>
-					<input type="text" size="6" name="card_state" id="card_state"
-					       class="card_state edd-input"<?php echo $enable_placeholders ? ' placeholder="' . __( 'State / Province', 'easy-digital-downloads' ) . '"' : ''; ?> />
-				<?php endif; ?>
 			</p>
 			<?php do_action( 'edd_cc_billing_bottom' ); ?>
 			<?php //  wp_nonce_field( 'edd-checkout-address-fields', 'edd-checkout-address-fields-nonce', false, true ); ?>
