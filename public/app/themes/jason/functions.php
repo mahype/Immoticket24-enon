@@ -21,6 +21,11 @@ function pattern_replace_urls( $pattern_content ) {
 	return $pattern_content;
 }
 
+function google_site_verification() {
+		echo '<meta name="google-site-verification" content="ZdRDoVTYbiT47J7E5uD09uB5jq7g98tQsQ_7gTKwym8" />';
+}
+add_action('wp_head', 'google_site_verification');
+
 function jason_load_patterns() {	
 	require( dirname( __FILE__ ) . '/patterns/content/3-guetesiegel.php' );
 	require( dirname( __FILE__ ) . '/patterns/content/5-gruende.php' );
