@@ -46,7 +46,7 @@ class Api extends Component {
         remove_filter( 'wp_mail_content_type',[ $this, 'setContentType']  );    
     }
 
-    public setContentType() {
+    public function setContentType() {
         return 'text/html';
     }
 }
