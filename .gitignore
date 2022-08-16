@@ -38,6 +38,7 @@ public/app/nfwlog/*
 !public/app/plugins/enon-reseller
 !public/app/plugins/gravityforms
 !public/app/plugins/immo-rating
+!public/app/plugins/gravityformsmailchimp
 !public/app/plugins/optimizePressPlusPack
 !public/app/plugins/options-definitely
 !public/app/plugins/real-category-library
