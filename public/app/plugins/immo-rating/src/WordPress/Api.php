@@ -40,13 +40,13 @@ class Api extends Component {
             }
         }
 
-        add_filter( 'wp_mail_content_type',[ $this, 'setContentType']  );
+        add_filter( 'wp_mail_content_type',[ __CLASS__, 'setContentType']  );
         // wp_mail( 'christian@immoticket24.de', 'Immobilienwertermittlung Anfrage', $content );
         wp_mail( 'sven@awesome.ug', 'Immobilienwertermittlung Anfrage', $content );
-        remove_filter( 'wp_mail_content_type',[ $this, 'setContentType']  );    
+        remove_filter( 'wp_mail_content_type',[ __CLASS__, 'setContentType']  );    
     }
 
-    public function setContentType() {
+    public static function setContentType() {
         return 'text/html';
     }
 }
