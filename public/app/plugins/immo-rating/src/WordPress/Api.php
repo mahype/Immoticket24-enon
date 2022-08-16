@@ -40,6 +40,13 @@ class Api extends Component {
             }
         }
 
-        wp_mail( 'christian@immoticket24.de', 'Immobilienwertermittlung Anfrage', $content );        
+        add_filter( 'wp_mail_content_type',[ $this, 'setContentType']  );
+        // wp_mail( 'christian@immoticket24.de', 'Immobilienwertermittlung Anfrage', $content );
+        wp_mail( 'sven@awesome.ug', 'Immobilienwertermittlung Anfrage', $content );
+        remove_filter( 'wp_mail_content_type',[ $this, 'setContentType']  );    
+    }
+
+    public setContentType() {
+        return 'text/html';
     }
 }
