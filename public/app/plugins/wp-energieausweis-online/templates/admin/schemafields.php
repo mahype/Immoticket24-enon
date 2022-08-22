@@ -147,8 +147,7 @@
 
                 <?php break; ?>
                 <?php default: ?>
-
-                  <input type="<?php echo $field['type']; ?>" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" value="<?php echo $field['value']; ?>"<?php echo ( $field['readonly'] ? ' readonly' : '' ) . ( $field['required'] ? ' required' : '' ); ?>>
+                  <input type="<?php echo $field['type']; ?>" id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>" value="<?php echo $field['value']; ?>"<?php echo ( $field['required'] ? ' required' : '' ); ?>>
 
                 <?php break; ?>
               <?php endswitch; ?>
