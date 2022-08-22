@@ -85,6 +85,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Add_Uptain_Scripts::class );
 		$this->add_task( Add_Trusted_Shops_Scripts::class );
 		$this->add_task( Add_Google_Tag_Manager::class );
+		$this->add_task( Filter_Custom_Fees_By_Coupon_Code::class );
 	}
 }
 

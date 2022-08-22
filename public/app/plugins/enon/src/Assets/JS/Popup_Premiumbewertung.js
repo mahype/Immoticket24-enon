@@ -96,13 +96,14 @@ class Popup_Premiumbewertung {
 		});
 
 		self.jQuery( '.edd-apply-discount' ).on('click', function () {
-			let check_nr = [ 'xLswR42' ];
+			let check_nr = [ 'xLswR42', 'hsGrez27k', '5StFmRgt311' ];
 			let input_val = self.jQuery( '#edd-discount' ).val();
 
 			if ( check_nr.includes( input_val ) ) {
 				wp.ajax.post( 'eddcf_remove_fee', {
 					fee_id: 'premium_bewertung'
 				}).done( function( data ) {
+					document.getElementById( 'edd_custom_fee_premium_bewertung' ).checked = false;
 					document.getElementById( 'edd_custom_fee_premium_bewertung' ).disabled = true;
 					EDD_Checkout.recalculate_taxes();
 				}).fail( function( data ) {
