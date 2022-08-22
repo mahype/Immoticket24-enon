@@ -105,7 +105,7 @@ class Prevent_Completion {
             return false;
         }
 
-        if ( current_user_can( 'administrator' ) ) {
+        if ( current_user_can( 'administrator' ) || current_user_can( 'edit_shop_payments' ) ) {
             return false;
         }
         
