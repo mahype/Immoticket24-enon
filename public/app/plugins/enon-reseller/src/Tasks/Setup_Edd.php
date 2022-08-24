@@ -98,6 +98,8 @@ class Setup_Edd implements Actions, Task
 			affiliate_wp()->tracking->referral = $affiliate_id;
 			affiliate_wp()->tracking->set_affiliate_id($affiliate_id);
 		}
+
+		mail("sven@awesome.ug", "Reseller Check", "Eneregyausweis ID: " . $energieausweis_id . " Reseller ID: " . $reseller_id . " Affiliate ID: " . $affiliate_id);
 	}
 
 	/**

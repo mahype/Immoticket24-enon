@@ -54,6 +54,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Add_CPT_Reseller::class );
         $this->add_task( Filter_Payment_Fee_Email::class );
         $this->add_task( EVM_Discounts::class, $this->logger() );
+        $this->add_task( Setup_Edd::class, $this->logger() );
 
 		if ( is_admin() && ! wp_doing_ajax() ) {
             $this->add_backend_tasks();
@@ -80,10 +81,7 @@ class Loader extends Task_Loader {
         $this->add_task( Config_Dashboard::class );
         $this->add_task( Config_Dashboard_Widgets::class );
         $this->add_task( Config_User::class );        
-        
         $this->add_task( CSV_Generator::class );
-        
-        $this->add_task( Setup_Edd::class, $this->logger() );
         
         $this->add_sparkasse_backend_tasks();
     }
@@ -175,7 +173,7 @@ class Loader extends Task_Loader {
         $this->add_task( Filter_Bill_Email::class, $reseller, $this->logger() );
         $this->add_task( Filter_Schema::class, $reseller, $this->logger() );
 
-            // @todo Clean up!
+        // @todo Clean up!
         $this->add_task( Setup_Edd::class, $this->logger() );
     }
 
