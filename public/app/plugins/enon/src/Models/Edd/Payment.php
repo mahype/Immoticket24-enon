@@ -151,4 +151,15 @@ class Payment {
 	public function get_seller_meta() {
 		return Payment_Meta_Old::instance()->getSellerMeta( $this->id );
 	}
+
+	/**
+	 * Get amount.
+	 *
+	 * @return int Amount of payment.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_amount() {
+		return edd_get_payment_amount( $this->id );
+	}
 }
