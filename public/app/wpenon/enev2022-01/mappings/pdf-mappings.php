@@ -108,52 +108,18 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			return implode( ', ', array_unique( $energietraeger ) );
 		case 'energietraeger_warmwasser':
-			if ( $energieausweis->mode == 'b' ) {
-				if ( $energieausweis->ww_info == 'ww' ) {
+			switch($energieausweis->ww_info) {
+				case 'ww':
 					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->ww_energietraeger );
-				} else if ( $energieausweis->ww_info == 'h'  ) {
-					if( ! wpenon_is_water_independend_heater( $energieausweis->h_erzeugung ) ) 
-					{
-						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger );
-					}
-					if ( $energieausweis->h2_info ) {
-						if( ! wpenon_is_water_independend_heater( $energieausweis->h2_erzeugung ) )
-						{
-							$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger );
-						}
-						if ( $energieausweis->h3_info ) {
-							if( ! wpenon_is_water_independend_heater( $energieausweis->h3_erzeugung ) ) {
-								$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger );
-							}
-						}
-					}
-					return implode( ', ', array_unique( $energietraeger ) );
-				} else {
+				case 'h':
+					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger );
+				case 'h2':
+					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger );
+				case 'h3':
+					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger );
+				default:
 					return '';
-				}
-			} else {
-				if ( $energieausweis->ww_info == 'ww' ) {
-					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->ww_energietraeger, true );
-				} else if ( $energieausweis->ww_info == 'h' ) {
-					if( ! wpenon_is_water_independend_heater( $energieausweis->h_erzeugung ) ) {
-						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger, true );
-					}
-					if ( $energieausweis->h2_info ) {
-						if( ! wpenon_is_water_independend_heater( $energieausweis->h2_erzeugung ) ) {
-							$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger, true );
-						}
-						if ( $energieausweis->h3_info ) {
-							if( ! wpenon_is_water_independend_heater( $energieausweis->h3_erzeugung ) ) {
-								$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger, true );
-							}
-						}
-					}
-					return implode( ', ', array_unique( $energietraeger ) );
-				} else if ( $energieausweis->ww_info == 'unbekannt' ) {
-					return '';
-				}
 			}
-			return '';
 		case 'regenerativ_art':
 			return wpenon_immoticket24_get_regenerativ_art_name( $energieausweis->regenerativ_art );
 		case 'regenerativ_nutzung':
