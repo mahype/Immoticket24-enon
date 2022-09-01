@@ -108,15 +108,19 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			return implode( ', ', array_unique( $energietraeger ) );
 		case 'energietraeger_warmwasser':
+			$has_unit = true;
+			if ( $energieausweis->mode == 'b' ) {
+				$has_unit = false;
+			}
 			switch($energieausweis->ww_info) {
 				case 'ww':
-					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->ww_energietraeger );
+					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->ww_energietraeger, $has_unit );
 				case 'h':
-					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger );
+					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger, $has_unit );
 				case 'h2':
-					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger );
+					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger, $has_unit );
 				case 'h3':
-					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger );
+					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger, $has_unit );
 				default:
 					return '';
 			}
