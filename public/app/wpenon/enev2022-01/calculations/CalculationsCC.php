@@ -143,7 +143,7 @@ class CalculationsCC {
                 'ende'           => $end,
                 'energietraeger' => $heater->getEnergySource()->getName(),
                 'primaer'        => $heater->getEnergySource()->getPrimaryEnergyFactor(),
-                'gesamt'         => $heater->getKWh(),
+                'gesamt'         => $heater->getHotWaterKwh() + $heater->getHeaterKwh(),
                 'warmwasser'     => $heater->getHotWaterKwh(),
                 'heizung'        => $heater->getHeaterKwh(),
                 'klima'          => $heater->getClimateFactorAverage(),
