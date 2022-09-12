@@ -139,7 +139,7 @@ class Energieausweis {
 
 						$note = sprintf("%s: '%s' -> '%s'", $field_params['label'], $old_value, $value, wp_get_current_user()->user_login);
 						if( ! empty( $payment_id ) ) {
-							edd_insert_payment_note( $payment_id, $note );
+							// edd_insert_payment_note( $payment_id, $note );
 						}
 					}
 					
