@@ -132,6 +132,17 @@ class Energieausweis {
 				if ( (string) $value !== (string) $old_value ) {
 					update_post_meta( $this->id, $field, $value );
 
+					if( is_admin() ) {
+						
+						$payment_id = $this->_wpenon_attached_payment_id;
+						$field_params = $this->schema->getField( $field );
+
+						$note = sprintf("%s: '%s' -> '%s'", $field_params['label'], $old_value, $value, wp_get_current_user()->user_login);
+						if( ! empty( $payment_id ) ) {
+							edd_insert_payment_note( $payment_id, $note );
+						}
+					}
+					
 					if ( $field == 'wpenon_email' ) {
 						$this->_loadOwnerData();
 					} elseif ( in_array( $field, array( 'wpenon_type', 'wpenon_standard' ) ) ) {
