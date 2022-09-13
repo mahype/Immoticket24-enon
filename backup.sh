@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #### Konfiguration des Backupscripts ####
-PFAD=/Backup_Extern/Datenbank
+PFAD=/Backup_Extern
 BACKUP_ORDNER=$PFAD/backups/
 NOW=$(date +"%Y-%m-%d-%H%M")
 
