@@ -27,6 +27,9 @@ class EnergieausweisForm {
 		$this->manager = \WPENON\Model\EnergieausweisManager::instance();
 	}
 
+	/**
+	 * Show overview of energy certificate on front page.
+	 */
 	public function handleOverviewPageRequest( $energieausweis = null) {
 		$data = array();
 
@@ -114,6 +117,9 @@ class EnergieausweisForm {
 		return apply_filters( 'wpenon_overview_page_data', $data, $energieausweis );
 	}
 
+	/**
+	 * Show energy certificate form.
+	 */
 	public function handleEditPageRequest( $energieausweis ) {
 		$data = array();
 

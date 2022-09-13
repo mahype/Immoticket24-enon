@@ -43,6 +43,7 @@
                 <?php case 'select': ?>
 
                   <select id="<?php echo $field_slug; ?>" name="<?php echo $field_slug; ?>">
+                  <option value=""><?php _e( 'Bitte wählen...', 'wpenon' ); ?></option>
                     <?php foreach( $field['options'] as $value => $label ) : ?>
                       <option value="<?php echo $value; ?>"<?php echo $value == $field['value'] ? ' selected' : ''; ?>><?php echo $label; ?></option>
                     <?php endforeach; ?>
