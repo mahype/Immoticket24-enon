@@ -91,6 +91,7 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 			'referrer'     => '%s',
 			'campaign'     => '%s',
 			'context'      => '%s',
+			'flag'         => '%s',
 			'ip'           => '%s',
 			'date'         => '%s',
 		);
@@ -166,6 +167,7 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 			'campaign'         => '',
 			'campaign_compare' => '=',
 			'context'          => '',
+			'flag'             => '',
 			'context_compare'  => '=',
 			'order'            => 'DESC',
 			'orderby'          => 'visit_id',
@@ -334,6 +336,27 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 
 		}
 
+		// Flag.
+		if ( ! empty( $args['flag'] ) ) {
+
+			$where .= empty( $where ) ? "WHERE " : "AND ";
+
+			if ( is_array( $args['flag'] ) ) {
+				$args['flag'] = array_map( 'strtolower', $args['flag'] );
+
+				$where .= "`flag` IN('" . implode( "','", array_map( 'esc_sql', $args['flag'] ) ) . "') ";
+			} else {
+				$flag = esc_sql( strtolower( $args['flag'] ) );
+
+				if ( ! empty( $args['search'] ) ) {
+					$where .= "`flag` LIKE '%%" . $flag . "%%' ";
+				} else {
+					$where .= "`flag` = '" . $flag . "' ";
+				}
+			}
+
+		}
+
 		// Visits for a date or date range
 		if( ! empty( $args['date'] ) ) {
 			$where = $this->prepare_date_query( $where, $args['date'] );
@@ -486,6 +509,11 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 			$data['context'] = sanitize_key( substr( $data['context'], 0, 50 ) );
 		}
 
+		if ( ! empty( $args['flag'] ) ) {
+			// Force flag to lowercase for system-wide compatibility.
+			$args['flag'] = strtolower( $args['flag'] );
+		}
+
 		$rest_id_error = false;
 
 		if ( ! empty( $data['rest_id'] ) ) {
@@ -604,6 +632,11 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 
 		if ( ! empty( $data['context'] ) ) {
 			$args['context'] = sanitize_key( substr( $data['context'], 0, 50 ) );
+		}
+
+		if ( ! empty( $args['flag'] ) ) {
+			// Force flag to lowercase for system-wide compatibility.
+			$args['flag'] = strtolower( $args['flag'] );
 		}
 
 		if ( ! empty( $data['affiliate_id'] ) ) {
@@ -743,6 +776,7 @@ class Affiliate_WP_Visits_DB extends Affiliate_WP_DB {
 			referrer     mediumtext  NOT NULL,
 			campaign     varchar(50) NOT NULL,
 			context      varchar(50) NOT NULL,
+			flag         tinytext    NOT NULL,
 			ip           tinytext    NOT NULL,
 			date         datetime    NOT NULL,
 			PRIMARY KEY (visit_id),

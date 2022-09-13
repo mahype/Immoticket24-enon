@@ -18,6 +18,31 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/class-capabilities.php';
 
 global $wp_roles;
 
+if ( ! function_exists( 'affwp_get_sites' ) ) :
+
+	/**
+	 * Get all the sites in a multisite install.
+	 *
+	 * @since 2.9.6
+	 *
+	 * @return array
+	 */
+	function affwp_get_sites() {
+
+		if ( ! is_multisite() ) {
+			return array();
+		}
+
+		if ( true === version_compare( $GLOBALS['wp_version'], '4.6', '<' ) ) {
+
+			// phpcs:ignore WordPress.WP.DeprecatedFunctions.wp_get_sitesFound -- For backwards compat.
+			return wp_list_pluck( 'blog_id', wp_get_sites() );
+		}
+
+		return get_sites( array( 'fields' => 'ids' ) );
+	}
+endif;
+
 $affiliate_wp_settings = new Affiliate_WP_Settings;
 
 if ( $affiliate_wp_settings->get( 'uninstall_on_delete' ) ) {
@@ -31,18 +56,13 @@ if ( $affiliate_wp_settings->get( 'uninstall_on_delete' ) ) {
 
 	if ( is_multisite() ) {
 
-		if ( true === version_compare( $GLOBALS['wp_version'], '4.6', '<' ) ) {
-			$sites = wp_list_pluck( 'blog_id', wp_get_sites() );
-		} else {
-			$sites = get_sites( array( 'fields' => 'ids' ) );
-		}
-
 		// Remove all database tables.
-		foreach ( $sites as $site_id ) {
+		foreach ( affwp_get_sites() as $site_id ) {
 
 			switch_to_blog( $site_id );
 
 			affiliate_wp_uninstall_tables();
+			// Note, schedules are removed whether or not uninstall_on_delete is set, see below.
 
 			restore_current_blog();
 
@@ -93,7 +113,4 @@ function affiliate_wp_uninstall_tables() {
 	}
 
 	$wpdb->query( "DROP VIEW IF EXISTS {$wpdb->prefix}affiliate_wp_campaigns" );
-
-	// Cleanup Action Scheduler daily events.
-	as_unschedule_all_actions( 'affwp_daily_scheduled_events' );
 }

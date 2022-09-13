@@ -54,11 +54,36 @@ class AffWP_Visits_Table extends List_Table {
 	 */
 	public function __construct( $args = array() ) {
 		$args = wp_parse_args( $args, array(
-			'singular' => 'payout',
-			'plurla'   => 'payouts',
+			'singular' => 'visit',
+			'plural'   => 'visits',
 		) );
 
 		parent::__construct( $args );
+	}
+
+	/**
+	 * Generates content for a single row of the visits table.
+	 *
+	 * @since 2.9.6
+	 *
+	 * @param \AffWP\Visit $visit The current visit object.
+	 */
+	public function single_row( $visit ) {
+		/**
+		 * Filters the CSS class for a single row of the visits table.
+		 *
+		 * @since 2.9.6
+		 *
+		 * @param string        $class CSS class.
+		 * @param \AffWP\Visit $visit  Visit object.
+		 */
+		$class = apply_filters( 'affwp_visit_table_single_row_class', '', $visit );
+
+		?>
+		<tr class="<?php echo esc_attr( $class ); ?>">
+			<?php $this->single_row_columns( $visit ); ?>
+		</tr>
+		<?php
 	}
 
 	/**

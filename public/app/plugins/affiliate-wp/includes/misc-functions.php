@@ -1272,6 +1272,7 @@ function affwp_get_referral_import_fields() {
 		'reference'       => __( 'Reference', 'affiliate-wp' ),
 		'context'         => __( 'Context', 'affiliate-wp' ),
 		'status'          => __( 'Status', 'affiliate-wp' ),
+		'flag'            => __( 'Flag', 'affiliate-wp' ),
 		'type'            => __( 'Type', 'affiliate-wp' ),
 		'date'            => __( 'Date', 'affiliate-wp' )
 	) );

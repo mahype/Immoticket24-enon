@@ -9,6 +9,9 @@
  * @since       1.6
  */
 
+// phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Formatting this was is ok here.
+// phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Formatting this was is ok here.
+
 // Exit if accessed directly
 if( ! defined( 'ABSPATH' ) ) exit;
 
@@ -499,3 +502,114 @@ function affwp_notify_admin_on_new_referral( $affiliate_id, $referral ) {
 
 }
 add_action( 'affwp_referral_accepted', 'affwp_notify_admin_on_new_referral', 10, 2 );
+
+/**
+ * Monthly Administrative Performance Email Summary.
+ *
+ * @since 2.9.6
+ *
+ * @param bool $preview Set to true to build email instead of send (for previewing).
+ *
+ * @see affwp_get_monthly_administrative_email_template_html() For Email Content Body.
+ *
+ * @return void
+ */
+function affwp_notify_monthly_email_summary( $preview = false ) {
+
+	if ( ! $preview && false !== affiliate_wp()->settings->get( 'disable_monthly_email_summaries', false ) ) {
+		return; // You are wanting to email this summary, but a setting has disabled it.
+	}
+
+	// Send the email...
+	affwp_email_summary(
+
+		// Name of summary.
+		'monthly_email',
+
+		// To.
+		affiliate_wp()->settings->get( 'affiliate_manager_email', get_option( 'admin_email' ) ),
+
+		// Translators: This is the subject of the email, %1$s is url of the website (note to developers, this subject may not work in Mailhog, see: https://github.com/awesomemotive/AffiliateWP/pull/4410#issuecomment-1226079496 ).
+		sprintf( __( 'Your Monthly AffiliateWP Summary for %s', 'affiliate-wp' ), str_replace( array( 'https://', 'http://' ), '', get_option( 'home', 'your site' ) ) ),
+
+		// Content.
+		affwp_get_monthly_administrative_email_template_html(
+
+			/**
+			 * Filter the time frame for the data we are emailing.
+			 *
+			 * @since 2.9.6
+			 *
+			 * @param array $timeframe {
+			 *    Arguments for start/end timeframe.
+			 *
+			 *    @type string $start Start in Y-m-d format.
+			 *    @type string $end   End in Y-m-d format.
+			 * }
+			 */
+			apply_filters(
+				'affwp_notify_monthly_email_summary_timeframe',
+				array(
+
+					// Note, with AFFILIATE_WP_DEBUG enabled, you can override the YYYY-MM-DD format here using "?start=&end=", e.g. &start=2021-01-01&end=2022-08-05.
+					'start' => ( isset( $_GET['start'] ) && defined( 'AFFILIATE_WP_DEBUG' ) && AFFILIATE_WP_DEBUG ) ? $_GET['start'] : gmdate( 'Y-m-d', strtotime( '-30 days' ) ), // phpcs:ignore WordPress.Security.NonceVerification.Recommended  -- No sanitization necessary here, just for development.
+					'end'   => ( isset( $_GET['end'] ) && defined( 'AFFILIATE_WP_DEBUG' ) && AFFILIATE_WP_DEBUG ) ? $_GET['end'] : gmdate( 'Y-m-d', strtotime( 'today' ) ), // phpcs:ignore WordPress.Security.NonceVerification.Recommended  -- No sanitization necessary here, just for development.
+				)
+			)
+		),
+
+		// Data.
+		array(
+
+			// Note the DYK blurb we send with this email (a hook later will remember it was sent when email sends).
+			'dyk_blurb' => affwp_get_latest_unsent_dyk_blurb_for_my_license(),
+		),
+
+		// Preview (false sends the email, true does not).
+		$preview
+	);
+}
+add_action(
+
+	// Send the Administrative Performance Summary email.
+	'affwp_monthly_email_summaries', // See includes/class-affwp-scheduler.php.
+	'affwp_notify_monthly_email_summary'
+);
+
+/**
+ * Preview the Monthly Administrative Performance Summary email.
+ *
+ * @since 2.9.6
+ *
+ * @return void
+ */
+function affwp_preview_monthly_email_summary() {
+
+	if ( ! affwp_is_summary_email_preview( 'monthly_email' ) ) {
+		return; // We are not requesting a preview of the monthly admin performance email.
+	}
+
+	// Preview the email.
+	affwp_notify_monthly_email_summary( true );
+}
+add_action( 'admin_init', 'affwp_preview_monthly_email_summary' );
+
+/**
+ * Don't send DYK blurb again.
+ *
+ * @since 2.9.6
+ *
+ * @param  bool  $sent If we sent the email (with a blurb).
+ * @param  array $data Data (that has the blurb sent in it).
+ * @return void
+ */
+function affwp_remember_sent_dyk_blurb( $sent, $data ) {
+
+	if ( ! $sent || ! isset( $data['dyk_blurb']['id'] ) ) {
+		return; // No blurb with this email.
+	}
+
+	// If we had a blurb sent along with it, remember that we sent it.
+	affwp_add_sent_dyk_blurb( $data['dyk_blurb']['id'] );
+}
+add_action( 'affwp_notify_monthly_email_summary_email_sent', 'affwp_remember_sent_dyk_blurb', 10, 2 );

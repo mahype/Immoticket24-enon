@@ -96,9 +96,50 @@ function affwp_admin_scripts() {
 
 	// Enqueue postbox for core meta boxes.
 	wp_enqueue_script( 'postbox' );
-
 }
 add_action( 'admin_enqueue_scripts', 'affwp_admin_scripts' );
+
+/**
+ * Enqueue scripts on the Add New User (user-new.php) Page.
+ *
+ * @since  2.9.6
+ * @return void Early bail when not the `user-new.php` screen.
+ */
+function affwp_register_dependant_fields() {
+
+	$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+
+	wp_register_script( 'affiliate-wp-dependant-fields', AFFILIATEWP_PLUGIN_URL . "assets/js/admin-dependant-fields{$suffix }.js", array( 'jquery' ), AFFILIATEWP_VERSION, true );
+
+	if ( ! affwp_is_add_user_screen() ) {
+		return;
+	}
+
+	wp_enqueue_script( 'affiliate-wp-dependant-fields' );
+}
+add_action( 'admin_enqueue_scripts', 'affwp_register_dependant_fields' );
+
+/**
+ * Is this the add user screen in the admin?
+ *
+ * @since 2.9.6
+ *
+ * @return bool
+ */
+function affwp_is_add_user_screen() {
+
+	if ( ! is_admin() ) {
+		return false;
+	}
+
+	if ( ! function_exists( 'get_current_screen' ) ) {
+		return false;
+	}
+
+	$screen = get_current_screen();
+
+	return 'add' === $screen->action && 'user' === $screen->base;
+}
 
 /**
  * Add `defer` to the script tag.
@@ -143,6 +184,9 @@ function affwp_admin_styles() {
 		'restBase'  => rest_url( ( new Notifications_Endpoints )->namespace ),
 		'restNonce' => wp_create_nonce( 'wp_rest' ),
 	) );
+
+	// Addons page style.
+	wp_register_style( 'affwp_admin_addons', AFFILIATEWP_PLUGIN_URL . "assets/css/admin-addons{$suffix}.css", array(), AFFILIATEWP_VERSION );
 }
 add_action( 'admin_enqueue_scripts', 'affwp_admin_styles' );
 
@@ -191,6 +235,9 @@ function affwp_enqueue_admin_js() {
 	// Alpine and in-plugin notifcations.
 	wp_register_script( 'alpinejs', AFFILIATEWP_PLUGIN_URL . 'assets/js/alpine.min.js', array(), '3.4.2', false );
 	wp_register_script( 'affwp-admin-notifications', AFFILIATEWP_PLUGIN_URL . 'assets/js/admin-notifications.js', array( 'alpinejs' ), AFFILIATEWP_VERSION, false );
+
+	// Addons page.
+	wp_register_script( 'affwp_admin_addons', AFFILIATEWP_PLUGIN_URL . "assets/js/admin-addons{$suffix}.js", array( 'jquery' ), AFFILIATEWP_VERSION );
 }
 
 /**

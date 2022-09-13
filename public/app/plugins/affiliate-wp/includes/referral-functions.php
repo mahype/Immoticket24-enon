@@ -288,6 +288,7 @@ function affwp_add_referral( $data = array() ) {
 		'date'         => ! empty( $data['date'] )        ? $data['date']                                 : '',
 		'type'         => ! empty( $data['type'] )        ? $data['type']                                 : '',
 		'products'     => ! empty( $data['products'] )    ? $data['products']                             : '',
+		'flag'         => ! empty( $data['flag'] )        ? $data['flag']                                 : '',
 		'status'       => 'pending',
 	);
 

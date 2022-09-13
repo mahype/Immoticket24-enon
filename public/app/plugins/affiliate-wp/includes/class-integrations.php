@@ -136,11 +136,18 @@ class Affiliate_WP_Integrations {
 	 */
 	public function get_discontinued_integrations() {
 		return array(
-			'exchange'    => __( 'Exchange', 'affiliate-wp' ),
-			'jigoshop'    => __( 'Jigoshop', 'affiliate-wp' ),
-			'marketpress' => __( 'MarketPress', 'affiliate-wp' ),
-			'shopp'       => __( 'Shopp', 'affiliate-wp' ),
-			'wpec'        => __( 'WP eCommerce', 'affiliate-wp' ),
+			'caldera-forms' => array(
+				'label' => __( 'Caldera Forms', 'affiliate-wp' ),
+				'date'  => __( 'December 2022', 'affiliate-wp' ), // Since 2.9.6 which went out at the end of August.
+			),
+			'zippycourses'  => array(
+				'label' => __( 'WP-Invoice', 'affiliate-wp' ),
+				'date'  => __( 'December 2022', 'affiliate-wp' ), // Since 2.9.6 which went out at the end of August.
+			),
+			'wp-invoice'    => array(
+				'label' => __( 'Zippy Courses', 'affiliate-wp' ),
+				'date'  => __( 'December 2022', 'affiliate-wp' ), // Since 2.9.6 which went out at the end of August.
+			),
 		);
 	}
 

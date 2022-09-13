@@ -9,6 +9,7 @@
  * @since       1.0.0
  */
 
+use AffWP\Core\License;
 use Sandhills\Utils\Persistent_Dismissible;
 
 /**
@@ -112,6 +113,7 @@ class Affiliate_WP_Admin_Notices {
 		$this->environment_notices();
 		$this->upgrade_notices();
 		$this->development_notices();
+		$this->addons_notices();
 	}
 
 	/**
@@ -275,6 +277,7 @@ class Affiliate_WP_Admin_Notices {
 			$license_id = absint( $_GET['license_id'] );
 		}
 
+		// Bail if no license or if ID is greater than 1 because then they are fully upgraded.
 		if ( false === $license_id || $license_id > 1 || empty( $license_data ) ) {
 			return;
 		}
@@ -901,15 +904,16 @@ class Affiliate_WP_Admin_Notices {
 			);
 		}
 
-		foreach ( affiliate_wp()->integrations->get_discontinued_integrations() as $slug => $label ) {
+		foreach ( affiliate_wp()->integrations->get_discontinued_integrations() as $slug => $info ) {
 			$this->add_notice( "{$slug}_discontinued_integration_enabled", array(
 				'class'   => 'notice notice-info',
-				'message' => function() use ( $label ) {
+				'message' => function() use ( $info ) {
 					$message  = '<p>';
 					/* translators: 1: Integration name, 2: URL to the discontinued integrations guide */
-					$message .= sprintf( __( 'AffiliateWP is ending official support for the <strong>%1$s</strong> integration beginning September 2021. See <a href="%2$s" target="_blank">this guide</a> for more information.', 'affiliate-wp' ),
-						$label,
-						esc_url( 'https://docs.affiliatewp.com/article/2407-discontinued-integrations' )
+					$message .= sprintf( __( 'AffiliateWP is ending official support for the <strong>%1$s</strong> integration beginning %2$s. See <a href="%3$s" target="_blank">this guide</a> for more information.', 'affiliate-wp' ),
+						$info['label'],
+						$info['date'],
+						esc_url( 'https://affiliatewp.com/docs/discontinued-integrations/' )
 					);
 					$message .= '</p>';
 
@@ -928,13 +932,14 @@ class Affiliate_WP_Admin_Notices {
 	 * @return string|void Output if `$display_notices` is false, otherwise void.
 	 */
 	public function license_notices() {
-		$license = affiliate_wp()->settings->check_license();
+		$license = ( new License\License_Data() );
+		$license = $license->check_status();
 
 		if ( is_object( $license ) && ! is_wp_error( $license ) ) {
 			$this->add_notice( 'license-expired', array(
 				'class'   => 'error',
 				'message' => function() use ( $license ) {
-					$license_key = \Affiliate_WP_Settings::get_license_key();
+					$license_key = $license->get_license_key();
 
 					return sprintf(
 						/* translators: 1: Date the license expired, 2: URL to renew the license key */
@@ -950,7 +955,7 @@ class Affiliate_WP_Admin_Notices {
 			'message' => sprintf(
 				/* translators: URL to contact support */
 				__( 'Your license key has been disabled. Please <a href="%s" target="_blank">contact support</a> for more information.', 'affiliate-wp' ),
-				'https://affiliatewp.com/support?utm_campaign=admin&utm_source=licenses&utm_medium=revoked'
+				'https://affiliatewp.com/contact/?utm_campaign=admin&utm_source=licenses&utm_medium=revoked'
 			),
 		) );
 
@@ -1155,6 +1160,46 @@ class Affiliate_WP_Admin_Notices {
 				return ob_get_clean();
 			}
 		) );
+	}
+
+	/**
+	 * Display admin notices related to addons.
+	 *
+	 * @since 2.9.6
+	 */
+	public function addons_notices() {
+		// Bail if not the Addons page.
+		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'affiliate-wp-add-ons' ) {
+			return;
+		}
+
+		// Check for license.
+		$license = ( new License\License_Data() )->get_license_id();
+
+		// Bail if the license IS set.
+		if ( ! empty( $license ) || is_int( $license ) ) {
+			return;
+		}
+
+		$this->add_notice( 'no_addon_access', array(
+			'class'   => 'error',
+			'message' => function() {
+				return sprintf(
+					wp_kses( /* translators: %s - AffiliateWP plugin settings URL. */
+						__( 'To access addons please enter and activate your AffiliateWP license key in the plugin <a href="%s">settings</a>.', 'affiliate-wp' ),
+						[
+							'a' => [
+								'href' => [],
+							],
+						]
+					),
+					esc_url_raw( add_query_arg( [ 'page' => 'affiliate-wp-settings' ], admin_url( 'admin.php' ) ) )
+				);
+			}
+		) );
+
+		// Show only if on the Addons page and no license is set.
+		self::show_notice( 'no_addon_access' );
 	}
 
 	/**

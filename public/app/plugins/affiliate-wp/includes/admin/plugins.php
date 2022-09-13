@@ -31,8 +31,8 @@ function affwp_plugin_action_links( $links, $file ) {
 
 	$affwp_links = array(
 		affwp_admin_link( 'settings', __( 'Settings', 'affiliate-wp' ) ),
-		'<a href="https://docs.affiliatewp.com" target="_blank">' . esc_html__( 'Documentation', 'affiliate-wp' ) . '</a>',
-		'<a href="https://affiliatewp.com/support/?utm_source=WordPress&utm_campaign=affiliatewp&utm_medium=plugin-action-links&utm_content=Support" target="_blank">' . esc_html__( 'Support', 'affiliate-wp' ) . '</a>',
+		'<a href="https://affiliatewp.com/docs/" target="_blank">' . esc_html__( 'Documentation', 'affiliate-wp' ) . '</a>',
+		'<a href="https://affiliatewp.com/contact/?utm_source=WordPress&utm_campaign=affiliatewp&utm_medium=plugin-action-links&utm_content=Support" target="_blank">' . esc_html__( 'Support', 'affiliate-wp' ) . '</a>',
 	);
 
 	return array_merge( $affwp_links, $links );

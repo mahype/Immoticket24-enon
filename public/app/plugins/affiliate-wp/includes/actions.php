@@ -81,7 +81,7 @@ function affwp_remove_query_args( $query_args ) {
 	if ( isset( $_GET['delete_coupon'] ) ) {
 		$query_args[] = 'delete_coupon';
 	}
-	
+
 	return $query_args;
 }
 add_filter( 'removable_query_args', 'affwp_remove_query_args' );
@@ -118,9 +118,10 @@ function affwp_process_add_affiliate_website( $affiliate_id, $args ) {
 add_action( 'affwp_insert_affiliate', 'affwp_process_add_affiliate_website', 11, 2 );
 
 /**
- * Denotes the Affiliate Area Page as such in the pages list table.
+ * Denotes the Affiliate Area page and Terms of Use pages in the pages list table.
  *
  * @since 2.1.11
+ * @since 2.9.6  Added Terms of Use post state
  *
  * @param array   $post_states An array of post display states.
  * @param WP_Post $post        The current post object.
@@ -142,6 +143,10 @@ function affwp_display_post_states( $post_states, $post ) {
 
 		if ( affwp_get_affiliate_area_page_id() === $post->ID ) {
 			$post_states['affwp_page_for_affiliate_area'] = __( 'Affiliate Area Page', 'affiliate-wp' );
+		}
+
+		if ( affwp_get_affiliate_terms_of_use_page_id() === $post->ID ) {
+			$post_states['affwp_page_for_affiliate_terms'] = __( 'Affiliate Terms of Use Page', 'affiliate-wp' );
 		}
 	}
 

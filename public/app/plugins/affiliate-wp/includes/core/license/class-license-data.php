@@ -23,30 +23,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 2.9
  */
 class License_Data {
-
-	/**
-	 * Stored license key value.
-	 *
-	 * @since 2.9
-	 * @var   string
-	 */
-	private $license_key;
-
-	/**
-	 * Set up license data.
-	 *
-	 * @since 2.9
-	 * @return void
-	 */
-	public function __construct() {
-		if ( $this->is_license_valid() ) {
-			$license_key       = affiliate_wp()->settings->get_license_key();
-			$this->license_key = sanitize_text_field( $license_key );
-		} else {
-			$this->license_key = '';
-		}
-	}
-
 	/**
 	 * Returns the license ID if it was verified recently.
 	 *
@@ -97,7 +73,7 @@ class License_Data {
 		}
 
 		if ( 'valid' === $status ) {
-			return; // License already activated and valid.
+			return false; // License already activated and valid.
 		}
 
 		$license_key = sanitize_text_field( $license_key );
@@ -128,7 +104,7 @@ class License_Data {
 			);
 		}
 
-		// check response error code
+		// Check response error code.
 		if ( 200 !== $response_code ) {
 			return array(
 				'license_status' => false,
@@ -139,6 +115,24 @@ class License_Data {
 
 		// Decode the license data.
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+		// Default to invalid when there is an error and license status isn't set.
+		if ( isset( $license_data->error ) && ! isset( $license_data->license ) ) {
+			// Note: this seems to happen when testing random strings.
+			$license_data->error   = 'item_name_mismatch';
+			$license_data->license = 'invalid';
+		}
+
+		// Save license data and key.
+		affiliate_wp()->settings->set( array(
+			'license_status' => $license_data,
+			'license_key'    => $license_key,
+		), true );
+
+		// Set license check transient.
+		if ( isset( $license_data->license ) ) {
+			set_transient( 'affwp_license_check', $license_data->license, DAY_IN_SECONDS );
+		}
 
 		// Return license data.
 		return array(
@@ -155,8 +149,18 @@ class License_Data {
 	 * @return bool|array Returns true or array with error info.
 	 */
 	public function deactivation_status() {
+		// Retrieve the license status from the database.
+		$status = affiliate_wp()->settings->get( 'license_status' );
 
-		$license_key = $this->license_key;
+		if ( isset( $status->license ) ) {
+			$status = $status->license;
+		}
+
+		if ( 'valid' !== $status ) {
+			return false; // License already deactivated.
+		}
+
+		$license_key = self::get_license_key();
 
 		// Data to send in our API request.
 		$api_params = array(
@@ -180,6 +184,9 @@ class License_Data {
 				'message'        => $response->get_error_message(),
 			);
 		}
+
+		// Save updated license status.
+		affiliate_wp()->settings->set( array( 'license_status' => 0 ), true );
 
 		return true;
 	}
@@ -227,6 +234,7 @@ class License_Data {
 
 		// Run the license check a maximum of once per day.
 		if ( ( false === $status || $force ) && site_url() !== $request_url ) {
+
 			// data to send in our API request.
 			$api_params = array(
 				'edd_action' => 'check_license',
@@ -272,11 +280,15 @@ class License_Data {
 
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
+			if ( isset( $license_data->license ) ) {
+				$status = $license_data->license;
+			} else {
+				$status = 'invalid';
+			}
+
 			affiliate_wp()->settings->set( array( 'license_status' => $license_data) );
 
-			if ( isset( $license_data->license ) ) {
-				set_transient( 'affwp_license_check', $license_data->license, DAY_IN_SECONDS );
-			}
+			set_transient( 'affwp_license_check', $status, DAY_IN_SECONDS );
 
 			if ( ! empty( $api_params['site_data'] ) ) {
 
@@ -284,9 +296,6 @@ class License_Data {
 
 			}
 
-			if ( isset( $license_data->license ) ) {
-				$status = $license_data->license;
-			}
 		}
 
 		return $status;

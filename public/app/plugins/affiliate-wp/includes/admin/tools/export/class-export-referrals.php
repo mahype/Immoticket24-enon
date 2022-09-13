@@ -74,6 +74,7 @@ class Affiliate_WP_Referral_Export extends Affiliate_WP_Export implements Export
 			'context'       => __( 'Context', 'affiliate-wp' ),
 			'status'        => __( 'Status', 'affiliate-wp' ),
 			'type'          => __( 'Type', 'affiliate-wp' ),
+			'flag'          => __( 'Flag', 'affiliate-wp' ),
 			'date'          => __( 'Date', 'affiliate-wp' ),
 		);
 		return $cols;
@@ -125,6 +126,7 @@ class Affiliate_WP_Referral_Export extends Affiliate_WP_Export implements Export
 				 *     @type string $context       Context the referral was created under, e.g. 'woocommerce'.
 				 *     @type string $status        Referral status.
 				 *     @type string $type          Referral type.
+				 *     @type string $flag          Referral flag.
 				 *     @type string $date          Referral date.
 				 * }
 				 * @param \AffWP\Referral $referral Referral object.
@@ -143,6 +145,7 @@ class Affiliate_WP_Referral_Export extends Affiliate_WP_Export implements Export
 					'context'       => $referral->context,
 					'status'        => $referral->status,
 					'type'          => ! empty( $referral->type ) ? $referral->type : 'sale',
+					'flag'          => $referral->flag,
 					'date'          => $referral->date_i18n( 'datetime' ),
 				), $referral );
 

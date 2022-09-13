@@ -9,6 +9,11 @@
  * @since       1.0
  */
 
+// phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Formatting for better commenting preferred.
+// phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Formatting for better commenting preferred.
+
+use AffWP\Core\License;
+
 /**
  * Sets up the Settings component.
  *
@@ -38,7 +43,6 @@ class Affiliate_WP_Settings {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_init', array( $this, 'activate_license' ) );
 		add_action( 'admin_init', array( $this, 'deactivate_license' ) );
-		add_action( 'admin_init', array( $this, 'check_license' ) );
 
 		// Global settings.
 		add_action( 'affwp_pre_get_registered_settings', array( $this, 'handle_global_license_setting' ) );
@@ -167,7 +171,7 @@ class Affiliate_WP_Settings {
 		// Refresh the options array available in memory (prevents unexpected race conditions).
 		$this->options = get_option( 'affwp_settings', array() );
 
-		return $updated;	
+		return $updated;
 	}
 
 	/**
@@ -536,7 +540,7 @@ class Affiliate_WP_Settings {
 					'license_key' => array(
 						'name' => __( 'License Key', 'affiliate-wp' ),
 						/* translators: Support page URL */
-						'desc' => sprintf( __( 'Please enter your license key. An active license key is needed for automatic plugin updates and <a href="%s" target="_blank">support</a>.', 'affiliate-wp' ), 'https://affiliatewp.com/support/' ),
+						'desc' => sprintf( __( 'Please enter your license key. An active license key is needed for automatic plugin updates and <a href="%s" target="_blank">support</a>.', 'affiliate-wp' ), 'https://affiliatewp.com/contact/' ),
 						'type' => 'license',
 						'sanitize_callback' => 'sanitize_text_field'
 					),
@@ -554,7 +558,7 @@ class Affiliate_WP_Settings {
 					),
 					'terms_of_use' => array(
 						'name' => __( 'Terms of Use', 'affiliate-wp' ),
-						'desc' => __( 'Select the page that shows the terms of use for Affiliate Registration. This only affects the [affiliate_area] and [affiliate_registration] shortcodes.', 'affiliate-wp' ),
+						'desc' => sprintf( __( 'Select a Terms of Use page or <a href="%s">create one using a template</a>. This only affects the [affiliate_area] and [affiliate_registration] shortcodes.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'tools', array( 'tab' => 'terms_of_use_generator' ) ) ) ),
 						'type' => 'select',
 						'options' => affwp_get_pages(),
 						'sanitize_callback' => 'absint'
@@ -763,7 +767,7 @@ class Affiliate_WP_Settings {
 					),
 					'opt_in_platform' => array(
 						'name' => __( 'Platform', 'affiliate-wp' ),
-						'desc' => __( 'Select the opt-in platform provider you wish to use then click Save Changes to configure the settings. The opt-in form can be displayed on any page using the [opt_in] shortcode. <a href="https://docs.affiliatewp.com/article/2034-optin-opt-in-form">Learn more</a>.', 'affiliate-wp' ),
+						'desc' => __( 'Select the opt-in platform provider you wish to use then click Save Changes to configure the settings. The opt-in form can be displayed on any page using the [opt_in] shortcode. <a href="https://affiliatewp.com/docs/opt-in-form-settings/">Learn more</a>.', 'affiliate-wp' ),
 						'type' => 'select',
 						'options' => array_merge( array( '' => __( '(select one)', 'affiliate-wp' ) ), affiliate_wp()->integrations->opt_in->platforms )
 					)
@@ -988,7 +992,20 @@ class Affiliate_WP_Settings {
 						'name' => __( 'Remove Data on Uninstall', 'affiliate-wp' ),
 						'desc' => __( 'Remove all saved data for AffiliateWP when the plugin is deleted.', 'affiliate-wp' ),
 						'type' => 'checkbox'
-					)
+					),
+					'disable_monthly_email_summaries' => array( // Also see affwp_email_summary() on naming of this setting.
+						'name' => __( 'Disable Email Summaries', 'affiliate-wp' ),
+						'desc' => sprintf(
+							// Translators: %1$s is a link to preview the email.
+							__( 'Disable Email Summaries monthly delivery. %1$s', 'affiliate-wp' ),
+							sprintf(
+								'<br><span style="margin-left: 25px;"><em><a href="?affwp_notify_monthly_email_summary=1&preview=1&no_dyk=1&_wpnonce=%1$s" target="_blank">%2$s</a></em></span>',
+								wp_create_nonce( 'preview_email_summary' ),
+								__( 'View Email Summary Example', 'affiliate-wp' )
+							)
+						),
+						'type' => 'checkbox',
+					),
 				)
 			),
 
@@ -1284,7 +1301,8 @@ class Affiliate_WP_Settings {
 		echo '<legend class="screen-reader-text">' . $args['name'] . '</legend>';
 
 		foreach ( $args['options'] as $key => $option ) :
-			$checked = false;
+			$checked  = false;
+			$disabled = false;
 
 			if ( isset( $this->options[ $args['id'] ] ) && $this->options[ $args['id'] ] == $key ) {
 				$checked = true;
@@ -1292,8 +1310,12 @@ class Affiliate_WP_Settings {
 				$checked = true;
 			}
 
+			if ( isset( $args['disabled'] ) && $args['disabled'] ) {
+				$disabled = true;
+			}
+
 			echo '<label for="affwp_settings[' . $args['id'] . '][' . $key . ']">';
-			echo '<input name="affwp_settings[' . $args['id'] . ']" id="affwp_settings[' . $args['id'] . '][' . $key . ']" type="radio" value="' . $key . '" ' . checked( true, $checked, false ) . '/>';
+			echo '<input name="affwp_settings[' . $args['id'] . ']" id="affwp_settings[' . $args['id'] . '][' . $key . ']" type="radio" value="' . $key . '" ' . checked( true, $checked, false ) . ' ' . disabled( true, $disabled, false ) . '/>';
 			echo $option . '</label><br/>';
 		endforeach;
 
@@ -1410,9 +1432,44 @@ class Affiliate_WP_Settings {
 			$html .= get_submit_button( __( 'Activate License', 'affiliate-wp' ), 'secondary', 'affwp_activate_license', false );
 		}
 
-		$html .= '<br/><p class="description"> '  . $args['desc'] . '</p>';
+		$license_info_markup = $this->get_current_license_markup();
+
+		// Show the current active license, if any.
+		$html .= empty( trim( $license_info_markup ) )
+			? "<p class='description'>{$args['desc']}</p>"
+			: "<p class='description'>{$license_info_markup}<br>{$args['desc']}</p>";
 
 		echo $html;
+	}
+
+	/**
+	 * Get markup for License.
+	 *
+	 * @since 2.9.6
+	 *
+	 * @return string Markup (HTML).
+	 */
+	private function get_current_license_markup() {
+
+		$license_data = new \AffWP\Core\License\License_Data();
+
+		$license_id = $license_data->get_license_id();
+
+		$license_type = $license_data->get_license_type( $license_id );
+
+		if ( ! is_string( $license_type ) || empty( $license_type ) ) {
+			return '';
+		}
+
+		// Show what License the user is using.
+		return sprintf(
+
+			// Translators: %1$s is the license name.
+			__( 'Your license level is <strong>%1$s</strong>.', 'affiliate-wp' ),
+
+			// %$1s: License name.
+			$license_type
+		);
 	}
 
 	/**
@@ -1763,77 +1820,76 @@ class Affiliate_WP_Settings {
 		return false;
 	}
 
+	/**
+	 * Handles the license key activation redirects from settings page.
+	 *
+	 * @since unknown
+	 * @since 2.9.6 Moved license data functionality to license data class.
+	 * @return void
+	 */
 	public function activate_license() {
-
-		if( ! isset( $_POST['affwp_settings'] ) ) {
+		if ( ! isset( $_POST['affwp_settings'] ) ) {
 			return;
 		}
 
-		if( ! isset( $_POST['affwp_activate_license'] ) ) {
+		if ( ! isset( $_POST['affwp_activate_license'] ) ) {
 			return;
 		}
 
-		if( ! isset( $_POST['affwp_settings']['license_key'] ) ) {
+		if ( ! isset( $_POST['affwp_settings']['license_key'] ) ) {
 			return;
 		}
 
-		// Retrieve the license status from the database.
-		$status = $this->get( 'license_status' );
+		// Get license key from settings and check it's activation status.
+		$license_key        = sanitize_text_field( $_POST['affwp_settings']['license_key'] );
+		$license            = new License\License_Data();
+		$license_activation = $license->activation_status( $license_key );
 
-		$status = ( is_object( $status ) && isset( $status->license ) )
-			? $status->license
-			: $status;
-
-		if( 'valid' == $status ) {
-			return; // license already activated and valid
+		// Bail if empty because license is already activated and valid.
+		if ( empty( $license_activation ) ) {
+			return;
 		}
 
-		$license_key = sanitize_text_field( $_POST['affwp_settings']['license_key'] );
-
-		// data to send in our API request
-		$api_params = array(
-			'edd_action'=> 'activate_license',
-			'license' 	=> $license_key,
-			'item_name' => 'AffiliateWP',
-			'url'       => home_url()
-		);
-
-		// Call the custom API.
-		$response = wp_remote_post( 'https://affiliatewp.com', array( 'timeout' => 35, 'sslverify' => false, 'body' => $api_params ) );
-
-		// make sure the response came back okay
-		if ( is_wp_error( $response ) ) {
-
-			wp_safe_redirect( affwp_admin_url( 'settings', array( 'affwp_notice' => 'license-http-failure', 'affwp_message' => $response->get_error_message(), 'affwp_success' => 'no' ) ) );
+		// If license activation attempt fails, redirect with notice.
+		if ( isset( $license_activation['license_status'] ) && $license_activation['license_status'] === false ){
+			wp_safe_redirect( affwp_admin_url( 'settings', array(
+				'affwp_notice'  => $license_activation['affwp_notice'],
+				'affwp_message' => $license_activation['affwp_message'],
+				'affwp_success' => 'no',
+			) ) );
 			exit;
-
 		}
 
-		// decode the license data
-		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+		// If the attempt is successful, check license data for status.
+		$license_data = $license_activation['license_data'];
 
-		$this->save( array(
-			'license_status' => $license_data,
-			'license_key'    => $license_key
-		) );
+		// Update addons cache.
+		affwp_add_ons_get_feed( true );
 
-		if ( isset( $license_data->license ) ) {
-			set_transient( 'affwp_license_check', $license_data->license, DAY_IN_SECONDS );
-		}
-
-		if( ! isset( $license_data->license ) || 'valid' !== $license_data->license || empty( $license_data->success ) ) {
-
-			$error = isset( $license_data->error ) ? $license_data->error : 'missing';
-			wp_safe_redirect( affwp_admin_url( 'settings', array( 'affwp_notice' => 'license-' . $error, 'affwp_success' => 'no' ) ) );
+		// If the license is valid, redirect.
+		if ( isset( $license_data->license ) && 'valid' === $license_data->license ) {
+			wp_safe_redirect( affwp_admin_url( 'settings' ) );
 			exit;
-
 		}
 
-		wp_safe_redirect( affwp_admin_url( 'settings' ) );
+		// Otherwise, redirect with an error notice.
+		$error = isset( $license_data->error ) ? $license_data->error : 'missing';
+
+		wp_safe_redirect( affwp_admin_url( 'settings', array(
+			'affwp_notice'  => 'license-' . $error,
+			'affwp_success' => 'no',
+		) ) );
 		exit;
 
 	}
 
+	/**
+	 * Handles the license key deactivation redirects from settings page.
+	 *
+	 * @since unknown
+	 * @since 2.9.6 Moved license data functionality to license data class.
+	 * @return void
+	 */
 	public function deactivate_license() {
 
 		if( ! isset( $_POST['affwp_settings'] ) ) {
@@ -1848,31 +1904,31 @@ class Affiliate_WP_Settings {
 			return;
 		}
 
-		// data to send in our API request
-		$api_params = array(
-			'edd_action'=> 'deactivate_license',
-			'license' 	=> $_POST['affwp_settings']['license_key'],
-			'item_name' => 'AffiliateWP',
-			'url'       => home_url()
-		);
+		$license_key = $_POST['affwp_settings']['license_key'];
 
-		// Call the custom API.
-		$message  = '';
-		$success  = true;
-		$response = wp_remote_post( 'https://affiliatewp.com', array( 'timeout' => 35, 'sslverify' => false, 'body' => $api_params ) );
+		// Get license deactivation status.
+		$license              = new License\License_Data();
+		$license_deactivation = $license->deactivation_status();
 
-		// make sure the response came back okay
-		if ( is_wp_error( $response ) ) {
-
-			$success = false;
-			$message = $response->get_error_message();
-
-			wp_safe_redirect( affwp_admin_url( 'settings', array( 'message' => $message, 'success' => $success ) ) );
-			exit;
-
+		// Bail if empty because license is already deactivated.
+		if ( empty( $license_deactivation ) ) {
+			return;
 		}
 
-		$this->save( array( 'license_status' => 0 ) );
+		// If deactivation is successful, update addons cache.
+		if ( true === $license_deactivation ) {
+			affwp_add_ons_get_feed( true );
+			return;
+		}
+
+		// Otherwise, redirect with an error notice.
+		if ( false === $license_deactivation['license_status'] ) {
+			wp_safe_redirect( affwp_admin_url( 'settings', array(
+				'message' => $license_deactivation['message'],
+				'success' => false,
+			) ) );
+			exit;
+		}
 
 	}
 
@@ -1880,6 +1936,7 @@ class Affiliate_WP_Settings {
 	 * Checks validity of the license key.
 	 *
 	 * @since 1.0
+	 * @since 2.9.6 Use new license class method.
 	 *
 	 * @param bool $force Optional. Whether to force checking the license (bypass caching).
 	 * @return bool|mixed|void
@@ -1890,73 +1947,11 @@ class Affiliate_WP_Settings {
 			return; // Don't fire when saving settings
 		}
 
-		$status = get_transient( 'affwp_license_check' );
-
-		$request_url = 'https://affiliatewp.com';
-
-		// Run the license check a maximum of once per day
-		if( ( false === $status || $force ) && site_url() !== $request_url ) {
-			// data to send in our API request
-			$api_params = array(
-				'edd_action'=> 'check_license',
-				'license' 	=> self::get_license_key(),
-				'item_name' => 'AffiliateWP',
-				'url'       => home_url()
-			);
-
-			/**
-			 * Filters whether to send site data.
-			 *
-			 * @since 1.0
-			 *
-			 * @param bool $send Whether to send site data. Default true.
-			 */
-			if( apply_filters( 'affwp_send_site_data', true ) ) {
-
-				// Send checkins once per week
-				$last_checked = get_option( 'affwp_last_checkin', false );
-
-				if( ! is_numeric( $last_checked ) || $last_checked < strtotime( '-1 week', current_time( 'timestamp' ) ) ) {
-
-					$api_params['site_data'] = $this->get_site_data();
-
-				}
-			}
-
-			// Call the custom API.
-			$response = wp_remote_post( $request_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
-
-			// make sure the response came back okay
-			if ( is_wp_error( $response ) ) {
-
-				// Connection failed, try again in three hours
-				set_transient( 'affwp_license_check', $response, 3 * HOUR_IN_SECONDS );
-
-				return false;
-			}
-
-			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-
-			if ( isset( $license_data->license ) ) {
-				$status = $license_data->license;
-			} else {
-				$status = 'invalid';
-			}
-
-			$this->save( array( 'license_status' => $license_data ) );
-
-			set_transient( 'affwp_license_check', $status, DAY_IN_SECONDS );
-
-			if( ! empty( $api_params['site_data'] ) ) {
-
-				update_option( 'affwp_last_checkin', current_time( 'timestamp' ) );
-
-			}
-
-		}
+		// Get license status.
+		$license = new License\License_Data();
+		$status  = $license->check_status();
 
 		return $status;
-
 	}
 
 	public function is_license_valid() {

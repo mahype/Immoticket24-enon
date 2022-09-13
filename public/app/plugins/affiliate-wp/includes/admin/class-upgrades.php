@@ -217,6 +217,14 @@ class Affiliate_WP_Upgrades {
 			$this->v295_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.9.6', '<' ) ) {
+			$this->v296_upgrade();
+		}
+
+		if ( version_compare( $this->version, '2.9.6.1', '<' ) ) {
+			$this->v2961_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -1175,6 +1183,88 @@ class Affiliate_WP_Upgrades {
 		affiliate_wp()->notifications->create_table();
 		affiliate_wp()->utils->log( 'Upgrade: The in-plugin notifications table has been created.' );
 		$this->upgraded = true;
+	}
+
+	/**
+	 * Perform database upgrades for version 2.9.6
+	 *
+	 * @access  private
+	 * @since   2.9.6
+	 */
+	private function v296_upgrade() {
+
+		affiliate_wp()->referrals->create_table();
+		@affiliate_wp()->utils->log( 'Upgrade: The flag column has been added to the referrals table.' );
+
+		affiliate_wp()->visits->create_table();
+		@affiliate_wp()->utils->log( 'Upgrade: The flag column has been added to the visits table.' );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Perform database upgrades for version 2.9.6.1
+	 *
+	 * @access  private
+	 * @since   2.9.6.1
+	 */
+	private function v2961_upgrade() {
+
+		$this->fix_296_action_scheduler_issue();
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Fix scheduler issues in 2.9.6
+	 *
+	 * Ensure that for the Action Scheduler actions
+	 * affwp_daily_scheduled_events, and affwp_monthly_email_summaries
+	 * that we make sure there are only one of each of these.
+	 *
+	 * In 2.9.6 we had an issue where many of these were created, when we only need one
+	 * pending action for each of these.
+	 *
+	 * @since  2.9.6.1
+	 * @access private
+	 *
+	 * @return void Early bail if there's just one scheduled (no duplicates).
+	 */
+	private function fix_296_action_scheduler_issue() {
+
+		if ( ! function_exists( 'as_get_scheduled_actions' ) ) {
+			return; // We can't fix it.
+		}
+
+		foreach ( array(
+			'affwp_monthly_email_summaries',
+			'affwp_daily_scheduled_events',
+		) as $action ) {
+
+			if ( count(
+				// Get all schedule actions (there may be many) for $action.
+				as_get_scheduled_actions(
+					array(
+						'hook'     => $action,
+						'group'    => 'affiliatewp',
+						'status'   => ActionScheduler_Store::STATUS_PENDING,
+						'per_page' => -1,
+					)
+				)
+			) <= 1 ) {
+
+				// We only have one scheduled hook for $action, that's correct.
+				continue;
+			}
+
+			// Remove them all, there should only be one.
+			as_unschedule_all_actions( $action, array(), 'affiliatewp' );
+
+			// Tell the scheduler not to schedule an email summary for now.
+			if ( 'affwp_monthly_email_summaries' === $action ) {
+				update_option( 'affwp_email_summary_now', 'no' );
+			}
+		}
 	}
 
 	/**

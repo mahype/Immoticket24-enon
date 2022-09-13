@@ -162,6 +162,7 @@ class Export_Referrals extends Batch\Export\CSV implements Batch\With_PreFetch {
 			'reference'     => __( 'Reference', 'affiliate-wp' ),
 			'context'       => __( 'Context', 'affiliate-wp' ),
 			'status'        => __( 'Status', 'affiliate-wp' ),
+			'flag'          => __( 'Flag', 'affiliate-wp' ),
 			'type'          => __( 'Type', 'affiliate-wp' ),
 			'date'          => __( 'Date', 'affiliate-wp' ),
 		);
@@ -222,6 +223,7 @@ class Export_Referrals extends Batch\Export\CSV implements Batch\With_PreFetch {
 					'reference'     => $referral->reference,
 					'context'       => $referral->context,
 					'status'        => $referral->status,
+					'flag'          => $referral->flag,
 					'type'          => ! empty( $referral->type ) ? $referral->type : 'sale',
 					'date'          => $referral->date_i18n( 'mysql' ),
 				), $referral );

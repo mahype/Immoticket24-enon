@@ -1750,6 +1750,26 @@ function affwp_get_affiliate_area_page_id() {
 }
 
 /**
+ * Retrieves the page ID for the Affiliate Terms Of Use.
+ *
+ * @since 2.9.6
+ *
+ * @return int Affiliate Terms Of Use page ID.
+ */
+function affwp_get_affiliate_terms_of_use_page_id() {
+	$affiliate_terms_page_id = affiliate_wp()->settings->get( 'terms_of_use', 0 );
+
+	/**
+	 * Filters the Affiliate Terms Of Use page ID.
+	 *
+	 * @since 2.9.6
+	 *
+	 * @param int $affiliate_terms_page_id Affiliate Terms Of Use page ID.
+	 */
+	return apply_filters( 'affwp_affiliate_terms_of_use_page_id', $affiliate_terms_page_id );
+}
+
+/**
  * Retrieves the Affiliates Area page URL.
  *
  * @since 1.8

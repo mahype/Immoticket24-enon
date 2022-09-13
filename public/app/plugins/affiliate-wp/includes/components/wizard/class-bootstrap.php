@@ -230,7 +230,6 @@ class Bootstrap {
 		}
 
 		$license_data = $license_activation['license_data'];
-		$license_key  = $license_activation['license_key'];
 
 		if (
 			(
@@ -245,13 +244,6 @@ class Bootstrap {
 				)
 			);
 		}
-
-		affiliate_wp()->settings->set( array(
-			'license_status' => $license_data,
-			'license_key'    => $license_key,
-		), true );
-
-		set_transient( 'affwp_license_check', $license_data->license, DAY_IN_SECONDS );
 
 		wp_send_json_success(
 			array(

@@ -104,6 +104,31 @@ class AffWP_Referrals_Table extends List_Table {
 	}
 
 	/**
+	 * Generates content for a single row of the referrals table.
+	 *
+	 * @since 2.9.6
+	 *
+	 * @param \AffWP\Referral $referral The current referral object.
+	 */
+	public function single_row( $referral ) {
+		/**
+		 * Filters the CSS class for a single row of the referrals table.
+		 *
+		 * @since 2.9.6
+		 *
+		 * @param string          $class   CSS class.
+		 * @param \AffWP\Referral $referral Referral object.
+		 */
+		$class = apply_filters( 'affwp_referral_table_single_row_class', '', $referral );
+		?>
+
+		<tr class="<?php echo esc_attr( $class ); ?>">
+			<?php $this->single_row_columns( $referral ); ?>
+		</tr>
+		<?php
+	}
+
+	/**
 	 * Show the search field
 	 *
 	 * @access public

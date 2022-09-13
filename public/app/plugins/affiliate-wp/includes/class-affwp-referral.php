@@ -176,6 +176,15 @@ final class Referral extends Base_Object {
 	public $type;
 
 	/**
+	 * Referral flag.
+	 *
+	 * @since 2.9.6
+	 * @access public
+	 * @var string
+	 */
+	public $flag;
+
+	/**
 	 * Token to use for generating cache keys.
 	 *
 	 * @since 1.9

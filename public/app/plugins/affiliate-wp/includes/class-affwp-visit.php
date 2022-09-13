@@ -95,6 +95,15 @@ final class Visit extends Base_Object {
 	public $context;
 
 	/**
+	 * Visit flag.
+	 *
+	 * @since 2.9.6
+	 * @access public
+	 * @var string
+	 */
+	public $flag;
+
+	/**
 	 * Visit IP address (IPv4).
 	 *
 	 * @since 1.9

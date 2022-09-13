@@ -581,44 +581,7 @@ table.affiliates #unpaid {
 	width: 110px;
 }
 
-/* Add-ons */
-
-#affwp-add-ons h2 {
-	margin: 0 0 15px;
-}
-
-#affwp-add-ons .affwp-add-on {
-	display: inline-block;
-	vertical-align: top;
-	margin: 0 11px 14px 0;
-	background: #fff;
-	border: 1px solid #ccc;
-	width: 320px;
-	padding: 14px;
-	min-height: 290px;
-	position: relative;
-}
-
-#affwp-add-ons .affwp-add-on h3 {
-	margin: 0 0 8px;
-	font-size: 13px;
-}
-
-#affwp-add-ons .affwp-add-on .button-secondary {
-	position: absolute;
-	bottom: 14px;
-	left: 14px;
-}
-
-#affwp-add-ons .affwp-add-on .wp-post-image {
-	width: 100%;
-	height: auto;
-	display: block;
-}
-
-.affwp-add-ons-footer {
-	padding-top: 10px;
-}
+/* Tools */
 
 #affwp-system-info-textarea {
 	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
@@ -891,6 +854,55 @@ form .spinner {
 .affwp-admin-notice-top-of-page .button-link:focus {
 	color: #fff;
 	text-decoration: none;
+}
+
+/* Terms of Use Generator */
+
+.wp-create-terms-of-use-page {
+	max-width: 640px;
+}
+
+.wp-create-terms-of-use-page label,
+.wp-create-terms-of-use-page .description {
+	display: block;
+}
+
+.wp-create-terms-of-use-page .description {
+	margin-bottom: 8px;
+}
+
+.wp-create-terms-of-use-page label {
+	font-weight: bold;
+	margin-bottom: 4px;
+	font-weight: 600;
+}
+
+#terms-of-use-preview {
+	max-height: 400px;
+	overflow-y: scroll;
+	padding: 1rem;
+	margin-bottom: 1.5rem;
+	background: #f0f0f1;
+	border: 1px solid #8c8f94;
+}
+
+#terms-of-use-preview ul {
+	list-style-type: disc;
+	padding-left: 1rem;
+}
+
+#terms-of-use-preview li {
+	margin-bottom: 1rem;
+}
+
+#terms-of-use-preview p {
+	margin: 0 0 1.5rem 0;
+}
+
+#terms-of-use-preview h1,
+#terms-of-use-preview h2 {
+	margin: 0 0 1rem 0;
+	padding: 0;
 }
 
 /* Media Queries */

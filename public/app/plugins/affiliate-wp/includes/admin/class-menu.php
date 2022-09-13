@@ -90,7 +90,17 @@ class Affiliate_WP_Admin_Menu {
 		$tools      = add_submenu_page( 'affiliate-wp', __( 'Tools', 'affiliate-wp' ),       __( 'Tools', 'affiliate-wp' ),                 'manage_affiliate_options', 'affiliate-wp-tools',      'affwp_tools_admin'          );
 		$settings   = add_submenu_page( 'affiliate-wp', __( 'Settings', 'affiliate-wp' ),    __( 'Settings', 'affiliate-wp' ),              'manage_affiliate_options', 'affiliate-wp-settings',   'affwp_settings_admin'       );
 		$migration  = add_submenu_page( null, __( 'AffiliateWP Migration', 'affiliate-wp' ), __( 'AffiliateWP Migration', 'affiliate-wp' ), 'manage_affiliate_options', 'affiliate-wp-migrate',    'affwp_migrate_admin'        );
-		$add_ons    = add_submenu_page( 'affiliate-wp', __( 'Add-ons', 'affiliate-wp' ),     __( 'Add-ons', 'affiliate-wp' ),               'manage_affiliate_options', 'affiliate-wp-add-ons',    'affwp_add_ons_admin'        );
+		$add_ons    = add_submenu_page(
+			'affiliate-wp',
+			__( 'Add-ons', 'affiliate-wp' ),
+			sprintf(
+				'<span style="color:#E34F43">%s</span>',
+				__( 'Addons', 'affiliate-wp' )
+			),
+			'manage_affiliate_options',
+			'affiliate-wp-add-ons',
+			'affwp_add_ons_admin'
+		);
 		$analytics  = add_submenu_page( 'affiliate-wp', __( 'Analytics', 'affiliate-wp' ),   __( 'Analytics', 'affiliate-wp' ),             'view_affiliate_reports',   'affiliate-wp-analytics',  [ 'Affwp\Admin\Pages\Analytics', 'display' ] );
 		$smtp       = add_submenu_page( 'affiliate-wp', __( 'SMTP', 'affiliate-wp' ),        __( 'SMTP', 'affiliate-wp' ),                  'view_affiliate_reports',   'affiliate-wp-smtp',       [ 'Affwp\Admin\Pages\SMTP', 'display' ] );
 

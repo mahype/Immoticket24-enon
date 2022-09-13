@@ -104,6 +104,10 @@ function affwp_get_tools_tabs() {
 		$tabs['coupons'] = __( 'Coupons', 'affiliate-wp' );
 	}
 
+	if ( current_user_can( 'manage_affiliate_options' ) ) {
+		$tabs['terms_of_use_generator'] = __( 'Terms of Use Generator', 'affiliate-wp' );
+	}
+
 	/**
 	 * Filters AffiliateWP tools tabs.
 	 *
@@ -470,7 +474,7 @@ function affwp_export_import_tab() {
 								printf(
 									/* translators: Documentation URL */
 									__( 'Each column loaded from the CSV may be mapped to an affiliate field. Select the column that should be mapped to each field below. Any columns not needed can be ignored. See <a href="%s" target="_blank">this guide</a> for assistance with importing affiliate records.', 'affiliate-wp' ),
-									esc_url( 'http://docs.affiliatewp.com/article/1893-importing-affiliates-from-csv' )
+									esc_url( 'https://affiliatewp.com/docs/importing-affiliates-from-csv/' )
 								);
 								?>
 							</p>
@@ -518,7 +522,7 @@ function affwp_export_import_tab() {
 								printf(
 									/* translators: Documentation URL */
 									__( 'Each column loaded from the CSV may be mapped to a referral field. Select the column that should be mapped to each field below. Any columns not needed can be ignored. Any affiliates that don&#8217;t exist will be created. See <a href="%s" target="_blank">this guide</a> for assistance with importing referral records.', 'affiliate-wp' ),
-									esc_url( 'http://docs.affiliatewp.com/article/1896-importing-referrals-from-csv' )
+									esc_url( 'https://affiliatewp.com/docs/importing-referrals-from-csv/' )
 								);
 								?>
 							</p>
@@ -573,6 +577,309 @@ function affwp_system_info_tab() {
 	<?php
 }
 add_action( 'affwp_tools_tab_system_info', 'affwp_system_info_tab' );
+
+/**
+ * Allows the x-text attribute while sanitizing using wp_kses_post().
+ * Only allowed within the Terms of Use Generator tab.
+ *
+ * @since 2.9.6
+ *
+ * @param array $html Allowed HTML tags.
+ * @param string $context Context name.
+ *
+ * @return array $html Allowed HTML tags.
+ */
+function affwp_tools_wp_kses_allowed_html( $html, $context ) {
+	
+	if ( 'terms_of_use_generator' !== affwp_get_current_tools_tab() || 'post' !== $context ) {
+		return $html;
+	}
+
+	return array_merge( 
+		$html, 
+		array(
+			'span' => array(
+				'x-text' => 1,
+			),
+		)
+	);
+}
+add_filter( 'wp_kses_allowed_html', 'affwp_tools_wp_kses_allowed_html', 10, 2 );
+
+/**
+ * Terms of Use Generator tab.
+ *
+ * @since 2.9.6
+ * @return void
+ */
+function affwp_terms_of_use_generator_tab() {
+	if ( ! current_user_can( 'manage_affiliate_options' ) ) {
+		return;
+	}
+
+	$site_name      = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+	$placeholder    = affwp_get_terms_of_use_content( array( 'company' => $site_name ) );
+	$placeholder    = str_replace( $site_name, '<span x-text="company">' . $site_name . '</span>', $placeholder );
+	$terms_page     = affwp_get_affiliate_terms_of_use_page_id();
+	$button_text    = __( 'Create Terms of Use Page', 'affiliate-wp' );
+	$term_page_link = get_permalink( $terms_page );
+	?>
+	<div id="affwp-dashboard-widgets-wrap">
+		<div class="metabox-holder">
+			<div class="postbox">
+				<h3><span><?php esc_html_e( 'Terms of Use Generator', 'affiliate-wp' ); ?></span></h3>
+				<div class="inside">
+					<form class="wp-create-terms-of-use-page" method="post" action="" x-data="{ company: '<?php echo esc_attr( $site_name ); ?>' }">
+						<p><?php esc_html_e( 'Use this tool to create a Terms of Use page for your affiliate program. You will be able to make changes before publishing.', 'affiliate-wp' ); ?></p>
+						<p><?php esc_html_e( 'Our Terms of Use template is a generic starting point. It is your responsibility to modify it as needed and to provide any additional information. For legal opinion and advice, refer to a professional attorney.', 'affiliate-wp' ); ?></p>
+
+						<p>
+							<label for="company"><?php esc_html_e( 'Company Name', 'affiliate-wp' ); ?></label>
+							<span class="description"><?php esc_html_e( 'Your company name is shown throughout the Terms of Use.', 'affiliate-wp' ); ?></span>
+							<input id="company" type="text" x-model="company" name="company" class="regular-text">
+						</p>
+
+						<p><strong><?php esc_html_e( 'Terms of Use Preview', 'affiliate-wp' ); ?></strong> </p>
+
+						<div id="terms-of-use-preview"><h1><?php esc_html_e( 'Affiliate Terms of Use', 'affiliate-wp' ); ?></h1><?php echo wp_kses_post( $placeholder ); ?></div>
+
+						<?php if ( $terms_page && 'publish' === get_post_status( $terms_page ) ) : ?>
+							<?php $button_text = __( 'Create a New Terms of Use Page', 'affiliate-wp' ); ?>
+							<?php // Translators: %s below is a link to the TOS page. ?>
+							<p><?php echo wp_kses_post( sprintf( __( 'You already have a %s page. Are you sure you want to create a new one?', 'affiliate-wp' ), sprintf( "<a href='{$term_page_link}' target='_blank'>%s</a>", __( 'Terms of Use', 'affiliate-wp' ) ) ) ); ?></p>
+						<?php endif; ?>
+
+						<?php submit_button( $button_text, 'primary', 'affwp-create-terms-of-use-page', false ); ?>
+						<?php wp_nonce_field( 'affwp-create-terms-of-use-page' ); ?>
+
+						<input type="hidden" name="affwp_action" value="create_terms_of_use_page" />
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php
+}
+add_action( 'affwp_tools_tab_terms_of_use_generator', 'affwp_terms_of_use_generator_tab' );
+
+/**
+ * Retrieve Terms of Use page content.
+ *
+ * @since 2.9.6
+ *
+ * @param array $data Data sent from generator.
+ * @return string $terms_of_use_content Terms of Use content.
+ */
+function affwp_get_terms_of_use_content( $data = array() ) {
+	$company = isset( $data['company'] ) ? $data['company'] : '';
+	ob_start();
+	?>
+
+	<!-- wp:paragraph -->
+	<?php // Translators: %1$s below is the Company Name. ?>
+	<p><?php echo esc_html( sprintf( __( 'As an authorized affiliate (Affiliate) of %1$s, you agree to abide by the terms and conditions contained in this Agreement (Agreement). Please read the entire Agreement carefully before registering and promoting %1$s as an Affiliate.', 'affiliate-wp' ), $company ) ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:paragraph -->
+	<?php // Translators: %s below is the Company Name. ?>
+	<p><?php echo esc_html( sprintf( __( 'Your participation in the Program is solely to legally advertise our website to receive a commission on memberships and products purchased by individuals referred to %s by your own website or personal referrals.', 'affiliate-wp' ), $company ) ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:paragraph -->
+	<?php // Translators: %s below is the Company Name. ?>
+	<p><?php echo esc_html( sprintf( __( 'By signing up for the %s Affiliate Program (Program), you indicate your acceptance of this Agreement and its terms and conditions.', 'affiliate-wp' ), $company ) ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:heading {"level":2} -->
+	<h2 id="approval-or-rejection"><?php esc_html_e( 'Approval or Rejection of the Application', 'affiliate-wp' ); ?></h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph -->
+	<p><?php esc_html_e( 'We reserve the right to approve or reject ANY Affiliate Program Application at our sole and absolute discretion. You will have no legal recourse against us for the rejection of your Affiliate Program Application.', 'affiliate-wp' ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:heading {"level":2} -->
+	<h2 id="commissions"><?php esc_html_e( 'Commissions', 'affiliate-wp' ); ?></h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph -->
+	<p><?php esc_html_e( 'Commissions will be paid once a month. For an Affiliate to receive a commission, the referred account must remain active for a minimum of 31 days.', 'affiliate-wp' ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:paragraph -->
+	<p><?php esc_html_e( 'You cannot refer yourself, and you will not receive a commission on your own accounts.', 'affiliate-wp' ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:paragraph -->
+	<p><?php esc_html_e( 'Payments will only be sent for transactions that have been successfully completed. Transactions that result in chargebacks or refunds will not be paid out.', 'affiliate-wp' ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:heading {"level":2} -->
+	<h2 id="termination"><?php esc_html_e( 'Termination', 'affiliate-wp' ); ?></h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph -->
+	<p><?php esc_html_e( 'Your affiliate application and status in the Program may be suspended or terminated for any of the following reasons:', 'affiliate-wp' ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:list -->
+	<ul>
+		<li><?php esc_html_e( 'Inappropriate advertisements (false claims, misleading hyperlinks, etc.).', 'affiliate-wp' ); ?></li>
+		<li><?php esc_html_e( 'Spamming (mass email, mass newsgroup posting, etc.).', 'affiliate-wp' ); ?></li>
+		<li><?php esc_html_e( 'Advertising on sites containing or promoting illegal activities.', 'affiliate-wp' ); ?></li>
+		<li><?php esc_html_e( 'Failure to disclose the affiliate relationship for any promotion that qualifies as an endorsement under existing Federal Trade Commission guidelines and regulations, or any applicable state laws.', 'affiliate-wp' ); ?></li>
+		<?php // Translators: %1$s below is the Company Name. ?>
+		<li><?php echo esc_html( sprintf( __( 'Violation of intellectual property rights. %1$s reserves the right to require license agreements from those who employ trademarks of %1$s in order to protect our intellectual property rights.', 'affiliate-wp' ), $company ) ); ?></li>
+		<?php // Translators: %s below is the Company Name. ?>
+		<li><?php echo esc_html( sprintf( __( 'Offering rebates, coupons, or other form of promised kick-backs from your affiliate commission as an incentive. Adding bonuses or bundling other products with %s, however, is acceptable.', 'affiliate-wp' ), $company ) ); ?></li>
+		<li><?php esc_html_e( 'Self referrals, fraudulent transactions, suspected Affiliate fraud.', 'affiliate-wp' ); ?></li>
+	</ul>
+	<!-- /wp:list -->
+
+	<!-- wp:paragraph -->
+	<?php // Translators: %s below is the Company Name. ?>
+	<p><?php echo esc_html( sprintf( __( 'In addition to the foregoing, %s reserves the right to terminate any Affiliate account at any time, for any violations of this Agreement or no reason.', 'affiliate-wp' ), $company ) ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:heading {"level":2} -->
+	<h2 id="affiliate-links"><?php esc_html_e( 'Affiliate Links', 'affiliate-wp' ); ?></h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph -->
+	<?php // Translators: %s below is the Company Name. ?>
+	<p><?php echo esc_html( sprintf( __( 'You may use graphic and text links both on your website and within in your email messages. You may also advertise the %s site in online and offline classified ads, magazines, and newspapers.', 'affiliate-wp' ), $company ) ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:paragraph -->
+	<p><?php esc_html_e( 'You may use the graphics and text provided by us, or you may create your own as long as they are deemed appropriate according to the conditions and not in violation as outlined in the Termination section.', 'affiliate-wp' ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:heading {"level":2} -->
+	<h2 id="coupon-and-deal-sites"><?php esc_html_e( 'Coupon and Deal Sites', 'affiliate-wp' ); ?></h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph -->
+	<?php // Translators: %s below is the Company Name. ?>
+	<p><?php echo esc_html( sprintf( __( '%s occasionally offers coupon to select affiliates and to our newsletter subscribers. If you’re not pre-approved / assigned a branded coupon, then you’re not allowed to promote the coupon. Below are the terms that apply for any affiliate who is considering the promotion of our products in relation to a deal or coupon:', 'affiliate-wp' ), $company ) ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:list -->
+	<ul>
+		<li><?php esc_html_e( 'Affiliates may not use misleading text on affiliate links, buttons or images to imply that anything besides currently authorized deals to the specific affiliate.', 'affiliate-wp' ); ?></li>
+		<?php // Translators: %1$s below is the Company Name. ?>
+		<li><?php echo esc_html( sprintf( __( 'Affiliates may not bid on %1$s Coupons, %1$s Discounts or other phrases implying coupons are available.', 'affiliate-wp' ), $company ) ); ?></li>
+		<li><?php esc_html_e( 'Affiliates may not generate pop-ups, pop-unders, iframes, frames, or any other seen or unseen actions that set affiliate cookies unless the user has expressed a clear and explicit interest in activating a specific savings by clicking on a clearly marked link, button or image for that particular coupon or deal. Your link must send the visitor to the merchant site.', 'affiliate-wp' ); ?></li>
+		<li><?php esc_html_e( 'User must be able to see coupon/deal/savings information and details before an affiliate cookie is set (i.e. “click here to see coupons and open a window to merchant site” is NOT allowed).', 'affiliate-wp' ); ?></li>
+		<li><?php esc_html_e( 'Affiliate sites may not have “Click for (or to see) Deal/Coupon” or any variation, when there are no coupons or deals available, and the click opens the merchant site or sets a cookie. Affiliates with such text on the merchant landing page will be removed from the program immediately.', 'affiliate-wp' ); ?></li>
+	</ul>
+	<!-- /wp:list -->
+
+	<!-- wp:heading {"level":2} -->
+	<h2 id="ppc-policy"><?php esc_html_e( 'Pay Per Click (PPC) Policy', 'affiliate-wp' ); ?></h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph -->
+	<p><?php esc_html_e( 'PPC bidding is NOT allowed without prior written permission.', 'affiliate-wp' ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:heading {"level":2} -->
+	<h2 id="liability"><?php esc_html_e( 'Liability', 'affiliate-wp' ); ?></h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph -->
+	<?php // Translators: %s below is the Company Name. ?>
+	<p><?php echo esc_html( sprintf( __( '%s will not be liable for indirect or accidental damages (loss of revenue, commissions) due to affiliate tracking failures, loss of database files, or any results of intents of harm to the Program and/or to our website(s).', 'affiliate-wp' ), $company ) ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:paragraph -->
+	<?php // Translators: %s below is the Company Name. ?>
+	<p><?php echo esc_html( sprintf( __( 'We do not make any expressed or implied warranties with respect to the Program and/or the memberships or products sold by %s. We make no claim that the operation of the Program and/or our website(s) will be error-free and we will not be liable for any interruptions or errors.', 'affiliate-wp' ), $company ) ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:heading {"level":2} -->
+	<h2 id="term-of-agreement"><?php esc_html_e( 'Term of the Agreement', 'affiliate-wp' ); ?></h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph -->
+	<p><?php esc_html_e( 'The term of this Agreement begins upon your acceptance in the Program and will end when your Affiliate account is terminated.', 'affiliate-wp' ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:paragraph -->
+	<p><?php esc_html_e( 'The terms and conditions of this agreement may be modified by us at any time. If any modification to the terms and conditions of this Agreement are unacceptable to you, your only choice is to terminate your Affiliate account. Your continuing participation in the Program will constitute your acceptance of any change.', 'affiliate-wp' ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:heading {"level":2} -->
+	<h2 id="indemnification"><?php esc_html_e( 'Indemnification', 'affiliate-wp' ); ?></h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph -->
+	<?php // Translators: %1$s below is the Company Name. ?>
+	<p><?php echo esc_html( sprintf( __( 'Affiliate shall indemnify and hold harmless %1$s and its affiliate and subsidiary companies, officers, directors, employees, licensees, successors and assigns, including those licensed or authorized by %1$s to transmit and distribute materials, from any and all liabilities, damages, fines, judgments, claims, costs, losses, and expenses (including reasonable legal fees and costs) arising out of or related to any and all claims sustained in connection with this Agreement due to the negligence, misrepresentation, failure to disclose, or intentional misconduct of Affiliate.', 'affiliate-wp' ), $company ) ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:heading {"level":2} -->
+	<h2 id="electronic-signatures-effective"><?php esc_html_e( 'Electronic Signatures Effective', 'affiliate-wp' ); ?></h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph -->
+	<?php // Translators: %1$s below is the Company Name. ?>
+	<p><?php echo esc_html( sprintf( __( 'The Agreement is an electronic contract that sets out the legally binding terms of your participation in the %1$s affiliate program. You indicate your acceptance of this Agreement and all of the terms and conditions contained or referenced in this Agreement by completing the %1$s application process. This action creates an electronic signature that has the same legal force and effect as a handwritten signature.', 'affiliate-wp' ), $company ) ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<?php
+	return ob_get_clean();
+}
+
+/**
+ * Handles submit actions for the terms of use page.
+ *
+ * @since 2.9.6
+ */
+function affwp_create_terms_of_use_page() {
+
+	if ( ! current_user_can( 'manage_affiliate_options' ) ) {
+		return;
+	}
+
+	check_admin_referer( 'affwp-create-terms-of-use-page' );
+
+	if ( isset( $_REQUEST['affwp-create-terms-of-use-page'] ) ) {
+
+		$company = isset( $_POST['company'] ) ? $_POST['company'] : '';
+
+		$terms_of_use_page_id = wp_insert_post(
+			array(
+				'post_title'     => __( 'Affiliate Terms of Use', 'affiliate-wp' ),
+				'post_content'   => affwp_get_terms_of_use_content( array( 'company' => $company ) ),
+				'post_status'    => 'draft',
+				'post_author'    => get_current_user_id(),
+				'post_type'      => 'page',
+				'comment_status' => 'closed',
+			)
+		);
+
+		if ( is_wp_error( $terms_of_use_page_id ) ) {
+			add_settings_error(
+				'page_for_affiliate_terms',
+				'page_for_affiliate_terms',
+				__( 'Unable to create an Affiliate Terms of Use page.', 'affiliate-wp' ),
+				'error'
+			);
+		} else {
+			// Set the Terms of use page.
+			affiliate_wp()->settings->set(
+				array(
+					'terms_of_use' => $terms_of_use_page_id,
+				),
+				$save = true
+			);
+
+			wp_safe_redirect( admin_url( 'post.php?post=' . $terms_of_use_page_id . '&action=edit' ) );
+			exit;
+		}
+	}
+}
+add_action( 'affwp_create_terms_of_use_page', 'affwp_create_terms_of_use_page' );
 
 /**
  * Listens for system info download requests and delivers the file.

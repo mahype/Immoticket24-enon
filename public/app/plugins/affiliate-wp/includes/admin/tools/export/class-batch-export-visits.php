@@ -159,6 +159,7 @@ class Export_Visits extends Batch\Export\CSV implements Batch\With_PreFetch {
 			'url'             => __( 'URL', 'affiliate-wp' ),
 			'referrer'        => __( 'Referrer', 'affiliate-wp' ),
 			'context'         => __( 'Context', 'affiliate-wp' ),
+			'flag'            => __( 'Flag', 'affiliate-wp' ),
 			'date'            => _x( 'Date', 'visit', 'affiliate-wp' ),
 		);
 	}
@@ -219,6 +220,7 @@ class Export_Visits extends Batch\Export\CSV implements Batch\With_PreFetch {
 				 *     @type string $url             URL.
 				 *     @type string $referrer        Referrer.
 				 *     @type string $context         Visit context.
+				 *     @type string $flag            Visit flag.
 				 *     @type string $date            Visit date.
 				 * }
 				 * @param \AffWP\Visit $visit Visit object.
@@ -231,6 +233,7 @@ class Export_Visits extends Batch\Export\CSV implements Batch\With_PreFetch {
 					'url'             => $visit->url,
 					'referrer'        => $visit->referrer,
 					'context'         => $visit->context,
+					'flag'            => $visit->flag,
 					'date'            => $visit->date_i18n( 'mysql' ),
 				), $visit );
 

@@ -682,6 +682,24 @@ class Affiliate_WP_Register {
 	}
 
 	/**
+	 * Attributes for a field (tr row) that is dependant on input#create-affiliate-add-new-user
+	 *
+	 * @since 2.9.6
+	 *
+	 * @return string
+	 */
+	private function get_data_attrs_depends_on_add_user_as_affiliate() {
+		return implode(
+			' ',
+			array(
+				'data-trigger-on="change"',
+				'data-trigger-id="create-affiliate-add-new-user"',
+				'data-trigger-is=":checked"',
+			)
+		);
+	}
+
+	/**
 	 * Adds an "Add As Affiliate" checkbox to the WordPress "Add New User" screen
 	 * On multisite this will only show when the "Skip Confirmation Email" checkbox is enabled
 	 *
@@ -703,7 +721,7 @@ class Affiliate_WP_Register {
 				</td>
 			</tr>
 			<?php if ( affwp_dynamic_coupons_is_setup() ) : ?>
-				<tr class="form-row" id="affwp-affiliate-coupon-row">
+				<tr class="hidden form-row" id="affwp-affiliate-coupon-row" <?php echo filter_var( $this->get_data_attrs_depends_on_add_user_as_affiliate(), FILTER_UNSAFE_RAW ); ?>>
 					<th scope="row">
 						<label for="dynamic-coupon-<?php echo $context; ?>"><?php _e( 'Dynamic Coupon', 'affiliate-wp' ); ?></label>
 					</th>
@@ -716,7 +734,7 @@ class Affiliate_WP_Register {
 				</tr>
 			<?php endif; ?>
 			<?php if ( ! affiliate_wp()->emails->is_email_disabled() ) : ?>
-			<tr>
+			<tr class="hidden disable-affiliate-email-<?php echo $context; ?>" <?php echo filter_var( $this->get_data_attrs_depends_on_add_user_as_affiliate(), FILTER_UNSAFE_RAW ); ?>>
 				<th scope="row"><label for="disable-affiliate-email-<?php echo $context; ?>"><?php _e( 'Disable Affiliate Email',  'affiliate-wp' ); ?></label></th>
 				<td>
 					<label for="disable-affiliate-email-<?php echo $context; ?>"><input type="checkbox" id="disable-affiliate-email-<?php echo $context; ?>" name="disable_affiliate_email" value="1" /> <?php _e( 'Disable the application accepted email sent to the affiliate.', 'affiliate-wp' ); ?></label>

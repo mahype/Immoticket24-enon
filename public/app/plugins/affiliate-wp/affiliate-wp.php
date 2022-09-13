@@ -5,7 +5,7 @@
  * Description: Affiliate Plugin for WordPress
  * Author: AffiliateWP
  * Author URI: https://affiliatewp.com
- * Version: 2.9.5.3
+ * Version: 2.9.6.1
  * Text Domain: affiliate-wp
  * Domain Path: languages
  * GitHub Plugin URI: affiliatewp/affiliatewp
@@ -25,7 +25,7 @@
  * @package AffiliateWP
  * @category Core
  * @author Pippin Williamson
- * @version 2.9.5.3
+ * @version 2.9.6.1
  */
 
 if ( ! class_exists( 'AffiliateWP_Requirements_Check_v1_1' ) ) {
@@ -150,7 +150,7 @@ class AffiliateWP_Core_Requirements_Check extends AffiliateWP_Requirements_Check
 	 * @return string Unmet requirements URL.
 	 */
 	protected function unmet_requirements_url() {
-		return 'https://docs.affiliatewp.com/article/2361-minimum-requirements-roadmaps';
+		return 'https://affiliatewp.com/docs/minimum-requirements-roadmap/';
 	}
 
 }

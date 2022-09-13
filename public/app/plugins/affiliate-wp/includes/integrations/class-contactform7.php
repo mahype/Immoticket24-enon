@@ -57,7 +57,7 @@ class Affiliate_WP_Contact_Form_7 extends Affiliate_WP_Base {
 	 */
 	public function init() {
 
-		$this->doc_url = 'http://docs.affiliatewp.com/article/657-contact-form-7';
+		$this->doc_url = 'https://affiliatewp.com/docs/contact-form-7/';
 
 		// Set the success and cancel url.
 		$this->return_url = get_home_url();

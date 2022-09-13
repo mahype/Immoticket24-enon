@@ -133,6 +133,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 			'products'       => '%s',
 			'payout_id'      => '%d',
 			'type'           => '%s',
+			'flag'           => '%s',
 			'date'           => '%s',
 		);
 	}
@@ -256,6 +257,11 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 				$args['context'] = strtolower( $args['context'] );
 			}
 
+			if ( ! empty( $args['flag'] ) ) {
+				// Force flag to lowercase for system-wide compatibility.
+				$args['flag'] = strtolower( $args['flag'] );
+			}
+
 			$args['customer_id'] = $this->setup_customer( $args );
 
 			$add = $this->insert( $args, 'referral' );
@@ -353,6 +359,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 		$args['campaign']      = ! empty( $data['campaign'] )      ? sanitize_text_field( $data['campaign'] )    : $referral->campaign;
 		$args['reference']     = ! empty( $data['reference'] )     ? sanitize_text_field( $data['reference'] )   : $referral->reference;
 		$args['parent_id']     = ! empty( $data['parent_id'] )     ? intval( $data['parent_id'] )                : $referral->parent_id;
+		$args['flag']          = isset( $data['flag'] )            ? sanitize_text_field( $data['flag'] )        : $referral->flag;
 
 		// Validate any referral type changes.
 		if ( ! empty( $data['type'] ) ) {
@@ -367,6 +374,9 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 
 		// Force context to lowercase for system-wide compatibility.
 		$args['context'] = strtolower( $args['context'] );
+
+		// Force flag to lowercase for system-wide compatibility.
+		$args['flag'] = strtolower( $args['flag'] );
 
 		/*
 		 * Deliberately defer updating the status – it will be updated instead
@@ -837,6 +847,26 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 
 		}
 
+		// Flag.
+		if ( ! empty( $args['flag'] ) ) {
+
+			$where .= empty( $where ) ? "WHERE " : "AND ";
+
+			if ( is_array( $args['flag'] ) ) {
+				$args['flag'] = array_map( 'strtolower', $args['flag'] );
+
+				$where .= "`flag` IN('" . implode( "','", array_map( 'esc_sql', $args['flag'] ) ) . "') ";
+			} else {
+				$flag = esc_sql( strtolower( $args['flag'] ) );
+
+				if ( ! empty( $args['search'] ) ) {
+					$where .= "`flag` LIKE '%%" . $flag . "%%' ";
+				} else {
+					$where .= "`flag` = '" . $flag . "' ";
+				}
+			}
+
+		}
 
 		// Description.
 		if( ! empty( $args['description'] ) ) {
@@ -1286,6 +1316,7 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 		context      tinytext    NOT NULL,
 		campaign     varchar(50) NOT NULL,
 		type         varchar(30) NOT NULL,
+		flag         tinytext    NOT NULL,
 		reference    mediumtext  NOT NULL,
 		products     mediumtext  NOT NULL,
 		payout_id    bigint(20)  NOT NULL,

@@ -9,6 +9,16 @@
  * @since       2.5
  */
 
+// phpcs:disable PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket -- Legacy code uses different formatting.
+// phpcs:disable PEAR.Functions.FunctionCallSignature.CloseBracketLine        -- Legacy code uses different formatting.
+// phpcs:disable PEAR.Functions.FunctionCallSignature.MultipleArguments       -- Legacy code uses different formatting.
+// phpcs:disable Squiz.Commenting.InlineComment.InvalidEndChar                -- Legacy code does not have punctual stops.
+// phpcs:disable Squiz.PHP.DisallowMultipleAssignments.Found                  -- Legacy code does not follow this multiple assignments.
+// phpcs:disable Generic.Commenting.DocComment.MissingShort                   -- Legacy code does not follow this commenting format.
+// phpcs:disable WordPress.WP.I18n.MissingTranslatorsComment                  -- Legacy code does not follow this format.
+// phpcs:disable WordPress.WP.I18n.NonSingularStringLiteralText               -- Legacy code does not follow this format.
+// phpcs:disable Squiz.Strings.DoubleQuoteUsage.NotRequired                   -- Legacy code does not follow this format.
+
 namespace AffWP;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -51,7 +61,6 @@ class Integrations_Registry extends Utils\Registry {
 		foreach ( $integrations as $integration_id => $attributes ) {
 			$this->add_integration( $integration_id, $attributes );
 		}
-
 	}
 
 	/**
@@ -60,7 +69,7 @@ class Integrations_Registry extends Utils\Registry {
 	 * @since 2.5
 	 *
 	 * @param string $integration_id The integration identifier, usually an acronym or abbreviation for the integration.
-	 * @param array $attributes {
+	 * @param array  $attributes {
 	 *       List of attributes for this integration.
 	 *
 	 *       @type string $class   Required. The integration class name.
@@ -95,9 +104,10 @@ class Integrations_Registry extends Utils\Registry {
 		$invalid_supports = array_diff( $attributes['supports'], $this->supports_whitelist() );
 		if ( ! empty( $invalid_supports ) ) {
 			$message = __( sprintf( "The integration %s was not registered. Invalid support type.", $integration_id ) );
+
 			_doing_it_wrong(
 				__FUNCTION__,
-				$message,
+				esc_html( $message ),
 				'2.5'
 			);
 
@@ -213,7 +223,10 @@ class Integrations_Registry extends Utils\Registry {
 				$errors->add(
 					'integration_query_invalid_supports',
 					'An integration query attempted to run with an invalid support feature.',
-					array( 'invalid_supports' => $invalid_supports, 'args' => $args )
+					array(
+						'invalid_supports' => $invalid_supports,
+						'args'             => $args,
+					)
 				);
 			}
 		}
@@ -247,12 +260,12 @@ class Integrations_Registry extends Utils\Registry {
 			}
 
 			// If this integration is enabled, and we don't want enabled integrations, skip it.
-			if ( ! in_array( 'enabled', $args['status'] ) && true === $integration['enabled'] ) {
+			if ( ! in_array( 'enabled', $args['status'] ) && true === $integration['enabled'] ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict -- Legacy code does not use strict testing.
 				continue;
 			}
 
 			// If the integration is disabled, and we don't want disabled integrations, skip it.
-			if ( ! in_array( 'disabled', $args['status'] ) && false === $integration['enabled'] ) {
+			if ( ! in_array( 'disabled', $args['status'] ) && false === $integration['enabled'] ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict -- Legacy code does not use strict testing.
 				continue;
 			}
 
@@ -266,7 +279,7 @@ class Integrations_Registry extends Utils\Registry {
 
 			// If this integration supports features that it should not support, skip it.
 			if ( ! empty( $args['does_not_support'] ) ) {
-				$does_not_support_diff = array_intersect( $integration['supports'],$args['does_not_support']  );
+				$does_not_support_diff = array_intersect( $integration['supports'], $args['does_not_support'] );
 				if ( ! empty( $does_not_support_diff ) ) {
 					continue;
 				}
@@ -341,29 +354,10 @@ class Integrations_Registry extends Utils\Registry {
 			'class' => '\Affiliate_WP_Gravity_Forms',
 		) );
 
-		// ExchangeWP (iThemes Exchange)
-		$this->add_integration( 'exchange', array(
-			'name'     => 'ExchangeWP (iThemes Exchange)',
-			'class'    => '\Affiliate_WP_Exchange',
-			'supports' => array( 'manual_coupons' ),
-		) );
-
-		// Jigoshop
-		$this->add_integration( 'jigoshop', array(
-			'name'  => 'Jigoshop',
-			'class' => '\Affiliate_WP_Jigoshop',
-		) );
-
 		// LifterLMS
 		$this->add_integration( 'lifterlms', array(
 			'name'  => 'LifterLMS',
 			'class' => '\Affiliate_WP_LifterLMS',
-		) );
-
-		// MarketPress
-		$this->add_integration( 'marketpress', array(
-			'name'  => 'MarketPress',
-			'class' => '\Affiliate_WP_MarketPress',
 		) );
 
 		// MemberMouse
@@ -422,12 +416,6 @@ class Integrations_Registry extends Utils\Registry {
 			'class' => '\Affiliate_WP_S2Member',
 		) );
 
-		// Shopp
-		$this->add_integration( 'shopp', array(
-			'name'  => 'Shopp',
-			'class' => '\Affiliate_WP_Shopp',
-		) );
-
 		// Sprout Invoices
 		$this->add_integration( 'sproutinvoices', array(
 			'name'  => 'Sprout Invoices',
@@ -453,12 +441,6 @@ class Integrations_Registry extends Utils\Registry {
 			'class' => '\Affiliate_WP_EasyCart',
 		) );
 
-		// WP eCommerce
-		$this->add_integration( 'wpec', array(
-			'name'  => 'WP eCommerce',
-			'class' => '\Affiliate_WP_WPEC',
-		) );
-
 		// WPForms
 		$this->add_integration( 'wpforms', array(
 			'name'  => 'WPForms',
@@ -476,6 +458,5 @@ class Integrations_Registry extends Utils\Registry {
 			'name'  => 'Zippy Courses',
 			'class' => '\Affiliate_WP_ZippyCourses',
 		) );
-
 	}
 }
