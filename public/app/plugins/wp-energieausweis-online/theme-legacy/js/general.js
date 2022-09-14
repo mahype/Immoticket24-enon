@@ -78,13 +78,12 @@ jQuery(document).ready(function($) {
 			} else {
 				if (force) {
 					$field.prop("readonly", true);
-					let wrapperId = field + '-wrap';
-                    let wrapper = document.getElementById(wrapperId);
-					wrapper.style.display = 'none';
 
-					setTimeout(function() {
-						document.getElementById('anbauwand_s2_laenge-wrap').style.display = 'none';
-					}, 1000);
+					if( field === 'anbauwand_s2_laenge') {
+						setTimeout(function() {
+							document.getElementById('anbauwand_s2_laenge-wrap').style.display = 'none';
+						}, 1000);
+					}
 				}
 				if ($field.is('input[type="checkbox"]')) {
 					value = _wpenon_data.parser.parseBoolean(value);
