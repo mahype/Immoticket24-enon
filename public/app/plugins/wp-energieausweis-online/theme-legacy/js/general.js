@@ -78,7 +78,6 @@ jQuery(document).ready(function($) {
 			} else {
 				if (force) {
 					$field.prop("readonly", true);
-
 					if( field === 'anbauwand_s2_laenge') {
 						setTimeout(function() {
 							document.getElementById('anbauwand_s2_laenge-wrap').style.display = 'none';
