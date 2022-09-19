@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit28f739433fbed66a466a2da8cc9b1fc2
+class ComposerStaticInit0c1b069c42df45ec4fdf213b760dcf38
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
@@ -262,6 +262,8 @@ class ComposerStaticInit28f739433fbed66a466a2da8cc9b1fc2
         'WP_Rocket\\Engine\\Admin\\Database\\Subscriber' => __DIR__ . '/../..' . '/inc/Engine/Admin/Database/Subscriber.php',
         'WP_Rocket\\Engine\\Admin\\Deactivation\\DeactivationIntent' => __DIR__ . '/../..' . '/inc/Engine/Admin/Deactivation/DeactivationIntent.php',
         'WP_Rocket\\Engine\\Admin\\Deactivation\\Subscriber' => __DIR__ . '/../..' . '/inc/Engine/Admin/Deactivation/Subscriber.php',
+        'WP_Rocket\\Engine\\Admin\\Notices' => __DIR__ . '/../..' . '/inc/Engine/Admin/Notices.php',
+        'WP_Rocket\\Engine\\Admin\\NoticesSubscriber' => __DIR__ . '/../..' . '/inc/Engine/Admin/NoticesSubscriber.php',
         'WP_Rocket\\Engine\\Admin\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/Admin/ServiceProvider.php',
         'WP_Rocket\\Engine\\Admin\\Settings\\Page' => __DIR__ . '/../..' . '/inc/Engine/Admin/Settings/Page.php',
         'WP_Rocket\\Engine\\Admin\\Settings\\Render' => __DIR__ . '/../..' . '/inc/Engine/Admin/Settings/Render.php',
@@ -349,6 +351,11 @@ class ComposerStaticInit28f739433fbed66a466a2da8cc9b1fc2
         'WP_Rocket\\Engine\\Optimization\\DelayJS\\HTML' => __DIR__ . '/../..' . '/inc/Engine/Optimization/DelayJS/HTML.php',
         'WP_Rocket\\Engine\\Optimization\\DelayJS\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/Optimization/DelayJS/ServiceProvider.php',
         'WP_Rocket\\Engine\\Optimization\\DelayJS\\Subscriber' => __DIR__ . '/../..' . '/inc/Engine/Optimization/DelayJS/Subscriber.php',
+        'WP_Rocket\\Engine\\Optimization\\DynamicLists\\APIClient' => __DIR__ . '/../..' . '/inc/Engine/Optimization/DynamicLists/APIClient.php',
+        'WP_Rocket\\Engine\\Optimization\\DynamicLists\\DataManager' => __DIR__ . '/../..' . '/inc/Engine/Optimization/DynamicLists/DataManager.php',
+        'WP_Rocket\\Engine\\Optimization\\DynamicLists\\DynamicLists' => __DIR__ . '/../..' . '/inc/Engine/Optimization/DynamicLists/DynamicLists.php',
+        'WP_Rocket\\Engine\\Optimization\\DynamicLists\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/Optimization/DynamicLists/ServiceProvider.php',
+        'WP_Rocket\\Engine\\Optimization\\DynamicLists\\Subscriber' => __DIR__ . '/../..' . '/inc/Engine/Optimization/DynamicLists/Subscriber.php',
         'WP_Rocket\\Engine\\Optimization\\GoogleFonts\\AbstractGFOptimization' => __DIR__ . '/../..' . '/inc/Engine/Optimization/GoogleFonts/AbstractGFOptimization.php',
         'WP_Rocket\\Engine\\Optimization\\GoogleFonts\\Admin\\Settings' => __DIR__ . '/../..' . '/inc/Engine/Optimization/GoogleFonts/Admin/Settings.php',
         'WP_Rocket\\Engine\\Optimization\\GoogleFonts\\Admin\\Subscriber' => __DIR__ . '/../..' . '/inc/Engine/Optimization/GoogleFonts/Admin/Subscriber.php',
@@ -465,6 +472,7 @@ class ComposerStaticInit28f739433fbed66a466a2da8cc9b1fc2
         'WP_Rocket\\ThirdParty\\Hostings\\WordPressCom' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/WordPressCom.php',
         'WP_Rocket\\ThirdParty\\NullSubscriber' => __DIR__ . '/../..' . '/inc/ThirdParty/NullSubscriber.php',
         'WP_Rocket\\ThirdParty\\Plugins\\Ads\\Adthrive' => __DIR__ . '/../..' . '/inc/ThirdParty/Plugins/Ads/Adthrive.php',
+        'WP_Rocket\\ThirdParty\\Plugins\\CDN\\Cloudflare' => __DIR__ . '/../..' . '/inc/ThirdParty/Plugins/CDN/Cloudflare.php',
         'WP_Rocket\\ThirdParty\\Plugins\\ConvertPlug' => __DIR__ . '/../..' . '/inc/ThirdParty/Plugins/ConvertPlug.php',
         'WP_Rocket\\ThirdParty\\Plugins\\Ecommerce\\WooCommerceSubscriber' => __DIR__ . '/../..' . '/inc/ThirdParty/Plugins/Ecommerce/WooCommerceSubscriber.php',
         'WP_Rocket\\ThirdParty\\Plugins\\I18n\\WPML' => __DIR__ . '/../..' . '/inc/ThirdParty/Plugins/I18n/WPML.php',
@@ -499,7 +507,9 @@ class ComposerStaticInit28f739433fbed66a466a2da8cc9b1fc2
         'WP_Rocket\\ThirdParty\\Themes\\Divi' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/Divi.php',
         'WP_Rocket\\ThirdParty\\Themes\\Flatsome' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/Flatsome.php',
         'WP_Rocket\\ThirdParty\\Themes\\Jevelin' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/Jevelin.php',
+        'WP_Rocket\\ThirdParty\\Themes\\MinimalistBlogger' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/MinimalistBlogger.php',
         'WP_Rocket\\ThirdParty\\Themes\\Polygon' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/Polygon.php',
+        'WP_Rocket\\ThirdParty\\Themes\\ThirdpartyTheme' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/ThirdpartyTheme.php',
         'WP_Rocket\\ThirdParty\\Themes\\Xstore' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/Xstore.php',
         'WP_Rocket\\Traits\\Config_Updater' => __DIR__ . '/../..' . '/inc/classes/traits/trait-config-updater.php',
         'WP_Rocket\\Traits\\Memoize' => __DIR__ . '/../..' . '/inc/classes/traits/trait-memoize.php',
@@ -513,9 +523,9 @@ class ComposerStaticInit28f739433fbed66a466a2da8cc9b1fc2
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit28f739433fbed66a466a2da8cc9b1fc2::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit28f739433fbed66a466a2da8cc9b1fc2::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit28f739433fbed66a466a2da8cc9b1fc2::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0c1b069c42df45ec4fdf213b760dcf38::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0c1b069c42df45ec4fdf213b760dcf38::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit0c1b069c42df45ec4fdf213b760dcf38::$classMap;
 
         }, null, ClassLoader::class);
     }
