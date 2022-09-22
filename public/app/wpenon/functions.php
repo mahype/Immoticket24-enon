@@ -2030,9 +2030,9 @@ add_filter( 'wpenon_is_pdf_preview', 'wpenon_immoticket24_is_pdf_preview', 10, 2
 
 function wpenon_immoticket24_show_fenster_table() {
 	?>
-	<div style="max-width:600px;margin:0 auto;">
+	<div class="col-md-4 col-sm-4 col-xs-12 control-label"></div><div class="col-md-7 col-sm-7 col-xs-11">
 		<p class="text-center"><em>Hinweis zu den Angaben bei den Fenstern</em></p>
-		<table class="table table-bordered" style="background-color:rgba(255,255,255,0.1)">
+		<table class="table table-bordered" style="background-color:rgba(255,255,255,0.1); border-spacing: 35px;">
 			<thead>
 			<tr>
 				<th id="fenster_tabelle_bauart">Fensterbauart</th>
