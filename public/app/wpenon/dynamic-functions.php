@@ -5,15 +5,22 @@ function wpenon_immoticket24_display_grundriss_image() {
 	if ( $energieausweis !== null && 'b' === $energieausweis->mode ) {
 		$form = $energieausweis->grundriss_form;
 		if ( $form ) {
-			echo '<p class="text-center"><img class="immoticket24-grundriss-bild" src="' . WPENON_DATA_URL . '/assets/grundriss_' . $form . '.png" alt="' . sprintf( __( 'Form %s', 'wpenon' ), strtoupper( $form ) ) . '"></p>';
+			echo 'p class="text-center"><img class="immoticket24-grundriss-bild" src="' . WPENON_DATA_URL . '/assets/grundriss_' . $form . '.png" alt="' . sprintf( __( 'Form %s', 'wpenon' ), strtoupper( $form ) ) . '"></p>';
 		} else {
 			echo '<p class="text-center"><img class="immoticket24-grundriss-bild" src="' . WPENON_DATA_URL . '/assets/grundrisse.png" alt="' . __( 'Formen', 'wpenon' ) . '"></p>';
 		}
 	}
 }
 
+
+function wpenon_immoticket24_display_grundriss_image_right_col() {
+	echo '<div class="col-md-4 col-sm-4 col-xs-12 control-label"></div><div class="col-md-7 col-sm-7 col-xs-11">';
+	wpenon_immoticket24_display_grundriss_image();
+	echo '</div>';
+}
+
 // add_action( 'wpenon_form_group_bauteile_fenster_before', 'wpenon_immoticket24_display_grundriss_image' );
-add_action( 'wpenon_form_group_bauteile_basis_before', 'wpenon_immoticket24_display_grundriss_image' );
+add_action( 'wpenon_form_group_bauteile_basis_before', 'wpenon_immoticket24_display_grundriss_image_right_col' );
 add_action( 'wpenon_form_field_fenster_manuell_after', 'wpenon_immoticket24_display_grundriss_image' );
 add_action( 'wpenon_form_field_grundriss_form_after', 'wpenon_immoticket24_display_grundriss_image' );
 

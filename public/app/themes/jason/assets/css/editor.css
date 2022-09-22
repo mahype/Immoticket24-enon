@@ -248,6 +248,9 @@ h1, h2, h3, h4, h5, h6 {
 .wpenon-wrapper h2 {
   margin: 0;
 }
+.wpenon-wrapper img {
+  width: 100%;
+}
 
 .faq-item .bg-circle {
   margin-top: 17px;
