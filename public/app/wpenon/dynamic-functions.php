@@ -5,7 +5,7 @@ function wpenon_immoticket24_display_grundriss_image() {
 	if ( $energieausweis !== null && 'b' === $energieausweis->mode ) {
 		$form = $energieausweis->grundriss_form;
 		if ( $form ) {
-			echo 'p class="text-center"><img class="immoticket24-grundriss-bild" src="' . WPENON_DATA_URL . '/assets/grundriss_' . $form . '.png" alt="' . sprintf( __( 'Form %s', 'wpenon' ), strtoupper( $form ) ) . '"></p>';
+			echo '<p class="text-center"><img class="immoticket24-grundriss-bild" src="' . WPENON_DATA_URL . '/assets/grundriss_' . $form . '.png" alt="' . sprintf( __( 'Form %s', 'wpenon' ), strtoupper( $form ) ) . '"></p>';
 		} else {
 			echo '<p class="text-center"><img class="immoticket24-grundriss-bild" src="' . WPENON_DATA_URL . '/assets/grundrisse.png" alt="' . __( 'Formen', 'wpenon' ) . '"></p>';
 		}
