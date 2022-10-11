@@ -85,8 +85,14 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 		}
 	}
 
-	public function finalize( $output_mode = 'I' ) {
-		return $this->Output( $this->wpenon_title . '.pdf', $output_mode );
+	public function finalize( $output_mode = 'I', $path = '' ) {
+		if( $output_mode === 'F' && ! empty( $path ) ) {
+			$path = $path . '/' . $this->wpenon_title . '.pdf';
+		} else {
+			$path = $this->wpenon_title . '.pdf';
+		}
+
+		return $this->Output($path, $output_mode );
 	}
 
 	public function renderPage() {

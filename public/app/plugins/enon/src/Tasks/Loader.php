@@ -11,6 +11,7 @@
 
 namespace Enon\Tasks;
 
+
 use Enon\Task_Loader;
 use Enon\Tasks\Emails\Edd_Payment_Emails;
 use Enon\Tasks\Scripts\Add_Scripts;
@@ -20,6 +21,7 @@ use Enon\Tasks\Scripts\Add_Trusted_Shops_Scripts;
 use Enon\Tasks\Scripts\Add_Google_Tag_Manager;
 
 use Enon\Tasks\Filter_EDD_Emails;
+use Enon\Tasks\EDD_Payments_Download;
 use Enon\Tasks\Scripts\Add_Ekomi;
 
 /**
@@ -34,6 +36,7 @@ class Loader extends Task_Loader {
 	 * @since 1.0.0
 	 */
 	public function run() {
+		$this->add_task( EDD_Payments_Download::class );
 		$this->add_task( Config_User::class );
 		$this->add_task( Add_Options_General::class, $this->logger() );
 		$this->add_task( Add_Page_Fields::class, $this->logger() );
