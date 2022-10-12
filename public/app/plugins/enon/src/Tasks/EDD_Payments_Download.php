@@ -20,6 +20,8 @@ use WPENON\Model\Energieausweis;
 
 class Payment_CLI {
     public function pdf($args, $assoc_args) {
+        global $wpdb;
+
         $year = $assoc_args['year'];
         $month = $assoc_args['month'];
 
@@ -35,11 +37,25 @@ class Payment_CLI {
 
         $charset = 'UTF-8'; // WPENON_DEFAULT_CHARSET
 
+        $sql = $wpdb->prepare("SELECT p.ID FROM {$wpdb->prefix}posts AS p
+            INNER JOIN {$wpdb->prefix}postmeta AS pm ON p.ID = pm.post_id
+            WHERE p.post_type = 'edd_payment'
+            AND p.post_status = 'publish'
+            AND pm.meta_key = '_edd_completed_date'
+            AND pm.meta_value LIKE %s
+            ORDER BY p.post_date DESC",
+            $year . '-' . $month . '%'
+        );
+
+        $ids = $wpdb->get_col($sql);
+        if( empty( $ids )) {
+            \WP_CLI::error('Keine Zahlungen gefunden');
+        }
+
         $payments = edd_get_payments( [
             'number' => -1,
             'status' => 'publish',
-            'month'  => $month,
-            'year'  => $year,
+            'post__in' => $ids,
         ] );
 
         $this->sequential = edd_get_option('enable_sequential');
@@ -68,6 +84,7 @@ class Payment_CLI {
         );
     
         $csv_headings = array(
+            'nummer'     => __( 'Nummer', 'wpenon' ),
             'name'     => __( 'Name, Vorname', 'wpenon' ),
             'subtotal' => __( 'Nettobetrag', 'wpenon' ),
             'tax'      => __( 'MwSt.', 'wpenon' ),
@@ -86,6 +103,7 @@ class Payment_CLI {
             $receipt->finalize('F', $path );
 
             $result = array(
+                'nummer'   => $name,
                 'name'     => $payment_data->last_name . ', ' . $payment_data->first_name,
                 'subtotal' => $payment_data->total - $payment_data->tax,
                 'tax'      => $payment_data->tax,
