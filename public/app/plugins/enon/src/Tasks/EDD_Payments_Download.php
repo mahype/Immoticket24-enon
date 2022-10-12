@@ -146,7 +146,7 @@ class Payment_CLI {
         // Zip archive will be created only after closing object
         $zip->close();
 
-        \WP_CLI::line( 'Rechnungen wurden gepackt. ' . dirname( dirname( $path ) ) . '/'. $year .'-' . $month . '.zip' );
+        \WP_CLI::line( sprintf( 'Rechnungen wurden gepackt und können unter %s heruntergeladen werden', get_bloginfo('url') . '/dl/rechnungen/' . $year . '-' . $month .'.zip' ) );
         exit;
     }
 
