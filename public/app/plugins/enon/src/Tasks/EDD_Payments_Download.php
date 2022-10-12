@@ -35,6 +35,8 @@ class Payment_CLI {
 
         \WP_CLI::line('Starte PDF-Erstellung für ' . $year . '-' . $month);
 
+        \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', get_bloginfo('url') . '/dl/rechnungen/' . $year . '-' . $month .'.zip' ) );
+
         $charset = 'UTF-8'; // WPENON_DEFAULT_CHARSET
 
         $sql = $wpdb->prepare("SELECT p.ID FROM {$wpdb->prefix}posts AS p
@@ -146,7 +148,7 @@ class Payment_CLI {
         // Zip archive will be created only after closing object
         $zip->close();
 
-        \WP_CLI::line( sprintf( 'Rechnungen wurden gepackt und können unter %s heruntergeladen werden', get_bloginfo('url') . '/dl/rechnungen/' . $year . '-' . $month .'.zip' ) );
+        \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', get_bloginfo('url') . '/dl/rechnungen/' . $year . '-' . $month .'.zip' ) );
         exit;
     }
 
