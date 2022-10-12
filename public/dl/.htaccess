@@ -1,0 +1,5 @@
+AuthUserFile /www/htdocs/w012900a/production.energieausweis-online-erstellen.de/public/dl/.htpasswd
+AuthGroupFile /dev/null
+AuthName 'bitte Zugangsdaten eingeben'
+AuthType Basic
+require valid-user
