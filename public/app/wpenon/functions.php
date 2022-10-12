@@ -2187,6 +2187,8 @@ function wpenon_immoticket24_render_payments_per_page_filter() {
 		'120' => sprintf( __( '%s anzeigen', 'wpenon' ), number_format_i18n( 120 ) ),
 		'150' => sprintf( __( '%s anzeigen', 'wpenon' ), number_format_i18n( 150 ) ),
 		'180' => sprintf( __( '%s anzeigen', 'wpenon' ), number_format_i18n( 180 ) ),
+		'500' => sprintf( __( '%s anzeigen', 'wpenon' ), number_format_i18n( 500 ) ),
+		'1000' => sprintf( __( '%s anzeigen', 'wpenon' ), number_format_i18n( 1000 ) ),
 	);
 
 	$selected_choice = '30';
