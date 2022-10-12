@@ -35,7 +35,7 @@ class Payment_CLI {
         \WP_CLI::line('Starte PDF-Erstellung für ' . $year . '-' . $month);
 
         $payments = edd_get_payments( [
-            'number' => 10,
+            'number' => -1,
             'status' => 'publish',
             'month'  => $month,
             'year'  => $year,
