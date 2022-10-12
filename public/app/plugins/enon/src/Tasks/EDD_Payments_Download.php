@@ -23,16 +23,17 @@ class Payment_CLI {
         $year = $assoc_args['year'];
         $month = $assoc_args['month'];
 
-        if( ! $year || ! $month ) {
-            \WP_CLI::error( 'Please provide a year and month' );
-            exit;
+        if( !isset( $year )) {
+            $year = date("Y", strtotime ( '-1 month' , time() )) ;
         }
 
-        
-
-        $charset = 'UTF-8'; // WPENON_DEFAULT_CHARSET
+        if( !isset( $month )) {
+            $month = date("m", strtotime ( '-1 month' , time() )) ;
+        }
 
         \WP_CLI::line('Starte PDF-Erstellung für ' . $year . '-' . $month);
+
+        $charset = 'UTF-8'; // WPENON_DEFAULT_CHARSET
 
         $payments = edd_get_payments( [
             'number' => -1,
