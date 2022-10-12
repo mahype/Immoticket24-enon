@@ -28,10 +28,14 @@ class Payment_CLI {
             exit;
         }
 
+        
+
+        $charset = 'UTF-8'; // WPENON_DEFAULT_CHARSET
+
         \WP_CLI::line('Starte PDF-Erstellung für ' . $year . '-' . $month);
 
         $payments = edd_get_payments( [
-            'number' => -1,
+            'number' => 10,
             'status' => 'publish',
             'month'  => $month,
             'year'  => $year,
@@ -39,7 +43,7 @@ class Payment_CLI {
 
         $this->sequential = edd_get_option('enable_sequential');
 
-        $path = dirname( dirname( ABSPATH ) ) . '/payments/';
+        $path = dirname( ABSPATH ). '/dl/rechnungen/';
         if( ! is_dir( $path ) ) {
             mkdir( $path, 0777, true );
         }
@@ -54,6 +58,24 @@ class Payment_CLI {
             mkdir( $path, 0777, true );
         }
 
+        $csv_filename = $path . '/payments.csv';
+
+        $csv_settings = array(
+            'terminated' => ';',
+            'enclosed'   => '"',
+            'escaped'    => '"',
+        );
+    
+        $csv_headings = array(
+            'name'     => __( 'Name, Vorname', 'wpenon' ),
+            'subtotal' => __( 'Nettobetrag', 'wpenon' ),
+            'tax'      => __( 'MwSt.', 'wpenon' ),
+            'total'    => __( 'Bruttobetrag', 'wpenon' ),
+        );
+
+        $output = fopen( $csv_filename, 'w' );
+	    fputcsv( $output, \WPENON\Util\Format::csvEncode( $csv_headings, $charset ), $csv_settings['terminated'], $csv_settings['enclosed'] );
+
         $time_start = microtime(true);
         foreach( $payments as $payment ) {
             $name = get_the_title($payment->ID);
@@ -62,14 +84,27 @@ class Payment_CLI {
             $receipt->create($payment_data);
             $receipt->finalize('F', $path );
 
+            $result = array(
+                'name'     => $payment_data->last_name . ', ' . $payment_data->first_name,
+                'subtotal' => $payment_data->total - $payment_data->tax,
+                'tax'      => $payment_data->tax,
+                'total'    => $payment_data->total,
+            );
+    
+            fputcsv( $output, \WPENON\Util\Format::csvEncode( $result, $charset ), $csv_settings['terminated'], $csv_settings['enclosed'] );
+
             \WP_CLI::line( 'Rechnung ' . $name . ' abgelegt in ' . $path . '/' . $name . '.pdf' );
         }
+
+        \WP_CLI::line( 'CSV Datei erstellt: ' . $csv_filename );
+        fclose( $output );
+
         $time_end = microtime(true);
         $execution_time = ($time_end - $time_start);
         \WP_CLI::line( 'Rechnungen wurden erstellt. Benötigte Zeit ' . $execution_time . ' Sekunden' );
 
         $zip = new \ZipArchive();
-        $zip->open( dirname( dirname( $path ) ) . '/rechnungen-'. $year .'-' . $month . '.zip', \ZipArchive::CREATE | \ZipArchive::OVERWRITE );
+        $zip->open( dirname( dirname( $path ) ) . '/'. $year .'-' . $month . '.zip', \ZipArchive::CREATE | \ZipArchive::OVERWRITE );
         $files = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($path),
             \RecursiveIteratorIterator::LEAVES_ONLY
@@ -92,7 +127,7 @@ class Payment_CLI {
         // Zip archive will be created only after closing object
         $zip->close();
 
-        \WP_CLI::line( 'Rechnungen wurden gepackt. ' . dirname( dirname( $path ) ) . '/rechnungen-'. $year .'-' . $month . '.zip' );
+        \WP_CLI::line( 'Rechnungen wurden gepackt. ' . dirname( dirname( $path ) ) . '/'. $year .'-' . $month . '.zip' );
         exit;
     }
 
@@ -103,6 +138,8 @@ class Payment_CLI {
         $details = new \stdClass();
 
         $details->ID = $payment_id;
+        $details->first_name = $payment->first_name;
+        $details->last_name = $payment->last_name;
         $details->date = $payment->date;
         $details->post_status = $payment->status;
         $details->total = floatval( $payment->total );
