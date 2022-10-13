@@ -50,6 +50,15 @@ class Payment_CLI {
     private function generate_bills($year, $month) {
         global $wpdb;
 
+        $create_file = dirname( ABSPATH ). '/dl/rechnungen/.creating';
+
+        if( file_exists( $create_file )) {
+            \WP_CLI::error( 'Rechnungen werden gerade erstellt. Bitte warten.' );
+        }
+
+        $file = fopen( $create_file, 'w' );
+        fclose( $file );
+
         $bills_filename = get_bloginfo('url') . '/dl/rechnungen/' . $year . '-' . $month .'.zip' ;
 
         \WP_CLI::line('Starte PDF-Erstellung für ' . $year . '-' . $month);
@@ -74,7 +83,7 @@ class Payment_CLI {
         }
 
         $payments = edd_get_payments( [
-            'number' => WP_ENV === 'development' ? 3: -1,
+            'number' => WP_ENV === 'development' ? 10: -1,
             'status' => 'publish',
             'post__in' => $ids,
         ]);
@@ -173,6 +182,8 @@ class Payment_CLI {
         EDD_Payments_Download::add_bills_zip( $year, $month, $bills_filename );
 
         \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', $bills_filename ) );
+
+        unlink( $create_file );
     }
 
     private function get_payment_details($payment_id)
