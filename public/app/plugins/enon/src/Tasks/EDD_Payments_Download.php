@@ -14,14 +14,9 @@ namespace Enon\Tasks;
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
 use EDD_Payment;
-use Enon\Models\Edd\Payment;
-
-use WPENON\Model\Energieausweis;
 
 class Payment_CLI {
     public function pdf($args, $assoc_args) {
-        global $wpdb;
-
         $year = $assoc_args['year'];
         $month = $assoc_args['month'];
 
@@ -37,8 +32,28 @@ class Payment_CLI {
             $month = '0' . $month;
         }
 
+        $this->generate_bills((int)$year, (int)$month);
+    }
+
+    public function regenerate() {
+        $bills_list = EDD_Payments_Download::get_bills_list();
+
+        foreach($bills_list as $year => $months) {
+            foreach($months as $month => $bill) {
+                if( empty( $bill ) ) {
+                    $this->generate_bills( $year, $month );
+                }
+            }
+        }
+    }
+
+    private function generate_bills($year, $month) {
+        global $wpdb;
+
+        $bills_filename = get_bloginfo('url') . '/dl/rechnungen/' . $year . '-' . $month .'.zip' ;
+
         \WP_CLI::line('Starte PDF-Erstellung für ' . $year . '-' . $month);
-       //  \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', get_bloginfo('url') . '/dl/rechnungen/' . $year . '-' . $month .'.zip' ) );
+        \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', $bills_filename ) );
 
         $charset = 'UTF-8'; // WPENON_DEFAULT_CHARSET
 
@@ -46,9 +61,8 @@ class Payment_CLI {
             INNER JOIN {$wpdb->prefix}postmeta AS pm ON p.ID = pm.post_id
             WHERE p.post_type = 'edd_payment'
             AND p.post_status = 'publish'
-            AND ((pm.meta_key = '_edd_completed_date' AND pm.meta_value LIKE %s) OR  p.post_date LIKE %s)
+            AND p.post_date LIKE %s
             ORDER BY p.post_date DESC",
-            $year . '-' . $month . '%',
             $year . '-' . $month . '%'
         );
 
@@ -60,10 +74,10 @@ class Payment_CLI {
         }
 
         $payments = edd_get_payments( [
-            'number' => -1,
+            'number' => 10,
             'status' => 'publish',
             'post__in' => $ids,
-        ] );
+        ]);
 
         $this->sequential = edd_get_option('enable_sequential');
 
@@ -153,8 +167,9 @@ class Payment_CLI {
         // Zip archive will be created only after closing object
         $zip->close();
 
-        \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', get_bloginfo('url') . '/dl/rechnungen/' . $year . '-' . $month .'.zip' ) );
-        exit;
+        EDD_Payments_Download::add_bills_zip( $year, $month, $bills_filename );
+
+        \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', $bills_filename ) );
     }
 
     private function get_payment_details($payment_id)
@@ -209,11 +224,83 @@ class EDD_Payments_Download implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-        add_action( 'cli_init', [ $this, 'init' ], 5  );
+        add_action( 'admin_init', [ $this, 'receive_params' ], 5  );
+        add_action( 'cli_init', [ $this, 'add_cli_command' ], 5  );
+        add_action( 'wp_dashboard_setup', [$this, 'dashboard_widget'] );
 	}
 
-    public function init() {
+    public function add_cli_command() {
         \WP_CLI::add_command( 'payments', Payment_CLI::class);
+    }
+
+    public function receive_params() {
+        if( isset( $_GET['regenerate_bills'] ) ) {
+            if( $_GET['regenerate_bills'] == 'true' ) {
+                self::regenerate_bill($_GET['year'], $_GET['month']);
+            }
+            wp_redirect( admin_url( 'index.php' ) );
+            exit;
+        }
+    }
+
+    public function dashboard_widget() {        
+        wp_add_dashboard_widget(
+            'edd_payments_download',
+            'Rechnungen herunterladen',
+            [ $this, 'dashboard_widget_content' ]
+        );
+    }
+
+    public function dashboard_widget_content() {
+        $bills_list = get_option( 'enon_bills_list' );
+        $regenerate_link_base = admin_url('index.php');
+        $regenerate_link_base = add_query_arg( 'regenerate_bills', 'true', $regenerate_link_base );
+
+        if ( empty($bills_list) ) {
+            echo 'Keine Rechnungen vorhanden';
+            return;
+        }
+       
+        foreach( $bills_list as $year => $bills_months ) {
+            echo '<h3>Jahr ' . $year . '</h3>';
+            echo '<ul>';
+            foreach( $bills_months as $month => $bill ) {
+                $regenerate_link = add_query_arg( 'year', $year, $regenerate_link_base );
+                $regenerate_link = add_query_arg( 'month', $month, $regenerate_link );
+
+                if( empty( $bill ) ) {
+                    echo '<li>Rechnung ' . $month . '/' . $year . ' - Warten auf Neugenerierung</li>';
+                } else {
+                    echo '<li>Rechnung ' . $month . '/' . $year . ' - <a href="' . $bill . '">herunterladen</a> | <a href="' . $regenerate_link . '">neu generieren</a></li>';
+                }
+                
+            }
+            echo '</ul>';
+        }
+    }
+
+    public static function regenerate_bill($year, $month) {
+        $bills_list = get_option( 'enon_bills_list' );
+        $bills_list[$year][$month] = '';
+        update_option( 'enon_bills_list', $bills_list );
+    }
+
+    public static function add_bills_zip($year, $month, $file) {
+        $bills_list = get_option( 'enon_bills_list' );
+        $bills_list[$year][$month] = $file;
+        update_option( 'enon_bills_list', $bills_list );
+    }
+
+    public static function get_bills_zip($year, $month) {
+        $bills_list = get_option( 'enon_bills_list' );
+
+        if (isset($bills_list[$year][$month])) {
+            return $bills_list[$year][$month];
+        }
+    }
+
+    public static function get_bills_list() {
+        return get_option( 'enon_bills_list' );
     }
 }
 
