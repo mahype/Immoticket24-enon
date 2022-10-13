@@ -167,6 +167,9 @@ class Payment_CLI {
         // Zip archive will be created only after closing object
         $zip->close();
 
+        EDD_Payments_Download::delTree($path);
+        \WP_CLI::line( 'Temporärer Pfad ' . $execution_time . ' gelöscht.' );
+
         EDD_Payments_Download::add_bills_zip( $year, $month, $bills_filename );
 
         \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', $bills_filename ) );
@@ -281,6 +284,10 @@ class EDD_Payments_Download implements Task, Actions {
 
     public static function regenerate_bill($year, $month) {
         $bills_list = get_option( 'enon_bills_list' );
+        $file = $bills_list[$year][$month];
+        if( !empty( $file ) ) {
+            unlink( $file );
+        }
         $bills_list[$year][$month] = '';
         update_option( 'enon_bills_list', $bills_list );
     }
@@ -301,6 +308,14 @@ class EDD_Payments_Download implements Task, Actions {
 
     public static function get_bills_list() {
         return get_option( 'enon_bills_list' );
+    }
+
+    public static function delTree( $dir ) {
+        $files = array_diff(scandir($dir), array('.','..'));
+        foreach ($files as $file) {
+            (is_dir("$dir/$file")) ? self::delTree("$dir/$file") : unlink("$dir/$file");
+        }
+        return rmdir($dir);
     }
 }
 
