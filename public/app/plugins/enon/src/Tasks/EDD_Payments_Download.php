@@ -74,7 +74,7 @@ class Payment_CLI {
         }
 
         $payments = edd_get_payments( [
-            'number' => 10,
+            'number' => -1,
             'status' => 'publish',
             'post__in' => $ids,
         ]);
