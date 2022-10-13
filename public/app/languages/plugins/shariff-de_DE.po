@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - Shariff Wrapper - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-01-29 22:12:18+0000\n"
+"PO-Revision-Date: 2022-09-30 18:52:49+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"X-Generator: GlotPress/4.0.0-alpha.3\n"
 "Language: de\n"
 "Project-Id-Version: Plugins - Shariff Wrapper - Stable (latest release)\n"
 
@@ -89,15 +89,15 @@ msgstr "Fügt individuelle Style-Attribute zum Container um Shariff hinzu."
 msgid "https://wordpress.org/plugins-wp/shariff/"
 msgstr "https://de.wordpress.org/plugins-wp/shariff/"
 
-#: shariff.php:208
+#: shariff.php:210
 msgid "Timestamp of the last update of the post. Used for dynamic cache lifespan."
 msgstr "Der Zeitstempel der letzten Beitragsaktualisierung. Dieser wird für die dynamische Cache-Lebensdauer verwendet."
 
-#: shariff.php:204
+#: shariff.php:206
 msgid "A list of services separated by |. Example: twitter|facebook|xing"
 msgstr "Eine Liste mit Dienste durch | getrennt. Beispiel: twitter|facebook|xing"
 
-#: shariff.php:199
+#: shariff.php:201
 msgid "URL of the post or page to request share counts for."
 msgstr "URL des Beitrags oder der Seite, für die Share-Counts abgefragt werden sollen."
 
@@ -297,7 +297,7 @@ msgstr "Shariff-Einstellungen"
 msgid "Disable the Shariff buttons outside of the main loop."
 msgstr "Shariff-Buttons außerhalb der Hauptschleife deaktivieren."
 
-#: shariff.php:541
+#: shariff.php:543
 msgid "Once weekly"
 msgstr "Einmal wöchentlich"
 
@@ -365,19 +365,19 @@ msgstr "Titel"
 msgid "Add Shariff as configured on the plugin options page."
 msgstr "Fügt die Shariff-Buttons mit den Einstellungen aus dem Plugin-Menü ein."
 
-#: shariff.php:1543
+#: shariff.php:1545
 msgid "Address for Bitcoin is missing!"
 msgstr "Adresse für Bitcoin fehlt!"
 
-#: shariff.php:1539
+#: shariff.php:1541
 msgid "PayPal.Me ID is missing!"
 msgstr "PayPal.Me ID fehlt!"
 
-#: shariff.php:1535
+#: shariff.php:1537
 msgid "Button ID for PayPal is missing!"
 msgstr "Button-ID für PayPal fehlt!"
 
-#: shariff.php:1531
+#: shariff.php:1533
 msgid "Username for patreon is missing!"
 msgstr "Benutzername für Patreon fehlt!"
 
@@ -637,8 +637,8 @@ msgstr "Diese Einstellungen bestimmen, wie Shariff mit den sogenannten „Share-
 msgid "Warning: DO NOT change this unless you know what you are doing or have been told so by the plugin author!"
 msgstr "Warnung: NICHT verändern, außer die Konsequenzen sind bekannt oder ein Plugin-Autor hat dazu aufgefordert!"
 
-#: admin/admin-metabox.php:41 admin/admin-metabox.php:84
-#: admin/admin-menu.php:35 admin/admin-menu.php:1386
+#: admin/admin-menu.php:35 admin/admin-menu.php:1386 admin/admin-metabox.php:41
+#: admin/admin-metabox.php:84
 msgid "Choose image"
 msgstr "Bild wählen"
 
@@ -792,7 +792,7 @@ msgstr "Individueller Link für den Info-Button:"
 
 #: admin/admin-menu.php:282
 msgid "Advanced options"
-msgstr "Erweiterte Einstellungen"
+msgstr "Erweiterte Optionen"
 
 #: admin/admin-menu.php:223
 msgid "Headline above all Shariff buttons:"
