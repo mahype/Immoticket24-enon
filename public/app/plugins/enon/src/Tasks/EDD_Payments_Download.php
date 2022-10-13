@@ -69,7 +69,6 @@ class Payment_CLI {
         $sql = $wpdb->prepare("SELECT DISTINCT p.ID FROM {$wpdb->prefix}posts AS p
             INNER JOIN {$wpdb->prefix}postmeta AS pm ON p.ID = pm.post_id
             WHERE p.post_type = 'edd_payment'
-            AND p.post_status = 'publish'
             AND p.post_date LIKE %s
             ORDER BY p.post_date DESC",
             $year . '-' . $month . '%'
@@ -83,8 +82,7 @@ class Payment_CLI {
         }
 
         $payments = edd_get_payments( [
-            'number' => WP_ENV === 'development' ? 10: -1,
-            'status' => 'publish',
+            'number' => WP_ENV === 'development' ? 50: -1,
             'post__in' => $ids,
         ]);
 
@@ -114,11 +112,12 @@ class Payment_CLI {
         );
     
         $csv_headings = array(
-            'nummer'     => __( 'Nummer', 'wpenon' ),
+            'nummer'   => __( 'Nummer', 'wpenon' ),
             'name'     => __( 'Name, Vorname', 'wpenon' ),
             'subtotal' => __( 'Nettobetrag', 'wpenon' ),
             'tax'      => __( 'MwSt.', 'wpenon' ),
             'total'    => __( 'Bruttobetrag', 'wpenon' ),
+            'status'   => __( 'Status', 'wpenon' ),
         );
 
         $output = fopen( $csv_filename, 'w' );
@@ -132,12 +131,33 @@ class Payment_CLI {
             $receipt->create($payment_data);
             $receipt->finalize('F', $path );
 
+            switch( $payment_data->post_status ) {
+                case 'publish':
+                    $status = 'Bezahlt';
+                    break;
+                case 'pending':
+                    $status = 'Ausstehend';
+                    break;
+                case 'refunded':
+                    $status = 'Rückerstattet';
+                    break;
+                case 'revoked':
+                    $status = 'Storniert';
+                    break;
+                case 'failed':
+                    $status = 'Fehlgeschlagen';
+                    break;
+                default:
+                    $status = 'Unbekannt';
+            }
+
             $result = array(
                 'nummer'   => $name,
                 'name'     => $payment_data->last_name . ', ' . $payment_data->first_name,
                 'subtotal' => $payment_data->total - $payment_data->tax,
                 'tax'      => $payment_data->tax,
                 'total'    => $payment_data->total,
+                'status'   => $status,
             );
     
             fputcsv( $output, \WPENON\Util\Format::csvEncode( $result, $charset ), $csv_settings['terminated'], $csv_settings['enclosed'] );
