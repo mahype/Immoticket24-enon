@@ -27,7 +27,7 @@ class Affiliate_WP_Admin_Menu {
 	}
 
 	/**
-	 * Change the Affiliates Menu Item to AffilaiteWP.
+	 * Change the Affiliates Menu Item to AffiliateWP.
 	 *
 	 * Changing the menu title to AffiliateWP using add_menu_page() also changes the
 	 * value of WP_Screen->id which Addons and various places in Core rely on.
@@ -65,14 +65,14 @@ class Affiliate_WP_Admin_Menu {
 	 * @since 1.0.0
 	 * @since 2.9.4 Added our Affiliate Reports link to main Dashboard menu.
 	 *
-	 * @TODO See todo in $this->change_affilaites_admin_menu_title_to_affiliatewp docblock.
+	 * @TODO See todo in $this->change_affiliates_admin_menu_title_to_affiliatewp docblock.
 	 */
 	public function register_menus() {
 		global $submenu;
 
 		add_menu_page(
 			__( 'AffiliateWP', 'affiliate-wp' ),
-			__( 'Affiliates', 'affiliate-wp' ), // Note, the reason we still have "Affiliates" here is because of backwards compatibility with get_current_screen()->id in which changing this would change the WP_Screen->id. See $this->change_affilaites_admin_menu_title_to_affiliatewp() docblock.
+			__( 'Affiliates', 'affiliate-wp' ), // Note, the reason we still have "Affiliates" here is because of backwards compatibility with get_current_screen()->id in which changing this would change the WP_Screen->id. See $this->change_affiliates_admin_menu_title_to_affiliatewp() docblock.
 			'view_affiliate_reports',
 			'affiliate-wp',
 			'affwp_affiliates_dashboard',

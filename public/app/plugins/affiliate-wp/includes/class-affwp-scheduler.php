@@ -41,7 +41,15 @@ class Affiliate_WP_Scheduler {
 	public function __construct() {
 
 		add_action( 'init', array( $this, 'schedule_actions' ) );
-		register_deactivation_hook( AFFILIATEWP_PLUGIN_FILE, array( $this, 'unschedule_actions' ) );
+
+		// Deactivate scheduled hooks when plugin is deactivated.
+		register_deactivation_hook(
+			AFFILIATEWP_PLUGIN_FILE,
+			array(
+				$this,
+				'unschedule_actions',
+			)
+		);
 	}
 
 	/**
@@ -57,6 +65,8 @@ class Affiliate_WP_Scheduler {
 		foreach ( array(
 			'affwp_monthly_email_summaries',
 			'affwp_daily_scheduled_events',
+			'affwp_monthly_affiliate_email_summaries',
+			'affwp_send_scheduled_summary', // Possible created by affwp_schedule_summary().
 		) as $scheduled_action ) {
 
 			if ( ! is_string( $scheduled_action ) ) {
@@ -79,6 +89,7 @@ class Affiliate_WP_Scheduler {
 
 		$this->daily_events();
 		$this->monthly_email_summaries();
+		$this->monthly_affiliate_email_summaries();
 	}
 
 	/**
@@ -119,7 +130,7 @@ class Affiliate_WP_Scheduler {
 	}
 
 	/**
-	 * Every 30 days, starting now.
+	 * Monthly Email Summaries.
 	 *
 	 * @since 2.9.6
 	 * @since 2.9.6.1 See https://github.com/awesomemotive/AffiliateWP/issues/4451
@@ -157,6 +168,54 @@ class Affiliate_WP_Scheduler {
 				: time(),
 			DAY_IN_SECONDS * 30,
 			'affwp_monthly_email_summaries',
+			array(),
+			$this->group
+		);
+	}
+
+	/**
+	 * Monthly Affiliate Email Summaries.
+	 *
+	 * @since 2.9.7
+	 */
+	public function monthly_affiliate_email_summaries() {
+
+		if (
+			! affwp_is_affiliate_email_summaries_enabled() ||
+			! affwp_is_wp_mail_smtp_configured()
+		) {
+
+			if ( function_exists( 'as_unschedule_all_actions' ) ) {
+
+				// Stop all emails (remove schedules) if WP Mail SMTP is not configured.
+				as_unschedule_all_actions( 'affwp_monthly_affiliate_email_summaries' );
+				as_unschedule_all_actions( 'affwp_send_scheduled_summary' );
+			}
+
+			return; // Don't create schedule until the feature is not enabled or WP Mail SMTP is not setup.
+		}
+
+		if ( $this->as_has_scheduled_action(
+			'affwp_monthly_affiliate_email_summaries',
+			array(),
+			$this->group
+		) ) {
+			return; // Already scheduled.
+		}
+
+		if ( ! function_exists( 'as_schedule_recurring_action' ) ) {
+
+			affiliate_wp()->utils->log(
+				__( 'Could not find as_schedule_recurring_action(), so could not schedule affiliate email summaries.', 'affiliate-wp' )
+			);
+
+			return; // Can't find Action Scheduler.
+		}
+
+		as_schedule_recurring_action(
+			time(), // Start now.
+			DAY_IN_SECONDS * 30, // Re-occur every 30 days.
+			'affwp_monthly_affiliate_email_summaries',
 			array(),
 			$this->group
 		);

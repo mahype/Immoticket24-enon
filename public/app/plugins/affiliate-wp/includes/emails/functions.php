@@ -11,6 +11,7 @@
 
 // phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Formatting this was is ok here.
 // phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Formatting this was is ok here.
+// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned -- WPCS is throwing this warning inaccurately.
 
 // Exit if accessed directly
 if( ! defined( 'ABSPATH' ) ) exit;
@@ -193,6 +194,37 @@ function affwp_email_tag_referral_rate( $affiliate_id = 0 ) {
 }
 
 /**
+ * Is Affiliate Email Summaries enabled without WP Mail SMTP configured?
+ *
+ * @since 2.9.7
+ *
+ * @return bool
+ */
+function affwp_affiliate_email_summaries_enabled_without_wp_mail_smtp() {
+	return true === affwp_is_affiliate_email_summaries_enabled()
+		&& true !== affwp_is_wp_mail_smtp_configured();
+}
+
+/**
+ * Is the setting for Affiliate Email Summaries enabled (checked)?
+ *
+ * @since 2.9.7
+ *
+ * @return bool
+ */
+function affwp_is_affiliate_email_summaries_enabled() {
+
+	$settings = get_option( 'affwp_settings', false );
+
+	if ( ! is_array( $settings ) ) {
+		return false;
+	}
+
+	return isset( $settings['affiliate_email_summaries'] ) &&
+		true === (bool) $settings['affiliate_email_summaries'];
+}
+
+/**
  * Email template tag: review URL
  * Affiliate's review page URL
  *
@@ -297,7 +329,6 @@ function affwp_email_notification_enabled( $email_notification = '', $affiliate_
 	 * @param int    $affiliate_id       Affiliate ID.
 	 */
 	return (bool) apply_filters( 'affwp_email_notification_enabled', $enabled, $email_notification, $affiliate_id );
-
 }
 
 /**
@@ -471,6 +502,64 @@ function affwp_add_sent_dyk_blurb( $blurb_id ) {
 }
 
 /**
+ * Schedule an email summary.
+ *
+ * @since 2.9.7
+ *
+ * @param  string $name       See affwp_email_summary().
+ * @param  string $to         See affwp_email_summary().
+ * @param  string $subject    See affwp_email_summary().
+ * @param  string $email_body See affwp_email_summary().
+ * @param  string $data       See affwp_email_summary().
+ * @param  string $template   See affwp_email_summary().
+ * @param  string $timestamp  Timestamp of when to send it with Action Scheduler.
+ * @return bool               See affwp_email_summary().
+ */
+function affwp_schedule_summary(
+	$name,
+	$to,
+	$subject,
+	$email_body,
+	$data = null,
+	$template = 'summaries',
+	$timestamp = 0
+) {
+
+	if ( ! function_exists( 'as_schedule_single_action' ) ) {
+
+		affiliate_wp()->utils->log(
+			sprintf(
+
+				// Translators: %1$s is the name of the summary.
+				__( 'Could not schedule %1$s email summary because we could not find the function as_schedule_single_action().' ),
+				$name
+			)
+		);
+
+		return false;
+	}
+
+	// Schedule a one-time summary to be send when indicated, and return if it was scheduled or not.
+	return 0 === as_schedule_single_action(
+		0 === $timestamp
+			? time() // Send now.
+			: $timestamp, // Send when scheduled.
+		'affwp_send_scheduled_summary',
+		array(
+			$name,
+			$to,
+			$subject,
+			$email_body,
+			$data,
+			$template,
+		),
+		'affiliatewp' // Action scheduler group.
+	)
+		? false // It wasn't scheduled for some reason.
+		: true; // It was scheduled.
+}
+
+/**
  * Send an email summary.
  *
  * @param  string $name       Name of the email summary.
@@ -480,7 +569,6 @@ function affwp_add_sent_dyk_blurb( $blurb_id ) {
  * @param  mixed  $data       Any data associated with the email.
  * @param  bool   $preview    Set to true to preview email instead.
  * @param  string $template   Template.
- *
  * @return bool               True if it was emailed.
  */
 function affwp_email_summary(
@@ -500,6 +588,17 @@ function affwp_email_summary(
 	$emailer = new Affiliate_WP_Emails();
 
 	$emailer->template = $template;
+
+	// Send context to our template filters.
+	set_query_var(
+		'context',
+		array(
+			'name'     => $name, // The most important part.
+			'to'       => $to,
+			'template' => $template,
+			'data'     => $data,
+		)
+	);
 
 	if ( $preview ) {
 
@@ -525,7 +624,7 @@ function affwp_email_summary(
 		apply_filters( "affwp_notify_{$name}_summary_to_email", $to ),
 
 		/**
-		 * Filter the subject of the Monthly Performance Summary Report.
+		 * Filter the subject of the Monthly Summary Report.
 		 *
 		 * @since 2.9.6
 		 *
@@ -534,7 +633,7 @@ function affwp_email_summary(
 		apply_filters( "affwp_notify_{$name}_summary_email_subject", $subject ),
 
 		/**
-		 * Filter the content of the Monthly Performance Summary.
+		 * Filter the content of the Monthly Summary.
 		 *
 		 * @since 2.9.6
 		 *
@@ -577,8 +676,614 @@ function affwp_is_summary_email_preview( $name ) {
 	);
 }
 
+if ( ! function_exists( 'affwp_get_monthly_affiliate_email_summary_content' ) ) :
+
+	/**
+	 * Get the Monthly Affiliate Report Markup (Content).
+	 *
+	 * If you want to custimize anything here, simply create this function elsewhere and
+	 * override it with your own content.
+	 *
+	 * @since 2.9.7
+	 *
+	 * @param  int   $affiliate_id The affiliate to show data for,
+	 *                             -1 means we must be previewing the content.
+	 * @param  array $timeframe {
+	 *     Timeframe.
+	 *     @type string $start Start time in Y-m-d format.
+	 *     @type string $end   End time in Y-m-d format.
+	 *
+	 *     Might look like:
+	 *      'start' => string '2022-08-15'
+	 *      'end' => string '2022-09-14'
+	 * }
+	 * @return string HTML Markup for email body.
+	 *
+	 * @see templates/dashboard-tab-stats.php Will present similar data here.
+	 */
+	function affwp_get_monthly_affiliate_email_summary_content( $affiliate_id, $timeframe ) {
+
+		if ( ! is_numeric( $affiliate_id ) ) {
+
+			affiliate_wp()->utils->log(
+				sprintf(
+
+					// Translators: %1$s is the ID that is bad.
+					__( 'Affiliate monthly summary content for affiliate with ID %1$s was not sent because it is not a valid Affiliate ID.' ),
+					$affiliate_id
+				)
+			);
+
+			return ''; // Can't send anything to an affiliate w/out an ID.
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're just accessing it.
+		if ( isset( $_GET['affiliate_id'] ) && is_numeric( $_GET['affiliate_id'] ) ) {
+
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- For debugging only, might remove later.
+			$affiliate_id = absint( $_GET['affiliate_id'] ); // Used to preview a specific affiliate's data.
+		}
+
+		// Affiliate name for the email content.
+		$affiliate_name = -1 === $affiliate_id
+			? __( 'John', 'affiliate-wp' ) // For previewing.
+			: affwp_get_affiliate_first_name( $affiliate_id );
+
+		// Get the user's top converting URLs.
+		$top_converted_visits = affwp_get_affiliate_top_visit_urls(
+			$affiliate_id,
+			$timeframe,
+			'converted',
+			10
+		);
+
+		$intro = sprintf(
+
+			// Translators: %1$s is the display-name of the affiliate.
+			__( 'Hi %1$s,', 'affiliate-wp' ),
+
+			// %$1s
+			empty( $affiliate_name )
+
+				// There is a chance the affiliate hasn't set their first name yet, show "Hi there," instead.
+				? _x( 'there', 'affiliate-wp' )
+				: $affiliate_name
+		);
+
+		$intro2 = sprintf(
+
+			// Translators: %1$s is the name of this website.
+			__( 'Here\'s how you\'ve performed on %1$s in the last 30 days.', 'affiliate-wp' ),
+			sprintf(
+				'<strong>%1$s</strong>',
+				str_replace(
+					array( 'https://', 'http://' ),
+					'', // Replace with nothing.
+					get_option( 'home' )
+				)
+			)
+		);
+
+		$total_earnings = affwp_currency_filter(
+			affwp_format_amount(
+
+				// Unpaid earnings.
+				affiliate_wp()->referrals->unpaid_earnings(
+					$timeframe,
+					$affiliate_id,
+					false
+				)
+				+
+
+				// Plus Paid earnings.
+				affiliate_wp()->referrals->paid_earnings(
+					$timeframe,
+					$affiliate_id,
+					false
+				)
+			)
+		);
+
+		$total_referrals = affiliate_wp()->referrals->get_referrals(
+			array(
+				'number'       => -1,
+				'affiliate_id' => $affiliate_id,
+				'date'         => $timeframe,
+				'fields'       => 'ids',
+				'status'       => array(
+					'paid',
+					'unpaid',
+				),
+			),
+			true // Just the count.
+		);
+
+		$total_visits = affwp_count_visits( $affiliate_id, $timeframe );
+
+		$conversion_rate = affwp_get_affiliate_conversion_rate(
+			$affiliate_id,
+			$timeframe
+		);
+
+		if (
+
+			// If they selected none, use plain text...
+			'none' === affiliate_wp()->settings->get( 'email_template' ) &&
+
+			// But never use this content when previewing.
+			! affwp_is_summary_email_preview( 'monthly_affiliate_email' )
+		) {
+
+			/*
+			 * Plain Text Version
+			 *
+			 * Note, spacing is important here.
+			 */
+			ob_start();
+
+			?>
+
+			<?php echo esc_html( $intro ); ?>
+
+
+			<?php echo esc_html( $intro2 ); ?>
+
+
+			Total Earnings: <?php echo esc_html( $total_earnings ); ?>
+
+			Total Referrals: <?php echo esc_html( $total_referrals ); ?>
+
+			Total Visits: <?php echo esc_html( $total_visits ); ?>
+
+			Conversion Rate: <?php echo esc_html( $conversion_rate ); ?>
+
+
+			<?php if ( ! empty( $top_converted_visits ) || -1 === $affiliate_id ) : ?>
+
+				<?php echo esc_html( __( 'Top 10 Highest Converting URLs:', 'affiliate-wp' ) ); ?>
+
+				<?php foreach ( $top_converted_visits as $url => $row ) : ?>
+
+					<?php echo empty( $url ) ? esc_html__( 'Unknown', 'affiliate-wp' ) : esc_url( $url ); ?>
+
+					Referrals: <?php echo isset( $row['visits'] ) ? absint( $row['visits'] ) : 0; ?>
+
+					Visits: <?php echo absint( affwp_get_affiliate_total_visits_to_url( $url, $affiliate_id, 'today - 30 days' ) ); ?>
+
+				<?php endforeach; ?>
+			<?php endif; // Top Visits. ?>
+			<?php
+
+			return mb_convert_encoding(
+				str_replace( "\t", '', ob_get_clean() ),
+				'UTF-8',
+				'HTML-ENTITIES'
+			);
+		}
+
+		/*
+		 * HTML Version.
+		 */
+		ob_start();
+
+		?>
+
+		<div class="content">
+
+			<p style="text-align: left; font-weight: bold;">
+				<?php
+
+				echo esc_html(
+					$intro
+				);
+
+				?>
+			</p>
+
+			<p style="text-align: left; margin-bottom: 30px;">
+				<?php
+
+				echo wp_kses(
+					$intro2,
+					array(
+						'strong' => true,
+					)
+				);
+
+				?>
+			</p>
+
+			<h2 style="margin-bottom: 25px; text-align: center;">
+				<strong>
+					<?php esc_html_e( 'Total Earnings', 'affiliate-wp' ); ?>
+				</strong>
+			</h2>
+
+			<p style="font-size: 24px; margin-top: 10px; text-align: center;">
+				<strong>
+					<?php if ( -1 === $affiliate_id ) : ?>
+						$150.56
+					<?php else : ?>
+						<?php
+
+						// Unpaid + Paid earnings.
+						echo esc_html(
+							$total_earnings
+						);
+
+						?>
+					<?php endif; ?>
+				</strong>
+			</p>
+
+			<table class="data" style="border-collapse: collapse; border: 2px solid #eee; margin: 20px 0;table-layout: fixed; width: 100%;">
+				<tbody>
+					<tr style="text-align: center">
+
+						<td style="border-right: 2px solid #eee; padding: 10px; width: 33%;">
+							<p style="margin-bottom: 0;">
+								<strong>
+									<?php esc_html_e( 'Total Referrals', 'affiliate-wp' ); ?>
+								</strong>
+							</p>
+
+							<p style="font-size: 24px; margin-top: 10px;">
+								<strong>
+									<?php if ( -1 === $affiliate_id ) : ?>
+										12
+									<?php else : ?>
+										<?php
+
+										// Count of paid and unpaid referrals.
+										echo absint(
+											$total_referrals
+										);
+
+										?>
+									<?php endif; ?>
+								</strong>
+							</p>
+						</td>
+
+						<td style="border-right: 2px solid #eee; padding: 10px; width: 33%;">
+							<p style="margin-bottom: 0;">
+								<strong>
+									<?php esc_html_e( 'Total Visits', 'affiliate-wp' ); ?>
+								</strong>
+							</p>
+
+							<p style="font-size: 24px; margin-top: 10px;">
+								<strong>
+									<?php if ( -1 === $affiliate_id ) : ?>
+										18
+									<?php else : ?>
+										<?php echo absint( $total_visits ); ?>
+									<?php endif; ?>
+								</strong>
+							</p>
+						</td>
+
+						<td style="border-right: 2px solid #eee; padding: 10px; width: 33%;">
+							<p style="margin-bottom: 0;">
+								<strong>
+									<?php esc_html_e( 'Conversion Rate', 'affiliate-wp' ); ?>
+								</strong>
+							</p>
+
+							<p style="font-size: 24px; margin-top: 10px;">
+								<strong>
+									<?php if ( -1 === $affiliate_id ) : ?>
+										66% <!-- // Preview data. -->
+									<?php else : ?>
+										<?php
+
+										echo absint(
+											affwp_get_affiliate_conversion_rate(
+												$affiliate_id,
+												$timeframe
+											)
+										);
+
+										// Yes we just echo it here, because sprintf seems to break.
+										echo '%';
+
+										?>
+									<?php endif; ?>
+								</strong>
+							</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<?php if ( ! empty( $top_converted_visits ) || -1 === $affiliate_id ) : ?>
+
+				<h2 style="text-align: center; margin-top: 50px; margin-bottom: 25px;">
+					<strong>
+						<?php esc_html_e( 'Top 10 Highest Converting URLs', 'affiliate-wp' ); ?>
+					</strong>
+				</h2>
+
+				<table class="top-urls" style="border-collapse: collapse; border: 1px solid #eee; margin: 20px 0; width: 100%;">
+					<tbody>
+
+						<tr style="background-color: #eee; font-weight: bold; border-bottom: 1px solid #eee;">
+							<td style="text-align: center;"><?php esc_html_e( 'URL', 'affiliate-wp' ); ?></td>
+							<td style="text-align: center;"><?php esc_html_e( 'Referrals', 'affiliate-wp' ); ?></td>
+							<td style="text-align: center;"><?php esc_html_e( 'Total Visits', 'affiliate-wp' ); ?></td>
+						</tr>
+
+						<?php if ( -1 === $affiliate_id ) : ?>
+
+							<?php for ( $i = 1; $i <= 10; $i++ ) : ?>
+
+								<tr style="border-bottom: 1px solid #eee;">
+									<td style="text-align: center; text-align: left; border-right: 1px solid #eee;"><?php echo esc_url( home_url( "/product/{$i}" ) ); ?></td>
+									<td style="text-align: center;"><?php echo absint( wp_rand( 0, 30 ) ); ?></td>
+									<td style="text-align: center; border-left: 1px solid #eee;"><?php echo absint( wp_rand( 30, 60 ) ); ?></td>
+								</tr>
+
+							<?php endfor; ?>
+
+
+						<?php else : ?>
+
+							<?php foreach ( $top_converted_visits as $url => $row ) : ?>
+								<tr style="border-bottom: 1px solid #eee;">
+
+									<td style="text-align: center; text-align: left; border-right: 1px solid #eee;">
+										<?php
+
+										echo empty( $url )
+											? esc_html__( 'Unknown', 'affiliate-wp' )
+											: esc_url( $url );
+										?>
+									</td>
+
+									<td style="text-align: center;">
+										<?php echo isset( $row['visits'] ) ? absint( $row['visits'] ) : 0; ?>
+									</td>
+
+									<td style="text-align: center; border-left: 1px solid #eee;">
+										<?php echo absint( affwp_get_affiliate_total_visits_to_url( $url, $affiliate_id, 'today - 30 days' ) ); ?>
+									</td>
+
+								</tr>
+							<?php endforeach; ?>
+
+						<?php endif; ?>
+					</tbody>
+				</table>
+
+			<?php endif; // Top Visits. ?>
+
+		</div>
+
+		<?php
+
+		return ob_get_clean();
+	}
+endif;
+
 /**
- * Get the Monthly Administrative Performance Report Markup (Content).
+ * Get the v6 or v5 Mailer.
+ *
+ * @since 2.9.7
+ *
+ * @return mixed Mailer.
+ */
+function affwp_get_phpmailer() {
+
+	if ( version_compare( get_bloginfo( 'version' ), '5.5-alpha', '<' ) ) {
+		return affwp_get_phpmailer_v5();
+	}
+
+	return affwp_get_phpmailer_v6();
+}
+
+/**
+ * Get the v5 Mailer.
+ *
+ * @since 2.9.7
+ *
+ * @return mixed Mailer.
+ */
+function affwp_get_phpmailer_v5() {
+
+	global $phpmailer;
+
+	if ( ! ( $phpmailer instanceof \PHPMailer ) ) {
+
+		require_once ABSPATH . WPINC . '/class-phpmailer.php';
+		require_once ABSPATH . WPINC . '/class-smtp.php';
+
+		$phpmailer = new \PHPMailer( true ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+	}
+
+	return $phpmailer;
+}
+
+/**
+ * Get the v6 Mailer.
+ *
+ * @since 2.9.7
+ *
+ * @return mixed Mailer.
+ */
+function affwp_get_phpmailer_v6() {
+
+	global $phpmailer;
+
+	if ( ! ( $phpmailer instanceof \PHPMailer\PHPMailer\PHPMailer ) ) {
+
+		require_once ABSPATH . WPINC . '/PHPMailer/PHPMailer.php';
+		require_once ABSPATH . WPINC . '/PHPMailer/SMTP.php';
+		require_once ABSPATH . WPINC . '/PHPMailer/Exception.php';
+
+		$phpmailer = new \PHPMailer\PHPMailer\PHPMailer( true ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+	}
+
+	return $phpmailer;
+}
+
+
+/**
+ * Is WP Mail SMTP Pro (or lite) configured?
+ *
+ * @since 2.9.7
+ *
+ * @return bool
+ */
+function affwp_is_wp_mail_smtp_configured() {
+
+	/**
+	 * Filter whehter or not WP Mail SMTP is configured or not.
+	 *
+	 * @since 2.9.7
+	 *
+	 * @param null Leave null to let us figure it out,
+	 *             otherwise set to true or false to use your determination.
+	 */
+	$filtered = apply_filters( 'affwp_is_wp_mail_smtp_configured', null );
+
+	if ( is_bool( $filtered ) ) {
+		return $filtered;
+	}
+
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+	if (
+		! is_plugin_active( 'wp-mail-smtp/wp_mail_smtp.php' ) &&
+		! is_plugin_active( 'wp-mail-smtp-pro/wp_mail_smtp.php' )
+	) {
+		return false; // No lite or pro plugin active.
+	}
+
+	if ( ! function_exists( 'wp_mail_smtp' ) ) {
+		return false; // This should exist, but it doesn't for some reason.
+	}
+
+	$mailer = \WPMailSMTP\Options::init()->get( 'mail', 'mailer' );
+
+	if ( empty( $mailer ) ) {
+		return false; // No mailer set.
+	}
+
+	if ( 'mail' === $mailer ) {
+		return false; // Default PHP mailer set (we don't consider this configured).
+	}
+
+	// Is the mailer, then, completely configured?
+	return wp_mail_smtp()->get_providers()->get_mailer( $mailer, affwp_get_phpmailer() )->is_mailer_complete();
+}
+
+/**
+ * Get an affiliate's total visits for a URL.
+ *
+ * @param  string $url          URL.
+ * @param  int    $affiliate_id Affiliate ID.
+ * @param  string $date         Since when, defaults to all time (epoch).
+ * @return int                  Number of visits to a url.
+ */
+function affwp_get_affiliate_total_visits_to_url( $url, $affiliate_id, $date = '1970-01-01' ) {
+
+	global $wpdb;
+
+	$count = $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT
+				COUNT(visit_id)
+				FROM {$wpdb->prefix}affiliate_wp_visits WHERE
+					url = %s AND
+					affiliate_id = %d AND
+					date >= %s",
+			$url,
+			absint( $affiliate_id ),
+			gmdate(
+				'Y-m-d',
+				strtotime( $date )
+			)
+		)
+	);
+
+	return is_numeric( $count )
+		? absint( $count )
+		: 0;
+}
+
+/**
+ * Get the top converting visits for an affiliate by timeframe.
+ *
+ * @since 2.9.7
+ *
+ * @param int    $affiliate_id Affiliate ID.
+ * @param array  $date {
+ *     Timeframe.
+ *     @type string start Start date.
+ *     @type string end   End date.
+ * }
+ * @param string $referral_status Status of visits, defaults to converted.
+ * @param int    $number          How many to retrieve.
+ * @param array  $args            Arguments to merge or override.
+ * @return array                  Array grouped by URL with visits and referrals.
+ */
+function affwp_get_affiliate_top_visit_urls(
+	$affiliate_id,
+	$date,
+	$referral_status = 'converted',
+	$number = -1,
+	$args = array()
+) {
+
+	$urls = array();
+
+	foreach ( affiliate_wp()->visits->get_visits(
+		array_merge(
+			array(
+				'number'          => absint( $number ),
+				'affiliate_id'    => absint( $affiliate_id ),
+				'date'            => is_array( $date ) ? $date : array(),
+				'order_by'        => 'date',
+				'referral_status' => is_string( $referral_status ) ? $referral_status : 'converted',
+				'fields' => array(
+					'url',
+					'referral_id',
+				),
+			),
+			$args
+		)
+	) as $visit ) {
+
+		// Group them by URL.
+		$urls[ $visit->url ][] = $visit;
+	}
+
+	$top_urls = array();
+
+	// Count visits and referrals for URLs.
+	foreach ( $urls as $url => $visits ) {
+
+		$top_urls[ $url ] = array(
+			'visits'    => count( $visits ),
+
+			// Log all the referrals.
+			'referrals' => array_filter(
+				$visits,
+				function( $visit ) {
+					return isset( $visit->referral_id );
+				}
+			),
+		);
+	}
+
+	return $top_urls;
+}
+
+/**
+ * Get the Monthly Email summary Markup (Content).
+ *
+ * @since 2.9.6
+ * @since 2.9.7 Added plain text support.
  *
  * @param  array $timeframe {
  *     Timeframe.
@@ -587,7 +1292,7 @@ function affwp_is_summary_email_preview( $name ) {
  * }
  * @return string            HTML Markup for email body.
  */
-function affwp_get_monthly_administrative_email_template_html( $timeframe ) {
+function affwp_get_monthly_email_summary_content( $timeframe ) {
 
 	if ( ! is_array( $timeframe ) ) {
 		return __( 'Invalid timeframe.', 'affiliate-wp' );
@@ -617,15 +1322,90 @@ function affwp_get_monthly_administrative_email_template_html( $timeframe ) {
 		true
 	);
 
-	ob_start(); // Start email content...
+	$intro  = __( 'Hi there!', 'affiliate-wp' );
+	$intro2 = __( "Let's see how your affiliate program has performed over the last 30 days.", 'affiliate-wp' );
+
+	$total_program_revenue = affwp_currency_filter(
+		affwp_format_amount(
+			affiliate_wp()->referrals->sales->get_revenue_by_referral_status(
+				array(
+					'paid',
+					'unpaid',
+				),
+				null,
+				$timeframe
+			)
+		)
+	);
+
+	$new_approved_affiliates = affiliate_wp()->affiliates->count(
+		array(
+			'date'   => $timeframe,
+			'status' => 'active',
+		)
+	);
+
+	$unpaid_earnings = affwp_currency_filter(
+		affwp_format_amount( affiliate_wp()->referrals->unpaid_earnings( $timeframe, 0, false ) )
+	);
+
+	$paid_earnings = affwp_currency_filter(
+		affwp_format_amount( affiliate_wp()->referrals->paid_earnings( $timeframe, 0, false ) )
+	);
+
+	/*
+	 * Preview Version
+	 */
+	if (
+
+		// If they selected none, use plain text...
+		'none' === affiliate_wp()->settings->get( 'email_template' ) &&
+
+		// But never use this content when previewing.
+		! affwp_is_summary_email_preview( 'monthly_email' )
+	) {
+
+		ob_start();
+
+		?>
+
+		<?php echo esc_html( $intro ); ?>
+
+
+		<?php echo esc_html( $intro2 ); ?>
+
+		<?php if ( $has_active_integration_supports_sales_repoorting ) : // Only if there is an integration active that supports sales. ?>
+
+			<?php esc_html_e( 'Total Program Revenue', 'affiliate-wp' ); ?>: <?php echo esc_html( $total_program_revenue ); ?>
+		<?php endif; ?>
+
+		<?php esc_html_e( 'New Approved Affiliates', 'affiliate-wp' ); ?>: <?php echo absint( $new_approved_affiliates ); ?>
+
+		<?php echo esc_html( __( 'Unpaid Earnings', 'affiliate-wp' ) ); ?>: <?php echo esc_html( $unpaid_earnings ); ?>
+
+		<?php echo esc_html( __( 'Paid Earnings', 'affiliate-wp' ) ); ?>: <?php echo esc_html( $paid_earnings ); ?>
+
+		<?php
+
+		return mb_convert_encoding(
+			str_replace( "\t", '', ob_get_clean() ),
+			'UTF-8',
+			'HTML-ENTITIES'
+		);
+	}
+
+	/*
+	 * HTML Version.
+	 */
+	ob_start();
 
 	?>
 
 	<div class="content">
 
 		<!-- Welcome message -->
-		<p><strong><?php esc_html_e( 'Hi there!', 'affiliate-wp' ); ?></strong></p>
-		<p><?php esc_html_e( "Let's see how your affiliate program has performed over the last 30 days.", 'affiliate-wp' ); ?></p>
+		<p><strong><?php echo esc_html( $intro ); ?></strong></p>
+		<p><?php echo esc_html( $intro2 ); ?></p>
 
 		<?php if ( $has_active_integration_supports_sales_repoorting ) : // Only if there is an integration active that supports sales. ?>
 
@@ -646,18 +1426,7 @@ function affwp_get_monthly_administrative_email_template_html( $timeframe ) {
 
 								// Data.
 								echo esc_html(
-									affwp_currency_filter(
-										affwp_format_amount(
-											affiliate_wp()->referrals->sales->get_revenue_by_referral_status(
-												array(
-													'paid',
-													'unpaid',
-												),
-												null,
-												$timeframe
-											)
-										)
-									)
+									$total_program_revenue
 								);
 
 								?>
@@ -688,12 +1457,7 @@ function affwp_get_monthly_administrative_email_template_html( $timeframe ) {
 
 								// Data.
 								echo absint(
-									affiliate_wp()->affiliates->count(
-										array(
-											'date' => $timeframe,
-											'status' => 'active'
-										)
-									)
+									$new_approved_affiliates
 								);
 
 							?>
@@ -716,9 +1480,7 @@ function affwp_get_monthly_administrative_email_template_html( $timeframe ) {
 
 							// Data.
 							echo esc_html(
-								affwp_currency_filter(
-									affwp_format_amount( affiliate_wp()->referrals->unpaid_earnings( $timeframe, 0, false ) )
-								)
+								$unpaid_earnings
 							);
 
 							?>
@@ -741,9 +1503,7 @@ function affwp_get_monthly_administrative_email_template_html( $timeframe ) {
 
 							// Data.
 							echo esc_html(
-								affwp_currency_filter(
-									affwp_format_amount( affiliate_wp()->referrals->paid_earnings( $timeframe, 0, false ) )
-								)
+								$paid_earnings
 							);
 
 							?>
@@ -792,3 +1552,32 @@ function affwp_get_monthly_administrative_email_template_html( $timeframe ) {
 
 	return ob_get_clean();
 }
+
+/**
+ * Use the Administrator's desired logo on Affiliate Summaries, if there is one.
+ *
+ * @since 2.9.7
+ *
+ * @param  string $header_img The header image used by default: AffiliateWP.
+ * @param  mixed  $context    The context from get_query_var( 'context' ) in the template, null if none.
+ * @return string             The default one if the Administrator hasn't selected a customized logo,
+ *                            or the customized logo from the Emails setting tab.
+ *
+ * @see affwp_notify_monthly_affiliate_perf_summary() where this is used.
+ */
+function affwp_notify_monthly_affiliate_summary_header_img( $header_img, $context = null ) {
+
+	$customized_logo = affiliate_wp()->settings->get( 'email_logo', '' );
+
+	if ( ! filter_var( $customized_logo, FILTER_SANITIZE_URL ) ) {
+		return $header_img; // Use AffiliateWP by default.
+	}
+
+	return $customized_logo; // Use the customers logo.
+}
+add_filter(
+	'affwp_email_template_affiliate_summary_header_img',
+	'affwp_notify_monthly_affiliate_summary_header_img',
+	10,
+	2
+);

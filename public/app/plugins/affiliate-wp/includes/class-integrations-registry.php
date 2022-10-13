@@ -354,6 +354,13 @@ class Integrations_Registry extends Utils\Registry {
 			'class' => '\Affiliate_WP_Gravity_Forms',
 		) );
 
+		// Learndash
+		$this->add_integration( 'learndash', array(
+			'name'     => 'LearnDash',
+			'class'    => '\Affiliate_WP_LearnDash',
+			'supports' => array( 'sales_reporting' ),
+		) );
+
 		// LifterLMS
 		$this->add_integration( 'lifterlms', array(
 			'name'  => 'LifterLMS',

@@ -504,13 +504,13 @@ function affwp_notify_admin_on_new_referral( $affiliate_id, $referral ) {
 add_action( 'affwp_referral_accepted', 'affwp_notify_admin_on_new_referral', 10, 2 );
 
 /**
- * Monthly Administrative Performance Email Summary.
+ * Monthly Email Summary.
  *
  * @since 2.9.6
  *
  * @param bool $preview Set to true to build email instead of send (for previewing).
  *
- * @see affwp_get_monthly_administrative_email_template_html() For Email Content Body.
+ * @see affwp_get_monthly_email_summary_content() For Email Content Body.
  *
  * @return void
  */
@@ -533,7 +533,7 @@ function affwp_notify_monthly_email_summary( $preview = false ) {
 		sprintf( __( 'Your Monthly AffiliateWP Summary for %s', 'affiliate-wp' ), str_replace( array( 'https://', 'http://' ), '', get_option( 'home', 'your site' ) ) ),
 
 		// Content.
-		affwp_get_monthly_administrative_email_template_html(
+		affwp_get_monthly_email_summary_content(
 
 			/**
 			 * Filter the time frame for the data we are emailing.
@@ -571,13 +571,13 @@ function affwp_notify_monthly_email_summary( $preview = false ) {
 }
 add_action(
 
-	// Send the Administrative Performance Summary email.
+	// Send the Summary email.
 	'affwp_monthly_email_summaries', // See includes/class-affwp-scheduler.php.
 	'affwp_notify_monthly_email_summary'
 );
 
 /**
- * Preview the Monthly Administrative Performance Summary email.
+ * Preview the Monthly Summary email.
  *
  * @since 2.9.6
  *
@@ -613,3 +613,398 @@ function affwp_remember_sent_dyk_blurb( $sent, $data ) {
 	affwp_add_sent_dyk_blurb( $data['dyk_blurb']['id'] );
 }
 add_action( 'affwp_notify_monthly_email_summary_email_sent', 'affwp_remember_sent_dyk_blurb', 10, 2 );
+
+/**
+ * Preview the Monthly Affiliate Summary email.
+ *
+ * @since 2.9.7
+ *
+ * @return void
+ */
+function affwp_preview_monthly_affiliate_email_summary() {
+
+	if ( ! affwp_is_summary_email_preview( 'monthly_affiliate_email' ) ) {
+		return; // We are not requesting a preview of the monthly admin performance email.
+	}
+
+	// Preview the email.
+	affwp_notify_monthly_affiliate_email_summary( true );
+}
+add_action( 'admin_init', 'affwp_preview_monthly_affiliate_email_summary' );
+
+/**
+ * Monthly Affiliate Email Summary.
+ *
+ * @since 2.9.7
+ *
+ * @param bool $preview Set to true to build email instead of send (for previewing).
+ *
+ * @return void
+ */
+function affwp_notify_monthly_affiliate_email_summary( $preview = false ) {
+
+	if ( $preview ) {
+
+		// Preview the first affiliate and stop (will die()).
+		affwp_email_summary(
+
+			// Name of summary.
+			'monthly_affiliate_email',
+
+			// To.
+			'nobody@example.com',
+
+			// Subject.
+			sprintf(
+				// Translators: %1$s is the site.
+				__( 'Your Monthly Summary for %1$s', 'affiliate-wp' ),
+				// Show the site label for %1$s (the site).
+				str_replace(
+					array( 'https://', 'http://' ),
+					'', // Replace with nothing.
+					get_option( 'home' )
+				)
+			),
+
+			// Content.
+			affwp_get_monthly_affiliate_email_summary_content( -1, array() ),
+
+			// Data (none).
+			array(),
+
+			// Preview.
+			true,
+
+			// Template.
+			'affiliate-summary'
+		);
+
+		return;
+	}
+
+	if ( is_multisite() ) {
+
+		affiliate_wp()->utils->log(
+			__( 'Cound not send affiliate email summaries because it is not supported on multisite.', 'affiliate-wp' )
+		);
+
+		return;
+	}
+
+	if ( true !== affwp_is_affiliate_email_summaries_enabled() ) {
+
+		affiliate_wp()->utils->log(
+			__( 'Cound not send affiliate email summaries because it has not been enabled.', 'affiliate-wp' )
+		);
+
+		return; // You are wanting to email this summary, but a setting is not enabled.
+	}
+
+	if ( false === affwp_is_wp_mail_smtp_configured() ) {
+
+		affiliate_wp()->utils->log(
+			__( 'Cound not send affiliate email summaries because WP Mail SMTP is not configured.', 'affiliate-wp' )
+		);
+
+		return; // You need to have WP Mail SMTP set-up before we can send this email.
+	}
+
+	// Start sending email now, plus an offset to give them a chance to cancel.
+	$timing = time() +
+		absint(
+			/**
+			 * Filter the initial offset before sending individual affiliate email summaries.
+			 *
+			 * @since 2.9.7
+			 *
+			 * @param int Offset in seconds.
+			 */
+			apply_filters(
+				'monthly_affiliate_email_summary_initial_timing_offset',
+				MINUTE_IN_SECONDS * 15
+			)
+		);
+
+	// Loop over all the affiliates and schedule/send emails (or maybe preview one)...
+	foreach (
+
+		// Affiliates...
+		affiliate_wp()->affiliates->get_affiliates(
+			array(
+				'number' => -1,
+				'status' => 'active',
+				'fields' => 'ids',
+			)
+		)
+	as $affiliate_id ) {
+
+		/**
+		 * Filter the interval for sending each affiliate their email summary.
+		 *
+		 * @since 2.9.7
+		 *
+		 * @param string $interval Defaults to MINUTE_IN_SECONDS (60 seconds).
+		 */
+		$timing = $timing + apply_filters( 'monthly_affiliate_email_summary_interval', MINUTE_IN_SECONDS );
+
+		// Get the email (none is okay for previewing).
+		$affiliate_email = affwp_get_affiliate_email( $affiliate_id );
+
+		$subject = sprintf(
+			// Translators: %1$s is the site.
+			__( 'Your Monthly Summary for %1$s', 'affiliate-wp' ),
+			// Show the site label for %1$s (the site).
+			str_replace(
+				array( 'https://', 'http://' ),
+				'', // Replace with nothing.
+				get_option( 'home' )
+			)
+		);
+
+		$content = affwp_get_monthly_affiliate_email_summary_content(
+			$affiliate_id,
+
+			/**
+			 * Filter the time frame for the data we are emailing.
+			 *
+			 * @since 2.9.7
+			 *
+			 * @param array $timeframe {
+			 *    Arguments for start/end timeframe.
+			 *
+			 *    @type string $start Start in Y-m-d format.
+			 *    @type string $end   End in Y-m-d format.
+			 * }
+			 */
+			apply_filters(
+				'affwp_notify_monthly_affiliate_email_summary_timeframe',
+				array(
+
+					// Note, with AFFILIATE_WP_DEBUG enabled, you can override the YYYY-MM-DD format here using "?start=&end=", e.g. &start=2021-01-01&end=2022-08-05.
+					'start' => ( isset( $_GET['start'] ) && defined( 'AFFILIATE_WP_DEBUG' ) && AFFILIATE_WP_DEBUG ) ? $_GET['start'] : gmdate( 'Y-m-d', strtotime( '-30 days' ) ), // phpcs:ignore WordPress.Security.NonceVerification.Recommended  -- No sanitization necessary here, just for development.
+					'end'   => ( isset( $_GET['end'] ) && defined( 'AFFILIATE_WP_DEBUG' ) && AFFILIATE_WP_DEBUG ) ? $_GET['end'] : gmdate( 'Y-m-d', strtotime( 'today' ) ), // phpcs:ignore WordPress.Security.NonceVerification.Recommended  -- No sanitization necessary here, just for development.
+				)
+			)
+		);
+
+		if ( empty( $content ) ) {
+			continue; // Need something to send them, we must not have been able to determine an affiliate.
+		}
+
+		if ( false === $affiliate_email || ! filter_var( $affiliate_email, FILTER_VALIDATE_EMAIL ) ) {
+
+			affiliate_wp()->utils->log(
+				sprintf(
+
+					// Translators: %1$s is the Affiliate's ID and %2$s the email that was not valid.
+					__( 'Affiliate monthly summary for affiliate with ID %1$s with email %2$s was not sent because it is not a valid email.', 'affiliate-wp' ),
+					$affiliate_id,
+					$affiliate_email
+				)
+			);
+
+			continue; // We couldn't find (or validate) an email for this affiliate, we can't email them.
+		}
+
+		$date_registered = affwp_get_affiliate_date_registered( $affiliate_id );
+
+		if ( empty( $date_registered ) ) {
+
+			affiliate_wp()->utils->log(
+				sprintf(
+
+					// Translators: %1$s is the Affiliates ID and %2$s is the bad registration date.
+					__( 'Affiliate monthly summary for affiliate with ID %1$s with registered_date of %2$s was not sent because it is not a valid registration date.', 'affiliate-wp' ),
+					$affiliate_id,
+					$date_registered
+				)
+			);
+
+			continue; // Can't determine when they registered, don't email them.
+		}
+
+		// Determine how many days they have been registered until today.
+		$date_diff = date_diff(
+			date_create( $date_registered ),
+			date_create( gmdate( 'Y-m-d', time() ) )
+		);
+
+		if ( ! $date_diff ) {
+
+			affiliate_wp()->utils->log(
+				sprintf(
+
+					// Translators: %1$s is the Affiliates ID.
+					__( 'Affiliate with ID %1$s could not be sent their email because we could not determine how many days they had been registered.', 'affiliate-wp' ),
+					$affiliate_id
+				)
+			);
+
+			continue; // Could not figure out a number of days from the diff.
+		}
+
+		if ( $date_diff->days < 30 ) {
+
+			affiliate_wp()->utils->log(
+				sprintf(
+
+					// Translators: %1$s is the Affiliates ID and %2$s is their registration date.
+					__( 'Affiliate with ID %1$s (registered on %2$s) was not sent their monthly email summary because they were registered within the last 30 days.', 'affiliate-wp' ),
+					$affiliate_id,
+					$date_registered
+				)
+			);
+
+			continue; // They have not been around 30 days yet.
+		}
+
+		$last_sent = affwp_get_affiliate_meta(
+			$affiliate_id,
+			'last_email_summary_sent',
+			true
+		);
+
+		// They were sent an email at some point...
+		if ( is_numeric( $last_sent ) ) {
+
+			$sent_date_diff = date_diff(
+				date_create( gmdate( 'Y-m-d', $last_sent ) ), // Sent 8-20-2022.
+				date_create( gmdate( 'Y-m-d', time() ) ) // Now: 9-20-2022.
+			);
+
+			// Has at least 27 days passed since the last email was sent?
+			if ( false !== $sent_date_diff && $sent_date_diff->days < 27 ) {
+
+				affiliate_wp()->utils->log(
+					sprintf(
+
+						// Translators: %1$s is the Affiliates ID and %2$s is the date they were last sent an email.
+						__( 'Affiliate with ID %1$s was not sent their email summary because they were sent one already on %2$s.', 'affiliate-wp' ),
+						$affiliate_id,
+						gmdate( 'Y-m-d', $last_sent )
+					)
+				);
+
+				continue; // They already got an email, don't sent another until 30 days have past.
+			}
+		}
+
+		// Schedule each affiliates email to send...
+		affwp_schedule_summary(
+			'monthly_affiliate_email',
+			$affiliate_email,
+			$subject,
+			$content,
+
+			// Data.
+			array(
+				'affiliate_id' => $affiliate_id, // Used to keep track of sent email summaries.
+			),
+
+			// Template.
+			'affiliate-summary',
+			$timing
+		);
+	}
+}
+add_action(
+	'affwp_monthly_affiliate_email_summaries', // See includes/class-affwp-scheduler.php.
+	'affwp_notify_monthly_affiliate_email_summary'
+);
+
+/**
+ * Send scheduled email summaries.
+ *
+ * @since 2.9.7
+ *
+ * @param  string $name       See affwp_email_summary().
+ * @param  string $to         See affwp_email_summary().
+ * @param  string $subject    See affwp_email_summary().
+ * @param  string $email_body See affwp_email_summary().
+ * @param  string $data       See affwp_email_summary().
+ * @param  string $template   See affwp_email_summary().
+ * @return bool               See affwp_email_summary().
+ */
+function affwp_send_scheduled_summary(
+	$name,
+	$to,
+	$subject,
+	$email_body,
+	$data,
+	$template
+) {
+
+	// Preview the first affiliate and stop (will die()).
+	return affwp_email_summary(
+		$name,
+		$to,
+		$subject,
+		$email_body,
+		$data,
+		false, // Never previewing here.
+		$template
+	);
+}
+add_action(
+	'affwp_send_scheduled_summary',
+	'affwp_send_scheduled_summary',
+	10,
+	6
+);
+
+/**
+ * Log when we sent an email summary to an affiliate.
+ *
+ * @since 2.9.7
+ *
+ * @param  bool  $sent Whether the email was successfully sent or noy.
+ * @param  array $data Data about the email.
+ * @return bool        Whether the email was sent (unchanged).
+ */
+function affwp_log_affiliate_email_summary_last_sent_time( $sent, $data ) {
+
+	if ( ! $sent ) {
+		return $sent; // Don't log anything, it didn't send.
+	}
+
+	if ( ! isset( $data['affiliate_id'] ) || ! is_numeric( $data['affiliate_id'] ) ) {
+		return $sent; // We need this to track what affiliate we sent this to.
+	}
+
+	// Log that we sent the email summary right now.
+	affwp_update_affiliate_meta( $data['affiliate_id'], 'last_email_summary_sent', time() );
+
+	return $sent;
+}
+add_action(
+	'affwp_notify_monthly_affiliate_email_summary_email_sent',
+	'affwp_log_affiliate_email_summary_last_sent_time',
+	10,
+	2
+);
+
+/**
+ * Make sure certain email summaries always use HTML templates when previewing them.
+ *
+ * @since 2.9.7
+ *
+ * @param  string $template The selected template from Settings.
+ * @return string           Selected template, unless previewing an email summary
+ *                          which returns an HTML template.
+ */
+function affwp_use_html_templates_for_previewing_email_summaries( $template ) {
+
+	foreach ( array(
+
+		// Email summaries...
+		'monthly_affiliate_email' => 'affiliate-summary',
+		'monthly_email'           => 'summaries',
+	) as $summary => $html_template ) {
+		if ( affwp_is_summary_email_preview( $summary ) ) {
+			return $html_template;
+		}
+	}
+
+	return $template; // We're not previewing any of these, so just use the selected template.
+}
+add_action( 'affwp_email_template', 'affwp_use_html_templates_for_previewing_email_summaries' );

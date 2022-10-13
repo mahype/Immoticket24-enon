@@ -797,7 +797,7 @@ class Affiliate_WP_Settings {
 					),
 					'email_template' => array(
 						'name' => __( 'Email Template', 'affiliate-wp' ),
-						'desc' => __( 'Choose a template to use for email messages.', 'affiliate-wp' ),
+						'desc' => __( 'Choose a template to use for email notifications.', 'affiliate-wp' ),
 						'type' => 'select',
 						'options' => affwp_get_email_templates()
 					),
@@ -818,6 +818,33 @@ class Affiliate_WP_Settings {
 						'desc' => __( 'The email notifications sent to the affiliate manager and affiliate.', 'affiliate-wp' ),
 						'type' => 'multicheck',
 						'options' => $this->email_notifications()
+					),
+					'affiliate_email_summaries' => array(
+						'name' => __( 'Affiliate Email Summaries', 'affiliate-wp' ),
+						'desc' => sprintf(
+
+							// Translators: %1$s is going say Learn More with a link and %2$s is a link to view a  sample.
+							__( 'Send your affiliates a monthly email summary. %1$s %2$s', 'affiliate-wp' ),
+
+							// %1$s.
+							sprintf(
+								'%1$s <a href="https://affiliatewp.com/docs/affiliate-email-summaries" target="_blank" rel="noopener noreferrer">%2$s</a>',
+								__( 'Learn More', 'affiliate-wp' ),
+								__( 'in our documentation.', 'affiliate-wp' )
+							),
+
+							// %2$s
+							sprintf(
+								'<br><em><a href="%1$s" target="_blank" style="margin-left: 25px;">%2$s</a></em>',
+								sprintf(
+									'?affwp_notify_monthly_affiliate_email_summary=1&preview=1&_wpnonce=%1$s',
+									wp_create_nonce( 'preview_email_summary' )
+								),
+								__( 'View Example', 'affiliate-wp' )
+							)
+						),
+						'type'     => 'checkbox',
+						'disabled' => is_multisite(),
 					),
 					'affiliate_manager_email' => array(
 						'name' => __( 'Affiliate Manager Email', 'affiliate-wp' ),
@@ -1150,10 +1177,11 @@ class Affiliate_WP_Settings {
 	public function email_notifications( $install = false ) {
 
 		$emails = array(
-			'admin_affiliate_registration_email'   => __( 'Notify affiliate manager when a new affiliate has registered', 'affiliate-wp' ),
-			'admin_new_referral_email'             => __( 'Notify affiliate manager when a new referral has been created', 'affiliate-wp' ),
-			'affiliate_new_referral_email'         => __( 'Notify affiliate when they earn a new referral', 'affiliate-wp' ),
-			'affiliate_application_accepted_email' => __( 'Notify affiliate when their affiliate application is accepted', 'affiliate-wp' ),
+			'admin_affiliate_registration_email'       => __( 'Notify affiliate manager when a new affiliate has registered', 'affiliate-wp' ),
+			'admin_new_referral_email'                 => __( 'Notify affiliate manager when a new referral has been created', 'affiliate-wp' ),
+			'affiliate_new_referral_email'             => __( 'Notify affiliate when they earn a new referral', 'affiliate-wp' ),
+			'affiliate_application_accepted_email'     => __( 'Notify affiliate when their affiliate application is accepted', 'affiliate-wp' ),
+			'affiliate_application_accepted_email'     => __( 'Notify affiliate when their affiliate application is accepted', 'affiliate-wp' ),
 		);
 
 		if ( $this->get( 'require_approval' ) || true === $install ) {

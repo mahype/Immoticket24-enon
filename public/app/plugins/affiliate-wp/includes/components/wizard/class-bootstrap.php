@@ -316,7 +316,7 @@ class Bootstrap {
 			'course'     => array(
 				'title'        => __( 'Course integrations', 'affiliate-wp' ),
 				'subtitle'     => '',
-				'integrations' => array( 'lifterlms', 'zippycourses' ),
+				'integrations' => array( 'learndash', 'lifterlms', 'zippycourses' ),
 			),
 			'donation'   => array(
 				'title'        => __( 'Donation integrations', 'affiliate-wp' ),

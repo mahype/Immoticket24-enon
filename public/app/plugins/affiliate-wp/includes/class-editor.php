@@ -1094,9 +1094,8 @@ final class Affiliate_WP_Editor {
 		$label         = isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : __( 'Password', 'affiliate-wp' );
 		$label_confirm = isset( $atts['labelConfirm'] ) && ! empty( $atts['labelConfirm'] ) ? $atts['labelConfirm'] : __( 'Confirm Password', 'affiliate-wp' );
 
-		$label_slug = 'affwp-' . sanitize_title( $label );
-		$name       = esc_attr( str_replace( '-', '_', $label_slug ) ) . '_text';
-		$value      = isset( $_REQUEST[ $name ] ) ? $_REQUEST[ $name ] : '';
+		$name  = 'affwp_password_text';
+		$value = isset( $_REQUEST[ $name ] ) ? $_REQUEST[ $name ] : '';
 
 		$placeholder         = isset( $atts['placeholder'] ) && $show_placeholders ? ' placeholder="' . $atts['placeholder'] . '"' : '';
 		$placeholder_confirm = isset( $atts['placeholderConfirm'] ) && $show_placeholders ? ' placeholder="' . $atts['placeholderConfirm'] . '"' : '';

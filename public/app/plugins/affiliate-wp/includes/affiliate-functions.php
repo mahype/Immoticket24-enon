@@ -1396,6 +1396,31 @@ function affwp_add_affiliate( $data = array() ) {
 }
 
 /**
+ * Get the date an affiliate was registered.
+ *
+ * @since 2.9.7
+ *
+ * @param  int $affiliate_id The Affiliate's ID.
+ * @return string            Date registered, or empty string if none.
+ */
+function affwp_get_affiliate_date_registered( $affiliate_id = 0 ) {
+
+	if ( false === affwp_get_affiliate_username( $affiliate_id ) ) {
+		return ''; // Not an affiliate.
+	}
+
+	global $wpdb;
+
+	$registered_by = $wpdb->get_var(
+		$wpdb->prepare( "SELECT date_registered FROM {$wpdb->prefix}affiliate_wp_affiliates WHERE affiliate_id = %s", $affiliate_id )
+	);
+
+	return is_string( $registered_by )
+		? $registered_by
+		: '';
+}
+
+/**
  * Updates an affiliate.
  *
  * @since 1.0

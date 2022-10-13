@@ -51,20 +51,9 @@ $credit = "
 													<small>
 														<?php echo wp_kses_post( sprintf(
 															// Translators: %s is the link to the admin page where the setting is.
-															__( 'This email was auto-generated and sent from <a href="%1$s" style="color: #a09e9e;">%2$s</a>.<br><a href="%3$s" style="color: #a09e9e;">Click here</a> to disable these emails.', 'affiliate-wp' ),
+															__( 'This email was auto-generated and sent from <a href="%1$s" style="color: #a09e9e;">%2$s</a>.', 'affiliate-wp' ),
 															esc_url( home_url() ),
-															get_bloginfo( 'name' ),
-															/**
-															 * Filter the link that allows the reader to disable the email.
-															 *
-															 * @since 2.9.7
-															 *
-															 * @param string $url     The URL used to disable the email.
-															 * @param mixed  $context Use set_query_var( 'context' ) to add context to this filter.
-															 *
-															 * @see affwp_notify_monthly_affiliate_perf_summary() on how we add context for this filter when sending emails.
-															 */
-															apply_filters( 'affwp_email_template_summaries_disable_email_link', admin_url( 'admin.php?page=affiliate-wp-settings&tab=misc#disable_monthly_email_summaries' ), get_query_var( 'context' ) )
+															get_bloginfo( 'name' )
 														) ); ?>
 													</small>
 												</p>

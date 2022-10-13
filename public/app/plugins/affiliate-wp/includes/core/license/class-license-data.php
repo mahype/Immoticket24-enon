@@ -38,19 +38,6 @@ class License_Data {
 			return;
 		}
 
-		/*
-		 * If this license was last verified more than 2 months ago, we're not using it.
-		 * This ensures we never deal with a "stale" record for a license that's no longer
-		 * actually activated, but still exists in our DB array for some reason.
-		 *
-		 * Our license data should always be updated with active data once per week.
-		 */
-		$last_checked = get_option( 'affwp_last_checkin', false );
-
-		if ( ! is_numeric( $last_checked ) || strtotime( '-2 months', current_time( 'timestamp' ) ) > $last_checked ) {
-			return;
-		}
-
 		$license_id = isset( $license_data->price_id ) ? intval( $license_data->price_id ) : null;
 
 		return $license_id;

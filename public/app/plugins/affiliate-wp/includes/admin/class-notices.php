@@ -165,6 +165,10 @@ class Affiliate_WP_Admin_Notices {
 			$output .= self::show_notice( 'no_integrations', false );
 		}
 
+		if ( affwp_affiliate_email_summaries_enabled_without_wp_mail_smtp() ) {
+			$output .= self::show_notice( 'wp_mail_smtp_not_configured', false );
+		}
+
 		if ( true === version_compare( AFFILIATEWP_VERSION, '2.0', '<' ) || false === affwp_has_upgrade_completed( 'upgrade_v20_recount_unpaid_earnings' ) ) {
 			$output .= self::show_notice( 'upgrade_v20_recount_unpaid_earnings', false );
 		}
@@ -346,6 +350,7 @@ class Affiliate_WP_Admin_Notices {
 	 * @since 2.4
 	 */
 	private function affiliate_notices() {
+
 		$this->add_notice( 'affiliate_added', array(
 			'message' => function() {
 				require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-migrate-users.php';
@@ -1121,6 +1126,34 @@ class Affiliate_WP_Admin_Notices {
 	 * @since 2.7.3 Updated for the PHP 7.0 soft bump
 	 */
 	public function environment_notices() {
+
+		// Shows on single site when Send your affiliates a monthly email summary is enabled but WP Mail SMTP is not configured.
+		if ( affwp_affiliate_email_summaries_enabled_without_wp_mail_smtp() && affwp_is_admin_page() ) {
+
+			$this->add_notice(
+				'wp_mail_smtp_not_configured',
+				array(
+					'message' => function() {
+						return sprintf(
+							// Translators: %1$s is a link to configure WP Mail SMTP and %2$s is going to be a link to our documentation.
+							__( 'WP Mail SMTP is required to send affiliate email summaries %1$s or learn more %2$s.', 'affiliate-wp' ),
+							sprintf(
+								'<a href="%1$s">%2$s</a>',
+								admin_url( 'admin.php?page=affiliate-wp-smtp' ),
+								__( 'Install and setup WP Mail SMTP', 'affiliate-wp' )
+							),
+							sprintf(
+								'<a href="%1$s" rel="noopener noreferrer" target="_blank">%2$s</a>',
+								'https://affiliatewp.com/docs/affiliate-email-summaries',
+								__( 'in our documentation', 'affiliate-wp' )
+							)
+						);
+					},
+					'class'  => 'error',
+				)
+			);
+		}
+
 		$this->add_notice( 'requirements_php_70', array(
 			'class'       => 'notice-warning',
 			'dismissible' => true,

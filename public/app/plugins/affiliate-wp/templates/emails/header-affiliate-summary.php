@@ -18,7 +18,6 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-
 // For gmail compatibility, including CSS styles in head/body are stripped out therefore styles need to be inline. These variables contain rules which are added to the template inline. !important; is a gmail hack to prevent styles being stripped if it doesn't like something.
 $body = "
 	background-color: #f6f6f6;
@@ -76,17 +75,51 @@ $header_content_h1 = "
 	line-height: 1.2;
 ";
 
-$header_img = esc_url( plugins_url( '/assets/images/affiliatewp-1.svg', AFFILIATEWP_PLUGIN_FILE ) );
+/**
+ * Filter the logo used on the headers summary.
+ *
+ * @since 2.9.7
+ *
+ * @param string $header_img URL to the header to use for this template.
+ * @param mixed  $context    Use set_query_var( 'context' ) to add context to this filter.
+ *
+ * @see affwp_notify_monthly_affiliate_perf_summary() on how we add context for this filter when sending emails.
+ */
+$header_img = apply_filters( 'affwp_email_template_affiliate_summary_header_img', '', get_query_var( 'context' ) );
 $heading    = '';
-$alt        = stristr( $header_img, 'affiliatewp-1.svg' )
-	? __( 'AffiliateWP', 'affiliate-wp' )
-	: get_bloginfo( 'name' );
+$alt        = get_bloginfo( 'name' );
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title><?php echo get_bloginfo( 'name' ); ?></title>
+		<style>
+
+			.top-urls {
+
+			}
+
+			.top-urls tr:first-child {
+
+			}
+
+			.top-urls tr {
+
+			}
+
+			.top-urls tr td {
+
+			}
+
+			.top-urls tr td:first-child {
+
+			}
+
+			.top-urls tr td:nth-child(3) {
+
+			}
+		</style>
 	</head>
 	<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="<?php echo $body; ?>">
 		<div style="<?php echo $wrapper; ?>">
@@ -97,6 +130,8 @@ $alt        = stristr( $header_img, 'affiliatewp-1.svg' )
 						<div id="template_header_image">
 							<?php echo '<p style="margin-top:0;"><img src="' . esc_url( $header_img ) . '" alt="' . $alt . '" width="250" /></p>'; ?>
 						</div>
+					<?php else : ?>
+						<h1 style="margin-bottom: 60px;"><?php echo esc_html( $alt ); ?></h1>
 					<?php endif; ?>
 					<table border="0" cellpadding="0" cellspacing="0" width="520" id="template_container" style="<?php echo $template_container; ?>">
 						<?php if ( ! empty( $heading ) ) : ?>
