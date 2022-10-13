@@ -53,7 +53,7 @@ class Payment_CLI {
         $create_file = dirname( ABSPATH ). '/dl/rechnungen/.creating';
 
         if( file_exists( $create_file )) {
-            WP_CLI::error( 'Rechnungen werden gerade erstellt. Bitte warten.' );
+            \WP_CLI::error( 'Rechnungen werden gerade erstellt. Bitte warten.' );
         }
 
         $file = fopen( $create_file, 'w' );
@@ -83,7 +83,7 @@ class Payment_CLI {
         }
 
         $payments = edd_get_payments( [
-            'number' => WP_ENV === 'development' ? 3: -1,
+            'number' => WP_ENV === 'development' ? 10: -1,
             'status' => 'publish',
             'post__in' => $ids,
         ]);
