@@ -33,23 +33,28 @@ class Payment_CLI {
             $month = date("m", strtotime ( '-1 month' , time() )) ;
         }
 
-        \WP_CLI::line('Starte PDF-Erstellung für ' . $year . '-' . $month);
+        if( strlen($month) === 1) {
+            $month = '0' . $month;
+        }
 
-        \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', get_bloginfo('url') . '/dl/rechnungen/' . $year . '-' . $month .'.zip' ) );
+        \WP_CLI::line('Starte PDF-Erstellung für ' . $year . '-' . $month);
+       //  \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', get_bloginfo('url') . '/dl/rechnungen/' . $year . '-' . $month .'.zip' ) );
 
         $charset = 'UTF-8'; // WPENON_DEFAULT_CHARSET
 
-        $sql = $wpdb->prepare("SELECT p.ID FROM {$wpdb->prefix}posts AS p
+        $sql = $wpdb->prepare("SELECT DISTINCT p.ID FROM {$wpdb->prefix}posts AS p
             INNER JOIN {$wpdb->prefix}postmeta AS pm ON p.ID = pm.post_id
             WHERE p.post_type = 'edd_payment'
             AND p.post_status = 'publish'
-            AND pm.meta_key = '_edd_completed_date'
-            AND pm.meta_value LIKE %s
+            AND ((pm.meta_key = '_edd_completed_date' AND pm.meta_value LIKE %s) OR  p.post_date LIKE %s)
             ORDER BY p.post_date DESC",
+            $year . '-' . $month . '%',
             $year . '-' . $month . '%'
         );
 
         $ids = $wpdb->get_col($sql);
+
+        
         if( empty( $ids )) {
             \WP_CLI::error('Keine Zahlungen gefunden');
         }
