@@ -32,7 +32,7 @@ class Payment_CLI {
             $month = '0' . $month;
         }
 
-        $this->generate_bills((int)$year, (int)$month);
+        $this->generate_bills($year, $month);
     }
 
     public function regenerate() {
