@@ -74,7 +74,7 @@ class Payment_CLI {
         }
 
         $payments = edd_get_payments( [
-            'number' => -1,
+            'number' => WP_ENV === 'development' ? 3: -1,
             'status' => 'publish',
             'post__in' => $ids,
         ]);
@@ -167,8 +167,8 @@ class Payment_CLI {
         // Zip archive will be created only after closing object
         $zip->close();
 
-        EDD_Payments_Download::delTree($path);
-        \WP_CLI::line( 'Temporärer Pfad ' . $execution_time . ' gelöscht.' );
+        EDD_Payments_Download::delTree(dirname($path));
+        \WP_CLI::line( 'Temporärer Pfad ' . dirname($path) . ' gelöscht.' );
 
         EDD_Payments_Download::add_bills_zip( $year, $month, $bills_filename );
 
@@ -286,6 +286,7 @@ class EDD_Payments_Download implements Task, Actions {
         $bills_list = get_option( 'enon_bills_list' );
         $file = $bills_list[$year][$month];
         if( !empty( $file ) ) {
+            $file = dirname( ABSPATH ). '/dl/rechnungen/' .  basename($file);
             unlink( $file );
         }
         $bills_list[$year][$month] = '';
