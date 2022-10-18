@@ -171,17 +171,17 @@ class Filter_Iframe implements Task, Actions, Filters {
 	}
 
 	/**
-	 * Add reseller CSS.
+	 * Add reseller JS.
 	 *
 	 * @since 1.0.0
 	 */
 	public function add_js() {
-		$extra_js = $this->reseller->data()->iframe->get_extra_js();
-
-		if ( empty( $extra_js ) ) {
+		$js = $this->reseller->get_iframe_js();
+		
+		if ( empty( $js ) ) {
 			return;
 		}
 
-		echo $extra_js;
+		echo $js;
 	}
 }

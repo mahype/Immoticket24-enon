@@ -19,7 +19,11 @@
 		}
 
 		.energieausweis-iframe .wrapper {
-			padding: 0 30px;
+			padding: 0;
+		}
+		.energieausweis-iframe main.col-md-12 {
+			float:none;
+			width: auto;
 		}
 		<?php do_action('enon_iframe_css' ); ?>
 	</style>
