@@ -18,11 +18,24 @@ window.addEventListener("message", function(event) {
     
     var data = JSON.parse(event.data);
 
-    console.log(data);
-
     if(data.frame_height !== undefined) {
-        document.getElementById("iframe-energieausweis-online").setAttribute("style","width:100%;height:" + data.frame_height + "px");
+        let iframe = document.getElementById("iframe-energieausweis-online");
+        let iframes = [];
+
+        if( iframe !== null ) {
+            iframes.push(iframe);
+        } else {
+            iframes = document.getElementsByClassName("iframe-energieausweis-online");
+        }
+
+        for(let i = 0; i < iframes.length; i++) {
+            if( iframes[i].contentWindow === event.source) {
+                iframes[i].style.height = data.frame_height + "px";
+                iframes[i].style.overflow = "hidden";
+            }
+        }
     }
+    
     if(data.redirect_url !== undefined) {
         document.location.href = data.redirect_url;
     }

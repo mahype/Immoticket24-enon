@@ -163,8 +163,7 @@ class Fieldset_Iframe implements Fieldset {
 
 		$js_url = home_url( '/scripts/dist/reseller.min.js' );
 
-		$iframe_html = '<iframe id="iframe-energieausweis-online" src="' . $url .'" style="width: 100%; height:500px; border: 0;"></iframe>
-<script type="text/javascript" src="' . $js_url . '"></script>';
+		$iframe_html = '<iframe class="iframe-energieausweis-online" src="' . $url .'" frameBorder="0" scrolling="no" style="width: 100%; height:500px;"></iframe><script type="text/javascript" src="' . $js_url . '"></script>';
 
 		return $iframe_html;
 	}
@@ -177,35 +176,6 @@ class Fieldset_Iframe implements Fieldset {
 	 * @since 1.0.0
 	 */
 	private function get_default_extra_js() {
-		$extra_js = 'jQuery( document ).ready( function ( $ ) {
-  let get_document_height = function () {
-    var body = document.body,
-        html = document.documentElement;
-
-    var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
-    return height;
-  }
-
-  let get_wrapper_height = function() {
-     return $(".wrapper").height() + 100;
-  }
-
-  let send_document_height = function () {
-    var height = get_wrapper_height();
-    parent.postMessage( JSON.stringify( {\'frame_height\': height} ), \'*\' );
-  }
-
-  send_document_height();
-
-  $( document ).on(\'wpenon.update_active_tab\', function (e) {
-     setTimeout( function(){ send_document_height(); }, 100 );
-  });
-
-  $( document ).on(\'edd_gateway_loaded\', function (e) {
-     setTimeout( function(){ send_document_height(); }, 100 );
-  });
-});
-';
-		return $extra_js;
+		return '';
 	}
 }
