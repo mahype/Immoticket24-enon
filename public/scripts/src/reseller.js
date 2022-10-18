@@ -35,6 +35,7 @@ window.addEventListener("message", function(event) {
             }
         }
     }
+    
     if(data.redirect_url !== undefined) {
         document.location.href = data.redirect_url;
     }
