@@ -237,8 +237,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .col-table h1, .col-table h2, .col-table h3, .col-table h4, .col-table h5, .col-table h6, .col-table p {
   height: 80px;
-  line-height: 80px;
-  padding: 0 20px;
+  padding: 20px !important;
   margin: 0 !important;
 }
 .col-table > .wp-block-column {
@@ -332,13 +331,13 @@ header .umbrella-seals {
   flex-direction: column;
   gap: 0;
   margin-top: -20px;
-  color: white;
+  color: rgb(255, 255, 255);
 }
 header .umbrella-seals p {
   margin: 8px;
 }
 header .umbrella-seals a {
-  color: white;
+  color: rgb(255, 255, 255);
 }
 header .umbrella-seals .wp-block-column {
   margin-left: 0 !important;
@@ -567,7 +566,6 @@ header .wp-block-navigation__submenu-container .has-medium-font-size {
     padding-top: 0;
     padding-bottom: 0;
   }
-
   .banner::before {
     content: url(../../assets/img/layout/banner-start.webp);
     margin: auto;
@@ -578,7 +576,6 @@ header .wp-block-navigation__submenu-container .has-medium-font-size {
     transform: translateY(-13px);
     position: relative;
   }
-
   .banner::after {
     content: url(../../assets/img/layout/banner-start.webp);
     margin: auto;
@@ -589,7 +586,6 @@ header .wp-block-navigation__submenu-container .has-medium-font-size {
     transform: translateY(13px) rotate(180deg);
     position: relative;
   }
-
   .banner-content-top {
     display: block;
     margin: auto;
@@ -606,7 +602,6 @@ header .wp-block-navigation__submenu-container .has-medium-font-size {
     line-height: 17px;
     padding-bottom: 10px;
   }
-
   .banner .banner-content-bottom {
     display: block;
     margin: 40px auto 0 auto;
@@ -635,7 +630,7 @@ header .wp-block-navigation__submenu-container .has-medium-font-size {
 }
 
 .wp-block-post-date {
-  background: white;
+  background: rgb(255, 255, 255);
   border-radius: 0.5rem;
   display: inline-block;
   padding: 0.25rem 0.5rem;
@@ -694,8 +689,8 @@ header .wp-block-navigation__submenu-container .has-medium-font-size {
   .price-list .border-gradient-white-bottom-to-top {
     border-style: solid;
     border-width: 2px;
-    -o-border-image: linear-gradient(0deg, white, rgba(255, 255, 255, 0) 100%) 1;
-       border-image: linear-gradient(0deg, white, rgba(255, 255, 255, 0) 100%) 1;
+    -o-border-image: linear-gradient(0deg, rgb(255, 255, 255), rgba(255, 255, 255, 0) 100%) 1;
+       border-image: linear-gradient(0deg, rgb(255, 255, 255), rgba(255, 255, 255, 0) 100%) 1;
   }
   .price-list .border-bottom-white {
     border-bottom: white 2px solid;
@@ -932,14 +927,12 @@ a:hover {
     display: flex;
     justify-content: center;
   }
-
   .icon-bulb * {
     margin: 0 5px;
     height: 42px;
     line-height: 42px;
     display: inline-flex;
   }
-
   .icon-bulb strong::before {
     content: "";
     background-image: url(../../assets/img/icons/lampe.webp);
