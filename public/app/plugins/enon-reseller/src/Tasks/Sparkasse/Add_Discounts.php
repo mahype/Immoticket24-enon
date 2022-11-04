@@ -152,6 +152,7 @@ class Add_Discounts implements Task, Actions, Filters {
     public function add_actions() {
         remove_action( 'edd_checkout_form_top', 'edd_discount_field', - 1 );
 		add_action( 'edd_checkout_form_top', array( $this, 'edd_discount_field' ), - 1 );
+		add_action( 'admin_init', array( $this, 'add_new_discount_codes' ) );
     }
 
 	/**
@@ -422,5 +423,37 @@ class Add_Discounts implements Task, Actions, Filters {
 			</fieldset>
 		<?php
 		endif;
+	}
+
+	public function add_new_discount_codes() {
+		if( ! array_key_exists('add-edd-discount', $_GET) ) {
+			return;
+		}
+
+		$prefix = 'immo-es';
+		$num    = 100;
+		$code_length = 5;
+
+		for( $i = 0; $i < $num; $i++ ) {
+			$hash = substr( md5( $prefix . $i . time() ), 0, $code_length );
+			$discount_code = $prefix . '-' . $hash;
+			$name = 'Sparkasse Esslingen ' . ( $i+1 );
+
+			$code_args = [
+				'name' => $name,
+				'code' => $discount_code,
+				'type' => 'percent',
+				'amount' => 100,
+				'uses' => 0,
+				'use_once' => 1,
+				'max' => 1,
+				'edd-max-uses'
+			];
+
+			edd_store_discount( $code_args );
+
+			echo $name . ',' . $discount_code . PHP_EOL;
+		}
+		exit;
 	}
 }
