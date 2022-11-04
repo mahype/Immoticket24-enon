@@ -152,7 +152,7 @@ class Add_Discounts implements Task, Actions, Filters {
     public function add_actions() {
         remove_action( 'edd_checkout_form_top', 'edd_discount_field', - 1 );
 		add_action( 'edd_checkout_form_top', array( $this, 'edd_discount_field' ), - 1 );
-		add_action( 'admin_init', array( $this, 'add_new_discount_codes' ) );
+		// add_action( 'admin_init', array( $this, 'add_new_discount_codes' ) );
     }
 
 	/**
