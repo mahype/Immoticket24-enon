@@ -255,9 +255,7 @@ abstract class Script_Loader implements Actions, Task {
      * @since 2020-09-16
      */
     public function get_ec_in_success_page() {
-        global $edd_receipt_args;
-
-        $payment_id = $edd_receipt_args['id'];
+        $payment_id = $_GET['payment-id'];
 
         if( empty( $payment_id ) ) {
             return;
