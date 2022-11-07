@@ -28,6 +28,8 @@ class Prevent_Completion {
         'check_double_heater_including_hotwater'
     ];
 
+    private $errors = [];
+
     /**
      * Energy certificate.
      * 
@@ -51,6 +53,7 @@ class Prevent_Completion {
 
     private function __construct() {
         add_filter( 'edd_should_update_payment_status', [ $this, 'filter_should_update_payment_status' ], 10, 3  );
+        add_action( 'admin_notices', [ $this, 'show_errors' ] );
     }
 
     /**
@@ -65,34 +68,39 @@ class Prevent_Completion {
      * @since 1.0.0
      */
     public function filter_should_update_payment_status ( bool $can_be_updated, int $payment_id,  string $new_status ) : bool {
-        $this->set_energy_certificate( $payment_id );
+        try {
+            $this->set_energy_certificate( $payment_id );
+       
+            $failure_mail_sent = get_post_meta( $payment_id, 'failure_mail_sent', true);
 
-        $failure_mail_sent = get_post_meta( $payment_id, 'failure_mail_sent', true);
-
-        if ( ! $this->can_we_update( $can_be_updated, $new_status ) ) {
-            return $can_be_updated;
-        }
-
-        $fails = [];
-        foreach( $this->checks AS $check ) {
-            $result = $this->$check();
-
-            if( $result !== true ) {
-                $fails[] = $result;
+            if ( ! $this->can_we_update( $can_be_updated, $new_status ) ) {
+                return $can_be_updated;
             }
-        }
-        
-        if ( ! empty( $fails ) && $failure_mail_sent !== 'yes' ) {
-            $this->send_failure_mail( $payment_id, $fails );
-            update_post_meta( $payment_id, 'failure_mail_sent', 'yes' );
-            return false;
-        }
 
-        if ( ! empty( $fails ) ) {
+            $fails = [];
+            foreach( $this->checks AS $check ) {
+                $result = $this->$check();
+
+                if( $result !== true ) {
+                    $fails[] = $result;
+                }
+            }
+            
+            if ( ! empty( $fails ) && $failure_mail_sent !== 'yes' ) {
+                $this->send_failure_mail( $payment_id, $fails );
+                update_post_meta( $payment_id, 'failure_mail_sent', 'yes' );
+                return false;
+            }
+
+            if ( ! empty( $fails ) ) {
+                return false;
+            }
+        
+            return true;
+        } catch( Exception $e ) {
+            $this->errors[] = $e->getMessage();
             return false;
         }
-    
-        return true;
     }
 
     /**
@@ -417,5 +425,20 @@ class Prevent_Completion {
         }
 
         return true;
+    }
+
+    public function show_errors() {
+        if ( empty( $this->errors ) ) {
+            return;
+        }
+
+        echo '<div class="notice notice-error">';
+        echo '<p><strong>Es wurden Fehler gefunden:</strong></p>';
+        echo '<ul>';
+        foreach( $this->errors AS $error ) {
+            echo '<li>' . $error . '</li>';
+        }
+        echo '</ul>';
+        echo '</div>';
     }
 }
