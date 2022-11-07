@@ -125,8 +125,8 @@ function immoticketenergieausweis_adcell_tracking_script() {
     'betrag'   => number_format( (float) $subtotal, 2 ),
   );
 
-  $js_url  = add_query_arg( $args, '//www.adcell.de/js/track.js' );
-  $php_url = add_query_arg( $args, '//www.adcell.de/event.php' );
+  $js_url  = add_query_arg( $args, '//t.adcell.com/t/track.js' );
+  $php_url = add_query_arg( $args, '//t.adcell.com/t/track' );
 
   $output = '
 <script type="text/javascript" src="' . $js_url . '"></script>
@@ -153,7 +153,7 @@ function immoticketenergieausweis_adcell_retargeting_script() {
 		return;
 	}
 
-  $url = 'https://www.adcell.de/js/inlineretarget.js';
+  $url = 'https://t.adcell.com/js/inlineretarget.js';
   $args = array(
     'pid' => '4408',
   );
