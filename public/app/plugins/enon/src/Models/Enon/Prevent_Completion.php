@@ -151,7 +151,7 @@ class Prevent_Completion {
         ) );
 
         if ( ! isset( $posts[0] ) ) {
-            throw new Exception( 'Energy certificate not found.' );
+            throw new Exception( sprintf( 'Energy certificate with payment id %s not found.', $payment_id ) );
         }
 
         $energy_certificate = EnergieausweisManager::getEnergieausweis( $posts[0] );
