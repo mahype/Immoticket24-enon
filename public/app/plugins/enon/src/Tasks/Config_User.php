@@ -71,6 +71,6 @@ class Config_User implements Filters, Actions, Task {
 	 */
 	public function remove_color_scheme() {
 		global $_wp_admin_css_colors;
-		$_wp_admin_css_colors = 0;
+		$_wp_admin_css_colors = [];
 	}
 }
