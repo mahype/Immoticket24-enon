@@ -7,7 +7,6 @@
 4. Addons Details (img/h3/text)
 5. Addons Action (upgrade/status/activate/deactivate)
 6. Unlock message (only shown on Personal and Plus license between the addon categories)
-7. Media Queries
 
 -------------------------------------------------------------------*/
 
@@ -62,18 +61,19 @@
 
 /* ---------- 3. Addons list ---------- */
 #affwp-addons .affwp-addons-list {
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
+	grid:  auto auto / 1fr 1fr 1fr 1fr;
+	gap: 20px 20px;
+	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 	margin-top: 1.33em;
-	gap: 20px;
-	justify-content: space-between;
 }
 
 #affwp-addons .affwp-addon {
-	flex-grow: 1;
-	width: 32%;
-	min-width: 325px;
-	margin-bottom: 20px;
+	display: inline-grid;
+	align-content: space-between;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 3px;
 }
 
 /* ---------- 4. Addons Details (img/h3/text) ---------- */
@@ -127,11 +127,11 @@
 }
 
 #affwp-addons .affwp-status-active {
-	color: #44A2A7;
+	color: #00a32a;
 }
 
 #affwp-addons .affwp-status-installed {
-	color: #E34F43;
+	color: #d63638;
 }
 
 #affwp-addons .affwp-status-missing {
@@ -141,6 +141,15 @@
 #affwp-addons .affwp-addon .button-primary {
 	background-color: #44A2A7;
 	border-color: #44A2A7;
+	padding: 8px 5px;
+	width: 140px;
+	line-height: 1.4em;
+	text-align: center;
+	font-weight: 600;
+}
+
+#affwp-addons .affwp-addon .button-primary:hover {
+	background-color: #3c9196;
 }
 
 #affwp-addons button {
@@ -157,12 +166,12 @@
 }
 
 #affwp-addons .affwp-styled-checkbox input{
-	width: 27px;
-	height: 18px;
+	width: 18px;
+	height: 11px;
 	position: relative;
 	display: inline-block;
 	border-radius: 10px;
-	background-color: #E34F43;
+	background-color: #d63638;
 	float: right;
 	cursor: pointer;
 	border: none;
@@ -170,14 +179,14 @@
 }
 
 #affwp-addons .affwp-styled-checkbox input.checked {
-	background-color: #44A2A7;
+	background-color: #00a32a;
 }
 
 #affwp-addons .affwp-styled-checkbox input:after {
 	left: 2px;
 	top: 2px;
 	bottom: 2px;
-	width: 14px;
+	width: 7px;
 	position: absolute;
 	content: "";
 	background: #fff;
@@ -198,11 +207,4 @@
 #affwp-addons .unlock-msg h4 {
 	font-size: 17px;
 	margin: 1.5em 0 8px;
-}
-
-/* ---------- 7. Media Queries ---------- */
-@media screen and (min-width: 1900px) {
-  #affwp-addons .affwp-addon {
-		max-width: 400px;
-	}
 }

@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the AffiliateWP plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: AffiliateWP 2.9.7\n"
+"Project-Id-Version: AffiliateWP 2.9.8\n"
 "Report-Msgid-Bugs-To: https://affiliatewp.com/support\n"
 "Last-Translator: AffiliateWP <support@affiliatewp.com>\n"
 "Language-Team: AffiliateWP <support@affiliatewp.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-10-03T22:25:09+00:00\n"
+"POT-Creation-Date: 2022-10-27T17:32:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: affiliate-wp\n"
 
 #. Plugin Name of the plugin
@@ -24,7 +24,7 @@ msgstr ""
 #: includes/integrations/class-give.php:301
 #: includes/integrations/class-woocommerce.php:799
 #: includes/integrations/class-woocommerce.php:1457
-#: templates/emails/header-summaries.php:82
+#: templates/emails/header-summaries.php:80
 msgid "AffiliateWP"
 msgstr ""
 
@@ -197,7 +197,7 @@ msgstr ""
 #: includes/admin/creatives/class-list-table.php:99
 #: includes/admin/creatives/edit.php:136
 #: includes/admin/creatives/new.php:113
-#: includes/affiliate-functions.php:380
+#: includes/affiliate-functions.php:381
 #: tests/affiliates/test-affiliate-functions.php:646
 msgid "Active"
 msgstr ""
@@ -215,7 +215,7 @@ msgstr ""
 #: includes/admin/creatives/class-list-table.php:100
 #: includes/admin/creatives/edit.php:137
 #: includes/admin/creatives/new.php:114
-#: includes/affiliate-functions.php:381
+#: includes/affiliate-functions.php:382
 #: tests/affiliates/test-affiliate-functions.php:647
 msgid "Inactive"
 msgstr ""
@@ -479,7 +479,8 @@ msgstr ""
 #: includes/admin/reports/tabs/class-referrals-reports-tab.php:152
 #: includes/admin/reports/tabs/class-referrals-reports-tab.php:163
 #: includes/admin/tools/tools.php:165
-#: includes/emails/functions.php:1386
+#: includes/emails/functions.php:1394
+#: includes/emails/functions.php:1523
 #: templates/dashboard-tab-stats.php:46
 #: templates/dashboard-tab-stats.php:54
 msgid "Paid Earnings"
@@ -489,7 +490,8 @@ msgstr ""
 #: includes/admin/reports/tabs/class-referrals-reports-tab.php:171
 #: includes/admin/tools/export/class-batch-export-affiliates.php:112
 #: includes/admin/tools/tools.php:166
-#: includes/emails/functions.php:1384
+#: includes/emails/functions.php:1392
+#: includes/emails/functions.php:1498
 #: includes/misc-functions.php:1227
 #: templates/dashboard-tab-stats.php:45
 #: templates/dashboard-tab-stats.php:53
@@ -524,7 +526,9 @@ msgstr ""
 #: includes/admin/tools/export/class-export-affiliates.php:58
 #: includes/admin/tools/tools.php:168
 #: includes/admin/visits/visits.php:45
-#: includes/affiliate-functions.php:1850
+#: includes/affiliate-functions.php:1851
+#: includes/emails/functions.php:1407
+#: includes/emails/functions.php:1563
 #: templates/dashboard-tab-stats.php:13
 #: templates/dashboard-tab-stats.php:22
 #: templates/dashboard-tab-stats.php:89
@@ -785,9 +789,9 @@ msgstr ""
 #: includes/admin/affiliates/edit.php:278
 #: includes/admin/affiliates/new.php:164
 #: includes/admin/settings/class-settings.php:632
-#: includes/integrations/class-edd.php:1008
-#: includes/integrations/class-edd.php:1048
-#: includes/integrations/class-edd.php:1071
+#: includes/integrations/class-edd.php:1015
+#: includes/integrations/class-edd.php:1055
+#: includes/integrations/class-edd.php:1078
 #: includes/integrations/class-memberpress.php:221
 #: includes/integrations/class-pmp.php:425
 #: includes/integrations/class-pms.php:77
@@ -1210,8 +1214,10 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-payouts.php:156
 #: includes/admin/tools/export/class-export-affiliates.php:57
 #: includes/admin/tools/tools.php:167
-#: includes/affiliate-functions.php:1848
+#: includes/affiliate-functions.php:1849
 #: includes/emails/functions.php:1012
+#: includes/emails/functions.php:1405
+#: includes/emails/functions.php:1562
 #: templates/dashboard-tab-referrals.php:7
 #: tests/affiliates/test-affiliate-functions.php:2974
 msgid "Referrals"
@@ -1220,14 +1226,14 @@ msgstr ""
 #: includes/admin/class-menu.php:86
 #: includes/admin/payouts/payouts.php:48
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:45
-#: includes/affiliate-functions.php:1849
+#: includes/affiliate-functions.php:1850
 #: tests/affiliates/test-affiliate-functions.php:2975
 msgid "Payouts"
 msgstr ""
 
 #: includes/admin/class-menu.php:88
 #: includes/admin/creatives/creatives.php:43
-#: includes/affiliate-functions.php:1852
+#: includes/affiliate-functions.php:1853
 #: templates/dashboard-tab-creatives.php:3
 #: tests/affiliates/test-affiliate-functions.php:2977
 msgid "Creatives"
@@ -1239,7 +1245,7 @@ msgstr ""
 
 #: includes/admin/class-menu.php:91
 #: includes/admin/plugins.php:33
-#: includes/affiliate-functions.php:1853
+#: includes/affiliate-functions.php:1854
 #: tests/affiliates/test-affiliate-functions.php:2978
 msgid "Settings"
 msgstr ""
@@ -1640,7 +1646,7 @@ msgstr ""
 
 #. Translators: %1$s is a link to configure WP Mail SMTP and %2$s is going to be a link to our documentation.
 #: includes/admin/class-notices.php:1139
-msgid "WP Mail SMTP is required to send affiliate email summaries %1$s or learn more %2$s."
+msgid "WP Mail SMTP is required to send affiliate email summaries. %1$s or learn more %2$s."
 msgstr ""
 
 #: includes/admin/class-notices.php:1143
@@ -1935,6 +1941,7 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-payouts.php:155
 #: includes/admin/tools/export/class-batch-export-visits.php:156
 #: includes/admin/visits/class-list-table.php:134
+#: includes/emails/functions.php:1560
 #: includes/integrations/class-lifterlms.php:658
 #: includes/integrations/class-lifterlms.php:684
 #: includes/integrations/class-memberpress.php:301
@@ -2247,7 +2254,7 @@ msgstr ""
 
 #: includes/admin/pages/class-analytics.php:523
 #: includes/admin/settings/class-settings.php:832
-#: includes/emails/functions.php:1541
+#: includes/emails/functions.php:1618
 msgid "Learn More"
 msgstr ""
 
@@ -3681,7 +3688,7 @@ msgid "Opt-In Referral Status"
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:756
-#: includes/affiliate-functions.php:382
+#: includes/affiliate-functions.php:383
 #: includes/referral-functions.php:115
 #: tests/affiliates/test-affiliate-functions.php:648
 #: tests/referrals/test-referral-functions.php:412
@@ -4388,7 +4395,7 @@ msgstr ""
 
 #: includes/admin/settings/display-settings.php:134
 #: includes/admin/tools/tools.php:104
-#: includes/affiliate-functions.php:1851
+#: includes/affiliate-functions.php:1852
 #: templates/dashboard-tab-coupons.php:8
 msgid "Coupons"
 msgstr ""
@@ -4558,6 +4565,8 @@ msgstr ""
 
 #: includes/admin/tools/export/class-batch-export-affiliates.php:111
 #: includes/admin/tools/export/class-export-affiliates.php:56
+#: includes/emails/functions.php:1403
+#: includes/emails/functions.php:1561
 #: includes/misc-functions.php:1226
 #: tests/misc/test-misc-functions.php:392
 msgid "Earnings"
@@ -5497,7 +5506,7 @@ msgstr ""
 msgid "Filter by status"
 msgstr ""
 
-#: includes/affiliate-functions.php:383
+#: includes/affiliate-functions.php:384
 #: includes/referral-functions.php:114
 #: tests/affiliates/test-affiliate-functions.php:649
 #: tests/referrals/test-referral-functions.php:411
@@ -5505,36 +5514,36 @@ msgstr ""
 msgid "Rejected"
 msgstr ""
 
-#: includes/affiliate-functions.php:616
+#: includes/affiliate-functions.php:617
 msgid "Percentage (%)"
 msgstr ""
 
 #. translators: Currency name
-#: includes/affiliate-functions.php:618
+#: includes/affiliate-functions.php:619
 msgid "Flat %s"
 msgstr ""
 
-#: includes/affiliate-functions.php:643
+#: includes/affiliate-functions.php:644
 msgid "Flat Rate Commission Per Product Sold"
 msgstr ""
 
-#: includes/affiliate-functions.php:644
+#: includes/affiliate-functions.php:645
 msgid "Flat Rate Commission Per Order"
 msgstr ""
 
-#: includes/affiliate-functions.php:1845
+#: includes/affiliate-functions.php:1846
 #: templates/dashboard-tab-urls.php:6
 #: tests/affiliates/test-affiliate-functions.php:2971
 msgid "Affiliate URLs"
 msgstr ""
 
-#: includes/affiliate-functions.php:1846
+#: includes/affiliate-functions.php:1847
 #: templates/dashboard-tab-stats.php:6
 #: tests/affiliates/test-affiliate-functions.php:2972
 msgid "Statistics"
 msgstr ""
 
-#: includes/affiliate-functions.php:1847
+#: includes/affiliate-functions.php:1848
 #: tests/affiliates/test-affiliate-functions.php:2973
 msgid "Graphs"
 msgstr ""
@@ -6776,35 +6785,29 @@ msgid "Invalid timeframe."
 msgstr ""
 
 #: includes/emails/functions.php:1325
-msgid "Hi there!"
+msgid "Hey there!"
 msgstr ""
 
 #: includes/emails/functions.php:1326
 msgid "Let's see how your affiliate program has performed over the last 30 days."
 msgstr ""
 
-#: includes/emails/functions.php:1379
-#: includes/emails/functions.php:1419
+#: includes/emails/functions.php:1387
+#: includes/emails/functions.php:1447
 msgid "Total Program Revenue"
 msgstr ""
 
-#: includes/emails/functions.php:1382
+#: includes/emails/functions.php:1390
+#: includes/emails/functions.php:1473
 msgid "New Approved Affiliates"
 msgstr ""
 
-#: includes/emails/functions.php:1450
-msgid "New Approved<br>Affiliates"
+#: includes/emails/functions.php:1398
+#: includes/emails/functions.php:1553
+msgid "Top %1$s Most Valuable Affiliates"
 msgstr ""
 
-#: includes/emails/functions.php:1473
-msgid "Unpaid<br>Earnings"
-msgstr ""
-
-#: includes/emails/functions.php:1496
-msgid "Paid<br>Earnings"
-msgstr ""
-
-#: includes/emails/functions.php:1533
+#: includes/emails/functions.php:1609
 msgid "Pro tip from our expert:"
 msgstr ""
 
@@ -6859,18 +6862,18 @@ msgid "Form ID: "
 msgstr ""
 
 #. translators: 1: Referral link, 2: Amount, 3: Affiliate Name, 4: Affiliate ID
-#: includes/integrations/class-edd.php:637
+#: includes/integrations/class-edd.php:644
 msgid "Referral %1$s for %2$s recorded for %3$s (ID: %4$d)."
 msgstr ""
 
-#: includes/integrations/class-edd.php:772
+#: includes/integrations/class-edd.php:779
 #: includes/integrations/class-pmp.php:329
 #: includes/integrations/class-pms.php:133
 #: includes/integrations/class-rcp.php:400
 msgid "Affiliate Discount?"
 msgstr ""
 
-#: includes/integrations/class-edd.php:778
+#: includes/integrations/class-edd.php:785
 #: includes/integrations/class-memberpress.php:327
 #: includes/integrations/class-pmp.php:335
 #: includes/integrations/class-pms.php:135
@@ -6879,50 +6882,50 @@ msgstr ""
 msgid "If you would like to connect this discount to an affiliate, enter the name of the affiliate it belongs to."
 msgstr ""
 
-#: includes/integrations/class-edd.php:953
+#: includes/integrations/class-edd.php:960
 msgid "Adjust EDD Commissions"
 msgstr ""
 
-#: includes/integrations/class-edd.php:954
+#: includes/integrations/class-edd.php:961
 msgid "Should AffiliateWP adjust the commission amounts recorded for purchases that include affiliate referrals? This will subtract the referral amount from the base amount used to calculate the commission total."
 msgstr ""
 
-#: includes/integrations/class-edd.php:974
+#: includes/integrations/class-edd.php:981
 msgid "Disable Renewal Referrals"
 msgstr ""
 
-#: includes/integrations/class-edd.php:975
+#: includes/integrations/class-edd.php:982
 msgid "Should AffiliateWP prevent referral commissions from being recorded on renewal purchases with EDD Software Licensing?"
 msgstr ""
 
-#: includes/integrations/class-edd.php:980
+#: includes/integrations/class-edd.php:987
 msgid "Disable Referrals on Upgrades"
 msgstr ""
 
-#: includes/integrations/class-edd.php:981
+#: includes/integrations/class-edd.php:988
 msgid "Should AffiliateWP prevent referral commissions from being recorded on license upgrade purchases with EDD Software Licensing?"
 msgstr ""
 
-#: includes/integrations/class-edd.php:1002
+#: includes/integrations/class-edd.php:1009
 #: includes/integrations/class-zippycourses.php:92
 msgid "Affiliate Rates:"
 msgstr ""
 
 #. translators: EDD singular product label
-#: includes/integrations/class-edd.php:1017
+#: includes/integrations/class-edd.php:1024
 #: includes/integrations/class-zippycourses.php:105
 msgid "Disable referrals on this %s"
 msgstr ""
 
-#: includes/integrations/class-edd.php:1022
+#: includes/integrations/class-edd.php:1029
 #: includes/integrations/class-memberpress.php:232
 #: includes/integrations/class-zippycourses.php:109
 msgid "These settings will be used to calculate affiliate earnings per-sale. Leave blank to use the site default referral rate."
 msgstr ""
 
 #. translators: EDD singular category label
-#: includes/integrations/class-edd.php:1053
-#: includes/integrations/class-edd.php:1074
+#: includes/integrations/class-edd.php:1060
+#: includes/integrations/class-edd.php:1081
 msgid "The referral rate for this %s category."
 msgstr ""
 

@@ -392,6 +392,13 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 					continue;
 				}
 
+				// If the affiliate assigned to this code is also on the order.
+				if ( isset( $user_info['email'] ) && $this->is_affiliate_email( $user_info['email'], $affiliate_id ) ) {
+
+					$this->log( "Referral not created because affiliate with ID {$affiliate_id} used their own discount code {$code}." );
+					continue;
+				}
+
 				$existing = affwp_get_referral_by( 'reference', $payment_id, $this->context );
 
 				// calculate the referral total

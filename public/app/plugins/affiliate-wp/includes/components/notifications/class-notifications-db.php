@@ -215,7 +215,7 @@ class Notifications_DB extends \Affiliate_WP_DB {
 			WHERE dismissed = 0
 			AND (start <= %s OR start IS NULL)
 			AND (end >= %s OR end IS NULL)
-			ORDER BY start DESC, id DESC",
+			ORDER BY start DESC, remote_id DESC",
 			gmdate( 'Y-m-d H:i:s' ),
 			gmdate( 'Y-m-d H:i:s' )
 		);
