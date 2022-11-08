@@ -43,6 +43,10 @@ class Add_Uptain_Scripts extends Script_Loader {
 	protected function is_success() {
 		global $edd_receipt_args;
 
+		if( ! is_array($edd_receipt_args)) {
+			return false;
+		}
+
 		if( ! Enon_Location::success() || ! array_key_exists( 'id',$edd_receipt_args ) ) {
 			return false;
 		}
