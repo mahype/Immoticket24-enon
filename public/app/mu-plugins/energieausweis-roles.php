@@ -15,7 +15,7 @@ function energieausweis_roles_init() {
 
 	$role_slugs = array(
 		/* Core roles */
-		'subscriber', 'contributor', 'author', 'editor', 'administrator', 'wpenon_manager', 'wpenon_reseller'
+		'subscriber', 'contributor', 'author', 'editor', 'administrator', 'wpenon_manager', 'wpenon_reseller', 'reseller_manager'
 	);
 
 	$wp_user_roles = array();
@@ -58,6 +58,8 @@ function energieausweis_roles_get_name( $role_slug ) {
 			return __( 'Energieausweis Manager', 'energieausweis-roles' );
 		case 'wpenon_reseller':
 			return __( 'Energieausweis Reseller', 'energieausweis-roles' );
+		case 'reseller_manager':
+			return __( 'Reseller Manager', 'energieausweis-roles' );
 	}
 
 	return '';
@@ -115,8 +117,7 @@ function energieausweis_roles_get_caps( $role_slug ) {
 				'backwpup_logs_delete',
 				'backwpup_settings',
 				'backwpup_restore',
-				'manage_borlabs_cookie',
-				'view_reseller_leads',
+				'manage_borlabs_cookie'
 			) );
 		case 'editor':
 			$caps = array_merge( $caps, array(
@@ -173,6 +174,30 @@ function energieausweis_roles_get_caps( $role_slug ) {
 				'edit_shop_payments',
 				'edit_shop_customer',
 				'manage_shop_discounts',
+			) );
+		case 'reseller_manager':
+			$caps = array_merge( $caps, array(
+				'edit_reseller',
+				'read_reseller',
+				'delete_reseller',
+				'edit_resellers',
+				'edit_others_resellers',
+				'publish_resellers',
+				'read_private_resellers',
+				'create_resellers',
+				'view_affiliate_reports',
+				'export_affiliate_data',
+				'export_referral_data',
+				'export_customer_data',
+				'export_visit_data',
+				'export_payout_data',
+				'manage_affiliates',
+				'manage_referrals',
+				'manage_customers',
+				'manage_visits',
+				'manage_creatives',
+				'manage_payouts',
+				'manage_consumers',
 			) );
 		case 'wpenon_reseller':
 			$caps = array_merge( $caps, array(

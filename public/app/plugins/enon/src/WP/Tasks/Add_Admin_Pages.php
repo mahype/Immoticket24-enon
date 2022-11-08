@@ -67,7 +67,7 @@ class Add_Admin_Pages implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function enon_menu() {
-		add_menu_page( __( 'Enon', 'enon' ), __( 'Enon settings', 'enon' ), 'administrator', 'enon', [ $this, 'options_page' ], 'dashicons-admin-multisite', 50 );
+		add_menu_page( __( 'Enon', 'enon' ), __( 'Enon settings', 'enon' ), 'read_reseller', 'enon', [ $this, 'options_page' ], 'dashicons-admin-multisite', 50 );
 	}
 
 	/**
