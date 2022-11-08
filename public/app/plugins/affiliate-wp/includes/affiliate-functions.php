@@ -9,6 +9,8 @@
  * @since       1.0
  */
 
+// phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Empty spaces before comments below, easier for reading.
+
 /**
  * Determines if the specified user ID is an affiliate.
  *
@@ -136,7 +138,6 @@ function affwp_get_affiliate_name( $affiliate = 0 ) {
 		return $last_name;
 	}
 }
-
 
 /**
  * Retrieves the affiliate first name, if set.
@@ -2173,4 +2174,77 @@ function affwp_get_pending_migrated_user_meta_fields() {
  */
 function affwp_get_current_migrated_user_meta_fields() {
 	return get_option( 'affwp_migrated_meta_fields', array() );
+}
+
+/**
+ * Get the top earnings affiliates.
+ *
+ * @since 2.9.8
+ *
+ * @param int   $count How many of them.
+ * @param array $args {
+ *     Arguments.
+ *
+ *     @type string $fields Accepts 'all' which will return an array of affiliate
+ *                          objects or 'ids' which will return an array of affiliate ID's.
+ *     @type array  $date $date {
+ *         Date range for earnings.
+ *         Defaults to beginning of time until now.
+ *
+ *         @type string $start Start date.
+ *         @type string $end   End date.
+ *     }
+ *     @type string $status Status of affiliates retrieved, default to 'active'.
+ * }
+ * @return array Affiliates sorted by highest earning.
+ */
+function affwp_get_top_earning_affiliates( $count = 5, $args = array() ) {
+
+	return array_map(
+		function( $affiliate ) use ( $args ) {
+
+			if ( isset( $args['fields'] ) && 'ids' === $args['fields'] ) {
+				return $affiliate->affiliate_id;
+			}
+
+			return affwp_get_affiliate( $affiliate->affiliate_id );
+		},
+		affiliate_wp()->referrals->get_referrals(
+			array(
+				'status'     => array(
+					'paid',
+					'unpaid',
+				),
+				'number'     => absint( $count ),
+				'fields'     => array(
+					'affiliate_id',
+				),
+				'date'       => $args['date'],
+				'orderby'    => 'amount_sum',
+				'groupby'    => 'affiliate_id',
+				'sum_fields' => array(
+					'amount',
+				),
+			)
+		)
+	);
+}
+
+/**
+ * Get the affiliate's name (or username).
+ *
+ * @since 2.9.8
+ *
+ * @param  int $affiliate_id Affiliate's ID.
+ * @return string
+ */
+function affwp_get_affiliate_full_name_or_display_name( $affiliate_id ) {
+
+	$affiliate_name = affwp_get_affiliate_name( $affiliate_id );
+
+	if ( empty( $affiliate_name ) ) {
+		return affwp_get_affiliate_username( $affiliate_id );
+	}
+
+	return $affiliate_name;
 }

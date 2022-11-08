@@ -916,11 +916,11 @@ if ( ! function_exists( 'affwp_get_monthly_affiliate_email_summary_content' ) ) 
 				</strong>
 			</p>
 
-			<table class="data" style="border-collapse: collapse; border: 2px solid #eee; margin: 20px 0;table-layout: fixed; width: 100%;">
+			<table class="data" style="border-collapse: collapse; margin: 20px 0;table-layout: fixed; width: 100%;">
 				<tbody>
 					<tr style="text-align: center">
 
-						<td style="border-right: 2px solid #eee; padding: 10px; width: 33%;">
+						<td style="padding: 10px; width: 33%;">
 							<p style="margin-bottom: 0;">
 								<strong>
 									<?php esc_html_e( 'Total Referrals', 'affiliate-wp' ); ?>
@@ -945,7 +945,7 @@ if ( ! function_exists( 'affwp_get_monthly_affiliate_email_summary_content' ) ) 
 							</p>
 						</td>
 
-						<td style="border-right: 2px solid #eee; padding: 10px; width: 33%;">
+						<td style="padding: 10px; width: 33%;">
 							<p style="margin-bottom: 0;">
 								<strong>
 									<?php esc_html_e( 'Total Visits', 'affiliate-wp' ); ?>
@@ -963,7 +963,7 @@ if ( ! function_exists( 'affwp_get_monthly_affiliate_email_summary_content' ) ) 
 							</p>
 						</td>
 
-						<td style="border-right: 2px solid #eee; padding: 10px; width: 33%;">
+						<td style="padding: 10px; width: 33%;">
 							<p style="margin-bottom: 0;">
 								<strong>
 									<?php esc_html_e( 'Conversion Rate', 'affiliate-wp' ); ?>
@@ -1322,7 +1322,7 @@ function affwp_get_monthly_email_summary_content( $timeframe ) {
 		true
 	);
 
-	$intro  = __( 'Hi there!', 'affiliate-wp' );
+	$intro  = __( 'Hey there!', 'affiliate-wp' );
 	$intro2 = __( "Let's see how your affiliate program has performed over the last 30 days.", 'affiliate-wp' );
 
 	$total_program_revenue = affwp_currency_filter(
@@ -1351,6 +1351,14 @@ function affwp_get_monthly_email_summary_content( $timeframe ) {
 
 	$paid_earnings = affwp_currency_filter(
 		affwp_format_amount( affiliate_wp()->referrals->paid_earnings( $timeframe, 0, false ) )
+	);
+
+	$top_affiliates = affwp_get_top_earning_affiliates(
+		5,
+		array(
+			'date'   => $timeframe,
+			'fields' => 'ids',
+		)
 	);
 
 	/*
@@ -1385,6 +1393,22 @@ function affwp_get_monthly_email_summary_content( $timeframe ) {
 
 		<?php echo esc_html( __( 'Paid Earnings', 'affiliate-wp' ) ); ?>: <?php echo esc_html( $paid_earnings ); ?>
 
+		<?php if ( ! empty( $top_affiliates ) ) : ?>
+
+			<?php echo esc_html( sprintf( __( 'Top %1$s Most Valuable Affiliates', 'affiliate-wp' ), count( $top_affiliates ) ) ); ?>:
+			<?php foreach ( $top_affiliates as $top_affiliate_id ) : ?>
+
+				<?php echo esc_html( affwp_get_affiliate_full_name_or_display_name( $top_affiliate_id ) ); ?>
+
+				<?php esc_html_e( 'Earnings', 'affiliate-wp' ); ?>: <?php echo esc_html( affwp_currency_filter( affwp_format_amount( affiliate_wp()->referrals->get_earnings_by_status( array( 'paid', 'unpaid' ), $top_affiliate_id, $timeframe ) ) ) ); ?>
+
+				<?php esc_html_e( 'Referrals', 'affiliate-wp' ); ?>: <?php echo esc_html( affiliate_wp()->referrals->count_by_status( array( 'paid', 'unpaid' ), $top_affiliate_id, $timeframe ) ); ?>
+
+				<?php esc_html_e( 'Visits', 'affiliate-wp' ); ?>: <?php echo esc_html( affwp_count_visits( $top_affiliate_id, $timeframe ) ); ?>
+
+			<?php endforeach ?>
+		<?php endif; ?>
+
 		<?php
 
 		return mb_convert_encoding(
@@ -1401,26 +1425,30 @@ function affwp_get_monthly_email_summary_content( $timeframe ) {
 
 	?>
 
-	<div class="content">
+	<div>
 
-		<!-- Welcome message -->
-		<p><strong><?php echo esc_html( $intro ); ?></strong></p>
-		<p><?php echo esc_html( $intro2 ); ?></p>
+		<h3 style="margin-bottom: 9px; color: #1F2937;">
+			<strong><?php echo esc_html( $intro ); ?></strong>
+		</h3>
 
-		<?php if ( $has_active_integration_supports_sales_repoorting ) : // Only if there is an integration active that supports sales. ?>
+		<p style="margin-top: 0; margin-bottom: 20px; font-style: normal; font-weight: 400; font-size: 13px; line-height: 18px;"><?php echo esc_html( $intro2 ); ?></p>
 
-			<!-- Gross Affiliate-generated Revenue (own table) -->
-			<table class="data" style="border-collapse: collapse; border: 2px solid #eee; margin: 20px 0; width: 100%; table-layout: fixed;">
-				<tr style="text-align: center">
-					<td style="border-right: 2px solid #eee; padding: 5px">
+		<div class="data" style="margin: 30px 0; width: 100%;">
+			<div style="text-align: center;">
 
-						<p style="margin-bottom: 0;">
-							<strong>
+				<?php if ( $has_active_integration_supports_sales_repoorting ) : // Only if there is an integration active that supports sales. ?>
+					<div style="height: 150px; width: 250px; display: inline-table;">
+
+						<p style="text-align: center; margin-bottom: 0;">
+							<img style="display: inline-block;" src="<?php echo esc_url( AFFILIATEWP_PLUGIN_URL . 'assets/images/summaries/total-program-revenue-icon.png' ); ?>" height="28" width="28" align="center" alt=" ">
+						</p>
+						<p style="margin-bottom: 0; margin-top: 5px; font-size: 14px; line-height: 18px;">
+							<strong style="font-weight: 500;">
 								<?php esc_html_e( 'Total Program Revenue', 'affiliate-wp' ); ?>
 							</strong>
 						</p>
 
-						<p style="font-size: 24px; margin-top: 10px;">
+						<p style="font-size: 32px; color: #000000; line-height: 32px; margin-top: 5px;">
 							<strong>
 								<?php
 
@@ -1432,26 +1460,21 @@ function affwp_get_monthly_email_summary_content( $timeframe ) {
 								?>
 							</strong>
 						</p>
-					</td>
-				</tr>
-			</table>
+					</div>
+				<?php endif; ?>
 
-		<?php endif; ?>
+				<div style="height: 150px; width: <?php echo esc_attr( $has_active_integration_supports_sales_repoorting ? '250px' : '160px' ); ?>; display: inline-table;">
 
-		<!-- Three other data points (also own table)... -->
-		<table class="data" style="border-collapse: collapse; border: 2px solid #eee; margin: 20px 0;table-layout: fixed; width: 100%;">
-			<tr style="text-align: center">
-
-				<!-- New Approved Affiliates -->
-				<td style="border-right: 2px solid #eee; padding: 10px; width: 33%;">
-
-					<p style="margin-bottom: 0;">
-						<strong>
-							<?php echo wp_kses_post( __( 'New Approved<br>Affiliates', 'affiliate-wp' ) ); ?>
+					<p style="text-align: center; margin-bottom: 0;">
+						<img style="display: inline-block;" src="<?php echo esc_url( AFFILIATEWP_PLUGIN_URL . 'assets/images/summaries/new-affiliates-icon.png' ); ?>" height="28" width="28" align="center" alt=" ">
+					</p>
+					<p style="margin-bottom: 0; margin-top: 5px; font-size: 14px; line-height: 18px;">
+						<strong style="font-weight: 500;">
+							<?php echo wp_kses_post( __( 'New Approved Affiliates', 'affiliate-wp' ) ); ?>
 						</strong>
 					</p>
 
-					<p style="font-size: 24px; margin-top: 10px;">
+					<p style="font-size: 32px; color: #000000; line-height: 32px; margin-top: 10px;">
 						<strong>
 							<?php
 
@@ -1463,18 +1486,20 @@ function affwp_get_monthly_email_summary_content( $timeframe ) {
 							?>
 						</strong>
 					</p>
-				</td>
+				</div>
 
-				<!-- Unpaid Earnings -->
-				<td style="border-right: 2px solid #eee; padding: 10px; width: 33%;">
+				<div style="height: 150px; width: <?php echo esc_attr( $has_active_integration_supports_sales_repoorting ? '250px' : '160px' ); ?>; display: inline-table;">
 
-					<p style="margin-bottom: 0;">
-						<strong>
-							<?php echo wp_kses_post( __( 'Unpaid<br>Earnings', 'affiliate-wp' ) ); ?>
+					<p style="text-align: center; margin-bottom: 0;">
+						<img style="display: inline-block;" src="<?php echo esc_url( AFFILIATEWP_PLUGIN_URL . 'assets/images/summaries/unpaid-earnings-icon.png' ); ?>" height="28" width="28" align="center" alt=" ">
+					</p>
+					<p style="margin-bottom: 0; margin-top: 5px; font-size: 14px; line-height: 18px;">
+						<strong style="font-weight: 500;">
+							<?php echo wp_kses_post( __( 'Unpaid Earnings', 'affiliate-wp' ) ); ?>
 						</strong>
 					</p>
 
-					<p style="font-size: 24px; margin-top: 10px;">
+					<p style="font-size: 32px; color: #000000; line-height: 32px; margin-top: 10px;">
 						<strong>
 							<?php
 
@@ -1486,18 +1511,20 @@ function affwp_get_monthly_email_summary_content( $timeframe ) {
 							?>
 						</strong>
 					</p>
-				</td>
+				</div>
 
-				<!-- Paid Earnings -->
-				<td style="padding: 10px; width: 33%;">
+				<div style="height: 150px; width: <?php echo esc_attr( $has_active_integration_supports_sales_repoorting ? '250px' : '160px' ); ?>; display: inline-table;">
 
-					<p style="margin-bottom: 0;">
-						<strong>
-							<?php echo wp_kses_post( __( 'Paid<br>Earnings', 'affiliate-wp' ) ); ?>
+					<p style="text-align: center; margin-bottom: 0;">
+						<img style="display: inline-block;" src="<?php echo esc_url( AFFILIATEWP_PLUGIN_URL . 'assets/images/summaries/paid-earnings-icon.png' ); ?>" height="28" width="28" align="center" alt=" ">
+					</p>
+					<p style="margin-bottom: 0; margin-top: 5px; font-size: 14px; line-height: 18px;">
+						<strong style="font-weight: 500;">
+							<?php echo wp_kses_post( __( 'Paid Earnings', 'affiliate-wp' ) ); ?>
 						</strong>
 					</p>
 
-					<p style="font-size: 24px; margin-top: 10px;">
+					<p style="font-size: 32px; color: #000000; line-height: 32px; margin-top: 10px;">
 						<strong>
 							<?php
 
@@ -1509,11 +1536,55 @@ function affwp_get_monthly_email_summary_content( $timeframe ) {
 							?>
 						</strong>
 					</p>
-				</td>
-			</tr>
-		</table> <!-- / Three other data points (also own table)... -->
+				</div>
+			</div>
+		</div>
 
-	</div><!-- / Content -->
+	</div>
+
+	<?php if ( ! empty( $top_affiliates ) ) : ?>
+		<div style="border-top: 1px solid #eee; padding-top: 20px; margin-bottom: 40px;">
+			<div style="text-align: center; margin-bottom: 30px;">
+				<p style="text-align: center; margin-bottom: 0;">
+					<img style="display: inline-block;" src="<?php echo esc_url( AFFILIATEWP_PLUGIN_URL . 'assets/images/summaries/top-affiliates-icon.png' ); ?>" height="28" width="28" align="center" alt=" ">
+				</p>
+				<p style="margin-bottom: 0; margin-top: 5px; font-size: 14px; line-height: 18px;">
+					<strong style="font-weight: 500;">
+						<?php echo esc_html( sprintf( __( 'Top %1$s Most Valuable Affiliates', 'affiliate-wp' ), count( $top_affiliates ) ) ); ?>
+					</strong>
+				</p>
+			</div>
+			<table style="width: 100%; border-collapse: collapse; font-size: 12px; line-height: 12px; color: #000000;" cellpadding="10">
+				<tbody>
+					<tr>
+						<td><strong style="font-weight: 500;"><?php esc_html_e( 'Affiliate', 'affiliate-wp' ); ?></strong></td>
+						<td><strong style="font-weight: 500;"><?php esc_html_e( 'Earnings', 'affiliate-wp' ); ?></strong></td>
+						<td><strong style="font-weight: 500;"><?php esc_html_e( 'Referrals', 'affiliate-wp' ); ?></strong></td>
+						<td><strong style="font-weight: 500;"><?php esc_html_e( 'Visits', 'affiliate-wp' ); ?></strong></td>
+					</tr>
+
+					<?php foreach ( $top_affiliates as $top_affiliate_id ) : ?>
+						<tr style="border-top: 1px solid #eee;">
+							<td>
+								<?php echo esc_html( affwp_get_affiliate_full_name_or_display_name( $top_affiliate_id ) ); ?>
+							</td>
+
+							<td>
+								<?php echo esc_html( affwp_currency_filter( affwp_format_amount( affiliate_wp()->referrals->get_earnings_by_status( array( 'paid', 'unpaid' ), $top_affiliate_id, $timeframe ) ) ) ); ?>
+							</td>
+							<td>
+								<?php echo esc_html( affiliate_wp()->referrals->count_by_status( array( 'paid', 'unpaid' ), $top_affiliate_id, $timeframe ) ); ?>
+							</td>
+							<td>
+								<?php echo esc_html( affwp_count_visits( $top_affiliate_id, $timeframe ) ); ?>
+							</td>
+						</tr>
+					<?php endforeach ?>
+
+				</tbody>
+			</table>
+		</div>
+	<?php endif; ?>
 
 	<?php
 	/*
@@ -1528,17 +1599,24 @@ function affwp_get_monthly_email_summary_content( $timeframe ) {
 	if ( isset( $dyk_blurb['id'] ) ) {
 		?>
 
-		<div style="margin: 60px 0 0;">
+		<div style="margin: 30px 0 0; clear: both;">
 
-			<p style="text-align: center;">📣 <?php esc_html_e( 'Pro tip from our expert:', 'affiliate-wp' ); ?></p>
+			<div style="padding: 32px 40px; background: #ECF6F6; border-radius: 10px;">
 
-			<div style="padding: 32px; border: 2px solid #eee;">
+				<table style="font-style: normal; font-weight: 500; font-size: 17px; line-height: 24px; color: #368286; min-height: 24px;">
+					<tr>
+						<td width="25" style="vertical-align: top;"><img src="<?php echo esc_url( AFFILIATEWP_PLUGIN_URL . 'assets/images/summaries/megaphone-icon.png' ); ?>" height="24" width="24" alt="📣"></td>
+						<td style="vertical-align: top;"><span style="display: inline-block; line-height: 21px; padding-left: 5px;"><?php esc_html_e( 'Pro tip from our expert:', 'affiliate-wp' ); ?></span></td>
+					</tr>
+				</table>
 
-				<p><strong><?php echo esc_html( $dyk_blurb['title'] ); ?></strong></p>
+				<p style="margin-top: 20px; font-size: 18px; color: #17243B;"><strong><?php echo esc_html( $dyk_blurb['title'] ); ?></strong></p>
 				<p><?php echo esc_html( wp_strip_all_tags( $dyk_blurb['content'] ) ); ?></p>
 
 				<?php if ( isset( $dyk_blurb['url'] ) ) : ?>
-					<p><a style="color: #E35043;" href="<?php echo esc_url( $dyk_blurb['url'] ); ?>" rel="noopener noreferrer"><?php echo esc_html( ( isset( $dyk_blurb['button'] ) && ! empty( $dyk_blurb['button'] ) ) ? $dyk_blurb['button'] : __( 'Learn More', 'affiliate-wp' ) ); ?></a></p>
+					<p style="margin-bottom: -10px; margin-top: 18px;">
+						<a style="display: inline-block; text-align: center; padding: 7.31469px 21.9441px; background: #F63F3A; border-radius: 32.9161px; color: #fff; text-decoration: none;" href="<?php echo esc_url( $dyk_blurb['url'] ); ?>" rel="noopener noreferrer"><?php echo esc_html( ( isset( $dyk_blurb['button'] ) && ! empty( $dyk_blurb['button'] ) ) ? $dyk_blurb['button'] : __( 'Learn More', 'affiliate-wp' ) ); ?></a>
+					</p>
 				<?php endif; ?>
 			</div>
 		</div>

@@ -1136,7 +1136,7 @@ class Affiliate_WP_Admin_Notices {
 					'message' => function() {
 						return sprintf(
 							// Translators: %1$s is a link to configure WP Mail SMTP and %2$s is going to be a link to our documentation.
-							__( 'WP Mail SMTP is required to send affiliate email summaries %1$s or learn more %2$s.', 'affiliate-wp' ),
+							__( 'WP Mail SMTP is required to send affiliate email summaries. %1$s or learn more %2$s.', 'affiliate-wp' ),
 							sprintf(
 								'<a href="%1$s">%2$s</a>',
 								admin_url( 'admin.php?page=affiliate-wp-smtp' ),

@@ -136,6 +136,7 @@ class Affiliate_WP_LearnDash extends Affiliate_WP_Base {
 
 		// Bail if there is no order.
 		if ( empty( $order ) ) {
+			$this->log( 'Insert referral not completed because no order found.' );
 			return;
 		}
 
@@ -254,6 +255,7 @@ class Affiliate_WP_LearnDash extends Affiliate_WP_Base {
 
 		// Bail if there is no order.
 		if ( empty( $order ) ) {
+			$this->log( 'Process referral not completed because no order found.' );
 			return;
 		}
 
@@ -392,17 +394,17 @@ class Affiliate_WP_LearnDash extends Affiliate_WP_Base {
 		$payment_data = get_post_meta( $transaction_id );
 
 		// Stripe Connect Metadata.
-		$order->stripe_metadata = isset( $payment_data['stripe_metadata'][0] ) ? maybe_unserialize( $payment_data['stripe_metadata'][0] ) : null;
+		$order->stripe_metadata = ! empty( $payment_data['stripe_metadata'] ) && isset( $payment_data['stripe_metadata'][0] ) ? maybe_unserialize( $payment_data['stripe_metadata'][0] ) : null;
 
 		// Payment-related.
-		$order->stripe_price_type     = $payment_data['stripe_price_type'][0];
-		$order->stripe_payment_intent = $payment_data['stripe_payment_intent'][0];
-		$order->subscription          = $payment_data['subscription'][0];
-		$order->stripe_price          = $payment_data['stripe_price'][0];
-		$order->stripe_currency       = $payment_data['stripe_currency'][0];
+		$order->stripe_price_type     = ! empty( $payment_data['stripe_price_type'] ) && isset( $payment_data['stripe_price_type'][0] ) ? $payment_data['stripe_price_type'][0] : null;
+		$order->stripe_payment_intent = ! empty( $payment_data['stripe_payment_intent'] ) && isset( $payment_data['stripe_payment_intent'][0] ) ? $payment_data['stripe_payment_intent'][0] : null;
+		$order->subscription          = ! empty( $payment_data['subscription'] ) && isset( $payment_data['subscription'][0] ) ? $payment_data['subscription'][0] : null;
+		$order->stripe_price          = ! empty( $payment_data['stripe_price'] ) && isset( $payment_data['stripe_price'][0] ) ?  $payment_data['stripe_price'][0] : null;
+		$order->stripe_currency       = ! empty( $payment_data['stripe_currency'] ) && isset( $payment_data['stripe_currency'][0] ) ? $payment_data['stripe_currency'][0] : null;
 
 		// Payment processor.
-		$order->payment_processor = $payment_data['ld_payment_processor'][0];
+		$order->payment_processor = ! empty( $payment_data['ld_payment_processor'] ) && isset( $payment_data['ld_payment_processor'][0] ) ? $payment_data['ld_payment_processor'][0] : null;
 
 		if ( empty( $order->payment_processor ) ) {
 			// If Stripe price type is set, set processor as Stripe.
@@ -413,15 +415,15 @@ class Affiliate_WP_LearnDash extends Affiliate_WP_Base {
 		}
 
 		// User-related.
-		$order->stripe_email   = $payment_data['stripe_email'][0];
-		$order->customer_email = $payment_data['customer_email'][0];
+		$order->stripe_email   = ! empty( $payment_data['stripe_email'] ) && isset( $payment_data['stripe_email'][0] ) ? $payment_data['stripe_email'][0] : null;
+		$order->customer_email = ! empty( $payment_data['customer_email'] ) && isset( $payment_data['customer_email'][0] ) ? $payment_data['customer_email'][0] : null;
 
 		// Product-related.
-		$order->stripe_name = $payment_data['stripe_name'][0];
+		$order->stripe_name = ! empty( $payment_data['stripe_name'] ) && isset( $payment_data['stripe_name'][0] ) ? $payment_data['stripe_name'][0] : null;
 		$order->description = $order->stripe_name;
 
 		// "cache"
-		$this->order = $order;
+		return $this->order = $order;
 
 	}
 

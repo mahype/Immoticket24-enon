@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: AffiliateWP 2.9.7\n"
 "Report-Msgid-Bugs-To: https://affiliatewp.com/support\n"
 "POT-Creation-Date: 2022-10-03T22:25:09+00:00\n"
-"PO-Revision-Date: 2022-10-14 13:16+0200\n"
+"PO-Revision-Date: 2022-10-12 01:18-0400\n"
 "Last-Translator: AffiliateWP <support@affiliatewp.com>\n"
 "Language-Team: AffiliateWP <support@affiliatewp.com>\n"
 "Language: de_DE@formal\n"
@@ -165,7 +165,7 @@ msgstr "Beim Abrufen der Addons-Liste vom Server ist ein Fehler aufgetreten. Bit
 
 #: includes/admin/add-ons.php:139
 msgid "Unlock More Features..."
-msgstr "Weitere Funktionen freischalten &hellip;"
+msgstr "Weitere Funktionen freischalten…"
 
 #: includes/admin/add-ons.php:141
 msgid "Want to get even more features? "
@@ -753,12 +753,12 @@ msgstr "Gutschein löschen"
 
 #: includes/admin/affiliates/edit.php:306
 msgid "Generate Coupon"
-msgstr "Coupon generieren "
+msgstr "Gutschein generieren"
 
 #. translators: Coupon settings tab URL
 #: includes/admin/affiliates/edit.php:312
 msgid "The affiliate&#8217;s dynamic coupon will use the settings from the selected <a href=\"%s\">coupon template</a>."
-msgstr "Der dynamische Coupon des Affiliates verwendet die Einstellungen aus der ausgewählten <a href=\"%s\">Coupon-Vorlage</a>."
+msgstr "Der dynamische Gutschein des Affiliates verwendet die Einstellungen der ausgewählten <a href=“%s”>Gutscheinvorlage</a>."
 
 #: includes/admin/affiliates/edit.php:325 includes/class-editor.php:336
 #: templates/register.php:80 assets/js/editor/build/index.js:6
@@ -1254,7 +1254,7 @@ msgstr "Dieser Besuch wurde erfolgreich erstellt."
 
 #: includes/admin/class-notices.php:434
 msgid "Dynamic coupon creation failed, please try again."
-msgstr "Dynamische Coupon-Erstellung fehlgeschlagen, bitte versuchen Sie es erneut."
+msgstr "Dynamische Gutscheinerstellung fehlgeschlagen, bitte versuchen Sie es erneut."
 
 #: includes/admin/class-notices.php:438
 msgid "Dynamic coupon successfully deleted."
@@ -1262,7 +1262,7 @@ msgstr "Der Kunde wurde erfolgreich gelöscht."
 
 #: includes/admin/class-notices.php:443
 msgid "Dynamic coupon deletion failed, please try again."
-msgstr "Das dynamische Löschen des Coupons ist fehlgeschlagen, bitte versuchen Sie es erneut."
+msgstr "Löschen des dynamischen Gutscheins fehlgeschlagen, bitte versuchen Sie es erneut."
 
 #: includes/admin/class-notices.php:454
 msgid "The API keys were successfully generated."
@@ -1395,7 +1395,7 @@ msgstr "Das Löschen der Empfehlung ist fehlgeschlagen, bitte versuchen Sie es e
 
 #: includes/admin/class-notices.php:633
 msgid "Your database needs to be upgraded following the AffiliateWP v2.0 update"
-msgstr "Ihre Datenbank muss gemäß dem neuesten AffiliateWP Update erweitert werden."
+msgstr "Ihre Datenbank muss gemäß dem neuesten AffiliateWP Update erweitert werden"
 
 #: includes/admin/class-notices.php:643 includes/admin/class-notices.php:665
 #: includes/admin/class-notices.php:688 includes/admin/class-notices.php:711
@@ -1521,7 +1521,7 @@ msgstr "Einstellungen aktualisiert."
 msgid "%d affiliate from WP Affiliate was added successfully."
 msgid_plural "%d affiliates from WP Affiliate were added successfully"
 msgstr[0] "%d Affiliate aus WP Affiliate wurde erfolgreich hinzugefügt."
-msgstr[1] "%d Affiliates aus WP Affiliate wurden erfolgreich hinzugefügt."
+msgstr[1] "%d Affiliates aus WP Affiliate wurden erfolgreich hinzugefügt"
 
 #. translators: Singular number of affiliates added from Affiliates Pro
 #. translators: Plural number of affiliates added from Affiliates Pro
@@ -1529,7 +1529,7 @@ msgstr[1] "%d Affiliates aus WP Affiliate wurden erfolgreich hinzugefügt."
 msgid "%d affiliate from Affiliates Pro was added successfully."
 msgid_plural "%d affiliates from Affiliates Pro were added successfully"
 msgstr[0] "%d Affiliate von Affiliates Pro wurde erfolgreich hinzugefügt."
-msgstr[1] "Affiliates aus Affiliates Pro wurden erfolgreich hinzugefügt. "
+msgstr[1] "Affiliates aus Affiliates Pro wurden erfolgreich hinzugefügt"
 
 #: includes/admin/class-notices.php:1114
 msgid "Affiliate stats have been recounted!"
@@ -1541,17 +1541,14 @@ msgstr "Einstellungen erfolgreich importiert"
 
 #. Translators: %1$s is a link to configure WP Mail SMTP and %2$s is going to be a link to our documentation.
 #: includes/admin/class-notices.php:1139
-#, fuzzy
 msgid "WP Mail SMTP is required to send affiliate email summaries %1$s or learn more %2$s."
 msgstr "WP Mail SMTP ist erforderlich, um Affiliate-E-Mail-Zusammenfassungen %1$s zu senden oder weitere %2$s zu erfahren."
 
 #: includes/admin/class-notices.php:1143
-#, fuzzy
 msgid "Install and setup WP Mail SMTP"
 msgstr "Installieren und Einrichten von WP Mail SMTP"
 
 #: includes/admin/class-notices.php:1148
-#, fuzzy
 msgid "in our documentation"
 msgstr "in unserer Dokumentation"
 
@@ -1639,7 +1636,7 @@ msgstr "Bearbeiten"
 
 #: includes/admin/creatives/class-list-table.php:315
 msgid "No creatives found."
-msgstr "keine Werbemittel gefunden"
+msgstr "Keine Werbemittel gefunden."
 
 #: includes/admin/creatives/delete.php:20
 #: includes/admin/creatives/delete.php:64
@@ -2377,36 +2374,30 @@ msgid "For affiliates located in the United States, it takes approximately a wee
 msgstr "Für Affiliate in den Vereinigten Staaten dauert es ungefähr eine Woche."
 
 #: includes/admin/payouts/class-payouts-service.php:147
-#, fuzzy
 msgid "Can&#8217;t retrieve Payouts Service fee at the moment"
 msgstr "Auszahlungen Servicegebühr kann im Moment nicht abgerufen werden"
 
 #: includes/admin/payouts/class-payouts-service.php:156
-#, fuzzy
 msgid "Payouts Service Fee"
 msgstr "Servicegebühr für Auszahlungen"
 
 #: includes/admin/payouts/class-payouts-service.php:172
-#, fuzzy
 msgctxt "Total amount for a Payouts Service payout"
 msgid "Total"
-msgstr "Gesamt:%1$s"
+msgstr "Gesamt"
 
 #: includes/admin/payouts/class-payouts-service.php:206
-#, fuzzy
 msgid "Your website is not connected to the Payouts Service"
 msgstr "Ihre Website ist nicht mit dem Auszahlungsservice verbunden"
 
 #: includes/admin/payouts/class-payouts-service.php:389
-#, fuzzy
 msgid "Unable to process payout request at the moment. Please try again later."
 msgstr "Die Auszahlungsanforderung kann derzeit nicht verarbeitet werden. Bitte versuchen Sie es später noch einmal."
 
 #. translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant, 2: Payouts service settings URL
 #: includes/admin/payouts/class-payouts-service.php:502
-#, fuzzy
 msgid "There was an error connecting to the %1$s. Please <a href=\"%2$s\">try again</a>. If you continue to have this problem, please contact support."
-msgstr "Beim Herstellen einer Verbindung mit . %1$s Bitte <a href=\"%2$s\">versuchen Sie es erneut</a>. Wenn Sie weiterhin dieses Problem haben, wenden Sie sich bitte an den Support."
+msgstr "Beim Verbinden mit %1$s ist ein Fehler aufgetreten. Bitte <a href=“%2$s”>versuchen Sie es erneut</a>. Wenn Sie dieses Problem weiterhin haben, wenden Sie sich bitte an den Support."
 
 #: includes/admin/payouts/class-payouts-service.php:541
 #: includes/admin/payouts/class-payouts-service.php:597
@@ -2415,13 +2406,11 @@ msgstr "Sie haben keine Berechtigung, um Affiliate-Konten zu löschen"
 
 #. translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant, 2: Payouts service settings URL
 #: includes/admin/payouts/class-payouts-service.php:570
-#, fuzzy
 msgid "Unable to reconnect to the %1$s. Please <a href=\"%2$s\">try again</a>. If you continue to have this problem, please contact support."
 msgstr "Es konnte keine erneute Verbindung mit der hergestellt werden %1$s. Bitte <a href=\"%2$s\">versuchen Sie es erneut</a>. Wenn Sie weiterhin dieses Problem haben, wenden Sie sich bitte an den Support."
 
 #. translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant, 2: Payouts service settings URL
 #: includes/admin/payouts/class-payouts-service.php:625
-#, fuzzy
 msgid "Unable to disconnect from the %1$s. Please <a href=\"%2$s\">try again</a>. If you continue to have this problem, please contact support."
 msgstr "Die Verbindung zum %1$s. Bitte <a href=\"%2$s\">versuchen Sie es erneut</a>. Wenn Sie weiterhin dieses Problem haben, wenden Sie sich bitte an den Support."
 
@@ -2435,7 +2424,6 @@ msgid "Pay Affiliates"
 msgstr "Affiliate auszahlen"
 
 #: includes/admin/payouts/new.php:26
-#, fuzzy
 msgid "Pay your affiliates via the chosen payout method for all their unpaid referrals in the specified timeframe."
 msgstr "Bezahlen Sie Ihre Affiliates über die gewählte Auszahlungsmethode für alle ihre unbezahlten Empfehlungen im angegebenen Zeitraum."
 
@@ -2469,7 +2457,7 @@ msgstr "Enddatum"
 #: includes/admin/tools/tools.php:409 includes/admin/visits/visits.php:65
 #: includes/class-graph.php:447
 msgid "To - mm/dd/yyyy"
-msgstr "bis zum - mm/dd/yyyy"
+msgstr "Bis zum - mm/dd/yyyy"
 
 #: includes/admin/payouts/new.php:68
 msgid "Referrals end date"
@@ -2790,7 +2778,7 @@ msgstr "Sie können die Referenz-ID-Nummer eingeben"
 
 #: includes/admin/referrals/contextual-help.php:57
 msgid "You can enter the referral reference prefixed by &#8220;ref:&#8221;"
-msgstr "Sie können den Verweis mit dem Präfix &#8220;ref:&#8221; eingeben."
+msgstr "Sie können die Empfehlungsreferenz mit dem Präfix &#8220;ref:&#8221;"
 
 #: includes/admin/referrals/contextual-help.php:58
 msgid "You can enter the referral context prefixed by &#8220;context:&#8221;"
@@ -2799,7 +2787,7 @@ msgstr "Sie können den Verweiskontext mit dem Präfix  &#8220;context:&#8221; e
 #: includes/admin/referrals/contextual-help.php:59
 #: includes/admin/visits/contextual-help.php:61
 msgid "You can enter the affiliate&#8217;s ID number prefixed by &#8220;affiliate:&#8221;"
-msgstr "Sie können die Affiliate-ID-Nummer eingeben, die mit ”Affiliate:“ vorangestellt ist."
+msgstr "Sie können die ID-Nummer des Affiliate mit dem Präfix &#8220;Affiliate:&#8221;"
 
 #: includes/admin/referrals/contextual-help.php:60
 #: includes/admin/visits/contextual-help.php:62
@@ -2847,7 +2835,7 @@ msgstr "Auszahlung"
 #. translators: 1: Payout total amount with view link
 #: includes/admin/referrals/edit.php:97
 msgid "Total: %1$s"
-msgstr "Gesamt:%1$s"
+msgstr "Gesamt: %1$s"
 
 #. translators: 1: Payout link with total, 2: Payout ID
 #: includes/admin/referrals/edit.php:105
@@ -2971,7 +2959,6 @@ msgid "Enter the name of the affiliate or enter a partial name or email to perfo
 msgstr "Geben Sie den Namen des Affiliates, einen Teilnamen oder seine Email-Adresse an, um eine Suche durchzuführen."
 
 #: includes/admin/referrals/new.php:84
-#, fuzzy
 msgid "Select or enter a date for this referral."
 msgstr "Wählen Sie ein Datum für diese Empfehlung aus, oder geben Sie ein Datum ein."
 
@@ -3020,7 +3007,6 @@ msgstr "Besuche Verwalten"
 
 #: includes/admin/reports/class-sales-graph.php:204
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:120
-#, fuzzy
 msgid "Gross Affiliate-generated Revenue"
 msgstr "Brutto-Affiliate-generierter Umsatz"
 
@@ -3032,7 +3018,6 @@ msgstr "Summe der Affiliate-Einnahmen"
 #: includes/admin/reports/class-sales-graph.php:206
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:98
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:148
-#, fuzzy
 msgid "Net Affiliate-generated Revenue"
 msgstr "Netto-Affiliate-generierter Umsatz"
 
@@ -3217,39 +3202,32 @@ msgid "Sales"
 msgstr "Verkäufe"
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:100
-#, fuzzy
 msgid "Total revenue earned as a result of affiliate-generated sales, with affiliate earnings deducted."
-msgstr "Gesamtumsatz, der als Ergebnis von Affiliate-generierten Verkäufen erzielt wird, wobei die Affiliate-Gewinne abgezogen werden."
+msgstr "Gesamteinnahmen, die durch von Affiliates generierte Verkäufe erzielt werden, wobei die Affiliate-Einnahmen abgezogen werden."
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:111
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:170
-#, fuzzy
 msgid "Gross Revenue Increase From Affiliates"
 msgstr "Bruttoumsatzsteigerung durch Affiliates"
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:112
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:171
-#, fuzzy
 msgid "Increase in gross revenue as a result of affiliate-generated sales."
 msgstr "Steigerung des Bruttoumsatzes durch Affiliate-generierte Umsätze."
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:121
-#, fuzzy
 msgid "Total revenue earned as a result of affiliate-generated sales."
 msgstr "Gesamtumsatz, der durch Affiliate-generierte Verkäufe erzielt wurde."
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:134
-#, fuzzy
 msgid "Total amount earned by affiliates as a result of affiliate-generated sales."
 msgstr "Gesamtbetrag, der von Affiliates als Ergebnis von Affiliate-generierten Verkäufen verdient wird."
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:149
-#, fuzzy
 msgid "The net revenue generated by the affiliate channel after deducting affiliate earnings."
 msgstr "Der Nettoumsatz, der vom Affiliate-Kanal nach Abzug der Affiliate-Einnahmen generiert wird."
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:161
-#, fuzzy
 msgid "Affiliate-generated Sales"
 msgstr "Affiliate-generierte Verkäufe"
 
@@ -3349,7 +3327,6 @@ msgid "Terms of Use"
 msgstr "Nutzungsbedingungen"
 
 #: includes/admin/settings/class-settings.php:561
-#, fuzzy
 msgid "Select a Terms of Use page or <a href=\"%s\">create one using a template</a>. This only affects the [affiliate_area] and [affiliate_registration] shortcodes."
 msgstr "Wählen Sie eine Seite mit den Nutzungsbedingungen aus, oder <a href=\"%s\">erstellen Sie eine Seite mit einer Vorlage</a>. Dies betrifft nur die Shortcodes [affiliate_area] und [affiliate_registration]."
 
@@ -3358,7 +3335,6 @@ msgid "Terms of Use Label"
 msgstr "Nutzungsbedingungen Etikett"
 
 #: includes/admin/settings/class-settings.php:568
-#, fuzzy
 msgid "Enter the text you would like shown for the Terms of Use checkbox. This only affects the [affiliate_area] and [affiliate_registration] shortcodes."
 msgstr "Geben Sie den Text ein, der für das Kontrollkästchen Nutzungsbedingungen angezeigt werden soll. Dies betrifft nur die Shortcodes [affiliate_area] und [affiliate_registration]."
 
@@ -3386,7 +3362,6 @@ msgstr "Standard-Empfehlungsformat"
 
 #. translators: 1: Affiliate URL example with referral variable, 2: Affiliate URL example with username
 #: includes/admin/settings/class-settings.php:587
-#, fuzzy
 msgid "Show referral URLs to affiliates with either their affiliate ID or Username appended.<br/> For example: <strong>%1$s or %2$s</strong>."
 msgstr "Zeigen Sie Empfehlungs-URLs zu Affiliates an, entweder mit ihrer Affiliate-ID oder ihrem angehängten Benutzernamen.<br/> Beispiel: <strong>%1$s oder %2$s</strong>."
 
@@ -3407,7 +3382,7 @@ msgstr "﻿Dem letzten Affiliate zuordnen"
 
 #: includes/admin/settings/class-settings.php:613
 msgid "Credit the last affiliate who referred the customer."
-msgstr "﻿Den Verkauf dem letzten Affiliate zuordnen, dessen Affiliatelink vom Kunden unmittelbar vor dem Kauf geklickt wurde"
+msgstr "Den Verkauf dem letzten Affiliate zuordnen, dessen Affiliatelink vom Kunden unmittelbar vor dem Kauf geklickt wurde."
 
 #: includes/admin/settings/class-settings.php:618
 msgid "Choose a referral rate type. Referrals can be based on either a percentage or a flat rate amount."
@@ -3431,7 +3406,7 @@ msgstr "Versandkosten von der Provisionsberechnung ausschließen."
 
 #: includes/admin/settings/class-settings.php:645
 msgid "Exclude Tax"
-msgstr "Exklusive MwSt."
+msgstr "Exklusive MwSt"
 
 #: includes/admin/settings/class-settings.php:646
 msgid "Exclude taxes from referral calculations."
@@ -3507,7 +3482,6 @@ msgid "The symbol (usually , or .) to separate decimal points"
 msgstr "Das Symbol um die Dezimalstellen zu trennen ( \",\" oder \".\" )"
 
 #: includes/admin/settings/class-settings.php:696
-#, fuzzy
 msgid "Affiliate Form Shortcode Settings"
 msgstr "Shortcode-Einstellungen für Affiliate-Formulare"
 
@@ -3517,7 +3491,6 @@ msgstr "Formulare im Affiliate-Bereich"
 
 #. translators: Miscellaneous settings screen URL
 #: includes/admin/settings/class-settings.php:702
-#, fuzzy
 msgid "Select which form(s) to show on the Affiliate Area page. This only affects the [affiliate_area] shortcode. The affiliate registration form will only show if <a href=\"%s\">Allow Affiliate Registration</a> is enabled."
 msgstr "Wählen Sie aus, welche Formulare auf der Seite \"Affiliate bereich\" angezeigt werden sollen. Dies betrifft nur den [affiliate_area] Shortcode. Das Affiliate-Registrierungsformular wird nur angezeigt, wenn <a href=\"%s\">Affiliate-Registrierung zulassen</a> aktiviert ist."
 
@@ -3540,7 +3513,7 @@ msgstr "Integrationen"
 
 #: includes/admin/settings/class-settings.php:727
 msgid "Choose the integrations to enable."
-msgstr "Aktiviere, über welche Quellen du Leads von Affiliates zählen möchtest"
+msgstr "Aktiviere, über welche Quellen du Leads von Affiliates zählen möchtest."
 
 #: includes/admin/settings/class-settings.php:745
 msgid "Opt-In Referral Amount"
@@ -3586,7 +3559,6 @@ msgid "Platform"
 msgstr "Plattform"
 
 #: includes/admin/settings/class-settings.php:770
-#, fuzzy
 msgid "Select the opt-in platform provider you wish to use then click Save Changes to configure the settings. The opt-in form can be displayed on any page using the [opt_in] shortcode. <a href=\"https://affiliatewp.com/docs/opt-in-form-settings/\">Learn more</a>."
 msgstr "Wählen Sie den Opt-in-Plattformanbieter aus, den Sie verwenden möchten, und klicken Sie dann auf Änderungen speichern, um die Einstellungen zu konfigurieren. Das Opt-in-Formular kann auf jeder Seite mit dem Shortcode [opt_in] angezeigt werden. <a href=\"https://affiliatewp.com/docs/opt-in-form-settings/\">Erfahren Sie mehr</a>."
 
@@ -3612,7 +3584,6 @@ msgid "Email Template"
 msgstr "E-Mail Vorlage"
 
 #: includes/admin/settings/class-settings.php:800
-#, fuzzy
 msgid "Choose a template to use for email notifications."
 msgstr "Wählen Sie eine Vorlage aus, die für E-Mail-Benachrichtigungen verwendet werden soll."
 
@@ -3638,21 +3609,18 @@ msgstr "E-Mail Benachrichtigungen"
 
 #: includes/admin/settings/class-settings.php:818
 msgid "The email notifications sent to the affiliate manager and affiliate."
-msgstr "Die E-Mail-Benachrichtigungen, die an mich und den Affiliate gesendet werden"
+msgstr "Die E-Mail-Benachrichtigungen, die an mich und den Affiliate gesendet werden."
 
 #: includes/admin/settings/class-settings.php:823
-#, fuzzy
 msgid "Affiliate Email Summaries"
 msgstr "Affiliate-E-Mail-Zusammenfassungen"
 
 #. Translators: %1$s is going say Learn More with a link and %2$s is a link to view a  sample.
 #: includes/admin/settings/class-settings.php:827
-#, fuzzy
 msgid "Send your affiliates a monthly email summary. %1$s %2$s"
 msgstr "Senden Sie Ihren Affiliates eine monatliche E-Mail-Zusammenfassung. %1$s %2$s"
 
 #: includes/admin/settings/class-settings.php:833
-#, fuzzy
 msgid "in our documentation."
 msgstr "in unserer Dokumentation."
 
@@ -3678,7 +3646,7 @@ msgstr "Registrierungs-E-Mail-Betreff"
 
 #: includes/admin/settings/class-settings.php:862
 msgid "Enter the subject line for the registration email sent to affiliate managers when new affiliates register. Supports template tags."
-msgstr "Betreffzeile der E-Mail-Benachrichtigung über eine neue Affiliate Registrierung an dich"
+msgstr "Betreffzeile der E-Mail-Benachrichtigung über eine neue Affiliate Registrierung an dich."
 
 #: includes/admin/settings/class-settings.php:864
 #: includes/emails/actions.php:54
@@ -3896,7 +3864,7 @@ msgstr "Verweise mit Nullbetrag ignorieren"
 
 #: includes/admin/settings/class-settings.php:994
 msgid "Ignore referrals with a zero amount. This can be useful for multi-price products that start at zero, or if a discount was used which resulted in a zero amount. NOTE: If this setting is enabled and a visit results in a zero referral, the visit will be considered not converted."
-msgstr "Vermittlungen über null Euro ignorieren. Dies kann für Multi-Preis-Produkte nützlich sein, die bei Null starten können. BITTE BEACHTE: Wenn diese Einstellung aktiviert ist können keine Vermittlungen für generierte Leads gezählt werden"
+msgstr "Vermittlungen über null Euro ignorieren. Dies kann für Multi-Preis-Produkte nützlich sein, die bei Null starten können. BITTE BEACHTE: Wenn diese Einstellung aktiviert ist können keine Vermittlungen für generierte Leads gezählt werden."
 
 #: includes/admin/settings/class-settings.php:998
 msgid "Disable IP Address Logging"
@@ -3924,12 +3892,10 @@ msgid "URLs placed here will be blocked from generating referrals. Enter one URL
 msgstr "Hier eingegebene URLs werden vom Generieren von Empfehlungen abgehalten. Geben Sie nur eine URL pro Zeile ein. BITTE BEACHTE: Dies bezieht sich nur auf alle neuen Besuche, nachdem die URL hier gespeichert wurde."
 
 #: includes/admin/settings/class-settings.php:1014
-#, fuzzy
 msgid "Opt into development versions"
 msgstr "Entscheiden Sie sich für Entwicklungsversionen"
 
 #: includes/admin/settings/class-settings.php:1015
-#, fuzzy
 msgid "Receive update notifications for development releases. When development versions are available, an update notification will be shown on your Plugins page."
 msgstr "Erhalten Sie Updatebenachrichtigungen für Entwicklungsversionen. Wenn Entwicklungsversionen verfügbar sind, wird eine Update-Benachrichtigung auf Ihrer Plugins-Seite angezeigt."
 
@@ -3942,13 +3908,11 @@ msgid "Remove all saved data for AffiliateWP when the plugin is deleted."
 msgstr "Gesamte gespeicherte Daten für AffiliateWP entfernen, sobald das Plugin gelöscht ist."
 
 #: includes/admin/settings/class-settings.php:1024
-#, fuzzy
 msgid "Disable Email Summaries"
 msgstr "E-Mail-Zusammenfassungen deaktivieren"
 
 #. Translators: %1$s is a link to preview the email.
 #: includes/admin/settings/class-settings.php:1027
-#, fuzzy
 msgid "Disable Email Summaries monthly delivery. %1$s"
 msgstr "Deaktivieren Sie die monatliche Zustellung von E-Mail-Zusammenfassungen. %1$s"
 
@@ -3961,74 +3925,61 @@ msgid "Connection Status"
 msgstr "Verbindungsstatus"
 
 #: includes/admin/settings/class-settings.php:1059
-#, fuzzy
 msgid "Enable Payouts Service"
 msgstr "Auszahlungsdienst aktivieren"
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
 #: includes/admin/settings/class-settings.php:1061
-#, fuzzy
 msgid "Enable the %s."
 msgstr "Aktivieren Sie die %s."
 
 #: includes/admin/settings/class-settings.php:1065
-#, fuzzy
 msgid "Registration Form Description"
 msgstr "Beschreibung des Anmeldeformulars"
 
 #: includes/admin/settings/class-settings.php:1066
-#, fuzzy
 msgid "This will be displayed above the Payouts Service registration form fields. Here you can explain to your affiliates how/why to register for the Payouts Service."
 msgstr "Dies wird über den Registrierungsformularfeldern für den Auszahlungsservice angezeigt. Hier können Sie Ihren Affiliates erklären, wie/warum sie sich für den Payouts Service registrieren können."
 
 #: includes/admin/settings/class-settings.php:1070
-#, fuzzy
 msgid "Payouts Service Notice"
 msgstr "Hinweis zum Auszahlungsservice"
 
 #: includes/admin/settings/class-settings.php:1071
-#, fuzzy
 msgid "This will be displayed at the top of each tab of the Affiliate Area for affiliates that have not registered their payout account."
 msgstr "Dies wird oben auf jeder Registerkarte des Affiliate-Bereichs für Affiliates angezeigt, die ihr Auszahlungskonto nicht registriert haben."
 
 #: includes/admin/settings/class-settings.php:1087
 #: includes/admin/tools/tools.php:1078
-#, fuzzy
 msgid "Dynamic Coupons"
-msgstr "Dynamische Coupons"
+msgstr "Dynamische Gutscheine"
 
 #: includes/admin/settings/class-settings.php:1091
 msgid "Coupon Template"
-msgstr "Coupon-Vorlage"
+msgstr "Gutschein-Vorlage"
 
 #: includes/admin/settings/class-settings.php:1092
-#, fuzzy
 msgid "All dynamic coupons will use the settings from the selected coupon template."
 msgstr "Alle dynamischen Coupons verwenden die Einstellungen aus der ausgewählten Coupon-Vorlage."
 
 #: includes/admin/settings/class-settings.php:1097
-#, fuzzy
 msgid "Automatically Generate Coupons"
 msgstr "Automatische Generierung von Coupons"
 
 #. translators: Tools screen URL
 #: includes/admin/settings/class-settings.php:1099
-#, fuzzy
 msgid "Automatically generate a coupon code for each registered affiliate.<p class=\"description\">To bulk generate coupons for existing affiliates visit the <a href=\"%s\">Tools</a> screen.</p>"
 msgstr "Generieren Sie automatisch einen Gutscheincode für jeden registrierten Affiliate.<p class=\"description\">Um Gutscheine für bestehende Affiliate in großen Mengen zu generieren, besuchen Sie den <a href=\"%s\">Bildschirm Tools</a> .</p>"
 
 #: includes/admin/settings/class-settings.php:1103
-#, fuzzy
 msgid "Dynamic Coupon Customization"
 msgstr "Dynamische Coupon-Anpassung"
 
 #: includes/admin/settings/class-settings.php:1107
-#, fuzzy
 msgid "Coupon Format"
 msgstr "Gutscheinformat"
 
 #: includes/admin/settings/class-settings.php:1108
-#, fuzzy
 msgid "Select a coupon format for dynamically generated coupons."
 msgstr "Wählen Sie ein Gutscheinformat für dynamisch generierte Coupons."
 
@@ -4037,17 +3988,14 @@ msgid "Custom Text"
 msgstr "Benutzerdefinierter Text"
 
 #: includes/admin/settings/class-settings.php:1114
-#, fuzzy
 msgid "Text to use within the {custom_text} merge tag of the Coupon Format option."
 msgstr "Text, der im {custom_text} Merge-Tag der Option Couponformat verwendet werden soll."
 
 #: includes/admin/settings/class-settings.php:1118
-#, fuzzy
 msgid "Hyphen Delimiter"
 msgstr "Trennzeichen für Bindestriche"
 
 #: includes/admin/settings/class-settings.php:1119
-#, fuzzy
 msgid "Add a hyphen between each merge tag."
 msgstr "Fügen Sie zwischen den einzelnen Merge-Tags einen Bindestrich hinzu."
 
@@ -4056,7 +4004,6 @@ msgid "Required Registration Fields"
 msgstr "Erforderliche Registrierungsfelder"
 
 #: includes/admin/settings/class-settings.php:1152
-#, fuzzy
 msgid "Select which fields should be required for affiliate registration. This only affects the [affiliate_area] and [affiliate_registration] shortcodes. The <strong>Username</strong> and <strong>Account Email</strong> form fields are always required. The <strong>Password</strong> form field will be removed if not required."
 msgstr "Wählen Sie aus, welche Felder für die Affiliate-Registrierung erforderlich sein sollen. Dies betrifft nur die Shortcodes [affiliate_area] und [affiliate_registration]. Die Formularfelder <strong>Benutzername</strong> und <strong>Konto-E-Mail</strong> sind immer erforderlich. Das Formularfeld <strong>Kennwort</strong> wird entfernt, wenn dies nicht erforderlich ist."
 
@@ -4064,7 +4011,6 @@ msgstr "Wählen Sie aus, welche Felder für die Affiliate-Registrierung erforder
 #: includes/class-editor.php:232 includes/class-editor.php:340
 #: includes/class-editor.php:1094 templates/login.php:34
 #: templates/register.php:102 assets/js/editor/build/index.js:6
-#, fuzzy
 msgid "Password"
 msgstr "Passwort"
 
@@ -4107,7 +4053,6 @@ msgid "Application Pending Email Subject"
 msgstr "E-Mail-Betreff für “Bewerbung ausstehend“"
 
 #: includes/admin/settings/class-settings.php:1219
-#, fuzzy
 msgid "Enter the subject line for pending affiliate application emails. Supports template tags."
 msgstr "Geben Sie die Betreffzeile für ausstehende Affiliate-Bewerbungs-E-Mails ein. Unterstützt Template-Tags."
 
@@ -4147,7 +4092,6 @@ msgid "Application Rejection Email Subject"
 msgstr "E-Mail-Betreff für die Ablehnung von Anträgen"
 
 #: includes/admin/settings/class-settings.php:1236
-#, fuzzy
 msgid "Enter the subject line for rejected affiliate application emails. Supports template tags."
 msgstr "Geben Sie die Betreffzeile für abgelehnte Affiliate-Bewerbungs-E-Mails ein. Unterstützt Template-Tags."
 
@@ -4203,7 +4147,6 @@ msgstr "Lizenz aktivieren"
 
 #. Translators: %1$s is the license name.
 #: includes/admin/settings/class-settings.php:1496
-#, fuzzy
 msgid "Your license level is <strong>%1$s</strong>."
 msgstr "Ihre Lizenzstufe ist <strong>%1$s</strong>."
 
@@ -4218,25 +4161,21 @@ msgstr "Datei hochladen"
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
 #: includes/admin/settings/class-settings.php:1737
-#, fuzzy
 msgid "%s allows you, as the site owner, to pay your affiliates directly from a credit or debit card and the funds for each recipient will be automatically deposited into their bank accounts. To use this service, connect your site to the service below. You will log into the service using your username and password from AffiliateWP.com."
 msgstr "%s ermöglicht es Ihnen als Website-Eigentümer, Ihre Affiliate direkt von einer Kredit- oder Debitkarte zu bezahlen, und das Geld für jeden Empfänger wird automatisch auf seine Bankkonten eingezahlt. Um diesen Dienst zu nutzen, verbinden Sie Ihre Website mit dem folgenden Dienst. Sie melden sich mit Ihrem Benutzernamen und Passwort von AffiliateWP.com beim Dienst an."
 
 #. translators: 1: Payouts Service URL
 #: includes/admin/settings/class-settings.php:1739
-#, fuzzy
 msgid "<a href=\"%s\" target=\"_blank\">Learn more and view pricing.</a>"
 msgstr "<a href=\"%s\" target=\"_blank\">Erfahren Sie mehr und sehen Sie sich die Preise an.</a>"
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
 #: includes/admin/settings/class-settings.php:1761
-#, fuzzy
 msgid "Your website is connected to the %s."
 msgstr "Ihre Website ist mit dem %s verbunden."
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
 #: includes/admin/settings/class-settings.php:1763
-#, fuzzy
 msgid "Disconnect from the %s."
 msgstr "Trennen Sie die Verbindung zum %s."
 
@@ -4248,7 +4187,6 @@ msgstr "Wieder verbinden mit %s."
 #. translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant, 2: Payouts service documentation URL
 #: includes/admin/settings/class-settings.php:1772
 #: includes/admin/settings/class-settings.php:1786
-#, fuzzy
 msgid "Have questions about connecting with the %1$s? See the <a href=\"%2$s\" target=\"_blank\" rel=\"noopener noreferrer\">documentation</a>."
 msgstr "Haben Sie Fragen zum Verbinden mit dem %1$s? Weitere Informationen finden Sie in der <a href=\"%2$s\" target=\"_blank\" rel=\"noopener noreferrer\">Dokumentation</a>."
 
@@ -4269,7 +4207,6 @@ msgstr "Debug - Modus wird global über aktiviert <code>AFFILIATE_WP_DEBUG</code
 
 #. Translators: %1$s number of notifications; %2$s opening span tag; %3$s closing span tag
 #: includes/admin/settings/display-settings.php:52
-#, fuzzy
 msgid "%1$s %2$sunread notifications%3$s"
 msgstr "%1$s %2$sungelesene Benachrichtigungen%3$s"
 
@@ -4297,18 +4234,16 @@ msgid "Coupons"
 msgstr "Gutscheine"
 
 #: includes/admin/tools/class-batch-create-dynamic-coupons.php:262
-#, fuzzy
 msgid "All affiliates have a coupon already assigned."
 msgstr "Allen Affiliates ist bereits ein Coupon zugeordnet."
 
 #. translators: Singular coupon for singular affiliate
 #. translators: Plural coupons for plural affiliates
 #: includes/admin/tools/class-batch-create-dynamic-coupons.php:267
-#, fuzzy
 msgid "Coupon successfully generated for %s affiliate."
 msgid_plural "Coupons successfully generated for %s affiliates."
 msgstr[0] "Gutschein erfolgreich für %s Affiliate generiert."
-msgstr[1] "Coupons erfolgreich für %s Affiliates generiert."
+msgstr[1] "Gutscheine erfolgreich für %s Affiliates generiert."
 
 #. translators: Dismiss Notice link markup
 #: includes/admin/tools/class-batch-migrate-affwp-user-meta.php:166
@@ -4333,7 +4268,6 @@ msgstr "Hinweis ausblenden"
 #. translators: Singular campaign
 #. translators: Plural campaigns
 #: includes/admin/tools/class-batch-recalculate-campaigns.php:158
-#, fuzzy
 msgid "%s campaign was successfully recounted."
 msgid_plural "%s campaigns were successfully recounted."
 msgstr[0] "%s Kampagne wurde erfolgreich nacherzählt."
@@ -4477,7 +4411,7 @@ msgstr "Es wurde kein gültiger Affiliate-Status für den Export ausgewählt."
 msgid "%s affiliate was successfully exported."
 msgid_plural "%s affiliates were successfully exported."
 msgstr[0] "%s Affiliate wurde erfolgreich exportiert."
-msgstr[1] "%s Affiliates wurden erfolgreich exportiert. "
+msgstr[1] "%s Affiliates wurden erfolgreich exportiert."
 
 #: includes/admin/tools/export/class-batch-export-payouts.php:174
 msgid "No valid payout status was selected for export."
@@ -4557,7 +4491,7 @@ msgstr "Nein"
 msgid "%s visit was successfully exported."
 msgid_plural "%s visits were successfully exported."
 msgstr[0] "%s Besuch wurde erfolgreich exportiert."
-msgstr[1] "%s Affiliate wurden erfolgreich exportiert. "
+msgstr[1] "%s Affiliate wurden erfolgreich exportiert."
 
 #: includes/admin/tools/export/class-batch-export.php:210
 #: includes/admin/tools/export/class-export-settings.php:92
@@ -4575,7 +4509,7 @@ msgstr "Es wurden keine unbezahlten Empfehlungen gefunden, die Ihren Suchkriteri
 msgid "A payout log for %s affiliate was successfully generated."
 msgid_plural "A payout log for %s affiliates was successfully generated."
 msgstr[0] "Ein Auszahlungslog für %s Affiliate wurde erfolgreich erstellt."
-msgstr[1] "Ein Auszahlungslog für %s Affiliates wurde erfolgreich erstellt. "
+msgstr[1] "Ein Auszahlungslog für %s Affiliates wurde erfolgreich erstellt."
 
 #: includes/admin/tools/import/class-batch-import-affiliates.php:121
 #: includes/admin/tools/import/class-batch-import-referrals.php:113
@@ -4592,7 +4526,7 @@ msgstr "Es wurden keine neuen Affiliate importiert."
 msgid "%s affiliate was successfully imported."
 msgid_plural "%s affiliates were successfully imported."
 msgstr[0] "%s Affiliate wurde erfolgreich importiert."
-msgstr[1] "%s Affiliate wurden erfolgreich exportiert. "
+msgstr[1] "%s Affiliate wurden erfolgreich exportiert."
 
 #. translators: Singular affiliate number
 #. translators: Plural affiliate number
@@ -4668,7 +4602,6 @@ msgid "Debug Assistant"
 msgstr "Debug-Assistent"
 
 #: includes/admin/tools/tools.php:108 includes/admin/tools/tools.php:630
-#, fuzzy
 msgid "Terms of Use Generator"
 msgstr "Nutzungsbedingungen Generator"
 
@@ -4677,7 +4610,6 @@ msgid "Recount Affiliate Stats"
 msgstr "Affiliate-Statistiken erneuern"
 
 #: includes/admin/tools/tools.php:158
-#, fuzzy
 msgid "Use this tool to recount statistics for one or all affiliates."
 msgstr "Verwenden Sie dieses Tool, um Statistiken für einen oder alle Affiliate zu erstellen."
 
@@ -4690,14 +4622,12 @@ msgid "Recount"
 msgstr "Erzählen"
 
 #: includes/admin/tools/tools.php:183
-#, fuzzy
 msgid "Recount Campaigns"
 msgstr "Nachzählungskampagnen"
 
 #: includes/admin/tools/tools.php:185
-#, fuzzy
 msgid "Use this tool to recount campaigns for one or all affiliates."
-msgstr "Verwenden Sie dieses Tool, um Kampagnen für einen oder alle Affiliates zu erzählen."
+msgstr "Verwenden Sie dieses Tool, um Kampagnen für einen oder alle Affiliates erneut zu zählen."
 
 #: includes/admin/tools/tools.php:246
 msgid "These tools assist in migrating affiliate and referral data from existing platforms."
@@ -4884,17 +4814,14 @@ msgid "To copy the system info, click below then press Ctrl + C (PC) or Cmd + C 
 msgstr "Um die System Info zu kopieren, klicken Sie unten und dann drücken Sie Ctrl + C (PC) oder Cmd + C (Mac)."
 
 #: includes/admin/tools/tools.php:624
-#, fuzzy
 msgid "Create Terms of Use Page"
 msgstr "Seite \"Nutzungsbedingungen erstellen\""
 
 #: includes/admin/tools/tools.php:633
-#, fuzzy
 msgid "Use this tool to create a Terms of Use page for your affiliate program. You will be able to make changes before publishing."
 msgstr "Verwenden Sie dieses Tool, um eine Seite mit den Nutzungsbedingungen für Ihr Partnerprogramm zu erstellen. Sie können vor der Veröffentlichung Änderungen vornehmen."
 
 #: includes/admin/tools/tools.php:634
-#, fuzzy
 msgid "Our Terms of Use template is a generic starting point. It is your responsibility to modify it as needed and to provide any additional information. For legal opinion and advice, refer to a professional attorney."
 msgstr "Unsere Vorlage für Nutzungsbedingungen ist ein allgemeiner Ausgangspunkt. Es liegt in Ihrer Verantwortung, sie nach Bedarf zu ändern und zusätzliche Informationen zur Verfügung zu stellen. Für Rechtsgutachten und Beratung wenden Sie sich an einen professionellen Anwalt."
 
@@ -4903,56 +4830,46 @@ msgid "Company Name"
 msgstr "Firmenname"
 
 #: includes/admin/tools/tools.php:638
-#, fuzzy
 msgid "Your company name is shown throughout the Terms of Use."
 msgstr "Ihr Firmenname wird in den Nutzungsbedingungen angezeigt."
 
 #: includes/admin/tools/tools.php:642
-#, fuzzy
 msgid "Terms of Use Preview"
 msgstr "Vorschau der Nutzungsbedingungen"
 
 #: includes/admin/tools/tools.php:644 includes/admin/tools/tools.php:852
-#, fuzzy
 msgid "Affiliate Terms of Use"
 msgstr "Seite mit den Affiliate-Nutzungsbedingungen"
 
 #: includes/admin/tools/tools.php:647
-#, fuzzy
 msgid "Create a New Terms of Use Page"
 msgstr "Erstellen einer neuen Seite mit den Nutzungsbedingungen"
 
 #. Translators: %s below is a link to the TOS page.
 #: includes/admin/tools/tools.php:649
-#, fuzzy
 msgid "You already have a %s page. Are you sure you want to create a new one?"
 msgstr "Sie haben bereits eine %s Seite. Sind Sie sicher, dass Sie eine neue erstellen möchten?"
 
 #. Translators: %1$s below is the Company Name.
 #: includes/admin/tools/tools.php:680
-#, fuzzy
 msgid "As an authorized affiliate (Affiliate) of %1$s, you agree to abide by the terms and conditions contained in this Agreement (Agreement). Please read the entire Agreement carefully before registering and promoting %1$s as an Affiliate."
 msgstr "Als autorisierter Affiliate (Affiliate) von %1$s erklären Sie sich damit einverstanden, die in dieser Vereinbarung (Vereinbarung) enthaltenen Bedingungen einzuhalten. Bitte lesen Sie die gesamte Vereinbarung sorgfältig durch, bevor Sie sich registrieren und %1$s als Affiliate bewerben."
 
 #. Translators: %s below is the Company Name.
 #: includes/admin/tools/tools.php:685
-#, fuzzy
 msgid "Your participation in the Program is solely to legally advertise our website to receive a commission on memberships and products purchased by individuals referred to %s by your own website or personal referrals."
 msgstr "Ihre Teilnahme am Programm dient ausschließlich dazu, unsere Website legal zu bewerben, um eine Provision für Mitgliedschaften und Produkte zu erhalten, die von Personen gekauft wurden, auf die %s durch Ihre eigene Website oder persönliche Empfehlungen verwiesen wird."
 
 #. Translators: %s below is the Company Name.
 #: includes/admin/tools/tools.php:690
-#, fuzzy
 msgid "By signing up for the %s Affiliate Program (Program), you indicate your acceptance of this Agreement and its terms and conditions."
 msgstr "Indem Sie sich für das %s Affiliate-Programm (Programm) anmelden, erklären Sie sich mit dieser Vereinbarung und ihren Bedingungen einverstanden."
 
 #: includes/admin/tools/tools.php:694
-#, fuzzy
 msgid "Approval or Rejection of the Application"
 msgstr "Genehmigung oder Ablehnung des Antrags"
 
 #: includes/admin/tools/tools.php:698
-#, fuzzy
 msgid "We reserve the right to approve or reject ANY Affiliate Program Application at our sole and absolute discretion. You will have no legal recourse against us for the rejection of your Affiliate Program Application."
 msgstr "Wir behalten uns das Recht vor, JEDEN Affiliateprogrammantrag nach unserem alleinigen und absoluten Ermessen zu genehmigen oder abzulehnen. Sie haben keinen Rechtsbehelf gegen uns wegen der Ablehnung Ihres Affiliate-Programm-Antrags."
 
@@ -4961,17 +4878,14 @@ msgid "Commissions"
 msgstr "Provisionen"
 
 #: includes/admin/tools/tools.php:706
-#, fuzzy
 msgid "Commissions will be paid once a month. For an Affiliate to receive a commission, the referred account must remain active for a minimum of 31 days."
 msgstr "Die Provisionen werden einmal im Monat ausgezahlt. Damit ein Affiliate eine Provision erhält, muss das geworbene Konto mindestens 31 Tage lang aktiv bleiben."
 
 #: includes/admin/tools/tools.php:710
-#, fuzzy
 msgid "You cannot refer yourself, and you will not receive a commission on your own accounts."
 msgstr "Sie können sich nicht selbst empfehlen, und Sie erhalten keine Provision auf Ihre eigenen Konten."
 
 #: includes/admin/tools/tools.php:714
-#, fuzzy
 msgid "Payments will only be sent for transactions that have been successfully completed. Transactions that result in chargebacks or refunds will not be paid out."
 msgstr "Zahlungen werden nur für Transaktionen gesendet, die erfolgreich abgeschlossen wurden. Transaktionen, die zu Rückbuchungen oder Rückerstattungen führen, werden nicht ausgezahlt."
 
@@ -4980,50 +4894,41 @@ msgid "Termination"
 msgstr "Kündigung"
 
 #: includes/admin/tools/tools.php:722
-#, fuzzy
 msgid "Your affiliate application and status in the Program may be suspended or terminated for any of the following reasons:"
 msgstr "Ihr Affiliateantrag und Ihr Status im Programm können aus einem der folgenden Gründe ausgesetzt oder beendet werden:"
 
 #: includes/admin/tools/tools.php:727
-#, fuzzy
 msgid "Inappropriate advertisements (false claims, misleading hyperlinks, etc.)."
 msgstr "Unangemessene Werbung (falsche Behauptungen, irreführende Hyperlinks usw.)."
 
 #: includes/admin/tools/tools.php:728
-#, fuzzy
 msgid "Spamming (mass email, mass newsgroup posting, etc.)."
 msgstr "Spamming (Massen-E-Mails, Massen-Newsgroup-Postings usw.)."
 
 #: includes/admin/tools/tools.php:729
-#, fuzzy
 msgid "Advertising on sites containing or promoting illegal activities."
 msgstr "Werbung auf Websites, die illegale Aktivitäten enthalten oder fördern."
 
 #: includes/admin/tools/tools.php:730
-#, fuzzy
 msgid "Failure to disclose the affiliate relationship for any promotion that qualifies as an endorsement under existing Federal Trade Commission guidelines and regulations, or any applicable state laws."
 msgstr "Versäumnis, die Affiliate-Beziehung für eine Werbeaktion offenzulegen, die als Billigung gemäß den bestehenden Richtlinien und Vorschriften der Federal Trade Commission oder den geltenden staatlichen Gesetzen gilt."
 
 #. Translators: %1$s below is the Company Name.
 #: includes/admin/tools/tools.php:732
-#, fuzzy
 msgid "Violation of intellectual property rights. %1$s reserves the right to require license agreements from those who employ trademarks of %1$s in order to protect our intellectual property rights."
 msgstr "Verletzung von Rechten an geistigem Eigentum. %1$s behält uns das Recht vor, Lizenzvereinbarungen von denjenigen zu verlangen, die Marken von %1$s verwenden, um unsere geistigen Eigentumsrechte zu schützen."
 
 #. Translators: %s below is the Company Name.
 #: includes/admin/tools/tools.php:734
-#, fuzzy
 msgid "Offering rebates, coupons, or other form of promised kick-backs from your affiliate commission as an incentive. Adding bonuses or bundling other products with %s, however, is acceptable."
 msgstr "Anbieten von Rabatten, Coupons oder anderen versprochenen Kickbacks aus Ihrer Affiliate-Provision als Anreiz. Das Hinzufügen von Boni oder das Bündeln anderer Produkte mit %s ist jedoch akzeptabel."
 
 #: includes/admin/tools/tools.php:735
-#, fuzzy
 msgid "Self referrals, fraudulent transactions, suspected Affiliate fraud."
 msgstr "Selbstempfehlungen, betrügerische Transaktionen, vermuteter Affiliate-Betrug."
 
 #. Translators: %s below is the Company Name.
 #: includes/admin/tools/tools.php:741
-#, fuzzy
 msgid "In addition to the foregoing, %s reserves the right to terminate any Affiliate account at any time, for any violations of this Agreement or no reason."
 msgstr "Darüber hinaus behält sich %s das Recht vor, jedes Affiliate-Konto jederzeit wegen Verstößen gegen diese Vereinbarung oder ohne Angabe von Gründen zu kündigen."
 
@@ -5033,59 +4938,48 @@ msgstr "Affiliate-Links"
 
 #. Translators: %s below is the Company Name.
 #: includes/admin/tools/tools.php:750
-#, fuzzy
 msgid "You may use graphic and text links both on your website and within in your email messages. You may also advertise the %s site in online and offline classified ads, magazines, and newspapers."
-msgstr "Sie können Grafik- und Textlinks sowohl auf Ihrer Website als auch in Ihren E-Mail-Nachrichten verwenden. Sie können die %sWebsite auch in Online- und Offline-Kleinanzeigen, Zeitschriften und Zeitungen bewerben."
+msgstr "Sie können Grafik- und Textlinks sowohl auf Ihrer Website als auch in Ihren E-Mail-Nachrichten verwenden. Sie können die %s Website auch in Online- und Offline-Kleinanzeigen, Zeitschriften und Zeitungen bewerben."
 
 #: includes/admin/tools/tools.php:754
-#, fuzzy
 msgid "You may use the graphics and text provided by us, or you may create your own as long as they are deemed appropriate according to the conditions and not in violation as outlined in the Termination section."
 msgstr "Sie können die von uns bereitgestellten Grafiken und Texte verwenden oder eigene erstellen, solange sie gemäß den Bedingungen als angemessen erachtet werden und nicht gegen die im Abschnitt Kündigung beschriebenen Bestimmungen verstoßen."
 
 #: includes/admin/tools/tools.php:758
-#, fuzzy
 msgid "Coupon and Deal Sites"
 msgstr "Gutschein- und Deal-Seiten"
 
 #. Translators: %s below is the Company Name.
 #: includes/admin/tools/tools.php:763
-#, fuzzy
 msgid "%s occasionally offers coupon to select affiliates and to our newsletter subscribers. If you’re not pre-approved / assigned a branded coupon, then you’re not allowed to promote the coupon. Below are the terms that apply for any affiliate who is considering the promotion of our products in relation to a deal or coupon:"
 msgstr "%s bietet gelegentlich Gutscheine für ausgewählte Affiliate und für unsere Newsletter-Abonnenten an. Wenn Sie keinen Markencoupon vorab genehmigt / zugewiesen haben, dürfen Sie den Gutschein nicht bewerben. Im Folgenden finden Sie die Bedingungen, die für jeden Affiliate gelten, der die Werbung für unsere Produkte in Bezug auf ein Geschäft oder einen Gutschein in Betracht zieht:"
 
 #: includes/admin/tools/tools.php:768
-#, fuzzy
 msgid "Affiliates may not use misleading text on affiliate links, buttons or images to imply that anything besides currently authorized deals to the specific affiliate."
 msgstr "Affiliates dürfen keinen irreführenden Text auf Affiliate-Links, Schaltflächen oder Bildern verwenden, um zu implizieren, dass irgendetwas anderes als derzeit autorisierte Geschäfte mit dem jeweiligen Affiliate macht."
 
 #. Translators: %1$s below is the Company Name.
 #: includes/admin/tools/tools.php:770
-#, fuzzy
 msgid "Affiliates may not bid on %1$s Coupons, %1$s Discounts or other phrases implying coupons are available."
 msgstr "Affiliates dürfen nicht auf %1$s Coupons, %1$s Rabatte oder andere Phrasen bieten, die darauf hindeuten, dass Coupons verfügbar sind."
 
 #: includes/admin/tools/tools.php:771
-#, fuzzy
 msgid "Affiliates may not generate pop-ups, pop-unders, iframes, frames, or any other seen or unseen actions that set affiliate cookies unless the user has expressed a clear and explicit interest in activating a specific savings by clicking on a clearly marked link, button or image for that particular coupon or deal. Your link must send the visitor to the merchant site."
 msgstr "Affiliates dürfen keine Pop-ups, Pop-unders, iframes, frames oder andere gesehene oder unsichtbare Aktionen generieren, die Affiliate-Cookies setzen, es sei denn, der Benutzer hat ein klares und ausdrückliches Interesse an der Aktivierung einer bestimmten Ersparnis bekundet, indem er auf einen deutlich markierten Link, eine Schaltfläche oder ein Bild für diesen bestimmten Gutschein oder Deal klickt. Ihr Link muss den Besucher auf die Händlerseite leiten."
 
 #: includes/admin/tools/tools.php:772
-#, fuzzy
 msgid "User must be able to see coupon/deal/savings information and details before an affiliate cookie is set (i.e. “click here to see coupons and open a window to merchant site” is NOT allowed)."
 msgstr "Der Benutzer muss in der Lage sein, Coupon-/Deal-/Sparinformationen und Details zu sehen, bevor ein Affiliate-Cookie gesetzt wird (d.h. \"Klicken Sie hier, um Coupons zu sehen und ein Fenster zur Händler-Website zu öffnen\" ist NICHT erlaubt)."
 
 #: includes/admin/tools/tools.php:773
-#, fuzzy
 msgid "Affiliate sites may not have “Click for (or to see) Deal/Coupon” or any variation, when there are no coupons or deals available, and the click opens the merchant site or sets a cookie. Affiliates with such text on the merchant landing page will be removed from the program immediately."
 msgstr "Affiliate-Websites haben möglicherweise keine \"Klicken Sie für (oder um zu sehen) Deal / Coupon\" oder eine Variation, wenn keine Coupons oder Deals verfügbar sind und der Klick die Händler-Website öffnet oder ein Cookie setzt. Affiliates mit einem solchen Text auf der Händler-Zielseite werden sofort aus dem Programm entfernt."
 
 #: includes/admin/tools/tools.php:778
-#, fuzzy
 msgid "Pay Per Click (PPC) Policy"
 msgstr "Pay-per-Click-Richtlinie (PPC)"
 
 #: includes/admin/tools/tools.php:782
-#, fuzzy
 msgid "PPC bidding is NOT allowed without prior written permission."
 msgstr "PPC-Gebote sind ohne vorherige schriftliche Genehmigung NICHT erlaubt."
 
@@ -5095,28 +4989,23 @@ msgstr "Haftpflicht"
 
 #. Translators: %s below is the Company Name.
 #: includes/admin/tools/tools.php:791
-#, fuzzy
 msgid "%s will not be liable for indirect or accidental damages (loss of revenue, commissions) due to affiliate tracking failures, loss of database files, or any results of intents of harm to the Program and/or to our website(s)."
 msgstr "%s haften nicht für indirekte oder zufällige Schäden (Umsatzeinbußen, Provisionen) aufgrund von Affiliate-Tracking-Fehlern, Verlust von Datenbankdateien oder Folgen von Schäden am Programm und/oder an unseren Websites."
 
 #. Translators: %s below is the Company Name.
 #: includes/admin/tools/tools.php:796
-#, fuzzy
 msgid "We do not make any expressed or implied warranties with respect to the Program and/or the memberships or products sold by %s. We make no claim that the operation of the Program and/or our website(s) will be error-free and we will not be liable for any interruptions or errors."
 msgstr "Wir geben keine ausdrücklichen oder stillschweigenden Garantien in Bezug auf das Programm und/oder die von %s verkauften Mitgliedschaften oder Produkte. Wir erheben keinen Anspruch darauf, dass der Betrieb des Programms und/oder unserer Website(s) fehlerfrei ist, und wir haften nicht für Unterbrechungen oder Fehler."
 
 #: includes/admin/tools/tools.php:800
-#, fuzzy
 msgid "Term of the Agreement"
 msgstr "Laufzeit der Vereinbarung"
 
 #: includes/admin/tools/tools.php:804
-#, fuzzy
 msgid "The term of this Agreement begins upon your acceptance in the Program and will end when your Affiliate account is terminated."
 msgstr "Die Laufzeit dieser Vereinbarung beginnt mit Ihrer Aufnahme in das Programm und endet, wenn Ihr Affiliate-Konto gekündigt wird."
 
 #: includes/admin/tools/tools.php:808
-#, fuzzy
 msgid "The terms and conditions of this agreement may be modified by us at any time. If any modification to the terms and conditions of this Agreement are unacceptable to you, your only choice is to terminate your Affiliate account. Your continuing participation in the Program will constitute your acceptance of any change."
 msgstr "Die Bedingungen dieser Vereinbarung können von uns jederzeit geändert werden. Wenn eine Änderung der Bedingungen dieser Vereinbarung für Sie nicht akzeptabel ist, besteht Ihre einzige Wahl darin, Ihr Affiliate-Konto zu kündigen. Ihre fortgesetzte Teilnahme am Programm stellt Ihre Annahme jeder Änderung dar."
 
@@ -5126,23 +5015,19 @@ msgstr "Bestätigungs Code"
 
 #. Translators: %1$s below is the Company Name.
 #: includes/admin/tools/tools.php:817
-#, fuzzy
 msgid "Affiliate shall indemnify and hold harmless %1$s and its affiliate and subsidiary companies, officers, directors, employees, licensees, successors and assigns, including those licensed or authorized by %1$s to transmit and distribute materials, from any and all liabilities, damages, fines, judgments, claims, costs, losses, and expenses (including reasonable legal fees and costs) arising out of or related to any and all claims sustained in connection with this Agreement due to the negligence, misrepresentation, failure to disclose, or intentional misconduct of Affiliate."
 msgstr "Der verbundene Affiliate stellt %1$s und seine verbundenen Unternehmen, leitenden Angestellten, Direktoren, Mitarbeiter, Lizenznehmer, Nachfolger und Abtretungsempfänger, einschließlich derjenigen, die von %1$s zur Übertragung und Verteilung von Materialien lizenziert oder autorisiert wurden, von allen Verbindlichkeiten, Schäden, Bußgeldern, Urteilen, Ansprüchen, Kosten, Verlusten und Ausgaben (einschließlich angemessener Anwaltskosten und -kosten) frei, die sich aus oder im Zusammenhang mit allen Ansprüchen ergeben, die im Zusammenhang mit dieser Vereinbarung aufgrund der Fahrlässigkeit entstehen.  Falsche Darstellung, Nichtoffenlegung oder vorsätzliches Fehlverhalten des Affiliates."
 
 #: includes/admin/tools/tools.php:821
-#, fuzzy
 msgid "Electronic Signatures Effective"
 msgstr "Elektronische Signaturen wirksam"
 
 #. Translators: %1$s below is the Company Name.
 #: includes/admin/tools/tools.php:826
-#, fuzzy
 msgid "The Agreement is an electronic contract that sets out the legally binding terms of your participation in the %1$s affiliate program. You indicate your acceptance of this Agreement and all of the terms and conditions contained or referenced in this Agreement by completing the %1$s application process. This action creates an electronic signature that has the same legal force and effect as a handwritten signature."
 msgstr "Die Vereinbarung ist ein elektronischer Vertrag, der die rechtsverbindlichen Bedingungen Ihrer Teilnahme am %1$s-Partnerprogramm festlegt. Sie erklären sich mit dieser Vereinbarung und allen in dieser Vereinbarung enthaltenen oder referenzierten Bedingungen einverstanden, indem Sie den %1$s Bewerbungsprozess abschließen. Durch diese Maßnahme wird eine elektronische Signatur erstellt, die die gleiche Rechtskraft und Wirkung wie eine handschriftliche Unterschrift hat."
 
 #: includes/admin/tools/tools.php:865
-#, fuzzy
 msgid "Unable to create an Affiliate Terms of Use page."
 msgstr "Es konnte keine Seite mit den Affiliate-Nutzungsbedingungen erstellt werden."
 
@@ -5152,7 +5037,7 @@ msgstr "Debug Log (Fehlerprotokoll)"
 
 #: includes/admin/tools/tools.php:927
 msgid "Use this tool to help debug referral tracking."
-msgstr "Verwende dieses Tool, um Empfehlungs-Tracking zu debuggen"
+msgstr "Verwende dieses Tool, um Empfehlungs-Tracking zu debuggen."
 
 #: includes/admin/tools/tools.php:932
 msgid "Download Debug Log File"
@@ -5200,7 +5085,6 @@ msgstr "Gutscheine generieren"
 
 #. translators: Coupons settings screen URL
 #: includes/admin/tools/tools.php:1097
-#, fuzzy
 msgid "Generating coupons requires a <a href=\"%s\" target=\"_blank\">Coupon Template</a> to be selected."
 msgstr "Zum Generieren von Coupons muss eine <a href=\"%s\" target=\"_blank\">Gutscheinvorlage</a> ausgewählt werden."
 
@@ -5214,7 +5098,6 @@ msgstr "Ungültige Batch-Exportklasse."
 
 #. translators: Dismiss Notice link markup
 #: includes/admin/tools/upgrades/class-batch-upgrade-db-utf8mb4.php:172
-#, fuzzy
 msgid "Your database tables have been successfully upgraded. %s"
 msgstr "Ihre Datenbanktabellen wurden erfolgreich aktualisiert. %s"
 
@@ -5253,7 +5136,7 @@ msgstr "Es wurden für die Migration keine Benutzerrollen ausgewählt."
 msgid "%s affiliate was added successfully."
 msgid_plural "%s affiliates were added successfully."
 msgstr[0] "%s Affiliate wurde erfolgreich hinzugefügt."
-msgstr[1] "%s Affiliate wurden erfolgreich hinzugefügt. "
+msgstr[1] "%s Affiliate wurden erfolgreich hinzugefügt."
 
 #. translators: Singular affiliate number
 #. translators: Plural affiliates number
@@ -5261,7 +5144,7 @@ msgstr[1] "%s Affiliate wurden erfolgreich hinzugefügt. "
 msgid "%s affiliate was successfully converted."
 msgid_plural "%s affiliates were successfully converted."
 msgstr[0] "%s Affiliate wurde erfolgreich konvertiert."
-msgstr[1] "%s Affiliates wurden erfolgreich konvertiert.  "
+msgstr[1] "%s Affiliates wurden erfolgreich konvertiert."
 
 #: includes/admin/utilities/class-batch-process-registry.php:192
 msgid "A batch process class must be specified."
@@ -5402,11 +5285,11 @@ msgstr "Du kannst eine unvollständige URL eingeben, um alle Besuche zu finden, 
 
 #: includes/admin/visits/contextual-help.php:58
 msgid "You can enter the visit&#8217;s ID number prefixed by &#8220;visit:&#8221;"
-msgstr "Sie können die ID des Affiliates durch ein vorangestelltes 'affiliate:' eingeben."
+msgstr "Sie können die Besuchs-ID-Nummer mit dem Präfix &#8220;Besuch:&#8221;"
 
 #: includes/admin/visits/contextual-help.php:59
 msgid "You can enter the referral&#8217;s ID number prefixed by &#8220;referral:&#8221;"
-msgstr "Sie können die Referral-ID-Nummer eingeben, der ein ”Referral“ vorangestellt ist."
+msgstr "Sie können die ID-Nummer der Empfehlung mit dem Präfix &#8220;referral:&#8221;"
 
 #: includes/admin/visits/contextual-help.php:60
 msgid "You can enter a visit context prefixed by &#8220;context:&#8221;"
@@ -5469,27 +5352,22 @@ msgid "Cheatin&#8217; huh?"
 msgstr "Sie schummeln&#8217; oder?"
 
 #: includes/class-affwp-scheduler.php:209
-#, fuzzy
 msgid "Could not find as_schedule_recurring_action(), so could not schedule affiliate email summaries."
 msgstr "Konnte as_schedule_recurring_action () nicht finden, daher konnten keine Affiliate-E-Mail-Zusammenfassungen geplant werden."
 
 #: includes/class-coupons-db.php:549
-#, fuzzy
 msgid "The coupon code."
-msgstr "Gutscheincode"
+msgstr "Gutscheincode."
 
 #: includes/class-coupons-db.php:553
-#, fuzzy
 msgid "The coupon&#8217;s amount."
 msgstr "Der Betrag des Gutscheins."
 
 #: includes/class-coupons-db.php:557
-#, fuzzy
 msgid "The affiliate&#8217;s WordPress username."
 msgstr "Der WordPress-Benutzername des Affiliates."
 
 #: includes/class-coupons-db.php:561
-#, fuzzy
 msgid "The affiliate&#8217;s first name."
 msgstr "Der Vorname des Affiliates."
 
@@ -5526,7 +5404,6 @@ msgstr "Telefonnummer"
 
 #: includes/class-editor.php:352 includes/class-editor.php:993
 #: assets/js/editor/build/index.js:6
-#, fuzzy
 msgid "Message"
 msgstr "Nachricht"
 
@@ -5560,7 +5437,6 @@ msgstr "Caldera Forms"
 
 #: includes/class-integrations.php:141 includes/class-integrations.php:145
 #: includes/class-integrations.php:149
-#, fuzzy
 msgid "December 2022"
 msgstr "Dezember 2022"
 
@@ -5569,7 +5445,6 @@ msgid "WP-Invoice"
 msgstr "TW Rechnungen"
 
 #: includes/class-integrations.php:148
-#, fuzzy
 msgid "Zippy Courses"
 msgstr "Zippy Kurse"
 
@@ -5590,22 +5465,18 @@ msgid "Incorrect username or password"
 msgstr "Falscher Benutzername oder falsches Passwort"
 
 #: includes/class-payouts-service-register.php:113
-#, fuzzy
 msgid "Please select the country where the business is legally established"
-msgstr "Bitte wählen Sie das Land aus, in dem das Unternehmen seinen rechtmäßigen Sitz hat."
+msgstr "Bitte wählen Sie das Land aus, in dem das Unternehmen seinen rechtmäßigen Sitz hat"
 
 #: includes/class-payouts-service-register.php:115
-#, fuzzy
 msgid "Please select your country of residence"
 msgstr "Bitte wählen Sie Ihr Wohnsitzland"
 
 #: includes/class-payouts-service-register.php:119
-#, fuzzy
 msgid "Please select your account type"
 msgstr "Bitte wählen Sie Ihren Kontotyp"
 
 #: includes/class-payouts-service-register.php:123
-#, fuzzy
 msgid "Please enter your business name"
 msgstr "Bitte geben Sie Ihren Firmennamen ein"
 
@@ -5625,17 +5496,14 @@ msgid "Invalid account email"
 msgstr "Ungültige Konto-E-Mail"
 
 #: includes/class-payouts-service-register.php:139
-#, fuzzy
 msgid "Please select your day of birth"
 msgstr "Bitte wählen Sie Ihren Geburtstag"
 
 #: includes/class-payouts-service-register.php:143
-#, fuzzy
 msgid "Please select your month of birth"
 msgstr "Bitte wählen Sie Ihren Geburtsmonat"
 
 #: includes/class-payouts-service-register.php:147
-#, fuzzy
 msgid "Please select your year of birth"
 msgstr "Bitte wählen Sie Ihr Geburtsjahr"
 
@@ -5646,7 +5514,6 @@ msgstr "Bitte akzeptiere unsere Nutzungsbedingungen"
 
 #. translators: 1: Email, 2: Connect existing Payouts Service account URL, 3: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
 #: includes/class-payouts-service-register.php:170
-#, fuzzy
 msgid "Your email address %1$s is already registered on the %3$s. Click <a href=\"%2$s\">here</a> to continue registering to be paid for this site using the same email address."
 msgstr "Ihre E-Mail-Adresse ist bereits auf der %3$sregistriert.%1$s Klicken Sie <a href=\"%2$s\">hier</a>, um mit der Registrierung fortzufahren, um mit derselben E-Mail-Adresse für diese Website bezahlt zu werden."
 
@@ -5658,7 +5525,6 @@ msgstr "%1$s endet mit %2$s"
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
 #: includes/class-payouts-service-register.php:584
 #: includes/class-payouts-service-register.php:599
-#, fuzzy
 msgid "Unable to create a %s account at the moment. Try again later."
 msgstr "Derzeit kann kein %s-Konto erstellt werden. Versuchen Sie es später erneut."
 
@@ -5695,7 +5561,6 @@ msgid "Paid Referral Earnings"
 msgstr "Bezahlte Empfehlungserlöse"
 
 #: includes/class-register.php:88
-#, fuzzy
 msgid "Something went wrong when submitting this form, please contact an administrator."
 msgstr "Beim Absenden dieses Formulars ist etwas schief gelaufen, bitte wenden Sie sich an einen Administrator."
 
@@ -5728,7 +5593,6 @@ msgid "Passwords do not match"
 msgstr "Passwörter stimmen nicht überein"
 
 #: includes/class-register.php:190
-#, fuzzy
 msgid "Both password fields are required."
 msgstr "Beide Kennwortfelder sind erforderlich."
 
@@ -6010,7 +5874,6 @@ msgstr "Gesamt Referrals: %s"
 
 #. translators: Sales count
 #: includes/cli/class-command.php:233
-#, fuzzy
 msgid "Total Sales: %s"
 msgstr "Gesamtumsatz: %s"
 
@@ -6028,12 +5891,10 @@ msgid "The debug log has been cleared."
 msgstr "Der Debug-Log wurde gelöscht."
 
 #: includes/cli/class-command.php:283
-#, fuzzy
 msgid "AffiliateWP Debug Mode has been enabled."
 msgstr "Der AffiliateWP-Debug-Modus wurde aktiviert."
 
 #: includes/cli/class-command.php:292
-#, fuzzy
 msgid "AffiliateWP Debug Mode has been disabled."
 msgstr "Der AffiliateWP-Debug-Modus wurde deaktiviert."
 
@@ -6319,12 +6180,10 @@ msgstr "Direkt"
 
 #: includes/components/addons/class-installer.php:51
 #: includes/components/addons/class-installer.php:59
-#, fuzzy
 msgid "User doesn&#8217;t have permission to install plugins."
 msgstr "Der Benutzer hat keine Berechtigung, Plugins zu installieren."
 
 #: includes/components/addons/class-installer.php:68
-#, fuzzy
 msgid "Connection with License Manager has failed."
 msgstr "Die Verbindung mit dem Lizenzmanager ist fehlgeschlagen."
 
@@ -6334,18 +6193,15 @@ msgid "%s ago"
 msgstr "vor %s"
 
 #: includes/components/notifications/REST/v1/class-notifications-endpoints.php:81
-#, fuzzy
 msgid "ID of the notification."
 msgstr "ID der Benachrichtigung."
 
 #: includes/components/notifications/REST/v1/class-notifications-endpoints.php:148
-#, fuzzy
 msgid "Failed to dismiss notification."
-msgstr "Die Benachrichtigung konnte nicht abgelehnt werden."
+msgstr "Benachrichtigung konnte nicht geschlossen werden."
 
 #. Translators: %s - number of notifications
 #: includes/components/notifications/views/notifications-panel.php:38
-#, fuzzy
 msgid "(%s) New Notifications"
 msgstr "(%s) Neue Benachrichtigungen"
 
@@ -6362,7 +6218,6 @@ msgid "You have no new notifications."
 msgstr "Du hast keine neuen Benachrichtigungen."
 
 #: includes/components/notifications/views/notifications-panel.php:108
-#, fuzzy
 msgid "Loading notifications..."
 msgstr "Benachrichtigungen werden geladen..."
 
@@ -6375,7 +6230,6 @@ msgid "Launch Setup Wizard"
 msgstr "Einrichtung Assistenten starten"
 
 #: includes/components/wizard/class-bootstrap.php:156
-#, fuzzy
 msgid "Use our configuration wizard to properly set up AffiliateWP (with just a few clicks)."
 msgstr "Verwenden Sie unseren Konfigurationsassistenten, um AffiliateWP richtig einzurichten (mit nur wenigen Klicks)."
 
@@ -6384,7 +6238,6 @@ msgid "Please enter a license key."
 msgstr "Geben Sie bitte einen Lizenzschlüssel ein."
 
 #: includes/components/wizard/class-bootstrap.php:207
-#, fuzzy
 msgid "You are not allowed to verify a license key."
 msgstr "Sie sind nicht berechtigt, einen Lizenzschlüssel zu überprüfen."
 
@@ -6393,46 +6246,38 @@ msgid "There was an error connecting to the remote key API. Please try again lat
 msgstr "Die Verbindung mit der Remote-API zur Überprüfung des Lizenzschlüssels konnte nicht hergestellt werden. Bitte versuchen Sie es später noch einmal."
 
 #: includes/components/wizard/class-bootstrap.php:243
-#, fuzzy
 msgid "This license key doesn&#8217;t appear to be valid. Try again?"
-msgstr "Dieser Lizenzschlüssel scheint nicht gültig zu sein. Wiederholen?"
+msgstr "Dieser Lizenzschlüssel scheint nicht gültig zu sein. Versuchen Sie es nochmal?"
 
 #: includes/components/wizard/class-bootstrap.php:250
 msgid "Congratulations! This site is now receiving automatic updates."
 msgstr "Gratulation! Automatische Aktualisierungen sind jetzt für diese Website aktiviert."
 
 #: includes/components/wizard/class-bootstrap.php:297
-#, fuzzy
 msgid "eCommerce integrations"
 msgstr "eCommerce-Integrationen"
 
 #: includes/components/wizard/class-bootstrap.php:302
-#, fuzzy
 msgid "Membership integrations"
 msgstr "Mitgliedschaftsintegrationen"
 
 #: includes/components/wizard/class-bootstrap.php:307
-#, fuzzy
 msgid "Form integrations"
 msgstr "Formularintegrationen"
 
 #: includes/components/wizard/class-bootstrap.php:312
-#, fuzzy
 msgid "Invoice integrations"
 msgstr "Rechnungsintegrationen"
 
 #: includes/components/wizard/class-bootstrap.php:317
-#, fuzzy
 msgid "Course integrations"
 msgstr "Kursintegrationen"
 
 #: includes/components/wizard/class-bootstrap.php:322
-#, fuzzy
 msgid "Donation integrations"
 msgstr "Spendenintegrationen"
 
 #: includes/components/wizard/class-bootstrap.php:512
-#, fuzzy
 msgid "AffiliateWP &rsaquo; Onboarding Wizard"
 msgstr "AffiliateWP › Onboarding-Assistent"
 
@@ -6445,18 +6290,15 @@ msgid "Ooops! It Appears JavaScript Didn’t Load"
 msgstr "Ooops! Es scheint, dass JavaScript nicht geladen wurde"
 
 #: includes/components/wizard/class-bootstrap.php:584
-#, fuzzy
 msgid "There seems to be an issue running JavaScript on your website, which AffiliateWP is crafted in to give you the best experience possible."
 msgstr "Es scheint ein Problem beim Ausführen von JavaScript auf Ihrer Website zu geben, das AffiliateWP entwickelt hat, um Ihnen die bestmögliche Erfahrung zu bieten."
 
 #. Translators: Placeholders make the text bold.
 #: includes/components/wizard/class-bootstrap.php:588
-#, fuzzy
 msgid "If you are using an %1$sad blocker%2$s, please disable or whitelist the current page to load AffiliateWP correctly."
 msgstr "Wenn Sie einen %1$sWerbeblocker%2$s verwenden, deaktivieren oder setzen Sie die aktuelle Seite auf die Whitelist, um AffiliateWP korrekt zu laden."
 
 #: includes/components/wizard/class-bootstrap.php:602
-#, fuzzy
 msgid "Copy the error message above and paste it in a message to the AffiliateWP support team."
 msgstr "Kopieren Sie die obige Fehlermeldung und fügen Sie sie in eine Nachricht an das AffiliateWP-Support-Team ein."
 
@@ -6465,7 +6307,6 @@ msgid "Your browser version is not supported"
 msgstr "Ihre Browserversion wird nicht unterstützt"
 
 #: includes/components/wizard/class-bootstrap.php:607
-#, fuzzy
 msgid "You are using a browser which is no longer supported by AffiliateWP. Please update or use another browser in order to access the plugin settings."
 msgstr "Sie verwenden einen Browser, der von AffiliateWP nicht mehr unterstützt wird. Bitte aktualisieren Sie oder verwenden Sie einen anderen Browser, um auf die Plugin-Einstellungen zuzugreifen."
 
@@ -6478,7 +6319,6 @@ msgid "Invalid affiliate"
 msgstr "Ungültiger Affiliate"
 
 #: includes/coupon-functions.php:71
-#, fuzzy
 msgid "No coupons were found."
 msgstr "Es wurden keine Gutscheine gefunden."
 
@@ -6548,7 +6388,6 @@ msgstr "Hallo %s,"
 
 #. translators: 1: Formatted referral amount, 2: Home URL
 #: includes/emails/actions.php:379
-#, fuzzy
 msgid "You have been awarded a new referral of %1$s on %2$s!"
 msgstr "Sie haben am %2$s eine neue Empfehlung von %1$s erhalten!"
 
@@ -6559,58 +6398,48 @@ msgstr "Melde dich in deinem Affiliate-Bereich an, um deine Einnahmen zu sehen o
 
 #. Translators: This is the subject of the email, %1$s is url of the website (note to developers, this subject may not work in Mailhog, see: https://github.com/awesomemotive/AffiliateWP/pull/4410#issuecomment-1226079496 ).
 #: includes/emails/actions.php:533
-#, fuzzy
 msgid "Your Monthly AffiliateWP Summary for %s"
 msgstr "Ihre monatliche AffiliateWP-Zusammenfassung für %s"
 
 #. Translators: %1$s is the site.
 #: includes/emails/actions.php:660 includes/emails/actions.php:755
-#, fuzzy
 msgid "Your Monthly Summary for %1$s"
 msgstr "Ihre monatliche Zusammenfassung für %1$s"
 
 #: includes/emails/actions.php:688
-#, fuzzy
 msgid "Cound not send affiliate email summaries because it is not supported on multisite."
-msgstr "Cound sendet keine Affiliate-E-Mail-Zusammenfassungen, da dies auf mehreren Websites nicht unterstützt wird."
+msgstr "E-Mail-Zusammenfassungen für Affiliates können nicht gesendet werden, da dies auf Multisite nicht unterstützt wird."
 
 #: includes/emails/actions.php:697
-#, fuzzy
 msgid "Cound not send affiliate email summaries because it has not been enabled."
 msgstr "Cound sendet keine Affiliate-E-Mail-Zusammenfassungen, weil es nicht aktiviert wurde."
 
 #: includes/emails/actions.php:706
-#, fuzzy
 msgid "Cound not send affiliate email summaries because WP Mail SMTP is not configured."
 msgstr "Cound senden Sie keine Affiliate-E-Mail-Zusammenfassungen, da WP Mail SMTP nicht konfiguriert ist."
 
 #. Translators: %1$s is the Affiliate's ID and %2$s the email that was not valid.
 #: includes/emails/actions.php:800
-#, fuzzy
 msgid "Affiliate monthly summary for affiliate with ID %1$s with email %2$s was not sent because it is not a valid email."
 msgstr "Monatliche Affiliate-Zusammenfassung für Affiliate mit ID %1$s mit E-Mail-%2$s wurde nicht gesendet, da es sich nicht um eine gültige E-Mail handelt."
 
 #. Translators: %1$s is the Affiliates ID and %2$s is the bad registration date.
 #: includes/emails/actions.php:817
-#, fuzzy
 msgid "Affiliate monthly summary for affiliate with ID %1$s with registered_date of %2$s was not sent because it is not a valid registration date."
 msgstr "Die monatliche Affiliate-Zusammenfassung für Affiliate mit ID %1$s mit registered_date von %2$s wurde nicht gesendet, da es sich nicht um ein gültiges Registrierungsdatum handelt."
 
 #. Translators: %1$s is the Affiliates ID.
 #: includes/emails/actions.php:838
-#, fuzzy
 msgid "Affiliate with ID %1$s could not be sent their email because we could not determine how many days they had been registered."
 msgstr "Affiliate mit ID %1$s konnte ihre E-Mail nicht gesendet werden, weil wir nicht feststellen konnten, wie viele Tage sie registriert worden waren."
 
 #. Translators: %1$s is the Affiliates ID and %2$s is their registration date.
 #: includes/emails/actions.php:852
-#, fuzzy
 msgid "Affiliate with ID %1$s (registered on %2$s) was not sent their monthly email summary because they were registered within the last 30 days."
-msgstr "Affiliate mit ID %1$s (registriert am %2$s) erhielt seine monatliche E-Mail-Zusammenfassung nicht, da er innerhalb der letzten 30 Tage registriert wurde."
+msgstr "Affiliate mit der ID %1$s (registriert am %2$s) hat seine monatliche E-Mail-Zusammenfassung nicht erhalten, weil er innerhalb der letzten 30 Tage registriert wurde."
 
 #. Translators: %1$s is the Affiliates ID and %2$s is the date they were last sent an email.
 #: includes/emails/actions.php:882
-#, fuzzy
 msgid "Affiliate with ID %1$s was not sent their email summary because they were sent one already on %2$s."
 msgstr "Affiliate mit ID %1$s wurde seine E-Mail-Zusammenfassung nicht gesendet, weil sie bereits auf %2$s eine erhalten haben."
 
@@ -6705,12 +6534,10 @@ msgstr "Hallo %1$s,"
 
 #. Translators: %1$s is the name of this website.
 #: includes/emails/functions.php:756
-#, fuzzy
 msgid "Here's how you've performed on %1$s in the last 30 days."
 msgstr "Hier erfahren Sie, wie Sie in den letzten 30 Tagen auf %1$s abgeschnitten haben."
 
 #: includes/emails/functions.php:843
-#, fuzzy
 msgid "Top 10 Highest Converting URLs:"
 msgstr "Top 10 der am höchsten konvertierenden URLs:"
 
@@ -6727,58 +6554,48 @@ msgid "Total Referrals"
 msgstr "Gesamt Vermittlungen"
 
 #: includes/emails/functions.php:1003
-#, fuzzy
 msgid "Top 10 Highest Converting URLs"
 msgstr "Top 10 der URLs mit der höchsten Konvertierung"
 
 #: includes/emails/functions.php:1298
-#, fuzzy
 msgid "Invalid timeframe."
 msgstr "Ungültiger Zeitrahmen."
 
 #: includes/emails/functions.php:1325
 msgid "Hi there!"
-msgstr "Hallo %s,"
+msgstr "Hallo %s!"
 
 #: includes/emails/functions.php:1326
-#, fuzzy
 msgid "Let's see how your affiliate program has performed over the last 30 days."
 msgstr "Mal sehen, wie sich Ihr Affiliateprogramm in den letzten 30 Tagen entwickelt hat."
 
 #: includes/emails/functions.php:1379 includes/emails/functions.php:1419
-#, fuzzy
 msgid "Total Program Revenue"
 msgstr "Gesamter Programmumsatz"
 
 #: includes/emails/functions.php:1382
-#, fuzzy
 msgid "New Approved Affiliates"
-msgstr "Neue genehmigte Affiliate"
+msgstr "Neue genehmigte Affiliates"
 
 #: includes/emails/functions.php:1450
-#, fuzzy
 msgid "New Approved<br>Affiliates"
 msgstr "Neu genehmigt<br>Verbundene unternehmen"
 
 #: includes/emails/functions.php:1473
-#, fuzzy
 msgid "Unpaid<br>Earnings"
-msgstr "Unbezahlt<br>Verdienst"
+msgstr "Unbezahlte<br>Einnahmen"
 
 #: includes/emails/functions.php:1496
-#, fuzzy
 msgid "Paid<br>Earnings"
-msgstr "Bezahlt<br>Verdienst"
+msgstr "Bezahlte<br>Einnahmen"
 
 #: includes/emails/functions.php:1533
-#, fuzzy
 msgid "Pro tip from our expert:"
 msgstr "Profi-Tipp von unserem Experten:"
 
 #: includes/integrations/class-caldera-forms.php:104
-#, fuzzy
 msgid "Total"
-msgstr "Gesamt:%1$s"
+msgstr "Gesamt"
 
 #: includes/integrations/class-caldera-forms.php:105
 msgid "This total will be used to calculate the referral amount. For example, if the referral rate is 10% and the total here is $100, the referral will be created at $10."
@@ -6819,7 +6636,6 @@ msgstr "Aktiviere Empfehlungen für spezifische Contact Form 7 Formulare"
 
 #. translators: 1: Form title, 2: Form ID
 #: includes/integrations/class-contactform7.php:185
-#, fuzzy
 msgid "Referral type for %1$s (Form ID: %2$d)"
 msgstr "Verweistyp für %1$s (Formular-ID: %2$d)"
 
@@ -6916,11 +6732,10 @@ msgstr "AffiliateWP: Überweisung #%1$d für %2$s, aufgezeichnet für %3$s (ID:%
 #. translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name
 #: includes/integrations/class-formidablepro.php:313
 msgid "AffiliateWP: Referral #%1$d for %2$s recorded for %3$s"
-msgstr "AffiliateWP: Überweisung #%1$d für %2$s, aufgezeichnet für%3$s (ID:%4$d)."
+msgstr "AffiliateWP: Überweisung #%1$d für %2$s, aufgezeichnet für %3$s"
 
 #. translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name
 #: includes/integrations/class-formidablepro.php:345
-#, fuzzy
 msgid "AffiliateWP: Referral #%1$d for %2$s for %3$s rejected"
 msgstr "AffiliateWP: Empfehlung #%1$d für %2$s für %3$s abgelehnt"
 
@@ -6930,9 +6745,8 @@ msgstr "Betrag eingeben"
 
 #. translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name
 #: includes/integrations/class-give.php:214
-#, fuzzy
 msgid "Referral #%1$d for %2$s recorded for %3$s"
-msgstr "Empfehlung #%1$d für %2$s erfasst für %3$s (ID: %4$d)."
+msgstr "Verweisung #%1$d für %2$s erfasst für %3$s (ID: %4$d)"
 
 #: includes/integrations/class-give.php:287
 msgid "Enable affiliate referral creation for this donation form"
@@ -6996,9 +6810,8 @@ msgstr "Empfehlung wurde aufgrund eines 0.00 € Betrags nicht erstellt."
 
 #. translators: Referral ID
 #: includes/integrations/class-lifterlms.php:369
-#, fuzzy
 msgid "LifterLMS referral #%d updated to pending successfully."
-msgstr "LifterLMS-Verweis #%d erfolgreich auf ausstehend aktualisiert."
+msgstr "LifterLMS-Verweisung #%d erfolgreich auf ausstehend aktualisiert."
 
 #: includes/integrations/class-lifterlms.php:412
 msgid "Search for an affiliate by username or email."
@@ -7112,13 +6925,11 @@ msgid "(Variation ID %d)"
 msgstr "(Variation ID %d)"
 
 #: includes/integrations/class-woocommerce.php:655
-#, fuzzy
 msgid "Affiliate discount?"
 msgstr "Affiliate-Rabatt?"
 
 #. translators: Coupons settings URL
 #: includes/integrations/class-woocommerce.php:669
-#, fuzzy
 msgid "This setting is disabled because this coupon is designated as a dynamic coupon template. Visit <a href=\"%s\" target=\"_blank\">Settings &rarr; Coupons</a> to configure dynamic coupons."
 msgstr "Diese Einstellung ist deaktiviert, da dieser Gutschein als dynamische Couponvorlage festgelegt ist. Besuchen Sie <a href=\"%s\" target=\"_blank\">Einstellungen → Coupons</a> , um dynamische Coupons zu konfigurieren."
 
@@ -7181,9 +6992,8 @@ msgid "Affiliate Referral"
 msgstr "Partnerempfehlung"
 
 #: includes/integrations/class-woocommerce.php:1914
-#, fuzzy
 msgid "This coupon can&#8217;t be used at the moment"
-msgstr "Dieser Gutschein kann im Moment nicht verwendet werden"
+msgstr "Dieser coupon kann im Moment nicht verwendet werden"
 
 #: includes/integrations/class-wpforms.php:64
 msgid "Enable referrals"
@@ -7260,12 +7070,10 @@ msgid "Enter your Mailchimp API key."
 msgstr "Geben Sie Ihren Mailchimp-API-Schlüssel ein."
 
 #: includes/integrations/opt-in-platforms/class-opt-in-platform-mailchimp.php:149
-#, fuzzy
 msgid "Mailchimp Audience ID"
 msgstr "Mailchimp Zielgruppen-ID"
 
 #: includes/integrations/opt-in-platforms/class-opt-in-platform-mailchimp.php:151
-#, fuzzy
 msgid "Enter the ID of the audience you wish to subscribe contacts to."
 msgstr "Geben Sie die ID der Zielgruppe ein, für die Sie Kontakte abonnieren möchten."
 
@@ -7653,7 +7461,6 @@ msgid "United Kingdom"
 msgstr "Großbritannien"
 
 #: includes/misc-functions.php:1437 tests/misc/test-misc-functions.php:1100
-#, fuzzy
 msgid "United States"
 msgstr "USA"
 
@@ -7809,14 +7616,12 @@ msgstr "Bezahlt"
 #: includes/payout-functions.php:204
 #: tests/payouts/test-payout-functions.php:311
 #: tests/payouts/test-payout-functions.php:327
-#, fuzzy
 msgid "Manual Payout"
 msgstr "Manuelle Auszahlung"
 
 #: includes/payout-functions.php:295
 #: tests/payouts/test-payout-functions.php:427
 #: tests/payouts/test-payout-functions.php:452
-#, fuzzy
 msgid "Invalid affiliate account"
 msgstr "Ungültiges Affiliate-Konto"
 
@@ -7829,7 +7634,6 @@ msgstr "Ungültige Auszahlungen-Service-Konto"
 #: includes/payout-functions.php:297
 #: tests/payouts/test-payout-functions.php:429
 #: tests/payouts/test-payout-functions.php:454
-#, fuzzy
 msgid "Doesn&#8217;t meet the minimum payout amount"
 msgstr "Erfüllt nicht den Mindestauszahlungsbetrag"
 
@@ -7854,21 +7658,18 @@ msgstr "Die Empfehlung mit der ID ”%d” wurde erstellt"
 #: includes/payout-functions.php:301
 #: tests/payouts/test-payout-functions.php:433
 #: tests/payouts/test-payout-functions.php:458
-#, fuzzy
 msgid "Account temporarily disabled on the Payouts Service"
 msgstr "Konto im Auszahlungsdienst vorübergehend deaktiviert"
 
 #: includes/payout-functions.php:302
 #: tests/payouts/test-payout-functions.php:434
 #: tests/payouts/test-payout-functions.php:459
-#, fuzzy
 msgid "Unable to retrieve Payouts Service account"
 msgstr "Das Konto des Auszahlungsdienstes kann nicht abgerufen werden"
 
 #: includes/payout-functions.php:303
 #: tests/payouts/test-payout-functions.php:435
 #: tests/payouts/test-payout-functions.php:460
-#, fuzzy
 msgid "Unable to validate payout on the Payouts Service"
 msgstr "Die Auszahlung im Auszahlungsdienst kann nicht validiert werden"
 
@@ -8025,19 +7826,16 @@ msgstr "Das Datum der Registrierung des Affiliate-Partners."
 
 #: includes/REST/v1/class-campaigns-endpoints.php:153
 #: includes/REST/v1/class-campaigns-endpoints.php:235
-#, fuzzy
 msgid "The affiliate ID the campaign belongs to."
 msgstr "Die Affiliate-ID, zu der die Kampagne gehört."
 
 #: includes/REST/v1/class-campaigns-endpoints.php:162
 #: includes/REST/v1/class-campaigns-endpoints.php:239
-#, fuzzy
 msgid "The total number of (non-unique) visits recorded for the campaign."
 msgstr "Die Gesamtzahl der (nicht eindeutigen) Besuche, die für die Kampagne aufgezeichnet wurden."
 
 #: includes/REST/v1/class-campaigns-endpoints.php:170
 #: includes/REST/v1/class-campaigns-endpoints.php:243
-#, fuzzy
 msgid "The number of visits (unique by referrer) recorded for the campaign."
 msgstr "Die Anzahl der Besuche (einzigartig durch Referrer), die für die Kampagne aufgezeichnet wurden."
 
@@ -8048,18 +7846,15 @@ msgstr "Die Anzahl der Empfehlungen in Verbindung mit dem Affiliate."
 
 #: includes/REST/v1/class-campaigns-endpoints.php:186
 #: includes/REST/v1/class-campaigns-endpoints.php:251
-#, fuzzy
 msgid "The unique hash for this campaign."
 msgstr "Der einzigartige Hash für diese Kampagne."
 
 #: includes/REST/v1/class-campaigns-endpoints.php:194
 #: includes/REST/v1/class-campaigns-endpoints.php:255
-#, fuzzy
 msgid "The conversion rate for the campaign (ratio of visits divided by referrals)."
 msgstr "Die Conversion-Rate für die Kampagne (Verhältnis der Besuche geteilt durch Empfehlungen)."
 
 #: includes/REST/v1/class-campaigns-endpoints.php:202
-#, fuzzy
 msgid "Campaigns view column to order by."
 msgstr "Kampagnenansichtsspalte, nach der sortiert werden kann."
 
@@ -8116,7 +7911,6 @@ msgid "The date the creative was created."
 msgstr "Das Datum, an dem die Werbeanzeige erstellt wurde."
 
 #: includes/REST/v1/class-customers-endpoints.php:74
-#, fuzzy
 msgid "Whether to include the customer meta in the response."
 msgstr "Ob die Kundenmeta in die Antwort aufgenommen werden soll."
 
@@ -8379,7 +8173,6 @@ msgid "The rest ID (site:object ID combination)"
 msgstr "Die Rest-ID (Site: Objekt-ID-Kombination)"
 
 #: includes/REST/v1/class-rest-controller.php:137
-#, fuzzy
 msgid "A callback to pass the response through before returning."
 msgstr "Ein Rückruf, um die Antwort vor der Rückkehr durchzuleiten."
 
@@ -8396,7 +8189,6 @@ msgid "The context under which the sale was created (integration)."
 msgstr "Der Kontext, in dem die Empfehlung erstellt wurde (Integration)."
 
 #: includes/REST/v1/class-sales-endpoints.php:239
-#, fuzzy
 msgid "The sale status or array of statuses."
 msgstr "Der Verkaufsstatus oder das Array von Status."
 
@@ -8534,12 +8326,10 @@ msgid "Please enter a valid URL for this site"
 msgstr "Bitte geben Sie eine gültige URL für diese Site ein"
 
 #: includes/scripts.php:281 templates/payouts/register.php:120
-#, fuzzy
 msgid "Your Country of Residence"
 msgstr "Ihr Wohnsitzland"
 
 #: includes/scripts.php:282
-#, fuzzy
 msgid "Country Where The Business Is Legally Established"
 msgstr "Land, in dem das Unternehmen rechtmäßig niedergelassen ist"
 
@@ -8553,9 +8343,8 @@ msgid "Coupon Code"
 msgstr "Gutscheincode"
 
 #: templates/dashboard-tab-coupons.php:122
-#, fuzzy
 msgid "There are currently no coupon codes to display."
-msgstr "Derzeit müssen keine Gutscheincodes angezeigt werden."
+msgstr "Derzeit sind keine Gutscheincodes zum Anzeigen vorhanden."
 
 #: templates/dashboard-tab-creatives.php:58
 msgid "Sorry, there are currently no creatives available."
@@ -8699,13 +8488,11 @@ msgstr "Abmelden"
 
 #. Translators: %s is the link to the admin page where the setting is.
 #: templates/emails/footer-affiliate-summary.php:54
-#, fuzzy
 msgid "This email was auto-generated and sent from <a href=\"%1$s\" style=\"color: #a09e9e;\">%2$s</a>."
 msgstr "Diese E-Mail wurde automatisch generiert und gesendet von <a href=\"%1$s\" style=\"color: #a09e9e;\">%2$s</a>."
 
 #. Translators: %s is the link to the admin page where the setting is.
 #: templates/emails/footer-summaries.php:54
-#, fuzzy
 msgid "This email was auto-generated and sent from <a href=\"%1$s\" style=\"color: #a09e9e;\">%2$s</a>.<br><a href=\"%3$s\" style=\"color: #a09e9e;\">Click here</a> to disable these emails."
 msgstr "Diese E-Mail wurde automatisch generiert und gesendet von <a href=\"%1$s\" style=\"color: #a09e9e;\">%2$s</a>.<br><a href=\"%3$s\" style=\"color: #a09e9e;\">Klicken Sie hier</a> , um diese E-Mails zu deaktivieren."
 
@@ -8726,13 +8513,11 @@ msgid "Subscribe"
 msgstr "Abonnieren"
 
 #: templates/payouts/add-payout-method.php:29
-#, fuzzy
 msgid "Add Payout Method"
 msgstr "Auszahlungsmethode hinzufügen"
 
 #. translators: Payouts Service account URL
 #: templates/payouts/add-payout-method.php:34
-#, fuzzy
 msgid "Click <a href=\"%s\">here</a> to add a payout method where you will receive your affiliate earnings."
 msgstr "Klicken Sie <a href=\"%s\">hier</a> , um eine Auszahlungsmethode hinzuzufügen, bei der Sie Ihre Affiliate-Einnahmen erhalten."
 
@@ -8746,18 +8531,15 @@ msgid "Payout Settings"
 msgstr "Auszahlungseinstellungen"
 
 #: templates/payouts/payout-method.php:53
-#, fuzzy
 msgid "Your earnings will be paid into the account below."
 msgstr "Ihre Einnahmen werden auf das unten angegebene Konto überwiesen."
 
 #: templates/payouts/payout-method.php:60
-#, fuzzy
 msgid "Your earnings will be paid into the card below."
 msgstr "Ihre Einnahmen werden auf die unten stehende Karte überwiesen."
 
 #. translators: Payouts Service change payout method URL
 #: templates/payouts/payout-method.php:68
-#, fuzzy
 msgid "Want to change your payout method? Do that <a href=\"%s\">here</a>."
 msgstr "Möchten Sie Ihre Auszahlungsmethode ändern? Tun Sie das <a href=\"%s\">hier</a>."
 
@@ -8811,7 +8593,6 @@ msgstr "Dezember"
 
 #. translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant, 2: Payouts service account connection URL
 #: templates/payouts/register.php:107
-#, fuzzy
 msgid "Already have a %1$s account? Connect it <a href=\"%2$s\">here</a>"
 msgstr "Haben Sie bereits ein %1$s Konto? Verbinden Sie es <a href=\"%2$s\">hier</a>"
 
@@ -8828,12 +8609,10 @@ msgid "Business Account"
 msgstr "Business Account"
 
 #: templates/payouts/register.php:133
-#, fuzzy
 msgid "Your Business Name"
 msgstr "Ihr Firmenname"
 
 #: templates/payouts/register.php:140
-#, fuzzy
 msgid "I am the owner of the business legal entity"
 msgstr "Ich bin der Inhaber der juristischen Person"
 
@@ -8866,7 +8645,6 @@ msgid "Year"
 msgstr "Jahr"
 
 #: templates/payouts/register.php:201
-#, fuzzy
 msgid "Register for Payouts Service"
 msgstr "Registrieren Sie sich für den Auszahlungsservice"
 
@@ -8875,17 +8653,14 @@ msgid "Payment Email Address"
 msgstr "E-Mail Zahlungsadresse"
 
 #: tests/payouts/test-payout-functions.php:394
-#, fuzzy
 msgid "Foo Payouts Service"
 msgstr "Foo Auszahlungen Service"
 
 #: tests/payouts/test-payout-functions.php:395
-#, fuzzy
 msgid "Bar Payouts Service"
 msgstr "Bar-Auszahlungs-Service"
 
 #: tests/payouts/test-payout-functions.php:447
 #: tests/payouts/test-payout-functions.php:462
-#, fuzzy
 msgid "Foo Affiliate account banned"
 msgstr "Foo Affiliate-Konto gesperrt"
