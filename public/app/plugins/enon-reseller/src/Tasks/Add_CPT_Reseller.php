@@ -103,7 +103,6 @@ class Add_CPT_Reseller implements Task, Actions, Filters {
 			'public'             => false,
 			'publicly_queryable' => false,
 			'show_ui'            => true,
-			'show_in_menu'       => 'enon',
 			'query_var'          => true,
 			'rewrite'            => array( 'slug' => 'reseller' ),
 			'capability_type'	 => array('reseller','resellers'),
