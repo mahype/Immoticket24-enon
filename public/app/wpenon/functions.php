@@ -1311,8 +1311,8 @@ function wpenon_immoticket24_validate_daemmung_baujahr( $value, $field ) {
 
 function wpenon_validate_anbau_s1( $value, $field ) {
 	$anbau_form = $field['validate_dependencies'][0];
-	$anbauwand_t_laenge = $field['validate_dependencies'][1];
-	$anbauwand_s1_laenge = $value;
+	$anbauwand_t_laenge = floatval( str_replace(",", ".", $field['validate_dependencies'][1] ) );
+	$anbauwand_s1_laenge = floatval( str_replace(",", ".", $value ) );
 
 	switch( $anbau_form ) {
 		case 'a':
@@ -1332,8 +1332,8 @@ function wpenon_validate_anbau_s1( $value, $field ) {
 
 function wpenon_validate_anbau_s2( $value, $field ) {
 	$anbau_form = $field['validate_dependencies'][0];
-	$anbauwand_b_laenge = $field['validate_dependencies'][1];
-	$anbauwand_s2_laenge = $value;
+	$anbauwand_b_laenge = floatval( str_replace(",", ".", $field['validate_dependencies'][1] ));
+	$anbauwand_s2_laenge = floatval( str_replace(",", ".", $value ));
 
 	switch( $anbau_form ) {
 		case 'a':
