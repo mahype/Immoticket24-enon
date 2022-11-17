@@ -23,7 +23,7 @@ register_block_pattern(
         
         <!-- wp:group {"className":"is-style-label-green"} -->
         <div class="wp-block-group is-style-label-green"><!-- wp:paragraph {"className":"is-style-price-label-green"} -->
-        <p class="is-style-price-label-green">49,95 €</p>
+        <p class="is-style-price-label-green">59,95 €</p>
         <!-- /wp:paragraph --></div>
         <!-- /wp:group --></div>
         <!-- /wp:column -->
@@ -43,7 +43,7 @@ register_block_pattern(
         
         <!-- wp:group {"className":"is-style-label-green"} -->
         <div class="wp-block-group is-style-label-green"><!-- wp:paragraph {"className":"is-style-price-label-green"} -->
-        <p class="is-style-price-label-green">99,95 €</p>
+        <p class="is-style-price-label-green">109,95 €</p>
         <!-- /wp:paragraph --></div>
         <!-- /wp:group --></div>
         <!-- /wp:column --></div>

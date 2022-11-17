@@ -53,7 +53,7 @@ register_block_pattern(
         <!-- /wp:heading -->
         
         <!-- wp:paragraph {"align":"center","className":"label-green shadow rotate-2 font-bold"} -->
-        <p class="has-text-align-center label-green shadow rotate-2 font-bold">99,95 Euro</p>
+        <p class="has-text-align-center label-green shadow rotate-2 font-bold">109,95 Euro</p>
         <!-- /wp:paragraph --></div>
         <!-- /wp:group -->
         
@@ -153,7 +153,7 @@ register_block_pattern(
         <!-- /wp:heading -->
         
         <!-- wp:paragraph {"align":"center","className":"label-green shadow rotate-2 font-bold"} -->
-        <p class="has-text-align-center label-green shadow rotate-2 font-bold">49,95 Euro</p>
+        <p class="has-text-align-center label-green shadow rotate-2 font-bold">59,95 Euro</p>
         <!-- /wp:paragraph --></div>
         <!-- /wp:group -->
         
