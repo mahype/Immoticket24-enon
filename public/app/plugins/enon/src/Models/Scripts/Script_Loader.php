@@ -340,10 +340,10 @@ abstract class Script_Loader implements Actions, Task {
 	protected function ec_price( ) : float {
 		switch( $this->ec()->type ) {
 			case 'bw':
-				return 99.95;
+				return 109.95;
 				break;
 			case 'vw':
-				return 49.95;
+				return 59.95;
 				break;
 			default:
 				return 0;
