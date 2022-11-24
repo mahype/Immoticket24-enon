@@ -108,7 +108,7 @@ class Setup_Edd implements Actions, Task
 			$referral_id = affiliate_wp()->referrals->add( array(
 					'affiliate_id' => $affiliate_id,
 					'amount'       => $amount,
-					'status'       => 'pending',
+					'status'       => 'unpaid',
 					'description'  => $description,
 					'context'      => $context
 			));
