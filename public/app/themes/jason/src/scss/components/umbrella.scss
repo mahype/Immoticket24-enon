@@ -1,77 +1,79 @@
-header {
+body{
+    header {
 
-    .umbrella-seals {
-        justify-content: center;
-        flex-wrap: nowrap;
-        flex-direction: column;
-        gap: 0;
-        margin-top:-20px;
-            
-        color: rgba( 255, 255, 255, 1);
-
-        p {
-            margin: 8px;
-        }
-
-        a {
+        .umbrella-seals {
+            justify-content: center;
+            flex-wrap: nowrap;
+            flex-direction: column;
+            gap: 0;
+            margin-top:-20px;
+                
             color: rgba( 255, 255, 255, 1);
-        }        
-        
-        .wp-block-column {
-            margin-left: 0 !important;
-        }
 
-        @include lg {
-            gap: 40px;
-            flex-direction: row;
-            margin-top:0;
-
-            .wp-block-column {
-                transform: skew(-45deg);
-                margin: -5px 0;
-                background: var(--wp--preset--gradient--light-green-to-dark-green) !important;
-
-                &::before {
-                    content: "";
-                    display: inline-block;
-                    position: absolute;
-                    bottom: 0;
-                    width: 0;
-                    height: 0;
-                    left: -10px;
-                    border-width: 5px 1.25px 0 10px;
-                    border-color: #061a32 transparent transparent;
-                    border-top-color: #061a32;
-                    border-right-color: transparent;
-                    border-bottom-color: transparent;
-                    border-left-color: transparent;
-                    border-style: solid;
-                }
-
-                &::after {
-                    content: "";
-                    display: inline-block !important;
-                    position: absolute !important;
-                    top: 0;
-                    width: 0;
-                    height: 0;
-                    right: -10px;
-                    border-width: 0 10px 5px 0px !important;
-                    border-color: transparent transparent #061a32 !important;
-                    border-top-color: transparent !important;
-                    border-right-color: transparent !important;
-                    border-bottom-color: #061a32 !important;
-                    border-left-color: transparent !important;
-                    border-style: solid !important;
-                }
-            
-
-                p {
-                    transform: skew(45deg);
-                    margin: 10px 0;
-                }
+            p {
+                margin: 8px;
             }
 
+            a {
+                color: rgba( 255, 255, 255, 1);
+            }        
+            
+            .wp-block-column {
+                margin-left: 0 !important;
+            }
+
+            @include lg {
+                gap: 40px;
+                flex-direction: row;
+                margin-top:0;
+
+                .wp-block-column {
+                    transform: skew(-45deg);
+                    margin: -5px 0;
+                    background: var(--wp--preset--gradient--light-green-to-dark-green) !important;
+
+                    &::before {
+                        content: "";
+                        display: inline-block;
+                        position: absolute;
+                        bottom: 0;
+                        width: 0;
+                        height: 0;
+                        left: -10px;
+                        border-width: 5px 1.25px 0 10px;
+                        border-color: #061a32 transparent transparent;
+                        border-top-color: #061a32;
+                        border-right-color: transparent;
+                        border-bottom-color: transparent;
+                        border-left-color: transparent;
+                        border-style: solid;
+                    }
+
+                    &::after {
+                        content: "";
+                        display: inline-block !important;
+                        position: absolute !important;
+                        top: 0;
+                        width: 0;
+                        height: 0;
+                        right: -10px;
+                        border-width: 0 10px 5px 0px !important;
+                        border-color: transparent transparent #061a32 !important;
+                        border-top-color: transparent !important;
+                        border-right-color: transparent !important;
+                        border-bottom-color: #061a32 !important;
+                        border-left-color: transparent !important;
+                        border-style: solid !important;
+                    }
+                
+
+                    p {
+                        transform: skew(45deg);
+                        margin: 10px 0;
+                    }
+                }
+
+            }
         }
     }
 }
