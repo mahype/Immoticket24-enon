@@ -62,77 +62,6 @@ class Post_Meta_General extends Post_Meta {
 	public function get_contact_email() {
 		return $this->get( 'contact_email' );
 	}
-
-	/**
-	 * Get contact email delivery.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array Types of email delivery.
-	 */
-	public function get_email_delivery() {
-		return $this->get( 'email_delivery' );
-	}
-
-	/**
-	 * Does reseller get a confirmation email?
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return bool True if reseller gets confirmation email, false if not.
-	 */
-	public function send_confirmation_to_reseller() {
-		if ( ! in_array( 'send_confirmation_to_reseller', $this->get_email_delivery() ) ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Does reseller get a bill email?
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return bool True if reseller gets bill email, false if not.
-	 */
-	public function send_bill_to_reseller() {
-		if ( ! in_array( 'send_bill_to_reseller', $this->get_email_delivery() ) ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Does customer get a confirmation email?
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return bool True if customer gets confirmation email, false if not.
-	 */
-	public function send_confirmation_to_customer() {
-		if ( ! in_array( 'send_confirmation_to_customer', $this->get_email_delivery() ) ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Does customer get a bill email?
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return bool True if customer gets bill email, false if not.
-	 */
-	public function send_bill_to_customer() {
-		if ( ! in_array( 'send_bill_to_customer', $this->get_email_delivery() ) ) {
-			return false;
-		}
-
-		return true;
-    }
     
     /**
 	 * Checks if title element is checked.
@@ -158,7 +87,7 @@ class Post_Meta_General extends Post_Meta {
 	 *
 	 * @return bool True if email have to be sent to reseller.
 	 */
-	public function isset_send_bill_to_reseller() {
+	public function redirect_bill_to_reseller() {
 		$send_bill_to_reseller = $this->get( 'send_bill_to_reseller' );
 
 		if ( ! empty( $send_bill_to_reseller ) && in_array( 'send_bill_to_reseller', $send_bill_to_reseller ) ) {

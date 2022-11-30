@@ -52,11 +52,46 @@ abstract class Post_Meta {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function get( $field_name ) {
+	public function get( $field_name ) {
 		if ( empty( $this->post_id ) ) {
 			return null;
 		}
 
 		return get_field( $field_name, $this->post_id );
+	}
+
+	/**
+	 * Set post field.
+	 * 
+	 * @param string $field_name Name of the field.
+	 * @param mixed $value Value to set.
+	 * 
+	 * @return bool True if successfull, otherwise false.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function set( $field_name, $value ) {
+		if ( empty( $this->post_id ) ) {
+			return null;
+		}
+
+		return update_field( $field_name, $value, $this->post_id );
+	}
+
+	/**
+	 * Delete post field.
+	 * 
+	 * @param string $field_name Name of the field.
+	 * 
+	 * @return bool True if successfull, otherwise false.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function delete( $field_name ) {
+		if ( empty( $this->post_id ) ) {
+			return null;
+		}
+
+		return delete_field( $field_name, $this->post_id );
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Task which loads email confirmation scripts.
+ * Filter for confirmation email "Ihr Energieausweis" which is sent to the customer.
  *
  * @category Class
  * @package  Enon_Reseller\Tasks\Enon
@@ -121,15 +121,11 @@ class Filter_Confirmation_Email implements Task, Filters {
 	 * @return array Filtered recipients.
 	 */
 	public function filter_recipients( $recipients ) {
-		if ( ! $this->reseller->data()->general->send_confirmation_to_customer() ) {
-			$recipients = array();
-		}
-		if ( $this->reseller->data()->general->send_confirmation_to_reseller() ) {
-			$recipients[] = $this->reseller->data()->general->get_contact_email();
-		}
-
+		// No recipients yet.
 		return $recipients;
 	}
+	
+
 
 	/**
 	 * Filter subject.

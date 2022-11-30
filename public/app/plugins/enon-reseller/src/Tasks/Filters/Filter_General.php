@@ -66,7 +66,8 @@ class Filter_General implements Task, Filters, Actions {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_to_address' ) );
+		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_bill_to_address' ) );
+		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_order_confirmation_to_address' ) );
 		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
 		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
         add_filter( 'wpenon_custom_fees', array( $this, 'filter_custom_fees' ), 100, 1 );
@@ -103,14 +104,27 @@ class Filter_General implements Task, Filters, Actions {
 	 *
 	 * @since 1.0.0
 	 */
-	public function filter_to_address( $email ) {
-		$reseller_contact_email = $this->reseller->data()->general->get_contact_email();
+	public function filter_bill_to_address( $email ) {
+		$reseller_contact_email = $this->reseller->data()->general->get_contact_email();		
 
-		if ( ! $this->reseller->data()->general->isset_send_bill_to_reseller() || empty( $reseller_contact_email ) ) {
+		// Rewriting old settings.
+		$data_general = $this->reseller->data()->general;
+		$send_bill_to_reseller = $data_general->get('send_bill_to_reseller');
+		if ( ! empty( $send_bill_to_reseller ) && in_array( 'send_bill_to_reseller', $send_bill_to_reseller ) ) {
+			$email_settings = is_array( $data_general->get('email_settings') ) ? $data_general->get('email_settings') : array();
+			$email_settings[] = 'redirect_bill_to_reseller';						
+			$data_general->set('email_settings', $email_settings);
+			$data_general->delete('send_bill_to_reseller');
+		}
+
+		if ( ! $this->reseller->data()->general->redirect_bill_to_reseller() || empty( $reseller_contact_email ) ) {
 			return $email;
 		}
+
 		return $reseller_contact_email;
     }
+
+	public function filter_
 
 	/**
 	 * Filter if customer can be send to klicktipp.
