@@ -51,7 +51,7 @@ class Add_CPT_Reseller implements Task, Actions, Filters {
 	 */
 	public function add_actions() {
 		add_action( 'init', array( $this, 'add' ) );
-		add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ), 100 );
+		add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ), 100 );
 
 		add_action( 'manage_reseller_posts_custom_column', array( $this, 'set_custom_column_values' ), 10, 2 );
 	}
@@ -70,8 +70,48 @@ class Add_CPT_Reseller implements Task, Actions, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function remove_meta_boxes() {
+	public function meta_boxes() {
 		remove_meta_box( 'wpseo_meta', 'reseller', 'normal' );
+
+		add_meta_box(
+			'metabox_id',
+			__( 'Links', 'textdomain' ),
+			[ $this, 'metabox_content' ], // Callback.
+			'reseller',
+			'side',
+			'high'
+		);
+	}
+
+	public function metabox_content( $post, $metabox ) {
+		$reseller_data = new Reseller_Data( $post->ID );	
+
+		$bedarfsausweis_iframe_link = sprintf( __( '[<a href="%s" target="_blank">Bedarfsausweis</a>]' ), $reseller_data->get_iframe_bedarfsausweis_url() );		
+		$verbrauchsausweis_iframe_link = sprintf( __( '[<a href="%s" target="_blank">Verbrauchsausweis</a>]' ), $reseller_data->get_iframe_verbrauchsausweis_url() );
+
+		if( ! empty( $reseller_data->website->get_customer_edit_bw_url() ) ) {
+			$bedarfsausweis_reseller_link = sprintf( __( '[<a href="%s" target="_blank">Reseller Bedarfsausweis URL</a>]' ), $reseller_data->website->get_customer_edit_bw_url() );
+		}
+
+		if( ! empty( $reseller_data->website->get_customer_edit_vw_url() ) ) {
+			$verbrauchsausweis_reseller_link = sprintf( __( '[<a href="%s" target="_blank">Reseller Verbrauchsausweis URL</a>]' ), $reseller_data->website->get_customer_edit_vw_url() );
+		}
+		echo '<h3>' . __( 'Iframe', 'textdomain' ) . '</h3>';
+		echo '<p>' . $bedarfsausweis_iframe_link . ' ' . $verbrauchsausweis_iframe_link . '</p>';
+
+		echo '<h3>' . __( 'Reseller', 'textdomain' ) . '</h3>';	
+		
+		if( ! empty( $bedarfsausweis_reseller_link ) ) {
+			echo '<p>' . $bedarfsausweis_reseller_link . '</p>';
+		}
+
+		if( ! empty( $verbrauchsausweis_reseller_link ) ) {
+			echo '<p>' . $verbrauchsausweis_reseller_link . '</p>';
+		}
+
+		if( empty( $bedarfsausweis_reseller_link ) && empty( $verbrauchsausweis_reseller_link ) ) {
+			echo '<p>' . __( 'Keine Links angegeben', 'textdomain' ) . '</p>';
+		}
 	}
 
 	/**
@@ -167,10 +207,10 @@ class Add_CPT_Reseller implements Task, Actions, Filters {
 			case 'iframe_url':
 				if ( 'publish' === $post_status ) {
 					// translators: Link to Bedarfsausweis.
-					$bedarfs_link = sprintf( __( '[<a href="%s" target="_blank">Bedarfsausweis</a>]' ), $reseller_data->get_iframe_bedarfsausweis_url() );
+					$bedarfsausweis_iframe_link = sprintf( __( '[<a href="%s" target="_blank">Bedarfsausweis</a>]' ), $reseller_data->get_iframe_bedarfsausweis_url() );
 					// translators: Link to Verbrauchsausweis.
-					$verbrauchs_link = sprintf( __( '[<a href="%s" target="_blank">Verbrauchsausweis</a>]' ), $reseller_data->get_iframe_verbrauchsausweis_url() );
-					echo $bedarfs_link . ' ' . $verbrauchs_link;
+					$verbrauchsausweis_iframe_link = sprintf( __( '[<a href="%s" target="_blank">Verbrauchsausweis</a>]' ), $reseller_data->get_iframe_verbrauchsausweis_url() );
+					echo $bedarfsausweis_iframe_link . ' ' . $verbrauchsausweis_iframe_link;
 				} else {
 					echo esc_attr( __( 'Reseller have to be published before getting URL.', 'enon' ) );
 				}
