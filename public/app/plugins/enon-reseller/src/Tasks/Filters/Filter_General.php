@@ -116,6 +116,7 @@ class Filter_General implements Task, Filters, Actions {
 			$data_general->set('email_settings', $email_settings);
 			$data_general->delete('send_bill_to_reseller');
 		}
+		// end rewriting old settings.
 
 		if ( ! $this->reseller->data()->general->redirect_bill_to_reseller() || empty( $reseller_contact_email ) ) {
 			return $email;
@@ -124,7 +125,24 @@ class Filter_General implements Task, Filters, Actions {
 		return $reseller_contact_email;
     }
 
-	public function filter_
+	/**
+	 * Filter to email adress of order confirmation.
+	 * 
+	 * @param string $email To email address.
+	 * 
+	 * @return string Filtered to email address.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function filter_order_confirmation_to_address( $email ) {
+		$reseller_contact_email = $this->reseller->data()->general->get_contact_email();
+
+		if ( ! $this->reseller->data()->general->redirect_order_confirmation_to_reseller() || empty( $reseller_contact_email ) ) {
+			return $email;
+		}
+
+		return $reseller_contact_email;
+	}
 
 	/**
 	 * Filter if customer can be send to klicktipp.

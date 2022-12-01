@@ -81,16 +81,33 @@ class Post_Meta_General extends Post_Meta {
 	}
 
 	/**
-	 * Get send to reseller.
+	 * Check if email have to be redirected to reseller.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool True if email have to be sent to reseller.
+	 * @return bool True if email have to be sent to reseller, false if not.
 	 */
 	public function redirect_bill_to_reseller() {
-		$send_bill_to_reseller = $this->get( 'send_bill_to_reseller' );
+		$email_settings = $this->get( 'email_settings' );
 
-		if ( ! empty( $send_bill_to_reseller ) && in_array( 'send_bill_to_reseller', $send_bill_to_reseller ) ) {
+		if( is_array( $email_settings ) && in_array( 'redirect_bill_to_reseller', $email_settings ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if order confirmation have to be sent to reseller.
+	 * 
+	 * @since 1.0.0
+	 * 
+	 * @return bool True if order confirmation have to be sent to reseller, false if not.
+	 */
+	public function send_order_confirmation_to_reseller() {
+		$email_settings = $this->get( 'email_settings' );
+
+		if( is_array( $email_settings ) && in_array( 'send_order_confirmation_to_reseller', $email_settings ) ) {
 			return true;
 		}
 
