@@ -30,21 +30,21 @@ class Fieldset_General implements Fieldset {
 		$data = [
 			array(
 				'key'          => 'field_company_id',
-				'label'        => __( 'Company ID', 'enon' ),
+				'label'        => __( 'Firmen ID', 'enon' ),
 				'name'         => 'company_id',
-				'type'         => 'text',
-				'instructions' => 'This field is very important to fetch correct templates or sender classes. Please DO NOT CHANGE if you are not know what you are doing.',
+				'type'         => 'text',				
 				'placeholder'  => '',
 				'prepend'      => '',
 				'append'       => '',
 				'maxlength'    => '',
+				'instructions' => __( 'Eindeutige Firmen ID', 'enon' ),
 			),
 			array(
 				'key'          => 'field_company_name',
-				'label'        => __( 'Company Name', 'enon' ),
+				'label'        => __( 'Firmenname', 'enon' ),
 				'name'         => 'company_name',
 				'type'         => 'text',
-				'instructions' => __( 'Resellers company name.', 'enon' ),
+				'instructions' => __( 'Firmenname des Resellers', 'enon' ),
 				'required'     => 0,
 			),
 			array(
@@ -52,7 +52,7 @@ class Fieldset_General implements Fieldset {
 				'label'        => __( 'Kontakt Name', 'enon' ),
 				'name'         => 'contact_name',
 				'type'         => 'text',
-				'instructions' => __( 'The name of the contact person on the company.', 'enon' ),
+				'instructions' => __( 'Name der Kontaktperson in der Firma.', 'enon' ),
 				'required'     => 0,
 			),
 			array(
@@ -60,36 +60,21 @@ class Fieldset_General implements Fieldset {
 				'label'        => __( 'Kontakt Email', 'enon' ),
 				'name'         => 'contact_email',
 				'type'         => 'email',
-				'instructions' => __( 'The email of the contact person on the company. All emails from the system will be sent to this address.', 'enon' ),
+				'instructions' => __( 'Die Email-Adresse der Kontaktperson. Alle Emails aus dem System gehen an diese Adresse.', 'enon' ),
 				'required'     => 0,
 			),
 			array(
-				'key'          => 'field_email_delivery',
-				'label'        => __( 'Emailversand', 'enon' ),
-				'name'         => 'email_delivery',
+				'key'          => 'field_email_settings',
+				'label'        => __( 'Optionen für ausgehende Emails', 'enon' ),
+				'name'         => 'email_settings',
 				'type'         => 'checkbox',
 				'choices' => array(
-					'send_confirmation_to_customer' => 'Bestätigunsmail &rarr; Kunde',
-					'send_confirmation_to_reseller' => 'Bestätigunsmail &rarr; Reseller',
-					'send_bill_to_customer' => 'Rechnungsmail &rarr; Kunden',
-					'send_bill_to_reseller' => 'Rechnungsmail &rarr; Reseller',
+					'redirect_bill_to_reseller' => __( '"Zahlungsaufforderung" zum Reseller umleiten.', 'enon' ),
+					'send_order_confirmation_to_reseller' => __( '"Neue Energieausweis-Bestellung" an Reseller senden.', 'enon' ),
 				),
 				'default_value' => array(
-					'send_confirmation_to_customer',
-					'send_bill_to_customer',
+					1 => 'send_order_confirmation_to_reseller'
 				),
-				'instructions' => __( 'An wen sollen welche Emails gesendet werden?', 'enon' ),
-				'required'     => 0,
-			),
-			array(
-				'key'          => 'field_send_bill_to_reseller',
-				'label'        => __( 'Rechnung zum Reseller senden', 'enon' ),
-				'name'         => 'send_bill_to_reseller',
-				'type'         => 'checkbox',
-				'choices' => array(
-					'send_bill_to_reseller' => 'Ja',
-				),
-				'instructions' => __( 'Check if bill email should be sent to reseller instead of customer.', 'enon' ),
 				'required'     => 0,
             ),
             array(
@@ -110,7 +95,7 @@ class Fieldset_General implements Fieldset {
 				'label'        => __( 'Preis Bedarfsausweis', 'enon' ),
 				'name'         => 'price_bw',
 				'type'         => 'number',
-				'instructions' => __( 'Set individual price for reseller or leave empty for standard price.', 'enon' ),
+				'instructions' => __( 'Individuer Preis des Bedarfsausweises für die Kunden des Resellers. Wird kein Wert eingetragen, so gilt der Preis auf energieausweis-online-erstellen.de.', 'enon' ),
 				'required'     => 0,
 			),
 			array(
@@ -118,7 +103,7 @@ class Fieldset_General implements Fieldset {
 				'label'        => __( 'Preis Verbrauchsausweis', 'enon' ),
 				'name'         => 'price_vw',
 				'type'         => 'number',
-				'instructions' => __( 'Set individual price for reseller or leave empty for standard price.', 'enon' ),
+				'instructions' => __( 'Individuer Preis des Verbrauchsausweises für die Kunden des Resellers. Wird kein Wert eingetragen, so gilt der Preis auf energieausweis-online-erstellen.de.', 'enon' ),
 				'required'     => 0,
 			),
 			array(
@@ -149,7 +134,7 @@ class Fieldset_General implements Fieldset {
 				'name'          => 'token',
 				'type'          => 'text',
 				'default_value' => substr( md5( rand() ), 0, 14 ),
-				'instructions'  => __( 'The token which have to be set by the reseller.', 'enon' ),
+				'instructions'  => __( 'Der Token, der für den Reseller genutzt werden soll.', 'enon' ),
 				'required'      => 0,
 			),
 			array(
