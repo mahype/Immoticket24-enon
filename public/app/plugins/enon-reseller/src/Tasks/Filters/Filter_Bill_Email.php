@@ -88,7 +88,7 @@ class Filter_Bill_Email implements Task, Filters {
 		}
 
 		return $sender_name;
-	}
+	}	
 
 	/**
 	 * Filter sender email.
@@ -145,5 +145,19 @@ class Filter_Bill_Email implements Task, Filters {
 		}
 
 		return $reseller_content;
+	}
+
+	/**
+	 * Filter recipients.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $recipients Recipients.
+	 *
+	 * @return array Filtered recipients.
+	 */
+	public function filter_recipients( $recipients ) {
+		// No recipients yet.
+		return $recipients;
 	}
 }
