@@ -112,7 +112,9 @@ class Filter_General implements Task, Filters, Actions {
 			return $emails;
 		}
 
-		return [ $reseller_contact_email ];
+		array_push( $emails, $reseller_contact_email );
+
+		return $emails;
 	}
     
     /**
