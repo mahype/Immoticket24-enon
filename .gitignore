@@ -92,7 +92,7 @@ public/app/plugins/wp-rocket/licence-data.php
 #!public/app/wpenon/enev*/vendor
 
 # Node Package Manager
-node_modules
+/node_modules
 
 # Vagrant
 bin
