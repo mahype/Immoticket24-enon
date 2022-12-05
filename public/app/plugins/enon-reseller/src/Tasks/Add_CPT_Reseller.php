@@ -112,6 +112,16 @@ class Add_CPT_Reseller implements Task, Actions, Filters {
 		if( empty( $bedarfsausweis_reseller_link ) && empty( $verbrauchsausweis_reseller_link ) ) {
 			echo '<p>' . __( 'Keine Links angegeben', 'textdomain' ) . '</p>';
 		}
+
+		$send_bill_to_reseller = get_post_meta( $post->ID, 'send_bill_to_reseller', true );
+
+		if( ! empty( $send_bill_to_reseller ) ) {
+			echo '<h3>' . __( 'Rechnung', 'textdomain' ) . '</h3>';
+			echo '<p>' . __( 'Rechnung wird an Reseller gesendet (alte Einstellung)', 'textdomain' ) . '</p>';
+		} else {
+			echo '<h3>' . __( 'Rechnung', 'textdomain' ) . '</h3>';
+			echo '<p>' . __( 'Rechnung wird an Kunden gesendet (alte Einstellung)', 'textdomain' ) . '</p>';
+		}
 	}
 
 	/**

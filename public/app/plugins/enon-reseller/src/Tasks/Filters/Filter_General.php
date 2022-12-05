@@ -138,19 +138,7 @@ class Filter_General implements Task, Filters, Actions {
 	 * @since 1.0.0
 	 */
 	public function filter_bill_to_address( $email ) {
-		$reseller_contact_email = $this->reseller->data()->general->get_contact_email();		
-
-		// Rewriting old settings.
-		$data_general = $this->reseller->data()->general;
-		$send_bill_to_reseller = $data_general->get('send_bill_to_reseller');
-		
-		if ( ! empty( $send_bill_to_reseller ) && in_array( 'send_bill_to_reseller', $send_bill_to_reseller ) ) {
-			$email_settings = is_array( $data_general->get('email_settings') ) ? $data_general->get('email_settings') : array();
-			$email_settings[] = 'redirect_bill_to_reseller';						
-			$data_general->set('email_settings', $email_settings);
-			$data_general->delete('send_bill_to_reseller');
-		}
-		// end rewriting old settings.
+		$reseller_contact_email = $this->reseller->data()->general->get_contact_email();
 
 		if ( ! $this->reseller->data()->general->redirect_bill_to_reseller() || empty( $reseller_contact_email ) ) {
 			return $email;
