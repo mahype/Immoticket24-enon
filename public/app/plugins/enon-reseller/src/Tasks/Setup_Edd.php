@@ -62,7 +62,7 @@ class Setup_Edd implements Actions, Task
 	 */
 	public function add_actions()
 	{
-		add_action('edd_update_payment_status', array($this, 'finish_after_payment'), 10, 2);
+		// add_action('edd_update_payment_status', array($this, 'finish_after_payment'), 10, 2);
 	}
 
 	/**
@@ -92,30 +92,6 @@ class Setup_Edd implements Actions, Task
 		$reseller = new Reseller($reseller_id);
 
 		$this->send_data($energieausweis, $reseller, $payment_id);
-
-		$affiliate_id = $reseller->data()->general->get_affiliate_id();
-		if (!empty($affiliate_id)) {
-			affiliate_wp()->tracking->referral = $affiliate_id;
-			affiliate_wp()->tracking->set_affiliate_id($affiliate_id);
-			affwp_set_referral_status( $affiliate_id, 'unpaid' );
-
-			$amount 	 = $payment->get_amount();
-			$amount 	 = $amount > 0 ? affwp_calc_referral_amount( $amount, $affiliate_id ) : 0;
-			$description = sprintf("%s (via Iframe)", $energieausweis->post_title);
-			$context     = "Reseller über iframe";
-
-			// Create a new referral
-			$referral_id = affiliate_wp()->referrals->add( array(
-					'affiliate_id' => $affiliate_id,
-					'amount'       => $amount,
-					'status'       => 'unpaid',
-					'description'  => $description,
-					'context'      => $context
-			));
-
-			// Update the referral status.
-			affwp_set_referral_status( $referral_id );
-		}
 	}
 
 	/**
