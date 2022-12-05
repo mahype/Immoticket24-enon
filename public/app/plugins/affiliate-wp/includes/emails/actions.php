@@ -504,6 +504,31 @@ function affwp_notify_admin_on_new_referral( $affiliate_id, $referral ) {
 add_action( 'affwp_referral_accepted', 'affwp_notify_admin_on_new_referral', 10, 2 );
 
 /**
+ * Have we checked referrals once for the first Email Summary?
+ *
+ * @since 2.10.0
+ *
+ * @return bool
+ */
+function affwp_monthly_email_summary_referral_checkonce() {
+
+	$option_key = 'affwp_email_summary_referral_checkonce';
+
+	// Note, if you want to filter this, use the option_{$option} filter.
+	$check = get_option( $option_key, false );
+
+	if ( false === $check ) {
+
+		// Note we checked it once with a timestamp.
+		update_option( $option_key, time(), false );
+
+		return false;
+	}
+
+	return true; // Our option was not false, so we must have checked referral count at least once.
+}
+
+/**
  * Monthly Email Summary.
  *
  * @since 2.9.6
@@ -518,6 +543,24 @@ function affwp_notify_monthly_email_summary( $preview = false ) {
 
 	if ( ! $preview && false !== affiliate_wp()->settings->get( 'disable_monthly_email_summaries', false ) ) {
 		return; // You are wanting to email this summary, but a setting has disabled it.
+	}
+
+	// Don't schedule until they have at least one referral.
+	if (
+
+		// This function will return false only the first time it's ever run, after that we won't care if they have no referrals.
+		false === affwp_monthly_email_summary_referral_checkonce() &&
+
+		// We don't have any referrals yet.
+		0 === affiliate_wp()->referrals->get_referrals(
+			array(
+				'number' => 1,
+				'fields' => 'ids',
+			),
+			true
+		)
+	) {
+		return;
 	}
 
 	// Send the email...

@@ -27,6 +27,10 @@ import * as fieldCheckbox from './blocks/registration/fields/checkbox';
 import * as fieldPassword from './blocks/registration/fields/password';
 import * as fieldPhone from './blocks/registration/fields/phone';
 import * as registerButton from './blocks/registration/fields/register-button';
+import * as fieldTermsOfUse from './blocks/registration/fields/terms-of-use';
+import * as fieldSelect from './blocks/registration/fields/select';
+import * as fieldRadio from './blocks/registration/fields/radio';
+import * as fieldCheckboxMultiple from './blocks/registration/fields/checkbox-multiple';
 
 const registerBlocks = () => {
 	[
@@ -51,6 +55,10 @@ const registerBlocks = () => {
 		fieldPaymentEmail,
 		fieldAccountEmail,
 		registerButton,
+		fieldTermsOfUse,
+		fieldSelect,
+		fieldRadio,
+		fieldCheckboxMultiple,
 	].forEach( ( { name, settings } ) => {
 		registerBlockType( name, settings );
 	} );

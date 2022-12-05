@@ -64,8 +64,36 @@ table.affwp-table th {
 }
 
 .affwp-form label + input,
-.affwp-form label + textarea {
+.affwp-form label + textarea,
+.affwp-form label + select {
 	width: 100%;
+}
+
+.affwp-form .affwp-field-terms-of-use-content {
+	background-color: #fff;
+	border: 1px solid rgba( 51, 51, 51, 0.1 );
+	color: #444;
+	padding: 0 1rem;
+	margin: 1rem 0 0.5rem 0;
+	height: 8rem;
+	overflow-y: auto;
+	overflow-x: hidden;
+	font-size: 14px;
+}
+
+.affwp-form .affwp-field-terms-of-use-content * {
+	font-size: 14px;
+}
+
+.affwp-form .affwp-label-radio,
+.affwp-form .affwp-label-checkbox-multiple {
+	display: flex;
+	align-items: center;
+}
+
+.affwp-form .affwp-label-checkbox-multiple input,
+.affwp-form .affwp-label-radio input {
+	margin: 0 5px 0 0;
 }
 
 .affwp-wrap {

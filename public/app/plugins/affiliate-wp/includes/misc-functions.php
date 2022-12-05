@@ -602,6 +602,17 @@ function affwp_is_recaptcha_enabled() {
 }
 
 /**
+ * The reCAPTCHA type.
+ *
+ * @since 2.10.0
+ *
+ * @return string reCAPTCHA Type.
+ */
+function affwp_recaptcha_type() {
+	return affiliate_wp()->settings->get( 'recaptcha_type', 'v2' );
+}
+
+/**
  * Sanitizes values to an absolute number, rounded to the required decimal place.
  *
  * Allows zero values, but ignores truly empty values.

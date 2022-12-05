@@ -115,6 +115,8 @@ function affiliate_wp_install() {
 
 		update_option( 'affwp_migrated_meta_fields',affwp_get_pending_migrated_user_meta_fields() );
 
+		// Note, if this value is not found in the database, it means affwp_is_installed was set before this was introduced in version 2.10.0.
+		update_option( 'affwp_first_installed', time(), false );
 	}
 
 	// 3 equals unchecked

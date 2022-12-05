@@ -256,7 +256,6 @@ function AffiliateLogin( { attributes, setAttributes, clientId } ) {
 						value={buttonText}
 						onChange={( buttonText ) => setAttributes( { buttonText } )}
 						withoutInteractiveFormatting
-						keepPlaceholderOnFocus
 						allowedFormats={[]}
 						className={classes}
 					/>

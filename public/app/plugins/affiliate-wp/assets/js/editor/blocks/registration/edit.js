@@ -64,10 +64,9 @@ let template = [
 if ( hasTermsOfUse ) {
 
 	template.push(
-		['affiliatewp/field-checkbox', {
+		['affiliatewp/field-terms-of-use', {
 			label: `Agree to our <a href="${termsOfUseLink}" target="_blank">Terms of Use and Privacy Policy</a>`,
 			required: true,
-			type: 'agreeToTerms'
 		}],
 	)
 }

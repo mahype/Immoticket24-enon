@@ -164,8 +164,8 @@ class Affiliate_WP_Scheduler {
 				// Don't send now, send in 30 days.
 				? time() + ( DAY_IN_SECONDS * 30 )
 
-				// Send the email now.
-				: time(),
+				// Send the email in 15 minutes.
+				: time() + ( MINUTE_IN_SECONDS * 15 ),
 			DAY_IN_SECONDS * 30,
 			'affwp_monthly_email_summaries',
 			array(),

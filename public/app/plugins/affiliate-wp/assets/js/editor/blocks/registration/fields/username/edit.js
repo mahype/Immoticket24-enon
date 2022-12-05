@@ -30,9 +30,6 @@ function AffiliateWPFieldText({
 	clientId,
 }) {
 
-	// Username is always required
-	setAttributes({ required: true })
-
 	/* translators: Username help text */
 	const helpText = __('The Username field is always required', 'affiliate-wp' );
 

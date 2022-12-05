@@ -469,10 +469,15 @@ if ( isset( $_REQUEST['generate_coupon'] ) && 1 == absint( $_REQUEST['generate_c
 						<ul style="margin-top:7px;">
 						<?php foreach ( $custom_fields as $custom_field ) : ?>
 							<?php
-							if ( 'checkbox' === $custom_field['type'] ) {
+							if ( 'checkbox' === $custom_field['type'] || 'terms_of_use' === $custom_field['type'] ) {
 								$value                      = (bool) $custom_field['meta_value'];
 								$custom_field['meta_value'] = true === $value ? _x( 'Yes', 'registration checkbox enabled', 'affiliate-wp' ) : _x( 'No', 'registration checkbox disabled', 'affiliate-wp' );
 							}
+
+							if( 'checkbox_multiple' === $custom_field['type'] ) {
+								$custom_field['meta_value'] = implode( ', ', $custom_field['meta_value'] );
+							}
+
 							?>
 							<li>
 								<strong><?php echo esc_html( wp_strip_all_tags( $custom_field['name'] ) ); ?></strong> – <?php echo esc_html( $custom_field['meta_value'] ); ?>

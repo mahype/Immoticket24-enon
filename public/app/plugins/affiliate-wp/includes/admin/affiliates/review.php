@@ -118,10 +118,15 @@ $custom_fields           = affwp_get_custom_registration_fields( $affiliate_id, 
 			<?php endif; ?>
 
 			<?php foreach ( $custom_fields as $custom_field ):
-				if( 'checkbox' === $custom_field['type'] ) {
+				if( 'checkbox' === $custom_field['type'] || 'terms_of_use' === $custom_field['type'] ) {
 						$value = (bool) $custom_field['meta_value'];
 						$custom_field['meta_value'] = true === $value ? _x( 'Yes', 'registration checkbox enabled', 'affiliate-wp' ) : _x( 'No', 'registration checkbox disabled', 'affiliate-wp' );
 				}
+
+				if( 'checkbox_multiple' === $custom_field['type'] ) {
+					$custom_field['meta_value'] = implode( ', ', $custom_field['meta_value'] );
+				}
+
 			?>
 				<tr class="form-row">
 
