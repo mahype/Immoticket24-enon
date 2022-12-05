@@ -62,7 +62,6 @@
     "awsmug/edd-payment-stripe-sepa": "dev-master",
     "awsmug/block-wave-separator": "dev-master",
     "awsmug/block-trusted-shops": "dev-main",
-    "borlabs/borlabs-cookie": "2.2.57",
     "felixarntz/plugin-lib": "dev-master",
     "wpackagist-plugin/easy-digital-downloads": "2.11.7",
     "wpackagist-plugin/imagify": "2.0",
