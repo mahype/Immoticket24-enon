@@ -118,9 +118,6 @@ class Add_CPT_Reseller implements Task, Actions, Filters {
 		if( ! empty( $send_bill_to_reseller ) ) {
 			echo '<h3>' . __( 'Rechnung', 'textdomain' ) . '</h3>';
 			echo '<p>' . __( 'Rechnung wird an Reseller gesendet (alte Einstellung)', 'textdomain' ) . '</p>';
-		} else {
-			echo '<h3>' . __( 'Rechnung', 'textdomain' ) . '</h3>';
-			echo '<p>' . __( 'Rechnung wird an Kunden gesendet (alte Einstellung)', 'textdomain' ) . '</p>';
 		}
 	}
 
