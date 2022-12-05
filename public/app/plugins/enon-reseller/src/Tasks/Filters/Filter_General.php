@@ -66,8 +66,8 @@ class Filter_General implements Task, Filters, Actions {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_bill_to_address' ) );
-		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_order_confirmation_to_address' ) );
+		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_bill_to_address' ) );		
+		
 		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
 		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
         add_filter( 'wpenon_custom_fees', array( $this, 'filter_custom_fees' ), 100, 1 );
@@ -82,7 +82,38 @@ class Filter_General implements Task, Filters, Actions {
 	public function add_actions() {
         add_action( 'template_redirect', array( $this, 'set_affiliatewp_referal' ), -10000, 0 );
         add_action( 'wpenon_energieausweis_create', array( $this, 'update_reseller_id' ) );
+
+		add_action( 'edd_admin_sale_notice', [$this, 'add_order_email_filter'], 9, 2 );
+		add_action( 'edd_admin_sale_notice', [$this, 'remove_order_email_filter'], 11, 2 );
     }
+
+
+	public function add_order_email_filter() {
+		add_filter( 'edd_admin_notice_emails', array( $this, 'filter_order_confirmation_to_address' ), 100 );
+	}
+
+	public function remove_order_email_filter() {
+		add_filter( 'edd_admin_notice_emails', array( $this, 'filter_order_confirmation_to_address' ), 100 );
+	}
+
+	/**
+	 * Filter to email adress of order confirmation.
+	 * 
+	 * @param string $email To email address.
+	 * 
+	 * @return string Filtered to email address.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function filter_order_confirmation_to_address( $emails ) {
+		$reseller_contact_email = $this->reseller->data()->general->get_contact_email();
+
+		if ( ! $this->reseller->data()->general->send_order_confirmation_to_reseller() ) {
+			return $emails;
+		}
+
+		return [ $reseller_contact_email ];
+	}
     
     /**
 	 * Updating reseller id.
@@ -110,6 +141,7 @@ class Filter_General implements Task, Filters, Actions {
 		// Rewriting old settings.
 		$data_general = $this->reseller->data()->general;
 		$send_bill_to_reseller = $data_general->get('send_bill_to_reseller');
+		
 		if ( ! empty( $send_bill_to_reseller ) && in_array( 'send_bill_to_reseller', $send_bill_to_reseller ) ) {
 			$email_settings = is_array( $data_general->get('email_settings') ) ? $data_general->get('email_settings') : array();
 			$email_settings[] = 'redirect_bill_to_reseller';						
@@ -125,24 +157,7 @@ class Filter_General implements Task, Filters, Actions {
 		return $reseller_contact_email;
     }
 
-	/**
-	 * Filter to email adress of order confirmation.
-	 * 
-	 * @param string $email To email address.
-	 * 
-	 * @return string Filtered to email address.
-	 * 
-	 * @since 1.0.0
-	 */
-	public function filter_order_confirmation_to_address( $email ) {
-		$reseller_contact_email = $this->reseller->data()->general->get_contact_email();
-
-		if ( ! $this->reseller->data()->general->redirect_order_confirmation_to_reseller() || empty( $reseller_contact_email ) ) {
-			return $email;
-		}
-
-		return $reseller_contact_email;
-	}
+	
 
 	/**
 	 * Filter if customer can be send to klicktipp.
