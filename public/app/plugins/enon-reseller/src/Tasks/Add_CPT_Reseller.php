@@ -119,6 +119,9 @@ class Add_CPT_Reseller implements Task, Actions, Filters {
 			echo '<h3>' . __( 'Rechnung', 'textdomain' ) . '</h3>';
 			echo '<p>' . __( 'Rechnung wird an Reseller gesendet (alte Einstellung)', 'textdomain' ) . '</p>';
 		}
+
+		echo '<h3>' . __( 'Alte Email Einstellungen', 'textdomain' ) . '</h3>';
+		print_r ( get_post_meta( $post->ID, 'email_delivery', true ) );
 	}
 
 	/**
