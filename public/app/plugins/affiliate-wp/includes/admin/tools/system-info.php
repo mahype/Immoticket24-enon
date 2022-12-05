@@ -9,6 +9,9 @@
  * @since       1.8.7
  */
 
+// phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Because we use commenting before calls.
+// phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Because we use commenting before calls.
+
 /**
  * Displays the system info report.
  *
@@ -254,7 +257,114 @@ function affwp_tools_system_info_report() {
 	$return .= 'SOAP Client:              ' . ( class_exists( 'SoapClient' ) ? 'Installed' : 'Not Installed' ) . "\n";
 	$return .= 'Suhosin:                  ' . ( extension_loaded( 'suhosin' ) ? 'Installed' : 'Not Installed' ) . "\n";
 
+	// Add information about templates.
+	$return .= affwp_tools_system_info_report_customized_templates();
+
 	$return .= "\n" . '### End System Info ###';
 
 	return $return;
+}
+
+/**
+ * Get customized template files in themes.
+ *
+ * @since 2.10.0
+ *
+ * @return array
+ */
+function affwp_tools_info_report_get_customized_template_files() {
+
+	$affwp_templates_dir = untrailingslashit(
+		affiliate_wp()->templates->get_templates_dir()
+	);
+
+	$affwp_template_files = array_unique(
+		array_map(
+			function( $template_file ) {
+				return basename( $template_file );
+			},
+
+			// All .php files in affiliate-wp/templates.
+			array_unique(
+				array_merge(
+					glob( "{$affwp_templates_dir}/*.php" ),
+					glob( "{$affwp_templates_dir}/**/*.php" )
+				)
+			)
+		)
+	);
+
+	if ( empty( $affwp_template_files ) ) {
+		return array(); // No need to show this section.
+	}
+
+	$custom_templates = array();
+
+	foreach ( array_unique( affiliate_wp()->templates->get_theme_template_paths() ) as $template_dir ) {
+
+		$template_dir = untrailingslashit( $template_dir );
+
+		if ( ! stristr( $template_dir, dirname( get_stylesheet_directory() ) ) ) {
+			continue; // Don't include anything out of the themes/ directory.
+		}
+
+		// All .php files in this theme location.
+		foreach ( array_merge(
+			glob( "{$template_dir}/**.php" ),
+			glob( "{$template_dir}/**/**.php" )
+		) as $template_file ) {
+
+			if ( ! in_array( basename( $template_file ), $affwp_template_files, true ) ) {
+				continue; // Not templates in these locations that aren't in our plugin templates/.
+			}
+
+			$custom_templates[] = trim( $template_file );
+		}
+	}
+
+	/**
+	 * Filter the custom templates shown in System Info tab.
+	 *
+	 * @since 2.10.0
+	 *
+	 * @param array $custom_templates List of custom templates we found in themes.
+	 */
+	return apply_filters( 'affwp_tools_info_report_customized_template_files', $custom_templates );
+}
+
+/**
+ * Template info for system report.
+ *
+ * @since 2.10.0
+ *
+ * @return string
+ *
+ * Note, spacing of code matters below, as an empty "\n" is shown on-screen and in-file.
+ */
+function affwp_tools_system_info_report_customized_templates() {
+
+	$custom_templates = affwp_tools_info_report_get_customized_template_files();
+
+	ob_start();
+
+	?>
+
+	-- Custom Theme Templates
+	<?php
+
+	if ( empty( $custom_templates ) ) {
+		?>
+
+		None
+		<?php
+	} else {
+		?>
+
+		<?php foreach ( $custom_templates as $custom_template ) : ?>
+			<?php echo esc_html( str_replace( get_home_path(), '', "{$custom_template}\n" ) ); ?>
+		<?php endforeach; ?>
+		<?php
+	}
+
+	return str_replace( "\t", '', ob_get_clean() );
 }

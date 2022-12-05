@@ -968,6 +968,20 @@ class Affiliate_WP_Settings {
 						'desc' => __( 'Prevent bots from registering affiliate accounts using Google reCAPTCHA.', 'affiliate-wp' ),
 						'type' => 'checkbox'
 					),
+					'recaptcha_type' => array(
+						'name' => __( 'reCAPTCHA Type', 'affiliate-wp' ),
+						'type' => 'radio',
+						'options'  => array(
+							'v2' => __( 'reCAPTCHA v2 ("I\'m not a robot" Checkbox)', 'affiliate-wp' ),
+							'v3'  => __( 'reCAPTCHA v3', 'affiliate-wp' ),
+						),
+						'std' => 'v2',
+						'desc' => sprintf( 
+							__( 'Select the reCAPTCHA type. <a href="%s" target="_blank">View our reCAPTCHA documentation</a> to learn more and for step-by-step instructions.', 'affiliate-wp' ),
+							 'https://affiliatewp.com/docs/how-to-set-up-and-use-recaptcha-in-affiliatewp/' 
+							 ),
+
+					),
 					'recaptcha_site_key' => array(
 						'name' => __( 'reCAPTCHA Site Key', 'affiliate-wp' ),
 						'desc' => __( 'This is used to identify your site to Google reCAPTCHA.', 'affiliate-wp' ),
@@ -977,6 +991,17 @@ class Affiliate_WP_Settings {
 						'name' => __( 'reCAPTCHA Secret Key', 'affiliate-wp' ),
 						'desc' => __( 'This is used for communication between your site and Google reCAPTCHA. Be sure to keep it a secret.', 'affiliate-wp' ),
 						'type' => 'text'
+					),
+					'recaptcha_score_threshold' => array(
+						'name' => __( 'reCAPTCHA Score Threshold', 'affiliate-wp' ),
+						'type' => 'number',
+						'size' => 'small',
+						'step' => '0.1',
+						'std'  => '0.4',
+						'min'  => '0.0',
+						'max'  => '1.0',
+						'class'   => affwp_recaptcha_type() === 'v3' ? '' : 'affwp-hidden',
+						'desc' => __( 'reCAPTCHA v3 returns a score (1.0 is very likely a good interaction, 0.0 is very likely a bot). If the score less than or equal to this threshold, the affiliate registration will be blocked.', 'affiliate-wp' ),
 					),
 					'revoke_on_refund' => array(
 						'name' => __( 'Reject Unpaid Referrals on Refund', 'affiliate-wp' ),

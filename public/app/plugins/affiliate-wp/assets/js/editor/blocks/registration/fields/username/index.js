@@ -42,7 +42,7 @@ const settings = {
 		},
 		required: {
 			type: 'boolean',
-			default: false,
+			default: true,
 		},
 		type: {
 			type: 'string',

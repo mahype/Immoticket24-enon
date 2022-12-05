@@ -66,7 +66,6 @@ function AffiliateWPFieldSubmitButton({
 					value={text}
 					onChange={(text) => setAttributes({ text })}
 					withoutInteractiveFormatting
-					keepPlaceholderOnFocus
 					allowedFormats={[]}
 					className={classes}
 				/>

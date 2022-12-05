@@ -11,31 +11,35 @@ import { __ } from '@wordpress/i18n';
 import { RichText } from '@wordpress/block-editor';
 
 const AffiliateWPFieldLabel = ({
-	identifier,
 	setAttributes,
 	label,
-	labelAttribute,
+	labelFieldName,
+	placeholder,
 	resetFocus,
-	isSelected,
 	required,
-	requiredAttribute,
-	name,
-	showRequiredToggle = true,
 }) => {
 
 	return (
 		<div className="affwp-field-label">
 			<RichText
-				identifier={identifier}
 				tagName="label"
 				value={label}
-				onChange={(value) => {
-					if (resetFocus) {
+				onChange={ value => {
+
+					if ( resetFocus ) {
 						resetFocus();
 					}
-					setAttributes({ [labelAttribute]: value });
-				}}
-				placeholder={__('Add label…', 'affiliate-wp' )}
+
+					if ( labelFieldName ) {
+						setAttributes( { [ labelFieldName ]: value } );
+						return;
+					}
+
+					setAttributes( { label: value } );
+
+				} }
+				placeholder={ placeholder ?? __( 'Add label…', 'affiliate-wp' ) }
+				withoutInteractiveFormatting
 				allowedFormats={[]}
 			/>
 

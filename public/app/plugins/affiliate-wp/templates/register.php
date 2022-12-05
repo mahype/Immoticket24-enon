@@ -130,13 +130,12 @@ if ( is_user_logged_in() ) {
 		<?php endif; ?>
 
 		<?php if ( affwp_is_recaptcha_enabled() ) :
-			affwp_enqueue_script( 'affwp-recaptcha' ); ?>
+			affwp_enqueue_script( 'affwp-recaptcha' );
 
+			if ( 'v2' === affwp_recaptcha_type() ) : ?>
 			<div class="g-recaptcha" data-sitekey="<?php echo esc_attr( affiliate_wp()->settings->get( 'recaptcha_site_key' ) ); ?>"></div>
-
-			<p>
-				<input type="hidden" name="g-recaptcha-remoteip" value="<?php echo esc_attr( affiliate_wp()->tracking->get_ip() ); ?>" />
-			</p>
+			<?php endif; ?>
+			<input type="hidden" name="g-recaptcha-remoteip" value="<?php echo esc_attr( affiliate_wp()->tracking->get_ip() ); ?>" />
 		<?php endif; ?>
 
 		<?php
@@ -153,7 +152,20 @@ if ( is_user_logged_in() ) {
 			<input type="hidden" name="affwp_redirect" value="<?php echo esc_url( $affwp_register_redirect ); ?>"/>
 			<input type="hidden" name="affwp_register_nonce" value="<?php echo wp_create_nonce( 'affwp-register-nonce' ); ?>" />
 			<input type="hidden" name="affwp_action" value="affiliate_register" />
-			<input class="button" type="submit" value="<?php esc_attr_e( 'Register', 'affiliate-wp' ); ?>" />
+
+			<?php
+			$site_key = affiliate_wp()->settings->get( 'recaptcha_site_key', '' );
+
+		 	if ( 'v3' === affwp_recaptcha_type() && affwp_is_recaptcha_enabled() ) : ?>
+				<input class="button g-recaptcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>" data-callback="onSubmit" type="submit" data-action="submit" value="<?php esc_attr_e( 'Register', 'affiliate-wp' ); ?>" />
+				<script>
+				function onSubmit(token) {
+					document.getElementById( 'affwp-register-form' ).submit();
+				}
+				</script>
+			<?php else : ?>
+				<input class="button" type="submit" value="<?php esc_attr_e( 'Register', 'affiliate-wp' ); ?>" />
+			<?php endif; ?>
 		</p>
 
 		<?php

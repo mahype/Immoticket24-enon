@@ -530,6 +530,26 @@ jQuery(document).ready(function($) {
 	}
 
 	/**
+	 * Support to show/hide the reCAPTCHA Score Threshold based on the reCAPTCHA Type.
+	 * Used in Affiliate WP Settings.
+	 *
+	 * @since 2.10.0
+	 */
+	if ( $.inArray( pagenow, [ 'affiliates_page_affiliate-wp-settings' ] ) > -1 ) {
+		
+		const recaptchaScoreThresholdField = $( '#recaptcha_score_threshold' );
+		
+		$( 'input[name="affwp_settings[recaptcha_type]"]' ).on( 'change', function( e ) {
+			if ( 'v3' !== e.target.value ){
+				recaptchaScoreThresholdField.hide();
+				return
+			} 
+			
+			recaptchaScoreThresholdField.show();
+		} );
+	}
+
+	/**
 	 * Enable meta box toggle states
 	 *
 	 * @since  1.9

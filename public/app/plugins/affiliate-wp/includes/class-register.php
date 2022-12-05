@@ -82,6 +82,7 @@ class Affiliate_WP_Register {
 		$block_form = false;
 
 		if ( isset( $_POST['affwp_post_id'] ) && isset( $_POST['affwp_block_hash'] ) ) {
+
 			$block_form = affiliate_wp()->editor->get_submission_form( $_POST['affwp_post_id'], $_POST['affwp_block_hash'] );
 
 			if ( is_wp_error( $block_form ) ) {
@@ -89,6 +90,10 @@ class Affiliate_WP_Register {
 			} else {
 
 				foreach ( $block_form->fields as $field ) {
+
+					if ( ( true === $field->required && 'checkbox_multiple' === $field->field_type ) && ! isset( $_POST[ $field->name ] ) ) {
+						$this->add_error( 'required_selection', sprintf( __( '%s requires at least one selection', 'affiliate-wp' ), $field->label ) );
+					}
 
 					// Ignore legacy fields. The logic for these is handled downstream.
 					if ( ! $field->is_legacy_field() && isset( $_POST[ $field->name ] ) ) {
@@ -241,8 +246,14 @@ class Affiliate_WP_Register {
 				}
 			}
 
-			if ( affwp_is_recaptcha_enabled() && ! $this->recaptcha_response_is_valid( $data ) ) {
+			$recaptcha_invalid = affwp_is_recaptcha_enabled() && ! $this->recaptcha_response_is_valid( $data );
+
+			if ( $recaptcha_invalid && 'v2' === affwp_recaptcha_type() ) {
 				$this->add_error( 'recaptcha_required', __( 'Please verify that you are not a robot', 'affiliate-wp' ) );
+			}
+
+			if ( $recaptcha_invalid && 'v3' === affwp_recaptcha_type() ) {
+				$this->add_error( 'recaptcha_required', __( 'Google reCAPTCHA verification failed, please try again later.', 'affiliate-wp' ) );
 			}
 
 			if ( ! empty( $data['affwp_honeypot'] ) ) {
@@ -318,7 +329,7 @@ class Affiliate_WP_Register {
 			return false;
 		}
 
-		$verify = wp_safe_remote_post(
+		$request = wp_safe_remote_post(
 			'https://www.google.com/recaptcha/api/siteverify',
 			array(
 				'body' => array(
@@ -329,9 +340,41 @@ class Affiliate_WP_Register {
 			)
 		);
 
-		$verify = json_decode( wp_remote_retrieve_body( $verify ) );
+		// Request fails.
+		if ( is_wp_error( $request ) ) {
+			return false;
+		}
 
-		return ( ! empty( $verify->success ) && true === $verify->success );
+		$response = json_decode( wp_remote_retrieve_body( $request ), true );
+
+		if ( 'v3' === affwp_recaptcha_type() ) {
+			// No score available.
+			if ( ! isset( $response['score'] ) ) {
+				return false;
+			}
+
+			// Actions do not match.
+			$action = 'affiliate_register_' . $data['affwp_post_id'];
+
+			if ( isset( $response['action'] ) && $action !== $response['action'] ) {
+				return false;
+			}
+
+			// Threshold isn't reached.
+			$threshold = affiliate_wp()->settings->get( 'recaptcha_score_threshold', '0.4' );
+
+			if ( floatval( $response['score'] ) <= floatval( $threshold ) ) {
+				return false;
+			}
+
+		} else {
+			// reCAPTCHA v2
+			if ( empty( $response['success'] ) ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
