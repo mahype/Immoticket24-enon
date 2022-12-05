@@ -91,7 +91,8 @@ abstract class Post_Meta {
 		if ( empty( $this->post_id ) ) {
 			return null;
 		}
-
-		return delete_field( $field_name, $this->post_id );
+		
+		$deleted = delete_post_meta( $this->post_id, $field_name );
+		return $deleted;
 	}
 }
