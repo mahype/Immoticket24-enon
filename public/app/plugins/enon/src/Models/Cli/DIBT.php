@@ -24,6 +24,9 @@ class DIBT extends \WP_CLI_Command {
 	 * 
 	 * [--version=<xsd_version>]
 	 * : XSD version. Default: 'GEG-2023'
+	 * 
+	 * [--schema=<schema_name>]
+	 * : Schema name. Default: 'enev2022-01'
 	 *
 	 * ## EXAMPLES
 	 *
