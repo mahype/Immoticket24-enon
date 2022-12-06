@@ -90,7 +90,11 @@ class DIBT extends \WP_CLI_Command {
 		foreach($post_ids AS $post_id) {
 			$energy_certificate = new Energieausweis($post_id);
 
-			if( ! $energy_certificate->isFinalized() || $energy_certificate->schema_name !== $schema_name ) {
+			if( $energy_certificate->schema_name !== $schema_name ) {
+				\WP_CLI::line( 'Skipping ' . $energy_certificate->post_title . ' because of other schema.' );
+				continue;
+			}elseif( ! $energy_certificate->isFinalized()  ) {
+				\WP_CLI::line( 'Skipping ' . $energy_certificate->post_title . ' because certificate is not finalized.' );
 				continue;
 			}else {
 				\WP_CLI::line( 'Checking ' . $energy_certificate->post_title . '...' );
@@ -119,6 +123,5 @@ class DIBT extends \WP_CLI_Command {
 		unlink($xsd_file);
 		unlink($working_dir);
 		\WP_CLI::success( 'Done!' );
-
 	}
 }
