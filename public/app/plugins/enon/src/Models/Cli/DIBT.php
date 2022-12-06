@@ -64,6 +64,12 @@ class DIBT extends \WP_CLI_Command {
 			$version = 'GEG-2020';
 		}
 
+		if( isset($assoc_args['schema_name']) ) {
+			$schema_name = $assoc_args['schema_name'];
+		} else {
+			$schema_name = 'enev2022-01';
+		}
+
 		define('GEG_XSD', $xsd);
 		define('GEG_XSD_VERSION', $version);
 
@@ -81,7 +87,7 @@ class DIBT extends \WP_CLI_Command {
 		foreach($post_ids AS $post_id) {
 			$energy_certificate = new Energieausweis($post_id);
 
-			if( ! $energy_certificate->isFinalized() ) {
+			if( ! $energy_certificate->isFinalized() || $energy_certificate->schema_name !== $schema_name ) {
 				continue;
 			}else {
 				\WP_CLI::line( 'Checking ' . $energy_certificate->post_title . '...' );
