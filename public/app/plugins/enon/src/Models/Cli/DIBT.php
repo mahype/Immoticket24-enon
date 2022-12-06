@@ -50,7 +50,7 @@ class DIBT extends \WP_CLI_Command {
 			'post_status'            => 'publish',
 			'date_query'             => array(
 				array(
-					'before' => $date,
+					'after' => $date,
 				),
 			),
 		);
