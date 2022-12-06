@@ -1,12 +1,12 @@
 <?php
 
-require dirname( __FILE__ ) . '/DataEnev.php';
-require dirname( __FILE__ ) . '/Bauteil.php';
-require dirname( __FILE__ ) . '/BauteilTransparent.php';
-require dirname( __FILE__ ) . '/EndenergieEnergietraeger.php';
-require dirname( __FILE__ ) . '/Heizungsanlage.php';
-require dirname( __FILE__ ) . '/Trinkwasseranlage.php';
-require dirname( __FILE__ ) . '/Moderniserungsempfehlung.php';
+require_once dirname( __FILE__ ) . '/DataEnev.php';
+require_once dirname( __FILE__ ) . '/Bauteil.php';
+require_once dirname( __FILE__ ) . '/BauteilTransparent.php';
+require_once dirname( __FILE__ ) . '/EndenergieEnergietraeger.php';
+require_once dirname( __FILE__ ) . '/Heizungsanlage.php';
+require_once dirname( __FILE__ ) . '/Trinkwasseranlage.php';
+require_once dirname( __FILE__ ) . '/Moderniserungsempfehlung.php';
 require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/modernizations/BW_Modernizations.php';
 
 use Enev\Schema202201\Modernizations\BW_Modernizations;

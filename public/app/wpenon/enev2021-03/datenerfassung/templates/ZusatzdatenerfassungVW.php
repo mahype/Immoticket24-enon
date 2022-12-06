@@ -2,7 +2,7 @@
 
 if( ! defined( 'ABSPATH' ) ) exit;
 
-require dirname( dirname( __FILE__ ) ) . '/data/DataEnevVW.php';
+require_once dirname( dirname( __FILE__ ) ) . '/data/DataEnevVW.php';
 
 $data = new DataEnevVW( $energieausweis );
 
