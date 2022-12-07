@@ -80,6 +80,12 @@ class DIBT extends \WP_CLI_Command {
 
 		$working_dir = dirname( dirname( ABSPATH ) ) . '/tmp/';
 
+		$log_file = dirname(  ABSPATH ) . '/dibt-schematest-' . $version . '.log';
+
+		@unlink($log_file);
+
+		$log = fopen( dirname( ABSPATH ) . '/dibt-schematest-' . $version . '.log', 'w' );
+
 		if( ! is_dir($working_dir) ) {
 			mkdir($working_dir);
 		}
@@ -112,13 +118,18 @@ class DIBT extends \WP_CLI_Command {
 			} else {
 				\WP_CLI::line( 'XML is invalid for ' . $energy_certificate->post_title );
 
+				fwrite($log, $energy_certificate->post_title . PHP_EOL);
+
 				foreach(libxml_get_errors() as $error) {
 					\WP_CLI::line( $error->message );
+					fwrite($log, $error->message);
 				}
 			}
 
 			unlink($xml_file);
 		}
+
+		fclose($log);
 
 		unlink($xsd_file);
 		unlink($working_dir);
