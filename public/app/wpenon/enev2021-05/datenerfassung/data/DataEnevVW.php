@@ -2,10 +2,10 @@
 
 require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/calculations/CalculationsCC.php';
 
-require dirname( __FILE__ ) . '/DataEnev.php';
-require dirname( __FILE__ ) . '/ConsumptionPeriod.php';
-require dirname( __FILE__ ) . '/Energietraeger.php';
-require dirname( __FILE__ ) . '/Moderniserungsempfehlung.php';
+require_once dirname( __FILE__ ) . '/DataEnev.php';
+require_once dirname( __FILE__ ) . '/ConsumptionPeriod.php';
+require_once dirname( __FILE__ ) . '/Energietraeger.php';
+require_once dirname( __FILE__ ) . '/Moderniserungsempfehlung.php';
 require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/modernizations/VW_Modernizations.php';
 
 use Enev\Schema202105\Modernizations\VW_Modernizations;

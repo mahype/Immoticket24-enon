@@ -33,5 +33,6 @@ class Add_Cli_Commands implements Task {
 		}
 
 		\WP_CLI::add_command( 'scrub', 'Enon\Models\Cli\Scrub_Posts' );
+		\WP_CLI::add_command( 'dibt', 'Enon\Models\Cli\DIBT' );
 	}
 }
