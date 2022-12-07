@@ -71,6 +71,7 @@ class Loader extends Task_Loader {
 		$this->add_task( Setup_Edd_Payments_Table::class );
 		$this->add_task( Mediathek_Thumbnail_Validator::class );
 		$this->add_task( Show_Edd_Log_Post_Type::class );
+		$this->add_task( Setup_AffilateWP::class );
 	}
 
 	/**
