@@ -33,7 +33,7 @@ jobs:
           /www/htdocs/w012900a/bin/composer.phar update
           cd $WWW/public/app/plugins/wp-energieausweis-online
           /www/htdocs/w012900a/bin/composer.phar update
-          cp $WWW/public/.htaccess-origin $WWW/public/.htaccess
+          cp $WWW/public/.htaccess-production $WWW/public/.htaccess
           cp $WWW/public/.user-production.ini $WWW/.user.ini
           cd $WWW
           /www/htdocs/w012900a/wp-cli/wp-cli.phar language core update
