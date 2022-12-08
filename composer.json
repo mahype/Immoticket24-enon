@@ -71,7 +71,7 @@
     "wpackagist-plugin/ootb-openstreetmap": "2.0.0",
     "wpackagist-plugin/user-switching": "1.7.0",
     "wpackagist-plugin/wordpress-seo": "19.11",
-    "wpackagist-plugin/wordfence": "7.8.0"
+    "wpackagist-plugin/wp-simple-firewall": "16.1.14"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "3.*",
