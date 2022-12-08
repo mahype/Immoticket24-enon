@@ -261,7 +261,7 @@ class DIBT {
 
 		$line = $time . ' - ' . $microtime .  ' - ' . $url . chr(13) . $message . chr(13 );
 
-		$file = fopen( dirname( dirname( ABSPATH ) ) . '/dibt.log', 'a' );
+		$file = fopen( WP_LOG_DIR . '/dibt.log', 'a' );
 		fputs( $file, $line  );
 		fclose( $file );
 	}

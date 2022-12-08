@@ -157,7 +157,7 @@ abstract class PaymentGateway {
 		$line = $this->listener_key . ' Instance ID: #' . $this->instance_id . chr( 13 );
 		$line.= $time . ' - ' . $microtime .  ' - ' . $url . chr(13) . $message . chr(13 );
 
-		$file = fopen( dirname( dirname( ABSPATH ) ) . '/pamyents.log', 'a' );
+		$file = fopen( WP_LOG_DIR . '/pamyents.log', 'a' );
 		fputs( $file, $line  );
 		fclose( $file );
 	}
