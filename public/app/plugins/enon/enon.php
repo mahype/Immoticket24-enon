@@ -30,6 +30,10 @@ if ( ! defined( 'WPINC' ) ) {
 
 require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 
+if( is_admin() ) {
+	set_time_limit(120);
+}
+
 /**
  * Booting Enon Plugin.
  *
