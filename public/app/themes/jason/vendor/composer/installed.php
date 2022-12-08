@@ -3,7 +3,7 @@
         'name' => 'awsmug/jason',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'bf9b4cdad77b2de4e1afd07a47aa3a95b10a15a2',
+        'reference' => '94571e957680edf972b44e5c55c1a27ef29cf83c',
         'type' => 'wordpress-theme',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'awsmug/jason' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'bf9b4cdad77b2de4e1afd07a47aa3a95b10a15a2',
+            'reference' => '94571e957680edf972b44e5c55c1a27ef29cf83c',
             'type' => 'wordpress-theme',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
