@@ -80,11 +80,11 @@ class DIBT extends \WP_CLI_Command {
 
 		$working_dir = dirname( dirname( ABSPATH ) ) . '/tmp/';
 
-		$log_file = dirname(  ABSPATH ) . '/dibt-schematest-' . $version . '.log';
+		$log_file = WP_LOG_DIR . '/dibt-schematest-' . $version . '.log';
 
 		@unlink($log_file);
 
-		$log = fopen( dirname( ABSPATH ) . '/dibt-schematest-' . $version . '.log', 'w' );
+		$log = fopen( $log_file, 'w' );
 
 		if( ! is_dir($working_dir) ) {
 			mkdir($working_dir);

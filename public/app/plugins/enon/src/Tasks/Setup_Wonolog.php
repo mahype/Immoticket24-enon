@@ -52,7 +52,7 @@ class Setup_Wonolog implements Task {
 			return;
 		}
 
-		$file = dirname( dirname( ABSPATH ) ) . '/System.log';
+		$file = WP_LOG_DIR . '/System.log';
 
 		$wonolog = \Inpsyde\Wonolog\bootstrap();
 
