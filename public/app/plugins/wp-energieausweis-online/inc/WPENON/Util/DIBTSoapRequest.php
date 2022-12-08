@@ -151,7 +151,7 @@ class DIBTSoapRequest
 
 		$line = $time . ' - ' . $microtime .  ' - ' . $url . chr(13) . $message . chr(13 );
 
-		$file = fopen( dirname( ABSPATH ) . '/dibt.log', 'a' );
+		$file = fopen( dirname( dirname( ABSPATH ) ) . '/dibt.log', 'a' );
 		fputs( $file, $line  );
 		fclose( $file );
 	}
