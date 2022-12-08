@@ -76,7 +76,7 @@ class WP_Enon_logger {
 	 * @param string $delimiter
 	 */
 	public function log( $message, $backtrace = false, $delimiter = ';' ) {
-		$this->log_file = dirname( dirname( ABSPATH ) ) . '/general.log';
+		$this->log_file = WP_LOG_DIR . '/general.log';
 		$this->log_delimiter = $delimiter;
 		$this->log_backtrace = $backtrace;
 		$this->log_message( $message );
