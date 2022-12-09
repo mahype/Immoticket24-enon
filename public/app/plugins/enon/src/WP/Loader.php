@@ -11,6 +11,7 @@
 
 namespace Enon\WP;
 
+use Enon\Logger;
 use Enon\Task_Loader;
 
 use Enon\WP\Tasks\Config_Auth;
@@ -32,6 +33,11 @@ use Enon\WP\Tasks\Stop_Heartbeat;
  * @since 1.0.0
  */
 class Loader extends Task_Loader {
+	public function __construct() {
+        $logger = new Logger('enon');
+        parent::__construct( $logger );
+    }
+
 	/**
 	 * Loading Scripts.
 	 *

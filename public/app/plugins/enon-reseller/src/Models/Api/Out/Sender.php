@@ -12,8 +12,7 @@
 
 namespace Enon_Reseller\Models\Api\Out;
 
-use Awsm\WP_Wrapper\Tools\Logger;
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
+use Enon\Logger;
 use Enon_Reseller\Models\Reseller;
 use WPENON\Model\Energieausweis as Energieausweis_Old;
 
@@ -24,8 +23,6 @@ use WPENON\Model\Energieausweis as Energieausweis_Old;
  */
 abstract class Sender implements Sender_Interface
 {
-	use Logger_Trait;
-
 	/**
 	 * Energieausweis object.
 	 *

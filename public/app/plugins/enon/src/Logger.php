@@ -11,56 +11,37 @@
 
 namespace Enon;
 
-use DateTimeZone;
-use Monolog\Handler\HandlerInterface;
-use Monolog\Handler\BrowserConsoleHandler;
-use Monolog\Handler\FirePHPHandler;
-use Monolog\Handler\SlackWebhookHandler;
-
 /**
  * Logger Wrapper.
  *
  * @since 1.0.0
  */
-class Logger extends \Awsm\WP_Wrapper\Tools\Logger {
+class Logger {
+	private $id;
+
 	/**
 	 * Logger constructor.
 	 *
-	 * @param string             $name       The logging channel, a simple descriptive name that is attached to all log records.
-	 * @param HandlerInterface[] $handlers   Optional stack of handlers, the first one in the array is called first, etc.
-	 * @param callable[]         $processors Optional array of processors.
-	 * @param DateTimeZone|null  $timezone   Optional timezone, if not provided date_default_timezone_get() will be used.
+	 * @param string $id ID of logger. Used for file name.
+	 * 
+	 * @since 1.0.0
 	 */
-	public function __construct( string $name, array $handlers = [], array $processors = [], DateTimeZone $timezone = null ) {
-		parent::__construct( $name, $handlers, $processors, $timezone );
-
-		$slack_level = self::WARNING;
-
-		if ( WP_DEBUG && ! wp_doing_ajax() ) {
-			// $this->pushHandler( new BrowserConsoleHandler() );
-		}
-
-		if ( WP_DEBUG ) {
-			$slack_level = self::NOTICE;
-		}
-
-		// phpcs:ignore
-		$slack_handler = new SlackWebhookHandler( 'https://hooks.slack.com/services/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', '#logs-enon', 'Monolog', true, null, false, false, $slack_level );
-		$this->pushHandler( $slack_handler );
+	public function __construct( string $id ) {
+		$this->id = $id;
 	}
 
 	/**
 	 * Adding global data to record.
 	 *
-	 * @param int    $level
+	 * @param int $level
 	 * @param string $message
-	 * @param array  $context
+	 * @param array $context
 	 *
 	 * @return bool
 	 *
 	 * @since 1.0.0
 	 */
-	public function addRecord( $level, $message, array $context = array() ) {
+	public function addRecord( $message, $context = array() ) {
 		$remote_addr       = $_SERVER['REMOTE_ADDR'];
 		$request_uri       = $_SERVER['REQUEST_URI'];
 		$remote_addr_parts = explode( '.', $remote_addr );
@@ -70,29 +51,13 @@ class Logger extends \Awsm\WP_Wrapper\Tools\Logger {
 			$remote_addr          = implode( '.', $remote_addr_parts );
 		}
 
-		$data = array(
-			'remote_addr' => $remote_addr,
-			'request_uri' => $request_uri,
-		);
+		$line = sprintf( '%s %s %s %s', $remote_addr, $request_uri, $message, wp_json_encode( $context ) );
 
-		if ( is_array( $context ) ) {
-			$context = array_merge( $data, $context );
-		} else {
-			$context = array( $data, $context );
-		}
+		$filename = $this->get_logging_path() . '/' . $this->id . '.log';
 
-		return parent::addRecord( $level, $message, $context );
-	}
-
-	/**
-	 * Setting debug level.
-	 *
-	 * @return int|string Debug level.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function get_debug_level() {
-		return self::WARNING;
+		$fp = fopen( $filename, 'a' );
+		fwrite( $fp, $line . PHP_EOL );
+		fclose( $fp );
 	}
 
 	/**
@@ -103,6 +68,22 @@ class Logger extends \Awsm\WP_Wrapper\Tools\Logger {
 	 * @since 1.0.0
 	 */
 	protected function get_logging_path() {
-		return dirname( parent::get_logging_path() );
+		return WP_LOG_DIR;;
+	}
+
+	public function alert( $message, $context = array() ) {
+		$this->addRecord( $message, $context );
+	}
+
+	public function critical( $message, $context = array() ) {
+		$this->addRecord( $message, $context );
+	}
+
+	public function debug( $message, $context = array() ) {
+		$this->addRecord( $message, $context );
+	}
+
+	public function notice( $message, $context = array() ) {
+		$this->addRecord( $message, $context );
 	}
 }

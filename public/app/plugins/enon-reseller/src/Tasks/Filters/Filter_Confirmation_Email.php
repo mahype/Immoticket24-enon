@@ -13,8 +13,7 @@ namespace Enon_Reseller\Tasks\Filters;
 
 use Awsm\WP_Wrapper\Interfaces\Filters;
 use Awsm\WP_Wrapper\Interfaces\Task;
-use Awsm\WP_Wrapper\Tools\Logger;
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
+use Enon\Logger;
 
 use Enon_Reseller\Models\Reseller;
 use WPENON\Model\Energieausweis as Energieausweis_Old;
@@ -27,8 +26,6 @@ use WPENON\Model\Energieausweis as Energieausweis_Old;
  * @package Enon_Reseller\WordPress
  */
 class Filter_Confirmation_Email implements Task, Filters {
-	use Logger_Trait;
-
 	/**
 	 * Reseller object.
 	 *

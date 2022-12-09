@@ -11,7 +11,7 @@
 
 namespace Enon\Tasks;
 
-
+use Enon\Logger;
 use Enon\Task_Loader;
 use Enon\Tasks\Emails\Edd_Payment_Emails;
 use Enon\Tasks\Scripts\Add_Scripts;
@@ -30,6 +30,11 @@ use Enon\Tasks\Scripts\Add_Ekomi;
  * @package Enon\Config
  */
 class Loader extends Task_Loader {
+	public function __construct() {
+        $logger = new Logger('enon');
+        parent::__construct( $logger );
+    }
+
 	/**
 	 * Loading Scripts.
 	 *
@@ -47,7 +52,6 @@ class Loader extends Task_Loader {
 		$this->add_task( Mediathek_Thumbnail_Validator::class, $this->logger() );
 		$this->add_task( Add_Ekomi::class );
 
-		$this->add_task( Setup_Wonolog::class, $this->logger() );
         $this->add_task( Setup_Edd::class, $this->logger() );
 		$this->add_task( Filter_EDD_Emails::class );
 		$this->add_task( Add_Costum_Fees_EVM::class );

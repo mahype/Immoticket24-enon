@@ -14,8 +14,7 @@ namespace Enon_Reseller\Tasks\Filters;
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Filters;
 use Awsm\WP_Wrapper\Interfaces\Task;
-use Awsm\WP_Wrapper\Tools\Logger;
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
+use Enon\Logger;
 
 use Enon_Reseller\Models\Reseller;
 
@@ -27,7 +26,6 @@ use Enon_Reseller\Models\Reseller;
  * @package Enon_Reseller\WordPress
  */
 class Filter_General implements Task, Filters, Actions {
-	use Logger_Trait;
 
 	/**
 	 * Reseller object.

@@ -11,6 +11,7 @@
 
 namespace Enon_Reseller;
 
+use Enon\Logger;
 use Enon\Task_Loader;
 use Enon\Tasks\Config_User;
 use Enon_Reseller\Models\Detector;
@@ -42,7 +43,12 @@ use Enon_Reseller\Tasks\Sparkasse\Add_Discounts as Sparkasse_Discounts;
  *
  * @package Enon\Config
  */
-class Loader extends Task_Loader {    
+class Loader extends Task_Loader {
+    public function __construct() {
+        $logger = new Logger('enon-reseller');
+        parent::__construct( $logger );
+    }
+
 	/**
 	 * Loading Scripts.
 	 *
@@ -51,6 +57,7 @@ class Loader extends Task_Loader {
      * @todo Clean up! How to handle add_actions here.
 	 */
 	public function run() {
+
 		$this->add_task( Add_CPT_Reseller::class );
         $this->add_task( Filter_Payment_Fee_Email::class );
         $this->add_task( EVM_Discounts::class, $this->logger() );

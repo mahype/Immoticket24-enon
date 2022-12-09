@@ -13,7 +13,6 @@ namespace Enon\Tasks\Scripts;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
 
 use Enon\Models\Data\Post_Meta_Page;
 
@@ -23,7 +22,6 @@ use Enon\Models\Data\Post_Meta_Page;
  * @package Enon\Config
  */
 class Add_Page_Scripts implements Task, Actions {
-	use Logger_Trait;
 
 	/**
 	 * Running scripts.
