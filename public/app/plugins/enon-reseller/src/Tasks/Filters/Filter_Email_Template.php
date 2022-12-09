@@ -14,9 +14,7 @@ namespace Enon_Reseller\Tasks\Filters;
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Filters;
 use Awsm\WP_Wrapper\Interfaces\Task;
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
-
-use Enon_Reseller\Logger;
+use Enon\Logger;
 use Enon_Reseller\Models\Reseller;
 
 /**
@@ -27,7 +25,6 @@ use Enon_Reseller\Models\Reseller;
  * @since 1.0.0
  */
 class Filter_Email_Template implements Task, Actions, Filters {
-	use Logger_Trait;
 
 	/**
 	 * Reseller object.

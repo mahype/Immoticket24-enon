@@ -14,9 +14,7 @@ namespace Enon_Reseller\Tasks;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
-use Awsm\WP_Wrapper\Tools\Logger;
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
-
+use Enon\Logger;
 use Enon_Reseller\Models\Reseller;
 use Enon\Models\Edd\Payment;
 
@@ -29,8 +27,6 @@ use WPENON\Model\Energieausweis as Energieausweis_Old;
  */
 class Setup_Edd implements Actions, Task
 {
-	use Logger_Trait;
-
 	/**
 	 * Constructor.
 	 * 

@@ -13,10 +13,7 @@ namespace Enon\WP\Tasks;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
-
-use Enon\Models\Plugins\ACF;
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
-use Awsm\WP_Wrapper\Tools\Logger;
+use Enon\Logger;
 
 /**
  * Class Task_Settings_Page.
@@ -26,7 +23,6 @@ use Awsm\WP_Wrapper\Tools\Logger;
  * @package Enon\Reseller\WordPress
  */
 class Add_Admin_Pages implements Task, Actions {
-	use Logger_Trait;
 
 	/**
 	 * AffiliateWP constructor.
@@ -44,11 +40,6 @@ class Add_Admin_Pages implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		if ( ! ACF::is_activated() ) {
-			$this->logger->warning( 'Advanced custom fields seems not to be activated.' );
-			return;
-		}
-
 		$this->add_actions();
 	}
 

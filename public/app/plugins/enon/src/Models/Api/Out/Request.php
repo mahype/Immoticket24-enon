@@ -11,8 +11,7 @@
 
 namespace Enon\Models\Api\Out;
 
-use Awsm\WP_Wrapper\Tools\Logger;
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
+use Enon\Logger;
 
 /**
  * Class Send.
@@ -20,7 +19,6 @@ use Awsm\WP_Wrapper\Tools\Logger_Trait;
  * @since 1.0.0
  */
 class Request {
-	use Logger_Trait;
 
 	/**
 	 * Arguments for post.

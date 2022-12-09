@@ -15,7 +15,7 @@ use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Filters;
 use Awsm\WP_Wrapper\Interfaces\Task;
 
-use Awsm\WP_Wrapper\Tools\Logger;
+use Enon\Logger;
 use Enon_Reseller\Models\Reseller;
 
 use Enon\Models\Enon\Energieausweis;

@@ -13,9 +13,7 @@ namespace Enon\WP\Tasks;
 
 use Awsm\WP_Wrapper\Interfaces\Filters;
 use Awsm\WP_Wrapper\Interfaces\Task;
-
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
-use Awsm\WP_Wrapper\Tools\Logger;
+use Enon\Logger;
 
 /**
  * Class Task_Settings_Page.
@@ -25,7 +23,6 @@ use Awsm\WP_Wrapper\Tools\Logger;
  * @package Enon\Reseller\WordPress
  */
 class Add_Translations implements Task, Filters {
-	use Logger_Trait;
 
 	/**
 	 * AffiliateWP constructor.
