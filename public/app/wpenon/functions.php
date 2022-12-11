@@ -2280,8 +2280,18 @@ function wpenon_immoticket24_maybe_generate_payment_csv_bulk() {
 	fputcsv( $output, \WPENON\Util\Format::csvEncode( $headings, $charset ), $csv_settings['terminated'], $csv_settings['enclosed'] );
 
 	foreach ( $payments as $payment ) {
+		$last_name = ! empty( $payment->last_name ) ? $payment->last_name : '';
+		if ( preg_match( '~^[+\-=@]~m', $last_name ) ) {
+			$last_name = "'{$last_name}";
+		}
+		
+		$first_name = ! empty( $payment->first_name ) ? $payment->first_name : '';
+		if ( preg_match( '~^[+\-=@]~m', $first_name ) ) {
+			$first_name = "'{$first_name}";
+		}
+
 		$result = array(
-			'name'     => $payment->last_name . ', ' . $payment->first_name,
+			'name'     => $last_name . ', ' . $first_name,
 			'subtotal' => $payment->total - $payment->tax,
 			'tax'      => $payment->tax,
 			'total'    => $payment->total,
