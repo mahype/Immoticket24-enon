@@ -34,6 +34,7 @@ public/app/nfwlog/*
 !public/app/plugins/edd-custom-fees
 !public/app/plugins/edd-discount-code-generator
 !public/app/plugins/edd-klicktipp-integration
+!public/app/plugins/easy-digital-downloads
 !public/app/plugins/edd-stripe
 !public/app/plugins/edd-stripe/vendor
 !public/app/plugins/enon
