@@ -63,7 +63,6 @@
     "awsmug/block-wave-separator": "dev-master",
     "awsmug/block-trusted-shops": "dev-main",
     "felixarntz/plugin-lib": "dev-master",
-    "wpackagist-plugin/easy-digital-downloads": "2.11.7",
     "wpackagist-plugin/imagify": "2.0",
     "wpackagist-plugin/login-lockdown": "1.83",
     "wpackagist-plugin/really-simple-captcha": "2.1",
@@ -91,11 +90,6 @@
     },
     "wordpress-install-dir": "public/core",
     "patches": {
-      "wpackagist-plugin/easy-digital-downloads": {
-        "Hack: EDD Recalculating total, because of missing VAT in sercices": "patches/edd-recalculate-total.diff",
-        "Hack: EDD showing different value of entries on payment site": "patches/edd-payments-per-page.diff",
-        "Hack: EDD fix for setting custom email sender": "patches/edd-custom-email-sender.diff"
-      },
       "wpackagist-plugin/wp-postratings": {
         "Hack: WP Postratings - Adding name to property": "patches/wp-postratings.diff"
       },
