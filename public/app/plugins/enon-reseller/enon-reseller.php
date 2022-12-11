@@ -35,10 +35,9 @@ require_once dirname( __FILE__ ) . '/vendor/autoload.php';
  */
 function enon_reseller_boot() {
 	try {
-		$logger = new Logger( 'Enon_Reseller' );
 
 		( new Plugin() )
-			->add_task( Loader::class, $logger )
+			->add_task( Loader::class )
 			->boot();
 	} catch ( \Exception $exception ) {
 		wp_die( esc_attr( $exception->getMessage() ) );

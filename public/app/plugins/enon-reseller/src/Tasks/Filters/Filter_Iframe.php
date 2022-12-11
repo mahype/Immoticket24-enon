@@ -14,20 +14,18 @@ namespace Enon_Reseller\Tasks\Filters;
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Filters;
 use Awsm\WP_Wrapper\Interfaces\Task;
-use Awsm\WP_Wrapper\Tools\Logger;
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
+use Enon\Logger;
 
 use Enon_Reseller\Models\Reseller;
 
 /**
- * Class Logger_Trait.
+ * Class Filter_Iframe.
  *
  * @since 1.0.0
  *
  * @package Enon_Reseller\Tasks\Enon
  */
 class Filter_Iframe implements Task, Actions, Filters {
-	use Logger_Trait;
 
 	/**
 	 * Reseller object.

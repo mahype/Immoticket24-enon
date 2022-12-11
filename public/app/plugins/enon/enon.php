@@ -41,11 +41,10 @@ if( is_admin() ) {
  */
 function enon_boot() {
 	try {
-		$logger = new Logger( 'Enon' );
 
 		( new Plugin() )
-			->add_task( WP_Loader::class, $logger )
-			->add_task( Tasks_Loader::class, $logger )
+			->add_task( WP_Loader::class )
+			->add_task( Tasks_Loader::class )
 			->boot();
 	} catch ( \Exception $exception ) {
 		wp_die( esc_attr( $exception->getMessage() ) );

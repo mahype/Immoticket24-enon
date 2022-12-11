@@ -14,8 +14,6 @@ namespace Enon;
 use Awsm\WP_Wrapper\Interfaces\Task;
 use Awsm\WP_Wrapper\Tasks\Task_Runner;
 
-use Awsm\WP_Wrapper\Tools\Logger;
-
 /**
  * Class Task_Loader.
  *

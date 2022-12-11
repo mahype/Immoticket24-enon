@@ -13,11 +13,7 @@ namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
-
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
-use Awsm\WP_Wrapper\Tools\Logger;
-
-use Enon\Models\Plugins\ACF;
+use Enon\Logger;
 use Enon\Models\WP\Page;
 use Enon\Models\WP\Tabs;
 use Enon\Models\WP\Tab;
@@ -31,7 +27,6 @@ use Enon\Models\Fieldsets\Fieldset_Confirmation_Email;
  * @package Enon\Config
  */
 class Add_Options_General implements Task, Actions {
-	use Logger_Trait;
 
 	/**
 	 * AffiliateWP constructor.
@@ -49,11 +44,6 @@ class Add_Options_General implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		if ( ! ACF::is_activated() ) {
-			$this->logger->warning( 'Advanced custom fields seems not to be activated.' );
-			return;
-		}
-
 		$this->add_actions();
 	}
 

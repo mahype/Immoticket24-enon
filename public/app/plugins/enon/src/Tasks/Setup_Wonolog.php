@@ -12,7 +12,6 @@
 namespace Enon\Tasks;
 
 use Awsm\WP_Wrapper\Interfaces\Task;
-use Awsm\WP_Wrapper\Tools\Logger_Trait;
 
 use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Handler\SlackWebhookHandler;
@@ -28,7 +27,6 @@ use Enon\Logger;
  * @since 1.0.0
  */
 class Setup_Wonolog implements Task {
-	use Logger_Trait;
 
 	/**
 	 * Log constructor.
