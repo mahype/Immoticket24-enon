@@ -147,12 +147,12 @@ abstract class Sender implements Sender_Interface
 		);
 
 		if ($this->is_sent()) {
-			$this->logger()->notice('Stopped sending data. Mail already sent.', $debug_values);
+			$this->logger->notice('Stopped sending data. Mail already sent.', $debug_values);
 			return false;
 		}
 
 		if (!$this->check()) {
-			$this->logger()->notice('Stopped sending data. Check not passed.', $debug_values);
+			$this->logger->notice('Stopped sending data. Check not passed.', $debug_values);
 			return false;
 		}
 

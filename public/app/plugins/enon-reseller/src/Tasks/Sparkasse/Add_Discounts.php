@@ -318,7 +318,7 @@ class Add_Discounts implements Task, Actions, Filters {
 			'discount_price'        => $discount_price,
 		);
 
-		$this->logger()->notice( 'Setting special sparkasse discount.', $debug_values );
+		$this->logger->notice( 'Setting special sparkasse discount.', $debug_values );
 
 		return $discount_price;
 	}

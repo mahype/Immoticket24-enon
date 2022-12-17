@@ -37,7 +37,7 @@ class Sparkasse extends Sender
 				'reseller_id'           => (int) $this->energieausweis->reseller_id,
 			);
 
-			$this->logger()->notice('Stopped sending data to sparkasse server. Reseller id is wrong.', $debug_values);
+			$this->logger->notice('Stopped sending data to sparkasse server. Reseller id is wrong.', $debug_values);
 
 			return false;
 		}
@@ -48,7 +48,7 @@ class Sparkasse extends Sender
 				'reseller_id'           => (int) $this->energieausweis->reseller_id,
 			);
 
-			$this->logger()->notice('Stopped sending data to sparkasse server. Data already sent.', $debug_values);
+			$this->logger->notice('Stopped sending data to sparkasse server. Data already sent.', $debug_values);
 
 			return false;
 		}
@@ -74,7 +74,7 @@ class Sparkasse extends Sender
 			'values_to_check'       => $values_to_check,
 		);
 
-		$this->logger()->notice('Stopped sending data to sparkasse server. Value check not passed..', $debug_values);
+		$this->logger->notice('Stopped sending data to sparkasse server. Value check not passed..', $debug_values);
 
 		return false;
 	}
@@ -122,7 +122,7 @@ class Sparkasse extends Sender
 			'data'                  => $data,
 		);
 
-		$this->logger()->notice('Prepared data.', $debug_values);
+		$this->logger->notice('Prepared data.', $debug_values);
 
 		return $data;
 	}
@@ -186,16 +186,16 @@ class Sparkasse extends Sender
 		);
 
 		if($this->is_sent()) {
-			$this->logger()->notice('Stopped sending data. Mail already sent.', $debug_values );
+			$this->logger->notice('Stopped sending data. Mail already sent.', $debug_values );
 			return false;
 		}
 
 		if(!$this->check()) {
-			$this->logger()->notice('Stopped sending data. Check not passed.', $debug_values );
+			$this->logger->notice('Stopped sending data. Check not passed.', $debug_values );
 			return false;
 		}
 
-		$request = new Request($this->get_endpoint(), $this->logger());
+		$request = new Request($this->get_endpoint(), $this->logger);
 		$request->set_content($this->get_content());
 
 		if(!$request->post()) {
