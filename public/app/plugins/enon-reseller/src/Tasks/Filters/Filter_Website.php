@@ -27,7 +27,6 @@ use WPENON\Model\Energieausweis AS Energieausweis_Old;
  * @package Enon_Reseller\WordPress
  */
 class Filter_Website implements Task, Filters {
-
 	/**
 	 * Reseller object.
 	 *
@@ -128,7 +127,7 @@ class Filter_Website implements Task, Filters {
 			$url = home_url( '/danke-fuer-ihr-vertrauen/' );
 		}
 
-		$this->logger()->notice( 'Setting success url.', [ 'url' => $url ] );
+		$this->logger->notice( 'Setting success url.', [ 'url' => $url ] );
 
 		return $url;
 	}
@@ -159,7 +158,7 @@ class Filter_Website implements Task, Filters {
 
 		$url = $this->reseller->add_iframe_params( $url );
 
-		$this->logger()->notice('Redirecting user after failed payment.', array( 'url' => $url ) );
+		$this->logger->notice('Redirecting user after failed payment.', array( 'url' => $url ) );
 
 		return $url;
 	}
@@ -194,7 +193,7 @@ class Filter_Website implements Task, Filters {
 
 		$data['access_link'] = $url;
 
-		$this->logger()->notice( 'Filtering access link.', array( 'url' => $url ) );
+		$this->logger->notice( 'Filtering access link.', array( 'url' => $url ) );
 
 		return $data;
 	}
@@ -215,7 +214,7 @@ class Filter_Website implements Task, Filters {
 			return $url;
 		}
 
-		$this->logger()->notice('Filtering privacy url.', array( 'url' => $privacy_url ) );
+		$this->logger->notice('Filtering privacy url.', array( 'url' => $privacy_url ) );
 
 		return $privacy_url;
 	}
