@@ -34,5 +34,5 @@ jobs:
           cd $WWW/public/app/plugins/wp-energieausweis-online
           /www/htdocs/w012900a/bin/composer.phar update
           cp $WWW/public/.htaccess-production $WWW/public/.htaccess
-          cp $WWW/public/.user-production.ini $WWW/.user.ini
+          cp $WWW/public/.user-production.ini $WWW/public/.user.ini
           cd $WWW
