@@ -108,7 +108,7 @@ class Setup_Edd implements Actions, Task
 			$sender_class = 'Enon_Reseller\\Models\\Api\\Out\\Standard';
 		}
 
-		$sender = new $sender_class($this->logger(), $energieausweis, $reseller, $payment_id);
+		$sender = new $sender_class($this->logger, $energieausweis, $reseller, $payment_id);
 		$sender->send();
 	}
 }

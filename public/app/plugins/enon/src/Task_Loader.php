@@ -29,7 +29,7 @@ abstract class Task_Loader implements Task {
 	 *
 	 * @var Logger
 	 */
-	private $logger;
+	protected $logger;
 
 	/**
 	 * WhitelabelLoader constructor.
