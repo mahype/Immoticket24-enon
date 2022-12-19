@@ -13,7 +13,16 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log(enonUrl);
         const enonIframe = document.getElementById("iframe-energieausweis-online");
         console.log(enonIframe);
-        enonIframe.src = enonUrl;       
+
+        const iframes = document.getElementsByClassName("iframe-energieausweis-online");
+        for (let i = 0; i < iframes.length; i++) {
+            console.log(enonIframe);
+            if( i === 0 ){
+                iframes[i].src = enonUrl;
+            } else {
+                iframes[i].style.display = "none";
+            }
+        }     
     }
 });
 
