@@ -163,7 +163,7 @@ class Fieldset_Iframe implements Fieldset {
 
 		$js_url = home_url( '/scripts/dist/reseller.min.js' );
 
-		$iframe_html = '<iframe id="iframe-energieausweis-online" class="iframe-energieausweis-online" src="' . $url .'" frameBorder="0" scrolling="no" style="width: 100%; height:500px;"></iframe><script type="text/javascript" src="' . $js_url . '"></script>';
+		$iframe_html = '<iframe class="iframe-energieausweis-online" src="' . $url .'" frameBorder="0" scrolling="no" style="width: 100%; height:500px;"></iframe><script type="text/javascript" src="' . $js_url . '"></script>';
 
 		return $iframe_html;
 	}
