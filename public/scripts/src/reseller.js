@@ -12,11 +12,16 @@ document.addEventListener("DOMContentLoaded", function() {
         const enonUrl = "https://www.energieausweis-online-erstellen.de/energieausweise/" + enonSlug + "/?iframe_token=" + enonIframeToken + "&access_token=" + enonAccessToken;
         console.log(enonUrl);
         const enonIframe = document.getElementById("iframe-energieausweis-online");
-        console.log(enonIframe);
+        console.log("Iframe by id: " + enonIframe);
+
+        if( enonIframe !== null ) {
+            enonIframe.src = enonUrl;
+            return;
+        }
 
         const iframes = document.getElementsByClassName("iframe-energieausweis-online");
         for (let i = 0; i < iframes.length; i++) {
-            console.log(enonIframe);
+            console.log("Iframe by class:"+ iframes[i]);
             if( i === 0 ){
                 iframes[i].src = enonUrl;
             } else {
