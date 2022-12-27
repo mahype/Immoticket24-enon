@@ -15,6 +15,7 @@ public/app/uploads/*
 public/app/nfwlog/*
 public/app/shield/*
 public/dl/rechnungen/*
+public/app/wflogs/*
 
 # Local configuration
 assets/mysql/*
