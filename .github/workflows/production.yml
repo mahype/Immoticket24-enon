@@ -35,4 +35,3 @@ jobs:
           /www/htdocs/w012900a/bin/composer.phar update
           cp $WWW/public/.htaccess-production $WWW/public/.htaccess
           cp $WWW/public/.user-production.ini $WWW/public/.user.ini
-          cd $WWW
