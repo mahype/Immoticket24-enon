@@ -203,7 +203,7 @@
                                                     <?php
                                                     if ($groupData->group_id !== 'essential') { ?>
                                                         <tr>
-                                                            <th><?php
+                                                            <th scope="row"><?php
                                                                 echo $cookieBoxCookieDetailsTableAccept; ?></th>
                                                             <td>
                                                                 <label class="_brlbs-btn-switch _brlbs-btn-switch--textRight">
@@ -242,7 +242,7 @@
                                                     } ?>
 
                                                     <tr>
-                                                        <th><?php
+                                                        <th scope="row"><?php
                                                             echo $cookieBoxCookieDetailsTableName; ?></th>
                                                         <td>
                                                             <label>
@@ -253,7 +253,7 @@
                                                     </tr>
 
                                                     <tr>
-                                                        <th><?php
+                                                        <th scope="row"><?php
                                                             echo $cookieBoxCookieDetailsTableProvider; ?></th>
                                                         <td><?php
                                                             echo $cookieData->provider; ?></td>
@@ -262,7 +262,7 @@
                                                     <?php
                                                     if (! empty($cookieData->purpose)) { ?>
                                                         <tr>
-                                                            <th><?php
+                                                            <th scope="row"><?php
                                                                 echo $cookieBoxCookieDetailsTablePurpose; ?></th>
                                                             <td><?php
                                                                 echo $cookieData->purpose; ?></td>
@@ -273,7 +273,7 @@
                                                     <?php
                                                     if (! empty($cookieData->privacy_policy_url)) { ?>
                                                         <tr>
-                                                            <th><?php
+                                                            <th scope="row"><?php
                                                                 echo $cookieBoxCookieDetailsTablePrivacyPolicy; ?></th>
                                                             <td class="_brlbs-pp-url">
                                                                 <a
@@ -293,7 +293,7 @@
                                                     <?php
                                                     if (! empty($cookieData->hosts)) { ?>
                                                         <tr>
-                                                            <th><?php
+                                                            <th scope="row"><?php
                                                                 echo $cookieBoxCookieDetailsTableHosts; ?></th>
                                                             <td><?php
                                                                 echo implode(', ', $cookieData->hosts); ?></td>
@@ -304,7 +304,7 @@
                                                     <?php
                                                     if (! empty($cookieData->cookie_name)) { ?>
                                                         <tr>
-                                                            <th><?php
+                                                            <th scope="row"><?php
                                                                 echo $cookieBoxCookieDetailsTableCookieName; ?></th>
                                                             <td><?php
                                                                 echo esc_html($cookieData->cookie_name); ?></td>
@@ -315,7 +315,7 @@
                                                     <?php
                                                     if (! empty($cookieData->cookie_expiry)) { ?>
                                                         <tr>
-                                                            <th><?php
+                                                            <th scope="row"><?php
                                                                 echo $cookieBoxCookieDetailsTableCookieExpiry; ?></th>
                                                             <td><?php
                                                                 echo esc_html($cookieData->cookie_expiry); ?></td>

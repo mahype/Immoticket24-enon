@@ -97,6 +97,7 @@ class API
                 'timeout' => 45,
                 'body' => [
                     'backend_url' => get_site_url(),
+                    'dbVersion' => $this->getDbVersion(),
                     'debug_php_time' => date('Y-m-d H:i:s'),
                     'debug_php_timestamp' => time(),
                     'debug_timezone' => date_default_timezone_get(),
@@ -160,6 +161,7 @@ class API
                 'timeout' => 45,
                 'body' => [
                     'backend_url' => get_site_url(),
+                    'dbVersion' => $this->getDbVersion(),
                     'frontend_url' => get_home_url(),
                     'language' => get_locale(),
                     'licenseKey' => !empty($licenseData->licenseKey) ? $licenseData->licenseKey : '',
@@ -327,6 +329,15 @@ class API
         echo json_encode([
             'success' => true,
         ]);
+    }
+
+    private function getDbVersion()
+    {
+        global $wpdb;
+
+        $dbServerInfo = $wpdb->get_var('SELECT VERSION()');
+
+        return $dbServerInfo;
     }
 
     /**

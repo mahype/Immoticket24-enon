@@ -178,9 +178,9 @@ class Shortcode
         $cookieBoxConsentHistoryTableVersion = Config::getInstance()->get('cookieBoxConsentHistoryTableVersion');
         $cookieBoxConsentHistoryTableConsents = Config::getInstance()->get('cookieBoxConsentHistoryTableConsents');
 
-        return '<div class="BorlabsCookie" data-borlabs-cookie-consent-history><div class="_brlbs-responsive-table"><table class="_brlbs-table"><thead><tr><th class="_brlbs-table-date">'
-            . $cookieBoxConsentHistoryTableDate . '</th><th class="_brlbs-table-version">'
-            . $cookieBoxConsentHistoryTableVersion . '</th><th class="_brlbs-table-consents">'
+        return '<div class="BorlabsCookie" data-borlabs-cookie-consent-history><div class="_brlbs-responsive-table"><table class="_brlbs-table"><thead><tr><th class="_brlbs-table-date" scope="col">'
+            . $cookieBoxConsentHistoryTableDate . '</th><th class="_brlbs-table-version" scope="col">'
+            . $cookieBoxConsentHistoryTableVersion . '</th><th class="_brlbs-table-consents" scope="col">'
             . $cookieBoxConsentHistoryTableConsents . '</th></tr></thead></table></div></div>';
     }
 
@@ -308,25 +308,25 @@ class Shortcode
                         ) . '">';
 
                         $content .= '<tr>';
-                        $content .= '<th>' . $cookieBoxCookieDetailsTableName . '</th>';
+                        $content .= '<th scope="row">' . $cookieBoxCookieDetailsTableName . '</th>';
                         $content .= '<td>' . esc_html($cookieData->name) . '</td>';
                         $content .= '</tr>';
 
                         $content .= '<tr>';
-                        $content .= '<th>' . $cookieBoxCookieDetailsTableProvider . '</th>';
+                        $content .= '<th scope="row">' . $cookieBoxCookieDetailsTableProvider . '</th>';
                         $content .= '<td>' . $cookieData->provider . '</td>';
                         $content .= '</tr>';
 
                         if (!empty($cookieData->purpose)) {
                             $content .= '<tr>';
-                            $content .= '<th>' . $cookieBoxCookieDetailsTablePurpose . '</th>';
+                            $content .= '<th scope="row">' . $cookieBoxCookieDetailsTablePurpose . '</th>';
                             $content .= '<td>' . $cookieData->purpose . '</td>';
                             $content .= '</tr>';
                         }
 
                         if (!empty($cookieData->privacy_policy_url)) {
                             $content .= '<tr>';
-                            $content .= '<th>' . $cookieBoxCookieDetailsTablePrivacyPolicy . '</th>';
+                            $content .= '<th scope="row">' . $cookieBoxCookieDetailsTablePrivacyPolicy . '</th>';
                             $content .= '<td><a href="' . esc_url($cookieData->privacy_policy_url)
                                 . '" target="_blank" rel="nofollow noopener noreferrer">' . esc_url(
                                     $cookieData->privacy_policy_url
@@ -336,21 +336,21 @@ class Shortcode
 
                         if (!empty($cookieData->hosts)) {
                             $content .= '<tr>';
-                            $content .= '<th>' . $cookieBoxCookieDetailsTableHosts . '</th>';
+                            $content .= '<th scope="row">' . $cookieBoxCookieDetailsTableHosts . '</th>';
                             $content .= '<td>' . implode(', ', $cookieData->hosts) . '</td>';
                             $content .= '</tr>';
                         }
 
                         if (!empty($cookieData->cookie_name)) {
                             $content .= '<tr>';
-                            $content .= '<th>' . $cookieBoxCookieDetailsTableCookieName . '</th>';
+                            $content .= '<th scope="row">' . $cookieBoxCookieDetailsTableCookieName . '</th>';
                             $content .= '<td>' . esc_html($cookieData->cookie_name) . '</td>';
                             $content .= '</tr>';
                         }
 
                         if (!empty($cookieData->cookie_expiry)) {
                             $content .= '<tr>';
-                            $content .= '<th>' . $cookieBoxCookieDetailsTableCookieExpiry . '</th>';
+                            $content .= '<th scope="row">' . $cookieBoxCookieDetailsTableCookieExpiry . '</th>';
                             $content .= '<td>' . esc_html($cookieData->cookie_expiry) . '</td>';
                             $content .= '</tr>';
                         }

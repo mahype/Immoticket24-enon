@@ -143,7 +143,7 @@ class Frontend
                 wp_schedule_event(time(), 'daily', 'borlabsCookieTelemetry');
             }
 
-            // THIRD PARTY
+            // PAGEBUILDER, THEMES & OTHER THIRD PARTY SYSTEMS
             // ACF
             if (class_exists('ACF')) {
                 ThirdParty\Plugins\ACF::getInstance()->register();
@@ -172,6 +172,15 @@ class Frontend
             if (defined('BRICKS_VERSION')) {
                 ThirdParty\Themes\Bricks::getInstance()->register();
             }
+
+            // WordPress Customizer
+            add_filter('borlabsCookie/buffer/active', function ($status) {
+                if (is_customize_preview()) {
+                    $status = false;
+                }
+
+                return $status;
+            });
 
             // Divi
             if (function_exists('et_divi_builder_init_plugin') || function_exists('et_setup_theme')) {

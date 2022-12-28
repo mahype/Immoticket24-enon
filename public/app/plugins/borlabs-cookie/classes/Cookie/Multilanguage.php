@@ -65,6 +65,19 @@ class Multilanguage
 
             return $languages;
         }
+
+        if (function_exists('Falang')) {
+            $languages = [];
+
+            foreach (Falang()->get_model()->get_languages_list() as $language) {
+                array_push($languages, [
+                    'code' => $language->locale,
+                    'name' => $language->name . ' (' . $language->locale . ')',
+                ]);
+            }
+
+            return $languages;
+        }
     }
 
     /**
@@ -86,6 +99,21 @@ class Multilanguage
                     // Fallback: Add action to reload Config later. Necessary when the content defines the language
                     if (is_admin() === false) {
                         add_action('pll_language_defined', [$this, 'polylangLanguageDefined']);
+                    }
+                }
+            } elseif (function_exists('Falang')) {
+                $currentLanguage = Falang()->get_current_language()->locale;
+
+                if (is_admin()) {
+                    $userLanguage = get_option('BorlabsCookieUserLanguage_' . get_current_user_id());
+
+                    if (isset($_GET['borlabsLang'])) {
+                        if (Falang()->get_model()->get_language_by_locale($_GET['borlabsLang']) !== null) {
+                            update_option('BorlabsCookieUserLanguage_' . get_current_user_id(), $_GET['borlabsLang']);
+                            $currentLanguage = $_GET['borlabsLang'];
+                        }
+                    } elseif ($userLanguage) {
+                        $currentLanguage = $userLanguage;
                     }
                 }
             } elseif ($this->isLanguagePluginWeglotActive()) {
@@ -156,6 +184,8 @@ class Multilanguage
             if (empty($currentLanguageName)) {
                 $currentLanguageName = pll_default_language('name');
             }
+        } elseif (function_exists('Falang')) {
+            $currentLanguageName = Falang()->get_current_language()->name;
         } elseif ($this->isLanguagePluginWeglotActive()) {
             // Weglot
             $languageCode = $this->getWeglotCurrentLanguageCode();
@@ -184,6 +214,8 @@ class Multilanguage
             // Polylang
             if (function_exists('pll_default_language')) {
                 $defaultLanguage = pll_default_language();
+            } elseif (function_exists('Falang')) {
+                $defaultLanguage = Falang()->get_default_language()->locale;
             } elseif ($this->isLanguagePluginWeglotActive()) {
                 // Weglot
                 $defaultLanguage = weglot_get_original_language();
@@ -213,6 +245,10 @@ class Multilanguage
         // Get the flag, works with WPML & Polylang
         if ($this->isMultilanguagePluginActive()) {
             if (!$this->isLanguagePluginWeglotActive()) {
+                if (function_exists('Falang')) {
+                    return plugins_url('flags/' . Falang()->get_current_language()->flag_code . '.png', FALANG_FILE);
+                }
+
                 $null = null;
                 $listOfActiveLanguages = apply_filters('wpml_active_languages', $null);
 
@@ -241,6 +277,8 @@ class Multilanguage
                 if ($this->getWeglotLanguageName($languageCode) !== null) {
                     $languageName = $this->getWeglotLanguageName($languageCode);
                 }
+            } elseif (function_exists('Falang')) {
+                $languageName = Falang()->get_model()->get_language_by_locale($languageCode)->name;
             } else {
                 $null = null;
                 $languages = apply_filters('wpml_active_languages', $null, []);
@@ -300,7 +338,7 @@ class Multilanguage
 
         if (
             defined('ICL_LANGUAGE_CODE') || defined('POLYLANG_FILE')
-            || $this->isLanguagePluginWeglotActive()
+            || $this->isLanguagePluginWeglotActive() || function_exists('Falang')
         ) {
             $status = true;
         }
@@ -310,7 +348,7 @@ class Multilanguage
 
     public function needsLanguageChooser()
     {
-        return $this->isLanguagePluginWeglotActive();
+        return $this->isLanguagePluginWeglotActive() || function_exists('Falang');
     }
 
     /**

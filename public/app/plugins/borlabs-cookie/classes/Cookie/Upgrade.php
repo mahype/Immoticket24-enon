@@ -64,7 +64,7 @@ class Upgrade
             'upgradeVersion_2_2_50' => '2.2.50',
             'upgradeVersion_2_2_56' => '2.2.56',
             'upgradeVersion_2_2_57' => '2.2.57',
-            'upgradeVersion_2_2_59' => '2.2.59',
+            'upgradeVersion_2_2_61' => '2.2.61',
         ];
 
     public function __construct()
@@ -1082,13 +1082,6 @@ class Upgrade
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
-    public function upgradeVersion_2_2_59()
-    {
-        update_option('BorlabsCookieClearCache', true, 'yes');
-        update_option('BorlabsCookieVersion', '2.2.59', 'yes');
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
     public function upgradeVersion_2_2_6()
     {
         global $wpdb;
@@ -1167,6 +1160,13 @@ class Upgrade
 
         update_option('BorlabsCookieClearCache', true, 'no');
         update_option('BorlabsCookieVersion', '2.2.6', 'no');
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_61()
+    {
+        update_option('BorlabsCookieClearCache', true, 'yes');
+        update_option('BorlabsCookieVersion', '2.2.61', 'yes');
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
