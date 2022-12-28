@@ -66,7 +66,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 		// Per category referral rates
 		add_action( 'download_category_add_form_fields', array( $this, 'add_download_category_rate' ), 10, 2 );
 		add_action( 'download_category_edit_form_fields', array( $this, 'edit_download_category_rate' ), 10 );
-		add_action( 'edited_download_category', array( $this, 'save_download_category_rate' ) );  
+		add_action( 'edited_download_category', array( $this, 'save_download_category_rate' ) );
 		add_action( 'create_download_category', array( $this, 'save_download_category_rate' ) );
 
 		// Downloads archive
@@ -526,10 +526,17 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 
 					}
 
-					// Check for Recurring Payments signup fee
-					if ( ! empty( $download['item_number']['options']['recurring']['signup_fee'] ) ) {
-						$amount += $download['item_number']['options']['recurring']['signup_fee'];
-					}
+					// Check for Recurring Payments signup fee.
+					$recurring = isset( $download['item_number']['options']['recurring'] )
+						? maybe_unserialize( $download['item_number']['options']['recurring'] )
+						: array();
+
+					$amount += (
+						isset( $recurring['signup_fee'] ) &&
+						false !== filter_var(  $recurring['signup_fee'], FILTER_VALIDATE_FLOAT )
+					)
+						? $recurring['signup_fee']
+						: 0;
 
 					$referral_total += $this->calculate_referral_amount( $amount, $payment_id, $download['id'], $affiliate_id, $category_id );
 				}
@@ -1066,13 +1073,13 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 
 	/**
 	 * Edit download_category referral rate field.
-	 * 
+	 *
 	 * @access  public
 	 * @since   2.2
 	 */
 	public function edit_download_category_rate( $category ) {
 		$category_id   = $category->term_id;
-		$category_rate = get_term_meta( $category_id, '_affwp_' . $this->context . '_category_rate', true ); 
+		$category_rate = get_term_meta( $category_id, '_affwp_' . $this->context . '_category_rate', true );
 		?>
 		<tr class="form-field">
 			<th><label for="download-category-rate"><?php _e( 'Referral Rate', 'affiliate-wp' ); ?></label></th>
@@ -1083,7 +1090,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 		</tr>
 	<?php
 	}
-	
+
 	/**
 	 * Save download_category referral rate field.
 	 *

@@ -74,13 +74,18 @@ function affwp_update_creative( $data = array() ) {
 	}
 
 	$args = array(
-		'name'        => ! empty( $data['name'] ) ? sanitize_text_field( $data['name'] ) : __( 'Creative', 'affiliate-wp' ),
-		'description' => ! empty( $data['description'] ) ? wp_kses_post( $data['description'] ) : '',
-		'url'         => ! empty( $data['url'] ) ? esc_url_raw( $data['url'] ) : get_site_url(),
-		'text'        => ! empty( $data['text'] ) ? sanitize_text_field( $data['text'] ) : get_bloginfo( 'name' ),
-		'image'       => ! empty( $data['image'] ) ? sanitize_text_field( $data['image'] ) : '',
-		'status'      => ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : '',
+		'name'          => ! empty( $data['name'] ) ? sanitize_text_field( $data['name'] ) : __( 'Creative', 'affiliate-wp' ),
+		'description'   => ! empty( $data['description'] ) ? wp_kses_post( $data['description'] ) : '',
+		'url'           => ! empty( $data['url'] ) ? esc_url_raw( $data['url'] ) : get_site_url(),
+		'text'          => ! empty( $data['text'] ) ? sanitize_text_field( $data['text'] ) : get_bloginfo( 'name' ),
+		'image'         => ! empty( $data['image'] ) ? sanitize_text_field( $data['image'] ) : '',
+		'status'        => ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : '',
+		'attachment_id' => 0,
 	);
+
+	$args['attachment_id'] = ( ! empty( $args['image'] ) ) 
+		? attachment_url_to_postid( $args['image'] )
+		: 0;
 
 	if ( affiliate_wp()->creatives->update( $creative->ID, $args, '', 'creative' ) ) {
 		return true;

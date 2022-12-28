@@ -42,7 +42,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.10.0';
+	private $version = '2.11.1';
 
 	/**
 	 * Main plugin file.

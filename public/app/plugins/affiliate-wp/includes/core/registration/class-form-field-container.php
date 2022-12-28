@@ -97,9 +97,19 @@ class Form_Field_Container {
 	protected $required = false;
 
 	/**
+	 * Original block attributes for this field.
+	 *
+	 * @since 2.11.0
+	 *
+	 * @var array
+	 */
+	protected $block_attrs = array();
+
+	/**
 	 * Form_Field_Container constructor.
 	 *
 	 * @since 2.8
+	 * @since 2.11.0 Added block_attrs to allow us to generate form checksums.
 	 *
 	 * @param array $args {
 	 *     Form field container arguments.
@@ -109,18 +119,22 @@ class Form_Field_Container {
 	 *     @type string $legacy_type The legacy field type, used for backcompat with the legacy form. Default empty.
 	 *     @type string $meta_field  The meta field key to save as in affiliate meta. Default: label with underscores.
 	 *     @type bool   $required    True if the field is required, otherwise false. Default false.
+	 *     @type array  $block_attrs Original attributes used by the field block.
 	 * }
 	 */
 	public function __construct( $args = array() ) {
-		$defaults = array(
-			'field_type'  => '',
-			'label'       => '',
-			'legacy_type' => '',
-			'meta_field'  => '',
-			'required'    => false,
-		);
 
-		$args = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'field_type'  => '',
+				'label'       => '',
+				'legacy_type' => '',
+				'meta_field'  => '',
+				'required'    => false,
+				'block_attrs' => array(),
+			)
+		);
 
 		$field_type = preg_replace( '/affiliatewp\/(field-)?/', '', $args['field_type'] );
 
@@ -136,6 +150,8 @@ class Form_Field_Container {
 
 		$this->legacy_type = $args['legacy_type'];
 
+		$this->block_attrs = $args['block_attrs'];
+
 		$this->required          = (bool) $args['required'];
 		$callbacks               = $this->get_callbacks();
 		$this->sanitize_callback = isset( $callbacks['sanitize_callback'] ) ? $callbacks['sanitize_callback'] : false;
@@ -144,10 +160,14 @@ class Form_Field_Container {
 		// If the sanitize callback is specified, and invalid, do not save the field.
 		if ( false !== $this->sanitize_callback && ! is_callable( $this->sanitize_callback ) ) {
 			$this->validate_callback = '__return_false';
-			affiliate_wp()->utils->log( 'invalid_sanitize_callback', 'The provided affiliate registration form field sanitize callback is invalid', array(
-				'sanitize_callback' => $this->sanitize_callback,
-				'expects_type'      => 'callable',
-			) );
+			affiliate_wp()->utils->log(
+				'invalid_sanitize_callback',
+				'The provided affiliate registration form field sanitize callback is invalid',
+				array(
+					'sanitize_callback' => $this->sanitize_callback,
+					'expects_type'      => 'callable',
+				)
+			);
 		}
 	}
 
@@ -179,9 +199,11 @@ class Form_Field_Container {
 			'phone'    => array(
 				'sanitize_callback' => 'sanitize_text_field',
 			),
-			'checkbox' => array( 'sanitize_callback' => function ( $value ) {
-				return (bool) $value;
-			} ),
+			'checkbox' => array(
+				'sanitize_callback' => function ( $value ) {
+					return (bool) $value;
+				}
+			),
 		);
 
 		return isset( $callback_types[ $this->field_type ] ) ? $callback_types[ $this->field_type ] : array();
@@ -205,19 +227,22 @@ class Form_Field_Container {
 		 *
 		 * @param array $fields list of legacy field names.
 		 *
+		 * @return bool is legacy field or not.
 		 */
-		$legacy_fields = apply_filters( 'affwp_legacy_affiliate_registration_fields', array(
-			'name',
-			'username',
-			'account',
-			'payment',
-			'websiteUrl',
-			'promotionMethod',
-		) );
+		$legacy_fields = apply_filters(
+			'affwp_legacy_affiliate_registration_fields',
+			array(
+				'name',
+				'username',
+				'account',
+				'payment',
+				'websiteUrl',
+				'promotionMethod',
+			)
+		);
 
 		return in_array( $this->legacy_type, $legacy_fields );
 	}
-
 
 	/**
 	 * Validates the field, given a value.
@@ -241,9 +266,14 @@ class Form_Field_Container {
 
 		// If this field is required, and was not provided, add an error.
 		if ( empty( $value ) && true === $this->required ) {
+
 			$code    = 'field_' . $this->meta_field . '_required';
-			/* translators: Field label. */
-			$message = __( sprintf( 'The field "%s" is required', $this->label ) );
+			$message = sprintf(
+				/* translators: Field label. */
+				__( 'The field "%s" is required', 'affiliate-wp' ),
+				$this->label
+			);
+
 			if ( is_wp_error( $valid ) ) {
 				$valid->add_error( $code, $message );
 			} else {

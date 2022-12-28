@@ -150,18 +150,39 @@ if ( is_user_logged_in() ) {
 		<p>
 			<input type="hidden" name="affwp_honeypot" value="" />
 			<input type="hidden" name="affwp_redirect" value="<?php echo esc_url( $affwp_register_redirect ); ?>"/>
-			<input type="hidden" name="affwp_register_nonce" value="<?php echo wp_create_nonce( 'affwp-register-nonce' ); ?>" />
+			<input type="hidden" name="affwp_register_nonce" value="<?php echo esc_attr( wp_create_nonce( 'affwp-register-nonce' ) ); ?>" />
 			<input type="hidden" name="affwp_action" value="affiliate_register" />
 
 			<?php
-			$site_key = affiliate_wp()->settings->get( 'recaptcha_site_key', '' );
+				$site_key = affiliate_wp()->settings->get( 'recaptcha_site_key', '' );
+				$post_id  = get_the_ID();
+			?>
 
-		 	if ( 'v3' === affwp_recaptcha_type() && affwp_is_recaptcha_enabled() ) : ?>
-				<input class="button g-recaptcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>" data-callback="onSubmit" type="submit" data-action="submit" value="<?php esc_attr_e( 'Register', 'affiliate-wp' ); ?>" />
+			<?php if ( 'v3' === affwp_recaptcha_type() && affwp_is_recaptcha_enabled() ) : ?>
+				<input
+					type="hidden"
+					name="affwp_post_id"
+					value="<?php echo esc_attr( $post_id ); ?>"
+				/>
+				<input
+					class="button g-recaptcha"
+					data-sitekey="<?php echo esc_attr( $site_key ); ?>"
+					data-callback="onSubmit" type="submit"
+					data-action="affiliate_register_<?php echo esc_attr( $post_id ); ?>"
+					value="<?php esc_attr_e( 'Register', 'affiliate-wp' ); ?>"
+				/>
 				<script>
-				function onSubmit(token) {
-					document.getElementById( 'affwp-register-form' ).submit();
-				}
+					function onSubmit(token) {
+						const regForm = document.getElementById("affwp-register-form");
+
+						if ( regForm.checkValidity() ) {
+							regForm.submit();
+							return;
+						}
+
+						grecaptcha.reset();
+						regForm.reportValidity();
+					}
 				</script>
 			<?php else : ?>
 				<input class="button" type="submit" value="<?php esc_attr_e( 'Register', 'affiliate-wp' ); ?>" />

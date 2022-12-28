@@ -98,6 +98,16 @@ class Affiliate_WP_Tracking {
 	}
 
 	/**
+	 * Determine if jQuery is loaded.
+	 *
+	 * @access public
+	 * @since  2.11.0
+	 */
+	public function is_jquery() {
+		return wp_script_is( 'jquery', 'enqueued' ) || wp_script_is( 'jquery', 'to_do' ) || wp_script_is( 'jquery', 'done' );
+	}
+
+	/**
 	 * Attempts to enqueue header scripts alongside jQuery.
 	 *
 	 * If the 'jquery' handle is not set for enqueue as of {@see 'wp_head'} at priority 10,
@@ -108,6 +118,7 @@ class Affiliate_WP_Tracking {
 	 * @since  2.0.10 Converted to a wrapper for a new protected print_header_script() helper.
 	 */
 	public function header_scripts() {
+
 		// Back-compat for direct calls.
 		if ( 'wp_head' !== current_action() ) {
 			$this->print_header_script();
@@ -115,10 +126,7 @@ class Affiliate_WP_Tracking {
 			return;
 		}
 
-		if ( wp_script_is( 'jquery', 'enqueued' )
-		     || wp_script_is( 'jquery', 'to_do' )
-		     || wp_script_is( 'jquery', 'done' )
-		) {
+		if ( $this->is_jquery() ) {
 			$this->print_header_script();
 		} else {
 			add_action( 'wp_footer', array( $this, 'header_scripts' ) );
@@ -146,7 +154,7 @@ class Affiliate_WP_Tracking {
 		AFFWP.cookie_domain = '<?php echo esc_js( $cookie_domain ); ?>';
 <?php endif; ?>
 
-<?php if( 1 !== (int) get_option( 'affwp_js_works' ) )  : ?>
+<?php if( $this->is_jquery() && 1 !== (int) get_option( 'affwp_js_works' ) )  : ?>
 		jQuery(document).ready(function($) {
 			// Check if JS is working properly. If it is, we update an update in the DB
 			$.ajax({

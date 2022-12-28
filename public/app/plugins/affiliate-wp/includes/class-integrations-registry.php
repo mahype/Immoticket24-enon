@@ -317,12 +317,6 @@ class Integrations_Registry extends Utils\Registry {
 	 */
 	public function register_core_integrations() {
 
-		// Caldera Forms
-		$this->add_integration( 'caldera-forms', array(
-			'name'  => 'Caldera Forms',
-			'class' => '\Affiliate_WP_Caldera_Forms',
-		) );
-
 		// Contact Form 7
 		$this->add_integration( 'contactform7', array(
 			'name'  => 'Contact Form 7',
@@ -452,18 +446,6 @@ class Integrations_Registry extends Utils\Registry {
 		$this->add_integration( 'wpforms', array(
 			'name'  => 'WPForms',
 			'class' => '\Affiliate_WP_WPForms',
-		) );
-
-		// WP-Invoice
-		$this->add_integration( 'wp-invoice', array(
-			'name'  => 'WP-Invoice',
-			'class' => '\Affiliate_WP_Invoice',
-		) );
-
-		// Zippy Courses
-		$this->add_integration( 'zippycourses', array(
-			'name'  => 'Zippy Courses',
-			'class' => '\Affiliate_WP_ZippyCourses',
 		) );
 	}
 }

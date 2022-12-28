@@ -114,6 +114,49 @@ class Affiliate_WP_Admin_Notices {
 		$this->upgrade_notices();
 		$this->development_notices();
 		$this->addons_notices();
+
+		$this->hrk_notice(); // @TODO Remove after 1/1/2023.
+	}
+
+	/**
+	 * HRK Notice.
+	 *
+	 * @since  2.11.0
+	 *
+	 * @TODO Remove after 1/1/2023.
+	 *
+	 * @see affwp_maybe_remove_hrk().
+	 * @see Affiliate_WP_Admin_Notices::hrk_notice().
+	 * @see affwp_hrk_time().
+	 */
+	public function hrk_notice() {
+
+		if ( time() < affwp_hrk_time() ) {
+			return; // Keep HRK until the right time.
+		}
+
+		if ( 'hrk' !== strtolower( affwp_get_currency() ) ) {
+			return; // The currency isn't HRK, don't do anything.
+		}
+
+		if ( ! affwp_is_admin_page() ) {
+			return; // Only on our pages.
+		}
+
+		// Register a notice.
+		$this->add_notice( 'hrk_notice', array(
+			'message' => sprintf(
+				// Translators: %1$s is a link to settings.
+				__( 'You need to %1$s. On January 1, 2023, Croatia joined the Eurozone. This means the Croatian Kuna (HRK) is now deprecated in favor of the euro (EUR).', 'affiliate-wp' ),
+				sprintf(
+					'<a href="admin.php?page=affiliate-wp-settings#currency_settings">%s</a>',
+					_x( 'select a new currency', 'affiliate-wp' )
+				)
+			),
+			'class'   => 'error',
+		) );
+
+		self::show_notice( 'hrk_notice', true );
 	}
 
 	/**

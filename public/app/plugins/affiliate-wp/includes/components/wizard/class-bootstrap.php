@@ -306,17 +306,17 @@ class Bootstrap {
 			'form'       => array(
 				'title'        => __( 'Form integrations', 'affiliate-wp' ),
 				'subtitle'     => '',
-				'integrations' => array( 'caldera-forms', 'contactform7', 'formidablepro', 'gravityforms', 'ninja-forms', 'wpforms' ),
+				'integrations' => array( 'contactform7', 'formidablepro', 'gravityforms', 'ninja-forms', 'wpforms' ),
 			),
 			'invoice'    => array(
 				'title'        => __( 'Invoice integrations', 'affiliate-wp' ),
 				'subtitle'     => '',
-				'integrations' => array( 'sproutinvoices', 'wp-invoice' ),
+				'integrations' => array( 'sproutinvoices' ),
 			),
 			'course'     => array(
 				'title'        => __( 'Course integrations', 'affiliate-wp' ),
 				'subtitle'     => '',
-				'integrations' => array( 'learndash', 'lifterlms', 'zippycourses' ),
+				'integrations' => array( 'learndash', 'lifterlms' ),
 			),
 			'donation'   => array(
 				'title'        => __( 'Donation integrations', 'affiliate-wp' ),

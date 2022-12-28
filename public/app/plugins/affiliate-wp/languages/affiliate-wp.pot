@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the AffiliateWP plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: AffiliateWP 2.10.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/AffiliateWP\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: AffiliateWP 2.11.0\n"
+"Report-Msgid-Bugs-To: https://affiliatewp.com/support\n"
+"Last-Translator: AffiliateWP <support@affiliatewp.com>\n"
+"Language-Team: AffiliateWP <support@affiliatewp.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-29T10:48:03+00:00\n"
+"POT-Creation-Date: 2022-12-20T16:24:06+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: affiliate-wp\n"
@@ -24,6 +24,8 @@ msgstr ""
 #: includes/integrations/class-give.php:301
 #: includes/integrations/class-woocommerce.php:799
 #: includes/integrations/class-woocommerce.php:1457
+#: includes/integrations/class-wpforms.php:370
+#: includes/integrations/class-wpforms.php:388
 #: templates/emails/header-summaries.php:80
 msgid "AffiliateWP"
 msgstr ""
@@ -333,7 +335,7 @@ msgstr ""
 #: includes/admin/affiliates/actions.php:234
 #: includes/admin/AFFWP_Plugin_Updater.php:490
 #: includes/admin/class-addon-updater.php:448
-#: includes/admin/class-notices.php:1336
+#: includes/admin/class-notices.php:1379
 #: includes/admin/creatives/actions.php:25
 #: includes/admin/creatives/actions.php:53
 #: includes/admin/creatives/actions.php:57
@@ -383,7 +385,7 @@ msgstr ""
 
 #: includes/admin/affiliates/actions.php:131
 #: includes/admin/affiliates/actions.php:234
-#: includes/admin/class-notices.php:1336
+#: includes/admin/class-notices.php:1379
 #: includes/admin/creatives/actions.php:57
 #: includes/admin/payouts/actions.php:43
 #: includes/admin/referrals/actions.php:31
@@ -431,6 +433,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
+#. translators: block name
 #: includes/admin/affiliates/class-list-table.php:168
 #: includes/admin/affiliates/review.php:45
 #: includes/admin/creatives/class-list-table.php:116
@@ -441,7 +444,8 @@ msgstr ""
 #: includes/admin/tools/export/class-export-referrals.php:66
 #: includes/admin/utilities/class-privacy-tools.php:116
 #: includes/class-editor.php:363
-#: assets/js/editor/build/index.js:6
+#: includes/integrations/class-wpforms.php:705
+#: assets/js/editor/build/index.js:3273
 msgid "Name"
 msgstr ""
 
@@ -454,6 +458,7 @@ msgstr ""
 msgid "Affiliate ID"
 msgstr ""
 
+#. translators: block name
 #: includes/admin/affiliates/class-list-table.php:170
 #: includes/admin/affiliates/edit.php:153
 #: includes/admin/affiliates/review.php:57
@@ -465,13 +470,20 @@ msgstr ""
 #: includes/admin/tools/export/class-export-referrals.php:68
 #: includes/class-editor.php:232
 #: includes/class-editor.php:360
-#: includes/misc-functions.php:1230
+#: includes/integrations/class-wpforms-templates.php:40
+#: includes/integrations/class-wpforms.php:722
+#: includes/misc-functions.php:1278
 #: templates/login.php:29
 #: templates/login.php:30
 #: templates/register.php:75
 #: templates/register.php:76
 #: tests/misc/test-misc-functions.php:385
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:1013
+#: assets/js/editor/build/index.js:1214
+#: assets/js/editor/build/index.js:1247
+#: assets/js/editor/build/index.js:2376
+#: assets/js/editor/build/index.js:5276
+#: assets/js/editor/build/index.js:5283
 msgid "Username"
 msgstr ""
 
@@ -492,7 +504,7 @@ msgstr ""
 #: includes/admin/tools/tools.php:166
 #: includes/emails/functions.php:1392
 #: includes/emails/functions.php:1498
-#: includes/misc-functions.php:1238
+#: includes/misc-functions.php:1286
 #: templates/dashboard-tab-stats.php:45
 #: templates/dashboard-tab-stats.php:53
 #: tests/misc/test-misc-functions.php:393
@@ -502,7 +514,7 @@ msgstr ""
 #: includes/admin/affiliates/class-list-table.php:173
 #: includes/admin/tools/export/class-batch-export-affiliates.php:108
 #: includes/admin/tools/export/class-export-affiliates.php:54
-#: includes/misc-functions.php:1234
+#: includes/misc-functions.php:1282
 #: tests/misc/test-misc-functions.php:389
 msgid "Rate"
 msgstr ""
@@ -555,8 +567,8 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-referrals.php:164
 #: includes/admin/tools/export/class-export-affiliates.php:60
 #: includes/admin/tools/export/class-export-referrals.php:75
-#: includes/misc-functions.php:1241
-#: includes/misc-functions.php:1285
+#: includes/misc-functions.php:1289
+#: includes/misc-functions.php:1333
 #: templates/dashboard-tab-payouts.php:42
 #: templates/dashboard-tab-payouts.php:77
 #: templates/dashboard-tab-referrals.php:42
@@ -720,7 +732,7 @@ msgid "The affiliate&#8217;s username. This cannot be changed."
 msgstr ""
 
 #: includes/admin/affiliates/edit.php:166
-#: includes/misc-functions.php:1243
+#: includes/misc-functions.php:1291
 #: tests/misc/test-misc-functions.php:398
 msgid "Registration Date"
 msgstr ""
@@ -738,11 +750,13 @@ msgstr ""
 msgid "The status assigned to the affiliate&#8217;s account. Updating the status could trigger account related events, such as email notifications."
 msgstr ""
 
+#. translators: block name
 #: includes/admin/affiliates/edit.php:210
 #: includes/class-editor.php:366
-#: includes/misc-functions.php:1242
+#: includes/misc-functions.php:1290
 #: tests/misc/test-misc-functions.php:397
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:5490
+#: assets/js/editor/build/index.js:5497
 msgid "Website"
 msgstr ""
 
@@ -764,7 +778,8 @@ msgstr ""
 #: includes/admin/affiliates/new.php:123
 #: includes/integrations/class-woocommerce.php:828
 #: includes/integrations/class-woocommerce.php:897
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:989
+#: assets/js/editor/build/index.js:1007
 msgid "Site Default"
 msgstr ""
 
@@ -789,16 +804,15 @@ msgstr ""
 #: includes/admin/affiliates/edit.php:278
 #: includes/admin/affiliates/new.php:164
 #: includes/admin/settings/class-settings.php:632
-#: includes/integrations/class-edd.php:1015
-#: includes/integrations/class-edd.php:1055
-#: includes/integrations/class-edd.php:1078
+#: includes/integrations/class-edd.php:1022
+#: includes/integrations/class-edd.php:1062
+#: includes/integrations/class-edd.php:1085
 #: includes/integrations/class-memberpress.php:221
 #: includes/integrations/class-pmp.php:425
 #: includes/integrations/class-pms.php:77
 #: includes/integrations/class-woocommerce.php:905
 #: includes/integrations/class-woocommerce.php:1493
 #: includes/integrations/class-woocommerce.php:1511
-#: includes/integrations/class-zippycourses.php:98
 msgid "Referral Rate"
 msgstr ""
 
@@ -809,7 +823,7 @@ msgstr ""
 
 #: includes/admin/affiliates/edit.php:293
 #: includes/admin/affiliates/new.php:227
-#: includes/admin/affiliates/review.php:163
+#: includes/admin/affiliates/review.php:149
 #: includes/class-register.php:769
 msgid "Dynamic Coupon"
 msgstr ""
@@ -827,10 +841,15 @@ msgstr ""
 msgid "The affiliate&#8217;s dynamic coupon will use the settings from the selected <a href=\"%s\">coupon template</a>."
 msgstr ""
 
+#. translators: block name
 #: includes/admin/affiliates/edit.php:325
 #: includes/class-editor.php:341
+#: includes/integrations/class-wpforms-templates.php:51
+#: includes/integrations/class-wpforms.php:742
 #: templates/register.php:80
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:2380
+#: assets/js/editor/build/index.js:2619
+#: assets/js/editor/build/index.js:2626
 msgid "Account Email"
 msgstr ""
 
@@ -838,6 +857,7 @@ msgstr ""
 msgid "The affiliate&#8217;s account email. Updating this will change the email address shown on the user&#8217;s profile page."
 msgstr ""
 
+#. translators: block name
 #: includes/admin/affiliates/edit.php:338
 #: includes/admin/affiliates/new.php:177
 #: includes/admin/affiliates/review.php:82
@@ -849,12 +869,15 @@ msgstr ""
 #: includes/admin/utilities/class-privacy-tools.php:112
 #: includes/class-editor.php:337
 #: includes/install.php:72
-#: includes/misc-functions.php:1233
-#: includes/misc-functions.php:1279
+#: includes/integrations/class-wpforms-templates.php:59
+#: includes/integrations/class-wpforms.php:760
+#: includes/misc-functions.php:1281
+#: includes/misc-functions.php:1327
 #: templates/register.php:85
 #: tests/misc/test-misc-functions.php:388
 #: tests/misc/test-misc-functions.php:426
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:2384
+#: assets/js/editor/build/index.js:3674
 msgid "Payment Email"
 msgstr ""
 
@@ -965,7 +988,7 @@ msgid "Enter any notes for this affiliate. Notes are only visible to the admin."
 msgstr ""
 
 #: includes/admin/affiliates/edit.php:509
-#: includes/admin/affiliates/review.php:148
+#: includes/admin/affiliates/review.php:177
 msgid "Rejection Reason"
 msgstr ""
 
@@ -1024,7 +1047,7 @@ msgid "Send welcome email after registering affiliate?"
 msgstr ""
 
 #: includes/admin/affiliates/new.php:233
-#: includes/admin/affiliates/review.php:169
+#: includes/admin/affiliates/review.php:155
 #: includes/class-register.php:774
 msgid "Create dynamic coupon for affiliate?"
 msgstr ""
@@ -1044,23 +1067,28 @@ msgstr ""
 
 #: includes/admin/affiliates/review.php:69
 #: includes/class-editor.php:334
-#: includes/class-editor.php:1524
+#: includes/class-editor.php:1629
 #: templates/opt-in.php:45
 #: templates/opt-in.php:46
 #: templates/register.php:81
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:1637
+#: assets/js/editor/build/index.js:1642
+#: assets/js/editor/build/index.js:3133
+#: assets/js/editor/build/index.js:3681
 msgid "Email Address"
 msgstr ""
 
 #: includes/admin/affiliates/review.php:96
-#: includes/admin/class-upgrades.php:758
+#: includes/admin/class-upgrades.php:762
 #: includes/admin/settings/class-settings.php:1182
-#: includes/class-editor.php:1457
+#: includes/class-editor.php:1556
 #: includes/install.php:73
 #: includes/install.php:111
+#: includes/integrations/class-wpforms-templates.php:66
+#: includes/integrations/class-wpforms.php:774
 #: templates/register.php:90
 #: templates/register.php:91
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:2387
 msgid "Website URL"
 msgstr ""
 
@@ -1069,18 +1097,19 @@ msgid "Affiliate&#8217;s Website URL"
 msgstr ""
 
 #: includes/admin/affiliates/review.php:110
+#: includes/integrations/class-wpforms.php:788
 msgid "Promotion Method"
 msgstr ""
 
-#: includes/admin/affiliates/review.php:153
+#: includes/admin/affiliates/review.php:182
 msgid "Leave blank if approving this affiliate."
 msgstr ""
 
-#: includes/admin/affiliates/review.php:204
+#: includes/admin/affiliates/review.php:203
 msgid "Accept Affiliate"
 msgstr ""
 
-#: includes/admin/affiliates/review.php:205
+#: includes/admin/affiliates/review.php:204
 msgid "Reject Affiliate"
 msgstr ""
 
@@ -1281,7 +1310,7 @@ msgid "The %s notice already exists and could not be added."
 msgstr ""
 
 #: includes/admin/class-notices-registry.php:82
-#: includes/admin/class-notices.php:1425
+#: includes/admin/class-notices.php:1468
 msgctxt "admin notice"
 msgid "Dismiss"
 msgstr ""
@@ -1294,335 +1323,340 @@ msgstr ""
 msgid "Dismissible notices must specify a dismiss_label attribute."
 msgstr ""
 
+#. Translators: %1$s is a link to settings.
+#: includes/admin/class-notices.php:150
+msgid "You need to %1$s. On January 1, 2023, Croatia joined the Eurozone. This means the Croatian Kuna (HRK) is now deprecated in favor of the euro (EUR)."
+msgstr ""
+
 #. translators: %1$s License type. %2$s Opening anchor tag, do not translate. %3$s Closing anchor tag, do not translate.
-#: includes/admin/class-notices.php:319
+#: includes/admin/class-notices.php:362
 msgid "You are using AffiliateWP with a %1$s license. %2$sUpgrade to Professional%3$s and grow your affiliate program."
 msgstr ""
 
 #. translators: Singular number of affiliates added
 #. translators: Plural number of affiliates added
-#: includes/admin/class-notices.php:368
+#: includes/admin/class-notices.php:411
 msgid "%d affiliate was added successfully."
 msgid_plural "%d affiliates were added successfully"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-notices.php:385
+#: includes/admin/class-notices.php:428
 msgid "Affiliate wasn&#8217;t added, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:390
+#: includes/admin/class-notices.php:433
 msgid "Affiliate updated successfully"
 msgstr ""
 
 #. translators: URL to the affiliates screen
-#: includes/admin/class-notices.php:392
+#: includes/admin/class-notices.php:435
 msgid "<a href=\"%s\">Back to Affiliates</a>."
 msgstr ""
 
-#: includes/admin/class-notices.php:400
+#: includes/admin/class-notices.php:443
 msgid "Affiliate update failed, please try again"
 msgstr ""
 
-#: includes/admin/class-notices.php:404
+#: includes/admin/class-notices.php:447
 msgid "Affiliate account(s) deleted successfully"
 msgstr ""
 
-#: includes/admin/class-notices.php:409
+#: includes/admin/class-notices.php:452
 msgid "Affiliate deletion failed, please try again"
 msgstr ""
 
-#: includes/admin/class-notices.php:413
+#: includes/admin/class-notices.php:456
 msgid "Affiliate account activated"
 msgstr ""
 
-#: includes/admin/class-notices.php:417
+#: includes/admin/class-notices.php:460
 msgid "Affiliate account deactivated"
 msgstr ""
 
-#: includes/admin/class-notices.php:421
+#: includes/admin/class-notices.php:464
 msgid "Affiliate request was accepted"
 msgstr ""
 
-#: includes/admin/class-notices.php:425
+#: includes/admin/class-notices.php:468
 msgid "Affiliate request was rejected"
 msgstr ""
 
-#: includes/admin/class-notices.php:429
+#: includes/admin/class-notices.php:472
 msgid "Dynamic coupon successfully created."
 msgstr ""
 
-#: includes/admin/class-notices.php:434
+#: includes/admin/class-notices.php:477
 msgid "Dynamic coupon creation failed, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:438
+#: includes/admin/class-notices.php:481
 msgid "Dynamic coupon successfully deleted."
 msgstr ""
 
-#: includes/admin/class-notices.php:443
+#: includes/admin/class-notices.php:486
 msgid "Dynamic coupon deletion failed, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:454
+#: includes/admin/class-notices.php:497
 msgid "The API keys were successfully generated."
 msgstr ""
 
-#: includes/admin/class-notices.php:459
+#: includes/admin/class-notices.php:502
 msgid "The API keys could not be generated."
 msgstr ""
 
-#: includes/admin/class-notices.php:463
+#: includes/admin/class-notices.php:506
 msgid "The API keys were successfully regenerated."
 msgstr ""
 
-#: includes/admin/class-notices.php:467
+#: includes/admin/class-notices.php:510
 msgid "The API keys were successfully revoked."
 msgstr ""
 
-#: includes/admin/class-notices.php:479
+#: includes/admin/class-notices.php:522
 msgid "Creative updated successfully"
 msgstr ""
 
 #. translators: URL to the Creatives screen
-#: includes/admin/class-notices.php:481
+#: includes/admin/class-notices.php:524
 msgid "<a href=\"%s\">Back to Creatives</a>"
 msgstr ""
 
-#: includes/admin/class-notices.php:488
+#: includes/admin/class-notices.php:531
 msgid "Creative added successfully"
 msgstr ""
 
-#: includes/admin/class-notices.php:492
+#: includes/admin/class-notices.php:535
 msgid "Creative deleted successfully"
 msgstr ""
 
-#: includes/admin/class-notices.php:496
+#: includes/admin/class-notices.php:539
 msgid "Creative activated"
 msgstr ""
 
-#: includes/admin/class-notices.php:500
+#: includes/admin/class-notices.php:543
 msgid "Creative deactivated"
 msgstr ""
 
-#: includes/admin/class-notices.php:511
+#: includes/admin/class-notices.php:554
 msgid "Customer added successfully"
 msgstr ""
 
-#: includes/admin/class-notices.php:516
+#: includes/admin/class-notices.php:559
 msgid "Customer wasn&#8217;t added, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:520
+#: includes/admin/class-notices.php:563
 msgid "Customer updated successfully"
 msgstr ""
 
-#: includes/admin/class-notices.php:525
+#: includes/admin/class-notices.php:568
 msgid "Customer update failed, please try again"
 msgstr ""
 
-#: includes/admin/class-notices.php:536
+#: includes/admin/class-notices.php:579
 msgid "A payout has been created."
 msgstr ""
 
-#: includes/admin/class-notices.php:540
+#: includes/admin/class-notices.php:583
 msgid "Payout deleted successfully."
 msgstr ""
 
-#: includes/admin/class-notices.php:544
+#: includes/admin/class-notices.php:587
 msgid "Payout deletion failed, please try again."
 msgstr ""
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
-#: includes/admin/class-notices.php:550
+#: includes/admin/class-notices.php:593
 msgid "Website connected to the %s."
 msgstr ""
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
-#: includes/admin/class-notices.php:555
+#: includes/admin/class-notices.php:598
 msgid "Website disconnected from the %s."
 msgstr ""
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
-#: includes/admin/class-notices.php:560
+#: includes/admin/class-notices.php:603
 msgid "Website reconnected to the %s."
 msgstr ""
 
-#: includes/admin/class-notices.php:564
+#: includes/admin/class-notices.php:607
 msgid "Effortlessly pay your affiliates"
 msgstr ""
 
-#: includes/admin/class-notices.php:567
+#: includes/admin/class-notices.php:610
 msgid "With the Payouts Service provided by AffiliateWP, you can easily pay affiliates in 31 countries using any debit or credit card. Learn more at <a href=\"%s\" target=\"_blank\">payouts.sandhillsplugins.com</a>."
 msgstr ""
 
-#: includes/admin/class-notices.php:575
+#: includes/admin/class-notices.php:618
 msgctxt "payouts service"
 msgid "Maybe later"
 msgstr ""
 
-#: includes/admin/class-notices.php:586
+#: includes/admin/class-notices.php:629
 msgid "Referral added successfully."
 msgstr ""
 
-#: includes/admin/class-notices.php:591
+#: includes/admin/class-notices.php:634
 msgid "Referral wasn&#8217;t created, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:596
+#: includes/admin/class-notices.php:639
 msgid "Referral not created because the affiliate is invalid, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:601
+#: includes/admin/class-notices.php:644
 msgid "Referral amount cannot be negative, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:605
+#: includes/admin/class-notices.php:648
 msgid "Referral updated successfully."
 msgstr ""
 
-#: includes/admin/class-notices.php:609
+#: includes/admin/class-notices.php:652
 msgid "Referral update failed, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:613
+#: includes/admin/class-notices.php:656
 msgid "Referral deleted successfully."
 msgstr ""
 
-#: includes/admin/class-notices.php:618
+#: includes/admin/class-notices.php:661
 msgid "Referral deletion failed, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:633
+#: includes/admin/class-notices.php:676
 msgid "Your database needs to be upgraded following the AffiliateWP v2.0 update"
 msgstr ""
 
-#: includes/admin/class-notices.php:643
-#: includes/admin/class-notices.php:665
-#: includes/admin/class-notices.php:688
-#: includes/admin/class-notices.php:711
+#: includes/admin/class-notices.php:686
+#: includes/admin/class-notices.php:708
+#: includes/admin/class-notices.php:731
+#: includes/admin/class-notices.php:754
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/admin/class-notices.php:655
+#: includes/admin/class-notices.php:698
 msgid "Your database needs to be upgraded following the AffiliateWP v2.2 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:678
+#: includes/admin/class-notices.php:721
 msgid "Your database needs to be upgraded following the AffiliateWP v2.4.5 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:701
+#: includes/admin/class-notices.php:744
 msgid "Your database needs to be upgraded following the AffiliateWP v2.6 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:724
+#: includes/admin/class-notices.php:767
 msgid "Your database tables need to be upgraded following the AffiliateWP v2.6.1 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:734
-#: includes/admin/class-notices.php:757
-#: includes/admin/class-notices.php:780
-#: includes/admin/class-notices.php:803
-#: includes/admin/class-notices.php:826
+#: includes/admin/class-notices.php:777
+#: includes/admin/class-notices.php:800
+#: includes/admin/class-notices.php:823
+#: includes/admin/class-notices.php:846
+#: includes/admin/class-notices.php:869
 msgid "Upgrade Database Tables"
 msgstr ""
 
-#: includes/admin/class-notices.php:747
+#: includes/admin/class-notices.php:790
 msgid "Your database tables need to be upgraded following the AffiliateWP v2.7 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:770
+#: includes/admin/class-notices.php:813
 msgid "Your database tables need to be upgraded following the AffiliateWP v2.7.4 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:793
+#: includes/admin/class-notices.php:836
 msgid "Your database tables need to be upgraded following the AffiliateWP v2.8 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:816
+#: includes/admin/class-notices.php:859
 msgid "Your database tables need to be upgraded following the AffiliateWP v2.8.1 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:847
+#: includes/admin/class-notices.php:890
 msgid "<strong>Important:</strong> You have installed or updated to AffiliateWP <code>v%s</code>, a pre-release development version."
 msgstr ""
 
-#: includes/admin/class-notices.php:850
+#: includes/admin/class-notices.php:893
 msgid "Development versions can sometimes be unstable and should <em>never</em> be tested on a live site. If you feel you may have installed this version of AffiliateWP in error, you can get a copy of the latest stable version from your <a href=\"%s\" target=\"_blank\">account page</a>."
 msgstr ""
 
 #. translators: URL to the Integrations settings screen
-#: includes/admin/class-notices.php:872
+#: includes/admin/class-notices.php:915
 msgid "There are currently no AffiliateWP <a href=\"%s\">integrations</a> enabled. If you are using AffiliateWP without any integrations, you may disregard this message."
 msgstr ""
 
-#: includes/admin/class-notices.php:876
+#: includes/admin/class-notices.php:919
 msgctxt "Integrations"
 msgid "Dismiss Notice"
 msgstr ""
 
-#: includes/admin/class-notices.php:902
+#: includes/admin/class-notices.php:945
 msgid "Sync"
 msgstr ""
 
 #. translators: 1: Integration name, 2: URL to the discontinued integrations guide
-#: includes/admin/class-notices.php:918
+#: includes/admin/class-notices.php:961
 msgid "AffiliateWP is ending official support for the <strong>%1$s</strong> integration beginning %2$s. See <a href=\"%3$s\" target=\"_blank\">this guide</a> for more information."
 msgstr ""
 
 #. translators: 1: Date the license expired, 2: URL to renew the license key
-#: includes/admin/class-notices.php:951
+#: includes/admin/class-notices.php:994
 msgid "Your license key expired on %1$s. Please <a href=\"%2$s\" target=\"_blank\">renew your license key</a>."
 msgstr ""
 
 #. translators: URL to contact support
-#: includes/admin/class-notices.php:962
+#: includes/admin/class-notices.php:1005
 msgid "Your license key has been disabled. Please <a href=\"%s\" target=\"_blank\">contact support</a> for more information."
 msgstr ""
 
 #. translators: URL to the affiliatewp.com account page
-#: includes/admin/class-notices.php:971
+#: includes/admin/class-notices.php:1014
 msgid "Invalid license. Please <a href=\"%s\" target=\"_blank\">visit your account page</a> and verify it."
 msgstr ""
 
 #. translators: URL to the affiliatewp.com account page
-#: includes/admin/class-notices.php:981
+#: includes/admin/class-notices.php:1024
 msgid "Your license key is not active for this URL. Please <a href=\"%s\" target=\"_blank\">visit your account page</a> to manage your license key URLs."
 msgstr ""
 
-#: includes/admin/class-notices.php:988
+#: includes/admin/class-notices.php:1031
 msgid "This appears to be an invalid license key."
 msgstr ""
 
 #. translators: URL to the affiliatewp.com account page
-#: includes/admin/class-notices.php:995
+#: includes/admin/class-notices.php:1038
 msgid "Your license key has reached its activation limit. <a href=\"%s\">View possible upgrades</a> now."
 msgstr ""
 
-#: includes/admin/class-notices.php:1008
+#: includes/admin/class-notices.php:1051
 msgid "Your license key for AffiliateWP has expired. Please renew your license to re-enable automatic updates."
 msgstr ""
 
-#: includes/admin/class-notices.php:1009
-#: includes/admin/class-notices.php:1025
+#: includes/admin/class-notices.php:1052
+#: includes/admin/class-notices.php:1068
 msgctxt "License"
 msgid "Dismiss Notice"
 msgstr ""
 
 #. translators: Settings screen URL
-#: includes/admin/class-notices.php:1024
+#: includes/admin/class-notices.php:1067
 msgid "Please <a href=\"%s\">enter and activate</a> your license key for AffiliateWP to enable automatic updates."
 msgstr ""
 
-#: includes/admin/class-notices.php:1064
+#: includes/admin/class-notices.php:1107
 #: includes/admin/settings/class-settings.php:359
 msgid "Settings updated."
 msgstr ""
 
 #. translators: Singular number of affiliates added from WP Affiliate
 #. translators: Plural number of affiliates added from WP Affiliate
-#: includes/admin/class-notices.php:1075
+#: includes/admin/class-notices.php:1118
 msgid "%d affiliate from WP Affiliate was added successfully."
 msgid_plural "%d affiliates from WP Affiliate were added successfully"
 msgstr[0] ""
@@ -1630,74 +1664,76 @@ msgstr[1] ""
 
 #. translators: Singular number of affiliates added from Affiliates Pro
 #. translators: Plural number of affiliates added from Affiliates Pro
-#: includes/admin/class-notices.php:1098
+#: includes/admin/class-notices.php:1141
 msgid "%d affiliate from Affiliates Pro was added successfully."
 msgid_plural "%d affiliates from Affiliates Pro were added successfully"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-notices.php:1114
+#: includes/admin/class-notices.php:1157
 msgid "Affiliate stats have been recounted!"
 msgstr ""
 
-#: includes/admin/class-notices.php:1118
+#: includes/admin/class-notices.php:1161
 msgid "Settings successfully imported"
 msgstr ""
 
 #. Translators: %1$s is a link to configure WP Mail SMTP and %2$s is going to be a link to our documentation.
-#: includes/admin/class-notices.php:1139
+#: includes/admin/class-notices.php:1182
 msgid "WP Mail SMTP is required to send affiliate email summaries. %1$s or learn more %2$s."
 msgstr ""
 
-#: includes/admin/class-notices.php:1143
+#: includes/admin/class-notices.php:1186
 msgid "Install and setup WP Mail SMTP"
 msgstr ""
 
-#: includes/admin/class-notices.php:1148
+#: includes/admin/class-notices.php:1191
 msgid "in our documentation"
 msgstr ""
 
 #. translators: Insecure PHP version
-#: includes/admin/class-notices.php:1166
+#: includes/admin/class-notices.php:1209
 msgid "AffiliateWP has detected that your site is running on an insecure version of PHP (%s)."
 msgstr ""
 
-#: includes/admin/class-notices.php:1171
+#: includes/admin/class-notices.php:1214
 msgid "PHP is the programming language used to build and maintain WordPress and plugins like AffiliateWP. Newer versions of PHP are both faster and more secure, so updating will have a positive effect on your site&#8217;s performance."
 msgstr ""
 
-#: includes/admin/class-notices.php:1173
+#: includes/admin/class-notices.php:1216
 msgid "Why it matters for AffiliateWP"
 msgstr ""
 
-#: includes/admin/class-notices.php:1174
+#: includes/admin/class-notices.php:1217
 msgid "As we evolve over time, our ability to tap into more modern PHP features means we can continue to deliver a superior product to you."
 msgstr ""
 
-#: includes/admin/class-notices.php:1175
+#: includes/admin/class-notices.php:1218
 msgid "<strong>Starting in September 2021, we&#8217;ll require PHP 7.0 or newer to use AffiliateWP.</strong>"
 msgstr ""
 
 #. translators: %s - AffiliateWP plugin settings URL.
-#: includes/admin/class-notices.php:1222
+#: includes/admin/class-notices.php:1265
 msgid "To access addons please enter and activate your AffiliateWP license key in the plugin <a href=\"%s\">settings</a>."
 msgstr ""
 
-#: includes/admin/class-upgrades.php:757
+#: includes/admin/class-upgrades.php:761
 #: includes/admin/settings/class-settings.php:1181
 #: includes/install.php:110
+#: includes/integrations/class-wpforms-templates.php:31
 #: templates/register.php:70
 #: templates/register.php:71
 #: tests/misc/test-misc-functions.php:505
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:2373
+#: assets/js/editor/build/index.js:3280
 msgid "Your Name"
 msgstr ""
 
-#: includes/admin/class-upgrades.php:876
+#: includes/admin/class-upgrades.php:880
 msgid "Notify site admin when a new affiliate has registered"
 msgstr ""
 
-#: includes/admin/class-upgrades.php:884
+#: includes/admin/class-upgrades.php:888
 msgid "Notify site admin when new referrals are earned"
 msgstr ""
 
@@ -1721,7 +1757,7 @@ msgstr ""
 #: includes/emails/functions.php:1011
 #: templates/dashboard-tab-visits.php:27
 #: templates/dashboard-tab-visits.php:39
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:1075
 msgid "URL"
 msgstr ""
 
@@ -1782,7 +1818,7 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-referrals.php:160
 #: includes/admin/tools/export/class-export-referrals.php:71
 #: includes/integrations/extras/class-ninja-forms-action-add-referral.php:96
-#: includes/misc-functions.php:1281
+#: includes/misc-functions.php:1329
 #: templates/dashboard-tab-referrals.php:41
 #: templates/dashboard-tab-referrals.php:62
 #: tests/misc/test-misc-functions.php:428
@@ -1799,10 +1835,12 @@ msgstr ""
 msgid "The URL this creative should link to. Based on your Referral Settings, the affiliate&#8217;s ID or username will be automatically appended."
 msgstr ""
 
+#. translators: block name
 #: includes/admin/creatives/edit.php:80
 #: includes/admin/creatives/new.php:79
 #: includes/class-editor.php:354
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:4904
+#: assets/js/editor/build/index.js:4911
 msgid "Text"
 msgstr ""
 
@@ -2809,7 +2847,7 @@ msgstr ""
 #: includes/admin/tools/export/class-export-referrals.php:73
 #: includes/integrations/class-lifterlms.php:663
 #: includes/integrations/class-lifterlms.php:688
-#: includes/misc-functions.php:1283
+#: includes/misc-functions.php:1331
 #: templates/dashboard-tab-referrals.php:39
 #: templates/dashboard-tab-referrals.php:60
 #: tests/misc/test-misc-functions.php:430
@@ -2819,7 +2857,7 @@ msgstr ""
 #: includes/admin/referrals/class-list-table.php:215
 #: includes/admin/tools/export/class-batch-export-referrals.php:166
 #: includes/admin/tools/export/class-export-referrals.php:76
-#: includes/misc-functions.php:1287
+#: includes/misc-functions.php:1335
 #: tests/misc/test-misc-functions.php:434
 msgid "Type"
 msgstr ""
@@ -2831,7 +2869,7 @@ msgstr ""
 #: includes/admin/tools/export/class-export-referrals.php:78
 #: includes/admin/tools/export/class-export.php:85
 #: includes/admin/visits/class-list-table.php:135
-#: includes/misc-functions.php:1288
+#: includes/misc-functions.php:1336
 #: templates/dashboard-tab-payouts.php:36
 #: templates/dashboard-tab-payouts.php:63
 #: templates/dashboard-tab-referrals.php:43
@@ -3063,7 +3101,7 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-referrals.php:163
 #: includes/admin/tools/export/class-batch-export-visits.php:161
 #: includes/admin/tools/export/class-export-referrals.php:74
-#: includes/misc-functions.php:1284
+#: includes/misc-functions.php:1332
 #: tests/misc/test-misc-functions.php:431
 msgid "Context"
 msgstr ""
@@ -3469,7 +3507,8 @@ msgstr ""
 
 #: includes/admin/settings/class-settings.php:553
 #: includes/install.php:87
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:185
+#: assets/js/editor/build/index.js:187
 msgid "Affiliate Area"
 msgstr ""
 
@@ -3496,7 +3535,7 @@ msgid "Enter the text you would like shown for the Terms of Use checkbox. This o
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:570
-#: includes/class-editor.php:1123
+#: includes/class-editor.php:1192
 #: templates/payouts/register.php:192
 #: templates/register.php:127
 msgid "Agree to our Terms of Use and Privacy Policy"
@@ -3526,12 +3565,12 @@ msgstr ""
 
 #: includes/admin/settings/class-settings.php:599
 #: includes/admin/tools/export/class-export.php:84
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:1010
 msgid "ID"
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:606
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:986
 msgid "Pretty Affiliate URLs"
 msgstr ""
 
@@ -3600,7 +3639,7 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-generate-payouts.php:237
 #: includes/admin/tools/export/class-export-referrals-payout.php:74
 #: includes/admin/tools/export/class-export-referrals.php:70
-#: includes/misc-functions.php:1280
+#: includes/misc-functions.php:1328
 #: tests/misc/test-misc-functions.php:427
 msgid "Currency"
 msgstr ""
@@ -4192,20 +4231,26 @@ msgstr ""
 msgid "Select which fields should be required for affiliate registration. This only affects the [affiliate_area] and [affiliate_registration] shortcodes. The <strong>Username</strong> and <strong>Account Email</strong> form fields are always required. The <strong>Password</strong> form field will be removed if not required."
 msgstr ""
 
+#. translators: block name
 #: includes/admin/settings/class-settings.php:1180
 #: includes/class-editor.php:233
 #: includes/class-editor.php:345
-#: includes/class-editor.php:1396
+#: includes/class-editor.php:1482
+#: includes/integrations/class-wpforms.php:802
 #: templates/login.php:34
 #: templates/register.php:102
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:1224
+#: assets/js/editor/build/index.js:1257
+#: assets/js/editor/build/index.js:3513
+#: assets/js/editor/build/index.js:3520
 msgid "Password"
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:1184
 #: includes/install.php:74
+#: includes/integrations/class-wpforms-templates.php:72
 #: templates/register.php:95
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:2390
 msgid "How will you promote us?"
 msgstr ""
 
@@ -4401,7 +4446,8 @@ msgid "%1$s %2$sunread notifications%3$s"
 msgstr ""
 
 #: includes/admin/settings/display-settings.php:126
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:1177
+#: assets/js/editor/build/index.js:2449
 msgid "General"
 msgstr ""
 
@@ -4545,6 +4591,7 @@ msgstr ""
 msgid "Generate New API Keys"
 msgstr ""
 
+#. translators: block name
 #: includes/admin/tools/export/class-batch-export-affiliates.php:103
 #: includes/admin/tools/export/class-batch-export-referrals.php:154
 #: includes/admin/tools/export/class-batch-generate-payouts.php:235
@@ -4552,7 +4599,7 @@ msgstr ""
 #: includes/admin/tools/export/class-export-referrals-payout.php:72
 #: includes/admin/tools/export/class-export-referrals.php:65
 #: includes/admin/utilities/class-privacy-tools.php:173
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:3126
 msgid "Email"
 msgstr ""
 
@@ -4560,29 +4607,31 @@ msgstr ""
 #: includes/admin/utilities/class-privacy-tools.php:177
 #: templates/opt-in.php:35
 #: templates/opt-in.php:36
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:1621
+#: assets/js/editor/build/index.js:1626
 msgid "First Name"
 msgstr ""
 
 #: includes/admin/tools/export/class-batch-export-affiliates.php:105
 #: includes/admin/utilities/class-privacy-tools.php:181
-#: includes/misc-functions.php:1232
+#: includes/misc-functions.php:1280
 #: templates/opt-in.php:40
 #: templates/opt-in.php:41
 #: tests/misc/test-misc-functions.php:387
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:1629
+#: assets/js/editor/build/index.js:1634
 msgid "Last Name"
 msgstr ""
 
 #: includes/admin/tools/export/class-batch-export-affiliates.php:109
 #: includes/admin/tools/export/class-export-affiliates.php:55
-#: includes/misc-functions.php:1235
+#: includes/misc-functions.php:1283
 #: tests/misc/test-misc-functions.php:390
 msgid "Rate Type"
 msgstr ""
 
 #: includes/admin/tools/export/class-batch-export-affiliates.php:110
-#: includes/misc-functions.php:1236
+#: includes/misc-functions.php:1284
 #: tests/misc/test-misc-functions.php:391
 msgid "Flat Rate Basis"
 msgstr ""
@@ -4591,7 +4640,7 @@ msgstr ""
 #: includes/admin/tools/export/class-export-affiliates.php:56
 #: includes/emails/functions.php:1403
 #: includes/emails/functions.php:1561
-#: includes/misc-functions.php:1237
+#: includes/misc-functions.php:1285
 #: tests/misc/test-misc-functions.php:392
 msgid "Earnings"
 msgstr ""
@@ -4628,7 +4677,7 @@ msgstr[1] ""
 #: includes/admin/tools/export/class-batch-export-referrals.php:161
 #: includes/admin/tools/export/class-batch-export-visits.php:158
 #: includes/admin/tools/export/class-export-referrals.php:72
-#: includes/misc-functions.php:1282
+#: includes/misc-functions.php:1330
 #: templates/dashboard-tab-stats.php:88
 #: templates/dashboard-tab-stats.php:100
 #: tests/misc/test-misc-functions.php:429
@@ -4638,7 +4687,7 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-referrals.php:165
 #: includes/admin/tools/export/class-batch-export-visits.php:162
 #: includes/admin/tools/export/class-export-referrals.php:77
-#: includes/misc-functions.php:1286
+#: includes/misc-functions.php:1334
 #: tests/misc/test-misc-functions.php:433
 msgid "Flag"
 msgstr ""
@@ -5053,9 +5102,11 @@ msgstr ""
 msgid "Terms of Use Preview"
 msgstr ""
 
+#. translators: block name
 #: includes/admin/tools/tools.php:644
 #: includes/admin/tools/tools.php:852
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:4554
+#: assets/js/editor/build/index.js:4751
 msgid "Affiliate Terms of Use"
 msgstr ""
 
@@ -5332,10 +5383,12 @@ msgid "Affiliate Actions"
 msgstr ""
 
 #: includes/admin/user-profile.php:91
-#: includes/class-editor.php:1660
-#: templates/register.php:160
-#: templates/register.php:167
-#: assets/js/editor/build/index.js:6
+#: includes/class-editor.php:1772
+#: includes/integrations/class-wpforms-templates.php:81
+#: templates/register.php:172
+#: templates/register.php:188
+#: assets/js/editor/build/index.js:4166
+#: assets/js/editor/build/index.js:5627
 msgid "Register"
 msgstr ""
 
@@ -5605,7 +5658,8 @@ msgstr ""
 
 #: includes/class-editor.php:230
 #: templates/login.php:17
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:1188
+#: assets/js/editor/build/index.js:1272
 msgid "Log into your account"
 msgstr ""
 
@@ -5621,24 +5675,25 @@ msgstr ""
 
 #: includes/class-editor.php:249
 #: templates/register.php:58
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:2452
+#: assets/js/editor/build/index.js:2481
 msgid "Register a new affiliate account"
 msgstr ""
 
 #: includes/class-editor.php:327
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:2979
 msgid "Option"
 msgstr ""
 
 #: includes/class-editor.php:348
-#: includes/class-editor.php:966
-#: assets/js/editor/build/index.js:6
+#: includes/class-editor.php:1017
+#: assets/js/editor/build/index.js:3872
 msgid "Phone Number"
 msgstr ""
 
 #: includes/class-editor.php:357
-#: includes/class-editor.php:1017
-#: assets/js/editor/build/index.js:6
+#: includes/class-editor.php:1074
+#: assets/js/editor/build/index.js:5132
 msgid "Message"
 msgstr ""
 
@@ -5654,27 +5709,36 @@ msgstr ""
 msgid "Choose several options"
 msgstr ""
 
-#: includes/class-editor.php:668
+#: includes/class-editor.php:677
 #: templates/login.php:52
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:1374
 msgid "Lost your password?"
 msgstr ""
 
+#. translators: %1$s: open link tag, %2$s close link tag.
 #. translators: %1$s: open link tag, %2$s close link tag
-#: includes/class-editor.php:1120
-#: assets/js/editor/build/index.js:6
+#: includes/class-editor.php:1189
+#: assets/js/editor/build/index.js:4569
 msgid "Agree to our %1$sTerms of Use and Privacy Policy%2$s"
 msgstr ""
 
-#: includes/class-editor.php:1397
+#: includes/class-editor.php:1483
 #: templates/register.php:107
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:3524
 msgid "Confirm Password"
 msgstr ""
 
-#: includes/class-editor.php:1597
-#: assets/js/editor/build/index.js:6
+#: includes/class-editor.php:1709
+#: assets/js/editor/build/index.js:1893
 msgid "(required)"
+msgstr ""
+
+#: includes/class-editor.php:2142
+msgid "The hash supplied do not match any forms"
+msgstr ""
+
+#: includes/class-editor.php:2170
+msgid "A form for the provided hash could not be found"
 msgstr ""
 
 #: includes/class-graph.php:444
@@ -5685,24 +5749,6 @@ msgstr ""
 #: includes/class-graph.php:446
 msgctxt "date filter"
 msgid "To"
-msgstr ""
-
-#: includes/class-integrations.php:140
-msgid "Caldera Forms"
-msgstr ""
-
-#: includes/class-integrations.php:141
-#: includes/class-integrations.php:145
-#: includes/class-integrations.php:149
-msgid "December 2022"
-msgstr ""
-
-#: includes/class-integrations.php:144
-msgid "WP-Invoice"
-msgstr ""
-
-#: includes/class-integrations.php:148
-msgid "Zippy Courses"
 msgstr ""
 
 #: includes/class-login.php:77
@@ -6584,6 +6630,11 @@ msgstr ""
 msgid "View supported browsers"
 msgstr ""
 
+#. translators: Field label.
+#: includes/core/registration/class-form-field-container.php:273
+msgid "The field \"%s\" is required"
+msgstr ""
+
 #: includes/coupon-functions.php:51
 msgid "Invalid affiliate"
 msgstr ""
@@ -6604,7 +6655,8 @@ msgstr ""
 
 #: includes/creative-functions.php:44
 #: includes/creative-functions.php:77
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:677
+#: assets/js/editor/build/index.js:909
 msgid "Creative"
 msgstr ""
 
@@ -6863,30 +6915,6 @@ msgstr ""
 msgid "Pro tip from our expert:"
 msgstr ""
 
-#: includes/integrations/class-caldera-forms.php:104
-msgid "Total"
-msgstr ""
-
-#: includes/integrations/class-caldera-forms.php:105
-msgid "This total will be used to calculate the referral amount. For example, if the referral rate is 10% and the total here is $100, the referral will be created at $10."
-msgstr ""
-
-#: includes/integrations/class-caldera-forms.php:304
-#: includes/integrations/class-give.php:286
-#: includes/integrations/class-ninja-forms.php:284
-msgid "Allow Referrals"
-msgstr ""
-
-#: includes/integrations/class-caldera-forms.php:309
-#: includes/integrations/class-gravityforms.php:395
-msgid "Enable affiliate referral creation for this form"
-msgstr ""
-
-#: includes/integrations/class-caldera-forms.php:319
-#: includes/integrations/class-formidablepro.php:162
-msgid "Select the referral type for this form."
-msgstr ""
-
 #: includes/integrations/class-contactform7.php:131
 msgid "Contact Form 7"
 msgstr ""
@@ -6914,18 +6942,18 @@ msgid "Form ID: "
 msgstr ""
 
 #. translators: 1: Referral link, 2: Amount, 3: Affiliate Name, 4: Affiliate ID
-#: includes/integrations/class-edd.php:644
+#: includes/integrations/class-edd.php:651
 msgid "Referral %1$s for %2$s recorded for %3$s (ID: %4$d)."
 msgstr ""
 
-#: includes/integrations/class-edd.php:779
+#: includes/integrations/class-edd.php:786
 #: includes/integrations/class-pmp.php:329
 #: includes/integrations/class-pms.php:133
 #: includes/integrations/class-rcp.php:400
 msgid "Affiliate Discount?"
 msgstr ""
 
-#: includes/integrations/class-edd.php:785
+#: includes/integrations/class-edd.php:792
 #: includes/integrations/class-memberpress.php:327
 #: includes/integrations/class-pmp.php:335
 #: includes/integrations/class-pms.php:135
@@ -6934,50 +6962,47 @@ msgstr ""
 msgid "If you would like to connect this discount to an affiliate, enter the name of the affiliate it belongs to."
 msgstr ""
 
-#: includes/integrations/class-edd.php:960
+#: includes/integrations/class-edd.php:967
 msgid "Adjust EDD Commissions"
 msgstr ""
 
-#: includes/integrations/class-edd.php:961
+#: includes/integrations/class-edd.php:968
 msgid "Should AffiliateWP adjust the commission amounts recorded for purchases that include affiliate referrals? This will subtract the referral amount from the base amount used to calculate the commission total."
 msgstr ""
 
-#: includes/integrations/class-edd.php:981
+#: includes/integrations/class-edd.php:988
 msgid "Disable Renewal Referrals"
 msgstr ""
 
-#: includes/integrations/class-edd.php:982
+#: includes/integrations/class-edd.php:989
 msgid "Should AffiliateWP prevent referral commissions from being recorded on renewal purchases with EDD Software Licensing?"
 msgstr ""
 
-#: includes/integrations/class-edd.php:987
+#: includes/integrations/class-edd.php:994
 msgid "Disable Referrals on Upgrades"
 msgstr ""
 
-#: includes/integrations/class-edd.php:988
+#: includes/integrations/class-edd.php:995
 msgid "Should AffiliateWP prevent referral commissions from being recorded on license upgrade purchases with EDD Software Licensing?"
 msgstr ""
 
-#: includes/integrations/class-edd.php:1009
-#: includes/integrations/class-zippycourses.php:92
+#: includes/integrations/class-edd.php:1016
 msgid "Affiliate Rates:"
 msgstr ""
 
 #. translators: EDD singular product label
-#: includes/integrations/class-edd.php:1024
-#: includes/integrations/class-zippycourses.php:105
+#: includes/integrations/class-edd.php:1031
 msgid "Disable referrals on this %s"
 msgstr ""
 
-#: includes/integrations/class-edd.php:1029
+#: includes/integrations/class-edd.php:1036
 #: includes/integrations/class-memberpress.php:232
-#: includes/integrations/class-zippycourses.php:109
 msgid "These settings will be used to calculate affiliate earnings per-sale. Leave blank to use the site default referral rate."
 msgstr ""
 
 #. translators: EDD singular category label
-#: includes/integrations/class-edd.php:1060
-#: includes/integrations/class-edd.php:1081
+#: includes/integrations/class-edd.php:1067
+#: includes/integrations/class-edd.php:1088
 msgid "The referral rate for this %s category."
 msgstr ""
 
@@ -6992,6 +7017,10 @@ msgstr ""
 
 #: includes/integrations/class-formidablepro.php:128
 msgid "Purchase Amount"
+msgstr ""
+
+#: includes/integrations/class-formidablepro.php:162
+msgid "Select the referral type for this form."
 msgstr ""
 
 #. translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name, 4: Referral affiliate ID
@@ -7018,6 +7047,11 @@ msgstr ""
 msgid "Referral #%1$d for %2$s recorded for %3$s"
 msgstr ""
 
+#: includes/integrations/class-give.php:286
+#: includes/integrations/class-ninja-forms.php:284
+msgid "Allow Referrals"
+msgstr ""
+
 #: includes/integrations/class-give.php:287
 msgid "Enable affiliate referral creation for this donation form"
 msgstr ""
@@ -7038,13 +7072,16 @@ msgstr ""
 #: includes/integrations/class-gravityforms.php:189
 #: includes/integrations/class-pmp.php:222
 #: includes/integrations/class-sproutinvoices.php:79
-#: includes/integrations/class-zippycourses.php:292
 msgid "Referral #%1$d for %2$s recorded for %3$s (ID: %4$d)."
 msgstr ""
 
 #: includes/integrations/class-gravityforms.php:221
 #: includes/integrations/class-sproutinvoices.php:109
 msgid "Referral #%d for %s for %s rejected"
+msgstr ""
+
+#: includes/integrations/class-gravityforms.php:395
+msgid "Enable affiliate referral creation for this form"
 msgstr ""
 
 #: includes/integrations/class-gravityforms.php:406
@@ -7157,7 +7194,6 @@ msgid "Please enter a valid email address"
 msgstr ""
 
 #: includes/integrations/class-pmp.php:420
-#: includes/integrations/class-zippycourses.php:77
 msgid "Affiliate Settings"
 msgstr ""
 
@@ -7265,12 +7301,171 @@ msgstr ""
 msgid "This coupon can&#8217;t be used at the moment"
 msgstr ""
 
-#: includes/integrations/class-wpforms.php:64
-msgid "Enable referrals"
+#: includes/integrations/class-wpforms-templates.php:17
+msgid "Affiliate Registration Form"
 msgstr ""
 
-#: includes/integrations/class-wpforms.php:72
+#: includes/integrations/class-wpforms-templates.php:23
+msgid "Create an affiliate registration form using AffiliateWP."
+msgstr ""
+
+#: includes/integrations/class-wpforms-templates.php:80
+#: assets/js/editor/build/index.js:5625
+msgid "Affiliate Registration"
+msgstr ""
+
+#: includes/integrations/class-wpforms-templates.php:82
+msgid "Registering..."
+msgstr ""
+
+#: includes/integrations/class-wpforms-templates.php:87
+msgid "Affiliate Manager Notification"
+msgstr ""
+
+#: includes/integrations/class-wpforms-templates.php:89
+msgid "New Affiliate Registration on {site_name}"
+msgstr ""
+
+#: includes/integrations/class-wpforms-templates.php:104
+msgid "Redirect to Affiliate Area"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:216
+msgid "Email address is required"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:223
+msgid "An account with that username already exists."
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:240
+msgid "This username is invalid because it uses illegal characters. Please enter a valid username."
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:247
+msgid "An affiliate with that email already exists."
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:335
+msgid "User Registration cannot be used with Affiliate Registration. Please disable the \"Enable User Registration\" option to allow affiliate registrations."
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:398
+msgid "Enable Referrals"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:400
+#: includes/integrations/class-wpforms.php:410
+msgid "Allow this form to generate referrals."
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:409
+msgid "Referral creation"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:421
+msgid "Enable Affiliate Registration"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:423
+msgid "Use this form for registering affiliates."
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:432
+msgid "Field Mapping"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:433
+msgid "Connect your form fields to information in the affiliate’s account."
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:537
+msgid "Affiliate Application"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:540
+#: includes/integrations/class-wpforms.php:645
+msgid "View Entry"
+msgstr ""
+
+#. translators: %d - field ID.
+#: includes/integrations/class-wpforms.php:559
+#: includes/integrations/class-wpforms.php:625
+msgid "Field ID #%d"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:568
+#: includes/integrations/class-wpforms.php:634
+msgid "Empty"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:644
+msgid "WPForms Entry"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:675
 msgid "Referral type"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:678
+msgid "Select the type of referral this should be."
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:708
+#: includes/integrations/class-wpforms.php:725
+#: includes/integrations/class-wpforms.php:745
+#: includes/integrations/class-wpforms.php:763
+#: includes/integrations/class-wpforms.php:777
+#: includes/integrations/class-wpforms.php:791
+msgid "--- Select Field ---"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:726
+msgid "If a username is not set or provided, the affiliate's email address will be used instead."
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:805
+msgid "Auto generate"
+msgstr ""
+
+#. translators: %s - {site_name} smart tag.
+#: includes/integrations/class-wpforms.php:1017
+msgid "%s Your affiliate username and password info"
+msgstr ""
+
+#. translators: %s - {affiliate_user_login} smart tag.
+#: includes/integrations/class-wpforms.php:1032
+msgid "Username: %s"
+msgstr ""
+
+#. translators: %s - {affiliate_password} smart tag.
+#: includes/integrations/class-wpforms.php:1037
+msgid "Password: %s"
+msgstr ""
+
+#. translators: %s - {affiliate_password} smart tag.
+#: includes/integrations/class-wpforms.php:1042
+msgid "Log into your affiliate area at: %s"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:1305
+msgid "Site Name"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:1306
+msgid "Affiliate Manager(s) Email Address"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:1307
+msgid "Affiliate Password"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:1308
+msgid "Affiliate Login URL"
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:1309
+msgid "Affiliate User Login"
 msgstr ""
 
 #: includes/integrations/extras/class-ninja-forms-action-add-referral.php:66
@@ -7599,335 +7794,335 @@ msgstr ""
 msgid "Vietnamese Dong"
 msgstr ""
 
-#: includes/misc-functions.php:1229
-#: includes/misc-functions.php:1248
+#: includes/misc-functions.php:1277
+#: includes/misc-functions.php:1296
 #: tests/misc/test-misc-functions.php:384
 msgid "Email (required)"
 msgstr ""
 
-#: includes/misc-functions.php:1231
+#: includes/misc-functions.php:1279
 #: tests/misc/test-misc-functions.php:386
 msgid "First/Full Name"
 msgstr ""
 
-#: includes/misc-functions.php:1239
+#: includes/misc-functions.php:1287
 #: tests/misc/test-misc-functions.php:394
 msgid "Referral Count"
 msgstr ""
 
-#: includes/misc-functions.php:1240
+#: includes/misc-functions.php:1288
 #: tests/misc/test-misc-functions.php:395
 msgid "Visit Count"
 msgstr ""
 
-#: includes/misc-functions.php:1273
-#: includes/misc-functions.php:1293
+#: includes/misc-functions.php:1321
+#: includes/misc-functions.php:1341
 #: tests/misc/test-misc-functions.php:420
 msgid "Affiliate ID or Username (required)"
 msgstr ""
 
-#: includes/misc-functions.php:1274
-#: includes/misc-functions.php:1297
+#: includes/misc-functions.php:1322
+#: includes/misc-functions.php:1345
 #: tests/misc/test-misc-functions.php:421
 msgid "Amount (required)"
 msgstr ""
 
-#: includes/misc-functions.php:1275
+#: includes/misc-functions.php:1323
 #: tests/misc/test-misc-functions.php:422
 msgid "Affiliate Email"
 msgstr ""
 
-#: includes/misc-functions.php:1276
+#: includes/misc-functions.php:1324
 #: tests/misc/test-misc-functions.php:423
 msgid "Affiliate Username"
 msgstr ""
 
-#: includes/misc-functions.php:1277
+#: includes/misc-functions.php:1325
 #: tests/misc/test-misc-functions.php:424
 msgid "Affiliate First/Full Name"
 msgstr ""
 
-#: includes/misc-functions.php:1278
+#: includes/misc-functions.php:1326
 #: tests/misc/test-misc-functions.php:425
 msgid "Affiliate Last Name"
 msgstr ""
 
-#: includes/misc-functions.php:1337
+#: includes/misc-functions.php:1385
 msgid "- Ignore this field -"
 msgstr ""
 
-#: includes/misc-functions.php:1340
+#: includes/misc-functions.php:1388
 msgid "- Select field to preview data -"
 msgstr ""
 
-#: includes/misc-functions.php:1417
-#: includes/misc-functions.php:1453
+#: includes/misc-functions.php:1465
+#: includes/misc-functions.php:1501
 #: tests/misc/test-misc-functions.php:1105
 msgid "Austria"
 msgstr ""
 
-#: includes/misc-functions.php:1418
-#: includes/misc-functions.php:1454
+#: includes/misc-functions.php:1466
+#: includes/misc-functions.php:1502
 #: tests/misc/test-misc-functions.php:1106
 msgid "Belgium"
 msgstr ""
 
-#: includes/misc-functions.php:1419
-#: includes/misc-functions.php:1461
+#: includes/misc-functions.php:1467
+#: includes/misc-functions.php:1509
 #: tests/misc/test-misc-functions.php:1113
 msgid "Denmark"
 msgstr ""
 
-#: includes/misc-functions.php:1420
-#: includes/misc-functions.php:1464
+#: includes/misc-functions.php:1468
+#: includes/misc-functions.php:1512
 #: tests/misc/test-misc-functions.php:1116
 msgid "Finland"
 msgstr ""
 
-#: includes/misc-functions.php:1421
-#: includes/misc-functions.php:1465
+#: includes/misc-functions.php:1469
+#: includes/misc-functions.php:1513
 #: tests/misc/test-misc-functions.php:1117
 msgid "France"
 msgstr ""
 
-#: includes/misc-functions.php:1422
-#: includes/misc-functions.php:1466
+#: includes/misc-functions.php:1470
+#: includes/misc-functions.php:1514
 #: tests/misc/test-misc-functions.php:1118
 msgid "Germany"
 msgstr ""
 
-#: includes/misc-functions.php:1423
-#: includes/misc-functions.php:1475
+#: includes/misc-functions.php:1471
+#: includes/misc-functions.php:1523
 #: tests/misc/test-misc-functions.php:1127
 msgid "Ireland"
 msgstr ""
 
-#: includes/misc-functions.php:1424
-#: includes/misc-functions.php:1476
+#: includes/misc-functions.php:1472
+#: includes/misc-functions.php:1524
 #: tests/misc/test-misc-functions.php:1128
 msgid "Italy"
 msgstr ""
 
-#: includes/misc-functions.php:1425
-#: includes/misc-functions.php:1479
+#: includes/misc-functions.php:1473
+#: includes/misc-functions.php:1527
 #: tests/misc/test-misc-functions.php:1131
 msgid "Luxembourg"
 msgstr ""
 
-#: includes/misc-functions.php:1426
-#: includes/misc-functions.php:1483
+#: includes/misc-functions.php:1474
+#: includes/misc-functions.php:1531
 #: tests/misc/test-misc-functions.php:1135
 msgid "Netherlands"
 msgstr ""
 
-#: includes/misc-functions.php:1427
-#: includes/misc-functions.php:1485
+#: includes/misc-functions.php:1475
+#: includes/misc-functions.php:1533
 #: tests/misc/test-misc-functions.php:1137
 msgid "Norway"
 msgstr ""
 
-#: includes/misc-functions.php:1428
-#: includes/misc-functions.php:1488
+#: includes/misc-functions.php:1476
+#: includes/misc-functions.php:1536
 #: tests/misc/test-misc-functions.php:1140
 msgid "Portugal"
 msgstr ""
 
-#: includes/misc-functions.php:1429
-#: includes/misc-functions.php:1493
+#: includes/misc-functions.php:1477
+#: includes/misc-functions.php:1541
 #: tests/misc/test-misc-functions.php:1145
 msgid "Spain"
 msgstr ""
 
-#: includes/misc-functions.php:1430
-#: includes/misc-functions.php:1494
+#: includes/misc-functions.php:1478
+#: includes/misc-functions.php:1542
 #: tests/misc/test-misc-functions.php:1146
 msgid "Sweden"
 msgstr ""
 
-#: includes/misc-functions.php:1431
-#: includes/misc-functions.php:1495
+#: includes/misc-functions.php:1479
+#: includes/misc-functions.php:1543
 #: tests/misc/test-misc-functions.php:1147
 msgid "Switzerland"
 msgstr ""
 
-#: includes/misc-functions.php:1432
-#: includes/misc-functions.php:1450
+#: includes/misc-functions.php:1480
+#: includes/misc-functions.php:1498
 #: tests/misc/test-misc-functions.php:1102
 msgid "United Kingdom"
 msgstr ""
 
-#: includes/misc-functions.php:1448
+#: includes/misc-functions.php:1496
 #: tests/misc/test-misc-functions.php:1100
 msgid "United States"
 msgstr ""
 
-#: includes/misc-functions.php:1449
+#: includes/misc-functions.php:1497
 #: tests/misc/test-misc-functions.php:1101
 msgid "Canada"
 msgstr ""
 
-#: includes/misc-functions.php:1451
+#: includes/misc-functions.php:1499
 #: tests/misc/test-misc-functions.php:1103
 msgid "Argentina"
 msgstr ""
 
-#: includes/misc-functions.php:1452
+#: includes/misc-functions.php:1500
 #: tests/misc/test-misc-functions.php:1104
 msgid "Australia"
 msgstr ""
 
-#: includes/misc-functions.php:1455
+#: includes/misc-functions.php:1503
 #: tests/misc/test-misc-functions.php:1107
 msgid "Brazil"
 msgstr ""
 
-#: includes/misc-functions.php:1456
+#: includes/misc-functions.php:1504
 #: tests/misc/test-misc-functions.php:1108
 msgid "Bulgaria"
 msgstr ""
 
-#: includes/misc-functions.php:1457
+#: includes/misc-functions.php:1505
 #: tests/misc/test-misc-functions.php:1109
 msgid "Costa Rica"
 msgstr ""
 
-#: includes/misc-functions.php:1458
+#: includes/misc-functions.php:1506
 #: tests/misc/test-misc-functions.php:1110
 msgid "Croatia"
 msgstr ""
 
-#: includes/misc-functions.php:1459
+#: includes/misc-functions.php:1507
 #: tests/misc/test-misc-functions.php:1111
 msgid "Cyprus"
 msgstr ""
 
-#: includes/misc-functions.php:1460
+#: includes/misc-functions.php:1508
 #: tests/misc/test-misc-functions.php:1112
 msgid "Czech Republic"
 msgstr ""
 
-#: includes/misc-functions.php:1462
+#: includes/misc-functions.php:1510
 #: tests/misc/test-misc-functions.php:1114
 msgid "Egypt"
 msgstr ""
 
-#: includes/misc-functions.php:1463
+#: includes/misc-functions.php:1511
 #: tests/misc/test-misc-functions.php:1115
 msgid "Estonia"
 msgstr ""
 
-#: includes/misc-functions.php:1467
+#: includes/misc-functions.php:1515
 #: tests/misc/test-misc-functions.php:1119
 msgid "Greece"
 msgstr ""
 
-#: includes/misc-functions.php:1468
+#: includes/misc-functions.php:1516
 #: tests/misc/test-misc-functions.php:1120
 msgid "Hong Kong"
 msgstr ""
 
-#: includes/misc-functions.php:1469
+#: includes/misc-functions.php:1517
 #: tests/misc/test-misc-functions.php:1121
 msgid "Hungary"
 msgstr ""
 
-#: includes/misc-functions.php:1470
+#: includes/misc-functions.php:1518
 #: tests/misc/test-misc-functions.php:1122
 msgid "Iceland"
 msgstr ""
 
-#: includes/misc-functions.php:1471
+#: includes/misc-functions.php:1519
 #: tests/misc/test-misc-functions.php:1123
 msgid "India"
 msgstr ""
 
-#: includes/misc-functions.php:1472
+#: includes/misc-functions.php:1520
 #: tests/misc/test-misc-functions.php:1124
 msgid "Indonesia"
 msgstr ""
 
-#: includes/misc-functions.php:1473
+#: includes/misc-functions.php:1521
 #: tests/misc/test-misc-functions.php:1125
 msgid "Israel"
 msgstr ""
 
-#: includes/misc-functions.php:1474
+#: includes/misc-functions.php:1522
 #: tests/misc/test-misc-functions.php:1126
 msgid "Japan"
 msgstr ""
 
-#: includes/misc-functions.php:1477
+#: includes/misc-functions.php:1525
 #: tests/misc/test-misc-functions.php:1129
 msgid "Latvia"
 msgstr ""
 
-#: includes/misc-functions.php:1478
+#: includes/misc-functions.php:1526
 #: tests/misc/test-misc-functions.php:1130
 msgid "Lithuania"
 msgstr ""
 
-#: includes/misc-functions.php:1480
+#: includes/misc-functions.php:1528
 #: tests/misc/test-misc-functions.php:1132
 msgid "Malaysia"
 msgstr ""
 
-#: includes/misc-functions.php:1481
+#: includes/misc-functions.php:1529
 #: tests/misc/test-misc-functions.php:1133
 msgid "Malta"
 msgstr ""
 
-#: includes/misc-functions.php:1482
+#: includes/misc-functions.php:1530
 #: tests/misc/test-misc-functions.php:1134
 msgid "Mexico"
 msgstr ""
 
-#: includes/misc-functions.php:1484
+#: includes/misc-functions.php:1532
 #: tests/misc/test-misc-functions.php:1136
 msgid "New Zealand"
 msgstr ""
 
-#: includes/misc-functions.php:1486
+#: includes/misc-functions.php:1534
 #: tests/misc/test-misc-functions.php:1138
 msgid "Peru"
 msgstr ""
 
-#: includes/misc-functions.php:1487
+#: includes/misc-functions.php:1535
 #: tests/misc/test-misc-functions.php:1139
 msgid "Poland"
 msgstr ""
 
-#: includes/misc-functions.php:1489
+#: includes/misc-functions.php:1537
 #: tests/misc/test-misc-functions.php:1141
 msgid "Romania"
 msgstr ""
 
-#: includes/misc-functions.php:1490
+#: includes/misc-functions.php:1538
 #: tests/misc/test-misc-functions.php:1142
 msgid "Singapore"
 msgstr ""
 
-#: includes/misc-functions.php:1491
+#: includes/misc-functions.php:1539
 #: tests/misc/test-misc-functions.php:1143
 msgid "Slovakia"
 msgstr ""
 
-#: includes/misc-functions.php:1492
+#: includes/misc-functions.php:1540
 #: tests/misc/test-misc-functions.php:1144
 msgid "Slovenia"
 msgstr ""
 
-#: includes/misc-functions.php:1496
+#: includes/misc-functions.php:1544
 #: tests/misc/test-misc-functions.php:1148
 msgid "Thailand"
 msgstr ""
 
-#: includes/misc-functions.php:1497
+#: includes/misc-functions.php:1545
 #: tests/misc/test-misc-functions.php:1149
 msgid "Uruguay"
 msgstr ""
 
 #. translators: Formatted percentage value. If using '%' to format percentage, must be expressed as '%%' to avoid errors
-#: includes/misc-functions.php:1562
+#: includes/misc-functions.php:1610
 msgid "%s%%"
 msgstr ""
 
@@ -8666,7 +8861,7 @@ msgid "Country Where The Business Is Legally Established"
 msgstr ""
 
 #: templates/creative.php:46
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:5754
 msgid "Copy and paste the following:"
 msgstr ""
 
@@ -8844,7 +9039,7 @@ msgid "You have subscribed successfully."
 msgstr ""
 
 #: templates/opt-in.php:53
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:1646
 msgid "Subscribe"
 msgstr ""
 
@@ -9002,572 +9197,639 @@ msgstr ""
 msgid "Foo Affiliate account banned"
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:186
 msgid "Displays the affiliate registration and login forms to a logged out user. A logged-in user will see the Affiliate Area instead of these forms."
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:187
 msgid "Area"
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:187
 msgid "Dashboard"
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:299
+msgid "This block will only be shown to affiliates"
+msgstr ""
+
+#: assets/js/editor/build/index.js:349
+msgid "Affiliate Content"
+msgstr ""
+
+#: assets/js/editor/build/index.js:350
+msgid "Restrict content to logged-in affiliates."
+msgstr ""
+
+#: assets/js/editor/build/index.js:351
+#: assets/js/editor/build/index.js:1544
+msgid "Content"
+msgstr ""
+
+#: assets/js/editor/build/index.js:351
+#: assets/js/editor/build/index.js:1544
+msgid "Restrict"
+msgstr ""
+
+#: assets/js/editor/build/index.js:556
+msgid "- Select -"
+msgstr ""
+
+#: assets/js/editor/build/index.js:569
+msgid "Select the affiliate creative to display"
+msgstr ""
+
+#: assets/js/editor/build/index.js:584
+msgid "This creative is inactive."
+msgstr ""
+
+#: assets/js/editor/build/index.js:588
+msgid "This creative (id: %d) no longer exists."
+msgstr ""
+
+#: assets/js/editor/build/index.js:601
+#: assets/js/editor/build/index.js:617
+#: assets/js/editor/build/index.js:675
+msgid "Affiliate Creative"
+msgstr ""
+
+#: assets/js/editor/build/index.js:602
+msgid "No creatives were found."
+msgstr ""
+
+#: assets/js/editor/build/index.js:676
+msgid "Show an affiliate creative."
+msgstr ""
+
+#: assets/js/editor/build/index.js:677
+#: assets/js/editor/build/index.js:909
+msgid "Banner"
+msgstr ""
+
+#: assets/js/editor/build/index.js:825
+msgid "Creative preview"
+msgstr ""
+
+#: assets/js/editor/build/index.js:832
+msgid "Displays an image or text preview above the HTML code."
+msgstr ""
+
+#: assets/js/editor/build/index.js:834
+msgid "Number"
+msgstr ""
+
+#: assets/js/editor/build/index.js:842
+msgid "The number of affiliate creatives to show."
+msgstr ""
+
+#: assets/js/editor/build/index.js:854
+#: assets/js/editor/build/index.js:907
+msgid "Affiliate Creatives"
+msgstr ""
+
+#: assets/js/editor/build/index.js:908
+msgid "Show creatives to your affiliates."
+msgstr ""
+
+#: assets/js/editor/build/index.js:992
+msgid "Yes"
+msgstr ""
+
+#: assets/js/editor/build/index.js:995
+msgid "No"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1004
+msgid "Referral Format"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1022
+msgid "Custom URL"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1073
+msgid "Affiliate Referral URL"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1074
+msgid "Display the referral URL of the currently logged in affiliate."
+msgstr ""
+
+#: assets/js/editor/build/index.js:1075
+msgid "Referral"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1179
+msgid "Redirect"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1187
+#: assets/js/editor/build/index.js:2451
+msgid "Form Title"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1195
+#: assets/js/editor/build/index.js:4077
+msgid "Button Text"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1203
+#: assets/js/editor/build/index.js:2459
+msgid "Show Placeholder Text"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1211
+msgid "Field Labels"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1234
+msgid "Remember Text"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1244
+msgid "Field Placeholders"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1294
+#: assets/js/editor/build/index.js:1325
+#: assets/js/editor/build/index.js:1357
+#: assets/js/editor/build/index.js:1888
 msgid "Add label…"
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:1298
+#: assets/js/editor/build/index.js:1329
+msgid "Add placeholder text…"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1362
+#: assets/js/editor/build/index.js:4086
+msgid "Add button text…"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1413
+msgid "Affiliate Login"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1414
+msgid "Allow your affiliates to login."
+msgstr ""
+
+#: assets/js/editor/build/index.js:1415
+msgid "Login"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1415
+#: assets/js/editor/build/index.js:1688
+#: assets/js/editor/build/index.js:5627
+msgid "Form"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1492
+msgid "This block will only be shown to non affiliates"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1542
+msgid "Non Affiliate Content"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1543
+msgid "Show content to non affiliates."
+msgstr ""
+
+#: assets/js/editor/build/index.js:1686
+msgid "Opt-in Form"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1687
+msgid "Show an opt-in form that integrates with Mailchimp, ActiveCampaign, or ConvertKit."
+msgstr ""
+
+#: assets/js/editor/build/index.js:1688
+msgid "Opt-in"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1688
+msgid "Sign Up"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1744
+msgctxt "Email field"
+msgid "Field settings"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1747
+msgctxt "Email field"
+msgid "Required"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1758
+msgctxt "Email field"
+msgid "Field Label"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1766
+msgctxt "Email field"
+msgid "Field Placeholder"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1817
+msgid "Field Settings"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1819
+msgid "Field is required"
+msgstr ""
+
+#: assets/js/editor/build/index.js:1827
+msgid "Does this field have to be completed for the form to be submitted?"
+msgstr ""
+
+#: assets/js/editor/build/index.js:2018
+msgid "Insert option"
+msgstr ""
+
+#: assets/js/editor/build/index.js:2020
+msgid "Add option"
+msgstr ""
+
+#: assets/js/editor/build/index.js:2221
+msgid "Write option…"
+msgstr ""
+
+#: assets/js/editor/build/index.js:2228
+msgid "Remove option"
+msgstr ""
+
+#: assets/js/editor/build/index.js:2280
 msgctxt "Text field"
 msgid "Field settings"
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:2283
 msgctxt "Text field"
 msgid "Required"
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:2294
 msgctxt "Text field"
 msgid "Field Label"
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:2302
 msgctxt "Text field"
 msgid "Field Placeholder"
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
-msgid "The Username field is always required"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "The affiliate's username."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Form Title"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Show Placeholder Text"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:2470
 msgid "Affiliates will not see this form as \"Allow Affiliate Registration\" is disabled."
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
-msgid "Affiliate Registration"
+#: assets/js/editor/build/index.js:2554
+msgid "The Account Email field is always required"
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
+#. translators: block description
+#: assets/js/editor/build/index.js:2640
+msgid "A field for collecting the account email address."
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:2642
+#: assets/js/editor/build/index.js:3149
+#: assets/js/editor/build/index.js:3697
+msgid "e-mail"
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:2643
+#: assets/js/editor/build/index.js:3150
+#: assets/js/editor/build/index.js:3698
+msgid "mail"
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:2644
+msgid "account"
+msgstr ""
+
+#. translators: block name
+#: assets/js/editor/build/index.js:2769
+msgid "Multiple Choice (Checkbox)"
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:2800
+msgid "Add several checkbox items."
+msgstr ""
+
+#: assets/js/editor/build/index.js:2866
+msgctxt "Checkbox field"
+msgid "Field settings"
+msgstr ""
+
+#: assets/js/editor/build/index.js:2869
+msgctxt "Checkbox field"
+msgid "Required"
+msgstr ""
+
+#: assets/js/editor/build/index.js:2878
+msgctxt "Checkbox field"
+msgid "Field Label"
+msgstr ""
+
+#: assets/js/editor/build/index.js:2900
+msgctxt "Checkbox field"
+msgid "Add label ..."
+msgstr ""
+
+#. translators: block name
+#: assets/js/editor/build/index.js:2972
+msgid "Checkbox"
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:2987
+msgid "Add a single checkbox."
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:2989
+#: assets/js/editor/build/index.js:4780
+msgid "checkbox"
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:3147
+msgid "A field for collecting a validated email address."
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:3294
+msgid "The affiliate's name."
+msgstr ""
+
+#: assets/js/editor/build/index.js:3372
+msgid "The Password fields will only show on the Affiliate Registration form to logged out users."
+msgstr ""
+
+#: assets/js/editor/build/index.js:3373
+#: assets/js/editor/build/index.js:3769
+#: assets/js/editor/build/index.js:4491
+#: assets/js/editor/build/index.js:5014
+#: assets/js/editor/build/index.js:5387
+msgid "Field settings"
+msgstr ""
+
+#: assets/js/editor/build/index.js:3376
+msgid "Password Field Label"
+msgstr ""
+
+#: assets/js/editor/build/index.js:3384
+msgid "Password Field Placeholder"
+msgstr ""
+
+#: assets/js/editor/build/index.js:3392
+msgid "Password Confirm Field Label"
+msgstr ""
+
+#: assets/js/editor/build/index.js:3400
+msgid "Password Confirm Field Placeholder"
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:3534
+msgid "A field for collecting the affiliate's desired password."
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:3536
+msgid "password"
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:3695
+msgid "A field for collecting a valid payment email address."
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:3699
+msgid "payment"
+msgstr ""
+
+#: assets/js/editor/build/index.js:3772
+#: assets/js/editor/build/index.js:4495
+#: assets/js/editor/build/index.js:5016
+#: assets/js/editor/build/index.js:5390
+msgid "Required"
+msgstr ""
+
+#: assets/js/editor/build/index.js:3781
+#: assets/js/editor/build/index.js:4544
+#: assets/js/editor/build/index.js:5032
+#: assets/js/editor/build/index.js:5407
+msgid "Field Label"
+msgstr ""
+
+#: assets/js/editor/build/index.js:3789
+#: assets/js/editor/build/index.js:5040
+#: assets/js/editor/build/index.js:5415
+msgid "Field Placeholder"
+msgstr ""
+
+#. translators: block name
+#: assets/js/editor/build/index.js:3865
+msgid "Phone"
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:3883
+msgid "A field for collecting a phone number."
+msgstr ""
+
+#. translators: block name
+#: assets/js/editor/build/index.js:3979
+msgid "Single Choice (Radio)"
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:4010
+msgid "Add one or more radio buttons."
+msgstr ""
+
+#: assets/js/editor/build/index.js:4074
+msgid "Button Settings"
+msgstr ""
+
+#. translators: block name
+#: assets/js/editor/build/index.js:4170
+msgid "Register Button"
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:4172
+msgid "A button for submitting the affiliate registration."
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:4174
+msgid "submit"
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:4175
+msgid "button"
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:4176
+msgid "register"
+msgstr ""
+
+#. translators: block name
+#: assets/js/editor/build/index.js:4273
+msgid "Dropdown Field"
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:4304
+msgid "Add a select box with several items."
+msgstr ""
+
+#: assets/js/editor/build/index.js:4504
+msgid "Display Style"
+msgstr ""
+
+#: assets/js/editor/build/index.js:4507
+msgid "Default"
+msgstr ""
+
+#: assets/js/editor/build/index.js:4510
+msgid "Show above checkbox"
+msgstr ""
+
+#: assets/js/editor/build/index.js:4519
+msgid "Page Content to Display"
+msgstr ""
+
+#: assets/js/editor/build/index.js:4522
+msgid "Terms of Use Page"
+msgstr ""
+
+#: assets/js/editor/build/index.js:4555
+msgid "Select your Affiliate Terms of Use page below."
+msgstr ""
+
+#: assets/js/editor/build/index.js:4557
+msgid "Create one using a template"
+msgstr ""
+
+#: assets/js/editor/build/index.js:4558
+msgid "Select a Terms of Use Page"
+msgstr ""
+
+#: assets/js/editor/build/index.js:4592
+#: assets/js/editor/build/index.js:4615
+msgid "Add label ..."
+msgstr ""
+
+#: assets/js/editor/build/index.js:4595
+msgid "No Terms of Use page selected."
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:4778
+msgid "Display an Affiliate Terms of Use checkbox which affiliates must agree to."
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:4781
+msgid "terms of use"
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:4782
+msgid "affiliate terms"
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:4925
+msgid "A field for collecting text."
+msgstr ""
+
+#: assets/js/editor/build/index.js:5025
+msgid "Use as Promotion Method field"
+msgstr ""
+
+#. translators: block name
+#: assets/js/editor/build/index.js:5125
+msgid "Textarea"
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:5146
+msgid "A field for collecting larger text responses."
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:5148
+msgid "textarea"
+msgstr ""
+
+#. translators: Username help text
+#: assets/js/editor/build/index.js:5209
+msgid "The Username field is always required"
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:5297
+msgid "The affiliate's username."
+msgstr ""
+
+#: assets/js/editor/build/index.js:5399
+msgid "Save to affiliate's user profile"
+msgstr ""
+
+#: assets/js/editor/build/index.js:5405
+msgid "Only one Website can be saved as the \"Website\" field on the WordPress user profile."
+msgstr ""
+
+#: assets/js/editor/build/index.js:5405
+msgid "The Website will be saved to the \"Website\" field on the affiliate's WordPress user profile."
+msgstr ""
+
+#. translators: block description
+#: assets/js/editor/build/index.js:5511
+msgid "A field for collecting a website URL."
+msgstr ""
+
+#. translators: block keyword
+#: assets/js/editor/build/index.js:5513
+msgid "url"
+msgstr ""
+
+#: assets/js/editor/build/index.js:5513
+msgid "website"
+msgstr ""
+
+#: assets/js/editor/build/index.js:5513
+msgid "link"
+msgstr ""
+
+#: assets/js/editor/build/index.js:5626
 msgid "Allow your affiliates to register."
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:5627
 msgid "Registration"
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
-msgid "Form"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Redirect"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Button Text"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Field Labels"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Remember Text"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Field Placeholders"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Add placeholder text…"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Add button text…"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Affiliate Login"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Allow your affiliates to login."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Login"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "This block will only be shown to affiliates"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Affiliate Content"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Restrict content to logged-in affiliates."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Content"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Restrict"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "This block will only be shown to non affiliates"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Non Affiliate Content"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Show content to non affiliates."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Opt-in Form"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Show an opt-in form that integrates with Mailchimp, ActiveCampaign, or ConvertKit."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Opt-in"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Sign Up"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:5953
 #: assets/js/editor/utils/referral-url.js:43
 msgid "123"
 msgstr ""
 
-#: assets/js/editor/build/index.js:6
+#: assets/js/editor/build/index.js:5959
 #: assets/js/editor/utils/referral-url.js:49
 msgid "demoaffiliate"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Yes"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "No"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Referral Format"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Custom URL"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Affiliate Referral URL"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Display the referral URL of the currently logged in affiliate."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Referral"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Creative preview"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Displays an image or text preview above the HTML code."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Number"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "The number of affiliate creatives to show."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Affiliate Creatives"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Show creatives to your affiliates."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Banner"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Select the affiliate creative to display"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "- Select -"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "This creative is inactive."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "This creative (id: %d) no longer exists."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Affiliate Creative"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "No creatives were found."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Show an affiliate creative."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "A field for collecting text."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "The affiliate's name."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgctxt "Email field"
-msgid "Field settings"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgctxt "Email field"
-msgid "Required"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgctxt "Email field"
-msgid "Field Label"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgctxt "Email field"
-msgid "Field Placeholder"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "A field for collecting a valid payment email address."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "e-mail"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "mail"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "payment"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "The Account Email field is always required"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "A field for collecting the account email address."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "account"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Field settings"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Required"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Use as Promotion Method field"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Field Label"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Field Placeholder"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Textarea"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "A field for collecting larger text responses."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "textarea"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "A field for collecting a validated email address."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Save to affiliate's user profile"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Only one Website can be saved as the \"Website\" field on the WordPress user profile."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "The Website will be saved to the \"Website\" field on the affiliate's WordPress user profile."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "A field for collecting a website URL."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "url"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "website"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "link"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgctxt "Checkbox field"
-msgid "Field settings"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgctxt "Checkbox field"
-msgid "Required"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgctxt "Checkbox field"
-msgid "Field Label"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgctxt "Checkbox field"
-msgid "Add label ..."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Checkbox"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Add a single checkbox."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "checkbox"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "The Password fields will only show on the Affiliate Registration form to logged out users."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Password Field Label"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Password Field Placeholder"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Password Confirm Field Label"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Password Confirm Field Placeholder"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "A field for collecting the affiliate's desired password."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "password"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Phone"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "A field for collecting a phone number."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Button Settings"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Register Button"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "A button for submitting the affiliate registration."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "submit"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "button"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "register"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Display Style"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Default"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Show above checkbox"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Page Content to Display"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Terms of Use Page"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Select your Affiliate Terms of Use page below."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Create one using a template"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Select a Terms of Use Page"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Add label ..."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "No Terms of Use page selected."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Display an Affiliate Terms of Use checkbox which affiliates must agree to."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "terms of use"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "affiliate terms"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Field Settings"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Field is required"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Does this field have to be completed for the form to be submitted?"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Write option…"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Remove option"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Insert option"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Add option"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Dropdown Field"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Add a select box with several items."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Single Choice (Radio)"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Add one or more radio buttons."
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Multiple Choice (Checkbox)"
-msgstr ""
-
-#: assets/js/editor/build/index.js:6
-msgid "Add several checkbox items."
 msgstr ""

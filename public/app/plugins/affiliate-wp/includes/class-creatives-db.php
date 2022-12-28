@@ -63,7 +63,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_creatives';
 		}
 		$this->primary_key = 'creative_id';
-		$this->version     = '1.1';
+		$this->version     = '1.2.0';
 
 		// REST endpoints.
 		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
@@ -94,14 +94,15 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 	*/
 	public function get_columns() {
 		return array(
-			'creative_id'  => '%d',
-			'name'         => '%s',
-			'description'  => '%s',
-			'url'          => '%s',
-			'text'         => '%s',
-			'image'        => '%s',
-			'status'       => '%s',
-			'date'         => '%s',
+			'creative_id'   => '%d',
+			'name'          => '%s',
+			'description'   => '%s',
+			'url'           => '%s',
+			'text'          => '%s',
+			'image'         => '%s',
+			'attachment_id' => '%d',
+			'status'        => '%s',
+			'date'          => '%s',
 		);
 	}
 
@@ -270,13 +271,12 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 	*/
 	public function add( $data = array() ) {
 
-		$defaults = array(
-			'status' => 'active',
-			'url'	 => '',
-			'image'  => '',
-		);
-
-		$args = wp_parse_args( $data, $defaults );
+		$args = wp_parse_args( $data, array(
+			'status'        => 'active',
+			'url'           => '',
+			'image'         => '',
+			'attachment_id' => 0,
+		) );
 
 		if ( empty( $args['date'] ) ) {
 			unset( $args['date'] );
@@ -285,6 +285,10 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 
 			$args['date'] = gmdate( 'Y-m-d H:i:s', $time - affiliate_wp()->utils->wp_offset );
 		}
+
+		$args['attachment_id'] = ( ! empty( $args['image'] ) && 0 === $args['attachment_id'] )
+			? attachment_url_to_postid( $args['image'] )
+			: 0;
 
 		$add = $this->insert( $args, 'creative' );
 
@@ -308,14 +312,15 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$sql = "CREATE TABLE {$this->table_name} (
-			creative_id bigint(20)   NOT NULL AUTO_INCREMENT,
-			name        tinytext     NOT NULL,
-			description longtext     NOT NULL,
-			url         varchar(255) NOT NULL,
-			text        tinytext     NOT NULL,
-			image       varchar(255) NOT NULL,
-			status      tinytext     NOT NULL,
-			date        datetime     NOT NULL,
+			creative_id   bigint(20)   NOT NULL AUTO_INCREMENT,
+			name          tinytext     NOT NULL,
+			description   longtext     NOT NULL,
+			url           varchar(255) NOT NULL,
+			text          tinytext     NOT NULL,
+			image         varchar(255) NOT NULL,
+			attachment_id bigint(20)   NOT NULL,
+			status        tinytext     NOT NULL,
+			date          datetime     NOT NULL,
 			PRIMARY KEY  (creative_id),
 			KEY creative_id (creative_id)
 			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";

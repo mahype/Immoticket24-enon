@@ -225,6 +225,10 @@ class Affiliate_WP_Upgrades {
 			$this->v2961_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.11.0', '<' ) ) {
+			$this->v2110_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -1265,6 +1269,21 @@ class Affiliate_WP_Upgrades {
 				update_option( 'affwp_email_summary_now', 'no' );
 			}
 		}
+	}
+
+	/**
+	 * Perform database upgrades for version 2.11.0
+	 *
+	 * @access  private
+	 * @since   2.11.0
+	 */
+	private function v2110_upgrade() {
+
+		affiliate_wp()->creatives->create_table();
+		
+		@affiliate_wp()->utils->log( 'Upgrade: The attachment_id column has been added to the creatives table.' );
+
+		$this->upgraded = true;
 	}
 
 	/**

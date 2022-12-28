@@ -141,20 +141,6 @@ $custom_fields           = affwp_get_custom_registration_fields( $affiliate_id, 
 				</tr>
 			<?php endforeach; ?>
 
-
-			<tr class="form-row" id="affwp-rejection-reason">
-
-				<th scope="row">
-					<?php _e( 'Rejection Reason', 'affiliate-wp' ); ?>
-				</th>
-
-				<td>
-					<textarea class="large-text" name="affwp_rejection_reason" rows="10"></textarea>
-					<p class="description"><?php _e( 'Leave blank if approving this affiliate.', 'affiliate-wp' ); ?></p>
-				</td>
-
-			</tr>
-
 			<?php if ( affwp_dynamic_coupons_is_setup() && empty( $dynamic_coupons ) ) : ?>
 
 				<tr class="form-row">
@@ -184,6 +170,19 @@ $custom_fields           = affwp_get_custom_registration_fields( $affiliate_id, 
 			 */
 			do_action( 'affwp_review_affiliate_end', $affiliate );
 			?>
+
+			<tr class="form-row" id="affwp-rejection-reason">
+
+				<th scope="row">
+					<?php esc_html_e( 'Rejection Reason', 'affiliate-wp' ); ?>
+				</th>
+
+				<td>
+					<textarea class="large-text" name="affwp_rejection_reason" rows="10"></textarea>
+					<p class="description"><?php esc_html_e( 'Leave blank if approving this affiliate.', 'affiliate-wp' ); ?></p>
+				</td>
+
+			</tr>
 
 		</table>
 

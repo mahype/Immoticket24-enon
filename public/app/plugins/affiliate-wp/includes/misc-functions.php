@@ -35,7 +35,7 @@ function affwp_get_currencies() {
 		'CLP' => __( 'Chilean Peso', 'affiliate-wp' ),
 		'CNY' => __( 'Chinese Yuan', 'affiliate-wp' ),
 		'COP' => __( 'Colombian Peso', 'affiliate-wp' ),
-		'HRK' => __( 'Croatia Kuna', 'affiliate-wp' ),
+		'HRK' => __( 'Croatia Kuna', 'affiliate-wp' ), // @TODO Remove after 1/1/2023.
 		'CZK' => __( 'Czech Koruna', 'affiliate-wp' ),
 		'DKK' => __( 'Danish Krone', 'affiliate-wp' ),
 		'DOP' => __( 'Dominican Peso', 'affiliate-wp' ),
@@ -90,6 +90,54 @@ function affwp_get_currencies() {
 	return apply_filters( 'affwp_currencies', $currencies );
 }
 
+/**
+ * The time (timestamp) HRK is deprecated.
+ *
+ * @since  2.11.0
+ *
+ * @see affwp_maybe_remove_hrk().
+ * @see Affiliate_WP_Admin_Notices::hrk_notice().
+ *
+ * @TODO Remove after 1/1/2023.
+ *
+ * @return int
+ */
+function affwp_hrk_time() {
+	return strtotime( defined( 'AFFWP_HRK_TIME' ) ? AFFWP_HRK_TIME : '1/1/2023' );
+}
+
+/**
+ * Remove HRK currency on 1/1/2023.
+ *
+ * @since  2.11.0
+ *
+ * @see Affiliate_WP_Admin_Notices::hrk_notice().
+ * @see affwp_hrk_time().
+ *
+ * @TODO Remove after 1/1/2023.
+ *
+ * @param  array $currencies Currencies.
+ * @return array             Currencies.
+ */
+function affwp_maybe_remove_hrk( $currencies ) {
+
+	if ( ! is_array( $currencies ) ) {
+		return $currencies; // Should be an array.
+	}
+
+	if ( ! isset( $currencies['HRK'] ) ) {
+		return $currencies; // No longer there (this function should have been deleted).
+	}
+
+	if ( time() < affwp_hrk_time() ) {
+		return $currencies; // Keep HRK until January 1st 2023.
+	}
+
+	unset( $currencies['HRK'] );
+
+	return $currencies;
+}
+add_filter( 'affwp_currencies', 'affwp_maybe_remove_hrk' );
 
 /**
  * Retrieves the store's set currency.

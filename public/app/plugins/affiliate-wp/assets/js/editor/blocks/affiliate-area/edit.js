@@ -23,6 +23,7 @@ import {
 const allowedBlocks = [
 	'affiliatewp/registration',
 	'affiliatewp/login',
+	'wpforms/form-selector',
 ];
 
 const template = [

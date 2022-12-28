@@ -976,9 +976,9 @@ class Affiliate_WP_Settings {
 							'v3'  => __( 'reCAPTCHA v3', 'affiliate-wp' ),
 						),
 						'std' => 'v2',
-						'desc' => sprintf( 
+						'desc' => sprintf(
 							__( 'Select the reCAPTCHA type. <a href="%s" target="_blank">View our reCAPTCHA documentation</a> to learn more and for step-by-step instructions.', 'affiliate-wp' ),
-							 'https://affiliatewp.com/docs/how-to-set-up-and-use-recaptcha-in-affiliatewp/' 
+							 'https://affiliatewp.com/docs/how-to-set-up-and-use-recaptcha-in-affiliatewp/'
 							 ),
 
 					),
@@ -1027,7 +1027,7 @@ class Affiliate_WP_Settings {
 					'debug_mode' => array(
 						'name' => __( 'Enable Debug Mode', 'affiliate-wp' ),
 						/* translators: Tools screen URL */
-						'desc' => sprintf( __( 'Enable debug mode. This will turn on error logging for the referral process to help identify issues. Logs are kept in <a href="%s">Affiliates &rarr; Tools</a>.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'tools', array( 'tab' => 'system_info' ) ) ) ),
+						'desc' => sprintf( __( 'Enable debug mode. This will turn on error logging for the referral process to help identify issues. Logs are kept in <a href="%s">Affiliates &rarr; Tools</a>.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'tools', array( 'tab' => 'debug' ) ) ) ),
 						'type' => 'checkbox'
 					),
 					'referral_url_blacklist' => array(

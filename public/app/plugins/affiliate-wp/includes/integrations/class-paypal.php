@@ -70,7 +70,7 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 					return;
 				}
 
-				paypalMatch = new RegExp( 'paypal\.com\/cgi-bin\/webscr' );
+				paypalMatch = new RegExp( 'paypal\.com\/(cgi-bin\/webscr|donate)' );
 
 				if ( ! action.match( paypalMatch ) ) {
 					return;

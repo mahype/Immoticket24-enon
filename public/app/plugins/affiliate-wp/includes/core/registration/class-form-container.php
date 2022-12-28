@@ -8,6 +8,7 @@
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.8
  */
+
 namespace AffWP\Core\Registration;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -31,6 +32,15 @@ class Form_Container {
 	protected $fields = array();
 
 	/**
+	 * Original block attributes for this form.
+	 *
+	 * @since 2.11.0
+	 *
+	 * @var array
+	 */
+	protected $block_attrs = array();
+
+	/**
 	 * Sets up the form container.
 	 *
 	 * @since 2.8
@@ -42,11 +52,14 @@ class Form_Container {
 	 * }
 	 */
 	public function __construct( $args ) {
-		$defaults = array(
-			'fields' => array(),
-		);
 
-		$args = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'fields'      => array(),
+				'block_attrs' => array(),
+			)
+		);
 
 		// Strip invalid form fields.
 		foreach ( $args['fields'] as $field ) {
@@ -56,22 +69,75 @@ class Form_Container {
 				affiliate_wp()->utils->log( 'invalid_form_field', 'A registration field was not added because it was invalid' );
 			}
 		}
+
+		$this->block_attrs = $args['block_attrs'];
 	}
 
 	/**
-	 * Retrieve the hash for this form.
+	 * Legacy function to retrieve the hash for this form.
+	 *
+	 * Hash method based on all form fields, left here due compatibility
+	 * reasons and must not be as a method for hashing after version 2.10.
+	 * This method is unstable because it is not based on the original
+	 * field block attributes, which can be affected by translations, leading
+	 * to hashes without a compatible form.
 	 *
 	 * @since 2.8
 	 *
 	 * @return string the hash
 	 */
 	public function get_hash() {
+
 		// Convert objects to arrays. This ensures they get normalized.
 		$fields = array();
-		foreach ( $this->fields as $field ) {
-			$fields[] = (array) $field;
+
+		if ( is_array( $this->fields ) ) {
+			foreach ( $this->fields as $field ) {
+				$fields[] = (array) $field;
+			}
 		}
+
 		return affwp_get_hash( $fields );
+	}
+
+	/**
+	 * Get all form attributes, including fields.
+	 *
+	 * Retrieves all attributes used to build this form,
+	 * based on block attributes.
+	 *
+	 * @since 2.11.0
+	 * @return array All form attributes including fields
+	 */
+	public function get_form_attrs() {
+
+		return array_merge(
+			// Form attributes.
+			empty( $this->block_attrs )
+				// No form attributes.
+				? array()
+				// This form's block attributes.
+				: array( $this->block_attrs ),
+			// Form fields attributes.
+			is_array( $this->fields )
+				// Block attributes of all fields.
+				? wp_list_pluck( $this->fields, 'block_attrs' )
+				// No fields.
+				: array()
+		);
+
+	}
+
+	/**
+	 * Function to retrieve the crc for this form.
+	 *
+	 * Hash method for form integrity check based on the field block attributes.
+	 *
+	 * @since 2.11.0
+	 * @return int the checksum
+	 */
+	public function get_checksum() {
+		return crc32( wp_json_encode( $this->get_form_attrs() ) );
 	}
 
 	/**

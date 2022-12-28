@@ -11,7 +11,7 @@ import getReferralUrl from '../../utils/referral-url';
  */
 import { __ } from '@wordpress/i18n';
 import { URLInput } from '@wordpress/block-editor';
-import { InspectorControls } from '@wordpress/editor';
+import { InspectorControls } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	RadioControl

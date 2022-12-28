@@ -135,20 +135,7 @@ class Affiliate_WP_Integrations {
 	 *               is the label.
 	 */
 	public function get_discontinued_integrations() {
-		return array(
-			'caldera-forms' => array(
-				'label' => __( 'Caldera Forms', 'affiliate-wp' ),
-				'date'  => __( 'December 2022', 'affiliate-wp' ), // Since 2.9.6 which went out at the end of August.
-			),
-			'zippycourses'  => array(
-				'label' => __( 'WP-Invoice', 'affiliate-wp' ),
-				'date'  => __( 'December 2022', 'affiliate-wp' ), // Since 2.9.6 which went out at the end of August.
-			),
-			'wp-invoice'    => array(
-				'label' => __( 'Zippy Courses', 'affiliate-wp' ),
-				'date'  => __( 'December 2022', 'affiliate-wp' ), // Since 2.9.6 which went out at the end of August.
-			),
-		);
+		return array();
 	}
 
 	/**

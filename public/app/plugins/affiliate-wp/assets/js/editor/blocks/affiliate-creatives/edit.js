@@ -24,7 +24,7 @@ import {
 } from '@wordpress/components';
 
 import { useState, useEffect } from '@wordpress/element';
-import { InspectorControls } from '@wordpress/editor';
+import { InspectorControls } from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 
