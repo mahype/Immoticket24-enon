@@ -34,6 +34,6 @@ jobs:
           cp $WWW/public/.htaccess-sparkasse $WWW/public/.htaccess
           cp $WWW/public/local-config-sparkasse.php $WWW/public/local-config.php
           cd $WWW
-          /www/htdocs/w012900a/wp-cli/wp-cli.phar language core update
-          /www/htdocs/w012900a/wp-cli/wp-cli.phar language plugin update --all
-          /www/htdocs/w012900a/wp-cli/wp-cli.phar language theme update --all
+          /www/htdocs/w012900a/wp-cli/wp language core update
+          /www/htdocs/w012900a/wp-cli/wp language plugin update --all
+          /www/htdocs/w012900a/wp-cli/wp language theme update --all
