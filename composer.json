@@ -63,14 +63,14 @@
     "awsmug/block-wave-separator": "dev-master",
     "awsmug/block-trusted-shops": "dev-main",
     "felixarntz/plugin-lib": "dev-master",
-    "wpackagist-plugin/imagify": "2.0",
+    "wpackagist-plugin/imagify": "2.1",
     "wpackagist-plugin/login-lockdown": "1.83",
     "wpackagist-plugin/really-simple-captcha": "2.1",
-    "wpackagist-plugin/shariff": "4.6.7",
-    "wpackagist-plugin/ootb-openstreetmap": "2.0.0",
+    "wpackagist-plugin/shariff": "4.6.9",
+    "wpackagist-plugin/ootb-openstreetmap": "2.1.0",
     "wpackagist-plugin/user-switching": "1.7.0",
-    "wpackagist-plugin/wordpress-seo": "19.11",
-    "wpackagist-plugin/wordfence": "7.8.0"
+    "wpackagist-plugin/wordpress-seo": "19.13",
+    "wpackagist-plugin/wordfence": "7.8.2"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "3.*",
@@ -101,11 +101,15 @@
       "cd public/app/plugins/enon; composer install --no-dev; cd ../../../..",
       "cd public/app/plugins/enon-reseller; composer install --no-dev; cd ../../../..",
       "cd public/app/plugins/edd-payment-stripe-sepa; composer install --no-dev; cd ../../../..",
+      "cd public/app/wpenon/enev2022-01/; composer install --no-dev; cd ../../../..",
       "cd public/app/plugins/block-trusted-shops; composer install --no-dev; cd ../../../..",
       "cd public/app/plugins/immo-rating; composer install --no-dev; cd ../../../.."
     ],
     "post-update-cmd": [
-      "cd public/app/plugins/edd-payment-stripe-sepa; composer install --no-dev; cd ../../../..",
+      "cd public/app/plugins/wp-energieausweis-online; composer update --no-dev; cd ../../../..",
+      "cd public/app/plugins/enon; composer update --no-dev; cd ../../../..",
+      "cd public/app/plugins/enon-reseller; composer update --no-dev; cd ../../../..",
+      "cd public/app/plugins/edd-payment-stripe-sepa; composer update --no-dev; cd ../../../..",
       "cd public/app/wpenon/enev2022-01/; composer update --no-dev; cd ../../../..",
       "cd public/app/plugins/block-trusted-shops; composer update --no-dev; cd ../../../..",
       "cd public/app/plugins/immo-rating; composer update --no-dev; cd ../../../.."

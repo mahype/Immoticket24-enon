@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dbbc722d8301b9c7af9396e07378d06d",
+    "content-hash": "04b8907973411d4b065699b27087a167",
     "packages": [
         {
             "name": "awsm/lib-mail",
@@ -94,89 +94,17 @@
             "time": "2021-03-08T11:15:11+00:00"
         },
         {
-            "name": "inpsyde/wonolog",
-            "version": "1.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/inpsyde/Wonolog.git",
-                "reference": "60ee47b0b2040e54fd11327751e69546df5750ee"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/inpsyde/Wonolog/zipball/60ee47b0b2040e54fd11327751e69546df5750ee",
-                "reference": "60ee47b0b2040e54fd11327751e69546df5750ee",
-                "shasum": ""
-            },
-            "require": {
-                "monolog/monolog": "^1.21.0",
-                "php": ">=5.6"
-            },
-            "require-dev": {
-                "brain/monkey": "^2.2.0",
-                "mikey179/vfsstream": "~1.6.4",
-                "phpunit/phpunit": "^5.7.21"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Inpsyde\\Wonolog\\": "src"
-                },
-                "files": [
-                    "inc/bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Inpsyde GmbH",
-                    "email": "hello@inpsyde.com",
-                    "homepage": "https://inpsyde.com",
-                    "role": "Company"
-                },
-                {
-                    "name": "Giuseppe Mazzapica",
-                    "email": "giuseppe.mazzapica@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Monolog-based logging package for WordPress.",
-            "keywords": [
-                "debug",
-                "debugging",
-                "log",
-                "logger",
-                "logging",
-                "monolog",
-                "psr-3",
-                "wordpress"
-            ],
-            "support": {
-                "docs": "https://inpsyde.github.io/Wonolog/",
-                "issues": "https://github.com/inpsyde/Wonolog/issues",
-                "source": "https://github.com/inpsyde/Wonolog"
-            },
-            "time": "2020-07-21T15:58:57+00:00"
-        },
-        {
             "name": "monolog/monolog",
-            "version": "1.26.1",
+            "version": "1.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "c6b00f05152ae2c9b04a448f99c7590beb6042f5"
+                "reference": "904713c5929655dc9b97288b69cfeedad610c9a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c6b00f05152ae2c9b04a448f99c7590beb6042f5",
-                "reference": "c6b00f05152ae2c9b04a448f99c7590beb6042f5",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/904713c5929655dc9b97288b69cfeedad610c9a1",
+                "reference": "904713c5929655dc9b97288b69cfeedad610c9a1",
                 "shasum": ""
             },
             "require": {
@@ -237,7 +165,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/1.26.1"
+                "source": "https://github.com/Seldaek/monolog/tree/1.27.1"
             },
             "funding": [
                 {
@@ -249,7 +177,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-28T08:32:12+00:00"
+            "time": "2022-06-09T08:53:42+00:00"
         },
         {
             "name": "psr/log",
@@ -313,5 +241,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }
