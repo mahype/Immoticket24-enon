@@ -6,13 +6,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const enonAccessToken = enonUrlParams.get("access_token");
     const enonSlug = enonUrlParams.get("slug");
 
-    console.log(enonIframeToken, enonAccessToken, enonSlug);
-
     if( enonAccessToken !== null ) {
-        const enonUrl = "https://www.energieausweis-online-erstellen.de/energieausweise/" + enonSlug + "/?iframe_token=" + enonIframeToken + "&access_token=" + enonAccessToken;
+        const enonUrl = "https://enon.test/energieausweise/" + enonSlug + "/?iframe_token=" + enonIframeToken + "&access_token=" + enonAccessToken;
         console.log(enonUrl);
         const enonIframe = document.getElementById("iframe-energieausweis-online");
-        console.log("Iframe by id: " + enonIframe);
 
         if( enonIframe !== null ) {
             enonIframe.src = enonUrl;
