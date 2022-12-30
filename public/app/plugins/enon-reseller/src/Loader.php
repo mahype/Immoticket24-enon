@@ -44,6 +44,8 @@ use Enon_Reseller\Tasks\Sparkasse\Add_Discounts as Sparkasse_Discounts;
  * @package Enon\Config
  */
 class Loader extends Task_Loader {
+    private $reseller;
+
     public function __construct() {
         $logger = new Logger('enon-reseller');
         parent::__construct( $logger );
@@ -57,21 +59,17 @@ class Loader extends Task_Loader {
      * @todo Clean up! How to handle add_actions here.
 	 */
 	public function run() {
-
 		$this->add_task( Add_CPT_Reseller::class );
         $this->add_task( Filter_Payment_Fee_Email::class );
         $this->add_task( EVM_Discounts::class, $this->logger );
         $this->add_task( Setup_Edd::class, $this->logger );
 
-		if ( is_admin() && ! wp_doing_ajax() ) {
+		if ( is_admin() && ! wp_doing_ajax() ) {            
             $this->add_backend_tasks();
             $this->run_tasks();
-		} else {
-            $this->add_frontend_tasks_by_iframe();
-            $this->run_tasks();
-
-            // @todo How do we use tasks here? Clean up!
-            add_action( 'template_redirect', array( $this, 'add_frontend_tasks_by_page' ), 1 );            
+		} else {            
+            add_action('init', [ $this, 'add_frontend_tasks'], 1, 0);
+            add_action('init', [ $this, 'run_tasks'], 2, 0);
         }
 	}
 
@@ -79,124 +77,73 @@ class Loader extends Task_Loader {
 	 * Running admin tasks.
 	 *
 	 * @since 1.0.0
-     * 
-     * @todo Clean up!
 	 */
 	public function add_backend_tasks() {
         $this->add_task( Add_Post_Meta::class );
-
         $this->add_task( Config_Dashboard::class );
         $this->add_task( Config_Dashboard_Widgets::class );
         $this->add_task( Config_User::class );        
         $this->add_task( CSV_Generator::class );
         
-        $this->add_sparkasse_backend_tasks();
-    }
-
-    /**
-     * Add sparkasse backend tasks.
-     * 
-     * @since 1.0.0
-     */
-    private function add_sparkasse_backend_tasks() {
+        // Sparkasse specific tasks.
         $this->add_task( Sparkasse_CSV_Export::class );
         $this->add_task( Sparkasse_Discounts::class, $this->logger );
     }
 
-	/**
-	 * Running frontend tasks.
-	 *
-	 * @since 1.0.0
+    /**
+     * Running frontend tasks.
      * 
-     * @todo Clean up energy certificate submission. Move loggers to exception handled logs.
-	 */
-	public function add_frontend_tasks_by_iframe() {
-        $reseller = '';
-        
-        if ( ! Detector::is_reseller_iframe() ) {
-            return;
-        }        
+     *  @since 1.0.0
+     */
+    public function add_frontend_tasks() {
+        if ( Detector::is_reseller_iframe() ) {
+            $this->reseller = Detector::get_reseller_by_iframe();
 
-        $reseller = Detector::get_reseller_by_iframe();
-
-        if( ! $reseller instanceof Reseller ) {
-            wp_die( 'Reseller not found');
+            $this->add_task( Filter_Template::class, $this->reseller, $this->logger );
+            $this->add_task( Filter_Iframe::class, $this->reseller, $this->logger );
+            $this->add_task( Filter_Website::class, $this->reseller, $this->logger );   
+        }elseif( Detector::is_reseller_ec_page() ) {
+            $this->reseller = Detector::get_reseller_by_page();
         }
-        
-        $this->add_reseller_frontend_tasks( $reseller );              
+
+        if( ! $this->reseller instanceof Reseller ) {
+            return;
+        } 
+
+        $this->set_affiliate_by_reseller( $this->reseller );
+
+        $this->add_task( Filter_General::class, $this->reseller, $this->logger );
+        $this->add_task( Filter_Email_Template::class, $this->reseller, $this->logger );
+        $this->add_task( Filter_Confirmation_Email::class, $this->reseller, $this->logger );
+        $this->add_task( Filter_Bill_Email::class, $this->reseller, $this->logger );
+        $this->add_task( Filter_Schema::class, $this->reseller, $this->logger );
+
+        $this->add_task( Setup_Edd::class, $this->logger );
+
+         // Sparkasse specific tasks.
+        if ( 321587 !== $this->reseller->get_id() ) {
+            $this->add_task( Sparkasse_Discounts::class, $this->logger );
+        }
     }
 
     /**
-	 * Running frontend tasks.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_frontend_tasks_by_page() {
-        $reseller = '';
-
-        if ( ! Detector::is_reseller_ec_page() ) {
-            return;
-        }             
-        
-        $reseller = Detector::get_reseller_by_page();
-        
-        if( ! $reseller instanceof Reseller ) {
-            wp_die( 'Reseller not found');
-        }
-
-        $this->add_reseller_frontend_tasks( $reseller );
-
-        add_action( 'template_redirect', array( $this, 'run_tasks' ), 5 );
-    }
-
-    /**
-     * Add reseller scripts.
+     * Set affiliate wp affiliate.
      * 
      * @param Reseller $reseller Reseller object.
      * 
      * @since 1.0.0
      */
-    private function add_reseller_frontend_tasks( Reseller $reseller ) {
+    private function set_affiliate_by_reseller( Reseller $reseller ) {
         $this->logger->notice( 'Set reseller.', array( 'company_name', $reseller->data()->general->get_company_name() ) );
 
-        $this->add_sparkasse_frontend_tasks( $reseller );
-
-        if ( Detector::is_reseller_iframe() ) {
-            $this->add_task( Filter_Template::class, $reseller, $this->logger );
-            $this->add_task( Filter_Iframe::class, $reseller, $this->logger );
-            $this->add_task( Filter_Website::class, $reseller, $this->logger );   
-        }
-        
         $affiliate_id = $reseller->data()->general->get_affiliate_id();
 
         if ( ! empty( $affiliate_id ) ) {
             affiliate_wp()->tracking->referral = $affiliate_id;
             affiliate_wp()->tracking->set_affiliate_id( $affiliate_id );
+        } else {
+            $this->logger->notice( 'No affiliate id found.', array( 'reseller_id', $reseller->get_id() ) );
         }
-
-        $this->add_task( Filter_General::class, $reseller, $this->logger );
-        $this->add_task( Filter_Email_Template::class, $reseller, $this->logger );
-        $this->add_task( Filter_Confirmation_Email::class, $reseller, $this->logger );
-        $this->add_task( Filter_Bill_Email::class, $reseller, $this->logger );
-        $this->add_task( Filter_Schema::class, $reseller, $this->logger );
-
-        // @todo Clean up!
-        $this->add_task( Setup_Edd::class, $this->logger );
-    }
-
-    /**
-     * Add sparkasse frontend tasks.
-     * 
-     * @param Reseller $reseller Reseller object.
-     * 
-     * @since 1.0.0
-     */
-    private function add_sparkasse_frontend_tasks( Reseller $reseller ) {
-        if ( 321587 !== $reseller->get_id() ) {
-			return;
-        }
-
-        $this->add_task( Sparkasse_Discounts::class, $this->logger );
     }
 }
 
