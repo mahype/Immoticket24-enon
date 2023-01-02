@@ -77,7 +77,7 @@ class Filter_Email_Template implements Task, Actions, Filters {
 	/**
 	 * Adding template part for reseller.
 	 *
-	 * @param string $templates The email template.
+	 * @param array $templates The email template.
 	 * @param string $slug The email template.
 	 * @param string $name The email template.
 	 *
@@ -122,6 +122,4 @@ class Filter_Email_Template implements Task, Actions, Filters {
 
 		return $templates;
 	}
-
-
 }
