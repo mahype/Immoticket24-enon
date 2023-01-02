@@ -27,18 +27,7 @@ class Fieldset_General implements Fieldset {
 	 * @since 1.0.0
 	 */
 	public function get() : array {
-		$data = [
-			array(
-				'key'          => 'field_company_id',
-				'label'        => __( 'Firmen ID', 'enon' ),
-				'name'         => 'company_id',
-				'type'         => 'text',				
-				'placeholder'  => '',
-				'prepend'      => '',
-				'append'       => '',
-				'maxlength'    => '',
-				'instructions' => __( 'Eindeutige Firmen ID. Bitte NICHT den Firmennamen eintragen. Die Id wird für die Auswahl von eigens angelegten Templates und Skripte für Reseller benötigt.', 'enon' ),
-			),
+		$data = [			
 			array(
 				'key'          => 'field_company_name',
 				'label'        => __( 'Firmenname', 'enon' ),
@@ -145,6 +134,17 @@ class Fieldset_General implements Fieldset {
 				'instructions' => __( 'Affiliate WP id.', 'enon' ),
 				'required'     => 0,
 			),
+			array(
+				'key'          => 'field_company_id',
+				'label'        => __( 'Firmen ID', 'enon' ),
+				'name'         => 'company_id',
+				'type'         => 'text',				
+				'placeholder'  => '',
+				'prepend'      => '',
+				'append'       => '',
+				'maxlength'    => '',
+				'instructions' => __( 'Eindeutige Firmen ID. Bitte NICHT den Firmennamen eintragen. Die Id wird für die Auswahl von eigens angelegten Templates und Skripte für Reseller benötigt.', 'enon' ),
+			)
 		];
 
 		return $data;
