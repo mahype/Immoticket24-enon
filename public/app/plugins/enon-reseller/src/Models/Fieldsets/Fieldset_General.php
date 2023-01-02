@@ -136,14 +136,14 @@ class Fieldset_General implements Fieldset {
 			),
 			array(
 				'key'          => 'field_company_id',
-				'label'        => __( 'Firmen ID', 'enon' ),
+				'label'        => __( 'Firmen Kennung', 'enon' ),
 				'name'         => 'company_id',
 				'type'         => 'text',				
 				'placeholder'  => '',
 				'prepend'      => '',
 				'append'       => '',
 				'maxlength'    => '',
-				'instructions' => __( 'Eindeutige Firmen ID. Bitte NICHT den Firmennamen eintragen. Die Id wird für die Auswahl von eigens angelegten Templates und Skripte für Reseller benötigt.', 'enon' ),
+				'instructions' => __( 'Eindeutige Firmen Kennung. Nicht den Firmennamen eintragen. Die Id wird für die Auswahl von eigens angelegten Templates und Skripte für Reseller benötigt, sofern vorhanden.', 'enon' ),
 			)
 		];
 
