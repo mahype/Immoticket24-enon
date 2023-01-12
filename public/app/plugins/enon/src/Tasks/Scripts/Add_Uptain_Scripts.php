@@ -41,17 +41,15 @@ class Add_Uptain_Scripts extends Script_Loader {
 	 * @since 2020-09-16
 	 */
 	protected function is_success() {
-		global $edd_receipt_args;
-
-		if( ! is_array($edd_receipt_args)) {
+		if( ! Enon_Location::success() ) {
 			return false;
 		}
 
-		if( ! Enon_Location::success() || ! array_key_exists( 'id',$edd_receipt_args ) ) {
+		if( ! array_key_exists('payment-id',$_GET) )  {
 			return false;
 		}
 
-		$payment = get_post( $edd_receipt_args['id'] );
+		$payment = get_post( $_GET['payment-id'] );
 		$status = edd_get_payment_status( $payment );
 
 		switch( $status ) {
