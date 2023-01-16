@@ -64,8 +64,7 @@ class Filter_General implements Task, Filters, Actions {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_bill_to_address' ) );		
-		
+		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_bill_to_address' ) );				
 		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
 		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
         add_filter( 'wpenon_custom_fees', array( $this, 'filter_custom_fees' ), 100, 1 );
@@ -91,7 +90,7 @@ class Filter_General implements Task, Filters, Actions {
 	}
 
 	public function remove_order_email_filter() {
-		add_filter( 'edd_admin_notice_emails', array( $this, 'filter_order_confirmation_to_address' ), 100 );
+		remove_filter( 'edd_admin_notice_emails', array( $this, 'filter_order_confirmation_to_address' ), 100 );
 	}
 
 	/**

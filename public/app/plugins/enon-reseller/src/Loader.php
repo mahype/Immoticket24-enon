@@ -12,6 +12,8 @@
 namespace Enon_Reseller;
 
 use Enon\Logger;
+use Enon\Models\Edd\Payment;
+use Enon\Models\Enon\Energieausweis;
 use Enon\Task_Loader;
 use Enon\Tasks\Config_User;
 use Enon_Reseller\Models\Detector;
@@ -67,11 +69,30 @@ class Loader extends Task_Loader {
 		if ( is_admin() && ! wp_doing_ajax() ) {            
             $this->add_backend_tasks();
             $this->run_tasks();
+            add_action('edd_update_payment_status', [ $this, 'update_payment_status' ], 1, 3);
 		} else {            
             add_action('init', [ $this, 'add_frontend_tasks_by_iframe'], 1, 0);
             add_action('template_redirect', [ $this, 'add_frontend_tasks_by_page'], 1, 0);                        
         }
 	}
+
+    public function update_payment_status( $payment_id, $new_status, $old_status ) {
+        if( $new_status === $old_status && $new_status !== 'publish' ) {
+            return;
+        }
+
+        $payment = new Payment( $payment_id );
+        $ec_id = $payment->get_energieausweis_id();
+        $reseller_id = get_post_meta($ec_id, 'reseller_id', true);
+        
+        if( empty( $reseller_id ) ) {
+            return;
+        }
+
+        $this->reseller = new Reseller( $reseller_id );
+        $this->set_affiliate_by_reseller( $this->reseller );
+        $this->load_reseller_scripts();
+    }
 
 	/**
 	 * Running admin tasks.
@@ -98,17 +119,8 @@ class Loader extends Task_Loader {
         $this->reseller = Detector::get_reseller_by_iframe();
         $this->set_affiliate_by_reseller( $this->reseller );
 
-        $this->add_task( Filter_Template::class, $this->reseller, $this->logger );
-        $this->add_task( Filter_Iframe::class, $this->reseller, $this->logger );
-        $this->add_task( Filter_Website::class, $this->reseller, $this->logger );
-
-        $this->add_task( Filter_General::class, $this->reseller, $this->logger );
-        $this->add_task( Filter_Email_Template::class, $this->reseller, $this->logger );
-        $this->add_task( Filter_Confirmation_Email::class, $this->reseller, $this->logger );
-        $this->add_task( Filter_Bill_Email::class, $this->reseller, $this->logger );
-        $this->add_task( Filter_Schema::class, $this->reseller, $this->logger );
-
-        $this->add_task( Setup_Edd::class, $this->logger );
+        $this->load_iframe_scripts();
+        $this->load_reseller_scripts();
 
          // Sparkasse specific tasks.
         if ( 321587 !== $this->reseller->get_id() ) {
@@ -125,19 +137,30 @@ class Loader extends Task_Loader {
 
         $this->reseller = Detector::get_reseller_by_page();
         $this->set_affiliate_by_reseller( $this->reseller );
+        $this->load_reseller_scripts();
 
+         // Sparkasse specific tasks.
+        if ( 321587 !== $this->reseller->get_id() ) {
+            $this->add_task( Sparkasse_Discounts::class, $this->logger );
+        }
+
+        $this->run_tasks();
+    }
+
+    private function load_reseller_scripts() {
         $this->add_task( Filter_General::class, $this->reseller, $this->logger );
         $this->add_task( Filter_Email_Template::class, $this->reseller, $this->logger );
         $this->add_task( Filter_Confirmation_Email::class, $this->reseller, $this->logger );
         $this->add_task( Filter_Bill_Email::class, $this->reseller, $this->logger );
         $this->add_task( Filter_Schema::class, $this->reseller, $this->logger );
 
-        $this->add_task( Setup_Edd::class, $this->logger );
+        $this->run_tasks();
+    }
 
-         // Sparkasse specific tasks.
-        if ( 321587 !== $this->reseller->get_id() ) {
-            $this->add_task( Sparkasse_Discounts::class, $this->logger );
-        }
+    private function load_iframe_scripts() {
+        $this->add_task( Filter_Template::class, $this->reseller, $this->logger );
+        $this->add_task( Filter_Iframe::class, $this->reseller, $this->logger );
+        $this->add_task( Filter_Website::class, $this->reseller, $this->logger );
 
         $this->run_tasks();
     }
