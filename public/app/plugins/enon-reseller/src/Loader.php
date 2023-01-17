@@ -66,7 +66,11 @@ class Loader extends Task_Loader {
         $this->add_task( EVM_Discounts::class, $this->logger );
         $this->add_task( Setup_Edd::class, $this->logger );
 
-		if ( is_admin() && ! wp_doing_ajax() ) {            
+        if( wp_doing_ajax() ) {
+            return;
+        }
+
+		if ( is_admin() ) {            
             $this->add_backend_tasks();
             $this->run_tasks();
             add_action('edd_update_payment_status', [ $this, 'update_payment_status' ], 1, 3);
