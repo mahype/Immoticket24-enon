@@ -104,6 +104,7 @@ class Filter_General implements Task, Filters, Actions {
 	 */
 	public function filter_order_confirmation_to_address( $emails ) {
 		$reseller_contact_email = $this->reseller->data()->general->get_contact_email();
+		array_push( $emails, 'reseller@immoticket24.de' );		
 
 		if ( ! $this->reseller->data()->general->send_order_confirmation_to_reseller() ) {
 			return $emails;
