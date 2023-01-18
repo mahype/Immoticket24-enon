@@ -577,6 +577,10 @@ function edd_ajax_download_search() {
 	global $wpdb;
 
 	$search   = esc_sql( sanitize_text_field( $_GET['s'] ) );
+
+	// Limit to only alphanumeric characters, including unicode and spaces.
+	$search = preg_replace( '/[^\pL^\pN\pZ]/', ' ', $search );
+
 	$excludes = ( isset( $_GET['current_id'] ) ? (array) $_GET['current_id'] : array() );
 
 	$no_bundles = isset( $_GET['no_bundles'] ) ? filter_var( $_GET['no_bundles'], FILTER_VALIDATE_BOOLEAN ) : false;
