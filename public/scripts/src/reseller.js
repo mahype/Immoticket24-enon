@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const enonSlug = enonUrlParams.get("slug");
 
     if( enonAccessToken !== null ) {
-        const enonUrl = "https://enon.test/energieausweise/" + enonSlug + "/?iframe_token=" + enonIframeToken + "&access_token=" + enonAccessToken;
+        const enonUrl = "https://www.energieausweis-online-erstellen.de/energieausweise/" + enonSlug + "/?iframe_token=" + enonIframeToken + "&access_token=" + enonAccessToken;
         console.log(enonUrl);
         const enonIframe = document.getElementById("iframe-energieausweis-online");
 
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 window.addEventListener("message", function(event) {
-    if ( event.origin != "https://www.energieausweis-online-erstellen.de" && event.origin !== 'https://enon.test'  ) return;
+    if ( event.origin != "https://www.energieausweis-online-erstellen.de" && event.origin !== 'https://www.energieausweis-online-erstellen.de'  ) return;
     if ( typeof event.data  === 'object' ) return;
     
     var data = JSON.parse(event.data);
