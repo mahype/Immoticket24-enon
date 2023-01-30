@@ -329,14 +329,20 @@ class EnergieausweisPDFGEG extends \WPENON\Util\UFPDI {
 						$this->WriteCell( $this->GetData( 'co2_emissionen' ), 'R', 0, 11, 6.2 );
 						$this->DrawEnergyBar( 8, 61, $this->GetData( 'reference' ), 'bedarf', $this->GetData( 'endenergie' ), $this->GetData( 'primaerenergie' ) );
 						$this->SetPageFont( 'small' );
-						$this->SetXY( 22, 125 );
-						$this->WriteCell( $this->GetData( 'primaerenergie' ), 'R', 0, 11, 5 );
-						$this->SetX( 77 );
-						$this->WriteCell( $this->GetData( 'primaerenergie_reference' ), 'R', 0, 10, 5 );
-						$this->SetXY( 22, 136.3 );
-						$this->WriteCell( $this->GetData( 'ht' ), 'R', 0, 11, 6 );
-						$this->SetX( 77 );
-						$this->WriteCell( $this->GetData( 'ht_reference' ), 'R', 0, 10, 6 );
+
+						$anlass = $this->GetData( 'anlass' );
+
+						if( $anlass !== 'verkauf' && $anlass !== 'vermietung' ) {
+							$this->SetXY( 22, 125 );
+							$this->WriteCell( $this->GetData( 'primaerenergie' ), 'R', 0, 11, 5 );
+							$this->SetX( 77 );
+							$this->WriteCell( $this->GetData( 'primaerenergie_reference' ), 'R', 0, 10, 5 );
+							$this->SetXY( 22, 136.3 );
+							$this->WriteCell( $this->GetData( 'ht' ), 'R', 0, 11, 6 );
+							$this->SetX( 77 );
+							$this->WriteCell( $this->GetData( 'ht_reference' ), 'R', 0, 10, 6 );
+						}
+						
 						$verfahren = $this->GetData( 'verfahren' );
 						switch ( $verfahren ) {
 							case 'din-v-18599':
