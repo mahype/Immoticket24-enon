@@ -1744,30 +1744,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 		if ( ( empty( $regenerativ_art ) || strtolower( $regenerativ_art ) == 'keine' ) && ! $regenerativ_aktiv && ! wpenon_ec_has_heater( $energieausweis, 'kleinthermeniedertemperatur' ) && ! wpenon_ec_has_heater( $energieausweis, 'kleinthermebrennwert' ) ) {
 			$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['solarthermie'];
 		}
-	}
-
-	if ( wpenon_immoticket24_is_empfehlung_active( 'ofen', $energieausweis ) ) {
-		$heatings = array( 'h' );
-		if ( isset( $energieausweis->h2_info ) && $energieausweis->h2_info ) {
-			$heatings[] = 'h2';
-			if ( isset( $energieausweis->h3_info ) && $energieausweis->h3_info ) {
-				$heatings[] = 'h3';
-			}
-		}
-
-		$oefen = array(
-			'kohleholzofen',
-		);
-
-		foreach ( $heatings as $heating ) {
-			$type_field = $heating . '_erzeugung';
-			$year_field = $heating . '_baujahr';
-
-			if ( in_array( $energieausweis->$type_field, $oefen, true ) && $energieausweis->$year_field < 2011 ) {
-				$modernisierungsempfehlungen[] = $_modernisierungsempfehlungen['ofen'];
-			}
-		}
-	}
+	}	
 
 	/**
 	 * Filtering modernization recommendations.
