@@ -1576,16 +1576,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis = 
 			'amortisation' => '',
 			'kosten'       => '',
 			'dibt_value'   => 'Sonstiges',
-		),
-		'ofen'       => array(
-			'bauteil'      => 'Ofen',
-			'beschreibung' => 'Austausch des Ofens',
-			'gesamt'       => true,
-			'einzeln'      => true,
-			'amortisation' => '',
-			'kosten'       => '',
-			'dibt_value'   => 'Sonstiges',
-		),
+		)
 	);
 
 	if ( ! $energieausweis ) {
