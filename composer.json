@@ -39,19 +39,11 @@
     },
     {
       "type": "vcs",
-      "url" : "git@github.com:awsmug/enon-theme.git"
-    },
-    {
-      "type": "vcs",
       "url" : "git@github.com:awsmug/block-wave-separator.git"
     },
     {
       "type": "vcs",
       "url" : "git@github.com:awsmug/block-trusted-shops.git"
-    },
-    {
-      "type": "composer",
-      "url": "https://borlabs-cookie.composer.borlabs.io/composer"
     }
   ],
   "require": {
