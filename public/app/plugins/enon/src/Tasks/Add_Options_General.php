@@ -29,7 +29,7 @@ use Enon\Models\Fieldsets\Fieldset_Confirmation_Email;
 class Add_Options_General implements Task, Actions {
 
 	/**
-	 * AffiliateWP constructor.
+	 * Add_Options_General constructor.
 	 *
 	 * @param Logger $logger Logger object.
 	 * @since 1.0.0

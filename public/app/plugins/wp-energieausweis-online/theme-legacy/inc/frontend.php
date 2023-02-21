@@ -96,6 +96,10 @@ function immoticketenergieausweis_adcell_tracking_script() {
 		return;
 	}
 
+  if( isset($_COOKIE['affwp_ref']) ) {
+    return '';
+  }
+
   $session = edd_get_purchase_session();
   if ( isset( $_GET['payment_key'] ) ) {
     $payment_key = urldecode( $_GET['payment_key'] );
@@ -152,6 +156,10 @@ function immoticketenergieausweis_adcell_retargeting_script() {
 	if ( ! $show_tag_manager ) {
 		return;
 	}
+
+  if( isset($_COOKIE['affwp_ref']) ) {
+    return '';
+  }
 
   $url = 'https://t.adcell.com/js/inlineretarget.js';
   $args = array(

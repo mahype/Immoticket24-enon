@@ -25,7 +25,7 @@ use Enon\Logger;
 class Add_Admin_Pages implements Task, Actions {
 
 	/**
-	 * AffiliateWP constructor.
+	 * Add_Admin_Pages constructor.
 	 *
 	 * @param Logger $logger Logger object.
 	 * @since 1.0.0

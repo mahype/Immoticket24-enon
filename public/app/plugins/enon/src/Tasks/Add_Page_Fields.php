@@ -26,7 +26,7 @@ use Enon\Models\WP\Post_Meta;
 class Add_Page_Fields implements Task, Actions {
 
 	/**
-	 * AffiliateWP constructor.
+	 * Add_Page_Fields constructor.
 	 *
 	 * @param Logger $logger Logger object.
 	 * @since 1.0.0

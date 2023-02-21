@@ -25,7 +25,7 @@ use Enon\Logger;
 class Add_Translations implements Task, Filters {
 
 	/**
-	 * AffiliateWP constructor.
+	 * Add_Translations constructor.
 	 *
 	 * @param Logger $logger Logger object.
 	 * @since 1.0.0
