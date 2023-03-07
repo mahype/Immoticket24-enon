@@ -180,6 +180,8 @@ class Filter_Iframe implements Task, Actions, Filters {
 			return;
 		}
 
+		echo '<!-- Start Reseller JS -->';
 		echo $js;
+		echo '<!-- End Reseller JS -->';
 	}
 }
