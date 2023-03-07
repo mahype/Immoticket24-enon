@@ -181,15 +181,13 @@ class Filter_Iframe implements Task, Actions, Filters {
 		}
 
 		define( 'RESELLER_JS_LOADED', true );
-		
+
 		$js = $this->reseller->get_iframe_js();
 		
 		if ( empty( $js ) ) {
 			return;
-		}
-
-		echo '<!-- Start Reseller JS -->';
-		echo $js;
-		echo '<!-- End Reseller JS -->';
+		}		
+		
+		echo $js;		
 	}
 }
