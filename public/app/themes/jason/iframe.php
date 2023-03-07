@@ -50,8 +50,13 @@
 	</div>
 </div><!-- .wrapper -->
 <script type="text/javascript">
+<!-- Start Enon Page JS //-->
 <?php do_action( 'enon_page_js' ); ?>
+<!-- End Enon Page JS //-->
+
+<!-- Start Enon Iframe JS //-->
 <?php do_action( 'enon_iframe_js' ); ?>
+<!-- End Enon Iframe JS //-->
 </script>
 
 <?php wp_footer(); ?>
