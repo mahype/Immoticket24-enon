@@ -153,6 +153,10 @@ class Reseller
 			}
 		  
 			send_document_height();
+
+			$( \'.wpenon-nav-tabs a\' ).on( \'click\', function (e) {
+			   setTimeout( function(){ send_document_height(); }, 100 );
+			});
 		  
 			$( document ).on(\'wpenon.update_active_tab\', function (e) {
 			   setTimeout( function(){ send_document_height(); }, 100 );
