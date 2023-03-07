@@ -35,6 +35,8 @@ class Filter_Iframe implements Task, Actions, Filters {
 	 */
 	private $reseller;
 
+	private $inserted = false;
+
 	/**
 	 * Wpenon constructor.
 	 *
@@ -174,6 +176,12 @@ class Filter_Iframe implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_js() {
+		if( $this->inserted ) {
+			return;
+		}
+
+		$this->inserted = true;
+		
 		$js = $this->reseller->get_iframe_js();
 		
 		if ( empty( $js ) ) {
