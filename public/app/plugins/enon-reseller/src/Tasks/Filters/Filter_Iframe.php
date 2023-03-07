@@ -176,11 +176,11 @@ class Filter_Iframe implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_js() {
-		if( $this->inserted ) {
+		if ( defined ('RESELLER_JS_LOADED') ) {
 			return;
 		}
 
-		$this->inserted = true;
+		define( 'RESELLER_JS_LOADED', true );
 		
 		$js = $this->reseller->get_iframe_js();
 		
