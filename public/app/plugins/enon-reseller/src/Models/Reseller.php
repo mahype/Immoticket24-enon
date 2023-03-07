@@ -149,7 +149,6 @@ class Reseller
 		  
 			let send_document_height = function () {
 			  var height = get_wrapper_height();
-			  console.log( \'sending height: \' + height );
 			  parent.postMessage( JSON.stringify( {\'frame_height\': height } ), \'*\' );
 			}
 		  
