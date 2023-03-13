@@ -18,6 +18,10 @@ header {
         }
     }
 
+    nav .current-menu-item a {
+        text-decoration: underline !important;
+    }
+
     @include sm-md {
         /**
          * Transform menu to a overlay menu.
