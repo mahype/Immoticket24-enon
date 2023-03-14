@@ -66,6 +66,17 @@ class Payment {
 	}
 
 	/**
+	 * Get the payment date.
+	 * 
+	 * @return string Payment date.
+	 * 
+	 * @since 2022-02-08
+	 */
+	public function get_date() {
+		return get_the_date( 'd.m.Y', $this->id );
+	}
+
+	/**
 	 * Get energieausweis id.
 	 *
 	 * @since 1.0.0
@@ -161,5 +172,16 @@ class Payment {
 	 */
 	public function get_amount() {
 		return edd_get_payment_amount( $this->id );
+	}
+
+	/**
+	 * Get payment status.
+	 *
+	 * @return string Payment status.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_status() {
+		return edd_get_payment_status( $this->id, false );
 	}
 }
