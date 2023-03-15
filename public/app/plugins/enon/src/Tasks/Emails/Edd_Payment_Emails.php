@@ -145,16 +145,29 @@ Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 
 		$subject = "{$payment_nr} - Zahlungserinnerung";
 
+
+
 		$message = "Sehr geehrter Kunde,
 
-		ich melde mich, da wir bislang noch keinen Zahlungseingang für den Energieausweis für das Gebäude {$address} mit der Rechnungsnummer {$payment_nr} vom {$payment_date} feststellen konnten. Bitte überweisen Sie den Rechnungsbetrag bis {$due_date}.
+		ich melde mich, da wir bislang noch keinen Zahlungseingang für den Energieausweis für das Gebäude <strong>{$address}</strong> mit der Rechnungsnummer {$payment_nr} vom {$payment_date} feststellen konnten. Bitte überweisen Sie den Rechnungsbetrag bis <strong><u>{$due_date}</u></strong>.
 		
 		Beigefügt erhalten Sie im Anhang noch einmal die Rechnung.
 		
 		Sollten Sie den Rechnungsbetrag bereits überwiesen haben, bitten wir Sie um kurze Rückmeldung, da wir Ihre Zahlung in dem Fall nicht zu ordnen konnten.
 		
 		Viele Grüße
-		Christian Esch";
+		Christian Esch
+		
+		<p style=\"text-align: center; font-size: 12px;\"><strong>Immoticket24.de GmbH</strong>
+		Krufter Straße 5
+		56753 Welling
+		Telefon: 0 26 54 - 8 80 11 99
+		Email: info(at)immoticket24.de</p>
+		<p style=\"text-align: center; font-size: 12px;\">Geschäftsführer: Christian Esch, Karl-Werner Esch
+		Amtsgericht Koblenz, HRB 23918
+		USt-Identifikationsnummer: DE292996626</p>
+		<p style=\"text-align: center; font-size: 12px;\">Diese Email wurde automatisch von <a href=\"https://www.energieausweis-online-erstellen.de\">https://www.energieausweis-online-erstellen.de</a> versendet.</p>
+		";
 
 		$bill_path = $this->create_bill_file($payment_id);
 		$this->send_email( $to_email, $subject, "Zahlungserinnerung", $message, array($bill_path) );
