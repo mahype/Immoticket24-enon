@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Borlabs Cookie v2 package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-11-14 14:51:46+0000\n"
+"PO-Revision-Date: 2023-02-20 13:44:56+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,21 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0\n"
 "Language: de\n"
 "Project-Id-Version: Borlabs Cookie v2\n"
+
+#: src/classes/Cookie/Backend/Cookies.php:289
+msgctxt "Backend / Global / Alert Message"
+msgid "The <strong>Prioritize</strong> setting cannot be enabled because it cannot be combined with Content Blocker and Script Blocker functions. The setting was therefore disabled before saving."
+msgstr "Die Einstellung <strong>Priorisieren</strong> kann nicht aktiviert werden, da sie nicht mit den Funktionen Content Blocker und Script Blocker kombiniert werden kann. Die Einstellung wurde daher vor dem Speichern deaktiviert."
+
+#: src/templates/footer.html.php:57
+msgctxt "Backend / Global / Button Title"
+msgid "No, I do not want to help"
+msgstr "Nein, ich möchte nicht helfen"
+
+#: src/templates/footer.html.php:58
+msgctxt "Backend / Global / Text"
+msgid "Yes, I would like to help"
+msgstr "Ja, ich möchte helfen"
 
 #: src/templates/settings.html.php:704
 msgctxt "Backend / Settings / Label"
@@ -26,21 +41,25 @@ msgctxt "Backend / Settings / Alert Message"
 msgid "The setting <strong>SameSite: None</strong> requires that the <strong>Secure Attribute</strong> setting is enabled."
 msgstr "Die Einstellung <strong>SameSite: None</strong> setzt voraus, dass die Einstellung <strong>Secure Attribut</strong> aktiviert ist."
 
+#: src/templates/footer.html.php:35
 #: src/templates/improve-borlabs-cookie.html.php:3
 msgctxt "Backend / Telemetry / Table Headline"
 msgid "Improve Borlabs Cookie"
 msgstr "Borlabs Cookie verbessern"
 
+#: src/templates/footer.html.php:46
 #: src/templates/improve-borlabs-cookie.html.php:6
 msgctxt "Backend / Telemetry / Text"
 msgid "Help us improve Borlabs Cookie by providing us with non-personal information about your website."
 msgstr "Helfen Sie uns, Borlabs Cookie zu verbessern, indem Sie uns nicht-personenbezogene Informationen über Ihre Website zur Verfügung stellen."
 
+#: src/templates/footer.html.php:49
 #: src/templates/improve-borlabs-cookie.html.php:9
 msgctxt "Backend / Telemetry / Text"
 msgid "For more information about what data we need and for what purpose, <a href=\"%s\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">click here <i class=\"fas fa-external-link-alt\"></i></a>."
 msgstr "Weitere Informationen darüber, welche Daten wir benötigen und zu welchem Zweck, finden Sie <a href=\"%s\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">hier <i class=\"fas fa-external-link-alt\"></i>.</a>"
 
+#: src/templates/footer.html.php:50
 #: src/templates/improve-borlabs-cookie.html.php:10
 msgctxt "Backend / Telemetry / URL"
 msgid "https://borlabs.io/borlabs-cookie/telemetry/"
@@ -5289,37 +5308,37 @@ msgctxt "Backend / Global / Alert Message"
 msgid "Your PHP version is <a href=\"http://php.net/supported-versions.php\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">outdated</a> and not supported by Borlabs Cookie. Please disable Borlabs Cookie, upgrade to PHP 7.2 or higher, and enable Borlabs Cookie again. It is necessary to follow these steps in the exact order described."
 msgstr "Ihre PHP-Version ist <a href=\"http://php.net/supported-versions.php\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">veraltet</a> und wird von Borlabs Cookie nicht unterstützt. Bitte deaktivieren Sie Borlabs Cookie, aktualisieren Sie auf PHP 7.2 oder höher und aktivieren Sie Borlabs Cookie wieder. Es ist notwendig, diese Schritte der Reihe nach zu befolgen."
 
-#: src/classes/Cookie/API.php:270
+#: src/classes/Cookie/API.php:274
 msgctxt "Backend / API / Alert Message"
 msgid "License registered successfully."
 msgstr "Lizenz erfolgreich registriert."
 
-#: src/classes/Cookie/API.php:402
+#: src/classes/Cookie/API.php:415
 msgctxt "Backend / API / Alert Message"
 msgid "The request was blocked. Please try again later."
 msgstr "Die Anfrage wurde blockiert. Bitte versuchen Sie es später noch einmal."
 
-#: src/classes/Cookie/API.php:408
+#: src/classes/Cookie/API.php:421
 msgctxt "Backend / API / Alert Message"
 msgid "Your license key is already being used by another website. Please visit <a href=\"https://borlabs.io/account/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">https://borlabs.io/account/</a> to remove the website from your license."
 msgstr "Ihr Lizenzschlüssel wird bereits von einer anderen Website verwendet. Bitte besuchen Sie <a href=\"https://de.borlabs.io/account/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">https://de.borlabs.io/account/</a>, um die Website aus Ihrer Lizenz zu entfernen."
 
-#: src/classes/Cookie/API.php:415
+#: src/classes/Cookie/API.php:428
 msgctxt "Backend / API / Alert Message"
 msgid "The request to the API could not be validated. %s"
 msgstr "Die Anfrage an die API konnte nicht validiert werden. %s"
 
-#: src/classes/Cookie/API.php:423
+#: src/classes/Cookie/API.php:436
 msgctxt "Backend / API / Alert Message"
 msgid "Your license key is not valid."
 msgstr "Ihr Lizenzschlüssel ist nicht gültig."
 
-#: src/classes/Cookie/API.php:425
+#: src/classes/Cookie/API.php:438
 msgctxt "Backend / API / Alert Message"
 msgid "Your license key is not valid for this major version. Please upgrade your license key."
 msgstr "Ihr Lizenzschlüssel ist für diese Hauptversion nicht gültig. Bitte aktualisieren Sie Ihren Lizenzschlüssel."
 
-#: src/classes/Cookie/API.php:433
+#: src/classes/Cookie/API.php:446
 msgctxt "Backend / API / Alert Message"
 msgid "An error occurred. Please contact the support. %s"
 msgstr "Ein Fehler ist aufgetreten. Bitte kontaktieren Sie den Support. %s"
@@ -5459,7 +5478,7 @@ msgstr "Borlabs Cookie ist nicht aktiv. Wenn Sie die Funktionen von Borlabs Cook
 #: src/classes/Cookie/Backend/ContentBlocker.php:284
 #: src/classes/Cookie/Backend/CookieBox.php:73
 #: src/classes/Cookie/Backend/CookieGroups.php:245
-#: src/classes/Cookie/Backend/Cookies.php:287
+#: src/classes/Cookie/Backend/Cookies.php:297
 #: src/classes/Cookie/Backend/License.php:122
 #: src/classes/Cookie/Backend/ScriptBlocker.php:226
 #: src/classes/Cookie/Backend/ScriptBlocker.php:242
@@ -5470,7 +5489,7 @@ msgstr "Erfolgreich gespeichert."
 
 #: src/classes/Cookie/Backend/ContentBlocker.php:264
 #: src/classes/Cookie/Backend/CookieGroups.php:262
-#: src/classes/Cookie/Backend/Cookies.php:304
+#: src/classes/Cookie/Backend/Cookies.php:314
 #: src/classes/Cookie/Backend/ScriptBlocker.php:259
 msgctxt "Backend / Global / Alert Message"
 msgid "Changed status successfully."
@@ -5478,7 +5497,7 @@ msgstr "Status wurde erfolgreich geändert."
 
 #: src/classes/Cookie/Backend/ContentBlocker.php:274
 #: src/classes/Cookie/Backend/CookieGroups.php:271
-#: src/classes/Cookie/Backend/Cookies.php:314
+#: src/classes/Cookie/Backend/Cookies.php:324
 #: src/classes/Cookie/Backend/ScriptBlocker.php:269
 msgctxt "Backend / Global / Alert Message"
 msgid "Deleted successfully."
@@ -5511,7 +5530,7 @@ msgstr "Bitte ändern Sie den Namen der <strong>ID</strong>. Ihr ausgewählter N
 
 #: src/classes/Cookie/Backend/ContentBlocker.php:958
 #: src/classes/Cookie/Backend/CookieGroups.php:719
-#: src/classes/Cookie/Backend/Cookies.php:933
+#: src/classes/Cookie/Backend/Cookies.php:943
 #: src/classes/Cookie/Backend/ScriptBlocker.php:781
 msgctxt "Backend / Global / Alert Message"
 msgid "Please fill out the field <strong>Name</strong>."
@@ -5533,36 +5552,36 @@ msgid "The selected <strong>Cookie Group</strong> is not available in the curren
 msgstr "Der ausgewählte <strong>Content Blocker</strong> ist in der aktuellen Sprache nicht verfügbar."
 
 #: src/classes/Cookie/Backend/CookieGroups.php:700
-#: src/classes/Cookie/Backend/Cookies.php:914
+#: src/classes/Cookie/Backend/Cookies.php:924
 #: src/classes/Cookie/Backend/ScriptBlocker.php:727
 msgctxt "Backend / Global / Alert Message"
 msgid "Please fill out the field <strong>ID</strong>. The ID must be at least 3 characters long and may only contain: <strong><em>a-z - _</em></strong>"
 msgstr "Bitte füllen Sie das Feld <strong>ID</strong> aus. Die ID muss mindestens 3 Zeichen lang sein und darf nur enthalten: <strong><em>a-z - _</em></strong>"
 
 #: src/classes/Cookie/Backend/CookieGroups.php:710
-#: src/classes/Cookie/Backend/Cookies.php:924
+#: src/classes/Cookie/Backend/Cookies.php:934
 #: src/classes/Cookie/Backend/ScriptBlocker.php:737
 msgctxt "Backend / Global / Alert Message"
 msgid "The <strong>ID</strong> already exists."
 msgstr "Die <strong>ID</strong> existiert bereits."
 
-#: src/classes/Cookie/Backend/Cookies.php:324
+#: src/classes/Cookie/Backend/Cookies.php:334
 msgctxt "Backend / Cookies / Alert Message"
 msgid "Default <strong>Cookies</strong> successfully reset."
 msgstr "Standard <strong>Cookie Gruppen</strong> erfolgreich zurückgesetzt."
 
-#: src/classes/Cookie/Backend/Cookies.php:359
-#: src/classes/Cookie/Backend/Cookies.php:490
+#: src/classes/Cookie/Backend/Cookies.php:369
+#: src/classes/Cookie/Backend/Cookies.php:500
 msgctxt "Backend / Cookies / Alert Message"
 msgid "Selected <strong>Cookie Group</strong> does not exist."
 msgstr "Die ausgewählte <strong>Cookie Gruppe</strong> existiert nicht."
 
-#: src/classes/Cookie/Backend/Cookies.php:410
+#: src/classes/Cookie/Backend/Cookies.php:420
 msgctxt "Backend / Cookies / Alert Message"
 msgid "The selected <strong>Cookie</strong> is not available in the current language. The data of the original <strong>Cookie</strong> was cloned."
 msgstr "Das ausgewählte <strong>Cookie</strong> ist in der aktuellen Sprache nicht verfügbar. Die Daten des ursprünglichen <strong>Cookie</strong> wurden geklont."
 
-#: src/classes/Cookie/Backend/Cookies.php:428
+#: src/classes/Cookie/Backend/Cookies.php:438
 msgctxt "Backend / Cookies / Alert Message"
 msgid "<strong>Cookie Group</strong> of selected <strong>Cookie</strong> is not available in the current language."
 msgstr "Die <strong>Cookie Gruppe</strong> des ausgewählten <strong>Cookies</strong> ist in der aktuellen Sprache nicht verfügbar."

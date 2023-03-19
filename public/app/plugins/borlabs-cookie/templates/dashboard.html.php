@@ -230,6 +230,12 @@ if (\BorlabsCookie\Cookie\Backend\License::getInstance()->isPluginUnlocked() ===
     jQuery(document).ready(function () {
         (function ($) {
 
+            <?php
+            if (isset($showTelemetryModal) && $showTelemetryModal === true) {
+                echo "window.setTimeout(function () { jQuery('#borlabsModalTelemetry').modal('show'); }, 250) ";
+            }
+            ?>
+
             var barChartData = <?php echo $chartData; ?>;
 
             if (Object.entries(barChartData).length) {

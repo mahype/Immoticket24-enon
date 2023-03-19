@@ -281,6 +281,16 @@ class Cookies
 
                 // Save
                 if ($errorStatus === false) {
+                    // Check if prioritize is set
+                    if ($this->canActivatePrioritizeStatus($_POST) === false) {
+                        $_POST['settings']['prioritize'] = '0';
+
+                        Messages::getInstance()->add(
+                            _x('The <strong>Prioritize</strong> setting cannot be enabled because it cannot be combined with Content Blocker and Script Blocker functions. The setting was therefore disabled before saving.', 'Backend / Global / Alert Message', 'borlabs-cookie'),
+                            'error'
+                        );
+                    }
+
                     $id = $this->save($_POST);
 
                     Messages::getInstance()->add(
@@ -940,5 +950,35 @@ class Cookies
         }
 
         return apply_filters('borlabsCookie/cookie/validate', $errorStatus, $formData);
+    }
+
+    private function canActivatePrioritizeStatus($formData)
+    {
+        if (!isset($formData['settings']['prioritize']) || $formData['settings']['prioritize'] === '0') {
+            return true;
+        }
+
+        $test = ['optInJS', 'optOutJS', 'fallbackJS'];
+
+        foreach ($test as $key) {
+            if (isset($formData[$key]) && strpos($formData[$key], 'BorlabsCookie.') !== false) {
+                return false;
+            }
+
+            // If someone has created an alias for BorlabsCookie, check if one of the functions is used.
+            if (isset($formData[$key]) && strpos($formData[$key], 'unblockContentId') !== false) {
+                return false;
+            }
+
+            if (isset($formData[$key]) && strpos($formData[$key], 'unblockScriptBlockerId') !== false) {
+                return false;
+            }
+
+            if (isset($formData[$key]) && strpos($formData[$key], 'unblockScriptBlockerJSHandle') !== false) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
