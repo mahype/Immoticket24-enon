@@ -116,7 +116,6 @@ class Affiliate_WP_Admin_Menu {
 		add_action( 'load-' . $payouts, 'affwp_payouts_screen_options' );
 		add_action( 'load-' . $visits, 'affwp_visits_screen_options' );
 		add_action( 'load-' . $creatives, 'affwp_creatives_screen_options' );
-
 	}
 
 }

@@ -191,11 +191,12 @@ class Affiliate_WP_Admin_Notices {
 		}
 
 		// PHP minimum notice.
-		if ( true === version_compare( phpversion(), '7.0', '<' )
-			&& affwp_is_admin_page()
-			&& false === get_transient( 'affwp_requirements_php_70_notice' )
+		if (
+			true === version_compare( phpversion(), '7.4', '<' ) &&
+			affwp_is_admin_page() &&
+			false === get_transient( 'affwp_requirements_php_74_notice' )
 		) {
-			$output .= self::show_notice( 'requirements_php_70', false );
+			$output .= self::show_notice( 'requirements_php_74', false );
 		}
 
 		if ( affwp_is_admin_page() && false !== strpos( AFFILIATEWP_VERSION, '-' ) ) {
@@ -1197,45 +1198,73 @@ class Affiliate_WP_Admin_Notices {
 			);
 		}
 
-		$this->add_notice( 'requirements_php_70', array(
-			'class'       => 'notice-warning',
-			'dismissible' => true,
-			'message'     => function() {
-				ob_start();
-				?>
-				<h3>
-					<?php
-					/* translators: Insecure PHP version */
-					printf( __( 'AffiliateWP has detected that your site is running on an insecure version of PHP (%s).', 'affiliate-wp' ), phpversion() );
+		// PHP Notice.
+		$this->add_notice(
+			'requirements_php_74',
+			array(
+				'dismissible' => true,
+				'class'       => 'notice-warning',
+				'message'     => function() {
+					ob_start();
+
 					?>
-				</h3>
 
-				<h4><?php _e( 'What is PHP and how does it affect my site?' ); ?></h4>
-				<p><?php _e( 'PHP is the programming language used to build and maintain WordPress and plugins like AffiliateWP. Newer versions of PHP are both faster and more secure, so updating will have a positive effect on your site&#8217;s performance.', 'affiliate-wp' ); ?></p>
+					<h3>
+						<?php
 
-				<h4><?php _e( 'Why it matters for AffiliateWP', 'affiliate-wp' ); ?></h4>
-				<p><?php _e( 'As we evolve over time, our ability to tap into more modern PHP features means we can continue to deliver a superior product to you.', 'affiliate-wp' ); ?></p>
-				<p><?php _e( '<strong>Starting in September 2021, we&#8217;ll require PHP 7.0 or newer to use AffiliateWP.</strong>', 'affiliate-wp' ); ?></p>
+						echo esc_html(
+							sprintf(
+								/* translators: Insecure PHP version */
+								__( 'AffiliateWP has detected that your site is running on an insecure version of PHP (%s).', 'affiliate-wp' ),
+								phpversion()
+							)
+						);
 
-				<p class="button-container">
+						?>
+					</h3>
+
+					<h4><?php esc_html_e( 'What is PHP, and how does it affect my site?' ); ?></h4>
+					<p><?php esc_html_e( 'PHP is the programming language used to build and maintain WordPress and plugins like AffiliateWP. Newer versions of PHP are faster and more secure, so updating will positively affect your site’s performance.', 'affiliate-wp' ); ?></p>
+
+					<h4><?php esc_html_e( 'Why it matters for AffiliateWP', 'affiliate-wp' ); ?></h4>
+					<p><?php esc_html_e( 'As we evolve, our ability to tap into more modern PHP features means we can continue delivering a superior product.', 'affiliate-wp' ); ?></p>
+
+					<p>
+						<?php
+
+						echo wp_kses(
+							sprintf(
+								'<strong>%s.</strong>',
+								__( 'Starting February 28th, 2023, we require PHP 7.4 or newer to use AffiliateWP', 'affiliate-wp' )
+							),
+							array(
+								'strong' => true,
+							)
+						);
+
+						?>
+					</p>
+
+					<p class="button-container">
+						<?php
+						printf(
+							'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+							esc_url( wp_get_update_php_url() ),
+							esc_html__( 'Learn more about updating PHP', 'affiliate-wp' ),
+							/* translators: Accessibility text. */
+							esc_html__( '(opens in a new tab)', 'affiliate-wp' )
+						);
+						?>
+					</p>
 					<?php
-					printf(
-						'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
-						esc_url( wp_get_update_php_url() ),
-						__( 'Learn more about updating PHP' ),
-						/* translators: Accessibility text. */
-						__( '(opens in a new tab)' )
-					);
-					?>
-				</p>
-				<?php
 
-				wp_update_php_annotation();
-				wp_direct_php_update_button();
+					wp_update_php_annotation();
+					wp_direct_php_update_button();
 
-				return ob_get_clean();
-			}
-		) );
+					return ob_get_clean();
+				},
+			)
+		);
 	}
 
 	/**
@@ -1249,11 +1278,33 @@ class Affiliate_WP_Admin_Notices {
 			return;
 		}
 
-		// Check for license.
-		$license = ( new License\License_Data() )->get_license_id();
+		// Check license status.
+		$license_status = ( new License\License_Data() )->check_status();
 
-		// Bail if the license IS set.
-		if ( ! empty( $license ) || is_int( $license ) ) {
+		$this->add_notice( 'requires_upgrade_to_download', array(
+			'class'   => 'error',
+			'message' => function() {
+				return sprintf(
+					wp_kses( /* translators: %s - AffiliateWP.com account downloads page URL. */
+						__( 'In order to get access to Addons, you need to <a href="%s">renew your license</a>.', 'affiliate-wp' ),
+						[
+							'a' => [
+								'href' => [],
+							],
+						]
+					),
+					esc_url( 'https://affiliatewp.com/account/downloads/?utm_source=WordPress&utm_medium=addons&utm_campaign=plugin&utm_content=renew%20your%20license' )
+				);
+			}
+		) );
+
+		// Only shows on the Addons page if license needs to be renewed.
+		if ( 'expired' === $license_status ) {
+			self::show_notice( 'requires_upgrade_to_download' );
+		}
+
+		// Bail if the license is set.
+		if  ( 'invalid' !== $license_status ) {
 			return;
 		}
 
@@ -1274,7 +1325,7 @@ class Affiliate_WP_Admin_Notices {
 			}
 		) );
 
-		// Show only if on the Addons page and no license is set.
+		// Only shows on the Addons page if no license is set.
 		self::show_notice( 'no_addon_access' );
 	}
 
@@ -1394,11 +1445,11 @@ class Affiliate_WP_Admin_Notices {
 				case 'payouts_service':
 					set_transient( 'affwp_payouts_service_notice', true, 2 * WEEK_IN_SECONDS );
 					break;
-				case 'requirements_php_70':
-					set_transient( 'affwp_requirements_php_70_notice', true, 2 * WEEK_IN_SECONDS );
-					break;
+				case 'requirements_php_74':
+					set_transient( 'affwp_requirements_php_74_notice', true, 2 * WEEK_IN_SECONDS );
 				default:
 					/**
+					break;
 					 * Fires once a notice has been flagged for dismissal.
 					 *
 					 * @since 1.8 as 'affwp_dismiss_notices'

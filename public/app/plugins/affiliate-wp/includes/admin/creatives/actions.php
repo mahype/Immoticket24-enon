@@ -99,3 +99,41 @@ function affwp_process_update_creative( $data ) {
 
 }
 add_action( 'affwp_update_creative', 'affwp_process_update_creative' );
+
+/**
+ * Initialize Creative + Grouping Connections UI.
+ *
+ * @since  2.12.0
+ */
+function affwp_creatives_admin_connect() {
+
+	static $instance = null;
+
+	if ( ! is_null( $instance ) ) {
+		return $instance;
+	}
+
+	require_once __DIR__ . '/categories/class-connector.php';
+
+	$instance = new \AffiliateWP\Admin\Creatives\Categories\Connector();
+}
+add_action( 'plugins_loaded', 'affwp_creatives_admin_connect', 9 );
+
+/**
+ * Initialize Creative Categories Screen.
+ *
+ * @since  2.12.0
+ */
+function affwp_creatives_admin_categories() {
+
+	static $instance = null;
+
+	if ( ! is_null( $instance ) ) {
+		return $instance;
+	}
+
+	require_once __DIR__ . '/categories/class-management.php';
+
+	$instance = new \AffiliateWP\Admin\Creatives\Categories\Management();
+}
+add_action( 'plugins_loaded', 'affwp_creatives_admin_categories', 10 );

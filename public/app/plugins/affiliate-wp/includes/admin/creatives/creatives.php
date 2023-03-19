@@ -38,6 +38,16 @@ function affwp_creatives_admin() {
 
 		$creatives_table = new AffWP_Creatives_Table();
 		$creatives_table->prepare_items();
+
+		/**
+		 * Act on the creatives table.
+		 *
+		 * @since 2.12.0
+		 *
+		 * @param $creatives_table Creatives table instance.
+		 */
+		do_action_ref_array( 'affwp_creatives_table', array( &$creatives_table ) );
+
 	?>
 	<div class="wrap">
 			<h2><?php _e( 'Creatives', 'affiliate-wp' ); ?>

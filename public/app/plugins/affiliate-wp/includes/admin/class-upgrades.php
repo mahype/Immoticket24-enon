@@ -7,7 +7,13 @@
  * @copyright   Copyright (c) 2021, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0.0
+ *
+ * @see includes/utils/trait-db.php `upgrade_table()` for alternative usage for
+ *      upgrading database tables vs. using legacy methods for doing so here.
  */
+
+require_once dirname( __DIR__ ) . '/utils/trait-db.php';
+require_once dirname( __DIR__ ) . '/utils/trait-data.php';
 
 /**
  * Core class for handling upgrade operations.
@@ -15,6 +21,9 @@
  * @since 1.0.0
  */
 class Affiliate_WP_Upgrades {
+
+	use \AffiliateWP\Utils\DB;
+	use \AffiliateWP\Utils\Data;
 
 	/**
 	 * Whether debug mode is enabled.
@@ -82,7 +91,7 @@ class Affiliate_WP_Upgrades {
 		$this->version  = get_option( 'affwp_version' );
 		$this->registry = new \AffWP\Utils\Upgrades\Registry;
 
-		add_action( 'admin_init', array( $this, 'init' ), -9999 );
+		add_action( 'init', array( $this, 'init' ), -9999 );
 
 		$settings = new Affiliate_WP_Settings;
 		$this->debug = (bool) $settings->get( 'debug_mode', false );
@@ -234,12 +243,12 @@ class Affiliate_WP_Upgrades {
 			$this->upgraded = true;
 		}
 
-		// If upgrades have occurred
+		// If upgrades have occurred.
 		if ( $this->upgraded ) {
+
 			update_option( 'affwp_version_upgraded_from', $this->version );
 			update_option( 'affwp_version', AFFILIATEWP_VERSION );
 		}
-
 	}
 
 	/**

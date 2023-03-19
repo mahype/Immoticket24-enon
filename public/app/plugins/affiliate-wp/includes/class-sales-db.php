@@ -480,12 +480,18 @@ class Affiliate_WP_Sales_DB extends Affiliate_WP_DB {
 			);
 		}
 
-		// Status
-		if ( ! empty( $args['status'] ) ) {
-			$query_processor->add_field( 'status', 'referrals' );
+		// Status.
+		$query_processor->add_field( 'status', 'referrals' );
 
-			$where .= empty( $where ) ? "WHERE " : "AND ";
-			$where .= $query_processor->prepend( 'status', 'referrals' );
+		$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+		$where .= $query_processor->prepend( 'status', 'referrals' );
+
+		// If no statuses were given, ensure that only good referrals are going to be queried.
+		if ( empty( $args['status'] ) ) {
+			$where .= " NOT IN('failed', 'draft') ";
+		}
+
+		if ( ! empty( $args['status'] ) ) {
 			if ( is_array( $args['status'] ) ) {
 				$where .= " IN('" . implode( "','", array_map( 'esc_sql', $args['status'] ) ) . "') ";
 			} else {

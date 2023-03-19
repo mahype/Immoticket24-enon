@@ -34,6 +34,7 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 	 */
 	public function init() {
 
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_footer', array( $this, 'scripts' ) );
 		add_action( 'wp_ajax_affwp_maybe_insert_paypal_referral', array( $this, 'maybe_insert_referral' ) );
 		add_action( 'wp_ajax_nopriv_affwp_maybe_insert_paypal_referral', array( $this, 'maybe_insert_referral' ) );
@@ -44,11 +45,24 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 	}
 
 	/**
+	 * Ensure required scripts are loaded.
+	 *
+	 * Currently, only jQuery is required to track paypal referrals.
+	 *
+	 * @since 2.12.0
+	 *
+	 * @return void
+	 */
+	public function enqueue_scripts() {
+		wp_enqueue_script( 'jquery' );
+	}
+
+	/**
 	 * Add JS to site footer for detecting PayPal form submissions
 	 *
 	 * @access  public
 	 * @since   1.9
-	*/
+	 */
 	public function scripts() {
 		if ( defined( 'AFFILIATEWP_PAYPAL_IPN' ) && AFFILIATEWP_PAYPAL_IPN ) {
 			$ipn_url = AFFILIATEWP_PAYPAL_IPN;
@@ -58,56 +72,56 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 		?>
 
 		<script type="text/javascript">
-		jQuery(document).ready(function($) {
+			jQuery(document).ready(function($) {
 
-			$('form').on('submit', function(e) {
+				$('form').on('submit', function(e) {
 
-				// Use attr() to grab the action since the attribute is likely set in the DOM regardless.
-				var action = $(this).attr( 'action' );
+					// Use attr() to grab the action since the attribute is likely set in the DOM regardless.
+					var action = $(this).attr( 'action' );
 
-				// Bail if there's no action attribute on the form tag.
-				if ( 'undefined' === typeof action ) {
-					return;
-				}
-
-				paypalMatch = new RegExp( 'paypal\.com\/(cgi-bin\/webscr|donate)' );
-
-				if ( ! action.match( paypalMatch ) ) {
-					return;
-				}
-
-				e.preventDefault();
-
-				var $form = $(this);
-				var ipn_url = "<?php echo esc_js( $ipn_url ); ?>";
-
-				$.ajax({
-					type: "POST",
-					data: {
-						action: 'affwp_maybe_insert_paypal_referral'
-					},
-					url: '<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>',
-					success: function (response) {
-
-						$form.append( '<input type="hidden" name="custom" value="' + response.data.ref + '"/>' );
-						$form.append( '<input type="hidden" name="notify_url" value="' + ipn_url + '"/>' );
-
-						$form.get(0).submit();
-
+					// Bail if there's no action attribute on the form tag.
+					if ( 'undefined' === typeof action ) {
+						return;
 					}
 
-				}).fail(function (response) {
+					paypalMatch = new RegExp( 'paypal\.com\/(cgi-bin\/webscr|donate)' );
 
-					if ( window.console && window.console.log ) {
-						console.log( response );
+					if ( ! action.match( paypalMatch ) ) {
+						return;
 					}
+
+					e.preventDefault();
+
+					var $form = $(this);
+					var ipn_url = "<?php echo esc_js( $ipn_url ); ?>";
+
+					$.ajax({
+						type: "POST",
+						data: {
+							action: 'affwp_maybe_insert_paypal_referral'
+						},
+						url: '<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>',
+						success: function (response) {
+
+							$form.append( '<input type="hidden" name="custom" value="' + response.data.ref + '"/>' );
+							$form.append( '<input type="hidden" name="notify_url" value="' + ipn_url + '"/>' );
+
+							$form.get(0).submit();
+
+						}
+
+					}).fail(function (response) {
+
+						if ( window.console && window.console.log ) {
+							console.log( response );
+						}
+
+					});
 
 				});
-
 			});
-		});
 		</script>
-<?php
+		<?php
 	}
 
 	/**
@@ -161,7 +175,7 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 	 *
 	 * @access  public
 	 * @since   1.9
-	*/
+	 */
 	public function process_ipn() {
 
 		if( empty( $_GET['affwp-listener'] ) || 'paypal' !== strtolower( $_GET['affwp-listener'] ) ) {
@@ -355,7 +369,7 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 	 * @access  public
 	 * @since   1.9
 	 * @return  bool True|false
-	*/
+	 */
 	private function verify_ipn( $post_data ) {
 
 		$verified = false;
@@ -399,7 +413,7 @@ class Affiliate_WP_PayPal extends Affiliate_WP_Base {
 	 *
 	 * @access  public
 	 * @since   1.9
-	*/
+	 */
 	public function reference_link( $reference, $referral ) {
 
 		if ( empty( $referral->context ) || 'paypal' != $referral->context ) {

@@ -575,7 +575,7 @@ final class Affiliate_WP_Editor {
 	 */
 	public function render_login_form( $atts, $content, $block ) {
 
-		if ( affwp_is_affiliate() ) {
+		if ( is_user_logged_in() ) {
 			return;
 		}
 
@@ -2107,6 +2107,11 @@ final class Affiliate_WP_Editor {
 	 * @param int $post_id The post ID.
 	 */
 	public function save_submission_form_hashes( $post_id ) {
+
+		// Prevent hashes being changed if the user updated something without saving.
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
 
 		$forms = $this->get_submission_forms( $post_id );
 		$meta  = array();

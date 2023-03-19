@@ -379,7 +379,7 @@ function affwp_currency_filter( $amount ) {
 				$formatted = '&#8360;' . $amount;
 				break;
 			default :
-			    $formatted = $currency . ' ' . $amount;
+				$formatted = $currency . ' ' . $amount;
 				break;
 		endswitch;
 
@@ -432,7 +432,7 @@ function affwp_currency_filter( $amount ) {
 				$formatted = $amount . '&#8381;';
 				break;
 			default :
-			    $formatted = $amount . ' ' . $currency;
+				$formatted = $amount . ' ' . $currency;
 				break;
 		endswitch;
 
@@ -465,7 +465,7 @@ function affwp_currency_filter( $amount ) {
  *
  * @param int $decimals Optional. Number of decimal places. Default 2.
  * @return int Currency filtered for the number of decimals.
-*/
+ */
 function affwp_currency_decimal_filter( $decimals = 2 ) {
 	global $affwp_options;
 
@@ -797,6 +797,78 @@ function affwp_make_url_human_readable( $url ) {
 	}
 
 	return $human_readable;
+}
+
+/**
+ * Returns a URL filtering query parameters from a whitelist.
+ *
+ * This function takes all the public query vars, plus AffiliateWP vars and filter the
+ * given url, returning only the query string with params within the whitelist.
+ *
+ * @since 2.12.0
+ *
+ * @param string $url URL to parse.
+ * @param bool   $suppress_host If true, the final result will return only the path + query strings.
+ * @return string The filtered url.
+ */
+function affwp_get_filtered_url( string $url, bool $suppress_host = false ): string {
+
+	// Breakdown the url.
+	$parsed_url = wp_parse_url( $url );
+
+	wp_parse_str( isset( $parsed_url['query'] ) ? $parsed_url['query'] : array(), $query_vars );
+
+	if ( ! is_array( $query_vars ) || empty( $query_vars ) ) {
+		return $url; // Url has no query params, just return the original url.
+	}
+
+	global $wp;
+
+	// Allow other plugins to hook in and change the list of allowed vars.
+	$allowed_query_vars = apply_filters(
+		'affwp_get_filtered_url_vars',
+		array_merge(
+			( isset( $wp->public_query_vars ) && is_array( $wp->public_query_vars ) )
+					? $wp->public_query_vars
+					: array(),
+			array( 'ref', 'campaign' )
+		)
+	);
+
+	// Build the new query string.
+	$parsed_url['query'] = http_build_query(
+		array_filter(
+			$query_vars,
+			function( $var ) use ( $allowed_query_vars ) {
+				return in_array( $var, $allowed_query_vars, true );
+			},
+			ARRAY_FILTER_USE_KEY
+		)
+	);
+
+	$host = '';
+
+	// Suppress host returning only the path and query string (if exists).
+	if (
+		false === $suppress_host &&
+		isset( $parsed_url['scheme'] ) &&
+		isset( $parsed_url['host'] )
+	) {
+
+		$port = isset( $parsed_url['port'] ) ? ":{$parsed_url['port']}" : '';
+		$host = "{$parsed_url['scheme']}://{$parsed_url['host']}{$port}";
+	}
+
+	$path  = isset( $parsed_url['path'] ) ? $parsed_url['path'] : '';
+	$query = isset( $parsed_url['query'] ) ? "?{$parsed_url['query']}" : '';
+
+	if ( empty( $path ) && empty( $query ) ) {
+		return $url; // Probably could not be parsed, just return the original.
+	}
+
+	return empty( $host )
+		? "{$path}{$query}" // Host suppressed.
+		: "{$host}{$path}{$query}";
 }
 
 /**

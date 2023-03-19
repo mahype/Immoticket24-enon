@@ -226,6 +226,39 @@ abstract class List_Table extends \WP_List_Table {
 	}
 
 	/**
+	 * Extra table navigation.
+	 *
+	 * Note, if you override this, and remove the filters, some functionality may
+	 * be lost without them.
+	 *
+	 * @since 2.12.0
+	 *
+	 * @param string $which Either `top` or `bottom`.
+	 */
+	protected function extra_tablenav( $which ) {
+
+		/**
+		 * Before we show any extra tablenav.
+		 *
+		 * @since 2.12.0
+		 *
+		 * @param string $which Either `top` or `bottom`.
+		 */
+		do_action( "affwp_{$this->screen->id}_extra_tablenav_before", $which );
+
+		parent::extra_tablenav( $which );
+
+		/**
+		 * After we show any extra tablenav.
+		 *
+		 * @since 2.12.0
+		 *
+		 * @param string $which Either `top` or `bottom`.
+		 */
+		do_action( "affwp_{$this->screen->id}_extra_tablenav_after", $which );
+	}
+
+	/**
 	 * Prepares columns for display.
 	 *
 	 * Applies display arguments passed in the constructor to the list of columns.
@@ -246,7 +279,16 @@ abstract class List_Table extends \WP_List_Table {
 				}
 			}
 		}
-		return $columns;
+
+		/**
+		 * Filter the columns.
+		 *
+		 * @since 2.12.0
+		 *
+		 * @param array      $columns Columns.
+		 * @param \WP_Screen $screen  Current screen (for context).
+		 */
+		return apply_filters( 'affwp_list_table_columns', $columns, $this->screen );
 	}
 
 	/**

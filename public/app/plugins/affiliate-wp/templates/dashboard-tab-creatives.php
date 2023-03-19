@@ -55,7 +55,27 @@
 
 	<?php else : ?>
 
-		<p class="affwp-no-results"><?php _e( 'Sorry, there are currently no creatives available.', 'affiliate-wp' ); ?></p>
+		<?php
+
+		/**
+		 * Fires immediately before creatives in the creatives tab of the affiliate area when there are no results.
+		 *
+		 * @since 2.12.0
+		 */
+		do_action( 'affwp_before_creatives_no_results' );
+		?>
+
+		<p class="affwp-no-results"><?php esc_html_e( 'Sorry, there are currently no creatives available.', 'affiliate-wp' ); ?></p>
+
+		<?php
+
+		/**
+		 * Fires immediately after creatives in the creatives tab of the affiliate area when there are no results.
+		 *
+		 * @since 2.12.0
+		 */
+		do_action( 'affwp_after_creatives_no_results' );
+		?>
 
 	<?php endif; ?>
 
