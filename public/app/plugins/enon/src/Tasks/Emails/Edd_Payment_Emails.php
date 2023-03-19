@@ -16,7 +16,6 @@ use WPENON\Model\Energieausweis;
  *
  * @since 1.0.0
  */
-
 class Edd_Payment_Emails implements Actions, Filters, Task
 {
 	/**
