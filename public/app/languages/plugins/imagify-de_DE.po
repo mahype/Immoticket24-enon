@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Imagify – Optimize Images &amp; Convert WebP | Compress Images Easily - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-12-09 14:57:51+0000\n"
+"PO-Revision-Date: 2023-01-08 14:30:08+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,7 +27,7 @@ msgstr "Um deine Bilder weiterhin zu optimieren, kannst du ein dein Abonnement u
 msgid "Please consider writing more inclusive code."
 msgstr "Bitte erwäge, inklusiveren Code zu schreiben."
 
-#: inc/functions/api.php:197
+#: inc/functions/api.php:202
 msgid "Our server returned an invalid response."
 msgstr "Unser Server gab eine ungültige Antwort zurück."
 
@@ -152,7 +152,7 @@ msgid "%s Update Rollback"
 msgstr "%s Aktualisierung zurücksetzen"
 
 #. translators: %s is an error message.
-#: inc/functions/api.php:235
+#: inc/functions/api.php:240
 msgid "Our server returned an error (%s)."
 msgstr "Unser Server gab einen Fehler zurück (%s). "
 
@@ -197,7 +197,7 @@ msgid "If you are not able to upgrade, you can rollback to the previous version 
 msgstr "Wenn du nicht aktualisieren kannst, nutze den nachfolgenden Button zum Zurücksetzen auf die vorherigen Version."
 
 #. translators: %s is a float number.
-#: inc/functions/api.php:253
+#: inc/functions/api.php:258
 msgid "Request was throttled. Expected available in %s second."
 msgid_plural "Request was throttled. Expected available in %s seconds."
 msgstr[0] "Anfrage wurde gedrosselt, voraussichtliche Verfügbarkeit in %s Sekunde."
@@ -436,16 +436,6 @@ msgstr "Dies scheint keine Datei zu sein: %s"
 msgid "The file %s does not seem to exist."
 msgstr "Die Datei %s scheint nicht zu existieren."
 
-#: classes/Optimization/Process/AbstractProcess.php:824
-#: classes/Optimization/Process/AbstractProcess.php:1328
-msgid "This media has no backup file."
-msgstr "Dieser Medieneintrag hat keine Backup-Datei."
-
-#: inc/classes/class-imagify-files-list-table.php:631
-#: inc/functions/admin-ui.php:93
-msgid "WebP generated:"
-msgstr "WebP generiert:"
-
 #: classes/Media/CustomFolders.php:235 classes/Media/Noop.php:242
 #: classes/Media/WP.php:210
 #: classes/Optimization/Process/AbstractProcess.php:244
@@ -472,9 +462,19 @@ msgstr "WebP generiert:"
 #: inc/classes/class-imagify-admin-ajax-post.php:223
 #: inc/classes/class-imagify-custom-folders.php:295
 #: inc/deprecated/classes/class-imagify-admin-ajax-post-deprecated.php:212
-#: inc/functions/admin-ui.php:434
+#: inc/functions/admin-ui.php:438
 msgid "This media is not valid."
 msgstr "Dies ist kein gültiger Medieneintrag."
+
+#: classes/Optimization/Process/AbstractProcess.php:824
+#: classes/Optimization/Process/AbstractProcess.php:1328
+msgid "This media has no backup file."
+msgstr "Dieser Medieneintrag hat keine Backup-Datei."
+
+#: inc/classes/class-imagify-files-list-table.php:631
+#: inc/functions/admin-ui.php:93
+msgid "WebP generated:"
+msgstr "WebP generiert:"
 
 #: inc/3rd-party/amazon-s3-and-cloudfront/classes/CDN/WP/AS3.php:210
 msgid "File(s) could not be removed from the CDN."
@@ -487,10 +487,6 @@ msgstr "Zugehörige Daten aus NextGen-Gallery konnten nicht gespeichert werden."
 #: views/button/generate-webp.php:26
 msgid "Generate WebP versions"
 msgstr "WebP-Versionen generieren"
-
-#: inc/admin/meta-boxes.php:59 inc/functions/admin-ui.php:477
-msgid "Processing..."
-msgstr "Verarbeitung läuft..."
 
 #: views/button/generate-webp.php:17
 msgid "Generating..."
@@ -556,6 +552,10 @@ msgstr "Dieser Medieneintrag ist kein Bild und kann daher nicht ins WebP-Format 
 msgid "This media does not have files that can be converted to WebP format."
 msgstr "Dieser Medieneintrag enthält keine Dateien, die in das WebP-Format konvertiert werden können."
 
+#: inc/admin/meta-boxes.php:59 inc/functions/admin-ui.php:481
+msgid "Processing..."
+msgstr "Wird verarbeitet …"
+
 #. translators: %s is a formatted price.
 #: views/modal-payment.php:131 views/modal-payment.php:290
 msgid "%s per<br>additional Gb"
@@ -576,7 +576,7 @@ msgid "No php extensions are available to edit images on the server. ImageMagick
 msgstr "Auf dem Server sind keine PHP-Module zur Bildbearbeitung verfügbar. ImageMagick oder GD sind erforderlich. %s"
 
 #. translators: %s is an error message.
-#: inc/functions/api.php:229
+#: inc/functions/api.php:234
 msgid "An error occurred (%s)."
 msgstr "Ein Fehler ist aufgetreten (%s)."
 
@@ -597,7 +597,7 @@ msgid "Partner links are links to products we trust which might be displayed in 
 msgstr "Partner-Links sind Links zu Produkten, denen wir vertrauen und die wir in den Imagify Einstellungen, sowie im Detail-Fenster von Imagify auf der Seite Plugins darstellen. Wenn du über diese Links etwas kaufst, erhalten wir eventuell eine Provision."
 
 #. translators: %s is a file size.
-#: views/page-bulk.php:205
+#: views/page-bulk.php:200
 msgid "All images greater than %s (after resizing, if any) will be optimized when using a paid plan."
 msgstr "Bilder größer als %s (nach der Verkleinerung, falls ausgewählt) werden bei Nutzung eines bezahlten Tarifs optimiert."
 
@@ -704,7 +704,7 @@ msgstr "Diese Bildgröße ist nicht zur Optimierung ausgewählt. Aktualisiere de
 #: classes/Optimization/Process/WP.php:137
 #: inc/3rd-party/nextgen-gallery/classes/Optimization/Process/NGG.php:47
 #: inc/3rd-party/nextgen-gallery/classes/Optimization/Process/NGG.php:83
-#: inc/functions/admin-ui.php:445
+#: inc/functions/admin-ui.php:449
 msgid "This media is not supported."
 msgstr "Dieser Medieneintrag wird nicht unterstützt."
 
@@ -794,21 +794,17 @@ msgstr "Du nutzt %s"
 msgid "Custom Folders"
 msgstr "Eigene Ordner"
 
-#: views/part-settings-account.php:93
+#: views/part-settings-account.php:98
 msgid "Create a Free API Key"
 msgstr "Kostenfreien API-Schlüssel erstellen"
 
-#: views/part-settings-account.php:91
+#: views/part-settings-account.php:96
 msgid "Don't have an API Key yet?"
 msgstr "Noch kein API-Schlüssel?"
 
-#: views/part-settings-account.php:78
+#: views/part-settings-account.php:83
 msgid "Options page isn’t available until you enter your API Key"
 msgstr "Die Einstellungen sind verfügbar, sobald du deinen API-Schlüssel eingibst"
-
-#: views/part-settings-account.php:71
-msgid "Account Type"
-msgstr "Konto-Art"
 
 #: views/part-rocket-ad.php:54
 msgid "Remove the ad"
@@ -884,7 +880,7 @@ msgstr "Einige Hinweise, bevor die Optimierung startet."
 msgid "Original Size"
 msgstr "Originalgröße"
 
-#: views/part-settings-account.php:99
+#: views/part-settings-account.php:104
 msgid "Enter Your API Key Below"
 msgstr "Gib hier deinen API-Schlüssel ein"
 
@@ -925,7 +921,7 @@ msgstr "Allgemeine Einstellungen"
 msgid "View your profile"
 msgstr "Profil ansehen"
 
-#: views/page-bulk.php:95 views/part-settings-account.php:77
+#: views/page-bulk.php:95 views/part-settings-account.php:82
 msgid "Your Account"
 msgstr "Dein Konto"
 
@@ -993,11 +989,11 @@ msgid "Select one or several folders to optimize."
 msgstr "Wähle einen oder mehrere Ordner zur Optimierung aus."
 
 #. translators: %s is a file extension.
-#: inc/functions/api.php:247
+#: inc/functions/api.php:252
 msgid "%s is not a valid extension."
 msgstr "%s ist keine gültige Endung."
 
-#: inc/functions/api.php:219
+#: inc/functions/api.php:224
 msgid "Invalid or corrupted file."
 msgstr "Ungültige oder schadhafte Datei."
 
@@ -1190,7 +1186,7 @@ msgstr "Du kannst deine Bilder auch erneut in jeder %1$sGalerie%2$s optimieren."
 msgid "NextGen Galleries"
 msgstr "NextGen Galleries"
 
-#: inc/deprecated/deprecated.php:619 inc/functions/api.php:198
+#: inc/deprecated/deprecated.php:619 inc/functions/api.php:203
 #: inc/functions/i18n.php:105 inc/functions/i18n.php:250
 msgid "cURL is not available on the server."
 msgstr "cURL ist auf diesem Server nicht installiert."
@@ -1207,7 +1203,7 @@ msgstr "Ohne Endung kann diese Datei nicht optimiert werden."
 msgid "Media Library"
 msgstr "Mediathek"
 
-#: inc/functions/api.php:205
+#: inc/functions/api.php:210
 msgid "This account already exists."
 msgstr "Dieses Konto existiert bereits."
 
@@ -1232,11 +1228,11 @@ msgstr "Brauchst du Hilfe, oder hast du Fragen?"
 msgid "Documentation"
 msgstr "Dokumentation"
 
-#: inc/functions/admin-ui.php:450
+#: inc/functions/admin-ui.php:454
 msgid "This media lacks the required metadata and cannot be optimized."
 msgstr "Dieser Mediendatei verfügt nicht über erforderliche Metadaten und kann nicht optimiert werden."
 
-#: inc/functions/admin-ui.php:438
+#: inc/functions/admin-ui.php:442
 msgid "You are not allowed to optimize this file."
 msgstr "Du bist nicht berechtigt, diese Datei zu optimieren."
 
@@ -1244,77 +1240,73 @@ msgstr "Du bist nicht berechtigt, diese Datei zu optimieren."
 msgid "Optimize Missing Sizes"
 msgstr "Fehlende Größen optimieren"
 
-#: inc/functions/api.php:217
+#: inc/functions/api.php:222
 msgid "You have consumed all your data. You have to upgrade your account to continue."
 msgstr "Du hast dein Guthaben aufgebraucht. Um fortzufahren, aktualisiere dein Konto."
 
-#: inc/functions/api.php:216
+#: inc/functions/api.php:221
 msgid "You are not authorized to perform this action."
 msgstr "Zu dieser Aktion bist du nicht berechtigt."
 
-#: inc/functions/api.php:214
+#: inc/functions/api.php:219
 msgid "User not valid."
 msgstr "Ungültige/-r Benutzer/-in."
 
-#: inc/functions/api.php:213
+#: inc/functions/api.php:218
 msgid "Unable to regenerate access token."
 msgstr "Erneuerung des Access Tokens nicht möglich."
 
-#: inc/functions/api.php:212
+#: inc/functions/api.php:217
 msgid "Too many requests, please be patient."
 msgstr "Zu viele Zugriffe, einen Moment Geduld bitte."
 
-#: inc/functions/api.php:211
+#: inc/functions/api.php:216
 msgid "This user does not exist."
 msgstr "Diese/-r Benutzer/-in existiert nicht."
 
-#: inc/functions/api.php:210
+#: inc/functions/api.php:215
 msgid "This email is already registered, you should try another email."
 msgstr "Diese E-Mail-Adresse ist bereits registriert, bitte versuche es mit einer anderen."
 
-#: inc/functions/api.php:209
+#: inc/functions/api.php:214
 msgid "Unable to retrieve the token from Data Storage API."
 msgstr "Token von der DataStorage API kann nicht ermittelt werden."
 
-#: inc/functions/api.php:208
+#: inc/functions/api.php:213
 msgid "Unable to connect to Data Storage API."
 msgstr "Verbindung mit Data Storage API kann nicht hergestellt werden."
 
-#: inc/functions/api.php:207
+#: inc/functions/api.php:212
 msgid "Unable to connect to Data Storage API to get the token."
 msgstr "Verbindung mit Data Storage API zur Übermittlung des Tokens kann nicht hergestellt werden."
 
-#: inc/functions/api.php:206
+#: inc/functions/api.php:211
 msgid "Error uploading to Data Storage."
 msgstr "Fehler beim Upload zu Data Storage."
 
-#: inc/functions/api.php:204
+#: inc/functions/api.php:209
 msgid "Email field should not be empty."
 msgstr "E-Mail-Feld muss ausgefüllt sein."
 
-#: inc/functions/api.php:203
+#: inc/functions/api.php:208
 msgid "Coupon does not exist."
 msgstr "Gutschein existiert nicht."
 
-#: inc/functions/api.php:202
+#: inc/functions/api.php:207
 msgid "Confirm your account to continue optimizing files."
 msgstr "Bestätige dein Konto, um weiter Bilder zu optimieren."
 
-#: inc/functions/api.php:201
+#: inc/functions/api.php:206
 msgid "Cannot create client token."
 msgstr "Client Token kann nicht erstellt werden."
 
-#: inc/functions/api.php:200
+#: inc/functions/api.php:205
 msgid "Authentication not provided."
 msgstr "Keine Authentifizierung übermittelt."
 
-#: inc/functions/api.php:196
+#: inc/functions/api.php:201
 msgid "Your file is too big to be uploaded on our server."
 msgstr "Dein Bild ist zu groß für den Upload auf unseren Server."
-
-#: inc/functions/api.php:195
-msgid "Unknown error occurred."
-msgstr "Unbekannter Fehler."
 
 #. translators: %s is the plugin name.
 #: inc/functions/admin.php:323
@@ -1408,11 +1400,11 @@ msgid "This type of file is not supported."
 msgstr "Dieses Datei-Format wird nicht unterstützt."
 
 #. translators: %s is a formatted number, dont use %d.
-#: inc/functions/api.php:241
+#: inc/functions/api.php:246
 msgid "Custom One Time plan starts from %s MB."
 msgstr "Spezieller Einmal-Tarif beginnt ab %s MB."
 
-#: inc/functions/api.php:215
+#: inc/functions/api.php:220
 msgid "WELL DONE. This media file is already optimized, no further optimization is required."
 msgstr "Exzellent! Dieser Medieneintrag ist bereits optimiert."
 
@@ -1611,7 +1603,7 @@ msgstr "Tarif wählen"
 msgid "You need to specify your API key!"
 msgstr "Du musst deinen API-Schlüssel angeben!"
 
-#: views/page-bulk.php:151 views/part-settings-account.php:58
+#: views/page-bulk.php:146 views/part-settings-account.php:64
 msgid "What plan do I need?"
 msgstr "Welchen Tarif brauche ich?"
 
@@ -1674,8 +1666,8 @@ msgstr "Danke, du bist großartig!"
 msgid "Secure Credit Card Payment"
 msgstr "Sichere Kreditkarten-Zahlung"
 
-#: inc/classes/class-imagify-admin-ajax-post.php:1061 views/page-bulk.php:143
-#: views/part-settings-account.php:49
+#: inc/classes/class-imagify-admin-ajax-post.php:1061 views/page-bulk.php:138
+#: views/part-settings-account.php:55
 msgid "You're new to Imagify?"
 msgstr "Neu bei Imagify?"
 
@@ -1700,7 +1692,7 @@ msgstr "Dies ist eine sichere mit 128-Bit-SSL verschlüsselte Zahlung"
 msgid "One Time plans are useful if you have a lots of existing images which need to be optimized. You can use it for bulk optimizing all your past images. You will pay only once."
 msgstr "Einmal-Tarife sind nützlich, wenn du bereits eine Menge Bilder hast, die optimiert werden müssen. Du kannst sie für die Mengen-Optimierung all deiner bisherigen Bilder verwenden. Du zahlst nur einmal."
 
-#: views/page-bulk.php:147 views/part-settings-account.php:54
+#: views/page-bulk.php:142 views/part-settings-account.php:60
 msgid "Let us help you by analyzing your existing images and determine the best plan for you."
 msgstr "Wir helfen dir bei der Analyse deiner vorhandenen Bilder und ermitteln den für dich besten Tarif."
 
@@ -1816,7 +1808,7 @@ msgstr "Vorschaubilder optimiert:"
 msgid "Overall Saving:"
 msgstr "Einsparung insgesamt:"
 
-#: inc/admin/meta-boxes.php:56 inc/functions/admin-ui.php:474
+#: inc/admin/meta-boxes.php:56 inc/functions/admin-ui.php:478
 #: views/button/restore.php:17
 msgid "Restoring..."
 msgstr "Wiederherstellung&nbsp;…"
@@ -2003,7 +1995,7 @@ msgstr "Hier kannst du verschiedene von WordPress erstellte Bildgrößen für di
 msgid "Automatically optimize every image you upload to WordPress."
 msgstr "Optimiere automatisch jedes Bild, das du in WordPress hochlädst."
 
-#: views/part-settings-account.php:99
+#: views/part-settings-account.php:77 views/part-settings-account.php:104
 msgid "API Key"
 msgstr "API-Schlüssel"
 
@@ -2079,7 +2071,7 @@ msgstr "Gehe zur Imagify Konten-Seite, kopiere deinen API-Schlüssel und gib ihn
 msgid "Save your API Key you have received by email or you can get it on your %1$sImagify account page%2$s."
 msgstr "Speichere deinen API-Schlüssel, den du per E-Mail erhalten hast. Du findest ihn auch in deinem %1$sImagify-Konto%2$s."
 
-#: views/notice-wrong-api-key.php:5 views/part-settings-account.php:114
+#: views/notice-wrong-api-key.php:5 views/part-settings-account.php:119
 msgid "Your API key isn't valid!"
 msgstr "Der API-Schlüssel ist ungültig!"
 
@@ -2142,7 +2134,7 @@ msgid "Statistics"
 msgstr "Statistik"
 
 #: inc/classes/class-imagify-files-list-table.php:441
-#: inc/Dependencies/ActionScheduler/classes/ActionScheduler_AdminView.php:234
+#: inc/Dependencies/ActionScheduler/classes/ActionScheduler_AdminView.php:242
 #: inc/Dependencies/ActionScheduler/classes/ActionScheduler_ListTable.php:97
 msgid "Status"
 msgstr "Status"
@@ -2170,7 +2162,7 @@ msgstr "Bitte beachte, dass die Optimierung einer großen Anzahl von Bildern je 
 msgid "Ultra"
 msgstr "Ultra"
 
-#: views/page-bulk.php:196
+#: views/page-bulk.php:191
 msgid "Imagif’em all"
 msgstr "Alle optimieren"
 
@@ -2221,13 +2213,13 @@ msgstr "Imagify"
 
 #: inc/admin/meta-boxes.php:40
 #: inc/classes/class-imagify-files-list-table.php:709
-#: inc/functions/admin-ui.php:457 inc/functions/api.php:218
+#: inc/functions/admin-ui.php:461 inc/functions/api.php:223
 msgid "Invalid API key"
 msgstr "Ungültiger API-Schlüssel"
 
 #: inc/admin/meta-boxes.php:43
 #: inc/classes/class-imagify-files-list-table.php:710
-#: inc/functions/admin-ui.php:459
+#: inc/functions/admin-ui.php:463
 msgid "Check your Settings"
 msgstr "Einstellungen überprüfen"
 
@@ -2273,10 +2265,6 @@ msgstr "Glückwunsch!"
 msgid "Restore Original"
 msgstr "Original wiederherstellen"
 
-#: inc/functions/i18n.php:260
-msgid "Please wait..."
-msgstr "Bitte warten&nbsp;..."
-
 #: inc/classes/class-imagify-admin-ajax-post.php:854
 msgid "View My Subscription"
 msgstr "Mein Abo ansehen"
@@ -2289,7 +2277,7 @@ msgstr "Upgrade meines Abos durchführen"
 msgid "Account status"
 msgstr "Konten-Status"
 
-#: inc/classes/class-imagify-admin-ajax-post.php:881 views/page-bulk.php:101
+#: inc/classes/class-imagify-admin-ajax-post.php:881
 msgid "Your subscription:"
 msgstr "Dein Abo:"
 
@@ -2319,25 +2307,25 @@ msgid "You have almost used all your credit.%sDon't forget to upgrade your subsc
 msgstr "Du hast dein Guthaben bald aufgebraucht. %s Aktualisiere dein Abo, um weitere Bilder zu optimieren. "
 
 #: inc/classes/class-imagify-admin-ajax-post.php:851
-#: inc/classes/class-imagify-admin-ajax-post.php:1059 views/page-bulk.php:141
-#: views/part-settings-account.php:47
+#: inc/classes/class-imagify-admin-ajax-post.php:1059 views/page-bulk.php:136
+#: views/part-settings-account.php:53
 msgid "Oops, It's almost over!"
 msgstr "Hoppla, fast abgelaufen!"
 
 #: inc/classes/class-imagify-admin-ajax-post.php:860
-#: inc/classes/class-imagify-admin-ajax-post.php:1057 views/page-bulk.php:139
-#: views/part-settings-account.php:45
+#: inc/classes/class-imagify-admin-ajax-post.php:1057 views/page-bulk.php:134
+#: views/part-settings-account.php:51
 msgid "Oops, It's Over!"
 msgstr "Hoppla, abgelaufen!"
 
 #. translators: %s is a data quota.
 #: inc/classes/class-imagify-admin-ajax-post.php:889
-#: views/notice-almost-over-quota.php:18 views/page-bulk.php:116
+#: views/notice-almost-over-quota.php:18 views/page-bulk.php:111
 #: views/part-bulk-optimization-infos.php:11
 msgid "You have %s space credit left"
 msgstr "Dir stehen noch %s Guthaben zur Verfügung"
 
-#: inc/functions/i18n.php:65 views/part-settings-account.php:106
+#: inc/functions/i18n.php:65 views/part-settings-account.php:111
 msgid "Your API key is valid."
 msgstr "Der API-Schlüssel ist gültig."
 
@@ -2373,7 +2361,7 @@ msgstr "Dein Konto wurde erfolgreich angelegt. Bitte prüfe dein Postfach, du er
 
 #: inc/admin/meta-boxes.php:53
 #: inc/classes/class-imagify-files-list-table.php:717
-#: inc/functions/admin-ui.php:471 views/button/optimize-missing-sizes.php:17
+#: inc/functions/admin-ui.php:475 views/button/optimize-missing-sizes.php:17
 #: views/button/optimize.php:17 views/button/re-optimize.php:17
 #: views/button/retry-optimize.php:17
 msgid "Optimizing..."
@@ -2382,3 +2370,7 @@ msgstr "Optimierung läuft …"
 #: inc/functions/i18n.php:39
 msgid "Sign Up"
 msgstr "Registrieren"
+
+#: inc/functions/i18n.php:260
+msgid "Please wait..."
+msgstr "Bitte warten …"
