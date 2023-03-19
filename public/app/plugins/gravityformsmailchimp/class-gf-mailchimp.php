@@ -29,6 +29,15 @@ class GFMailChimp extends GFFeedAddOn {
 	private static $_instance = null;
 
 	/**
+	 * Enabling background feed processing.
+	 *
+	 * @since 5.1.1
+	 *
+	 * @var bool
+	 */
+	protected $_async_feed_processing = true;
+
+	/**
 	 * Defines the version of the Mailchimp Add-On.
 	 *
 	 * @since  3.0
@@ -614,7 +623,7 @@ class GFMailChimp extends GFFeedAddOn {
 		$connect_url  = sprintf( '%1$s/auth/mailchimp', GRAVITY_API_URL );
 		$nonce        = wp_create_nonce( $this->get_authentication_state_action() );
 
-		return add_query_arg( array( 'redirect_to' => $settings_url, 'state' => $nonce ), $connect_url );
+		return add_query_arg( array( 'redirect_to' => $settings_url, 'state' => $nonce, 'license' => GFCommon::get_key() ), $connect_url );
 	}
 
 
@@ -1725,6 +1734,28 @@ class GFMailChimp extends GFFeedAddOn {
 		$subscription['email_address'] = $subscription['email']['email'];
 		unset( $subscription['email'] );
 
+		// If member exists, status is pending, and is double opt-in, then update member status to unsubscribed first.
+		if ( $member && rgar( $member, 'status' ) === 'pending' && rgars( $feed, 'meta/double_optin' ) ) {
+			try {
+				// Log that we are patching member status.
+				$this->log_debug( __METHOD__ . '(): Patching member status for opt-in.' );
+
+				// Update member status to unsubscribed.
+				$this->api->update_list_member( $list_id, $subscription['email_address'], array( 'status' => 'unsubscribed' ), 'PATCH' );
+
+				// Log that the subscription was successfully updated.
+				$this->log_debug( __METHOD__ . '(): Member status successfully updated.' );
+			} catch ( Exception $e ) {
+				// Log that member status could not be updated.
+				$this->add_feed_error( sprintf( esc_html__( __METHOD__ . '(): Unable to update member status: %s', 'gravityformsmailchimp' ), $e->getMessage() ), $feed, $entry, $form );
+
+				// Log field errors.
+				if ( $e->hasErrors() ) {
+					$this->log_error( __METHOD__ . '(): Error when attempting to update member status: ' . print_r( $e->getErrors(), true ) );
+				}
+			}
+		}
+
 		/**
 		 * Modify the subscription object before it is executed.
 		 *
@@ -1783,7 +1814,7 @@ class GFMailChimp extends GFFeedAddOn {
 
 					// Check condition and add to subscription.
 					$subscription['marketing_permissions'][] = array(
-						'marketing_permission_id' => $existing_permission['marketing_permission_id'],
+						'marketing_permission_id' => (string) $existing_permission['marketing_permission_id'],
 						'enabled'                 => $this->is_marketing_permission_condition_met( $permissions[ $existing_permission['marketing_permission_id'] ], $form, $entry ),
 					);
 
@@ -1796,7 +1827,7 @@ class GFMailChimp extends GFFeedAddOn {
 
 					// Add to subscription.
 					$subscription['marketing_permissions'][] = array(
-						'marketing_permission_id' => $permission_id,
+						'marketing_permission_id' => (string) $permission_id,
 						'enabled'                 => $this->is_marketing_permission_condition_met( $permission, $form, $entry ),
 					);
 

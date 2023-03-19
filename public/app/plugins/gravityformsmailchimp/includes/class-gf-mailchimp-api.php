@@ -230,23 +230,29 @@ class GF_MailChimp_API {
 	 * Add or update a Mailchimp list/audience member.
 	 *
 	 * @since  4.0
+	 * @since  5.2 - Add support for request method to allow PATCH requests.
 	 * @access public
 	 *
 	 * @param string $list_id Mailchimp list/audience ID.
 	 * @param string $email_address Email address.
 	 * @param array $subscription Subscription details.
+	 * @param string $method Request method. Defaults to PUT.
 	 *
 	 * @uses   GF_MailChimp_API::process_request()
 	 *
 	 * @return array
 	 * @throws GF_MailChimp_Exception|Exception
 	 */
-	public function update_list_member( $list_id, $email_address, $subscription ) {
+	public function update_list_member( $list_id, $email_address, $subscription, $method = 'PUT' ) {
+		// Make sure that method is either PUT or PATCH.
+		if ( ! in_array( $method, array( 'PUT', 'PATCH' ) ) ) {
+			throw Exception( __METHOD__ . '(): Method must be one of PUT or PATCH.' );
+		}
 
 		// Prepare subscriber hash.
 		$subscriber_hash = md5( strtolower( $email_address ) );
 
-		return $this->process_request( 'lists/' . $list_id . '/members/' . $subscriber_hash, $subscription, 'PUT' );
+		return $this->process_request( 'lists/' . $list_id . '/members/' . $subscriber_hash, $subscription, $method );
 
 	}
 

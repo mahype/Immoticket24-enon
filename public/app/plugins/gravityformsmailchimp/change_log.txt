@@ -1,3 +1,9 @@
+### 5.2 | 2023-02-15
+- Added Gravity Forms license key to oAuth process.
+- Added support for async (background) feed processing to improve form submission performance.
+- Fixed an issue that prevents the Marketing Permission setting from being applied to users in certain situations.
+- Fixed an issue where the opt-in email is not sending to already pending members when they resubscribe.
+
 ### 5.1 | 2022-05-11
 - Fixed an issue where the save settings button isn't visible when creating or editing a feed.
 - Fixed a display issue with some conditional logic feed settings.
