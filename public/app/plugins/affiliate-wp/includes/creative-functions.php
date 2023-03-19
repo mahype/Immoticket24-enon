@@ -55,7 +55,6 @@ function affwp_add_creative( $data = array() ) {
 	}
 
 	return false;
-
 }
 
 /**
@@ -108,6 +107,15 @@ function affwp_delete_creative( $creative ) {
 	if ( ! $creative = affwp_get_creative( $creative ) ) {
 		return false;
 	}
+
+	/**
+	 * Delete creative.
+	 *
+	 * @since 2.12.0
+	 *
+	 * @param int $creative_id Creative ID.
+	 */
+	do_action( 'affwp_delete_creative', $creative->ID );
 
 	return affiliate_wp()->creatives->delete( $creative->ID, 'creative' );
 }

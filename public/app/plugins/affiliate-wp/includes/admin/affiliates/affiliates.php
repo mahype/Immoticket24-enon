@@ -73,6 +73,15 @@ function affwp_affiliates_admin() {
 
 		$affiliates_table = new AffWP_Affiliates_Table();
 		$affiliates_table->prepare_items();
+
+		/**
+		 * Act on the affiliates table.
+		 *
+		 * @since 2.12.0
+		 *
+		 * @param $affiliates_table Affiliates table instance.
+		 */
+		do_action_ref_array( 'affwp_affiliates_table', array( &$affiliates_table ) );
 ?>
 		<div class="wrap">
 			<h1>

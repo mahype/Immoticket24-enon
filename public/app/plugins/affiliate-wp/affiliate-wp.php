@@ -5,7 +5,7 @@
  * Description: Affiliate Plugin for WordPress
  * Author: AffiliateWP
  * Author URI: https://affiliatewp.com
- * Version: 2.11.1
+ * Version: 2.12.2
  * Text Domain: affiliate-wp
  * Domain Path: languages
  * GitHub Plugin URI: affiliatewp/affiliatewp
@@ -25,7 +25,7 @@
  * @package AffiliateWP
  * @category Core
  * @author Pippin Williamson
- * @version 2.11.1
+ * @version 2.12.2
  */
 
 if ( ! class_exists( 'AffiliateWP_Requirements_Check_v1_1' ) ) {
@@ -58,7 +58,7 @@ class AffiliateWP_Core_Requirements_Check extends AffiliateWP_Requirements_Check
 	protected $addon_requirements = array(
 		// PHP.
 		'php' => array(
-			'minimum' => '5.6',
+			'minimum' => '7.4',
 			'name'    => 'PHP',
 			'exists'  => true,
 			'current' => false,

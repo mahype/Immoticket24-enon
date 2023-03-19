@@ -85,6 +85,7 @@ class Affiliate_WP_Campaigns_DB extends Affiliate_WP_DB {
 	 * Updates a campaign from a provided visit.
 	 *
 	 * @since 2.7
+	 * @since 2.12.0 Added visit url parameter to update_affiliate_campaign call.
 	 *
 	 * @param int|\AffWP\Visit $visit The visit to update against.
 	 *
@@ -110,27 +111,29 @@ class Affiliate_WP_Campaigns_DB extends Affiliate_WP_DB {
 			return false;
 		}
 
-		return $this->update_affiliate_campaign( $visit->affiliate_id, $visit->campaign );
+		return $this->update_affiliate_campaign( $visit->affiliate_id, $visit->campaign, $visit->url );
 	}
 
 	/**
 	 * Updates campaign data against an affiliate ID and campaign slug.
 	 *
 	 * @since 2.7
+	 * @since 2.12.0 Started to use $visit_url as optional parameter to take advantage of cache.
 	 *
-	 * @param int    $affiliate_id      The affiliate ID for this campaign.
-	 * @param string $campaign_slug     The campaign slug.
+	 * @param int    $affiliate_id The affiliate ID for this campaign.
+	 * @param string $campaign_slug The campaign slug.
+	 * @param string $visit_url The visit url.
 	 *
 	 * @return int|bool The campaign ID if successful, otherwise false.
 	 */
-	public function update_affiliate_campaign( $affiliate_id, $campaign_slug ) {
+	public function update_affiliate_campaign( int $affiliate_id, string $campaign_slug, string $visit_url = '' ) {
 		$campaign = affwp_get_affiliate_campaign( $affiliate_id, $campaign_slug );
 
 		$args = array(
 			'affiliate_id'  => $affiliate_id,
 			'campaign'      => $campaign_slug,
 			'referrals'     => $this->get_referral_count( $campaign_slug, $affiliate_id ),
-			'unique_visits' => $this->get_unique_visit_count( $campaign_slug, $affiliate_id ),
+			'unique_visits' => $this->get_unique_visit_count( $campaign_slug, $affiliate_id, $visit_url ),
 			'visits'        => $this->get_visit_count( $campaign_slug, $affiliate_id ),
 		);
 
@@ -321,20 +324,77 @@ class Affiliate_WP_Campaigns_DB extends Affiliate_WP_DB {
 	 * Retrieves the number of unique visits based on the provided URL.
 	 *
 	 * @since 2.7
+	 * @since 2.12.0 Added caching strategy.
+	 *
+	 * @param string $campaign The campaign slug.
+	 * @param int    $affiliate_id The affiliate ID for this campaign.
+	 * @param string $visit_url Visit url, if supplied caching will be considered.
 	 *
 	 * @return int The total number of unique visits for this campaign, and affiliate.
 	 */
-	public function get_unique_visit_count( $campaign, $affiliate_id ) {
-		global $wpdb;
-		$table = affiliate_wp()->visits->table_name;
-		$query = $wpdb->prepare( "SELECT COUNT(DISTINCT url) as total FROM {$table} WHERE `campaign`=%s AND `affiliate_id`=%d", $campaign, $affiliate_id );
-		$count = $wpdb->get_results( $query );
+	public function get_unique_visit_count( string $campaign, int $affiliate_id, string $visit_url = '' ) : int {
 
-		if ( empty( $count[0] ) ) {
-			return 0;
+		// Cache keys for get and set methods.
+		$cache_key_unique_urls = 'affwp_campaign_unique_urls_' . crc32( "{$affiliate_id}{$campaign}" );
+
+		// Are we using cache?
+		$cached_unique_urls = get_option( $cache_key_unique_urls );
+
+		// Cache or visit url not present not supplied, ensure we return the correct number.
+		if ( ! is_array( $cached_unique_urls ) || '' === $visit_url ) {
+
+			$table_name = affiliate_wp()->visits->table_name;
+
+			// Ensure that we are working with the correct tables.
+			if ( ! is_string( $table_name ) || ! strstr( $table_name, 'affiliate_wp_' ) ) {
+				return 0;
+			}
+
+			global $wpdb;
+
+			// Let's find how many unique urls we have for this campaign/affiliate.
+			$query = str_replace( '{table_name}', $wpdb->_real_escape( $table_name ), $wpdb->prepare(
+				"SELECT DISTINCT url FROM {table_name} WHERE `campaign`= %s AND `affiliate_id` = %d",
+				$campaign,
+				$affiliate_id
+			) );
+
+			// Return the urls items.
+			$campaign_urls = $wpdb->get_results( $query );
+
+			// Nothing to cache.
+			if ( ! is_array( $campaign_urls ) || empty( $campaign_urls[0] ) ) {
+				return 0;
+			}
+
+			// Filter URLs to prevent unwanted query params which can lead to high number of urls being cached.
+			$campaign_urls = array_map(
+				'affwp_get_filtered_url',
+				wp_list_pluck( $campaign_urls, 'url' )
+			);
+
+			// Let's cache the urls found for later use.
+			update_option( $cache_key_unique_urls, $campaign_urls, 'no' );
+
+			return count( $campaign_urls );
 		}
 
-		return (int) $count[0]->total;
+		// Recalculate number of unique urls found in cache plus the new visit url.
+		$unique_urls = array_unique(
+			array_merge(
+				$cached_unique_urls,
+				array(  affwp_get_filtered_url( $visit_url ) )
+			)
+		);
+
+		$count = count( $unique_urls );
+
+		// We have new visitor urls, need to update cache.
+		if ( count( $cached_unique_urls ) !== $count ) {
+			update_option( $cache_key_unique_urls, $unique_urls, 'no' );
+		}
+
+		return $count;
 	}
 
 	/**

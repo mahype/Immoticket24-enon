@@ -108,6 +108,7 @@ class API
                     'product' => BORLABS_COOKIE_SLUG,
                     'securityPatchesForExpiredLicenses' => !License::getInstance()->isLicenseValid(),
                     'securityPatchesForTestEnvironmentLicenses' => !empty(Config::getInstance()->get('testEnvironment')) ? '1' : '0',
+                    'twigConflict' => class_exists('Twig\Environment', false) ? '1' : '0', // Detects if the Twig class is present and can cause a future conflict
                     'version' => BORLABS_COOKIE_VERSION,
                 ],
             ]
@@ -168,6 +169,7 @@ class API
                     'network_url' => network_site_url(),
                     'php_version' => phpversion(), // Used to distinguish between >=7.4 and <7.4 builds
                     'product' => BORLABS_COOKIE_SLUG,
+                    'twigConflict' => class_exists('Twig\Environment', false) ? '1' : '0', // Detects if the Twig class is present and can cause a future conflict
                     'version' => BORLABS_COOKIE_VERSION,
                 ],
             ]

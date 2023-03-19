@@ -84,6 +84,13 @@ if ( $affiliate_wp_settings->get( 'uninstall_on_delete' ) ) {
 function affiliate_wp_uninstall_tables() {
 	global $wpdb;
 
+	/**
+	 * Filter the tables we delete on uninstall.
+	 *
+	 * @since 2.12.0
+	 *
+	 * @var [type]
+	 */
 	$db_segments = array(
 		'affiliate_wp_affiliates',
 		'affiliate_wp_affiliatemeta',
@@ -99,10 +106,15 @@ function affiliate_wp_uninstall_tables() {
 		'affiliate_wp_sales',
 		'affiliate_wp_visits',
 		'affiliate_wp_notifications',
+		'affiliate_wp_connections',
+		'affiliate_wp_groups',
 	);
 
 	// Remove all affwp_ options.
 	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'affwp\_%';" );
+
+	// Remove all affwp_ metadata from postmeta table.
+	$wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_key LIKE 'affwp\_%';" );
 
 	foreach ( $db_segments as $segment ) {
 		// Table.

@@ -42,6 +42,19 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 
 			</tr>
 
+			<?php
+
+			/**
+			 * Fires at the 2nd field of this form.
+			 *
+			 * @since 2.12.0
+			 *
+			 * @param \AffWP\Creative $creative The creative object.
+			 */
+			do_action( 'affwp_edit_creative_2nd', $creative );
+
+			?>
+
 			<tr class="form-row form-required">
 
 				<th scope="row">

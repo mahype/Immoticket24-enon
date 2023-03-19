@@ -85,7 +85,14 @@ class Affiliate_WP_Creatives {
 
 		ob_start();
 
-		$creatives = affiliate_wp()->creatives->get_creatives( $args );
+		/**
+		 * Filter the creatives shows on the screen.
+		 *
+		 * @since 2.12.0
+		 *
+		 * @param array $creatives The creatives.
+		 */
+		$creatives = apply_filters( 'affwp_creatives', affiliate_wp()->creatives->get_creatives( $args ) );
 
 		if ( $creatives ) {
 			foreach ( $creatives as $creative ) {

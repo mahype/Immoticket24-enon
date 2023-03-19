@@ -432,7 +432,7 @@ class Affiliate_WP_LearnDash extends Affiliate_WP_Base {
 	 *
 	 * @since   2.9.7
 	 * @return  array
-	*/
+	 */
 	public function get_products( $payment_id = 0 ) {
 		return learndash_transaction_get_payment_meta( $payment_id );
 	}
@@ -441,11 +441,17 @@ class Affiliate_WP_LearnDash extends Affiliate_WP_Base {
 	 * Retrieves the order total from the order.
 	 *
 	 * @since  2.9.7
+	 * @since  2.12.0 Check if the function exists before calling it.
 	 *
-	 * @param int $order
+	 * @param int $order The order ID.
 	 * @return float The order total for the current integration.
 	 */
 	public function get_order_total( $order = 0 ) {
+
+		if ( ! function_exists( 'learndash_transaction_get_final_price' ) ) {
+			return 0;
+		}
+
 		return learndash_transaction_get_final_price( $order );
 	}
 

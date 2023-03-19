@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Borlabs Cookie - Cookie Opt-in\n"
-"POT-Creation-Date: 2022-11-14 16:01+0100\n"
+"POT-Creation-Date: 2023-02-20 14:55+0100\n"
 "PO-Revision-Date: 2018-02-21 19:56+0100\n"
 "Last-Translator: Borlabs - Benjamin Bornschein <contact@borlabs.io>\n"
 "Language-Team: Borlabs - Benjamin Bornschein <contact@borlabs.io>\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 3.2\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: borlabs-cookie.php\n"
@@ -24,24 +24,24 @@ msgstr ""
 #: borlabs-cookie.php:102
 msgctxt "Backend / Global / Alert Message"
 msgid ""
-"Your PHP version is <a href=\"http://php.net/supported-versions.php\" rel="
-"\"nofollow noopener noreferrer\" target=\"_blank\">outdated</a> and not "
+"Your PHP version is <a href=\"http://php.net/supported-versions.php\" "
+"rel=\"nofollow noopener noreferrer\" target=\"_blank\">outdated</a> and not "
 "supported by Borlabs Cookie. Please disable Borlabs Cookie, upgrade to PHP "
 "7.2 or higher, and enable Borlabs Cookie again. It is necessary to follow "
 "these steps in the exact order described."
 msgstr ""
 
-#: classes/Cookie/API.php:271
+#: classes/Cookie/API.php:275
 msgctxt "Backend / API / Alert Message"
 msgid "License registered successfully."
 msgstr ""
 
-#: classes/Cookie/API.php:403
+#: classes/Cookie/API.php:416
 msgctxt "Backend / API / Alert Message"
 msgid "The request was blocked. Please try again later."
 msgstr ""
 
-#: classes/Cookie/API.php:409
+#: classes/Cookie/API.php:422
 msgctxt "Backend / API / Alert Message"
 msgid ""
 "Your license key is already being used by another website. Please visit <a "
@@ -50,25 +50,25 @@ msgid ""
 "your license."
 msgstr ""
 
-#: classes/Cookie/API.php:416
+#: classes/Cookie/API.php:429
 #, php-format
 msgctxt "Backend / API / Alert Message"
 msgid "The request to the API could not be validated. %s"
 msgstr ""
 
-#: classes/Cookie/API.php:423
+#: classes/Cookie/API.php:436
 msgctxt "Backend / API / Alert Message"
 msgid "Your license key is not valid."
 msgstr ""
 
-#: classes/Cookie/API.php:426
+#: classes/Cookie/API.php:439
 msgctxt "Backend / API / Alert Message"
 msgid ""
 "Your license key is not valid for this major version. Please upgrade your "
 "license key."
 msgstr ""
 
-#: classes/Cookie/API.php:434
+#: classes/Cookie/API.php:447
 #, php-format
 msgctxt "Backend / API / Alert Message"
 msgid "An error occurred. Please contact the support. %s"
@@ -212,7 +212,7 @@ msgstr ""
 #: classes/Cookie/Backend/ContentBlocker.php:284
 #: classes/Cookie/Backend/CookieBox.php:73
 #: classes/Cookie/Backend/CookieGroups.php:245
-#: classes/Cookie/Backend/Cookies.php:287
+#: classes/Cookie/Backend/Cookies.php:297
 #: classes/Cookie/Backend/License.php:122
 #: classes/Cookie/Backend/ScriptBlocker.php:226
 #: classes/Cookie/Backend/ScriptBlocker.php:242
@@ -223,7 +223,7 @@ msgstr ""
 
 #: classes/Cookie/Backend/ContentBlocker.php:264
 #: classes/Cookie/Backend/CookieGroups.php:262
-#: classes/Cookie/Backend/Cookies.php:304
+#: classes/Cookie/Backend/Cookies.php:314
 #: classes/Cookie/Backend/ScriptBlocker.php:259
 msgctxt "Backend / Global / Alert Message"
 msgid "Changed status successfully."
@@ -231,7 +231,7 @@ msgstr ""
 
 #: classes/Cookie/Backend/ContentBlocker.php:274
 #: classes/Cookie/Backend/CookieGroups.php:271
-#: classes/Cookie/Backend/Cookies.php:314
+#: classes/Cookie/Backend/Cookies.php:324
 #: classes/Cookie/Backend/ScriptBlocker.php:269
 msgctxt "Backend / Global / Alert Message"
 msgid "Deleted successfully."
@@ -270,7 +270,7 @@ msgstr ""
 
 #: classes/Cookie/Backend/ContentBlocker.php:959
 #: classes/Cookie/Backend/CookieGroups.php:720
-#: classes/Cookie/Backend/Cookies.php:934
+#: classes/Cookie/Backend/Cookies.php:944
 #: classes/Cookie/Backend/ScriptBlocker.php:782
 msgctxt "Backend / Global / Alert Message"
 msgid "Please fill out the field <strong>Name</strong>."
@@ -296,7 +296,7 @@ msgid ""
 msgstr ""
 
 #: classes/Cookie/Backend/CookieGroups.php:701
-#: classes/Cookie/Backend/Cookies.php:915
+#: classes/Cookie/Backend/Cookies.php:925
 #: classes/Cookie/Backend/ScriptBlocker.php:728
 msgctxt "Backend / Global / Alert Message"
 msgid ""
@@ -305,31 +305,39 @@ msgid ""
 msgstr ""
 
 #: classes/Cookie/Backend/CookieGroups.php:710
-#: classes/Cookie/Backend/Cookies.php:924
+#: classes/Cookie/Backend/Cookies.php:934
 #: classes/Cookie/Backend/ScriptBlocker.php:737
 msgctxt "Backend / Global / Alert Message"
 msgid "The <strong>ID</strong> already exists."
 msgstr ""
 
-#: classes/Cookie/Backend/Cookies.php:325
+#: classes/Cookie/Backend/Cookies.php:289
+msgctxt "Backend / Global / Alert Message"
+msgid ""
+"The <strong>Prioritize</strong> setting cannot be enabled because it cannot "
+"be combined with Content Blocker and Script Blocker functions. The setting "
+"was therefore disabled before saving."
+msgstr ""
+
+#: classes/Cookie/Backend/Cookies.php:335
 msgctxt "Backend / Cookies / Alert Message"
 msgid "Default <strong>Cookies</strong> successfully reset."
 msgstr ""
 
-#: classes/Cookie/Backend/Cookies.php:360
-#: classes/Cookie/Backend/Cookies.php:491
+#: classes/Cookie/Backend/Cookies.php:370
+#: classes/Cookie/Backend/Cookies.php:501
 msgctxt "Backend / Cookies / Alert Message"
 msgid "Selected <strong>Cookie Group</strong> does not exist."
 msgstr ""
 
-#: classes/Cookie/Backend/Cookies.php:411
+#: classes/Cookie/Backend/Cookies.php:421
 msgctxt "Backend / Cookies / Alert Message"
 msgid ""
 "The selected <strong>Cookie</strong> is not available in the current "
 "language. The data of the original <strong>Cookie</strong> was cloned."
 msgstr ""
 
-#: classes/Cookie/Backend/Cookies.php:429
+#: classes/Cookie/Backend/Cookies.php:439
 msgctxt "Backend / Cookies / Alert Message"
 msgid ""
 "<strong>Cookie Group</strong> of selected <strong>Cookie</strong> is not "
@@ -394,8 +402,9 @@ msgctxt "Backend / License / Alert Message"
 msgid ""
 "You can not find your license key? No problem! <a href=\"https://borlabs.io/"
 "account/?utm_source=Borlabs+Cookie&amp;utm_medium=Account+Link&amp;"
-"utm_campaign=Analysis\" rel=\"nofollow noopener noreferrer\" target=\"_blank"
-"\">Click here</a> and log in to your account to get your license key."
+"utm_campaign=Analysis\" rel=\"nofollow noopener noreferrer\" "
+"target=\"_blank\">Click here</a> and log in to your account to get your "
+"license key."
 msgstr ""
 
 #: classes/Cookie/Backend/License.php:257
@@ -523,8 +532,8 @@ msgstr ""
 msgctxt "Backend / System Check / Alert Message"
 msgid ""
 "The folder <strong>/%s</strong> is not writable. Please set the right "
-"permissions. See <a href=\"https://borlabs.io/folder-permissions/\" rel="
-"\"nofollow noopener noreferrer\" target=\"_blank\">FAQ</a>."
+"permissions. See <a href=\"https://borlabs.io/folder-permissions/\" "
+"rel=\"nofollow noopener noreferrer\" target=\"_blank\">FAQ</a>."
 msgstr ""
 
 #: classes/Cookie/Backend/SystemCheck.php:252
@@ -532,8 +541,8 @@ msgstr ""
 msgctxt "Backend / System Check / Alert Message"
 msgid ""
 "The folder <strong>/%s/cache</strong> is not writable. Please set the right "
-"permissions. See <a href=\"https://borlabs.io/folder-permissions/\" rel="
-"\"nofollow noopener noreferrer\" target=\"_blank\">FAQ</a>."
+"permissions. See <a href=\"https://borlabs.io/folder-permissions/\" "
+"rel=\"nofollow noopener noreferrer\" target=\"_blank\">FAQ</a>."
 msgstr ""
 
 #: classes/Cookie/Backend/SystemCheck.php:278
@@ -590,8 +599,8 @@ msgstr ""
 #, php-format
 msgctxt "Backend / Global / Alert Message"
 msgid ""
-"Your PHP version %s is <a href=\"http://php.net/supported-versions.php\" rel="
-"\"nofollow noopener noreferrer\" target=\"_blank\">outdated</a>."
+"Your PHP version %s is <a href=\"http://php.net/supported-versions.php\" "
+"rel=\"nofollow noopener noreferrer\" target=\"_blank\">outdated</a>."
 msgstr ""
 
 #: classes/Cookie/Backend/SystemCheck.php:607
@@ -656,8 +665,8 @@ msgstr ""
 #: classes/Cookie/Config.php:198
 msgctxt "Frontend / Cookie Box / Text"
 msgid ""
-"You can find more information about the use of your data in our <a class="
-"\"_brlbs-cursor\" href=\"{privacyPageURL}\">privacy policy</a>."
+"You can find more information about the use of your data in our <a "
+"class=\"_brlbs-cursor\" href=\"{privacyPageURL}\">privacy policy</a>."
 msgstr ""
 
 #: classes/Cookie/Config.php:204
@@ -1757,9 +1766,9 @@ msgstr ""
 #: classes/Cookie/Frontend/Services/Matomo.php:83
 msgctxt "Backend / Cookie / Matomo / Tips / Text"
 msgid ""
-"<a href=\"https://matomo.org/faq/general/faq_19212/\" target=\"_blank\" rel="
-"\"nofollow noopener noreferrer\" class=\"text-light\">More information about "
-"Matomo Site ID <i class=\"fas fa-external-link-alt\"></i></a>."
+"<a href=\"https://matomo.org/faq/general/faq_19212/\" target=\"_blank\" "
+"rel=\"nofollow noopener noreferrer\" class=\"text-light\">More information "
+"about Matomo Site ID <i class=\"fas fa-external-link-alt\"></i></a>."
 msgstr ""
 
 #: classes/Cookie/Frontend/Services/Matomo.php:104
@@ -2400,9 +2409,9 @@ msgctxt "Backend / Content Blocker / Tooltip"
 msgid ""
 "This HTML will be used as the preview of the blocked content. You can use "
 "the variable <strong><em>%%name%%</em></strong> to display the name of the "
-"<strong>Content Blocker</strong>. You can also use the variable <strong><em>"
-"%%privacy_policy_url%%</em></strong> to display the <strong>Privacy Policy "
-"URL</strong> of the <strong>Content Blocker</strong>."
+"<strong>Content Blocker</strong>. You can also use the variable "
+"<strong><em>%%privacy_policy_url%%</em></strong> to display the "
+"<strong>Privacy Policy URL</strong> of the <strong>Content Blocker</strong>."
 msgstr ""
 
 #: templates/content-blocker-edit.html.php:232
@@ -5022,8 +5031,9 @@ msgstr ""
 #: templates/dashboard.html.php:124
 msgctxt "Backend / Dashboard / URL"
 msgid ""
-"https://borlabs.io/kb/introduction-borlabs-cookie-2-0/?utm_source=Borlabs"
-"+Cookie&amp;utm_medium=Dashboard+Video&amp;utm_campaign=Analysis"
+"https://borlabs.io/kb/introduction-borlabs-cookie-2-0/?"
+"utm_source=Borlabs+Cookie&amp;utm_medium=Dashboard+Video&amp;"
+"utm_campaign=Analysis"
 msgstr ""
 
 #: templates/dashboard.html.php:126
@@ -5096,6 +5106,42 @@ msgstr ""
 #: templates/footer.html.php:24
 msgctxt "Backend / Global / Text"
 msgid "Delete"
+msgstr ""
+
+#: templates/footer.html.php:35 templates/improve-borlabs-cookie.html.php:3
+msgctxt "Backend / Telemetry / Table Headline"
+msgid "Improve Borlabs Cookie"
+msgstr ""
+
+#: templates/footer.html.php:46 templates/improve-borlabs-cookie.html.php:6
+msgctxt "Backend / Telemetry / Text"
+msgid ""
+"Help us improve Borlabs Cookie by providing us with non-personal information "
+"about your website."
+msgstr ""
+
+#: templates/footer.html.php:49 templates/improve-borlabs-cookie.html.php:9
+#, php-format
+msgctxt "Backend / Telemetry / Text"
+msgid ""
+"For more information about what data we need and for what purpose, <a "
+"href=\"%s\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">click "
+"here <i class=\"fas fa-external-link-alt\"></i></a>."
+msgstr ""
+
+#: templates/footer.html.php:50 templates/improve-borlabs-cookie.html.php:10
+msgctxt "Backend / Telemetry / URL"
+msgid "https://borlabs.io/borlabs-cookie/telemetry/"
+msgstr ""
+
+#: templates/footer.html.php:57
+msgctxt "Backend / Global / Button Title"
+msgid "No, I do not want to help"
+msgstr ""
+
+#: templates/footer.html.php:58
+msgctxt "Backend / Global / Text"
+msgid "Yes, I would like to help"
 msgstr ""
 
 #: templates/header.html.php:13
@@ -5183,8 +5229,8 @@ msgstr ""
 #: templates/help.html.php:46
 msgctxt "Backend / Help / URL"
 msgid ""
-"https://borlabs.io/kb/how-to-test-your-website/?utm_source=Borlabs"
-"+Cookie&utm_medium=Support+Link&utm_campaign=Analysis"
+"https://borlabs.io/kb/how-to-test-your-website/?"
+"utm_source=Borlabs+Cookie&utm_medium=Support+Link&utm_campaign=Analysis"
 msgstr ""
 
 #: templates/help.html.php:47
@@ -5202,8 +5248,8 @@ msgstr ""
 #: templates/help.html.php:51 templates/help.html.php:72
 msgctxt "Backend / Help / URL"
 msgid ""
-"https://borlabs.io/support/?utm_source=Borlabs+Cookie&utm_medium=Support"
-"+Link&utm_campaign=Analysis"
+"https://borlabs.io/support/?"
+"utm_source=Borlabs+Cookie&utm_medium=Support+Link&utm_campaign=Analysis"
 msgstr ""
 
 #: templates/help.html.php:51 templates/help.html.php:72
@@ -5372,32 +5418,6 @@ msgstr ""
 #: templates/import-export.html.php:115
 msgctxt "Backend / Import Export / Tooltip"
 msgid "Copy this to export your <strong>Script Blocker</strong> data."
-msgstr ""
-
-#: templates/improve-borlabs-cookie.html.php:3
-msgctxt "Backend / Telemetry / Table Headline"
-msgid "Improve Borlabs Cookie"
-msgstr ""
-
-#: templates/improve-borlabs-cookie.html.php:6
-msgctxt "Backend / Telemetry / Text"
-msgid ""
-"Help us improve Borlabs Cookie by providing us with non-personal information "
-"about your website."
-msgstr ""
-
-#: templates/improve-borlabs-cookie.html.php:9
-#, php-format
-msgctxt "Backend / Telemetry / Text"
-msgid ""
-"For more information about what data we need and for what purpose, <a href="
-"\"%s\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">click here <i "
-"class=\"fas fa-external-link-alt\"></i></a>."
-msgstr ""
-
-#: templates/improve-borlabs-cookie.html.php:10
-msgctxt "Backend / Telemetry / URL"
-msgid "https://borlabs.io/borlabs-cookie/telemetry/"
 msgstr ""
 
 #: templates/improve-borlabs-cookie.html.php:14
@@ -5973,8 +5993,8 @@ msgstr ""
 #: templates/script-blocker-wizard-step-2.html.php:33
 msgctxt "Backend / Script Blocker / Alert Message"
 msgid ""
-"The website could not be scanned. Please <a href=\"#\" target=\"_blank\" rel="
-"\"noopener noreferrer\">click here</a> to scan the website manually. Use "
+"The website could not be scanned. Please <a href=\"#\" target=\"_blank\" "
+"rel=\"noopener noreferrer\">click here</a> to scan the website manually. Use "
 "incognito mode. After your website has loaded, return to this window."
 msgstr ""
 
@@ -6619,8 +6639,8 @@ msgstr ""
 #: templates/settings.html.php:915
 msgctxt "Backend / Settings / Tips / URL"
 msgid ""
-"https://borlabs.io/kb/set-up-cross-domain-cookie/?utm_source=Borlabs"
-"+Cookie&utm_medium=Cross+Domain+Cookie+Link&utm_campaign=Analysis"
+"https://borlabs.io/kb/set-up-cross-domain-cookie/?"
+"utm_source=Borlabs+Cookie&utm_medium=Cross+Domain+Cookie+Link&utm_campaign=Analysis"
 msgstr ""
 
 #: templates/settings.html.php:922

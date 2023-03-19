@@ -175,7 +175,20 @@ class AffWP_Creatives_Table extends List_Table {
 				break;
 		}
 
-		return $value;
+		/**
+		 * Filters the default value for each creatives list table column.
+		 *
+		 * @since 2.12.0 This was missing in 2.11.0+ but is present in e.g.
+		 *               `affiliates/class-list-table.php` so added similar one here.
+		 *
+		 * This dynamic filter is appended with a suffix of the column name, for example:
+		 *
+		 *     `affwp_creative_table_referrals`
+		 *
+		 * @param string           $value     The column data.
+		 * @param \AffWP\Affiliate $creative The current creative object
+		 */
+		return apply_filters( 'affwp_creative_table_' . $column_name, $value, $creative );
 	}
 
 	/**

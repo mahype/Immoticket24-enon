@@ -167,9 +167,6 @@ function affwp_admin_styles() {
 	// Dashicons and our main admin CSS need to be on all pages for the menu icon
 	wp_enqueue_style( 'affwp-admin', AFFILIATEWP_PLUGIN_URL . 'assets/css/admin' . $suffix . '.css', array( 'dashicons' ), AFFILIATEWP_VERSION );
 
-	// Register select2 CSS.
-	wp_register_style( 'affwp-select2', AFFILIATEWP_PLUGIN_URL . 'assets/css/select2' . $suffix . '.css', array(), AFFILIATEWP_VERSION );
-
 	if( ! affwp_is_admin_page() ) {
 		return;
 	}
@@ -229,9 +226,6 @@ function affwp_enqueue_admin_js() {
 		'view_affiliate'           => __( 'View Affiliate', 'affiliate-wp' ),
 	) );
 
-	// Register select2 JS lib.
-	wp_register_script( 'affwp-select2', AFFILIATEWP_PLUGIN_URL . 'assets/js/select2' . $suffix . '.js', array( 'jquery' ), AFFILIATEWP_VERSION );
-
 	// Alpine and in-plugin notifcations.
 	wp_register_script( 'alpinejs', AFFILIATEWP_PLUGIN_URL . 'assets/js/alpine.min.js', array(), '3.4.2', false );
 	wp_register_script( 'affwp-admin-notifications', AFFILIATEWP_PLUGIN_URL . 'assets/js/admin-notifications.js', array( 'alpinejs' ), AFFILIATEWP_VERSION, false );
@@ -239,6 +233,27 @@ function affwp_enqueue_admin_js() {
 	// Addons page.
 	wp_register_script( 'affwp_admin_addons', AFFILIATEWP_PLUGIN_URL . "assets/js/admin-addons{$suffix}.js", array( 'jquery' ), AFFILIATEWP_VERSION );
 }
+
+/**
+ * Global scripts.
+ *
+ * These scripts will always be registered for both
+ * frontend and backend use.
+ *
+ * @since  2.12.0
+ */
+function affwp_register_global_scripts() {
+
+	$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+
+	// Register select2 CSS.
+	wp_register_style( 'affwp-select2', AFFILIATEWP_PLUGIN_URL . 'assets/css/select2' . $suffix . '.css', array(), AFFILIATEWP_VERSION );
+
+	// Register select2 JS lib.
+	wp_register_script( 'affwp-select2', AFFILIATEWP_PLUGIN_URL . 'assets/js/select2' . $suffix . '.js', array( 'jquery' ), AFFILIATEWP_VERSION, false );
+}
+add_action( 'wp_enqueue_scripts', 'affwp_register_global_scripts' );
+add_action( 'admin_enqueue_scripts', 'affwp_register_global_scripts' );
 
 /**
  *  Load the frontend scripts and styles

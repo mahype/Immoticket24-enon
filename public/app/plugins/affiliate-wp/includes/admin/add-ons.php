@@ -65,6 +65,59 @@ function affwp_add_ons_admin() {
 			);
 		endif;
 
+		affwp_addons_layout( $license_type );
+
+		?>
+
+	</div>
+
+	<?php
+
+	echo ob_get_clean();
+}
+
+/**
+ * Gets the Addons page layout based on AffiliateWP version.
+ *
+ * @since 2.12.2
+ *
+ * @param string $license_type License type.
+ *
+ * @return void
+ */
+function affwp_addons_layout( $license_type ) {
+
+		ob_start();
+
+		// In 2.12.2 we switched to use 'personal', 'plus', and 'professional' categories.
+		if ( defined( 'AFFILIATEWP_VERSION' ) && version_compare( AFFILIATEWP_VERSION, '2.12.1', '>' ) ) :
+			if ( empty( $license_type ) ) :
+
+				affwp_display_addons( [ 'personal', 'plus', 'professional' ] );
+
+			elseif ( 'personal' === $license_type ) :
+
+				affwp_display_addons( [ 'personal' ] );
+				affwp_display_unlock_features();
+				affwp_display_addons( [ 'plus', 'professional' ] );
+
+			elseif ( 'plus' === $license_type ) :
+
+				affwp_display_addons( [ 'personal', 'plus' ] );
+				affwp_display_unlock_features();
+				affwp_display_addons( [ 'professional' ] );
+
+			elseif ( 'professional' === $license_type || 'ultimate' === $license_type ) :
+
+				affwp_display_addons( [ 'personal', 'plus', 'professional' ] );
+
+			endif;
+
+			echo ob_get_clean();
+			return;
+		endif;
+
+		// For previous versions, use 'official-free' or 'pro'.
 		if ( empty( $license_type ) ) :
 
 			affwp_display_addons( [ 'official-free', 'pro' ] );
@@ -80,14 +133,7 @@ function affwp_add_ons_admin() {
 			affwp_display_addons( [ 'official-free', 'pro' ] );
 
 		endif;
-
-		?>
-
-	</div>
-
-	<?php
-
-	echo ob_get_clean();
+		echo ob_get_clean();
 }
 
 /**
@@ -132,15 +178,15 @@ function affwp_add_ons_get_feed( $update = false ) {
  * @since 2.9.6
  */
 function affwp_display_unlock_features() {
-	/* translators: 1: Unlock more features heading 2: AffiliateWP.com account page URL, 3: Descriptive text, 4: Upgrade link to be displayed, 5: Additional descriptive text */
+	/* translators: 1: Unlock more features heading 2: AffiliateWP.com account downloads page URL, 3: Descriptive text, 4: Upgrade link to be displayed, 5: Additional descriptive text */
 	echo wp_kses(
 		sprintf(
 			'<div class="unlock-msg"><h4>%1$s</h4><p>%3$s<a href="%2$s" target="_blank" rel="noopener noreferrer">%4$s</a>%5$s</p></div>',
 			esc_html__( 'Unlock More Features...', 'affiliate-wp' ),
-			esc_url( 'https://affiliatewp.com/account/?utm_source=WordPress&amp;utm_campaign=plugin&amp;utm_medium=addons&amp;utm_content=unlock-msg' ),
+			esc_url( 'https://affiliatewp.com/account/downloads/?utm_source=WordPress&amp;utm_campaign=plugin&amp;utm_medium=addons&amp;utm_content=unlock-msg' ),
 			__( 'Want to get even more features? ', 'affiliate-wp' ),
 			__( 'Upgrade your AffiliateWP account', 'affiliate-wp' ),
-			__( ' and unlock the following extensions.', 'affiliate-wp' )
+			__( ' and unlock the following addons.', 'affiliate-wp' )
 		),
 		[
 			'div' => [
@@ -173,6 +219,12 @@ function affwp_display_addons( $category ) {
 	if ( false === $cache ) {
 		return;
 	}
+
+	$status = affiliate_wp()->settings->get( 'license_status', '' );
+
+	$status = ( is_object( $status ) && isset( $status->license ) )
+		? $status->license
+		: $status;
 
 	ob_start();
 
@@ -208,6 +260,12 @@ function affwp_display_addons( $category ) {
 			<div class="affwp-addon-action">
 				<?php if ( isset( $addon['action'] ) && $addon['action'] === 'upgrade' ):  ?>
 					<a href="<?php echo esc_url( $addon['upgrade_url'] );?>" class="button-primary" target="_blank" rel="noopener noreferrer">Upgrade Now</a>
+				<?php elseif ( ! empty( $status ) && 'expired' === $status && isset( $addon['action'] ) && $addon['action'] === 'install' ) : ?>
+					<p class="affwp-status">Status:
+						<span class="affwp-status-<?php echo esc_attr( $addon['status'] ); ?>">
+							<?php echo esc_html( $addon['status_label'] ); ?>
+						</span>
+					</p>
 				<?php else : ?>
 					<p class="affwp-status">Status:
 						<span class="affwp-status-<?php echo esc_attr( $addon['status'] ); ?>">
@@ -264,6 +322,7 @@ function affwp_get_addon_status( $path ) {
  * Determine if user's license level has access.
  *
  * @since 2.9.6
+ * @since 2.12.2 Added support for new categories.
  *
  * @param string $category Addon category.
  *
@@ -283,12 +342,27 @@ function affwp_has_access( $category ) {
 	$license_type = strtolower( ( new License_Data() )->get_license_type( $license_id ) );
 
 	// Professional and Ultimate license types have access to all addons.
-	if ( in_array( $license_type, array( 'professional', 'ultimate' ) ) ) {
+	if ( in_array( $license_type, array( 'professional', 'ultimate' ), true ) ) {
 		return true;
 	}
 
-	// Personal and Plug license types have access if it's an 'official-free' addon.
-	if ( in_array( $license_type, array( 'personal', 'plus' ) ) && 'official-free' === $category ) {
+	// In 2.12.2 we switched to use 'personal', 'plus', and 'professional' categories.
+	if ( defined( 'AFFILIATEWP_VERSION' ) && version_compare( AFFILIATEWP_VERSION, '2.12.1', '>' ) ) {
+
+		// Personal license types have access to 'personal' addons.
+		if ( in_array( $license_type, array( 'personal' ), true ) && 'personal' === $category ) {
+			return true;
+		}
+
+		// Plus license types have access to both 'personal' and 'plus' addons.
+		if ( in_array( $license_type, array( 'plus' ), true ) && ( 'personal' === $category || 'plus' === $category ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	// For previous Core versions, Personal and Plus license types have access to 'official-free' addons.
+	if ( in_array( $license_type, array( 'personal', 'plus' ), true ) && 'official-free' === $category ) {
 		return true;
 	}
 
@@ -309,7 +383,7 @@ function affwp_set_addon_path( $slug ) {
 	// Plugin paths that use 'affwp' instead of 'affiliatewp'.
 	if ( in_array( $slug, array(
 		'affiliate-dashboard-sharing',
-	) ) ) {
+	), true ) ) {
 		return sprintf( 'affiliatewp-%1$s/affwp-%1$s.php', $slug );
 	}
 
@@ -318,7 +392,7 @@ function affwp_set_addon_path( $slug ) {
 		'lifetime-commissions',
 		'paypal-payouts',
 		'recurring-referrals',
-	) ) ) {
+	), true ) ) {
 		return sprintf( 'affiliate-wp-%1$s/affiliate-wp-%1$s.php', str_replace( '-for-affiliatewp', '', $slug ) );
 	}
 
@@ -326,25 +400,50 @@ function affwp_set_addon_path( $slug ) {
 	if ( in_array( $slug, array(
 		'affiliate-forms-for-ninja-forms',
 		'affiliate-forms-for-gravity-forms',
-	) ) ) {
+	), true ) ) {
 		return sprintf( 'affiliatewp-%1$s/affiliatewp-%1$s.php', str_replace( 'for-', '', $slug ) );
 	}
 
 	// Plugins paths without the '-for-affiliatewp'.
 	if ( in_array( $slug, array(
 		'zapier-for-affiliatewp',
-	) ) ) {
+	), true ) ) {
 		return sprintf( 'affiliatewp-%1$s/affiliatewp-%1$s.php', str_replace( '-for-affiliatewp', '', $slug ) );
 	}
 
 	// Plugins paths without the '-notifications'.
 	if ( in_array( $slug, array(
 		'pushover-notifications',
-	) ) ) {
+	), true ) ) {
 		return sprintf( 'affiliate-wp-%1$s/affiliate-wp-%1$s.php', str_replace( '-notifications', '', $slug ) );
 	}
 
 	return sprintf( 'affiliatewp-%1$s/affiliatewp-%1$s.php', $slug );
+}
+
+/**
+ * Set addon category.
+ *
+ * @since 2.12.2
+ *
+ * @param array $categories Addon categories.
+ *
+ * @return string Return addon's primary category.
+ */
+function affwp_set_addon_category( $categories ) {
+	// In 2.12.2 we switched to use 'personal', 'plus', and 'professional' categories.
+	if ( defined( 'AFFILIATEWP_VERSION' ) && version_compare( AFFILIATEWP_VERSION, '2.12.1', '>' ) ) {
+		if ( in_array( 'personal', $categories, true ) ) {
+			return 'personal';
+		}
+		if ( in_array( 'plus', $categories, true ) ) {
+			return 'plus';
+		}
+		return 'professional';
+	}
+
+	// For previous versions, use 'official-free' or 'pro'.
+	return in_array( 'pro', $categories, true ) ? 'pro' : 'official-free';
 }
 
 /**
@@ -363,7 +462,9 @@ function affwp_prepare_addon_data( $addon ) {
 	}
 
 	$slug     = isset( $addon['slug'] ) ? $addon['slug'] : '';
-	$category = in_array( 'pro', $addon['category'] ) ? 'pro' : 'official-free';
+	$category = isset( $addon['category'] ) && is_array( $addon['category'] ) ?
+		affwp_set_addon_category( $addon['category'] ) :
+		affwp_set_addon_category( array() );
 
 	// Set up UTM params.
 	$utm_content = isset( $addon['title'] ) ? urlencode( $addon['title'] ) : '';
@@ -381,7 +482,7 @@ function affwp_prepare_addon_data( $addon ) {
 		'plugin_allow' => affwp_has_access( $category ),
 		'slug'         => $slug,
 		'category'     => $category,
-		'upgrade_url'  => sprintf( '%1$s%2$s', esc_url( "https://affiliatewp.com/account/" ), $utm ),
+		'upgrade_url'  => sprintf( '%1$s%2$s', esc_url( "https://affiliatewp.com/account/downloads/" ), $utm ),
 		// Defaults.
 		'status'       => 'missing',
 		'status_label' => __( 'Not Installed', 'affiliate-wp' ),
@@ -610,9 +711,9 @@ function affwp_enqueue_assets() {
 				]
 			),
 			'error_could_not_install'    => wp_kses(
-				sprintf( /* translators: %s - Plugin download URL. */
+				sprintf( /* translators: %s - AffiliateWP downloads URL. */
 					__( 'Could not install the plugin automatically. Please <a href="%s" target="_blank" rel="noopener noreferrer">download</a> it and install it manually.', 'affiliate-wp' ),
-					esc_url( 'https://affiliatewp.com/account/?utm_source=WordPress&amp;utm_campaign=plugin&amp;utm_medium=addons&amp;utm_content=addon-page-error' )
+					esc_url( 'https://affiliatewp.com/account/downloads/?utm_source=WordPress&amp;utm_campaign=plugin&amp;utm_medium=addons&amp;utm_content=addon-page-error' )
 				),
 				array(
 					'a' => array(

@@ -42,7 +42,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.11.1';
+	private $version = '2.12.2';
 
 	/**
 	 * Main plugin file.
@@ -424,6 +424,9 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affiliates-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-payouts-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-coupons-db.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-creatives-categories.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-connections-db.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-groups-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-sales-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-capabilities.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-utilities.php';
@@ -559,35 +562,46 @@ final class Affiliate_WP {
 	/**
 	 * Setup all objects
 	 *
+	 * phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
+	 * phpcs:disable Generic.Formatting.MultipleStatementAlignment.NotSameWarning
+	 *     Here we don't want to align these, otherwise we constantly have to re-align them
+	 *     anytime we add something new, changing un-necessary code.
+	 *
+	 * phpcs:disable WordPress.Classes.ClassInstantiation.MissingParenthesis
+	 *     Not a style we use consistently in this class (though we should).
+	 *
 	 * @access public
 	 * @since 1.6.2
 	 * @return void
 	 */
 	public function setup_objects() {
 
-		self::$instance->affiliates     = new Affiliate_WP_DB_Affiliates;
+		self::$instance->affiliates = new Affiliate_WP_DB_Affiliates;
 		self::$instance->affiliate_meta = new Affiliate_WP_Affiliate_Meta_DB;
-		self::$instance->referrals      = new Affiliate_WP_Referrals_DB;
-		self::$instance->referral_meta  = new Affiliate_WP_Referral_Meta_DB;
-		self::$instance->visits         = new Affiliate_WP_Visits_DB;
-		self::$instance->customers      = new Affiliate_WP_Customers_DB;
-		self::$instance->customer_meta  = new Affiliate_WP_Customer_Meta_DB;
-		self::$instance->campaigns      = new Affiliate_WP_Campaigns_DB;
-		self::$instance->settings       = new Affiliate_WP_Settings;
-		self::$instance->REST           = new Affiliate_WP_REST;
-		self::$instance->tracking       = new Affiliate_WP_Tracking;
-		self::$instance->templates      = new Affiliate_WP_Templates;
-		self::$instance->login          = new Affiliate_WP_Login;
-		self::$instance->register       = new Affiliate_WP_Register;
-		self::$instance->integrations   = new Affiliate_WP_Integrations;
-		self::$instance->emails         = new Affiliate_WP_Emails;
-		self::$instance->creatives      = new Affiliate_WP_Creatives_DB;
-		self::$instance->creative       = new Affiliate_WP_Creatives;
-		self::$instance->rewrites       = new Affiliate_WP_Rewrites;
-		self::$instance->capabilities   = new Affiliate_WP_Capabilities;
-		self::$instance->utils          = new Affiliate_WP_Utilities;
-		self::$instance->editor         = new Affiliate_WP_Editor;
-		self::$instance->notifications  = new Notifications\Notifications_DB();
+		self::$instance->connections = new AffiliateWP\Connections\DB();
+		self::$instance->referrals = new Affiliate_WP_Referrals_DB;
+		self::$instance->referral_meta = new Affiliate_WP_Referral_Meta_DB;
+		self::$instance->visits = new Affiliate_WP_Visits_DB;
+		self::$instance->customers = new Affiliate_WP_Customers_DB;
+		self::$instance->customer_meta = new Affiliate_WP_Customer_Meta_DB;
+		self::$instance->campaigns = new Affiliate_WP_Campaigns_DB;
+		self::$instance->settings = new Affiliate_WP_Settings;
+		self::$instance->REST = new Affiliate_WP_REST;
+		self::$instance->tracking = new Affiliate_WP_Tracking;
+		self::$instance->templates = new Affiliate_WP_Templates;
+		self::$instance->login = new Affiliate_WP_Login;
+		self::$instance->register = new Affiliate_WP_Register;
+		self::$instance->integrations = new Affiliate_WP_Integrations;
+		self::$instance->emails = new Affiliate_WP_Emails;
+		self::$instance->creatives = new Affiliate_WP_Creatives_DB;
+		self::$instance->creative = new Affiliate_WP_Creatives;
+		self::$instance->creative_categories = new AffiliateWP\Creatives\Categories();
+		self::$instance->rewrites = new Affiliate_WP_Rewrites;
+		self::$instance->capabilities = new Affiliate_WP_Capabilities;
+		self::$instance->utils = new Affiliate_WP_Utilities;
+		self::$instance->editor = new Affiliate_WP_Editor;
+		self::$instance->groups = new AffiliateWP\Groups\DB();
+		self::$instance->notifications = new Notifications\Notifications_DB();
 
 		// Onboarding wizard.
 		new Wizard\Bootstrap();

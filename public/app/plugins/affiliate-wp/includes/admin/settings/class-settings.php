@@ -39,6 +39,10 @@ class Affiliate_WP_Settings {
 
 		$this->options = get_option( 'affwp_settings', array() );
 
+		if ( ! is_array( $this->options ) ) {
+			$this->options = array();
+		}
+
 		// Set up.
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_init', array( $this, 'activate_license' ) );
@@ -128,6 +132,15 @@ class Affiliate_WP_Settings {
 	 * @return bool If `$save` is not false, whether the options were saved successfully. True otherwise.
 	 */
 	public function set( $settings, $save = false ) {
+
+		if ( ! is_array( $settings ) ) {
+			$settings = array();
+		}
+
+		if ( ! is_array( $this->options ) ) {
+			$this->options = array();
+		}
+
 		foreach ( $settings as $option => $value ) {
 			$this->options[ $option ] = $value;
 		}
@@ -1822,6 +1835,11 @@ class Affiliate_WP_Settings {
 	 * @access public
 	 */
 	public function handle_global_license_setting() {
+
+		if ( ! is_array( $this->options ) ) {
+			$this->options = array();
+		}
+
 		if ( self::global_license_set() ) {
 			$this->options['license_key'] = self::get_license_key();
 

@@ -71,6 +71,33 @@ class Dashboard
 
         $inputTelemetryStatus = get_option('BorlabsCookieTelemetryStatus', false) ? 1 : 0;
         $switchTelemetryStatus = $inputTelemetryStatus ? ' active' : '';
+        $showTelemetryModal = false;
+
+        if ($inputTelemetryStatus === 0 && License::getInstance()->isLicenseValid()) {
+            $lastTimeDisplayTelemetryModal = (int) get_option('BorlabsCookieShowTelemetryModal', 0);
+            $lastTimeDisplayTelemetryModal7d = (int) get_option('BorlabsCookieShowTelemetryModal7d', 0);
+            $lastTimeDisplayTelemetryModal14d = (int) get_option('BorlabsCookieShowTelemetryModal14d', 0);
+
+            if (
+                $lastTimeDisplayTelemetryModal === 0
+                || $lastTimeDisplayTelemetryModal < date('Ymd', mktime(date('H'), date('i'), date('s'), date('m') - 3, date('d')))
+            ) {
+                $showTelemetryModal = true;
+                update_option('BorlabsCookieShowTelemetryModal', date('Ymd'), 'no');
+            } elseif (
+                $lastTimeDisplayTelemetryModal7d === 0
+                && $lastTimeDisplayTelemetryModal < date('Ymd', strtotime('-7 days'))
+            ) {
+                $showTelemetryModal = true;
+                update_option('BorlabsCookieShowTelemetryModal7d', date('Ymd'), 'no');
+            } elseif (
+                $lastTimeDisplayTelemetryModal14d === 0
+                && $lastTimeDisplayTelemetryModal < date('Ymd', strtotime('-14 days'))
+            ) {
+                $showTelemetryModal = true;
+                update_option('BorlabsCookieShowTelemetryModal14d', date('Ymd'), 'no');
+            }
+        }
 
         $borlabsCookieStatus = Config::getInstance()->get('cookieStatus');
         $cookieVersion = esc_html(get_site_option('BorlabsCookieCookieVersion', 1));

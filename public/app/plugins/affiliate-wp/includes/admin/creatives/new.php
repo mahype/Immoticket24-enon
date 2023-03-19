@@ -41,6 +41,17 @@
 
 			</tr>
 
+			<?php
+
+			/**
+			 * Fires in the 2nd field placement on this form.
+			 *
+			 * @since 2.12.0
+			 */
+			do_action( 'affwp_new_creative_2nd' );
+
+			?>
+
 			<tr class="form-row form-required">
 
 				<th scope="row">

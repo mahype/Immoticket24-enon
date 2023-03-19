@@ -239,11 +239,17 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	 *
 	 * @access public
 	 * @since  2.5
+	 * @since  2.12.0 Check if the function exists before calling it.
 	 *
-	 * @param int $order
+	 * @param int $order The order ID.
 	 * @return float The order total for the current integration.
 	 */
 	public function get_order_total( $order = 0 ) {
+
+		if ( ! function_exists( 'edd_get_payment_amount' ) ) {
+			return 0;
+		}
+
 		return edd_get_payment_amount( $order );
 	}
 
