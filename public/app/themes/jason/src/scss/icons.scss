@@ -43,6 +43,12 @@
     padding-left: 20px;
 }
 
+label[for=edd_custom_fee_premium_bewertung] {
+	background-image: url('../img/icons/neu.png');
+	background-repeat: no-repeat;
+	padding: 5px 0 5px 50px;
+}
+
 @include lg {
     .icon-bulb {
         height: 42px;
