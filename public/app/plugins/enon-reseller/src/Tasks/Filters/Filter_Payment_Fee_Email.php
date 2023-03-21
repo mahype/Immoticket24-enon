@@ -13,6 +13,7 @@ namespace Enon_Reseller\Tasks\Filters;
 
 use Awsm\WP_Wrapper\Interfaces\Filters;
 use Awsm\WP_Wrapper\Interfaces\Task;
+use Enon_Reseller\Models\Reseller;
 
 /**
  * Class Filter_Payment_Fee_Email.
@@ -58,6 +59,13 @@ class Filter_Payment_Fee_Email implements Task, Filters {
 
 		if ( ! $this->has_premium_bewertung( $payment_fees ) ) {
 			return $emails;
+		}
+
+		$reseller = new Reseller( $energieausweis->reseller_id );
+		$reseller_email = $reseller->data()->general->get_contact_email();
+
+		if ( ! in_array( $reseller_email, $emails, true ) ) {
+			$emails[] = $reseller_email;
 		}
 
 		$email = 'premiumbewertung-reseller@energieausweis-online-erstellen.de';
