@@ -78,8 +78,13 @@ button.wp-block-navigation__responsive-container-open {
     display: none;
 }
 
-#affwp-affiliate-dashboard {
-    select {
-        width: auto !important;
+.page {
+    .entry-content {
+        #affwp-affiliate-dashboard {
+
+            select {
+                width: auto !important;
+            }
+        }
     }
 }
