@@ -75,6 +75,12 @@ class Add_Translations implements Task, Filters {
 			case 'Dein Warenkorb ist leer':
 				$translation = 'Ihr Warenkorb ist leer';
 				break;
+			case 'All %s':
+				$translation = 'Alle %s';
+				break;
+			case 'Categories':
+				$translation = 'Kategorien';
+				break;
 		}
 
 		return $translation;
