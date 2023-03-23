@@ -23,17 +23,6 @@ use Enon\Logger;
  * @package Enon\Reseller\WordPress
  */
 class Add_Translations implements Task, Filters {
-
-	/**
-	 * Add_Translations constructor.
-	 *
-	 * @param Logger $logger Logger object.
-	 * @since 1.0.0
-	 */
-	public function __construct( Logger $logger ) {
-		$this->logger = $logger;
-	}
-
 	/**
 	 * Running scripts.
 	 *
@@ -49,7 +38,7 @@ class Add_Translations implements Task, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'gettext', array( $this, 'translate' ), 10, 1 );
+		add_filter( 'gettext', array( $this, 'translate' ), 10, 3 );
 	}
 
 	/**
@@ -61,28 +50,22 @@ class Add_Translations implements Task, Filters {
 	 *
 	 * @since 1.0.0
 	 */
-	public function translate( $translation ) {
+	public function translate( $translation, $text, $domain ) {
 		switch ( $translation ) {
 			case 'Hast du einen Rabatt-Code?':
-				$translation = 'Haben Sie einen Gutschein-Code?';
-				break;
+				return 'Haben Sie einen Gutschein-Code?';
 			case 'Rabatt':
-				$translation = 'Gutschein?';
-				break;
+				return 'Gutschein?';
 			case 'Rabatt eingeben':
-				$translation = 'Gutschein eingeben';
-				break;
+				return 'Gutschein eingeben';
 			case 'Dein Warenkorb ist leer':
-				$translation = 'Ihr Warenkorb ist leer';
-				break;
+				return 'Ihr Warenkorb ist leer';
 			case 'All %s':
-				$translation = 'Alle %s';
-				break;
+				return 'Alle %s';
 			case 'Categories':
-				$translation = 'Kategorien';
-				break;
+				return 'Kategorien';
+			default:
+				return $translation;
 		}
-
-		return $translation;
 	}
 }
