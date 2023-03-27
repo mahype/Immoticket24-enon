@@ -45,7 +45,7 @@ add_action('edd_stats_meta_box', function (){
 	$is_data_sent = (bool) get_post_meta( $post_id, '_datasent', true );
 
 	echo '<hr /><strong>DIBT</strong>';
-	echo '<ul>';
+	echo '<ul style="margin-top:0">';
 
 	if( ! $is_registered && ! $is_data_sent ) {
 		echo '<li>Registriernummer wurde noch nicht zugewiesen</li>';
@@ -53,11 +53,11 @@ add_action('edd_stats_meta_box', function (){
 
 	if( $is_registered ) {
 		$registration_number = get_post_meta( $post_id, 'registriernummer', true );
-		echo sprintf( '<li><br />Registriernummer %s</li>', $registration_number );
+		echo sprintf( '<li>Registriernummer %s</li>', $registration_number );
 	}
 
 	if( $is_data_sent ) {
-		echo '<li>Kontrolldatei wurde gesendet.</li>';
+		echo '<li>Kontrolldatei wurde gesendet</li>';
 	}
 
 	echo '</ul>';
