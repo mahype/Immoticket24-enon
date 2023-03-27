@@ -41,7 +41,7 @@ add_action('edd_stats_meta_box', function (){
 		echo '<a href="' . $payment_url . '">' . $payment->number . '</a> (' . $payment->gateway . '/' . $payment->status_nicename. ')<br />';
 	}
 
-	$is_registered = ! empty( trim( get_post_meta( $this->id, 'registriernummer', true ) ) );
+	$is_registered = ! empty( trim( get_post_meta( $post_id, 'registriernummer', true ) ) );
 	$is_data_sent = (bool) get_post_meta( $post_id, '_datasent', true );
 
 	echo '<hr />DIBT Status:';
