@@ -44,8 +44,8 @@ add_action('edd_stats_meta_box', function (){
 	$is_registered = ! empty( trim( get_post_meta( $post_id, 'registriernummer', true ) ) );
 	$is_data_sent = (bool) get_post_meta( $post_id, '_datasent', true );
 
-	echo '<hr /><strong>DIBT</strong>';
-	echo '<ul style="margin-top:0">';
+	echo '<hr /><strong style="margin-top:7px">DIBT</strong>';
+	echo '<ul style="margin-top:7px">';
 
 	if( ! $is_registered && ! $is_data_sent ) {
 		echo '<li>Registriernummer wurde noch nicht zugewiesen</li>';
