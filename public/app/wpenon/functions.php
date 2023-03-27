@@ -51,7 +51,8 @@ add_action('edd_stats_meta_box', function (){
 	}
 
 	if( $is_registered ) {
-		echo '<br />Registriernummer wurde zugewiesen.';
+		$registration_number = get_post_meta( $post_id, 'registriernummer', true );
+		echo sprintf( '<br />Registriernummer %s wurde zugewiesen.', $registration_number );
 	}
 
 	if( $is_data_sent ) {
