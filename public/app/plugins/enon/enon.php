@@ -52,3 +52,23 @@ function enon_boot() {
 }
 
 enon_boot();
+
+function enon_translations( $translation, $text, $domain ) {
+	$translations = array(
+		'affiliate-wp' => array(
+			'Name' => 'Name',
+		)
+	);
+
+	if ( ! in_array( $domain, array_keys( $translations ) ) ) {
+		return $translation;
+	}
+
+	if ( ! in_array( $text, array_values( $translations[ $domain ] ) ) ) {
+		return $translation;
+	}
+
+	return array_search( $text, $translations[ $domain ] );
+}
+
+add_filter( 'gettext', '\Enon\enon_translations', 10, 3 );
