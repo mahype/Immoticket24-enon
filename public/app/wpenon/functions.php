@@ -41,10 +41,21 @@ add_action('edd_stats_meta_box', function (){
 		echo '<a href="' . $payment_url . '">' . $payment->number . '</a> (' . $payment->gateway . '/' . $payment->status_nicename. ')<br />';
 	}
 
+	$is_registered = ! empty( trim( get_post_meta( $this->id, 'registriernummer', true ) ) );
 	$is_data_sent = (bool) get_post_meta( $post_id, '_datasent', true );
 
+	echo '<hr />DIBT Status:';
+
+	if( ! $is_registered && ! $is_data_sent ) {
+		echo '<br />Registriernummer wurde noch nicht zugewiesen.';
+	}
+
+	if( $is_registered ) {
+		echo '<br />Registriernummer wurde zugewiesen.';
+	}
+
 	if( $is_data_sent ) {
-		echo '<hr />Daten wurden an DiBT gesendet.';
+		echo '<br />Daten wurden an DiBT gesendet.';
 	}
 });
 
