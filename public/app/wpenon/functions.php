@@ -40,6 +40,12 @@ add_action('edd_stats_meta_box', function (){
 		$payment_url = admin_url( 'edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment->ID );
 		echo '<a href="' . $payment_url . '">' . $payment->number . '</a> (' . $payment->gateway . '/' . $payment->status_nicename. ')<br />';
 	}
+
+	$is_data_sent = (bool) get_post_meta( $post_id, '_datasent', true );
+
+	if( $is_data_sent ) {
+		echo '<hr />Daten wurden an DiBT gesendet.';
+	}
 });
 
 // custom functions
