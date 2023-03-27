@@ -76,6 +76,7 @@ class Frontend {
 					$admin_actions = array(
 						'duplicate',
 						'confirmation-email-send',
+						'order-confirmation-email-send',
 						'xml-datenerfassung-send',
 						'xml-zusatzdatenerfassung-send',
 						'xml-datenerfassung',
@@ -109,6 +110,19 @@ class Frontend {
 						break;
 					case 'confirmation-email-send':
 						$status = \WPENON\Util\Emails::instance()->send_confirmation_email( $this->energieausweis );
+						wp_redirect( add_query_arg( array(
+							'post_type'              => 'download',
+							'frontend_action'        => $action,
+							'frontend_action_id'     => $this->energieausweis->ID,
+							'frontend_action_status' => \WPENON\Util\Format::boolean( $status ),
+						), admin_url( 'edit.php' ) ) );
+						exit;
+						break;
+					case 'order-confirmation-email-send':
+						$energieausweis_new = new \Enon\Models\Enon\Energieausweis( $this->energieausweis->ID );						
+						$payment_id = $energieausweis_new->get_payment_id();
+						edd_email_purchase_receipt( $payment_id, false );
+
 						wp_redirect( add_query_arg( array(
 							'post_type'              => 'download',
 							'frontend_action'        => $action,

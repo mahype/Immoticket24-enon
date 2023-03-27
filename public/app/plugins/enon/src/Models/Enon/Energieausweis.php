@@ -144,11 +144,14 @@ class Energieausweis
 	{
 		$payment_ids = $this->get_option('_wpenon_attached_payment_id');
 
-		if (count($payment_ids) < 1) {
-			return false;
+		if (is_array( $payment_ids )) {
+			if( count($payment_ids) > 0 ) {
+				return false;
+			}
+			return $payment_ids[0];
 		}
 
-		return $payment_ids[0];
+		return $payment_ids;
 	}
 
 	/**
