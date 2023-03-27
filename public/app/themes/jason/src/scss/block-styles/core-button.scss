@@ -1,12 +1,16 @@
-.is-style-button-white {
-    .wp-block-button__link {
-        background-color: white  !important;
-        color: #82a319;
-    }    
+.wp-block-button  {
+    &.is-style-button-white {
+        .wp-block-button__link {
+            background: none;
+            background-color: white;
+            color: #82a319;
+        }    
+    }
+    &.is-style-button-red {
+        .wp-block-button__link {            
+            background: var(--wp--preset--gradient--red-light-to-red-dark);
+            font-weight: normal;
+        }    
+    }
 }
-.is-style-button-red {
-    .wp-block-button__link {
-        background: var(--wp--preset--gradient--red-light-to-red-dark) !important;
-        font-weight: normal;
-    }    
-}
+
