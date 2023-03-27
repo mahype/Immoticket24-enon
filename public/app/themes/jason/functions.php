@@ -63,6 +63,14 @@ function jason_block_styles() {
 	);
 
 	register_block_style(
+		'core/button',
+		array(
+			'name'         => 'button-red',
+			'label'        => __( 'Rot', 'textdomain' )
+		)
+	);
+
+	register_block_style(
 		'core/list',
 		array(
 			'name'         => 'checkmarks-neutral',
