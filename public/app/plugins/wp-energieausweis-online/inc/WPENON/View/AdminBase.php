@@ -142,7 +142,7 @@ class AdminBase extends TemplateBase
         }
 
         $links['duplicate'] = __('Duplizieren', 'wpenon');
-        $links['confirmation-email-send'] = __('Bestätiungs-Email erneut zusenden', 'wpenon');
+        $links['confirmation-email-send'] = __('Anmelde-Email erneut zusenden', 'wpenon');
         if ($energieausweis->isFinalized()) {
             if ($energieausweis->isPaid()) {
                 if (!$energieausweis->isRegistered()) {
@@ -150,6 +150,8 @@ class AdminBase extends TemplateBase
                 } elseif (!$energieausweis->isDataSent()) {
                     $links['xml-zusatzdatenerfassung-send'] = __('Daten an DiBT senden', 'wpenon');
                 }
+
+                $links['order-confirmation-email-send'] = __('Bestellbestätigungs-Email erneut zusenden', 'wpenon');
             }
             $links['xml-datenerfassung'] = array(__('Registrierungs-XML ansehen', 'wpenon'), true);
             $links['xml-zusatzdatenerfassung'] = array(__('Daten-XML ansehen', 'wpenon'), true);
