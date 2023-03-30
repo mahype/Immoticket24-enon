@@ -354,8 +354,10 @@ class CalculationsCC {
         $heaterIdVarname       = $heaterPrefix . '_erzeugung';
         $energySourceIdVarname = $heaterPrefix . '_energietraeger_' . $this->ec->$heaterIdVarname;
 
-        $heaterId          = $this->ec->$heaterIdVarname;
+        $heaterId          = $this->ec->$heaterIdVarname;    
         $energySourceId    = $this->ec->$energySourceIdVarname;
+        $h_custom_Varname = $heaterPrefix . '_custom';
+        $h_custom_primaer_Varname = $heaterPrefix . '_custom_primaer';
    
         $maxPeriods = 3;
         $consumptionPeriods = [];
@@ -376,8 +378,14 @@ class CalculationsCC {
             );
         }
 
+        $energySource = $this->getEnergySource( $energySourceId );
+        
+        if( $this->ec->$h_custom_Varname) {
+            $energySource['primaryEnergyFactor'] = $this->ec->$h_custom_primaer_Varname;
+        }
+    
         $heater = [
-            'energySource'       => $this->getEnergySource( $energySourceId ),
+            'energySource'       => $energySource,
             'heatingSystem'      => $this->getHeatingSystem( $heaterId ),
             'consumptionPeriods' => $consumptionPeriods
         ];

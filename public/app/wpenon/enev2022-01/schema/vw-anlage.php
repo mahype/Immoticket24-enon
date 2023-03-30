@@ -316,8 +316,21 @@ $anlage = array(
 					'required'              => true,
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'placeholder' => 'Bitte wählen...',
-					'validate_dependencies' => array( 'baujahr' ),
-					
+					'validate_dependencies' => array( 'baujahr' ),					
+				),
+				'h_custom'              => array(
+					'type'                  => 'checkbox',
+					'label'                 => __( 'Benutzerdefinierte Primärenergie- und CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
+					'description'           => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
+				  ),
+				'h_custom_primaer'      => array(
+					'type'                  => 'float',
+					'label'                 => __( 'Primärenergiefaktor', 'wpenon' ),
+					'required'              => true,
+					'display'               => array(
+						'callback'              => 'wpenon_show_on_bool_compare',
+						'callback_args'         => array( 'field::h_custom', true ),
+					),
 				),
 				'h_typenschild'                                     => array(
 					'type'                  => 'image',
@@ -697,7 +710,24 @@ $anlage = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'placeholder' => 'Bitte wählen...'
 				),
-				
+				'h2_custom'              => array(
+					'type'                  => 'checkbox',
+					'label'                 => __( 'Benutzerdefinierte Primärenergie- und CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
+					'description'           => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback_args' => array( 'field::h2_info', true ),
+					),
+				  ),
+				'h2_custom_primaer'      => array(
+					'type'                  => 'float',
+					'label'                 => __( 'Primärenergiefaktor', 'wpenon' ),
+					'required'              => true,
+					'display'               => array(
+						'callback'              => 'wpenon_show_on_bool_compare',
+						'callback_args'         => array( 'field::h2_custom', true ),
+					),
+				),
 				'h2_typenschild'                                     => array(
 					'type'                  => 'image',
 					'label'                 => __( 'Foto des Typenschilds der Heizungsanlage oder Foto der Heizungsanlage', 'wpenon' ),
@@ -1052,6 +1082,24 @@ $anlage = array(
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 					'placeholder' => 'Bitte wählen...'
+				),
+				'h3_custom'              => array(
+					'type'                  => 'checkbox',
+					'label'                 => __( 'Benutzerdefinierte Primärenergie- und CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
+					'description'           => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback_args' => array( 'field::h3_info', true ),
+					),
+				  ),
+				'h3_custom_primaer'      => array(
+					'type'                  => 'float',
+					'label'                 => __( 'Primärenergiefaktor', 'wpenon' ),
+					'required'              => true,
+					'display'               => array(
+						'callback'              => 'wpenon_show_on_bool_compare',
+						'callback_args'         => array( 'field::h3_custom', true ),
+					),
 				),
 				'h3_typenschild'                                     => array(
 					'type'                  => 'image',
