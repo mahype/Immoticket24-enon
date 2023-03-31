@@ -320,15 +320,16 @@ $anlage = array(
 				),
 				'h_custom'              => array(
 					'type'                  => 'checkbox',
-					'label'                 => __( 'Benutzerdefinierte Primärenergie- und CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
+					'label'                 => __( 'Benutzerdefinierte Primärenergiefaktoren verwenden?', 'wpenon' ),
 					'description'           => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
-				  ),
+					'display'               => current_user_can('manage_options')
+				),
 				'h_custom_primaer'      => array(
 					'type'                  => 'float',
 					'label'                 => __( 'Primärenergiefaktor', 'wpenon' ),
 					'required'              => true,
 					'display'               => array(
-						'callback'              => 'wpenon_show_on_bool_compare',
+						'callback'              => 'wpenon_show_on_bool_compare_and_is_admin',
 						'callback_args'         => array( 'field::h_custom', true ),
 					),
 				),
@@ -715,7 +716,7 @@ $anlage = array(
 					'label'                 => __( 'Benutzerdefinierte Primärenergie- und CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
 					'description'           => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
 					'display'               => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
 						'callback_args' => array( 'field::h2_info', true ),
 					),
 				  ),
@@ -724,7 +725,7 @@ $anlage = array(
 					'label'                 => __( 'Primärenergiefaktor', 'wpenon' ),
 					'required'              => true,
 					'display'               => array(
-						'callback'              => 'wpenon_show_on_bool_compare',
+						'callback'              => 'wpenon_show_on_bool_compare_and_is_admin',
 						'callback_args'         => array( 'field::h2_custom', true ),
 					),
 				),
@@ -1088,7 +1089,7 @@ $anlage = array(
 					'label'                 => __( 'Benutzerdefinierte Primärenergie- und CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
 					'description'           => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
 					'display'               => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
 						'callback_args' => array( 'field::h3_info', true ),
 					),
 				  ),
@@ -1097,7 +1098,7 @@ $anlage = array(
 					'label'                 => __( 'Primärenergiefaktor', 'wpenon' ),
 					'required'              => true,
 					'display'               => array(
-						'callback'              => 'wpenon_show_on_bool_compare',
+						'callback'              => 'wpenon_show_on_bool_compare_and_is_admin',
 						'callback_args'         => array( 'field::h3_custom', true ),
 					),
 				),

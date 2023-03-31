@@ -46,6 +46,16 @@ if ( file_exists( WPENON_DATA_PATH . '/dynamic-functions.php' ) ) {
 	require_once WPENON_DATA_PATH . '/dynamic-functions.php';
 }
 
+if ( ! function_exists( 'wpenon_show_on_bool_compare_and_is_admin' ) ) {
+	function wpenon_show_on_bool_compare_and_is_admin( $value, $required_values, $relation = 'AND' ) {
+		if( current_user_can( 'manage_options' ) && wpenon_show_on_bool_compare( $value, $required_values, $relation ) ) {
+			return true;
+		}
+		
+		return false;
+	}
+}
+
 if ( ! function_exists( 'wpenon_show_on_bool_compare' ) ) {
 	function wpenon_show_on_bool_compare( $value, $required_values, $relation = 'AND' ) {
 		$value           = \WPENON\Util\Parse::arr( $value );
