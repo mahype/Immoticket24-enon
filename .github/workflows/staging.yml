@@ -35,3 +35,4 @@ jobs:
           /www/htdocs/w012900a/bin/composer.phar update
           cp $WWW/public/.htaccess-staging $WWW/public/.htaccess
           cp $WWW/public/local-config-staging.php $WWW/public/local-config.php
+          cp $WWW/public/.user-staging.ini $WWW/public/.user.ini
