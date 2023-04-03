@@ -209,6 +209,7 @@ class Shortcode
             $url = $content;
             $content = wp_oembed_get($content);
         } else {
+            $content = $this->reverseNormalization($content);
             $content = do_shortcode($content);
 
             // Try to detect iframe
@@ -246,6 +247,8 @@ class Shortcode
      */
     public function handleTypeCookie($atts, $content)
     {
+        $content = $this->reverseNormalization($content);
+
         return '<div class="borlabs-hide" data-borlabs-cookie-type="' . $atts['type'] . '" data-borlabs-cookie-id="'
             . $atts['id'] . '">' . $this->wrapperStart . base64_encode(do_shortcode($content)) . $this->wrapperEnd
             . '</div>';
@@ -259,6 +262,8 @@ class Shortcode
      */
     public function handleTypeCookieGroup($atts, $content)
     {
+        $content = $this->reverseNormalization($content);
+
         return '<div class="borlabs-hide" data-borlabs-cookie-type="' . $atts['type'] . '" data-borlabs-cookie-id="'
             . $atts['id'] . '">' . $this->wrapperStart . base64_encode(do_shortcode($content)) . $this->wrapperEnd
             . '</div>';
@@ -375,5 +380,29 @@ class Shortcode
     public function handleTypeUID($atts, $content)
     {
         return '<span data-borlabs-cookie-uid></span>';
+    }
+
+    /**
+     * The do_shortcode function of WordPress normalizes the content and replaces [ and ] with &#91; and &#93;.
+     * Since we allow shortcode blocking with our shorcode, we need to normalize the content again because the
+     * content we get has already been normalized by WordPress through the first do_shortcode call of our shortcode.
+     *
+     * @param mixed $content
+     *
+     * @return string
+     */
+    private function reverseNormalization($content)
+    {
+        $reverseEscaping = [
+            '&#91;' => '[',
+            '&#93;' => ']',
+        ];
+        $content = strtr($content, $reverseEscaping);
+        $reverseEscaping = [
+            '&#091;' => '&#91;',
+            '&#093;' => '&#93;',
+        ];
+
+        return strtr($content, $reverseEscaping);
     }
 }

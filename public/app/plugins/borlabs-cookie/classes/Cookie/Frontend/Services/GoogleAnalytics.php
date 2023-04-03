@@ -182,15 +182,14 @@ class GoogleAnalytics
     {
         return <<<EOT
 <script>
+window.dataLayer = window.dataLayer || [];
+if (typeof gtag !== 'function') { function gtag(){dataLayer.push(arguments);} }
 if('%%consentMode%%' === '1') {
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
     gtag('consent', 'default', {
        'ad_storage': 'denied',
        'analytics_storage': 'denied'
     });
     gtag("js", new Date());
-
     gtag("config", "%%trackingId%%", { "anonymize_ip": true });
 
     (function (w, d, s, i) {
@@ -215,9 +214,9 @@ EOT;
     {
         return <<<EOT
 <script>
+window.dataLayer = window.dataLayer || [];
+if (typeof gtag !== 'function') { function gtag(){dataLayer.push(arguments);} }
 if('%%consentMode%%' === '1') {
-    window.dataLayer = window.dataLayer || [];
- 	function gtag(){dataLayer.push(arguments)}
 	gtag('consent', 'update', {'analytics_storage': 'granted'});
 } else {
     (function (w, d, s, i) {
@@ -229,10 +228,7 @@ if('%%consentMode%%' === '1') {
     f.parentNode.insertBefore(j, f);
     })(window, document, "script", "%%trackingId%%");
 
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
     gtag("js", new Date());
-
     gtag("config", "%%trackingId%%", { "anonymize_ip": true });
 }
 </script>
