@@ -261,9 +261,9 @@ class GoogleTagManagerConsent
         return <<<EOT
 <!-- Google Tag Manager -->
 <script>
+window.dataLayer = window.dataLayer || [];
+if (typeof gtag !== 'function') { function gtag(){dataLayer.push(arguments);} }
 if ('%%loadBeforeConsent%%' === '1' && typeof window.google_tag_manager==='undefined' && !document.querySelector('#brlbs-gtm')) {
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){window.dataLayer.push(arguments);}
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'analytics_storage': 'denied',
@@ -294,9 +294,9 @@ EOT;
         return <<<EOT
 <!-- Google Tag Manager -->
 <script>
+window.dataLayer = window.dataLayer || [];
+if (typeof gtag !== 'function') { function gtag(){dataLayer.push(arguments);} }
 if ('%%loadBeforeConsent%%' !== '1' && typeof window.google_tag_manager==='undefined' && !document.querySelector('#brlbs-gtm')) {
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){window.dataLayer.push(arguments);}
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'analytics_storage': 'denied',
@@ -314,8 +314,6 @@ if ('%%loadBeforeConsent%%' !== '1' && typeof window.google_tag_manager==='undef
     "https://www.googletagmanager.com/gtm.js?id="+i+dl;j.id='brlbs-gtm';f.parentNode.insertBefore(j,f);
     })(window,document,"script","dataLayer","%%gtmId%%");
 }
-window.dataLayer = window.dataLayer || [];
-function gtag(){window.dataLayer.push(arguments);}
 gtag('consent', 'update', {
     '%%consentMode%%': 'granted'
 });

@@ -178,15 +178,14 @@ class GoogleAds
     {
         return <<<EOT
 <script>
+window.dataLayer = window.dataLayer || [];
+if (typeof gtag !== 'function') { function gtag(){dataLayer.push(arguments);} }
 if('%%consentMode%%' === '1') {
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
     gtag('consent', 'default', {
        'ad_storage': 'denied',
        'analytics_storage': 'denied'
     });
     gtag("js", new Date());
-
     gtag("config", "%%conversionId%%");
 
     (function (w, d, s, i) {
@@ -211,9 +210,9 @@ EOT;
     {
         return <<<EOT
 <script>
+window.dataLayer = window.dataLayer || [];
+if (typeof gtag !== 'function') { function gtag(){dataLayer.push(arguments);} }
 if('%%consentMode%%' === '1') {
-    window.dataLayer = window.dataLayer || [];
- 	function gtag(){dataLayer.push(arguments)}
 	gtag('consent', 'update', {'ad_storage': 'granted'});
 } else {
     (function (w, d, s, i) {
@@ -225,8 +224,6 @@ if('%%consentMode%%' === '1') {
     f.parentNode.insertBefore(j, f);
     })(window, document, "script", "%%conversionId%%");
 
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
     gtag("js", new Date());
     gtag("config", "%%conversionId%%");
 }
