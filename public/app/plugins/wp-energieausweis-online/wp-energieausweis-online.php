@@ -86,5 +86,5 @@ add_filter( 'request', function($query){
 
 add_action( 'plugins_loaded', 'wpenon_init' );
 
-register_activation_hook( WPENON_MAINFILE, array( 'WPENON\App', 'install' ) );
-//register_uninstall_hook( WPENON_MAINFILE, array( 'WPENON\App', 'uninstall' ) );
+//register_activation_hook( WPENON_MAINFILE, array( '\WPENON\App', 'install' ) );
+//register_uninstall_hook( WPENON_MAINFILE, array( '\WPENON\App', 'uninstall' ) );
