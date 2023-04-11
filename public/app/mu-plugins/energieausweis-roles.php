@@ -117,7 +117,10 @@ function energieausweis_roles_get_caps( $role_slug ) {
 				'backwpup_logs_delete',
 				'backwpup_settings',
 				'backwpup_restore',
-				'manage_borlabs_cookie'
+				'manage_borlabs_cookie',
+				'wf2fa_manage_settings',
+				'wf2fa_activate_2fa_self',
+				'wf2fa_activate_2fa_others'
 			) );
 		case 'editor':
 			$caps = array_merge( $caps, array(
