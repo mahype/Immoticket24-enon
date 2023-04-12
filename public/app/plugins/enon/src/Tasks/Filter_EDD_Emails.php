@@ -82,7 +82,7 @@ class Filter_EDD_Emails implements Task, Actions {
 		$this->payment_fees   = edd_get_payment_fees( $payment_id, 'item' );
 		$this->energieausweis = new Energieausweis( $this->payment->get_energieausweis_id() );
 
-		add_filter( 'edd_admin_notice_emails', [ $this, 'add_emails_for_reasons' ], 5 );
+		// add_filter( 'edd_admin_notice_emails', [ $this, 'add_emails_for_reasons' ], 5 );
 
 		if ( $this->has_emails_for_postcodes() ) {
 			add_filter( 'edd_admin_notice_emails', [ $this, 'add_emails_for_postcodes' ], 5 );
