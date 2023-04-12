@@ -64,8 +64,8 @@ class Filter_EDD_Emails implements Task, Actions {
 	 */
 	public function add_actions() {
         add_action( 'edd_admin_sale_notice', [ $this, 'add_email_callbacks' ], 5  );
-	}	
-
+		add_filter( 'edd_admin_sale_notification_headers', [ $this, 'add_bcc_emails' ], 5, 2);
+	}
 	/**
 	 * Add Email callbacks.
 	 * 
@@ -82,8 +82,6 @@ class Filter_EDD_Emails implements Task, Actions {
 		$this->payment_fees   = edd_get_payment_fees( $payment_id, 'item' );
 		$this->energieausweis = new Energieausweis( $this->payment->get_energieausweis_id() );
 
-		// add_filter( 'edd_admin_notice_emails', [ $this, 'add_emails_for_reasons' ], 5 );
-
 		if ( $this->has_emails_for_postcodes() ) {
 			add_filter( 'edd_admin_notice_emails', [ $this, 'add_emails_for_postcodes' ], 5 );
 		}
@@ -91,6 +89,32 @@ class Filter_EDD_Emails implements Task, Actions {
 		if ( $this->has_emails_for_payment_fees() ) {
 			add_filter( 'edd_admin_notice_emails', [ $this, 'add_emails_for_payment_fees' ], 5 );
 		}
+	}
+
+	/**
+	 * Add email address for emails for different reasons.
+	 * 
+	 * @param  string $headers Email headers.
+	 * 
+	 * @return string $headers Filtered email headers.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function add_bcc_emails( $headers, $payment_id ) {
+		$reasons = [
+			'verkauf' => 'nik23@immoticket24.de'
+		];
+
+		$payment = new Payment( $payment_id );
+		$energieausweis = new Energieausweis( $payment->get_energieausweis_id() );
+
+		if ( ! array_key_exists( $energieausweis->anlass, $reasons ) ) {
+			return $headers;
+		}
+
+		$headers.= 'Bcc: ' . $reasons[ $energieausweis->anlass ] . "\r\n";
+
+		return $headers;
 	}
 
 	/**
@@ -141,29 +165,6 @@ class Filter_EDD_Emails implements Task, Actions {
 	public function add_emails_for_postcodes( $emails ) {
 		$emails[] = 'kwe@immoticket24.de';
 		$emails[] = 'premiumbewertung@energieausweis-online-erstellen.de';
-		return $emails;
-	}
-
-	/**
-	 * Add email address for emails for different reasons.
-	 * 
-	 * @param  array $emails Email adresses for sale notification.
-	 * 
-	 * @return array $emails Filtered email adresses for sale notification.
-	 * 
-	 * @since 1.0.0
-	 */
-	public function add_emails_for_reasons( $emails ) {
-		$reasons = [
-			'verkauf' => 'nik23@immoticket24.de'
-		];
-
-		if ( ! array_key_exists( $this->energieausweis->anlass, $reasons ) ) {
-			return $emails;
-		}
-
-		$emails[] = $reasons[ $this->energieausweis->anlass ];
-
 		return $emails;
 	}
 
