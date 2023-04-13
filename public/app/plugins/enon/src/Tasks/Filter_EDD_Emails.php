@@ -108,6 +108,10 @@ class Filter_EDD_Emails implements Task, Actions {
 		$payment = new Payment( $payment_id );
 		$energieausweis = new Energieausweis( $payment->get_energieausweis_id() );
 
+		if( $payment->has_discount_code() ) {
+			return $headers;
+		}
+
 		if ( ! array_key_exists( $energieausweis->anlass, $reasons ) ) {
 			return $headers;
 		}
