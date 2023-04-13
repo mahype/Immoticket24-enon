@@ -100,6 +100,38 @@ class Payment {
 	}
 
 	/**
+	 * Get discount code.
+	 * 
+	 * @return string|null Discount code.
+	 */
+	public function get_discount_code() {
+		$payment = new \Edd_Payment( $this->id );
+		$discounts = $payment->discounts;
+
+		if(empty($discounts)){
+			return null;
+		}
+
+		if( is_array( $discounts) ) {
+			$code = array_shift( $discounts );
+		} else {
+			$code = $discounts;
+		}
+
+		return $code;
+	}
+
+	/**
+	 * Has discount code.
+	 * 
+	 * @return bool True if has discount code.
+	 */
+	public function has_discount_code() {
+		$code = $this->get_discount_code();
+		return $code !== 'none';
+	}
+
+	/**
 	 * Get energieausweis.
 	 *
 	 * @return Energieausweis Energieausweis object.
