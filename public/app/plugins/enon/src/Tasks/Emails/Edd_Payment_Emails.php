@@ -152,6 +152,12 @@ Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 	{
 		$payment = new Payment($payment_id);
 
+		$sent = edd_get_payment_meta( $payment_id, 'payment_reminder_sent', true) === '1' ? true : false;
+
+		if( $sent ) {
+			return;
+		}
+
 		if( $payment->get_status() !== 'pending') {
 			return;
 		}
