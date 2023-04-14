@@ -45,6 +45,29 @@ class Edd_Payment_Emails implements Actions, Filters, Task
 	public function add_filters()
 	{
 		add_filter( 'edd_payments_table_bulk_actions', array($this, 'bulk_actions') );
+		add_filter( 'edd_payments_table_column', array($this,'add_payment_reminder_info'), 10, 3 );
+	}
+
+	/**
+	 * Add payment reminder info to payment table.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function add_payment_reminder_info( $value, $payment_id, $column_name )
+	{
+		if( $column_name !== 'status' ) {
+			return $value;
+		}
+
+		$sent = edd_get_payment_meta( $payment_id, 'payment_reminder_sent', true) === '1' ? true : false;
+
+		if( ! $sent ) {
+			return $value;
+		}
+
+		$send_date = edd_get_payment_meta( $payment_id, 'payment_reminder_sent_date', true);
+		$send_date = date('d.m.Y', strtotime($send_date));
+		return $value . '<br><span style="color: #ff0000;">Erinnerung versendet<br>(' . $send_date . ')</span>';
 	}
 
 	/**
@@ -129,7 +152,7 @@ Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 	{
 		$payment = new Payment($payment_id);
 
-		if( $payment->get_status() !== 'pending' ) {
+		if( $payment->get_status() !== 'pending') {
 			return;
 		}
 
@@ -170,6 +193,8 @@ Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 		$this->send_email( $to_email, $subject, "Zahlungserinnerung", $message, array($bill_path) );
 
 		edd_insert_payment_note( $payment_id, 'Zahlungserinnerung an Kunden gesendet.' );
+		edd_update_payment_meta( $payment_id, 'payment_reminder_sent', true );
+		edd_update_payment_meta( $payment_id, 'payment_reminder_sent_date', date('Y-m-d H:i:s') );
 
 		unlink($bill_path);
 	}
