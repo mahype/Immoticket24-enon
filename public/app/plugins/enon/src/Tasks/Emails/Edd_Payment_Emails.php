@@ -144,8 +144,6 @@ Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 
 		$subject = "{$payment_nr} - Zahlungserinnerung";
 
-
-
 		$message = "Sehr geehrter Kunde,
 
 		ich melde mich, da wir bislang noch keinen Zahlungseingang für den Energieausweis für das Gebäude <strong>{$address}</strong> mit der Rechnungsnummer {$payment_nr} vom {$payment_date} feststellen konnten. Bitte überweisen Sie den Rechnungsbetrag bis <strong><u>{$due_date}</u></strong>.
