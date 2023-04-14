@@ -171,6 +171,8 @@ Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 		$bill_path = $this->create_bill_file($payment_id);
 		$this->send_email( $to_email, $subject, "Zahlungserinnerung", $message, array($bill_path) );
 
+		edd_insert_payment_note( $payment_id, 'Zahlungserinnerung an Kunden gesendet.' );
+
 		unlink($bill_path);
 	}
 
