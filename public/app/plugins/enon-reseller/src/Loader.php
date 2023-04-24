@@ -70,10 +70,11 @@ class Loader extends Task_Loader {
             return;
         }
 
+        add_action('edd_update_payment_status', [ $this, 'update_payment_status' ], 1, 3);
+
 		if ( is_admin() ) {            
             $this->add_backend_tasks();
-            $this->run_tasks();
-            add_action('edd_update_payment_status', [ $this, 'update_payment_status' ], 1, 3);
+            $this->run_tasks();            
 		} else {            
             add_action('init', [ $this, 'add_frontend_tasks_by_iframe'], 1, 0);
             add_action('template_redirect', [ $this, 'add_frontend_tasks_by_page'], 1, 0);                        
