@@ -93,6 +93,8 @@ class Loader extends Task_Loader {
             return;
         }
 
+        $this->logger->notice( 'Updating payment status.', array( 'energy_cerificate_id', $ec_id, 'reseller_id', $reseller_id ) );
+
         $this->reseller = new Reseller( $reseller_id );
         $this->set_affiliate_by_reseller( $this->reseller );
         $this->load_reseller_scripts();
@@ -184,6 +186,7 @@ class Loader extends Task_Loader {
         if ( ! empty( $affiliate_id ) ) {
             affiliate_wp()->tracking->referral = $affiliate_id;
             affiliate_wp()->tracking->set_affiliate_id( $affiliate_id );
+            $this->logger->notice( 'Set affiliate id for reseller.', array( 'company_name', $reseller->data()->general->get_company_name(), 'affiliate_id', $affiliate_id ) );
         } else {
             $this->logger->notice( 'No affiliate id found.', array( 'reseller_id', $reseller->get_id() ) );
         }
