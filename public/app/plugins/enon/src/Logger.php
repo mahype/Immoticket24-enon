@@ -51,7 +51,7 @@ class Logger {
 			$remote_addr          = implode( '.', $remote_addr_parts );
 		}
 
-		$line = sprintf( '%s %s %s %s', $remote_addr, $request_uri, $message, wp_json_encode( $context ) );
+		$line = sprintf( '%s - %s %s %s %s', date('Y-m-d H:i:s', time() ), $remote_addr, $request_uri, $message, wp_json_encode( $context ) );
 
 		$filename = $this->get_logging_path() . '/' . $this->id . '.log';
 

@@ -70,10 +70,11 @@ class Loader extends Task_Loader {
             return;
         }
 
+        add_action('edd_update_payment_status', [ $this, 'update_payment_status' ], 1, 3);
+
 		if ( is_admin() ) {            
             $this->add_backend_tasks();
-            $this->run_tasks();
-            add_action('edd_update_payment_status', [ $this, 'update_payment_status' ], 1, 3);
+            $this->run_tasks();            
 		} else {            
             add_action('init', [ $this, 'add_frontend_tasks_by_iframe'], 1, 0);
             add_action('template_redirect', [ $this, 'add_frontend_tasks_by_page'], 1, 0);                        
@@ -92,6 +93,8 @@ class Loader extends Task_Loader {
         if( empty( $reseller_id ) ) {
             return;
         }
+
+        $this->logger->notice( 'Updating payment status.', array( 'energy_cerificate_id', $ec_id, 'reseller_id', $reseller_id ) );
 
         $this->reseller = new Reseller( $reseller_id );
         $this->set_affiliate_by_reseller( $this->reseller );
@@ -184,6 +187,7 @@ class Loader extends Task_Loader {
         if ( ! empty( $affiliate_id ) ) {
             affiliate_wp()->tracking->referral = $affiliate_id;
             affiliate_wp()->tracking->set_affiliate_id( $affiliate_id );
+            $this->logger->notice( 'Set affiliate id for reseller.', array( 'company_name', $reseller->data()->general->get_company_name(), 'affiliate_id', $affiliate_id ) );
         } else {
             $this->logger->notice( 'No affiliate id found.', array( 'reseller_id', $reseller->get_id() ) );
         }
