@@ -106,6 +106,7 @@ function affiliate_wp_install() {
 			'allow_affiliate_registration' => true,
 			'revoke_on_refund'             => true,
 			'referral_pretty_urls'         => true,
+			'enable_payouts_service'       => 1,
 			'required_registration_fields' => array(
 				'your_name'   => __( 'Your Name', 'affiliate-wp' ),
 				'website_url' => __( 'Website URL', 'affiliate-wp' )
@@ -127,6 +128,7 @@ function affiliate_wp_install() {
 	// check if needs to trigger wizard.
 	if ( ! get_option( 'affwp_has_run_wizard' ) ) {
 		update_option( 'affwp_trigger_wizard', true );
+		update_option( 'affwp_display_setup_screen', true );
 	}
 
 	// Clear rewrite rules

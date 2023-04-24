@@ -164,6 +164,7 @@ final class DB extends \Affiliate_WP_DB {
 			: "{$wpdb->prefix}{$this->table_name}";
 
 		$this->create_table();
+		$this->upgrade_table();
 		$this->maybe_init_rest();
 	}
 
@@ -808,7 +809,7 @@ final class DB extends \Affiliate_WP_DB {
 	 *
 	 * @param string $get_connectable   The registered connectable ids to get from the database.
 	 * @param string $where_connectable The registered connectable that they must be connected to.
-	 * @param int    $where_id                The id of the connectable that they have to be connected to.
+	 * @param int    $where_id          The id of the connectable that they have to be connected to.
 	 *
 	 * @return array An `array` of ids connected to the connectable.
 	 *
@@ -869,6 +870,8 @@ final class DB extends \Affiliate_WP_DB {
 							{table_name}
 						WHERE
 							`{where_connectable_name}` = %d
+						AND
+							`{get_connectable_name}` IS NOT NULL
 						'
 					),
 					$where_id
@@ -1111,7 +1114,7 @@ final class DB extends \Affiliate_WP_DB {
 			array(
 				'fields'        => 'ids',              // Can also be 'objects'.
 				'connection_id' => 0,                  // WHERE connection_id                   = %d.
-				'number'        => -1,                 // LIMIT %d.
+				'number'        => apply_filters( 'affwp_unlimited', -1, 'connections_db_get_connections_number' ),                 // LIMIT %d.
 				'offset'        => 0,                  // OFFSET %d.
 				'orderby'       => $this->primary_key, // ORDER BY %s (Default: connection_id).
 				'order'         => 'ASC',              // ORDER ASC|DESC.
@@ -1789,6 +1792,7 @@ final class DB extends \Affiliate_WP_DB {
 				`date`          varchar(191) NOT NULL,
 				`group`         bigint(20),
 				`creative`      bigint(20),
+				`affiliate`     bigint(20),
 
 				PRIMARY KEY (connection_id)
 
@@ -1964,5 +1968,41 @@ final class DB extends \Affiliate_WP_DB {
 			),
 			true
 		);
+	}
+
+	/**
+	 * Add missing item columns.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return void
+	 *
+	 * @throws \Exception If we cannot create any of the columns.
+	 */
+	private function upgrade_table() {
+
+		if ( ! $this->table_exists( $this->table_name ) ) {
+			return; // Table wasn't created, can't alter.
+		}
+
+		global $wpdb;
+
+		// Add new columns (for connectables) since 2.12.0.
+		foreach ( array( 'affiliate' ) as $column ) {
+
+			if ( $this->column_exists( $this->table_name, $column ) ) {
+				continue;
+			}
+
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- $column is not a dynamic value.
+			$wpdb->query( $this->inject_table_name( "ALTER TABLE {table_name} ADD `{$column}` bigint(20) AFTER `creative`" ) );
+
+			if ( $this->column_exists( $this->table_name, $column ) ) {
+				continue;
+			}
+
+			// Let someone know we couldn't make this column.
+			throw new \Exception( "Unable to add '{$column}' column to the '{$this->table_name}' table." );
+		}
 	}
 }

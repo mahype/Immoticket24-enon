@@ -12,11 +12,7 @@
 namespace AffWP\Components\Wizard;
 
 use AffWP\Core\License;
-
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+use AffWP\Components\Addons\Installer;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -45,6 +41,7 @@ class Bootstrap {
 		// Add wizard button to General Settings.
 		add_filter( 'affwp_settings_general', array( $this, 'add_wizard_button_to_settings' ) );
 
+		// AJAX Actions.
 		add_action( 'wp_ajax_affiliatewp_vue_get_settings', array( $this, 'get_settings' ) );
 		add_action( 'wp_ajax_affiliatewp_verify_license', array( $this, 'verify_license' ) );
 		add_action( 'wp_ajax_affiliatewp_vue_get_license', array( $this, 'get_license' ) );
@@ -52,6 +49,9 @@ class Bootstrap {
 		add_action( 'wp_ajax_affiliatewp_vue_save_integrations', array( $this, 'save_integrations' ) );
 		add_action( 'wp_ajax_affiliatewp_vue_update_settings', array( $this, 'update_setting' ) );
 		add_action( 'wp_ajax_affiliatewp_vue_allset', array( $this, 'finish_wizard' ) );
+		add_action( 'wp_ajax_affiliatewp_vue_install_addons', array( $this, 'install_addons' ) );
+		add_action( 'wp_ajax_affiliatewp_vue_install_plugins', array( $this, 'install_growth_tools' ) );
+		add_action( 'wp_ajax_affiliatewp_vue_skip_upgrade', array( $this, 'skip_upgrade' ) );
 	}
 
 	/**
@@ -60,12 +60,9 @@ class Bootstrap {
 	 * @since 2.9
 	 */
 	public function maybe_load_onboarding_wizard() {
-		// Check for wizard-specific parameter
-		// Allow plugins to disable the onboarding wizard
-		// Check if current user is allowed to save settings.
+		// Check for wizard-specific parameter and if current user is allowed to save settings.
 		if ( ! isset( $_GET['page'] ) ||
 					'affiliatewp-onboarding' !== $_GET['page'] || // WPCS: CSRF ok, input var ok.
-					! apply_filters( 'affiliatewp_enable_onboarding_wizard', true ) ||
 					! current_user_can( 'manage_affiliate_options' ) ) {
 			return;
 		}
@@ -89,7 +86,7 @@ class Bootstrap {
 	 * @since 2.9
 	 */
 	public function add_dashboard_page() {
-		add_submenu_page( null, '', '', 'manage_affiliate_options', 'affiliatewp-onboarding' );
+		add_submenu_page( '', '', '', 'manage_affiliate_options', 'affiliatewp-onboarding' );
 	}
 
 	/**
@@ -111,16 +108,47 @@ class Bootstrap {
 	 * Redirects users to wizard if first time using wizard.
 	 *
 	 * @since 2.9
+	 * @since 2.13.1 Redirect on activation.
 	 */
 	public function redirect_to_wizard() {
-		if ( affwp_is_admin_page() && isset( $_GET['page'] ) ) {
-			$page = sanitize_text_field( $_GET['page'] );
-
-			if ( get_option( 'affwp_trigger_wizard' ) && 'affiliate-wp-wizard' !== $page ) {
-				$wizard_url = menu_page_url( 'affiliatewp-onboarding', false );
-				wp_safe_redirect( $wizard_url );
-			}
+		// Check if we should consider redirection.
+		if ( ! get_transient( '_affwp_activation_redirect' ) ) {
+			return;
 		}
+
+		// If we are redirecting, clear the transient so it only happens once.
+		delete_transient( '_affwp_activation_redirect' );
+
+		if (
+				/**
+				 * Filters enabling the onboarding wizard on activation.
+				 *
+				 * @since 2.13.1
+				 *
+				 * @param bool $enable_onboarding_wizard Default true. False allows plugins to disable this redirect.
+				 */
+				apply_filters( 'affiliatewp_enable_onboarding_wizard', true ) === false ||
+				! current_user_can( 'manage_affiliate_options' )
+		) {
+			return;
+		}
+
+		// Only do this for single site installs.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['activate-multi'] ) || is_network_admin() ) {
+			return;
+		}
+
+		// Check if it still should be triggered.
+		if (
+				! get_option( 'affwp_trigger_wizard' ) ||
+				false === get_option( 'affwp_trigger_wizard' )
+		) {
+			return;
+		}
+
+		wp_safe_redirect( menu_page_url( 'affiliatewp-onboarding', false ) );
+		exit;
 	}
 
 	/**
@@ -166,19 +194,42 @@ class Bootstrap {
 	public function get_settings() {
 		check_ajax_referer( 'affwpwizard-admin-nonce', 'nonce' );
 
-		$data = array(
-			'currencies'         => affwp_get_currencies(),
-			'currency'           => affiliate_wp()->settings->get( 'currency', 'USD' ),
-			'revoke_on_refund'   => affiliate_wp()->settings->get( 'revoke_on_refund', 1 ),
-			'referral_rate'      => affiliate_wp()->settings->get( 'referral_rate', 20 ),
-			'referral_rate_type' => affiliate_wp()->settings->get( 'referral_rate_type', 'percentage' ),
-			'flat_rate_basis'    => affiliate_wp()->settings->get( 'flat_rate_basis', 'per_product' ),
-			'referral_var'       => affiliate_wp()->settings->get( 'referral_var', 'ref' ),
-			'referral_format'    => affiliate_wp()->settings->get( 'referral_format', 'id' ),
-			'cookie_exp'         => affiliate_wp()->settings->get( 'cookie_exp', 30 ),
-		);
+		$setup_intent = get_option( 'affwp_setup_intent' );
 
-		wp_send_json( $data );
+		// Paypal is recommended so intent should default to true.
+		if ( ! isset( $setup_intent['intent_setup_paypal'] ) ) {
+			update_option(
+				'affwp_setup_intent',
+				array_merge(
+					is_array( $setup_intent )
+						? $setup_intent
+						: array(),
+					array( 'intent_setup_paypal' => 1 ),
+				)
+			);
+		}
+
+		// check lifetime commissions status.
+		$lc_enabled = false;
+
+		if ( function_exists( 'affiliate_wp_lifetime_commissions' ) ) {
+			$affiliate_id         = affwp_get_affiliate_id( get_current_user_id() );
+			$global_lc_enabled    = affiliate_wp()->settings->get( 'lifetime_commissions' );
+			$affiliate_lc_enabled = affwp_get_affiliate_meta( $affiliate_id, 'affwp_lc_enabled', true );
+			$lc_enabled           = ( $global_lc_enabled || ( ! $global_lc_enabled && $affiliate_lc_enabled ) );
+		}
+
+		wp_send_json( array(
+			'enable_payouts_service' => affiliate_wp()->settings->get( 'enable_payouts_service' ),
+			'intent_setup_paypal'    => isset( $setup_intent['intent_setup_paypal'] ) ? $setup_intent['intent_setup_paypal'] : 1,
+			'intent_manual_payouts'  => isset( $setup_intent['intent_manual_payouts'] ) ? $setup_intent['intent_manual_payouts'] : 0,
+			'currencies'             => affwp_get_currencies(),
+			'currency'               => affiliate_wp()->settings->get( 'currency', 'USD' ),
+			'referral_rate'          => affiliate_wp()->settings->get( 'referral_rate', 20 ),
+			'referral_rate_type'     => affiliate_wp()->settings->get( 'referral_rate_type', 'percentage' ),
+			'flat_rate_basis'        => affiliate_wp()->settings->get( 'flat_rate_basis', 'per_product' ),
+			'lifetime_commissions'   => $lc_enabled ? 1 : 0,
+		) );
 	}
 
 	/**
@@ -210,7 +261,8 @@ class Bootstrap {
 		}
 
 		// Activate license.
-		$license_activation = ( new License\License_Data() )->activation_status( $license_key );
+		$license = ( new License\License_Data() );
+		$license_activation = $license->activation_status( $license_key );
 
 		// Check if activation request has failed.
 		if ( is_null( $license_activation ) ) {
@@ -238,6 +290,27 @@ class Bootstrap {
 			) ||
 			empty( $license_data->success )
 		) {
+			// If license is expired, show error with a link to downloads page to renew.
+			if ( 'expired' === $license_data->license ) {
+				wp_send_json_error(
+					array(
+						'error' => sprintf(
+							wp_kses( /* translators: 1: License has expired error, 2: Renew your license to continue. 3: AffiliateWP.com downloads page URL */
+								__( '%1$s <a href="%3$s">%2$s</a>', 'affiliate-wp' ),
+								array(
+									'a' => array(
+										'href' => true,
+									),
+								)
+							),
+							__( 'This license key has expired.', 'affiliate-wp' ),
+							__( 'Renew your license to continue.', 'affiliate-wp' ),
+							esc_url( 'https://affiliatewp.com/account/downloads/?utm_source=WordPress&utm_medium=onboardingwizard&utm_campaign=plugin&utm_content=renew%20your%20license' )
+						),
+					)
+				);
+			}
+			// Otherwise, show generic error message.
 			wp_send_json_error(
 				array(
 					'error' => __( 'This license key doesn&#8217;t appear to be valid. Try again?', 'affiliate-wp' ),
@@ -245,12 +318,28 @@ class Bootstrap {
 			);
 		}
 
+		if ( is_object( $license_data ) && isset( $license_data->expires ) ) {
+			$expires_on  = $license_data->expires === 'lifetime' ?
+				'lifetime' :
+				date('m/d/Y', $license_data->expires );
+		}
+
+		$price_id =  isset( $license_data->price_id ) ? intval( $license_data->price_id ) : false;
+
 		wp_send_json_success(
 			array(
 				'message'      => __( 'Congratulations! This site is now receiving automatic updates.', 'affiliate-wp' ),
-				'license_type' => 'Pro',
-				'status'       => $license_data,
-			)
+				'license_type' => $price_id === false ? '' : $license->get_license_type( $price_id ),
+				'site'    => array(
+					'key'        => $license_key,
+					'status'     => $license_data->license,
+					'is_invalid' => 'valid' !== $license_data->license,
+					'type'       => $license->get_license_type( $price_id ),
+					'price_id'   => $price_id,
+					'expires_on' => isset( $expires_on ) ? $expires_on : false,
+				),
+				'network' => array(),
+				)
 		);
 	}
 
@@ -262,23 +351,37 @@ class Bootstrap {
 	public function get_license() {
 		check_ajax_referer( 'affwpwizard-admin-nonce', 'nonce' );
 
-		$status = affiliate_wp()->settings->get( 'license_status', '' );
-
-		$status = ( is_object( $status ) && isset( $status->license ) )
-			? $status->license
-			: $status;
+		// Attempt to get data from the settings.
+		$license_data = affiliate_wp()->settings->get( 'license_status', '' );
 
 		$license_key = affiliate_wp()->settings->get_license_key();
 
-		$site_license = array(
-			'key'         => $license_key,
-			'status'      => $status,
-			'is_invalid'  => 'valid' !== $status,
-			'type'        => 'valid' === $status ? 'Pro' : '',
-		);
+		// If no license data but has a license key, check the status.
+		if ( empty( $license_data ) && ! empty( $license_key ) ) {
+			$license_key = '';
+		}
+
+		$status = ( is_object( $license_data ) && isset( $license_data->license ) )
+			? $license_data->license
+			: $license_data;
+
+		if ( is_object( $license_data ) && isset( $license_data->expires ) ) {
+			$expires_on  = $license_data->expires === 'lifetime' ?
+				'lifetime' :
+				date('m/d/Y', $license_data->expires );
+		}
+
+		$price_id = isset( $license_data->price_id ) ? intval( $license_data->price_id ) : false;
 
 		wp_send_json( array(
-			'site'    => $site_license,
+			'site'    => array(
+				'key'        => $license_key,
+				'status'     => $status,
+				'is_invalid' => 'valid' !== $status,
+				'type'       => ( new License\License_Data() )->get_license_type( $price_id ),
+				'price_id'   => $price_id,
+				'expires_on' => isset( $expires_on ) ? $expires_on : false,
+			),
 			'network' => array(),
 		) );
 	}
@@ -291,37 +394,40 @@ class Bootstrap {
 	public function get_integrations() {
 		check_ajax_referer( 'affwpwizard-admin-nonce', 'nonce' );
 
-		// Set integrations sections.
-		$integrations_sections = array(
-			'ecommerce'  => array(
-				'title'        => __( 'eCommerce integrations', 'affiliate-wp' ),
-				'subtitle'     => '',
-				'integrations' => array( 'woocommerce', 'edd', 'stripe', 'paypal', 'wpeasycart' ),
+		// Integrations by category.
+		$integrations_categories = array(
+			'eCommerce'  => array(
+				'woocommerce',
+				'edd',
+				'stripe',
+				'paypal',
+				'wpeasycart',
 			),
-			'membership' => array(
-				'title'        => __( 'Membership integrations', 'affiliate-wp' ),
-				'subtitle'     => '',
-				'integrations' => array( 'membermouse', 'memberpress', 'optimizemember', 'pmp', 'pms', 'rcp', 's2member' ),
+			'Membership' => array(
+				'membermouse',
+				'memberpress',
+				'optimizemember',
+				'pmp',
+				'pms',
+				'rcp',
+				's2member',
 			),
-			'form'       => array(
-				'title'        => __( 'Form integrations', 'affiliate-wp' ),
-				'subtitle'     => '',
-				'integrations' => array( 'contactform7', 'formidablepro', 'gravityforms', 'ninja-forms', 'wpforms' ),
+			'Form'       => array(
+				'contactform7',
+				'formidablepro',
+				'gravityforms',
+				'ninja-forms',
+				'wpforms',
 			),
-			'invoice'    => array(
-				'title'        => __( 'Invoice integrations', 'affiliate-wp' ),
-				'subtitle'     => '',
-				'integrations' => array( 'sproutinvoices' ),
+			'Invoice'    => array(
+				'sproutinvoices',
 			),
-			'course'     => array(
-				'title'        => __( 'Course integrations', 'affiliate-wp' ),
-				'subtitle'     => '',
-				'integrations' => array( 'learndash', 'lifterlms' ),
+			'Course'     => array(
+				'learndash',
+				'lifterlms',
 			),
-			'donation'   => array(
-				'title'        => __( 'Donation integrations', 'affiliate-wp' ),
-				'subtitle'     => '',
-				'integrations' => array( 'give' ),
+			'Donation'   => array(
+				'give',
 			),
 		);
 
@@ -330,33 +436,57 @@ class Bootstrap {
 		$enabled_integrations = affiliate_wp()->integrations->get_enabled_integrations();
 		$enabled_keys         = array_keys( $enabled_integrations );
 
+		// Show recommendations if there are any active integration-related plugins detected.
+		$active_recommendations = false;
+
 		// Build integrations array with all details.
-		$integrations = array_map(
-			function( $integration_section ) use ( $all_integrations, $enabled_keys ) {
-				$section = $integration_section;
+		$integrations = array();
 
-				$section_integrations = array_map(
-					function( $integration ) use ( $all_integrations, $enabled_keys ) {
-						$title   = isset( $all_integrations[ $integration ] ) ? $all_integrations[ $integration ] : '';
-						$checked = in_array( $integration, $enabled_keys, true ) ? true : false;
+		foreach ( $all_integrations as $integration => $title ) {
 
-						return array(
-							'feature'     => $integration,
-							'title'       => $title,
-							'checked'     => $checked,
-							'description' => '',
-							'faux'        => false,
-						);
-					},
-					$section['integrations']
-				);
+			// Skip PayPal since it doesn't require a plugin.
+			if ( 'paypal' === $integration ) {
+				continue;
+			}
 
-				$section['integrations'] = $section_integrations;
+			// Recommend integrations with active plugins.
+			$recommended = ! empty( $integration ) ? affiliate_wp()->integrations->get( $integration )->plugin_is_active() : false;
 
-				return $section;
-			},
-			$integrations_sections
-		);
+			// Set category.
+			foreach( $integrations_categories as $category => $list ) {
+				$set_category = '';
+				if ( in_array( $integration, $list, true ) ) {
+					$set_category = $category;
+					break;
+				}
+			}
+
+			$integrations[ $integration ] = array(
+				'feature'     => $integration,
+				'title'       => isset( $title ) ? $title : '',
+				'checked'     => in_array( $integration, $enabled_keys, true),
+				'description' => '',
+				'faux'        => ! $recommended ? true : false,
+				'recommend'   => $recommended,
+				'category'    => $set_category,
+				// Add tooltip to any integrations that are not recommended or the default recomendations.
+				'tooltip'     => ! $recommended
+					? sprintf( esc_html( 'The %s plugin was not detected. Once installed and activated, %s can be integrated with AffiliateWP.', 'affiliate-wp' ),
+						$title,
+						$title
+					)
+					: '',
+			);
+
+			// No need to update if already true or the this integration isn't recommended.
+			if ( true === $active_recommendations || false === $recommended ) {
+				continue;
+			}
+			$active_recommendations = true;
+		}
+
+		// Determines integration step view.
+		$integrations['show_recommended'] = $active_recommendations;
 
 		wp_send_json( $integrations );
 	}
@@ -369,13 +499,22 @@ class Bootstrap {
 	public function save_integrations() {
 		check_ajax_referer( 'affwpwizard-admin-nonce', 'nonce' );
 
+		// List of integrations that don't require a plugin.
+		$no_plugin_required = array( 'paypal' );
+
 		// Build array of enabled integrations.
 		$integrations     = affiliate_wp()->integrations->get_integrations();
-		$enabled          = isset( $_POST['integrations'] ) ? explode( ',', $_POST['integrations'] ) : array();
+		$current_enabled  = affiliate_wp()->integrations->get_enabled_integrations();
+		$wizard_enabled   = isset( $_POST['integrations'] ) ? explode( ',', $_POST['integrations'] ) : array();
 		$new_integrations = array_filter(
 			$integrations,
-			function( $integration ) use ( $enabled ) {
-				return in_array( $integration, $enabled, true );
+			function( $integration ) use ( $no_plugin_required, $current_enabled, $wizard_enabled ) {
+				// If it doesn't require an active plugin, don't override the current settings.
+				if ( in_array( $integration, $no_plugin_required, true ) ){
+					return in_array( $integration, array_keys( $current_enabled ), true );
+				}
+				// Otherwise, we update from the Wizard settings.
+				return in_array( $integration, $wizard_enabled, true );
 			},
 			ARRAY_FILTER_USE_KEY
 		);
@@ -384,7 +523,7 @@ class Bootstrap {
 		$settings = affiliate_wp()->settings->get_all();
 		if ( is_array( $settings ) && isset( $new_integrations ) ) {
 			$settings['integrations'] = $new_integrations;
-			
+
 			// Update settings.
 			update_option( 'affwp_settings', $settings );
 		}
@@ -393,7 +532,7 @@ class Bootstrap {
 	}
 
 	/**
-	 * AJAX callback to update selected setting.
+	 * AJAX callback to update selected setting or intent.
 	 *
 	 * @since 2.9
 	 */
@@ -405,24 +544,30 @@ class Bootstrap {
 
 		$settings = affiliate_wp()->settings->get_all();
 
-		if ( 'referral_var' === $setting ) {
-			$settings['referral_var'] = affiliate_wp()->settings->sanitize_referral_variable( $_POST['value'], 'referral_var' );
+		// TO DO: Maybe separate this to separate function which would also require a new Vue checkbox template. Customers don't need to know difference between setting or intention but might be simpler code to have it separate. The question is: will there be any settings that we save the intention as well?
+		$setup_intent = get_option( 'affwp_setup_intent' );
+
+		// Use to note updated intentions.
+		$updated_intent = array();
+
+		// Payouts Step
+		if ( 'enable_payouts_service' === $setting ) {
+			$settings['enable_payouts_service'] = isset( $_POST['value'] ) && '1' === sanitize_text_field( $_POST['value'] ) ? 1 : 0;
 		}
-		if ( 'referral_format' === $setting ) {
-			$settings['referral_format'] = sanitize_text_field( $_POST['value'] );
+
+		// Update the intention to setup PayPal Payouts for later use on the setup screen.
+		if ( 'intent_setup_paypal' === $setting ) {
+			$updated_intent['intent_setup_paypal'] = isset( $_POST['value'] ) && '1' === sanitize_text_field( $_POST['value'] ) ? 1 : 0;
 		}
-		if ( 'cookie_exp' === $setting ) {
-			if ( empty( $_POST['value'] ) || $_POST['value'] < 0 ) {
-				$settings['cookie_exp'] = 1;
-			} else {
-				$settings['cookie_exp'] = intval( $_POST['value'] );
-			}
+
+		// Update the intention to pay manually for later use on the setup screen.
+		if ( 'intent_manual_payouts' === $setting ) {
+			$updated_intent['intent_manual_payouts'] = isset( $_POST['value'] ) && '1' === sanitize_text_field( $_POST['value'] ) ? 1 : 0;
 		}
+
+		// Commissions and Growth Tools Step
 		if ( 'currency' === $setting ) {
 			$settings['currency'] = sanitize_text_field( $_POST['value'] );
-		}
-		if ( 'revoke_on_refund' === $setting ) {
-			$settings['revoke_on_refund'] = isset( $_POST['value'] ) && '1' === sanitize_text_field( $_POST['value'] ) ? 1 : 0;
 		}
 		if ( 'referral_rate' === $setting ) {
 			$settings['referral_rate'] = floatval( $_POST['value'] );
@@ -434,19 +579,19 @@ class Bootstrap {
 			$settings['flat_rate_basis'] = sanitize_text_field( $_POST['value'] );
 		}
 
-		// Add yourself as an affiliate.
-		if ( 'add_yourself' === $setting ) {
-			$user_id = get_current_user_id();
-
-			$params = array(
-				'user_id' => $user_id,
-				'status'  => 'active',
-			);
-			affwp_add_affiliate( $params );
-		}
-
 		// Update settings.
 		update_option( 'affwp_settings', $settings );
+
+		// Update setup intentions.
+		update_option(
+			'affwp_setup_intent',
+			array_merge(
+				is_array( $setup_intent )
+					? $setup_intent
+					: array(),
+				$updated_intent,
+			)
+		);
 
 		wp_send_json_success();
 	}
@@ -468,6 +613,328 @@ class Bootstrap {
 	}
 
 	/**
+	 * Ajax endpoint for installing addons.
+	 *
+	 * @since 2.13.0
+	 */
+	public function install_addons() {
+		check_ajax_referer( 'affwpwizard-admin-nonce', 'nonce' );
+
+		$response = array(
+			'success' => false,
+			'error'   => '',
+		);
+
+		$enabled_addons  = isset( $_POST['addons'] ) ? explode( ',', $_POST['addons'] ) : array();
+
+		if ( empty( $enabled_addons ) ) {
+			// Nothing to install.
+			wp_send_json_success();
+		}
+
+		// Refresh license.
+		( new License\License_Data() )->check_status( true );
+
+		// Check license.
+		$license_data   = affiliate_wp()->settings->get( 'license_status', '' );
+		$license_status = is_object( $license_data ) ? $license_data->license : $license_data;
+		$price_id       = isset( $license_data->price_id ) ? intval( $license_data->price_id ) : false;
+
+		if ( 'valid' !== $license_status || $price_id < 2 ) {
+			$response['success'] = false;
+			$response['error']   = __( 'You need a Professional license to install Pro features.', 'affiliate-wp' );
+			wp_send_json( $response );
+		}
+
+		if ( in_array( 'tiered_affiliate_rates', $enabled_addons, true ) ) {
+			// Try first to activate.
+			$status = activate_plugin( 'affiliatewp-tiered-affiliate-rates/affiliatewp-tiered-affiliate-rates.php' );
+
+			if ( is_wp_error( $status ) ) {
+				// Install plugin.
+				$installer = new Installer();
+				$status    = $installer->install_addon( 368 );
+
+				if ( ! $status['success'] ) {
+					$response['success'] = false;
+					$response['error']   = $status['error'];
+					wp_send_json( $response );
+				}
+			}
+		}
+
+		if ( in_array( 'lifetime_commissions', $enabled_addons, true ) ) {
+			// Try first to activate.
+			$status = activate_plugin( 'affiliate-wp-lifetime-commissions/affiliate-wp-lifetime-commissions.php' );
+
+			if ( is_wp_error( $status ) ) {
+				// Install plugin.
+				$installer = new Installer();
+				$status    = $installer->install_addon( 6956 );
+
+				if ( ! $status['success'] ) {
+					$response['success'] = false;
+					$response['error']   = $status['error'];
+					wp_send_json( $response );
+				}
+			}
+
+			// Enable LC for all affiliates.
+			if ( function_exists( 'affiliate_wp_lifetime_commissions' ) ) {
+				$affiliate_id         = affwp_get_affiliate_id( get_current_user_id() );
+				$global_lc_enabled    = affiliate_wp()->settings->get( 'lifetime_commissions' );
+				$affiliate_lc_enabled = affwp_get_affiliate_meta( $affiliate_id, 'affwp_lc_enabled', true );
+				$lc_enabled           = ( $global_lc_enabled || ( ! $global_lc_enabled && $affiliate_lc_enabled ) );
+
+				if ( ! $lc_enabled ) {
+					$settings                         = affiliate_wp()->settings->get_all();
+					$settings['lifetime_commissions'] = 1;
+					update_option( 'affwp_settings', $settings );
+				}
+			}
+		}
+
+		if ( in_array( 'recurring_referrals', $enabled_addons, true ) ) {
+			// Try first to activate.
+			$status = activate_plugin( 'affiliate-wp-recurring-referrals/affiliate-wp-recurring-referrals.php' );
+
+			if ( is_wp_error( $status ) ) {
+				// Install plugin.
+				$installer = new Installer();
+				$status    = $installer->install_addon( 1670 );
+
+				if ( ! $status['success'] ) {
+					$response['success'] = false;
+					$response['error']   = $status['error'];
+					wp_send_json( $response );
+				}
+			}
+		}
+
+		// Send JSON response.
+		wp_send_json_success();
+	}
+
+	/**
+	 * Ajax endpoint for installing free versions of recommended plugins.
+	 *
+	 * @since 2.13.0
+	 * @param array $install_list List of plugins to install.
+	 */
+	public function install_growth_tools() {
+		check_ajax_referer( 'affwpwizard-admin-nonce', 'nonce' );
+
+		$install_list  = isset( $_POST['plugins'] ) ? explode( ',', $_POST['plugins'] ) : array();
+
+		if ( empty( $install_list ) || ! is_array( $install_list ) ) {
+			// Nothing to install or missing install growth tools checkbox permission.
+			wp_send_json_success();
+		}
+
+		// Use to note any failed growth tool installations.
+		$failed_install = array();
+
+		// Maybe install & activate MonsterInsights lite version.
+		if ( in_array( 'monster_insights', $install_list, true ) ) {
+			// Check if installed and active (lite or pro version).
+			$is_active = function_exists( 'MonsterInsights' ) && ( is_plugin_active( 'google-analytics-for-wordpress/googleanalytics.php' ) || is_plugin_active( 'google-analytics-premium/googleanalytics-premium.php' ) );
+
+			// Try first to activate.
+			$status = false === $is_active ? activate_plugin( 'google-analytics-for-wordpress/googleanalytics.php' ) : $is_active;
+
+			if ( is_wp_error( $status ) ) {
+				// Install plugin.
+				$installer = new Installer();
+				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/google-analytics-for-wordpress.8.13.0.zip' );
+
+				if ( ! $status['success'] ) {
+					// Intent failed.
+					$failed_install['affwp_growth_tool_analytics_failed'] = 1;
+				}
+			}
+
+			// Prevent welcome/onboarding redirect after activation.
+			delete_transient( '_monsterinsights_activation_redirect' );
+		}
+
+		// Maybe install & activate Trust Pulse plugin.
+		if ( in_array( 'trust_pulse', $install_list ) ) {
+			// Check if installed and active.
+			$is_active = class_exists( 'TPAPI' ) && is_plugin_active( 'trustpulse-api/trustpulse.php' );
+
+			// Try first to activate.
+			$status = false === $is_active ? activate_plugin( 'trustpulse-api/trustpulse.php' ) : $is_active;
+
+			if ( is_wp_error( $status ) ) {
+				// Install plugin.
+				$installer = new Installer();
+				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/trustpulse-api.1.0.7.zip' );
+
+				if ( ! $status['success'] ) {
+					// Intent failed.
+					$failed_install['affwp_growth_tool_social_proof_failed'] = 1;
+				}
+			}
+
+			// Prevent welcome/onboarding redirect after activation.
+			delete_option( 'trustpulse_api_plugin_do_activation_redirect' );
+		}
+
+		// Maybe install & activate AIOSEO lite version.
+		if ( in_array( 'aioseo', $install_list ) ) {
+			// Check if installed and active (lite or pro version).
+			$is_active = function_exists( 'aioseo' ) && ( is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) || is_plugin_active( 'all-in-one-seo-pack-pro/all_in_one_seo_pack.php' ) );
+
+			// Try first to activate.
+			$status = false === $is_active ? activate_plugin( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) : $is_active;
+
+			if ( is_wp_error( $status ) ) {
+				// Install plugin.
+				$installer = new Installer();
+				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/all-in-one-seo-pack.4.3.3.zip' );
+
+				if ( ! $status['success'] ) {
+					// Intent failed.
+					$failed_install['affwp_growth_tool_seo_failed'] = 1;
+				}
+			}
+
+			// Prevent welcome/onboarding redirect after activation.
+			update_option( 'aioseo_activation_redirect', true );
+		}
+
+		// Maybe install & activate SeedProd lite version.
+		if ( in_array( 'seedprod', $install_list ) ) {
+			// Check if installed and active (lite or pro version).
+			$is_active = ( function_exists( 'seedprod_lite_activation' ) || function_exists( 'seedprod_pro_activation' ) ) && ( is_plugin_active( 'coming-soon/coming-soon.php' ) || is_plugin_active( 'seedprod-coming-soon-pro-5/seedprod-coming-soon-pro-5.php' ) );
+
+			// Try first to activate.
+			$status = false === $is_active ? activate_plugin( 'coming-soon/coming-soon.php' ) : $is_active;
+
+			if ( is_wp_error( $status ) ) {
+				// Install plugin.
+				$installer = new Installer();
+				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/coming-soon.6.15.6.zip' );
+
+				if ( ! $status['success'] ) {
+					// Intent failed.
+					$failed_install['affwp_growth_tool_landing_pages_failed'] = 1;
+				}
+			}
+		}
+
+		// Maybe install & activate WP Mail SMTP lite version.
+		if ( in_array( 'wp_mail_smtp', $install_list ) ) {
+			// Check if installed and active (lite or pro version).
+			$is_active = function_exists( 'wp_mail_smtp' ) && ( is_plugin_active( 'wp-mail-smtp/wp_mail_smtp.php' ) || is_plugin_active( 'wp-mail-smtp-pro/wp_mail_smtp.php' ) );
+
+			// Try first to activate.
+			$status = false === $is_active ? activate_plugin( 'wp-mail-smtp/wp_mail_smtp.php' ) : $is_active;
+
+			if ( is_wp_error( $status ) ) {
+				// Install plugin.
+				$installer = new Installer();
+				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/wp-mail-smtp.3.7.0.zip' );
+
+				if ( ! $status['success'] ) {
+					// Intent failed.
+					$failed_install['affwp_growth_tool_mail_smtp_failed'] = 1;
+				}
+			}
+		}
+
+		// Maybe install & activate Uncanny Automator lite version.
+		if ( in_array( 'uncanny_automator', $install_list ) ) {
+			// Check if installed and active (lite or pro version).
+			$is_active = ( function_exists( 'Automator' ) || function_exists( 'Automator_Pro' ) ) && ( is_plugin_active( 'uncanny-automator/uncanny-automator.php' ) || is_plugin_active( 'uncanny-automator-pro/uncanny-automator-pro.php' ) );
+
+			// Try first to activate.
+			$status = false === $is_active ? activate_plugin( 'uncanny-automator/uncanny-automator.php' ) : $is_active;
+
+			if ( is_wp_error( $status ) ) {
+				// Install plugin.
+				$installer = new Installer();
+				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/uncanny-automator.4.12.0.1.zip' );
+
+				if ( ! $status['success'] ) {
+					// Intent failed.
+					$failed_install['affwp_growth_tool_automator_failed'] = 1;
+				}
+			}
+		}
+
+		// Maybe install & activate OptinMonster plugin.
+		if ( in_array( 'optin_monster', $install_list ) ) {
+			// Check if installed and active.
+			$is_active = function_exists( 'optin_monster' ) && is_plugin_active( 'optinmonster/optin-monster-wp-api.php' );
+
+			// Try first to activate.
+			$status = false === $is_active ? activate_plugin( 'optinmonster/optin-monster-wp-api.php' ) : $is_active;
+
+			if ( is_wp_error( $status ) ) {
+				// Install plugin.
+				$installer = new Installer();
+				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/optinmonster.2.13.0.zip' );
+
+				if ( ! $status['success'] ) {
+					// Intent failed.
+					$failed_install['affwp_growth_tool_optin_failed'] = 1;
+				}
+			}
+
+			// Prevent welcome/onboarding redirect after activation.
+			delete_transient( 'optin_monster_api_activation_redirect' );
+		}
+
+		// Check if anything failed.
+		if ( ! empty( $failed_install ) ) {
+
+			// Get setup intent option.
+			$setup_intent = get_option( 'affwp_setup_intent' );
+
+			// Update so we know what failed to install.
+			update_option(
+				'affwp_setup_intent',
+				array_merge(
+					is_array( $setup_intent )
+						? $setup_intent
+						: array(),
+					$failed_install,
+				)
+			);
+		}
+
+		// Send JSON response.
+		wp_send_json_success();
+	}
+
+	/**
+	 * Ajax endpoint for skipping upgrade step.
+	 *
+	 * @since 2.13.0
+	 */
+	public function skip_upgrade() {
+		check_ajax_referer( 'affwpwizard-admin-nonce', 'nonce' );
+
+		// Get setup intent option.
+		$setup_intent = get_option( 'affwp_setup_intent' );
+
+		// Update that option with intention to skip.
+		update_option(
+			'affwp_setup_intent',
+			array_merge(
+				is_array( $setup_intent )
+					? $setup_intent
+					: array(),
+				array( 'affwp_user_skipped_upgrade' => 1 ),
+			)
+		);
+
+		// Send JSON response.
+		wp_send_json_success();
+	}
+
+	/**
 	 * Load the scripts needed for the Onboarding Wizard.
 	 *
 	 * @since 2.9
@@ -481,17 +948,34 @@ class Bootstrap {
 			'affwpwizard-vue-script',
 			'affwpwizard',
 			array(
-				'ajax'           => add_query_arg( 'page', 'affiliatewp-onboarding', admin_url( 'admin-ajax.php' ) ),
-				'nonce'          => wp_create_nonce( 'affwpwizard-admin-nonce' ),
-				'affwpAdminUrl'  => affwp_admin_url(),
-				'network'        => is_network_admin(),
-				'translations'   => $this->get_jed_locale_data( 'mi-vue-app' ),
-				'assets'         => plugins_url( '/assets/vue/wizard', AFFILIATEWP_PLUGIN_FILE ),
-				'wizard_url'     => is_network_admin() ? network_admin_url( 'index.php?page=affiliatewp-onboarding' ) : admin_url( 'index.php?page=affiliatewp-onboarding' ),
-				'exit_url'       => affwp_admin_url(),
-				'plugin_version' => AFFILIATEWP_VERSION,
-				'site_url'       => get_site_url(),
-				'logo'           => AFFILIATEWP_PLUGIN_URL . 'assets/images/affiliatewp-1.svg',
+				'ajax'                => add_query_arg( 'page', 'affiliatewp-onboarding', admin_url( 'admin-ajax.php' ) ),
+				'nonce'               => wp_create_nonce( 'affwpwizard-admin-nonce' ),
+				'affwpAdminUrl'       => affwp_admin_url(),
+				'network'             => is_network_admin(),
+				'translations'        => $this->get_jed_locale_data( 'mi-vue-app' ),
+				'assets'              => plugins_url( '/assets/vue/wizard', AFFILIATEWP_PLUGIN_FILE ),
+				'wizard_url'          => is_network_admin() ? network_admin_url( 'index.php?page=affiliatewp-onboarding' ) : admin_url( 'index.php?page=affiliatewp-onboarding' ),
+				'exit_url'            => affwp_admin_url(),
+				'setup_url'           => get_option( 'affwp_display_setup_screen' ) ? affwp_admin_url( 'setup-screen' ) : affwp_admin_url(),
+				'plugin_version'      => AFFILIATEWP_VERSION,
+				'site_url'            => get_site_url(),
+				'logo'                => AFFILIATEWP_PLUGIN_URL . 'assets/images/affiliatewp-1.svg',
+				'compatWarningTitle'  => __( 'No Compatible Plugins Detected', 'affiliate-wp'),
+				'compatWarningDesc'   => __( 'We recommend integrating AffiliateWP with one of the plugins below.', 'affiliate-wp' ),
+				'compatTitle'         => __( 'Compatible Plugins', 'affiliate-wp' ),
+				'errorLicenseExpired' => sprintf(
+					wp_kses( /* translators: 1: License has expired error, 2: Renew your license to continue. 3: AffiliateWP.com downloads page URL */
+						__( '%1$s <a href="%3$s">%2$s</a>', 'affiliate-wp' ),
+						array(
+							'a' => array(
+								'href' => true,
+							),
+						)
+					),
+					__( 'This license key has expired.', 'affiliate-wp' ),
+					__( 'Renew your license to continue.', 'affiliate-wp' ),
+					esc_url( 'https://affiliatewp.com/account/downloads/?utm_source=WordPress&utm_medium=onboardingwizard&utm_campaign=plugin&utm_content=renew%20your%20license' )
+				),
 			)
 		);
 

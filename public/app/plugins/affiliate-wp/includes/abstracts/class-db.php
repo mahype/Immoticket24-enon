@@ -766,4 +766,43 @@ abstract class Affiliate_WP_DB {
 
 		return $result;
 	}
+
+	/**
+	 * Method for adding usual include/exclude WHERE SQL clauses.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param string $where Current WHERE clause.
+	 * @param array  $args  Arguments passed to get items method.
+	 *
+	 * @return string
+	 */
+	protected function add_include_exclude_clauses( string $where = '', array $args = array() ) : string {
+
+		if ( ! empty( $args['include'] ) ) {
+			$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+
+			if ( is_array( $args['include'] ) ) {
+				$include = implode( ',', array_map( 'intval', $args['include'] ) );
+			} else {
+				$include = intval( $args['include'] );
+			}
+
+			$where .= "`{$this->primary_key}` IN( {$include} )";
+		}
+
+		if ( ! empty( $args['exclude'] ) ) {
+			$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+
+			if ( is_array( $args['exclude'] ) ) {
+				$exclude = implode( ',', array_map( 'intval', $args['exclude'] ) );
+			} else {
+				$exclude = intval( $args['exclude'] );
+			}
+
+			$where .= "`{$this->primary_key}` NOT IN( {$exclude} )";
+		}
+
+		return $where;
+	}
 }

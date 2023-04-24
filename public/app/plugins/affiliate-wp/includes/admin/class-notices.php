@@ -203,12 +203,6 @@ class Affiliate_WP_Admin_Notices {
 			$output .= self::show_notice( 'development_version', false );
 		}
 
-		$integrations = affiliate_wp()->integrations->get_enabled_integrations();
-
-		if ( empty( $integrations ) && ! get_user_meta( get_current_user_id(), '_affwp_no_integrations_dismissed', true ) ) {
-			$output .= self::show_notice( 'no_integrations', false );
-		}
-
 		if ( affwp_affiliate_email_summaries_enabled_without_wp_mail_smtp() ) {
 			$output .= self::show_notice( 'wp_mail_smtp_not_configured', false );
 		}
@@ -260,6 +254,7 @@ class Affiliate_WP_Admin_Notices {
 		}
 
 		// Integrations.
+		$integrations = affiliate_wp()->integrations->get_enabled_integrations();
 		$active_integrations = affiliate_wp()->integrations->query( array( 'fields' => 'ids' ) );
 
 		foreach ( $active_integrations as $id ) {
@@ -909,20 +904,6 @@ class Affiliate_WP_Admin_Notices {
 	 * @return string|void Output if `$display_notices` is false, otherwise void.
 	 */
 	public function integration_notices() {
-		$this->add_notice( 'no_integrations', array(
-			'class'   => 'error',
-			'message' => function() {
-				/* translators: URL to the Integrations settings screen */
-				$message = sprintf( __( 'There are currently no AffiliateWP <a href="%s">integrations</a> enabled. If you are using AffiliateWP without any integrations, you may disregard this message.', 'affiliate-wp' ), affwp_admin_url( 'settings', array( 'tab' => 'integrations' ) ) ) . '</p>';
-				$message .= '<p><a href="' . wp_nonce_url( add_query_arg( array(
-						'affwp_action' => 'dismiss_notices',
-						'affwp_notice' => 'no_integrations',
-					) ), 'affwp_dismiss_notice', 'affwp_dismiss_notice_nonce' ) . '">' . _x( 'Dismiss Notice', 'Integrations', 'affiliate-wp' ) . '</a>';
-
-				return $message;
-			},
-		) );
-
 		$integrations = affiliate_wp()->integrations->query( array( 'supports' => 'sales_reporting' ) );
 
 		// Loop through active integrations and post any notices for that integration.
@@ -1435,9 +1416,6 @@ class Affiliate_WP_Admin_Notices {
 			$notice = sanitize_key( $_GET['affwp_notice'] );
 
 			switch( $notice ) {
-				case 'no_integrations':
-					update_user_meta( get_current_user_id(), "_affwp_{$notice}_dismissed", 1 );
-					break;
 				case 'expired_license':
 				case 'invalid_license':
 					set_transient( 'affwp_license_notice', true, 2 * WEEK_IN_SECONDS );

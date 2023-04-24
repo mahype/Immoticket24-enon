@@ -312,5 +312,64 @@ function affwp_delete_affiliate_meta_when_migrated_user_meta_is_deleted( $meta_i
 		affwp_delete_affiliate_meta( $affiliate_id, affwp_remove_prefix( $meta_key ) );
 	}
 }
-
 add_action( "delete_user_metadata", 'affwp_delete_affiliate_meta_when_migrated_user_meta_is_deleted', 2, 4 );
+
+/**
+ * Register all the connectables.
+ *
+ * @since 2.13.0 Added creatives, affiliates, and groups.
+ */
+function affwp_register_connectables() : void {
+
+	if ( ! affiliate_wp()->connections->is_registered_connectable( 'affiliate' ) ) {
+
+		// Affiliates.
+		affiliate_wp()->connections->register_connectable(
+			array(
+				'name'   => 'affiliate',
+				'table'  => affiliate_wp()->affiliates->table_name,
+				'column' => affiliate_wp()->affiliates->primary_key,
+			)
+		);
+	}
+
+	if ( ! affiliate_wp()->connections->is_registered_connectable( 'creative' ) ) {
+
+		// Creatives.
+		affiliate_wp()->connections->register_connectable(
+			array(
+				'name'   => 'creative',
+				'table'  => affiliate_wp()->creatives->table_name,
+				'column' => affiliate_wp()->creatives->primary_key,
+			)
+		);
+	}
+
+	if ( ! affiliate_wp()->connections->is_registered_connectable( 'group' ) ) {
+
+		// Groups.
+		affiliate_wp()->connections->register_connectable(
+			array(
+				'name'   => 'group',
+				'table'  => affiliate_wp()->groups->table_name,
+				'column' => affiliate_wp()->groups->primary_key,
+			)
+		);
+	}
+}
+add_action( 'init', 'affwp_register_connectables' );
+
+/**
+ * Load AlpineJS on all our admin pages.
+ *
+ * @since 2.13.0
+ */
+function affwp_admin_enqueue_alpinejs() {
+
+	if ( ! affwp_is_admin_page() ) {
+		return; // Don't load AlpineJS on other pages in the admin other than ours.
+	}
+
+	wp_enqueue_script( 'alpinejs' );
+}
+add_action( 'admin_enqueue_scripts', 'affwp_admin_enqueue_alpinejs' );

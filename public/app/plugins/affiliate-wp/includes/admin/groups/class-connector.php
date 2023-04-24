@@ -2,6 +2,8 @@
 /**
  * Connecting Items to Groups.
  *
+ * Note, this does not connect items to items.
+ *
  * All the UI elements and functionality needed to connect items
  * (like creatives) to groups.
  *
@@ -24,6 +26,7 @@
  */
 
 // phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Empty lines okay for formatting here.
+// phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Empty lines are okay.
 
 namespace AffiliateWP\Admin\Groups;
 
@@ -36,6 +39,7 @@ require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-data.php';
 require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-select2.php';
 require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-hooks.php';
 require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-db.php';
+
 
 /**
  * Connecting Items to Groups.
@@ -69,6 +73,15 @@ abstract class Connector {
 	 * @var string
 	 */
 	protected $capability = 'administrator';
+
+	/**
+	 * Name of the column to add groups column after.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @var string
+	 */
+	protected $groups_column_before = '';
 
 	/**
 	 * The title for the Group (Singular)
@@ -228,6 +241,17 @@ abstract class Connector {
 	private $selected_item_groups = array();
 
 	/**
+	 * Selector type.
+	 *
+	 * Can be multiple or single.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @var string
+	 */
+	protected $selector_type = 'multiple';
+
+	/**
 	 * Constuct.
 	 *
 	 * @since 2.12.0
@@ -267,15 +291,41 @@ abstract class Connector {
 			return $columns; // We will create the columns, but we need this to populate the value in the column.
 		}
 
+		$column_title = apply_filters(
+			'affwp_connector_column',
+			ucfirst(
+				'multiple' === $this->selector_type
+					? $this->group_plural
+					: $this->group_single
+			),
+			$this->group_type,
+			$this->item,
+		);
+
+		if ( empty( $this->groups_column_before ) ) {
+
+			return array_merge(
+				$columns,
+				array(
+					$this->get_column_name() => $column_title,
+				)
+			);
+		}
+
 		$reordered_columns = array();
 
 		foreach ( $columns as $column_key => $column ) {
 
-			// We want to add it right after the shortcode column.
-			if ( 'shortcode' === $column_key ) {
-				$reordered_columns[ $this->get_column_name() ] = ucfirst( $this->group_plural );
+			if ( ! $this->is_string_and_nonempty( $this->groups_column_before ) ) {
+				continue; // Fail gracefully.
 			}
 
+			// Add the column before column specified.
+			if ( $this->groups_column_before === $column_key ) {
+				$reordered_columns[ $this->get_column_name() ] = $column_title;
+			}
+
+			// Insert the other columns right after.
 			$reordered_columns[ $column_key ] = $column;
 		}
 
@@ -321,8 +371,8 @@ abstract class Connector {
 		add_filter( $this->filter_hook_name( "affwp_{$this->item}_table_{$this->get_column_name()}" ), array( $this, 'column_contents' ), 10, 2 );
 
 		// Grouping UI on new and edit items.
-		add_action( $this->filter_hook_name( "affwp_edit_{$this->item}_bottom" ), array( $this, 'group_multiselect' ), 10, 1 );
-		add_action( $this->filter_hook_name( "affwp_new_{$this->item}_bottom" ), array( $this, 'group_multiselect' ), 10, 1 );
+		add_action( $this->filter_hook_name( "affwp_edit_{$this->item}_bottom" ), array( $this, 'group_selector' ), 10, 1 );
+		add_action( $this->filter_hook_name( "affwp_new_{$this->item}_bottom" ), array( $this, 'group_selector' ), 10, 1 );
 
 		// Editing items.
 		add_action( $this->filter_hook_name( "affwp_add_{$this->item}" ), array( $this, 'connect_groups_to_updated_items' ), 1, 1 );
@@ -337,10 +387,169 @@ abstract class Connector {
 
 		// Filtering by category by dropdowns.
 		add_action( $this->filter_hook_name( "affwp_affiliates_page_affiliate-wp-{$this->item}s_extra_tablenav_after" ), array( $this, 'filter_dropdown' ) );
-		add_action( $this->filter_hook_name( "affwp_{$this->item}s_table" ), array( $this, 'filter_items_table' ) ); // See includes/admin/creatives/creatives.php::affwp_creatives_admin() for example filter needed.
+		add_action( $this->filter_hook_name( "affwp_{$this->item}_table_get_{$this->item}s" ), array( $this, 'filter_table_get_items_args' ) ); // See includes/admin/creatives/creatives.php::affwp_creatives_admin() for example filter needed.
 
 		// Load our scripts and styles for select2, etc.
 		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
+
+		// Add bulk actions for assigning bulk items to group.
+		add_action( $this->filter_hook_name( "affwp_{$this->item}s_bulk_actions" ), array( $this, 'add_assign_to_bulk_actions' ) );
+		add_action( $this->filter_hook_name( "affwp_{$this->item}_bulk_actions" ), array( $this, 'add_assign_to_bulk_actions' ) );
+
+		foreach ( $this->get_assign_to_bulk_items() as $action => $name ) {
+			add_action( $this->filter_hook_name( "affwp_{$this->item}s_do_bulk_action_{$action}" ), array( $this, 'connect_bulk_applied_group_to_item' ) );
+		}
+	}
+
+	/**
+	 * Connect a bulk selected item to the applied group.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param int $item_id The ID of the item.
+	 */
+	public function connect_bulk_applied_group_to_item( int $item_id ) : void {
+
+		if ( ! $this->user_has_capability() ) {
+			return;
+		}
+
+		$group_id = $this->get_assign_to_id_from_action();
+
+		if (
+			! $this->is_numeric_and_gt_zero( $group_id ) ||
+			! $this->is_numeric_and_gt_zero( $item_id )
+		) {
+
+			// We need a valid group id and item id to connect.
+			return;
+		}
+
+		// Single types can only assign one group to the item.
+		if ( 'single' === $this->selector_type ) {
+
+			// First disconnect the affiliate from ALL groups (we'll connect the right one later).
+			foreach (
+
+				// Make sure connected groups are of the same type.
+				affiliate_wp()->groups->filter_groups_by_type(
+
+					// Get any groups already connected to the item id.
+					affiliate_wp()->connections->get_connected(
+						'group',
+						$this->item,
+						$item_id
+					),
+
+					// Match this group type.
+					$this->group_type
+				) as $prev_connected_group_id
+			) {
+
+				// Skip the group we want to eventually connect.
+				if ( intval( $group_id ) === intval( $prev_connected_group_id ) ) {
+					continue; // Don't bother disconnecting, just to connect it later.
+				}
+
+				// Disconnect the previously connected group.
+				affiliate_wp()->connections->disconnect(
+					array(
+						'group'     => $prev_connected_group_id,
+						$this->item => $item_id,
+					)
+				);
+			}
+		}
+
+		// Connect the item to the group id (note: no disconnecting, so append).
+		affiliate_wp()->connections->connect(
+			array(
+				'group'     => intval( $group_id ),
+				$this->item => $item_id,
+			)
+		);
+	}
+
+	/**
+	 * Get the assign to ID from the bulk action.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return int The ID, a negative number if no ID sent.
+	 */
+	private function get_assign_to_id_from_action() : int {
+
+		$action = filter_input( INPUT_GET, 'action', FILTER_UNSAFE_RAW );
+
+		if ( ! strstr( $action, "assign-{$this->group_type}:" ) ) {
+			return -1; // Not an assignment.
+		}
+
+		$group_id = str_replace( "assign-{$this->group_type}:", '', $action );
+
+		if ( ! $this->is_numeric_and_gt_zero( $group_id ) ) {
+			return -2; // The ID is not a valid id.
+		}
+
+		if ( ! affiliate_wp()->groups->group_exists( $group_id ) ) {
+			return -3; // The selected group ID doesn't lead to a group in the DB.
+		}
+
+		return intval( $group_id );
+	}
+
+	/**
+	 * Add bulk action items for assigning items.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param array $actions Default actions.
+	 *
+	 * @return array
+	 */
+	public function add_assign_to_bulk_actions( array $actions ) : array {
+
+		return array_merge(
+			$actions,
+			$this->get_assign_to_bulk_items()
+		);
+	}
+
+	/**
+	 * Get all the assign to bulk options.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return array
+	 */
+	private function get_assign_to_bulk_items() : array {
+
+		$assign_to_groups = array();
+
+		foreach ( $this->get_all_groups() as $group ) {
+
+			// Add bulk item value (used to assign) and output name.
+			$assign_to_groups[ "assign-{$this->group_type}:{$group->get_id()}" ] = esc_html(
+				sprintf(
+
+					// Translators: %1$s is the name of the type (singular), %2$s is the name of the group.
+					__( 'Assign %1$s: %2$s', 'affiliate-wp' ),
+					ucwords( $this->group_single ),
+					$group->get_title()
+				)
+			);
+		}
+
+		/**
+		 * Filter bulk items shown for the connector.
+		 *
+		 * @param array  $items      The bulk items the connector adds.
+		 * @param string $group_type The group type of the connector.
+		 * @param string $item       The item of the connector.
+		 *
+		 * phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- Used to cache.
+		 */
+		return apply_filters( 'affwp_connector_bulk_items', $assign_to_groups, $this->group_type, $this->item );
 	}
 
 	/**
@@ -373,21 +582,72 @@ abstract class Connector {
 			throw new \InvalidArgumentException( "\$item must have a valid ID stored in object property '{$property}'." );
 		}
 
-		$none = esc_html__( 'None', 'affiliate-wp' );
+		/**
+		 * Filter the value for None when there are no groups.
+		 *
+		 * @since 2.13.0
+		 *
+		 * @param string $none       The value for None when there are none.
+		 * @param string $group_type The group type of the connector.
+		 * @param string $item       The item of the connector.
+		 */
+		$none = apply_filters(
+			'affwp_connector_column_contents_none',
+			esc_html__( 'None', 'affiliate-wp' ),
+			$this->group_type,
+			$this->item
+		);
 
-		$connected = affiliate_wp()->connections->get_connected(
-			'group',
+		// Get connected groups to the item.
+		$connected_groups = array_filter(
+			affiliate_wp()->connections->get_connected(
+				'group',
+				$this->item,
+				$item->$property
+			),
+			function( $group_id ) {
+
+				// Only get connected groups of the same type.
+				return affiliate_wp()->groups->get_group_type( $group_id ) === $this->group_type;
+			}
+		);
+
+		if ( ! is_array( $connected_groups ) ) {
+
+			/** This filter is documented in the return below. */
+			return apply_filters(
+				'affwp_connector_column_contents',
+				$none,
+				$this->group_type,
+				$this->item,
+				$item->$property
+			);
+		}
+
+		/**
+		 * Filter the groups sown in the connector column.
+		 *
+		 * You can use this to inject other groups of the same group type
+		 * to be shown (and formatted) below.
+		 *
+		 * @since 2.13.0
+		 *
+		 * @param array  $connected_groups Group ID's of groups to show.
+		 * @param string $group_type       Group type of the connector.
+		 * @param string $item             The item of the connector.
+		 * @param int    $item_id          The ID of the item.
+		 */
+		$connected_groups = apply_filters(
+			'affwp_group_connector_column_value_before_titled_groups',
+			$connected_groups,
+			$this->group_type,
 			$this->item,
 			$item->$property
 		);
 
-		if ( ! is_array( $connected ) ) {
-			return $none;
-		}
-
 		$groups = array();
 
-		foreach ( $connected as $group_id ) {
+		foreach ( $connected_groups as $group_id ) {
 
 			if ( ! $this->is_numeric_and_gt_zero( $group_id ) ) {
 				continue;
@@ -404,24 +664,106 @@ abstract class Connector {
 			$nonce_value = wp_create_nonce( $nonce_name );
 
 			// Generate a URL for filtering.
-			$url = "?page=affiliate-wp-{$this->item}s&filter-{$this->item}-top={$group_id}&{$nonce_name}={$nonce_value}";
+			$url = "?page=affiliate-wp-{$this->item}s&filter-{$this->item}-{$this->group_type}-top={$group_id}&{$nonce_name}={$nonce_value}";
 
 			// Add the link to the list.
 			$groups[ $group_title ] = "<a href='{$url}'>{$group_title}</a>";
 		}
 
 		if ( empty( $groups ) ) {
-			return $none;
+
+			/** This filter is documented in the return below. */
+			return apply_filters(
+				'affwp_connector_column_contents',
+				$none,
+				$this->group_type,
+				$this->item,
+				$item->$property
+			);
 		}
 
 		ksort( $groups );
 
 		return wp_kses(
-			implode( ', ', $groups ),
-			array(
-				'a' => array(
-					'href' => true,
+
+			/**
+			 * Filter the column contents.
+			 *
+			 * @param string $contents   The contents.
+			 * @param string $group_type The connector group type.
+			 * @param string $item       The item for the connector.
+			 * @param int    $item_id    The ID of the item shown.
+			 *
+			 * @since 2.13.0
+			 */
+			apply_filters(
+				'affwp_connector_column_contents',
+				implode(
+					', ',
+					array_map(
+						function( $group ) {
+
+							/**
+							 * Filter the group title shown in the column.
+							 *
+							 * @since 2.13.0
+							 *
+							 * @param string $group_title Group title.
+							 * @param string $group_type  Group type.
+							 */
+							return apply_filters(
+								'affwp_group_connector_after_column_group_title',
+								$group,
+								$this->group_type,
+								$this->item
+							);
+						},
+						$groups
+					)
 				),
+				$this->group_type,
+				$this->item,
+				$item->$property
+			),
+
+			/**
+			 * Filter the allowed HTML for the group title.
+			 *
+			 * @since 2.13.0
+			 *
+			 * @param array $allowed_html Allowed HTML for `wp_kses()`.
+			 */
+			apply_filters(
+				'affwp_group_connector_after_column_group_title_kses',
+				array(
+					'a'      => array(
+						'href'   => true,
+						'target' => true,
+						'title'  => true,
+						'class'  => true,
+					),
+					'br'     => true,
+					'strong' => array(
+						'title' => true,
+						'class' => true,
+					),
+					'span'   => array(
+						'class' => true,
+						'title' => true,
+					),
+					'div'    => array(
+						'class' => true,
+						'title' => true,
+					),
+					'em'     => array(
+						'class' => true,
+						'title' => true,
+					),
+					'hr'     => array(
+						'class' => true,
+						'title' => true,
+					),
+				)
 			)
 		);
 	}
@@ -447,12 +789,29 @@ abstract class Connector {
 			throw new \InvalidArgumentException( '$item_id must be a positive numeric value.' );
 		}
 
-		if (
-			! is_array( $this->selected_item_groups ) ||
-			empty( $this->selected_item_groups )
-		) {
+		if ( ! is_array( $this->selected_item_groups ) ) {
 			return; // No data to save, make no changes.
 		}
+
+		/**
+		 * Filter the groups for new item.
+		 *
+		 * @since 2.13.0
+		 *
+		 * @param array  $groups     Array of values sent via `POST` (cached for new item).
+		 * @param string $group_Type The connector group type.
+		 * @param string $item       The item of the connector.
+		 * @param int    $item_id    The ID of the item.
+		 */
+		$this->selected_item_groups = apply_filters(
+			'affwp_group_connector_item_groups',
+			$this->selected_item_groups,
+			$this->group_type,
+			$this->item,
+			isset( $item_id )
+				? intval( $item_id )
+				: 0
+		);
 
 		// Disconnect groups that weren't selected (but selected previously).
 		$this->disconnect_unselected_groups_from_item(
@@ -478,7 +837,7 @@ abstract class Connector {
 	 */
 	public function connect_groups_to_updated_items( $data ) {
 
-		if ( ! current_user_can( $this->capability ) ) {
+		if ( ! $this->user_has_capability() ) {
 			return $data;
 		}
 
@@ -495,45 +854,79 @@ abstract class Connector {
 			$this->nonce_action( 'update', 'item' )
 		);
 
-		if ( ! isset( $data[ "{$this->item}_id" ] ) ) {
-
-			// Cache the data/groups for later.
-			$this->selected_item_groups = isset( $data[ "{$this->item}_groups" ] ) ? $data[ "{$this->item}_groups" ] : array();
-
-			return $data; // Stop here, nother hook will update the data with the right ID.
+		if (
+			! isset( $data[ "{$this->item}_id" ] ) &&
+			! isset( $data[ "{$this->item}_{$this->group_type}_groups" ] )
+		) {
+			return $data; // New item and no groups selected for that new item.
 		}
 
-		if ( ! $this->is_numeric_and_gt_zero( $data[ "{$this->item}_id" ] ) ) {
+		if (
+			isset( $data[ "{$this->item}_id" ] ) &&
+			! isset( $data[ "{$this->item}_{$this->group_type}_groups" ] )
+		) {
+
+			// Disconnect all groups from this item, none were sent.
+			$this->disconnect_unselected_groups_from_item(
+				intval( $data[ "{$this->item}_id" ] ),
+				array()
+			);
+
+			/** This filter is documented in this class, see `self::connect_groups_to_new_item( $item_id )`. */
+			$groups = apply_filters(
+				'affwp_group_connector_item_groups',
+				array(),
+				$this->group_type,
+				$this->item,
+				isset( $data[ "{$this->item}_id" ] )
+					? intval( $data[ "{$this->item}_id" ] )
+					: 0
+			);
+
+			return $data; // No changes to current groups.
+		}
+
+		if ( ! isset( $data[ "{$this->item}_id" ] ) ) {
+
+			// Cache the data/groups for later (new item).
+			$this->selected_item_groups = $data[ "{$this->item}_{$this->group_type}_groups" ];
+
+			// Stop here, nother hook will update the data with the right ID.
+			return $data;
+		}
+
+		/** This filter is documented in this class, see `self::connect_groups_to_new_item( $item_id )`. */
+		$groups = apply_filters(
+			'affwp_group_connector_item_groups',
+			$data[ "{$this->item}_{$this->group_type}_groups" ],
+			$this->group_type,
+			$this->item,
+			isset( $data[ "{$this->item}_id" ] )
+				? intval( $data[ "{$this->item}_id" ] )
+				: 0
+		);
+
+		$item_id = $data[ "{$this->item}_id" ];
+
+		if ( ! $this->is_numeric_and_gt_zero( $item_id ) ) {
 			return $data; // Must be a valid ID to update the item, fail gracefully (no changes).
 		}
 
 		// Disconnect groups that might have previously been connected.
 		$this->disconnect_unselected_groups_from_item(
-			$data[ "{$this->item}_id" ],
-
-			// Disconnect groups not in this list.
-			isset( $data[ "{$this->item}_groups" ] )
-				? $data[ "{$this->item}_groups" ]
-				: array()
+			$item_id,
+			$groups // Disconnect groups not in this list from this item.
 		);
-
-		$connections = array();
 
 		// Connect the groups they selected.
 		$this->connect_groups_to_item(
-			$data[ "{$this->item}_id" ],
-
-			// Connect groups in this list.
-			isset( $data[ "{$this->item}_groups" ] )
-				? $data[ "{$this->item}_groups" ]
-				: array()
+			$item_id,
+			$groups // Connect groups in this list to this item.
 		);
 
-		if ( ! isset( $data[ "{$this->item}_groups" ] ) ) {
-			return $data;
+		if ( isset( $data[ "{$this->item}_{$this->group_type}_groups" ] ) ) {
+			unset( $data[ "{$this->item}_{$this->group_type}_groups" ] );
 		}
-
-		unset( $data[ "{$this->item}_groups" ] );
 
 		return $data; // No changes to data, connections should have been formed.
 	}
@@ -550,6 +943,10 @@ abstract class Connector {
 	 */
 	private function connect_groups_to_item( $item_id, $groups ) {
 
+		if ( ! $this->user_has_capability() ) {
+			return;
+		}
+
 		if ( ! $this->is_numeric_and_gt_zero( $item_id ) ) {
 			throw new \InvalidArgumentException( '$item_id must be a positive numeric value.' );
 		}
@@ -562,6 +959,12 @@ abstract class Connector {
 
 			if ( ! $this->is_numeric_and_gt_zero( $group_id ) ) {
 				continue; // Can't connect to this group (not a valid ID).
+			}
+
+			$group = affiliate_wp()->groups->get_group( $group_id );
+
+			if ( $group->get_type() !== $this->group_type ) {
+				continue; // Don't connect a group that isn't of the type setup.
 			}
 
 			// Try and form a connection to this group.
@@ -584,6 +987,10 @@ abstract class Connector {
 	 * @return void
 	 */
 	public function delete_connections_to_item( $item_id ) {
+
+		if ( ! $this->user_has_capability() ) {
+			return;
+		}
 
 		if ( ! $this->is_numeric_and_gt_zero( $item_id ) ) {
 			return; // Fail gracefully, it's just a stray connection.
@@ -618,6 +1025,10 @@ abstract class Connector {
 	 */
 	public function delete_connections_to_group( $group_id ) {
 
+		if ( ! $this->user_has_capability() ) {
+			return;
+		}
+
 		if ( ! $this->is_numeric_and_gt_zero( $group_id ) ) {
 			return; // Fail gracefully, it's just a stray connection.
 		}
@@ -648,6 +1059,10 @@ abstract class Connector {
 	 */
 	private function disconnect_unselected_groups_from_item( $item_id, $selected_groups ) {
 
+		if ( ! $this->user_has_capability() ) {
+			return;
+		}
+
 		if ( ! $this->is_numeric_and_gt_zero( $item_id ) ) {
 			throw new \InvalidArgumentException( '$item_id must be a positive numeric value.' );
 		}
@@ -663,7 +1078,13 @@ abstract class Connector {
 		) as $group_id ) {
 
 			if ( in_array( intval( $group_id ), array_map( 'intval', $selected_groups ), true ) ) {
-				continue; // We want this one to remain connected.
+				continue; // We want this one to remain connected, don't dis-connect.
+			}
+
+			$group = affiliate_wp()->groups->get_group( $group_id );
+
+			if ( $group->get_type() !== $this->group_type ) {
+				continue; // Don't disconnect this group, it's a different type that's connected.
 			}
 
 			// Dis-connect (try) old connections.
@@ -695,49 +1116,41 @@ abstract class Connector {
 			throw new \InvalidArgumentException( '$group_id must be a positive numeric value.' );
 		}
 
-		return intval( filter_input( INPUT_GET, "filter-{$this->item}-top", FILTER_SANITIZE_NUMBER_INT ) ) === intval( $group_id );
+		return intval( filter_input( INPUT_GET, $this->get_filter_dropdown_key(), FILTER_SANITIZE_NUMBER_INT ) ) === intval( $group_id );
 	}
 
 	/**
-	 * Filter items out that are not conected to the selected group.
+	 * The key we use to store the selected group from the drop-down.
 	 *
-	 * @since  2.12.0
+	 * @since 2.13.0
 	 *
-	 * @param mixed $table List table instance.
-	 *
-	 * @return void
-	 *
-	 * @throws \InvalidArgumentException If $table is not a valid list table instance.
+	 * @return string
 	 */
-	public function filter_items_table( $table ) {
+	protected function get_filter_dropdown_key() : string {
+		return "filter-{$this->item}-{$this->group_type}-top";
+	}
+
+	/**
+	 * Filter arguments to get items on the list table.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param array $args Arguments used by default.
+	 *
+	 * @return array
+	 */
+	public function filter_table_get_items_args( $args ) : array {
 
 		if ( ! is_admin() ) {
-			return;
+			return $args;
 		}
 
 		if ( ! $this->is_items_page() ) {
-			return;
-		}
-
-		if (
-			! is_a( $table, '\AffWP\Admin\List_Table' ) ||
-			! isset( $table->items )
-		) {
-			throw new \InvalidArgumentException( '$table must be a object that extends AffWP\Admin\List_Table.' );
-		}
-
-		if ( ! is_array( $table->items ) ) {
-			return; // No way to modify items, fail gracefully.
-		}
-
-		if ( ! $this->is_numeric_and_gt_zero(
-			filter_input( INPUT_GET, "filter-{$this->item}-top", FILTER_SANITIZE_NUMBER_INT )
-		) ) {
-			return; // A valid group ID was not sent by the filter dropdown, fail gracefully.
+			return $args;
 		}
 
 		if ( ! $this->verify_nonce_action( 'filter', 'items' ) ) {
-			return; // Nonce expired.
+			return $args; // Nonce expired.
 		}
 
 		check_admin_referer(
@@ -745,75 +1158,244 @@ abstract class Connector {
 			$this->nonce_action( 'filter', 'items' )
 		);
 
-		// Filter out any items that aren't connected to the selected group.
-		$table->items = $this->filter_out_items_not_connected_to_group(
-			$table->items,
-			intval( $_GET[ "filter-{$this->item}-top" ] )
+		if ( $this->no_group_selected() ) {
+
+			// Show only items that have no groups (by excluding any that have groups).
+			return $this->apply_filters_to_table_get_items_args(
+				array_merge(
+					$args,
+					array(
+						'exclude' => $this->get_items_with_groups(),
+					)
+				)
+			);
+		}
+
+		$selected_group = $this->get_selected_group();
+
+		if ( ! $this->is_numeric_and_gt_zero( $selected_group ) ) {
+			return $this->apply_filters_to_table_get_items_args( $args ); // Not a group id, can't help you, but still filter.
+		}
+
+		$group_items = $this->get_items_by_group_id( $selected_group );
+
+		// Show all items, including those (exclusively) that are connected to the selected group.
+		return $this->apply_filters_to_table_get_items_args(
+			array_merge(
+				$args,
+
+				// If there are no items connected to the group, show no items.
+				empty( $group_items )
+					? array(
+
+						// Use this for force no items from showing.
+						"{$this->item}_id" => -1,
+					)
+
+					// Show, inclusively, items found in that group.
+					: array(
+						'include' => $group_items,
+					)
+			)
 		);
 	}
 
 	/**
-	 * Filter items (from list table) out that are not connected to a group.
+	 * Get items connected to specific group (by id).
 	 *
-	 * @since  2.12.0
+	 * @since 2.13.0
 	 *
-	 * @param array $items    The items from the list table, usually `$table->items`.
-	 * @param int   $group_id The group ID.
+	 * @param [type] $group_id The group id.
 	 *
-	 * @return array The items array, with items filtered out that aren't connected.
-	 *
-	 * @throws \InvalidArgumentException When you don't pass valid arguments.
+	 * @return array Items connected to the group.
 	 */
-	private function filter_out_items_not_connected_to_group( $items, $group_id ) {
+	private function get_items_by_group_id( $group_id ) : array {
 
-		if ( ! is_array( $items ) ) {
-			throw new \InvalidArgumentException( '$items must be an array.' );
+		return array_map(
+			'intval',
+			affiliate_wp()->connections->get_connected(
+				$this->item,
+				'group',
+				intval( $group_id )
+			)
+		);
+	}
+
+	/**
+	 * Filter arguments for the table items (arguments).
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param array $args Arguments that will ultimately decide what items show on the table.
+	 *
+	 * @return array Filtered arguments.
+	 */
+	private function apply_filters_to_table_get_items_args( array $args ) : array {
+
+		/**
+		 * Filter arguments.
+		 *
+		 * @since 2.13.0
+		 *
+		 * @param array  $args       Arguments
+		 * @param string $group_type Group type of the connector.
+		 * @param string $item       Item of the connector.
+		 */
+		return apply_filters(
+			'affwp_connector_filter_table_get_items_args',
+			$args,
+			$this->group_type,
+			$this->item
+		);
+	}
+
+	/**
+	 * Get the selected group.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return string
+	 */
+	private function get_selected_group() : string {
+
+		$get = filter_input( INPUT_GET, $this->get_filter_dropdown_key(), FILTER_UNSAFE_RAW );
+
+		return is_string( $get ) ? trim( $get ) : '';
+	}
+
+	/**
+	 * Was no group (-1) selected from the drop-down?
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return bool
+	 */
+	private function no_group_selected() : bool {
+		return -1 === intval( $this->get_selected_group() );
+	}
+
+	/**
+	 * Get the method used in the DB class for getting items.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return string Always something like `get_creatives`, or `get_affiliates`, etc.
+	 */
+	private function get_items_method() : string {
+		return "get_{$this->item}s";
+	}
+
+	/**
+	 * Wrapper method for callback on the DB class for the item.
+	 *
+	 * E.g. For creatives this would be `get_creatives()`, for
+	 * affiliates this would be `get_affiliates()`.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param array $args The arguments we would pass to the get method.
+	 *
+	 * @return mixed Results of the get method.
+	 */
+	private function get_items( array $args ) {
+
+		$get_items_cb = $this->get_items_method();
+
+		return $this->get_item_api()->$get_items_cb( $args );
+	}
+
+	/**
+	 * Get items that have no group connection.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return array Id's of items with no group connection.
+	 */
+	private function get_items_with_groups() : array {
+
+		static $cache = null;
+
+		if ( is_array( $cache ) ) {
+			return $cache;
 		}
 
-		if ( ! $this->is_numeric_and_gt_zero( $group_id ) ) {
-			throw new \InvalidArgumentException( '$group_id must be a positive numeric value.' );
+		// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- Used for caching.
+		return $cache = array_filter(
+			$this->get_all_item_ids(),
+			function( $item_id ) {
+
+				// Items with no groups...
+				return empty( $this->get_groups_by_item_id( $item_id ) )
+					? false // Are NOT included.
+					: true; // Are included.
+			}
+		);
+	}
+
+	/**
+	 * Get all the items (by id).
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return array
+	 */
+	private function get_all_item_ids() : array {
+
+		static $cache = null;
+
+		if ( ! is_null( $cache ) ) {
+			return $cache;
 		}
 
-		$property = $this->object_id_property;
+		// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- For caching.
+		return $cache = $this->get_items(
+			array(
+				'number' => apply_filters( 'affwp_unlimited', -1, 'abstract_connector_get_all_item_ids_number' ),
+				'fields' => 'ids',
+			)
+		);
+	}
 
-		// Filter out items that aren't connected to the group.
-		foreach ( $items as $item_key => $item ) {
+	/**
+	 * Get groups by item id.
+	 *
+	 * This always makes sure the groups that are connected
+	 * to the item are also of the set group type.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param int $item_id The item's id.
+	 *
+	 * @return array
+	 */
+	private function get_groups_by_item_id( int $item_id ) : array {
 
-			if (
-				! isset( $item->$property ) ||
-				! $this->is_numeric_and_gt_zero( $item->$property )
-			) {
+		return affiliate_wp()->groups->filter_groups_by_type(
+			affiliate_wp()->connections->get_connected(
+				'group',
+				$this->item,
+				intval( $item_id )
+			),
+			$this->group_type
+		);
+	}
 
-				// We need e.g. creative_id to be set to a positive numeric value, fail gracefully.
-				continue;
-			}
+	/**
+	 * Get the item's API.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return mixed `false` if there isn't one, the object if there is.
+	 */
+	private function get_item_api() {
 
-			// Get the items connected to the group.
-			$connected = affiliate_wp()->connections->get_connected(
-				$this->item, // Get items (e.g. {creative}s).
-				'group',     // Where groups.
-				$group_id    // Are connected to this group ID.
-			);
+		$api = "{$this->item}s";
 
-			if ( ! is_array( $connected ) ) {
-				continue; // Nothing was found connected to the item.
-			}
-
-			if ( in_array(
-				// Item ID.
-				intval( $item->$property ),
-				// Items connected to the group.
-				array_map( 'intval', $connected ),
-				true
-			) ) {
-				continue; // The item is connected to the group, leave it.
-			}
-
-			// Remove the item from the list, it is not connected to the group.
-			unset( $items[ $item_key ] );
+		if ( ! isset( affiliate_wp()->$api ) ) {
+			return false;
 		}
 
-		return $items;
+		return affiliate_wp()->$api;
 	}
 
 	/**
@@ -833,24 +1415,41 @@ abstract class Connector {
 	 * Get a list of all the groups.
 	 *
 	 * @since  2.12.0
+	 * @since  2.13.0 Added `$sorted` option.
+	 *
+	 * @param string $sorted Format, accepts alpha which sorts them alphabetically.
 	 *
 	 * @return array
 	 */
-	private function get_all_groups() {
+	private function get_all_groups( string $sorted = 'alpha' ) {
 
-		static $cache = null;
-
-		if ( ! is_null( $cache ) ) {
-			return $cache;
+		if ( empty( trim( $sorted ) ) ) {
+			$sorted = 'none'; // So we can cache unsorted groups.
 		}
 
-		// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- We are just caching the result at runtime.
-		return $cache = affiliate_wp()->groups->get_groups(
+		$groups = affiliate_wp()->groups->get_groups(
 			array(
 				'fields' => 'objects',
 				'type'   => $this->group_type,
 			)
 		);
+
+		// Sort the groups alphabetically.
+		if ( 'alpha' === $sorted ) {
+
+			$alpha = array();
+
+			foreach ( $groups as $group ) {
+				$alpha[ $group->get_title() ] = $group;
+			}
+
+			ksort( $alpha );
+
+			// Return alpha groups (alpha).
+			return $alpha; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- We are just caching the result at runtime.
+		}
+
+		return $groups;
 	}
 
 	/**
@@ -863,7 +1462,7 @@ abstract class Connector {
 	 * @throws \InvalidArgumentException If `$item` is not an object.
 	 * @throws \InvalidArgumentException If `$item` does not have a proper ID property.
 	 */
-	public function group_multiselect( $item ) {
+	public function group_selector( $item ) {
 
 		$property = $this->object_id_property;
 
@@ -884,17 +1483,64 @@ abstract class Connector {
 			return;
 		}
 
+		/**
+		 * Should the selector be disabled or not?
+		 *
+		 * @since 2.13.0
+		 *
+		 * @param bool   $disabled   Set to `true` if there are no groups to select.
+		 * @param string $group_type Group type of the selector.
+		 * @param string $item       Item of the selector.
+		 *
+		 * @var [type]
+		 */
+		$disabled = apply_filters(
+			'affwp_connector_group_selector_disabled',
+			empty( $this->get_all_groups() ),
+			$this->group_type,
+			$this->item
+		);
+
 		?>
 
-		<<?php echo esc_attr( $this->modify_form_tag ); ?> class="<?php echo esc_attr( $this->modify_form_class ); ?>">
+		<?php if ( ! empty( $this->modify_form_tag ) ) : ?>
+			<<?php echo esc_attr( $this->modify_form_tag ); ?> class="<?php echo esc_attr( $this->modify_form_class ); ?>">
+		<?php endif; ?>
 
-			<<?php echo esc_attr( $this->modify_row_tag ); ?> class="<?php echo esc_attr( $this->modify_row_class ); ?>">
+			<?php if ( ! empty( $this->modify_row_tag ) ) : ?>
+				<<?php echo esc_attr( $this->modify_row_tag ); ?> class="<?php echo esc_attr( $this->modify_row_class ); ?>">
+			<?php endif; ?>
 
 				<<?php echo esc_attr( $this->modify_label_tag ); ?> scope="row">
-					<label for="<?php echo esc_attr( $this->item ); ?>_groups[]"><?php echo esc_html( ucfirst( $this->group_single ) ); ?></label>
+					<label for="<?php echo esc_attr( "{$this->item}_{$this->group_type}" ); ?>_groups[]">
+						<?php
+
+						echo esc_html(
+
+							/**
+							 * Filter the label.
+							 *
+							 * @since 2.13.0
+							 *
+							 * @param string $group_single The normal label of the connector.
+							 * @param string $group_Type   The connector group type.
+							 * @param string $item         The item of the connector.
+							 */
+							apply_filters(
+								'affwp_group_connector_label',
+								ucfirst( $this->group_single ),
+								$this->group_type,
+								$this->item
+							)
+						);
+
+						?>
+					</label>
 				</<?php echo esc_attr( $this->modify_label_tag ); ?>>
 
-				<<?php echo esc_attr( $this->modify_content_tag ); ?>>
+				<?php if ( ! empty( $this->modify_content_tag ) ) : ?>
+					<<?php echo esc_attr( $this->modify_content_tag ); ?>>
+				<?php endif; ?>
 
 					<!--
 
@@ -913,23 +1559,53 @@ abstract class Connector {
 							border: 1px solid #8c8f94 !important;
 						}
 
-						.select2-selection__choice,
-						.select2-search.select2-search--inline {
+						.select2 .select2-selection__choice,
+						.select2 .select2-search.select2-search--inline {
 							margin-bottom: 2px;
 						}
 
-						.select2-search.select2-search--inline input {
+						.select2 .select2-search.select2-search--inline input {
 							min-height: 20px;
 							height: 20px;
+						}
+
+						.select2-search--dropdown .select2-search__field {
+							padding: 0 4px !important;
 						}
 					</style>
 
 					<select
-						name="<?php echo esc_attr( $this->item ); ?>_groups[]"
-						id="<?php echo esc_attr( $this->item ); ?>_groups"
+						name="<?php echo esc_attr( "{$this->item}_{$this->group_type}" ); ?>_groups[]"
+						id="<?php echo esc_attr( "{$this->item}_{$this->group_type}" ); ?>_groups"
 						style="min-width: 350px;"
 						class="select2"
-						multiple>
+						data-label="<?php echo esc_attr( "{$this->item}_{$this->group_type}" ); ?>_groups[]"
+						data-args='{ "disabled": <?php echo esc_attr( $disabled ? 'true' : 'false' ); ?> }'
+						<?php echo esc_attr( 'multiple' === $this->selector_type ? 'multiple' : '' ); ?>>
+
+						<?php if ( 'single' === $this->selector_type ) : ?>
+							<option><?php echo esc_html_e( 'None', 'affiliate-wp' ); ?></option>
+						<?php endif; ?>
+
+						<?php
+
+						/**
+						 * Before we list out the group options.
+						 *
+						 * @since 2.13.0
+						 *
+						 * @param string $group_type Group type.
+						 * @param string $item       Item.
+						 * @param array  $groups     The groups.
+						 */
+						do_action(
+							'affwp_group_connector_before_group_options',
+							$this->group_type,
+							$this->item,
+							$groups
+						);
+
+						?>
 
 						<?php
 
@@ -937,9 +1613,92 @@ abstract class Connector {
 
 							?>
 
-							<option value="<?php echo absint( $group->get_id() ); ?>" <?php echo esc_attr( $this->is_group_selected( $group->get_id(), $item ) ? 'selected' : '' ); ?>><?php echo esc_html( wp_trim_words( $group->get_title(), 10 ) ); ?></option>
+							<?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentBeforeOpen -- We need to suppress extra whitespace. ?>
+							<option
+								value="<?php echo absint( $group->get_id() ); ?>"
+								<?php echo esc_attr( $this->is_group_selected( $group->get_id(), $item ) ? 'selected=selected' : '' ); ?>><?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentBeforeOpen, Squiz.PHP.EmbeddedPhp.ContentAfterOpen -- We want to eliminate whitespace.
+
+									echo esc_html(
+
+										/**
+										 * Filter the group name in the option.
+										 *
+										 * @since 2.13.0
+										 *
+										 * @param string $group_title Group title to filter.
+										 * @param string $group_Type   The connector group type.
+										 * @param string $item         The item of the connector.
+										 */
+										apply_filters(
+											'affwp_group_connector_group_name',
+											wp_trim_words( $group->get_title(), 10 ),
+											$group,
+											$this->group_type,
+											$this->item
+										)
+									);
+								?><?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen, Squiz.PHP.EmbeddedPhp.ContentAfterEnd, Squiz.PHP.EmbeddedPhp.ContentBeforeOpen -- We want to eliminate whitespace.
+
+								/**
+								 * Fire after showing the option for the group.
+								 *
+								 * @since 2.13.0
+								 *
+								 * @param \AffiliateWP\Groups\Group $group      Group object.
+								 * @param string                    $group_Type Group type.
+								 * @param string                    $item       The item.
+								 */
+								do_action(
+									'affwp_group_connector_after_group_option',
+									$group,
+									$this->group_type,
+									$this->item
+								);
+
+							// phpcs:ignore Generic.WhiteSpace.ScopeIndent.IncorrectExact, Squiz.PHP.EmbeddedPhp.ContentAfterEnd -- We want to supress whtiespace.
+							?></option>
 
 						<?php endforeach; ?>
+
+						<?php
+
+						/**
+						 * After we list out the group options.
+						 *
+						 * @since 2.13.0
+						 *
+						 * @param string $group_type Group type.
+						 * @param string $item       Item.
+						 * @param array  $groups     The groups we're working with.
+						 */
+						do_action(
+							'affwp_group_connector_after_group_options',
+							$this->group_type,
+							$this->item,
+							$groups
+						);
+
+						?>
+
+						<?php
+
+						/**
+						 * Fire after the group options.
+						 *
+						 * @since 2.13.0
+						 *
+						 * @param string $group_Type   The connector group type.
+						 * @param string $item         The item of the connector.
+						 * @param int    $item_id      The ID of the item.
+						 */
+						do_action(
+							'affwp_group_connector_after_groups_options',
+							$this->group_type,
+							$this->item,
+							isset( $item->$property ) ? $item->$property : 0
+						);
+
+						?>
 					</select>
 
 					<p class="description">
@@ -947,20 +1706,48 @@ abstract class Connector {
 							<?php
 
 							echo wp_kses(
-								sprintf(
-									/* Translators: %1$s is the grouping singular, %2$s is the item singlular. */
-									__( '%1$sCreate%2$s one or more %3$s to assign them to this %4$s.', 'affiliate-wp' ),
+
+								/**
+								 * Filter the connector dropdown description.
+								 *
+								 * @since 2.13.0
+								 *
+								 * @param string $description The description.
+								 * @param string $context     Context.
+								 * @param string $group_Type   The connector group type.
+								 * @param string $item         The item of the connector.
+								 */
+								apply_filters(
+									'affwp_group_connector_description',
+
+									// Default description.
 									sprintf(
-										'<a href="%s" target="_blank">',
-										$management_link
+										/* Translators: %1$s is the grouping singular, %2$s is the item singlular. */
+										__( '%1$sCreate%2$s %3$s %4$s to assign to this %5$s.', 'affiliate-wp' ),
+										sprintf(
+											'<a href="%s">',
+											$management_link
+										),
+										'</a>',
+										'multiple' === $this->selector_type
+											? __( 'one or more', 'affiliate-wp' )
+											: __( 'a', 'affiliate-wp' ),
+										'multiple' === $this->selector_type
+											? strtolower( $this->group_plural )
+											: strtolower( $this->group_single ),
+										strtolower( $this->item_single )
 									),
-									'</a>',
-									strtolower( $this->group_plural ),
-									strtolower( $this->item_single )
+									'no_groups',
+									$this->group_type,
+									$this->item
 								),
+
+								// Allowed HTML.
 								array(
 									'a' => array(
-										'href' => true,
+										'href'   => true,
+										'title'  => true,
+										'target' => true,
 									),
 								)
 							);
@@ -969,15 +1756,40 @@ abstract class Connector {
 						<?php else : ?>
 							<?php
 
-							/* Translators: %1$s is the grouping singular, %2$s is the item singlular. */
-							echo esc_html( sprintf( __( 'Select one or more %1$s for this %2$s.', 'affiliate-wp' ), strtolower( $this->group_plural ), strtolower( $this->item_single ) ) );
+							// Description.
+							echo esc_html(
+
+								/** See previous description (above) in this file. */
+								apply_filters(
+									'affwp_group_connector_description',
+									sprintf(
+									/* Translators: %1$s is the language for plural or single selection,  %2$s is the grouping singular, %3$s is the item singlular. E.g.: 'Select a group for this affiliate.', or 'Select one or more groups for this affiliate.' */
+										__( 'Select %1$s %2$s for this %3$s.', 'affiliate-wp' ),
+										'multiple' === $this->selector_type
+											? __( 'one or more', 'affiliate-wp' )
+											: __( 'a', 'affiliate-wp' ),
+										'multiple' === $this->selector_type
+											? strtolower( $this->group_plural )
+											: strtolower( $this->group_single ),
+										strtolower( $this->item_single )
+									),
+									'has_groups',
+									$this->group_type,
+									$this->item
+								)
+							);
 
 							?>
 						<?php endif; ?>
 					</p>
-				</<?php echo esc_attr( $this->modify_content_tag ); ?>>
 
-			</<?php echo esc_attr( $this->modify_row_tag ); ?>>
+				<?php if ( ! empty( $this->modify_content_tag ) ) : ?>
+					</<?php echo esc_attr( $this->modify_content_tag ); ?>>
+				<?php endif; ?>
+
+			<?php if ( ! empty( $this->modify_row_tag ) ) : ?>
+				</<?php echo esc_attr( $this->modify_row_tag ); ?>>
+			<?php endif; ?>
 
 			<?php
 
@@ -987,7 +1799,9 @@ abstract class Connector {
 			);
 
 			?>
-		</<?php echo esc_attr( $this->modify_form_tag ); ?>>
+		<?php if ( ! empty( $this->modify_form_tag ) ) : ?>
+			</<?php echo esc_attr( $this->modify_form_tag ); ?>>
+		<?php endif; ?>
 
 		<?php
 	}
@@ -1004,7 +1818,7 @@ abstract class Connector {
 	private function is_items_page() {
 
 		return "affiliate-wp-{$this->item}s"
-			=== filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+			=== filter_input( INPUT_GET, 'page', FILTER_UNSAFE_RAW );
 	}
 
 	/**
@@ -1023,13 +1837,29 @@ abstract class Connector {
 
 		$groups = $this->get_all_groups();
 
-		if ( empty( $groups ) ) {
+		/**
+		 * Filter whether we show the dropdown or not.
+		 *
+		 * @since 2.13.0
+		 *
+		 * @param bool  $hide        Set to true if no groups are present by default.
+		 * @param string $group_type The group type of the connector.
+		 * @param string $item       The item of the connector.
+		 */
+		$hide_dropdown = apply_filters(
+			'affwp_connector_filter_dropdown_hidden',
+			empty( $groups ),
+			$this->group_type,
+			$this->item
+		);
+
+		if ( $hide_dropdown ) {
 			return; // No groups to select.
 		}
 
 		?>
 
-		<select name="filter-<?php echo esc_attr( $this->item ); ?>-<?php echo esc_attr( $which ); ?>">
+		<select name="<?php echo esc_attr( $this->get_filter_dropdown_key() ); ?>">
 
 			<option value="">
 				<?php
@@ -1039,6 +1869,40 @@ abstract class Connector {
 
 				?>
 			</option>
+
+			<option
+				<?php echo esc_attr( -1 === intval( filter_input( INPUT_GET, $this->get_filter_dropdown_key(), FILTER_SANITIZE_NUMBER_INT ) ) ? 'selected' : '' ); ?>
+				value="-1">
+
+				<?php
+
+				// Translators: %s is the translated name of the group, e.g. Categories.
+				echo esc_html( sprintf( __( 'No %s', 'affiliate-wp' ), $this->group_plural ) );
+
+				?>
+			</option>
+
+			<?php
+
+			/**
+			 * Filters right before showing group options.
+			 *
+			 * @since 2.13.0
+			 *
+			 * @param string $group_type The group type of the connector.
+			 * @param string $item       The item of the connector.
+			 * @param string $wihich     The context (top/bottom) of the filter dropdown.
+			 * @param array  $groups     Array of group objects shown in the dropdown.
+			 */
+			do_action(
+				'affwp_connector_filter_dropdown_before_group_options',
+				$this->group_type,
+				$this->item,
+				$which,
+				$groups
+			);
+
+			?>
 
 			<?php foreach ( $groups as $group ) : ?>
 				<?php
@@ -1053,6 +1917,28 @@ abstract class Connector {
 						<?php echo esc_html( wp_trim_words( $group->get_title(), 10 ) ); ?>
 				</option>
 			<?php endforeach; ?>
+
+			<?php
+
+			/**
+			 * Fires after we output the dropdown options for the filter select.
+			 *
+			 * @since 2.13.0
+			 *
+			 * @param string $group_type The group type of the connector
+			 * @param string $item       The item of the connector.
+			 * @param string $wihich     The context (top/bottom) of the filter dropdown.
+			 * @param array  $groups     Array of group objects shown in the dropdown.
+			 */
+			do_action(
+				'affwp_connector_filter_dropdown_after_group_options',
+				$this->group_type,
+				$this->item,
+				$which,
+				$groups
+			);
+
+			?>
 		</select>
 
 		<?php
@@ -1080,6 +1966,8 @@ abstract class Connector {
 	 * @return bool `false` if we can't figure out if it's selected.
 	 *              `false` if it's not selected.
 	 *              `true` if it is selected.
+	 *
+	 * @throws \Exception If we can't get proper connected items.
 	 */
 	private function is_group_selected( $group_id, $item ) {
 
@@ -1088,7 +1976,24 @@ abstract class Connector {
 		}
 
 		if ( ! is_object( $item ) ) {
-			return false;
+
+			/**
+			 * Filter the selected group when there is no item (usually a new item).
+			 *
+			 * @since 2.13.0
+			 *
+			 * @param bool   $selected Set to to true to set it as selected.
+			 * @param int    $group_id   The ID of the group in the database.
+			 * @param string $group_type The group type of the connector.
+			 * @param string $item       The item of the connector.
+			 */
+			return apply_filters(
+				'affwp_group_connector_group_is_selected_new_item',
+				false,
+				$group_id,
+				$this->group_type,
+				$this->item
+			);
 		}
 
 		// Get the creatives that is connected to the group.
@@ -1098,10 +2003,20 @@ abstract class Connector {
 			$group_id
 		);
 
+		if ( ! is_array( $connected_items ) ) {
+			throw new \Exception( '$connected_items should be an array.' );
+		}
+
 		$object_id_property = $this->object_id_property;
 
 		if ( ! isset( $item->$object_id_property ) ) {
-			return false; // No way to know if the item object was selected.
+
+			return false; // Fail gracefully, not sure why this would ever happen.
+		}
+
+		if ( ! is_array( $connected_items ) ) {
+
+			return false; // Fail gracefully, but did not get $connected_items.
 		}
 
 		return in_array(
@@ -1126,24 +2041,22 @@ abstract class Connector {
 			return; // Already registered, move on gracefully.
 		}
 
-		$api = "{$this->item}s"; // We always name them plural.
-
 		if (
 			is_multisite() &&
-			! $this->table_exists( affiliate_wp()->$api->table_name ) &&
-			is_callable( array( affiliate_wp()->$api, 'create_table' ) )
+			! $this->table_exists( $this->get_item_api()->table_name ) &&
+			is_callable( array( $this->get_item_api(), 'create_table' ) )
 		) {
 
 			// Try and create the table for this item if we can.
-			affiliate_wp()->$api->create_table();
+			$this->get_item_api()->create_table();
 		}
 
 		// Creatives.
 		$items = affiliate_wp()->connections->register_connectable(
 			array(
 				'name'   => $this->item,
-				'table'  => affiliate_wp()->$api->table_name,
-				'column' => affiliate_wp()->$api->primary_key,
+				'table'  => $this->get_item_api()->table_name,
+				'column' => $this->get_item_api()->primary_key,
 			)
 		);
 
@@ -1167,13 +2080,7 @@ abstract class Connector {
 			return;
 		}
 
-		$this->enqueue_select2(
-			'.select2',
-			array(
-				'disabled' => empty( $this->get_all_groups() ),
-			),
-			'label[for="creative_groups[]"]'
-		);
+		$this->enqueue_select2();
 	}
 
 	/**
@@ -1201,6 +2108,10 @@ abstract class Connector {
 			throw new \InvalidArgumentException( '$this->item_plural must be a non-empty string.' );
 		}
 
+		if ( ! $this->string_is_one_of( $this->selector_type, array( 'multiple', 'single' ) ) ) {
+			throw new \InvalidArgumentException( "\$this->selector_type must be either 'multiple' or 'single'." );
+		}
+
 		if ( ! $this->is_string_and_nonempty( $this->item_single ) ) {
 			throw new \InvalidArgumentException( '$this->item_single must be a non-empty string.' );
 		}
@@ -1224,5 +2135,37 @@ abstract class Connector {
 		if ( ! $this->is_string_and_nonempty( $this->group_type ) ) {
 			throw new \InvalidArgumentException( '$this->group_type must be a non-empty string.' );
 		}
+	}
+
+	/**
+	 * Is the item/group type the same?
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param string $group_type The group type.
+	 * @param string $item       The item of the filtered connector.
+	 *
+	 * @return bool
+	 */
+	protected function is_same_connector( string $group_type, string $item ) : bool {
+		return $this->group_type === $group_type && $this->item === $item;
+	}
+
+	/**
+	 * Does the user have the required capability.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return bool
+	 */
+	protected function user_has_capability() : bool {
+
+		return current_user_can( $this->capability )
+
+			// Admins always can.
+			|| current_user_can( 'administrator' )
+
+			// Super-admins always can.
+			|| is_super_admin();
 	}
 }

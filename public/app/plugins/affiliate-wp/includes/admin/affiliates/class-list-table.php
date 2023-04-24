@@ -289,7 +289,8 @@ class AffWP_Affiliates_Table extends List_Table {
 				array_merge( $base_query_args, array(
 					'affwp_notice' => false,
 					'action'       => 'edit_affiliate',
-				) )
+				) ),
+				admin_url( 'admin.php' )
 			) ),
 			$affiliate_name
 		);

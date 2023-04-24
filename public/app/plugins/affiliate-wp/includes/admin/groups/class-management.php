@@ -30,9 +30,40 @@ require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-nonce.php';
  *
  * Just extend it and setup the correct properties.
  *
- * @see includes/admin/creatives/categories/class-screen.php For example.
+ * == Adding Meta Fields: ==
+ *
+ * Assign `$this->meta_fields` with an array of callbacks for each meta field:
+ *
+ *    // Meta fields.
+ *    $this->meta_fields = array(
+ *
+ *        // Rate.
+ *        'rate' => array(
+ *
+ *            // Views (returns markup with fields).
+ *            'main' => function() : string {},
+ *            'edit' => function( \AffiliateWP\Groups\Group $group ) : string {},
+ *
+ *            // Saving (add your own errors, can use $group->update( array( 'meta' => array() ) ) to save meta).
+ *            'save' => function( \AffiliateWP\Groups\Group $group ) : bool {},
+ *
+ *            // Show in columns (returns markup, can use $group->get_meta() to get values).
+ *            'column_header' => function( \AffiliateWP\Groups\Group $group ) {},
+ *            'column_value'  => function( \AffiliateWP\Groups\Group $group ) {},
+ *
+ *           // You can also specify a method to fire for adding hooks, etc.
+ *           'hooks' => function() {},
+ *        ),
+ *    );
+ *
+ * Here you can see that we added a meta field for rate that has a field when adding a group,
+ * a field when editing, and a save function. It also includes functions for showing
+ * markup for the column headers and values.
+ *
+ * @see includes/admin/affiliates/groups/class-management.php For example implimentation.
  *
  * @since 2.12.0
+ * @since 2.13.0 Added extensibility for meta fields.
  */
 abstract class Management {
 
@@ -69,6 +100,15 @@ abstract class Management {
 	protected $group_plural = '';
 
 	/**
+	 * The item a connector would be applied to.
+	 *
+	 * E.g. creative, or affiliate.
+	 *
+	 * @var string
+	 */
+	protected $item = '';
+
+	/**
 	 * The name of the item you can group.
 	 *
 	 * E.g. for grouping creatives, this would be 'cretive'.
@@ -80,13 +120,24 @@ abstract class Management {
 	protected $item_single = '';
 
 	/**
+	 * The name of the item you can group.
+	 *
+	 * E.g. for grouping creatives, this would be 'cretive'.
+	 *
+	 * @since 2.12.0
+	 *
+	 * @var string
+	 */
+	protected $item_plural = '';
+
+	/**
 	 * The group type.
 	 *
 	 * This coorilates to the value for `type` in the Grouping
 	 * API database. This is used to register the group type with
 	 * the Grouping API.
 	 *
-	 * It needs to be a valid `sanitize_key` value,
+	 * It must be a valid `sanitize_key` value,
 	 * or we might throw an exception.
 	 *
 	 * @since 2.12.0
@@ -94,6 +145,15 @@ abstract class Management {
 	 * @var string
 	 */
 	protected $group_type = '';
+
+	/**
+	 * Submenu.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @var null
+	 */
+	protected $menu = null;
 
 	/**
 	 * The menu slug used for add_submenu_page().
@@ -112,6 +172,15 @@ abstract class Management {
 	 * @var string
 	 */
 	protected $menu_title = '';
+
+	/**
+	 * Meta fields.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @var array
+	 */
+	protected $meta_fields = array();
 
 	/**
 	 * The page title for the screen.
@@ -234,14 +303,14 @@ abstract class Management {
 			return;
 		}
 
-		if ( ! isset( $_POST['name'] ) ) {
-			return;
-		}
-
 		check_admin_referer(
 			$this->nonce_action( 'add', 'group' ),
 			$this->nonce_action( 'add', 'group' )
 		);
+
+		if ( ! isset( $_POST['name'] ) ) {
+			return;
+		}
 
 		$name = trim( wp_unslash( $_POST['name'] ) );
 
@@ -265,11 +334,13 @@ abstract class Management {
 			return;
 		}
 
+		$esc_name = esc_html( $name );
+
 		$group_id = affiliate_wp()->groups->add_group(
 			array(
 				'type'  => $this->group_type,
 				'name'  => sanitize_key( $name ),
-				'title' => $name,
+				'title' => $esc_name,
 			)
 		);
 
@@ -281,7 +352,7 @@ abstract class Management {
 					/* translators: %1$s is the name of the item you can act on %2$s is the name of the item. */
 					__( 'Unable to add %1$s %2$s because it already exists.', 'affiliate-wp' ),
 					strtolower( $this->single_title ),
-					sprintf( '<strong>%s</strong>', $name )
+					sprintf( '<strong>%s</strong>', $esc_name )
 				)
 			);
 
@@ -296,9 +367,18 @@ abstract class Management {
 					/* translators: %1$s is the name of the item you can act on %2$s is the name of the item. */
 					__( 'Unable to add %1$s %2$s.', 'affiliate-wp' ),
 					strtolower( $this->single_title ),
-					sprintf( '<strong>%s</strong>', $name )
+					sprintf( '<strong>%s</strong>', $esc_name )
 				)
 			);
+
+			return;
+		}
+
+		// Save the meta: should show/add own errors.
+		if ( ! $this->save_meta( $group_id ) ) {
+
+			// Delete the group, you did something wrong.
+			affiliate_wp()->groups->delete_group( $group_id );
 
 			return;
 		}
@@ -307,7 +387,25 @@ abstract class Management {
 			/* translators: %1$s is the name of the item you can act on %2$s is the name of the item. */
 			__( 'Added %1$s %2$s.', 'affiliate-wp' ),
 			strtolower( $this->single_title ),
-			sprintf( '<strong>%s</strong>', $name )
+			sprintf( '<strong>%s</strong>', $esc_name )
+		);
+	}
+
+	/**
+	 * Add an error.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param string $name    Name of the error (code).
+	 * @param string $message The message for the error.
+	 * @param mixed  $data    The data.
+	 */
+	protected function add_error( string $name, string $message, $data = null ) : void {
+
+		$this->errors->add(
+			$name,
+			$message,
+			$data
 		);
 	}
 
@@ -456,7 +554,7 @@ abstract class Management {
 
 		$this->successes[] = sprintf(
 			/* translators: %1$s is the name of the item you can act on %2$s is the name of the item. */
-			__( 'Deleted %1$s "%2$s".', 'affiliate-wp' ),
+			__( 'Deleted %1$s %2$s.', 'affiliate-wp' ),
 			strtolower( $this->single_title ),
 			sprintf(
 				'<strong>%s</strong>',
@@ -478,7 +576,9 @@ abstract class Management {
 	 *                    into a link that filters the list view of the items.
 	 *
 	 * @throws \InvalidArgumentException If you do not supply a valid group object.
-	 * @throws \Exception If the item is not registered as a connectable.
+	 * @throws \InvalidArgumentException If you have not set the item for this class to a non-empty string.
+	 * @throws \Exception                If the item is not registered as a connectable.
+	 * @throws \Exception                If group is not a registered connectable.
 	 */
 	private function get_group_items_count( $group ) {
 
@@ -486,8 +586,16 @@ abstract class Management {
 			throw new \InvalidArgumentException( '$group must be a valid \AffiliateWP\Groups\Group group object.' );
 		}
 
+		if ( ! $this->is_string_and_nonempty( $this->item ) ) {
+			throw new \InvalidArgumentException( '$this->item must be a non-empty string.' );
+		}
+
 		if ( ! affiliate_wp()->connections->is_registered_connectable( $this->item ) ) {
 			throw new \Exception( '$this->item is not a registered connectable.' );
+		}
+
+		if ( ! affiliate_wp()->connections->is_registered_connectable( 'group' ) ) {
+			throw new \Exception( 'group is not a registered connectable.' );
 		}
 
 		// The connections to this group.
@@ -498,7 +606,7 @@ abstract class Management {
 		);
 
 		if ( ! is_array( $connected ) ) {
-			return 0;
+			return 0; // Fail gracefully.
 		}
 
 		/**
@@ -516,9 +624,9 @@ abstract class Management {
 		 *
 		 * @param $has_connector Set to true to allow a link to the list view.
 		 */
-		if ( false === apply_filters( "affwp_admin_groups_management_{$this->item}_has_connector", false ) ) {
+		if ( ! $this->has_connector() ) {
 
-			// Just return the count.
+			// Just return the count, we have nowhere to link to (via the connector).
 			return is_array( $connected )
 				? count( $connected )
 				: 0;
@@ -531,7 +639,7 @@ abstract class Management {
 		// Return a link to the list view.
 		return sprintf(
 			'<a href="%s">%s</a>',
-			"?page=affiliate-wp-{$this->item}s&filter-{$this->item}-top={$group->group_id}&{$filter_items_nonce_name}={$filter_items_nonce}",
+			"?page=affiliate-wp-{$this->item}s&filter-{$this->item}-{$this->group_type}-top={$group->group_id}&{$filter_items_nonce_name}={$filter_items_nonce}",
 			is_array( $connected )
 				? count( $connected )
 				: 0
@@ -561,16 +669,16 @@ abstract class Management {
 			return;
 		}
 
-		if ( ! isset( $_POST['name'] ) ) {
-			return;
-		}
-
 		check_admin_referer(
 			$this->nonce_action( 'update', 'group' ),
 			$this->nonce_action( 'update', 'group' )
 		);
 
 		$group_id = $this->get_group_id();
+
+		if ( ! isset( $_POST['name'] ) ) {
+			return;
+		}
 
 		if ( ! $this->is_numeric_and_gt_zero( $group_id ) ) {
 
@@ -585,6 +693,11 @@ abstract class Management {
 
 			$this->update_view( 'main' );
 
+			return;
+		}
+
+		// Save meta, should add/show own errors.
+		if ( ! $this->save_meta( $group_id ) ) {
 			return;
 		}
 
@@ -635,6 +748,11 @@ abstract class Management {
 
 		if ( trim( $group->get_title() ) === trim( $name ) ) {
 
+			// Try and save the meta if the name is unchanged.
+			if ( ! $this->save_meta( $group_id ) ) {
+				return;
+			}
+
 			$this->update_view( 'main' );
 
 			$this->successes[] = sprintf(
@@ -646,6 +764,7 @@ abstract class Management {
 			return;
 		}
 
+		// Update the title.
 		$update = $group->update(
 			array(
 				'title' => $name,
@@ -691,7 +810,7 @@ abstract class Management {
 
 		$this->successes[] = sprintf(
 			/* translators: %1$s is the name of the group tyoe and %2$s is the value it was updated to. */
-			__( 'Updated %1$s to "%2$s".', 'affiliate-wp' ),
+			__( 'Updated %1$s to %2$s.', 'affiliate-wp' ),
 			strtolower( $this->single_title ),
 			sprintf( '<strong>%s</strong>', $name )
 		);
@@ -789,6 +908,8 @@ abstract class Management {
 	 *              If the group doesn't exist, we load the main view.
 	 *              If the group can't be converted to an object, we load the main view.
 	 *              Otherwise we show this view.
+	 *
+	 * @throws \Exception If you supply meta fields that aren't callable for this view.
 	 */
 	private function edit() {
 
@@ -840,7 +961,23 @@ abstract class Management {
 			id="edittag"
 			method="post"
 			action="<?php echo esc_attr( "admin.php?page=affiliate-wp-{$this->menu_slug}&action=update&group_id={$group->group_id}" ); ?>"
-			class="validate">
+			class="validate"
+			<?php
+			/*
+			 * x-data:
+			 *
+			 * AlpineJS (https://alpinejs.dev/directives/data)
+			 *
+			 * You can use data for elements within this container.
+			 * There is also one for the main method.
+			 *
+			 * E.g.:
+			 *
+			 *     <... x-on:change="data.show = ( 3 > 2 );">
+			 *     <... x-show="data.show">
+			 */
+			?>
+			x-data="{ data: [] }">
 
 			<table class="form-table" role="presentation">
 				<tbody>
@@ -860,13 +997,32 @@ abstract class Management {
 								value="<?php echo esc_attr( $group->get_title() ); ?>"
 								size="40"
 								aria-required="true"
-								aria-describedby="name-description" />
+								required
+								aria-describedby="name-description">
 
 							<p class="description" id="name-description">
 								<?php esc_html_e( 'The name is how it appears on your site.', 'affiliate-wp' ); ?>
 							</p>
 						</td>
 					</tr>
+
+					<!-- Meta fields for edit view. -->
+					<?php foreach ( $this->meta_fields as $meta_key => $meta_field ) : ?>
+						<?php
+
+						if ( ! isset( $meta_field['edit'] ) ) {
+							continue; // No edit field.
+						}
+
+						if ( ! is_callable( $meta_field['edit'] ) ) {
+							throw new \Exception( "\$meta_field['edit'] must be a public callable function." );
+						}
+
+						// Output the field from the function.
+						echo filter_var( $meta_field['edit']( $group ), FILTER_UNSAFE_RAW );
+
+						?>
+					<?php endforeach; ?>
 				</tbody>
 			</table>
 
@@ -930,22 +1086,31 @@ abstract class Management {
 	 * Get the group ID's for the current group type.
 	 *
 	 * @since  2.12.0
+	 * @since  2.13.0 Added caching option.
+	 *
+	 * @param bool $cached Use caching.
 	 *
 	 * @return array
 	 */
-	private function get_groups() {
+	protected function get_groups( $cached = true ) {
+
+		$cache = null;
+
+		if ( ! is_null( $cache ) && $cached ) {
+			return $cache; // Use cache.
+		}
 
 		$groups = affiliate_wp()->groups->get_groups(
 			array(
 				'fields'  => 'objects',
-				'number'  => -1,
+				'number'  => apply_filters( 'affwp_unlimited', -1, 'abstract_groups_management_get_all_group_objects_number' ),
 				'orderby' => 'title',
 				'type'    => $this->group_type,
 			)
 		);
 
 		return is_array( $groups )
-			? $groups
+			? $cache = $groups // Save in the cache.
 			: array(); // Fail gracefully when there are major erros.
 	}
 
@@ -983,6 +1148,25 @@ abstract class Management {
 
 		// This only happens when there isn't a parent.
 		return 0 + ( $this->position / 10 );
+	}
+
+	/**
+	 * Do we have an associated connector?
+	 *
+	 * Used mostly for counts.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return bool
+	 */
+	private function has_connector() {
+
+		if ( empty( $this->item ) || ! is_string( $this->item ) ) {
+			return false; // No item to use for broadcasting filter below.
+		}
+
+		// The connector should broadcast to use, through this filter, if a connector is connected.
+		return apply_filters( "affwp_admin_groups_management_{$this->item}_has_connector", false );
 	}
 
 	/**
@@ -1039,9 +1223,26 @@ abstract class Management {
 	/**
 	 * Hooks
 	 *
-	 * @since  2.12.0
+	 * @since 2.12.0
+	 * @since 2.13.0 Added hooks that can be fired via meta fields.
+	 *
+	 * @throws \Exception If you add meta field with `hooks` and there isn't a public callable method associcated.
 	 */
 	public function hooks() {
+
+		// Call meta hooks.
+		foreach ( $this->meta_fields as $meta_field ) {
+
+			if ( ! isset( $meta_field['hooks'] ) ) {
+				continue; // No hooks method to call.
+			}
+
+			if ( ! is_callable( $meta_field['hooks'] ) ) {
+				throw new \Exception( "\$meta_field['hooks'] must be a callable public function." );
+			}
+
+			$meta_field['hooks']();
+		}
 
 		add_action( 'admin_menu', array( $this, 'add_submenu' ), 20 ); // After our other menus are added on 10.
 
@@ -1084,8 +1285,8 @@ abstract class Management {
 			return false;
 		}
 
-		return filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING ) === $action ||
-			filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING ) === $action;
+		return filter_input( INPUT_POST, 'action', FILTER_UNSAFE_RAW ) === $action ||
+			filter_input( INPUT_GET, 'action', FILTER_UNSAFE_RAW ) === $action;
 	}
 
 	/**
@@ -1097,10 +1298,10 @@ abstract class Management {
 	 *
 	 * @throws \InvalidArgumentException If you pass a non-string to `$page`.
 	 */
-	private function is_management_page() {
+	protected function is_management_page() {
 
 		return "affiliate-wp-{$this->menu_slug}"
-			=== filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+			=== filter_input( INPUT_GET, 'page', FILTER_UNSAFE_RAW );
 	}
 
 	/**
@@ -1112,7 +1313,7 @@ abstract class Management {
 	 */
 	private function is_parent() {
 
-		return filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING )
+		return filter_input( INPUT_GET, 'page', FILTER_UNSAFE_RAW )
 			=== $this->parent;
 	}
 
@@ -1120,6 +1321,8 @@ abstract class Management {
 	 * Main view for all groups.
 	 *
 	 * @since  2.12.0
+	 *
+	 * @throws \Exception If you supply meta fields that aren't callable for this view.
 	 */
 	private function main() {
 
@@ -1127,7 +1330,25 @@ abstract class Management {
 
 		?>
 
-		<div id="col-container" class="wp-clearfix">
+		<div
+			class="wp-clearfix"
+			id="col-container"
+			<?php
+			/*
+			 * x-data:
+			 *
+			 * AlpineJS (https://alpinejs.dev/directives/data)
+			 *
+			 * You can use data for elements within this container.
+			 * There is also one for the edit method.
+			 *
+			 * E.g.:
+			 *
+			 *     <... x-on:change="data.show = ( 3 > 2 );">
+			 *     <... x-show="data.show">
+			 */
+			?>
+			x-data="{ data: {} }">
 
 				<!-- Add New -->
 				<div id="col-left">
@@ -1139,12 +1360,41 @@ abstract class Management {
 							<form id="addtag" method="post" action="admin.php?page=<?php echo esc_attr( "affiliate-wp-{$this->menu_slug}" ); ?>" class="validate">
 
 								<div class="form-field form-required term-name-wrap">
-									<label for="name"><?php esc_html_e( 'Name', 'affiliate-wp' ); ?></label>
 
-									<input name="name" id="name" type="text" value="" size="40" aria-required="true" aria-describedby="name-description" />
+									<label for="name">
+										<?php esc_html_e( 'Name', 'affiliate-wp' ); ?>
+									</label>
+
+									<input
+										name="name"
+										id="name"
+										type="text"
+										value=""
+										size="40"
+										aria-required="true"
+										required
+										aria-describedby="name-description" />
 
 									<p id="name-description"><?php esc_html_e( 'The name is how it appears on your site.', 'affiliate-wp' ); ?></p>
 								</div>
+
+								<!-- Meta fields for main/add view. -->
+								<?php foreach ( $this->meta_fields as $meta_key => $meta_field ) : ?>
+									<?php
+
+									if ( ! isset( $meta_field['main'] ) ) {
+										continue; // No main view field.
+									}
+
+									if ( ! is_callable( $meta_field['main'] ) ) {
+										throw new \Exception( "\$meta_field['main'] must be a callable public function." );
+									}
+
+									// Output the field from the function.
+									echo filter_var( $meta_field['main'](), FILTER_UNSAFE_RAW );
+
+									?>
+								<?php endforeach; ?>
 
 								<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="<?php /* translators: %s is the name of the group type. */ echo esc_attr( sprintf( __( 'Add New %s', 'affiliate-wp' ), $this->single_title ) ); ?>" /></span></p>
 
@@ -1188,20 +1438,42 @@ abstract class Management {
 							<br class="clear">
 						</div>
 
-						<table class="wp-list-table widefat fixed striped table-view-list tags">
+						<table class="wp-list-table widefat fixed striped table-view-list tags groups">
 
 							<thead>
 								<tr>
 									<th
 										scope="col"
 										id="name"
-										class="manage-column column-name column-primary desc">
+										class="manage-column column-name column-primary desc"
+										style="width: 20%">
 
 										<span><?php esc_html_e( 'Name', 'affiliate-wp' ); ?></span>
 									</th>
-									<th scope="col"class="column-posts manage-column count num">
-										<?php esc_html_e( 'Count', 'affiliate-wp' ); ?>
-									</th>
+
+									<!-- Meta fields column header (top). -->
+									<?php foreach ( $this->meta_fields as $meta_key => $meta_field ) : ?>
+										<?php
+
+										if ( ! isset( $meta_field['column_header'] ) ) {
+											continue; // No column_header view field.
+										}
+
+										if ( ! is_callable( $meta_field['column_header'] ) ) {
+											throw new \Exception( "\$meta_field['column_header'] must be a callable public function." );
+										}
+
+										// Output the field header from the function.
+										echo filter_var( $meta_field['column_header']( 'top' ), FILTER_UNSAFE_RAW );
+
+										?>
+									<?php endforeach; ?>
+
+									<?php if ( $this->has_connector() ) : ?>
+										<th scope="col"class="column-posts manage-column count num" style="width: 10%">
+											<?php esc_html_e( 'Count', 'affiliate-wp' ); ?>
+										</th>
+									<?php endif; ?>
 								</tr>
 							</thead>
 
@@ -1220,10 +1492,11 @@ abstract class Management {
 
 									?>
 
-									<tr id="tag-1" class="level-0">
+									<!-- Name -->
+									<tr id="tag-1" class="level-0 name">
 										<td
 											class="name column-name has-row-actions column-primary"
-											data-colname="Name">
+											data-colname="<?php esc_attr_e( 'Name', 'affiliate-wp' ); ?>">
 
 											<strong>
 												<a
@@ -1234,6 +1507,20 @@ abstract class Management {
 													<?php echo esc_html( wp_trim_words( $group->get_title(), 20 ) ); ?>
 												</a>
 											</strong>
+
+											<?php
+
+											/**
+											 * Fire right after group title.
+											 *
+											 * @since 2.13.0
+											 *
+											 * @param string                    $group_type  Group type.
+											 * @param \AffiliateWP\Groups\Group $group Group object.
+											 */
+											do_action( 'affwp_group_management_after_row_title', $this->group_type, $group );
+
+											?>
 
 											<br />
 
@@ -1260,9 +1547,30 @@ abstract class Management {
 												</span>
 											</div>
 										</td>
-										<td class="count column-posts" data-colname="<?php echo esc_attr_e( 'Count', 'affiliate-wp' ); ?>">
-											<?php echo wp_kses( $this->get_group_items_count( $group ), array( 'a' => array( 'href' => true ) ) ); ?>
-										</td>
+
+										<!-- Meta field columns (values). -->
+										<?php foreach ( $this->meta_fields as $meta_key => $meta_field ) : ?>
+											<?php
+
+											if ( ! isset( $meta_field['column_value'] ) ) {
+												continue; // No column_value view field.
+											}
+
+											if ( ! is_callable( $meta_field['column_value'] ) ) {
+												throw new \Exception( "\$meta_field['column_value'] must be a callable public function." );
+											}
+
+											// Output the field header from the function.
+											echo filter_var( $meta_field['column_value']( $group ), FILTER_UNSAFE_RAW );
+
+											?>
+										<?php endforeach; ?>
+
+										<?php if ( $this->has_connector() ) : ?>
+											<td class="count column-posts" style="vertical-align: middle; text-align: center;" data-colname="<?php echo esc_attr_e( 'Count', 'affiliate-wp' ); ?>">
+												<?php echo wp_kses( $this->get_group_items_count( $group ), array( 'a' => array( 'href' => true ) ) ); ?>
+											</td>
+										<?php endif; ?>
 									</tr>
 
 								<?php endforeach; // Groups. ?>
@@ -1273,9 +1581,30 @@ abstract class Management {
 									<th scope="col" class="manage-column column-name column-primary desc">
 										<span><?php esc_html_e( 'Name', 'affiliate-wp' ); ?></span>
 									</th>
-									<th scope="col"class="manage-column count num column-posts">
-										<?php esc_html_e( 'Count', 'affiliate-wp' ); ?>
-									</th>
+
+									<!-- Meta field column header (bottom) -->
+									<?php foreach ( $this->meta_fields as $meta_key => $meta_field ) : ?>
+										<?php
+
+										if ( ! isset( $meta_field['column_header'] ) ) {
+											continue; // No column_header view field.
+										}
+
+										if ( ! is_callable( $meta_field['column_header'] ) ) {
+											throw new \Exception( "\$meta_field['column_header'] must be a callable public function." );
+										}
+
+										// Output the field header from the function.
+										echo filter_var( $meta_field['column_header']( 'bottom' ), FILTER_UNSAFE_RAW );
+
+										?>
+									<?php endforeach; ?>
+
+									<?php if ( $this->has_connector() ) : ?>
+										<th scope="col"class="manage-column count num column-posts">
+											<?php esc_html_e( 'Count', 'affiliate-wp' ); ?>
+										</th>
+									<?php endif; ?>
 								</tr>
 							</tfoot>
 
@@ -1354,11 +1683,11 @@ abstract class Management {
 	private function register_group_type() {
 
 		if ( ! $this->is_string_and_nonempty( $this->group_type ) ) {
-			throw new \InvalidArgumentException( 'self::group_type needs to be a non-empty string. ' );
+			throw new \InvalidArgumentException( 'self::group_type must be a non-empty string. ' );
 		}
 
 		if ( sanitize_key( $this->group_type ) !== $this->group_type ) {
-			throw new \InvalidArgumentException( 'self::group_type needs to be a string compatible with sanitize_key(). ' );
+			throw new \InvalidArgumentException( 'self::group_type must be a string compatible with sanitize_key(). ' );
 		}
 
 		$register = affiliate_wp()->groups->register_group_type(
@@ -1376,6 +1705,43 @@ abstract class Management {
 	}
 
 	/**
+	 * Save meta fields.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param int $group_id Group ID to update meta for.
+	 *
+	 * @throws \Exception If we cannot get the group to update.
+	 * @throws \Exception If we cannot call the save function for a meta field.
+	 */
+	private function save_meta( int $group_id ) : bool {
+
+		$group = affiliate_wp()->groups->get_group( $group_id );
+
+		if ( ! is_a( $group, '\AffiliateWP\Groups\Group' ) ) {
+			throw new \Exception( "Unable to save meta for group with ID 'P$group_id}'" );
+		}
+
+		// Save any meta fields.
+		foreach ( $this->meta_fields as $meta_field ) {
+
+			if ( ! isset( $meta_field['save'] ) ) {
+				continue; // No save function.
+			}
+
+			if ( ! is_callable( $meta_field['save'] ) ) {
+				throw new \Exception( "\$meta_field['save'] must be a callable public function." );
+			}
+
+			if ( true !== $meta_field['save']( $group ) ) {
+				return false; // One of the meta fields didn't save (should have set it's own errors).
+			}
+		}
+
+		return true; // They all saved.
+	}
+
+	/**
 	 * Management scripts.
 	 *
 	 * @since  2.12.0
@@ -1385,8 +1751,11 @@ abstract class Management {
 	public function scripts() {
 
 		if ( ! $this->is_management_page() ) {
-			return;
+			return; // Don't do the below unless we're on our managment screen.
 		}
+
+		// All management JS should be Alipne JS: https://alpinejs.dev/.
+		wp_enqueue_script( 'alpinejs' );
 
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG
 			? ''
@@ -1441,7 +1810,7 @@ abstract class Management {
 	 *
 	 * @throws \InvalidArgumentException If you do not supply a valid view.
 	 */
-	private function update_view( $view ) {
+	protected function update_view( $view ) {
 
 		if (
 			! $this->is_string_and_nonempty( $view ) ||
@@ -1463,25 +1832,25 @@ abstract class Management {
 	private function validate_properties() {
 
 		if ( ! $this->is_string_and_nonempty( $this->page_title ) ) {
-			throw new \InvalidArgumentException( 'self::page_title needs to be a non-empty string. ' );
+			throw new \InvalidArgumentException( 'self::page_title must be a non-empty string. ' );
 		}
 
 		if ( ! $this->is_string_and_nonempty( $this->menu_title ) ) {
-			throw new \InvalidArgumentException( 'self::menu_title needs to be a non-empty string. ' );
+			throw new \InvalidArgumentException( 'self::menu_title must be a non-empty string. ' );
 		}
 
 		if ( ! $this->is_string_and_nonempty( $this->capability ) ) {
-			throw new \InvalidArgumentException( 'self::capability needs to be a non-empty string. ' );
+			throw new \InvalidArgumentException( 'self::capability must be a non-empty string. ' );
 		}
 
 		if ( ! $this->is_string_and_nonempty( $this->menu_slug ) ) {
-			throw new \InvalidArgumentException( 'self::menu_slug needs to be a non-empty string. ' );
+			throw new \InvalidArgumentException( 'self::menu_slug must be a non-empty string. ' );
 		}
 
 		$this->menu_slug = sanitize_key( $this->menu_slug );
 
 		if ( ! $this->is_string_and_nonempty( $this->parent ) ) {
-			throw new \InvalidArgumentException( 'self::parent needs to be a non-empty string. ' );
+			throw new \InvalidArgumentException( 'self::parent must be a non-empty string. ' );
 		}
 
 		if ( ! $this->is_numeric_and_at_least_zero( $this->position ) ) {
@@ -1489,19 +1858,23 @@ abstract class Management {
 		}
 
 		if ( ! $this->is_string_and_nonempty( $this->single_title ) ) {
-			throw new \InvalidArgumentException( 'self::single_title needs to be a non-empty string. ' );
+			throw new \InvalidArgumentException( 'self::single_title must be a non-empty string. ' );
 		}
 
 		if ( ! $this->is_string_and_nonempty( $this->plural_title ) ) {
-			throw new \InvalidArgumentException( 'self::plural_title needs to be a non-empty string. ' );
+			throw new \InvalidArgumentException( 'self::plural_title must be a non-empty string. ' );
 		}
 
 		if ( ! $this->is_string_and_nonempty( $this->item_single ) ) {
-			throw new \InvalidArgumentException( 'self::item_single needs to be a non-empty string. ' );
+			throw new \InvalidArgumentException( 'self::item_single must be a non-empty string. ' );
 		}
 
 		if ( ! $this->is_string_and_nonempty( $this->item_plural ) ) {
-			throw new \InvalidArgumentException( 'self::item_plural needs to be a non-empty string. ' );
+			throw new \InvalidArgumentException( 'self::item_plural must be a non-empty string. ' );
+		}
+
+		if ( ! is_array( $this->meta_fields ) ) {
+			throw new \InvalidArgumentException( 'self::meta_fields must be an array. ' );
 		}
 	}
 }

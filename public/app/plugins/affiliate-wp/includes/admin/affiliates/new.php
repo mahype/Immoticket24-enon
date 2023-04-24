@@ -130,7 +130,7 @@ $dynamic_coupons_enabled = affiliate_wp()->settings->get( 'dynamic_coupons' );
 							</label>
 							<br/>
 						<?php endforeach; ?>
-						<p class="description"><?php _e( 'The affiliate&#8217;s referral rate type.', 'affiliate-wp' ); ?></p>
+						<p class="description"><?php _e( 'The affiliate&#8217;s referral rate type. These settings may be overridden by a chosen affiliate group, but once removed these settings will take precedence.', 'affiliate-wp' ); ?></p>
 					</fieldset>
 				</td>
 
@@ -190,6 +190,15 @@ $dynamic_coupons_enabled = affiliate_wp()->settings->get( 'dynamic_coupons' );
 				<?php endif; ?>
 
 			</tr>
+
+			<?php
+			/**
+			 * Fires at the 8th position of the new affiliate form.
+			 *
+			 * @since 2.13.0
+			 */
+			do_action( 'affwp_new_affiliate_after_status' );
+			?>
 
 			<tr class="form-row">
 

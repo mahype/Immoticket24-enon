@@ -32,7 +32,9 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 	protected $capability = 'manage_creatives';
 
 	/** @var string This is documented in includes/admin/groups/class-connector.php */
+	protected $groups_column_before = 'shortcode';
 
+	/** @var string This is documented in includes/admin/groups/class-connector.php */
 	protected $group_plural = '';
 
 	/** @var string This is documented in includes/admin/groups/class-connector.php */
@@ -72,22 +74,22 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 		$this->modify_row_tag    = 'div';
 		$this->modify_row_class  = '';
 
-		$this->modify_multiselect_position_to_2nd_hooks();
+		$this->modify_multiselect_position_to_before_description_hooks();
 
 		parent::__construct();
 	}
 
 	/**
-	 * Modify the positioning hooks for the add/new templates to 2nd.
+	 * Modify the positioning hooks for the add/new templates to before description.
 	 *
 	 * Instead of last (default of the abstract class).
 	 *
 	 * @since  2.12.0
 	 */
-	private function modify_multiselect_position_to_2nd_hooks() {
+	private function modify_multiselect_position_to_before_description_hooks() {
 
-		add_filter( 'affwp_filter_hook_name_affwp_edit_creative_bottom', array( $this, 'change_multiselect_form_position_filter_to_2nd' ) );
-		add_filter( 'affwp_filter_hook_name_affwp_new_creative_bottom', array( $this, 'change_multiselect_form_position_filter_to_2nd' ) );
+		add_filter( 'affwp_filter_hook_name_affwp_edit_creative_bottom', array( $this, 'change_multiselect_form_position_filter_to_before_description' ) );
+		add_filter( 'affwp_filter_hook_name_affwp_new_creative_bottom', array( $this, 'change_multiselect_form_position_filter_to_before_description' ) );
 	}
 
 	/**
@@ -99,14 +101,14 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 	 *
 	 * @return string Our filter.
 	 */
-	public function change_multiselect_form_position_filter_to_2nd( $filter_name ) {
+	public function change_multiselect_form_position_filter_to_before_description( $filter_name ) {
 
 		if ( 'affwp_edit_creative_bottom' === $filter_name ) {
-			return 'affwp_edit_creative_2nd'; // We added these hooks specifically for creatives.
+			return 'affwp_edit_before_description'; // We added these hooks specifically for creatives.
 		}
 
 		if ( 'affwp_new_creative_bottom' === $filter_name ) {
-			return 'affwp_new_creative_2nd'; // We added these hooks specifically for creatives.
+			return 'affwp_new_before_description'; // We added these hooks specifically for creatives.
 		}
 
 		return $filter_name;

@@ -167,19 +167,34 @@ class Affiliate_WP_Membermouse extends Affiliate_WP_Base {
 
 	}
 
-	public function reference_link( $reference = 0, $referral ) {
+	/**
+	 * Build the reference URL
+	 *
+	 * @access  public
+	 * @since   2.13.0
+	 * @param   mixed       $reference The reference number.
+	 * @param   object|null $referral  Referral object.
+	 * @return  string Reference url.
+	 */
+	public function reference_link( $reference = 0, object $referral = null ) : string {
 
-		if( empty( $referral->context ) || $this->context != $referral->context ) {
-
+		if ( ! is_object( $referral ) ) {
 			return $reference;
+		}
 
+		if ( empty( $referral->context ) || $this->context != $referral->context ) {
+			return $reference;
 		}
 
 		$data = explode( '|', $reference );
 
-		$url = admin_url( 'admin.php?page=manage_members&module=details_transaction_history&user_id=' . $data[0] );
-
-		return '<a href="' . esc_url( $url ) . '">' . $reference . '</a>';
+		return sprintf(
+			'<a href="%1$s">%2$s</a>',
+			esc_url(
+				admin_url( "admin.php?page=manage_members&module=details_transaction_history&user_id={$data[0]}" )
+			),
+			esc_html( $reference )
+		);
 	}
 
 	/**
@@ -194,4 +209,4 @@ class Affiliate_WP_Membermouse extends Affiliate_WP_Base {
 	}
 }
 
-	new Affiliate_WP_Membermouse;
+new Affiliate_WP_Membermouse();

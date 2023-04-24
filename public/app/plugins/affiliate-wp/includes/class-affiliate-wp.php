@@ -42,7 +42,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.12.2';
+	private $version = '2.13.1';
 
 	/**
 	 * Main plugin file.
@@ -416,6 +416,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-visit.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-campaign.php';
 
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/filters-referral-rates.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/actions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/abstracts/class-affwp-registry.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/settings/class-settings.php';
@@ -424,7 +425,6 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affiliates-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-payouts-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-coupons-db.php';
-		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-creatives-categories.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-connections-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-groups-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-sales-db.php';
@@ -439,7 +439,9 @@ final class Affiliate_WP {
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/abstracts/class-affwp-list-table.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/interfaces/interface-meta-box-base.php';
 
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tooltips.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/affiliates/actions.php';
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/affiliates/groups.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/ajax-actions.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/class-addon-updater.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/class-menu.php';
@@ -595,7 +597,6 @@ final class Affiliate_WP {
 		self::$instance->emails = new Affiliate_WP_Emails;
 		self::$instance->creatives = new Affiliate_WP_Creatives_DB;
 		self::$instance->creative = new Affiliate_WP_Creatives;
-		self::$instance->creative_categories = new AffiliateWP\Creatives\Categories();
 		self::$instance->rewrites = new Affiliate_WP_Rewrites;
 		self::$instance->capabilities = new Affiliate_WP_Capabilities;
 		self::$instance->utils = new Affiliate_WP_Utilities;
@@ -605,6 +606,10 @@ final class Affiliate_WP {
 
 		// Onboarding wizard.
 		new Wizard\Bootstrap();
+
+		if ( true == get_option( 'affwp_display_setup_screen' ) ) {
+			new Wizard\Setup_Screen();
+		}
 
 		self::$instance->updater();
 	}

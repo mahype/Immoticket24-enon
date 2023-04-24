@@ -365,7 +365,7 @@ class AffWP_Creatives_Table extends List_Table {
 		if ( empty( $_REQUEST['_wpnonce'] ) ) {
 			return;
 		}
-		
+
 		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'bulk-creatives' ) && ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'affwp-creative-nonce' ) ) {
 		 	return;
 		}
@@ -449,6 +449,17 @@ class AffWP_Creatives_Table extends List_Table {
 			'offset'  => $per_page * ( $page - 1 ),
 			'status'  => $status,
 		) );
+
+		/**
+		 * Filters the arguments used to retrieve creatives for the Creatives list table.
+		 *
+		 * @since 2.13.0
+		 *
+		 * @param array                  $args Arguments passed to get_creatives() to retrieve
+		 *                                     the creative records for display.
+		 * @param \AffWP_Creatives_Table $this Creatives list table instance.
+		 */
+		$args = apply_filters( 'affwp_creative_table_get_creatives', $args, $this );
 
 		$creatives = affiliate_wp()->creatives->get_creatives( $args );
 

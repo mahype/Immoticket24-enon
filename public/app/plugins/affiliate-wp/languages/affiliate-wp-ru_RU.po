@@ -8,13 +8,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2021-05-11 15:58:55+00:00\n"
-"PO-Revision-Date: 2021-10-08 14:19-0600\n"
+"PO-Revision-Date: 2023-02-13 03:39-0500\n"
 "Language: ru\n"
-"X-Generator: Poedit 2.4.3\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: affiliate-wp.php:132
@@ -328,7 +328,7 @@ msgstr "ID партнера ассоциированного с выплатой
 
 #: includes/REST/v1/class-customers-endpoints.php:329
 msgid "Customer first name."
-msgstr "Пожалуйста, введите свое имя"
+msgstr "Пожалуйста, введите свое имя."
 
 #: includes/REST/v1/class-customers-endpoints.php:333
 msgid "Customer last name."
@@ -336,7 +336,7 @@ msgstr "Пользовательские данные реферала."
 
 #: includes/REST/v1/class-customers-endpoints.php:337
 msgid "Customer email."
-msgstr "Email покупателю"
+msgstr "Email покупателю."
 
 #: includes/REST/v1/class-customers-endpoints.php:341
 msgid "Customer IP address."
@@ -570,7 +570,7 @@ msgstr "Статус передачи или массив статусов."
 
 #: includes/REST/v1/class-sales-endpoints.php:243
 msgid "sales table column to order by."
-msgstr "Выплаты столбце таблицы в порядке."
+msgstr "ыплаты столбце таблицы в порядке."
 
 #: includes/REST/v1/class-sales-endpoints.php:250
 msgid "A referral ID or the search string to query for sales with."
@@ -1112,9 +1112,9 @@ msgstr[2] "Удаление партнеров приведет к удален�
 #: includes/admin/affiliates/delete.php:132
 msgid "Proceed to the user management page to remove the user account associated with this affiliate?"
 msgid_plural "Proceed to the user management page to remove the user accounts associated with these affiliates?"
-msgstr[0] "ID учетной записи пользователя привлеченного партнером."
-msgstr[1] "ID учетной записи пользователя привлеченного партнером."
-msgstr[2] "ID учетной записи пользователя привлеченного партнером."
+msgstr[0] "ID учетной записи пользователя привлеченного партнером?"
+msgstr[1] "ID учетной записи пользователя привлеченного партнером?"
+msgstr[2] "ID учетной записи пользователя привлеченного партнером?"
 
 #: includes/admin/affiliates/delete.php:156
 msgid "Confirm Deletion"
@@ -1237,7 +1237,7 @@ msgstr "Недавние реферальные посещения"
 #: includes/admin/affiliates/edit.php:268
 #: includes/admin/affiliates/new.php:155
 msgid "The affiliate&#8217;s flat rate referral basis."
-msgstr "Вид партнерской ставки"
+msgstr "Вид партнерской ставки."
 
 #: includes/admin/affiliates/edit.php:277
 #: includes/admin/affiliates/new.php:164
@@ -1461,7 +1461,7 @@ msgstr "Отправить приветственное письмо после 
 #: includes/admin/affiliates/review.php:143
 #: includes/class-register.php:575
 msgid "Create dynamic coupon for affiliate?"
-msgstr "Закрепить купон за партнером."
+msgstr "Закрепить купон за партнером?"
 
 #: includes/admin/affiliates/new.php:270
 #: includes/admin/user-profile.php:144
@@ -1653,7 +1653,7 @@ msgstr "Партнер успешно обновлен"
 #. translators: URL to the affiliates screen
 #: includes/admin/class-notices.php:275
 msgid "<a href=\"%s\">Back to Affiliates</a>."
-msgstr "<a href=\"%s\">Назад к Партнерам</a>"
+msgstr "<a href=\"%s\">Назад к Партнерам</a>."
 
 #: includes/admin/class-notices.php:283
 msgid "Affiliate update failed, please try again"
@@ -1788,7 +1788,7 @@ msgstr ""
 
 #: includes/admin/class-notices.php:447
 msgid "Effortlessly pay your affiliates"
-msgstr "Управление партнерами."
+msgstr "Управление партнерами"
 
 #: includes/admin/class-notices.php:450
 msgid "With the Payouts Service provided by AffiliateWP, you can easily pay affiliates in 31 countries using any debit or credit card. Learn more at <a href=\"%s\" target=\"_blank\">payouts.sandhillsplugins.com</a>."
@@ -1824,7 +1824,7 @@ msgstr "Не удалось удалить реферала, пожалуйст�
 
 #: includes/admin/class-notices.php:511
 msgid "Your database needs to be upgraded following the AffiliateWP v2.0 update"
-msgstr "Ваша БД нуждается в обновлении для совместимости с последней версией AffiliateWP."
+msgstr "Ваша БД нуждается в обновлении для совместимости с последней версией AffiliateWP"
 
 #: includes/admin/class-notices.php:521
 #: includes/admin/class-notices.php:543
@@ -1861,7 +1861,7 @@ msgstr "Ваша БД нуждается в обновлении для совм
 #. translators: URL to the Integrations settings screen
 #: includes/admin/class-notices.php:659
 msgid "There are currently no AffiliateWP <a href=\"%s\">integrations</a> enabled. If you are using AffiliateWP without any integrations, you may disregard this message."
-msgstr "В настоящий момент у вас нет активных <а href=\"%S\"с>интеграций AffiliateWP</a>. Если вы используете AffiliateWP без каких-либо интеграций, вы можете проигнорировать это сообщение."
+msgstr "В настоящий момент у вас нет активных <а href=\"%s\"с>интеграций AffiliateWP</a>. Если вы используете AffiliateWP без каких-либо интеграций, вы можете проигнорировать это сообщение."
 
 #. translators: Integration name
 #: includes/admin/class-notices.php:678
@@ -1980,7 +1980,7 @@ msgstr "Оповещать администраторов сайта о новы
 
 #: includes/admin/class-upgrades.php:836
 msgid "Notify site admin when new referrals are earned"
-msgstr "Оповещать администраторов сайта о новых полученных рефералах."
+msgstr "Оповещать администраторов сайта о новых полученных рефералах"
 
 #: includes/admin/creatives/actions.php:25
 #: includes/admin/creatives/actions.php:89
@@ -2435,7 +2435,7 @@ msgstr ""
 
 #: includes/admin/payouts/class-payouts-service.php:658
 msgid "Error:"
-msgstr "Ошибка"
+msgstr "Ошибка:"
 
 #: includes/admin/payouts/new.php:15
 #: includes/admin/payouts/payouts.php:56
@@ -2467,7 +2467,7 @@ msgstr "С - мм/дд/гггг"
 
 #: includes/admin/payouts/new.php:55
 msgid "Referrals start date"
-msgstr "Статусы реферал:"
+msgstr "Статусы реферал"
 
 #: includes/admin/payouts/new.php:63
 msgid "End Date"
@@ -2497,7 +2497,7 @@ msgstr "Минимальная сумма"
 
 #: includes/admin/payouts/new.php:81
 msgid "The minimum earnings for each affiliate for a payout to be processed."
-msgstr "Минимальный заработок для выплаты аффилиату"
+msgstr "Минимальный заработок для выплаты аффилиату."
 
 #: includes/admin/payouts/new.php:101
 msgid "Choose the payout method for this payout."
@@ -2595,7 +2595,7 @@ msgstr "Количество выплат на страницу:"
 
 #: includes/admin/payouts/submitted.php:18
 msgid "Payout submitted successfully!"
-msgstr "Выплата была успешно удалена."
+msgstr "Выплата была успешно удалена!"
 
 #: includes/admin/payouts/submitted.php:32
 msgid "Your payout request is now being processed and your affiliates will be notified once the funds have been deposited."
@@ -2994,7 +2994,7 @@ msgstr ""
 #: includes/admin/reports/class-sales-graph.php:205
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:133
 msgid "Total Affiliate Sales Earnings"
-msgstr "Вознаграждение партнерам."
+msgstr "Вознаграждение партнерам"
 
 #: includes/admin/reports/class-sales-graph.php:206
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:98
@@ -3221,7 +3221,7 @@ msgstr "Купон Партнера"
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:180
 msgid "Total number of affiliate-generated sales."
-msgstr "Количество партнеров на страницу:"
+msgstr "Количество партнеров на страницу."
 
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:53
 msgid "Total Visits (All Time)"
@@ -3505,7 +3505,7 @@ msgstr "Введите партнерскую ставку, которая до�
 
 #: includes/admin/settings/class-settings.php:724
 msgid "Opt-In Referral Status"
-msgstr "Статусы подписок рефералов:"
+msgstr "Статусы подписок рефералов"
 
 #: includes/admin/settings/class-settings.php:727
 #: includes/affiliate-functions.php:382
@@ -3772,7 +3772,7 @@ msgstr "Реферальная ссылка по умолчанию"
 
 #: includes/admin/settings/class-settings.php:905
 msgid "The default referral URL shown in the Affiliate Area. Also changes the URL shown in the Referral URL Generator and the {referral_url} email tag."
-msgstr "Стандартная реферальная ссылка отображается в кабинете Партнера. Ссылку можно изменить в генераторе реферальных ссылок ."
+msgstr "Реферальный URL-адрес по умолчанию, отображаемый в партнерской зоне. Также изменяет URL-адрес, отображаемый в генераторе URL-адресов рефералов, и тег электронной почты {referral_url}."
 
 #: includes/admin/settings/class-settings.php:909
 msgid "Enable reCAPTCHA"
@@ -3792,7 +3792,7 @@ msgstr "Это используется для идентификации ваш
 
 #: includes/admin/settings/class-settings.php:919
 msgid "reCAPTCHA Secret Key"
-msgstr "Секретный ключ reCAPTCHA"
+msgstr "reCAPTCHA Секретный ключ"
 
 #: includes/admin/settings/class-settings.php:920
 msgid "This is used for communication between your site and Google reCAPTCHA. Be sure to keep it a secret."
@@ -4095,7 +4095,7 @@ msgstr ""
 #. constant
 #: includes/admin/settings/class-settings.php:1623
 msgid "Reconnect to the %s."
-msgstr "Пересчет статистики"
+msgstr "Пересчет статистики."
 
 #. translators: 1: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME
 #. constant, 2: Payouts service documentation URL
@@ -5483,7 +5483,7 @@ msgstr "Действующий партнерский логин или ID до�
 #: includes/cli/class-referral-sub-commands.php:142
 #: includes/cli/class-visit-sub-commands.php:139
 msgid "An affiliate with the ID or username \"%s\" does not exist. See wp affwp affiliate create for adding affiliates."
-msgstr "Партнер с ID или имя пользователя \"%S\" не существует. Ознакомиться с партнерской документе WP affwp создать для добавления филиалов."
+msgstr "Партнер с ID или имя пользователя “%s” не существует. Ознакомиться с партнерской документе WP affwp создать для добавления филиалов."
 
 #. translators: Referral ID
 #: includes/cli/class-referral-sub-commands.php:165
@@ -5690,7 +5690,7 @@ msgstr "Вы не можете отсылать сообщения с AffWP_Emai
 
 #: includes/emails/class-affwp-emails.php:492
 msgid "The display name of the affiliate, as set on the affiliate's user profile"
-msgstr "Отображаемое имя партнера, указанное в профиле пользователя партнера."
+msgstr "Отображаемое имя партнера, указанное в профиле пользователя партнера"
 
 #: includes/emails/class-affwp-emails.php:497
 msgid "The user name of the affiliate on the site"
@@ -5811,7 +5811,7 @@ msgstr "Form ID: "
 #: includes/integrations/class-edd.php:631
 #: includes/integrations/class-woocommerce.php:342
 msgid "Referral %1$s for %2$s recorded for %3$s (ID: %4$d)."
-msgstr "Реферал %1$s для %2$s записано за %3$s"
+msgstr "Реферал %1$s для %2$s записано за %3$s."
 
 #: includes/integrations/class-edd.php:766
 #: includes/integrations/class-pmp.php:307
@@ -5903,7 +5903,7 @@ msgstr "Сумма покупки"
 #. name, 4: Referral affiliate ID
 #: includes/integrations/class-formidablepro.php:250
 msgid "AffiliateWP: Referral #%1$d for %2$s recorded for %3$s (ID: %4$d)."
-msgstr "AffiliateWP: Реферал #%d за %s записано за %s"
+msgstr "AffiliateWP: Реферал #%d за %s записано за %s."
 
 #. translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name
 #: includes/integrations/class-formidablepro.php:287
@@ -5949,7 +5949,7 @@ msgstr "Эти настройки будут использоваться для
 #: includes/integrations/class-sproutinvoices.php:79
 #: includes/integrations/class-zippycourses.php:292
 msgid "Referral #%1$d for %2$s recorded for %3$s (ID: %4$d)."
-msgstr "Реферал %1$s для %2$s записано за %3$s"
+msgstr "Реферал %1$s для %2$s записано за %3$s."
 
 #: includes/integrations/class-gravityforms.php:198
 #: includes/integrations/class-sproutinvoices.php:109
@@ -6832,7 +6832,7 @@ msgstr ""
 #: tests/payouts/test-payout-functions.php:432
 #: tests/payouts/test-payout-functions.php:457
 msgid "No referrals within the specified date range"
-msgstr "Реферал с ID \"%d\" создан."
+msgstr "Реферал с ID \"%d\" создан"
 
 #: includes/payout-functions.php:301
 #: tests/payouts/test-payout-functions.php:433
@@ -7639,7 +7639,7 @@ msgstr "Прямой траффик"
 #: includes/core-compatibility.php:100
 msgctxt "localized PHP upgrade information page"
 msgid "https://wordpress.org/support/update-php/"
-msgstr ""
+msgstr "https://wordpress.org/support/update-php/"
 
 #~ msgid "%d affiliate was added successfully."
 #~ msgid_plural "%d affiliates were added successfully"
@@ -7664,18 +7664,6 @@ msgstr ""
 #~ msgstr[0] "Ссылка партнерского раздела: %s"
 #~ msgstr[1] "Ссылка партнерского раздела: %s"
 #~ msgstr[2] "Ссылка партнерского раздела: %s"
-
-#~ msgid "Coupon successfully generated for %s affiliate."
-#~ msgid_plural "Coupons successfully generated for %s affiliates."
-#~ msgstr[0] ""
-"\n"
-"были успешно пересказала для всех соответствующих филиалов.\""
-#~ msgstr[1] ""
-"\n"
-"были успешно пересказала для всех соответствующих филиалов.\""
-#~ msgstr[2] ""
-"\n"
-"были успешно пересказала для всех соответствующих филиалов.\""
 
 #~ msgid "%s affiliate was successfully exported."
 #~ msgid_plural "%s affiliates were successfully exported."
@@ -7713,40 +7701,11 @@ msgstr ""
 #~ msgstr[1] "%s партнеров импортировано."
 #~ msgstr[2] "%s партнеров импортировано."
 
-#~ msgid "%s other existing affiliate or invalid row was skipped."
-#~ msgid_plural "%s other existing affiliates or invalid rows were skipped."
-#~ msgstr[0] ""
-"\n"
-"другими существующими партнерами или недействительным подряд был \"\n"
-""
-#~ msgstr[1] ""
-"\n"
-"других существующих филиалов или недействительные строки были \"\n"
-""
-#~ msgstr[2] ""
-"\n"
-"других существующих филиалов или недействительные строки были \"\n"
-""
-
 #~ msgid "%s referral was successfully imported."
 #~ msgid_plural "%s referrals were successfully imported."
 #~ msgstr[0] "%s рефералов импортировано."
 #~ msgstr[1] "%s рефералов импортировано."
 #~ msgstr[2] "%s рефералов импортировано."
-
-#~ msgid "%s other existing referral or invalid row was skipped."
-#~ msgid_plural "%s other existing referrals or invalid rows were skipped."
-#~ msgstr[0] ""
-"\n"
-"другими существующими обращения или неверный подряд был пропущен.\""
-#~ msgstr[1] ""
-"\n"
-"другими существующими рефералами или недействительные строки были \"\n"
-""
-#~ msgstr[2] ""
-"\n"
-"другими существующими рефералами или недействительные строки были \"\n"
-""
 
 #~ msgid "%s affiliate was added successfully."
 #~ msgid_plural "%s affiliates were added successfully."
@@ -7769,28 +7728,6 @@ msgstr ""
 #~ msgid "Referral #%d for %s recorded for %s"
 #~ msgstr "Реферал #%d за %s записано за %s"
 
-#~ msgid ""
-"\n"
-"the integrations to enable. If you are not using any of these, you \"\n"
-"use the <strong>[affiliate_conversion_script]</strong> shortcode to \"\n"
-"and create referrals. Refer to the <a href=\"%s\" target=\"_blank\"\n"
-"for help using this.\""
-#~ msgstr ""
-"\n"
-"с чем интегрировать AffiliateWP. Если Вы ничем из этого не \"\n"
-"можете использовать шорт-код \"\n"
-"чтобы отслеживать и \"\n"
-"рефералов. Обратитесь к <a href=\"%s\" target=\"_blank\"\n"
-"для подробного объяснения.\""
-
-#~ msgid ""
-"\n"
-"affiliate account email. Synced with the associated user account.\""
-#~ msgstr ""
-"\n"
-"вводить имя Партнера, чтобы начать поиск связанного \"\n"
-"аккаунта.\""
-
 #~ msgid "(The current user will not be deleted)"
 #~ msgstr "(Текущий пользователь не будет удален)"
 
@@ -7799,16 +7736,6 @@ msgstr ""
 
 #~ msgid "Close"
 #~ msgstr "Закрыть"
-
-#~ msgid ""
-"\n"
-"generate a payout for a specific affiliate, enter the affiliate&#8217;\"\n"
-"login name, first name, or last name. Leave blank to generate a payout \"\n"
-"any affiliates.\""
-#~ msgstr ""
-"\n"
-"найти Партнера, введите логин Партнера, Имя или Фамилию. Оставьте \"\n"
-"пустым, чтобы экспортировать рефералов всех Партнеров.\""
 
 #~ msgid "Total Unpaid Earnings"
 #~ msgstr "Весь невыплаченный заработок"
@@ -7890,15 +7817,6 @@ msgstr ""
 #~ msgid "Ignore Zero Referrals?"
 #~ msgstr "Игнорировать Нулевых рефералов?"
 
-#~ msgid ""
-"\n"
-"this box if you would like AffiliateWP to completely remove all of \"\n"
-"data when the plugin is deleted.\""
-#~ msgstr ""
-"\n"
-"галочку, если Вы хотите, чтобы AffiliateWP полностью удалил все \"\n"
-"данные, когда плагин будет удален.\""
-
 #~ msgid "Login"
 #~ msgstr "Войти"
 
@@ -7938,36 +7856,16 @@ msgstr ""
 #~ msgid "Welcome to AffiliateWP v%s"
 #~ msgstr "Добро пожаловать в AffiliateWP v%s"
 
-#~ msgid ""
-"\n"
-"you for installing AffiliateWP v%s. The best affiliate marketing \"\n"
-"for WordPress.\""
-#~ msgstr ""
-"\n"
-"что установили AffiliateWP v%s. Лучший маркетинговый Wordpress-\"\n"
-"для партнерских программ.\""
-
 #~ msgid "Version %s"
 #~ msgstr "Версия %s"
 
 #~ msgid "New Integrations"
 #~ msgstr "Новые интеграции"
 
-#~ msgid ""
-"\n"
-"made AffiliateWP more accessible and more valuable to more users \"\n"
-"three new integrations:\""
-#~ msgstr ""
-"\n"
-"сделать AffiliateWP более доступным и полезным большинству \"\n"
-"мы добавили 3 новых интеграции:\""
-
 #~ msgid "Improved Integrations"
 #~ msgstr "Интеграция"
 
-#~ msgid ""
-"\n"
-"commission rates are now supported in Restrict Content Pro\""
+#~ msgid "Every commission rate is now supported in Restrict Content Pro"
 #~ msgstr "Теперь каждая ставка комиссии поддерживается в Restrict Content Pro"
 
 #~ msgid "Per-membership commission rates are now supported in MemberPress"
@@ -7979,56 +7877,14 @@ msgstr ""
 #~ msgid "Commissions can be disabled on individual forms in Ninja Forms"
 #~ msgstr "Комиссии можно отключить в каждой форме плагина Ninja Forms"
 
-#~ msgid ""
-"\n"
-"commissions are now shown on the order details screens in Paid \"\n"
-"Pro\""
-#~ msgstr ""
-"\n"
-"Партнера теперь отображаются в детализации заказа в Paid \"\n"
-"Pro\""
-
 #~ msgid "URL Campaign Tracking"
 #~ msgstr "Ссылка отслеживания кампании"
-
-#~ msgid ""
-"\n"
-"can now include URL campaign parameters in their affiliate \"\n"
-"and have them automatically tracked by AffiliateWP. A new \"Campaigns\"\n"
-"table has been added to the Statistics tab of the affiliate area to \"\n"
-"affiliates the results of their URL campaigns.\""
-#~ msgstr ""
-"\n"
-"теперь могут включать URL-адреса кампании в свои партнерские \"\n"
-"и они автоматически будут учитываться AffiliateWP. Во вкладке \"\n"
-"добавлен новый отчет, где Партнер может просмотреть результаты \"\n"
-"своим кампаниям.\""
 
 #~ msgid "Affiliate Rejection Reasons"
 #~ msgstr "Причина Отказа Партнеру"
 
-#~ msgid ""
-"\n"
-"rejecting affiliate accounts, a rejection reason can be provided \"\n"
-"is then (optionally) emailed to the affiliate and recorded for \"\n"
-"reference.\""
-#~ msgstr ""
-"\n"
-"аккаунт Партнера отклонен, причина отказа может быть направлена ему \"\n"
-"email и зафиксирована на будущее.\""
-
 #~ msgid "reCaptcha v2.0"
 #~ msgstr "reCaptcha v2.0"
-
-#~ msgid ""
-"\n"
-"reCaptcha version 2.0 library has been introduced to \"\n"
-"to help protect you and your website from spam user \"\n"
-""
-#~ msgstr ""
-"\n"
-"reCaptcha version 2.0 от Google была введена в наш продукт, \"\n"
-"защитить вас и ваш сайт от спама и фейковых регистраций.\""
 
 #~ msgid "Additional Updates"
 #~ msgstr "Дополнительные обновления"
@@ -8036,63 +7892,17 @@ msgstr ""
 #~ msgid "Improved User Searching"
 #~ msgstr "Расширенный Поиск Пользователей"
 
-#~ msgid ""
-"\n"
-"creating new affiliate accounts, the search process for users in \"\n"
-"WordPress site now return better results.\""
-#~ msgstr ""
-"\n"
-"создании новых аккаунтов Партнеров, процесс поиска для пользователей \"\n"
-"сайте WordPress теперь стал лучше.\""
-
 #~ msgid "Per-Page Options for Admin Screens"
 #~ msgstr "Постраничное разделение Опций для Администратора"
-
-#~ msgid ""
-"\n"
-"pages for Affiliates, Referrals, Visits, and Creatives can have the \"\n"
-"of items per-page configured from the Screen Options tab.\""
-#~ msgstr ""
-"\n"
-"страницы для Партнеров, Рефералов, Визитов, и Баннеров могут \"\n"
-"определенное количество элементов на странице, это настраивается \"\n"
-"вкладке \"Настройки отображения вкладки\".\""
 
 #~ msgid "Disable Individual Emails"
 #~ msgstr "Отключить отдельные сообщения электронной почты"
 
-#~ msgid ""
-"\n"
-"options have been introduced that allow you to pick-and-choose which \"\n"
-"notifications AffiliateWP will send.\""
-#~ msgstr ""
-"\n"
-"опции, которые позволяют выбрать, какие уведомления по электронной \"\n"
-"AffiliateWP отправит.\""
-
 #~ msgid "Creative Template File"
 #~ msgstr "Шаблон файла Баннера"
 
-#~ msgid ""
-"\n"
-"new template file has been introduced for exact control over the \"\n"
-"of creatives in the affiliate area.\""
-#~ msgstr ""
-"\n"
-"файл шаблона был введен для точного контроля отображения баннеров в \"\n"
-"соответствующем разделе.\""
-
 #~ msgid "Import Users By Role"
 #~ msgstr "Импорт пользователей по ролям"
-
-#~ msgid ""
-"\n"
-"importing existing users as affiliates, an option to import just \"\n"
-"of a specific role is now available.\""
-#~ msgstr ""
-"\n"
-"импорте существующих Партнеров, возможно импортировать по \"\n"
-"роли.\""
 
 #~ msgid "Go to AffiliateWP Settings"
 #~ msgstr "Перейти к Настройкам AffiliateWP"
@@ -8100,165 +7910,20 @@ msgstr ""
 #~ msgid "Welcome to AffiliateWP %s"
 #~ msgstr "Добро пожаловать в AffiliateWP %s"
 
-#~ msgid ""
-"\n"
-"the tips below to get started using AffiliateWP. You will be up and \"\n"
-"in no time!\""
-#~ msgstr ""
-"\n"
-"указанные ниже советы, чтобы приступить к работе с \"\n"
-"Вы мгновенно освоите нашу систему!\""
-
 #~ msgid "Overview of Affiliates and Referrals"
 #~ msgstr "Обзор Партнеров и Рефералов"
 
 #~ msgid "The Overview Page"
 #~ msgstr "Обзорная страница"
 
-#~ msgid ""
-"\n"
-"overview page gives you a quick summary of your recent affiliate \"\n"
-"including recent registrations, referrals, and visits.\""
-#~ msgstr ""
-"\n"
-"страница предоставляет Вам краткий отчет о недавней активности \"\n"
-"Партнеров, включая недавние регистрации, рефералов, посещения.\""
-
-#~ msgid ""
-"\n"
-"also provides a quick summary of your affiliates&#8217; referral \"\n"
-""
-#~ msgstr ""
-"\n"
-"на ней можно увидеть небольшой отчет о реферальных заработках Ваших \"\n"
-""
-
-#~ msgid ""
-"\n"
-"you allow affiliate registrations, you can also easily accept or \"\n"
-"affiliate&#8217;s applications directly from the Overview page\""
-#~ msgstr ""
-"\n"
-"Вы позволяете Партнерам регистрироваться, Вы также можете одобрять \"\n"
-"отклонять заявки Партнеров прямо из Обзорной страницы.\""
-
 #~ msgid "Affiliates &rarr; Add New"
 #~ msgstr "Партнеры &rarr; Добавить нового"
-
-#~ msgid ""
-"\n"
-"the main Affiliates page, site admins can easily add new affiliates \"\n"
-"AffiliateWP. Simply enter the username, set a rate, and click Add \"\n"
-""
-#~ msgstr ""
-"\n"
-"главной страницы \"Партнеры\", администраторы сайта могут легко \"\n"
-"новых Партнеров в AffiliateWP. Просто введите имя пользователя, \"\n"
-"ставку и нажмите \"Добавить Партнера\"!\""
-
-#~ msgid ""
-"\n"
-"enabled, affiliates can register themselves via the Affiliate Area. \"\n"
-"they already have a user account on your site, they can register by \"\n"
-"agreeing to the terms of use. If they need to create an entirely \"\n"
-"account, they have that option as well!\""
-#~ msgstr ""
-"\n"
-"опция включена, партнеры могут самостоятельно регистрироваться в \"\n"
-"Партнера. Если они уже имеют аккаунт пользователя на Вашем \"\n"
-"они могут зарегистрироваться, просто согласившись с Условиями \"\n"
-"Если им нужно создать абсолютно новый аккаунт, у них есть \"\n"
-"возможность!\""
-
-#~ msgid ""
-"\n"
-"registrations can be moderated and require that a site admin \"\n"
-"each registration before the affiliate is permitted to begin \"\n"
-"referrals.\""
-#~ msgstr ""
-"\n"
-"Партнера может модерироваться, для этого администратор сайта \"\n"
-"подтверждать каждую регистрацию, прежде чем Партнер получит \"\n"
-"отслеживать рефералов.\""
-
-#~ msgid ""
-"\n"
-"time an affiliate registers, site admins can log into the site and \"\n"
-"or reject the application.\""
-#~ msgstr ""
-"\n"
-"раз, когда Партнер регистрируется, администраторы сайта могут \"\n"
-"на сайт, и либо одобрить, либо отклонить заявку.\""
 
 #~ msgid "A Dashboard For Your Affiliates"
 #~ msgstr "Информационная панель для ваших Партнеров"
 
-#~ msgid ""
-"\n"
-"Affiliate Area, shown on any page containing the \"\n"
-"shortcode, gives your affiliates access to \"\n"
-"performance reports.\""
-#~ msgstr ""
-"\n"
-"Партнера, отображаемый на каждой странице, где есть шорт-код \"\n"
-"дает Вашим Партнерам доступ к их статистике и \"\n"
-""
-
-#~ msgid ""
-"\n"
-"can easily see how much they have earned, how much is awaiting \"\n"
-"and even how their referral URLs have done over time.\""
-#~ msgstr ""
-"\n"
-"могут легко узнать, сколько они заработали, сколько еще ждать \"\n"
-"и даже полную историю их реферальных ссылок.\""
-
-#~ msgid ""
-"\n"
-"log of the referral links that have been clicked and where they were \"\n"
-"on from, and whether the link converted into a successful \"\n"
-"is also available to affiliates.\""
-#~ msgstr ""
-"\n"
-"событий, сообщающий, по каким реферальным ссылкам люди пришли на \"\n"
-"и привела ли ссылка к конверсии в успешного реферала, также \"\n"
-"для Партнеров.\""
-
 #~ msgid "Quick Terminology"
 #~ msgstr "Краткая терминология"
-
-#~ msgid ""
-"\n"
-"are your best friends. They are the users that are actively \"\n"
-"your products and services through referral URLs. When they \"\n"
-"a customer for you, they get paid back in the form of a commission.\""
-#~ msgstr ""
-"\n"
-"Ваши лучшие друзья. Это пользователи, которы активно рекламируют Вашу \"\n"
-"и услуги с помощью реферальных ссылок. Когда они приводят к Вам \"\n"
-"клиента, Вы платите им определенную комиссию.\""
-
-#~ msgid ""
-"\n"
-"are the commission records created anytime an affiliate \"\n"
-"sends a potential customer to your site and that customer \"\n"
-"a purchase.\""
-#~ msgstr ""
-"\n"
-"комиссионные отступные, образующиеся каждый раз, как только Партнер \"\n"
-"приводит клиента к Вам на сайт, и этот клиент совершает у Вас \"\n"
-""
-
-#~ msgid ""
-"\n"
-"are unique hits on the referral URLs shared out by your affiliates. \"\n"
-"time a potential customer clicks on a referral URL, a visit is \"\n"
-""
-#~ msgstr ""
-"\n"
-"уникальные заходы по реферальным ссылкам, которыми делится Ваш \"\n"
-"Каждый раз, когда потенциальный клиент кликает по реферальной \"\n"
-"посещение записывается.\""
 
 #~ msgid "Need Help?"
 #~ msgstr "Нужна помощь?"
@@ -8266,31 +7931,8 @@ msgstr ""
 #~ msgid "Phenomenal Support"
 #~ msgstr "Феноменальная поддержка"
 
-#~ msgid ""
-"\n"
-"do our best to provide the best support we can. If you encounter a \"\n"
-"or have a question, visit our <a href=\"https://affiliatewp.com/\"\n"
-"page to open a ticket.\""
-#~ msgstr ""
-"\n"
-"стараемся изо всех сил, чтобы предоставить лучшую поддержку, какую \"\n"
-"можем. Если Вы столкнулись с проблемой, или у Вас есть вопрос, \"\n"
-"нашу страницу <a href=\"http://affiliatewp.com/support\"\n"
-"чтобы создать запрос.\""
-
 #~ msgid "Thank you for updating to the latest version!"
 #~ msgstr "Спасибо Вам, что обновили AffiliateWP до последней версии!"
-
-#~ msgid ""
-"\n"
-"is created by developers from around the world that aim to \"\n"
-"the #1 affiliate platform for WordPress. Here are just some of \"\n"
-"faces that have helped build AffiliateWP:\""
-#~ msgstr ""
-"\n"
-"создан разработчиками со всего мира, чья цель - предоставить \"\n"
-"партнерскую платформу на Wordpress. Здесь представлены лишь \"\n"
-"из тех, кто помог нам создать AffiliateWP:\""
 
 #~ msgid "Add New Referral"
 #~ msgstr "Добавить нового реферала"
@@ -8298,137 +7940,32 @@ msgstr ""
 #~ msgid "Application Rejected Email Subject"
 #~ msgstr "Отклонение заявки"
 
-#~ msgid ""
-"\n"
-"the subject line for rejected application emails sent to affiliates \"\n"
-"their account is rejected.\""
-#~ msgstr ""
-"\n"
-"тему сообщения для принятых заявок. Сообщение отсылается \"\n"
-"после проверки их аккаунта. \""
-
 #~ msgid "Affiliate Application Rejected"
 #~ msgstr "Заявка аффилиата принята"
 
 #~ msgid "Application Rejected Email Content"
 #~ msgstr "Текст сообщения об отклонении заявки на Аффилиата"
 
-#~ msgid ""
-"\n"
-"the email to send when an application is rejected. HTML is \"\n"
-"Available template tags:\""
-#~ msgstr ""
-"\n"
-"текст сообщения об отклонении заявки на Аффилиата. HTML разрешен. \"\n"
-"теги шаблона:\""
-
 #~ msgid "Hello {name}!"
 #~ msgstr "Привет {name}!"
-
-#~ msgid ""
-"\n"
-"regret to inform you that your affiliate application on %s has been \"\n"
-""
-#~ msgstr ""
-"\n"
-"сожалению, ваша заявка на Аффилиата на сайте {site_name} была отклонена.\""
 
 #~ msgid "Configurable emails"
 #~ msgstr "Настраиваемая рассылка"
 
-#~ msgid ""
-"\n"
-"version 1.6, we have introduced a new tab in the Settings page that \"\n"
-"you to configure all emails that get sent out to affiliates when \"\n"
-"register for an account or earn a new referral.\""
-#~ msgstr ""
-"\n"
-"версией 1.6, мы добавили новый раздел на странице Настроек, который \"\n"
-"настраивать емейлы Аффилиатам\""
-
-#~ msgid ""
-"\n"
-"emails are sent in beautiful HTML templates that can be easily edited \"\n"
-"anytime. These template files can be copied to your theme's \"\n"
-"folder to give you complete control over the \"\n"
-"of the emails.\""
-#~ msgstr ""
-"\n"
-"электронная почта отправляется в красивых темплейтах HTML, которые \"\n"
-"легко редактировать в любое время. Эти темплейты можно скопировать \"\n"
-"папку вашей темы \"affiliatewp/emails\" для полных настроек \"\n"
-"рассылки. \""
-
 #~ msgid "Fine-tuned control over how referral URLs appear to affiliates"
 #~ msgstr "Детальные настройки отображения реферальных URL аффилиатам"
-
-#~ msgid ""
-"\n"
-"affiliates can already promote your website using a wide variety of \"\n"
-"href=\"http://docs.affiliatewp.com/article/50-affiliate-urls\" target=\"\n"
-"URLs</a>. Admins now have much more control over how \"\n"
-"referral URLs appear to affiliates on the front-end of your \"\n"
-"You can set a <strong>Default Referral Format</strong> (ID or \"\n"
-"and choose whether or not to show <strong>Pretty Affiliate \"\n"
-"to your affiliates.\""
-#~ msgstr ""
-"\n"
-"Аффилиаты могут продвигать ваш вебсайт, используя широкий спектр <a \"\n"
-"target=\"\n"
-"Аффилиатов</a>. Администраторы сейчас имеют намного больше \"\n"
-"за тем, как рефералы отображаются Аффилиатам на вашем вебсайте. \"\n"
-"можетие настроить <strong>Стандартное форматирование рефералов</\"\n"
-"(ID или имя пользователя) или выбрать где показывать или не \"\n"
-"<strong>Красивые URL Аффилиатов</strong> вашим Аффилиатам. \""
 
 #~ msgid "Affiliate Export Improvements"
 #~ msgstr "Улучшение экспорта Аффилиатов"
 
-#~ msgid ""
-"\n"
-"affiliate's username is now included in the exported affiliate .csv \"\n"
-""
-#~ msgstr ""
-"\n"
-"пользователя Аффилиата теперь включено в экспортированный файл .csv\""
-
 #~ msgid "New Affiliate Meta Class"
 #~ msgstr "Новый мета-класс Аффилиата"
-
-#~ msgid ""
-"\n"
-"introduced a new metadata API for afiliate accounts that provides \"\n"
-"with a powerful tool for tracking affiliate-specific data.\""
-#~ msgstr ""
-"\n"
-"добавили новую метадату API для аккаунтов аффилиатов, которая \"\n"
-"разработчикам мощный инструмент для тректинга всей \"\n"
-"информации по Аффилиатам\""
 
 #~ msgid "Creative Improvements"
 #~ msgstr "Улучшение баннеров"
 
-#~ msgid ""
-"\n"
-"made improvements to the way creatives are shown. The description \"\n"
-"now shown at the top of the creative and it's much easier for \"\n"
-"to copy the necessary code.\""
-#~ msgstr ""
-"\n"
-"улучшили отображение баннеров.  Описание теперь отображается сверху \"\n"
-"Теперь Аффилиату проще скопировать необходимый код. \""
-
 #~ msgid "Affiliate Dashboard Improvements"
 #~ msgstr "Улучшение панели Аффилиатов"
-
-#~ msgid ""
-"\n"
-"affiliates can no longer access the affiliate dashboard until \"\n"
-"have been approved.\""
-#~ msgstr ""
-"\n"
-"не могут получить доступ к админпанели до того, как их заявка \"\n"
-"будет одобрена.\""
 
 #~ msgid "Accept Affiliate"
 #~ msgstr "Принять Аффилиата"
@@ -8439,13 +7976,6 @@ msgstr ""
 #~ msgid "AffiliateWP"
 #~ msgstr "AffiliateWP"
 
-#~ msgid "Congratulations"
-#~ msgstr ""
-"\n"
-"%s!\n"
-"\"\n"
-""
-
 #~ msgid "Euros (&euro;)"
 #~ msgstr "Евро (&euro;)"
 
@@ -8455,129 +7985,14 @@ msgstr ""
 #~ msgid "Iranian Rial (&#65020;)"
 #~ msgstr "Иранский риал (&#65020;)"
 
-#~ msgid ""
-"\n"
-"coupon tracking has been one of the most requested features, \"\n"
-"one we are thrilled to introduce with version 1.1.\""
-#~ msgstr ""
-"\n"
-"купон-кода - одна из самых желанных особенностей \"\n"
-"и одно из самых интригующих нововведений в версии 1.1.\""
-
-#~ msgid ""
-"\n"
-"allows you to connect a coupon code to a specific affiliate so the \"\n"
-"is credited a referral anytime the coupon is redeemed.\""
-#~ msgstr ""
-"\n"
-"позволит Вам закрепить купон-код за особенным аффилиатом, что, в свою \"\n"
-"даст возможность зачислять аффилиату реферала с каждым \"\n"
-"купона\""
-
-#~ msgid ""
-"\n"
-"version 1.1, we have included coupon code tracking support for Easy \"\n"
-"Downloads, WooCommerce, and Restrict Content Pro. More \"\n"
-"will get added soon.\""
-#~ msgstr ""
-"\n"
-"версии 1.1 для купон-кода мы включили возможность поддержки для Easy \"\n"
-"Downloads, WooCommerce, and Restrict Content Pro. Больше \"\n"
-"появится в ближайшем будущем.\""
-
-#~ msgid ""
-"\n"
-"the minimum amount option, you can set the minimum amount that \"\n"
-"need to have earned before their referrals are included in the \"\n"
-""
-#~ msgstr ""
-"\n"
-"данной опцией Вы сможете выставить минимальную сумму, которую аффилиат \"\n"
-"заработать, прежде чем ему будут оплачены его рефералы.\""
-
-#~ msgid ""
-"\n"
-"is great for sites that want to keep the affiliate system locked \"\n"
-"to serious affiliates.\""
-#~ msgstr ""
-"\n"
-"отличная возможность для тех сайтов, которые хотят оставить вход в \"\n"
-"программу только для серьезных аффилиатов.\""
-
-#~ msgid ""
-"\n"
-"new section has been added to the Reports page that lets you see \"\n"
-"registrations over time.\""
-#~ msgstr ""
-"\n"
-"секция была добавлены в страницу Отчетов, которая позволяет Вам \"\n"
-"регистрацию аффилиатов в течение всего времени.\""
-
-#~ msgid ""
-"\n"
-"have introduced a new option to automatically register new WordPress \"\n"
-"as affiliates when their user accounts are created.\""
-#~ msgstr ""
-"\n"
-"представили новую возможнсть - автоматически регистрировать \"\n"
-"Вашего Wordpress-сайта как аффилиатов, как только их \"\n"
-"аккаунты будут созданы.\""
-
-#~ msgid ""
-"\n"
-"Overview page now has a new widget that shows your top 5 most \"\n"
-"affiliates, based on earnings.\""
-#~ msgstr ""
-"\n"
-"Обзора теперь имеет новый виджет, который показывает 5 самых \"\n"
-"аффилиатов, за основание берется заработок.\""
-
 #~ msgid "Shortcode to Affiliate-only Content"
 #~ msgstr "Короткий код для контента, доступного только для аффилиатов"
-
-#~ msgid ""
-"\n"
-"have added a new shortcode that lets you show specific content to \"\n"
-"affiliates only.\""
-#~ msgstr ""
-"\n"
-"добавили новый шорт-код (короткий код), который позволяет Вам \"\n"
-"специфический контент только для зарегистрированных и вошедших \"\n"
-"систему аффилиатов.\""
 
 #~ msgid "Custom Cookie Expiration Option"
 #~ msgstr "Продвинутые настройки срока действия cookie"
 
-#~ msgid ""
-"\n"
-"expiration time for the affiliate tracking cookies can now be set \"\n"
-"the Settings page.\""
-#~ msgstr ""
-"\n"
-"выхода из действия файлов cookie, связанных с отслеживанием \"\n"
-"теперь можно установить на странице Настроек.\""
-
 #~ msgid "More Actions"
 #~ msgstr "Больше действий"
-
-#~ msgid ""
-"\n"
-"new action and filter hooks have been added to make AffiliateWP \"\n"
-"more developer friendly.\""
-#~ msgstr ""
-"\n"
-"добавлены многочисленные возможности Wordpress-платформы (фильтрация \"\n"
-"и 'new action'), чтобы сделать AffiliateWP еще более удобным для \"\n"
-""
-
-#~ msgid ""
-"\n"
-"affiliate's referral rate. If left blank, the site default will be \"\n"
-""
-#~ msgstr ""
-"\n"
-"аффилиату за каждого реферала. Оставьте поле пустым, чтобы \"\n"
-"настройки по умолчанию.\""
 
 #~ msgid "Payment Email (if different)"
 #~ msgstr "Емейл платежной системы (если отличается)"

@@ -1146,9 +1146,16 @@ add_action( 'template_redirect', 'affwp_filter_shown_affiliate_area_forms' );
  * @since 2.0
  * @since 2.5.7 Added support for customers URLs
  *
- * @param string $type       Optional. Type of admin URL. Accepts 'affiliates', 'creatives', 'payouts',
- *                           'referrals', 'visits', 'settings', 'tools', or 'add-ons'. Default empty
- *                           ('affiliate-wp').
+ * @param string $type       Optional. Type of admin URL. Accepts:
+ *                              'affiliates',
+ *                              'creatives',
+ *                              'payouts',
+ *                              'referrals',
+ *                              'visits',
+ *                              'settings',
+ *                              'tools',
+ *                              'add-ons'
+ *                              Default empty ('affiliate-wp').
  * @param array  $query_args Optional. Query arguments to append to the admin URL. Default empty array.
  * @return string Constructed admin URL.
  */
@@ -1156,8 +1163,17 @@ function affwp_admin_url( $type = '', $query_args = array() ) {
 	$page = 'affiliate-wp';
 
 	$whitelist = array(
-		'affiliates', 'customers', 'creatives', 'payouts', 'referrals',
-		'visits', 'reports', 'settings', 'tools', 'add-ons'
+		'affiliates',
+		'customers',
+		'creatives',
+		'payouts',
+		'referrals',
+		'visits',
+		'reports',
+		'settings',
+		'tools',
+		'add-ons',
+		'setup-screen',
 	);
 
 	if ( in_array( $type, $whitelist, true ) ) {

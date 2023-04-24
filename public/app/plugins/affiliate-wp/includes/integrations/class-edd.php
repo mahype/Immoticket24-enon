@@ -208,7 +208,7 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 			}
 		}
 
-		// get referral total.
+		// Get referral total.
 		$referral_total = $this->get_referral_total( $payment_id, $affiliate_id );
 
 		if ( empty( $desc ) ) {
@@ -216,6 +216,14 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 			$this->mark_referral_failed( $referral_id );
 
 			return;
+		}
+
+		if ( 0 == $referral_total && affiliate_wp()->settings->get( 'ignore_zero_referrals' ) ) {
+
+			$this->log( 'Draft referral failed due to 0.00 amount.' );
+			$this->mark_referral_failed( $referral_id );
+
+			return; // Ignore a zero amount referral.
 		}
 
 		// Hydrates the previously created referral.

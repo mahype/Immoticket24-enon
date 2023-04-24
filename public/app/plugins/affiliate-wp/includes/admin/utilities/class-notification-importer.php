@@ -133,6 +133,15 @@ class Notification_Importer {
 			throw new \Exception( 'Notification has expired.' );
 		}
 
+		// Don't save notification if it started before the plugin installation.
+		if ( 
+			! empty( $notification->start ) &&
+			null !== get_option( 'affwp_first_installed' ) &&
+			get_option( 'affwp_first_installed' ) > strtotime( $notification->start )
+		) {
+			throw new \Exception( 'Start condition not met.' );
+		}
+
 		if (
 			! empty( $notification->type ) &&
 			is_array( $notification->type ) &&

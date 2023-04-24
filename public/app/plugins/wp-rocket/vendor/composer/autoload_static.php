@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit28a1e0dfd4e83c9ea2de931405f347d0
+class ComposerStaticInit1ef0fc1b13e2bc13d9151b56ecd99720
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
@@ -474,6 +474,7 @@ class ComposerStaticInit28a1e0dfd4e83c9ea2de931405f347d0
         'WP_Rocket\\ThirdParty\\Hostings\\O2Switch' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/O2Switch.php',
         'WP_Rocket\\ThirdParty\\Hostings\\OneCom' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/OneCom.php',
         'WP_Rocket\\ThirdParty\\Hostings\\Pressable' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/Pressable.php',
+        'WP_Rocket\\ThirdParty\\Hostings\\ProIsp' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/ProIsp.php',
         'WP_Rocket\\ThirdParty\\Hostings\\Savvii' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/Savvii.php',
         'WP_Rocket\\ThirdParty\\Hostings\\ServiceProvider' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/ServiceProvider.php',
         'WP_Rocket\\ThirdParty\\Hostings\\SpinUpWP' => __DIR__ . '/../..' . '/inc/ThirdParty/Hostings/SpinUpWP.php',
@@ -540,9 +541,9 @@ class ComposerStaticInit28a1e0dfd4e83c9ea2de931405f347d0
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit28a1e0dfd4e83c9ea2de931405f347d0::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit28a1e0dfd4e83c9ea2de931405f347d0::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit28a1e0dfd4e83c9ea2de931405f347d0::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1ef0fc1b13e2bc13d9151b56ecd99720::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1ef0fc1b13e2bc13d9151b56ecd99720::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit1ef0fc1b13e2bc13d9151b56ecd99720::$classMap;
 
         }, null, ClassLoader::class);
     }

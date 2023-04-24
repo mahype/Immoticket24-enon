@@ -7,37 +7,43 @@
  * @since 2.12.0
  */
 
+/* globals jQuery */
+
 ( function () {
 
 	if (
-		! window.hasOwnProperty( 'jQuery' ) ||
-		! window.hasOwnProperty( 'affwpSelect2' )
+		! window.hasOwnProperty( 'jQuery' )
 	) {
 		return; // We need these to be enqueued and localized by the trait.
 	}
 
-	const element = window.jQuery( window.affwpSelect2.selector );
+	const element = window.jQuery( 'select.select2' );
 
 	if ( ! element.length ) {
 		return; // Fail gracefully, there may not be groups to select (no <select>).
 	}
 
-	window.jQuery( window.affwpSelect2.selector )
-		.select2( window.affwpSelect2.args );
+	jQuery( element ).each( function( index, el ) {
 
-	if ( ! window.affwpSelect2.hasOwnProperty( 'labelSelector' ) || window.affwpSelect2.labelSelector.length <= 0 ) {
-		return;
-	}
+		const select = jQuery( el );
 
-	const label = window.jQuery( window.affwpSelect2.labelSelector );
+		window.jQuery( select ).select2( select.data( 'args' ) );
 
-	if ( ! label.length ) {
-		return; // Fail gracefully, there may not be groups to select (no <select>).
-	}
+		const label = window.jQuery( 'label[for="' + select.data( 'label' ) + '"]' );
 
-	// Focus on the element (select) when the label clicked.
-	label.on( 'click', function() {
-		element.select2( 'open' );
+		if ( ! label.length ) {
+			return; // Fail gracefully, there may not be groups to select (no <select>).
+		}
+
+		const triggerElement = jQuery( '#' + select.attr( 'id' ) );
+
+		if ( ! triggerElement.length ) {
+			return;
+		}
+
+		// Focus on the select (select) when the label clicked.
+		label.on( 'click', function() {
+			jQuery( triggerElement ).select2( 'open' );
+		} );
 	} );
-
 } ) ();

@@ -154,6 +154,8 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			'order'       => 'ASC',
 			'fields'      => '',
 			'date_format' => '',
+			'include'      => array(),
+			'exclude'      => array(),
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -163,6 +165,8 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 		}
 
 		$where = $join = '';
+
+		$where = $this->add_include_exclude_clauses( $where, $args );
 
 		// Specific creative ID or IDs.
 		if ( ! empty( $args['creative_id'] ) ) {

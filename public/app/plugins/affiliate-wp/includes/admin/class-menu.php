@@ -63,7 +63,8 @@ class Affiliate_WP_Admin_Menu {
 	 * Registers the Affiliates admin menu and submenu pages.
 	 *
 	 * @since 1.0.0
-	 * @since 2.9.4 Added our Affiliate Reports link to main Dashboard menu.
+	 * @since 2.9.4  Added our Affiliate Reports link to main Dashboard menu.
+	 * @since 2.12.0 Added Setup screen for onboarding new installs.
 	 *
 	 * @TODO See todo in $this->change_affiliates_admin_menu_title_to_affiliatewp docblock.
 	 */
@@ -89,7 +90,7 @@ class Affiliate_WP_Admin_Menu {
 		$reports    = add_submenu_page( 'affiliate-wp', __( 'Reports', 'affiliate-wp' ),     __( 'Reports', 'affiliate-wp' ),               'view_affiliate_reports',   'affiliate-wp-reports',    'affwp_reports_admin'        );
 		$tools      = add_submenu_page( 'affiliate-wp', __( 'Tools', 'affiliate-wp' ),       __( 'Tools', 'affiliate-wp' ),                 'manage_affiliate_options', 'affiliate-wp-tools',      'affwp_tools_admin'          );
 		$settings   = add_submenu_page( 'affiliate-wp', __( 'Settings', 'affiliate-wp' ),    __( 'Settings', 'affiliate-wp' ),              'manage_affiliate_options', 'affiliate-wp-settings',   'affwp_settings_admin'       );
-		$migration  = add_submenu_page( null, __( 'AffiliateWP Migration', 'affiliate-wp' ), __( 'AffiliateWP Migration', 'affiliate-wp' ), 'manage_affiliate_options', 'affiliate-wp-migrate',    'affwp_migrate_admin'        );
+		$migration  = add_submenu_page( '', __( 'AffiliateWP Migration', 'affiliate-wp' ), __( 'AffiliateWP Migration', 'affiliate-wp' ), 'manage_affiliate_options', 'affiliate-wp-migrate',    'affwp_migrate_admin'        );
 		$add_ons    = add_submenu_page(
 			'affiliate-wp',
 			__( 'Add-ons', 'affiliate-wp' ),
@@ -110,6 +111,11 @@ class Affiliate_WP_Admin_Menu {
 			'view_affiliate_reports',
 			'admin.php?page=affiliate-wp-reports',
 		);
+
+		// Only new installs see the setup screen (until it's dismissed.)
+		if ( get_option( 'affwp_display_setup_screen' ) ) {
+			add_submenu_page( 'affiliate-wp', __( 'Setup', 'affiliate-wp' ), __( 'Setup', 'affiliate-wp' ), 'manage_affiliate_options', 'affiliate-wp-setup-screen', [ 'AffWP\Components\Wizard\Setup_Screen', 'display' ], 0 );
+		}
 
 		add_action( 'load-' . $affiliates, 'affwp_affiliates_screen_options' );
 		add_action( 'load-' . $referrals, 'affwp_referrals_screen_options' );

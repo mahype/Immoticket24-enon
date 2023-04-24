@@ -21,6 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once dirname( dirname( __DIR__ ) ) . '/groups/class-management.php';
 
+require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/meta/trait-description.php';
+
 /**
  * Creatives Grouping (Categories) Admin Screen Management
  *
@@ -28,14 +30,10 @@ require_once dirname( dirname( __DIR__ ) ) . '/groups/class-management.php';
  */
 final class Management extends \AffiliateWP\Admin\Groups\Management {
 
+	use \AffiliateWP\Admin\Affiliates\Groups\Meta\Description;
+
 	/** @var string This is documented in includes/admin/groups/class-management.php */
 	protected $capability = 'manage_creatives';
-
-	/** @var string This is documented in includes/admin/groups/class-management.php */
-	protected $item_plural = '';
-
-	/** @var string This is documented in includes/admin/groups/class-management.php */
-	protected $item_single = '';
 
 	/** @var string This is documented in includes/admin/groups/class-management.php */
 	protected $group_type = 'creative-category';
@@ -47,25 +45,13 @@ final class Management extends \AffiliateWP\Admin\Groups\Management {
 	protected $menu_slug = 'creatives-categories';
 
 	/** @var string This is documented in includes/admin/groups/class-management.php */
-	protected $menu_title = '';
-
-	/** @var string This is documented in includes/admin/groups/class-management.php */
 	protected $object_id_property = 'creative_id';
-
-	/** @var string This is documented in includes/admin/groups/class-management.php */
-	protected $page_title = '';
 
 	/** @var string This is documented in includes/admin/groups/class-management.php */
 	protected $parent = 'affiliate-wp-creatives';
 
 	/** @var string This is documented in includes/admin/groups/class-management.php */
-	protected $plural_title = '';
-
-	/** @var string This is documented in includes/admin/groups/class-management.php */
 	protected $position = 0;
-
-	/** @var string This is documented in includes/admin/groups/class-management.php */
-	protected $single_title = '';
 
 	/**
 	 * Construct
@@ -80,6 +66,20 @@ final class Management extends \AffiliateWP\Admin\Groups\Management {
 		$this->page_title   = __( 'Creative Categories', 'affiliate-wp' );
 		$this->plural_title = __( 'Categories', 'affiliate-wp' );
 		$this->single_title = __( 'Category', 'affiliate-wp' );
+
+		$this->description_column_width = '550px';
+
+		$this->meta_fields = array(
+
+			// Description field.
+			'description' => array(
+				'main'          => array( $this, 'description_main' ),
+				'edit'          => array( $this, 'description_edit' ),
+				'save'          => array( $this, 'description_save' ),
+				'column_header' => array( $this, 'description_column_header' ),
+				'column_value'  => array( $this, 'description_column_value' ),
+			),
+		);
 
 		parent::__construct();
 	}
