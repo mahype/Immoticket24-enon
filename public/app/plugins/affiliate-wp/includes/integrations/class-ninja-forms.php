@@ -160,19 +160,28 @@ class Affiliate_WP_Ninja_Forms extends Affiliate_WP_Base {
 	 *
 	 * @access  public
 	 * @since   1.6
-	 * @param   int    $reference
-	 * @param   object $referral
-	 * @return  string
+	 * @since   2.13.0 - Both parameters are now optional to prevent PHP 8 deprecated notices.
+	 * @param   mixed       $reference The reference number.
+	 * @param   object|null $referral  Referral object.
+	 * @return  string Reference url.
 	 */
-	public function reference_link( $reference = 0, $referral ) {
+	public function reference_link( $reference = 0, object $referral = null ) : string {
 
-		if( empty( $referral->context ) || 'ninja-forms' !== $referral->context ) {
+		if ( ! is_object( $referral ) ) {
 			return $reference;
 		}
 
-		$url = admin_url( 'post.php?action=edit&post=' . $reference );
+		if ( empty( $referral->context ) || 'ninja-forms' !== $referral->context ) {
+			return $reference;
+		}
 
-		return '<a href="' . esc_url( $url ) . '">' . $reference . '</a>';
+		return sprintf(
+			'<a href="%1$s">%2$s</a>',
+			esc_url(
+				admin_url( "post.php?action=edit&post={$reference}" )
+			),
+			esc_html( $reference )
+		);
 
 	}
 
@@ -362,4 +371,4 @@ class Affiliate_WP_Ninja_Forms extends Affiliate_WP_Base {
 	}
 }
 
-	new Affiliate_WP_Ninja_Forms;
+new Affiliate_WP_Ninja_Forms();

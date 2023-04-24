@@ -75,7 +75,10 @@ class Affiliate_WP_REST {
 		$args = affiliate_wp()->utils->process_request_data( $args, 'user_name' );
 
 		if ( empty( $args['user_id'] ) ) {
-			wp_die( sprintf( __( 'User ID Required', 'affiliate-wp' ), $process ), __( 'Error', 'affiliate-wp' ), array( 'response' => 401 ) );
+			wp_die(
+				__( 'User ID Required', 'affiliate-wp' ),
+				__( 'Error', 'affiliate-wp' ), array( 'response' => 401 )
+			);
 		}
 
 		if ( is_numeric( $args['user_id'] ) ) {

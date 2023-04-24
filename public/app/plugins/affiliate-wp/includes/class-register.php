@@ -9,7 +9,14 @@
  * @since       1.0
  */
 
+// phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Allowing comments in function call lines.
+// phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Allowing comments in function call lines.
+
+require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/utils/trait-data.php';
+
 class Affiliate_WP_Register {
+
+	use \AffiliateWP\Utils\Data;
 
 	private $errors;
 
@@ -26,8 +33,134 @@ class Affiliate_WP_Register {
 		add_action( 'user_register', array( $this, 'process_add_as_affiliate' ) );
 		add_action( 'added_existing_user', array( $this, 'process_add_as_affiliate' ) );
 		add_action( 'admin_footer', array( $this, 'scripts' ) );
-
 		add_filter( 'affwp_register_required_fields', array( $this, 'maybe_required_fields' ) );
+		add_action( 'affwp_affiliate_registered', array( $this, 'add_new_affiliates_to_default_group' ), 10, 1 );
+	}
+
+	/**
+	 * Connect the affiliate to the default group.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param int $affiliate_id The Affiliate ID (zero if invalid).
+	 *
+	 * @throws \Exception                 If there is a programatic reason this failed.
+	 * @throws \InvalidArgumentException  If the `$affiliate_id` does not corrilate to a valid affiliate.
+	 */
+	public function add_new_affiliates_to_default_group( int $affiliate_id = 0 ) : void {
+
+		if ( ! $this->is_numeric_and_gt_zero( $affiliate_id ) ) {
+			return; // We might get a zero from the hook, meaning the Affiliate ID is not a valid ID.
+		}
+
+		if ( false === affwp_get_affiliate( $affiliate_id ) ) {
+			throw new \InvalidArgumentException( "Not a valid affiliate ID: {$affiliate_id}." );
+		}
+
+		$default_group = $this->get_default_group();
+
+		if ( ! is_a( $default_group, '\AffiliateWP\Groups\Group' ) ) {
+			return; // There is no default group, bail, nothing to do.
+		}
+
+		// Maybe register the group connectable.
+		if ( ! affiliate_wp()->connections->is_registered_connectable( 'group' ) ) {
+			affiliate_wp()->connections->register_connectable(
+				array(
+					'name'   => 'group',
+					'table'  => affiliate_wp()->groups->table_name,
+					'column' => affiliate_wp()->groups->primary_key,
+				)
+			);
+		}
+
+		// Maybe reigster the affiliate connectable.
+		if ( ! affiliate_wp()->connections->is_registered_connectable( 'affiliate' ) ) {
+			affiliate_wp()->connections->register_connectable(
+				array(
+					'name'   => 'affiliate',
+					'table'  => affiliate_wp()->affiliates->table_name,
+					'column' => affiliate_wp()->affiliates->primary_key,
+				)
+			);
+		}
+
+		// Try and connect the affiliate to the default group.
+		$connection_id = affiliate_wp()->connections->connect(
+			array(
+				'group'     => intval( $default_group->get_id() ),
+				'affiliate' => intval( $affiliate_id ),
+			),
+		);
+
+		if ( ! $this->is_numeric_and_gt_zero( $connection_id ) ) {
+			return; // Connection failed for some other reason.
+		}
+
+		// Verify the affiliate was connected to the default group.
+		if ( in_array(
+
+			// Find this ID.
+			intval( $affiliate_id ),
+
+			// In this list of affiliates connected to the default group.
+			affiliate_wp()->connections->get_connected(
+				'affiliate', // Get affiliates.
+				'group', // Connected to a group.
+
+				// With this ID.
+				intval( $default_group->get_id() )
+			),
+			true
+		) ) {
+			return; // Verified affiliate is connected to the default group.
+		}
+
+		// There's no reason, if there's a default group, that we can't connect the affiliate to it unless we have something wrong programatically.
+		throw new \Exception( "Unable to connect affiliate with ID {$affiliate_id} to default group '{$default_group->getid()}'." );
+	}
+
+	/**
+	 * Get the default affiliate group.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return \AffiliateWP\Groups\Group|false False if there is no default group.
+	 */
+	private function get_default_group() {
+
+		static $cache = null;
+
+		if ( is_a( $cache, '\AffiliateWP\Groups\Group' ) ) {
+			return $cache; // We already know what the default group is (for runtime).
+		}
+
+		// This would only throw an error if something was wrong programatically.
+		foreach ( affiliate_wp()->groups->get_groups(
+			array(
+				'fields' => 'ids',
+				'type'   => 'affiliate-group',
+			)
+		) as $group_id ) {
+
+			// Convert the group to an object (instead of all of them at the beginning).
+			$group = affiliate_wp()->groups->get_group( $group_id );
+
+			if ( ! is_a( $group, '\AffiliateWP\Groups\Group' ) ) {
+				continue; // Maybe it got deleted in the time we got the ID's and we try converting it.
+			}
+
+			// See if this is the default group.
+			if ( true === $group->get_meta( 'default-group', false ) ) {
+
+				$cache = $group; // Remember this for runtime.
+
+				// This group is the default group, send it back.
+				return $group;
+			}
+		}
+
+		return false; // No default group.
 	}
 
 	/**
@@ -294,6 +427,31 @@ class Affiliate_WP_Register {
 				if ( ! empty( $custom_fields ) ) {
 					affwp_update_affiliate_meta( $affiliate_id, '_submitted_custom_registration_fields', $custom_fields );
 				}
+
+				/**
+				 * When an affiliate is registered.
+				 *
+				 * @since 2.13.0
+				 *
+				 * @param int $affiliate_id Affiliate ID if successful, 0 if somehow unsuccessful.
+				 */
+				do_action(
+					'affwp_affiliate_registered',
+					(
+
+						// The Affiliate ID should be a numeric value.
+						is_numeric( $affiliate_id ) &&
+
+						// When converted to an int it should be a number greater than zero.
+						intval( $affiliate_id ) > 0
+					)
+
+						// Send the Affiliate ID as a positive integer.
+						? absint( $affiliate_id )
+
+						// Tell the hook that somehow this isn't a valid Affiliate ID, zero would never be a valid Affiliate ID.
+						: 0
+				);
 			}
 
 			$redirect = empty( $data['affwp_redirect'] ) ? affwp_get_affiliate_area_page_url() : $data['affwp_redirect'];

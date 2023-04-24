@@ -115,14 +115,16 @@ final class Group {
 	 * Get this group's meta.
 	 *
 	 * @since  2.12.0
+	 * @since  2.13.0 Added default incase value isn't present.
 	 *
-	 * @param string $key If you want a specific key from the meta array, you can specify that here.
+	 * @param string $key     If you want a specific key from the meta array, you can specify that here.
+	 * @param mixed  $default Default if meta isn't present.
 	 *
 	 * @return mixed See \AffiliateWP\Groups\DB::get_group_meta() for successful data.
 	 *                   Mixed if you ask for a key value of the meta array and it's there.
 	 *                   `null` if you ask for a meta key that isn't in the meta array.
 	 */
-	public function get_meta( $key = '' ) {
+	public function get_meta( string $key = '', $default = null ) {
 
 		$meta = affiliate_wp()->groups->get_group_meta( $this->group_id );
 
@@ -142,7 +144,7 @@ final class Group {
 		if ( $this->is_string_and_nonempty( $key ) ) {
 
 			if ( ! isset( $meta[ $key ] ) ) {
-				return null;
+				return $default;
 			}
 
 			return $meta[ $key ];
@@ -198,6 +200,13 @@ final class Group {
 		if ( ! is_bool( $raw ) ) {
 			throw new \InvalidArgumentException( '$raw must be true or false.' );
 		}
+
+		$args = array_merge(
+			$args,
+			array(
+				'type' => $this->get_type(),
+			)
+		);
 
 		if ( true === $raw ) {
 

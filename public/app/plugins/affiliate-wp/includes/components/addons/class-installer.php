@@ -89,6 +89,51 @@ class Installer {
 	}
 
 	/**
+	 * Installs a growth tool plugin.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param int $plugin_url Addon URL.
+	 * @return bool True if the plugin was successfully installed, otherwise false.
+	 */
+	public function install_plugin( $plugin_url ) {
+
+		// Check if user can install plugins.
+		if ( ! $this->can_install_plugins() ) {
+			return array(
+				'success' => false,
+				'error' => __( 'User doesn&#8217;t have permission to install plugins.', 'affiliate-wp' ),
+			);
+		}
+
+		// Check filesystem credentials.
+		if ( ! $this->check_filesystem_credentials() ) {
+			return array(
+				'success' => false,
+				'error' => __( 'User doesn&#8217;t have permission to install plugins.', 'affiliate-wp' ),
+			);
+		}
+
+		// Install plugin.
+		$installer = new \Plugin_Upgrader( new \WP_Ajax_Upgrader_Skin() );
+		$installer->install( $plugin_url );
+
+		// Flush cache.
+		wp_cache_flush();
+
+		// Try to activate the plugin.
+		if ( $installer->plugin_info() ) {
+			activate_plugin( $installer->plugin_info() );
+		}
+
+		return array(
+			'success' => true,
+			'error'   => '',
+		);
+
+	}
+
+	/**
 	 * Determines if current user can install plugins
 	 *
 	 * @since 2.9.6

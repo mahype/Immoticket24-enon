@@ -2248,3 +2248,106 @@ function affwp_get_affiliate_full_name_or_display_name( $affiliate_id ) {
 
 	return $affiliate_name;
 }
+
+/**
+ * Is an affiliate in an affiliate group that might override their referral rate settings?
+ *
+ * @since 2.13.0
+ *
+ * @param int    $affiliate_id The Affiliate ID.
+ * @param string $specific     The specific override to test for.
+ *
+ * @return bool
+ */
+function affwp_affiliate_has_affiliate_group_overrides( $affiliate_id = 0, string $specific = '' ) : bool {
+
+	if ( intval( $affiliate_id ) <= 0 ) {
+		return false; // Not a valid affiliate, fail gracefully.
+	}
+
+	$affiliate_group_id = affwp_get_affiliate_group_id( intval( $affiliate_id ) );
+
+	if ( ! is_numeric( $affiliate_group_id ) || intval( $affiliate_group_id ) <= 0 ) {
+		return false; // No affiliate group ID.
+	}
+
+	// The meta will tell us if this has potential overrides.
+	$group_meta = affiliate_wp()->groups->get_group_meta(
+		$affiliate_group_id
+	);
+
+	if ( ! is_array( $group_meta ) ) {
+		return false; // This shouldn't happen, but fail gracefully.
+	}
+
+	if ( ! empty( $specific ) ) {
+		return in_array( $specific, array_keys( $group_meta ), true );
+	}
+
+	return (
+
+		// If any of these keys are set this group might have overrides.
+		in_array( 'rate-type', array_keys( $group_meta ), true ) ||
+		in_array( 'rate', array_keys( $group_meta ), true ) ||
+		in_array( 'flat-rate-basis', array_keys( $group_meta ), true )
+	);
+}
+
+/**
+ * Get the affiliates assigned affiliate group.
+ *
+ * @since 2.13.0
+ *
+ * @param int $affiliate_id The Affiliate ID.
+ *
+ * @return mixed `false` if there is none, or the group ID of the group they are assigned to.
+ *
+ * @throws \Exception If we find the affiliate is in more than one affiliate group.
+ */
+function affwp_get_affiliate_group_id( int $affiliate_id ) {
+
+	if ( intval( $affiliate_id ) <= 0 ) {
+		return false; // No affiliate group.
+	}
+
+	$connected_affiliate_groups = array_filter(
+		affiliate_wp()->connections->get_connected(
+			'group',
+			'affiliate',
+			intval( $affiliate_id )
+		),
+
+		// Validate that the group that's connected is an affiliate-group group type.
+		function( $group_id ) {
+
+			global $wpdb;
+
+			$validate_group_id = $wpdb->get_var(
+				$wpdb->prepare(
+					str_replace(
+						'{table_name}',
+						affiliate_wp()->groups->table_name,
+						"SELECT `group_id` FROM {table_name} WHERE `type` = 'affiliate-group' AND group_id = %d"
+					),
+					$group_id
+				)
+			);
+
+			if ( ! is_numeric( $validate_group_id ) ) {
+				return false; // We should have got back an ID-like number.
+			}
+
+			// If we get an ID then the group types match.
+			return intval( $group_id ) === intval( $validate_group_id );
+		}
+	);
+
+	if ( count( $connected_affiliate_groups ) > 1 ) {
+
+		// Programatic error, affiliates should not be in multiple groups at a time.
+		throw new \Exception( 'Expected one affiliate group, got many. Affiliates can only be in one affiliate group at a time.' );
+	}
+
+	// Send back the single group the affiliate is in.
+	return absint( current( $connected_affiliate_groups ) );
+}

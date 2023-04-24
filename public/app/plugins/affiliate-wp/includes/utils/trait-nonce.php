@@ -57,7 +57,7 @@ trait Nonce {
 	 *
 	 * @throws \InvalidArgumentException If either parameters are not non-empty strings.
 	 */
-	private function nonce_action( $action, $context ) {
+	protected function nonce_action( $action, $context ) {
 
 		if (
 			! $this->is_string_and_nonempty( $action ) ||
@@ -94,7 +94,7 @@ trait Nonce {
 	 *
 	 * @throws \InvalidArgumentException If either parameters are not non-empty strings.
 	 */
-	private function verify_nonce_action( $action, $context ) {
+	protected function verify_nonce_action( $action, $context ) {
 
 		if (
 			! $this->is_string_and_nonempty( $action ) ||

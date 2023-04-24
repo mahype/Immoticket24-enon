@@ -1098,6 +1098,7 @@ class Affiliate_WP_Settings {
 						/* translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant */
 						'desc' => sprintf( __( 'Enable the %s.', 'affiliate-wp' ), PAYOUTS_SERVICE_NAME ),
 						'type' => 'checkbox',
+						'std'  => '1',
 					),
 					'payouts_service_description' => array(
 						'name' => __( 'Registration Form Description', 'affiliate-wp' ),

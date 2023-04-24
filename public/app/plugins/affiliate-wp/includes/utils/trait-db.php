@@ -34,6 +34,49 @@ trait DB {
 	use \AffiliateWP\Utils\Data;
 
 	/**
+	 * Does a column (in a table) exist in the database?
+	 *
+	 * @since  2.12.0
+	 *
+	 * @param  string $table  The table name.
+	 * @param  string $column The column.
+	 * @return bool
+	 *
+	 * @throws \InvalidArgumentException If you do not supply non-empty strings for either `$table` or `$column`.
+	 */
+	protected function column_exists( $table, $column ) {
+
+		if ( ! $this->is_string_and_nonempty( $table ) ) {
+			throw new \InvalidArgumentException( '$table must be a non-empty string.' );
+		}
+
+		if ( ! $this->is_string_and_nonempty( $column ) ) {
+			throw new \InvalidArgumentException( '$column must be a non-empty string.' );
+		}
+
+		if ( ! $this->table_exists( $table ) ) {
+			return false;
+		}
+
+		global $wpdb;
+
+		$results = $wpdb->get_var(
+			$wpdb->prepare(
+
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared  -- We have to use str_replace here because $wpdb->prepare adds ''.
+				str_replace(
+					'{table_name}',
+					$wpdb->_real_escape( $table ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We escape here because we have to use str_replace.
+					'SHOW COLUMNS FROM {table_name} LIKE %s'
+				),
+				$column
+			)
+		);
+
+		return $column === $results;
+	}
+
+	/**
 	 * Inject our table name into SQL.
 	 *
 	 * WordPress forces you to use placeholders when you want to place
@@ -90,5 +133,35 @@ trait DB {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get the column type for a table column.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param string $table_name The table name.
+	 * @param string $column_name The column name.
+	 *
+	 * @return string|bool The `DATA_TYPE` of the column, or `false` if none.
+	 */
+	protected function get_column_type( string $table_name, string $column_name ) {
+
+		global $wpdb;
+
+		$data_type = $wpdb->get_var(
+			$wpdb->prepare(
+				'SELECT DATA_TYPE
+					FROM INFORMATION_SCHEMA.COLUMNS
+						WHERE `table_name` = %s
+						AND `column_name` = %s
+						AND `table_schema` = %s',
+				$table_name,
+				$column_name,
+				DB_NAME
+			)
+		);
+
+		return is_string( $data_type ) ? $data_type : false;
 	}
 }

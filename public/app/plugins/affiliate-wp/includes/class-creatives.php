@@ -10,7 +10,27 @@
  * @since       1.2
  */
 
+require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-creatives-groups.php';
+
 class Affiliate_WP_Creatives {
+
+	/**
+	 * Grouping API.
+	 *
+	 * @since 2.13.1
+	 *
+	 * @var \AffiliateWP\Creatives\Dashboard\Groups
+	 */
+	public $groups;
+
+	/**
+	 * Construct
+	 *
+	 * @since 2.13.0
+	 */
+	public function __construct() {
+		$this->groups = new \AffiliateWP\Creatives\Dashboard\Groups();
+	}
 
 	/**
 	 * The [affiliate_creative] shortcode
@@ -24,7 +44,7 @@ class Affiliate_WP_Creatives {
 		$id = isset( $args['id'] ) ? (int) $args['id'] : 0;
 
 		if ( ! $creative = affwp_get_creative( $id ) ) {
-			return;
+			return '';
 		}
 
 		// creative's link/URL
@@ -96,6 +116,13 @@ class Affiliate_WP_Creatives {
 
 		if ( $creatives ) {
 			foreach ( $creatives as $creative ) {
+
+				if (
+					! isset( $creative->creative_id ) ||
+					! affiliate_wp()->creative->groups->affiliate_can_access( $creative->creative_id )
+				) {
+					continue;
+				}
 
 				$url   = $creative->url;
 				$image = $creative->image;

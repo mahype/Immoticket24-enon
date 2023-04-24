@@ -235,6 +235,8 @@ abstract class Registry extends \ArrayObject {
 	 * @param string $offset Item ID.
 	 * @return bool True if the item exists, false on failure.
 	 */
+
+	#[\ReturnTypeWillChange]
 	public function offsetExists( $offset ) {
 		if ( false !== $this->get( $offset ) ) {
 			return true;
@@ -253,6 +255,8 @@ abstract class Registry extends \ArrayObject {
 	 * @param string $offset Item ID.
 	 * @return mixed The registered item, if it exists.
 	 */
+
+	#[\ReturnTypeWillChange]
 	public function offsetGet( $offset ) {
 		return $this->get( $offset );
 	}
@@ -267,6 +271,8 @@ abstract class Registry extends \ArrayObject {
 	 * @param string $offset Item ID.
 	 * @param mixed  $value  Item attributes.
 	 */
+
+	#[\ReturnTypeWillChange]
 	public function offsetSet( $offset, $value ) {
 		$this->add_item( $offset, $value );
 	}
@@ -280,6 +286,8 @@ abstract class Registry extends \ArrayObject {
 	 *
 	 * @param string $offset Item ID.
 	 */
+
+	#[\ReturnTypeWillChange]
 	public function offsetUnset( $offset ) {
 		$this->remove_item( $offset );
 	}

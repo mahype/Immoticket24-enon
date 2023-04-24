@@ -45,13 +45,13 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 			<?php
 
 			/**
-			 * Fires at the 2nd field of this form.
+			 * Fires before description.
 			 *
 			 * @since 2.12.0
 			 *
 			 * @param \AffWP\Creative $creative The creative object.
 			 */
-			do_action( 'affwp_edit_creative_2nd', $creative );
+			do_action( 'affwp_edit_before_description', $creative );
 
 			?>
 
@@ -137,6 +137,17 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 				</td>
 
 			</tr>
+
+			<?php
+
+			/**
+			 * Fires after status row.
+			 *
+			 * @since 2.13.0
+			 */
+			do_action( 'affwp_new_creative_before_status', $creative );
+
+			?>
 
 			<tr class="form-row form-required">
 

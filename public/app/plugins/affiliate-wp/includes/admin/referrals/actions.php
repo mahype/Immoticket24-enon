@@ -105,8 +105,7 @@ function affwp_process_update_referral( $data ) {
 		wp_die( __( 'Security check failed', 'affiliate-wp' ), array( 'response' => 403 ) );
 	}
 
-
-	if ( $data['amount'] < 0 ) {
+	if ( isset( $data['amount'] ) && $data['amount'] < 0 ) {
 		$errors['invalid_amount'] = true;
 	}
 

@@ -48,7 +48,7 @@ trait Hooks {
 	 *
 	 * @throws \InvalidArgumentException If `$hook_name` is not a valid non-empty string.
 	 */
-	private function filter_hook_name( $hook_name ) {
+	protected function filter_hook_name( $hook_name ) {
 
 		if ( ! $this->is_string_and_nonempty( $hook_name ) ) {
 			throw new \InvalidArgumentException( '$hook_name must be a non-empty string.' );

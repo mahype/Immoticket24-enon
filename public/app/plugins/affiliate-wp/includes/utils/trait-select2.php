@@ -34,6 +34,15 @@ trait Select2 {
 	use \AffiliateWP\Utils\Data;
 
 	/**
+	 * Version
+	 *
+	 * @since 2.13.0
+	 *
+	 * @var string
+	 */
+	private $select_2_trait_version = '1.0.1-Mar 14, 2023';
+
+	/**
 	 * Load scripts and styles.
 	 *
 	 * Try and run this on the `wp_enqueue_scripts` or
@@ -43,26 +52,11 @@ trait Select2 {
 	 * for you and pass the chosen selector to the JS instance.
 	 *
 	 * @since  2.12.0
-	 *
-	 * @param string $selector       The jQuery Selector to target.
-	 * @param array  $args           The arguments to pass to `.select2()`.
-	 * @param string $label_selector The jQuery selector for the label, if one.
+	 * @since  2.13.0 This now just loads select2.
 	 *
 	 * @throws \InvalidArgumentException If you do not supply proper parameters.
 	 */
-	private function enqueue_select2( $selector, $args = array(), $label_selector = '' ) {
-
-		if ( ! $this->is_string_and_nonempty( $selector ) ) {
-			throw new \InvalidArgumentException( '$selector must be a non-empty string.' );
-		}
-
-		if ( ! is_array( $args ) ) {
-			throw new \InvalidArgumentException( '$args must be an array.' );
-		}
-
-		if ( ! is_string( $label_selector ) ) {
-			throw new \InvalidArgumentException( '$label_selector must be a string.' );
-		}
+	private function enqueue_select2() {
 
 		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
@@ -75,19 +69,8 @@ trait Select2 {
 			'affwp-select2-init',
 			AFFILIATEWP_PLUGIN_URL . "assets/js/select2-init{$suffix}.js",
 			array( 'jquery', 'affwp-select2' ),
-			defined( 'AFFILIATEWP_VERSION' ) ? AFFILIATEWP_VERSION : time(),
+			crc32( $this->select_2_trait_version ),
 			true
-		);
-
-		// Pass the selector and arguments.
-		wp_localize_script(
-			'affwp-select2-init',
-			'affwpSelect2',
-			array(
-				'args'          => $args,
-				'selector'      => $selector,
-				'labelSelector' => $label_selector,
-			)
 		);
 	}
 }

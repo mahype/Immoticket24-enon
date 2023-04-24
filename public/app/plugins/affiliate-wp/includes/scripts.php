@@ -50,6 +50,7 @@ function affwp_is_admin_page( $page = '' ) {
 		'affwp-credits',
 		'affiliate-wp-add-ons',
 		'affiliate-wp-wizard',
+		'affiliate-wp-setup-screen',
 	);
 
 	if ( ! empty( $page ) && in_array( $page, $pages ) ) {
@@ -184,6 +185,9 @@ function affwp_admin_styles() {
 
 	// Addons page style.
 	wp_register_style( 'affwp_admin_addons', AFFILIATEWP_PLUGIN_URL . "assets/css/admin-addons{$suffix}.css", array(), AFFILIATEWP_VERSION );
+
+	// Setup Screen style.
+	wp_register_style( 'affiliate-wp-setup-screen', AFFILIATEWP_PLUGIN_URL . "assets/css/setup-screen{$suffix}.css", array(), AFFILIATEWP_VERSION );
 }
 add_action( 'admin_enqueue_scripts', 'affwp_admin_styles' );
 
@@ -232,6 +236,9 @@ function affwp_enqueue_admin_js() {
 
 	// Addons page.
 	wp_register_script( 'affwp_admin_addons', AFFILIATEWP_PLUGIN_URL . "assets/js/admin-addons{$suffix}.js", array( 'jquery' ), AFFILIATEWP_VERSION );
+
+	// Setup Screen page.
+	wp_register_script( 'affiliate-wp-setup-screen', AFFILIATEWP_PLUGIN_URL . "assets/js/setup-screen{$suffix}.js", array( 'jquery' ), AFFILIATEWP_VERSION, true );
 }
 
 /**

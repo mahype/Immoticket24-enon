@@ -15,6 +15,7 @@
 // phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Empty lines okay.
 // phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorre_ct — Empty lines okay.
 // phpcs:disable PEAR.Functions.FunctionCallSignature.MultipleArguments -- Formatting OK.
+// phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Formatting OK.
 
 namespace AffiliateWP\Groups;
 
@@ -164,6 +165,8 @@ final class DB extends \Affiliate_WP_DB {
 			: "{$wpdb->prefix}{$this->table_name}";
 
 		$this->create_table();
+		$this->maybe_convert_meta_to_longtext();
+
 		$this->maybe_init_rest();
 	}
 
@@ -230,11 +233,13 @@ final class DB extends \Affiliate_WP_DB {
 			return $sanitized;
 		}
 
+		$esc_title = (string) esc_html( $args['title'] );
+
 		// See if a group with type/title already exists.
 		$existing_group_id = $this->get_group_id(
 			array(
 				'type'  => $args['type'],
-				'title' => $args['title'],
+				'title' => $esc_title,
 			)
 		);
 
@@ -272,7 +277,7 @@ final class DB extends \Affiliate_WP_DB {
 			array(
 				'group_id' => null,
 				'type'     => (string) $args['type'],
-				'title'    => (string) esc_html( $args['title'] ),
+				'title'    => $esc_title,
 				'meta'     => $this->json_encode( $args['meta'], null ),
 			),
 			array_values( $this->get_columns() )
@@ -311,7 +316,7 @@ final class DB extends \Affiliate_WP_DB {
 		$group_id = $this->get_group_id(
 			array(
 				'type'  => $args['type'],
-				'title' => $args['title'],
+				'title' => $esc_title,
 			)
 		);
 
@@ -604,16 +609,19 @@ final class DB extends \Affiliate_WP_DB {
 	 * subsets of the data.
 	 *
 	 * @since 2.12.0
+	 * @since 2.13.0 Added $key parameter so you can get specific value.
 	 *
-	 * @param  int $group_id The `group_id` of the group in the database.
+	 * @param  int    $group_id The `group_id` of the group in the database.
+	 * @param  string $key      The meta key for specific value.
 	 *
 	 * @return mixed An `array` of the data, if it exists.
+	 *               Any value if `$key` is set, null if the meta value is not set.
 	 *               `WP_Error` if the group does not exist.
 	 *               `WP_Error` if the data in the database is not decodable.
 	 *
 	 * @throws \InvalidArgumentException If you pass a non-numeric non-positive value for `$group_id`.
 	 */
-	public function get_group_meta( $group_id ) {
+	public function get_group_meta( int $group_id, string $key = '' ) {
 
 		if ( ! $this->is_numeric_and_gt_zero( $group_id ) ) {
 			throw new \InvalidArgumentException( '$group_id must be a positive numeric value.' );
@@ -630,7 +638,8 @@ final class DB extends \Affiliate_WP_DB {
 
 		global $wpdb;
 
-		$meta = $this->get_column( $group_id, 'meta' );
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name injection OK.
+		$meta = $wpdb->get_var( $wpdb->prepare( $this->inject_table_name( 'SELECT meta FROM {table_name} WHERE group_id = %d' ), $group_id ) );
 
 		if ( ! is_string( $meta ) ) {
 
@@ -672,6 +681,13 @@ final class DB extends \Affiliate_WP_DB {
 					'decoded'  => $meta_decoded,
 				)
 			);
+		}
+
+		if ( $this->is_string_and_nonempty( $key ) ) {
+
+			return isset( $meta_decoded[ $key ] )
+				? $meta_decoded[ $key ]
+				: null; // Null means it's not set.
 		}
 
 		return $meta_decoded;
@@ -847,7 +863,7 @@ final class DB extends \Affiliate_WP_DB {
 			return new \WP_Error( 'bad_arguments', "\$args[fields] must be a non-empty string and can only be set to 'ids' or 'objects'.", $args );
 		}
 
-		if ( ! $this->is_numeric_and_gt_zero( $args['number'] ) ) {
+		if ( ! is_numeric( $args['number'] ) ) {
 			return new \WP_Error( 'bad_arguments', '$args[number] can only be set to a positive numeric value (zero is not allowed because it is silly).', $args );
 		}
 
@@ -1325,6 +1341,25 @@ final class DB extends \Affiliate_WP_DB {
 			);
 		}
 
+		if ( ! is_null( $args['meta'] ) ) {
+
+			$args['meta'] = array_filter(
+
+				// Combine old meta with new meta.
+				array_merge(
+					$this->get_group_meta( $group_id ),
+					$args['meta'] // Will override current.
+				),
+
+				// Omit meta values that are set to null.
+				function( $meta_value ) {
+					return is_null( $meta_value )
+						? false // Omit this value, they want it turned off (null).
+						: true; // Keep the value, it's not null.
+				}
+			);
+		}
+
 		return in_array(
 			true, // If something is true in here, something was updated/changed.
 			array(
@@ -1337,7 +1372,7 @@ final class DB extends \Affiliate_WP_DB {
 					: $this->update(
 						$group_id,
 						array(
-							'title' => $args['title'],
+							'title' => esc_html( $args['title'] ),
 						),
 						'',
 						$this->type,
@@ -1404,5 +1439,118 @@ final class DB extends \Affiliate_WP_DB {
 
 		global $wpdb;
 		return $wpdb->prepare( 'WHERE type = %s', trim( $type ) );
+	}
+
+	/**
+	 * Get the group ID by title in the database.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param string $group_title The title of the group in the database.
+	 * @param string $group_type  The group type in the database.
+	 *
+	 * @return mixed `false` if it's not in the database, ID if we found it.
+	 *
+	 * @throws \InvalidArgumentException If you do not supply a group type.
+	 */
+	public function get_group_id_by_title( string $group_title, string $group_type ) {
+
+		if ( ! $this->is_string_and_nonempty( $group_type ) ) {
+			throw new \InvalidArgumentException( '$group_type must be a non-empty string.' );
+		}
+
+		if ( ! $this->is_string_and_nonempty( $group_title ) ) {
+			return false;
+		}
+
+		global $wpdb;
+
+		$group_id = $wpdb->get_var(
+			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We need to avoid tick marks around the table name.
+				str_replace(
+					'{table_name}',
+
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We need to avoid tick marks around the table name.
+					$wpdb->_real_escape( affiliate_wp()->groups->table_name ),
+
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We need to avoid tick marks around the table name.
+					'SELECT group_id FROM {table_name} WHERE `title` = %s AND `type` = %s'
+				),
+				$group_title,
+				$group_type
+			)
+		);
+
+		if ( ! $this->is_numeric_and_gt_zero( $group_id ) ) {
+			return false;
+		}
+
+		return intval( $group_id );
+	}
+
+	/**
+	 * Filter a group of group ids by group type.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param array  $group_ids The group ids.
+	 * @param string $group_type The group type (does not have to be registered).
+	 *
+	 * @return array Group ids of groups that have matching group type.
+	 */
+	public function filter_groups_by_type( array $group_ids, string $group_type ) : array {
+
+		return array_filter(
+			$group_ids,
+			function( $group_id ) use ( $group_type ) {
+
+				if ( ! $this->is_numeric_and_gt_zero( $group_id ) ) {
+					throw new \InvalidArgumentException( '$group_id must be an array of group ids.' );
+				}
+
+				return $this->group_exists( $group_id ) &&
+					trim( $group_type ) === $this->get_group_type( $group_id );
+			}
+		);
+	}
+
+	/**
+	 * Convert the meta column to longtext.
+	 *
+	 * @since 2.13.0 Prior to this version it was varchar(191) which didn't allow for long meta strings.
+	 *
+	 * @return void
+	 *
+	 * @throws \Exception If we cannot upgrade the column.
+	 */
+	private function maybe_convert_meta_to_longtext() : void {
+
+		if ( 'longtext' === $this->get_column_type( $this->table_name, 'meta' ) ) {
+			return; // It's been converted.
+		}
+
+		global $wpdb;
+
+		$wpdb->query(
+			sprintf(
+				'ALTER TABLE `%s`
+					CHANGE `meta` `meta` longtext
+					CHARACTER SET utf8mb4
+					COLLATE utf8mb4_unicode_ci
+					NOT NULL',
+
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We do not want to escape this to have '' around the table name.
+				$this->table_name
+			)
+		);
+
+		$column_type = $this->get_column_type( $this->table_name, 'meta' );
+
+		if ( 'longtext' === $column_type ) {
+			return;
+		}
+
+		throw new \Exception( "Unable to update table '{$this->table_name}` column 'meta' to data_type 'longtext', still '{$column_type}', please update manually and refresh this page." );
 	}
 }

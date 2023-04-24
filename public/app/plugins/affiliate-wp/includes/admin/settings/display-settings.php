@@ -32,7 +32,13 @@ function affwp_admin_header() {
 	?>
 	<div id="affwp-header">
 		<div id="affwp-header-wrapper">
-			<img width="190" height="32" alt="AffiliateWP logo" src="<?php echo AFFILIATEWP_PLUGIN_URL . 'assets/images/logo-affiliatewp.svg'; ?>" />
+			<section class="affwp-header-title">
+				<img width="190" height="32" alt="AffiliateWP logo" src="<?php echo AFFILIATEWP_PLUGIN_URL . 'assets/images/logo-affiliatewp.svg'; ?>" />
+
+				<?php if ( 'affiliate-wp-setup-screen' === affwp_get_current_screen() ) : ?>
+					<h1><?php echo esc_html__( 'Setup Guide', 'affiliate-wp' ); ?></h1>
+				<?php endif; ?>
+			</section>
 			<div id="affwp-header-actions">
 				<button
 					id="affwp-notification-button"

@@ -204,7 +204,18 @@ if ( isset( $_REQUEST['generate_coupon'] ) && 1 == absint( $_REQUEST['generate_c
 
 			</tr>
 
-			<tr class="form-row">
+			<?php
+			/**
+			 * Fires at the 8th position of the edit affiliate form.
+			 *
+			 * @param mixed Affiliate Object.
+			 *
+			 * @since 2.13.0
+			 */
+			do_action( 'affwp_edit_affiliate_after_status', $affiliate );
+			?>
+
+			<tr class="form-row warning">
 
 				<th scope="row">
 					<label for="website"><?php _e( 'Website', 'affiliate-wp' ); ?></label>
@@ -224,66 +235,85 @@ if ( isset( $_REQUEST['generate_coupon'] ) && 1 == absint( $_REQUEST['generate_c
 				</td>
 			</tr>
 
+			<!-- Rate Settings -->
+
+			<!-- Referral rate type -->
 			<tr class="form-row">
 
 				<th scope="row">
-					<?php _e( 'Referral Rate Type', 'affiliate-wp' ); ?>
+					<?php esc_html_e( 'Referral Rate Type', 'affiliate-wp' ); ?>
+
+					<?php if ( affwp_affiliate_has_affiliate_group_overrides( $affiliate->affiliate_id, 'rate-type' ) ) : ?>
+						<?php affwp_icon_tooltip( __( 'This affiliate is in an affiliate group that has a custom rate type setting which will override this as long as they remain in that affiliate group.' ), 'warning' ); ?>
+					<?php endif; ?>
 				</th>
 
 				<td>
 					<fieldset id="rate_type">
-						<legend class="screen-reader-text"><?php _e( 'Referral Rate Type', 'affiliate-wp' ); ?></legend>
+						<legend class="screen-reader-text"><?php esc_html_e( 'Referral Rate Type', 'affiliate-wp' ); ?></legend>
 						<label for="rate_type_default">
-							<input type="radio" name="rate_type" id="rate_type_default" value="" <?php checked( $rate_type, '' ); ?>/> <?php echo __( 'Site Default', 'affiliate-wp' ); ?>
+							<input type="radio" name="rate_type" id="rate_type_default" value="" <?php checked( $rate_type, '' ); ?>/> <?php esc_html_e( 'Site Default', 'affiliate-wp' ); ?>
 						</label>
 						<br/>
-						<?php foreach ( affwp_get_affiliate_rate_types() as $key => $type ) :
-							$value = esc_attr( $key ); ?>
-							<label for="rate_type_<?php echo $value; ?>">
-								<input type="radio" name="rate_type" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>"<?php checked( $rate_type, $key ); ?>> <?php echo esc_html( $type ); ?>
+						<?php foreach ( affwp_get_affiliate_rate_types() as $key => $type ) : // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Legacy code. ?>
+							<?php $value = esc_attr( $key ); ?>
+							<label for="rate_type_<?php echo esc_attr( $value ); ?>">
+								<input type="radio" name="rate_type" id="rate_type_<?php echo esc_attr( $value ); ?>" value="<?php echo esc_attr( $value ); ?>"<?php checked( $rate_type, $key ); ?>> <?php echo esc_html( $type ); ?>
 							</label>
 							<br/>
 						<?php endforeach; ?>
-					<p class="description"><?php _e( 'The affiliate&#8217;s referral rate type.', 'affiliate-wp' ); ?></p>
+					<p class="description"><?php esc_html_e( 'The affiliate&#8217;s referral rate type.', 'affiliate-wp' ); ?></p>
 					</fieldset>
 				</td>
 
 			</tr>
 
-			<tr class="<?php echo $affiliate->rate_type !== 'flat' ? 'form-row affwp-hidden' : 'form-row' ?>">
+			<!-- Flat Rate: Referral Basis -->
+			<tr class="<?php echo esc_attr( 'flat' !== $affiliate->rate_type ? 'form-row affwp-hidden' : 'form-row' ); ?>">
 
 				<th scope="row">
-					<?php _e( 'Flat Rate Referral Basis', 'affiliate-wp' ); ?>
+					<?php esc_html_e( 'Flat Rate Referral Basis', 'affiliate-wp' ); ?>
+
+					<?php if ( affwp_affiliate_has_affiliate_group_overrides( $affiliate->affiliate_id, 'flat-rate-basis' ) ) : ?>
+						<?php affwp_icon_tooltip( __( 'This affiliate is in an affiliate group that has a custom flat rate basis setting which will override this as long as they remain in that affiliate group.' ), 'warning' ); ?>
+					<?php endif; ?>
 				</th>
 
 				<td>
 					<fieldset id="flat_rate_basis">
-						<legend class="screen-reader-text"><?php _e( 'Flat Rate Referral Basis', 'affiliate-wp' ); ?></legend>
-						<?php foreach ( affwp_get_affiliate_flat_rate_basis_types() as $key => $type ) :
-							$value = esc_attr( $key ); ?>
-							<label for="rate_type_<?php echo $value; ?>">
-								<input type="radio" name="flat_rate_basis" id="rate_type_<?php echo $value; ?>" value="<?php echo $value; ?>" <?php checked( $flat_rate_basis, $key ); ?>> <?php echo esc_html( $type ); ?>
+						<legend class="screen-reader-text"><?php esc_html_e( 'Flat Rate Referral Basis', 'affiliate-wp' ); ?></legend>
+						<?php foreach ( affwp_get_affiliate_flat_rate_basis_types() as $key => $type ) : // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Legacy code. ?>
+							<?php $value = esc_attr( $key ); ?>
+							<label for="rate_type_<?php echo esc_attr( $value ); ?>">
+								<input type="radio" name="flat_rate_basis" id="rate_type_<?php echo esc_attr( $value ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php checked( $flat_rate_basis, $key ); ?>> <?php echo esc_html( $type ); ?>
 							</label>
 							<br/>
 						<?php endforeach; ?>
-					<p class="description"><?php _e( 'The affiliate&#8217;s flat rate referral basis.', 'affiliate-wp' ); ?></p>
+					<p class="description"><?php esc_html_e( 'The affiliate&#8217;s flat rate referral basis.', 'affiliate-wp' ); ?></p>
 					</fieldset>
 				</td>
 
 			</tr>
 
+			<!-- Referral Rate -->
 			<tr class="form-row">
 
 				<th scope="row">
-					<label for="rate"><?php _e( 'Referral Rate', 'affiliate-wp' ); ?></label>
+					<label for="rate"><?php esc_html_e( 'Referral Rate', 'affiliate-wp' ); ?></label>
+
+					<?php if ( affwp_affiliate_has_affiliate_group_overrides( $affiliate->affiliate_id, 'rate' ) ) : ?>
+						<?php affwp_icon_tooltip( __( 'This affiliate is in an affiliate group that has a custom rate setting which will override this as long as they remain in that affiliate group.' ), 'warning' ); ?>
+					<?php endif; ?>
 				</th>
 
 				<td>
 					<input class="regular-text" type="number" name="rate" id="rate" step="0.01" min="0" max="999999999" placeholder="<?php echo esc_attr( $default_rate ); ?>" value="<?php echo esc_attr( $rate ); ?>"/>
-					<p class="description"><?php _e( 'The affiliate&#8217;s referral rate, such as 20 for 20%. If left blank, the site default will be used.', 'affiliate-wp' ); ?></p>
+					<p class="description"><?php esc_html_e( 'The affiliate&#8217;s referral rate, such as 20 for 20%. If left blank, the site default will be used.', 'affiliate-wp' ); ?></p>
 				</td>
 
 			</tr>
+
+			<!-- / Rate Settings -->
 
 			<?php if ( affwp_dynamic_coupons_is_setup() ) : ?>
 

@@ -1775,7 +1775,7 @@ final class Affiliate_WP_Editor {
 		$hash_data     = $this->get_submission_forms_hash_data( $post_id );
 		$form_hash     = '';
 
-		if ( is_wp_error( $form ) ) {
+		if ( is_wp_error( $form ) || ! isset( $hash_data['method'] ) ) {
 			return '';
 		}
 

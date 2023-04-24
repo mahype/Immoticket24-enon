@@ -52,6 +52,8 @@ final class Date extends \DateTime {
 	 * @return string|int|\DateTime Formatted date string, timestamp if `$type` is timestamp,
 	 *                              or a DateTime object if `$type` is 'object'.
 	 */
+
+	#[\ReturnTypeWillChange]
 	public function format( $format ) {
 
 		if ( empty( $format ) || true === $format ) {

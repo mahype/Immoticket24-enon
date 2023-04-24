@@ -311,59 +311,78 @@ class Affiliate_WP_Shortcodes {
 	/**
 	 * Affiliate creative shortcode.
 	 *
+	 * @param array  $atts    Shortcode atttributes.
+	 * @param string $content Default content.
+	 *
 	 * @since  1.1.4
+	 *
 	 * @return string
 	 */
 	public function affiliate_creative( $atts, $content = null ) {
 
 		$atts = shortcode_atts(
 			array(
-				'id'          => '',    // ID of the creative
-				'image_id'    => '',    // ID of image from media library if not using creatives section
-				'image_link'  => '',    // External URL if image is hosted off-site
-				'link'        => '',    // Where the banner links to
-				'preview'     => 'yes', // Display an image/text preview above HTML code
-				'text'        => '',    // Text shown in alt/title tags
-				'description' => ''     // Description for creative
+				'id'          => '',    // ID of the creative.
+				'image_id'    => '',    // ID of image from media library if not using creatives section.
+				'image_link'  => '',    // External URL if image is hosted off-site.
+				'link'        => '',    // Where the banner links to.
+				'preview'     => 'yes', // Display an image/text preview above HTML code.
+				'text'        => '',    // Text shown in alt/title tags.
+				'description' => '',    // Description for creative.
 			),
 			$atts,
 			'affiliate_creative'
 		);
 
+		$default = is_string( $content )
+			? $content
+			: '';
+
 		if ( ! ( affwp_is_affiliate() && affwp_is_active_affiliate() ) ) {
-			return;
+			return $default;
 		}
 
-		$content = affiliate_wp()->creative->affiliate_creative( $atts );
+		if ( ! affiliate_wp()->creative->groups->affiliate_can_access( $atts['id'] ) ) {
+			return $default;
+		}
 
-		return do_shortcode( $content );
+		return do_shortcode( affiliate_wp()->creative->affiliate_creative( $atts ) );
 	}
 
 	/**
 	 * Affiliate creatives shortcode.
-	 * Shows all the creatives from Affiliates -> Creatives
 	 *
-	 * @since  1.1.4
+	 * Shows all the creatives from Affiliates -> Creatives.
+	 *
+	 * @param array $atts    Shortcode attributes.
+	 * @param null  $content Default content.
+	 *
+	 * @since 1.1.4
+	 *
 	 * @return string
 	 */
 	public function affiliate_creatives( $atts, $content = null ) {
 
-		$atts = shortcode_atts(
-			array(
-				'preview' => 'yes', // Display an image/text preview above HTML code
-				'number'  => 20,   // Number to show
-			),
-			$atts,
-			'affiliate_creatives'
-		);
+		$default = is_string( $content )
+			? $content
+			: '';
 
 		if ( ! ( affwp_is_affiliate() && affwp_is_active_affiliate() ) ) {
-			return;
+			return $default;
 		}
 
-		$content = affiliate_wp()->creative->affiliate_creatives( $atts );
-
-		return do_shortcode( $content );
+		return do_shortcode(
+			affiliate_wp()->creative->affiliate_creatives(
+				shortcode_atts(
+					array(
+						'preview' => 'yes', // Display an image/text preview above HTML code.
+						'number'  => 20,   // Number to show.
+					),
+					$atts,
+					'affiliate_creatives'
+				)
+			)
+		);
 	}
 
 	/**

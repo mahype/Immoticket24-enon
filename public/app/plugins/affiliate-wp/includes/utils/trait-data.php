@@ -32,49 +32,6 @@ if ( trait_exists( '\AffiliateWP\Utils\Data' ) ) {
 trait Data {
 
 	/**
-	 * Does a column (in a table) exist in the database?
-	 *
-	 * @since  2.12.0
-	 *
-	 * @param  string $table  The table name.
-	 * @param  string $column The column.
-	 * @return bool
-	 *
-	 * @throws \InvalidArgumentException If you do not supply non-empty strings for either `$table` or `$column`.
-	 */
-	protected function column_exists( $table, $column ) {
-
-		if ( ! $this->is_string_and_nonempty( $table ) ) {
-			throw new \InvalidArgumentException( '$table must be a non-empty string.' );
-		}
-
-		if ( ! $this->is_string_and_nonempty( $column ) ) {
-			throw new \InvalidArgumentException( '$column must be a non-empty string.' );
-		}
-
-		if ( ! $this->table_exists( $table ) ) {
-			return false;
-		}
-
-		global $wpdb;
-
-		$results = $wpdb->get_var(
-			$wpdb->prepare(
-
-				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared  -- We have to use str_replace here because $wpdb->prepare adds ''.
-				str_replace(
-					'{table_name}',
-					$wpdb->_real_escape( $table ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We escape here because we have to use str_replace.
-					'SHOW COLUMNS FROM {table_name} LIKE %s'
-				),
-				$column
-			)
-		);
-
-		return $column === $results;
-	}
-
-	/**
 	 * Is a value a positive and numeric?
 	 *
 	 * @since 2.12.0
@@ -82,7 +39,7 @@ trait Data {
 	 * @param  mixed $value The value that has to be a postive numeric.
 	 * @return bool
 	 */
-	private function is_numeric_and_at_least_zero( $value ) {
+	protected function is_numeric_and_at_least_zero( $value ) {
 		return is_numeric( $value ) && intval( $value ) >= 0;
 	}
 
@@ -94,11 +51,11 @@ trait Data {
 	 * @param  mixed $value A numeric string or int.
 	 * @return bool
 	 */
-	private function is_numeric_and_gt_zero( $value ) {
+	protected function is_numeric_and_gt_zero( $value ) {
 
 		return ! is_null( $value ) &&
 			is_numeric( $value ) &&
-				absint( $value ) > 0;
+				intval( $value ) > 0;
 	}
 
 	/**
@@ -111,7 +68,7 @@ trait Data {
 	 * @param  mixed $value The value.
 	 * @return bool
 	 */
-	private function is_string_and_nonempty( $value ) {
+	protected function is_string_and_nonempty( $value ) {
 		return is_string( $value ) && ! empty( trim( $value ) );
 	}
 
@@ -123,7 +80,7 @@ trait Data {
 	 * @param  mixed $value Value.
 	 * @return int          Intval of the value, or zero.
 	 */
-	private function get_numeric_intval_or_zero( $value ) {
+	protected function get_numeric_intval_or_zero( $value ) {
 
 		if ( is_numeric( $value ) ) {
 			return intval( $value );
@@ -140,7 +97,7 @@ trait Data {
 	 * @param  string $value The value.
 	 * @return int           The numeric value, or -1.
 	 */
-	private function get_positive_numeric_or_negative_one( $value ) {
+	protected function get_positive_numeric_or_negative_one( $value ) {
 
 		if ( ! is_numeric( $value ) || -1 === $value || '-1' === $value ) {
 			return -1;
@@ -158,7 +115,7 @@ trait Data {
 	 * @param  string $default What to return if we can't encode the data.
 	 * @return mixed           Encoded data, or the `$default`.
 	 */
-	private function json_encode( $data, $default = '' ) {
+	protected function json_encode( $data, $default = '' ) {
 
 		$encoded = wp_json_encode( $data );
 
@@ -179,7 +136,7 @@ trait Data {
 	 *
 	 * @throws \InvalidArgumentException If you supply improper parameters.
 	 */
-	private function pluck_property_from_objects( $results, $property ) {
+	protected function pluck_property_from_objects( $results, $property ) {
 
 		if ( ! is_array( $results ) ) {
 			throw new \InvalidArgumentException( '$results must be an array' );
@@ -211,10 +168,12 @@ trait Data {
 							return $object->$property;
 						}
 
-						throw new \Exception( "You asked to pluck \$object->{$property} but was not found in object." );
+						throw new \Exception( "You asked us to pluck property '{$property}' but it was not found in object: " . json_encode( $object ) );
 					}
 				)
 			);
+
+		// Return a WP_Error.
 		} catch ( \Exception $error ) {
 
 			// Catch issues where objects don't have the property, and convert to WP_Error.
@@ -233,16 +192,16 @@ trait Data {
 	 * @param  array  $list   The list of values the string can be (OR).
 	 * @return bool
 	 *
-	 * @throws InvalidArgumentException If you supply invalid parameters.
+	 * @throws \InvalidArgumentException If you supply invalid parameters.
 	 */
-	private function string_is_one_of( $string, $list ) {
+	protected function string_is_one_of( $string, $list ) {
 
 		if ( ! is_string( $string ) ) {
-			throw new InvalidArgumentException( '$string must be a string.' );
+			throw new \InvalidArgumentException( '$string must be a string.' );
 		}
 
 		if ( ! is_array( $list ) ) {
-			throw new InvalidArgumentException( '$list must be an array.' );
+			throw new \InvalidArgumentException( '$list must be an array.' );
 		}
 
 		if ( array_filter(
@@ -251,7 +210,7 @@ trait Data {
 				return is_string( $maybe_string );
 			}
 		) !== $list ) {
-			throw new InvalidArgumentException( '$list must only contain strings.' );
+			throw new \InvalidArgumentException( '$list must only contain strings.' );
 		}
 
 		return in_array( $string, $list, true );
@@ -266,7 +225,7 @@ trait Data {
 	 *
 	 * @return int
 	 */
-	private function virtually_unlimited( $max = -1 ) {
+	protected function virtually_unlimited( $max = -1 ) {
 
 		/**
 		 * Filter the value we use for virtually unlimited results.

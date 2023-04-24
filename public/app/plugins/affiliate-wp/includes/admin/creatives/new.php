@@ -44,11 +44,11 @@
 			<?php
 
 			/**
-			 * Fires in the 2nd field placement on this form.
+			 * Fires before description.
 			 *
 			 * @since 2.12.0
 			 */
-			do_action( 'affwp_new_creative_2nd' );
+			do_action( 'affwp_new_before_description' );
 
 			?>
 
@@ -113,6 +113,17 @@
 
 			</tr>
 
+			<?php
+
+			/**
+			 * Fires after status row.
+			 *
+			 * @since 2.13.0
+			 */
+			do_action( 'affwp_new_creative_before_status' );
+
+			?>
+
 			<tr class="form-row form-required">
 
 				<th scope="row">
@@ -139,6 +150,7 @@
 		 * @since 1.0
 		 */
 		do_action( 'affwp_new_creative_bottom' );
+
 		?>
 
 		<input type="hidden" name="affwp_action" value="add_creative" />
