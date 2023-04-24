@@ -27,6 +27,26 @@ add_action('edd_stats_meta_box', function (){
 
 	$post_id    = $_GET['post'];
 
+	$reseller_id = get_post_meta( $post_id, 'reseller_id', true );
+
+	if( $reseller_id ) {
+		$url = admin_url( 'post.php?post=' . $reseller_id . '&action=edit' );
+		
+		$company_name = get_post_meta( $reseller_id, 'company_name', true );
+		$affiliate_id = get_post_meta( $reseller_id, 'affiliate_id', true );
+
+		echo '<hr /><strong style="margin-top:7px">Reseller</strong>';
+		echo '<ul style="margin-top:7px">';
+		echo sprintf( '<li>Reseller: <a href="%s">%s</a></li>', $url, $company_name );
+		
+		if( !empty( $affiliate_id )) {
+			$url = admin_url( 'admin.php?page=affiliate-wp-referrals&affiliate_id=' . $affiliate_id );
+			echo sprintf( '<li>Affiliate: <a href="%s">%s</a></li>', $url, $affiliate_id );
+		}
+		
+		echo '</ul>';
+	}
+
 	$payments = get_post_meta( $post_id, '_wpenon_attached_payment_id' );
 
 	if( count( $payments ) === 0 ) {
@@ -42,7 +62,7 @@ add_action('edd_stats_meta_box', function (){
 	}
 
 	$is_registered = ! empty( trim( get_post_meta( $post_id, 'registriernummer', true ) ) );
-	$is_data_sent = (bool) get_post_meta( $post_id, '_datasent', true );
+	$is_data_sent = (bool) get_post_meta( $post_id, '_datasent', true );	
 
 	echo '<hr /><strong style="margin-top:7px">DIBT</strong>';
 	echo '<ul style="margin-top:7px">';
@@ -61,6 +81,7 @@ add_action('edd_stats_meta_box', function (){
 	}
 
 	echo '</ul>';
+
 });
 
 // custom functions
