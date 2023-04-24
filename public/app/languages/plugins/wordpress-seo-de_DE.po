@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast SEO - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-03-28 09:23:39+0000\n"
+"PO-Revision-Date: 2023-04-11 08:16:25+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,8 +11,20 @@ msgstr ""
 "Language: de\n"
 "Project-Id-Version: Plugins - Yoast SEO - Stable (latest release)\n"
 
-#. translators: %1$s: Yoast SEO, %2$s: URL pointing to documentation.
-#: src/initializers/crawl-cleanup-permalinks.php:273
+#. translators: %1$s expands to a strong tag, %2$s expands to the product name,
+#. %3$s expands to a closing strong tag, %4$s expands to an a tag. %5$s expands
+#. to MyYoast with a closing a tag,  %6$s expands to the product name
+#: inc/class-addon-manager.php:503
+msgid "%1$s %2$s isn't working as expected %3$s and you are not receiving updates or support! Make sure to %4$s activate your product subscription in %5$s to unlock all the features of %6$s."
+msgstr "%1$s %2$s funktioniert nicht wie erwartet %3$s und du erhältst weder Updates noch Support! Achte darauf, %4$s dein Produktabonnement in %5$s zu aktivieren, um alle Funktionen von %6$s freizuschalten."
+
+#. translators: %1$s is the plugin name, %2$s and %3$s are a link.
+#: inc/class-addon-manager.php:406
+msgid "%1$s can't be updated because your product subscription is expired. %2$sRenew your product subscription%3$s to get updates again and use all the features of %1$s."
+msgstr "%1$s kann nicht aktualisiert werden, da dein Produktabonnement abgelaufen ist. %2$sErneuere dein Produktabonnement%3$s, um wieder Updates zu erhalten und alle Funktionen von %1$s zu nutzen."
+
+#. translators: %1$s: Yoast SEO
+#: src/helpers/crawl-cleanup-helper.php:266
 msgid "%1$s: unregistered URL parameter removed. See %2$s"
 msgstr "%1$s: nicht registrierter URL-Parameter entfernt. Siehe %2$s"
 
@@ -27,7 +39,7 @@ msgid "This feature is disabled when your site is not using %1$spretty permalink
 msgstr "Diese Funktion ist deaktiviert, wenn deine Website keine %1$sPretty Permalinks%2$s verwendet."
 
 #. translators: %1$s: Yoast SEO
-#: src/initializers/crawl-cleanup-permalinks.php:131
+#: src/initializers/crawl-cleanup-permalinks.php:143
 msgid "%1$s: redirect utm variables to #"
 msgstr "%1$s: UTM-Variablen umleiten zu #"
 
@@ -83,21 +95,6 @@ msgstr "Auf die neueste Version von %1$s aktualisieren"
 #: src/integrations/admin/old-premium-integration.php:122
 msgid "Please %2$supdate %1$s to the latest version%3$s to ensure you can fully use all Premium settings and features."
 msgstr "Bitte %2$saktualisiere %1$s auf die neueste Version%3$s, um sicherzustellen, dass du alle Premium-Einstellungen und -Funktionen vollständig nutzen kannst."
-
-#. translators: 1: Link tag to WordPress Hosts page on Yoast.com; 2: Link
-#. closing tag
-#: src/integrations/admin/unsupported-php-version.php:89
-msgid "Upgrading your PHP version is something your hosting provider can help you out with. If they can’t upgrade your PHP version, we advise you to consider %1$sswitching to a hosting provider%2$s that can provide the security and features a modern host should provide."
-msgstr "Beim Upgrade deiner PHP-Version kann dir dein Hosting-Anbieter behilflich sein. Wenn du deine PHP-Version nicht aktualisieren kannst, empfehlen wir dir, %1$sden Wechsel zu einem Hosting-Anbieter%2$s in Erwägung zu ziehen, der die Sicherheit und die Funktionen bieten kann, die ein moderner Webserver bieten sollte."
-
-#. translators: 1: Yoast SEO, 2: Yoast SEO Premium
-#: src/integrations/admin/unsupported-php-version.php:77
-msgid "By March 1st, 2023, we’ll update the minimum PHP requirement for %1$s, %2$s and all our add-ons to PHP 7.2. This, to ensure we can keep delivering state of the art features."
-msgstr "Ab dem 1. März 2023 heben wir die PHP-Mindestanforderungen für %1$s, %2$s und alle unsere Add-Ons auf PHP 7.2 an. Wir machen das, um sicherzustellen, dass wir weiterhin hochmoderne Funktionen bereitstellen können."
-
-#: src/integrations/admin/unsupported-php-version.php:85
-msgid "Can’t upgrade yourself? Ask your host!"
-msgstr "Du kannst nicht selbst aktualisieren? Frage deinen Hosting-Anbieter!"
 
 #. translators: 1: expands to Outrank your competitors even further, 2: expands
 #. to Yoast SEO
@@ -267,10 +264,6 @@ msgstr "Yoast Premium-Support"
 #: inc/class-wpseo-admin-bar-menu.php:549
 msgid "Yoast.com help section"
 msgstr "Yoast.com-Hilfebereich"
-
-#: src/integrations/admin/unsupported-php-version.php:73
-msgid "Upgrade your PHP version"
-msgstr "Aktualisiere deine PHP-Version"
 
 #: admin/views/licenses.php:167
 msgid "Save energy by reducing the crawlability of your site without hurting your rankings!"
@@ -448,8 +441,8 @@ msgstr "Mit Premium freischalten!"
 
 #. translators: %s expands to the post type name.
 #. Translators: %s translates to the Post type in singular form
-#: admin/metabox/class-metabox.php:205 js/dist/block-editor.js:385
-#: js/dist/classic-editor.js:381 js/dist/elementor.js:385
+#: admin/metabox/class-metabox.php:205 js/dist/block-editor.js:175
+#: js/dist/classic-editor.js:171 js/dist/elementor.js:175
 msgid "Timestamp this %s"
 msgstr "Diesen %s mit Zeitstempel versehen"
 
@@ -1004,78 +997,13 @@ msgstr "Es sieht so aus, als würdest du unser %1$s%2$s Add-on%3$s nicht benutze
 msgid "Below are the technical details for the error. See %1$sthis page%2$s for a more detailed explanation."
 msgstr "Unten findest du die technischen Details für den Fehler. Schau auf %1$sdiese Seite%2$s für eine detailliertere Erklärung."
 
-#: src/schema-templates/preparation-time.block.php:14
-msgid "Prep time"
-msgstr "Vorbereitungszeit"
-
-#: src/schema-templates/preparation-time.block.php:12
-msgid "The time it takes to prepare the items to be used in the instructions."
-msgstr "Die Zeit, die das Vorbereiten der Zutaten aus der Anleitung benötigt."
-
-#: src/schema-templates/preparation-time.block.php:12
-msgid "Recipe prep time"
-msgstr "Rezeptvorbereitungszeit"
-
-#: src/schema-templates/cooking-time.block.php:12
-msgid "The time it takes to actually cook the dish."
-msgstr "Gib die Zeit ein, die es tatsächlich dauert, das Rezept zuzubereiten."
-
-#: src/schema-templates/cooking-time.block.php:12
-msgid "Recipe cooking time"
-msgstr "Rezept Kochzeit"
-
 #: src/integrations/admin/workouts-integration.php:93
 msgid "Workouts"
 msgstr "Workouts"
 
-#. translators: %1$s is the plugin name, %2$s and %3$s are a link.
-#: inc/class-addon-manager.php:370
-msgid "A new version of %1$s is available. %2$sRenew your subscription%3$s if you want to update to the latest version."
-msgstr "Eine neue Version von %1$s ist verfügbar %2$sErneuere dein Abo%3$s wenn du auf die neueste Version aktualisieren möchtest."
-
-#: src/schema-templates/recipe-ingredients.block.php:14
-msgid "Ingredients"
-msgstr "Zutaten"
-
-#: src/schema-templates/recipe-instructions.block.php:15
-msgid "Instructions"
-msgstr "Anweisungen"
-
 #: admin/views/class-yoast-integration-toggles.php:99
 msgid "Improve the quality of your site search! Automatically helps your users find your cornerstone and most important content in your internal search results. It also removes noindexed posts & pages from your site’s search results."
 msgstr "Verbessere die Qualität der Suche deiner Website! Hilf Benutzern, deine Cornerstone- und die wichtigsten Inhalte in deinen internen Suchergebnissen zu finden. Es entfernt außerdem mit noindex ausgezeichnete Beiträge und Seiten aus den Suchergebnissen deiner Website."
-
-#: src/schema-templates/recipe-ingredients.block.php:12
-msgid "Recipe ingredient(s)"
-msgstr "Rezept-Zutat(en)"
-
-#: src/schema-templates/recipe-ingredients.block.php:12
-msgid "The ingredients used in the recipe, e.g. sugar, flour or garlic."
-msgstr "Die im Rezept verwendeten Zutaten, z.&nbsp;B. Zucker, Mehl oder Knoblauch."
-
-#: src/schema-templates/recipe-ingredients.block.php:14
-msgid "Ingredients title"
-msgstr "Zutaten-Titel"
-
-#: src/schema-templates/recipe-ingredients.block.php:15
-msgid "Enter an ingredient"
-msgstr "Gib eine Zutat ein"
-
-#: src/schema-templates/recipe-instructions.block.php:13
-msgid "Recipe instructions"
-msgstr "Rezept-Anweisungen"
-
-#: src/schema-templates/recipe-instructions.block.php:13
-msgid "The steps of making the recipe, in the form of an ordered list with HowToStep and/or HowToSection items."
-msgstr "Die Schritte für die Herstellung des Rezeots, in Form einer sortierten Liste mit Howto-Schritten und/oder Howto-Abschnitt-Elementen."
-
-#: src/schema-templates/recipe-instructions.block.php:16
-msgid "Enter step"
-msgstr "Zu diesem Schritt"
-
-#: src/schema-templates/recipe-instructions.block.php:15
-msgid "Instructions title"
-msgstr "Titel der Anweisungen"
 
 #. translators: %s: Zapier.
 #. translators: %s: Algolia.
@@ -1110,8 +1038,8 @@ msgstr "Finde heraus, wie Einblicke dir helfen können, deine Inhalte zu verbess
 msgid "Find relevant data about your content right in the Insights section in the Yoast SEO metabox. You’ll see what words you use most often and if they’re a match with your keywords! "
 msgstr "Finde relevante Daten über deine Inhalte direkt im Einblicke-Abschnitt der Yoast-SEO-Metabox. Du wirst sehen, welche Wörter du am meisten benutzt und ob sie mit deinen Keywords übereinstimmen! "
 
-#: admin/views/class-yoast-feature-toggles.php:116 js/dist/block-editor.js:439
-#: js/dist/classic-editor.js:435 js/dist/elementor.js:439
+#: admin/views/class-yoast-feature-toggles.php:116 js/dist/block-editor.js:233
+#: js/dist/classic-editor.js:225 js/dist/elementor.js:233
 #: js/dist/new-settings.js:14 js/dist/new-settings.js:236
 msgid "Insights"
 msgstr "Einblicke"
@@ -1145,28 +1073,11 @@ msgstr "Die Einstellungen für die Darstellung für Inhaltstypen auf sozialen Me
 msgid "The social appearance settings for your homepage require Open Graph metadata (which is currently disabled). You can enable this in the %1$s‘Social’ settings under the ‘Facebook’ tab%2$s."
 msgstr "Die Einstellungen für die Darstellung auf sozialen Medien erfordern Open-Graph-Metadaten (welche momentan deaktiviert sind). Du kannst sie in den %1$s„Social-Media“-Einstellungen unter dem „Facebook“-Tab%2$s aktivieren."
 
-#: src/schema-templates/cooking-time.block.php:14
-#: js/dist/externals/schemaBlocks.js:13
-msgid "Cooking time"
-msgstr "Kochzeit"
-
-#: src/schema-templates/recipe-description.block.php:14
-msgid "Enter a recipe description"
-msgstr "Gib eine Rezeptbeschreibung ein"
-
 #: admin/views/redirects.php:22
 #: src/deprecated/src/integrations/admin/social-templates-integration.php:280
 #: js/dist/integrations-page.js:3 js/dist/integrations-page.js:27
 msgid "Unlock with Premium"
 msgstr "Mit Premium freischalten"
-
-#: src/schema-templates/recipe-description.block.php:12
-msgid "Recipe description"
-msgstr "Rezept-Beschreibung"
-
-#: src/schema-templates/recipe-description.block.php:12
-msgid "A description of the recipe."
-msgstr "Eine Beschreibung des Rezepts."
 
 #. translators: %s expands to 'Yoast SEO Premium'.
 #: src/deprecated/src/integrations/admin/social-templates-integration.php:267
@@ -1233,27 +1144,6 @@ msgstr "%1$s Weiter zu %2$s%3$s"
 #: src/integrations/admin/addon-installation/dialog-integration.php:92
 msgid "No %1$s plugins have been installed. You don't seem to own any active subscriptions."
 msgstr "Keine %1$s-Plugins wurden installiert. Scheinbar hast du keine aktiven Abonnements."
-
-#: src/schema-templates/recipe-name.block.php:10
-msgid "Enter a recipe name"
-msgstr "Gib einen Rezeptnamen ein"
-
-#. translators: %1$s expands to Yoast
-#: src/schema-templates/recipe.block.php:9
-msgid "%1$s Recipe"
-msgstr "%1$s Rezept"
-
-#: src/schema-templates/recipe.block.php:39
-msgid "Add a block to your recipe..."
-msgstr "Füge deinem Rezept einen Block hinzu…"
-
-#: src/schema-templates/recipe.block.php:36
-msgid "Create a Recipe in an SEO-friendly way. You can only use one Recipe block per post."
-msgstr "Erstelle ein Rezept auf SEO-freundliche Weise. Du kannst nur einen Rezeptblock pro Beitrag benutzen."
-
-#: src/schema-templates/recipe.block.php:37
-msgid "Serves #"
-msgstr "Reicht für #"
 
 #. translators: %s expands to Yoast SEO Premium.
 #: admin/class-admin.php:249
@@ -1400,17 +1290,17 @@ msgid "Something has gone wrong and we couldn't complete the optimization of you
 msgstr "Etwas ist schiefgelaufen und wir konnten die Optimierung deiner SEO-Daten nicht abschließen. Bitte %1$sstarte den Prozess neu%2$s."
 
 #. translators: %s expands to a mailto support link.
-#: inc/class-addon-manager.php:816
+#: inc/class-addon-manager.php:854
 msgid "If you still need support and have an active subscription for this product, please email %s."
 msgstr "Wenn du immer noch Unterstützung benötigst und ein aktives Abonnement für dieses Produkt hast, schreib bitte %s eine E-Mail."
 
 #. translators: 1: expands to <a> that refers to the help page, 2: </a> closing
 #. tag.
-#: inc/class-addon-manager.php:813
+#: inc/class-addon-manager.php:851
 msgid "You can probably find an answer to your question in our %1$shelp center%2$s."
 msgstr "Du findest wahrscheinlich in unserem %1$sHilfe-Center%2$s eine Lösung."
 
-#: inc/class-addon-manager.php:810
+#: inc/class-addon-manager.php:848
 msgid "Need support?"
 msgstr "Du brauchst Hilfe?"
 
@@ -1749,8 +1639,8 @@ msgstr "Möchtest du SEO von Team Yoast lernen? Schau dir unsere %1$s an!"
 msgid "Import settings from another %1$s installation by pasting them here and clicking \"%2$s\"."
 msgstr "Importiere Einstellung von einer anderen %1$s Installation, in dem du sie hierher kopierst und „%2$s“ anklickst."
 
-#: admin/metabox/class-metabox.php:431 js/dist/block-editor.js:456
-#: js/dist/elementor.js:439 js/dist/new-settings.js:10
+#: admin/metabox/class-metabox.php:431 js/dist/block-editor.js:250
+#: js/dist/elementor.js:233 js/dist/new-settings.js:10
 #: js/dist/new-settings.js:14 js/dist/new-settings.js:18
 #: js/dist/new-settings.js:55 js/dist/new-settings.js:209
 #: js/dist/structured-data-blocks.js:13
@@ -1995,9 +1885,9 @@ msgstr "Erhaltene interne Verlinkungen"
 msgid "Outgoing internal links"
 msgstr "Ausgehende interne Verlinkungen"
 
-#: admin/class-meta-columns.php:111 js/dist/block-editor.js:339
-#: js/dist/classic-editor.js:335 js/dist/dashboard-widget.js:24
-#: js/dist/editor-modules.js:289 js/dist/elementor.js:339
+#: admin/class-meta-columns.php:111 js/dist/block-editor.js:129
+#: js/dist/classic-editor.js:125 js/dist/dashboard-widget.js:24
+#: js/dist/editor-modules.js:79 js/dist/elementor.js:129
 msgid "Keyphrase"
 msgstr "Keyphrase"
 
@@ -2132,8 +2022,8 @@ msgstr "Fokus Keyphrase nicht festgelegt."
 #: admin/class-premium-popup.php:81
 #: admin/class-premium-upsell-admin-block.php:67
 #: admin/watchers/class-slug-change-watcher.php:223
-#: src/presenters/admin/sidebar-presenter.php:61 js/dist/block-editor.js:365
-#: js/dist/classic-editor.js:361 js/dist/elementor.js:365
+#: src/presenters/admin/sidebar-presenter.php:61 js/dist/block-editor.js:155
+#: js/dist/classic-editor.js:151 js/dist/elementor.js:155
 #: js/dist/externals-components.js:11 js/dist/externals-components.js:63
 #: js/dist/externals-components.js:81 js/dist/externals-components.js:83
 #: js/dist/externals-components.js:85 js/dist/externals-components.js:87
@@ -2286,8 +2176,8 @@ msgstr "Suchmaschinen und andere Websites können weiterhin Besucherstrom zu dei
 msgid "You should create a redirect to ensure your visitors do not get a 404 error when they click on the no longer working URL."
 msgstr "Du solltest eine Weiterleitung einrichten, damit Besucher keinen 404 Fehler erhalten, wenn sie eine veraltete URL anklicken."
 
-#: inc/class-wpseo-admin-bar-menu.php:588 js/dist/block-editor.js:414
-#: js/dist/classic-editor.js:410 js/dist/elementor.js:414
+#: inc/class-wpseo-admin-bar-menu.php:588 js/dist/block-editor.js:204
+#: js/dist/classic-editor.js:200 js/dist/elementor.js:204
 msgid "Get Yoast SEO Premium"
 msgstr "Yoast SEO Premium holen"
 
@@ -2473,8 +2363,8 @@ msgstr "Wir haben Daten von mindestens einem SEO-Plugin auf deiner Seite erkannt
 msgid "This will import the post metadata like SEO titles and descriptions into your %1$s metadata. It will only do this when there is no existing %1$s metadata yet. The original data will remain in place."
 msgstr "Mit diesem Vorgang importierst Beitragsmetadaten wie SEO-Titel und Beschreibungen in deine %1$s Metadaten. Vorhandene %1$s Metadaten werden dabei nicht überschrieben und ursprüngliche Daten bleiben bestehen."
 
-#: admin/class-premium-upsell-admin-block.php:58 js/dist/block-editor.js:361
-#: js/dist/classic-editor.js:357 js/dist/elementor.js:361
+#: admin/class-premium-upsell-admin-block.php:58 js/dist/block-editor.js:151
+#: js/dist/classic-editor.js:147 js/dist/elementor.js:151
 #: js/dist/externals-components.js:7 js/dist/externals-components.js:59
 #: js/dist/new-settings.js:254
 msgid "24/7 email support"
@@ -2562,8 +2452,8 @@ msgstr "Ein-/Ausschalten der XML Sitemap von %1$s"
 
 #. translators: %s expands to the post type name.
 #. Translators: %s translates to the Post Label in singular form
-#: admin/metabox/class-metabox.php:173 js/dist/block-editor.js:391
-#: js/dist/classic-editor.js:387 js/dist/elementor.js:391
+#: admin/metabox/class-metabox.php:173 js/dist/block-editor.js:181
+#: js/dist/classic-editor.js:177 js/dist/elementor.js:181
 msgid "Allow search engines to show this %s in search results?"
 msgstr "Erlaube Suchmaschinen diesen %s in den Suchergebnissen anzuzeigen?"
 
@@ -2602,7 +2492,7 @@ msgid "Find out how cornerstone content can help you improve your site structure
 msgstr "Erfahre, wie Cornerstone-Inhalte dir helfen können, die Struktur deiner Website zu verbessern."
 
 #: admin/formatter/class-metabox-formatter.php:236
-#: js/dist/editor-modules.js:319 js/dist/externals-components.js:11
+#: js/dist/editor-modules.js:109 js/dist/externals-components.js:11
 #: js/dist/externals/analysisReport.js:35
 msgid "Good results"
 msgstr "Gute Ergebnisse"
@@ -2653,7 +2543,7 @@ msgid "Remove highlight from the text"
 msgstr "Text-Markierung entfernen"
 
 #: admin/formatter/class-metabox-formatter.php:232
-#: js/dist/editor-modules.js:319 js/dist/externals-components.js:11
+#: js/dist/editor-modules.js:109 js/dist/externals-components.js:11
 #: js/dist/externals/analysisReport.js:35
 msgid "Errors"
 msgstr "Fehler"
@@ -2668,7 +2558,7 @@ msgid "Highlight this result in the text"
 msgstr "Markiere dieses Ergebnis im Text"
 
 #: admin/formatter/class-metabox-formatter.php:235
-#: js/dist/editor-modules.js:319 js/dist/externals-components.js:11
+#: js/dist/editor-modules.js:109 js/dist/externals-components.js:11
 #: js/dist/externals/analysisReport.js:35
 msgid "Considerations"
 msgstr "Überlegungen"
@@ -2726,7 +2616,7 @@ msgstr "Alter Konfigurations-Assistent"
 #: admin/watchers/class-slug-change-watcher.php:224
 #: src/integrations/admin/workouts-integration.php:210
 #: src/integrations/admin/workouts-integration.php:239
-#: src/presenters/admin/help-link-presenter.php:75 js/dist/block-editor.js:456
+#: src/presenters/admin/help-link-presenter.php:75 js/dist/block-editor.js:250
 #: js/dist/externals/componentsNew.js:136 js/dist/externals/helpers.js:18
 #: js/dist/integrations-page.js:3 js/dist/integrations-page.js:19
 #: js/dist/integrations-page.js:27
@@ -2770,12 +2660,6 @@ msgstr "Nicht aktiviert"
 msgid "Activated"
 msgstr "Aktiviert"
 
-#. translators: %1$s expands to the product name. %2$s expands to a link to My
-#. Yoast
-#: inc/class-addon-manager.php:469
-msgid "You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s."
-msgstr "Du erhältst weder Updates noch Support! Behebe dieses Problem, indem du diese Website hinzufügst und %1$s dafür in %2$s aktivierst."
-
 #. translators: %1$s expands to Yoast
 #: src/presenters/admin/sidebar-presenter.php:28
 msgid "%1$s recommendations for you"
@@ -2794,10 +2678,6 @@ msgstr "Alle Lesbarkeitsbewertungen"
 #: admin/class-meta-columns.php:269
 msgid "Filter by Readability Score"
 msgstr "Filter nach Lesbarkeitsbewertungen"
-
-#: src/integrations/admin/unsupported-php-version.php:163
-msgid "Remind me again in 4 weeks."
-msgstr "Erinnere mich wieder in 4 Wochen."
 
 #. translators: %1$s expands to the request method
 #: admin/class-remote-request.php:95
@@ -2846,15 +2726,15 @@ msgstr "Änderungen speichern"
 msgid "The plugin %2$s changes your site's output and in doing that differentiates between search engines and normal users, a process that's called cloaking. We highly recommend that you disable it."
 msgstr "Das Plugin %2$s verändert die Ausgabe deiner Website je nachdem ob eine Suchmaschine oder ein normaler Benutzer die Seite aufruft. Dieser Prozess nennt sich Cloaking. Wir empfehlen dir sehr, dieses Plugin zu deaktivieren."
 
-#: admin/class-premium-upsell-admin-block.php:56 js/dist/block-editor.js:359
-#: js/dist/classic-editor.js:355 js/dist/elementor.js:359
+#: admin/class-premium-upsell-admin-block.php:56 js/dist/block-editor.js:149
+#: js/dist/classic-editor.js:145 js/dist/elementor.js:149
 #: js/dist/externals-components.js:5 js/dist/externals-components.js:57
 #: js/dist/new-settings.js:254
 msgid "Superfast internal linking suggestions"
 msgstr "Superschnelle Vorschläge zur internen Verlinkung"
 
-#: admin/class-premium-popup.php:88 js/dist/block-editor.js:365
-#: js/dist/classic-editor.js:361 js/dist/elementor.js:365
+#: admin/class-premium-popup.php:88 js/dist/block-editor.js:155
+#: js/dist/classic-editor.js:151 js/dist/elementor.js:155
 #: js/dist/externals-components.js:11 js/dist/externals-components.js:63
 msgid "1 year free support and updates included!"
 msgstr "1 Jahr kostenfreier Support und Updates inbegriffen!"
@@ -2863,8 +2743,8 @@ msgstr "1 Jahr kostenfreier Support und Updates inbegriffen!"
 msgid "Facebook & Twitter"
 msgstr "Facebook & Twitter"
 
-#: admin/class-premium-upsell-admin-block.php:59 js/dist/block-editor.js:361
-#: js/dist/classic-editor.js:357 js/dist/elementor.js:361
+#: admin/class-premium-upsell-admin-block.php:59 js/dist/block-editor.js:151
+#: js/dist/classic-editor.js:147 js/dist/elementor.js:151
 #: js/dist/externals-components.js:7 js/dist/externals-components.js:59
 #: js/dist/new-settings.js:254
 msgid "No ads!"
@@ -2970,7 +2850,7 @@ msgstr "Funktionen"
 #: admin/metabox/class-metabox.php:169 js/dist/externals/analysis.js:221
 #: js/dist/externals/analysis.js:275 js/dist/externals/analysis.js:393
 #: js/dist/externals/replacementVariableEditor.js:78
-#: js/dist/externals/searchMetadataPreviews.js:259 js/dist/new-settings.js:9
+#: js/dist/externals/searchMetadataPreviews.js:270 js/dist/new-settings.js:9
 #: js/dist/new-settings.js:11 js/dist/new-settings.js:14
 #: js/dist/new-settings.js:18 js/dist/new-settings.js:51
 #: js/dist/new-settings.js:62 js/dist/new-settings.js:86
@@ -2985,14 +2865,14 @@ msgid "Gain access to our 24/7 support team"
 msgstr "Erhalte Zugang zu unserem 24/7-Support-Team"
 
 #: admin/metabox/class-metabox.php:180 admin/metabox/class-metabox.php:185
-#: js/dist/block-editor.js:385 js/dist/classic-editor.js:381
-#: js/dist/elementor.js:385
+#: js/dist/block-editor.js:175 js/dist/classic-editor.js:171
+#: js/dist/elementor.js:175
 msgid "No"
 msgstr "Nein"
 
 #: admin/metabox/class-metabox.php:179 admin/metabox/class-metabox.php:184
-#: js/dist/block-editor.js:385 js/dist/classic-editor.js:381
-#: js/dist/elementor.js:385 js/dist/externals/schemaBlocks.js:13
+#: js/dist/block-editor.js:175 js/dist/classic-editor.js:171
+#: js/dist/elementor.js:175
 msgid "Yes"
 msgstr "Ja"
 
@@ -3145,10 +3025,9 @@ msgstr "Deaktivere die Lesbarkeits-Analyse"
 #: admin/statistics/class-statistics-service.php:217
 #: inc/class-wpseo-rank.php:140 inc/class-wpseo-rank.php:163
 #: inc/class-wpseo-rank.php:195 js/dist/block-editor.js:1
-#: js/dist/block-editor.js:456 js/dist/editor-modules.js:1
-#: js/dist/externals-components.js:109 js/dist/externals/analysis.js:393
-#: js/dist/frontend-inspector-resources.js:1 js/dist/post-edit.js:1
-#: js/dist/term-edit.js:1
+#: js/dist/editor-modules.js:1 js/dist/externals-components.js:109
+#: js/dist/externals/analysis.js:393 js/dist/frontend-inspector-resources.js:1
+#: js/dist/post-edit.js:1 js/dist/term-edit.js:1
 msgid "Needs improvement"
 msgstr "Verbesserungsbedarf"
 
@@ -3164,19 +3043,18 @@ msgstr "Nicht verfügbar"
 
 #: admin/formatter/class-metabox-formatter.php:233
 #: admin/views/partial-notifications-errors.php:20
-#: js/dist/editor-modules.js:319 js/dist/externals-components.js:11
+#: js/dist/editor-modules.js:109 js/dist/externals-components.js:11
 #: js/dist/externals/analysisReport.js:35
 msgid "Problems"
 msgstr "Probleme"
 
 #: admin/formatter/class-metabox-formatter.php:234
-#: js/dist/editor-modules.js:319 js/dist/externals-components.js:11
+#: js/dist/editor-modules.js:109 js/dist/externals-components.js:11
 #: js/dist/externals/analysisReport.js:35
 msgid "Improvements"
 msgstr "Verbesserungen"
 
 #: admin/formatter/class-metabox-formatter.php:203
-#: js/dist/externals/schemaBlocks.js:9
 msgid "Analysis"
 msgstr "Analyse"
 
@@ -3306,7 +3184,7 @@ msgstr "SEO-Wert"
 
 #. Plugin Name of the plugin
 #: admin/capabilities/class-capability-manager-integration.php:72
-#: src/presenters/meta-description-presenter.php:36 js/dist/block-editor.js:456
+#: src/presenters/meta-description-presenter.php:36 js/dist/block-editor.js:250
 msgid "Yoast SEO"
 msgstr "Yoast SEO"
 
@@ -3372,7 +3250,7 @@ msgid "You searched for %s"
 msgstr "Du hast nach %s gesucht"
 
 #. translators: %s expands to the name of a post type (plural).
-#: inc/class-upgrade.php:1345 inc/options/class-wpseo-option-titles.php:284
+#: inc/class-upgrade.php:1355 inc/options/class-wpseo-option-titles.php:284
 msgid "%s Archive"
 msgstr "%s Archiv"
 
@@ -3386,10 +3264,9 @@ msgstr "Facebook Debugger"
 #: admin/statistics/class-statistics-service.php:227
 #: inc/class-wpseo-rank.php:142 inc/class-wpseo-rank.php:173
 #: inc/class-wpseo-rank.php:205 js/dist/block-editor.js:1
-#: js/dist/block-editor.js:456 js/dist/editor-modules.js:1
-#: js/dist/externals-components.js:109 js/dist/externals/analysis.js:393
-#: js/dist/frontend-inspector-resources.js:1 js/dist/post-edit.js:1
-#: js/dist/term-edit.js:1
+#: js/dist/editor-modules.js:1 js/dist/externals-components.js:109
+#: js/dist/externals/analysis.js:393 js/dist/frontend-inspector-resources.js:1
+#: js/dist/post-edit.js:1 js/dist/term-edit.js:1
 msgid "Good"
 msgstr "Gut"
 
@@ -3576,7 +3453,7 @@ msgstr "Wird ersetzt durch den Titel des Beitrags bzw. der Seite"
 
 #. translators: %s expands to the variable used for term title.
 #: admin/formatter/class-term-metabox-formatter.php:162
-#: inc/class-upgrade.php:1348 inc/options/class-wpseo-option-titles.php:320
+#: inc/class-upgrade.php:1358 inc/options/class-wpseo-option-titles.php:320
 msgid "%s Archives"
 msgstr "%s Archive"
 
@@ -3957,8 +3834,8 @@ msgstr "%s Breadcrumbs"
 msgid "Breadcrumb for 404 pages:"
 msgstr "Breadcrumb für 404 Seiten:"
 
-#: admin/metabox/class-metabox.php:196 js/dist/block-editor.js:393
-#: js/dist/classic-editor.js:389 js/dist/elementor.js:393
+#: admin/metabox/class-metabox.php:196 js/dist/block-editor.js:183
+#: js/dist/classic-editor.js:179 js/dist/elementor.js:183
 msgid "Canonical URL"
 msgstr "Canonical-URL"
 
@@ -4004,8 +3881,8 @@ msgstr "URL des Facebook Profils"
 msgid "Focus keyword"
 msgstr "Fokus-Keyword"
 
-#: admin/metabox/class-metabox.php:189 js/dist/block-editor.js:393
-#: js/dist/classic-editor.js:389 js/dist/elementor.js:393
+#: admin/metabox/class-metabox.php:189 js/dist/block-editor.js:183
+#: js/dist/classic-editor.js:179 js/dist/elementor.js:183
 msgid "No Image Index"
 msgstr "Kein Bild Index"
 
@@ -4014,10 +3891,10 @@ msgstr "Kein Bild Index"
 msgid "View &#8220;%s&#8221;"
 msgstr "zeige &#8220;%s&#8221;"
 
-#: admin/class-bulk-editor-list-table.php:836 js/dist/block-editor.js:303
-#: js/dist/classic-editor.js:299 js/dist/dashboard-widget.js:20
-#: js/dist/dashboard-widget.js:26 js/dist/editor-modules.js:261
-#: js/dist/elementor.js:303
+#: admin/class-bulk-editor-list-table.php:836 js/dist/block-editor.js:93
+#: js/dist/classic-editor.js:89 js/dist/dashboard-widget.js:20
+#: js/dist/dashboard-widget.js:26 js/dist/editor-modules.js:51
+#: js/dist/elementor.js:93
 msgid "View"
 msgstr "Ansicht"
 
@@ -4031,7 +3908,7 @@ msgstr "Einstellungen konnten nicht importiert werden:"
 
 #: admin/metabox/class-metabox.php:170 js/dist/externals/analysis.js:393
 #: js/dist/externals/replacementVariableEditor.js:78
-#: js/dist/externals/searchMetadataPreviews.js:259 js/dist/new-settings.js:9
+#: js/dist/externals/searchMetadataPreviews.js:270 js/dist/new-settings.js:9
 #: js/dist/new-settings.js:11 js/dist/new-settings.js:14
 #: js/dist/new-settings.js:18 js/dist/new-settings.js:51
 #: js/dist/new-settings.js:62 js/dist/new-settings.js:86
@@ -4054,8 +3931,8 @@ msgstr "Keine"
 msgid "SEO"
 msgstr "SEO"
 
-#: admin/metabox/class-metabox.php:193 js/dist/block-editor.js:393
-#: js/dist/classic-editor.js:389 js/dist/elementor.js:393
+#: admin/metabox/class-metabox.php:193 js/dist/block-editor.js:183
+#: js/dist/classic-editor.js:179 js/dist/elementor.js:183
 msgid "Breadcrumbs Title"
 msgstr "Breadcrumb-Titel"
 
@@ -4114,7 +3991,7 @@ msgstr "Aktion"
 
 #: admin/class-bulk-editor-list-table.php:814
 #: js/dist/first-time-configuration.js:14
-#: js/dist/first-time-configuration.js:226 js/dist/installation-success.js:13
+#: js/dist/first-time-configuration.js:16 js/dist/installation-success.js:13
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -4130,13 +4007,13 @@ msgstr "Erweiterungen"
 msgid "FAQ"
 msgstr "FAQ"
 
-#: admin/metabox/class-metabox.php:190 js/dist/block-editor.js:393
-#: js/dist/classic-editor.js:389 js/dist/elementor.js:393
+#: admin/metabox/class-metabox.php:190 js/dist/block-editor.js:183
+#: js/dist/classic-editor.js:179 js/dist/elementor.js:183
 msgid "No Archive"
 msgstr "Kein Archiv"
 
-#: admin/metabox/class-metabox.php:191 js/dist/block-editor.js:393
-#: js/dist/classic-editor.js:389 js/dist/elementor.js:393
+#: admin/metabox/class-metabox.php:191 js/dist/block-editor.js:183
+#: js/dist/classic-editor.js:179 js/dist/elementor.js:183
 msgid "No Snippet"
 msgstr "Kein Snippet"
 
@@ -4169,8 +4046,8 @@ msgstr "Der Artikel wird nicht indexiert."
 msgid "Breadcrumbs separator:"
 msgstr "Breadcrumb Trennzeichen:"
 
-#: admin/metabox/class-metabox.php:187 js/dist/block-editor.js:393
-#: js/dist/classic-editor.js:389 js/dist/elementor.js:393
+#: admin/metabox/class-metabox.php:187 js/dist/block-editor.js:183
+#: js/dist/classic-editor.js:179 js/dist/elementor.js:183
 msgid "Meta robots advanced"
 msgstr "Erweiterte Meta Robots"
 
