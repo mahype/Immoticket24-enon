@@ -281,6 +281,8 @@ class EDDAdjustments {
 		// Check payment
 		if ( ! $payment ) {
 			// Record the error
+			$this->payment_log( 'EDD Paypal Payment Error: ' . sprintf( __( 'Payment creation failed before sending buyer to PayPal. Payment data: %s', 'easy-digital-downloads' ), json_encode( $payment_data ) ) );
+			
 			edd_record_gateway_error( __( 'Payment Error', 'easy-digital-downloads' ), sprintf( __( 'Payment creation failed before sending buyer to PayPal. Payment data: %s', 'easy-digital-downloads' ), json_encode( $payment_data ) ), $payment );
 			// Problems? send back
 			edd_send_back_to_checkout( '?payment-mode=' . $purchase_data['post_data']['edd-gateway'] );
@@ -412,8 +414,12 @@ class EDDAdjustments {
 
 			$paypal_args = apply_filters( 'edd_paypal_redirect_args', $paypal_args, $purchase_data );
 
+			$this->payment_log( 'PayPal arguments: ' . print_r( $paypal_args, true ) );
+
 			// Build query
 			$paypal_redirect .= http_build_query( $paypal_args );
+
+			$this->payment_log( 'PayPal refirect: ' . $paypal_redirect );
 
 			// Fix for some sites that encode the entities
 			$paypal_redirect = str_replace( '&amp;', '&', $paypal_redirect );
@@ -423,6 +429,28 @@ class EDDAdjustments {
 			exit;
 		}
 
+	}
+
+	public function payment_log( $message, $backtrace = false ) {
+		if( $backtrace ) {
+			ob_start();
+			debug_print_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
+			$trace = ob_get_contents();
+			ob_end_clean();
+			
+			$message.= chr(13 ) . $trace;
+		}
+
+		$url = $_SERVER['REQUEST_URI'];
+		$time = date('Y-m-d H:i:s' );
+		$microtime = microtime();
+
+		$line = 'PAYPAL log: ' . chr( 13 );
+		$line.= $time . ' - ' . $microtime .  ' - ' . $url . chr(13) . $message . chr(13 );
+
+		$file = fopen( WP_LOG_DIR . '/pamyents.log', 'a' );
+		fputs( $file, $line  );
+		fclose( $file );
 	}
 
 	public function _postTypeName( $defaults ) {
