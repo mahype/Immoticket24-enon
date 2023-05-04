@@ -258,6 +258,7 @@ class EDDAdjustments {
 
 	public function eddfix_process_paypal_purchase( $purchase_data ) {
 		if ( ! wp_verify_nonce( $purchase_data['gateway_nonce'], 'edd-gateway' ) ) {
+			$this->payment_log( 'PayPal nonce error: ' . print_r( $purchase_data, true ) );
 			wp_die( __( 'Nonce verification has failed', 'easy-digital-downloads' ), __( 'Error', 'easy-digital-downloads' ), array( 'response' => 403 ) );
 		}
 
