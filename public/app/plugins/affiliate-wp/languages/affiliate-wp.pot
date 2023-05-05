@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-04-13T20:28:34+00:00\n"
+"POT-Creation-Date: 2023-04-24T18:10:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: affiliate-wp\n"
@@ -57,7 +57,7 @@ msgid "Filters"
 msgstr ""
 
 #: includes/abstracts/class-affwp-reports-tab.php:160
-#: includes/admin/groups/class-connector.php:1953
+#: includes/admin/groups/class-connector.php:2433
 #: includes/admin/referrals/class-list-table.php:716
 #: includes/admin/visits/visits.php:73
 #: includes/class-creatives-groups.php:611
@@ -410,9 +410,6 @@ msgstr ""
 #: includes/admin/affiliates/affiliates.php:88
 #: includes/admin/affiliates/groups/class-connector.php:70
 #: includes/admin/affiliates/groups/class-management.php:78
-#: includes/admin/affiliates/groups/creatives/class-connector.php:74
-#: includes/admin/affiliates/groups/creatives/class-connector.php:882
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1402
 #: includes/admin/class-menu.php:47
 #: includes/admin/class-menu.php:76
 #: includes/admin/class-menu.php:85
@@ -451,11 +448,11 @@ msgstr ""
 #: includes/admin/creatives/class-list-table.php:116
 #: includes/admin/creatives/edit.php:35
 #: includes/admin/creatives/new.php:34
-#: includes/admin/groups/class-management.php:988
-#: includes/admin/groups/class-management.php:1365
-#: includes/admin/groups/class-management.php:1451
-#: includes/admin/groups/class-management.php:1499
-#: includes/admin/groups/class-management.php:1582
+#: includes/admin/groups/class-management.php:1010
+#: includes/admin/groups/class-management.php:1387
+#: includes/admin/groups/class-management.php:1473
+#: includes/admin/groups/class-management.php:1521
+#: includes/admin/groups/class-management.php:1604
 #: includes/admin/tools/export/class-batch-export-referrals.php:155
 #: includes/admin/tools/export/class-export-affiliates.php:51
 #: includes/admin/tools/export/class-export-referrals.php:66
@@ -637,7 +634,7 @@ msgstr ""
 #: includes/admin/affiliates/class-list-table.php:665
 #: includes/admin/creatives/class-list-table.php:299
 #: includes/admin/creatives/class-list-table.php:343
-#: includes/admin/groups/class-management.php:1545
+#: includes/admin/groups/class-management.php:1567
 #: includes/admin/payouts/class-list-table.php:493
 #: includes/admin/payouts/class-list-table.php:590
 #: includes/admin/referrals/class-list-table.php:579
@@ -1034,7 +1031,7 @@ msgstr ""
 #: includes/admin/affiliates/groups/class-connector.php:72
 #: includes/admin/affiliates/groups/class-management.php:80
 #: includes/admin/affiliates/groups/class-management.php:82
-#: includes/admin/affiliates/groups/creatives/class-connector.php:73
+#: includes/admin/affiliates/groups/creatives/class-connector.php:74
 msgid "Groups"
 msgstr ""
 
@@ -1094,12 +1091,10 @@ msgid "Per Product"
 msgstr ""
 
 #: includes/admin/affiliates/groups/class-management.php:81
-#: includes/admin/affiliates/groups/creatives/class-connector.php:591
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1336
 msgid "Affiliate Groups"
 msgstr ""
 
-#: includes/admin/affiliates/groups/creatives/class-connector.php:70
+#: includes/admin/affiliates/groups/creatives/class-connector.php:72
 #: includes/admin/class-menu.php:89
 #: includes/admin/creatives/categories/class-connector.php:66
 #: includes/admin/creatives/categories/class-management.php:63
@@ -1110,7 +1105,7 @@ msgstr ""
 msgid "Creatives"
 msgstr ""
 
-#: includes/admin/affiliates/groups/creatives/class-connector.php:71
+#: includes/admin/affiliates/groups/creatives/class-connector.php:73
 #: includes/admin/creatives/categories/class-connector.php:67
 #: includes/admin/creatives/categories/class-management.php:64
 #: includes/creative-functions.php:44
@@ -1123,51 +1118,55 @@ msgstr ""
 msgid "Affiliate Group"
 msgstr ""
 
-#: includes/admin/affiliates/groups/creatives/class-connector.php:264
+#: includes/admin/affiliates/groups/creatives/class-connector.php:255
+#: includes/admin/affiliates/groups/creatives/class-connector.php:747
 msgid "Public"
 msgstr ""
 
-#: includes/admin/affiliates/groups/creatives/class-connector.php:289
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1230
-msgid "Privacy"
+#: includes/admin/affiliates/groups/creatives/class-connector.php:279
+msgid "Private & Public"
+msgstr ""
+
+#: includes/admin/affiliates/groups/creatives/class-connector.php:303
+msgid "Type to search affiliate groups and affiliates."
 msgstr ""
 
 #. Translators: %s is the name of the affiliate.
-#: includes/admin/affiliates/groups/creatives/class-connector.php:494
+#: includes/admin/affiliates/groups/creatives/class-connector.php:540
 msgid "Assign Affiliate: %s"
 msgstr ""
 
-#: includes/admin/affiliates/groups/creatives/class-connector.php:979
+#: includes/admin/affiliates/groups/creatives/class-connector.php:561
+msgid "(Affiliate)"
+msgstr ""
+
+#: includes/admin/affiliates/groups/creatives/class-connector.php:572
+msgid "(Affiliate Group)"
+msgstr ""
+
+#: includes/admin/affiliates/groups/creatives/class-connector.php:772
+#: includes/admin/affiliates/groups/creatives/class-connector.php:1464
+msgid "Privacy"
+msgstr ""
+
+#: includes/admin/affiliates/groups/creatives/class-connector.php:1229
 msgid "No affiliates in this group."
 msgstr ""
 
 #. Translators: %1$s is the instruction, %2$s is the link instruction.
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1276
-msgid "%1$s to share this creative privately with them."
+#: includes/admin/affiliates/groups/creatives/class-connector.php:1506
+msgid "Add %1$s and/or %2$s to share this creative privately with."
 msgstr ""
 
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1279
-msgid "Create affiliate groups"
+#: includes/admin/affiliates/groups/creatives/class-connector.php:1509
+msgid "affiliates"
 msgstr ""
 
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1285
-msgid "Select affiliate groups to share this creative with privately. Or, leave blank to share this creative publicly with all affiliates."
+#: includes/admin/affiliates/groups/creatives/class-connector.php:1513
+msgid "affiliate groups"
 msgstr ""
 
-#. Translators: %1$s is the instruction, %2$s is the link instruction.
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1294
-msgid "%1$s to share this creative privately with affiliates or %2$s to share this creative privately with affiliate groups."
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1297
-msgid "Add affiliates"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1301
-msgid "create affiliate groups"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1306
+#: includes/admin/affiliates/groups/creatives/class-connector.php:1518
 msgid "Select affiliate(s) and/or affiliate groups to share this creative privately. Or, leave blank to share this creative publicly with all affiliates."
 msgstr ""
 
@@ -2081,8 +2080,8 @@ msgid "Actions"
 msgstr ""
 
 #: includes/admin/creatives/class-list-table.php:263
-#: includes/admin/groups/class-management.php:1505
-#: includes/admin/groups/class-management.php:1533
+#: includes/admin/groups/class-management.php:1527
+#: includes/admin/groups/class-management.php:1555
 #: includes/admin/referrals/class-list-table.php:567
 #: includes/admin/user-profile.php:82
 msgid "Edit"
@@ -2307,12 +2306,11 @@ msgid "There are no referrals to show."
 msgstr ""
 
 #. Translators: %1$s is the name of the type (singular), %2$s is the name of the group.
-#: includes/admin/groups/class-connector.php:536
+#: includes/admin/groups/class-connector.php:989
 msgid "Assign %1$s: %2$s"
 msgstr ""
 
-#: includes/admin/groups/class-connector.php:596
-#: includes/admin/groups/class-connector.php:1587
+#: includes/admin/groups/class-connector.php:1047
 #: includes/admin/referrals/edit.php:129
 #: includes/admin/referrals/edit.php:200
 #: includes/admin/reports/tabs/class-referrals-reports-tab.php:71
@@ -2321,180 +2319,187 @@ msgid "None"
 msgstr ""
 
 #. Translators: %1$s is the grouping singular, %2$s is the item singlular.
-#: includes/admin/groups/class-connector.php:1726
+#: includes/admin/groups/class-connector.php:2111
 msgid "%1$sCreate%2$s %3$s %4$s to assign to this %5$s."
 msgstr ""
 
-#: includes/admin/groups/class-connector.php:1733
-#: includes/admin/groups/class-connector.php:1769
+#: includes/admin/groups/class-connector.php:2118
+#: includes/admin/groups/class-connector.php:2154
 msgid "one or more"
 msgstr ""
 
-#: includes/admin/groups/class-connector.php:1734
-#: includes/admin/groups/class-connector.php:1770
+#: includes/admin/groups/class-connector.php:2119
+#: includes/admin/groups/class-connector.php:2155
 msgid "a"
 msgstr ""
 
 #. Translators: %1$s is the language for plural or single selection,  %2$s is the grouping singular, %3$s is the item singlular. E.g.: 'Select a group for this affiliate.', or 'Select one or more groups for this affiliate.'
-#: includes/admin/groups/class-connector.php:1767
+#: includes/admin/groups/class-connector.php:2152
 msgid "Select %1$s %2$s for this %3$s."
 msgstr ""
 
+#. Translators: %s is the group plural.
+#: includes/admin/groups/class-connector.php:2217
+#: includes/admin/groups/class-connector.php:2461
+msgid "Type to search all %s."
+msgstr ""
+
+#. Translators: %s is the group plural/single.
+#: includes/admin/groups/class-connector.php:2491
+msgid "No %s"
+msgstr ""
+
+#. Translators: %s is the group plural (always plural).
 #. Translators: %s is the translated name of the group, e.g. Categories.
-#: includes/admin/groups/class-connector.php:1868
+#: includes/admin/groups/class-connector.php:2519
 #: includes/class-creatives-groups.php:593
 msgid "All %s"
 msgstr ""
 
-#. Translators: %s is the translated name of the group, e.g. Categories.
-#: includes/admin/groups/class-connector.php:1880
-msgid "No %s"
-msgstr ""
-
-#: includes/admin/groups/class-management.php:321
-#: includes/admin/groups/class-management.php:711
+#: includes/admin/groups/class-management.php:343
+#: includes/admin/groups/class-management.php:733
 msgid "Name cannot be empty."
 msgstr ""
 
-#: includes/admin/groups/class-management.php:331
-#: includes/admin/groups/class-management.php:483
+#: includes/admin/groups/class-management.php:353
+#: includes/admin/groups/class-management.php:505
 msgid "Unknown error."
 msgstr ""
 
 #. translators: %1$s is the name of the item you can act on %2$s is the name of the item.
-#: includes/admin/groups/class-management.php:353
+#: includes/admin/groups/class-management.php:375
 msgid "Unable to add %1$s %2$s because it already exists."
 msgstr ""
 
 #. translators: %1$s is the name of the item you can act on %2$s is the name of the item.
-#: includes/admin/groups/class-management.php:368
+#: includes/admin/groups/class-management.php:390
 msgid "Unable to add %1$s %2$s."
 msgstr ""
 
 #. translators: %1$s is the name of the item you can act on %2$s is the name of the item.
-#: includes/admin/groups/class-management.php:388
+#: includes/admin/groups/class-management.php:410
 msgid "Added %1$s %2$s."
 msgstr ""
 
 #. Translators: .
-#: includes/admin/groups/class-management.php:471
+#: includes/admin/groups/class-management.php:493
 msgid "Unable to delete %s."
 msgstr ""
 
 #. Translators: .
-#: includes/admin/groups/class-management.php:497
-#: includes/admin/groups/class-management.php:739
+#: includes/admin/groups/class-management.php:519
+#: includes/admin/groups/class-management.php:761
 msgid "%s does not exist."
 msgstr ""
 
 #. Translators: .
-#: includes/admin/groups/class-management.php:513
+#: includes/admin/groups/class-management.php:535
 msgid "Unknown error deleting %s."
 msgstr ""
 
 #. Translators: .
-#: includes/admin/groups/class-management.php:529
+#: includes/admin/groups/class-management.php:551
 msgid "Unable to delete %1$s %2$s."
 msgstr ""
 
 #. Translators: .
-#: includes/admin/groups/class-management.php:547
+#: includes/admin/groups/class-management.php:569
 msgid "Unknown error while deleting %s."
 msgstr ""
 
 #. translators: %1$s is the name of the item you can act on %2$s is the name of the item.
-#: includes/admin/groups/class-management.php:557
+#: includes/admin/groups/class-management.php:579
 msgid "Deleted %1$s %2$s."
 msgstr ""
 
 #. Translators: .
-#: includes/admin/groups/class-management.php:689
-#: includes/admin/groups/class-management.php:801
+#: includes/admin/groups/class-management.php:711
+#: includes/admin/groups/class-management.php:823
 msgid "Unable to update %s."
 msgstr ""
 
-#: includes/admin/groups/class-management.php:723
+#: includes/admin/groups/class-management.php:745
 msgid "Group type error."
 msgstr ""
 
 #. translators: %1$s is the name of the group type.
-#: includes/admin/groups/class-management.php:760
+#: includes/admin/groups/class-management.php:782
 msgid "Updated %1$s."
 msgstr ""
 
 #. Translators: .
-#: includes/admin/groups/class-management.php:781
+#: includes/admin/groups/class-management.php:803
 msgid "A %1$s with the name %2$s already exists."
 msgstr ""
 
 #. translators: %1$s is the name of the group tyoe and %2$s is the value it was updated to.
-#: includes/admin/groups/class-management.php:813
+#: includes/admin/groups/class-management.php:835
 msgid "Updated %1$s to %2$s."
 msgstr ""
 
-#: includes/admin/groups/class-management.php:931
+#: includes/admin/groups/class-management.php:953
 msgid "Group no longer exists."
 msgstr ""
 
-#: includes/admin/groups/class-management.php:947
+#: includes/admin/groups/class-management.php:969
 msgid "Unknown error trying to edit that group."
 msgstr ""
 
-#: includes/admin/groups/class-management.php:1004
-#: includes/admin/groups/class-management.php:1378
+#: includes/admin/groups/class-management.php:1026
+#: includes/admin/groups/class-management.php:1400
 msgid "The name is how it appears on your site."
 msgstr ""
 
-#: includes/admin/groups/class-management.php:1033
+#: includes/admin/groups/class-management.php:1055
 msgid "Update"
 msgstr ""
 
-#: includes/admin/groups/class-management.php:1039
+#: includes/admin/groups/class-management.php:1061
 #: includes/admin/payouts/preview.php:445
 #: includes/admin/payouts/preview.php:475
 msgid "Cancel"
 msgstr ""
 
 #. translators: %s is the name of the group type.
-#: includes/admin/groups/class-management.php:1358
-#: includes/admin/groups/class-management.php:1399
+#: includes/admin/groups/class-management.php:1380
+#: includes/admin/groups/class-management.php:1421
 msgid "Add New %s"
 msgstr ""
 
 #. translators: %s is the plural title of this list.
-#: includes/admin/groups/class-management.php:1421
+#: includes/admin/groups/class-management.php:1443
 msgid "%s list"
 msgstr ""
 
 #. Translators: %s is the number of groups.
-#: includes/admin/groups/class-management.php:1431
-#: includes/admin/groups/class-management.php:1621
+#: includes/admin/groups/class-management.php:1453
+#: includes/admin/groups/class-management.php:1643
 msgid "%d items"
 msgstr ""
 
-#: includes/admin/groups/class-management.php:1474
-#: includes/admin/groups/class-management.php:1570
-#: includes/admin/groups/class-management.php:1605
+#: includes/admin/groups/class-management.php:1496
+#: includes/admin/groups/class-management.php:1592
+#: includes/admin/groups/class-management.php:1627
 msgid "Count"
 msgstr ""
 
 #. Translators:
-#: includes/admin/groups/class-management.php:1531
+#: includes/admin/groups/class-management.php:1553
 msgid "Edit %s"
 msgstr ""
 
 #. Translators:
-#: includes/admin/groups/class-management.php:1541
+#: includes/admin/groups/class-management.php:1563
 msgid "Delete %s"
 msgstr ""
 
 #. translators: %1$s is the item you can delete, %2$s plural name of the items.
-#: includes/admin/groups/class-management.php:1629
+#: includes/admin/groups/class-management.php:1651
 msgid "Deleting a %1$s does not delete the %2$s in that %1$s."
 msgstr ""
 
 #. Translators: %s is the single name of the grouping being managed here, e.g. "creative".
-#: includes/admin/groups/class-management.php:1780
+#: includes/admin/groups/class-management.php:1802
 msgid "You are about to permanently delete this %s from your site. This action cannot be undone. 'Cancel' to stop, 'OK' to delete."
 msgstr ""
 

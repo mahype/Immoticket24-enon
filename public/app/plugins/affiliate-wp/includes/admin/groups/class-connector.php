@@ -27,6 +27,7 @@
 
 // phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Empty lines okay for formatting here.
 // phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Empty lines are okay.
+// phpcs:disable PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket, PEAR.Functions.FunctionCallSignature.CloseBracketLine -- Allow surrounding code w/out line breaks.
 
 namespace AffiliateWP\Admin\Groups;
 
@@ -39,7 +40,7 @@ require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-data.php';
 require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-select2.php';
 require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-hooks.php';
 require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-db.php';
-
+require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-transients.php';
 
 /**
  * Connecting Items to Groups.
@@ -64,6 +65,7 @@ abstract class Connector {
 	use \AffiliateWP\Utils\Select2;
 	use \AffiliateWP\Utils\Hooks;
 	use \AffiliateWP\Utils\DB;
+	use \AffiliateWP\Utils\Transients;
 
 	/**
 	 * Capability for UI pages.
@@ -261,6 +263,462 @@ abstract class Connector {
 		$this->validate_properties();
 		$this->register_item_connectable();
 		$this->hooks();
+
+		if ( wp_doing_ajax() ) {
+
+			// AJAX Hooks for group selector, etc.
+			$this->ajax_hooks();
+		}
+	}
+
+	/**
+	 * AJAX hooks.
+	 *
+	 * @since 2.13.2
+	 */
+	private function ajax_hooks() : void {
+
+		add_action( "wp_ajax_{$this->get_group_selector_select2_ajax_action()}", array( $this, 'group_selector_select2_ajax_response' ) );
+		add_action( "wp_ajax_{$this->get_group_selector_filter_select2_ajax_action()}", array( $this, 'group_selector_filter_select2_ajax_response' ) );
+	}
+
+	/**
+	 * Select2 AJAX Response for Filtering.
+	 *
+	 * @since 2.13.2
+	 */
+	public function group_selector_filter_select2_ajax_response() : void {
+
+		if ( ! is_admin() ) {
+			exit; // We only do this in the admin.
+		}
+
+		if ( ! current_user_can( $this->capability ) ) {
+			exit; // We only allow users with right caps to do this.
+		}
+
+		if ( ! wp_verify_nonce( $_GET['nonce'], $this->nonce_action( 'filter', 'groups' ) ) ) {
+			exit;
+		}
+
+		$per_page = absint(
+
+			/**
+			 * Filter how many (per page) are shown in the selector select2 drop-dowwns each AJAX request.
+			 *
+			 * @since 2.13.2
+			 *
+			 * @param int    $per_page   Items per page/AJAX request.
+			 * @param string $group_type Group type of the connector.
+			 * @param string $item       Item of the connector.
+			 */
+			apply_filters( 'affwp_connector_select2_filter_per_page', 20, $this->group_type, $this->item )
+		);
+
+		$page = absint( $_GET['page'] ?? 1 );
+
+		$paginated = $this->get_paginated_groups_in_select2_json_format( $page, $per_page, $this->get_select2_ajax_search_term() );
+
+		$search = trim( $this->get_select2_ajax_search_term() );
+
+		wp_send_json(
+
+			/**
+			 * Filter the response we hand back to the select2 dropdown (when filtering).
+			 *
+			 * @since 2.13.2
+			 *
+			 * @param array  $response   The response.
+			 * @param string $group_type The group type of the connector.
+			 * @param string $item       The item of the connector.
+			 * @param int    $per_page   How many per page.
+			 * @param int    $page       The page we're on.
+			 * @param array  $paginated  The paginated subset we are sending back.
+			 * @param string $search     The search term if any.
+			 */
+			apply_filters(
+				'affwp_connector_group_selector_filter_ajax_response',
+
+				// The results we'll show on the frontend.
+				array(
+					'pagination' => array(
+						'more' => empty( $paginated ) || count( $paginated ) < $per_page
+							? false
+							: true,
+					),
+					'results'    => array_merge(
+
+						// Show when there is no search and only on the first page.
+						empty( $search ) && 1 === $page
+
+							? array(
+
+								// All groups.
+								$this->esc_select_2_json_item( array(
+									'id'   => 0,
+
+									// Translators: %s is the group plural.
+									'text' => $this->get_all_groups_text(),
+								) ),
+
+								// No groups...
+								$this->esc_select_2_json_item( array(
+									'id'   => 'none',
+
+									// Translators: %s is the group plural.
+									'text' => $this->get_no_groups_text(),
+								) ),
+							)
+
+							// There's a search or it's paged, don't show All and None options.
+							: array(),
+						array_values( $paginated )
+					),
+				),
+				$this->group_type,
+				$this->item,
+				$per_page,
+				$page,
+				$paginated,
+				$search
+			)
+		);
+	}
+
+	/**
+	 * Respond to the group selector's AJAX request.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @return void Sends back JSON data.
+	 */
+	public function group_selector_select2_ajax_response() : void {
+
+		if ( ! is_admin() ) {
+			exit; // We only do this in the admin.
+		}
+
+		if ( ! current_user_can( $this->capability ) ) {
+			exit; // We only allow users with right caps to do this.
+		}
+
+		if ( ! wp_verify_nonce( $_GET['nonce'], $this->nonce_action( 'select', 'groups' ) ) ) {
+			exit;
+		}
+
+		$per_page = absint(
+
+			/**
+			 * Filter how many (per page) are shown in the selector select2 drop-dowwns each AJAX request.
+			 *
+			 * @since 2.13.2
+			 *
+			 * @param int    $per_page   Items per page/AJAX request.
+			 * @param string $group_type Group type of the connector.
+			 * @param string $item       Item of the connector.
+			 */
+			apply_filters( 'affwp_connector_group_selector_select2_per_page', 20, $this->group_type, $this->item )
+		);
+
+		// Current page requested by Select2.
+		$page = absint( $_GET['page'] ?? 1 );
+
+		$paginated = $this->get_paginated_groups_in_select2_json_format( $page, $per_page, $this->get_select2_ajax_search_term() );
+
+		// Add None option on single-selectors on page 1.
+		$paginated = ( 'single' === $this->selector_type )
+
+			// Add none to page 1 of single type selectors...
+			? array_merge(
+				( 1 === $page )
+
+					// Add none option on the first page only.
+					? array(
+						$this->esc_select_2_json_item(
+							array(
+								'id'   => 'none',
+								'text' => $this->get_none_text(),
+							)
+						),
+					)
+
+					// Don't add none to any other pages.
+					: array(),
+				$paginated
+			)
+
+			// Don't add none to multiple selector types.
+			: $paginated;
+
+		wp_send_json(
+
+			/**
+			 * Filter the response we hand back to the select2 dropdown.
+			 *
+			 * @since 2.13.2
+			 *
+			 * @param array  $response   The response.
+			 * @param string $group_type The group type of the connector.
+			 * @param string $item       The item of the connector.
+			 * @param int    $per_page   How many per page.
+			 * @param int    $page       The page we're on.
+			 * @param array  $paginated  The paginated subset we are sending back.
+			 * @param string $search     The search term if any.
+			 */
+			apply_filters(
+				'affwp_connector_group_selector_ajax_response',
+
+				// The results we'll show on the frontend.
+				array(
+					'pagination' => array(
+						'more' => empty( $paginated ) || count( $paginated ) < $per_page
+							? false
+							: true,
+					),
+					'results'    => array_values( $paginated ),
+				),
+				$this->group_type,
+				$this->item,
+				$per_page,
+				$page,
+				$paginated,
+				trim( $this->get_select2_ajax_search_term() )
+			),
+		);
+	}
+
+	/**
+	 * Get the search term passed over AJAX from Select2.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @return string
+	 */
+	private function get_select2_ajax_search_term() : string {
+
+		$term = filter_input( INPUT_GET, 'term', FILTER_UNSAFE_RAW );
+
+		if ( ! is_string( $term ) ) {
+			return '';
+		}
+
+		return $this->strip_quotes( stripslashes_deep( trim( html_entity_decode( $term ) ) ) );
+	}
+
+	/**
+	 * Strip quotes from string.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param string $string The string.
+	 *
+	 * @return string
+	 */
+	protected function strip_quotes( string $string ) : string {
+
+		return str_replace(
+			array(
+				"'",
+				'"',
+			),
+			array(
+				'',
+				'',
+			),
+			$string
+		);
+	}
+	/**
+	 * Get a slice of groups.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param int    $page     The current page from Select2 AJAX call.
+	 * @param int    $per_page The per page setting.
+	 * @param string $search   The search term, if any from Select2 AJAX call.
+	 *
+	 * @return array
+	 */
+	private function get_paginated_groups_in_select2_json_format(
+		int $page,
+		int $per_page,
+		string $search = ''
+	) : array {
+
+		return array_slice(
+			$this->get_groups_in_select2_json_format(
+				trim( $search )
+			),
+			absint( ( $per_page * $page ) - $per_page ), // Offset.
+			$per_page
+		);
+	}
+
+	/**
+	 * Sanitize Select2 JSON object for output.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param array $item An individual item.
+	 *
+	 * @return array
+	 */
+	protected function esc_select_2_json_item( array $item = array() ) {
+
+		$selected = isset( $item['selected'] )
+			? true === $item['selected']
+			: false;
+
+		return array_merge(
+			$item,
+			array(
+				'id'       => esc_attr( $item['id'] ?? 0 ),
+				'text'     => html_entity_decode(
+
+					// Select2 doesn't like a tick mark ' so use a substitute.
+					str_replace(
+						'&#039;',
+						'&#x2019;',
+						esc_attr( esc_html( $item['text'] ?? '' ) )
+					),
+					ENT_COMPAT
+				),
+				'selected' => (bool) $selected,
+			)
+		);
+	}
+
+	/**
+	 * Is search found in text?
+	 *
+	 * This is specifically for working with Select2 AJAX JSON values for "text",
+	 * as they might have special characters that mess up HTML and JavaScript,
+	 * especially over AJAX.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param string $text   The text.
+	 * @param string $search The search.
+	 *
+	 * @return bool
+	 */
+	protected function stristr_search_select_2_text( string $text, string $search ) : bool {
+
+		return stristr(
+			$this->strip_quotes( html_entity_decode( strtolower( trim( $text ) ) ) ),
+			$this->strip_quotes( strtolower( $search ) )
+		);
+	}
+
+	/**
+	 * Get all groups in select 2 format for AJAX.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param string $search You can include a search term.
+	 *
+	 * @return array
+	 */
+	private function get_groups_in_select2_json_format( string $search = '' ) : array {
+
+		static $all_groups = array();
+
+		if ( empty( $all_groups ) ) {
+			$all_groups = $this->get_all_groups_for_connector();
+		}
+
+		$transient_key = $this->create_data_transient_key(
+			'connector_get_groups_in_select2_format_',
+			array(
+				$search,
+				$all_groups,
+				$this->group_type,
+				$this->item,
+			)
+		);
+
+		$cache = get_transient( $transient_key );
+
+		if ( is_array( $cache ) ) {
+
+			/** This filter is documented below. */
+			return apply_filters(
+				'get_groups_in_select2_json_format',
+				$cache,
+				$search,
+				$this->group_type,
+				$this->item
+			);
+		}
+
+		$results = array_map(
+			function( $group ) {
+
+				// Convert each group to a select2 item.
+				return $this->esc_select_2_json_item(
+					array(
+						'id'   => $group->get_id(),
+						'text' => $group->get_title(),
+					)
+				);
+			},
+			array_filter(
+				$all_groups,
+
+				// Filter out groups that don't have the requested search string.
+				function( $group ) use ( $search ) {
+
+					return empty( $search )
+
+						// Include when on search text sent.
+						? true
+
+						// Restrict to search.
+						: $this->stristr_search_select_2_text( $group->get_title(), $search );
+				}
+			)
+		);
+
+		set_transient(
+			$transient_key,
+			$results,
+			absint(
+
+				/**
+				 * Filter how long the cache persists.
+				 *
+				 * @since 2.13.2
+				 *
+				 * @param int    $length     Number in seconds.
+				 * @param string $group_type Group type of the connector.
+				 * @param string $item       Item of the connector.
+				 */
+				apply_filters(
+					'affwp_connector_get_groups_in_select2_json_format_cache_timeout',
+					5,
+					$this->group_type,
+					$this->item
+				)
+			)
+		);
+
+		/**
+		 * Filter the results of groups in JSON format.
+		 *
+		 * @since 2.13.2
+		 *
+		 * @param array $results     Results.
+		 * @param string $search     Search term, if any.
+		 * @param string $group_type Group type of the connector.
+		 * @param string $item       Item of the connector.
+		 */
+		return apply_filters(
+			'get_groups_in_select2_json_format',
+			$results,
+			$search,
+			$this->group_type,
+			$this->item
+		);
 	}
 
 	/**
@@ -396,6 +854,7 @@ abstract class Connector {
 		add_action( $this->filter_hook_name( "affwp_{$this->item}s_bulk_actions" ), array( $this, 'add_assign_to_bulk_actions' ) );
 		add_action( $this->filter_hook_name( "affwp_{$this->item}_bulk_actions" ), array( $this, 'add_assign_to_bulk_actions' ) );
 
+		// Save bulk actions.
 		foreach ( $this->get_assign_to_bulk_items() as $action => $name ) {
 			add_action( $this->filter_hook_name( "affwp_{$this->item}s_do_bulk_action_{$action}" ), array( $this, 'connect_bulk_applied_group_to_item' ) );
 		}
@@ -509,6 +968,31 @@ abstract class Connector {
 	 */
 	public function add_assign_to_bulk_actions( array $actions ) : array {
 
+		if (
+
+			/**
+			 * Filter whether this feature is enabled or disabled.
+			 *
+			 * @since 2.13.2 We decided to remove this functionality due to
+			 *                  performance implications, but if you want to enable it
+			 *                  filter this value.
+			 *
+			 * @param bool   $disabled   Set to true (default) to disable.
+			 * @param string $group_type Group type of the connector.
+			 * @param string $item       The item type of the connector.
+			 * @param array  $action     The actions.
+			 */
+			apply_filters(
+				'affwp_connector_disable_assign_to_groups_bulk_actions',
+				true,
+				$this->group_type,
+				$this->item,
+				$actions
+			)
+		) {
+			return $actions;
+		}
+
 		return array_merge(
 			$actions,
 			$this->get_assign_to_bulk_items()
@@ -526,7 +1010,7 @@ abstract class Connector {
 
 		$assign_to_groups = array();
 
-		foreach ( $this->get_all_groups() as $group ) {
+		foreach ( $this->get_all_groups_for_connector() as $group ) {
 
 			// Add bulk item value (used to assign) and output name.
 			$assign_to_groups[ "assign-{$this->group_type}:{$group->get_id()}" ] = esc_html(
@@ -546,8 +1030,6 @@ abstract class Connector {
 		 * @param array  $items      The bulk items the connector adds.
 		 * @param string $group_type The group type of the connector.
 		 * @param string $item       The item of the connector.
-		 *
-		 * phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- Used to cache.
 		 */
 		return apply_filters( 'affwp_connector_bulk_items', $assign_to_groups, $this->group_type, $this->item );
 	}
@@ -582,21 +1064,7 @@ abstract class Connector {
 			throw new \InvalidArgumentException( "\$item must have a valid ID stored in object property '{$property}'." );
 		}
 
-		/**
-		 * Filter the value for None when there are no groups.
-		 *
-		 * @since 2.13.0
-		 *
-		 * @param string $none       The value for None when there are none.
-		 * @param string $group_type The group type of the connector.
-		 * @param string $item       The item of the connector.
-		 */
-		$none = apply_filters(
-			'affwp_connector_column_contents_none',
-			esc_html__( 'None', 'affiliate-wp' ),
-			$this->group_type,
-			$this->item
-		);
+		$none = $this->get_none_text();
 
 		// Get connected groups to the item.
 		$connected_groups = array_filter(
@@ -1100,26 +1568,6 @@ abstract class Connector {
 	}
 
 	/**
-	 * Is the filtered group ID selected from the dropdown?
-	 *
-	 * @since  2.12.0
-	 *
-	 * @param int $group_id The group ID.
-	 *
-	 * @return bool
-	 *
-	 * @throws \InvalidArgumentException If you do not pass a positive numeric value for group ID.
-	 */
-	private function filtered_dropdown_group_is_selected( $group_id ) {
-
-		if ( ! $this->is_numeric_and_gt_zero( $group_id ) ) {
-			throw new \InvalidArgumentException( '$group_id must be a positive numeric value.' );
-		}
-
-		return intval( filter_input( INPUT_GET, $this->get_filter_dropdown_key(), FILTER_SANITIZE_NUMBER_INT ) ) === intval( $group_id );
-	}
-
-	/**
 	 * The key we use to store the selected group from the drop-down.
 	 *
 	 * @since 2.13.0
@@ -1264,14 +1712,14 @@ abstract class Connector {
 	}
 
 	/**
-	 * Was no group (-1) selected from the drop-down?
+	 * Was no group selected from the drop-down?
 	 *
 	 * @since 2.13.0
 	 *
 	 * @return bool
 	 */
 	private function no_group_selected() : bool {
-		return -1 === intval( $this->get_selected_group() );
+		return 'none' === $this->get_selected_group();
 	}
 
 	/**
@@ -1421,7 +1869,7 @@ abstract class Connector {
 	 *
 	 * @return array
 	 */
-	private function get_all_groups( string $sorted = 'alpha' ) {
+	private function get_all_groups_for_connector( string $sorted = 'alpha' ) {
 
 		if ( empty( trim( $sorted ) ) ) {
 			$sorted = 'none'; // So we can cache unsorted groups.
@@ -1445,11 +1893,56 @@ abstract class Connector {
 
 			ksort( $alpha );
 
-			// Return alpha groups (alpha).
-			return $alpha; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- We are just caching the result at runtime.
+			/** This filter is documented below. */
+			return apply_filters(
+				'affwp_connector_get_all_groups_for_connector',
+				$alpha,
+				$this->group_type,
+				$this->item,
+				$sorted
+			);
 		}
 
-		return $groups;
+		/**
+		 * Filter all the groups for the connector.
+		 *
+		 * @param array  $groups     Groups for the connector.
+		 * @param string $group_type Group type for the connector.
+		 * @param string $item       The item for the connector.
+		 */
+		return apply_filters(
+			'affwp_connector_get_all_groups_for_connector',
+			$groups,
+			$this->group_type,
+			$this->item,
+			$sorted
+		);
+	}
+
+	/**
+	 * The value for None in single type selectors.
+	 *
+	 * @since 2.13.3
+	 *
+	 * @return string
+	 */
+	private function get_none_text() : string {
+
+		/**
+		 * Filter the value for None when there are no groups.
+		 *
+		 * @since 2.13.0
+		 *
+		 * @param string $none       The value for None when there are none.
+		 * @param string $group_type The group type of the connector.
+		 * @param string $item       The item of the connector.
+		 */
+		return apply_filters(
+			'affwp_connector_column_contents_none',
+			esc_html__( 'None', 'affiliate-wp' ),
+			$this->group_type,
+			$this->item
+		);
 	}
 
 	/**
@@ -1474,7 +1967,7 @@ abstract class Connector {
 			throw new \InvalidArgumentException( "\$item must have a valid ID stored in object property '{$property}'." );
 		}
 
-		$groups = $this->get_all_groups();
+		$groups = $this->get_all_groups_for_connector();
 
 		/** This filter is documented in includes/admin/groups/class-management.php::broadcast_management_link(). */
 		$management_link = apply_filters( strtolower( "affwp_connector_{$this->item_single}_href" ), '' );
@@ -1496,7 +1989,7 @@ abstract class Connector {
 		 */
 		$disabled = apply_filters(
 			'affwp_connector_group_selector_disabled',
-			empty( $this->get_all_groups() ),
+			empty( $this->get_all_groups_for_connector() ),
 			$this->group_type,
 			$this->item
 		);
@@ -1572,6 +2065,12 @@ abstract class Connector {
 						.select2-search--dropdown .select2-search__field {
 							padding: 0 4px !important;
 						}
+
+						.select2-container--default .select2-selection--single {
+							min-height: 32px;
+							height: 32px;
+						}
+
 					</style>
 
 					<select
@@ -1580,125 +2079,56 @@ abstract class Connector {
 						style="min-width: 350px;"
 						class="select2"
 						data-label="<?php echo esc_attr( "{$this->item}_{$this->group_type}" ); ?>_groups[]"
-						data-args='{ "disabled": <?php echo esc_attr( $disabled ? 'true' : 'false' ); ?> }'
+						data-placeholder="<?php /* Translators: %s is the group plural. */ echo esc_attr( $this->get_group_selector_placeholder_text() ); ?>"
+						data-args='<?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentBeforeOpen,Squiz.PHP.EmbeddedPhp.ContentAfterOpen -- We want to avoid whitespace.
+
+						// Use AJAX to populate the drop-downs.
+						echo wp_json_encode(
+
+							/**
+							 * Filter the Select2 Arguments.
+							 *
+							 * @since 2.13.2
+							 *
+							 * @param array  $args       Arguments.
+							 * @param string $group_type The group type of the selector.
+							 * @param string $item       The item of the selector.
+							 */
+							apply_filters(
+								'affwp_connector_group_selector_select2_args',
+								array(
+									'minimumInputLength' => 0,
+									'disabled'           => $disabled ? true : false,
+
+									// The groups that should be initially selected.
+									'data'               => $this->get_select2_selected_groups_select2_json( $item ),
+
+									// Use AJAX to populate the drop-down w/ pagination.
+									'ajax'               => array(
+										'url'      => admin_url( 'admin-ajax.php' ),
+										'dataType' => 'json',
+										'cache'    => true,
+										'delay'    => 200,
+										'data'     => array(
+											'action' => $this->get_group_selector_select2_ajax_action(),
+											'nonce'  => wp_create_nonce(
+												$this->nonce_action( 'select', 'groups' ),
+												$this->nonce_action( 'select', 'groups' )
+											),
+										),
+									),
+								),
+								$this->group_type,
+								$this->item
+							)
+						); // phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect -- Indented correctly.
+
+						// phpcs:ignore Generic.WhiteSpace.ScopeIndent.IncorrectExact, Squiz.PHP.EmbeddedPhp.ContentAfterEnd -- Want to avoid whitespace.
+						?>'
 						<?php echo esc_attr( 'multiple' === $this->selector_type ? 'multiple' : '' ); ?>>
-
-						<?php if ( 'single' === $this->selector_type ) : ?>
-							<option><?php echo esc_html_e( 'None', 'affiliate-wp' ); ?></option>
-						<?php endif; ?>
-
-						<?php
-
-						/**
-						 * Before we list out the group options.
-						 *
-						 * @since 2.13.0
-						 *
-						 * @param string $group_type Group type.
-						 * @param string $item       Item.
-						 * @param array  $groups     The groups.
-						 */
-						do_action(
-							'affwp_group_connector_before_group_options',
-							$this->group_type,
-							$this->item,
-							$groups
-						);
-
-						?>
-
-						<?php
-
-						foreach ( $groups as $group ) :
-
-							?>
-
-							<?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentBeforeOpen -- We need to suppress extra whitespace. ?>
-							<option
-								value="<?php echo absint( $group->get_id() ); ?>"
-								<?php echo esc_attr( $this->is_group_selected( $group->get_id(), $item ) ? 'selected=selected' : '' ); ?>><?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentBeforeOpen, Squiz.PHP.EmbeddedPhp.ContentAfterOpen -- We want to eliminate whitespace.
-
-									echo esc_html(
-
-										/**
-										 * Filter the group name in the option.
-										 *
-										 * @since 2.13.0
-										 *
-										 * @param string $group_title Group title to filter.
-										 * @param string $group_Type   The connector group type.
-										 * @param string $item         The item of the connector.
-										 */
-										apply_filters(
-											'affwp_group_connector_group_name',
-											wp_trim_words( $group->get_title(), 10 ),
-											$group,
-											$this->group_type,
-											$this->item
-										)
-									);
-								?><?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen, Squiz.PHP.EmbeddedPhp.ContentAfterEnd, Squiz.PHP.EmbeddedPhp.ContentBeforeOpen -- We want to eliminate whitespace.
-
-								/**
-								 * Fire after showing the option for the group.
-								 *
-								 * @since 2.13.0
-								 *
-								 * @param \AffiliateWP\Groups\Group $group      Group object.
-								 * @param string                    $group_Type Group type.
-								 * @param string                    $item       The item.
-								 */
-								do_action(
-									'affwp_group_connector_after_group_option',
-									$group,
-									$this->group_type,
-									$this->item
-								);
-
-							// phpcs:ignore Generic.WhiteSpace.ScopeIndent.IncorrectExact, Squiz.PHP.EmbeddedPhp.ContentAfterEnd -- We want to supress whtiespace.
-							?></option>
-
-						<?php endforeach; ?>
-
-						<?php
-
-						/**
-						 * After we list out the group options.
-						 *
-						 * @since 2.13.0
-						 *
-						 * @param string $group_type Group type.
-						 * @param string $item       Item.
-						 * @param array  $groups     The groups we're working with.
-						 */
-						do_action(
-							'affwp_group_connector_after_group_options',
-							$this->group_type,
-							$this->item,
-							$groups
-						);
-
-						?>
-
-						<?php
-
-						/**
-						 * Fire after the group options.
-						 *
-						 * @since 2.13.0
-						 *
-						 * @param string $group_Type   The connector group type.
-						 * @param string $item         The item of the connector.
-						 * @param int    $item_id      The ID of the item.
-						 */
-						do_action(
-							'affwp_group_connector_after_groups_options',
-							$this->group_type,
-							$this->item,
-							isset( $item->$property ) ? $item->$property : 0
-						);
-
-						?>
+							<?php if ( 'single' === $this->selector_type ) : ?>
+								<option value="none"><?php echo esc_html( $this->get_none_text() ); ?></option>
+							<?php endif; ?>
 					</select>
 
 					<p class="description">
@@ -1807,6 +2237,127 @@ abstract class Connector {
 	}
 
 	/**
+	 * Get the placeholder text for the group selector.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @return string
+	 */
+	private function get_group_selector_placeholder_text() : string {
+
+		/**
+		 * Filter the selector placeholder text.
+		 *
+		 * @since 2.13.2
+		 *
+		 * @param string $placeholder The placeholder text.
+		 * @param string $group_type  The group type of the selector.
+		 * @param string $item        The item of the selector.
+		 */
+		return apply_filters(
+			'affwp_connector_group_selector_placeholder',
+			sprintf(
+
+				// Translators: %s is the group plural.
+				__( 'Type to search all %s.', 'affiliate-wp' ),
+				strtolower( $this->group_plural )
+			),
+			$this->group_type,
+			$this->item
+		);
+	}
+
+	/**
+	 * Get the action name for the AJAX selector (filtering).
+	 *
+	 * @since 2.13.2
+	 *
+	 * @return string
+	 */
+	private function get_group_selector_filter_select2_ajax_action() : string {
+		return "affwp_connector_filter_selector_{$this->item}_{$this->group_type}";
+	}
+
+	/**
+	 * Get the action name for the AJAX selector (selecting).
+	 *
+	 * @since 2.13.2
+	 *
+	 * @return string
+	 */
+	private function get_group_selector_select2_ajax_action() : string {
+		return "affwp_connector_group_selector_{$this->item}_{$this->group_type}";
+	}
+
+	/**
+	 * Get the selected groups (Select2).
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param mixed $item Item object.
+	 *
+	 * @return array
+	 */
+	private function get_select2_selected_groups_select2_json( $item ) : array {
+
+		/**
+		 * Filter the results of the selected groups.
+		 *
+		 * @since 2.13.2
+		 *
+		 * @param array  $selected    The selected items.
+		 * @param string $group_type  The group type of the selector.
+		 * @param string $item        The item of the selector.
+		 * @param mixed  $item_object The object groups would be connected to.
+		 */
+		return apply_filters(
+			'affwp_connector_get_selected_groups_select2_json',
+			array_values(
+				array_map(
+					function( $group ) {
+
+						// Return an array that Select2 understands.
+						return $this->esc_select_2_json_item(
+							array(
+								'id'       => $group->get_id(),
+								'text'     => $group->get_title(),
+
+								// Always selected.
+								'selected' => true,
+							)
+						);
+					},
+					$this->get_connected_item_groups( $item )
+				)
+			),
+			$this->group_type,
+			$this->item,
+			$item
+		);
+	}
+
+	/**
+	 * Get the connected groups for the item.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param mixed $item Item object.
+	 *
+	 * @return array Groups that are connected to the item (of the same group type as this connector).
+	 */
+	private function get_connected_item_groups( $item ) {
+
+		return array_filter(
+			$this->get_all_groups_for_connector(),
+			function ( $group ) use ( $item ) {
+
+				// Keep if the group is selected.
+				return $this->is_group_selected( $group->get_id(), $item );
+			}
+		);
+	}
+
+	/**
 	 * Are we on our admin page?
 	 *
 	 * @since  2.12.0
@@ -1835,7 +2386,7 @@ abstract class Connector {
 			return; // Never on the bottom.
 		}
 
-		$groups = $this->get_all_groups();
+		$groups = $this->get_all_groups_for_connector();
 
 		/**
 		 * Filter whether we show the dropdown or not.
@@ -1859,86 +2410,60 @@ abstract class Connector {
 
 		?>
 
-		<select name="<?php echo esc_attr( $this->get_filter_dropdown_key() ); ?>">
-
-			<option value="">
-				<?php
-
-				// Translators: %s is the translated name of the group, e.g. Categories.
-				echo esc_html( sprintf( __( 'All %s', 'affiliate-wp' ), $this->group_plural ) );
-
-				?>
-			</option>
-
-			<option
-				<?php echo esc_attr( -1 === intval( filter_input( INPUT_GET, $this->get_filter_dropdown_key(), FILTER_SANITIZE_NUMBER_INT ) ) ? 'selected' : '' ); ?>
-				value="-1">
-
-				<?php
-
-				// Translators: %s is the translated name of the group, e.g. Categories.
-				echo esc_html( sprintf( __( 'No %s', 'affiliate-wp' ), $this->group_plural ) );
-
-				?>
-			</option>
-
-			<?php
+		<style>
 
 			/**
-			 * Filters right before showing group options.
-			 *
-			 * @since 2.13.0
-			 *
-			 * @param string $group_type The group type of the connector.
-			 * @param string $item       The item of the connector.
-			 * @param string $wihich     The context (top/bottom) of the filter dropdown.
-			 * @param array  $groups     Array of group objects shown in the dropdown.
+			 * These are here to help make the Select2
+			 * look like WordPress in this position.
 			 */
-			do_action(
-				'affwp_connector_filter_dropdown_before_group_options',
-				$this->group_type,
-				$this->item,
-				$which,
-				$groups
-			);
 
-			?>
+			.select2-container--default .select2-selection {
+				height: 31px;
+				border-color: #8c8f94;
+			}
 
-			<?php foreach ( $groups as $group ) : ?>
-				<?php
+			.select2-search--dropdown .select2-search__field {
+				padding: 0 4px;
+			}
 
-				$group_id = $group->get_id();
+		</style>
 
-				?>
+		<select
+			name="<?php echo esc_attr( $this->get_filter_dropdown_key() ); ?>"
+			id="<?php echo esc_attr( $this->get_filter_dropdown_key() ); ?>"
+			class="select2 filter-dropdown"
+			style="min-width: 230px;"
+			data-placeholder="<?php /* Translators: %s is the group plural. */ echo esc_attr( $this->get_filter_dropdown_placeholer_text() ); ?>"
+			data-args='<?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentBeforeOpen,Squiz.PHP.EmbeddedPhp.ContentAfterOpen -- We want to avoid whitespace.
 
-				<option
-					<?php echo esc_attr( $this->filtered_dropdown_group_is_selected( $group_id ) ? 'selected' : '' ); ?>
-					value="<?php echo absint( $group_id ); ?>">
-						<?php echo esc_html( wp_trim_words( $group->get_title(), 10 ) ); ?>
-				</option>
-			<?php endforeach; ?>
+			// Use AJAX to populate the drop-downs.
+			echo wp_json_encode(
+				array(
+					'minimumInputLength' => 0,
 
-			<?php
+					// The groups that should be initially selected.
+					'data'               => $this->get_select2_filtered_groups_select2_json(),
 
-			/**
-			 * Fires after we output the dropdown options for the filter select.
-			 *
-			 * @since 2.13.0
-			 *
-			 * @param string $group_type The group type of the connector
-			 * @param string $item       The item of the connector.
-			 * @param string $wihich     The context (top/bottom) of the filter dropdown.
-			 * @param array  $groups     Array of group objects shown in the dropdown.
-			 */
-			do_action(
-				'affwp_connector_filter_dropdown_after_group_options',
-				$this->group_type,
-				$this->item,
-				$which,
-				$groups
-			);
+					// Use AJAX to populate the drop-down w/ pagination.
+					'ajax'               => array(
+						'url'      => admin_url( 'admin-ajax.php' ),
+						'dataType' => 'json',
+						'cache'    => true,
+						'delay'    => 200,
+						'data'     => array(
+							'action' => $this->get_group_selector_filter_select2_ajax_action(),
+							'nonce'  => wp_create_nonce(
+								$this->nonce_action( 'filter', 'groups' ),
+								$this->nonce_action( 'filter', 'groups' )
+							),
+						),
+					),
+				)
+			); // phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect -- Indented correctly.
 
-			?>
+			// phpcs:ignore Generic.WhiteSpace.ScopeIndent.IncorrectExact, Squiz.PHP.EmbeddedPhp.ContentAfterEnd -- Want to avoid whitespace.
+			?>'>
+				<!-- Populated via AJAX for performance reasons. -->
 		</select>
 
 		<?php
@@ -1950,9 +2475,189 @@ abstract class Connector {
 
 		?>
 
-		<input type="submit" class="button action" value="<?php esc_html_e( 'Filter', 'affiliate-wp' ); ?>">
+		<input type="submit" style="margin-right: 10px; margin-left: 2px" class="button action" value="<?php esc_html_e( 'Filter', 'affiliate-wp' ); ?>">
 
 		<?php
+	}
+
+	/**
+	 * The filter dropdown placeholder text.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @return string
+	 */
+	private function get_filter_dropdown_placeholer_text() : string {
+
+		/**
+		 * Filter the placeholder text.
+		 *
+		 * @since 2.13.2f
+		 *
+		 * @param string $placeholder The placeholder text.
+		 * @param string $group_type  The group type of the connector.
+		 * @param string $item        The item.
+		 */
+		return apply_filters(
+			'affwp_connector_filter_dropdown_placeholder',
+			sprintf(
+
+				// Translators: %s is the group plural.
+				__( 'Type to search all %s.', 'affiliate-wp' ),
+				strtolower( $this->group_plural )
+			),
+			$this->group_type,
+			$this->item
+		);
+	}
+
+	/**
+	 * String for no groups option.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @return string
+	 */
+	private function get_no_groups_text() : string {
+
+		/**
+		 * Filter the text for no groups.
+		 *
+		 * @since 2.13.2
+		 *
+		 * @param string $text       The text.
+		 * @param string $group_type The group type of the connector.
+		 * @param string $item       The item of the connector.
+		 */
+		return apply_filters(
+			'affwp_connector_no_groups_text',
+
+			// Translators: %s is the group plural/single.
+			sprintf( __( 'No %s', 'affiliate-wp' ), 'multiple' === $this->selector_type ? strtolower( $this->group_plural ) : strtolower( $this->group_single ) ),
+			$this->group_type,
+			$this->item
+		);
+	}
+
+	/**
+	 * Text for all groups option.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @return string
+	 */
+	private function get_all_groups_text() : string {
+
+		/**
+		 * Filter the text for all groups.
+		 *
+		 * @since 2.13.2
+		 *
+		 * @param string $text       The text.
+		 * @param string $group_type The group type of the connector.
+		 * @param string $item       The item of the connector.
+		 */
+		return apply_filters(
+			'affwp_connector_all_groups_text',
+
+			// Translators: %s is the group plural (always plural).
+			sprintf( __( 'All %s', 'affiliate-wp' ), strtolower( $this->group_plural ) ),
+			$this->group_type,
+			$this->item
+		);
+	}
+
+	/**
+	 * Get the initial filter drop-down options in Select2 JSON format.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @return array
+	 */
+	private function get_select2_filtered_groups_select2_json() : array {
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We sanitize this value, and aren't storing it.
+		$selected_filter_option = $_GET[ "filter-{$this->item}-{$this->group_type}-top" ] ?? '';
+
+		if ( 'none' === $selected_filter_option ) {
+
+			// No groups option selected...
+			return array(
+				$this->esc_select_2_json_item(
+					array(
+						'id'       => 'none',
+						'text'     => $this->get_no_groups_text(), // Filtered.
+						'selected' => true,
+					)
+				),
+			);
+		}
+
+		if ( empty( $selected_filter_option ) || (
+			is_numeric( $selected_filter_option ) && 0 === intval( $selected_filter_option )
+		) ) {
+
+			// All Groups...
+			return array(
+				$this->esc_select_2_json_item(
+					array(
+						'id'       => 0,
+						'text'     => $this->get_all_groups_text(), // Filtered.
+						'selected' => true,
+					)
+				),
+			);
+		}
+
+		// Non-numeric options aren't a group so it might be something else.
+		if ( ! is_numeric( $selected_filter_option ) ) {
+
+			/**
+			 * Filter the selected unknown item JSON.
+			 *
+			 * @since 2.13.2
+			 *
+			 * @param array  $json                   The JSON data for the unknown item.
+			 * @param string $group_type             The group type of the connector.
+			 * @param string $item                   The item of the connector.
+			 * @param mixed  $selected_filter_option The selected option we got from GET.
+			 */
+			return apply_filters(
+				'affwp_connector_filter_dropdown_selected_unknown_item_select2_json',
+				array(),
+				$this->group_type,
+				$this->item,
+				$selected_filter_option
+			);
+		}
+
+		$group = affiliate_wp()->groups->get_group( intval( $selected_filter_option ) );
+
+		/**
+		 * Filter the selected group JSON.
+		 *
+		 * @since 2.13.2
+		 *
+		 * @param array  $json       The JSON data for the selected group.
+		 * @param string $group_type The group type of the connector.
+		 * @param string $item       The item of the connector.
+		 * @param mixed  $group      Group object that will be shown.
+		 */
+		return apply_filters(
+			'affwp_connector_filter_dropdown_selected_group_select2_json',
+			array(
+				$this->esc_select_2_json_item(
+					array(
+						'id'       => esc_html( $group->get_id() ),
+						'text'     => esc_html( $group->get_title() ),
+						'selected' => true,
+					)
+				),
+			),
+			$this->group_type,
+			$this->item,
+			$group
+		);
 	}
 
 	/**
