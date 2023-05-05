@@ -420,7 +420,7 @@ class EDDAdjustments {
 			// Build query
 			$paypal_redirect .= http_build_query( $paypal_args );
 
-			$this->payment_log( 'PayPal refirect: ' . $paypal_redirect );
+			$this->payment_log( 'PayPal redirect: ' . $paypal_redirect );
 
 			// Fix for some sites that encode the entities
 			$paypal_redirect = str_replace( '&amp;', '&', $paypal_redirect );
