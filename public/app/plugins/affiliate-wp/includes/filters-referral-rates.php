@@ -94,7 +94,7 @@ function affwp_maybe_override_affiliate_group_rate_type( string $type, $affiliat
 	// Prefer the rate set in the affiliate group.
 	return $group_meta['rate-type'];
 }
-// add_filter( 'affwp_get_affiliate_rate_type', 'affwp_maybe_override_affiliate_group_rate_type', -9999, 2 );
+add_filter( 'affwp_get_affiliate_rate_type', 'affwp_maybe_override_affiliate_group_rate_type', -9999, 2 );
 
 /**
  * Override the flat rate basis based on the affiliate's affiliate group setting.
@@ -139,7 +139,7 @@ function affwp_maybe_override_affiliate_group_flat_rate_basis( string $type, int
 
 	return 'per_product';
 }
-add_filter( 'affwp_get_affiliate_flat_rate_basis', 'affwp_maybe_override_affiliate_group_flat_rate_basis', 10, 2 );
+// add_filter( 'affwp_get_affiliate_flat_rate_basis', 'affwp_maybe_override_affiliate_group_flat_rate_basis', 10, 2 );
 
 
 /**
