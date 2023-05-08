@@ -263,7 +263,7 @@ abstract class Management {
 	private $view = '';
 
 	/**
-	 * Constuct.
+	 * Construct.
 	 *
 	 * @since 2.12.0
 	 */
@@ -272,6 +272,28 @@ abstract class Management {
 		$this->errors = new \WP_Error();
 
 		$this->validate_properties();
+
+		/**
+		 * Filter meta fields.
+		 *
+		 * @since 2.13.2
+		 *
+		 * @param array                                $meta_fields Meta fields.
+		 * @param string                               $group_type  The group type.
+		 * @param string                               $item        The item.
+		 * @param string                               $menu_slug   The menu slug.
+		 * @param \AffiliateWP\Admin\Groups\Management $management  This object.
+		 *
+		 * @var array
+		 */
+		$this->meta_fields = apply_filters(
+			'affwp_group_managment_meta_fields',
+			$this->meta_fields,
+			$this->group_type,
+			$this->item,
+			$this->menu_slug,
+			$this
+		);
 
 		$this->register_group_type();
 		$this->register_group_connectable();
@@ -400,7 +422,7 @@ abstract class Management {
 	 * @param string $message The message for the error.
 	 * @param mixed  $data    The data.
 	 */
-	protected function add_error( string $name, string $message, $data = null ) : void {
+	public function add_error( string $name, string $message, $data = null ) : void {
 
 		$this->errors->add(
 			$name,

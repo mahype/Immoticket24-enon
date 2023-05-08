@@ -40,7 +40,7 @@ trait Select2 {
 	 *
 	 * @var string
 	 */
-	private $select_2_trait_version = '1.0.1-Mar 14, 2023';
+	private $select_2_trait_version = '1.0.2';
 
 	/**
 	 * Load scripts and styles.
@@ -69,7 +69,7 @@ trait Select2 {
 			'affwp-select2-init',
 			AFFILIATEWP_PLUGIN_URL . "assets/js/select2-init{$suffix}.js",
 			array( 'jquery', 'affwp-select2' ),
-			crc32( $this->select_2_trait_version ),
+			$this->select_2_trait_version,
 			true
 		);
 	}
