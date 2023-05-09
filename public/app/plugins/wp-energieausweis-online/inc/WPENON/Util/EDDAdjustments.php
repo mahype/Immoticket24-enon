@@ -314,7 +314,6 @@ class EDDAdjustments {
 				'invoice'       => $purchase_data['purchase_key'],
 				'no_shipping'   => '1',
 				'shipping'      => '0',
-				'no_note'       => '1',
 				'currency_code' => edd_get_currency(),
 				'charset'       => get_bloginfo( 'charset' ),
 				'custom'        => $payment,
@@ -322,8 +321,8 @@ class EDDAdjustments {
 				'return'        => $return_url,
 				'cancel_return' => edd_get_checkout_uri(),
 				'notify_url'    => $listener_url,
-				'cbt'           => get_bloginfo( 'name' ),
-				'bn'            => 'EasyDigitalDownloads_SP'
+				'bn'            => 'EasyDigitalDownloads_SP',
+				'upload' 		=> '1',
 			);
 
 			if ( ! empty( $purchase_data['user_info']['address'] ) ) {
@@ -332,13 +331,6 @@ class EDDAdjustments {
 				$paypal_args['city']     = $purchase_data['user_info']['address']['city'];
 				$paypal_args['country']  = $purchase_data['user_info']['address']['country'];
 			}
-
-			$paypal_extra_args = array(
-				'cmd'    => '_cart',
-				'upload' => '1'
-			);
-
-			$paypal_args = array_merge( $paypal_extra_args, $paypal_args );
 
 			$check_amount = 0.0;
 
