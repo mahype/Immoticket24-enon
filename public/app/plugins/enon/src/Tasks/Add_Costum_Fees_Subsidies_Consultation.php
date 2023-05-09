@@ -51,7 +51,7 @@ class Add_Costum_Fees_Subsidies_Consultation implements Filters, Task {
 	 * @since 1.0.0
 	 */
 	public function filter_fees( $fees ) {
-		if ( ! $this->reason_allowed() ) {
+		if ( ! $this->reason_allowed() && ! is_admin() ) {
 			return $fees;
 		}
 
