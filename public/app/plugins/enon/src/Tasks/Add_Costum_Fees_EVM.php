@@ -50,7 +50,7 @@ class Add_Costum_Fees_EVM implements Filters, Task {
 	 * @since 1.0.0
 	 */
 	public function filter_fees( $fees ) {
-		if ( ( ! $this->postcoce_allowed() || ! $this->reason_allowed() ) && ! is_admin() ) {
+		if ( ( ! $this->postcoce_allowed() || ! $this->reason_allowed() ) && edd_is_checkout() ) {
 			return $fees;
 		}
 
