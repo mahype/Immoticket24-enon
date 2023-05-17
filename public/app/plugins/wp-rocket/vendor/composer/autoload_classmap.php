@@ -479,6 +479,7 @@ return array(
     'WP_Rocket\\ThirdParty\\Plugins\\TheEventsCalendar' => $baseDir . '/inc/ThirdParty/Plugins/TheEventsCalendar.php',
     'WP_Rocket\\ThirdParty\\Plugins\\ThirstyAffiliates' => $baseDir . '/inc/ThirdParty/Plugins/ThirstyAffiliates.php',
     'WP_Rocket\\ThirdParty\\Plugins\\UnlimitedElements' => $baseDir . '/inc/ThirdParty/Plugins/UnlimitedElements.php',
+    'WP_Rocket\\ThirdParty\\Plugins\\WPGeotargeting' => $baseDir . '/inc/ThirdParty/Plugins/WPGeotargeting.php',
     'WP_Rocket\\ThirdParty\\ReturnTypesTrait' => $baseDir . '/inc/ThirdParty/ReturnTypesTrait.php',
     'WP_Rocket\\ThirdParty\\ServiceProvider' => $baseDir . '/inc/ThirdParty/ServiceProvider.php',
     'WP_Rocket\\ThirdParty\\SubscriberFactoryInterface' => $baseDir . '/inc/ThirdParty/SubscriberFactoryInterface.php',
