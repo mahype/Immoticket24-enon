@@ -56,7 +56,7 @@
     "awsmug/block-trusted-shops": "dev-main",
     "felixarntz/plugin-lib": "dev-master",
     "wpackagist-plugin/imagify": "2.1.1",
-    "wpackagist-plugin/login-lockdown": "2.02",
+    "wpackagist-plugin/login-lockdown": "2.06",
     "wpackagist-plugin/really-simple-captcha": "2.1",
     "wpackagist-plugin/shariff": "4.6.9",
     "wpackagist-plugin/ootb-openstreetmap": "2.4.0",
