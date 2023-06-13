@@ -491,6 +491,7 @@ return array(
     'WP_Rocket\\ThirdParty\\Themes\\MinimalistBlogger' => $baseDir . '/inc/ThirdParty/Themes/MinimalistBlogger.php',
     'WP_Rocket\\ThirdParty\\Themes\\Polygon' => $baseDir . '/inc/ThirdParty/Themes/Polygon.php',
     'WP_Rocket\\ThirdParty\\Themes\\ServiceProvider' => $baseDir . '/inc/ThirdParty/Themes/ServiceProvider.php',
+    'WP_Rocket\\ThirdParty\\Themes\\Themify' => $baseDir . '/inc/ThirdParty/Themes/Themify.php',
     'WP_Rocket\\ThirdParty\\Themes\\ThirdpartyTheme' => $baseDir . '/inc/ThirdParty/Themes/ThirdpartyTheme.php',
     'WP_Rocket\\ThirdParty\\Themes\\Uncode' => $baseDir . '/inc/ThirdParty/Themes/Uncode.php',
     'WP_Rocket\\ThirdParty\\Themes\\Xstore' => $baseDir . '/inc/ThirdParty/Themes/Xstore.php',

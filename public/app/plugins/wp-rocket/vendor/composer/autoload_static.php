@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit2f4041c4e1b572d912b0e78620740cb8
+class ComposerStaticInit544e6bf0a5f104861020353fb78675f7
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
@@ -527,6 +527,7 @@ class ComposerStaticInit2f4041c4e1b572d912b0e78620740cb8
         'WP_Rocket\\ThirdParty\\Themes\\MinimalistBlogger' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/MinimalistBlogger.php',
         'WP_Rocket\\ThirdParty\\Themes\\Polygon' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/Polygon.php',
         'WP_Rocket\\ThirdParty\\Themes\\ServiceProvider' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/ServiceProvider.php',
+        'WP_Rocket\\ThirdParty\\Themes\\Themify' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/Themify.php',
         'WP_Rocket\\ThirdParty\\Themes\\ThirdpartyTheme' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/ThirdpartyTheme.php',
         'WP_Rocket\\ThirdParty\\Themes\\Uncode' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/Uncode.php',
         'WP_Rocket\\ThirdParty\\Themes\\Xstore' => __DIR__ . '/../..' . '/inc/ThirdParty/Themes/Xstore.php',
@@ -542,9 +543,9 @@ class ComposerStaticInit2f4041c4e1b572d912b0e78620740cb8
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit2f4041c4e1b572d912b0e78620740cb8::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit2f4041c4e1b572d912b0e78620740cb8::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit2f4041c4e1b572d912b0e78620740cb8::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit544e6bf0a5f104861020353fb78675f7::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit544e6bf0a5f104861020353fb78675f7::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit544e6bf0a5f104861020353fb78675f7::$classMap;
 
         }, null, ClassLoader::class);
     }
