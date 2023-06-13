@@ -123,7 +123,14 @@ class Loader extends Task_Loader {
             return;
         }
 
-        $this->reseller = Detector::get_reseller_by_iframe();
+        $reseller = Detector::get_reseller_by_iframe();
+
+        if( empty( $reseller ) ) {
+            $this->logger->alert('Reseller not found for iframe token.', array( 'iframe_token' => Detector::get_iframe_token() ) );    
+            return;
+        }
+
+        $this->reseller = $reseller;
         $this->set_affiliate_by_reseller( $this->reseller );
 
         $this->load_iframe_scripts();
