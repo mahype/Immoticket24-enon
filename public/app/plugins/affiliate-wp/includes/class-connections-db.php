@@ -28,9 +28,13 @@ if ( class_exists( '\AffiliateWP\Connections\DB' ) ) {
 }
 
 require_once __DIR__ . '/class-connection.php';
-require_once __DIR__ . '/utils/trait-data.php';
-require_once __DIR__ . '/utils/trait-db.php';
-require_once __DIR__ . '/utils/trait-sql.php';
+
+affwp_require_util_traits(
+	'data',
+	'db',
+	'sql',
+);
+
 
 /**
  * Connections Database.

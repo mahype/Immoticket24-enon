@@ -25,7 +25,7 @@ if ( class_exists( '\AffiliateWP\Groups\Group' ) ) {
 	return;
 }
 
-require_once __DIR__ . '/utils/trait-data.php';
+affwp_require_util_traits( 'data' );
 
 /**
  * AffiliateWP Group

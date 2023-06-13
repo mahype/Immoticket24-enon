@@ -536,15 +536,15 @@ jQuery(document).ready(function($) {
 	 * @since 2.10.0
 	 */
 	if ( $.inArray( pagenow, [ 'affiliates_page_affiliate-wp-settings' ] ) > -1 ) {
-		
+
 		const recaptchaScoreThresholdField = $( '#recaptcha_score_threshold' );
-		
+
 		$( 'input[name="affwp_settings[recaptcha_type]"]' ).on( 'change', function( e ) {
 			if ( 'v3' !== e.target.value ){
 				recaptchaScoreThresholdField.hide();
 				return
-			} 
-			
+			}
+
 			recaptchaScoreThresholdField.show();
 		} );
 	}
@@ -562,4 +562,147 @@ jQuery(document).ready(function($) {
 		postboxes.add_postbox_toggles( pagenow );
 	}
 
-} );
+	/**
+	 * Handle plugin actions under About Us page.
+	 *
+	 * @since 2.14.0
+	 */
+
+	if ( $.inArray( pagenow, [ 'affiliates_page_affiliate-wp-about' ] ) > -1 ) {
+
+		$( '.affwp-action-button' ).on( 'click', function() {
+
+			const $button = $( this );
+
+			if( $button.hasClass( 'disabled' ) ) {
+				return; // Do nothing if the plugin is already active.
+			}
+
+			if( $button.hasClass( 'status-go-to-url' ) ) {
+				window.open( $button.data( 'plugin' ), '_blank' );
+				return; // User was redirected. Nothing more to do here.
+			}
+
+			// Save the original button state and contents to use in case of failures.
+			const buttonOriginalText    = $button.text();
+			const buttonOriginalClasses = $button.attr( 'class' );
+
+			// At this point we only have the options either to install or activate plugins.
+			const action = $button.hasClass( 'status-missing' )
+				? 'affwp_install_plugin'
+				: 'affwp_activate_plugin';
+
+			// Container used to show notices.
+			const $actionContainer = $button.closest( '.affwp-addon-action' );
+
+			// Function used to display the notices, used either in case of success or failures calls.
+			const showNotice = ( $container, status, content ) => {
+				$container
+					.addClass( 'affwp-addon-action--' + status )
+					.attr(
+						'data-content',
+						content
+					)
+					.delay( 2500 )
+					.queue( function() {
+						$( this ).removeAttr( 'data-content' ).removeClass( 'affwp-addon-action--' + status );
+					});
+			}
+
+			$.ajax({
+				type: 'POST',
+				url: ajaxurl,
+				data: {
+					action: action,
+					nonce: affwp_about_vars.nonce,
+					plugin: $button.data( 'plugin' )
+				},
+				dataType: 'json',
+				beforeSend: function() {
+					$button
+						.text( '' )
+						.removeAttr( 'class' )
+						.addClass( 'affwp-action-button button button-secondary disabled loading' );
+				},
+				success: function( response ){
+					if( response.success ){
+						$button.text( affwp_about_vars.i18n.activated );
+
+						$actionContainer.find( '.status-label')
+							.removeClass( 'status-inactive' )
+							.addClass( 'status-active' )
+							.text(affwp_about_vars.i18n.active );
+
+						showNotice(
+							$actionContainer,
+							'ok',
+							'affwp_activate_plugin' === action
+								? affwp_about_vars.i18n.pluginActivated
+								: affwp_about_vars.i18n.pluginInstalledAndActivated
+						);
+						return; // Success response, we can safely exit.
+					}
+
+					// Response failed for some some reason, errors returned by the ajax calls.
+					$button.text( buttonOriginalText ).removeAttr( 'class' ).addClass( buttonOriginalClasses );
+
+					// Show the notice with the error returned by the ajax call.
+					showNotice( $actionContainer, 'error', response.data );
+				},
+				complete: function() {
+					$button.removeClass( 'loading' );
+				}
+			}).fail( function( response ){
+				$button.text( buttonOriginalText ).removeAttr( 'class' ).addClass( buttonOriginalClasses );
+				showNotice( $actionContainer, 'error', affwp_about_vars.i18n.genericError );
+			});
+
+		});
+    
+  }
+
+	// Toggle the Creative image field visibility based on the type. Used in Affiliate WP Creative add/edit screen.
+	if ( $.inArray( pagenow, [ 'affiliates_page_affiliate-wp-creatives' ] ) > -1 ) {
+
+		// Object to cache values based on a context.
+		const contexts = {
+			text_link: {
+				text: ""
+			},
+			image: {
+				text: ""
+			}
+		};
+
+		$( '#type' ).on( 'change', function( e ) {
+
+			// jQuery field objects.
+			const $text  = $( '#text' );
+			const $type  = $( '#type' );
+			const $image = $( '#image' );
+
+			// Check which is the previous type. For now only image and text_link are supported, so we can easily guess.
+			const prevType = $type.val() === 'image' ? 'text_link' : 'image';
+
+			// Save the current text value to the context object.
+			contexts[prevType].text = $text.val();
+
+			// Populate the text field with the current context value.
+			$text.val( contexts[ $type.val() ].text );
+
+			// Change the context of the form table, so we know which fields to show/hide.
+			$( '.form-table' ).attr( 'data-current-context', $( this ).val() );
+
+			// Show image if type equals image.
+			if ( $type.val() === 'image' ) {
+				$image.closest( '.form-row' ).removeClass( 'affwp-hidden' );
+				return;
+			}
+
+			// Otherwise hidde the image field.
+			$image.closest( '.form-row' ).addClass( 'affwp-hidden' );
+		} );
+
+	}
+
+ } );

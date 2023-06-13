@@ -104,6 +104,7 @@ class Affiliate_WP_Admin_Menu {
 		);
 		$analytics  = add_submenu_page( 'affiliate-wp', __( 'Analytics', 'affiliate-wp' ),   __( 'Analytics', 'affiliate-wp' ),             'view_affiliate_reports',   'affiliate-wp-analytics',  [ 'Affwp\Admin\Pages\Analytics', 'display' ] );
 		$smtp       = add_submenu_page( 'affiliate-wp', __( 'SMTP', 'affiliate-wp' ),        __( 'SMTP', 'affiliate-wp' ),                  'view_affiliate_reports',   'affiliate-wp-smtp',       [ 'Affwp\Admin\Pages\SMTP', 'display' ] );
+		$about      = add_submenu_page( 'affiliate-wp', __( 'About Us', 'affiliate-wp' ),    __( 'About Us', 'affiliate-wp' ),              'view_affiliate_reports',   'affiliate-wp-about',      [ 'Affwp\Admin\About', 'display' ] );
 
 		// Add our reports link in the main Dashboard menu.
 		$submenu['index.php'][] = array(

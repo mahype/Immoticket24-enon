@@ -26,7 +26,7 @@ if ( class_exists( '\AffiliateWP\Connections\Connection' ) ) {
 	return;
 }
 
-require_once __DIR__ . '/utils/trait-data.php';
+affwp_require_util_traits( 'data' );
 
 /**
  * Connection

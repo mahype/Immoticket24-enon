@@ -17,7 +17,7 @@
 
 namespace AffiliateWP\Admin\Affiliates\Groups\Meta;
 
-require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/utils/trait-data.php';
+affwp_require_util_traits( 'data' );
 
 /**
  * Affiliate Group: Description: Meta
@@ -50,18 +50,26 @@ trait Description {
 
 		return sprintf(
 			'%1$s%2$s',
-			__( 'Describes the group.', 'affiliate-wp' ),
+			sprintf(
+
+				// Translators: %1$s is the single title, e.g. category, group, etc.
+				__( 'Describes the %1$s.', 'affiliate-wp' ),
+				isset( $this->single_title )
+					? strtolower( $this->single_title )
+					: __( 'group', 'affiliate-wp' )
+			),
 			affwp_icon_tooltip(
 				sprintf(
 
 					// Translators: %1$s is an explanation of the group type.
 					__( 'This description only appears here in the dashboard (admin) and can only be seen by administrators and those who can manage %1$s.', 'affiliate-wp' ),
-					isset( $this->item_single )
+					isset( $this->item_single, $this->plural_title )
 						? sprintf(
 
 							// Translators: %1$s is the name of the item (single) e.g. 'creative'.
-							__( '%1$s groups', 'affiliate-wp' ),
-							strtolower( $this->item_single )
+							__( '%1$s %2$s', 'affiliate-wp' ),
+							strtolower( $this->item_single ),
+							strtolower( $this->plural_title )
 						)
 						: __( 'group', 'affiliate-wp' )
 				),

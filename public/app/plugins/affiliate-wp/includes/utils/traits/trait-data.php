@@ -3,7 +3,7 @@
  * Data Utilities
  *
  * @package     AffiliateWP
- * @subpackage  Data
+ * @subpackage  Utils
  * @copyright   Copyright (c) 2020, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.12.0

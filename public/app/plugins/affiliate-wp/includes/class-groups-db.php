@@ -28,9 +28,13 @@ if ( class_exists( '\AffiliateWP\Groups\DB' ) ) {
 }
 
 require_once __DIR__ . '/class-group.php';
-require_once __DIR__ . '/utils/trait-sql.php';
-require_once __DIR__ . '/utils/trait-db.php';
-require_once __DIR__ . '/utils/trait-data.php';
+
+affwp_require_util_traits(
+	'sql',
+	'db',
+	'data',
+);
+
 
 /**
  * Grouping Database

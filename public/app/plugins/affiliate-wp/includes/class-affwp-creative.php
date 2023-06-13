@@ -42,6 +42,15 @@ final class Creative extends Base_Object {
 	public $name;
 
 	/**
+	 * Type of the creative.
+	 *
+	 * @since 2.14.0
+	 * @access public
+	 * @var string
+	 */
+	public string $type;
+
+	/**
 	 * Description for the creative.
 	 *
 	 * @since 1.9
@@ -76,6 +85,15 @@ final class Creative extends Base_Object {
 	 * @var string
 	 */
 	public $image;
+
+	/**
+	 * Creative attachment ID.
+	 *
+	 * @since 2.14.0
+	 * @access public
+	 * @var int
+	 */
+	public int $attachment_id = 0;
 
 	/**
 	 * Status for the creative.
@@ -146,6 +164,23 @@ final class Creative extends Base_Object {
 			$value = (int) $value;
 		}
 		return $value;
+	}
+
+	/**
+	 * Return the creative type from DB or checking for specific conditions.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @return string
+	 */
+	public function get_type() : string {
+
+		if ( ! empty( $this->type ) ) {
+			return $this->type;
+		}
+
+		// Fallback for users that have not run the upgrade routine yet.
+		return '' === $this->image ? 'text_link' : 'image';
 	}
 
 }

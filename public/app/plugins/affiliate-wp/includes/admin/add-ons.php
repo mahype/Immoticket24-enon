@@ -153,7 +153,6 @@ function affwp_add_ons_get_feed( $update = false ) {
 	// If refresh link is clicked, this query param will be true.
 	$force_refresh = ! empty( $_GET['affwp_refresh_addons'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-
 	if ( false === $cache || true === $update || $force_refresh ) {
 		$url = 'https://affiliatewp.com/wp-content/addons.json';
 
@@ -431,6 +430,7 @@ function affwp_set_addon_path( $slug ) {
  * @return string Return addon's primary category.
  */
 function affwp_set_addon_category( $categories ) {
+
 	// In 2.12.2 we switched to use 'personal', 'plus', and 'professional' categories.
 	if ( defined( 'AFFILIATEWP_VERSION' ) && version_compare( AFFILIATEWP_VERSION, '2.12.1', '>' ) ) {
 		if ( in_array( 'personal', $categories, true ) ) {
@@ -456,6 +456,7 @@ function affwp_set_addon_category( $categories ) {
  * @return array Extended addon data.
  */
 function affwp_prepare_addon_data( $addon ) {
+
 	// Bail if no addon.
 	if ( empty( $addon ) ) {
 		return array();
@@ -501,6 +502,7 @@ function affwp_prepare_addon_data( $addon ) {
  * @return array Updated addon data.
  */
 function affwp_update_addon_data( $addon ) {
+
 	// Bail if no addon.
 	if ( empty( $addon ) ) {
 		return array();
@@ -545,6 +547,18 @@ function affwp_update_addon_data( $addon ) {
  * @since 2.9.6
  */
 function affwp_install_addons_page_plugin() {
+
+	if ( ! current_user_can( 'install_plugins' ) ) {
+
+		wp_send_json_error(
+			array(
+				'error' => esc_html__( 'You do not have permission.', 'affiliate-wp' ),
+			)
+		);
+
+		exit;
+	}
+
 	// Security check.
 	if ( ! check_ajax_referer( 'affiliate-wp-addons-nonce', 'nonce', false ) ) {
 		wp_send_json_error(
@@ -578,7 +592,6 @@ function affwp_install_addons_page_plugin() {
 
 	wp_send_json_success();
 }
-
 add_action( 'wp_ajax_affwp_install_addons_page_plugin', 'affwp_install_addons_page_plugin' );
 
 /**
@@ -587,6 +600,18 @@ add_action( 'wp_ajax_affwp_install_addons_page_plugin', 'affwp_install_addons_pa
  * @since 2.9.6
  */
 function affwp_activate_addons_page_plugin() {
+
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+
+		wp_send_json_error(
+			array(
+				'error' => esc_html__( 'You do not have permission.', 'affiliate-wp' ),
+			)
+		);
+
+		exit;
+	}
+
 	// Security check.
 	if ( ! check_ajax_referer( 'affiliate-wp-addons-nonce', 'nonce', false ) ) {
 		wp_send_json_error(
@@ -617,8 +642,7 @@ function affwp_activate_addons_page_plugin() {
 	wp_send_json_success( esc_html__( 'Plugin activated.', 'affiliate-wp' ) );
 
 }
-
-add_action( 'wp_ajax_affwp_activate_addons_page_plugin','affwp_activate_addons_page_plugin' );
+add_action( 'wp_ajax_affwp_activate_addons_page_plugin', 'affwp_activate_addons_page_plugin' );
 
 /**
  * Dectivate an addons page plugin.
@@ -626,6 +650,13 @@ add_action( 'wp_ajax_affwp_activate_addons_page_plugin','affwp_activate_addons_p
  * @since 2.9.6
  */
 function affwp_deactivate_addons_page_plugin() {
+
+	// Check for permissions.
+	if ( ! current_user_can( 'deactivate_plugins' ) ) {
+		wp_send_json_error( esc_html__( 'Plugin deactivation is disabled for you on this site.', 'affiliate-wp' ) );
+		exit;
+	}
+
 	// Security check.
 	if ( ! check_ajax_referer( 'affiliate-wp-addons-nonce', 'nonce', false ) ) {
 		wp_send_json_error(
@@ -633,11 +664,6 @@ function affwp_deactivate_addons_page_plugin() {
 				'error' => esc_html__( 'You do not have permission.', 'affiliate-wp' ),
 			)
 		);
-	}
-
-	// Check for permissions.
-	if ( ! current_user_can( 'deactivate_plugins' ) ) {
-		wp_send_json_error( esc_html__( 'Plugin deactivation is disabled for you on this site.', 'affiliate-wp' ) );
 	}
 
 	// Bail if plugin is missing.

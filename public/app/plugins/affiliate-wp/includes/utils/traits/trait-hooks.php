@@ -3,7 +3,7 @@
  * Hook Utilities
  *
  * @package     AffiliateWP
- * @subpackage  Data
+ * @subpackage  Utils
  * @copyright   Copyright (c) 2020, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.12.0
@@ -12,7 +12,7 @@
 
 namespace AffiliateWP\Utils;
 
-require_once __DIR__ . '/trait-data.php';
+affwp_require_util_traits( 'data' );
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

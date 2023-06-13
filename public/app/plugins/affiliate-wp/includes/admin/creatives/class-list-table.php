@@ -10,6 +10,7 @@
  */
 
 use AffWP\Admin\List_Table;
+use AffWP\Creative;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -58,6 +59,22 @@ class AffWP_Creatives_Table extends List_Table {
 	public $inactive_count;
 
 	/**
+	 * Number of text_link type creatives.
+	 *
+	 * @var string
+	 * @since 2.14.0
+	 */
+	public string $text_link_type_count;
+
+	/**
+	 * Number of image type creatives.
+	 *
+	 * @var string
+	 * @since 2.14.0
+	 */
+	public string $image_type_count;
+
+	/**
 	 * Get things started
 	 *
 	 * @access public
@@ -80,45 +97,52 @@ class AffWP_Creatives_Table extends List_Table {
 	}
 
 	/**
-	 * Retrieve the view types
+	 * Retrieve the view types.
 	 *
 	 * @access public
 	 * @since 1.0
-	 * @return array $views All the views available
+	 *
+	 * @return array $views All the views available.
 	 */
 	public function get_views() {
-		$base           = affwp_admin_url( 'creatives' );
+		$base = affwp_admin_url( 'creatives' );
 
-		$current        = isset( $_GET['status'] ) ? $_GET['status'] : '';
-		$total_count    = '&nbsp;<span class="count">(' . $this->total_count    . ')</span>';
-		$active_count   = '&nbsp;<span class="count">(' . $this->active_count . ')</span>';
-		$inactive_count = '&nbsp;<span class="count">(' . $this->inactive_count  . ')</span>';
+		$current = ( isset( $_GET['status'] ) || isset( $_GET['type'] ) )
+			? sanitize_text_field( $_GET['status'] ?? $_GET['type'] )
+			: '';
 
-		$views = array(
-			'all'		=> sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base ), $current === 'all' || $current == '' ? ' class="current"' : '', __('All', 'affiliate-wp') . $total_count ),
-			'active'	=> sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'active', $base ), $current === 'active' ? ' class="current"' : '', __('Active', 'affiliate-wp') . $active_count ),
-			'inactive'	=> sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'inactive', $base ), $current === 'inactive' ? ' class="current"' : '', __('Inactive', 'affiliate-wp') . $inactive_count ),
+		$total_count          = "&nbsp;<span class='count'>({$this->total_count})</span>";
+		$text_link_type_count = "&nbsp;<span class='count'>({$this->text_link_type_count})</span>";
+		$image_type_count     = "&nbsp;<span class='count'>({$this->image_type_count})</span>";
+		$active_count         = "&nbsp;<span class='count'>({$this->active_count})</span>";
+		$inactive_count       = "&nbsp;<span class='count'>({$this->inactive_count})</span>";
+
+		return array(
+			'all'            => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base ), $current === 'all' || $current == '' ? ' class="current"' : '', __('All', 'affiliate-wp') . $total_count ),
+			'text_link_type' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'type', 'text_link', $base ), 'text_link' === $current ? ' class="current"' : '', __( 'Text Links', 'affiliate-wp' ) . $text_link_type_count ),
+			'image_type'     => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'type', 'image', $base ), 'image' === $current ? ' class="current"' : '', __( 'Images', 'affiliate-wp' ) . $image_type_count ),
+			'active'	     => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'active', $base ), $current === 'active' ? ' class="current"' : '', __('Active', 'affiliate-wp') . $active_count ),
+			'inactive'       => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'inactive', $base ), $current === 'inactive' ? ' class="current"' : '', __('Inactive', 'affiliate-wp') . $inactive_count ),
 		);
-
-		return $views;
 	}
 
 	/**
-	 * Retrieve the table columns
+	 * Retrieve the table columns.
 	 *
 	 * @access public
 	 * @since 1.2
-	 * @return array $columns Array of all the list table columns
+	 *
+	 * @return array $columns Array of all the list table columns.
 	 */
 	public function get_columns() {
 		$columns = array(
-			'cb'        => '<input type="checkbox" />',
-			'name'      => __( 'Name', 'affiliate-wp' ),
-			'url'       => __( 'URL', 'affiliate-wp' ),
-			'shortcode' => __( 'Shortcode', 'affiliate-wp' ),
-			'status'    => __( 'Status', 'affiliate-wp' ),
-			'image'     => __( 'Image Preview', 'affiliate-wp' ),
-			'actions'   => __( 'Actions', 'affiliate-wp' ),
+			'cb'          => '<input type="checkbox" />',
+			'name'        => __( 'Name', 'affiliate-wp' ),
+			'creative_id' => __( 'ID', 'affiliate-wp' ),
+			'type'        => __( 'Type', 'affiliate-wp' ),
+			'url'         => __( 'URL', 'affiliate-wp' ),
+			'status'      => __( 'Status', 'affiliate-wp' ),
+			'preview'     => __( 'Preview', 'affiliate-wp' ),
 		);
 
 		/**
@@ -134,16 +158,19 @@ class AffWP_Creatives_Table extends List_Table {
 	}
 
 	/**
-	 * Retrieve the table's sortable columns
+	 * Retrieve the table's sortable columns.
 	 *
 	 * @access public
 	 * @since 1.2
-	 * @return array Array of all the sortable columns
+	 *
+	 * @return array Array of all the sortable columns.
 	 */
 	public function get_sortable_columns() {
 		$columns = array(
-			'name'   => array( 'name', false ),
-			'status' => array( 'status', false ),
+			'creative_id' => array( 'creative_id', false ),
+			'name'        => array( 'name', false ),
+			'type'        => array( 'type', false ),
+			'status'      => array( 'status', false ),
 		);
 
 		/**
@@ -163,8 +190,8 @@ class AffWP_Creatives_Table extends List_Table {
 	 * @access public
 	 * @since 1.2
 	 *
-	 * @param array $creative Contains all the data of the creatives
-	 * @param string $column_name The name of the column
+	 * @param array  $creative Contains all the data of the creatives.
+	 * @param string $column_name The name of the column.
 	 *
 	 * @return string Column Name
 	 */
@@ -197,7 +224,8 @@ class AffWP_Creatives_Table extends List_Table {
 	 * @access public
 	 * @since  2.2
 	 *
-	 * @param \AffWP\Creative $creative The current creative object.
+	 * @param Creative $creative The current creative object.
+	 *
 	 * @return string Displays a checkbox.
 	 */
 	function column_cb( $creative ) {
@@ -205,78 +233,64 @@ class AffWP_Creatives_Table extends List_Table {
 	}
 
 	/**
-	 * Render the URL column
+	 * Renders the "Name" column in the creatives list table.
 	 *
 	 * @access public
-	 * @since 1.2
-	 * @return string URL
-	 */
-	function column_url( $creative ) {
-		return $creative->url;
-	}
-
-	/**
-	 * Render the image column
+	 * @since  2.14.0
 	 *
-	 * @access public
-	 * @since 2.0
-	 * @return string image src of creative
-	 */
-	function column_image( $creative ) {
-		global $wpdb;
-
-		// Get the creative's attachment ID based on the image URL
-		$attachment_id = attachment_url_to_postid( $creative->image );
-
-		return affwp_admin_link( 'creatives', wp_get_attachment_image( $attachment_id, 'thumbnail' ), array( 'creative_id' => $creative->ID, 'action' => 'edit_creative' ) );
-
-	}
-
-	/**
-	 * Render the shortcode column
+	 * @param Creative $creative The current creative object.
 	 *
-	 * @access public
-	 * @since 1.2
-	 * @return string Shortcode for creative
+	 * @return string Data shown in the Name column.
 	 */
-	function column_shortcode( $creative ) {
-		return '[affiliate_creative id="' . $creative->creative_id . '"]';
-	}
-
-	/**
-	 * Render the actions column
-	 *
-	 * @access public
-	 * @since 1.2
-	 * @param array $creative Contains all the data for the creative column
-	 * @return string action links
-	 */
-	function column_actions( $creative ) {
+	public function column_name( Creative $creative ) : string {
+		$row_actions = array();
 
 		$base_query_args = array(
 			'page'        => 'affiliate-wp-creatives',
-			'creative_id' => $creative->ID
+			'creative_id' => $creative->ID,
+		);
+
+		$value = sprintf(
+			'<a href="%1$s">%2$s</a>',
+			esc_url(
+				add_query_arg(
+					array_merge(
+						$base_query_args,
+						array(
+							'affwp_notice' => false,
+							'action'       => 'edit_creative',
+						)
+					),
+					admin_url( 'admin.php' )
+				)
+			),
+			$creative->name
 		);
 
 		// Edit.
 		$row_actions['edit'] = $this->get_row_action_link(
 			__( 'Edit', 'affiliate-wp' ),
-			array_merge( $base_query_args, array(
-				'affwp_notice' => false,
-				'action'       => 'edit_creative'
-			) )
+			array_merge(
+				$base_query_args,
+				array(
+					'affwp_notice' => false,
+					'action'       => 'edit_creative'
+				)
+			)
 		);
-
 
 		if ( strtolower( $creative->status ) == 'active' ) {
 
 			// Deactivate.
 			$row_actions['deactivate'] = $this->get_row_action_link(
 				__( 'Deactivate', 'affiliate-wp' ),
-				array_merge( $base_query_args, array(
-					'affwp_notice' => 'creative_deactivated',
-					'action'       => 'deactivate'
-				) ),
+				array_merge(
+					$base_query_args,
+					array(
+						'affwp_notice' => 'creative_deactivated',
+						'action'       => 'deactivate'
+					)
+				),
 				array( 'nonce' => 'affwp-creative-nonce' )
 			);
 
@@ -285,10 +299,13 @@ class AffWP_Creatives_Table extends List_Table {
 			// Activate.
 			$row_actions['activate'] = $this->get_row_action_link(
 				__( 'Activate', 'affiliate-wp' ),
-				array_merge( $base_query_args, array(
-					'affwp_notice' => 'creative_activated',
-					'action'       => 'activate'
-				) ),
+				array_merge(
+					$base_query_args,
+					array(
+						'affwp_notice' => 'creative_activated',
+						'action'       => 'activate'
+					)
+				),
 				array( 'nonce' => 'affwp-creative-nonce' )
 			);
 
@@ -297,24 +314,116 @@ class AffWP_Creatives_Table extends List_Table {
 		// Delete.
 		$row_actions['delete'] = $this->get_row_action_link(
 			__( 'Delete', 'affiliate-wp' ),
-			array_merge( $base_query_args, array(
-				'affwp_notice' => false,
-				'action'       => 'delete'
-			) ),
+			array_merge(
+				$base_query_args,
+				array(
+					'affwp_notice' => false,
+					'action'       => 'delete',
+				)
+			),
 			array( 'nonce' => 'affwp-creative-nonce' )
 		);
 
 		/**
 		 * Filters the row actions array for the Creatives list table.
 		 *
-		 * @since 1.2
+		 * @since 2.14.0
 		 *
-		 * @param array           $row_actions Row actions array.
-		 * @param \AffWP\Creative $creative    Current creative.
+		 * @param array            $row_actions Row actions array.
+		 * @param \AffWP\Affiliate $affiliate   Current creative.
 		 */
 		$row_actions = apply_filters( 'affwp_creative_row_actions', $row_actions, $creative );
 
-		return $this->row_actions( $row_actions, true );
+		$value .= '<div class="row-actions">' . $this->row_actions( $row_actions, true ) . '</div>';
+
+		/**
+		 * Filters the name column data for the creatives list table.
+		 *
+		 * @since 2.14.0
+		 *
+		 * @param string          $value    Data shown in the Name column.
+		 * @param Creative $creative The current creative object.
+		 */
+		return apply_filters( 'affwp_creative_table_name', $value, $creative );
+	}
+
+	/**
+	 * Render the Type column.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @access public
+	 * @param Creative $creative Creative object.
+	 *
+	 * @return string URL
+	 */
+	public function column_type( Creative $creative ) : string {
+		return sprintf(
+			'<a href="%1$s">%2$s</a>',
+			add_query_arg( 'type', $creative->type, affwp_admin_url( 'creatives' ) ),
+			affwp_get_creative_type_label( $creative )
+		);
+	}
+
+	/**
+	 * Render the URL column.
+	 *
+	 * @access public
+	 * @since 1.2
+	 *
+	 * @return string URL
+	 */
+	function column_url( $creative ) : string {
+		return $creative->url;
+	}
+
+	/**
+	 * Render the preview column.
+	 *
+	 * @access public
+	 *
+	 * @since 2.14.0 Show the preview column for different types of creative.
+	 *
+	 * @param AffWP\Creative $creative Bulk actions.
+	 * @return string preview.
+	 */
+	public function column_preview( $creative ) : string {
+
+		$content = '';
+
+		switch ( $creative->get_type() ) {
+			case 'image':
+				// Try for self-hosted images.
+				if ( ! empty( $creative->attachment_id ) ) {
+					$content = wp_get_attachment_image(
+						attachment_url_to_postid( $creative->image ),
+						'full'
+					);
+					break;
+				}
+
+				if ( filter_var( $creative->image, FILTER_VALIDATE_URL ) ) {
+					$content = sprintf(
+						'<img src="%1$s" alt="%2$s">',
+						$creative->image,
+						$creative->text
+					);
+				}
+
+				break;
+			default:
+				$content = $creative->text;
+				break;
+		}
+
+		return affwp_admin_link(
+			'creatives',
+			$content,
+			array(
+				'creative_id' => $creative->ID,
+				'action'      => 'edit_creative',
+			)
+		);
 
 	}
 
@@ -413,42 +522,87 @@ class AffWP_Creatives_Table extends List_Table {
 	}
 
 	/**
-	 * Retrieve the creative counts
+	 * Retrieve the creative counts.
 	 *
 	 * @access public
 	 * @since 1.2
+	 * @since 2.14.0 Added creative type text-link and image counters.
+	 *
 	 * @return void
 	 */
-	public function get_creative_counts() {
+	public function get_creative_counts() : void {
 		$this->active_count = affiliate_wp()->creatives->count(
-			array_merge( $this->query_args, array( 'status' => 'active' ) )
+			array_merge(
+				$this->query_args,
+				array(
+					'status' => 'active'
+				)
+			)
 		);
 
 		$this->inactive_count = affiliate_wp()->creatives->count(
-			array_merge( $this->query_args, array( 'status' => 'inactive' ) )
+			array_merge(
+				$this->query_args,
+				array(
+					'status' => 'inactive'
+				)
+			)
+		);
+
+		$this->text_link_type_count = affiliate_wp()->creatives->count(
+			array_merge(
+				$this->query_args,
+				array(
+					'type' => 'text_link'
+				)
+			)
+		);
+
+		$this->image_type_count = affiliate_wp()->creatives->count(
+			array_merge(
+				$this->query_args,
+				array(
+					'type' => 'image'
+				)
+			)
 		);
 
 		$this->total_count = $this->active_count + $this->inactive_count;
 	}
 
 	/**
-	 * Retrieve all the data for all the Creatives
+	 * Retrieve all the data for all the Creatives.
 	 *
 	 * @access public
 	 * @since 1.2
-	 * @return array $creatives_data Array of all the data for the Creatives
+	 * @since 2.14.0 Better args sanitization.
+	 *
+	 * @return array $creatives_data Array of all the data for the Creatives.
 	 */
 	public function creatives_data() {
 
 		$page     = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
-		$status   = isset( $_GET['status'] ) ? $_GET['status'] : '';
 		$per_page = $this->get_items_per_page( 'affwp_edit_creatives_per_page', $this->per_page );
 
-		$args = wp_parse_args( $this->query_args, array(
-			'number'  => $per_page,
-			'offset'  => $per_page * ( $page - 1 ),
-			'status'  => $status,
-		) );
+		$args = wp_parse_args(
+			$this->query_args,
+			array(
+				'number'  => $per_page,
+				'offset'  => $per_page * ( $page - 1 ),
+				'status'  => isset( $_GET['status'] ) && in_array( $_GET['status'], array( 'active', 'inactive' ), true )
+					? sanitize_text_field( $_GET['status'] )
+					: '',
+				'type'    => isset( $_GET['type'] ) && in_array( $_GET['type'], array_keys( affwp_get_creative_types() ), true )
+					? sanitize_text_field( $_GET['type'] )
+					: 'any',
+				'orderby' => isset( $_GET['orderby'] )
+					? sanitize_text_field( $_GET['orderby'] )
+					: 'creative_id',
+				'order'   => isset( $_GET['order'] ) && 'ASC' === strtoupper( sanitize_text_field( $_GET['order'] ) )
+					? 'ASC'
+					: 'DESC',
+			)
+		);
 
 		/**
 		 * Filters the arguments used to retrieve creatives for the Creatives list table.
@@ -472,16 +626,18 @@ class AffWP_Creatives_Table extends List_Table {
 	}
 
 	/**
-	 * Setup the final data for the table
+	 * Setup the final data for the table.
 	 *
 	 * @access public
 	 * @since 1.2
+	 *
 	 * @uses AffWP_Creatives_Table::get_columns()
 	 * @uses AffWP_Creatives_Table::get_sortable_columns()
 	 * @uses AffWP_Creatives_Table::process_bulk_action()
 	 * @uses AffWP_Creatives_Table::creatives_data()
 	 * @uses WP_List_Table::get_pagenum()
 	 * @uses WP_List_Table::set_pagination_args()
+	 *
 	 * @return void
 	 */
 	public function prepare_items() {
@@ -497,12 +653,28 @@ class AffWP_Creatives_Table extends List_Table {
 
 		$status = isset( $_GET['status'] ) ? $_GET['status'] : 'any';
 
-		switch( $status ) {
+		switch ( $status ) {
 			case 'active':
 				$total_items = $this->active_count;
 				break;
 			case 'inactive':
 				$total_items = $this->inactive_count;
+				break;
+			case 'any':
+				$total_items = $this->current_count;
+				break;
+		}
+
+		$type = isset( $_GET['type'] ) && in_array( $_GET['type'], array_keys( affwp_get_creative_types() ), true )
+			? $_GET['type']
+			: 'any';
+
+		switch ( $type ) {
+			case 'text_link':
+				$total_items = $this->text_link_type_count;
+				break;
+			case 'image':
+				$total_items = $this->image_type_count;
 				break;
 			case 'any':
 				$total_items = $this->current_count;

@@ -26,9 +26,9 @@
 
 		<p><?php esc_html_e( 'Use this screen to add a new creative, such as a text link or image banner.', 'affiliate-wp' ); ?></p>
 
-		<table class="form-table">
+		<table class="form-table" data-current-context="image">
 
-			<tr class="form-row form-required">
+			<tr class="form-row form-required" data-row="name">
 
 				<th scope="row">
 					<label for="name"><?php _e( 'Name', 'affiliate-wp' ); ?></label>
@@ -52,7 +52,7 @@
 
 			?>
 
-			<tr class="form-row form-required">
+			<tr class="form-row form-required" data-row="description">
 
 				<th scope="row">
 					<label for="name"><?php _e( 'Description', 'affiliate-wp' ); ?></label>
@@ -71,33 +71,23 @@
 
 			</tr>
 
-			<tr class="form-row form-required">
-
+			<tr class="form-row form-required" data-row="type">
 				<th scope="row">
-					<label for="url"><?php _e( 'URL', 'affiliate-wp' ); ?></label>
+					<label for="type"><?php esc_html_e( 'Type', 'affiliate-wp' ); ?></label>
 				</th>
-
 				<td>
-					<input type="text" name="url" id="url" class="regular-text" />
-					<p class="description"><?php _e( 'The URL this creative should link to. Based on your Referral Settings, the affiliate&#8217;s ID or username will be automatically appended.', 'affiliate-wp' ); ?></p>
+					<select name="type" id="type">
+						<?php foreach ( affwp_get_creative_types() as $creative_type => $label ) : ?>
+							<option value="<?php echo esc_attr( $creative_type ); ?>">
+								<?php echo esc_html( $label ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+					<p class="description"><?php esc_html_e( 'Select the type of the creative.', 'affiliate-wp' ); ?></p>
 				</td>
-
 			</tr>
 
-			<tr class="form-row form-required">
-
-				<th scope="row">
-					<label for="text"><?php _e( 'Text', 'affiliate-wp' ); ?></label>
-				</th>
-
-				<td>
-					<input type="text" name="text" id="text" class="regular-text" maxlength="255" />
-					<p class="description"><?php _e( 'Text for this creative. To make this a text-only creative, do not add an image below.', 'affiliate-wp' ); ?></p>
-				</td>
-
-			</tr>
-
-			<tr class="form-row form-required">
+			<tr class="form-row form-required" data-row="image">
 
 				<th scope="row">
 					<label for="image"><?php _e( 'Image', 'affiliate-wp' ); ?></label>
@@ -113,6 +103,34 @@
 
 			</tr>
 
+			<tr class="form-row form-required" data-row="text">
+
+				<th scope="row">
+					<label for="text" data-context="text_link"><?php _e( 'Text', 'affiliate-wp' ); ?></label>
+					<label for="text" data-context="image"><?php _e( 'Alt Text', 'affiliate-wp' ); ?></label>
+				</th>
+
+				<td>
+					<input type="text" name="text" id="text" class="regular-text" maxlength="255" />
+					<p class="description" data-context="text_link"><?php _e( 'Text for this creative.', 'affiliate-wp' ); ?></p>
+					<p class="description" data-context="image"><?php _e( "Enter descriptive text for the image's alternative text (alt text.", 'affiliate-wp' ); ?></p>
+				</td>
+
+			</tr>
+
+			<tr class="form-row form-required" data-row="url">
+
+				<th scope="row">
+					<label for="url"><?php _e( 'URL', 'affiliate-wp' ); ?></label>
+				</th>
+
+				<td>
+					<input type="text" name="url" id="url" class="regular-text" />
+					<p class="description"><?php _e( 'The URL this creative should link to. Based on your Referral Settings, the affiliate&#8217;s ID or username will be automatically appended.', 'affiliate-wp' ); ?></p>
+				</td>
+
+			</tr>
+
 			<?php
 
 			/**
@@ -124,7 +142,7 @@
 
 			?>
 
-			<tr class="form-row form-required">
+			<tr class="form-row form-required" data-row="status">
 
 				<th scope="row">
 					<label for="status"><?php _e( 'Status', 'affiliate-wp' ); ?></label>

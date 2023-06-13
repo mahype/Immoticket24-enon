@@ -103,7 +103,7 @@ class Notification {
 			if ( ! property_exists( $this, $property ) ) {
 				continue;
 			}
-			
+
 			$this->{$property} = $this->cast_attribute( $property, $value );
 		}
 	}

@@ -3,7 +3,7 @@
  * Database Utilities
  *
  * @package     AffiliateWP
- * @subpackage  Database
+ * @subpackage  Utils
  * @copyright   Copyright (c) 2020, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.12.0
@@ -20,7 +20,7 @@ if ( trait_exists( '\AffiliateWP\Utils\DB' ) ) {
 	return;
 }
 
-require_once __DIR__ . '/trait-data.php';
+affwp_require_util_traits( 'data' );
 
 /**
  * Database Utilities

@@ -87,6 +87,16 @@ function affwp_affiliates_admin() {
 			<h1>
 				<?php _e( 'Affiliates', 'affiliate-wp' ); ?>
 				<a href="<?php echo esc_url( add_query_arg( array( 'affwp_notice' => false, 'action' => 'add_affiliate' ) ) ); ?>" class="page-title-action"><?php _e( 'Add New', 'affiliate-wp' ); ?></a>
+				<?php
+
+				/**
+				 * Add actions to the Affiliates screen.
+				 *
+				 * @since 2.14.0
+				 */
+				do_action( 'affwp_affiliate_admin_page_actions' );
+
+				?>
 				<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'affiliate-wp-reports', 'tab' => 'affiliates' ) ) ); ?>" class="page-title-action"><?php _ex( 'Reports', 'affiliates', 'affiliate-wp' ); ?></a>
 			</h1>
 			<?php
