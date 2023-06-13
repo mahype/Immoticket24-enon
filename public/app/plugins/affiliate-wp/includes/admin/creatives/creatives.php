@@ -52,6 +52,16 @@ function affwp_creatives_admin() {
 	<div class="wrap">
 			<h2><?php _e( 'Creatives', 'affiliate-wp' ); ?>
 				<a href="<?php echo esc_url( add_query_arg( array( 'affwp_notice' => false, 'action' => 'add_creative' ) ) ); ?>" class="add-new-h2"><?php _e( 'Add New', 'affiliate-wp' ); ?></a>
+				<?php
+
+				/**
+				 * Add actions to the Creatives screen.
+				 *
+				 * @since 2.14.0
+				 */
+				do_action( 'affwp_creative_admin_page_actions' );
+
+				?>
 			</h2>
 			<?php
 			/**

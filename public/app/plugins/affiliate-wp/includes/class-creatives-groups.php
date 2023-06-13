@@ -16,6 +16,7 @@
  * phpcs:disable Squiz.PHP.DisallowMultipleAssignments.Found -- Used for caching.
  * phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Formatting OK.
  * phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Formatting OK.
+ * phpcs:disable PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket, PEAR.Functions.FunctionCallSignature.CloseBracketLine -- Allow surrounding code w/out line breaks.
  */
 
 namespace AffiliateWP\Creatives\Dashboard;
@@ -24,9 +25,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once __DIR__ . '/utils/trait-nonce.php';
-require_once __DIR__ . '/utils/trait-data.php';
-require_once __DIR__ . '/utils/trait-select2.php';
+affwp_require_util_traits(
+	'nonce',
+	'data',
+	'select2'
+);
 
 /**
  * Group Filtering.

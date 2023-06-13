@@ -13,7 +13,7 @@
 
 	if (
 		! window.hasOwnProperty( 'jQuery' ) ||
-		! window.hasOwnProperty( 'affwpCreativeCategories' )
+		! window.hasOwnProperty( 'affwpGroupManagment' )
 	) {
 		return; // We need these to be enqueued and localized by the trait.
 	}
@@ -27,7 +27,7 @@
 	 */
 	function confirmDeletions() {
 
-		const $elements = window.jQuery( window.affwpCreativeCategories.delete.selector );
+		const $elements = window.jQuery( window.affwpGroupManagment.delete.selector );
 
 		if ( ! $elements.length ) {
 			return; // Fail gracefully, there may not be groups to select (no <select>).
@@ -39,7 +39,7 @@
 
 				e.preventDefault();
 
-				if ( ! window.confirm( window.affwpCreativeCategories.delete.message ) ) {
+				if ( ! window.confirm( window.affwpGroupManagment.delete.message ) ) {
 					return;
 				}
 

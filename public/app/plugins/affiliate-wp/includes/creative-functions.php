@@ -35,17 +35,24 @@ function affwp_get_creative( $creative = null ) {
  *
  * @since 1.1.4
  * @since 1.9.6 Modified to return the creative ID on success vs true.
+ * @since 2.14.0 Added type field and only save image when creative is image type.
  *
+ * @param array $data Creative data.
  * @return int|false ID of the newly-created creative, otherwise false.
  */
-function affwp_add_creative( $data = array() ) {
+function affwp_add_creative( array $data = array() ) {
 
 	$args = array(
 		'name'        => ! empty( $data['name'] ) ? sanitize_text_field( $data['name'] ) : __( 'Creative', 'affiliate-wp' ),
 		'description' => ! empty( $data['description'] ) ? wp_kses_post( $data['description'] ) : '',
 		'url'         => ! empty( $data['url'] ) ? esc_url_raw( $data['url'] ) : get_site_url(),
 		'text'        => ! empty( $data['text'] ) ? sanitize_text_field( $data['text'] ) : get_bloginfo( 'name' ),
-		'image'       => ! empty( $data['image'] ) ? esc_url( $data['image'] ) : '',
+		'image'       => isset( $data['type'] ) && 'image' === $data['type'] && ! empty( $data['image'] )
+			? esc_url( $data['image'] )
+			: '',
+		'type'        => isset( $data['type'] ) && in_array( $data['type'], array_keys( affwp_get_creative_types() ), true )
+			? sanitize_text_field( $data['type'] )
+			: '',
 		'status'      => ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : '',
 		'date'        => ! empty( $data['date'] ) ? $data['date'] : '',
 	);
@@ -58,17 +65,17 @@ function affwp_add_creative( $data = array() ) {
 }
 
 /**
- * Updates a creative
+ * Updates a creative.
  *
  * @since 1.1.4
+ * @since 2.14.0 Added type field and only save image when creative is image type.
  *
+ * @param array $data Creative data.
  * @return bool True if the creative was updated, otherwise false.
  */
-function affwp_update_creative( $data = array() ) {
+function affwp_update_creative( array $data = array() ) : bool {
 
-	if ( empty( $data['creative_id'] )
-		|| ( ! $creative = affwp_get_creative( $data['creative_id'] ) )
-	) {
+	if ( empty( $data['creative_id'] ) || ( ! $creative = affwp_get_creative( $data['creative_id'] ) ) ) {
 		return false;
 	}
 
@@ -77,14 +84,18 @@ function affwp_update_creative( $data = array() ) {
 		'description'   => ! empty( $data['description'] ) ? wp_kses_post( $data['description'] ) : '',
 		'url'           => ! empty( $data['url'] ) ? esc_url_raw( $data['url'] ) : get_site_url(),
 		'text'          => ! empty( $data['text'] ) ? sanitize_text_field( $data['text'] ) : get_bloginfo( 'name' ),
-		'image'         => ! empty( $data['image'] ) ? sanitize_text_field( $data['image'] ) : '',
+		'image'         => 'image' === $data['type'] && ! empty( $data['image'] )
+			? esc_url( $data['image'] )
+			: '',
+		'attachment_id' => 'image' === $data['type'] && ! empty( $data['image'] )
+			? attachment_url_to_postid( esc_url( $data['image'] ) )
+			: 0,
+		'type'          => isset( $data['type'] ) && in_array( $data['type'], array_keys( affwp_get_creative_types() ), true )
+			? sanitize_text_field( $data['type'] )
+			: '',
 		'status'        => ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : '',
-		'attachment_id' => 0,
+		'date_updated'  => gmdate( 'Y-m-d H:i:s' ),
 	);
-
-	$args['attachment_id'] = ( ! empty( $args['image'] ) ) 
-		? attachment_url_to_postid( $args['image'] )
-		: 0;
 
 	if ( affiliate_wp()->creatives->update( $creative->ID, $args, '', 'creative' ) ) {
 		return true;
@@ -176,4 +187,51 @@ function affwp_get_creative_by( $field, $value ) {
 	}
 
 	return $creative;
+}
+
+/**
+ * Retrieves the list of creative types and corresponding labels.
+ *
+ * @since 2.14.0
+ *
+ * @return array Key/value pairs of types where key is the type and the value is the label.
+ */
+function affwp_get_creative_types() : array {
+	return array(
+		'image'     => __( 'Image', 'affiliate-wp' ),
+		'text_link' => __( 'Text Link', 'affiliate-wp' ),
+	);
+}
+
+/**
+ * Retrieves the creative's type and returns a translatable string.
+ *
+ * @since 2.14.0
+ *
+ * @param int|AffWP\Creative $creative_or_id Creative ID or object.
+ * @return string $status_label A translatable, filterable label indicating creative type.
+ */
+function affwp_get_creative_type_label( $creative_or_id ) : string {
+
+	$creative = is_int( $creative_or_id )
+		? affwp_get_creative( $creative_or_id )
+		: $creative_or_id;
+
+	if ( false === $creative ) {
+		return '';
+	}
+
+	$types = affwp_get_creative_types();
+	$label = array_key_exists( $creative->type, $types ) ? $types[ $creative->type ] : '';
+
+	/**
+	 * Filters the creative type label.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @param string               $label     Localized status label string.
+	 * @param AffWP\Affiliate|null $affiliate Affiliate object or null.
+	 * @param string               $status    Affiliate status.
+	 */
+	return apply_filters( 'affwp_get_creative_type_label', $label, $creative );
 }

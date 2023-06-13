@@ -351,19 +351,16 @@ class Bootstrap {
 	public function get_license() {
 		check_ajax_referer( 'affwpwizard-admin-nonce', 'nonce' );
 
+		$license = new License\License_Data();
+
 		// Attempt to get data from the settings.
 		$license_data = affiliate_wp()->settings->get( 'license_status', '' );
 
-		$license_key = affiliate_wp()->settings->get_license_key();
-
-		// If no license data but has a license key, check the status.
-		if ( empty( $license_data ) && ! empty( $license_key ) ) {
-			$license_key = '';
-		}
+		$license_key = $license->get_license_key();
 
 		$status = ( is_object( $license_data ) && isset( $license_data->license ) )
 			? $license_data->license
-			: $license_data;
+			: $license->check_status();
 
 		if ( is_object( $license_data ) && isset( $license_data->expires ) ) {
 			$expires_on  = $license_data->expires === 'lifetime' ?
@@ -378,7 +375,7 @@ class Bootstrap {
 				'key'        => $license_key,
 				'status'     => $status,
 				'is_invalid' => 'valid' !== $status,
-				'type'       => ( new License\License_Data() )->get_license_type( $price_id ),
+				'type'       => $license->get_license_type( $price_id ),
 				'price_id'   => $price_id,
 				'expires_on' => isset( $expires_on ) ? $expires_on : false,
 			),
@@ -647,10 +644,16 @@ class Bootstrap {
 		}
 
 		if ( in_array( 'tiered_affiliate_rates', $enabled_addons, true ) ) {
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				exit;
+			}
+
 			// Try first to activate.
 			$status = activate_plugin( 'affiliatewp-tiered-affiliate-rates/affiliatewp-tiered-affiliate-rates.php' );
 
-			if ( is_wp_error( $status ) ) {
+			if ( is_wp_error( $status ) && current_user_can( 'install_plugins' ) ) {
+
 				// Install plugin.
 				$installer = new Installer();
 				$status    = $installer->install_addon( 368 );
@@ -664,10 +667,16 @@ class Bootstrap {
 		}
 
 		if ( in_array( 'lifetime_commissions', $enabled_addons, true ) ) {
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				exit;
+			}
+
 			// Try first to activate.
 			$status = activate_plugin( 'affiliate-wp-lifetime-commissions/affiliate-wp-lifetime-commissions.php' );
 
-			if ( is_wp_error( $status ) ) {
+			if ( is_wp_error( $status ) && current_user_can( 'install_plugins' ) ) {
+
 				// Install plugin.
 				$installer = new Installer();
 				$status    = $installer->install_addon( 6956 );
@@ -695,10 +704,16 @@ class Bootstrap {
 		}
 
 		if ( in_array( 'recurring_referrals', $enabled_addons, true ) ) {
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				exit;
+			}
+
 			// Try first to activate.
 			$status = activate_plugin( 'affiliate-wp-recurring-referrals/affiliate-wp-recurring-referrals.php' );
 
-			if ( is_wp_error( $status ) ) {
+			if ( is_wp_error( $status ) && current_user_can( 'install_plugins' ) ) {
+
 				// Install plugin.
 				$installer = new Installer();
 				$status    = $installer->install_addon( 1670 );
@@ -736,18 +751,25 @@ class Bootstrap {
 
 		// Maybe install & activate MonsterInsights lite version.
 		if ( in_array( 'monster_insights', $install_list, true ) ) {
+
 			// Check if installed and active (lite or pro version).
 			$is_active = function_exists( 'MonsterInsights' ) && ( is_plugin_active( 'google-analytics-for-wordpress/googleanalytics.php' ) || is_plugin_active( 'google-analytics-premium/googleanalytics-premium.php' ) );
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				exit;
+			}
 
 			// Try first to activate.
 			$status = false === $is_active ? activate_plugin( 'google-analytics-for-wordpress/googleanalytics.php' ) : $is_active;
 
-			if ( is_wp_error( $status ) ) {
+			if ( is_wp_error( $status ) && current_user_can( 'install_plugins' ) ) {
+
 				// Install plugin.
 				$installer = new Installer();
 				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/google-analytics-for-wordpress.8.13.0.zip' );
 
 				if ( ! $status['success'] ) {
+
 					// Intent failed.
 					$failed_install['affwp_growth_tool_analytics_failed'] = 1;
 				}
@@ -759,18 +781,25 @@ class Bootstrap {
 
 		// Maybe install & activate Trust Pulse plugin.
 		if ( in_array( 'trust_pulse', $install_list ) ) {
+
 			// Check if installed and active.
 			$is_active = class_exists( 'TPAPI' ) && is_plugin_active( 'trustpulse-api/trustpulse.php' );
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				exit;
+			}
 
 			// Try first to activate.
 			$status = false === $is_active ? activate_plugin( 'trustpulse-api/trustpulse.php' ) : $is_active;
 
-			if ( is_wp_error( $status ) ) {
+			if ( is_wp_error( $status ) && current_user_can( 'install_plugins' ) ) {
+
 				// Install plugin.
 				$installer = new Installer();
 				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/trustpulse-api.1.0.7.zip' );
 
 				if ( ! $status['success'] ) {
+
 					// Intent failed.
 					$failed_install['affwp_growth_tool_social_proof_failed'] = 1;
 				}
@@ -782,18 +811,25 @@ class Bootstrap {
 
 		// Maybe install & activate AIOSEO lite version.
 		if ( in_array( 'aioseo', $install_list ) ) {
+
 			// Check if installed and active (lite or pro version).
 			$is_active = function_exists( 'aioseo' ) && ( is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) || is_plugin_active( 'all-in-one-seo-pack-pro/all_in_one_seo_pack.php' ) );
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				exit;
+			}
 
 			// Try first to activate.
 			$status = false === $is_active ? activate_plugin( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) : $is_active;
 
-			if ( is_wp_error( $status ) ) {
+			if ( is_wp_error( $status ) && current_user_can( 'install_plugins' ) ) {
+
 				// Install plugin.
 				$installer = new Installer();
 				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/all-in-one-seo-pack.4.3.3.zip' );
 
 				if ( ! $status['success'] ) {
+
 					// Intent failed.
 					$failed_install['affwp_growth_tool_seo_failed'] = 1;
 				}
@@ -805,13 +841,19 @@ class Bootstrap {
 
 		// Maybe install & activate SeedProd lite version.
 		if ( in_array( 'seedprod', $install_list ) ) {
+
 			// Check if installed and active (lite or pro version).
 			$is_active = ( function_exists( 'seedprod_lite_activation' ) || function_exists( 'seedprod_pro_activation' ) ) && ( is_plugin_active( 'coming-soon/coming-soon.php' ) || is_plugin_active( 'seedprod-coming-soon-pro-5/seedprod-coming-soon-pro-5.php' ) );
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				exit;
+			}
 
 			// Try first to activate.
 			$status = false === $is_active ? activate_plugin( 'coming-soon/coming-soon.php' ) : $is_active;
 
-			if ( is_wp_error( $status ) ) {
+			if ( is_wp_error( $status ) && current_user_can( 'install_plugins' ) ) {
+
 				// Install plugin.
 				$installer = new Installer();
 				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/coming-soon.6.15.6.zip' );
@@ -825,13 +867,19 @@ class Bootstrap {
 
 		// Maybe install & activate WP Mail SMTP lite version.
 		if ( in_array( 'wp_mail_smtp', $install_list ) ) {
+
 			// Check if installed and active (lite or pro version).
 			$is_active = function_exists( 'wp_mail_smtp' ) && ( is_plugin_active( 'wp-mail-smtp/wp_mail_smtp.php' ) || is_plugin_active( 'wp-mail-smtp-pro/wp_mail_smtp.php' ) );
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				exit;
+			}
 
 			// Try first to activate.
 			$status = false === $is_active ? activate_plugin( 'wp-mail-smtp/wp_mail_smtp.php' ) : $is_active;
 
-			if ( is_wp_error( $status ) ) {
+			if ( is_wp_error( $status ) && current_user_can( 'install_plugins' ) ) {
+
 				// Install plugin.
 				$installer = new Installer();
 				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/wp-mail-smtp.3.7.0.zip' );
@@ -845,13 +893,19 @@ class Bootstrap {
 
 		// Maybe install & activate Uncanny Automator lite version.
 		if ( in_array( 'uncanny_automator', $install_list ) ) {
+
 			// Check if installed and active (lite or pro version).
 			$is_active = ( function_exists( 'Automator' ) || function_exists( 'Automator_Pro' ) ) && ( is_plugin_active( 'uncanny-automator/uncanny-automator.php' ) || is_plugin_active( 'uncanny-automator-pro/uncanny-automator-pro.php' ) );
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				exit;
+			}
 
 			// Try first to activate.
 			$status = false === $is_active ? activate_plugin( 'uncanny-automator/uncanny-automator.php' ) : $is_active;
 
-			if ( is_wp_error( $status ) ) {
+			if ( is_wp_error( $status ) && current_user_can( 'install_plugins' ) ) {
+
 				// Install plugin.
 				$installer = new Installer();
 				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/uncanny-automator.4.12.0.1.zip' );
@@ -865,13 +919,19 @@ class Bootstrap {
 
 		// Maybe install & activate OptinMonster plugin.
 		if ( in_array( 'optin_monster', $install_list ) ) {
+
 			// Check if installed and active.
 			$is_active = function_exists( 'optin_monster' ) && is_plugin_active( 'optinmonster/optin-monster-wp-api.php' );
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				exit;
+			}
 
 			// Try first to activate.
 			$status = false === $is_active ? activate_plugin( 'optinmonster/optin-monster-wp-api.php' ) : $is_active;
 
-			if ( is_wp_error( $status ) ) {
+			if ( is_wp_error( $status ) && current_user_can( 'install_plugins' ) ) {
+
 				// Install plugin.
 				$installer = new Installer();
 				$status    = $installer->install_plugin( 'https://downloads.wordpress.org/plugin/optinmonster.2.13.0.zip' );

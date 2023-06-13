@@ -27,9 +27,9 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 		 */
 		do_action( 'affwp_edit_creative_top', $creative ); ?>
 
-		<table class="form-table">
+		<table class="form-table" data-current-context="<?php echo $creative->get_type(); ?>">
 
-			<tr class="form-row form-required">
+			<tr class="form-row form-required" data-row="name">
 
 				<th scope="row">
 					<label for="name"><?php _e( 'Name', 'affiliate-wp' ); ?></label>
@@ -55,7 +55,7 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 
 			?>
 
-			<tr class="form-row form-required">
+			<tr class="form-row form-required" data-row="description">
 
 				<th scope="row">
 					<label for="name"><?php _e( 'Description', 'affiliate-wp' ); ?></label>
@@ -74,33 +74,23 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 
 			</tr>
 
-			<tr class="form-row form-required">
-
+			<tr class="form-row form-required" data-row="type">
 				<th scope="row">
-					<label for="url"><?php _e( 'URL', 'affiliate-wp' ); ?></label>
+					<label for="type"><?php esc_html_e( 'Type', 'affiliate-wp' ); ?></label>
 				</th>
-
 				<td>
-					<input type="text" name="url" id="url" value="<?php echo esc_url( $creative->url ); ?>" class="regular-text" />
-					<p class="description"><?php _e( 'The URL this creative should link to. Based on your Referral Settings, the affiliate&#8217;s ID or username will be automatically appended.', 'affiliate-wp' ); ?></p>
+					<select name="type" id="type">
+						<?php foreach ( affwp_get_creative_types() as $creative_type => $label ) : ?>
+							<option value="<?php echo esc_attr( $creative_type ); ?>" <?php selected( $creative->get_type(), $creative_type ); ?>>
+								<?php echo esc_html( $label ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+					<p class="description"><?php esc_html_e( 'Select the type of the creative.', 'affiliate-wp' ); ?></p>
 				</td>
-
 			</tr>
 
-			<tr class="form-row form-required">
-
-				<th scope="row">
-					<label for="text"><?php _e( 'Text', 'affiliate-wp' ); ?></label>
-				</th>
-
-				<td>
-					<input type="text" name="text" id="text" value="<?php echo esc_attr( stripslashes( $creative->text ) ); ?>" class="regular-text" maxlength="255" />
-					<p class="description"><?php _e( 'Text for this creative.', 'affiliate-wp' ); ?></p>
-				</td>
-
-			</tr>
-
-			<tr class="form-row form-required">
+			<tr class="form-row form-required <?php echo 'image' !== $creative->get_type() ? ' affwp-hidden' : ''; ?>" data-row="image">
 
 				<th scope="row">
 					<label for="image"><?php _e( 'Image', 'affiliate-wp' ); ?></label>
@@ -125,7 +115,35 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 
 			</tr>
 
-			<tr class="form-row form-required">
+			<tr class="form-row form-required" data-row="text">
+
+				<th scope="row">
+					<label for="text" data-context="text_link"><?php _e( 'Text', 'affiliate-wp' ); ?></label>
+					<label for="text" data-context="image"><?php _e( 'Alt Text', 'affiliate-wp' ); ?></label>
+				</th>
+
+				<td>
+					<input type="text" name="text" id="text" value="<?php echo esc_attr( stripslashes( $creative->text ) ); ?>" class="regular-text" maxlength="255" />
+					<p class="description" data-context="text_link"><?php _e( 'Text for this creative.', 'affiliate-wp' ); ?></p>
+					<p class="description" data-context="image"><?php _e( "Enter descriptive text for the image's alternative text (alt text).", 'affiliate-wp' ); ?></p>
+				</td>
+
+			</tr>
+
+			<tr class="form-row form-required" data-row="url">
+
+				<th scope="row">
+					<label for="url"><?php _e( 'URL', 'affiliate-wp' ); ?></label>
+				</th>
+
+				<td>
+					<input type="text" name="url" id="url" value="<?php echo esc_url( $creative->url ); ?>" class="regular-text" />
+					<p class="description"><?php _e( 'The URL this creative should link to. Based on your Referral Settings, the affiliate&#8217;s ID or username will be automatically appended.', 'affiliate-wp' ); ?></p>
+				</td>
+
+			</tr>
+
+			<tr class="form-row form-required" data-row="date">
 
 				<th scope="row">
 					<label for="date"><?php _e( 'Created', 'affiliate-wp' ); ?></label>
@@ -149,7 +167,7 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 
 			?>
 
-			<tr class="form-row form-required">
+			<tr class="form-row form-required" data-row="status">
 
 				<th scope="row">
 					<label for="status"><?php _e( 'Status', 'affiliate-wp' ); ?></label>

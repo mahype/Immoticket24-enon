@@ -12,7 +12,7 @@
 // phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Allowing comments in function call lines.
 // phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Allowing comments in function call lines.
 
-require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/utils/trait-data.php';
+affwp_require_util_traits( 'data' );
 
 class Affiliate_WP_Register {
 

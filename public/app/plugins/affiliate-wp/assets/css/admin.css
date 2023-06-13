@@ -167,8 +167,8 @@ button.affwp-round {
 	bottom: 0;
 	left: 160px;
 	background-color: #141b38;
-	opacity: .5;
-	transition: .5s;
+	opacity: 0.5;
+	transition: 0.5s;
 }
 
 #affwp-notifications-panel.affwp-slide-in {
@@ -187,7 +187,7 @@ button.affwp-round {
 	right: 0;
 	bottom: 0;
 	overflow-x: hidden;
-	transition: .5s;
+	transition: 0.5s;
 
 	transform: translateX(0%);
 	-webkit-transform: translateX(0%);
@@ -202,7 +202,7 @@ body.admin-bar #affwp-notifications-panel {
 	align-items: center;
 	padding: 0 30px;
 	color: #fff;
-	background-color: #44A2A7;
+	background-color: #44a2a7;
 }
 
 #affwp-notifications-header h3 {
@@ -227,7 +227,7 @@ body.admin-bar #affwp-notifications-panel {
 	gap: 20px;
 	margin-bottom: 20px;
 	padding-bottom: 20px;
-	border-bottom: 1px solid #E8E8EB;
+	border-bottom: 1px solid #e8e8eb;
 }
 
 .affwp-notification:last-of-type {
@@ -239,15 +239,15 @@ body.admin-bar #affwp-notifications-panel {
 }
 
 .affwp-notification--icon.affwp-notification--icon-info {
-	color: #44A2A7;
+	color: #44a2a7;
 }
 
 .affwp-notification--icon.affwp-notification--icon-warning {
-	color: #F29100;
+	color: #f29100;
 }
 
 .affwp-notification--icon.affwp-notification--icon-error {
-	color: #DF2A4A;
+	color: #df2a4a;
 }
 
 .affwp-notification--body {
@@ -327,6 +327,20 @@ table.affiliates #unpaid {
 }
 
 /* Creatives */
+table.creatives #name {
+	width: 240px;
+}
+
+table.creatives #creative_id {
+	width: 80px;
+}
+
+table.creatives #type,
+table.creatives #groups,
+table.creatives #status {
+	width: 100px;
+}
+
 #affwp_add_creative table,
 #affwp_edit_creative table {
 	table-layout: fixed;
@@ -342,18 +356,27 @@ table.affiliates #unpaid {
 	max-width: 100%;
 }
 
-.affiliates_page_affiliate-wp-creatives .widefat tbody th.check-column {
-	padding-top: 0;
+.affiliates_page_affiliate-wp-creatives .column-preview {
+	float: none
 }
 
-.affiliates_page_affiliate-wp-creatives th.check-column,
-.affiliates_page_affiliate-wp-creatives td {
-	vertical-align: middle;
+.affiliates_page_affiliate-wp-creatives .column-preview a {
+	display: inline-block;
 }
 
-.affiliates_page_affiliate-wp-creatives .column-image img {
-	max-width: 100%;
+.affiliates_page_affiliate-wp-creatives .column-preview img {
+	max-width: 150px;
 	height: auto;
+	display: block;
+}
+
+.form-table [data-context] {
+	display: none;
+}
+
+.form-table[data-current-context="image"] [data-context="image"],
+.form-table[data-current-context="text_link"] [data-context="text_link"] {
+	display: block;
 }
 
 /* Review page */
@@ -727,14 +750,13 @@ form .spinner {
 	font-weight: 400;
 }
 
-
 /* Tooltips */
 
 .affwp-tooltip {
 	cursor: help;
 	position: relative;
 	color: #404040;
-	z-index: 9999;
+	z-index: 999;
 }
 
 .affwp-tooltip.icon {
@@ -939,7 +961,289 @@ form .spinner {
 	padding: 0;
 }
 
+.affwp-admin-contents {
+	padding-top: 20px;
+}
+
+.affwp-admin-contents *,
+.affwp-admin-contents *::before,
+.affwp-admin-contents *::after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.affwp-admin-section {
+	margin: 0 0 20px 0;
+	background: #ffffff;
+	border: 1px solid #dddddd;
+}
+
+.affwp-admin-section h3 {
+	line-height: 1.6;
+	font-size: 24px;
+	margin: 0 0 20px;
+	color: #23282c;
+}
+
+.affwp-admin-section p {
+	font-size: 16px;
+}
+
+.affwp-admin-section p:last-child {
+	margin-bottom: 0;
+}
+
+.affwp-admin-figure {
+	display: inline-flex;
+	flex-direction: column;
+	margin: 0;
+}
+
+.affwp-admin-figure img {
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+}
+
+.affwp-admin-figure figcaption {
+	font-size: 14px;
+	color: #888888;
+	margin-top: 15px;
+	text-align: center;
+	line-height: initial;
+}
+
+.affwp-admin-section .affwp-admin-about-section-hero-main {
+	background-color: #fafafa;
+	border-bottom: 1px solid #dddddd;
+}
+
+.affwp-admin-section .affwp-admin-about-section-hero-main > * {
+	max-width: 870px;
+}
+
+.affwp-admin-about-section,
+.affwp-admin-getting-started-section {
+	padding: 30px;
+}
+
+.affwp-admin-getting-started-section figure {
+	max-width: 20rem;
+	width: 100%;
+}
+
+.affwp-admin-flex {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 2rem;
+}
+
+.affwp-admin-features-list {
+	display: flex;
+	gap: 4rem;
+}
+
+.affwp-admin-about-section .bigger {
+	font-size: 18px;
+}
+
+.affwp-admin-about-section h4 {
+	font-size: 18px;
+	margin: 0;
+}
+
+.affwp-admin-features-list {
+	list-style: none;
+}
+
+.affwp-admin-features-list ul {
+	margin: 0;
+}
+
+.affwp-admin-features-list li {
+	font-size: 16px;
+	line-height: 1.5;
+	margin-bottom: 0.5rem;
+	display: flex;
+}
+
+.affwp-admin-features-list li::before {
+	content: " ";
+	background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.6061 3.10638L6.12473 10.5674L3.39387 7.8156C3.25164 7.70213 3.02407 7.70213 2.91028 7.8156L2.08534 8.6383C1.97155 8.75177 1.97155 8.97872 2.08534 9.12057L5.89716 12.8936C6.03939 13.0355 6.23851 13.0355 6.38074 12.8936L14.9147 4.38298C15.0284 4.2695 15.0284 4.04255 14.9147 3.90071L14.0897 3.10638C13.9759 2.96454 13.7484 2.96454 13.6061 3.10638Z' fill='%2344A2A7'/%3E%3C/svg%3E%0A");
+	margin-right: 1rem;
+	margin-top: 0.25rem;
+	padding-right: 1rem;
+	width: 1rem;
+	height: 1rem;
+	display: inline-block;
+	background-repeat: no-repeat;
+}
+
+.affwp-admin-section .discount {
+	color: #6ab255;
+}
+
+.affwp-admin-section hr {
+	margin: 30px 0;
+}
+
+.affwp-admin-plan-comparison {
+	padding: 0;
+}
+.affwp-admin-plan-comparison table {
+	border-spacing: 0;
+}
+
+.affwp-admin-plan-footer,
+.affwp-admin-plan-comparison thead {
+	background: #fafafa;
+}
+
+.affwp-admin-plan-comparison th,
+.affwp-admin-plan-comparison td {
+	padding: 20px;
+	width: 33.333%;
+	font-size: 16px;
+	border-bottom: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+}
+
+.affwp-admin-plan-comparison td {
+	vertical-align: top;
+}
+
+.affwp-admin-plan-comparison td.affwp-admin-feature-icon {
+	padding-left: 50px;
+}
+
+.affwp-admin-feature-icon {
+	background-repeat: no-repeat;
+	background-size: 14px auto;
+	background-position: 26px 31px;
+}
+.affwp-admin-feature-icon--full {
+	background-image: url("../images/about/icon-full.svg");
+}
+
+.affwp-admin-feature-icon--partial {
+	background-image: url("../images/about/icon-partial.svg");
+	background-size: 22px auto;
+	background-position: 22px 25px;
+}
+
+.affwp-admin-feature-icon--none {
+	background-image: url("../images/about/icon-none.svg");
+	background-position-y: 29px;
+}
+
+.affwp-admin-plan-comparison th:nth-child(3n),
+.affwp-admin-plan-comparison td:nth-child(3n) {
+	border-right: 0;
+}
+
+.affwp-admin-plan-comparison tr:last-child td {
+	border-bottom: 0;
+}
+
+.affwp-admin-plan-comparison th {
+	border-bottom: 1px solid #dddddd;
+	font-size: 18px;
+	font-weight: 600;
+}
+.affwp-admin-plan-header,
+.affwp-admin-plan-footer {
+	padding: 30px;
+	text-align: center;
+	border-bottom: 1px solid #dddddd;
+}
+.affwp-admin-plan-header strong {
+	font-size: 22px;
+}
+
+.affwp-admin-plan-footer {
+	border-top: 1px solid #dddddd;
+	border-bottom: 0;
+}
+
+.affwp-admin-plan-footer h3 {
+	margin-bottom: 5px;
+}
+
+.affwp-admin-plan-footer p {
+	color: #666666;
+}
+
+.affwp-admin-plan-footer p span {
+	color: #6ab255;
+}
+
+#affwp-admin-about-page .tab-active--about .affwp-admin-section {
+	margin-bottom: 5px;
+}
+
+.affwp-addon-action {
+	position: relative;
+}
+
+.affwp-addon-action.affwp-addon-action--ok::before,
+.affwp-addon-action.affwp-addon-action--error::before {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: #f7f7f7;
+	content: attr(data-content);
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	color: #00a32a;
+	padding: 20px;
+}
+
+.affwp-addon-action.affwp-addon-action--error::before {
+	color: darkred;
+}
+
+.affwp-addon-action .status-active {
+	color: #00a32a;
+}
+
+.affwp-action-button {
+	outline: none;
+}
+
+.affwp-action-button.loading::before {
+	content: "";
+	width: 16px;
+	height: 11px;
+	display: inline-block;
+	background: url("../images/loading.gif") no-repeat;
+}
+
+.affwp-action-button.disabled {
+	cursor: default !important;
+}
+
 /* Media Queries */
+@media screen and (min-width: 1024px) {
+	.affwp-admin-features-list ul {
+		width: 50%;
+	}
+
+	.affwp-admin-getting-started-section figure {
+		margin-right: 4rem;
+	}
+
+	.affwp-admin-flex {
+		flex-direction: row;
+		gap: 4rem;
+	}
+}
+
 @media screen and (max-width: 1024px) {
 	#affwp-reports-widgets-wrap #dashboard-widgets .postbox-container {
 		width: 50%;
@@ -967,11 +1271,13 @@ form .spinner {
 		padding: 10px 46px 10px 22px;
 	}
 }
+
 @media screen and (max-width: 960px) {
 	.affwp-overlay {
 		left: 36px;
 	}
 }
+
 @media screen and (max-width: 782px) {
 	#affwp-affiliates-filter .column-affiliate_id,
 	#affwp-affiliates-filter .column-rate,
@@ -1038,6 +1344,29 @@ form .spinner {
 /* Keyframes for animation */
 @keyframes affwp-bounce {
 	/* These percentages cause the animation to occur for 1s, followed by 9s pause. */
-	0%, 5%, 9% { transform: translateX(-50%) translateY(0); }
-	2%, 7%  { transform: translateX(-50%) translateY(-3px); }
+	0%,
+	5%,
+	9% {
+		transform: translateX(-50%) translateY(0);
+	}
+	2%,
+	7% {
+		transform: translateX(-50%) translateY(-3px);
+	}
+}
+
+/** Affiliate Groups: Setting the default affiliate group */
+tr.group-row.default span.set-default,
+tr.group-row .status-default-group {
+	display: none;
+}
+
+tr.group-row.default .status-default-group,
+tr.group-row span.set-default {
+	display: inline-block;
+}
+
+/* Affiliate Group Selector on Edit/New Creative Screen */
+.group-selector-creative_affiliate-group span.select2 {
+	min-width: 50% !important;
 }

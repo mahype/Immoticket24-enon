@@ -19,7 +19,7 @@
 
 namespace AffiliateWP\Admin\Affiliates\Groups\Meta;
 
-require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/utils/trait-data.php';
+affwp_require_util_traits( 'data' );
 
 /**
  * Affiliate Group: Custom Rate: Meta

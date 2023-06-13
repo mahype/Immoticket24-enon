@@ -96,6 +96,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 		return array(
 			'creative_id'   => '%d',
 			'name'          => '%s',
+			'type'          => '%s',
 			'description'   => '%s',
 			'url'           => '%s',
 			'text'          => '%s',
@@ -103,6 +104,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			'attachment_id' => '%d',
 			'status'        => '%s',
 			'date'          => '%s',
+			'date_updated'  => '%s',
 		);
 	}
 
@@ -114,7 +116,8 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 	*/
 	public function get_column_defaults() {
 		return array(
-			'date' => gmdate( 'Y-m-d H:i:s' ),
+			'date'         => gmdate( 'Y-m-d H:i:s' ),
+			'date_updated' => gmdate( 'Y-m-d H:i:s' ),
 		);
 	}
 
@@ -127,17 +130,19 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 	 * @param array $args {
 	 *     Optional. Arguments for querying creatives. Default empty array.
 	 *
-	 *     @type int          $number      Number of creatives to query for. Default 20.
-	 *     @type int          $offset      Number of creatives to offset the query for. Default 0.
-	 *     @type int|array    $creative_id Creative ID or array of creative IDs to explicitly retrieve. Default 0.
-	 *     @type string       $status      Creative status. Default empty (all).
-	 *     @type string       $order       How to order returned creative results. Accepts 'ASC' or 'DESC'.
-	 *                                     Default 'DESC'.
-	 *     @type string       $orderby     Creatives table column to order results by. Accepts any AffWP\Creative
-	 *                                     field. Default 'creative_id'.
-	 *     @type string|array $fields      Specific fields to retrieve. Accepts 'ids', a single creative field, or an
-	 *                                     array of fields. Default '*' (all).
-	 *     @type string       $date_format    Specific format for date. Adds a formatted_date to response. Uses MYSQL date_format syntax.
+	 *     @type int          $number       Number of creatives to query for. Default 20.
+	 *     @type int          $offset       Number of creatives to offset the query for. Default 0.
+	 *     @type int|array    $creative_id  Creative ID or array of creative IDs to explicitly retrieve. Default 0.
+	 *     @type string       $status       Creative status. Default empty (all).
+	 *     @type string       $type         Creative type. Default `any`.
+	 *     @type string       $type_compare Creative type compare. Default =. Also accepts !=, <>
+	 *     @type string       $order        How to order returned creative results. Accepts 'ASC' or 'DESC'.
+	 *                                      Default 'DESC'.
+	 *     @type string       $orderby      Creatives table column to order results by. Accepts any AffWP\Creative
+	 *                                      field. Default 'creative_id'.
+	 *     @type string|array $fields       Specific fields to retrieve. Accepts 'ids', a single creative field, or an
+	 *                                      array of fields. Default '*' (all).
+	 *     @type string       $date_format  Specific format for date. Adds a formatted_date to response. Uses MYSQL date_format syntax.
 	 * }
 	 * @param bool $count Whether to retrieve only the total number of results found. Default false.
 	 * @return array|int Array of creative objects or field(s) (if found), int if `$count` is true.
@@ -146,19 +151,25 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 		global $wpdb;
 
 		$defaults = array(
-			'number'      => 20,
-			'offset'      => 0,
-			'creative_id' => 0,
-			'status'      => '',
-			'orderby'     => $this->primary_key,
-			'order'       => 'ASC',
-			'fields'      => '',
-			'date_format' => '',
+			'number'       => 20,
+			'offset'       => 0,
+			'creative_id'  => 0,
+			'status'       => '',
+			'type'         => 'any',
+			'type_compare' => '',
+			'orderby'      => $this->primary_key,
+			'order'        => 'ASC',
+			'fields'       => '',
+			'date_format'  => '',
 			'include'      => array(),
 			'exclude'      => array(),
 		);
 
 		$args = wp_parse_args( $args, $defaults );
+
+		$args['type_compare'] = in_array( $args['type_compare'], array( '=', '!=', '<>' ), true )
+			? esc_sql( $args['type_compare'] )
+			: '=';
 
 		if ( $args['number'] < 1 ) {
 			$args['number'] = 999999999999;
@@ -196,8 +207,14 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			}
 		}
 
+		// Type.
+		if ( is_string( $args['type'] ) && 'any' !== $args['type'] ) {
+			$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+			$where .= "`type` {$args['type_compare']} '" . esc_sql( $args['type'] ) . "' ";
+		}
+
 		// Creatives for a date or date range.
-		if( ! empty( $args['date'] ) ) {
+		if ( ! empty( $args['date'] ) ) {
 			$where = $this->prepare_date_query( $where, $args['date'] );
 		}
 
@@ -318,6 +335,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 		$sql = "CREATE TABLE {$this->table_name} (
 			creative_id   bigint(20)   NOT NULL AUTO_INCREMENT,
 			name          tinytext     NOT NULL,
+			type          varchar(255) NOT NULL,
 			description   longtext     NOT NULL,
 			url           varchar(255) NOT NULL,
 			text          tinytext     NOT NULL,
@@ -325,6 +343,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			attachment_id bigint(20)   NOT NULL,
 			status        tinytext     NOT NULL,
 			date          datetime     NOT NULL,
+			date_updated  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP(),
 			PRIMARY KEY  (creative_id),
 			KEY creative_id (creative_id)
 			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";

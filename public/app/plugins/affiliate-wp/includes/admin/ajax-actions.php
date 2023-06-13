@@ -440,13 +440,14 @@ function affwp_activate_plugin() {
 	// Run a security check.
 	check_ajax_referer( 'affiliate-wp-admin', 'nonce' );
 
-	// Check for permissions.
-	if ( ! current_user_can( 'activate_plugins' ) ) {
-		wp_send_json_error( esc_html__( 'Plugin activation is disabled for you on this site.', 'affiliate-wp' ) );
-	}
-
 	if ( ! isset( $_POST['plugin'] ) || ! is_string( $_POST['plugin'] ) ) {
 		wp_send_json_error( esc_html__( 'Could not activate the plugin. Plugin slug is empty.', 'affiliate-wp' ) );
+	}
+
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+
+		wp_send_json_error( esc_html__( 'Plugin activation is disabled for you on this site.', 'affiliate-wp' ) );
+		exit;
 	}
 
 	$activate = activate_plugins( sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) );
@@ -456,7 +457,6 @@ function affwp_activate_plugin() {
 	}
 
 	wp_send_json_error( esc_html__( 'Could not activate the plugin. Please activate it on the Plugins page.', 'affiliate-wp' ) );
-
 }
 add_action( 'wp_ajax_affwp_activate_plugin', 'affwp_activate_plugin' );
 
@@ -475,6 +475,7 @@ function affwp_install_plugin() {
 	// Check if new installations are allowed.
 	if ( ! current_user_can( 'install_plugins' ) ) {
 		wp_send_json_error( $generic_error );
+		exit;
 	}
 
 	$error = esc_html__( 'Could not install the plugin. Please download and install it manually.', 'affiliate-wp' );

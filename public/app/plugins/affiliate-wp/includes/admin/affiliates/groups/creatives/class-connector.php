@@ -84,12 +84,42 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 		$this->modify_multiselect_position_to_before_status_hooks();
 		$this->customize_label_hooks();
 		$this->language_hooks();
+		$this->hide_management_button_hooks();
 
 		// Assigning creatives to affiliates when there are low affiliates.
 		$this->connect_creatives_to_affiliates_hooks();
 		$this->show_affiliates_in_group_tooltip_hooks();
 
 		parent::__construct();
+	}
+
+	/**
+	 * Hide the manage groups button hooks.
+	 *
+	 * @since 2.14.0
+	 */
+	private function hide_management_button_hooks() : void {
+		add_filter( 'affwp_connector_hide_manage_groups_button', array( $this, 'hide_management_button' ), 10, 3 );
+	}
+
+	/**
+	 * Hide the manage groups button on the creatives screen.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @param bool   $hide       Set to `true` to hide the button.
+	 * @param string $group_type The group type of the connector.
+	 * @param string $item       The item of the connector.
+	 *
+	 * @return bool
+	 */
+	public function hide_management_button( bool $hide, string $group_type, string $item ) : bool {
+
+		if ( ! $this->is_same_connector( $group_type, $item ) ) {
+			return $hide;
+		}
+
+		return true;
 	}
 
 	/**

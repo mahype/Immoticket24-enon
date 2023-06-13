@@ -51,6 +51,7 @@ function affwp_is_admin_page( $page = '' ) {
 		'affiliate-wp-add-ons',
 		'affiliate-wp-wizard',
 		'affiliate-wp-setup-screen',
+		'affiliate-wp-about',
 	);
 
 	if ( ! empty( $page ) && in_array( $page, $pages ) ) {

@@ -243,6 +243,10 @@ class Affiliate_WP_Admin_Notices {
 			$output .= self::show_notice( 'upgrade_v281_convert_failed_referrals', false );
 		}
 
+		if ( false === affwp_has_upgrade_completed( 'upgrade_v2140_set_creative_type' ) ) {
+			$output .= self::show_notice( 'upgrade_v2140_set_creative_type', false );
+		}
+
 		// Payouts Service.
 		if ( in_array( affwp_get_current_screen(), array( 'affiliate-wp-referrals', 'affiliate-wp-payouts' ), true ) ) {
 			$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
@@ -871,6 +875,34 @@ class Affiliate_WP_Admin_Notices {
 			)
 		);
 
+		$this->add_notice(
+			'upgrade_v2140_set_creative_type',
+			array(
+				'class'   => 'notice notice-info is-dismissible',
+				'message' => function() {
+					ob_start();
+					// Enqueue admin JS for the batch processor.
+					affwp_enqueue_admin_js();
+					?>
+
+					<p><?php esc_html_e( 'Your database needs to be upgraded following the AffiliateWP 2.14.0 update', 'affiliate-wp' ); ?></p>
+					<form
+						method="post"
+						class="affwp-batch-form"
+						data-dismiss-when-complete="true"
+						data-batch_id="set-creative-type"
+						data-nonce="<?php echo esc_attr( wp_create_nonce( 'set-creative-type_step_nonce' ) ); ?>">
+						<p>
+							<?php submit_button( __( 'Upgrade Database', 'affiliate-wp' ), 'secondary', 'v2140-set-creative-type', false ); ?>
+						</p>
+					</form>
+
+					<?php
+
+					return ob_get_clean();
+				},
+			)
+		);
 
 	}
 

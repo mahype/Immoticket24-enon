@@ -17,7 +17,7 @@
 
 namespace AffiliateWP\Admin\Affiliates\Groups\Meta;
 
-require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/utils/trait-data.php';
+affwp_require_util_traits( 'data' );
 
 /**
  * Affiliate Group: Rate Type: Meta
@@ -55,6 +55,7 @@ trait Rate_Type {
 	 * Rate Type: Column Value.
 	 *
 	 * @since 2.13.0
+	 * @since 2.14.0 This values no longer shows, see `includes/admin/affiliates/groups/meta/trait-referral-rate.php`.
 	 *
 	 * @param \AffiliateWP\Groups\Group $group Group object.
 	 *

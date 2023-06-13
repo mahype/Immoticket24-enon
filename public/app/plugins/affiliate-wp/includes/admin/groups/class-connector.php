@@ -35,12 +35,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-nonce.php';
-require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-data.php';
-require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-select2.php';
-require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-hooks.php';
-require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-db.php';
-require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-transients.php';
+affwp_require_util_traits(
+	'nonce',
+	'data',
+	'select2',
+	'hooks',
+	'db',
+	'transients'
+);
 
 /**
  * Connecting Items to Groups.
@@ -749,6 +751,15 @@ abstract class Connector {
 			return $columns; // We will create the columns, but we need this to populate the value in the column.
 		}
 
+		/**
+		 * Filter the title of the column.
+		 *
+		 * @since 2.14.0
+		 *
+		 * @param string $title      The name of the column.
+		 * @param string $group_type The group type of the connector.
+		 * @param string $item       The item of the connector.
+		 */
 		$column_title = apply_filters(
 			'affwp_connector_column',
 			ucfirst(
@@ -801,7 +812,7 @@ abstract class Connector {
 		add_action( 'affwp_delete_group', array( $this, 'delete_connections_to_group' ) );
 
 		// Signal to management (AffiliateWP\Admin\Groups\Management) that we have a connector.
-		add_filter( "affwp_admin_groups_management_{$this->item}_has_connector", '__return_true' );
+		add_filter( $this->filter_hook_name( "affwp_admin_groups_management_{$this->item}_has_connector" ), '__return_true' );
 
 		if ( ! $this->is_items_page() ) {
 			return; // Everything below is just loaded on our item's page.
@@ -825,6 +836,9 @@ abstract class Connector {
 		// Add column to items view to show the categories.
 		add_filter( 'affwp_list_table_columns', array( $this, 'add_groups_column' ), 10, 2 );
 
+		// Load our scripts and styles for select2, etc.
+		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
+
 		// This requires that the List_Table has a similar filter in column_default().
 		add_filter( $this->filter_hook_name( "affwp_{$this->item}_table_{$this->get_column_name()}" ), array( $this, 'column_contents' ), 10, 2 );
 
@@ -847,9 +861,6 @@ abstract class Connector {
 		add_action( $this->filter_hook_name( "affwp_affiliates_page_affiliate-wp-{$this->item}s_extra_tablenav_after" ), array( $this, 'filter_dropdown' ) );
 		add_action( $this->filter_hook_name( "affwp_{$this->item}_table_get_{$this->item}s" ), array( $this, 'filter_table_get_items_args' ) ); // See includes/admin/creatives/creatives.php::affwp_creatives_admin() for example filter needed.
 
-		// Load our scripts and styles for select2, etc.
-		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
-
 		// Add bulk actions for assigning bulk items to group.
 		add_action( $this->filter_hook_name( "affwp_{$this->item}s_bulk_actions" ), array( $this, 'add_assign_to_bulk_actions' ) );
 		add_action( $this->filter_hook_name( "affwp_{$this->item}_bulk_actions" ), array( $this, 'add_assign_to_bulk_actions' ) );
@@ -858,6 +869,74 @@ abstract class Connector {
 		foreach ( $this->get_assign_to_bulk_items() as $action => $name ) {
 			add_action( $this->filter_hook_name( "affwp_{$this->item}s_do_bulk_action_{$action}" ), array( $this, 'connect_bulk_applied_group_to_item' ) );
 		}
+
+		// Add manage buttons.
+		add_action( $this->filter_hook_name( "affwp_{$this->item}_admin_page_actions" ), array( $this, 'add_manage_group_button' ) );
+	}
+
+	/**
+	 * Add a management link button.
+	 *
+	 * @since 2.14.0
+	 */
+	public function add_manage_group_button() : void {
+
+		if ( ! $this->is_items_page() ) {
+			return;
+		}
+
+		if (
+
+			/**
+			 * Filter whether to hide the management button.
+			 *
+			 * @since 2.14.0
+			 *
+			 * @param bool   $hide       Set to `true` to hide the button.
+			 * @param string $group_type The group type of the connector.
+			 * @param string $item       The item of the connector.
+			 */
+			apply_filters(
+				'affwp_connector_hide_manage_groups_button',
+				false,
+				$this->group_type,
+				$this->item
+			)
+		) {
+			return; // Don't show a button.
+		}
+
+		$url = apply_filters( strtolower( "affwp_connector_{$this->item_single}_href" ), '' );
+
+		if ( empty( $url ) ) {
+			return; // No manager.
+		}
+
+		/**
+		 * Filter the text of the button that we will show.
+		 *
+		 * @since 2.14.0
+		 *
+		 * @param string $text       The text for the button.
+		 * @param string $group_type The group type of the connector.
+		 * @param string $item       The item of the connector.
+		 */
+		$text = apply_filters(
+			'affwp_connector_manage_groups_text',
+			sprintf(
+				'%1$s %2$s',
+				__( 'Manage', 'affiliate-wp' ),
+				ucfirst( $this->group_plural )
+			),
+			$this->group_type,
+			$this->item
+		);
+
+		?>
+
+		<a href="<?php echo esc_url( $url ); ?>" class="page-title-action"><?php echo esc_html( $text ); ?></a>
+
+		<?php
 	}
 
 	/**
@@ -1994,6 +2073,8 @@ abstract class Connector {
 			$this->item
 		);
 
+		$id = esc_attr( "{$this->item}_{$this->group_type}" );
+
 		?>
 
 		<?php if ( ! empty( $this->modify_form_tag ) ) : ?>
@@ -2048,80 +2129,90 @@ abstract class Connector {
 					-->
 					<style media="screen">
 
-						.select2 .select2-selection.select2-selection--multiple {
+						.group-selector-<?php echo esc_attr( $id ); ?> .select2 .select2-selection.select2-selection--multiple {
 							border: 1px solid #8c8f94 !important;
 						}
 
-						.select2 .select2-selection__choice,
-						.select2 .select2-search.select2-search--inline {
+						.group-selector-<?php echo esc_attr( $id ); ?> .select2 .select2-selection__choice,
+						.group-selector-<?php echo esc_attr( $id ); ?> .select2 .select2-search.select2-search--inline {
 							margin-bottom: 2px;
 						}
 
-						.select2 .select2-search.select2-search--inline input {
+						.group-selector-<?php echo esc_attr( $id ); ?> .select2 .select2-search.select2-search--inline input {
 							min-height: 20px;
 							height: 20px;
 						}
 
-						.select2-search--dropdown .select2-search__field {
+						.group-selector-<?php echo esc_attr( $id ); ?> .select2-search--dropdown .select2-search__field {
 							padding: 0 4px !important;
 						}
 
-						.select2-container--default .select2-selection--single {
+						.group-selector-<?php echo esc_attr( $id ); ?> .select2-container--default .select2-selection--single {
 							min-height: 32px;
 							height: 32px;
 						}
 
+						.group-selector-<?php echo esc_attr( $id ); ?> select.select2 {
+							min-width: 350px;
+						}
+
+						.group-selector-<?php echo esc_attr( $id ); ?> span.select2 {
+							width: auto !important;
+							min-width: 350px;
+						}
+
 					</style>
 
-					<select
-						name="<?php echo esc_attr( "{$this->item}_{$this->group_type}" ); ?>_groups[]"
-						id="<?php echo esc_attr( "{$this->item}_{$this->group_type}" ); ?>_groups"
-						style="min-width: 350px;"
-						class="select2"
-						data-label="<?php echo esc_attr( "{$this->item}_{$this->group_type}" ); ?>_groups[]"
-						data-placeholder="<?php /* Translators: %s is the group plural. */ echo esc_attr( $this->get_group_selector_placeholder_text() ); ?>"
-						data-args='<?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentBeforeOpen,Squiz.PHP.EmbeddedPhp.ContentAfterOpen -- We want to avoid whitespace.
+					<div style="max-width: 100%; min-width: 350px;" class="group-selector-<?php echo esc_attr( $id ); ?>">
 
-						// Use AJAX to populate the drop-downs.
-						echo wp_json_encode(
+						<select
+							name="<?php echo esc_attr( "{$this->item}_{$this->group_type}" ); ?>_groups[]"
+							id="<?php echo esc_attr( "{$this->item}_{$this->group_type}" ); ?>_groups"
+							class="select2 select-group"
+							data-label="<?php echo esc_attr( "{$this->item}_{$this->group_type}" ); ?>_groups[]"
+							data-placeholder="<?php /* Translators: %s is the group plural. */ echo esc_attr( $this->get_group_selector_placeholder_text() ); ?>"
+							data-args='<?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentBeforeOpen,Squiz.PHP.EmbeddedPhp.ContentAfterOpen -- We want to avoid whitespace.
 
-							/**
-							 * Filter the Select2 Arguments.
-							 *
-							 * @since 2.13.2
-							 *
-							 * @param array  $args       Arguments.
-							 * @param string $group_type The group type of the selector.
-							 * @param string $item       The item of the selector.
-							 */
-							apply_filters(
-								'affwp_connector_group_selector_select2_args',
-								array(
-									'minimumInputLength' => 0,
-									'disabled'           => $disabled ? true : false,
+							// Use AJAX to populate the drop-downs.
+							echo wp_json_encode(
 
-									// The groups that should be initially selected.
-									'data'               => $this->get_select2_selected_groups_select2_json( $item ),
+								/**
+								 * Filter the Select2 Arguments.
+								 *
+								 * @since 2.13.2
+								 *
+								 * @param array  $args       Arguments.
+								 * @param string $group_type The group type of the selector.
+								 * @param string $item       The item of the selector.
+								 */
+								apply_filters(
+									'affwp_connector_group_selector_select2_args',
+									array(
+										'minimumInputLength' => 0,
+										'disabled'           => $disabled ? true : false,
 
-									// Use AJAX to populate the drop-down w/ pagination.
-									'ajax'               => array(
-										'url'      => admin_url( 'admin-ajax.php' ),
-										'dataType' => 'json',
-										'cache'    => true,
-										'delay'    => 200,
-										'data'     => array(
-											'action' => $this->get_group_selector_select2_ajax_action(),
-											'nonce'  => wp_create_nonce(
-												$this->nonce_action( 'select', 'groups' ),
-												$this->nonce_action( 'select', 'groups' )
+										// The groups that should be initially selected.
+										'data'               => $this->get_select2_selected_groups_select2_json( $item ),
+
+										// Use AJAX to populate the drop-down w/ pagination.
+										'ajax'               => array(
+											'url'      => admin_url( 'admin-ajax.php' ),
+											'dataType' => 'json',
+											'cache'    => true,
+											'delay'    => 200,
+											'data'     => array(
+												'action' => $this->get_group_selector_select2_ajax_action(),
+												'nonce'  => wp_create_nonce(
+													$this->nonce_action( 'select', 'groups' ),
+													$this->nonce_action( 'select', 'groups' )
+												),
 											),
 										),
 									),
-								),
-								$this->group_type,
-								$this->item
-							)
-						); // phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect -- Indented correctly.
+									$this->group_type,
+									$this->item
+								)
+							); // phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect -- Indented correctly.
 
 						// phpcs:ignore Generic.WhiteSpace.ScopeIndent.IncorrectExact, Squiz.PHP.EmbeddedPhp.ContentAfterEnd -- Want to avoid whitespace.
 						?>'
@@ -2408,6 +2499,8 @@ abstract class Connector {
 			return; // No groups to select.
 		}
 
+		$id = $this->get_filter_dropdown_key();
+
 		?>
 
 		<style>
@@ -2417,54 +2510,58 @@ abstract class Connector {
 			 * look like WordPress in this position.
 			 */
 
-			.select2-container--default .select2-selection {
+			.filter-dropdown-<?php echo esc_attr( $id ); ?> .select2-container--default .select2-selection {
 				height: 31px;
 				border-color: #8c8f94;
 			}
 
-			.select2-search--dropdown .select2-search__field {
+			.filter-dropdown-<?php echo esc_attr( $id ); ?> .select2-search--dropdown .select2-search__field {
 				padding: 0 4px;
 			}
 
 		</style>
 
-		<select
-			name="<?php echo esc_attr( $this->get_filter_dropdown_key() ); ?>"
-			id="<?php echo esc_attr( $this->get_filter_dropdown_key() ); ?>"
-			class="select2 filter-dropdown"
-			style="min-width: 230px;"
-			data-placeholder="<?php /* Translators: %s is the group plural. */ echo esc_attr( $this->get_filter_dropdown_placeholer_text() ); ?>"
-			data-args='<?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentBeforeOpen,Squiz.PHP.EmbeddedPhp.ContentAfterOpen -- We want to avoid whitespace.
+		<span class="filter-dropdown-<?php echo esc_attr( $id ); ?>">
 
-			// Use AJAX to populate the drop-downs.
-			echo wp_json_encode(
-				array(
-					'minimumInputLength' => 0,
+			<select
+				name="<?php echo esc_attr( $id ); ?>"
+				id="<?php echo esc_attr( $id ); ?>"
+				class="select2 filter-dropdown <?php echo esc_attr( $id ); ?>"
+				style="min-width: 230px;"
+				data-placeholder="<?php /* Translators: %s is the group plural. */ echo esc_attr( $this->get_filter_dropdown_placeholer_text() ); ?>"
+				data-args='<?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentBeforeOpen,Squiz.PHP.EmbeddedPhp.ContentAfterOpen -- We want to avoid whitespace.
 
-					// The groups that should be initially selected.
-					'data'               => $this->get_select2_filtered_groups_select2_json(),
+				// Use AJAX to populate the drop-downs.
+				echo wp_json_encode(
+					array(
+						'minimumInputLength' => 0,
 
-					// Use AJAX to populate the drop-down w/ pagination.
-					'ajax'               => array(
-						'url'      => admin_url( 'admin-ajax.php' ),
-						'dataType' => 'json',
-						'cache'    => true,
-						'delay'    => 200,
-						'data'     => array(
-							'action' => $this->get_group_selector_filter_select2_ajax_action(),
-							'nonce'  => wp_create_nonce(
-								$this->nonce_action( 'filter', 'groups' ),
-								$this->nonce_action( 'filter', 'groups' )
+						// The groups that should be initially selected.
+						'data'               => $this->get_select2_filtered_groups_select2_json(),
+
+						// Use AJAX to populate the drop-down w/ pagination.
+						'ajax'               => array(
+							'url'      => admin_url( 'admin-ajax.php' ),
+							'dataType' => 'json',
+							'cache'    => true,
+							'delay'    => 200,
+							'data'     => array(
+								'action' => $this->get_group_selector_filter_select2_ajax_action(),
+								'nonce'  => wp_create_nonce(
+									$this->nonce_action( 'filter', 'groups' ),
+									$this->nonce_action( 'filter', 'groups' )
+								),
 							),
 						),
-					),
-				)
-			); // phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect -- Indented correctly.
+					)
+				); // phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect -- Indented correctly.
 
-			// phpcs:ignore Generic.WhiteSpace.ScopeIndent.IncorrectExact, Squiz.PHP.EmbeddedPhp.ContentAfterEnd -- Want to avoid whitespace.
-			?>'>
-				<!-- Populated via AJAX for performance reasons. -->
-		</select>
+				// phpcs:ignore Generic.WhiteSpace.ScopeIndent.IncorrectExact, Squiz.PHP.EmbeddedPhp.ContentAfterEnd -- Want to avoid whitespace.
+				?>'>
+					<!-- Populated via AJAX for performance reasons. -->
+			</select>
+
+		</span>
 
 		<?php
 

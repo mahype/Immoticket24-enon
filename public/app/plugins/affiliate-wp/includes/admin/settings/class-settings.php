@@ -973,7 +973,7 @@ class Affiliate_WP_Settings {
 					),
 					'default_referral_url' => array(
 						'name' => __( 'Default Referral URL', 'affiliate-wp' ),
-						'desc' => __( 'The default referral URL shown in the Affiliate Area. Also changes the URL shown in the Referral URL Generator and the {referral_url} email tag.', 'affiliate-wp' ),
+						'desc' => __( 'The default referral URL shown in the Affiliate Area.', 'affiliate-wp' ),
 						'type' => 'url'
 					),
 					'recaptcha_enabled' => array(
