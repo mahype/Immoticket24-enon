@@ -325,6 +325,13 @@ class EDDAdjustments {
 				'upload' 		=> '1',
 			);
 
+			$paypal_extra_args = array(
+				'cmd'    => '_cart',
+				'upload' => '1'
+			);
+	
+			$paypal_args = array_merge( $paypal_extra_args, $paypal_args );
+
 			if ( ! empty( $purchase_data['user_info']['address'] ) ) {
 				$paypal_args['address1'] = $purchase_data['user_info']['address']['line1'];
 				$paypal_args['address2'] = $purchase_data['user_info']['address']['line2'];
