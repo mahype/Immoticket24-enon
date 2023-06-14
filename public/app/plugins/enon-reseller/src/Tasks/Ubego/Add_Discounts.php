@@ -104,7 +104,7 @@ class Add_Discounts implements Task, Actions{
 		}
 
 		$prefix = 'ubego';
-		$num    = 10;
+		$num    = 1000;
 		$code_length = 8;
 
 		for( $i = 0; $i < $num; $i++ ) {
