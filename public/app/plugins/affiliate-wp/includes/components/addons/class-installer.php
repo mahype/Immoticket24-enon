@@ -44,6 +44,7 @@ class Installer {
 	 * @return bool True if the addon was successfully installed, otherwise false.
 	 */
 	public function install_addon( $addon_id ) {
+
 		// check if user can install plugins.
 		if ( ! $this->can_install_plugins() ) {
 			return array(
@@ -78,6 +79,15 @@ class Installer {
 
 		// Try to activate the plugin.
 		if ( $installer->plugin_info() ) {
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+
+				return array(
+					'success' => false,
+					'error' => __( 'User doesn&#8217;t have permission to install plugins.', 'affiliate-wp' ),
+				);
+			}
+
 			activate_plugin( $installer->plugin_info() );
 		}
 
@@ -85,7 +95,6 @@ class Installer {
 			'success' => true,
 			'error' => '',
 		);
-
 	}
 
 	/**
@@ -100,6 +109,7 @@ class Installer {
 
 		// Check if user can install plugins.
 		if ( ! $this->can_install_plugins() ) {
+
 			return array(
 				'success' => false,
 				'error' => __( 'User doesn&#8217;t have permission to install plugins.', 'affiliate-wp' ),
@@ -123,6 +133,15 @@ class Installer {
 
 		// Try to activate the plugin.
 		if ( $installer->plugin_info() ) {
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+
+				return array(
+					'success' => false,
+					'error' => __( 'User doesn&#8217;t have permission to activate plugins.', 'affiliate-wp' ),
+				);
+			}
+
 			activate_plugin( $installer->plugin_info() );
 		}
 
@@ -130,7 +149,6 @@ class Installer {
 			'success' => true,
 			'error'   => '',
 		);
-
 	}
 
 	/**
@@ -141,6 +159,7 @@ class Installer {
 	 * @return bool True if the current user can install plugins, otherwise false.
 	 */
 	private function can_install_plugins() {
+
 		if ( ! current_user_can( 'install_plugins' ) ) {
 			return false;
 		}

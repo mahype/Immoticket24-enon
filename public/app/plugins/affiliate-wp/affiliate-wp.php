@@ -5,7 +5,7 @@
  * Description: Affiliate Plugin for WordPress
  * Author: AffiliateWP
  * Author URI: https://affiliatewp.com
- * Version: 2.13.1
+ * Version: 2.14.1
  * Text Domain: affiliate-wp
  * Domain Path: languages
  * GitHub Plugin URI: affiliatewp/affiliatewp
@@ -24,8 +24,8 @@
  *
  * @package AffiliateWP
  * @category Core
- * @author Pippin Williamson
- * @version 2.13.1
+ * @author AffiliateWP
+ * @version 2.14.1
  */
 
 if ( ! class_exists( 'AffiliateWP_Requirements_Check_v1_1' ) ) {

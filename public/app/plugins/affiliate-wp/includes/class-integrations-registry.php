@@ -425,7 +425,7 @@ class Integrations_Registry extends Utils\Registry {
 
 		// Stripe (through WP Simple Pay)
 		$this->add_integration( 'stripe', array(
-			'name'  => 'Stripe (through WP Simple Pay)',
+			'name'  => 'WP Simple Pay',
 			'class' => '\Affiliate_WP_Stripe',
 		) );
 

@@ -12,7 +12,7 @@
 // phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Allowing comments in function call lines.
 // phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Allowing comments in function call lines.
 
-require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/utils/trait-data.php';
+affwp_require_util_traits( 'data' );
 
 class Affiliate_WP_Register {
 
@@ -34,7 +34,7 @@ class Affiliate_WP_Register {
 		add_action( 'added_existing_user', array( $this, 'process_add_as_affiliate' ) );
 		add_action( 'admin_footer', array( $this, 'scripts' ) );
 		add_filter( 'affwp_register_required_fields', array( $this, 'maybe_required_fields' ) );
-		add_action( 'affwp_affiliate_registered', array( $this, 'add_new_affiliates_to_default_group' ), 10, 1 );
+		add_action( 'affwp_register_user', array( $this, 'add_new_affiliates_to_default_group' ), 10, 1 );
 	}
 
 	/**

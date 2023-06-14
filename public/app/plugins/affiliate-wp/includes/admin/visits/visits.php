@@ -44,6 +44,16 @@ function affwp_visits_admin() {
 		<h1>
 			<?php _e( 'Visits', 'affiliate-wp' ); ?>
 			<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'affiliate-wp-reports', 'tab' => 'visits' ) ) ); ?>" class="page-title-action"><?php _ex( 'Reports', 'visits', 'affiliate-wp' ); ?></a>
+			<?php
+
+				/**
+				 * Add actions to the Visits screen.
+				 *
+				 * @since 2.14.0
+				 */
+				do_action( 'affwp_visit_admin_page_actions' );
+
+				?>
 		</h1>
 		<?php
 		/**

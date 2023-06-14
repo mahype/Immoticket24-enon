@@ -42,7 +42,7 @@ final class Affiliate_WP {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '2.13.1';
+	private $version = '2.14.1';
 
 	/**
 	 * Main plugin file.
@@ -266,6 +266,24 @@ final class Affiliate_WP {
 	public $notifications;
 
 	/**
+	 * The custom links instance variable.
+	 *
+	 * @access public
+	 * @since  2.14.0
+	 * @var    Affiliate_WP_Custom_Links_DB
+	 */
+	public Affiliate_WP_Custom_Links_DB $custom_links;
+
+	/**
+	 * The custom link class instance variable.
+	 *
+	 * @access public
+	 * @since  2.14.0
+	 * @var    Affiliate_WP_Custom_Links
+	 */
+	public Affiliate_WP_Custom_Links $custom_Link;
+
+	/**
 	 * Main Affiliate_WP Instance
 	 *
 	 * Insures that only one instance of Affiliate_WP exists in memory at any one
@@ -400,6 +418,10 @@ final class Affiliate_WP {
 	 * @return void
 	 */
 	private function includes() {
+
+		// Loading files in includes/utils.
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/util-functions.php';
+
 		// Libraries.
 		require_once AFFILIATEWP_PLUGIN_LIB_DIR . 'affiliatewp-autoload.php';
 		require_once AFFILIATEWP_PLUGIN_LIB_DIR . 'sandhills/persistent-dismissible/src/persistent-dismissible.php';
@@ -415,7 +437,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-sale.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-visit.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-campaign.php';
-
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affwp-custom-link.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/filters-referral-rates.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/actions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/abstracts/class-affwp-registry.php';
@@ -438,6 +460,9 @@ final class Affiliate_WP {
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/AFFWP_Plugin_Updater.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/abstracts/class-affwp-list-table.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/interfaces/interface-meta-box-base.php';
+
+			// Admin only functions.
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/functions.php';
 
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tooltips.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/affiliates/actions.php';
@@ -469,6 +494,7 @@ final class Affiliate_WP {
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/user-profile.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/pages/class-smtp.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/pages/class-analytics.php';
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/class-about.php';
 		}
 
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-shortcodes.php';
@@ -497,6 +523,8 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-customer-meta-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-creatives-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-creatives.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-custom-links-db.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-custom-links.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/class-affiliate-meta-db.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/affiliate-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/affiliate-meta-functions.php';
@@ -511,6 +539,7 @@ final class Affiliate_WP {
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/visit-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/customer-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/creative-functions.php';
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/custom-link-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/coupon-functions.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/install.php';
 		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/core-compatibility.php';
@@ -597,6 +626,8 @@ final class Affiliate_WP {
 		self::$instance->emails = new Affiliate_WP_Emails;
 		self::$instance->creatives = new Affiliate_WP_Creatives_DB;
 		self::$instance->creative = new Affiliate_WP_Creatives;
+		self::$instance->custom_links = new Affiliate_WP_Custom_Links_DB();
+		self::$instance->custom_Link = new Affiliate_WP_Custom_Links();
 		self::$instance->rewrites = new Affiliate_WP_Rewrites;
 		self::$instance->capabilities = new Affiliate_WP_Capabilities;
 		self::$instance->utils = new Affiliate_WP_Utilities;

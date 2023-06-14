@@ -8,12 +8,11 @@
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0.0
  *
- * @see includes/utils/trait-db.php `upgrade_table()` for alternative usage for
+ * @see includes/utils/traits/trait-db.php `upgrade_table()` for alternative usage for
  *      upgrading database tables vs. using legacy methods for doing so here.
  */
 
-require_once dirname( __DIR__ ) . '/utils/trait-db.php';
-require_once dirname( __DIR__ ) . '/utils/trait-data.php';
+affwp_require_util_traits( 'db', 'data' );
 
 /**
  * Core class for handling upgrade operations.
@@ -238,6 +237,10 @@ class Affiliate_WP_Upgrades {
 			$this->v2110_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.14.0', '<' ) ) {
+			$this->v2140_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -337,6 +340,16 @@ class Affiliate_WP_Upgrades {
 				'id'    => 'upgrade-convert-failed-referrals',
 				'class' => 'AffWP\Utils\Batch_Process\Batch_Upgrade_Convert_Failed_Referrals',
 				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/upgrades/class-batch-upgrade-convert-failed-referrals.php',
+			),
+		) );
+
+		$this->add_routine( 'upgrade_v2140_set_creative_type', array(
+			'version'       => '2.14.0',
+			'compare'       => '<',
+			'batch_process' => array(
+				'id'    => 'set-creative-type',
+				'class' => 'AffWP\Utils\Batch_Process\Batch_Set_Creative_Type',
+				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-set-creative-type.php',
 			),
 		) );
 	}
@@ -1289,8 +1302,27 @@ class Affiliate_WP_Upgrades {
 	private function v2110_upgrade() {
 
 		affiliate_wp()->creatives->create_table();
-		
+
 		@affiliate_wp()->utils->log( 'Upgrade: The attachment_id column has been added to the creatives table.' );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Perform database upgrades for version 2.14.0.
+	 *
+	 * @access  private
+	 * @since   2.14.0
+	 */
+	private function v2140_upgrade() {
+
+		affiliate_wp()->creatives->create_table();
+
+		@affiliate_wp()->utils->log( 'Upgrade: The type and date_updated columns has been added to the creatives table.' );
+
+		affiliate_wp()->custom_links->create_table();
+
+		@affiliate_wp()->utils->log( 'Upgrade: The custom_links table was created.' );
 
 		$this->upgraded = true;
 	}

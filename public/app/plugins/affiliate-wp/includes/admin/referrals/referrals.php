@@ -45,6 +45,16 @@ function affwp_referrals_admin() {
 			<h1>
 				<?php _e( 'Referrals', 'affiliate-wp' ); ?>
 				<a href="<?php echo esc_url( add_query_arg( 'action', 'add_referral' ) ); ?>" class="button action button-small"><?php _e( 'Add New', 'affiliate-wp' ); ?></a>
+				<?php
+
+				/**
+				 * Add actions to the Referrals screen.
+				 *
+				 * @since 2.14.0
+				 */
+				do_action( 'affwp_referral_admin_page_actions' );
+
+				?>
 				<?php if ( current_user_can( 'view_affiliate_reports' ) ) : ?>
 					<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'affiliate-wp-reports', 'tab' => 'referrals' ) ) ); ?>" class="button action button-small"><?php _ex( 'Reports', 'referrals', 'affiliate-wp' ); ?></a>
 				<?php endif; ?>

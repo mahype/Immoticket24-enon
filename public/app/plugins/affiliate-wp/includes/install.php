@@ -15,6 +15,7 @@ use AffWP\Components\Notifications\Notifications_DB;
  * Installs AffiliateWP.
  *
  * @since 0.1
+ * @since 2.14.0 Included support for custom_links features.
  */
 function affiliate_wp_install() {
 
@@ -37,6 +38,7 @@ function affiliate_wp_install() {
 	$affiliate_wp_install->rewrites       = new Affiliate_WP_Rewrites;
 	$affiliate_wp_install->REST           = new Affiliate_WP_REST;
 	$affiliate_wp_install->notifications  = new Notifications_DB;
+	$affiliate_wp_install->custom_links   = new Affiliate_WP_Custom_Links_DB();
 
 	$affiliate_wp_install->affiliates->create_table();
 	$affiliate_wp_install->affiliate_meta->create_table();
@@ -52,6 +54,7 @@ function affiliate_wp_install() {
 	$affiliate_wp_install->affiliates->coupons->create_table();
 	$affiliate_wp_install->REST->consumers->create_table();
 	$affiliate_wp_install->notifications->create_table();
+	$affiliate_wp_install->custom_links->create_table();
 
 	if ( ! get_option( 'affwp_is_installed' ) ) {
 
@@ -143,6 +146,7 @@ function affiliate_wp_install() {
 		'upgrade_v27_calculate_campaigns',
 		'upgrade_v274_calculate_campaigns',
 		'upgrade_v281_convert_failed_referrals',
+		'upgrade_v2140_set_creative_type',
 	);
 
 	// Set past upgrade routines complete for all sites.

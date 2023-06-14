@@ -19,8 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-data.php';
-require_once dirname( dirname( __DIR__ ) ) . '/utils/trait-nonce.php';
+affwp_require_util_traits( 'data', 'nonce' );
 
 /**
  * Group Admin UI Management
@@ -69,6 +68,15 @@ abstract class Management {
 
 	use \AffiliateWP\Utils\Data;
 	use \AffiliateWP\Utils\Nonce;
+
+	/**
+	 * Prefix for all the hooks in this class.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @var string
+	 */
+	private $hook_prefix = 'affwp_admin_groups_management';
 
 	/**
 	 * Errors
@@ -263,7 +271,7 @@ abstract class Management {
 	private $view = '';
 
 	/**
-	 * Constuct.
+	 * Construct.
 	 *
 	 * @since 2.12.0
 	 */
@@ -272,6 +280,28 @@ abstract class Management {
 		$this->errors = new \WP_Error();
 
 		$this->validate_properties();
+
+		/**
+		 * Filter meta fields.
+		 *
+		 * @since 2.13.2
+		 *
+		 * @param array                                $meta_fields Meta fields.
+		 * @param string                               $group_type  The group type.
+		 * @param string                               $item        The item.
+		 * @param string                               $menu_slug   The menu slug.
+		 * @param \AffiliateWP\Admin\Groups\Management $management  This object.
+		 *
+		 * @var array
+		 */
+		$this->meta_fields = apply_filters(
+			'affwp_group_managment_meta_fields',
+			$this->meta_fields,
+			$this->group_type,
+			$this->item,
+			$this->menu_slug,
+			$this
+		);
 
 		$this->register_group_type();
 		$this->register_group_connectable();
@@ -400,7 +430,7 @@ abstract class Management {
 	 * @param string $message The message for the error.
 	 * @param mixed  $data    The data.
 	 */
-	protected function add_error( string $name, string $message, $data = null ) : void {
+	public function add_error( string $name, string $message, $data = null ) : void {
 
 		$this->errors->add(
 			$name,
@@ -1001,7 +1031,7 @@ abstract class Management {
 								aria-describedby="name-description">
 
 							<p class="description" id="name-description">
-								<?php esc_html_e( 'The name is how it appears on your site.', 'affiliate-wp' ); ?>
+								<?php echo esc_html( $this->get_name_description() ); ?>
 							</p>
 						</td>
 					</tr>
@@ -1166,7 +1196,7 @@ abstract class Management {
 		}
 
 		// The connector should broadcast to use, through this filter, if a connector is connected.
-		return apply_filters( "affwp_admin_groups_management_{$this->item}_has_connector", false );
+		return apply_filters( "{$this->hook_prefix}_{$this->item}_has_connector", false );
 	}
 
 	/**
@@ -1318,6 +1348,159 @@ abstract class Management {
 	}
 
 	/**
+	 * Row Actions (Before).
+	 *
+	 * Override to implement your own, or use hooks.
+	 *
+	 * @param \AffiliateWP\Groups\Group $group Group object.
+	 *
+	 * @return void Display only.
+	 */
+	protected function row_actions_before( \AffiliateWP\Groups\Group $group ) : void {
+
+		/**
+		 * Add extra row actions (Before).
+		 *
+		 * @since 2.14.0
+		 *
+		 * @param \AffiliateWP\Groups\Group $group      The group object.
+		 * @param string                    $group_type The group type.
+		 * @param string                    $item       The item.
+		 * @param string                    $menu_slug  The menu slug.
+		 */
+		do_action(
+			"{$this->hook_prefix}_row_actions_before",
+			$group,
+			$this->group_type,
+			$this->item,
+			$this->menu_slug
+		);
+	}
+
+	/**
+	 * Row Actions (After).
+	 *
+	 * Override to implement your own, or use hooks.
+	 *
+	 * @param \AffiliateWP\Groups\Group $group Group object.
+	 *
+	 * @return void Display only.
+	 */
+	protected function row_actions_after( \AffiliateWP\Groups\Group $group ) : void {
+
+		/**
+		 * Add extra row actions (After).
+		 *
+		 * @since 2.14.0
+		 *
+		 * @param \AffiliateWP\Groups\Group $group      The group object.
+		 * @param string                    $group_type The group type.
+		 * @param string                    $item       The item.
+		 * @param string                    $menu_slug  The menu slug.
+		 */
+		do_action(
+			"{$this->hook_prefix}_row_actions_after",
+			$group,
+			$this->group_type,
+			$this->item,
+			$this->menu_slug
+		);
+	}
+
+	/**
+	 * Row Actions for the Group.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @param \AffiliateWP\Groups\Group $group Group object.
+	 *
+	 * @return void Display only.
+	 */
+	protected function row_actions( \AffiliateWP\Groups\Group $group ) : void {
+		?>
+
+		<div class="row-actions">
+
+			<?php $this->row_actions_before( $group ); ?>
+
+			<span class="edit">
+				<a
+					href="<?php echo esc_url( $this->get_group_edit_url( $group->group_id ) ); ?>"
+					aria-label="<?php /* Translators: */ echo esc_html( sprintf( __( 'Edit %s', 'affiliate-wp' ), $group->get_title() ) ); ?>">
+
+						<?php echo esc_html_e( 'Edit', 'affiliate-wp' ); ?>
+				</a>
+				|
+			</span>
+			<span class="inline">
+				<a
+					href="<?php echo esc_url( wp_nonce_url( "admin.php?page=affiliate-wp-{$this->menu_slug}&action=delete&group_id={$group->group_id}", $this->nonce_action( 'delete', 'group' ), $this->nonce_action( 'delete', 'group' ) ) ); ?>"
+					class="editinline delete group"
+					aria-label="<?php /* Translators: */ echo esc_attr( sprintf( __( 'Delete %s', 'affiliate-wp' ), $group->get_title() ) ); ?>"
+					aria-expanded="false"
+					style="color: #b32d2e;">
+
+					<?php esc_html_e( 'Delete', 'affiliate-wp' ); ?>
+				</a>
+			</span>
+
+			<?php $this->row_actions_after( $group ); ?>
+		</div>
+
+		<?php
+	}
+
+	/**
+	 * Get the group edit link.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @param int $group_id The group id.
+	 *
+	 * @return string URL.
+	 */
+	protected function get_group_edit_url( int $group_id ) : string {
+
+		return wp_nonce_url(
+			"admin.php?page=affiliate-wp-{$this->menu_slug}&action=edit&group_id={$group_id}",
+			$this->nonce_action( 'edit', 'group' ),
+			'_wpnonce'
+		);
+	}
+
+	/**
+	 * Row classes for group.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @param \AffiliateWP\Groups\Group $group The group object.
+	 *
+	 * @return string
+	 */
+	protected function row_classes( \AffiliateWP\Groups\Group $group ) : string {
+
+		/**
+		 * Add classes to each row.
+		 *
+		 * @since 2.14.0
+		 *
+		 * @param string                    $classes    The classes.
+		 * @param \AffiliateWP\Groups\Group $group      The group object.
+		 * @param string                    $group_type The group type.
+		 * @param string                    $item       The item.
+		 * @param string                    $menu_slug  The menu slug.
+		 */
+		return apply_filters(
+			"{$this->hook_prefix}_row_classes",
+			"group-{$group->get_id()}",
+			$group,
+			$this->group_type,
+			$this->item,
+			$this->menu_slug
+		);
+	}
+
+	/**
 	 * Main view for all groups.
 	 *
 	 * @since  2.12.0
@@ -1375,7 +1558,7 @@ abstract class Management {
 										required
 										aria-describedby="name-description" />
 
-									<p id="name-description"><?php esc_html_e( 'The name is how it appears on your site.', 'affiliate-wp' ); ?></p>
+									<p id="name-description"><?php echo esc_html( $this->get_name_description() ); ?></p>
 								</div>
 
 								<!-- Meta fields for main/add view. -->
@@ -1446,7 +1629,7 @@ abstract class Management {
 										scope="col"
 										id="name"
 										class="manage-column column-name column-primary desc"
-										style="width: 20%">
+										style="width: 30%">
 
 										<span><?php esc_html_e( 'Name', 'affiliate-wp' ); ?></span>
 									</th>
@@ -1481,19 +1664,9 @@ abstract class Management {
 							<tbody id="the-list" data-wp-lists="list:tag">
 
 								<?php foreach ( $groups as $group ) : ?>
-									<?php
-
-									// The URL to edit this $group.
-									$edit_url = wp_nonce_url(
-										"admin.php?page=affiliate-wp-{$this->menu_slug}&action=edit&group_id={$group->group_id}",
-										$this->nonce_action( 'edit', 'group' ),
-										'_wpnonce'
-									);
-
-									?>
 
 									<!-- Name -->
-									<tr id="tag-1" class="level-0 name">
+									<tr id="group-<?php echo absint( $group->get_id() ); ?>" class="level-0 name group-row <?php echo esc_attr( $this->row_classes( $group ) ); ?>">
 										<td
 											class="name column-name has-row-actions column-primary"
 											data-colname="<?php esc_attr_e( 'Name', 'affiliate-wp' ); ?>">
@@ -1501,7 +1674,7 @@ abstract class Management {
 											<strong>
 												<a
 														class="row-title"
-														href="<?php echo esc_url( $edit_url ); ?>"
+														href="<?php echo esc_url( $this->get_group_edit_url( $group->group_id ) ); ?>"
 														aria-label="<?php echo esc_html( $group->get_title() ); ?> (<?php esc_html_e( 'Edit', 'affiliate-wp' ); ?>)">
 
 													<?php echo esc_html( wp_trim_words( $group->get_title(), 20 ) ); ?>
@@ -1524,28 +1697,7 @@ abstract class Management {
 
 											<br />
 
-											<div class="row-actions">
-												<span class="edit">
-													<a
-														href="<?php echo esc_url( $edit_url ); ?>"
-														aria-label="<?php /* Translators: */ echo esc_html( sprintf( __( 'Edit %s', 'affiliate-wp' ), $group->get_title() ) ); ?>">
-
-															<?php echo esc_html_e( 'Edit', 'affiliate-wp' ); ?>
-													</a>
-													|
-												</span>
-												<span class="inline">
-													<a
-														href="<?php echo esc_url( wp_nonce_url( "admin.php?page=affiliate-wp-{$this->menu_slug}&action=delete&group_id={$group->group_id}", $this->nonce_action( 'delete', 'group' ), $this->nonce_action( 'delete', 'group' ) ) ); ?>"
-														class="editinline delete group"
-														aria-label="<?php /* Translators: */ echo esc_attr( sprintf( __( 'Delete %s', 'affiliate-wp' ), $group->get_title() ) ); ?>"
-														aria-expanded="false"
-														style="color: #b32d2e;">
-
-														<?php esc_html_e( 'Delete', 'affiliate-wp' ); ?>
-													</a>
-												</span>
-											</div>
+											<?php $this->row_actions( $group ); ?>
 										</td>
 
 										<!-- Meta field columns (values). -->
@@ -1754,7 +1906,7 @@ abstract class Management {
 			return; // Don't do the below unless we're on our managment screen.
 		}
 
-		// All management JS should be Alipne JS: https://alpinejs.dev/.
+		// Some management JS is in Alipne JS: https://alpinejs.dev/.
 		wp_enqueue_script( 'alpinejs' );
 
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG
@@ -1771,7 +1923,7 @@ abstract class Management {
 
 		wp_localize_script(
 			'affwp-group-management',
-			'affwpCreativeCategories',
+			'affwpGroupManagment',
 			array(
 				'delete' => array(
 					'selector' => "body.affiliates_page_affiliate-wp-{$this->menu_slug} .row-actions .editinline.delete.group",
@@ -1876,5 +2028,16 @@ abstract class Management {
 		if ( ! is_array( $this->meta_fields ) ) {
 			throw new \InvalidArgumentException( 'self::meta_fields must be an array. ' );
 		}
+	}
+
+	/**
+	 * Description for the name field.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @return string
+	 */
+	private function get_name_description() : string {
+		return __( 'The name is how it appears on your site.', 'affiliate-wp' );
 	}
 }

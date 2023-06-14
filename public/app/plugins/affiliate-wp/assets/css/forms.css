@@ -45,7 +45,7 @@ table.affwp-table th {
 
 .affwp-form input {
 	border: 1px solid #eaeaea;
-	border: 1px solid rgba( 51, 51, 51, 0.1 );
+	border: 1px solid rgba(51, 51, 51, 0.1);
 }
 
 .affwp-form input[type="text"].required,
@@ -71,7 +71,7 @@ table.affwp-table th {
 
 .affwp-form .affwp-field-terms-of-use-content {
 	background-color: #fff;
-	border: 1px solid rgba( 51, 51, 51, 0.1 );
+	border: 1px solid rgba(51, 51, 51, 0.1);
 	color: #444;
 	padding: 0 1rem;
 	margin: 1rem 0 0.5rem 0;
@@ -96,12 +96,71 @@ table.affwp-table th {
 	margin: 0 5px 0 0;
 }
 
+.affwp-hidden {
+	display: none;
+}
+
 .affwp-wrap {
 	margin-bottom: 20px;
 }
 
-#affwp-generate-ref-url input {
-	width: 100%;
+#affwp-custom-link-generator {
+	background: #f9f9f9;
+	padding: 20px;
+	border: 1px solid #eaeaea;
+	margin-bottom: 40px;
+}
+
+#affwp-custom-links-table .affwp-custom-link {
+	cursor: pointer;
+}
+
+.affwp-custom-link-row {
+	display: flex;
+	justify-content: space-between;
+	gap: 4rem;
+	position: relative;
+}
+
+.affwp-custom-link-actions {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 0.1s ease-out;
+}
+
+.affwp-custom-link-actions button:hover {
+	background: transparent;
+	border: 0;
+}
+
+.affwp-custom-link-action {
+	color: #666;
+	transition: color 0.1s ease-out;
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+}
+
+#affwp-custom-links-table
+	td[data-field="link"]:hover
+	.affwp-custom-link-actions {
+	visibility: visible;
+	opacity: 1;
+}
+
+button.affwp-tooltip {
+	appearance: none;
+	-webkit-appearance: none;
+	background-color: transparent;
+	border: none;
+	margin: 0;
+	padding: 0;
+	background-color: unset !important;
+	display: flex;
 }
 
 .affwp-errors,
@@ -109,23 +168,28 @@ table.affwp-table th {
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
-	border: 1px solid #E6DB55;
+	border: 1px solid #e6db55;
 	margin: 0 0 21px 0;
-	background: #FFFFE0;
+	background: #ffffe0;
 	color: #333;
 }
 
 .affwp-error,
 .affwp-notice {
-	padding:10px;
+	padding: 10px;
 }
 
 p.affwp-error {
 	margin: 0 !important;
 }
 
-#affwp-affiliate-dashboard h4 {
+#affwp-affiliate-dashboard h4,
+#affwp-affiliate-dashboard-url-generator h4 {
 	margin-bottom: 20px;
+}
+
+#affwp-affiliate-dashboard-url-generator h4 {
+	margin-top: 0;
 }
 
 #affwp-graphs-filter {
@@ -219,9 +283,9 @@ p.affwp-error {
 
 .affwp-creative pre {
 	background-color: transparent;
-	background-color: rgba( 0, 0, 0, 0.01 );
+	background-color: rgba(0, 0, 0, 0.01);
 	border: 1px solid #eaeaea;
-	border: 1px solid rgba( 51, 51, 51, 0.1 );
+	border: 1px solid rgba(51, 51, 51, 0.1);
 	line-height: 1.5;
 	max-width: 100%;
 	overflow: auto;
@@ -252,7 +316,7 @@ p.affwp-error {
 	margin-bottom: 40px;
 	padding-bottom: 20px;
 	border-bottom: 1px solid #eaeaea;
-	border-bottom: 1px solid rgba( 51, 51, 51, 0.1 );
+	border-bottom: 1px solid rgba(51, 51, 51, 0.1);
 }
 
 .affwp-creative:last-of-type {
@@ -283,14 +347,21 @@ p.affwp-error {
 }
 
 @media (max-width: 767px) {
-
-	#affwp-affiliate-dashboard-campaign-stats .affwp-table-responsive td.affwp-table-no-data {
+	#affwp-affiliate-dashboard-campaign-stats
+		.affwp-table-responsive
+		td.affwp-table-no-data {
 		display: block;
 	}
 
-	#affwp-affiliate-dashboard-visits .affwp-table-responsive td.affwp-table-no-data:before,
-	#affwp-affiliate-dashboard-payouts .affwp-table-responsive td.affwp-table-no-data:before,
-	#affwp-affiliate-dashboard-referrals .affwp-table-responsive td.affwp-table-no-data:before {
+	#affwp-affiliate-dashboard-visits
+		.affwp-table-responsive
+		td.affwp-table-no-data:before,
+	#affwp-affiliate-dashboard-payouts
+		.affwp-table-responsive
+		td.affwp-table-no-data:before,
+	#affwp-affiliate-dashboard-referrals
+		.affwp-table-responsive
+		td.affwp-table-no-data:before {
 		display: none;
 	}
 
@@ -321,4 +392,14 @@ p.affwp-error {
 		justify-content: space-between;
 	}
 
+	.affwp-custom-link-row {
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.affwp-custom-link-actions {
+		visibility:  visible;
+		opacity: 1;
+		padding: 10px 0;
+	}
 }

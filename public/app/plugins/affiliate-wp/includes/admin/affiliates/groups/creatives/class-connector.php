@@ -14,6 +14,8 @@
 // phpcs:disable Generic.Commenting.DocComment.MissingShort -- No need to re-document some methods and properties.
 // phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Formatting OK in this file.
 // phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Formatting OK in this file.
+// phpcs:ignore Squiz.Commenting.InlineComment.NoSpaceBefore -- Formatting OK.
+// phpcs:disable PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket, PEAR.Functions.FunctionCallSignature.CloseBracketLine -- Allow surrounding code w/out line breaks.
 
 namespace AffiliateWP\Admin\Affiliates\Groups\Creatives;
 
@@ -69,9 +71,7 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 		// Translate properties.
 		$this->item_plural  = __( 'Creatives', 'affiliate-wp' );
 		$this->item_single  = __( 'Creative', 'affiliate-wp' );
-		$this->group_plural = $this->assigning_affiliates_to_creatives_is_disabled()
-			? __( 'Groups', 'affiliate-wp' )
-			: __( 'Affiliates', 'affiliate-wp' );
+		$this->group_plural = __( 'Groups', 'affiliate-wp' );
 		$this->group_single = __( 'Affiliate Group', 'affiliate-wp' );
 
 		// Setup the template for this being in the 2nd place on the new/edit forms.
@@ -84,18 +84,42 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 		$this->modify_multiselect_position_to_before_status_hooks();
 		$this->customize_label_hooks();
 		$this->language_hooks();
-
-		if ( $this->assigning_affiliates_to_creatives_is_disabled() ) {
-
-			parent::__construct();
-			return;
-		}
+		$this->hide_management_button_hooks();
 
 		// Assigning creatives to affiliates when there are low affiliates.
-		$this->connect_creatives_to_affiliate_groups_and_affiliates_hooks();
+		$this->connect_creatives_to_affiliates_hooks();
 		$this->show_affiliates_in_group_tooltip_hooks();
 
 		parent::__construct();
+	}
+
+	/**
+	 * Hide the manage groups button hooks.
+	 *
+	 * @since 2.14.0
+	 */
+	private function hide_management_button_hooks() : void {
+		add_filter( 'affwp_connector_hide_manage_groups_button', array( $this, 'hide_management_button' ), 10, 3 );
+	}
+
+	/**
+	 * Hide the manage groups button on the creatives screen.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @param bool   $hide       Set to `true` to hide the button.
+	 * @param string $group_type The group type of the connector.
+	 * @param string $item       The item of the connector.
+	 *
+	 * @return bool
+	 */
+	public function hide_management_button( bool $hide, string $group_type, string $item ) : bool {
+
+		if ( ! $this->is_same_connector( $group_type, $item ) ) {
+			return $hide;
+		}
+
+		return true;
 	}
 
 	/**
@@ -108,6 +132,205 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 		add_filter( 'affwp_group_connector_description', array( $this, 'description' ), 10, 4 );
 		add_filter( 'affwp_connector_column', array( $this, 'customize_column' ), 10, 3 );
 		add_filter( 'affwp_connector_column_contents_none', array( $this, 'set_none_to_public' ), 9, 3 );
+		add_filter( 'affwp_connector_group_selector_placeholder', array( $this, 'set_group_selector_placeholder' ), 10, 3 );
+		add_filter( 'affwp_connector_all_groups_text', array( $this, 'set_all_groups_text' ), 10, 3 );
+		add_filter( 'affwp_connector_no_groups_text', array( $this, 'set_no_groups_text' ), 10, 3 );
+		add_filter( 'affwp_connector_filter_dropdown_selected_group_select2_json', array( $this, 'add_affiliate_group_designation_to_selected_filter_dropdown_group' ), 10, 3 );
+		add_filter( 'affwp_connector_filter_dropdown_selected_unknown_item_select2_json', array( $this, 'add_selected_affiliate_in_filter_dropdown' ), 10, 4 );
+	}
+
+	/**
+	 * Add (Affiliate) designation to selected group in the filter drop-down.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param array  $json                   The JSON for Select2.
+	 * @param string $group_type             The group type of the connector.
+	 * @param string $item                   The item of the connector.
+	 * @param mixed  $selected_filter_option The option we got from GET.
+	 *
+	 * @return array
+	 */
+	public function add_selected_affiliate_in_filter_dropdown(
+		array $json,
+		string $group_type,
+		string $item,
+		$selected_filter_option
+	) : array {
+
+		if ( 'creative' !== $item ) {
+			return $json;
+		}
+
+		if ( ! $this->is_same_connector( $group_type, $item ) ) {
+			return $json;
+		}
+
+		if ( ! strstr( $selected_filter_option, 'affiliate-' ) ) {
+			return $json; // We only care about affiliates being selected.
+		}
+
+		$affiliate_id = str_replace( 'affiliate-', '', $selected_filter_option );
+
+		if ( ! is_numeric( $affiliate_id ) ) {
+			return $json;
+		}
+
+		if ( ! affwp_get_affiliate( $affiliate_id ) ) {
+			return $json; // Not an affiliate.
+		}
+
+		$json = array(
+
+			// The selected affiliate.
+			$this->esc_select_2_json_item( array(
+				'selected' => true,
+				'id'       => $selected_filter_option,
+				'text'     => sprintf(
+					'%1$s %2$s',
+					$this->get_affiliate_option_text_format( $affiliate_id ),
+					$this->get_affiliate_option_designation_text()
+				),
+			) ),
+		);
+
+		return $json;
+	}
+
+	/**
+	 * Format for displaying an affiliate option.
+	 *
+	 * Displays name (dash) email.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param int $affiliate_id The affiliate id.
+	 *
+	 * @return string
+	 *
+	 * @throws \InvalidArgumentException If not an affiliate id.
+	 */
+	private function get_affiliate_option_text_format( int $affiliate_id ) {
+
+		if ( ! affwp_get_affiliate( $affiliate_id ) ) {
+			throw new \InvalidArgumentException( '$affiliate_id is not a valid affiliate id.' );
+		}
+
+		return sprintf(
+
+			// Format the affiliate name - email.
+			'%1$s&nbsp;&mdash;&nbsp;%2$s',
+			affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id ),
+			affwp_get_affiliate_email( $affiliate_id )
+		);
+	}
+
+	/**
+	 * Add (Affiliate Group) designation to selected affiliate group in the filter drop-down.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param array  $json       The JSON for Select2.
+	 * @param string $group_type The group type of the connector.
+	 * @param string $item       The item of the connector.
+	 *
+	 * @return array
+	 */
+	public function add_affiliate_group_designation_to_selected_filter_dropdown_group(
+		array $json,
+		string $group_type,
+		string $item
+	) : array {
+
+		if ( 'creative' !== $item ) {
+			return $json;
+		}
+
+		if ( ! $this->is_same_connector( $group_type, $item ) ) {
+			return $json;
+		}
+
+		// Re-format the group text to include (Affiliate Group).
+		$json[0]['text'] = esc_attr( esc_html( sprintf(
+			'%1$s %2$s',
+			$json[0]['text'],
+			$this->get_affiliate_group_option_designation_text()
+		) ) );
+
+		return $json;
+	}
+
+	/**
+	 * Set no groups option text.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param string $text       The normal text.
+	 * @param string $group_type The group type of the connector.
+	 * @param string $item       The item of the connector.
+	 *
+	 * @return string
+	 */
+	public function set_no_groups_text( string $text, string $group_type, string $item ) : string {
+
+		if ( 'creative' !== $item ) {
+			return $text;
+		}
+
+		if ( ! $this->is_same_connector( $group_type, $item ) ) {
+			return $text;
+		}
+
+		// Creatives with no affiliates or affiliate groups are public.
+		return __( 'Public', 'affiliate-wp' );
+	}
+
+	/**
+	 * Set all groups option text.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param string $text       The normal text.
+	 * @param string $group_type The group type of the connector.
+	 * @param string $item       The item of the connector.
+	 *
+	 * @return string
+	 */
+	public function set_all_groups_text( string $text, string $group_type, string $item ) : string {
+
+		if ( 'creative' !== $item ) {
+			return $text;
+		}
+
+		if ( ! $this->is_same_connector( $group_type, $item ) ) {
+			return $text;
+		}
+
+		return __( 'Private & Public', 'affiliate-wp' );
+	}
+
+	/**
+	 * Set the placeholder text.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param string $placeholder The placeholder text.
+	 * @param string $group_type  The group type of the selector.
+	 * @param string $item        The item of the selector.
+	 *
+	 * @return string
+	 */
+	public function set_group_selector_placeholder( string $placeholder, string $group_type, string $item ) : string {
+
+		if ( ! $this->is_same_connector( $group_type, $item ) ) {
+			return $placeholder;
+		}
+
+		if ( 'creative' !== $item ) {
+			return $placeholder;
+		}
+
+		return __( 'Type to search affiliate groups and affiliates.', 'affiliate-wp' );
 	}
 
 	/**
@@ -123,7 +346,7 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 
 		return array_filter(
 
-			// Get all groups (reguardless of type) connected to the creative.
+			// Get all groups (regardless of type) connected to the creative.
 			affiliate_wp()->connections->get_connected(
 				'group',
 				'creative',
@@ -192,18 +415,11 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 	 *
 	 * @return void
 	 */
-	private function connect_creatives_to_affiliate_groups_and_affiliates_hooks() : void {
+	private function connect_creatives_to_affiliates_hooks() : void {
 
 		if ( ! $this->user_has_capability() ) {
 			return; // None of the hooks below are required.
 		}
-
-		// Affiliates.
-		add_action( 'affwp_group_connector_after_groups_options', array( $this, 'add_affiliates' ), 10, 3 );
-
-		// Optgroups.
-		add_action( 'affwp_group_connector_before_group_options', array( $this, 'start_group_optgroup' ), 10, 3 );
-		add_action( 'affwp_group_connector_after_group_options', array( $this, 'end_group_optgroup' ), 10, 3 );
 
 		// Connect affiliates when updating/adding creative.
 		add_filter( 'affwp_group_connector_item_groups', array( $this, 'connect_selected_affiliates' ), 10, 4 );
@@ -211,22 +427,323 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 		// Show selected individual affiliates in the list table view.
 		add_filter( 'affwp_connector_column_contents', array( $this, 'add_affiliates_to_affiliates_column' ), 10, 4 );
 
-		// Show affiliates in the filter dropdown.
-		add_action( 'affwp_connector_filter_dropdown_after_group_options', array( $this, 'show_affiliates_in_filter_dropdown' ), 10, 4 );
-		add_filter( 'affwp_connector_filter_dropdown_before_group_options', array( $this, 'optgroup_affiliate_groups' ), 10, 4 );
-
-		// If an affiliate is selected from the filter dropdown, filter those items out (that are not associated with the affiliate).
+		// If an affiliate is selected from the filter drop-down, filter those items out (that are not associated with the affiliate).
 		add_filter( 'affwp_connector_filter_table_get_items_args', array( $this, 'filter_creatives_associated_with_selected_affiliate' ), 10, 3 );
 
-		// Add assign to affiliates to bulk item connectors.
+		// Keep group selector drop-down working when there are affiliates.
+		add_filter( 'affwp_connector_group_selector_disabled', array( $this, 'only_disable_selector_when_there_are_also_no_affiliates' ), 10, 3 );
+		add_filter( 'affwp_connector_filter_dropdown_hidden', array( $this, 'dont_hide_dropdown_when_affiliates_are_selectable' ), 10, 3 );
+
+		// Make sure the selected affiliates show in the group selector.
+		add_filter( 'affwp_connector_get_selected_groups_select2_json', array( $this, 'set_connected_affiliates_in_group_selector_that_are_connected_to_creative' ), 10, 4 );
+
+		// Add affiliates (in the mix) to the selectable affiliate groups (over AJAX using Select2).
+		add_filter( 'get_groups_in_select2_json_format', array( $this, 'add_affiliates_to_affiliate_groups_selector_in_select2_json_format' ), 10, 4 );
+
+		if ( $this->assigning_affiliates_to_creatives_is_disabled() ) {
+			return;
+		}
+
+		// Add affiliates for bulk assignment.
 		add_filter( 'affwp_connector_bulk_items', array( $this, 'add_affiliate_bulk_items' ), 10, 3 );
 
+		// Save bulk assignment.
 		foreach ( $this->get_affiliates_bulk_items() as $action => $name ) {
 			add_action( $this->filter_hook_name( "affwp_{$this->item}s_do_bulk_action_{$action}" ), array( $this, 'connect_bulk_selected_affiliate_to_item' ) );
 		}
+	}
 
-		add_filter( 'affwp_connector_group_selector_disabled', array( $this, 'only_disable_selector_when_there_are_also_no_affiliates' ), 10, 3 );
-		add_filter( 'affwp_connector_filter_dropdown_hidden', array( $this, 'dont_hide_dropdown_when_affiliates_are_selectable' ), 10, 3 );
+	/**
+	 * Connect a bulk selected item (affiliate) to the applied item.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param int $item_id The ID of the item.
+	 */
+	public function connect_bulk_selected_affiliate_to_item( int $item_id ) : void {
+
+		$affiliate_id = $this->get_affiliate_id_from_action();
+
+		if ( ! $this->is_numeric_and_gt_zero( $affiliate_id ) ) {
+			return; // No affiliate chosen/sent (this shouldn't happen).
+		}
+
+		if ( ! $this->user_has_capability() ) {
+			return;
+		}
+
+		$this->connect_affiliate_with_item( $affiliate_id, $item_id );
+	}
+
+	/**
+	 * Connect an affiliate with an item (by id).
+	 *
+	 * @since 2.13.0
+	 *
+	 * @param int $affiliate_id The affiliate id.
+	 * @param int $item_id      The item id.
+	 *
+	 * @return void
+	 */
+	private function connect_affiliate_with_item( int $affiliate_id, int $item_id ) : void {
+
+		if ( ! $this->user_has_capability() ) {
+			return;
+		}
+
+		affiliate_wp()->connections->connect(
+			array(
+				'affiliate' => intval( $affiliate_id ),
+				$this->item => intval( $item_id ),
+			)
+		);
+	}
+
+	/**
+	 * Append assign to affiliate bulk items.
+	 *
+	 * @since 2.13.0
+	 * @since 2.13.2 Note that this might be disabled, see filter for more.
+	 *
+	 * @param array  $actions      Default bulk items.
+	 * @param string $group_type The group type of the connector.
+	 * @param string $item       The item of the connector.
+	 *
+	 * @return array
+	 */
+	public function add_affiliate_bulk_items( array $actions, string $group_type, string $item ) : array {
+
+		if ( ! $this->is_same_connector( $group_type, $item ) ) {
+			return $actions; // Not our connector.
+		}
+
+		if ( $this->assigning_affiliates_to_creatives_is_disabled() ) {
+			return $actions;
+		}
+
+		return array_merge(
+			$actions,
+			$this->get_affiliates_bulk_items()
+		);
+	}
+
+	/**
+	 * Are there too many affiliates to list?
+	 *
+	 * @since 2.13.1
+	 *
+	 * @return bool
+	 */
+	private function assigning_affiliates_to_creatives_is_disabled() : bool {
+
+		/**
+		 * Filter whether to disable the ability to assign creatives to affiliates.
+		 *
+		 * On Apr 12, 2023 we decided to disable the ability to assign creatives to affiliates.
+		 *
+		 * @since 2.13.1
+		 *
+		 * @param $disabled Set to `true` to disable the feature (default), `false` to allow assigning creatives to individual affiliates.
+		 */
+		return apply_filters( 'affwp_assigning_affiliates_to_creatives_is_disabled', true );
+	}
+
+	/**
+	 * Get the bulk items for assigning to affiliates.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return array
+	 */
+	private function get_affiliates_bulk_items() : array {
+
+		static $cache = null;
+
+		if ( ! is_null( $cache ) ) {
+			return $cache;
+		}
+
+		$affiliate_assign_to_bulk_items = array();
+
+		foreach ( $this->get_all_affiliate_ids_sorted_alpha() as $name => $affiliate_id ) {
+
+			// Add assigning bulk item.
+			$affiliate_assign_to_bulk_items[ "assign-affiliate:{$affiliate_id}" ] = sprintf(
+
+				// Translators: %s is the name of the affiliate.
+				__( 'Assign Affiliate: %s', 'affiliate-wp' ),
+				sprintf(
+					'%1$s&nbsp;&mdash;&nbsp;%2$s',
+					esc_html( $name ),
+					affwp_get_affiliate_email( $affiliate_id )
+				)
+			);
+		}
+
+		// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- Used to cache.
+		return $cache = $affiliate_assign_to_bulk_items;
+	}
+
+	/**
+	 * The designation for an affiliate option.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @return string
+	 */
+	private function get_affiliate_option_designation_text() : string {
+		return __( '(Affiliate)', 'affiliate-wp' );
+	}
+
+	/**
+	 * The designation for an affiliate group option.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @return string
+	 */
+	private function get_affiliate_group_option_designation_text() : string {
+		return __( '(Affiliate Group)', 'affiliate-wp' );
+	}
+
+	/**
+	 * Add all affiliates to the selectable list of affiliate groups.
+	 *
+	 * Adds affiliates in the mix.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param array  $results    The affiliate groups.
+	 * @param string $search     The search term if any.
+	 * @param string $group_type The group type of the connector.
+	 * @param string $item       The item of the connector.
+	 *
+	 * @return array
+	 */
+	public function add_affiliates_to_affiliate_groups_selector_in_select2_json_format(
+		array $results,
+		string $search,
+		string $group_type,
+		string $item
+	) : array {
+
+		if ( 'creative' !== $item ) {
+			return $results;
+		}
+
+		if ( ! $this->is_same_connector( $group_type, $item ) ) {
+			return $results;
+		}
+
+		$sorted = array();
+
+		// We need to re-sort groups.
+		foreach ( $results as $affiliate_group ) {
+
+			$sorted[ strtolower( $affiliate_group['text'] ) ] = $this->esc_select_2_json_item( array(
+				'id'   => $affiliate_group['id'],
+				'text' => sprintf(
+					'%1$s %2$s',
+					$affiliate_group['text'],
+					$this->get_affiliate_group_option_designation_text()
+				),
+			) );
+		}
+
+		// We need to sort injected affiliates.
+		foreach ( $this->get_all_affiliate_ids() as $affiliate_id ) {
+
+			$text = html_entity_decode(
+				$this->get_affiliate_option_text_format( $affiliate_id )
+			);
+
+			if ( ! empty( $search ) && (
+				! $this->stristr_search_select_2_text( $text, $search )
+			) ) {
+				continue; // There was a search, don't include this affiliate in the mix.
+			}
+
+			$sort = strtolower( affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id ) );
+
+			$sorted[ $sort ] = $this->esc_select_2_json_item( array(
+				'id'   => "affiliate-{$affiliate_id}",
+				'text' => sprintf(
+					'%1$s %2$s',
+					$text,
+					$this->get_affiliate_option_designation_text()
+				),
+			) );
+		}
+
+		ksort( $sorted );
+
+		unset( $results ); // Clean up this large thing now.
+
+		return array_values( $sorted );
+	}
+
+	/**
+	 * Set the affiliates that are selected for the creative.
+	 *
+	 * @since 2.13.2
+	 *
+	 * @param array  $selected    The selected affiliate groups.
+	 * @param string $group_type  The group type of the connector.
+	 * @param string $item        The item of the connector.
+	 * @param mixed  $item_object The creative object.
+	 *
+	 * @return array
+	 */
+	public function set_connected_affiliates_in_group_selector_that_are_connected_to_creative(
+		array $selected,
+		string $group_type,
+		string $item,
+		$item_object
+	) : array {
+
+		if ( 'creative' !== $item ) {
+			return $selected;
+		}
+
+		if ( ! $this->is_same_connector( $group_type, $item ) ) {
+			return $selected;
+		}
+
+		if ( ! isset( $item_object->creative_id ) ) {
+			return $selected;
+		}
+
+		return array_merge(
+			array_map(
+				function( $affiliate_group ) {
+
+					return $this->esc_select_2_json_item( array(
+						'selected' => true,
+						'id'       => $affiliate_group['id'],
+						'text'     => sprintf(
+							'%1$s %2$s',
+							$affiliate_group['text'],
+							$this->get_affiliate_group_option_designation_text()
+						),
+					) );
+				},
+				$selected
+			),
+			array_map(
+				function( $affiliate_id ) {
+					return $this->esc_select_2_json_item( array(
+						'selected' => true,
+						'id'       => "affiliate-{$affiliate_id}",
+						'text'     => sprintf(
+							'%1$s %2$s',
+							$this->get_affiliate_option_text_format( $affiliate_id ),
+							$this->get_affiliate_option_designation_text()
+						),
+					) );
+				},
+				$this->get_affiliate_ids_connected_to_creative( $item_object->creative_id )
+			)
+		);
 	}
 
 	/**
@@ -351,52 +868,6 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 	}
 
 	/**
-	 * Connect a bulk selected item (affiliate) to the applied item.
-	 *
-	 * @since 2.13.0
-	 *
-	 * @param int $item_id The ID of the item.
-	 */
-	public function connect_bulk_selected_affiliate_to_item( int $item_id ) : void {
-
-		$affiliate_id = $this->get_affiliate_id_from_action();
-
-		if ( ! $this->is_numeric_and_gt_zero( $affiliate_id ) ) {
-			return; // No affiliate chosen/sent (this shouldn't happen).
-		}
-
-		if ( ! $this->user_has_capability() ) {
-			return;
-		}
-
-		$this->connect_affiliate_with_item( $affiliate_id, $item_id );
-	}
-
-	/**
-	 * Connect an affiliate with an item (by id).
-	 *
-	 * @since 2.13.0
-	 *
-	 * @param int $affiliate_id The affiliate id.
-	 * @param int $item_id      The item id.
-	 *
-	 * @return void
-	 */
-	private function connect_affiliate_with_item( int $affiliate_id, int $item_id ) : void {
-
-		if ( ! $this->user_has_capability() ) {
-			return;
-		}
-
-		affiliate_wp()->connections->connect(
-			array(
-				'affiliate' => intval( $affiliate_id ),
-				$this->item => intval( $item_id ),
-			)
-		);
-	}
-
-	/**
 	 * Get the affiliate id from the bulk action.
 	 *
 	 * @since 2.13.0
@@ -418,90 +889,6 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 		}
 
 		return intval( $affiliate_id );
-	}
-
-	/**
-	 * Append assign to affiliate bulk items.
-	 *
-	 * @since 2.13.0
-	 *
-	 * @param array  $items      Default bulk items.
-	 * @param string $group_type The group type of the connector.
-	 * @param string $item       The item of the connector.
-	 *
-	 * @return array
-	 */
-	public function add_affiliate_bulk_items( array $items, string $group_type, string $item ) : array {
-
-		if ( ! $this->is_same_connector( $group_type, $item ) ) {
-			return $items; // Not our connector.
-		}
-
-		if ( $this->assigning_affiliates_to_creatives_is_disabled() ) {
-			return $items;
-		}
-
-		return array_merge(
-			$items,
-			$this->get_affiliates_bulk_items()
-		);
-	}
-
-	/**
-	 * Are there too many affiliates to list?
-	 *
-	 * @since 2.13.1
-	 *
-	 * @return bool
-	 */
-	private function assigning_affiliates_to_creatives_is_disabled() : bool {
-
-		/**
-		 * Filter whether to disable the ability to assign creatives to affiliates.
-		 *
-		 * On Apr 12, 2023 we decided to disable the ability to assign creatives to affiliates.
-		 *
-		 * @since 2.13.1
-		 *
-		 * @param $disabled Set to `true` to disable the feature (default), `false` to allow assigning creatives to individual affiliates.
-		 */
-		return apply_filters( 'affwp_assigning_affiliates_to_creatives_is_disabled', true );
-	}
-
-	/**
-	 * Get the bulk items for assigning to affiliates.
-	 *
-	 * @since 2.13.0
-	 *
-	 * @return array
-	 */
-	private function get_affiliates_bulk_items() : array {
-
-		static $cache = null;
-
-		if ( ! is_null( $cache ) ) {
-			return $cache;
-		}
-
-		$affiliate_assign_to_bulk_items = array();
-
-		foreach ( $this->get_all_affiliate_ids_sorted_alpha() as $name => $affiliate_id ) {
-
-			// Add assigning bulk item.
-			$affiliate_assign_to_bulk_items[ "assign-affiliate:{$affiliate_id}" ] = sprintf(
-
-				// Translators: %s is the name of the affiliate.
-				__( 'Assign Affiliate: %s', 'affiliate-wp' ),
-				sprintf(
-					'%1$s&nbsp;&mdash;&nbsp;%2$s',
-					esc_html( $name ),
-					affwp_get_affiliate_email( $affiliate_id )
-				)
-			);
-		}
-
-		// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- Used to cache.
-		return $cache = $affiliate_assign_to_bulk_items;
 	}
 
 	/**
@@ -559,38 +946,21 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 	}
 
 	/**
-	 * Add optgroup around affiliate groups.
+	 * Get the count of affiliates.
 	 *
-	 * @see show_affiliates_in_filter_dropdown() for where the `</optgroup>` is output.
+	 * @since 2.13.2
 	 *
-	 * @since 2.13.0
-	 *
-	 * @param string $group_type The group type of the connector.
-	 * @param string $item       The item of the connector.
-	 * @param string $which      Context from the filter method.
-	 * @param array  $groups     Groups shown in the filter dropdown.
-	 *
-	 * @return void Just display.
+	 * @return int
 	 */
-	public function optgroup_affiliate_groups( string $group_type, string $item, string $which, array $groups ) : void {
+	private function get_affiliate_count() : int {
 
-		if ( ! $this->is_same_connector( $group_type, $item ) ) {
-			return; // Not the connector we want to modify.
-		}
-
-		if ( $this->assigning_affiliates_to_creatives_is_disabled() ) {
-			return;
-		}
-
-		if ( empty( $groups ) ) {
-			return;
-		}
-
-		?>
-
-		<optgroup label="<?php esc_html_e( 'Affiliate Groups', 'affiliate-wp' ); ?>">
-
-		<?php
+		return affiliate_wp()->affiliates->get_affiliates(
+			array(
+				'number' => apply_filters( 'affwp_unlimited', -1, 'affiliate_group_creative_connector_get_affiliate_count' ),
+				'fields' => 'ids',
+			),
+			true
+		);
 	}
 
 	/**
@@ -600,7 +970,7 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 	 *
 	 * @return string|int Something like affiliate-(int) or '-1'.
 	 */
-	private function get_selected_affiliate_option() {
+	private function get_selected_filtered_affiliate_option() {
 
 		$value = filter_input( INPUT_GET, $this->get_filter_dropdown_key(), FILTER_UNSAFE_RAW );
 
@@ -610,16 +980,16 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 			! is_numeric( $value )
 		) {
 
-			// Value should be a string (affiliate-int) or -1.
+			// Value should be a string (affiliate-int) or none.
 			return '';
 		}
 
-		if ( -1 === intval( $value ) ) {
+		if ( 'none' === trim( $value ) ) {
 			return $value; // This means none was selected, just send that back now.
 		}
 
 		if ( ! strstr( $value, 'affiliate-' ) ) {
-			return ''; // Should be either -1 or affiliate-(int).
+			return ''; // Should be either none or affiliate-(int).
 		}
 
 		return $value;
@@ -659,11 +1029,11 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 			);
 		}
 
-		if ( ! strstr( $this->get_selected_affiliate_option(), 'affiliate-' ) ) {
+		if ( ! strstr( $this->get_selected_filtered_affiliate_option(), 'affiliate-' ) ) {
 			return $args; // We didn't select an affiliate from the drop-down, it should have affiliate-(int) value.
 		}
 
-		$selected_affiliate_id = trim( str_replace( 'affiliate-', '', $this->get_selected_affiliate_option() ) );
+		$selected_affiliate_id = trim( str_replace( 'affiliate-', '', $this->get_selected_filtered_affiliate_option() ) );
 
 		if ( ! $this->is_numeric_and_gt_zero( $selected_affiliate_id ) ) {
 			return $args; // Not a valid ID, don't filter items.
@@ -703,14 +1073,8 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 	 */
 	private function no_affiliate_option_selected() : bool {
 
-		static $cache = '__uncached'; // It would never be set to this.
-
-		if ( '__uncached' !== $cache ) {
-			return $cache; // We already figured this out.
-		}
-
 		// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- Used for caching.
-		return $cache = ( -1 === intval( $this->get_selected_affiliate_option() ) );
+		return 'none' === $this->get_selected_filtered_affiliate_option();
 	}
 
 	/**
@@ -842,86 +1206,6 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 	}
 
 	/**
-	 * Show affiliates in the filter drop-down.
-	 *
-	 * @since 2.13.0
-	 *
-	 * @param string $group_type The group type of the connector.
-	 * @param string $item       The item of the connector.
-	 * @param string $which      Context from the filter method.
-	 * @param array  $groups     Groups shown in the filter drop-down.
-	 *
-	 * @return void Just display.
-	 */
-	public function show_affiliates_in_filter_dropdown( string $group_type, string $item, string $which, array $groups ) : void {
-
-		if ( ! $this->is_same_connector( $group_type, $item ) ) {
-			return; // Not our connector.
-		}
-
-		if ( $this->assigning_affiliates_to_creatives_is_disabled() ) {
-			return;
-		}
-
-		static $affiliates = null;
-
-		if ( is_null( $affiliates ) ) {
-
-			// Just do this once.
-			$affiliates = $this->get_all_affiliate_ids_sorted_alpha();
-		}
-
-		?>
-
-		<?php if ( ! empty( $groups ) ) : ?>
-			</optgroup>
-		<?php endif; ?>
-
-		<?php if ( ! empty( $affiliates ) ) : ?>
-
-			<optgroup label="<?php esc_attr_e( 'Affiliates', 'affiliate-wp' ); ?>">
-
-				<?php foreach ( $affiliates as $name => $affiliate_id ) : ?>
-					<option
-						value="affiliate-<?php echo absint( $affiliate_id ); ?>"
-						<?php
-
-						/* Selected */
-
-						// We would have set that here.
-						$selected_affiliate = filter_input( INPUT_GET, "filter-{$this->item}-{$this->group_type}-{$which}", FILTER_UNSAFE_RAW );
-
-						echo esc_attr(
-
-							(
-
-								// This is an affiliate- value.
-								stristr( $selected_affiliate, 'affiliate-' ) &&
-
-								// When we remove the affiliate- is it a valid numeric ID.
-								$this->is_numeric_and_gt_zero( str_replace( 'affiliate-', '', $selected_affiliate ) ) &&
-
-								// Is the numeric id the same as the affiliate we're showing now?
-								intval( str_replace( 'affiliate-', '', $selected_affiliate ) ) === intval( $affiliate_id )
-							)
-
-								// Selected if affwp-(int) is the same.
-								? 'selected'
-								: ''
-						);
-
-						// phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterEnd -- HTML tag property.
-						?>>
-							<?php echo esc_html( $name ); ?>&nbsp;&mdash;&nbsp;<?php echo esc_html( affwp_get_affiliate_email( $affiliate_id ) ); ?>
-					</option>
-				<?php endforeach; ?>
-			</optgroup>
-		<?php endif; ?>
-
-		<?php
-	}
-
-	/**
 	 * Modify the positioning hooks for the add/new templates to 2nd.
 	 *
 	 * Instead of last (default of the abstract class).
@@ -983,13 +1267,7 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 					', ',
 					array_map(
 						function( $affiliate_id ) {
-							return sprintf(
-
-								// Format the affiliate name - email.
-								'%1$s&nbsp;&mdash;&nbsp;%2$s',
-								affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id ),
-								affwp_get_affiliate_email( $affiliate_id )
-							);
+							return $this->get_affiliate_option_text_format( $affiliate_id );
 						},
 						$connected_affiliate_ids
 					)
@@ -1081,17 +1359,7 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 
 							// Tooltip content.
 							esc_attr(
-								sprintf(
-
-									// Format: name — email.
-									'%1$s&nbsp;&mdash;&nbsp;%2$s',
-
-									// Affiliate name.
-									affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id ),
-
-									// Affiliate email.
-									affwp_get_affiliate_payment_email( $affiliate_id )
-								)
+								$this->get_affiliate_option_text_format( $affiliate_id )
 							),
 							false // Return tooltip markup.
 						);
@@ -1238,7 +1506,7 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 	 * @return bool
 	 */
 	private function there_are_no_affiliates() : bool {
-		return count( $this->get_all_affiliate_ids() ) <= 0;
+		return $this->get_affiliate_count() <= 0;
 	}
 
 	/**
@@ -1252,8 +1520,6 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 	 * @param string $item The item of the connector.
 	 *
 	 * @return string
-	 *
-	 * @TODO Re-introduce ability (language) to assign affiliates.
 	 */
 	public function description( string $description, string $context, string $group_type, string $item ) : string {
 
@@ -1265,40 +1531,20 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 			return $description; // Not our group type.
 		}
 
-		if ( $this->assigning_affiliates_to_creatives_is_disabled() ) {
-
-			if ( 'no_groups' === $context ) {
-
-				// There are no groups and there are no affiliates.
-				return sprintf(
-
-					// Translators: %1$s is the instruction, %2$s is the link instruction.
-					__( '%1$s to share this creative privately with them.', 'affiliate-wp' ),
-					sprintf(
-						'<a href="admin.php?page=affiliate-wp-affiliate-groups">%1$s</a>',
-						__( 'Create affiliate groups', 'affiliate-wp' )
-					)
-				);
-			}
-
-			// There are at least affiliates to select.
-			return __( 'Select affiliate groups to share this creative with privately. Or, leave blank to share this creative publicly with all affiliates.', 'affiliate-wp' );
-		}
-
 		if ( 'no_groups' === $context && $this->there_are_no_affiliates() ) {
 
 			// There are no groups and there are no affiliates.
 			return sprintf(
 
 				// Translators: %1$s is the instruction, %2$s is the link instruction.
-				__( '%1$s to share this creative privately with affiliates or %2$s to share this creative privately with affiliate groups.', 'affiliate-wp' ),
+				__( 'Add %1$s and/or %2$s to share this creative privately with.', 'affiliate-wp' ),
 				sprintf(
 					'<a href="admin.php?page=affiliate-wp-affiliates">%1$s</a>',
-					__( 'Add affiliates', 'affiliate-wp' )
+					__( 'affiliates', 'affiliate-wp' )
 				),
 				sprintf(
 					'<a href="admin.php?page=affiliate-wp-creatives-categories">%1$s</a>',
-					__( 'create affiliate groups', 'affiliate-wp' )
+					__( 'affiliate groups', 'affiliate-wp' )
 				)
 			);
 		}
@@ -1307,159 +1553,99 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 	}
 
 	/**
-	 * Add <optgroup> around groups.
+	 * Get affiliates in Select2 JSON format.
 	 *
-	 * @since 2.13.0
+	 * @since 2.13.2
 	 *
-	 * @param string $group_type The group type of the connector.
-	 * @param string $item       The item of the connector.
-	 * @param array  $groups     The groups.
+	 * @param string $search Search term, if any.
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public function start_group_optgroup( string $group_type, string $item, array $groups ) : void {
+	private function get_affiliates_in_select2_json_format( $search = '' ) : array {
 
-		if ( ! $this->is_same_connector( $group_type, $item ) ) {
-			return; // Not our group type.
+		$all_affiliates = $this->get_all_affiliate_ids_sorted_alpha();
+
+		$transient_key = $this->create_data_transient_key(
+			'connector_get_affiliates_in_select2_format_',
+			array(
+				$search,
+				$all_affiliates,
+				$this->group_type,
+				$this->item,
+			)
+		);
+
+		$cache = get_transient( $transient_key );
+
+		if ( is_array( $cache ) ) {
+			return $cache;
 		}
 
-		if ( empty( $groups ) ) {
-			return;
-		}
+		$results = array_values(
+			array_filter(
+				array_map(
+					function( int $affiliate_id ) {
 
-		if ( $this->assigning_affiliates_to_creatives_is_disabled() ) {
-			return;
-		}
+						$id = absint( $affiliate_id );
 
-		?>
+						return $this->esc_select_2_json_item( array(
+							'id'   => "affiliate-{$id}",
+							'text' => html_entity_decode(
+								$this->get_affiliate_option_text_format( $id )
+							),
+						) );
+					},
+					$all_affiliates
+				),
+				function ( $affiliate_select_2_json ) use ( $search ) {
 
-		<optgroup label="<?php esc_attr_e( 'Affiliate Groups', 'affiliate-wp' ); ?>">
+					return empty( $search )
+						? true // Include in no search.
 
-		<?php
-	}
+						// Only if search term is found in name/email.
+						: $this->stristr_search_select_2_text( $affiliate_select_2_json['text'], $search );
+				}
+			)
+		);
 
-	/**
-	 * Add </optgroup> around groups.
-	 *
-	 * @since 2.13.0
-	 *
-	 * @param string $group_type The group type of the connector.
-	 * @param string $item       The item of the connector.
-	 * @param array  $groups     The groups.
-	 *
-	 * @return void
-	 */
-	public function end_group_optgroup( string $group_type, string $item, array $groups ) {
+		set_transient(
+			$transient_key,
+			$results,
 
-		if ( ! $this->is_same_connector( $group_type, $item ) ) {
-			return; // Not our group type.
-		}
+			/**
+			 * Filter how long the cache persists.
+			 *
+			 * @since 2.13.2
+			 *
+			 * @param int    $length     Number in seconds.
+			 * @param string $group_type Group type of the connector.
+			 * @param string $item       Item of the connector.
+			 */
+			apply_filters(
+				'connector_get_affiliates_in_select2_format_cache_timeout',
+				5,
+				$this->group_type,
+				$this->item
+			)
+		);
 
-		if ( empty( $groups ) ) {
-			return;
-		}
-
-		if ( $this->assigning_affiliates_to_creatives_is_disabled() ) {
-			return;
-		}
-
-		?>
-
-		</optgroup>
-
-		<?php
-	}
-
-	/**
-	 * Add affiliate options to selector.
-	 *
-	 * @since 2.13.0
-	 *
-	 * @param string $group_type The group type of the connector.
-	 * @param string $item       The item of the connector.
-	 * @param int    $item_id    The item ID.
-	 *
-	 * @return void
-	 */
-	public function add_affiliates( string $group_type, string $item, $item_id ) : void {
-
-		if ( ! $this->is_same_connector( $group_type, $item ) ) {
-			return; // Not our group type.
-		}
-
-		if ( $this->assigning_affiliates_to_creatives_is_disabled() ) {
-			return;
-		}
-
-		$affiliates = $this->get_all_affiliate_ids_sorted_alpha();
-
-		if ( empty( $affiliates ) ) {
-			return;
-		}
-
-		?>
-
-		<optgroup label="<?php esc_attr_e( 'Affiliates', 'affiliate-wp' ); ?>">
-
-			<?php
-
-			foreach ( $affiliates as $affiliate_id ) :
-
-				$affiliate = affwp_get_affiliate( $affiliate_id );
-
-				?>
-
-				<option
-					<?php
-
-					// Not a new item.
-					if ( 0 !== intval( $item_id ) ) {
-
-						echo esc_attr(
-							in_array(
-
-								// Affiliate ID.
-								intval( $affiliate->affiliate_id ),
-
-								// Connected to.
-								affiliate_wp()->connections->get_connected(
-
-									// Any of the affiliates connected to this creative.
-									'affiliate',
-									'creative',
-									intval( $item_id )
-								),
-								true
-							)
-
-								// The affiliate is connected to this creative.
-								? 'selected'
-
-								// It is not connected.
-								: ''
-						);
-					}
-
-					?>
-					value="affiliate-<?php echo absint( $affiliate->affiliate_id ); ?>"><?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentBeforeOpen, Squiz.PHP.EmbeddedPhp.ContentAfterOpen -- We want to eliminate whitespace.
-
-						echo esc_html(
-							sprintf(
-								'%1$s&nbsp;&mdash;&nbsp;%2$s',
-								affiliate_wp()->affiliates->get_affiliate_name( $affiliate->affiliate_id ),
-								affwp_get_affiliate_email( $affiliate->affiliate_id )
-							)
-						); // phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect, Generic.WhiteSpace.ScopeIndent.Incorrect — Format is breaking linter.
-
-				// phpcs:ignore Generic.WhiteSpace.ScopeIndent.IncorrectExact, Squiz.PHP.EmbeddedPhp.ContentAfterEnd, Squiz.PHP.EmbeddedPhp.ContentBeforeOpen, Squiz.PHP.EmbeddedPhp.ContentAfterOpen -- We want to eliminate whitespace.
-				?></option>
-
-
-			<?php endforeach; ?>
-
-		</optgroup>
-
-		<?php
+		/**
+		 * Filter the results of affiliates in JSON format.
+		 *
+		 * @since 2.13.2
+		 *
+		 * @param array $results     Results.
+		 * @param string $search     Search term, if any.
+		 * @param string $group_type Group type of the connector.
+		 * @param string $item       Item of the connector.
+		 */
+		return apply_filters(
+			'get_affiliates_in_select2_json_format',
+			$results,
+			$search,
+			$this->group_type,
+			$this->item
+		);
 	}
 
 	/**

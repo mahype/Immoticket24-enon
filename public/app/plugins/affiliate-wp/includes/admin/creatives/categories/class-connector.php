@@ -32,7 +32,7 @@ final class Connector extends \AffiliateWP\Admin\Groups\Connector {
 	protected $capability = 'manage_creatives';
 
 	/** @var string This is documented in includes/admin/groups/class-connector.php */
-	protected $groups_column_before = 'shortcode';
+	protected $groups_column_before = 'preview';
 
 	/** @var string This is documented in includes/admin/groups/class-connector.php */
 	protected $group_plural = '';

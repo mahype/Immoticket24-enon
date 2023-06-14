@@ -168,6 +168,12 @@ class Registry extends Utils\Registry {
 			'class' => 'AffWP\Utils\Batch_Process\Create_Dynamic_Coupons',
 			'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-create-dynamic-coupons.php',
 		) );
+
+		// Set missing creative types.
+		$this->register_process( 'set-creative-type', array(
+			'class' => 'AffWP\Utils\Batch_Process\Batch_Set_Creative_Type',
+			'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-set-creative-type.php',
+		) );
 	}
 
 	/**

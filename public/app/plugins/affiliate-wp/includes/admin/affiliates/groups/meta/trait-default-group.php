@@ -17,7 +17,7 @@
 
 namespace AffiliateWP\Admin\Affiliates\Groups\Meta;
 
-require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/utils/trait-data.php';
+affwp_require_util_traits( 'data' );
 
 /**
  * Affiliate Group: Default Group: Meta
@@ -29,6 +29,24 @@ require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/utils/trai
 trait Default_Group {
 
 	use \AffiliateWP\Utils\Data;
+
+	/**
+	 * Error message for when we require the trait be used on a manager object.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @var string
+	 */
+	private $must_be_manager_error_message = 'This trait method can only be called on \AffiliateWP\Admin\Groups\Management object.';
+
+	/**
+	 * The default group meta key.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @var string
+	 */
+	private $default_group_meta_key = 'default-group';
 
 	/**
 	 * Default Group Field: Description.
@@ -52,7 +70,7 @@ trait Default_Group {
 	 */
 	public function default_group_edit( \AffiliateWP\Groups\Group $group ) : string {
 
-		$default_group = $group->get_meta( 'default-group', false );
+		$default_group = $group->get_meta( $this->default_group_meta_key, false );
 
 		ob_start();
 
@@ -118,58 +136,116 @@ trait Default_Group {
 	public function default_group_save( \AffiliateWP\Groups\Group $edited_group ) : bool {
 
 		if ( ! is_a( $this, '\AffiliateWP\Admin\Groups\Management' ) ) {
-			throw new \Exception( 'This trait method can only be called on \AffiliateWP\Admin\Groups\Management object.' );
+			throw new \Exception( $this->must_be_manager_error_message );
 		}
 
 		// The POST is telling us the edited group should be the default.
-		if ( 'on' === filter_input( INPUT_POST, 'default-group', FILTER_UNSAFE_RAW ) ) {
+		if ( 'on' === filter_input( INPUT_POST, $this->default_group_meta_key, FILTER_UNSAFE_RAW ) ) {
 
-			// Set the edited group as the default group.
-			$edited_group->update(
-				array(
-					'type' => $this->group_type,
-					'meta' => array(
-						'default-group' => true,
-					),
-				)
-			);
+			// Set it as the default group (un-setting all the others).
+			$this->set_default_group( $edited_group->get_id() );
 
-		// phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect -- The POST is telling us that the edited group is no longer the default group.
-		} else {
-
-			// Set the edited group as NOT the default group.
-			$edited_group->update(
-				array(
-					'type' => $this->group_type,
-					'meta' => array(
-						'default-group' => null,
-					),
-				)
-			);
-
-			// One of the other groups might be the default group, leave them alone.
-			return true;
+			// Confirm.
+			return true === $edited_group->get_meta( $this->default_group_meta_key, false );
 		}
 
-		// Unset all the other groups as the default group.
-		foreach ( $this->get_groups() as $group ) {
+		// Set the edited group as NOT the default group (leave other's alone).
+		$edited_group->update(
+			array(
+				'type' => $this->group_type,
+				'meta' => array(
+					$this->default_group_meta_key => null,
+				),
+			)
+		);
 
-			if ( $group->get_id() === $edited_group->get_id() ) {
-				continue; // Skip the edited group, we already configured it.
+		// Confirm.
+		return 'unset' === $edited_group->get_meta( $this->default_group_meta_key, 'unset' );
+	}
+
+	/**
+	 * Is a group the default group?
+	 *
+	 * @since 2.14.0
+	 *
+	 * @param \AffiliateWP\Groups\Group $group The group object.
+	 *
+	 * @return bool
+	 *
+	 * @throws \Exception If this isn't used on a \AffiliateWP\Admin\Groups\Management class.
+	 */
+	protected function is_default_group( \AffiliateWP\Groups\Group $group ) : bool {
+
+		if ( ! is_a( $this, '\AffiliateWP\Admin\Groups\Management' ) ) {
+			throw new \Exception( $this->must_be_manager_error_message );
+		}
+
+		return true === $group->get_meta( $this->default_group_meta_key, false ) &&
+			$group->get_type() === $this->group_type;
+	}
+
+	/**
+	 * Set the default group.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @param int $group_id The group id.
+	 *
+	 * @return void Makes the changes, but you should verify them on your own.
+	 *
+	 * @throws \Exception If this isn't used on a \AffiliateWP\Admin\Groups\Management class.
+	 */
+	protected function set_default_group( int $group_id ) : void {
+
+		if ( ! is_a( $this, '\AffiliateWP\Admin\Groups\Management' ) ) {
+			throw new \Exception( $this->must_be_manager_error_message );
+		}
+
+		if ( ! current_user_can( $this->capability ) ) {
+			return; // You must be the right user to make any modifications.
+		}
+
+		$group = affiliate_wp()->groups->get_group( $group_id );
+
+		if ( ! is_a( $group, '\AffiliateWP\Groups\Group' ) ) {
+			return; // Refuse to modify a non-group.
+		}
+
+		if ( $group->get_type() !== $this->group_type ) {
+			return; // Refuse to modify group of a different type.
+		}
+
+		// Set the group as the default group.
+		$group->update(
+			array(
+				'type' => $this->group_type,
+				'meta' => array(
+					$this->default_group_meta_key => true,
+				),
+			)
+		);
+
+		// Unset all the other groups as the default group.
+		foreach ( $this->get_groups(
+			array(
+				'type' => $this->group_type,
+			)
+		) as $group_to_unset ) {
+
+			if ( $group->get_id() === $group_to_unset->get_id() ) {
+				continue; // Skip the edited group, we already configured it as the default group.
 			}
 
 			// Set all the other groups as disconnected.
-			$group->update(
+			$group_to_unset->update(
 				array(
 					'type' => $this->group_type,
 					'meta' => array(
-						'default-group' => null,
+						$this->default_group_meta_key => null,
 					),
 				)
 			);
 		}
-
-		return true;
 	}
 
 	/**
@@ -223,10 +299,16 @@ trait Default_Group {
 	 * @param string $group_type  The group type.
 	 *
 	 * @return string Markup
+	 *
+	 * @throws \Exception If this isn't used on a \AffiliateWP\Admin\Groups\Management class.
 	 */
 	public function show_default_group_in_connector_column( string $group_title, string $group_type ) : string {
 
-		if ( 'affiliate-group' !== $group_type ) {
+		if ( ! is_a( $this, '\AffiliateWP\Admin\Groups\Management' ) ) {
+			throw new \Exception( $this->must_be_manager_error_message );
+		}
+
+		if ( $this->group_type !== $group_type ) {
 			return $group_title; // Not our group type.
 		}
 
@@ -258,7 +340,7 @@ trait Default_Group {
 			return $group_title; // Can't get group object.
 		}
 
-		if ( true !== $group->get_meta( 'default-group' ) ) {
+		if ( true !== $group->get_meta( $this->default_group_meta_key ) ) {
 			return $group_title;
 		}
 
@@ -278,6 +360,7 @@ trait Default_Group {
 	 * @return array
 	 */
 	public function wp_kses_show_default_group_in_connector_column( array $allowed_html ) : array {
+
 		return array_merge(
 			array(
 				'span' => array(
@@ -298,14 +381,20 @@ trait Default_Group {
 	 *
 	 * @return void If it's not our affiliate type.
 	 *              If the group is not the default group.
+	 *
+	 * @throws \Exception If this isn't used on a \AffiliateWP\Admin\Groups\Management class.
 	 */
 	public function show_default_group_option_is_default( \AffiliateWP\Groups\Group $group, string $group_type ) : void {
 
-		if ( 'affiliate-group' !== $group_type ) {
+		if ( ! is_a( $this, '\AffiliateWP\Admin\Groups\Management' ) ) {
+			throw new \Exception( $this->must_be_manager_error_message );
+		}
+
+		if ( $this->group_type !== $group_type ) {
 			return; // Not our group type.
 		}
 
-		if ( true !== $group->get_meta( 'default-group', false ) ) {
+		if ( true !== $group->get_meta( $this->default_group_meta_key, false ) ) {
 			return; // Not the default group.
 		}
 
@@ -324,10 +413,16 @@ trait Default_Group {
 	 * @param string $item       The item of the connector.
 	 *
 	 * @return bool `true` if the group is set as the default group, causing it to be selected in the selector from the connector.
+	 *
+	 * @throws \Exception If this isn't used on a \AffiliateWP\Admin\Groups\Management class.
 	 */
 	public function set_default_affiliate_group_on_new_affiliates( bool $default, int $group_id, string $group_type, string $item ) : bool {
 
-		if ( 'affiliate-group' !== $group_type ) {
+		if ( ! is_a( $this, '\AffiliateWP\Admin\Groups\Management' ) ) {
+			throw new \Exception( $this->must_be_manager_error_message );
+		}
+
+		if ( $this->group_type !== $group_type ) {
 			return $default; // Not our group type (affiliate-group), don't mess with others.
 		}
 
@@ -342,7 +437,7 @@ trait Default_Group {
 		}
 
 		// If this group is set as the default group, automatically select it via the connector.
-		return true === $group->get_meta( 'default-group', false );
+		return true === $group->get_meta( $this->default_group_meta_key, false );
 	}
 
 	/**
@@ -352,21 +447,27 @@ trait Default_Group {
 	 *
 	 * @param string                    $group_type Group title.
 	 * @param \AffiliateWP\Groups\Group $group      The group object.
+	 *
+	 * @throws \Exception If this isn't used on a \AffiliateWP\Admin\Groups\Management class.
 	 */
 	public function show_default_group( string $group_type, \AffiliateWP\Groups\Group $group ) : void {
 
-		if ( 'affiliate-group' !== $group_type ) {
+		if ( ! is_a( $this, '\AffiliateWP\Admin\Groups\Management' ) ) {
+			throw new \Exception( $this->must_be_manager_error_message );
+		}
+
+		if ( $this->group_type !== $group_type ) {
 			return;
 		}
 
 		echo wp_kses(
-			true === $group->get_meta( 'default-group', false )
-				? sprintf(
-					'<strong class="status-default-group" title="%1$s">&nbsp;&mdash;&nbsp;%2$s</strong>',
-					__( 'New affiliates, by default, will be assigned to this group during registration and adding new affiliates via the admin.', 'affiliate-wp' ),
-					__( 'Default', 'affiliate-wp' )
-				)
-				: '',
+
+			// We show and hide this using JavaScript.
+			sprintf(
+				'<strong class="status-default-group" title="%1$s">&nbsp;&mdash;&nbsp;%2$s</strong>',
+				__( 'New affiliates, by default, will be assigned to this group during registration and adding new affiliates via the admin.', 'affiliate-wp' ),
+				__( 'Default', 'affiliate-wp' )
+			),
 			array(
 				'strong' => array(
 					'title' => true,
