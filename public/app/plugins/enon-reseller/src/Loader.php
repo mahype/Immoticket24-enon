@@ -39,6 +39,7 @@ use Enon_Reseller\Tasks\Setup_Edd;
 use Enon_Reseller\Tasks\Sparkasse\Add_CSV_Export as Sparkasse_CSV_Export;
 use Enon_Reseller\Tasks\EVM\Add_Discounts as EVM_Discounts;
 use Enon_Reseller\Tasks\Sparkasse\Add_Discounts as Sparkasse_Discounts;
+use Enon_Reseller\Tasks\Ubego\Add_Discounts as Ubego_Discounts;
 
 /**
  * Whitelabel loader.
@@ -116,6 +117,7 @@ class Loader extends Task_Loader {
         // Sparkasse specific tasks.
         $this->add_task( Sparkasse_CSV_Export::class );
         $this->add_task( Sparkasse_Discounts::class, $this->logger );
+        $this->add_task( Ubego_Discounts::class, $this->logger );
     }
 
     public function add_frontend_tasks_by_iframe() {
