@@ -277,7 +277,10 @@ class EDD_Payments_Download implements Task, Actions {
         }
     }
 
-    public function dashboard_widget() {        
+    public function dashboard_widget() {
+        if( ! current_user_can('administrator')) {
+            return; 
+        }     
         wp_add_dashboard_widget(
             'edd_payments_download',
             'Rechnungen herunterladen',
@@ -286,6 +289,7 @@ class EDD_Payments_Download implements Task, Actions {
     }
 
     public function dashboard_widget_content() {
+        
         $bills_list = get_option( 'enon_bills_list' );
         $regenerate_link_base = admin_url('index.php');
         $regenerate_link_base = add_query_arg( 'regenerate_bills', 'true', $regenerate_link_base );
