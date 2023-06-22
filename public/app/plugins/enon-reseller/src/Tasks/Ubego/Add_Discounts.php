@@ -95,22 +95,23 @@ class Add_Discounts implements Task, Actions{
     
     public function add_actions() {
 		add_action( 'admin_init', array( $this, 'add_new_discount_codes' ) );
+		add_action( 'admin_init', array( $this, 'remove_discounts' ) );
     }
 
 
 	public function add_new_discount_codes() {
-		if( ! array_key_exists('add-ubego-discount', $_GET) ) {
+		if( ! array_key_exists('add-objego-discounts', $_GET) ) {
 			return;
 		}
 
-		$prefix = 'ubego';
+		$prefix = 'objego';
 		$num    = 1000;
 		$code_length = 8;
 
 		for( $i = 0; $i < $num; $i++ ) {
 			$hash = substr( md5( $prefix . $i . time() ), 0, $code_length );
 			$discount_code = $prefix . '-' . $hash;
-			$name = 'Ubego ' . ( $i+1 );
+			$name = 'objego ' . ( $i+1 );
 
 			$code_args = [
 				'name' => $name,
@@ -128,5 +129,28 @@ class Add_Discounts implements Task, Actions{
 			echo $name . ',' . $discount_code . PHP_EOL;
 		}
 		exit;
+	}
+
+	public function remove_discounts() {
+		if( ! array_key_exists('delete-ubego-discounts', $_GET) ) {
+			return;
+		}
+
+		global $wpdb;
+
+		$prefix = 'ubego';
+		$table_name = $wpdb->prefix . 'posts'; // Adjust the table name if needed
+
+		$query = $wpdb->prepare("
+			SELECT *
+			FROM $table_name
+			WHERE post_title LIKE %s
+		", $prefix . '%');
+
+		$results = $wpdb->get_results($query, ARRAY_A);
+
+		foreach( $results as $result ) {
+			edd_remove_discount( $result['ID'] );
+		}
 	}
 }
