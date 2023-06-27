@@ -70,6 +70,12 @@ class Additional_Mails_Postcodes implements Actions, Task {
 		$energieausweis = new Energieausweis( $energieausweis_id );
 		$energieausweis->adresse_plz;
 
+		$reseller_id = get_post_meta( $energieausweis_id, 'reseller_id', true);
+        
+        if( empty( $reseller_id ) ) {
+            return;
+        }
+
 		$postcode_areas = [
 			[
 				'email_to'  => 'kwe@immoticket24.de',
