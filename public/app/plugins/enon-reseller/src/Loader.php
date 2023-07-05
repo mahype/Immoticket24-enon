@@ -117,7 +117,7 @@ class Loader extends Task_Loader {
         // Sparkasse specific tasks.
         $this->add_task( Sparkasse_CSV_Export::class );
         $this->add_task( Sparkasse_Discounts::class, $this->logger );
-        $this->add_task( VNR_Discounts::class, $this->logger );
+        // $this->add_task( VNR_Discounts::class, $this->logger );
     }
 
     public function add_frontend_tasks_by_iframe() {
