@@ -154,7 +154,7 @@ class Tab extends Reports\Tab {
 
 		$referrals = affiliate_wp()->referrals->get_referrals( array(
 			'date'         => $this->date_query,
-			'status'       => array( 'paid', 'unpaid', 'pending' ),
+			'status'       => array( 'paid', 'unpaid' ),
 			'affiliate_id' => $affiliate_id,
 			'fields'       => array( 'affiliate_id' ),
 			'sum_fields'   => array( 'amount' ),

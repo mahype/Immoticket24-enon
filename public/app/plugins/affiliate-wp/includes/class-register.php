@@ -35,6 +35,7 @@ class Affiliate_WP_Register {
 		add_action( 'admin_footer', array( $this, 'scripts' ) );
 		add_filter( 'affwp_register_required_fields', array( $this, 'maybe_required_fields' ) );
 		add_action( 'affwp_register_user', array( $this, 'add_new_affiliates_to_default_group' ), 10, 1 );
+		add_action( 'affwp_add_new_affiliate', array( $this, 'add_new_affiliates_to_default_group' ), 10, 1 );
 	}
 
 	/**
@@ -663,16 +664,19 @@ class Affiliate_WP_Register {
 		$required_registration_fields = affiliate_wp()->settings->get( 'required_registration_fields' );
 
 		// Start with a random password.
-		$user_pass = wp_generate_password( 24 );
+		$user_pass   = wp_generate_password( 24 );
+		$random_pass = true;
 
 		// Password from the standard registration form.
 		if ( isset( $required_registration_fields['password'] ) && isset( $_POST['affwp_user_pass'] ) ) {
-			$user_pass = sanitize_text_field( $_POST['affwp_user_pass'] );
+			$user_pass   = sanitize_text_field( $_POST['affwp_user_pass'] );
+			$random_pass = false;
 		}
 
 		// Passwords from the block form.
 		if ( isset( $_POST['affwp_password_text'] ) && isset( $_POST['affwp_password_text_confirm'] ) ) {
-			$user_pass = sanitize_text_field( $_POST['affwp_password_text'] );
+			$user_pass   = sanitize_text_field( $_POST['affwp_password_text'] );
+			$random_pass = false;
 		}
 
 		if ( ! is_user_logged_in() ) {
@@ -692,6 +696,12 @@ class Affiliate_WP_Register {
 
 			// Enable referral notifications by default for new users.
 			update_user_meta( $user_id, 'affwp_referral_notifications', true );
+
+			if ( $random_pass ) {
+
+				// Remember that we generated the password for the user.
+				update_user_meta( $user_id, 'affwp_generated_pass', true );
+			}
 
 		} else {
 

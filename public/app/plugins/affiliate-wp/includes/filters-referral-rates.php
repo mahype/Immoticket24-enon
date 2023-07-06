@@ -13,6 +13,8 @@
  * Overide the rate based on affiliate's affiliate group settings.
  *
  * @since 2.13.0
+ * @since 2.15.0 Connectables are registered in the case they are not due to plugin
+ *                  loading priority.
  *
  * @param int|float $rate         The rate that is going to be used.
  * @param int       $affiliate_id The Affiliate's ID.
@@ -22,6 +24,8 @@
  * @return int|float The rate for calculation.
  */
 function affwp_maybe_override_affiliate_group_rate( $rate, $affiliate_id, string $type, string $reference ) {
+
+	affwp_register_connectables();
 
 	$affiliate_group_id = affwp_get_affiliate_group_id( intval( $affiliate_id ) );
 
@@ -52,12 +56,14 @@ function affwp_maybe_override_affiliate_group_rate( $rate, $affiliate_id, string
 		// Leave alone.
 		: $group_meta['rate'];
 }
-// add_filter( 'affwp_get_affiliate_rate', 'affwp_maybe_override_affiliate_group_rate', -9999, 4 );
+add_filter( 'affwp_get_affiliate_rate', 'affwp_maybe_override_affiliate_group_rate', -9999, 4 );
 
 /**
  * Override the rate type based on the affiliate's affiliate group setting.
  *
  * @since 2.13.0
+ * @since 2.15.0 Connectables are registered in the case they are not due to plugin
+ *                  loading priority.
  *
  * @param string $type         The rate type that will be used.
  * @param int    $affiliate_id Affiliate's ID.
@@ -65,6 +71,8 @@ function affwp_maybe_override_affiliate_group_rate( $rate, $affiliate_id, string
  * @return string
  */
 function affwp_maybe_override_affiliate_group_rate_type( string $type, $affiliate_id ) : string {
+
+	affwp_register_connectables();
 
 	$affiliate_group_id = affwp_get_affiliate_group_id( intval( $affiliate_id ) );
 
@@ -94,12 +102,14 @@ function affwp_maybe_override_affiliate_group_rate_type( string $type, $affiliat
 	// Prefer the rate set in the affiliate group.
 	return $group_meta['rate-type'];
 }
-// add_filter( 'affwp_get_affiliate_rate_type', 'affwp_maybe_override_affiliate_group_rate_type', -9999, 2 );
+add_filter( 'affwp_get_affiliate_rate_type', 'affwp_maybe_override_affiliate_group_rate_type', -9999, 2 );
 
 /**
  * Override the flat rate basis based on the affiliate's affiliate group setting.
  *
  * @since 2.13.0
+ * @since 2.15.0 Connectables are registered in the case they are not due to plugin
+ *                  loading priority.
  *
  * @param string $type         The flat basis type.
  * @param int    $affiliate_id The affiliate's ID.
@@ -107,6 +117,8 @@ function affwp_maybe_override_affiliate_group_rate_type( string $type, $affiliat
  * @return string
  */
 function affwp_maybe_override_affiliate_group_flat_rate_basis( string $type, int $affiliate_id ) : string {
+
+	affwp_register_connectables();
 
 	$affiliate_group_id = affwp_get_affiliate_group_id( intval( $affiliate_id ) );
 
@@ -139,13 +151,15 @@ function affwp_maybe_override_affiliate_group_flat_rate_basis( string $type, int
 
 	return 'per_product';
 }
-// add_filter( 'affwp_get_affiliate_flat_rate_basis', 'affwp_maybe_override_affiliate_group_flat_rate_basis', 10, 2 );
+add_filter( 'affwp_get_affiliate_flat_rate_basis', 'affwp_maybe_override_affiliate_group_flat_rate_basis', 10, 2 );
 
 
 /**
  * Maybe warn about overriding rate settings.
  *
  * @since 2.13.0
+ * @since 2.15.0 Connectables are registered in the case they are not due to plugin
+ *               loading priority.
  *
  * @param mixed            $value     The value shown in the table.
  * @param \Affwp\Affiliate $affiliate The Affiliate object.
@@ -153,6 +167,8 @@ function affwp_maybe_override_affiliate_group_flat_rate_basis( string $type, int
  * @return string
  */
 function affwp_affiliate_table_rate_warn_affiliate_group_overrides( $value, \Affwp\Affiliate $affiliate ) {
+
+	affwp_register_connectables();
 
 	if ( ! affwp_affiliate_has_affiliate_group_overrides( $affiliate->affiliate_id ) ) {
 		return $value; // No affiliate group overrides, just use what they have.

@@ -105,6 +105,7 @@ class Export_Affiliates extends Batch\Export\CSV implements Batch\With_PreFetch 
 			'last_name'       => __( 'Last Name', 'affiliate-wp' ),
 			'payment_email'   => __( 'Payment Email', 'affiliate-wp' ),
 			'username'        => __( 'Username', 'affiliate-wp' ),
+			'affiliate_group' => __( 'Group', 'affiliate-wp' ),
 			'rate'            => __( 'Rate', 'affiliate-wp' ),
 			'rate_type'       => __( 'Rate Type', 'affiliate-wp' ),
 			'flat_rate_basis' => __( 'Flat Rate Basis', 'affiliate-wp' ),
@@ -155,6 +156,12 @@ class Export_Affiliates extends Batch\Export\CSV implements Batch\With_PreFetch 
 
 			foreach( $affiliates as $affiliate ) {
 
+				$affiliate_group_id = affwp_get_affiliate_group_id( $affiliate->ID );
+
+				$affiliate_group = ( is_numeric( $affiliate_group_id ) && intval( $affiliate_group_id ) > 0 )
+					? affiliate_wp()->groups->get_group( $affiliate_group_id )
+					: false;
+
 				/** This filter is documented in includes/admin/tools/export/class-export-affiliates.php */
 				$affiliate_data = apply_filters( 'affwp_affiliate_export_get_data_line', array(
 					'affiliate_id'    => $affiliate->ID,
@@ -163,6 +170,9 @@ class Export_Affiliates extends Batch\Export\CSV implements Batch\With_PreFetch 
 					'last_name'       => affwp_get_affiliate_last_name( $affiliate->ID ),
 					'payment_email'   => affwp_get_affiliate_payment_email( $affiliate->ID ),
 					'username'        => affwp_get_affiliate_login( $affiliate->ID ),
+					'affiliate_group' => is_a( $affiliate_group, '\AffiliateWP\Groups\Group' )
+						? $affiliate_group->get_title()
+						: '',
 					'rate'            => affwp_get_affiliate_rate( $affiliate->ID ),
 					'rate_type'       => affwp_get_affiliate_rate_type( $affiliate->ID ),
 					'flat_rate_basis' => affwp_get_affiliate_flat_rate_basis( $affiliate->ID ),

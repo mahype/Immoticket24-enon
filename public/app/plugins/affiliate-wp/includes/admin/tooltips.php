@@ -50,6 +50,10 @@ function affwp_icon_tooltip(
 		'disabled' => 'remove',
 		'hidden'   => 'hidden',
 		'mdash'    => 'minus',
+		'visible'  => 'visibility',
+		'hidden'   => 'hidden',
+		'privacy'  => 'privacy',
+		'locked'   => 'lock',
 	);
 
 	if ( ! in_array( $type, array_keys( $dashicons_map ), true ) ) {
@@ -114,20 +118,20 @@ function affwp_text_tooltip( string $text, string $tooltip, bool $echo = true ) 
 	?>
 
 	<span
-		x-data='{ "tooltip": [] }'
+		x-data='{ "tooltip": { "showTooltip<?php echo esc_attr( $id ); ?>": false } }'
 		class="trigger affwp-tooltip text alpine"
 		x-on:mouseover="tooltip.showTooltip<?php echo esc_attr( $id ); ?> = true;"
 		x-on:mouseover.away="tooltip.showTooltip<?php echo esc_attr( $id ); ?> = false;"
 		aria-describedby="tooltip-<?php echo esc_attr( $id ); ?>"><!--
 
-			--><?php echo wp_kses_post( $text ); ?><!--
+			--><?php echo $text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We escape later. ?><!--
 
 		--><template x-if="tooltip.showTooltip<?php echo esc_attr( $id ); ?>"><span
 				id="tooltip-<?php echo esc_attr( $id ); ?>"
 				class="affwp-tooltip-content active text"
 				x-show="tooltip.showTooltip<?php echo esc_attr( $id ); ?>"><!--
 
-					--><?php echo wp_kses_post( $tooltip ); ?><!--
+					--><?php echo $tooltip; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We escape later. ?><!--
 
 			--></span></template><!--
 
@@ -135,17 +139,19 @@ function affwp_text_tooltip( string $text, string $tooltip, bool $echo = true ) 
 
 	<?php
 
+	$return = trim( ob_get_clean() );
+
 	if ( $echo ) {
 
-		// Echo instead.
-		echo wp_kses_post(
+		echo wp_kses(
 			trim( ob_get_clean() ),
+			affwp_get_tooltip_allowed_html()
 		);
 
-		return '';
+		return $return;
 	}
 
-	return trim( ob_get_clean() );
+	return $return;
 }
 
 /**
@@ -158,6 +164,10 @@ function affwp_text_tooltip( string $text, string $tooltip, bool $echo = true ) 
 function affwp_get_tooltip_allowed_html() : array {
 
 	return array_merge(
+		wp_kses_allowed_html( 'post' ),
+		wp_kses_allowed_html( 'strip' ),
+		wp_kses_allowed_html( 'data' ),
+		wp_kses_allowed_html( 'entities' ),
 		array(
 			'span' => array(
 				'x-data'              => true,

@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the AffiliateWP plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: AffiliateWP 2.14.1\n"
+"Project-Id-Version: AffiliateWP 2.15.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/affiliate-wp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-08T15:39:03+00:00\n"
+"POT-Creation-Date: 2023-07-05T20:47:13+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: affiliate-wp\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: includes/admin/class-menu.php:58
 #: includes/admin/class-menu.php:75
 #: includes/admin/user-profile.php:39
-#: includes/class-editor.php:515
+#: includes/class-editor.php:526
 #: includes/integrations/class-formidablepro.php:97
 #: includes/integrations/class-give.php:301
 #: includes/integrations/class-woocommerce.php:799
@@ -57,7 +57,7 @@ msgid "Filters"
 msgstr ""
 
 #: includes/abstracts/class-affwp-reports-tab.php:160
-#: includes/admin/groups/class-connector.php:2575
+#: includes/admin/class-connector.php:2835
 #: includes/admin/referrals/class-list-table.php:716
 #: includes/admin/visits/visits.php:83
 #: includes/class-creatives-groups.php:614
@@ -201,10 +201,12 @@ msgstr ""
 #: includes/admin/add-ons.php:517
 #: includes/admin/class-about.php:113
 #: includes/admin/class-about.php:799
-#: includes/admin/creatives/class-list-table.php:124
-#: includes/admin/creatives/edit.php:178
-#: includes/admin/creatives/new.php:153
+#: includes/admin/creatives/class-list-table.php:145
+#: includes/admin/creatives/class-list-table.php:156
+#: includes/admin/creatives/edit.php:182
+#: includes/admin/creatives/new.php:157
 #: includes/affiliate-functions.php:381
+#: includes/creative-functions.php:396
 #: tests/affiliates/test-affiliate-functions.php:646
 msgid "Active"
 msgstr ""
@@ -213,18 +215,20 @@ msgstr ""
 #: includes/admin/add-ons.php:722
 #: includes/admin/affiliates/class-list-table.php:322
 #: includes/admin/affiliates/class-list-table.php:664
-#: includes/admin/creatives/class-list-table.php:286
-#: includes/admin/creatives/class-list-table.php:451
+#: includes/admin/creatives/class-list-table.php:340
+#: includes/admin/creatives/class-list-table.php:537
 msgid "Deactivate"
 msgstr ""
 
 #: includes/admin/add-ons.php:524
 #: includes/admin/class-about.php:114
 #: includes/admin/class-about.php:806
-#: includes/admin/creatives/class-list-table.php:125
-#: includes/admin/creatives/edit.php:179
-#: includes/admin/creatives/new.php:154
+#: includes/admin/creatives/class-list-table.php:146
+#: includes/admin/creatives/class-list-table.php:157
+#: includes/admin/creatives/edit.php:183
+#: includes/admin/creatives/new.php:158
 #: includes/affiliate-functions.php:382
+#: includes/creative-functions.php:397
 #: tests/affiliates/test-affiliate-functions.php:647
 msgid "Inactive"
 msgstr ""
@@ -235,8 +239,8 @@ msgstr ""
 #: includes/admin/affiliates/class-list-table.php:663
 #: includes/admin/class-about.php:115
 #: includes/admin/class-about.php:809
-#: includes/admin/creatives/class-list-table.php:301
-#: includes/admin/creatives/class-list-table.php:450
+#: includes/admin/creatives/class-list-table.php:356
+#: includes/admin/creatives/class-list-table.php:536
 msgid "Activate"
 msgstr ""
 
@@ -252,8 +256,8 @@ msgstr ""
 #: includes/admin/add-ons.php:664
 #: includes/admin/pages/class-analytics.php:571
 #: includes/admin/pages/class-smtp.php:483
-#: includes/components/wizard/class-setup-screen.php:685
-#: includes/components/wizard/class-setup-screen.php:717
+#: includes/components/wizard/class-setup-screen.php:691
+#: includes/components/wizard/class-setup-screen.php:723
 msgid "You do not have permission."
 msgstr ""
 
@@ -325,7 +329,7 @@ msgstr ""
 #: includes/admin/add-ons.php:753
 #: includes/admin/pages/class-analytics.php:196
 #: includes/admin/pages/class-smtp.php:193
-#: includes/components/wizard/class-setup-screen.php:183
+#: includes/components/wizard/class-setup-screen.php:189
 msgid "Could not activate the plugin. Please activate it on the <a href=\"%s\">Plugins page</a>."
 msgstr ""
 
@@ -348,9 +352,6 @@ msgstr ""
 #: includes/admin/affiliates/actions.php:199
 #: includes/admin/affiliates/actions.php:230
 #: includes/admin/affiliates/actions.php:234
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:318
-#: includes/admin/affiliates/groups/meta/trait-rate-type.php:269
-#: includes/admin/affiliates/groups/meta/trait-rate.php:321
 #: includes/admin/AFFWP_Plugin_Updater.php:490
 #: includes/admin/class-addon-updater.php:448
 #: includes/admin/class-notices.php:1443
@@ -361,6 +362,9 @@ msgstr ""
 #: includes/admin/creatives/actions.php:89
 #: includes/admin/customers/actions.php:33
 #: includes/admin/customers/actions.php:91
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:318
+#: includes/admin/groups/affiliate-groups/meta/trait-rate-type.php:269
+#: includes/admin/groups/affiliate-groups/meta/trait-rate.php:321
 #: includes/admin/payouts/actions.php:39
 #: includes/admin/referrals/actions.php:27
 #: includes/admin/tools/export/class-batch-export.php:211
@@ -393,7 +397,7 @@ msgid "Invalid user email"
 msgstr ""
 
 #: includes/admin/affiliates/actions.php:54
-#: includes/class-register.php:315
+#: includes/class-register.php:316
 msgid "Invalid payment email"
 msgstr ""
 
@@ -418,11 +422,12 @@ msgid "No affiliate IDs specified for deletion"
 msgstr ""
 
 #: includes/admin/affiliates/affiliates.php:88
-#: includes/admin/affiliates/groups/class-connector.php:70
-#: includes/admin/affiliates/groups/class-management.php:86
 #: includes/admin/class-menu.php:47
 #: includes/admin/class-menu.php:76
 #: includes/admin/class-menu.php:85
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:88
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:63
+#: includes/admin/groups/affiliate-groups/class-management.php:85
 #: includes/admin/reports/tabs/class-affiliates-reports-tab.php:23
 msgid "Affiliates"
 msgstr ""
@@ -446,7 +451,8 @@ msgid "Search"
 msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:148
-#: includes/admin/creatives/class-list-table.php:121
+#: includes/admin/creatives/class-list-table.php:142
+#: includes/admin/creatives/class-list-table.php:153
 #: includes/admin/referrals/class-list-table.php:183
 #: includes/admin/tools/tools.php:411
 #: includes/admin/visits/visits.php:79
@@ -455,14 +461,14 @@ msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:168
 #: includes/admin/affiliates/review.php:45
-#: includes/admin/creatives/class-list-table.php:140
-#: includes/admin/creatives/edit.php:35
-#: includes/admin/creatives/new.php:34
+#: includes/admin/creatives/class-list-table.php:172
+#: includes/admin/creatives/edit.php:36
+#: includes/admin/creatives/new.php:36
 #: includes/admin/groups/class-management.php:1018
-#: includes/admin/groups/class-management.php:1548
-#: includes/admin/groups/class-management.php:1634
-#: includes/admin/groups/class-management.php:1672
-#: includes/admin/groups/class-management.php:1734
+#: includes/admin/groups/class-management.php:1810
+#: includes/admin/groups/class-management.php:1899
+#: includes/admin/groups/class-management.php:1937
+#: includes/admin/groups/class-management.php:1999
 #: includes/admin/tools/export/class-batch-export-referrals.php:155
 #: includes/admin/tools/export/class-export-affiliates.php:51
 #: includes/admin/tools/export/class-export-referrals.php:66
@@ -506,8 +512,8 @@ msgid "Username"
 msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:171
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:152
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:163
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:159
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:171
 #: includes/admin/tools/tools.php:165
 #: includes/emails/functions.php:1394
 #: includes/emails/functions.php:1523
@@ -517,8 +523,8 @@ msgid "Paid Earnings"
 msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:172
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:171
-#: includes/admin/tools/export/class-batch-export-affiliates.php:112
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:180
+#: includes/admin/tools/export/class-batch-export-affiliates.php:113
 #: includes/admin/tools/tools.php:166
 #: includes/emails/functions.php:1392
 #: includes/emails/functions.php:1498
@@ -530,8 +536,8 @@ msgid "Unpaid Earnings"
 msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:173
-#: includes/admin/affiliates/groups/meta/trait-rate.php:177
-#: includes/admin/tools/export/class-batch-export-affiliates.php:108
+#: includes/admin/groups/affiliate-groups/meta/trait-rate.php:177
+#: includes/admin/tools/export/class-batch-export-affiliates.php:109
 #: includes/admin/tools/export/class-export-affiliates.php:54
 #: includes/misc-functions.php:1370
 #: tests/misc/test-misc-functions.php:389
@@ -553,11 +559,11 @@ msgstr ""
 #: includes/admin/affiliates/class-list-table.php:176
 #: includes/admin/class-menu.php:88
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:23
-#: includes/admin/tools/export/class-batch-export-affiliates.php:114
+#: includes/admin/tools/export/class-batch-export-affiliates.php:115
 #: includes/admin/tools/export/class-export-affiliates.php:58
 #: includes/admin/tools/tools.php:168
 #: includes/admin/visits/visits.php:45
-#: includes/affiliate-functions.php:1851
+#: includes/affiliate-functions.php:1862
 #: includes/emails/functions.php:1407
 #: includes/emails/functions.php:1563
 #: templates/dashboard-tab-stats.php:13
@@ -574,15 +580,15 @@ msgid "Identity Verification"
 msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:178
-#: includes/admin/creatives/class-list-table.php:144
-#: includes/admin/creatives/edit.php:173
-#: includes/admin/creatives/new.php:148
+#: includes/admin/creatives/class-list-table.php:176
+#: includes/admin/creatives/edit.php:177
+#: includes/admin/creatives/new.php:152
 #: includes/admin/dashboard-widgets.php:160
 #: includes/admin/payouts/view.php:155
 #: includes/admin/referrals/class-list-table.php:218
 #: includes/admin/referrals/edit.php:290
 #: includes/admin/referrals/new.php:144
-#: includes/admin/tools/export/class-batch-export-affiliates.php:116
+#: includes/admin/tools/export/class-batch-export-affiliates.php:117
 #: includes/admin/tools/export/class-batch-export-referrals.php:164
 #: includes/admin/tools/export/class-export-affiliates.php:60
 #: includes/admin/tools/export/class-export-referrals.php:75
@@ -642,9 +648,9 @@ msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:378
 #: includes/admin/affiliates/class-list-table.php:665
-#: includes/admin/creatives/class-list-table.php:316
-#: includes/admin/creatives/class-list-table.php:452
-#: includes/admin/groups/class-management.php:1443
+#: includes/admin/creatives/class-list-table.php:390
+#: includes/admin/creatives/class-list-table.php:538
+#: includes/admin/groups/class-management.php:1705
 #: includes/admin/payouts/class-list-table.php:493
 #: includes/admin/payouts/class-list-table.php:590
 #: includes/admin/referrals/class-list-table.php:579
@@ -710,7 +716,7 @@ msgid "Back to Affiliates"
 msgstr ""
 
 #: includes/admin/affiliates/edit.php:73
-#: includes/components/wizard/class-setup-screen.php:553
+#: includes/components/wizard/class-setup-screen.php:559
 msgid "Edit Affiliate"
 msgstr ""
 
@@ -786,9 +792,9 @@ msgstr ""
 
 #: includes/admin/affiliates/edit.php:244
 #: includes/admin/affiliates/edit.php:253
-#: includes/admin/affiliates/groups/meta/trait-rate-type.php:335
 #: includes/admin/affiliates/new.php:115
 #: includes/admin/affiliates/new.php:120
+#: includes/admin/groups/affiliate-groups/meta/trait-rate-type.php:335
 #: includes/admin/settings/class-settings.php:630
 #: includes/integrations/class-woocommerce.php:895
 msgid "Referral Rate Type"
@@ -820,11 +826,11 @@ msgid "The affiliate&#8217;s flat rate referral basis."
 msgstr ""
 
 #: includes/admin/affiliates/edit.php:302
-#: includes/admin/affiliates/groups/meta/trait-rate.php:90
-#: includes/admin/affiliates/groups/meta/trait-rate.php:207
-#: includes/admin/affiliates/groups/meta/trait-referral-rate.php:48
-#: includes/admin/affiliates/groups/meta/trait-referral-rate.php:92
 #: includes/admin/affiliates/new.php:164
+#: includes/admin/groups/affiliate-groups/meta/trait-rate.php:90
+#: includes/admin/groups/affiliate-groups/meta/trait-rate.php:207
+#: includes/admin/groups/affiliate-groups/meta/trait-referral-rate.php:48
+#: includes/admin/groups/affiliate-groups/meta/trait-referral-rate.php:92
 #: includes/admin/settings/class-settings.php:645
 #: includes/integrations/class-edd.php:1036
 #: includes/integrations/class-edd.php:1076
@@ -846,7 +852,7 @@ msgstr ""
 #: includes/admin/affiliates/edit.php:323
 #: includes/admin/affiliates/new.php:236
 #: includes/admin/affiliates/review.php:149
-#: includes/class-register.php:927
+#: includes/class-register.php:937
 msgid "Dynamic Coupon"
 msgstr ""
 
@@ -1013,311 +1019,6 @@ msgstr ""
 msgid "Update Affiliate"
 msgstr ""
 
-#: includes/admin/affiliates/groups/class-connector.php:71
-#: includes/admin/affiliates/groups/class-management.php:87
-#: includes/admin/dashboard-widgets.php:159
-#: includes/admin/payouts/class-list-table.php:161
-#: includes/admin/payouts/new.php:35
-#: includes/admin/payouts/preview.php:309
-#: includes/admin/payouts/preview.php:352
-#: includes/admin/payouts/preview.php:382
-#: includes/admin/payouts/preview.php:425
-#: includes/admin/payouts/preview.php:502
-#: includes/admin/payouts/preview.php:545
-#: includes/admin/payouts/submitted.php:60
-#: includes/admin/payouts/submitted.php:109
-#: includes/admin/payouts/view.php:40
-#: includes/admin/referrals/class-list-table.php:212
-#: includes/admin/referrals/edit.php:56
-#: includes/admin/referrals/new.php:34
-#: includes/admin/tools/export/class-batch-export-payouts.php:155
-#: includes/admin/tools/export/class-batch-export-visits.php:156
-#: includes/admin/visits/class-list-table.php:134
-#: includes/emails/functions.php:1560
-#: includes/integrations/class-lifterlms.php:658
-#: includes/integrations/class-lifterlms.php:684
-#: includes/integrations/class-memberpress.php:301
-msgid "Affiliate"
-msgstr ""
-
-#: includes/admin/affiliates/groups/class-connector.php:72
-#: includes/admin/affiliates/groups/class-management.php:88
-#: includes/admin/affiliates/groups/class-management.php:90
-#: includes/admin/affiliates/groups/creatives/class-connector.php:74
-msgid "Groups"
-msgstr ""
-
-#: includes/admin/affiliates/groups/class-connector.php:73
-#: includes/admin/affiliates/groups/class-management.php:91
-msgid "Group"
-msgstr ""
-
-#. Translators: $s is the value of the information.
-#: includes/admin/affiliates/groups/class-connector.php:135
-msgid "Default Group: %s"
-msgstr ""
-
-#. Translators: $s is the value of the information.
-#: includes/admin/affiliates/groups/class-connector.php:135
-#: assets/js/editor/build/index.js:6
-msgid "Yes"
-msgstr ""
-
-#. Translators: $s is the value of the information.
-#: includes/admin/affiliates/groups/class-connector.php:135
-#: assets/js/editor/build/index.js:6
-msgid "No"
-msgstr ""
-
-#. Translators: $s is the value of the information.
-#: includes/admin/affiliates/groups/class-connector.php:138
-msgid "Rate: %s"
-msgstr ""
-
-#. Translators: $s is the value of the information.
-#: includes/admin/affiliates/groups/class-connector.php:141
-msgid "Rate Type: %s"
-msgstr ""
-
-#. Translators: $s is the value of the information.
-#: includes/admin/affiliates/groups/class-connector.php:144
-msgid "Flate Rate Basis: %s"
-msgstr ""
-
-#: includes/admin/affiliates/groups/class-connector.php:163
-#: includes/admin/affiliates/groups/class-connector.php:192
-#: includes/admin/affiliates/groups/class-connector.php:213
-msgid "Use Global Setting"
-msgstr ""
-
-#: includes/admin/affiliates/groups/class-connector.php:185
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:110
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:137
-msgid "Per Order"
-msgstr ""
-
-#: includes/admin/affiliates/groups/class-connector.php:189
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:108
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:135
-msgid "Per Product"
-msgstr ""
-
-#: includes/admin/affiliates/groups/class-management.php:89
-msgid "Affiliate Groups"
-msgstr ""
-
-#: includes/admin/affiliates/groups/class-management.php:311
-msgid "There was an issue changing the default affiliate group, please try again."
-msgstr ""
-
-#. Translators: %s is the title of the group.
-#: includes/admin/affiliates/groups/class-management.php:313
-msgid "%1$s is now the default affiliate group."
-msgstr ""
-
-#. Translators: %s is the title of the group.
-#: includes/admin/affiliates/groups/class-management.php:315
-msgid "Make '%s' the default group."
-msgstr ""
-
-#: includes/admin/affiliates/groups/class-management.php:318
-msgid "Make&nbsp;Default"
-msgstr ""
-
-#: includes/admin/affiliates/groups/class-management.php:371
-#: includes/admin/groups/class-management.php:2041
-msgid "The name is how it appears on your site."
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:72
-#: includes/admin/class-menu.php:89
-#: includes/admin/creatives/categories/class-connector.php:66
-#: includes/admin/creatives/categories/class-management.php:63
-#: includes/admin/creatives/creatives.php:53
-#: includes/affiliate-functions.php:1853
-#: templates/dashboard-tab-creatives.php:3
-#: tests/affiliates/test-affiliate-functions.php:2977
-msgid "Creatives"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:73
-#: includes/admin/creatives/categories/class-connector.php:67
-#: includes/admin/creatives/categories/class-management.php:64
-#: includes/creative-functions.php:46
-#: includes/creative-functions.php:83
-#: assets/js/editor/build/index.js:6
-msgid "Creative"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:75
-msgid "Affiliate Group"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:285
-#: includes/admin/affiliates/groups/creatives/class-connector.php:781
-msgid "Public"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:309
-msgid "Private & Public"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:333
-msgid "Type to search affiliate groups and affiliates."
-msgstr ""
-
-#. Translators: %s is the name of the affiliate.
-#: includes/admin/affiliates/groups/creatives/class-connector.php:574
-msgid "Assign Affiliate: %s"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:595
-msgid "(Affiliate)"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:606
-msgid "(Affiliate Group)"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:806
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1498
-msgid "Privacy"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1263
-msgid "No affiliates in this group."
-msgstr ""
-
-#. Translators: %1$s is the instruction, %2$s is the link instruction.
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1540
-msgid "Add %1$s and/or %2$s to share this creative privately with."
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1543
-msgid "affiliates"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1547
-msgid "affiliate groups"
-msgstr ""
-
-#: includes/admin/affiliates/groups/creatives/class-connector.php:1552
-msgid "Select affiliate(s) and/or affiliate groups to share this creative privately. Or, leave blank to share this creative publicly with all affiliates."
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-custom-rate.php:43
-msgid "Enable custom rate for all affiliates in this group."
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-custom-rate.php:64
-msgid "Custom Rate"
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-default-group.php:59
-msgid "Set this group as the default group for new affiliates."
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-default-group.php:82
-msgid "Default Group"
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-default-group.php:349
-msgid "This group is the default group."
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-default-group.php:402
-#: includes/admin/affiliates/groups/meta/trait-default-group.php:469
-#: assets/js/editor/build/index.js:6
-msgid "Default"
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-default-group.php:468
-msgid "New affiliates, by default, will be assigned to this group during registration and adding new affiliates via the admin."
-msgstr ""
-
-#. Translators: %s is a tooltip with more information.
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:46
-msgid "Choose the flat rate basis for all affiliates in this group.%s"
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:48
-msgid "Flat rate referrals can be calculated on a per product or per order basis. This is the flat rate basis all affiliates in this group will be assigned (regardless of their own settings or the site default)."
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:125
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:165
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:193
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:384
-#: includes/admin/tools/export/class-batch-export-affiliates.php:110
-#: includes/misc-functions.php:1372
-#: tests/misc/test-misc-functions.php:391
-msgid "Flat Rate Basis"
-msgstr ""
-
-#. Translators: %s is Error in bold.
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:315
-msgid "%s: Flat rate basis is required."
-msgstr ""
-
-#. Translators: %s is the name of the group.
-#: includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php:345
-msgid "Flat rate basis type for %s must be either per-product or per-order."
-msgstr ""
-
-#. Translators: %s is a tooltip with more information.
-#: includes/admin/affiliates/groups/meta/trait-rate-type.php:45
-msgid "Choose a referral rate type for all affiliates in this group.%s"
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-rate-type.php:47
-msgid "Referrals can be based on either a percentage or a flat rate amount. This is the rate type all affiliates in this group will be assigned (regardless of their own settings or the site default)."
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-rate-type.php:82
-#: includes/emails/functions.php:847
-#: includes/emails/functions.php:1038
-msgid "Unknown"
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-rate-type.php:91
-#: includes/admin/affiliates/groups/meta/trait-rate-type.php:132
-#: includes/admin/affiliates/groups/meta/trait-rate-type.php:160
-#: includes/admin/tools/export/class-batch-export-affiliates.php:109
-#: includes/admin/tools/export/class-export-affiliates.php:55
-#: includes/misc-functions.php:1371
-#: tests/misc/test-misc-functions.php:390
-msgid "Rate Type"
-msgstr ""
-
-#. Translators: %s is Error in bold.
-#: includes/admin/affiliates/groups/meta/trait-rate-type.php:266
-msgid "%s: Rate type is required."
-msgstr ""
-
-#. Translators: %s is the name of the group.
-#: includes/admin/affiliates/groups/meta/trait-rate-type.php:296
-msgid "Rate type for %s must be either flat or percentage."
-msgstr ""
-
-#. Translators: %s is a tooltip with more information.
-#: includes/admin/affiliates/groups/meta/trait-rate.php:45
-msgid "Referral rate for all affiliates in this group.%s"
-msgstr ""
-
-#: includes/admin/affiliates/groups/meta/trait-rate.php:47
-msgid "This is the rate all affiliates in this group will be assigned (regardless of their own settings or the site default)."
-msgstr ""
-
-#. Translators: %s is Error in bold.
-#: includes/admin/affiliates/groups/meta/trait-rate.php:318
-msgid "%s: Rate is required."
-msgstr ""
-
-#. Translators: %s is the name of the group.
-#: includes/admin/affiliates/groups/meta/trait-rate.php:347
-msgid "Rate for %s must be a positive value."
-msgstr ""
-
 #: includes/admin/affiliates/new.php:11
 msgid "New Affiliate"
 msgstr ""
@@ -1374,13 +1075,13 @@ msgstr ""
 
 #: includes/admin/affiliates/new.php:242
 #: includes/admin/affiliates/review.php:155
-#: includes/class-register.php:932
+#: includes/class-register.php:942
 msgid "Create dynamic coupon for affiliate?"
 msgstr ""
 
 #: includes/admin/affiliates/new.php:279
 #: includes/admin/user-profile.php:144
-#: includes/components/wizard/class-setup-screen.php:536
+#: includes/components/wizard/class-setup-screen.php:542
 msgid "Add Affiliate"
 msgstr ""
 
@@ -1394,7 +1095,7 @@ msgstr ""
 
 #: includes/admin/affiliates/review.php:69
 #: includes/class-editor.php:334
-#: includes/class-editor.php:1629
+#: includes/class-editor.php:1621
 #: templates/opt-in.php:45
 #: templates/opt-in.php:46
 #: templates/register.php:81
@@ -1403,7 +1104,7 @@ msgid "Email Address"
 msgstr ""
 
 #: includes/admin/affiliates/review.php:96
-#: includes/admin/class-upgrades.php:784
+#: includes/admin/class-upgrades.php:788
 #: includes/admin/settings/class-settings.php:1196
 #: includes/class-editor.php:1556
 #: includes/install.php:76
@@ -1969,6 +1670,56 @@ msgstr ""
 msgid "There is a new version of %1$s available. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s\">update now</a>."
 msgstr ""
 
+#: includes/admin/class-connector.php:982
+msgid "Manage"
+msgstr ""
+
+#: includes/admin/class-connector.php:1989
+#: includes/admin/referrals/edit.php:129
+#: includes/admin/referrals/edit.php:200
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:73
+#: includes/admin/settings/class-settings.php:721
+msgid "None"
+msgstr ""
+
+#. Translators: %1$s is the grouping singular, %2$s is the item singlular.
+#: includes/admin/class-connector.php:2490
+msgid "%1$sCreate%2$s %3$s %4$s to assign to this %5$s."
+msgstr ""
+
+#: includes/admin/class-connector.php:2497
+#: includes/admin/class-connector.php:2523
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:299
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:301
+msgid "one or more"
+msgstr ""
+
+#: includes/admin/class-connector.php:2498
+#: includes/admin/class-connector.php:2524
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:300
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:302
+msgid "a"
+msgstr ""
+
+#. Translators: %1$s is the language for plural or single selection,  %2$s is the grouping singular, %3$s is the item singlular. E.g.: 'Select a group for this affiliate.', or 'Select one or more groups for this affiliate.'
+#: includes/admin/class-connector.php:2521
+msgid "Select %1$s %2$s for this %3$s."
+msgstr ""
+
+#. Translators: %s is the plural of the item, e.g. affiliate groups, affiliates, creatives, etc.
+#. Translators: %s is the plural or single translations above.
+#: includes/admin/class-connector.php:2587
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:72
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:96
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:71
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:95
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:70
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:96
+#: includes/admin/groups/creative-categories/class-connector.php:68
+#: includes/admin/groups/creative-categories/class-connector.php:94
+msgid "No %s"
+msgstr ""
+
 #: includes/admin/class-menu.php:84
 #: includes/admin/overview/overview.php:56
 #: includes/admin/referrals/contextual-help.php:37
@@ -1980,11 +1731,11 @@ msgstr ""
 #: includes/admin/payouts/class-list-table.php:162
 #: includes/admin/referrals/referrals.php:46
 #: includes/admin/reports/tabs/class-referrals-reports-tab.php:23
-#: includes/admin/tools/export/class-batch-export-affiliates.php:113
+#: includes/admin/tools/export/class-batch-export-affiliates.php:114
 #: includes/admin/tools/export/class-batch-export-payouts.php:156
 #: includes/admin/tools/export/class-export-affiliates.php:57
 #: includes/admin/tools/tools.php:167
-#: includes/affiliate-functions.php:1849
+#: includes/affiliate-functions.php:1860
 #: includes/emails/functions.php:1012
 #: includes/emails/functions.php:1405
 #: includes/emails/functions.php:1562
@@ -1996,9 +1747,21 @@ msgstr ""
 #: includes/admin/class-menu.php:87
 #: includes/admin/payouts/payouts.php:48
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:45
-#: includes/affiliate-functions.php:1850
+#: includes/affiliate-functions.php:1861
 #: tests/affiliates/test-affiliate-functions.php:2975
 msgid "Payouts"
+msgstr ""
+
+#: includes/admin/class-menu.php:89
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:65
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:64
+#: includes/admin/creatives/creatives.php:53
+#: includes/admin/groups/creative-categories/class-connector.php:61
+#: includes/admin/groups/creative-categories/class-management.php:62
+#: includes/affiliate-functions.php:1864
+#: templates/dashboard-tab-creatives.php:3
+#: tests/affiliates/test-affiliate-functions.php:2977
+msgid "Creatives"
 msgstr ""
 
 #: includes/admin/class-menu.php:91
@@ -2007,7 +1770,7 @@ msgstr ""
 
 #: includes/admin/class-menu.php:92
 #: includes/admin/plugins.php:33
-#: includes/affiliate-functions.php:1854
+#: includes/affiliate-functions.php:1865
 #: tests/affiliates/test-affiliate-functions.php:2978
 msgid "Settings"
 msgstr ""
@@ -2467,7 +2230,7 @@ msgstr ""
 msgid "To access addons please enter and activate your AffiliateWP license key in the plugin <a href=\"%s\">settings</a>."
 msgstr ""
 
-#: includes/admin/class-upgrades.php:783
+#: includes/admin/class-upgrades.php:787
 #: includes/admin/settings/class-settings.php:1195
 #: includes/install.php:114
 #: includes/integrations/class-wpforms-templates.php:31
@@ -2478,11 +2241,11 @@ msgstr ""
 msgid "Your Name"
 msgstr ""
 
-#: includes/admin/class-upgrades.php:902
+#: includes/admin/class-upgrades.php:906
 msgid "Notify site admin when a new affiliate has registered"
 msgstr ""
 
-#: includes/admin/class-upgrades.php:910
+#: includes/admin/class-upgrades.php:914
 msgid "Notify site admin when new referrals are earned"
 msgstr ""
 
@@ -2499,40 +2262,55 @@ msgstr ""
 msgid "No creative IDs specified for deletion"
 msgstr ""
 
-#: includes/admin/creatives/categories/class-connector.php:68
-#: includes/admin/creatives/categories/class-management.php:65
-#: includes/admin/creatives/categories/class-management.php:67
-#: includes/class-creatives-groups.php:88
-msgid "Categories"
+#: includes/admin/creatives/actions.php:155
+#: includes/admin/creatives/actions.php:169
+#: includes/admin/creatives/actions.php:193
+msgid "Started:"
 msgstr ""
 
-#: includes/admin/creatives/categories/class-connector.php:69
-#: includes/admin/creatives/categories/class-management.php:68
-msgid "Category"
+#: includes/admin/creatives/actions.php:157
+#: includes/admin/creatives/actions.php:181
+#: includes/admin/creatives/actions.php:221
+msgid "Ends:"
 msgstr ""
 
-#: includes/admin/creatives/categories/class-management.php:66
-msgid "Creative Categories"
+#: includes/admin/creatives/actions.php:195
+#: includes/admin/creatives/actions.php:207
+msgid "Ended:"
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:122
+#: includes/admin/creatives/actions.php:219
+#: includes/admin/creatives/actions.php:233
+msgid "Starts:"
+msgstr ""
+
+#: includes/admin/creatives/class-list-table.php:143
+#: includes/admin/creatives/class-list-table.php:154
 msgid "Text Links"
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:123
+#: includes/admin/creatives/class-list-table.php:144
+#: includes/admin/creatives/class-list-table.php:155
 msgid "Images"
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:141
+#: includes/admin/creatives/class-list-table.php:147
+#: includes/admin/creatives/edit.php:184
+#: includes/admin/creatives/new.php:159
+#: includes/creative-functions.php:398
+msgid "Scheduled"
+msgstr ""
+
+#: includes/admin/creatives/class-list-table.php:173
 #: includes/admin/settings/class-settings.php:612
 #: includes/admin/tools/export/class-export.php:84
 #: assets/js/editor/build/index.js:6
 msgid "ID"
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:142
-#: includes/admin/creatives/edit.php:79
-#: includes/admin/creatives/new.php:76
+#: includes/admin/creatives/class-list-table.php:174
+#: includes/admin/creatives/edit.php:80
+#: includes/admin/creatives/new.php:78
 #: includes/admin/referrals/class-list-table.php:215
 #: includes/admin/tools/export/class-batch-export-referrals.php:166
 #: includes/admin/tools/export/class-export-referrals.php:76
@@ -2541,9 +2319,9 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:143
-#: includes/admin/creatives/edit.php:136
-#: includes/admin/creatives/new.php:124
+#: includes/admin/creatives/class-list-table.php:175
+#: includes/admin/creatives/edit.php:137
+#: includes/admin/creatives/new.php:126
 #: includes/admin/tools/export/class-batch-export-visits.php:159
 #: includes/emails/functions.php:1011
 #: templates/dashboard-tab-visits.php:27
@@ -2552,20 +2330,167 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:145
+#: includes/admin/creatives/class-list-table.php:177
 msgid "Preview"
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:272
-#: includes/admin/groups/class-management.php:1431
-#: includes/admin/groups/class-management.php:1678
+#: includes/admin/creatives/class-list-table.php:283
+msgid "This creative can only be seen by specific affiliates and/or affiliate groups."
+msgstr ""
+
+#: includes/admin/creatives/class-list-table.php:328
+#: includes/admin/groups/class-management.php:1693
+#: includes/admin/groups/class-management.php:1943
 #: includes/admin/referrals/class-list-table.php:567
 #: includes/admin/user-profile.php:82
 msgid "Edit"
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:437
+#: includes/admin/creatives/class-list-table.php:340
+msgid "Deactivate Now"
+msgstr ""
+
+#: includes/admin/creatives/class-list-table.php:356
+#: includes/admin/pages/class-analytics.php:213
+#: includes/admin/pages/class-analytics.php:549
+#: includes/admin/pages/class-smtp.php:210
+#: includes/components/wizard/class-setup-screen.php:617
+msgid "Activate Now"
+msgstr ""
+
+#: includes/admin/creatives/class-list-table.php:376
+msgid "Edit Schedule"
+msgstr ""
+
+#: includes/admin/creatives/class-list-table.php:523
 msgid "No creatives found."
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:66
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:65
+#: includes/admin/groups/creative-categories/class-connector.php:62
+#: includes/admin/groups/creative-categories/class-management.php:63
+#: includes/creative-functions.php:46
+#: includes/creative-functions.php:88
+#: assets/js/editor/build/index.js:6
+msgid "Creative"
+msgstr ""
+
+#. Translators: %s is the plural translations above.
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:69
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:93
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:68
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:92
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:67
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:93
+#: includes/admin/groups/creative-categories/class-connector.php:65
+#: includes/admin/groups/creative-categories/class-connector.php:91
+msgid "Type to search all %s."
+msgstr ""
+
+#. Translators: %s is the plural translations above.
+#. Translators: %s is the translated name of the group, e.g. Categories.
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:75
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:99
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:74
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:98
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:73
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:99
+#: includes/admin/groups/creative-categories/class-connector.php:71
+#: includes/admin/groups/creative-categories/class-connector.php:97
+#: includes/class-creatives-groups.php:596
+msgid "All %s"
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:89
+#: includes/admin/groups/affiliate-groups/class-management.php:88
+msgid "Affiliate Groups"
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:90
+msgid "Affiliate Group"
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:116
+msgid "Select one or more affiliate groups to share this creative with privately."
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:129
+msgid "Group Privacy"
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:142
+msgid "All Affiliate Group Privacy"
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:155
+msgid "No Group Privacy (Public)"
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:168
+msgid "Affiliate Group Privacy"
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:228
+msgid "No affiliates in this group."
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:272
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:274
+#: includes/creative-functions.php:490
+msgid "Public"
+msgstr ""
+
+#. Translators: %1$s is the grouping singular, %2$s is the item singlular.
+#. Translators: %1$s is the HTML opening tag, %2$s is the closing tag %3$s is the middle language, %4$s is the plural or single variant, and %5$s is the single variant.
+#: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:292
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:294
+msgid "%1$sCreate%2$s %3$s %4$s to share this %5$s with privately."
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:89
+#: includes/admin/dashboard-widgets.php:159
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:64
+#: includes/admin/groups/affiliate-groups/class-management.php:86
+#: includes/admin/payouts/class-list-table.php:161
+#: includes/admin/payouts/new.php:35
+#: includes/admin/payouts/preview.php:309
+#: includes/admin/payouts/preview.php:352
+#: includes/admin/payouts/preview.php:382
+#: includes/admin/payouts/preview.php:425
+#: includes/admin/payouts/preview.php:502
+#: includes/admin/payouts/preview.php:545
+#: includes/admin/payouts/submitted.php:60
+#: includes/admin/payouts/submitted.php:109
+#: includes/admin/payouts/view.php:40
+#: includes/admin/referrals/class-list-table.php:212
+#: includes/admin/referrals/edit.php:56
+#: includes/admin/referrals/new.php:34
+#: includes/admin/tools/export/class-batch-export-payouts.php:155
+#: includes/admin/tools/export/class-batch-export-visits.php:156
+#: includes/admin/visits/class-list-table.php:134
+#: includes/emails/functions.php:1560
+#: includes/integrations/class-lifterlms.php:658
+#: includes/integrations/class-lifterlms.php:684
+#: includes/integrations/class-memberpress.php:301
+msgid "Affiliate"
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:116
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:168
+msgid "Affiliate Privacy"
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:129
+msgid "All Affiliate Privacy"
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:142
+msgid "No Affiliate Privacy (Public)"
+msgstr ""
+
+#: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:155
+msgid "Select one or more affiliates to share this creative with privately."
 msgstr ""
 
 #: includes/admin/creatives/delete.php:52
@@ -2591,17 +2516,17 @@ msgstr ""
 msgid "Nothing to delete"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:16
+#: includes/admin/creatives/edit.php:17
 msgid "Edit Creative"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:40
-#: includes/admin/creatives/new.php:39
+#: includes/admin/creatives/edit.php:41
+#: includes/admin/creatives/new.php:41
 msgid "The name of this creative. For your identification only."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:61
-#: includes/admin/creatives/new.php:58
+#: includes/admin/creatives/edit.php:62
+#: includes/admin/creatives/new.php:60
 #: includes/admin/groups/meta/trait-description.php:99
 #: includes/admin/groups/meta/trait-description.php:133
 #: includes/admin/groups/meta/trait-description.php:161
@@ -2620,86 +2545,112 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:72
-#: includes/admin/creatives/new.php:69
+#: includes/admin/creatives/edit.php:73
+#: includes/admin/creatives/new.php:71
 msgid "An optional description for this creative. This is visible to affiliates and is displayed above the creative."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:89
-#: includes/admin/creatives/new.php:86
+#: includes/admin/creatives/edit.php:90
+#: includes/admin/creatives/new.php:88
 msgid "Select the type of the creative."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:96
-#: includes/admin/creatives/new.php:93
-#: includes/creative-functions.php:201
+#: includes/admin/creatives/edit.php:97
+#: includes/admin/creatives/new.php:95
+#: includes/creative-functions.php:311
 msgid "Image"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:102
+#: includes/admin/creatives/edit.php:103
+#: includes/admin/creatives/new.php:101
 msgid "Select your image. You can also enter an image URL if your image is hosted elsewhere."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:121
-#: includes/admin/creatives/new.php:109
+#: includes/admin/creatives/edit.php:122
+#: includes/admin/creatives/new.php:111
 #: includes/class-editor.php:354
 #: assets/js/editor/build/index.js:6
 msgid "Text"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:122
-#: includes/admin/creatives/new.php:110
+#: includes/admin/creatives/edit.php:123
+#: includes/admin/creatives/new.php:112
 msgid "Alt Text"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:127
-#: includes/admin/creatives/new.php:115
+#: includes/admin/creatives/edit.php:128
+#: includes/admin/creatives/new.php:117
 msgid "Text for this creative."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:128
+#: includes/admin/creatives/edit.php:129
+#: includes/admin/creatives/new.php:118
 msgid "Enter descriptive text for the image's alternative text (alt text)."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:141
-#: includes/admin/creatives/new.php:129
+#: includes/admin/creatives/edit.php:142
+#: includes/admin/creatives/new.php:131
 msgid "The URL this creative should link to. Based on your Referral Settings, the affiliate&#8217;s ID or username will be automatically appended."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:149
+#: includes/admin/creatives/edit.php:150
 msgid "Created"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:154
+#: includes/admin/creatives/edit.php:155
 msgid "The date the creative was created. This cannot be changed."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:181
-#: includes/admin/creatives/new.php:156
-msgid "Select the status of the creative."
+#: includes/admin/creatives/edit.php:186
+#: includes/admin/creatives/new.php:161
+msgid "Select the status of the creative. A creative can be Active, Inactive, or Scheduled."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:201
+#: includes/admin/creatives/edit.php:193
+#: includes/admin/creatives/new.php:169
+msgid "Schedule"
+msgstr ""
+
+#: includes/admin/creatives/edit.php:205
+#: includes/admin/creatives/new.php:181
+msgid "Upgrade to AffiliateWP Pro to Unlock Creative Scheduling"
+msgstr ""
+
+#: includes/admin/creatives/edit.php:209
+#: includes/admin/creatives/new.php:185
+msgid "Set a specific time frame for your creative's visibility."
+msgstr ""
+
+#: includes/admin/creatives/edit.php:214
+#: includes/admin/creatives/edit.php:221
+#: includes/admin/creatives/new.php:189
+#: includes/admin/creatives/new.php:195
+msgid "mm/dd/yyyy"
+msgstr ""
+
+#: includes/admin/creatives/edit.php:216
+#: includes/admin/creatives/new.php:191
+msgid "Start date."
+msgstr ""
+
+#: includes/admin/creatives/edit.php:223
+#: includes/admin/creatives/new.php:197
+msgid "End date."
+msgstr ""
+
+#: includes/admin/creatives/edit.php:245
 msgid "Update Creative"
 msgstr ""
 
-#: includes/admin/creatives/new.php:14
+#: includes/admin/creatives/new.php:16
 msgid "New Creative"
 msgstr ""
 
-#: includes/admin/creatives/new.php:27
+#: includes/admin/creatives/new.php:29
 msgid "Use this screen to add a new creative, such as a text link or image banner."
 msgstr ""
 
-#: includes/admin/creatives/new.php:99
-msgid "Select an image if you would like an image banner. You can also enter an image URL if your image is hosted elsewhere. Leave blank if you wish to create a text-only creative."
-msgstr ""
-
-#: includes/admin/creatives/new.php:116
-msgid "Enter descriptive text for the image's alternative text (alt text."
-msgstr ""
-
-#: includes/admin/creatives/new.php:176
+#: includes/admin/creatives/new.php:217
 msgid "Add Creative"
 msgstr ""
 
@@ -2798,59 +2749,174 @@ msgstr ""
 msgid "There are no referrals to show."
 msgstr ""
 
-#: includes/admin/groups/class-connector.php:928
-msgid "Manage"
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:89
+#: includes/admin/groups/affiliate-groups/class-management.php:87
+#: includes/admin/groups/affiliate-groups/class-management.php:89
+msgid "Groups"
 msgstr ""
 
-#. Translators: %1$s is the name of the type (singular), %2$s is the name of the group.
-#: includes/admin/groups/class-connector.php:1099
-msgid "Assign %1$s: %2$s"
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:90
+#: includes/admin/groups/affiliate-groups/class-management.php:90
+#: includes/admin/tools/export/class-batch-export-affiliates.php:108
+msgid "Group"
 msgstr ""
 
-#: includes/admin/groups/class-connector.php:2021
-#: includes/admin/referrals/edit.php:129
-#: includes/admin/referrals/edit.php:200
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:71
-#: includes/admin/settings/class-settings.php:721
-msgid "None"
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:155
+msgid "No custom rate"
 msgstr ""
 
-#. Translators: %1$s is the grouping singular, %2$s is the item singlular.
-#: includes/admin/groups/class-connector.php:2247
-msgid "%1$sCreate%2$s %3$s %4$s to assign to this %5$s."
+#. Translators: %s is the value for the custom rate, e.g. "Custom Rate: $19.96 Per Order".
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:158
+msgid "Custom Rate: %s"
 msgstr ""
 
-#: includes/admin/groups/class-connector.php:2254
-#: includes/admin/groups/class-connector.php:2290
-msgid "one or more"
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:160
+#: includes/admin/groups/affiliate-groups/meta/trait-default-group.php:82
+msgid "Default Group"
 msgstr ""
 
-#: includes/admin/groups/class-connector.php:2255
-#: includes/admin/groups/class-connector.php:2291
-msgid "a"
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:207
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:110
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:137
+msgid "Per Order"
 msgstr ""
 
-#. Translators: %1$s is the language for plural or single selection,  %2$s is the grouping singular, %3$s is the item singlular. E.g.: 'Select a group for this affiliate.', or 'Select one or more groups for this affiliate.'
-#: includes/admin/groups/class-connector.php:2288
-msgid "Select %1$s %2$s for this %3$s."
+#: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:211
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:108
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:135
+msgid "Per Product"
 msgstr ""
 
-#. Translators: %s is the group plural.
-#: includes/admin/groups/class-connector.php:2353
-#: includes/admin/groups/class-connector.php:2603
-msgid "Type to search all %s."
+#: includes/admin/groups/affiliate-groups/class-management.php:310
+msgid "There was an issue changing the default affiliate group, please try again."
 msgstr ""
 
-#. Translators: %s is the group plural/single.
-#: includes/admin/groups/class-connector.php:2633
-msgid "No %s"
+#. Translators: %s is the title of the group.
+#: includes/admin/groups/affiliate-groups/class-management.php:312
+msgid "%1$s is now the default affiliate group."
 msgstr ""
 
-#. Translators: %s is the group plural (always plural).
-#. Translators: %s is the translated name of the group, e.g. Categories.
-#: includes/admin/groups/class-connector.php:2661
-#: includes/class-creatives-groups.php:596
-msgid "All %s"
+#. Translators: %s is the title of the group.
+#: includes/admin/groups/affiliate-groups/class-management.php:314
+msgid "Make '%s' the default group."
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/class-management.php:317
+msgid "Make&nbsp;Default"
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/class-management.php:370
+#: includes/admin/groups/class-management.php:2306
+msgid "The name is how it appears on your site."
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/meta/trait-custom-rate.php:43
+msgid "Enable custom rate for all affiliates in this group."
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/meta/trait-custom-rate.php:64
+msgid "Custom Rate"
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/meta/trait-default-group.php:59
+msgid "Set this group as the default group for new affiliates."
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/meta/trait-default-group.php:351
+msgid "This group is the default group."
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/meta/trait-default-group.php:404
+#: includes/admin/groups/affiliate-groups/meta/trait-default-group.php:471
+#: assets/js/editor/build/index.js:6
+msgid "Default"
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/meta/trait-default-group.php:470
+msgid "New affiliates, by default, will be assigned to this group during registration and adding new affiliates via the admin."
+msgstr ""
+
+#. Translators: %s is a tooltip with more information.
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:46
+msgid "Choose the flat rate basis for all affiliates in this group.%s"
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:48
+msgid "Flat rate referrals can be calculated on a per product or per order basis. This is the flat rate basis all affiliates in this group will be assigned (regardless of their own settings or the site default)."
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:125
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:165
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:193
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:384
+#: includes/admin/tools/export/class-batch-export-affiliates.php:111
+#: includes/misc-functions.php:1372
+#: tests/misc/test-misc-functions.php:391
+msgid "Flat Rate Basis"
+msgstr ""
+
+#. Translators: %s is Error in bold.
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:315
+msgid "%s: Flat rate basis is required."
+msgstr ""
+
+#. Translators: %s is the name of the group.
+#: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:345
+msgid "Flat rate basis type for %s must be either per-product or per-order."
+msgstr ""
+
+#. Translators: %s is a tooltip with more information.
+#: includes/admin/groups/affiliate-groups/meta/trait-rate-type.php:45
+msgid "Choose a referral rate type for all affiliates in this group.%s"
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/meta/trait-rate-type.php:47
+msgid "Referrals can be based on either a percentage or a flat rate amount. This is the rate type all affiliates in this group will be assigned (regardless of their own settings or the site default)."
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/meta/trait-rate-type.php:82
+#: includes/emails/functions.php:847
+#: includes/emails/functions.php:1038
+msgid "Unknown"
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/meta/trait-rate-type.php:91
+#: includes/admin/groups/affiliate-groups/meta/trait-rate-type.php:132
+#: includes/admin/groups/affiliate-groups/meta/trait-rate-type.php:160
+#: includes/admin/tools/export/class-batch-export-affiliates.php:110
+#: includes/admin/tools/export/class-export-affiliates.php:55
+#: includes/misc-functions.php:1371
+#: tests/misc/test-misc-functions.php:390
+msgid "Rate Type"
+msgstr ""
+
+#. Translators: %s is Error in bold.
+#: includes/admin/groups/affiliate-groups/meta/trait-rate-type.php:266
+msgid "%s: Rate type is required."
+msgstr ""
+
+#. Translators: %s is the name of the group.
+#: includes/admin/groups/affiliate-groups/meta/trait-rate-type.php:296
+msgid "Rate type for %s must be either flat or percentage."
+msgstr ""
+
+#. Translators: %s is a tooltip with more information.
+#: includes/admin/groups/affiliate-groups/meta/trait-rate.php:45
+msgid "Referral rate for all affiliates in this group.%s"
+msgstr ""
+
+#: includes/admin/groups/affiliate-groups/meta/trait-rate.php:47
+msgid "This is the rate all affiliates in this group will be assigned (regardless of their own settings or the site default)."
+msgstr ""
+
+#. Translators: %s is Error in bold.
+#: includes/admin/groups/affiliate-groups/meta/trait-rate.php:318
+msgid "%s: Rate is required."
+msgstr ""
+
+#. Translators: %s is the name of the group.
+#: includes/admin/groups/affiliate-groups/meta/trait-rate.php:347
+msgid "Rate for %s must be a positive value."
 msgstr ""
 
 #: includes/admin/groups/class-management.php:351
@@ -2952,47 +3018,71 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#: includes/admin/groups/class-management.php:1549
+msgid "Next page"
+msgstr ""
+
+#: includes/admin/groups/class-management.php:1554
+msgid "Last page"
+msgstr ""
+
 #. Translators:
-#: includes/admin/groups/class-management.php:1429
+#: includes/admin/groups/class-management.php:1691
 msgid "Edit %s"
 msgstr ""
 
 #. Translators:
-#: includes/admin/groups/class-management.php:1439
+#: includes/admin/groups/class-management.php:1701
 msgid "Delete %s"
 msgstr ""
 
 #. translators: %s is the name of the group type.
-#: includes/admin/groups/class-management.php:1541
-#: includes/admin/groups/class-management.php:1582
+#: includes/admin/groups/class-management.php:1803
+#: includes/admin/groups/class-management.php:1844
 msgid "Add New %s"
 msgstr ""
 
 #. translators: %s is the plural title of this list.
-#: includes/admin/groups/class-management.php:1604
+#: includes/admin/groups/class-management.php:1866
 msgid "%s list"
 msgstr ""
 
 #. Translators: %s is the number of groups.
-#: includes/admin/groups/class-management.php:1614
-#: includes/admin/groups/class-management.php:1773
+#: includes/admin/groups/class-management.php:1876
+#: includes/admin/groups/class-management.php:2038
 msgid "%d items"
 msgstr ""
 
-#: includes/admin/groups/class-management.php:1657
-#: includes/admin/groups/class-management.php:1722
-#: includes/admin/groups/class-management.php:1757
+#: includes/admin/groups/class-management.php:1922
+#: includes/admin/groups/class-management.php:1987
+#: includes/admin/groups/class-management.php:2022
 msgid "Count"
 msgstr ""
 
 #. translators: %1$s is the item you can delete, %2$s plural name of the items.
-#: includes/admin/groups/class-management.php:1781
+#: includes/admin/groups/class-management.php:2046
 msgid "Deleting a %1$s does not delete the %2$s in that %1$s."
 msgstr ""
 
 #. Translators: %s is the single name of the grouping being managed here, e.g. "creative".
-#: includes/admin/groups/class-management.php:1932
+#: includes/admin/groups/class-management.php:2197
 msgid "You are about to permanently delete this %s from your site. This action cannot be undone. 'Cancel' to stop, 'OK' to delete."
+msgstr ""
+
+#: includes/admin/groups/creative-categories/class-connector.php:87
+#: includes/admin/groups/creative-categories/class-management.php:64
+#: includes/admin/groups/creative-categories/class-management.php:66
+#: includes/class-creatives-groups.php:88
+msgid "Categories"
+msgstr ""
+
+#: includes/admin/groups/creative-categories/class-connector.php:88
+#: includes/admin/groups/creative-categories/class-management.php:67
+msgid "Category"
+msgstr ""
+
+#: includes/admin/groups/creative-categories/class-management.php:65
+msgid "Creative Categories"
 msgstr ""
 
 #. Translators: %1$s is the single title, e.g. category, group, etc.
@@ -3172,7 +3262,7 @@ msgstr ""
 #. translators: %s - AffiliateWP.com downloads page.
 #: includes/admin/pages/class-analytics.php:184
 #: includes/admin/pages/class-smtp.php:181
-#: includes/components/wizard/class-setup-screen.php:172
+#: includes/components/wizard/class-setup-screen.php:178
 msgid "Could not install the plugin automatically. Please <a href=\"%s\">download</a> it and install it manually."
 msgstr ""
 
@@ -3184,26 +3274,19 @@ msgstr ""
 #: includes/admin/pages/class-analytics.php:212
 #: includes/admin/pages/class-analytics.php:549
 #: includes/admin/pages/class-smtp.php:209
-#: includes/components/wizard/class-setup-screen.php:589
+#: includes/components/wizard/class-setup-screen.php:595
 msgid "Install Now"
-msgstr ""
-
-#: includes/admin/pages/class-analytics.php:213
-#: includes/admin/pages/class-analytics.php:549
-#: includes/admin/pages/class-smtp.php:210
-#: includes/components/wizard/class-setup-screen.php:611
-msgid "Activate Now"
 msgstr ""
 
 #: includes/admin/pages/class-analytics.php:214
 #: includes/admin/pages/class-smtp.php:211
-#: includes/components/wizard/class-setup-screen.php:168
+#: includes/components/wizard/class-setup-screen.php:174
 msgid "Download Now"
 msgstr ""
 
 #: includes/admin/pages/class-analytics.php:215
 #: includes/admin/pages/class-smtp.php:212
-#: includes/components/wizard/class-setup-screen.php:169
+#: includes/components/wizard/class-setup-screen.php:175
 msgid "Go to Plugins page"
 msgstr ""
 
@@ -3241,13 +3324,13 @@ msgstr ""
 
 #: includes/admin/pages/class-analytics.php:351
 #: includes/admin/pages/class-smtp.php:351
-#: includes/components/wizard/class-setup-screen.php:263
+#: includes/components/wizard/class-setup-screen.php:269
 msgid "Step 1"
 msgstr ""
 
 #: includes/admin/pages/class-analytics.php:385
 #: includes/admin/pages/class-smtp.php:385
-#: includes/components/wizard/class-setup-screen.php:340
+#: includes/components/wizard/class-setup-screen.php:346
 msgid "Step 2"
 msgstr ""
 
@@ -3260,7 +3343,7 @@ msgid "Run the MonsterInsights setup wizard to properly configure your website f
 msgstr ""
 
 #: includes/admin/pages/class-analytics.php:421
-#: includes/components/wizard/class-setup-screen.php:415
+#: includes/components/wizard/class-setup-screen.php:421
 msgid "Step 3"
 msgstr ""
 
@@ -4099,10 +4182,10 @@ msgstr ""
 
 #: includes/admin/referrals/edit.php:277
 #: includes/admin/referrals/new.php:131
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:149
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:189
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:236
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:276
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:171
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:217
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:264
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:304
 #: includes/class-graph.php:397
 msgid "Custom"
 msgstr ""
@@ -4175,7 +4258,7 @@ msgid "Manage Affiliates"
 msgstr ""
 
 #: includes/admin/reports/class-reports-admin.php:82
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:90
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:93
 msgid "View Payouts"
 msgstr ""
 
@@ -4207,7 +4290,7 @@ msgstr ""
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:92
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:223
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:327
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:159
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:167
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:102
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:116
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:145
@@ -4216,7 +4299,7 @@ msgstr ""
 
 #. translators: Affiliate ID
 #: includes/admin/reports/tabs/class-affiliates-reports-tab.php:81
-#: includes/admin/reports/tabs/class-affiliates-reports-tab.php:145
+#: includes/admin/reports/tabs/class-affiliates-reports-tab.php:172
 msgid "Affiliate #%d"
 msgstr ""
 
@@ -4230,13 +4313,13 @@ msgid "New Affiliates"
 msgstr ""
 
 #. translators: Referrals count
-#: includes/admin/reports/tabs/class-affiliates-reports-tab.php:151
+#: includes/admin/reports/tabs/class-affiliates-reports-tab.php:182
 msgid "%s referral"
 msgid_plural "%s referrals"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/reports/tabs/class-affiliates-reports-tab.php:165
+#: includes/admin/reports/tabs/class-affiliates-reports-tab.php:196
 msgid "Highest Converting Affiliate"
 msgstr ""
 
@@ -4245,49 +4328,53 @@ msgstr ""
 msgid "Campaigns"
 msgstr ""
 
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:64
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:103
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:71
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:115
 msgid "Best Converting Campaign (All Time)"
 msgstr ""
 
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:65
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:152
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:239
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:72
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:174
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:267
 msgid "n/a"
 msgstr ""
 
-#. translators: 1: Affiliate referrals URL, 2: Affiliate name, 3: Number of visits for the campaign
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:67
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:153
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:240
-msgid "Affiliate: <a href=\"%1$s\">%2$s</a> | Visits: %3$d"
+#. translators: 1: Affiliate referrals URL, 2: Number of visits for the campaign
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:75
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:177
+msgid "Affiliate: %1$s | Conversion rate: %2$.1f%%"
 msgstr ""
 
 #. translators: 1: Affiliate referrals URL, 2: Affiliate name
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:90
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:175
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:262
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:102
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:203
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:290
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:79
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:210
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:314
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:59
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:72
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:109
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:60
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:74
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:114
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:56
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:118
 msgid "Affiliate: <a href=\"%1$s\">%2$s</a>"
 msgstr ""
 
+#. translators: 1: Date filter
 #. translators: Date comparison label for context
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:148
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:188
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:170
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:216
 msgid "Best Converting Campaign (%s)"
 msgstr ""
 
 #. translators: Date comparison label for context
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:235
-#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:275
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:263
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:303
 msgid "Most Active Campaign (%s)"
+msgstr ""
+
+#: includes/admin/reports/tabs/class-campaigns-reports-tab.php:268
+msgid "Affiliate: <a href=\"%1$s\">%2$s</a> | Visits: %3$d"
 msgstr ""
 
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:75
@@ -4304,8 +4391,8 @@ msgstr ""
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:124
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:175
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:258
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:125
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:141
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:131
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:148
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:71
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:97
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:130
@@ -4344,34 +4431,78 @@ msgstr ""
 msgid "Total Earnings (All Time)"
 msgstr ""
 
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:68
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:57
+msgid "Total amount of paid earnings (all time) for the given affiliate."
+msgstr ""
+
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:69
 msgid "Total Unpaid Earnings (All Time)"
 msgstr ""
 
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:79
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:71
+msgid "Total amount of unpaid earnings (all time) for the given affiliate."
+msgstr ""
+
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:81
 msgid "Payouts (All Time)"
 msgstr ""
 
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:83
+msgid "Number of payouts (all time) for the given affiliate."
+msgstr ""
+
 #. translators: 1: Affiliate results URL, 2: Affiliate name, 3: Affiliate payouts URL, 4: Payouts view label
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:86
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:89
 msgid "Affiliate: <a href=\"%1$s\">%2$s</a> | <a href=\"%3$s\">%4$s</a>"
 msgstr ""
 
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:105
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:109
 msgid "Average Referral Amount (All Time)"
 msgstr ""
 
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:117
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:179
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:111
+msgid "Average referral amount (all time) for the given affiliate."
+msgstr ""
+
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:122
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:189
 msgid "Paid / Unpaid Referrals"
 msgstr ""
 
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:133
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:124
+msgid "Number of paid and unpaid referrals by selected time range for the given affiliate."
+msgstr ""
+
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:139
 msgid "Pending / Rejected Referrals"
 msgstr ""
 
-#: includes/admin/reports/tabs/class-referrals-reports-tab.php:198
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:141
+msgid "Number of pending and rejected referrals by selected time range for the given affiliate."
+msgstr ""
+
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:161
+msgid "Total amount of paid earnings (all time) for all affiliates."
+msgstr ""
+
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:174
+msgid "Total amount of paid earnings by the selected date range for all affiliates."
+msgstr ""
+
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:183
+msgid "Total amount of unpaid earnings by the selected date range for all affiliates."
+msgstr ""
+
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:191
+msgid "Number of paid and unpaid by the selected date range for all affiliates."
+msgstr ""
+
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:213
 msgid "Average Referral Amount"
+msgstr ""
+
+#: includes/admin/reports/tabs/class-referrals-reports-tab.php:215
+msgid "Average referral amount based on paid and unpaid referrals."
 msgstr ""
 
 #: includes/admin/reports/tabs/class-sales-reports-tab.php:33
@@ -4440,7 +4571,7 @@ msgstr ""
 
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:125
 #: includes/admin/reports/tabs/class-visits-reports-tab.php:177
-#: includes/admin/tools/export/class-batch-export-affiliates.php:115
+#: includes/admin/tools/export/class-batch-export-affiliates.php:116
 #: includes/admin/tools/export/class-export-affiliates.php:59
 #: includes/emails/functions.php:969
 #: templates/dashboard-tab-stats.php:14
@@ -4521,7 +4652,7 @@ msgid "Enter the text you would like shown for the Terms of Use checkbox. This o
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:583
-#: includes/class-editor.php:1192
+#: includes/class-editor.php:1179
 #: templates/payouts/register.php:192
 #: templates/register.php:127
 msgid "Agree to our Terms of Use and Privacy Policy"
@@ -5214,7 +5345,7 @@ msgstr ""
 #: includes/admin/settings/class-settings.php:1194
 #: includes/class-editor.php:233
 #: includes/class-editor.php:345
-#: includes/class-editor.php:1482
+#: includes/class-editor.php:1475
 #: includes/integrations/class-wpforms.php:802
 #: templates/login.php:34
 #: templates/register.php:102
@@ -5444,7 +5575,7 @@ msgstr ""
 
 #: includes/admin/settings/display-settings.php:140
 #: includes/admin/tools/tools.php:104
-#: includes/affiliate-functions.php:1852
+#: includes/affiliate-functions.php:1863
 #: templates/dashboard-tab-coupons.php:8
 msgid "Coupons"
 msgstr ""
@@ -5607,7 +5738,7 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: includes/admin/tools/export/class-batch-export-affiliates.php:111
+#: includes/admin/tools/export/class-batch-export-affiliates.php:112
 #: includes/admin/tools/export/class-export-affiliates.php:56
 #: includes/emails/functions.php:1403
 #: includes/emails/functions.php:1561
@@ -5616,18 +5747,18 @@ msgstr ""
 msgid "Earnings"
 msgstr ""
 
-#: includes/admin/tools/export/class-batch-export-affiliates.php:117
+#: includes/admin/tools/export/class-batch-export-affiliates.php:118
 #: includes/admin/tools/export/class-export-affiliates.php:61
 msgid "Date Registered"
 msgstr ""
 
-#: includes/admin/tools/export/class-batch-export-affiliates.php:129
+#: includes/admin/tools/export/class-batch-export-affiliates.php:130
 msgid "No valid affiliate status was selected for export."
 msgstr ""
 
 #. translators: Singular affiliate number
 #. translators: Plural affiliates number
-#: includes/admin/tools/export/class-batch-export-affiliates.php:208
+#: includes/admin/tools/export/class-batch-export-affiliates.php:218
 msgid "%s affiliate was successfully exported."
 msgid_plural "%s affiliates were successfully exported."
 msgstr[0] ""
@@ -6352,7 +6483,7 @@ msgid "Affiliate Actions"
 msgstr ""
 
 #: includes/admin/user-profile.php:91
-#: includes/class-editor.php:1772
+#: includes/class-editor.php:1756
 #: includes/integrations/class-wpforms-templates.php:81
 #: templates/register.php:172
 #: templates/register.php:188
@@ -6361,12 +6492,12 @@ msgid "Register"
 msgstr ""
 
 #: includes/admin/user-profile.php:102
-#: includes/class-register.php:939
+#: includes/class-register.php:949
 msgid "Disable Affiliate Email"
 msgstr ""
 
 #: includes/admin/user-profile.php:104
-#: includes/class-register.php:941
+#: includes/class-register.php:951
 msgid "Disable the application accepted email sent to the affiliate."
 msgstr ""
 
@@ -6579,29 +6710,29 @@ msgstr ""
 msgid "Flat Rate Commission Per Order"
 msgstr ""
 
-#: includes/affiliate-functions.php:1846
+#: includes/affiliate-functions.php:1857
 #: templates/dashboard-tab-urls.php:6
 #: tests/affiliates/test-affiliate-functions.php:2971
 msgid "Affiliate URLs"
 msgstr ""
 
-#: includes/affiliate-functions.php:1847
+#: includes/affiliate-functions.php:1858
 #: templates/dashboard-tab-stats.php:6
 #: tests/affiliates/test-affiliate-functions.php:2972
 msgid "Statistics"
 msgstr ""
 
-#: includes/affiliate-functions.php:1848
+#: includes/affiliate-functions.php:1859
 #: tests/affiliates/test-affiliate-functions.php:2973
 msgid "Graphs"
 msgstr ""
 
-#: includes/class-affiliate-wp.php:326
-#: includes/class-affiliate-wp.php:338
+#: includes/class-affiliate-wp.php:336
+#: includes/class-affiliate-wp.php:348
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: includes/class-affwp-scheduler.php:209
+#: includes/class-affwp-scheduler.php:211
 msgid "Could not find as_schedule_recurring_action(), so could not schedule affiliate email summaries."
 msgstr ""
 
@@ -6731,13 +6862,13 @@ msgid "Option"
 msgstr ""
 
 #: includes/class-editor.php:348
-#: includes/class-editor.php:1017
+#: includes/class-editor.php:1019
 #: assets/js/editor/build/index.js:6
 msgid "Phone Number"
 msgstr ""
 
 #: includes/class-editor.php:357
-#: includes/class-editor.php:1074
+#: includes/class-editor.php:1075
 #: assets/js/editor/build/index.js:6
 msgid "Message"
 msgstr ""
@@ -6754,34 +6885,34 @@ msgstr ""
 msgid "Choose several options"
 msgstr ""
 
-#: includes/class-editor.php:677
+#: includes/class-editor.php:690
 #: templates/login.php:52
 #: assets/js/editor/build/index.js:6
 msgid "Lost your password?"
 msgstr ""
 
 #. translators: %1$s: open link tag, %2$s close link tag.
-#: includes/class-editor.php:1189
+#: includes/class-editor.php:1176
 #: assets/js/editor/build/index.js:6
 msgid "Agree to our %1$sTerms of Use and Privacy Policy%2$s"
 msgstr ""
 
-#: includes/class-editor.php:1483
+#: includes/class-editor.php:1476
 #: templates/register.php:107
 #: assets/js/editor/build/index.js:6
 msgid "Confirm Password"
 msgstr ""
 
-#: includes/class-editor.php:1709
+#: includes/class-editor.php:1691
 #: assets/js/editor/build/index.js:6
 msgid "(required)"
 msgstr ""
 
-#: includes/class-editor.php:2147
+#: includes/class-editor.php:2132
 msgid "The hash supplied do not match any forms"
 msgstr ""
 
-#: includes/class-editor.php:2175
+#: includes/class-editor.php:2160
 msgid "A form for the provided hash could not be found"
 msgstr ""
 
@@ -6796,7 +6927,7 @@ msgid "To"
 msgstr ""
 
 #: includes/class-login.php:77
-#: includes/class-register.php:294
+#: includes/class-register.php:295
 msgid "Invalid username"
 msgstr ""
 
@@ -6805,7 +6936,7 @@ msgid "No such user"
 msgstr ""
 
 #: includes/class-login.php:105
-#: includes/class-register.php:631
+#: includes/class-register.php:632
 msgid "Please enter a password"
 msgstr ""
 
@@ -6840,7 +6971,7 @@ msgid "Please enter your last name"
 msgstr ""
 
 #: includes/class-payouts-service-register.php:135
-#: includes/class-register.php:311
+#: includes/class-register.php:312
 msgid "Invalid account email"
 msgstr ""
 
@@ -6857,7 +6988,7 @@ msgid "Please select your year of birth"
 msgstr ""
 
 #: includes/class-payouts-service-register.php:152
-#: includes/class-register.php:378
+#: includes/class-register.php:379
 msgid "Please agree to our terms of use"
 msgstr ""
 
@@ -6909,85 +7040,85 @@ msgstr ""
 msgid "Paid Referral Earnings"
 msgstr ""
 
-#: includes/class-register.php:222
+#: includes/class-register.php:223
 msgid "Something went wrong when submitting this form, please contact an administrator."
 msgstr ""
 
-#: includes/class-register.php:228
+#: includes/class-register.php:229
 msgid "%s requires at least one selection"
 msgstr ""
 
-#: includes/class-register.php:280
+#: includes/class-register.php:281
 msgid "Please enter a valid website URL"
 msgstr ""
 
-#: includes/class-register.php:287
+#: includes/class-register.php:288
 msgid "Username already taken"
 msgstr ""
 
-#: includes/class-register.php:292
+#: includes/class-register.php:293
 msgid "Invalid username. Only lowercase letters (a-z) and numbers are allowed"
 msgstr ""
 
-#: includes/class-register.php:299
-#: includes/class-register.php:554
+#: includes/class-register.php:300
+#: includes/class-register.php:555
 msgid "Invalid username. Must be between 1 and 60 characters."
 msgstr ""
 
-#: includes/class-register.php:303
+#: includes/class-register.php:304
 msgid "Invalid username. Usernames must include at least one letter"
 msgstr ""
 
-#: includes/class-register.php:307
+#: includes/class-register.php:308
 msgid "Email address already taken"
 msgstr ""
 
-#: includes/class-register.php:325
-#: includes/class-register.php:335
+#: includes/class-register.php:326
+#: includes/class-register.php:336
 msgid "Passwords do not match"
 msgstr ""
 
-#: includes/class-register.php:328
+#: includes/class-register.php:329
 msgid "Both password fields are required."
 msgstr ""
 
-#: includes/class-register.php:385
+#: includes/class-register.php:386
 msgid "Please verify that you are not a robot"
 msgstr ""
 
-#: includes/class-register.php:389
+#: includes/class-register.php:390
 msgid "Google reCAPTCHA verification failed, please try again later."
 msgstr ""
 
-#: includes/class-register.php:393
+#: includes/class-register.php:394
 msgid "Nice try honey bear, don&#8217;t touch our honey"
 msgstr ""
 
-#: includes/class-register.php:397
+#: includes/class-register.php:398
 msgid "You are already registered as an affiliate"
 msgstr ""
 
-#: includes/class-register.php:549
+#: includes/class-register.php:550
 msgid "Please enter your name"
 msgstr ""
 
-#: includes/class-register.php:559
+#: includes/class-register.php:560
 msgid "Please enter a website URL"
 msgstr ""
 
-#: includes/class-register.php:617
+#: includes/class-register.php:618
 msgid "Please enter your payment email"
 msgstr ""
 
-#: includes/class-register.php:624
+#: includes/class-register.php:625
 msgid "Please tell us how you will promote us"
 msgstr ""
 
-#: includes/class-register.php:919
+#: includes/class-register.php:929
 msgid "Add as Affiliate"
 msgstr ""
 
-#: includes/class-register.php:921
+#: includes/class-register.php:931
 msgid "Add the user as an affiliate."
 msgstr ""
 
@@ -7689,114 +7820,114 @@ msgstr ""
 msgid "View supported browsers"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:159
+#: includes/components/wizard/class-setup-screen.php:165
 msgid "Accessing..."
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:160
+#: includes/components/wizard/class-setup-screen.php:166
 msgid "Adding..."
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:161
+#: includes/components/wizard/class-setup-screen.php:167
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:163
-#: includes/components/wizard/class-setup-screen.php:507
+#: includes/components/wizard/class-setup-screen.php:169
+#: includes/components/wizard/class-setup-screen.php:513
 msgid "Affiliate Registration Form Created"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:164
+#: includes/components/wizard/class-setup-screen.php:170
 msgid "Affiliate Added"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:165
-#: includes/components/wizard/class-setup-screen.php:602
+#: includes/components/wizard/class-setup-screen.php:171
+#: includes/components/wizard/class-setup-screen.php:608
 msgid "Affiliate Portal Activated"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:466
+#: includes/components/wizard/class-setup-screen.php:472
 msgid "Step 4"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:483
+#: includes/components/wizard/class-setup-screen.php:489
 msgid "Dismiss Setup Screen"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:504
+#: includes/components/wizard/class-setup-screen.php:510
 msgid "Create Your First Affiliate Registration Form"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:505
+#: includes/components/wizard/class-setup-screen.php:511
 msgid "Every successful affiliate program begins with a registration form."
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:508
+#: includes/components/wizard/class-setup-screen.php:514
 msgid "grey disabled"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:510
+#: includes/components/wizard/class-setup-screen.php:516
 msgid "Edit Form"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:515
+#: includes/components/wizard/class-setup-screen.php:521
 msgid "Select Affiliate Area Page"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:533
+#: includes/components/wizard/class-setup-screen.php:539
 msgid "Add Your First Affiliate"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:534
+#: includes/components/wizard/class-setup-screen.php:540
 msgid "Add yourself as your very first affiliate account so you can test AffiliateWP."
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:550
+#: includes/components/wizard/class-setup-screen.php:556
 msgid "Affiliate Created"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:582
+#: includes/components/wizard/class-setup-screen.php:588
 msgid "Level Up Your Affiliate Area:"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:583
+#: includes/components/wizard/class-setup-screen.php:589
 msgid "Affiliate Portal Addon"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:587
-#: includes/components/wizard/class-setup-screen.php:625
+#: includes/components/wizard/class-setup-screen.php:593
+#: includes/components/wizard/class-setup-screen.php:631
 msgid "Using the Affiliate Portal addon, you can give your affiliates a premium experience, ensuring they have everything they need to perform."
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:626
+#: includes/components/wizard/class-setup-screen.php:632
 msgid "Special Upgrade Offer:"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:627
+#: includes/components/wizard/class-setup-screen.php:633
 msgid "Get 50% off the regular price, automatically applied at checkout."
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:629
+#: includes/components/wizard/class-setup-screen.php:635
 msgid "Upgrade to Pro and Save 50%"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:654
+#: includes/components/wizard/class-setup-screen.php:660
 msgid "Set Up the Payouts Service"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:655
+#: includes/components/wizard/class-setup-screen.php:661
 msgid "Connect your site to the Payouts Service to pay your affiliates directly from a credit or debit card."
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:657
+#: includes/components/wizard/class-setup-screen.php:663
 msgid "Connect Your Site"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:668
+#: includes/components/wizard/class-setup-screen.php:674
 msgid "Payouts Service Connected"
 msgstr ""
 
-#: includes/components/wizard/class-setup-screen.php:732
+#: includes/components/wizard/class-setup-screen.php:738
 msgid "Something went wrong adding you as an affiliate. Please try again."
 msgstr ""
 
@@ -7823,8 +7954,48 @@ msgstr ""
 msgid "Dynamic"
 msgstr ""
 
-#: includes/creative-functions.php:202
+#: includes/creative-functions.php:312
 msgid "Text Link"
+msgstr ""
+
+#: includes/creative-functions.php:484
+msgid "Privacy"
+msgstr ""
+
+#: includes/creative-functions.php:491
+msgid "Private"
+msgstr ""
+
+#: includes/creative-functions.php:493
+msgid "Select whether you want this creative to be public or private."
+msgstr ""
+
+#. translators: Creative is Active until this date.
+#: includes/creative-functions.php:598
+#: includes/creative-functions.php:623
+msgid "Creative currently Active until %s."
+msgstr ""
+
+#. translators: Creative is Inactive since this date.
+#. translators: Creative is Inactive since this date
+#: includes/creative-functions.php:606
+#: includes/creative-functions.php:631
+msgid "Creative Inactive since %s."
+msgstr ""
+
+#. translators: Creative is scheduled to be Active between these dates.
+#: includes/creative-functions.php:614
+msgid "Creative will become Active on %1$s until %2$s."
+msgstr ""
+
+#. translators: Creative is scheduled to be Active on this date.
+#: includes/creative-functions.php:639
+msgid "Creative will become Active on %s."
+msgstr ""
+
+#. translators: Creative Active since this date.
+#: includes/creative-functions.php:647
+msgid "Creative Active since %s."
 msgstr ""
 
 #: includes/emails/actions.php:59
@@ -8077,7 +8248,7 @@ msgstr ""
 msgid "Pro tip from our expert:"
 msgstr ""
 
-#: includes/filters-referral-rates.php:166
+#: includes/filters-referral-rates.php:182
 msgid "This affiliate is in an affiliate group that may have a custom rate, rate type, and/or flat rate basis setting that may be adjusting this value."
 msgstr ""
 
@@ -10503,6 +10674,14 @@ msgstr ""
 #: assets/js/editor/build/index.js:6
 #: assets/js/editor/utils/referral-url.js:49
 msgid "demoaffiliate"
+msgstr ""
+
+#: assets/js/editor/build/index.js:6
+msgid "Yes"
+msgstr ""
+
+#: assets/js/editor/build/index.js:6
+msgid "No"
 msgstr ""
 
 #: assets/js/editor/build/index.js:6

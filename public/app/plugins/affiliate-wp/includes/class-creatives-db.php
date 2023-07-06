@@ -63,12 +63,14 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_creatives';
 		}
 		$this->primary_key = 'creative_id';
-		$this->version     = '1.2.0';
+		$this->version     = '1.3.0';
 
 		// REST endpoints.
 		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
 			$this->REST = new \AffWP\Creative\REST\v1\Endpoints;
 		}
+
+		add_action( 'affwp_scheduled_creative_status_check', array( $this, 'scheduled_creatives_daily_check' ) );
 	}
 
 	/**
@@ -91,6 +93,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 	 *
 	 * @access  public
 	 * @since   1.2
+	 * @since   2.15.0 Added start_date and end_date columns.
 	*/
 	public function get_columns() {
 		return array(
@@ -105,6 +108,8 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			'status'        => '%s',
 			'date'          => '%s',
 			'date_updated'  => '%s',
+			'start_date'    => '%s',
+			'end_date'      => '%s',
 		);
 	}
 
@@ -118,6 +123,8 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 		return array(
 			'date'         => gmdate( 'Y-m-d H:i:s' ),
 			'date_updated' => gmdate( 'Y-m-d H:i:s' ),
+			'start_date'   => gmdate( 'Y-m-d H:i:s' ),
+			'end_date'     => gmdate( 'Y-m-d H:i:s' ),
 		);
 	}
 
@@ -136,6 +143,11 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 	 *     @type string       $status       Creative status. Default empty (all).
 	 *     @type string       $type         Creative type. Default `any`.
 	 *     @type string       $type_compare Creative type compare. Default =. Also accepts !=, <>
+	 *     @type string       $start_date   Get creatives scheduled to start on or before this date.
+	 *                                      Use '0000-00-00 00:00:00' or 'NULL' for no start date. Use '*' to get all with dates.
+	 *     @type string       $end_date     Get creatives scheduled to end on or before this date.
+	 *                                      Use '0000-00-00 00:00:00' or 'NULL' for no end date. Use '*' to get all with dates.
+	 *     @type bool         $scheduled    Whether to retrieve only scheduled creatives. Any status, but must have a start or end date.
 	 *     @type string       $order        How to order returned creative results. Accepts 'ASC' or 'DESC'.
 	 *                                      Default 'DESC'.
 	 *     @type string       $orderby      Creatives table column to order results by. Accepts any AffWP\Creative
@@ -157,6 +169,8 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			'status'       => '',
 			'type'         => 'any',
 			'type_compare' => '',
+			'start_date'   => '',
+			'end_date'     => '',
 			'orderby'      => $this->primary_key,
 			'order'        => 'ASC',
 			'fields'       => '',
@@ -216,6 +230,47 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 		// Creatives for a date or date range.
 		if ( ! empty( $args['date'] ) ) {
 			$where = $this->prepare_date_query( $where, $args['date'] );
+		}
+
+		// Start date.
+		if ( ! empty( $args['start_date'] ) ) {
+			if ( '*' === $args['start_date'] ) {
+				// Get all creatives with start dates.
+				$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+				$where .= "`start_date` != '0000-00-00 00:00:00'";
+			} elseif ( '0000-00-00 00:00:00' !== $args['start_date'] && 'NULL' !== $args['start_date']) {
+				//  Get all start dates before or equal to the given date. Used to determine status.
+				$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+				$where .= "`start_date` != '0000-00-00 00:00:00' ";
+				$where .= "AND `start_date` <= '" . esc_sql( $args['start_date'] ) . "' ";
+			} elseif ( '0000-00-00 00:00:00' === $args['start_date'] || 'NULL' === $args['start_date'] ) {
+				// Checking for this indicates that the start date is not set.
+				$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+				$where .= "`start_date` = '0000-00-00 00:00:00' ";
+			}
+		}
+
+		// End date.
+		if ( ! empty( $args['end_date'] ) ) {
+			if ( '*' === $args['end_date'] ) {
+				// Get all creatives with end dates.
+				$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+				$where .= "`end_date` != '0000-00-00 00:00:00' ";
+			} elseif ( '0000-00-00 00:00:00' !== $args['end_date'] && 'NULL' !== $args['end_date'] ) {
+				// Get all end dates before or equal to the given date. Used to determine status.
+				$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+				$where .= "`end_date` != '0000-00-00 00:00:00' AND `end_date` <= '" . esc_sql( $args['end_date'] ) . "' ";
+			} elseif ( '0000-00-00 00:00:00' === $args['start_date'] || 'NULL' === $args['end_date'] ) {
+				// Checking for this indicates that the end date is not set.
+				$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+				$where .= "`end_date` = '0000-00-00 00:00:00' ";
+			}
+		}
+
+		// Only get scheduled. May be any status, but has a start and end date.
+		if ( ! empty( $args['scheduled'] ) && true == $args['scheduled'] ) {
+			$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+			$where .= "`start_date` != '0000-00-00 00:00:00' OR `end_date` !='0000-00-00 00:00:00' ";
 		}
 
 		// Select valid creatives only
@@ -307,6 +362,10 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			$args['date'] = gmdate( 'Y-m-d H:i:s', $time - affiliate_wp()->utils->wp_offset );
 		}
 
+		$args['start_date'] = ! empty( $args['start_date'] ) ? gmdate( 'Y-m-d H:i:s', strtotime( $args['start_date'] ) ) : '';
+
+		$args['end_date'] = ! empty( $args['end_date'] ) ? gmdate( 'Y-m-d H:i:s', strtotime( $args['end_date'] ) ) : '';
+
 		$args['attachment_id'] = ( ! empty( $args['image'] ) && 0 === $args['attachment_id'] )
 			? attachment_url_to_postid( $args['image'] )
 			: 0;
@@ -329,6 +388,66 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 
 	}
 
+	/**
+	 * Scheduled creatives daily check.
+	 * Update the status of creatives which are due to start or end today.
+	 *
+	 * @since 2.15.0
+	 * @return void
+	 */
+	public function scheduled_creatives_daily_check() {
+
+		// Creatives which are due to start.
+		$creative_ids = $this->get_creatives_to_start_today();
+
+		if ( ! empty( $creative_ids ) && is_array( $creative_ids ) ) {
+			foreach ( $creative_ids as $creative_id ) {
+				$this->update( $creative_id, array( 'status' => 'active' ) );
+			}
+		}
+
+		// Creatives which are due to end.
+		$creative_ids = $this->get_creatives_to_end_today();
+
+		if ( ! empty( $creative_ids ) && is_array( $creative_ids ) ) {
+			foreach ( $creative_ids as $creative_id ) {
+				$this->update( $creative_id, array( 'status' => 'inactive' ) );
+			}
+		}
+	}
+
+	/**
+	 * Get scheduled creatives that start today.
+	 *
+	 * @since 2.15.0
+	 * @return array Array of creative IDs.
+	 */
+	public function get_creatives_to_start_today() {
+
+		return $this->get_creatives( array(
+			'status'     => 'scheduled',
+			'start_date' => gmdate( 'Y-m-d H:i:s', strtotime( 'now' ) + affiliate_wp()->utils->wp_offset ),
+			'fields'     => 'ids',
+			'number'     => -1,
+		) );
+	}
+
+	/**
+	 * Get active creatives that end today.
+	 *
+	 * @since 2.15.0
+	 * @return array Array of creative IDs.
+	 */
+	public function get_creatives_to_end_today() {
+
+		return $this->get_creatives( array(
+			'status'   => 'active',
+			'end_date' => gmdate( 'Y-m-d H:i:s', strtotime( 'now' ) + affiliate_wp()->utils->wp_offset ),
+			'fields'   => 'ids',
+			'number'   => -1,
+		) );
+	}
+
 	public function create_table() {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
@@ -343,7 +462,9 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			attachment_id bigint(20)   NOT NULL,
 			status        tinytext     NOT NULL,
 			date          datetime     NOT NULL,
-			date_updated  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+			date_updated  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+			start_date    datetime     NOT NULL,
+			end_date      datetime     NOT NULL,
 			PRIMARY KEY  (creative_id),
 			KEY creative_id (creative_id)
 			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";

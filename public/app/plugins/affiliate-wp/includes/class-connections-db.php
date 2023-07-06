@@ -158,6 +158,8 @@ final class DB extends \Affiliate_WP_DB {
 	 * Constructor
 	 *
 	 * @since 2.12.0
+	 * @since 2.15.0 Connectables are registered in the case they are not due to plugin
+	 *                  loading priority.
 	 */
 	public function __construct() {
 
@@ -810,6 +812,8 @@ final class DB extends \Affiliate_WP_DB {
 	 * that contains the id of `int`.
 	 *
 	 * @since 2.12.0
+	 * @since 2.15.0 Connectables are registered in the case they are not due to plugin
+	 *                  loading priority.
 	 *
 	 * @param string $get_connectable   The registered connectable ids to get from the database.
 	 * @param string $where_connectable The registered connectable that they must be connected to.
@@ -820,6 +824,8 @@ final class DB extends \Affiliate_WP_DB {
 	 * @throws \InvalidArgumentException If you do not supply valid parameters.
 	 */
 	public function get_connected( $get_connectable = '', $where_connectable = '', $where_id = false ) {
+
+		affwp_register_connectables();
 
 		if ( ! $this->is_numeric_and_gt_zero( $where_id ) ) {
 			throw new \InvalidArgumentException( '$where_id must be a positive numeric value.' );
@@ -924,6 +930,8 @@ final class DB extends \Affiliate_WP_DB {
 	 * Get the connectables (and their id's) in a connection.
 	 *
 	 * @since  2.12.0
+	 * @since 2.15.0 Connectables are registered in the case they are not due to plugin
+	 *                  loading priority.
 	 *
 	 * @param int $connection_id The id for the connection in the database.
 	 *
@@ -933,6 +941,8 @@ final class DB extends \Affiliate_WP_DB {
 	 * @throws \InvalidArgumentException If you do not supply a valid connection id.
 	 */
 	public function get_connected_ids( $connection_id ) {
+
+		affwp_register_connectables();
 
 		if ( ! $this->is_numeric_and_gt_zero( $connection_id ) ) {
 			throw new \InvalidArgumentException( '$connection_id must be a positive numeric value.' );
@@ -1029,6 +1039,8 @@ final class DB extends \Affiliate_WP_DB {
 	 * Get a connection's date from the database.
 	 *
 	 * @since  2.12.0
+	 * @since 2.15.0 Connectables are registered in the case they are not due to plugin
+	 *                  loading priority.
 	 *
 	 * @param int $connection_id The `connection_id` in the database.
 	 *
@@ -1037,6 +1049,8 @@ final class DB extends \Affiliate_WP_DB {
 	 * @throws \InvalidArgumentException If you do not supply a positive numeric value for the connection id.
 	 */
 	public function get_connection_date( $connection_id ) {
+
+		affwp_register_connectables();
 
 		if ( ! $this->is_numeric_and_gt_zero( $connection_id ) ) {
 			throw new \InvalidArgumentException( '$connection_id must be a positive numeric value.' );
@@ -1088,8 +1102,6 @@ final class DB extends \Affiliate_WP_DB {
 	 *                           If you do not supply anything, the default is `connection_id`.
 	 *     @type string $order   Used to set `ORDER` and accepts `ASC` or `DESC`.
 	 *                           If you do not supply these, we will always default to `ASC`.
-	 *     @type string $type    Used to set `WHERE type = %s` and will help you return connections connectioned by a specific connection type.
-	 *                           Note, does not restrict you to registered connection types or enforce sanitization beforehand.
 	 * }
 	 * @param  bool  $count      Set to `true` to just get the number of result.
 	 *
@@ -1141,8 +1153,8 @@ final class DB extends \Affiliate_WP_DB {
 			return new \WP_Error( 'bad_arguments', "\$args[fields] must be a non-empty string and can only be set to 'ids' or 'objects'.", $args );
 		}
 
-		if ( ! $this->is_numeric_and_gt_zero( $args['number'] ) ) {
-			return new \WP_Error( 'bad_arguments', '$args[number] can only be set to a positive numeric value (zero is not allowed because it is silly).', $args );
+		if ( ! is_numeric( $args['number'] ) ) {
+			return new \WP_Error( 'bad_arguments', '$args[number] can only be set to a positive numeric value or -1 for unlimited.', $args );
 		}
 
 		if ( ! $this->is_numeric_and_at_least_zero( $args['offset'] ) ) {
@@ -1251,6 +1263,8 @@ final class DB extends \Affiliate_WP_DB {
 	 * Get a registered connectable information.
 	 *
 	 * @since  2.12.0
+	 * @since 2.15.0 Connectables are registered in the case they are not due to plugin
+	 *                  loading priority.
 	 *
 	 * @param string $connectable The registered connectable's name.
 	 * @param string $item        The data you want from the connectable, e.g. `table`, `column`, or `name`.
@@ -1263,6 +1277,8 @@ final class DB extends \Affiliate_WP_DB {
 	 * @throws \Exception                If you ask for a connectable that isn't registered.
 	 */
 	public function get_registered_connectable( $connectable, $item = 'none' ) {
+
+		affwp_register_connectables();
 
 		if ( ! $this->is_string_and_nonempty( $connectable ) ) {
 			throw new \InvalidArgumentException( '$connectable must be a non-empty string.' );
@@ -1402,6 +1418,8 @@ final class DB extends \Affiliate_WP_DB {
 	 * Are two things connected?
 	 *
 	 * @since  2.12.0
+	 * @since  2.15.0 Connectables are registered in the case they are not due to plugin
+	 *                   loading priority.
 	 *
 	 * @param array $args Accepts a connection argument much like `self::connect()`.
 	 *
@@ -1410,6 +1428,8 @@ final class DB extends \Affiliate_WP_DB {
 	 * @throws \InvalidArgumentException If you don't supply an array for `$args`.
 	 */
 	public function is_connected( $args ) {
+
+		affwp_register_connectables();
 
 		if ( ! is_array( $args ) ) {
 			throw new \InvalidArgumentException( '$args must be an array.' );

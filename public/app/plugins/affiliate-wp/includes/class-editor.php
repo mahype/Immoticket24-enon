@@ -406,16 +406,16 @@ final class Affiliate_WP_Editor {
 	 *
 	 * @since 2.8
 	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block content (unused).
+	 * @param array  $atts    Block attributes (unused).
+	 * @param string $content Block content.
 	 */
-	public function affiliate_content_block_render_callback( $attributes, $content ) {
+	public function affiliate_content_block_render_callback( array $atts, string $content ) : string {
 
 		if ( ! ( affwp_is_affiliate() && affwp_is_active_affiliate() ) ) {
-			return;
+			return '';
 		}
 
-		return $content;
+		return wp_kses( $content, affwp_kses() );
 	}
 
 	/**
@@ -423,16 +423,16 @@ final class Affiliate_WP_Editor {
 	 *
 	 * @since 2.8
 	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block content (unused).
+	 * @param array  $atts    Block attributes (unused).
+	 * @param string $content Block content.
 	 */
-	public function non_affiliate_content_block_render_callback( $attributes, $content ) {
+	public function non_affiliate_content_block_render_callback( array $atts, string $content ) : string {
 
 		if ( affwp_is_affiliate() && affwp_is_active_affiliate() ) {
-			return;
+			return '';
 		}
 
-		return $content;
+		return wp_kses( $content, affwp_kses() );
 	}
 
 	/**
@@ -440,11 +440,16 @@ final class Affiliate_WP_Editor {
 	 *
 	 * @since 2.8
 	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block content (unused).
+	 * @param array  $atts    Block attributes.
+	 * @param string $content Block content (unused).
 	 */
-	public function opt_in_block_render_callback( $attributes, $content ) {
-		return ( new Affiliate_WP_Shortcodes() )->opt_in_form( $attributes );
+	public function opt_in_block_render_callback( array $atts, string $content ) : string {
+
+		return sprintf(
+			'<div class="affwp-opt-in-form-block%s">%s</div>',
+			isset( $atts['className'] ) ? ' ' . sanitize_text_field( $atts['className'] ) : '',
+			( new Affiliate_WP_Shortcodes() )->opt_in_form( $atts )
+		);
 	}
 
 	/**
@@ -452,22 +457,15 @@ final class Affiliate_WP_Editor {
 	 *
 	 * @since 2.8
 	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block content (unused).
+	 * @param array $atts Block attributes.
 	 */
-	public function affiliate_referral_url_block_render_callback( $attributes ) {
+	public function affiliate_referral_url_block_render_callback( array $atts ) : string {
 
-		if ( 'default' === $attributes['pretty'] && true === affwp_is_pretty_referral_urls() ) {
-			$attributes['pretty'] = 'yes';
-		}
-
-		if ( 'default' === $attributes['format'] && 'username' === affwp_get_referral_format() ) {
-			$attributes['format'] = 'username';
-		}
-
-		$referral_url = ( new Affiliate_WP_Shortcodes() )->referral_url( $attributes );
-
-		return '<p class="affiliate-referral-url">' . $referral_url . '</p>';
+		return sprintf(
+			'<p class="affwp-referral-url-block affiliate-referral-url%s">%s</p>',
+			isset( $atts['className'] ) ? ' ' . sanitize_text_field( $atts['className'] ) : '',
+			( new Affiliate_WP_Shortcodes() )->referral_url( $atts )
+		);
 	}
 
 	/**
@@ -475,13 +473,22 @@ final class Affiliate_WP_Editor {
 	 *
 	 * @since 2.8
 	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block content (unused).
+	 * @param array $atts Block attributes.
 	 */
-	public function affiliate_creatives_block_render_callback( $attributes ) {
-		$attributes['preview'] = true === $attributes['preview'] && isset( $attributes['preview'] ) ? 'yes' : 'no';
+	public function affiliate_creatives_block_render_callback( array $atts ) : string {
 
-		return ( new Affiliate_WP_Shortcodes() )->affiliate_creatives( $attributes );
+		return sprintf(
+			'<div class="affwp-creatives-block%s">%s</div>',
+			isset( $atts['className'] ) ? ' ' . sanitize_text_field( $atts['className'] ) : '',
+			( new Affiliate_WP_Shortcodes() )->affiliate_creatives(
+				array_merge(
+					$atts,
+					array(
+						'preview' => isset( $atts['preview'] ) && true === $atts['preview'] ? 'yes' : 'no',
+					)
+				)
+			)
+		);
 	}
 
 	/**
@@ -489,11 +496,15 @@ final class Affiliate_WP_Editor {
 	 *
 	 * @since 2.8
 	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block content (unused).
+	 * @param array $atts Block attributes.
 	 */
-	public function affiliate_creative_block_render_callback( $attributes ) {
-		return ( new Affiliate_WP_Shortcodes() )->affiliate_creative( $attributes );
+	public function affiliate_creative_block_render_callback( array $atts ) : string {
+
+		return sprintf(
+			'<div class="affwp-creative-block%s">%s</div>',
+			isset( $atts['className'] ) ? ' ' . sanitize_text_field( $atts['className'] ) : '',
+			( new Affiliate_WP_Shortcodes() )->affiliate_creative( $atts )
+		);
 	}
 
 	/**
@@ -501,13 +512,13 @@ final class Affiliate_WP_Editor {
 	 *
 	 * @since 2.8
 	 *
-	 * @param array    $categories Array of block categories.
-	 * @param \WP_Post $post       Post being loaded.
+	 * @param array $categories Array of block categories.
 	 *
 	 * @return array Modified categories list.
 	 */
-	public function add_block_category( $categories, $post ) {
-		$categories = array_merge(
+	public function add_block_category( array $categories ) : array {
+
+		return array_merge(
 			$categories,
 			array(
 				array(
@@ -516,34 +527,38 @@ final class Affiliate_WP_Editor {
 				),
 			)
 		);
-
-		return $categories;
 	}
 
-	public function user() {
-		$current_user = wp_get_current_user();
-		$user         = array();
+	/**
+	 * Return user data if logged in.
+	 *
+	 * @return array
+	 */
+	public function user(): array {
 
 		if ( is_user_logged_in() ) {
-			$user['user_name']  = $current_user->user_firstname . ' ' . $current_user->user_lastname;
-			$user['user_login'] = $current_user->user_login;
-			$user['user_email'] = $current_user->user_email;
-			$user['url']        = $current_user->user_url;
+			$current_user = wp_get_current_user();
+
+			return array(
+				'user_name'  => "{$current_user->user_firstname} {$current_user->user_lastname}",
+				'user_login' => $current_user->user_login,
+				'user_email' => $current_user->user_email,
+				'url'        => $current_user->user_url,
+			);
 		}
 
-		return $user;
+		return array();
 	}
 
 	/**
 	 * Render the Affiliate Area.
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object
+	 * @param array  $atts    Block attributes.
+	 * @param string $content Block content.
 	 *
-	 * @return mixed
+	 * @return string
 	 */
-	public function render_affiliate_area( $atts, $content, $block ) {
+	public function render_affiliate_area( array $atts, string $content ) : string {
 
 		affwp_enqueue_script( 'affwp-frontend', 'affiliate_area' );
 
@@ -551,15 +566,15 @@ final class Affiliate_WP_Editor {
 
 		if ( is_user_logged_in() && affwp_is_affiliate() ) {
 			affiliate_wp()->templates->get_template_part( 'dashboard' );
-		} else {
-
-			if ( ! affiliate_wp()->settings->get( 'allow_affiliate_registration' ) ) {
-				affiliate_wp()->templates->get_template_part( 'no', 'access' );
-			}
-
-			// Render the inner blocks (registration and login).
-			echo do_blocks( $content );
+			return ob_get_clean();
 		}
+
+		if ( ! affiliate_wp()->settings->get( 'allow_affiliate_registration' ) ) {
+			affiliate_wp()->templates->get_template_part( 'no', 'access' );
+		}
+
+		// Render the inner blocks (registration and login).
+		echo do_blocks( $content );
 
 		return ob_get_clean();
 	}
@@ -567,16 +582,14 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Render the login form
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object
+	 * @param array $atts Block attributes.
 	 *
-	 * @return mixed Form markup or success message when form submits successfully.
+	 * @return string Form markup or success message when form submits successfully.
 	 */
-	public function render_login_form( $atts, $content, $block ) {
+	public function render_login_form( array $atts ) : string {
 
 		if ( is_user_logged_in() ) {
-			return;
+			return '';
 		}
 
 		$login_defaults = $this->login_defaults();
@@ -665,7 +678,7 @@ final class Affiliate_WP_Editor {
 				</p>
 
 				<p>
-					<?php if ( $redirect ) : ?>
+					<?php if ( esc_url( $redirect ) ) : ?>
 						<input type="hidden" name="affwp_redirect" value="<?php echo esc_url( $redirect ); ?>"/>
 					<?php endif; ?>
 					<input type="hidden" name="affwp_login_nonce" value="<?php echo esc_attr( wp_create_nonce( 'affwp-login-nonce' ) ); ?>"/>
@@ -705,16 +718,15 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Render the form
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object
+	 * @param array  $atts    Block attributes.
+	 * @param string $content Block content.
 	 *
-	 * @return mixed Form markup or success message when form submits successfully.
+	 * @return string Form markup or success message when form submits successfully.
 	 */
-	public function render_registration_form( $atts, $content, $block ) {
+	public function render_registration_form( array $atts, string $content ) : string {
 
 		if ( ! affiliate_wp()->settings->get( 'allow_affiliate_registration' ) || affwp_is_affiliate() ) {
-			return;
+			return '';
 		}
 
 		$registration_defaults = $this->registration_defaults();
@@ -784,9 +796,9 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Render the classes.
 	 *
-	 * @param array $classes Array of classes
+	 * @param array $classes Array of classes.
 	 *
-	 * @return string Markup for the class attribute
+	 * @return string Markup for the class attribute.
 	 */
 	public function render_classes( $classes = array() ) {
 
@@ -804,54 +816,51 @@ final class Affiliate_WP_Editor {
 	 *
 	 * Render username field when using blocks.
 	 *
-	 * @param array   $atts Field attributes.
-	 * @param string  $content Field content.
-	 * @param object  $block Block object.
+	 * @param array    $atts Field attributes.
+	 * @param string   $content Field content.
+	 * @param WP_Block $block Block object.
 	 *
 	 * @return false|string
 	 */
-	public function render_field_username( $atts, $content, $block ) {
+	public function render_field_username( array $atts, string $content, WP_Block $block ) {
 
-		$atts['required'] = true;
+		$name = 'affwp_user_login';
 
-		$block_context     = isset( $block->context ) ? $block->context : '';
-		$show_placeholders = isset( $block_context['affiliatewp/placeholders'] ) ? $block_context['affiliatewp/placeholders'] : '';
-		$label             = isset( $atts['label'] ) && ! empty( $atts['label'] ) ? __( $atts['label'], 'affiliate-wp' ) : '';
-		$user              = $this->user();
-		$label_slug        = 'affwp-user-login';
-		$name              = 'affwp_user_login';
-		$value             = isset( $user['user_login'] ) ? $user['user_login'] : '';
-		$disabled          = is_user_logged_in() ? 'disabled' : '';
-		$value             = isset( $_REQUEST[ $name ] ) ? $_REQUEST[ $name ] : $value;
-		$required_attr     = isset( $atts['required'] ) && $atts['required'] ? 'required' : '';
-		$placeholder       = isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '';
-		$label_classes     = '';
+		$show_placeholders = isset( $block->context, $block->context['affiliatewp/placeholders'] )
+			? $block->context['affiliatewp/placeholders']
+			: '';
 
-		$field_classes = array(
-			'affwp-field',
-			'affwp-field-name',
+		$atts = array_merge(
+			$atts,
+			array(
+				'required'    => 'required',
+				'label'       => isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : '',
+				'placeholder' => isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '',
+				'disabled'    => is_user_logged_in() ? 'disabled' : '',
+
+			)
 		);
 
-		$classes = array(
-			isset( $atts['className'] ) ? $atts['className'] : '',
-		);
+		$value = isset( $_REQUEST['affwp_register_nonce'] ) && wp_verify_nonce( $_REQUEST['affwp_register_nonce'], 'affwp-register-nonce' ) && isset( $_REQUEST[ $name ] )
+			? $_REQUEST[ $name ]
+			: ( isset( $this->user()['user_login'] ) ? $this->user()['user_login'] : '' );
 
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], 'affwp-user-login', '', $block ), 'data' ); ?>
 
 			<input
 				type="text"
-				id="<?php echo esc_attr( $label_slug ); ?>"
+				id="affwp-user-login"
 				name="<?php echo esc_attr( $name ); ?>"
-				title="<?php echo esc_attr( $label ); ?>"
+				title="<?php echo esc_attr( $atts['label'] ); ?>"
 				value="<?php echo esc_attr( $value ); ?>"
-				placeholder="<?php echo esc_attr( $placeholder ); ?>"
-				<?php echo esc_attr( $required_attr ); ?>
-				<?php echo esc_html( $disabled ); ?>
-				<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
+				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
+				<?php echo esc_attr( $atts['required'] ); ?>
+				<?php echo esc_html( $atts['disabled'] ); ?>
+				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-name' ) ), 'strip' ); ?>
 			/>
 		</p>
 
@@ -864,53 +873,51 @@ final class Affiliate_WP_Editor {
 	 *
 	 * Render name field when using blocks.
 	 *
-	 * @param array   $atts Field attributes.
-	 * @param string  $content Field content.
-	 * @param object  $block Block object.
+	 * @param array    $atts Field attributes.
+	 * @param string   $content Field content.
+	 * @param WP_Block $block Block object.
 	 *
 	 * @return false|string
 	 */
-	public function render_field_name( $atts, $content, $block ) {
+	public function render_field_name( array $atts, string $content, WP_Block $block ) {
 
-		$block_context     = isset( $block->context ) ? $block->context : '';
-		$show_placeholders = isset( $block_context['affiliatewp/placeholders'] ) ? $block_context['affiliatewp/placeholders'] : '';
-		$label             = isset( $atts['label'] ) && ! empty( $atts['label'] ) ? __( $atts['label'], 'affiliate-wp' ) : '';
-		$user              = $this->user();
-		$label_slug        = 'affwp-user-name';
-		$name              = 'affwp_user_name';
-		$value             = isset( $user['user_name'] ) ? $user['user_name'] : '';
-		$disabled          = is_user_logged_in() ? 'disabled' : '';
-		$value             = isset( $_REQUEST[ $name ] ) ? $_REQUEST[ $name ] : $value;
-		$required_attr     = isset( $atts['required'] ) && $atts['required'] ? 'required' : '';
-		$placeholder       = isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '';
+		$name = 'affwp_user_name';
 
-		$label_classes = '';
+		$show_placeholders = isset( $block->context, $block->context['affiliatewp/placeholders'] )
+			? $block->context['affiliatewp/placeholders']
+			: '';
 
-		$field_classes = array(
-			'affwp-field',
-			'affwp-field-name',
+		$atts = array_merge(
+			$atts,
+			array(
+				'required'    => isset( $atts['required'] ) && $atts['required'] ? 'required' : '',
+				'label'       => isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : '',
+				'placeholder' => isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '',
+				'disabled'    => is_user_logged_in() ? 'disabled' : '',
+
+			)
 		);
 
-		$classes = array(
-			isset( $atts['className'] ) ? $atts['className'] : '',
-		);
+		$value = isset( $_REQUEST['affwp_register_nonce'] ) && wp_verify_nonce( $_REQUEST['affwp_register_nonce'], 'affwp-register-nonce' ) && isset( $_REQUEST[ $name ] )
+			? $_REQUEST[ $name ]
+			: ( isset( $this->user()['user_name'] ) ? $this->user()['user_name'] : '' );
 
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], 'affwp-user-name', '', $block ), 'data' ); ?>
 
 			<input
 				type="text"
-				id="<?php echo esc_attr( $label_slug ); ?>"
+				id="affwp-user-name"
 				name="<?php echo esc_attr( $name ); ?>"
-				title="<?php echo esc_attr( $label ); ?>"
+				title="<?php echo esc_attr( $atts['label'] ); ?>"
 				value="<?php echo esc_attr( $value ); ?>"
-				placeholder="<?php echo esc_attr( $placeholder ); ?>"
-				<?php echo esc_attr( $required_attr ); ?>
-				<?php echo esc_html( $disabled ); ?>
-				<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
+				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
+				<?php echo esc_attr( $atts['required'] ); ?>
+				<?php echo esc_html( $atts['disabled'] ); ?>
+				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-name' ) ), 'strip' ); ?>
 			/>
 		</p>
 
@@ -923,76 +930,66 @@ final class Affiliate_WP_Editor {
 	 *
 	 * Render text field when using blocks.
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object.
+	 * @param array    $atts Block attributes.
+	 * @param string   $content Block content.
+	 * @param WP_Block $block WP_Block Object.
 	 *
-	 * @return mixed Markup for the text field.
+	 * @return false|string Markup for the text field.
 	 */
-	public function render_field_text( $atts, $content, $block ) {
+	public function render_field_text( array $atts, string $content, WP_Block $block ) {
 
-		$block_context     = isset( $block->context ) ? $block->context : '';
-		$show_placeholders = isset( $block_context['affiliatewp/placeholders'] ) ? $block_context['affiliatewp/placeholders'] : '';
+		$show_placeholders = isset( $block->context, $block->context['affiliatewp/placeholders'] )
+			? $block->context['affiliatewp/placeholders']
+			: '';
 
-		$label = isset( $atts['label'] ) && ! empty( $atts['label'] ) ? __( $atts['label'], 'affiliate-wp' ) : '';
+		$atts = array_merge(
+			$atts,
+			array(
+				'type'        => isset( $atts['type'] ) ? $atts['type'] : '',
+				'required'    => isset( $atts['required'] ) && $atts['required'] ? 'required' : '',
+				'label'       => isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : '',
+				'placeholder' => isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '',
+				'disabled'    => isset( $atts['type'] ) && 'username' === $atts['type'] && is_user_logged_in() ? 'disabled' : '',
+			)
+		);
 
-		$type = isset( $atts['type'] ) ? $atts['type'] : '';
-
-		$user     = $this->user();
-		$disabled = '';
-
-		switch ( $type ) {
-
+		switch ( $atts['type'] ) {
 			case 'username':
 				$label_slug = 'affwp-user-login';
 				$name       = 'affwp_user_login';
-				$value      = isset( $user['user_login'] ) ? $user['user_login'] : '';
-				$disabled   = is_user_logged_in() ? 'disabled' : '';
+				$value      = isset( $this->user()['user_login'] ) ? $this->user()['user_login'] : '';
 				break;
-
 			case 'name':
 				$label_slug = 'affwp-user-name';
 				$name       = 'affwp_user_name';
-				$value      = isset( $user['user_name'] ) ? $user['user_name'] : '';
+				$value      = isset( $this->user()['user_name'] ) ? $this->user()['user_name'] : '';
 				break;
-
 			default:
-				$label_slug = 'affwp-' . sanitize_title( $label );
+				$label_slug = 'affwp-' . sanitize_title( $atts['label'] );
 				$name       = esc_attr( str_replace( '-', '_', $label_slug ) ) . '_text';
 				$value      = '';
 				break;
 		}
 
-		$value         = isset( $_REQUEST[ $name ] ) ? $_REQUEST[ $name ] : $value;
-		$required_attr = isset( $atts['required'] ) && $atts['required'] ? 'required' : '';
-		$placeholder   = isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '';
-
-		$label_classes = '';
-
-		$field_classes = array(
-			'affwp-field',
-			'affwp-field-name',
-		);
-
-		$classes = array(
-			isset( $atts['className'] ) ? $atts['className'] : '',
-		);
+		$value = isset( $_REQUEST['affwp_register_nonce'] ) && wp_verify_nonce( $_REQUEST['affwp_register_nonce'], 'affwp-register-nonce' ) && isset( $_REQUEST[ $name ] )
+			? $_REQUEST[ $name ]
+			: $value;
 
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 
 			<input
 				type="text" id="<?php echo esc_attr( $label_slug ); ?>"
 				name="<?php echo esc_attr( $name ); ?>"
-				title="<?php echo esc_attr( $label ); ?>"
+				title="<?php echo esc_attr( $atts['label'] ); ?>"
 				value="<?php echo esc_attr( $value ); ?>"
-				placeholder="<?php echo esc_attr( $placeholder ); ?>"
-				<?php echo esc_attr( $required_attr ); ?>
-				<?php echo esc_html( $disabled ); ?>
-				<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
+				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
+				<?php echo esc_attr( $atts['required'] ); ?>
+				<?php echo esc_html( $atts['disabled'] ); ?>
+				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-name' ) ), 'strip' ); ?>
 			/>
 		</p>
 
@@ -1001,54 +998,52 @@ final class Affiliate_WP_Editor {
 	}
 
 	/**
-	 * Render the phone field
+	 * Render the phone field.
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object.
+	 * @param array    $atts Block attributes.
+	 * @param string   $content Block content.
+	 * @param WP_Block $block WP_Block Object.
 	 *
-	 * @return mixed Markup for the phone field.
+	 * @return false|string Markup for the phone field.
 	 */
-	public function render_field_phone( $atts, $content, $block ) {
+	public function render_field_phone( array $atts, string $content, WP_Block $block ) {
 
-		$block_context     = isset( $block->context ) ? $block->context : '';
-		$show_placeholders = isset( $block_context['affiliatewp/placeholders'] ) ? $block_context['affiliatewp/placeholders'] : '';
+		$show_placeholders = isset( $block->context, $block->context['affiliatewp/placeholders'] )
+			? $block->context['affiliatewp/placeholders']
+			: '';
 
-		$label = isset( $atts['label'] ) && ! empty( $atts['label'] ) ? __( $atts['label'], 'affiliate-wp' ) : __( 'Phone Number', 'affiliate-wp' );
+		$atts = array_merge(
+			$atts,
+			array(
+				'required'    => isset( $atts['required'] ) && $atts['required'] ? 'required' : '',
+				'label'       => isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : __( 'Phone Number', 'affiliate-wp' ),
+				'placeholder' => isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '',
 
-		$label_slug = 'affwp-' . sanitize_title( $label );
+			)
+		);
+
+		$label_slug = 'affwp-' . sanitize_title( $atts['label'] );
 		$name       = esc_attr( str_replace( '-', '_', $label_slug ) ) . '_phone';
-		$value      = isset( $_REQUEST[ $name ] ) ? $_REQUEST[ $name ] : '';
 
-		$required_attr = isset( $atts['required'] ) && $atts['required'] ? 'required' : '';
-		$placeholder   = isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '';
-
-		$label_classes = '';
-
-		$field_classes = array(
-			'affwp-field',
-			'affwp-field-phone',
-		);
-
-		$classes = array(
-			isset( $atts['className'] ) ? $atts['className'] : '',
-		);
+		$value = isset( $_REQUEST['affwp_register_nonce'] ) && wp_verify_nonce( $_REQUEST['affwp_register_nonce'], 'affwp-register-nonce' ) && isset( $_REQUEST[ $name ] )
+			? $_REQUEST[ $name ]
+			: '';
 
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 
 			<input
 				type="tel"
 				id="<?php echo esc_attr( $label_slug ); ?>"
 				value="<?php echo esc_attr( $value ); ?>"
 				name="<?php echo esc_attr( $name ); ?>"
-				title="<?php echo esc_attr( $label ); ?>"
-				placeholder="<?php echo esc_attr( $placeholder ); ?>"
-				<?php echo esc_attr( $required_attr ); ?>
-				<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
+				title="<?php echo esc_attr( $atts['label'] ); ?>"
+				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
+				<?php echo esc_attr( $atts['required'] ); ?>
+				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-phone' ) ), 'strip' ); ?>
 			/>
 		</p>
 
@@ -1058,62 +1053,59 @@ final class Affiliate_WP_Editor {
 	}
 
 	/**
-	 * Render the textarea field
+	 * Render the textarea field.
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object.
+	 * @param array    $atts Block attributes.
+	 * @param string   $content Block content.
+	 * @param WP_Block $block WP_Block Object.
 	 *
-	 * @return mixed Markup for the textarea field.
+	 * @return false|string Markup for the textarea field.
 	 */
-	public function render_field_textarea( $atts, $content, $block ) {
+	public function render_field_textarea( array $atts, string $content, WP_Block $block ) {
 
-		$block_context     = isset( $block->context ) ? $block->context : '';
-		$show_placeholders = isset( $block_context['affiliatewp/placeholders'] ) ? $block_context['affiliatewp/placeholders'] : '';
+		$show_placeholders = isset( $block->context, $block->context['affiliatewp/placeholders'] )
+			? $block->context['affiliatewp/placeholders']
+			: '';
 
-		$label = isset( $atts['label'] ) && ! empty( $atts['label'] ) ? __( $atts['label'], 'affiliate-wp' ) : __( 'Message', 'affiliate-wp' );
+		$atts = array_merge(
+			$atts,
+			array(
+				'type'        => isset( $atts['type'] ) ? $atts['type'] : '',
+				'required'    => isset( $atts['required'] ) && $atts['required'] ? 'required' : '',
+				'label'       => isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : __( 'Message', 'affiliate-wp' ),
+				'placeholder' => isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '',
+			)
+		);
 
-		$type = isset( $atts['type'] ) ? $atts['type'] : '';
-
-		switch ( $type ) {
+		switch ( $atts['type'] ) {
 			case 'promotionMethod':
 				$label_slug = 'affwp-promotion-method';
 				$name       = 'affwp_promotion_method';
 				break;
 
 			default:
-				$label_slug = 'affwp-' . sanitize_title( $label );
+				$label_slug = 'affwp-' . sanitize_title( $atts['label'] );
 				$name       = esc_attr( str_replace( '-', '_', $label_slug ) ) . '_textarea';
 				break;
 		}
 
-		$required_attr = isset( $atts['required'] ) ? 'required' : '';
-		$placeholder   = isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '';
-		$value         = isset( $_REQUEST[ $name ] ) ? $_REQUEST[ $name ] : '';
-		$label_classes = '';
-
-		$field_classes = array(
-			'affwp-field',
-			'affwp-field-textarea',
-		);
-
-		$classes = array(
-			isset( $atts['className'] ) ? $atts['className'] : '',
-		);
+		$value = isset( $_REQUEST['affwp_register_nonce'] ) && wp_verify_nonce( $_REQUEST['affwp_register_nonce'], 'affwp-register-nonce' ) && isset( $_REQUEST[ $name ] )
+			? $_REQUEST[ $name ]
+			: '';
 
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 			<textarea
 				name="<?php echo esc_attr( $name ); ?>"
 				id="<?php echo esc_attr( $label_slug ); ?>"
 				rows="5"
-				title="<?php echo esc_attr( $label ); ?>"
-				placeholder="<?php echo esc_attr( $placeholder ); ?>"
-				<?php echo esc_attr( $required_attr ); ?>
-				<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
+				title="<?php echo esc_attr( $atts['label'] ); ?>"
+				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
+				<?php echo esc_attr( $atts['required'] ); ?>
+				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-textarea' ) ), 'strip' ); ?>
 				><?php echo esc_attr( $value ); ?></textarea>
 		</p>
 
@@ -1124,50 +1116,45 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Render the checkbox field.
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object.
+	 * @param array    $atts Block attributes.
+	 * @param string   $content Block content.
+	 * @param WP_Block $block WP_Block Object.
 	 *
-	 * @return mixed Markup for the checkbox field.
+	 * @return false|string Markup for the checkbox field.
 	 */
-	public function render_field_checkbox( $atts, $content, $block ) {
+	public function render_field_checkbox( array $atts, string $content, WP_Block $block ) {
 
-		$label = isset( $atts['label'] ) && ! empty( $atts['label'] ) ? __( $atts['label'], 'affiliate-wp' ) : '';
+		$atts = array_merge(
+			$atts,
+			array(
+				'required'    => isset( $atts['required'] ) && $atts['required'] ? 'required' : '',
+				'label'       => isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : '',
 
-		$label_slug = 'affwp-' . sanitize_title( $label );
-		$name       = esc_attr( str_replace( '-', '_', $label_slug ) ) . '_checkbox';
+			)
+		);
+
+		$label_slug = 'affwp-' . sanitize_title( $atts['label'] );
+		$name       = str_replace( '-', '_', $label_slug ) . '_checkbox';
 		$value      = '1';
-		$current    = isset( $_REQUEST[ $name ] ) ? $_REQUEST[ $name ] : false;
-		$checked    = checked( $value, $current, false );
 
-		$required_attr = isset( $atts['required'] ) && $atts['required'] ? 'required' : '';
-
-		$label_classes = '';
-
-		$field_classes = array(
-			'affwp-field',
-			'affwp-field-checkbox',
-		);
-
-		$classes = array(
-			isset( $atts['className'] ) ? $atts['className'] : '',
-		);
+		$current = isset( $_REQUEST['affwp_register_nonce'] ) && wp_verify_nonce( $_REQUEST['affwp_register_nonce'], 'affwp-register-nonce' ) && isset( $_REQUEST[ $name ] )
+			? $_REQUEST[ $name ]
+			: false;
 
 		ob_start();
 		?>
-
-		<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
+		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
 			<input
 				type="checkbox"
 				id="<?php echo esc_attr( $label_slug ); ?>"
 				value="<?php echo esc_attr( $value ); ?>"
 				name="<?php echo esc_attr( $name ); ?>"
-				<?php echo wp_kses( $checked, 'strip' ); ?>
-				<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
-				<?php echo esc_attr( $required_attr ); ?>
+				<?php echo wp_kses( checked( $value, $current, false ), 'strip' ); ?>
+				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-checkbox' ) ), 'strip' ); ?>
+				<?php echo esc_attr( $atts['required'] ); ?>
 			/>
 
-			<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 		</p>
 
 		<?php
@@ -1181,7 +1168,7 @@ final class Affiliate_WP_Editor {
 	 *
 	 * @return array Default terms of use settings.
 	 */
-	private function terms_of_use_defaults() {
+	private function terms_of_use_defaults(): array {
 		$id    = affiliate_wp()->settings->get( 'terms_of_use' ) ? affiliate_wp()->settings->get( 'terms_of_use' ) : '';
 		$link  = $id ? get_permalink( $id ) : '';
 		$label = $link ? sprintf(
@@ -1201,73 +1188,75 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Render the Terms of Use checkbox.
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object.
+	 * @param array    $atts Block attributes.
+	 * @param string   $content Block content.
+	 * @param WP_Block $block WP_Block Object.
 	 *
-	 * @return mixed Markup for the terms of use checkbox.
+	 * @return false|string Markup for the terms of use checkbox.
 	 */
-	public function render_field_terms_of_use( $atts, $content, $block ) {
-		$label = isset( $atts['label'] ) ? $atts['label'] : '';
+	public function render_field_terms_of_use( array $atts, string $content, WP_Block $block ) {
 
-		// Use default label if none provided.
-		if ( empty( $atts['label'] ) ) {
-			$label = $this->terms_of_use_defaults()['label'];
+		$atts = array_merge(
+			$atts,
+			array(
+				'label'    => isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : $this->terms_of_use_defaults()['label'],
+				'style'    => isset( $atts['style'] ) ? $atts['style'] : '',
+				'id'       => isset( $atts['id'] ) ? $atts['id'] : 0,
+				'required' => isset( $atts['required'] ) ? '' : 'required',
+
+			)
+		);
+
+		// Return if no label.
+		if ( ! $atts['label'] ) {
+			return '';
 		}
 
-		$style = isset( $atts['style'] ) ? $atts['style'] : '';
-		$id    = isset( $atts['id'] ) ? $atts['id'] : 0;
-
 		// Bail if a post ID can't be found.
-		if ( 2 === $style ) {
+		if ( 2 === $atts['style'] ) {
 
-			if ( ! $id ) {
+			if ( ! $atts['id'] ) {
 				// An ID is always required for this style.
-				return;
+				return '';
 			}
 
 			// Bail if attempting to display the current page within the preview.
-			if ( get_the_ID() === $id ) {
-				return;
+			if ( get_the_ID() === $atts['id'] ) {
+				return '';
 			}
 
-			$terms_of_use = get_post( $id );
+			$terms_of_use = get_post( $atts['id'] );
 
+			// Bail if no terms found.
 			if ( ! $terms_of_use ) {
-				return;
+				return '';
 			}
 		}
 
-		// Return if no label.
-		if ( ! $label ) {
-			return;
-		}
+		$label_slug = 'affwp-' . sanitize_title( $atts['label'] );
+		$name       = esc_attr( str_replace( '-', '_', $label_slug ) ) . '_terms-of-use';
+		$value      = '1';
 
-		$label_slug    = 'affwp-' . sanitize_title( $label );
-		$name          = esc_attr( str_replace( '-', '_', $label_slug ) ) . '_terms-of-use';
-		$value         = '1';
-		$current       = isset( $_REQUEST[ $name ] ) ? $_REQUEST[ $name ] : false;
-		$checked       = checked( $value, $current, false );
-		$required_attr = isset( $atts['required'] ) ? '' : 'required';
+		$current = isset( $_REQUEST['affwp_register_nonce'] ) && wp_verify_nonce( $_REQUEST['affwp_register_nonce'], 'affwp-register-nonce' ) && isset( $_REQUEST[ $name ] )
+			? $_REQUEST[ $name ]
+			: false;
 
-		$label_classes = '';
+		$checked = checked( $value, $current, false );
 
 		$field_classes = array(
 			'affwp-field',
 			'affwp-field-terms-of-use',
 		);
 
-		$classes = array(
-			isset( $atts['className'] ) ? $atts['className'] : '',
-		);
+		$classes = array( isset( $atts['className'] ) ? $atts['className'] : '' );
 
 		ob_start();
 
-		if ( 2 === $style  ) :
+		if ( 2 === $atts['style']  ) :
 
 			?>
 			<div class="affwp-field-terms-of-use-content">
-				<?php echo wp_kses_post( $terms_of_use->post_content ); ?>
+				<?php echo isset( $terms_of_use, $terms_of_use->post_content ) ? wp_kses_post( $terms_of_use->post_content ) : ''; ?>
 			</div>
 
 			<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
@@ -1278,10 +1267,10 @@ final class Affiliate_WP_Editor {
 					name="<?php echo esc_attr( $name ); ?>"
 					<?php echo wp_kses( $checked, 'strip' ); ?>
 					<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
-					<?php echo esc_attr( $required_attr ); ?>
+					<?php echo esc_attr( $atts['required'] ); ?>
 				/>
 
-				<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+				<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 			</p>
 
 		<?php else : ?>
@@ -1293,10 +1282,10 @@ final class Affiliate_WP_Editor {
 					name="<?php echo esc_attr( $name ); ?>"
 					<?php echo wp_kses( $checked, 'strip' ); ?>
 					<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
-					<?php echo esc_attr( $required_attr ); ?>
+					<?php echo esc_attr( $atts['required'] ); ?>
 				/>
 
-				<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+				<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 			</p>
 
 		<?php endif;
@@ -1306,13 +1295,13 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Render the select field
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object
+	 * @param array    $atts Block attributes.
+	 * @param string   $content Block content.
+	 * @param WP_Block $block WP_Block Object
 	 *
-	 * @return mixed Markup for the select field.
+	 * @return false|string Markup for the select field.
 	 */
-	public function render_field_select( $atts, $content, $block ) {
+	public function render_field_select( array $atts, string $content, WP_Block $block ) {
 
 		$options = isset( $atts['options'] ) ? $atts['options'] : array();
 
@@ -1359,13 +1348,13 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Render the radio field.
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object
+	 * @param array    $atts Block attributes.
+	 * @param string   $content Block content.
+	 * @param WP_Block $block WP_Block Object
 	 *
-	 * @return mixed Markup for the radio field.
+	 * @return false|string Markup for the radio field.
 	 */
-	public function render_field_radio( $atts, $content, $block ) {
+	public function render_field_radio( array $atts, string $content, WP_Block $block ) {
 
 		$options = isset( $atts['options'] ) ? $atts['options'] : array();
 
@@ -1415,15 +1404,15 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Render the Checkbox Multiple field.
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object.
+	 * @param array    $atts Block attributes.
+	 * @param string   $content Block content.
+	 * @param WP_Block $block WP_Block Object.
 	 *
-	 * @return mixed Markup for the checkbox multiple field.
+	 * @return false|string Markup for the checkbox multiple field.
 	 */
-	public function render_field_checkbox_multiple( $atts, $content, $block ) {
+	public function render_field_checkbox_multiple( array $atts, string $content, WP_Block $block ) {
 
-		$options = isset( $atts['options'] ) ?  $atts['options'] : array();
+		$options = isset( $atts['options'] ) ? $atts['options'] : array();
 
 		$label = isset( $atts['label'] ) && ! empty( $atts['label'] ) ? __( $atts['label'], 'affiliate-wp' ) : '';
 
@@ -1468,65 +1457,70 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Render the password fields.
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object.
+	 * @param array    $atts Block attributes.
+	 * @param string   $content Block content.
+	 * @param WP_Block $block WP_Block Object.
 	 *
-	 * @return mixed Markup for the password fields.
+	 * @return false|string Markup for the password fields.
 	 */
-	public function render_field_password( $atts, $content, $block ) {
+	public function render_field_password( array $atts, string $content, WP_Block $block ) {
 
-		$block_context     = isset( $block->context ) ? $block->context : '';
-		$show_placeholders = isset( $block_context['affiliatewp/placeholders'] ) ? $block_context['affiliatewp/placeholders'] : '';
+		$show_placeholders = isset( $block->context, $block->context['affiliatewp/placeholders'] )
+			? $block->context['affiliatewp/placeholders']
+			: '';
 
-		$label         = isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : __( 'Password', 'affiliate-wp' );
-		$label_confirm = isset( $atts['labelConfirm'] ) && ! empty( $atts['labelConfirm'] ) ? $atts['labelConfirm'] : __( 'Confirm Password', 'affiliate-wp' );
+		$atts = array_merge(
+			$atts,
+			array(
+				'label'               => isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : __( 'Password', 'affiliate-wp' ),
+				'label_confirm'       => isset( $atts['labelConfirm'] ) && ! empty( $atts['labelConfirm'] ) ? $atts['labelConfirm'] : __( 'Confirm Password', 'affiliate-wp' ),
+				'placeholder'         => isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '',
+				'placeholder_confirm' => isset( $atts['placeholderConfirm'] ) && $show_placeholders ? $atts['placeholderConfirm'] : '',
 
-		$name  = 'affwp_password_text';
-		$value = isset( $_REQUEST[ $name ] ) ? $_REQUEST[ $name ] : '';
+			)
+		);
 
-		$placeholder         = isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '';
-		$placeholder_confirm = isset( $atts['placeholderConfirm'] ) && $show_placeholders ? $atts['placeholderConfirm'] : '';
+		$name = 'affwp_password_text';
 
-		$label_classes = '';
+		$value = isset( $_REQUEST['affwp_register_nonce'] ) && wp_verify_nonce( $_REQUEST['affwp_register_nonce'], 'affwp-register-nonce' ) && isset( $_REQUEST[ $name ] )
+			? $_REQUEST[ $name ]
+			: '';
 
 		$field_classes = array(
 			'affwp-field',
 			'affwp-field-password',
 		);
 
-		$classes = array(
-			isset( $atts['className'] ) ? $atts['className'] : '',
-		);
+		$classes = array( isset( $atts['className'] ) ? $atts['className'] : '' );
 
 		ob_start();
 		?>
 
 		<?php if ( ! is_user_logged_in() ) : ?>
 			<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-				<?php echo wp_kses( $this->render_field_label( $atts, $label, 'affwp-user-pass', $label_classes, $block ), 'data' ); ?>
+				<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], 'affwp-user-pass', '', $block ), 'data' ); ?>
 
 				<input
 					type="password"
 					id="affwp-user-pass"
 					value="<?php echo esc_attr( $value ); ?>"
 					name="<?php echo esc_attr( $name ); ?>"
-					title="<?php echo esc_attr( $label ); ?>"
-					placeholder="<?php echo esc_attr( $placeholder ); ?>"
+					title="<?php echo esc_attr( $atts['label'] ); ?>"
+					placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
 					required
 					<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
 				/>
 			</p>
 
 			<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-				<?php echo wp_kses( $this->render_field_label( $atts, $label_confirm, 'affwp-user-pass2', $label_classes, $block ), 'data' ); ?>
+				<?php echo wp_kses( $this->render_field_label( $atts, $atts['label_confirm'], 'affwp-user-pass2', '', $block ), 'data' ); ?>
 
 				<input
 					type="password"
 					id="affwp-user-pass2"
 					name="<?php echo esc_attr( $name ); ?>_confirm"
-					title="<?php echo esc_attr( $label_confirm ); ?>"
-					placeholder="<?php echo esc_attr( $placeholder_confirm ); ?>"
+					title="<?php echo esc_attr( $atts['label_confirm'] ); ?>"
+					placeholder="<?php echo esc_attr( $atts['placeholder_confirm'] ); ?>"
 					required
 					<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
 				/>
@@ -1542,68 +1536,61 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Render the website field.
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object.
+	 * @param array    $atts Block attributes.
+	 * @param string   $content Block content.
+	 * @param WP_Block $block WP_Block Object.
 	 *
-	 * @return mixed Markup for the website field.
+	 * @return false|string Markup for the website field.
 	 */
-	public function render_field_website( $atts, $content, $block ) {
+	public function render_field_website( array $atts, string $content, WP_Block $block) {
 
-		$block_context     = isset( $block->context ) ? $block->context : '';
-		$show_placeholders = isset( $block_context['affiliatewp/placeholders'] ) ? $block_context['affiliatewp/placeholders'] : '';
+		$show_placeholders = isset( $block->context, $block->context['affiliatewp/placeholders'] )
+			? $block->context['affiliatewp/placeholders']
+			: '';
 
-		$label = isset( $atts['label'] ) && ! empty( $atts['label'] ) ? __( $atts['label'], 'affiliate-wp' ) : __( 'Website URL', 'affiliate-wp' );
+		$atts = array_merge(
+			$atts,
+			array(
+				'type'        => isset( $atts['type'] ) ? $atts['type'] : '',
+				'required'    => isset( $atts['required'] ) && $atts['required'] ? 'required' : '',
+				'label'       => isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : __( 'Website URL', 'affiliate-wp' ),
+				'placeholder' => isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '',
 
-		$value = '';
-		$user  = $this->user();
+			)
+		);
 
-		$type = isset( $atts['type'] ) ? $atts['type'] : '';
-
-		switch ( $type ) {
-
+		switch ( $atts['type'] ) {
 			case 'websiteUrl':
 				$label_slug = 'affwp-user-url';
-				$name       = esc_attr( str_replace( '-', '_', $label_slug ) );
-				$value      = isset( $user['url'] ) ? $user['url'] : '';
+				$name       = str_replace( '-', '_', $label_slug );
+				$value      = isset( $this->user()['url'] ) ? $this->user()['url'] : '';
 				break;
-
 			default:
 				$label_slug = 'affwp-' . sanitize_title( $label );
-				$name       = esc_attr( str_replace( '-', '_', $label_slug ) ) . '_website';
+				$name       = str_replace( '-', '_', $label_slug ) . '_website';
+				$value      = '';
 				break;
 		}
 
-		$value         = isset( $_REQUEST[ $name ] ) ? $_REQUEST[ $name ] : $value;
-		$required_attr = isset( $atts['required'] ) && $atts['required'] ? 'required' : '';
-		$placeholder   = isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '';
-
-		$label_classes = '';
-
-		$field_classes = array(
-			'affwp-field',
-			'affwp-field-website',
-		);
-
-		$classes = array(
-			isset( $atts['className'] ) ? $atts['className'] : '',
-		);
+		$value = isset( $_REQUEST['affwp_register_nonce'] ) && wp_verify_nonce( $_REQUEST['affwp_register_nonce'], 'affwp-register-nonce' ) && isset( $_REQUEST[ $name ] )
+			? $_REQUEST[ $name ]
+			: $value;
 
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 
 			<input
 				type="url"
 				id="<?php echo esc_attr( $label_slug ); ?>"
 				value="<?php echo esc_attr( $value ); ?>"
 				name="<?php echo esc_attr( $name ); ?>"
-				title="<?php echo esc_attr( $label ); ?>"
-				placeholder="<?php echo esc_attr( $placeholder ); ?>"
-				<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
-				<?php echo esc_attr( $required_attr ); ?>
+				title="<?php echo esc_attr( $atts['label'] ); ?>"
+				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
+				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-website' ) ), 'strip' ); ?>
+				<?php echo esc_attr( $atts['required'] ); ?>
 			/>
 		</p>
 
@@ -1614,73 +1601,68 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Render the email field.
 	 *
-	 * @param array $atts    Block attributes.
-	 * @param mixed $content Block content.
-	 * @param array $block   WP_Block Object
+	 * @param array    $atts Block attributes.
+	 * @param string   $content Block content.
+	 * @param WP_Block $block WP_Block Object.
 	 *
-	 * @return mixed Markup for the email field.
+	 * @return false|string Markup for the email field.
 	 */
-	public function render_field_email( $atts, $content, $block ) {
+	public function render_field_email( array $atts, string $content, WP_Block $block ) {
 
-		$block_context     = isset( $block->context ) ? $block->context : '';
-		$show_placeholders = isset( $block_context['affiliatewp/placeholders'] ) ? $block_context['affiliatewp/placeholders'] : '';
+		$show_placeholders = isset( $block->context, $block->context['affiliatewp/placeholders'] )
+			? $block->context['affiliatewp/placeholders']
+			: '';
 
-		$label_classes = '';
-		$label         = isset( $atts['label'] ) && ! empty( $atts['label'] ) ? __( $atts['label'], 'affiliate-wp' ) : __( 'Email Address', 'affiliate-wp' );
+		$atts = array_merge(
+			$atts,
+			array(
+				'type'        => isset( $atts['type'] ) ? $atts['type'] : '',
+				'required'    => isset( $atts['required'] ) && $atts['required'] ? 'required' : '',
+				'label'       => isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : __( 'Email Address', 'affiliate-wp' ),
+				'placeholder' => isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '',
+
+			)
+		);
 
 		$value    = '';
-		$user     = $this->user();
 		$disabled = '';
-		$type     = isset( $atts['type'] ) ? $atts['type'] : '';
 
-		switch ( $type ) {
-
+		switch ( $atts['type'] ) {
 			case 'payment':
 				$label_slug = 'affwp-payment-email';
 				$name       = 'affwp_payment_email';
 				break;
-
 			case 'account':
 				$label_slug       = 'affwp-user-email';
 				$name             = 'affwp_user_email';
-				$value            = isset( $user['user_email'] ) ? $user['user_email'] : '';
+				$value            = isset( $this->user()['user_email'] ) ? $this->user()['user_email'] : '';
 				$disabled         = is_user_logged_in() ? ' disabled="disabled"' : '';
 				$atts['required'] = true; // Account email is always required.
 				break;
-
 			default:
-				$label_slug = 'affwp-' . sanitize_title( $label );
+				$label_slug = 'affwp-' . sanitize_title( $atts['label'] );
 				$name       = esc_attr( str_replace( '-', '_', $label_slug ) ) . '_email';
 				break;
 		}
 
-		$required_attr = isset( $atts['required'] ) && $atts['required'] ? 'required' : '';
-		$placeholder   = isset( $atts['placeholder'] ) && $show_placeholders ? $atts['placeholder'] : '';
-		$value         = isset( $_REQUEST[ $name ] ) ? $_REQUEST[ $name ] : $value;
-
-		$field_classes = array(
-			'affwp-field',
-			'affwp-field-email',
-		);
-
-		$classes = array(
-			isset( $atts['className'] ) ? $atts['className'] : '',
-		);
+		$value = isset( $_REQUEST['affwp_register_nonce'] ) && wp_verify_nonce( $_REQUEST['affwp_register_nonce'], 'affwp-register-nonce' ) && isset( $_REQUEST[ $name ] )
+			? $_REQUEST[ $name ]
+			: $value;
 
 		ob_start();
 		?>
-		<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 
 			<input
 				type="email"
 				id="<?php echo esc_attr( $label_slug ); ?>"
 				name="<?php echo esc_attr( $name ); ?>"
-				placeholder="<?php echo esc_attr( $placeholder ); ?>"
-				title="<?php echo esc_attr( $label ); ?>"
+				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
+				title="<?php echo esc_attr( $atts['label'] ); ?>"
 				value="<?php echo esc_attr( $value ); ?>"
-				<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
-				<?php echo esc_attr( $required_attr ); ?>
+				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-email' ) ), 'strip' ); ?>
+				<?php echo esc_attr( $atts['required'] ); ?>
 				<?php echo esc_html( $disabled ); ?>
 			/>
 		</p>
@@ -1761,11 +1743,13 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Renders the form submit button.
 	 *
-	 * @param array $atts Block attributes.
+	 * @param array    $atts     Block attributes.
+	 * @param string   $content Block contents.
+	 * @param WP_Block $block WP Block object.
 	 *
-	 * @return mixed Form submit button markup. Empty string if no form could be found.
+	 * @return false|string Form submit button markup. Empty string if no form could be found.
 	 */
-	public function render_field_register_button( $atts, $content, $block ) {
+	public function render_field_register_button( array $atts, string $content, WP_Block $block ) {
 
 		$block_context = isset( $block->context ) ? $block->context : '';
 		$redirect      = isset( $block_context['affiliatewp/redirect'] ) ? $block_context['affiliatewp/redirect'] : '';
@@ -1779,7 +1763,7 @@ final class Affiliate_WP_Editor {
 			return '';
 		}
 
-		if ( 'checksum' === $hash_data['method'] ) {
+		if ( isset( $hash_data['method'] ) && 'checksum' === $hash_data['method'] ) {
 			$form_hash = $form->get_checksum();
 		}
 
@@ -1902,15 +1886,16 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Retrieve the submission form fields, given an affiliateWP registration block.
 	 *
+	 * @param WP_Block|array $form_block WP_Block object or parsed block array.
+	 *
+	 * @return array List of registration form fields for the specified block.
 	 * @since 2.8
 	 * @since 2.11.0 Added block_attrs to Form_Field_Container object.
 	 *
-	 * @param \WP_Block|array $form_block WP_Block object or parsed block array.
-	 * @return array List of registration form fields for the specified block.
 	 */
-	public function get_submission_form_fields( $form_block ) {
+	public function get_submission_form_fields( $form_block ) : array {
 
-		if ( $form_block instanceof \WP_Block ) {
+		if ( $form_block instanceof WP_Block ) {
 			$form_block = $form_block->parsed_block;
 		}
 
@@ -1963,10 +1948,11 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Retrieve the submission form.
 	 *
+	 * @param WP_Block|array $block An instance of WP_Block, or the parsed block.
+	 *
+	 * @return Registration\Form_Container|\WP_Error The form object, or WP_Error if the block is invalid.
 	 * @since 2.8
 	 *
-	 * @param \WP_Block|array $block An instance of WP_Block, or the parsed block.
-	 * @return Registration\Form_Container|\WP_Error The form object, or WP_Error if the block is invalid.
 	 */
 	public function get_block_submission_form( $block ) {
 
@@ -2003,7 +1989,7 @@ final class Affiliate_WP_Editor {
 	 * @param int $post_id The post ID.
 	 * @return array List of submission form objects for the provided post.
 	 */
-	public function get_submission_forms( $post_id ) {
+	public function get_submission_forms( int $post_id ) : array {
 
 		$forms_found = array();
 		$post        = get_post( $post_id );
@@ -2066,7 +2052,7 @@ final class Affiliate_WP_Editor {
 	 * @param array  $forms_found Forms found.
 	 * @return array              List of forms found.
 	 */
-	public function find_submission_forms_from_blocks( $blocks, $type, $forms_found = array() ) {
+	public function find_submission_forms_from_blocks( array $blocks, string $type, array $forms_found = array() ) : array {
 
 		if ( empty( $blocks ) ) {
 			return $forms_found;
@@ -2076,7 +2062,6 @@ final class Affiliate_WP_Editor {
 
 			if (
 				isset( $block['blockName'] ) &&
-				is_string( $type ) &&
 				"affiliatewp/{$type}" === $block['blockName']
 			) {
 				$forms_found[] = new Registration\Form_Container(
@@ -2106,7 +2091,7 @@ final class Affiliate_WP_Editor {
 	 *
 	 * @param int $post_id The post ID.
 	 */
-	public function save_submission_form_hashes( $post_id ) {
+	public function save_submission_form_hashes( int $post_id ) {
 
 		// Prevent hashes being changed if the user updated something without saving.
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -2136,7 +2121,7 @@ final class Affiliate_WP_Editor {
 	 *
 	 * @return Registration\Form_Container|\WP_Error
 	 */
-	public function get_submission_form( $post_id, $hash ) {
+	public function get_submission_form( int $post_id, $hash ) {
 
 		// Retrieve hash data for forms by given post ID.
 		$hash_data = $this->get_submission_forms_hash_data( $post_id );
@@ -2192,7 +2177,7 @@ final class Affiliate_WP_Editor {
 	 *
 	 * @return array
 	 */
-	public function get_submission_forms_hash_data( $post_id ) {
+	public function get_submission_forms_hash_data( int $post_id ) : array {
 
 		$checksum_hashes = get_post_meta( $post_id, 'affwp_submission_forms_hashes', true );
 

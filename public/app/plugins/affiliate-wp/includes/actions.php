@@ -321,6 +321,13 @@ add_action( "delete_user_metadata", 'affwp_delete_affiliate_meta_when_migrated_u
  */
 function affwp_register_connectables() : void {
 
+
+	static $do_once = false;
+
+	if ( $do_once ) {
+		return;
+	}
+
 	if ( ! affiliate_wp()->connections->is_registered_connectable( 'affiliate' ) ) {
 
 		// Affiliates.
@@ -356,8 +363,11 @@ function affwp_register_connectables() : void {
 			)
 		);
 	}
+
+	$do_once = true;
 }
-add_action( 'init', 'affwp_register_connectables' );
+add_action( 'affwp_plugins_loaded', 'affwp_register_connectables', -9999 );
+add_action( 'init', 'affwp_register_connectables', -9999 );
 
 /**
  * Load AlpineJS on all our admin pages.
@@ -373,3 +383,23 @@ function affwp_admin_enqueue_alpinejs() {
 	wp_enqueue_script( 'alpinejs' );
 }
 add_action( 'admin_enqueue_scripts', 'affwp_admin_enqueue_alpinejs' );
+
+/**
+ * If the user changes their password, they no longer have a generated password.
+ *
+ * @since 2.15.0
+ *
+ * @param WP_User $user User Object.
+ *
+ * @return void This happens for all users, so we only change this for users
+ *              who have an associated affiliate account.
+ */
+function affwp_affiliate_user_no_longer_random_pass( WP_User $user ) : void {
+
+	if ( ! affwp_get_affiliate_id( $user->ID ?? 0 ) ) {
+		return; // Not an affiliate user account, bail.
+	}
+
+	update_user_meta( $user->ID, 'affwp_generated_pass', false );
+}
+add_action( 'after_password_reset', 'affwp_affiliate_user_no_longer_random_pass', 10, 1 );

@@ -811,13 +811,18 @@ final class DB extends \Affiliate_WP_DB {
 	 *     @type int $offset     Used to set `OFFSET` and used to offset query.
 	 *     @type string $orderby Used to set `ORDER BY` and should be a valid column in the groups database table.
 	 *                           If you supply a column that doesn't exist in our database, you will get back empty results.
-	 *                           If you do not supply anything, the default is `group_id`.
+	 *                           If you do not supply anything, the default is `title`.
 	 *     @type string $order   Used to set `ORDER` and accepts `ASC` or `DESC`.
 	 *                           If you do not supply these, we will always default to `ASC`.
 	 *     @type string $type    Used to set `WHERE type = %s` and will help you return groups grouped by a specific group type.
 	 *                           Note, does not restrict you to registered group types or enforce sanitization beforehand.
+	 *     @type string $search  Search string (searches title).
 	 * }
 	 * @param  bool  $count      Set to `true` to just get the number of result.
+	 *
+	 * @since 2.13.0
+	 * @since 2.15.0 `orderby` default was changed from `group_id` to `title`.
+	 *               `search` argument added that will return results where `title` is like the search term.
 	 *
 	 * @return array|WP_Error An `array` of `\AffiliateWP\Groups\Group` objects (might contain a `WP_Error`)
 	 *                        if `$args[fields]` is not set to `ids`.
@@ -846,9 +851,10 @@ final class DB extends \Affiliate_WP_DB {
 				'group_id' => 0,                  // WHERE group_id = %d.
 				'number'   => -1,                 // LIMIT %d.
 				'offset'   => 0,                  // OFFSET %d.
-				'orderby'  => $this->primary_key, // ORDER BY %s (Default: group_id).
+				'orderby'  => 'title',            // ORDER BY %s (Default: title).
 				'order'    => 'ASC',              // ORDER ASC|DESC.
 				'type'     => '',                 // Where type = %s.
+				'search'   => null,               // Search.
 			)
 		);
 
@@ -883,16 +889,22 @@ final class DB extends \Affiliate_WP_DB {
 			return new \WP_Error( 'bad_arguments', "\$args[order] must be a non-empty string and can only be set to 'ASC' or 'DESC'.", $args );
 		}
 
+		if ( null !== $args['search'] && ! $this->is_string_and_nonempty( $args['search'] ) ) {
+			return new \WP_Error( 'bad_arguments', '$args[search] must null or a non-empty string.', $args );
+		}
+
 		global $wpdb;
 
 		$results = $wpdb->get_results(
 			$this->inject_table_name( // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- See self::inject_table_name() for justification.
 				sprintf(
-					'SELECT group_id FROM {table_name} %s %s %s %s %s',
+					'SELECT group_id FROM {table_name} %s %s %s %s %s %s %s',
 
 					// WHERE, etc.
+					$this->where_sql(),
 					$this->group_id_sql( $args['group_id'] ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Values are properly $wpdb->prepare in method.
 					$this->type_sql( $args['type'] ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Values are properly $wpdb->prepare in method.
+					$this->search_sql( is_null( $args['search'] ) ? '' : $args['search'] ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Values are properly $wpdb->prepare in method.
 
 					// ORDER BY, ORDER, LIMIT, OFFSET (should always be last).
 					$this->orderby_sql( $args['orderby'], $args['order'] ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Values are properly $wpdb->_real_escape in method.
@@ -1097,7 +1109,7 @@ final class DB extends \Affiliate_WP_DB {
 		}
 
 		global $wpdb;
-		return $wpdb->prepare( 'WHERE group_id = %d', $group_id );
+		return $wpdb->prepare( 'AND group_id = %d', $group_id );
 	}
 
 	/**
@@ -1442,7 +1454,7 @@ final class DB extends \Affiliate_WP_DB {
 		}
 
 		global $wpdb;
-		return $wpdb->prepare( 'WHERE type = %s', trim( $type ) );
+		return $wpdb->prepare( 'AND type = %s', trim( $type ) );
 	}
 
 	/**

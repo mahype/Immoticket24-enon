@@ -43,7 +43,43 @@ trait SQL {
 	 *
 	 * @var string Used for `gmdate( $date_format, ... )`.
 	 */
-	private $date_format = 'Y-m-d';
+	protected $date_format = 'Y-m-d';
+
+	/**
+	 * Search SQL.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @param string $search The search value.
+	 *
+	 * @return string SQL for search by title.
+	 */
+	protected function search_sql( string $search = '' ) : string {
+
+		if ( ! $this->is_string_and_nonempty( $search ) ) {
+			return ''; // You're asking for something improperly.
+		}
+
+		if ( empty( trim( $search ) ) ) {
+			return ''; // You can't search for nothing.
+		}
+
+		$like = strtolower( trim( $search ) );
+
+		global $wpdb;
+		return $wpdb->prepare( 'AND title LIKE %s', "%{$like}%" );
+	}
+
+	/**
+	 * Initial WHERE clause.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return string
+	 */
+	protected function where_sql() : string {
+		return 'WHERE 1 = 1';
+	}
 
 	/**
 	 * SQL for date.
@@ -70,7 +106,7 @@ trait SQL {
 	 *
 	 * @return string SQL for date argument.
 	 */
-	private function date_sql( $date_arg, $column = 'date' ) {
+	protected function date_sql( $date_arg, $column = 'date' ) {
 
 		if ( empty( $date_arg ) ) {
 			return ''; // This would work for a string or an array.
@@ -172,7 +208,7 @@ trait SQL {
 	 *
 	 * @return string Perpared LIMIT SQL.
 	 */
-	private function limit_sql( $limit ) {
+	protected function limit_sql( $limit ) {
 
 		// Must be positive, or -1.
 		$limit = $this->get_positive_numeric_or_negative_one( $limit );
@@ -226,7 +262,7 @@ trait SQL {
 	 * @param  mixed $offset Numeric value for OFFSET.
 	 * @return string        Perpared OFFSET sql.
 	 */
-	private function offset_sql( $offset ) {
+	protected function offset_sql( $offset ) {
 
 		if ( ! $this->is_numeric_and_at_least_zero( $offset ) ) {
 			return ''; // Must be 0 or positive.
@@ -247,7 +283,7 @@ trait SQL {
 	 *
 	 * @return string Prepared ORDER SQL.
 	 */
-	private function orderby_sql( $orderby, $order ) {
+	protected function orderby_sql( $orderby, $order ) {
 
 		$orderby = $this->is_string_and_nonempty( $orderby )
 				? $orderby

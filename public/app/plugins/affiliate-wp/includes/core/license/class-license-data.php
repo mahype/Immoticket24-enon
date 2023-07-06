@@ -13,6 +13,8 @@
 
 namespace AffWP\Core\License;
 
+require_once AFFILIATEWP_PLUGIN_DIR . 'includes/core/license/license-data-functions.php';
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

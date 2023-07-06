@@ -109,6 +109,12 @@ class Setup_Screen {
 			exit;
 		}
 
+		// Don't show any admin notices on this page.
+		add_action( 'in_admin_header', function () {
+			remove_all_actions( 'admin_notices' );
+			remove_all_actions( 'all_admin_notices' );
+		}, 1000 );
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'affwp_enqueue_setup_assets' ) );
 	}
 

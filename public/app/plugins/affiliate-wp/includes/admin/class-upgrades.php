@@ -241,6 +241,10 @@ class Affiliate_WP_Upgrades {
 			$this->v2140_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.15.0', '<' ) ) {
+			$this->v2150_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -1323,6 +1327,21 @@ class Affiliate_WP_Upgrades {
 		affiliate_wp()->custom_links->create_table();
 
 		@affiliate_wp()->utils->log( 'Upgrade: The custom_links table was created.' );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Perform database upgrades for version 2.15.0.
+	 *
+	 * @access  private
+	 * @since   2.15.0
+	 */
+	private function v2150_upgrade() {
+
+		affiliate_wp()->creatives->create_table();
+
+		@affiliate_wp()->utils->log( 'Upgrade: The start_date and end_date columns have been added to the creatives table.' );
 
 		$this->upgraded = true;
 	}

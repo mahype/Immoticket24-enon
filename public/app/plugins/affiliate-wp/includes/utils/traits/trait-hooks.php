@@ -3,7 +3,7 @@
  * Hook Utilities
  *
  * @package     AffiliateWP
- * @subpackage  Utils
+ * @subpackage  Data
  * @copyright   Copyright (c) 2020, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.12.0
@@ -12,7 +12,7 @@
 
 namespace AffiliateWP\Utils;
 
-affwp_require_util_traits( 'data' );
+require_once __DIR__ . '/trait-data.php';
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -34,11 +34,34 @@ trait Hooks {
 	use \AffiliateWP\Utils\Data;
 
 	/**
+	 * Filter a priority.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @param int $priority The priority.
+	 *
+	 * @return int
+	 */
+	protected function filter_priority( int $priority ) : int {
+
+		/**
+		 * Filter a priority.
+		 *
+		 * @since 2.15.0
+		 *
+		 * @param int    $priority The priority.
+		 * @param object $context  `$this`.
+		 */
+		return apply_filters( 'affwp_filter_priority', $priority, $this );
+	}
+
+	/**
 	 * Filter a hook name.
 	 *
 	 * Mainly so we can change them to other names.
 	 *
-	 * @since  2.12.0
+	 * @since 2.12.0
+	 * @since 2.15.0 Return typehint for `string` added.
 	 *
 	 * @param  string $hook_name The filter.
 	 *
@@ -48,7 +71,7 @@ trait Hooks {
 	 *
 	 * @throws \InvalidArgumentException If `$hook_name` is not a valid non-empty string.
 	 */
-	protected function filter_hook_name( $hook_name ) {
+	protected function filter_hook_name( $hook_name ) : string {
 
 		if ( ! $this->is_string_and_nonempty( $hook_name ) ) {
 			throw new \InvalidArgumentException( '$hook_name must be a non-empty string.' );
@@ -94,7 +117,7 @@ trait Hooks {
 		 * @since 2.12.0
 		 *
 		 * @param string $filter  The filter name.
-		 * @param mixed  $context The instance this is traited to for context.
+		 * @param object $context `$this`.
 		 */
 		return apply_filters( "affwp_filter_hook_name_{$hook_name}", $hook_name, $this );
 	}

@@ -55,7 +55,12 @@ function affwp_add_creative( array $data = array() ) {
 			: '',
 		'status'      => ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : '',
 		'date'        => ! empty( $data['date'] ) ? $data['date'] : '',
+		'start_date'  => ! empty( $data['start_date'] ) && false === affwp_is_upgrade_required( 'pro' ) ? gmdate( 'Y-m-d H:i:s', strtotime( $data['start_date'] ) ) : '',
+		'end_date'    => ! empty( $data['end_date'] ) && false === affwp_is_upgrade_required( 'pro' ) ? gmdate( 'Y-m-d H:i:s', strtotime( $data['end_date'] ) ) : '',
 	);
+
+	// Check the start and end dates and maybe change the status.
+	$args['status'] = affwp_determine_schedule_status( $args['status'], $args['start_date'], $args['end_date'] );
 
 	if ( $creative_id = affiliate_wp()->creatives->add( $args ) ) {
 		return $creative_id;
@@ -95,7 +100,12 @@ function affwp_update_creative( array $data = array() ) : bool {
 			: '',
 		'status'        => ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : '',
 		'date_updated'  => gmdate( 'Y-m-d H:i:s' ),
+		'start_date'    => ! empty( $data['start_date'] ) && false === affwp_is_upgrade_required( 'pro' ) ? gmdate( 'Y-m-d H:i:s', strtotime( $data['start_date'] ) ) : '',
+		'end_date'      => ! empty( $data['end_date'] ) && false === affwp_is_upgrade_required( 'pro' ) ? gmdate( 'Y-m-d H:i:s', strtotime( $data['end_date'] ) ) : '',
 	);
+
+	// Check the start and end dates and maybe change the status.
+	$args['status'] = affwp_determine_schedule_status( $args['status'], $args['start_date'], $args['end_date'] );
 
 	if ( affiliate_wp()->creatives->update( $creative->ID, $args, '', 'creative' ) ) {
 		return true;
@@ -163,6 +173,106 @@ function affwp_set_creative_status( $creative, $status = '' ) {
 		return true;
 	}
 
+}
+
+/**
+ * Sets the start date for a creative.
+ *
+ * @since 2.15.0
+ *
+ * @param int|\AffWP\Creative $creative   Creative ID or object.
+ * @param string              $start_date Optional. Start date to give the creative. Default empty.
+ * @return bool True if the creative was updated with the new start date, otherwise false.
+ */
+function affwp_set_creative_start_date( $creative, $start_date = '' ) {
+	if ( ! $creative = affwp_get_creative( $creative ) ) {
+		return false;
+	}
+
+	$old_start_date = $creative->start_date;
+	$old_end_date   = $creative->end_date;
+	$old_status     = $creative->status;
+
+	// If the end date is not valid with the new start date, clear it.
+	$end_date = ! empty( $start_date ) && '0000-00-00 00:00:00' !== $start_date && '0000-00-00 00:00:00' !== $old_end_date && $start_date >= $old_end_date ? '' : $old_end_date;
+
+	// Check the start and end dates and maybe change the status.
+	$status = affwp_determine_schedule_status( $old_status, $start_date, $end_date );
+
+	$args = array(
+		'start_date' => $start_date,
+		'end_date'   => $end_date,
+		'status'     => $status
+	);
+
+	/**
+	 * Fires immediately before the creative's start date has been updated.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @param int    $creative_id    Creative ID.
+	 * @param array  $args           Array of arguments for the creative.
+	 * @param string $old_start_date Old creative start date.
+	 * @param string $old_end_date   Old creative end date.
+	 * @param string $old_status     Old creative status.
+	 */
+	do_action( 'affwp_set_creative_start_date', $creative->ID, $args, $old_start_date, $old_end_date, $old_status );
+
+	if ( affiliate_wp()->creatives->update( $creative->ID, $args, '', 'creative' ) ) {
+
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Sets the end date for a creative and updates to the appropriate status.
+ *
+ * @since 2.15.0
+ *
+ * @param int|\AffWP\Creative $creative Creative ID or object.
+ * @param string              $end_date Optional. End date to give the creative. Default empty.
+ * @return bool True if the creative was updated with the new end date, otherwise false.
+ */
+function affwp_set_creative_end_date( $creative, $end_date = '' ) {
+
+	if ( ! $creative = affwp_get_creative( $creative ) ) {
+		return false;
+	}
+
+	$old_start_date = $creative->start_date;
+	$old_end_date   = $creative->end_date;
+	$old_status     = $creative->status;
+
+	// If the start date is not valid with the new end date, clear it.
+	$start_date = ! empty( $end_date ) && '0000-00-00 00:00:00' !== $end_date && '0000-00-00 00:00:00' !== $old_start_date && $end_date < $old_start_date ? '' : $old_start_date;
+
+	$args = array(
+		'start_date' => $start_date,
+		'end_date'   => $end_date,
+		'status'     => affwp_determine_schedule_status( $old_status, $start_date, $end_date ),
+	);
+
+	/**
+	 * Fires immediately before the creative's end date has been updated.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @param int    $creative_id    Creative ID.
+	 * @param array  $args           Array of arguments for the creative.
+	 * @param string $old_start_date Old creative start date.
+	 * @param string $old_end_date   Old creative end date.
+	 * @param string $old_status     Old creative status.
+	 */
+	do_action( 'affwp_set_creative_end_date', $creative->ID, $args, $old_start_date, $old_end_date, $old_status );
+
+	if ( affiliate_wp()->creatives->update( $creative->ID, $args, '', 'creative' ) ) {
+
+		return true;
+	}
+
+	return false;
 }
 
 /**
@@ -234,4 +344,335 @@ function affwp_get_creative_type_label( $creative_or_id ) : string {
 	 * @param string               $status    Affiliate status.
 	 */
 	return apply_filters( 'affwp_get_creative_type_label', $label, $creative );
+}
+
+/**
+ * Retrieves the creative's status and returns a translatable string.
+ *
+ * @since 2.15.0
+ *
+ * @param int|AffWP\Creative $creative Optional. Creative ID or object. Default current creative.
+ * @return string $status_label A translatable, filterable label indicating creative status.
+ */
+function affwp_get_creative_status_label( $creative_or_status = 0 ) {
+
+	if ( is_string( $creative_or_status ) ) {
+		$creative = null;
+		$status   = $creative_or_status;
+	} else {
+		$creative = affwp_get_creative( $creative_or_status );
+
+		if ( isset( $creative->status ) ) {
+			$status = $creative->status;
+		} else {
+			return '';
+		}
+	}
+
+	$statuses = affwp_get_creative_statuses();
+	$label    = array_key_exists( $status, $statuses ) ? $statuses[ $status ] : '';
+
+	/**
+	 * Filters the creative status label.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @param string              $label    Localized status label string.
+	 * @param AffWP\Creative|null $creative Creative object or null.
+	 * @param string              $status   Creative status.
+	 */
+	return apply_filters( 'affwp_get_creative_status_label', $label, $creative, $status );
+}
+
+/**
+ * Retrieves the list of creative statuses and corresponding labels.
+ *
+ * @since 2.15.0
+ *
+ * @return array Key/value pairs of statuses where key is the status and the value is the label.
+ */
+function affwp_get_creative_statuses() {
+	return array(
+		'active'    => __( 'Active', 'affiliate-wp' ),
+		'inactive'  => __( 'Inactive', 'affiliate-wp' ),
+		'scheduled' => __( 'Scheduled', 'affiliate-wp' ),
+	);
+}
+
+/**
+ * Is a creative private.
+ *
+ * @since 2.15.0
+ *
+ * @param object $creative Creative object.
+ *
+ * @return bool
+ */
+function affwp_creative_is_private( $creative ) {
+
+	if ( ! is_a( $creative, 'AffWP\Creative' ) ) {
+		return false;
+	}
+
+	global $wpdb;
+
+	$connected_affiliates = $wpdb->get_results(
+		$wpdb->prepare(
+
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name injected does not need surrounding ''.
+			str_replace(
+				'{table_name}',
+				affiliate_wp()->connections->table_name, // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name injected does not need surrounding ''.
+				'SELECT `affiliate` FROM {table_name} WHERE `creative` = %d AND `affiliate` IS NOT NULL LIMIT 1'
+			),
+			$creative->creative_id
+		)
+	);
+
+	if ( count( $connected_affiliates ) > 0 ) {
+		return true;
+	}
+
+	$connected_affiliate_groups = array_filter(
+		$wpdb->get_results(
+			$wpdb->prepare(
+
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name injected does not need surrounding ''.
+				str_replace(
+					'{table_name}',
+					affiliate_wp()->connections->table_name, // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name injected does not need surrounding ''.
+					'SELECT `group` FROM {table_name} WHERE `creative` = %d AND `group` IS NOT NULL LIMIT 1'
+				),
+				$creative->creative_id
+			)
+		),
+		function( $object ) {
+
+			$group_id = $object->group ?? null;
+
+			if ( is_null( $group_id ) ) {
+				return false;
+			}
+
+			return 'affiliate-group' === affiliate_wp()->groups->get_group_type( intval( $group_id ) );
+		}
+	);
+
+	return count( $connected_affiliate_groups ) > 0;
+}
+
+/**
+ * Privacy field for edit/add creative.
+ *
+ * @since 2.15.0
+ *
+ * @param object|null $creative Creative object or null for none (add).
+ *
+ * @return void Displays field only.
+ */
+function affwp_creative_privacy_toggle( $creative = null ) {
+
+	$private = null === $creative
+		? false
+		: affwp_creative_is_private( $creative );
+
+	?>
+
+	<tr class="form-row hidden" data-row="privacy">
+
+		<th scope="row">
+			<label for="name"><?php esc_html_e( 'Privacy', 'affiliate-wp' ); ?></label>
+		</th>
+
+		<td>
+			<!-- Note, this field isn't actually saved to the DB for this creative, but instead triggers other fields. -->
+			<select id="creative-privacy">
+				<option value="public" <?php selected( true, ! $private ); ?>><?php esc_html_e( 'Public', 'affiliate-wp' ); ?></option>
+				<option value="private"<?php selected( true, $private ); ?>><?php esc_html_e( 'Private', 'affiliate-wp' ); ?></option>
+			</select>
+			<p class="description"><?php esc_html_e( 'Select whether you want this creative to be public or private.', 'affiliate-wp' ); ?></p>
+		</td>
+
+	</tr>
+
+	<?php
+}
+
+/**
+ * Determine the status of a scheduled creative.
+ *
+ * @since 2.15.0
+ *
+ * @param string $status     Creative status.
+ * @param string $start_date Creative start date.
+ * @param string $end_date   Creative end date.
+ *
+ * @return string Creative status.
+ */
+function affwp_determine_schedule_status( $status, $start_date = '', $end_date = '' ) {
+
+	// Check for empty/null dates.
+	$start_date = empty( $start_date ) || '0000-00-00 00:00:00' === $start_date ? false : gmdate( 'Y-m-d H:i:s', strtotime( $start_date ) );
+	$end_date   = empty( $end_date ) || '0000-00-00 00:00:00' === $end_date ? false : gmdate( 'Y-m-d H:i:s', strtotime( $end_date ) );
+
+	// Get current datetime.
+	$now = gmdate( 'Y-m-d H:i:s', strtotime( 'now' ) + affiliate_wp()->utils->wp_offset );
+
+	if ( false === $start_date && false === $end_date ) {
+		// If the status is scheduled, but there no dates, set the status to active.
+		if ( 'scheduled' === $status ) {
+			return 'active';
+		}
+		return $status;
+	}
+
+	// Only end date set and not reached.
+	if ( false !== $end_date && false === $start_date && $end_date > $now ) {
+		return 'active';
+	}
+
+	// Only end date set and reached.
+	if ( false !== $end_date && false === $start_date && $end_date <= $now ) {
+		return 'inactive';
+	}
+
+	// Both start and end date set (Neither date has been reached).
+	if ( false !== $start_date && false !== $end_date && $start_date > $now && $end_date > $now ) {
+		return 'scheduled';
+	}
+
+	// Both start and end date set (start date reached and end date not reached).
+	if ( false !== $start_date && false !== $end_date && $start_date <= $now && $end_date > $now ) {
+		return 'active';
+	}
+
+	// Both start and end date set (both reached).
+	if ( false !== $start_date && false !== $end_date && $start_date <= $now && $end_date <= $now ) {
+		return 'inactive';
+	}
+
+	// Only start date set and date not reached.
+	if ( false !== $start_date && false === $end_date && $start_date > $now ) {
+		return 'scheduled';
+	}
+
+	// Only start date set and date reached.
+	if ( false !== $start_date && false === $end_date && $start_date <= $now ) {
+		return 'active';
+	}
+
+	// Just in case.
+	return 'active';
+
+}
+
+/**
+ * Get the creative's schedule description.
+ *
+ * @since 2.15.0
+ *
+ * @param int|AffWP\Creative $creative_or_id Creative ID or object.
+ * return string Description of the creative's schedule.
+ */
+function affwp_get_creative_schedule_desc( $creative_or_id ) : string {
+
+	$creative = is_int( $creative_or_id )
+		? affwp_get_creative( $creative_or_id )
+		: $creative_or_id;
+
+	// Bail if no creative or no scheduling feature.
+	if ( false === $creative || false === affwp_has_scheduling_feature( $creative ) ) {
+		return '';
+	}
+
+	// Check for empty/null dates.
+	$start_date = empty( $creative->start_date ) || '0000-00-00 00:00:00' === $creative->start_date ? false : gmdate( 'Y-m-d H:i:s', strtotime( $creative->start_date ) );
+	$end_date   = empty( $creative->end_date ) || '0000-00-00 00:00:00' === $creative->end_date ? false : gmdate( 'Y-m-d H:i:s', strtotime( $creative->end_date ) );
+
+	// Get current datetime.
+	$now = gmdate( 'Y-m-d H:i:s', strtotime( 'now' ) + affiliate_wp()->utils->wp_offset );
+
+	// Only end date set and not reached.
+	if ( false !== $end_date && false === $start_date && $end_date > $now ) {
+		return sprintf( /* translators: Creative is Active until this date. */
+			__( 'Creative currently Active until %s.', 'affiliate-wp' ),
+			affwp_date_i18n( strtotime( $end_date )	)
+		);
+	}
+
+	// Only end date set and reached.
+	if ( false !== $end_date && false === $start_date && $end_date <= $now ) {
+		return sprintf( /* translators: Creative is Inactive since this date. */
+			__( 'Creative Inactive since %s.', 'affiliate-wp' ),
+			affwp_date_i18n( strtotime( $end_date )	)
+		);
+	}
+
+	// Both start and end date set (Neither date has been reached).
+	if ( false !== $start_date && false !== $end_date && $start_date > $now && $end_date > $now ) {
+		return sprintf( /* translators: Creative is scheduled to be Active between these dates. */
+			__( 'Creative will become Active on %1$s until %2$s.', 'affiliate-wp' ),
+			affwp_date_i18n( strtotime( $start_date ) ),
+			affwp_date_i18n( strtotime( $end_date )	)
+		);
+	}
+
+	// Both start and end date set (start date reached and end date not reached).
+	if ( false !== $start_date && false !== $end_date && $start_date <= $now && $end_date > $now ) {
+		return sprintf( /* translators: Creative is Active until this date. */
+			__( 'Creative currently Active until %s.', 'affiliate-wp' ),
+			affwp_date_i18n( strtotime( $end_date )	)
+		);
+	}
+
+	// Both start and end date set (both reached).
+	if ( false !== $start_date && false !== $end_date && $start_date <= $now && $end_date <= $now ) {
+		return sprintf( /* translators: Creative is Inactive since this date */
+			__( 'Creative Inactive since %s.', 'affiliate-wp' ),
+			affwp_date_i18n( strtotime( $end_date )	)
+		);
+	}
+
+	// Only start date set and date not reached.
+	if ( false !== $start_date && false === $end_date && $start_date > $now ) {
+		return sprintf( /* translators: Creative is scheduled to be Active on this date. */
+			__( 'Creative will become Active on %s.', 'affiliate-wp' ),
+			affwp_date_i18n( strtotime( $start_date ) )
+		);
+	}
+
+	// Only start date set and date reached.
+	if ( false !== $start_date && false === $end_date && $start_date <= $now ) {
+		return sprintf( /* translators: Creative Active since this date. */
+			__( 'Creative Active since %s.', 'affiliate-wp' ),
+			affwp_date_i18n( strtotime( $start_date ) )
+		);
+	}
+
+	return '';
+}
+
+/**
+ * Check if a creative has a schedule.
+ *
+ * @since 2.15.0
+ *
+ * @param int|AffWP\Creative $creative_or_id Creative ID or object.
+ * @return bool True if the creative has a schedule, false otherwise.
+ */
+function affwp_has_scheduling_feature( $creative_or_id ) : bool {
+	$creative = is_int( $creative_or_id )
+		? affwp_get_creative( $creative_or_id )
+		: $creative_or_id;
+
+	if ( false === $creative ) {
+		return false;
+	}
+
+	// No start or end date set so it's not scheduled.
+	if ( '0000-00-00 00:00:00' === $creative->start_date && '0000-00-00 00:00:00' === $creative->end_date ) {
+		return false;
+	}
+
+	return true;
 }
