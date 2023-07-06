@@ -13,14 +13,13 @@
 
 // phpcs:disable Generic.Commenting.DocComment.MissingShort -- No need to re-document some methods and properties.
 
-namespace AffiliateWP\Admin\Creatives\Categories;
+namespace AffiliateWP\Admin\Groups\Creative_Categories;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once dirname( dirname( __DIR__ ) ) . '/groups/class-management.php';
-
+require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/class-management.php';
 require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/meta/trait-description.php';
 
 /**

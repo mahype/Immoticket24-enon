@@ -9,6 +9,8 @@
  * @since       1.9
  */
 
+// phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- For code formatting.
+
 use AffWP\Admin\List_Table;
 use AffWP\Creative;
 
@@ -59,6 +61,22 @@ class AffWP_Creatives_Table extends List_Table {
 	public $inactive_count;
 
 	/**
+	 * Number of scheduled creatives found
+	 *
+	 * @var string
+	 * @since 2.15.0
+	 */
+	private string $scheduled_count = '';
+
+	/**
+	 * Number of creatives with start and/or end dates.
+	 *
+	 * @var string
+	 * @since 2.15.0
+	 */
+	private string $has_schedule_count = '';
+
+	/**
 	 * Number of text_link type creatives.
 	 *
 	 * @var string
@@ -107,8 +125,8 @@ class AffWP_Creatives_Table extends List_Table {
 	public function get_views() {
 		$base = affwp_admin_url( 'creatives' );
 
-		$current = ( isset( $_GET['status'] ) || isset( $_GET['type'] ) )
-			? sanitize_text_field( $_GET['status'] ?? $_GET['type'] )
+		$current = ( isset( $_GET['status'] ) || isset( $_GET['type'] ) || isset( $_GET['scheduled'] ) )
+			? sanitize_text_field( $_GET['status'] ?? $_GET['type'] ?? $_GET['scheduled'] )
 			: '';
 
 		$total_count          = "&nbsp;<span class='count'>({$this->total_count})</span>";
@@ -116,7 +134,21 @@ class AffWP_Creatives_Table extends List_Table {
 		$image_type_count     = "&nbsp;<span class='count'>({$this->image_type_count})</span>";
 		$active_count         = "&nbsp;<span class='count'>({$this->active_count})</span>";
 		$inactive_count       = "&nbsp;<span class='count'>({$this->inactive_count})</span>";
+		$has_schedule_count	  = "&nbsp;<span class='count'>({$this->has_schedule_count})</span>";
 
+		// Only show Scheduled to Pro users for now.
+		if ( false === affwp_is_upgrade_required( 'pro' ) ) {
+			return array(
+				'all'            => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base ), $current === 'all' || $current == '' ? ' class="current"' : '', __('All', 'affiliate-wp') . $total_count ),
+				'text_link_type' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'type', 'text_link', $base ), 'text_link' === $current ? ' class="current"' : '', __( 'Text Links', 'affiliate-wp' ) . $text_link_type_count ),
+				'image_type'     => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'type', 'image', $base ), 'image' === $current ? ' class="current"' : '', __( 'Images', 'affiliate-wp' ) . $image_type_count ),
+				'active'	     => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'active', $base ), $current === 'active' ? ' class="current"' : '', __('Active', 'affiliate-wp') . $active_count ),
+				'inactive'       => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'inactive', $base ), $current === 'inactive' ? ' class="current"' : '', __('Inactive', 'affiliate-wp') . $inactive_count ),
+				'scheduled'      => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'scheduled', 'true', $base ), $current === 'true' ? ' class="current"' : '', __('Scheduled', 'affiliate-wp') . $has_schedule_count ),
+			);
+		}
+
+		// Otherwise, this stays the same.
 		return array(
 			'all'            => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base ), $current === 'all' || $current == '' ? ' class="current"' : '', __('All', 'affiliate-wp') . $total_count ),
 			'text_link_type' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'type', 'text_link', $base ), 'text_link' === $current ? ' class="current"' : '', __( 'Text Links', 'affiliate-wp' ) . $text_link_type_count ),
@@ -233,6 +265,29 @@ class AffWP_Creatives_Table extends List_Table {
 	}
 
 	/**
+	 * Get the privacy information for a creative.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @param object $creative The creative object.
+	 *
+	 * @return string
+	 */
+	private function get_privacy_info( $creative ) : string {
+
+		if ( ! affwp_creative_is_private( $creative ) ) {
+			return '';
+		}
+
+		return affwp_icon_tooltip(
+			__( 'This creative can only be seen by specific affiliates and/or affiliate groups.', 'affiliate-wp' ),
+			'locked',
+			false,
+			'privacy-status'
+		);
+	}
+
+	/**
 	 * Renders the "Name" column in the creatives list table.
 	 *
 	 * @access public
@@ -251,7 +306,7 @@ class AffWP_Creatives_Table extends List_Table {
 		);
 
 		$value = sprintf(
-			'<a href="%1$s">%2$s</a>',
+			'<span class="name-wrap"><a href="%1$s">%2$s</a>%3$s</a></span>',
 			esc_url(
 				add_query_arg(
 					array_merge(
@@ -264,7 +319,8 @@ class AffWP_Creatives_Table extends List_Table {
 					admin_url( 'admin.php' )
 				)
 			),
-			$creative->name
+			$creative->name,
+			$this->get_privacy_info( $creative )
 		);
 
 		// Edit.
@@ -281,34 +337,52 @@ class AffWP_Creatives_Table extends List_Table {
 
 		if ( strtolower( $creative->status ) == 'active' ) {
 
+			$deactivate_label = true === affwp_has_scheduling_feature( $creative ) ? __( 'Deactivate Now', 'affiliate-wp' ) : __( 'Deactivate', 'affiliate-wp' );
+
 			// Deactivate.
 			$row_actions['deactivate'] = $this->get_row_action_link(
-				__( 'Deactivate', 'affiliate-wp' ),
+				$deactivate_label,
 				array_merge(
 					$base_query_args,
 					array(
 						'affwp_notice' => 'creative_deactivated',
-						'action'       => 'deactivate'
+						'action'       => 'deactivate',
 					)
 				),
 				array( 'nonce' => 'affwp-creative-nonce' )
 			);
 
 		} else {
+			$activate_label = true === affwp_has_scheduling_feature( $creative ) ? __( 'Activate Now', 'affiliate-wp' ) : __( 'Activate', 'affiliate-wp' );
 
 			// Activate.
 			$row_actions['activate'] = $this->get_row_action_link(
-				__( 'Activate', 'affiliate-wp' ),
+				$activate_label,
 				array_merge(
 					$base_query_args,
 					array(
 						'affwp_notice' => 'creative_activated',
-						'action'       => 'activate'
+						'action'       => 'activate',
 					)
 				),
 				array( 'nonce' => 'affwp-creative-nonce' )
 			);
 
+		}
+
+		if ( true === affwp_has_scheduling_feature( $creative ) ) {
+			// Edit Schedule.
+			$row_actions['edit_schedule'] = $this->get_row_action_link(
+				__( 'Edit Schedule', 'affiliate-wp' ),
+				array_merge(
+					$base_query_args,
+					array(
+						'affwp_notice' => false,
+						'action'       => 'edit_creative'
+					)
+				),
+				array( 'base_uri' => '#affwp-creative-schedule' )
+			);
 		}
 
 		// Delete.
@@ -375,6 +449,18 @@ class AffWP_Creatives_Table extends List_Table {
 	 */
 	function column_url( $creative ) : string {
 		return $creative->url;
+	}
+
+	/**
+	 * Renders the Status column in the creatives list table.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @param AffWP\Creative $creative The current creative object.
+	 * @return string Status label.
+	 */
+	public function column_status( $creative ) {
+		return affwp_get_creative_status_label( $creative );
 	}
 
 	/**
@@ -449,7 +535,7 @@ class AffWP_Creatives_Table extends List_Table {
 		$actions = array(
 			'activate'   => __( 'Activate', 'affiliate-wp' ),
 			'deactivate' => __( 'Deactivate', 'affiliate-wp' ),
-			'delete'     => __( 'Delete', 'affiliate-wp' )
+			'delete'     => __( 'Delete', 'affiliate-wp' ),
 		);
 
 		/**
@@ -467,6 +553,7 @@ class AffWP_Creatives_Table extends List_Table {
 	 *
 	 * @access public
 	 * @since 1.2
+	 * @since 2.15.0 Added actions for scheduled creatives.
 	 * @return void
 	 */
 	public function process_bulk_action() {
@@ -498,10 +585,22 @@ class AffWP_Creatives_Table extends List_Table {
 			}
 
 			if ( 'activate' === $this->current_action() ) {
+				if ( true === affwp_has_scheduling_feature( $id ) ) {
+					// Immediately activates the Scheduled or Inactive-Scheduled creative.
+					// Update the start date to today to ensure the creative has the correct “started on” date.
+					affwp_set_creative_start_date( $id, gmdate( 'Y-m-d H:i:s', strtotime( 'today' ) ) );
+				}
+
 				affwp_set_creative_status( $id, 'active' );
 			}
 
 			if ( 'deactivate' === $this->current_action() ) {
+				if ( true === affwp_has_scheduling_feature( $id ) ) {
+					// Immediately deactivates the Active-Scheduled creative.
+					// Update the end date to today to ensure the creative has the correct “ended on” date.
+					affwp_set_creative_end_date( $id, gmdate( 'Y-m-d H:i:s', strtotime( 'today' ) ) );
+				}
+
 				affwp_set_creative_status( $id, 'inactive' );
 			}
 
@@ -567,7 +666,25 @@ class AffWP_Creatives_Table extends List_Table {
 			)
 		);
 
-		$this->total_count = $this->active_count + $this->inactive_count;
+		$this->scheduled_count = affiliate_wp()->creatives->count(
+			array_merge(
+				$this->query_args,
+				array(
+					'status' => 'scheduled'
+				)
+			)
+		);
+
+		$this->has_schedule_count = affiliate_wp()->creatives->count(
+			array_merge(
+				$this->query_args,
+				array(
+					'scheduled' => 'true'
+				)
+			)
+		);
+
+		$this->total_count = $this->active_count + $this->inactive_count + $this->scheduled_count;
 	}
 
 	/**
@@ -589,7 +706,7 @@ class AffWP_Creatives_Table extends List_Table {
 			array(
 				'number'  => $per_page,
 				'offset'  => $per_page * ( $page - 1 ),
-				'status'  => isset( $_GET['status'] ) && in_array( $_GET['status'], array( 'active', 'inactive' ), true )
+				'status'  => isset( $_GET['status'] ) && is_string( $_GET['status'] ) && in_array( $_GET['status'], array( 'active', 'inactive', 'scheduled' ), true )
 					? sanitize_text_field( $_GET['status'] )
 					: '',
 				'type'    => isset( $_GET['type'] ) && in_array( $_GET['type'], array_keys( affwp_get_creative_types() ), true )
@@ -601,6 +718,9 @@ class AffWP_Creatives_Table extends List_Table {
 				'order'   => isset( $_GET['order'] ) && 'ASC' === strtoupper( sanitize_text_field( $_GET['order'] ) )
 					? 'ASC'
 					: 'DESC',
+				'scheduled' => isset( $_GET['scheduled'] ) && is_string( $_GET['scheduled'] ) && 'true' === sanitize_text_field( $_GET['scheduled'] )
+					? true
+					: false,
 			)
 		);
 
@@ -659,6 +779,9 @@ class AffWP_Creatives_Table extends List_Table {
 				break;
 			case 'inactive':
 				$total_items = $this->inactive_count;
+				break;
+			case 'scheduled':
+				$total_items = $this->scheduled_count;
 				break;
 			case 'any':
 				$total_items = $this->current_count;

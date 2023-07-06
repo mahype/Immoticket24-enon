@@ -923,7 +923,7 @@ abstract class Management {
 			$this->page_title,
 			"↳ {$this->menu_title}",
 			$this->capability,
-			"affiliate-wp-{$this->menu_slug}",
+			$this->get_page(),
 			array( $this, 'screen' ),
 			$this->get_menu_position()
 		);
@@ -1063,7 +1063,7 @@ abstract class Management {
 						value="<?php esc_html_e( 'Update', 'affiliate-wp' ); ?>" />
 
 					<a
-					href="admin.php?page=<?php echo esc_attr( "affiliate-wp-{$this->menu_slug}" ); ?>"
+					href="admin.php?page=<?php echo esc_attr( $this->get_page() ); ?>"
 					class="button button-secondary">
 
 						<?php esc_html_e( 'Cancel', 'affiliate-wp' ); ?>
@@ -1117,6 +1117,7 @@ abstract class Management {
 	 *
 	 * @since  2.12.0
 	 * @since  2.13.0 Added caching option.
+	 * @since  2.15.0 Added pagination.
 	 *
 	 * @param bool $cached Use caching.
 	 *
@@ -1126,7 +1127,7 @@ abstract class Management {
 
 		$cache = null;
 
-		if ( ! is_null( $cache ) && $cached ) {
+		if ( is_array( $cached ) ) {
 			return $cache; // Use cache.
 		}
 
@@ -1136,12 +1137,29 @@ abstract class Management {
 				'number'  => apply_filters( 'affwp_unlimited', -1, 'abstract_groups_management_get_all_group_objects_number' ),
 				'orderby' => 'title',
 				'type'    => $this->group_type,
+
+				// Pagination.
+				'number'  => $this->get_groups_per_page(),
+				'offset'  => ( 1 === $this->get_paged() )
+					? 0
+					: $this->get_paged_offset(),
 			)
 		);
 
 		return is_array( $groups )
 			? $cache = $groups // Save in the cache.
 			: array(); // Fail gracefully when there are major erros.
+	}
+
+	/**
+	 * Get the paginated offset.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return int
+	 */
+	private function get_paged_offset() : int {
+		return $this->get_paged() * $this->get_groups_per_page() - $this->get_groups_per_page();
 	}
 
 	/**
@@ -1330,7 +1348,7 @@ abstract class Management {
 	 */
 	protected function is_management_page() {
 
-		return "affiliate-wp-{$this->menu_slug}"
+		return $this->get_page()
 			=== filter_input( INPUT_GET, 'page', FILTER_UNSAFE_RAW );
 	}
 
@@ -1345,6 +1363,250 @@ abstract class Management {
 
 		return filter_input( INPUT_GET, 'page', FILTER_UNSAFE_RAW )
 			=== $this->parent;
+	}
+
+	/**
+	 * What is the admin page?
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return string
+	 */
+	private function get_page() : string {
+		return "affiliate-wp-{$this->menu_slug}";
+	}
+
+	/**
+	 * Get the URL to the page.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return string
+	 */
+	private function get_page_url() : string {
+
+		return add_query_arg(
+			array(
+				'page' => $this->get_page(),
+			),
+			admin_url( 'admin.php' )
+		);
+	}
+
+	/**
+	 * Get the paged URL.
+	 *
+	 * @param int $paged The page.
+	 *
+	 * @var string
+	 */
+	private function get_paged_url( int $paged = 1 ) : string {
+
+		return add_query_arg(
+			array(
+				'paged' => intval( $paged ),
+			),
+			$this->get_page_url()
+		);
+	}
+
+	/**
+	 * Get the ?paged value.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return int
+	 */
+	private function get_paged() : int {
+
+		$paged_get = absint( filter_input( INPUT_GET, 'paged', FILTER_SANITIZE_NUMBER_INT ) );
+
+		$paged = ( $paged_get <= $this->get_total_paged() ) ? $paged_get : 1;
+
+		return ( 0 === $paged )
+			? 1
+			: $paged;
+	}
+
+	/**
+	 * Get next for ?paged.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return int
+	 */
+	private function get_next_paged() : int {
+
+		$next_paged = $this->get_paged() + 1;
+
+		if ( $next_paged > $this->get_total_paged() ) {
+			return $this->get_paged();
+		}
+
+		return $next_paged;
+	}
+
+	/**
+	 * Get the total pagination pages.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return int
+	 */
+	private function get_total_paged() : int {
+		return ceil( $this->get_total_group_count() / $this->get_groups_per_page() );
+	}
+
+	/**
+	 * Get the total number of groups.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return int
+	 */
+	private function get_total_group_count() : int {
+
+		return affiliate_wp()->groups->get_groups(
+			array(
+				'fields' => 'ids',
+				'number' => apply_filters( 'affwp_unlimited', -1, 'get_total_groups' ),
+				'type'   => $this->group_type,
+			),
+			true
+		);
+	}
+
+	/**
+	 * Get previous for ?paged.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return int
+	 */
+	private function get_prev_paged() : int {
+		return absint( $this->get_paged() - 1 );
+	}
+
+	/**
+	 * Is this the first paginated page?
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return bool
+	 */
+	private function is_first_paged() : bool {
+		return $this->get_paged() === 1;
+	}
+
+	/**
+	 * Is the is the last paginated page?
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return bool
+	 */
+	private function is_last_paged() : bool {
+		return $this->get_paged() === $this->get_total_paged();
+	}
+
+	/**
+	 * Pagination.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return void Display only.
+	 */
+	private function pagination() : void {
+
+		if ( $this->is_one_paged() ) {
+			return; // No pagination.
+		}
+
+		?>
+
+		<form class="group-pagination" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" method="get" style="display: inline-block;">
+
+			<input type="hidden" name="page" value="<?php echo esc_attr( $this->get_page() ); ?>">
+
+			<span class="pagination-links" style="display: inline-block;">
+				<a href="<?php echo esc_url( $this->get_paged_url( 1 ) ); ?>"><!--
+					--><span class="tablenav-pages-navspan button" aria-hidden="true">«</span><!--
+				--></a>
+
+				<a href="<?php echo esc_url( $this->get_paged_url( $this->get_prev_paged() ) ); ?>"><!--
+					--><span class="tablenav-pages-navspan button <?php echo esc_attr( $this->is_first_paged() ? 'disabled' : '' ); ?>" aria-hidden="true">‹</span><!--
+				--></a>
+
+				<span class="paging-input">
+					<input class="current-page" id="current-page-selector" type="text" name="paged" value="<?php echo absint( $this->get_paged() ); ?>" size="1" aria-describedby="table-paging">
+
+					<span class="tablenav-paging-text"> <?php echo esc_html_x( 'of', 'affiliate-wp' ); ?>
+						<span class="total-pages"><?php echo absint( $this->get_total_paged() ); ?></span>
+					</span>
+				</span>
+
+				<a class="next-page button <?php echo esc_attr( $this->is_last_paged() ? 'disabled' : '' ); ?>" href="<?php echo esc_url( $this->get_paged_url( $this->get_next_paged() ) ); ?>">
+					<span class="screen-reader-text"><?php esc_html_e( 'Next page', 'affiliate-wp' ); ?></span>
+					<span aria-hidden="true">›</span>
+				</a>
+
+				<a class="last-page button" href="<?php echo esc_url( $this->get_paged_url( $this->get_total_paged() ) ); ?>">
+					<span class="screen-reader-text"><?php esc_html_e( 'Last page', 'affiliate-wp' ); ?></span>
+					<span aria-hidden="true">»</span>
+				</a>
+			</span>
+
+		</form>
+
+		<?php
+	}
+
+	/**
+	 * Get the per-page setting for groups.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return int
+	 */
+	private function get_groups_per_page() : int {
+
+		$cache = null;
+
+		if ( is_int( $cache ) ) {
+			return $cache;
+		}
+
+		// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- Used to cache at RUNTIME.
+		return $cache = absint(
+			/**
+			 * Filter how many groups we show per page.
+			 *
+			 * @since 2.15.0
+			 *
+			 * @param int    $per_page   Number per page.
+			 * @param string $group_type The group type.
+			 * @param string $item       The item.
+			 * @param string $menu_slug  The menu slug.
+			 */
+			apply_filters(
+				'affwp_group_management_get_groups_per_page',
+				10,
+				$this->group_type,
+				$this->item,
+				$this->menu_slug
+			)
+		);
+	}
+
+	/**
+	 * Are we able to show all groups on one paginated page?
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return bool
+	 */
+	private function is_one_paged() : bool {
+		return $this->get_total_paged() === 1;
 	}
 
 	/**
@@ -1540,7 +1802,7 @@ abstract class Management {
 
 							<h2><?php /* translators: %s is the name of the group type. */ echo esc_html( sprintf( __( 'Add New %s', 'affiliate-wp' ), ucfirst( $this->single_title ) ) ); ?></h2>
 
-							<form id="addtag" method="post" action="admin.php?page=<?php echo esc_attr( "affiliate-wp-{$this->menu_slug}" ); ?>" class="validate">
+							<form id="addtag" method="post" action="admin.php?page=<?php echo esc_attr( $this->get_page() ); ?>" class="validate">
 
 								<div class="form-field form-required term-name-wrap">
 
@@ -1606,15 +1868,18 @@ abstract class Management {
 						<div class="tablenav top">
 
 							<div class="alignright">
-								<div class="tablenav-pages one-page">
+								<div class="tablenav-pages <?php echo esc_attr( $this->is_one_paged() ? 'one-page' : '' ); ?>">
 									<span class="displaying-num">
 										<?php
 
 										// Translators: %s is the number of groups.
-										echo esc_html( sprintf( __( '%d items', 'affiliate-wp' ), count( $groups ) ) );
+										echo esc_html( sprintf( __( '%d items', 'affiliate-wp' ), $this->get_total_group_count() ) );
 
 										?>
 									</span>
+
+									<?php $this->pagination(); ?>
+
 								</div>
 							</div>
 
@@ -1770,7 +2035,7 @@ abstract class Management {
 										<?php
 
 										// Translators: %s is the number of groups.
-										echo esc_html( sprintf( __( '%d items', 'affiliate-wp' ), count( $groups ) ) );
+										echo esc_html( sprintf( __( '%d items', 'affiliate-wp' ), $this->get_total_group_count() ) );
 
 										?>
 									</span>

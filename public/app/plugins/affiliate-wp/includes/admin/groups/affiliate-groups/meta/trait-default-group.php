@@ -226,9 +226,11 @@ trait Default_Group {
 		);
 
 		// Unset all the other groups as the default group.
-		foreach ( $this->get_groups(
+		foreach ( affiliate_wp()->groups->get_groups(
 			array(
-				'type' => $this->group_type,
+				'type'   => $this->group_type,
+				'fields' => 'objects',
+				'number' => apply_filters( 'affwp_unlimited', -1, 'unset_all_other_groups_as_default_group' ),
 			)
 		) as $group_to_unset ) {
 

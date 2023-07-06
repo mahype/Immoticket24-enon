@@ -186,7 +186,7 @@ function affwp_notify_on_approval( $affiliate_id = 0, $status = '', $old_status 
 	$message     = apply_filters( 'affwp_application_accepted_email', $message, $args );
 	$user_id     = affwp_get_affiliate_user_id( $affiliate_id );
 
-	if ( doing_action( 'affwp_add_affiliate' ) && ! empty( $_POST['user_email'] ) ) {
+	if ( true === (bool) get_user_meta( $user_id, 'affwp_generated_pass', true ) && doing_action( 'affwp_add_affiliate' ) && ! empty( $_POST['user_email'] ) ) {
 
 		$key        = get_password_reset_key( get_user_by( 'id', $user_id ) );
 		$user_login = affwp_get_affiliate_username( $affiliate_id );
@@ -198,7 +198,7 @@ function affwp_notify_on_approval( $affiliate_id = 0, $status = '', $old_status 
 
 	}
 
-	if ( affiliate_wp()->settings->get( 'allow_affiliate_registration' ) && doing_action( 'affwp_affiliate_register' ) ) {
+	if ( true === (bool) get_user_meta( $user_id, 'affwp_generated_pass', true ) && affiliate_wp()->settings->get( 'allow_affiliate_registration' ) && doing_action( 'affwp_affiliate_register' ) ) {
 
 		$key                          = get_password_reset_key( get_user_by( 'id', $user_id ) );
 		$user_login                   = affwp_get_affiliate_username( $affiliate_id );
@@ -267,7 +267,7 @@ function affwp_notify_on_pending_affiliate_registration( $affiliate_id, $status,
 	$key         = get_password_reset_key( get_user_by( 'id', $user_id ) );
 	$user_login  = affwp_get_affiliate_username( $affiliate_id );
 
-	if ( ! is_wp_error( $key ) && ! isset( $required_registration_fields['password'] ) ) {
+	if ( true === (bool) get_user_meta( $user_id, 'affwp_generated_pass', true ) && ! is_wp_error( $key ) && ! isset( $required_registration_fields['password'] ) ) {
 		$message .= "\r\n\r\n" . __( 'To set your password, visit the following address:', 'affiliate-wp' ) . "\r\n\r\n";
 		$message .= network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . "\r\n";
 	}

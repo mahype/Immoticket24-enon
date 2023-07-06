@@ -16,7 +16,7 @@
 // phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Allowing comments in function call lines.
 // phpcs:disable WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound -- Format for this file is OK.
 
-namespace AffiliateWP\Admin\Affiliates\Groups;
+namespace AffiliateWP\Admin\Groups\Affiliate_Groups;
 
 use AffiliateWP\Groups\Group;
 
@@ -27,15 +27,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 affwp_require_util_traits( 'data' );
 
 // Meta traits.
-require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/affiliates/groups/meta/trait-custom-rate.php';
-require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/affiliates/groups/meta/trait-rate.php';
-require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/affiliates/groups/meta/trait-rate-type.php';
-require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/affiliates/groups/meta/trait-default-group.php';
-require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/affiliates/groups/meta/trait-flat-rate-basis.php';
-require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/affiliates/groups/meta/trait-referral-rate.php';
+require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/affiliate-groups/meta/trait-custom-rate.php';
+require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/affiliate-groups/meta/trait-rate.php';
+require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/affiliate-groups/meta/trait-rate-type.php';
+require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/affiliate-groups/meta/trait-default-group.php';
+require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php';
 require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/meta/trait-description.php';
-
-require_once dirname( dirname( __DIR__ ) ) . '/groups/class-management.php';
+require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/affiliate-groups/meta/trait-referral-rate.php';
+require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/class-management.php';
 
 /**
  * Affiliates Grouping (Groups) Admin Screen Management.

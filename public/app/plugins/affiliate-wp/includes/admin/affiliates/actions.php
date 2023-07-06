@@ -262,7 +262,6 @@ function affwp_process_affiliate_moderation( $data ) {
 				affiliate_wp()->utils->log( sprintf( 'Coupon could not be added for affiliate #%1$d.', $data['affiliate_id'] ), $data );
 			}
 		}
-
 	}
 
 	if ( affwp_set_affiliate_status( $data['affiliate_id'], $status ) ) {
@@ -275,22 +274,3 @@ function affwp_process_affiliate_moderation( $data ) {
 
 }
 add_action( 'affwp_moderate_affiliate', 'affwp_process_affiliate_moderation' );
-
-/**
- * Initialize Creative + Affiliate Group Connections UI.
- *
- * @since  2.13.0
- */
-function affwp_creatives_admin_connect_affiliates() {
-
-	static $instance = null;
-
-	if ( ! is_null( $instance ) ) {
-		return $instance;
-	}
-
-	require_once __DIR__ . '/groups/creatives/class-connector.php';
-
-	$instance = new \AffiliateWP\Admin\Affiliates\Groups\Creatives\Connector();
-}
-add_action( 'plugins_loaded', 'affwp_creatives_admin_connect_affiliates', 9 );

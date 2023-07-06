@@ -123,15 +123,42 @@ class Tab extends Reports\Tab {
 	 * @since  1.9
 	 */
 	public function highest_converting_affiliate_tile() {
-		$affiliate_ids = affiliate_wp()->referrals->get_referrals( array(
-				'fields'     => 'affiliate_id',
-				'date'       => $this->date_query,
-				'number'     => -1
-		) );
+		$referrals = affiliate_wp()->referrals->get_referrals(
+			array(
+				'fields'  => array( 'affiliate_id', 'amount' ),
+				'date'    => $this->date_query,
+				'number'  => -1,
+				'status'  => array( 'paid', 'unpaid' ),
+				'orderby' => 'count',
+			)
+		);
 
-		$affiliate_counts = array_count_values( $affiliate_ids );
+		$referral_data = array_reduce(
+			$referrals,
+			function ( $carry, $referral ) {
 
-		$highest_converter = key( array_slice( $affiliate_counts, 0, 1, true ) );
+				$carry[ $referral->affiliate_id ]['count']  = ( $carry[ $referral->affiliate_id ]['count'] ?? 0 ) + 1;
+				$carry[ $referral->affiliate_id ]['amount'] = ( $carry[ $referral->affiliate_id ]['amount'] ?? 0 ) + $referral->amount;
+
+				return $carry;
+
+			},
+			array()
+		);
+
+		uasort(
+			$referral_data,
+			function ( $a, $b ) {
+
+				if ( $a['count'] === $b['count'] ) {
+					return $b['amount'] <=> $a['amount'];
+				}
+
+				return $b['count'] <=> $a['count'];
+			}
+		);
+
+		$highest_converter = key( $referral_data );
 
 		if ( ! empty( $highest_converter ) && $affiliate = affwp_get_affiliate( $highest_converter ) ) {
 			$name       = affwp_get_affiliate_name( $affiliate->ID );
@@ -145,7 +172,11 @@ class Tab extends Reports\Tab {
 				empty( $name ) ? sprintf( __( 'Affiliate #%d', 'affiliate-wp' ), $affiliate->ID ) : $name
 			);
 
-			$referrals_count = affiliate_wp()->referrals->count_by_status( 'paid', $affiliate->ID, $this->date_query );
+			$referrals_count = affiliate_wp()->referrals->count_by_status(
+				array( 'paid', 'unpaid' ),
+				$affiliate->ID,
+				$this->date_query
+			);
 
 			/* translators: Referrals count */
 			$referrals_data = sprintf( _n( '%s referral', '%s referrals', $referrals_count, 'affiliate-wp' ),

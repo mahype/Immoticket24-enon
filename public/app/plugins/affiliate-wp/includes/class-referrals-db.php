@@ -1023,6 +1023,12 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 							'end'   => date( 'Y-m-' . cal_days_in_month( CAL_GREGORIAN, date( 'n' ), date( 'Y' ) ) . ' 23:59:59', ( current_time( 'timestamp' ) - MONTH_IN_SECONDS ) ),
 						);
 						break;
+					case 'today':
+						$date = array(
+							'start' => date( 'Y-m-d 00:00:00', current_time( 'timestamp' ) ),
+							'end'   => date( 'Y-m-d 23:59:59', current_time( 'timestamp' ) ),
+						);
+						break;
 					case 'alltime':
 						$date = '';
 						break;
@@ -1142,6 +1148,12 @@ class Affiliate_WP_Referrals_DB extends Affiliate_WP_DB  {
 						$date = array(
 							'start' => date( 'Y-m-01 00:00:00', ( current_time( 'timestamp' ) - MONTH_IN_SECONDS ) ),
 							'end'   => date( 'Y-m-' . cal_days_in_month( CAL_GREGORIAN, date( 'n' ), date( 'Y' ) ) . ' 23:59:59', ( current_time( 'timestamp' ) - MONTH_IN_SECONDS ) ),
+						);
+						break;
+					case 'today':
+						$date = array(
+							'start' => date( 'Y-m-d 00:00:00', current_time( 'timestamp' ) ),
+							'end'   => date( 'Y-m-d 23:59:59', current_time( 'timestamp' ) ),
 						);
 						break;
 				}

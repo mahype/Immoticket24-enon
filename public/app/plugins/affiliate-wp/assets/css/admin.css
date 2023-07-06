@@ -336,9 +336,33 @@ table.creatives #creative_id {
 }
 
 table.creatives #type,
-table.creatives #groups,
-table.creatives #status {
+table.creatives #groups {
 	width: 100px;
+}
+
+table.creatives #status {
+	width: 150px;
+}
+
+table.creatives .affwp-tooltip-content {
+	padding: 0.5rem 1rem;
+	line-height: 1.5 !important;
+	left: 50%;
+	top: -1rem;
+}
+
+table.creatives .status .affwp-tooltip-content {
+	min-width: unset;
+}
+
+table.creatives .status .affwp-tooltip-content.active div {
+	width: max-content;
+}
+
+table.creatives .affwp-tooltip-content::after {
+	left: 50%;
+	transform: translate(-50%, 100%);
+	border-top: 10px solid #222;
 }
 
 #affwp_add_creative table,
@@ -357,7 +381,7 @@ table.creatives #status {
 }
 
 .affiliates_page_affiliate-wp-creatives .column-preview {
-	float: none
+	float: none;
 }
 
 .affiliates_page_affiliate-wp-creatives .column-preview a {
@@ -365,6 +389,7 @@ table.creatives #status {
 }
 
 .affiliates_page_affiliate-wp-creatives .column-preview img {
+	width: 100%;
 	max-width: 150px;
 	height: auto;
 	display: block;
@@ -377,6 +402,14 @@ table.creatives #status {
 .form-table[data-current-context="image"] [data-context="image"],
 .form-table[data-current-context="text_link"] [data-context="text_link"] {
 	display: block;
+}
+
+.affwp-schedule-description {
+	font-weight: 600;
+}
+.schedule-creative-date-fields {
+	display: grid;
+	gap: 10px;
 }
 
 /* Review page */
@@ -756,7 +789,7 @@ form .spinner {
 	cursor: help;
 	position: relative;
 	color: #404040;
-	z-index: 999;
+	z-index: 99;
 }
 
 .affwp-tooltip.icon {
@@ -781,6 +814,7 @@ form .spinner {
 	border-radius: 2px;
 	box-shadow: 1px 1px 20px #000000a6;
 	display: block;
+	visibility: hidden;
 	font-family: system-ui;
 	color: #d8d8d8 !important;
 	font-size: 13px !important;
@@ -806,14 +840,10 @@ form .spinner {
 	left: 38%;
 }
 
-.affwp-tooltip.icon .affwp-tooltip-content {
-	font-weight: 550 !important;
-	letter-spacing: -0.2px !important;
-}
-
 .affwp-tooltip-content.active {
 	opacity: 1;
 	z-index: 100;
+	visibility: visible;
 }
 
 .affwp-tooltip-content::after {
@@ -1369,4 +1399,103 @@ tr.group-row span.set-default {
 /* Affiliate Group Selector on Edit/New Creative Screen */
 .group-selector-creative_affiliate-group span.select2 {
 	min-width: 50% !important;
+}
+
+/** Creative Privacy */
+
+.wp-list-table.creatives td.column-name .icon {
+	margin-left: 0.5rem;
+}
+
+.wp-list-table.creatives td.column-name .icon .dashicon::before {
+	display: block;
+	font-size: 20px;
+	color: #50575e;
+}
+
+.wp-list-table.creatives td.column-name span.name-wrap {
+	display: flex;
+	align-items: start;
+	justify-content: space-between;
+}
+
+/** / Creative Privacy */
+
+/* Pro label */
+.affwp-settings-label-pro {
+	color: #455673;
+	padding: 6px 10px;
+	background-color: #f1f1f6;
+	border: 1px solid #f1f1f6;
+	height: 22.28px;
+	text-transform: uppercase;
+	font-size: 13px;
+	margin-left: 16px;
+	border-radius: 4px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex: none;
+	order: 1;
+	flex-grow: 0;
+	box-sizing: border-box;
+	font-weight: 400;
+}
+
+/* Make the Pro label appear on the same line as the Scheduled status option */
+span#select2-status-container, #select2-status-results li {
+	display: flex;
+	align-items: center;
+}
+/* Make select2 inputs same width */
+#affwp_add_creative .select2-container,
+#affwp_edit_creative .select2-container {
+	width: 175px;
+}
+
+/* Make the select2 selection vertically centered */
+#affwp_add_creative .select2-container--default .select2-selection--single,
+#affwp_edit_creative .select2-container--default .select2-selection--single {
+	display: grid;
+}
+
+/* Status color-coded labels */
+.badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 2px 8px;
+	border-radius: 4px;
+}
+
+.badge.badge-active {
+	background-color: rgb(215, 247, 194);
+	color: rgb(0, 105, 8);
+}
+
+.badge.badge-scheduled {
+	background-color: rgb(207, 245, 246);
+	color: rgb(0, 85, 188);
+}
+
+.badge.badge-inactive {
+	background-color: rgb(235, 238, 241);
+	color: rgb(65, 69, 82);
+}
+
+.badge .dashicons {
+	display: inline-flex;
+	width: auto;
+	height: auto;
+}
+
+.badge .dashicons.dashicons-clock {
+	font-size: 18px;
+	align-items: center;
+}
+
+/* CTA to upgrade from settings (currently on the Creatives Add/Edit pages) */
+.affwp-upgrade-setting-cta h4 {
+	margin-top: 8px;
 }

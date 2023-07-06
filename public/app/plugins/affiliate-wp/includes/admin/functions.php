@@ -6,9 +6,21 @@
  *
  * @package     AffiliateWP
  * @subpackage  AffiliateWP\Admin
- * @copyright   Copyright (c) 2023, Awesome Motive, Inc
+ * @copyright   Copyright (c) 2014, Sandhills Development, LLC
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       2.15.0
  */
+
+/**
+ * Require the connector class file.
+ *
+ * @since 2.15.0
+ *
+ * @return void
+ */
+function affwp_admin_require_connector() {
+    require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/class-connector.php';
+}
 
 /**
  * Upgrade link used within the various admin pages.

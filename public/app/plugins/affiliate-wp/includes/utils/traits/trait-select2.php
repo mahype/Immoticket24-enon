@@ -34,15 +34,6 @@ trait Select2 {
 	use \AffiliateWP\Utils\Data;
 
 	/**
-	 * Version
-	 *
-	 * @since 2.13.0
-	 *
-	 * @var string
-	 */
-	private $select_2_trait_version = '1.0.2';
-
-	/**
 	 * Load scripts and styles.
 	 *
 	 * Try and run this on the `wp_enqueue_scripts` or
@@ -69,7 +60,7 @@ trait Select2 {
 			'affwp-select2-init',
 			AFFILIATEWP_PLUGIN_URL . "assets/js/select2-init{$suffix}.js",
 			array( 'jquery', 'affwp-select2' ),
-			$this->select_2_trait_version,
+			AFFILIATEWP_VERSION,
 			true
 		);
 	}

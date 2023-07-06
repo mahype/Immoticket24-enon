@@ -67,6 +67,7 @@ class Affiliate_WP_Scheduler {
 			'affwp_daily_scheduled_events',
 			'affwp_monthly_affiliate_email_summaries',
 			'affwp_send_scheduled_summary', // Possible created by affwp_schedule_summary().
+			'affwp_scheduled_creative_status_check',
 		) as $scheduled_action ) {
 
 			if ( ! is_string( $scheduled_action ) ) {
@@ -90,6 +91,7 @@ class Affiliate_WP_Scheduler {
 		$this->daily_events();
 		$this->monthly_email_summaries();
 		$this->monthly_affiliate_email_summaries();
+		$this->scheduled_creative_status_check();
 	}
 
 	/**
@@ -222,13 +224,14 @@ class Affiliate_WP_Scheduler {
 	}
 
 	/**
-	 * Schedule daily events
+	 * Schedule daily events.
 	 *
 	 * Schedule an action with the hook 'affwp_daily_scheduled_events' to run once each day
 	 * so that our callback is run then.
 	 *
 	 * @access private
 	 * @since 2.9.5
+	 *
 	 * @return void
 	 */
 	private function daily_events() {
@@ -242,6 +245,27 @@ class Affiliate_WP_Scheduler {
 		}
 
 		as_schedule_recurring_action( strtotime( 'now' ), DAY_IN_SECONDS, 'affwp_daily_scheduled_events', array(), $this->group );
+	}
+
+	/**
+	 * Scheduled creative status updates.
+	 *
+	 * @access private
+	 * @since 2.15.0
+	 *
+	 * @return void
+	 */
+	private function scheduled_creative_status_check() {
+
+		if ( $this->as_has_scheduled_action( 'affwp_scheduled_creative_status_check', array(), $this->group ) ) {
+			return;
+		}
+
+		if ( ! function_exists( 'as_schedule_recurring_action' ) ) {
+			return; // Can't find Action Scheduler.
+		}
+
+		as_schedule_recurring_action( strtotime( 'midnight' ) - affiliate_wp()->utils->wp_offset, DAY_IN_SECONDS, 'affwp_scheduled_creative_status_check', array(), $this->group );
 	}
 }
 new Affiliate_WP_Scheduler;

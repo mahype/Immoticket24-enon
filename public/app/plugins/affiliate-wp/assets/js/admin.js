@@ -658,7 +658,7 @@ jQuery(document).ready(function($) {
 			});
 
 		});
-    
+
   }
 
 	// Toggle the Creative image field visibility based on the type. Used in Affiliate WP Creative add/edit screen.
@@ -674,8 +674,14 @@ jQuery(document).ready(function($) {
 			}
 		};
 
-		$( '#type' ).on( 'change', function( e ) {
+		// TO DO: Need to determine ideal size for these
+		// And move this to be more global as we use it in other places in our settings.
+		const affwpSelect2Width = '175px';
 
+		$('select#type').select2( {
+			width: affwpSelect2Width,
+			minimumResultsForSearch: -1,
+		} ).on( 'change', function( e ) {
 			// jQuery field objects.
 			const $text  = $( '#text' );
 			const $type  = $( '#type' );
@@ -703,6 +709,100 @@ jQuery(document).ready(function($) {
 			$image.closest( '.form-row' ).addClass( 'affwp-hidden' );
 		} );
 
+		$('select#status').select2( {
+			width: affwpSelect2Width,
+			minimumResultsForSearch: -1,
+			/**
+			 * Format the dropdown options.
+			 * Add a pro badge to the Scheduled status when addProBadge class is present.
+			 *
+			 * @param  {Object} option The option object.
+			 * @return {Object}        The option with or without the pro badge.
+			 */
+			templateResult: function ( option ) {
+				if ( ! option.id ) {
+				  return option.text;
+				}
+
+				// Add the pro badge to the scheduled status in the select2 dropdown.
+				if ( 'scheduled' === option.id && $('.addProBadge').length > 0 ) {
+					return $(
+						`<span>${option.text}</span><span class="affwp-settings-label-pro">PRO</span>`
+					);
+				}
+
+				return option.text;
+			},
+			/**
+			 * Format the selected option.
+			 * Add a pro badge to the Scheduled status when addProBadge class is present.
+			 * @param  {Object} option The option object.
+			 * @return {Object}       The option with or without the pro badge.
+			 */
+			templateSelection: function( option ) {
+				if ( ! option.id ) {
+				  return option.text;
+				}
+
+				// Add the pro badge to the selected scheduled status.
+				if ( 'scheduled' === option.id && $('.addProBadge').length > 0 ) {
+					return $(
+						`<span>${option.text}</span><span class="affwp-settings-label-pro">PRO</span>`
+					);
+				}
+
+				return option.text;
+			},
+		} ).on( 'change', function( e ) {
+			// Display the schedule creatives setting if the Scheduled status is selected.
+			if ( $( '.affwp-schedule-creatives-setting' ).length > 0 && $( '#status' ).val() === 'scheduled' ) {
+				$( '.affwp-schedule-creatives-setting' ).removeClass( 'affwp-hidden' );
+				return;
+			}
+			// Don't hide the schedule creatives setting again if we are on the edit screen.
+			if ( $( '#affwp_edit_creative' ).length > 0 ) {
+				return;
+			}
+			$( '.affwp-schedule-creatives-setting').addClass( 'affwp-hidden' );
+		} );
+
+		// Open the select2 dropdown when clicking on the label.
+		$( "label[for='status']" ).click( function() {
+			$( '#status' ).select2( 'open' );
+		} );
+
+		// Schedule creative datepicker.
+		if( $( '.affwp-schedule-creative-datepicker' ).length ) {
+			// Select all elements with class 'affwp-schedule-creative-datepicker' and initialize a datepicker on them
+			$( '.affwp-schedule-creative-datepicker' ).datepicker( {
+				dateFormat: 'mm/dd/yy',
+				defaultDate: '',
+				showButtonPanel: true, // Show a button panel with today and close buttons
+				onSelect: function ( date ) {
+					// If this datepicker is the start date, set the minDate option. Otherwise, set the maxDate.
+					var option = $( this ).is( '.affwp-schedule-creative-datepicker[name="start_date"]' )
+						? 'minDate'
+						: 'maxDate',
+						// Find all datepicker inputs in the same container as the current datepicker.
+						dates = $( this )
+							.closest( '.schedule-creative-date-fields' )
+							.find( 'input' );
+
+					// Get the selected date plus one day.
+					if (option === 'minDate' ) {
+						date = new Date( $( this ).datepicker( 'getDate' ).getTime() + 86400000 );
+					// Get the selected date minus one day.
+					} else if (option === 'maxDate' ) {
+						date = new Date( $( this ).datepicker( 'getDate' ).getTime() - 86400000 );
+					}
+
+					// Set the minDate or maxDate option of the other datepicker input to the selected date.
+					dates.not( this ).datepicker( 'option', option, date );
+					// Trigger the change event on the current datepicker.
+					$( this ).trigger( 'change' );
+				},
+			} );
+		}
 	}
 
  } );

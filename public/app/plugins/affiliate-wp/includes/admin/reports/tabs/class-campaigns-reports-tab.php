@@ -40,6 +40,11 @@ class Tab extends Reports\Tab {
 
 		$top_campaign = affiliate_wp()->campaigns->get_campaigns( array(
 			'orderby'          => 'conversion_rate',
+			'conversion_rate'  => array(
+				'min' => 1,
+				'max' => 100
+			),
+			'rate_compare'     => '>=',
 			'campaign_compare' => 'NOT EMPTY',
 			'affiliate_id'     => $affiliate_id,
 			'number'           => 1,
@@ -60,16 +65,23 @@ class Tab extends Reports\Tab {
 				'order'        => 'ASC',
 			) );
 
-			$this->register_tile( 'best_converting_campaign', array(
-				'label'           => __( 'Best Converting Campaign (All Time)', 'affiliate-wp' ),
-				'data'            => empty( $campaign->campaign ) ? __( 'n/a', 'affiliate-wp' ) : $campaign->campaign,
-				/* translators: 1: Affiliate referrals URL, 2: Affiliate name, 3: Number of visits for the campaign */
-				'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | Visits: %3$d', 'affiliate-wp' ),
-					esc_url( $affiliate_link ),
-					$affiliate_name,
-					$campaign->visits
+			$this->register_tile(
+				'best_converting_campaign',
+				array(
+					'label'           => __( 'Best Converting Campaign (All Time)', 'affiliate-wp' ),
+					'data'            => empty( $campaign->campaign ) ? __( 'n/a', 'affiliate-wp' ) : $campaign->campaign,
+					'comparison_data' => sprintf(
+						/* translators: 1: Affiliate referrals URL, 2: Number of visits for the campaign */
+						__( 'Affiliate: %1$s | Conversion rate: %2$.1f%%', 'affiliate-wp' ),
+						sprintf(
+							'<a href="%1$s">%2$s</a>',
+							esc_url( $affiliate_link ),
+							$affiliate_name
+						),
+						$campaign->conversion_rate
+					),
 				)
-			) );
+			);
 		} else {
 
 			if ( $this->affiliate_id ) {
@@ -128,9 +140,15 @@ class Tab extends Reports\Tab {
 
 		$top_campaign_date = $this->get_campaign_by_highest_visits( $top_campaign_visits );
 
+		if ( ! empty( $top_campaign_date ) && ! empty( $top_campaign_date->campaign ) ) {
+			$campaign = affiliate_wp()->campaigns->get_campaigns(
+				array(
+					'campaign' => $top_campaign_date->campaign,
+					'number'   => 1
+				)
+			);
 
-		if ( ! empty( $top_campaign_date ) ) {
-			$campaign = $top_campaign_date;
+			$campaign = reset( $campaign );
 
 			$affiliate_name = affwp_get_affiliate_name( $campaign->affiliate_id );
 
@@ -144,18 +162,28 @@ class Tab extends Reports\Tab {
 				'order'        => 'ASC',
 			) );
 
-			$this->register_tile( 'best_converting_campaign_date', array(
-				'label'           => sprintf( __( 'Best Converting Campaign (%s)', 'affiliate-wp' ),
-					$this->get_date_comparison_label( __( 'Custom', 'affiliate-wp' ) )
-				),
-				'context'         => 'tertiary',
-				'data'            => empty( $campaign->campaign ) ? __( 'n/a', 'affiliate-wp' ) : $campaign->campaign,
-				'comparison_data' => sprintf( __( 'Affiliate: <a href="%1$s">%2$s</a> | Visits: %3$d', 'affiliate-wp' ),
-					esc_url( $affiliate_link ),
-					$affiliate_name,
-					$campaign->visits
+			$this->register_tile(
+				'best_converting_campaign_date',
+				array(
+					'label'           => sprintf(
+						/* translators: 1: Date filter */
+						__( 'Best Converting Campaign (%s)', 'affiliate-wp' ),
+						$this->get_date_comparison_label( __( 'Custom', 'affiliate-wp' ) )
+					),
+					'context'         => 'tertiary',
+					'data'            => empty( $campaign->campaign ) ? __( 'n/a', 'affiliate-wp' ) : $campaign->campaign,
+					'comparison_data' => sprintf(
+						/* translators: 1: Affiliate referrals URL, 2: Number of visits for the campaign */
+						__( 'Affiliate: %1$s | Conversion rate: %2$.1f%%', 'affiliate-wp' ),
+						sprintf(
+							'<a href="%1$s">%2$s</a>',
+							esc_url( $affiliate_link ),
+							$affiliate_name
+						),
+						$campaign->conversion_rate
+					),
 				)
-			) );
+			);
 		} else {
 
 			if ( $this->affiliate_id ) {

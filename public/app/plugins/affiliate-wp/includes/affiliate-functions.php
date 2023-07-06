@@ -1348,12 +1348,14 @@ function affwp_add_affiliate( $data = array() ) {
 		// Create the user account.
 		$user_id = wp_insert_user( $user_args );
 
+		// Remember we generated a random password for this user.
+		update_user_meta( $user_id, 'affwp_generated_pass', true );
+
 		if ( is_wp_error( $user_id ) ) {
 			return false;
 		}
 
 		$data['user_id'] = $user_id;
-
 	}
 
 	if ( empty( $data['user_id'] ) ) {
@@ -1388,6 +1390,15 @@ function affwp_add_affiliate( $data = array() ) {
 
 		// Enable referral notifications by default for new affiliates.
 		affwp_update_affiliate_meta( $affiliate_id, 'referral_notifications', true );
+
+		/**
+		 * Fires after adding a user as an affiliate.
+		 *
+		 * @since 2.15.0
+		 *
+		 * @param int $affiliate_id Affiliate ID.
+		 */
+		do_action( 'affwp_add_new_affiliate', $affiliate_id );
 
 		return $affiliate_id;
 	}
