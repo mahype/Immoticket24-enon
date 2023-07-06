@@ -63,6 +63,9 @@ class Enfold
     public function modifyVideoOutput($output, $atts, $content, $shortcodename, $meta, $video_html_raw)
     {
         if (!empty($atts['src'])) {
+            $matches = '';
+            preg_match("/<div\\s+class=['\"]([^'\"]*)['\"]/i", $output, $matches);
+
             $style = [];
 
             if (!empty($atts['format']) && $atts['format'] == 'custom') {
@@ -73,13 +76,13 @@ class Enfold
             }
 
             if (!empty($atts['mobile_image'])) {
-                $style[] = "background-image: url('" . $atts['mobile_image'] . "')";
+                $video_html_raw = str_replace('<img class="_brlbs-thumbnail"', '<img class="_brlbs-thumbnail" style="opacity:0;"', $video_html_raw);
             }
 
             if (!empty($atts['conditional_play']) && $atts['conditional_play'] === 'lightbox') {
                 // Nothing for now - can not be supported
             } else {
-                $output = '<div class="avia-video avia-video-' . $atts['format'] . '" style="' . implode(';', $style)
+                $output = '<div class="' . ($matches[1] ?? '') . '" style="' . implode(';', $style)
                     . '" itemprop="video" itemtype="https://schema.org/VideoObject" data-original_url="' . $atts['src']
                     . '">' . $video_html_raw . '</div>';
             }

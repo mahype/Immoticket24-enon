@@ -67,6 +67,7 @@ class Upgrade
             'upgradeVersion_2_2_61' => '2.2.61',
             'upgradeVersion_2_2_62' => '2.2.62',
             'upgradeVersion_2_2_63' => '2.2.63',
+            'upgradeVersion_2_2_64' => '2.2.64',
         ];
 
     public function __construct()
@@ -1183,6 +1184,13 @@ class Upgrade
     {
         update_option('BorlabsCookieClearCache', true, 'yes');
         update_option('BorlabsCookieVersion', '2.2.63', 'yes');
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+    }
+
+    public function upgradeVersion_2_2_64()
+    {
+        update_option('BorlabsCookieClearCache', true, 'yes');
+        update_option('BorlabsCookieVersion', '2.2.64', 'yes');
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
