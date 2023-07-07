@@ -1,18 +1,4 @@
 ######################
-# Staging entries
-######################
-
-# Authentication
-# User staging
-# Pass lassMalSehen2020
-
-AuthUserFile /www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/.htpasswd
-AuthGroupFile /dev/null
-AuthName "Staging"
-AuthType Basic
-require valid-user
-
-######################
 # Standard entries
 ######################
 # BEGIN WP Rocket v3.4.4
