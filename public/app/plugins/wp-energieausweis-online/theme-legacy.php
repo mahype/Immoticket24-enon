@@ -1,4 +1,5 @@
 <?php
+use Enon_Reseller\Models\Detector;
 
 function immoticketenergieausweis_is_element_empty($element)
 {
@@ -348,11 +349,17 @@ function enon_show_gdpr_field($data)
   $onclick         = 'onclick="return !; window.open( this.href, \'%s\', \'width=500,height=500,top=100,left=100\' )" target="_blank"';
   $privacy_onclick = sprintf($onclick, get_the_title($privacy_page));
 
+  if( Detector::is_reseller_iframe()) {
+    $text = sprintf(__('Wir nutzen für die Erstellung der Energieausweise einen externen Dienstleister. Dabei setzen wir zum Zwecke der Zuordnung zu unserer Seite Cookies. Ich habe die <a href="%1$s" %2$s>Datenschutzerklärung</a> gelesen und akzeptiere sie.', 'wpenon'), $privacy_url, $privacy_onclick);
+  } else {
+    $text = sprintf(__('Ich habe die <a href="%1$s" %2$s>Datenschutzerklärung</a> gelesen und akzeptiere sie.', 'wpenon'), $privacy_url, $privacy_onclick);
+  }
+
 ?>
   <div id="gdpr_acceptance-wrap" class="checkbox">
     <label>
       <input type="checkbox" id="gdpr_acceptance" name="gdpr_acceptance" value="1" <?php echo $data['gdpr_acceptance'] ? ' checked' : ''; ?>>
-      <?php printf(__('Ich habe die <a href="%1$s" %2$s>Datenschutzerklärung</a> gelesen und akzeptiere sie.', 'wpenon'), $privacy_url, $privacy_onclick); ?>
+      <?php echo $text; ?>
     </label>
   </div>
 <?php
