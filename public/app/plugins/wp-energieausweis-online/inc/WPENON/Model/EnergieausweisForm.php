@@ -77,6 +77,7 @@ class EnergieausweisForm {
 		if( $energieausweis->mode == 'v' && ! $energieausweis->isSchemaOlderThenDate('2021-07-05') && $energieausweis->isFinalized() )
 		{
 			$calcCC = $energieausweis->getCalcCC();
+			$ddd = 1;
 			$data['energy_bar'] = array(
 				array(
 					'mode'         => $energieausweis->mode,
