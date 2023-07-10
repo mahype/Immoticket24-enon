@@ -89,7 +89,7 @@ class CalculationsCC {
         $this->tableNames->ww_erzeugung                = 'ww_erzeugung202001';
         $this->tableNames->energietraeger              = 'energietraeger2021';
         $this->tableNames->energietraeger_umrechnungen = 'energietraeger_umrechnungen';
-        $this->tableNames->klimafaktoren               = 'klimafaktoren202001';     
+        $this->tableNames->klimafaktoren               = 'klimafaktoren202301';     
 
         $this->initBuilding();
     }

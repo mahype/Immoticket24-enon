@@ -8,7 +8,7 @@ $tableNames->h_erzeugung                 = 'h_erzeugung2019';
 $tableNames->ww_erzeugung                = 'ww_erzeugung202001';
 $tableNames->energietraeger              = 'energietraeger2021';
 $tableNames->energietraeger_umrechnungen = 'energietraeger_umrechnungen';
-$tableNames->klimafaktoren               = 'klimafaktoren202001';
+$tableNames->klimafaktoren               = 'klimafaktoren202301';
 
 $calcCC = new Enev\Schema202301\Calculations\CalculationsCC( $energieausweis );
 $calculations['co2_emissionen'] = $calcCC->getBuilding()->getCo2Emissions();

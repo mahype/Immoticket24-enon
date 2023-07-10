@@ -15,7 +15,7 @@ $tableNames->uwerte                      = 'uwerte2021';
 $tableNames->l_erzeugung                 = 'l_erzeugung2021';
 $tableNames->l_verteilung                = 'l_verteilung2021';
 
-$tableNames->klimafaktoren               = 'klimafaktoren202001';
+$tableNames->klimafaktoren               = 'klimafaktoren202301';
 
 $calculations = array();
 $calculations['reference'] = 125;
