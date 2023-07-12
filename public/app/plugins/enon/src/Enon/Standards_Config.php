@@ -87,7 +87,7 @@ class Standards_Config extends Config {
 				'start_date' => '2022-07-01',
 			),
 			'enev2023-01' => array(
-				'name'       => __( 'GEG 2021 (ab 07.07.2022)', 'wpenon' ),
+				'name'       => __( 'GEG 2021 (ab 07.07.2023)', 'wpenon' ),
 				'date'       => '2020-08-08',
 				'start_date' => '2023-07-07',
 			),
