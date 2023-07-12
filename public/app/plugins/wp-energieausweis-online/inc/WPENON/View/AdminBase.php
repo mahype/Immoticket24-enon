@@ -49,8 +49,6 @@ class AdminBase extends TemplateBase
 
         do_action('wpenon_save_meta_boxes', $_POST, $energieausweis);
 
-        update_post_meta($energieausweis->ID, 'wpenon_standard', $_POST['wpenon_standard']);
-
         if (count($energieausweis->errors) > 0) {
             \WPENON\Util\Storage::storeErrors($energieausweis->ID, $energieausweis->errors);
         }
