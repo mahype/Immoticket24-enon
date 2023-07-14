@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast SEO - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-06-27 08:12:22+0000\n"
+"PO-Revision-Date: 2023-07-11 08:11:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,36 @@ msgstr ""
 "X-Generator: GlotPress/4.0.0-alpha.4\n"
 "Language: de\n"
 "Project-Id-Version: Plugins - Yoast SEO - Stable (latest release)\n"
+
+#. translators: 1: Opening tag of the link to the Search appearance settings
+#. page, 2: Link closing tag.
+#: src/content-type-visibility/application/content-type-visibility-watcher-actions.php:158
+msgid "You've added a new type of content. We recommend that you review the corresponding %1$sSearch appearance settings%2$s."
+msgstr "Du hast einen neuen Inhaltstyp hinzugefügt. Wir empfehlen dir, die entsprechenden %1$sSuchdarstellungseinstellungen%2$s zu überprüfen."
+
+#: src/content-type-visibility/application/content-type-visibility-dismiss-notifications.php:73
+msgid "Error: Taxonomy was not removed from new_taxonomies list."
+msgstr "Fehler: Die Taxonomie wurde nicht aus der Liste „new_taxonomies“ entfernt."
+
+#: src/content-type-visibility/application/content-type-visibility-dismiss-notifications.php:73
+msgid "Taxonomy is no longer new."
+msgstr "Taxonomie ist nicht mehr neu."
+
+#: src/content-type-visibility/application/content-type-visibility-dismiss-notifications.php:66
+msgid "Taxonomy is not new."
+msgstr "Taxonomie ist nicht neu."
+
+#: src/content-type-visibility/application/content-type-visibility-dismiss-notifications.php:43
+msgid "Error: Post type was not removed from new_post_types list."
+msgstr "Fehler: Der Beitragstyp wurde nicht aus der Liste „new_post_types“ entfernt."
+
+#: src/content-type-visibility/application/content-type-visibility-dismiss-notifications.php:43
+msgid "Post type is no longer new."
+msgstr "Der Beitragstyp ist nicht mehr neu."
+
+#: src/content-type-visibility/application/content-type-visibility-dismiss-notifications.php:37
+msgid "Post type is not new."
+msgstr "Der Beitragstyp ist nicht neu."
 
 #: src/integrations/support-integration.php:107 js/dist/support.js:9
 msgid "Support"
@@ -359,18 +389,6 @@ msgstr "Der Beitrag %s konnte nicht indexiert werden, da sein Beitragstyp von de
 msgid "The term %s could not be built because it's not indexable."
 msgstr "Der Begriff %s konnte nicht erstellt werden, da er nicht indexierbar ist."
 
-#. translators: 1: Opening tag of the link to the Search appearance settings
-#. page, 2: Link closing tag.
-#: src/integrations/watchers/indexable-post-type-change-watcher.php:167
-msgid "It looks like you've added a new type of content to your website. We recommend that you review your %1$sSettings%2$s under Content types."
-msgstr "Anscheinend hast du deiner Website einen neuen Inhaltstyp hinzugefügt. Wir empfehlen dir, in deinen %1$sEinstellungen%2$s den Punkt Inhaltstypen zu überprüfen."
-
-#. translators: 1: Opening tag of the link to the Search appearance settings
-#. page, 2: Link closing tag.
-#: src/integrations/watchers/indexable-taxonomy-change-watcher.php:169
-msgid "It looks like you've added a new taxonomy to your website. We recommend that you review your %1$sSettings%2$s under Categories & tags."
-msgstr "Anscheinend hast du deiner Website eine neue Taxonomie hinzugefügt. Wir empfehlen dir, in deinen %1$sEinstellungen%2$s den Punkt Kategorien & Schlagwörter überprüfen."
-
 #: src/presenters/admin/indexing-notification-presenter.php:87
 msgid "We need to re-analyze some of your SEO data because of a change in the visibility of your post types. Please help us do that by running the SEO data optimization. "
 msgstr "Wir müssen einige deiner SEO-Daten erneut analysieren, da sich die Sichtbarkeit deiner Beitragstypen geändert hat. Bitte hilf uns dabei, indem du die SEO-Datenoptimierung durchführst. "
@@ -425,7 +443,7 @@ msgid "The inclusive language analysis offers suggestions to write more inclusiv
 msgstr "Die inklusive Sprachanalyse bietet Vorschläge, um inklusivere Texte zu schreiben."
 
 #: admin/views/class-yoast-feature-toggles.php:91 js/dist/new-settings.js:22
-#: js/dist/new-settings.js:238
+#: js/dist/new-settings.js:277
 msgid "Inclusive language analysis"
 msgstr "Inklusive Sprachanalyse"
 
@@ -477,11 +495,11 @@ msgid "Timestamp this %s"
 msgstr "Diesen %s mit Zeitstempel versehen"
 
 #: admin/views/class-yoast-feature-toggles.php:195 js/dist/new-settings.js:22
-#: js/dist/new-settings.js:240
+#: js/dist/new-settings.js:279
 msgid "IndexNow"
 msgstr "IndexNow"
 
-#: admin/views/class-yoast-feature-toggles.php:198 js/dist/new-settings.js:240
+#: admin/views/class-yoast-feature-toggles.php:198 js/dist/new-settings.js:279
 msgid "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post."
 msgstr "Automatisch Suchmaschinen wie Bing und Yandex anpingen, sobald du einen Beitrag veröffentlichst, aktualisierst oder löschst."
 
@@ -1049,7 +1067,7 @@ msgid "Get relevant internal linking suggestions — while you’re writing! The
 msgstr "Erhalte relevante interne Link-Vorschläge&nbsp;– während du schreibst! Die Link-Vorschläge-Metabox zeigt eine Liste von Beiträgen deines Blogs mit gleichartigem Inhalt, auf den sich ein Link lohnen könnte. "
 
 #: admin/views/class-yoast-feature-toggles.php:125 js/dist/new-settings.js:22
-#: js/dist/new-settings.js:238
+#: js/dist/new-settings.js:277
 msgid "Link suggestions"
 msgstr "Link-Vorschläge"
 
@@ -1063,7 +1081,7 @@ msgstr "Finde relevante Daten über deine Inhalte direkt im Einblicke-Abschnitt 
 
 #: admin/views/class-yoast-feature-toggles.php:116 js/dist/block-editor.js:278
 #: js/dist/classic-editor.js:270 js/dist/elementor.js:278
-#: js/dist/new-settings.js:22 js/dist/new-settings.js:238
+#: js/dist/new-settings.js:22 js/dist/new-settings.js:277
 msgid "Insights"
 msgstr "Einblicke"
 
@@ -1186,7 +1204,7 @@ msgstr "Automatische Updates sind basierend auf dieser Einstellung für %1$s akt
 #: src/presenters/admin/badge-presenter.php:80
 #: src/presenters/admin/badge-presenter.php:87
 #: js/dist/externals/componentsNew.js:136 js/dist/integrations-page.js:3
-#: js/dist/integrations-page.js:23
+#: js/dist/integrations-page.js:23 js/dist/new-settings.js:293
 msgid "New"
 msgstr "Neu"
 
@@ -1221,7 +1239,7 @@ msgstr "Aufgrund einer Änderung deiner Kategorien-URL-Einstellung müssen manch
 msgid "Find out how a rich snippet can improve visibility and click-through-rate."
 msgstr "Finde heraus, wie ein Rich Snippet die Sichtbarkeit und Klick-Rate verbessern kann."
 
-#: admin/views/class-yoast-feature-toggles.php:189 js/dist/new-settings.js:238
+#: admin/views/class-yoast-feature-toggles.php:189 js/dist/new-settings.js:277
 msgid "This adds an author byline and reading time estimate to the article’s snippet when shared on Slack."
 msgstr "Dies fügt dem Artikelausschnitt eine Autorenzeile und eine Schätzung der Lesezeit hinzu, wenn er auf Slack veröffentlicht wird."
 
@@ -1424,7 +1442,7 @@ msgstr "Medizinische Website"
 
 #: admin/views/class-yoast-feature-toggles.php:165
 #: admin/views/class-yoast-feature-toggles.php:166 js/dist/new-settings.js:22
-#: js/dist/new-settings.js:236
+#: js/dist/new-settings.js:273
 msgid "Usage tracking"
 msgstr "Nutzungs-Tracking"
 
@@ -1850,7 +1868,7 @@ msgstr "Google hat die API zur Anzeige der Crawling-Fehler eingestellt. Deswegen
 
 #: src/integrations/admin/first-time-configuration-integration.php:511
 #: src/integrations/admin/first-time-configuration-integration.php:524
-#: js/dist/new-settings.js:242
+#: js/dist/new-settings.js:281
 msgid "Organization"
 msgstr "Organisation"
 
@@ -1985,7 +2003,7 @@ msgstr "Lerne mehr darüber, warum Permalinks wichtig für SEO sind."
 
 #. translators: %s expands to Yoast SEO Premium
 #. translators: %s expands to "Yoast SEO" Premium
-#: admin/class-premium-upsell-admin-block.php:84 js/dist/new-settings.js:256
+#: admin/class-premium-upsell-admin-block.php:84 js/dist/new-settings.js:295
 msgid "Upgrade to %s"
 msgstr "%s buchen"
 
@@ -2035,7 +2053,7 @@ msgstr "Diese Funktion wurde durch den Netzwerkadministrator deaktiviert."
 msgid "Clear Image"
 msgstr "Bild löschen"
 
-#: admin/class-premium-upsell-admin-block.php:54 js/dist/new-settings.js:256
+#: admin/class-premium-upsell-admin-block.php:54 js/dist/new-settings.js:295
 msgid "Multiple keyphrases"
 msgstr "mehrere Keyphrasen"
 
@@ -2054,11 +2072,11 @@ msgstr "Fokus Keyphrase nicht festgelegt."
 #: js/dist/externals-components.js:11 js/dist/externals-components.js:125
 #: js/dist/externals-components.js:143 js/dist/externals-components.js:145
 #: js/dist/externals-components.js:147 js/dist/externals-components.js:149
-#: js/dist/new-settings.js:258
+#: js/dist/new-settings.js:297
 msgid "Get %s"
 msgstr "Erhalte %s"
 
-#: inc/options/class-wpseo-option-titles.php:962
+#: inc/options/class-wpseo-option-titles.php:976
 msgid "Colon"
 msgstr "Doppelpunkt"
 
@@ -2282,7 +2300,7 @@ msgid "Site title"
 msgstr "Titel der Website"
 
 #: inc/class-wpseo-replace-vars.php:1474 js/dist/externals-redux.js:1
-#: js/dist/new-settings.js:22 js/dist/new-settings.js:230
+#: js/dist/new-settings.js:22 js/dist/new-settings.js:267
 msgid "Tagline"
 msgstr "Untertitel/Slogan"
 
@@ -2393,7 +2411,7 @@ msgstr "Mit diesem Vorgang importierst Beitragsmetadaten wie SEO-Titel und Besch
 #: admin/class-premium-upsell-admin-block.php:58 js/dist/block-editor.js:196
 #: js/dist/classic-editor.js:192 js/dist/elementor.js:196
 #: js/dist/externals-components.js:7 js/dist/externals-components.js:121
-#: js/dist/new-settings.js:256
+#: js/dist/new-settings.js:295
 msgid "24/7 email support"
 msgstr "24/7 E-Mail-Support"
 
@@ -2506,7 +2524,7 @@ msgstr "Der Textlink-Zähler hilft dir, die Struktur deiner Website zu verbesser
 msgid "Learn how the SEO analysis can help you rank."
 msgstr "Lerne, wie die SEO-Analyse für die Platzierung helfen kann."
 
-#: admin/views/class-yoast-feature-toggles.php:85 js/dist/new-settings.js:238
+#: admin/views/class-yoast-feature-toggles.php:85 js/dist/new-settings.js:277
 msgid "The readability analysis offers suggestions to improve the structure and style of your text."
 msgstr "Die Lesbarkeitsanalyse bietet Vorschläge zur Verbesserung der Struktur und des Stils deines Textes."
 
@@ -2545,7 +2563,7 @@ msgstr "Mit der Cornerstone-Funktion kannst du Cornerstone-Inhalte auf deiner We
 
 #: admin/views/class-yoast-feature-toggles.php:75
 #: js/dist/externals-components.js:152 js/dist/new-settings.js:22
-#: js/dist/new-settings.js:238
+#: js/dist/new-settings.js:277
 msgid "SEO analysis"
 msgstr "SEO-Analyse"
 
@@ -2711,7 +2729,7 @@ msgid "Request method %1$s is not valid."
 msgstr "Anforderungsmethode %1$s ist nicht gültig."
 
 #: admin/views/class-yoast-feature-toggles.php:108 js/dist/new-settings.js:22
-#: js/dist/new-settings.js:238
+#: js/dist/new-settings.js:277
 msgid "Text link counter"
 msgstr "Text Link Zähler"
 
@@ -2736,7 +2754,7 @@ msgstr "%s Spalten"
 #: admin/filters/class-cornerstone-filter.php:87
 #: admin/views/class-yoast-feature-toggles.php:100
 #: js/dist/externals-components.js:14 js/dist/new-settings.js:22
-#: js/dist/new-settings.js:238
+#: js/dist/new-settings.js:277
 msgid "Cornerstone content"
 msgstr "Cornerstone-Inhalt"
 
@@ -2755,7 +2773,7 @@ msgstr "Das Plugin %2$s verändert die Ausgabe deiner Website je nachdem ob eine
 #: admin/class-premium-upsell-admin-block.php:56 js/dist/block-editor.js:194
 #: js/dist/classic-editor.js:190 js/dist/elementor.js:194
 #: js/dist/externals-components.js:5 js/dist/externals-components.js:119
-#: js/dist/new-settings.js:256
+#: js/dist/new-settings.js:295
 msgid "Superfast internal linking suggestions"
 msgstr "Superschnelle Vorschläge zur internen Verlinkung"
 
@@ -2765,30 +2783,30 @@ msgstr "Superschnelle Vorschläge zur internen Verlinkung"
 msgid "1 year free support and updates included!"
 msgstr "1 Jahr kostenfreier Support und Updates inbegriffen!"
 
-#: admin/class-premium-upsell-admin-block.php:57 js/dist/new-settings.js:256
+#: admin/class-premium-upsell-admin-block.php:57 js/dist/new-settings.js:295
 msgid "Facebook & Twitter"
 msgstr "Facebook & Twitter"
 
 #: admin/class-premium-upsell-admin-block.php:59 js/dist/block-editor.js:196
 #: js/dist/classic-editor.js:192 js/dist/elementor.js:196
 #: js/dist/externals-components.js:7 js/dist/externals-components.js:121
-#: js/dist/new-settings.js:256
+#: js/dist/new-settings.js:295
 msgid "No ads!"
 msgstr "Keine Werbung!"
 
-#: admin/class-premium-upsell-admin-block.php:55 js/dist/new-settings.js:256
+#: admin/class-premium-upsell-admin-block.php:55 js/dist/new-settings.js:295
 msgid "No more dead links"
 msgstr "Keine toten Links mehr"
 
-#: admin/class-premium-upsell-admin-block.php:55 js/dist/new-settings.js:256
+#: admin/class-premium-upsell-admin-block.php:55 js/dist/new-settings.js:295
 msgid "Easy redirect manager"
 msgstr "Einfacher Redirect Manager"
 
-#: admin/class-premium-upsell-admin-block.php:54 js/dist/new-settings.js:256
+#: admin/class-premium-upsell-admin-block.php:54 js/dist/new-settings.js:295
 msgid "Increase your SEO reach"
 msgstr "Vergrößere deine SEO-Reichweite"
 
-#: admin/class-premium-upsell-admin-block.php:57 js/dist/new-settings.js:256
+#: admin/class-premium-upsell-admin-block.php:57 js/dist/new-settings.js:295
 msgid "Social media preview"
 msgstr "Social-Media-Vorschau"
 
@@ -2809,7 +2827,7 @@ msgid "Save"
 msgstr "Speichern"
 
 #. translators: 1: Author name; 2: Site name.
-#: inc/options/class-wpseo-option-titles.php:247
+#: inc/options/class-wpseo-option-titles.php:255
 msgid "%1$s, Author at %2$s"
 msgstr "%1$s, Autor bei %2$s"
 
@@ -2865,7 +2883,7 @@ msgid "The %1$s admin bar menu contains useful links to third-party tools for an
 msgstr "Die %1$s Adminleiste enthält nützliche Links zu Tools von Drittanbietern zur Seitenanalyse und ermöglicht das leichte Erkennen von neuen Benachrichtigungen."
 
 #: admin/views/class-yoast-feature-toggles.php:147 js/dist/new-settings.js:22
-#: js/dist/new-settings.js:238 js/dist/new-settings.js:239
+#: js/dist/new-settings.js:277 js/dist/new-settings.js:278
 msgid "Admin bar menu"
 msgstr "Adminbar-Menü"
 
@@ -2902,55 +2920,55 @@ msgstr "Nein"
 msgid "Yes"
 msgstr "Ja"
 
-#: inc/options/class-wpseo-option-titles.php:970
+#: inc/options/class-wpseo-option-titles.php:984
 msgid "Bullet"
 msgstr "Kugel"
 
-#: inc/options/class-wpseo-option-titles.php:974
+#: inc/options/class-wpseo-option-titles.php:988
 msgid "Asterisk"
 msgstr "Sternchen"
 
-#: inc/options/class-wpseo-option-titles.php:990
+#: inc/options/class-wpseo-option-titles.php:1004
 msgid "Left angle quotation mark"
 msgstr "Kleiner-gleich-Zeichen"
 
-#: inc/options/class-wpseo-option-titles.php:994
+#: inc/options/class-wpseo-option-titles.php:1008
 msgid "Right angle quotation mark"
 msgstr "Größer-gleich-Zeichen"
 
-#: inc/options/class-wpseo-option-titles.php:998
+#: inc/options/class-wpseo-option-titles.php:1012
 msgid "Less than sign"
 msgstr "Kleiner-als-Zeichen"
 
-#: inc/options/class-wpseo-option-titles.php:1002
+#: inc/options/class-wpseo-option-titles.php:1016
 msgid "Greater than sign"
 msgstr "Größer-als-Zeichen"
 
-#: inc/options/class-wpseo-option-titles.php:986
+#: inc/options/class-wpseo-option-titles.php:1000
 msgid "Small tilde"
 msgstr "kleine Tilde"
 
-#: inc/options/class-wpseo-option-titles.php:982
+#: inc/options/class-wpseo-option-titles.php:996
 msgid "Vertical bar"
 msgstr "vertikaler Balken"
 
-#: inc/options/class-wpseo-option-titles.php:978
+#: inc/options/class-wpseo-option-titles.php:992
 msgid "Low asterisk"
 msgstr "unterer Stern"
 
-#: inc/options/class-wpseo-option-titles.php:966
+#: inc/options/class-wpseo-option-titles.php:980
 msgid "Middle dot"
 msgstr "mittlerer Punkt"
 
-#: inc/options/class-wpseo-option-titles.php:958
+#: inc/options/class-wpseo-option-titles.php:972
 msgid "Em dash"
 msgstr "Em Gedankenstrich"
 
-#: inc/options/class-wpseo-option-titles.php:950
+#: inc/options/class-wpseo-option-titles.php:964
 msgid "Dash"
 msgstr "Gedankenstrich"
 
-#: inc/options/class-wpseo-option-titles.php:954
+#: inc/options/class-wpseo-option-titles.php:968
 msgid "En dash"
 msgstr "Gedankenstrich"
 
@@ -3037,7 +3055,7 @@ msgstr "Lesbarkeit"
 
 #: admin/views/class-yoast-feature-toggles.php:83
 #: js/dist/externals-components.js:92 js/dist/new-settings.js:22
-#: js/dist/new-settings.js:238
+#: js/dist/new-settings.js:277
 msgid "Readability analysis"
 msgstr "Lesbarkeits-Analyse"
 
@@ -3220,19 +3238,19 @@ msgstr "Yoast SEO"
 msgid "This must be an existing blog. Blog %s does not exist or has been marked as deleted."
 msgstr "Dies muss eine bestehende Website sein. Website %s existiert nicht oder wurde als gelöscht markiert."
 
-#: inc/options/class-wpseo-option-titles.php:256
+#: inc/options/class-wpseo-option-titles.php:264
 msgid "Home"
 msgstr "Startseite"
 
-#: inc/options/class-wpseo-option-titles.php:254
+#: inc/options/class-wpseo-option-titles.php:262
 msgid "Error 404: Page not found"
 msgstr "Fehler 404: Seite wurde nicht gefunden"
 
-#: inc/options/class-wpseo-option-titles.php:255
+#: inc/options/class-wpseo-option-titles.php:263
 msgid "Archives for"
 msgstr "Archive für"
 
-#: inc/options/class-wpseo-option-titles.php:257
+#: inc/options/class-wpseo-option-titles.php:265
 msgid "You searched for"
 msgstr "Du suchtest nach"
 
@@ -3267,12 +3285,12 @@ msgid "Summary with large image"
 msgstr "Zusammenfassung mit großem Bild"
 
 #. translators: %s expands to the search phrase.
-#: inc/options/class-wpseo-option-titles.php:249
+#: inc/options/class-wpseo-option-titles.php:257
 msgid "You searched for %s"
 msgstr "Du hast nach %s gesucht"
 
 #. translators: %s expands to the name of a post type (plural).
-#: inc/class-upgrade.php:1375 inc/options/class-wpseo-option-titles.php:284
+#: inc/class-upgrade.php:1375 inc/options/class-wpseo-option-titles.php:292
 msgid "%s Archive"
 msgstr "%s Archiv"
 
@@ -3314,7 +3332,7 @@ msgid "The Standard PHP Library (SPL) extension seem to be unavailable. Please a
 msgstr "Die Standard PHP Library (SPL) Erweiterung scheint nicht verfügbar zu sein. Bitte frage Deinen Web-Hoster, dass er sie aktiviert."
 
 #. translators: 1: link to post; 2: link to blog.
-#: inc/options/class-wpseo-option-titles.php:252
+#: inc/options/class-wpseo-option-titles.php:260
 msgid "The post %1$s appeared first on %2$s."
 msgstr "Der Beitrag %1$s erschien zuerst auf %2$s."
 
@@ -3336,12 +3354,12 @@ msgid "The %1$s plugin installation is incomplete. Please refer to %2$sinstallat
 msgstr "Die Installation des %1$s-Plugins ist unvollständig. Bitte schau in den %2$sInstallationsanweisungen%3$s nach."
 
 #. translators: %s expands to a post type.
-#: inc/options/class-wpseo-option-titles.php:519
+#: inc/options/class-wpseo-option-titles.php:527
 msgid "Please select a valid taxonomy for post type \"%s\""
 msgstr "Bitte wähle eine gültige Taxonomie für Beitragstyp „%s“"
 
 #. translators: %s expands to a taxonomy slug.
-#: inc/options/class-wpseo-option-titles.php:557
+#: inc/options/class-wpseo-option-titles.php:565
 msgid "Please select a valid post type for taxonomy \"%s\""
 msgstr "Bitte wähle einen gültigen Beitragstyp für Taxonomie „%s“"
 
@@ -3400,7 +3418,7 @@ msgstr "Ersetzt mit dem Titel der übergeordneten Seite der aktuellen Seite"
 msgid "Replaced with the slug which caused the 404"
 msgstr "Ersetzt durch die Titelform, welche den 404 Fehler auslöste."
 
-#: inc/options/class-wpseo-option-titles.php:250
+#: inc/options/class-wpseo-option-titles.php:258
 msgid "Page not found"
 msgstr "Seite wurde nicht gefunden."
 
@@ -3481,7 +3499,7 @@ msgstr "Wird ersetzt durch den Titel des Beitrags bzw. der Seite"
 
 #. translators: %s expands to the variable used for term title.
 #: admin/formatter/class-term-metabox-formatter.php:162
-#: inc/class-upgrade.php:1378 inc/options/class-wpseo-option-titles.php:320
+#: inc/class-upgrade.php:1378 inc/options/class-wpseo-option-titles.php:328
 msgid "%s Archives"
 msgstr "%s Archive"
 
@@ -3689,7 +3707,7 @@ msgid "Site Admins (default)"
 msgstr "Seiten-Admins (Standard)"
 
 #: src/integrations/admin/first-time-configuration-integration.php:516
-#: js/dist/new-settings.js:242
+#: js/dist/new-settings.js:281
 msgid "Person"
 msgstr "Person"
 
@@ -3877,7 +3895,7 @@ msgstr "Die URL, auf die diese Seite weitergeleitet werden soll."
 
 #: admin/menu/class-admin-menu.php:89
 #: admin/menu/class-network-admin-menu.php:56 admin/pages/network.php:18
-#: js/dist/new-settings.js:254
+#: js/dist/new-settings.js:293
 msgid "General"
 msgstr "Allgemein"
 
@@ -3938,7 +3956,7 @@ msgid "Meta description"
 msgstr "Meta-Beschreibung"
 
 #: admin/class-yoast-network-admin.php:43 src/config/schema-types.php:163
-#: js/dist/new-settings.js:258
+#: src/integrations/settings-integration.php:546 js/dist/new-settings.js:297
 msgid "None"
 msgstr "Keine"
 
@@ -3979,13 +3997,13 @@ msgid "SEO Title"
 msgstr "SEO-Titel"
 
 #: admin/class-admin.php:226 admin/views/redirects.php:42
-#: src/integrations/settings-integration.php:291
+#: src/integrations/settings-integration.php:312
 #: src/presenters/meta-description-presenter.php:37
 #: js/dist/structured-data-blocks.js:9
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: admin/menu/class-admin-menu.php:95 js/dist/new-settings.js:238
+#: admin/menu/class-admin-menu.php:95 js/dist/new-settings.js:277
 msgid "Tools"
 msgstr "Werkzeuge"
 
@@ -4080,7 +4098,7 @@ msgid "The canonical URL that this page should point to. Leave empty to default 
 msgstr "Die Canonical-URL auf die diese Seite zeigen soll. Ist das Feld leer, wird der Permalink übernommen. %1$sCross Domain canonical%2$s wird ebenfalls unterstützt."
 
 #: admin/views/class-yoast-feature-toggles.php:136 js/dist/new-settings.js:22
-#: js/dist/new-settings.js:239 js/dist/new-settings.js:240
+#: js/dist/new-settings.js:278 js/dist/new-settings.js:279
 msgid "XML sitemaps"
 msgstr "XML-Sitemaps"
 
