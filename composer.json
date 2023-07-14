@@ -61,8 +61,8 @@
     "wpackagist-plugin/shariff": "4.6.9",
     "wpackagist-plugin/ootb-openstreetmap": "2.4.0",
     "wpackagist-plugin/user-switching": "1.7.0",
-    "wpackagist-plugin/wordpress-seo": "20.10",
-    "wpackagist-plugin/wordfence": "7.10.0",
+    "wpackagist-plugin/wordpress-seo": "20.11",
+    "wpackagist-plugin/wordfence": "7.10.1",
     "wpackagist-theme/twentytwentythree": "1.1"
   },
   "require-dev": {
