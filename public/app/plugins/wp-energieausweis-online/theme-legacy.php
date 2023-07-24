@@ -350,7 +350,7 @@ function enon_show_gdpr_field($data)
   $privacy_onclick = sprintf($onclick, get_the_title($privacy_page));
 
   if( Detector::is_reseller_iframe()) {
-    $text = sprintf(__('Wir nutzen für die Erstellung der Energieausweise einen externen Dienstleister. Dabei setzen wir zum Zwecke der Zuordnung zu unserer Seite Cookies. Ich habe die <a href="%1$s" %2$s>Datenschutzerklärung</a> gelesen und akzeptiere sie.', 'wpenon'), $privacy_url, $privacy_onclick);
+    $text = sprintf(__('Ich habe die <a href="%1$s" %2$s>Datenschutzerklärung</a> gelesen und akzeptiere sie. Zudem akzeptiere ich die zum Zwecke der Zuordnung genutzten Cookies, welche wir für die Erstellung des Energieausweises bei unserem externen Dienstleister benötigen.', 'wpenon'), $privacy_url, $privacy_onclick);
   } else {
     $text = sprintf(__('Ich habe die <a href="%1$s" %2$s>Datenschutzerklärung</a> gelesen und akzeptiere sie.', 'wpenon'), $privacy_url, $privacy_onclick);
   }
