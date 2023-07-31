@@ -129,6 +129,28 @@ class Reseller_Data {
 	}
 
 	/**
+	 * Get admin url.
+	 * 
+	 * @since 1.0.0
+	 * 
+	 * @return string $admin_url Admin url.
+	 */
+	public function get_admin_url() {
+		return get_edit_post_link( $this->post_id );
+	}
+
+	/**
+	 * Get admin link.
+	 * 
+	 * @since 1.0.0
+	 * 
+	 * @return string $admin_link Admin link.
+	 */
+	public function get_admin_link() {
+		return '<a href="' . $this->get_admin_url() . '">' . $this->general->get_company_name() . '</a>';
+	}
+
+	/**
 	 * Get iframe url.
 	 *
 	 * @since 1.0.0
