@@ -7,6 +7,8 @@
 
 namespace WPENON\View;
 
+use Enon_Reseller\Models\Reseller_Data;
+
 class AdminBase extends TemplateBase
 {
     public function addMetaBoxes($energieausweis)
@@ -120,17 +122,25 @@ class AdminBase extends TemplateBase
                 echo '<a href="'.$link.'">'.$email.'</a>';
                 break;
             case 'reseller':
-                $reseller_id = get_post_meta($energieausweis->ID, 'wpenon_reseller', true);
+                $reseller_id = get_post_meta($energieausweis->ID, 'reseller_id', true);
+                
 
                 if( empty( $reseller_id ) ) {
                     echo '-';
                     break;
                 }
 
-                $reseller_post = get_post($reseller_id);
-                $reseller_name = $reseller_post->post_title;
-                $reseller_link = get_edit_post_link($reseller_id);
-                echo '<a href="'.$reseller_link.'">'.$reseller_name.'</a>';
+                $reseller_data = new Reseller_Data($reseller_id);
+                echo $reseller_data->get_admin_link();
+
+                $affiliate_id = $reseller_data->general->get_affiliate_id();
+                if( empty( $affiliate_id ) ) {
+                    echo '<br>Kein Affiliate zugeordnet';
+                    break;
+                }
+
+                $affiliate_link = get_admin_url() . 'admin.php?page=affiliate-wp-referrals&affiliate_id=' . $affiliate_id;
+                echo '<br><small>(<a href="' . $affiliate_link . '">Vermittlungen</a>)</small>';
                 break;
             case 'wpenon_type':
             case 'wpenon_standard':
