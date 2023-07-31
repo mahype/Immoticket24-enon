@@ -84,6 +84,7 @@ class AdminBase extends TemplateBase
             'wpenon_standard' => __('Standard', 'wpenon'),
             'wpenon_owner' => __('Eigentümer', 'wpenon'),
             'price' => __('Price', 'easy-digital-downloads'),
+            'reseller' => __('Reseller', 'wpenon' ),
             'ausstellungsdatum' => __('Ausstellungsdatum', 'wpenon'),
             'registriernummer' => __('Registriernummer', 'wpenon'),
             'date' => __('Date', 'easy-digital-downloads'),
@@ -117,6 +118,19 @@ class AdminBase extends TemplateBase
                     ), admin_url('edit.php'));
                 }
                 echo '<a href="'.$link.'">'.$email.'</a>';
+                break;
+            case 'reseller':
+                $reseller_id = get_post_meta($energieausweis->ID, 'wpenon_reseller', true);
+
+                if( empty( $reseller_id ) ) {
+                    echo '-';
+                    break;
+                }
+
+                $reseller_post = get_post($reseller_id);
+                $reseller_name = $reseller_post->post_title;
+                $reseller_link = get_edit_post_link($reseller_id);
+                echo '<a href="'.$reseller_link.'">'.$reseller_name.'</a>';
                 break;
             case 'wpenon_type':
             case 'wpenon_standard':
