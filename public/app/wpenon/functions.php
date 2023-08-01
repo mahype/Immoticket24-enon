@@ -1178,10 +1178,13 @@ function wpenon_immoticket24_get_klimafaktoren_zeitraeume202301() {
 	$zeitraeume = array();
 
 	$reference = wpenon_get_reference_date( 'timestamp' );
+	$reference_date = date( 'Y-m-d', $reference );
 
 	$_daten = \WPENON\Util\DB::getTableColumns( \WPENON\Util\Format::prefix( 'klimafaktoren202301' ) );
 
-	$_daten = array_slice( $_daten, 7, count( $_daten ) - 31 );
+	$start = count( $_daten ) - 40;
+
+	$_daten = array_slice( $_daten, $start, 16 ); // - 32 month + 1 for table header
 
 	$daten = array();
 	foreach ( $_daten as $_datum ) {
@@ -1193,7 +1196,9 @@ function wpenon_immoticket24_get_klimafaktoren_zeitraeume202301() {
 	$year = $month = '';
 
 	foreach ( $daten as $datum ) {
-		if ( wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 2, true, 'timestamp' ) > $reference ) {
+		$period_end_date = wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 2, true, 'timestamp' );
+		$ped = date( 'Y-m-d', $period_end_date );
+		if ( $period_end_date > $reference ) {
 			break;
 		}
 		$zeitraeume[ $datum ] = wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 0, false, 'data' ) . ' - ' . wpenon_immoticket24_get_klimafaktoren_zeitraum_date( $datum, 2, true, 'data' );
