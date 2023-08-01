@@ -378,6 +378,7 @@ return array(
     'WP_Rocket\\Engine\\Optimization\\ServiceProvider' => $baseDir . '/inc/Engine/Optimization/ServiceProvider.php',
     'WP_Rocket\\Engine\\Optimization\\UrlTrait' => $baseDir . '/inc/Engine/Optimization/UrlTrait.php',
     'WP_Rocket\\Engine\\Plugin\\InformationSubscriber' => $baseDir . '/inc/Engine/Plugin/InformationSubscriber.php',
+    'WP_Rocket\\Engine\\Plugin\\RenewalNotice' => $baseDir . '/inc/Engine/Plugin/RenewalNotice.php',
     'WP_Rocket\\Engine\\Plugin\\ServiceProvider' => $baseDir . '/inc/Engine/Plugin/ServiceProvider.php',
     'WP_Rocket\\Engine\\Plugin\\UpdaterApiCommonSubscriber' => $baseDir . '/inc/Engine/Plugin/UpdaterApiCommonSubscriber.php',
     'WP_Rocket\\Engine\\Plugin\\UpdaterApiTools' => $baseDir . '/inc/Engine/Plugin/UpdaterApiTools.php',
