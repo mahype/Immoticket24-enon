@@ -9,229 +9,292 @@
  * @link     https://awesome.ug
  */
 
-namespace Enon\Tasks;
+ namespace Enon\Tasks;
 
-use Awsm\WP_Wrapper\Interfaces\Actions;
-use Awsm\WP_Wrapper\Interfaces\Task;
-use EDD_Payment;
+ use Awsm\WP_Wrapper\Interfaces\Actions;
+ use Awsm\WP_Wrapper\Interfaces\Task;
+ use EDD_Payment;
+use WP_Query;
 
-class Payment_CLI {
-    public function pdf($args, $assoc_args) {
-        $year = $assoc_args['year'];
-        $month = $assoc_args['month'];
+ class Payment_CLI {
+     public function pdf($args, $assoc_args) {
+         $year = $assoc_args['year'];
+         $month = $assoc_args['month'];
+ 
+         if( !isset( $year )) {
+             $year = date("Y", strtotime ( '-1 month' , time() )) ;
+         }
+ 
+         if( !isset( $month )) {
+             $month = date("m", strtotime ( '-1 month' , time() )) ;
+         }
+ 
+         if( strlen($month) === 1) {
+             $month = '0' . $month;
+         }
+ 
+         $this->generate_bills($year, $month);
+     }
+ 
+     public function regenerate() {
+         $bills_list = EDD_Payments_Download::get_bills_list();
+ 
+         foreach($bills_list as $year => $months) {
+             foreach($months as $month => $bill) {
+                 if( empty( $bill ) ) {
+                     $this->generate_bills( $year, $month );
+                 }
+             }
+         }
+     }
+ 
+     private function generate_bills($year, $month) {
+         global $wpdb;
+ 
+         $create_file = dirname( ABSPATH ). '/dl/rechnungen/.creating';
+ 
+         if( file_exists( $create_file )) {
+             \WP_CLI::error( 'Rechnungen werden gerade erstellt. Bitte warten.' );
+         }
+ 
+         $file = fopen( $create_file, 'w' );
+         fclose( $file );
+ 
+         $bills_filename = get_bloginfo('url') . '/dl/rechnungen/' . $year . '-' . $month .'.zip' ;
+ 
+         \WP_CLI::line('Starte PDF-Erstellung für ' . $year . '-' . $month);
+         \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', $bills_filename ) );
+ 
+         $charset = 'UTF-8'; // WPENON_DEFAULT_CHARSET
+ 
+         $sql = $wpdb->prepare("SELECT DISTINCT p.ID FROM {$wpdb->prefix}posts AS p
+             INNER JOIN {$wpdb->prefix}postmeta AS pm ON p.ID = pm.post_id
+             WHERE p.post_type = 'edd_payment'
+             AND p.post_date LIKE %s
+             ORDER BY p.post_date DESC",
+             $year . '-' . $month . '%'
+         );
+ 
+         $ids = $wpdb->get_col($sql);
+ 
+         
+         if( empty( $ids )) {
+             \WP_CLI::error('Keine Zahlungen gefunden');
+         }
+ 
+         $payments = edd_get_payments( [
+             'number' => WP_ENV === 'development' ? 50: -1,
+             'post__in' => $ids,
+         ]);
+ 
+         $this->sequential = edd_get_option('enable_sequential');
+ 
+         $path = dirname( ABSPATH ). '/dl/rechnungen/';
+         if( ! is_dir( $path ) ) {
+             mkdir( $path, 0777, true );
+         }
+ 
+         $path = $path  . $year;
+         if( ! is_dir( $path ) ) {
+             mkdir( $path, 0777, true );
+         }
+ 
+         $path = $path . '/' . $month;
+         if( ! is_dir( $path ) ) {
+             mkdir( $path, 0777, true );
+         }
+ 
+         $csv_filename = $path . '/payments.csv';
+ 
+         $csv_settings = array(
+             'terminated' => ';',
+             'enclosed'   => '"',
+             'escaped'    => '"',
+         );
+     
+         $csv_headings = array(
+             'nummer'   => __( 'Nummer', 'wpenon' ),
+             'name'     => __( 'Name, Vorname', 'wpenon' ),
+             'subtotal' => __( 'Nettobetrag', 'wpenon' ),
+             'tax'      => __( 'MwSt.', 'wpenon' ),
+             'total'    => __( 'Bruttobetrag', 'wpenon' ),
+             'status'   => __( 'Status', 'wpenon' ),
+         );
+ 
+         $output = fopen( $csv_filename, 'w' );
+         fputcsv( $output, \WPENON\Util\Format::csvEncode( $csv_headings, $charset ), $csv_settings['terminated'], $csv_settings['enclosed'] );
+ 
+         $time_start = microtime(true);
+         foreach( $payments as $payment ) {
+             $name = get_the_title($payment->ID);
+             $receipt = new \WPENON\Model\ReceiptPDF($name);
+             $payment_data = $this->get_payment_details($payment->ID);
+             $receipt->create($payment_data);
+             $receipt->finalize('F', $path );
+ 
+             switch( $payment_data->post_status ) {
+                 case 'publish':
+                     $status = 'Bezahlt';
+                     break;
+                 case 'pending':
+                     $status = 'Ausstehend';
+                     break;
+                 case 'refunded':
+                     $status = 'Rückerstattet';
+                     break;
+                 case 'revoked':
+                     $status = 'Storniert';
+                     break;
+                 case 'failed':
+                     $status = 'Fehlgeschlagen';
+                     break;
+                 default:
+                     $status = 'Unbekannt';
+             }
+ 
+             $result = array(
+                 'nummer'   => $name,
+                 'name'     => $payment_data->last_name . ', ' . $payment_data->first_name,
+                 'subtotal' => $payment_data->total - $payment_data->tax,
+                 'tax'      => $payment_data->tax,
+                 'total'    => $payment_data->total,
+                 'status'   => $status,
+             );
+     
+             fputcsv( $output, \WPENON\Util\Format::csvEncode( $result, $charset ), $csv_settings['terminated'], $csv_settings['enclosed'] );
+ 
+             \WP_CLI::line( 'Rechnung ' . $name . ' abgelegt in ' . $path . '/' . $name . '.pdf' );
+         }
+ 
+         \WP_CLI::line( 'CSV Datei erstellt: ' . $csv_filename );
+         fclose( $output );
+ 
+         $time_end = microtime(true);
+         $execution_time = ($time_end - $time_start);
+         \WP_CLI::line( 'Rechnungen wurden erstellt. Benötigte Zeit ' . $execution_time . ' Sekunden' );
+ 
+         $zip = new \ZipArchive();
+         $zip->open( dirname( dirname( $path ) ) . '/'. $year .'-' . $month . '.zip', \ZipArchive::CREATE | \ZipArchive::OVERWRITE );
+         $files = new \RecursiveIteratorIterator(
+             new \RecursiveDirectoryIterator($path),
+             \RecursiveIteratorIterator::LEAVES_ONLY
+         );
+ 
+         foreach ($files as $name => $file)
+         {
+             // Skip directories (they would be added automatically)
+             if (!$file->isDir())
+             {
+                 // Get real and relative path for current file
+                 $filePath = $file->getRealPath();
+                 $relativePath = substr($filePath, strlen($path) + 1);
+ 
+                 // Add current file to archive
+                 $zip->addFile($filePath, $relativePath);
+             }
+         }
+ 
+         // Zip archive will be created only after closing object
+         $zip->close();
+ 
+         EDD_Payments_Download::delTree(dirname($path));
+         \WP_CLI::line( 'Temporärer Pfad ' . dirname($path) . ' gelöscht.' );
+ 
+         EDD_Payments_Download::add_bills_zip( $year, $month, $bills_filename );
+ 
+         \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', $bills_filename ) );
+ 
+         unlink( $create_file );
+     }
+ 
+     private function get_payment_details($payment_id)
+     {
+         $payment = new EDD_Payment( $payment_id );
+ 
+         $details = new \stdClass();
+ 
+         $details->ID = $payment_id;
+         $details->first_name = $payment->first_name;
+         $details->last_name = $payment->last_name;
+         $details->date = $payment->date;
+         $details->post_status = $payment->status;
+         $details->total = floatval( $payment->total );
+         $details->subtotal = $payment->subtotal;
+         $details->tax = $payment->tax;
+         $details->fees = $payment->get_fees('all');
+         $details->key = $payment->key;
+         $details->gateway = $payment->gateway;
+         $details->user_info = $payment->user_info;
+         $details->cart_details = edd_get_payment_meta_cart_details($payment_id, true);
+ 
+ 
+         if ($this->sequential) {
+             $details->payment_number = $payment->number;
+         }
+ 
+         return $details;
+     }
+ }
 
-        if( !isset( $year )) {
-            $year = date("Y", strtotime ( '-1 month' , time() )) ;
-        }
+ /**
+ * Edd payment download.
+ *
+ * @category Class
+ * @package  Enon\Tasks\Filters
+ * @author   Sven Wagener
+ * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://awesome.ug
+ */
 
-        if( !isset( $month )) {
-            $month = date("m", strtotime ( '-1 month' , time() )) ;
-        }
 
-        if( strlen($month) === 1) {
-            $month = '0' . $month;
-        }
+class Purge_CLI {
+    public function all($args, $assoc_args) {
 
-        $this->generate_bills($year, $month);
-    }
+        $clean_post_types = [
+            'download', 
+            'edd_payment', 
+            'edd_discount', 
+            'edd_log',
+            'revision'
+        ];
 
-    public function regenerate() {
-        $bills_list = EDD_Payments_Download::get_bills_list();
+        // WP_Query arguments
+        $args = array(
+            'fields'         => 'ids', // Only get post ID's to improve performance
+            'post_type'      => $clean_post_types, //post type if you are using default than it will be post
+            'posts_per_page' => -1,//fetch all posts,
+            'post_status'    => 'any',
+            'date_query'     => array(
+                'column'  => 'post_date',
+                'before'   => '-1 day'
+            )
+        );       
 
-        foreach($bills_list as $year => $months) {
-            foreach($months as $month => $bill) {
-                if( empty( $bill ) ) {
-                    $this->generate_bills( $year, $month );
-                }
+        // The Query
+        $query = new WP_Query( $args );
+
+        echo 'Found entries: ' . $query->found_posts . "\n";      
+
+        if ( $query->have_posts() ) {
+            $progress = \WP_CLI\Utils\make_progress_bar( 'Cleaning up DB: ', $query->found_posts );
+
+            while ( $query->have_posts() ) {
+                $query->the_post();
+                
+                // wp_trash_post( get_the_ID() );  use this function if you have custom post type
+                wp_delete_post(get_the_ID(),true); //use this function if you are working with default posts
+
+                $progress->tick();
             }
+            $progress->finish();
+        } else {
+            // no posts found
+            return false;
+
         }
-    }
-
-    private function generate_bills($year, $month) {
-        global $wpdb;
-
-        $create_file = dirname( ABSPATH ). '/dl/rechnungen/.creating';
-
-        if( file_exists( $create_file )) {
-            \WP_CLI::error( 'Rechnungen werden gerade erstellt. Bitte warten.' );
-        }
-
-        $file = fopen( $create_file, 'w' );
-        fclose( $file );
-
-        $bills_filename = get_bloginfo('url') . '/dl/rechnungen/' . $year . '-' . $month .'.zip' ;
-
-        \WP_CLI::line('Starte PDF-Erstellung für ' . $year . '-' . $month);
-        \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', $bills_filename ) );
-
-        $charset = 'UTF-8'; // WPENON_DEFAULT_CHARSET
-
-        $sql = $wpdb->prepare("SELECT DISTINCT p.ID FROM {$wpdb->prefix}posts AS p
-            INNER JOIN {$wpdb->prefix}postmeta AS pm ON p.ID = pm.post_id
-            WHERE p.post_type = 'edd_payment'
-            AND p.post_date LIKE %s
-            ORDER BY p.post_date DESC",
-            $year . '-' . $month . '%'
-        );
-
-        $ids = $wpdb->get_col($sql);
-
-        
-        if( empty( $ids )) {
-            \WP_CLI::error('Keine Zahlungen gefunden');
-        }
-
-        $payments = edd_get_payments( [
-            'number' => WP_ENV === 'development' ? 50: -1,
-            'post__in' => $ids,
-        ]);
-
-        $this->sequential = edd_get_option('enable_sequential');
-
-        $path = dirname( ABSPATH ). '/dl/rechnungen/';
-        if( ! is_dir( $path ) ) {
-            mkdir( $path, 0777, true );
-        }
-
-        $path = $path  . $year;
-        if( ! is_dir( $path ) ) {
-            mkdir( $path, 0777, true );
-        }
-
-        $path = $path . '/' . $month;
-        if( ! is_dir( $path ) ) {
-            mkdir( $path, 0777, true );
-        }
-
-        $csv_filename = $path . '/payments.csv';
-
-        $csv_settings = array(
-            'terminated' => ';',
-            'enclosed'   => '"',
-            'escaped'    => '"',
-        );
-    
-        $csv_headings = array(
-            'nummer'   => __( 'Nummer', 'wpenon' ),
-            'name'     => __( 'Name, Vorname', 'wpenon' ),
-            'subtotal' => __( 'Nettobetrag', 'wpenon' ),
-            'tax'      => __( 'MwSt.', 'wpenon' ),
-            'total'    => __( 'Bruttobetrag', 'wpenon' ),
-            'status'   => __( 'Status', 'wpenon' ),
-        );
-
-        $output = fopen( $csv_filename, 'w' );
-	    fputcsv( $output, \WPENON\Util\Format::csvEncode( $csv_headings, $charset ), $csv_settings['terminated'], $csv_settings['enclosed'] );
-
-        $time_start = microtime(true);
-        foreach( $payments as $payment ) {
-            $name = get_the_title($payment->ID);
-            $receipt = new \WPENON\Model\ReceiptPDF($name);
-            $payment_data = $this->get_payment_details($payment->ID);
-            $receipt->create($payment_data);
-            $receipt->finalize('F', $path );
-
-            switch( $payment_data->post_status ) {
-                case 'publish':
-                    $status = 'Bezahlt';
-                    break;
-                case 'pending':
-                    $status = 'Ausstehend';
-                    break;
-                case 'refunded':
-                    $status = 'Rückerstattet';
-                    break;
-                case 'revoked':
-                    $status = 'Storniert';
-                    break;
-                case 'failed':
-                    $status = 'Fehlgeschlagen';
-                    break;
-                default:
-                    $status = 'Unbekannt';
-            }
-
-            $result = array(
-                'nummer'   => $name,
-                'name'     => $payment_data->last_name . ', ' . $payment_data->first_name,
-                'subtotal' => $payment_data->total - $payment_data->tax,
-                'tax'      => $payment_data->tax,
-                'total'    => $payment_data->total,
-                'status'   => $status,
-            );
-    
-            fputcsv( $output, \WPENON\Util\Format::csvEncode( $result, $charset ), $csv_settings['terminated'], $csv_settings['enclosed'] );
-
-            \WP_CLI::line( 'Rechnung ' . $name . ' abgelegt in ' . $path . '/' . $name . '.pdf' );
-        }
-
-        \WP_CLI::line( 'CSV Datei erstellt: ' . $csv_filename );
-        fclose( $output );
-
-        $time_end = microtime(true);
-        $execution_time = ($time_end - $time_start);
-        \WP_CLI::line( 'Rechnungen wurden erstellt. Benötigte Zeit ' . $execution_time . ' Sekunden' );
-
-        $zip = new \ZipArchive();
-        $zip->open( dirname( dirname( $path ) ) . '/'. $year .'-' . $month . '.zip', \ZipArchive::CREATE | \ZipArchive::OVERWRITE );
-        $files = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($path),
-            \RecursiveIteratorIterator::LEAVES_ONLY
-        );
-
-        foreach ($files as $name => $file)
-        {
-            // Skip directories (they would be added automatically)
-            if (!$file->isDir())
-            {
-                // Get real and relative path for current file
-                $filePath = $file->getRealPath();
-                $relativePath = substr($filePath, strlen($path) + 1);
-
-                // Add current file to archive
-                $zip->addFile($filePath, $relativePath);
-            }
-        }
-
-        // Zip archive will be created only after closing object
-        $zip->close();
-
-        EDD_Payments_Download::delTree(dirname($path));
-        \WP_CLI::line( 'Temporärer Pfad ' . dirname($path) . ' gelöscht.' );
-
-        EDD_Payments_Download::add_bills_zip( $year, $month, $bills_filename );
-
-        \WP_CLI::line( sprintf( 'Rechnungen in PDF Form und CSV-Auflistung kann unter %s heruntergeladen werden.', $bills_filename ) );
-
-        unlink( $create_file );
-    }
-
-    private function get_payment_details($payment_id)
-    {
-        $payment = new EDD_Payment( $payment_id );
-
-        $details = new \stdClass();
-
-        $details->ID = $payment_id;
-        $details->first_name = $payment->first_name;
-        $details->last_name = $payment->last_name;
-        $details->date = $payment->date;
-        $details->post_status = $payment->status;
-        $details->total = floatval( $payment->total );
-        $details->subtotal = $payment->subtotal;
-        $details->tax = $payment->tax;
-        $details->fees = $payment->get_fees('all');
-        $details->key = $payment->key;
-        $details->gateway = $payment->gateway;
-        $details->user_info = $payment->user_info;
-        $details->cart_details = edd_get_payment_meta_cart_details($payment_id, true);
-
-
-        if ($this->sequential) {
-            $details->payment_number = $payment->number;
-        }
-
-        return $details;
+        die();
+        // Restore original Post Data
+        wp_reset_postdata();
     }
 }
 
@@ -265,6 +328,7 @@ class EDD_Payments_Download implements Task, Actions {
 
     public function add_cli_command() {
         \WP_CLI::add_command( 'payments', Payment_CLI::class);
+        \WP_CLI::add_command( 'enon-purge', Purge_CLI::class);
     }
 
     public function receive_params() {
