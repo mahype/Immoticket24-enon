@@ -89,7 +89,7 @@ const sendUpload = (data, field) => {
         }
         setTimeout(function () {
             sendDocumentHeight();
-        }, 500);
+        }, 1500);
     }).catch(function (error) {
         console.log(error);
     });
@@ -107,6 +107,6 @@ const sendDelete = (data, field) => {
         document.getElementById(field + "_image").innerHTML = '';
         setTimeout(function () {
             sendDocumentHeight();
-        }, 500);
+        }, 1500 );
     });
 }
