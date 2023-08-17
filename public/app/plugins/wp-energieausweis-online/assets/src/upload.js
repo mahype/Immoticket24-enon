@@ -60,7 +60,7 @@ const getWrapperHeight = function() {
  }
 
 const sendDocumentHeight = function () {
-    var height = getWrapperHeight();
+    var height = getWrapperHeight() + 100;
     console.log( 'X New document height: ' + height );
     parent.postMessage( JSON.stringify( {'frame_height': height } ), '*' );
 }
