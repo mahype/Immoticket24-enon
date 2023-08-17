@@ -84,9 +84,15 @@ const sendUpload = (data, field) => {
             document.getElementById(field + "_notice").style.display = 'block';
         } else {
             document.getElementById(field + "_field").value = response.data.url;
-            document.getElementById(field + "_image").innerHTML = `<img src="${response.data.url}" />`;
+            document.getElementById(field + "_image").innerHTML = `<img id="` + field + `_image_tag" src="${response.data.url}" />`;
             document.getElementById("file-delete-" + field).classList.remove('hidden');
+
+            document.getElementById(field + "_image_tag").addEventListener('load', function(event) {
+                sendDocumentHeight();
+            });
         }
+        
+        
     }).catch(function (error) {
         console.log(error);
     });
@@ -103,14 +109,8 @@ const sendDelete = (data, field) => {
         document.getElementById(field + "_field").value = '';
         document.getElementById(field + "_image").innerHTML = '';
 
-        
+        document.getElementById(field + "_image").addEventListener('DOMNodeRemoved', function(event) {
+            sendDocumentHeight();
+        });
     });
 }
-
-document.getElementById(field + "_image").addEventListener('DOMNodeInserted', function(event) {
-    sendDocumentHeight();
-});
-
-document.getElementById(field + "_image").addEventListener('DOMNodeRemoved', function(event) {
-    sendDocumentHeight();
-});
