@@ -54,13 +54,14 @@ const setPercentage = ( field, percent ) => {
     percentageBar.style.width = percent + '%';
 }
 
-let getWrapperHeight = function() {
+const getWrapperHeight = function() {
     // Get first element of class .wrapper and return its height + 100
     return document.getElementsByClassName('wrapper')[0].clientHeight + 100;
  }
 
-let sendDocumentHeight = function () {
+const sendDocumentHeight = function () {
     var height = getWrapperHeight();
+    console.log( 'X New document height: ' + height );
     parent.postMessage( JSON.stringify( {'frame_height': height } ), '*' );
 }
 
