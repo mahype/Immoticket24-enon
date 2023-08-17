@@ -101,6 +101,7 @@ const sendDelete = ( data, field ) => {
             headers: {'X-WP-Nonce': _wpenon_data.upload_nonce},
         }
     ).then( ( response ) => {
+        sendDocumentHeight();
        document.getElementById( field + "_field" ).value = '';
        document.getElementById( field + "_image" ).innerHTML = '';
     });
