@@ -54,7 +54,17 @@ const setPercentage = ( field, percent ) => {
     percentageBar.style.width = percent + '%';
 }
 
-const sendUpload = ( data, field ) => {
+let getWrapperHeight = function() {
+    // Get first element of class .wrapper and return its height + 100
+    return document.getElementsByClassName('wrapper')[0].clientHeight + 100;
+ }
+
+let sendDocumentHeight = function () {
+    var height = getWrapperHeight();
+    parent.postMessage( JSON.stringify( {'frame_height': height } ), '*' );
+}
+
+const sendUpload = ( data, field ) => {    
     document.getElementById( field + "_notice" ).style.display = 'none';
     return axios.post(
         _wpenon_data.rest_url + 'ec/image_upload', 
@@ -67,7 +77,7 @@ const sendUpload = ( data, field ) => {
             }
         }
     ).then( ( response ) => {
-        console.log( response );
+        sendDocumentHeight();
         setPercentage( field, 0 );
         if( response.data.error !== undefined ) {
             document.getElementById( field + "_notice" ).innerHTML = response.data.error;

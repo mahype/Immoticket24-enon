@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 window.addEventListener("message", function(event) {
-    if ( event.origin != "https://www.energieausweis-online-erstellen.de" && event.origin !== 'https://www.energieausweis-online-erstellen.de'  ) return;
+    if ( event.origin !== "https://www.energieausweis-online-erstellen.de" && event.origin !== 'https://www.energieausweis-online-erstellen.de'  ) return;
     if ( typeof event.data  === 'object' ) return;
     
     var data = JSON.parse(event.data);
