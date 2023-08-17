@@ -56,7 +56,7 @@ const setPercentage = ( field, percent ) => {
 
 const getWrapperHeight = function() {
     // Get first element of class .wrapper and return its height + 100
-    return document.getElementsByClassName('wrapper')[0].clientHeight + 100;
+    return document.getElementsByClassName('wrapper')[0].offsetHeight + 100;
  }
 
 const sendDocumentHeight = function () {
