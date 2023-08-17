@@ -109,8 +109,8 @@ const sendDelete = (data, field) => {
         document.getElementById(field + "_field").value = '';
         document.getElementById(field + "_image").innerHTML = '';
 
-        document.getElementById(field + "_image").addEventListener('DOMNodeRemoved', function(event) {
+        setTimeout(function () {
             sendDocumentHeight();
-        });
+        }, 500);
     });
 }
