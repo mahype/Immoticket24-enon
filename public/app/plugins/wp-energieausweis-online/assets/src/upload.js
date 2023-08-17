@@ -78,7 +78,6 @@ const sendUpload = ( data, field ) => {
             }
         }
     ).then( ( response ) => {
-        sendDocumentHeight();
         setPercentage( field, 0 );
         if( response.data.error !== undefined ) {
             document.getElementById( field + "_notice" ).innerHTML = response.data.error;
@@ -88,6 +87,7 @@ const sendUpload = ( data, field ) => {
             document.getElementById( field + "_image" ).innerHTML = `<img src="${response.data.url}" />`;
             document.getElementById( "file-delete-" + field ).classList.remove('hidden');
         }
+        sendDocumentHeight();
     }).catch( function ( error ) { 
         console.log( error );
     });
@@ -100,9 +100,9 @@ const sendDelete = ( data, field ) => {
         {
             headers: {'X-WP-Nonce': _wpenon_data.upload_nonce},
         }
-    ).then( ( response ) => {
-        sendDocumentHeight();
+    ).then( ( response ) => {        
        document.getElementById( field + "_field" ).value = '';
        document.getElementById( field + "_image" ).innerHTML = '';
+       sendDocumentHeight();
     });
 }
