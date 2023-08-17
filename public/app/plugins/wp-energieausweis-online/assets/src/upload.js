@@ -87,7 +87,9 @@ const sendUpload = ( data, field ) => {
             document.getElementById( field + "_image" ).innerHTML = `<img src="${response.data.url}" />`;
             document.getElementById( "file-delete-" + field ).classList.remove('hidden');
         }
-        sendDocumentHeight();
+        setTimeout(function() {
+            sendDocumentHeight();
+        });       
     }).catch( function ( error ) { 
         console.log( error );
     });
@@ -103,6 +105,8 @@ const sendDelete = ( data, field ) => {
     ).then( ( response ) => {        
        document.getElementById( field + "_field" ).value = '';
        document.getElementById( field + "_image" ).innerHTML = '';
-       sendDocumentHeight();
+       setTimeout(function() {
+        sendDocumentHeight();
+    });
     });
 }
