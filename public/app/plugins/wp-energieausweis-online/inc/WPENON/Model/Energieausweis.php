@@ -9,6 +9,7 @@ namespace WPENON\Model;
 
 use CalculationsCC;
 use DateTime;
+use EDD_Payment;
 use Enon\Enon\Standards_Config;
 
 class Energieausweis {
@@ -430,6 +431,36 @@ class Energieausweis {
 		}		
 	}
 
+	public function getXMLPersonalisiert( $mode, $output_mode = 'I', $raw = false ) {
+		$standardsConfig = new Standards_Config();
+
+		/** 
+		 * XML output with GEG 2020 
+		 */
+		$energieausweis = $this; // Data needed for Template
+		$xmlFile        = $standardsConfig->getEnevXMLTemplatefile( $this->mode, $mode . 'Personalisiert' );
+
+		ob_start();		
+		require $xmlFile;
+		$xml = ob_get_clean();
+
+		switch ( $output_mode ) {
+			case 'S':
+				return $xml;
+			case 'D':
+			case 'I':
+			default:
+				$disposition = 'inline';
+				if ( $output_mode == 'D' ) {
+					$disposition = 'attachment';
+				}
+				header( 'Content-Type: text/xml; charset=utf-8' );
+				header( 'Content-Disposition: ' . $disposition . '; filename="' . $this->title . '.xml"' );
+				echo $xml;
+				exit;
+		}		
+	}
+
 	public function getFieldOptionLabels( $field_slug ) {
 		$field = $this->schema->getField( $field_slug );
 		if ( isset( $field['options'] ) ) {
@@ -517,7 +548,7 @@ class Energieausweis {
 		return (bool) get_post_meta( $this->id, '_datasent', true );
 	}
 
-	public function getPayment() {
+	public function getPayment(): null|EDD_Payment {
 		$payments = array();
 
 		$active_statuses = apply_filters( 'wpenon_payment_active_statuses', array( 'pending', 'publish' ) );

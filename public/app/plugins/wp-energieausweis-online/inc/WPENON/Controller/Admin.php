@@ -532,6 +532,13 @@ class Admin
                         $message = __('Die Daten für den Ausweis %s konnten nicht an das DIBT gesendet werden.', 'wpenon');
                     }
                     break;
+                case 'xml-zusatzdatenerfassung-expowand-send':
+                    if (is_bool($status) && $status) {
+                        $message = __('Die Daten für den Ausweis %s wurden erfolgreich an Expowand gesendet.', 'wpenon');
+                    } else {
+                        $message = __('Die Daten für den Ausweis %s konnten nicht an Expowand gesendet werden.', 'wpenon');
+                    }
+                    break;
                 default:
             }
 
