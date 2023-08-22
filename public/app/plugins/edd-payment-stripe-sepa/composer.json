@@ -1,0 +1,18 @@
+{
+  "name": "awsmug/edd-payment-stripe-sepa",
+  "type": "wordpress-plugin",
+  "description": "Edd stripe sepa payment.",
+  "version": "1.0.0-beta-1",
+  "license": "GPL-2.0-or-later",
+  "autoload": {
+    "psr-4": {
+      "Awsm\\Edd\\Payment\\Stripe_Sepa\\" : "src/"
+    }
+  },
+  "require": {
+    "awsm/wp-wrapper": "dev-master",
+    "awsm/edd-payment-gateway": "dev-master",
+    "stripe/stripe-php": "^7.45",
+    "globalcitizen/php-iban": "^3.0"
+  }
+}
