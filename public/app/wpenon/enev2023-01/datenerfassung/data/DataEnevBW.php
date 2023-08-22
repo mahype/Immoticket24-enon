@@ -24,7 +24,7 @@ class DataEnevBW extends DataEnev {
      * 
      * @since 1.0.0
      */
-    private $calculations;
+    private $calculations;    
 
     /**
      * Berechnungen Bedarfsausweis
