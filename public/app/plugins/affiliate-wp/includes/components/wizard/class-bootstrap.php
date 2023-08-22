@@ -236,20 +236,12 @@ class Bootstrap {
 	 * AJAX callback to verify if license is valid.
 	 *
 	 * @since 2.9
+	 * @since 2.16.0 Moved check for empty license to allow clearing of license key.
 	 */
 	public function verify_license() {
 		check_ajax_referer( 'affwpwizard-admin-nonce', 'nonce' );
 
 		$license_key = ! empty( $_POST['license'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['license'] ) ) ) : false;
-
-		// Check if user entered a license key.
-		if ( ! $license_key ) {
-			wp_send_json_error(
-				array(
-					'error' => esc_html__( 'Please enter a license key.', 'affiliate-wp' ),
-				)
-			);
-		}
 
 		// Check if user has permissions.
 		if ( ! current_user_can( 'manage_affiliate_options' ) ) {
@@ -290,6 +282,15 @@ class Bootstrap {
 			) ||
 			empty( $license_data->success )
 		) {
+			// Check if user entered a license key.
+			if ( ! $license_key ) {
+				wp_send_json_error(
+					array(
+						'error' => esc_html__( 'Please enter a license key.', 'affiliate-wp' ),
+					)
+				);
+			}
+
 			// If license is expired, show error with a link to downloads page to renew.
 			if ( 'expired' === $license_data->license ) {
 				wp_send_json_error(
@@ -347,6 +348,7 @@ class Bootstrap {
 	 * AJAX callback to get license details.
 	 *
 	 * @since 2.9
+	 * @since 2.16.0 Improved UX by automatically activating a valid license key from the settings.
 	 */
 	public function get_license() {
 		check_ajax_referer( 'affwpwizard-admin-nonce', 'nonce' );
@@ -361,6 +363,11 @@ class Bootstrap {
 		$status = ( is_object( $license_data ) && isset( $license_data->license ) )
 			? $license_data->license
 			: $license->check_status();
+
+		// If no license data but a valid key, activate this previously deactivated license for better UX.
+		if ( empty( $license_data ) && ! empty( $license_key ) && 'valid' === $status ) {
+			$license_data = $license->activation_status( $license_key )['license_data'];
+		}
 
 		if ( is_object( $license_data ) && isset( $license_data->expires ) ) {
 			$expires_on  = $license_data->expires === 'lifetime' ?

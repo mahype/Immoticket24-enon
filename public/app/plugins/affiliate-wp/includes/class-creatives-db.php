@@ -63,7 +63,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			$this->table_name  = $wpdb->prefix . 'affiliate_wp_creatives';
 		}
 		$this->primary_key = 'creative_id';
-		$this->version     = '1.3.0';
+		$this->version     = '1.4.0';
 
 		// REST endpoints.
 		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
@@ -110,6 +110,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			'date_updated'  => '%s',
 			'start_date'    => '%s',
 			'end_date'      => '%s',
+			'notes'         => '%s',
 		);
 	}
 
@@ -143,6 +144,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 	 *     @type string       $status       Creative status. Default empty (all).
 	 *     @type string       $type         Creative type. Default `any`.
 	 *     @type string       $type_compare Creative type compare. Default =. Also accepts !=, <>
+	 *     @type bool         $hide_empty   If true, will do additional checks to hide empty results.
 	 *     @type string       $start_date   Get creatives scheduled to start on or before this date.
 	 *                                      Use '0000-00-00 00:00:00' or 'NULL' for no start date. Use '*' to get all with dates.
 	 *     @type string       $end_date     Get creatives scheduled to end on or before this date.
@@ -169,6 +171,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			'status'       => '',
 			'type'         => 'any',
 			'type_compare' => '',
+			'hide_empty'   => false,
 			'start_date'   => '',
 			'end_date'     => '',
 			'orderby'      => $this->primary_key,
@@ -225,6 +228,12 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 		if ( is_string( $args['type'] ) && 'any' !== $args['type'] ) {
 			$where .= empty( $where ) ? 'WHERE ' : 'AND ';
 			$where .= "`type` {$args['type_compare']} '" . esc_sql( $args['type'] ) . "' ";
+		}
+
+		// Hide empty.
+		if ( $args['hide_empty'] ) {
+			$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+			$where .= "( (`type` = 'text_link' AND `text` != '') OR (`type` = 'image' AND image != '') ) ";
 		}
 
 		// Creatives for a date or date range.
@@ -465,6 +474,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			date_updated  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP(),
 			start_date    datetime     NOT NULL,
 			end_date      datetime     NOT NULL,
+			notes         longtext     NOT NULL,
 			PRIMARY KEY  (creative_id),
 			KEY creative_id (creative_id)
 			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";

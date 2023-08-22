@@ -112,7 +112,7 @@ $dynamic_coupons_enabled = affiliate_wp()->settings->get( 'dynamic_coupons' );
 			<tr class="form-row">
 
 				<th scope="row">
-					<?php _e( 'Referral Rate Type', 'affiliate-wp' ); ?>
+					<label for="rate_type_default"><?php _e( 'Referral Rate Type', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>
@@ -203,12 +203,12 @@ $dynamic_coupons_enabled = affiliate_wp()->settings->get( 'dynamic_coupons' );
 			<tr class="form-row">
 
 				<th scope="row">
-					<label for="notes"><?php _e( 'Affiliate Notes', 'affiliate-wp' ); ?></label>
+					<label for="notes"><?php esc_html_e( 'Notes', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>
 					<textarea name="notes" rows="5" cols="50" id="notes" class="large-text"></textarea>
-					<p class="description"><?php _e( 'Enter any notes for this affiliate. Notes are only visible to the admin.', 'affiliate-wp' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Enter any notes for this affiliate. Notes are only visible to an affiliate manager.', 'affiliate-wp' ); ?></p>
 				</td>
 
 			</tr>

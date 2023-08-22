@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.8.2] - 2023-07-18
+### Changed:
+- Improved notifications formatting and styles.
+- Sendinblue rebranded to Brevo.
+
+### Fixed:
+- Explicitly set "Content-Type" header for the HTML test email.
+
+## [3.8.1] - 2023-06-23
+### Fixed:
+- Print email log headers data security issue.
+
 ## [3.8.0] - 2023-04-25
 ### IMPORTANT
 - Support for PHP 5.6, 7.0, and 7.1 has been discontinued. If you are running one of those versions, you MUST upgrade PHP before installing or upgrading to WP Mail SMTP v3.8. Failure to do that will disable WP Mail SMTP functionality.

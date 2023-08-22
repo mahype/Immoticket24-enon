@@ -73,52 +73,105 @@ final class Scripts {
 	/**
 	 * Register all hooks.
 	 *
+	 * We run at a lower priority than the default, so we make sure we can overwrite styles in old files like form.css
+	 *
 	 * @since 2.15.0
 	 *
 	 * @return void
 	 */
 	private function hooks() : void {
 
-		// It should hook in a priority greater than 10, so our filter affwp_extend_js_vars can run properly.
-		add_action( 'wp_enqueue_scripts', array( $this, 'register_namespace' ), 100 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'register_namespace' ), 100 );
+		// Register namespace.
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_namespace' ), 5 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_namespace' ), 5 );
 
 		// Register and enqueue other scripts, extending our global.
-		add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'load_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ), 5 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ), 5 );
 	}
 
 	/**
-	 * Register and enqueue all necessary styles and scripts.
-	 *
-	 * Scripts registered here will live under our namespace.
+	 * Register all styles and scripts related to our namespace.
 	 *
 	 * @since 2.15.0
 	 *
 	 * @return void
 	 */
-	public function load_scripts() : void {
+	public function register_scripts() : void {
 
-		// Restrict to affiliate area and admin only.
 		if ( ! ( affwp_is_affiliate_area() || affwp_is_admin_page() ) ) {
-			return; // Do not enqueue.
+			return; // Restrict to affiliate area and admin only.
 		}
 
+		wp_register_style(
+			'affiliatewp-modal',
+			"{$this->path}vendor/fancybox/fancybox.css",
+			array(),
+			$this->version
+		);
+
 		// Register our modal dependencies.
-		wp_register_style( 'fancybox-css', "{$this->path}vendor/fancybox/fancybox.css", array(), $this->version );
-		wp_register_script( 'fancybox', "{$this->path}vendor/fancybox/fancybox.umd.js", array(), $this->version, true );
+		wp_register_script(
+			'affiliatewp-fancybox',
+			"{$this->path}vendor/fancybox/fancybox.umd.js",
+			array(),
+			$this->version,
+			true
+		);
 
-		// Enqueue the modal script `affiliatewp.modal`.
-		$this->enqueue( 'modal', array( 'fancybox', 'fancybox-css' ) );
+		wp_register_script(
+			'affiliatewp-modal',
+			"{$this->path}affiliatewp-modal{$this->suffix}.js",
+			array(
+				$this->namespace,
+				'affiliatewp-fancybox',
+			),
+			$this->version,
+			true
+		);
 
+		// Register tooltip dependencies.
+		wp_register_script(
+			'affiliatewp-popper',
+			"{$this->path}vendor/popper/popper.min.js",
+			array(),
+			$this->version,
+			true
+		);
+
+		wp_register_script(
+			'affiliatewp-tippy',
+			"{$this->path}vendor/tippy/tippy.min.js",
+			array( 'affiliatewp-popper' ),
+			$this->version,
+			true
+		);
+
+		wp_register_script(
+			'affiliatewp-tooltip',
+			"{$this->path}affiliatewp-tooltip{$this->suffix}.js",
+			array(
+				$this->namespace,
+				'affiliatewp-tippy',
+			),
+			$this->version,
+			true
+		);
+
+		// Register infinite scroll dependencies.
+		wp_register_script(
+			'affiliatewp-infinite-scroll',
+			"{$this->path}affiliatewp-infinite-scroll{$this->suffix}.js",
+			array( $this->namespace ),
+			$this->version,
+			true
+		);
 	}
 
 	/**
 	 * Register the namespace.
 	 *
 	 * @since 2.15.0
-	 *
-	 * @return void
 	 */
 	public function register_namespace() : void {
 
@@ -129,7 +182,6 @@ final class Scripts {
 			$this->version,
 			true
 		);
-
 	}
 
 	/**
@@ -141,29 +193,23 @@ final class Scripts {
 	 *
 	 * @since 2.15.0
 	 *
-	 * @param string $script_name The name of te script, without the namespace prefix.
+	 * @param string $handle The name of te script.
 	 * @param array  $dependencies Additional dependencies. Can be both scripts or styles.
 	 * @param string $src Optional file source. Overrides the default source path.
 	 * @return void
 	 */
-	public function enqueue( string $script_name, array $dependencies = array(), string $src = '' ) : void {
-
-		// Scripts within our namespace will always have the namespace added as prefix automatically.
-		$handle = sprintf(
-			'%s-%s',
-			$this->namespace,
-			ltrim( $script_name, "{$this->namespace}-" )
-		);
+	public function enqueue( string $handle, array $dependencies = array(), string $src = '' ) : void {
 
 		// Prevent duplicated dependencies.
 		$dependencies = array_unique( $dependencies );
 
 		// Check for styles dependencies, enqueue if find any and remove from the dependencies array.
 		foreach ( $dependencies as $k => $dependency ) {
+
 			if ( wp_style_is( $dependency, 'registered' ) ) {
 				wp_enqueue_style( $dependency );
-				unset( $dependencies[ $k ] );
 			}
+
 		}
 
 		// Enqueue the script.
@@ -172,14 +218,14 @@ final class Scripts {
 			empty( $src )
 				? "{$this->path}{$handle}{$this->suffix}.js"
 				: $src,
-			array_merge(
-				array( $this->namespace ),
-				$dependencies
+			array_unique(
+				array_merge(
+					array( $this->namespace ),
+					$dependencies
+				)
 			),
 			$this->version,
 			true
 		);
-
 	}
-
 }

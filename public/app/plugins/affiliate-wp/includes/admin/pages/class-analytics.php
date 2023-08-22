@@ -488,7 +488,7 @@ class Analytics {
 		$this->output_data['plugin_setup'] = false;
 
 		if ( $this->output_data['plugin_activated'] ) {
-			$this->output_data['plugin_setup'] = '' !== (string) \monsterinsights_get_ua();
+			$this->output_data['plugin_setup'] = function_exists( 'monsterinsights_get_ua' ) && '' !== (string) monsterinsights_get_ua();
 		}
 
 		$step['icon']          = 'step-2.svg';
@@ -575,7 +575,7 @@ class Analytics {
 
 		$result = array();
 
-		if ( ! function_exists( 'MonsterInsights' ) || ! function_exists( 'monsterinsights_get_ua' ) ) {
+		if ( ! function_exists( 'MonsterInsights' ) ) {
 			wp_send_json_error(
 				array(
 					'error' => esc_html__( 'Plugin unavailable.', 'affiliate-wp' ),
@@ -583,7 +583,7 @@ class Analytics {
 			);
 		}
 
-		$result['setup_status'] = (int) ( '' !== (string) \monsterinsights_get_ua() );
+		$result['setup_status'] = (int) ( function_exists( 'monsterinsights_get_ua' ) && '' !== (string) monsterinsights_get_ua() );
 
 		$mi = \MonsterInsights();
 

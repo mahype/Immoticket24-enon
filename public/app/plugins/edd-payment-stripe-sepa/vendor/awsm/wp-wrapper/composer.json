@@ -1,0 +1,33 @@
+{
+  "name": "awsm/wp-wrapper",
+  "description": "Wrapping WordPress for more beautiful code.",
+  "version": "1.0.0",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "WordPress",
+    "Plugin"
+  ],
+  "homepage": "https://github.com/awsmug/wp-wrapper",
+  "authors": [
+    {
+      "name": "Sven Wagener",
+      "email": "sven@awesome.ug",
+      "homepage": "http://svenwagener.com",
+      "role": "Head of Development"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/awsmug/wp-wrapper/issues"
+  },
+  "autoload": {
+    "psr-4": {
+      "Awsm\\WP_Wrapper\\": "src/"
+    }
+  },
+  "require": {
+    "monolog/monolog": "^1.0"
+  },
+  "require-dev": {
+    "wp-coding-standards/wpcs": "dev-master"
+  }
+}

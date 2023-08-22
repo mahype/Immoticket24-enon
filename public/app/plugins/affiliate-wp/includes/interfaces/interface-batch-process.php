@@ -58,6 +58,16 @@ Interface Base {
 	public function get_message( $code );
 
 	/**
+	 * Retrieves the redirect URL after finishing the batch process.
+	 *
+	 * @access public
+	 * @since  2.16.0
+	 *
+	 * @return string URL.
+	 */
+	public function get_redirect_url() : string;
+
+	/**
 	 * Defines logic to execute once batch processing is complete.
 	 *
 	 * @access public

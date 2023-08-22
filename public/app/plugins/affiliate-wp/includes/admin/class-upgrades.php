@@ -245,6 +245,10 @@ class Affiliate_WP_Upgrades {
 			$this->v2150_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.16.0', '<' ) ) {
+			$this->v2160_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -354,6 +358,16 @@ class Affiliate_WP_Upgrades {
 				'id'    => 'set-creative-type',
 				'class' => 'AffWP\Utils\Batch_Process\Batch_Set_Creative_Type',
 				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-set-creative-type.php',
+			),
+		) );
+
+		$this->add_routine( 'upgrade_v2160_update_creative_names', array(
+			'version'       => '2.16.0',
+			'compare'       => '<',
+			'batch_process' => array(
+				'id'    => 'update-creative-names',
+				'class' => 'AffWP\Utils\Batch_Process\Batch_Update_Creative_Names',
+				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-update-creative-names.php',
 			),
 		) );
 	}
@@ -1342,6 +1356,37 @@ class Affiliate_WP_Upgrades {
 		affiliate_wp()->creatives->create_table();
 
 		@affiliate_wp()->utils->log( 'Upgrade: The start_date and end_date columns have been added to the creatives table.' );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Perform database upgrades for version 2.16.0.
+	 *
+	 * @access  private
+	 * @since   2.16.0
+	 */
+	private function v2160_upgrade() {
+
+		affiliate_wp()->creatives->create_table();
+
+		@affiliate_wp()->utils->log( 'Upgrade: The notes column has been added to the creatives table.' );
+
+		// Ensure this will never be overridden.
+		if ( ! in_array( get_option( 'affwp_creative_name_privacy', '' ), array( 'pending', 'private', 'public' ), true ) ) {
+
+			update_option( 'affwp_creative_name_upgrade_date', gmdate( 'Y-m-d H:i:s' ) );
+
+			$creatives = affiliate_wp()->creatives->count();
+
+			update_option(
+				'affwp_creative_name_privacy',
+				empty( $creatives )
+					? 'public'
+					: 'pending'
+			);
+
+		}
 
 		$this->upgraded = true;
 	}

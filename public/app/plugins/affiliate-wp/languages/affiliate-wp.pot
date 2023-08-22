@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the AffiliateWP plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: AffiliateWP 2.15.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/affiliate-wp\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Report-Msgid-Bugs-To: https://affiliatewp.com/support\n"
+"Last-Translator: AffiliateWP <support@affiliatewp.com>\n"
+"Language-Team: AffiliateWP <support@affiliatewp.com>\n"
+"Project-Id-Version: AffiliateWP 2.16.0\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-07-05T20:47:13+00:00\n"
+"POT-Creation-Date: 2023-08-21T17:27:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: affiliate-wp\n"
 
 #. Plugin Name of the plugin
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Affiliate Plugin for WordPress"
 msgstr ""
 
-#: affiliate-wp.php:131
+#: affiliate-wp.php:130
 #: includes/libraries/affwp/class-affiliatewp-requirements-check-v1-1.php:282
 msgid "AffiliateWP Requirements"
 msgstr ""
@@ -58,9 +58,9 @@ msgstr ""
 
 #: includes/abstracts/class-affwp-reports-tab.php:160
 #: includes/admin/class-connector.php:2835
-#: includes/admin/referrals/class-list-table.php:716
+#: includes/admin/referrals/class-list-table.php:719
 #: includes/admin/visits/visits.php:83
-#: includes/class-creatives-groups.php:614
+#: includes/class-creatives-groups.php:633
 #: includes/class-graph.php:454
 msgid "Filter"
 msgstr ""
@@ -136,7 +136,7 @@ msgstr ""
 
 #: includes/abstracts/class-affwp-reports-tab.php:527
 #: includes/admin/payouts/new.php:40
-#: includes/admin/referrals/class-list-table.php:691
+#: includes/admin/referrals/class-list-table.php:694
 #: includes/admin/tools/tools.php:162
 #: includes/admin/tools/tools.php:189
 #: includes/admin/tools/tools.php:354
@@ -203,20 +203,19 @@ msgstr ""
 #: includes/admin/class-about.php:799
 #: includes/admin/creatives/class-list-table.php:145
 #: includes/admin/creatives/class-list-table.php:156
-#: includes/admin/creatives/edit.php:182
-#: includes/admin/creatives/new.php:157
+#: includes/admin/creatives/edit.php:211
+#: includes/admin/creatives/new.php:151
 #: includes/affiliate-functions.php:381
-#: includes/creative-functions.php:396
-#: tests/affiliates/test-affiliate-functions.php:646
+#: includes/creative-functions.php:414
 msgid "Active"
 msgstr ""
 
 #: includes/admin/add-ons.php:518
 #: includes/admin/add-ons.php:722
 #: includes/admin/affiliates/class-list-table.php:322
-#: includes/admin/affiliates/class-list-table.php:664
-#: includes/admin/creatives/class-list-table.php:340
-#: includes/admin/creatives/class-list-table.php:537
+#: includes/admin/affiliates/class-list-table.php:668
+#: includes/admin/creatives/class-list-table.php:348
+#: includes/admin/creatives/class-list-table.php:673
 msgid "Deactivate"
 msgstr ""
 
@@ -225,22 +224,21 @@ msgstr ""
 #: includes/admin/class-about.php:806
 #: includes/admin/creatives/class-list-table.php:146
 #: includes/admin/creatives/class-list-table.php:157
-#: includes/admin/creatives/edit.php:183
-#: includes/admin/creatives/new.php:158
+#: includes/admin/creatives/edit.php:212
+#: includes/admin/creatives/new.php:152
 #: includes/affiliate-functions.php:382
-#: includes/creative-functions.php:397
-#: tests/affiliates/test-affiliate-functions.php:647
+#: includes/creative-functions.php:415
 msgid "Inactive"
 msgstr ""
 
 #: includes/admin/add-ons.php:525
 #: includes/admin/add-ons.php:721
 #: includes/admin/affiliates/class-list-table.php:366
-#: includes/admin/affiliates/class-list-table.php:663
+#: includes/admin/affiliates/class-list-table.php:667
 #: includes/admin/class-about.php:115
 #: includes/admin/class-about.php:809
-#: includes/admin/creatives/class-list-table.php:356
-#: includes/admin/creatives/class-list-table.php:536
+#: includes/admin/creatives/class-list-table.php:364
+#: includes/admin/creatives/class-list-table.php:672
 msgid "Activate"
 msgstr ""
 
@@ -278,7 +276,7 @@ msgid "Could not be activated. Please deactivate from the Plugins page."
 msgstr ""
 
 #: includes/admin/add-ons.php:642
-#: includes/admin/ajax-actions.php:456
+#: includes/admin/ajax-actions.php:457
 #: includes/admin/class-about.php:117
 msgid "Plugin activated."
 msgstr ""
@@ -354,7 +352,7 @@ msgstr ""
 #: includes/admin/affiliates/actions.php:234
 #: includes/admin/AFFWP_Plugin_Updater.php:490
 #: includes/admin/class-addon-updater.php:448
-#: includes/admin/class-notices.php:1443
+#: includes/admin/class-notices.php:1558
 #: includes/admin/creatives/actions.php:25
 #: includes/admin/creatives/actions.php:53
 #: includes/admin/creatives/actions.php:57
@@ -407,7 +405,7 @@ msgstr ""
 
 #: includes/admin/affiliates/actions.php:131
 #: includes/admin/affiliates/actions.php:234
-#: includes/admin/class-notices.php:1443
+#: includes/admin/class-notices.php:1558
 #: includes/admin/creatives/actions.php:57
 #: includes/admin/payouts/actions.php:43
 #: includes/admin/referrals/actions.php:31
@@ -456,13 +454,14 @@ msgstr ""
 #: includes/admin/referrals/class-list-table.php:183
 #: includes/admin/tools/tools.php:411
 #: includes/admin/visits/visits.php:79
+#: includes/class-affiliate-area-creatives.php:538
 msgid "All"
 msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:168
 #: includes/admin/affiliates/review.php:45
 #: includes/admin/creatives/class-list-table.php:172
-#: includes/admin/creatives/edit.php:36
+#: includes/admin/creatives/edit.php:38
 #: includes/admin/creatives/new.php:36
 #: includes/admin/groups/class-management.php:1018
 #: includes/admin/groups/class-management.php:1810
@@ -473,6 +472,8 @@ msgstr ""
 #: includes/admin/tools/export/class-export-affiliates.php:51
 #: includes/admin/tools/export/class-export-referrals.php:66
 #: includes/admin/utilities/class-privacy-tools.php:116
+#: includes/class-affiliate-area-creatives.php:801
+#: includes/class-affiliate-area-creatives.php:881
 #: includes/class-editor.php:363
 #: includes/integrations/class-wpforms.php:705
 #: assets/js/editor/build/index.js:6
@@ -506,7 +507,6 @@ msgstr ""
 #: templates/login.php:30
 #: templates/register.php:75
 #: templates/register.php:76
-#: tests/misc/test-misc-functions.php:385
 #: assets/js/editor/build/index.js:6
 msgid "Username"
 msgstr ""
@@ -531,7 +531,6 @@ msgstr ""
 #: includes/misc-functions.php:1374
 #: templates/dashboard-tab-stats.php:45
 #: templates/dashboard-tab-stats.php:53
-#: tests/misc/test-misc-functions.php:393
 msgid "Unpaid Earnings"
 msgstr ""
 
@@ -540,7 +539,6 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-affiliates.php:109
 #: includes/admin/tools/export/class-export-affiliates.php:54
 #: includes/misc-functions.php:1370
-#: tests/misc/test-misc-functions.php:389
 msgid "Rate"
 msgstr ""
 
@@ -563,14 +561,13 @@ msgstr ""
 #: includes/admin/tools/export/class-export-affiliates.php:58
 #: includes/admin/tools/tools.php:168
 #: includes/admin/visits/visits.php:45
-#: includes/affiliate-functions.php:1862
+#: includes/affiliate-functions.php:1863
 #: includes/emails/functions.php:1407
 #: includes/emails/functions.php:1563
 #: templates/dashboard-tab-stats.php:13
 #: templates/dashboard-tab-stats.php:22
 #: templates/dashboard-tab-stats.php:89
 #: templates/dashboard-tab-stats.php:101
-#: tests/affiliates/test-affiliate-functions.php:2976
 msgid "Visits"
 msgstr ""
 
@@ -581,8 +578,8 @@ msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:178
 #: includes/admin/creatives/class-list-table.php:176
-#: includes/admin/creatives/edit.php:177
-#: includes/admin/creatives/new.php:152
+#: includes/admin/creatives/edit.php:206
+#: includes/admin/creatives/new.php:146
 #: includes/admin/dashboard-widgets.php:160
 #: includes/admin/payouts/view.php:155
 #: includes/admin/referrals/class-list-table.php:218
@@ -598,8 +595,6 @@ msgstr ""
 #: templates/dashboard-tab-payouts.php:77
 #: templates/dashboard-tab-referrals.php:42
 #: templates/dashboard-tab-referrals.php:63
-#: tests/misc/test-misc-functions.php:396
-#: tests/misc/test-misc-functions.php:432
 msgid "Status"
 msgstr ""
 
@@ -633,33 +628,33 @@ msgid "Review"
 msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:344
-#: includes/admin/affiliates/class-list-table.php:661
-#: includes/admin/referrals/class-list-table.php:536
-#: includes/admin/referrals/class-list-table.php:732
+#: includes/admin/affiliates/class-list-table.php:665
+#: includes/admin/referrals/class-list-table.php:539
+#: includes/admin/referrals/class-list-table.php:735
 msgid "Accept"
 msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:354
-#: includes/admin/affiliates/class-list-table.php:662
-#: includes/admin/referrals/class-list-table.php:552
-#: includes/admin/referrals/class-list-table.php:733
+#: includes/admin/affiliates/class-list-table.php:666
+#: includes/admin/referrals/class-list-table.php:555
+#: includes/admin/referrals/class-list-table.php:736
 msgid "Reject"
 msgstr ""
 
 #: includes/admin/affiliates/class-list-table.php:378
-#: includes/admin/affiliates/class-list-table.php:665
-#: includes/admin/creatives/class-list-table.php:390
-#: includes/admin/creatives/class-list-table.php:538
+#: includes/admin/affiliates/class-list-table.php:669
+#: includes/admin/creatives/class-list-table.php:398
+#: includes/admin/creatives/class-list-table.php:674
 #: includes/admin/groups/class-management.php:1705
 #: includes/admin/payouts/class-list-table.php:493
-#: includes/admin/payouts/class-list-table.php:590
-#: includes/admin/referrals/class-list-table.php:579
-#: includes/admin/referrals/class-list-table.php:652
-#: includes/admin/referrals/class-list-table.php:736
+#: includes/admin/payouts/class-list-table.php:591
+#: includes/admin/referrals/class-list-table.php:582
+#: includes/admin/referrals/class-list-table.php:655
+#: includes/admin/referrals/class-list-table.php:739
 msgid "Delete"
 msgstr ""
 
-#: includes/admin/affiliates/class-list-table.php:649
+#: includes/admin/affiliates/class-list-table.php:653
 msgid "No affiliates found."
 msgstr ""
 
@@ -760,7 +755,6 @@ msgstr ""
 
 #: includes/admin/affiliates/edit.php:166
 #: includes/misc-functions.php:1379
-#: tests/misc/test-misc-functions.php:398
 msgid "Registration Date"
 msgstr ""
 
@@ -780,7 +774,6 @@ msgstr ""
 #: includes/admin/affiliates/edit.php:221
 #: includes/class-editor.php:366
 #: includes/misc-functions.php:1378
-#: tests/misc/test-misc-functions.php:397
 #: assets/js/editor/build/index.js:6
 msgid "Website"
 msgstr ""
@@ -898,8 +891,6 @@ msgstr ""
 #: includes/misc-functions.php:1369
 #: includes/misc-functions.php:1415
 #: templates/register.php:85
-#: tests/misc/test-misc-functions.php:388
-#: tests/misc/test-misc-functions.php:426
 #: assets/js/editor/build/index.js:6
 msgid "Payment Email"
 msgstr ""
@@ -1002,12 +993,14 @@ msgstr ""
 
 #: includes/admin/affiliates/edit.php:525
 #: includes/admin/affiliates/new.php:206
-msgid "Affiliate Notes"
+#: includes/admin/creatives/edit.php:262
+#: includes/admin/creatives/new.php:200
+msgid "Notes"
 msgstr ""
 
 #: includes/admin/affiliates/edit.php:530
 #: includes/admin/affiliates/new.php:211
-msgid "Enter any notes for this affiliate. Notes are only visible to the admin."
+msgid "Enter any notes for this affiliate. Notes are only visible to an affiliate manager."
 msgstr ""
 
 #: includes/admin/affiliates/edit.php:539
@@ -1104,7 +1097,7 @@ msgid "Email Address"
 msgstr ""
 
 #: includes/admin/affiliates/review.php:96
-#: includes/admin/class-upgrades.php:788
+#: includes/admin/class-upgrades.php:802
 #: includes/admin/settings/class-settings.php:1196
 #: includes/class-editor.php:1556
 #: includes/install.php:76
@@ -1167,7 +1160,7 @@ msgid "You do not have permission to install plugin updates"
 msgstr ""
 
 #: includes/admin/ajax-actions.php:132
-#: includes/admin/ajax-actions.php:313
+#: includes/admin/ajax-actions.php:314
 msgid "A batch process ID must be present to continue."
 msgstr ""
 
@@ -1177,69 +1170,69 @@ msgstr ""
 
 #. translators: Batch process ID
 #: includes/admin/ajax-actions.php:151
-#: includes/admin/ajax-actions.php:323
+#: includes/admin/ajax-actions.php:324
 msgid "%s is an invalid batch process ID."
 msgstr ""
 
 #. translators: Formatted batch process ID
 #: includes/admin/ajax-actions.php:161
-#: includes/admin/ajax-actions.php:333
+#: includes/admin/ajax-actions.php:334
 msgid "An invalid file path is registered for the %1$s batch process handler."
 msgstr ""
 
 #. translators: 1: Formatted batch processor class name, 2: Formatted batch process ID
 #: includes/admin/ajax-actions.php:170
-#: includes/admin/ajax-actions.php:342
+#: includes/admin/ajax-actions.php:343
 msgid "%1$s is an invalid handler for the %2$s batch process. Please try again."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:275
+#: includes/admin/ajax-actions.php:276
 #: includes/admin/tools/tools.php:1182
 #: includes/REST/class-rest.php:72
 msgid "Nonce verification failed"
 msgstr ""
 
-#: includes/admin/ajax-actions.php:279
+#: includes/admin/ajax-actions.php:280
 msgid "Missing import file. Please provide an import file."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:298
+#: includes/admin/ajax-actions.php:299
 msgid "The file you uploaded does not appear to be a CSV file."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:302
+#: includes/admin/ajax-actions.php:303
 msgid "Something went wrong during the upload process, please try again."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:354
+#: includes/admin/ajax-actions.php:355
 msgid "You do not have permission to import data"
 msgstr ""
 
-#: includes/admin/ajax-actions.php:444
+#: includes/admin/ajax-actions.php:445
 msgid "Could not activate the plugin. Plugin slug is empty."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:449
+#: includes/admin/ajax-actions.php:450
 msgid "Plugin activation is disabled for you on this site."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:459
+#: includes/admin/ajax-actions.php:460
 msgid "Could not activate the plugin. Please activate it on the Plugins page."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:473
+#: includes/admin/ajax-actions.php:474
 msgid "There was an error while performing your request."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:481
+#: includes/admin/ajax-actions.php:482
 msgid "Could not install the plugin. Please download and install it manually."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:539
+#: includes/admin/ajax-actions.php:540
 msgid "Plugin installed."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:554
+#: includes/admin/ajax-actions.php:555
 msgid "Plugin installed & activated."
 msgstr ""
 
@@ -1735,20 +1728,18 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-payouts.php:156
 #: includes/admin/tools/export/class-export-affiliates.php:57
 #: includes/admin/tools/tools.php:167
-#: includes/affiliate-functions.php:1860
+#: includes/affiliate-functions.php:1861
 #: includes/emails/functions.php:1012
 #: includes/emails/functions.php:1405
 #: includes/emails/functions.php:1562
 #: templates/dashboard-tab-referrals.php:7
-#: tests/affiliates/test-affiliate-functions.php:2974
 msgid "Referrals"
 msgstr ""
 
 #: includes/admin/class-menu.php:87
 #: includes/admin/payouts/payouts.php:48
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:45
-#: includes/affiliate-functions.php:1861
-#: tests/affiliates/test-affiliate-functions.php:2975
+#: includes/affiliate-functions.php:1862
 msgid "Payouts"
 msgstr ""
 
@@ -1758,9 +1749,8 @@ msgstr ""
 #: includes/admin/creatives/creatives.php:53
 #: includes/admin/groups/creative-categories/class-connector.php:61
 #: includes/admin/groups/creative-categories/class-management.php:62
-#: includes/affiliate-functions.php:1864
-#: templates/dashboard-tab-creatives.php:3
-#: tests/affiliates/test-affiliate-functions.php:2977
+#: includes/affiliate-functions.php:1858
+#: templates/dashboard-tab-creatives.php:33
 msgid "Creatives"
 msgstr ""
 
@@ -1771,7 +1761,6 @@ msgstr ""
 #: includes/admin/class-menu.php:92
 #: includes/admin/plugins.php:33
 #: includes/affiliate-functions.php:1865
-#: tests/affiliates/test-affiliate-functions.php:2978
 msgid "Settings"
 msgstr ""
 
@@ -1814,7 +1803,7 @@ msgid "The %s notice already exists and could not be added."
 msgstr ""
 
 #: includes/admin/class-notices-registry.php:82
-#: includes/admin/class-notices.php:1529
+#: includes/admin/class-notices.php:1644
 msgctxt "admin notice"
 msgid "Dismiss"
 msgstr ""
@@ -1833,329 +1822,370 @@ msgid "You need to %1$s. On January 1, 2023, Croatia joined the Eurozone. This m
 msgstr ""
 
 #. translators: %1$s License type. %2$s Opening anchor tag, do not translate. %3$s Closing anchor tag, do not translate.
-#: includes/admin/class-notices.php:362
-msgid "You are using AffiliateWP with a %1$s license. %2$sUpgrade to Professional%3$s and grow your affiliate program."
+#: includes/admin/class-notices.php:366
+msgid "You are using AffiliateWP with a %1$s license. %2$sUpgrade to Pro now%3$s & unlock the full revenue potential of your affiliate program."
 msgstr ""
 
 #. translators: Singular number of affiliates added
 #. translators: Plural number of affiliates added
-#: includes/admin/class-notices.php:411
+#: includes/admin/class-notices.php:415
 msgid "%d affiliate was added successfully."
 msgid_plural "%d affiliates were added successfully"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-notices.php:428
+#: includes/admin/class-notices.php:432
 msgid "Affiliate wasn&#8217;t added, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:433
+#: includes/admin/class-notices.php:437
 msgid "Affiliate updated successfully"
 msgstr ""
 
 #. translators: URL to the affiliates screen
-#: includes/admin/class-notices.php:435
+#: includes/admin/class-notices.php:439
 msgid "<a href=\"%s\">Back to Affiliates</a>."
 msgstr ""
 
-#: includes/admin/class-notices.php:443
+#: includes/admin/class-notices.php:447
 msgid "Affiliate update failed, please try again"
 msgstr ""
 
-#: includes/admin/class-notices.php:447
+#: includes/admin/class-notices.php:451
 msgid "Affiliate account(s) deleted successfully"
 msgstr ""
 
-#: includes/admin/class-notices.php:452
+#: includes/admin/class-notices.php:456
 msgid "Affiliate deletion failed, please try again"
 msgstr ""
 
-#: includes/admin/class-notices.php:456
+#: includes/admin/class-notices.php:460
 msgid "Affiliate account activated"
 msgstr ""
 
-#: includes/admin/class-notices.php:460
+#: includes/admin/class-notices.php:464
 msgid "Affiliate account deactivated"
 msgstr ""
 
-#: includes/admin/class-notices.php:464
+#: includes/admin/class-notices.php:468
 msgid "Affiliate request was accepted"
 msgstr ""
 
-#: includes/admin/class-notices.php:468
+#: includes/admin/class-notices.php:472
 msgid "Affiliate request was rejected"
 msgstr ""
 
-#: includes/admin/class-notices.php:472
+#: includes/admin/class-notices.php:476
 msgid "Dynamic coupon successfully created."
 msgstr ""
 
-#: includes/admin/class-notices.php:477
+#: includes/admin/class-notices.php:481
 msgid "Dynamic coupon creation failed, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:481
+#: includes/admin/class-notices.php:485
 msgid "Dynamic coupon successfully deleted."
 msgstr ""
 
-#: includes/admin/class-notices.php:486
+#: includes/admin/class-notices.php:490
 msgid "Dynamic coupon deletion failed, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:497
+#: includes/admin/class-notices.php:501
 msgid "The API keys were successfully generated."
 msgstr ""
 
-#: includes/admin/class-notices.php:502
+#: includes/admin/class-notices.php:506
 msgid "The API keys could not be generated."
 msgstr ""
 
-#: includes/admin/class-notices.php:506
+#: includes/admin/class-notices.php:510
 msgid "The API keys were successfully regenerated."
 msgstr ""
 
-#: includes/admin/class-notices.php:510
+#: includes/admin/class-notices.php:514
 msgid "The API keys were successfully revoked."
 msgstr ""
 
-#: includes/admin/class-notices.php:522
+#: includes/admin/class-notices.php:526
 msgid "Creative updated successfully"
 msgstr ""
 
 #. translators: URL to the Creatives screen
-#: includes/admin/class-notices.php:524
+#: includes/admin/class-notices.php:528
 msgid "<a href=\"%s\">Back to Creatives</a>"
 msgstr ""
 
-#: includes/admin/class-notices.php:531
+#: includes/admin/class-notices.php:535
 msgid "Creative added successfully"
 msgstr ""
 
-#: includes/admin/class-notices.php:535
+#: includes/admin/class-notices.php:539
 msgid "Creative deleted successfully"
 msgstr ""
 
-#: includes/admin/class-notices.php:539
+#: includes/admin/class-notices.php:543
 msgid "Creative activated"
 msgstr ""
 
-#: includes/admin/class-notices.php:543
+#: includes/admin/class-notices.php:547
 msgid "Creative deactivated"
 msgstr ""
 
-#: includes/admin/class-notices.php:554
+#: includes/admin/class-notices.php:551
+msgid "Creatives have been successfully updated"
+msgstr ""
+
+#: includes/admin/class-notices.php:562
 msgid "Customer added successfully"
 msgstr ""
 
-#: includes/admin/class-notices.php:559
+#: includes/admin/class-notices.php:567
 msgid "Customer wasn&#8217;t added, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:563
+#: includes/admin/class-notices.php:571
 msgid "Customer updated successfully"
 msgstr ""
 
-#: includes/admin/class-notices.php:568
+#: includes/admin/class-notices.php:576
 msgid "Customer update failed, please try again"
 msgstr ""
 
-#: includes/admin/class-notices.php:579
+#: includes/admin/class-notices.php:587
 msgid "A payout has been created."
 msgstr ""
 
-#: includes/admin/class-notices.php:583
+#: includes/admin/class-notices.php:591
 msgid "Payout deleted successfully."
 msgstr ""
 
-#: includes/admin/class-notices.php:587
+#: includes/admin/class-notices.php:595
 msgid "Payout deletion failed, please try again."
 msgstr ""
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
-#: includes/admin/class-notices.php:593
+#: includes/admin/class-notices.php:601
 msgid "Website connected to the %s."
 msgstr ""
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
-#: includes/admin/class-notices.php:598
+#: includes/admin/class-notices.php:606
 msgid "Website disconnected from the %s."
 msgstr ""
 
 #. translators: Payouts Service name retrieved from the PAYOUTS_SERVICE_NAME constant
-#: includes/admin/class-notices.php:603
+#: includes/admin/class-notices.php:611
 msgid "Website reconnected to the %s."
 msgstr ""
 
-#: includes/admin/class-notices.php:607
+#: includes/admin/class-notices.php:615
 msgid "Effortlessly pay your affiliates"
 msgstr ""
 
-#: includes/admin/class-notices.php:610
-msgid "With the Payouts Service provided by AffiliateWP, you can easily pay affiliates in 31 countries using any debit or credit card. Learn more at <a href=\"%s\" target=\"_blank\">payouts.sandhillsplugins.com</a>."
+#: includes/admin/class-notices.php:618
+msgid "With the Payouts Service provided by AffiliateWP, you can easily pay affiliates in 50 countries using any debit or credit card. Learn more at <a href=\"%s\" target=\"_blank\">payouts.sandhillsplugins.com</a>."
 msgstr ""
 
-#: includes/admin/class-notices.php:618
+#: includes/admin/class-notices.php:626
 msgctxt "payouts service"
 msgid "Maybe later"
 msgstr ""
 
-#: includes/admin/class-notices.php:629
+#: includes/admin/class-notices.php:637
 msgid "Referral added successfully."
 msgstr ""
 
-#: includes/admin/class-notices.php:634
+#: includes/admin/class-notices.php:642
 msgid "Referral wasn&#8217;t created, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:639
+#: includes/admin/class-notices.php:647
 msgid "Referral not created because the affiliate is invalid, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:644
+#: includes/admin/class-notices.php:652
 msgid "Referral amount cannot be negative, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:648
+#: includes/admin/class-notices.php:656
 msgid "Referral updated successfully."
 msgstr ""
 
-#: includes/admin/class-notices.php:652
+#: includes/admin/class-notices.php:660
 msgid "Referral update failed, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:656
+#: includes/admin/class-notices.php:664
 msgid "Referral deleted successfully."
 msgstr ""
 
-#: includes/admin/class-notices.php:661
+#: includes/admin/class-notices.php:669
 msgid "Referral deletion failed, please try again."
 msgstr ""
 
-#: includes/admin/class-notices.php:676
+#: includes/admin/class-notices.php:684
 msgid "Your database needs to be upgraded following the AffiliateWP v2.0 update"
 msgstr ""
 
-#: includes/admin/class-notices.php:686
-#: includes/admin/class-notices.php:708
-#: includes/admin/class-notices.php:731
-#: includes/admin/class-notices.php:754
-#: includes/admin/class-notices.php:896
+#: includes/admin/class-notices.php:694
+#: includes/admin/class-notices.php:716
+#: includes/admin/class-notices.php:739
+#: includes/admin/class-notices.php:762
+#: includes/admin/class-notices.php:904
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/admin/class-notices.php:698
+#: includes/admin/class-notices.php:706
 msgid "Your database needs to be upgraded following the AffiliateWP v2.2 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:721
+#: includes/admin/class-notices.php:729
 msgid "Your database needs to be upgraded following the AffiliateWP v2.4.5 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:744
+#: includes/admin/class-notices.php:752
 msgid "Your database needs to be upgraded following the AffiliateWP v2.6 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:767
+#: includes/admin/class-notices.php:775
 msgid "Your database tables need to be upgraded following the AffiliateWP v2.6.1 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:777
-#: includes/admin/class-notices.php:800
-#: includes/admin/class-notices.php:823
-#: includes/admin/class-notices.php:846
-#: includes/admin/class-notices.php:869
+#: includes/admin/class-notices.php:785
+#: includes/admin/class-notices.php:808
+#: includes/admin/class-notices.php:831
+#: includes/admin/class-notices.php:854
+#: includes/admin/class-notices.php:877
 msgid "Upgrade Database Tables"
 msgstr ""
 
-#: includes/admin/class-notices.php:790
+#: includes/admin/class-notices.php:798
 msgid "Your database tables need to be upgraded following the AffiliateWP v2.7 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:813
+#: includes/admin/class-notices.php:821
 msgid "Your database tables need to be upgraded following the AffiliateWP v2.7.4 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:836
+#: includes/admin/class-notices.php:844
 msgid "Your database tables need to be upgraded following the AffiliateWP v2.8 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:859
+#: includes/admin/class-notices.php:867
 msgid "Your database tables need to be upgraded following the AffiliateWP v2.8.1 update. Depending on the size of your database, this upgrade could take some time."
 msgstr ""
 
-#: includes/admin/class-notices.php:888
+#: includes/admin/class-notices.php:896
 msgid "Your database needs to be upgraded following the AffiliateWP 2.14.0 update"
 msgstr ""
 
-#: includes/admin/class-notices.php:918
+#: includes/admin/class-notices.php:973
+msgid "Important Update in AffiliateWP 2.16.0: Creative Names Now Visible to Affiliates"
+msgstr ""
+
+#: includes/admin/class-notices.php:974
+msgid "Until now, the names of Creatives were only visible to affiliate managers. With our latest update, the names of all newly added Creatives will be visible to affiliates. This change will assist them in easily identifying and choosing the best Creative for their campaigns."
+msgstr ""
+
+#: includes/admin/class-notices.php:975
+msgid "Please note, until you select an option below, all Creatives will appear to affiliates as “Creative” within the Affiliate Area."
+msgstr ""
+
+#: includes/admin/class-notices.php:976
+msgid "Are you comfortable with allowing affiliates to see the names of your existing Creatives?"
+msgstr ""
+
+#: includes/admin/class-notices.php:986
+msgid "<strong>Yes, Proceed:</strong> It’s acceptable for affiliates to see the names of my existing Creatives."
+msgstr ""
+
+#: includes/admin/class-notices.php:991
+msgid "<strong>No, Review Needed:</strong> I want to manually review and rename all existing Creatives."
+msgstr ""
+
+#: includes/admin/class-notices.php:994
+msgid "(Important: Selecting this option will rename all Creatives to “Creative”. The original names will be safely stored in a newly created Notes field for your reference and review.)"
+msgstr ""
+
+#: includes/admin/class-notices.php:1000
+#: includes/scripts.php:234
+msgid "Make Creative Names Visible"
+msgstr ""
+
+#: includes/admin/class-notices.php:1010
+msgid "Please enable Javascript to update."
+msgstr ""
+
+#: includes/admin/class-notices.php:1033
 msgid "<strong>Important:</strong> You have installed or updated to AffiliateWP <code>v%s</code>, a pre-release development version."
 msgstr ""
 
-#: includes/admin/class-notices.php:921
+#: includes/admin/class-notices.php:1036
 msgid "Development versions can sometimes be unstable and should <em>never</em> be tested on a live site. If you feel you may have installed this version of AffiliateWP in error, you can get a copy of the latest stable version from your <a href=\"%s\" target=\"_blank\">account page</a>."
 msgstr ""
 
-#: includes/admin/class-notices.php:959
+#: includes/admin/class-notices.php:1074
 msgid "Sync"
 msgstr ""
 
 #. translators: 1: Integration name, 2: URL to the discontinued integrations guide
-#: includes/admin/class-notices.php:975
+#: includes/admin/class-notices.php:1090
 msgid "AffiliateWP is ending official support for the <strong>%1$s</strong> integration beginning %2$s. See <a href=\"%3$s\" target=\"_blank\">this guide</a> for more information."
 msgstr ""
 
 #. translators: 1: Date the license expired, 2: URL to renew the license key
-#: includes/admin/class-notices.php:1008
+#: includes/admin/class-notices.php:1123
 msgid "Your license key expired on %1$s. Please <a href=\"%2$s\" target=\"_blank\">renew your license key</a>."
 msgstr ""
 
 #. translators: URL to contact support
-#: includes/admin/class-notices.php:1019
+#: includes/admin/class-notices.php:1134
 msgid "Your license key has been disabled. Please <a href=\"%s\" target=\"_blank\">contact support</a> for more information."
 msgstr ""
 
 #. translators: URL to the affiliatewp.com account page
-#: includes/admin/class-notices.php:1028
+#: includes/admin/class-notices.php:1143
 msgid "Invalid license. Please <a href=\"%s\" target=\"_blank\">visit your account page</a> and verify it."
 msgstr ""
 
 #. translators: URL to the affiliatewp.com account page
-#: includes/admin/class-notices.php:1038
+#: includes/admin/class-notices.php:1153
 msgid "Your license key is not active for this URL. Please <a href=\"%s\" target=\"_blank\">visit your account page</a> to manage your license key URLs."
 msgstr ""
 
-#: includes/admin/class-notices.php:1045
+#: includes/admin/class-notices.php:1160
 msgid "This appears to be an invalid license key."
 msgstr ""
 
 #. translators: URL to the affiliatewp.com account page
-#: includes/admin/class-notices.php:1052
+#: includes/admin/class-notices.php:1167
 msgid "Your license key has reached its activation limit. <a href=\"%s\">View possible upgrades</a> now."
 msgstr ""
 
-#: includes/admin/class-notices.php:1065
+#: includes/admin/class-notices.php:1180
 msgid "Your license key for AffiliateWP has expired. Please renew your license to re-enable automatic updates."
 msgstr ""
 
-#: includes/admin/class-notices.php:1066
-#: includes/admin/class-notices.php:1082
+#: includes/admin/class-notices.php:1181
+#: includes/admin/class-notices.php:1197
 msgctxt "License"
 msgid "Dismiss Notice"
 msgstr ""
 
 #. translators: Settings screen URL
-#: includes/admin/class-notices.php:1081
+#: includes/admin/class-notices.php:1196
 msgid "Please <a href=\"%s\">enter and activate</a> your license key for AffiliateWP to enable automatic updates."
 msgstr ""
 
-#: includes/admin/class-notices.php:1121
+#: includes/admin/class-notices.php:1236
 #: includes/admin/settings/class-settings.php:372
 msgid "Settings updated."
 msgstr ""
 
 #. translators: Singular number of affiliates added from WP Affiliate
 #. translators: Plural number of affiliates added from WP Affiliate
-#: includes/admin/class-notices.php:1132
+#: includes/admin/class-notices.php:1247
 msgid "%d affiliate from WP Affiliate was added successfully."
 msgid_plural "%d affiliates from WP Affiliate were added successfully"
 msgstr[0] ""
@@ -2163,89 +2193,88 @@ msgstr[1] ""
 
 #. translators: Singular number of affiliates added from Affiliates Pro
 #. translators: Plural number of affiliates added from Affiliates Pro
-#: includes/admin/class-notices.php:1155
+#: includes/admin/class-notices.php:1270
 msgid "%d affiliate from Affiliates Pro was added successfully."
 msgid_plural "%d affiliates from Affiliates Pro were added successfully"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-notices.php:1171
+#: includes/admin/class-notices.php:1286
 msgid "Affiliate stats have been recounted!"
 msgstr ""
 
-#: includes/admin/class-notices.php:1175
+#: includes/admin/class-notices.php:1290
 msgid "Settings successfully imported"
 msgstr ""
 
 #. Translators: %1$s is a link to configure WP Mail SMTP and %2$s is going to be a link to our documentation.
-#: includes/admin/class-notices.php:1196
+#: includes/admin/class-notices.php:1311
 msgid "WP Mail SMTP is required to send affiliate email summaries. %1$s or learn more %2$s."
 msgstr ""
 
-#: includes/admin/class-notices.php:1200
+#: includes/admin/class-notices.php:1315
 msgid "Install and setup WP Mail SMTP"
 msgstr ""
 
-#: includes/admin/class-notices.php:1205
+#: includes/admin/class-notices.php:1320
 msgid "in our documentation"
 msgstr ""
 
 #. translators: Insecure PHP version
-#: includes/admin/class-notices.php:1231
+#: includes/admin/class-notices.php:1346
 msgid "AffiliateWP has detected that your site is running on an insecure version of PHP (%s)."
 msgstr ""
 
-#: includes/admin/class-notices.php:1240
+#: includes/admin/class-notices.php:1355
 msgid "PHP is the programming language used to build and maintain WordPress and plugins like AffiliateWP. Newer versions of PHP are faster and more secure, so updating will positively affect your site’s performance."
 msgstr ""
 
-#: includes/admin/class-notices.php:1242
+#: includes/admin/class-notices.php:1357
 msgid "Why it matters for AffiliateWP"
 msgstr ""
 
-#: includes/admin/class-notices.php:1243
+#: includes/admin/class-notices.php:1358
 msgid "As we evolve, our ability to tap into more modern PHP features means we can continue delivering a superior product."
 msgstr ""
 
-#: includes/admin/class-notices.php:1251
+#: includes/admin/class-notices.php:1366
 msgid "Starting February 28th, 2023, we require PHP 7.4 or newer to use AffiliateWP"
 msgstr ""
 
-#: includes/admin/class-notices.php:1266
+#: includes/admin/class-notices.php:1381
 msgid "Learn more about updating PHP"
 msgstr ""
 
 #. translators: Accessibility text.
-#: includes/admin/class-notices.php:1268
+#: includes/admin/class-notices.php:1383
 msgid "(opens in a new tab)"
 msgstr ""
 
 #. translators: %s - AffiliateWP.com account downloads page URL.
-#: includes/admin/class-notices.php:1302
+#: includes/admin/class-notices.php:1417
 msgid "In order to get access to Addons, you need to <a href=\"%s\">renew your license</a>."
 msgstr ""
 
 #. translators: %s - AffiliateWP plugin settings URL.
-#: includes/admin/class-notices.php:1329
+#: includes/admin/class-notices.php:1444
 msgid "To access addons please enter and activate your AffiliateWP license key in the plugin <a href=\"%s\">settings</a>."
 msgstr ""
 
-#: includes/admin/class-upgrades.php:787
+#: includes/admin/class-upgrades.php:801
 #: includes/admin/settings/class-settings.php:1195
 #: includes/install.php:114
 #: includes/integrations/class-wpforms-templates.php:31
 #: templates/register.php:70
 #: templates/register.php:71
-#: tests/misc/test-misc-functions.php:505
 #: assets/js/editor/build/index.js:6
 msgid "Your Name"
 msgstr ""
 
-#: includes/admin/class-upgrades.php:906
+#: includes/admin/class-upgrades.php:920
 msgid "Notify site admin when a new affiliate has registered"
 msgstr ""
 
-#: includes/admin/class-upgrades.php:914
+#: includes/admin/class-upgrades.php:928
 msgid "Notify site admin when new referrals are earned"
 msgstr ""
 
@@ -2262,42 +2291,22 @@ msgstr ""
 msgid "No creative IDs specified for deletion"
 msgstr ""
 
-#: includes/admin/creatives/actions.php:155
-#: includes/admin/creatives/actions.php:169
-#: includes/admin/creatives/actions.php:193
-msgid "Started:"
-msgstr ""
-
-#: includes/admin/creatives/actions.php:157
-#: includes/admin/creatives/actions.php:181
-#: includes/admin/creatives/actions.php:221
-msgid "Ends:"
-msgstr ""
-
-#: includes/admin/creatives/actions.php:195
-#: includes/admin/creatives/actions.php:207
-msgid "Ended:"
-msgstr ""
-
-#: includes/admin/creatives/actions.php:219
-#: includes/admin/creatives/actions.php:233
-msgid "Starts:"
-msgstr ""
-
 #: includes/admin/creatives/class-list-table.php:143
 #: includes/admin/creatives/class-list-table.php:154
+#: includes/creative-functions.php:318
 msgid "Text Links"
 msgstr ""
 
 #: includes/admin/creatives/class-list-table.php:144
 #: includes/admin/creatives/class-list-table.php:155
+#: includes/creative-functions.php:317
 msgid "Images"
 msgstr ""
 
 #: includes/admin/creatives/class-list-table.php:147
-#: includes/admin/creatives/edit.php:184
-#: includes/admin/creatives/new.php:159
-#: includes/creative-functions.php:398
+#: includes/admin/creatives/edit.php:213
+#: includes/admin/creatives/new.php:153
+#: includes/creative-functions.php:416
 msgid "Scheduled"
 msgstr ""
 
@@ -2309,19 +2318,20 @@ msgid "ID"
 msgstr ""
 
 #: includes/admin/creatives/class-list-table.php:174
-#: includes/admin/creatives/edit.php:80
-#: includes/admin/creatives/new.php:78
+#: includes/admin/creatives/edit.php:95
+#: includes/admin/creatives/new.php:72
 #: includes/admin/referrals/class-list-table.php:215
 #: includes/admin/tools/export/class-batch-export-referrals.php:166
 #: includes/admin/tools/export/class-export-referrals.php:76
+#: includes/class-affiliate-area-creatives.php:802
+#: includes/class-affiliate-area-creatives.php:894
 #: includes/misc-functions.php:1423
-#: tests/misc/test-misc-functions.php:434
 msgid "Type"
 msgstr ""
 
 #: includes/admin/creatives/class-list-table.php:175
-#: includes/admin/creatives/edit.php:137
-#: includes/admin/creatives/new.php:126
+#: includes/admin/creatives/edit.php:166
+#: includes/admin/creatives/new.php:120
 #: includes/admin/tools/export/class-batch-export-visits.php:159
 #: includes/emails/functions.php:1011
 #: templates/dashboard-tab-visits.php:27
@@ -2331,6 +2341,7 @@ msgid "URL"
 msgstr ""
 
 #: includes/admin/creatives/class-list-table.php:177
+#: includes/class-affiliate-area-creatives.php:1070
 msgid "Preview"
 msgstr ""
 
@@ -2338,19 +2349,23 @@ msgstr ""
 msgid "This creative can only be seen by specific affiliates and/or affiliate groups."
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:328
+#: includes/admin/creatives/class-list-table.php:326
+msgid "Edit this creative and enter a more descriptive name. The original name can be found in the Notes field."
+msgstr ""
+
+#: includes/admin/creatives/class-list-table.php:336
 #: includes/admin/groups/class-management.php:1693
 #: includes/admin/groups/class-management.php:1943
-#: includes/admin/referrals/class-list-table.php:567
+#: includes/admin/referrals/class-list-table.php:570
 #: includes/admin/user-profile.php:82
 msgid "Edit"
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:340
+#: includes/admin/creatives/class-list-table.php:348
 msgid "Deactivate Now"
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:356
+#: includes/admin/creatives/class-list-table.php:364
 #: includes/admin/pages/class-analytics.php:213
 #: includes/admin/pages/class-analytics.php:549
 #: includes/admin/pages/class-smtp.php:210
@@ -2358,11 +2373,33 @@ msgstr ""
 msgid "Activate Now"
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:376
+#: includes/admin/creatives/class-list-table.php:384
 msgid "Edit Schedule"
 msgstr ""
 
-#: includes/admin/creatives/class-list-table.php:523
+#: includes/admin/creatives/class-list-table.php:541
+#: includes/admin/creatives/class-list-table.php:555
+#: includes/admin/creatives/class-list-table.php:579
+msgid "Started:"
+msgstr ""
+
+#: includes/admin/creatives/class-list-table.php:543
+#: includes/admin/creatives/class-list-table.php:567
+#: includes/admin/creatives/class-list-table.php:607
+msgid "Ends:"
+msgstr ""
+
+#: includes/admin/creatives/class-list-table.php:581
+#: includes/admin/creatives/class-list-table.php:593
+msgid "Ended:"
+msgstr ""
+
+#: includes/admin/creatives/class-list-table.php:605
+#: includes/admin/creatives/class-list-table.php:619
+msgid "Starts:"
+msgstr ""
+
+#: includes/admin/creatives/class-list-table.php:659
 msgid "No creatives found."
 msgstr ""
 
@@ -2370,8 +2407,11 @@ msgstr ""
 #: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:65
 #: includes/admin/groups/creative-categories/class-connector.php:62
 #: includes/admin/groups/creative-categories/class-management.php:63
+#: includes/admin/tools/class-batch-update-creative-names.php:147
+#: includes/class-affwp-creative.php:227
 #: includes/creative-functions.php:46
-#: includes/creative-functions.php:88
+#: includes/creative-functions.php:89
+#: includes/scripts.php:232
 #: assets/js/editor/build/index.js:6
 msgid "Creative"
 msgstr ""
@@ -2398,7 +2438,7 @@ msgstr ""
 #: includes/admin/groups/affiliate-groups/affiliates/class-connector.php:99
 #: includes/admin/groups/creative-categories/class-connector.php:71
 #: includes/admin/groups/creative-categories/class-connector.php:97
-#: includes/class-creatives-groups.php:596
+#: includes/class-creatives-groups.php:613
 msgid "All %s"
 msgstr ""
 
@@ -2437,7 +2477,7 @@ msgstr ""
 
 #: includes/admin/creatives/creative-privacy/affiliate-groups/class-connector.php:272
 #: includes/admin/creatives/creative-privacy/affiliates/class-connector.php:274
-#: includes/creative-functions.php:490
+#: includes/creative-functions.php:509
 msgid "Public"
 msgstr ""
 
@@ -2516,16 +2556,16 @@ msgstr ""
 msgid "Nothing to delete"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:17
+#: includes/admin/creatives/edit.php:19
 msgid "Edit Creative"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:41
+#: includes/admin/creatives/edit.php:62
 #: includes/admin/creatives/new.php:41
-msgid "The name of this creative. For your identification only."
+msgid "The name of this creative. Use this to briefly describe the creative to your affiliates."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:62
+#: includes/admin/creatives/edit.php:83
 #: includes/admin/creatives/new.php:60
 #: includes/admin/groups/meta/trait-description.php:99
 #: includes/admin/groups/meta/trait-description.php:133
@@ -2541,104 +2581,109 @@ msgstr ""
 #: includes/misc-functions.php:1417
 #: templates/dashboard-tab-referrals.php:41
 #: templates/dashboard-tab-referrals.php:62
-#: tests/misc/test-misc-functions.php:428
 msgid "Description"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:73
-#: includes/admin/creatives/new.php:71
-msgid "An optional description for this creative. This is visible to affiliates and is displayed above the creative."
+#: includes/admin/creatives/edit.php:88
+#: includes/admin/creatives/new.php:65
+msgid "An optional description for this creative. Use this to provide additional information about the creative to your affiliates."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:90
-#: includes/admin/creatives/new.php:88
+#: includes/admin/creatives/edit.php:105
+#: includes/admin/creatives/new.php:82
 msgid "Select the type of the creative."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:97
-#: includes/admin/creatives/new.php:95
-#: includes/creative-functions.php:311
+#: includes/admin/creatives/edit.php:112
+#: includes/admin/creatives/new.php:89
+#: includes/class-affwp-creative.php:431
+#: includes/creative-functions.php:323
 msgid "Image"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:103
-#: includes/admin/creatives/new.php:101
+#: includes/admin/creatives/edit.php:125
+#: includes/admin/creatives/new.php:95
 msgid "Select your image. You can also enter an image URL if your image is hosted elsewhere."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:122
-#: includes/admin/creatives/new.php:111
+#: includes/admin/creatives/edit.php:144
+#: includes/admin/creatives/new.php:105
 #: includes/class-editor.php:354
 #: assets/js/editor/build/index.js:6
 msgid "Text"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:123
-#: includes/admin/creatives/new.php:112
+#: includes/admin/creatives/edit.php:145
+#: includes/admin/creatives/new.php:106
 msgid "Alt Text"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:128
-#: includes/admin/creatives/new.php:117
+#: includes/admin/creatives/edit.php:157
+#: includes/admin/creatives/new.php:111
 msgid "Text for this creative."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:129
-#: includes/admin/creatives/new.php:118
+#: includes/admin/creatives/edit.php:158
+#: includes/admin/creatives/new.php:112
 msgid "Enter descriptive text for the image's alternative text (alt text)."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:142
-#: includes/admin/creatives/new.php:131
+#: includes/admin/creatives/edit.php:171
+#: includes/admin/creatives/new.php:125
 msgid "The URL this creative should link to. Based on your Referral Settings, the affiliate&#8217;s ID or username will be automatically appended."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:150
+#: includes/admin/creatives/edit.php:179
 msgid "Created"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:155
+#: includes/admin/creatives/edit.php:184
 msgid "The date the creative was created. This cannot be changed."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:186
-#: includes/admin/creatives/new.php:161
+#: includes/admin/creatives/edit.php:215
+#: includes/admin/creatives/new.php:155
 msgid "Select the status of the creative. A creative can be Active, Inactive, or Scheduled."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:193
-#: includes/admin/creatives/new.php:169
+#: includes/admin/creatives/edit.php:222
+#: includes/admin/creatives/new.php:163
 msgid "Schedule"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:205
-#: includes/admin/creatives/new.php:181
+#: includes/admin/creatives/edit.php:234
+#: includes/admin/creatives/new.php:175
 msgid "Upgrade to AffiliateWP Pro to Unlock Creative Scheduling"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:209
-#: includes/admin/creatives/new.php:185
+#: includes/admin/creatives/edit.php:238
+#: includes/admin/creatives/new.php:179
 msgid "Set a specific time frame for your creative's visibility."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:214
-#: includes/admin/creatives/edit.php:221
+#: includes/admin/creatives/edit.php:243
+#: includes/admin/creatives/edit.php:250
+#: includes/admin/creatives/new.php:183
 #: includes/admin/creatives/new.php:189
-#: includes/admin/creatives/new.php:195
 msgid "mm/dd/yyyy"
 msgstr ""
 
-#: includes/admin/creatives/edit.php:216
-#: includes/admin/creatives/new.php:191
+#: includes/admin/creatives/edit.php:245
+#: includes/admin/creatives/new.php:185
 msgid "Start date."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:223
-#: includes/admin/creatives/new.php:197
+#: includes/admin/creatives/edit.php:252
+#: includes/admin/creatives/new.php:191
 msgid "End date."
 msgstr ""
 
-#: includes/admin/creatives/edit.php:245
+#: includes/admin/creatives/edit.php:267
+#: includes/admin/creatives/new.php:205
+msgid "Enter any notes for this creative. Notes are only visible to an affiliate manager."
+msgstr ""
+
+#: includes/admin/creatives/edit.php:287
 msgid "Update Creative"
 msgstr ""
 
@@ -2650,7 +2695,7 @@ msgstr ""
 msgid "Use this screen to add a new creative, such as a text link or image banner."
 msgstr ""
 
-#: includes/admin/creatives/new.php:217
+#: includes/admin/creatives/new.php:224
 msgid "Add Creative"
 msgstr ""
 
@@ -2851,7 +2896,6 @@ msgstr ""
 #: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:384
 #: includes/admin/tools/export/class-batch-export-affiliates.php:111
 #: includes/misc-functions.php:1372
-#: tests/misc/test-misc-functions.php:391
 msgid "Flat Rate Basis"
 msgstr ""
 
@@ -2886,7 +2930,6 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-affiliates.php:110
 #: includes/admin/tools/export/class-export-affiliates.php:55
 #: includes/misc-functions.php:1371
-#: tests/misc/test-misc-functions.php:390
 msgid "Rate Type"
 msgstr ""
 
@@ -3514,8 +3557,6 @@ msgstr ""
 #: includes/admin/payouts/class-list-table.php:141
 #: includes/admin/tools/tools.php:387
 #: includes/referral-functions.php:112
-#: tests/referrals/test-referral-functions.php:409
-#: tests/referrals/test-referral-functions.php:423
 msgid "Paid"
 msgstr ""
 
@@ -3523,8 +3564,6 @@ msgstr ""
 #: includes/admin/tools/tools.php:388
 #: includes/payout-functions.php:190
 #: includes/referral-functions.php:121
-#: tests/payouts/test-payout-functions.php:300
-#: tests/referrals/test-referral-functions.php:428
 msgid "Failed"
 msgstr ""
 
@@ -3601,11 +3640,11 @@ msgid "View"
 msgstr ""
 
 #: includes/admin/payouts/class-list-table.php:482
-#: includes/admin/payouts/class-list-table.php:589
+#: includes/admin/payouts/class-list-table.php:590
 msgid "Retry Payment"
 msgstr ""
 
-#: includes/admin/payouts/class-list-table.php:576
+#: includes/admin/payouts/class-list-table.php:577
 msgid "No payouts found."
 msgstr ""
 
@@ -3617,9 +3656,6 @@ msgstr ""
 #: includes/admin/payouts/class-payouts-service.php:59
 #: includes/admin/settings/class-settings.php:1087
 #: includes/admin/settings/display-settings.php:137
-#: tests/payouts/test-payout-functions.php:322
-#: tests/payouts/test-payout-functions.php:328
-#: tests/payouts/test-payout-functions.php:363
 msgid "Payouts Service"
 msgstr ""
 
@@ -3697,7 +3733,7 @@ msgid "Start Date"
 msgstr ""
 
 #: includes/admin/payouts/new.php:54
-#: includes/admin/referrals/class-list-table.php:698
+#: includes/admin/referrals/class-list-table.php:701
 #: includes/admin/tools/tools.php:356
 #: includes/admin/tools/tools.php:383
 #: includes/admin/tools/tools.php:408
@@ -3715,7 +3751,7 @@ msgid "End Date"
 msgstr ""
 
 #: includes/admin/payouts/new.php:67
-#: includes/admin/referrals/class-list-table.php:699
+#: includes/admin/referrals/class-list-table.php:702
 #: includes/admin/tools/tools.php:357
 #: includes/admin/tools/tools.php:384
 #: includes/admin/tools/tools.php:409
@@ -3935,7 +3971,6 @@ msgstr ""
 #: includes/misc-functions.php:1419
 #: templates/dashboard-tab-referrals.php:39
 #: templates/dashboard-tab-referrals.php:60
-#: tests/misc/test-misc-functions.php:430
 msgid "Reference"
 msgstr ""
 
@@ -3953,33 +3988,32 @@ msgstr ""
 #: templates/dashboard-tab-referrals.php:64
 #: templates/dashboard-tab-visits.php:30
 #: templates/dashboard-tab-visits.php:51
-#: tests/misc/test-misc-functions.php:435
 msgid "Date"
 msgstr ""
 
-#: includes/admin/referrals/class-list-table.php:504
-#: includes/admin/referrals/class-list-table.php:735
+#: includes/admin/referrals/class-list-table.php:507
+#: includes/admin/referrals/class-list-table.php:738
 msgid "Mark as Unpaid"
 msgstr ""
 
-#: includes/admin/referrals/class-list-table.php:520
-#: includes/admin/referrals/class-list-table.php:734
+#: includes/admin/referrals/class-list-table.php:523
+#: includes/admin/referrals/class-list-table.php:737
 msgid "Mark as Paid"
 msgstr ""
 
-#: includes/admin/referrals/class-list-table.php:623
+#: includes/admin/referrals/class-list-table.php:626
 msgid "No referrals found."
 msgstr ""
 
-#: includes/admin/referrals/class-list-table.php:656
+#: includes/admin/referrals/class-list-table.php:659
 msgid "Bulk Actions"
 msgstr ""
 
-#: includes/admin/referrals/class-list-table.php:677
+#: includes/admin/referrals/class-list-table.php:680
 msgid "Apply"
 msgstr ""
 
-#: includes/admin/referrals/class-list-table.php:703
+#: includes/admin/referrals/class-list-table.php:706
 msgid "All Types"
 msgstr ""
 
@@ -4172,7 +4206,6 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-visits.php:161
 #: includes/admin/tools/export/class-export-referrals.php:74
 #: includes/misc-functions.php:1420
-#: tests/misc/test-misc-functions.php:431
 msgid "Context"
 msgstr ""
 
@@ -4751,7 +4784,6 @@ msgstr ""
 #: includes/admin/tools/export/class-export-referrals-payout.php:74
 #: includes/admin/tools/export/class-export-referrals.php:70
 #: includes/misc-functions.php:1416
-#: tests/misc/test-misc-functions.php:427
 msgid "Currency"
 msgstr ""
 
@@ -4840,16 +4872,11 @@ msgstr ""
 #: includes/admin/settings/class-settings.php:769
 #: includes/affiliate-functions.php:383
 #: includes/referral-functions.php:115
-#: tests/affiliates/test-affiliate-functions.php:648
-#: tests/referrals/test-referral-functions.php:412
-#: tests/referrals/test-referral-functions.php:426
 msgid "Pending"
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:770
 #: includes/referral-functions.php:113
-#: tests/referrals/test-referral-functions.php:410
-#: tests/referrals/test-referral-functions.php:424
 msgid "Unpaid"
 msgstr ""
 
@@ -5575,7 +5602,7 @@ msgstr ""
 
 #: includes/admin/settings/display-settings.php:140
 #: includes/admin/tools/tools.php:104
-#: includes/affiliate-functions.php:1863
+#: includes/affiliate-functions.php:1864
 #: templates/dashboard-tab-coupons.php:8
 msgid "Coupons"
 msgstr ""
@@ -5661,10 +5688,12 @@ msgid "Visits have been successfully recounted for all matching affiliates."
 msgstr ""
 
 #: includes/admin/tools/class-batch-set-creative-type.php:144
+#: includes/admin/tools/class-batch-update-creative-names.php:176
 msgid "No creatives were found to be updated."
 msgstr ""
 
 #: includes/admin/tools/class-batch-set-creative-type.php:147
+#: includes/admin/tools/class-batch-update-creative-names.php:178
 msgid "Creatives have been successfully updated."
 msgstr ""
 
@@ -5733,7 +5762,6 @@ msgstr ""
 #: includes/misc-functions.php:1368
 #: templates/opt-in.php:40
 #: templates/opt-in.php:41
-#: tests/misc/test-misc-functions.php:387
 #: assets/js/editor/build/index.js:6
 msgid "Last Name"
 msgstr ""
@@ -5743,7 +5771,6 @@ msgstr ""
 #: includes/emails/functions.php:1403
 #: includes/emails/functions.php:1561
 #: includes/misc-functions.php:1373
-#: tests/misc/test-misc-functions.php:392
 msgid "Earnings"
 msgstr ""
 
@@ -5782,7 +5809,6 @@ msgstr[1] ""
 #: includes/misc-functions.php:1418
 #: templates/dashboard-tab-stats.php:88
 #: templates/dashboard-tab-stats.php:100
-#: tests/misc/test-misc-functions.php:429
 msgid "Campaign"
 msgstr ""
 
@@ -5790,7 +5816,6 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-visits.php:162
 #: includes/admin/tools/export/class-export-referrals.php:77
 #: includes/misc-functions.php:1422
-#: tests/misc/test-misc-functions.php:433
 msgid "Flag"
 msgstr ""
 
@@ -6521,21 +6546,21 @@ msgid_plural "%s affiliates were successfully converted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/utilities/class-batch-process-registry.php:198
+#: includes/admin/utilities/class-batch-process-registry.php:204
 msgid "A batch process class must be specified."
 msgstr ""
 
-#: includes/admin/utilities/class-batch-process-registry.php:202
+#: includes/admin/utilities/class-batch-process-registry.php:208
 msgid "No batch class handler file has been supplied."
 msgstr ""
 
-#: includes/admin/utilities/class-batch-process-registry.php:207
+#: includes/admin/utilities/class-batch-process-registry.php:213
 msgid "An invalid batch class handler file has been supplied."
 msgstr ""
 
 #. translators: Singular item number
 #. translators: Plural items number
-#: includes/admin/utilities/class-batch-process.php:153
+#: includes/admin/utilities/class-batch-process.php:168
 msgid "%s item was successfully processed."
 msgid_plural "%s items were successfully processed."
 msgstr[0] ""
@@ -6568,7 +6593,7 @@ msgstr ""
 
 #: includes/admin/utilities/class-privacy-tools.php:120
 #: includes/admin/utilities/class-privacy-tools.php:185
-#: includes/class-custom-links.php:291
+#: includes/class-custom-links.php:280
 msgid "Date Created"
 msgstr ""
 
@@ -6687,9 +6712,6 @@ msgstr ""
 
 #: includes/affiliate-functions.php:384
 #: includes/referral-functions.php:114
-#: tests/affiliates/test-affiliate-functions.php:649
-#: tests/referrals/test-referral-functions.php:411
-#: tests/referrals/test-referral-functions.php:425
 msgid "Rejected"
 msgstr ""
 
@@ -6712,23 +6734,105 @@ msgstr ""
 
 #: includes/affiliate-functions.php:1857
 #: templates/dashboard-tab-urls.php:6
-#: tests/affiliates/test-affiliate-functions.php:2971
 msgid "Affiliate URLs"
 msgstr ""
 
-#: includes/affiliate-functions.php:1858
+#: includes/affiliate-functions.php:1859
 #: templates/dashboard-tab-stats.php:6
-#: tests/affiliates/test-affiliate-functions.php:2972
 msgid "Statistics"
 msgstr ""
 
-#: includes/affiliate-functions.php:1859
-#: tests/affiliates/test-affiliate-functions.php:2973
+#: includes/affiliate-functions.php:1860
 msgid "Graphs"
 msgstr ""
 
-#: includes/class-affiliate-wp.php:336
-#: includes/class-affiliate-wp.php:348
+#: includes/class-affiliate-area-creatives.php:176
+msgid "Error! Copy is not available."
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:177
+msgid "Code Copied!"
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:178
+msgid "Error! Can not copy content."
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:441
+msgid "List"
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:442
+msgid "Grid"
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:607
+msgid "View Details"
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:655
+msgid "Copy Code"
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:673
+msgid "HTML Code"
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:674
+msgid "Copy and paste the following"
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:708
+msgid "Download"
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:803
+#: includes/class-affiliate-area-creatives.php:915
+msgid "Last Updated"
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:1059
+msgid "Last Updated on"
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:1081
+msgid "File"
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:1159
+msgid "Please refresh the page and try again"
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:1166
+msgid "This type of creative can not be downloaded."
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:1172
+msgid "Invalid image URL."
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:1184
+msgid "Error fetching the image."
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:1201
+msgid "Invalid image file."
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:1237
+msgid "Please refresh the page and try again."
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:1245
+msgid "Sorry! You do not have access to this creative."
+msgstr ""
+
+#: includes/class-affiliate-area-creatives.php:1267
+msgid "Sorry! Invalid request. Please try again."
+msgstr ""
+
+#: includes/class-affiliate-wp.php:388
+#: includes/class-affiliate-wp.php:400
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -6756,81 +6860,81 @@ msgstr ""
 msgid "Custom text"
 msgstr ""
 
-#: includes/class-custom-links.php:40
-#: includes/scripts.php:303
+#: includes/class-custom-links.php:42
+#: includes/scripts.php:307
 msgid "Please enter a valid URL for this site"
 msgstr ""
 
-#: includes/class-custom-links.php:41
+#: includes/class-custom-links.php:43
 msgid "Failed to save link - please try again"
 msgstr ""
 
-#: includes/class-custom-links.php:42
+#: includes/class-custom-links.php:44
 msgid "Invalid request - reload the page and try again"
 msgstr ""
 
-#: includes/class-custom-links.php:43
-#: includes/class-custom-links.php:274
+#: includes/class-custom-links.php:45
+#: includes/class-custom-links.php:263
 msgid "Create Custom Link"
 msgstr ""
 
-#: includes/class-custom-links.php:44
+#: includes/class-custom-links.php:46
 msgid "Update Custom Link"
 msgstr ""
 
-#: includes/class-custom-links.php:45
+#: includes/class-custom-links.php:47
 msgid "Link copied!"
 msgstr ""
 
-#: includes/class-custom-links.php:46
+#: includes/class-custom-links.php:48
 msgid "Saving..."
 msgstr ""
 
-#: includes/class-custom-links.php:47
+#: includes/class-custom-links.php:49
 msgid "Copy link"
 msgstr ""
 
-#: includes/class-custom-links.php:48
+#: includes/class-custom-links.php:50
 msgid "Edit link"
 msgstr ""
 
-#: includes/class-custom-links.php:49
+#: includes/class-custom-links.php:51
 msgid "Link created"
 msgstr ""
 
-#: includes/class-custom-links.php:50
+#: includes/class-custom-links.php:52
 msgid "Link created and copied to clipboard"
 msgstr ""
 
-#: includes/class-custom-links.php:51
+#: includes/class-custom-links.php:53
 msgid "Link updated"
 msgstr ""
 
-#: includes/class-custom-links.php:52
+#: includes/class-custom-links.php:54
 msgid "Link updated and copied to clipboard"
 msgstr ""
 
-#: includes/class-custom-links.php:256
+#: includes/class-custom-links.php:245
 msgid "Custom Link Generator"
 msgstr ""
 
-#: includes/class-custom-links.php:257
+#: includes/class-custom-links.php:246
 msgid "Enter any URL from this website in the form below to generate a custom link."
 msgstr ""
 
-#: includes/class-custom-links.php:259
+#: includes/class-custom-links.php:248
 msgid "Page URL"
 msgstr ""
 
-#: includes/class-custom-links.php:264
+#: includes/class-custom-links.php:253
 msgid "Add a campaign (optional)"
 msgstr ""
 
-#: includes/class-custom-links.php:268
+#: includes/class-custom-links.php:257
 msgid "Campaign Name (optional)"
 msgstr ""
 
-#: includes/class-custom-links.php:290
+#: includes/class-custom-links.php:279
 msgid "Custom Link"
 msgstr ""
 
@@ -7731,92 +7835,92 @@ msgstr ""
 msgid "Use our configuration wizard to properly set up AffiliateWP (with just a few clicks)."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:249
-msgid "Please enter a license key."
-msgstr ""
-
-#: includes/components/wizard/class-bootstrap.php:258
+#: includes/components/wizard/class-bootstrap.php:250
 msgid "You are not allowed to verify a license key."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:271
+#: includes/components/wizard/class-bootstrap.php:263
 msgid "There was an error connecting to the remote key API. Please try again later."
 msgstr ""
 
+#: includes/components/wizard/class-bootstrap.php:289
+msgid "Please enter a license key."
+msgstr ""
+
 #. translators: 1: License has expired error, 2: Renew your license to continue. 3: AffiliateWP.com downloads page URL
-#: includes/components/wizard/class-bootstrap.php:299
-#: includes/components/wizard/class-bootstrap.php:1028
+#: includes/components/wizard/class-bootstrap.php:300
+#: includes/components/wizard/class-bootstrap.php:1035
 msgid "%1$s <a href=\"%3$s\">%2$s</a>"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:306
-#: includes/components/wizard/class-bootstrap.php:1035
+#: includes/components/wizard/class-bootstrap.php:307
+#: includes/components/wizard/class-bootstrap.php:1042
 msgid "This license key has expired."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:307
-#: includes/components/wizard/class-bootstrap.php:1036
+#: includes/components/wizard/class-bootstrap.php:308
+#: includes/components/wizard/class-bootstrap.php:1043
 msgid "Renew your license to continue."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:316
+#: includes/components/wizard/class-bootstrap.php:317
 msgid "This license key doesn&#8217;t appear to be valid. Try again?"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:331
+#: includes/components/wizard/class-bootstrap.php:332
 msgid "Congratulations! This site is now receiving automatic updates."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:642
+#: includes/components/wizard/class-bootstrap.php:649
 msgid "You need a Professional license to install Pro features."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:1023
+#: includes/components/wizard/class-bootstrap.php:1030
 msgid "No Compatible Plugins Detected"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:1024
+#: includes/components/wizard/class-bootstrap.php:1031
 msgid "We recommend integrating AffiliateWP with one of the plugins below."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:1025
+#: includes/components/wizard/class-bootstrap.php:1032
 msgid "Compatible Plugins"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:1056
+#: includes/components/wizard/class-bootstrap.php:1063
 msgid "AffiliateWP &rsaquo; Onboarding Wizard"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:1073
+#: includes/components/wizard/class-bootstrap.php:1080
 msgid "Return to Dashboard"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:1127
+#: includes/components/wizard/class-bootstrap.php:1134
 msgid "Ooops! It Appears JavaScript Didn’t Load"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:1128
+#: includes/components/wizard/class-bootstrap.php:1135
 msgid "There seems to be an issue running JavaScript on your website, which AffiliateWP is crafted in to give you the best experience possible."
 msgstr ""
 
 #. Translators: Placeholders make the text bold.
-#: includes/components/wizard/class-bootstrap.php:1132
+#: includes/components/wizard/class-bootstrap.php:1139
 msgid "If you are using an %1$sad blocker%2$s, please disable or whitelist the current page to load AffiliateWP correctly."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:1146
+#: includes/components/wizard/class-bootstrap.php:1153
 msgid "Copy the error message above and paste it in a message to the AffiliateWP support team."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:1150
+#: includes/components/wizard/class-bootstrap.php:1157
 msgid "Your browser version is not supported"
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:1151
+#: includes/components/wizard/class-bootstrap.php:1158
 msgid "You are using a browser which is no longer supported by AffiliateWP. Please update or use another browser in order to access the plugin settings."
 msgstr ""
 
-#: includes/components/wizard/class-bootstrap.php:1153
+#: includes/components/wizard/class-bootstrap.php:1160
 msgid "View supported browsers"
 msgstr ""
 
@@ -7945,56 +8049,54 @@ msgid "No coupons were found."
 msgstr ""
 
 #: includes/coupon-functions.php:465
-#: tests/coupons/test-coupon-functions.php:337
 msgid "Manual"
 msgstr ""
 
 #: includes/coupon-functions.php:466
-#: tests/coupons/test-coupon-functions.php:338
 msgid "Dynamic"
 msgstr ""
 
-#: includes/creative-functions.php:312
+#: includes/creative-functions.php:324
 msgid "Text Link"
 msgstr ""
 
-#: includes/creative-functions.php:484
+#: includes/creative-functions.php:503
 msgid "Privacy"
 msgstr ""
 
-#: includes/creative-functions.php:491
+#: includes/creative-functions.php:510
 msgid "Private"
 msgstr ""
 
-#: includes/creative-functions.php:493
+#: includes/creative-functions.php:513
 msgid "Select whether you want this creative to be public or private."
 msgstr ""
 
 #. translators: Creative is Active until this date.
-#: includes/creative-functions.php:598
-#: includes/creative-functions.php:623
+#: includes/creative-functions.php:618
+#: includes/creative-functions.php:643
 msgid "Creative currently Active until %s."
 msgstr ""
 
 #. translators: Creative is Inactive since this date.
 #. translators: Creative is Inactive since this date
-#: includes/creative-functions.php:606
-#: includes/creative-functions.php:631
+#: includes/creative-functions.php:626
+#: includes/creative-functions.php:651
 msgid "Creative Inactive since %s."
 msgstr ""
 
 #. translators: Creative is scheduled to be Active between these dates.
-#: includes/creative-functions.php:614
+#: includes/creative-functions.php:634
 msgid "Creative will become Active on %1$s until %2$s."
 msgstr ""
 
 #. translators: Creative is scheduled to be Active on this date.
-#: includes/creative-functions.php:639
+#: includes/creative-functions.php:659
 msgid "Creative will become Active on %s."
 msgstr ""
 
 #. translators: Creative Active since this date.
-#: includes/creative-functions.php:647
+#: includes/creative-functions.php:667
 msgid "Creative Active since %s."
 msgstr ""
 
@@ -9141,54 +9243,44 @@ msgstr ""
 
 #: includes/misc-functions.php:1365
 #: includes/misc-functions.php:1384
-#: tests/misc/test-misc-functions.php:384
 msgid "Email (required)"
 msgstr ""
 
 #: includes/misc-functions.php:1367
-#: tests/misc/test-misc-functions.php:386
 msgid "First/Full Name"
 msgstr ""
 
 #: includes/misc-functions.php:1375
-#: tests/misc/test-misc-functions.php:394
 msgid "Referral Count"
 msgstr ""
 
 #: includes/misc-functions.php:1376
-#: tests/misc/test-misc-functions.php:395
 msgid "Visit Count"
 msgstr ""
 
 #: includes/misc-functions.php:1409
 #: includes/misc-functions.php:1429
-#: tests/misc/test-misc-functions.php:420
 msgid "Affiliate ID or Username (required)"
 msgstr ""
 
 #: includes/misc-functions.php:1410
 #: includes/misc-functions.php:1433
-#: tests/misc/test-misc-functions.php:421
 msgid "Amount (required)"
 msgstr ""
 
 #: includes/misc-functions.php:1411
-#: tests/misc/test-misc-functions.php:422
 msgid "Affiliate Email"
 msgstr ""
 
 #: includes/misc-functions.php:1412
-#: tests/misc/test-misc-functions.php:423
 msgid "Affiliate Username"
 msgstr ""
 
 #: includes/misc-functions.php:1413
-#: tests/misc/test-misc-functions.php:424
 msgid "Affiliate First/Full Name"
 msgstr ""
 
 #: includes/misc-functions.php:1414
-#: tests/misc/test-misc-functions.php:425
 msgid "Affiliate Last Name"
 msgstr ""
 
@@ -9202,267 +9294,217 @@ msgstr ""
 
 #: includes/misc-functions.php:1553
 #: includes/misc-functions.php:1589
-#: tests/misc/test-misc-functions.php:1105
 msgid "Austria"
 msgstr ""
 
 #: includes/misc-functions.php:1554
 #: includes/misc-functions.php:1590
-#: tests/misc/test-misc-functions.php:1106
 msgid "Belgium"
 msgstr ""
 
 #: includes/misc-functions.php:1555
 #: includes/misc-functions.php:1597
-#: tests/misc/test-misc-functions.php:1113
 msgid "Denmark"
 msgstr ""
 
 #: includes/misc-functions.php:1556
 #: includes/misc-functions.php:1600
-#: tests/misc/test-misc-functions.php:1116
 msgid "Finland"
 msgstr ""
 
 #: includes/misc-functions.php:1557
 #: includes/misc-functions.php:1601
-#: tests/misc/test-misc-functions.php:1117
 msgid "France"
 msgstr ""
 
 #: includes/misc-functions.php:1558
 #: includes/misc-functions.php:1602
-#: tests/misc/test-misc-functions.php:1118
 msgid "Germany"
 msgstr ""
 
 #: includes/misc-functions.php:1559
 #: includes/misc-functions.php:1611
-#: tests/misc/test-misc-functions.php:1127
 msgid "Ireland"
 msgstr ""
 
 #: includes/misc-functions.php:1560
 #: includes/misc-functions.php:1612
-#: tests/misc/test-misc-functions.php:1128
 msgid "Italy"
 msgstr ""
 
 #: includes/misc-functions.php:1561
 #: includes/misc-functions.php:1615
-#: tests/misc/test-misc-functions.php:1131
 msgid "Luxembourg"
 msgstr ""
 
 #: includes/misc-functions.php:1562
 #: includes/misc-functions.php:1619
-#: tests/misc/test-misc-functions.php:1135
 msgid "Netherlands"
 msgstr ""
 
 #: includes/misc-functions.php:1563
 #: includes/misc-functions.php:1621
-#: tests/misc/test-misc-functions.php:1137
 msgid "Norway"
 msgstr ""
 
 #: includes/misc-functions.php:1564
 #: includes/misc-functions.php:1624
-#: tests/misc/test-misc-functions.php:1140
 msgid "Portugal"
 msgstr ""
 
 #: includes/misc-functions.php:1565
 #: includes/misc-functions.php:1629
-#: tests/misc/test-misc-functions.php:1145
 msgid "Spain"
 msgstr ""
 
 #: includes/misc-functions.php:1566
 #: includes/misc-functions.php:1630
-#: tests/misc/test-misc-functions.php:1146
 msgid "Sweden"
 msgstr ""
 
 #: includes/misc-functions.php:1567
 #: includes/misc-functions.php:1631
-#: tests/misc/test-misc-functions.php:1147
 msgid "Switzerland"
 msgstr ""
 
 #: includes/misc-functions.php:1568
 #: includes/misc-functions.php:1586
-#: tests/misc/test-misc-functions.php:1102
 msgid "United Kingdom"
 msgstr ""
 
 #: includes/misc-functions.php:1584
-#: tests/misc/test-misc-functions.php:1100
 msgid "United States"
 msgstr ""
 
 #: includes/misc-functions.php:1585
-#: tests/misc/test-misc-functions.php:1101
 msgid "Canada"
 msgstr ""
 
 #: includes/misc-functions.php:1587
-#: tests/misc/test-misc-functions.php:1103
 msgid "Argentina"
 msgstr ""
 
 #: includes/misc-functions.php:1588
-#: tests/misc/test-misc-functions.php:1104
 msgid "Australia"
 msgstr ""
 
 #: includes/misc-functions.php:1591
-#: tests/misc/test-misc-functions.php:1107
 msgid "Brazil"
 msgstr ""
 
 #: includes/misc-functions.php:1592
-#: tests/misc/test-misc-functions.php:1108
 msgid "Bulgaria"
 msgstr ""
 
 #: includes/misc-functions.php:1593
-#: tests/misc/test-misc-functions.php:1109
 msgid "Costa Rica"
 msgstr ""
 
 #: includes/misc-functions.php:1594
-#: tests/misc/test-misc-functions.php:1110
 msgid "Croatia"
 msgstr ""
 
 #: includes/misc-functions.php:1595
-#: tests/misc/test-misc-functions.php:1111
 msgid "Cyprus"
 msgstr ""
 
 #: includes/misc-functions.php:1596
-#: tests/misc/test-misc-functions.php:1112
 msgid "Czech Republic"
 msgstr ""
 
 #: includes/misc-functions.php:1598
-#: tests/misc/test-misc-functions.php:1114
 msgid "Egypt"
 msgstr ""
 
 #: includes/misc-functions.php:1599
-#: tests/misc/test-misc-functions.php:1115
 msgid "Estonia"
 msgstr ""
 
 #: includes/misc-functions.php:1603
-#: tests/misc/test-misc-functions.php:1119
 msgid "Greece"
 msgstr ""
 
 #: includes/misc-functions.php:1604
-#: tests/misc/test-misc-functions.php:1120
 msgid "Hong Kong"
 msgstr ""
 
 #: includes/misc-functions.php:1605
-#: tests/misc/test-misc-functions.php:1121
 msgid "Hungary"
 msgstr ""
 
 #: includes/misc-functions.php:1606
-#: tests/misc/test-misc-functions.php:1122
 msgid "Iceland"
 msgstr ""
 
 #: includes/misc-functions.php:1607
-#: tests/misc/test-misc-functions.php:1123
 msgid "India"
 msgstr ""
 
 #: includes/misc-functions.php:1608
-#: tests/misc/test-misc-functions.php:1124
 msgid "Indonesia"
 msgstr ""
 
 #: includes/misc-functions.php:1609
-#: tests/misc/test-misc-functions.php:1125
 msgid "Israel"
 msgstr ""
 
 #: includes/misc-functions.php:1610
-#: tests/misc/test-misc-functions.php:1126
 msgid "Japan"
 msgstr ""
 
 #: includes/misc-functions.php:1613
-#: tests/misc/test-misc-functions.php:1129
 msgid "Latvia"
 msgstr ""
 
 #: includes/misc-functions.php:1614
-#: tests/misc/test-misc-functions.php:1130
 msgid "Lithuania"
 msgstr ""
 
 #: includes/misc-functions.php:1616
-#: tests/misc/test-misc-functions.php:1132
 msgid "Malaysia"
 msgstr ""
 
 #: includes/misc-functions.php:1617
-#: tests/misc/test-misc-functions.php:1133
 msgid "Malta"
 msgstr ""
 
 #: includes/misc-functions.php:1618
-#: tests/misc/test-misc-functions.php:1134
 msgid "Mexico"
 msgstr ""
 
 #: includes/misc-functions.php:1620
-#: tests/misc/test-misc-functions.php:1136
 msgid "New Zealand"
 msgstr ""
 
 #: includes/misc-functions.php:1622
-#: tests/misc/test-misc-functions.php:1138
 msgid "Peru"
 msgstr ""
 
 #: includes/misc-functions.php:1623
-#: tests/misc/test-misc-functions.php:1139
 msgid "Poland"
 msgstr ""
 
 #: includes/misc-functions.php:1625
-#: tests/misc/test-misc-functions.php:1141
 msgid "Romania"
 msgstr ""
 
 #: includes/misc-functions.php:1626
-#: tests/misc/test-misc-functions.php:1142
 msgid "Singapore"
 msgstr ""
 
 #: includes/misc-functions.php:1627
-#: tests/misc/test-misc-functions.php:1143
 msgid "Slovakia"
 msgstr ""
 
 #: includes/misc-functions.php:1628
-#: tests/misc/test-misc-functions.php:1144
 msgid "Slovenia"
 msgstr ""
 
 #: includes/misc-functions.php:1632
-#: tests/misc/test-misc-functions.php:1148
 msgid "Thailand"
 msgstr ""
 
 #: includes/misc-functions.php:1633
-#: tests/misc/test-misc-functions.php:1149
 msgid "Uruguay"
 msgstr ""
 
@@ -9472,80 +9514,56 @@ msgid "%s%%"
 msgstr ""
 
 #: includes/payout-functions.php:188
-#: tests/payouts/test-payout-functions.php:298
 msgctxt "payout"
 msgid "Processing"
 msgstr ""
 
 #: includes/payout-functions.php:189
-#: tests/payouts/test-payout-functions.php:299
 msgctxt "payout"
 msgid "Paid"
 msgstr ""
 
 #: includes/payout-functions.php:204
-#: tests/payouts/test-payout-functions.php:311
-#: tests/payouts/test-payout-functions.php:327
 msgid "Manual Payout"
 msgstr ""
 
 #: includes/payout-functions.php:295
-#: tests/payouts/test-payout-functions.php:427
-#: tests/payouts/test-payout-functions.php:452
 msgid "Invalid affiliate account"
 msgstr ""
 
 #: includes/payout-functions.php:296
-#: tests/payouts/test-payout-functions.php:428
-#: tests/payouts/test-payout-functions.php:453
 msgid "Invalid Payouts Service account"
 msgstr ""
 
 #: includes/payout-functions.php:297
-#: tests/payouts/test-payout-functions.php:429
-#: tests/payouts/test-payout-functions.php:454
 msgid "Doesn&#8217;t meet the minimum payout amount"
 msgstr ""
 
 #: includes/payout-functions.php:298
-#: tests/payouts/test-payout-functions.php:430
-#: tests/payouts/test-payout-functions.php:455
 msgid "Hasn&#8217;t created a Payouts Service account"
 msgstr ""
 
 #: includes/payout-functions.php:299
-#: tests/payouts/test-payout-functions.php:431
-#: tests/payouts/test-payout-functions.php:456
 msgid "Hasn&#8217;t submitted payout method on Payouts Service"
 msgstr ""
 
 #: includes/payout-functions.php:300
-#: tests/payouts/test-payout-functions.php:432
-#: tests/payouts/test-payout-functions.php:457
 msgid "No referrals within the specified date range"
 msgstr ""
 
 #: includes/payout-functions.php:301
-#: tests/payouts/test-payout-functions.php:433
-#: tests/payouts/test-payout-functions.php:458
 msgid "Account temporarily disabled on the Payouts Service"
 msgstr ""
 
 #: includes/payout-functions.php:302
-#: tests/payouts/test-payout-functions.php:434
-#: tests/payouts/test-payout-functions.php:459
 msgid "Unable to retrieve Payouts Service account"
 msgstr ""
 
 #: includes/payout-functions.php:303
-#: tests/payouts/test-payout-functions.php:435
-#: tests/payouts/test-payout-functions.php:460
 msgid "Unable to validate payout on the Payouts Service"
 msgstr ""
 
 #: includes/payout-functions.php:304
-#: tests/payouts/test-payout-functions.php:436
-#: tests/payouts/test-payout-functions.php:461
 msgid "Affiliate user account deleted"
 msgstr ""
 
@@ -9554,7 +9572,6 @@ msgid "Switch To"
 msgstr ""
 
 #: includes/referral-functions.php:120
-#: tests/referrals/test-referral-functions.php:427
 msgid "Draft"
 msgstr ""
 
@@ -10192,12 +10209,20 @@ msgstr ""
 msgid "View Affiliate"
 msgstr ""
 
-#: includes/scripts.php:304
+#: includes/scripts.php:233
+msgid "Review & Rename Creatives"
+msgstr ""
+
+#: includes/scripts.php:235
+msgid "This creative’s name has not been updated and affiliates will see it as “Creative” on your website."
+msgstr ""
+
+#: includes/scripts.php:308
 #: templates/payouts/register.php:120
 msgid "Your Country of Residence"
 msgstr ""
 
-#: includes/scripts.php:305
+#: includes/scripts.php:309
 msgid "Country Where The Business Is Legally Established"
 msgstr ""
 
@@ -10215,7 +10240,7 @@ msgstr ""
 msgid "There are currently no coupon codes to display."
 msgstr ""
 
-#: templates/dashboard-tab-creatives.php:85
+#: templates/dashboard-tab-creatives.php:69
 msgid "Sorry, there are currently no creatives available."
 msgstr ""
 
@@ -10495,19 +10520,6 @@ msgstr ""
 
 #: templates/register.php:86
 msgid "Payment Email Address"
-msgstr ""
-
-#: tests/payouts/test-payout-functions.php:394
-msgid "Foo Payouts Service"
-msgstr ""
-
-#: tests/payouts/test-payout-functions.php:395
-msgid "Bar Payouts Service"
-msgstr ""
-
-#: tests/payouts/test-payout-functions.php:447
-#: tests/payouts/test-payout-functions.php:462
-msgid "Foo Affiliate account banned"
 msgstr ""
 
 #: assets/js/editor/build/index.js:6

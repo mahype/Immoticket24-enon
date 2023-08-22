@@ -400,8 +400,8 @@ class AffWP_Visits_Table extends List_Table {
 		$per_page = $this->get_items_per_page( 'affwp_edit_visits_per_page', $this->per_page );
 
 		$args = wp_parse_args( $this->query_args, array(
-			'number'          => $this->per_page,
-			'offset'          => $this->per_page * ( $page - 1 ),
+			'number'          => $per_page,
+			'offset'          => $per_page * ( $page - 1 ),
 			'visit_id'        => $visit_id,
 			'affiliate_id'    => $affiliate_id,
 			'referral_id'     => $referral_id,

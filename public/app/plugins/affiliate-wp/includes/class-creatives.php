@@ -91,49 +91,100 @@ class Affiliate_WP_Creatives {
 	/**
 	 * The [affiliate_creatives] shortcode
 	 *
-	 * @since  1.2
+	 * @since 1.2
+	 * @since 2.16.0 Refactored to use get_affiliate_creatives method.
+	 * @param array $args Shortcode args.
 	 * @return string
 	 */
-	public function affiliate_creatives( $args = array() ) {
+	public function affiliate_creatives( array $args = array() ) : string {
 
-		$defaults = array(
-			'preview' => 'yes',
-			'status'  => 'active'
+		$args = wp_parse_args(
+			$args,
+			array(
+				'preview' => 'yes',
+				'status' => 'active',
+			)
 		);
 
-		$args = wp_parse_args( $args, $defaults );
+		$creatives = $this->get_affiliate_creatives( $args );
+
+		if ( empty( $creatives ) ) {
+			return ''; // Nothing to return.
+		}
 
 		ob_start();
+
+		foreach ( $creatives as $creative ) {
+
+			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Will be escaped later
+			echo $this->html(
+				$creative->creative_id,
+				$creative->url,
+				$creative->image,
+				'',
+				$args['preview'],
+				$creative->text,
+				empty( $creative->description ) ? '' : $creative->description
+			);
+			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		}
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Used as same as get_creatives(), but additionally filter results by creative groups
+	 * and privacy configuration.
+	 *
+	 * @since 2.16.0
+	 * @param array $args Creative args.
+	 * @return array Array of creatives.
+	 */
+	public function get_affiliate_creatives( array $args = array() ) : array {
 
 		/**
 		 * Filter the creatives shows on the screen.
 		 *
-		 * @since 2.12.0
-		 *
 		 * @param array $creatives The creatives.
+		 * @since 2.16.0
 		 */
-		$creatives = apply_filters( 'affwp_creatives', affiliate_wp()->creatives->get_creatives( $args ) );
+		$creatives = apply_filters(
+			'affwp_creatives',
+			affiliate_wp()->creatives->get_creatives(
+				wp_parse_args(
+					$args,
+					array(
+						'status'     => 'active',
+						'hide_empty' => true,
+					)
+				)
+			)
+		);
 
-		if ( $creatives ) {
-			foreach ( $creatives as $creative ) {
-
-				if (
-					! isset( $creative->creative_id ) ||
-					! affiliate_wp()->creative->groups->affiliate_can_access( $creative->creative_id )
-				) {
-					continue;
-				}
-
-				$url   = $creative->url;
-				$image = $creative->image;
-				$text  = $creative->text;
-				$desc  = ! empty( $creative->description ) ? $creative->description : '';
-
-				echo $this->html( $creative->creative_id, $url, $image, '', $args['preview'], $text, $desc );
-			}
+		if ( empty( $creatives ) ) {
+			return array(); // No creatives to return.
 		}
 
-		return ob_get_clean();
+		return array_filter(
+			$creatives,
+			function ( $creative ) {
+
+				// The get_creatives() can also return only IDs instead of objects.
+				$creative_id = is_int( $creative )
+					? $creative
+					: $creative->creative_id;
+
+				if (
+					! isset( $creative_id ) ||
+					! affiliate_wp()->creative->groups->affiliate_can_access( $creative_id )
+				) {
+					return false;
+				}
+
+				return true;
+			}
+		);
 	}
 
 	/**

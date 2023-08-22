@@ -32,12 +32,12 @@
 			<tr class="form-row">
 
 				<th scope="row">
-					<?php esc_html_e( 'Affiliate', 'affiliate-wp' ); ?>
+					<label for="user-name"><?php esc_html_e( 'Affiliate', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>
 					<span class="affwp-ajax-search-wrap">
-						<input type="text" name="user_name" id="user_name" class="affwp-user-search" data-affwp-status="any" autocomplete="off" placeholder="<?php esc_html_e( 'Affiliate name', 'affiliate-wp' ); ?>" />
+						<input type="text" name="user-name" id="user-name" class="affwp-user-search" data-affwp-status="any" autocomplete="off" placeholder="<?php esc_html_e( 'Affiliate name', 'affiliate-wp' ); ?>" />
 					</span>
 					<p class="search-description description"><?php esc_html_e( 'To pay a specific affiliate, enter the affiliate&#8217;s login name, first name, or last name. Leave blank to pay all affiliates.', 'affiliate-wp' ); ?></p>
 				</td>
@@ -47,11 +47,11 @@
 			<tr class="form-row">
 
 				<th scope="row">
-					<?php esc_html_e( 'Start Date', 'affiliate-wp' ); ?>
+					<label for="start-date"><?php esc_html_e( 'Start Date', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>
-					<input type="text" class="affwp-datepicker" autocomplete="off" name="from" placeholder="<?php esc_html_e( 'From - mm/dd/yyyy', 'affiliate-wp' ); ?>"/>
+					<input type="text" id="start-date" class="affwp-datepicker" autocomplete="off" name="from" placeholder="<?php esc_html_e( 'From - mm/dd/yyyy', 'affiliate-wp' ); ?>"/>
 					<p class="description"><?php esc_html_e( 'Referrals start date', 'affiliate-wp' ); ?></p>
 				</td>
 
@@ -60,11 +60,11 @@
 			<tr class="form-row">
 
 				<th scope="row">
-					<?php esc_html_e( 'End Date', 'affiliate-wp' ); ?>
+					<label for="end-date"><?php esc_html_e( 'End Date', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>
-					<input type="text" class="affwp-datepicker" autocomplete="off" name="to" placeholder="<?php esc_html_e( 'To - mm/dd/yyyy', 'affiliate-wp' ); ?>"/>
+					<input type="text" id="end-date" class="affwp-datepicker" autocomplete="off" name="to" placeholder="<?php esc_html_e( 'To - mm/dd/yyyy', 'affiliate-wp' ); ?>"/>
 					<p class="description"><?php esc_html_e( 'Referrals end date', 'affiliate-wp' ); ?></p>
 				</td>
 
@@ -73,11 +73,11 @@
 			<tr class="form-row">
 
 				<th scope="row">
-					<?php esc_html_e( 'Minimum Earnings', 'affiliate-wp' ); ?>
+					<label for="minimum"><?php esc_html_e( 'Minimum Earnings', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>
-					<input type="text" class="affwp-text" name="minimum" placeholder="<?php esc_attr_e( 'Minimum amount', 'affiliate-wp' ); ?>"/>
+					<input type="text" id="minimum" class="affwp-text" name="minimum" placeholder="<?php esc_attr_e( 'Minimum amount', 'affiliate-wp' ); ?>"/>
 					<p class="description"><?php esc_html_e( 'The minimum earnings for each affiliate for a payout to be processed.', 'affiliate-wp' ); ?></p>
 				</td>
 
@@ -86,7 +86,7 @@
 			<tr class="form-row">
 
 				<th scope="row">
-					<?php esc_html_e( 'Payout Method', 'affiliate-wp' ); ?>
+					<label for="manual"><?php esc_html_e( 'Payout Method', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>

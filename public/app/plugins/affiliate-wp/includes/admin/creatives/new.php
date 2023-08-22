@@ -37,8 +37,8 @@ use AffWP\Core\License\License_Data;
 				</th>
 
 				<td>
-					<input type="text" name="name" id="name" class="regular-text" />
-					<p class="description"><?php esc_html_e( 'The name of this creative. For your identification only.', 'affiliate-wp' ); ?></p>
+					<input type="text" name="name" id="name" required class="regular-text" />
+					<p class="description"><?php esc_html_e( 'The name of this creative. Use this to briefly describe the creative to your affiliates.', 'affiliate-wp' ); ?></p>
 				</td>
 
 			</tr>
@@ -57,18 +57,12 @@ use AffWP\Core\License\License_Data;
 			<tr class="form-row form-required" data-row="description">
 
 				<th scope="row">
-					<label for="name"><?php esc_html_e( 'Description', 'affiliate-wp' ); ?></label>
+					<label for="description"><?php esc_html_e( 'Description', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>
-					<?php
-					wp_editor( '', 'description', array(
-						'textarea_name' => 'description',
-						'textarea_rows' => 8,
-						'media_buttons' => false,
-					) );
-					?>
-					<p class="description"><?php esc_html_e( 'An optional description for this creative. This is visible to affiliates and is displayed above the creative.', 'affiliate-wp' ); ?></p>
+					<textarea name="description" rows="5" cols="50" id="description" class="large-text"></textarea>
+					<p class="description"><?php esc_html_e( 'An optional description for this creative. Use this to provide additional information about the creative to your affiliates.', 'affiliate-wp' ); ?></p>
 				</td>
 
 			</tr>
@@ -96,7 +90,7 @@ use AffWP\Core\License\License_Data;
 				</th>
 
 				<td>
-					<input id="image" name="image" type="text" class="upload_field regular-text" />
+					<input id="image" name="image" type="text" required class="upload_field regular-text" />
 					<input class="upload_image_button button-secondary" type="button" value="Choose Image" />
 					<p class="description"><?php esc_html_e( 'Select your image. You can also enter an image URL if your image is hosted elsewhere.', 'affiliate-wp' ); ?></p>
 
@@ -196,6 +190,19 @@ use AffWP\Core\License\License_Data;
 							<?php  echo esc_attr( true === affwp_is_upgrade_required( 'pro' ) ? 'disabled' : '' ); ?>/>
 						<p class="description"><?php esc_html_e( 'End date.', 'affiliate-wp' ); ?></p>
 					</div>
+				</td>
+
+			</tr>
+
+			<tr class="form-row">
+
+				<th scope="row">
+					<label for="notes"><?php esc_html_e( 'Notes', 'affiliate-wp' ); ?></label>
+				</th>
+
+				<td>
+					<textarea name="notes" rows="5" cols="50" id="notes" class="large-text"></textarea>
+					<p class="description"><?php esc_html_e( 'Enter any notes for this creative. Notes are only visible to an affiliate manager.', 'affiliate-wp' ); ?></p>
 				</td>
 
 			</tr>

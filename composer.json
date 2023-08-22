@@ -50,8 +50,7 @@
     "composer/installers": "~2.0.1",
     "cweagans/composer-patches": "~1.0",
     "johnpbloch/wordpress-core-installer": "~2.0",
-    "johnpbloch/wordpress-core": "6.2.2",
-    "awsmug/edd-payment-stripe-sepa": "dev-master",
+    "johnpbloch/wordpress-core": "6.3.0",    
     "awsmug/block-wave-separator": "dev-master",
     "awsmug/block-trusted-shops": "dev-main",
     "felixarntz/plugin-lib": "dev-master",
@@ -61,9 +60,9 @@
     "wpackagist-plugin/shariff": "4.6.9",
     "wpackagist-plugin/ootb-openstreetmap": "2.4.0",
     "wpackagist-plugin/user-switching": "1.7.0",
-    "wpackagist-plugin/wordpress-seo": "20.12",
+    "wpackagist-plugin/wordpress-seo": "21.0",
     "wpackagist-plugin/wordfence": "7.10.3",
-    "wpackagist-theme/twentytwentythree": "1.1"
+    "wpackagist-theme/twentytwentythree": "1.2"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "3.*",

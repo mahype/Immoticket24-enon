@@ -306,7 +306,7 @@ class AffWP_Creatives_Table extends List_Table {
 		);
 
 		$value = sprintf(
-			'<span class="name-wrap"><a href="%1$s">%2$s</a>%3$s</a></span>',
+			'<span class="name-wrap"><a href="%1$s">%2$s</a><span class="affwp-cretive-warnings">%3$s%4$s</span></span>',
 			esc_url(
 				add_query_arg(
 					array_merge(
@@ -319,8 +319,16 @@ class AffWP_Creatives_Table extends List_Table {
 					admin_url( 'admin.php' )
 				)
 			),
-			$creative->name,
-			$this->get_privacy_info( $creative )
+			$creative->get_name(),
+			$this->get_privacy_info( $creative ),
+			( 'private' === get_option( 'affwp_creative_name_privacy', '' ) && $creative->is_before_migration_time( 'date_updated' ) )
+				? affwp_icon_tooltip(
+					__( 'Edit this creative and enter a more descriptive name. The original name can be found in the Notes field.', 'affiliate-wp' ),
+					'warning',
+					false,
+					'affwp-admin-creative-name-warning'
+				)
+				: '',
 		);
 
 		// Edit.
@@ -435,7 +443,7 @@ class AffWP_Creatives_Table extends List_Table {
 		return sprintf(
 			'<a href="%1$s">%2$s</a>',
 			add_query_arg( 'type', $creative->type, affwp_admin_url( 'creatives' ) ),
-			affwp_get_creative_type_label( $creative )
+			$creative->get_type_label()
 		);
 	}
 
@@ -455,12 +463,167 @@ class AffWP_Creatives_Table extends List_Table {
 	 * Renders the Status column in the creatives list table.
 	 *
 	 * @since 2.15.0
+	 * @since 2.16.0 Added html to color-code the status label.
 	 *
 	 * @param AffWP\Creative $creative The current creative object.
 	 * @return string Status label.
 	 */
 	public function column_status( $creative ) {
-		return affwp_get_creative_status_label( $creative );
+		// Label text.
+		$label = affwp_get_creative_status_label( $creative );
+
+		// Status.
+		$status = isset( $creative->status ) ? $creative->status : '';
+
+		// If the creative is not scheduled, return the color-coded label.
+		if ( false === affwp_has_scheduling_feature( $creative ) ) {
+			return sprintf( '<span class="affwp-status %1$s">%2$s</span>',
+				esc_attr( $status ),
+				affwp_get_creative_status_label( $creative )
+			);
+		}
+
+		// For creatives with a schedule, it should be color-coded with a clock icon.
+		switch ( $status ) {
+			case 'active':
+				$label = sprintf( '<span class="affwp-status %1$s">%2$s<span class="dashicons dashicons-clock"></span></span>',
+					esc_attr( $status ),
+					$label
+				);
+				break;
+			case 'inactive':
+				$label = sprintf( '<span class="affwp-status %1$s">%2$s<span class="dashicons dashicons-clock"></span></span>',
+					esc_attr( $status ),
+					$label
+				);
+				break;
+			case 'scheduled':
+				$label = sprintf( '<span class="affwp-status %1$s">%2$s<span class="dashicons dashicons-clock"></span></span>',
+					esc_attr( $status ),
+					$label
+				);
+				break;
+			default:
+				// If the creative status is not recognized, return the label as-is.
+				return $label;
+		}
+
+		// Add tooltips to explain the schedule.
+		return $this->affwp_add_status_tooltips( $label, $creative, $status );
+	}
+
+	/**
+	 * Add status tooltips to explain the schedule.
+	 *
+	 * @since 2.16.0
+	 *
+	 * @param string $label    The creative status label.
+	 * @param object $creative The creative object.
+	 * @param string $status   The creative status.
+	 * @return string The color-coded creative status label with tooltips.
+	 */
+	private function affwp_add_status_tooltips( $label, $creative, $status ) {
+
+		// Get the start and end dates.
+		$start_date = '0000-00-00 00:00:00' === $creative->start_date ? false : $creative->start_date;
+		$end_date   = '0000-00-00 00:00:00' === $creative->end_date ? false : $creative->end_date;
+
+		// If the creative is not scheduled, return the default label.
+		if ( false === $start_date && false === $end_date ) {
+			return $label;
+		}
+
+		// If creative is active and has both a start AND end date.
+		if ( 'active' === $status && false !== $start_date && false !== $end_date ) {
+			return affwp_text_tooltip(
+				$label,
+				sprintf( '<div>%1$s %2$s</div><div>%3$s %4$s</div>',
+					__( 'Started:', 'affiliate-wp' ),
+					esc_html( affwp_date_i18n( strtotime( $start_date ), 'Y-m-d' ) ),
+					__( 'Ends:', 'affiliate-wp' ),
+					esc_html( affwp_date_i18n( strtotime( $end_date ), 'Y-m-d' ) ),
+				),
+				false
+			);
+		}
+
+		// If a creative is active and only has a start date.
+		if ( 'active' === $status && false !== $start_date && false === $end_date ) {
+			return affwp_text_tooltip(
+				$label,
+				sprintf( '<div>%1$s %2$s</div>',
+					__( 'Started:', 'affiliate-wp' ),
+					esc_html( affwp_date_i18n( strtotime( $start_date ), 'Y-m-d' ) ),
+				),
+				false
+			);
+		}
+
+		// If a creative is active and only has an end date.
+		if ( 'active' === $status && false === $start_date && false !== $end_date ) {
+			return affwp_text_tooltip(
+				$label,
+				sprintf( '<div>%1$s %2$s</div>',
+					__( 'Ends:', 'affiliate-wp' ),
+					esc_html( affwp_date_i18n( strtotime( $end_date ), 'Y-m-d' ) ),
+				),
+				false
+			);
+		}
+
+		// If a creative is inactive and has both a start AND end date.
+		if ( 'inactive' === $status && false !== $start_date && false !== $end_date ) {
+			return affwp_text_tooltip(
+				$label,
+				sprintf( '<div>%1$s %2$s</div><div>%3$s %4$s</div>',
+					__( 'Started:', 'affiliate-wp' ),
+					esc_html( affwp_date_i18n( strtotime( $start_date ), 'Y-m-d' ) ),
+					__( 'Ended:', 'affiliate-wp' ),
+					esc_html( affwp_date_i18n( strtotime( $end_date ), 'Y-m-d' ) ),
+				),
+				false
+			);
+		}
+
+		// If a creative is inactive and only has an end date.
+		if ( 'inactive' === $status && false === $start_date && false !== $end_date ) {
+			return affwp_text_tooltip(
+				$label,
+				sprintf( '<div>%1$s %2$s</div>',
+					__( 'Ended:', 'affiliate-wp' ),
+					esc_html( affwp_date_i18n( strtotime( $end_date ), 'Y-m-d' ) ),
+				),
+				false
+			);
+		}
+
+		// If a creative is scheduled and has both a start AND end date.
+		if ( 'scheduled' === $status && false !== $start_date && false !== $end_date ) {
+			return affwp_text_tooltip(
+				$label,
+				sprintf( '<div>%1$s %2$s</div><div>%3$s %4$s</div>',
+					__( 'Starts:', 'affiliate-wp' ),
+					esc_html( affwp_date_i18n( strtotime( $start_date ), 'Y-m-d' ) ),
+					__( 'Ends:', 'affiliate-wp' ),
+					esc_html( affwp_date_i18n( strtotime( $end_date ), 'Y-m-d' ) ),
+				),
+				false
+			);
+		}
+
+		// If a creative is scheduled and only has a start date.
+		if ( 'scheduled' === $status && false !== $start_date && false === $end_date ) {
+			return affwp_text_tooltip(
+				$label,
+				sprintf( '<div>%1$s %2$s</div>',
+					__( 'Starts:', 'affiliate-wp' ),
+					esc_html( affwp_date_i18n( strtotime( $start_date ), 'Y-m-d' ) ),
+				),
+				false
+			);
+		}
+
+		return $label;
 	}
 
 	/**
@@ -475,36 +638,9 @@ class AffWP_Creatives_Table extends List_Table {
 	 */
 	public function column_preview( $creative ) : string {
 
-		$content = '';
-
-		switch ( $creative->get_type() ) {
-			case 'image':
-				// Try for self-hosted images.
-				if ( ! empty( $creative->attachment_id ) ) {
-					$content = wp_get_attachment_image(
-						attachment_url_to_postid( $creative->image ),
-						'full'
-					);
-					break;
-				}
-
-				if ( filter_var( $creative->image, FILTER_VALIDATE_URL ) ) {
-					$content = sprintf(
-						'<img src="%1$s" alt="%2$s">',
-						$creative->image,
-						$creative->text
-					);
-				}
-
-				break;
-			default:
-				$content = $creative->text;
-				break;
-		}
-
 		return affwp_admin_link(
 			'creatives',
-			$content,
+			$creative->get_preview(),
 			array(
 				'creative_id' => $creative->ID,
 				'action'      => 'edit_creative',

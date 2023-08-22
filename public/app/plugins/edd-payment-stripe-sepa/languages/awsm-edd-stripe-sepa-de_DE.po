@@ -1,0 +1,127 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2020-08-25 16:25+0200\n"
+"PO-Revision-Date: 2020-08-25 16:27+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.1\n"
+"X-Poedit-Basepath: ../src\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: Payment_Gateway.php:29
+msgid "Sepa Direct Debit (Stripe)"
+msgstr ""
+
+#: Payment_Gateway.php:30
+msgid "Sepa Direct Debit"
+msgstr ""
+
+#: Payment_Gateway.php:55
+msgid "Register with Stripe"
+msgstr ""
+
+#: Payment_Gateway.php:56
+#, php-format
+msgid ""
+"<a href=\"%s\" target=\"_blank\">Get you public key and your secret</a> and "
+"start with Stripe."
+msgstr ""
+
+#: Payment_Gateway.php:61
+msgid "Webhooks"
+msgstr ""
+
+#: Payment_Gateway.php:62
+#, php-format
+msgid ""
+"In order for Stripe to function completely, you must configure your Stripe "
+"webhooks. Visit your account dashboard to configure them. Please add a "
+"webhook endpoint for the URL below.<br />Webhook URL: <code>%s</code>."
+msgstr ""
+
+#: Payment_Gateway.php:67
+msgid "Public key"
+msgstr ""
+
+#: Payment_Gateway.php:68 Payment_Gateway.php:75 Payment_Gateway.php:82
+#: Payment_Gateway.php:89
+msgid "Found on stripe dashboard after login."
+msgstr ""
+
+#: Payment_Gateway.php:74
+msgid "Secret"
+msgstr ""
+
+#: Payment_Gateway.php:81
+msgid "Public key (Test)"
+msgstr ""
+
+#: Payment_Gateway.php:88
+msgid "Secret (Test)"
+msgstr ""
+
+#: Payment_Gateway.php:138
+msgid "Kontodaten"
+msgstr ""
+
+#: Payment_Gateway.php:141
+msgid "Kontoinhaber"
+msgstr ""
+
+#: Payment_Gateway.php:144
+msgid "Der Name des Kontoinhabers."
+msgstr ""
+
+#: Payment_Gateway.php:149
+msgid "IBAN"
+msgstr ""
+
+#: Payment_Gateway.php:152
+msgid "Die IBAN des Kontos."
+msgstr ""
+
+#: Payment_Gateway.php:156
+#, php-format
+msgid ""
+"By providing your IBAN and confirming this payment, you authorise\n"
+"                (A) %s and Stripe, our payment service provider, to send\n"
+"                instructions to your bank to debit your account and (B) your "
+"bank to\n"
+"                debit your account in accordance with those instructions. "
+"You are\n"
+"                entitled to a refund from your bank under the terms and "
+"conditions of\n"
+"                your agreement with your bank. A refund must be claimed "
+"within 8 weeks\n"
+"                starting from the date on which your account was debited."
+msgstr ""
+"Indem Sie Ihre IBAN angeben und diese Zahlung bestätigen, ermächtigen Sie "
+"(A) %s und Stripe, unseren Zahlungsdienstleister, Ihrer Bank Anweisungen zur "
+"Belastung Ihres Kontos zu senden und (B) Ihre Bank, Ihr Konto gemäß diesen "
+"Anweisungen zu belasten. Sie haben Anspruch auf eine Rückerstattung von "
+"Ihrer Bank gemäß den Bedingungen Ihrer Vereinbarung mit Ihrer Bank. Eine "
+"Rückerstattung muss innerhalb von 8 Wochen ab dem Datum der Belastung Ihres "
+"Kontos beantragt werden."
+
+#: Payment_Gateway.php:190
+msgid "Bank account: Missing account holder."
+msgstr "Bankkonto: Kontoinhaber fehlt."
+
+#: Payment_Gateway.php:196
+msgid "Bank account: Only german bank accounts allowed."
+msgstr "Bankkonto: Nur deutsche Bankkonten sind erlaubt."
+
+#: Payment_Gateway.php:200
+msgid "Bank account: Invalid IBAN."
+msgstr "Bankkonto: Ungültige IBAN."
+
+#: Payment_Gateway.php:241
+msgid "Invalid IBAN."
+msgstr ""
