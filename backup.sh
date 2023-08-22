@@ -14,6 +14,8 @@ DB_HOST='localhost'
 # Datenbank Backup #
 function database_backup {
     mysqldump -h $DB_HOST -u $DB_USER -p$DB_PASS $DB_NAME > $PFAD/$DB_NAME.$NOW.sql
+    tar -czvf $BACKUP_ORDNER/$DB_NAME.$NOW.tar.gz $PFAD/$DB_NAME.$NOW.sql
+    rm $PFAD/$DB_NAME.$NOW.sql
 }
 # Runner #
 database_backup
