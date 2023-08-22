@@ -42,6 +42,42 @@ abstract class DataEnev {
     }
 
     /**
+     * Get name of certificate buyer first name.
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function get_certificate_buyer_first_name() : string
+    {
+        $payment = $this->energieausweis->getPayment();
+
+        if( null === $payment ) {
+            return '';
+        }
+
+        return $payment->first_name;
+    }
+
+    /**
+     * Get name of certificate buyer last name.
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function get_certificate_buyer_last_name() : string
+    {
+        $payment = $this->energieausweis->getPayment();
+
+        if( null === $payment ) {
+            return '';
+        }
+
+        return $payment->last_name;
+    }
+
+    /**
      * Registriernummer
      * 
      * @return string

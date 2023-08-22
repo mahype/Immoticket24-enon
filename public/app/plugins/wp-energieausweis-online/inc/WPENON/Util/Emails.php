@@ -467,6 +467,45 @@ class Emails {
 	}
 
 	/**
+	 * Send expowand email.
+	 * 
+	 * @param Energieausweis $energieausweis Energieausweis object.
+	 * @param string         $xml_file_content XML file content.
+	 * 
+	 * @return bool Whether the email contents were sent successfully.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function send_zusatzdatenerfassung_expowand_email( $energieausweis, $xml_file_content ) {
+		$emails = EDD()->emails;
+		$emails->__set( 'from_name', 'Energieausweis online erstellen' );
+		$emails->__set( 'from_address', 'support@energieausweis-online-erstellen.de' );
+		$emails->__set( 'heading', __( 'Neue Energieausweis XML', 'wpenon' ) );
+
+		$message = 'Soben wurde eine neue Energieausweis XML für sie bereitgestellt. Diese ist im Anhang zu finden.';
+
+		$file = 'energieausweis-' . $energieausweis->post_title . '.xml';
+		
+		// Create temp file in wordpress upload directory, so it can be attached to the email.
+		$upload_dir = wp_upload_dir();
+		$upload_dir = $upload_dir['basedir'];
+		$upload_dir = $upload_dir . '/energieausweis-xml/';
+		if ( ! file_exists( $upload_dir ) ) {
+			mkdir( $upload_dir );
+		}
+
+		$xml_file = $upload_dir . $file;
+		file_put_contents( $xml_file, $xml_file_content );
+
+		$result = $emails->send( 'immoticket24-energieausweis@expowand.de', 'Neue Energieausweis XML', $message, $xml_file );
+		
+		// Delete file after sending the email.
+		unlink( $xml_file );
+
+		return $result;
+	}
+
+	/**
 	 * Replacing tags in confitmation body content.
 	 *
 	 * @param Energieausweis $energieausweis Energieausweis Object.

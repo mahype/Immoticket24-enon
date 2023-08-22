@@ -8,6 +8,7 @@
 namespace WPENON\Controller;
 
 use WPENON\Model\Energieausweis;
+use WPENON\Util\Emails;
 
 class Frontend {
 	private static $instance;
@@ -76,9 +77,10 @@ class Frontend {
 					$admin_actions = array(
 						'duplicate',
 						'confirmation-email-send',
-						'order-confirmation-email-send',
+						'order-confirmation-email-send',						
 						'xml-datenerfassung-send',
 						'xml-zusatzdatenerfassung-send',
+						'xml-zusatzdatenerfassung-expowand-send',
 						'xml-datenerfassung',
 						'xml-zusatzdatenerfassung',
 						'xml-datenerfassung-response',
@@ -165,6 +167,25 @@ class Frontend {
 							wp_die( sprintf( __( 'Der Energieausweis %s ist entweder noch nicht vollständig ausgefüllt oder noch nicht bezahlt worden. Daher kann die XML-Datei noch nicht gesendet werden.', 'wpenon' ), $this->energieausweis->post_title ) );
 						}
 						break;
+					case 'xml-zusatzdatenerfassung-expowand-send':
+						if ( $this->energieausweis->isFinalized() ) {
+							$xml_data = $this->energieausweis->getXMLPersonalisiert( 'zusatzdatenerfassung-expowand-send', 'S', false );
+
+							$status = Emails::instance()->send_zusatzdatenerfassung_expowand_email( $this->energieausweis, $xml_data );
+							
+							wp_redirect( add_query_arg( array(
+								'post_type'              => 'download',
+								'frontend_action'        => $action,
+								'frontend_action_id'     => $this->energieausweis->ID,
+								'frontend_action_status' => $status ? 'true' : 'false',
+							), admin_url( 'edit.php' ) ) );
+							exit;
+						} else {
+							wp_die( sprintf( __( 'Die eingegebenen Daten für den Energieausweis %s sind noch fehlerhaft oder nicht vollständig. Daher kann die XML-Datei noch nicht erzeugt werden.', 'wpenon' ), $this->energieausweis->post_title ) );
+						}
+						break;
+					case 'xml-datenerfassung-send':
+						break;
 					case 'xml-datenerfassung':
 					case 'xml-zusatzdatenerfassung':
 						if ( $this->energieausweis->isFinalized() ) {
@@ -174,7 +195,7 @@ class Frontend {
 						} else {
 							wp_die( sprintf( __( 'Die eingegebenen Daten für den Energieausweis %s sind noch fehlerhaft oder nicht vollständig. Daher kann die XML-Datei noch nicht erzeugt werden.', 'wpenon' ), $this->energieausweis->post_title ) );
 						}
-						break;
+						break;					
 					case 'xml-datenerfassung-response':
 					case 'xml-zusatzdatenerfassung-response':
 						$data  = false;
