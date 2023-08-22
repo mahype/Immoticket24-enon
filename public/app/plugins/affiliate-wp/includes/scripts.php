@@ -216,19 +216,23 @@ function affwp_enqueue_admin_js() {
 
 	wp_enqueue_script( 'affwp-admin', AFFILIATEWP_PLUGIN_URL . 'assets/js/admin' . $suffix . '.js', $admin_deps, AFFILIATEWP_VERSION );
 	wp_localize_script( 'affwp-admin', 'affwp_vars', array(
-		'post_id'                  => isset( $post->ID ) ? $post->ID : null,
-		'affwp_version'            => AFFILIATEWP_VERSION,
-		'currency_sign'            => affwp_currency_filter(''),
-		'currency_pos'             => affiliate_wp()->settings->get( 'currency_position', 'before' ),
-		'confirm_delete_referral'  => __( 'Are you sure you want to delete this referral?', 'affiliate-wp' ),
-		'no_user_found'            => __( 'The user you entered does not exist. To create a new user and affiliate, continue filling out the form and click Add User & Affiliate.', 'affiliate-wp' ),
-		'no_user_email_found'      => __( 'No user account is associated with this email address. To create a new user and affiliate, continue filling out the form and click Add User & Affiliate.', 'affiliate-wp' ),
-		'user_and_affiliate_input' => __( 'Add User & Affiliate', 'affiliate-wp' ),
-		'valid_user_selected'      => __( 'You have selected a valid user account and may continue adding this user as an affiliate.', 'affiliate-wp' ),
-		'existing_affiliate'       => __( 'An affiliate already exists for this username.', 'affiliate-wp' ),
+		'post_id'                   => isset( $post->ID ) ? $post->ID : null,
+		'affwp_version'             => AFFILIATEWP_VERSION,
+		'currency_sign'             => affwp_currency_filter(''),
+		'currency_pos'              => affiliate_wp()->settings->get( 'currency_position', 'before' ),
+		'confirm_delete_referral'   => __( 'Are you sure you want to delete this referral?', 'affiliate-wp' ),
+		'no_user_found'             => __( 'The user you entered does not exist. To create a new user and affiliate, continue filling out the form and click Add User & Affiliate.', 'affiliate-wp' ),
+		'no_user_email_found'       => __( 'No user account is associated with this email address. To create a new user and affiliate, continue filling out the form and click Add User & Affiliate.', 'affiliate-wp' ),
+		'user_and_affiliate_input'  => __( 'Add User & Affiliate', 'affiliate-wp' ),
+		'valid_user_selected'       => __( 'You have selected a valid user account and may continue adding this user as an affiliate.', 'affiliate-wp' ),
+		'existing_affiliate'        => __( 'An affiliate already exists for this username.', 'affiliate-wp' ),
 		/* translators: Affiliate username */
-		'user_email_exists'        => __( 'A user already exists for this email address, however they are not currently an affiliate. Their username is %s', 'affiliate-wp' ),
-		'view_affiliate'           => __( 'View Affiliate', 'affiliate-wp' ),
+		'user_email_exists'         => __( 'A user already exists for this email address, however they are not currently an affiliate. Their username is %s', 'affiliate-wp' ),
+		'view_affiliate'            => __( 'View Affiliate', 'affiliate-wp' ),
+		'creativeDefaultName'       => __( 'Creative', 'affiliate-wp' ),
+		'creativeUpgradeNoticeNo'   => __( 'Review & Rename Creatives', 'affiliate-wp' ),
+		'creativeUpgradeNoticeYes'  => __( 'Make Creative Names Visible', 'affiliate-wp' ),
+		'creativeUpdateNameConfirm' => __( 'This creative’s name has not been updated and affiliates will see it as “Creative” on your website.', 'affiliate-wp' ),
 	) );
 
 	// Alpine and in-plugin notifcations.
@@ -337,28 +341,3 @@ function affwp_enqueue_recaptcha_gravityforms_compat( $enqueue ) {
 	return $enqueue;
 }
 add_filter( 'affwp_enqueue_script_affwp-recaptcha', 'affwp_enqueue_recaptcha_gravityforms_compat' );
-
-/**
- *  Load the frontend creative styles for the [affiliate_creative] and [affiliate_creatives] shortcodes
- *
- *  @since 1.1.4
- *  @return void
- */
-function affwp_frontend_creative_styles() {
-	global $post;
-
-	if ( ! is_object( $post ) ) {
-		return;
-	}
-
-	/** This filter is documented in includes/scripts.php. */
-	$force_frontend_scripts = apply_filters( 'affwp_force_frontend_scripts', false );
-
-	if ( has_shortcode( $post->post_content, 'affiliate_creative' )
-		|| has_shortcode( $post->post_content, 'affiliate_creatives' )
-		|| $force_frontend_scripts
-	) { ?>
-		<style>.affwp-creative{margin-bottom: 4em;}</style>
-	<?php }
-}
-add_action( 'wp_head', 'affwp_frontend_creative_styles' );

@@ -10,7 +10,9 @@
  */
 use AffWP\Core\License\License_Data;
 
-$creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
+$creative   = affwp_get_creative( absint( $_GET['creative_id'] ?? 0 ) );
+$is_private = 'private' === get_option( 'affwp_creative_name_privacy', '' ) && $creative->is_before_migration_time( 'date_updated' );
+
 ?>
 <div class="wrap">
 
@@ -37,8 +39,27 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 				</th>
 
 				<td>
-					<input type="text" name="name" id="name" value="<?php echo esc_attr( stripslashes( $creative->name ) ); ?>" class="regular-text" />
-					<p class="description"><?php esc_html_e( 'The name of this creative. For your identification only.', 'affiliate-wp' ); ?></p>
+					<div class="affwp-creative-name-field">
+						<input
+							type="text"
+							name="name"
+							id="name"
+							required
+							value="<?php echo esc_attr( stripslashes( $creative->name ) ); ?>"
+							class="regular-text"
+							data-private="<?php echo $is_private ? 'yes' : 'no'; ?>"
+						>
+						<?php echo $is_private ? sprintf(
+								'<span class="affwp-admin-creative-name-warning">%s</span>',
+								affwp_icon_tooltip(
+									'Enter a more descriptive name for this creative. The Notes field below contains the original name for your reference.',
+									'warning',
+									false
+								)
+						) : ''; ?>
+					</div>
+
+					<p class="description"><?php esc_html_e( 'The name of this creative. Use this to briefly describe the creative to your affiliates.', 'affiliate-wp' ); ?></p>
 				</td>
 
 			</tr>
@@ -59,18 +80,12 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 			<tr class="form-row form-required" data-row="description">
 
 				<th scope="row">
-					<label for="name"><?php esc_html_e( 'Description', 'affiliate-wp' ); ?></label>
+					<label for="description"><?php esc_html_e( 'Description', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>
-					<?php
-					wp_editor( $creative->description, 'description', array(
-						'textarea_name' => 'description',
-						'textarea_rows' => 8,
-						'media_buttons' => false,
-					) );
-					?>
-					<p class="description"><?php esc_html_e( 'An optional description for this creative. This is visible to affiliates and is displayed above the creative.', 'affiliate-wp' ); ?></p>
+					<textarea name="description" rows="5" cols="50" id="description" class="large-text"><?php echo esc_html( $creative->description ); ?></textarea>
+					<p class="description"><?php esc_html_e( 'An optional description for this creative. Use this to provide additional information about the creative to your affiliates.', 'affiliate-wp' ); ?></p>
 				</td>
 
 			</tr>
@@ -98,7 +113,14 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 				</th>
 
 				<td>
-					<input id="image" name="image" type="text" class="upload_field regular-text" value="<?php echo esc_attr( $creative->image ); ?>" />
+					<input
+						id="image"
+						name="image"
+						type="text"
+						class="upload_field regular-text"
+						value="<?php echo esc_attr( $creative->image ); ?>"
+						<?php echo esc_html( $creative->get_type() === 'image' ? 'required' : '' ); ?>
+					>
 					<input class="upload_image_button button-secondary" type="button" value="Choose Image" />
 					<p class="description"><?php esc_html_e( 'Select your image. You can also enter an image URL if your image is hosted elsewhere.', 'affiliate-wp' ); ?></p>
 
@@ -124,7 +146,14 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 				</th>
 
 				<td>
-					<input type="text" name="text" id="text" value="<?php echo esc_attr( stripslashes( $creative->text ) ); ?>" class="regular-text" maxlength="255" />
+					<input
+						type="text"
+						name="text"
+						id="text"
+						value="<?php echo esc_attr( stripslashes( $creative->text ) ); ?>"
+						class="regular-text" maxlength="255"
+						<?php echo esc_html( $creative->get_type() === 'text_link' ? 'required' : '' ); ?>
+					>
 					<p class="description" data-context="text_link"><?php esc_html_e( 'Text for this creative.', 'affiliate-wp' ); ?></p>
 					<p class="description" data-context="image"><?php esc_html_e( "Enter descriptive text for the image's alternative text (alt text).", 'affiliate-wp' ); ?></p>
 				</td>
@@ -223,6 +252,19 @@ $creative = affwp_get_creative( absint( $_GET['creative_id'] ) );
 						<p class="description"><?php esc_html_e( 'End date.', 'affiliate-wp' ); ?></p>
 					</div>
 					<p class="affwp-schedule-description"><?php echo esc_html( affwp_get_creative_schedule_desc( $creative ) ); ?></p>
+				</td>
+
+			</tr>
+
+			<tr class="form-row">
+
+				<th scope="row">
+					<label for="notes"><?php esc_html_e( 'Notes', 'affiliate-wp' ); ?></label>
+				</th>
+
+				<td>
+					<textarea name="notes" rows="5" cols="50" id="notes" class="large-text"><?php echo esc_html( $creative->notes ); ?></textarea>
+					<p class="description"><?php esc_html_e( 'Enter any notes for this creative. Notes are only visible to an affiliate manager.', 'affiliate-wp' ); ?></p>
 				</td>
 
 			</tr>

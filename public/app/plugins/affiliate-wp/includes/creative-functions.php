@@ -55,6 +55,7 @@ function affwp_add_creative( array $data = array() ) {
 			: '',
 		'status'      => ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : '',
 		'date'        => ! empty( $data['date'] ) ? $data['date'] : '',
+		'notes'       => ! empty( $data['notes'] ) ? wp_kses_post( $data['notes'] ) : '',
 		'start_date'  => ! empty( $data['start_date'] ) && false === affwp_is_upgrade_required( 'pro' ) ? gmdate( 'Y-m-d H:i:s', strtotime( $data['start_date'] ) ) : '',
 		'end_date'    => ! empty( $data['end_date'] ) && false === affwp_is_upgrade_required( 'pro' ) ? gmdate( 'Y-m-d H:i:s', strtotime( $data['end_date'] ) ) : '',
 	);
@@ -100,6 +101,7 @@ function affwp_update_creative( array $data = array() ) : bool {
 			: '',
 		'status'        => ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : '',
 		'date_updated'  => gmdate( 'Y-m-d H:i:s' ),
+		'notes'         => ! empty( $data['notes'] ) ? wp_kses_post( $data['notes'] ) : '',
 		'start_date'    => ! empty( $data['start_date'] ) && false === affwp_is_upgrade_required( 'pro' ) ? gmdate( 'Y-m-d H:i:s', strtotime( $data['start_date'] ) ) : '',
 		'end_date'      => ! empty( $data['end_date'] ) && false === affwp_is_upgrade_required( 'pro' ) ? gmdate( 'Y-m-d H:i:s', strtotime( $data['end_date'] ) ) : '',
 	);
@@ -303,10 +305,20 @@ function affwp_get_creative_by( $field, $value ) {
  * Retrieves the list of creative types and corresponding labels.
  *
  * @since 2.14.0
+ * @since 2.16.0 Added plural argument.
  *
  * @return array Key/value pairs of types where key is the type and the value is the label.
  */
-function affwp_get_creative_types() : array {
+function affwp_get_creative_types( bool $use_plurals = false ) : array {
+
+	if ( $use_plurals ) {
+
+		return array(
+			'image'     => __( 'Images', 'affiliate-wp' ),
+			'text_link' => __( 'Text Links', 'affiliate-wp' ),
+		);
+	}
+
 	return array(
 		'image'     => __( 'Image', 'affiliate-wp' ),
 		'text_link' => __( 'Text Link', 'affiliate-wp' ),
@@ -314,36 +326,42 @@ function affwp_get_creative_types() : array {
 }
 
 /**
- * Retrieves the creative's type and returns a translatable string.
+ * Return the sanitized value from type input.
  *
- * @since 2.14.0
- *
- * @param int|AffWP\Creative $creative_or_id Creative ID or object.
- * @return string $status_label A translatable, filterable label indicating creative type.
+ * @since 2.16.0
+ * @param string $input_type Accepts GET or POST.
+ * @return string The creative type.
  */
-function affwp_get_creative_type_label( $creative_or_id ) : string {
+function affwp_filter_creative_type_input( string $input_type = 'GET' ) : string {
 
-	$creative = is_int( $creative_or_id )
-		? affwp_get_creative( $creative_or_id )
-		: $creative_or_id;
+	$input_type = in_array( $input_type, array( 'GET', 'POST' ), true )
+		? 'INPUT_' . strtoupper( $input_type )
+		: 'INPUT_GET';
 
-	if ( false === $creative ) {
-		return '';
+	$input_value = filter_input( constant( $input_type ), 'type' );
+
+	if ( $input_value && in_array( $input_value, array_keys( affwp_get_creative_types() ), true ) ) {
+		return sanitize_text_field( $input_value );
 	}
 
-	$types = affwp_get_creative_types();
-	$label = array_key_exists( $creative->type, $types ) ? $types[ $creative->type ] : '';
+	return '';
+}
 
-	/**
-	 * Filters the creative type label.
-	 *
-	 * @since 2.14.0
-	 *
-	 * @param string               $label     Localized status label string.
-	 * @param AffWP\Affiliate|null $affiliate Affiliate object or null.
-	 * @param string               $status    Affiliate status.
-	 */
-	return apply_filters( 'affwp_get_creative_type_label', $label, $creative );
+/**
+ * Return the datetime when the creative name turned public.
+ * If none is found in DB, we fallback to the 2.16.0 release date.
+ *
+ * @since 2.16.0
+ * @return string
+ */
+function affwp_get_creative_name_upgrade_date() : string {
+
+	return affwp_date_i18n(
+		strtotime(
+			get_option( 'affwp_creative_name_upgrade_date', '2023-08-22 00:00:00' )
+		),
+		'Y-m-d H:i:s'
+	);
 }
 
 /**
@@ -403,6 +421,7 @@ function affwp_get_creative_statuses() {
  * Is a creative private.
  *
  * @since 2.15.0
+ * @since 2.16.0 Removed `LIMIT 1` when pulling connected groups.
  *
  * @param object $creative Creative object.
  *
@@ -441,7 +460,7 @@ function affwp_creative_is_private( $creative ) {
 				str_replace(
 					'{table_name}',
 					affiliate_wp()->connections->table_name, // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name injected does not need surrounding ''.
-					'SELECT `group` FROM {table_name} WHERE `creative` = %d AND `group` IS NOT NULL LIMIT 1'
+					'SELECT `group` FROM {table_name} WHERE `creative` = %d AND `group` IS NOT NULL'
 				),
 				$creative->creative_id
 			)
@@ -481,7 +500,7 @@ function affwp_creative_privacy_toggle( $creative = null ) {
 	<tr class="form-row hidden" data-row="privacy">
 
 		<th scope="row">
-			<label for="name"><?php esc_html_e( 'Privacy', 'affiliate-wp' ); ?></label>
+			<label for="creative-privacy"><?php esc_html_e( 'Privacy', 'affiliate-wp' ); ?></label>
 		</th>
 
 		<td>
@@ -490,6 +509,7 @@ function affwp_creative_privacy_toggle( $creative = null ) {
 				<option value="public" <?php selected( true, ! $private ); ?>><?php esc_html_e( 'Public', 'affiliate-wp' ); ?></option>
 				<option value="private"<?php selected( true, $private ); ?>><?php esc_html_e( 'Private', 'affiliate-wp' ); ?></option>
 			</select>
+
 			<p class="description"><?php esc_html_e( 'Select whether you want this creative to be public or private.', 'affiliate-wp' ); ?></p>
 		</td>
 
@@ -676,3 +696,4 @@ function affwp_has_scheduling_feature( $creative_or_id ) : bool {
 
 	return true;
 }
+

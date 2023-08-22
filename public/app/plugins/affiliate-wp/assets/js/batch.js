@@ -124,7 +124,21 @@ jQuery(document).ready(function($) {
 							notice_wrap.html('<div id="affwp-batch-success" class="updated notice"><p class="affwp-batch-success">' + response.data.message + '</p></div>');
 
 							if ( response.data.url ) {
+
+								try {
+
+									// Try to create a URL instance, will throw errors if it is not a valid URL.
+									new URL( response.data.url );
+
+								} catch ( error ) {
+
+									throw new Error( `Invalid URL: ${error}` );
+
+								}
+
+								// No error, just redirect.
 								window.location = response.data.url;
+
 							}
 
 							if( true === dismiss_on_complete ){
@@ -233,13 +247,14 @@ jQuery(document).ready(function($) {
 				var row     = select.parent().parent();
 				var options = '';
 
-				var selectName, selectRegex;
-
 				var columns = response.data.columns.sort(function(a,b) {
 					if( a < b ) return -1;
 					if( a > b ) return 1;
 					return 0;
 				});
+
+				// Set up variables for the loop.
+				var selectName, currentSelect, processedColumnValue, columnRegex;
 
 				$.each( select, function( selectKey, selectValue ) {
 
@@ -312,6 +327,9 @@ jQuery(document).ready(function($) {
 						}
 
 						var triggerValidation = false;
+
+						// Set up variables for the loop.
+						var field, tableRow;
 
 						$.each( requiredFields, function( key, value ) {
 							field    = $( "select[name='affwp-import-field[" + value + "]']" );
@@ -395,7 +413,7 @@ jQuery(document).ready(function($) {
 		arrayMerge: function (){
 			var a = {};
 			var n = 0;
-			var argv = $.arrayMerge.arguments;
+			var argv = arguments;
 			for (var i = 0; i < argv.length; i++){
 				if ($.isArray(argv[i])){
 					for (var j = 0; j < argv[i].length; j++){

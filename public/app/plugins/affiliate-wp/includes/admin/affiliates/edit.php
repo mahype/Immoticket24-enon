@@ -241,7 +241,7 @@ if ( isset( $_REQUEST['generate_coupon'] ) && 1 == absint( $_REQUEST['generate_c
 			<tr class="form-row">
 
 				<th scope="row">
-					<?php esc_html_e( 'Referral Rate Type', 'affiliate-wp' ); ?>
+					<label for="rate_type_default"><?php esc_html_e( 'Referral Rate Type', 'affiliate-wp' ); ?></label>
 
 					<?php if ( affwp_affiliate_has_affiliate_group_overrides( $affiliate->affiliate_id, 'rate-type' ) ) : ?>
 						<?php affwp_icon_tooltip( __( 'This affiliate is in an affiliate group that has a custom rate type setting which will override this as long as they remain in that affiliate group.' ), 'warning' ); ?>
@@ -522,12 +522,12 @@ if ( isset( $_REQUEST['generate_coupon'] ) && 1 == absint( $_REQUEST['generate_c
 			<tr class="form-row">
 
 				<th scope="row">
-					<label for="notes"><?php _e( 'Affiliate Notes', 'affiliate-wp' ); ?></label>
+					<label for="notes"><?php esc_html_e( 'Notes', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>
 					<textarea name="notes" rows="5" cols="50" id="notes" class="large-text"><?php echo esc_html( $notes ); ?></textarea>
-					<p class="description"><?php _e( 'Enter any notes for this affiliate. Notes are only visible to the admin.', 'affiliate-wp' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Enter any notes for this affiliate. Notes are only visible to an affiliate manager.', 'affiliate-wp' ); ?></p>
 				</td>
 
 			</tr>

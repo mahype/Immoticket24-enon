@@ -247,6 +247,10 @@ class Affiliate_WP_Admin_Notices {
 			$output .= self::show_notice( 'upgrade_v2140_set_creative_type', false );
 		}
 
+		if ( false === affwp_has_upgrade_completed( 'upgrade_v2160_update_creative_names' ) ) {
+			$output .= self::show_notice( 'upgrade_v2160_update_creative_names', false );
+		}
+
 		// Payouts Service.
 		if ( in_array( affwp_get_current_screen(), array( 'affiliate-wp-referrals', 'affiliate-wp-payouts' ), true ) ) {
 			$vendor_id  = affiliate_wp()->settings->get( 'payouts_service_vendor_id', 0 );
@@ -360,7 +364,7 @@ class Affiliate_WP_Admin_Notices {
 			<?php
 			/* translators: %1$s License type. %2$s Opening anchor tag, do not translate. %3$s Closing anchor tag, do not translate. */
 			$message = __(
-				'You are using AffiliateWP with a %1$s license. %2$sUpgrade to Professional%3$s and grow your affiliate program.',
+				'You are using AffiliateWP with a %1$s license. %2$sUpgrade to Pro now%3$s & unlock the full revenue potential of your affiliate program.',
 				'affiliate-wp'
 			);
 
@@ -542,6 +546,10 @@ class Affiliate_WP_Admin_Notices {
 		$this->add_notice( 'creative_deactivated', array(
 			'message' => __( 'Creative deactivated', 'affiliate-wp' ),
 		) );
+
+		$this->add_notice( 'creatives_name_upgraded', array(
+			'message' => __( 'Creatives have been successfully updated', 'affiliate-wp' ),
+		) );
 	}
 
 	/**
@@ -607,7 +615,7 @@ class Affiliate_WP_Admin_Notices {
 		$message = '<p><strong>' . __( 'Effortlessly pay your affiliates', 'affiliate-wp' ) . '</strong></p>';
 
 		$message .= sprintf(
-			__( 'With the Payouts Service provided by AffiliateWP, you can easily pay affiliates in 31 countries using any debit or credit card. Learn more at <a href="%s" target="_blank">payouts.sandhillsplugins.com</a>.', 'affiliate-wp' ),
+			__( 'With the Payouts Service provided by AffiliateWP, you can easily pay affiliates in 50 countries using any debit or credit card. Learn more at <a href="%s" target="_blank">payouts.sandhillsplugins.com</a>.', 'affiliate-wp' ),
 			PAYOUTS_SERVICE_URL
 		);
 
@@ -894,6 +902,113 @@ class Affiliate_WP_Admin_Notices {
 						data-nonce="<?php echo esc_attr( wp_create_nonce( 'set-creative-type_step_nonce' ) ); ?>">
 						<p>
 							<?php submit_button( __( 'Upgrade Database', 'affiliate-wp' ), 'secondary', 'v2140-set-creative-type', false ); ?>
+						</p>
+					</form>
+
+					<?php
+
+					return ob_get_clean();
+				},
+			)
+		);
+
+		// Try to show the creative name upgrade notice.
+		$this->creative_name_upgrade_notice();
+
+	}
+
+	/**
+	 * Displays an upgrade notice for the Creative name improvements.
+	 *
+	 * This notice presents users with two options: keeping all Creative names public or private on the front-end.
+	 * If the public option is chosen, the name will be displayed as it is.
+	 * If the private option is chosen, all Creative names are set to `Creative`, and the original names are moved to the Notes field for future renaming.
+	 * During the decision-making process, all Creatives are displayed as `Creative`.
+	 *
+	 * @since 2.16.0
+	 *
+	 * @return void
+	 */
+	public function creative_name_upgrade_notice() : void {
+
+		if ( ! affwp_is_admin_page() ) {
+			return; // Shows only under AffiliateWP screens.
+		}
+
+		$notice_id = 'upgrade_v2160_update_creative_names';
+
+		if ( affwp_has_upgrade_completed( $notice_id ) ) {
+			return; // Bail if it was already completed.
+		}
+
+		$creatives = affiliate_wp()->creatives->count();
+
+		// If there are no creatives, we don't have reason to display the notice.
+		if ( empty( $creatives ) ) {
+
+			// Set as the upgrade was already completed.
+			affwp_set_upgrade_complete( $notice_id );
+
+			// Ensure all Creatives will be public.
+			update_option( 'affwp_creative_name_privacy', 'public' );
+
+			return;
+
+		}
+
+		$this->add_notice(
+			$notice_id,
+			array(
+				'class'      => 'notice notice-warning',
+				'capability' => 'manage_creatives',
+				'message'    => function() {
+
+					ob_start();
+
+					// Enqueue admin JS for the batch processor.
+					affwp_enqueue_admin_js();
+
+					?>
+
+					<h4><?php esc_html_e( 'Important Update in AffiliateWP 2.16.0: Creative Names Now Visible to Affiliates', 'affiliate-wp' ); ?></h4>
+					<p><?php esc_html_e( 'Until now, the names of Creatives were only visible to affiliate managers. With our latest update, the names of all newly added Creatives will be visible to affiliates. This change will assist them in easily identifying and choosing the best Creative for their campaigns.', 'affiliate-wp' ); ?></p>
+					<p><?php esc_html_e( 'Please note, until you select an option below, all Creatives will appear to affiliates as “Creative” within the Affiliate Area.', 'affiliate-wp' ); ?></p>
+					<p><?php esc_html_e( 'Are you comfortable with allowing affiliates to see the names of your existing Creatives?', 'affiliate-wp' ); ?></p>
+					<form
+						method="post"
+						class="affwp-batch-form"
+						data-dismiss-when-complete="true"
+						data-batch_id="update-creative-names"
+						data-nonce="<?php echo esc_attr( wp_create_nonce( 'update-creative-names_step_nonce' ) ); ?>"
+					>
+						<p>
+							<input id="creative_name_privacy_public" type="radio" name="creative_name_privacy" value="public">
+							<label for="creative_name_privacy_public"><?php echo wp_kses( __( '<strong>Yes, Proceed:</strong> It’s acceptable for affiliates to see the names of my existing Creatives.', 'affiliate-wp' ), affwp_kses() ); ?></label>
+						</p>
+
+						<p>
+							<input id="creative_name_privacy_private" type="radio" name="creative_name_privacy" value="private">
+							<label for="creative_name_privacy_private"><?php echo wp_kses( __( '<strong>No, Review Needed:</strong> I want to manually review and rename all existing Creatives.', 'affiliate-wp' ), affwp_kses() ); ?></label>
+						</p>
+
+						<p><em><?php esc_html_e( '(Important: Selecting this option will rename all Creatives to “Creative”. The original names will be safely stored in a newly created Notes field for your reference and review.)', 'affiliate-wp' ); ?></em></p>
+
+						<p>
+							<?php
+
+							submit_button(
+								__( 'Make Creative Names Visible', 'affiliate-wp' ),
+								'secondary button-disabled',
+								'v2160-update-creative-names',
+								false,
+								'disabled="disabled"'
+							);
+
+							?>
+							<noscript>
+								<span class="dashicons dashicons-warning" style="vertical-align: middle"></span>
+								<span><?php esc_html_e( 'Please enable Javascript to update.', 'affiliate-wp' ); ?></span>
+							</noscript>
 						</p>
 					</form>
 

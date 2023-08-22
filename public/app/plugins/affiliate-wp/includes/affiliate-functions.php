@@ -1855,13 +1855,13 @@ function affwp_get_affiliate_area_tabs() {
 	$tabs = apply_filters( 'affwp_affiliate_area_tabs',
 		array(
 			'urls'      => __( 'Affiliate URLs', 'affiliate-wp' ),
+			'creatives' => __( 'Creatives', 'affiliate-wp' ),
 			'stats'     => __( 'Statistics', 'affiliate-wp' ),
 			'graphs'    => __( 'Graphs', 'affiliate-wp' ),
 			'referrals' => __( 'Referrals', 'affiliate-wp' ),
 			'payouts'   => __( 'Payouts', 'affiliate-wp' ),
 			'visits'    => __( 'Visits', 'affiliate-wp' ),
 			'coupons'   => __( 'Coupons', 'affiliate-wp' ),
-			'creatives' => __( 'Creatives', 'affiliate-wp' ),
 			'settings'  => __( 'Settings', 'affiliate-wp' ),
 		)
 	);

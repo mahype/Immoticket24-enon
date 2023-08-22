@@ -631,12 +631,16 @@ class AffWP_Affiliates_Table extends List_Table {
 	 * Renders the Status column in the affiliates list table.
 	 *
 	 * @since 2.7
+	 * @since 2.16.0 Added html to color-code the status label.
 	 *
 	 * @param \AffWP\Affiliate $affiliate The current affiliate object.
 	 * @return string Status label.
 	 */
 	public function column_status( $affiliate ) {
-		return affwp_get_affiliate_status_label( $affiliate );
+		return sprintf( '<span class="affwp-status %1$s">%2$s</span>',
+			esc_attr( $affiliate->status ),
+			affwp_get_affiliate_status_label( $affiliate )
+		);
 	}
 
 	/**

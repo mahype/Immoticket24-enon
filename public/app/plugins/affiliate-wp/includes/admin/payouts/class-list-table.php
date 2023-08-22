@@ -519,12 +519,13 @@ class AffWP_Payouts_Table extends List_Table {
 	 *
 	 * @access public
 	 * @since  1.9
+	 * @since  2.16.0 Added html to color-code the status label.
 	 *
 	 * @param \AffWP\Affiliate\Payout $payout Current payout object.
 	 * @return string Payout status.
 	 */
 	public function column_status( $payout ) {
-		$value = sprintf( '<span class="affwp-status %1$s"><i></i>%2$s</span>',
+		$value = sprintf( '<span class="affwp-status %1$s">%2$s</span>',
 			esc_attr( $payout->status ),
 			affwp_get_payout_status_label( $payout )
 		);

@@ -1940,6 +1940,7 @@ if ( ! function_exists( 'affwp_kses' ) ) :
 				'address'    => array(),
 				'a'          => array(
 					'href'     => true,
+					'class'    => true,
 					'rel'      => true,
 					'rev'      => true,
 					'name'     => true,
@@ -2094,6 +2095,7 @@ if ( ! function_exists( 'affwp_kses' ) ) :
 				'li'         => array(
 					'align' => true,
 					'value' => true,
+					'class' => true,
 				),
 				'main'       => array(
 					'align' => true,
@@ -2136,6 +2138,7 @@ if ( ! function_exists( 'affwp_kses' ) ) :
 				'samp'       => array(),
 				'span'       => array(
 					'align' => true,
+					'class' => true,
 				),
 				'section'    => array(
 					'align' => true,
@@ -2234,7 +2237,8 @@ if ( ! function_exists( 'affwp_kses' ) ) :
 				'tt'         => array(),
 				'u'          => array(),
 				'ul'         => array(
-					'type' => true,
+					'type'  => true,
+					'class' => true,
 				),
 				'ol'         => array(
 					'start'    => true,
@@ -2258,3 +2262,51 @@ if ( ! function_exists( 'affwp_kses' ) ) :
 		);
 	}
 endif;
+
+/**
+ * Return the image size (width and height) of an image, based on an attachment_id or URL.
+ *
+ * @since 2.16.0
+ * @param string|int $image_id_or_url An valid attachment_id or a URL.
+ * @param string     $image_size Optional image size for an attachment. Only used when a attachment_id is supplied.
+ * @return array Returns the width and height in an array.
+ */
+function affwp_get_image_size( $image_id_or_url, string $image_size = 'full' ) : array {
+
+	if ( is_numeric( $image_id_or_url ) ) {
+
+		$image_src = wp_get_attachment_image_src( $image_id_or_url, $image_size );
+
+		return false === $image_src
+			? array()
+			: array(
+				'width'  => $image_src[1] ?? 300,
+				'height' => $image_src[2] ?? 300,
+			);
+
+	}
+
+	if ( ! filter_var( $image_id_or_url, FILTER_VALIDATE_URL ) ) {
+		return array(); // Bail if it is not a valid URL.
+	}
+
+	try {
+
+		$image_info = getimagesize( $image_id_or_url );
+
+		return false === $image_info
+			? array()
+			: array(
+				'width'  => $image_info[0],
+				'height' => $image_info[1],
+			);
+
+	} catch ( Exception $e ) {
+
+		return array();
+
+	}
+
+	return array();
+}
+

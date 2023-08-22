@@ -40,6 +40,8 @@ $autoload = array(
 	'AffWP\Components\Notifications\Notification',
 	'AffWP\Utils\Notification_Importer',
 	'AffWP\Utils\Environment_Checker',
+	'AffiliateWP\Utils\Icons',
+	'AffiliateWP\Affiliate_Area_Creatives',
 );
 
 spl_autoload_register( function( $filename ) use ( $autoload ) {

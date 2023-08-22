@@ -61,6 +61,13 @@ table.affwp_table td a {
 	-moz-hyphens: auto;
 	hyphens: auto;
 }
+
+table.affiliates #status,
+table.referrals #status,
+table.payouts #status {
+	width: 100px;
+}
+
 #affwp-dashboard-widgets-wrap .postbox h3 {
 	cursor: default;
 	font-weight: 600;
@@ -307,20 +314,6 @@ body.admin-bar #affwp-notifications-panel {
 	margin: 0 8px 20px;
 }
 
-/* Affiliates */
-table.affiliates #name {
-	width: 240px;
-}
-
-table.affiliates #rate,
-table.affiliates #visits {
-	width: 94px;
-}
-
-table.affiliates #unpaid {
-	width: 150px;
-}
-
 /* Consumers */
 .row-actions span.revoke a {
 	color: #a00;
@@ -345,14 +338,7 @@ table.creatives #status {
 }
 
 table.creatives .affwp-tooltip-content {
-	padding: 0.5rem 1rem;
-	line-height: 1.5 !important;
 	left: 50%;
-	top: -1rem;
-}
-
-table.creatives .status .affwp-tooltip-content {
-	min-width: unset;
 }
 
 table.creatives .status .affwp-tooltip-content.active div {
@@ -457,45 +443,6 @@ table.creatives .affwp-tooltip-content::after {
 
 #affwp-referrals-filter-form select.affwp-referral-type-select {
 	float: none;
-}
-
-.affwp-status.pending i,
-.affwp-status.unpaid i,
-.affwp-status.paid i,
-.affwp-status.rejected i,
-.affwp-status.active i,
-.affwp-status.inactive i {
-	display: inline-block;
-	position: relative;
-	top: 2px;
-	left: -2px;
-}
-.affwp-status.pending i:before,
-.affwp-status.unpaid i:before,
-.affwp-status.paid i:before,
-.affwp-status.rejected i:before,
-.affwp-status.active i:before,
-.affwp-status.inactive i:before {
-	font-family: "dashicons";
-	font-style: normal;
-}
-.affwp-status.pending i:before {
-	content: "\f159";
-	color: #d8ecb4;
-}
-.affwp-status.unpaid i:before,
-.affwp-status.inactive i:before {
-	content: "\f159";
-	color: #5e95ef;
-}
-.affwp-status.paid i:before,
-.affwp-status.active i:before {
-	content: "\f159";
-	color: green;
-}
-.affwp-status.rejected i:before {
-	content: "\f159";
-	color: #ef6c5e;
 }
 
 #affwp_edit_affiliate input:disabled {
@@ -820,16 +767,19 @@ form .spinner {
 	font-size: 13px !important;
 	text-rendering: auto;
 	font-weight: 400;
+	-webkit-font-smoothing: subpixel-antialiased;
+	-moz-osx-font-smoothing: unset;
 	left: 6px;
-	line-height: 15px !important;
+	line-height: 1.4;
 	overflow-wrap: break-word;
 	letter-spacing: 0;
-	min-width: 200px;
+	width: max-content;
+	max-width: 200px;
 	opacity: 0;
-	padding: 10px 5px;
+	padding: 0.5rem 1rem;
 	position: absolute;
 	text-align: center;
-	top: -15px;
+	top: -1rem;
 	transform: translate(-50%, -100%);
 	z-index: -1;
 }
@@ -852,7 +802,7 @@ form .spinner {
 	height: 0;
 	border-left: 11px solid transparent;
 	border-right: 11px solid transparent;
-	border-top: 10px solid #111;
+	border-top: 10px solid #222;
 	display: block;
 	position: absolute;
 	left: calc(50% - 7px);
@@ -1354,9 +1304,6 @@ form .spinner {
 	#affwp-payouts-filter .column-payout_id {
 		width: 8%;
 	}
-	#affwp-payouts-filter .column-status {
-		width: 10%;
-	}
 }
 
 @media screen and (min-width: 680px) {
@@ -1460,8 +1407,12 @@ span#select2-status-container, #select2-status-results li {
 	display: grid;
 }
 
+.affwp-creative-name-field > * {
+	vertical-align: middle;
+}
+
 /* Status color-coded labels */
-.badge {
+.affwp-status {
 	display: inline-flex;
 	align-items: center;
 	gap: 4px;
@@ -1469,28 +1420,43 @@ span#select2-status-container, #select2-status-results li {
 	border-radius: 4px;
 }
 
-.badge.badge-active {
+/* Green */
+.affwp-status.active, .affwp-status.paid {
 	background-color: rgb(215, 247, 194);
 	color: rgb(0, 105, 8);
 }
 
-.badge.badge-scheduled {
+/* Yellow */
+.affwp-status.unpaid {
+	background-color: rgb(252, 237, 185);
+	color: rgb(168, 44, 0);
+}
+
+/* Blue */
+.affwp-status.scheduled, .affwp-status.pending, .affwp-status.processing {
 	background-color: rgb(207, 245, 246);
 	color: rgb(0, 85, 188);
 }
 
-.badge.badge-inactive {
+/* Grey */
+.affwp-status.inactive {
 	background-color: rgb(235, 238, 241);
 	color: rgb(65, 69, 82);
 }
 
-.badge .dashicons {
+/* Red */
+.affwp-status.rejected, .affwp-status.failed {
+	background-color: rgb(255, 231, 242);
+	color: rgb(179, 9, 60);
+}
+
+.affwp-status .dashicons {
 	display: inline-flex;
 	width: auto;
 	height: auto;
 }
 
-.badge .dashicons.dashicons-clock {
+.affwp-status .dashicons.dashicons-clock {
 	font-size: 18px;
 	align-items: center;
 }
@@ -1499,3 +1465,13 @@ span#select2-status-container, #select2-status-results li {
 .affwp-upgrade-setting-cta h4 {
 	margin-top: 8px;
 }
+
+#v2160-update-creative-names.button-disabled {
+	display: none;
+}
+
+#affwp_edit_creative .affwp-tooltip.icon.warning .dashicons,
+#the-list .affwp-admin-creative-name-warning .dashicons::before {
+	color: #D63638;
+}
+

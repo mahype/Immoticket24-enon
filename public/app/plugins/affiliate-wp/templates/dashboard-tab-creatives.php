@@ -1,36 +1,38 @@
+<?php
+/**
+ * Affiliate Creatives Template.
+ *
+ * This template file is used to display a list of affiliate creatives in the affiliate dashboard.
+ * It sets up the query parameters for fetching creatives and then renders them based on the conditions.
+ *
+ * @package AffiliateWP
+ * @subpackage Templates
+ *
+ * @since 2.16.0
+ */
+
+affiliate_wp()->creatives_view
+	->set_current_page( affwp_get_current_page_number() )
+	->set_query_args(
+		array(
+			'cat'     => (int) filter_input( INPUT_GET, 'cat', FILTER_SANITIZE_NUMBER_INT ),
+			'order'   => in_array( trim( strtolower( (string) filter_input( INPUT_GET, 'order' ) ) ), array( '', 'desc' ), true )
+				? 'desc'
+				: 'asc',
+			'orderby' => filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ?? 'date_updated',
+			'type'    => empty( affwp_filter_creative_type_input() )
+				? 'any'
+				: affwp_filter_creative_type_input(),
+		)
+	)
+	->fetch_creatives();
+
+?>
 <div id="affwp-affiliate-dashboard-creatives" class="affwp-tab-content">
 
-	<h4><?php _e( 'Creatives', 'affiliate-wp' ); ?></h4>
+	<h4><?php esc_html_e( 'Creatives', 'affiliate-wp' ); ?></h4>
 
-	<?php
-
-	$per_page  = 30;
-	$page      = affwp_get_current_page_number();
-	$pages     = absint( ceil( affiliate_wp()->creatives->count(
-
-		/** This filter is documented below. -- Get all active creatives we can show to build pagination. */
-		apply_filters( 'affwp_affiliate_dashboard_creatives_args', array( 'status' => 'active' ) )
-
-	) / $per_page ) );
-
-	/**
-	 * Filter arguments used to show creatives on the affiliate area creatives tab.
-	 *
-	 * @since 2.13.0
-	 *
-	 * @param array $args Arguments.
-	 */
-	$args = apply_filters( 'affwp_affiliate_dashboard_creatives_args', array(
-		'number' => $per_page,
-		'offset' => $per_page * ( $page - 1 ),
-		'status' => 'active',
-	) );
-
-	$creatives = affiliate_wp()->creative->affiliate_creatives( $args );
-
-	?>
-
-	<?php if ( $creatives ) : ?>
+	<?php if ( ! empty( affiliate_wp()->creatives_view->get_creatives() ) ) : ?>
 
 		<?php
 		/**
@@ -39,29 +41,9 @@
 		 * @since 1.0
 		 */
 		do_action( 'affwp_before_creatives' );
-		?>
 
-		<?php echo $creatives; ?>
+		affiliate_wp()->creatives_view->render();
 
-		<?php if ( $pages > 1 ) : ?>
-
-			<p class="affwp-pagination">
-				<?php
-				echo paginate_links(
-					array(
-						'current'  => $page,
-						'total'    => $pages,
-						'add_args' => array(
-							'tab' => 'creatives',
-						),
-					)
-				);
-				?>
-			</p>
-
-		<?php endif; ?>
-
-		<?php
 		/**
 		 * Fires immediately after creatives in the creatives tab of the affiliate area.
 		 *
@@ -80,6 +62,8 @@
 		 * @since 2.12.0
 		 */
 		do_action( 'affwp_before_creatives_no_results' );
+
+		affiliate_wp()->creatives_view->render();
 		?>
 
 		<p class="affwp-no-results"><?php esc_html_e( 'Sorry, there are currently no creatives available.', 'affiliate-wp' ); ?></p>

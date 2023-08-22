@@ -808,7 +808,7 @@ final class Affiliate_WP_Editor {
 			return;
 		}
 
-		return ' class="' . esc_attr( implode( ' ', $classes ) ) . '"';
+		return sprintf( ' class="%s"', esc_attr( implode( ' ', $classes ) ) );
 	}
 
 	/**
@@ -1827,7 +1827,7 @@ final class Affiliate_WP_Editor {
 				}
 			</script>
 		<?php else : ?>
-			<input<?php echo esc_attr( $this->render_classes( $classes ) ); ?> type="submit" value="<?php echo esc_attr( $btn_text ); ?>" />
+			<input <?php echo wp_kses( $this->render_classes( $classes ), 'strip' ) ?> type="submit" value="<?php echo esc_attr( $btn_text ); ?>" />
 		<?php endif; ?>
 
 		<?php

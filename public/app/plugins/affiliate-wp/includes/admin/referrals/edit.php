@@ -274,7 +274,7 @@ $disabled = disabled( (bool) $payout, true, false );
 					$readonly = __checked_selected_helper( true, ! empty( $referral->custom ), false, 'readonly' );
 				?>
 				<th scope="row">
-					<label for="context"><?php _e( 'Custom', 'affiliate-wp' ); ?></label>
+					<label for="custom"><?php _e( 'Custom', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>

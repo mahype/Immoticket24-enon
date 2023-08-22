@@ -34,33 +34,61 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 	 */
 	public function init() {
 
+		if ( ! function_exists( 'simpay_get_license' ) ) {
+			return;
+		}
+
+		$license = simpay_get_license();
+
+		if ( ! is_callable( array( $license, 'is_pro' ) ) ) {
+			return;
+		}
+
 		add_filter( 'affwp_referral_reference_column', array( $this, 'reference_link' ), 10, 2 );
 
-		// Use webhooks to track conversions more accurately across multiple types
-		// of Payment Methods in WP Simple Pay Pro >= 3.6.0.
-		if ( 
-			class_exists( '\SimplePay\Pro\SimplePayPro' ) &&
-			version_compare( SIMPLE_PAY_VERSION, '3.6.0', '>=' )
-		) {
-			add_filter( 'simpay_get_subscription_args_from_payment_form_request', array( $this, 'maybe_track_referral_360' ) );
-			add_filter( 'simpay_get_paymentintent_args_from_payment_form_request', array( $this, 'maybe_track_referral_360' ) );
+		// Pro.
+		if ( $license->is_pro() ) {
+			// Track referral via Stripe Subscription or PaymentIntent metadata.
+			add_filter(
+				'simpay_get_subscription_args_from_payment_form_request',
+				array( $this, 'maybe_track_referral_360' )
+			);
 
-			add_action( 'simpay_webhook_subscription_created', array( $this, 'process_referral_360' ), 10, 2 );
-			add_action( 'simpay_webhook_payment_intent_succeeded', array( $this, 'process_referral_360' ), 10, 2 );
+			add_filter(
+				'simpay_get_paymentintent_args_from_payment_form_request',
+				array( $this, 'maybe_track_referral_360' )
+			);
 
-		// Track conversions when the "Payment Success Page" is reached in
-		// WP Simple Pay Lite or WP Simple Pay Pro < 3.6.0 (no webhooks).
-		//
-		// "Payment Success Page" must include [simpay_payment_receipt] shortcode
-		// for legacy actions to run and referrals tracked.
+			// Process referral upon Stripe webhook.
+			add_action(
+				'simpay_webhook_subscription_created',
+				array( $this, 'process_referral_360' ), 10, 2
+			);
+
+			add_action(
+				'simpay_webhook_payment_intent_succeeded',
+				array( $this, 'process_referral_360' ), 10, 2
+			);
+
+			// Lite.
 		} else {
-			add_action( 'simpay_subscription_created', array( $this, 'insert_referral' ) );
-			add_action( 'simpay_charge_created', array( $this, 'insert_referral' ) );
+
+			// Track referral via Stripe Checkout Session metadata.
+			add_filter(
+				'simpay_get_session_args_from_payment_form_request',
+				array( $this, 'maybe_track_referral_lite' )
+			);
+
+			// Process referral upon payment receipt view.
+			add_action(
+				'simpay_payment_receipt_viewed',
+				array( $this, 'process_referral_lite' )
+			);
 		}
 	}
 
 	/**
-	 * Adds affiliate metadata to Stripe object creation.
+	 * Adds affiliate metadata to Stripe Payment or Subscription creation for Pro.
 	 *
 	 * @since 2.3.4
 	 *
@@ -80,7 +108,29 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 	}
 
 	/**
-	 * Determines if an object contains affiliate metadata and creates a referral if needed.
+	 * Adds affiliate metadata to Stripe Checkout Session payment metadata for Lite.
+	 *
+	 * @since 2.3.4
+	 *
+	 * @param array $object_args Subscription or PaymentIntent arguments.
+	 *                           Both utilize Stripe metadata.
+	 * @return array (Maybe) modified array of object metadata.
+	 */
+	public function maybe_track_referral_lite( $object_args ) {
+		if ( ! $this->was_referred() ) {
+			return $object_args;
+		}
+
+		$object_args['payment_intent_data']['metadata']['affwp_visit_id'] =
+			affiliate_wp()->tracking->get_visit_id();
+		$object_args['payment_intent_data']['metadata']['affwp_affiliate_id'] =
+			$this->affiliate_id;
+
+		return $object_args;
+	}
+
+	/**
+	 * Processes a referral upon Stripe webhook for Pro.
 	 *
 	 * @since 2.3.4
 	 *
@@ -115,7 +165,7 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 			: false;
 
 		switch ( $object->object ) {
-			case 'subscription': 
+			case 'subscription':
 				$this->log( 'Processing referral for Stripe subscription.' );
 
 				$invoice = $event->data->object;
@@ -191,129 +241,30 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 	}
 
 	/**
+	 * Processes a referral upon payment receipt view for Lite.
+	 *
+	 * @since 2.16.0
+	 *
+	 * @param array<string, mixed> $payment_confirmation_data
+	 */
+	public function process_referral_lite( $payment_confirmation_data ) {
+		$object = current( $payment_confirmation_data['paymentintents'] );
+
+		$this->process_referral_360( null, $object );
+	}
+
+
+	/**
 	 * Create a referral during stripe form submission if customer was referred
 	 *
 	 * Legacy < 3.6.0 support.
 	 *
 	 * @access  public
 	 * @since   2.0
+	 * @since   2.16.0 Deprecated.
 	*/
 	public function insert_referral( $object ) {
-
-		// Check if it was referred.
-		if( ! $this->was_referred() ) {
-			return false; // Referral not created because affiliate was not referred.
-		}
-
-		// Create draft referral.
-		$referral_id = $this->insert_draft_referral(
-			$this->affiliate_id,
-			array(
-				'reference' => $object->id,
-			)
-		);
-		if ( ! $referral_id ) {
-			$this->log( 'Draft referral creation failed.' );
-			return;
-		}
-
-		global $simpay_form;
-
-		switch( $object->object ) {
-
-			case 'subscription' :
-
-				$this->log( 'Processing referral for Stripe subscription.' );
-
-				$stripe_amount = ! empty( $object->plan->trial_period_days ) ? 0 : $object->plan->amount;
-				$currency      = $object->plan->currency;
-				$description   = $object->plan->nickname;
-				$mode          = $object->plan->livemode;
-
-				break;
-
-			case 'charge' :
-			default :
-
-				if( did_action( 'simpay_subscription_created' ) ) {
-
-					$this->log( 'insert_referral() short circuited because simpay_subscription_created already fired.' );
-
-					return; // This was a subscription purchase and we've already processed the referral creation
-				}
-
-
-				$this->log( 'Processing referral for Stripe charge.' );
-
-				$stripe_amount = $object->amount;
-				$currency      = $object->currency;
-				$description   = ! empty( $object->description ) ? $object->description : '';
-				$mode          = $object->livemode;
-
-				break;
-
-		}
-
-		if ( empty( $description ) && isset( $simpay_form->post->post_title ) ) {
-
-			$description = $simpay_form->post->post_title;
-
-		}
-
-		if( $this->is_zero_decimal( $currency ) ) {
-			$amount = $stripe_amount;
-		} else {
-			$amount = round( $stripe_amount / 100, 2 );
-		}
-
-		if( is_object( $object->customer ) && ! empty( $object->customer->email ) ) {
-			$this->email = $object->customer->email;
-		} else {
-			if ( isset( $_POST['stripeEmail'] ) ) {
-
-				// WP Simple Pay < 3.0
-				$this->email = sanitize_text_field( $_POST['stripeEmail'] );
-			} elseif ( isset( $_POST['simpay_stripe_email'] ) ) {
-
-				// WP Simple Pay >= 3.0
-				$this->email = sanitize_text_field( $_POST['simpay_stripe_email'] );
-			}
-		}
-
-		if( $this->is_affiliate_email( $this->email, $this->affiliate_id ) ) {
-
-			$this->log( 'Referral not created because affiliate\'s own account was used.' );
-			$this->mark_referral_failed( $referral_id );
-			return;
-
-		}
-
-		$referral_total = $this->calculate_referral_amount( $amount, $object->id );
-		
-		// Hydrates the previously created referral.
-		$this->hydrate_referral(
-			$referral_id,
-			array(
-				'status'      => 'pending',
-				'amount'      => $referral_total,
-				'description' => $description,
-				'custom'      => array(
-					'livemode'     => $mode,
-				),
-			)
-		);
-
-		$this->log( 'Pending referral created successfully during insert_referral()' );
-
-		if( $this->complete_referral( $object->id ) ) {
-
-			$this->log( 'Referral completed successfully during insert_referral()' );
-
-			return;
-
-		}
-
-		$this->log( 'Referral failed to be set to completed with complete_referral()' );
+		// noop
 	}
 
 	/**
@@ -321,10 +272,14 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 	 *
 	 * @access public
 	 * @since  2.0
+	 * @since  2.16.0 Use WP Simple Pay's built in `simpay_is_zero_decimal()` function if available.
 	 * @param  $currency String The currency code
 	 * @return bool
 	 */
 	public function is_zero_decimal( $currency ) {
+		if ( function_exists( 'simpay_is_zero_decimal' ) ) {
+			return simpay_is_zero_decimal( $currency );
+		}
 
 		$is_zero = array(
 			'BIF',
@@ -383,8 +338,8 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 	 * @return bool True if the plugin is active, false otherwise.
 	 */
 	function plugin_is_active() {
-		return class_exists( 'Stripe_Checkout' ) || class_exists( 'Stripe_Checkout_Pro' ) || class_exists( '\SimplePay\Core\SimplePay' );
+		return defined( 'SIMPLE_PAY_VERSION' );
 	}
 }
 
-	new Affiliate_WP_Stripe;
+new Affiliate_WP_Stripe;

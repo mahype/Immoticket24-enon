@@ -13,6 +13,7 @@
 use AffWP\Components\Wizard;
 use AffWP\Components\Notifications;
 use AffiliateWP\Scripts;
+use AffiliateWP\Affiliate_Area_Creatives;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -41,9 +42,15 @@ final class Affiliate_WP {
 	 *
 	 * @access private
 	 * @since  1.0
+	 * @since  2.15.2 Note, you no longer have to update this manually
+	 *                when releasing a version of AffiliateWP. Simply change
+	 *                the "Version" in the plugin's `/affiliate-wp.php` plugin header
+	 *                and that will auto-populate here.
+	 *
+	 * @see self::set_plugin_data() where this is set.
 	 * @var    string
 	 */
-	private $version = '2.15.1';
+	private string $version = '';
 
 	/**
 	 * Main plugin file.
@@ -215,6 +222,15 @@ final class Affiliate_WP {
 	public $creative;
 
 	/**
+	 * The creative view class instance variable for use within the Affiliate Area.
+	 *
+	 * @access public
+	 * @since  2.16.0
+	 * @var    Affiliate_Area_Creatives
+	 */
+	public Affiliate_Area_Creatives $creatives_view;
+
+	/**
 	 * The rewrite class instance variable
 	 *
 	 * @access public
@@ -267,6 +283,15 @@ final class Affiliate_WP {
 	public $notifications;
 
 	/**
+	 * Plugin Data
+	 *
+	 * @since 2.15.2
+	 *
+	 * @var array
+	 */
+	private $plugin_data = [];
+
+	/**
 	 * The custom links instance variable.
 	 *
 	 * @access public
@@ -307,11 +332,14 @@ final class Affiliate_WP {
 	 * @return \Affiliate_WP The one true plugin instance.
 	 */
 	public static function instance( $file = null ) {
+
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Affiliate_WP ) ) {
+
 			self::$instance = new Affiliate_WP;
 
 			self::$instance->file = $file;
 
+			self::$instance->set_plugin_data();
 			self::$instance->setup_constants();
 			self::$instance->includes();
 			self::$instance->setup_objects();
@@ -319,6 +347,30 @@ final class Affiliate_WP {
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * Set the plugin data from the plugin header.
+	 *
+	 * @since 2.15.2
+	 */
+	private function set_plugin_data() : void {
+
+		require_once ABSPATH . basename( admin_url() ) . '/includes/plugin.php';
+
+		self::$instance->plugin_data = get_plugin_data( self::$instance->file, false, false );
+		self::$instance->version     = self::$instance->plugin_data['Version'] ?? '';
+	}
+
+	/**
+	 * Retrieve the plugin data.
+	 *
+	 * @since 2.15.2
+	 *
+	 * @return array Plugin data that correlates with the plugin's header.
+	 */
+	public function get_plugin_data() : array {
+		return self::$instance->plugin_data;
 	}
 
 	/**
@@ -603,6 +655,7 @@ final class Affiliate_WP {
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/cli/class-customer-meta-sub-commands.php';
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/cli/class-referral-meta-sub-commands.php';
 		}
+
 	}
 
 	/**
@@ -650,6 +703,9 @@ final class Affiliate_WP {
 		self::$instance->groups = new AffiliateWP\Groups\DB();
 		self::$instance->notifications = new Notifications\Notifications_DB();
 		self::$instance->scripts = new Scripts();
+
+		// Affiliate Area.
+		self::$instance->creatives_view = new Affiliate_Area_Creatives();
 
 		// Onboarding wizard.
 		new Wizard\Bootstrap();

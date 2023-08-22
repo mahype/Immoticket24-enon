@@ -8,7 +8,9 @@
  * @copyright   Copyright (c) 2023 Awesome Motive, inc
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.14.0
+ * @author      Darvin da Silveira <ddasilveira@awesomeomotive.com>
  */
+
 class Affiliate_WP_Custom_Links {
 
 	/**
@@ -153,29 +155,16 @@ class Affiliate_WP_Custom_Links {
 	public function register_scripts() : void {
 
 		wp_register_script(
-			'affwp-popper',
-			sprintf( '%1$sassets/js/popper.min.js', AFFILIATEWP_PLUGIN_URL ),
-			array( 'jquery' ),
-			AFFILIATEWP_VERSION,
-			true
-		);
-
-		wp_register_script(
-			'affwp-tippy',
-			sprintf( '%1$sassets/js/tippy.min.js', AFFILIATEWP_PLUGIN_URL ),
-			array( 'jquery', 'affwp-popper' ),
-			AFFILIATEWP_VERSION,
-			true
-		);
-
-		wp_register_script(
 			'affwp-custom-link',
 			sprintf(
 				'%1$sassets/js/custom-link%2$s.js',
 				AFFILIATEWP_PLUGIN_URL,
 				( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min'
 			),
-			array( 'jquery' ),
+			array(
+				'jquery',
+				'affiliatewp-tooltip',
+			),
 			AFFILIATEWP_VERSION,
 			true
 		);

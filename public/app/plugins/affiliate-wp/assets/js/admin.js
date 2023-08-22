@@ -661,8 +661,27 @@ jQuery(document).ready(function($) {
 
   }
 
-	// Toggle the Creative image field visibility based on the type. Used in Affiliate WP Creative add/edit screen.
+	// Used in Affiliate WP Creative add/edit screen.
 	if ( $.inArray( pagenow, [ 'affiliates_page_affiliate-wp-creatives' ] ) > -1 ) {
+
+		$( '#affwp_edit_creative' ).on( 'submit', function( e ) {
+
+			const $name = $( '#name' );
+
+			// Anything different from yes, should submit normally.
+			if ( $name.data( 'private' ) !== 'yes' ) {
+				return true;
+			}
+
+			// Equal names, confirm before submitting.
+			if ( affwp_vars.creativeDefaultName === $name.val() && ! confirm( affwp_vars.creativeUpdateNameConfirm ) ) {
+				return false;
+			}
+
+			// Any other conditions submit normally.
+			return true;
+
+		} );
 
 		// Object to cache values based on a context.
 		const contexts = {
@@ -687,6 +706,10 @@ jQuery(document).ready(function($) {
 			const $type  = $( '#type' );
 			const $image = $( '#image' );
 
+			// Reset the require property from all.
+			$text.attr( 'required', false );
+			$image.attr( 'required', false );
+
 			// Check which is the previous type. For now only image and text_link are supported, so we can easily guess.
 			const prevType = $type.val() === 'image' ? 'text_link' : 'image';
 
@@ -701,12 +724,22 @@ jQuery(document).ready(function($) {
 
 			// Show image if type equals image.
 			if ( $type.val() === 'image' ) {
-				$image.closest( '.form-row' ).removeClass( 'affwp-hidden' );
+				$image
+					.attr( 'required', true )
+					.closest( '.form-row' )
+						.removeClass( 'affwp-hidden' );
 				return;
 			}
 
-			// Otherwise hidde the image field.
+			$text.attr( 'required', true );
+
+			// Otherwise hide the image field.
 			$image.closest( '.form-row' ).addClass( 'affwp-hidden' );
+		} );
+
+		// Open the Type select2 dropdown when clicking on the Type label.
+		$( 'label[for="type"]' ).click( function() {
+			$( '#type' ).select2( 'open' );
 		} );
 
 		$('select#status').select2( {
@@ -766,8 +799,8 @@ jQuery(document).ready(function($) {
 			$( '.affwp-schedule-creatives-setting').addClass( 'affwp-hidden' );
 		} );
 
-		// Open the select2 dropdown when clicking on the label.
-		$( "label[for='status']" ).click( function() {
+		// Open the Status select2 dropdown when clicking on the Status label.
+		$( 'label[for="status"]' ).click( function() {
 			$( '#status' ).select2( 'open' );
 		} );
 
@@ -804,5 +837,19 @@ jQuery(document).ready(function($) {
 			} );
 		}
 	}
+
+	$( '.affwp-batch-form[data-batch_id="update-creative-names"] input[type="radio"]' ).on( 'change', function(){
+
+		const $option = $( this );
+
+		$( '#v2160-update-creative-names' )
+			.val(
+				$option.val() === 'private'
+					? affwp_vars.creativeUpgradeNoticeNo
+					: affwp_vars.creativeUpgradeNoticeYes
+			)
+			.removeClass( 'button-disabled' )
+			.attr( 'disabled', false );
+	} );
 
  } );

@@ -385,7 +385,10 @@ class AffWP_Referrals_Table extends List_Table {
 			return '—';
 		}
 
-		$value ='<span class="affwp-status ' . $referral->status . '"><i></i>' . affwp_get_referral_status_label( $referral ) . '</span>';
+		$value = sprintf( '<span class="affwp-status %1$s">%2$s</span>',
+			esc_attr( $referral->status ),
+			affwp_get_referral_status_label( $referral )
+		);
 
 		/**
 		 * Filters the referral status column data in the referrals list table.

@@ -89,6 +89,21 @@ abstract class Batch_Process implements Batch\Base {
 	}
 
 	/**
+	 * Get an optional URL to redirect the user after the batch process is completed.
+	 *
+	 * By default, when a batch process finishes, it displays a success message without any redirection. This is achieved by returning an empty string.
+	 * If you're extending this class for specific batch processes and want to guide users to a particular location after the process concludes,
+	 * you can override this method in the child class to implement a redirection logic.
+	 *
+	 * @since 2.16.0
+	 *
+	 * @return string The URL to redirect to, or an empty string to indicate no redirection.
+	 */
+	public function get_redirect_url() : string {
+		return '';
+	}
+
+	/**
 	 * Determines if the current user can perform the current batch process.
 	 *
 	 * @access public

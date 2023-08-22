@@ -59,11 +59,11 @@
 			<tr class="form-row form-required">
 
 				<th scope="row">
-					<label for="type"><?php _e( 'Referral Type', 'affiliate-wp' ); ?></label>
+					<label for="referral-types"><?php _e( 'Referral Type', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>
-					<select name="type" id="type">
+					<select name="type" id="referral-types">
 						<?php foreach( affwp_get_referral_types() as $type_id => $type ) : ?>
 							<option value="<?php echo esc_attr( $type_id ); ?>"><?php echo esc_html( $type['label'] ); ?></option>
 						<?php endforeach; ?>
@@ -76,7 +76,7 @@
 			<tr class="form-row form-required">
 
 				<th scope="row">
-					<label for="amount"><?php _e( 'Date', 'affiliate-wp' ); ?></label>
+					<label for="date"><?php _e( 'Date', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>
@@ -128,7 +128,7 @@
 			<tr class="form-row form-required">
 
 				<th scope="row">
-					<label for="context"><?php _e( 'Custom', 'affiliate-wp' ); ?></label>
+					<label for="custom"><?php _e( 'Custom', 'affiliate-wp' ); ?></label>
 				</th>
 
 				<td>

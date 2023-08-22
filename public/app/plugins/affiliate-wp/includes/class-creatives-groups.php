@@ -96,6 +96,7 @@ final class Groups {
 	 * Filter the creatives shown in the Affiliate Area.
 	 *
 	 * @since 2.13.0
+	 * @since 2.16.0 Method now check for a cat parameter in args.
 	 *
 	 * @param array $args Arguments used to show creatives.
 	 *
@@ -103,7 +104,7 @@ final class Groups {
 	 */
 	public function filter_affiliate_area_creatives( array $args ) : array {
 
-		$group_id = filter_input( INPUT_GET, 'cat', FILTER_SANITIZE_NUMBER_INT );
+		$group_id = $args['cat'] ?? 0;
 
 		// No valid group selected.
 		if ( ! $this->is_numeric_and_gt_zero( $group_id ) ) {
@@ -242,6 +243,7 @@ final class Groups {
 
 				// Add the affiliate in the group to the list.
 				$affiliates[] = $affiliate_id;
+
 			}
 		}
 
@@ -328,18 +330,16 @@ final class Groups {
 	 */
 	private function hooks() {
 
+		// Filter creatives.
+		add_filter( 'affwp_affiliate_dashboard_creatives_args', array( $this, 'filter_affiliate_area_creatives' ), 10, 2 );
+
 		if ( is_admin() ) {
-			return; // Just to be safe no hooks in admin are needed, let's not add them needlessly.
+			return; // The hooks below don't need to be loaded in admin, let's not add them needlessly.
 		}
 
 		// Filter navigation and drop-down.
 		add_action( 'template_redirect', array( $this, 'register_connectables' ) );
-		add_action( 'affwp_before_creatives', array( $this, 'view' ) );
-		add_action( 'affwp_before_creatives_no_results', array( $this, 'view' ) );
 		add_action( 'template_redirect', array( $this, 'redirect_with_selected_filter' ) );
-
-		// Filter creatives.
-		add_filter( 'affwp_affiliate_dashboard_creatives_args', array( $this, 'filter_affiliate_area_creatives' ), 10 );
 
 		// Only when the portal plugin is active...
 		if ( class_exists( 'AffiliateWP_Affiliate_Portal_Requirements_Check' ) ) {
@@ -473,12 +473,16 @@ final class Groups {
 	 */
 	public function affiliate_can_access( int $creative_id ) : bool {
 
-		$can_manage = current_user_can( 'manage_creatives' );
-
-		if ( is_admin() ) {
-
+		if (
+			function_exists( 'get_current_screen' ) &&
+			isset( get_current_screen()->base ) &&
+			(
+				strpos( get_current_screen()->base, 'affiliate-wp' ) !== false ||
+				strpos( get_current_screen()->base, 'post' ) !== false
+			)
+		) {
 			// If we are in the admin, they must be able to manage creatives in the admin to see it.
-			return $can_manage;
+			return current_user_can( 'manage_creatives' );
 		}
 
 		$creative = affwp_get_creative( $creative_id );
@@ -545,9 +549,19 @@ final class Groups {
 		// Do a re-direct where &cat=int is set, that way POST is not re-submitted and NONCE can't expire.
 		wp_safe_redirect(
 			add_query_arg(
-				array(
-					'tab' => 'creatives',
-					'cat' => intval( $_POST['filter-creative-category'] ),
+				array_filter(
+					array(
+						'tab'       => 'creatives',
+						'cat'       => intval( $_POST['filter-creative-category'] ),
+						'type'      => affwp_filter_creative_type_input( 'POST' ),
+						'order'     => in_array( trim( strtolower( (string) filter_input( INPUT_POST, 'order' ) ) ), array( '', 'desc' ), true )
+							? 'desc'
+							: 'asc',
+						'orderby'   => filter_input( INPUT_POST, 'orderby', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ?? 'date_updated',
+						'view_type' => in_array( filter_input( INPUT_POST, 'view_type' ), array( 'list', 'grid' ), true )
+							? filter_input( INPUT_POST, 'view_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS )
+							: '',
+					)
 				),
 				get_the_permalink()
 			)
@@ -584,9 +598,12 @@ final class Groups {
 
 		?>
 
-		<form method="post" action="<?php echo esc_url( add_query_arg( 'tab', 'creatives', get_the_permalink() ) ); ?>">
+		<form
+			class="affwp-category-dropdown"
+			method="post"
+			action="<?php echo esc_url( add_query_arg( 'tab', 'creatives', get_the_permalink() ) ); ?>">
 
-			<p>
+			<div>
 				<select name="filter-creative-category">
 
 					<option value="">
@@ -611,8 +628,10 @@ final class Groups {
 
 			</select>
 
+			<?php do_action( 'affwp_filter_creative_category_dropdown' ); ?>
+
 			<input type="submit" class="button" value="<?php esc_html_e( 'Filter', 'affiliate-wp' ); ?>">
-		</p>
+		</div>
 
 		<?php
 
