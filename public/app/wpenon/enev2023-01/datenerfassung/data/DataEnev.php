@@ -92,7 +92,7 @@ abstract class DataEnev {
             return '';
         }
 
-        return $payment->line_1;
+        return $payment->address['line1'];
     }
 
     /**
@@ -110,7 +110,7 @@ abstract class DataEnev {
             return '';
         }
 
-        return $payment->line_2;
+        return $payment->address['line2'];
     }    
 
     /**
@@ -128,7 +128,7 @@ abstract class DataEnev {
             return '';
         }
 
-        return $payment->zip;
+        return $payment->address['zip'];
     }
 
     /**
@@ -146,7 +146,7 @@ abstract class DataEnev {
             return '';
         }
 
-        return $payment->city;
+        return $payment->address['city'];
     }
 
     /**
@@ -164,7 +164,7 @@ abstract class DataEnev {
             return '';
         }
 
-        return $payment->country;
+        return $payment->address['country'];
     }
 
     /**
@@ -199,8 +199,14 @@ abstract class DataEnev {
         if( null === $payment ) {
             return '';
         }
-        
-        return $payment->phone;
+
+        $customer_meta = \WPENON\Util\CustomerMeta::instance()->getCustomerMeta($payment->customer_id);
+
+        if (!isset($customer_meta['telefon'])) {
+            return '';
+        }
+
+        return $customer_meta['telefon'];
     }
 
     /**
