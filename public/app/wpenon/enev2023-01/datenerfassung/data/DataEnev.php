@@ -78,6 +78,132 @@ abstract class DataEnev {
     }
 
     /**
+     * Get name of certificate buyer address 1.
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function get_certificate_buyer_address_1() : string
+    {
+        $payment = $this->energieausweis->getPayment();
+
+        if( null === $payment ) {
+            return '';
+        }
+
+        return $payment->line_1;
+    }
+
+    /**
+     * Get name of certificate buyer address 2.
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function get_certificate_buyer_address_2() : string
+    {
+        $payment = $this->energieausweis->getPayment();
+
+        if( null === $payment ) {
+            return '';
+        }
+
+        return $payment->line_2;
+    }    
+
+    /**
+     * Get name of certificate buyer zip.
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function get_certificate_buyer_zip() : string
+    {
+        $payment = $this->energieausweis->getPayment();
+
+        if( null === $payment ) {
+            return '';
+        }
+
+        return $payment->zip;
+    }
+
+    /**
+     * Get name of certificate buyer city.
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function get_certificate_buyer_city() : string
+    {
+        $payment = $this->energieausweis->getPayment();
+
+        if( null === $payment ) {
+            return '';
+        }
+
+        return $payment->city;
+    }
+
+    /**
+     * Get name of certificate buyer country.
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function get_certificate_buyer_country() : string
+    {
+        $payment = $this->energieausweis->getPayment();
+
+        if( null === $payment ) {
+            return '';
+        }
+
+        return $payment->country;
+    }
+
+    /**
+     * Get name of certificate buyer email.
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function get_certificate_buyer_email() : string
+    {
+        $payment = $this->energieausweis->getPayment();
+
+        if( null === $payment ) {
+            return '';
+        }
+        
+        return $payment->email;
+    }
+
+    /**
+     * Get name of certificate buyer phone.
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function get_certificate_buyer_phone() : string
+    {
+        $payment = $this->energieausweis->getPayment();
+
+        if( null === $payment ) {
+            return '';
+        }
+        
+        return $payment->phone;
+    }
+
+    /**
      * Registriernummer
      * 
      * @return string
