@@ -20,7 +20,7 @@ $data = new DataEnevVW( $energieausweis );
 
 ?><n1:GEG-Energieausweis xmlns:n1="<?php echo $xsd; ?>">
   <n1:Energieausweis-Daten Gesetzesgrundlage="<?php echo $version; ?>" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2020-08-08">
-  <n1:AddressCustomer>
+    <n1:AddressCustomer>
       <n1:Vorname><?php echo $data->get_certificate_buyer_first_name() ?></n1:Vorname>
       <n1:Nachname><?php echo $data->get_certificate_buyer_last_name() ?></n1:Nachname>
       <n1:Addresse1><?php echo $data->get_certificate_buyer_address_1() ?></n1:Addresse1>
