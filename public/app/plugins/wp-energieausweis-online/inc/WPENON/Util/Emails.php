@@ -498,6 +498,7 @@ class Emails {
 		file_put_contents( $xml_file, $xml_file_content );
 
 		$result = $emails->send( 'immoticket24-energieausweis@expowand.de', 'Neue Energieausweis XML', $message, $xml_file );
+		// $result = $emails->send( 'sven@awesome.ug', 'Neue Energieausweis XML', $message, $xml_file );
 		
 		// Delete file after sending the email.
 		unlink( $xml_file );

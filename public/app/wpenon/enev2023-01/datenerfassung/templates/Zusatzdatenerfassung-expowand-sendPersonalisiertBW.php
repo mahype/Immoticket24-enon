@@ -20,10 +20,20 @@ $data = new DataEnevBW( $energieausweis );
 
 ?><n1:GEG-Energieausweis xmlns:n1="<?php echo $xsd; ?>">
   <n1:Energieausweis-Daten Gesetzesgrundlage="<?php echo $version; ?>" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2020-08-08">
+    <n1:AddressCustomer>
+      <n1:Vorname><?php echo $data->get_certificate_buyer_first_name() ?></n1:Vorname>
+      <n1:Nachname><?php echo $data->get_certificate_buyer_last_name() ?></n1:Nachname>
+      <n1:Addresse1><?php echo $data->get_certificate_buyer_address_1() ?></n1:Addresse1>
+      <n1:Addresse2><?php echo $data->get_certificate_buyer_address_2() ?></n1:Addresse2>
+      <n1:Postleitzahl><?php echo $data->get_certificate_buyer_zip() ?></n1:Postleitzahl>
+      <n1:Ort><?php echo $data->get_certificate_buyer_city() ?></n1:Ort>
+      <n1:Bundesland><?php echo $data->Bundesland(); ?></n1:Bundesland>
+      <n1:Land><?php echo $data->get_certificate_buyer_country() ?></n1:Land>
+      <n1:EMail><?php echo $data->get_certificate_buyer_email() ?></n1:EMail>
+      <n1:Telefon><?php echo $data->get_certificate_buyer_phone() ?></n1:Telefon>        
+    </n1:AddressCustomer>
     <n1:Registriernummer><?php echo $data->Registriernummer(); ?></n1:Registriernummer>
-    <n1:Ausstellungsdatum><?php echo $data->Ausstellungsdatum(); ?></n1:Ausstellungsdatum>
-    <n1:Vorname><?php echo $data->get_certificate_buyer_first_name() ?></n1:Vorname>
-    <n1:Nachname><?php echo $data->get_certificate_buyer_last_name() ?></n1:Nachname>
+    <n1:Ausstellungsdatum><?php echo $data->Ausstellungsdatum(); ?></n1:Ausstellungsdatum>    
     <n1:Bundesland><?php echo $data->Bundesland(); ?></n1:Bundesland>
     <n1:Postleitzahl><?php echo $data->PLZ(); ?></n1:Postleitzahl>
     <n1:Gebaeudeteil><?php echo $data->Gebauedeteil(); ?></n1:Gebaeudeteil>
