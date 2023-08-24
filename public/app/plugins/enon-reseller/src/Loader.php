@@ -82,24 +82,89 @@ class Loader extends Task_Loader {
         }
 	}
 
-    public function update_payment_status( $payment_id, $new_status, $old_status ) {
-        if( $new_status === $old_status && $new_status !== 'publish' ) {
+    /**
+     * Update payment status.
+     * 
+     * @param mixed $payment_id 
+     * @param mixed $new_status 
+     * @param mixed $old_status 
+     * @return void 
+     */
+    public function update_payment_status( $payment_id, $new_status, $old_status ) {       
+        // Do nothing if status is not changed.
+        if( $new_status === $old_status) {
             return;
         }
 
-        $payment = new Payment( $payment_id );
-        $ec_id = $payment->get_energieausweis_id();
-        $reseller_id = get_post_meta($ec_id, 'reseller_id', true);
+        // Do nothing if status is not changed to publish.
+        if( $new_status !== 'publish' ) {
+            return;
+        }
         
+        $payment = new Payment( $payment_id ); 
+        $reseller_id = get_post_meta( $payment->get_energieausweis_id(), 'reseller_id', true);
+        
+        // We only need to update if reseller id is set.
         if( empty( $reseller_id ) ) {
             return;
         }
 
-        $this->logger->notice( 'Updating payment status.', array( 'energy_cerificate_id', $ec_id, 'reseller_id', $reseller_id ) );
-
         $this->reseller = new Reseller( $reseller_id );
-        $this->set_affiliate_by_reseller( $this->reseller );
+        $this->logger->notice( 'Updating payment status.', array( 'energy_cerificate_id', $payment->get_energieausweis_id(), 'reseller_id', $reseller_id ) );
+        
+        // Load reseller scritps for email filters etc.
         $this->load_reseller_scripts();
+        
+        if( $this->maybe_add_referal( $payment ) !== false ) {
+            $this->logger->notice( 'Referal added.', array( 'reference', $payment->get_id() ) );
+        } else {
+            $this->logger->notice( 'Referal not added.', array( 'reference', $payment->get_id() ) );
+        }
+    }
+
+    /**
+     * Add referal to affiliate WP.
+     * 
+     * @param Payment $payment
+     * 
+     * @return void
+     */
+    protected function maybe_add_referal( Payment $payment ) {
+        global $wpdb;
+
+        $affiliate_id = $this->reseller->data()->general->get_affiliate_id();
+        $energieausweis = $payment->get_energieausweis();
+        $amount = $payment->get_amount();        
+
+        // Check Affiliate WP Referal table for existing entries by using reference.
+        $referral = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}affiliate_wp_referrals WHERE reference = %s", $payment->get_id() ) );
+
+        // Is there any entry?
+        if( ! empty( $referral ) ) {
+            $this->logger->notice( 'Referal already exists.', array( 'reference', $payment->get_id() ) );
+            return;
+        }
+
+        $amount 	 = $amount > 0 ? affwp_calc_referral_amount( $amount, $affiliate_id ) : 0;
+        $description = $energieausweis->get_title();
+        $context     = 'edd';
+        $campaign    = '';
+        $reference   = $payment->get_id();
+        $type        = 'sale';
+        $visit_id    = 0; 
+
+        // Create a new referral
+        return  affiliate_wp()->referrals->add( apply_filters( 'affwp_insert_pending_referral', array(
+                'affiliate_id' => $affiliate_id,
+                'amount'       => $amount,
+                'status'       => 'pending',
+                'description'  => $description,
+                'context'      => $context,
+                'campaign'     => $campaign,
+                'reference'    => $reference,
+                'type'         => $type,
+                'visit_id'     => $visit_id,
+        ), $amount, $reference, $description, $affiliate_id, $visit_id, array(), $context ) );
     }
 
 	/**

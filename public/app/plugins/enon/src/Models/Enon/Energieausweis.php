@@ -110,6 +110,18 @@ class Energieausweis
 	}
 
 	/**
+	 * Get the energieausweis title.
+	 * 
+	 * @return string Energieausweis title.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function get_title(): string
+	{
+		return $this->post->post_title;
+	}
+
+	/**
 	 * Get energieausweis type.
 	 *
 	 * @since 1.0.0
