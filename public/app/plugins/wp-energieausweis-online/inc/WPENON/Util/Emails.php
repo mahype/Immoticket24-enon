@@ -500,8 +500,8 @@ class Emails {
 		$payment = $energieausweis->getPayment();
 		$message = edd_get_sale_notification_body_content( $payment->ID, $payment->get_meta( '_edd_payment_meta', true ) );
 
-		// $result = $emails->send( 'immoticket24-energieausweis@expowand.de', 'Neue Energieausweis XML', $message, $xml_file );
-		$result = $emails->send( 'sven@awesome.ug', 'Neue Energieausweis XML', $message, $xml_file );
+		$result = $emails->send( 'immoticket24-energieausweis@expowand.de', 'Neue Energieausweis XML', $message, $xml_file );
+		// $result = $emails->send( 'sven@awesome.ug', 'Neue Energieausweis XML', $message, $xml_file );
 		
 		// Delete file after sending the email.
 		unlink( $xml_file );
