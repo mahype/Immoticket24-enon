@@ -117,7 +117,7 @@ class Loader extends Task_Loader {
 
         // Referals in admin are not tracked by affiliate wp. 
         if( is_admin() ) {
-            $this->add_referal( $payment, $reseller );
+            $this->add_referal( $payment );
         }
     }
 
@@ -128,20 +128,21 @@ class Loader extends Task_Loader {
      * 
      * @return void
      */
-    protected function add_referal( Payment $payment, Reseller $reseller ) {
-        $affiliate_id = $reseller->data()->general->get_affiliate_id();
-        $amount = $payment->get_amount();
-
+    protected function add_referal( Payment $payment ) {
+        $affiliate_id = $this->reseller->data()->general->get_affiliate_id();
+        $energieausweis = $payment->get_energieausweis();
+        $amount = $payment->get_amount();        
 
         $amount 	 = $amount > 0 ? affwp_calc_referral_amount( $amount, $affiliate_id ) : 0;
-        $description = sanitize_text_field( $_POST['description'] );
-        $context     = sanitize_text_field( $_POST['context'] );
+        $description = $energieausweis->get_title();
+        $context     = 'edd';
         $campaign    = '';
-        $reference   = '';
-        $type        = sanitize_text_field( $_POST['type'] );
+        $reference   = $payment->get_id();
+        $type        = 'sale';
+        $visit_id    = 0; 
 
         // Create a new referral
-        $referral_id = affiliate_wp()->referrals->add( apply_filters( 'affwp_insert_pending_referral', array(
+        return  affiliate_wp()->referrals->add( apply_filters( 'affwp_insert_pending_referral', array(
                 'affiliate_id' => $affiliate_id,
                 'amount'       => $amount,
                 'status'       => 'pending',
