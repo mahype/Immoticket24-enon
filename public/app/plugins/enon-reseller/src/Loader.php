@@ -82,24 +82,76 @@ class Loader extends Task_Loader {
         }
 	}
 
-    public function update_payment_status( $payment_id, $new_status, $old_status ) {
-        if( $new_status === $old_status && $new_status !== 'publish' ) {
+    /**
+     * Update payment status.
+     * 
+     * @param mixed $payment_id 
+     * @param mixed $new_status 
+     * @param mixed $old_status 
+     * @return void 
+     */
+    public function update_payment_status( $payment_id, $new_status, $old_status ) {       
+        // Do nothing if status is not changed.
+        if( $new_status === $old_status) {
             return;
         }
 
-        $payment = new Payment( $payment_id );
-        $ec_id = $payment->get_energieausweis_id();
-        $reseller_id = get_post_meta($ec_id, 'reseller_id', true);
+        // Do nothing if status is not changed to publish.
+        if( $new_status !== 'publish' ) {
+            return;
+        }
         
+        $payment = new Payment( $payment_id ); 
+        $reseller_id = get_post_meta( $payment->get_energieausweis_id(), 'reseller_id', true);
+        
+        // We only need to update if reseller id is set.
         if( empty( $reseller_id ) ) {
             return;
         }
 
-        $this->logger->notice( 'Updating payment status.', array( 'energy_cerificate_id', $ec_id, 'reseller_id', $reseller_id ) );
-
         $this->reseller = new Reseller( $reseller_id );
-        $this->set_affiliate_by_reseller( $this->reseller );
+        $this->logger->notice( 'Updating payment status.', array( 'energy_cerificate_id', $payment->get_energieausweis_id(), 'reseller_id', $reseller_id ) );
+        
+        // Load reseller scritps for email filters etc.
         $this->load_reseller_scripts();
+
+        // Referals in admin are not tracked by affiliate wp. 
+        if( is_admin() ) {
+            $this->add_referal( $payment, $reseller );
+        }
+    }
+
+    /**
+     * Add referal to affiliate WP.
+     * 
+     * @param Payment $payment
+     * 
+     * @return void
+     */
+    protected function add_referal( Payment $payment, Reseller $reseller ) {
+        $affiliate_id = $reseller->data()->general->get_affiliate_id();
+        $amount = $payment->get_amount();
+
+
+        $amount 	 = $amount > 0 ? affwp_calc_referral_amount( $amount, $affiliate_id ) : 0;
+        $description = sanitize_text_field( $_POST['description'] );
+        $context     = sanitize_text_field( $_POST['context'] );
+        $campaign    = '';
+        $reference   = '';
+        $type        = sanitize_text_field( $_POST['type'] );
+
+        // Create a new referral
+        $referral_id = affiliate_wp()->referrals->add( apply_filters( 'affwp_insert_pending_referral', array(
+                'affiliate_id' => $affiliate_id,
+                'amount'       => $amount,
+                'status'       => 'pending',
+                'description'  => $description,
+                'context'      => $context,
+                'campaign'     => $campaign,
+                'reference'    => $reference,
+                'type'         => $type,
+                'visit_id'     => $visit_id,
+        ), $amount, $reference, $description, $affiliate_id, $visit_id, array(), $context ) );
     }
 
 	/**
