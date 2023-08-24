@@ -114,10 +114,11 @@ class Loader extends Task_Loader {
         
         // Load reseller scritps for email filters etc.
         $this->load_reseller_scripts();
-
-        // Referals in admin are not tracked by affiliate wp. 
-        if( is_admin() ) {
-            $this->add_referal( $payment );
+        
+        if( $this->maybe_add_referal( $payment ) !== false ) {
+            $this->logger->notice( 'Referal added.', array( 'reference', $payment->get_id() ) );
+        } else {
+            $this->logger->notice( 'Referal not added.', array( 'reference', $payment->get_id() ) );
         }
     }
 
@@ -128,10 +129,21 @@ class Loader extends Task_Loader {
      * 
      * @return void
      */
-    protected function add_referal( Payment $payment ) {
+    protected function maybe_add_referal( Payment $payment ) {
+        global $wpdb;
+
         $affiliate_id = $this->reseller->data()->general->get_affiliate_id();
         $energieausweis = $payment->get_energieausweis();
         $amount = $payment->get_amount();        
+
+        // Check Affiliate WP Referal table for existing entries by using reference.
+        $referral = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}affiliate_wp_referrals WHERE reference = %s", $payment->get_id() ) );
+
+        // Is there any entry?
+        if( ! empty( $referral ) ) {
+            $this->logger->notice( 'Referal already exists.', array( 'reference', $payment->get_id() ) );
+            return;
+        }
 
         $amount 	 = $amount > 0 ? affwp_calc_referral_amount( $amount, $affiliate_id ) : 0;
         $description = $energieausweis->get_title();
