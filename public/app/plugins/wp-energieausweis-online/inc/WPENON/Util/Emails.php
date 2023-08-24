@@ -484,12 +484,12 @@ class Emails {
 
 		$message = 'Soben wurde eine neue Energieausweis XML für sie bereitgestellt. Diese ist im Anhang zu finden.';
 
-		$file = 'energieausweis-' . $energieausweis->post_title . '.xml';
-		
 		// Create temp file in wordpress upload directory, so it can be attached to the email.
+		$file = 'energieausweis-' . $energieausweis->post_title . '.xml';
 		$upload_dir = wp_upload_dir();
 		$upload_dir = $upload_dir['basedir'];
 		$upload_dir = $upload_dir . '/energieausweis-xml/';
+		
 		if ( ! file_exists( $upload_dir ) ) {
 			mkdir( $upload_dir );
 		}
@@ -497,8 +497,11 @@ class Emails {
 		$xml_file = $upload_dir . $file;
 		file_put_contents( $xml_file, $xml_file_content );
 
-		$result = $emails->send( 'immoticket24-energieausweis@expowand.de', 'Neue Energieausweis XML', $message, $xml_file );
-		// $result = $emails->send( 'sven@awesome.ug', 'Neue Energieausweis XML', $message, $xml_file );
+		$payment = $energieausweis->getPayment();
+		$message = edd_get_sale_notification_body_content( $payment->ID, $payment->get_meta( '_edd_payment_meta', true ) );
+
+		// $result = $emails->send( 'immoticket24-energieausweis@expowand.de', 'Neue Energieausweis XML', $message, $xml_file );
+		$result = $emails->send( 'sven@awesome.ug', 'Neue Energieausweis XML', $message, $xml_file );
 		
 		// Delete file after sending the email.
 		unlink( $xml_file );
