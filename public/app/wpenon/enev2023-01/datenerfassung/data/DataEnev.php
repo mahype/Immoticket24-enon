@@ -226,6 +226,22 @@ abstract class DataEnev {
     }
 
     /**
+     * Gebauedefoto
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Gebauedefoto() : string
+    {
+        if ( ! empty( $this->energieausweis->gebauedefoto ) ) {
+            return $this->energieausweis->gebauedefoto;
+        }
+
+        return '';
+    }
+
+    /**
      * Ausstellungsdatum
      * 
      * @return string

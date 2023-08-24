@@ -32,6 +32,7 @@ $data = new DataEnevBW( $energieausweis );
       <n1:EMail><?php echo $data->get_certificate_buyer_email() ?></n1:EMail>
       <n1:Telefon><?php echo $data->get_certificate_buyer_phone() ?></n1:Telefon>        
     </n1:AddressCustomer>
+    <n1:Gebauedefoto><?php echo $data->Gebauedefoto(); ?></n1:Gebauedefoto>
     <n1:Registriernummer><?php echo $data->Registriernummer(); ?></n1:Registriernummer>
     <n1:Ausstellungsdatum><?php echo $data->Ausstellungsdatum(); ?></n1:Ausstellungsdatum>    
     <n1:Bundesland><?php echo $data->Bundesland(); ?></n1:Bundesland>
