@@ -248,6 +248,11 @@ class Frontend
                 ThirdParty\Plugins\Oxygen::getInstance()->register();
             }
 
+            // PixelYourSite
+            if (defined('PYS_VERSION') || defined('PYS_FREE_VERSION')) {
+                ThirdParty\Plugins\PixelYourSite::getInstance()->registerFrontend();
+            }
+
             // SiteOrigin Page Builder
             if (defined('SITEORIGIN_PANELS_VERSION')) {
                 ThirdParty\Plugins\SiteOriginPageBuilder::getInstance()->register();
