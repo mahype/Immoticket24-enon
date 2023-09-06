@@ -37,7 +37,7 @@
 
 				<td>
 					<span class="affwp-ajax-search-wrap">
-						<input type="text" name="user-name" id="user-name" class="affwp-user-search" data-affwp-status="any" autocomplete="off" placeholder="<?php esc_html_e( 'Affiliate name', 'affiliate-wp' ); ?>" />
+						<input type="text" name="user_name" id="user-name" class="affwp-user-search" data-affwp-status="any" autocomplete="off" placeholder="<?php esc_html_e( 'Affiliate name', 'affiliate-wp' ); ?>" />
 					</span>
 					<p class="search-description description"><?php esc_html_e( 'To pay a specific affiliate, enter the affiliate&#8217;s login name, first name, or last name. Leave blank to pay all affiliates.', 'affiliate-wp' ); ?></p>
 				</td>

@@ -229,7 +229,10 @@ function affwp_process_batch_request() {
 		if ( 'done' === $step ) {
 			$response_data['done']    = true;
 			$response_data['message'] = $process->get_message( 'done' );
-			$response_data['url']     = $process->get_redirect_url();
+
+			if ( method_exists( $process, 'get_redirect_url' ) ) {
+				$response_data['url'] = $process->get_redirect_url();
+			}
 
 			// If this is an export class and not an empty export, send the download URL.
 			if ( method_exists( $process, 'can_export' ) ) {

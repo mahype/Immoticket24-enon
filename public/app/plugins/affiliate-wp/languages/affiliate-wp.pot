@@ -5,13 +5,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://affiliatewp.com/support\n"
 "Last-Translator: AffiliateWP <support@affiliatewp.com>\n"
 "Language-Team: AffiliateWP <support@affiliatewp.com>\n"
-"Project-Id-Version: AffiliateWP 2.16.0\n"
+"Project-Id-Version: AffiliateWP 2.16.1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-08-21T17:27:34+00:00\n"
+"POT-Creation-Date: 2023-08-28T20:28:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: affiliate-wp\n"
 
 #. Plugin Name of the plugin
@@ -207,6 +207,7 @@ msgstr ""
 #: includes/admin/creatives/new.php:151
 #: includes/affiliate-functions.php:381
 #: includes/creative-functions.php:414
+#: tests/affiliates/test-affiliate-functions.php:646
 msgid "Active"
 msgstr ""
 
@@ -228,6 +229,7 @@ msgstr ""
 #: includes/admin/creatives/new.php:152
 #: includes/affiliate-functions.php:382
 #: includes/creative-functions.php:415
+#: tests/affiliates/test-affiliate-functions.php:647
 msgid "Inactive"
 msgstr ""
 
@@ -276,7 +278,7 @@ msgid "Could not be activated. Please deactivate from the Plugins page."
 msgstr ""
 
 #: includes/admin/add-ons.php:642
-#: includes/admin/ajax-actions.php:457
+#: includes/admin/ajax-actions.php:460
 #: includes/admin/class-about.php:117
 msgid "Plugin activated."
 msgstr ""
@@ -507,6 +509,7 @@ msgstr ""
 #: templates/login.php:30
 #: templates/register.php:75
 #: templates/register.php:76
+#: tests/misc/test-misc-functions.php:385
 #: assets/js/editor/build/index.js:6
 msgid "Username"
 msgstr ""
@@ -531,6 +534,7 @@ msgstr ""
 #: includes/misc-functions.php:1374
 #: templates/dashboard-tab-stats.php:45
 #: templates/dashboard-tab-stats.php:53
+#: tests/misc/test-misc-functions.php:393
 msgid "Unpaid Earnings"
 msgstr ""
 
@@ -539,6 +543,7 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-affiliates.php:109
 #: includes/admin/tools/export/class-export-affiliates.php:54
 #: includes/misc-functions.php:1370
+#: tests/misc/test-misc-functions.php:389
 msgid "Rate"
 msgstr ""
 
@@ -568,6 +573,7 @@ msgstr ""
 #: templates/dashboard-tab-stats.php:22
 #: templates/dashboard-tab-stats.php:89
 #: templates/dashboard-tab-stats.php:101
+#: tests/affiliates/test-affiliate-functions.php:2976
 msgid "Visits"
 msgstr ""
 
@@ -595,6 +601,8 @@ msgstr ""
 #: templates/dashboard-tab-payouts.php:77
 #: templates/dashboard-tab-referrals.php:42
 #: templates/dashboard-tab-referrals.php:63
+#: tests/misc/test-misc-functions.php:396
+#: tests/misc/test-misc-functions.php:432
 msgid "Status"
 msgstr ""
 
@@ -755,6 +763,7 @@ msgstr ""
 
 #: includes/admin/affiliates/edit.php:166
 #: includes/misc-functions.php:1379
+#: tests/misc/test-misc-functions.php:398
 msgid "Registration Date"
 msgstr ""
 
@@ -774,6 +783,7 @@ msgstr ""
 #: includes/admin/affiliates/edit.php:221
 #: includes/class-editor.php:366
 #: includes/misc-functions.php:1378
+#: tests/misc/test-misc-functions.php:397
 #: assets/js/editor/build/index.js:6
 msgid "Website"
 msgstr ""
@@ -891,6 +901,8 @@ msgstr ""
 #: includes/misc-functions.php:1369
 #: includes/misc-functions.php:1415
 #: templates/register.php:85
+#: tests/misc/test-misc-functions.php:388
+#: tests/misc/test-misc-functions.php:426
 #: assets/js/editor/build/index.js:6
 msgid "Payment Email"
 msgstr ""
@@ -1160,7 +1172,7 @@ msgid "You do not have permission to install plugin updates"
 msgstr ""
 
 #: includes/admin/ajax-actions.php:132
-#: includes/admin/ajax-actions.php:314
+#: includes/admin/ajax-actions.php:317
 msgid "A batch process ID must be present to continue."
 msgstr ""
 
@@ -1170,69 +1182,69 @@ msgstr ""
 
 #. translators: Batch process ID
 #: includes/admin/ajax-actions.php:151
-#: includes/admin/ajax-actions.php:324
+#: includes/admin/ajax-actions.php:327
 msgid "%s is an invalid batch process ID."
 msgstr ""
 
 #. translators: Formatted batch process ID
 #: includes/admin/ajax-actions.php:161
-#: includes/admin/ajax-actions.php:334
+#: includes/admin/ajax-actions.php:337
 msgid "An invalid file path is registered for the %1$s batch process handler."
 msgstr ""
 
 #. translators: 1: Formatted batch processor class name, 2: Formatted batch process ID
 #: includes/admin/ajax-actions.php:170
-#: includes/admin/ajax-actions.php:343
+#: includes/admin/ajax-actions.php:346
 msgid "%1$s is an invalid handler for the %2$s batch process. Please try again."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:276
+#: includes/admin/ajax-actions.php:279
 #: includes/admin/tools/tools.php:1182
 #: includes/REST/class-rest.php:72
 msgid "Nonce verification failed"
 msgstr ""
 
-#: includes/admin/ajax-actions.php:280
+#: includes/admin/ajax-actions.php:283
 msgid "Missing import file. Please provide an import file."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:299
+#: includes/admin/ajax-actions.php:302
 msgid "The file you uploaded does not appear to be a CSV file."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:303
+#: includes/admin/ajax-actions.php:306
 msgid "Something went wrong during the upload process, please try again."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:355
+#: includes/admin/ajax-actions.php:358
 msgid "You do not have permission to import data"
 msgstr ""
 
-#: includes/admin/ajax-actions.php:445
+#: includes/admin/ajax-actions.php:448
 msgid "Could not activate the plugin. Plugin slug is empty."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:450
+#: includes/admin/ajax-actions.php:453
 msgid "Plugin activation is disabled for you on this site."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:460
+#: includes/admin/ajax-actions.php:463
 msgid "Could not activate the plugin. Please activate it on the Plugins page."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:474
+#: includes/admin/ajax-actions.php:477
 msgid "There was an error while performing your request."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:482
+#: includes/admin/ajax-actions.php:485
 msgid "Could not install the plugin. Please download and install it manually."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:540
+#: includes/admin/ajax-actions.php:543
 msgid "Plugin installed."
 msgstr ""
 
-#: includes/admin/ajax-actions.php:555
+#: includes/admin/ajax-actions.php:558
 msgid "Plugin installed & activated."
 msgstr ""
 
@@ -1733,6 +1745,7 @@ msgstr ""
 #: includes/emails/functions.php:1405
 #: includes/emails/functions.php:1562
 #: templates/dashboard-tab-referrals.php:7
+#: tests/affiliates/test-affiliate-functions.php:2974
 msgid "Referrals"
 msgstr ""
 
@@ -1740,6 +1753,7 @@ msgstr ""
 #: includes/admin/payouts/payouts.php:48
 #: includes/admin/reports/tabs/class-payouts-reports-tab.php:45
 #: includes/affiliate-functions.php:1862
+#: tests/affiliates/test-affiliate-functions.php:2975
 msgid "Payouts"
 msgstr ""
 
@@ -1751,6 +1765,7 @@ msgstr ""
 #: includes/admin/groups/creative-categories/class-management.php:62
 #: includes/affiliate-functions.php:1858
 #: templates/dashboard-tab-creatives.php:33
+#: tests/affiliates/test-affiliate-functions.php:2977
 msgid "Creatives"
 msgstr ""
 
@@ -1761,6 +1776,7 @@ msgstr ""
 #: includes/admin/class-menu.php:92
 #: includes/admin/plugins.php:33
 #: includes/affiliate-functions.php:1865
+#: tests/affiliates/test-affiliate-functions.php:2978
 msgid "Settings"
 msgstr ""
 
@@ -2266,6 +2282,7 @@ msgstr ""
 #: includes/integrations/class-wpforms-templates.php:31
 #: templates/register.php:70
 #: templates/register.php:71
+#: tests/misc/test-misc-functions.php:505
 #: assets/js/editor/build/index.js:6
 msgid "Your Name"
 msgstr ""
@@ -2326,6 +2343,7 @@ msgstr ""
 #: includes/class-affiliate-area-creatives.php:802
 #: includes/class-affiliate-area-creatives.php:894
 #: includes/misc-functions.php:1423
+#: tests/misc/test-misc-functions.php:434
 msgid "Type"
 msgstr ""
 
@@ -2581,6 +2599,7 @@ msgstr ""
 #: includes/misc-functions.php:1417
 #: templates/dashboard-tab-referrals.php:41
 #: templates/dashboard-tab-referrals.php:62
+#: tests/misc/test-misc-functions.php:428
 msgid "Description"
 msgstr ""
 
@@ -2896,6 +2915,7 @@ msgstr ""
 #: includes/admin/groups/affiliate-groups/meta/trait-flat-rate-basis.php:384
 #: includes/admin/tools/export/class-batch-export-affiliates.php:111
 #: includes/misc-functions.php:1372
+#: tests/misc/test-misc-functions.php:391
 msgid "Flat Rate Basis"
 msgstr ""
 
@@ -2930,6 +2950,7 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-affiliates.php:110
 #: includes/admin/tools/export/class-export-affiliates.php:55
 #: includes/misc-functions.php:1371
+#: tests/misc/test-misc-functions.php:390
 msgid "Rate Type"
 msgstr ""
 
@@ -3557,6 +3578,8 @@ msgstr ""
 #: includes/admin/payouts/class-list-table.php:141
 #: includes/admin/tools/tools.php:387
 #: includes/referral-functions.php:112
+#: tests/referrals/test-referral-functions.php:409
+#: tests/referrals/test-referral-functions.php:423
 msgid "Paid"
 msgstr ""
 
@@ -3564,6 +3587,8 @@ msgstr ""
 #: includes/admin/tools/tools.php:388
 #: includes/payout-functions.php:190
 #: includes/referral-functions.php:121
+#: tests/payouts/test-payout-functions.php:300
+#: tests/referrals/test-referral-functions.php:428
 msgid "Failed"
 msgstr ""
 
@@ -3656,6 +3681,9 @@ msgstr ""
 #: includes/admin/payouts/class-payouts-service.php:59
 #: includes/admin/settings/class-settings.php:1087
 #: includes/admin/settings/display-settings.php:137
+#: tests/payouts/test-payout-functions.php:322
+#: tests/payouts/test-payout-functions.php:328
+#: tests/payouts/test-payout-functions.php:363
 msgid "Payouts Service"
 msgstr ""
 
@@ -3971,6 +3999,7 @@ msgstr ""
 #: includes/misc-functions.php:1419
 #: templates/dashboard-tab-referrals.php:39
 #: templates/dashboard-tab-referrals.php:60
+#: tests/misc/test-misc-functions.php:430
 msgid "Reference"
 msgstr ""
 
@@ -3988,6 +4017,7 @@ msgstr ""
 #: templates/dashboard-tab-referrals.php:64
 #: templates/dashboard-tab-visits.php:30
 #: templates/dashboard-tab-visits.php:51
+#: tests/misc/test-misc-functions.php:435
 msgid "Date"
 msgstr ""
 
@@ -4206,6 +4236,7 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-visits.php:161
 #: includes/admin/tools/export/class-export-referrals.php:74
 #: includes/misc-functions.php:1420
+#: tests/misc/test-misc-functions.php:431
 msgid "Context"
 msgstr ""
 
@@ -4784,6 +4815,7 @@ msgstr ""
 #: includes/admin/tools/export/class-export-referrals-payout.php:74
 #: includes/admin/tools/export/class-export-referrals.php:70
 #: includes/misc-functions.php:1416
+#: tests/misc/test-misc-functions.php:427
 msgid "Currency"
 msgstr ""
 
@@ -4872,11 +4904,16 @@ msgstr ""
 #: includes/admin/settings/class-settings.php:769
 #: includes/affiliate-functions.php:383
 #: includes/referral-functions.php:115
+#: tests/affiliates/test-affiliate-functions.php:648
+#: tests/referrals/test-referral-functions.php:412
+#: tests/referrals/test-referral-functions.php:426
 msgid "Pending"
 msgstr ""
 
 #: includes/admin/settings/class-settings.php:770
 #: includes/referral-functions.php:113
+#: tests/referrals/test-referral-functions.php:410
+#: tests/referrals/test-referral-functions.php:424
 msgid "Unpaid"
 msgstr ""
 
@@ -5762,6 +5799,7 @@ msgstr ""
 #: includes/misc-functions.php:1368
 #: templates/opt-in.php:40
 #: templates/opt-in.php:41
+#: tests/misc/test-misc-functions.php:387
 #: assets/js/editor/build/index.js:6
 msgid "Last Name"
 msgstr ""
@@ -5771,6 +5809,7 @@ msgstr ""
 #: includes/emails/functions.php:1403
 #: includes/emails/functions.php:1561
 #: includes/misc-functions.php:1373
+#: tests/misc/test-misc-functions.php:392
 msgid "Earnings"
 msgstr ""
 
@@ -5809,6 +5848,7 @@ msgstr[1] ""
 #: includes/misc-functions.php:1418
 #: templates/dashboard-tab-stats.php:88
 #: templates/dashboard-tab-stats.php:100
+#: tests/misc/test-misc-functions.php:429
 msgid "Campaign"
 msgstr ""
 
@@ -5816,6 +5856,7 @@ msgstr ""
 #: includes/admin/tools/export/class-batch-export-visits.php:162
 #: includes/admin/tools/export/class-export-referrals.php:77
 #: includes/misc-functions.php:1422
+#: tests/misc/test-misc-functions.php:433
 msgid "Flag"
 msgstr ""
 
@@ -6712,6 +6753,9 @@ msgstr ""
 
 #: includes/affiliate-functions.php:384
 #: includes/referral-functions.php:114
+#: tests/affiliates/test-affiliate-functions.php:649
+#: tests/referrals/test-referral-functions.php:411
+#: tests/referrals/test-referral-functions.php:425
 msgid "Rejected"
 msgstr ""
 
@@ -6734,15 +6778,18 @@ msgstr ""
 
 #: includes/affiliate-functions.php:1857
 #: templates/dashboard-tab-urls.php:6
+#: tests/affiliates/test-affiliate-functions.php:2971
 msgid "Affiliate URLs"
 msgstr ""
 
 #: includes/affiliate-functions.php:1859
 #: templates/dashboard-tab-stats.php:6
+#: tests/affiliates/test-affiliate-functions.php:2972
 msgid "Statistics"
 msgstr ""
 
 #: includes/affiliate-functions.php:1860
+#: tests/affiliates/test-affiliate-functions.php:2973
 msgid "Graphs"
 msgstr ""
 
@@ -8049,10 +8096,12 @@ msgid "No coupons were found."
 msgstr ""
 
 #: includes/coupon-functions.php:465
+#: tests/coupons/test-coupon-functions.php:337
 msgid "Manual"
 msgstr ""
 
 #: includes/coupon-functions.php:466
+#: tests/coupons/test-coupon-functions.php:338
 msgid "Dynamic"
 msgstr ""
 
@@ -9243,44 +9292,54 @@ msgstr ""
 
 #: includes/misc-functions.php:1365
 #: includes/misc-functions.php:1384
+#: tests/misc/test-misc-functions.php:384
 msgid "Email (required)"
 msgstr ""
 
 #: includes/misc-functions.php:1367
+#: tests/misc/test-misc-functions.php:386
 msgid "First/Full Name"
 msgstr ""
 
 #: includes/misc-functions.php:1375
+#: tests/misc/test-misc-functions.php:394
 msgid "Referral Count"
 msgstr ""
 
 #: includes/misc-functions.php:1376
+#: tests/misc/test-misc-functions.php:395
 msgid "Visit Count"
 msgstr ""
 
 #: includes/misc-functions.php:1409
 #: includes/misc-functions.php:1429
+#: tests/misc/test-misc-functions.php:420
 msgid "Affiliate ID or Username (required)"
 msgstr ""
 
 #: includes/misc-functions.php:1410
 #: includes/misc-functions.php:1433
+#: tests/misc/test-misc-functions.php:421
 msgid "Amount (required)"
 msgstr ""
 
 #: includes/misc-functions.php:1411
+#: tests/misc/test-misc-functions.php:422
 msgid "Affiliate Email"
 msgstr ""
 
 #: includes/misc-functions.php:1412
+#: tests/misc/test-misc-functions.php:423
 msgid "Affiliate Username"
 msgstr ""
 
 #: includes/misc-functions.php:1413
+#: tests/misc/test-misc-functions.php:424
 msgid "Affiliate First/Full Name"
 msgstr ""
 
 #: includes/misc-functions.php:1414
+#: tests/misc/test-misc-functions.php:425
 msgid "Affiliate Last Name"
 msgstr ""
 
@@ -9294,217 +9353,267 @@ msgstr ""
 
 #: includes/misc-functions.php:1553
 #: includes/misc-functions.php:1589
+#: tests/misc/test-misc-functions.php:1105
 msgid "Austria"
 msgstr ""
 
 #: includes/misc-functions.php:1554
 #: includes/misc-functions.php:1590
+#: tests/misc/test-misc-functions.php:1106
 msgid "Belgium"
 msgstr ""
 
 #: includes/misc-functions.php:1555
 #: includes/misc-functions.php:1597
+#: tests/misc/test-misc-functions.php:1113
 msgid "Denmark"
 msgstr ""
 
 #: includes/misc-functions.php:1556
 #: includes/misc-functions.php:1600
+#: tests/misc/test-misc-functions.php:1116
 msgid "Finland"
 msgstr ""
 
 #: includes/misc-functions.php:1557
 #: includes/misc-functions.php:1601
+#: tests/misc/test-misc-functions.php:1117
 msgid "France"
 msgstr ""
 
 #: includes/misc-functions.php:1558
 #: includes/misc-functions.php:1602
+#: tests/misc/test-misc-functions.php:1118
 msgid "Germany"
 msgstr ""
 
 #: includes/misc-functions.php:1559
 #: includes/misc-functions.php:1611
+#: tests/misc/test-misc-functions.php:1127
 msgid "Ireland"
 msgstr ""
 
 #: includes/misc-functions.php:1560
 #: includes/misc-functions.php:1612
+#: tests/misc/test-misc-functions.php:1128
 msgid "Italy"
 msgstr ""
 
 #: includes/misc-functions.php:1561
 #: includes/misc-functions.php:1615
+#: tests/misc/test-misc-functions.php:1131
 msgid "Luxembourg"
 msgstr ""
 
 #: includes/misc-functions.php:1562
 #: includes/misc-functions.php:1619
+#: tests/misc/test-misc-functions.php:1135
 msgid "Netherlands"
 msgstr ""
 
 #: includes/misc-functions.php:1563
 #: includes/misc-functions.php:1621
+#: tests/misc/test-misc-functions.php:1137
 msgid "Norway"
 msgstr ""
 
 #: includes/misc-functions.php:1564
 #: includes/misc-functions.php:1624
+#: tests/misc/test-misc-functions.php:1140
 msgid "Portugal"
 msgstr ""
 
 #: includes/misc-functions.php:1565
 #: includes/misc-functions.php:1629
+#: tests/misc/test-misc-functions.php:1145
 msgid "Spain"
 msgstr ""
 
 #: includes/misc-functions.php:1566
 #: includes/misc-functions.php:1630
+#: tests/misc/test-misc-functions.php:1146
 msgid "Sweden"
 msgstr ""
 
 #: includes/misc-functions.php:1567
 #: includes/misc-functions.php:1631
+#: tests/misc/test-misc-functions.php:1147
 msgid "Switzerland"
 msgstr ""
 
 #: includes/misc-functions.php:1568
 #: includes/misc-functions.php:1586
+#: tests/misc/test-misc-functions.php:1102
 msgid "United Kingdom"
 msgstr ""
 
 #: includes/misc-functions.php:1584
+#: tests/misc/test-misc-functions.php:1100
 msgid "United States"
 msgstr ""
 
 #: includes/misc-functions.php:1585
+#: tests/misc/test-misc-functions.php:1101
 msgid "Canada"
 msgstr ""
 
 #: includes/misc-functions.php:1587
+#: tests/misc/test-misc-functions.php:1103
 msgid "Argentina"
 msgstr ""
 
 #: includes/misc-functions.php:1588
+#: tests/misc/test-misc-functions.php:1104
 msgid "Australia"
 msgstr ""
 
 #: includes/misc-functions.php:1591
+#: tests/misc/test-misc-functions.php:1107
 msgid "Brazil"
 msgstr ""
 
 #: includes/misc-functions.php:1592
+#: tests/misc/test-misc-functions.php:1108
 msgid "Bulgaria"
 msgstr ""
 
 #: includes/misc-functions.php:1593
+#: tests/misc/test-misc-functions.php:1109
 msgid "Costa Rica"
 msgstr ""
 
 #: includes/misc-functions.php:1594
+#: tests/misc/test-misc-functions.php:1110
 msgid "Croatia"
 msgstr ""
 
 #: includes/misc-functions.php:1595
+#: tests/misc/test-misc-functions.php:1111
 msgid "Cyprus"
 msgstr ""
 
 #: includes/misc-functions.php:1596
+#: tests/misc/test-misc-functions.php:1112
 msgid "Czech Republic"
 msgstr ""
 
 #: includes/misc-functions.php:1598
+#: tests/misc/test-misc-functions.php:1114
 msgid "Egypt"
 msgstr ""
 
 #: includes/misc-functions.php:1599
+#: tests/misc/test-misc-functions.php:1115
 msgid "Estonia"
 msgstr ""
 
 #: includes/misc-functions.php:1603
+#: tests/misc/test-misc-functions.php:1119
 msgid "Greece"
 msgstr ""
 
 #: includes/misc-functions.php:1604
+#: tests/misc/test-misc-functions.php:1120
 msgid "Hong Kong"
 msgstr ""
 
 #: includes/misc-functions.php:1605
+#: tests/misc/test-misc-functions.php:1121
 msgid "Hungary"
 msgstr ""
 
 #: includes/misc-functions.php:1606
+#: tests/misc/test-misc-functions.php:1122
 msgid "Iceland"
 msgstr ""
 
 #: includes/misc-functions.php:1607
+#: tests/misc/test-misc-functions.php:1123
 msgid "India"
 msgstr ""
 
 #: includes/misc-functions.php:1608
+#: tests/misc/test-misc-functions.php:1124
 msgid "Indonesia"
 msgstr ""
 
 #: includes/misc-functions.php:1609
+#: tests/misc/test-misc-functions.php:1125
 msgid "Israel"
 msgstr ""
 
 #: includes/misc-functions.php:1610
+#: tests/misc/test-misc-functions.php:1126
 msgid "Japan"
 msgstr ""
 
 #: includes/misc-functions.php:1613
+#: tests/misc/test-misc-functions.php:1129
 msgid "Latvia"
 msgstr ""
 
 #: includes/misc-functions.php:1614
+#: tests/misc/test-misc-functions.php:1130
 msgid "Lithuania"
 msgstr ""
 
 #: includes/misc-functions.php:1616
+#: tests/misc/test-misc-functions.php:1132
 msgid "Malaysia"
 msgstr ""
 
 #: includes/misc-functions.php:1617
+#: tests/misc/test-misc-functions.php:1133
 msgid "Malta"
 msgstr ""
 
 #: includes/misc-functions.php:1618
+#: tests/misc/test-misc-functions.php:1134
 msgid "Mexico"
 msgstr ""
 
 #: includes/misc-functions.php:1620
+#: tests/misc/test-misc-functions.php:1136
 msgid "New Zealand"
 msgstr ""
 
 #: includes/misc-functions.php:1622
+#: tests/misc/test-misc-functions.php:1138
 msgid "Peru"
 msgstr ""
 
 #: includes/misc-functions.php:1623
+#: tests/misc/test-misc-functions.php:1139
 msgid "Poland"
 msgstr ""
 
 #: includes/misc-functions.php:1625
+#: tests/misc/test-misc-functions.php:1141
 msgid "Romania"
 msgstr ""
 
 #: includes/misc-functions.php:1626
+#: tests/misc/test-misc-functions.php:1142
 msgid "Singapore"
 msgstr ""
 
 #: includes/misc-functions.php:1627
+#: tests/misc/test-misc-functions.php:1143
 msgid "Slovakia"
 msgstr ""
 
 #: includes/misc-functions.php:1628
+#: tests/misc/test-misc-functions.php:1144
 msgid "Slovenia"
 msgstr ""
 
 #: includes/misc-functions.php:1632
+#: tests/misc/test-misc-functions.php:1148
 msgid "Thailand"
 msgstr ""
 
 #: includes/misc-functions.php:1633
+#: tests/misc/test-misc-functions.php:1149
 msgid "Uruguay"
 msgstr ""
 
@@ -9514,56 +9623,80 @@ msgid "%s%%"
 msgstr ""
 
 #: includes/payout-functions.php:188
+#: tests/payouts/test-payout-functions.php:298
 msgctxt "payout"
 msgid "Processing"
 msgstr ""
 
 #: includes/payout-functions.php:189
+#: tests/payouts/test-payout-functions.php:299
 msgctxt "payout"
 msgid "Paid"
 msgstr ""
 
 #: includes/payout-functions.php:204
+#: tests/payouts/test-payout-functions.php:311
+#: tests/payouts/test-payout-functions.php:327
 msgid "Manual Payout"
 msgstr ""
 
 #: includes/payout-functions.php:295
+#: tests/payouts/test-payout-functions.php:427
+#: tests/payouts/test-payout-functions.php:452
 msgid "Invalid affiliate account"
 msgstr ""
 
 #: includes/payout-functions.php:296
+#: tests/payouts/test-payout-functions.php:428
+#: tests/payouts/test-payout-functions.php:453
 msgid "Invalid Payouts Service account"
 msgstr ""
 
 #: includes/payout-functions.php:297
+#: tests/payouts/test-payout-functions.php:429
+#: tests/payouts/test-payout-functions.php:454
 msgid "Doesn&#8217;t meet the minimum payout amount"
 msgstr ""
 
 #: includes/payout-functions.php:298
+#: tests/payouts/test-payout-functions.php:430
+#: tests/payouts/test-payout-functions.php:455
 msgid "Hasn&#8217;t created a Payouts Service account"
 msgstr ""
 
 #: includes/payout-functions.php:299
+#: tests/payouts/test-payout-functions.php:431
+#: tests/payouts/test-payout-functions.php:456
 msgid "Hasn&#8217;t submitted payout method on Payouts Service"
 msgstr ""
 
 #: includes/payout-functions.php:300
+#: tests/payouts/test-payout-functions.php:432
+#: tests/payouts/test-payout-functions.php:457
 msgid "No referrals within the specified date range"
 msgstr ""
 
 #: includes/payout-functions.php:301
+#: tests/payouts/test-payout-functions.php:433
+#: tests/payouts/test-payout-functions.php:458
 msgid "Account temporarily disabled on the Payouts Service"
 msgstr ""
 
 #: includes/payout-functions.php:302
+#: tests/payouts/test-payout-functions.php:434
+#: tests/payouts/test-payout-functions.php:459
 msgid "Unable to retrieve Payouts Service account"
 msgstr ""
 
 #: includes/payout-functions.php:303
+#: tests/payouts/test-payout-functions.php:435
+#: tests/payouts/test-payout-functions.php:460
 msgid "Unable to validate payout on the Payouts Service"
 msgstr ""
 
 #: includes/payout-functions.php:304
+#: tests/payouts/test-payout-functions.php:436
+#: tests/payouts/test-payout-functions.php:461
 msgid "Affiliate user account deleted"
 msgstr ""
 
@@ -9572,6 +9705,7 @@ msgid "Switch To"
 msgstr ""
 
 #: includes/referral-functions.php:120
+#: tests/referrals/test-referral-functions.php:427
 msgid "Draft"
 msgstr ""
 
@@ -10520,6 +10654,19 @@ msgstr ""
 
 #: templates/register.php:86
 msgid "Payment Email Address"
+msgstr ""
+
+#: tests/payouts/test-payout-functions.php:394
+msgid "Foo Payouts Service"
+msgstr ""
+
+#: tests/payouts/test-payout-functions.php:395
+msgid "Bar Payouts Service"
+msgstr ""
+
+#: tests/payouts/test-payout-functions.php:447
+#: tests/payouts/test-payout-functions.php:462
+msgid "Foo Affiliate account banned"
 msgstr ""
 
 #: assets/js/editor/build/index.js:6
