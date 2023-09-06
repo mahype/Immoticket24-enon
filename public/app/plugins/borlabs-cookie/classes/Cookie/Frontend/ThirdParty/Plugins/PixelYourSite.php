@@ -55,7 +55,7 @@ class PixelYourSite
     /**
      * register function.
      */
-    public function register()
+    public function registerBackend()
     {
         add_filter('pys_disable_facebook_by_gdpr', static function () {
             return !Cookies::getInstance()->checkConsent('facebook-pixel');
@@ -75,5 +75,23 @@ class PixelYourSite
         add_filter('pys_disable_bing_by_gdpr', static function () {
             return !Cookies::getInstance()->checkConsent('bing');
         });
+    }
+
+    public function registerFrontend()
+    {
+        add_filter('pys_disable_all_cookie', function () {
+            return !$this->enablePysCookies();
+        });
+    }
+
+    private function enablePysCookies()
+    {
+        return
+            Cookies::getInstance()->checkConsent('facebook-pixel')
+            || Cookies::getInstance()->checkConsent('google-analytics')
+            || Cookies::getInstance()->checkConsent('google-adsense')
+            || Cookies::getInstance()->checkConsent('tiktok-pixel')
+            || Cookies::getInstance()->checkConsent('pinterest')
+            || Cookies::getInstance()->checkConsent('bing');
     }
 }

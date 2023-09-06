@@ -77,7 +77,7 @@ class Backend
 
         // THIRD PARTY
         // PixelYourSite
-        add_action('wp_loaded', [PixelYourSite::getInstance(), 'register']);
+        add_action('wp_loaded', [PixelYourSite::getInstance(), 'registerBackend']);
 
         $this->templatePath = realpath(__DIR__ . '/../../../templates');
     }
