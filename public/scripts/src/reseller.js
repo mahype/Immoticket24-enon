@@ -51,7 +51,7 @@ window.addEventListener("message", function(event) {
             }
         }
 
-        window.location.href = '#wpenon-form-top';
+        window.location.href = '#wpenon-wrapper-top';
     }
     
     if(data.redirect_url !== undefined) {
