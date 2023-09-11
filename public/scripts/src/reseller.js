@@ -51,7 +51,8 @@ window.addEventListener("message", function(event) {
             }
         }
 
-        window.location.href = '#wpenon-wrapper-top';
+        // Get element by class name an scroll to first element
+        document.getElementsByClassName("iframe-energieausweis-online")[0].scrollIntoView();
     }
     
     if(data.redirect_url !== undefined) {
