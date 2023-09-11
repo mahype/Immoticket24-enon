@@ -15,8 +15,6 @@ if ( function_exists( 'edd_get_download_price' ) ) {
 
 ?>
 
-<a name="wpenon-form-top"></a>
-
 <a class="back-to-overview-button btn btn-default" href="<?php echo $data['access_link']; ?>">
   <?php _e( 'Zurück zur Übersicht', 'wpenon' ); ?>
 </a>
