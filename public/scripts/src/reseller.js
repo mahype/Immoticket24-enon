@@ -50,6 +50,8 @@ window.addEventListener("message", function(event) {
                 iframes[i].style.overflow = "hidden";
             }
         }
+
+        window.location.href = '#wpenon-form-top';
     }
     
     if(data.redirect_url !== undefined) {
