@@ -16,8 +16,11 @@ jQuery(document).ready(function($) {
 			var height = getWrapperHeight();
 
 			if( height === 0 ) {
+				console.log( 'Document height is 0')
 				return;
 			}
+
+			console.log( 'New document height: ' + height)
 
 			parent.postMessage(JSON.stringify({ 'frame_height': height + 100 }), '*');
 		}
