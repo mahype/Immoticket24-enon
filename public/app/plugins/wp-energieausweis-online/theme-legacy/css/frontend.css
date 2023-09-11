@@ -6,6 +6,12 @@
   color: #ffffff;
   padding: 6px;
 }
+
+.wpenon-wrapper #wpenon-tab-navigation-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
 @media (max-width: 400px) {
   .wpenon-wrapper .is-done-checkmark {
     left: 44px;
