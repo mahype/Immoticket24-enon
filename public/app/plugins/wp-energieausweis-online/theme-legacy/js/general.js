@@ -53,7 +53,10 @@ jQuery(document).ready(function($) {
 
 		_wpenon_data.get_value = function(field, force_get) {
 			var $field = _wpenon_data.field(field);
-			sendDocumentHeight();
+
+			setTimeout(() => {
+				sendDocumentHeight();
+			}, 1000);			
 
 			if (typeof force_get === "undefined") {
 				force_get = false;
