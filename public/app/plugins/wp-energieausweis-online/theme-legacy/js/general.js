@@ -1,9 +1,26 @@
 jQuery(document).ready(function($) {
 	if (typeof _wpenon_data === "object") {
-
 		_wpenon_data.active_requests = 0;
 
 		_wpenon_data.values = {};
+
+		var getWrapperHeight = function () {
+			if ( document.getElementsByClassName('wrapper').length === 0 ) {
+				return 0;
+			}
+
+			return document.getElementsByClassName('wrapper')[0].offsetHeight;
+		}
+		
+		var sendDocumentHeight = function () {
+			var height = getWrapperHeight();
+
+			if( height === 0 ) {
+				return;
+			}
+
+			parent.postMessage(JSON.stringify({ 'frame_height': height + 100 }), '*');
+		}
 
 		_wpenon_data.field = function(field) {
 			if (field instanceof jQuery) {
@@ -33,6 +50,8 @@ jQuery(document).ready(function($) {
 
 		_wpenon_data.get_value = function(field, force_get) {
 			var $field = _wpenon_data.field(field);
+			sendDocumentHeight();
+
 			if (typeof force_get === "undefined") {
 				force_get = false;
 			}
