@@ -1,0 +1,38 @@
+name: Deploy to din18599
+
+on:
+  push:
+    branches:
+      - din18599
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Remote Deployment
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASS }}
+        #key: ${{ secrets.SSH_KEY }}
+        script_stop: true
+        script: |
+          WWW=/www/htdocs/w012900a/din18599.energieausweis-online-erstellen.de/
+          cd $WWW
+          git stash
+          git pull
+          /www/htdocs/w012900a/bin/composer.phar update
+          cd $WWW/public/app/plugins/enon
+          /www/htdocs/w012900a/bin/composer.phar update
+          cd $WWW/public/app/plugins/enon-reseller
+          /www/htdocs/w012900a/bin/composer.phar update
+          cd $WWW/public/app/plugins/immo-rating
+          /www/htdocs/w012900a/bin/composer.phar update
+          cd $WWW/public/app/plugins/wp-energieausweis-online
+          /www/htdocs/w012900a/bin/composer.phar update
+          cp $WWW/public/.htaccess-din18599 $WWW/public/.htaccess
+          cp $WWW/public/local-config-din18599.php $WWW/public/local-config.php
+          cp $WWW/public/.user-din18599.ini $WWW/public/.user.ini
