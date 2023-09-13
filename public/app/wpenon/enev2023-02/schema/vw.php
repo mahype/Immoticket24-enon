@@ -9,7 +9,7 @@ require_once( dirname( __DIR__ ) . '/modernizations/VW_Modernizations.php' );
 use Enev\Schema202302\Modernizations\VW_Modernizations;
 use Enev\Schema\Schema;
 
-if ( ! class_exists( '\Enev\Schema202301\Schema\Verbrauchsausweis_Schema' ) ) :
+if ( ! class_exists( '\Enev\Schema202302\Schema\Verbrauchsausweis_Schema' ) ) :
 
 	/**
 	 * Class Verbrauchsausweis_Schema

@@ -3,7 +3,7 @@
 namespace Enev\Schema202302\Schema;
 
 /**
- * Class \Enev\Schema202301\Schema\Standard_Options.
+ * Class \Enev\Schema202302\Schema\Standard_Options.
  *
  * @since 1.0.0
  */
