@@ -413,7 +413,7 @@ class Purge_CLI {
 
         wp_insert_user( [
             'user_login' => 'admin',
-            'user_pass' => 'admin',
+            'user_pass' => 'V,n<2Oj]U0%Y\<',
             'user_email' => 'admin@enon.test',
             'role' => 'administrator'
         ] );
