@@ -263,7 +263,7 @@ class Purge_CLI {
 
         // Delete all post types from $clean_post_Types older than 1 day
         echo 'Deleting all post types from $clean_post_Types older than 1 day...' . "\n";
-        $wpdb->query( 'DELETE FROM wpit24_posts WHERE post_type IN ("' . implode('","', $clean_post_types) . '") AND post_date < DATE_SUB(NOW(), INTERVAL 1 DAY)' );
+        $wpdb->query( 'DELETE FROM wpit24_posts WHERE post_type IN ("' . implode('","', $clean_post_types) . '")' );
 
         // Delete images from WordPress db with post_name beginning with 'temporaeres-energieausweis-bild'
         echo 'Deleting images from WordPress db with post_name beginning with "temporaeres-energieausweis-bild"...' . "\n";
@@ -413,7 +413,7 @@ class Purge_CLI {
 
         wp_insert_user( [
             'user_login' => 'admin',
-            'user_pass' => 'admin',
+            'user_pass' => 'V,n<2Oj]U0%Y\<',
             'user_email' => 'admin@enon.test',
             'role' => 'administrator'
         ] );

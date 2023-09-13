@@ -1,0 +1,10 @@
+{
+    "name": "awsmug/block-trusted-shops",
+    "type": "wordpress-plugin",
+    "license": "GPLv3",
+    "description": "Trusted Shops Block",
+    "minimum-stability": "dev",
+    "require": {
+        "awsm/lib-api-trustedshops": "dev-main"
+    }
+}

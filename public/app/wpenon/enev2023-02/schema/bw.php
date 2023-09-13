@@ -11,7 +11,7 @@ require_once( dirname( __DIR__ ) . '/modernizations/BW_Modernizations.php' );
 use Enev\Schema202302\Modernizations\BW_Modernizations;
 
 
-if ( ! class_exists( '\Enev\Schema202301\Schema\Bedarfsausweis_Schema' ) ) :
+if ( ! class_exists( '\Enev\Schema202302\Schema\Bedarfsausweis_Schema' ) ) :
 	/**
 	 * Class Bedarfsausweis_Schema
 	 *
