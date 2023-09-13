@@ -249,6 +249,7 @@ use WP_Query;
 
 class Purge_CLI {
     public function all($args, $assoc_args) {
+        global $wpdb;
 
         $clean_post_types = [
             'download', 
@@ -257,44 +258,189 @@ class Purge_CLI {
             'edd_log',
             'revision'
         ];
-
-        // WP_Query arguments
-        $args = array(
-            'fields'         => 'ids', // Only get post ID's to improve performance
-            'post_type'      => $clean_post_types, //post type if you are using default than it will be post
-            'posts_per_page' => -1,//fetch all posts,
-            'post_status'    => 'any',
-            'date_query'     => array(
-                'column'  => 'post_date',
-                'before'   => '-1 day'
-            )
-        );       
-
         // The Query
         $query = new WP_Query( $args );
 
-        echo 'Found entries: ' . $query->found_posts . "\n";      
+        // Delete all post types from $clean_post_Types older than 1 day
+        echo 'Deleting all post types from $clean_post_Types older than 1 day...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_posts WHERE post_type IN ("' . implode('","', $clean_post_types) . '") AND post_date < DATE_SUB(NOW(), INTERVAL 1 DAY)' );
 
-        if ( $query->have_posts() ) {
-            $progress = \WP_CLI\Utils\make_progress_bar( 'Cleaning up DB: ', $query->found_posts );
+        // Delete images from WordPress db with post_name beginning with 'temporaeres-energieausweis-bild'
+        echo 'Deleting images from WordPress db with post_name beginning with "temporaeres-energieausweis-bild"...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_posts WHERE post_name LIKE "temporaeres-energieausweis-bild%"' );
+        
+        // Delete posts with parent_id is not 0 and non existing parent_id
+        echo 'Deleting posts with parent_id != 0 and non existing parent_id...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_posts WHERE post_parent != 0 AND post_parent NOT IN (SELECT id FROM wpit24_posts)' );
+        
+        // Delete orphaned post_meta data
+        echo 'Deleting orphaned post meta data...' . "\n";         
+        $wpdb->query( 'DELETE FROM wpit24_postmeta WHERE post_id NOT IN (SELECT id FROM wpit24_posts)' );
 
-            while ( $query->have_posts() ) {
-                $query->the_post();
+        // Delete all edd customers
+        echo 'Deleting all edd customers...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_edd_customers' );
+
+        // Delete WP Affiliate data
+        echo 'Deleting WP Affiliate data...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_affiliatemeta' );
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_affiliates' );
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_campaigns' );
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_connections' );
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_custom_links' );
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_customers' );
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_lifetime_customers' );
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_customermeta' );
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_notifications' );
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_clicks' );
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_commissions' );        
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_referrals' );
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_sales' );                
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_payouts' );
+
+        // Delete Gravity Forms data
+        echo 'Deleting Gravity Forms data...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_gf_entry' );
+        $wpdb->query( 'DELETE FROM wpit24_gf_entry_meta' );
+        $wpdb->query( 'DELETE FROM wpit24_gf_entry_notes' );
+        $wpdb->query( 'DELETE FROM wpit24_gf_form_view' );
+
+        // Delete all customermeta
+        echo 'Deleting all customermeta...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_edd_customermeta' );
+         
+        // Delete comments and their meta data
+        echo 'Deleting comments and their meta data...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_comments' );
+        $wpdb->query( 'DELETE FROM wpit24_commentmeta' ); 
+
+        // Delete Email logs from WP Mail SMTP
+        echo 'Deleting WP Mail SMTP Data...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_wpmailsmtp_emails_log' ); 
+        $wpdb->query( 'DELETE FROM wpit24_wpmailsmtp_attachment_files' ); 
+
+
+        // Delete Security logs
+        echo 'Deleting Security logs...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_icwp_wpsf_req_logs' );
+        $wpdb->query( 'DELETE FROM wpit24_icwp_wpsf_audit_trail' );
+        $wpdb->query( 'DELETE FROM wpit24_icwp_wpsf_botsignal' );
+        $wpdb->query( 'DELETE FROM wpit24_icwp_wpsf_ips' );
+        $wpdb->query( 'DELETE FROM wpit24_icwp_wpsf_at_meta' );
+        $wpdb->query( 'DELETE FROM wpit24_icwp_wpsf_resultitem_meta' );
+
+        // Delete WP Securitry Audit Log data
+        echo 'Deleting WP Securitry Audit Log data...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_wsal_metadata' );
+        $wpdb->query( 'DELETE FROM wpit24_wsal_occurrences' );
+        $wpdb->query( 'DELETE FROM wpit24_wsal_options' );
+
+        // Delete Wordfence data
+        echo 'Deleting Wordfence data...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_wfknownfilelist' );
+        $wpdb->query( 'DELETE FROM wpit24_wfstatus' );
+        $wpdb->query( 'DELETE FROM wpit24_wflogins' );
+        $wpdb->query( 'DELETE FROM wpit24_wffilemods' );
+        $wpdb->query( 'DELETE FROM wpit24_wfcrawlers' );
+        $wpdb->query( 'DELETE FROM wpit24_wfnotifications' );
+        $wpdb->query( 'DELETE FROM wpit24_wfhits' );
+
+        // Delete borlabs cookie data
+        echo 'Deleting Borlabs cookie consent logs...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_borlabs_cookie_statistics' );
+        $wpdb->query( 'DELETE FROM wpit24_borlabs_cookie_consent_log' );
+
+        // Deleting visits from Affliate WP
+        echo 'Deleting visits from Affliate WP...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_affiliate_wp_visits' );
+
+        // Deleting yoast data
+        echo 'Deleting yoast data...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_yoast_indexable' );
+        $wpdb->query( 'DELETE FROM wpit24_yoast_indexable_hierarchy' );
+        $wpdb->query( 'DELETE FROM wpit24_yoast_seo_links' );
+        $wpdb->query( 'DELETE FROM wpit24_yoast_seo_meta' );
+        $wpdb->query( 'DELETE FROM wpit24_yoast_migrations' );
+
+        // Deleting WP Rocket data
+        echo 'Deleting WP Rocket data...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_wpr_rocket_cache' );
+        $wpdb->query( 'DELETE FROM wpit24_options WHERE option_name LIKE "%_transient_wpr_cache%"' );
+
+        // Deleting Customermeta
+        echo 'Deleting Customermeta...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_it24ea_customermeta' );
+
+        // Dropping optimizepress data
+        echo 'Dropping unused plugins...' . "\n";
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_optimizepress_assets' );
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_optimizepress_launchfunnels' );
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_optimizepress_launchfunnels_pages' );
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_optimizepress_layout_categories' );
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_optimizepress_pb_products' );
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_optimizepress_post_layouts' );
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_optimizepress_predefined_layouts' );
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_optimizepress_presets' );
+
+        // Delete WP All Export data
+        echo 'Deleting WP All Export data...' . "\n";
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_pmxe_exports' );        
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_pmxe_google_cats' );
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_pmxe_posts' );
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_pmxe_templates' );
+
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_bdp_archives' );
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_bdp_single_layouts' );
+        
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_login_fails' );
+        $wpdb->query( 'DROP TABLE IF EXISTS wpit24_lockdowns' );
+
+        // Deleting orphaned term relationships
+        echo 'Deleting orphaned term relationships...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_term_relationships WHERE object_id NOT IN (SELECT id FROM wpit24_posts)' );
+
+        // Whatever it is, delete it...
+        echo 'Deleting whatever it is...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_tcb_api_error_log' );
+
+        // Delete all users except base users
+        echo 'Deleting all users except base users...' . "\n";
+        $wpdb->query( 'DELETE FROM wpit24_users' );        
+        $wpdb->query( 'DELETE FROM wpit24_usermeta' );
+
+        // Add dev users, admins, editors, authors, contributors, subscribers
+        echo 'Adding dev admin' . "\n";
+
+        wp_insert_user( [
+            'user_login' => 'admin',
+            'user_pass' => 'admin',
+            'user_email' => 'admin@enon.test',
+            'role' => 'administrator'
+        ] );
+
+        // echo 'Found entries: ' . $query->found_posts . "\n";      
+
+        // if ( $query->have_posts() ) {
+        //     $progress = \WP_CLI\Utils\make_progress_bar( 'Cleaning up DB: ', $query->found_posts );
+
+        //     while ( $query->have_posts() ) {
+        //         $query->the_post();
                 
-                // wp_trash_post( get_the_ID() );  use this function if you have custom post type
-                wp_delete_post(get_the_ID(),true); //use this function if you are working with default posts
+        //         // wp_trash_post( get_the_ID() );  use this function if you have custom post type
+        //         wp_delete_post(get_the_ID(),true); //use this function if you are working with default posts
 
-                $progress->tick();
-            }
-            $progress->finish();
-        } else {
-            // no posts found
-            return false;
+        //         $progress->tick();
+        //     }           
 
-        }
-        die();
-        // Restore original Post Data
-        wp_reset_postdata();
+        //     $progress->finish();
+        // } else {
+        //     // no posts found
+        //     return false;
+
+        // }
+        // die();
+        // // Restore original Post Data
+        // wp_reset_postdata();
     }
 }
 
@@ -418,4 +564,3 @@ class EDD_Payments_Download implements Task, Actions {
         return rmdir($dir);
     }
 }
-
