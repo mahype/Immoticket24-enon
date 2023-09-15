@@ -18,6 +18,7 @@
  * @return float
  */
 function heat_transfer_coefficient_ventilation(
+    float $building_year,
     float $building_volume_net,
     string $air_system, 
     bool $blower_door_test,
@@ -26,6 +27,7 @@ function heat_transfer_coefficient_ventilation(
     float $efficiency = 0 
 ) {
     $air_exchange_rate = air_exchange_rate( 
+        $building_year,
         $building_volume_net,
         $air_system, 
         $blower_door_test,
@@ -51,35 +53,56 @@ function heat_transfer_coefficient_ventilation(
  * @return float 
  * @throws Exception 
  */
-function air_exchange_rate( 
+function air_exchange_rate(
+    int $building_year, 
     float $building_volume_net,
     string $air_system, 
-    bool $blower_door_test,
+    bool $blower_door_test,   
     float $building_envelop_area = 0,
     bool $air_system_demand_based = false, 
     float $efficiency = 0
 ): float {
     if($building_volume_net <= 1500 ) {
-        return air_exchange_rate_small_buildings(
+        $air_exchange_rate = air_exchange_rate_small_buildings(
             $air_system, 
             $blower_door_test, 
             $air_system_demand_based, 
             $efficiency
         );
+
+        $air_exchange_rate_correction_factor = air_exchange_rate_correction_factor_small_buildings(
+            $air_system, 
+            $blower_door_test, 
+            $air_system_demand_based, 
+            $efficiency
+        );
+    } else {
+        if( $building_envelop_area == 0 ) {
+            throw new Exception('Building envelop area is required for large buildings.');
+        }
+    
+        $air_exchange_rate = air_exchange_rate_large_buildings(
+            $air_system, 
+            $blower_door_test, 
+            $building_envelop_area, 
+            $building_volume_net, 
+            $air_system_demand_based, 
+            $efficiency
+        );
+
+        $air_exchange_rate_correction_factor = air_exchange_rate_correction_factor_large_buildings(
+            $air_system, 
+            $blower_door_test, 
+            $building_envelop_area, 
+            $building_volume_net, 
+            $air_system_demand_based, 
+            $efficiency
+        );
     }
 
-    if( $building_envelop_area == 0 ) {
-        throw new Exception('Building envelop area is required for large buildings.');
-    }
+    $air_exchange_rate_correction_factor_seasonal = air_exchange_rate_correction_factor_seasonal( $building_year );
 
-    return air_exchange_rate_large_buildings(
-        $air_system, 
-        $blower_door_test, 
-        $building_envelop_area, 
-        $building_volume_net, 
-        $air_system_demand_based, 
-        $efficiency
-    );
+    return $air_exchange_rate * ( 1 - $air_exchange_rate_correction_factor + $air_exchange_rate_correction_factor * $air_exchange_rate_correction_factor_seasonal );
 }
 
 /**
@@ -642,7 +665,8 @@ function interpolate_value( float $target_value, array $keys, array $values ) : 
 
 
 // Testing heat transfer coefficient due to ventilation.
-$coefficient = heat_transfer_coefficient_ventilation( 
+$coefficient = heat_transfer_coefficient_ventilation(
+    building_year: 2000,
     building_volume_net: 1000,
     air_system: 'intake_and_exhaust', 
     blower_door_test: true,
@@ -653,7 +677,8 @@ $coefficient = heat_transfer_coefficient_ventilation(
 echo sprintf('Heat transfer coefficient due to ventilation: %s', $coefficient) . PHP_EOL;
 
 // Testing air exchange rate.
-$air_exchange_rate = air_exchange_rate( 
+$air_exchange_rate = air_exchange_rate(
+    building_year: 2000,
     building_volume_net: 1000,
     air_system: 'intake_and_exhaust', 
     blower_door_test: true,
