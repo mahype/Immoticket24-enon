@@ -1,5 +1,188 @@
 <?php
 
+class Air_Exchange
+{
+    /**
+     * Building year.
+     * 
+     * @var float
+     */
+    protected float $building_year;
+
+    /**
+     * Building volume net.
+     * 
+     * @var float
+     */
+    protected float $building_volume_net;
+
+    /**
+     * Building envelop area.
+     * 
+     * @var float
+     */
+    protected float $building_envelop_area;
+
+
+    /**
+     * Air system.
+     * 
+     * @var string
+     */
+    protected string $air_system;
+
+    /**
+     * Air system demand based.
+     * 
+     * @var bool
+     */
+    protected bool $air_system_demand_based;
+
+    /**
+     * Category of density.
+     * 
+     * @var bool
+     */
+    protected string $density_category;
+
+    /**
+     * Efficiency.
+     * 
+     * @var float
+     */
+    protected float $efficiency;
+
+    /**
+     * Constructor.
+     * 
+     * @param float     $building_year           Building year.
+     * @param float     $building_volume_net     Building volume net.
+     * @param string    $air_system              Air system (none, intake_and_exhaust, exhaust).
+     * @param string    $density_category        Category of density (din_4108_7, ohne, andere, undichtheiten).
+     * @param float|int $building_envelop_area   Building envelop area.
+     * @param bool      $air_system_demand_based Whether the air system is demand based (Bedarfsgeführt).
+     * @param float|int $efficiency              The efficiency of the air system (only relevant for 'intake_and_exhaust' air systems).
+     * 
+     * @throws Exception 
+     */
+    public function __construct(
+        float $building_year,
+        float $building_volume_net,
+        string $air_system,
+        string $density_category,
+        float $building_envelop_area = 0,
+        bool $air_system_demand_based = false, 
+        float $efficiency = 0 
+    ) {
+        $this->building_year = $building_year;
+        $this->building_volume_net = $building_volume_net;
+        $this->building_envelop_area = $building_envelop_area;
+        $this->air_system = $air_system;
+        $this->air_system_demand_based = $air_system_demand_based;
+        $this->density_category = $density_category;
+        $this->efficiency = $efficiency;
+    }
+
+    public function rate()
+    {
+        if($this->building_volume_net <= 1500 ) {                        
+            $rate = $this->rate_small_buildings() * ( 1 - $this->correction_factor_small_buildings() + $this->correction_factor_small_buildings() * $this->correction_factor_seasonal() );
+        } else {
+            
+        }
+
+        return $rate;
+    }
+
+    public function volume()
+    {
+        return $this->rate() * 0.34 * $this->building_volume_net;
+    }
+
+    protected function rate_small_buildings()
+    {
+        $column_name = $this->column_name();
+
+        $results = wpenon_get_table_results('l_luftwechsel_klein');        
+        $rate = $results[$this->density_category]->{$column_name};
+
+        return $rate;
+    }
+
+    protected function correction_factor_small_buildings()
+    {
+        $column_name = $this->column_name();
+
+        $results = wpenon_get_table_results('l_luftwechsel_korrekturfaktor_klein');
+        $correction_factor = $results[$this->density_category]->{$column_name};
+
+        return $correction_factor;
+    }
+
+    protected function column_name()
+    {
+        switch( $this->air_system ) {
+        case 'intake_and_exhaust':
+            $column_name = 'zu_abluft';
+            break;
+        case 'exhaust':
+            $column_name = 'abluft';
+            break;
+        case 'none':
+            return 'ohne';
+                break;
+        default:
+            throw new Exception(sprintf('Invalid air system: %s.', $this->air_system));
+        }
+
+        if($this->air_system_demand_based ) {
+            $column_name .= '_bedarfsgefuehrt';
+        } else {
+            $column_name .= '_nichtbedarfsgefuehrt';
+        }
+
+        if($this->air_system === 'exhaust' ) {
+            return $column_name;
+        }
+
+        if($this->efficiency < 60 ) {
+            $column_name .= '_ab_0';
+        } elseif($this->efficiency < 80 ) {
+            $column_name .= '_ab_60';
+        } elseif($this->efficiency <= 100 ) {
+            $column_name .= '_ab_80';
+        } else {
+            throw new Exception('Invalid efficiency.');
+        }
+
+        return $column_name;
+    }
+
+    /**
+     * Correction factor seasonal.
+     * 
+     * (Temperaturkorrekturfaktor für Luftwechselrate saisonal - fwin2).
+     * 
+     * @param int $building_year Building year of the building.
+     * 
+     * @return float 
+     */
+    protected function correction_factor_seasonal() : float
+    {
+        if ($this->building_year > 2002 ) {
+            return 1.066;
+        }
+
+        return 0.979;
+    }
+    
+}
+
+// $tableNames->l_luftwechsel_klein                 = 'l_luftwechsel_klein';
+// $tableNames->l_luftwechsel_korrekturfaktor_klein = 'l_luftwechsel_korrekturfaktor_klein';
+// $tableNames->l_luftwechsel_gross                 = 'l_luftwechsel_gross';
+// $tableNames->l_luftwechsel_korrekturfaktor_gross = 'l_luftwechsel_korrekturfaktor_gross';
+
 /**
  * Calculations for Heat transfer coefficient due to ventilation.
  * 
@@ -77,7 +260,7 @@ function air_exchange_rate(
             $efficiency
         );
     } else {
-        if( $building_envelop_area == 0 ) {
+        if($building_envelop_area == 0 ) {
             throw new Exception('Building envelop area is required for large buildings.');
         }
     
@@ -100,7 +283,7 @@ function air_exchange_rate(
         );
     }
 
-    $air_exchange_rate_correction_factor_seasonal = air_exchange_rate_correction_factor_seasonal( $building_year );
+    $air_exchange_rate_correction_factor_seasonal = air_exchange_rate_correction_factor_seasonal($building_year);
 
     return $air_exchange_rate * ( 1 - $air_exchange_rate_correction_factor + $air_exchange_rate_correction_factor * $air_exchange_rate_correction_factor_seasonal );
 }
@@ -198,7 +381,7 @@ function air_exchange_rate_small_buildings( string $air_system, bool $blower_doo
         } 
         return 0.79;
     default:
-        throw new Exception( sprintf('Invalid air system. %s', $air_system) );
+        throw new Exception(sprintf('Invalid air system. %s', $air_system));
     }
 }
 
@@ -662,36 +845,3 @@ function interpolate_value( float $target_value, array $keys, array $values ) : 
 
     return $y1 + ($target_value - $x1) * ($y2 - $y1) / ($x2 - $x1);
 }
-
-
-// Testing heat transfer coefficient due to ventilation.
-$coefficient = heat_transfer_coefficient_ventilation(
-    building_year: 2000,
-    building_volume_net: 1000,
-    air_system: 'intake_and_exhaust', 
-    blower_door_test: true,
-    air_system_demand_based: false,
-    efficiency: 50
-);
-
-echo sprintf('Heat transfer coefficient due to ventilation: %s', $coefficient) . PHP_EOL;
-
-// Testing air exchange rate.
-$air_exchange_rate = air_exchange_rate(
-    building_year: 2000,
-    building_volume_net: 1000,
-    air_system: 'intake_and_exhaust', 
-    blower_door_test: true,
-    air_system_demand_based: false,
-    efficiency: 50
-);
-
-echo sprintf('Air exchange rate: %s', $air_exchange_rate) . PHP_EOL;
-
-// Testing envelop volume ratio.
-$envelop_volume_ratio = envelop_volume_ratio( 
-    building_envelop_area: 1000,
-    building_volume_net: 3000
-);
-
-echo sprintf('Envelop volume ratio: %s', $envelop_volume_ratio) . PHP_EOL;
