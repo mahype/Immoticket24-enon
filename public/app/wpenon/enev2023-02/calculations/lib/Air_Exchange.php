@@ -90,32 +90,28 @@ class Air_Exchange
         $this->efficiency = $efficiency;
     }
 
-    /**
-     * Air exchange rate (𝑛0).
-     * 
-     * @return float
-     *  
-     * @throws Exception 
-     */
-    public function rate()
+     /**
+      * Air exchange volumen (Hv ges = 𝑛 × 𝑐 × 𝑝 × 𝑉).
+      * 
+      * @return float
+      *  
+      * @throws Exception 
+      */
+    public function hv()
     {
-        if($this->building_volume_net <= 1500 ) {                        
-            return $this->rate_small_buildings() * ( 1 - $this->correction_factor_small_buildings() + $this->correction_factor_small_buildings() * $this->correction_factor_seasonal() );
-        } else {
-            return $this->rate_large_buildings() * ( 1 - $this->correction_factor_large_buildings() + $this->correction_factor_large_buildings() * $this->correction_factor_seasonal() );
-        }
+        return $this->n() * 0.34 * $this->building_volume_net;
     }
 
     /**
-     * Air exchange volumen (Hv ges = 𝑛 × 𝑐 × 𝑝 × 𝑉).
+     * Air exchange rate (Hv).
      * 
      * @return float
      *  
      * @throws Exception 
      */
-    public function volume()
+    public function n()
     {
-        return $this->rate() * 0.34 * $this->building_volume_net;
+        return $this->n0() * ( 1 - $this->fwin1() + $this->fwin1() * $this->fwin2() );
     }
 
     /**
@@ -123,8 +119,23 @@ class Air_Exchange
      * 
      * @return float 
      */
-    public function enevelope_volume_ratio(): float {
+    public function av_ratio(): float
+    {
         return $this->building_envelop_area / $this->building_volume_net;
+    }
+
+    /**
+     * Air exchange rate.
+     * 
+     * @return float
+     */
+    public function n0(): float
+    {
+        if($this->building_volume_net <= 1500 ) {                        
+            return $this->n0_small_buildings();
+        } else {
+            return $this->n0_large_buildings();
+        }
     }
 
     /**
@@ -132,7 +143,8 @@ class Air_Exchange
      * 
      * @return float
      */
-    protected function rate_small_buildings(): float {
+    protected function n0_small_buildings(): float
+    {
         $column_name = $this->column_name();
 
         $results = wpenon_get_table_results('l_luftwechsel_klein');
@@ -146,7 +158,8 @@ class Air_Exchange
      * 
      * @return float 
      */
-    protected function rate_large_buildings() : float {
+    protected function n0_large_buildings() : float
+    {
         $column_name = $this->column_name();
 
         $results = wpenon_get_table_results('l_luftwechsel_gross');
@@ -159,7 +172,7 @@ class Air_Exchange
         }
 
         $rate = interpolate_value(
-            $this->enevelope_volume_ratio(),
+            $this->av_ratio(),
             [0.2, 0.4, 0.6, 0.8],
             $ratios
         );
@@ -172,11 +185,12 @@ class Air_Exchange
      * 
      * @return float
      */
-    public function correction_factor() : float {
+    public function fwin1() : float
+    {
         if($this->building_volume_net <= 1500 ) {                        
-            return $this->correction_factor_small_buildings();
+            return $this->fwin1_small_buildings();
         } else {
-            return $this->correction_factor_large_buildings();
+            return $this->fwin1_large_buildings();
         }
     }
 
@@ -185,7 +199,8 @@ class Air_Exchange
      * 
      * @throws Exception 
      */
-    protected function correction_factor_small_buildings() : float {
+    protected function fwin1_small_buildings() : float
+    {
         $column_name = $this->column_name();
 
         $results = wpenon_get_table_results('l_luftwechsel_korrekturfaktor_klein');
@@ -199,7 +214,7 @@ class Air_Exchange
      * 
      * @return float 
      */
-    protected function correction_factor_large_buildings()
+    protected function fwin1_large_buildings()
     {
         $column_name = $this->column_name();
 
@@ -213,7 +228,7 @@ class Air_Exchange
         }
 
         $factor = interpolate_value(
-            $this->enevelope_volume_ratio(),
+            $this->av_ratio(),
             [0.2, 0.4, 0.6, 0.8],
             $ratios
         );
@@ -275,7 +290,7 @@ class Air_Exchange
      * 
      * @return float 
      */
-    public function correction_factor_seasonal() : float
+    public function fwin2() : float
     {
         if ($this->building_year > 2002 ) {
             return 1.066;
