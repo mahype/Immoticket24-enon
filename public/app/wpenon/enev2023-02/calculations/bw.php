@@ -4,6 +4,8 @@ require_once ( 'lib/Extension.php' );
 require_once ( 'lib/Extension_Form_A.php' );
 require_once ( 'lib/Extension_Form_B.php' );
 
+require_once 'lib/Air_Exchange.php';
+
 $tableNames = new stdClass();
 
 $tableNames->h_erzeugung                 = 'h_erzeugung2019';
@@ -982,6 +984,20 @@ if ( $energieausweis->l_info != 'anlage' ) {
     $hv_mpk2 = 0.7;
   }
 }
+
+$air_exchange = new Air_Exchange(
+  building_year: $energieausweis->baujahr,
+  building_envelop_area: $calculations['huellflaeche'],
+  building_volume_net: $calculations['huellvolumen'],
+  air_system: 'none',
+  air_system_demand_based: false,
+  density_category: 'din_4108_7',
+  efficiency: 50
+);
+
+$rate = $air_exchange->rate();
+$volume = $air_exchange->volume();
+
 $calculations['hv'] += $hv_mpk1 * $calculations['huellvolumen'] * $hv_mpk2 * 0.34;
 $calculations['hv_reference'] += $hv_mpk1 * $calculations['huellvolumen'] * 0.55 * 0.34;
 
