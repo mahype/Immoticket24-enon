@@ -83,34 +83,89 @@ class Air_Exchange
         $this->efficiency = $efficiency;
     }
 
+    /**
+     * Air exchange rate (𝑛0).
+     * 
+     * @return float
+     *  
+     * @throws Exception 
+     */
     public function rate()
     {
         if($this->building_volume_net <= 1500 ) {                        
-            $rate = $this->rate_small_buildings() * ( 1 - $this->correction_factor_small_buildings() + $this->correction_factor_small_buildings() * $this->correction_factor_seasonal() );
+            return $this->rate_small_buildings() * ( 1 - $this->correction_factor_small_buildings() + $this->correction_factor_small_buildings() * $this->correction_factor_seasonal() );
         } else {
-            
+            return $this->rate_large_buildings() * ( 1 - $this->correction_factor_large_buildings() + $this->correction_factor_large_buildings() * $this->correction_factor_seasonal() );
         }
-
-        return $rate;
     }
 
+    /**
+     * Air exchange volumen (Hv ges = 𝑛 × 𝑐 × 𝑝 × 𝑉).
+     * 
+     * @return float
+     *  
+     * @throws Exception 
+     */
     public function volume()
     {
         return $this->rate() * 0.34 * $this->building_volume_net;
     }
 
-    protected function rate_small_buildings()
-    {
+    /**
+     * Envelope volume ratio.
+     * 
+     * @return float 
+     */
+    public function enevelope_volume_ratio(): float {
+        return $this->building_envelop_area / $this->building_volume_net;
+    }
+
+    /**
+     * Air exchange rate for small buildings (up to 1500m³).
+     * 
+     * @return float
+     */
+    protected function rate_small_buildings(): float {
         $column_name = $this->column_name();
 
-        $results = wpenon_get_table_results('l_luftwechsel_klein');        
+        $results = wpenon_get_table_results('l_luftwechsel_klein');
         $rate = $results[$this->density_category]->{$column_name};
 
         return $rate;
     }
 
-    protected function correction_factor_small_buildings()
-    {
+    /**
+     * Air exchange rate for large buildings (larger than 1500m³).
+     * 
+     * @return float 
+     */
+    protected function rate_large_buildings() : float {
+        $column_name = $this->column_name();
+
+        $results = wpenon_get_table_results('l_luftwechsel_gross');
+
+        $ratio_keys = ['02','04', '06', '08'];
+        $ratios = [];
+
+        foreach($ratio_keys as $ratio_key) {
+            $ratios[] = $results[ $this->density_category . '_' . $ratio_key]->{$column_name};
+        }
+
+        $rate = interpolate_value(
+            $this->enevelope_volume_ratio(),
+            [0.2, 0.4, 0.6, 0.8],
+            $ratios
+        );
+
+        return $rate;
+    }
+
+    /**
+     * Correction factor for air exchange rate for small buildings (up to 1500m³).
+     * 
+     * @throws Exception 
+     */
+    protected function correction_factor_small_buildings() : float {
         $column_name = $this->column_name();
 
         $results = wpenon_get_table_results('l_luftwechsel_korrekturfaktor_klein');
@@ -119,6 +174,39 @@ class Air_Exchange
         return $correction_factor;
     }
 
+    /**
+     * Correction factor for air exchange rate for large buildings (larger than 1500m³).
+     * 
+     * @return float 
+     */
+    protected function correction_factor_large_buildings()
+    {
+        $column_name = $this->column_name();
+
+        $results = wpenon_get_table_results('l_luftwechsel_korrekturfaktor_gross');
+        
+        $ratio_keys = ['02','04', '06', '08'];
+        $ratios = [];
+
+        foreach($ratio_keys as $ratio_key) {
+            $ratios[] = $results[ $this->density_category . '_' . $ratio_key]->{$column_name};
+        }
+
+        $factor = interpolate_value(
+            $this->enevelope_volume_ratio(),
+            [0.2, 0.4, 0.6, 0.8],
+            $ratios
+        );
+
+        return $factor;
+    }
+
+    /**
+     * Get column name for the given air system.
+     * 
+     * @return string 
+     * @throws Exception 
+     */
     protected function column_name()
     {
         switch( $this->air_system ) {
