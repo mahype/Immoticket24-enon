@@ -58,8 +58,9 @@
 <div class="lead" style="background-color: grey; padding:20px;"><strong>NEU 2023</strong><br />
   <?php printf( __( 'A/V rate %s', 'wpenon' ), \WPENON\Util\Format::float( $data['av_ratio'] ) ); ?><br>
   <?php printf( __( 'Luftewechselrate 𝑛<sub>0</sub> %s', 'wpenon' ), \WPENON\Util\Format::float( $data['n0'] ) ); ?><br>
-  <?php printf( __( 'Luftewechselvolumen %sm&sup3;', 'wpenon' ), \WPENON\Util\Format::float( $data['hv_neu'] ) ); ?><br>
-  <?php printf( __( 'Saisonaler Korrekturfaktor %sm&sup3;', 'wpenon' ), \WPENON\Util\Format::float( $data['fwin2'] ) ); ?><br>
+  <?php printf( __( 'Lüftungswärmeverluste H<sub>V</sub>: %s W/K', 'wpenon' ), \WPENON\Util\Format::float( $data['hv_neu'] ) ); ?><br>
+  <?php printf( __( 'Korrekturfaktor %s', 'wpenon' ), \WPENON\Util\Format::float( $data['fwin1'] ) ); ?><br>
+  <?php printf( __( 'Saisonaler Korrekturfaktor %s', 'wpenon' ), \WPENON\Util\Format::float( $data['fwin2'] ) ); ?><br>
 </div>
 
 <?php wpenon_get_view()->displaySubTemplate( 'table-row', '', array(

@@ -1003,10 +1003,13 @@ $air_exchange = new Air_Exchange(
   efficiency: 50  // NEUES FELD
 );
 
-$calculations['n0'] = $air_exchange->rate();
-$calculations['av_ratio'] = $air_exchange->enevelope_volume_ratio();
-$calculations['hv_neu'] = $air_exchange->volume();
-$calculations['fwin2'] = $air_exchange->correction_factor_seasonal();
+$calculations['n0'] = $air_exchange->n0();
+$calculations['n'] = $air_exchange->n();
+$calculations['av_ratio'] = $air_exchange->av_ratio();
+$calculations['hv_neu'] = $air_exchange->hv();
+$calculations['fwin1'] = $air_exchange->fwin1();
+$calculations['fwin2'] = $air_exchange->fwin2();
+
 // Ende Luftwechsel neu
 
 $calculations['hv'] += $hv_mpk1 * $calculations['huellvolumen'] * $hv_mpk2 * 0.34;
