@@ -985,18 +985,29 @@ if ( $energieausweis->l_info != 'anlage' ) {
   }
 }
 
+/**
+ * Luftwechsel neu
+ */
+$density_category = 'andere';
+if ( $energieausweis->dichtheit ) {
+  $density_category = 'din_4108_7';
+}
+
 $air_exchange = new Air_Exchange(
   building_year: $energieausweis->baujahr,
   building_envelop_area: $calculations['huellflaeche'],
   building_volume_net: $calculations['huellvolumen'],
-  air_system: 'none',
-  air_system_demand_based: false,
-  density_category: 'din_4108_7',
-  efficiency: 50
+  air_system: 'none', // NEUES FELD
+  air_system_demand_based: false,  // NEUES FELD
+  density_category: $density_category,
+  efficiency: 50  // NEUES FELD
 );
 
-$rate = $air_exchange->rate();
-$volume = $air_exchange->volume();
+$calculations['n0'] = $air_exchange->rate();
+$calculations['av_ratio'] = $air_exchange->enevelope_volume_ratio();
+$calculations['hv_neu'] = $air_exchange->volume();
+$calculations['fwin2'] = $air_exchange->correction_factor_seasonal();
+// Ende Luftwechsel neu
 
 $calculations['hv'] += $hv_mpk1 * $calculations['huellvolumen'] * $hv_mpk2 * 0.34;
 $calculations['hv_reference'] += $hv_mpk1 * $calculations['huellvolumen'] * 0.55 * 0.34;

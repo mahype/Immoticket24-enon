@@ -7,6 +7,7 @@
 ?>
 
 <p class="lead"><?php printf( __( 'Hüllvolumen V<sub>e</sub>: %s m&sup3;', 'wpenon' ), \WPENON\Util\Format::float( $data['huellvolumen'] ) ); ?></p>
+
 <?php wpenon_get_view()->displaySubTemplate( 'table-row', '', array(
   'caption'   => __( 'Volumenkomponenten', 'wpenon' ),
   'fields'    => array(
@@ -50,8 +51,16 @@
   ),
   'data'      => $data['bauteile'],
 ) ); ?>
+
 <p class="lead"><?php printf( __( 'Transmissionswärmeverluste H<sub>T</sub>: %s W/K', 'wpenon' ), \WPENON\Util\Format::float( $data['ht'] ) ); ?></p>
 <p class="lead"><?php printf( __( 'Lüftungswärmeverluste H<sub>V</sub>: %s W/K', 'wpenon' ), \WPENON\Util\Format::float( $data['hv'] ) ); ?></p>
+
+<div class="lead" style="background-color: grey; padding:20px;"><strong>NEU 2023</strong><br />
+  <?php printf( __( 'A/V rate %s', 'wpenon' ), \WPENON\Util\Format::float( $data['av_ratio'] ) ); ?><br>
+  <?php printf( __( 'Luftewechselrate 𝑛<sub>0</sub> %s', 'wpenon' ), \WPENON\Util\Format::float( $data['n0'] ) ); ?><br>
+  <?php printf( __( 'Luftewechselvolumen %sm&sup3;', 'wpenon' ), \WPENON\Util\Format::float( $data['hv_neu'] ) ); ?><br>
+  <?php printf( __( 'Saisonaler Korrekturfaktor %sm&sup3;', 'wpenon' ), \WPENON\Util\Format::float( $data['fwin2'] ) ); ?><br>
+</div>
 
 <?php wpenon_get_view()->displaySubTemplate( 'table-row', '', array(
   'caption'   => __( 'Monatliche Bedarfsinformationen', 'wpenon' ),
