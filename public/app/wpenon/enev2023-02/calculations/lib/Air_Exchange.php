@@ -168,6 +168,19 @@ class Air_Exchange
     }
 
     /**
+     * Correction factor. 
+     * 
+     * @return float
+     */
+    public function correction_factor() : float {
+        if($this->building_volume_net <= 1500 ) {                        
+            return $this->correction_factor_small_buildings();
+        } else {
+            return $this->correction_factor_large_buildings();
+        }
+    }
+
+    /**
      * Correction factor for air exchange rate for small buildings (up to 1500m³).
      * 
      * @throws Exception 
@@ -262,7 +275,7 @@ class Air_Exchange
      * 
      * @return float 
      */
-    protected function correction_factor_seasonal() : float
+    public function correction_factor_seasonal() : float
     {
         if ($this->building_year > 2002 ) {
             return 1.066;
