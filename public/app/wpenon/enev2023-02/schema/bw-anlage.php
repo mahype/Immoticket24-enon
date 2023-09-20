@@ -1252,54 +1252,67 @@ $anlage = array(
 			'title'       => __( 'Lüftungsanlage', 'wpenon' ),
 			'description' => __( 'Machen Sie hier Angaben zur Lüftungsanlage des Gebäudes.', 'wpenon' ),
 			'fields'      => array(
+				// 'l_info'      => array(
+				// 	'type'     => 'select',
+				// 	'label'    => __( 'Art der Lüftung', 'wpenon' ),
+				// 	'options'  => array(
+				// 		'fenster' => __( 'Fensterlüftung', 'wpenon' ),
+				// 		'anlage_ohne'  => __( 'Lüftungsanlage (ohne Wärmerückgewinnung)', 'wpenon' ),
+				// 		'anlage_mit'  => __( 'Lüftungsanlage (mit Wärmerückgewinnung)', 'wpenon' ),
+				// 	),
+				// 	'required' => true,
+				// ),
 				'l_info'      => array(
 					'type'     => 'select',
-					'label'    => __( 'Art der Lüftung', 'wpenon' ),
+					'label'    => __( 'Lüftungsanlage', 'wpenon' ),
 					'options'  => array(
-						'fenster' => __( 'Fensterlüftung', 'wpenon' ),
-						'schacht' => __( 'Schachtlüftung', 'wpenon' ),
-						'anlage'  => __( 'Lüftungsanlage', 'wpenon' ),
+						'none' => __( 'Keine', 'wpenon' ),
+						'intake_and_exhaust'  => __( 'Zu- und Abluftalage', 'wpenon' ),
+						'exhaust'  => __( 'Abluftanlage', 'wpenon' ),
 					),
 					'required' => true,
 				),
-				'l_erzeugung' => array(
-					'type'        => 'select',
-					'label'       => __( 'Typ der Lüftungsanlage', 'wpenon' ),
-					'description' => __( 'Wählen Sie den Typ der Lüftungsanlage aus.', 'wpenon' ),
-					'options'     => wpenon_immoticket24_get_lueftungsanlagen(),
-					'required'    => true,
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::l_info', 'anlage' ),
+				// 'l_baujahr'   => array(
+				// 	'type'                  => 'int',
+				// 	'label'                 => __( 'Baujahr der Lüftungsanlage', 'wpenon' ),
+				// 	'min'                   => 1800,
+				// 	'max'                   => wpenon_get_reference_date( 'Y' ),
+				// 	'required'              => true,
+				// 	'display'               => array(
+				// 		'callback'      => 'wpenon_show_on_array_whitelist',
+				// 		'callback_args' => array( 'field::l_info', 'anlage' ),
+				// 	),
+				// 	'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+				// 	'validate_dependencies' => array( 'baujahr' ),
+				// ),
+				// 'l_standort'  => array(
+				// 	'type'        => 'select',
+				// 	'label'       => __( 'Standort der Lüftungsanlage', 'wpenon' ),
+				// 	'description' => __( 'Wählen Sie den Standort der Lüftungsanlage aus.', 'wpenon' ),
+				// 	'options'     => array(
+				// 		'innerhalb'         => __( 'innerhalb thermischer Hülle', 'wpenon' ),
+				// 		'ausserhalb_dach'   => __( 'Dach, außerhalb thermischer Hülle', 'wpenon' ),
+				// 		'ausserhalb_keller' => __( 'Keller, außerhalb thermischer Hülle', 'wpenon' ),
+				// 	),
+				// 	'required'    => true,
+				// 	'display'     => array(
+				// 		'callback'      => 'wpenon_show_on_array_whitelist',
+				// 		'callback_args' => array( 'field::l_info', 'anlage' ),
+				// 	),
+				// ),				
+				'l_waermerueckgewinnung'      => array(
+					'type'     => 'select',
+					'label'    => __( 'Wärmerückgewinnung', 'wpenon' ),
+					'options'  => array(
+						'0' => __( 'bis 59%', 'wpenon' ),
+						'60' => __( 'bis 79%', 'wpenon' ),
+						'80' => __( 'ab 80%', 'wpenon' ),
 					),
-				),
-				'l_baujahr'   => array(
-					'type'                  => 'int',
-					'label'                 => __( 'Baujahr der Lüftungsanlage', 'wpenon' ),
-					'min'                   => 1800,
-					'max'                   => wpenon_get_reference_date( 'Y' ),
-					'required'              => true,
 					'display'               => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::l_info', 'anlage' ),
+						'callback_args' => array( 'field::l_info', 'intake_and_exhaust' ),
 					),
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
-					'validate_dependencies' => array( 'baujahr' ),
-				),
-				'l_standort'  => array(
-					'type'        => 'select',
-					'label'       => __( 'Standort der Lüftungsanlage', 'wpenon' ),
-					'description' => __( 'Wählen Sie den Standort der Lüftungsanlage aus.', 'wpenon' ),
-					'options'     => array(
-						'innerhalb'         => __( 'innerhalb thermischer Hülle', 'wpenon' ),
-						'ausserhalb_dach'   => __( 'Dach, außerhalb thermischer Hülle', 'wpenon' ),
-						'ausserhalb_keller' => __( 'Keller, außerhalb thermischer Hülle', 'wpenon' ),
-					),
-					'required'    => true,
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::l_info', 'anlage' ),
-					),
+					'required' => true,
 				),
 				'dichtheit'   => array(
 					'type'  => 'checkbox',
