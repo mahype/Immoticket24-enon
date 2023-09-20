@@ -1300,7 +1300,7 @@ $anlage = array(
 				// 		'callback_args' => array( 'field::l_info', 'anlage' ),
 				// 	),
 				// ),				
-				'l_wirkunksgrad'      => array(
+				'l_wirkungsgrad'      => array(
 					'type'     => 'select',
 					'label'    => __( 'Wärmerückgewinnung', 'wpenon' ),
 					'options'  => array(

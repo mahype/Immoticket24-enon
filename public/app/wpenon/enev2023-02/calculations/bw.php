@@ -996,7 +996,7 @@ $luftwechsel = new Luftwechsel(
     lueftungssystem: $energieausweis->l_info,
     bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt, 
     gebaeudedichtheit: $gebaeudedichtheit,
-    wirkunksgrad: (float) $energieausweis->l_wirkunksgradtail
+    wirkunksgrad: (float) $energieausweis->l_wirkungsgrad
 );
 
 $calculations['n0'] = $luftwechsel->n0();
