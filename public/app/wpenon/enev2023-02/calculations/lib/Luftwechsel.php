@@ -180,6 +180,12 @@ class Luftwechsel
         return $rate;
     }
 
+
+    public function ht_max(): float
+    {
+       
+    }
+
     /**
      * Correction factor. 
      * 
