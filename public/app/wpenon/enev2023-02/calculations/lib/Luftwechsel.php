@@ -298,7 +298,7 @@ class Luftwechsel
      */
     public function fwin2() : float
     {
-        if ($this->baujahr > 2002 ) {
+        if ($this->baujahr <= 2002 ) {
             return 1.066;
         }
 
