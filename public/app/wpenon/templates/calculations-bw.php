@@ -56,8 +56,9 @@
 <p class="lead"><?php printf( __( 'Lüftungswärmeverluste H<sub>V</sub>: %s W/K', 'wpenon' ), \WPENON\Util\Format::float( $data['hv'] ) ); ?></p>
 
 <div class="lead" style="background-color: grey; padding:20px;"><strong>NEU 2023</strong><br />
-  <?php printf( __( 'Hüllvolumen %s m<sup>3</sup>', 'wpenon' ), $data['hv_net'] ); ?><br>
+  <?php printf( __( 'Nettohüllvolumen %s m<sup>3</sup>', 'wpenon' ), $data['hv_net'] ); ?><br>
   <?php printf( __( 'A/V rate %s', 'wpenon' ),  $data['av_ratio'] ); ?><br>
+  <?php printf( __( 'Gesamtluftwechsel 𝑛 %s', 'wpenon' ), $data['n'] ); ?><br>
   <?php printf( __( 'Luftwechselrate 𝑛<sub>0</sub> %s', 'wpenon' ), $data['n0'] ); ?><br>
   <?php printf( __( 'Lüftungswärmeverluste H<sub>V</sub>: %s W/K', 'wpenon' ),  $data['hv'] ); ?><br>
   <?php printf( __( 'Korrekturfaktor  fwin1 %s', 'wpenon' ),  $data['fwin1'] ); ?><br>
