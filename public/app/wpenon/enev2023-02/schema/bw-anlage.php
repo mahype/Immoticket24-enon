@@ -1314,6 +1314,14 @@ $anlage = array(
 					),
 					'required' => true,
 				),
+				'l_bedarfsgefuehrt'      => array(
+					'type'  => 'checkbox',
+					'label' => __( 'Ist die Lüftungsanlage bedarfsgeführt?', 'wpenon' ),
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::l_info', array( 'zu_abluft', 'abluft' ) ),
+					),
+				),
 				'dichtheit'   => array(
 					'type'  => 'checkbox',
 					'label' => __( 'Wurde eine Dichtheitsprüfung (z.B. Blower-Door-Test) erfolgreich durchgeführt?', 'wpenon' ),

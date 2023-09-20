@@ -994,7 +994,7 @@ $luftwechsel = new Luftwechsel(
     huellflaeche: $calculations['huellflaeche'],
     nettovolumen: $hv_net,
     lueftungssystem: $energieausweis->l_info,
-    bedarfsgefuehrt: $energieausweis->l_info === 'zu_abluft', 
+    bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt, 
     gebaeudedichtheit: $gebaeudedichtheit,
     wirkunksgrad: (float) $energieausweis->l_wirkunksgradtail
 );
@@ -1098,8 +1098,7 @@ foreach ( $monate as $monat => $monatsdaten ) {
                     'keysize'   => 30,
                     'value'     => $monatsdaten->$str30,
                     ),
-                    array(
-                    'keysize'   => 45,
+#                    'keysize'   => 45,
                     'value'     => $monatsdaten->$str45,
                     ),
                     array(
@@ -1110,7 +1109,6 @@ foreach ( $monate as $monat => $monatsdaten ) {
                     'keysize'   => 90,
                     'value'     => $monatsdaten->$str90,
                     ),
-                    ) 
                 );
             } elseif ($winkel >= 90.0 ) {
                 $str90 = 'w_' . $data['richtung'] . '90';
