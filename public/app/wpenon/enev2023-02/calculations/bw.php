@@ -87,10 +87,10 @@ foreach ( $to_calculate as $wand => $data ) {
 unset($data);
 unset($to_calculate);
 
-$drempel_hoehe = 0; // NEUES FELD
+$kniestock_hoehe = 0; // NEUES FELD
 
 $geschosshoehe = $energieausweis->geschoss_hoehe + 0.25;
-$wandhoehe = $energieausweis->geschoss_zahl * $geschosshoehe + 0.25 + $drempel_hoehe; // NEU
+$wandhoehe = $energieausweis->geschoss_zahl * $geschosshoehe + 0.25 + $kniestock_hoehe; // NEU
 
 $grundflaeche = 0.0;
 foreach ( $flaechenberechnungsformel as $index => $_produkt ) {
@@ -145,91 +145,6 @@ case 'fachwerk':
 }
 
 
-/**
- * Drempel und Dachwandberechnung.
- */
-$drempel_hoehe = 0;
-$dach_hoehe = $energieausweis->dach_hoehe;
-
-if( $energieausweis->drempel_hoehe > 0 ) {
-    $drempel_hoehe = $energieausweis->drempel_hoehe;
-    $dach_hoehe = $energieausweis->dach_hoehe - $energieausweis->drempel_hoehe;
-}
-
-
-switch ( $energieausweis->dach_form ) {
-case 'satteldach':  
-    switch( $energieausweis->grundriss_form ) {
-    case 'a':
-        // Wenn Wand A länger als Wand B, dann ist Wand A die Traufseite.
-        if($wand_a_laenge > $wand_b_laenge ) {
-            $dach_wand_flaeche['a'] = $dach_wand_flaeche['c'] = $wand_a_laenge * $drempel_hoehe;
-            $dach_wand_flaeche['b'] = $dach_wand_flaeche['d'] = $wand_b_laenge * $drempel_hoehe + 0.5 * $wand_b_laenge * $dach_hoehe;
-        } else {
-            $dach_wand_flaeche['a'] = $dach_wand_flaeche['c'] = $wand_a_laenge * $drempel_hoehe + 0.5 * $wand_a_laenge * $dach_hoehe;
-            $dach_wand_flaeche['b'] = $dach_wand_flaeche['d'] = $wand_b_laenge * $drempel_hoehe;
-        }
-        break;               
-    case 'b':
-        $dach_wand_flaeche['a'] = $wand_a_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['b'] = $wand_b_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['c'] = $wand_c_laenge * $drempel_hoehe + 0.5 * $wand_c_laenge * $dach_hoehe;
-        $dach_wand_flaeche['d'] = $wand_d_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['e'] = $wand_e_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['f'] = $wand_f_laenge * $drempel_hoehe + 0.5 * $wand_f_laenge * $dach_hoehe;
-        break;
-    case 'c':
-        $dach_wand_flaeche['a'] = $wand_a_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['b'] = $wand_b_laenge * $drempel_hoehe + 0.5 * $wand_b_laenge * $dach_hoehe;
-        $dach_wand_flaeche['c'] = $wand_c_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['d'] = $wand_d_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['e'] = $wand_e_laenge * $drempel_hoehe + 0.5 * $wand_e_laenge * $dach_hoehe;
-        $dach_wand_flaeche['f'] = $wand_f_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['g'] = $wand_g_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['h'] = $wand_h_laenge * $drempel_hoehe + 0.5 * $wand_h_laenge * $dach_hoehe;
-        break;
-    case 'd':      
-        $dach_wand_flaeche['a'] = $wand_a_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['b'] = $wand_b_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['c'] = $wand_c_laenge * $drempel_hoehe + 0.5 * $wand_c_laenge * $dach_hoehe;
-        $dach_wand_flaeche['d'] = $wand_d_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['e'] = $wand_e_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['f'] = $wand_f_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['g'] = $wand_g_laenge * $drempel_hoehe + 0.5 * $wand_g_laenge * $dach_hoehe;
-        $dach_wand_flaeche['h'] = $wand_h_laenge * $drempel_hoehe;
-        break;
-    }
-    break;
-case 'pultdach':
-    switch( $energieausweis->grundriss_form ) {
-    case 'a':
-        // Wenn Wand A länger als Wand B, dann ist Wand A die Traufseite.
-        if($wand_a_laenge > $wand_b_laenge ) {
-            $dach_wand_flaeche['a'] = $wand_a_laenge * ( $dach_hoehe + $drempel_hoehe );
-            $dach_wand_flaeche['b'] = $dach_wand_flaeche['d'] = $wand_b_laenge * $drempel_hoehe + 0.25 * $wand_b_laenge * $dach_hoehe;
-            $dach_wand_flaeche['c'] = $wand_c_laenge * $drempel_hoehe;
-        }else{
-            $dach_wand_flaeche['b'] = $wand_b_laenge * $dach_hoehe;
-            $dach_wand_flaeche['a'] = $dach_wand_flaeche['c'] = $wand_a_laenge * $drempel_hoehe + 0.25 * $wand_a_laenge * $dach_hoehe;
-            $dach_wand_flaeche['d'] = $wand_d_laenge * $drempel_hoehe;
-        }
-        break;
-    case 'b':
-        $dach_wand_flaeche['a'] = $wand_a_laenge * ( $dach_hoehe + $drempel_hoehe );
-        $dach_wand_flaeche['b'] = $wand_b_laenge * ( $dach_hoehe + $drempel_hoehe );
-        $dach_wand_flaeche['c'] = $wand_c_laenge * $drempel_hoehe + 0.5 * $wand_c_laenge * $dach_hoehe;
-        $dach_wand_flaeche['d'] = $wand_d_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['e'] = $wand_e_laenge * $drempel_hoehe;
-        $dach_wand_flaeche['f'] = $wand_f_laenge * $drempel_hoehe + 0.5 * $wand_f_laenge * $dach_hoehe;
-        break;
-    case 'c':
-        // T - Form - Wobei beim T die Wand d die Traufseite ist.
-
-      
-    }
-    break;
-}
-
 $wandlaenge = 0.0;
 $calculations['wandrichtungen'] = array();
 foreach ( $grundriss_form as $wand => $data ) {
@@ -238,6 +153,12 @@ foreach ( $grundriss_form as $wand => $data ) {
     $wandlaenge += $$l_slug;    
 
     if (! $energieausweis->$n_slug ) {
+        $flaeche = $$l_slug * $wandhoehe;
+
+        if( isset( $dach_wand_flaeche[$wand] ) ) {
+            $flaeche += $dach_wand_flaeche[$wand];
+        }
+
         $d_slug = 'wand_' . $wand . '_daemmung';
         $calculations['bauteile'][ 'wand_' . $wand ] = array(
         'name'          => sprintf(__('Außenwand %s', 'wpenon'), $wand),
@@ -246,7 +167,7 @@ foreach ( $grundriss_form as $wand => $data ) {
         'bauart'        => $wand_bauart,
         'baujahr'       => $energieausweis->baujahr,
         'richtung'      => $hr_mappings[ $data[1] ],
-        'a'             => $$l_slug * $wandhoehe + $dach_wand_flaeche[$wand],
+        'a'             => $flaeche,
         'd'             => $energieausweis->$d_slug,
         );
         if (! isset($calculations['wandrichtungen'][ $calculations['bauteile'][ 'wand_' . $wand ]['richtung'] ]) ) {
@@ -736,6 +657,11 @@ case 'beheizt':
         if (isset($calculations['bauteile'][ 'wand_' . $wand ]) ) {
             $calculations['bauteile'][ 'wand_' . $wand ]['a'] += $flaeche;
         }
+    }
+    if( $energieausweis->kniestock_hoehe > 0 ) {    
+        foreach( $grundriss_form as $wand => $data ) {
+            $calculations['bauteile'][ 'wand_' . $wand ]['a'] += $energieausweis->kniestock_hoehe * $energieausweis->{'wand_' . $wand . '_laenge'};
+        }    
     }
 
     $calculations['bauteile']['dach'] = array(

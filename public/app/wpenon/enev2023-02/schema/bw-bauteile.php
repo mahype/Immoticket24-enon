@@ -807,6 +807,18 @@ $bauteile = array(
 						'callback_args' => array( 'field::dach', 'beheizt' ),
 					),
 				),
+				'kniestock_hoehe'         => array(
+					'type'        => 'float_length',
+					'label'       => __( 'Kniestockhöhe', 'wpenon' ),
+					'description' => __( 'Geben Sie die Höhe der Wand unter dem Dach an.', 'wpenon' ),
+					'default'     => 0,
+					'max'         => 3,
+					'unit'        => 'm',
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::dach', 'beheizt' ),
+					),
+				),
 				'dach_bauart'        => array(
 					'type'        => 'select',
 					'label'       => __( 'Dachbauart', 'wpenon' ),
