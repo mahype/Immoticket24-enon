@@ -183,7 +183,7 @@ class Luftwechsel
 
     public function ht_max(): float
     {
-       
+       return 0.0;
     }
 
     /**

@@ -1012,7 +1012,7 @@ $hv_mpk2 = $luftwechsel->hv();
 // Ende Luftwechsel neu
 
 $calculations['hv'] += $luftwechsel->hv();
-$calculations['ht_max'] = $luftwechsel->ht_max();
+// $calculations['ht_max'] = $luftwechsel->ht_max();
 $calculations['hv_reference'] += $hv_mpk1 * $calculations['huellvolumen'] * 0.55 * 0.34;
 
 $calculations['h'] = $calculations['ht'] + $calculations['hv'];
