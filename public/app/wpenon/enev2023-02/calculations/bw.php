@@ -987,7 +987,7 @@ if ($energieausweis->dichtheit ) {
 }
 
 // Netto Hüllvolumen
-$hv_net = $energieausweis->geschoss_zahl < 4 ? 0.76 * $calculations['huellflaeche']: 0.8 * $calculations['huellflaeche'];
+$hv_net = $energieausweis->geschoss_zahl < 4 ? 0.76 * $calculations['huellvolumen']: 0.8 * $calculations['huellvolumen'];
 
 $luftwechsel = new Luftwechsel(
     baujahr: $energieausweis->baujahr,
@@ -1003,7 +1003,7 @@ $calculations['n0'] = $luftwechsel->n0();
 $calculations['n'] = $luftwechsel->n();
 $calculations['hv_net'] = $hv_net;
 $calculations['av_ratio'] = $luftwechsel->av_ratio();
-$calculations['hv_neu'] = $luftwechsel->hv();
+$calculations['hv'] = $luftwechsel->hv();
 $calculations['fwin1'] = $luftwechsel->fwin1();
 $calculations['fwin2'] = $luftwechsel->fwin2();
 
@@ -1012,6 +1012,7 @@ $hv_mpk2 = $luftwechsel->hv();
 // Ende Luftwechsel neu
 
 $calculations['hv'] += $luftwechsel->hv();
+$calculations['ht_max'] = $luftwechsel->ht_max();
 $calculations['hv_reference'] += $hv_mpk1 * $calculations['huellvolumen'] * 0.55 * 0.34;
 
 $calculations['h'] = $calculations['ht'] + $calculations['hv'];
