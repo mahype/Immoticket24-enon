@@ -813,7 +813,6 @@ $bauteile = array(
 					'description' => __( 'Geben Sie die Höhe der Wand unter dem Dach an.', 'wpenon' ),
 					'default'     => 0,
 					'max'         => 3,
-					'required'    => true,
 					'unit'        => 'm',
 					'display'     => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
