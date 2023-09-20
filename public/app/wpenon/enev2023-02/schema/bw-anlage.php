@@ -1266,9 +1266,9 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Lüftungsanlage', 'wpenon' ),
 					'options'  => array(
-						'none' => __( 'Keine', 'wpenon' ),
-						'intake_and_exhaust'  => __( 'Zu- und Abluftalage', 'wpenon' ),
-						'exhaust'  => __( 'Abluftanlage', 'wpenon' ),
+						'ohne' => __( 'Keine', 'wpenon' ),
+						'zu_abluft'  => __( 'Zu- und Abluftalage', 'wpenon' ),
+						'abluft'  => __( 'Abluftanlage', 'wpenon' ),
 					),
 					'required' => true,
 				),
@@ -1300,7 +1300,7 @@ $anlage = array(
 				// 		'callback_args' => array( 'field::l_info', 'anlage' ),
 				// 	),
 				// ),				
-				'l_waermerueckgewinnung'      => array(
+				'l_wirkunksgrad'      => array(
 					'type'     => 'select',
 					'label'    => __( 'Wärmerückgewinnung', 'wpenon' ),
 					'options'  => array(
@@ -1310,7 +1310,7 @@ $anlage = array(
 					),
 					'display'               => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::l_info', 'intake_and_exhaust' ),
+						'callback_args' => array( 'field::l_info', 'zu_abluft' ),
 					),
 					'required' => true,
 				),

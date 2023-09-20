@@ -4,7 +4,7 @@ require_once 'lib/Extension.php';
 require_once 'lib/Extension_Form_A.php';
 require_once 'lib/Extension_Form_B.php';
 
-require_once 'lib/Air_Exchange.php';
+require_once 'lib/Luftwechsel.php';
 
 $tableNames = new stdClass();
 
@@ -87,10 +87,8 @@ foreach ( $to_calculate as $wand => $data ) {
 unset($data);
 unset($to_calculate);
 
-$kniestock_hoehe = 0; // NEUES FELD
-
 $geschosshoehe = $energieausweis->geschoss_hoehe + 0.25;
-$wandhoehe = $energieausweis->geschoss_zahl * $geschosshoehe + 0.25 + $kniestock_hoehe; // NEU
+$wandhoehe = $energieausweis->geschoss_zahl * $geschosshoehe + 0.25 + $this->energieausweis->kniestock_hoehe; // NEU
 
 $grundflaeche = 0.0;
 foreach ( $flaechenberechnungsformel as $index => $_produkt ) {
@@ -970,10 +968,6 @@ $calculations['ave_verhaeltnis'] = $calculations['huellflaeche'] / $calculations
 
 $calculations['hv'] = 0.0;
 $calculations['hv_reference'] = 0.0;
-$hv_mpk1 = 0.8;
-if ($energieausweis->geschoss_zahl < 4 ) {
-    $hv_mpk1 = 0.76;
-}
 
 $hv_mpk2 = 0.55;
 if ($energieausweis->l_info != 'anlage' ) {
@@ -987,33 +981,37 @@ if ($energieausweis->l_info != 'anlage' ) {
 /**
  * Luftwechsel neu
  */
-$density_category = 'andere';
+$gebaeudedichtheit = 'andere';
 if ($energieausweis->dichtheit ) {
-    $density_category = 'din_4108_7';
+    $gebaeudedichtheit = 'din_4108_7';
 }
 
-$air_exchange = new Air_Exchange(
-    building_year: $energieausweis->baujahr,
-    building_envelop_area: $calculations['huellflaeche'],
-    building_volume_net: $calculations['huellvolumen'],
-    air_system: $energieausweis->l_info,
-    air_system_demand_based: $energieausweis->l_info === 'intake_and_exhaust', 
-    density_category: $density_category,
-    efficiency: (float) $energieausweis->l_waermerueckgewinnung
+// Netto Hüllvolumen
+$hv_net = $energieausweis->geschoss_zahl < 4 ? 0.76 * $calculations['huellflaeche']: 0.8 * $calculations['huellflaeche'];
+
+$luftwechsel = new Luftwechsel(
+    baujahr: $energieausweis->baujahr,
+    huellflaeche: $calculations['huellflaeche'],
+    nettovolumen: $hv_net,
+    lueftungssystem: $energieausweis->l_info,
+    bedarfsgefuehrt: $energieausweis->l_info === 'zu_abluft', 
+    gebaeudedichtheit: $gebaeudedichtheit,
+    wirkunksgrad: (float) $energieausweis->l_wirkunksgradtail
 );
 
-$calculations['n0'] = $air_exchange->n0();
-$calculations['n'] = $air_exchange->n();
-$calculations['av_ratio'] = $air_exchange->av_ratio();
-$calculations['hv_neu'] = $air_exchange->hv();
-$calculations['fwin1'] = $air_exchange->fwin1();
-$calculations['fwin2'] = $air_exchange->fwin2();
+$calculations['n0'] = $luftwechsel->n0();
+$calculations['n'] = $luftwechsel->n();
+$calculations['hv_net'] = $hv_net;
+$calculations['av_ratio'] = $luftwechsel->av_ratio();
+$calculations['hv_neu'] = $luftwechsel->hv();
+$calculations['fwin1'] = $luftwechsel->fwin1();
+$calculations['fwin2'] = $luftwechsel->fwin2();
 
-$hv_mpk2 = $air_exchange->hv();
+$hv_mpk2 = $luftwechsel->hv();
 
 // Ende Luftwechsel neu
 
-$calculations['hv'] += $hv_mpk1 * $calculations['huellvolumen'] * $hv_mpk2 * 0.34;
+$calculations['hv'] += $luftwechsel->hv();
 $calculations['hv_reference'] += $hv_mpk1 * $calculations['huellvolumen'] * 0.55 * 0.34;
 
 $calculations['h'] = $calculations['ht'] + $calculations['hv'];
