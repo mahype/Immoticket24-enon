@@ -10,26 +10,18 @@ require_once __DIR__ . '/Math.php';
 class Luftwechsel
 {
     /**
-     * Building year.
+     * Gebäude.
      * 
-     * @var float
+     * @var Gebaeude
      */
-    protected float $baujahr;
-
+    protected Gebaeude $gebaeude;
+    
     /**
-     * Building volume net.
+     * Wärmetransferkoeffizent aller Bauteile der Gebäudehülle.
      * 
      * @var float
      */
-    protected float $nettovolumen;
-
-    /**
-     * Building envelop area.
-     * 
-     * @var float
-     */
-    protected float $huellflaeche;
-
+    protected float $ht;
 
     /**
      * Air system.
@@ -63,47 +55,116 @@ class Luftwechsel
      * Constructor.
      * 
      * @param float     $baujahr           Baujahr des Gebäudes.
-     * @param float     $nettovolumen      Nettovoltaum des Gebäudes.
+     * @param float     $hv_net            Nettovolumen des Gebäudes.
+     * @param float|int $ht                Wärmetransferkoeffizent aller Bauteile der Gebäudehülle.
      * @param string    $lueftungssystem   Lüftungsyystemn (zu_abluft, abluft,ohne).
      * @param string    $gebaeudedichtheit Kategorie der Gebäudedichtheit (din_4108_7, ohne, andere, undichtheiten).
      * @param float|int $huellflaeche      Hüllfläche des Gebäudes.
      * @param bool      $bedarfsgefuehrt   Ist das Lüftungssystem bedarfsgeführt?
      * @param float|int $wirkunksgrad      Der Wirklungsgrad der wärmerückgewinnung (nur bei Zu- und Abluft)
-     * 
-     * @throws Exception 
      */
     public function __construct(
-        float $baujahr,
-        float $nettovolumen,
+        Gebaeude $gebaeude,
+        float $ht,
         string $lueftungssystem,
         string $gebaeudedichtheit,
-        float $huellflaeche = 0,
         bool $bedarfsgefuehrt = false, 
-        float $wirkunksgrad = 0 
+        float $wirkunksgrad = 0,
     ) {
-        $this->baujahr = $baujahr;
-        $this->nettovolumen = $nettovolumen;
-        $this->huellflaeche = $huellflaeche;
+        $this->gebaeude = $gebaeude;
+        $this->ht = $ht;
         $this->lueftungssystem = $lueftungssystem;
         $this->bedarfsgefuehrt = $bedarfsgefuehrt;
         $this->gebaeudedichtheit = $gebaeudedichtheit;
         $this->wirkunksgrad = $wirkunksgrad;
     }
 
-     /**
-      * Air exchange volumen (Hv ges = 𝑛 × 𝑐 × 𝑝 × 𝑉).
-      * 
-      * @return float
-      *  
-      * @throws Exception 
-      */
-    public function hv()
+    /**
+     * Maximale Heizlast.
+     * 
+     * @return float 
+     */
+    public function ht_max() : float
     {
-        return $this->n() * 0.34 * $this->nettovolumen;
+        switch( $this->lueftungssystem ) {
+        case 'zu_abluft':
+        case 'abluft':
+            return ( $this->ht + $this->hv() - 0.5 * 0.34 * $this->gebaeude->huellvolumen_netto() * ( $this->n_wrg() - $this->n_anl() ) ) * 32; 
+        case 'ohne':
+            return ( $this->ht + 0.5 * $this->hv() ) * 32;       
+        }
     }
 
     /**
-     * Air exchange rate (Hv).
+     * Spezifische Heizlast
+     * 
+     * @return float 
+     */
+    public function ht_max_spezifisch() : float {
+        return $this->ht_max() / $this->gebaeude->nutzflaeche();
+    }
+
+    public function n_wrg() : float {
+        if($this->gebaeude->huellvolumen_netto() <= 1500 ) {                        
+            return (float) $this->nwrg_small_buildings();
+        } else {
+            return (float) $this->nwrg_large_buildings();
+        }
+    }
+
+    protected function nwrg_small_buildings() {
+        $column_name  = $this->column_name(wirkunksgrad_slug:'ab_0');
+        $results = wpenon_get_table_results('l_luftwechsel_klein' );
+        $rate = $results[$this->gebaeudedichtheit]->{$column_name};
+        return $rate;
+    }
+
+
+    protected function nwrg_large_buildings() {
+        $column_name = $this->column_name(wirkunksgrad_slug:'ab_0');
+
+        $results = wpenon_get_table_results('l_luftwechsel_gross');
+
+        $ratio_keys = ['02','04', '06', '08'];
+        $ratios = [];
+
+        foreach($ratio_keys as $ratio_key) {
+            $ratios[] = $results[ $this->gebaeudedichtheit . '_' . $ratio_key]->{$column_name};
+        }
+
+        $rate = interpolate_value(
+            $this->gebaeude->av_ratio(),
+            [0.2, 0.4, 0.6, 0.8],
+            $ratios
+        );
+
+        return $rate;
+    }
+
+    public function n_anl() {
+        switch ($this->lueftungssystem) {
+            case 'zu_abluft':
+            case 'abluft':
+                return $this->bedarfsgefuehrt ? 0.35: 0.4;
+            case 'none':
+                return 0;
+        }                
+    }
+
+    /**
+     * Air exchange volumen (Hv ges = 𝑛 × 𝑐 × 𝑝 × 𝑉).
+     * 
+     * @return float
+     *  
+     * @throws Exception 
+     */
+    public function hv()
+    {
+        return $this->n() * 0.34 * $this->gebaeude->huellvolumen_netto();
+    }
+
+    /**
+     * Luftwechselrate (Hv).
      * 
      * @return float
      *  
@@ -115,23 +176,13 @@ class Luftwechsel
     }
 
     /**
-     * Envelope volume ratio.
-     * 
-     * @return float 
-     */
-    public function av_ratio(): float
-    {
-        return $this->huellflaeche / $this->nettovolumen;
-    }
-
-    /**
-     * Air exchange rate.
+     * Luftwechselrate (n0).
      * 
      * @return float
      */
     public function n0(): float
     {
-        if($this->nettovolumen <= 1500 ) {                        
+        if($this->gebaeude->huellvolumen_netto() <= 1500 ) {                        
             return $this->n0_small_buildings();
         } else {
             return $this->n0_large_buildings();
@@ -139,7 +190,7 @@ class Luftwechsel
     }
 
     /**
-     * Air exchange rate for small buildings (up to 1500m³).
+     * Luftwechselrate bei Gebäuden bis zu 1500m³.
      * 
      * @return float
      */
@@ -154,7 +205,7 @@ class Luftwechsel
     }
 
     /**
-     * Air exchange rate for large buildings (larger than 1500m³).
+     * Luftwechselrate bei Gebäuden größer als 1500m³.
      * 
      * @return float 
      */
@@ -172,28 +223,22 @@ class Luftwechsel
         }
 
         $rate = interpolate_value(
-            $this->av_ratio(),
+            $this->gebaeude->av_ratio(),
             [0.2, 0.4, 0.6, 0.8],
             $ratios
         );
 
         return $rate;
-    }
-
-
-    public function ht_max(): float
-    {
-       return 0.0;
-    }
+    }        
 
     /**
-     * Correction factor. 
+     * Korrekturfaktor fwin1.
      * 
      * @return float
      */
     public function fwin1() : float
     {
-        if($this->nettovolumen <= 1500 ) {                        
+        if($this->gebaeude->huellvolumen_netto() <= 1500 ) {                        
             return $this->fwin1_small_buildings();
         } else {
             return $this->fwin1_large_buildings();
@@ -201,7 +246,7 @@ class Luftwechsel
     }
 
     /**
-     * Correction factor for air exchange rate for small buildings (up to 1500m³).
+     * Korrekturfaktor bei Gebäuden bis zu 1500m³.
      * 
      * @throws Exception 
      */
@@ -216,7 +261,7 @@ class Luftwechsel
     }
 
     /**
-     * Correction factor for air exchange rate for large buildings (larger than 1500m³).
+     * Korrekturfaktor bei Gebäuden größer als 1500m³.
      * 
      * @return float 
      */
@@ -234,7 +279,7 @@ class Luftwechsel
         }
 
         $factor = interpolate_value(
-            $this->av_ratio(),
+            $this->gebaeude->av_ratio(),
             [0.2, 0.4, 0.6, 0.8],
             $ratios
         );
@@ -243,12 +288,12 @@ class Luftwechsel
     }
 
     /**
-     * Get column name for the given air system.
+     * Spalte in der Tabelle.
      * 
      * @return string 
      * @throws Exception 
      */
-    protected function column_name()
+    protected function column_name( string $wirkunksgrad_slug = null )
     {
         switch( $this->lueftungssystem ) {
         case 'zu_abluft':
@@ -274,6 +319,10 @@ class Luftwechsel
             return $column_name;
         }
 
+        if( $wirkunksgrad_slug !== null ) {
+            return $column_name . '_' . $wirkunksgrad_slug;
+        }
+
         if($this->wirkunksgrad < 60 ) {
             $column_name .= '_ab_0';
         } elseif($this->wirkunksgrad < 80 ) {
@@ -288,17 +337,13 @@ class Luftwechsel
     }
 
     /**
-     * Correction factor seasonal.
-     * 
-     * (Temperaturkorrekturfaktor für Luftwechselrate saisonal - fwin2).
-     * 
-     * @param int $baujahr Building year of the building.
+     * Saisinaler Korrekturfaktor fwin2.
      * 
      * @return float 
      */
     public function fwin2() : float
     {
-        if ($this->baujahr <= 2002 ) {
+        if ($this->gebaeude->baujahr() <= 2002 ) {
             return 1.066;
         }
 
