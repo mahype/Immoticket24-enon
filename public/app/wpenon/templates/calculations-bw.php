@@ -56,13 +56,19 @@
 <p class="lead"><?php printf( __( 'Lüftungswärmeverluste H<sub>V</sub>: %s W/K', 'wpenon' ), \WPENON\Util\Format::float( $data['hv'] ) ); ?></p>
 
 <div class="lead" style="background-color: grey; padding:20px;"><strong>NEU 2023</strong><br />
-  <?php printf( __( 'Nettohüllvolumen %s m<sup>3</sup>', 'wpenon' ), $data['hv_net'] ); ?><br>
+  <?php printf( __( 'Nutzfläche %s m<sup>2</sup>', 'wpenon' ), $data['nutzflaeche'] ); ?><br>
+  <?php printf( __( 'Nettohüllvolumen %s m<sup>3</sup>', 'wpenon' ), $data['huellvolumen_netto'] ); ?><br>
   <?php printf( __( 'A/V rate %s', 'wpenon' ),  $data['av_ratio'] ); ?><br>
   <?php printf( __( 'Gesamtluftwechsel 𝑛 %s', 'wpenon' ), $data['n'] ); ?><br>
   <?php printf( __( 'Luftwechselrate 𝑛<sub>0</sub> %s', 'wpenon' ), $data['n0'] ); ?><br>
   <?php printf( __( 'Lüftungswärmeverluste H<sub>V</sub>: %s W/K', 'wpenon' ),  $data['hv'] ); ?><br>
   <?php printf( __( 'Korrekturfaktor  fwin1 %s', 'wpenon' ),  $data['fwin1'] ); ?><br>
   <?php printf( __( 'Saisonaler Korrekturfaktor fwin2 %s', 'wpenon' ),$data['fwin2'] ); ?><br>
+  <?php printf( __( 'ht %s', 'wpenon' ),$data['ht'] ); ?><br>
+  <?php printf( __( 'N<sub>anl</sub> %s', 'wpenon' ),$data['n_anl'] ); ?><br>
+  <?php printf( __( 'N<sub>wrg</sub> %s', 'wpenon' ),$data['n_wrg'] ); ?><br>
+  <?php printf( __( 'Maximale Heizlast %s', 'wpenon' ),$data['ht_max'] ); ?><br>
+  <?php printf( __( 'Spezifische Heizlast %s', 'wpenon' ),$data['ht_max_spezifisch'] ); ?><br>
 </div>
 
 <?php wpenon_get_view()->displaySubTemplate( 'table-row', '', array(

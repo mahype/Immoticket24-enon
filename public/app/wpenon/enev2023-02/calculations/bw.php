@@ -4,6 +4,7 @@ require_once 'lib/Extension.php';
 require_once 'lib/Extension_Form_A.php';
 require_once 'lib/Extension_Form_B.php';
 
+require_once 'lib/Gebaeude.php';
 require_once 'lib/Luftwechsel.php';
 
 $tableNames = new stdClass();
@@ -979,6 +980,17 @@ if ($energieausweis->l_info != 'anlage' ) {
 }
 
 /**
+ * Gebäude.
+ */
+$gebaeude = new Gebaeude(
+    $energieausweis->baujahr,
+    $energieausweis->geschoss_zahl,
+    $energieausweis->geschoss_hoehe,
+    $calculations['huellflaeche'],
+    $calculations['huellvolumen']
+);
+
+/**
  * Luftwechsel neu
  */
 $gebaeudedichtheit = 'andere';
@@ -986,31 +998,34 @@ if ($energieausweis->dichtheit ) {
     $gebaeudedichtheit = 'din_4108_7';
 }
 
-// Netto Hüllvolumen
-$hv_net = $energieausweis->geschoss_zahl < 4 ? 0.76 * $calculations['huellvolumen']: 0.8 * $calculations['huellvolumen'];
-
 $luftwechsel = new Luftwechsel(
-    baujahr: $energieausweis->baujahr,
-    huellflaeche: $calculations['huellflaeche'],
-    nettovolumen: $hv_net,
+    gebaeude: $gebaeude,
+    ht: $calculations['ht'],
     lueftungssystem: $energieausweis->l_info,
     bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt, 
     gebaeudedichtheit: $gebaeudedichtheit,
     wirkunksgrad: (float) $energieausweis->l_wirkungsgrad
 );
 
-$calculations['n0'] = $luftwechsel->n0();
-$calculations['n'] = $luftwechsel->n();
-$calculations['hv_net'] = $hv_net;
-$calculations['av_ratio'] = $luftwechsel->av_ratio();
-$calculations['hv'] = $luftwechsel->hv();
+$calculations['huellvolumen_netto'] = $gebaeude->huellvolumen_netto();
+$calculations['nutzflaeche'] = $gebaeude->nutzflaeche();
+$calculations['av_ratio'] = $gebaeude->av_ratio();
+
 $calculations['fwin1'] = $luftwechsel->fwin1();
 $calculations['fwin2'] = $luftwechsel->fwin2();
+$calculations['n0'] = $luftwechsel->n0();
+
+$calculations['n'] = $luftwechsel->n();
+$calculations['hv'] = $luftwechsel->hv();
+
+$calculations['n_anl'] = $luftwechsel->n_anl();
+$calculations['n_wrg'] = $luftwechsel->n_wrg();
+$calculations['ht_max'] = $luftwechsel->ht_max();
+$calculations['ht_max_spezifisch'] = $luftwechsel->ht_max_spezifisch();
 
 $hv_mpk2 = $luftwechsel->hv();
 
 // Ende Luftwechsel neu
-// $calculations['ht_max'] = $luftwechsel->ht_max();
 $calculations['hv_reference'] += $hv_mpk1 * $calculations['huellvolumen'] * 0.55 * 0.34;
 
 $calculations['h'] = $calculations['ht'] + $calculations['hv'];
@@ -1020,7 +1035,7 @@ $calculations['h_reference'] = $calculations['ht_reference'] + $calculations['hv
  * HEIZWÄRMEBEDARF
  *************************************************/
 
-$calculations['cwirk'] = ( $energieausweis->wand_bauart == 'holz' ? 15 : 50 ) * $calculations['huellvolumen'];
+$calculations['cwirk'] = 50;
 $calculations['cwirk_reference'] = 50 * $calculations['huellvolumen'];
 $calculations['tau'] = $calculations['cwirk'] / $calculations['h'];
 $calculations['tau_reference'] = $calculations['cwirk_reference'] / $calculations['h_reference'];
@@ -1129,6 +1144,7 @@ foreach ( $monate as $monat => $monatsdaten ) {
     $calculations['monate'][ $monat ]['gamma_reference'] = $calculations['monate'][ $monat ]['qg_reference'] / ( $calculations['monate'][ $monat ]['ql_reference'] > 0.0 ? $calculations['monate'][ $monat ]['ql_reference'] : 1.0 );
     $calculations['monate'][ $monat ]['my'] = 0.0;
     $calculations['monate'][ $monat ]['my_reference'] = 0.0;
+    
     if ($calculations['monate'][ $monat ]['gamma'] == 1.0 ) {
         $calculations['monate'][ $monat ]['my'] = $calculations['faktor_a'] / ( $calculations['faktor_a'] + 1.0 );
     } else {
