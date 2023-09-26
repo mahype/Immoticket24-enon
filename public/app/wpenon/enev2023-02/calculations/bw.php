@@ -30,6 +30,7 @@ $calculations['reference'] = 125;
 $calculations['bauteile'] = array();
 $calculations['volumenteile'] = array();
 
+// Definition & Mapping Himmelsrichtung anhand der gesetzen Himmelsrichtung von Wand a.
 $himmelsrichtungen = array_keys(wpenon_immoticket24_get_himmelsrichtungen());
 $hr_nullrichtung = array_search($energieausweis->grundriss_richtung, $himmelsrichtungen);
 $hr_mappings = array();
@@ -37,6 +38,7 @@ for ( $i = 0; $i < 4; $i++ ) {
     $hr_mappings[] = $himmelsrichtungen[ ( $hr_nullrichtung + 2 * $i ) % 8 ];
 }
 
+// Reset der Wandlängen
 $wand_a_laenge = $wand_b_laenge = $wand_c_laenge = $wand_d_laenge = $wand_e_laenge = $wand_f_laenge = $wand_g_laenge = $wand_h_laenge = 0.0;
 
 $grundriss_formen = wpenon_immoticket24_get_grundriss_formen();
@@ -44,6 +46,7 @@ $grundriss_form = $grundriss_formen['a'];
 if (isset($grundriss_formen[ $energieausweis->grundriss_form ]) ) {
     $grundriss_form = $grundriss_formen[ $energieausweis->grundriss_form ];
 }
+
 $flaechenberechnungsformel = $grundriss_form['fla'];
 unset($grundriss_form['fla']);
 
@@ -51,12 +54,13 @@ $to_calculate = array();
 foreach ( $grundriss_form as $wand => $data ) {
     if ($data[0] === true ) {
         $l_slug = 'wand_' . $wand . '_laenge';
-        $$l_slug = $energieausweis->$l_slug;
+        $$l_slug = $energieausweis->$l_slug; // Dynamische Variablenzuweisung: $wand_a_laenge = $energieausweis->wand_a_laenge;
     } else {
         $to_calculate[ $wand ] = $data;
     }
 }
 unset($data);
+
 foreach ( $to_calculate as $wand => $data ) {
     $laenge = 0.0;
     $current_operator = '+';
@@ -88,9 +92,13 @@ foreach ( $to_calculate as $wand => $data ) {
 unset($data);
 unset($to_calculate);
 
+// Berechnung der Geschosshöhe
 $geschosshoehe = $energieausweis->geschoss_hoehe + 0.25;
-$wandhoehe = $energieausweis->geschoss_zahl * $geschosshoehe + 0.25 + $this->energieausweis->kniestock_hoehe; // NEU
 
+// Berechnung der Wandhöhe (gesamte Außenwand) inkl. Kniestock
+$wandhoehe = $energieausweis->geschoss_zahl * $geschosshoehe + 0.25 + $this->energieausweis->kniestock_hoehe;
+
+// Flächenberechnung des Grundrisses
 $grundflaeche = 0.0;
 foreach ( $flaechenberechnungsformel as $index => $_produkt ) {
     $produkt = 1.0;
@@ -126,11 +134,13 @@ foreach ( $flaechenberechnungsformel as $index => $_produkt ) {
     $grundflaeche += $produkt;
 }
 
+// Volumenberechnung des Grundrisses
 $calculations['volumenteile']['grundriss'] = array(
   'name'          => __('Grundriss', 'wpenon'),
   'v'             => $grundflaeche * $wandhoehe,
 );
 
+// Definition schwere des Gebäudes
 switch ( $energieausweis->gebaeudekonstruktion ) {
 case 'massiv':
     $wand_bauart = $energieausweis->wand_bauart_massiv;
@@ -143,7 +153,7 @@ case 'fachwerk':
     break;
 }
 
-
+// Sammlung aller Wandflächen des Grundrisses
 $wandlaenge = 0.0;
 $calculations['wandrichtungen'] = array();
 foreach ( $grundriss_form as $wand => $data ) {
@@ -154,7 +164,7 @@ foreach ( $grundriss_form as $wand => $data ) {
     if (! $energieausweis->$n_slug ) {
         $flaeche = $$l_slug * $wandhoehe;
 
-        if( isset( $dach_wand_flaeche[$wand] ) ) {
+        if(isset($dach_wand_flaeche[$wand]) ) {
             $flaeche += $dach_wand_flaeche[$wand];
         }
 
@@ -177,6 +187,8 @@ foreach ( $grundriss_form as $wand => $data ) {
 }
 unset($data);
 
+
+// Sammlung aller Bauteile des Anbaus (falls vorhanden)
 if ($energieausweis->anbau ) {
     $anbauwand_b_laenge = $anbauwand_t_laenge = $anbauwand_s1_laenge = $anbauwand_s2_laenge = 0.0;
 
@@ -197,6 +209,7 @@ if ($energieausweis->anbau ) {
             $to_calculate[ $anbauwand ] = $data;
         }
     }
+
     unset($data);
     foreach ( $to_calculate as $anbauwand => $data ) {
         $laenge = 0.0;
@@ -231,6 +244,7 @@ if ($energieausweis->anbau ) {
 
     $anbauwandhoehe = $energieausweis->anbau_hoehe + 0.25 * 2;
 
+    // Berechnung der Grundfläche des Anbaus
     $anbaugrundflaeche = 0.0;
     foreach ( $anbau_flaechenberechnungsformel as $index => $_produkt ) {
         $produkt = 1.0;
@@ -266,10 +280,12 @@ if ($energieausweis->anbau ) {
         $anbaugrundflaeche += $produkt;
     }
 
+    // Volumenberechnung des Anbaus
     $calculations['volumenteile']['anbau'] = array(
     'name'          => __('Anbau', 'wpenon'),
     'v'             => $anbaugrundflaeche * $anbauwandhoehe,
     );
+
 
     switch( $energieausweis->anbau_form ) {
     case 'a':
@@ -288,6 +304,7 @@ if ($energieausweis->anbau ) {
 
     $anbauwand_bauart_field = 'anbauwand_bauart_' . $energieausweis->gebaeudekonstruktion;
 
+    // Sammlung aller Wandflächen des Anbaus
     $anbauwandlaenge = 0.0;
     $calculations['anbauwandrichtungen'] = array();
     foreach ( $anbau_form as $wand => $data ) {
@@ -313,7 +330,7 @@ if ($energieausweis->anbau ) {
     }
     unset($data);
 
-    // Subtract Anbau overlap from Grundriss manually.
+    // Anbau Überlappungen berechnen
     if (! empty($calculations['wandrichtungen'][ $calculations['bauteile']['anbauwand_t']['richtung'] ]) ) {
         $grundrisswand = $calculations['wandrichtungen'][ $calculations['bauteile']['anbauwand_t']['richtung'] ][0];
         $calculations['bauteile'][ 'wand_' . $grundrisswand ]['a'] -= $calculations['bauteile']['anbauwand_t']['a'] - $calculations['bauteile']['anbauwand_s1']['a'];
@@ -321,6 +338,7 @@ if ($energieausweis->anbau ) {
             $calculations['bauteile'][ 'wand_' . $grundrisswand ]['a'] = 0.0;
         }
     }
+
     if ($anbauwand_s2_laenge < $anbauwand_b_laenge && ! empty($calculations['wandrichtungen'][ $calculations['bauteile']['anbauwand_b']['richtung'] ]) ) {
         $grundrisswand = $calculations['wandrichtungen'][ $calculations['bauteile']['anbauwand_b']['richtung'] ][0];
         $calculations['bauteile'][ 'wand_' . $grundrisswand ]['a'] -= $calculations['bauteile']['anbauwand_b']['a'] - $calculations['bauteile']['anbauwand_s2']['a'];
@@ -329,6 +347,7 @@ if ($energieausweis->anbau ) {
         }
     }
 
+    // Anbau Boden
     $calculations['bauteile']['anbauboden'] = array(
     'name'          => __('Anbau-Boden', 'wpenon'),
     'typ'           => 'boden',
@@ -339,6 +358,7 @@ if ($energieausweis->anbau ) {
     'd'             => $energieausweis->anbauboden_daemmung,
     );
 
+    // Anbau Dach
     $calculations['bauteile']['anbaudach'] = array(
     'name'          => __('Anbau-Dach', 'wpenon'),
     'typ'           => 'dach',
@@ -419,6 +439,7 @@ default:
     );
 }
 
+// Sammlung aller Bauteile des Daches (inkl. Dachflächenberechnung)
 $deckenflaeche = $grundflaeche;
 $dachwinkel_formatted = 0.0;
 switch ( $energieausweis->dach ) {
@@ -661,7 +682,7 @@ case 'beheizt':
             $calculations['bauteile'][ 'wand_' . $wand ]['a'] += $flaeche;
         }
     }
-    if( $energieausweis->kniestock_hoehe > 0 ) {    
+    if($energieausweis->kniestock_hoehe > 0 ) {    
         foreach( $grundriss_form as $wand => $data ) {
             $calculations['bauteile'][ 'wand_' . $wand ]['a'] += $energieausweis->kniestock_hoehe * $energieausweis->{'wand_' . $wand . '_laenge'};
         }    
