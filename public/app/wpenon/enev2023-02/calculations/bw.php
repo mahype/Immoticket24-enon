@@ -888,11 +888,20 @@ if (substr($energieausweis->rollladenkaesten, 0, 6) == 'innen_' ) {
     unset($data);
 }
 
+/**
+ * Ab hier fängt die Abfrage der IST-Größen aus den angehängten Tabellen an und parallel werden die zugehörigen Referenzgrößen hinterlegt.
+ * In den Berechnungen werden scheinbar zuerst die "Soll"-Wert-Größen berchnet und dann direkt danach die Referenzgrößen.
+ *
+ * $fxwerte sind Referenzwerte. $uwerte_reference werden im array Referenz-U-Werte aus dem GeG S.56 berücksichtigt. 
+ * Scheinbar keinen Unterschied alt zu neu. Jeoch wir berücksichtigen nur 90° Fenster Lichtkuppel etc. scheinbar nicht; der 
+ * Gesamtenergiedurchlassgard wurde scheinbar nicht berücksichtig.
+ */
 $fxwerte = array(
-  'decke'           => 0.8,
-  'kellerwand'      => 0.6,
-  'boden'           => 0.6,
+    'decke'           => 0.8,
+    'kellerwand'      => 0.75, // Schlechtester Wert aus Tab c4 18599/T12
+    'boden'           => 0.8, // Wert aus Tab c4 18599/T12
 );
+
 $uwerte = wpenon_get_table_results($tableNames->uwerte);
 $uwerte_reference = array(
   'dach'            => 0.2,
