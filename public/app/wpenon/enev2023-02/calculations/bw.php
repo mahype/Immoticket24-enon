@@ -350,33 +350,37 @@ if ($energieausweis->anbau ) {
     );
 }
 
+// Sammlung aller Bauteile des Kellers
 $kellerflaeche = $grundflaeche;
 switch ( $energieausweis->keller ) {
 case 'beheizt':
-    $keller_anteil = $energieausweis->keller_groesse * 0.01;
+    $keller_anteil = $energieausweis->keller_groesse * 0.01; // bei 80% ist Faktor 0,8
     $kellerwandhoehe = $energieausweis->keller_hoehe + 0.25;
 
+    $kellerwandlaenge  = sqrt($kellerflaeche * $keller_anteil) * 4; // Als Kellerfläche wird ein Quadrat angesetzt. Die Wurzel aus der Fläche ergibt die Seitenlänge. Diese wird mit 4 multipliziert, um die Gesamtlänge der Kellerwände zu erhalten.
+    $kellerwandflaeche = $kellerwandlaenge * $kellerwandhoehe; 
+    
     $calculations['bauteile']['kellerwand'] = array(
-    'name'          => __('Kellerwand', 'wpenon'),
-    'typ'           => 'wand',
-    'modus'         => 'opak',
-    'bauart'        => $energieausweis->keller_bauart,
-    'baujahr'       => $energieausweis->baujahr,
-    'a'             => $wandlaenge * $kellerwandhoehe * $keller_anteil,
-    'd'             => $energieausweis->keller_daemmung,
+      'name'          => __('Kellerwand', 'wpenon'),
+      'typ'           => 'wand',
+      'modus'         => 'opak',
+      'bauart'        => $energieausweis->keller_bauart,
+      'baujahr'       => $energieausweis->baujahr,
+      'a'             => $kellerwandflaeche,
+      'd'             => $energieausweis->keller_daemmung,
     );
     $calculations['bauteile']['boden'] = array(
-    'name'          => __('Boden', 'wpenon'),
-    'typ'           => 'boden',
-    'modus'         => 'opak',
-    'bauart'        => $energieausweis->boden_bauart,
-    'baujahr'       => $energieausweis->baujahr,
-    'a'             => $kellerflaeche,
-    'd'             => $energieausweis->boden_daemmung,
+      'name'          => __('Boden', 'wpenon'),
+      'typ'           => 'boden',
+      'modus'         => 'opak',
+      'bauart'        => $energieausweis->boden_bauart,
+      'baujahr'       => $energieausweis->baujahr,
+      'a'             => $kellerflaeche * $keller_anteil,
+      'd'             => $energieausweis->boden_daemmung,
     );
     $calculations['volumenteile']['keller'] = array(
-    'name'          => __('Kellergeschoss', 'wpenon'),
-    'v'             => $grundflaeche * $kellerwandhoehe * $keller_anteil,
+      'name'          => __('Kellergeschoss', 'wpenon'),
+      'v'             => $grundflaeche * $kellerwandhoehe * $keller_anteil,
     );
     break;
 case 'unbeheizt':
