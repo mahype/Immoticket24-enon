@@ -1046,10 +1046,15 @@ $calculations['h_reference'] = $calculations['ht_reference'] + $calculations['hv
 
 $calculations['cwirk'] = 50;
 $calculations['cwirk_reference'] = 50 * $calculations['huellvolumen'];
-$calculations['tau'] = $calculations['cwirk'] / $calculations['h'];
+
+$calculations['tau'] = ($calculations['cwirk'] * $calculations['nutzflaeche'] ) / $calculations['h'];  // Tau neu
+
 $calculations['tau_reference'] = $calculations['cwirk_reference'] / $calculations['h_reference'];
-$calculations['faktor_a'] = 1.0 + $calculations['tau'] / 16.0;
-$calculations['faktor_a_reference'] = 1.0 + $calculations['tau_reference'] / 16.0;
+
+// Faktor a - Zur späteren Recherche auskommentiert - Werte werden neu berechnet
+
+// $calculations['faktor_a'] = 1.0 + $calculations['tau'] / 16.0;
+// $calculations['faktor_a_reference'] = 1.0 + $calculations['tau_reference'] / 16.0;
 
 $monate = wpenon_get_table_results('monate');
 $solar_gewinn_mpk = 0.9 * 1.0 * 0.9;
@@ -1148,32 +1153,34 @@ foreach ( $monate as $monat => $monatsdaten ) {
     $calculations['monate'][ $monat ]['qg'] = $calculations['monate'][ $monat ]['qi'] + $calculations['monate'][ $monat ]['qs'];
     $calculations['monate'][ $monat ]['qg_reference'] = $calculations['monate'][ $monat ]['qi_reference'] + $calculations['monate'][ $monat ]['qs_reference'];
 
-    // Korrekturfaktoren
-    $calculations['monate'][ $monat ]['gamma'] = $calculations['monate'][ $monat ]['qg'] / ( $calculations['monate'][ $monat ]['ql'] > 0.0 ? $calculations['monate'][ $monat ]['ql'] : 1.0 );
-    $calculations['monate'][ $monat ]['gamma_reference'] = $calculations['monate'][ $monat ]['qg_reference'] / ( $calculations['monate'][ $monat ]['ql_reference'] > 0.0 ? $calculations['monate'][ $monat ]['ql_reference'] : 1.0 );
-    $calculations['monate'][ $monat ]['my'] = 0.0;
-    $calculations['monate'][ $monat ]['my_reference'] = 0.0;
-    
-    if ($calculations['monate'][ $monat ]['gamma'] == 1.0 ) {
-        $calculations['monate'][ $monat ]['my'] = $calculations['faktor_a'] / ( $calculations['faktor_a'] + 1.0 );
-    } else {
-        $calculations['monate'][ $monat ]['my'] = ( 1.0 - pow($calculations['monate'][ $monat ]['gamma'], $calculations['faktor_a']) ) / ( 1.0 - pow($calculations['monate'][ $monat ]['gamma'], $calculations['faktor_a'] + 1.0) );
-    }
-    if ($calculations['monate'][ $monat ]['gamma_reference'] == 1.0 ) {
-        $calculations['monate'][ $monat ]['my_reference'] = $calculations['faktor_a_reference'] / ( $calculations['faktor_a_reference'] + 1.0 );
-    } else {
-        $calculations['monate'][ $monat ]['my_reference'] = ( 1.0 - pow($calculations['monate'][ $monat ]['gamma_reference'], $calculations['faktor_a_reference']) ) / ( 1.0 - pow($calculations['monate'][ $monat ]['gamma_reference'], $calculations['faktor_a_reference'] + 1.0) );
-    }
+    // Korrekturfaktoren - Zur späteren Recherche auskommentiert - Werte werden neu berechnet
 
-    // Heizwärmebedarf Qh
-    $calculations['monate'][ $monat ]['qh'] = $calculations['monate'][ $monat ]['ql'] - $calculations['monate'][ $monat ]['my'] * $calculations['monate'][ $monat ]['qg'];
-    $calculations['monate'][ $monat ]['qh_reference'] = $calculations['monate'][ $monat ]['ql_reference'] - $calculations['monate'][ $monat ]['my_reference'] * $calculations['monate'][ $monat ]['qg_reference'];
-    if ($calculations['monate'][ $monat ]['qh'] < 0.0 ) {
-        $calculations['monate'][ $monat ]['qh'] = 0.0;
-    }
-    if ($calculations['monate'][ $monat ]['qh_reference'] < 0.0 ) {
-        $calculations['monate'][ $monat ]['qh_reference'] = 0.0;
-    }
+    // $calculations['monate'][ $monat ]['gamma'] = $calculations['monate'][ $monat ]['qg'] / ( $calculations['monate'][ $monat ]['ql'] > 0.0 ? $calculations['monate'][ $monat ]['ql'] : 1.0 );
+    // $calculations['monate'][ $monat ]['gamma_reference'] = $calculations['monate'][ $monat ]['qg_reference'] / ( $calculations['monate'][ $monat ]['ql_reference'] > 0.0 ? $calculations['monate'][ $monat ]['ql_reference'] : 1.0 );
+    // $calculations['monate'][ $monat ]['my'] = 0.0;
+    // $calculations['monate'][ $monat ]['my_reference'] = 0.0;
+    
+    // if ($calculations['monate'][ $monat ]['gamma'] == 1.0 ) {
+    //     $calculations['monate'][ $monat ]['my'] = $calculations['faktor_a'] / ( $calculations['faktor_a'] + 1.0 );
+    // } else {
+    //     $calculations['monate'][ $monat ]['my'] = ( 1.0 - pow($calculations['monate'][ $monat ]['gamma'], $calculations['faktor_a']) ) / ( 1.0 - pow($calculations['monate'][ $monat ]['gamma'], $calculations['faktor_a'] + 1.0) );
+    // }
+    // if ($calculations['monate'][ $monat ]['gamma_reference'] == 1.0 ) {
+    //     $calculations['monate'][ $monat ]['my_reference'] = $calculations['faktor_a_reference'] / ( $calculations['faktor_a_reference'] + 1.0 );
+    // } else {
+    //     $calculations['monate'][ $monat ]['my_reference'] = ( 1.0 - pow($calculations['monate'][ $monat ]['gamma_reference'], $calculations['faktor_a_reference']) ) / ( 1.0 - pow($calculations['monate'][ $monat ]['gamma_reference'], $calculations['faktor_a_reference'] + 1.0) );
+    // }
+
+    // Heizwärmebedarf Qh - Zur späteren Recherche auskommentiert - Werte werden neu berechnet
+
+    // $calculations['monate'][ $monat ]['qh'] = $calculations['monate'][ $monat ]['ql'] - $calculations['monate'][ $monat ]['my'] * $calculations['monate'][ $monat ]['qg'];
+    // $calculations['monate'][ $monat ]['qh_reference'] = $calculations['monate'][ $monat ]['ql_reference'] - $calculations['monate'][ $monat ]['my_reference'] * $calculations['monate'][ $monat ]['qg_reference'];
+    // if ($calculations['monate'][ $monat ]['qh'] < 0.0 ) {
+    //     $calculations['monate'][ $monat ]['qh'] = 0.0;
+    // }
+    // if ($calculations['monate'][ $monat ]['qh_reference'] < 0.0 ) {
+    //     $calculations['monate'][ $monat ]['qh_reference'] = 0.0;
+    // }
 
     // Hinzufügen zu globalen Ergebnissen
     $calculations['qh'] += $calculations['monate'][ $monat ]['qh'];
