@@ -377,7 +377,8 @@ case 'beheizt':
     $keller_anteil = $energieausweis->keller_groesse * 0.01; // bei 80% ist Faktor 0,8
     $kellerwandhoehe = $energieausweis->keller_hoehe + 0.25;
 
-    $kellerwandlaenge  = sqrt($kellerflaeche * $keller_anteil) * 4; // Als Kellerfläche wird ein Quadrat angesetzt. Die Wurzel aus der Fläche ergibt die Seitenlänge. Diese wird mit 4 multipliziert, um die Gesamtlänge der Kellerwände zu erhalten.
+    $kellerflaeche *= $keller_anteil;
+    $kellerwandlaenge  = sqrt($kellerflaeche) * 4; // Als Kellerfläche wird ein Quadrat angesetzt. Die Wurzel aus der Fläche ergibt die Seitenlänge. Diese wird mit 4 multipliziert, um die Gesamtlänge der Kellerwände zu erhalten.
     $kellerwandflaeche = $kellerwandlaenge * $kellerwandhoehe; 
     
     $calculations['bauteile']['kellerwand'] = array(
@@ -395,7 +396,7 @@ case 'beheizt':
       'modus'         => 'opak',
       'bauart'        => $energieausweis->boden_bauart,
       'baujahr'       => $energieausweis->baujahr,
-      'a'             => $kellerflaeche * $keller_anteil,
+      'a'             => $kellerflaeche,
       'd'             => $energieausweis->boden_daemmung,
     );
     $calculations['volumenteile']['keller'] = array(
@@ -1073,7 +1074,6 @@ $calculations['cwirk'] = 50;
 $calculations['cwirk_reference'] = 50 * $calculations['huellvolumen'];
 
 $calculations['tau'] = ($calculations['cwirk'] * $calculations['nutzflaeche'] ) / $calculations['h'];  // Tau neu
-
 $calculations['tau_reference'] = $calculations['cwirk_reference'] / $calculations['h_reference'];
 
 // Faktor a - Zur späteren Recherche auskommentiert - Werte werden neu berechnet
@@ -1105,6 +1105,7 @@ $calculations['qs_reference'] = 0.0;
 $calculations['qg'] = 0.0;
 $calculations['qg_reference'] = 0.0;
 $calculations['monate'] = array();
+
 foreach ( $monate as $monat => $monatsdaten ) {
     $calculations['monate'][ $monat ] = array();
     $calculations['monate'][ $monat ]['name'] = $monatsdaten->name;
