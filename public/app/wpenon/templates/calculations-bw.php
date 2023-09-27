@@ -56,6 +56,7 @@
 <p class="lead"><?php printf( __( 'Lüftungswärmeverluste H<sub>V</sub>: %s W/K', 'wpenon' ), \WPENON\Util\Format::float( $data['hv'] ) ); ?></p>
 
 <div class="lead" style="background-color: grey; padding:20px;"><strong>NEU 2023</strong><br />
+  <strong>Berechnungen Kellerflächen</strong><br>
   <?php printf( __( 'Nutzfläche %s m<sup>2</sup>', 'wpenon' ), $data['nutzflaeche'] ); ?><br>
   <?php printf( __( 'Nettohüllvolumen %s m<sup>3</sup>', 'wpenon' ), $data['huellvolumen_netto'] ); ?><br>
   <?php printf( __( 'A/V rate %s', 'wpenon' ),  $data['av_ratio'] ); ?><br>
@@ -69,6 +70,12 @@
   <?php printf( __( 'N<sub>wrg</sub> %s', 'wpenon' ),$data['n_wrg'] ); ?><br>
   <?php printf( __( 'Maximale Heizlast %s', 'wpenon' ),$data['ht_max'] ); ?><br>
   <?php printf( __( 'Spezifische Heizlast %s', 'wpenon' ),$data['ht_max_spezifisch'] ); ?><br>
+  <hr>
+  <?php if ( isset( $data['bauteile']['kellerwand'] ) ) : ?>
+   <strong>Berechnungen Kellerflächen</strong><br>
+  <?php printf( __( 'Kellerfläche %s m<sup>2</sup>', 'wpenon' ),$data['bauteile']['boden']['a'] ); ?><br>
+  <?php printf( __( 'Kellerwandfläche %s m<sup>2</sup>', 'wpenon' ),$data['bauteile']['kellerwand']['a'] ); ?><br>
+  <?php endif; ?>
 </div>
 
 <?php wpenon_get_view()->displaySubTemplate( 'table-row', '', array(
