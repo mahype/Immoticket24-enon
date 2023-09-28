@@ -30,6 +30,7 @@ $calculations['reference'] = 125;
 $calculations['bauteile'] = array();
 $calculations['volumenteile'] = array();
 
+// Definition & Mapping Himmelsrichtung anhand der gesetzen Himmelsrichtung von Wand a.
 $himmelsrichtungen = array_keys(wpenon_immoticket24_get_himmelsrichtungen());
 $hr_nullrichtung = array_search($energieausweis->grundriss_richtung, $himmelsrichtungen);
 $hr_mappings = array();
@@ -37,6 +38,7 @@ for ( $i = 0; $i < 4; $i++ ) {
     $hr_mappings[] = $himmelsrichtungen[ ( $hr_nullrichtung + 2 * $i ) % 8 ];
 }
 
+// Reset der Wandlängen
 $wand_a_laenge = $wand_b_laenge = $wand_c_laenge = $wand_d_laenge = $wand_e_laenge = $wand_f_laenge = $wand_g_laenge = $wand_h_laenge = 0.0;
 
 $grundriss_formen = wpenon_immoticket24_get_grundriss_formen();
@@ -44,6 +46,7 @@ $grundriss_form = $grundriss_formen['a'];
 if (isset($grundriss_formen[ $energieausweis->grundriss_form ]) ) {
     $grundriss_form = $grundriss_formen[ $energieausweis->grundriss_form ];
 }
+
 $flaechenberechnungsformel = $grundriss_form['fla'];
 unset($grundriss_form['fla']);
 
@@ -51,12 +54,13 @@ $to_calculate = array();
 foreach ( $grundriss_form as $wand => $data ) {
     if ($data[0] === true ) {
         $l_slug = 'wand_' . $wand . '_laenge';
-        $$l_slug = $energieausweis->$l_slug;
+        $$l_slug = $energieausweis->$l_slug; // Dynamische Variablenzuweisung: $wand_a_laenge = $energieausweis->wand_a_laenge;
     } else {
         $to_calculate[ $wand ] = $data;
     }
 }
 unset($data);
+
 foreach ( $to_calculate as $wand => $data ) {
     $laenge = 0.0;
     $current_operator = '+';
@@ -88,9 +92,13 @@ foreach ( $to_calculate as $wand => $data ) {
 unset($data);
 unset($to_calculate);
 
+// Berechnung der Geschosshöhe
 $geschosshoehe = $energieausweis->geschoss_hoehe + 0.25;
-$wandhoehe = $energieausweis->geschoss_zahl * $geschosshoehe + 0.25 + $this->energieausweis->kniestock_hoehe; // NEU
 
+// Berechnung der Wandhöhe (gesamte Außenwand) inkl. Kniestock
+$wandhoehe = $energieausweis->geschoss_zahl * $geschosshoehe + 0.25 + $this->energieausweis->kniestock_hoehe;
+
+// Flächenberechnung des Grundrisses
 $grundflaeche = 0.0;
 foreach ( $flaechenberechnungsformel as $index => $_produkt ) {
     $produkt = 1.0;
@@ -126,11 +134,13 @@ foreach ( $flaechenberechnungsformel as $index => $_produkt ) {
     $grundflaeche += $produkt;
 }
 
+// Volumenberechnung des Grundrisses
 $calculations['volumenteile']['grundriss'] = array(
   'name'          => __('Grundriss', 'wpenon'),
   'v'             => $grundflaeche * $wandhoehe,
 );
 
+// Definition schwere des Gebäudes
 switch ( $energieausweis->gebaeudekonstruktion ) {
 case 'massiv':
     $wand_bauart = $energieausweis->wand_bauart_massiv;
@@ -143,7 +153,7 @@ case 'fachwerk':
     break;
 }
 
-
+// Sammlung aller Wandflächen des Grundrisses
 $wandlaenge = 0.0;
 $calculations['wandrichtungen'] = array();
 foreach ( $grundriss_form as $wand => $data ) {
@@ -154,7 +164,7 @@ foreach ( $grundriss_form as $wand => $data ) {
     if (! $energieausweis->$n_slug ) {
         $flaeche = $$l_slug * $wandhoehe;
 
-        if( isset( $dach_wand_flaeche[$wand] ) ) {
+        if(isset($dach_wand_flaeche[$wand]) ) {
             $flaeche += $dach_wand_flaeche[$wand];
         }
 
@@ -177,6 +187,8 @@ foreach ( $grundriss_form as $wand => $data ) {
 }
 unset($data);
 
+
+// Sammlung aller Bauteile des Anbaus (falls vorhanden)
 if ($energieausweis->anbau ) {
     $anbauwand_b_laenge = $anbauwand_t_laenge = $anbauwand_s1_laenge = $anbauwand_s2_laenge = 0.0;
 
@@ -197,6 +209,7 @@ if ($energieausweis->anbau ) {
             $to_calculate[ $anbauwand ] = $data;
         }
     }
+
     unset($data);
     foreach ( $to_calculate as $anbauwand => $data ) {
         $laenge = 0.0;
@@ -231,6 +244,7 @@ if ($energieausweis->anbau ) {
 
     $anbauwandhoehe = $energieausweis->anbau_hoehe + 0.25 * 2;
 
+    // Berechnung der Grundfläche des Anbaus
     $anbaugrundflaeche = 0.0;
     foreach ( $anbau_flaechenberechnungsformel as $index => $_produkt ) {
         $produkt = 1.0;
@@ -266,10 +280,12 @@ if ($energieausweis->anbau ) {
         $anbaugrundflaeche += $produkt;
     }
 
+    // Volumenberechnung des Anbaus
     $calculations['volumenteile']['anbau'] = array(
     'name'          => __('Anbau', 'wpenon'),
     'v'             => $anbaugrundflaeche * $anbauwandhoehe,
     );
+
 
     switch( $energieausweis->anbau_form ) {
     case 'a':
@@ -288,6 +304,7 @@ if ($energieausweis->anbau ) {
 
     $anbauwand_bauart_field = 'anbauwand_bauart_' . $energieausweis->gebaeudekonstruktion;
 
+    // Sammlung aller Wandflächen des Anbaus
     $anbauwandlaenge = 0.0;
     $calculations['anbauwandrichtungen'] = array();
     foreach ( $anbau_form as $wand => $data ) {
@@ -313,7 +330,7 @@ if ($energieausweis->anbau ) {
     }
     unset($data);
 
-    // Subtract Anbau overlap from Grundriss manually.
+    // Anbau Überlappungen berechnen
     if (! empty($calculations['wandrichtungen'][ $calculations['bauteile']['anbauwand_t']['richtung'] ]) ) {
         $grundrisswand = $calculations['wandrichtungen'][ $calculations['bauteile']['anbauwand_t']['richtung'] ][0];
         $calculations['bauteile'][ 'wand_' . $grundrisswand ]['a'] -= $calculations['bauteile']['anbauwand_t']['a'] - $calculations['bauteile']['anbauwand_s1']['a'];
@@ -321,6 +338,7 @@ if ($energieausweis->anbau ) {
             $calculations['bauteile'][ 'wand_' . $grundrisswand ]['a'] = 0.0;
         }
     }
+
     if ($anbauwand_s2_laenge < $anbauwand_b_laenge && ! empty($calculations['wandrichtungen'][ $calculations['bauteile']['anbauwand_b']['richtung'] ]) ) {
         $grundrisswand = $calculations['wandrichtungen'][ $calculations['bauteile']['anbauwand_b']['richtung'] ][0];
         $calculations['bauteile'][ 'wand_' . $grundrisswand ]['a'] -= $calculations['bauteile']['anbauwand_b']['a'] - $calculations['bauteile']['anbauwand_s2']['a'];
@@ -329,6 +347,7 @@ if ($energieausweis->anbau ) {
         }
     }
 
+    // Anbau Boden
     $calculations['bauteile']['anbauboden'] = array(
     'name'          => __('Anbau-Boden', 'wpenon'),
     'typ'           => 'boden',
@@ -339,6 +358,7 @@ if ($energieausweis->anbau ) {
     'd'             => $energieausweis->anbauboden_daemmung,
     );
 
+    // Anbau Dach
     $calculations['bauteile']['anbaudach'] = array(
     'name'          => __('Anbau-Dach', 'wpenon'),
     'typ'           => 'dach',
@@ -350,33 +370,38 @@ if ($energieausweis->anbau ) {
     );
 }
 
+// Sammlung aller Bauteile des Kellers
 $kellerflaeche = $grundflaeche;
 switch ( $energieausweis->keller ) {
 case 'beheizt':
-    $keller_anteil = $energieausweis->keller_groesse * 0.01;
+    $keller_anteil = $energieausweis->keller_groesse * 0.01; // bei 80% ist Faktor 0,8
     $kellerwandhoehe = $energieausweis->keller_hoehe + 0.25;
 
+    $kellerflaeche *= $keller_anteil;
+    $kellerwandlaenge  = sqrt($kellerflaeche) * 4; // Als Kellerfläche wird ein Quadrat angesetzt. Die Wurzel aus der Fläche ergibt die Seitenlänge. Diese wird mit 4 multipliziert, um die Gesamtlänge der Kellerwände zu erhalten.
+    $kellerwandflaeche = $kellerwandlaenge * $kellerwandhoehe; 
+    
     $calculations['bauteile']['kellerwand'] = array(
-    'name'          => __('Kellerwand', 'wpenon'),
-    'typ'           => 'wand',
-    'modus'         => 'opak',
-    'bauart'        => $energieausweis->keller_bauart,
-    'baujahr'       => $energieausweis->baujahr,
-    'a'             => $wandlaenge * $kellerwandhoehe * $keller_anteil,
-    'd'             => $energieausweis->keller_daemmung,
+      'name'          => __('Kellerwand', 'wpenon'),
+      'typ'           => 'wand',
+      'modus'         => 'opak',
+      'bauart'        => $energieausweis->keller_bauart,
+      'baujahr'       => $energieausweis->baujahr,
+      'a'             => $kellerwandflaeche,
+      'd'             => $energieausweis->keller_daemmung,
     );
     $calculations['bauteile']['boden'] = array(
-    'name'          => __('Boden', 'wpenon'),
-    'typ'           => 'boden',
-    'modus'         => 'opak',
-    'bauart'        => $energieausweis->boden_bauart,
-    'baujahr'       => $energieausweis->baujahr,
-    'a'             => $kellerflaeche,
-    'd'             => $energieausweis->boden_daemmung,
+      'name'          => __('Boden', 'wpenon'),
+      'typ'           => 'boden',
+      'modus'         => 'opak',
+      'bauart'        => $energieausweis->boden_bauart,
+      'baujahr'       => $energieausweis->baujahr,
+      'a'             => $kellerflaeche,
+      'd'             => $energieausweis->boden_daemmung,
     );
     $calculations['volumenteile']['keller'] = array(
-    'name'          => __('Kellergeschoss', 'wpenon'),
-    'v'             => $grundflaeche * $kellerwandhoehe * $keller_anteil,
+      'name'          => __('Kellergeschoss', 'wpenon'),
+      'v'             => $grundflaeche * $kellerwandhoehe * $keller_anteil,
     );
     break;
 case 'unbeheizt':
@@ -415,6 +440,7 @@ default:
     );
 }
 
+// Sammlung aller Bauteile des Daches (inkl. Dachflächenberechnung)
 $deckenflaeche = $grundflaeche;
 $dachwinkel_formatted = 0.0;
 switch ( $energieausweis->dach ) {
@@ -657,7 +683,7 @@ case 'beheizt':
             $calculations['bauteile'][ 'wand_' . $wand ]['a'] += $flaeche;
         }
     }
-    if( $energieausweis->kniestock_hoehe > 0 ) {    
+    if($energieausweis->kniestock_hoehe > 0 ) {    
         foreach( $grundriss_form as $wand => $data ) {
             $calculations['bauteile'][ 'wand_' . $wand ]['a'] += $energieausweis->kniestock_hoehe * $energieausweis->{'wand_' . $wand . '_laenge'};
         }    
@@ -888,11 +914,20 @@ if (substr($energieausweis->rollladenkaesten, 0, 6) == 'innen_' ) {
     unset($data);
 }
 
+/**
+ * Ab hier fängt die Abfrage der IST-Größen aus den angehängten Tabellen an und parallel werden die zugehörigen Referenzgrößen hinterlegt.
+ * In den Berechnungen werden scheinbar zuerst die "Soll"-Wert-Größen berchnet und dann direkt danach die Referenzgrößen.
+ *
+ * $fxwerte sind Referenzwerte. $uwerte_reference werden im array Referenz-U-Werte aus dem GeG S.56 berücksichtigt. 
+ * Scheinbar keinen Unterschied alt zu neu. Jeoch wir berücksichtigen nur 90° Fenster Lichtkuppel etc. scheinbar nicht; der 
+ * Gesamtenergiedurchlassgard wurde scheinbar nicht berücksichtig.
+ */
 $fxwerte = array(
-  'decke'           => 0.8,
-  'kellerwand'      => 0.6,
-  'boden'           => 0.6,
+    'decke'           => 0.8,
+    'kellerwand'      => 0.75, // Schlechtester Wert aus Tab c4 18599/T12
+    'boden'           => 0.8, // Wert aus Tab c4 18599/T12
 );
+
 $uwerte = wpenon_get_table_results($tableNames->uwerte);
 $uwerte_reference = array(
   'dach'            => 0.2,
@@ -1037,10 +1072,14 @@ $calculations['h_reference'] = $calculations['ht_reference'] + $calculations['hv
 
 $calculations['cwirk'] = 50;
 $calculations['cwirk_reference'] = 50 * $calculations['huellvolumen'];
-$calculations['tau'] = $calculations['cwirk'] / $calculations['h'];
+
+$calculations['tau'] = ($calculations['cwirk'] * $calculations['nutzflaeche'] ) / $calculations['h'];  // Tau neu
 $calculations['tau_reference'] = $calculations['cwirk_reference'] / $calculations['h_reference'];
-$calculations['faktor_a'] = 1.0 + $calculations['tau'] / 16.0;
-$calculations['faktor_a_reference'] = 1.0 + $calculations['tau_reference'] / 16.0;
+
+// Faktor a - Zur späteren Recherche auskommentiert - Werte werden neu berechnet
+
+// $calculations['faktor_a'] = 1.0 + $calculations['tau'] / 16.0;
+// $calculations['faktor_a_reference'] = 1.0 + $calculations['tau_reference'] / 16.0;
 
 $monate = wpenon_get_table_results('monate');
 $solar_gewinn_mpk = 0.9 * 1.0 * 0.9;
@@ -1066,6 +1105,7 @@ $calculations['qs_reference'] = 0.0;
 $calculations['qg'] = 0.0;
 $calculations['qg_reference'] = 0.0;
 $calculations['monate'] = array();
+
 foreach ( $monate as $monat => $monatsdaten ) {
     $calculations['monate'][ $monat ] = array();
     $calculations['monate'][ $monat ]['name'] = $monatsdaten->name;
@@ -1139,32 +1179,34 @@ foreach ( $monate as $monat => $monatsdaten ) {
     $calculations['monate'][ $monat ]['qg'] = $calculations['monate'][ $monat ]['qi'] + $calculations['monate'][ $monat ]['qs'];
     $calculations['monate'][ $monat ]['qg_reference'] = $calculations['monate'][ $monat ]['qi_reference'] + $calculations['monate'][ $monat ]['qs_reference'];
 
-    // Korrekturfaktoren
-    $calculations['monate'][ $monat ]['gamma'] = $calculations['monate'][ $monat ]['qg'] / ( $calculations['monate'][ $monat ]['ql'] > 0.0 ? $calculations['monate'][ $monat ]['ql'] : 1.0 );
-    $calculations['monate'][ $monat ]['gamma_reference'] = $calculations['monate'][ $monat ]['qg_reference'] / ( $calculations['monate'][ $monat ]['ql_reference'] > 0.0 ? $calculations['monate'][ $monat ]['ql_reference'] : 1.0 );
-    $calculations['monate'][ $monat ]['my'] = 0.0;
-    $calculations['monate'][ $monat ]['my_reference'] = 0.0;
-    
-    if ($calculations['monate'][ $monat ]['gamma'] == 1.0 ) {
-        $calculations['monate'][ $monat ]['my'] = $calculations['faktor_a'] / ( $calculations['faktor_a'] + 1.0 );
-    } else {
-        $calculations['monate'][ $monat ]['my'] = ( 1.0 - pow($calculations['monate'][ $monat ]['gamma'], $calculations['faktor_a']) ) / ( 1.0 - pow($calculations['monate'][ $monat ]['gamma'], $calculations['faktor_a'] + 1.0) );
-    }
-    if ($calculations['monate'][ $monat ]['gamma_reference'] == 1.0 ) {
-        $calculations['monate'][ $monat ]['my_reference'] = $calculations['faktor_a_reference'] / ( $calculations['faktor_a_reference'] + 1.0 );
-    } else {
-        $calculations['monate'][ $monat ]['my_reference'] = ( 1.0 - pow($calculations['monate'][ $monat ]['gamma_reference'], $calculations['faktor_a_reference']) ) / ( 1.0 - pow($calculations['monate'][ $monat ]['gamma_reference'], $calculations['faktor_a_reference'] + 1.0) );
-    }
+    // Korrekturfaktoren - Zur späteren Recherche auskommentiert - Werte werden neu berechnet
 
-    // Heizwärmebedarf Qh
-    $calculations['monate'][ $monat ]['qh'] = $calculations['monate'][ $monat ]['ql'] - $calculations['monate'][ $monat ]['my'] * $calculations['monate'][ $monat ]['qg'];
-    $calculations['monate'][ $monat ]['qh_reference'] = $calculations['monate'][ $monat ]['ql_reference'] - $calculations['monate'][ $monat ]['my_reference'] * $calculations['monate'][ $monat ]['qg_reference'];
-    if ($calculations['monate'][ $monat ]['qh'] < 0.0 ) {
-        $calculations['monate'][ $monat ]['qh'] = 0.0;
-    }
-    if ($calculations['monate'][ $monat ]['qh_reference'] < 0.0 ) {
-        $calculations['monate'][ $monat ]['qh_reference'] = 0.0;
-    }
+    // $calculations['monate'][ $monat ]['gamma'] = $calculations['monate'][ $monat ]['qg'] / ( $calculations['monate'][ $monat ]['ql'] > 0.0 ? $calculations['monate'][ $monat ]['ql'] : 1.0 );
+    // $calculations['monate'][ $monat ]['gamma_reference'] = $calculations['monate'][ $monat ]['qg_reference'] / ( $calculations['monate'][ $monat ]['ql_reference'] > 0.0 ? $calculations['monate'][ $monat ]['ql_reference'] : 1.0 );
+    // $calculations['monate'][ $monat ]['my'] = 0.0;
+    // $calculations['monate'][ $monat ]['my_reference'] = 0.0;
+    
+    // if ($calculations['monate'][ $monat ]['gamma'] == 1.0 ) {
+    //     $calculations['monate'][ $monat ]['my'] = $calculations['faktor_a'] / ( $calculations['faktor_a'] + 1.0 );
+    // } else {
+    //     $calculations['monate'][ $monat ]['my'] = ( 1.0 - pow($calculations['monate'][ $monat ]['gamma'], $calculations['faktor_a']) ) / ( 1.0 - pow($calculations['monate'][ $monat ]['gamma'], $calculations['faktor_a'] + 1.0) );
+    // }
+    // if ($calculations['monate'][ $monat ]['gamma_reference'] == 1.0 ) {
+    //     $calculations['monate'][ $monat ]['my_reference'] = $calculations['faktor_a_reference'] / ( $calculations['faktor_a_reference'] + 1.0 );
+    // } else {
+    //     $calculations['monate'][ $monat ]['my_reference'] = ( 1.0 - pow($calculations['monate'][ $monat ]['gamma_reference'], $calculations['faktor_a_reference']) ) / ( 1.0 - pow($calculations['monate'][ $monat ]['gamma_reference'], $calculations['faktor_a_reference'] + 1.0) );
+    // }
+
+    // Heizwärmebedarf Qh - Zur späteren Recherche auskommentiert - Werte werden neu berechnet
+
+    // $calculations['monate'][ $monat ]['qh'] = $calculations['monate'][ $monat ]['ql'] - $calculations['monate'][ $monat ]['my'] * $calculations['monate'][ $monat ]['qg'];
+    // $calculations['monate'][ $monat ]['qh_reference'] = $calculations['monate'][ $monat ]['ql_reference'] - $calculations['monate'][ $monat ]['my_reference'] * $calculations['monate'][ $monat ]['qg_reference'];
+    // if ($calculations['monate'][ $monat ]['qh'] < 0.0 ) {
+    //     $calculations['monate'][ $monat ]['qh'] = 0.0;
+    // }
+    // if ($calculations['monate'][ $monat ]['qh_reference'] < 0.0 ) {
+    //     $calculations['monate'][ $monat ]['qh_reference'] = 0.0;
+    // }
 
     // Hinzufügen zu globalen Ergebnissen
     $calculations['qh'] += $calculations['monate'][ $monat ]['qh'];
