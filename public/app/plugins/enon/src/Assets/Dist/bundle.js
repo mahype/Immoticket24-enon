@@ -188,6 +188,9 @@ class Popup_Premiumbewertung {
 			if ( self.jQuery.trim(data) == 'success' ) {
 				self.jQuery('.edd_errors').remove();
 				self.jQuery('.edd-error').hide();
+				
+				parent.postMessage(JSON.stringify({ 'frame_height': '750px' }), '*');
+
 				self.jQuery(eddPurchaseform).submit();
 			} else {
 				self.jQuery('#edd-purchase-button').val(complete_purchase_val);
@@ -196,7 +199,6 @@ class Popup_Premiumbewertung {
 				self.jQuery('.edd-error').hide();
 				self.jQuery( edd_global_vars.checkout_error_anchor ).before(data);
 				self.jQuery('#edd-purchase-button').prop( 'disabled', false );
-
 				self.jQuery(document.body).trigger( 'edd_checkout_error', [ data ] );
 			}
 		});
