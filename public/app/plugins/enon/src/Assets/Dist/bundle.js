@@ -190,6 +190,7 @@ class Popup_Premiumbewertung {
 				self.jQuery('.edd-error').hide();
 				
 				parent.postMessage(JSON.stringify({ 'frame_height': '750px' }), '*');
+				console.log('setting frame height to 750px');
 
 				self.jQuery(eddPurchaseform).submit();
 			} else {
