@@ -1103,6 +1103,16 @@ $bauteile = array(
 					'options' => wpenon_immoticket24_get_fenster_bauarten(),
 					'required' => true,
 				),
+				'fenster_uwert' => array(
+					'type' => 'float',
+					'label' => __('U-Wert des Fensters', 'wpenon'),
+					'description' => __('Geben Sie den bei dreifach verglasten Fenstern den U-Wert des Fensters an.', 'wpenon'),
+					'required' => true,
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::fenster_bauart', 'waermedaemmglas' ),
+					),
+				),
 				'fenster_baujahr' => array(
 					'type' => 'int',
 					'label' => __('Baujahr', 'wpenon'),
