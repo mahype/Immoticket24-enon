@@ -1153,17 +1153,37 @@ function wpenon_immoticket24_get_bauarten_massiv() {
 	);
 }
 
-function wpenon_immoticket24_get_g_wert( $bauart, $reference = false ) {
-	if ( ! $reference ) {
-		switch ( $bauart ) {
-			case 'holzeinfach':
-				return 0.87;
-			default:
-				return 0.6;
-		}
+function wpenon_immoticket24_get_g_wert( $bauart, $reference = false) {
+	// g-Wert Bestimmung abhängig Fensterart und Baujahr
+
+	// g = 0,87 einfachverglasung 18599 T2, Tab.8
+	// g = 0,78 zweifachverglasung ""
+	// g = 0,70 dreifachverglasung ""
+
+	if( $reference ) {
+		return 0.6;
 	}
 
-	return 0.6;
+	switch ( $bauart ) {
+		case 'holzeinfach':
+			$g = 0.87;
+			break;
+		case 'aluminium':
+		case 'holzdoppelt':
+		case 'kunststoff':
+		case 'stahl':
+		case 'waermedaemmglas2fach':
+			$g = 0.78;
+			break;
+		case 'waermedaemmglas':
+			$g = 0.7;
+			break;
+		default:
+			$g = false;
+			break;
+	}
+
+	return $g;
 }
 
 function wpenon_get_construction_year( $construction_year, $field_year ) {
