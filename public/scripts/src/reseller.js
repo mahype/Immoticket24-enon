@@ -33,7 +33,6 @@ window.addEventListener("message", function(event) {
     if ( typeof event.data  === 'object' ) return;
     
     var data = JSON.parse(event.data);
-    console.log('data', data);
 
     if(data.frame_height !== undefined) {
         let iframe = document.getElementById("iframe-energieausweis-online");
@@ -57,7 +56,6 @@ window.addEventListener("message", function(event) {
     }
 
     if(data.set_to_top !== undefined) {
-        console.log("set_to_top");
         document.getElementsByClassName("iframe-energieausweis-online")[0].scrollIntoView();
     }
     
