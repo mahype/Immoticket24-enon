@@ -177,9 +177,6 @@ class Popup_Premiumbewertung {
 			if ( self.jQuery.trim(data) == 'success' ) {
 				self.jQuery('.edd_errors').remove();
 				self.jQuery('.edd-error').hide();
-				
-				parent.postMessage(JSON.stringify({ 'frame_height': '750px' }), '*');
-				console.log('setting frame height to 750px');
 
 				self.jQuery(eddPurchaseform).submit();
 			} else {

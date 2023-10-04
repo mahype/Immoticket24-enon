@@ -89,7 +89,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
-module.exports = __webpack_require__(3);
+module.exports = __webpack_require__(4);
 
 
 /***/ }),
@@ -98,7 +98,9 @@ module.exports = __webpack_require__(3);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Popup_Premiumbewertung__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _Enon_Checkout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _Popup_Premiumbewertung__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+
 
 
 /**
@@ -110,13 +112,56 @@ __webpack_require__.r(__webpack_exports__);
  */
 ( function( jQuery ) {
 	jQuery(document).ready( () => {
-		const pb_popup = new _Popup_Premiumbewertung__WEBPACK_IMPORTED_MODULE_0__["default"]( jQuery );
+		const pb_popup = new _Popup_Premiumbewertung__WEBPACK_IMPORTED_MODULE_1__["default"]( jQuery );
+		const checkout = new _Enon_Checkout__WEBPACK_IMPORTED_MODULE_0__["default"]( jQuery );
 	});
 })( jQuery );
 
 
 /***/ }),
 /* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * Class Enon_Checkout
+ *
+ * @since 1.0.0
+ */
+class Enon_Checkout {
+	/**
+	 * Constructor.
+	 *
+	 * @param jQuery
+	 *
+	 * @since 1.0.0
+	 */
+	constructor( jQuery ) {
+		this.jQuery = jQuery;
+		this.add_event();
+		console.log('Enon_Checkout');
+	}
+
+	/**
+	 * Add trigger to button.
+	 *
+	 * @since 1.0.0
+	 */
+	add_event() {
+		var self = this;
+
+		self.jQuery( document ).on( 'click', '#edd-purchase-button', function( event ) {
+			parent.postMessage(JSON.stringify({ 'set_to_top': true }), '*');
+		});
+	}
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Enon_Checkout);
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -300,9 +345,6 @@ class Popup_Premiumbewertung {
 			if ( self.jQuery.trim(data) == 'success' ) {
 				self.jQuery('.edd_errors').remove();
 				self.jQuery('.edd-error').hide();
-				
-				parent.postMessage(JSON.stringify({ 'frame_height': '750px' }), '*');
-				console.log('setting frame height to 750px');
 
 				self.jQuery(eddPurchaseform).submit();
 			} else {
@@ -322,11 +364,11 @@ class Popup_Premiumbewertung {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var api = __webpack_require__(4);
-            var content = __webpack_require__(5);
+var api = __webpack_require__(5);
+            var content = __webpack_require__(6);
 
             content = content.__esModule ? content.default : content;
 
@@ -346,7 +388,7 @@ var update = api(content, options);
 module.exports = content.locals || {};
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -621,12 +663,12 @@ module.exports = function (list, options) {
 };
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
 // Imports
 
@@ -638,7 +680,7 @@ ___CSS_LOADER_EXPORT___.push([module.i, "", ""]);
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

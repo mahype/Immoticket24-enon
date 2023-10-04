@@ -54,6 +54,10 @@ window.addEventListener("message", function(event) {
         // Get element by class name an scroll to first element
         document.getElementsByClassName("iframe-energieausweis-online")[0].scrollIntoView();
     }
+
+    if(data.set_to_top !== undefined) {
+        document.getElementsByClassName("iframe-energieausweis-online")[0].scrollIntoView();
+    }
     
     if(data.redirect_url !== undefined) {
         document.location.href = data.redirect_url;
