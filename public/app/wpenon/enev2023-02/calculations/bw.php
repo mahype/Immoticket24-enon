@@ -6,6 +6,7 @@ require_once 'lib/Extension_Form_B.php';
 
 require_once 'lib/Gebaeude.php';
 require_once 'lib/Luftwechsel.php';
+require_once 'lib/Mittlere_Belastung.php';
 
 $tableNames = new stdClass();
 
@@ -1022,7 +1023,8 @@ $gebaeude = new Gebaeude(
     $energieausweis->geschoss_zahl,
     $energieausweis->geschoss_hoehe,
     $calculations['huellflaeche'],
-    $calculations['huellvolumen']
+    $calculations['huellvolumen'],
+    $energieausweis->wohnungen < 2 ? 'einfamilienhaus' : 'mehrfamilienhaus',
 );
 
 /**
@@ -1037,7 +1039,7 @@ $luftwechsel = new Luftwechsel(
     gebaeude: $gebaeude,
     ht: $calculations['ht'],
     lueftungssystem: $energieausweis->l_info,
-    bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt, 
+    bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt,
     gebaeudedichtheit: $gebaeudedichtheit,
     wirkunksgrad: (float) $energieausweis->l_wirkungsgrad
 );
@@ -1055,8 +1057,8 @@ $calculations['hv'] = $luftwechsel->hv();
 
 $calculations['n_anl'] = $luftwechsel->n_anl();
 $calculations['n_wrg'] = $luftwechsel->n_wrg();
-$calculations['ht_max'] = $luftwechsel->ht_max();
-$calculations['ht_max_spezifisch'] = $luftwechsel->ht_max_spezifisch();
+$calculations['h_max'] = $luftwechsel->h_max();
+$calculations['h_max_spezifisch'] = $luftwechsel->h_max_spezifisch();
 
 $hv_mpk2 = $luftwechsel->hv();
 
@@ -1080,6 +1082,13 @@ $calculations['tau_reference'] = $calculations['cwirk_reference'] / $calculation
 
 // $calculations['faktor_a'] = 1.0 + $calculations['tau'] / 16.0;
 // $calculations['faktor_a_reference'] = 1.0 + $calculations['tau_reference'] / 16.0;
+
+
+// $mittlere_belastung = new Mittlere_Belastung( $gebaeude, $luftwechsel->h_max_spezifisch(), $calculations['tau'] );
+
+$mittlere_belastung = new Mittlere_Belastung( $gebaeude, 45, 68 );
+
+$mittlere_belastung->ßem('september');
 
 $monate = wpenon_get_table_results('monate');
 $solar_gewinn_mpk = 0.9 * 1.0 * 0.9 * 0.7 * wpenon_immoticket24_get_g_wert($energieausweis->fenster_bauart); // Solar gewinn neu

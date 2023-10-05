@@ -8,14 +8,16 @@ class Gebaeude
     private $geschosshoehe;
     private $huellflaeche;
     private $huellvolumen;
+    private $wohneinheiten;
 
-    public function __construct( int $baujahr, int $geschossanzahl, float $geschosshoehe, float $huellflaeche, float $huellvolumen )
+    public function __construct( int $baujahr, int $geschossanzahl, float $geschosshoehe, float $huellflaeche, float $huellvolumen, string $wohneinheiten )
     {
         $this->baujahr = $baujahr;
         $this->geschossanzahl = $geschossanzahl;
         $this->geschosshoehe = $geschosshoehe;
         $this->huellflaeche = $huellflaeche;
         $this->huellvolumen = $huellvolumen;
+        $this->wohneinheiten = $wohneinheiten;
     }
 
     public function baujahr(): int
@@ -60,5 +62,10 @@ class Gebaeude
         } else {
             return $this->huellvolumen() * ( 1.0 / $this->geschosshoehe - 0.04 );
         }
+    }
+
+    public function wohneinheiten(): string
+    {
+        return $this->wohneinheiten;
     }
 }

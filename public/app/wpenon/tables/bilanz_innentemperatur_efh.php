@@ -1,8 +1,8 @@
 <?php
 
 return array(
-  'title'         => __( 'Mittlere Belastung Mehrfamilienhaus', 'wpenon' ),
-  'description'   => __( 'Diese Tabelle enthält Mittlere monatliche außentemperaturabhängige Belastung 𝛃e,m für Wohngebäude – Merhfamilienhäuser', 'wpenon' ) . ' ' . __( 'Diese Daten werden für den Bedarfsausweis benötigt.', 'wpenon' ),
+  'title'         => __( 'Bilanz-Innentemperatur Einfamilienhaus', 'wpenon' ),
+  'description'   => __( 'Diese Tabelle enthält Bilanz-Innentemperatur für Wohngebäude – Einfamilienhäuser', 'wpenon' ) . ' ' . __( 'Diese Daten werden für den Bedarfsausweis benötigt.', 'wpenon' ),
   'primary_field' => 'bezeichnung',
   'search_field'  => 'bezeichnung',
   'search_before' => true,

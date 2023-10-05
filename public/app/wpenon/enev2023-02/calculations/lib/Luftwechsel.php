@@ -84,7 +84,7 @@ class Luftwechsel
      * 
      * @return float 
      */
-    public function ht_max() : float
+    public function h_max() : float
     {
         switch( $this->lueftungssystem ) {
         case 'zu_abluft':
@@ -100,8 +100,8 @@ class Luftwechsel
      * 
      * @return float 
      */
-    public function ht_max_spezifisch() : float {
-        return $this->ht_max() / $this->gebaeude->nutzflaeche();
+    public function h_max_spezifisch() : float {
+        return $this->h_max() / $this->gebaeude->nutzflaeche();
     }
 
     public function n_wrg() : float {
