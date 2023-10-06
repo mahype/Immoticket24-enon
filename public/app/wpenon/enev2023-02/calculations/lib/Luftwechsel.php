@@ -54,12 +54,10 @@ class Luftwechsel
     /**
      * Constructor.
      * 
-     * @param float     $baujahr           Baujahr des Gebäudes.
-     * @param float     $hv_net            Nettovolumen des Gebäudes.
+     * @param Gebaeude  $gebaeude          Gebäude.
      * @param float|int $ht                Wärmetransferkoeffizent aller Bauteile der Gebäudehülle.
      * @param string    $lueftungssystem   Lüftungsyystemn (zu_abluft, abluft,ohne).
-     * @param string    $gebaeudedichtheit Kategorie der Gebäudedichtheit (din_4108_7, ohne, andere, undichtheiten).
-     * @param float|int $huellflaeche      Hüllfläche des Gebäudes.
+     * @param string    $gebaeudedichtheit Kategorie der Gebäudedichtheit (din_4108_7, ohne, andere, undichtheiten).     
      * @param bool      $bedarfsgefuehrt   Ist das Lüftungssystem bedarfsgeführt?
      * @param float|int $wirkunksgrad      Der Wirklungsgrad der wärmerückgewinnung (nur bei Zu- und Abluft)
      */
@@ -96,7 +94,7 @@ class Luftwechsel
     }
 
     /**
-     * Spezifische Heizlast
+     * Maximale spezifische Heizlast.
      * 
      * @return float 
      */
@@ -104,15 +102,16 @@ class Luftwechsel
         return $this->h_max() / $this->gebaeude->nutzflaeche();
     }
 
+
     public function n_wrg() : float {
         if($this->gebaeude->huellvolumen_netto() <= 1500 ) {                        
-            return (float) $this->nwrg_small_buildings();
+            return (float) $this->n_wrg_small_buildings();
         } else {
-            return (float) $this->nwrg_large_buildings();
+            return (float) $this->n_wrg_large_buildings();
         }
     }
 
-    protected function nwrg_small_buildings() {
+    protected function n_wrg_small_buildings() {
         $column_name  = $this->column_name(wirkunksgrad_slug:'ab_0');
         $results = wpenon_get_table_results('l_luftwechsel_klein' );
         $rate = $results[$this->gebaeudedichtheit]->{$column_name};
@@ -120,7 +119,7 @@ class Luftwechsel
     }
 
 
-    protected function nwrg_large_buildings() {
+    protected function n_wrg_large_buildings() {
         $column_name = $this->column_name(wirkunksgrad_slug:'ab_0');
 
         $results = wpenon_get_table_results('l_luftwechsel_gross');
@@ -154,7 +153,7 @@ class Luftwechsel
     }
 
     /**
-     * Air exchange volumen (Hv ges = 𝑛 × 𝑐 × 𝑝 × 𝑉).
+     * Luftechselvolumen (Hv ges = 𝑛 × 𝑐 × 𝑝 × 𝑉).
      * 
      * @return float
      *  
@@ -166,7 +165,7 @@ class Luftwechsel
     }
 
     /**
-     * Luftwechselrate (Hv).
+     * 
      * 
      * @return float
      *  

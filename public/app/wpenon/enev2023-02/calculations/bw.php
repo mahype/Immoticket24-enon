@@ -1069,6 +1069,9 @@ $calculations['hv_reference'] += $hv_mpk1 * $calculations['huellvolumen'] * 0.55
 $calculations['h'] = $calculations['ht'] + $calculations['hv'];
 $calculations['h_reference'] = $calculations['ht_reference'] + $calculations['hv_reference'];
 
+// Berechnung max. Wärmestrom
+$calculations['Q'] = $calculations['h'] * 32; // (Einheit W)
+
 /*************************************************
  * HEIZWÄRMEBEDARF
  *************************************************/
@@ -1084,12 +1087,10 @@ $calculations['tau_reference'] = $calculations['cwirk_reference'] / $calculation
 // $calculations['faktor_a'] = 1.0 + $calculations['tau'] / 16.0;
 // $calculations['faktor_a_reference'] = 1.0 + $calculations['tau_reference'] / 16.0;
 
-// $mittlere_belastung = new Mittlere_Belastung( $gebaeude, $luftwechsel->h_max_spezifisch(), $calculations['tau'] );
-
 $mittlere_belastung = new Mittlere_Belastung( 
     gebaeude: $gebaeude, 
     h_max_spezifisch: $luftwechsel->h_max_spezifisch(), 
-    tau: $calculations['tau']
+    tau: $calculations['tau'],    
 );
 
 $calculations['ßemMax'] = $mittlere_belastung->ßemMax();
@@ -1099,20 +1100,6 @@ $bilanz_innentemperatur = new Bilanz_Innentemperatur(
     h_max_spezifisch: $luftwechsel->h_max_spezifisch(), 
     tau: $calculations['tau']
 );
-
-// $mittlere_belastung = new Mittlere_Belastung( 
-//     gebaeude: $gebaeude, 
-//     h_max_spezifisch: 62.5, 
-//     tau: 70
-// );
-
-// $bilanz_innentemperatur = new Bilanz_Innentemperatur( 
-//     gebaeude: $gebaeude, 
-//     h_max_spezifisch: 62.5, 
-//     tau: 70
-// );
-
-$bilanz_innentemperatur->θih( 'januar' );
 
 $monate = wpenon_get_table_results('monate');
 $solar_gewinn_mpk = 0.9 * 1.0 * 0.9 * 0.7 * wpenon_immoticket24_get_g_wert($energieausweis->fenster_bauart); // Solar gewinn neu
@@ -1145,6 +1132,9 @@ foreach ( $monate as $monat => $monatsdaten ) {
     $calculations['monate'][ $monat ]['name'] = $monatsdaten->name;
     $calculations['monate'][ $monat ]['tage'] = absint($monatsdaten->tage);
     $calculations['monate'][ $monat ]['temperatur'] = floatval($monatsdaten->temperatur);
+
+    // Wärmesenken als Leistung in W 
+    $calculations['monate'][ $monat ]['ph_sink'] = $calculations['Q'] * ( ($bilanz_innentemperatur->θih( $monat ) + 12 ) / 32 ) * $mittlere_belastung->ßem1( $monat );
 
     // Transmissionswärmeverluste Qt
     $calculations['monate'][ $monat ]['qt'] = $calculations['ht'] * 0.024 * ( 19.0 - $calculations['monate'][ $monat ]['temperatur'] ) * $calculations['monate'][ $monat ]['tage'];
