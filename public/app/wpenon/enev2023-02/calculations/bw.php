@@ -1083,12 +1083,15 @@ $calculations['tau_reference'] = $calculations['cwirk_reference'] / $calculation
 // $calculations['faktor_a'] = 1.0 + $calculations['tau'] / 16.0;
 // $calculations['faktor_a_reference'] = 1.0 + $calculations['tau_reference'] / 16.0;
 
-
 // $mittlere_belastung = new Mittlere_Belastung( $gebaeude, $luftwechsel->h_max_spezifisch(), $calculations['tau'] );
 
-$mittlere_belastung = new Mittlere_Belastung( $gebaeude, 45, 68 );
+$mittlere_belastung = new Mittlere_Belastung( 
+    gebaeude: $gebaeude, 
+    h_max_spezifisch: $luftwechsel->h_max_spezifisch(), 
+    tau: $calculations['tau']
+);
 
-$mittlere_belastung->ßem('september');
+$calculations['ßemMax'] = $mittlere_belastung->ßemMax();
 
 $monate = wpenon_get_table_results('monate');
 $solar_gewinn_mpk = 0.9 * 1.0 * 0.9 * 0.7 * wpenon_immoticket24_get_g_wert($energieausweis->fenster_bauart); // Solar gewinn neu

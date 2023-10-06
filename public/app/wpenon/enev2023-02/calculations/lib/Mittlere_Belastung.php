@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/Math.php';
+require_once __DIR__ . '/Jahr.php';
 
 /**
  * Berechnungen zum Luftwechsel.
@@ -40,6 +41,9 @@ class Mittlere_Belastung
     /**
      * Tau slugs anhand von Tau ermitteln.
      * 
+     * Dieser wird zur Zusammensetzung der Spaltennamen zur Ermittlung der
+     * Außentemperaturabhängigen Belastung ßem1 benötigt.
+     * 
      * @return array 
      */
     protected function tau_slugs(): array
@@ -58,7 +62,10 @@ class Mittlere_Belastung
     /**
      * Teilbeheizung slugs anhand von h_max_spezifisch ermitteln.
      * 
-     * @return array 
+     * Dieser wird zur Zusammensetzung der Spaltennamen zur Ermittlung der
+     * Außentemperaturabhängigen Belastung ßem1 benötigt.
+     * 
+     * @return array Teilbeheizungs slug.
      */
     protected function teilbeheizung_slugs(): array {
         if( ! $this->teilbeheizung ) {
@@ -86,8 +93,13 @@ class Mittlere_Belastung
         }        
     }
     
-
-    public function ßem( string $month ): float
+    /**
+     * Außentemperaturabhängige Belastung ßem1 für einen Monat ermitteln.
+     * 
+     * @param string $month Slug des Monats.
+     * @return float AußentemperaturabhängigenBelastung ßem1
+     */
+    public function ßem1( string $month ): float
     {
         if( ! isset ( $this->table_data[$month] ) ) {
             return 0;
@@ -112,5 +124,25 @@ class Mittlere_Belastung
         }        
 
         return interpolate_value( $this->tau, $tau_keys, $tau_values );
+    }
+
+    /**
+     * Maximale Außentemperaturabhängige Belastung ßem1 aus einem Jahr ermitteln.
+     * 
+     * @return float Maximale Außentemperaturabhängige Belastung ßem1.
+     */
+    public function ßemMax(): float
+    {
+        $ßemMax = 0;
+
+        foreach( Jahr::monate() as $month_slug => $month ) {
+            $ßem = $this->ßem1( $month_slug );
+
+            if( $ßem > $ßemMax ) {
+                $ßemMax = $ßem;
+            }
+        }
+
+        return $ßemMax;
     }
 }

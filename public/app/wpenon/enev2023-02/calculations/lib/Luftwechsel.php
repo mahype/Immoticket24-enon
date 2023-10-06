@@ -146,8 +146,10 @@ class Luftwechsel
             case 'zu_abluft':
             case 'abluft':
                 return $this->bedarfsgefuehrt ? 0.35: 0.4;
-            case 'none':
+            case 'ohne':
                 return 0;
+            default:
+                throw new Exception(sprintf('Ungültiges Lüftungssystem: %s.', $this->lueftungssystem));
         }                
     }
 
