@@ -4,7 +4,7 @@ require_once __DIR__ . '/Math.php';
 require_once __DIR__ . '/Jahr.php';
 
 /**
- * Berechnungen zum Luftwechsel.
+ * Berechnung der Daten zur Mittleren Belastung aus Tablle 9 und 11. 
  * 
  * @package 
  */
@@ -17,13 +17,33 @@ class Mittlere_Belastung
      */
     protected Gebaeude $gebaeude;
     
+    /**
+     * Maximale spezifische Heizlast des Gebäudes.
+     * 
+     * @var float
+     */
     protected float $h_max_spezifisch;
 
+    /**
+     * Zeitkonstante des Gebäudes.
+     * 
+     * @var float
+     */
     protected float $tau;
 
-    protected array $table_data;
-
+    /**
+     * Ist das Gebäude teilbeheizt?
+     * 
+     * @var bool
+     */
     protected bool $teilbeheizung;
+
+    /**
+     * Tabellendaten aus Tabelle 9 bei Einfamilienhaus oder Tabelle 11 bei Mehrfamilienhaus.
+     * 
+     * @var array
+     */
+    protected array $table_data;
 
     public function __construct(Gebaeude $gebaeude, float $h_max_spezifisch, float $tau, bool $teilbeheizung = true ) {
         $this->gebaeude = $gebaeude;

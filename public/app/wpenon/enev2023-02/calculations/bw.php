@@ -7,6 +7,7 @@ require_once 'lib/Extension_Form_B.php';
 require_once 'lib/Gebaeude.php';
 require_once 'lib/Luftwechsel.php';
 require_once 'lib/Mittlere_Belastung.php';
+require_once 'lib/Bilanz_Innentemperatur.php';
 
 $tableNames = new stdClass();
 
@@ -1092,6 +1093,26 @@ $mittlere_belastung = new Mittlere_Belastung(
 );
 
 $calculations['ßemMax'] = $mittlere_belastung->ßemMax();
+
+$bilanz_innentemperatur = new Bilanz_Innentemperatur( 
+    gebaeude: $gebaeude, 
+    h_max_spezifisch: $luftwechsel->h_max_spezifisch(), 
+    tau: $calculations['tau']
+);
+
+// $mittlere_belastung = new Mittlere_Belastung( 
+//     gebaeude: $gebaeude, 
+//     h_max_spezifisch: 62.5, 
+//     tau: 70
+// );
+
+// $bilanz_innentemperatur = new Bilanz_Innentemperatur( 
+//     gebaeude: $gebaeude, 
+//     h_max_spezifisch: 62.5, 
+//     tau: 70
+// );
+
+$bilanz_innentemperatur->θih( 'januar' );
 
 $monate = wpenon_get_table_results('monate');
 $solar_gewinn_mpk = 0.9 * 1.0 * 0.9 * 0.7 * wpenon_immoticket24_get_g_wert($energieausweis->fenster_bauart); // Solar gewinn neu
