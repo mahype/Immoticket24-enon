@@ -13,7 +13,6 @@ require_once 'Helfer/Math.php';
 require_once 'Tabellen/Luftwechsel.php';
 require_once 'Tabellen/Mittlere_Belastung.php';
 require_once 'Tabellen/Bilanz_Innentemperatur.php';
-require_once 'Tabellen/Nutzwaermebedarf_Trinkwasser.php';
 // Ende neue Lib
 
 $tableNames = new stdClass();

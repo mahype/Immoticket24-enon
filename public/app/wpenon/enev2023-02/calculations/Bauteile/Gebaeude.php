@@ -232,7 +232,7 @@ class Gebaeude
     public function nutzwaermebedarf_trinkwasser_monat( string $monat ): float
     {
         $jahr = new Jahr();
-        $qwb = jaehrlicher_nutzwaermebedarf_trinkwasser($this->nutzflaeche());
+        $qwb = $this->nutzwaermebedarf_trinkwasser($this->nutzflaeche());
         return ($this->nutzflaeche()/$this->wohneinheiten()) * $qwb * ($jahr->monat($monat)->tage()/365);
     }
 }
