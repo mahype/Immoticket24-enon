@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/Math.php';
+require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 
 /**
  * Berechnungen zum Luftwechsel.

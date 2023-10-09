@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/Math.php';
-require_once __DIR__ . '/Jahr.php';
+require_once dirname( __DIR__ ) . '/Helfer/Math.php';
+require_once dirname( __DIR__ ) . '/Helfer/Jahr.php';
 
 /**
  * Berechnung der Daten zur Mittleren Belastung aus Tablle 8 und 10. 
@@ -61,7 +61,7 @@ class Bilanz_Innentemperatur
         $this->tau = $tau;
         $this->teilbeheizung = $teilbeheizung;
 
-        if ($this->gebaeude->wohneinheiten() === 'einfamilienhaus') {
+        if ($this->gebaeude->wohneinheiten() === 1) {
             $this->table_data = wpenon_get_table_results('bilanz_innentemperatur_efh');
         } else {
             $this->table_data = wpenon_get_table_results('bilanz_innentemperatur_mfh');

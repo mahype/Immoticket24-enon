@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/Math.php';
-require_once __DIR__ . '/Jahr.php';
+require_once dirname( __DIR__ ) . '/Helfer/Math.php';
+require_once dirname( __DIR__ ) . '/Helfer/Jahr.php';
 
 /**
  * Berechnung der Daten zur Mittleren Belastung aus Tablle 9 und 11. 
@@ -51,7 +51,7 @@ class Mittlere_Belastung
         $this->tau = $tau;
         $this->teilbeheizung = $teilbeheizung;
 
-        if ($this->gebaeude->wohneinheiten() === 'einfamilienhaus') {
+        if ($this->gebaeude->wohneinheiten() === 1) {
             $this->table_data = wpenon_get_table_results('mittlere_belastung_efh');
         } else {
             $this->table_data = wpenon_get_table_results('mittlere_belastung_mfh');
@@ -155,8 +155,10 @@ class Mittlere_Belastung
     {
         $ßemMax = 0;
 
-        foreach( Jahr::monate() as $month_slug => $month ) {
-            $ßem = $this->ßem1( $month_slug );
+        $jahr = new Jahr();
+
+        foreach( $jahr->monate() as $monat ) {
+            $ßem = $this->ßem1( $monat->slug() );
 
             if( $ßem > $ßemMax ) {
                 $ßemMax = $ßem;

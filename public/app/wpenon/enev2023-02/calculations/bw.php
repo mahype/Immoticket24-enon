@@ -1,13 +1,20 @@
 <?php
 
-require_once 'lib/Extension.php';
-require_once 'lib/Extension_Form_A.php';
-require_once 'lib/Extension_Form_B.php';
+require_once '_lib/Extension.php';
+require_once '_lib/Extension_Form_A.php';
+require_once '_lib/Extension_Form_B.php';
 
-require_once 'lib/Gebaeude.php';
-require_once 'lib/Luftwechsel.php';
-require_once 'lib/Mittlere_Belastung.php';
-require_once 'lib/Bilanz_Innentemperatur.php';
+// Neue Lib
+require_once 'Bauteile/Gebaeude.php';
+
+require_once 'Helfer/Jahr.php';
+require_once 'Helfer/Math.php';
+
+require_once 'Tabellen/Luftwechsel.php';
+require_once 'Tabellen/Mittlere_Belastung.php';
+require_once 'Tabellen/Bilanz_Innentemperatur.php';
+require_once 'Tabellen/Nutzwaermebedarf_Trinkwasser.php';
+// Ende neue Lib
 
 $tableNames = new stdClass();
 
@@ -1025,7 +1032,7 @@ $gebaeude = new Gebaeude(
     $energieausweis->geschoss_hoehe,
     $calculations['huellflaeche'],
     $calculations['huellvolumen'],
-    $energieausweis->wohnungen < 2 ? 'einfamilienhaus' : 'mehrfamilienhaus',
+    $energieausweis->wohnungen,
 );
 
 /**
@@ -1134,7 +1141,7 @@ foreach ( $monate as $monat => $monatsdaten ) {
     $calculations['monate'][ $monat ]['temperatur'] = floatval($monatsdaten->temperatur);
 
     // Wärmesenken als Leistung in W 
-    $calculations['monate'][ $monat ]['ph_sink'] = $calculations['Q'] * ( ($bilanz_innentemperatur->θih( $monat ) + 12 ) / 32 ) * $mittlere_belastung->ßem1( $monat );
+    $calculations['monate'][ $monat ]['ph_sink'] = $calculations['Q'] * ( ($bilanz_innentemperatur->θih($monat) + 12 ) / 32 ) * $mittlere_belastung->ßem1($monat); // Neu
 
     // Transmissionswärmeverluste Qt
     $calculations['monate'][ $monat ]['qt'] = $calculations['ht'] * 0.024 * ( 19.0 - $calculations['monate'][ $monat ]['temperatur'] ) * $calculations['monate'][ $monat ]['tage'];
@@ -1148,8 +1155,17 @@ foreach ( $monate as $monat => $monatsdaten ) {
     $calculations['monate'][ $monat ]['ql'] = $calculations['monate'][ $monat ]['qt'] + $calculations['monate'][ $monat ]['qv'];
     $calculations['monate'][ $monat ]['ql_reference'] = $calculations['monate'][ $monat ]['qt_reference'] + $calculations['monate'][ $monat ]['qv_reference'];
 
+    // Interne Wärmequellen 
+    if($gebaeude->wohneinheiten() === 1) {
+        // Einfamlienhaus
+        $calculations['monate'][ $monat ]['qi_p'] = 45 * $gebaeude->nutzflaeche() * $calculations['monate'][ $monat ]['tage'] * 0.001 ;
+    } else {
+        // Mehrfamilienhaus
+        $calculations['monate'][ $monat ]['qi_p'] = (90.0 * $gebaeude->nutzflaeche() / ( $gebaeude->wohneinheiten() * $calculations['monate'][ $monat ]['tage'])) * 0.001 ; 
+    }
+
     // interne Gewinne Qi
-    $calculations['monate'][ $monat ]['qi'] = 5.0 * $calculations['nutzflaeche'] * 0.024 * $calculations['monate'][ $monat ]['tage'];
+    // $calculations['monate'][ $monat ]['qi'] = 5.0 * $calculations['nutzflaeche'] * 0.024 * $calculations['monate'][ $monat ]['tage']; // Sollte raus, aber ersetzt qi_p qi?
     $calculations['monate'][ $monat ]['qi_reference'] = 5.0 * $calculations['nutzflaeche'] * 0.024 * $calculations['monate'][ $monat ]['tage'];
 
     // solare Gewinne Qs
@@ -1175,7 +1191,7 @@ foreach ( $monate as $monat => $monatsdaten ) {
                     'keysize'   => 30,
                     'value'     => $monatsdaten->$str30,
                     ),
-#                    'keysize'   => 45,
+                    // 'keysize'   => 45,
                     'value'     => $monatsdaten->$str45,
                     ),
                     array(
@@ -1193,12 +1209,14 @@ foreach ( $monate as $monat => $monatsdaten ) {
             } else {
                 $strahlungsfaktor = $monatsdaten->w_0;
             }
-            $calculations['monate'][ $monat ]['qs'] += $strahlungsfaktor * $solar_gewinn_mpk * wpenon_immoticket24_get_g_wert($data['bauart']) * $data['a'] * 0.024 * $calculations['monate'][ $monat ]['tage'];
+            $calculations['monate'][ $monat ]['qs'] += $strahlungsfaktor * $solar_gewinn_mpk * $data['a'] * 0.024 * $calculations['monate'][ $monat ]['tage']; // Neu
             $calculations['monate'][ $monat ]['qs_reference'] += $strahlungsfaktor * $solar_gewinn_mpk_reference * wpenon_immoticket24_get_g_wert($data['bauart'], true) * $data['a'] * 0.024 * $calculations['monate'][ $monat ]['tage'];
         }
     }
     unset($data);
 
+    $calculations['monate'][ $monat ]['qi_wasser'] = $gebaeude->nutzwaermebedarf_trinkwasser_monat($monat);
+    
     // Gesamtgewinne Qg
     $calculations['monate'][ $monat ]['qg'] = $calculations['monate'][ $monat ]['qi'] + $calculations['monate'][ $monat ]['qs'];
     $calculations['monate'][ $monat ]['qg_reference'] = $calculations['monate'][ $monat ]['qi_reference'] + $calculations['monate'][ $monat ]['qs_reference'];
