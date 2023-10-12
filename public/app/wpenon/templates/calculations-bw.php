@@ -72,7 +72,7 @@
       <td>Nettohüllvolumen</td><td><?php echo $data['huellvolumen_netto']; ?> m<sup>3</sup></td>
     </tr>
     <tr>
-      <td>A/V rate</td><td><?php echo $data['av_ratio']; ?></td>
+      <td>A/V rate</td><td><?php echo $data['ave_verhaeltnis']; ?></td>
     </tr>
     <tr>
       <td>Gesamtluftwechsel 𝑛</td><td><?php echo $data['n']; ?></td>

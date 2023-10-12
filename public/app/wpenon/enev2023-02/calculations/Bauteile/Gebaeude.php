@@ -143,7 +143,7 @@ class Gebaeude
      * 
      * @return float 
      */
-    public function av_ratio(): float
+    public function ave_verhaeltnis(): float
     {
         return $this->huellflaeche / $this->huellvolumen_netto();
     }

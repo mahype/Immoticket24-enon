@@ -13,7 +13,7 @@ require_once 'Helfer/Math.php';
 require_once 'Tabellen/Luftwechsel.php';
 require_once 'Tabellen/Mittlere_Belastung.php';
 require_once 'Tabellen/Bilanz_Innentemperatur.php';
-require_once 'Tabellen/Trinkwasser_Erwaermungsanlage.php'
+require_once 'Tabellen/Trinkwasser_Erwaermungsanlage.php';
 // Ende neue Lib
 
 $tableNames = new stdClass();
@@ -934,7 +934,7 @@ if (substr($energieausweis->rollladenkaesten, 0, 6) == 'innen_' ) {
 $fxwerte = array(
     'decke'           => 0.8,
     'kellerwand'      => 0.75, // Schlechtester Wert aus Tab c4 18599/T12
-    'boden'           => 0.8, // Wert aus Tab c4 18599/T12
+    'boden'           => 0.8,  // Wert aus Tab c4 18599/T12
 );
 
 $uwerte = wpenon_get_table_results($tableNames->uwerte);
@@ -991,37 +991,18 @@ unset($data);
  * BAUTEILE ERGEBNIS
  *************************************************/
 
-$calculations['huellflaeche'] = 0.0;
 $calculations['ht'] = 0.0;
-$calculations['ht_reference'] = 0.0;
 $calculations['hw'] = 0.0;
-$calculations['hw_reference'] = 0.0;
 foreach ( $calculations['bauteile'] as $slug => $data ) {
     $calculations['huellflaeche'] += $data['a'];
-    $calculations['ht'] += $data['fx'] * $data['u'] * $data['a'];
-    $calculations['ht_reference'] += $data['fx'] * $data['u_reference'] * $data['a'];
+    $calculations['ht'] += $data['fx'] * $data['u'] * $data['a'];    
     if (in_array($data['typ'], array( 'fenster', 'tuer' )) ) {
         $calculations['hw'] += $data['fx'] * $data['u'] * $data['a'];
-        $calculations['hw_reference'] += $data['fx'] * $data['u_reference'] * $data['a'];
     }
 }
 unset($data);
 $calculations['ht'] += 0.1 * $calculations['huellflaeche'];
-$calculations['ht_reference'] += 0.1 * $calculations['huellflaeche'];
 
-$calculations['ave_verhaeltnis'] = $calculations['huellflaeche'] / $calculations['huellvolumen'];
-
-$calculations['hv'] = 0.0;
-$calculations['hv_reference'] = 0.0;
-
-$hv_mpk2 = 0.55;
-if ($energieausweis->l_info != 'anlage' ) {
-    if ($energieausweis->dichtheit ) {
-        $hv_mpk2 = 0.6;
-    } else {
-        $hv_mpk2 = 0.7;
-    }
-}
 
 /**
  * Gebäude.
@@ -1054,7 +1035,7 @@ $luftwechsel = new Luftwechsel(
 
 $calculations['huellvolumen_netto'] = $gebaeude->huellvolumen_netto();
 $calculations['nutzflaeche'] = $gebaeude->nutzflaeche();
-$calculations['av_ratio'] = $gebaeude->av_ratio();
+$calculations['ave_verhaeltnis'] = $gebaeude->ave_verhaeltnis();
 
 $calculations['fwin1'] = $luftwechsel->fwin1();
 $calculations['fwin2'] = $luftwechsel->fwin2();
@@ -1070,11 +1051,7 @@ $calculations['h_max_spezifisch'] = $luftwechsel->h_max_spezifisch();
 
 $hv_mpk2 = $luftwechsel->hv();
 
-// Ende Luftwechsel neu
-$calculations['hv_reference'] += $hv_mpk1 * $calculations['huellvolumen'] * 0.55 * 0.34;
-
 $calculations['h'] = $calculations['ht'] + $calculations['hv'];
-$calculations['h_reference'] = $calculations['ht_reference'] + $calculations['hv_reference'];
 
 // Berechnung max. Wärmestrom
 $calculations['Q'] = $calculations['h'] * 32; // (Einheit W)
@@ -1084,15 +1061,7 @@ $calculations['Q'] = $calculations['h'] * 32; // (Einheit W)
  *************************************************/
 
 $calculations['cwirk'] = 50;
-$calculations['cwirk_reference'] = 50 * $calculations['huellvolumen'];
-
 $calculations['tau'] = ($calculations['cwirk'] * $calculations['nutzflaeche'] ) / $calculations['h'];  // Tau neu
-$calculations['tau_reference'] = $calculations['cwirk_reference'] / $calculations['h_reference'];
-
-// Faktor a - Zur späteren Recherche auskommentiert - Werte werden neu berechnet
-
-// $calculations['faktor_a'] = 1.0 + $calculations['tau'] / 16.0;
-// $calculations['faktor_a_reference'] = 1.0 + $calculations['tau_reference'] / 16.0;
 
 $mittlere_belastung = new Mittlere_Belastung( 
     gebaeude: $gebaeude, 
@@ -1110,8 +1079,8 @@ $bilanz_innentemperatur = new Bilanz_Innentemperatur(
 
 // Felder müssen im Frontend noch angelegt werden!
 $trinkwasser_erwaermungs_anlage = new Trinkwasser_Erwaermungsanlage(
-    zentrale_wasserversorgung: $energieausweis->ww_zentrale_wasserversorgung,
-    beheizung_anlage: $energieausweis->ww_beheizung_anlage, // Neu: 'alles', 'nichts' oder 'verteilung'.
+    zentrale_wasserversorgung: true,
+    beheizung_anlage: 'alles', // Neu: 'alles', 'nichts' oder 'verteilung'.
     warmwasserspeicher: $energieausweis->warmwasserspeicher == 'ja' ? true : false, // Neu - Ist ein Warmwasserspeicher vorhanden?
     zirkulation: $energieausweis->verteilung_versorgung === 'mit' ? true : false, // Feld vorhanden
 );
@@ -1130,6 +1099,8 @@ $calculations['monate'] = array();
 
 foreach ( $monate as $monat => $monatsdaten ) {
     $calculations['monate'][ $monat ] = array();
+
+
     $calculations['monate'][ $monat ]['name'] = $monatsdaten->name;
     $calculations['monate'][ $monat ]['tage'] = absint($monatsdaten->tage);
     $calculations['monate'][ $monat ]['temperatur'] = floatval($monatsdaten->temperatur);
@@ -1195,14 +1166,38 @@ foreach ( $monate as $monat => $monatsdaten ) {
     // Wärmesenken als Leistung in W (Berechnung von Ph sink und Ph*sink)
     $calculations['monate'][ $monat ]['ph_sink'] = $calculations['Q'] * ( ($bilanz_innentemperatur->θih($monat) + 12 ) / 32 ) * $mittlere_belastung->ßem1($monat);     
     $calculations['monate'][ $monat ]['psh_sink'] = $calculations['monate'][ $monat ]['ph_sink'] - ($calculations['monate'][ $monat ]['qi_prozess'] + (0.5*$calculations['monate'][ $monat ]['qs'])*$fum);
+    $calculations['monate'][ $monat ]['psh_sink'] = $calculations['monate'][ $monat ]['psh_sink'] < 0 ? 0 : $calculations['monate'][ $monat ]['psh_sink'];
+
+    $heizungsanlagen = new Heizungsanlagen();
+    $heizungsanlage_1 = new Heizungsanlage( $energieausweis->hu_auslegungstemperaturen, $energieausweis->hu_beheizung );    
+
+    if( $energieausweis->hu2_info ) {
+        $heizungsanlage_2 = new Heizungsanlage( $energieausweis->hu2_auslegungstemperaturen, $energieausweis->hu2_beheizung );
+        $heizungsanlagen->add( $heizungsanlage, $energieausweis->hu_anteil );
+        $heizungsanlagen->add( $heizungsanlage_2, $energieausweis->hu2_anteil );
+    } else {
+        $heizungsanlagen->add( $heizungsanlage, 100 );
+    }
+
+    if( $energieausweis->hu3_info ) {
+        $heizungsanlage_3 = new Heizungsanlage( $energieausweis->hu2_auslegungstemperaturen, $energieausweis->hu3_beheizung );
+        $heizungsanlagen->add( $heizungsanlage_3, $energieausweis->hu3_anteil );
+    }
+
+    $calculations['monate'][ $monat ]['fa_h'] = $heizungsanlagen->fa_h();
+
+    // $calculations['monate'][ $monat ]['qi_heizung'] =  $calculations['monate'][ $monat ]['psh_sink'] * ( $calculations['monate'][ $monat ]['ßem']/$ßemMax) * fa-h/$calculations['monate'][ $monat ]['fum'];
+
+
+
+    $calculations['monate'][ $monat ]['qi_source_h'] = $calculations['monate'][ $monat ]['psh_sink'] * ($mittlere_belastung->ßem1($monat) / $mittlere_belastung->ßemMax()) * $calculations['monate'][ $monat ]['fa_h']  / $fum;
+
     
     // Monatlicher Wärmebedarf für Warmwasser 
     $calculations['monate'][ $monat ]['qwb'] = $gebaeude->nutzwaermebedarf_trinkwasser_monat($monat);
 
     // Interne Wärmequelle infolge von Warmwasser (Qi,w)
     $calculations['monate'][ $monat ]['qi_wasser'] = $gebaeude->nutzwaermebedarf_trinkwasser_monat($monat) * $trinkwasser_erwaermungs_anlage->f();
-
-    
 
     // Hinzufügen zu globalen Ergebnissen
     $calculations['qh'] += $calculations['monate'][ $monat ]['qh'];    

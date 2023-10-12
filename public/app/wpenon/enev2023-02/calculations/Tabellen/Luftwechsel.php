@@ -132,7 +132,7 @@ class Luftwechsel
         }
 
         $rate = interpolate_value(
-            $this->gebaeude->av_ratio(),
+            $this->gebaeude->ave_verhaeltnis(),
             [0.2, 0.4, 0.6, 0.8],
             $ratios
         );
@@ -224,7 +224,7 @@ class Luftwechsel
         }
 
         $rate = interpolate_value(
-            $this->gebaeude->av_ratio(),
+            $this->gebaeude->ave_verhaeltnis(),
             [0.2, 0.4, 0.6, 0.8],
             $ratios
         );
@@ -280,7 +280,7 @@ class Luftwechsel
         }
 
         $factor = interpolate_value(
-            $this->gebaeude->av_ratio(),
+            $this->gebaeude->ave_verhaeltnis(),
             [0.2, 0.4, 0.6, 0.8],
             $ratios
         );

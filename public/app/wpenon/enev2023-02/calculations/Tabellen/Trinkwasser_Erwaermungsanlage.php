@@ -44,7 +44,7 @@ class Trinkwasser_Erwaermungsanlage
      */
     public function __construct( 
         bool $zentrale_wasserversorgung,
-        bool $beheizung_anlage = 'alles',
+        string $beheizung_anlage = 'alles',
         bool $warmwasserspeicher = false,
         bool $zirkulation = false        
     ) {
