@@ -61,7 +61,7 @@ class Bilanz_Innentemperatur
         $this->tau = $tau;
         $this->teilbeheizung = $teilbeheizung;
 
-        if ($this->gebaeude->wohneinheiten() === 1) {
+        if ($this->gebaeude->anzahl_wohneinheiten() === 1) {
             $this->table_data = wpenon_get_table_results('bilanz_innentemperatur_efh');
         } else {
             $this->table_data = wpenon_get_table_results('bilanz_innentemperatur_mfh');

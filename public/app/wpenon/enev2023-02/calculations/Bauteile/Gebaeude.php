@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/Heizsystem.php';
+
 /**
  * Gebäude.
  * 
@@ -47,16 +49,28 @@ class Gebaeude
      * 
      * @var string
      */
-    private $wohneinheiten;
+    private $anzahl_wohneinheiten;
+
+    /**
+     * Heizsystem.
+     * 
+     * @var Heizsystem
+     */
+    private Heizsystem $heizsystem;
+
+    /**
+     * Wasserversorgung.
+     * 
+     * @var Wasserversorgung
+     */
+    private Wasserversorgung $wasserversorgung;
 
     /**
      * Wirksame Wärmespeicherkapazität in Abhängigkeit der Gebäudeschwere.
      * 
-     * Für den vereinfachten Rechenweg festgelegt auf den Wert 50. 
-     * 
      * @var int
      */
-    private int $c_wirk = 50;
+    private int $c_wirk;
 
     public function __construct( int $baujahr, int $geschossanzahl, float $geschosshoehe, float $huellflaeche, float $huellvolumen, int $wohneinheiten )
     {
@@ -65,7 +79,41 @@ class Gebaeude
         $this->geschosshoehe = $geschosshoehe;
         $this->huellflaeche = $huellflaeche;
         $this->huellvolumen = $huellvolumen;
-        $this->wohneinheiten = $wohneinheiten;
+        $this->anzahl_wohneinheiten = $wohneinheiten;
+
+        $this->c_wirk = 50; // Für den vereinfachten Rechenweg festgelegt auf den Wert 50.
+
+        $this->heizsystem = new Heizsystem();
+    }
+
+    /**
+     * Heizsystem.
+     * 
+     * @return Heizsystem 
+     */
+    public function heizsystem(): Heizsystem
+    {
+        return $this->heizsystem;
+    }
+
+    /**
+     * Wasserversorgung.
+     * 
+     * @param Wasserversorgung 
+     * 
+     * @return Wasserversorgung
+     */
+    public function wasserversorgung( Wasserversorgung $wasserversorgung = null ): Wasserversorgung
+    {
+        if ($wasserversorgung !== null) {
+            $this->wasserversorgung = $wasserversorgung;
+        }
+
+        if( $this->wasserversorgung === null ) {
+            throw new Exception('Wasserversorgung wurde nicht gesetzt.');
+        }
+
+        return $this->wasserversorgung;
     }
 
     /**
@@ -106,6 +154,16 @@ class Gebaeude
     public function geschosshoehe(): float
     {
         return $this->geschosshoehe;
+    }
+
+    /**
+     * Anzahl der Wohneinheiten.
+     * 
+     * @return string 
+     */
+    public function anzahl_wohneinheiten(): int
+    {
+        return $this->anzahl_wohneinheiten;
     }
 
     /**
@@ -160,17 +218,7 @@ class Gebaeude
         } else {
             return $this->huellvolumen() * ( 1.0 / $this->geschosshoehe - 0.04 );
         }
-    }
-
-    /**
-     * Anzahl der Wohneinheiten.
-     * 
-     * @return string 
-     */
-    public function wohneinheiten(): int
-    {
-        return $this->wohneinheiten;
-    }
+    }    
 
     /**
      * Jährlicher Nutzwaermebedarf für Trinkwasser (qwb).
@@ -233,6 +281,6 @@ class Gebaeude
     {
         $jahr = new Jahr();
         $qwb = $this->nutzwaermebedarf_trinkwasser($this->nutzflaeche());
-        return ($this->nutzflaeche()/$this->wohneinheiten()) * $qwb * ($jahr->monat($monat)->tage()/365);
+        return ($this->nutzflaeche()/$this->anzahl_wohneinheiten()) * $qwb * ($jahr->monat($monat)->tage()/365);
     }
 }

@@ -51,7 +51,7 @@ class Mittlere_Belastung
         $this->tau = $tau;
         $this->teilbeheizung = $teilbeheizung;
 
-        if ($this->gebaeude->wohneinheiten() === 1) {
+        if ($this->gebaeude->anzahl_wohneinheiten() === 1) {
             $this->table_data = wpenon_get_table_results('mittlere_belastung_efh');
         } else {
             $this->table_data = wpenon_get_table_results('mittlere_belastung_mfh');

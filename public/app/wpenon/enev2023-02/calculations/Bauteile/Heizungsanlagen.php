@@ -1,26 +1,37 @@
 <?php 
 
+require_once __DIR__ . '/Heizungsanlage.php';
+
 /**
- * Berechnen mehrerer Heizungsanlagen in einrm Gebäude.
+ * Berechnung mehrerer Heizungsanlagen.
  */
-class Heizungsanlagen {
+class Heizungsanlagen
+{
     /**
      * Liste der Heizungsanlagen.
      * 
-     * @var array
+     * @var Heizungsanlage[]
      */
     protected array $heizungsanlagen = [];
 
     /**
      * Hinzufügen einer Heizungsanlage.
      * 
-     * @var array
+     * @var Heizungsanlage
      */
-    public function add( Heizungsanlage $heizungsanlage, int $prozentualer_anteil ) {
-        $this->heizungsanlagen[] = [
-            'heizungsanlage' => $heizungsanlage,
-            'prozentualer_anteil' => $prozentualer_anteil
-        ];
+    public function hinzufuegen( Heizungsanlage $heizungsanlage )
+    {
+        $this->heizungsanlagen[] = $heizungsanlage;
+    }
+
+    /**
+     * Alle Heizungsanlagen.
+     * 
+     * @return Heizungsanlage[]
+     */
+    public function alle(): array
+    {
+        return $this->heizungsanlagen;
     }
 
     /**
@@ -28,11 +39,12 @@ class Heizungsanlagen {
      * 
      * @return bool 
      */
-    protected function validiere_prozent_gesamt(): bool {
+    protected function validiere_prozent_gesamt(): bool
+    {
         $prozent_gesamt = 0;
 
         foreach ($this->heizungsanlagen as $heizungsanlage) {
-            $prozent_gesamt += $heizungsanlage['prozentualer_anteil'];
+            $prozent_gesamt += $heizungsanlage->prozentualer_anteil();
         }
 
         return $prozent_gesamt === 100;
@@ -43,7 +55,8 @@ class Heizungsanlagen {
      * 
      * @return float
      */
-    public function fa_h() {
+    public function fa_h()
+    {
         $fa_h = 0;
 
         // Validieren der prozentualen Anteile.
@@ -52,18 +65,9 @@ class Heizungsanlagen {
         }
 
         foreach ($this->heizungsanlagen as $heizungsanlage) {
-            $fa_h += $heizungsanlage['heizungsanlage']->fa_h() * $heizungsanlage['prozentualer_anteil'] / 100;
+            $fa_h += $heizungsanlage->fa_h() * $heizungsanlage->prozentualer_anteil() / 100;
         }
 
         return $fa_h;
-    }
-
-    /**
-     * Berechnung der innernen Wärmegewinne.
-     * 
-     * @return float
-     */
-    public function qi(): float {
-
     }
 }
