@@ -1193,7 +1193,7 @@ foreach ( $monate as $monat => $monatsdaten ) {
    
     $calculations['monate'][ $monat ]['nm'] =  (new Ausnutzungsgrad( $calculations['tau'], $calculations['monate'][ $monat ]['ym'] ) )->nm();
     $calculations['monate'][ $monat ]['nm_ym'] = (1-$calculations['monate'][ $monat ]['nm'] * $calculations['monate'][ $monat ]['ym']);    
-    $calculations['monate'][ $monat ]['ßhm'] = $mittlere_belastung->ßem1($monat) * $calculations['monate'][ $monat ]['nm_ym'];    
+    $calculations['monate'][ $monat ]['ßhm'] = $mittlere_belastung->ßem1($monat) * $calculations['monate'][ $monat ]['nm_ym'];
 
     // Berechnung der Heizustunden pro Monat
     if  ( $calculations['monate'][ $monat ]['ßhm'] > 0.05 ) {
@@ -1228,6 +1228,22 @@ foreach ( $monate as $monat => $monatsdaten ) {
 
     // Heizwärmebedarf/ Nutzenergie im Jahr
     $calculations['qh'] += $calculations['monate'][ $monat ]['qh'];
+
+
+    if( $gebaeude->anzahl_wohneinheiten() === 1 ) {
+        $flna = 1;
+    } else {
+        $flna = 1 - (( 10 - $calculations['monate'][ $monat ]['temperatur'] ) / 22);
+    }     
+    
+    $calculations['monate'][ $monat ]['trl'] = 24 - $flna * 7;
+
+    if( $calculations['monate'][ $monat ]['trl'] < 17 ) {
+        $calculations['monate'][ $monat ]['trl']  = 17;
+    }
+
+    $calculations['monate'][ $monat ]['ith_rl'] = $calculations['monate'][ $monat ]['thm'] * 0.042 * $calculations['monate'][ $monat ]['trl'];
+    $x = 0;
 }
 
 $calculations['qw'] = 12.5 * $gebaeude->nutzflaeche();
