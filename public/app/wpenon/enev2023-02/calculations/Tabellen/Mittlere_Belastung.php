@@ -136,7 +136,7 @@ class Mittlere_Belastung
                 $column = $tau_slug . '_' . $teilbeheizung_slug;                
 
                 $keys[]= (int) str_replace( 'wm2', '', $teilbeheizung_slug );
-                $values[] = (float) $this->table_data[$month]->$column;             
+                $values[] = (float) $this->table_data[$month]->$column;          
             }
 
             $tau_keys[] = (int) str_replace( 't', '', $tau_slug );            

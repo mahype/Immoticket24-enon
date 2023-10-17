@@ -9,7 +9,9 @@ require_once 'Bauteile/Gebaeude.php';
 
 require_once 'Helfer/Jahr.php';
 require_once 'Helfer/Math.php';
+require_once 'Helfer/Faktoren.php';
 
+require_once 'Tabellen/Ausnutzungsgrad.php';
 require_once 'Tabellen/Luftwechsel.php';
 require_once 'Tabellen/Mittlere_Belastung.php';
 require_once 'Tabellen/Bilanz_Innentemperatur.php';
@@ -29,20 +31,6 @@ $tableNames->l_verteilung                = 'l_verteilung2021';
 $tableNames->klimafaktoren               = 'klimafaktoren202301';
 
 $calculations = array();
-
-/**
- * Gebäude.
- */
-$gebaeude = new Gebaeude(
-    $energieausweis->baujahr,
-    $energieausweis->geschoss_zahl,
-    $energieausweis->geschoss_hoehe,
-    $calculations['huellflaeche'], // Später intern berechnen
-    $calculations['huellvolumen'], // Später intern berechnen
-    $energieausweis->wohnungen,
-);
-
-$calculations['gebauede'] = $gebaeude;
 
 /*************************************************
  * BAUTEILE BERECHNUNG
@@ -80,6 +68,7 @@ foreach ( $grundriss_form as $wand => $data ) {
         $to_calculate[ $wand ] = $data;
     }
 }
+
 unset($data);
 
 foreach ( $to_calculate as $wand => $data ) {
@@ -759,11 +748,7 @@ foreach ( $calculations['volumenteile'] as $slug => $data ) {
 }
 unset($data);
 
-if ($geschosshoehe >= 2.5 && $geschosshoehe <= 3.0 ) {
-    $gebauede->nutzflaeche() = $calculations['huellvolumen'] * 0.32;
-} else {
-    $gebauede->nutzflaeche() = $calculations['huellvolumen'] * ( 1.0 / $geschosshoehe - 0.04 );
-}
+
 
 /*************************************************
  * BAUTEILE TRANSPARENT etc.
@@ -881,7 +866,6 @@ if ($energieausweis->anbau ) {
     }
     unset($data);
 }
-
 
 if ($energieausweis->heizkoerpernischen == 'vorhanden' ) {
     foreach ( $grundriss_form as $wand => $data ) {
@@ -1015,6 +999,20 @@ foreach ( $calculations['bauteile'] as $slug => $data ) {
 unset($data);
 $calculations['ht'] += 0.1 * $calculations['huellflaeche'];
 
+/**
+ * Gebäude.
+ */
+$gebaeude = new Gebaeude(
+    $energieausweis->baujahr,
+    $energieausweis->geschoss_zahl,
+    $energieausweis->geschoss_hoehe,
+    $calculations['huellflaeche'], // Später intern berechnen
+    $calculations['huellvolumen'], // Später intern berechnen
+    $energieausweis->wohnungen,
+);
+
+$calculations['gebauede'] = $gebaeude;
+
 $luftwechsel = new Luftwechsel(
     gebaeude: $gebaeude,
     ht: $calculations['ht'],
@@ -1056,7 +1054,7 @@ $trinkwasser_erwaermungs_anlage = new Wasserversorgung(
 );
 
 if( $energieausweis->h_erzeugung ) {
-    $auslegungstemperaturen = $energieausweis->h_auslegungstemperaturen ? $energieausweis->h_auslegungstemperaturen : '70/55';
+    $auslegungstemperaturen = $energieausweis->h_auslegungstemperaturen;
     $anteil = $energieausweis->h_deckungsanteil ? $energieausweis->h_deckungsanteil : 100;
     $beheizung_anlage = $energieausweis->h_standort === 'innerhalb' ? 'alles': 'nichts';
 
@@ -1065,7 +1063,7 @@ if( $energieausweis->h_erzeugung ) {
 }
 
 if( $energieausweis->h2_erzeugung ) {
-    $auslegungstemperaturen = $energieausweis->h_auslegungstemperaturen ? $energieausweis->h3_auslegungstemperaturen : '70/55';
+    $auslegungstemperaturen = $energieausweis->h_auslegungstemperaturen;
     $anteil = $energieausweis->h2_deckungsanteil;
     $beheizung_anlage = $energieausweis->h2_standort === 'innerhalb' ? 'alles': 'nichts';
 
@@ -1074,24 +1072,36 @@ if( $energieausweis->h2_erzeugung ) {
 }
 
 if( $energieausweis->h3_erzeugung ) {
-    $auslegungstemperaturen = $energieausweis->h_auslegungstemperaturen ? $energieausweis->h3_auslegungstemperaturen : '70/55';
+    $auslegungstemperaturen = $energieausweis->h_auslegungstemperaturen;
     $anteil = $energieausweis->h3_deckungsanteil;
     $beheizung_anlage = $energieausweis->h3_standort === 'innerhalb' ? 'alles': 'nichts';
-
+ 
     $heizungsanlage = new Heizungsanlage( $auslegungstemperaturen, $beheizung_anlage, $anteil );
     $gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $heizungsanlage );
+}
+
+if( $energieausweis->h_uebergabe ) {
+    $auslegungstemperaturen = $energieausweis->h_uebergabe_auslegungstemperaturen;
+    $anteil = $energieausweis->h_uebergabe_anteil;
+    $gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen( new Uebergabesystem( $auslegungstemperaturen, $anteil ) );
+}
+
+if( $energieausweis->h_uebergabe2 ) {
+    $auslegungstemperaturen = $energieausweis->h_uebergab2_auslegungstemperaturen;
+    $anteil = $energieausweis->h_uebergabe2_anteil;
+    $gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen( new Uebergabesystem( $auslegungstemperaturen, $anteil ) );
 }
 
 $monate = wpenon_get_table_results('monate');
 $solar_gewinn_mpk = 0.9 * 1.0 * 0.9 * 0.7 * wpenon_immoticket24_get_g_wert($energieausweis->fenster_bauart); // Solar gewinn neu
 
+$calculations['qi_prozesse'] = 0.0;
+$calculations['qi_solar'] = 0.0;
+$calculations['qi_wasser'] = 0.0;
+$calculations['qi_heizung'] = 0.0;
 $calculations['qh'] = 0.0;
-$calculations['qt'] = 0.0;
-$calculations['qv'] = 0.0;
-$calculations['ql'] = 0.0;
-$calculations['qi'] = 0.0;
-$calculations['qs'] = 0.0;
-$calculations['qg'] = 0.0;
+$calculations['ßh'] = 0.0;
+
 $calculations['monate'] = array();
 
 foreach ( $monate as $monat => $monatsdaten ) {
@@ -1161,44 +1171,73 @@ foreach ( $monate as $monat => $monatsdaten ) {
     unset($data);
 
     // Wärmesenken als Leistung in W (Berechnung von Ph sink und Ph*sink)
-    $calculations['monate'][ $monat ]['ph_sink'] = $calculations['Q'] * ( ($bilanz_innentemperatur->θih($monat) + 12 ) / 32 ) * $mittlere_belastung->ßem1($monat);     
-    $calculations['monate'][ $monat ]['psh_sink'] = $calculations['monate'][ $monat ]['ph_sink'] - ($calculations['monate'][ $monat ]['qi_prozesse'] + (0.5*$calculations['monate'][ $monat ]['qs'])*$fum);
+    $calculations['monate'][ $monat ]['ph_sink'] = $calculations['Q'] * ( ($bilanz_innentemperatur->θih($monat) + 12 ) / 32 ) * $mittlere_belastung->ßem1($monat);        
+
+    $calculations['monate'][ $monat ]['psh_sink'] = $calculations['monate'][ $monat ]['ph_sink'] - ($calculations['monate'][ $monat ]['qi_prozesse'] + ( 0.5 * $calculations['monate'][ $monat ]['qi_solar'] ) * $fum);
     $calculations['monate'][ $monat ]['psh_sink'] = $calculations['monate'][ $monat ]['psh_sink'] < 0 ? 0 : $calculations['monate'][ $monat ]['psh_sink'];    
-
-    // $calculations['monate'][ $monat ]['qi_source_h'] = $calculations['monate'][ $monat ]['psh_sink'] * ($mittlere_belastung->ßem1($monat) / $mittlere_belastung->ßemMax()) * $heizungsanlagen->fa_h() / $fum;
-
     
-    // Monatlicher Wärmebedarf für Warmwasser 
-    $calculations['monate'][ $monat ]['qwb'] = $gebaeude->nutzwaermebedarf_trinkwasser_monat($monat);
-
     // Interne Wärmequelle infolge von Warmwasser (Qi,w)
-    $calculations['monate'][ $monat ]['qi_wasser'] = $gebaeude->nutzwaermebedarf_trinkwasser_monat($monat) * $trinkwasser_erwaermungs_anlage->fh_w();
+    $calculations['monate'][ $monat ]['qi_wasser'] = $gebaeude->qwb($monat) * $trinkwasser_erwaermungs_anlage->fh_w();
 
     // Interne Wärmequelle infolge von Heizung
-    $calculations['monate'][ $monat ]['qi_heizung'] = $calculations['monate'][ $monat ]['psh_sink'] * $mittlere_belastung->ßem1( $month ) / $mittlere_belastung->ßemMax() * $heizungsanlage->fa_h() / $fum;
+    $calculations['monate'][ $monat ]['qi_heizung'] = $calculations['monate'][ $monat ]['psh_sink'] * ( $mittlere_belastung->ßem1( $monat ) / $mittlere_belastung->ßemMax() ) * $gebaeude->heizsystem()->fa_h() / $fum;
 
+    // Zusammenfassung aller internen Wärmequellen
+    $calculations['monate'][ $monat ]['qi_gesamt'] = $calculations['monate'][ $monat ]['qi_prozesse'] + $calculations['monate'][ $monat ]['qi_solar'] + $calculations['monate'][ $monat ]['qi_wasser'] + $calculations['monate'][ $monat ]['qi_heizung'];
+
+    // Berechnung von PH Source (in den Dokumenten auch "pi" genannt).
+    $calculations['monate'][ $monat ]['ph_source'] = $calculations['monate'][ $monat ]['qi_gesamt'] * $fum;
+
+    // Berechnung das monatlichen Wärmequellen-/Wärmesenken-Verhältnis ym.
+    $calculations['monate'][ $monat ]['ym'] =  $calculations['monate'][ $monat ]['ph_source'] / $calculations['monate'][ $monat ]['ph_sink'];
+   
+    $calculations['monate'][ $monat ]['nm'] =  (new Ausnutzungsgrad( $calculations['tau'], $calculations['monate'][ $monat ]['ym'] ) )->nm();
+    $calculations['monate'][ $monat ]['nm_ym'] = (1-$calculations['monate'][ $monat ]['nm'] * $calculations['monate'][ $monat ]['ym']);    
+    $calculations['monate'][ $monat ]['ßhm'] = $mittlere_belastung->ßem1($monat) * $calculations['monate'][ $monat ]['nm_ym'];    
+
+    // Berechnung der Heizustunden pro Monat
+    if  ( $calculations['monate'][ $monat ]['ßhm'] > 0.05 ) {
+        $calculations['monate'][ $monat ]['thm'] = $calculations['monate'][ $monat ]['tage'] * 24;
+    } else {
+        $calculations['monate'][ $monat ]['thm'] = ( $calculations['monate'][ $monat ]['ßhm'] / 0.05 ) * $calculations['monate'][ $monat ]['tage'] * 24;
+    }
+
+    // Berechnung der Heizwärmebedarfs pro Monat
+    $calculations['monate'][ $monat ]['qh'] = $calculations['monate'][ $monat ]['ph_sink'] * $calculations['monate'][ $monat ]['nm_ym'] * $calculations['monate'][ $monat ]['thm']/1000;
+
+    /**
+     * Aufsummierung zu Jahresergebnissen
+     */
+
+    $calculations['ßh'] += $calculations['monate'][ $monat ]['ßhm'];
+
+    // Berechnung des jährlichen Warmwasserbedarfs
+    $calculations['qw_b'] += $gebaeude->qwb($monat);
+
+    // Interne Wärmequellen infolge von Personen
+    $calculations['qi_prozesse'] += $calculations['monate'][ $monat ]['qi_prozesse'];
+
+    // Interne Wärmequellen infolge von Solar
     $calculations['qi_solar'] += $calculations['monate'][ $monat ]['qi_solar'];
 
+    // Interne Wärmequellen infolge von Warmwasser
+    $calculations['qi_wasser'] += $calculations['monate'][ $monat ]['qi_wasser'];
 
+    // Interne Wärmequellen infolge von Heizung
+    $calculations['qi_heizung'] += $calculations['monate'][ $monat ]['qi_heizung'];
 
-    // Hinzufügen zu globalen Ergebnissen
-    $calculations['qh'] += $calculations['monate'][ $monat ]['qh'];    
-    $calculations['qt'] += $calculations['monate'][ $monat ]['qt'];    
-    $calculations['qv'] += $calculations['monate'][ $monat ]['qv'];    
-    $calculations['ql'] += $calculations['monate'][ $monat ]['ql'];    
-    $calculations['qi'] += $calculations['monate'][ $monat ]['qi'];    
-    
-    $calculations['qg'] += $calculations['monate'][ $monat ]['qg'];
+    // Heizwärmebedarf/ Nutzenergie im Jahr
+    $calculations['qh'] += $calculations['monate'][ $monat ]['qh'];
 }
 
-$calculations['qw'] = 12.5 * $gebauede->nutzflaeche();
-$calculations['qw_reference'] = 12.5 * $gebauede->nutzflaeche();
+$calculations['qw'] = 12.5 * $gebaeude->nutzflaeche();
+$calculations['qw_reference'] = 12.5 * $gebaeude->nutzflaeche();
 
 $calculations['ql'] = 0.0;
 $calculations['ql_reference'] = 0.0;
 
-$calculations['qh_b'] = $calculations['qh'] / $gebauede->nutzflaeche();
-$calculations['qh_b_reference'] = $calculations['qh_reference'] / $gebauede->nutzflaeche();
+$calculations['qh_b'] = $calculations['qh'] / $gebaeude->nutzflaeche();
+$calculations['qh_b_reference'] = $calculations['qh_reference'] / $gebaeude->nutzflaeche();
 $calculations['qw_b'] = 12.5;
 $calculations['qw_b_reference'] = 12.5;
 $calculations['ql_b'] = 0.0;
@@ -1238,14 +1277,14 @@ $calculations['anlagendaten']['h'] = array(
   'uebergabe_slug'          => $h_erzeugung->uebergabe,
   'heizkreistemperatur'     => $h_erzeugung->hktemp,
 'aufwandszahl'            => wpenon_interpolate(
-    $gebauede->nutzflaeche(), array(
+    $gebaeude->nutzflaeche(), array(
     array( 'keysize' => 150, 'value' => $h_erzeugung->$h_ep150 ),
     array( 'keysize' => 500, 'value' => $h_erzeugung->$h_ep500 ),
     array( 'keysize' => 2500, 'value' => $h_erzeugung->$h_ep2500 ),
     ) 
 ),
 'hilfsenergie'            => wpenon_interpolate(
-    $gebauede->nutzflaeche(), array(
+    $gebaeude->nutzflaeche(), array(
     array( 'keysize' => 150, 'value' => $h_erzeugung->$h_he150 ),
     array( 'keysize' => 500, 'value' => $h_erzeugung->$h_he500 ),
     array( 'keysize' => 2500, 'value' => $h_erzeugung->$h_he2500 ),
@@ -1290,14 +1329,14 @@ if ($energieausweis->h2_info ) {
         'uebergabe_slug'          => $h2_erzeugung->uebergabe,
         'heizkreistemperatur'     => $h2_erzeugung->hktemp,
         'aufwandszahl'            => wpenon_interpolate(
-            $gebauede->nutzflaeche(), array(
+            $gebaeude->nutzflaeche(), array(
             array( 'keysize' => 150, 'value' => $h2_erzeugung->$h2_ep150 ),
             array( 'keysize' => 500, 'value' => $h2_erzeugung->$h2_ep500 ),
             array( 'keysize' => 2500, 'value' => $h2_erzeugung->$h2_ep2500 ),
             ) 
         ),
         'hilfsenergie'            => wpenon_interpolate(
-            $gebauede->nutzflaeche(), array(
+            $gebaeude->nutzflaeche(), array(
             array( 'keysize' => 150, 'value' => $h2_erzeugung->$h2_he150 ),
             array( 'keysize' => 500, 'value' => $h2_erzeugung->$h2_he500 ),
             array( 'keysize' => 2500, 'value' => $h2_erzeugung->$h2_he2500 ),
@@ -1338,14 +1377,14 @@ if ($energieausweis->h2_info ) {
         'uebergabe_slug'          => $h3_erzeugung->uebergabe,
         'heizkreistemperatur'     => $h3_erzeugung->hktemp,
         'aufwandszahl'            => wpenon_interpolate(
-            $gebauede->nutzflaeche(), array(
+            $gebaeude->nutzflaeche(), array(
             array( 'keysize' => 150, 'value' => $h3_erzeugung->$h3_ep150 ),
             array( 'keysize' => 500, 'value' => $h3_erzeugung->$h3_ep500 ),
             array( 'keysize' => 2500, 'value' => $h3_erzeugung->$h3_ep2500 ),
             ) 
         ),
         'hilfsenergie'            => wpenon_interpolate(
-            $gebauede->nutzflaeche(), array(
+            $gebaeude->nutzflaeche(), array(
             array( 'keysize' => 150, 'value' => $h3_erzeugung->$h3_he150 ),
             array( 'keysize' => 500, 'value' => $h3_erzeugung->$h3_he500 ),
             array( 'keysize' => 2500, 'value' => $h3_erzeugung->$h3_he2500 ),
@@ -1379,7 +1418,7 @@ if ($h_uebergabe ) {
     'art'                     => 'heizung',
     'baujahr'                 => $calculations['anlagendaten'][ $h_max_anteil ]['baujahr'],
     'waermeverluste'          => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $h_uebergabe->$hu_wv150 ),
         array( 'keysize' => 500, 'value' => $h_uebergabe->$hu_wv500 ),
         array( 'keysize' => 2500, 'value' => $h_uebergabe->$hu_wv2500 ),
@@ -1402,14 +1441,14 @@ if ($h_verteilung ) {
     'art'                     => 'heizung',
     'baujahr'                 => $energieausweis->verteilung_baujahr,
     'waermeverluste'          => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $h_verteilung->$hv_wv150 ),
         array( 'keysize' => 500, 'value' => $h_verteilung->$hv_wv500 ),
         array( 'keysize' => 2500, 'value' => $h_verteilung->$hv_wv2500 ),
         ) 
     ),
     'hilfsenergie'            => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $h_verteilung->$hv_he150 ),
         array( 'keysize' => 500, 'value' => $h_verteilung->$hv_he500 ),
         array( 'keysize' => 2500, 'value' => $h_verteilung->$hv_he2500 ),
@@ -1430,14 +1469,14 @@ if ($energieausweis->speicherung ) {
         'name'                    => $h_speicherung->name,
         'baujahr'                 => $energieausweis->speicherung_baujahr,
         'waermeverluste'          => wpenon_interpolate(
-            $gebauede->nutzflaeche(), array(
+            $gebaeude->nutzflaeche(), array(
             array( 'keysize' => 150, 'value' => $h_speicherung->$hs_wv150 ),
             array( 'keysize' => 500, 'value' => $h_speicherung->$hs_wv500 ),
             array( 'keysize' => 2500, 'value' => $h_speicherung->$hs_wv2500 ),
             ) 
         ),
         'hilfsenergie'            => wpenon_interpolate(
-            $gebauede->nutzflaeche(), array(
+            $gebaeude->nutzflaeche(), array(
             array( 'keysize' => 150, 'value' => $h_speicherung->$hs_he150 ),
             array( 'keysize' => 500, 'value' => $h_speicherung->$hs_he500 ),
             array( 'keysize' => 2500, 'value' => $h_speicherung->$hs_he2500 ),
@@ -1482,21 +1521,21 @@ $calculations['anlagendaten']['ww'] = array(
   'energietraeger_co2'      => floatval($ww_energietraeger->co2),
   'speicher_slug'           => $ww_erzeugung->speicher,
 'aufwandszahl'            => wpenon_interpolate(
-    $gebauede->nutzflaeche(), array(
+    $gebaeude->nutzflaeche(), array(
     array( 'keysize' => 150, 'value' => $ww_erzeugung->$ww_ep150 ),
     array( 'keysize' => 500, 'value' => $ww_erzeugung->$ww_ep500 ),
     array( 'keysize' => 2500, 'value' => $ww_erzeugung->$ww_ep2500 ),
     ) 
 ),
 'hilfsenergie'            => wpenon_interpolate(
-    $gebauede->nutzflaeche(), array(
+    $gebaeude->nutzflaeche(), array(
     array( 'keysize' => 150, 'value' => $ww_erzeugung->$ww_he150 ),
     array( 'keysize' => 500, 'value' => $ww_erzeugung->$ww_he500 ),
     array( 'keysize' => 2500, 'value' => $ww_erzeugung->$ww_he2500 ),
     ) 
 ),
 'heizwaermegewinne'       => wpenon_interpolate(
-    $gebauede->nutzflaeche(), array(
+    $gebaeude->nutzflaeche(), array(
     array( 'keysize' => 150, 'value' => $ww_erzeugung->$ww_hwg150 ),
     array( 'keysize' => 500, 'value' => $ww_erzeugung->$ww_hwg500 ),
     array( 'keysize' => 2500, 'value' => $ww_erzeugung->$ww_hwg2500 ),
@@ -1521,21 +1560,21 @@ if ($ww_verteilung ) {
     'art'                     => 'warmwasser',
     'baujahr'                 => $energieausweis->verteilung_baujahr,
     'waermeverluste'          => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $ww_verteilung->$wwv_wv150 ),
         array( 'keysize' => 500, 'value' => $ww_verteilung->$wwv_wv500 ),
         array( 'keysize' => 2500, 'value' => $ww_verteilung->$wwv_wv2500 ),
         ) 
     ),
     'hilfsenergie'            => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $ww_verteilung->$wwv_he150 ),
         array( 'keysize' => 500, 'value' => $ww_verteilung->$wwv_he500 ),
         array( 'keysize' => 2500, 'value' => $ww_verteilung->$wwv_he2500 ),
         ) 
     ),
     'heizwaermegewinne'       => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $ww_verteilung->$wwv_hwg150 ),
         array( 'keysize' => 500, 'value' => $ww_verteilung->$wwv_hwg500 ),
         array( 'keysize' => 2500, 'value' => $ww_verteilung->$wwv_hwg2500 ),
@@ -1560,21 +1599,21 @@ if ($energieausweis->speicherung ) {
         'art'                     => 'warmwasser',
         'baujahr'                 => $energieausweis->speicherung_baujahr,
         'waermeverluste'          => wpenon_interpolate(
-            $gebauede->nutzflaeche(), array(
+            $gebaeude->nutzflaeche(), array(
             array( 'keysize' => 150, 'value' => $ww_speicherung->$wws_wv150 ),
             array( 'keysize' => 500, 'value' => $ww_speicherung->$wws_wv500 ),
             array( 'keysize' => 2500, 'value' => $ww_speicherung->$wws_wv2500 ),
             ) 
         ),
         'hilfsenergie'            => wpenon_interpolate(
-            $gebauede->nutzflaeche(), array(
+            $gebaeude->nutzflaeche(), array(
             array( 'keysize' => 150, 'value' => $ww_speicherung->$wws_he150 ),
             array( 'keysize' => 500, 'value' => $ww_speicherung->$wws_he500 ),
             array( 'keysize' => 2500, 'value' => $ww_speicherung->$wws_he2500 ),
             ) 
         ),
         'heizwaermegewinne'       => wpenon_interpolate(
-            $gebauede->nutzflaeche(), array(
+            $gebaeude->nutzflaeche(), array(
             array( 'keysize' => 150, 'value' => $ww_speicherung->$wws_hwg150 ),
             array( 'keysize' => 500, 'value' => $ww_speicherung->$wws_hwg500 ),
             array( 'keysize' => 2500, 'value' => $ww_speicherung->$wws_hwg2500 ),
@@ -1601,14 +1640,14 @@ if ($energieausweis->l_info == 'anlage' ) {
     'energietraeger_primaer'  => floatval($l_energietraeger->primaer),
     'energietraeger_co2'      => floatval($l_energietraeger->co2),
     'hilfsenergie'            => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $l_erzeugung->$l_he150 ),
         array( 'keysize' => 500, 'value' => $l_erzeugung->$l_he500 ),
         array( 'keysize' => 2500, 'value' => $l_erzeugung->$l_he2500 ),
         ) 
     ),
     'heizwaermegewinne'       => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $l_erzeugung->$l_hwg150 ),
         array( 'keysize' => 500, 'value' => $l_erzeugung->$l_hwg500 ),
         array( 'keysize' => 2500, 'value' => $l_erzeugung->$l_hwg2500 ),
@@ -1631,14 +1670,14 @@ if ($energieausweis->l_info == 'anlage' ) {
         'art'                     => 'lueftung',
         'baujahr'                 => $energieausweis->l_baujahr,
         'waermeverluste'          => wpenon_interpolate(
-            $gebauede->nutzflaeche(), array(
+            $gebaeude->nutzflaeche(), array(
             array( 'keysize' => 150, 'value' => $l_verteilung->$lv_wv150 ),
             array( 'keysize' => 500, 'value' => $l_verteilung->$lv_wv500 ),
             array( 'keysize' => 2500, 'value' => $l_verteilung->$lv_wv2500 ),
             ) 
         ),
         'hilfsenergie'            => wpenon_interpolate(
-            $gebauede->nutzflaeche(), array(
+            $gebaeude->nutzflaeche(), array(
             array( 'keysize' => 150, 'value' => $l_verteilung->$lv_he150 ),
             array( 'keysize' => 500, 'value' => $l_verteilung->$lv_he500 ),
             array( 'keysize' => 2500, 'value' => $l_verteilung->$lv_he2500 ),
@@ -1674,14 +1713,14 @@ $calculations['anlagendaten_reference']['h'] = array(
   'uebergabe_slug'          => $h_reference_erzeugung->uebergabe,
   'heizkreistemperatur'     => $h_reference_erzeugung->hktemp,
 'aufwandszahl'            => wpenon_interpolate(
-    $gebauede->nutzflaeche(), array(
+    $gebaeude->nutzflaeche(), array(
     array( 'keysize' => 150, 'value' => $h_reference_erzeugung->$h_reference_ep150 ),
     array( 'keysize' => 500, 'value' => $h_reference_erzeugung->$h_reference_ep500 ),
     array( 'keysize' => 2500, 'value' => $h_reference_erzeugung->$h_reference_ep2500 ),
     ) 
 ),
 'hilfsenergie'            => wpenon_interpolate(
-    $gebauede->nutzflaeche(), array(
+    $gebaeude->nutzflaeche(), array(
     array( 'keysize' => 150, 'value' => $h_reference_erzeugung->$h_reference_he150 ),
     array( 'keysize' => 500, 'value' => $h_reference_erzeugung->$h_reference_he500 ),
     array( 'keysize' => 2500, 'value' => $h_reference_erzeugung->$h_reference_he2500 ),
@@ -1701,7 +1740,7 @@ if ($h_uebergabe_reference ) {
     'art'                     => 'heizung',
     'baujahr'                 => $hu_reference_baujahr,
     'waermeverluste'          => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $h_uebergabe_reference->$hu_reference_wv150 ),
         array( 'keysize' => 500, 'value' => $h_uebergabe_reference->$hu_reference_wv500 ),
         array( 'keysize' => 2500, 'value' => $h_uebergabe_reference->$hu_reference_wv2500 ),
@@ -1725,14 +1764,14 @@ if ($h_verteilung_reference ) {
     'art'                     => 'heizung',
     'baujahr'                 => $hv_reference_baujahr,
     'waermeverluste'          => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $h_verteilung_reference->$hv_reference_wv150 ),
         array( 'keysize' => 500, 'value' => $h_verteilung_reference->$hv_reference_wv500 ),
         array( 'keysize' => 2500, 'value' => $h_verteilung_reference->$hv_reference_wv2500 ),
         ) 
     ),
     'hilfsenergie'            => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $h_verteilung_reference->$hv_reference_he150 ),
         array( 'keysize' => 500, 'value' => $h_verteilung_reference->$hv_reference_he500 ),
         array( 'keysize' => 2500, 'value' => $h_verteilung_reference->$hv_reference_he2500 ),
@@ -1753,14 +1792,14 @@ if ($h_speicherung_reference ) {
     'name'                    => $h_speicherung_reference->name,
     'baujahr'                 => $hs_reference_baujahr,
     'waermeverluste'          => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $h_speicherung_reference->$hs_reference_wv150 ),
         array( 'keysize' => 500, 'value' => $h_speicherung_reference->$hs_reference_wv500 ),
         array( 'keysize' => 2500, 'value' => $h_speicherung_reference->$hs_reference_wv2500 ),
         ) 
     ),
     'hilfsenergie'            => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $h_speicherung_reference->$hs_reference_he150 ),
         array( 'keysize' => 500, 'value' => $h_speicherung_reference->$hs_reference_he500 ),
         array( 'keysize' => 2500, 'value' => $h_speicherung_reference->$hs_reference_he2500 ),
@@ -1788,21 +1827,21 @@ $calculations['anlagendaten_reference']['ww'] = array(
   'energietraeger_co2'      => floatval($ww_reference_energietraeger->co2),
   'speicher_slug'           => $ww_reference_erzeugung->speicher,
 'aufwandszahl'            => wpenon_interpolate(
-    $gebauede->nutzflaeche(), array(
+    $gebaeude->nutzflaeche(), array(
     array( 'keysize' => 150, 'value' => $ww_reference_erzeugung->$ww_reference_ep150 ),
     array( 'keysize' => 500, 'value' => $ww_reference_erzeugung->$ww_reference_ep500 ),
     array( 'keysize' => 2500, 'value' => $ww_reference_erzeugung->$ww_reference_ep2500 ),
     ) 
 ),
 'hilfsenergie'            => wpenon_interpolate(
-    $gebauede->nutzflaeche(), array(
+    $gebaeude->nutzflaeche(), array(
     array( 'keysize' => 150, 'value' => $ww_reference_erzeugung->$ww_reference_he150 ),
     array( 'keysize' => 500, 'value' => $ww_reference_erzeugung->$ww_reference_he500 ),
     array( 'keysize' => 2500, 'value' => $ww_reference_erzeugung->$ww_reference_he2500 ),
     ) 
 ),
 'heizwaermegewinne'       => wpenon_interpolate(
-    $gebauede->nutzflaeche(), array(
+    $gebaeude->nutzflaeche(), array(
     array( 'keysize' => 150, 'value' => $ww_reference_erzeugung->$ww_reference_hwg150 ),
     array( 'keysize' => 500, 'value' => $ww_reference_erzeugung->$ww_reference_hwg500 ),
     array( 'keysize' => 2500, 'value' => $ww_reference_erzeugung->$ww_reference_hwg2500 ),
@@ -1827,21 +1866,21 @@ if ($ww_verteilung_reference ) {
     'art'                     => 'warmwasser',
     'baujahr'                 => $wwv_reference_baujahr,
     'waermeverluste'          => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $ww_verteilung_reference->$wwv_reference_wv150 ),
         array( 'keysize' => 500, 'value' => $ww_verteilung_reference->$wwv_reference_wv500 ),
         array( 'keysize' => 2500, 'value' => $ww_verteilung_reference->$wwv_reference_wv2500 ),
         ) 
     ),
     'hilfsenergie'            => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $ww_verteilung_reference->$wwv_reference_he150 ),
         array( 'keysize' => 500, 'value' => $ww_verteilung_reference->$wwv_reference_he500 ),
         array( 'keysize' => 2500, 'value' => $ww_verteilung_reference->$wwv_reference_he2500 ),
         ) 
     ),
     'heizwaermegewinne'       => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $ww_verteilung_reference->$wwv_reference_hwg150 ),
         array( 'keysize' => 500, 'value' => $ww_verteilung_reference->$wwv_reference_hwg500 ),
         array( 'keysize' => 2500, 'value' => $ww_verteilung_reference->$wwv_reference_hwg2500 ),
@@ -1866,21 +1905,21 @@ if ($ww_speicherung_reference ) {
     'art'                     => 'warmwasser',
     'baujahr'                 => $wws_reference_baujahr,
     'waermeverluste'          => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $ww_speicherung_reference->$wws_reference_wv150 ),
         array( 'keysize' => 500, 'value' => $ww_speicherung_reference->$wws_reference_wv500 ),
         array( 'keysize' => 2500, 'value' => $ww_speicherung_reference->$wws_reference_wv2500 ),
         ) 
     ),
     'hilfsenergie'            => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $ww_speicherung_reference->$wws_reference_he150 ),
         array( 'keysize' => 500, 'value' => $ww_speicherung_reference->$wws_reference_he500 ),
         array( 'keysize' => 2500, 'value' => $ww_speicherung_reference->$wws_reference_he2500 ),
         ) 
     ),
     'heizwaermegewinne'       => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $ww_speicherung_reference->$wws_reference_hwg150 ),
         array( 'keysize' => 500, 'value' => $ww_speicherung_reference->$wws_reference_hwg500 ),
         array( 'keysize' => 2500, 'value' => $ww_speicherung_reference->$wws_reference_hwg2500 ),
@@ -1906,14 +1945,14 @@ $calculations['anlagendaten_reference']['l'] = array(
   'energietraeger_primaer'  => floatval($l_reference_energietraeger->primaer),
   'energietraeger_co2'      => floatval($l_reference_energietraeger->co2),
 'hilfsenergie'            => wpenon_interpolate(
-    $gebauede->nutzflaeche(), array(
+    $gebaeude->nutzflaeche(), array(
     array( 'keysize' => 150, 'value' => $l_reference_erzeugung->$l_reference_he150 ),
     array( 'keysize' => 500, 'value' => $l_reference_erzeugung->$l_reference_he500 ),
     array( 'keysize' => 2500, 'value' => $l_reference_erzeugung->$l_reference_he2500 ),
     ) 
 ),
 'heizwaermegewinne'       => wpenon_interpolate(
-    $gebauede->nutzflaeche(), array(
+    $gebaeude->nutzflaeche(), array(
     array( 'keysize' => 150, 'value' => $l_reference_erzeugung->$l_reference_hwg150 ),
     array( 'keysize' => 500, 'value' => $l_reference_erzeugung->$l_reference_hwg500 ),
     array( 'keysize' => 2500, 'value' => $l_reference_erzeugung->$l_reference_hwg2500 ),
@@ -1937,14 +1976,14 @@ if ($l_verteilung_reference ) {
     'art'                     => 'lueftung',
     'baujahr'                 => $lv_reference_baujahr,
     'waermeverluste'          => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $l_verteilung_reference->$lv_reference_wv150 ),
         array( 'keysize' => 500, 'value' => $l_verteilung_reference->$lv_reference_wv500 ),
         array( 'keysize' => 2500, 'value' => $l_verteilung_reference->$lv_reference_wv2500 ),
         ) 
     ),
     'hilfsenergie'            => wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => $l_verteilung_reference->$lv_reference_he150 ),
         array( 'keysize' => 500, 'value' => $l_verteilung_reference->$lv_reference_he500 ),
         array( 'keysize' => 2500, 'value' => $l_verteilung_reference->$lv_reference_he2500 ),
@@ -2060,14 +2099,14 @@ $co2faktor_strom = $energietraeger_strom->co2;
 
 if ('solar' === $energieausweis->regenerativ_art || $energieausweis->regenerativ_aktiv ) {
     $calculations['qw_e_b'] -= wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => 13.3 ),
         array( 'keysize' => 500, 'value' => 10.4 ),
         array( 'keysize' => 2500, 'value' => 7.5 ),
         ) 
     );
     $calculations['qw_he_b'] += wpenon_interpolate(
-        $gebauede->nutzflaeche(), array(
+        $gebaeude->nutzflaeche(), array(
         array( 'keysize' => 150, 'value' => 0.8 ),
         array( 'keysize' => 500, 'value' => 0.4 ),
         array( 'keysize' => 2500, 'value' => 0.3 ),
@@ -2203,7 +2242,7 @@ $calculations['co2_emissionen_reference'] = $calculations['qh_co2_reference'] + 
 $calculations['ht_b'] = $calculations['ht'] / $calculations['huellflaeche'];
 $calculations['ht_b_reference'] = 0.65;
 if ('freistehend' === $energieausweis->gebaeudetyp ) {
-    if ($gebauede->nutzflaeche() > 350.0 ) {
+    if ($gebaeude->nutzflaeche() > 350.0 ) {
         $calculations['ht_b_reference'] = 0.5;
     } else {
         $calculations['ht_b_reference'] = 0.4;

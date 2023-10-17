@@ -277,7 +277,7 @@ class Gebaeude
      * 
      * @return float Nutzwärmebedarf für Trinkwasser (qwb) in kWh.
      */
-    public function nutzwaermebedarf_trinkwasser_monat( string $monat ): float
+    public function qwb( string $monat ): float
     {
         $jahr = new Jahr();
         $qwb = $this->nutzwaermebedarf_trinkwasser($this->nutzflaeche());

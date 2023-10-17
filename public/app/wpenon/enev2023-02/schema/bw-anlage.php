@@ -1204,13 +1204,12 @@ $anlage = array(
 			'fields' => array(
 				'h_uebergabe' => array(
 					'type'        => 'select',
-					'label'       => __( 'Auslegungstemperaturen', 'wpenon' ),
-					'description' => __( 'Wählen Sie die Auslegungstemperaturen des Übergabesystems.', 'wpenon' ),
+					'label'       => __( 'Typ des Übergabesystems', 'wpenon' ),
+					'description' => __( 'Falls Sie den mit Gas oder Öl betriebenen Typ der Heizungsanlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon' ),
 					'options'     => array(
-						'90/70' => __( '90/70°', 'wpenon' ),
-						'70/55' => __( '70/55°', 'wpenon' ),
-						'55/45' => __( '55/45°', 'wpenon' ),
-						'35/28' => __( '35/28°', 'wpenon' ),
+						'elektroheizungsflaechen' => __( 'Elektroheizungsflächen', 'wpenon' ),
+						'heizkoerper' => __( 'Heizkörper', 'wpenon' ),
+						'flaechenheizung' => __( 'Flächenheizung Fußboden/Wandheizung', 'wpenon' ),
 					),
 					'required'    => true,
 				),
@@ -1238,60 +1237,69 @@ $anlage = array(
 						'callback'      => 'wpenon_get_value_by_sum',
 						'callback_args' => array(
 							100,
-							array( 'h' => 'field::hu_anteil', 'h2' => 'field::hu2_anteil' ),
-							array( 'h' => true, 'h2' => 'field::h2_info' ),
+							array( 'h_uebergabe2' => 'field::h_uebergabe2_anteil' ),
+							array( 'h_uebergabe2' => 'field::h_uebergabe2_info' ),
+							true
+						),
+					)
+				),
+				'h_uebergabe2_info'                                       => array(
+					'type'  => 'checkbox',
+					'label' => __( '2. Übergabesystem vorhanden?', 'wpenon' ),
+				),
+				'h_uebergabe2' => array(
+					'type'        => 'select',
+					'label'       => __( 'Typ des Übergabesystems', 'wpenon' ),
+					'description' => __( 'Falls Sie den mit Gas oder Öl betriebenen Typ der Heizungsanlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon' ),
+					'options'     => array(
+						'elektroheizungsflaechen' => __( 'Elektroheizungsflächen', 'wpenon' ),
+						'heizkoerper' => __( 'Heizkörper', 'wpenon' ),
+						'flaechenheizung' => __( 'Flächenheizung Fußboden/Wandheizung', 'wpenon' ),
+					),
+					'required'    => true,
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback_args' => array( 'field::h_uebergabe2_info', true ),
+					),
+				),
+				'h_uebergabe2_auslegungstemperaturen' => array(
+					'type'        => 'select',
+					'label'       => __( 'Auslegungstemperaturen', 'wpenon' ),
+					'description' => __( 'Wählen Sie die Auslegungstemperaturen des Übergabesystems.', 'wpenon' ),
+					'options'     => array(
+						'90/70' => __( '90/70°', 'wpenon' ),
+						'70/55' => __( '70/55°', 'wpenon' ),
+						'55/45' => __( '55/45°', 'wpenon' ),
+						'35/28' => __( '35/28°', 'wpenon' ),
+					),
+					'required'    => true,
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback_args' => array( 'field::h_uebergabe2_info', true ),
+					),
+				),
+				'h_uebergabe2_anteil'                             => array(
+					'type'        => 'int',
+					'label'       => __( 'Deckungsanteil des Übergabesystems', 'wpenon' ),
+					'description' => __( 'Geben Sie an, wie groß der Anteil ist, den das Übergabesystem abdeckt.', 'wpenon' ),
+					'default'     => 100,
+					'max'         => 100,
+					'required'    => true,
+					'unit'        => '%',
+					'value'       => array(
+						'callback'      => 'wpenon_get_value_by_sum',
+						'callback_args' => array(
+							100,
+							array( 'h_uebergabe' => 'field::h_uebergabe_anteil' ),
+							array( 'h_uebergabe' => true ),
 							true
 						),
 					),
 					'display'     => array(
 						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( array( 'field::hu2_info' ), array( true ) ),
+						'callback_args' => array( 'field::h_uebergabe2_info', true ),
 					),
-				),
-				'h_ubergabe2_info'                                       => array(
-					'type'  => 'checkbox',
-					'label' => __( '2. Übergabesystem vorhanden?', 'wpenon' ),
-				),
-				'hu2_auslegungstemperaturen' => array(
-					'type'        => 'select',
-					'label'       => __( 'Auslegungstemperaturen', 'wpenon' ),
-					'description' => __( 'Wählen Sie die Auslegungstemperaturen des 2. Übergabesystems.', 'wpenon' ),
-					'options'     => array(
-						'90/70' => __( '90/70°', 'wpenon' ),
-						'70/55' => __( '70/55°', 'wpenon' ),
-						'55/45' => __( '55/45°', 'wpenon' ),
-						'35/28' => __( '35/28°', 'wpenon' ),
-					),
-					'required'    => true,
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( 'field::hu2_info', true ),
-					),
-				),
-				'hu3_info'                                       => array(
-					'type'  => 'checkbox',
-					'label' => __( '3. Übergabesystem vorhanden?', 'wpenon' ),
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( 'field::hu2_info', true ),
-					),
-				),
-				'hu3_auslegungstemperaturen' => array(
-					'type'        => 'select',
-					'label'       => __( 'Auslegungstemperaturen', 'wpenon' ),
-					'description' => __( 'Wählen Sie die Auslegungstemperaturen des 3. Übergabesystems.', 'wpenon' ),
-					'options'     => array(
-						'90/70' => __( '90/70°', 'wpenon' ),
-						'70/55' => __( '70/55°', 'wpenon' ),
-						'55/45' => __( '55/45°', 'wpenon' ),
-						'35/28' => __( '35/28°', 'wpenon' ),
-					),
-					'required'    => true,
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( 'field::hu3_info', true ),
-					),
-				)
+				),				
 			)
 		),
 		'warmwasser' => array(

@@ -7,5 +7,5 @@ require_once __DIR__ . '/Jahr.php';
  */
 function fum( string $month ): float
 {
-    return 1000 / 24 * (new Jahr())->monat( $month )->tage();
+    return 1000 / ( 24 * (new Jahr())->monat( $month )->tage() );
 }
