@@ -140,10 +140,10 @@ class Add_Google_Tag_Manager implements Actions, Task {
 		$type              = get_post_meta( $energieausweis_id, 'wpenon_type', true );
 		
 		if ( 'bw' === $type ) {
-			self::conversion_bedarfsausweis( $energieausweis );
+			self::conversion_bedarfsausweis( $energieausweis, $purchase );
 		}
 		if ( 'vw' === $type ) {
-			self::conversion_verbrauchsausweis( $energieausweis );
+			self::conversion_verbrauchsausweis( $energieausweis, $purchase );
 		}
 	}
 
@@ -151,12 +151,13 @@ class Add_Google_Tag_Manager implements Actions, Task {
 	 * Loads the scripts after a bedarfsausweis had a conversion.
 	 * 
 	 * @param Energieausweis $energieausweis
+	 * @param array $purchase
 	 *
 	 * @since 1.0.0
 	 */
-	private static function conversion_bedarfsausweis( $energieausweis) {
+	private static function conversion_bedarfsausweis( $energieausweis, $purchase ) {
 		?>
-		<script>dataLayer.push({'event':'conversion-bedarfsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
+		<script>dataLayer.push({'event':'conversion-bedarfsausweis', 'price': '<?php echo $purchase['price']; ?>', 'product': 'bedarfsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
 		<?php
 	}
 
@@ -164,12 +165,13 @@ class Add_Google_Tag_Manager implements Actions, Task {
 	 * Loads the scripts after a verbrauchsausweis had a conversion.
 	 * 
 	 * @param Energieausweis $energieausweis
+	 * @param array $purchase 
 	 *
 	 * @since 1.0.0
 	 */
-	private static function conversion_verbrauchsausweis( $energieausweis ) {
+	private static function conversion_verbrauchsausweis( $energieausweis, $purchase ) {
 		?>
-		<script>dataLayer.push({'event':'conversion-verbrauchsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
+		<script>dataLayer.push({'event':'conversion-verbrauchsausweis', 'price': '<?php echo $purchase['price']; ?>', 'product': 'verbrauchsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
 		<?php
 	}
 }
