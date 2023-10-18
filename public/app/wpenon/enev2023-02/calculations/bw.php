@@ -1081,15 +1081,17 @@ if( $energieausweis->h3_erzeugung ) {
 }
 
 if( $energieausweis->h_uebergabe ) {
+    $typ = $energieausweis->h_uebergabe;
     $auslegungstemperaturen = $energieausweis->h_uebergabe_auslegungstemperaturen;
     $anteil = $energieausweis->h_uebergabe_anteil;
-    $gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen( new Uebergabesystem( $auslegungstemperaturen, $anteil ) );
+    $gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen( new Uebergabesystem( $typ, $auslegungstemperaturen, $anteil ) );
 }
 
 if( $energieausweis->h_uebergabe2 ) {
+    $typ = $energieausweis->h_uebergabe2;
     $auslegungstemperaturen = $energieausweis->h_uebergab2_auslegungstemperaturen;
     $anteil = $energieausweis->h_uebergabe2_anteil;
-    $gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen( new Uebergabesystem( $auslegungstemperaturen, $anteil ) );
+    $gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen( new Uebergabesystem( $typ, $auslegungstemperaturen, $anteil ) );
 }
 
 $monate = wpenon_get_table_results('monate');
