@@ -13,6 +13,7 @@ namespace Enon\Tasks\Scripts;
 
 use Awsm\WP_Wrapper\Interfaces\Actions;
 use Awsm\WP_Wrapper\Interfaces\Task;
+use EDD_Payment;
 use WPENON\Model\Energieausweis;
 
 /**
@@ -156,8 +157,9 @@ class Add_Google_Tag_Manager implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	private static function conversion_bedarfsausweis( $energieausweis, $purchase ) {
+		$payment_number = self::get_payment_number( $energieausweis->id );
 		?>
-		<script>dataLayer.push({'event':'conversion-bedarfsausweis', 'bestellnummer': '<?php echo $purchase->purchase_key; ?>', 'price': '<?php echo $purchase->price; ?>', 'product': 'bedarfsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
+		<script>dataLayer.push({'event':'conversion-bedarfsausweis', 'energieausweis-nummer': '<?php echo $energieausweis->post_title; ?>' , 'rechnungs-nummer': '<?php echo $payment_number; ?>',  'price': '<?php echo $purchase->price; ?>', 'product': 'bedarfsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
 		<?php
 	}
 
@@ -170,11 +172,15 @@ class Add_Google_Tag_Manager implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	private static function conversion_verbrauchsausweis( $energieausweis, $purchase ) {
-		echo '<!--';
-		print_r($purchase);
-		echo '-->';
+		$payment_number = self::get_payment_number( $energieausweis->id );
 		?>
-		<script>dataLayer.push({'event':'conversion-verbrauchsausweis', 'bestellnummer': '<?php echo $purchase->purchase_key; ?>', 'price': '<?php echo $purchase->price; ?>', 'product': 'verbrauchsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
+		<script>dataLayer.push({'event':'conversion-verbrauchsausweis', 'energieausweis-nummer': '<?php echo $energieausweis->post_title; ?>' , 'rechnungs-nummer': '<?php echo $payment_number; ?>', 'price': '<?php echo $purchase->price; ?>', 'product': 'verbrauchsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
 		<?php
+	}
+
+	protected static function get_payment_number( $energieausweis_id ) {
+		$payment_id = get_post_meta( $energieausweis_id, '_wpenon_attached_payment_id', true );
+		$payment = new EDD_Payment( $payment_id );
+		return $payment->number;
 	}
 }
