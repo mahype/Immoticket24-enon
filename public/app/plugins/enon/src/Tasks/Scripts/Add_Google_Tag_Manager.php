@@ -156,9 +156,6 @@ class Add_Google_Tag_Manager implements Actions, Task {
 	 * @since 1.0.0
 	 */
 	private static function conversion_bedarfsausweis( $energieausweis, $purchase ) {
-		echo '<!--';
-		print_r($purchase);
-		echo '-->';
 		?>
 		<script>dataLayer.push({'event':'conversion-bedarfsausweis', 'bestellnummer': '<?php echo $purchase->purchase_key; ?>', 'price': '<?php echo $purchase->price; ?>', 'product': 'bedarfsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
 		<?php
