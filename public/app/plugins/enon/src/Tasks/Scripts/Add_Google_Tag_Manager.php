@@ -174,7 +174,7 @@ class Add_Google_Tag_Manager implements Actions, Task {
 	private static function conversion_verbrauchsausweis( $energieausweis, $purchase ) {
 		$payment_number = self::get_payment_number( $energieausweis->id );
 		?>
-		<script>dataLayer.push({'event':'conversion-verbrauchsausweis', 'energieausweis-nummer': '<?php echo $energieausweis->post_title; ?>' , 'rechnungs-nummer': '<?php echo $payment_number; ?>', 'price': '<?php echo $purchase->price; ?>', 'product': 'verbrauchsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
+		<script>dataLayer.push({'event':'conversion-verbrauchsausweis', 'energieausweis-nummer': '<?php echo $energieausweis->post_title; ?>' , 'rechnungsnummer': '<?php echo $payment_number; ?>', 'price': '<?php echo $purchase->price; ?>', 'product': 'verbrauchsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
 		<?php
 	}
 
