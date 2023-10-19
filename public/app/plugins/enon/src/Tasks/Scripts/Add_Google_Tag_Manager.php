@@ -157,7 +157,7 @@ class Add_Google_Tag_Manager implements Actions, Task {
 	 */
 	private static function conversion_bedarfsausweis( $energieausweis, $purchase ) {
 		?>
-		<script>dataLayer.push({'event':'conversion-bedarfsausweis', 'energieausweis-nummer': '<?php echo $energieausweis->post_title; ?>', 'price': '<?php echo $purchase->price; ?>', 'product': 'bedarfsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
+		<script>dataLayer.push({'event':'conversion-bedarfsausweis', 'bestellnummer': '<?php echo $purchase->purchase_key; ?>', 'price': '<?php echo $purchase->price; ?>', 'product': 'bedarfsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
 		<?php
 	}
 
@@ -171,7 +171,7 @@ class Add_Google_Tag_Manager implements Actions, Task {
 	 */
 	private static function conversion_verbrauchsausweis( $energieausweis, $purchase ) {
 		?>
-		<script>dataLayer.push({'event':'conversion-verbrauchsausweis', 'energieausweis-nummer': '<?php echo $energieausweis->post_title; ?>', 'price': '<?php echo $purchase->price; ?>', 'product': 'verbrauchsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
+		<script>dataLayer.push({'event':'conversion-verbrauchsausweis', 'bestellnummer': '<?php echo $purchase->purchase_key; ?>', 'price': '<?php echo $purchase->price; ?>', 'product': 'verbrauchsausweis', 'email': '<?php echo $energieausweis->wpenon_email; ?>'});</script>
 		<?php
 	}
 }
