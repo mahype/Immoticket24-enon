@@ -1,3 +1,4 @@
+import Enon_Checkout from './Enon_Checkout';
 import Popup_Premiumbewertung from './Popup_Premiumbewertung';
 
 /**
@@ -10,5 +11,6 @@ import Popup_Premiumbewertung from './Popup_Premiumbewertung';
 ( function( jQuery ) {
 	jQuery(document).ready( () => {
 		const pb_popup = new Popup_Premiumbewertung( jQuery );
+		const checkout = new Enon_Checkout( jQuery );
 	});
 })( jQuery );
