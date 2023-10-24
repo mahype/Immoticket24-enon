@@ -1,6 +1,14 @@
 <?php
 
+require_once __DIR__ . '/Bauteile.php';
 require_once __DIR__ . '/Heizsystem.php';
+require_once __DIR__ . '/Wasserversorgung.php';
+require_once __DIR__ . '/Luftwechsel.php';
+require_once __DIR__ . '/Mittlere_Belastung.php';
+require_once __DIR__ . '/Bilanz_Innentemperatur.php';
+
+require_once dirname(__DIR__) . '/Helfer/Jahr.php';
+
 
 /**
  * Gebäude.
@@ -9,6 +17,13 @@ require_once __DIR__ . '/Heizsystem.php';
  */
 class Gebaeude
 {
+    /**
+     * Jahr Objekt.
+     * 
+     * @var Jahr
+     */
+    private Jahr $jahr;
+
     /**
      * Baujahr des Gebäudes.
      * 
@@ -31,25 +46,39 @@ class Gebaeude
     private $geschosshoehe;
 
     /**
-     * Hüllfläche des Gebäudes.
-     * 
-     * @var float
-     */
-    private $huellflaeche;
-
-    /**
-     * Hüllvolumen des Gebäudes.
-     * 
-     * @var float
-     */
-    private $huellvolumen;
-
-    /**
      * Anzahl der Wohneinheiten.
      * 
      * @var string
      */
     private $anzahl_wohneinheiten;
+
+    /**
+     * Luftwechsel
+     * 
+     * @var Luftwechsel
+     */
+    private Luftwechsel $luftwechsel;
+
+    /**
+     * Mittlere Belastung
+     * 
+     * @var Mittlere_Belastung
+     */
+    private Mittlere_Belastung $mittlere_Belastung;
+
+    /**
+     * Bilanz Innentemperatur
+     * 
+     * @var Bilanz_Innentemperatur
+     */
+    private Bilanz_Innentemperatur $bilanz_innentemperatur;
+
+    /**
+     * Bauteile
+     * 
+     * @var Bauteile
+     */
+    private Bauteile $bauteile;
 
     /**
      * Heizsystem.
@@ -72,14 +101,14 @@ class Gebaeude
      */
     private int $c_wirk;
 
-    public function __construct( int $baujahr, int $geschossanzahl, float $geschosshoehe, float $huellflaeche, float $huellvolumen, int $wohneinheiten )
+    public function __construct( int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohneinheiten, Bauteile $bauteile )
     {
+        $this->jahr = new Jahr();
         $this->baujahr = $baujahr;
         $this->geschossanzahl = $geschossanzahl;
-        $this->geschosshoehe = $geschosshoehe;
-        $this->huellflaeche = $huellflaeche;
-        $this->huellvolumen = $huellvolumen;
-        $this->anzahl_wohneinheiten = $wohneinheiten;
+        $this->geschosshoehe = $geschosshoehe;        
+        $this->anzahl_wohneinheiten = $anzahl_wohneinheiten;
+        $this->bauteile = $bauteile;
 
         $this->c_wirk = 50; // Für den vereinfachten Rechenweg festgelegt auf den Wert 50.
 
@@ -87,11 +116,49 @@ class Gebaeude
     }
 
     /**
+     * Luftwechsel
+     * 
+     * @param Luftwechsel|null Luftwechsel object oder null, sofern bereits angegeben.
+     * 
+     * @return Luftwechsel 
+     */
+    public function _luftwechsel( Luftwechsel|null $luftwechsel = null ): Luftwechsel
+    {   
+        if(! empty($luftwechsel) ) {
+            $this->luftwechsel = $luftwechsel;
+            $this->luftwechsel->gebaeude($this);
+        }
+
+        return $this->luftwechsel;
+    }
+
+    protected function _mittlere_belastung(): Mittlere_Belastung
+    {
+        if(empty($this->mittlere_Belastung) ) {            
+            $this->mittlere_Belastung = new Mittlere_Belastung($this->_luftwechsel()->h_max_spezifisch()); // Mittlere Belastung wird immer mit Teilbeheizung gerechnet
+            $this->mittlere_Belastung->gebaeude($this);
+        }
+
+        return $this->mittlere_Belastung;
+    }
+
+
+    protected function _bilanz_innentemperatur(): Bilanz_Innentemperatur
+    {
+        if(empty($this->bilanz_innentemperatur) ) {
+            $this->bilanz_innentemperatur = new Bilanz_Innentemperatur($this->_luftwechsel()->h_max_spezifisch());
+            $this->bilanz_innentemperatur->gebaeude($this);
+        }
+                
+        return $this->bilanz_innentemperatur;
+    }
+
+    /**
      * Heizsystem.
      * 
      * @return Heizsystem 
      */
-    public function heizsystem(): Heizsystem
+    public function _heizsystem(): Heizsystem
     {
         return $this->heizsystem;
     }
@@ -103,13 +170,13 @@ class Gebaeude
      * 
      * @return Wasserversorgung
      */
-    public function wasserversorgung( Wasserversorgung $wasserversorgung = null ): Wasserversorgung
+    public function _wasserversorgung( Wasserversorgung $wasserversorgung = null ): Wasserversorgung
     {
         if ($wasserversorgung !== null) {
             $this->wasserversorgung = $wasserversorgung;
         }
 
-        if( $this->wasserversorgung === null ) {
+        if($this->wasserversorgung === null ) {
             throw new Exception('Wasserversorgung wurde nicht gesetzt.');
         }
 
@@ -173,7 +240,7 @@ class Gebaeude
      */
     public function huellflaeche(): float
     {
-        return $this->huellflaeche;
+        return $this->_bauteile()->huellflaeche();
     }    
 
     /**
@@ -183,9 +250,134 @@ class Gebaeude
      */
     public function huellvolumen(): float
     {
-        return $this->huellvolumen;
+        return $this->_bauteile()->huellvolumen();
     }
 
+    /**
+     * Wärmetransferkoeffizient des Gebäudes.
+     * 
+     * @return float 
+     * 
+     * @throws Exception
+     */
+    public function h()
+    {
+        return $this->_bauteile()->ht() + $this->_luftwechsel()->hv();
+    }
+
+    /**
+     * Zeitkonstante Tau
+     * 
+     * @return float 
+     * 
+     * @throws Exception 
+     */
+    public function tau(): float
+    {
+        return ($this->c_wirk() * $this->nutzflaeche()) / $this->h();
+    }
+
+    /**
+     * Maximaler Wärmestrom.
+     *
+     * @return float 
+     */
+    public function q(): float
+    {
+        return $this->h() * 32;
+    }
+
+    /**
+     * Bauteile
+     * 
+     * @return Bauteile 
+     */
+    public function _bauteile(): Bauteile
+    {
+        return $this->bauteile;
+    }
+
+    /**
+     * Wärmesenken als Leistung in W für einen Monat.
+     * 
+     * @param  string $monat 
+     * @return float 
+     * @throws Exception 
+     */
+    public function ph_sink_monat( string $monat )
+    {
+        return $this->q() * ( ($this->_bilanz_innentemperatur()->θih_monat($monat) + 12 ) / 32 ) * $this->_mittlere_belastung()->ßem1($monat);
+    }
+
+    public function psh_sink_monat( string $monat )
+    {
+        // $calculations['monate'][ $monat ]['psh_sink'] = $gebaeude->ph_sink_monat( $monat) - ($gebaeude->qi_prozesse_monat( $monat ) + ( 0.5 * $calculations['monate'][ $monat ]['qi_solar'] ) * $fum);
+        // $calculations['monate'][ $monat ]['psh_sink'] = $calculations['monate'][ $monat ]['psh_sink'] < 0 ? 0 : $calculations['monate'][ $monat ]['psh_sink'];  
+    }
+
+    /**
+     * Interne Wärmequellen infolge von Personen
+     * 
+     * @return float 
+     * @throws Exception 
+     */
+    public function qi_prozesse(): float
+    {        
+        $qi_prozesse = 0;
+
+        foreach( $this->jahr->monate() AS $monat ) {
+            $qi_prozesse += $this->qi_prozesse_monat($monat->slug());
+        }
+
+        return $qi_prozesse;
+    }
+
+    /**
+     * Interne Wärmequellen infolge von Personen für einen Monat.
+     * 
+     * @param  string $monat 
+     * @return float 
+     * @throws Exception 
+     */
+    public function qi_prozesse_monat( string $monat ): float
+    {
+        if($this->anzahl_wohneinheiten() === 1) {
+            // Einfamlienhaus            
+            return 45 * $this->nutzflaeche() * $this->jahr->monat($monat)->tage() * 0.001 ;
+        } else {
+            // Mehrfamilienhaus
+            return (90.0 * $this->nutzflaeche() / ( $this->anzahl_wohneinheiten() * $this->jahr->monat($monat)->tage() ) ) * 0.001 ; 
+        }   
+    }
+
+    /**
+     * Interne Wärmequelle infolge von Warmwasser (Qi,w) für einen Monat.
+     * 
+     * @param string $monat 
+     * @return float 
+     * @throws Exception 
+     */
+    public function qi_wasser_monat( string $monat ): float
+    {
+        return $this->qwb_monat($monat) * $this->_wasserversorgung()->fh_w();
+    }
+    
+    /**
+     * Interne Wärmequelle infolge von Warmwasser (Qi,w).
+     * 
+     * @return float
+     */
+    public function qi_wasser(): float
+    {
+        $qi_wasser = 0;
+
+        foreach( $this->jahr->monate() as $monat ) {
+            $qi_wasser += $this->qi_wasser_monat($monat->slug());
+        }
+
+        return $qi_wasser;
+    }
+    
     /**
      * Netto Hüllvolumen des Gebäudes.
      * 
@@ -193,7 +385,7 @@ class Gebaeude
      */
     public function huellvolumen_netto(): float
     {
-        return $this->geschossanzahl < 4 ? 0.76 * $this->huellvolumen: 0.8 *  $this->huellvolumen;
+        return $this->geschossanzahl < 4 ? 0.76 * $this->_bauteile()->huellvolumen(): 0.8 *  $this->_bauteile()->huellvolumen();
     }
 
     /**
@@ -203,7 +395,7 @@ class Gebaeude
      */
     public function ave_verhaeltnis(): float
     {
-        return $this->huellflaeche / $this->huellvolumen_netto();
+        return $this->_bauteile()->huellflaeche() / $this->huellvolumen_netto();
     }
 
     /**
@@ -271,6 +463,18 @@ class Gebaeude
     }
 
     /**
+     * Bilanz Innentemperatur für einen Monat.
+     * 
+     * @param  string $monat 
+     * @return float 
+     * @throws Exception 
+     */
+    public function θih_monat( string $monat ): float
+    {
+        return $this->_bilanz_innentemperatur()->θih_monat($monat);
+    }
+
+    /**
      * Monatlicher Nutzwärmebedarf für Trinkwasser (qwb).
      * 
      * @param string $monat Slug des Monats.
@@ -279,9 +483,8 @@ class Gebaeude
      */
     public function qwb_monat( string $monat ): float
     {
-        $jahr = new Jahr();
         $qwb = $this->nutzwaermebedarf_trinkwasser($this->nutzflaeche());
-        return ($this->nutzflaeche()/$this->anzahl_wohneinheiten()) * $qwb * ($jahr->monat($monat)->tage()/365);
+        return ($this->nutzflaeche()/$this->anzahl_wohneinheiten()) * $qwb * ($this->jahr->monat($monat)->tage()/365);
     }
 
     /**
@@ -289,11 +492,11 @@ class Gebaeude
      * 
      * @return float Nutzwärmebedarf für Trinkwasser (qwb) in kWh.
      */
-    public function qwb(): float {
-        $jahr = new Jahr();
+    public function qwb(): float
+    {
         $qwb = 0;
 
-        foreach( $jahr->monate() as $monat ) {
+        foreach( $this->jahr->monate() as $monat ) {
             $qwb += $this->qwb_monat($monat->slug());
         }
 

@@ -54,18 +54,31 @@ class Bilanz_Innentemperatur
      * @param  bool     $teilbeheizung    Ist das Gebäude teilbeheizt?
      * @return void 
      */
-    public function __construct(Gebaeude $gebaeude, float $h_max_spezifisch, float $tau, bool $teilbeheizung = true )
+    public function __construct(float $h_max_spezifisch, bool $teilbeheizung = true )
     {
-        $this->gebaeude = $gebaeude;
         $this->h_max_spezifisch = $h_max_spezifisch;
-        $this->tau = $tau;
         $this->teilbeheizung = $teilbeheizung;
+    }
 
-        if ($this->gebaeude->anzahl_wohneinheiten() === 1) {
-            $this->table_data = wpenon_get_table_results('bilanz_innentemperatur_efh');
-        } else {
-            $this->table_data = wpenon_get_table_results('bilanz_innentemperatur_mfh');
+    /**
+     * Gebäude.
+     * 
+     * @param Gebaeude|null $gebaeude 
+     * @return Gebaeude 
+     */
+    public function gebaeude( Gebaeude|null $gebaeude = null ): Gebaeude
+    {
+        if( ! empty( $gebaeude ) ) {
+            $this->gebaeude = $gebaeude;
+
+            if ($this->gebaeude->anzahl_wohneinheiten() === 1) {
+                $this->table_data = wpenon_get_table_results('bilanz_innentemperatur_efh');
+            } else {
+                $this->table_data = wpenon_get_table_results('bilanz_innentemperatur_mfh');
+            }
         }
+
+        return $this->gebaeude;
     }
 
     /**
@@ -78,11 +91,11 @@ class Bilanz_Innentemperatur
      */
     protected function tau_slugs(): array
     {
-        if($this->tau <= 50 ) {
+        if($this->gebaeude()->tau() <= 50 ) {
             return array('t50');
-        } elseif ($this->tau > 50 && $this->tau <= 90) {
+        } elseif ($this->gebaeude()->tau() > 50 && $this->gebaeude()->tau() <= 90) {
             return array('t50', 't90');
-        } elseif ($this->tau > 90 && $this->tau < 130) {
+        } elseif ($this->gebaeude()->tau() > 90 && $this->gebaeude()->tau() < 130) {
             return array('t90', 't130');
         } else {
             return array('t130');
@@ -130,7 +143,7 @@ class Bilanz_Innentemperatur
      * @param  string $month Slug des Monats.
      * @return float Bilanz-Innentemperatur θih
      */
-    public function θih( string $month ): float
+    public function θih_monat( string $month ): float
     {
         if(! isset($this->table_data[$month]) ) {
             return 0;
@@ -154,6 +167,6 @@ class Bilanz_Innentemperatur
             $tau_values[] = interpolate_value($this->h_max_spezifisch, $keys, $values); // Interpolate h_max_spezifisch.
         }        
 
-        return interpolate_value($this->tau, $tau_keys, $tau_values);
+        return interpolate_value($this->gebaeude()->tau(), $tau_keys, $tau_values);
     }
 }

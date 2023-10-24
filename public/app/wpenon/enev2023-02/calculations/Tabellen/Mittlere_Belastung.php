@@ -45,17 +45,36 @@ class Mittlere_Belastung
      */
     protected array $table_data;
 
-    public function __construct(Gebaeude $gebaeude, float $h_max_spezifisch, float $tau, bool $teilbeheizung = true ) {
-        $this->gebaeude = $gebaeude;
+    /**
+     * Constructor.
+     * 
+     * @param float $h_max_spezifisch Maximale spezifische Heizlast des Gebäudes.
+     * @param bool  $teilbeheizung    Ist das Gebäude teilbeheizt? Wir rechnen im Moment immer mit teilbeheizt.
+     */
+    public function __construct( float $h_max_spezifisch, bool $teilbeheizung = true ) {
         $this->h_max_spezifisch = $h_max_spezifisch;
-        $this->tau = $tau;
-        $this->teilbeheizung = $teilbeheizung;
+        $this->teilbeheizung = $teilbeheizung;        
+    }
 
-        if ($this->gebaeude->anzahl_wohneinheiten() === 1) {
-            $this->table_data = wpenon_get_table_results('mittlere_belastung_efh');
-        } else {
-            $this->table_data = wpenon_get_table_results('mittlere_belastung_mfh');
+    /**
+     * Gebäude.
+     * 
+     * @param Gebaeude|null $gebaeude 
+     * @return Gebaeude 
+     */
+    public function gebaeude( Gebaeude|null $gebaeude = null ): Gebaeude
+    {
+        if( ! empty( $gebaeude ) ) {
+            $this->gebaeude = $gebaeude;
+
+            if ($this->gebaeude->anzahl_wohneinheiten() === 1) {
+                $this->table_data = wpenon_get_table_results('mittlere_belastung_efh');
+            } else {
+                $this->table_data = wpenon_get_table_results('mittlere_belastung_mfh');
+            }
         }
+
+        return $this->gebaeude;
     }
 
     /**
@@ -68,11 +87,11 @@ class Mittlere_Belastung
      */
     protected function tau_slugs(): array
     {
-        if( $this->tau <= 50 ){
+        if( $this->gebaeude->tau() <= 50 ){
             return array('t50');
-        } elseif ( $this->tau > 50 && $this->tau <= 90) {
+        } elseif ( $this->gebaeude->tau() > 50 && $this->gebaeude->tau() <= 90) {
             return array('t50', 't90');
-        } elseif ( $this->tau > 90 && $this->tau < 130) {
+        } elseif ( $this->gebaeude->tau() > 90 && $this->gebaeude->tau() < 130) {
             return array('t90', 't130');
         } else {
             return array('t130');
@@ -143,7 +162,7 @@ class Mittlere_Belastung
             $tau_values[] = interpolate_value( $this->h_max_spezifisch, $keys, $values ); // Interpolate h_max_spezifisch.
         }        
 
-        return interpolate_value( $this->tau, $tau_keys, $tau_values );
+        return interpolate_value( $this->gebaeude->tau(), $tau_keys, $tau_values );
     }
 
     /**
