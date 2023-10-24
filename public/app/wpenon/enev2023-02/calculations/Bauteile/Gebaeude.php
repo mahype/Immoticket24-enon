@@ -277,10 +277,26 @@ class Gebaeude
      * 
      * @return float Nutzwärmebedarf für Trinkwasser (qwb) in kWh.
      */
-    public function qwb( string $monat ): float
+    public function qwb_monat( string $monat ): float
     {
         $jahr = new Jahr();
         $qwb = $this->nutzwaermebedarf_trinkwasser($this->nutzflaeche());
         return ($this->nutzflaeche()/$this->anzahl_wohneinheiten()) * $qwb * ($jahr->monat($monat)->tage()/365);
+    }
+
+    /**
+     *  Nutzwärmebedarf für Trinkwasser (qwb) für ein Jahr.
+     * 
+     * @return float Nutzwärmebedarf für Trinkwasser (qwb) in kWh.
+     */
+    public function qwb(): float {
+        $jahr = new Jahr();
+        $qwb = 0;
+
+        foreach( $jahr->monate() as $monat ) {
+            $qwb += $this->qwb_monat($monat->slug());
+        }
+
+        return $qwb;
     }
 }

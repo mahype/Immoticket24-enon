@@ -43,6 +43,20 @@ class Uebergabesystem
     protected string $auslegungstemperaturen;
 
     /**
+     * Anzahl der Wohnungen.
+     * 
+     * @var int
+     */
+    protected int $anzahl_wohnungen;
+
+    /**
+     * Ist die Heizungsanlage beheizt?
+     * 
+     * @var bool
+     */
+    protected bool $heizungsanlage_beheizt;
+
+    /**
      * Prozentualer Anteil der Heizungsanlage im Heizsystem
      * 
      * @var int
@@ -61,10 +75,18 @@ class Uebergabesystem
      * 
      * @param string $typ                    Typ des Übergabesystems (elektroheizungsflaechen, heizkoerper, fussbodenheizung, wandheizung, deckenheizung).
      * @param string $auslegungstemperaturen Auslegungstemperaturen der Heizungsanlage. Mögliche Werte: ' 90/70', '70/55', '55/45' oder '35/28'.
+     * @param int    $anzahl_wohnungen       Anzahl der Wohnungen.
+     * @param bool   $heizungsanlage_beheizt Ist die Heizungsanlage beheizt? Wenn der Kunde dies nicht weis, dann nein (false).
      * @param string $prozentualer_anteil    Prozentualer Anteil des Übergabesystems im Heizsystem.
      * @param bool   $mindestdaemmung        Ist die Mindestdämmung vorhanden? Wenn der Kunde dies nicht weis, dann nein (false). Wird nur bei flaechenheizungen benötigt.
      */
-    public function __construct( string $typ, string $auslegungstemperaturen, int $prozentualer_anteil = 100, bool $mindestdaemmung = false )
+    public function __construct( 
+        string $typ, 
+        string $auslegungstemperaturen, 
+        int $anzahl_wohnungen,
+        bool $heizungsanlage_beheizt,        
+        int $prozentualer_anteil = 100, 
+        bool $mindestdaemmung = false )
     {
         // Check der Übergabe-Typen
         if(! in_array($typ, $this->typen) ) {
@@ -78,6 +100,8 @@ class Uebergabesystem
 
         $this->typ = $typ;
         $this->auslegungstemperaturen = $auslegungstemperaturen;
+        $this->anzahl_wohnungen = $anzahl_wohnungen;
+        $this->heizungsanlage_beheizt = $heizungsanlage_beheizt;
         $this->prozentualer_anteil = $prozentualer_anteil;
         $this->mindestdaemmung = $mindestdaemmung;
     }
@@ -133,6 +157,7 @@ class Uebergabesystem
             $ehce += 0.036;
 
             return $ehce;
+        // Flächenheizungen
         case 'fussbodenheizung':            
         case 'wandheizung':
         case 'deckenheizung':        
@@ -173,6 +198,90 @@ class Uebergabesystem
             return 0;
         }
     }
+
+    /**
+     * Verteilung Heizung (ehd).
+     * 
+     * Berechnung der Wirkungsgrade der Wärmeverluste (Aufwandszahlen) von  Verteilung ehd
+     * Bemerkung: Übergabestationen werden vorerst nicht berücksichtigt
+     * Siehe Tabelle 12, Tabele 30, Tabelle 31
+     * 
+     * @param Heizungsanlage
+     * 
+     * @return float 
+     */
+    public function ehd( Heizungsanlage $heizungsanlage ): float
+    {
+        if( $this->typ === 'elektroheizungsflaechen' ) {
+            return 1;
+        }
+
+        $ehd0 = $this->ehd0( $heizungsanlage );
+    }
+
+    /**
+     * Verteilung Heizung (ehd0).
+     * 
+     * 
+     * @return float|void 
+     */
+    public function ehd0( Heizungsanlage $heizungsanlage ): float {
+        if( $this->anzahl_wohnungen === 1 ) {
+            switch ( $this->auslegungstemperaturen ) {
+                case '90/70':
+                    return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.099 : 1.1;
+                case '70/55':
+                    return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.070 : 1.074;
+                case '55/45':
+                    return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.049 : 1.055;
+                case '35/28':
+                    return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.019 : 1.028;
+            }
+        }
+
+        // Mehrfamilienhaus
+        switch( $this->auslegungstemperaturen ) {
+            case '90/70':
+                return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.085 : 1.085;
+            case '70/55':
+                return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.060 : 1.063;
+            case '55/45':
+                return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.042 : 1.047;
+            case '35/28':
+                return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.016 : 1.024;
+        }
+    }
+
+    public function ehd1(): float {
+            
+    }
+
+
+    public function ßhce(): float {
+        ////    $ßhce=($calculations['qh']/($calculations['thm']*$Φh,max))*1000; //mittlere Belastund bei Übergabe der Heizung
+    }
+
+    /**
+     * Mitttlere Belastung für die Verteilung (ßhd).
+     * 
+     * @return float 
+     */
+    public function ßhd(): float {
+        if( $this->typ === 'elektroheizungsflaechen' ) {
+            throw new Exception('Elektroheizungsflächen haben keine mittlere Belastung für die Verteilung.');
+        }
+
+        // Wir nehmen immer an, dass kein hydraulischer Abgleich durchgeführt wurde um die Anzahl der Fragen zu reduzieren.
+        // Da dies aber später Pflicht wird, muss das später noch angepasst werden.
+        $fhydr = 1.06;
+
+        return $this->ßhce() * $this->ehce() * $fhydr;
+    }
+
+    public function fßhd() {
+
+    }
+       
 
     /**
      * Typ.

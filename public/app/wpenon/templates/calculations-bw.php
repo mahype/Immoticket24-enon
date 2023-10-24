@@ -50,7 +50,18 @@
     ),
   ),
   'data'      => $data['bauteile'],
-) ); ?>
+) ); 
+
+// Gebäude Objekt
+$gebaeude = $data['gebaeude'];
+
+// Luftwechsel Objekt
+$luftwechsel = $data['luftwechsel'];
+
+// Mittlere Belastung Objekt
+$mittlere_belastung = $data['mittlere_belastung'];
+
+?>
 
 <p class="lead"><?php printf( __( 'Transmissionswärmeverluste H<sub>T</sub>: %s W/K', 'wpenon' ), \WPENON\Util\Format::float( $data['ht'] ) ); ?></p>
 <p class="lead"><?php printf( __( 'Lüftungswärmeverluste H<sub>V</sub>: %s W/K', 'wpenon' ), \WPENON\Util\Format::float( $data['hv'] ) ); ?></p>
@@ -58,7 +69,7 @@
 <div class="lead" style="background-color:lightgray; padding:5px;"><strong>NEU 2023</strong><br />
   <table>    
     <tr>
-      <td>Nutzfläche</td><td><?php echo $data['nutzflaeche']; ?> m<sup>2</sup></td>
+      <td>Nutzfläche</td><td><?php echo \WPENON\Util\Format::float( $gebaeude->nutzflaeche() ); ?> m<sup>2</sup></td>
     </tr>
     <?php if ( isset( $data['bauteile']['kellerwand'] ) ) : ?>
     <tr>
@@ -69,43 +80,47 @@
     </tr>
     <?php endif; ?>
     <tr>
-      <td>Nettohüllvolumen</td><td><?php echo $data['huellvolumen_netto']; ?> m<sup>3</sup></td>
+      <td>Nettohüllvolumen</td><td><?php echo \WPENON\Util\Format::float( $gebaeude->huellvolumen() ); ?> m<sup>3</sup></td>
     </tr>
     <tr>
-      <td>A/V rate</td><td><?php echo $data['ave_verhaeltnis']; ?></td>
+      <td>A/V rate</td><td><?php echo \WPENON\Util\Format::float( $gebaeude->ave_verhaeltnis() ); ?></td>
     </tr>
     <tr>
-      <td>Gesamtluftwechsel 𝑛</td><td><?php echo $data['n']; ?></td>
+      <td>Gesamtluftwechsel 𝑛</td><td><?php echo \WPENON\Util\Format::float( $luftwechsel->n() ); ?></td>
     </tr>
     <tr>
-      <td>Luftwechselrate 𝑛<sub>0</sub></td><td><?php echo $data['n0']; ?></td>
+      <td>Luftwechselrate 𝑛<sub>0</sub></td><td><?php echo \WPENON\Util\Format::float( $luftwechsel->n0() ); ?></td>
     </tr>
     <tr>
-      <td>Lüftungswärmeverluste H<sub>V</sub></td><td><?php echo $data['hv']; ?> W/K</td>
+      <td>Lüftungswärmeverluste H<sub>V</sub></td><td><?php echo \WPENON\Util\Format::float( $luftwechsel->hv() ); ?> W/K</td>
     </tr>
     <tr>
-      <td>Korrekturfaktor  fwin1</td><td><?php echo $data['fwin1']; ?></td>
+      <td>Korrekturfaktor  fwin1</td><td><?php echo \WPENON\Util\Format::float( $luftwechsel->fwin1() ); ?></td>
     </tr>
     <tr>
-      <td>Saisonaler Korrekturfaktor fwin2</td><td><?php echo $data['fwin2']; ?></td>
+      <td>Saisonaler Korrekturfaktor fwin2</td><td><?php echo \WPENON\Util\Format::float( $luftwechsel->fwin2() ); ?></td>
     </tr>
     <tr>
-      <td>ht</td><td><?php echo $data['ht']; ?></td>
+      <td>ht</td><td><?php echo \WPENON\Util\Format::float( $data['ht'] ); ?></td>
     </tr>
     <tr>
-      <td>N<sub>anl</sub></td><td><?php echo $data['n_anl']; ?></td>
+      <td>N<sub>anl</sub></td><td><?php echo \WPENON\Util\Format::float( $luftwechsel->n_anl() ); ?></td>
     </tr>
     <tr>
-      <td>N<sub>wrg</sub></td><td><?php echo $data['n_wrg']; ?></td>
+      <td>N<sub>wrg</sub></td><td><?php echo \WPENON\Util\Format::float( $luftwechsel->n_wrg() ); ?></td>
     </tr>
     <tr>
-      <td>Maximale Heizlast h<sub>max</sub></td><td><?php echo $data['h_max']; ?></td>
+      <td>Maximale Heizlast h<sub>max</sub></td><td><?php echo \WPENON\Util\Format::float($luftwechsel->h_max()); ?></td>
     </tr>
     <tr>
-      <td>Spezifische Heizlast h<sub>max,spec</sub></td><td><?php echo $data['h_max_spezifisch']; ?></td>
+      <td>Spezifische Heizlast h<sub>max,spec</sub></td><td><?php echo \WPENON\Util\Format::float($luftwechsel->h_max_spezifisch()); ?></td>
     </tr>
     <tr>
-      <td>Mittlere Belastung ßem<sub>max</sub></td><td><?php echo $data['ßemMax']; ?></td>
+      <td>Mittlere Belastung ßem<sub>max</sub></td><td><?php echo \WPENON\Util\Format::float($mittlere_belastung->ßemMax()); ?></td>
+    </tr>
+    <tr>
+      <td>Jährlicher Trinkwarmwasserbedarf Q<sub>wb</sub></td><td><?php echo \WPENON\Util\Format::float($gebaeude->qwb()); ?> kWh</td>
+    </tr>
     </tr>
   </table>
 </div>
