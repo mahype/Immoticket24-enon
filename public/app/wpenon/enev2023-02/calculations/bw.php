@@ -7,6 +7,10 @@ require_once '_lib/Extension_Form_B.php';
 // Neue Lib
 require_once 'Bauteile/Gebaeude.php';
 require_once 'Bauteile/Bauteile.php';
+require_once 'Bauteile/Fenster_Sammlung.php';
+require_once 'Bauteile/Fenster.php';
+require_once 'Bauteile/Wand_Sammlung.php';
+require_once 'Bauteile/Wand.php';
 
 require_once 'Helfer/Jahr.php';
 require_once 'Helfer/Math.php';
@@ -17,8 +21,34 @@ require_once 'Tabellen/Luftwechsel.php';
 require_once 'Tabellen/Mittlere_Belastung.php';
 require_once 'Tabellen/Bilanz_Innentemperatur.php';
 
-// Ende neue Lib
 
+/**
+ * Grundriss.
+ */
+$grundriss = new Grundriss($energieausweis->grundriss_form, $energieausweis->grundriss_richtung);
+
+// Hinzufügen aller manuell angegebener Wände, abhängig von der Grundrissform.
+foreach( $grundriss->waende_manuell() AS $wand ) {
+    $wand_laenge_slug = 'wand_' . $wand . '_laenge';
+    $wand_laege = $energieausweis->$wand_laenge_slug;
+    $grundriss->wandlaenge($wand, $wand_laenge);
+}
+
+/**
+ * Gebäude.
+ */
+$gebaeude = new Gebaeude(
+    $energieausweis->baujahr,
+    $energieausweis->geschoss_zahl,
+    $energieausweis->geschoss_hoehe,
+    $energieausweis->wohnungen,
+    $grundriss,
+    $bauteile
+);
+
+$calculations['gebaeude'] = $gebaeude;
+
+// Ende neue Lib
 $tableNames = new stdClass();
 
 $tableNames->h_erzeugung                 = 'h_erzeugung2019';
@@ -32,123 +62,16 @@ $tableNames->l_verteilung                = 'l_verteilung2021';
 $tableNames->klimafaktoren               = 'klimafaktoren202301';
 
 $calculations = array();
-
-/*************************************************
- * BAUTEILE BERECHNUNG
- *************************************************/
-
-$calculations['bauteile'] = array();
 $calculations['volumenteile'] = array();
 
-// Definition & Mapping Himmelsrichtung anhand der gesetzen Himmelsrichtung von Wand a.
-$himmelsrichtungen = array_keys(wpenon_immoticket24_get_himmelsrichtungen());
-$hr_nullrichtung = array_search($energieausweis->grundriss_richtung, $himmelsrichtungen);
-$hr_mappings = array();
-for ( $i = 0; $i < 4; $i++ ) {
-    $hr_mappings[] = $himmelsrichtungen[ ( $hr_nullrichtung + 2 * $i ) % 8 ];
-}
-
-// Reset der Wandlängen
-$wand_a_laenge = $wand_b_laenge = $wand_c_laenge = $wand_d_laenge = $wand_e_laenge = $wand_f_laenge = $wand_g_laenge = $wand_h_laenge = 0.0;
-
-$grundriss_formen = wpenon_immoticket24_get_grundriss_formen();
-$grundriss_form = $grundriss_formen['a'];
-if (isset($grundriss_formen[ $energieausweis->grundriss_form ]) ) {
-    $grundriss_form = $grundriss_formen[ $energieausweis->grundriss_form ];
-}
-
-$flaechenberechnungsformel = $grundriss_form['fla'];
-unset($grundriss_form['fla']);
-
-$to_calculate = array();
-foreach ( $grundriss_form as $wand => $data ) {
-    if ($data[0] === true ) {
-        $l_slug = 'wand_' . $wand . '_laenge';
-        $$l_slug = $energieausweis->$l_slug; // Dynamische Variablenzuweisung: $wand_a_laenge = $energieausweis->wand_a_laenge;
-    } else {
-        $to_calculate[ $wand ] = $data;
-    }
-}
-
-unset($data);
-
-foreach ( $to_calculate as $wand => $data ) {
-    $laenge = 0.0;
-    $current_operator = '+';
-    $formel = explode(' ', $data[0]);
-    foreach ( $formel as $t ) {
-        switch ( $t ) {
-        case '+':
-        case '-':
-            $current_operator = $t;
-            break;
-        default:
-            $l_slug = 'wand_' . $t . '_laenge';
-            switch ( $current_operator ) {
-            case '+':
-                $laenge += $$l_slug;
-                break;
-            case '-':
-                $laenge -= $$l_slug;
-                break;
-            default:
-            }
-        }
-    }
-    if ($laenge > 0.0 ) {
-        $l_slug = 'wand_' . $wand . '_laenge';
-        $$l_slug = $laenge;
-    }
-}
-unset($data);
-unset($to_calculate);
-
-// Berechnung der Geschosshöhe
-$geschosshoehe = $energieausweis->geschoss_hoehe + 0.25;
 
 // Berechnung der Wandhöhe (gesamte Außenwand) inkl. Kniestock
-$wandhoehe = $energieausweis->geschoss_zahl * $geschosshoehe + 0.25 + $this->energieausweis->kniestock_hoehe;
-
-// Flächenberechnung des Grundrisses
-$grundflaeche = 0.0;
-foreach ( $flaechenberechnungsformel as $index => $_produkt ) {
-    $produkt = 1.0;
-    for ( $i = 0; $i < 2; $i++ ) {
-        $_faktor = $_produkt[ $i ];
-        $faktor = 0.0;
-        $current_operator = '+';
-        $_faktor = explode(' ', $_faktor);
-        foreach ( $_faktor as $t ) {
-            switch ( $t ) {
-            case '+':
-            case '-':
-                $current_operator = $t;
-                break;
-            default:
-                $l_slug = 'wand_' . $t . '_laenge';
-                switch ( $current_operator ) {
-                case '+':
-                    $faktor += $$l_slug;
-                    break;
-                case '-':
-                    $faktor -= $$l_slug;
-                    break;
-                default:
-                }
-            }
-        }
-        if ($faktor < 0.0 ) {
-            $faktor = 0.0;
-        }
-        $produkt *= $faktor;
-    }
-    $grundflaeche += $produkt;
-}
+$wandhoehe = $gebaeude->geschossanzahl() * $gebaeude->geschosshoehe() + $this->energieausweis->kniestock_hoehe;
 
 // Volumenberechnung des Grundrisses
 $calculations['volumenteile']['grundriss'] = array(
   'name'          => __('Grundriss', 'wpenon'),
-  'v'             => $grundflaeche * $wandhoehe,
+  'v'             => $grundriss->flaeche() * $wandhoehe,
 );
 
 // Definition schwere des Gebäudes
@@ -165,42 +88,95 @@ case 'fachwerk':
 }
 
 // Sammlung aller Wandflächen des Grundrisses
-$wandlaenge = 0.0;
+
 $calculations['wandrichtungen'] = array();
-foreach ( $grundriss_form as $wand => $data ) {
-    $l_slug = 'wand_' . $wand . '_laenge';
-    $n_slug = 'wand_' . $wand . '_nachbar';
-    $wandlaenge += $$l_slug;    
 
-    if (! $energieausweis->$n_slug ) {
-        $flaeche = $$l_slug * $wandhoehe;
+/**
+ * Hinzufügen aller Bauteile der Wände.
+ */
+foreach ( $grundriss->waende() as $wand ) {
+    $nachbar_slug = 'wand_' . $wand . '_nachbar';
 
-        if(isset($dach_wand_flaeche[$wand]) ) {
-            $flaeche += $dach_wand_flaeche[$wand];
-        }
-
-        $d_slug = 'wand_' . $wand . '_daemmung';
-        $calculations['bauteile'][ 'wand_' . $wand ] = array(
-        'name'          => sprintf(__('Außenwand %s', 'wpenon'), $wand),
-        'typ'           => 'wand',
-        'modus'         => 'opak',
-        'bauart'        => $wand_bauart,
-        'baujahr'       => $energieausweis->baujahr,
-        'richtung'      => $hr_mappings[ $data[1] ],
-        'a'             => $flaeche,
-        'd'             => $energieausweis->$d_slug,
-        );
-        if (! isset($calculations['wandrichtungen'][ $calculations['bauteile'][ 'wand_' . $wand ]['richtung'] ]) ) {
-            $calculations['wandrichtungen'][ $calculations['bauteile'][ 'wand_' . $wand ]['richtung'] ] = array();
-        }
-        $calculations['wandrichtungen'][ $calculations['bauteile'][ 'wand_' . $wand ]['richtung'] ][] = $wand;
+    if ($energieausweis->$nachbar_slug ) { // Wenn es eine Wand zum Nachbar ist, dann wird diese nicht als Außenwand gewertet.
+        continue;
     }
+
+    $wand_uwert = 0; // todo: Aus Tabelle ziehen
+
+    /**
+     * Fenster  
+     */
+    $fensterflaeche = ( 0.55 * $grundriss->wandlaenge($wand) ) * ( $wandhoehe - 1.5 );
+
+    $fenster = new Fenster( 
+        name: sprintf(__('Fenster Wand %s', 'wpenon'), $wand),
+        uwert: $energieausweis->fenster_uwert,
+        flaeche: $fensterflaeche,
+        baujahr: $energieausweis->fenster_baujahr,
+        himmelsrichtung: $himmelsrichtung,
+        winkel: 90.0
+    );
+
+    $gebaeude->_bauteile()->hinzufuegen($fenster);
+
+    /**
+     * Heizkörpernischen.
+     */
+    $heizkoerpernischen_flaeche = 0;
+    if ($energieausweis->heizkoerpernischen == 'vorhanden' ) {
+        $heizkoerpernische_flaeche = $fensterflaeche * 0.5; // 50% der Fensterflächen werden als Heizkörpernischen angenommen.
+        $heizkoerpernische_uwert = $energieausweis->wand_uwert * 2;
+
+        $heizkoerpernische = new Heizkoerpernische(
+            name: sprintf(__('Heizkörpernischen Wand %s', 'wpenon'), $wand),
+            flaeche: $heizkoerpernische_flaeche,
+            uwert: $heizkoerpernische_uwert,
+            baujahr: $energieausweis->baujahr,
+            himmelsrichtung: $himmelsrichtung
+        );
+
+        $gebaeude->_bauteile()->hinzufuegen($heizkoerpernische);
+    }
+
+    /**
+     * Rolladenkästen.
+     */
+    $rolladenkasten_flaeche = 0;
+    if (substr($energieausweis->rollladenkaesten, 0, 6) == 'innen_' ) { // Wir nehmen nur innenliegende Rolladenkästen.
+        $rolladenkaesten_flaeche = $fensterflaeche * 0.1; // 10% der Fensterflächen werden als Rolladenkästen angenommen.
+
+        $rolladenkasten = new Rolladenkasten(
+            name: sprintf(__('Rolladenkasten Wand %s', 'wpenon'), $wand),
+            flaeche: $rolladenkaesten_flaeche,
+            uwert: $energieausweis->rollladenkaesten_uwert,
+            baujahr: $energieausweis->baujahr,
+            himmelsrichtung: $himmelsrichtung            
+        );
+
+        $gebaeude->_bauteile()->hinzufuegen($rolladenkasten);
+    }
+
+    $flaeche = $$l_slug * $wandhoehe - $fensterflaeche - $heizkoerpernischen_flaeche - $rolladenkaesten_flaeche;
+    $himmelsrichtung = $hr_mappings[ $data[1] ];
+
+    $wand = new Wand(
+        name: sprintf(__('Außenwand %s', 'wpenon'), $wand),
+        seite: $wand,
+        flaeche: $flaeche,
+        uwert: $energieausweis->wand_uwert,
+        baujahr: $energieausweis->baujahr,
+        himmelsrichtung: $himmelsrichtung,
+        daemmung: $energieausweis->$d_slug, 
+    );
+
+    $gebaeude->_bauteile()->hinzufuegen($wand);
 }
-unset($data);
+
+
 
 
 // Sammlung aller Bauteile des Anbaus (falls vorhanden)
-if ($energieausweis->anbau ) {
+if ( $energieausweis->anbau ) {
     $anbauwand_b_laenge = $anbauwand_t_laenge = $anbauwand_s1_laenge = $anbauwand_s2_laenge = 0.0;
 
     $anbau_formen = wpenon_immoticket24_get_anbau_formen();
@@ -749,43 +725,6 @@ foreach ( $calculations['volumenteile'] as $slug => $data ) {
 }
 unset($data);
 
-/*************************************************
- * BAUTEILE TRANSPARENT etc.
- *************************************************/
-
-foreach ( $grundriss_form as $wand => $data ) {
-    if (isset($calculations['bauteile'][ 'wand_' . $wand ]) ) {
-  
-        // Automatische Berechnung
-        $l_slug = 'wand_' . $wand . '_laenge';
-        $n_slug = 'wand_' . $wand . '_nachbar';    
-
-        if ($energieausweis->$n_slug === true ) {
-            continue;
-        }
-
-        // Fensterfläche Wand a: 0,55 * (Wandlänge a - 2 * Wandstärke) * ((Geschosshöhe - 1,50 m) * Anzahl Vollgeschoss)
-        $fensterflaeche = 0.55 * ( $energieausweis->$l_slug - 2 * $energieausweis->wand_staerke / 100 ) * ( ( $energieausweis->geschoss_hoehe - 1.5 ) * $energieausweis->geschoss_zahl );
-
-        $calculations['bauteile'][ 'fenster_' . $wand ] = array(
-        'name'          => sprintf(__('Fenster Wand %s', 'wpenon'), $wand),
-        'typ'           => 'fenster',
-        'modus'         => 'transparent',
-        'bauart'        => $energieausweis->fenster_bauart,
-        'baujahr'       => $energieausweis->fenster_baujahr,
-        'richtung'      => $calculations['bauteile'][ 'wand_' . $wand ]['richtung'],
-        'a'             => $fensterflaeche,
-        'd'             => 0,
-        'winkel'        => 90.0,
-        );
-
-        $calculations['bauteile'][ 'wand_' . $wand ]['a'] -= $calculations['bauteile'][ 'fenster_' . $wand ]['a'];
-  
-    }
-
-}
-unset($data);
-
 if ($energieausweis->anbau ) {
     foreach ( $anbau_form as $wand => $data ) {      
         if (isset($calculations['bauteile'][ 'anbauwand_' . $wand ]) ) {
@@ -889,6 +828,7 @@ if ($energieausweis->heizkoerpernischen == 'vorhanden' ) {
             }
         }
     }
+
     unset($data);
 }
 
@@ -933,15 +873,6 @@ $fxwerte = array(
 );
 
 $uwerte = wpenon_get_table_results($tableNames->uwerte);
-$uwerte_reference = array(
-  'dach'            => 0.2,
-  'decke'           => 0.2,
-  'wand'            => 0.28,
-  'boden'           => 0.35,
-  'fenster'         => 1.3,
-  'rollladen'       => 1.8,
-  'tuer'            => 1.8,
-);
 
 foreach ( $calculations['bauteile'] as $slug => &$data ) {
     if ($data['a'] < 0.0 ) {
@@ -998,81 +929,68 @@ foreach ( $calculations['bauteile'] as $slug => $data ) {
 unset($data);
 $calculations['ht'] += 0.1 * $calculations['huellflaeche'];
 
-/**
- * Gebäude.
- */
-
-
-$bauteile = new Bauteile( $calculations['huellvolumen'], $calculations['huellflaeche'], $calculations['ht'], $calculations['hw'] );
-
-$gebaeude = new Gebaeude(
-    $energieausweis->baujahr,
-    $energieausweis->geschoss_zahl,
-    $energieausweis->geschoss_hoehe,
-    $energieausweis->wohnungen,
-    $bauteile
+$gebaeude->_luftwechsel(
+    new Luftwechsel(
+        lueftungssystem: $energieausweis->l_info,
+        bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt,
+        gebaeudedichtheit: $energieausweis->dichtheit ? 'din_4108_7' : 'andere',
+        wirkunksgrad: (float) $energieausweis->l_wirkungsgrad
+    )
 );
 
-$calculations['gebaeude'] = $gebaeude;
 
-$gebaeude->_luftwechsel( new Luftwechsel(
-    lueftungssystem: $energieausweis->l_info,
-    bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt,
-    gebaeudedichtheit: $energieausweis->dichtheit ? 'din_4108_7' : 'andere',
-    wirkunksgrad: (float) $energieausweis->l_wirkungsgrad
-));
-
-
-$gebaeude->_wasserversorgung( new Wasserversorgung(
-    zentral: true,
-    beheizte_bereiche: 'alles',
-    mit_warmwasserspeicher: $energieausweis->warmwasserspeicher == 'ja' ? true : false, // Neu - Ist ein Warmwasserspeicher vorhanden?
-    mit_zirkulation: $energieausweis->verteilung_versorgung === 'mit' ? true : false, // Feld vorhanden
-));
+$gebaeude->_wasserversorgung(
+    new Wasserversorgung(
+        zentral: true,
+        beheizte_bereiche: 'alles',
+        mit_warmwasserspeicher: $energieausweis->warmwasserspeicher == 'ja' ? true : false, // Neu - Ist ein Warmwasserspeicher vorhanden?
+        mit_zirkulation: $energieausweis->verteilung_versorgung === 'mit' ? true : false, // Feld vorhanden
+    )
+);
 
 /*************************************************
  * HEIZWÄRMEBEDARF
  *************************************************/
 
-if( $energieausweis->h_erzeugung ) {
+if($energieausweis->h_erzeugung ) {
     $auslegungstemperaturen = $energieausweis->h_auslegungstemperaturen;
     $anteil = $energieausweis->h_deckungsanteil ? $energieausweis->h_deckungsanteil : 100;
     $beheizung_anlage = $energieausweis->h_standort === 'innerhalb' ? 'alles': 'nichts';
 
-    $heizungsanlage = new Heizungsanlage( $auslegungstemperaturen, $beheizung_anlage, $anteil );
-    $gebaeude->_heizsystem()->heizungsanlagen()->hinzufuegen( $heizungsanlage );
+    $heizungsanlage = new Heizungsanlage($auslegungstemperaturen, $beheizung_anlage, $anteil);
+    $gebaeude->_heizsystem()->heizungsanlagen()->hinzufuegen($heizungsanlage);
 }
 
-if( $energieausweis->h2_erzeugung ) {
+if($energieausweis->h2_erzeugung ) {
     $auslegungstemperaturen = $energieausweis->h_auslegungstemperaturen;
     $anteil = $energieausweis->h2_deckungsanteil;
     $beheizung_anlage = $energieausweis->h2_standort === 'innerhalb' ? 'alles': 'nichts';
 
-    $heizungsanlage = new Heizungsanlage( $auslegungstemperaturen, $beheizung_anlage, $anteil );
-    $gebaeude->_heizsystem()->heizungsanlagen()->hinzufuegen( $heizungsanlage );
+    $heizungsanlage = new Heizungsanlage($auslegungstemperaturen, $beheizung_anlage, $anteil);
+    $gebaeude->_heizsystem()->heizungsanlagen()->hinzufuegen($heizungsanlage);
 }
 
-if( $energieausweis->h3_erzeugung ) {
+if($energieausweis->h3_erzeugung ) {
     $auslegungstemperaturen = $energieausweis->h_auslegungstemperaturen;
     $anteil = $energieausweis->h3_deckungsanteil;
     $beheizung_anlage = $energieausweis->h3_standort === 'innerhalb' ? 'alles': 'nichts';
  
-    $heizungsanlage = new Heizungsanlage( $auslegungstemperaturen, $beheizung_anlage, $anteil );
-    $gebaeude->_heizsystem()->heizungsanlagen()->hinzufuegen( $heizungsanlage );
+    $heizungsanlage = new Heizungsanlage($auslegungstemperaturen, $beheizung_anlage, $anteil);
+    $gebaeude->_heizsystem()->heizungsanlagen()->hinzufuegen($heizungsanlage);
 }
 
-if( $energieausweis->h_uebergabe ) {
+if($energieausweis->h_uebergabe ) {
     $typ = $energieausweis->h_uebergabe;
     $auslegungstemperaturen = $energieausweis->h_uebergabe_auslegungstemperaturen;
     $anteil = $energieausweis->h_uebergabe_anteil;
-    $gebaeude->_heizsystem()->uebergabesysteme()->hinzufuegen( new Uebergabesystem( $typ, $auslegungstemperaturen, $anteil ) );
+    $gebaeude->_heizsystem()->uebergabesysteme()->hinzufuegen(new Uebergabesystem($typ, $auslegungstemperaturen, $anteil));
 }
 
-if( $energieausweis->h_uebergabe2 ) {
+if($energieausweis->h_uebergabe2 ) {
     $typ = $energieausweis->h_uebergabe2;
     $auslegungstemperaturen = $energieausweis->h_uebergab2_auslegungstemperaturen;
     $anteil = $energieausweis->h_uebergabe2_anteil;
-    $gebaeude->_heizsystem()->uebergabesysteme()->hinzufuegen( new Uebergabesystem( $typ, $auslegungstemperaturen, $anteil ) );
+    $gebaeude->_heizsystem()->uebergabesysteme()->hinzufuegen(new Uebergabesystem($typ, $auslegungstemperaturen, $anteil));
 }
 
 $monate = wpenon_get_table_results('monate');
@@ -1099,7 +1017,7 @@ foreach ( $monate as $monat => $monatsdaten ) {
     $calculations['monate'][ $monat ]['temperatur'] = floatval($monatsdaten->temperatur);
 
     // Umrechnungsfakor FUM
-    $fum = fum( $monat );
+    $fum = fum($monat);
 
     // Solare Gewinne Qs
     $calculations['monate'][ $monat ]['qi_solar'] = 0.0;
@@ -1116,34 +1034,34 @@ foreach ( $monate as $monat => $monatsdaten ) {
 
     // Wärmesenken als Leistung in W (Berechnung von Ph sink und Ph*sink)
     
-    $calculations['monate'][ $monat ]['psh_sink'] = $gebaeude->ph_sink_monat( $monat) - ($gebaeude->qi_prozesse_monat( $monat ) + ( 0.5 * $calculations['monate'][ $monat ]['qi_solar'] ) * $fum);
+    $calculations['monate'][ $monat ]['psh_sink'] = $gebaeude->ph_sink_monat($monat) - ($gebaeude->qi_prozesse_monat($monat) + ( 0.5 * $calculations['monate'][ $monat ]['qi_solar'] ) * $fum);
     $calculations['monate'][ $monat ]['psh_sink'] = $calculations['monate'][ $monat ]['psh_sink'] < 0 ? 0 : $calculations['monate'][ $monat ]['psh_sink'];    
     
     // Interne Wärmequelle infolge von Heizung
-    $calculations['monate'][ $monat ]['qi_heizung'] = $calculations['monate'][ $monat ]['psh_sink'] * ( $mittlere_belastung->ßem1( $monat ) / $mittlere_belastung->ßemMax() ) * $gebaeude->_heizsystem()->fa_h() / $fum;
+    $calculations['monate'][ $monat ]['qi_heizung'] = $calculations['monate'][ $monat ]['psh_sink'] * ( $mittlere_belastung->ßem1($monat) / $mittlere_belastung->ßemMax() ) * $gebaeude->_heizsystem()->fa_h() / $fum;
 
     // Zusammenfassung aller internen Wärmequellen
-    $calculations['monate'][ $monat ]['qi_gesamt'] = $gebaeude->qi_prozesse_monat( $monat ) + $calculations['monate'][ $monat ]['qi_solar'] + $calculations['monate'][ $monat ]['qi_wasser'] + $calculations['monate'][ $monat ]['qi_heizung'];
+    $calculations['monate'][ $monat ]['qi_gesamt'] = $gebaeude->qi_prozesse_monat($monat) + $calculations['monate'][ $monat ]['qi_solar'] + $calculations['monate'][ $monat ]['qi_wasser'] + $calculations['monate'][ $monat ]['qi_heizung'];
 
     // Berechnung von PH Source (in den Dokumenten auch "pi" genannt).
     $calculations['monate'][ $monat ]['ph_source'] = $calculations['monate'][ $monat ]['qi_gesamt'] * $fum;
 
     // Berechnung das monatlichen Wärmequellen-/Wärmesenken-Verhältnis ym.
-    $calculations['monate'][ $monat ]['ym'] =  $calculations['monate'][ $monat ]['ph_source'] / $gebaeude->ph_sink_monat( $monat);
+    $calculations['monate'][ $monat ]['ym'] =  $calculations['monate'][ $monat ]['ph_source'] / $gebaeude->ph_sink_monat($monat);
    
-    $calculations['monate'][ $monat ]['nm'] =  (new Ausnutzungsgrad( $gebaeude->tau(), $calculations['monate'][ $monat ]['ym'] ) )->nm();
+    $calculations['monate'][ $monat ]['nm'] =  (new Ausnutzungsgrad($gebaeude->tau(), $calculations['monate'][ $monat ]['ym']) )->nm();
     $calculations['monate'][ $monat ]['nm_ym'] = (1-$calculations['monate'][ $monat ]['nm'] * $calculations['monate'][ $monat ]['ym']);    
     $calculations['monate'][ $monat ]['ßhm'] = $mittlere_belastung->ßem1($monat) * $calculations['monate'][ $monat ]['nm_ym'];
 
     // Berechnung der Heizustunden pro Monat
-    if  ( $calculations['monate'][ $monat ]['ßhm'] > 0.05 ) {
+    if  ($calculations['monate'][ $monat ]['ßhm'] > 0.05 ) {
         $calculations['monate'][ $monat ]['thm'] = $calculations['monate'][ $monat ]['tage'] * 24;
     } else {
         $calculations['monate'][ $monat ]['thm'] = ( $calculations['monate'][ $monat ]['ßhm'] / 0.05 ) * $calculations['monate'][ $monat ]['tage'] * 24;
     }
 
     // Berechnung der Heizwärmebedarfs pro Monat
-    $calculations['monate'][ $monat ]['qh'] = $gebaeude->ph_sink_monat( $monat) * $calculations['monate'][ $monat ]['nm_ym'] * $calculations['monate'][ $monat ]['thm']/1000;
+    $calculations['monate'][ $monat ]['qh'] = $gebaeude->ph_sink_monat($monat) * $calculations['monate'][ $monat ]['nm_ym'] * $calculations['monate'][ $monat ]['thm']/1000;
 
     /**
      * Aufsummierung zu Jahresergebnissen
@@ -1172,7 +1090,7 @@ foreach ( $monate as $monat => $monatsdaten ) {
     // Heizstunden im Jahr
     $calculations['thm'] += $calculations['monate'][ $monat ]['thm'];
 
-    if( $gebaeude->anzahl_wohneinheiten() === 1 ) {
+    if($gebaeude->anzahl_wohneinheiten() === 1 ) {
         $flna = 1;
     } else {
         $flna = 1 - (( 10 - $calculations['monate'][ $monat ]['temperatur'] ) / 22);
@@ -1180,7 +1098,7 @@ foreach ( $monate as $monat => $monatsdaten ) {
     
     $calculations['monate'][ $monat ]['trl'] = 24 - $flna * 7;
 
-    if( $calculations['monate'][ $monat ]['trl'] < 17 ) {
+    if($calculations['monate'][ $monat ]['trl'] < 17 ) {
         $calculations['monate'][ $monat ]['trl']  = 17;
     }
 
@@ -1190,7 +1108,7 @@ foreach ( $monate as $monat => $monatsdaten ) {
     $calculations['ith_rl'] += $calculations['monate'][ $monat ]['ith_rl'];
 }
 
-$gebaeude->ph_sink_monat( 'november' );
+$gebaeude->ph_sink_monat('november');
 
 // Interne Wärmequellen infolge von Personen
 $calculations['qi_prozesse'] += $gebaeude->qi_prozesse();

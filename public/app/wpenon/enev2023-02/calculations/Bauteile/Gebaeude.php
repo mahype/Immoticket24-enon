@@ -74,6 +74,13 @@ class Gebaeude
     private Bilanz_Innentemperatur $bilanz_innentemperatur;
 
     /**
+     * Grundriss
+     * 
+     * @var Grundriss
+     */
+    private Grundriss $grundriss;
+
+    /**
      * Bauteile
      * 
      * @var Bauteile
@@ -101,18 +108,59 @@ class Gebaeude
      */
     private int $c_wirk;
 
-    public function __construct( int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohneinheiten, Bauteile $bauteile )
+    public function __construct( int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohneinheiten, Grundriss $grundriss)
     {
         $this->jahr = new Jahr();
         $this->baujahr = $baujahr;
         $this->geschossanzahl = $geschossanzahl;
         $this->geschosshoehe = $geschosshoehe;        
         $this->anzahl_wohneinheiten = $anzahl_wohneinheiten;
-        $this->bauteile = $bauteile;
-
+        $this->grundriss = $grundriss;
+        
         $this->c_wirk = 50; // Für den vereinfachten Rechenweg festgelegt auf den Wert 50.
 
+        $this->bauteile = new Bauteile();
         $this->heizsystem = new Heizsystem();
+    }
+
+    /**
+     * Bauteile
+     * 
+     * @return Bauteile 
+     */
+    public function _bauteile(): Bauteile
+    {
+        return $this->bauteile;
+    }
+
+    /**
+     * Heizsystem.
+     * 
+     * @return Heizsystem 
+     */
+    public function _heizsystem(): Heizsystem
+    {
+        return $this->heizsystem;
+    }
+
+    /**
+     * Wasserversorgung.
+     * 
+     * @param Wasserversorgung 
+     * 
+     * @return Wasserversorgung
+     */
+    public function _wasserversorgung( Wasserversorgung $wasserversorgung = null ): Wasserversorgung
+    {
+        if ($wasserversorgung !== null) {
+            $this->wasserversorgung = $wasserversorgung;
+        }
+
+        if($this->wasserversorgung === null ) {
+            throw new Exception('Wasserversorgung wurde nicht gesetzt.');
+        }
+
+        return $this->wasserversorgung;
     }
 
     /**
@@ -154,33 +202,13 @@ class Gebaeude
     }
 
     /**
-     * Heizsystem.
+     * Grundriss.
      * 
-     * @return Heizsystem 
+     * @return Grundriss 
      */
-    public function _heizsystem(): Heizsystem
+    public function _grundriss(): Grundriss
     {
-        return $this->heizsystem;
-    }
-
-    /**
-     * Wasserversorgung.
-     * 
-     * @param Wasserversorgung 
-     * 
-     * @return Wasserversorgung
-     */
-    public function _wasserversorgung( Wasserversorgung $wasserversorgung = null ): Wasserversorgung
-    {
-        if ($wasserversorgung !== null) {
-            $this->wasserversorgung = $wasserversorgung;
-        }
-
-        if($this->wasserversorgung === null ) {
-            throw new Exception('Wasserversorgung wurde nicht gesetzt.');
-        }
-
-        return $this->wasserversorgung;
+        return $this->grundriss;
     }
 
     /**
@@ -220,7 +248,7 @@ class Gebaeude
      */
     public function geschosshoehe(): float
     {
-        return $this->geschosshoehe;
+        return $this->geschosshoehe + 0.25; // Die vom Kunden angegebenen Geschosshöhe zzgl. 25 cm für die Decke des darüberliegenden Geschosses.
     }
 
     /**
@@ -240,7 +268,7 @@ class Gebaeude
      */
     public function huellflaeche(): float
     {
-        return $this->_bauteile()->huellflaeche();
+        return $this->_bauteile()->flaeche();
     }    
 
     /**
@@ -285,17 +313,7 @@ class Gebaeude
     public function q(): float
     {
         return $this->h() * 32;
-    }
-
-    /**
-     * Bauteile
-     * 
-     * @return Bauteile 
-     */
-    public function _bauteile(): Bauteile
-    {
-        return $this->bauteile;
-    }
+    }    
 
     /**
      * Wärmesenken als Leistung in W für einen Monat.
