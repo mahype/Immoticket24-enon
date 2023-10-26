@@ -35,13 +35,12 @@ class Wand extends Bauteil
      * @param  string $himmelsrichtung Himmelsrichtung des Bauteils.
      * @param  float  $daemmung        Dämmung des Bauteils.
      */
-    public function __construct( string $name, string $seite, float $flaeche, float $uwert, int $baujahr, string $himmelsrichtung, float $daemmung )
+    public function __construct( string $name, string $seite, float $flaeche, float $uwert, string $himmelsrichtung, float $daemmung )
     {
         $this->name = $name;
         $this->seite = $seite;
         $this->flaeche = $flaeche;
         $this->uwert = $uwert;
-        $this->baujahr = $baujahr;
         $this->himmelsrichtung = $himmelsrichtung;
         $this->daemmung = $daemmung;
 

@@ -1,9 +1,7 @@
 <?php
 
 /**
- * Grundriss.
- * 
- * @package 
+ * Die Klasse Grundriss repräsentiert einen Grundriss eines Gebäudes.
  */
 class Grundriss
 {
@@ -58,7 +56,7 @@ class Grundriss
     public function __construct( string $form, string $ausrichtung )
     {
         $this->init_formen();
-        $this->init_himmelsrichtungen();
+        $this->init_himmelsrichtungen();        
 
         if(! $this->form_existiert($form) ) {
             throw new Exception('Ungültige Form');
@@ -70,6 +68,7 @@ class Grundriss
 
         $this->form = $form;
         $this->ausrichtung = $ausrichtung;
+        $this->init_waende_zu_himmelsrichtungen();
     }
 
     /**
@@ -77,7 +76,7 @@ class Grundriss
      * 
      * @return void 
      */
-    protected function init_himmelsrichtungen()
+    private function init_himmelsrichtungen()
     {
         $this->himmelsrichtungen = array(
             's'  => 'Süden',
@@ -94,12 +93,17 @@ class Grundriss
     /**
      * Initialisierre die Zuordnung der Wände zu den Himmelsrichtungen.
      */
-    protected function init_waende_zu_himmelsrichtungen()
+    private function init_waende_zu_himmelsrichtungen()
     {
-        $nullrichtung = array_search($this->ausrichtung, $this->himmelsrichtungen);
+        $himmelsrichtungen_keys = array_keys( $this->himmelsrichtungen );
+        $nullrichtung = array_search($this->ausrichtung, $himmelsrichtungen_keys );
+
+        
 
         for ( $i = 0; $i < 4; $i++ ) {
-            $this->waende_zu_himmelsrichtungen[] = $this->himmelsrichtungen[ ( $nullrichtung + 2 * $i ) % 8 ];
+            $key = ( $nullrichtung + 2 * $i ) % 8;
+            $himmelsrichtung = $himmelsrichtungen_keys[ $key ];
+            $this->waende_zu_himmelsrichtungen[] = $himmelsrichtung;
         }
     }
 
@@ -181,7 +185,7 @@ class Grundriss
      * @param  string $himmelsrichtung 
      * @return bool 
      */
-    public function himmelsrichtung_existiert( string $himmelsrichtung ): bool
+    protected function himmelsrichtung_existiert( string $himmelsrichtung ): bool
     {
         return array_key_exists($himmelsrichtung, $this->himmelsrichtungen);
     }
@@ -193,7 +197,7 @@ class Grundriss
      */
     public function waende(): array
     {
-        $form = $this->form();
+        $form = $this->formen[$this->form];
         $waende = array();
 
         foreach( $form as $wand => $data ) {
@@ -214,11 +218,11 @@ class Grundriss
      */
     public function waende_manuell(): array
     {
-        $form = $this->form();
+        $form = $this->formen[$this->form];
         $waende = array();
         
         foreach( $form as $wand => $data ) {
-            if($this->wandlaenge_berechnet($wand) || $wand === 'fla' ) {
+            if($this->wand_laenge_berechnet($wand) || $wand === 'fla' ) {
                 continue;
             }
 
@@ -235,11 +239,11 @@ class Grundriss
      */
     public function waende_berechnet(): array 
     {
-        $form = $this->form();
+        $form = $this->formen[$this->form];
         $waende = array();
 
         foreach( $form as $wand => $data ) {
-            if(!$this->wandlaenge_berechnet($wand) || $wand === 'fla' ) {
+            if(!$this->wand_laenge_berechnet($wand) || $wand === 'fla' ) {
                 continue;
             }
 
@@ -256,25 +260,57 @@ class Grundriss
      * @param  float|null $laenge 
      * @return mixed 
      */
-    public function wandlaenge( string $seite, float $laenge = null )
+    public function wand_laenge( string $seite, float $laenge = null )
     {
         if(! $this->wand_existiert($seite)) {
             throw new Exception(sprintf('Ungültige Wand %s', $seite));
         }
 
-        if($laenge !== null && $this->wandlaenge_berechnet($seite) ) {
+        if($laenge !== null && $this->wand_laenge_berechnet($seite) ) {
             throw new Exception('Die Länge der Wand kann nicht gesetzt werden');
         }
 
-        if($this->wandlaenge_berechnet($seite) === true ) {
-            return $this->wandlaenge_berechnen($seite);
+        if($this->wand_laenge_berechnet($seite) === true ) {
+            return $this->wand_laenge_berechnen($seite);
         }
 
         if($laenge !== null ) {
             $this->waende[$seite] = $laenge;
         }
 
+        if (! isset($this->waende[ $seite ]) ) {
+            throw new Exception(sprintf('Die Länge der Wand %s wurde nicht gesetzt', $seite));
+        }
+
         return $this->waende[$seite];
+    }
+
+    public function wand_himmelsrichtung( string $wand ): string
+    {
+        foreach( $this->waende() AS $key => $wand_vergleich ) {
+            if($wand === $wand_vergleich) {
+                break;
+            }
+        }
+
+        return $this->waende_zu_himmelsrichtungen[ $key ];        
+    }
+
+    public function wand_laengen_komplett(): bool
+    {
+        $form = $this->formen[$this->form];
+
+        foreach( $form as $wand => $data ) {
+            if($this->wand_laenge_berechnet($wand) ) {
+                continue;
+            }
+
+            if(! array_key_exists($wand, $this->waende) ) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -285,9 +321,13 @@ class Grundriss
      * 
      * @throws Exception 
      */
-    protected function wandlaenge_berechnen( string $seite )
+    protected function wand_laenge_berechnen( string $seite )
     {
-        $form = $this->form();
+        if(! $this->wand_laengen_komplett() ) {
+            throw new Exception('Die Längen der Wände sind nicht komplett');
+        }
+        
+        $form = $this->formen[$this->form];
 
         $laenge = 0.0;
         $current_operator = '+';
@@ -303,10 +343,10 @@ class Grundriss
             default:
                 switch ( $current_operator ) {
                 case '+':
-                    $laenge += $this->wandlaenge($t);
+                    $laenge += $this->wand_laenge($t);
                     break;
                 case '-':
-                    $laenge -= $this->wandlaenge($t);
+                    $laenge -= $this->wand_laenge($t);
                     break;
                 default:
                 }
@@ -333,7 +373,7 @@ class Grundriss
      * @param  string $wand Name der Wand (a, b, c, d, e, f, g, h).
      * @return bool True, wenn die Länge gesetzt werden darf, sonst false.
      */
-    public function wandlaenge_berechnet( string $wand ): bool
+    public function wand_laenge_berechnet( string $wand ): bool
     {
         return $this->formen[$this->form][$wand][0] === true ? false : true;
     }
@@ -343,9 +383,9 @@ class Grundriss
      * 
      * @return array
      */
-    public function form(): array
+    public function form(): string
     {
-        return $this->formen[$this->form];
+        return $this->form;
     }
 
     /**
@@ -385,10 +425,10 @@ class Grundriss
                     default:                       
                         switch ( $current_operator ) {
                         case '+':
-                            $faktor += $this->wandlaenge($t);
+                            $faktor += $this->wand_laenge($t);
                             break;
                         case '-':
-                            $faktor -= $this->wandlaenge($t);
+                            $faktor -= $this->wand_laenge($t);
                             break;
                         default:
                         }
@@ -399,7 +439,7 @@ class Grundriss
                     $faktor = 0.0;
                 }
 
-                $produkt *= $faktor;  //vertehe ich nicht
+                $produkt *= $faktor;
             }
             $grundflaeche += $produkt;
         }
@@ -418,7 +458,7 @@ class Grundriss
     {
         $laenge = 0;
         foreach( $this->waende() as $wand ) {
-            $laenge += $this->wandlaenge($wand);
+            $laenge += $this->wand_laenge($wand);
         }
 
         return $laenge;

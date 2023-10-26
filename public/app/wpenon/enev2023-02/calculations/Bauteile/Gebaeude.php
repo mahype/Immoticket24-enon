@@ -102,13 +102,20 @@ class Gebaeude
     private Wasserversorgung $wasserversorgung;
 
     /**
+     * Anbau.
+     * 
+     * @var Anbau
+     */
+    private Anbau $anbau;
+
+    /**
      * Wirksame Wärmespeicherkapazität in Abhängigkeit der Gebäudeschwere.
      * 
      * @var int
      */
     private int $c_wirk;
 
-    public function __construct( int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohneinheiten, Grundriss $grundriss)
+    public function __construct( int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohneinheiten, Grundriss $grundriss )
     {
         $this->jahr = new Jahr();
         $this->baujahr = $baujahr;
@@ -212,6 +219,24 @@ class Gebaeude
     }
 
     /**
+     * Anbau.
+     * 
+     * @param Anbau|null Anbau object oder null, sofern bereits angegeben.
+     */
+    public function _anbau( Anbau|null $anbau = null ): Anbau
+    {
+        if(! empty($anbau) ) {
+            $this->anbau = $anbau;
+        }
+
+        if(empty($this->anbau) ) {
+            throw new Exception('Anbau wurde nicht gesetzt.');
+        }
+
+        return $this->anbau;
+    }
+
+    /**
      * Baujahr des Gebäudes.
      * 
      * @return int 
@@ -278,7 +303,17 @@ class Gebaeude
      */
     public function huellvolumen(): float
     {
-        return $this->_bauteile()->huellvolumen();
+        $volumen = 0;
+
+        // Volumen der Geschosse
+        $volumen += $this->grundriss->flaeche() * $this->geschossanzahl() * $this->geschosshoehe();
+
+        // Volumen des Anbaus
+        if( $this->anbau !== null ) {
+            $volumen += $this->anbau->volumen();
+        }
+
+        return $volumen;
     }
 
     /**

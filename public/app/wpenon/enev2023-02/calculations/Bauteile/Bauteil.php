@@ -21,13 +21,6 @@ abstract class Bauteil {
     protected float $uwert;
 
     /**
-     * Baujahr des Bauteils.
-     * 
-     * @var int
-     */
-    protected int $baujahr;
-
-    /**
      * Fx-Wert des Bauteils.
      * 
      * @var float
@@ -61,16 +54,6 @@ abstract class Bauteil {
     public function uwert(): float
     {
         return $this->uwert;
-    }
-
-    /**
-     * Baujahr des Bauteils.
-     * 
-     * @return int 
-     */
-    public function baujahr(): int
-    {
-        return $this->baujahr;
     }
     
     /**

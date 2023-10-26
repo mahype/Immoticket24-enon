@@ -27,11 +27,10 @@ class Fenster extends Bauteil {
      * @param  float  $daemmung        Dämmung des Bauteils.
      * @param  int    $winkel          Winkel des Bauteils.
      */
-    public function __construct( string $name, float $flaeche, float $uwert, int $baujahr, string $himmelsrichtung, int $winkel = 90 ) {
+    public function __construct( string $name, float $flaeche, float $uwert, string $himmelsrichtung, int $winkel = 90 ) {
         $this->name = $name;
         $this->flaeche = $flaeche;
         $this->uwert = $uwert;
-        $this->baujahr = $baujahr;
         $this->himmelsrichtung = $himmelsrichtung;
         $this->winkel = $winkel;
 

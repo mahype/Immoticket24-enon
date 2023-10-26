@@ -54,7 +54,8 @@ class Bauteile {
     /**
      * Filtern der Bauteile.
      * 
-     * @param string $typ 
+     * @param string $typ Typ des Bauteils. Mögliche Bauteile: Wand, Dach, Boden, Fenster, Rolladenkasten, Heizkoepernische, Anbauwand, Anbaudach.
+     * @param string $himmelsrichtung Himmelsrichtung des Bauteils. Mögliche Himmelsrichtungen: n, no, o, so, s, sw, w, nw.
      * 
      * @return Bauteile 
      */
