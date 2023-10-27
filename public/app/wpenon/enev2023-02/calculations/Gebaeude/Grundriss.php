@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Gebaeude;
+
 /**
  * Die Klasse Grundriss repräsentiert einen Grundriss eines Gebäudes.
  */
@@ -454,7 +456,7 @@ class Grundriss
      * 
      * @throws Exception 
      */
-    public function laenge(): float
+    public function umfang(): float
     {
         $laenge = 0;
         foreach( $this->waende() as $wand ) {

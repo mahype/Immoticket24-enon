@@ -1,5 +1,8 @@
 <?php
 
+
+namespace Enev\Schema202302\Calculations\Helfer;
+
 require_once __DIR__ . '/Jahr.php';
 
 /**

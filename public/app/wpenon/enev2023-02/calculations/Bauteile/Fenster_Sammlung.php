@@ -1,11 +1,15 @@
 <?php 
 
+namespace Enev\Schema202302\Calculations\Bauteile;
+
+use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
+
 /**
  * Sammlung aller Fenster.
  * 
  * @package 
  */
-class Fenster_Sammlung {
+class Fenster_Sammlung implements Transmissionswaerme {
     /**
      * Sammlung aller Fenster.
      * 
@@ -89,5 +93,21 @@ class Fenster_Sammlung {
         }
 
         return $flaeche;
+    }
+
+    /**
+     * Transmissionswärme der Fenster.
+     * 
+     * @return float 
+     */
+    public function transmissionswaerme(): float
+    {
+        $transmissionswaerme = 0.0;
+
+        foreach( $this->elemente AS $element ) {
+            $transmissionswaerme += $element->transmissionswaerme();
+        }
+
+        return $transmissionswaerme;
     }
 }

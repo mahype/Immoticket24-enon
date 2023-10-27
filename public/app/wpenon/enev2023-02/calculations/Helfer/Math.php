@@ -1,5 +1,6 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Helfer;
 
 /**
  * Interpolation of values.

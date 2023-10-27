@@ -1,9 +1,13 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Bauteile;
+
+use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
+
 /**
  * Die Klasse Decke.
  */
-class Decke extends Bauteil
+class Decke extends Bauteil implements Transmissionswaerme
 {
     /**
      * Dämmung des Bauteils.
@@ -13,17 +17,24 @@ class Decke extends Bauteil
     protected float $daemmung;
 
     /**
+     * Grundriss.
+     * 
+     * @var Grundriss
+     */
+    protected Grundriss $grundriss;
+
+    /**
      * Konstruktor.
      * 
-     * @param  string $name     Name des Bauteils.
-     * @param  float  $flaeche  Fläche des Bauteils.
-     * @param  float  $uwert    U-Wert des Bauteils.
-     * @param  float  $daemmung Dämmung des Bauteils.
+     * @param Grundriss $grundriss Fläche des Bauteils.
+     * @param string    $name      Name des Bauteils.
+     * @param float     $uwert     U-Wert des Bauteils.
+     * @param float     $daemmung  Dämmung des Bauteils.
      */
-    public function __construct( string $name, float $flaeche, float $uwert, float $daemmung )
+    public function __construct( Grundriss $grundriss, string $name, float $uwert, float $daemmung )
     {
         $this->name = $name;
-        $this->flaeche = $flaeche;
+        $this->grundriss = $grundriss;
         $this->uwert = $uwert;
         $this->daemmung = $daemmung;
 
@@ -38,5 +49,15 @@ class Decke extends Bauteil
     public function daemmung(): float
     {
         return $this->daemmung;
+    }
+
+    /**
+     * Fläche des Bauteils.
+     * 
+     * @return float
+     */
+    public function flaeche(): float
+    {
+        return $this->grundriss->flaeche();
     }
 }

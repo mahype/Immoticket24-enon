@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Anlagentechnik;
+
 /**
  * Berechnungen für eine Heizungsanlage.
  */

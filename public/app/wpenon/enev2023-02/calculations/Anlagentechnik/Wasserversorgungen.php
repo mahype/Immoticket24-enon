@@ -1,5 +1,7 @@
 <?php 
 
+namespace Enev\Schema202302\Calculations\Anlagentechnik;
+
 require_once __DIR__ . '/Wasserversorgung.php';
 
 /**

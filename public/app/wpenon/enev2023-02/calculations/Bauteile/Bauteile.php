@@ -1,8 +1,14 @@
 <?php
+
+namespace Enev\Schema202302\Calculations\Bauteile;
+
+use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
+
 /**
  * Temporäre Klasse zur Aufnahme der Daten. Später sollen die Bauteile, Transmissions usw. hier berechnet werden.
  */
-class Bauteile {
+class Bauteile implements Transmissionswaerme
+{
     /**
      * Sammlung aller Bauteile.
      * 

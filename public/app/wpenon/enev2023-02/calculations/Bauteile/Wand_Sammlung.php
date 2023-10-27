@@ -1,11 +1,15 @@
 <?php 
 
+namespace Enev\Schema202302\Calculations\Bauteile;
+
+use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
+
 /**
  * Sammlung aller Wände.
  * 
  * @package 
  */
-class Wand_Sammlung {
+class Wand_Sammlung implements Transmissionswaerme {
     /**
      * Sammlung aller Wände.
      * 

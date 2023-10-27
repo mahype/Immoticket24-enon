@@ -1,5 +1,7 @@
 <?php 
 
+namespace Enev\Schema202302\Calculations\Anlagentechnik;
+
 /**
  * Berechnung eines Übergabeystems (Heizkörper).
  */

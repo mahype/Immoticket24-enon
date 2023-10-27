@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Tabellen;
+
 /**
  * Gibt den U-Wert eines Bauteils zurück.
  * 

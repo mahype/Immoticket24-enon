@@ -1,9 +1,13 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Bauteile;
+
+use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
+
 /**
  * Die Klasse Kellerwand.
  */
-class Kellerwand extends Wand {
+class Kellerwand extends Wand implements Transmissionswaerme {
 /**
      * Konstruktor
      * 

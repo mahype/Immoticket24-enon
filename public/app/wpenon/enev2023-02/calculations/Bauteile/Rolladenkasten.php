@@ -1,6 +1,10 @@
 <?php
 
-class Rolladenkasten extends Bauteil {
+namespace Enev\Schema202302\Calculations\Bauteile;
+
+use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
+
+class Rolladenkasten extends Bauteil implements Transmissionswaerme{
     /**
      * Himmelsrichtung des Bauteils.
      * 

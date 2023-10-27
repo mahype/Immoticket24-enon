@@ -1,5 +1,22 @@
 <?php
 
+namespace Enev\Schema202302\Calculations;
+
+use Enev\Schema202302\Calculations\Bauteile\Anbauwand;
+use Enev\Schema202302\Calculations\Bauteile\Boden;
+use Enev\Schema202302\Calculations\Bauteile\Decke;
+use Enev\Schema202302\Calculations\Bauteile\Fenster;
+use Enev\Schema202302\Calculations\Bauteile\Flachdach;
+use Enev\Schema202302\Calculations\Bauteile\Heizkoerpernische;
+use Enev\Schema202302\Calculations\Bauteile\Pultdach;
+use Enev\Schema202302\Calculations\Bauteile\Satteldach;
+use Enev\Schema202302\Calculations\Bauteile\Walmdach;
+use Enev\Schema202302\Calculations\Bauteile\Wand;
+use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202302\Calculations\Gebaeude\Grundriss;
+use Enev\Schema202302\Calculations\Gebaeude\Grundriss_Anbau;
+use Rolladenkasten;
+
 require_once 'Bauteile/Gebaeude.php';
 require_once 'Bauteile/Bauteile.php';
 require_once 'Bauteile/Fenster_Sammlung.php';
@@ -8,6 +25,13 @@ require_once 'Bauteile/Wand_Sammlung.php';
 require_once 'Bauteile/Wand.php';
 require_once 'Bauteile/Decke.php';
 require_once 'Bauteile/Boden.php';
+require_once 'Bauteile/Anbauwand.php';
+require_once 'Bauteile/Anbau.php';
+require_once 'Bauteile/Grundriss.php';
+require_once 'Bauteile/Grundriss_Anbau.php';
+require_once 'Bauteile/Dach_Pultdach.php';
+require_once 'Bauteile/Dach_Satteldach.php';
+require_once 'Bauteile/Dach_Walmdach.php';
 
 require_once 'Helfer/Jahr.php';
 require_once 'Helfer/Math.php';
@@ -19,13 +43,24 @@ require_once 'Tabellen/Mittlere_Belastung.php';
 require_once 'Tabellen/Luftwechsel.php';
 require_once 'Tabellen/Uwert.php';
 
+/**
+ * Kalkulationen für den Bedarfsausweis.
+ * 
+ * Die Variable $energieausweis enthält alle Daten, die für die Berechnung des Energieausweises benötigt werden.
+ * 
+ * Daten aus dem Formular werden einfach als magische Variable aufgerufen, z.B. $energieausweis->baujahr.
+ * Die Kalkulationen werden in der Variable $calculations gespeichert.
+ * 
+ * Ab dieser Version werden die Berechnungen der DIN 18599 verwendet.
+ */
+
+$calculations = array();
 
 /**
- * Grundriss.
+ * Anlegen des Grundrisses.
  */
 $grundriss = new Grundriss($energieausweis->grundriss_form, $energieausweis->grundriss_richtung);
 
-// Hinzufügen aller manuell angegebener Wände, abhängig von der Grundrissform.
 foreach( $grundriss->waende_manuell() AS $wand ) {
     $wand_laenge_slug = 'wand_' . $wand . '_laenge';
     $wand_laege = $energieausweis->$wand_laenge_slug;
@@ -46,28 +81,83 @@ $gebaeude = new Gebaeude(
 
 $calculations['gebaeude'] = $gebaeude;
 
-// Ende neue Lib
-$tableNames = new stdClass();
+/**
+ * Dach
+ */
+switch ( $energieausweis->dach ) {
+case 'beheizt':
+    $kniestock_hoehe = isset($energieausweis->kniestock_hoehe) ? $energieausweis->kniestock_hoehe : 0.0;
+    $daemmung_dach = isset($energieausweis->dach_daemmung) ? $energieausweis->dach_daemmung : 0.0;
 
-$tableNames->h_erzeugung                 = 'h_erzeugung2019';
-$tableNames->h_uebergabe                 = 'h_uebergabe';
-$tableNames->ww_erzeugung                = 'ww_erzeugung202001';
-$tableNames->energietraeger              = 'energietraeger2021';
-$tableNames->energietraeger_umrechnungen = 'energietraeger_umrechnungen';
-$tableNames->uwerte                      = 'uwerte2021';
-$tableNames->l_erzeugung                 = 'l_erzeugung2021';
-$tableNames->l_verteilung                = 'l_verteilung2021';
-$tableNames->klimafaktoren               = 'klimafaktoren202301';
+    $uwert_dach = uwert($energieausweis->dach_bauart, $energieausweis->dach_baujahr);
+        
 
-$calculations = array();
-$calculations['volumenteile'] = array();
+    switch( $energieausweis->dach_form ) {
+    case 'walmdach':
+        $dach = new Walmdach(
+            grundriss: $grundriss, 
+            name: __('Walmdach', 'wpenon'), 
+            hoehe: $energieausweis->dach_hoehe, 
+            kniestock_hoehe: $kniestock_hoehe, 
+            uwert: $uwert_dach, 
+            daemmung: $daemmung_dach 
+        );
+        break;
+    case 'satteldach':
+        $dach = new Satteldach(
+            grundriss: $grundriss,
+            name: __('Satteldach', 'wpenon'),
+            hoehe: $energieausweis->dach_hoehe,
+            kniestock_hoehe: $kniestock_hoehe,
+            uwert: $uwert_dach,
+            daemmung: $daemmung_dach
+        );
+        break;
+    case 'pultdach':
+        $dach = new Pultdach(
+            grundriss: $grundriss,
+            name: __('Pultdach', 'wpenon'),
+            hoehe: $energieausweis->dach_hoehe,
+            kniestock_hoehe: $kniestock_hoehe,
+            uwert: $uwert_dach,
+            daemmung: $daemmung_dach
+        );
+        break;
+    default:
+        throw new Calculation_Exception('Dachform nicht bekannt.');
+    }
 
+    $gebaeude->_bauteile()->hinzufuegen($dach);
 
-// Berechnung der Wandhöhe (gesamte Außenwand) inkl. Kniestock
-$wandhoehe = $gebaeude->geschossanzahl() * $gebaeude->geschosshoehe() + $this->energieausweis->kniestock_hoehe;
+    break;
+case 'unbeheizt':
+    $uwert_decke = uwert($energieausweis->decke_bauart, $energieausweis->baujahr);
+    $decke = new Decke(
+        name: __('Oberste Geschossdecke', 'wpenon'),
+        grundriss: $grundriss,
+        uwert: $uwert_decke,
+        daemmung: $energieausweis->decke_daemmung,
+    );
+
+    $gebaeude->_bauteile()->hinzufuegen($decke);
+    break;
+case 'nicht-vorhanden':
+default:
+    $daemmung_dach = isset($energieausweis->dach_daemmung) ? $energieausweis->dach_daemmung : 0.0;
+    $uwert_dach = uwert($energieausweis->dach_bauart, $energieausweis->baujahr);
+
+    $dach = new Flachdach(
+        grundriss: $grundriss,
+        name: __('Flachdach', 'wpenon'),            
+        uwert: $uwert_dach,
+        daemmung: $daemmung_dach,
+    );
+
+    $gebaeude->_bauteile()->hinzufuegen($dach);
+}
 
 /**
- * Hinzufügen des Anbaus, falls vorhanden.
+ * Anbaus, falls vorhanden.
  * 
  * Der Anbau wird zuerst hinzugefügt, um eventuelle Überlappungen mit dem Hauptgebäude zu berechnen.
  */
@@ -103,8 +193,8 @@ if ($energieausweis->anbau ) {
 
     $gebaeude->_bauteile()->hinzufuegen(
         new Boden(
-            name: sprintf(__('Anbau-Boden', 'wpenon')),
-            flaeche: $grundriss_anbau->flaeche(),
+            grundriss: $grundriss_anbau,
+            name: sprintf(__('Anbau-Boden', 'wpenon')),            
             uwert: $uwert_anbau_boden,
             daemmung: $energieausweis->anbauboden_daemmung,
         )
@@ -115,7 +205,7 @@ if ($energieausweis->anbau ) {
     $gebaeude->_bauteile()->hinzufuegen(
         new Decke(
             name: sprintf(__('Anbau-Dach', 'wpenon')),
-            flaeche: $grundriss_anbau->flaeche(),
+            grundriss: $grundriss_anbau,
             uwert: $uwert_dach,
             daemmung: $energieausweis->anbaudach_daemmung,
         )
@@ -193,6 +283,11 @@ foreach ( $grundriss->waende() as $wand ) {
     
     if($energieausweis->anbau ) {
         $flaeche -= $anbau->ueberlappung_flaeche_gebaeude($wand);
+    }
+
+    // Ist ein beheiztes Dachgeschoss vorhanden, muss das Mauerwerk für die Wand hinzugefügt werden.
+    if($energieauswies->dach !== 'beheizt' ) {
+        $flaeche += $dach->wand_flaeche($wand);
     }
 
     $himmelsrichtung = $hr_mappings[ $data[1] ];
@@ -276,294 +371,6 @@ default:
     'baujahr'       => $energieausweis->baujahr,
     'a'             => $kellerflaeche,
     'd'             => $energieausweis->boden_daemmung,
-    );
-}
-
-// Sammlung aller Bauteile des Daches (inkl. Dachflächenberechnung)
-$deckenflaeche = $grundflaeche;
-$dachwinkel_formatted = 0.0;
-switch ( $energieausweis->dach ) {
-case 'beheizt':
-    $dachhoehe = $energieausweis->dach_hoehe;
-    $dachflaeche = $dachvolumen = 0.0;
-    $dachwinkel = array();
-    $dachwandflaechen = array();
-    switch ( $energieausweis->dach_form ) {
-    case 'walmdach':
-        switch ( $energieausweis->grundriss_form ) {
-        case 'a':
-            if ($wand_a_laenge > $wand_b_laenge ) {
-                $dach_th = $wand_a_laenge;
-                $dach_f = $wand_a_laenge - $wand_b_laenge;
-                $dach_b = 0.5 * $wand_b_laenge;
-                $dach_x = 0.5 * ( $wand_a_laenge - $dach_f );
-            } else {
-                $dach_th = $wand_b_laenge;
-                $dach_f = $wand_b_laenge - $wand_a_laenge;
-                $dach_b = 0.5 * $wand_a_laenge;
-                $dach_x = 0.5 * ( $wand_b_laenge - $dach_f );
-            }
-            $dach_sh = sqrt(pow($dachhoehe, 2) + pow($dach_b, 2));
-            $dach_sw = sqrt(pow($dachhoehe, 2) + pow($dach_x, 2));
-            array_push($dachwinkel, atan($dachhoehe / $dach_b), atan($dachhoehe / $dach_x));
-            $dachflaeche += 2 * ( 0.5 * $dach_b * $dach_sw + 0.5 * ( $dach_th + $dach_f ) * $dach_sh );
-            $dachvolumen += ( 1.0 / 3.0 ) * ( 2 * $dach_b ) * ( 2 * $dach_x ) * $dachhoehe + 0.5 * ( 2 * $dach_b ) * $dach_f * $dachhoehe;
-        case 'b':
-            $dach_b1_gross = $wand_f_laenge;
-            $dach_b1 = 0.5 * $wand_f_laenge;
-            $dach_b2_gross = $wand_c_laenge;
-            $dach_b2 = 0.5 * $wand_c_laenge;
-            $dach_t1 = $wand_b_laenge;
-            $dach_t2 = $wand_a_laenge;
-            $dach_t3 = $wand_d_laenge;
-            $dach_t4 = $wand_e_laenge;
-            $dach_f1 = $dach_t3;
-            $dach_f2 = $dach_t2 - 2 * $dach_b1;
-            $dach_s1 = sqrt(pow($dachhoehe, 2) + pow($dach_b1, 2));
-            $dach_s2 = sqrt(pow($dachhoehe, 2) + pow($dach_b2, 2));
-            array_push($dachwinkel, atan($dachhoehe / $dach_b1), atan($dachhoehe / $dach_b2));
-            $dachflaeche += 0.5 * $dach_b1_gross * $dach_s1 + 0.5 * $dach_b2_gross * $dach_s2 + 0.5 * ( $dach_t1 + $dach_f1 ) * $dach_s2 + 0.5 * ( $dach_t2 + $dach_f2 ) * $dach_s1 + ( 0.5 * ( $dach_t2 + $dach_f2 ) * $dach_s1 - 0.5 * $dach_b2_gross * $dach_s2 ) + $dach_t3 * $dach_s2;
-            $dachvolumen += ( 1.0 / 3.0 ) * $dach_b1_gross * $dach_b1_gross * $dachhoehe + 0.5 * $dach_b1_gross * $dach_f2 * $dachhoehe + 0.5 * $dach_b2_gross * $dach_t3 * $dachhoehe;
-            break;
-        case 'c':
-            $dach_b1_gross = $wand_b_laenge;
-            $dach_b1 = 0.5 * $wand_b_laenge;
-            $dach_b2_gross = $wand_e_laenge;
-            $dach_b2 = 0.5 * $wand_e_laenge;
-            $dach_t1 = $wand_b_laenge + $wand_d_laenge;
-            $dach_t2 = $wand_a_laenge;
-            $dach_t3 = $wand_f_laenge;
-            $dach_t4 = $wand_g_laenge;
-            $dach_f1 = $dach_t3;
-            $dach_f2 = $dach_t2 - 2 * $dach_b1;
-            $dach_s1 = sqrt(pow($dachhoehe, 2) + pow($dach_b1, 2));
-            $dach_s2 = sqrt(pow($dachhoehe, 2) + pow($dach_b2, 2));
-            array_push($dachwinkel, atan($dachhoehe / $dach_b1), atan($dachhoehe / $dach_b2));
-            $dachflaeche += 2 * ( 0.5 * $dach_b1_gross * $dach_s1 ) + 0.5 * $dach_b2_gross * $dach_s2 + 0.5 * ( $dach_t2 + $dach_f2 ) * $dach_s1 + ( 0.5 * ( $dach_t2 + $dach_f2 ) * $dach_s1 - 0.5 * $dach_b2_gross * $dach_s2 ) + 2 * ( $dach_t3 * $dach_s2 );
-            $dachvolumen += ( 1.0 / 3.0 ) * $dach_b1_gross * $dach_b1_gross * $dachhoehe + 0.5 * $dach_b1_gross * $dach_f2 * $dachhoehe + 0.5 * $dach_b2_gross * $dach_t3 * $dachhoehe;
-            break;
-        case 'd':
-            $dach_b1_gross = $wand_b_laenge - $wand_d_laenge;
-            $dach_b1 = 0.5 * ( $wand_b_laenge - $wand_d_laenge );
-            $dach_b2_gross = $wand_c_laenge;
-            $dach_b2 = 0.5 * $wand_c_laenge;
-            $dach_b3_gross = $wand_g_laenge;
-            $dach_b3 = 0.5 * $wand_g_laenge;
-            $dach_t1 = $wand_b_laenge;
-            $dach_t2 = $wand_a_laenge;
-            $dach_t3 = $wand_h_laenge;
-            $dach_t4 = $wand_d_laenge;
-            $dach_t5 = $wand_e_laenge;
-            $dach_t6 = $wand_f_laenge;
-            $dach_f1 = $dach_t1 - $dach_b1 - $dach_b2;
-            $dach_f2 = $dach_t2 - $dach_b2 - $dach_b3;
-            $dach_f3 = $dach_t3 - $dach_b1 - $dach_b3;
-            $dach_s1 = sqrt(pow($dachhoehe, 2) + pow($dach_b1, 2));
-            $dach_s2 = sqrt(pow($dachhoehe, 2) + pow($dach_b2, 2));
-            $dach_s3 = sqrt(pow($dachhoehe, 2) + pow($dach_b3, 2));
-            array_push($dachwinkel, atan($dachhoehe / $dach_b1), atan($dachhoehe / $dach_b2), atan($dachhoehe / $dach_b3));
-            $dachflaeche += 0.5 * $dach_b2_gross * $dach_s2 + 0.5 * $dach_b3_gross * $dach_s3 + 0.5 * ( $dach_t1 + $dach_f1 ) * $dach_s2 + 0.5 * ( $dach_t2 + $dach_f2 ) * $dach_s1 + 0.5 * ( $dach_t3 + $dach_f3 ) * $dach_s3 + $dach_t4 * $dach_s2 + 0.5 * ( $dach_t5 + $dach_f2 ) * $dach_s1 + $dach_t6 * $dach_s3;
-            $dachvolumen += ( 1.0 / 3.0 ) * $dach_b1_gross * $dach_b1_gross * $dachhoehe + 0.5 * $dach_b1_gross * $dach_f2 * $dachhoehe + 0.5 * $dach_b2_gross * $dach_t4 * $dachhoehe + 0.5 * $dach_b3_gross * $dach_t6 * $dachhoehe;
-            break;
-        default:
-        }
-        break;
-    case 'pultdach':
-        switch ( $energieausweis->grundriss_form ) {
-        case 'a':
-            if ($wand_a_laenge > $wand_b_laenge ) {
-                $dach_s = sqrt(pow($dachhoehe, 2) + pow($wand_b_laenge, 2));
-                array_push($dachwinkel, atan($dachhoehe / $wand_b_laenge));
-                $dachflaeche += $wand_a_laenge * $dach_s;
-                $dachvolumen += 0.5 * $wand_a_laenge * $wand_b_laenge * $dachhoehe;
-                $dachwandflaechen['b'] = 0.5 * $wand_b_laenge * $dachhoehe;
-                $dachwandflaechen['d'] = 0.5 * $wand_d_laenge * $dachhoehe;
-                $dachwandflaechen['c'] = $wand_a_laenge * $dachhoehe;
-            } else {
-                $dach_s = sqrt(pow($dachhoehe, 2) + pow($wand_a_laenge, 2));
-                array_push($dachwinkel, atan($dachhoehe / $wand_a_laenge));
-                $dachflaeche += $wand_b_laenge * $dach_s;
-                $dachvolumen += 0.5 * $wand_a_laenge * $wand_b_laenge * $dachhoehe;
-                $dachwandflaechen['a'] = 0.5 * $wand_a_laenge * $dachhoehe;
-                $dachwandflaechen['c'] = 0.5 * $wand_c_laenge * $dachhoehe;
-                $dachwandflaechen['d'] = $wand_b_laenge * $dachhoehe;
-            }
-            break;
-        case 'b':
-            if ($wand_a_laenge > $wand_b_laenge ) {
-                $dach_s1 = sqrt(pow($dachhoehe, 2) + pow($wand_f_laenge, 2));
-                $dach_s2 = sqrt(pow($dachhoehe, 2) + pow($wand_d_laenge, 2));
-                array_push($dachwinkel, atan($dachhoehe / $wand_f_laenge), atan($dachhoehe / $wand_d_laenge));
-                $dachflaeche += $wand_a_laenge * $dach_s1 + $wand_c_laenge * $dach_s2;
-                $dachvolumen += 0.5 * $wand_a_laenge * $wand_f_laenge * $dachhoehe + 0.5 * $wand_c_laenge * $wand_d_laenge * $dachhoehe;
-                $dachwandflaechen['b'] = 0.5 * $wand_f_laenge * $dachhoehe + 0.5 * $wand_d_laenge * $dachhoehe;
-                $dachwandflaechen['d'] = 0.5 * $wand_d_laenge * $dachhoehe;
-                $dachwandflaechen['e'] = $wand_e_laenge * $dachhoehe;
-                $dachwandflaechen['f'] = 0.5 * $wand_f_laenge * $dachhoehe;
-            } else {
-                $dach_s1 = sqrt(pow($dachhoehe, 2) + pow($wand_c_laenge, 2));
-                $dach_s2 = sqrt(pow($dachhoehe, 2) + pow($wand_e_laenge, 2));
-                array_push($dachwinkel, atan($dachhoehe / $wand_c_laenge), atan($dachhoehe / $wand_e_laenge));
-                $dachflaeche += $wand_b_laenge * $dach_s1 + $wand_f_laenge * $dach_s2;
-                $dachvolumen += 0.5 * $wand_b_laenge * $wand_c_laenge * $dachhoehe + 0.5 * $wand_f_laenge * $wand_e_laenge * $dachhoehe;
-                $dachwandflaechen['a'] = 0.5 * $wand_c_laenge * $dachhoehe + 0.5 * $wand_e_laenge * $dachhoehe;
-                $dachwandflaechen['c'] = 0.5 * $wand_c_laenge * $dachhoehe;
-                $dachwandflaechen['d'] = $wand_d_laenge * $dachhoehe;
-                $dachwandflaechen['e'] = 0.5 * $wand_e_laenge * $dachhoehe;
-            }
-            break;
-        case 'c':
-            $dach_s1 = sqrt(pow($dachhoehe, 2) + pow($wand_b_laenge, 2));
-            $dach_s2 = sqrt(pow($dachhoehe, 2) + pow($wand_d_laenge, 2));
-            array_push($dachwinkel, atan($dachhoehe / $wand_b_laenge), atan($dachhoehe / $wand_d_laenge));
-            $dachflaeche += $wand_a_laenge * $dach_s1 + $wand_e_laenge * $dach_s2;
-            $dachvolumen += 0.5 * $wand_a_laenge * $wand_b_laenge * $dachhoehe + 0.5 * $wand_e_laenge * $wand_d_laenge * $dachhoehe;
-            $dachwandflaechen['b'] = 0.5 * $wand_b_laenge * $dachhoehe;
-            $dachwandflaechen['c'] = $wand_c_laenge * $dachhoehe;
-            $dachwandflaechen['d'] = 0.5 * $wand_d_laenge * $dachhoehe;
-            $dachwandflaechen['f'] = 0.5 * $wand_f_laenge * $dachhoehe;
-            $dachwandflaechen['g'] = $wand_g_laenge * $dachhoehe;
-            $dachwandflaechen['h'] = 0.5 * $wand_h_laenge * $dachhoehe;
-            break;
-        case 'd':
-            $dach_s1 = sqrt(pow($dachhoehe, 2) + pow($wand_b_laenge - $wand_d_laenge, 2));
-            $dach_s2 = sqrt(pow($dachhoehe, 2) + pow($wand_d_laenge, 2));
-            $dach_s3 = sqrt(pow($dachhoehe, 2) + pow($wand_f_laenge, 2));
-            array_push($dachwinkel, atan($dachhoehe / ( $wand_b_laenge - $wand_d_laenge )), atan($dachhoehe / $wand_d_laenge), atan($dachhoehe / $wand_f_laenge));
-            $dachflaeche += $wand_a_laenge * $dach_s1 + $wand_c_laenge * $dach_s2 + $wand_g_laenge * $dach_s3;
-            $dachvolumen += 0.5 * $wand_a_laenge * ( $wand_b_laenge - $wand_d_laenge ) * $dachhoehe + 0.5 * $wand_c_laenge * $wand_d_laenge * $dachhoehe + 0.5 * $wand_g_laenge * $wand_f_laenge * $dachhoehe;
-            $dachwandflaechen['b'] = 0.5 * ( $wand_b_laenge - $wand_d_laenge ) * $dachhoehe + 0.5 * $wand_d_laenge * $dachhoehe;
-            $dachwandflaechen['d'] = 0.5 * $wand_d_laenge * $dachhoehe;
-            $dachwandflaechen['e'] = $wand_e_laenge * $dachhoehe;
-            $dachwandflaechen['f'] = 0.5 * $wand_f_laenge * $dachhoehe;
-            $dachwandflaechen['h'] = 0.5 * ( $wand_h_laenge - $wand_f_laenge ) * $dachhoehe + 0.5 * $wand_f_laenge * $dachhoehe;
-            break;
-        default:
-        }
-        break;
-    case 'satteldach':
-    default:
-        switch ( $energieausweis->grundriss_form ) {
-        case 'a':
-            if ($wand_a_laenge > $wand_b_laenge ) {
-                $dach_s = sqrt(pow($dachhoehe, 2) + pow(0.5 * $wand_b_laenge, 2));
-                array_push($dachwinkel, atan($dachhoehe / ( 0.5 * $wand_b_laenge )));
-                $dachflaeche += $wand_a_laenge * $dach_s + $wand_c_laenge * $dach_s;
-                $dachvolumen += 0.5 * $wand_a_laenge * $wand_b_laenge * $dachhoehe;
-                $dachwandflaechen['b'] = 0.5 * $wand_b_laenge * $dachhoehe;
-                $dachwandflaechen['d'] = 0.5 * $wand_d_laenge * $dachhoehe;
-            } else {
-                $dach_s = sqrt(pow($dachhoehe, 2) + pow(0.5 * $wand_a_laenge, 2));
-                array_push($dachwinkel, atan($dachhoehe / ( 0.5 * $wand_a_laenge )));
-                $dachflaeche += $wand_b_laenge * $dach_s + $wand_d_laenge * $dach_s;
-                $dachvolumen += 0.5 * $wand_a_laenge * $wand_b_laenge * $dachhoehe;
-                $dachwandflaechen['a'] = 0.5 * $wand_a_laenge * $dachhoehe;
-                $dachwandflaechen['c'] = 0.5 * $wand_c_laenge * $dachhoehe;
-            }
-            break;
-        case 'b':
-            if ($wand_a_laenge > $wand_b_laenge ) {
-                $dach_s1 = sqrt(pow($dachhoehe, 2) + pow(0.5 * $wand_f_laenge, 2));
-                $dach_s2 = sqrt(pow($dachhoehe, 2) + pow(0.5 * $wand_c_laenge, 2));
-                array_push($dachwinkel, atan($dachhoehe / ( 0.5 * $wand_f_laenge )), atan($dachhoehe / ( 0.5 * $wand_c_laenge )));
-                $dachflaeche += 2 * ( $wand_a_laenge - 0.25 * $wand_c_laenge ) * $dach_s1 + 2 * ( $wand_d_laenge + 0.25 * $wand_f_laenge ) * $dach_s2;
-                $dachvolumen += 0.5 * $wand_a_laenge * $wand_f_laenge * $dachhoehe + 0.5 * $wand_d_laenge * $wand_c_laenge * $dachhoehe + ( 1.0 / 3.0 ) * ( 0.5 * $wand_c_laenge * $dachhoehe ) * ( 0.5 * $wand_f_laenge );
-                $dachwandflaechen['b'] = 0.5 * $wand_f_laenge * $dachhoehe;
-                $dachwandflaechen['c'] = 0.5 * $wand_c_laenge * $dachhoehe;
-                $dachwandflaechen['f'] = 0.5 * $wand_f_laenge * $dachhoehe;
-            } else {
-                $dach_s1 = sqrt(pow($dachhoehe, 2) + pow(0.5 * $wand_c_laenge, 2));
-                $dach_s2 = sqrt(pow($dachhoehe, 2) + pow(0.5 * $wand_f_laenge, 2));
-                array_push($dachwinkel, atan($dachhoehe / ( 0.5 * $wand_c_laenge )), atan($dachhoehe / ( 0.5 * $wand_f_laenge )));
-                $dachflaeche += 2 * ( $wand_b_laenge - 0.25 * $wand_f_laenge ) * $dach_s1 + 2 * ( $wand_e_laenge + 0.25 * $wand_c_laenge ) * $dach_s2;
-                $dachvolumen += 0.5 * $wand_b_laenge * $wand_c_laenge * $dachhoehe + 0.5 * $wand_e_laenge * $wand_f_laenge * $dachhoehe + ( 1.0 / 3.0 ) * ( 0.5 * $wand_f_laenge * $dachhoehe ) * ( 0.5 * $wand_c_laenge );
-                $dachwandflaechen['a'] = 0.5 * $wand_c_laenge * $dachhoehe;
-                $dachwandflaechen['c'] = 0.5 * $wand_c_laenge * $dachhoehe;
-                $dachwandflaechen['f'] = 0.5 * $wand_f_laenge * $dachhoehe;
-            }
-            break;
-        case 'c':
-            $dach_s1 = sqrt(pow($dachhoehe, 2) + pow(0.5 * $wand_b_laenge, 2));
-            $dach_s2 = sqrt(pow($dachhoehe, 2) + pow(0.5 * $wand_e_laenge, 2));
-            array_push($dachwinkel, atan($dachhoehe / ( 0.5 * $wand_b_laenge )), atan($dachhoehe / ( 0.5 * $wand_e_laenge )));
-            $dachflaeche += 2 * ( $wand_a_laenge - 0.25 * $wand_e_laenge ) * $dach_s1 + 2 * ( $wand_d_laenge + 0.25 * $wand_b_laenge ) * $dach_s2;
-            $dachvolumen += 0.5 * $wand_a_laenge * $wand_b_laenge * $dachhoehe + 0.5 * $wand_e_laenge * $wand_d_laenge * $dachhoehe + ( 1.0 / 3.0 ) * ( 0.5 * $wand_e_laenge * $dachhoehe ) * ( 0.5 * $wand_b_laenge );
-            $dachwandflaechen['b'] = 0.5 * $wand_b_laenge * $dachhoehe;
-            $dachwandflaechen['e'] = 0.5 * $wand_e_laenge * $dachhoehe;
-            $dachwandflaechen['h'] = 0.5 * $wand_h_laenge * $dachhoehe;
-            break;
-        case 'd':
-            $dach_s1 = sqrt(pow($dachhoehe, 2) + pow(0.5 * ( $wand_b_laenge - $wand_d_laenge ), 2));
-            $dach_s2 = sqrt(pow($dachhoehe, 2) + pow(0.5 * $wand_c_laenge, 2));
-            $dach_s3 = sqrt(pow($dachhoehe, 2) + pow(0.5 * $wand_g_laenge, 2));
-            array_push($dachwinkel, atan($dachhoehe / ( 0.5 * ( $wand_b_laenge - $wand_d_laenge ) )), atan($dachhoehe / ( 0.5 * $wand_c_laenge )), atan($dachhoehe / ( 0.5 * $wand_g_laenge )));
-            $dachflaeche += 2 * ( $wand_a_laenge - 0.25 * ( $wand_c_laenge + $wand_g_laenge ) ) * $dach_s1 + 2 * ( $wand_d_laenge + 0.25 * ( $wand_b_laenge - $wand_d_laenge ) ) * $dach_s2 + 2 * ( $wand_f_laenge + 0.25 * ( $wand_h_laenge - $wand_f_laenge ) ) * $dach_s3;
-            $dachvolumen += 0.5 * $wand_a_laenge * ( $wand_b_laenge - $wand_d_laenge ) * $dachhoehe + 0.5 * $wand_c_laenge * $wand_d_laenge * $dachhoehe + 0.5 * $wand_g_laenge * $wand_f_laenge * $dachhoehe + ( 1.0 / 3.0 ) * ( 0.5 * $wand_c_laenge * $dachhoehe ) * ( 0.5 * ( $wand_b_laenge - $wand_d_laenge ) ) + ( 1.0 / 3.0 ) * ( 0.5 * $wand_g_laenge * $dachhoehe ) * ( 0.5 * ( $wand_h_laenge - $wand_f_laenge ) );
-            $dachwandflaechen['b'] = 0.5 * ( $wand_b_laenge - $wand_d_laenge ) * $dachhoehe;
-            $dachwandflaechen['c'] = 0.5 * $wand_c_laenge * $dachhoehe;
-            $dachwandflaechen['g'] = 0.5 * $wand_g_laenge * $dachhoehe;
-            $dachwandflaechen['h'] = 0.5 * ( $wand_h_laenge - $wand_f_laenge ) * $dachhoehe;
-            break;
-        default:
-        }
-        break;
-    }
-
-    $_dachwinkel = $dachwinkel;
-    $dachwinkel = 0.0;
-    foreach ( $_dachwinkel as $w ) {
-        $dachwinkel += $w * 180.0 / pi();
-    }
-    $dachwinkel_formatted = $dachwinkel / count($_dachwinkel);
-    $dachwinkel = $dachwinkel_formatted * pi() / 180.0;
-
-    foreach ( $dachwandflaechen as $wand => $flaeche ) {
-        if (isset($calculations['bauteile'][ 'wand_' . $wand ]) ) {
-            $calculations['bauteile'][ 'wand_' . $wand ]['a'] += $flaeche;
-        }
-    }
-    if($energieausweis->kniestock_hoehe > 0 ) {    
-        foreach( $grundriss_form as $wand => $data ) {
-            $calculations['bauteile'][ 'wand_' . $wand ]['a'] += $energieausweis->kniestock_hoehe * $energieausweis->{'wand_' . $wand . '_laenge'};
-        }    
-    }
-
-    $calculations['bauteile']['dach'] = array(
-    'name'          => __('Dach', 'wpenon'),
-    'typ'           => 'dach',
-    'modus'         => 'dach',
-    'bauart'        => $energieausweis->dach_bauart,
-    'baujahr'       => $energieausweis->baujahr,
-    'a'             => $dachflaeche,
-    'd'             => $energieausweis->dach_daemmung,
-    );
-
-    $calculations['volumenteile']['dach'] = array(
-    'name'          => __('Dachgeschoss', 'wpenon'),
-    'v'             => $dachvolumen,
-    );
-    break;
-case 'unbeheizt':
-    $calculations['bauteile']['decke'] = array(
-    'name'          => __('Oberste Geschossdecke', 'wpenon'),
-    'typ'           => 'decke',
-    'modus'         => 'opak',
-    'bauart'        => $energieausweis->decke_bauart,
-    'baujahr'       => $energieausweis->baujahr,
-    'a'             => $deckenflaeche,
-    'd'             => $energieausweis->decke_daemmung,
-    );
-    break;
-case 'nicht-vorhanden':
-default:
-    $calculations['bauteile']['dach'] = array(
-    'name'          => __('Flachdach', 'wpenon'),
-    'typ'           => 'dach',
-    'modus'         => 'dach',
-    'bauart'        => $energieausweis->dach_bauart,
-    'baujahr'       => $energieausweis->baujahr,
-    'a'             => $deckenflaeche,
-    'd'             => $energieausweis->dach_daemmung,
     );
 }
 

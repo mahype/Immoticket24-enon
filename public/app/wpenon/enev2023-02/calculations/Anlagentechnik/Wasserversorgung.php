@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Anlagentechnik;
+
 /**
  * Bestimmung des Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen
  * über Tabelle 142 & 143 Abschnitt 12.

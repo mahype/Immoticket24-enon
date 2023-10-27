@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema202302\Calculations;
+
 require_once( dirname(__FILE__) .'/CalculationsCC.php' );
 
 $tableNames = new stdClass();

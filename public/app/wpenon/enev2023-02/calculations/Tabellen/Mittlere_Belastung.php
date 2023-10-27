@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Tabellen;
+
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 require_once dirname( __DIR__ ) . '/Helfer/Jahr.php';
 

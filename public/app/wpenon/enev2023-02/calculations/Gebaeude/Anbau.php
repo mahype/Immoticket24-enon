@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Gebaeude;
+
 /**
  * Diese Klasse repräsentiert einen Anbau für ein Gebäude.
  */

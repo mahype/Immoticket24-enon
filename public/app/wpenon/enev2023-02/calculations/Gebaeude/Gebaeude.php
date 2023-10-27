@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Gebaeude;
+
 require_once __DIR__ . '/Bauteile.php';
 require_once __DIR__ . '/Heizsystem.php';
 require_once __DIR__ . '/Wasserversorgung.php';

@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Gebaeude;
+
 /**
  * Die Klasse Grundriss repräsentiert einen Grundriss eines Anbaus.
  */

@@ -1,5 +1,7 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Bauteile;
+
 class Heizkoerpernische extends Bauteil {
     /**
      * Himmelsrichtung des Bauteils.

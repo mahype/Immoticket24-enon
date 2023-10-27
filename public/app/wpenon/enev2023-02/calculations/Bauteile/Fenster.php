@@ -1,6 +1,10 @@
 <?php
 
-class Fenster extends Bauteil {
+namespace Enev\Schema202302\Calculations\Bauteile;
+
+use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
+
+class Fenster extends Bauteil implements Transmissionswaerme {
     /**
      * Himmelsrichtung des Bauteils.
      * 

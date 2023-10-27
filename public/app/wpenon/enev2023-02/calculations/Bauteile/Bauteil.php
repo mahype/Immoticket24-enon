@@ -1,5 +1,12 @@
 <?php
 
+namespace Enev\Schema202302\Calculations\Bauteile;
+
+/**
+ * Abstrakte Klasse für ein Bauteil.
+ * 
+ * @package Enev\Schema202302\Calculations\Bauteile
+ */
 abstract class Bauteil {
     /**
      * Name der Wand.
